@@ -1,42 +1,41 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4877B620
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Apr 2023 02:04:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2184D620
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Apr 2023 03:46:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682215440; x=1713751440;
+  t=1682221563; x=1713757563;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aUi0h2Lyq0biFwSoVtM/UwGCKU7PepoHDCjgcnOPgRU=;
-  b=fFjwZ3AK3ItitKmyxSMwN8/TN5R5T2J1g/uW+rTBd/2646imIWtHEwD7
-   uu0xOI0YIP7JM/2mkrlo+05lGqT99ps0uG6jSqcxuIg8V3hnb/oytgWqr
-   0ttuqp+eGaDxsOTj8isi6hC/CaaE9w5KuIqLDQBNeUgy46YubhEr8a2OX
-   RzZ6XGVsLjYpLpKtXv6CNBLzXugT6jBAg7wN2vfTu0dznbaYk8uikLp5n
-   rRYzM81bX2zhviZni/kZ5l6Home8laTeqahJW4ibLRDvtoV/QqXgEnpV+
-   RbaZjf5ZMb9KS8NMODlHqV32XcLRArexB7z7K3D00WZqDeiCFJ3N22AK9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="344979438"
+  bh=OCWnJetm8iE/O15anVyyyDgkwER1uptqFwD8ZG4VLIk=;
+  b=ENr1JPeRXPXplgJCcGDKRI7jPnedwWxzglNcfxzM+UD8XfjgPaGiXEGz
+   28CzvAKiPpbhs1/iL4MLzjL0jyTfsmiubpt18jBtnGk3ow+jrcgcow4EH
+   HRxL84DVExHZT9D+YJxIfgbmDuGfYbpUSv9Dp0cdoiCf9xKs07D1HXsFB
+   R7wgJwur8lide2qZmar4d0h1o3B8OS6LCL/EaBnIx0soOs/UteVu5eqP9
+   nYdE3ETNVeYfSzIVvvMxP10Rd91IXddeo0ccAP/wQnancao4AEf6ELMQ9
+   D20Nlsc7+xLHd//GLkHoCx0eUsbYPtuE2ay4Ri7+bWtcqkZbc3JUjgoSh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="374183146"
 X-IronPort-AV: E=Sophos;i="5.99,219,1677571200"; 
-   d="scan'208";a="344979438"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 19:03:59 -0700
+   d="scan'208";a="374183146"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 20:46:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="695333830"
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="1022297081"
 X-IronPort-AV: E=Sophos;i="5.99,219,1677571200"; 
-   d="scan'208";a="695333830"
+   d="scan'208";a="1022297081"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Apr 2023 19:03:58 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 22 Apr 2023 20:46:00 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqP53-000hcu-27;
-	Sun, 23 Apr 2023 02:03:57 +0000
-Date: Sun, 23 Apr 2023 10:03:04 +0800
+	id 1pqQfn-000hg8-32;
+	Sun, 23 Apr 2023 03:45:59 +0000
+Date: Sun, 23 Apr 2023 11:45:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/block/virtio_blk.c:806 virtblk_probe_zoned_device() error:
- uninitialized symbol 'virtio_cread_v'.
-Message-ID: <202304230919.sHzj2796-lkp@intel.com>
+Subject: Re: [PATCH 2/2] iio: gts-helpers: fix integration time units
+Message-ID: <202304231128.2wtp08sj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,150 +47,110 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <eeacd192c259e885850b5a2dd8b776bccfc44fa8.1681722914.git.mazziesaccount@gmail.com>
+References: <eeacd192c259e885850b5a2dd8b776bccfc44fa8.1681722914.git.mazziesaccount@gmail.com>
+TO: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Matti Vaittinen <mazziesaccount@gmail.com>
+TO: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Matti Vaittinen <mazziesaccount@gmail.com>
+CC: Jonathan Cameron <jic23@kernel.org>
+CC: "Lars-Peter Clausen" <lars@metafoo.de>
+CC: linux-iio@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>
-CC: Stefan Hajnoczi <stefanha@redhat.com>
-CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2caeeb9d4a1bccd923b7918427f9e9ef7151ddd8
-commit: f1ba4e674febf5c0e9f725a75ca43b7722b4e963 virtio-blk: fix to match virtio spec
-date:   3 weeks ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 3 weeks ago
-config: csky-randconfig-m031-20230423 (https://download.01.org/0day-ci/archive/20230423/202304230919.sHzj2796-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+Hi Matti,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c86b0e73f0bebbb0245ef2bac4cf269d61ff828c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matti-Vaittinen/iio-bu27034-Fix-integration-time/20230417-172240
+base:   c86b0e73f0bebbb0245ef2bac4cf269d61ff828c
+patch link:    https://lore.kernel.org/r/eeacd192c259e885850b5a2dd8b776bccfc44fa8.1681722914.git.mazziesaccount%40gmail.com
+patch subject: [PATCH 2/2] iio: gts-helpers: fix integration time units
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: parisc-randconfig-m031-20230421 (https://download.01.org/0day-ci/archive/20230423/202304231128.2wtp08sj-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304230919.sHzj2796-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304231128.2wtp08sj-lkp@intel.com/
 
 New smatch warnings:
-drivers/block/virtio_blk.c:806 virtblk_probe_zoned_device() error: uninitialized symbol 'virtio_cread_v'.
+drivers/iio/industrialio-gts-helper.c:395 iio_gts_build_avail_time_table() warn: double check that we're allocating correct size: 4 vs 8
 
 Old smatch warnings:
-drivers/block/virtio_blk.c:811 virtblk_probe_zoned_device() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:816 virtblk_probe_zoned_device() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:831 virtblk_probe_zoned_device() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:849 virtblk_probe_zoned_device() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:943 virtblk_getgeo() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:1018 virtblk_update_capacity() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:1067 init_vq() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:1342 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:1430 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:1438 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:1468 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:1474 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:1481 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:1484 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:1488 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:1493 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:1512 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:1527 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
-drivers/block/virtio_blk.c:1542 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
+drivers/iio/industrialio-gts-helper.c:246 gain_to_scaletables() warn: double check that we're allocating correct size: 4 vs 8
+drivers/iio/industrialio-gts-helper.c:269 gain_to_scaletables() error: uninitialized symbol 'ret'.
+drivers/iio/industrialio-gts-helper.c:302 iio_gts_build_avail_scale_table() warn: double check that we're allocating correct size: 4 vs 8
 
-vim +/virtio_cread_v +806 drivers/block/virtio_blk.c
+vim +395 drivers/iio/industrialio-gts-helper.c
 
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  777  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  778  static int virtblk_probe_zoned_device(struct virtio_device *vdev,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  779  				       struct virtio_blk *vblk,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  780  				       struct request_queue *q)
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  781  {
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  782  	u32 v, wg;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  783  	u8 model;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  784  	int ret;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  785  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  786  	virtio_cread(vdev, struct virtio_blk_config,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  787  		     zoned.model, &model);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  788  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  789  	switch (model) {
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  790  	case VIRTIO_BLK_Z_NONE:
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  791  	case VIRTIO_BLK_Z_HA:
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  792  		/* Present the host-aware device as non-zoned */
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  793  		return 0;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  794  	case VIRTIO_BLK_Z_HM:
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  795  		break;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  796  	default:
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  797  		dev_err(&vdev->dev, "unsupported zone model %d\n", model);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  798  		return -EINVAL;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  799  	}
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  800  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  801  	dev_dbg(&vdev->dev, "probing host-managed zoned device\n");
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  802  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  803  	disk_set_zoned(vblk->disk, BLK_ZONED_HM);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  804  	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  805  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15 @806  	virtio_cread(vdev, struct virtio_blk_config,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  807  		     zoned.max_open_zones, &v);
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  808  	disk_set_max_open_zones(vblk->disk, v);
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  809  	dev_dbg(&vdev->dev, "max open zones = %u\n", v);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  810  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  811  	virtio_cread(vdev, struct virtio_blk_config,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  812  		     zoned.max_active_zones, &v);
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  813  	disk_set_max_active_zones(vblk->disk, v);
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  814  	dev_dbg(&vdev->dev, "max active zones = %u\n", v);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  815  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  816  	virtio_cread(vdev, struct virtio_blk_config,
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  817  		     zoned.write_granularity, &wg);
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  818  	if (!wg) {
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  819  		dev_warn(&vdev->dev, "zero write granularity reported\n");
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  820  		return -ENODEV;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  821  	}
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  822  	blk_queue_physical_block_size(q, wg);
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  823  	blk_queue_io_min(q, wg);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  824  
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  825  	dev_dbg(&vdev->dev, "write granularity = %u\n", wg);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  826  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  827  	/*
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  828  	 * virtio ZBD specification doesn't require zones to be a power of
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  829  	 * two sectors in size, but the code in this driver expects that.
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  830  	 */
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  831  	virtio_cread(vdev, struct virtio_blk_config, zoned.zone_sectors,
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  832  		     &vblk->zone_sectors);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  833  	if (vblk->zone_sectors == 0 || !is_power_of_2(vblk->zone_sectors)) {
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  834  		dev_err(&vdev->dev,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  835  			"zoned device with non power of two zone size %u\n",
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  836  			vblk->zone_sectors);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  837  		return -ENODEV;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  838  	}
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  839  	dev_dbg(&vdev->dev, "zone sectors = %u\n", vblk->zone_sectors);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  840  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  841  	if (virtio_has_feature(vdev, VIRTIO_BLK_F_DISCARD)) {
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  842  		dev_warn(&vblk->vdev->dev,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  843  			 "ignoring negotiated F_DISCARD for zoned device\n");
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  844  		blk_queue_max_discard_sectors(q, 0);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  845  	}
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  846  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  847  	ret = blk_revalidate_disk_zones(vblk->disk, NULL);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  848  	if (!ret) {
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  849  		virtio_cread(vdev, struct virtio_blk_config,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  850  			     zoned.max_append_sectors, &v);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  851  		if (!v) {
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  852  			dev_warn(&vdev->dev, "zero max_append_sectors reported\n");
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  853  			return -ENODEV;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  854  		}
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  855  		if ((v << SECTOR_SHIFT) < wg) {
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  856  			dev_err(&vdev->dev,
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  857  				"write granularity %u exceeds max_append_sectors %u limit\n",
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  858  				wg, v);
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  859  			return -ENODEV;
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  860  		}
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  861  
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  862  		blk_queue_max_zone_append_sectors(q, v);
-f1ba4e674febf5 Dmitry Fomichev 2023-03-30  863  		dev_dbg(&vdev->dev, "max append sectors = %u\n", v);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  864  	}
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  865  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  866  	return ret;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  867  }
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  868  
-
-:::::: The code at line 806 was first introduced by commit
-:::::: 95bfec41bd3d39b7659cba65b72080420bf5691e virtio-blk: add support for zoned block devices
-
-:::::: TO: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  350  
+38416c28e16890 Matti Vaittinen 2023-03-31  351  /**
+38416c28e16890 Matti Vaittinen 2023-03-31  352   * iio_gts_build_avail_time_table - build table of available integration times
+38416c28e16890 Matti Vaittinen 2023-03-31  353   * @gts:	Gain time scale descriptor
+38416c28e16890 Matti Vaittinen 2023-03-31  354   *
+38416c28e16890 Matti Vaittinen 2023-03-31  355   * Build the table which can represent the available times to be returned
+38416c28e16890 Matti Vaittinen 2023-03-31  356   * to users using the read_avail-callback.
+38416c28e16890 Matti Vaittinen 2023-03-31  357   *
+38416c28e16890 Matti Vaittinen 2023-03-31  358   * NOTE: Space allocated for the tables must be freed using
+38416c28e16890 Matti Vaittinen 2023-03-31  359   * iio_gts_purge_avail_time_table() when the tables are no longer needed.
+38416c28e16890 Matti Vaittinen 2023-03-31  360   *
+38416c28e16890 Matti Vaittinen 2023-03-31  361   * Return: 0 on success.
+38416c28e16890 Matti Vaittinen 2023-03-31  362   */
+38416c28e16890 Matti Vaittinen 2023-03-31  363  static int iio_gts_build_avail_time_table(struct iio_gts *gts)
+38416c28e16890 Matti Vaittinen 2023-03-31  364  {
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  365  	int *times, i, j, idx = 0, *int_micro_times;
+38416c28e16890 Matti Vaittinen 2023-03-31  366  
+38416c28e16890 Matti Vaittinen 2023-03-31  367  	if (!gts->num_itime)
+38416c28e16890 Matti Vaittinen 2023-03-31  368  		return 0;
+38416c28e16890 Matti Vaittinen 2023-03-31  369  
+38416c28e16890 Matti Vaittinen 2023-03-31  370  	times = kcalloc(gts->num_itime, sizeof(int), GFP_KERNEL);
+38416c28e16890 Matti Vaittinen 2023-03-31  371  	if (!times)
+38416c28e16890 Matti Vaittinen 2023-03-31  372  		return -ENOMEM;
+38416c28e16890 Matti Vaittinen 2023-03-31  373  
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  374  
+38416c28e16890 Matti Vaittinen 2023-03-31  375  	/* Sort times from all tables to one and remove duplicates */
+38416c28e16890 Matti Vaittinen 2023-03-31  376  	for (i = gts->num_itime - 1; i >= 0; i--) {
+38416c28e16890 Matti Vaittinen 2023-03-31  377  		int new = gts->itime_table[i].time_us;
+38416c28e16890 Matti Vaittinen 2023-03-31  378  
+38416c28e16890 Matti Vaittinen 2023-03-31  379  		if (times[idx] < new) {
+38416c28e16890 Matti Vaittinen 2023-03-31  380  			times[idx++] = new;
+38416c28e16890 Matti Vaittinen 2023-03-31  381  			continue;
+38416c28e16890 Matti Vaittinen 2023-03-31  382  		}
+38416c28e16890 Matti Vaittinen 2023-03-31  383  
+38416c28e16890 Matti Vaittinen 2023-03-31  384  		for (j = 0; j <= idx; j++) {
+38416c28e16890 Matti Vaittinen 2023-03-31  385  			if (times[j] > new) {
+38416c28e16890 Matti Vaittinen 2023-03-31  386  				memmove(&times[j + 1], &times[j],
+38416c28e16890 Matti Vaittinen 2023-03-31  387  					(idx - j) * sizeof(int));
+38416c28e16890 Matti Vaittinen 2023-03-31  388  				times[j] = new;
+38416c28e16890 Matti Vaittinen 2023-03-31  389  				idx++;
+38416c28e16890 Matti Vaittinen 2023-03-31  390  			}
+38416c28e16890 Matti Vaittinen 2023-03-31  391  		}
+38416c28e16890 Matti Vaittinen 2023-03-31  392  	}
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  393  
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  394  	/* create a list of times formatted as list of IIO_VAL_INT_PLUS_MICRO */
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17 @395  	int_micro_times = kcalloc(idx, sizeof(int) * 2, GFP_KERNEL);
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  396  	if (int_micro_times) {
+38416c28e16890 Matti Vaittinen 2023-03-31  397  		/*
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  398  		 * This is just to survive a unlikely corner-case where times in
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  399  		 * the given time table were not unique. Else we could just
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  400  		 * trust the gts->num_itime.
+38416c28e16890 Matti Vaittinen 2023-03-31  401  		 */
+38416c28e16890 Matti Vaittinen 2023-03-31  402  		gts->num_avail_time_tables = idx;
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  403  		iio_gts_us_to_int_micro(times, int_micro_times, idx);
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  404  	}
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  405  
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  406  	gts->avail_time_tables = int_micro_times;
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  407  	kfree(times);
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  408  
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  409  	if (!int_micro_times)
+0cfd72b41d5fe0 Matti Vaittinen 2023-04-17  410  		return -ENOMEM;
+38416c28e16890 Matti Vaittinen 2023-03-31  411  
+38416c28e16890 Matti Vaittinen 2023-03-31  412  	return 0;
+38416c28e16890 Matti Vaittinen 2023-03-31  413  }
+38416c28e16890 Matti Vaittinen 2023-03-31  414  
 
 -- 
 0-DAY CI Kernel Test Service
