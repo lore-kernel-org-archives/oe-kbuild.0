@@ -1,42 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C035DA5B
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Apr 2023 10:36:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDCD7E6
+	for <oe-kbuild@lists.linux.dev>; Mon, 24 Apr 2023 18:31:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682246171; x=1713782171;
+  t=1682361060; x=1713897060;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b41xlJ5HKgAjHrXjuSMDbjODeolnaAonBcHNmFHscH8=;
-  b=YxvotFM8WSHYrZQ1+Yuyo5yK/q88C/WGLNWaOa59/G4eC998AmcPkiT/
-   9FL7/kjVDES/4l+d3lLKpU+6b5Isy9ScSHpV9IN65u0KjQFexLnB+DOW7
-   2gDghkac+RjRIlc5y85s0KMQ2xVSASFUxz7czhTsAMpwKjGvbiVrzmTc9
-   EKWeb89Y4c+3RQOcC7i7nL5J5UdjHPFza10T/HU6w/XSOMGVeYwy+J0Qf
-   XsizCgkCuaE+yJewETCeW18/R0JlhB4sZ0dNjNzAjlreJNIAdKAYeYErm
-   mBNjhf0UrNAPELkAYqH74FfuxOKRU2kcEo2CGOhibXGUjKkrElAvi+E68
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="409202739"
-X-IronPort-AV: E=Sophos;i="5.99,220,1677571200"; 
-   d="scan'208";a="409202739"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2023 03:36:08 -0700
+  bh=NHVDSEqTdJq2cFP3DqYdtI4IYd1NWzu1GoRa5Lz3d74=;
+  b=bNIAaYYaThpdcT6UjtytEVhAeS3iNM63/JmLdMbVyI9YMD1JLeY31QIR
+   qdgtpHbO8UnH5eeDcYrBpvCF04jQabbGcf1xb4bxWcIY21UADokeIjQmH
+   iHQJQe5EZZYpYdbo8sPv9O6L+MZ/BC1G//gb+BZh+mNoP3artIzYeuJxn
+   dL92mzKqrQbejum22ThRFn8mbfqKR7OPy3yvTCTuP4X7PUCvxiuNY2YKw
+   VQB/JgV9b8FUy8JdsHDoIWBtD7idu+4ZQT0yvKZvzf7XDyHhXmdCvywTW
+   xQkjConAEBncYLAR8mhI2EYSs2qjE+7umR6JsIrCxSx2qX7ixZuSCVgX6
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="349329131"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
+   d="scan'208";a="349329131"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 11:29:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="643021793"
-X-IronPort-AV: E=Sophos;i="5.99,220,1677571200"; 
-   d="scan'208";a="643021793"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="782490408"
+X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
+   d="scan'208";a="782490408"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 23 Apr 2023 03:36:07 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 24 Apr 2023 11:29:58 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqX4g-000hqC-2I;
-	Sun, 23 Apr 2023 10:36:06 +0000
-Date: Sun, 23 Apr 2023 18:35:37 +0800
+	id 1pr0wn-000iak-2V;
+	Mon, 24 Apr 2023 18:29:57 +0000
+Date: Tue, 25 Apr 2023 02:29:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v9 vfio 1/7] vfio: Commonize combine_ranges for use in
- other VFIO drivers
-Message-ID: <202304231830.gaYXbmEa-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v5 1/5] block: Don't invalidate pagecache for invalid
+ falloc modes
+Message-ID: <202304250244.7chpBySd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,106 +46,146 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: block/fops.c:678:2: sparse: sparse: unused label 'fail'"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230422010642.60720-2-brett.creeley@amd.com>
-References: <20230422010642.60720-2-brett.creeley@amd.com>
-TO: Brett Creeley <brett.creeley@amd.com>
-TO: kvm@vger.kernel.org
-TO: netdev@vger.kernel.org
-TO: alex.williamson@redhat.com
-TO: jgg@nvidia.com
-TO: yishaih@nvidia.com
-TO: shameerali.kolothum.thodi@huawei.com
-TO: kevin.tian@intel.com
-CC: brett.creeley@amd.com
-CC: shannon.nelson@amd.com
-CC: drivers@pensando.io
+In-Reply-To: <20230420004850.297045-2-sarthakkukreti@chromium.org>
+References: <20230420004850.297045-2-sarthakkukreti@chromium.org>
+TO: Sarthak Kukreti <sarthakkukreti@chromium.org>
+TO: dm-devel@redhat.com
+TO: linux-block@vger.kernel.org
+TO: linux-ext4@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: linux-fsdevel@vger.kernel.org
+CC: Jens Axboe <axboe@kernel.dk>
+CC: "Michael S. Tsirkin" <mst@redhat.com>
+CC: Jason Wang <jasowang@redhat.com>
+CC: Stefan Hajnoczi <stefanha@redhat.com>
+CC: Alasdair Kergon <agk@redhat.com>
+CC: Mike Snitzer <snitzer@kernel.org>
+CC: Christoph Hellwig <hch@infradead.org>
+CC: Brian Foster <bfoster@redhat.com>
+CC: "Theodore Ts'o" <tytso@mit.edu>
+CC: Andreas Dilger <adilger.kernel@dilger.ca>
+CC: Bart Van Assche <bvanassche@google.com>
+CC: Daniil Lunev <dlunev@google.com>
+CC: "Darrick J. Wong" <djwong@kernel.org>
 
-Hi Brett,
+Hi Sarthak,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on next-20230421]
-[also build test WARNING on v6.3-rc7]
-[cannot apply to awilliam-vfio/next awilliam-vfio/for-linus horms-ipvs/master linus/master v6.3-rc7 v6.3-rc6 v6.3-rc5]
+[auto build test WARNING on device-mapper-dm/for-next]
+[also build test WARNING on linus/master v6.3 next-20230421]
+[cannot apply to axboe-block/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Brett-Creeley/vfio-Commonize-combine_ranges-for-use-in-other-VFIO-drivers/20230422-090900
-base:   next-20230421
-patch link:    https://lore.kernel.org/r/20230422010642.60720-2-brett.creeley%40amd.com
-patch subject: [PATCH v9 vfio 1/7] vfio: Commonize combine_ranges for use in other VFIO drivers
-:::::: branch date: 33 hours ago
-:::::: commit date: 33 hours ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230423/202304231830.gaYXbmEa-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Sarthak-Kukreti/block-Introduce-provisioning-primitives/20230420-095025
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
+patch link:    https://lore.kernel.org/r/20230420004850.297045-2-sarthakkukreti%40chromium.org
+patch subject: [PATCH v5 1/5] block: Don't invalidate pagecache for invalid falloc modes
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: alpha-randconfig-s032-20230423 (https://download.01.org/0day-ci/archive/20230425/202304250244.7chpBySd-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/8bd0744b438be1722c5f8c1fe077e9dcef0e81b7
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Sarthak-Kukreti/block-Introduce-provisioning-primitives/20230420-095025
+        git checkout 8bd0744b438be1722c5f8c1fe077e9dcef0e81b7
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304231830.gaYXbmEa-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304250244.7chpBySd-lkp@intel.com/
 
-New smatch warnings:
-drivers/vfio/vfio_main.c:887 vfio_combine_iova_ranges() error: uninitialized symbol 'last'.
-drivers/vfio/vfio_main.c:908 vfio_combine_iova_ranges() error: potentially dereferencing uninitialized 'comb_end'.
-drivers/vfio/vfio_main.c:908 vfio_combine_iova_ranges() error: potentially dereferencing uninitialized 'comb_start'.
+sparse warnings: (new ones prefixed by >>)
+>> block/fops.c:678:2: sparse: sparse: unused label 'fail'
 
-Old smatch warnings:
-drivers/vfio/vfio_main.c:1349 vfio_pin_pages() warn: impossible condition '(iova > (~0)) => (0-u32max > u32max)'
-drivers/vfio/vfio_main.c:1426 vfio_dma_rw() warn: impossible condition '(iova > (~0)) => (0-u32max > u32max)'
+vim +/fail +678 block/fops.c
 
-vim +/last +887 drivers/vfio/vfio_main.c
-
-115dcec65f61d5 drivers/vfio/vfio.c      Jason Gunthorpe 2022-02-24  867  
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  868  void vfio_combine_iova_ranges(struct rb_root_cached *root, u32 cur_nodes,
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  869  			      u32 req_nodes)
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  870  {
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  871  	struct interval_tree_node *prev, *curr, *comb_start, *comb_end;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  872  	unsigned long min_gap, curr_gap;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  873  
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  874  	/* Special shortcut when a single range is required */
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  875  	if (req_nodes == 1) {
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  876  		unsigned long last;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  877  
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  878  		comb_start = interval_tree_iter_first(root, 0, ULONG_MAX);
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  879  		curr = comb_start;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  880  		while (curr) {
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  881  			last = curr->last;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  882  			prev = curr;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  883  			curr = interval_tree_iter_next(curr, 0, ULONG_MAX);
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  884  			if (prev != comb_start)
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  885  				interval_tree_remove(prev, root);
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  886  		}
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21 @887  		comb_start->last = last;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  888  		return;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  889  	}
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  890  
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  891  	/* Combine ranges which have the smallest gap */
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  892  	while (cur_nodes > req_nodes) {
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  893  		prev = NULL;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  894  		min_gap = ULONG_MAX;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  895  		curr = interval_tree_iter_first(root, 0, ULONG_MAX);
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  896  		while (curr) {
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  897  			if (prev) {
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  898  				curr_gap = curr->start - prev->last;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  899  				if (curr_gap < min_gap) {
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  900  					min_gap = curr_gap;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  901  					comb_start = prev;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  902  					comb_end = curr;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  903  				}
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  904  			}
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  905  			prev = curr;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  906  			curr = interval_tree_iter_next(curr, 0, ULONG_MAX);
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  907  		}
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21 @908  		comb_start->last = comb_end->last;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  909  		interval_tree_remove(comb_end, root);
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  910  		cur_nodes--;
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  911  	}
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  912  }
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  913  EXPORT_SYMBOL_GPL(vfio_combine_iova_ranges);
-841a03ec82db66 drivers/vfio/vfio_main.c Brett Creeley   2023-04-21  914  
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  613  
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  614  #define	BLKDEV_FALLOC_FL_SUPPORTED					\
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  615  		(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE |		\
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  616  		 FALLOC_FL_ZERO_RANGE | FALLOC_FL_NO_HIDE_STALE)
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  617  
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  618  static long blkdev_fallocate(struct file *file, int mode, loff_t start,
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  619  			     loff_t len)
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  620  {
+f278eb3d8178f9 Ming Lei          2021-09-23  621  	struct inode *inode = bdev_file_inode(file);
+f278eb3d8178f9 Ming Lei          2021-09-23  622  	struct block_device *bdev = I_BDEV(inode);
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  623  	loff_t end = start + len - 1;
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  624  	loff_t isize;
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  625  	int error;
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  626  
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  627  	/* Fail if we don't recognize the flags. */
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  628  	if (mode & ~BLKDEV_FALLOC_FL_SUPPORTED)
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  629  		return -EOPNOTSUPP;
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  630  
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  631  	/* Don't go off the end of the device. */
+2a93ad8fcb377b Christoph Hellwig 2021-10-18  632  	isize = bdev_nr_bytes(bdev);
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  633  	if (start >= isize)
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  634  		return -EINVAL;
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  635  	if (end >= isize) {
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  636  		if (mode & FALLOC_FL_KEEP_SIZE) {
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  637  			len = isize - start;
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  638  			end = start + len - 1;
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  639  		} else
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  640  			return -EINVAL;
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  641  	}
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  642  
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  643  	/*
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  644  	 * Don't allow IO that isn't aligned to logical block size.
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  645  	 */
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  646  	if ((start | len) & (bdev_logical_block_size(bdev) - 1))
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  647  		return -EINVAL;
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  648  
+f278eb3d8178f9 Ming Lei          2021-09-23  649  	filemap_invalidate_lock(inode->i_mapping);
+f278eb3d8178f9 Ming Lei          2021-09-23  650  
+8bd0744b438be1 Sarthak Kukreti   2023-04-19  651  	/*
+8bd0744b438be1 Sarthak Kukreti   2023-04-19  652  	 * Invalidate the page cache, including dirty pages, for valid
+8bd0744b438be1 Sarthak Kukreti   2023-04-19  653  	 * de-allocate mode calls to fallocate().
+8bd0744b438be1 Sarthak Kukreti   2023-04-19  654  	 */
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  655  	switch (mode) {
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  656  	case FALLOC_FL_ZERO_RANGE:
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  657  	case FALLOC_FL_ZERO_RANGE | FALLOC_FL_KEEP_SIZE:
+8bd0744b438be1 Sarthak Kukreti   2023-04-19  658  		error = truncate_bdev_range(bdev, file->f_mode, start, end) ||
+8bd0744b438be1 Sarthak Kukreti   2023-04-19  659  			blkdev_issue_zeroout(bdev, start >> SECTOR_SHIFT,
+6549a874fb65e7 Pavel Begunkov    2021-10-20  660  					     len >> SECTOR_SHIFT, GFP_KERNEL,
+6549a874fb65e7 Pavel Begunkov    2021-10-20  661  					     BLKDEV_ZERO_NOUNMAP);
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  662  		break;
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  663  	case FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE:
+8bd0744b438be1 Sarthak Kukreti   2023-04-19  664  		error = truncate_bdev_range(bdev, file->f_mode, start, end) ||
+8bd0744b438be1 Sarthak Kukreti   2023-04-19  665  			blkdev_issue_zeroout(bdev, start >> SECTOR_SHIFT,
+6549a874fb65e7 Pavel Begunkov    2021-10-20  666  					     len >> SECTOR_SHIFT, GFP_KERNEL,
+6549a874fb65e7 Pavel Begunkov    2021-10-20  667  					     BLKDEV_ZERO_NOFALLBACK);
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  668  		break;
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  669  	case FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE | FALLOC_FL_NO_HIDE_STALE:
+8bd0744b438be1 Sarthak Kukreti   2023-04-19  670  		error = truncate_bdev_range(bdev, file->f_mode, start, end) ||
+8bd0744b438be1 Sarthak Kukreti   2023-04-19  671  			blkdev_issue_discard(bdev, start >> SECTOR_SHIFT,
+44abff2c0b970a Christoph Hellwig 2022-04-15  672  					     len >> SECTOR_SHIFT, GFP_KERNEL);
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  673  		break;
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  674  	default:
+f278eb3d8178f9 Ming Lei          2021-09-23  675  		error = -EOPNOTSUPP;
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  676  	}
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  677  
+f278eb3d8178f9 Ming Lei          2021-09-23 @678   fail:
+f278eb3d8178f9 Ming Lei          2021-09-23  679  	filemap_invalidate_unlock(inode->i_mapping);
+f278eb3d8178f9 Ming Lei          2021-09-23  680  	return error;
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  681  }
+cd82cca7ebfe9c Christoph Hellwig 2021-09-07  682  
 
 -- 
 0-DAY CI Kernel Test Service
