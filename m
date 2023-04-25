@@ -1,42 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446EF6ADC
-	for <oe-kbuild@lists.linux.dev>; Tue, 25 Apr 2023 15:25:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A4DA93E
+	for <oe-kbuild@lists.linux.dev>; Tue, 25 Apr 2023 21:35:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682436355; x=1713972355;
+  t=1682458508; x=1713994508;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8uFTOZSM6VWZG4s9zLkPuHVJV5nk+cHG3UMYxqTAH3M=;
-  b=OH4o4dzOtb4y8mU1Wi9D8SMwXAEZcSwCeuiIVMKBFwS6O3z9+ogMUU+c
-   MYWxXIikT9vFbw3jNaH3vo3dNf7VackD2Oee5KRk24NB8rrCLB40XOd12
-   lshLFQg8n719fZ5JVYIxYA209M/rnOGVH2/gtt5WOLpNd17cXjlOvu8/h
-   QUT5GC4RHWSisMmIP2fVtjOIhxtEUmjW4rhQnPEux9Cm4Jle7YVRMlOmT
-   mPupcxHQXQbOikQ7xsrEHEBKU4QVj99SX+ThVyhp6zegG77z5ES6HoDTe
-   QufaH+kYWkZkUyENkBPcK2zK8z8jjhNLJlzQQRlnk0uuNeOZVPghJsB07
+  bh=F3rwxv/JZ9wZcUf+aLgkvHlPsM+i7Dtyk1Fl/1kJmL0=;
+  b=VVZjdoIJDedXxHtkBFgEFkqFeA35f/3uRUa5zt9KpYz9pQneSLabqpbv
+   G+g+D2RTt6Y9DS0EJ97fdnUJ084BRdW6hWfKCCJBe14x1AnwzY72PocQj
+   A/gojEKn3Hs7hY0oZYtFI5kz5dqfrXJwxY96tN71fadIa6GvW24I2CDTI
+   QNgbjv/Ibznpa+Qs0LKm5r4rGtJ02yhZXRR6rJ3A+0n+O+GCBZah+eM5e
+   h+X9GUiB5WHh9BqkF5Jo2MXZ9qenW21VKZyHIlvT5Nr5RyCDHzrXQgpZy
+   VbMV63+Ah8cX98GZs1l5Tw3Zc9qU5AGi9j1zZJnRCYGt9vi1d2Q7goAjA
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="327108974"
-X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
-   d="scan'208";a="327108974"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 08:25:47 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="344367195"
+X-IronPort-AV: E=Sophos;i="5.99,226,1677571200"; 
+   d="scan'208";a="344367195"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 14:35:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="726160135"
-X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
-   d="scan'208";a="726160135"
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="696366323"
+X-IronPort-AV: E=Sophos;i="5.99,226,1677571200"; 
+   d="scan'208";a="696366323"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 25 Apr 2023 08:25:45 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 25 Apr 2023 14:35:06 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prKY4-000jUm-2W;
-	Tue, 25 Apr 2023 15:25:44 +0000
-Date: Tue, 25 Apr 2023 23:24:47 +0800
+	id 1prQJQ-000jnC-2u;
+	Tue, 25 Apr 2023 21:35:00 +0000
+Date: Wed, 26 Apr 2023 05:34:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: security/apparmor/policy_unpack.c:1212 verify_profile() warn: can
- 'rules' even be NULL?
-Message-ID: <202304252318.ote3mtCz-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [stable:linux-5.15.y 7337/9999] ld:
+ drivers/gpu/drm/drm_fb_helper.c:839: undefined reference to `cfb_imageblit'
+Message-ID: <202304260542.FgwNJuME-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,81 +46,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: ld: drivers/gpu/drm/drm_fb_helper.c:839: undefined reference to `cfb_imageblit'"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: John Johansen <john.johansen@canonical.com>
+TO: Kees Cook <keescook@chromium.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Sasha Levin <sashal@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   173ea743bf7a9eef04460e03b00ba267cc52aee2
-commit: 1ad22fcc4d0d2fb2e0f35aed555a86d016d5e590 apparmor: rework profile->rules to be a list
-date:   7 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 7 months ago
-config: i386-randconfig-m021-20230424 (https://download.01.org/0day-ci/archive/20230425/202304252318.ote3mtCz-lkp@intel.com/config)
+Hi Kees,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+head:   3299fb36854fdc288bddc2c4d265f8a2e5105944
+commit: 30f20ceb87f78a14645acd7996397af7fee6e518 [7337/9999] overflow: Implement size_t saturating arithmetic helpers
+:::::: branch date: 5 days ago
+:::::: commit date: 4 months ago
+config: i386-randconfig-s001 (https://download.01.org/0day-ci/archive/20230426/202304260542.FgwNJuME-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=30f20ceb87f78a14645acd7996397af7fee6e518
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-5.15.y
+        git checkout 30f20ceb87f78a14645acd7996397af7fee6e518
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304252318.ote3mtCz-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304260542.FgwNJuME-lkp@intel.com/
 
-New smatch warnings:
-security/apparmor/policy_unpack.c:1212 verify_profile() warn: can 'rules' even be NULL?
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-security/apparmor/policy_unpack.c:175 aa_loaddata_kref() warn: can 'd' even be NULL?
-security/apparmor/policy_unpack.c:488 unpack_trans_table() warn: impossible condition '(size > (1 << 24)) => (0-u16max > 16777216)'
-security/apparmor/policy_unpack.c:544 unpack_trans_table() error: uninitialized symbol 'table'.
-security/apparmor/policy_unpack.c:735 unpack_pdb() warn: unsigned 'policy->size' is never less than zero.
-security/apparmor/policy_unpack.c:1081 unpack_profile() warn: passing zero to 'ERR_PTR'
-
-vim +/rules +1212 security/apparmor/policy_unpack.c
-
-670f31774ab6bf John Johansen 2022-08-26  1199  
-736ec752d95e91 John Johansen 2010-07-29  1200  /**
-736ec752d95e91 John Johansen 2010-07-29  1201   * verify_profile - Do post unpack analysis to verify profile consistency
-736ec752d95e91 John Johansen 2010-07-29  1202   * @profile: profile to verify (NOT NULL)
-736ec752d95e91 John Johansen 2010-07-29  1203   *
-736ec752d95e91 John Johansen 2010-07-29  1204   * Returns: 0 if passes verification else error
-7572fea31e3e5c John Johansen 2020-11-13  1205   *
-7572fea31e3e5c John Johansen 2020-11-13  1206   * This verification is post any unpack mapping or changes
-736ec752d95e91 John Johansen 2010-07-29  1207   */
-736ec752d95e91 John Johansen 2010-07-29  1208  static int verify_profile(struct aa_profile *profile)
-736ec752d95e91 John Johansen 2010-07-29  1209  {
-1ad22fcc4d0d2f John Johansen 2022-09-05  1210  	struct aa_ruleset *rules = list_first_entry(&profile->rules,
-1ad22fcc4d0d2f John Johansen 2022-09-05  1211  						    typeof(*rules), list);
-1ad22fcc4d0d2f John Johansen 2022-09-05 @1212  	if (!rules)
-1ad22fcc4d0d2f John Johansen 2022-09-05  1213  		return 0;
-1ad22fcc4d0d2f John Johansen 2022-09-05  1214  
-1ad22fcc4d0d2f John Johansen 2022-09-05  1215  	if ((rules->file.dfa && !verify_dfa_xindex(rules->file.dfa,
-1ad22fcc4d0d2f John Johansen 2022-09-05  1216  						  rules->file.trans.size)) ||
-1ad22fcc4d0d2f John Johansen 2022-09-05  1217  	    (rules->policy.dfa &&
-1ad22fcc4d0d2f John Johansen 2022-09-05  1218  	     !verify_dfa_xindex(rules->policy.dfa, rules->policy.trans.size))) {
-7572fea31e3e5c John Johansen 2020-11-13  1219  		audit_iface(profile, NULL, NULL,
-7572fea31e3e5c John Johansen 2020-11-13  1220  			    "Unpack: Invalid named transition", NULL, -EPROTO);
-736ec752d95e91 John Johansen 2010-07-29  1221  		return -EPROTO;
-736ec752d95e91 John Johansen 2010-07-29  1222  	}
-736ec752d95e91 John Johansen 2010-07-29  1223  
-1ad22fcc4d0d2f John Johansen 2022-09-05  1224  	if (!verify_perms(&rules->file)) {
-670f31774ab6bf John Johansen 2022-08-26  1225  		audit_iface(profile, NULL, NULL,
-670f31774ab6bf John Johansen 2022-08-26  1226  			    "Unpack: Invalid perm index", NULL, -EPROTO);
-670f31774ab6bf John Johansen 2022-08-26  1227  		return -EPROTO;
-670f31774ab6bf John Johansen 2022-08-26  1228  	}
-1ad22fcc4d0d2f John Johansen 2022-09-05  1229  	if (!verify_perms(&rules->policy)) {
-670f31774ab6bf John Johansen 2022-08-26  1230  		audit_iface(profile, NULL, NULL,
-670f31774ab6bf John Johansen 2022-08-26  1231  			    "Unpack: Invalid perm index", NULL, -EPROTO);
-670f31774ab6bf John Johansen 2022-08-26  1232  		return -EPROTO;
-670f31774ab6bf John Johansen 2022-08-26  1233  	}
-217af7e2f4deb6 John Johansen 2022-07-29  1234  	if (!verify_perms(&profile->attach.xmatch)) {
-670f31774ab6bf John Johansen 2022-08-26  1235  		audit_iface(profile, NULL, NULL,
-670f31774ab6bf John Johansen 2022-08-26  1236  			    "Unpack: Invalid perm index", NULL, -EPROTO);
-670f31774ab6bf John Johansen 2022-08-26  1237  		return -EPROTO;
-670f31774ab6bf John Johansen 2022-08-26  1238  	}
-670f31774ab6bf John Johansen 2022-08-26  1239  
-736ec752d95e91 John Johansen 2010-07-29  1240  	return 0;
-736ec752d95e91 John Johansen 2010-07-29  1241  }
-736ec752d95e91 John Johansen 2010-07-29  1242  
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_resume_worker':
+   drivers/gpu/drm/drm_fb_helper.c:370: undefined reference to `fb_set_suspend'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_unregister_fbi':
+   drivers/gpu/drm/drm_fb_helper.c:605: undefined reference to `unregister_framebuffer'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_fini':
+   drivers/gpu/drm/drm_fb_helper.c:634: undefined reference to `framebuffer_release'
+   ld: drivers/gpu/drm/drm_fb_helper.c:633: undefined reference to `fb_dealloc_cmap'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `__drm_fb_helper_initial_config_and_unlock':
+   drivers/gpu/drm/drm_fb_helper.c:1867: undefined reference to `register_framebuffer'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_alloc_fbi':
+   drivers/gpu/drm/drm_fb_helper.c:559: undefined reference to `framebuffer_alloc'
+   ld: drivers/gpu/drm/drm_fb_helper.c:563: undefined reference to `fb_alloc_cmap'
+   ld: drivers/gpu/drm/drm_fb_helper.c:589: undefined reference to `framebuffer_release'
+   ld: drivers/gpu/drm/drm_fb_helper.c:587: undefined reference to `fb_dealloc_cmap'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_generic_probe':
+   drivers/gpu/drm/drm_fb_helper.c:2360: undefined reference to `fb_deferred_io_init'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_fillrect':
+   drivers/gpu/drm/drm_fb_helper.c:809: undefined reference to `cfb_fillrect'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_copyarea':
+   drivers/gpu/drm/drm_fb_helper.c:824: undefined reference to `cfb_copyarea'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_imageblit':
+   drivers/gpu/drm/drm_fb_helper.c:839: undefined reference to `cfb_imageblit'
+>> ld: drivers/gpu/drm/drm_fb_helper.c:839: undefined reference to `cfb_imageblit'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_imageblit':
+   drivers/gpu/drm/drm_fb_helper.c:794: undefined reference to `sys_imageblit'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_copyarea':
+   drivers/gpu/drm/drm_fb_helper.c:824: undefined reference to `cfb_copyarea'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_copyarea':
+   drivers/gpu/drm/drm_fb_helper.c:779: undefined reference to `sys_copyarea'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_fillrect':
+   drivers/gpu/drm/drm_fb_helper.c:809: undefined reference to `cfb_fillrect'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_fillrect':
+   drivers/gpu/drm/drm_fb_helper.c:764: undefined reference to `sys_fillrect'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fbdev_cleanup':
+   drivers/gpu/drm/drm_fb_helper.c:2054: undefined reference to `fb_deferred_io_cleanup'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_unregister_fbi':
+   drivers/gpu/drm/drm_fb_helper.c:605: undefined reference to `unregister_framebuffer'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_read':
+   drivers/gpu/drm/drm_fb_helper.c:728: undefined reference to `fb_sys_read'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_write':
+   drivers/gpu/drm/drm_fb_helper.c:746: undefined reference to `fb_sys_write'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_fillrect':
+   drivers/gpu/drm/drm_fb_helper.c:764: undefined reference to `sys_fillrect'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_copyarea':
+   drivers/gpu/drm/drm_fb_helper.c:779: undefined reference to `sys_copyarea'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_imageblit':
+   drivers/gpu/drm/drm_fb_helper.c:794: undefined reference to `sys_imageblit'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend':
+   drivers/gpu/drm/drm_fb_helper.c:856: undefined reference to `fb_set_suspend'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend_unlocked':
+   drivers/gpu/drm/drm_fb_helper.c:901: undefined reference to `fb_set_suspend'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_imageblit':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:382: undefined reference to `cfb_imageblit'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_copyarea':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:375: undefined reference to `cfb_copyarea'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_fillrect':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:368: undefined reference to `cfb_fillrect'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_init':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:650: undefined reference to `framebuffer_alloc'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:759: undefined reference to `framebuffer_release'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:743: undefined reference to `fb_deferred_io_init'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:745: undefined reference to `register_framebuffer'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:754: undefined reference to `fb_deferred_io_cleanup'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_close':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:777: undefined reference to `fb_deferred_io_cleanup'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:779: undefined reference to `unregister_framebuffer'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:786: undefined reference to `framebuffer_release'
 
 -- 
 0-DAY CI Kernel Test Service
