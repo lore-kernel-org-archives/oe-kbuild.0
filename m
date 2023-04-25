@@ -1,42 +1,43 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDCD7E6
-	for <oe-kbuild@lists.linux.dev>; Mon, 24 Apr 2023 18:31:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1757B
+	for <oe-kbuild@lists.linux.dev>; Tue, 25 Apr 2023 01:55:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682361060; x=1713897060;
+  t=1682387712; x=1713923712;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NHVDSEqTdJq2cFP3DqYdtI4IYd1NWzu1GoRa5Lz3d74=;
-  b=bNIAaYYaThpdcT6UjtytEVhAeS3iNM63/JmLdMbVyI9YMD1JLeY31QIR
-   qdgtpHbO8UnH5eeDcYrBpvCF04jQabbGcf1xb4bxWcIY21UADokeIjQmH
-   iHQJQe5EZZYpYdbo8sPv9O6L+MZ/BC1G//gb+BZh+mNoP3artIzYeuJxn
-   dL92mzKqrQbejum22ThRFn8mbfqKR7OPy3yvTCTuP4X7PUCvxiuNY2YKw
-   VQB/JgV9b8FUy8JdsHDoIWBtD7idu+4ZQT0yvKZvzf7XDyHhXmdCvywTW
-   xQkjConAEBncYLAR8mhI2EYSs2qjE+7umR6JsIrCxSx2qX7ixZuSCVgX6
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="349329131"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="349329131"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 11:29:59 -0700
+  bh=NThRKCfSZOrjUatGV06fb7qTkQ4RMxlqe7J03T9887E=;
+  b=XWvgI5xYZl/4gVAaAVE6XZRhnvyA5nWK3+jrkhH+OiLe2Wrrz/ZJdQrv
+   0pgEABgGkEECNH0V5qcfVdUdd2XswkQPrp7R5Ac+76AJWiNt0K7zkVvt+
+   Oy5moUPOozUmYFZDwmaOQO5I/YXY9nsQ3VU2pYVkCYJapVkuzXc1VzIeR
+   ETR+PoWmBr+Mc/Pd6US3dPgGvXwKALqH6Rus/qj8CGK9fkoQ1Lr7g1OBt
+   SS3vfeOElQ40qMPJ8UjGrW1XKjg3vqZXV8AdBW7EsnZx+kumyWcd2KgjC
+   BrzwS7bw9iaP3vEioRkGXPCw40rrMvchDBEUMLuAaey+2r++262kk0rds
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="349422913"
+X-IronPort-AV: E=Sophos;i="5.99,224,1677571200"; 
+   d="scan'208";a="349422913"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 18:55:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="782490408"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="782490408"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="725916572"
+X-IronPort-AV: E=Sophos;i="5.99,224,1677571200"; 
+   d="scan'208";a="725916572"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 24 Apr 2023 11:29:58 -0700
+  by orsmga001.jf.intel.com with ESMTP; 24 Apr 2023 18:55:10 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pr0wn-000iak-2V;
-	Mon, 24 Apr 2023 18:29:57 +0000
-Date: Tue, 25 Apr 2023 02:29:17 +0800
+	id 1pr7td-000ipw-2O;
+	Tue, 25 Apr 2023 01:55:09 +0000
+Date: Tue, 25 Apr 2023 09:54:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v5 1/5] block: Don't invalidate pagecache for invalid
- falloc modes
-Message-ID: <202304250244.7chpBySd-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [mhiramat:topic/fprobe-event-ext 7/9]
+ kernel/trace/trace_probe.c:1166 traceprobe_expand_meta_args() error: passing
+ non negative 2147483646 to ERR_PTR
+Message-ID: <202304250906.1DDbxMvm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,146 +47,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: block/fops.c:678:2: sparse: sparse: unused label 'fail'"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230420004850.297045-2-sarthakkukreti@chromium.org>
-References: <20230420004850.297045-2-sarthakkukreti@chromium.org>
-TO: Sarthak Kukreti <sarthakkukreti@chromium.org>
-TO: dm-devel@redhat.com
-TO: linux-block@vger.kernel.org
-TO: linux-ext4@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: linux-fsdevel@vger.kernel.org
-CC: Jens Axboe <axboe@kernel.dk>
-CC: "Michael S. Tsirkin" <mst@redhat.com>
-CC: Jason Wang <jasowang@redhat.com>
-CC: Stefan Hajnoczi <stefanha@redhat.com>
-CC: Alasdair Kergon <agk@redhat.com>
-CC: Mike Snitzer <snitzer@kernel.org>
-CC: Christoph Hellwig <hch@infradead.org>
-CC: Brian Foster <bfoster@redhat.com>
-CC: "Theodore Ts'o" <tytso@mit.edu>
-CC: Andreas Dilger <adilger.kernel@dilger.ca>
-CC: Bart Van Assche <bvanassche@google.com>
-CC: Daniil Lunev <dlunev@google.com>
-CC: "Darrick J. Wong" <djwong@kernel.org>
+TO: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
 
-Hi Sarthak,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on device-mapper-dm/for-next]
-[also build test WARNING on linus/master v6.3 next-20230421]
-[cannot apply to axboe-block/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sarthak-Kukreti/block-Introduce-provisioning-primitives/20230420-095025
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
-patch link:    https://lore.kernel.org/r/20230420004850.297045-2-sarthakkukreti%40chromium.org
-patch subject: [PATCH v5 1/5] block: Don't invalidate pagecache for invalid falloc modes
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: alpha-randconfig-s032-20230423 (https://download.01.org/0day-ci/archive/20230425/202304250244.7chpBySd-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/8bd0744b438be1722c5f8c1fe077e9dcef0e81b7
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sarthak-Kukreti/block-Introduce-provisioning-primitives/20230420-095025
-        git checkout 8bd0744b438be1722c5f8c1fe077e9dcef0e81b7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-event-ext
+head:   356a6c2bfcfb9c9b9149dd63b22b2f1621290b9b
+commit: 8fb17a0a98bcd2bfb129170824cca3ffd6cbb7a0 [7/9] tracing/probes: Add $$args meta argument for all function args
+:::::: branch date: 11 hours ago
+:::::: commit date: 18 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230425/202304250906.1DDbxMvm-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202304250244.7chpBySd-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304250906.1DDbxMvm-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> block/fops.c:678:2: sparse: sparse: unused label 'fail'
+smatch warnings:
+kernel/trace/trace_probe.c:1166 traceprobe_expand_meta_args() error: passing non negative 2147483646 to ERR_PTR
 
-vim +/fail +678 block/fops.c
+vim +1166 kernel/trace/trace_probe.c
 
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  613  
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  614  #define	BLKDEV_FALLOC_FL_SUPPORTED					\
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  615  		(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE |		\
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  616  		 FALLOC_FL_ZERO_RANGE | FALLOC_FL_NO_HIDE_STALE)
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  617  
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  618  static long blkdev_fallocate(struct file *file, int mode, loff_t start,
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  619  			     loff_t len)
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  620  {
-f278eb3d8178f9 Ming Lei          2021-09-23  621  	struct inode *inode = bdev_file_inode(file);
-f278eb3d8178f9 Ming Lei          2021-09-23  622  	struct block_device *bdev = I_BDEV(inode);
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  623  	loff_t end = start + len - 1;
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  624  	loff_t isize;
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  625  	int error;
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  626  
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  627  	/* Fail if we don't recognize the flags. */
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  628  	if (mode & ~BLKDEV_FALLOC_FL_SUPPORTED)
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  629  		return -EOPNOTSUPP;
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  630  
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  631  	/* Don't go off the end of the device. */
-2a93ad8fcb377b Christoph Hellwig 2021-10-18  632  	isize = bdev_nr_bytes(bdev);
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  633  	if (start >= isize)
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  634  		return -EINVAL;
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  635  	if (end >= isize) {
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  636  		if (mode & FALLOC_FL_KEEP_SIZE) {
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  637  			len = isize - start;
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  638  			end = start + len - 1;
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  639  		} else
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  640  			return -EINVAL;
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  641  	}
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  642  
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  643  	/*
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  644  	 * Don't allow IO that isn't aligned to logical block size.
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  645  	 */
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  646  	if ((start | len) & (bdev_logical_block_size(bdev) - 1))
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  647  		return -EINVAL;
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  648  
-f278eb3d8178f9 Ming Lei          2021-09-23  649  	filemap_invalidate_lock(inode->i_mapping);
-f278eb3d8178f9 Ming Lei          2021-09-23  650  
-8bd0744b438be1 Sarthak Kukreti   2023-04-19  651  	/*
-8bd0744b438be1 Sarthak Kukreti   2023-04-19  652  	 * Invalidate the page cache, including dirty pages, for valid
-8bd0744b438be1 Sarthak Kukreti   2023-04-19  653  	 * de-allocate mode calls to fallocate().
-8bd0744b438be1 Sarthak Kukreti   2023-04-19  654  	 */
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  655  	switch (mode) {
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  656  	case FALLOC_FL_ZERO_RANGE:
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  657  	case FALLOC_FL_ZERO_RANGE | FALLOC_FL_KEEP_SIZE:
-8bd0744b438be1 Sarthak Kukreti   2023-04-19  658  		error = truncate_bdev_range(bdev, file->f_mode, start, end) ||
-8bd0744b438be1 Sarthak Kukreti   2023-04-19  659  			blkdev_issue_zeroout(bdev, start >> SECTOR_SHIFT,
-6549a874fb65e7 Pavel Begunkov    2021-10-20  660  					     len >> SECTOR_SHIFT, GFP_KERNEL,
-6549a874fb65e7 Pavel Begunkov    2021-10-20  661  					     BLKDEV_ZERO_NOUNMAP);
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  662  		break;
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  663  	case FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE:
-8bd0744b438be1 Sarthak Kukreti   2023-04-19  664  		error = truncate_bdev_range(bdev, file->f_mode, start, end) ||
-8bd0744b438be1 Sarthak Kukreti   2023-04-19  665  			blkdev_issue_zeroout(bdev, start >> SECTOR_SHIFT,
-6549a874fb65e7 Pavel Begunkov    2021-10-20  666  					     len >> SECTOR_SHIFT, GFP_KERNEL,
-6549a874fb65e7 Pavel Begunkov    2021-10-20  667  					     BLKDEV_ZERO_NOFALLBACK);
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  668  		break;
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  669  	case FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE | FALLOC_FL_NO_HIDE_STALE:
-8bd0744b438be1 Sarthak Kukreti   2023-04-19  670  		error = truncate_bdev_range(bdev, file->f_mode, start, end) ||
-8bd0744b438be1 Sarthak Kukreti   2023-04-19  671  			blkdev_issue_discard(bdev, start >> SECTOR_SHIFT,
-44abff2c0b970a Christoph Hellwig 2022-04-15  672  					     len >> SECTOR_SHIFT, GFP_KERNEL);
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  673  		break;
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  674  	default:
-f278eb3d8178f9 Ming Lei          2021-09-23  675  		error = -EOPNOTSUPP;
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  676  	}
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  677  
-f278eb3d8178f9 Ming Lei          2021-09-23 @678   fail:
-f278eb3d8178f9 Ming Lei          2021-09-23  679  	filemap_invalidate_unlock(inode->i_mapping);
-f278eb3d8178f9 Ming Lei          2021-09-23  680  	return error;
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  681  }
-cd82cca7ebfe9c Christoph Hellwig 2021-09-07  682  
+8ab83f56475ec9 Srikar Dronamraju         2012-04-09  1081  
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1082) /* Return new_argv which must be freed after use */
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1083) const char **traceprobe_expand_meta_args(int argc, const char *argv[],
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1084) 					 int *new_argc, char *buf, int bufsize,
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1085) 					 struct traceprobe_parse_context *ctx)
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1086) {
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1087) 	struct btf *btf = traceprobe_get_btf();
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1088) 	const struct btf_param *params = NULL;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1089) 	int i, j, used, ret, args_idx = -1;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1090) 	const char **new_argv = NULL;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1091) 	int nr_skipped;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1092) 
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1093) 	/* The first argument of tracepoint should be skipped. */
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1094) 	nr_skipped = ctx->flags & TPARG_FL_TPOINT ? 1 : 0;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1095) 	for (i = 0; i < argc; i++)
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1096) 		if (!strcmp(argv[i], "$$args")) {
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1097) 			trace_probe_log_set_index(i + 2);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1098) 
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1099) 			if (!tparg_is_function_entry(ctx->flags)) {
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1100) 				trace_probe_log_err(0, NOFENTRY_ARGS);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1101) 				return ERR_PTR(-EINVAL);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1102) 			}
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1103) 
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1104) 			if (args_idx >= 0) {
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1105) 				trace_probe_log_err(0, DOUBLE_ARGS);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1106) 				return ERR_PTR(-EINVAL);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1107) 			}
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1108) 
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1109) 			args_idx = i;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1110) 			params = find_btf_func_param(ctx->funcname, &ctx->nr_params);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1111) 			if (IS_ERR(params)) {
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1112) 				trace_probe_log_err(0, NOSUP_BTFARG);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1113) 				return (const char **)params;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1114) 			}
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1115) 			ctx->params = params;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1116) 		}
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1117) 
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1118) 	/* If target has no arguments, return NULL and the original argc. */
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1119) 	if (args_idx < 0 || ctx->nr_params < nr_skipped) {
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1120) 		*new_argc = argc;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1121) 		return NULL;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1122) 	}
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1123) 
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1124) 	*new_argc = argc - 1 + ctx->nr_params - nr_skipped;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1125) 
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1126) 	new_argv = kcalloc(*new_argc, sizeof(char *), GFP_KERNEL);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1127) 	if (!new_argv)
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1128) 		return ERR_PTR(-ENOMEM);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1129) 
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1130) 	for (i = 0; i < args_idx; i++)
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1131) 		new_argv[i] = argv[i];
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1132) 
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1133) 	used = 0;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1134) 	trace_probe_log_set_index(args_idx + 2);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1135) 	for (i = 0; i < ctx->nr_params - nr_skipped; i++) {
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1136) 		const char *name;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1137) 
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1138) 		name = btf_name_by_offset(btf, params[i + nr_skipped].name_off);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1139) 		if (!name) {
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1140) 			trace_probe_log_err(0, NO_BTF_ENTRY);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1141) 			ret = -ENOENT;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1142) 			goto error;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1143) 		}
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1144) 		ret = snprintf(buf + used, bufsize - used, "%s", name);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1145) 		if (ret >= bufsize - used) {
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1146) 			trace_probe_log_err(0, ARGS_2LONG);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1147) 			ret = -E2BIG;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1148) 			goto error;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1149) 		}
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1150) 		new_argv[args_idx + i] = buf + used;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1151) 		used += ret + 1; /* include null byte */
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1152) 	}
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1153) 
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1154) 	/* Note: we have to skip $$args */
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1155) 	j = args_idx + ctx->nr_params - nr_skipped;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1156) 	for (i = args_idx + 1; i < argc; i++, j++) {
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1157) 		if (WARN_ON(j >= *new_argc))
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1158) 			goto error;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1159) 		new_argv[j] = argv[i];
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1160) 	}
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1161) 
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1162) 	return new_argv;
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1163) 
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1164) error:
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1165) 	kfree(new_argv);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24 @1166) 	return ERR_PTR(ret);
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1167) }
+8fb17a0a98bcd2 Masami Hiramatsu (Google  2023-04-24  1168) 
 
 -- 
 0-DAY CI Kernel Test Service
