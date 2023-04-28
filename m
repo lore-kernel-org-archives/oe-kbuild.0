@@ -1,43 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40AE617D5
-	for <oe-kbuild@lists.linux.dev>; Fri, 28 Apr 2023 14:57:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7D73220
+	for <oe-kbuild@lists.linux.dev>; Fri, 28 Apr 2023 17:01:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682693858; x=1714229858;
+  t=1682701301; x=1714237301;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=596EhxdEHL1VzLpJ3xk9sP5Mt/bL7Wv2yz7cv1+rzrE=;
-  b=JKUJ8eIatmYgpk54vP1vRn1YVkwZRmFxXDDVch7X+ElHXdA+y4jFxdJi
-   qFvaASb8ozaVczHqZEEGZZG39pI1njEFcH3aElz4X4HfGmySo/U1d94gY
-   RA4vhjE2YOwTFfjtfADlctad0KpnBPkS/4AmmjeYqDDl6WYbk+rGU0SZ2
-   js0VUKfEEVLK3oF1GscQBNrVcA97FEhDRt+Up+OQ/Md9ArtMNalUUNvla
-   ifEPBpvjeg0GEI2N+UtLN/PVHbyW/NB/Tp3k5zxZ+l59aFOyqhyggSYRd
-   EPtuJK/V5NUkcu6wlDTZn0t+p/gZ61H1EPNT+UoEpK/BM//Ljx1cUag57
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="413159180"
-X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; 
-   d="scan'208";a="413159180"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 07:57:37 -0700
+  bh=NgvmqSkHOL2qdNe571poOUlA86iJ34caAl2S6RIhl4I=;
+  b=F297S4TjFczI4Ik+MjTEg3rX8jpL7+8bNBXOGCsrCuQ2W8gZQZ2Z3mFK
+   OiRGgmtkzm20wVQTMq/NBa2t166n2z0bZu6V+oREsUWLaKCOFqczFI0Ab
+   413c/Ss2O/N1Reyb2ZzSBoIti9Bdfqr9yV+gX555EV2ld08aLAHiR6nWF
+   Y/lC8DEmR7gWAqzzGiGzxH7JFyptSFpqpaMBj6zXcJ6Ffv2AU9y+XXly1
+   6yjQOlgM5ZrJ2LG2sM1gb7C2iSfAJi+8bzT5jxHcdFo6xuG3+K4LTuQdY
+   9zAQ2k7mJ+QVy+dlyLbfY/e9fBJiAPlJsztvdPa2CFJaGdsGAv729J9kZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="346569068"
+X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
+   d="scan'208";a="346569068"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 10:01:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="1024630216"
-X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; 
-   d="scan'208";a="1024630216"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="672262266"
+X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
+   d="scan'208";a="672262266"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Apr 2023 07:57:36 -0700
+  by orsmga006.jf.intel.com with ESMTP; 28 Apr 2023 10:01:38 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psPXT-0000WH-2a;
-	Fri, 28 Apr 2023 14:57:35 +0000
-Date: Fri, 28 Apr 2023 22:57:31 +0800
+	id 1psRTV-0000Yx-36;
+	Fri, 28 Apr 2023 17:01:37 +0000
+Date: Sat, 29 Apr 2023 01:01:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [jgunthorpe:iommufd_hwpt 22/33]
- drivers/iommu/iommufd/hw_pagetable.c:113 iommufd_hw_pagetable_alloc() warn:
- passing zero to 'ERR_PTR'
-Message-ID: <202304282208.X1RCSlRp-lkp@intel.com>
+Subject: [tglx-devel:timers/posix 2/21] kernel/time/posix-timers.c:1086
+ itimer_delete() warn: inconsistent returns '&timer->it_lock'.
+Message-ID: <202304290057.mXXwQFGI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,107 +48,84 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jason Gunthorpe <jgg@nvidia.com>
-CC: Kevin Tian <kevin.tian@intel.com>
-CC: Lu Baolu <baolu.lu@linux.intel.com>
+TO: Thomas Gleixner <tglx@linutronix.de>
 
-tree:   https://github.com/jgunthorpe/linux iommufd_hwpt
-head:   107e409f65cf19c88339c2a12d2cdc9342a846b5
-commit: f8f80e2c0831d5fdcb7487de3c54ddd2cc7ece5a [22/33] iommufd: Add enforced_cache_coherency to iommufd_hw_pagetable_alloc()
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: powerpc-randconfig-m041-20230427 (https://download.01.org/0day-ci/archive/20230428/202304282208.X1RCSlRp-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git timers/posix
+head:   6fdc1a95f0406e988c2a5db0e3499cd43b1a94c0
+commit: 2737f0e42de31850c75a098be2bc9dcf5fc52b52 [2/21] posix-timers: Prevent RT livelock in itimer_delete()
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: powerpc-randconfig-m041-20230427 (https://download.01.org/0day-ci/archive/20230429/202304290057.mXXwQFGI-lkp@intel.com/config)
 compiler: powerpc-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304282208.X1RCSlRp-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304290057.mXXwQFGI-lkp@intel.com/
 
 smatch warnings:
-drivers/iommu/iommufd/hw_pagetable.c:113 iommufd_hw_pagetable_alloc() warn: passing zero to 'ERR_PTR'
+kernel/time/posix-timers.c:1086 itimer_delete() warn: inconsistent returns '&timer->it_lock'.
+kernel/time/posix-timers.c:1086 itimer_delete() warn: inconsistent returns 'flags'.
 
-vim +/ERR_PTR +113 drivers/iommu/iommufd/hw_pagetable.c
+vim +1086 kernel/time/posix-timers.c
 
-f8f80e2c0831d5 Jason Gunthorpe 2023-02-16   41  
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   42  /**
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   43   * iommufd_hw_pagetable_alloc() - Get an iommu_domain for a device
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   44   * @ictx: iommufd context
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   45   * @ioas: IOAS to associate the domain with
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   46   * @idev: Device to get an iommu_domain for
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   47   * @immediate_attach: True if idev should be attached to the hwpt
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   48   *
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   49   * Allocate a new iommu_domain and return it as a hw_pagetable. The HWPT
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   50   * will be linked to the given ioas and upon return the underlying iommu_domain
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   51   * is fully popoulated.
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   52   */
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   53  struct iommufd_hw_pagetable *
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   54  iommufd_hw_pagetable_alloc(struct iommufd_ctx *ictx, struct iommufd_ioas *ioas,
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   55  			   struct iommufd_device *idev, bool immediate_attach)
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   56  {
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   57  	struct iommufd_hw_pagetable *hwpt;
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   58  	int rc;
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   59  
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   60  	lockdep_assert_held(&ioas->mutex);
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   61  
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   62  	hwpt = iommufd_object_alloc(ictx, hwpt, IOMMUFD_OBJ_HW_PAGETABLE);
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   63  	if (IS_ERR(hwpt))
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   64  		return hwpt;
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   65  
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   66  	INIT_LIST_HEAD(&hwpt->hwpt_item);
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   67  	/* Pairs with iommufd_hw_pagetable_destroy() */
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   68  	refcount_inc(&ioas->obj.users);
-ea4acfac57b9de Jason Gunthorpe 2022-11-29   69  	hwpt->ioas = ioas;
-25cde97d953208 Jason Gunthorpe 2023-03-01   70  
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   71  	hwpt->domain = iommu_domain_alloc(idev->dev->bus);
-25cde97d953208 Jason Gunthorpe 2023-03-01   72  	if (!hwpt->domain) {
-25cde97d953208 Jason Gunthorpe 2023-03-01   73  		rc = -ENOMEM;
-25cde97d953208 Jason Gunthorpe 2023-03-01   74  		goto out_abort;
-25cde97d953208 Jason Gunthorpe 2023-03-01   75  	}
-25cde97d953208 Jason Gunthorpe 2023-03-01   76  
-f8f80e2c0831d5 Jason Gunthorpe 2023-02-16   77  	/*
-f8f80e2c0831d5 Jason Gunthorpe 2023-02-16   78  	 * Set the coherency mode before we do iopt_table_add_domain() as some
-f8f80e2c0831d5 Jason Gunthorpe 2023-02-16   79  	 * iommus have a per-PTE bit that controls it and need to decide before
-f8f80e2c0831d5 Jason Gunthorpe 2023-02-16   80  	 * doing any maps. It is an iommu driver bug to report
-f8f80e2c0831d5 Jason Gunthorpe 2023-02-16   81  	 * IOMMU_CAP_ENFORCE_CACHE_COHERENCY but fail enforce_cache_coherency on
-f8f80e2c0831d5 Jason Gunthorpe 2023-02-16   82  	 * a new domain.
-f8f80e2c0831d5 Jason Gunthorpe 2023-02-16   83  	 */
-f8f80e2c0831d5 Jason Gunthorpe 2023-02-16   84  	if (idev->enforce_cache_coherency) {
-f8f80e2c0831d5 Jason Gunthorpe 2023-02-16   85  		rc = iommufd_hw_pagetable_enforce_cc(hwpt);
-f8f80e2c0831d5 Jason Gunthorpe 2023-02-16   86  		if (WARN_ON(rc))
-f8f80e2c0831d5 Jason Gunthorpe 2023-02-16   87  			goto out_abort;
-f8f80e2c0831d5 Jason Gunthorpe 2023-02-16   88  	}
-f8f80e2c0831d5 Jason Gunthorpe 2023-02-16   89  
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   90  	/*
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   91  	 * immediate_attach exists only to accommodate iommu drivers that cannot
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   92  	 * directly allocate a domain. These drivers do not finish creating the
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   93  	 * domain until attach is completed. Thus we must have this call
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   94  	 * sequence. Once those drivers are fixed this should be removed.
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   95  	 */
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   96  	if (immediate_attach) {
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   97  		rc = iommufd_hw_pagetable_attach(hwpt, idev);
-339fbf3ae14426 Jason Gunthorpe 2023-03-01   98  		if (rc)
-eea45e2be4bbcf Jason Gunthorpe 2023-02-16   99  			goto out_abort;
-339fbf3ae14426 Jason Gunthorpe 2023-03-01  100  	}
-339fbf3ae14426 Jason Gunthorpe 2023-03-01  101  
-339fbf3ae14426 Jason Gunthorpe 2023-03-01  102  	rc = iopt_table_add_domain(&hwpt->ioas->iopt, hwpt->domain);
-339fbf3ae14426 Jason Gunthorpe 2023-03-01  103  	if (rc)
-339fbf3ae14426 Jason Gunthorpe 2023-03-01  104  		goto out_detach;
-339fbf3ae14426 Jason Gunthorpe 2023-03-01  105  	list_add_tail(&hwpt->hwpt_item, &hwpt->ioas->hwpt_list);
-ea4acfac57b9de Jason Gunthorpe 2022-11-29  106  	return hwpt;
-ea4acfac57b9de Jason Gunthorpe 2022-11-29  107  
-339fbf3ae14426 Jason Gunthorpe 2023-03-01  108  out_detach:
-339fbf3ae14426 Jason Gunthorpe 2023-03-01  109  	if (immediate_attach)
-eea45e2be4bbcf Jason Gunthorpe 2023-02-16  110  		iommufd_hw_pagetable_detach(idev);
-ea4acfac57b9de Jason Gunthorpe 2022-11-29  111  out_abort:
-25cde97d953208 Jason Gunthorpe 2023-03-01  112  	iommufd_object_abort_and_destroy(ictx, &hwpt->obj);
-ea4acfac57b9de Jason Gunthorpe 2022-11-29 @113  	return ERR_PTR(rc);
+becf8b5d00f4b4 kernel/posix-timers.c      Thomas Gleixner  2006-01-09  1038  
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1039  /*
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1040   * Delete a timer if it is armed, remove it from the hash and schedule it
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1041   * for RCU freeing.
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1042   */
+858119e1593843 kernel/posix-timers.c      Arjan van de Ven 2006-01-14  1043  static void itimer_delete(struct k_itimer *timer)
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1044  {
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1045  	unsigned long flags;
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1046  
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1047  retry_delete:
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1048  	/*
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1049  	 * irqsave is required to make timer_wait_running() work.
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1050  	 */
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1051  	spin_lock_irqsave(&timer->it_lock, flags);
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1052  
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1053  	/*
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1054  	 * Even if the timer is not longer accessible from other tasks
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1055  	 * it still might be armed and queued in the underlying timer
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1056  	 * mechanism. Worse, that timer mechanism might run the expiry
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1057  	 * function concurrently.
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1058  	 */
+becf8b5d00f4b4 kernel/posix-timers.c      Thomas Gleixner  2006-01-09  1059  	if (timer_delete_hook(timer) == TIMER_RETRY) {
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1060  		/*
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1061  		 * Timer is expired concurrently, prevent livelocks
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1062  		 * and pointless spinning on RT.
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1063  		 *
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1064  		 * The CONFIG_POSIX_CPU_TIMERS_TASK_WORK=y case is
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1065  		 * irrelevant here because obviously the exiting task
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1066  		 * cannot be expiring timer in task work concurrently.
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1067  		 * Ditto for CONFIG_POSIX_CPU_TIMERS_TASK_WORK=n as the
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1068  		 * tick interrupt cannot run on this CPU because the above
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1069  		 * spin_lock disabled interrupts.
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1070  		 *
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1071  		 * timer_wait_running() drops timer::it_lock, which opens
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1072  		 * the possibility for another task to delete the timer.
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1073  		 *
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1074  		 * That's not possible here because this is invoked from
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1075  		 * do_exit() only for the last thread of the thread group.
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1076  		 * So no other task can access that timer.
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1077  		 */
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1078  		if (WARN_ON_ONCE(timer_wait_running(timer, &flags) != timer))
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1079  			return;
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1080  
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1081  		goto retry_delete;
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1082  	}
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1083  	list_del(&timer->list);
+4b7a1304267bff kernel/posix-timers.c      Oleg Nesterov    2008-07-25  1084  
+2737f0e42de318 kernel/time/posix-timers.c Thomas Gleixner  2023-04-24  1085  	spin_unlock_irqrestore(&timer->it_lock, flags);
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16 @1086  	release_posix_timer(timer, IT_ID_SET);
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1087  }
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1088  
 
-:::::: The code at line 113 was first introduced by commit
-:::::: ea4acfac57b9dee57a7d5840359a41cc3251de92 iommufd: Add a HW pagetable object
+:::::: The code at line 1086 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
