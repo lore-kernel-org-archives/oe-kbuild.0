@@ -1,42 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414125672
-	for <oe-kbuild@lists.linux.dev>; Sat, 29 Apr 2023 19:45:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE99364
+	for <oe-kbuild@lists.linux.dev>; Sun, 30 Apr 2023 01:11:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682797513; x=1714333513;
+  t=1682817078; x=1714353078;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1XpFvtsUVC6oZGdUpGgcXfVA4alR0f/xK1vpGyRYuwM=;
-  b=MPBHoRvxIkc1uonsuYzocS4fooWT6+YCsyJlUXyZyoSO8xVTPG2HRjGZ
-   x+rir37/k4e7Sc3m7dCuU36Qq2IFRTp4RQXn7O6ZMB0XFBUaY5ToZeAdz
-   FH9+QiacHQtWoFjecFB1Qn2tfJm85TgzcVk7X2GiUu1Zoq4nuXyWxTleV
-   IINU3vDBhqv9uODvGil6Q7YEP4i+81te+bkUZjq60TcIilmGZkuvaSpMP
-   7LRUry5yv9qQdB4xkDtrk1h2P/+dqQf4ueLI5A0llvsnEZfZ2xGbBDxJD
-   YC7ozU7qg7FiHyfX5GHHlgzXdJwmjcvsR/dYVx0SGtX+DhgqNl3qWKNjJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="345424949"
-X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="345424949"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 12:45:12 -0700
+  bh=+386tGaGwzjICFIBiNnoBvWOKmhH4VFo69O/ysbNrVQ=;
+  b=RlRNLab8qTJwwQeg2WM55w6LNZb43IMj74AhnOhb7K+4IOnY1o4a30Yc
+   hMXKAk4dYlnCDna2YD40Qk3XCMKqQ9XJ+BmChe7FtIrA1RIDf1OCHgufM
+   xaWbgFRaVOjO0AjTiedp4higMn3LQ3KrpTy7ZVW/3cozQ4ig2xNGdgAx6
+   wnJdINU6/v1UMK6kulVSnfgHD3r/6k8FxUIl7bFuFNMKOuEYq0RF/gOUC
+   sXoBfY+Mb2IHid0y0r8mYXiNxnXaORMx40Tvnxm2uflGohsEWBmNxSbX3
+   26NzdF4E2H6voDonZDDT1fXxekoM9IWociwr7uATg6Jn9QW5r+NKAu4GM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="434282790"
+X-IronPort-AV: E=Sophos;i="5.99,238,1677571200"; 
+   d="scan'208";a="434282790"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 18:11:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="819483617"
-X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="819483617"
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="689414854"
+X-IronPort-AV: E=Sophos;i="5.99,238,1677571200"; 
+   d="scan'208";a="689414854"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 29 Apr 2023 12:45:11 -0700
+  by orsmga007.jf.intel.com with ESMTP; 29 Apr 2023 18:11:16 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psqVK-0001Jn-2A;
-	Sat, 29 Apr 2023 19:45:10 +0000
-Date: Sun, 30 Apr 2023 03:44:12 +0800
+	id 1psvat-0001RB-34;
+	Sun, 30 Apr 2023 01:11:15 +0000
+Date: Sun, 30 Apr 2023 09:11:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/soc/rockchip/dtpm.c:15:12: sparse: sparse: obsolete array
- initializer, use C99 syntax
-Message-ID: <202304300340.Fi0vxfJf-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] misc: hpilo: Fix use after free bug in ilo_remove due
+  to race condition with ilo_open
+Message-ID: <202304300909.ALHN6Vry-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,94 +46,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/soc/rockchip/dtpm.c:15:12: sparse: sparse: obsolete array initializer, use C99 syntax"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230417165246.467723-1-zyytlz.wz@163.com>
+References: <20230417165246.467723-1-zyytlz.wz@163.com>
+TO: Zheng Wang <zyytlz.wz@163.com>
+TO: matt.hsiao@hpe.com
+CC: arnd@arndb.de
+CC: gregkh@linuxfoundation.org
 CC: linux-kernel@vger.kernel.org
-TO: Brian Norris <briannorris@chromium.org>
-CC: Heiko Stuebner <heiko@sntech.de>
-CC: Guenter Roeck <linux@roeck-us.net>
+CC: hackerzheng666@gmail.com
+CC: 1395428693sheep@gmail.com
+CC: alex000young@gmail.com
+CC: Zheng Wang <zyytlz.wz@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1ae78a14516b9372e4c90a89ac21b259339a3a3a
-commit: add9f6f30e54b5c07e7a0260cda459ef1d9646b7 soc: rockchip: Fix compile-testing SoC drivers
-date:   12 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 12 months ago
-config: nios2-randconfig-s051-20230430 (https://download.01.org/0day-ci/archive/20230430/202304300340.Fi0vxfJf-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=add9f6f30e54b5c07e7a0260cda459ef1d9646b7
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout add9f6f30e54b5c07e7a0260cda459ef1d9646b7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/soc/rockchip/
+Hi Zheng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus soc/for-next linus/master v6.3 next-20230428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zheng-Wang/misc-hpilo-Fix-use-after-free-bug-in-ilo_remove-due-to-race-condition-with-ilo_open/20230418-005502
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20230417165246.467723-1-zyytlz.wz%40163.com
+patch subject: [PATCH] misc: hpilo: Fix use after free bug in ilo_remove due  to race condition with ilo_open
+:::::: branch date: 12 days ago
+:::::: commit date: 12 days ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230430/202304300909.ALHN6Vry-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202304300340.Fi0vxfJf-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304300909.ALHN6Vry-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/soc/rockchip/dtpm.c:15:12: sparse: sparse: obsolete array initializer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:17:12: sparse: sparse: obsolete array initializer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:20:12: sparse: sparse: obsolete array initializer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:23:12: sparse: sparse: obsolete array initializer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:26:12: sparse: sparse: obsolete array initializer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:29:12: sparse: sparse: obsolete array initializer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:32:12: sparse: sparse: obsolete array initializer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:35:12: sparse: sparse: obsolete array initializer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:38:12: sparse: sparse: obsolete array initializer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:41:12: sparse: sparse: obsolete array initializer, use C99 syntax
+smatch warnings:
+drivers/misc/hpilo.c:755 ilo_delete() warn: can 'ilo_hw' even be NULL?
 
-vim +15 drivers/soc/rockchip/dtpm.c
+vim +/ilo_hw +755 drivers/misc/hpilo.c
 
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  13  
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  14  static struct dtpm_node __initdata rk3399_hierarchy[] = {
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28 @15  	[0]{ .name = "rk3399",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  16  	     .type = DTPM_NODE_VIRTUAL },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  17  	[1]{ .name = "package",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  18  	     .type = DTPM_NODE_VIRTUAL,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  19  	     .parent = &rk3399_hierarchy[0] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  20  	[2]{ .name = "/cpus/cpu@0",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  21  	     .type = DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  22  	     .parent = &rk3399_hierarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  23  	[3]{ .name = "/cpus/cpu@1",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  24  	     .type = DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  25  	     .parent = &rk3399_hierarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  26  	[4]{ .name = "/cpus/cpu@2",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  27  	     .type = DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  28  	     .parent = &rk3399_hierarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  29  	[5]{ .name = "/cpus/cpu@3",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  30  	     .type = DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  31  	     .parent = &rk3399_hierarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  32  	[6]{ .name = "/cpus/cpu@100",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  33  	     .type = DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  34  	     .parent = &rk3399_hierarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  35  	[7]{ .name = "/cpus/cpu@101",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  36  	     .type = DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  37  	     .parent = &rk3399_hierarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  38  	[8]{ .name = "/gpu@ff9a0000",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  39  	     .type = DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  40  	     .parent = &rk3399_hierarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  41  	[9]{ /* sentinel */ }
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  42  };
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  43  
-
-:::::: The code at line 15 was first introduced by commit
-:::::: b9d6c47a2be8d273ecc063afda6e9fd66a35116d rockchip/soc/drivers: Add DTPM description for rk3399
-
-:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
-:::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+13a22f45e6cb1e Zheng Wang      2023-04-18  748  
+13a22f45e6cb1e Zheng Wang      2023-04-18  749  static void ilo_delete(struct kref *kref)
+13a22f45e6cb1e Zheng Wang      2023-04-18  750  {
+13a22f45e6cb1e Zheng Wang      2023-04-18  751  	int i, minor;
+13a22f45e6cb1e Zheng Wang      2023-04-18  752  	struct ilo_hwinfo *ilo_hw = container_of(kref, struct ilo_hwinfo, refcnt);
+13a22f45e6cb1e Zheng Wang      2023-04-18  753  	struct pci_dev *pdev = ilo_hw->ilo_dev;
+89bcb05d9bbf8b David Altobelli 2008-07-02  754  
+ebf1b764aa5cb3 Mark Rusk       2012-11-06 @755  	if (!ilo_hw)
+ebf1b764aa5cb3 Mark Rusk       2012-11-06  756  		return;
+ebf1b764aa5cb3 Mark Rusk       2012-11-06  757  
+89bcb05d9bbf8b David Altobelli 2008-07-02  758  	clear_device(ilo_hw);
+89bcb05d9bbf8b David Altobelli 2008-07-02  759  
+89bcb05d9bbf8b David Altobelli 2008-07-02  760  	minor = MINOR(ilo_hw->cdev.dev);
+98dcd59dd063dd Camuso, Tony    2012-06-10  761  	for (i = minor; i < minor + max_ccb; i++)
+89bcb05d9bbf8b David Altobelli 2008-07-02  762  		device_destroy(ilo_class, MKDEV(ilo_major, i));
+89bcb05d9bbf8b David Altobelli 2008-07-02  763  
+89bcb05d9bbf8b David Altobelli 2008-07-02  764  	cdev_del(&ilo_hw->cdev);
+9f7048412163d8 David Altobelli 2009-08-17  765  	ilo_disable_interrupts(ilo_hw);
+9f7048412163d8 David Altobelli 2009-08-17  766  	free_irq(pdev->irq, ilo_hw);
+89bcb05d9bbf8b David Altobelli 2008-07-02  767  	ilo_unmap_device(pdev, ilo_hw);
+89bcb05d9bbf8b David Altobelli 2008-07-02  768  	pci_release_regions(pdev);
+bcdee04ea7ae04 Jiri Slaby      2012-09-13  769  	/*
+bcdee04ea7ae04 Jiri Slaby      2012-09-13  770  	 * pci_disable_device(pdev) used to be here. But this PCI device has
+bcdee04ea7ae04 Jiri Slaby      2012-09-13  771  	 * two functions with interrupt lines connected to a single pin. The
+bcdee04ea7ae04 Jiri Slaby      2012-09-13  772  	 * other one is a USB host controller. So when we disable the PIN here
+bcdee04ea7ae04 Jiri Slaby      2012-09-13  773  	 * e.g. by rmmod hpilo, the controller stops working. It is because
+bcdee04ea7ae04 Jiri Slaby      2012-09-13  774  	 * the interrupt link is disabled in ACPI since it is not refcounted
+bcdee04ea7ae04 Jiri Slaby      2012-09-13  775  	 * yet. See acpi_pci_link_free_irq called from acpi_pci_irq_disable.
+bcdee04ea7ae04 Jiri Slaby      2012-09-13  776  	 */
+89bcb05d9bbf8b David Altobelli 2008-07-02  777  	kfree(ilo_hw);
+98dcd59dd063dd Camuso, Tony    2012-06-10  778  	ilo_hwdev[(minor / max_ccb)] = 0;
+89bcb05d9bbf8b David Altobelli 2008-07-02  779  }
+89bcb05d9bbf8b David Altobelli 2008-07-02  780  
 
 -- 
 0-DAY CI Kernel Test Service
