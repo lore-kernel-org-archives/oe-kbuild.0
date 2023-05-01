@@ -1,42 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8FE20E2
-	for <oe-kbuild@lists.linux.dev>; Mon,  1 May 2023 11:56:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC45F28F3
+	for <oe-kbuild@lists.linux.dev>; Mon,  1 May 2023 15:30:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682942167; x=1714478167;
+  t=1682955009; x=1714491009;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AowB0dtE/GiqRqSQId+uz2/i4mBawTqsLT6XH0iW38s=;
-  b=YQNcu0zOEqqybtFgasSOmj+OEzupjJhD6y0WGs1vtVuHp3ghusyKNda9
-   JxGZXcrBQCoBk2Hwgvmsg0SMnmpbDh1MyGOwdFPjtBzYsViW+AN6Kbe0B
-   vyjyobZqZlxteBuFx0CM6QaKnjLpHpAaRYXQpyEwFeq5N8iEDfm8Smgmm
-   Rg8mFR4xcMWCCObXCkhXN76IRtTTIJZ5F9JJAYXx7RdulQButYCPWQwtA
-   7UfZL51ZWUMybDEIlnai+eyBDt7b/fxS8/i3UubuuUZL4wtVseBseu2rJ
-   HUKqgQleGBPB5elV1gm05oVhnSuA4fL5/Eu3mmKbtPGNrrnBh7L4+KZLk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="346936064"
+  bh=reKf4SqJEKHr/2Nnwxv1BvH1RhYm0ReLb5uFzxDcGHI=;
+  b=KxL5HN+w9MFyW3RTl2/vqb93PWD5OGqB0s0B8sNhKwK0BnA18xrcCYR2
+   TPvie9MfIsZNCBnWV+Cwj8cOBchHQmmI9iYbOO2uz9wF3T+a2tpSQj9zb
+   sIg5zSEJ2IhP6TnIw5pFsxleaupbC6YNa4zob+kLvYX+BMLWK5L4JD14v
+   ZOGnHWPFwe2UrPMMdIuvVBFG00DN5D4haAPZlZSIwg2/Q0C4egV/+Bjzw
+   Zd95qmMwof5mUEzLvAJdvORZ68k/Z7PZPzxqsh/hQgIzJgkVQataRpbG1
+   GbzXhUK4YCsEVgI+w+0u0TrmyJ+PNkOv9wlxFjCHj2dqUSDsxucCLFZ3U
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="332513638"
 X-IronPort-AV: E=Sophos;i="5.99,241,1677571200"; 
-   d="scan'208";a="346936064"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 04:56:06 -0700
+   d="scan'208";a="332513638"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 08:30:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="695766442"
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="689925898"
 X-IronPort-AV: E=Sophos;i="5.99,241,1677571200"; 
-   d="scan'208";a="695766442"
+   d="scan'208";a="689925898"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 01 May 2023 04:56:05 -0700
+  by orsmga007.jf.intel.com with ESMTP; 01 May 2023 08:30:07 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptS8S-0000S4-1b;
-	Mon, 01 May 2023 11:56:04 +0000
-Date: Mon, 1 May 2023 19:55:12 +0800
+	id 1ptVTb-0000WD-0q;
+	Mon, 01 May 2023 15:30:07 +0000
+Date: Mon, 1 May 2023 23:29:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [Intel-gfx] [PATCH v2 1/8] DO NOT REVIEW: drm/i915: Add support
- for MTL GSC SW Proxy
-Message-ID: <202305011931.nKlNklEl-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [peterz-queue:sched/eevdf 31/31] kernel/sched/fair.c:857
+ __print_se() warn: argument 5 to %lx specifier is cast from pointer
+Message-ID: <202305012330.vPmrChgf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,107 +48,106 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230428185810.4127234-2-daniele.ceraolospurio@intel.com>
-References: <20230428185810.4127234-2-daniele.ceraolospurio@intel.com>
-TO: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-TO: intel-gfx@lists.freedesktop.org
-CC: dri-devel@lists.freedesktop.org
+TO: Peter Zijlstra <peterz@infradead.org>
 
-Hi Daniele,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-tip/drm-tip]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniele-Ceraolo-Spurio/DO-NOT-REVIEW-drm-i915-Add-support-for-MTL-GSC-SW-Proxy/20230429-030037
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230428185810.4127234-2-daniele.ceraolospurio%40intel.com
-patch subject: [Intel-gfx] [PATCH v2 1/8] DO NOT REVIEW: drm/i915: Add support for MTL GSC SW Proxy
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-c002 (https://download.01.org/0day-ci/archive/20230501/202305011931.nKlNklEl-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/eevdf
+head:   901af44e4826aab18936ec361e737300b3135923
+commit: 901af44e4826aab18936ec361e737300b3135923 [31/31] sched/eevdf: Debug / validation crud
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230501/202305012330.vPmrChgf-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Link: https://lore.kernel.org/r/202305011931.nKlNklEl-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202305012330.vPmrChgf-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c:252:12-13: WARNING opportunity for min()
+smatch warnings:
+kernel/sched/fair.c:857 __print_se() warn: argument 5 to %lx specifier is cast from pointer
+kernel/sched/fair.c:911 validate_cfs_rq() warn: argument 3 to %lx specifier is cast from pointer
 
-vim +252 drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c
+vim +857 kernel/sched/fair.c
 
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  185  
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  186  static int proxy_query(struct intel_gsc_uc *gsc)
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  187  {
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  188  	struct intel_gt *gt = gsc_uc_to_gt(gsc);
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  189  	struct gsc_proxy_msg *to_gsc = gsc->proxy.to_gsc;
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  190  	struct gsc_proxy_msg *to_csme = gsc->proxy.to_csme;
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  191  	int ret;
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  192  
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  193  	intel_gsc_uc_heci_cmd_emit_mtl_header(&to_gsc->header,
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  194  					      HECI_MEADDRESS_PROXY,
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  195  					      sizeof(struct gsc_proxy_msg),
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  196  					      0);
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  197  
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  198  	to_gsc->proxy_header.hdr =
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  199  		FIELD_PREP(GSC_PROXY_TYPE, GSC_PROXY_MSG_TYPE_PROXY_QUERY) |
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  200  		FIELD_PREP(GSC_PROXY_PAYLOAD_LENGTH, 0);
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  201  
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  202  	to_gsc->proxy_header.source = GSC_PROXY_ADDRESSING_KMD;
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  203  	to_gsc->proxy_header.destination = GSC_PROXY_ADDRESSING_GSC;
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  204  	to_gsc->proxy_header.status = 0;
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  205  
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  206  	while (1) {
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  207  		/* clear the GSC response header space */
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  208  		memset(gsc->proxy.to_csme, 0, sizeof(struct gsc_proxy_msg));
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  209  
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  210  		/* send proxy message to GSC */
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  211  		ret = proxy_send_to_gsc(gsc);
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  212  		if (ret) {
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  213  			gt_err(gt, "failed to send proxy message to GSC! %d\n", ret);
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  214  			goto proxy_error;
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  215  		}
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  216  
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  217  		/* stop if this was the last message */
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  218  		if (FIELD_GET(GSC_PROXY_TYPE, to_csme->proxy_header.hdr) ==
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  219  				GSC_PROXY_MSG_TYPE_PROXY_END)
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  220  			break;
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  221  
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  222  		/* make sure the GSC-to-CSME proxy header is sane */
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  223  		ret = validate_proxy_header(&to_csme->proxy_header,
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  224  					    GSC_PROXY_ADDRESSING_GSC,
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  225  					    GSC_PROXY_ADDRESSING_CSME);
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  226  		if (ret) {
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  227  			gt_err(gt, "invalid GSC to CSME proxy header! %d\n", ret);
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  228  			goto proxy_error;
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  229  		}
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  230  
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  231  		/* send the GSC message to the CSME */
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  232  		ret = proxy_send_to_csme(gsc);
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  233  		if (ret < 0) {
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  234  			gt_err(gt, "failed to send proxy message to CSME! %d\n", ret);
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  235  			goto proxy_error;
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  236  		}
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  237  
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  238  		/* update the GSC message size with the returned value from CSME */
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  239  		to_gsc->header.message_size = ret + sizeof(struct intel_gsc_mtl_header);
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  240  
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  241  		/* make sure the CSME-to-GSC proxy header is sane */
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  242  		ret = validate_proxy_header(&to_gsc->proxy_header,
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  243  					    GSC_PROXY_ADDRESSING_CSME,
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  244  					    GSC_PROXY_ADDRESSING_GSC);
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  245  		if (ret) {
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  246  			gt_err(gt, "invalid CSME to GSC proxy header! %d\n", ret);
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  247  			goto proxy_error;
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  248  		}
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  249  	}
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  250  
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  251  proxy_error:
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28 @252  	return ret < 0 ? ret : 0;
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  253  }
-481d87f2c96fc3 Daniele Ceraolo Spurio 2023-04-28  254  
+901af44e4826aa Peter Zijlstra 2023-03-24  838  
+901af44e4826aa Peter Zijlstra 2023-03-24  839  static void __print_se(struct cfs_rq *cfs_rq, struct sched_entity *se, int level,
+901af44e4826aa Peter Zijlstra 2023-03-24  840  		       struct validate_data *data)
+901af44e4826aa Peter Zijlstra 2023-03-24  841  {
+901af44e4826aa Peter Zijlstra 2023-03-24  842  	static const char indent[] = "                                           ";
+901af44e4826aa Peter Zijlstra 2023-03-24  843  	unsigned long weight = scale_load_down(se->load.weight);
+901af44e4826aa Peter Zijlstra 2023-03-24  844  	struct task_struct *p = NULL;
+901af44e4826aa Peter Zijlstra 2023-03-24  845  
+901af44e4826aa Peter Zijlstra 2023-03-24  846  	s64 v = se->vruntime - cfs_rq->min_vruntime;
+901af44e4826aa Peter Zijlstra 2023-03-24  847  	s64 d = se->deadline - cfs_rq->min_vruntime;
+901af44e4826aa Peter Zijlstra 2023-03-24  848  
+901af44e4826aa Peter Zijlstra 2023-03-24  849  	data->avg_vruntime += v * weight;
+901af44e4826aa Peter Zijlstra 2023-03-24  850  	data->avg_load += weight;
+901af44e4826aa Peter Zijlstra 2023-03-24  851  
+901af44e4826aa Peter Zijlstra 2023-03-24  852  	data->min_deadline = min(data->min_deadline, d);
+901af44e4826aa Peter Zijlstra 2023-03-24  853  
+901af44e4826aa Peter Zijlstra 2023-03-24  854  	if (entity_is_task(se))
+901af44e4826aa Peter Zijlstra 2023-03-24  855  		p = task_of(se);
+901af44e4826aa Peter Zijlstra 2023-03-24  856  
+901af44e4826aa Peter Zijlstra 2023-03-24 @857  	trace_printk("%.*s%lx w: %ld ve: %Ld lag: %Ld vd: %Ld vmd: %Ld %s (%d/%s)\n",
+901af44e4826aa Peter Zijlstra 2023-03-24  858  		     level*2, indent, (unsigned long)se,
+901af44e4826aa Peter Zijlstra 2023-03-24  859  		     weight,
+901af44e4826aa Peter Zijlstra 2023-03-24  860  		     v, data->va - se->vruntime, d,
+901af44e4826aa Peter Zijlstra 2023-03-24  861  		     se->min_deadline - cfs_rq->min_vruntime,
+901af44e4826aa Peter Zijlstra 2023-03-24  862  		     entity_eligible(cfs_rq, se) ? "E" : "N",
+901af44e4826aa Peter Zijlstra 2023-03-24  863  		     p ? p->pid : -1,
+901af44e4826aa Peter Zijlstra 2023-03-24  864  		     p ? p->comm : "(null)");
+901af44e4826aa Peter Zijlstra 2023-03-24  865  }
+901af44e4826aa Peter Zijlstra 2023-03-24  866  
+901af44e4826aa Peter Zijlstra 2023-03-24  867  static void __print_node(struct cfs_rq *cfs_rq, struct rb_node *node, int level,
+901af44e4826aa Peter Zijlstra 2023-03-24  868  			 struct validate_data *data)
+901af44e4826aa Peter Zijlstra 2023-03-24  869  {
+901af44e4826aa Peter Zijlstra 2023-03-24  870  	if (!node)
+901af44e4826aa Peter Zijlstra 2023-03-24  871  		return;
+901af44e4826aa Peter Zijlstra 2023-03-24  872  
+901af44e4826aa Peter Zijlstra 2023-03-24  873  	__print_se(cfs_rq, __node_2_se(node), level, data);
+901af44e4826aa Peter Zijlstra 2023-03-24  874  	__print_node(cfs_rq, node->rb_left, level+1, data);
+901af44e4826aa Peter Zijlstra 2023-03-24  875  	__print_node(cfs_rq, node->rb_right, level+1, data);
+901af44e4826aa Peter Zijlstra 2023-03-24  876  }
+901af44e4826aa Peter Zijlstra 2023-03-24  877  
+901af44e4826aa Peter Zijlstra 2023-03-24  878  static struct sched_entity *pick_eevdf(struct cfs_rq *cfs_rq);
+901af44e4826aa Peter Zijlstra 2023-03-24  879  
+901af44e4826aa Peter Zijlstra 2023-03-24  880  static void validate_cfs_rq(struct cfs_rq *cfs_rq, bool pick)
+901af44e4826aa Peter Zijlstra 2023-03-24  881  {
+901af44e4826aa Peter Zijlstra 2023-03-24  882  	struct sched_entity *curr = cfs_rq->curr;
+901af44e4826aa Peter Zijlstra 2023-03-24  883  	struct rb_node *root = cfs_rq->tasks_timeline.rb_root.rb_node;
+901af44e4826aa Peter Zijlstra 2023-03-24  884  	struct validate_data _data = {
+901af44e4826aa Peter Zijlstra 2023-03-24  885  		.va = avg_vruntime(cfs_rq),
+901af44e4826aa Peter Zijlstra 2023-03-24  886  		.min_deadline = (~0ULL) >> 1,
+901af44e4826aa Peter Zijlstra 2023-03-24  887  	}, *data = &_data;
+901af44e4826aa Peter Zijlstra 2023-03-24  888  
+901af44e4826aa Peter Zijlstra 2023-03-24  889  	trace_printk("---\n");
+901af44e4826aa Peter Zijlstra 2023-03-24  890  
+901af44e4826aa Peter Zijlstra 2023-03-24  891  	__print_node(cfs_rq, root, 0, data);
+901af44e4826aa Peter Zijlstra 2023-03-24  892  
+901af44e4826aa Peter Zijlstra 2023-03-24  893  	trace_printk("min_deadline: %Ld avg_vruntime: %Ld / %Ld = %Ld\n",
+901af44e4826aa Peter Zijlstra 2023-03-24  894  		     data->min_deadline,
+901af44e4826aa Peter Zijlstra 2023-03-24  895  		     data->avg_vruntime, data->avg_load,
+901af44e4826aa Peter Zijlstra 2023-03-24  896  		     data->avg_load ? div_s64(data->avg_vruntime, data->avg_load) : 0);
+901af44e4826aa Peter Zijlstra 2023-03-24  897  
+901af44e4826aa Peter Zijlstra 2023-03-24  898  	if (WARN_ON_ONCE(cfs_rq->avg_vruntime != data->avg_vruntime))
+901af44e4826aa Peter Zijlstra 2023-03-24  899  		cfs_rq->avg_vruntime = data->avg_vruntime;
+901af44e4826aa Peter Zijlstra 2023-03-24  900  
+901af44e4826aa Peter Zijlstra 2023-03-24  901  	if (WARN_ON_ONCE(cfs_rq->avg_load != data->avg_load))
+901af44e4826aa Peter Zijlstra 2023-03-24  902  		cfs_rq->avg_load = data->avg_load;
+901af44e4826aa Peter Zijlstra 2023-03-24  903  
+901af44e4826aa Peter Zijlstra 2023-03-24  904  	data->min_deadline += cfs_rq->min_vruntime;
+901af44e4826aa Peter Zijlstra 2023-03-24  905  	WARN_ON_ONCE(cfs_rq->avg_load && __node_2_se(root)->min_deadline != data->min_deadline);
+901af44e4826aa Peter Zijlstra 2023-03-24  906  
+901af44e4826aa Peter Zijlstra 2023-03-24  907  	if (curr && curr->on_rq)
+901af44e4826aa Peter Zijlstra 2023-03-24  908  		__print_se(cfs_rq, curr, 0, data);
+901af44e4826aa Peter Zijlstra 2023-03-24  909  
+901af44e4826aa Peter Zijlstra 2023-03-24  910  	if (pick)
+901af44e4826aa Peter Zijlstra 2023-03-24 @911  		trace_printk("pick: %lx\n", (unsigned long)pick_eevdf(cfs_rq));
+901af44e4826aa Peter Zijlstra 2023-03-24  912  }
+901af44e4826aa Peter Zijlstra 2023-03-24  913  #else
+901af44e4826aa Peter Zijlstra 2023-03-24  914  static inline void validate_cfs_rq(struct cfs_rq *cfs_rq, bool pick) { }
+901af44e4826aa Peter Zijlstra 2023-03-24  915  #endif
+901af44e4826aa Peter Zijlstra 2023-03-24  916  
 
 -- 
 0-DAY CI Kernel Test Service
