@@ -1,130 +1,117 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7317A36B
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 May 2023 04:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C17652
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 May 2023 04:57:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683003374; x=1714539374;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mOG/ThVEDvXx3EoydpG6XTopQpEKF51GBdssKQBe558=;
-  b=Vhiuurbrz9RXlx6WZf8f6Mt0niAT8e3e8T2KHJfHEN7QbHY2ZfG344wb
-   SJIG0WMZatbw/TysgH34ijWcALTCjSrmXYFIPpfKQKMFBoOZ0K2Ldmi6D
-   r0NdXiDn3QO0Y8iBfP3hIfh2t20VLqUZ4z8JPKmya8ussRMLGmPZNxEUD
-   GD5dKjFPnTD3skkHchpHqhbntxWtNtb1tid/0WORhDu10CHBYqbbZZgwZ
-   5qdmGfQ2eSfznz2f5tFPCmz+pGvG0qHmhXCsTCaV6WDBuxTxQ1AMVHBed
-   8g6fAE+JVlkzWz8QZZXEW4Q7SbnoubOutLYVv2Zy0XPc8FFfVpWjIsnr2
+  t=1683003441; x=1714539441;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=UGSCJhDFiuHuZRujrEPjbdpIadTymFQr6L+faaLcuNw=;
+  b=JnHq72o49+3Hv4+3lNmxuENRMsdsCYVlruuhnLdAJiPQDAT8+h2L34m5
+   uXe7ebQRWWnN6xCKtcsdh3nnAAp1QHXno3MTeNVrwe1aIqsEFmlJNpLWt
+   JeDFvlaUQEi5SgxKkglHLFj0iKwb8IMRWG3NkeTPiROLA2EhP0BPePUYg
+   gu3M9FopQ47iaMGgbOf4jOq+CpEOsfc8auRlg31iSQaEY5Gbp8unAksCs
+   3PipDGc8ocKoSROecZeAhoAMtMgbqoU/Z2CUfLz7bp938JqkXXR2OYDw4
+   olU06FVi0OMv1MSjvLYFPviEpsE4r+o95MbgFX+5u6VJ5Mkg+0uNPt33L
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="376366467"
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="411441432"
 X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
-   d="scan'208";a="376366467"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 21:56:13 -0700
+   d="scan'208";a="411441432"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 21:57:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="942304474"
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="785530998"
 X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
-   d="scan'208";a="942304474"
+   d="scan'208";a="785530998"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 01 May 2023 21:56:12 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 01 May 2023 21:57:17 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pti3g-0000qQ-0B;
-	Tue, 02 May 2023 04:56:12 +0000
-Date: Tue, 2 May 2023 12:56:02 +0800
+	id 1pti4e-0000qa-0Q;
+	Tue, 02 May 2023 04:57:12 +0000
+Date: Tue, 2 May 2023 12:56:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/iio/adc/axp20x_adc.c:572:26: sparse: sparse: dubious: x & !y
-Message-ID: <202305021214.Ljg7QiRH-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: sound/soc/intel/avs/boards/rt5682.c:229 avs_create_dapm_routes()
+ warn: potentially one past the end of array 'dr[idx]'
+Message-ID: <202305021252.sP4dSXpJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/iio/adc/axp20x_adc.c:572:26: sparse: sparse: dubious: x & !y"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: "Chen-Yu Tsai" <wens@csie.org>
-CC: Andy Shevchenko <andy.shevchenko@gmail.com>
+TO: Cezary Rojewski <cezary.rojewski@intel.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   865fdb08197e657c59e74a35fa32362b12397f58
-commit: 8957e5344353e9cd3f6b1e3004942e35449fa0e8 iio: adc: axp20x_adc: Minor code cleanups
-date:   7 weeks ago
+commit: 748102786b3ce0bf402c2dc42386cbfaab71ac39 ASoC: Intel: avs: Add rt5682 machine board
+date:   11 months ago
 :::::: branch date: 5 hours ago
-:::::: commit date: 7 weeks ago
-config: powerpc-randconfig-s042-20230501 (https://download.01.org/0day-ci/archive/20230502/202305021214.Ljg7QiRH-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8957e5344353e9cd3f6b1e3004942e35449fa0e8
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 8957e5344353e9cd3f6b1e3004942e35449fa0e8
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/iio/adc/
+:::::: commit date: 11 months ago
+config: x86_64-randconfig-m001-20230501 (https://download.01.org/0day-ci/archive/20230502/202305021252.sP4dSXpJ-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202305021214.Ljg7QiRH-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202305021252.sP4dSXpJ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/adc/axp20x_adc.c:572:26: sparse: sparse: dubious: x & !y
-   drivers/iio/adc/axp20x_adc.c:577:26: sparse: sparse: dubious: x & !y
+New smatch warnings:
+sound/soc/intel/avs/boards/rt5682.c:229 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
 
-vim +572 drivers/iio/adc/axp20x_adc.c
+Old smatch warnings:
+sound/soc/intel/avs/boards/rt5682.c:230 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+sound/soc/intel/avs/boards/rt5682.c:231 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+sound/soc/intel/avs/boards/rt5682.c:231 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
 
-1a3f6755649dd4 Quentin Schulz  2018-01-15  551  
-0e34d5de961d5a Quentin Schulz  2017-04-04  552  static int axp20x_write_raw(struct iio_dev *indio_dev,
-0e34d5de961d5a Quentin Schulz  2017-04-04  553  			    struct iio_chan_spec const *chan, int val, int val2,
-0e34d5de961d5a Quentin Schulz  2017-04-04  554  			    long mask)
-0e34d5de961d5a Quentin Schulz  2017-04-04  555  {
-0e34d5de961d5a Quentin Schulz  2017-04-04  556  	struct axp20x_adc_iio *info = iio_priv(indio_dev);
-8957e5344353e9 Aidan MacDonald 2023-02-17  557  	unsigned int regmask, regval;
-0e34d5de961d5a Quentin Schulz  2017-04-04  558  
-0e34d5de961d5a Quentin Schulz  2017-04-04  559  	/*
-0e34d5de961d5a Quentin Schulz  2017-04-04  560  	 * The AXP20X PMIC allows the user to choose between 0V and 0.7V offsets
-0e34d5de961d5a Quentin Schulz  2017-04-04  561  	 * for (independently) GPIO0 and GPIO1 when in ADC mode.
-0e34d5de961d5a Quentin Schulz  2017-04-04  562  	 */
-0e34d5de961d5a Quentin Schulz  2017-04-04  563  	if (mask != IIO_CHAN_INFO_OFFSET)
-0e34d5de961d5a Quentin Schulz  2017-04-04  564  		return -EINVAL;
-0e34d5de961d5a Quentin Schulz  2017-04-04  565  
-0e34d5de961d5a Quentin Schulz  2017-04-04  566  	if (val != 0 && val != 700000)
-0e34d5de961d5a Quentin Schulz  2017-04-04  567  		return -EINVAL;
-0e34d5de961d5a Quentin Schulz  2017-04-04  568  
-0e34d5de961d5a Quentin Schulz  2017-04-04  569  	switch (chan->channel) {
-0e34d5de961d5a Quentin Schulz  2017-04-04  570  	case AXP20X_GPIO0_V:
-8957e5344353e9 Aidan MacDonald 2023-02-17  571  		regmask = AXP20X_GPIO10_IN_RANGE_GPIO0;
-8957e5344353e9 Aidan MacDonald 2023-02-17 @572  		regval = FIELD_PREP(AXP20X_GPIO10_IN_RANGE_GPIO0, !!val);
-0e34d5de961d5a Quentin Schulz  2017-04-04  573  		break;
-0e34d5de961d5a Quentin Schulz  2017-04-04  574  
-0e34d5de961d5a Quentin Schulz  2017-04-04  575  	case AXP20X_GPIO1_V:
-8957e5344353e9 Aidan MacDonald 2023-02-17  576  		regmask = AXP20X_GPIO10_IN_RANGE_GPIO1;
-8957e5344353e9 Aidan MacDonald 2023-02-17  577  		regval = FIELD_PREP(AXP20X_GPIO10_IN_RANGE_GPIO1, !!val);
-0e34d5de961d5a Quentin Schulz  2017-04-04  578  		break;
-0e34d5de961d5a Quentin Schulz  2017-04-04  579  
-0e34d5de961d5a Quentin Schulz  2017-04-04  580  	default:
-0e34d5de961d5a Quentin Schulz  2017-04-04  581  		return -EINVAL;
-0e34d5de961d5a Quentin Schulz  2017-04-04  582  	}
-0e34d5de961d5a Quentin Schulz  2017-04-04  583  
-8957e5344353e9 Aidan MacDonald 2023-02-17  584  	return regmap_update_bits(info->regmap, AXP20X_GPIO10_IN_RANGE, regmask, regval);
-0e34d5de961d5a Quentin Schulz  2017-04-04  585  }
-0e34d5de961d5a Quentin Schulz  2017-04-04  586  
+vim +229 sound/soc/intel/avs/boards/rt5682.c
+
+748102786b3ce0 Cezary Rojewski 2022-05-11  207  
+748102786b3ce0 Cezary Rojewski 2022-05-11  208  static int avs_create_dapm_routes(struct device *dev, int ssp_port,
+748102786b3ce0 Cezary Rojewski 2022-05-11  209  				  struct snd_soc_dapm_route **routes, int *num_routes)
+748102786b3ce0 Cezary Rojewski 2022-05-11  210  {
+748102786b3ce0 Cezary Rojewski 2022-05-11  211  	struct snd_soc_dapm_route *dr;
+748102786b3ce0 Cezary Rojewski 2022-05-11  212  	const int num_base = ARRAY_SIZE(card_base_routes);
+748102786b3ce0 Cezary Rojewski 2022-05-11  213  	const int num_dr = num_base + 2;
+748102786b3ce0 Cezary Rojewski 2022-05-11  214  	int idx;
+748102786b3ce0 Cezary Rojewski 2022-05-11  215  
+748102786b3ce0 Cezary Rojewski 2022-05-11  216  	dr = devm_kcalloc(dev, num_dr, sizeof(*dr), GFP_KERNEL);
+748102786b3ce0 Cezary Rojewski 2022-05-11  217  	if (!dr)
+748102786b3ce0 Cezary Rojewski 2022-05-11  218  		return -ENOMEM;
+748102786b3ce0 Cezary Rojewski 2022-05-11  219  
+748102786b3ce0 Cezary Rojewski 2022-05-11  220  	memcpy(dr, card_base_routes, num_base * sizeof(*dr));
+748102786b3ce0 Cezary Rojewski 2022-05-11  221  
+748102786b3ce0 Cezary Rojewski 2022-05-11  222  	idx = num_base;
+748102786b3ce0 Cezary Rojewski 2022-05-11  223  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "AIF1 Playback");
+748102786b3ce0 Cezary Rojewski 2022-05-11  224  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Tx", ssp_port);
+748102786b3ce0 Cezary Rojewski 2022-05-11  225  	if (!dr[idx].sink || !dr[idx].source)
+748102786b3ce0 Cezary Rojewski 2022-05-11  226  		return -ENOMEM;
+748102786b3ce0 Cezary Rojewski 2022-05-11  227  
+748102786b3ce0 Cezary Rojewski 2022-05-11  228  	idx++;
+748102786b3ce0 Cezary Rojewski 2022-05-11 @229  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Rx", ssp_port);
+748102786b3ce0 Cezary Rojewski 2022-05-11  230  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "AIF1 Capture");
+748102786b3ce0 Cezary Rojewski 2022-05-11  231  	if (!dr[idx].sink || !dr[idx].source)
+748102786b3ce0 Cezary Rojewski 2022-05-11  232  		return -ENOMEM;
+748102786b3ce0 Cezary Rojewski 2022-05-11  233  
+748102786b3ce0 Cezary Rojewski 2022-05-11  234  	*routes = dr;
+748102786b3ce0 Cezary Rojewski 2022-05-11  235  	*num_routes = num_dr;
+748102786b3ce0 Cezary Rojewski 2022-05-11  236  
+748102786b3ce0 Cezary Rojewski 2022-05-11  237  	return 0;
+748102786b3ce0 Cezary Rojewski 2022-05-11  238  }
+748102786b3ce0 Cezary Rojewski 2022-05-11  239  
 
 -- 
 0-DAY CI Kernel Test Service
