@@ -1,130 +1,111 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39AE881E
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 May 2023 09:12:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683018742; x=1714554742;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=M838INnTabRNH4eBdtfKZoF/UIpon/keKYdaEdDxC6s=;
-  b=PtLnQAiFTWNDv5KqAOPEk53/+GJ+eW0akHORiMBdYHpFXDC2lqa/Z5jd
-   32q8E+1aW+2ZAeMtpAfkourOCtN+CuiDxk+WkGzTMJuRqwF8mpP4AUf2R
-   mY4H8xmfYSYeV6iTO7A663V/A9Z5lRpWFCPkcIi/LRf/HgIgkbA07aEY8
-   mAsuc2pP3miDRJffVGdkhAPF4ZZW0XayNqO0tv1Tbe4e+rbMMhf10rWaK
-   DOmH+B5815AmUB2TS5aFlM/z9/TnywGc/nDB88pDHCFn+9lt4Bs5qiOwZ
-   wy2Jr+Q8lXdP+/yvmbur69bzBprp7VwjuXgLQ0Hldrzn3BWhf/4QWtysw
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="434668206"
-X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
-   d="scan'208";a="434668206"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2023 02:12:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="698893866"
-X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
-   d="scan'208";a="698893866"
-Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 02 May 2023 02:12:20 -0700
-Received: from kbuild by e3434d64424d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ptm3X-0000xc-1F;
-	Tue, 02 May 2023 09:12:19 +0000
-Date: Tue, 2 May 2023 17:11:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/intel/avs/boards/ssm4567.c:184 avs_create_dapm_routes()
- warn: potentially one past the end of array 'dr[idx]'
-Message-ID: <202305021738.reRLw0Se-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA6C1106
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 May 2023 11:19:15 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3f19afc4f60so21743155e9.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 02 May 2023 04:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683026353; x=1685618353;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TMjdo4O02u+tpFEhZP9Wls75XLkok8xEL1r9/5OuF+Q=;
+        b=WBdUYPakvTnEh67swv1MqMGVbXY2WvVli9Y51IR2me03hlxW1R+L2q1da6SltViBtZ
+         ySz9yARFiAMriFbyyEbe2/wPoR/ngj+q8nrzRnE0d2C+XY9dWSCHHdKJyzUE4/PFo5HF
+         16thIl5KC1DvL0OSuXE/W2GxYGuqMxFY6Z2sOccYBWHZYyF87Smsl1hw46M4F/AdXAt1
+         YftSM5S/ybrujQfnRbbCXKM8SCIcNrhoNfQU3T/4yrX4LBIG0iIsPjEiozah2ENh6Wbk
+         QDy+O8Z5YlM6EW29GM0qd/nmzck696MqrG8zmKaY4ODjCjpTpZDogYeAd9D8OBmGjVU2
+         Kvvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683026353; x=1685618353;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TMjdo4O02u+tpFEhZP9Wls75XLkok8xEL1r9/5OuF+Q=;
+        b=a+r6gOUcDmRnXln7Htfx73fJpAJioXdE1/OaCLs5rDRwnXcTqNyjGOOopfUg0COycI
+         DYf3w5dxHmppv/Uh9pbDL33g2mFDT9/kzVMGdXoGNrViTtXDrdxy0hfTc2/hQOMA9Ohz
+         mL1HsYNNIlTTW5eJ6PAU9tKi0xC4hQXvj9W0HoHELvIV9CSPe5bZEQuJeud5/tzYgnQL
+         ie0aynhVgehV/OW5LwKWm8BwYwHn4fv6nFN5UPhU30wwUd830wX0+x7jDRCr/FfhMwBH
+         e88VTFdgevqM3lTI+V2vlDPAsbWiJA8UjmYPBB3EqC9YKEZmMXMeHctkl97Ot+IXX9fP
+         xUxQ==
+X-Gm-Message-State: AC+VfDycn34WGaHG0LvMOv6JKAFQ9s8KB1l8K0N9rhZ0dVHNM2XTnRxu
+	5vGvZzKNPgCVoUdzWPjciHgPAY7etQE+/IENlck=
+X-Google-Smtp-Source: ACHHUZ6gWRtAX9s096mOp1U4DiSn5ZXBPTBKwOl+m0vTot2sXSiXUTpMGXlsbfXhGZCP0lSYDpA6/g==
+X-Received: by 2002:a1c:7317:0:b0:3f1:89a2:e705 with SMTP id d23-20020a1c7317000000b003f189a2e705mr11654626wmb.0.1683026352943;
+        Tue, 02 May 2023 04:19:12 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id t15-20020adfe44f000000b002f00793bd7asm30572021wrm.27.2023.05.02.04.19.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 May 2023 04:19:11 -0700 (PDT)
+Date: Tue, 2 May 2023 14:19:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: drivers/gpu/drm/udl/udl_main.c:259 udl_get_urb_locked() warn: can
+ 'unode' even be NULL?
+Message-ID: <e35cd818-d2f7-4d5e-abf8-b3448ca224aa@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Cezary Rojewski <cezary.rojewski@intel.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   865fdb08197e657c59e74a35fa32362b12397f58
-commit: 69ea14efe99b533652255b07a9736a9856f50ea5 ASoC: Intel: avs: Add ssm4567 machine board
-date:   11 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 11 months ago
-config: x86_64-randconfig-m001-20230501 (https://download.01.org/0day-ci/archive/20230502/202305021738.reRLw0Se-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+head:   2caeeb9d4a1bccd923b7918427f9e9ef7151ddd8
+commit: c5c354a3a4728045e1342166394c615d75d45377 drm/udl: Fix inconsistent urbs.count value during udl_free_urb_list()
+config: parisc-randconfig-m031-20230421 (https://download.01.org/0day-ci/archive/20230423/202304230801.ncoG1XDr-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305021738.reRLw0Se-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304230801.ncoG1XDr-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/intel/avs/boards/ssm4567.c:184 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+smatch warnings:
+drivers/gpu/drm/udl/udl_main.c:259 udl_get_urb_locked() warn: can 'unode' even be NULL?
 
-Old smatch warnings:
-sound/soc/intel/avs/boards/ssm4567.c:185 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
-sound/soc/intel/avs/boards/ssm4567.c:186 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
-sound/soc/intel/avs/boards/ssm4567.c:186 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+vim +/unode +259 drivers/gpu/drm/udl/udl_main.c
 
-vim +184 sound/soc/intel/avs/boards/ssm4567.c
+c5c354a3a47280 Takashi Iwai 2022-09-08  236  static struct urb *udl_get_urb_locked(struct udl_device *udl, long timeout)
+5320918b9a8786 Dave Airlie  2010-12-15  237  {
+c5c354a3a47280 Takashi Iwai 2022-09-08  238  	struct urb_node *unode;
+5320918b9a8786 Dave Airlie  2010-12-15  239  
+c5c354a3a47280 Takashi Iwai 2022-09-08  240  	assert_spin_locked(&udl->urbs.lock);
+5320918b9a8786 Dave Airlie  2010-12-15  241  
+acd45c56790a3b Takashi Iwai 2022-08-04  242  	/* Wait for an in-flight buffer to complete and get re-queued */
+acd45c56790a3b Takashi Iwai 2022-08-04  243  	if (!wait_event_lock_irq_timeout(udl->urbs.sleep,
+c5c354a3a47280 Takashi Iwai 2022-09-08  244  					 !udl->urbs.count ||
+acd45c56790a3b Takashi Iwai 2022-08-04  245  					 !list_empty(&udl->urbs.list),
+acd45c56790a3b Takashi Iwai 2022-08-04  246  					 udl->urbs.lock, timeout)) {
+acd45c56790a3b Takashi Iwai 2022-08-04  247  		DRM_INFO("wait for urb interrupted: available: %d\n",
+acd45c56790a3b Takashi Iwai 2022-08-04  248  			 udl->urbs.available);
+c5c354a3a47280 Takashi Iwai 2022-09-08  249  		return NULL;
+acd45c56790a3b Takashi Iwai 2022-08-04  250  	}
+5320918b9a8786 Dave Airlie  2010-12-15  251  
+c5c354a3a47280 Takashi Iwai 2022-09-08  252  	if (!udl->urbs.count)
+c5c354a3a47280 Takashi Iwai 2022-09-08  253  		return NULL;
+c5c354a3a47280 Takashi Iwai 2022-09-08  254  
+acd45c56790a3b Takashi Iwai 2022-08-04  255  	unode = list_first_entry(&udl->urbs.list, struct urb_node, entry);
 
-69ea14efe99b53 Cezary Rojewski 2022-05-11  162  
-69ea14efe99b53 Cezary Rojewski 2022-05-11  163  static int avs_create_dapm_routes(struct device *dev, int ssp_port,
-69ea14efe99b53 Cezary Rojewski 2022-05-11  164  				  struct snd_soc_dapm_route **routes, int *num_routes)
-69ea14efe99b53 Cezary Rojewski 2022-05-11  165  {
-69ea14efe99b53 Cezary Rojewski 2022-05-11  166  	struct snd_soc_dapm_route *dr;
-69ea14efe99b53 Cezary Rojewski 2022-05-11  167  	const int num_base = ARRAY_SIZE(card_base_routes);
-69ea14efe99b53 Cezary Rojewski 2022-05-11  168  	const int num_dr = num_base + 4;
-69ea14efe99b53 Cezary Rojewski 2022-05-11  169  	int idx;
-69ea14efe99b53 Cezary Rojewski 2022-05-11  170  
-69ea14efe99b53 Cezary Rojewski 2022-05-11  171  	dr = devm_kcalloc(dev, num_dr, sizeof(*dr), GFP_KERNEL);
-69ea14efe99b53 Cezary Rojewski 2022-05-11  172  	if (!dr)
-69ea14efe99b53 Cezary Rojewski 2022-05-11  173  		return -ENOMEM;
-69ea14efe99b53 Cezary Rojewski 2022-05-11  174  
-69ea14efe99b53 Cezary Rojewski 2022-05-11  175  	memcpy(dr, card_base_routes, num_base * sizeof(*dr));
-69ea14efe99b53 Cezary Rojewski 2022-05-11  176  
-69ea14efe99b53 Cezary Rojewski 2022-05-11  177  	idx = num_base;
-69ea14efe99b53 Cezary Rojewski 2022-05-11  178  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "Left Playback");
-69ea14efe99b53 Cezary Rojewski 2022-05-11  179  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Tx", ssp_port);
-69ea14efe99b53 Cezary Rojewski 2022-05-11  180  	if (!dr[idx].sink || !dr[idx].source)
-69ea14efe99b53 Cezary Rojewski 2022-05-11  181  		return -ENOMEM;
-69ea14efe99b53 Cezary Rojewski 2022-05-11  182  
-69ea14efe99b53 Cezary Rojewski 2022-05-11  183  	idx++;
-69ea14efe99b53 Cezary Rojewski 2022-05-11 @184  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "Right Playback");
-69ea14efe99b53 Cezary Rojewski 2022-05-11  185  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Tx", ssp_port);
-69ea14efe99b53 Cezary Rojewski 2022-05-11  186  	if (!dr[idx].sink || !dr[idx].source)
-69ea14efe99b53 Cezary Rojewski 2022-05-11  187  		return -ENOMEM;
-69ea14efe99b53 Cezary Rojewski 2022-05-11  188  
-69ea14efe99b53 Cezary Rojewski 2022-05-11  189  	idx++;
-69ea14efe99b53 Cezary Rojewski 2022-05-11  190  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Rx", ssp_port);
-69ea14efe99b53 Cezary Rojewski 2022-05-11  191  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "Left Capture Sense");
-69ea14efe99b53 Cezary Rojewski 2022-05-11  192  	if (!dr[idx].sink || !dr[idx].source)
-69ea14efe99b53 Cezary Rojewski 2022-05-11  193  		return -ENOMEM;
-69ea14efe99b53 Cezary Rojewski 2022-05-11  194  
-69ea14efe99b53 Cezary Rojewski 2022-05-11  195  	idx++;
-69ea14efe99b53 Cezary Rojewski 2022-05-11  196  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Rx", ssp_port);
-69ea14efe99b53 Cezary Rojewski 2022-05-11  197  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "Right Capture Sense");
-69ea14efe99b53 Cezary Rojewski 2022-05-11  198  	if (!dr[idx].sink || !dr[idx].source)
-69ea14efe99b53 Cezary Rojewski 2022-05-11  199  		return -ENOMEM;
-69ea14efe99b53 Cezary Rojewski 2022-05-11  200  
-69ea14efe99b53 Cezary Rojewski 2022-05-11  201  	*routes = dr;
-69ea14efe99b53 Cezary Rojewski 2022-05-11  202  	*num_routes = num_dr;
-69ea14efe99b53 Cezary Rojewski 2022-05-11  203  
-69ea14efe99b53 Cezary Rojewski 2022-05-11  204  	return 0;
-69ea14efe99b53 Cezary Rojewski 2022-05-11  205  }
-69ea14efe99b53 Cezary Rojewski 2022-05-11  206  
+Use list_first_entry_or_null() if this list can be empty.
+
+ed9605a66b62f2 Takashi Iwai 2022-09-08  256  	list_del_init(&unode->entry);
+                                                               ^^^^^^^^^^^^
+dereference.
+
+5320918b9a8786 Dave Airlie  2010-12-15  257  	udl->urbs.available--;
+5320918b9a8786 Dave Airlie  2010-12-15  258  
+acd45c56790a3b Takashi Iwai 2022-08-04 @259  	return unode ? unode->urb : NULL;
+
+Returns from list_first_entry() should never be checked for NULL.
+
+5320918b9a8786 Dave Airlie  2010-12-15  260  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
