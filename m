@@ -1,42 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACD0DF60
-	for <oe-kbuild@lists.linux.dev>; Wed,  3 May 2023 23:33:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FD7DF6B
+	for <oe-kbuild@lists.linux.dev>; Wed,  3 May 2023 23:33:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683156820; x=1714692820;
+  t=1683156821; x=1714692821;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=USXB0lpJkOzi3u5Uh+fR1wL5WDuyF2wk+rJ8JfChTUA=;
-  b=OG7jjZukaY8qOvEe34G0KrtY/9RK2nygzCkh+VOhvEK+K1AgLz86//nt
-   C+ukcIkVB7R7juuE+qnH2gf7LwhaN1lP4uk8hGlS5+dP7sMpI0Vd4r5Ef
-   vzv9MvIMxgiD2KckJocC9tIzFjN7t+mlreKR0mxGrZzhs3DLrFjtyoq+E
-   tPgsAVUwtvlx7s/Yv7XzMjZS/x++lVtWqIKhdqABoaZQZqTkC+7b5UtzC
-   jsGKop078sF9jpJMa9nE0wxv5Dz38mpw8dwLFj6bp2aRnMfvmuobaqgxF
-   irJwldaIToAyKTrl7XfQGdo/BcPS6ZvGbU50WJWj15AOrsSY/qicyt9Ko
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="350874056"
+  bh=c57Lj4Ngad35Tcx+WXNfSGtWtND5OLF2IrEztVd8l7k=;
+  b=Dxrv8eFTnksDtA2MeslNVgDwyODNXVvUncwnYAnl8ZcN6v9OZm6hahj/
+   uYA0FHzwB3KnPNKsesNHwGirail9O57BQy2r9dUfEMPwEvflPfhvwfGa7
+   ha1NycoGXdIzcu7zIgSKkN2mtUeMyaKyLFitVPNtJfrkUFaJ0/cqDikAc
+   WbtszsuXlFtMhQTFtJ4+zNJ1cvVCKXMqJmnyFAJKf9CyRhYHdEfmkBVOG
+   xMWc54desFEQ15jEXKFh5NH8icH8KnLTCaodQYzeWiWvCbnP4Jg3zuoCi
+   KMdIrEIWsDq1HVl9Toq1HHE8JyxIIGDMf2HV/t5Qx4JCUzurIv/hHqvIX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="414254011"
 X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; 
-   d="scan'208";a="350874056"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 16:33:39 -0700
+   d="scan'208";a="414254011"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 16:33:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="647105561"
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="729559455"
 X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; 
-   d="scan'208";a="647105561"
+   d="scan'208";a="729559455"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 03 May 2023 16:33:38 -0700
+  by orsmga001.jf.intel.com with ESMTP; 03 May 2023 16:33:38 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puLyb-0002MK-14;
+	id 1puLyb-0002MP-1J;
 	Wed, 03 May 2023 23:33:37 +0000
-Date: Thu, 4 May 2023 07:32:38 +0800
+Date: Thu, 4 May 2023 07:32:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/mellanox/mlx5/core/esw/acl/ingress_lgcy.c:255
- esw_acl_ingress_lgcy_setup() warn: missing error code 'err'
-Message-ID: <202305040725.geY5XSdN-lkp@intel.com>
+Subject: drivers/scsi/mpi3mr/mpi3mr_fw.c:1413 mpi3mr_issue_reset() error:
+ uninitialized symbol 'host_diagnostic'.
+Message-ID: <202305040735.8kNJSKlE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,179 +49,165 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Moshe Shemesh <moshe@nvidia.com>
-CC: Saeed Mahameed <saeedm@nvidia.com>
-CC: Mark Bloch <mbloch@nvidia.com>
+TO: Masahiro Yamada <masahiroy@kernel.org>
+
+Hi Masahiro,
+
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   fa31fc82fb775445c176e576304c4098222f47f2
-commit: 1f0ae22ab470946143485a02cc1cd7e05c0f9120 net/mlx5: E-Switch, properly handle ingress tagged packets on VST
-date:   4 months ago
+commit: 3753af778dd9d0d5199d6a7d01b0ead33135d095 kbuild: fix single directory build
+date:   7 months ago
 :::::: branch date: 4 hours ago
-:::::: commit date: 4 months ago
-config: openrisc-randconfig-m031-20230430 (https://download.01.org/0day-ci/archive/20230504/202305040725.geY5XSdN-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+:::::: commit date: 7 months ago
+config: arm64-randconfig-m041-20230428 (https://download.01.org/0day-ci/archive/20230504/202305040735.8kNJSKlE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305040725.geY5XSdN-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305040735.8kNJSKlE-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/esw/acl/ingress_lgcy.c:255 esw_acl_ingress_lgcy_setup() warn: missing error code 'err'
+New smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_fw.c:1413 mpi3mr_issue_reset() error: uninitialized symbol 'host_diagnostic'.
+drivers/scsi/mpi3mr/mpi3mr_fw.c:1919 mpi3mr_create_op_reply_q() error: we previously assumed 'op_reply_q->q_segments' could be null (see line 1872)
+drivers/scsi/mpi3mr/mpi3mr_fw.c:2027 mpi3mr_create_op_req_q() error: we previously assumed 'op_req_q->q_segments' could be null (see line 2000)
+drivers/scsi/mpi3mr/mpi3mr_app.c:1337 mpi3mr_bsg_process_mpt_cmds() warn: potentially one past the end of array 'drv_bufs[mpirep_offset]'
+drivers/scsi/mpi3mr/mpi3mr_app.c:1337 mpi3mr_bsg_process_mpt_cmds() warn: potentially one past the end of array 'drv_bufs[mpirep_offset]'
+drivers/scsi/mpi3mr/mpi3mr_app.c:1367 mpi3mr_bsg_process_mpt_cmds() warn: potentially one past the end of array 'drv_bufs[erb_offset]'
+drivers/scsi/mpi3mr/mpi3mr_transport.c:2063 mpi3mr_expander_add() warn: returning -1 instead of -ENOMEM is sloppy
 
-vim +/err +255 drivers/net/ethernet/mellanox/mlx5/core/esw/acl/ingress_lgcy.c
+Old smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_app.c:1338 mpi3mr_bsg_process_mpt_cmds() warn: potentially one past the end of array 'drv_bufs[mpirep_offset]'
 
-07bab9502641df Vu Pham       2020-03-27  138  
-07bab9502641df Vu Pham       2020-03-27  139  int esw_acl_ingress_lgcy_setup(struct mlx5_eswitch *esw,
-07bab9502641df Vu Pham       2020-03-27  140  			       struct mlx5_vport *vport)
-07bab9502641df Vu Pham       2020-03-27  141  {
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  142  	bool vst_mode_steering = esw_vst_mode_is_steering(esw);
-07bab9502641df Vu Pham       2020-03-27  143  	struct mlx5_flow_destination drop_ctr_dst = {};
-07bab9502641df Vu Pham       2020-03-27  144  	struct mlx5_flow_destination *dst = NULL;
-07bab9502641df Vu Pham       2020-03-27  145  	struct mlx5_flow_act flow_act = {};
-07bab9502641df Vu Pham       2020-03-27  146  	struct mlx5_flow_spec *spec = NULL;
-07bab9502641df Vu Pham       2020-03-27  147  	struct mlx5_fc *counter = NULL;
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  148  	bool vst_check_cvlan = false;
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  149  	bool vst_push_cvlan = false;
-07bab9502641df Vu Pham       2020-03-27  150  	/* The ingress acl table contains 4 groups
-07bab9502641df Vu Pham       2020-03-27  151  	 * (2 active rules at the same time -
-07bab9502641df Vu Pham       2020-03-27  152  	 *      1 allow rule from one of the first 3 groups.
-07bab9502641df Vu Pham       2020-03-27  153  	 *      1 drop rule from the last group):
-07bab9502641df Vu Pham       2020-03-27  154  	 * 1)Allow untagged traffic with smac=original mac.
-07bab9502641df Vu Pham       2020-03-27  155  	 * 2)Allow untagged traffic.
-07bab9502641df Vu Pham       2020-03-27  156  	 * 3)Allow traffic with smac=original mac.
-07bab9502641df Vu Pham       2020-03-27  157  	 * 4)Drop all other traffic.
-07bab9502641df Vu Pham       2020-03-27  158  	 */
-07bab9502641df Vu Pham       2020-03-27  159  	int table_size = 4;
-07bab9502641df Vu Pham       2020-03-27  160  	int dest_num = 0;
-07bab9502641df Vu Pham       2020-03-27  161  	int err = 0;
-07bab9502641df Vu Pham       2020-03-27  162  	u8 *smac_v;
-07bab9502641df Vu Pham       2020-03-27  163  
-07bab9502641df Vu Pham       2020-03-27  164  	esw_acl_ingress_lgcy_rules_destroy(vport);
-07bab9502641df Vu Pham       2020-03-27  165  
-a586775f83bd72 Moshe Shemesh 2021-09-23  166  	if (vport->ingress.legacy.drop_counter) {
-a586775f83bd72 Moshe Shemesh 2021-09-23  167  		counter = vport->ingress.legacy.drop_counter;
-a586775f83bd72 Moshe Shemesh 2021-09-23  168  	} else if (MLX5_CAP_ESW_INGRESS_ACL(esw->dev, flow_counter)) {
-07bab9502641df Vu Pham       2020-03-27  169  		counter = mlx5_fc_create(esw->dev, false);
-09a9297574cb10 Dan Carpenter 2020-06-03  170  		if (IS_ERR(counter)) {
-07bab9502641df Vu Pham       2020-03-27  171  			esw_warn(esw->dev,
-07bab9502641df Vu Pham       2020-03-27  172  				 "vport[%d] configure ingress drop rule counter failed\n",
-07bab9502641df Vu Pham       2020-03-27  173  				 vport->vport);
-09a9297574cb10 Dan Carpenter 2020-06-03  174  			counter = NULL;
-09a9297574cb10 Dan Carpenter 2020-06-03  175  		}
-07bab9502641df Vu Pham       2020-03-27  176  		vport->ingress.legacy.drop_counter = counter;
-07bab9502641df Vu Pham       2020-03-27  177  	}
-07bab9502641df Vu Pham       2020-03-27  178  
-07bab9502641df Vu Pham       2020-03-27  179  	if (!vport->info.vlan && !vport->info.qos && !vport->info.spoofchk) {
-07bab9502641df Vu Pham       2020-03-27  180  		esw_acl_ingress_lgcy_cleanup(esw, vport);
-07bab9502641df Vu Pham       2020-03-27  181  		return 0;
-07bab9502641df Vu Pham       2020-03-27  182  	}
-07bab9502641df Vu Pham       2020-03-27  183  
-07bab9502641df Vu Pham       2020-03-27  184  	if (!vport->ingress.acl) {
-47dd7e609f6957 Parav Pandit  2021-03-19  185  		vport->ingress.acl = esw_acl_table_create(esw, vport,
-07bab9502641df Vu Pham       2020-03-27  186  							  MLX5_FLOW_NAMESPACE_ESW_INGRESS,
-07bab9502641df Vu Pham       2020-03-27  187  							  table_size);
-0c4accc41cb56e YueHaibing    2020-12-01  188  		if (IS_ERR(vport->ingress.acl)) {
-07bab9502641df Vu Pham       2020-03-27  189  			err = PTR_ERR(vport->ingress.acl);
-07bab9502641df Vu Pham       2020-03-27  190  			vport->ingress.acl = NULL;
-07bab9502641df Vu Pham       2020-03-27  191  			return err;
-07bab9502641df Vu Pham       2020-03-27  192  		}
-07bab9502641df Vu Pham       2020-03-27  193  
-07bab9502641df Vu Pham       2020-03-27  194  		err = esw_acl_ingress_lgcy_groups_create(esw, vport);
-07bab9502641df Vu Pham       2020-03-27  195  		if (err)
-07bab9502641df Vu Pham       2020-03-27  196  			goto out;
-07bab9502641df Vu Pham       2020-03-27  197  	}
-07bab9502641df Vu Pham       2020-03-27  198  
-07bab9502641df Vu Pham       2020-03-27  199  	esw_debug(esw->dev,
-07bab9502641df Vu Pham       2020-03-27  200  		  "vport[%d] configure ingress rules, vlan(%d) qos(%d)\n",
-07bab9502641df Vu Pham       2020-03-27  201  		  vport->vport, vport->info.vlan, vport->info.qos);
-07bab9502641df Vu Pham       2020-03-27  202  
-07bab9502641df Vu Pham       2020-03-27  203  	spec = kvzalloc(sizeof(*spec), GFP_KERNEL);
-07bab9502641df Vu Pham       2020-03-27  204  	if (!spec) {
-07bab9502641df Vu Pham       2020-03-27  205  		err = -ENOMEM;
-07bab9502641df Vu Pham       2020-03-27  206  		goto out;
-07bab9502641df Vu Pham       2020-03-27  207  	}
-07bab9502641df Vu Pham       2020-03-27  208  
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  209  	if ((vport->info.vlan || vport->info.qos)) {
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  210  		if (vst_mode_steering)
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  211  			vst_push_cvlan = true;
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  212  		else if (!MLX5_CAP_ESW(esw->dev, vport_cvlan_insert_always))
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  213  			vst_check_cvlan = true;
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  214  	}
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  215  
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  216  	if (vst_check_cvlan || vport->info.spoofchk)
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  217  		spec->match_criteria_enable = MLX5_MATCH_OUTER_HEADERS;
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  218  
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  219  	/* Create ingress allow rule */
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  220  	flow_act.action = MLX5_FLOW_CONTEXT_ACTION_ALLOW;
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  221  	if (vst_push_cvlan) {
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  222  		flow_act.action |= MLX5_FLOW_CONTEXT_ACTION_VLAN_PUSH;
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  223  		flow_act.vlan[0].prio = vport->info.qos;
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  224  		flow_act.vlan[0].vid = vport->info.vlan;
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  225  		flow_act.vlan[0].ethtype = ETH_P_8021Q;
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  226  	}
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  227  
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  228  	if (vst_check_cvlan)
-07bab9502641df Vu Pham       2020-03-27  229  		MLX5_SET_TO_ONES(fte_match_param, spec->match_criteria,
-07bab9502641df Vu Pham       2020-03-27  230  				 outer_headers.cvlan_tag);
-07bab9502641df Vu Pham       2020-03-27  231  
-07bab9502641df Vu Pham       2020-03-27  232  	if (vport->info.spoofchk) {
-07bab9502641df Vu Pham       2020-03-27  233  		MLX5_SET_TO_ONES(fte_match_param, spec->match_criteria,
-07bab9502641df Vu Pham       2020-03-27  234  				 outer_headers.smac_47_16);
-07bab9502641df Vu Pham       2020-03-27  235  		MLX5_SET_TO_ONES(fte_match_param, spec->match_criteria,
-07bab9502641df Vu Pham       2020-03-27  236  				 outer_headers.smac_15_0);
-07bab9502641df Vu Pham       2020-03-27  237  		smac_v = MLX5_ADDR_OF(fte_match_param,
-07bab9502641df Vu Pham       2020-03-27  238  				      spec->match_value,
-07bab9502641df Vu Pham       2020-03-27  239  				      outer_headers.smac_47_16);
-07bab9502641df Vu Pham       2020-03-27  240  		ether_addr_copy(smac_v, vport->info.mac);
-07bab9502641df Vu Pham       2020-03-27  241  	}
-07bab9502641df Vu Pham       2020-03-27  242  
-07bab9502641df Vu Pham       2020-03-27  243  	vport->ingress.allow_rule = mlx5_add_flow_rules(vport->ingress.acl, spec,
-07bab9502641df Vu Pham       2020-03-27  244  							&flow_act, NULL, 0);
-07bab9502641df Vu Pham       2020-03-27  245  	if (IS_ERR(vport->ingress.allow_rule)) {
-07bab9502641df Vu Pham       2020-03-27  246  		err = PTR_ERR(vport->ingress.allow_rule);
-07bab9502641df Vu Pham       2020-03-27  247  		esw_warn(esw->dev,
-07bab9502641df Vu Pham       2020-03-27  248  			 "vport[%d] configure ingress allow rule, err(%d)\n",
-07bab9502641df Vu Pham       2020-03-27  249  			 vport->vport, err);
-07bab9502641df Vu Pham       2020-03-27  250  		vport->ingress.allow_rule = NULL;
-07bab9502641df Vu Pham       2020-03-27  251  		goto out;
-07bab9502641df Vu Pham       2020-03-27  252  	}
-07bab9502641df Vu Pham       2020-03-27  253  
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  254  	if (!vst_check_cvlan && !vport->info.spoofchk)
-1f0ae22ab47094 Moshe Shemesh 2022-12-12 @255  		goto out;
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  256  
-07bab9502641df Vu Pham       2020-03-27  257  	memset(&flow_act, 0, sizeof(flow_act));
-07bab9502641df Vu Pham       2020-03-27  258  	flow_act.action = MLX5_FLOW_CONTEXT_ACTION_DROP;
-07bab9502641df Vu Pham       2020-03-27  259  	/* Attach drop flow counter */
-07bab9502641df Vu Pham       2020-03-27  260  	if (counter) {
-07bab9502641df Vu Pham       2020-03-27  261  		flow_act.action |= MLX5_FLOW_CONTEXT_ACTION_COUNT;
-07bab9502641df Vu Pham       2020-03-27  262  		drop_ctr_dst.type = MLX5_FLOW_DESTINATION_TYPE_COUNTER;
-07bab9502641df Vu Pham       2020-03-27  263  		drop_ctr_dst.counter_id = mlx5_fc_id(counter);
-07bab9502641df Vu Pham       2020-03-27  264  		dst = &drop_ctr_dst;
-07bab9502641df Vu Pham       2020-03-27  265  		dest_num++;
-07bab9502641df Vu Pham       2020-03-27  266  	}
-07bab9502641df Vu Pham       2020-03-27  267  	vport->ingress.legacy.drop_rule =
-07bab9502641df Vu Pham       2020-03-27  268  		mlx5_add_flow_rules(vport->ingress.acl, NULL,
-07bab9502641df Vu Pham       2020-03-27  269  				    &flow_act, dst, dest_num);
-07bab9502641df Vu Pham       2020-03-27  270  	if (IS_ERR(vport->ingress.legacy.drop_rule)) {
-07bab9502641df Vu Pham       2020-03-27  271  		err = PTR_ERR(vport->ingress.legacy.drop_rule);
-07bab9502641df Vu Pham       2020-03-27  272  		esw_warn(esw->dev,
-07bab9502641df Vu Pham       2020-03-27  273  			 "vport[%d] configure ingress drop rule, err(%d)\n",
-07bab9502641df Vu Pham       2020-03-27  274  			 vport->vport, err);
-07bab9502641df Vu Pham       2020-03-27  275  		vport->ingress.legacy.drop_rule = NULL;
-07bab9502641df Vu Pham       2020-03-27  276  		goto out;
-07bab9502641df Vu Pham       2020-03-27  277  	}
-07bab9502641df Vu Pham       2020-03-27  278  	kvfree(spec);
-07bab9502641df Vu Pham       2020-03-27  279  	return 0;
-07bab9502641df Vu Pham       2020-03-27  280  
-07bab9502641df Vu Pham       2020-03-27  281  out:
-1f0ae22ab47094 Moshe Shemesh 2022-12-12  282  	if (err)
-07bab9502641df Vu Pham       2020-03-27  283  		esw_acl_ingress_lgcy_cleanup(esw, vport);
-07bab9502641df Vu Pham       2020-03-27  284  	kvfree(spec);
-07bab9502641df Vu Pham       2020-03-27  285  	return err;
-07bab9502641df Vu Pham       2020-03-27  286  }
-07bab9502641df Vu Pham       2020-03-27  287  
+vim +/host_diagnostic +1413 drivers/scsi/mpi3mr/mpi3mr_fw.c
+
+824a156633dfdb Kashyap Desai   2021-05-20  1371  
+824a156633dfdb Kashyap Desai   2021-05-20  1372  /**
+824a156633dfdb Kashyap Desai   2021-05-20  1373   * mpi3mr_issue_reset - Issue reset to the controller
+824a156633dfdb Kashyap Desai   2021-05-20  1374   * @mrioc: Adapter reference
+824a156633dfdb Kashyap Desai   2021-05-20  1375   * @reset_type: Reset type
+824a156633dfdb Kashyap Desai   2021-05-20  1376   * @reset_reason: Reset reason code
+824a156633dfdb Kashyap Desai   2021-05-20  1377   *
+f061178e076210 Kashyap Desai   2021-05-20  1378   * Unlock the host diagnostic registers and write the specific
+f061178e076210 Kashyap Desai   2021-05-20  1379   * reset type to that, wait for reset acknowledgment from the
+f061178e076210 Kashyap Desai   2021-05-20  1380   * controller, if the reset is not successful retry for the
+f061178e076210 Kashyap Desai   2021-05-20  1381   * predefined number of times.
+824a156633dfdb Kashyap Desai   2021-05-20  1382   *
+824a156633dfdb Kashyap Desai   2021-05-20  1383   * Return: 0 on success, non-zero on failure.
+824a156633dfdb Kashyap Desai   2021-05-20  1384   */
+824a156633dfdb Kashyap Desai   2021-05-20  1385  static int mpi3mr_issue_reset(struct mpi3mr_ioc *mrioc, u16 reset_type,
+824a156633dfdb Kashyap Desai   2021-05-20  1386  	u32 reset_reason)
+824a156633dfdb Kashyap Desai   2021-05-20  1387  {
+f061178e076210 Kashyap Desai   2021-05-20  1388  	int retval = -1;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1389  	u8 unlock_retry_count = 0;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1390  	u32 host_diagnostic, ioc_status, ioc_config;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1391  	u32 timeout = MPI3MR_RESET_ACK_TIMEOUT * 10;
+f061178e076210 Kashyap Desai   2021-05-20  1392  
+f061178e076210 Kashyap Desai   2021-05-20  1393  	if ((reset_type != MPI3_SYSIF_HOST_DIAG_RESET_ACTION_SOFT_RESET) &&
+f061178e076210 Kashyap Desai   2021-05-20  1394  	    (reset_type != MPI3_SYSIF_HOST_DIAG_RESET_ACTION_DIAG_FAULT))
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1395  		return retval;
+f061178e076210 Kashyap Desai   2021-05-20  1396  	if (mrioc->unrecoverable)
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1397  		return retval;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1398  	if (reset_reason == MPI3MR_RESET_FROM_FIRMWARE) {
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1399  		retval = 0;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1400  		return retval;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1401  	}
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1402  
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1403  	ioc_info(mrioc, "%s reset due to %s(0x%x)\n",
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1404  	    mpi3mr_reset_type_name(reset_type),
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1405  	    mpi3mr_reset_rc_name(reset_reason), reset_reason);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1406  
+f061178e076210 Kashyap Desai   2021-05-20  1407  	mpi3mr_clear_reset_history(mrioc);
+f061178e076210 Kashyap Desai   2021-05-20  1408  	do {
+f061178e076210 Kashyap Desai   2021-05-20  1409  		ioc_info(mrioc,
+f061178e076210 Kashyap Desai   2021-05-20  1410  		    "Write magic sequence to unlock host diag register (retry=%d)\n",
+f061178e076210 Kashyap Desai   2021-05-20  1411  		    ++unlock_retry_count);
+f061178e076210 Kashyap Desai   2021-05-20  1412  		if (unlock_retry_count >= MPI3MR_HOSTDIAG_UNLOCK_RETRY_COUNT) {
+b64845a7d4039a Sreekanth Reddy 2021-12-20 @1413  			ioc_err(mrioc,
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1414  			    "%s reset failed due to unlock failure, host_diagnostic(0x%08x)\n",
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1415  			    mpi3mr_reset_type_name(reset_type),
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1416  			    host_diagnostic);
+f061178e076210 Kashyap Desai   2021-05-20  1417  			mrioc->unrecoverable = 1;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1418  			return retval;
+f061178e076210 Kashyap Desai   2021-05-20  1419  		}
+f061178e076210 Kashyap Desai   2021-05-20  1420  
+f061178e076210 Kashyap Desai   2021-05-20  1421  		writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_FLUSH,
+f061178e076210 Kashyap Desai   2021-05-20  1422  		    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1423  		writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_1ST,
+f061178e076210 Kashyap Desai   2021-05-20  1424  		    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1425  		writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_2ND,
+f061178e076210 Kashyap Desai   2021-05-20  1426  		    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1427  		writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_3RD,
+f061178e076210 Kashyap Desai   2021-05-20  1428  		    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1429  		writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_4TH,
+f061178e076210 Kashyap Desai   2021-05-20  1430  		    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1431  		writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_5TH,
+f061178e076210 Kashyap Desai   2021-05-20  1432  		    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1433  		writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_6TH,
+f061178e076210 Kashyap Desai   2021-05-20  1434  		    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1435  		usleep_range(1000, 1100);
+f061178e076210 Kashyap Desai   2021-05-20  1436  		host_diagnostic = readl(&mrioc->sysif_regs->host_diagnostic);
+f061178e076210 Kashyap Desai   2021-05-20  1437  		ioc_info(mrioc,
+f061178e076210 Kashyap Desai   2021-05-20  1438  		    "wrote magic sequence: retry_count(%d), host_diagnostic(0x%08x)\n",
+f061178e076210 Kashyap Desai   2021-05-20  1439  		    unlock_retry_count, host_diagnostic);
+f061178e076210 Kashyap Desai   2021-05-20  1440  	} while (!(host_diagnostic & MPI3_SYSIF_HOST_DIAG_DIAG_WRITE_ENABLE));
+f061178e076210 Kashyap Desai   2021-05-20  1441  
+f061178e076210 Kashyap Desai   2021-05-20  1442  	writel(reset_reason, &mrioc->sysif_regs->scratchpad[0]);
+f061178e076210 Kashyap Desai   2021-05-20  1443  	writel(host_diagnostic | reset_type,
+f061178e076210 Kashyap Desai   2021-05-20  1444  	    &mrioc->sysif_regs->host_diagnostic);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1445  	switch (reset_type) {
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1446  	case MPI3_SYSIF_HOST_DIAG_RESET_ACTION_SOFT_RESET:
+f061178e076210 Kashyap Desai   2021-05-20  1447  		do {
+f061178e076210 Kashyap Desai   2021-05-20  1448  			ioc_status = readl(&mrioc->sysif_regs->ioc_status);
+f061178e076210 Kashyap Desai   2021-05-20  1449  			ioc_config =
+f061178e076210 Kashyap Desai   2021-05-20  1450  			    readl(&mrioc->sysif_regs->ioc_configuration);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1451  			if ((ioc_status & MPI3_SYSIF_IOC_STATUS_RESET_HISTORY)
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1452  			    && mpi3mr_soft_reset_success(ioc_status, ioc_config)
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1453  			    ) {
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1454  				mpi3mr_clear_reset_history(mrioc);
+f061178e076210 Kashyap Desai   2021-05-20  1455  				retval = 0;
+f061178e076210 Kashyap Desai   2021-05-20  1456  				break;
+f061178e076210 Kashyap Desai   2021-05-20  1457  			}
+f061178e076210 Kashyap Desai   2021-05-20  1458  			msleep(100);
+f061178e076210 Kashyap Desai   2021-05-20  1459  		} while (--timeout);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1460  		mpi3mr_print_fault_info(mrioc);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1461  		break;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1462  	case MPI3_SYSIF_HOST_DIAG_RESET_ACTION_DIAG_FAULT:
+f061178e076210 Kashyap Desai   2021-05-20  1463  		do {
+f061178e076210 Kashyap Desai   2021-05-20  1464  			ioc_status = readl(&mrioc->sysif_regs->ioc_status);
+f061178e076210 Kashyap Desai   2021-05-20  1465  			if (mpi3mr_diagfault_success(mrioc, ioc_status)) {
+f061178e076210 Kashyap Desai   2021-05-20  1466  				retval = 0;
+f061178e076210 Kashyap Desai   2021-05-20  1467  				break;
+f061178e076210 Kashyap Desai   2021-05-20  1468  			}
+f061178e076210 Kashyap Desai   2021-05-20  1469  			msleep(100);
+f061178e076210 Kashyap Desai   2021-05-20  1470  		} while (--timeout);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1471  		break;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1472  	default:
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1473  		break;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1474  	}
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1475  
+f061178e076210 Kashyap Desai   2021-05-20  1476  	writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_2ND,
+f061178e076210 Kashyap Desai   2021-05-20  1477  	    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1478  
+f061178e076210 Kashyap Desai   2021-05-20  1479  	ioc_config = readl(&mrioc->sysif_regs->ioc_configuration);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1480  	ioc_status = readl(&mrioc->sysif_regs->ioc_status);
+f061178e076210 Kashyap Desai   2021-05-20  1481  	ioc_info(mrioc,
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1482  	    "ioc_status/ioc_onfig after %s reset is (0x%x)/(0x%x)\n",
+f061178e076210 Kashyap Desai   2021-05-20  1483  	    (!retval)?"successful":"failed", ioc_status,
+f061178e076210 Kashyap Desai   2021-05-20  1484  	    ioc_config);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1485  	if (retval)
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1486  		mrioc->unrecoverable = 1;
+f061178e076210 Kashyap Desai   2021-05-20  1487  	return retval;
+824a156633dfdb Kashyap Desai   2021-05-20  1488  }
+824a156633dfdb Kashyap Desai   2021-05-20  1489  
+
+:::::: The code at line 1413 was first introduced by commit
+:::::: b64845a7d4039ab9667bafff9d7bb59365f17c0f scsi: mpi3mr: Detect async reset that occurred in firmware
+
+:::::: TO: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
