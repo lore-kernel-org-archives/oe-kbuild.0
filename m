@@ -1,52 +1,41 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516C627704
-	for <oe-kbuild@lists.linux.dev>; Wed,  3 May 2023 16:57:22 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3f19afc4fbfso54641015e9.2
-        for <oe-kbuild@lists.linux.dev>; Wed, 03 May 2023 09:57:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683133039; x=1685725039;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qcEFUNqrSv8hU2EwUJ9bUu4poDYlKJmp96cwk1dCn30=;
-        b=o+ayY+VGH7SCkI+isgiDjCaZAYLTvFp7P/aYmnyzRubk6t/g3MxNADA8nmbhl94sIH
-         rrKAeJzXO1pDOgRvou0eeDKplIbtjNGhJPIGL+9PSnSkXg3xjT/PC5+jexXw4oJLN9He
-         8zkpZuUt0j8SC0OWssg3hDbuegkau0XvD8rTtfAHYkLdsuXWeUCpWspqAl8qLRPR14AB
-         5WuyQ328KlsdmaUJC5+rJs+EOBHU1IsjsDMI2nKpuKJ2FEkFnBPhPDA9SNvoxy2IVvs9
-         CuMGMmuycFcODr2Hfh5X/qpCbCk8GEEsv+tp2udKYUmokoiTPwbKxy+yNcSQNH4O9NHT
-         +QNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683133039; x=1685725039;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qcEFUNqrSv8hU2EwUJ9bUu4poDYlKJmp96cwk1dCn30=;
-        b=d7t/j8MKchzYcgeP1t0A/rfNmuJBlG81z7HgV6eAYCrWCld6NM+7OofdowSI1Mcji1
-         IS+OS8sPrSsGoDAxkZMLYAI5/sfCFYmwucKUMycrpgoRYMIuIX4S6lNUIUhJSdRAdbXa
-         SPglbjDkuH2TUOm+Tmpu6NIV85VZ9fyICm9/K0juaZdXy1kjjOOn/6Nm5Y62bjl7fvac
-         Mmc8K46ojG21rEN59EmYesnkPXQCKTK9mQMTUqT6urwKin8pKenM/K0FgXDLxqoa5w0l
-         Fn17Vq32eE/g7rq95/VApFADcGVLP4qweFr/NOW21VTZshkOO5yV5oxnZt9S4PoUbkIL
-         KW7g==
-X-Gm-Message-State: AC+VfDxs3M23eiun3QayFMAG6FaO1RS4K9Y8bUAFfsFHgHOIWeDNQjcs
-	Gm8z65t4tOttiMWPAH5zXsydKaGmAqec5YII7L8=
-X-Google-Smtp-Source: ACHHUZ6wLdQMETiiNbn1dbLVdUNgLIYiPmcV0m79sxCMMpTd0hrChGFrc9Zphlr2n7w3s71+5KzsAA==
-X-Received: by 2002:a05:600c:299:b0:3f2:50ab:1bba with SMTP id 25-20020a05600c029900b003f250ab1bbamr15515028wmk.19.1683133039587;
-        Wed, 03 May 2023 09:57:19 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q7-20020a1cf307000000b003f18b52c73asm2381741wmq.24.2023.05.03.09.57.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 May 2023 09:57:17 -0700 (PDT)
-Date: Wed, 3 May 2023 19:57:12 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Piotr Raczynski <piotr.raczynski@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
-Subject: [tnguy-next-queue:dev-queue 13/36]
- drivers/net/ethernet/intel/ice/ice_irq.c:348 ice_free_irq() error: we
- previously assumed 'entry' could be null (see line 342)
-Message-ID: <b9627c98-ec0a-4f87-91e4-478e7150b529@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A4323D2
+	for <oe-kbuild@lists.linux.dev>; Wed,  3 May 2023 22:40:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683153642; x=1714689642;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0qnA3K5sY4/PDxz+gBapFyUSgX2U/ECozbz5JhYROz4=;
+  b=A80i6tw+HuEVBtV05ZqpVQRF6hRjprWRzJE0MDISB8YqQX0Ok8HcV/qb
+   CZdPI4QYbiR7TbPKf75+f7SL9YLOS6QPi92qTyjGoR3Kgmdzu9dF9ip8y
+   faEK9rFZ1H3264p1F0S9VddIawHUuxB8jiR9wgkYLj1c5VTMa++tDh82M
+   nkHZmE4VNze+yEcyDuFBA89ahO2J2wKveO8kqle1aPwA5vD/zk+7QdyrY
+   Zzk/5O1eEETb9gQwJOhMoxPxs0K7VvWU5YNJCCUDcRlgIqvqOThOrMsvp
+   6VwqBXlt+Wnr4SIuQrTdtxcOaCEq9DTWRCGOO+G4/BJ0tTzPRPLeCGdky
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="348826043"
+X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; 
+   d="scan'208";a="348826043"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 15:40:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="647092907"
+X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; 
+   d="scan'208";a="647092907"
+Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 03 May 2023 15:40:36 -0700
+Received: from kbuild by e3434d64424d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1puL9H-0002KJ-2z;
+	Wed, 03 May 2023 22:40:35 +0000
+Date: Thu, 4 May 2023 06:40:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2] btrfs: output affected files when relocation failed
+Message-ID: <202305040651.x0jMBnBx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,44 +45,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-head:   cf8d73244f3a7bf78ae4042f4d700da212be3dcc
-commit: 1181d50520d25da05f2da1235054fd91964cc3d1 [13/36] ice: add dynamic interrupt allocation
-config: openrisc-randconfig-m031-20230430 (https://download.01.org/0day-ci/archive/20230503/202305032317.RAOFS8W5-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <ad4e1c92f8d623557458d1968d76f755264e050e.1683088762.git.wqu@suse.com>
+References: <ad4e1c92f8d623557458d1968d76f755264e050e.1683088762.git.wqu@suse.com>
+TO: Qu Wenruo <wqu@suse.com>
+TO: linux-btrfs@vger.kernel.org
+
+Hi Qu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on linus/master v6.3 next-20230428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-output-affected-files-when-relocation-failed/20230503-124141
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/ad4e1c92f8d623557458d1968d76f755264e050e.1683088762.git.wqu%40suse.com
+patch subject: [PATCH v2] btrfs: output affected files when relocation failed
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: m68k-randconfig-m041-20230430 (https://download.01.org/0day-ci/archive/20230504/202305040651.x0jMBnBx-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305032317.RAOFS8W5-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305040651.x0jMBnBx-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/intel/ice/ice_irq.c:348 ice_free_irq() error: we previously assumed 'entry' could be null (see line 342)
+New smatch warnings:
+fs/btrfs/inode.c:190 data_reloc_print_warning_inode() warn: missing unwind goto?
 
-vim +/entry +348 drivers/net/ethernet/intel/ice/ice_irq.c
+Old smatch warnings:
+fs/btrfs/inode.c:547 insert_inline_extent() error: we previously assumed 'compressed_pages' could be null (see line 516)
 
-f71fc417ba04cac Piotr Raczynski 2023-03-23  336  void ice_free_irq(struct ice_pf *pf, struct msi_map map)
-f71fc417ba04cac Piotr Raczynski 2023-03-23  337  {
-1181d50520d25da Piotr Raczynski 2023-03-23  338  	struct ice_irq_entry *entry;
-1181d50520d25da Piotr Raczynski 2023-03-23  339  
-1181d50520d25da Piotr Raczynski 2023-03-23  340  	entry = xa_load(&pf->irq_tracker.entries, map.index);
-1181d50520d25da Piotr Raczynski 2023-03-23  341  
-1181d50520d25da Piotr Raczynski 2023-03-23 @342  	if (!entry)
-1181d50520d25da Piotr Raczynski 2023-03-23  343  		dev_err(ice_pf_to_dev(pf), "Failed to get MSIX interrupt entry at index %d",
-1181d50520d25da Piotr Raczynski 2023-03-23  344  			map.index);
+vim +190 fs/btrfs/inode.c
 
-return;?
-
-1181d50520d25da Piotr Raczynski 2023-03-23  345  
-1181d50520d25da Piotr Raczynski 2023-03-23  346  	dev_dbg(ice_pf_to_dev(pf), "Free irq at index %d\n", map.index);
-1181d50520d25da Piotr Raczynski 2023-03-23  347  
-1181d50520d25da Piotr Raczynski 2023-03-23 @348  	if (entry->dynamic)
-1181d50520d25da Piotr Raczynski 2023-03-23  349  		pci_msix_free_irq(pf->pdev, map);
-1181d50520d25da Piotr Raczynski 2023-03-23  350  
-1261628bc347e3d Piotr Raczynski 2023-03-23  351  	ice_free_irq_res(pf, map.index);
-f71fc417ba04cac Piotr Raczynski 2023-03-23  352  }
+39279cc3d2704c Chris Mason     2007-06-12  124  
+3972f2603d8570 Eric Sandeen    2013-01-12  125  static int btrfs_setsize(struct inode *inode, struct iattr *attr);
+d9dcae67b7fe1f David Sterba    2022-10-27  126  static int btrfs_truncate(struct btrfs_inode *inode, bool skip_writeback);
+6e26c442233b9e Nikolay Borisov 2020-06-03  127  static noinline int cow_file_range(struct btrfs_inode *inode,
+771ed689d2cd53 Chris Mason     2008-11-06  128  				   struct page *locked_page,
+74e9194afb2c5c Nikolay Borisov 2019-07-17  129  				   u64 start, u64 end, int *page_started,
+898793d992c23d Naohiro Aota    2022-07-09  130  				   unsigned long *nr_written, int unlock,
+898793d992c23d Naohiro Aota    2022-07-09  131  				   u64 *done_offset);
+4b67c11dd19cd6 Nikolay Borisov 2020-06-03  132  static struct extent_map *create_io_em(struct btrfs_inode *inode, u64 start,
+4b67c11dd19cd6 Nikolay Borisov 2020-06-03  133  				       u64 len, u64 orig_start, u64 block_start,
+6f9994dbabe575 Liu Bo          2017-01-31  134  				       u64 block_len, u64 orig_block_len,
+6f9994dbabe575 Liu Bo          2017-01-31  135  				       u64 ram_bytes, int compress_type,
+cc95bef635a649 Josef Bacik     2013-04-04  136  				       int type);
+7b1287662304c3 Josef Bacik     2008-07-24  137  
+552d0b12d2176c Qu Wenruo       2023-05-03  138  static int data_reloc_print_warning_inode(u64 inum, u64 offset, u64 num_bytes,
+552d0b12d2176c Qu Wenruo       2023-05-03  139  					  u64 root, void *warn_ctx)
+552d0b12d2176c Qu Wenruo       2023-05-03  140  {
+552d0b12d2176c Qu Wenruo       2023-05-03  141  	struct data_reloc_warn *warn = warn_ctx;
+552d0b12d2176c Qu Wenruo       2023-05-03  142  	struct btrfs_fs_info *fs_info = warn->fs_info;
+552d0b12d2176c Qu Wenruo       2023-05-03  143  	struct extent_buffer *eb;
+552d0b12d2176c Qu Wenruo       2023-05-03  144  	struct btrfs_inode_item *inode_item;
+552d0b12d2176c Qu Wenruo       2023-05-03  145  	struct inode_fs_paths *ipath = NULL;
+552d0b12d2176c Qu Wenruo       2023-05-03  146  	struct btrfs_root *local_root;
+552d0b12d2176c Qu Wenruo       2023-05-03  147  	struct btrfs_key key;
+552d0b12d2176c Qu Wenruo       2023-05-03  148  	unsigned int nofs_flag;
+552d0b12d2176c Qu Wenruo       2023-05-03  149  	u32 nlink;
+552d0b12d2176c Qu Wenruo       2023-05-03  150  	int ret;
+552d0b12d2176c Qu Wenruo       2023-05-03  151  
+552d0b12d2176c Qu Wenruo       2023-05-03  152  	local_root = btrfs_get_fs_root(fs_info, root, true);
+552d0b12d2176c Qu Wenruo       2023-05-03  153  	if (IS_ERR(local_root)) {
+552d0b12d2176c Qu Wenruo       2023-05-03  154  		ret = PTR_ERR(local_root);
+552d0b12d2176c Qu Wenruo       2023-05-03  155  		goto err;
+552d0b12d2176c Qu Wenruo       2023-05-03  156  	}
+552d0b12d2176c Qu Wenruo       2023-05-03  157  
+552d0b12d2176c Qu Wenruo       2023-05-03  158  	/* This makes the path point to (inum INODE_ITEM ioff). */
+552d0b12d2176c Qu Wenruo       2023-05-03  159  	key.objectid = inum;
+552d0b12d2176c Qu Wenruo       2023-05-03  160  	key.type = BTRFS_INODE_ITEM_KEY;
+552d0b12d2176c Qu Wenruo       2023-05-03  161  	key.offset = 0;
+552d0b12d2176c Qu Wenruo       2023-05-03  162  
+552d0b12d2176c Qu Wenruo       2023-05-03  163  	ret = btrfs_search_slot(NULL, local_root, &key, &warn->path, 0, 0);
+552d0b12d2176c Qu Wenruo       2023-05-03  164  	if (ret) {
+552d0b12d2176c Qu Wenruo       2023-05-03  165  		btrfs_put_root(local_root);
+552d0b12d2176c Qu Wenruo       2023-05-03  166  		btrfs_release_path(&warn->path);
+552d0b12d2176c Qu Wenruo       2023-05-03  167  		goto err;
+552d0b12d2176c Qu Wenruo       2023-05-03  168  	}
+552d0b12d2176c Qu Wenruo       2023-05-03  169  
+552d0b12d2176c Qu Wenruo       2023-05-03  170  	eb = warn->path.nodes[0];
+552d0b12d2176c Qu Wenruo       2023-05-03  171  	inode_item = btrfs_item_ptr(eb, warn->path.slots[0],
+552d0b12d2176c Qu Wenruo       2023-05-03  172  				    struct btrfs_inode_item);
+552d0b12d2176c Qu Wenruo       2023-05-03  173  	nlink = btrfs_inode_nlink(eb, inode_item);
+552d0b12d2176c Qu Wenruo       2023-05-03  174  	btrfs_release_path(&warn->path);
+552d0b12d2176c Qu Wenruo       2023-05-03  175  
+552d0b12d2176c Qu Wenruo       2023-05-03  176  	nofs_flag = memalloc_nofs_save();
+552d0b12d2176c Qu Wenruo       2023-05-03  177  	ipath = init_ipath(4096, local_root, &warn->path);
+552d0b12d2176c Qu Wenruo       2023-05-03  178  	memalloc_nofs_restore(nofs_flag);
+552d0b12d2176c Qu Wenruo       2023-05-03  179  	if (IS_ERR(ipath)) {
+552d0b12d2176c Qu Wenruo       2023-05-03  180  		btrfs_put_root(local_root);
+552d0b12d2176c Qu Wenruo       2023-05-03  181  		ret = PTR_ERR(ipath);
+552d0b12d2176c Qu Wenruo       2023-05-03  182  		ipath = NULL;
+552d0b12d2176c Qu Wenruo       2023-05-03  183  		/*
+552d0b12d2176c Qu Wenruo       2023-05-03  184  		 * -ENOMEM, not a critical error, just output an generic error
+552d0b12d2176c Qu Wenruo       2023-05-03  185  		 * without filename.
+552d0b12d2176c Qu Wenruo       2023-05-03  186  		 */
+552d0b12d2176c Qu Wenruo       2023-05-03  187  		btrfs_warn(fs_info,
+552d0b12d2176c Qu Wenruo       2023-05-03  188  "checksum error at logical %llu mirror %u root %llu, inode %llu offset %llu",
+552d0b12d2176c Qu Wenruo       2023-05-03  189  			   warn->logical, warn->mirror_num, root, inum, offset);
+552d0b12d2176c Qu Wenruo       2023-05-03 @190  		return ret;
+552d0b12d2176c Qu Wenruo       2023-05-03  191  	}
+552d0b12d2176c Qu Wenruo       2023-05-03  192  	ret = paths_from_inode(inum, ipath);
+552d0b12d2176c Qu Wenruo       2023-05-03  193  	if (ret < 0)
+552d0b12d2176c Qu Wenruo       2023-05-03  194  		goto err;
+552d0b12d2176c Qu Wenruo       2023-05-03  195  
+552d0b12d2176c Qu Wenruo       2023-05-03  196  	/*
+552d0b12d2176c Qu Wenruo       2023-05-03  197  	 * We deliberately ignore the bit ipath might have been too small to
+552d0b12d2176c Qu Wenruo       2023-05-03  198  	 * hold all of the paths here
+552d0b12d2176c Qu Wenruo       2023-05-03  199  	 */
+552d0b12d2176c Qu Wenruo       2023-05-03  200  	for (int i = 0; i < ipath->fspath->elem_cnt; i++)
+552d0b12d2176c Qu Wenruo       2023-05-03  201  		btrfs_warn(fs_info,
+552d0b12d2176c Qu Wenruo       2023-05-03  202  "checksum error at logical %llu mirror %u root %llu inode %llu offset %llu length %u links %u (path: %s)",
+552d0b12d2176c Qu Wenruo       2023-05-03  203  			   warn->logical, warn->mirror_num, root, inum, offset,
+552d0b12d2176c Qu Wenruo       2023-05-03  204  			   fs_info->sectorsize, nlink,
+552d0b12d2176c Qu Wenruo       2023-05-03  205  			   (char *)(unsigned long)ipath->fspath->val[i]);
+552d0b12d2176c Qu Wenruo       2023-05-03  206  
+552d0b12d2176c Qu Wenruo       2023-05-03  207  	btrfs_put_root(local_root);
+552d0b12d2176c Qu Wenruo       2023-05-03  208  	free_ipath(ipath);
+552d0b12d2176c Qu Wenruo       2023-05-03  209  	return 0;
+552d0b12d2176c Qu Wenruo       2023-05-03  210  
+552d0b12d2176c Qu Wenruo       2023-05-03  211  err:
+552d0b12d2176c Qu Wenruo       2023-05-03  212  	btrfs_warn(fs_info,
+552d0b12d2176c Qu Wenruo       2023-05-03  213  "checksum error at logical %llu mirror %u root %llu inode %llu offset %llu, path resolving failed with ret=%d",
+552d0b12d2176c Qu Wenruo       2023-05-03  214  		   warn->logical, warn->mirror_num, root, inum, offset, ret);
+552d0b12d2176c Qu Wenruo       2023-05-03  215  
+552d0b12d2176c Qu Wenruo       2023-05-03  216  	free_ipath(ipath);
+552d0b12d2176c Qu Wenruo       2023-05-03  217  	return ret;
+552d0b12d2176c Qu Wenruo       2023-05-03  218  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
