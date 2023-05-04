@@ -1,42 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427B77E1
-	for <oe-kbuild@lists.linux.dev>; Thu,  4 May 2023 08:32:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185A9ED4
+	for <oe-kbuild@lists.linux.dev>; Thu,  4 May 2023 09:24:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683189134; x=1714725134;
+  t=1683192259; x=1714728259;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pD2mHpDgJryppuP9r3JyLD9w4aqNuq96k6Tw6bjMfCk=;
-  b=oEh5pJAeV+HeKJ9Ih66QF1Nwsc13Bu5Gmm1fXl67MiV+N07Gtz1nl7g2
-   JgBiU0MmerhAdLy6+UwFbSmbpnvc5P8eDhDkzrJmnykyF4iqBcCtIChWC
-   VwvpPKboOe6HdxSx7/46yQxJbMCpjDYkSYsPGKbZRjbDh1qe8uKKK1S9Q
-   FlwP1SUqRTKoIivInF7Km7F4F7RWAhVeVz0T5yDu0Ssxv1WhI15CXk7zX
-   j8CbOPshRWQA9MN2jbrYxZMOEI0Tay7Ru+5zfiMJtMu9KhRYGJJD+/bPC
-   1JJDw66T21wk+Y5vmHtGYG63iCz/ogXmG+75CFo72M7SbW4eRP4UlI0a2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="347685864"
+  bh=klcrnulEe4iWs2auxWEa8hEnUs6/qy5Y8UOmr6i5ICk=;
+  b=oF009AwmXPBAloN5zAxPzffEWHywvtjgY7dYUMwPwJuGWnpM+qBVWOc9
+   sa/CIIOqJiYueIrFevTWLOur1XPXDU0Fwgr/lsBzLxFtF+tKVGWz7TqGD
+   SfAKlV2ZpIsKr+ZLRvigntgQur99CMjS6NApN9FCSlyJfM7nAmG76112v
+   oYRNL9HYT1SRIj/xLJpIVN2cRmv3x5Pg8t1oLgNsqBsRdahm/xLDNsFMV
+   TenmRngjKmJO4W0M8JvH9sPBH8Bdsqek8qUhc9ZXIanHM8tGB/m91f4UN
+   WYAA6HfXTqPw5mg0PtHef6JNxQB6Q1X6CbtzfOlA7QMY2Bi3jC7gbZBaV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="329239054"
 X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="347685864"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 01:32:13 -0700
+   d="scan'208";a="329239054"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 02:24:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="691012806"
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="786455502"
 X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="691012806"
+   d="scan'208";a="786455502"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 04 May 2023 01:32:11 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 04 May 2023 02:24:17 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puUNn-0002iW-0W;
-	Thu, 04 May 2023 08:32:11 +0000
-Date: Thu, 4 May 2023 16:31:11 +0800
+	id 1puVCC-0002ma-1y;
+	Thu, 04 May 2023 09:24:16 +0000
+Date: Thu, 4 May 2023 17:23:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/btrfs/scrub.c:2254 scrub_stripe() error: uninitialized symbol
- 'offset'.
-Message-ID: <202305041618.7PjfLAAx-lkp@intel.com>
+Subject: drivers/net/ethernet/intel/ice/ice_txrx.c:996 ice_build_skb() error:
+ uninitialized symbol 'nr_frags'.
+Message-ID: <202305041733.lSMiTh8P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,202 +49,83 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Qu Wenruo <wqu@suse.com>
-CC: David Sterba <dsterba@suse.com>
+TO: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+CC: Daniel Borkmann <daniel@iogearbox.net>
+CC: Alexander Lobakin <alexandr.lobakin@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   1a5304fecee523060f26e2778d9d8e33c0562df3
-commit: 8eb3dd17eadd21a340cb658c7252d4ad5788baa4 btrfs: dev-replace: error out if we have unrepaired metadata error during
-date:   2 weeks ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 2 weeks ago
-config: nios2-randconfig-m031-20230503 (https://download.01.org/0day-ci/archive/20230504/202305041618.7PjfLAAx-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
+commit: 2fba7dc5157b6f85dbf1b8e26e63a724db1f3d79 ice: Add support for XDP multi-buffer on Rx side
+date:   3 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 months ago
+config: openrisc-randconfig-m031-20230430 (https://download.01.org/0day-ci/archive/20230504/202305041733.lSMiTh8P-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305041618.7PjfLAAx-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305041733.lSMiTh8P-lkp@intel.com/
 
-New smatch warnings:
-fs/btrfs/scrub.c:2254 scrub_stripe() error: uninitialized symbol 'offset'.
+smatch warnings:
+drivers/net/ethernet/intel/ice/ice_txrx.c:996 ice_build_skb() error: uninitialized symbol 'nr_frags'.
 
-Old smatch warnings:
-arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
-fs/btrfs/scrub.c:2028 scrub_simple_mirror() error: uninitialized symbol 'ret'.
+vim +/nr_frags +996 drivers/net/ethernet/intel/ice/ice_txrx.c
 
-vim +/offset +2254 fs/btrfs/scrub.c
-
-8557635ed2b04b Qu Wenruo       2022-03-11  2100  
-d9d181c1ba7aa0 Stefan Behrens  2012-11-02  2101  static noinline_for_stack int scrub_stripe(struct scrub_ctx *sctx,
-2ae8ae3d3def4c Qu Wenruo       2021-12-15  2102  					   struct btrfs_block_group *bg,
-bc88b486d54b2a Qu Wenruo       2022-05-13  2103  					   struct extent_map *em,
-a36cf8b8933e4a Stefan Behrens  2012-11-02  2104  					   struct btrfs_device *scrub_dev,
-bc88b486d54b2a Qu Wenruo       2022-05-13  2105  					   int stripe_index)
-a2de733c78fa7a Arne Jansen     2011-03-08  2106  {
-fb456252d3d9c0 Jeff Mahoney    2016-06-22  2107  	struct btrfs_fs_info *fs_info = sctx->fs_info;
-bc88b486d54b2a Qu Wenruo       2022-05-13  2108  	struct map_lookup *map = em->map_lookup;
-09022b14fafc86 Qu Wenruo       2022-03-11  2109  	const u64 profile = map->type & BTRFS_BLOCK_GROUP_PROFILE_MASK;
-2ae8ae3d3def4c Qu Wenruo       2021-12-15  2110  	const u64 chunk_logical = bg->start;
-a2de733c78fa7a Arne Jansen     2011-03-08  2111  	int ret;
-8eb3dd17eadd21 Qu Wenruo       2023-04-06  2112  	int ret2;
-1194a82481d8f3 Qu Wenruo       2022-03-11  2113  	u64 physical = map->stripes[stripe_index].physical;
-bc88b486d54b2a Qu Wenruo       2022-05-13  2114  	const u64 dev_stripe_len = btrfs_calc_stripe_length(em);
-bc88b486d54b2a Qu Wenruo       2022-05-13  2115  	const u64 physical_end = physical + dev_stripe_len;
-a2de733c78fa7a Arne Jansen     2011-03-08  2116  	u64 logical;
-625f1c8dc66d77 Liu Bo          2013-04-27  2117  	u64 logic_end;
-18d30ab961497f Qu Wenruo       2022-03-11  2118  	/* The logical increment after finishing one stripe */
-5c07c53f2d273b Jiapeng Chong   2022-01-21  2119  	u64 increment;
-18d30ab961497f Qu Wenruo       2022-03-11  2120  	/* Offset inside the chunk */
-a2de733c78fa7a Arne Jansen     2011-03-08  2121  	u64 offset;
-5a6ac9eacb4914 Miao Xie        2014-11-06  2122  	u64 stripe_logical;
-3b080b2564287b Wang Shilong    2014-04-01  2123  	int stop_loop = 0;
-53b381b3abeb86 David Woodhouse 2013-01-29  2124  
-cb7ab02156e4ba Wang Shilong    2013-12-04  2125  	scrub_blocked_if_needed(fs_info);
-a2de733c78fa7a Arne Jansen     2011-03-08  2126  
-de17addce7a20d Naohiro Aota    2021-02-04  2127  	if (sctx->is_dev_replace &&
-de17addce7a20d Naohiro Aota    2021-02-04  2128  	    btrfs_dev_is_sequential(sctx->wr_tgtdev, physical)) {
-de17addce7a20d Naohiro Aota    2021-02-04  2129  		mutex_lock(&sctx->wr_lock);
-de17addce7a20d Naohiro Aota    2021-02-04  2130  		sctx->write_pointer = physical;
-de17addce7a20d Naohiro Aota    2021-02-04  2131  		mutex_unlock(&sctx->wr_lock);
-de17addce7a20d Naohiro Aota    2021-02-04  2132  	}
-de17addce7a20d Naohiro Aota    2021-02-04  2133  
-1009254bf22a3f Qu Wenruo       2023-03-28  2134  	/* Prepare the extra data stripes used by RAID56. */
-1009254bf22a3f Qu Wenruo       2023-03-28  2135  	if (profile & BTRFS_BLOCK_GROUP_RAID56_MASK) {
-1009254bf22a3f Qu Wenruo       2023-03-28  2136  		ASSERT(sctx->raid56_data_stripes == NULL);
-1009254bf22a3f Qu Wenruo       2023-03-28  2137  
-1009254bf22a3f Qu Wenruo       2023-03-28  2138  		sctx->raid56_data_stripes = kcalloc(nr_data_stripes(map),
-1009254bf22a3f Qu Wenruo       2023-03-28  2139  						    sizeof(struct scrub_stripe),
-1009254bf22a3f Qu Wenruo       2023-03-28  2140  						    GFP_KERNEL);
-1009254bf22a3f Qu Wenruo       2023-03-28  2141  		if (!sctx->raid56_data_stripes) {
-1009254bf22a3f Qu Wenruo       2023-03-28  2142  			ret = -ENOMEM;
-1009254bf22a3f Qu Wenruo       2023-03-28  2143  			goto out;
-1009254bf22a3f Qu Wenruo       2023-03-28  2144  		}
-1009254bf22a3f Qu Wenruo       2023-03-28  2145  		for (int i = 0; i < nr_data_stripes(map); i++) {
-1009254bf22a3f Qu Wenruo       2023-03-28  2146  			ret = init_scrub_stripe(fs_info,
-1009254bf22a3f Qu Wenruo       2023-03-28  2147  						&sctx->raid56_data_stripes[i]);
-1009254bf22a3f Qu Wenruo       2023-03-28  2148  			if (ret < 0)
-1009254bf22a3f Qu Wenruo       2023-03-28  2149  				goto out;
-1009254bf22a3f Qu Wenruo       2023-03-28  2150  			sctx->raid56_data_stripes[i].bg = bg;
-1009254bf22a3f Qu Wenruo       2023-03-28  2151  			sctx->raid56_data_stripes[i].sctx = sctx;
-1009254bf22a3f Qu Wenruo       2023-03-28  2152  		}
-1009254bf22a3f Qu Wenruo       2023-03-28  2153  	}
-09022b14fafc86 Qu Wenruo       2022-03-11  2154  	/*
-09022b14fafc86 Qu Wenruo       2022-03-11  2155  	 * There used to be a big double loop to handle all profiles using the
-09022b14fafc86 Qu Wenruo       2022-03-11  2156  	 * same routine, which grows larger and more gross over time.
-09022b14fafc86 Qu Wenruo       2022-03-11  2157  	 *
-09022b14fafc86 Qu Wenruo       2022-03-11  2158  	 * So here we handle each profile differently, so simpler profiles
-09022b14fafc86 Qu Wenruo       2022-03-11  2159  	 * have simpler scrubbing function.
-09022b14fafc86 Qu Wenruo       2022-03-11  2160  	 */
-09022b14fafc86 Qu Wenruo       2022-03-11  2161  	if (!(profile & (BTRFS_BLOCK_GROUP_RAID0 | BTRFS_BLOCK_GROUP_RAID10 |
-09022b14fafc86 Qu Wenruo       2022-03-11  2162  			 BTRFS_BLOCK_GROUP_RAID56_MASK))) {
-09022b14fafc86 Qu Wenruo       2022-03-11  2163  		/*
-09022b14fafc86 Qu Wenruo       2022-03-11  2164  		 * Above check rules out all complex profile, the remaining
-09022b14fafc86 Qu Wenruo       2022-03-11  2165  		 * profiles are SINGLE|DUP|RAID1|RAID1C*, which is simple
-09022b14fafc86 Qu Wenruo       2022-03-11  2166  		 * mirrored duplication without stripe.
-09022b14fafc86 Qu Wenruo       2022-03-11  2167  		 *
-09022b14fafc86 Qu Wenruo       2022-03-11  2168  		 * Only @physical and @mirror_num needs to calculated using
-09022b14fafc86 Qu Wenruo       2022-03-11  2169  		 * @stripe_index.
-09022b14fafc86 Qu Wenruo       2022-03-11  2170  		 */
-6b4d375a81551b Qu Wenruo       2023-01-16  2171  		ret = scrub_simple_mirror(sctx, bg, map, bg->start, bg->length,
-6b4d375a81551b Qu Wenruo       2023-01-16  2172  				scrub_dev, map->stripes[stripe_index].physical,
-09022b14fafc86 Qu Wenruo       2022-03-11  2173  				stripe_index + 1);
-e430c4287ebdaf Qu Wenruo       2022-03-11  2174  		offset = 0;
-09022b14fafc86 Qu Wenruo       2022-03-11  2175  		goto out;
-09022b14fafc86 Qu Wenruo       2022-03-11  2176  	}
-8557635ed2b04b Qu Wenruo       2022-03-11  2177  	if (profile & (BTRFS_BLOCK_GROUP_RAID0 | BTRFS_BLOCK_GROUP_RAID10)) {
-6b4d375a81551b Qu Wenruo       2023-01-16  2178  		ret = scrub_simple_stripe(sctx, bg, map, scrub_dev, stripe_index);
-a97699d1d61071 Qu Wenruo       2023-02-17  2179  		offset = (stripe_index / map->sub_stripes) << BTRFS_STRIPE_LEN_SHIFT;
-8557635ed2b04b Qu Wenruo       2022-03-11  2180  		goto out;
-8557635ed2b04b Qu Wenruo       2022-03-11  2181  	}
-8557635ed2b04b Qu Wenruo       2022-03-11  2182  
-8557635ed2b04b Qu Wenruo       2022-03-11  2183  	/* Only RAID56 goes through the old code */
-8557635ed2b04b Qu Wenruo       2022-03-11  2184  	ASSERT(map->type & BTRFS_BLOCK_GROUP_RAID56_MASK);
-a2de733c78fa7a Arne Jansen     2011-03-08  2185  	ret = 0;
-e430c4287ebdaf Qu Wenruo       2022-03-11  2186  
-e430c4287ebdaf Qu Wenruo       2022-03-11  2187  	/* Calculate the logical end of the stripe */
-e430c4287ebdaf Qu Wenruo       2022-03-11  2188  	get_raid56_logic_offset(physical_end, stripe_index,
-e430c4287ebdaf Qu Wenruo       2022-03-11  2189  				map, &logic_end, NULL);
-e430c4287ebdaf Qu Wenruo       2022-03-11  2190  	logic_end += chunk_logical;
-e430c4287ebdaf Qu Wenruo       2022-03-11  2191  
-e430c4287ebdaf Qu Wenruo       2022-03-11  2192  	/* Initialize @offset in case we need to go to out: label */
-e430c4287ebdaf Qu Wenruo       2022-03-11  2193  	get_raid56_logic_offset(physical, stripe_index, map, &offset, NULL);
-a97699d1d61071 Qu Wenruo       2023-02-17  2194  	increment = nr_data_stripes(map) << BTRFS_STRIPE_LEN_SHIFT;
-e430c4287ebdaf Qu Wenruo       2022-03-11  2195  
-a2de733c78fa7a Arne Jansen     2011-03-08  2196  	/*
-18d30ab961497f Qu Wenruo       2022-03-11  2197  	 * Due to the rotation, for RAID56 it's better to iterate each stripe
-18d30ab961497f Qu Wenruo       2022-03-11  2198  	 * using their physical offset.
-a2de733c78fa7a Arne Jansen     2011-03-08  2199  	 */
-18d30ab961497f Qu Wenruo       2022-03-11  2200  	while (physical < physical_end) {
-18d30ab961497f Qu Wenruo       2022-03-11  2201  		ret = get_raid56_logic_offset(physical, stripe_index, map,
-18d30ab961497f Qu Wenruo       2022-03-11  2202  					      &logical, &stripe_logical);
-2ae8ae3d3def4c Qu Wenruo       2021-12-15  2203  		logical += chunk_logical;
-f2f66a2f886383 Zhao Lei        2015-07-21  2204  		if (ret) {
-7955323bdcab30 Zhao Lei        2015-08-18  2205  			/* it is parity strip */
-2ae8ae3d3def4c Qu Wenruo       2021-12-15  2206  			stripe_logical += chunk_logical;
-1009254bf22a3f Qu Wenruo       2023-03-28  2207  			ret = scrub_raid56_parity_stripe(sctx, scrub_dev, bg,
-1009254bf22a3f Qu Wenruo       2023-03-28  2208  							 map, stripe_logical);
-f2f66a2f886383 Zhao Lei        2015-07-21  2209  			if (ret)
-f2f66a2f886383 Zhao Lei        2015-07-21  2210  				goto out;
-d7cad2389560f3 Zhao Lei        2015-07-22  2211  			goto next;
-89490303a42942 Filipe Manana   2020-05-08  2212  		}
-625f1c8dc66d77 Liu Bo          2013-04-27  2213  
-3b080b2564287b Wang Shilong    2014-04-01  2214  		/*
-18d30ab961497f Qu Wenruo       2022-03-11  2215  		 * Now we're at a data stripe, scrub each extents in the range.
-18d30ab961497f Qu Wenruo       2022-03-11  2216  		 *
-18d30ab961497f Qu Wenruo       2022-03-11  2217  		 * At this stage, if we ignore the repair part, inside each data
-18d30ab961497f Qu Wenruo       2022-03-11  2218  		 * stripe it is no different than SINGLE profile.
-18d30ab961497f Qu Wenruo       2022-03-11  2219  		 * We can reuse scrub_simple_mirror() here, as the repair part
-18d30ab961497f Qu Wenruo       2022-03-11  2220  		 * is still based on @mirror_num.
-3b080b2564287b Wang Shilong    2014-04-01  2221  		 */
-6b4d375a81551b Qu Wenruo       2023-01-16  2222  		ret = scrub_simple_mirror(sctx, bg, map, logical, BTRFS_STRIPE_LEN,
-18d30ab961497f Qu Wenruo       2022-03-11  2223  					  scrub_dev, physical, 1);
-18d30ab961497f Qu Wenruo       2022-03-11  2224  		if (ret < 0)
-5a6ac9eacb4914 Miao Xie        2014-11-06  2225  			goto out;
-a2de733c78fa7a Arne Jansen     2011-03-08  2226  next:
-a2de733c78fa7a Arne Jansen     2011-03-08  2227  		logical += increment;
-a97699d1d61071 Qu Wenruo       2023-02-17  2228  		physical += BTRFS_STRIPE_LEN;
-d9d181c1ba7aa0 Stefan Behrens  2012-11-02  2229  		spin_lock(&sctx->stat_lock);
-625f1c8dc66d77 Liu Bo          2013-04-27  2230  		if (stop_loop)
-bc88b486d54b2a Qu Wenruo       2022-05-13  2231  			sctx->stat.last_physical =
-bc88b486d54b2a Qu Wenruo       2022-05-13  2232  				map->stripes[stripe_index].physical + dev_stripe_len;
-625f1c8dc66d77 Liu Bo          2013-04-27  2233  		else
-d9d181c1ba7aa0 Stefan Behrens  2012-11-02  2234  			sctx->stat.last_physical = physical;
-d9d181c1ba7aa0 Stefan Behrens  2012-11-02  2235  		spin_unlock(&sctx->stat_lock);
-625f1c8dc66d77 Liu Bo          2013-04-27  2236  		if (stop_loop)
-625f1c8dc66d77 Liu Bo          2013-04-27  2237  			break;
-a2de733c78fa7a Arne Jansen     2011-03-08  2238  	}
-ff023aac31198e Stefan Behrens  2012-11-06  2239  out:
-8eb3dd17eadd21 Qu Wenruo       2023-04-06  2240  	ret2 = flush_scrub_stripes(sctx);
-8eb3dd17eadd21 Qu Wenruo       2023-04-06  2241  	if (!ret2)
-8eb3dd17eadd21 Qu Wenruo       2023-04-06  2242  		ret = ret2;
-1009254bf22a3f Qu Wenruo       2023-03-28  2243  	if (sctx->raid56_data_stripes) {
-1009254bf22a3f Qu Wenruo       2023-03-28  2244  		for (int i = 0; i < nr_data_stripes(map); i++)
-1009254bf22a3f Qu Wenruo       2023-03-28  2245  			release_scrub_stripe(&sctx->raid56_data_stripes[i]);
-1009254bf22a3f Qu Wenruo       2023-03-28  2246  		kfree(sctx->raid56_data_stripes);
-1009254bf22a3f Qu Wenruo       2023-03-28  2247  		sctx->raid56_data_stripes = NULL;
-1009254bf22a3f Qu Wenruo       2023-03-28  2248  	}
-7db1c5d14dcd52 Naohiro Aota    2021-02-04  2249  
-7db1c5d14dcd52 Naohiro Aota    2021-02-04  2250  	if (sctx->is_dev_replace && ret >= 0) {
-7db1c5d14dcd52 Naohiro Aota    2021-02-04  2251  		int ret2;
-7db1c5d14dcd52 Naohiro Aota    2021-02-04  2252  
-2ae8ae3d3def4c Qu Wenruo       2021-12-15  2253  		ret2 = sync_write_pointer_for_zoned(sctx,
-2ae8ae3d3def4c Qu Wenruo       2021-12-15 @2254  				chunk_logical + offset,
-2ae8ae3d3def4c Qu Wenruo       2021-12-15  2255  				map->stripes[stripe_index].physical,
-7db1c5d14dcd52 Naohiro Aota    2021-02-04  2256  				physical_end);
-7db1c5d14dcd52 Naohiro Aota    2021-02-04  2257  		if (ret2)
-7db1c5d14dcd52 Naohiro Aota    2021-02-04  2258  			ret = ret2;
-7db1c5d14dcd52 Naohiro Aota    2021-02-04  2259  	}
-7db1c5d14dcd52 Naohiro Aota    2021-02-04  2260  
-a2de733c78fa7a Arne Jansen     2011-03-08  2261  	return ret < 0 ? ret : 0;
-a2de733c78fa7a Arne Jansen     2011-03-08  2262  }
-a2de733c78fa7a Arne Jansen     2011-03-08  2263  
-
-:::::: The code at line 2254 was first introduced by commit
-:::::: 2ae8ae3d3def4c3ba73a58cc2531c42f0916f14e btrfs: scrub: cleanup the argument list of scrub_stripe()
-
-:::::: TO: Qu Wenruo <wqu@suse.com>
-:::::: CC: David Sterba <dsterba@suse.com>
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20   950  
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   951  /**
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   952   * ice_build_skb - Build skb around an existing buffer
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   953   * @rx_ring: Rx descriptor ring to transact packets on
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   954   * @xdp: xdp_buff pointing to the data
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   955   *
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   956   * This function builds an skb around an existing XDP buffer, taking care
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   957   * to set up the skb correctly and avoid any memcpy overhead. Driver has
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   958   * already combined frags (if any) to skb_shared_info.
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   959   */
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   960  static struct sk_buff *
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   961  ice_build_skb(struct ice_rx_ring *rx_ring, struct xdp_buff *xdp)
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   962  {
+88865fc4bbd61e Karol Kolacinski       2020-05-07   963  	u8 metasize = xdp->data - xdp->data_meta;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   964  	struct skb_shared_info *sinfo = NULL;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   965  	unsigned int nr_frags;
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   966  	struct sk_buff *skb;
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   967  
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   968  	if (unlikely(xdp_buff_has_frags(xdp))) {
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   969  		sinfo = xdp_get_shared_info_from_buff(xdp);
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   970  		nr_frags = sinfo->nr_frags;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   971  	}
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   972  
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   973  	/* Prefetch first cache line of first page. If xdp->data_meta
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   974  	 * is unused, this points exactly as xdp->data, otherwise we
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   975  	 * likely have a consumer accessing first few bytes of meta
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   976  	 * data, and then actual data.
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   977  	 */
+f468f21b7af0fa Tariq Toukan           2020-08-26   978  	net_prefetch(xdp->data_meta);
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   979  	/* build an skb around the page buffer */
+8a11b334ec9b80 Maciej Fijalkowski     2023-01-31   980  	skb = napi_build_skb(xdp->data_hard_start, xdp->frame_sz);
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   981  	if (unlikely(!skb))
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   982  		return NULL;
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   983  
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   984  	/* must to record Rx queue, otherwise OS features such as
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   985  	 * symmetric queue won't work
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   986  	 */
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   987  	skb_record_rx_queue(skb, rx_ring->q_index);
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   988  
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   989  	/* update pointers within the skb to store the data */
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   990  	skb_reserve(skb, xdp->data - xdp->data_hard_start);
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   991  	__skb_put(skb, xdp->data_end - xdp->data);
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   992  	if (metasize)
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   993  		skb_metadata_set(skb, metasize);
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24   994  
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   995  	if (unlikely(xdp_buff_has_frags(xdp)))
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  @996  		xdp_update_skb_shared_info(skb, nr_frags,
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   997  					   sinfo->xdp_frags_size,
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   998  					   nr_frags * xdp->frame_sz,
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31   999  					   xdp_buff_is_frag_pfmemalloc(xdp));
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1000  
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24  1001  	return skb;
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24  1002  }
+aaf27254fdf905 Maciej Fijalkowski     2019-10-24  1003  
 
 -- 
 0-DAY CI Kernel Test Service
