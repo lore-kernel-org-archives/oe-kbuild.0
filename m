@@ -1,42 +1,50 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72FED10EC
-	for <oe-kbuild@lists.linux.dev>; Thu,  4 May 2023 09:45:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683193521; x=1714729521;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ERiQ8+oZT9Kn23AGP6pa8TmyAzyl8mcIvyFjfHapJcI=;
-  b=kTV9QmgYUOqw6tGCLQ4T8vYJ2BQj3Vu3pnLlqOYdpkrSRQFiOz0bp9jV
-   9l7iIRUoK3RwMsi7/ECRnBS+LhyzgjTcHcO0x9g8yowyO14kwaiAMeoZi
-   oTv3d11auT6/umI/rL+JfdGD3Afnm5tN4vpd2ci8oj5AzXlDaoUpMcPRd
-   +M8RbJFNejoPFWbNdJ4lJJ1a3OSf8qC2x0pnj+K0Vg1M6IzfkTil5UQdI
-   ONRNLQPTPnALCC3UZMHxe2Y5cS87vXYbnFtmHn0BbFvIZb8yOjixlzFdf
-   /Z9taTu1cENf+KYSLf7tIakrK9lrG+PcyDifCKt10xaR7fJgowLqoH8v1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="350976153"
-X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="350976153"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 02:45:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="943269731"
-X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="943269731"
-Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 04 May 2023 02:45:19 -0700
-Received: from kbuild by e3434d64424d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1puVWY-0002oW-2V;
-	Thu, 04 May 2023 09:45:18 +0000
-Date: Thu, 4 May 2023 17:44:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685B02108
+	for <oe-kbuild@lists.linux.dev>; Thu,  4 May 2023 10:05:37 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3f37a36b713so2760965e9.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 04 May 2023 03:05:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683194734; x=1685786734;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6xbNUCXTFmuO4bgPcVjNLJriAa4LuyNfoTYVdWGdUqA=;
+        b=yx7/y/zls2IzaFe+nQ4JoEJY1J7hqhRHtG/rvPmTfGesBZ2wAMoaiTZpvEIjsvlSja
+         xfweaimOArKstUG/1Jeaw2Uwdv4jnxRVANO0d6oEXNKGLI4P5OipAPodHTEZoykVSpl8
+         Ts4+QTtQ7PtnnVwR2FngEhrbhOFSK3Cc/qsrOvlOAHXt3T5mGbmq1zMWGo521ha7jVO1
+         O0pA56SwxrmhP1AQlLSXP2lNM+TFGPfpJzG2Xs2sI2n+tDTZIVgtdl+4wAcf450bjV21
+         DChXkzGZLAW20byIxdOudvVR1PqSiOmPhnOZmR/7Ljzt5idGPSZfu6w2mB03TP/45PLn
+         AC3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683194734; x=1685786734;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6xbNUCXTFmuO4bgPcVjNLJriAa4LuyNfoTYVdWGdUqA=;
+        b=Fb3RJubCmisWxxCWUAa7711UxH251yW/VvbZeQRKbGmLsISKxJ7ExcG0Q5oc6lvjMq
+         Q8mdhv9cqSuhu35PyWZbrU8zQKMyHOm882H04o6sStVpLzPo1QLKq8kG4dn06gl9OtiF
+         i2skxr5/OfbjwpXkij7tSkhlIq7RH+q+ZJIA6xlmtuCVfZNiO1m8FETFFAAEpzOeroPT
+         3EgdQUdumUIrsp8y3b9HmpU1zure/EDD7mFK6NOJiuQ7Ozt1h5UG0zk4lUUXOgsVK3ui
+         DVCiJcAKWRzitp1X97uARXjUebLf4DHsZkNMGlHTXnjqSHQ+oIcSwbqH5cJbehfOPKU+
+         OtQQ==
+X-Gm-Message-State: AC+VfDzGYT2XI2ZWKO+Vh4bM0CQBSN96v6+WPctfXC6JMOVL7vdcT6N5
+	UfGMxKSxVaTcQCgL4HQ/ZrhwC0IUdxZI0NQeC6o=
+X-Google-Smtp-Source: ACHHUZ4I3XWBZ6xDc0rMZ5N5hF2d6jo5B1vgShIXREqb3XAjoPlDvR0ZpPT7OIFpIOtyGJTX78OChA==
+X-Received: by 2002:a7b:cbcb:0:b0:3ee:19b4:a2e6 with SMTP id n11-20020a7bcbcb000000b003ee19b4a2e6mr17364983wmi.19.1683194734566;
+        Thu, 04 May 2023 03:05:34 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id x8-20020a1c7c08000000b003f24f245f57sm4339221wmc.42.2023.05.04.03.05.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 May 2023 03:05:32 -0700 (PDT)
+Date: Thu, 4 May 2023 13:05:27 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Samuel Holland <samuel@sholland.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
 Subject: drivers/bus/sunxi-rsb.c:286 _sunxi_rsb_run_xfer() warn: assigning
  (-110) to unsigned variable 'timeout'
-Message-ID: <202305041714.yy6fC4eJ-lkp@intel.com>
+Message-ID: <b661ceb5-f6d1-470b-aa32-9005a87802bb@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,18 +54,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Samuel Holland <samuel@sholland.org>
-CC: Jernej Skrabec <jernej.skrabec@gmail.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   1a5304fecee523060f26e2778d9d8e33c0562df3
 commit: 077686da0e2162c4ea5ae0df205849c2a7a84479 bus: sunxi-rsb: Support atomic transfers
-date:   6 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 6 months ago
 config: arm64-randconfig-m041-20230428 (https://download.01.org/0day-ci/archive/20230504/202305041714.yy6fC4eJ-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 12.1.0
 
@@ -71,8 +70,6 @@ drivers/bus/sunxi-rsb.c:286 _sunxi_rsb_run_xfer() warn: assigning (-110) to unsi
 
 vim +/timeout +286 drivers/bus/sunxi-rsb.c
 
-d787dcdb9c8f41 Chen-Yu Tsai   2015-10-23  266  
-d787dcdb9c8f41 Chen-Yu Tsai   2015-10-23  267  /* common code that starts a transfer */
 d787dcdb9c8f41 Chen-Yu Tsai   2015-10-23  268  static int _sunxi_rsb_run_xfer(struct sunxi_rsb *rsb)
 d787dcdb9c8f41 Chen-Yu Tsai   2015-10-23  269  {
 077686da0e2162 Samuel Holland 2022-11-13  270  	u32 int_mask, status;
@@ -94,6 +91,10 @@ d787dcdb9c8f41 Chen-Yu Tsai   2015-10-23  284
 077686da0e2162 Samuel Holland 2022-11-13 @286  		timeout = readl_poll_timeout_atomic(rsb->regs + RSB_INTS,
 077686da0e2162 Samuel Holland 2022-11-13  287  						    status, (status & int_mask),
 077686da0e2162 Samuel Holland 2022-11-13  288  						    10, 100000);
+
+This works, but Smatch doesn't like it when people save negatives to
+a bool.
+
 077686da0e2162 Samuel Holland 2022-11-13  289  		writel(status, rsb->regs + RSB_INTS);
 077686da0e2162 Samuel Holland 2022-11-13  290  	} else {
 077686da0e2162 Samuel Holland 2022-11-13  291  		timeout = !wait_for_completion_io_timeout(&rsb->complete,
@@ -132,8 +133,8 @@ d787dcdb9c8f41 Chen-Yu Tsai   2015-10-23  323  	}
 d787dcdb9c8f41 Chen-Yu Tsai   2015-10-23  324  
 d787dcdb9c8f41 Chen-Yu Tsai   2015-10-23  325  	return 0;
 d787dcdb9c8f41 Chen-Yu Tsai   2015-10-23  326  }
-d787dcdb9c8f41 Chen-Yu Tsai   2015-10-23  327  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
