@@ -1,43 +1,49 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CED8BF1
-	for <oe-kbuild@lists.linux.dev>; Fri,  5 May 2023 18:48:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683312507; x=1714848507;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kJJ5IExUpqcGlF0HMU2CmNFEP/qleeWIR7XVWnvtcvc=;
-  b=FhAEBL58e4I78bOQWU4GM7GoKHHMuN50PY1GYTfeLgXduSRsqkZDiAj8
-   YYcK2S2QzpQCIvt7RGRe7YgMJuyLKOCwjdKL5QNRVqm6U8LcRHx23OZEn
-   nQJ5aDqMwHK7jqlNlzg+IlEmM6LETtGBI34ka/KRvgNIoqAUrjVPtM5ye
-   lDND5U80Uwn6Dg9AuWVebicJpX2Z7CSzFBxy7bV1nJ96S4c4GkP7NUo9f
-   lcr1roK781XEw6iZ+xSyE7xhFln9IZONedXqul3840/uogsZ4Aom7QmcY
-   NCWHJD1QIX5y1tUisnRrMVs8ckkkDbzUJk1L8UyLSOruIR7pXyAZjDEY4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="412515536"
-X-IronPort-AV: E=Sophos;i="5.99,252,1677571200"; 
-   d="scan'208";a="412515536"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 11:48:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="730465742"
-X-IronPort-AV: E=Sophos;i="5.99,252,1677571200"; 
-   d="scan'208";a="730465742"
-Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 05 May 2023 11:48:25 -0700
-Received: from kbuild by fe5d646e317d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pv0Th-0000oP-0U;
-	Fri, 05 May 2023 18:48:25 +0000
-Date: Sat, 6 May 2023 02:47:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B321C8C1
+	for <oe-kbuild@lists.linux.dev>; Fri,  5 May 2023 20:33:25 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3f19afc4fbfso22467335e9.2
+        for <oe-kbuild@lists.linux.dev>; Fri, 05 May 2023 13:33:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683318802; x=1685910802;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hWqJ/3jY3+vrvCck23NKi+QppinQ/nAYGWrW2QXPiDw=;
+        b=uOZ64c7vBkt7hssDX2u9n90ihUQpi7mkFY1A5EHSWtbLObdX2ArIYDeCRfkzrV63BI
+         XPSBBLHONcmrVng9yLkw2DX51DQB1KhsaoZQCRs4/+CPdjtYuzlBHxqpfi9LZNzfQ55c
+         AuZ66Zp8Nd+W0cLRbkJy3vglEp9guhVQIUg/2r7XJlFuqray6FEPeWQTjp2T5SYq/Rt8
+         Q0FIvXW0AW12+1yARVLEoP/7RI5Dm47E7FiQuO9iXdWObX80nzSeZj9oCCpnfYUKgwk3
+         j959LOZSm872NtwqpnMmj+pUlSpK+BOUweXW0+OOrUXsXT2jDmNIHIiGFJScaX1kcSYa
+         Ps9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683318802; x=1685910802;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hWqJ/3jY3+vrvCck23NKi+QppinQ/nAYGWrW2QXPiDw=;
+        b=hfmPnwx23B+Plpk+y+rIxLs62ya1e6ktSsqLlyRFav7jT89o6SD95K2o+rAkbu1Wci
+         wXuUzCBRPQTwXsIe/LAglyDJtTtyciLTLMXYukGrssiCglXvK0ipXbxuF4wwuQbQ/n5I
+         7+Obbm80LxaShJChlX9CuzkiFPM2LuTwgsi++FwDXenRMLxXdW+EWkyGnwryP4GpQlv9
+         ZhB6qCH+J0Y975zA8xHqNkBAPgZjb8FsEK3r4olQGD02y33lQBIW/QZvsci5v20kvhs2
+         T5XiZ0OuId6oq9OFw9wAhCed6iRxF4iXPACcMPg88+aqv3GPwC8MU1jhLI0sjnOKnBCQ
+         mkpw==
+X-Gm-Message-State: AC+VfDwdgwt+LxFBoDVzd308swYQgnEZ40Nc9c8/YpCutQZeMoqCkqOm
+	7JipKDGKXIJA349IH7969uCD85G4FHLmnEXjaMc=
+X-Google-Smtp-Source: ACHHUZ7C83BK2/nLW3UUcxDKb9n1fouxz3rCVH+tUz9gMaA4ltRwZ7DnvoboQw6KrJkUclyxqxcBxg==
+X-Received: by 2002:adf:e0ca:0:b0:306:3436:568a with SMTP id m10-20020adfe0ca000000b003063436568amr2282613wri.43.1683318802325;
+        Fri, 05 May 2023 13:33:22 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q14-20020a7bce8e000000b003f182a10106sm8954461wmj.8.2023.05.05.13.33.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 May 2023 13:33:20 -0700 (PDT)
+Date: Fri, 5 May 2023 23:33:15 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dave Jiang <dave.jiang@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [djiang:cxl-qtg 22/28] drivers/cxl/port.c:88
  cxl_port_perf_data_calculate() error: we previously assumed 'cxl_root->ops'
  could be null (see line 88)
-Message-ID: <202305060238.eVFtMQO6-lkp@intel.com>
+Message-ID: <f813b363-1c1f-4d06-b8a1-fbba00b2d33b@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,15 +53,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Dave Jiang <dave.jiang@intel.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl-qtg
 head:   4cc79fc6093484664713b47ccd4b4cff326bca86
 commit: 90a255f34829f50adb9fbfcd8e32444b188074e3 [22/28] cxl: Compute the entire CXL path latency and bandwidth data
-:::::: branch date: 2 hours ago
-:::::: commit date: 18 hours ago
 config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230506/202305060238.eVFtMQO6-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
@@ -69,7 +69,6 @@ drivers/cxl/port.c:88 cxl_port_perf_data_calculate() error: we previously assume
 
 vim +88 drivers/cxl/port.c
 
-f249841f3973f0 Dave Jiang 2023-04-24   69  
 90a255f34829f5 Dave Jiang 2022-12-05   70  static int cxl_port_perf_data_calculate(struct cxl_port *port,
 90a255f34829f5 Dave Jiang 2022-12-05   71  					struct list_head *dsmas_list)
 90a255f34829f5 Dave Jiang 2022-12-05   72  {
@@ -89,6 +88,9 @@ f249841f3973f0 Dave Jiang 2023-04-24   69
 90a255f34829f5 Dave Jiang 2022-12-05   86  	root_port = find_cxl_root(port);
 90a255f34829f5 Dave Jiang 2022-12-05   87  	cxl_root = to_cxl_root(root_port);
 90a255f34829f5 Dave Jiang 2022-12-05  @88  	if (!cxl_root->ops && !cxl_root->ops->get_qos_class)
+                                                     ^^^^^^^^^^^^^
+Should this probably be || instead of &&.
+
 90a255f34829f5 Dave Jiang 2022-12-05   89  		return -EOPNOTSUPP;
 90a255f34829f5 Dave Jiang 2022-12-05   90  
 90a255f34829f5 Dave Jiang 2022-12-05   91  	list_for_each_entry(dent, dsmas_list, list) {
@@ -115,8 +117,8 @@ f249841f3973f0 Dave Jiang 2023-04-24   69
 90a255f34829f5 Dave Jiang 2022-12-05  112  
 90a255f34829f5 Dave Jiang 2022-12-05  113  	return 0;
 90a255f34829f5 Dave Jiang 2022-12-05  114  }
-90a255f34829f5 Dave Jiang 2022-12-05  115  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
