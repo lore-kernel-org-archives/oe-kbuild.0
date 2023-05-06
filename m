@@ -1,42 +1,49 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8734816
-	for <oe-kbuild@lists.linux.dev>; Sat,  6 May 2023 06:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683354726; x=1714890726;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=psxXLJOsYEi9ijgW+Oa0ih7HccthqErAI8yDvzVsXDg=;
-  b=P9r6aD7lC83cCUy0XS+PcluxzVSaf7ttsmjz7Nhs3Ze0Eoa1XQeCQL2r
-   J1/DXmCl2LAjYFQ9tdbtO6GZKzMdEVrv/4i0hG9HOF8FpkdEFeJW+8FcN
-   2hSsmD9UmP3B1/MgZU+iCuEwtqWGU8ZlDOJiEf/KQkHgl4uDlhFVenLDq
-   lLiId8zpBKVz5P/TFqbR+KCmvkTmo34WTdLQ5anEeY8sGkkVK06ZExFjW
-   +rvBcvDVS60FCnWIHUiPPdM/5njAMhs/NsuYlfwr64ofVpEeh0O9ouFi3
-   4XeZ+G+1jx6tqrx84VMCoq0Ke+Ar+DDDHdo2TV1YvBrqz58QR4Eo8E3SE
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="329708254"
-X-IronPort-AV: E=Sophos;i="5.99,254,1677571200"; 
-   d="scan'208";a="329708254"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 23:32:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="822005982"
-X-IronPort-AV: E=Sophos;i="5.99,254,1677571200"; 
-   d="scan'208";a="822005982"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 05 May 2023 23:32:04 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pvBSe-00000z-06;
-	Sat, 06 May 2023 06:32:04 +0000
-Date: Sat, 6 May 2023 14:31:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/xfs/libxfs/xfs_refcount.c:131 xfs_refcount_check_irec() warn:
- impossible condition '(irec->rc_blockcount > (~0)) => (0-u32max > u32max)'
-Message-ID: <202305061437.wSZO3yXX-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBD51C26
+	for <oe-kbuild@lists.linux.dev>; Sat,  6 May 2023 07:22:13 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f415a90215so6323355e9.0
+        for <oe-kbuild@lists.linux.dev>; Sat, 06 May 2023 00:22:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683357730; x=1685949730;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fU8R1W3uogRJdDg/JWNdRA3Ig28vXMtcdzNpjKyBWIM=;
+        b=gPkq3wpwgrS/A42ZKMHL1vRn5ZFM+mgclPQcIjyISVniLUPVSR/+bsR2Lv+O8+cmyG
+         YWZTD+B5j8Tt0exVG8JXqwuMdZOivCrHchdGPIAs3ajpZmDQno7L8O6NlZbHXmy/ix+o
+         E83Q23nGpCLZVF+w3Gly9tAvQzymNEAtCzT1D9+6dcssA6jgR3sEHqQInxqFqt9w2OLa
+         ZavMxycHFQc3+HTms2teIGblYS6s7F/Qg8puK+K6ASKd5Xirbn2bDYKYYvE7fFebAjLz
+         96JvC1BzZmUQj0rh+Zgwo88JQa9gnEuGYpcjOPNXjIq4m1exRyHFW5kl0cZFr5+tYeT4
+         c3EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683357730; x=1685949730;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fU8R1W3uogRJdDg/JWNdRA3Ig28vXMtcdzNpjKyBWIM=;
+        b=IpbgxQPU/+N3hxWbUjRfJjFBgT8JMcVs7krW+abzOVLvq9XyBDtbSq2nw7JDtP/m3R
+         q6MmTCTnqxHulrZdjft+1TMP5L5ePeGNRUoJ5gljO6NynBasbB3wkV7TGSRiJ5155Y93
+         3Bx3b/ClIWpvtxo9lmmbN8TkxwxgcLqcAX4rPISunSDZCMtwwXJW3izs1+uhikH01dfA
+         SbZ4A+BOEFQwqgVtr8KgmBll+1B+IQjClbj3JTSDUG53n6KkPElV3k9PomZ6CtJMnSKD
+         SwsWrDOKqLCcsvbCncukTcpVqKEwajRAD6xoU4gk8ZzVaAWfF1yP5fIz3/zNOFzMQmxa
+         931g==
+X-Gm-Message-State: AC+VfDz64gtCYmp703rWo5rORy17Qmj8DBt2Qsv2vsNQe0fFTFzIvwAo
+	p4O3bVnyrEv2PonaOofDT/Js6s3igoQo9jzMFYU=
+X-Google-Smtp-Source: ACHHUZ7oqPu5QkfMYeUvctqCAVp7tcfmTRNn8dSDVaG/rX3gdu3RFZzbOmtZr7HaMTXiOi/BkRaD/g==
+X-Received: by 2002:a1c:ed13:0:b0:3f0:b095:15d9 with SMTP id l19-20020a1ced13000000b003f0b09515d9mr2466239wmh.40.1683357730343;
+        Sat, 06 May 2023 00:22:10 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id l9-20020a1c7909000000b003f193d7c6b7sm9856630wme.41.2023.05.06.00.22.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 May 2023 00:22:07 -0700 (PDT)
+Date: Sat, 6 May 2023 10:22:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, "Paul E. McKenney" <paulmck@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: kernel/rcu/srcutree.c:1644 srcu_advance_state() warn: inconsistent
+ returns '&ssp->srcu_sup->srcu_gp_mutex'.
+Message-ID: <c0937326-1cf1-429a-9883-30d9d79b01d0@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,58 +53,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Darrick J. Wong" <djwong@kernel.org>
-CC: Dave Chinner <dchinner@redhat.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2e1e1337881b0e9844d687982aa54b31b1269b11
-commit: 2b30cc0bf0589d1ea0506c019b9b81de77535c87 xfs: standardize ondisk to incore conversion for refcount btrees
-date:   3 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 3 weeks ago
-config: x86_64-randconfig-m001-20230501 (https://download.01.org/0day-ci/archive/20230506/202305061437.wSZO3yXX-lkp@intel.com/config)
+head:   418d5c98319f67b9ae651babea031b5394425c18
+commit: e3a6ab25cfa0fcdcb31c346b9871a566d440980d srcu: Move ->srcu_gp_mutex from srcu_struct to srcu_usage
+config: x86_64-randconfig-m001-20230501 (https://download.01.org/0day-ci/archive/20230506/202305060951.I8mz6eHt-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305061437.wSZO3yXX-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305060951.I8mz6eHt-lkp@intel.com/
 
 smatch warnings:
-fs/xfs/libxfs/xfs_refcount.c:131 xfs_refcount_check_irec() warn: impossible condition '(irec->rc_blockcount > (~0)) => (0-u32max > u32max)'
-fs/xfs/libxfs/xfs_refcount.c:141 xfs_refcount_check_irec() warn: impossible condition '(irec->rc_refcount > (~0)) => (0-u32max > u32max)'
+kernel/rcu/srcutree.c:1644 srcu_advance_state() warn: inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
 
-vim +131 fs/xfs/libxfs/xfs_refcount.c
+vim +1644 kernel/rcu/srcutree.c
 
-174edb0e46e520 Darrick J. Wong 2016-10-03  122  
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  123  /* Simple checks for refcount records. */
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  124  xfs_failaddr_t
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  125  xfs_refcount_check_irec(
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  126  	struct xfs_btree_cur		*cur,
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  127  	const struct xfs_refcount_irec	*irec)
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  128  {
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  129  	struct xfs_perag		*pag = cur->bc_ag.pag;
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  130  
-2b30cc0bf0589d Darrick J. Wong 2023-04-11 @131  	if (irec->rc_blockcount == 0 || irec->rc_blockcount > MAXREFCEXTLEN)
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  132  		return __this_address;
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  133  
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  134  	if (!xfs_refcount_check_domain(irec))
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  135  		return __this_address;
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  136  
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  137  	/* check for valid extent range, including overflow */
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  138  	if (!xfs_verify_agbext(pag, irec->rc_startblock, irec->rc_blockcount))
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  139  		return __this_address;
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  140  
-2b30cc0bf0589d Darrick J. Wong 2023-04-11 @141  	if (irec->rc_refcount == 0 || irec->rc_refcount > MAXREFCOUNT)
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  142  		return __this_address;
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  143  
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  144  	return NULL;
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  145  }
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  146  
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1584  static void srcu_advance_state(struct srcu_struct *ssp)
+dad81a2026841b Paul E. McKenney 2017-03-25  1585  {
+dad81a2026841b Paul E. McKenney 2017-03-25  1586  	int idx;
+dad81a2026841b Paul E. McKenney 2017-03-25  1587  
+e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1588  	mutex_lock(&ssp->srcu_sup->srcu_gp_mutex);
+da915ad5cf25b5 Paul E. McKenney 2017-04-05  1589  
+dad81a2026841b Paul E. McKenney 2017-03-25  1590  	/*
+dad81a2026841b Paul E. McKenney 2017-03-25  1591  	 * Because readers might be delayed for an extended period after
+da915ad5cf25b5 Paul E. McKenney 2017-04-05  1592  	 * fetching ->srcu_idx for their index, at any point in time there
+dad81a2026841b Paul E. McKenney 2017-03-25  1593  	 * might well be readers using both idx=0 and idx=1.  We therefore
+dad81a2026841b Paul E. McKenney 2017-03-25  1594  	 * need to wait for readers to clear from both index values before
+dad81a2026841b Paul E. McKenney 2017-03-25  1595  	 * invoking a callback.
+dad81a2026841b Paul E. McKenney 2017-03-25  1596  	 *
+dad81a2026841b Paul E. McKenney 2017-03-25  1597  	 * The load-acquire ensures that we see the accesses performed
+dad81a2026841b Paul E. McKenney 2017-03-25  1598  	 * by the prior grace period.
+dad81a2026841b Paul E. McKenney 2017-03-25  1599  	 */
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1600  	idx = rcu_seq_state(smp_load_acquire(&ssp->srcu_gp_seq)); /* ^^^ */
+dad81a2026841b Paul E. McKenney 2017-03-25  1601  	if (idx == SRCU_STATE_IDLE) {
+b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1602  		spin_lock_irq_rcu_node(ssp->srcu_sup);
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1603  		if (ULONG_CMP_GE(ssp->srcu_gp_seq, ssp->srcu_gp_seq_needed)) {
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1604  			WARN_ON_ONCE(rcu_seq_state(ssp->srcu_gp_seq));
+b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1605  			spin_unlock_irq_rcu_node(ssp->srcu_sup);
+e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1606  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+dad81a2026841b Paul E. McKenney 2017-03-25  1607  			return;
+dad81a2026841b Paul E. McKenney 2017-03-25  1608  		}
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1609  		idx = rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq));
+dad81a2026841b Paul E. McKenney 2017-03-25  1610  		if (idx == SRCU_STATE_IDLE)
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1611  			srcu_gp_start(ssp);
+b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1612  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
+da915ad5cf25b5 Paul E. McKenney 2017-04-05  1613  		if (idx != SRCU_STATE_IDLE) {
+e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1614  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+dad81a2026841b Paul E. McKenney 2017-03-25  1615  			return; /* Someone else started the grace period. */
+dad81a2026841b Paul E. McKenney 2017-03-25  1616  		}
+da915ad5cf25b5 Paul E. McKenney 2017-04-05  1617  	}
+dad81a2026841b Paul E. McKenney 2017-03-25  1618  
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1619  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN1) {
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1620  		idx = 1 ^ (ssp->srcu_idx & 1);
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1621  		if (!try_check_zero(ssp, idx, 1)) {
+e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1622  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+dad81a2026841b Paul E. McKenney 2017-03-25  1623  			return; /* readers present, retry later. */
+da915ad5cf25b5 Paul E. McKenney 2017-04-05  1624  		}
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1625  		srcu_flip(ssp);
+b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1626  		spin_lock_irq_rcu_node(ssp->srcu_sup);
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1627  		rcu_seq_set_state(&ssp->srcu_gp_seq, SRCU_STATE_SCAN2);
+282d8998e9979c Paul E. McKenney 2022-03-08  1628  		ssp->srcu_n_exp_nodelay = 0;
+b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1629  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
+dad81a2026841b Paul E. McKenney 2017-03-25  1630  	}
+dad81a2026841b Paul E. McKenney 2017-03-25  1631  
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1632  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN2) {
+
+We don't mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex) if this if
+statement is false.
+
+dad81a2026841b Paul E. McKenney 2017-03-25  1633  
+dad81a2026841b Paul E. McKenney 2017-03-25  1634  		/*
+dad81a2026841b Paul E. McKenney 2017-03-25  1635  		 * SRCU read-side critical sections are normally short,
+dad81a2026841b Paul E. McKenney 2017-03-25  1636  		 * so check at least twice in quick succession after a flip.
+dad81a2026841b Paul E. McKenney 2017-03-25  1637  		 */
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1638  		idx = 1 ^ (ssp->srcu_idx & 1);
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1639  		if (!try_check_zero(ssp, idx, 2)) {
+e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1640  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+da915ad5cf25b5 Paul E. McKenney 2017-04-05  1641  			return; /* readers present, retry later. */
+da915ad5cf25b5 Paul E. McKenney 2017-04-05  1642  		}
+282d8998e9979c Paul E. McKenney 2022-03-08  1643  		ssp->srcu_n_exp_nodelay = 0;
+aacb5d91ab1bfb Paul E. McKenney 2018-10-28 @1644  		srcu_gp_end(ssp);  /* Releases ->srcu_gp_mutex. */
+dad81a2026841b Paul E. McKenney 2017-03-25  1645  	}
+dad81a2026841b Paul E. McKenney 2017-03-25  1646  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
