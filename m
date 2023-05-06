@@ -1,42 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D5E1FB0
-	for <oe-kbuild@lists.linux.dev>; Sat,  6 May 2023 09:39:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D9F1FB0
+	for <oe-kbuild@lists.linux.dev>; Sat,  6 May 2023 13:46:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683365949; x=1714901949;
+  t=1683380779; x=1714916779;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YvYkTDVAUufthbgD4kqCMIMYNufv4ysx72Q+/SAlOcU=;
-  b=LwmBtvtkayk2QrzrLpFg8Z8CfvW1qlkxN7KyEThZZBR47OpfDIiBeRW5
-   pZZhNO/y4hzgBbBNTit/jXiq2HdB5yQ68Bz1C7gMdlQ+MyGHbqYzDkyt0
-   cqPwH5TTuT1BBF32Fkc93iLYRUZO1yURKoZ7eMAtjADn9nUQ90DgbbYGa
-   LMz6Utq7SJxDeKK4UtcgpkR+48lrx6w+5yWKv+24HwgWsv+fOZrckF9pN
-   NQ89ElTMzwJ2xNiipt39+gC8JZvPupu8r9QVRDAYZ02ETgN9usU38Tu8M
-   +VvT5mIGvnrL4A02HjW3TbhSLmVPtdNz9IYgFXUWvmiFokzrZp0P2bVAz
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="333796767"
-X-IronPort-AV: E=Sophos;i="5.99,254,1677571200"; 
-   d="scan'208";a="333796767"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 02:39:08 -0700
+  bh=UZ0gvrFDEEpKGAMwDbZLD3gL8xEGFfGl7lJPs35poQw=;
+  b=X9d7L/aYVabqXgMan/svHf9KSYv5Bq9deyc+VI++C7/a/uCTCCsRf5mN
+   tiq7roc9IWyAxMIbGHbYsCxT/5QSKNyax+egoFkGhSDvdGrr+lgy9T2Oo
+   TX2uqVR+EIRvnFikJLoCmKIReWT6TKop3nHcp4Mabfyp9n0uxhdEok6Ab
+   1g8kydIoLb3AmvMBIIvSrR8nzLdD8O76wut58+JjlDwdBlntKCbLBOU+y
+   gX87eFKYbtS4HR3oSGQEfmxALm7qQMypYxmL3Wp/qB/J0uwopWaHqUmhM
+   eEf+EZu33xvCRV8rxAaB57swgVnDGu8SWEzt60q+natVnJRt7vLoncAs4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="346848481"
+X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
+   d="scan'208";a="346848481"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 06:46:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="809582662"
-X-IronPort-AV: E=Sophos;i="5.99,254,1677571200"; 
-   d="scan'208";a="809582662"
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="767496782"
+X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
+   d="scan'208";a="767496782"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 06 May 2023 02:39:07 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 06 May 2023 06:46:17 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pvENf-000069-07;
-	Sat, 06 May 2023 09:39:07 +0000
-Date: Sat, 6 May 2023 17:38:10 +0800
+	id 1pvIEq-0000L7-10;
+	Sat, 06 May 2023 13:46:16 +0000
+Date: Sat, 6 May 2023 21:45:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: kernel/trace/fprobe.c:59 fprobe_handler() error: uninitialized
- symbol 'ret'.
-Message-ID: <202305061702.6h3JzCPA-lkp@intel.com>
+Subject: mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm'
+ could be null (see line 3667)
+Message-ID: <202305062140.CjqJdYCu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,75 +49,157 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+TO: Lorenzo Stoakes <lstoakes@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Baoquan He <bhe@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   2e1e1337881b0e9844d687982aa54b31b1269b11
-commit: 39d954200bf6ad503c722e44d0be80c7b826fa42 fprobe: Skip exit_handler if entry_handler returns !0
-date:   5 weeks ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 5 weeks ago
-config: i386-randconfig-m041-20230501 (https://download.01.org/0day-ci/archive/20230506/202305061702.6h3JzCPA-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+commit: 4c91c07c93bbbdd7f2d9de2beb7ee5c2a48ad8e7 mm: vmalloc: convert vread() to vread_iter()
+date:   4 weeks ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 4 weeks ago
+config: nios2-randconfig-m031-20230503 (https://download.01.org/0day-ci/archive/20230506/202305062140.CjqJdYCu-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305061702.6h3JzCPA-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305062140.CjqJdYCu-lkp@intel.com/
 
-smatch warnings:
-kernel/trace/fprobe.c:59 fprobe_handler() error: uninitialized symbol 'ret'.
+New smatch warnings:
+mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
 
-vim +/ret +59 kernel/trace/fprobe.c
+Old smatch warnings:
+arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
 
-5b0ab78998e325 Masami Hiramatsu          2022-03-15  22  
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  23  static void fprobe_handler(unsigned long ip, unsigned long parent_ip,
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  24  			   struct ftrace_ops *ops, struct ftrace_regs *fregs)
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  25  {
-5b0ab78998e325 Masami Hiramatsu          2022-03-15  26  	struct fprobe_rethook_node *fpr;
-76d0de5729c056 Masami Hiramatsu (Google  2023-02-02  27) 	struct rethook_node *rh = NULL;
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  28  	struct fprobe *fp;
-76d0de5729c056 Masami Hiramatsu (Google  2023-02-02  29) 	void *entry_data = NULL;
-39d954200bf6ad Masami Hiramatsu (Google  2023-02-02  30) 	int bit, ret;
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  31  
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  32  	fp = container_of(ops, struct fprobe, ops);
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  33  	if (fprobe_disabled(fp))
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  34  		return;
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  35  
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  36  	bit = ftrace_test_recursion_trylock(ip, parent_ip);
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  37  	if (bit < 0) {
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  38  		fp->nmissed++;
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  39  		return;
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  40  	}
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  41  
-5b0ab78998e325 Masami Hiramatsu          2022-03-15  42  	if (fp->exit_handler) {
-5b0ab78998e325 Masami Hiramatsu          2022-03-15  43  		rh = rethook_try_get(fp->rethook);
-5b0ab78998e325 Masami Hiramatsu          2022-03-15  44  		if (!rh) {
-5b0ab78998e325 Masami Hiramatsu          2022-03-15  45  			fp->nmissed++;
-5b0ab78998e325 Masami Hiramatsu          2022-03-15  46  			goto out;
-5b0ab78998e325 Masami Hiramatsu          2022-03-15  47  		}
-5b0ab78998e325 Masami Hiramatsu          2022-03-15  48  		fpr = container_of(rh, struct fprobe_rethook_node, node);
-5b0ab78998e325 Masami Hiramatsu          2022-03-15  49  		fpr->entry_ip = ip;
-76d0de5729c056 Masami Hiramatsu (Google  2023-02-02  50) 		if (fp->entry_data_size)
-76d0de5729c056 Masami Hiramatsu (Google  2023-02-02  51) 			entry_data = fpr->data;
-5b0ab78998e325 Masami Hiramatsu          2022-03-15  52  	}
-5b0ab78998e325 Masami Hiramatsu          2022-03-15  53  
-76d0de5729c056 Masami Hiramatsu (Google  2023-02-02  54) 	if (fp->entry_handler)
-39d954200bf6ad Masami Hiramatsu (Google  2023-02-02  55) 		ret = fp->entry_handler(fp, ip, ftrace_get_regs(fregs), entry_data);
-76d0de5729c056 Masami Hiramatsu (Google  2023-02-02  56) 
-39d954200bf6ad Masami Hiramatsu (Google  2023-02-02  57) 	/* If entry_handler returns !0, nmissed is not counted. */
-39d954200bf6ad Masami Hiramatsu (Google  2023-02-02  58) 	if (rh) {
-39d954200bf6ad Masami Hiramatsu (Google  2023-02-02 @59) 		if (ret)
-39d954200bf6ad Masami Hiramatsu (Google  2023-02-02  60) 			rethook_recycle(rh);
-39d954200bf6ad Masami Hiramatsu (Google  2023-02-02  61) 		else
-76d0de5729c056 Masami Hiramatsu (Google  2023-02-02  62) 			rethook_hook(rh, ftrace_get_regs(fregs), true);
-39d954200bf6ad Masami Hiramatsu (Google  2023-02-02  63) 	}
-5b0ab78998e325 Masami Hiramatsu          2022-03-15  64  out:
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  65  	ftrace_test_recursion_unlock(bit);
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  66  }
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  67  NOKPROBE_SYMBOL(fprobe_handler);
-cad9931f64dc7f Masami Hiramatsu          2022-03-15  68  
+vim +/vm +3689 mm/vmalloc.c
+
+06c8994626d1b7 Baoquan He              2023-02-06  3594  
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3595  /**
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3596   * vread_iter() - read vmalloc area in a safe way to an iterator.
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3597   * @iter:         the iterator to which data should be written.
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3598   * @addr:         vm address.
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3599   * @count:        number of bytes to be read.
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3600   *
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3601   * This function checks that addr is a valid vmalloc'ed area, and
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3602   * copy data from that area to a given buffer. If the given memory range
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3603   * of [addr...addr+count) includes some valid address, data is copied to
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3604   * proper area of @buf. If there are memory holes, they'll be zero-filled.
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3605   * IOREMAP area is treated as memory hole and no copy is done.
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3606   *
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3607   * If [addr...addr+count) doesn't includes any intersects with alive
+a8e5202d09c1ba Cong Wang               2012-06-23  3608   * vm_struct area, returns 0. @buf should be kernel's buffer.
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3609   *
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3610   * Note: In usual ops, vread() is never necessary because the caller
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3611   * should know vmalloc() area is valid and can use memcpy().
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3612   * This is for routines which have to access vmalloc area without
+bbcd53c9607135 David Hildenbrand       2021-05-06  3613   * any information, as /proc/kcore.
+a862f68a8b3600 Mike Rapoport           2019-03-05  3614   *
+a862f68a8b3600 Mike Rapoport           2019-03-05  3615   * Return: number of bytes for which addr and buf should be increased
+a862f68a8b3600 Mike Rapoport           2019-03-05  3616   * (same number as @count) or %0 if [addr...addr+count) doesn't
+a862f68a8b3600 Mike Rapoport           2019-03-05  3617   * include any intersection with valid vmalloc area
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3618   */
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3619  long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3620  {
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3621  	struct vmap_area *va;
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3622  	struct vm_struct *vm;
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3623  	char *vaddr;
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3624  	size_t n, size, flags, remains;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3625  
+4aff1dc4fb3a5a Andrey Konovalov        2022-03-24  3626  	addr = kasan_reset_tag(addr);
+4aff1dc4fb3a5a Andrey Konovalov        2022-03-24  3627  
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3628  	/* Don't allow overflow */
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3629  	if ((unsigned long) addr + count < count)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3630  		count = -(unsigned long) addr;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3631  
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3632  	remains = count;
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3633  
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3634  	spin_lock(&vmap_area_lock);
+f181234a5a21fd Chen Wandun             2021-09-02  3635  	va = find_vmap_area_exceed_addr((unsigned long)addr);
+f608788cd2d6ca Serapheim Dimitropoulos 2021-04-29  3636  	if (!va)
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3637  		goto finished_zero;
+f181234a5a21fd Chen Wandun             2021-09-02  3638  
+f181234a5a21fd Chen Wandun             2021-09-02  3639  	/* no intersects with alive vmap_area */
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3640  	if ((unsigned long)addr + remains <= va->va_start)
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3641  		goto finished_zero;
+f181234a5a21fd Chen Wandun             2021-09-02  3642  
+f608788cd2d6ca Serapheim Dimitropoulos 2021-04-29  3643  	list_for_each_entry_from(va, &vmap_area_list, list) {
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3644  		size_t copied;
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3645  
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3646  		if (remains == 0)
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3647  			goto finished;
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3648  
+06c8994626d1b7 Baoquan He              2023-02-06  3649  		vm = va->vm;
+06c8994626d1b7 Baoquan He              2023-02-06  3650  		flags = va->flags & VMAP_FLAGS_MASK;
+06c8994626d1b7 Baoquan He              2023-02-06  3651  		/*
+06c8994626d1b7 Baoquan He              2023-02-06  3652  		 * VMAP_BLOCK indicates a sub-type of vm_map_ram area, need
+06c8994626d1b7 Baoquan He              2023-02-06  3653  		 * be set together with VMAP_RAM.
+06c8994626d1b7 Baoquan He              2023-02-06  3654  		 */
+06c8994626d1b7 Baoquan He              2023-02-06  3655  		WARN_ON(flags == VMAP_BLOCK);
+06c8994626d1b7 Baoquan He              2023-02-06  3656  
+06c8994626d1b7 Baoquan He              2023-02-06  3657  		if (!vm && !flags)
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3658  			continue;
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3659  
+30a7a9b17c4b03 Baoquan He              2023-02-06  3660  		if (vm && (vm->flags & VM_UNINITIALIZED))
+30a7a9b17c4b03 Baoquan He              2023-02-06  3661  			continue;
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3662  
+30a7a9b17c4b03 Baoquan He              2023-02-06  3663  		/* Pair with smp_wmb() in clear_vm_uninitialized_flag() */
+30a7a9b17c4b03 Baoquan He              2023-02-06  3664  		smp_rmb();
+30a7a9b17c4b03 Baoquan He              2023-02-06  3665  
+06c8994626d1b7 Baoquan He              2023-02-06  3666  		vaddr = (char *) va->va_start;
+06c8994626d1b7 Baoquan He              2023-02-06 @3667  		size = vm ? get_vm_area_size(vm) : va_size(va);
+06c8994626d1b7 Baoquan He              2023-02-06  3668  
+06c8994626d1b7 Baoquan He              2023-02-06  3669  		if (addr >= vaddr + size)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3670  			continue;
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3671  
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3672  		if (addr < vaddr) {
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3673  			size_t to_zero = min_t(size_t, vaddr - addr, remains);
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3674  			size_t zeroed = zero_iter(iter, to_zero);
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3675  
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3676  			addr += zeroed;
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3677  			remains -= zeroed;
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3678  
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3679  			if (remains == 0 || zeroed != to_zero)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3680  				goto finished;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3681  		}
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3682  
+06c8994626d1b7 Baoquan He              2023-02-06  3683  		n = vaddr + size - addr;
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3684  		if (n > remains)
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3685  			n = remains;
+06c8994626d1b7 Baoquan He              2023-02-06  3686  
+06c8994626d1b7 Baoquan He              2023-02-06  3687  		if (flags & VMAP_RAM)
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3688  			copied = vmap_ram_vread_iter(iter, addr, n, flags);
+06c8994626d1b7 Baoquan He              2023-02-06 @3689  		else if (!(vm->flags & VM_IOREMAP))
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3690  			copied = aligned_vread_iter(iter, addr, n);
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3691  		else /* IOREMAP area is treated as memory hole */
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3692  			copied = zero_iter(iter, n);
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3693  
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3694  		addr += copied;
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3695  		remains -= copied;
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3696  
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3697  		if (copied != n)
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3698  			goto finished;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3699  	}
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3700  
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3701  finished_zero:
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3702  	spin_unlock(&vmap_area_lock);
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3703  	/* zero-fill memory holes */
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3704  	return count - remains + zero_iter(iter, remains);
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3705  finished:
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3706  	/* Nothing remains, or We couldn't copy/zero everything. */
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3707  	spin_unlock(&vmap_area_lock);
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3708  
+4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3709  	return count - remains;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3710  }
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3711  
+
+:::::: The code at line 3689 was first introduced by commit
+:::::: 06c8994626d1b7d8c26dfd06992d67703a274054 mm/vmalloc.c: allow vread() to read out vm_map_ram areas
+
+:::::: TO: Baoquan He <bhe@redhat.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
