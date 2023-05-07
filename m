@@ -1,42 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93AF823CD
-	for <oe-kbuild@lists.linux.dev>; Sun,  7 May 2023 14:14:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726DC5258
+	for <oe-kbuild@lists.linux.dev>; Sun,  7 May 2023 17:19:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683468883; x=1715004883;
+  t=1683479979; x=1715015979;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ql59oOp+9pqTspXwskjgfjd2ehcBNgT4Y1c++hGYUes=;
-  b=XtwqS61B5Fvt0BCag0v80TbBXyiddisYK/TzAfQqy278Mqde4BMF3rcy
-   TadX9GNB/26UnMWvZewiZBHyrHgWYOFCdWc/bA0RPJabS+04Vg2lCpEum
-   zTRVFoW4GWkXz1qXlowuhMEn8OM6OO1SWkrucxGU97D4hIiDt76bWe02b
-   0MJYhBervk/ASTisklB2cgDl68P0i+pHCC96FOr236kpW4R/7yy08tCgZ
-   lVE93I1cLSwj0XkBQrv0cuHqzRkRiVlQ/5aUNVTPVyUwSZhnl63T2XLWw
-   BfXqpxojFG99f3JWrvYSx6ab62K3GDsZ3qJuBrcn3kQzUzauiRx80/Znu
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="415041799"
+  bh=Ta28aWkjmMwc8rgceF6bc2mUiACX1QXvM2OZ3wcajjw=;
+  b=cI22sQPguwxPHg+PKx0tpk2rY8obxj60hTeU3PzXJ0L7l0SioaHHpFNO
+   vwxNX207bzpO4QZl9eO6q7D4bwGUBLaQV3+y1PyU7lU+nQp7dFsmOfUa2
+   jO0V5vp/T5Y7lnDgxa4/PZKllsIn2pn3v/h61R7OGzWnamRvteCaqT8GA
+   VRoIoHewvtM2kStQ/zjX/i/YL93PCzZeq9WKq8HuO2DKHw+skmPomRPnt
+   4ogaOYZ3plBggidCex44xrWC0eRTRx9/VC8f9kYoSefVMuVaz9hq78B4M
+   F3cW/JuvtXlegUGuG9fPvSy9A8OcrIrBR8cNobTEotPBaISC8Q8Iw5pSn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="435820134"
 X-IronPort-AV: E=Sophos;i="5.99,257,1677571200"; 
-   d="scan'208";a="415041799"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2023 07:14:36 -0700
+   d="scan'208";a="435820134"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2023 10:19:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="822382249"
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="648605986"
 X-IronPort-AV: E=Sophos;i="5.99,257,1677571200"; 
-   d="scan'208";a="822382249"
+   d="scan'208";a="648605986"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 07 May 2023 07:14:34 -0700
+  by orsmga003.jf.intel.com with ESMTP; 07 May 2023 10:19:36 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pvf9l-0000lh-2O;
-	Sun, 07 May 2023 14:14:33 +0000
-Date: Sun, 7 May 2023 22:13:35 +0800
+	id 1pvi2q-0000p7-0V;
+	Sun, 07 May 2023 17:19:36 +0000
+Date: Mon, 8 May 2023 01:18:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH RFC v2 3/4] mm/ptshare: Create new mm struct for page
- table sharing
-Message-ID: <202305072226.KGlQeenj-lkp@intel.com>
+Subject: lib/zstd/compress/zstd_lazy.c:1605 ZSTD_compressBlock_lazy_generic()
+ warn: Function too hairy.  No more merges.
+Message-ID: <202305080110.wWXvxYPZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,296 +48,281 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <1fd52581f4e4960a4d07cb9784d56659ec139d3c.1682453344.git.khalid.aziz@oracle.com>
-References: <1fd52581f4e4960a4d07cb9784d56659ec139d3c.1682453344.git.khalid.aziz@oracle.com>
-TO: Khalid Aziz <khalid.aziz@oracle.com>
+CC: linux-kernel@vger.kernel.org
+TO: Nick Terrell <terrelln@fb.com>
 
-Hi Khalid,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on arnd-asm-generic/master]
-[also build test WARNING on vfs-idmapping/for-next linus/master v6.3 next-20230505]
-[cannot apply to akpm-mm/mm-everything]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Khalid-Aziz/mm-ptshare-Add-vm-flag-for-shared-PTE/20230427-005143
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-patch link:    https://lore.kernel.org/r/1fd52581f4e4960a4d07cb9784d56659ec139d3c.1682453344.git.khalid.aziz%40oracle.com
-patch subject: [PATCH RFC v2 3/4] mm/ptshare: Create new mm struct for page table sharing
-:::::: branch date: 11 days ago
-:::::: commit date: 11 days ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230507/202305072226.KGlQeenj-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fc4354c6e5c21257cf4a50b32f7c11c7d65c55b3
+commit: 2aa14b1ab2c41a4fe41efae80d58bb77da91f19f zstd: import usptream v1.5.2
+date:   7 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 7 months ago
+config: ia64-randconfig-m031-20230507 (https://download.01.org/0day-ci/archive/20230508/202305080110.wWXvxYPZ-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305072226.KGlQeenj-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305080110.wWXvxYPZ-lkp@intel.com/
 
-smatch warnings:
-mm/mmap.c:2699 mmap_region() warn: bitwise AND condition is false here
+New smatch warnings:
+lib/zstd/compress/zstd_lazy.c:1605 ZSTD_compressBlock_lazy_generic() warn: Function too hairy.  No more merges.
 
-vim +2699 mm/mmap.c
+Old smatch warnings:
+lib/zstd/compress/zstd_lazy.c:1577 ZSTD_compressBlock_lazy_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:1915 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:1937 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:1947 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:1979 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:2026 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
 
-dd2283f2605e3b Yang Shi           2018-10-26  2554  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2555  unsigned long mmap_region(struct file *file, unsigned long addr,
-e99668a56430a2 Liam R. Howlett    2022-09-06  2556  		unsigned long len, vm_flags_t vm_flags, unsigned long pgoff,
-e99668a56430a2 Liam R. Howlett    2022-09-06  2557  		struct list_head *uf)
-e99668a56430a2 Liam R. Howlett    2022-09-06  2558  {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2559  	struct mm_struct *mm = current->mm;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2560  	struct vm_area_struct *vma = NULL;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2561  	struct vm_area_struct *next, *prev, *merge;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2562  	pgoff_t pglen = len >> PAGE_SHIFT;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2563  	unsigned long charged = 0;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2564  	unsigned long end = addr + len;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2565  	unsigned long merge_start = addr, merge_end = end;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2566  	pgoff_t vm_pgoff;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2567  	int error;
-183654ce26a5d5 Liam R. Howlett    2023-01-20  2568  	VMA_ITERATOR(vmi, mm, addr);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2569  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2570  	/* Check against address space limit. */
-e99668a56430a2 Liam R. Howlett    2022-09-06  2571  	if (!may_expand_vm(mm, vm_flags, len >> PAGE_SHIFT)) {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2572  		unsigned long nr_pages;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2573  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2574  		/*
-e99668a56430a2 Liam R. Howlett    2022-09-06  2575  		 * MAP_FIXED may remove pages of mappings that intersects with
-e99668a56430a2 Liam R. Howlett    2022-09-06  2576  		 * requested mapping. Account for the pages it would unmap.
-e99668a56430a2 Liam R. Howlett    2022-09-06  2577  		 */
-e99668a56430a2 Liam R. Howlett    2022-09-06  2578  		nr_pages = count_vma_pages_range(mm, addr, end);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2579  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2580  		if (!may_expand_vm(mm, vm_flags,
-e99668a56430a2 Liam R. Howlett    2022-09-06  2581  					(len >> PAGE_SHIFT) - nr_pages))
-e99668a56430a2 Liam R. Howlett    2022-09-06  2582  			return -ENOMEM;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2583  	}
-e99668a56430a2 Liam R. Howlett    2022-09-06  2584  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2585  	/* Unmap any existing mapping in the area */
-183654ce26a5d5 Liam R. Howlett    2023-01-20  2586  	if (do_vmi_munmap(&vmi, mm, addr, len, uf, false))
-e99668a56430a2 Liam R. Howlett    2022-09-06  2587  		return -ENOMEM;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2588  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2589  	/*
-e99668a56430a2 Liam R. Howlett    2022-09-06  2590  	 * Private writable mapping: check memory availability
-e99668a56430a2 Liam R. Howlett    2022-09-06  2591  	 */
-e99668a56430a2 Liam R. Howlett    2022-09-06  2592  	if (accountable_mapping(file, vm_flags)) {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2593  		charged = len >> PAGE_SHIFT;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2594  		if (security_vm_enough_memory_mm(mm, charged))
-e99668a56430a2 Liam R. Howlett    2022-09-06  2595  			return -ENOMEM;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2596  		vm_flags |= VM_ACCOUNT;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2597  	}
-e99668a56430a2 Liam R. Howlett    2022-09-06  2598  
-183654ce26a5d5 Liam R. Howlett    2023-01-20  2599  	next = vma_next(&vmi);
-183654ce26a5d5 Liam R. Howlett    2023-01-20  2600  	prev = vma_prev(&vmi);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2601  	if (vm_flags & VM_SPECIAL)
-e99668a56430a2 Liam R. Howlett    2022-09-06  2602  		goto cannot_expand;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2603  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2604  	/* Attempt to expand an old mapping */
-e99668a56430a2 Liam R. Howlett    2022-09-06  2605  	/* Check next */
-e99668a56430a2 Liam R. Howlett    2022-09-06  2606  	if (next && next->vm_start == end && !vma_policy(next) &&
-e99668a56430a2 Liam R. Howlett    2022-09-06  2607  	    can_vma_merge_before(next, vm_flags, NULL, file, pgoff+pglen,
-e99668a56430a2 Liam R. Howlett    2022-09-06  2608  				 NULL_VM_UFFD_CTX, NULL)) {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2609  		merge_end = next->vm_end;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2610  		vma = next;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2611  		vm_pgoff = next->vm_pgoff - pglen;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2612  	}
-e99668a56430a2 Liam R. Howlett    2022-09-06  2613  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2614  	/* Check prev */
-e99668a56430a2 Liam R. Howlett    2022-09-06  2615  	if (prev && prev->vm_end == addr && !vma_policy(prev) &&
-e99668a56430a2 Liam R. Howlett    2022-09-06  2616  	    (vma ? can_vma_merge_after(prev, vm_flags, vma->anon_vma, file,
-e99668a56430a2 Liam R. Howlett    2022-09-06  2617  				       pgoff, vma->vm_userfaultfd_ctx, NULL) :
-e99668a56430a2 Liam R. Howlett    2022-09-06  2618  		   can_vma_merge_after(prev, vm_flags, NULL, file, pgoff,
-e99668a56430a2 Liam R. Howlett    2022-09-06  2619  				       NULL_VM_UFFD_CTX, NULL))) {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2620  		merge_start = prev->vm_start;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2621  		vma = prev;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2622  		vm_pgoff = prev->vm_pgoff;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2623  	}
-e99668a56430a2 Liam R. Howlett    2022-09-06  2624  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2625  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2626  	/* Actually expand, if possible */
-e99668a56430a2 Liam R. Howlett    2022-09-06  2627  	if (vma &&
-3c441ab7d059eb Liam R. Howlett    2023-01-20  2628  	    !vma_expand(&vmi, vma, merge_start, merge_end, vm_pgoff, next)) {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2629  		khugepaged_enter_vma(vma, vm_flags);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2630  		goto expanded;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2631  	}
-e99668a56430a2 Liam R. Howlett    2022-09-06  2632  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2633  cannot_expand:
-e99668a56430a2 Liam R. Howlett    2022-09-06  2634  	/*
-e99668a56430a2 Liam R. Howlett    2022-09-06  2635  	 * Determine the object being mapped and call the appropriate
-e99668a56430a2 Liam R. Howlett    2022-09-06  2636  	 * specific mapper. the address has already been validated, but
-e99668a56430a2 Liam R. Howlett    2022-09-06  2637  	 * not unmapped, but the maps are removed from the list.
-e99668a56430a2 Liam R. Howlett    2022-09-06  2638  	 */
-e99668a56430a2 Liam R. Howlett    2022-09-06  2639  	vma = vm_area_alloc(mm);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2640  	if (!vma) {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2641  		error = -ENOMEM;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2642  		goto unacct_error;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2643  	}
-e99668a56430a2 Liam R. Howlett    2022-09-06  2644  
-0fd5a9e2b09ff5 Liam R. Howlett    2023-01-20  2645  	vma_iter_set(&vmi, addr);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2646  	vma->vm_start = addr;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2647  	vma->vm_end = end;
-1c71222e5f2393 Suren Baghdasaryan 2023-01-26  2648  	vm_flags_init(vma, vm_flags);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2649  	vma->vm_page_prot = vm_get_page_prot(vm_flags);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2650  	vma->vm_pgoff = pgoff;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2651  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2652  	if (file) {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2653  		if (vm_flags & VM_SHARED) {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2654  			error = mapping_map_writable(file->f_mapping);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2655  			if (error)
-e99668a56430a2 Liam R. Howlett    2022-09-06  2656  				goto free_vma;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2657  		}
-e99668a56430a2 Liam R. Howlett    2022-09-06  2658  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2659  		vma->vm_file = get_file(file);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2660  		error = call_mmap(file, vma);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2661  		if (error)
-e99668a56430a2 Liam R. Howlett    2022-09-06  2662  			goto unmap_and_free_vma;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2663  
-a57b70519d1f7c Liam Howlett       2022-10-18  2664  		/*
-a57b70519d1f7c Liam Howlett       2022-10-18  2665  		 * Expansion is handled above, merging is handled below.
-a57b70519d1f7c Liam Howlett       2022-10-18  2666  		 * Drivers should not alter the address of the VMA.
-e99668a56430a2 Liam R. Howlett    2022-09-06  2667  		 */
-a57b70519d1f7c Liam Howlett       2022-10-18  2668  		error = -EINVAL;
-cc8d1b097de78b Liam R. Howlett    2023-01-20  2669  		if (WARN_ON((addr != vma->vm_start)))
-a57b70519d1f7c Liam Howlett       2022-10-18  2670  			goto close_and_free_vma;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2671  
-cc8d1b097de78b Liam R. Howlett    2023-01-20  2672  		vma_iter_set(&vmi, addr);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2673  		/*
-e99668a56430a2 Liam R. Howlett    2022-09-06  2674  		 * If vm_flags changed after call_mmap(), we should try merge
-e99668a56430a2 Liam R. Howlett    2022-09-06  2675  		 * vma again as we may succeed this time.
-e99668a56430a2 Liam R. Howlett    2022-09-06  2676  		 */
-e99668a56430a2 Liam R. Howlett    2022-09-06  2677  		if (unlikely(vm_flags != vma->vm_flags && prev)) {
-9760ebffbf5507 Liam R. Howlett    2023-01-20  2678  			merge = vma_merge(&vmi, mm, prev, vma->vm_start,
-9760ebffbf5507 Liam R. Howlett    2023-01-20  2679  				    vma->vm_end, vma->vm_flags, NULL,
-9760ebffbf5507 Liam R. Howlett    2023-01-20  2680  				    vma->vm_file, vma->vm_pgoff, NULL,
-9760ebffbf5507 Liam R. Howlett    2023-01-20  2681  				    NULL_VM_UFFD_CTX, NULL);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2682  			if (merge) {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2683  				/*
-e99668a56430a2 Liam R. Howlett    2022-09-06  2684  				 * ->mmap() can change vma->vm_file and fput
-e99668a56430a2 Liam R. Howlett    2022-09-06  2685  				 * the original file. So fput the vma->vm_file
-e99668a56430a2 Liam R. Howlett    2022-09-06  2686  				 * here or we would add an extra fput for file
-e99668a56430a2 Liam R. Howlett    2022-09-06  2687  				 * and cause general protection fault
-e99668a56430a2 Liam R. Howlett    2022-09-06  2688  				 * ultimately.
-e99668a56430a2 Liam R. Howlett    2022-09-06  2689  				 */
-e99668a56430a2 Liam R. Howlett    2022-09-06  2690  				fput(vma->vm_file);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2691  				vm_area_free(vma);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2692  				vma = merge;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2693  				/* Update vm_flags to pick up the change. */
-e99668a56430a2 Liam R. Howlett    2022-09-06  2694  				vm_flags = vma->vm_flags;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2695  				goto unmap_writable;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2696  			}
-e99668a56430a2 Liam R. Howlett    2022-09-06  2697  		}
-e99668a56430a2 Liam R. Howlett    2022-09-06  2698  
-263f767f45a14d Khalid Aziz        2023-04-26 @2699  		if (vm_flags & VM_SHARED_PT)
-263f767f45a14d Khalid Aziz        2023-04-26  2700  			vm_flags_set(vma, VM_SHARED_PT);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2701  		vm_flags = vma->vm_flags;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2702  	} else if (vm_flags & VM_SHARED) {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2703  		error = shmem_zero_setup(vma);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2704  		if (error)
-e99668a56430a2 Liam R. Howlett    2022-09-06  2705  			goto free_vma;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2706  	} else {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2707  		vma_set_anonymous(vma);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2708  	}
-e99668a56430a2 Liam R. Howlett    2022-09-06  2709  
-b507808ebce235 Joey Gouly         2023-01-19  2710  	if (map_deny_write_exec(vma, vma->vm_flags)) {
-b507808ebce235 Joey Gouly         2023-01-19  2711  		error = -EACCES;
-b507808ebce235 Joey Gouly         2023-01-19  2712  		if (file)
-b507808ebce235 Joey Gouly         2023-01-19  2713  			goto close_and_free_vma;
-b507808ebce235 Joey Gouly         2023-01-19  2714  		else if (vma->vm_file)
-b507808ebce235 Joey Gouly         2023-01-19  2715  			goto unmap_and_free_vma;
-b507808ebce235 Joey Gouly         2023-01-19  2716  		else
-b507808ebce235 Joey Gouly         2023-01-19  2717  			goto free_vma;
-b507808ebce235 Joey Gouly         2023-01-19  2718  	}
-b507808ebce235 Joey Gouly         2023-01-19  2719  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2720  	/* Allow architectures to sanity-check the vm_flags */
-e99668a56430a2 Liam R. Howlett    2022-09-06  2721  	error = -EINVAL;
-cc8d1b097de78b Liam R. Howlett    2023-01-20  2722  	if (!arch_validate_flags(vma->vm_flags))
-deb0f6562884b5 Carlos Llamas      2022-09-30  2723  		goto close_and_free_vma;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2724  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2725  	error = -ENOMEM;
-cc8d1b097de78b Liam R. Howlett    2023-01-20  2726  	if (vma_iter_prealloc(&vmi))
-5789151e48acc3 Mike Kravetz       2022-10-17  2727  		goto close_and_free_vma;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2728  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2729  	if (vma->vm_file)
-e99668a56430a2 Liam R. Howlett    2022-09-06  2730  		i_mmap_lock_write(vma->vm_file->f_mapping);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2731  
-183654ce26a5d5 Liam R. Howlett    2023-01-20  2732  	vma_iter_store(&vmi, vma);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2733  	mm->map_count++;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2734  	if (vma->vm_file) {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2735  		if (vma->vm_flags & VM_SHARED)
-e99668a56430a2 Liam R. Howlett    2022-09-06  2736  			mapping_allow_writable(vma->vm_file->f_mapping);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2737  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2738  		flush_dcache_mmap_lock(vma->vm_file->f_mapping);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2739  		vma_interval_tree_insert(vma, &vma->vm_file->f_mapping->i_mmap);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2740  		flush_dcache_mmap_unlock(vma->vm_file->f_mapping);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2741  		i_mmap_unlock_write(vma->vm_file->f_mapping);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2742  	}
-e99668a56430a2 Liam R. Howlett    2022-09-06  2743  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2744  	/*
-e99668a56430a2 Liam R. Howlett    2022-09-06  2745  	 * vma_merge() calls khugepaged_enter_vma() either, the below
-e99668a56430a2 Liam R. Howlett    2022-09-06  2746  	 * call covers the non-merge case.
-e99668a56430a2 Liam R. Howlett    2022-09-06  2747  	 */
-e99668a56430a2 Liam R. Howlett    2022-09-06  2748  	khugepaged_enter_vma(vma, vma->vm_flags);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2749  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2750  	/* Once vma denies write, undo our temporary denial count */
-e99668a56430a2 Liam R. Howlett    2022-09-06  2751  unmap_writable:
-e99668a56430a2 Liam R. Howlett    2022-09-06  2752  	if (file && vm_flags & VM_SHARED)
-e99668a56430a2 Liam R. Howlett    2022-09-06  2753  		mapping_unmap_writable(file->f_mapping);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2754  	file = vma->vm_file;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2755  expanded:
-e99668a56430a2 Liam R. Howlett    2022-09-06  2756  	perf_event_mmap(vma);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2757  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2758  	vm_stat_account(mm, vm_flags, len >> PAGE_SHIFT);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2759  	if (vm_flags & VM_LOCKED) {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2760  		if ((vm_flags & VM_SPECIAL) || vma_is_dax(vma) ||
-e99668a56430a2 Liam R. Howlett    2022-09-06  2761  					is_vm_hugetlb_page(vma) ||
-e99668a56430a2 Liam R. Howlett    2022-09-06  2762  					vma == get_gate_vma(current->mm))
-e430a95a04efc5 Suren Baghdasaryan 2023-01-26  2763  			vm_flags_clear(vma, VM_LOCKED_MASK);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2764  		else
-e99668a56430a2 Liam R. Howlett    2022-09-06  2765  			mm->locked_vm += (len >> PAGE_SHIFT);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2766  	}
-e99668a56430a2 Liam R. Howlett    2022-09-06  2767  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2768  	if (file)
-e99668a56430a2 Liam R. Howlett    2022-09-06  2769  		uprobe_mmap(vma);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2770  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2771  	/*
-e99668a56430a2 Liam R. Howlett    2022-09-06  2772  	 * New (or expanded) vma always get soft dirty status.
-e99668a56430a2 Liam R. Howlett    2022-09-06  2773  	 * Otherwise user-space soft-dirty page tracker won't
-e99668a56430a2 Liam R. Howlett    2022-09-06  2774  	 * be able to distinguish situation when vma area unmapped,
-e99668a56430a2 Liam R. Howlett    2022-09-06  2775  	 * then new mapped in-place (which must be aimed as
-e99668a56430a2 Liam R. Howlett    2022-09-06  2776  	 * a completely new data area).
-e99668a56430a2 Liam R. Howlett    2022-09-06  2777  	 */
-1c71222e5f2393 Suren Baghdasaryan 2023-01-26  2778  	vm_flags_set(vma, VM_SOFTDIRTY);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2779  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2780  	vma_set_page_prot(vma);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2781  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2782  	validate_mm(mm);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2783  	return addr;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2784  
-deb0f6562884b5 Carlos Llamas      2022-09-30  2785  close_and_free_vma:
-cc8d1b097de78b Liam R. Howlett    2023-01-20  2786  	if (file && vma->vm_ops && vma->vm_ops->close)
-deb0f6562884b5 Carlos Llamas      2022-09-30  2787  		vma->vm_ops->close(vma);
-cc8d1b097de78b Liam R. Howlett    2023-01-20  2788  
-cc8d1b097de78b Liam R. Howlett    2023-01-20  2789  	if (file || vma->vm_file) {
-e99668a56430a2 Liam R. Howlett    2022-09-06  2790  unmap_and_free_vma:
-e99668a56430a2 Liam R. Howlett    2022-09-06  2791  		fput(vma->vm_file);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2792  		vma->vm_file = NULL;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2793  
-e99668a56430a2 Liam R. Howlett    2022-09-06  2794  		/* Undo any partial mapping done by a device driver. */
-cc8d1b097de78b Liam R. Howlett    2023-01-20  2795  		unmap_region(mm, &mm->mm_mt, vma, prev, next, vma->vm_start,
-68f48381d7fdd1 Suren Baghdasaryan 2023-01-26  2796  			     vma->vm_end, true);
-cc8d1b097de78b Liam R. Howlett    2023-01-20  2797  	}
-cc674ab3c01880 Li Zetao           2022-10-28  2798  	if (file && (vm_flags & VM_SHARED))
-e99668a56430a2 Liam R. Howlett    2022-09-06  2799  		mapping_unmap_writable(file->f_mapping);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2800  free_vma:
-e99668a56430a2 Liam R. Howlett    2022-09-06  2801  	vm_area_free(vma);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2802  unacct_error:
-e99668a56430a2 Liam R. Howlett    2022-09-06  2803  	if (charged)
-e99668a56430a2 Liam R. Howlett    2022-09-06  2804  		vm_unacct_memory(charged);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2805  	validate_mm(mm);
-e99668a56430a2 Liam R. Howlett    2022-09-06  2806  	return error;
-e99668a56430a2 Liam R. Howlett    2022-09-06  2807  }
-e99668a56430a2 Liam R. Howlett    2022-09-06  2808  
+vim +1605 lib/zstd/compress/zstd_lazy.c
+
+e0c1b49f5b674c Nick Terrell 2020-09-11  1474  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1475  FORCE_INLINE_TEMPLATE size_t
+e0c1b49f5b674c Nick Terrell 2020-09-11  1476  ZSTD_compressBlock_lazy_generic(
+e0c1b49f5b674c Nick Terrell 2020-09-11  1477                          ZSTD_matchState_t* ms, seqStore_t* seqStore,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1478                          U32 rep[ZSTD_REP_NUM],
+e0c1b49f5b674c Nick Terrell 2020-09-11  1479                          const void* src, size_t srcSize,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1480                          const searchMethod_e searchMethod, const U32 depth,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1481                          ZSTD_dictMode_e const dictMode)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1482  {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1483      const BYTE* const istart = (const BYTE*)src;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1484      const BYTE* ip = istart;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1485      const BYTE* anchor = istart;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1486      const BYTE* const iend = istart + srcSize;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1487      const BYTE* const ilimit = (searchMethod == search_rowHash) ? iend - 8 - ZSTD_ROW_HASH_CACHE_SIZE : iend - 8;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1488      const BYTE* const base = ms->window.base;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1489      const U32 prefixLowestIndex = ms->window.dictLimit;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1490      const BYTE* const prefixLowest = base + prefixLowestIndex;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1491      const U32 mls = BOUNDED(4, ms->cParams.minMatch, 6);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1492      const U32 rowLog = BOUNDED(4, ms->cParams.searchLog, 6);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1493  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1494      U32 offset_1 = rep[0], offset_2 = rep[1], savedOffset=0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1495  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1496      const int isDMS = dictMode == ZSTD_dictMatchState;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1497      const int isDDS = dictMode == ZSTD_dedicatedDictSearch;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1498      const int isDxS = isDMS || isDDS;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1499      const ZSTD_matchState_t* const dms = ms->dictMatchState;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1500      const U32 dictLowestIndex      = isDxS ? dms->window.dictLimit : 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1501      const BYTE* const dictBase     = isDxS ? dms->window.base : NULL;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1502      const BYTE* const dictLowest   = isDxS ? dictBase + dictLowestIndex : NULL;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1503      const BYTE* const dictEnd      = isDxS ? dms->window.nextSrc : NULL;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1504      const U32 dictIndexDelta       = isDxS ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1505                                       prefixLowestIndex - (U32)(dictEnd - dictBase) :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1506                                       0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1507      const U32 dictAndPrefixLength = (U32)((ip - prefixLowest) + (dictEnd - dictLowest));
+e0c1b49f5b674c Nick Terrell 2020-09-11  1508  
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1509      DEBUGLOG(5, "ZSTD_compressBlock_lazy_generic (dictMode=%u) (searchFunc=%u)", (U32)dictMode, (U32)searchMethod);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1510      ip += (dictAndPrefixLength == 0);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1511      if (dictMode == ZSTD_noDict) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1512          U32 const curr = (U32)(ip - base);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1513          U32 const windowLow = ZSTD_getLowestPrefixIndex(ms, curr, ms->cParams.windowLog);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1514          U32 const maxRep = curr - windowLow;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1515          if (offset_2 > maxRep) savedOffset = offset_2, offset_2 = 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1516          if (offset_1 > maxRep) savedOffset = offset_1, offset_1 = 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1517      }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1518      if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1519          /* dictMatchState repCode checks don't currently handle repCode == 0
+e0c1b49f5b674c Nick Terrell 2020-09-11  1520           * disabling. */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1521          assert(offset_1 <= dictAndPrefixLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1522          assert(offset_2 <= dictAndPrefixLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1523      }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1524  
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1525      if (searchMethod == search_rowHash) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1526          ZSTD_row_fillHashCache(ms, base, rowLog,
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1527                              MIN(ms->cParams.minMatch, 6 /* mls caps out at 6 */),
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1528                              ms->nextToUpdate, ilimit);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1529      }
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1530  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1531      /* Match Loop */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1532  #if defined(__x86_64__)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1533      /* I've measured random a 5% speed loss on levels 5 & 6 (greedy) when the
+e0c1b49f5b674c Nick Terrell 2020-09-11  1534       * code alignment is perturbed. To fix the instability align the loop on 32-bytes.
+e0c1b49f5b674c Nick Terrell 2020-09-11  1535       */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1536      __asm__(".p2align 5");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1537  #endif
+e0c1b49f5b674c Nick Terrell 2020-09-11  1538      while (ip < ilimit) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1539          size_t matchLength=0;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1540          size_t offcode=STORE_REPCODE_1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1541          const BYTE* start=ip+1;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1542          DEBUGLOG(7, "search baseline (depth 0)");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1543  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1544          /* check repCode */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1545          if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1546              const U32 repIndex = (U32)(ip - base) + 1 - offset_1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1547              const BYTE* repMatch = ((dictMode == ZSTD_dictMatchState || dictMode == ZSTD_dedicatedDictSearch)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1548                                  && repIndex < prefixLowestIndex) ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1549                                     dictBase + (repIndex - dictIndexDelta) :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1550                                     base + repIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1551              if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1552                  && (MEM_read32(repMatch) == MEM_read32(ip+1)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1553                  const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1554                  matchLength = ZSTD_count_2segments(ip+1+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1555                  if (depth==0) goto _storeSequence;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1556              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1557          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1558          if ( dictMode == ZSTD_noDict
+e0c1b49f5b674c Nick Terrell 2020-09-11  1559            && ((offset_1 > 0) & (MEM_read32(ip+1-offset_1) == MEM_read32(ip+1)))) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1560              matchLength = ZSTD_count(ip+1+4, ip+1+4-offset_1, iend) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1561              if (depth==0) goto _storeSequence;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1562          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1563  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1564          /* first search (depth 0) */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1565          {   size_t offsetFound = 999999999;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1566              size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offsetFound, mls, rowLog, searchMethod, dictMode);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1567              if (ml2 > matchLength)
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1568                  matchLength = ml2, start = ip, offcode=offsetFound;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1569          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1570  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1571          if (matchLength < 4) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1572              ip += ((ip-anchor) >> kSearchStrength) + 1;   /* jump faster over incompressible sections */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1573              continue;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1574          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1575  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1576          /* let's try to find a better solution */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1577          if (depth>=1)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1578          while (ip<ilimit) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1579              DEBUGLOG(7, "search depth 1");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1580              ip ++;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1581              if ( (dictMode == ZSTD_noDict)
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1582                && (offcode) && ((offset_1>0) & (MEM_read32(ip) == MEM_read32(ip - offset_1)))) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1583                  size_t const mlRep = ZSTD_count(ip+4, ip+4-offset_1, iend) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1584                  int const gain2 = (int)(mlRep * 3);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1585                  int const gain1 = (int)(matchLength*3 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1586                  if ((mlRep >= 4) && (gain2 > gain1))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1587                      matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1588              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1589              if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1590                  const U32 repIndex = (U32)(ip - base) - offset_1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1591                  const BYTE* repMatch = repIndex < prefixLowestIndex ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1592                                 dictBase + (repIndex - dictIndexDelta) :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1593                                 base + repIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1594                  if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1595                      && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1596                      const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1597                      size_t const mlRep = ZSTD_count_2segments(ip+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1598                      int const gain2 = (int)(mlRep * 3);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1599                      int const gain1 = (int)(matchLength*3 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1600                      if ((mlRep >= 4) && (gain2 > gain1))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1601                          matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1602                  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1603              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1604              {   size_t offset2=999999999;
+2aa14b1ab2c41a Nick Terrell 2022-10-17 @1605                  size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offset2, mls, rowLog, searchMethod, dictMode);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1606                  int const gain2 = (int)(ml2*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offset2)));   /* raw approx */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1607                  int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 4);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1608                  if ((ml2 >= 4) && (gain2 > gain1)) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1609                      matchLength = ml2, offcode = offset2, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1610                      continue;   /* search a better one */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1611              }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1612  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1613              /* let's find an even better one */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1614              if ((depth==2) && (ip<ilimit)) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1615                  DEBUGLOG(7, "search depth 2");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1616                  ip ++;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1617                  if ( (dictMode == ZSTD_noDict)
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1618                    && (offcode) && ((offset_1>0) & (MEM_read32(ip) == MEM_read32(ip - offset_1)))) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1619                      size_t const mlRep = ZSTD_count(ip+4, ip+4-offset_1, iend) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1620                      int const gain2 = (int)(mlRep * 4);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1621                      int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1622                      if ((mlRep >= 4) && (gain2 > gain1))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1623                          matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1624                  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1625                  if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1626                      const U32 repIndex = (U32)(ip - base) - offset_1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1627                      const BYTE* repMatch = repIndex < prefixLowestIndex ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1628                                     dictBase + (repIndex - dictIndexDelta) :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1629                                     base + repIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1630                      if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1631                          && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1632                          const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1633                          size_t const mlRep = ZSTD_count_2segments(ip+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1634                          int const gain2 = (int)(mlRep * 4);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1635                          int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1636                          if ((mlRep >= 4) && (gain2 > gain1))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1637                              matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1638                      }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1639                  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1640                  {   size_t offset2=999999999;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1641                      size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offset2, mls, rowLog, searchMethod, dictMode);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1642                      int const gain2 = (int)(ml2*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offset2)));   /* raw approx */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1643                      int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 7);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1644                      if ((ml2 >= 4) && (gain2 > gain1)) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1645                          matchLength = ml2, offcode = offset2, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1646                          continue;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1647              }   }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1648              break;  /* nothing found : store previous solution */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1649          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1650  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1651          /* NOTE:
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1652           * Pay attention that `start[-value]` can lead to strange undefined behavior
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1653           * notably if `value` is unsigned, resulting in a large positive `-value`.
+e0c1b49f5b674c Nick Terrell 2020-09-11  1654           */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1655          /* catch up */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1656          if (STORED_IS_OFFSET(offcode)) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1657              if (dictMode == ZSTD_noDict) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1658                  while ( ((start > anchor) & (start - STORED_OFFSET(offcode) > prefixLowest))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1659                       && (start[-1] == (start-STORED_OFFSET(offcode))[-1]) )  /* only search for offset within prefix */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1660                      { start--; matchLength++; }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1661              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1662              if (isDxS) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1663                  U32 const matchIndex = (U32)((size_t)(start-base) - STORED_OFFSET(offcode));
+e0c1b49f5b674c Nick Terrell 2020-09-11  1664                  const BYTE* match = (matchIndex < prefixLowestIndex) ? dictBase + matchIndex - dictIndexDelta : base + matchIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1665                  const BYTE* const mStart = (matchIndex < prefixLowestIndex) ? dictLowest : prefixLowest;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1666                  while ((start>anchor) && (match>mStart) && (start[-1] == match[-1])) { start--; match--; matchLength++; }  /* catch up */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1667              }
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1668              offset_2 = offset_1; offset_1 = (U32)STORED_OFFSET(offcode);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1669          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1670          /* store sequence */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1671  _storeSequence:
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1672          {   size_t const litLength = (size_t)(start - anchor);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1673              ZSTD_storeSeq(seqStore, litLength, anchor, iend, (U32)offcode, matchLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1674              anchor = ip = start + matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1675          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1676  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1677          /* check immediate repcode */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1678          if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1679              while (ip <= ilimit) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1680                  U32 const current2 = (U32)(ip-base);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1681                  U32 const repIndex = current2 - offset_2;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1682                  const BYTE* repMatch = repIndex < prefixLowestIndex ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1683                          dictBase - dictIndexDelta + repIndex :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1684                          base + repIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1685                  if ( ((U32)((prefixLowestIndex-1) - (U32)repIndex) >= 3 /* intentional overflow */)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1686                     && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1687                      const BYTE* const repEnd2 = repIndex < prefixLowestIndex ? dictEnd : iend;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1688                      matchLength = ZSTD_count_2segments(ip+4, repMatch+4, iend, repEnd2, prefixLowest) + 4;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1689                      offcode = offset_2; offset_2 = offset_1; offset_1 = (U32)offcode;   /* swap offset_2 <=> offset_1 */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1690                      ZSTD_storeSeq(seqStore, 0, anchor, iend, STORE_REPCODE_1, matchLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1691                      ip += matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1692                      anchor = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1693                      continue;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1694                  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1695                  break;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1696              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1697          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1698  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1699          if (dictMode == ZSTD_noDict) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1700              while ( ((ip <= ilimit) & (offset_2>0))
+e0c1b49f5b674c Nick Terrell 2020-09-11  1701                   && (MEM_read32(ip) == MEM_read32(ip - offset_2)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1702                  /* store sequence */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1703                  matchLength = ZSTD_count(ip+4, ip+4-offset_2, iend) + 4;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1704                  offcode = offset_2; offset_2 = offset_1; offset_1 = (U32)offcode; /* swap repcodes */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1705                  ZSTD_storeSeq(seqStore, 0, anchor, iend, STORE_REPCODE_1, matchLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1706                  ip += matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1707                  anchor = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1708                  continue;   /* faster when present ... (?) */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1709      }   }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1710  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1711      /* Save reps for next block */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1712      rep[0] = offset_1 ? offset_1 : savedOffset;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1713      rep[1] = offset_2 ? offset_2 : savedOffset;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1714  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1715      /* Return the last literals size */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1716      return (size_t)(iend - anchor);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1717  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1718  
 
 -- 
 0-DAY CI Kernel Test Service
