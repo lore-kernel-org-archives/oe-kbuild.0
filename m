@@ -1,43 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B045715BD
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 May 2023 14:48:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDB117F3
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 May 2023 16:21:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683557320; x=1715093320;
+  t=1683562899; x=1715098899;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PFDT9fN9F5k7konfAwKgn5jrfPSf0FktPFiSFwQNfvo=;
-  b=oG339QtGcxNSe+7pbXr4Q4BaBbUHV42FuSI1+csw1GjbpVoVVmgmc3L8
-   +uq8jEdFQIvXbMwgY4+bLpXtBKaOpHfWgT6RpD3sC1zSlXT9GjZj7ykZi
-   EG7sxO5hGp/ZHvxB2Sx2SOFCJ4nycAqVzOBXoNro8dtPou+Ycmn2KWV5M
-   9vnz7Fj1RHSXbcGV5NBmQcCSWpG/5c4nFO7rYSxigLF9RoHO1fBy3KMUq
-   2ts2AD4NnzwytWgTko+7apnQGqx/yjV8uvc2FGracnIBZ5SQ4YnrtonkD
-   NgZKQSVqB+qKYf+GWmBGQBRoCp3bSsQ1WAEToHiYUVwPOTWDGL1OEB+01
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="412924682"
+  bh=uSTQc/j3awGFlHOsilkDRckkaTKC9us6XYbf/82KQIU=;
+  b=VMSJjWZc9WuXB6oV0PByMlXKl8mMIsRYuZdXYsNdZ1eW5cdOA19Vue6k
+   ObCrcI1zn6XVS5M9EeLAmwLeiZNJMwgx9lsL1BOMAbZNbaQ4KJrrzBYa+
+   GlCzOWy1dC7xsxvzUoTS9rXHNmz9TsAFEBiw/YyV1i1qp6JrXFCDiH9zi
+   Ha+NQ2TOI0pCkEFwKPFmrGnw4pTN0oCnCKeunSGcniHU4YABNqXJwM84B
+   xvB3uhFkSVQAurqWHYmqK2VDhd99wsw3yFmtASqkCGXeeh+YmRresNjAF
+   5RgFKaa5gwLQ4vCiaSnUL0bLjZcGbhN7DYT7zhFxEPgrwYduDW1/fJ9VG
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="348519727"
 X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="412924682"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 07:48:35 -0700
+   d="scan'208";a="348519727"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 09:21:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="698552256"
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="676105984"
 X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="698552256"
+   d="scan'208";a="676105984"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 08 May 2023 07:48:35 -0700
+  by orsmga006.jf.intel.com with ESMTP; 08 May 2023 09:21:37 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pw2AE-0001Gv-0h;
-	Mon, 08 May 2023 14:48:34 +0000
-Date: Mon, 8 May 2023 22:47:34 +0800
+	id 1pw3cG-0001JN-0P;
+	Mon, 08 May 2023 16:21:36 +0000
+Date: Tue, 9 May 2023 00:21:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:276
- ngbe_request_msix_irqs() warn: 'entry->vector' from request_irq() not
- released on lines: 276.
-Message-ID: <202305082231.nXDuDBAD-lkp@intel.com>
+Subject: [linux-next:master 778/1074] fs/xfs/scrub/fscounters.c:459
+ xchk_fscounters() warn: ignoring unreachable code.
+Message-ID: <202305090010.ON5yT635-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,81 +48,78 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Mengyuan Lou <mengyuanlou@net-swift.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Darrick J. Wong" <djwong@kernel.org>
+CC: Dave Chinner <dchinner@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ac9a78681b921877518763ba0e89202254349d1b
-commit: e7956139a6cf9a39bcddaabbda1b2e684a42fc57 net: ngbe: Add irqs request flow
-date:   3 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 3 months ago
-config: arm64-randconfig-m041-20230428 (https://download.01.org/0day-ci/archive/20230508/202305082231.nXDuDBAD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   52025ebbb518a2d876b8aba191b348ffb1cf368b
+commit: 2d5f38a31980d7090f5bf91021488dc61a0ba8ee [778/1074] xfs: disable reaping in fscounters scrub
+:::::: branch date: 12 hours ago
+:::::: commit date: 7 days ago
+config: ia64-randconfig-m031-20230507 (https://download.01.org/0day-ci/archive/20230509/202305090010.ON5yT635-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305082231.nXDuDBAD-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305090010.ON5yT635-lkp@intel.com/
 
 smatch warnings:
-drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:276 ngbe_request_msix_irqs() warn: 'entry->vector' from request_irq() not released on lines: 276.
+fs/xfs/scrub/fscounters.c:459 xchk_fscounters() warn: ignoring unreachable code.
 
-vim +276 drivers/net/ethernet/wangxun/ngbe/ngbe_main.c
+vim +459 fs/xfs/scrub/fscounters.c
 
-e7956139a6cf9a Mengyuan Lou 2023-02-03  226  
-e7956139a6cf9a Mengyuan Lou 2023-02-03  227  /**
-e7956139a6cf9a Mengyuan Lou 2023-02-03  228   * ngbe_request_msix_irqs - Initialize MSI-X interrupts
-e7956139a6cf9a Mengyuan Lou 2023-02-03  229   * @wx: board private structure
-e7956139a6cf9a Mengyuan Lou 2023-02-03  230   *
-e7956139a6cf9a Mengyuan Lou 2023-02-03  231   * ngbe_request_msix_irqs allocates MSI-X vectors and requests
-e7956139a6cf9a Mengyuan Lou 2023-02-03  232   * interrupts from the kernel.
-e7956139a6cf9a Mengyuan Lou 2023-02-03  233   **/
-e7956139a6cf9a Mengyuan Lou 2023-02-03  234  static int ngbe_request_msix_irqs(struct wx *wx)
-e7956139a6cf9a Mengyuan Lou 2023-02-03  235  {
-e7956139a6cf9a Mengyuan Lou 2023-02-03  236  	struct net_device *netdev = wx->netdev;
-e7956139a6cf9a Mengyuan Lou 2023-02-03  237  	int vector, err;
-e7956139a6cf9a Mengyuan Lou 2023-02-03  238  
-e7956139a6cf9a Mengyuan Lou 2023-02-03  239  	for (vector = 0; vector < wx->num_q_vectors; vector++) {
-e7956139a6cf9a Mengyuan Lou 2023-02-03  240  		struct wx_q_vector *q_vector = wx->q_vector[vector];
-e7956139a6cf9a Mengyuan Lou 2023-02-03  241  		struct msix_entry *entry = &wx->msix_entries[vector];
-e7956139a6cf9a Mengyuan Lou 2023-02-03  242  
-e7956139a6cf9a Mengyuan Lou 2023-02-03  243  		if (q_vector->tx.ring && q_vector->rx.ring)
-e7956139a6cf9a Mengyuan Lou 2023-02-03  244  			snprintf(q_vector->name, sizeof(q_vector->name) - 1,
-e7956139a6cf9a Mengyuan Lou 2023-02-03  245  				 "%s-TxRx-%d", netdev->name, entry->entry);
-e7956139a6cf9a Mengyuan Lou 2023-02-03  246  		else
-e7956139a6cf9a Mengyuan Lou 2023-02-03  247  			/* skip this unused q_vector */
-e7956139a6cf9a Mengyuan Lou 2023-02-03  248  			continue;
-e7956139a6cf9a Mengyuan Lou 2023-02-03  249  
-e7956139a6cf9a Mengyuan Lou 2023-02-03  250  		err = request_irq(entry->vector, wx_msix_clean_rings, 0,
-e7956139a6cf9a Mengyuan Lou 2023-02-03  251  				  q_vector->name, q_vector);
-e7956139a6cf9a Mengyuan Lou 2023-02-03  252  		if (err) {
-e7956139a6cf9a Mengyuan Lou 2023-02-03  253  			wx_err(wx, "request_irq failed for MSIX interrupt %s Error: %d\n",
-e7956139a6cf9a Mengyuan Lou 2023-02-03  254  			       q_vector->name, err);
-e7956139a6cf9a Mengyuan Lou 2023-02-03  255  			goto free_queue_irqs;
-e7956139a6cf9a Mengyuan Lou 2023-02-03  256  		}
-e7956139a6cf9a Mengyuan Lou 2023-02-03  257  	}
-e7956139a6cf9a Mengyuan Lou 2023-02-03  258  
-e7956139a6cf9a Mengyuan Lou 2023-02-03  259  	err = request_irq(wx->msix_entries[vector].vector,
-e7956139a6cf9a Mengyuan Lou 2023-02-03  260  			  ngbe_msix_other, 0, netdev->name, wx);
-e7956139a6cf9a Mengyuan Lou 2023-02-03  261  
-e7956139a6cf9a Mengyuan Lou 2023-02-03  262  	if (err) {
-e7956139a6cf9a Mengyuan Lou 2023-02-03  263  		wx_err(wx, "request_irq for msix_other failed: %d\n", err);
-e7956139a6cf9a Mengyuan Lou 2023-02-03  264  		goto free_queue_irqs;
-e7956139a6cf9a Mengyuan Lou 2023-02-03  265  	}
-e7956139a6cf9a Mengyuan Lou 2023-02-03  266  
-e7956139a6cf9a Mengyuan Lou 2023-02-03  267  	return 0;
-e7956139a6cf9a Mengyuan Lou 2023-02-03  268  
-e7956139a6cf9a Mengyuan Lou 2023-02-03  269  free_queue_irqs:
-e7956139a6cf9a Mengyuan Lou 2023-02-03  270  	while (vector) {
-e7956139a6cf9a Mengyuan Lou 2023-02-03  271  		vector--;
-e7956139a6cf9a Mengyuan Lou 2023-02-03  272  		free_irq(wx->msix_entries[vector].vector,
-e7956139a6cf9a Mengyuan Lou 2023-02-03  273  			 wx->q_vector[vector]);
-e7956139a6cf9a Mengyuan Lou 2023-02-03  274  	}
-e7956139a6cf9a Mengyuan Lou 2023-02-03  275  	wx_reset_interrupt_capability(wx);
-e7956139a6cf9a Mengyuan Lou 2023-02-03 @276  	return err;
-e7956139a6cf9a Mengyuan Lou 2023-02-03  277  }
-e7956139a6cf9a Mengyuan Lou 2023-02-03  278  
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  416  
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  417  /* Check the superblock counters. */
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  418  int
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  419  xchk_fscounters(
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  420  	struct xfs_scrub	*sc)
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  421  {
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  422  	struct xfs_mount	*mp = sc->mp;
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  423  	struct xchk_fscounters	*fsc = sc->buf;
+e74331d6fa2c21 Darrick J. Wong 2022-11-06  424  	int64_t			icount, ifree, fdblocks, frextents;
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  425  	int			error;
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  426  
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  427  	/* Snapshot the percpu counters. */
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  428  	icount = percpu_counter_sum(&mp->m_icount);
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  429  	ifree = percpu_counter_sum(&mp->m_ifree);
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  430  	fdblocks = percpu_counter_sum(&mp->m_fdblocks);
+e74331d6fa2c21 Darrick J. Wong 2022-11-06  431  	frextents = percpu_counter_sum(&mp->m_frextents);
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  432  
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  433  	/* No negative values, please! */
+e74331d6fa2c21 Darrick J. Wong 2022-11-06  434  	if (icount < 0 || ifree < 0 || fdblocks < 0 || frextents < 0)
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  435  		xchk_set_corrupt(sc);
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  436  
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  437  	/* See if icount is obviously wrong. */
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  438  	if (icount < fsc->icount_min || icount > fsc->icount_max)
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  439  		xchk_set_corrupt(sc);
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  440  
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  441  	/* See if fdblocks is obviously wrong. */
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  442  	if (fdblocks > mp->m_sb.sb_dblocks)
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  443  		xchk_set_corrupt(sc);
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  444  
+e74331d6fa2c21 Darrick J. Wong 2022-11-06  445  	/* See if frextents is obviously wrong. */
+e74331d6fa2c21 Darrick J. Wong 2022-11-06  446  	if (frextents > mp->m_sb.sb_rextents)
+e74331d6fa2c21 Darrick J. Wong 2022-11-06  447  		xchk_set_corrupt(sc);
+e74331d6fa2c21 Darrick J. Wong 2022-11-06  448  
+2d5f38a31980d7 Darrick J. Wong 2023-05-02  449  	/*
+2d5f38a31980d7 Darrick J. Wong 2023-05-02  450  	 * XXX: We can't quiesce percpu counter updates, so exit early.
+2d5f38a31980d7 Darrick J. Wong 2023-05-02  451  	 * This can be re-enabled when we gain exclusive freeze functionality.
+2d5f38a31980d7 Darrick J. Wong 2023-05-02  452  	 */
+2d5f38a31980d7 Darrick J. Wong 2023-05-02  453  	return 0;
+2d5f38a31980d7 Darrick J. Wong 2023-05-02  454  
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  455  	/*
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  456  	 * If ifree exceeds icount by more than the minimum variance then
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  457  	 * something's probably wrong with the counters.
+75efa57d0bf5fc Darrick J. Wong 2019-04-25  458  	 */
+75efa57d0bf5fc Darrick J. Wong 2019-04-25 @459  	if (ifree > icount && ifree - icount > XCHK_FSCOUNT_MIN_VARIANCE)
+
+:::::: The code at line 459 was first introduced by commit
+:::::: 75efa57d0bf5fcf650a183f0ce0dc011ba8c4bc8 xfs: add online scrub for superblock counters
+
+:::::: TO: Darrick J. Wong <darrick.wong@oracle.com>
+:::::: CC: Darrick J. Wong <darrick.wong@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
