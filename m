@@ -1,42 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA01A93B
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 May 2023 09:27:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3038D1361
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 May 2023 13:36:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683538051; x=1715074051;
+  t=1683552995; x=1715088995;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1ijxyftuL73oxGLbEl9QsmVdPQd8yopkNp2v7xmMkzI=;
-  b=l+KjHuskya/z7DRl+gZ5znCSN3tl8HamkH1PeXgI15MqatW850FrvMKS
-   L7UpgWnbCCTUiAmNk8cXsGIURWuqoFyuEBJkgByGLM/dCBnfAmk+kzYA9
-   fufdpd3SZW3U3isOr/ZRV/sIr7E9/hKCRqDNYz0ASd1lSUi2SaDobssB5
-   qREym3BDgSDvQm9waX+LU98fAPDvRidNBw/8yylOUFuyYA95qG1a+M/8g
-   c8zwqKXuvRqzesNPLbrSwGa3Nprdf0CzMKmNMvp1FjvyTNju658zJ4gWi
-   xIcoYSRCNiKh0XbLqXPAnx9PP2lzPvzqaZhihJ5o4iCCa8RJ2sA0Wxebj
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="377690485"
-X-IronPort-AV: E=Sophos;i="5.99,258,1677571200"; 
-   d="scan'208";a="377690485"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 02:27:31 -0700
+  bh=uMVeJsWLaM4ZD871PZV/nR8mkxUVRowSmrw6RPr27sk=;
+  b=NG1p65dy8GKaxKL6gjYy2uryzcHtIP+s5kF7rgCjMvi1THiIklRvBsxD
+   p1o2s5qzFzRKPu9CdLNIJChxOJaaNqn31CWyoeluUBPBxQ4Rp6ENXKqIH
+   vo2l4ckHb7a4UplD8QpizONVlY6iGfddVn6OUW/Ad1/VgtzhI177pfOON
+   AzFtIx1OTgaNWyU2AqvB/VNOu42Nd8i29z7Cdy1wqk8RBw8xU3YIwaig+
+   G6WzLFLCMb1rFVsYw6Cw+sc5hw71BIhuKxtBgE1pyeS20lpZbkuex7NXv
+   s9tss0TurPlvi08LMZTOGIippSQhxgPgM0rPullqBAFYgYOuHTkyewfHd
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="330005953"
+X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
+   d="scan'208";a="330005953"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 06:36:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="842629469"
-X-IronPort-AV: E=Sophos;i="5.99,258,1677571200"; 
-   d="scan'208";a="842629469"
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="788097379"
+X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
+   d="scan'208";a="788097379"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 08 May 2023 02:27:29 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 08 May 2023 06:36:33 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pvx9U-0001AP-2r;
-	Mon, 08 May 2023 09:27:28 +0000
-Date: Mon, 8 May 2023 17:26:54 +0800
+	id 1pw12W-0001FJ-3D;
+	Mon, 08 May 2023 13:36:33 +0000
+Date: Mon, 8 May 2023 21:36:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/acpi/acpica/tbutils.c:181 acpi_tb_get_root_table_entry()
- error: uninitialized symbol 'address32'.
-Message-ID: <202305081713.PzqP0LpN-lkp@intel.com>
+Subject: drivers/leds/rgb/leds-mt6370-rgb.c:605 mt6370_mc_pattern_clear()
+ error: uninitialized symbol 'ret'.
+Message-ID: <202305082132.vKDjBKmy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,75 +49,58 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Tamir Duberstein <tamird@google.com>
-CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-CC: Bob Moore <robert.moore@intel.com>
+TO: ChiYuan Huang <cy_huang@richtek.com>
+CC: Lee Jones <lee@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ac9a78681b921877518763ba0e89202254349d1b
-commit: d56ba92b0ce659a235d8ed541c785fdb2f760449 ACPICA: Avoid undefined behavior: load of misaligned address
-date:   5 weeks ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 5 weeks ago
-config: ia64-randconfig-m031-20230507 (https://download.01.org/0day-ci/archive/20230508/202305081713.PzqP0LpN-lkp@intel.com/config)
+commit: 4793b19ef0dc40b4b8fdae9a48f73c818e490046 leds: rgb: mt6370: Fix implicit declaration for FIELD_GET
+date:   7 weeks ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 7 weeks ago
+config: ia64-randconfig-m031-20230507 (https://download.01.org/0day-ci/archive/20230508/202305082132.vKDjBKmy-lkp@intel.com/config)
 compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305081713.PzqP0LpN-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305082132.vKDjBKmy-lkp@intel.com/
 
-New smatch warnings:
-drivers/acpi/acpica/tbutils.c:181 acpi_tb_get_root_table_entry() error: uninitialized symbol 'address32'.
+smatch warnings:
+drivers/leds/rgb/leds-mt6370-rgb.c:605 mt6370_mc_pattern_clear() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-drivers/acpi/acpica/tbutils.c:201 acpi_tb_get_root_table_entry() error: uninitialized symbol 'address64'.
+vim +/ret +605 drivers/leds/rgb/leds-mt6370-rgb.c
 
-vim +/address32 +181 drivers/acpi/acpica/tbutils.c
+5c38376ef5b46d ChiYuan Huang 2023-03-10  584  
+5c38376ef5b46d ChiYuan Huang 2023-03-10  585  static inline int mt6370_mc_pattern_clear(struct led_classdev *lcdev)
+5c38376ef5b46d ChiYuan Huang 2023-03-10  586  {
+5c38376ef5b46d ChiYuan Huang 2023-03-10  587  	struct led_classdev_mc *mccdev = lcdev_to_mccdev(lcdev);
+5c38376ef5b46d ChiYuan Huang 2023-03-10  588  	struct mt6370_led *led = container_of(mccdev, struct mt6370_led, mc);
+5c38376ef5b46d ChiYuan Huang 2023-03-10  589  	struct mt6370_priv *priv = led->priv;
+5c38376ef5b46d ChiYuan Huang 2023-03-10  590  	struct mc_subled *subled;
+5c38376ef5b46d ChiYuan Huang 2023-03-10  591  	int i, ret;
+5c38376ef5b46d ChiYuan Huang 2023-03-10  592  
+5c38376ef5b46d ChiYuan Huang 2023-03-10  593  	mutex_lock(&led->priv->lock);
+5c38376ef5b46d ChiYuan Huang 2023-03-10  594  
+5c38376ef5b46d ChiYuan Huang 2023-03-10  595  	for (i = 0; i < mccdev->num_colors; i++) {
+5c38376ef5b46d ChiYuan Huang 2023-03-10  596  		subled = mccdev->subled_info + i;
+5c38376ef5b46d ChiYuan Huang 2023-03-10  597  
+5c38376ef5b46d ChiYuan Huang 2023-03-10  598  		ret = mt6370_set_led_mode(priv, subled->channel, MT6370_LED_REG_MODE);
+5c38376ef5b46d ChiYuan Huang 2023-03-10  599  		if (ret)
+5c38376ef5b46d ChiYuan Huang 2023-03-10  600  			break;
+5c38376ef5b46d ChiYuan Huang 2023-03-10  601  	}
+5c38376ef5b46d ChiYuan Huang 2023-03-10  602  
+5c38376ef5b46d ChiYuan Huang 2023-03-10  603  	mutex_unlock(&led->priv->lock);
+5c38376ef5b46d ChiYuan Huang 2023-03-10  604  
+5c38376ef5b46d ChiYuan Huang 2023-03-10 @605  	return ret;
+5c38376ef5b46d ChiYuan Huang 2023-03-10  606  }
+5c38376ef5b46d ChiYuan Huang 2023-03-10  607  
 
-69ec87efa815d6 drivers/acpi/acpica/tbutils.c Lin Ming         2010-04-01  147  
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  148  /*******************************************************************************
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  149   *
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  150   * FUNCTION:    acpi_tb_get_root_table_entry
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  151   *
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  152   * PARAMETERS:  table_entry         - Pointer to the RSDT/XSDT table entry
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  153   *              table_entry_size    - sizeof 32 or 64 (RSDT or XSDT)
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  154   *
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  155   * RETURN:      Physical address extracted from the root table
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  156   *
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  157   * DESCRIPTION: Get one root table entry. Handles 32-bit and 64-bit cases on
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  158   *              both 32-bit and 64-bit platforms
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  159   *
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  160   * NOTE:        acpi_physical_address is 32-bit on 32-bit platforms, 64-bit on
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  161   *              64-bit platforms.
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  162   *
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  163   ******************************************************************************/
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  164  
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  165  static acpi_physical_address
-67a119f990063f drivers/acpi/tables/tbutils.c Bob Moore        2008-06-10  166  acpi_tb_get_root_table_entry(u8 *table_entry, u32 table_entry_size)
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  167  {
-d56ba92b0ce659 drivers/acpi/acpica/tbutils.c Tamir Duberstein 2023-04-05  168  	u32 address32;
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  169  	u64 address64;
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  170  
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  171  	/*
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  172  	 * Get the table physical address (32-bit for RSDT, 64-bit for XSDT):
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  173  	 * Note: Addresses are 32-bit aligned (not 64) in both RSDT and XSDT
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  174  	 */
-671cc68dc61f02 drivers/acpi/acpica/tbutils.c Lv Zheng         2014-01-08  175  	if (table_entry_size == ACPI_RSDT_ENTRY_SIZE) {
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  176  		/*
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  177  		 * 32-bit platform, RSDT: Return 32-bit table entry
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  178  		 * 64-bit platform, RSDT: Expand 32-bit to 64-bit and return
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  179  		 */
-d56ba92b0ce659 drivers/acpi/acpica/tbutils.c Tamir Duberstein 2023-04-05  180  		ACPI_MOVE_32_TO_32(&address32, table_entry);
-d56ba92b0ce659 drivers/acpi/acpica/tbutils.c Tamir Duberstein 2023-04-05 @181  		return address32;
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  182  	} else {
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  183  		/*
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  184  		 * 32-bit platform, XSDT: Truncate 64-bit to 32-bit and return
-ec41f193eadb63 drivers/acpi/acpica/tbutils.c Bob Moore        2009-02-18  185  		 * 64-bit platform, XSDT: Move (unaligned) 64-bit to local,
-ec41f193eadb63 drivers/acpi/acpica/tbutils.c Bob Moore        2009-02-18  186  		 *  return 64-bit
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  187  		 */
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  188  		ACPI_MOVE_64_TO_64(&address64, table_entry);
-a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  189  
+:::::: The code at line 605 was first introduced by commit
+:::::: 5c38376ef5b46d3091cc9485b95dd70db20f0089 leds: rgb: mt6370: Add MediaTek MT6370 current sink type LED Indicator support
+
+:::::: TO: ChiYuan Huang <cy_huang@richtek.com>
+:::::: CC: Lee Jones <lee@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
