@@ -1,42 +1,51 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278835CB0
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 May 2023 05:00:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683522026; x=1715058026;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2rV0EfwSIt6XHpk9NmXzAsVe8Bk3xx2O2m47q4l8NOE=;
-  b=DrC/TTwtfgHdZNytkcw4XQlf69U8WGF1PAngfADDaq7tNMTqFMWyl8Dn
-   3vZGEKt2zqsaDUxkmbWEl2V9gKVuD+DdrRd5AXAyGaKvrCEWRHd3kLWop
-   Hgfzx3Jy8qPBYpe8OR8PaCbzj2DthGOyHXiX4L2bKr5K/E4tJ8Kl1EV5x
-   M9d9v/3CU3s2aaosdfx7oaPwXv030p033ytK5pGaldWquLTc95TLpbK7n
-   nTVXCrXN1Hwbd99jbJZdlIupCbc89wU8EZ61guXpplewy1Y8aaOd9lg70
-   LjzGJO1kiyRtAs1vO0SxFYb8hUN10MHVB9ddp058S9M9RyWj2XreP2W9T
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="347025623"
-X-IronPort-AV: E=Sophos;i="5.99,258,1677571200"; 
-   d="scan'208";a="347025623"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2023 22:00:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="822544216"
-X-IronPort-AV: E=Sophos;i="5.99,258,1677571200"; 
-   d="scan'208";a="822544216"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 07 May 2023 22:00:23 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pvsz1-00013Z-09;
-	Mon, 08 May 2023 05:00:23 +0000
-Date: Mon, 8 May 2023 13:00:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/ath/ath11k/debugfs.c:1009
- ath11k_debugfs_soc_create() warn: passing zero to 'PTR_ERR'
-Message-ID: <202305081256.SwAOnoIq-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4E413AD3
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 May 2023 05:17:20 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3077d134028so1798315f8f.3
+        for <oe-kbuild@lists.linux.dev>; Sun, 07 May 2023 22:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683523038; x=1686115038;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9KYglp3kw7swqe4P9gBCkBVoMI7DDROvV1rnisE0mxc=;
+        b=zbK76cthw6CpCDBJzpd77slGZkZq3JjiRcPjRULAAL8HgCYthR8xC2M33ADWM1HN5H
+         bErWByPxkfRelooRQKPzfWcyKDPwfPJKTmDjapz9+h91VraBDGhWv/YBnw+ETp5gyhhE
+         0XWP0VE+gOXav1vDlHELm4Q1jg3xALGjhzZvKhsWAkGIec24aOuTg3DMCw9kBoFjen8p
+         TSdMMMtDsRr4w+4ivjNeqd9dLHSy7YdgzWzBsL3w/S+AQonkflh9WUE3S7Oy7EIojggH
+         rfdrTZDlKfnqsmnHVcLhJUisni+8t5Ab3tdD6ZLVzhX+bFLx3cKYlTyoH4ggrpO2Tmj5
+         xtLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683523038; x=1686115038;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9KYglp3kw7swqe4P9gBCkBVoMI7DDROvV1rnisE0mxc=;
+        b=b/U07S3UjDpPHmrlESXh4TLliVCJRiFSnh+Sxvkx2NQEcrN6SYsHf4VpUjIO0BKaq/
+         M4DlD4+Kw9KYs26ZPBA9SSorZt6K9SBsjS7V5d2mrWZgM+Rd9SkM2I9OunNk9AJVfbBG
+         iOH5bJAbP7vsNbnLL0ZkjfR2ey83KtDRuyKjb6WP9fhTsr53NT27YKj7HFZ9b4lpWWtA
+         yzo2H0ekUuYxxPoP9+l1lD6kWTPQWrHolri646S2wU6uexcU3FlJEwSKKIQSk2L2D5yE
+         k8iFBTyPifY/jCeejAwFfxotcgNHIjXPUnjNwWiGlv1zXnhtOVNAVT+NQhj2PG8HoczJ
+         TUnQ==
+X-Gm-Message-State: AC+VfDz8eMwQhhbmADdRogl3i0XjyesknJLpeVVBdRNVd3OIOhMDsLYK
+	FnfBENfaUjFvhD6tH8S1nKCdMBhSvkNn5K+ofUc=
+X-Google-Smtp-Source: ACHHUZ5imPXkgCHamZWK6HDTNjnpkkYezN5qeMQCNrna9YvUZ7mATrotlYjZfOei6vh6ZMcqPcPpmg==
+X-Received: by 2002:adf:db0c:0:b0:307:9d2a:fd35 with SMTP id s12-20020adfdb0c000000b003079d2afd35mr86070wri.53.1683523038026;
+        Sun, 07 May 2023 22:17:18 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id r15-20020a5d694f000000b00306415ac69asm10047173wrw.15.2023.05.07.22.17.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 May 2023 22:17:15 -0700 (PDT)
+Date: Mon, 8 May 2023 08:17:09 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>
+Subject: kernel/trace/fprobe.c:59 fprobe_handler() error: uninitialized
+ symbol 'ret'.
+Message-ID: <d3467332-3d5f-488a-b156-064cbd3d7873@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,73 +55,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Kalle Valo <quic_kvalo@quicinc.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ac9a78681b921877518763ba0e89202254349d1b
-commit: 323d91d4684d238f6bc3693fed93caf795378fe0 wifi: ath11k: debugfs: fix to work with multiple PCI devices
-date:   4 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 4 months ago
-config: arm64-randconfig-m041-20230428 (https://download.01.org/0day-ci/archive/20230508/202305081256.SwAOnoIq-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+head:   2e1e1337881b0e9844d687982aa54b31b1269b11
+commit: 39d954200bf6ad503c722e44d0be80c7b826fa42 fprobe: Skip exit_handler if entry_handler returns !0
+config: i386-randconfig-m041-20230501 (https://download.01.org/0day-ci/archive/20230506/202305061702.6h3JzCPA-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305081256.SwAOnoIq-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305061702.6h3JzCPA-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/wireless/ath/ath11k/debugfs.c:1009 ath11k_debugfs_soc_create() warn: passing zero to 'PTR_ERR'
+smatch warnings:
+kernel/trace/fprobe.c:59 fprobe_handler() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-drivers/net/wireless/ath/ath11k/debugfs.c:882 ath11k_write_fw_dbglog() warn: potential spectre issue 'ar->debug.module_id_bitmap' [w] (local cap)
-drivers/net/wireless/ath/ath11k/debugfs.c:1022 ath11k_debugfs_soc_create() warn: passing zero to 'PTR_ERR'
+vim +/ret +59 kernel/trace/fprobe.c
 
-vim +/PTR_ERR +1009 drivers/net/wireless/ath/ath11k/debugfs.c
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  23  static void fprobe_handler(unsigned long ip, unsigned long parent_ip,
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  24  			   struct ftrace_ops *ops, struct ftrace_regs *fregs)
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  25  {
+5b0ab78998e325 Masami Hiramatsu          2022-03-15  26  	struct fprobe_rethook_node *fpr;
+76d0de5729c056 Masami Hiramatsu (Google  2023-02-02  27) 	struct rethook_node *rh = NULL;
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  28  	struct fprobe *fp;
+76d0de5729c056 Masami Hiramatsu (Google  2023-02-02  29) 	void *entry_data = NULL;
+39d954200bf6ad Masami Hiramatsu (Google  2023-02-02  30) 	int bit, ret;
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  31  
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  32  	fp = container_of(ops, struct fprobe, ops);
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  33  	if (fprobe_disabled(fp))
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  34  		return;
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  35  
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  36  	bit = ftrace_test_recursion_trylock(ip, parent_ip);
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  37  	if (bit < 0) {
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  38  		fp->nmissed++;
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  39  		return;
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  40  	}
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  41  
+5b0ab78998e325 Masami Hiramatsu          2022-03-15  42  	if (fp->exit_handler) {
+5b0ab78998e325 Masami Hiramatsu          2022-03-15  43  		rh = rethook_try_get(fp->rethook);
+5b0ab78998e325 Masami Hiramatsu          2022-03-15  44  		if (!rh) {
+5b0ab78998e325 Masami Hiramatsu          2022-03-15  45  			fp->nmissed++;
+5b0ab78998e325 Masami Hiramatsu          2022-03-15  46  			goto out;
+5b0ab78998e325 Masami Hiramatsu          2022-03-15  47  		}
+5b0ab78998e325 Masami Hiramatsu          2022-03-15  48  		fpr = container_of(rh, struct fprobe_rethook_node, node);
+5b0ab78998e325 Masami Hiramatsu          2022-03-15  49  		fpr->entry_ip = ip;
+76d0de5729c056 Masami Hiramatsu (Google  2023-02-02  50) 		if (fp->entry_data_size)
+76d0de5729c056 Masami Hiramatsu (Google  2023-02-02  51) 			entry_data = fpr->data;
+5b0ab78998e325 Masami Hiramatsu          2022-03-15  52  	}
+5b0ab78998e325 Masami Hiramatsu          2022-03-15  53  
+76d0de5729c056 Masami Hiramatsu (Google  2023-02-02  54) 	if (fp->entry_handler)
+39d954200bf6ad Masami Hiramatsu (Google  2023-02-02  55) 		ret = fp->entry_handler(fp, ip, ftrace_get_regs(fregs), entry_data);
+76d0de5729c056 Masami Hiramatsu (Google  2023-02-02  56) 
+39d954200bf6ad Masami Hiramatsu (Google  2023-02-02  57) 	/* If entry_handler returns !0, nmissed is not counted. */
+39d954200bf6ad Masami Hiramatsu (Google  2023-02-02  58) 	if (rh) {
+39d954200bf6ad Masami Hiramatsu (Google  2023-02-02 @59) 		if (ret)
 
-da3a9d3c15769b Kalle Valo 2020-09-16   997  
-cb4e57db2ff0c8 Kalle Valo 2020-09-16   998  int ath11k_debugfs_soc_create(struct ath11k_base *ab)
-da3a9d3c15769b Kalle Valo 2020-09-16   999  {
-323d91d4684d23 Kalle Valo 2022-12-22  1000  	struct dentry *root;
-323d91d4684d23 Kalle Valo 2022-12-22  1001  	bool dput_needed;
-323d91d4684d23 Kalle Valo 2022-12-22  1002  	char name[64];
-323d91d4684d23 Kalle Valo 2022-12-22  1003  	int ret;
-323d91d4684d23 Kalle Valo 2022-12-22  1004  
-323d91d4684d23 Kalle Valo 2022-12-22  1005  	root = debugfs_lookup("ath11k", NULL);
-323d91d4684d23 Kalle Valo 2022-12-22  1006  	if (!root) {
-323d91d4684d23 Kalle Valo 2022-12-22  1007  		root = debugfs_create_dir("ath11k", NULL);
-323d91d4684d23 Kalle Valo 2022-12-22  1008  		if (IS_ERR_OR_NULL(root))
-323d91d4684d23 Kalle Valo 2022-12-22 @1009  			return PTR_ERR(root);
-323d91d4684d23 Kalle Valo 2022-12-22  1010  
-323d91d4684d23 Kalle Valo 2022-12-22  1011  		dput_needed = false;
-323d91d4684d23 Kalle Valo 2022-12-22  1012  	} else {
-323d91d4684d23 Kalle Valo 2022-12-22  1013  		/* a dentry from lookup() needs dput() after we don't use it */
-323d91d4684d23 Kalle Valo 2022-12-22  1014  		dput_needed = true;
-323d91d4684d23 Kalle Valo 2022-12-22  1015  	}
-323d91d4684d23 Kalle Valo 2022-12-22  1016  
-323d91d4684d23 Kalle Valo 2022-12-22  1017  	scnprintf(name, sizeof(name), "%s-%s", ath11k_bus_str(ab->hif.bus),
-323d91d4684d23 Kalle Valo 2022-12-22  1018  		  dev_name(ab->dev));
-da3a9d3c15769b Kalle Valo 2020-09-16  1019  
-323d91d4684d23 Kalle Valo 2022-12-22  1020  	ab->debugfs_soc = debugfs_create_dir(name, root);
-323d91d4684d23 Kalle Valo 2022-12-22  1021  	if (IS_ERR_OR_NULL(ab->debugfs_soc)) {
-323d91d4684d23 Kalle Valo 2022-12-22  1022  		ret = PTR_ERR(ab->debugfs_soc);
-323d91d4684d23 Kalle Valo 2022-12-22  1023  		goto out;
-323d91d4684d23 Kalle Valo 2022-12-22  1024  	}
-323d91d4684d23 Kalle Valo 2022-12-22  1025  
-323d91d4684d23 Kalle Valo 2022-12-22  1026  	ret = 0;
-323d91d4684d23 Kalle Valo 2022-12-22  1027  
-323d91d4684d23 Kalle Valo 2022-12-22  1028  out:
-323d91d4684d23 Kalle Valo 2022-12-22  1029  	if (dput_needed)
-323d91d4684d23 Kalle Valo 2022-12-22  1030  		dput(root);
-323d91d4684d23 Kalle Valo 2022-12-22  1031  
-323d91d4684d23 Kalle Valo 2022-12-22  1032  	return ret;
-da3a9d3c15769b Kalle Valo 2020-09-16  1033  }
-da3a9d3c15769b Kalle Valo 2020-09-16  1034  
+I reported this one earlier.  The code assumes that if there is an
+-exit_handler there is also an ->entry_handler().  You had said you
+would just initialized ret = 0;
+
+39d954200bf6ad Masami Hiramatsu (Google  2023-02-02  60) 			rethook_recycle(rh);
+39d954200bf6ad Masami Hiramatsu (Google  2023-02-02  61) 		else
+76d0de5729c056 Masami Hiramatsu (Google  2023-02-02  62) 			rethook_hook(rh, ftrace_get_regs(fregs), true);
+39d954200bf6ad Masami Hiramatsu (Google  2023-02-02  63) 	}
+5b0ab78998e325 Masami Hiramatsu          2022-03-15  64  out:
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  65  	ftrace_test_recursion_unlock(bit);
+cad9931f64dc7f Masami Hiramatsu          2022-03-15  66  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
