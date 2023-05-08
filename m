@@ -1,42 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDB117F3
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 May 2023 16:21:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A77520F9
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 May 2023 17:03:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683562899; x=1715098899;
+  t=1683565421; x=1715101421;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uSTQc/j3awGFlHOsilkDRckkaTKC9us6XYbf/82KQIU=;
-  b=VMSJjWZc9WuXB6oV0PByMlXKl8mMIsRYuZdXYsNdZ1eW5cdOA19Vue6k
-   ObCrcI1zn6XVS5M9EeLAmwLeiZNJMwgx9lsL1BOMAbZNbaQ4KJrrzBYa+
-   GlCzOWy1dC7xsxvzUoTS9rXHNmz9TsAFEBiw/YyV1i1qp6JrXFCDiH9zi
-   Ha+NQ2TOI0pCkEFwKPFmrGnw4pTN0oCnCKeunSGcniHU4YABNqXJwM84B
-   xvB3uhFkSVQAurqWHYmqK2VDhd99wsw3yFmtASqkCGXeeh+YmRresNjAF
-   5RgFKaa5gwLQ4vCiaSnUL0bLjZcGbhN7DYT7zhFxEPgrwYduDW1/fJ9VG
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="348519727"
+  bh=ALxKTp8L1GJPIOgd3NRCEA+GBK74NViM0qilidopR+4=;
+  b=gMyps+lyizGJmU4eI3oucEvp1LrxtHd8UaKqqTmhkexy+cBhlmh5aIV+
+   ViWUuzWhfSYfvioOHcI+bVS7uNnMwJmxzXUrviB5SMP2f1uC+S7kXmlO7
+   32wPt7hf2RPojq1qMBdLxK80MBCzBvwiEMxKiHxOdfqp6H+PU4QE9Ji6b
+   z1xJRGjkyOiC7HUo1XY9DmTqho8VkEmpidK4yLWyK/z0xHtH2cg/jeWsW
+   D79TIT0aPNrI9qslbU0Xa4rDje6e7DGw5T32Rueji8Rj3wTraZSd5q3NZ
+   IDo8FpRx2ZTar3s5cyp0hZ8tHYRa7iLUX2V1NfTLZbwBfBfIsX5nvwVGn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="377799258"
 X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="348519727"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 09:21:38 -0700
+   d="scan'208";a="377799258"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 10:03:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="676105984"
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="763472820"
 X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="676105984"
+   d="scan'208";a="763472820"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 08 May 2023 09:21:37 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 08 May 2023 10:03:38 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pw3cG-0001JN-0P;
-	Mon, 08 May 2023 16:21:36 +0000
-Date: Tue, 9 May 2023 00:21:07 +0800
+	id 1pw4Gv-0001Kd-0F;
+	Mon, 08 May 2023 17:03:37 +0000
+Date: Tue, 9 May 2023 01:02:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 778/1074] fs/xfs/scrub/fscounters.c:459
- xchk_fscounters() warn: ignoring unreachable code.
-Message-ID: <202305090010.ON5yT635-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 547/1074]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:495:2-8: preceding lock on line 491
+Message-ID: <202305090004.4HEjK3qT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,77 +49,66 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "Darrick J. Wong" <djwong@kernel.org>
-CC: Dave Chinner <dchinner@redhat.com>
+TO: Le Ma <le.ma@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Hawking Zhang <Hawking.Zhang@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   52025ebbb518a2d876b8aba191b348ffb1cf368b
-commit: 2d5f38a31980d7090f5bf91021488dc61a0ba8ee [778/1074] xfs: disable reaping in fscounters scrub
-:::::: branch date: 12 hours ago
-:::::: commit date: 7 days ago
-config: ia64-randconfig-m031-20230507 (https://download.01.org/0day-ci/archive/20230509/202305090010.ON5yT635-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+commit: def799c6596d078112095c24c25e162cb5102d90 [547/1074] drm/amdgpu: add multi-xcc support to amdgpu_gfx interfaces (v4)
+:::::: branch date: 13 hours ago
+:::::: commit date: 3 weeks ago
+config: alpha-randconfig-c042-20230507 (https://download.01.org/0day-ci/archive/20230509/202305090004.4HEjK3qT-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305090010.ON5yT635-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Link: https://lore.kernel.org/r/202305090004.4HEjK3qT-lkp@intel.com/
 
-smatch warnings:
-fs/xfs/scrub/fscounters.c:459 xchk_fscounters() warn: ignoring unreachable code.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:495:2-8: preceding lock on line 491
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:558:2-8: preceding lock on line 551
 
-vim +459 fs/xfs/scrub/fscounters.c
+vim +495 drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
 
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  416  
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  417  /* Check the superblock counters. */
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  418  int
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  419  xchk_fscounters(
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  420  	struct xfs_scrub	*sc)
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  421  {
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  422  	struct xfs_mount	*mp = sc->mp;
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  423  	struct xchk_fscounters	*fsc = sc->buf;
-e74331d6fa2c21 Darrick J. Wong 2022-11-06  424  	int64_t			icount, ifree, fdblocks, frextents;
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  425  	int			error;
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  426  
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  427  	/* Snapshot the percpu counters. */
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  428  	icount = percpu_counter_sum(&mp->m_icount);
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  429  	ifree = percpu_counter_sum(&mp->m_ifree);
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  430  	fdblocks = percpu_counter_sum(&mp->m_fdblocks);
-e74331d6fa2c21 Darrick J. Wong 2022-11-06  431  	frextents = percpu_counter_sum(&mp->m_frextents);
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  432  
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  433  	/* No negative values, please! */
-e74331d6fa2c21 Darrick J. Wong 2022-11-06  434  	if (icount < 0 || ifree < 0 || fdblocks < 0 || frextents < 0)
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  435  		xchk_set_corrupt(sc);
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  436  
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  437  	/* See if icount is obviously wrong. */
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  438  	if (icount < fsc->icount_min || icount > fsc->icount_max)
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  439  		xchk_set_corrupt(sc);
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  440  
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  441  	/* See if fdblocks is obviously wrong. */
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  442  	if (fdblocks > mp->m_sb.sb_dblocks)
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  443  		xchk_set_corrupt(sc);
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  444  
-e74331d6fa2c21 Darrick J. Wong 2022-11-06  445  	/* See if frextents is obviously wrong. */
-e74331d6fa2c21 Darrick J. Wong 2022-11-06  446  	if (frextents > mp->m_sb.sb_rextents)
-e74331d6fa2c21 Darrick J. Wong 2022-11-06  447  		xchk_set_corrupt(sc);
-e74331d6fa2c21 Darrick J. Wong 2022-11-06  448  
-2d5f38a31980d7 Darrick J. Wong 2023-05-02  449  	/*
-2d5f38a31980d7 Darrick J. Wong 2023-05-02  450  	 * XXX: We can't quiesce percpu counter updates, so exit early.
-2d5f38a31980d7 Darrick J. Wong 2023-05-02  451  	 * This can be re-enabled when we gain exclusive freeze functionality.
-2d5f38a31980d7 Darrick J. Wong 2023-05-02  452  	 */
-2d5f38a31980d7 Darrick J. Wong 2023-05-02  453  	return 0;
-2d5f38a31980d7 Darrick J. Wong 2023-05-02  454  
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  455  	/*
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  456  	 * If ifree exceeds icount by more than the minimum variance then
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  457  	 * something's probably wrong with the counters.
-75efa57d0bf5fc Darrick J. Wong 2019-04-25  458  	 */
-75efa57d0bf5fc Darrick J. Wong 2019-04-25 @459  	if (ifree > icount && ifree - icount > XCHK_FSCOUNT_MIN_VARIANCE)
+d23ee13fba23a3 Rex Zhu    2018-07-30  480  
+def799c6596d07 Le Ma      2022-05-24  481  int amdgpu_gfx_disable_kcq(struct amdgpu_device *adev, int xcc_id)
+ba0c13b7747ba0 Rex Zhu    2018-08-22  482  {
+def799c6596d07 Le Ma      2022-05-24  483  	struct amdgpu_kiq *kiq = &adev->gfx.kiq[xcc_id];
+ba0c13b7747ba0 Rex Zhu    2018-08-22  484  	struct amdgpu_ring *kiq_ring = &kiq->ring;
+18ee4ce63e0f32 Jack Xiao  2022-04-13  485  	int i, r = 0;
+def799c6596d07 Le Ma      2022-05-24  486  	int j;
+ba0c13b7747ba0 Rex Zhu    2018-08-22  487  
+ba0c13b7747ba0 Rex Zhu    2018-08-22  488  	if (!kiq->pmf || !kiq->pmf->kiq_unmap_queues)
+ba0c13b7747ba0 Rex Zhu    2018-08-22  489  		return -EINVAL;
+ba0c13b7747ba0 Rex Zhu    2018-08-22  490  
+def799c6596d07 Le Ma      2022-05-24 @491  	spin_lock(&kiq->ring_lock);
+ba0c13b7747ba0 Rex Zhu    2018-08-22  492  	if (amdgpu_ring_alloc(kiq_ring, kiq->pmf->unmap_queues_size *
+5a8cd98e6e335a Nirmoy Das 2021-03-12  493  					adev->gfx.num_compute_rings)) {
+277bd3371f1140 Le Ma      2022-05-24  494  		spin_unlock(&adev->gfx.kiq[0].ring_lock);
+ba0c13b7747ba0 Rex Zhu    2018-08-22 @495  		return -ENOMEM;
+5a8cd98e6e335a Nirmoy Das 2021-03-12  496  	}
+ba0c13b7747ba0 Rex Zhu    2018-08-22  497  
+def799c6596d07 Le Ma      2022-05-24  498  	for (i = 0; i < adev->gfx.num_compute_rings; i++) {
+def799c6596d07 Le Ma      2022-05-24  499  		j = i + xcc_id * adev->gfx.num_compute_rings;
+19191961659c52 Jack Xiao  2019-01-08  500  		kiq->pmf->kiq_unmap_queues(kiq_ring, &adev->gfx.compute_ring[i],
+19191961659c52 Jack Xiao  2019-01-08  501  					   RESET_QUEUES, 0, 0);
+def799c6596d07 Le Ma      2022-05-24  502  	}
+18ee4ce63e0f32 Jack Xiao  2022-04-13  503  
+277bd3371f1140 Le Ma      2022-05-24  504  	if (adev->gfx.kiq[0].ring.sched.ready && !adev->job_hang)
+5a8cd98e6e335a Nirmoy Das 2021-03-12  505  		r = amdgpu_ring_test_helper(kiq_ring);
+def799c6596d07 Le Ma      2022-05-24  506  	spin_unlock(&kiq->ring_lock);
+ba0c13b7747ba0 Rex Zhu    2018-08-22  507  
+5a8cd98e6e335a Nirmoy Das 2021-03-12  508  	return r;
+ba0c13b7747ba0 Rex Zhu    2018-08-22  509  }
+ba0c13b7747ba0 Rex Zhu    2018-08-22  510  
 
-:::::: The code at line 459 was first introduced by commit
-:::::: 75efa57d0bf5fcf650a183f0ce0dc011ba8c4bc8 xfs: add online scrub for superblock counters
+:::::: The code at line 495 was first introduced by commit
+:::::: ba0c13b7747ba0157603414366bbe5a00a2f32cd drm/amdgpu: Add common gfx func Disable kcq via kiq
 
-:::::: TO: Darrick J. Wong <darrick.wong@oracle.com>
-:::::: CC: Darrick J. Wong <darrick.wong@oracle.com>
+:::::: TO: Rex Zhu <Rex.Zhu@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
