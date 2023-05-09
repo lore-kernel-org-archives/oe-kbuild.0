@@ -1,34 +1,54 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D12A6116;
-	Tue,  9 May 2023 14:08:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E819BC433D2;
-	Tue,  9 May 2023 14:08:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683641285;
-	bh=RnRS7BOKD9Sz/6TNOQGjEBtBLahisvztzzzUr3thwFg=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=jBJMuXaRmqLIE7KjRLUavojMfbsNXhjPSaH9U1pkZsGwHMcm7bWuTrvP2vbf0cMQV
-	 4i7P0EPgfOH72BJ/GbSQEeGTvAw1nulb22NLcyE3iQ2lJwNGjDHbrZlqc0DheZWkbG
-	 WIXkI1B95tOkZBn4x089Ry1eNl/0wX2B0PgZiaIu8760p0hueYvCUKeAKZaj9naqbJ
-	 3n40vz4AVugZIWCiqgQGBsB3wczC/ArwJ1IfLUQlaj/s95/OOnj2WJpGMMQt2PSVpt
-	 iijOS6MOP5lIgDLRUcN9Ea+YekSJ8UM5e94xv+J0F7pHs1UyEP6QC1+7VW+nntxj0T
-	 mBd3qbn07EpNQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 69DACCE18EF; Tue,  9 May 2023 07:08:05 -0700 (PDT)
-Date: Tue, 9 May 2023 07:08:05 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414B08BE3
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 May 2023 15:13:11 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3f4271185daso21686545e9.2
+        for <oe-kbuild@lists.linux.dev>; Tue, 09 May 2023 08:13:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683645189; x=1686237189;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+dS/MzCVT7+cSf3X4fztCpdcpjrF5B5vWgwHO3Up/uk=;
+        b=AyJkHmXX2AIa3rzlDbfXxmTy5HegQZlfATEypEgeL1TtpPBWb42ddzFI1Xld5Eub7o
+         aXfDYDoKGTRVjpFGvu1ACxkFYOouJ2wOJBi4JXeeam7ZJLEEsWB5dttedGHH4SrnfIKf
+         Wd20aMHa/iRVSjdTb1Rh6Jq1n2pGn7fk3LptepCl7SZmMBGfzjYawN1emu+0WPWs4RPe
+         7LzA9B6A29WP2OS0wbdvjgEmkkS2TwdukhXnggYVIOH9qf+Sh3U5ZRLoe27P57LfAe/3
+         lMNkaBNP9/OXtg/3agd+GT0u+uZdZSkU+5lmHp4btyQqIxUoSothj48vFhwKuJ4d39ex
+         rA6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683645189; x=1686237189;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+dS/MzCVT7+cSf3X4fztCpdcpjrF5B5vWgwHO3Up/uk=;
+        b=Yt/tnKr+YA7E1o+aS7I+7d25h8bf4zyI6Dssa16b6I/1z0Jy3NEGxZFFBjp9bgOrpZ
+         HKIwKYdcNQ6YdPZTl4OJlZJmh4CFXeO8fLnqMGQXz6FQjbi1INwV/+wHWs9G4WRETVqM
+         Z5Dw2mhZkTWv22sbca/Ie0/bGHyJq4Kdy23xn626jj/TAIuxz7HPCqC2d+8+05rIPEqf
+         RrTzRmSXsq09hWQMRDXVFCo8wZjhhUfEp1t11xnOS2fBxp/T5cnCe1k6xRfKFO6fDiBN
+         USSslH8+WmRXuf5JuEcbXgrr7tyFEr3SHVNDfGXX5YoGZkurMeo3XilvJnhVglwTvr7S
+         KXPw==
+X-Gm-Message-State: AC+VfDy7PKmiUX++tXrdSIMFm5E6yIb+8ClreK/c6Z82e/mJG0lZhS+K
+	7Z6u/imIoYlDIf1kDyL4gV2mYw==
+X-Google-Smtp-Source: ACHHUZ7a6L/aqQZtg0//RvH1NYUh6s5mVovCZFo8Mvx1BlegXvEsamYiSroWQfG9x7SrLxLca9c8Ig==
+X-Received: by 2002:a1c:4c08:0:b0:3f4:2737:a016 with SMTP id z8-20020a1c4c08000000b003f42737a016mr3801996wmf.29.1683645189377;
+        Tue, 09 May 2023 08:13:09 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id z17-20020a1c4c11000000b003ee20b4b2dasm19991620wmf.46.2023.05.09.08.13.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 May 2023 08:13:06 -0700 (PDT)
+Date: Tue, 9 May 2023 18:13:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Subject: Re: kernel/rcu/srcutree.c:1644 srcu_advance_state() warn:
  inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
-Message-ID: <4bdbbcd3-6620-4320-ada5-02b71a54106c@paulmck-laptop>
-Reply-To: paulmck@kernel.org
+Message-ID: <782b3fa6-576d-4c26-888e-5dc151feaaa8@kili.mountain>
 References: <c0937326-1cf1-429a-9883-30d9d79b01d0@kili.mountain>
  <c33b0348-7f86-47ce-913c-f1ebc6431f93@paulmck-laptop>
  <30f2e760-e2f3-4941-be9b-b9c5624fd861@kili.mountain>
+ <4bdbbcd3-6620-4320-ada5-02b71a54106c@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -37,106 +57,62 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <30f2e760-e2f3-4941-be9b-b9c5624fd861@kili.mountain>
+In-Reply-To: <4bdbbcd3-6620-4320-ada5-02b71a54106c@paulmck-laptop>
 
-On Tue, May 09, 2023 at 08:40:33AM +0300, Dan Carpenter wrote:
-> On Sat, May 06, 2023 at 11:45:35AM -0700, Paul E. McKenney wrote:
-> > On Sat, May 06, 2023 at 10:22:04AM +0300, Dan Carpenter wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   418d5c98319f67b9ae651babea031b5394425c18
-> > > commit: e3a6ab25cfa0fcdcb31c346b9871a566d440980d srcu: Move ->srcu_gp_mutex from srcu_struct to srcu_usage
-> > > config: x86_64-randconfig-m001-20230501 (https://download.01.org/0day-ci/archive/20230506/202305060951.I8mz6eHt-lkp@intel.com/config)
-> > > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+On Tue, May 09, 2023 at 07:08:05AM -0700, Paul E. McKenney wrote:
+> On Tue, May 09, 2023 at 08:40:33AM +0300, Dan Carpenter wrote:
+> > On Sat, May 06, 2023 at 11:45:35AM -0700, Paul E. McKenney wrote:
+> > > On Sat, May 06, 2023 at 10:22:04AM +0300, Dan Carpenter wrote:
+> > > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1632  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN2) {
+> > > > 
+> > > > We don't mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex) if this if
+> > > > statement is false.
 > > > 
-> > > If you fix the issue, kindly add following tag where applicable
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > > | Link: https://lore.kernel.org/r/202305060951.I8mz6eHt-lkp@intel.com/
+> > > Hmmm...
 > > > 
-> > > smatch warnings:
-> > > kernel/rcu/srcutree.c:1644 srcu_advance_state() warn: inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
+> > > I could make the above line read something like the following:
 > > > 
-> > > vim +1644 kernel/rcu/srcutree.c
-> > > 
-> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1584  static void srcu_advance_state(struct srcu_struct *ssp)
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1585  {
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1586  	int idx;
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1587  
-> > > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1588  	mutex_lock(&ssp->srcu_sup->srcu_gp_mutex);
-> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1589  
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1590  	/*
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1591  	 * Because readers might be delayed for an extended period after
-> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1592  	 * fetching ->srcu_idx for their index, at any point in time there
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1593  	 * might well be readers using both idx=0 and idx=1.  We therefore
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1594  	 * need to wait for readers to clear from both index values before
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1595  	 * invoking a callback.
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1596  	 *
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1597  	 * The load-acquire ensures that we see the accesses performed
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1598  	 * by the prior grace period.
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1599  	 */
-> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1600  	idx = rcu_seq_state(smp_load_acquire(&ssp->srcu_gp_seq)); /* ^^^ */
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1601  	if (idx == SRCU_STATE_IDLE) {
-> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1602  		spin_lock_irq_rcu_node(ssp->srcu_sup);
-> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1603  		if (ULONG_CMP_GE(ssp->srcu_gp_seq, ssp->srcu_gp_seq_needed)) {
-> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1604  			WARN_ON_ONCE(rcu_seq_state(ssp->srcu_gp_seq));
-> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1605  			spin_unlock_irq_rcu_node(ssp->srcu_sup);
-> > > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1606  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1607  			return;
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1608  		}
-> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1609  		idx = rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq));
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1610  		if (idx == SRCU_STATE_IDLE)
-> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1611  			srcu_gp_start(ssp);
-> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1612  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
-> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1613  		if (idx != SRCU_STATE_IDLE) {
-> > > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1614  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1615  			return; /* Someone else started the grace period. */
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1616  		}
-> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1617  	}
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1618  
-> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1619  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN1) {
-> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1620  		idx = 1 ^ (ssp->srcu_idx & 1);
-> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1621  		if (!try_check_zero(ssp, idx, 1)) {
-> > > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1622  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1623  			return; /* readers present, retry later. */
-> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1624  		}
-> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1625  		srcu_flip(ssp);
-> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1626  		spin_lock_irq_rcu_node(ssp->srcu_sup);
-> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1627  		rcu_seq_set_state(&ssp->srcu_gp_seq, SRCU_STATE_SCAN2);
-> > > 282d8998e9979c Paul E. McKenney 2022-03-08  1628  		ssp->srcu_n_exp_nodelay = 0;
-> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1629  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1630  	}
-> > > dad81a2026841b Paul E. McKenney 2017-03-25  1631  
-> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1632  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN2) {
-> > > 
-> > > We don't mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex) if this if
-> > > statement is false.
+> > > 	if (!WARN_ON_ONCE(rcu_seq_state(READ_ONCE(ssp->srcu_sup->srcu_gp_seq)) != SRCU_STATE_SCAN2)) {
 > > 
-> > Hmmm...
+> > Smatch ignores WARN_ON().  WARNings are triggered all the time, so it's
+> > not like a BUG() which stops the code flow.
 > > 
-> > I could make the above line read something like the following:
+> > > 
+> > > The theory is that there are only three legal values for ->srcu_gp_seq.
+> > > Because we hold ->srcu_gp_mutex, no one else can change it.   The first
+> > > "if" statement either returns or sets that state to SRCU_STATE_SCAN1.
+> > > The second "if" statement also either returns or sets that state to
+> > > SRCU_STATE_SCAN2.  So that statement should not be false.
 > > 
-> > 	if (!WARN_ON_ONCE(rcu_seq_state(READ_ONCE(ssp->srcu_sup->srcu_gp_seq)) != SRCU_STATE_SCAN2)) {
-> 
-> Smatch ignores WARN_ON().  WARNings are triggered all the time, so it's
-> not like a BUG() which stops the code flow.
-> 
+> > Smatch can't figure out that the statement is true.  The issue there is
+> > that ssp->srcu_sup->srcu_gp_seq stores a value in the low bits and a
+> > different value in the high bits.  This seems like something that might
+> > be worth handling correctly at some point, but that point is in the
+> > distant future...
 > > 
-> > The theory is that there are only three legal values for ->srcu_gp_seq.
-> > Because we hold ->srcu_gp_mutex, no one else can change it.   The first
-> > "if" statement either returns or sets that state to SRCU_STATE_SCAN1.
-> > The second "if" statement also either returns or sets that state to
-> > SRCU_STATE_SCAN2.  So that statement should not be false.
+> > Just ignore this one.
 > 
-> Smatch can't figure out that the statement is true.  The issue there is
-> that ssp->srcu_sup->srcu_gp_seq stores a value in the low bits and a
-> different value in the high bits.  This seems like something that might
-> be worth handling correctly at some point, but that point is in the
-> distant future...
+> Fair enough!  Yeah, I could imagine that this would be non-trivial.
 > 
-> Just ignore this one.
+> Is there a not-reached annotation that Smatch pays attention to?
 
-Fair enough!  Yeah, I could imagine that this would be non-trivial.
+Hm...  Yeah.  If you wanted you could do this.  I'm not sure it improves
+the readability.  Also for some reason my private Smatch build doesn't
+print a warning...  I need to investigate why that is...
 
-Is there a not-reached annotation that Smatch pays attention to?
+regards,
+dan carpenter
 
-							Thanx, Paul
+diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+index 20d7a238d675..58e13d3c5a6a 100644
+--- a/kernel/rcu/srcutree.c
++++ b/kernel/rcu/srcutree.c
+@@ -1669,6 +1669,8 @@ static void srcu_advance_state(struct srcu_struct *ssp)
+ 		}
+ 		ssp->srcu_sup->srcu_n_exp_nodelay = 0;
+ 		srcu_gp_end(ssp);  /* Releases ->srcu_gp_mutex. */
++	} else {
++		unreachable();
+ 	}
+ }
+ 
