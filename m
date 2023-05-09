@@ -1,50 +1,52 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4E538A
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 May 2023 04:34:58 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3062c1e7df8so3439892f8f.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 08 May 2023 21:34:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DDC2114
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 May 2023 05:40:40 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3f41dceb9c9so18648525e9.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 08 May 2023 22:40:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683606896; x=1686198896;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dbxwRvm7hhLbWBjkdeZJS6kDPtZzWa2hv6bdpCzQNOs=;
-        b=FyrREQGyPf3mgBNk+E9I7yMwwnb2oTREUqTwqCPL+TyzzXAIaN+r6aqa8Bmbuukz9C
-         vvojGx4O7N34hvnzjs2gHqJXV75PEUomgzWmHWBPKA89hyvLx9KZjLpqKtRoYIZcK3WE
-         bTOE7qAfsnvFYIPtKX3sbNVtd0r0fV2ZiReSL1HGGGXHaMT3QkutJVNtpO9YkNf+tEXB
-         bX2NFYn7rh3btp8XEU+OoUzE8FZuZexWKoaeVDgLhH7dSTCbIThntYxoN11Aj9YnBG5m
-         RGUQzeEnN/PlIxBqII3YDz8/4/IYecVUhj1wFRDxzFPGzgWm3XTeJUDLB9WP5vvEZfM2
-         ZRDQ==
+        d=linaro.org; s=google; t=1683610838; x=1686202838;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tlfhc11Kx7yCJym0I7Mw8R+pcgt3UjUISA434rzN7ZU=;
+        b=gzaV+cshKEwEPwvpEZHakB3YQgEUqNoubuJegSbhS1vfzYxYMRZ6mCbEHcMFjr88Zx
+         9cAzyZN2E8R7ogejtfjWbl/m7qD6EszWQ16V+yYD3+6VSDnbNFxUNmCbpPXmrsnEFKig
+         jiRUCTEgz/36V2jIjEbD7pgkK3cqsV2crUmpPg1pGWRyY8SjT8jsGEXD8TQINOCWRkfk
+         298+YLVJoHrQCGhZ3rmgHmScKFKNZwk2XUNOgyxEMOAo/3cHI/2NewIeIPS/ox0xt5Pe
+         CAgjSNp7Og2ztTFBqzNLXo0+9FPLfmjRctJN53kDoelrwrv1BOTpjBAsbH+Okp+ooTvb
+         6VtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683606896; x=1686198896;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dbxwRvm7hhLbWBjkdeZJS6kDPtZzWa2hv6bdpCzQNOs=;
-        b=H/6PIRQQgnYC5FhcYwXJ0YsOIRjMYksQzCcTYoNXxDdkXyZjvOoH9VKvAVRvYnqp9A
-         1R7lG0CcwHFkSdsNZW6jlkaCC1RIViXTx2/SOQjYf16ZBvdz7OsDmBzaggEVVDRL7U3d
-         ff8e9B7ByIDd8yCoFVsn/xwKNzaWykmTUJQHKARrcYpoDBUk9xgzpGUJCbOgGLBQiSTE
-         scvlZ/V9+JihiwOf/a3kmoIc65t8BiwiJMkajVIpBgA4PtHUfY2Dv1eOP7Ji3kESd3LJ
-         reN7j5Zlo1QjRUahykv4pjDjfRb0liVC8gD6bOjobK9rqWtWfH4HDHq+DW18CcW7+TNN
-         85Ug==
-X-Gm-Message-State: AC+VfDz0ZtVh7bgLTtP7xF+fiUtmfxfYVDH9HcYbBDQnRSd0+t7zAlEf
-	TQ+wRDhcprbwKsfmTOFBYMJ5m2y1lxYbi+sQrLM=
-X-Google-Smtp-Source: ACHHUZ50cJG2ecUgRUUxm1qCr/sqs2v3uPdbQ2dXF+tf3xoNy1MV3R71hPhHLVckRNydvtbcOqf++g==
-X-Received: by 2002:a5d:604e:0:b0:306:29c8:23f7 with SMTP id j14-20020a5d604e000000b0030629c823f7mr8426342wrt.29.1683606895750;
-        Mon, 08 May 2023 21:34:55 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683610838; x=1686202838;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tlfhc11Kx7yCJym0I7Mw8R+pcgt3UjUISA434rzN7ZU=;
+        b=Y12UdTNlkIRjVJB/uofX3lgi9X4mZXXuRFDBFYN45zBu9I+iwFHJqh/eaIejwnDOa/
+         LVQpaGmTAYk9H/SC/3/uIH3Je7CbdqKEHGs8nyRAqdBRb022BnDuEtHTbB1/p0hMvDKn
+         Z6/LrFynBX3EwlaJ0DzU/DVCYhGUzD9JvNjsSbEOgs/MUrD8v1lJlmx5zmJQLG7XjRbb
+         cZjf20BJyQeLUMbsY/APgTWAxoHuTWBAUDArhc98p+NmLbe1GzbDkKTDcu2icHEpqA4l
+         fBZZFfBr1ELlv1O51Yd5nXPtC14FeEj9XF6f/wtzVCa3rug1YqxF9uIX0TXQ2+kn+n1h
+         Pvog==
+X-Gm-Message-State: AC+VfDysuxlOCoBXTV5sr1c9ciAv5FXKesQSh+HSYzbYFUISPvtufTAd
+	GDwO9mC+C1bbYamXxsPXzewk0Q==
+X-Google-Smtp-Source: ACHHUZ40QaGu9oLT5BKu9KVo4Vc6JRHH+zyZDNrP8+lJBVFL12ze4ikQCpOuatixLIqVaYb+9nHPCw==
+X-Received: by 2002:adf:fdca:0:b0:2f9:910b:7166 with SMTP id i10-20020adffdca000000b002f9910b7166mr7718809wrs.57.1683610838397;
+        Mon, 08 May 2023 22:40:38 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q15-20020adff94f000000b003078b3e2845sm8882952wrr.31.2023.05.08.21.34.53
+        by smtp.gmail.com with ESMTPSA id a9-20020adfe5c9000000b0030632110586sm13432312wrn.3.2023.05.08.22.40.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 May 2023 21:34:54 -0700 (PDT)
-Date: Tue, 9 May 2023 07:34:50 +0300
+        Mon, 08 May 2023 22:40:36 -0700 (PDT)
+Date: Tue, 9 May 2023 08:40:33 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Alejandro Lucero <alejandro.lucero-palau@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>
-Subject: drivers/net/ethernet/sfc/ef100_netdev.c:457 ef100_probe_netdev()
- warn: 'net_dev' from alloc_etherdev_mqs() not released on lines: 418.
-Message-ID: <c953d588-7323-4b49-aa94-40138f1b1e6d@kili.mountain>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: kernel/rcu/srcutree.c:1644 srcu_advance_state() warn:
+ inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
+Message-ID: <30f2e760-e2f3-4941-be9b-b9c5624fd861@kili.mountain>
+References: <c0937326-1cf1-429a-9883-30d9d79b01d0@kili.mountain>
+ <c33b0348-7f86-47ce-913c-f1ebc6431f93@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,136 +55,103 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <c33b0348-7f86-47ce-913c-f1ebc6431f93@paulmck-laptop>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ba0ad6ed89fd5dada3b7b65ef2b08e95d449d4ab
-commit: 7e056e2360d9267a20509aa2cdb8905485499e95 sfc: obtain device mac address based on firmware handle for ef100
-config: arm64-randconfig-m041-20230428 (https://download.01.org/0day-ci/archive/20230509/202305090926.xAinp8CH-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+On Sat, May 06, 2023 at 11:45:35AM -0700, Paul E. McKenney wrote:
+> On Sat, May 06, 2023 at 10:22:04AM +0300, Dan Carpenter wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   418d5c98319f67b9ae651babea031b5394425c18
+> > commit: e3a6ab25cfa0fcdcb31c346b9871a566d440980d srcu: Move ->srcu_gp_mutex from srcu_struct to srcu_usage
+> > config: x86_64-randconfig-m001-20230501 (https://download.01.org/0day-ci/archive/20230506/202305060951.I8mz6eHt-lkp@intel.com/config)
+> > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > | Link: https://lore.kernel.org/r/202305060951.I8mz6eHt-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > kernel/rcu/srcutree.c:1644 srcu_advance_state() warn: inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
+> > 
+> > vim +1644 kernel/rcu/srcutree.c
+> > 
+> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1584  static void srcu_advance_state(struct srcu_struct *ssp)
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1585  {
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1586  	int idx;
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1587  
+> > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1588  	mutex_lock(&ssp->srcu_sup->srcu_gp_mutex);
+> > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1589  
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1590  	/*
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1591  	 * Because readers might be delayed for an extended period after
+> > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1592  	 * fetching ->srcu_idx for their index, at any point in time there
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1593  	 * might well be readers using both idx=0 and idx=1.  We therefore
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1594  	 * need to wait for readers to clear from both index values before
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1595  	 * invoking a callback.
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1596  	 *
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1597  	 * The load-acquire ensures that we see the accesses performed
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1598  	 * by the prior grace period.
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1599  	 */
+> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1600  	idx = rcu_seq_state(smp_load_acquire(&ssp->srcu_gp_seq)); /* ^^^ */
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1601  	if (idx == SRCU_STATE_IDLE) {
+> > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1602  		spin_lock_irq_rcu_node(ssp->srcu_sup);
+> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1603  		if (ULONG_CMP_GE(ssp->srcu_gp_seq, ssp->srcu_gp_seq_needed)) {
+> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1604  			WARN_ON_ONCE(rcu_seq_state(ssp->srcu_gp_seq));
+> > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1605  			spin_unlock_irq_rcu_node(ssp->srcu_sup);
+> > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1606  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1607  			return;
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1608  		}
+> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1609  		idx = rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq));
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1610  		if (idx == SRCU_STATE_IDLE)
+> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1611  			srcu_gp_start(ssp);
+> > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1612  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
+> > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1613  		if (idx != SRCU_STATE_IDLE) {
+> > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1614  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1615  			return; /* Someone else started the grace period. */
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1616  		}
+> > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1617  	}
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1618  
+> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1619  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN1) {
+> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1620  		idx = 1 ^ (ssp->srcu_idx & 1);
+> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1621  		if (!try_check_zero(ssp, idx, 1)) {
+> > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1622  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1623  			return; /* readers present, retry later. */
+> > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1624  		}
+> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1625  		srcu_flip(ssp);
+> > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1626  		spin_lock_irq_rcu_node(ssp->srcu_sup);
+> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1627  		rcu_seq_set_state(&ssp->srcu_gp_seq, SRCU_STATE_SCAN2);
+> > 282d8998e9979c Paul E. McKenney 2022-03-08  1628  		ssp->srcu_n_exp_nodelay = 0;
+> > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1629  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1630  	}
+> > dad81a2026841b Paul E. McKenney 2017-03-25  1631  
+> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1632  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN2) {
+> > 
+> > We don't mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex) if this if
+> > statement is false.
+> 
+> Hmmm...
+> 
+> I could make the above line read something like the following:
+> 
+> 	if (!WARN_ON_ONCE(rcu_seq_state(READ_ONCE(ssp->srcu_sup->srcu_gp_seq)) != SRCU_STATE_SCAN2)) {
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305090926.xAinp8CH-lkp@intel.com/
+Smatch ignores WARN_ON().  WARNings are triggered all the time, so it's
+not like a BUG() which stops the code flow.
 
-New smatch warnings:
-drivers/net/ethernet/sfc/ef100_netdev.c:457 ef100_probe_netdev() warn: 'net_dev' from alloc_etherdev_mqs() not released on lines: 418.
+> 
+> The theory is that there are only three legal values for ->srcu_gp_seq.
+> Because we hold ->srcu_gp_mutex, no one else can change it.   The first
+> "if" statement either returns or sets that state to SRCU_STATE_SCAN1.
+> The second "if" statement also either returns or sets that state to
+> SRCU_STATE_SCAN2.  So that statement should not be false.
 
-Old smatch warnings:
-drivers/net/ethernet/sfc/ef100_netdev.c:141 ef100_net_open() warn: missing unwind goto?
+Smatch can't figure out that the statement is true.  The issue there is
+that ssp->srcu_sup->srcu_gp_seq stores a value in the low bits and a
+different value in the high bits.  This seems like something that might
+be worth handling correctly at some point, but that point is in the
+distant future...
 
-vim +/net_dev +457 drivers/net/ethernet/sfc/ef100_netdev.c
+Just ignore this one.
 
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  358  int ef100_probe_netdev(struct efx_probe_data *probe_data)
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  359  {
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  360  	struct efx_nic *efx = &probe_data->efx;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  361  	struct efx_probe_data **probe_ptr;
-7e056e2360d926 Alejandro Lucero 2023-02-15  362  	struct ef100_nic_data *nic_data;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  363  	struct net_device *net_dev;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  364  	int rc;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  365  
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  366  	if (efx->mcdi->fn_flags &
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  367  			(1 << MC_CMD_DRV_ATTACH_EXT_OUT_FLAG_NO_ACTIVE_PORT)) {
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  368  		pci_info(efx->pci_dev, "No network port on this PCI function");
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  369  		return 0;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  370  	}
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  371  
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  372  	/* Allocate and initialise a struct net_device */
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  373  	net_dev = alloc_etherdev_mq(sizeof(probe_data), EFX_MAX_CORE_TX_QUEUES);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  374  	if (!net_dev)
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  375  		return -ENOMEM;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  376  	probe_ptr = netdev_priv(net_dev);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  377  	*probe_ptr = probe_data;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  378  	efx->net_dev = net_dev;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  379  	SET_NETDEV_DEV(net_dev, &efx->pci_dev->dev);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  380  
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  381  	net_dev->features |= efx->type->offload_features;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  382  	net_dev->hw_features |= efx->type->offload_features;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  383  	net_dev->hw_enc_features |= efx->type->offload_features;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  384  	net_dev->vlan_features |= NETIF_F_HW_CSUM | NETIF_F_SG |
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  385  				  NETIF_F_HIGHDMA | NETIF_F_ALL_TSO;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  386  	netif_set_tso_max_segs(net_dev,
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  387  			       ESE_EF100_DP_GZ_TSO_MAX_HDR_NUM_SEGS_DEFAULT);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  388  	efx->mdio.dev = net_dev;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  389  
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  390  	rc = efx_ef100_init_datapath_caps(efx);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  391  	if (rc < 0)
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  392  		goto fail;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  393  
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  394  	rc = ef100_phy_probe(efx);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  395  	if (rc)
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  396  		goto fail;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  397  
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  398  	rc = efx_init_channels(efx);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  399  	if (rc)
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  400  		goto fail;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  401  
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  402  	down_write(&efx->filter_sem);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  403  	rc = ef100_filter_table_probe(efx);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  404  	up_write(&efx->filter_sem);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  405  	if (rc)
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  406  		goto fail;
-
-These goto fails are problematic because they call efx_probe_devlink_unlock()
-which was never locked.   Typical problem with one err label style
-error handling.
-
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  407  
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  408  	netdev_rss_key_fill(efx->rss_context.rx_hash_key,
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  409  			    sizeof(efx->rss_context.rx_hash_key));
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  410  
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  411  	/* Don't fail init if RSS setup doesn't work. */
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  412  	efx_mcdi_push_default_indir_table(efx, efx->n_rx_channels);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  413  
-7e056e2360d926 Alejandro Lucero 2023-02-15  414  	nic_data = efx->nic_data;
-7e056e2360d926 Alejandro Lucero 2023-02-15  415  	rc = ef100_get_mac_address(efx, net_dev->perm_addr, CLIENT_HANDLE_SELF,
-7e056e2360d926 Alejandro Lucero 2023-02-15  416  				   efx->type->is_vf);
-7e056e2360d926 Alejandro Lucero 2023-02-15  417  	if (rc)
-7e056e2360d926 Alejandro Lucero 2023-02-15  418  		return rc;
-
-No clean up on this path.  Needs to call free_netdev().
-
-7e056e2360d926 Alejandro Lucero 2023-02-15  419  	/* Assign MAC address */
-7e056e2360d926 Alejandro Lucero 2023-02-15  420  	eth_hw_addr_set(net_dev, net_dev->perm_addr);
-7e056e2360d926 Alejandro Lucero 2023-02-15  421  	ether_addr_copy(nic_data->port_id, net_dev->perm_addr);
-7e056e2360d926 Alejandro Lucero 2023-02-15  422  
-fa34a5140a8e8f Alejandro Lucero 2023-02-15  423  	/* devlink creation, registration and lock */
-fa34a5140a8e8f Alejandro Lucero 2023-02-15  424  	rc = efx_probe_devlink_and_lock(efx);
-fa34a5140a8e8f Alejandro Lucero 2023-02-15  425  	if (rc)
-fa34a5140a8e8f Alejandro Lucero 2023-02-15  426  		pci_info(efx->pci_dev, "devlink registration failed");
-fa34a5140a8e8f Alejandro Lucero 2023-02-15  427  
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  428  	rc = ef100_register_netdev(efx);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  429  	if (rc)
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  430  		goto fail;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  431  
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  432  	if (!efx->type->is_vf) {
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  433  		rc = ef100_probe_netdev_pf(efx);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  434  		if (rc)
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  435  			goto fail;
-25414b2a64ae7e Alejandro Lucero 2023-02-15  436  #ifdef CONFIG_SFC_SRIOV
-25414b2a64ae7e Alejandro Lucero 2023-02-15  437  		ef100_pf_set_devlink_port(efx);
-25414b2a64ae7e Alejandro Lucero 2023-02-15  438  #endif
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  439  	}
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  440  
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  441  	efx->netdev_notifier.notifier_call = ef100_netdev_event;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  442  	rc = register_netdevice_notifier(&efx->netdev_notifier);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  443  	if (rc) {
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  444  		netif_err(efx, probe, efx->net_dev,
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  445  			  "Failed to register netdevice notifier, rc=%d\n", rc);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  446  		goto fail;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  447  	}
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  448  
-25414b2a64ae7e Alejandro Lucero 2023-02-15  449  	efx_probe_devlink_unlock(efx);
-25414b2a64ae7e Alejandro Lucero 2023-02-15  450  	return rc;
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  451  fail:
-25414b2a64ae7e Alejandro Lucero 2023-02-15  452  #ifdef CONFIG_SFC_SRIOV
-25414b2a64ae7e Alejandro Lucero 2023-02-15  453  	/* remove devlink port if does exist */
-25414b2a64ae7e Alejandro Lucero 2023-02-15  454  	ef100_pf_unset_devlink_port(efx);
-25414b2a64ae7e Alejandro Lucero 2023-02-15  455  #endif
-fa34a5140a8e8f Alejandro Lucero 2023-02-15  456  	efx_probe_devlink_unlock(efx);
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28 @457  	return rc;
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+regards,
+dan carpenter
 
