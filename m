@@ -1,125 +1,124 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B9719903
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 May 2023 20:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C0019918
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 May 2023 21:55:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683664912; x=1715200912;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=CWtsPg98P8uPiJxyX9fW0EvRpNnACHRHEZCGT0RixQM=;
-  b=ELnoOEq4Sr2ydXu9kp3Fkt7SCBTUDGoy/4RjlD+RmjXe/KTpUV4LpsUi
-   UZ+1aoAJ+xu2LkpwnEa1RZ6ZiNbRM/h+UXQfB8i6xwNxjEMnhr4g8kHma
-   RgepkaMNxsNPWlL1N+ElX87C8jEvPfOZrisD/d674O48IpCsQ53xt7xW/
-   /JRjuF7uY99gXHuN8viTqTnJFr/nfySpmiGuxxLwKOskEMZLSyykld7Et
-   wwtFGBBsPQuGzjFOpbzoS5f+8Y1OPdtCxTwFENnCrlkhzY5/n+6E2QZVR
-   dBsxl47+85+5xztdIblCuvvjUOsTdIlesOm826ZSfiF2RqfeplWbGVDTr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="350079711"
+  t=1683669303; x=1715205303;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eWYbEPr8mfgxw75M3YO3sCPcseO1sT+04Gv36+Bla6I=;
+  b=VEvgdbpF2Rik4w65eVFlYrI6Edpv7ARKfhIVxP6iRzxc0GVM7J8v1B+h
+   pVuRrfVBypQDa6GaGkPxes4tMpzmsDYOEImjzJgW1QbA8O9C/F//9srvV
+   /aA+5iqnnUXN/y1OObv5TEYk89YNbiTASpmIAadfA54+09DURyilxvSPC
+   pRpTAnTeGZN55U8ZInW6xpOr9cam7cUoU8Ql+w++ixh+aM2gikJ+P6yUK
+   yBjTXaogsu6m8eI1eWEiMkpgG8S8GOosqR/QHhTsIEefJKlYNkya1DsFm
+   EQGx37s1EkaSE0Dx0geEF10uZ8CfAFzkzUO4cXyPVOmrSNrP767osF1XU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="347524689"
 X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="350079711"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 13:41:50 -0700
+   d="scan'208";a="347524689"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 14:54:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="649484627"
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="873344151"
 X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="649484627"
+   d="scan'208";a="873344151"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 09 May 2023 13:41:48 -0700
+  by orsmga005.jf.intel.com with ESMTP; 09 May 2023 14:54:52 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pwU9b-0002Tm-3C;
-	Tue, 09 May 2023 20:41:47 +0000
-Date: Wed, 10 May 2023 04:41:19 +0800
+	id 1pwVIK-0002Xs-0a;
+	Tue, 09 May 2023 21:54:52 +0000
+Date: Wed, 10 May 2023 05:54:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [drm-misc:drm-misc-next 2/5]
- drivers/gpu/drm/vkms/vkms_composer.c:120 blend() error: uninitialized symbol
- 'y_pos'.
-Message-ID: <202305100429.0cmOp7M6-lkp@intel.com>
+Subject: Re: [PATCH 4/4] drm/mgag200: Use DMA to copy the framebuffer to the
+ VRAM
+Message-ID: <202305100554.Q6f2fDlx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: dri-devel@lists.freedesktop.org
-TO: "Maíra Canal" <mcanal@igalia.com>
-CC: Melissa Wen <mwen@igalia.com>
+In-Reply-To: <20230505124337.854845-5-jfalempe@redhat.com>
+References: <20230505124337.854845-5-jfalempe@redhat.com>
+TO: Jocelyn Falempe <jfalempe@redhat.com>
+TO: dri-devel@lists.freedesktop.org
+TO: tzimmermann@suse.de
+TO: airlied@redhat.com
+TO: javierm@redhat.com
+TO: lyude@redhat.com
+CC: Jocelyn Falempe <jfalempe@redhat.com>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   ff32fcca64437f679a2bf1c0a19d5def389a18e2
-commit: 1ce76fae2bc14dd776b0c237456d8bd117c0e617 [2/5] drm/vkms: add reflect-y and rotate-180 property
-:::::: branch date: 8 hours ago
-:::::: commit date: 32 hours ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230510/202305100429.0cmOp7M6-lkp@intel.com/config)
+Hi Jocelyn,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 457391b0380335d5e9a5babdec90ac53928b23b4]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-mgag200-Rename-constant-MGAREG_Status-to-MGAREG_STATUS/20230505-204705
+base:   457391b0380335d5e9a5babdec90ac53928b23b4
+patch link:    https://lore.kernel.org/r/20230505124337.854845-5-jfalempe%40redhat.com
+patch subject: [PATCH 4/4] drm/mgag200: Use DMA to copy the framebuffer to the VRAM
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230510/202305100554.Q6f2fDlx-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305100429.0cmOp7M6-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305100554.Q6f2fDlx-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/vkms/vkms_composer.c:120 blend() error: uninitialized symbol 'y_pos'.
+drivers/gpu/drm/mgag200/mgag200_mode.c:419 mgag200_dwg_setup() error: uninitialized symbol 'maccess'.
 
-vim +/y_pos +120 drivers/gpu/drm/vkms/vkms_composer.c
+vim +/maccess +419 drivers/gpu/drm/mgag200/mgag200_mode.c
 
-bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   77  
-32a1648aca4409 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2021-04-24   78  /**
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   79   * @wb_frame_info: The writeback frame buffer metadata
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   80   * @crtc_state: The crtc state
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   81   * @crc32: The crc output of the final frame
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   82   * @output_buffer: A buffer of a row that will receive the result of the blend(s)
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   83   * @stage_buffer: The line with the pixels from plane being blend to the output
-32a1648aca4409 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2021-04-24   84   *
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   85   * This function blends the pixels (Using the `pre_mul_alpha_blend`)
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   86   * from all planes, calculates the crc32 of the output from the former step,
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   87   * and, if necessary, convert and store the output to the writeback buffer.
-32a1648aca4409 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2021-04-24   88   */
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   89  static void blend(struct vkms_writeback_job *wb,
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   90  		  struct vkms_crtc_state *crtc_state,
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   91  		  u32 *crc32, struct line_buffer *stage_buffer,
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   92  		  struct line_buffer *output_buffer, size_t row_size)
-39cba5cf8c2c23 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2020-08-25   93  {
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   94  	struct vkms_plane_state **plane = crtc_state->active_planes;
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   95  	u32 n_active_planes = crtc_state->num_active_planes;
-1ce76fae2bc14d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-18   96  	int y_pos;
-39cba5cf8c2c23 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2020-08-25   97  
-bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   98  	const struct pixel_argb_u16 background_color = { .a = 0xffff };
-32a1648aca4409 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2021-04-24   99  
-bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  100  	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
-39cba5cf8c2c23 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2020-08-25  101  
-bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  102  	for (size_t y = 0; y < crtc_y_limit; y++) {
-bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  103  		fill_background(&background_color, output_buffer);
-bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  104  
-bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  105  		/* The active planes are composed associatively in z-order. */
-bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  106  		for (size_t i = 0; i < n_active_planes; i++) {
-1ce76fae2bc14d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-18  107  			y_pos = get_y_pos(plane[i]->frame_info, y);
-1ce76fae2bc14d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-18  108  
-1ce76fae2bc14d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-18  109  			if (!check_y_limit(plane[i]->frame_info, y_pos))
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  110  				continue;
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  111  
-1ce76fae2bc14d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-18  112  			vkms_compose_row(stage_buffer, plane[i], y_pos);
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  113  			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  114  					    output_buffer);
-db7f419c06d7cc drivers/gpu/drm/vkms/vkms_crc.c      Haneen Mohammed 2018-09-06  115  		}
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  116  
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  117  		*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  118  
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  119  		if (wb)
-1ce76fae2bc14d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-18 @120  			wb->wb_write(&wb->wb_frame_info, output_buffer, y_pos);
-db7f419c06d7cc drivers/gpu/drm/vkms/vkms_crc.c      Haneen Mohammed 2018-09-06  121  	}
-db7f419c06d7cc drivers/gpu/drm/vkms/vkms_crc.c      Haneen Mohammed 2018-09-06  122  }
-db7f419c06d7cc drivers/gpu/drm/vkms/vkms_crc.c      Haneen Mohammed 2018-09-06  123  
+414c453106255b Dave Airlie     2012-04-17  400  
+b3cab0043427ad Jocelyn Falempe 2023-05-05  401  static void mgag200_dwg_setup(struct mga_device *mdev, struct drm_framebuffer *fb)
+b3cab0043427ad Jocelyn Falempe 2023-05-05  402  {
+b3cab0043427ad Jocelyn Falempe 2023-05-05  403  	u32 maccess;
+b3cab0043427ad Jocelyn Falempe 2023-05-05  404  
+b3cab0043427ad Jocelyn Falempe 2023-05-05  405  	drm_dbg(&mdev->base, "Setup DWG with %dx%d %p4cc\n",
+b3cab0043427ad Jocelyn Falempe 2023-05-05  406  		fb->width, fb->height, &fb->format->format);
+b3cab0043427ad Jocelyn Falempe 2023-05-05  407  
+b3cab0043427ad Jocelyn Falempe 2023-05-05  408  	switch (fb->format->format) {
+b3cab0043427ad Jocelyn Falempe 2023-05-05  409  	case DRM_FORMAT_RGB565:
+b3cab0043427ad Jocelyn Falempe 2023-05-05  410  		maccess = MGAMAC_PW16;
+b3cab0043427ad Jocelyn Falempe 2023-05-05  411  		break;
+b3cab0043427ad Jocelyn Falempe 2023-05-05  412  	case DRM_FORMAT_RGB888:
+b3cab0043427ad Jocelyn Falempe 2023-05-05  413  		maccess = MGAMAC_PW24;
+b3cab0043427ad Jocelyn Falempe 2023-05-05  414  		break;
+b3cab0043427ad Jocelyn Falempe 2023-05-05  415  	case DRM_FORMAT_XRGB8888:
+b3cab0043427ad Jocelyn Falempe 2023-05-05  416  		maccess = MGAMAC_PW32;
+b3cab0043427ad Jocelyn Falempe 2023-05-05  417  		break;
+b3cab0043427ad Jocelyn Falempe 2023-05-05  418  	}
+b3cab0043427ad Jocelyn Falempe 2023-05-05 @419  	WREG32(MGAREG_MACCESS, maccess);
+b3cab0043427ad Jocelyn Falempe 2023-05-05  420  
+b3cab0043427ad Jocelyn Falempe 2023-05-05  421  	/* Framebuffer width in pixel */
+b3cab0043427ad Jocelyn Falempe 2023-05-05  422  	WREG32(MGAREG_PITCH, fb->width);
+b3cab0043427ad Jocelyn Falempe 2023-05-05  423  
+b3cab0043427ad Jocelyn Falempe 2023-05-05  424  	/* Sane default value for the drawing engine registers */
+b3cab0043427ad Jocelyn Falempe 2023-05-05  425  	WREG32(MGAREG_DSTORG, 0);
+b3cab0043427ad Jocelyn Falempe 2023-05-05  426  	WREG32(MGAREG_YDSTORG, 0);
+b3cab0043427ad Jocelyn Falempe 2023-05-05  427  	WREG32(MGAREG_SRCORG, 0);
+b3cab0043427ad Jocelyn Falempe 2023-05-05  428  	WREG32(MGAREG_CXBNDRY, 0x0FFF0000);
+b3cab0043427ad Jocelyn Falempe 2023-05-05  429  	WREG32(MGAREG_YTOP, 0);
+b3cab0043427ad Jocelyn Falempe 2023-05-05  430  	WREG32(MGAREG_YBOT, 0x00FFFFFF);
+b3cab0043427ad Jocelyn Falempe 2023-05-05  431  
+b3cab0043427ad Jocelyn Falempe 2023-05-05  432  	/* Activate blit mode DMA, only write the low part of the register */
+b3cab0043427ad Jocelyn Falempe 2023-05-05  433  	WREG8(MGAREG_OPMODE, MGAOPM_DMA_BLIT);
+b3cab0043427ad Jocelyn Falempe 2023-05-05  434  }
+b3cab0043427ad Jocelyn Falempe 2023-05-05  435  
 
 -- 
 0-DAY CI Kernel Test Service
