@@ -1,43 +1,34 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250FA8BE3
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 May 2023 13:05:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683637528; x=1715173528;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IuvZc7W7nKKsr12PAJt2CgPS5Seu/dgpzXPqI6HaJPc=;
-  b=oHDMqtt7wtMnbWxHMELgUgoW7193ADsvaEHTy1GlGkdQhSy/7wi1mQKc
-   CdseQtYPTsYyNaQM/90lNUxsVLRj3QTSTkc5xvfhWqHQt+KLV6Lf1AoKs
-   ImpayIkzmDHzWx34fvaFws1YxSgz8tJJiUhz9gM8DUj4cILNJSOJqi7sE
-   8iJSf/Q5dYmfKSPW/wpvrVPlDnLJQED/NiPxeoDQwEqsScGZ+Q4HfxD2J
-   2lDu8izu+v2uNxqNgRl50+/gO26Y08JWZ47iSIK2WL4kOKnZfbL6RC3g5
-   p07iGifM/NSDnYkL368+9/bTDBAnCWKm3L2Y9PUTKrhhBkoWEgVJ2ALZF
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="413187322"
-X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="413187322"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 06:05:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="823082779"
-X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="823082779"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 09 May 2023 06:05:03 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pwN1b-0002AG-0i;
-	Tue, 09 May 2023 13:05:03 +0000
-Date: Tue, 9 May 2023 21:04:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 955/1512]
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:658 amdgpu_gfx_enable_kgq() warn:
- inconsistent returns '&kiq->ring_lock'.
-Message-ID: <202305092002.VnRkluOB-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D12A6116;
+	Tue,  9 May 2023 14:08:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E819BC433D2;
+	Tue,  9 May 2023 14:08:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1683641285;
+	bh=RnRS7BOKD9Sz/6TNOQGjEBtBLahisvztzzzUr3thwFg=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=jBJMuXaRmqLIE7KjRLUavojMfbsNXhjPSaH9U1pkZsGwHMcm7bWuTrvP2vbf0cMQV
+	 4i7P0EPgfOH72BJ/GbSQEeGTvAw1nulb22NLcyE3iQ2lJwNGjDHbrZlqc0DheZWkbG
+	 WIXkI1B95tOkZBn4x089Ry1eNl/0wX2B0PgZiaIu8760p0hueYvCUKeAKZaj9naqbJ
+	 3n40vz4AVugZIWCiqgQGBsB3wczC/ArwJ1IfLUQlaj/s95/OOnj2WJpGMMQt2PSVpt
+	 iijOS6MOP5lIgDLRUcN9Ea+YekSJ8UM5e94xv+J0F7pHs1UyEP6QC1+7VW+nntxj0T
+	 mBd3qbn07EpNQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 69DACCE18EF; Tue,  9 May 2023 07:08:05 -0700 (PDT)
+Date: Tue, 9 May 2023 07:08:05 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: kernel/rcu/srcutree.c:1644 srcu_advance_state() warn:
+ inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
+Message-ID: <4bdbbcd3-6620-4320-ada5-02b71a54106c@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <c0937326-1cf1-429a-9883-30d9d79b01d0@kili.mountain>
+ <c33b0348-7f86-47ce-913c-f1ebc6431f93@paulmck-laptop>
+ <30f2e760-e2f3-4941-be9b-b9c5624fd861@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,72 +37,106 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <30f2e760-e2f3-4941-be9b-b9c5624fd861@kili.mountain>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Alex Deucher <alexander.deucher@amd.com>
-CC: Hawking Zhang <Hawking.Zhang@amd.com>
+On Tue, May 09, 2023 at 08:40:33AM +0300, Dan Carpenter wrote:
+> On Sat, May 06, 2023 at 11:45:35AM -0700, Paul E. McKenney wrote:
+> > On Sat, May 06, 2023 at 10:22:04AM +0300, Dan Carpenter wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > > head:   418d5c98319f67b9ae651babea031b5394425c18
+> > > commit: e3a6ab25cfa0fcdcb31c346b9871a566d440980d srcu: Move ->srcu_gp_mutex from srcu_struct to srcu_usage
+> > > config: x86_64-randconfig-m001-20230501 (https://download.01.org/0day-ci/archive/20230506/202305060951.I8mz6eHt-lkp@intel.com/config)
+> > > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> > > 
+> > > If you fix the issue, kindly add following tag where applicable
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > > | Link: https://lore.kernel.org/r/202305060951.I8mz6eHt-lkp@intel.com/
+> > > 
+> > > smatch warnings:
+> > > kernel/rcu/srcutree.c:1644 srcu_advance_state() warn: inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
+> > > 
+> > > vim +1644 kernel/rcu/srcutree.c
+> > > 
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1584  static void srcu_advance_state(struct srcu_struct *ssp)
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1585  {
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1586  	int idx;
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1587  
+> > > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1588  	mutex_lock(&ssp->srcu_sup->srcu_gp_mutex);
+> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1589  
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1590  	/*
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1591  	 * Because readers might be delayed for an extended period after
+> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1592  	 * fetching ->srcu_idx for their index, at any point in time there
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1593  	 * might well be readers using both idx=0 and idx=1.  We therefore
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1594  	 * need to wait for readers to clear from both index values before
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1595  	 * invoking a callback.
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1596  	 *
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1597  	 * The load-acquire ensures that we see the accesses performed
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1598  	 * by the prior grace period.
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1599  	 */
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1600  	idx = rcu_seq_state(smp_load_acquire(&ssp->srcu_gp_seq)); /* ^^^ */
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1601  	if (idx == SRCU_STATE_IDLE) {
+> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1602  		spin_lock_irq_rcu_node(ssp->srcu_sup);
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1603  		if (ULONG_CMP_GE(ssp->srcu_gp_seq, ssp->srcu_gp_seq_needed)) {
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1604  			WARN_ON_ONCE(rcu_seq_state(ssp->srcu_gp_seq));
+> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1605  			spin_unlock_irq_rcu_node(ssp->srcu_sup);
+> > > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1606  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1607  			return;
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1608  		}
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1609  		idx = rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq));
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1610  		if (idx == SRCU_STATE_IDLE)
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1611  			srcu_gp_start(ssp);
+> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1612  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
+> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1613  		if (idx != SRCU_STATE_IDLE) {
+> > > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1614  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1615  			return; /* Someone else started the grace period. */
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1616  		}
+> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1617  	}
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1618  
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1619  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN1) {
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1620  		idx = 1 ^ (ssp->srcu_idx & 1);
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1621  		if (!try_check_zero(ssp, idx, 1)) {
+> > > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1622  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1623  			return; /* readers present, retry later. */
+> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1624  		}
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1625  		srcu_flip(ssp);
+> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1626  		spin_lock_irq_rcu_node(ssp->srcu_sup);
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1627  		rcu_seq_set_state(&ssp->srcu_gp_seq, SRCU_STATE_SCAN2);
+> > > 282d8998e9979c Paul E. McKenney 2022-03-08  1628  		ssp->srcu_n_exp_nodelay = 0;
+> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1629  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1630  	}
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1631  
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1632  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN2) {
+> > > 
+> > > We don't mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex) if this if
+> > > statement is false.
+> > 
+> > Hmmm...
+> > 
+> > I could make the above line read something like the following:
+> > 
+> > 	if (!WARN_ON_ONCE(rcu_seq_state(READ_ONCE(ssp->srcu_sup->srcu_gp_seq)) != SRCU_STATE_SCAN2)) {
+> 
+> Smatch ignores WARN_ON().  WARNings are triggered all the time, so it's
+> not like a BUG() which stops the code flow.
+> 
+> > 
+> > The theory is that there are only three legal values for ->srcu_gp_seq.
+> > Because we hold ->srcu_gp_mutex, no one else can change it.   The first
+> > "if" statement either returns or sets that state to SRCU_STATE_SCAN1.
+> > The second "if" statement also either returns or sets that state to
+> > SRCU_STATE_SCAN2.  So that statement should not be false.
+> 
+> Smatch can't figure out that the statement is true.  The issue there is
+> that ssp->srcu_sup->srcu_gp_seq stores a value in the low bits and a
+> different value in the high bits.  This seems like something that might
+> be worth handling correctly at some point, but that point is in the
+> distant future...
+> 
+> Just ignore this one.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   47cba14ce6fc4f314bd814d07269d0c8de1e4ae6
-commit: 9bfa241d12896ef661116467774280d9cf680ea1 [955/1512] drm/amdgpu: add [en/dis]able_kgq() functions
-:::::: branch date: 10 hours ago
-:::::: commit date: 4 days ago
-config: ia64-randconfig-m031-20230507 (https://download.01.org/0day-ci/archive/20230509/202305092002.VnRkluOB-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+Fair enough!  Yeah, I could imagine that this would be non-trivial.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305092002.VnRkluOB-lkp@intel.com/
+Is there a not-reached annotation that Smatch pays attention to?
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:658 amdgpu_gfx_enable_kgq() warn: inconsistent returns '&kiq->ring_lock'.
-
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:133 amdgpu_gfx_parse_disable_cu() warn: potential spectre issue 'mask' [w]
-drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:623 amdgpu_gfx_enable_kcq() warn: inconsistent returns '&kiq->ring_lock'.
-
-vim +658 drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-
-849aca9f9c033a Hawking Zhang 2019-03-05  625  
-9bfa241d12896e Alex Deucher  2023-04-24  626  int amdgpu_gfx_enable_kgq(struct amdgpu_device *adev, int xcc_id)
-9bfa241d12896e Alex Deucher  2023-04-24  627  {
-9bfa241d12896e Alex Deucher  2023-04-24  628  	struct amdgpu_kiq *kiq = &adev->gfx.kiq[xcc_id];
-9bfa241d12896e Alex Deucher  2023-04-24  629  	struct amdgpu_ring *kiq_ring = &kiq->ring;
-9bfa241d12896e Alex Deucher  2023-04-24  630  	int r, i, j;
-9bfa241d12896e Alex Deucher  2023-04-24  631  
-9bfa241d12896e Alex Deucher  2023-04-24  632  	if (!kiq->pmf || !kiq->pmf->kiq_map_queues)
-9bfa241d12896e Alex Deucher  2023-04-24  633  		return -EINVAL;
-9bfa241d12896e Alex Deucher  2023-04-24  634  
-9bfa241d12896e Alex Deucher  2023-04-24  635  	spin_lock(&kiq->ring_lock);
-9bfa241d12896e Alex Deucher  2023-04-24  636  	/* No need to map kcq on the slave */
-9bfa241d12896e Alex Deucher  2023-04-24  637  	if (amdgpu_gfx_is_master_xcc(adev, xcc_id)) {
-9bfa241d12896e Alex Deucher  2023-04-24  638  		r = amdgpu_ring_alloc(kiq_ring, kiq->pmf->map_queues_size *
-9bfa241d12896e Alex Deucher  2023-04-24  639  						adev->gfx.num_gfx_rings);
-9bfa241d12896e Alex Deucher  2023-04-24  640  		if (r) {
-9bfa241d12896e Alex Deucher  2023-04-24  641  			DRM_ERROR("Failed to lock KIQ (%d).\n", r);
-9bfa241d12896e Alex Deucher  2023-04-24  642  			spin_unlock(&adev->gfx.kiq[0].ring_lock);
-9bfa241d12896e Alex Deucher  2023-04-24  643  			return r;
-9bfa241d12896e Alex Deucher  2023-04-24  644  		}
-9bfa241d12896e Alex Deucher  2023-04-24  645  
-9bfa241d12896e Alex Deucher  2023-04-24  646  		for (i = 0; i < adev->gfx.num_gfx_rings; i++) {
-9bfa241d12896e Alex Deucher  2023-04-24  647  			j = i + xcc_id * adev->gfx.num_gfx_rings;
-9bfa241d12896e Alex Deucher  2023-04-24  648  			kiq->pmf->kiq_map_queues(kiq_ring,
-9bfa241d12896e Alex Deucher  2023-04-24  649  						 &adev->gfx.gfx_ring[i]);
-9bfa241d12896e Alex Deucher  2023-04-24  650  		}
-9bfa241d12896e Alex Deucher  2023-04-24  651  	}
-9bfa241d12896e Alex Deucher  2023-04-24  652  
-9bfa241d12896e Alex Deucher  2023-04-24  653  	r = amdgpu_ring_test_helper(kiq_ring);
-9bfa241d12896e Alex Deucher  2023-04-24  654  	spin_unlock(&kiq->ring_lock);
-9bfa241d12896e Alex Deucher  2023-04-24  655  	if (r)
-9bfa241d12896e Alex Deucher  2023-04-24  656  		DRM_ERROR("KCQ enable failed\n");
-9bfa241d12896e Alex Deucher  2023-04-24  657  
-9bfa241d12896e Alex Deucher  2023-04-24 @658  	return r;
-9bfa241d12896e Alex Deucher  2023-04-24  659  }
-9bfa241d12896e Alex Deucher  2023-04-24  660  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+							Thanx, Paul
