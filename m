@@ -1,118 +1,126 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414B08BE3
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 May 2023 15:13:11 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3f4271185daso21686545e9.2
-        for <oe-kbuild@lists.linux.dev>; Tue, 09 May 2023 08:13:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683645189; x=1686237189;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+dS/MzCVT7+cSf3X4fztCpdcpjrF5B5vWgwHO3Up/uk=;
-        b=AyJkHmXX2AIa3rzlDbfXxmTy5HegQZlfATEypEgeL1TtpPBWb42ddzFI1Xld5Eub7o
-         aXfDYDoKGTRVjpFGvu1ACxkFYOouJ2wOJBi4JXeeam7ZJLEEsWB5dttedGHH4SrnfIKf
-         Wd20aMHa/iRVSjdTb1Rh6Jq1n2pGn7fk3LptepCl7SZmMBGfzjYawN1emu+0WPWs4RPe
-         7LzA9B6A29WP2OS0wbdvjgEmkkS2TwdukhXnggYVIOH9qf+Sh3U5ZRLoe27P57LfAe/3
-         lMNkaBNP9/OXtg/3agd+GT0u+uZdZSkU+5lmHp4btyQqIxUoSothj48vFhwKuJ4d39ex
-         rA6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683645189; x=1686237189;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+dS/MzCVT7+cSf3X4fztCpdcpjrF5B5vWgwHO3Up/uk=;
-        b=Yt/tnKr+YA7E1o+aS7I+7d25h8bf4zyI6Dssa16b6I/1z0Jy3NEGxZFFBjp9bgOrpZ
-         HKIwKYdcNQ6YdPZTl4OJlZJmh4CFXeO8fLnqMGQXz6FQjbi1INwV/+wHWs9G4WRETVqM
-         Z5Dw2mhZkTWv22sbca/Ie0/bGHyJq4Kdy23xn626jj/TAIuxz7HPCqC2d+8+05rIPEqf
-         RrTzRmSXsq09hWQMRDXVFCo8wZjhhUfEp1t11xnOS2fBxp/T5cnCe1k6xRfKFO6fDiBN
-         USSslH8+WmRXuf5JuEcbXgrr7tyFEr3SHVNDfGXX5YoGZkurMeo3XilvJnhVglwTvr7S
-         KXPw==
-X-Gm-Message-State: AC+VfDy7PKmiUX++tXrdSIMFm5E6yIb+8ClreK/c6Z82e/mJG0lZhS+K
-	7Z6u/imIoYlDIf1kDyL4gV2mYw==
-X-Google-Smtp-Source: ACHHUZ7a6L/aqQZtg0//RvH1NYUh6s5mVovCZFo8Mvx1BlegXvEsamYiSroWQfG9x7SrLxLca9c8Ig==
-X-Received: by 2002:a1c:4c08:0:b0:3f4:2737:a016 with SMTP id z8-20020a1c4c08000000b003f42737a016mr3801996wmf.29.1683645189377;
-        Tue, 09 May 2023 08:13:09 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id z17-20020a1c4c11000000b003ee20b4b2dasm19991620wmf.46.2023.05.09.08.13.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 08:13:06 -0700 (PDT)
-Date: Tue, 9 May 2023 18:13:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: kernel/rcu/srcutree.c:1644 srcu_advance_state() warn:
- inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
-Message-ID: <782b3fa6-576d-4c26-888e-5dc151feaaa8@kili.mountain>
-References: <c0937326-1cf1-429a-9883-30d9d79b01d0@kili.mountain>
- <c33b0348-7f86-47ce-913c-f1ebc6431f93@paulmck-laptop>
- <30f2e760-e2f3-4941-be9b-b9c5624fd861@kili.mountain>
- <4bdbbcd3-6620-4320-ada5-02b71a54106c@paulmck-laptop>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B9719903
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 May 2023 20:41:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683664912; x=1715200912;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=CWtsPg98P8uPiJxyX9fW0EvRpNnACHRHEZCGT0RixQM=;
+  b=ELnoOEq4Sr2ydXu9kp3Fkt7SCBTUDGoy/4RjlD+RmjXe/KTpUV4LpsUi
+   UZ+1aoAJ+xu2LkpwnEa1RZ6ZiNbRM/h+UXQfB8i6xwNxjEMnhr4g8kHma
+   RgepkaMNxsNPWlL1N+ElX87C8jEvPfOZrisD/d674O48IpCsQ53xt7xW/
+   /JRjuF7uY99gXHuN8viTqTnJFr/nfySpmiGuxxLwKOskEMZLSyykld7Et
+   wwtFGBBsPQuGzjFOpbzoS5f+8Y1OPdtCxTwFENnCrlkhzY5/n+6E2QZVR
+   dBsxl47+85+5xztdIblCuvvjUOsTdIlesOm826ZSfiF2RqfeplWbGVDTr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="350079711"
+X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
+   d="scan'208";a="350079711"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 13:41:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="649484627"
+X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
+   d="scan'208";a="649484627"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 09 May 2023 13:41:48 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pwU9b-0002Tm-3C;
+	Tue, 09 May 2023 20:41:47 +0000
+Date: Wed, 10 May 2023 04:41:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [drm-misc:drm-misc-next 2/5]
+ drivers/gpu/drm/vkms/vkms_composer.c:120 blend() error: uninitialized symbol
+ 'y_pos'.
+Message-ID: <202305100429.0cmOp7M6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <4bdbbcd3-6620-4320-ada5-02b71a54106c@paulmck-laptop>
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 09, 2023 at 07:08:05AM -0700, Paul E. McKenney wrote:
-> On Tue, May 09, 2023 at 08:40:33AM +0300, Dan Carpenter wrote:
-> > On Sat, May 06, 2023 at 11:45:35AM -0700, Paul E. McKenney wrote:
-> > > On Sat, May 06, 2023 at 10:22:04AM +0300, Dan Carpenter wrote:
-> > > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1632  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN2) {
-> > > > 
-> > > > We don't mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex) if this if
-> > > > statement is false.
-> > > 
-> > > Hmmm...
-> > > 
-> > > I could make the above line read something like the following:
-> > > 
-> > > 	if (!WARN_ON_ONCE(rcu_seq_state(READ_ONCE(ssp->srcu_sup->srcu_gp_seq)) != SRCU_STATE_SCAN2)) {
-> > 
-> > Smatch ignores WARN_ON().  WARNings are triggered all the time, so it's
-> > not like a BUG() which stops the code flow.
-> > 
-> > > 
-> > > The theory is that there are only three legal values for ->srcu_gp_seq.
-> > > Because we hold ->srcu_gp_mutex, no one else can change it.   The first
-> > > "if" statement either returns or sets that state to SRCU_STATE_SCAN1.
-> > > The second "if" statement also either returns or sets that state to
-> > > SRCU_STATE_SCAN2.  So that statement should not be false.
-> > 
-> > Smatch can't figure out that the statement is true.  The issue there is
-> > that ssp->srcu_sup->srcu_gp_seq stores a value in the low bits and a
-> > different value in the high bits.  This seems like something that might
-> > be worth handling correctly at some point, but that point is in the
-> > distant future...
-> > 
-> > Just ignore this one.
-> 
-> Fair enough!  Yeah, I could imagine that this would be non-trivial.
-> 
-> Is there a not-reached annotation that Smatch pays attention to?
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: dri-devel@lists.freedesktop.org
+TO: "Maíra Canal" <mcanal@igalia.com>
+CC: Melissa Wen <mwen@igalia.com>
 
-Hm...  Yeah.  If you wanted you could do this.  I'm not sure it improves
-the readability.  Also for some reason my private Smatch build doesn't
-print a warning...  I need to investigate why that is...
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   ff32fcca64437f679a2bf1c0a19d5def389a18e2
+commit: 1ce76fae2bc14dd776b0c237456d8bd117c0e617 [2/5] drm/vkms: add reflect-y and rotate-180 property
+:::::: branch date: 8 hours ago
+:::::: commit date: 32 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230510/202305100429.0cmOp7M6-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
-regards,
-dan carpenter
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202305100429.0cmOp7M6-lkp@intel.com/
 
-diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
-index 20d7a238d675..58e13d3c5a6a 100644
---- a/kernel/rcu/srcutree.c
-+++ b/kernel/rcu/srcutree.c
-@@ -1669,6 +1669,8 @@ static void srcu_advance_state(struct srcu_struct *ssp)
- 		}
- 		ssp->srcu_sup->srcu_n_exp_nodelay = 0;
- 		srcu_gp_end(ssp);  /* Releases ->srcu_gp_mutex. */
-+	} else {
-+		unreachable();
- 	}
- }
- 
+smatch warnings:
+drivers/gpu/drm/vkms/vkms_composer.c:120 blend() error: uninitialized symbol 'y_pos'.
+
+vim +/y_pos +120 drivers/gpu/drm/vkms/vkms_composer.c
+
+bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   77  
+32a1648aca4409 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2021-04-24   78  /**
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   79   * @wb_frame_info: The writeback frame buffer metadata
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   80   * @crtc_state: The crtc state
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   81   * @crc32: The crc output of the final frame
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   82   * @output_buffer: A buffer of a row that will receive the result of the blend(s)
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   83   * @stage_buffer: The line with the pixels from plane being blend to the output
+32a1648aca4409 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2021-04-24   84   *
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   85   * This function blends the pixels (Using the `pre_mul_alpha_blend`)
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   86   * from all planes, calculates the crc32 of the output from the former step,
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   87   * and, if necessary, convert and store the output to the writeback buffer.
+32a1648aca4409 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2021-04-24   88   */
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   89  static void blend(struct vkms_writeback_job *wb,
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   90  		  struct vkms_crtc_state *crtc_state,
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   91  		  u32 *crc32, struct line_buffer *stage_buffer,
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   92  		  struct line_buffer *output_buffer, size_t row_size)
+39cba5cf8c2c23 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2020-08-25   93  {
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   94  	struct vkms_plane_state **plane = crtc_state->active_planes;
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   95  	u32 n_active_planes = crtc_state->num_active_planes;
+1ce76fae2bc14d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-18   96  	int y_pos;
+39cba5cf8c2c23 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2020-08-25   97  
+bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   98  	const struct pixel_argb_u16 background_color = { .a = 0xffff };
+32a1648aca4409 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2021-04-24   99  
+bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  100  	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
+39cba5cf8c2c23 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2020-08-25  101  
+bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  102  	for (size_t y = 0; y < crtc_y_limit; y++) {
+bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  103  		fill_background(&background_color, output_buffer);
+bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  104  
+bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  105  		/* The active planes are composed associatively in z-order. */
+bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  106  		for (size_t i = 0; i < n_active_planes; i++) {
+1ce76fae2bc14d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-18  107  			y_pos = get_y_pos(plane[i]->frame_info, y);
+1ce76fae2bc14d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-18  108  
+1ce76fae2bc14d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-18  109  			if (!check_y_limit(plane[i]->frame_info, y_pos))
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  110  				continue;
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  111  
+1ce76fae2bc14d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-18  112  			vkms_compose_row(stage_buffer, plane[i], y_pos);
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  113  			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  114  					    output_buffer);
+db7f419c06d7cc drivers/gpu/drm/vkms/vkms_crc.c      Haneen Mohammed 2018-09-06  115  		}
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  116  
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  117  		*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  118  
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  119  		if (wb)
+1ce76fae2bc14d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-18 @120  			wb->wb_write(&wb->wb_frame_info, output_buffer, y_pos);
+db7f419c06d7cc drivers/gpu/drm/vkms/vkms_crc.c      Haneen Mohammed 2018-09-06  121  	}
+db7f419c06d7cc drivers/gpu/drm/vkms/vkms_crc.c      Haneen Mohammed 2018-09-06  122  }
+db7f419c06d7cc drivers/gpu/drm/vkms/vkms_crc.c      Haneen Mohammed 2018-09-06  123  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
