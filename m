@@ -1,42 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C0019918
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 May 2023 21:55:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A651990C
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 May 2023 23:26:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683669303; x=1715205303;
+  t=1683674817; x=1715210817;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eWYbEPr8mfgxw75M3YO3sCPcseO1sT+04Gv36+Bla6I=;
-  b=VEvgdbpF2Rik4w65eVFlYrI6Edpv7ARKfhIVxP6iRzxc0GVM7J8v1B+h
-   pVuRrfVBypQDa6GaGkPxes4tMpzmsDYOEImjzJgW1QbA8O9C/F//9srvV
-   /aA+5iqnnUXN/y1OObv5TEYk89YNbiTASpmIAadfA54+09DURyilxvSPC
-   pRpTAnTeGZN55U8ZInW6xpOr9cam7cUoU8Ql+w++ixh+aM2gikJ+P6yUK
-   yBjTXaogsu6m8eI1eWEiMkpgG8S8GOosqR/QHhTsIEefJKlYNkya1DsFm
-   EQGx37s1EkaSE0Dx0geEF10uZ8CfAFzkzUO4cXyPVOmrSNrP767osF1XU
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="347524689"
-X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="347524689"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 14:54:54 -0700
+  bh=T2GsNGm55HFBIYUYd+4gxAX1VhHaolCvs2+bIFlSCg4=;
+  b=mMp0OLMmqlSYdjUEWI2TygK5UQhw004DCiYGnzn9pNgT+HoFKh/UYx3Q
+   8mHMY6fQ8VcRt8cVMO0NEQL8yFBxH7HQv0l1FV52QTTXlUQeDAWLqmfeZ
+   scqdxUZPh2m05ZeJNtCAsFrvagw08LbG0L/Jb37atYT5P/hDNUVeaFa73
+   RRWi0Tw2oVMlX1YB4JgzRq0RlLyYCZPQsBXVIIlHkmC5Z4Hd6rjNgFCWL
+   Fiu9uC0BEgBPkcbhz93Upv1qLSt0cCtIGvuwqfdrQzYJ9s6QkLQaCnFmK
+   oO7TQqpqLZ7OP3YNUCWjHVo+keMYeSrSfmCwEagwQ4icvyxgBmZ8V1Jym
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="353146053"
+X-IronPort-AV: E=Sophos;i="5.99,263,1677571200"; 
+   d="scan'208";a="353146053"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 16:26:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="873344151"
-X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="873344151"
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="945470412"
+X-IronPort-AV: E=Sophos;i="5.99,263,1677571200"; 
+   d="scan'208";a="945470412"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 09 May 2023 14:54:52 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 09 May 2023 16:26:55 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pwVIK-0002Xs-0a;
-	Tue, 09 May 2023 21:54:52 +0000
-Date: Wed, 10 May 2023 05:54:02 +0800
+	id 1pwWjO-0002cI-2m;
+	Tue, 09 May 2023 23:26:54 +0000
+Date: Wed, 10 May 2023 07:26:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 4/4] drm/mgag200: Use DMA to copy the framebuffer to the
- VRAM
-Message-ID: <202305100554.Q6f2fDlx-lkp@intel.com>
+Subject: [conor:gpio-irq 3/8] drivers/irqchip/irq-mpfs-mux.c:301
+ mpfs_irq_mux_init() warn: possible memory leak of 'priv'
+Message-ID: <202305100737.hMKHF5yZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,77 +48,92 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230505124337.854845-5-jfalempe@redhat.com>
-References: <20230505124337.854845-5-jfalempe@redhat.com>
-TO: Jocelyn Falempe <jfalempe@redhat.com>
-TO: dri-devel@lists.freedesktop.org
-TO: tzimmermann@suse.de
-TO: airlied@redhat.com
-TO: javierm@redhat.com
-TO: lyude@redhat.com
-CC: Jocelyn Falempe <jfalempe@redhat.com>
+TO: Conor Dooley <conor+lkp@kernel.org>
 
-Hi Jocelyn,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 457391b0380335d5e9a5babdec90ac53928b23b4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-mgag200-Rename-constant-MGAREG_Status-to-MGAREG_STATUS/20230505-204705
-base:   457391b0380335d5e9a5babdec90ac53928b23b4
-patch link:    https://lore.kernel.org/r/20230505124337.854845-5-jfalempe%40redhat.com
-patch subject: [PATCH 4/4] drm/mgag200: Use DMA to copy the framebuffer to the VRAM
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230510/202305100554.Q6f2fDlx-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git gpio-irq
+head:   6ef4b8fad90b5bae682bd4b88b807f2a38822fe8
+commit: f39a859cf7fec51e695de4544786f2b0fb566e75 [3/8] irqchip: add mpfs gpio interrupt mux
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: ia64-randconfig-m031-20230509 (https://download.01.org/0day-ci/archive/20230510/202305100737.hMKHF5yZ-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305100554.Q6f2fDlx-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305100737.hMKHF5yZ-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/mgag200/mgag200_mode.c:419 mgag200_dwg_setup() error: uninitialized symbol 'maccess'.
+drivers/irqchip/irq-mpfs-mux.c:301 mpfs_irq_mux_init() warn: possible memory leak of 'priv'
 
-vim +/maccess +419 drivers/gpu/drm/mgag200/mgag200_mode.c
+vim +/priv +301 drivers/irqchip/irq-mpfs-mux.c
 
-414c453106255b Dave Airlie     2012-04-17  400  
-b3cab0043427ad Jocelyn Falempe 2023-05-05  401  static void mgag200_dwg_setup(struct mga_device *mdev, struct drm_framebuffer *fb)
-b3cab0043427ad Jocelyn Falempe 2023-05-05  402  {
-b3cab0043427ad Jocelyn Falempe 2023-05-05  403  	u32 maccess;
-b3cab0043427ad Jocelyn Falempe 2023-05-05  404  
-b3cab0043427ad Jocelyn Falempe 2023-05-05  405  	drm_dbg(&mdev->base, "Setup DWG with %dx%d %p4cc\n",
-b3cab0043427ad Jocelyn Falempe 2023-05-05  406  		fb->width, fb->height, &fb->format->format);
-b3cab0043427ad Jocelyn Falempe 2023-05-05  407  
-b3cab0043427ad Jocelyn Falempe 2023-05-05  408  	switch (fb->format->format) {
-b3cab0043427ad Jocelyn Falempe 2023-05-05  409  	case DRM_FORMAT_RGB565:
-b3cab0043427ad Jocelyn Falempe 2023-05-05  410  		maccess = MGAMAC_PW16;
-b3cab0043427ad Jocelyn Falempe 2023-05-05  411  		break;
-b3cab0043427ad Jocelyn Falempe 2023-05-05  412  	case DRM_FORMAT_RGB888:
-b3cab0043427ad Jocelyn Falempe 2023-05-05  413  		maccess = MGAMAC_PW24;
-b3cab0043427ad Jocelyn Falempe 2023-05-05  414  		break;
-b3cab0043427ad Jocelyn Falempe 2023-05-05  415  	case DRM_FORMAT_XRGB8888:
-b3cab0043427ad Jocelyn Falempe 2023-05-05  416  		maccess = MGAMAC_PW32;
-b3cab0043427ad Jocelyn Falempe 2023-05-05  417  		break;
-b3cab0043427ad Jocelyn Falempe 2023-05-05  418  	}
-b3cab0043427ad Jocelyn Falempe 2023-05-05 @419  	WREG32(MGAREG_MACCESS, maccess);
-b3cab0043427ad Jocelyn Falempe 2023-05-05  420  
-b3cab0043427ad Jocelyn Falempe 2023-05-05  421  	/* Framebuffer width in pixel */
-b3cab0043427ad Jocelyn Falempe 2023-05-05  422  	WREG32(MGAREG_PITCH, fb->width);
-b3cab0043427ad Jocelyn Falempe 2023-05-05  423  
-b3cab0043427ad Jocelyn Falempe 2023-05-05  424  	/* Sane default value for the drawing engine registers */
-b3cab0043427ad Jocelyn Falempe 2023-05-05  425  	WREG32(MGAREG_DSTORG, 0);
-b3cab0043427ad Jocelyn Falempe 2023-05-05  426  	WREG32(MGAREG_YDSTORG, 0);
-b3cab0043427ad Jocelyn Falempe 2023-05-05  427  	WREG32(MGAREG_SRCORG, 0);
-b3cab0043427ad Jocelyn Falempe 2023-05-05  428  	WREG32(MGAREG_CXBNDRY, 0x0FFF0000);
-b3cab0043427ad Jocelyn Falempe 2023-05-05  429  	WREG32(MGAREG_YTOP, 0);
-b3cab0043427ad Jocelyn Falempe 2023-05-05  430  	WREG32(MGAREG_YBOT, 0x00FFFFFF);
-b3cab0043427ad Jocelyn Falempe 2023-05-05  431  
-b3cab0043427ad Jocelyn Falempe 2023-05-05  432  	/* Activate blit mode DMA, only write the low part of the register */
-b3cab0043427ad Jocelyn Falempe 2023-05-05  433  	WREG8(MGAREG_OPMODE, MGAOPM_DMA_BLIT);
-b3cab0043427ad Jocelyn Falempe 2023-05-05  434  }
-b3cab0043427ad Jocelyn Falempe 2023-05-05  435  
+f39a859cf7fec5 Conor Dooley 2023-05-09  288  
+f39a859cf7fec5 Conor Dooley 2023-05-09  289  static int __init mpfs_irq_mux_init(struct device_node *node, struct device_node *parent)
+f39a859cf7fec5 Conor Dooley 2023-05-09  290  {
+f39a859cf7fec5 Conor Dooley 2023-05-09  291  	struct mpfs_irq_mux *priv;
+f39a859cf7fec5 Conor Dooley 2023-05-09  292  	struct irq_domain *domain;
+f39a859cf7fec5 Conor Dooley 2023-05-09  293  	int i;
+f39a859cf7fec5 Conor Dooley 2023-05-09  294  
+f39a859cf7fec5 Conor Dooley 2023-05-09  295  	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+f39a859cf7fec5 Conor Dooley 2023-05-09  296  	if (!priv)
+f39a859cf7fec5 Conor Dooley 2023-05-09  297  		return -ENOMEM;
+f39a859cf7fec5 Conor Dooley 2023-05-09  298  
+f39a859cf7fec5 Conor Dooley 2023-05-09  299  	priv->reg = of_iomap(node, 0);
+f39a859cf7fec5 Conor Dooley 2023-05-09  300  	if (!priv->reg)
+f39a859cf7fec5 Conor Dooley 2023-05-09 @301  		return -ENODEV; //TODO: add teardown code
+f39a859cf7fec5 Conor Dooley 2023-05-09  302  
+f39a859cf7fec5 Conor Dooley 2023-05-09  303  	priv->mux_config = readl(priv->reg);
+f39a859cf7fec5 Conor Dooley 2023-05-09  304  
+f39a859cf7fec5 Conor Dooley 2023-05-09  305  	for (i = 0; i < MPFS_MUX_NUM_DIRECT_IRQS; i++) {
+f39a859cf7fec5 Conor Dooley 2023-05-09  306  		priv->irqchip_data[i].output_hwirq = i;
+f39a859cf7fec5 Conor Dooley 2023-05-09  307  
+f39a859cf7fec5 Conor Dooley 2023-05-09  308  		priv->irqchip_data[i].irq = irq_of_parse_and_map(node, i);
+f39a859cf7fec5 Conor Dooley 2023-05-09  309  		if (priv->irqchip_data[i].irq <= 0)
+f39a859cf7fec5 Conor Dooley 2023-05-09  310  			return -1; //TODO: add teardown code
+f39a859cf7fec5 Conor Dooley 2023-05-09  311  
+f39a859cf7fec5 Conor Dooley 2023-05-09  312  		domain = irq_domain_add_linear(NULL, 1,
+f39a859cf7fec5 Conor Dooley 2023-05-09  313  					       &mpfs_irq_mux_direct_domain_ops,
+f39a859cf7fec5 Conor Dooley 2023-05-09  314  					       &priv->irqchip_data[i]);
+f39a859cf7fec5 Conor Dooley 2023-05-09  315  		if (!domain)
+f39a859cf7fec5 Conor Dooley 2023-05-09  316  			return -ENOMEM; //TODO: add teardown code
+f39a859cf7fec5 Conor Dooley 2023-05-09  317  
+f39a859cf7fec5 Conor Dooley 2023-05-09  318  		priv->irqchip_data[i].domain = domain;
+f39a859cf7fec5 Conor Dooley 2023-05-09  319  
+f39a859cf7fec5 Conor Dooley 2023-05-09  320  		irq_set_chained_handler_and_data(priv->irqchip_data[i].irq,
+f39a859cf7fec5 Conor Dooley 2023-05-09  321  						 mpfs_irq_mux_direct_handler,
+f39a859cf7fec5 Conor Dooley 2023-05-09  322  						 &priv->irqchip_data[i]);
+f39a859cf7fec5 Conor Dooley 2023-05-09  323  	}
+f39a859cf7fec5 Conor Dooley 2023-05-09  324  
+f39a859cf7fec5 Conor Dooley 2023-05-09  325  	/*
+f39a859cf7fec5 Conor Dooley 2023-05-09  326  	 * The last 3 interrupts must be the non-direct/muxxed ones.
+f39a859cf7fec5 Conor Dooley 2023-05-09  327  	 */
+f39a859cf7fec5 Conor Dooley 2023-05-09  328  	for (; i < MPFS_MUX_NUM_IRQS; i++) {
+f39a859cf7fec5 Conor Dooley 2023-05-09  329  		priv->irqchip_data[i].output_hwirq = i;
+f39a859cf7fec5 Conor Dooley 2023-05-09  330  
+f39a859cf7fec5 Conor Dooley 2023-05-09  331  		priv->irqchip_data[i].irq = irq_of_parse_and_map(node, i);
+f39a859cf7fec5 Conor Dooley 2023-05-09  332  		if (priv->irqchip_data[i].irq <= 0)
+f39a859cf7fec5 Conor Dooley 2023-05-09  333  			return -1; //TODO: add teardown code
+f39a859cf7fec5 Conor Dooley 2023-05-09  334  
+f39a859cf7fec5 Conor Dooley 2023-05-09  335  		domain = irq_domain_add_linear(NULL, MPFS_MAX_IRQS_PER_GPIO,
+f39a859cf7fec5 Conor Dooley 2023-05-09  336  					       &mpfs_irq_mux_nondirect_domain_ops,
+f39a859cf7fec5 Conor Dooley 2023-05-09  337  					       &priv->irqchip_data[i]);
+f39a859cf7fec5 Conor Dooley 2023-05-09  338  		if (!domain)
+f39a859cf7fec5 Conor Dooley 2023-05-09  339  			return -ENOMEM; //TODO: add teardown code
+f39a859cf7fec5 Conor Dooley 2023-05-09  340  
+f39a859cf7fec5 Conor Dooley 2023-05-09  341  		priv->irqchip_data[i].domain = domain;
+f39a859cf7fec5 Conor Dooley 2023-05-09  342  		priv->irqchip_data[i].reg_mask = mpfs_irq_mux_masks[i - MPFS_MUX_NUM_DIRECT_IRQS];
+f39a859cf7fec5 Conor Dooley 2023-05-09  343  		priv->irqchip_data[i].offset = (i - MPFS_MUX_NUM_DIRECT_IRQS) * MPFS_MAX_IRQS_PER_GPIO;
+f39a859cf7fec5 Conor Dooley 2023-05-09  344  
+f39a859cf7fec5 Conor Dooley 2023-05-09  345  		irq_set_chained_handler_and_data(priv->irqchip_data[i].irq,
+f39a859cf7fec5 Conor Dooley 2023-05-09  346  						 mpfs_irq_mux_nondirect_handler,
+f39a859cf7fec5 Conor Dooley 2023-05-09  347  						 &priv->irqchip_data[i]);
+f39a859cf7fec5 Conor Dooley 2023-05-09  348  	}
+f39a859cf7fec5 Conor Dooley 2023-05-09  349  
+f39a859cf7fec5 Conor Dooley 2023-05-09  350  	pr_info("registered with mux config %x\n", priv->mux_config);
+f39a859cf7fec5 Conor Dooley 2023-05-09  351  	return 0;
+f39a859cf7fec5 Conor Dooley 2023-05-09  352  }
+f39a859cf7fec5 Conor Dooley 2023-05-09  353  
 
 -- 
 0-DAY CI Kernel Test Service
