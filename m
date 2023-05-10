@@ -1,41 +1,41 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546666FD0
-	for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 20:47:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654AC21CED
+	for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 23:13:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683751668; x=1715287668;
+  t=1683760431; x=1715296431;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5/VSPcGKBqlHwyU75vrwURODCSWjZr9bgZbIbSqPn2k=;
-  b=UYIpAk+Jb3W6VzUv3mgMjFYkiyOFgbAMUKaf+sVbg+52ZEhObTIOgKiv
-   pb5py7z/91NE7bJngtLXN21WO0KzLrc4d6m8z3tlS74WM5ChcZnqMQp23
-   6js3oWU/n+KH9zWGPXI3V2d9mEVfeXLyt6hk9M11rOfCSo8SSOqFs4jqm
-   bbo/Z8CShq7mV7UNq7sJ6/okvqXlgjSakyNNcQbjXGDKwlA0qsEeMMqaa
-   LHg6+E1YM/OKWNdhMxXdorkQSrYL4MUUoiqA6GzrH6+3dD3z0SbDh6c54
-   veACCV0IYFlrq/4Al401gMUc2W+h+FE3EY81GrrmfpS/OEwDgDmmX3WDr
+  bh=fC9rZur2No+UN2cER3CtIy3QfBD+U+MYZlntB7Co98s=;
+  b=nB42RE6c0idMOx8AmQvyB93yXJ7gQg2ErE3xtQCWzqyjrZAxXjxtmMHI
+   NNYNEnjeQdD+Qf7KPQ1/IFZhvYO2vJkpAhGIwm7kZw5LPQJCMeCoEHCwN
+   udYbgEXFnXWMYnKURBY358VqjemdrLnq+JeC6Boxg2ffRX5onoVMqhJ1d
+   94Q6JFUaVmiFam+EDiNV05hqRD0/ZKq3/MXqgXaQXnYFMK5z7UWFK9Rt/
+   wmQJrHhwZ/jm7XCBmu2bfniU3H50W5NouBifK511cBvQALV+lCM9gA9wo
+   O3OzIvDUFwZc9QjVKe8TyIDMApfMXBr3KsRk6gbRyTiw8PyS69pJQSVnb
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="329936423"
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="436668880"
 X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; 
-   d="scan'208";a="329936423"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 13:47:47 -0700
+   d="scan'208";a="436668880"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 16:13:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="823674692"
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="677028383"
 X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; 
-   d="scan'208";a="823674692"
+   d="scan'208";a="677028383"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 10 May 2023 13:47:46 -0700
+  by orsmga006.jf.intel.com with ESMTP; 10 May 2023 16:13:49 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pwqiv-0003Yq-10;
-	Wed, 10 May 2023 20:47:45 +0000
-Date: Thu, 11 May 2023 04:47:15 +0800
+	id 1pwt0G-0003eK-26;
+	Wed, 10 May 2023 23:13:48 +0000
+Date: Thu, 11 May 2023 07:13:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] cfg80211: S1G rate information and calculations
-Message-ID: <202305110435.EhEiLYWA-lkp@intel.com>
+Subject: Re: [PATCH v2 4/6] kernfs: implement readdir FMODE_NOWAIT
+Message-ID: <202305110647.eSnSEulg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,151 +47,98 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230504024923.1925530-1-gilad.itzkovitch@morsemicro.com>
-References: <20230504024923.1925530-1-gilad.itzkovitch@morsemicro.com>
-TO: Gilad Itzkovitch <gilad.itzkovitch@morsemicro.com>
-TO: johannes@sipsolutions.net
-CC: linux-wireless@vger.kernel.org
-CC: quic_jjohnson@quicinc.com
-CC: Gilad Itzkovitch <gilad.itzkovitch@morsemicro.com>
+In-Reply-To: <20230422-uring-getdents-v2-4-2db1e37dc55e@codewreck.org>
+References: <20230422-uring-getdents-v2-4-2db1e37dc55e@codewreck.org>
+TO: Dominique Martinet <asmadeus@codewreck.org>
+TO: Alexander Viro <viro@zeniv.linux.org.uk>
+TO: Christian Brauner <brauner@kernel.org>
+TO: Jens Axboe <axboe@kernel.dk>
+TO: Pavel Begunkov <asml.silence@gmail.com>
+TO: Stefan Roesch <shr@fb.com>
+CC: Clay Harris <bugs@claycon.org>
+CC: Dave Chinner <david@fromorbit.com>
+CC: linux-fsdevel@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: io-uring@vger.kernel.org
+CC: Dominique Martinet <asmadeus@codewreck.org>
 
-Hi Gilad,
+Hi Dominique,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 28b17f6270f182e22cdad5a0fdc4979031e4486a]
+[auto build test WARNING on 58390c8ce1bddb6c623f62e7ed36383e7fa5c02f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gilad-Itzkovitch/cfg80211-S1G-rate-information-and-calculations/20230504-105056
-base:   28b17f6270f182e22cdad5a0fdc4979031e4486a
-patch link:    https://lore.kernel.org/r/20230504024923.1925530-1-gilad.itzkovitch%40morsemicro.com
-patch subject: [PATCH] cfg80211: S1G rate information and calculations
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: microblaze-randconfig-m031-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110435.EhEiLYWA-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Dominique-Martinet/fs-split-off-vfs_getdents-function-of-getdents64-syscall/20230510-185542
+base:   58390c8ce1bddb6c623f62e7ed36383e7fa5c02f
+patch link:    https://lore.kernel.org/r/20230422-uring-getdents-v2-4-2db1e37dc55e%40codewreck.org
+patch subject: [PATCH v2 4/6] kernfs: implement readdir FMODE_NOWAIT
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230511/202305110647.eSnSEulg-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305110435.EhEiLYWA-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305110647.eSnSEulg-lkp@intel.com/
 
-New smatch warnings:
-net/wireless/util.c:1744 cfg80211_calculate_bitrate_s1g() error: buffer overflow 'base[idx]' 11 <= 11
+smatch warnings:
+fs/kernfs/dir.c:1863 kernfs_fop_readdir() warn: inconsistent returns '&root->kernfs_rwsem'.
 
-Old smatch warnings:
-arch/microblaze/include/asm/thread_info.h:85 current_thread_info() error: uninitialized symbol 'sp'.
+vim +1863 fs/kernfs/dir.c
 
-vim +1744 net/wireless/util.c
-
-cfb14110acf87b Veerendranath Jakkam 2022-02-14  1648  
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1649  static u32 cfg80211_calculate_bitrate_s1g(struct rate_info *rate)
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1650  {
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1651  	/* For 1, 2, 4, 8 and 16 MHz channels */
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1652  	static const u32 base[5][11] = {
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1653  		{  300000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1654  		   600000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1655  		   900000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1656  		  1200000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1657  		  1800000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1658  		  2400000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1659  		  2700000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1660  		  3000000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1661  		  3600000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1662  		  4000000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1663  		  /* MCS 10 supported in 1 MHz only */
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1664  		  150000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1665  		},
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1666  		{  650000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1667  		  1300000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1668  		  1950000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1669  		  2600000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1670  		  3900000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1671  		  5200000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1672  		  5850000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1673  		  6500000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1674  		  7800000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1675  		  /* MCS 9 not valid */
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1676  		},
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1677  		{  1350000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1678  		   2700000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1679  		   4050000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1680  		   5400000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1681  		   8100000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1682  		  10800000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1683  		  12150000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1684  		  13500000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1685  		  16200000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1686  		  18000000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1687  		},
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1688  		{  2925000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1689  		   5850000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1690  		   8775000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1691  		  11700000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1692  		  17550000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1693  		  23400000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1694  		  26325000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1695  		  29250000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1696  		  35100000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1697  		  39000000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1698  		},
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1699  		{  8580000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1700  		  11700000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1701  		  17550000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1702  		  23400000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1703  		  35100000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1704  		  46800000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1705  		  52650000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1706  		  58500000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1707  		  70200000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1708  		  78000000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1709  		},
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1710  	};
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1711  	u32 bitrate;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1712  	/* default is 1 MHz index */
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1713  	int idx = 0;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1714  
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1715  	if (rate->mcs > 11)
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1716  		goto warn;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1717  
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1718  	switch (rate->bw) {
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1719  	case RATE_INFO_BW_16:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1720  		idx = 4;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1721  		break;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1722  	case RATE_INFO_BW_8:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1723  		idx = 3;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1724  		break;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1725  	case RATE_INFO_BW_4:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1726  		idx = 2;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1727  		break;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1728  	case RATE_INFO_BW_2:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1729  		idx = 1;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1730  		break;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1731  	case RATE_INFO_BW_1:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1732  		idx = 0;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1733  		break;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1734  	case RATE_INFO_BW_5:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1735  	case RATE_INFO_BW_10:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1736  	case RATE_INFO_BW_20:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1737  	case RATE_INFO_BW_40:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1738  	case RATE_INFO_BW_80:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1739  	case RATE_INFO_BW_160:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1740  	default:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1741  		goto warn;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1742  	}
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1743  
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04 @1744  	bitrate = base[idx][rate->mcs];
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1745  	bitrate *= rate->nss;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1746  
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1747  	if (rate->flags & RATE_INFO_FLAGS_SHORT_GI)
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1748  		bitrate = (bitrate / 9) * 10;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1749  	/* do NOT round down here */
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1750  	return (bitrate + 50000) / 100000;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1751  warn:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1752  	WARN_ONCE(1, "invalid rate bw=%d, mcs=%d, nss=%d\n",
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1753  		  rate->bw, rate->mcs, rate->nss);
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1754  	return 0;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1755  }
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1756  
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1814  
+c637b8acbe079e Tejun Heo          2013-12-11  1815  static int kernfs_fop_readdir(struct file *file, struct dir_context *ctx)
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1816  {
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1817  	struct dentry *dentry = file->f_path.dentry;
+319ba91d352a74 Shaohua Li         2017-07-12  1818  	struct kernfs_node *parent = kernfs_dentry_node(dentry);
+324a56e16e44ba Tejun Heo          2013-12-11  1819  	struct kernfs_node *pos = file->private_data;
+393c3714081a53 Minchan Kim        2021-11-18  1820  	struct kernfs_root *root;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1821  	const void *ns = NULL;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1822  
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1823  	if (!dir_emit_dots(file, ctx))
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1824  		return 0;
+393c3714081a53 Minchan Kim        2021-11-18  1825  
+393c3714081a53 Minchan Kim        2021-11-18  1826  	root = kernfs_root(parent);
+a551138c4b3b9f Dominique Martinet 2023-05-10  1827  	if (ctx->flags & DIR_CONTEXT_F_NOWAIT) {
+a551138c4b3b9f Dominique Martinet 2023-05-10  1828  		if (!down_read_trylock(&root->kernfs_rwsem))
+a551138c4b3b9f Dominique Martinet 2023-05-10  1829  			return -EAGAIN;
+a551138c4b3b9f Dominique Martinet 2023-05-10  1830  	} else {
+393c3714081a53 Minchan Kim        2021-11-18  1831  		down_read(&root->kernfs_rwsem);
+a551138c4b3b9f Dominique Martinet 2023-05-10  1832  	}
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1833  
+324a56e16e44ba Tejun Heo          2013-12-11  1834  	if (kernfs_ns_enabled(parent))
+c525aaddc366df Tejun Heo          2013-12-11  1835  		ns = kernfs_info(dentry->d_sb)->ns;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1836  
+c637b8acbe079e Tejun Heo          2013-12-11  1837  	for (pos = kernfs_dir_pos(ns, parent, ctx->pos, pos);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1838  	     pos;
+c637b8acbe079e Tejun Heo          2013-12-11  1839  	     pos = kernfs_dir_next_pos(ns, parent, ctx->pos, pos)) {
+adc5e8b58f4886 Tejun Heo          2013-12-11  1840  		const char *name = pos->name;
+364595a6851bf6 Jeff Layton        2023-03-30  1841  		unsigned int type = fs_umode_to_dtype(pos->mode);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1842  		int len = strlen(name);
+67c0496e87d193 Tejun Heo          2019-11-04  1843  		ino_t ino = kernfs_ino(pos);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1844  
+adc5e8b58f4886 Tejun Heo          2013-12-11  1845  		ctx->pos = pos->hash;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1846  		file->private_data = pos;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1847  		kernfs_get(pos);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1848  
+393c3714081a53 Minchan Kim        2021-11-18  1849  		up_read(&root->kernfs_rwsem);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1850  		if (!dir_emit(ctx, name, len, ino, type))
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1851  			return 0;
+393c3714081a53 Minchan Kim        2021-11-18  1852  		down_read(&root->kernfs_rwsem);
+a551138c4b3b9f Dominique Martinet 2023-05-10  1853  		if (ctx->flags & DIR_CONTEXT_F_NOWAIT) {
+a551138c4b3b9f Dominique Martinet 2023-05-10  1854  			if (!down_read_trylock(&root->kernfs_rwsem))
+a551138c4b3b9f Dominique Martinet 2023-05-10  1855  				return 0;
+a551138c4b3b9f Dominique Martinet 2023-05-10  1856  		} else {
+a551138c4b3b9f Dominique Martinet 2023-05-10  1857  			down_read(&root->kernfs_rwsem);
+a551138c4b3b9f Dominique Martinet 2023-05-10  1858  		}
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1859  	}
+393c3714081a53 Minchan Kim        2021-11-18  1860  	up_read(&root->kernfs_rwsem);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1861  	file->private_data = NULL;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1862  	ctx->pos = INT_MAX;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28 @1863  	return 0;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1864  }
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1865  
 
 -- 
 0-DAY CI Kernel Test Service
