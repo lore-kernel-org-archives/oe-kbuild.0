@@ -1,53 +1,43 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695A216430
-	for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 15:38:23 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3f41d087b3bso47650225e9.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 08:38:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683733100; x=1686325100;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2FAQoNbre0FsDXKzpUgqTNuLSD+XLqPxWH+hYHe3dIQ=;
-        b=Xb7wK3tPCgTn92pn2iFaqW9dREWyeCq5B9aVjXqcjc1UjRLdt8us5Ew9xQVy/vY/4P
-         vcmbPC7HU5N6bhfRG+bLwaLrALL2w3lIJxdwe163JbchdVhtjWQQbYEDui9km65S/OfS
-         HzMWYou8pPQdd/rlv/972r7MnGzHE1aJXhVBirTSavwnwoS21Empbxo/1K4iohkIYAMd
-         FmgxbXyU38YuL9T3OEz4JPys/qjBYuobytm7yF5UmGoNenMybdv4bvsCrBt4Z7N7Z6MS
-         5KPoczVoCy8szy+Cv5esahdQtXdwWDQqpshnwDPCEaDrYfXhSPhTL6nEa19RuMDlqOuu
-         6yDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683733100; x=1686325100;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2FAQoNbre0FsDXKzpUgqTNuLSD+XLqPxWH+hYHe3dIQ=;
-        b=LmgDfEqj6KsajtpKRiWuz4woJQPVbI1CZCwOKI5UGDkqiylH58iRVoQcIsgM+Neyy3
-         Hc+TbypX2kRLBkmOL4ZtCj4r2SuOPB5G/25WuTw7dbpDgDGKK8Vy7zU5dq6XnfROzR6I
-         /AelpQjPhMHQmMOZ+6P77klPU3exXJXn1Cw74qW4O/qj/iub08DdbSyEcMveY9+7ItaC
-         PLqKs51Cy+EB1yoVZt3rOWC1F7RnTzenIeDQB7qMNfgbK0GMzi/CnJifD6H57STTeSpB
-         X3kNn0S31DlOZLKkm9YhZ1TTBK97+3nM9Necm0/zXYf9WYbg+heS7TnMvz1B96FOvgMU
-         OVTA==
-X-Gm-Message-State: AC+VfDxlCcEWs8Z/EoXcb3eNysZdMl9LAcAEGTkF+/D/UhOTqP4tkP1Q
-	tif2HlqI8XRA832eJSmGgy9+yJtGHlLay6Va9fs=
-X-Google-Smtp-Source: ACHHUZ7rY3ZwXCWbT7a6XTw9vvs4ouHN/edMh3i+1gRTvOPkefoTDCNKnCpLC1laYYpKyl0WYMVapQ==
-X-Received: by 2002:a05:600c:2056:b0:3f4:2bbf:40a with SMTP id p22-20020a05600c205600b003f42bbf040amr4392894wmg.37.1683733100492;
-        Wed, 10 May 2023 08:38:20 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l11-20020a7bc34b000000b003f195d2f1a9sm23022460wmj.15.2023.05.10.08.38.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 08:38:18 -0700 (PDT)
-Date: Wed, 10 May 2023 18:38:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, George Kennedy <george.kennedy@oracle.com>,
-	gregkh@linuxfoundation.org, jirislaby@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, george.kennedy@oracle.com,
-	sfr@canb.auug.org.au, akpm@linux-foundation.org,
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux@weissschuh.net, regressions@lists.linux.dev
-Subject: Re: [PATCH] vc_screen: reload load of struct vc_data pointer in
- vcs_write() to avoid UAF
-Message-ID: <ad36d0ab-e81f-4f21-a5a4-8a72c88e61bd@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003E86AA8
+	for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 16:08:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683734922; x=1715270922;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/4dzSlwbCGXLilmCh3SWc0JsW0BYh08Eq13u0WvlzF4=;
+  b=iIftFc/Dbs8/kcZIhjsFhXpv5OfZpkQI8msOSqYN9X1gNXqLzOMPgVj5
+   uN/9tjb6wmJlvd1SUydj84mSDiTRaQ0F35RpSwulV7LKD6BQTp8HNhYzx
+   DvnwsbLFNkayHZ1qouX8o8AlaYnayipqN+vwa0dia/uVOhaTIok7asDZ/
+   vDAflMhMxIMXz5WQK3sRkYgeOvteM+CJIi/6lMwOdUEghyewA2kN6Ktvt
+   c+M7uIwJkoRfjrwrgtimN5rV1+wG88Ee4fqI8stGPNzl7dj7loS9L9ufB
+   /rdjRBQ6o/JoMxwIref1r+HNZZJjEUhSngt58ZVXN6j/a50ZXebtpwkkO
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="347715122"
+X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; 
+   d="scan'208";a="347715122"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 09:08:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="1029269900"
+X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; 
+   d="scan'208";a="1029269900"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 10 May 2023 09:08:38 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pwmMo-0003Pj-0f;
+	Wed, 10 May 2023 16:08:38 +0000
+Date: Thu, 11 May 2023 00:08:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/erofs/zdata.c:967 z_erofs_decompress_pcluster() warn: other
+ places set '(struct z_erofs_decompress_backend)->nr_pages' to 'page' instead
+ of 'array_size'
+Message-ID: <202305110027.aPH9jG2l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,157 +46,158 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1683659319-29701-1-git-send-email-george.kennedy@oracle.com>
 
-Hi George,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Gao Xiang <hsiangkao@linux.alibaba.com>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/George-Kennedy/vc_screen-reload-load-of-struct-vc_data-pointer-in-vcs_write-to-avoid-UAF/20230510-031202
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/1683659319-29701-1-git-send-email-george.kennedy%40oracle.com
-patch subject: [PATCH] vc_screen: reload load of struct vc_data pointer in vcs_write() to avoid UAF
-config: ia64-randconfig-m031-20230509 (https://download.01.org/0day-ci/archive/20230510/202305101936.1ROFaVa9-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   16a8829130ca22666ac6236178a6233208d425c3
+commit: 2bfab9c0edac5f6031e8956477cd39f7162b208d erofs: record the longest decompressed size in this round
+date:   10 months ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 10 months ago
+config: parisc-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110027.aPH9jG2l-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305101936.1ROFaVa9-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305110027.aPH9jG2l-lkp@intel.com/
 
-smatch warnings:
-drivers/tty/vt/vc_screen.c:707 vcs_write() warn: maybe return -EFAULT instead of the bytes remaining?
+New smatch warnings:
+fs/erofs/zdata.c:967 z_erofs_decompress_pcluster() warn: other places set '(struct z_erofs_decompress_backend)->nr_pages' to 'page' instead of 'array_size'
+fs/erofs/zdata.c:966 z_erofs_decompress_pcluster() warn: ambiguous units merge 'be->nr_pages' 'page' or 'array_size'
+fs/erofs/zdata.c:966 z_erofs_decompress_pcluster() warn: ambiguous units merge 'be->nr_pages' 'array_size' or 'page'
 
-vim +707 drivers/tty/vt/vc_screen.c
+Old smatch warnings:
+fs/erofs/zdata.c:523 z_erofs_register_pcluster() warn: passing a valid pointer to 'PTR_ERR'
+fs/erofs/zdata.c:970 z_erofs_decompress_pcluster() warn: ambiguous units merge 'pclusterpages' 'page' or 'array_size'
+fs/erofs/zdata.c:970 z_erofs_decompress_pcluster() warn: ambiguous units merge 'pclusterpages' 'array_size' or 'page'
+fs/erofs/zdata.c:1040 z_erofs_decompress_pcluster() warn: ambiguous units merge 'be->nr_pages' 'page' or 'array_size'
+fs/erofs/zdata.c:1040 z_erofs_decompress_pcluster() warn: ambiguous units merge 'be->nr_pages' 'array_size' or 'page'
 
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  589  static ssize_t
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  590  vcs_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  591  {
-496ad9aa8ef448 drivers/tty/vt/vc_screen.c Al Viro        2013-01-23  592  	struct inode *inode = file_inode(file);
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  593  	struct vc_data *vc;
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  594  	char *con_buf;
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  595  	u16 *org0, *org;
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  596  	unsigned int written;
-2665bef49f96df drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  597  	int size;
-2665bef49f96df drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  598  	ssize_t ret;
-2665bef49f96df drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  599  	loff_t pos;
-2665bef49f96df drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  600  	bool viewed, attr;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  601  
-0c9acb1af77a3c drivers/tty/vt/vc_screen.c Nicolas Pitre  2019-11-05  602  	if (use_unicode(inode))
-0c9acb1af77a3c drivers/tty/vt/vc_screen.c Nicolas Pitre  2019-11-05  603  		return -EOPNOTSUPP;
-0c9acb1af77a3c drivers/tty/vt/vc_screen.c Nicolas Pitre  2019-11-05  604  
-fcdba07ee390d9 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  605  	con_buf = (char *) __get_free_page(GFP_KERNEL);
-fcdba07ee390d9 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  606  	if (!con_buf)
-fcdba07ee390d9 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  607  		return -ENOMEM;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  608  
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  609  	pos = *ppos;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  610  
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  611  	/* Select the proper current console and verify
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  612  	 * sanity of the situation under the console lock.
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  613  	 */
-ac751efa6a0d70 drivers/tty/vt/vc_screen.c Torben Hohn    2011-01-25  614  	console_lock();
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  615  
-d21b0be246bf3b drivers/tty/vt/vc_screen.c Nicolas Pitre  2018-06-26  616  	attr = use_attributes(inode);
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  617  	ret = -ENXIO;
-fcdba07ee390d9 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  618  	vc = vcs_vc(inode, &viewed);
-fcdba07ee390d9 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  619  	if (!vc)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  620  		goto unlock_out;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  621  
-71d4abfab322e8 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  622  	size = vcs_size(vc, attr, false);
-71d4abfab322e8 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  623  	if (size < 0) {
-71d4abfab322e8 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  624  		ret = size;
-71d4abfab322e8 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  625  		goto unlock_out;
-71d4abfab322e8 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  626  	}
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  627  	ret = -EINVAL;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  628  	if (pos < 0 || pos > size)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  629  		goto unlock_out;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  630  	if (count > size - pos)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  631  		count = size - pos;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  632  	written = 0;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  633  	while (count) {
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  634  		unsigned int this_round = count;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  635  
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  636  		if (this_round > CON_BUF_SIZE)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  637  			this_round = CON_BUF_SIZE;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  638  
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  639  		/* Temporarily drop the console lock so that we can read
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  640  		 * in the write data from userspace safely.
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  641  		 */
-ac751efa6a0d70 drivers/tty/vt/vc_screen.c Torben Hohn    2011-01-25  642  		console_unlock();
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  643  		ret = copy_from_user(con_buf, buf, this_round);
-ac751efa6a0d70 drivers/tty/vt/vc_screen.c Torben Hohn    2011-01-25  644  		console_lock();
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  645  
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  646  		if (ret) {
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  647  			this_round -= ret;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  648  			if (!this_round) {
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  649  				/* Abort loop if no data were copied. Otherwise
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  650  				 * fail with -EFAULT.
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  651  				 */
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  652  				if (written)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  653  					break;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  654  				ret = -EFAULT;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  655  				goto unlock_out;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  656  			}
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  657  		}
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  658  
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  659  		/* The vc might have been freed or vcs_size might have changed
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  660  		 * while we slept to grab the user buffer, so recheck.
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  661  		 * Return data written up to now on failure.
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  662  		 */
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  663  		vc = vcs_vc(inode, &viewed);
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  664  		if (!vc) {
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  665  			if (written)
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  666  				break;
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  667  			goto unlock_out;
+vim +967 fs/erofs/zdata.c
 
-The warning message is wrong, but there does need to be a
-"ret = something" here.  Either an error code or ret = size on success.
-
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  668  		}
-71d4abfab322e8 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  669  		size = vcs_size(vc, attr, false);
-dc1892c4bc6960 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  670  		if (size < 0) {
-dc1892c4bc6960 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  671  			if (written)
-dc1892c4bc6960 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  672  				break;
-dc1892c4bc6960 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  673  			ret = size;
-dc1892c4bc6960 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  674  			goto unlock_out;
-dc1892c4bc6960 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  675  		}
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  676  		if (pos >= size)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  677  			break;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  678  		if (this_round > size - pos)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  679  			this_round = size - pos;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  680  
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  681  		/* OK, now actually push the write to the console
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  682  		 * under the lock using the local kernel buffer.
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  683  		 */
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  684  
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  685  		if (attr)
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  686  			org = vcs_write_buf(vc, con_buf, pos, this_round,
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  687  					viewed, &org0);
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  688  		else
-9e6363784e3f1e drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  689  			org = vcs_write_buf_noattr(vc, con_buf, pos, this_round,
-9e6363784e3f1e drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  690  					viewed, &org0);
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  691  
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  692  		count -= this_round;
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  693  		written += this_round;
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  694  		buf += this_round;
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  695  		pos += this_round;
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  696  		if (org)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  697  			update_region(vc, (unsigned long)(org0), org - org0);
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  698  	}
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  699  	*ppos += written;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  700  	ret = written;
-432c9ed22aff64 drivers/char/vc_screen.c   Nicolas Pitre  2010-10-01  701  	if (written)
-432c9ed22aff64 drivers/char/vc_screen.c   Nicolas Pitre  2010-10-01  702  		vcs_scr_updated(vc);
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  703  
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  704  unlock_out:
-ac751efa6a0d70 drivers/tty/vt/vc_screen.c Torben Hohn    2011-01-25  705  	console_unlock();
-fcdba07ee390d9 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  706  	free_page((unsigned long) con_buf);
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16 @707  	return ret;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  708  }
+67139e36d97041 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   936  
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   937  static int z_erofs_decompress_pcluster(struct z_erofs_decompress_backend *be,
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   938  				       int err)
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26   939  {
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   940  	struct erofs_sb_info *const sbi = EROFS_SB(be->sb);
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   941  	struct z_erofs_pcluster *pcl = be->pcl;
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29   942  	unsigned int pclusterpages = z_erofs_pclusterpages(pcl);
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang 2022-07-15   943  	unsigned int i, inputsize;
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   944  	int err2;
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang 2022-07-15   945  	struct page *page;
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang 2022-07-15   946  	bool overlapped;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26   947  
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29   948  	mutex_lock(&pcl->lock);
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang 2022-07-15   949  	be->nr_pages = PAGE_ALIGN(pcl->length + pcl->pageofs_out) >> PAGE_SHIFT;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26   950  
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   951  	/* allocate (de)compressed page arrays if cannot be kept on stack */
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   952  	be->decompressed_pages = NULL;
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   953  	be->compressed_pages = NULL;
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   954  	be->onstack_used = 0;
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang 2022-07-15   955  	if (be->nr_pages <= Z_EROFS_ONSTACK_PAGES) {
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   956  		be->decompressed_pages = be->onstack_pages;
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang 2022-07-15   957  		be->onstack_used = be->nr_pages;
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   958  		memset(be->decompressed_pages, 0,
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang 2022-07-15   959  		       sizeof(struct page *) * be->nr_pages);
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   960  	}
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   961  
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   962  	if (pclusterpages + be->onstack_used <= Z_EROFS_ONSTACK_PAGES)
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   963  		be->compressed_pages = be->onstack_pages + be->onstack_used;
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   964  
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   965  	if (!be->decompressed_pages)
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  @966  		be->decompressed_pages =
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang 2022-07-15  @967  			kvcalloc(be->nr_pages, sizeof(struct page *),
+e73681877d4c3a fs/erofs/zdata.c                  Gao Xiang 2022-07-15   968  				 GFP_KERNEL | __GFP_NOFAIL);
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   969  	if (!be->compressed_pages)
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   970  		be->compressed_pages =
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   971  			kvcalloc(pclusterpages, sizeof(struct page *),
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   972  				 GFP_KERNEL | __GFP_NOFAIL);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26   973  
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   974  	err2 = z_erofs_parse_out_bvecs(be);
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   975  	if (err2)
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   976  		err = err2;
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   977  	err2 = z_erofs_parse_in_bvecs(be, &overlapped);
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   978  	if (err2)
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   979  		err = err2;
+11152496021ea8 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25   980  
+8d8a09b093d707 fs/erofs/zdata.c                  Gao Xiang 2019-08-30   981  	if (err)
+11152496021ea8 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25   982  		goto out;
+11152496021ea8 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25   983  
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29   984  	if (z_erofs_is_inline_pcluster(pcl))
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29   985  		inputsize = pcl->tailpacking_size;
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29   986  	else
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29   987  		inputsize = pclusterpages * PAGE_SIZE;
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29   988  
+88aaf5a79c5cde drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24   989  	err = z_erofs_decompress(&(struct z_erofs_decompress_req) {
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   990  					.sb = be->sb,
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   991  					.in = be->compressed_pages,
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   992  					.out = be->decompressed_pages,
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29   993  					.pageofs_in = pcl->pageofs_in,
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29   994  					.pageofs_out = pcl->pageofs_out,
+9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07   995  					.inputsize = inputsize,
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang 2022-07-15   996  					.outputsize = pcl->length,
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31   997  					.alg = pcl->algorithmformat,
+88aaf5a79c5cde drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24   998  					.inplace_io = overlapped,
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang 2022-07-15   999  					.partial_decoding = pcl->partial,
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1000  				 }, be->pagepool);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1001  
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1002  out:
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1003  	/* must handle all compressed pages before actual file pages */
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1004  	if (z_erofs_is_inline_pcluster(pcl)) {
+ed722fbccadb74 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1005  		page = pcl->compressed_bvecs[0].page;
+ed722fbccadb74 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1006  		WRITE_ONCE(pcl->compressed_bvecs[0].page, NULL);
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1007  		put_page(page);
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1008  	} else {
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1009  		for (i = 0; i < pclusterpages; ++i) {
+ed722fbccadb74 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1010  			page = pcl->compressed_bvecs[i].page;
+af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1011  
+d61fbb6b163494 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25  1012  			if (erofs_page_is_managed(sbi, page))
+af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1013  				continue;
+d61fbb6b163494 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25  1014  
+6aaa7b0664e688 fs/erofs/zdata.c                  Gao Xiang 2020-12-08  1015  			/* recycle all individual short-lived pages */
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1016  			(void)z_erofs_put_shortlivedpage(be->pagepool, page);
+ed722fbccadb74 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1017  			WRITE_ONCE(pcl->compressed_bvecs[i].page, NULL);
+af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1018  		}
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1019  	}
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1020  	if (be->compressed_pages < be->onstack_pages ||
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1021  	    be->compressed_pages >= be->onstack_pages + Z_EROFS_ONSTACK_PAGES)
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1022  		kvfree(be->compressed_pages);
+af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1023  
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1024  	for (i = 0; i < be->nr_pages; ++i) {
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1025  		page = be->decompressed_pages[i];
+af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1026  		if (!page)
+af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1027  			continue;
+af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1028  
+6aaa7b0664e688 fs/erofs/zdata.c                  Gao Xiang 2020-12-08  1029  		DBG_BUGON(z_erofs_page_is_invalidated(page));
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1030  
+6aaa7b0664e688 fs/erofs/zdata.c                  Gao Xiang 2020-12-08  1031  		/* recycle all individual short-lived pages */
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1032  		if (z_erofs_put_shortlivedpage(be->pagepool, page))
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1033  			continue;
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1034  		if (err)
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1035  			z_erofs_page_mark_eio(page);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1036  		z_erofs_onlinepage_endio(page);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1037  	}
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1038  
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1039  	if (be->decompressed_pages != be->onstack_pages)
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1040  		kvfree(be->decompressed_pages);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1041  
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1042  	pcl->length = 0;
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1043  	pcl->partial = true;
+06a304cd9cc095 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1044  	pcl->bvset.nextpage = NULL;
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1045  	pcl->vcnt = 0;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1046  
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1047  	/* pcluster lock MUST be taken before the following line */
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  1048  	WRITE_ONCE(pcl->next, Z_EROFS_PCLUSTER_NIL);
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1049  	mutex_unlock(&pcl->lock);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1050  	return err;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1051  }
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1052  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
