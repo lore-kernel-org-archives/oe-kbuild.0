@@ -1,42 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8757A16411
-	for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 18:44:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96283174D9
+	for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 18:55:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683744295; x=1715280295;
+  t=1683744948; x=1715280948;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5k/t/uUID9qBIFLubjyxH7SYK5ZAaHixid4puFRj4WU=;
-  b=BE19fo8wPQXwOgQMYjT0BTii0V7fvRRnpIq+104m1yPCDNy0TXgWDfEj
-   Awwii/fm/dVgOv+RvOxv68thUoyLmHBOzZr9wPETRYEFviZsAbc6xqANd
-   6nnOskmaPX8t8VQFrOmE6+e0e31Rrp+cZTSCiEb0M9YtV3XuzkmhfK1M9
-   6CZYxQnNp0DoxezrqPscIn/znDFDJpYRkOR+aKJVEE45625Rgg+yAMbfB
-   ojrAZ9JJaAfU/rX6kbPVpS8rrc8bKolEsF+a+z8xsm6p84+6j9/PgFPtW
-   SVjkXHpUDndRJ31Ztl8aV3L6MwRa612AoTBIlT38fuc2EnS3zmhJoDszj
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="330653952"
+  bh=Z9iswWZdg47d3DVdDQ+CNt6xisy5JWRKz7KyxxpRfDk=;
+  b=goQbBVPjU6DRkxxrmvqbdaiPobuAaBFu7YBkBprtcpRh9DSJgqFx9+n3
+   W2lwVleqX/BRRDufgpjrSK0PkMKP5rLJXcQToVfqn09NwUHXBQ6x3cfka
+   Yp14AvULNtQON5wYxnAu0bQWBUgzG9GoNU0iD5Ct5ODr9Lx+JZkTg7lxv
+   8o3Qs2Cul2UQ49lAdlRlKUGuvSZK6pJvMCGgqYlNFlknfe72pv1LjSMYP
+   7V+pJCz7EANxT/znNMdsrMo+17PKk/fkZWkGa+b8uRipiQfaQRi2Y7pSX
+   z9aWDvc1e9a2DqR4+dIcSa/1IHaE/9GCOaMqj6KSTib6ljWlAvkHDqBI/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="347756404"
 X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; 
-   d="scan'208";a="330653952"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 11:44:45 -0700
+   d="scan'208";a="347756404"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 11:55:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="764413795"
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="693497350"
 X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; 
-   d="scan'208";a="764413795"
+   d="scan'208";a="693497350"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 10 May 2023 11:44:43 -0700
+  by orsmga007.jf.intel.com with ESMTP; 10 May 2023 11:55:44 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pwonr-0003Vg-0n;
-	Wed, 10 May 2023 18:44:43 +0000
-Date: Thu, 11 May 2023 02:44:13 +0800
+	id 1pwoyV-0003W4-1d;
+	Wed, 10 May 2023 18:55:43 +0000
+Date: Thu, 11 May 2023 02:54:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/soc-dapm.c:3768 snd_soc_dapm_new_control_unlocked() warn:
+Subject: drivers/iio/accel/kionix-kx022a.c:1053 kx022a_probe_internal() warn:
  passing zero to 'dev_err_probe'
-Message-ID: <202305110258.RvRqPDM7-lkp@intel.com>
+Message-ID: <202305110245.MFxC9bUj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,183 +49,170 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Yang Yingliang <yangyingliang@huawei.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Matti Vaittinen <mazziesaccount@gmail.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ad2fd53a7870a395b8564697bef6c329d017c6c9
-commit: a6b0be65123e1dfbcce6653a82394f989d3372ff ASoC: soc-dapm: Switch to use dev_err_probe() helper
-date:   8 months ago
+commit: 7c1d1677b3227c6b18ac999f2b84778baa280b8f iio: accel: Support Kionix/ROHM KX022A accelerometer
+date:   6 months ago
 :::::: branch date: 4 hours ago
-:::::: commit date: 8 months ago
-config: parisc-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110258.RvRqPDM7-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+:::::: commit date: 6 months ago
+config: openrisc-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110245.MFxC9bUj-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305110258.RvRqPDM7-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305110245.MFxC9bUj-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/soc-dapm.c:3768 snd_soc_dapm_new_control_unlocked() warn: passing zero to 'dev_err_probe'
+smatch warnings:
+drivers/iio/accel/kionix-kx022a.c:1053 kx022a_probe_internal() warn: passing zero to 'dev_err_probe'
 
-Old smatch warnings:
-sound/soc/soc-dapm.c:3774 snd_soc_dapm_new_control_unlocked() warn: passing zero to 'ERR_PTR'
+vim +/dev_err_probe +1053 drivers/iio/accel/kionix-kx022a.c
 
-vim +/dev_err_probe +3768 sound/soc/soc-dapm.c
-
-8b37dbd2a18066 Mark Brown             2009-02-28  3625  
-02aa78abec6ebe Liam Girdwood          2015-05-25  3626  struct snd_soc_dapm_widget *
-02aa78abec6ebe Liam Girdwood          2015-05-25  3627  snd_soc_dapm_new_control_unlocked(struct snd_soc_dapm_context *dapm,
-02aa78abec6ebe Liam Girdwood          2015-05-25  3628  			 const struct snd_soc_dapm_widget *widget)
-02aa78abec6ebe Liam Girdwood          2015-05-25  3629  {
-a3423b02cf745c Lars-Peter Clausen     2015-08-11  3630  	enum snd_soc_dapm_direction dir;
-02aa78abec6ebe Liam Girdwood          2015-05-25  3631  	struct snd_soc_dapm_widget *w;
-94f99c875c109e Lars-Peter Clausen     2014-06-16  3632  	const char *prefix;
-3caac759681eeb Kuninori Morimoto      2022-09-05  3633  	int ret = -ENOMEM;
-2b97eabc09f42d Richard Purdie         2006-10-06  3634  
-2b97eabc09f42d Richard Purdie         2006-10-06  3635  	if ((w = dapm_cnew_widget(widget)) == NULL)
-3caac759681eeb Kuninori Morimoto      2022-09-05  3636  		goto cnew_failed;
-3caac759681eeb Kuninori Morimoto      2022-09-05  3637  
-3caac759681eeb Kuninori Morimoto      2022-09-05  3638  	prefix = soc_dapm_prefix(dapm);
-3caac759681eeb Kuninori Morimoto      2022-09-05  3639  	if (prefix)
-3caac759681eeb Kuninori Morimoto      2022-09-05  3640  		w->name = kasprintf(GFP_KERNEL, "%s %s", prefix, widget->name);
-3caac759681eeb Kuninori Morimoto      2022-09-05  3641  	else
-3caac759681eeb Kuninori Morimoto      2022-09-05  3642  		w->name = kstrdup_const(widget->name, GFP_KERNEL);
-3caac759681eeb Kuninori Morimoto      2022-09-05  3643  	if (!w->name)
-3caac759681eeb Kuninori Morimoto      2022-09-05  3644  		goto name_failed;
-2b97eabc09f42d Richard Purdie         2006-10-06  3645  
-62ea874abc11f0 Mark Brown             2012-01-21  3646  	switch (w->id) {
-62ea874abc11f0 Mark Brown             2012-01-21  3647  	case snd_soc_dapm_regulator_supply:
-a3cc056b64065e Liam Girdwood          2012-03-09  3648  		w->regulator = devm_regulator_get(dapm->dev, w->name);
-a3cc056b64065e Liam Girdwood          2012-03-09  3649  		if (IS_ERR(w->regulator)) {
-a3cc056b64065e Liam Girdwood          2012-03-09  3650  			ret = PTR_ERR(w->regulator);
-3bbf5d34fd4a0c Charles Keepax         2018-09-05  3651  			goto request_failed;
-62ea874abc11f0 Mark Brown             2012-01-21  3652  		}
-8784c77a6cb8e0 Mark Brown             2013-01-10  3653  
-de9ba98b6d2629 Lars-Peter Clausen     2013-07-29  3654  		if (w->on_val & SND_SOC_DAPM_REGULATOR_BYPASS) {
-8784c77a6cb8e0 Mark Brown             2013-01-10  3655  			ret = regulator_allow_bypass(w->regulator, true);
-8784c77a6cb8e0 Mark Brown             2013-01-10  3656  			if (ret != 0)
-3bbf5d34fd4a0c Charles Keepax         2018-09-05  3657  				dev_warn(dapm->dev,
-30686c350628a6 Charles Keepax         2014-02-18  3658  					 "ASoC: Failed to bypass %s: %d\n",
-8784c77a6cb8e0 Mark Brown             2013-01-10  3659  					 w->name, ret);
-8784c77a6cb8e0 Mark Brown             2013-01-10  3660  		}
-62ea874abc11f0 Mark Brown             2012-01-21  3661  		break;
-5b2d15bbd1eeb3 Srinivas Kandagatla    2018-03-10  3662  	case snd_soc_dapm_pinctrl:
-5b2d15bbd1eeb3 Srinivas Kandagatla    2018-03-10  3663  		w->pinctrl = devm_pinctrl_get(dapm->dev);
-a5cd7e9cf587f5 Charles Keepax         2018-08-28  3664  		if (IS_ERR(w->pinctrl)) {
-5b2d15bbd1eeb3 Srinivas Kandagatla    2018-03-10  3665  			ret = PTR_ERR(w->pinctrl);
-3bbf5d34fd4a0c Charles Keepax         2018-09-05  3666  			goto request_failed;
-5b2d15bbd1eeb3 Srinivas Kandagatla    2018-03-10  3667  		}
-ec06dc15c358d3 Tzung-Bi Shih          2020-02-19  3668  
-ec06dc15c358d3 Tzung-Bi Shih          2020-02-19  3669  		/* set to sleep_state when initializing */
-ec06dc15c358d3 Tzung-Bi Shih          2020-02-19  3670  		dapm_pinctrl_event(w, NULL, SND_SOC_DAPM_POST_PMD);
-5b2d15bbd1eeb3 Srinivas Kandagatla    2018-03-10  3671  		break;
-d7e7eb91551ad9 Ola Lilja              2012-05-24  3672  	case snd_soc_dapm_clock_supply:
-695594f1b79d3b Mark Brown             2012-06-04  3673  		w->clk = devm_clk_get(dapm->dev, w->name);
-d7e7eb91551ad9 Ola Lilja              2012-05-24  3674  		if (IS_ERR(w->clk)) {
-d7e7eb91551ad9 Ola Lilja              2012-05-24  3675  			ret = PTR_ERR(w->clk);
-3bbf5d34fd4a0c Charles Keepax         2018-09-05  3676  			goto request_failed;
-d7e7eb91551ad9 Ola Lilja              2012-05-24  3677  		}
-d7e7eb91551ad9 Ola Lilja              2012-05-24  3678  		break;
-62ea874abc11f0 Mark Brown             2012-01-21  3679  	default:
-62ea874abc11f0 Mark Brown             2012-01-21  3680  		break;
-62ea874abc11f0 Mark Brown             2012-01-21  3681  	}
-2b97eabc09f42d Richard Purdie         2006-10-06  3682  
-7ca3a18b055ac6 Mark Brown             2011-10-08  3683  	switch (w->id) {
-6dd98b0a3e58b7 Lars-Peter Clausen     2014-10-25  3684  	case snd_soc_dapm_mic:
-a3423b02cf745c Lars-Peter Clausen     2015-08-11  3685  		w->is_ep = SND_SOC_DAPM_EP_SOURCE;
-86d7500326ea71 Lars-Peter Clausen     2014-12-21  3686  		w->power_check = dapm_generic_check_power;
-86d7500326ea71 Lars-Peter Clausen     2014-12-21  3687  		break;
-6dd98b0a3e58b7 Lars-Peter Clausen     2014-10-25  3688  	case snd_soc_dapm_input:
-86d7500326ea71 Lars-Peter Clausen     2014-12-21  3689  		if (!dapm->card->fully_routed)
-a3423b02cf745c Lars-Peter Clausen     2015-08-11  3690  			w->is_ep = SND_SOC_DAPM_EP_SOURCE;
-7ca3a18b055ac6 Mark Brown             2011-10-08  3691  		w->power_check = dapm_generic_check_power;
-7ca3a18b055ac6 Mark Brown             2011-10-08  3692  		break;
-6dd98b0a3e58b7 Lars-Peter Clausen     2014-10-25  3693  	case snd_soc_dapm_spk:
-6dd98b0a3e58b7 Lars-Peter Clausen     2014-10-25  3694  	case snd_soc_dapm_hp:
-a3423b02cf745c Lars-Peter Clausen     2015-08-11  3695  		w->is_ep = SND_SOC_DAPM_EP_SINK;
-86d7500326ea71 Lars-Peter Clausen     2014-12-21  3696  		w->power_check = dapm_generic_check_power;
-86d7500326ea71 Lars-Peter Clausen     2014-12-21  3697  		break;
-6dd98b0a3e58b7 Lars-Peter Clausen     2014-10-25  3698  	case snd_soc_dapm_output:
-86d7500326ea71 Lars-Peter Clausen     2014-12-21  3699  		if (!dapm->card->fully_routed)
-a3423b02cf745c Lars-Peter Clausen     2015-08-11  3700  			w->is_ep = SND_SOC_DAPM_EP_SINK;
-7ca3a18b055ac6 Mark Brown             2011-10-08  3701  		w->power_check = dapm_generic_check_power;
-7ca3a18b055ac6 Mark Brown             2011-10-08  3702  		break;
-6dd98b0a3e58b7 Lars-Peter Clausen     2014-10-25  3703  	case snd_soc_dapm_vmid:
-6dd98b0a3e58b7 Lars-Peter Clausen     2014-10-25  3704  	case snd_soc_dapm_siggen:
-a3423b02cf745c Lars-Peter Clausen     2015-08-11  3705  		w->is_ep = SND_SOC_DAPM_EP_SOURCE;
-6dd98b0a3e58b7 Lars-Peter Clausen     2014-10-25  3706  		w->power_check = dapm_always_on_check_power;
-6dd98b0a3e58b7 Lars-Peter Clausen     2014-10-25  3707  		break;
-56b4437f15ed20 Vinod Koul             2015-11-23  3708  	case snd_soc_dapm_sink:
-56b4437f15ed20 Vinod Koul             2015-11-23  3709  		w->is_ep = SND_SOC_DAPM_EP_SINK;
-56b4437f15ed20 Vinod Koul             2015-11-23  3710  		w->power_check = dapm_always_on_check_power;
-56b4437f15ed20 Vinod Koul             2015-11-23  3711  		break;
-56b4437f15ed20 Vinod Koul             2015-11-23  3712  
-6dd98b0a3e58b7 Lars-Peter Clausen     2014-10-25  3713  	case snd_soc_dapm_mux:
-d714f97c5b8c4c Lars-Peter Clausen     2015-05-01  3714  	case snd_soc_dapm_demux:
-6dd98b0a3e58b7 Lars-Peter Clausen     2014-10-25  3715  	case snd_soc_dapm_switch:
-6dd98b0a3e58b7 Lars-Peter Clausen     2014-10-25  3716  	case snd_soc_dapm_mixer:
-6dd98b0a3e58b7 Lars-Peter Clausen     2014-10-25  3717  	case snd_soc_dapm_mixer_named_ctl:
-63c69a6e4134a2 Mark Brown             2013-07-18  3718  	case snd_soc_dapm_adc:
-63c69a6e4134a2 Mark Brown             2013-07-18  3719  	case snd_soc_dapm_aif_out:
-63c69a6e4134a2 Mark Brown             2013-07-18  3720  	case snd_soc_dapm_dac:
-63c69a6e4134a2 Mark Brown             2013-07-18  3721  	case snd_soc_dapm_aif_in:
-7ca3a18b055ac6 Mark Brown             2011-10-08  3722  	case snd_soc_dapm_pga:
-6e3bfcff191ec9 Ranjani Sridharan      2019-03-01  3723  	case snd_soc_dapm_buffer:
-6e3bfcff191ec9 Ranjani Sridharan      2019-03-01  3724  	case snd_soc_dapm_scheduler:
-6e3bfcff191ec9 Ranjani Sridharan      2019-03-01  3725  	case snd_soc_dapm_effect:
-6e3bfcff191ec9 Ranjani Sridharan      2019-03-01  3726  	case snd_soc_dapm_src:
-6e3bfcff191ec9 Ranjani Sridharan      2019-03-01  3727  	case snd_soc_dapm_asrc:
-6e3bfcff191ec9 Ranjani Sridharan      2019-03-01  3728  	case snd_soc_dapm_encoder:
-6e3bfcff191ec9 Ranjani Sridharan      2019-03-01  3729  	case snd_soc_dapm_decoder:
-7ca3a18b055ac6 Mark Brown             2011-10-08  3730  	case snd_soc_dapm_out_drv:
-7ca3a18b055ac6 Mark Brown             2011-10-08  3731  	case snd_soc_dapm_micbias:
-7ca3a18b055ac6 Mark Brown             2011-10-08  3732  	case snd_soc_dapm_line:
-c74184ed30ecce Mark Brown             2012-04-04  3733  	case snd_soc_dapm_dai_link:
-cdef2ad3ae64cc Lars-Peter Clausen     2014-10-20  3734  	case snd_soc_dapm_dai_out:
-cdef2ad3ae64cc Lars-Peter Clausen     2014-10-20  3735  	case snd_soc_dapm_dai_in:
-7ca3a18b055ac6 Mark Brown             2011-10-08  3736  		w->power_check = dapm_generic_check_power;
-7ca3a18b055ac6 Mark Brown             2011-10-08  3737  		break;
-7ca3a18b055ac6 Mark Brown             2011-10-08  3738  	case snd_soc_dapm_supply:
-62ea874abc11f0 Mark Brown             2012-01-21  3739  	case snd_soc_dapm_regulator_supply:
-5b2d15bbd1eeb3 Srinivas Kandagatla    2018-03-10  3740  	case snd_soc_dapm_pinctrl:
-d7e7eb91551ad9 Ola Lilja              2012-05-24  3741  	case snd_soc_dapm_clock_supply:
-57295073b6acfd Lars-Peter Clausen     2013-08-05  3742  	case snd_soc_dapm_kcontrol:
-6dd98b0a3e58b7 Lars-Peter Clausen     2014-10-25  3743  		w->is_supply = 1;
-7ca3a18b055ac6 Mark Brown             2011-10-08  3744  		w->power_check = dapm_supply_check_power;
-7ca3a18b055ac6 Mark Brown             2011-10-08  3745  		break;
-7ca3a18b055ac6 Mark Brown             2011-10-08  3746  	default:
-7ca3a18b055ac6 Mark Brown             2011-10-08  3747  		w->power_check = dapm_always_on_check_power;
-7ca3a18b055ac6 Mark Brown             2011-10-08  3748  		break;
-7ca3a18b055ac6 Mark Brown             2011-10-08  3749  	}
-7ca3a18b055ac6 Mark Brown             2011-10-08  3750  
-ce6120cca2589e Liam Girdwood          2010-11-05  3751  	w->dapm = dapm;
-2b97eabc09f42d Richard Purdie         2006-10-06  3752  	INIT_LIST_HEAD(&w->list);
-db432b414e20b7 Mark Brown             2011-10-03  3753  	INIT_LIST_HEAD(&w->dirty);
-14596692631ead Kuninori Morimoto      2020-03-09  3754  	/* see for_each_card_widgets */
-92fa12426741d5 Lars-Peter Clausen     2015-05-01  3755  	list_add_tail(&w->list, &dapm->card->widgets);
-2b97eabc09f42d Richard Purdie         2006-10-06  3756  
-a3423b02cf745c Lars-Peter Clausen     2015-08-11  3757  	snd_soc_dapm_for_each_direction(dir) {
-a3423b02cf745c Lars-Peter Clausen     2015-08-11  3758  		INIT_LIST_HEAD(&w->edges[dir]);
-a3423b02cf745c Lars-Peter Clausen     2015-08-11  3759  		w->endpoints[dir] = -1;
-a3423b02cf745c Lars-Peter Clausen     2015-08-11  3760  	}
-92a99ea439c4e2 Lars-Peter Clausen     2014-10-25  3761  
-c80460005743c6 Peter Meerwald-Stadler 2016-08-16  3762  	/* machine layer sets up unconnected pins and insertions */
-2b97eabc09f42d Richard Purdie         2006-10-06  3763  	w->connected = 1;
-5ba06fc969d068 Mark Brown             2012-02-16  3764  	return w;
-3bbf5d34fd4a0c Charles Keepax         2018-09-05  3765  
-3bbf5d34fd4a0c Charles Keepax         2018-09-05  3766  request_failed:
-a6b0be65123e1d Yang Yingliang         2022-09-14  3767  	dev_err_probe(dapm->dev, ret, "ASoC: Failed to request %s\n",
-a6b0be65123e1d Yang Yingliang         2022-09-14 @3768  		      w->name);
-3caac759681eeb Kuninori Morimoto      2022-09-05  3769  	kfree_const(w->name);
-3caac759681eeb Kuninori Morimoto      2022-09-05  3770  name_failed:
-45004d66f2a28d Wenwen Wang            2019-07-22  3771  	kfree_const(w->sname);
-45004d66f2a28d Wenwen Wang            2019-07-22  3772  	kfree(w);
-3caac759681eeb Kuninori Morimoto      2022-09-05  3773  cnew_failed:
-3bbf5d34fd4a0c Charles Keepax         2018-09-05  3774  	return ERR_PTR(ret);
-2b97eabc09f42d Richard Purdie         2006-10-06  3775  }
-2b97eabc09f42d Richard Purdie         2006-10-06  3776  
+7c1d1677b3227c Matti Vaittinen 2022-10-24   999  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1000  int kx022a_probe_internal(struct device *dev)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1001  {
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1002  	static const char * const regulator_names[] = {"io-vdd", "vdd"};
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1003  	struct iio_trigger *indio_trig;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1004  	struct fwnode_handle *fwnode;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1005  	struct kx022a_data *data;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1006  	struct regmap *regmap;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1007  	unsigned int chip_id;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1008  	struct iio_dev *idev;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1009  	int ret, irq;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1010  	char *name;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1011  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1012  	regmap = dev_get_regmap(dev, NULL);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1013  	if (!regmap) {
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1014  		dev_err(dev, "no regmap\n");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1015  		return -EINVAL;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1016  	}
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1017  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1018  	fwnode = dev_fwnode(dev);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1019  	if (!fwnode)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1020  		return -ENODEV;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1021  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1022  	idev = devm_iio_device_alloc(dev, sizeof(*data));
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1023  	if (!idev)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1024  		return -ENOMEM;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1025  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1026  	data = iio_priv(idev);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1027  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1028  	/*
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1029  	 * VDD is the analog and digital domain voltage supply and
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1030  	 * IO_VDD is the digital I/O voltage supply.
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1031  	 */
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1032  	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(regulator_names),
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1033  					     regulator_names);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1034  	if (ret && ret != -ENODEV)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1035  		return dev_err_probe(dev, ret, "failed to enable regulator\n");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1036  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1037  	ret = regmap_read(regmap, KX022A_REG_WHO, &chip_id);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1038  	if (ret)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1039  		return dev_err_probe(dev, ret, "Failed to access sensor\n");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1040  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1041  	if (chip_id != KX022A_ID) {
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1042  		dev_err(dev, "unsupported device 0x%x\n", chip_id);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1043  		return -EINVAL;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1044  	}
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1045  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1046  	irq = fwnode_irq_get_byname(fwnode, "INT1");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1047  	if (irq > 0) {
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1048  		data->inc_reg = KX022A_REG_INC1;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1049  		data->ien_reg = KX022A_REG_INC4;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1050  	} else {
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1051  		irq = fwnode_irq_get_byname(fwnode, "INT2");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1052  		if (irq <= 0)
+7c1d1677b3227c Matti Vaittinen 2022-10-24 @1053  			return dev_err_probe(dev, irq, "No suitable IRQ\n");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1054  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1055  		data->inc_reg = KX022A_REG_INC5;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1056  		data->ien_reg = KX022A_REG_INC6;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1057  	}
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1058  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1059  	data->regmap = regmap;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1060  	data->dev = dev;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1061  	data->irq = irq;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1062  	data->odr_ns = KX022A_DEFAULT_PERIOD_NS;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1063  	mutex_init(&data->mutex);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1064  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1065  	idev->channels = kx022a_channels;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1066  	idev->num_channels = ARRAY_SIZE(kx022a_channels);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1067  	idev->name = "kx022-accel";
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1068  	idev->info = &kx022a_info;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1069  	idev->modes = INDIO_DIRECT_MODE | INDIO_BUFFER_SOFTWARE;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1070  	idev->available_scan_masks = kx022a_scan_masks;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1071  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1072  	/* Read the mounting matrix, if present */
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1073  	ret = iio_read_mount_matrix(dev, &data->orientation);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1074  	if (ret)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1075  		return ret;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1076  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1077  	/* The sensor must be turned off for configuration */
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1078  	ret = kx022a_turn_off_lock(data);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1079  	if (ret)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1080  		return ret;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1081  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1082  	ret = kx022a_chip_init(data);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1083  	if (ret) {
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1084  		mutex_unlock(&data->mutex);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1085  		return ret;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1086  	}
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1087  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1088  	ret = kx022a_turn_on_unlock(data);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1089  	if (ret)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1090  		return ret;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1091  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1092  	ret = devm_iio_triggered_buffer_setup_ext(dev, idev,
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1093  						  &iio_pollfunc_store_time,
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1094  						  kx022a_trigger_handler,
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1095  						  IIO_BUFFER_DIRECTION_IN,
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1096  						  &kx022a_buffer_ops,
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1097  						  kx022a_fifo_attributes);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1098  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1099  	if (ret)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1100  		return dev_err_probe(data->dev, ret,
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1101  				     "iio_triggered_buffer_setup_ext FAIL\n");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1102  	indio_trig = devm_iio_trigger_alloc(dev, "%sdata-rdy-dev%d", idev->name,
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1103  					    iio_device_id(idev));
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1104  	if (!indio_trig)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1105  		return -ENOMEM;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1106  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1107  	data->trig = indio_trig;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1108  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1109  	indio_trig->ops = &kx022a_trigger_ops;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1110  	iio_trigger_set_drvdata(indio_trig, data);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1111  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1112  	/*
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1113  	 * No need to check for NULL. request_threaded_irq() defaults to
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1114  	 * dev_name() should the alloc fail.
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1115  	 */
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1116  	name = devm_kasprintf(data->dev, GFP_KERNEL, "%s-kx022a",
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1117  			      dev_name(data->dev));
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1118  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1119  	ret = devm_request_threaded_irq(data->dev, irq, kx022a_irq_handler,
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1120  					&kx022a_irq_thread_handler,
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1121  					IRQF_ONESHOT, name, idev);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1122  	if (ret)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1123  		return dev_err_probe(data->dev, ret, "Could not request IRQ\n");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1124  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1125  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1126  	ret = devm_iio_trigger_register(dev, indio_trig);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1127  	if (ret)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1128  		return dev_err_probe(data->dev, ret,
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1129  				     "Trigger registration failed\n");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1130  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1131  	ret = devm_iio_device_register(data->dev, idev);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1132  	if (ret < 0)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1133  		return dev_err_probe(dev, ret,
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1134  				     "Unable to register iio device\n");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1135  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1136  	return ret;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1137  }
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1138  EXPORT_SYMBOL_NS_GPL(kx022a_probe_internal, IIO_KX022A);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1139  
 
 -- 
 0-DAY CI Kernel Test Service
