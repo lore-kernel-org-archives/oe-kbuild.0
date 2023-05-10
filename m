@@ -1,42 +1,41 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D674F14A81
-	for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 17:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518673D60
+	for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 17:32:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683739302; x=1715275302;
+  t=1683739962; x=1715275962;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AViKzLIk0R7UxZLLYh2IZXS3Wf+ldAkiEvd8RmM93OY=;
-  b=mKX7Rt4a7tfBF/pDkZAEvxlAjn2LAso1hJSGQWmfNk17e8VdWNQe3ckZ
-   ewJcBQQ9wZwo6bLfF6KfWrewpxZJn9EgCsIKCxYi8xyohG9hUrdmaxuwm
-   dFDB4UshCybgFBYN8vRqke9TQnF5L4bwGYk+Tgchh85PU70M9ZL6TIwsO
-   iG7Jd+HuUai+ebhp2yTIplMimCHW2qtFB8W5eMiAHypwUTvJaQtin7i7N
-   0HDritgpw1P2Jl9k18aVp/OtwaflkVKDGxmuzvFWVohodpWIwH5hHcauu
-   vQMju/Eu4MRYKlMb15ur7ohbMt3t7o+hyUgwp9+yOj8btdCvLtrBxrNx1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="330633080"
+  bh=FrmmyZqS/uwMxbMgoJwhDLxYYU4Oqp9XycF9C8YOcFo=;
+  b=GnalCuUK57GvNoe+OvLrvBQw+6Yddt924wLTqbf56xW/KyyM0ORxx+Ct
+   h1B1qwcig2B4PKVAFS9ahmTrFZUktTz592Sk+/ppmoZHCD9dQLo0eOzIT
+   Jrtwp1F7yt5vDmNxgbmJ/0/Zg4T4n14F5NIAcPyyjTh1BF9vs9NUpFCTZ
+   AF5T54JX/B49WXdyEoi2c3vER87QNK3AIKPeFtdkzTJ8YLYi/PeH5z/wR
+   TpHkBJZDPppIYbsLzdes2DnGTGuMeCKqMLmdGHsdyk2bqjFSLx4n717Y/
+   9F57bKG2CAH30tqn94FdEAnFagS+EclBt1AsSiMTWlVZ4uJy5bvplbq9e
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="415850071"
 X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; 
-   d="scan'208";a="330633080"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 10:21:41 -0700
+   d="scan'208";a="415850071"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 10:32:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="730018077"
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="873644597"
 X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; 
-   d="scan'208";a="730018077"
+   d="scan'208";a="873644597"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 10 May 2023 10:21:40 -0700
+  by orsmga005.jf.intel.com with ESMTP; 10 May 2023 10:32:40 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pwnVU-0003Sk-0C;
-	Wed, 10 May 2023 17:21:40 +0000
-Date: Thu, 11 May 2023 01:21:08 +0800
+	id 1pwng8-0003TA-0l;
+	Wed, 10 May 2023 17:32:40 +0000
+Date: Thu, 11 May 2023 01:31:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: lib/crypto/blake2s-selftest.c:564 blake2s_digest_test() warn:
- comparing different units: 'i < (8192 / 32 + (0))' 'byte < array_size'
-Message-ID: <202305110117.wVzZP0cd-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: mm/vmscan.c:4080:29: sparse: sparse: cast to non-scalar
+Message-ID: <202305110108.HdFFPTJN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,85 +45,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: mm/vmscan.c:4080:29: sparse: sparse: cast to non-scalar"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Herbert Xu <herbert@gondor.apana.org.au>
+TO: Yu Zhao <yuzhao@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   16a8829130ca22666ac6236178a6233208d425c3
-commit: e20d5a22bd241c5084184bcf69dfb6eddc35417f crypto: lib/blake2s - Split up test function to halve stack usage
-date:   4 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 4 months ago
-config: openrisc-randconfig-m031-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110117.wVzZP0cd-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+head:   ad2fd53a7870a395b8564697bef6c329d017c6c9
+commit: bd74fdaea146029e4fa12c6de89adbe0779348a9 mm: multi-gen LRU: support page table walks
+date:   8 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 8 months ago
+config: alpha-randconfig-s031-20230510 (https://download.01.org/0day-ci/archive/20230511/202305110108.HdFFPTJN-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bd74fdaea146029e4fa12c6de89adbe0779348a9
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout bd74fdaea146029e4fa12c6de89adbe0779348a9
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305110117.wVzZP0cd-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305110108.HdFFPTJN-lkp@intel.com/
 
-smatch warnings:
-lib/crypto/blake2s-selftest.c:564 blake2s_digest_test() warn: comparing different units: 'i < (8192 / 32 + (0))' 'byte < array_size'
-lib/crypto/blake2s-selftest.c:564 blake2s_digest_test() warn: comparing different units: 'i < (8192 / 32 + (0))' 'byte < array_size'
+sparse warnings: (new ones prefixed by >>)
+>> mm/vmscan.c:4080:29: sparse: sparse: cast to non-scalar
+>> mm/vmscan.c:4080:29: sparse: sparse: cast from non-scalar
+   mm/vmscan.c:1385:28: sparse: sparse: context imbalance in '__remove_mapping' - unexpected unlock
+   mm/vmscan.c:2274:33: sparse: sparse: context imbalance in 'folio_isolate_lru' - unexpected unlock
+   mm/vmscan.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:737:9: sparse: sparse: context imbalance in 'lru_gen_look_around' - different lock contexts for basic block
+   mm/vmscan.c: note: in included file (through include/linux/swap.h):
+   include/linux/memcontrol.h:1663:39: sparse: sparse: context imbalance in 'check_move_unevictable_folios' - unexpected unlock
 
-vim +564 lib/crypto/blake2s-selftest.c
+vim +4080 mm/vmscan.c
 
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  547  
-e20d5a22bd241c Herbert Xu         2022-12-21  548  static bool __init noinline_for_stack blake2s_digest_test(void)
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  549  {
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  550  	u8 key[BLAKE2S_KEY_SIZE];
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  551  	u8 buf[ARRAY_SIZE(blake2s_testvecs)];
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  552  	u8 hash[BLAKE2S_HASH_SIZE];
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  553  	struct blake2s_state state;
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  554  	bool success = true;
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  555  	int i, l;
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  556  
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  557  	key[0] = key[1] = 1;
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  558  	for (i = 2; i < sizeof(key); ++i)
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  559  		key[i] = key[i - 2] + key[i - 1];
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  560  
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  561  	for (i = 0; i < sizeof(buf); ++i)
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  562  		buf[i] = (u8)i;
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  563  
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08 @564  	for (i = l = 0; i < ARRAY_SIZE(blake2s_testvecs); l = (l + 37) % ++i) {
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  565  		int outlen = 1 + i % BLAKE2S_HASH_SIZE;
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  566  		int keylen = (13 * i) % (BLAKE2S_KEY_SIZE + 1);
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  567  
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  568  		blake2s(hash, buf, key + BLAKE2S_KEY_SIZE - keylen, outlen, i,
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  569  			keylen);
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  570  		if (memcmp(hash, blake2s_testvecs[i], outlen)) {
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  571  			pr_err("blake2s self-test %d: FAIL\n", i + 1);
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  572  			success = false;
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  573  		}
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  574  
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  575  		if (!keylen)
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  576  			blake2s_init(&state, outlen);
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  577  		else
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  578  			blake2s_init_key(&state, outlen,
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  579  					 key + BLAKE2S_KEY_SIZE - keylen,
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  580  					 keylen);
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  581  
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  582  		blake2s_update(&state, buf, l);
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  583  		blake2s_update(&state, buf + l, i - l);
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  584  		blake2s_final(&state, hash);
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  585  		if (memcmp(hash, blake2s_testvecs[i], outlen)) {
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  586  			pr_err("blake2s init/update/final self-test %d: FAIL\n",
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  587  			       i + 1);
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  588  			success = false;
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  589  		}
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  590  	}
-66d7fb94e4ffe5 Jason A. Donenfeld 2019-11-08  591  
-e20d5a22bd241c Herbert Xu         2022-12-21  592  	return success;
-e20d5a22bd241c Herbert Xu         2022-12-21  593  }
-e20d5a22bd241c Herbert Xu         2022-12-21  594  
-
-:::::: The code at line 564 was first introduced by commit
-:::::: 66d7fb94e4ffe5acc589e0b2b4710aecc1f07a28 crypto: blake2s - generic C library implementation and selftest
-
-:::::: TO: Jason A. Donenfeld <Jason@zx2c4.com>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+bd74fdaea146029 Yu Zhao 2022-09-18  4065  
+bd74fdaea146029 Yu Zhao 2022-09-18  4066  static int walk_pud_range(p4d_t *p4d, unsigned long start, unsigned long end,
+bd74fdaea146029 Yu Zhao 2022-09-18  4067  			  struct mm_walk *args)
+bd74fdaea146029 Yu Zhao 2022-09-18  4068  {
+bd74fdaea146029 Yu Zhao 2022-09-18  4069  	int i;
+bd74fdaea146029 Yu Zhao 2022-09-18  4070  	pud_t *pud;
+bd74fdaea146029 Yu Zhao 2022-09-18  4071  	unsigned long addr;
+bd74fdaea146029 Yu Zhao 2022-09-18  4072  	unsigned long next;
+bd74fdaea146029 Yu Zhao 2022-09-18  4073  	struct lru_gen_mm_walk *walk = args->private;
+bd74fdaea146029 Yu Zhao 2022-09-18  4074  
+bd74fdaea146029 Yu Zhao 2022-09-18  4075  	VM_WARN_ON_ONCE(p4d_leaf(*p4d));
+bd74fdaea146029 Yu Zhao 2022-09-18  4076  
+bd74fdaea146029 Yu Zhao 2022-09-18  4077  	pud = pud_offset(p4d, start & P4D_MASK);
+bd74fdaea146029 Yu Zhao 2022-09-18  4078  restart:
+bd74fdaea146029 Yu Zhao 2022-09-18  4079  	for (i = pud_index(start), addr = start; addr != end; i++, addr = next) {
+bd74fdaea146029 Yu Zhao 2022-09-18 @4080  		pud_t val = READ_ONCE(pud[i]);
+bd74fdaea146029 Yu Zhao 2022-09-18  4081  
+bd74fdaea146029 Yu Zhao 2022-09-18  4082  		next = pud_addr_end(addr, end);
+bd74fdaea146029 Yu Zhao 2022-09-18  4083  
+bd74fdaea146029 Yu Zhao 2022-09-18  4084  		if (!pud_present(val) || WARN_ON_ONCE(pud_leaf(val)))
+bd74fdaea146029 Yu Zhao 2022-09-18  4085  			continue;
+bd74fdaea146029 Yu Zhao 2022-09-18  4086  
+bd74fdaea146029 Yu Zhao 2022-09-18  4087  		walk_pmd_range(&val, addr, next, args);
+bd74fdaea146029 Yu Zhao 2022-09-18  4088  
+bd74fdaea146029 Yu Zhao 2022-09-18  4089  		/* a racy check to curtail the waiting time */
+bd74fdaea146029 Yu Zhao 2022-09-18  4090  		if (wq_has_sleeper(&walk->lruvec->mm_state.wait))
+bd74fdaea146029 Yu Zhao 2022-09-18  4091  			return 1;
+bd74fdaea146029 Yu Zhao 2022-09-18  4092  
+bd74fdaea146029 Yu Zhao 2022-09-18  4093  		if (need_resched() || walk->batched >= MAX_LRU_BATCH) {
+bd74fdaea146029 Yu Zhao 2022-09-18  4094  			end = (addr | ~PUD_MASK) + 1;
+bd74fdaea146029 Yu Zhao 2022-09-18  4095  			goto done;
+bd74fdaea146029 Yu Zhao 2022-09-18  4096  		}
+bd74fdaea146029 Yu Zhao 2022-09-18  4097  	}
+bd74fdaea146029 Yu Zhao 2022-09-18  4098  
+bd74fdaea146029 Yu Zhao 2022-09-18  4099  	if (i < PTRS_PER_PUD && get_next_vma(P4D_MASK, PUD_SIZE, args, &start, &end))
+bd74fdaea146029 Yu Zhao 2022-09-18  4100  		goto restart;
+bd74fdaea146029 Yu Zhao 2022-09-18  4101  
+bd74fdaea146029 Yu Zhao 2022-09-18  4102  	end = round_up(end, P4D_SIZE);
+bd74fdaea146029 Yu Zhao 2022-09-18  4103  done:
+bd74fdaea146029 Yu Zhao 2022-09-18  4104  	if (!end || !args->vma)
+bd74fdaea146029 Yu Zhao 2022-09-18  4105  		return 1;
+bd74fdaea146029 Yu Zhao 2022-09-18  4106  
+bd74fdaea146029 Yu Zhao 2022-09-18  4107  	walk->next_addr = max(end, args->vma->vm_start);
+bd74fdaea146029 Yu Zhao 2022-09-18  4108  
+bd74fdaea146029 Yu Zhao 2022-09-18  4109  	return -EAGAIN;
+bd74fdaea146029 Yu Zhao 2022-09-18  4110  }
+bd74fdaea146029 Yu Zhao 2022-09-18  4111  
 
 -- 
 0-DAY CI Kernel Test Service
