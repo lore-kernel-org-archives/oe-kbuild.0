@@ -1,134 +1,95 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A042597;
-	Wed, 10 May 2023 07:58:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D24258D
+	for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 08:08:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1683705524; x=1715241524;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Q4RA6Es6geZL+3T0CK3mOKV6dn+v7iYhWtpIDgZbPPo=;
-  b=UYVTp8hvAnOy4IZAwLlU743pG6wujA2Gw92hZhsMisLjWxAR7XAktmc+
-   wCjmLQEPGVMtDk7fgn6w7G4wedBTMxuGu+xRZiOcHd6jv3x9rkkVtG+2R
-   xttbFwPfvYg5h7ZFj0HDZgoe3LmF7GgPRsEI86E1Cq5+mAks/FIdaWX1F
-   c072+OYxA1xk8m/ccl94GnjQuQuU2ssFt/9LS3HOiohZFV9oYOCo7nLzf
-   zymvYb/toiACgPlvP7DhQ4Xe/VdTvsWMEjIPegEDdESrxn/Ms3FfKF4v8
-   B+aATdS/Jhztehe19nyGtpgdl5G8I7HRM9PB2HNum+pzFxYQ9kdOK/sTp
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.99,264,1677567600"; 
-   d="asc'?scan'208";a="212698768"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 May 2023 00:57:34 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 10 May 2023 00:57:34 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Wed, 10 May 2023 00:57:33 -0700
-Date: Wed, 10 May 2023 08:57:13 +0100
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-CC: <oe-kbuild@lists.linux.dev>, Conor Dooley <conor+lkp@kernel.org>,
-	<lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [conor:gpio-irq 3/8] drivers/irqchip/irq-mpfs-mux.c:351
- mpfs_irq_mux_init() warn: 'priv->reg' from of_iomap() not released on lines:
- 310,316,333,339.
-Message-ID: <20230510-overripe-famine-326e83d0287c@wendy>
-References: <eee3db8f-77ba-4218-af2a-9f7ec44ceec7@kili.mountain>
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683706110; x=1715242110;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kwS1ehuljECP8Ar3xPvS8x3mkdr+oDmvFHjWFqRqC/E=;
+  b=Fx2FqJpb7TJYjHES3RJ79qoj7IGXVh07oeLpNHtXy+jxgDfH6KVOYTvF
+   Ome0V3RyXkaakHEdfsvit09Il6wk3oBZrBkD4jk0iLBVLH0fpgVJdkyzm
+   I9cx62c3VIMEstPV52NT0559FQ9DMgnGcYqhPCfiO9s+2FvNkQSBH/lOS
+   EuAoGjgd4LrefutkRAnBce6TMeqYXGOamtD5AMCg+qixY4HoXOlTtNL4N
+   uSebC9Ub9N7RCfl++Gu/W9uhAD4piAXqVnVFHl9ejeLuWjCikEpze7QW5
+   iYf6u0WWGRclBnRAuvrxLWdiyO9WacOvRdB8H3F6D/RuVSaHDW6sUbLfk
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="329775173"
+X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; 
+   d="scan'208";a="329775173"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 01:08:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="945610371"
+X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; 
+   d="scan'208";a="945610371"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 10 May 2023 01:08:22 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pwes1-000336-1p;
+	Wed, 10 May 2023 08:08:21 +0000
+Date: Wed, 10 May 2023 16:07:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: lib/iov_iter.c:1298 want_pages_array() warn: ambiguous units merge
+ 'count' 'page' or 'array_size'
+Message-ID: <202305101654.CPCc9h1a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Ioac55ihHTRtJF6y"
-Content-Disposition: inline
-In-Reply-To: <eee3db8f-77ba-4218-af2a-9f7ec44ceec7@kili.mountain>
-
---Ioac55ihHTRtJF6y
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Al Viro <viro@zeniv.linux.org.uk>
+CC: Jeff Layton <jlayton@kernel.org>
 
-$from: dan.carpenter@linaro.org
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   16a8829130ca22666ac6236178a6233208d425c3
+commit: 3cf42da327f26eb4461864dd64812345b37f4fd9 iov_iter: saner helper for page array allocation
+date:   9 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230510/202305101654.CPCc9h1a-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
-Congrats on the new job :)
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202305101654.CPCc9h1a-lkp@intel.com/
 
-On Wed, May 10, 2023 at 10:30:55AM +0300, Dan Carpenter wrote:
+smatch warnings:
+lib/iov_iter.c:1298 want_pages_array() warn: ambiguous units merge 'count' 'page' or 'array_size'
+lib/iov_iter.c:1298 want_pages_array() warn: ambiguous units merge 'count' 'array_size' or 'page'
 
->=20
-> f39a859cf7fec5 Conor Dooley 2023-05-09  289  static int __init mpfs_irq_m=
-ux_init(struct device_node *node, struct device_node *parent)
-> f39a859cf7fec5 Conor Dooley 2023-05-09  290  {
-> f39a859cf7fec5 Conor Dooley 2023-05-09  291  	struct mpfs_irq_mux *priv;
-> f39a859cf7fec5 Conor Dooley 2023-05-09  292  	struct irq_domain *domain;
-> f39a859cf7fec5 Conor Dooley 2023-05-09  293  	int i;
-> f39a859cf7fec5 Conor Dooley 2023-05-09  294 =20
-> f39a859cf7fec5 Conor Dooley 2023-05-09  295  	priv =3D kzalloc(sizeof(*pr=
-iv), GFP_KERNEL);
-> f39a859cf7fec5 Conor Dooley 2023-05-09  296  	if (!priv)
-> f39a859cf7fec5 Conor Dooley 2023-05-09  297  		return -ENOMEM;
-> f39a859cf7fec5 Conor Dooley 2023-05-09  298 =20
-> f39a859cf7fec5 Conor Dooley 2023-05-09  299  	priv->reg =3D of_iomap(node=
-, 0);
-> f39a859cf7fec5 Conor Dooley 2023-05-09  300  	if (!priv->reg)
-> f39a859cf7fec5 Conor Dooley 2023-05-09  301  		return -ENODEV; //TODO: ad=
-d teardown code
->=20
-> Of course, these are all marked with TODOs so you already know about
-> them...  These emails are generated automatically and I just review
-> them and hit forward.
+vim +1298 lib/iov_iter.c
 
-Yah, no worries. I mainly pushed this stuff out to catch whatever
-Kconfig dependencies that I had missed (and I had missed quite a few
-apparently).
-For regular LKP stuff I've got the private report thing on for branches
-not starting with "riscv-" to try and no bother anyone other than the
-robots, hence still having bits marked TODO. Been iterating quite a lot,
-so hadn't bothered writing the error handling yet.
+357f435d8a0d32 Al Viro 2016-04-08  1286  
+3cf42da327f26e Al Viro 2022-06-17  1287  static int want_pages_array(struct page ***res, size_t size,
+3cf42da327f26e Al Viro 2022-06-17  1288  			    size_t start, unsigned int maxpages)
+acbdeb8320b0a4 Al Viro 2022-06-17  1289  {
+3cf42da327f26e Al Viro 2022-06-17  1290  	unsigned int count = DIV_ROUND_UP(size + start, PAGE_SIZE);
+3cf42da327f26e Al Viro 2022-06-17  1291  
+3cf42da327f26e Al Viro 2022-06-17  1292  	if (count > maxpages)
+3cf42da327f26e Al Viro 2022-06-17  1293  		count = maxpages;
+3cf42da327f26e Al Viro 2022-06-17  1294  	WARN_ON(!count);	// caller should've prevented that
+3cf42da327f26e Al Viro 2022-06-17  1295  	if (!*res) {
+3cf42da327f26e Al Viro 2022-06-17  1296  		*res = kvmalloc_array(count, sizeof(struct page *), GFP_KERNEL);
+3cf42da327f26e Al Viro 2022-06-17  1297  		if (!*res)
+3cf42da327f26e Al Viro 2022-06-17 @1298  			return 0;
+3cf42da327f26e Al Viro 2022-06-17  1299  	}
+3cf42da327f26e Al Viro 2022-06-17  1300  	return count;
+acbdeb8320b0a4 Al Viro 2022-06-17  1301  }
+acbdeb8320b0a4 Al Viro 2022-06-17  1302  
 
-> f39a859cf7fec5 Conor Dooley 2023-05-09  302 =20
-> f39a859cf7fec5 Conor Dooley 2023-05-09  303  	priv->mux_config =3D readl(=
-priv->reg);
-> f39a859cf7fec5 Conor Dooley 2023-05-09  304 =20
-> f39a859cf7fec5 Conor Dooley 2023-05-09  305  	for (i =3D 0; i < MPFS_MUX_=
-NUM_DIRECT_IRQS; i++) {
-> f39a859cf7fec5 Conor Dooley 2023-05-09  306  		priv->irqchip_data[i].outp=
-ut_hwirq =3D i;
-> f39a859cf7fec5 Conor Dooley 2023-05-09  307 =20
-> f39a859cf7fec5 Conor Dooley 2023-05-09  308  		priv->irqchip_data[i].irq =
-=3D irq_of_parse_and_map(node, i);
-> f39a859cf7fec5 Conor Dooley 2023-05-09  309  		if (priv->irqchip_data[i].=
-irq <=3D 0)
-> f39a859cf7fec5 Conor Dooley 2023-05-09  310  			return -1; //TODO: add te=
-ardown code
->=20
-> It's unfortunate that irq_of_parse_and_map() returns zero on error.
-> It's for historical reasons.  It used to return NO_IRQ.  :(  I can't
-> imagine that all the callers check correctly so I've created a new
-> static checker warning for this.  We shall see tomorrow.
-
-Heh, hopefully I am not on the receiving any of any of those!
-
-Thanks,
-Conor.
-
---Ioac55ihHTRtJF6y
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZFtOTAAKCRB4tDGHoIJi
-0lz6AP93pkp/7nV5/TefTiIgp+a9HAb8B73P58M4xErocbWm1gEA2fxwb3TvPAX+
-yPfo7i1adBQ5R14QcaK8HdBtMnDHWQQ=
-=4omw
------END PGP SIGNATURE-----
-
---Ioac55ihHTRtJF6y--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
