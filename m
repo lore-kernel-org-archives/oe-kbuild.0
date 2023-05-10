@@ -1,49 +1,56 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5973D5686
-	for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 07:31:04 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3078aa0b152so2824417f8f.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 00:31:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8A85686
+	for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 07:33:01 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-2f27a9c7970so6440038f8f.2
+        for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 00:33:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683703861; x=1686295861;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xWo1sg0somZMNgGlcFLRkmVcIDlSQTMl8pKsiW/eV54=;
-        b=ZHXOD0US6k+Uj5xdW55J7eYr0TnA02fPbsmLLNq6sUDLmDq7I+oDY3jEBxynbyxhet
-         EqE6r+GAGKu3l4YD7+0jx0/nRqnz8imy4qLYH4MUTN5+a8pO4I7ZS5P3ciEFHZGVyh1g
-         8zCsDlU6bI2l9iD9/3WA02Qrj3XLqJwGA07tNY3I8aBvZTPKiGvGzXujQ8HcFwouFuCJ
-         G0ymKk/hKsq9yW5F6qFK0jb2/wDNXS3HYVfsT2O+EuRxAPcpAKGYsb8mdPYaHAP735Pb
-         d9XtQgUtO8pdyKdf3o+MdbFJwF9Ns5LqHUauge3lOteqbTnx6yDL6sRDdKtvvIDGG+ZO
-         STSw==
+        d=linaro.org; s=google; t=1683703979; x=1686295979;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LiXRW62f0/Z/R/WEDonIEk4qJucqCg+jSVKRIPWZXwA=;
+        b=QVJdGUO5ZFtZyjJ1xF9wc0mHXPALIWDRgiKe0vgkRCHo2rPVwyaVbqunv5Vz22Anx1
+         BPP0yuZGPdxAKnDCD9EHIk+WzB+O4jNEF6hpNRLurJVD1VTI28Ag8DF3vxAhWGXGbmLr
+         Qid4VqNX0ALRiosUASy2b3reC2Mx9UfV3t66I+8uDZfPRwvKM1a1ZYNtC1oL2MCUohGv
+         euTfxiaowDL/jyeAHQxcos+vtiHtyH+66FBqle1ka744kULSK9Wp9l4EBg7CW9WsYyQM
+         VDhZbS7jv3xcSg5n1ixWMqJIcwJhchuLnS8/8NFKwrcgcnFUWtMRRZXsQ/iV3/snSWoF
+         qr1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683703861; x=1686295861;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xWo1sg0somZMNgGlcFLRkmVcIDlSQTMl8pKsiW/eV54=;
-        b=Vh/lmOVsfbki47WqSSzNCuhE3xZ/ghQVzT9PFf1LWgB9RxS4f2CBLN+bfF4aWdZJI+
-         Oe+wpg0tpekRzuFSdn6+hmPbAIYsbebsztNa6mMSDGiuumsvxvkhDb4Wh0uC+UUwqGMA
-         N7yTo/b2/g6dWGEdGNXNNBydqzqo94sDiBKp516IMCgr7SECukMdsmlgWz7gPLkyze2k
-         rimxMAJOxJPUik1mGLGhC7NrO7za6EkmDtRoKKBGvtXAIcK+6JuwCkl47ILRnL3FLfxh
-         uZ7I1x56c6GNS79Q5UP3Yj0PrTglL2sqrEp6yxpVu6PaAo5bGFTHh3TvB6LlQHkjHdAE
-         cuoA==
-X-Gm-Message-State: AC+VfDxTBMiQy+qJHOg6sGhJqS11Hoce+MUHjJgx4jg6G3g8F1mK71cJ
-	toDwDWqJKbucJfFfe5mGEtWhJ+nAVV5odNwY748=
-X-Google-Smtp-Source: ACHHUZ4Cg8Ic4iWneS+LZyuPv2Ez6MMvNXZ306tGQcor9Klt/uEhOTYj6+LMxUgA4EtUhS4SS9PM6w==
-X-Received: by 2002:a5d:6684:0:b0:2dc:c0da:409 with SMTP id l4-20020a5d6684000000b002dcc0da0409mr11593065wru.27.1683703861272;
-        Wed, 10 May 2023 00:31:01 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683703979; x=1686295979;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LiXRW62f0/Z/R/WEDonIEk4qJucqCg+jSVKRIPWZXwA=;
+        b=hjGNiAeVQhYFzpHnvKOEQmcNeQgcYcq8tC0gYzNXiQeYVwgEapkwffrLDcUrrWp4B7
+         pzQjeCK8Mw/WV7FkJDtU2AmrhQCtYA8o90p4/c3HReM4LIFQRPMs6BXNRnQjaGnILU5Q
+         hjAz7S2WQJoVLJsTt6rqruZLRDbynZulfyE4/Z/34Slp/eTcB8NclUNmpPWOuLFuZEoK
+         cvZfGx1PEiWRtomjvxEpN6CTyGJV6BNRIztZQPmlPXyiovR9NYxT9fiKNgnNXa5u9BeT
+         /agFhG0JkqKWsQeO1y/omNmAOFs5ZVHcVT2P6Yv/g4LbSNTp0Iw77AqfIjJ19ufBf+gr
+         ZsIA==
+X-Gm-Message-State: AC+VfDzEaEGe27H6WH79EY9N8I9oFmU/RUNvxtAyea0eaXrQI4XdYUg9
+	m/9mO0kYoiepQofB7ryICfgURnLCK/1YFqSMNe0=
+X-Google-Smtp-Source: ACHHUZ5MzeYPoI8TOT/LH4G0uy7/rknIvx39CXUDBCQF81g65KQjd3SM2WJ+V6dzB8lU+vaJOMUekA==
+X-Received: by 2002:a05:6000:1191:b0:306:462a:b78d with SMTP id g17-20020a056000119100b00306462ab78dmr9804937wrx.53.1683703978695;
+        Wed, 10 May 2023 00:32:58 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id v23-20020a5d5917000000b0030632833e74sm16575331wrd.11.2023.05.10.00.30.57
+        by smtp.gmail.com with ESMTPSA id k9-20020adfe8c9000000b0030642f5da27sm16415712wrn.37.2023.05.10.00.32.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 00:30:59 -0700 (PDT)
-Date: Wed, 10 May 2023 10:30:55 +0300
+        Wed, 10 May 2023 00:32:57 -0700 (PDT)
+Date: Wed, 10 May 2023 10:32:54 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Conor Dooley <conor+lkp@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [conor:gpio-irq 3/8] drivers/irqchip/irq-mpfs-mux.c:351
- mpfs_irq_mux_init() warn: 'priv->reg' from of_iomap() not released on lines:
- 310,316,333,339.
-Message-ID: <eee3db8f-77ba-4218-af2a-9f7ec44ceec7@kili.mountain>
+To: oe-kbuild@lists.linux.dev, Udipto Goswami <quic_ugoswami@quicinc.com>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Pratham Pratap <quic_ppratap@quicinc.com>,
+	Jack Pham <quic_jackp@quicinc.com>,
+	Johan Hovold <johan+linaro@kernel.org>,
+	Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org,
+	Udipto Goswami <quic_ugoswami@quicinc.com>
+Subject: Re: [PATCH v8] usb: dwc3: debugfs: Prevent any register access when
+ devices is runtime suspended
+Message-ID: <df7bd9f8-f327-42cb-a5d4-42a804b9790d@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,101 +59,95 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230504045052.22347-1-quic_ugoswami@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git gpio-irq
-head:   6ef4b8fad90b5bae682bd4b88b807f2a38822fe8
-commit: f39a859cf7fec51e695de4544786f2b0fb566e75 [3/8] irqchip: add mpfs gpio interrupt mux
-config: mips-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230510/202305101142.tbjnKXqf-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
+Hi Udipto,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Udipto-Goswami/usb-dwc3-debugfs-Prevent-any-register-access-when-devices-is-runtime-suspended/20230504-125225
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230504045052.22347-1-quic_ugoswami%40quicinc.com
+patch subject: [PATCH v8] usb: dwc3: debugfs: Prevent any register access when devices is runtime suspended
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230510/202305101451.V2D0cM4S-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305101142.tbjnKXqf-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305101451.V2D0cM4S-lkp@intel.com/
 
 New smatch warnings:
-drivers/irqchip/irq-mpfs-mux.c:351 mpfs_irq_mux_init() warn: 'priv->reg' from of_iomap() not released on lines: 310,316,333,339.
+drivers/usb/dwc3/debugfs.c:647 dwc3_link_state_write() warn: missing error code? 'ret'
+drivers/usb/dwc3/debugfs.c:720 dwc3_rx_fifo_size_show() warn: curly braces intended?
+drivers/usb/dwc3/debugfs.c:722 dwc3_rx_fifo_size_show() warn: inconsistent indenting
+drivers/usb/dwc3/debugfs.c:722 dwc3_rx_fifo_size_show() warn: ignoring unreachable code.
 
 Old smatch warnings:
-drivers/irqchip/irq-mpfs-mux.c:301 mpfs_irq_mux_init() warn: possible memory leak of 'priv'
+drivers/usb/dwc3/debugfs.c:657 dwc3_link_state_write() warn: missing error code? 'ret'
 
-vim +351 drivers/irqchip/irq-mpfs-mux.c
+vim +/ret +647 drivers/usb/dwc3/debugfs.c
 
-f39a859cf7fec5 Conor Dooley 2023-05-09  289  static int __init mpfs_irq_mux_init(struct device_node *node, struct device_node *parent)
-f39a859cf7fec5 Conor Dooley 2023-05-09  290  {
-f39a859cf7fec5 Conor Dooley 2023-05-09  291  	struct mpfs_irq_mux *priv;
-f39a859cf7fec5 Conor Dooley 2023-05-09  292  	struct irq_domain *domain;
-f39a859cf7fec5 Conor Dooley 2023-05-09  293  	int i;
-f39a859cf7fec5 Conor Dooley 2023-05-09  294  
-f39a859cf7fec5 Conor Dooley 2023-05-09  295  	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-f39a859cf7fec5 Conor Dooley 2023-05-09  296  	if (!priv)
-f39a859cf7fec5 Conor Dooley 2023-05-09  297  		return -ENOMEM;
-f39a859cf7fec5 Conor Dooley 2023-05-09  298  
-f39a859cf7fec5 Conor Dooley 2023-05-09  299  	priv->reg = of_iomap(node, 0);
-f39a859cf7fec5 Conor Dooley 2023-05-09  300  	if (!priv->reg)
-f39a859cf7fec5 Conor Dooley 2023-05-09  301  		return -ENODEV; //TODO: add teardown code
+1c53edaeee3338 Udipto Goswami 2023-05-04  638  	ret = pm_runtime_resume_and_get(dwc->dev);
+1c53edaeee3338 Udipto Goswami 2023-05-04  639  	if (ret < 0)
+1c53edaeee3338 Udipto Goswami 2023-05-04  640  		return ret;
+1c53edaeee3338 Udipto Goswami 2023-05-04  641  
+138801aaa566ec Felipe Balbi   2012-01-02  642  	spin_lock_irqsave(&dwc->lock, flags);
+d102444cac1564 Thinh Nguyen   2018-11-07  643  	reg = dwc3_readl(dwc->regs, DWC3_GSTS);
+d102444cac1564 Thinh Nguyen   2018-11-07  644  	if (DWC3_GSTS_CURMOD(reg) != DWC3_GSTS_CURMOD_DEVICE) {
+d102444cac1564 Thinh Nguyen   2018-11-07  645  		spin_unlock_irqrestore(&dwc->lock, flags);
+1c53edaeee3338 Udipto Goswami 2023-05-04  646  		pm_runtime_put_sync(dwc->dev);
+1c53edaeee3338 Udipto Goswami 2023-05-04 @647  		return ret;
 
-Of course, these are all marked with TODOs so you already know about
-them...  These emails are generated automatically and I just review
-them and hit forward.
+ret is not necessarily an error code.
 
-f39a859cf7fec5 Conor Dooley 2023-05-09  302  
-f39a859cf7fec5 Conor Dooley 2023-05-09  303  	priv->mux_config = readl(priv->reg);
-f39a859cf7fec5 Conor Dooley 2023-05-09  304  
-f39a859cf7fec5 Conor Dooley 2023-05-09  305  	for (i = 0; i < MPFS_MUX_NUM_DIRECT_IRQS; i++) {
-f39a859cf7fec5 Conor Dooley 2023-05-09  306  		priv->irqchip_data[i].output_hwirq = i;
-f39a859cf7fec5 Conor Dooley 2023-05-09  307  
-f39a859cf7fec5 Conor Dooley 2023-05-09  308  		priv->irqchip_data[i].irq = irq_of_parse_and_map(node, i);
-f39a859cf7fec5 Conor Dooley 2023-05-09  309  		if (priv->irqchip_data[i].irq <= 0)
-f39a859cf7fec5 Conor Dooley 2023-05-09  310  			return -1; //TODO: add teardown code
+d102444cac1564 Thinh Nguyen   2018-11-07  648  	}
+d102444cac1564 Thinh Nguyen   2018-11-07  649  
+0d36dede457873 Thinh Nguyen   2018-11-07  650  	reg = dwc3_readl(dwc->regs, DWC3_DSTS);
+0d36dede457873 Thinh Nguyen   2018-11-07  651  	speed = reg & DWC3_DSTS_CONNECTSPD;
+0d36dede457873 Thinh Nguyen   2018-11-07  652  
+0d36dede457873 Thinh Nguyen   2018-11-07  653  	if (speed < DWC3_DSTS_SUPERSPEED &&
+0d36dede457873 Thinh Nguyen   2018-11-07  654  	    state != DWC3_LINK_STATE_RECOV) {
+0d36dede457873 Thinh Nguyen   2018-11-07  655  		spin_unlock_irqrestore(&dwc->lock, flags);
+1c53edaeee3338 Udipto Goswami 2023-05-04  656  		pm_runtime_put_sync(dwc->dev);
+1c53edaeee3338 Udipto Goswami 2023-05-04  657  		return ret;
+0d36dede457873 Thinh Nguyen   2018-11-07  658  	}
 
-It's unfortunate that irq_of_parse_and_map() returns zero on error.
-It's for historical reasons.  It used to return NO_IRQ.  :(  I can't
-imagine that all the callers check correctly so I've created a new
-static checker warning for this.  We shall see tomorrow.
+[ snip ]
 
-f39a859cf7fec5 Conor Dooley 2023-05-09  311  
-f39a859cf7fec5 Conor Dooley 2023-05-09  312  		domain = irq_domain_add_linear(NULL, 1,
-f39a859cf7fec5 Conor Dooley 2023-05-09  313  					       &mpfs_irq_mux_direct_domain_ops,
-f39a859cf7fec5 Conor Dooley 2023-05-09  314  					       &priv->irqchip_data[i]);
-f39a859cf7fec5 Conor Dooley 2023-05-09  315  		if (!domain)
-f39a859cf7fec5 Conor Dooley 2023-05-09  316  			return -ENOMEM; //TODO: add teardown code
-f39a859cf7fec5 Conor Dooley 2023-05-09  317  
-f39a859cf7fec5 Conor Dooley 2023-05-09  318  		priv->irqchip_data[i].domain = domain;
-f39a859cf7fec5 Conor Dooley 2023-05-09  319  
-f39a859cf7fec5 Conor Dooley 2023-05-09  320  		irq_set_chained_handler_and_data(priv->irqchip_data[i].irq,
-f39a859cf7fec5 Conor Dooley 2023-05-09  321  						 mpfs_irq_mux_direct_handler,
-f39a859cf7fec5 Conor Dooley 2023-05-09  322  						 &priv->irqchip_data[i]);
-f39a859cf7fec5 Conor Dooley 2023-05-09  323  	}
-f39a859cf7fec5 Conor Dooley 2023-05-09  324  
-f39a859cf7fec5 Conor Dooley 2023-05-09  325  	/*
-f39a859cf7fec5 Conor Dooley 2023-05-09  326  	 * The last 3 interrupts must be the non-direct/muxxed ones.
-f39a859cf7fec5 Conor Dooley 2023-05-09  327  	 */
-f39a859cf7fec5 Conor Dooley 2023-05-09  328  	for (; i < MPFS_MUX_NUM_IRQS; i++) {
-f39a859cf7fec5 Conor Dooley 2023-05-09  329  		priv->irqchip_data[i].output_hwirq = i;
-f39a859cf7fec5 Conor Dooley 2023-05-09  330  
-f39a859cf7fec5 Conor Dooley 2023-05-09  331  		priv->irqchip_data[i].irq = irq_of_parse_and_map(node, i);
-f39a859cf7fec5 Conor Dooley 2023-05-09  332  		if (priv->irqchip_data[i].irq <= 0)
-f39a859cf7fec5 Conor Dooley 2023-05-09  333  			return -1; //TODO: add teardown code
-f39a859cf7fec5 Conor Dooley 2023-05-09  334  
-f39a859cf7fec5 Conor Dooley 2023-05-09  335  		domain = irq_domain_add_linear(NULL, MPFS_MAX_IRQS_PER_GPIO,
-f39a859cf7fec5 Conor Dooley 2023-05-09  336  					       &mpfs_irq_mux_nondirect_domain_ops,
-f39a859cf7fec5 Conor Dooley 2023-05-09  337  					       &priv->irqchip_data[i]);
-f39a859cf7fec5 Conor Dooley 2023-05-09  338  		if (!domain)
-f39a859cf7fec5 Conor Dooley 2023-05-09  339  			return -ENOMEM; //TODO: add teardown code
-f39a859cf7fec5 Conor Dooley 2023-05-09  340  
-f39a859cf7fec5 Conor Dooley 2023-05-09  341  		priv->irqchip_data[i].domain = domain;
-f39a859cf7fec5 Conor Dooley 2023-05-09  342  		priv->irqchip_data[i].reg_mask = mpfs_irq_mux_masks[i - MPFS_MUX_NUM_DIRECT_IRQS];
-f39a859cf7fec5 Conor Dooley 2023-05-09  343  		priv->irqchip_data[i].offset = (i - MPFS_MUX_NUM_DIRECT_IRQS) * MPFS_MAX_IRQS_PER_GPIO;
-f39a859cf7fec5 Conor Dooley 2023-05-09  344  
-f39a859cf7fec5 Conor Dooley 2023-05-09  345  		irq_set_chained_handler_and_data(priv->irqchip_data[i].irq,
-f39a859cf7fec5 Conor Dooley 2023-05-09  346  						 mpfs_irq_mux_nondirect_handler,
-f39a859cf7fec5 Conor Dooley 2023-05-09  347  						 &priv->irqchip_data[i]);
-f39a859cf7fec5 Conor Dooley 2023-05-09  348  	}
-f39a859cf7fec5 Conor Dooley 2023-05-09  349  
-f39a859cf7fec5 Conor Dooley 2023-05-09  350  	pr_info("registered with mux config %x\n", priv->mux_config);
-f39a859cf7fec5 Conor Dooley 2023-05-09 @351  	return 0;
-f39a859cf7fec5 Conor Dooley 2023-05-09  352  }
+2c85a1817e4ba0 Thinh Nguyen   2018-11-07  708  static int dwc3_rx_fifo_size_show(struct seq_file *s, void *unused)
+818ec3aba883f5 Felipe Balbi   2016-04-14  709  {
+818ec3aba883f5 Felipe Balbi   2016-04-14  710  	struct dwc3_ep		*dep = s->private;
+818ec3aba883f5 Felipe Balbi   2016-04-14  711  	struct dwc3		*dwc = dep->dwc;
+818ec3aba883f5 Felipe Balbi   2016-04-14  712  	unsigned long		flags;
+d00be779cc5016 Thinh Nguyen   2021-03-27  713  	u32			mdwidth;
+818ec3aba883f5 Felipe Balbi   2016-04-14  714  	u32			val;
+1c53edaeee3338 Udipto Goswami 2023-05-04  715  	int			ret;
+1c53edaeee3338 Udipto Goswami 2023-05-04  716  
+1c53edaeee3338 Udipto Goswami 2023-05-04  717  	ret = pm_runtime_resume_and_get(dwc->dev);
+1c53edaeee3338 Udipto Goswami 2023-05-04  718  	if (ret < 0)
+1c53edaeee3338 Udipto Goswami 2023-05-04  719  		pm_runtime_put_sync(dwc->dev);
+1c53edaeee3338 Udipto Goswami 2023-05-04 @720  		return ret;
+
+Needs curly braces.
+
+818ec3aba883f5 Felipe Balbi   2016-04-14  721  
+818ec3aba883f5 Felipe Balbi   2016-04-14 @722  	spin_lock_irqsave(&dwc->lock, flags);
+2c85a1817e4ba0 Thinh Nguyen   2018-11-07  723  	val = dwc3_core_fifo_space(dep, DWC3_RXFIFO);
+0f874f79dc81ae Thinh Nguyen   2018-11-07  724  
+0f874f79dc81ae Thinh Nguyen   2018-11-07  725  	/* Convert to bytes */
+d00be779cc5016 Thinh Nguyen   2021-03-27  726  	mdwidth = dwc3_mdwidth(dwc);
+4244ba02edb850 Thinh Nguyen   2020-04-11  727  
+4244ba02edb850 Thinh Nguyen   2020-04-11  728  	val *= mdwidth;
+0f874f79dc81ae Thinh Nguyen   2018-11-07  729  	val >>= 3;
+818ec3aba883f5 Felipe Balbi   2016-04-14  730  	seq_printf(s, "%u\n", val);
+818ec3aba883f5 Felipe Balbi   2016-04-14  731  	spin_unlock_irqrestore(&dwc->lock, flags);
+818ec3aba883f5 Felipe Balbi   2016-04-14  732  
+1c53edaeee3338 Udipto Goswami 2023-05-04  733  	pm_runtime_put_sync(dwc->dev);
+818ec3aba883f5 Felipe Balbi   2016-04-14  734  	return 0;
+818ec3aba883f5 Felipe Balbi   2016-04-14  735  }
 
 -- 
 0-DAY CI Kernel Test Service
