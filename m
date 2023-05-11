@@ -1,52 +1,56 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248FC1C76F
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 10:52:49 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3f4ad71b00eso11457935e9.2
-        for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 03:52:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B649628F1
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 10:56:20 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f4c6c4b51eso16336765e9.2
+        for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 03:56:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683802366; x=1686394366;
+        d=linaro.org; s=google; t=1683802578; x=1686394578;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NDBhj27KR354yxCuqIR8nQ0Enpmy7HIOWmEyGFYjPvM=;
-        b=vpVG77K+fYQq9IbnIicPnh+6U80NPZc1JkzuK2dYRf2wha68CvWklO5Yb4dBJzECsb
-         JbrgJkhQx8hp16p3UFedQLL1yMjJKl6zPibT8acJJHxIemlt/LC8ygzdssPU6dB9AnMZ
-         YzHBqCJ3DCVK/hzXqTb/ppnHYmJJ7fxKoa8FkLV8Bsv9Q97QsVfffPY1X6IxdPBJzvio
-         6W+VolZYXjuORsxf64TMk+b0QxvXeFuwmtZ8JxJx6rer8F/fFTEPUH9ncpqPj6FriVXj
-         OeuTog+8I+3dhk+NtqMqfCu09aM36Gx2JFLlAf/VCGH7jaickNWu2bQ96IFOhA+Cb++j
-         r63w==
+        bh=8UsFW/OKFLWzrfCHWAMRNvjMDP4f9tp8Nm34IOcM96Q=;
+        b=Fna4hgvy4ayNdl2Mw7PgG9YfGLMggJPpJVbidjfaUama/51qz00nOGttQcvAWaDqwB
+         u9TL2r8S9+R9piJxfwOCKdDBo4I0rl+Ed5PdQOtkqP6FxMxJU4kbkFqREqyQZff2cUrL
+         NV5IEszFMo+s12cAjxzLlIRk2YUAF7UObDdWykNUzVMk//jNKVw1rEvGJapVQy9L6pJE
+         IwzUs9NhPh6si5MlYEr+ftyW9jwY5vBqU0aNJ4vRsEEROKpIybncvu/FPLDQ8IYxHp7i
+         9kmw03xUvVfIuqGHL9tBm4LEU84SBmrla8GdQ+wyDwvwhRcCZ6GWuP5v0CSlquPlI+Bl
+         FP/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683802366; x=1686394366;
+        d=1e100.net; s=20221208; t=1683802578; x=1686394578;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NDBhj27KR354yxCuqIR8nQ0Enpmy7HIOWmEyGFYjPvM=;
-        b=B9ibLzaC00SfYmlIrNS/srbPLAm1V7JYxjcPS4WOkQB4vTgqmTCgJPLSF/XoaIUFVf
-         Xg1jtuNRY60b1pTGWf0c7RGnrRfBR2snzmeJmatkfy/jwmsv9SqJyg6DHaBjUVVwj74s
-         Ht7XtffLbp2xNjaOQzBNhzv1I3bmtNWMjgLy0t3zqUdU4zjjZooaCEqri7MuZkzeI78W
-         htlG5bySzi/tr+soOp5pwxwVxK2UO1GqZEa6qJElpYaIBIXOO7XRDmxQII28tWAw2HL1
-         lgxLxEhlBRGVjQebb6db5dR2jfTMDRWx6QzdTVwxAZZ/nKr1eNcmAnYq6hqzReJLwL8f
-         h7gg==
-X-Gm-Message-State: AC+VfDzamBAbvAloThdBSPc3FjIV76y8N2Zl9n3uU4i6AYY7JLeXHeIy
-	DHLY8evxvyE8ICnUS9MN09NP9teG0HCNPztCInI=
-X-Google-Smtp-Source: ACHHUZ6AK9XHSAZFK8k+X9wtcgdEy9/6iAKy9Y42tWATBZpE2gMXe5wM0YJdpz9OgeVr1CN6CSFxyQ==
-X-Received: by 2002:a7b:c843:0:b0:3f4:b6bc:bd80 with SMTP id c3-20020a7bc843000000b003f4b6bcbd80mr3533902wml.33.1683802366342;
-        Thu, 11 May 2023 03:52:46 -0700 (PDT)
+        bh=8UsFW/OKFLWzrfCHWAMRNvjMDP4f9tp8Nm34IOcM96Q=;
+        b=cyX1Tx30oyhan6K9vGpxicNMmAjxSqIt5JXPsz8YmA2BtoAhHfRyLLoIfmwmqcBgJ4
+         OeuxYshVcrK202Uvj0olgsfrD2ze/jvStlqW3VGLcZAL8ULTy0Xc5uuJCmjeMm6l1nLw
+         L6/bokANV30vUwRk28uyBUR82gNtzjdiJHwrQR1xZSCDivQ79Gbs6uB5lNAnmxVobkK4
+         eoJI56fEQ4dyxyMeybbnTp6a03GfLGDPsbM9b00ThU9LDQohWAJqprkl1oNQ4d3YSYZC
+         nlynRdrA87C6dOCtyEb44I26SQ0RrMm7Ha9HK/q1jwWP16g/0zasX4Sa/TkjfVrTJaBd
+         jwPw==
+X-Gm-Message-State: AC+VfDxv3xtzpW3sRynVsObhC1BVd1DI72lTq+oonwYXsW6+mNkzmI7M
+	KNlfngtKfrYHhGYJsRnaQdFqUXZv1HUMK1jBijQ=
+X-Google-Smtp-Source: ACHHUZ5Qb4Owy3olfvWB+XIkZ9U0CNEoY63lEPKXoLzpv/B9Aw7XlwLxfHWcozMz880g73eeikEk7w==
+X-Received: by 2002:a05:600c:2047:b0:3f4:2452:9675 with SMTP id p7-20020a05600c204700b003f424529675mr9666596wmg.0.1683802577815;
+        Thu, 11 May 2023 03:56:17 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id d6-20020a056000114600b00306344eaebfsm20107119wrx.28.2023.05.11.03.52.44
+        by smtp.gmail.com with ESMTPSA id f5-20020adff985000000b002fda1b12a0bsm20319280wrr.2.2023.05.11.03.55.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 03:52:45 -0700 (PDT)
-Date: Thu, 11 May 2023 13:52:42 +0300
+        Thu, 11 May 2023 03:56:15 -0700 (PDT)
+Date: Thu, 11 May 2023 13:55:57 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Gilad Itzkovitch <gilad.itzkovitch@morsemicro.com>,
-	johannes@sipsolutions.net
+To: oe-kbuild@lists.linux.dev, Dominique Martinet <asmadeus@codewreck.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Pavel Begunkov <asml.silence@gmail.com>, Stefan Roesch <shr@fb.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-wireless@vger.kernel.org, quic_jjohnson@quicinc.com,
-	Gilad Itzkovitch <gilad.itzkovitch@morsemicro.com>
-Subject: Re: [PATCH] cfg80211: S1G rate information and calculations
-Message-ID: <468502fa-a43e-4e4c-b00b-cb2af9f7cac1@kili.mountain>
+	Clay Harris <bugs@claycon.org>, Dave Chinner <david@fromorbit.com>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	io-uring@vger.kernel.org,
+	Dominique Martinet <asmadeus@codewreck.org>
+Subject: Re: [PATCH v2 4/6] kernfs: implement readdir FMODE_NOWAIT
+Message-ID: <4e88ec58-be22-4b0c-968d-fa9a52764c98@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -55,144 +59,85 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230504024923.1925530-1-gilad.itzkovitch@morsemicro.com>
+In-Reply-To: <20230422-uring-getdents-v2-4-2db1e37dc55e@codewreck.org>
 
-Hi Gilad,
+Hi Dominique,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gilad-Itzkovitch/cfg80211-S1G-rate-information-and-calculations/20230504-105056
-base:   28b17f6270f182e22cdad5a0fdc4979031e4486a
-patch link:    https://lore.kernel.org/r/20230504024923.1925530-1-gilad.itzkovitch%40morsemicro.com
-patch subject: [PATCH] cfg80211: S1G rate information and calculations
-config: microblaze-randconfig-m031-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110435.EhEiLYWA-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Dominique-Martinet/fs-split-off-vfs_getdents-function-of-getdents64-syscall/20230510-185542
+base:   58390c8ce1bddb6c623f62e7ed36383e7fa5c02f
+patch link:    https://lore.kernel.org/r/20230422-uring-getdents-v2-4-2db1e37dc55e%40codewreck.org
+patch subject: [PATCH v2 4/6] kernfs: implement readdir FMODE_NOWAIT
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230511/202305110647.eSnSEulg-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305110435.EhEiLYWA-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305110647.eSnSEulg-lkp@intel.com/
 
-New smatch warnings:
-net/wireless/util.c:1744 cfg80211_calculate_bitrate_s1g() error: buffer overflow 'base[idx]' 11 <= 11
+smatch warnings:
+fs/kernfs/dir.c:1863 kernfs_fop_readdir() warn: inconsistent returns '&root->kernfs_rwsem'.
 
-vim +1744 net/wireless/util.c
+vim +1863 fs/kernfs/dir.c
 
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1649  static u32 cfg80211_calculate_bitrate_s1g(struct rate_info *rate)
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1650  {
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1651  	/* For 1, 2, 4, 8 and 16 MHz channels */
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1652  	static const u32 base[5][11] = {
-                                                                                ^^^^
-11 elements.
+c637b8acbe079e Tejun Heo          2013-12-11  1815  static int kernfs_fop_readdir(struct file *file, struct dir_context *ctx)
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1816  {
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1817  	struct dentry *dentry = file->f_path.dentry;
+319ba91d352a74 Shaohua Li         2017-07-12  1818  	struct kernfs_node *parent = kernfs_dentry_node(dentry);
+324a56e16e44ba Tejun Heo          2013-12-11  1819  	struct kernfs_node *pos = file->private_data;
+393c3714081a53 Minchan Kim        2021-11-18  1820  	struct kernfs_root *root;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1821  	const void *ns = NULL;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1822  
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1823  	if (!dir_emit_dots(file, ctx))
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1824  		return 0;
+393c3714081a53 Minchan Kim        2021-11-18  1825  
+393c3714081a53 Minchan Kim        2021-11-18  1826  	root = kernfs_root(parent);
+a551138c4b3b9f Dominique Martinet 2023-05-10  1827  	if (ctx->flags & DIR_CONTEXT_F_NOWAIT) {
+a551138c4b3b9f Dominique Martinet 2023-05-10  1828  		if (!down_read_trylock(&root->kernfs_rwsem))
+a551138c4b3b9f Dominique Martinet 2023-05-10  1829  			return -EAGAIN;
+a551138c4b3b9f Dominique Martinet 2023-05-10  1830  	} else {
+393c3714081a53 Minchan Kim        2021-11-18  1831  		down_read(&root->kernfs_rwsem);
+a551138c4b3b9f Dominique Martinet 2023-05-10  1832  	}
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1833  
+324a56e16e44ba Tejun Heo          2013-12-11  1834  	if (kernfs_ns_enabled(parent))
+c525aaddc366df Tejun Heo          2013-12-11  1835  		ns = kernfs_info(dentry->d_sb)->ns;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1836  
+c637b8acbe079e Tejun Heo          2013-12-11  1837  	for (pos = kernfs_dir_pos(ns, parent, ctx->pos, pos);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1838  	     pos;
+c637b8acbe079e Tejun Heo          2013-12-11  1839  	     pos = kernfs_dir_next_pos(ns, parent, ctx->pos, pos)) {
+adc5e8b58f4886 Tejun Heo          2013-12-11  1840  		const char *name = pos->name;
+364595a6851bf6 Jeff Layton        2023-03-30  1841  		unsigned int type = fs_umode_to_dtype(pos->mode);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1842  		int len = strlen(name);
+67c0496e87d193 Tejun Heo          2019-11-04  1843  		ino_t ino = kernfs_ino(pos);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1844  
+adc5e8b58f4886 Tejun Heo          2013-12-11  1845  		ctx->pos = pos->hash;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1846  		file->private_data = pos;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1847  		kernfs_get(pos);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1848  
+393c3714081a53 Minchan Kim        2021-11-18  1849  		up_read(&root->kernfs_rwsem);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1850  		if (!dir_emit(ctx, name, len, ino, type))
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1851  			return 0;
+393c3714081a53 Minchan Kim        2021-11-18  1852  		down_read(&root->kernfs_rwsem);
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Needs to be deleted.
 
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1653  		{  300000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1654  		   600000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1655  		   900000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1656  		  1200000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1657  		  1800000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1658  		  2400000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1659  		  2700000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1660  		  3000000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1661  		  3600000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1662  		  4000000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1663  		  /* MCS 10 supported in 1 MHz only */
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1664  		  150000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1665  		},
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1666  		{  650000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1667  		  1300000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1668  		  1950000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1669  		  2600000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1670  		  3900000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1671  		  5200000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1672  		  5850000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1673  		  6500000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1674  		  7800000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1675  		  /* MCS 9 not valid */
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1676  		},
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1677  		{  1350000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1678  		   2700000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1679  		   4050000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1680  		   5400000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1681  		   8100000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1682  		  10800000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1683  		  12150000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1684  		  13500000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1685  		  16200000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1686  		  18000000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1687  		},
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1688  		{  2925000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1689  		   5850000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1690  		   8775000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1691  		  11700000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1692  		  17550000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1693  		  23400000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1694  		  26325000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1695  		  29250000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1696  		  35100000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1697  		  39000000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1698  		},
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1699  		{  8580000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1700  		  11700000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1701  		  17550000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1702  		  23400000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1703  		  35100000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1704  		  46800000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1705  		  52650000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1706  		  58500000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1707  		  70200000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1708  		  78000000,
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1709  		},
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1710  	};
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1711  	u32 bitrate;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1712  	/* default is 1 MHz index */
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1713  	int idx = 0;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1714  
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1715  	if (rate->mcs > 11)
-                                                                      ^^^^
-Needs to be >= 11 to prevent off by one.
+a551138c4b3b9f Dominique Martinet 2023-05-10  1853  		if (ctx->flags & DIR_CONTEXT_F_NOWAIT) {
+a551138c4b3b9f Dominique Martinet 2023-05-10  1854  			if (!down_read_trylock(&root->kernfs_rwsem))
+a551138c4b3b9f Dominique Martinet 2023-05-10  1855  				return 0;
 
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1716  		goto warn;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1717  
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1718  	switch (rate->bw) {
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1719  	case RATE_INFO_BW_16:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1720  		idx = 4;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1721  		break;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1722  	case RATE_INFO_BW_8:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1723  		idx = 3;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1724  		break;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1725  	case RATE_INFO_BW_4:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1726  		idx = 2;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1727  		break;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1728  	case RATE_INFO_BW_2:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1729  		idx = 1;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1730  		break;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1731  	case RATE_INFO_BW_1:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1732  		idx = 0;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1733  		break;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1734  	case RATE_INFO_BW_5:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1735  	case RATE_INFO_BW_10:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1736  	case RATE_INFO_BW_20:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1737  	case RATE_INFO_BW_40:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1738  	case RATE_INFO_BW_80:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1739  	case RATE_INFO_BW_160:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1740  	default:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1741  		goto warn;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1742  	}
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1743  
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04 @1744  	bitrate = base[idx][rate->mcs];
-                                                                            ^^^^^^^^^
+It's a bit strange the this doesn't return -EAGAIN;
 
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1745  	bitrate *= rate->nss;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1746  
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1747  	if (rate->flags & RATE_INFO_FLAGS_SHORT_GI)
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1748  		bitrate = (bitrate / 9) * 10;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1749  	/* do NOT round down here */
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1750  	return (bitrate + 50000) / 100000;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1751  warn:
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1752  	WARN_ONCE(1, "invalid rate bw=%d, mcs=%d, nss=%d\n",
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1753  		  rate->bw, rate->mcs, rate->nss);
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1754  	return 0;
-d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1755  }
+a551138c4b3b9f Dominique Martinet 2023-05-10  1856  		} else {
+a551138c4b3b9f Dominique Martinet 2023-05-10  1857  			down_read(&root->kernfs_rwsem);
+a551138c4b3b9f Dominique Martinet 2023-05-10  1858  		}
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1859  	}
+393c3714081a53 Minchan Kim        2021-11-18  1860  	up_read(&root->kernfs_rwsem);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1861  	file->private_data = NULL;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1862  	ctx->pos = INT_MAX;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28 @1863  	return 0;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1864  }
 
 -- 
 0-DAY CI Kernel Test Service
