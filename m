@@ -1,55 +1,68 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mx1.zhaoxin.com (MX1.ZHAOXIN.COM [210.0.225.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7164F1B8FE;
-	Thu, 11 May 2023 08:53:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683795230; x=1715331230;
-  h=message-id:date:mime-version:to:cc:references:from:
-   subject:in-reply-to:content-transfer-encoding;
-  bh=Jo6cVmlh3Njze/Vm0PTk6vT9CpLSHMxygg+Kd9Bm9hY=;
-  b=XjP/QQkwvU+EChHh/59Ko3OrSlh8Ezs/POQhj2XDL+F2cpT0i1L4dOB/
-   9unDHVG/CdKVrj4IfxkF5BLPj5z0dUrIy4SYQvtvysCMTpmX9r2yNWN2M
-   I56jfhXd85hc9uG9zOdFHp9jbCK0haRbSMaSlDdvCoGJenkDJlDPlxKcF
-   1gov5aBuHakYyWg7CK7XLNqqA2/HOfjx+ns1YE+usuANjD5I2oGhoufpM
-   EASr1EwZYdt9wVjZTCoGsZXJD2W2tSuYZYSuVs8P8yluQ3+ySkD+Q3T5L
-   s+hZ27xYHNcsqlKrOLag7ArP49MNslWU8QJw8AA9MFMyHbklJaCnMQs1L
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="334922589"
-X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
-   d="scan'208";a="334922589"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 01:52:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="946056335"
-X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
-   d="scan'208";a="946056335"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by fmsmga006.fm.intel.com with ESMTP; 11 May 2023 01:52:46 -0700
-Message-ID: <7de2c84b-d793-316b-6f48-5abbc50866e9@linux.intel.com>
-Date: Thu, 11 May 2023 11:54:21 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE521B919
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 09:20:54 +0000 (UTC)
+X-ASG-Debug-ID: 1683795732-086e237e5073c10001-81cAGA
+Received: from ZXSHMBX2.zhaoxin.com (ZXSHMBX2.zhaoxin.com [10.28.252.164]) by mx1.zhaoxin.com with ESMTP id PI4CQ8RqxCkerOfb (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Thu, 11 May 2023 17:02:12 +0800 (CST)
+X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
+X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX2.zhaoxin.com
+ (10.28.252.164) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 11 May
+ 2023 17:02:12 +0800
+Received: from [192.168.3.65] (222.128.104.110) by zxbjmbx1.zhaoxin.com
+ (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 11 May
+ 2023 17:02:11 +0800
+X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
+Message-ID: <55815ff0-cb80-e3d9-ee00-a5ce767769d6@zhaoxin.com>
+X-Barracuda-RBL-Trusted-Forwarder: 192.168.3.65
+Date: Fri, 12 May 2023 01:02:08 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.7.1
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Weitao Wang <WeitaoWang-oc@zhaoxin.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <0cb9bebf-c126-433b-9ee9-e6f44b4652b4@kili.mountain>
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
 Subject: Re: [mnyman-xhci:for-usb-next 10/11] drivers/usb/host/xhci-mem.c:2040
  xhci_add_in_port() error: uninitialized symbol 'tmp_minor_revision'.
+Content-Language: en-US
+X-ASG-Orig-Subj: Re: [mnyman-xhci:for-usb-next 10/11] drivers/usb/host/xhci-mem.c:2040
+ xhci_add_in_port() error: uninitialized symbol 'tmp_minor_revision'.
+To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>
+CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Mathias Nyman
+	<mathias.nyman@linux.intel.com>
+References: <0cb9bebf-c126-433b-9ee9-e6f44b4652b4@kili.mountain>
+From: "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
 In-Reply-To: <0cb9bebf-c126-433b-9ee9-e6f44b4652b4@kili.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [222.128.104.110]
+X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
+ zxbjmbx1.zhaoxin.com (10.29.252.163)
+X-Barracuda-Connect: ZXSHMBX2.zhaoxin.com[10.28.252.164]
+X-Barracuda-Start-Time: 1683795732
+X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
+X-Barracuda-URL: https://10.28.252.35:4443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at zhaoxin.com
+X-Barracuda-Scan-Msg-Size: 12914
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
+X-Barracuda-Spam-Score: 1.49
+X-Barracuda-Spam-Status: No, SCORE=1.49 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=BSF_SC0_SA085b, DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2, MAILTO_TO_SPAM_ADDR
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.108617
+	Rule breakdown below
+	 pts rule name              description
+	---- ---------------------- --------------------------------------------------
+	0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
+	0.00 MAILTO_TO_SPAM_ADDR    Includes a link to a likely spammer email
+	0.40 BSF_SC0_SA085b         Custom Rule SA085b
+	3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
 
-On 10.5.2023 19.51, Dan Carpenter wrote:
+On 2023/5/11 00:51, Dan Carpenter wrote:
 > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git for-usb-next
 > head:   de6fcb4b6f1c55298b3ed0dd3d43961f86aa1b12
 > commit: efcf3bab0767e057d8727b9a211fbb4fb4cdc81e [10/11] xhci: Show ZHAOXIN xHCI root hub speed correctly
@@ -154,13 +167,65 @@ On 10.5.2023 19.51, Dan Carpenter wrote:
 > efcf3bab0767e0 Weitao Wang      2023-05-09 @2040  				minor_revision = tmp_minor_revision;
 > 
 > We know XHCI_ZHAOXIN_HOST, but we don't know if major_revision == 0x03.
+> 
+Thanks for your report. I would link to  explain it.
+This condition "XHCI_EXT_PORT_PSIV(port_cap->psi[i]) >= 5" implies that
+major_revision is equal to 0x03 in xHCI spec.
 
-
-I'll add that check to make code more readable and silence smatch.
-
-In practice we know that if PSIV >= 5, (port supports 10Gbps speed)
-it must be a USB 3 port (major_revision == 0x03) and not a USB 2 port.
-
-Thanks
-Mathias
-
+Best Regards,
+Weitao
+> efcf3bab0767e0 Weitao Wang      2023-05-09  2041
+> 47189098f8bebe Mathias Nyman    2015-10-01  2042  			xhci_dbg(xhci, "PSIV:%d PSIE:%d PLT:%d PFD:%d LP:%d PSIM:%d\n",
+> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2043  				  XHCI_EXT_PORT_PSIV(port_cap->psi[i]),
+> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2044  				  XHCI_EXT_PORT_PSIE(port_cap->psi[i]),
+> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2045  				  XHCI_EXT_PORT_PLT(port_cap->psi[i]),
+> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2046  				  XHCI_EXT_PORT_PFD(port_cap->psi[i]),
+> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2047  				  XHCI_EXT_PORT_LP(port_cap->psi[i]),
+> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2048  				  XHCI_EXT_PORT_PSIM(port_cap->psi[i]));
+> 47189098f8bebe Mathias Nyman    2015-10-01  2049  		}
+> 47189098f8bebe Mathias Nyman    2015-10-01  2050  	}
+> efcf3bab0767e0 Weitao Wang      2023-05-09  2051
+> efcf3bab0767e0 Weitao Wang      2023-05-09  2052  	rhub->maj_rev = major_revision;
+> efcf3bab0767e0 Weitao Wang      2023-05-09  2053
+> efcf3bab0767e0 Weitao Wang      2023-05-09  2054  	if (rhub->min_rev < minor_revision)
+> efcf3bab0767e0 Weitao Wang      2023-05-09  2055  		rhub->min_rev = minor_revision;
+> efcf3bab0767e0 Weitao Wang      2023-05-09  2056
+> efcf3bab0767e0 Weitao Wang      2023-05-09  2057  	port_cap->maj_rev = major_revision;
+> efcf3bab0767e0 Weitao Wang      2023-05-09  2058  	port_cap->min_rev = minor_revision;
+> efcf3bab0767e0 Weitao Wang      2023-05-09  2059
+> b630d4b9d05ba2 Mathias Nyman    2013-05-23  2060  	/* cache usb2 port capabilities */
+> b630d4b9d05ba2 Mathias Nyman    2013-05-23  2061  	if (major_revision < 0x03 && xhci->num_ext_caps < max_caps)
+> b630d4b9d05ba2 Mathias Nyman    2013-05-23  2062  		xhci->ext_caps[xhci->num_ext_caps++] = temp;
+> b630d4b9d05ba2 Mathias Nyman    2013-05-23  2063
+> f1fd62a6b6c62e Zeng Tao         2018-12-07  2064  	if ((xhci->hci_version >= 0x100) && (major_revision != 0x03) &&
+> f1fd62a6b6c62e Zeng Tao         2018-12-07  2065  		 (temp & XHCI_HLC)) {
+> d195fcffe4c82c Xenia Ragiadakou 2013-08-14  2066  		xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+> d195fcffe4c82c Xenia Ragiadakou 2013-08-14  2067  			       "xHCI 1.0: support USB2 hardware lpm");
+> fc71ff7583b143 Andiry Xu        2011-09-23  2068  		xhci->hw_lpm_support = 1;
+> fc71ff7583b143 Andiry Xu        2011-09-23  2069  	}
+> fc71ff7583b143 Andiry Xu        2011-09-23  2070
+> da6699ce4a889c Sarah Sharp      2010-10-26  2071  	port_offset--;
+> da6699ce4a889c Sarah Sharp      2010-10-26  2072  	for (i = port_offset; i < (port_offset + port_count); i++) {
+> bcaa9d5c59005e Mathias Nyman    2018-05-21  2073  		struct xhci_port *hw_port = &xhci->hw_ports[i];
+> da6699ce4a889c Sarah Sharp      2010-10-26  2074  		/* Duplicate entry.  Ignore the port if the revisions differ. */
+> 07f7619053874b Mathias Nyman    2018-05-21  2075  		if (hw_port->rhub) {
+> 4feb07d0ada339 Andy Shevchenko  2023-03-17  2076  			xhci_warn(xhci, "Duplicate port entry, Ext Cap %p, port %u\n", addr, i);
+> 4feb07d0ada339 Andy Shevchenko  2023-03-17  2077  			xhci_warn(xhci, "Port was marked as USB %u, duplicated as USB %u\n",
+> 07f7619053874b Mathias Nyman    2018-05-21  2078  					hw_port->rhub->maj_rev, major_revision);
+> da6699ce4a889c Sarah Sharp      2010-10-26  2079  			/* Only adjust the roothub port counts if we haven't
+> da6699ce4a889c Sarah Sharp      2010-10-26  2080  			 * found a similar duplicate.
+> da6699ce4a889c Sarah Sharp      2010-10-26  2081  			 */
+> bcaa9d5c59005e Mathias Nyman    2018-05-21  2082  			if (hw_port->rhub != rhub &&
+> bcaa9d5c59005e Mathias Nyman    2018-05-21  2083  				 hw_port->hcd_portnum != DUPLICATE_ENTRY) {
+> bcaa9d5c59005e Mathias Nyman    2018-05-21  2084  				hw_port->rhub->num_ports--;
+> bcaa9d5c59005e Mathias Nyman    2018-05-21  2085  				hw_port->hcd_portnum = DUPLICATE_ENTRY;
+> bcaa9d5c59005e Mathias Nyman    2018-05-21  2086  			}
+> f8bbeabc34aa94 Sarah Sharp      2010-12-09  2087  			continue;
+> da6699ce4a889c Sarah Sharp      2010-10-26  2088  		}
+> bcaa9d5c59005e Mathias Nyman    2018-05-21  2089  		hw_port->rhub = rhub;
+> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2090  		hw_port->port_cap = port_cap;
+> bcaa9d5c59005e Mathias Nyman    2018-05-21  2091  		rhub->num_ports++;
+> da6699ce4a889c Sarah Sharp      2010-10-26  2092  	}
+> da6699ce4a889c Sarah Sharp      2010-10-26  2093  	/* FIXME: Should we disable ports not in the Extended Capabilities? */
+> da6699ce4a889c Sarah Sharp      2010-10-26  2094  }
+> 
