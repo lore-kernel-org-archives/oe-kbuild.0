@@ -1,91 +1,175 @@
-Received: from nautica.notk.org (nautica.notk.org [91.121.71.147])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFF5A57;
-	Thu, 11 May 2023 11:09:58 +0000 (UTC)
-Received: by nautica.notk.org (Postfix, from userid 108)
-	id B894DC021; Thu, 11 May 2023 13:03:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
-	t=1683803016; bh=TnIrx9Sr+YwwzAQRDNPaH1tRKUc6B/kK4MrTl299Rxw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F8Y0+TDyglj+K7TYRcAp2F8QRXeMW6KtRemZyFSOPMgyiGjspL9vNXHiKPz5HfgeI
-	 LFTMEz/GEz81Jkgdz/bNgGGjiBYEaQrYUkZ+cH7yAtr9pLxvzttLf7BS3748tcVSAl
-	 zhDq+J4UbZwTofkXjqi/DdDB/HJIBPYZ3d0B0stkA38f+OqPQe8RCT80fyOqU0fZzS
-	 HkpQmKfI+en05cqhSgrNIuK+wl82j155kLl/sasC31eUJTwo37wvQbG2Is4I6CoKu2
-	 RZWkCp8VyrTqMjUdmrOAw+K2j6/bNIUEZgDWIvjAisiNf7wzz7LPf9WNOBRc8Q249f
-	 A8CMx2NQrt5sA==
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on nautica.notk.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.0 required=5.0 tests=UNPARSEABLE_RELAY
-	autolearn=unavailable version=3.3.2
-Received: from odin.codewreck.org (localhost [127.0.0.1])
-	by nautica.notk.org (Postfix) with ESMTPS id 3701FC009;
-	Thu, 11 May 2023 13:03:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
-	t=1683803015; bh=TnIrx9Sr+YwwzAQRDNPaH1tRKUc6B/kK4MrTl299Rxw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oQ/6YFNhh9mzDIpaoH5x4Kg19O3IfuS82T1GpMQb5Ys0ZQBcEcRnpZDWjQPlzkKT/
-	 ZO5goO37qZ8q2L46V6Wta2u2HgWbGtW9IREcTNF4v8xBwrInU/UOf6RkdKc8iKaY16
-	 TDDMNSmLhbXTtvW59vNTZw8RS71xoZGQhry7OJHShcWAzztCKNYMR8+qxJm7VOBUzf
-	 YyLzRrRdw4HTCgiGTD2wOutiRk9G8muBeAxp6sIq8lm43fR5d6YenRFK9hQG7X2GlD
-	 KMn/jtBl7M4Lva99br/zai15tpVfPN6anZ99n7YrrmMbAaasTWvDuYUc+pukNGJcb7
-	 KiGouyFg2JD9Q==
-Received: from localhost (odin.codewreck.org [local])
-	by odin.codewreck.org (OpenSMTPD) with ESMTPA id 12b1c2ba;
-	Thu, 11 May 2023 11:03:27 +0000 (UTC)
-Date: Thu, 11 May 2023 20:03:12 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Pavel Begunkov <asml.silence@gmail.com>, Stefan Roesch <shr@fb.com>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Clay Harris <bugs@claycon.org>, Dave Chinner <david@fromorbit.com>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	io-uring@vger.kernel.org
-Subject: Re: [PATCH v2 4/6] kernfs: implement readdir FMODE_NOWAIT
-Message-ID: <ZFzLcLHvzwqM-uek@codewreck.org>
-References: <20230422-uring-getdents-v2-4-2db1e37dc55e@codewreck.org>
- <4e88ec58-be22-4b0c-968d-fa9a52764c98@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF391B90C
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 14:27:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683815250; x=1715351250;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VLh6fGH5XMAdsBF0447oMhZXSrQZ/FAhLtHCeMVC5p0=;
+  b=gghSssJ0RIh03XRDk+i/n06gRJxMBIoIfULeUQ5Ek2H+OnmGclHmFNsM
+   R898mL/q1Jiqd0ZOk5gWKU8YpfwJ4Zs26sH62O+ucYf/buReGjy5Dtqwj
+   6CKRet+//iY4846P92dvcF2GzuDOQAYbFGVvirhvgGCooThGD2ls9bBnB
+   HNOl+9mj5QuMPyty2/JgPeGAe7eVdDv5XOR5ssLpjMK3MicZfhMXK+ndQ
+   f5XdSgcC6jo+Q+H9Ps1hLC/8GHdEN3NTdI9Bg7HQ4F5KcekjDzboWUPMZ
+   Cz+CS9c7foFgj4j1QK7EWLyvpPgiig5ef5+NUXRO/DKkuOaj50KQjoaWq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="347985627"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
+   d="scan'208";a="347985627"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 07:27:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="677253952"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
+   d="scan'208";a="677253952"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 11 May 2023 07:27:28 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1px7GR-00042q-2l;
+	Thu, 11 May 2023 14:27:27 +0000
+Date: Thu, 11 May 2023 22:27:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v10 4/8] drm/i915/pxp: Add GSC-CS backend to send GSC fw
+ messages
+Message-ID: <202305112231.bPWxVdqV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4e88ec58-be22-4b0c-968d-fa9a52764c98@kili.mountain>
 
-Dan Carpenter wrote on Thu, May 11, 2023 at 01:55:57PM +0300:
-> fd7b9f7b9776b1 Tejun Heo          2013-11-28  1850  		if (!dir_emit(ctx, name, len, ino, type))
-> fd7b9f7b9776b1 Tejun Heo          2013-11-28  1851  			return 0;
-> 393c3714081a53 Minchan Kim        2021-11-18  1852  		down_read(&root->kernfs_rwsem);
->                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> Needs to be deleted.
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: include/drm/drm_print.h:456:39: error: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]"
+:::::: 
 
-Uh, yes, sorry; I'm not sure how I let that slip, I guess I didn't hit
-any dead lock because nothing ever tried to take a write lock after
-getdents...
-Thanks!
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230510174550.986965-5-alan.previn.teres.alexis@intel.com>
+References: <20230510174550.986965-5-alan.previn.teres.alexis@intel.com>
+TO: Alan Previn <alan.previn.teres.alexis@intel.com>
 
-I expect there'll be other comments (this might not make it at all), so
-I'll keep the v3 of this patch with this fix locally and resend after
-other comments.
+Hi Alan,
 
-> a551138c4b3b9f Dominique Martinet 2023-05-10  1853  		if (ctx->flags & DIR_CONTEXT_F_NOWAIT) {
-> a551138c4b3b9f Dominique Martinet 2023-05-10  1854  			if (!down_read_trylock(&root->kernfs_rwsem))
-> a551138c4b3b9f Dominique Martinet 2023-05-10  1855  				return 0;
-> 
-> It's a bit strange the this doesn't return -EAGAIN;
+kernel test robot noticed the following build errors:
 
-That is on purpose: the getdents did work (dir_emit returned success at
-least once), so the caller can process whatever was filled in the buffer
-before calling iterate_shared() again.
+[auto build test ERROR on 92b7f1c42fc99ff1bad5e18d6b1aaa585f134d47]
 
-If we were to return -EAGAIN here, we'd actually be throwing out the
-entries we just filled in, and that's not what we want.
+url:    https://github.com/intel-lab-lkp/linux/commits/Alan-Previn/drm-i915-pxp-Add-GSC-CS-back-end-resource-init-and-cleanup/20230511-014737
+base:   92b7f1c42fc99ff1bad5e18d6b1aaa585f134d47
+patch link:    https://lore.kernel.org/r/20230510174550.986965-5-alan.previn.teres.alexis%40intel.com
+patch subject: [PATCH v10 4/8] drm/i915/pxp: Add GSC-CS backend to send GSC fw messages
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230511/202305112231.bPWxVdqV-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/f1ddfe299e51ec7da3580bbae92126dc61309c03
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Alan-Previn/drm-i915-pxp-Add-GSC-CS-back-end-resource-init-and-cleanup/20230511-014737
+        git checkout f1ddfe299e51ec7da3580bbae92126dc61309c03
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/r/202305112231.bPWxVdqV-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/device.h:15,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from include/linux/static_call.h:135,
+                    from arch/x86/include/asm/perf_event.h:5,
+                    from include/linux/perf_event.h:25,
+                    from drivers/gpu/drm/i915/i915_pmu.h:11,
+                    from drivers/gpu/drm/i915/gt/intel_engine_types.h:21,
+                    from drivers/gpu/drm/i915/gt/intel_context_types.h:18,
+                    from drivers/gpu/drm/i915/gem/i915_gem_context_types.h:20,
+                    from drivers/gpu/drm/i915/i915_request.h:34,
+                    from drivers/gpu/drm/i915/i915_active.h:13,
+                    from drivers/gpu/drm/i915/gt/intel_context.h:13,
+                    from drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c:8:
+   drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c: In function 'gsccs_send_message':
+>> include/drm/drm_print.h:456:39: error: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
+     456 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
+         |                                       ^~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:146:61: note: in expansion of macro 'dev_fmt'
+     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                             ^~~~~~~
+   include/drm/drm_print.h:456:9: note: in expansion of macro 'dev_warn'
+     456 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
+         |         ^~~~
+   include/drm/drm_print.h:466:9: note: in expansion of macro '__drm_printk'
+     466 |         __drm_printk((drm), warn,, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~
+   drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c:112:17: note: in expansion of macro 'drm_warn'
+     112 |                 drm_warn(&i915->drm, "caller with insufficient PXP reply size %u (%ld)\n",
+         |                 ^~~~~~~~
+   cc1: all warnings being treated as errors
+
+
+vim +456 include/drm/drm_print.h
+
+e820f52577b14c Jim Cromie            2022-09-11  416  
+02c9656b2f0d69 Haneen Mohammed       2017-10-17  417  /**
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  418   * DRM_DEV_DEBUG() - Debug output for generic drm code
+02c9656b2f0d69 Haneen Mohammed       2017-10-17  419   *
+306589856399e1 Douglas Anderson      2021-09-21  420   * NOTE: this is deprecated in favor of drm_dbg_core().
+306589856399e1 Douglas Anderson      2021-09-21  421   *
+091756bbb1a961 Haneen Mohammed       2017-10-17  422   * @dev: device pointer
+091756bbb1a961 Haneen Mohammed       2017-10-17  423   * @fmt: printf() like format string.
+02c9656b2f0d69 Haneen Mohammed       2017-10-17  424   */
+db87086492581c Joe Perches           2018-03-16  425  #define DRM_DEV_DEBUG(dev, fmt, ...)					\
+db87086492581c Joe Perches           2018-03-16  426  	drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  427  /**
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  428   * DRM_DEV_DEBUG_DRIVER() - Debug output for vendor specific part of the driver
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  429   *
+306589856399e1 Douglas Anderson      2021-09-21  430   * NOTE: this is deprecated in favor of drm_dbg() or dev_dbg().
+306589856399e1 Douglas Anderson      2021-09-21  431   *
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  432   * @dev: device pointer
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  433   * @fmt: printf() like format string.
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  434   */
+db87086492581c Joe Perches           2018-03-16  435  #define DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)				\
+db87086492581c Joe Perches           2018-03-16  436  	drm_dev_dbg(dev, DRM_UT_DRIVER,	fmt, ##__VA_ARGS__)
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  437  /**
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  438   * DRM_DEV_DEBUG_KMS() - Debug output for modesetting code
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  439   *
+306589856399e1 Douglas Anderson      2021-09-21  440   * NOTE: this is deprecated in favor of drm_dbg_kms().
+306589856399e1 Douglas Anderson      2021-09-21  441   *
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  442   * @dev: device pointer
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  443   * @fmt: printf() like format string.
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  444   */
+db87086492581c Joe Perches           2018-03-16  445  #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)				\
+db87086492581c Joe Perches           2018-03-16  446  	drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+a18b21929453af Lyude Paul            2018-07-16  447  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  448  /*
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  449   * struct drm_device based logging
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  450   *
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  451   * Prefer drm_device based logging over device or prink based logging.
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  452   */
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  453  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  454  /* Helper for struct drm_device based logging. */
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  455  #define __drm_printk(drm, level, type, fmt, ...)			\
+fb6c7ab8718eb2 Jani Nikula           2019-12-10 @456  	dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  457  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  458  
 
 -- 
-Dominique Martinet | Asmadeus
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
