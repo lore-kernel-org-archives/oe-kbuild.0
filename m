@@ -1,42 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773E4443A
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 17:48:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A491320683
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 19:02:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683827323; x=1715363323;
+  t=1683831720; x=1715367720;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Tb6rHfVFZz6UEDvc65c12xpSaEB7OsXEpwVv06w8L64=;
-  b=PEftrrtf08mxp4SA9ZwtibOUKOz5QxVNqdEdVCuMF2N3FBnIjzxZEHiv
-   IbTJcrx9bSJvU7uTN3qRPJgfLJZaW9NAdT5EBGLaK9CQwUHPJ7QcaMmtK
-   fotc9mQ2L7kd/wqIchQHhuXaZBbRjV8VoSay3lQiUTi8Pi4647Viuu+Up
-   x/nBUJjdji3pAx9XcGZGtwoeuktjCViTWkYnq1GnYAEJ07ISzc0y1jGKE
-   lZriNlLU+oQDpE96I9vzBT9CAAZWeHU7Q5DO/mT6BNnQHoXwRBrlsmucy
-   YGPdjWBamMR70dR1egyeTspW+9kXs9LU+xAkJcvpeIgkeOneTS0s8iF5x
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="330936804"
+  bh=ZUxIeU1Lw3norkr4pBcGhAWaGHUnzdpD9wHFG4za5mc=;
+  b=a4+n8gwhSBa1PSb6SyMuQjopb4Bm3QfVI1VQncGBjmHHqQwmR5H34D+P
+   /XE/W1P5T274/Nc5Xe5HlMLPc3lyS0ft82wmraK/euqZV9AEji8pMJhUf
+   yHocPBfulLOzLkWBgl00ZZAzxknbK3Tr5NdbJBrX7fWL51WOiJ9+ZGsh9
+   p6724Qb28yC2/lQrx1wmBxWDlH0xL+DYt24s9NdnVbFSRNZjhemJEmoJW
+   SiLKeEAA1jtpXc5zBjLxdVXIoiooiVo6OHxNMsbc6rxbcnOH1bn8NGDRx
+   E5sjiI7HFbcyXdI7q1QKfgaJbpZOKc+CCx9aUtV0PwlUNbOjnEfN2GREv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="339904005"
 X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; 
-   d="scan'208";a="330936804"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 10:48:42 -0700
+   d="scan'208";a="339904005"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 12:02:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="730466086"
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="677356981"
 X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; 
-   d="scan'208";a="730466086"
+   d="scan'208";a="677356981"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 11 May 2023 10:48:41 -0700
+  by orsmga006.jf.intel.com with ESMTP; 11 May 2023 12:01:58 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxAPA-0004AQ-1W;
-	Thu, 11 May 2023 17:48:40 +0000
-Date: Fri, 12 May 2023 01:48:27 +0800
+	id 1pxBY6-0004CV-0P;
+	Thu, 11 May 2023 19:01:58 +0000
+Date: Fri, 12 May 2023 03:01:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/parisc/kernel/firmware.c:1271 pdc_soft_power_button_panic()
- error: uninitialized symbol 'flags'.
-Message-ID: <202305120100.oE1HWWY5-lkp@intel.com>
+Subject: fs/erofs/zdata.c:991 z_erofs_decompress_pcluster() warn: ambiguous
+ units merge 'pclusterpages' 'page' or 'array_size'
+Message-ID: <202305120241.oOBxWSYQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,52 +49,159 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-CC: Helge Deller <deller@gmx.de>
+TO: Gao Xiang <hsiangkao@linux.alibaba.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   105131df9c3b27673392a6b7ff356360188dc869
-commit: 829632dae8321787525ee37dc4828bbe6edafdae parisc: Replace regular spinlock with spin_trylock on panic path
-date:   8 days ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 8 days ago
-config: parisc-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230512/202305120100.oE1HWWY5-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+head:   80e62bc8487b049696e67ad133c503bf7f6806f7
+commit: fe3e5914e6dc8db743fa587748ce1d9ecd4a5dba erofs: try to leave (de)compressed_pages on stack if possible
+date:   10 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 10 months ago
+config: openrisc-randconfig-m031-20230509 (https://download.01.org/0day-ci/archive/20230512/202305120241.oOBxWSYQ-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305120100.oE1HWWY5-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305120241.oOBxWSYQ-lkp@intel.com/
 
 New smatch warnings:
-arch/parisc/kernel/firmware.c:1271 pdc_soft_power_button_panic() error: uninitialized symbol 'flags'.
+fs/erofs/zdata.c:991 z_erofs_decompress_pcluster() warn: ambiguous units merge 'pclusterpages' 'page' or 'array_size'
+fs/erofs/zdata.c:991 z_erofs_decompress_pcluster() warn: ambiguous units merge 'pclusterpages' 'array_size' or 'page'
 
 Old smatch warnings:
-arch/parisc/kernel/firmware.c:779 pdc_stable_read() warn: inconsistent indenting
-arch/parisc/kernel/firmware.c:805 pdc_stable_write() warn: inconsistent indenting
-arch/parisc/kernel/firmware.c:830 pdc_stable_get_size() warn: inconsistent indenting
-arch/parisc/kernel/firmware.c:850 pdc_stable_verify_contents() warn: inconsistent indenting
-arch/parisc/kernel/firmware.c:869 pdc_stable_initialize() warn: inconsistent indenting
+fs/erofs/zdata.c:542 z_erofs_register_pcluster() warn: passing a valid pointer to 'PTR_ERR'
+fs/erofs/zdata.c:987 z_erofs_decompress_pcluster() warn: ambiguous units merge 'nr_pages' 'page' or 'array_size'
+fs/erofs/zdata.c:987 z_erofs_decompress_pcluster() warn: ambiguous units merge 'nr_pages' 'array_size' or 'page'
 
-vim +/flags +1271 arch/parisc/kernel/firmware.c
+vim +991 fs/erofs/zdata.c
 
-^1da177e4c3f415 Linus Torvalds       2005-04-16  1259  
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1260  int pdc_soft_power_button_panic(int sw_control)
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1261  {
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1262  	int retval;
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1263  	unsigned long flags;
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1264  
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1265  	if (!spin_trylock_irqsave(&pdc_lock, flags)) {
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1266  		pr_emerg("Couldn't enable soft power button\n");
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1267  		return -EBUSY; /* ignored by the panic notifier */
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1268  	}
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1269  
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1270  	retval = mem_pdc_call(PDC_SOFT_POWER, PDC_SOFT_POWER_ENABLE, __pa(pdc_result), sw_control);
-829632dae832178 Guilherme G. Piccoli 2023-02-20 @1271  	spin_unlock_irqrestore(&pdc_lock, flags);
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1272  
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1273  	return retval;
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1274  }
-829632dae832178 Guilherme G. Piccoli 2023-02-20  1275  
+67139e36d97041 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   956  
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   957  static int z_erofs_decompress_pcluster(struct z_erofs_decompress_backend *be,
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   958  				       int err)
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26   959  {
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   960  	struct erofs_sb_info *const sbi = EROFS_SB(be->sb);
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   961  	struct z_erofs_pcluster *pcl = be->pcl;
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29   962  	unsigned int pclusterpages = z_erofs_pclusterpages(pcl);
+9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07   963  	unsigned int i, inputsize, outputsize, llen, nr_pages;
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   964  	struct page *page;
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   965  	int err2;
+b6a76183dea8df drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24   966  	bool overlapped, partial;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26   967  
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29   968  	DBG_BUGON(!READ_ONCE(pcl->nr_pages));
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29   969  	mutex_lock(&pcl->lock);
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29   970  	nr_pages = pcl->nr_pages;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26   971  
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   972  	/* allocate (de)compressed page arrays if cannot be kept on stack */
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   973  	be->decompressed_pages = NULL;
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   974  	be->compressed_pages = NULL;
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   975  	be->onstack_used = 0;
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   976  	if (nr_pages <= Z_EROFS_ONSTACK_PAGES) {
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   977  		be->decompressed_pages = be->onstack_pages;
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   978  		be->onstack_used = nr_pages;
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   979  		memset(be->decompressed_pages, 0,
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   980  		       sizeof(struct page *) * nr_pages);
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   981  	}
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   982  
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   983  	if (pclusterpages + be->onstack_used <= Z_EROFS_ONSTACK_PAGES)
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   984  		be->compressed_pages = be->onstack_pages + be->onstack_used;
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   985  
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   986  	if (!be->decompressed_pages)
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   987  		be->decompressed_pages =
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   988  			kvcalloc(nr_pages, sizeof(struct page *),
+e73681877d4c3a fs/erofs/zdata.c                  Gao Xiang 2022-07-15   989  				 GFP_KERNEL | __GFP_NOFAIL);
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   990  	if (!be->compressed_pages)
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15  @991  		be->compressed_pages =
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   992  			kvcalloc(pclusterpages, sizeof(struct page *),
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   993  				 GFP_KERNEL | __GFP_NOFAIL);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26   994  
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   995  	err2 = z_erofs_parse_out_bvecs(be);
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   996  	if (err2)
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   997  		err = err2;
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   998  	err2 = z_erofs_parse_in_bvecs(be, &overlapped);
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   999  	if (err2)
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1000  		err = err2;
+11152496021ea8 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25  1001  
+8d8a09b093d707 fs/erofs/zdata.c                  Gao Xiang 2019-08-30  1002  	if (err)
+11152496021ea8 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25  1003  		goto out;
+11152496021ea8 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25  1004  
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  1005  	llen = pcl->length >> Z_EROFS_PCLUSTER_LENGTH_BIT;
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1006  	if (nr_pages << PAGE_SHIFT >= pcl->pageofs_out + llen) {
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  1007  		outputsize = llen;
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  1008  		partial = !(pcl->length & Z_EROFS_PCLUSTER_FULL_LENGTH);
+b6a76183dea8df drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24  1009  	} else {
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1010  		outputsize = (nr_pages << PAGE_SHIFT) - pcl->pageofs_out;
+b6a76183dea8df drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24  1011  		partial = true;
+b6a76183dea8df drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24  1012  	}
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1013  
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1014  	if (z_erofs_is_inline_pcluster(pcl))
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1015  		inputsize = pcl->tailpacking_size;
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1016  	else
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1017  		inputsize = pclusterpages * PAGE_SIZE;
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1018  
+88aaf5a79c5cde drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24  1019  	err = z_erofs_decompress(&(struct z_erofs_decompress_req) {
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1020  					.sb = be->sb,
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1021  					.in = be->compressed_pages,
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1022  					.out = be->decompressed_pages,
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1023  					.pageofs_in = pcl->pageofs_in,
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1024  					.pageofs_out = pcl->pageofs_out,
+9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  1025  					.inputsize = inputsize,
+88aaf5a79c5cde drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24  1026  					.outputsize = outputsize,
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  1027  					.alg = pcl->algorithmformat,
+88aaf5a79c5cde drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24  1028  					.inplace_io = overlapped,
+b6a76183dea8df drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24  1029  					.partial_decoding = partial
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1030  				 }, be->pagepool);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1031  
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1032  out:
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1033  	/* must handle all compressed pages before actual file pages */
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1034  	if (z_erofs_is_inline_pcluster(pcl)) {
+ed722fbccadb74 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1035  		page = pcl->compressed_bvecs[0].page;
+ed722fbccadb74 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1036  		WRITE_ONCE(pcl->compressed_bvecs[0].page, NULL);
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1037  		put_page(page);
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1038  	} else {
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1039  		for (i = 0; i < pclusterpages; ++i) {
+ed722fbccadb74 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1040  			page = pcl->compressed_bvecs[i].page;
+af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1041  
+d61fbb6b163494 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25  1042  			if (erofs_page_is_managed(sbi, page))
+af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1043  				continue;
+d61fbb6b163494 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25  1044  
+6aaa7b0664e688 fs/erofs/zdata.c                  Gao Xiang 2020-12-08  1045  			/* recycle all individual short-lived pages */
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1046  			(void)z_erofs_put_shortlivedpage(be->pagepool, page);
+ed722fbccadb74 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1047  			WRITE_ONCE(pcl->compressed_bvecs[i].page, NULL);
+af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1048  		}
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1049  	}
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1050  	if (be->compressed_pages < be->onstack_pages ||
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1051  	    be->compressed_pages >= be->onstack_pages + Z_EROFS_ONSTACK_PAGES)
+fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1052  		kvfree(be->compressed_pages);
+af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1053  
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1054  	for (i = 0; i < nr_pages; ++i) {
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1055  		page = be->decompressed_pages[i];
+af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1056  		if (!page)
+af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1057  			continue;
+af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1058  
+6aaa7b0664e688 fs/erofs/zdata.c                  Gao Xiang 2020-12-08  1059  		DBG_BUGON(z_erofs_page_is_invalidated(page));
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1060  
+6aaa7b0664e688 fs/erofs/zdata.c                  Gao Xiang 2020-12-08  1061  		/* recycle all individual short-lived pages */
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1062  		if (z_erofs_put_shortlivedpage(be->pagepool, page))
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1063  			continue;
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1064  		if (err)
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1065  			z_erofs_page_mark_eio(page);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1066  		z_erofs_onlinepage_endio(page);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1067  	}
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1068  
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1069  	if (be->decompressed_pages != be->onstack_pages)
+4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1070  		kvfree(be->decompressed_pages);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1071  
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1072  	pcl->nr_pages = 0;
+06a304cd9cc095 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1073  	pcl->bvset.nextpage = NULL;
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1074  	pcl->vcnt = 0;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1075  
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1076  	/* pcluster lock MUST be taken before the following line */
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  1077  	WRITE_ONCE(pcl->next, Z_EROFS_PCLUSTER_NIL);
+87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1078  	mutex_unlock(&pcl->lock);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1079  	return err;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1080  }
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1081  
 
 -- 
 0-DAY CI Kernel Test Service
