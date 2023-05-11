@@ -1,42 +1,52 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3A11C774
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 10:48:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683802132; x=1715338132;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wrUYYdJ6LKL7XISaOGeZOiSn95xE16cgKD1ut/rkV2w=;
-  b=kuwocbOkBLg2tP5D1JiKoSuckFGB8/7jXvMmxEXk9ZJTxXDpNM8PVnW4
-   89MwhMy4WZzyrI0B04mf761V8kHYM31iY1/1R7hNQpDoMkHLuUuPgKXdI
-   XCkSwe/BiP4O3XQNi44FOVRZLb7I5jBO8FZcDgwu3R2I4vqn5Divlw9cF
-   P4ZM9EfSfo117uIHkxYb4P+S2nefTahfcebRDkuKVcvPWlj/hOInHPuZr
-   ZULzsPR2nh8DtUQ5HdWM8E281wKgfNVkZFCHg8qOeApT3K2SfvDiqGY55
-   Zgvd7evaun/zCXda4VBkVQIq/RQ7JapYTRyJysu6hYidffdaPELvQkHnX
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="353557837"
-X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
-   d="scan'208";a="353557837"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 03:48:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="693749433"
-X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
-   d="scan'208";a="693749433"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 11 May 2023 03:48:02 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1px3q6-0003xt-0P;
-	Thu, 11 May 2023 10:48:02 +0000
-Date: Thu, 11 May 2023 18:47:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v3 1/2] misc: fastrpc: support complete DMA pool access
- to the DSP
-Message-ID: <202305111801.HWy3NJB3-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248FC1C76F
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 10:52:49 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3f4ad71b00eso11457935e9.2
+        for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 03:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683802366; x=1686394366;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NDBhj27KR354yxCuqIR8nQ0Enpmy7HIOWmEyGFYjPvM=;
+        b=vpVG77K+fYQq9IbnIicPnh+6U80NPZc1JkzuK2dYRf2wha68CvWklO5Yb4dBJzECsb
+         JbrgJkhQx8hp16p3UFedQLL1yMjJKl6zPibT8acJJHxIemlt/LC8ygzdssPU6dB9AnMZ
+         YzHBqCJ3DCVK/hzXqTb/ppnHYmJJ7fxKoa8FkLV8Bsv9Q97QsVfffPY1X6IxdPBJzvio
+         6W+VolZYXjuORsxf64TMk+b0QxvXeFuwmtZ8JxJx6rer8F/fFTEPUH9ncpqPj6FriVXj
+         OeuTog+8I+3dhk+NtqMqfCu09aM36Gx2JFLlAf/VCGH7jaickNWu2bQ96IFOhA+Cb++j
+         r63w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683802366; x=1686394366;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NDBhj27KR354yxCuqIR8nQ0Enpmy7HIOWmEyGFYjPvM=;
+        b=B9ibLzaC00SfYmlIrNS/srbPLAm1V7JYxjcPS4WOkQB4vTgqmTCgJPLSF/XoaIUFVf
+         Xg1jtuNRY60b1pTGWf0c7RGnrRfBR2snzmeJmatkfy/jwmsv9SqJyg6DHaBjUVVwj74s
+         Ht7XtffLbp2xNjaOQzBNhzv1I3bmtNWMjgLy0t3zqUdU4zjjZooaCEqri7MuZkzeI78W
+         htlG5bySzi/tr+soOp5pwxwVxK2UO1GqZEa6qJElpYaIBIXOO7XRDmxQII28tWAw2HL1
+         lgxLxEhlBRGVjQebb6db5dR2jfTMDRWx6QzdTVwxAZZ/nKr1eNcmAnYq6hqzReJLwL8f
+         h7gg==
+X-Gm-Message-State: AC+VfDzamBAbvAloThdBSPc3FjIV76y8N2Zl9n3uU4i6AYY7JLeXHeIy
+	DHLY8evxvyE8ICnUS9MN09NP9teG0HCNPztCInI=
+X-Google-Smtp-Source: ACHHUZ6AK9XHSAZFK8k+X9wtcgdEy9/6iAKy9Y42tWATBZpE2gMXe5wM0YJdpz9OgeVr1CN6CSFxyQ==
+X-Received: by 2002:a7b:c843:0:b0:3f4:b6bc:bd80 with SMTP id c3-20020a7bc843000000b003f4b6bcbd80mr3533902wml.33.1683802366342;
+        Thu, 11 May 2023 03:52:46 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id d6-20020a056000114600b00306344eaebfsm20107119wrx.28.2023.05.11.03.52.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 03:52:45 -0700 (PDT)
+Date: Thu, 11 May 2023 13:52:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Gilad Itzkovitch <gilad.itzkovitch@morsemicro.com>,
+	johannes@sipsolutions.net
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-wireless@vger.kernel.org, quic_jjohnson@quicinc.com,
+	Gilad Itzkovitch <gilad.itzkovitch@morsemicro.com>
+Subject: Re: [PATCH] cfg80211: S1G rate information and calculations
+Message-ID: <468502fa-a43e-4e4c-b00b-cb2af9f7cac1@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,168 +55,146 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230504024923.1925530-1-gilad.itzkovitch@morsemicro.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230507080839.37578-2-me@dylanvanassche.be>
-References: <20230507080839.37578-2-me@dylanvanassche.be>
-TO: Dylan Van Assche <me@dylanvanassche.be>
-
-Hi Dylan,
+Hi Gilad,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.4-rc1 next-20230511]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dylan-Van-Assche/misc-fastrpc-support-complete-DMA-pool-access-to-the-DSP/20230507-161214
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20230507080839.37578-2-me%40dylanvanassche.be
-patch subject: [PATCH v3 1/2] misc: fastrpc: support complete DMA pool access to the DSP
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: mips-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230511/202305111801.HWy3NJB3-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Gilad-Itzkovitch/cfg80211-S1G-rate-information-and-calculations/20230504-105056
+base:   28b17f6270f182e22cdad5a0fdc4979031e4486a
+patch link:    https://lore.kernel.org/r/20230504024923.1925530-1-gilad.itzkovitch%40morsemicro.com
+patch subject: [PATCH] cfg80211: S1G rate information and calculations
+config: microblaze-randconfig-m031-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110435.EhEiLYWA-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305111801.HWy3NJB3-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305110435.EhEiLYWA-lkp@intel.com/
 
 New smatch warnings:
-drivers/misc/fastrpc.c:2283 fastrpc_rpmsg_probe() warn: possible memory leak of 'data'
+net/wireless/util.c:1744 cfg80211_calculate_bitrate_s1g() error: buffer overflow 'base[idx]' 11 <= 11
 
-Old smatch warnings:
-drivers/misc/fastrpc.c:1269 fastrpc_init_create_static_process() error: we previously assumed 'fl->cctx->remote_heap' could be null (see line 1261)
+vim +1744 net/wireless/util.c
 
-vim +/data +2283 drivers/misc/fastrpc.c
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1649  static u32 cfg80211_calculate_bitrate_s1g(struct rate_info *rate)
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1650  {
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1651  	/* For 1, 2, 4, 8 and 16 MHz channels */
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1652  	static const u32 base[5][11] = {
+                                                                                ^^^^
+11 elements.
 
-965602eabb57d0 Srinivas Kandagatla      2022-02-14  2226  
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2227  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2228  {
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2229  	struct device *rdev = &rpdev->dev;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2230  	struct fastrpc_channel_ctx *data;
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2231  	int i, err, domain_id = -1, vmcount;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2232  	const char *domain;
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2233  	bool secure_dsp;
-8bebea279f7a60 Dylan Van Assche         2023-05-07  2234  	struct device_node *rmem_node;
-8bebea279f7a60 Dylan Van Assche         2023-05-07  2235  	struct reserved_mem *rmem;
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2236  	unsigned int vmids[FASTRPC_MAX_VMIDS];
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2237  
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2238  	err = of_property_read_string(rdev->of_node, "label", &domain);
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2239  	if (err) {
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2240  		dev_info(rdev, "FastRPC Domain not specified in DT\n");
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2241  		return err;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2242  	}
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2243  
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2244  	for (i = 0; i <= CDSP_DOMAIN_ID; i++) {
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2245  		if (!strcmp(domains[i], domain)) {
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2246  			domain_id = i;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2247  			break;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2248  		}
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2249  	}
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2250  
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2251  	if (domain_id < 0) {
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2252  		dev_info(rdev, "FastRPC Invalid Domain ID %d\n", domain_id);
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2253  		return -EINVAL;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2254  	}
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2255  
-1ce91d45ba77a4 Abel Vesa                2022-11-25  2256  	if (of_reserved_mem_device_init_by_idx(rdev, rdev->of_node, 0))
-1ce91d45ba77a4 Abel Vesa                2022-11-25  2257  		dev_info(rdev, "no reserved DMA memory for FASTRPC\n");
-1ce91d45ba77a4 Abel Vesa                2022-11-25  2258  
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2259  	vmcount = of_property_read_variable_u32_array(rdev->of_node,
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2260  				"qcom,vmids", &vmids[0], 0, FASTRPC_MAX_VMIDS);
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2261  	if (vmcount < 0)
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2262  		vmcount = 0;
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2263  	else if (!qcom_scm_is_available())
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2264  		return -EPROBE_DEFER;
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2265  
-278d56f970ae6e Bjorn Andersson          2019-08-29  2266  	data = kzalloc(sizeof(*data), GFP_KERNEL);
-278d56f970ae6e Bjorn Andersson          2019-08-29  2267  	if (!data)
-278d56f970ae6e Bjorn Andersson          2019-08-29  2268  		return -ENOMEM;
-278d56f970ae6e Bjorn Andersson          2019-08-29  2269  
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2270  	if (vmcount) {
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2271  		data->vmcount = vmcount;
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2272  		data->perms = BIT(QCOM_SCM_VMID_HLOS);
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2273  		for (i = 0; i < data->vmcount; i++) {
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2274  			data->vmperms[i].vmid = vmids[i];
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2275  			data->vmperms[i].perm = QCOM_SCM_PERM_RWX;
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2276  		}
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2277  	}
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2278  
-8bebea279f7a60 Dylan Van Assche         2023-05-07  2279  	rmem_node = of_parse_phandle(rdev->of_node, "memory-region", 0);
-8bebea279f7a60 Dylan Van Assche         2023-05-07  2280  	if (domain_id == SDSP_DOMAIN_ID && rmem_node) {
-8bebea279f7a60 Dylan Van Assche         2023-05-07  2281  		rmem = of_reserved_mem_lookup(rmem_node);
-8bebea279f7a60 Dylan Van Assche         2023-05-07  2282  		if (!rmem)
-8bebea279f7a60 Dylan Van Assche         2023-05-07 @2283  			return -EINVAL;
-8bebea279f7a60 Dylan Van Assche         2023-05-07  2284  
-8bebea279f7a60 Dylan Van Assche         2023-05-07  2285  		qcom_scm_assign_mem(rmem->base, rmem->size, &data->perms,
-8bebea279f7a60 Dylan Van Assche         2023-05-07  2286  				    data->vmperms, data->vmcount);
-8bebea279f7a60 Dylan Van Assche         2023-05-07  2287  
-8bebea279f7a60 Dylan Van Assche         2023-05-07  2288  	}
-8bebea279f7a60 Dylan Van Assche         2023-05-07  2289  
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2290  	secure_dsp = !(of_property_read_bool(rdev->of_node, "qcom,non-secure-domain"));
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2291  	data->secure = secure_dsp;
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2292  
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2293  	switch (domain_id) {
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2294  	case ADSP_DOMAIN_ID:
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2295  	case MDSP_DOMAIN_ID:
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2296  	case SDSP_DOMAIN_ID:
-7f1f481263c3ce Jeya R                   2022-02-14  2297  		/* Unsigned PD offloading is only supported on CDSP*/
-7f1f481263c3ce Jeya R                   2022-02-14  2298  		data->unsigned_support = false;
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2299  		err = fastrpc_device_register(rdev, data, secure_dsp, domains[domain_id]);
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2300  		if (err)
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2301  			goto fdev_error;
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2302  		break;
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2303  	case CDSP_DOMAIN_ID:
-7f1f481263c3ce Jeya R                   2022-02-14  2304  		data->unsigned_support = true;
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2305  		/* Create both device nodes so that we can allow both Signed and Unsigned PD */
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2306  		err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2307  		if (err)
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2308  			goto fdev_error;
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2309  
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2310  		err = fastrpc_device_register(rdev, data, false, domains[domain_id]);
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2311  		if (err)
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2312  			goto fdev_error;
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2313  		break;
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2314  	default:
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2315  		err = -EINVAL;
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2316  		goto fdev_error;
-0978de9fc7335c Srinivas Kandagatla      2020-05-11  2317  	}
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2318  
-278d56f970ae6e Bjorn Andersson          2019-08-29  2319  	kref_init(&data->refcount);
-278d56f970ae6e Bjorn Andersson          2019-08-29  2320  
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2321  	dev_set_drvdata(&rpdev->dev, data);
-9bde43a0e2f469 Abel Vesa                2022-11-25  2322  	rdev->dma_mask = &data->dma_mask;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2323  	dma_set_mask_and_coherent(rdev, DMA_BIT_MASK(32));
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2324  	INIT_LIST_HEAD(&data->users);
-76e8e4ace1ed2c Abel Vesa                2022-11-25  2325  	INIT_LIST_HEAD(&data->invoke_interrupted_mmaps);
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2326  	spin_lock_init(&data->lock);
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2327  	idr_init(&data->ctx_idr);
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2328  	data->domain_id = domain_id;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2329  	data->rpdev = rpdev;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2330  
-11819ed2b70da9 Christophe JAILLET       2022-11-25  2331  	err = of_platform_populate(rdev->of_node, NULL, NULL, rdev);
-11819ed2b70da9 Christophe JAILLET       2022-11-25  2332  	if (err)
-11819ed2b70da9 Christophe JAILLET       2022-11-25  2333  		goto populate_error;
-11819ed2b70da9 Christophe JAILLET       2022-11-25  2334  
-11819ed2b70da9 Christophe JAILLET       2022-11-25  2335  	return 0;
-11819ed2b70da9 Christophe JAILLET       2022-11-25  2336  
-11819ed2b70da9 Christophe JAILLET       2022-11-25  2337  populate_error:
-11819ed2b70da9 Christophe JAILLET       2022-11-25  2338  	if (data->fdevice)
-11819ed2b70da9 Christophe JAILLET       2022-11-25  2339  		misc_deregister(&data->fdevice->miscdev);
-11819ed2b70da9 Christophe JAILLET       2022-11-25  2340  	if (data->secure_fdevice)
-11819ed2b70da9 Christophe JAILLET       2022-11-25  2341  		misc_deregister(&data->secure_fdevice->miscdev);
-11819ed2b70da9 Christophe JAILLET       2022-11-25  2342  
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2343  fdev_error:
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2344  	kfree(data);
-3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2345  	return err;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2346  }
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2347  
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1653  		{  300000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1654  		   600000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1655  		   900000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1656  		  1200000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1657  		  1800000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1658  		  2400000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1659  		  2700000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1660  		  3000000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1661  		  3600000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1662  		  4000000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1663  		  /* MCS 10 supported in 1 MHz only */
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1664  		  150000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1665  		},
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1666  		{  650000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1667  		  1300000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1668  		  1950000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1669  		  2600000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1670  		  3900000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1671  		  5200000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1672  		  5850000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1673  		  6500000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1674  		  7800000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1675  		  /* MCS 9 not valid */
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1676  		},
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1677  		{  1350000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1678  		   2700000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1679  		   4050000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1680  		   5400000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1681  		   8100000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1682  		  10800000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1683  		  12150000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1684  		  13500000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1685  		  16200000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1686  		  18000000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1687  		},
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1688  		{  2925000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1689  		   5850000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1690  		   8775000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1691  		  11700000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1692  		  17550000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1693  		  23400000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1694  		  26325000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1695  		  29250000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1696  		  35100000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1697  		  39000000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1698  		},
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1699  		{  8580000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1700  		  11700000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1701  		  17550000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1702  		  23400000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1703  		  35100000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1704  		  46800000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1705  		  52650000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1706  		  58500000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1707  		  70200000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1708  		  78000000,
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1709  		},
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1710  	};
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1711  	u32 bitrate;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1712  	/* default is 1 MHz index */
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1713  	int idx = 0;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1714  
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1715  	if (rate->mcs > 11)
+                                                                      ^^^^
+Needs to be >= 11 to prevent off by one.
+
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1716  		goto warn;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1717  
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1718  	switch (rate->bw) {
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1719  	case RATE_INFO_BW_16:
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1720  		idx = 4;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1721  		break;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1722  	case RATE_INFO_BW_8:
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1723  		idx = 3;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1724  		break;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1725  	case RATE_INFO_BW_4:
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1726  		idx = 2;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1727  		break;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1728  	case RATE_INFO_BW_2:
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1729  		idx = 1;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1730  		break;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1731  	case RATE_INFO_BW_1:
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1732  		idx = 0;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1733  		break;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1734  	case RATE_INFO_BW_5:
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1735  	case RATE_INFO_BW_10:
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1736  	case RATE_INFO_BW_20:
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1737  	case RATE_INFO_BW_40:
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1738  	case RATE_INFO_BW_80:
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1739  	case RATE_INFO_BW_160:
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1740  	default:
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1741  		goto warn;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1742  	}
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1743  
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04 @1744  	bitrate = base[idx][rate->mcs];
+                                                                            ^^^^^^^^^
+
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1745  	bitrate *= rate->nss;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1746  
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1747  	if (rate->flags & RATE_INFO_FLAGS_SHORT_GI)
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1748  		bitrate = (bitrate / 9) * 10;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1749  	/* do NOT round down here */
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1750  	return (bitrate + 50000) / 100000;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1751  warn:
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1752  	WARN_ONCE(1, "invalid rate bw=%d, mcs=%d, nss=%d\n",
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1753  		  rate->bw, rate->mcs, rate->nss);
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1754  	return 0;
+d973f1b0d4a136 Gilad Itzkovitch     2023-05-04  1755  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
