@@ -1,231 +1,147 @@
-Received: from mx1.zhaoxin.com (MX1.ZHAOXIN.COM [210.0.225.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE521B919
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 09:20:54 +0000 (UTC)
-X-ASG-Debug-ID: 1683795732-086e237e5073c10001-81cAGA
-Received: from ZXSHMBX2.zhaoxin.com (ZXSHMBX2.zhaoxin.com [10.28.252.164]) by mx1.zhaoxin.com with ESMTP id PI4CQ8RqxCkerOfb (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Thu, 11 May 2023 17:02:12 +0800 (CST)
-X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX2.zhaoxin.com
- (10.28.252.164) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 11 May
- 2023 17:02:12 +0800
-Received: from [192.168.3.65] (222.128.104.110) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 11 May
- 2023 17:02:11 +0800
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
-Message-ID: <55815ff0-cb80-e3d9-ee00-a5ce767769d6@zhaoxin.com>
-X-Barracuda-RBL-Trusted-Forwarder: 192.168.3.65
-Date: Fri, 12 May 2023 01:02:08 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552E41C774
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 10:48:15 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f41d087b24so40161775e9.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 03:48:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683802092; x=1686394092;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7JADIWBUmOCU2mF7tw9c2hF0lxUUJ8uvybFtNfl4/Wg=;
+        b=lNzPM1R+cRkJltiSWXf5AKeqHJ3arnTbuez6xeRf9mGoCm3QmVLbkuLXG3lAlMGoaU
+         4UEWJh0zNnpOPBVgyc8QnDkc8pspCPRVe/uidq8EOzkNY9aLiUP5RQC5d2/QnIAUFMFK
+         cseqfGp2ccftld32jGfBoZILRpCGq1+hgqiOChCm26NRvR5g93E1tLTukMaOv/toAIIl
+         TZrDi0xsywaLpuxLhqyPKmFoBosXJdz3Zvg0847rBjPx23+QcRgrAoB2xWPc0KQaAUdU
+         YhcrqHKUGTq7sJ9ylO2qve5qjJDkEREcn1K1e3aYJKTIwVzr68IIjb19zaLDnXysryM+
+         ud2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683802092; x=1686394092;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7JADIWBUmOCU2mF7tw9c2hF0lxUUJ8uvybFtNfl4/Wg=;
+        b=RdMyeXSQptILgs+Qa9+q/peCv2q8arMxI3NoJnVaX+Xxl3D4NXpIKlXpzYoSuLc+0K
+         zAZHamMWhLTJorcanAgW9rLQiuIflz9LeECUimuBvZizrxYGWMqKGOcfEpez5oFa6IT1
+         SmMQGWPmCUhbAE0PTawZaOV4zeBXsCB4cOXAynAZ8qV5OK1e7LSWWE0MRH2rC0Foto38
+         RzyU4Qze+UxZRmMKy4NpFop74j7O9ZH0bh+bSWSQc29/H9qjranK2/WLzl0GnLwIMjcj
+         LObY3EeZdavej+6qy3476dvDe1vo0+6FBMGcLt02SE2VufViFPrYhFzg+y5MVxo4XkgJ
+         TLzQ==
+X-Gm-Message-State: AC+VfDxYf/SBfkH7jifkBfQjv+fCwJIE7RG+EybpDWIWVyOg/d9B+FGD
+	hdH7qJZHCqrxDJi7wfSBTEpPkFWDAGOk0klMrzA=
+X-Google-Smtp-Source: ACHHUZ7Va8iFg38r9ewoleVUC9xSujzB06Xl3uWpcybKri8RNGNNtHBcP2WyQKx3+cSC2BTzIsl/Bg==
+X-Received: by 2002:a5d:6990:0:b0:306:2d15:fc35 with SMTP id g16-20020a5d6990000000b003062d15fc35mr14039198wru.37.1683802092418;
+        Thu, 11 May 2023 03:48:12 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p5-20020a7bcc85000000b003f4dde07956sm3641919wma.42.2023.05.11.03.48.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 03:48:10 -0700 (PDT)
+Date: Thu, 11 May 2023 13:48:03 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: drivers/iio/accel/kionix-kx022a.c:1053 kx022a_probe_internal() warn:
+ passing zero to 'dev_err_probe'
+Message-ID: <46296e39-dbc1-4f27-b89c-af6f08d9f318@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [mnyman-xhci:for-usb-next 10/11] drivers/usb/host/xhci-mem.c:2040
- xhci_add_in_port() error: uninitialized symbol 'tmp_minor_revision'.
-Content-Language: en-US
-X-ASG-Orig-Subj: Re: [mnyman-xhci:for-usb-next 10/11] drivers/usb/host/xhci-mem.c:2040
- xhci_add_in_port() error: uninitialized symbol 'tmp_minor_revision'.
-To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>
-CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Mathias Nyman
-	<mathias.nyman@linux.intel.com>
-References: <0cb9bebf-c126-433b-9ee9-e6f44b4652b4@kili.mountain>
-From: "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
-In-Reply-To: <0cb9bebf-c126-433b-9ee9-e6f44b4652b4@kili.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [222.128.104.110]
-X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
-X-Barracuda-Connect: ZXSHMBX2.zhaoxin.com[10.28.252.164]
-X-Barracuda-Start-Time: 1683795732
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://10.28.252.35:4443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 12914
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
-X-Barracuda-Spam-Score: 1.49
-X-Barracuda-Spam-Status: No, SCORE=1.49 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=BSF_SC0_SA085b, DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2, MAILTO_TO_SPAM_ADDR
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.108617
-	Rule breakdown below
-	 pts rule name              description
-	---- ---------------------- --------------------------------------------------
-	0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
-	0.00 MAILTO_TO_SPAM_ADDR    Includes a link to a likely spammer email
-	0.40 BSF_SC0_SA085b         Custom Rule SA085b
-	3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2023/5/11 00:51, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git for-usb-next
-> head:   de6fcb4b6f1c55298b3ed0dd3d43961f86aa1b12
-> commit: efcf3bab0767e057d8727b9a211fbb4fb4cdc81e [10/11] xhci: Show ZHAOXIN xHCI root hub speed correctly
-> config: loongarch-randconfig-m031-20230509 (https://download.01.org/0day-ci/archive/20230510/202305102129.39U7mZoj-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 12.1.0
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202305102129.39U7mZoj-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/usb/host/xhci-mem.c:2040 xhci_add_in_port() error: uninitialized symbol 'tmp_minor_revision'.
-> 
-> vim +/tmp_minor_revision +2040 drivers/usb/host/xhci-mem.c
-> 
-> da6699ce4a889c Sarah Sharp      2010-10-26  1959  static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
-> d5ddcdf4d672fd Mathias Nyman    2015-11-24  1960  		__le32 __iomem *addr, int max_caps)
-> da6699ce4a889c Sarah Sharp      2010-10-26  1961  {
-> da6699ce4a889c Sarah Sharp      2010-10-26  1962  	u32 temp, port_offset, port_count;
-> da6699ce4a889c Sarah Sharp      2010-10-26  1963  	int i;
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1964  	u8 major_revision, minor_revision, tmp_minor_revision;
-> 47189098f8bebe Mathias Nyman    2015-10-01  1965  	struct xhci_hub *rhub;
-> a965315e59f3cb Adam Wallis      2018-05-22  1966  	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  1967  	struct xhci_port_cap *port_cap;
-> da6699ce4a889c Sarah Sharp      2010-10-26  1968
-> 47189098f8bebe Mathias Nyman    2015-10-01  1969  	temp = readl(addr);
-> d5ddcdf4d672fd Mathias Nyman    2015-11-24  1970  	major_revision = XHCI_EXT_PORT_MAJOR(temp);
-> b72eb8435b25be YD Tseng         2017-06-09  1971  	minor_revision = XHCI_EXT_PORT_MINOR(temp);
-> 47189098f8bebe Mathias Nyman    2015-10-01  1972
-> d5ddcdf4d672fd Mathias Nyman    2015-11-24  1973  	if (major_revision == 0x03) {
-> 47189098f8bebe Mathias Nyman    2015-10-01  1974  		rhub = &xhci->usb3_rhub;
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1975  		/*
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1976  		 * Some hosts incorrectly use sub-minor version for minor
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1977  		 * version (i.e. 0x02 instead of 0x20 for bcdUSB 0x320 and 0x01
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1978  		 * for bcdUSB 0x310). Since there is no USB release with sub
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1979  		 * minor version 0x301 to 0x309, we can assume that they are
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1980  		 * incorrect and fix it here.
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1981  		 */
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1982  		if (minor_revision > 0x00 && minor_revision < 0x10)
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1983  			minor_revision <<= 4;
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1984  		/*
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1985  		 * Some zhaoxin's xHCI controller that follow usb3.1 spec
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1986  		 * but only support Gen1.
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1987  		 */
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1988  		if (xhci->quirks & XHCI_ZHAOXIN_HOST) {
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1989  			tmp_minor_revision = minor_revision;
-> 
-> tmp_minor_revision is only set for major_revision == 0x03
-> (also XHCI_ZHAOXIN_HOST).
-> 
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1990  			minor_revision = 0;
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1991  		}
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1992
-> d5ddcdf4d672fd Mathias Nyman    2015-11-24  1993  	} else if (major_revision <= 0x02) {
-> 47189098f8bebe Mathias Nyman    2015-10-01  1994  		rhub = &xhci->usb2_rhub;
-> 47189098f8bebe Mathias Nyman    2015-10-01  1995  	} else {
-> 4feb07d0ada339 Andy Shevchenko  2023-03-17  1996  		xhci_warn(xhci, "Ignoring unknown port speed, Ext Cap %p, revision = 0x%x\n",
-> da6699ce4a889c Sarah Sharp      2010-10-26  1997  				addr, major_revision);
-> da6699ce4a889c Sarah Sharp      2010-10-26  1998  		/* Ignoring port protocol we can't understand. FIXME */
-> da6699ce4a889c Sarah Sharp      2010-10-26  1999  		return;
-> da6699ce4a889c Sarah Sharp      2010-10-26  2000  	}
-> da6699ce4a889c Sarah Sharp      2010-10-26  2001
-> da6699ce4a889c Sarah Sharp      2010-10-26  2002  	/* Port offset and count in the third dword, see section 7.2 */
-> b0ba9720846c98 Xenia Ragiadakou 2013-11-15  2003  	temp = readl(addr + 2);
-> da6699ce4a889c Sarah Sharp      2010-10-26  2004  	port_offset = XHCI_EXT_PORT_OFF(temp);
-> da6699ce4a889c Sarah Sharp      2010-10-26  2005  	port_count = XHCI_EXT_PORT_COUNT(temp);
-> d195fcffe4c82c Xenia Ragiadakou 2013-08-14  2006  	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
-> 4feb07d0ada339 Andy Shevchenko  2023-03-17  2007  		       "Ext Cap %p, port offset = %u, count = %u, revision = 0x%x",
-> da6699ce4a889c Sarah Sharp      2010-10-26  2008  		       addr, port_offset, port_count, major_revision);
-> da6699ce4a889c Sarah Sharp      2010-10-26  2009  	/* Port count includes the current port offset */
-> da6699ce4a889c Sarah Sharp      2010-10-26  2010  	if (port_offset == 0 || (port_offset + port_count - 1) > num_ports)
-> da6699ce4a889c Sarah Sharp      2010-10-26  2011  		/* WTF? "Valid values are ‘1’ to MaxPorts" */
-> da6699ce4a889c Sarah Sharp      2010-10-26  2012  		return;
-> fc71ff7583b143 Andiry Xu        2011-09-23  2013
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2014  	port_cap = &xhci->port_caps[xhci->num_port_caps++];
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2015  	if (xhci->num_port_caps > max_caps)
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2016  		return;
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2017
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2018  	port_cap->psi_count = XHCI_EXT_PORT_PSIC(temp);
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2019
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2020  	if (port_cap->psi_count) {
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2021  		port_cap->psi = kcalloc_node(port_cap->psi_count,
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2022  					     sizeof(*port_cap->psi),
-> a965315e59f3cb Adam Wallis      2018-05-22  2023  					     GFP_KERNEL, dev_to_node(dev));
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2024  		if (!port_cap->psi)
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2025  			port_cap->psi_count = 0;
-> 47189098f8bebe Mathias Nyman    2015-10-01  2026
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2027  		port_cap->psi_uid_count++;
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2028  		for (i = 0; i < port_cap->psi_count; i++) {
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2029  			port_cap->psi[i] = readl(addr + 4 + i);
-> 47189098f8bebe Mathias Nyman    2015-10-01  2030
-> 47189098f8bebe Mathias Nyman    2015-10-01  2031  			/* count unique ID values, two consecutive entries can
-> 47189098f8bebe Mathias Nyman    2015-10-01  2032  			 * have the same ID if link is assymetric
-> 47189098f8bebe Mathias Nyman    2015-10-01  2033  			 */
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2034  			if (i && (XHCI_EXT_PORT_PSIV(port_cap->psi[i]) !=
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2035  				  XHCI_EXT_PORT_PSIV(port_cap->psi[i - 1])))
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2036  				port_cap->psi_uid_count++;
-> 47189098f8bebe Mathias Nyman    2015-10-01  2037
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2038  			if (xhci->quirks & XHCI_ZHAOXIN_HOST &&
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2039  					XHCI_EXT_PORT_PSIV(port_cap->psi[i]) >= 5)
-> efcf3bab0767e0 Weitao Wang      2023-05-09 @2040  				minor_revision = tmp_minor_revision;
-> 
-> We know XHCI_ZHAOXIN_HOST, but we don't know if major_revision == 0x03.
-> 
-Thanks for your report. I would link to  explain it.
-This condition "XHCI_EXT_PORT_PSIV(port_cap->psi[i]) >= 5" implies that
-major_revision is equal to 0x03 in xHCI spec.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ad2fd53a7870a395b8564697bef6c329d017c6c9
+commit: 7c1d1677b3227c6b18ac999f2b84778baa280b8f iio: accel: Support Kionix/ROHM KX022A accelerometer
+config: openrisc-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110245.MFxC9bUj-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
-Best Regards,
-Weitao
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2041
-> 47189098f8bebe Mathias Nyman    2015-10-01  2042  			xhci_dbg(xhci, "PSIV:%d PSIE:%d PLT:%d PFD:%d LP:%d PSIM:%d\n",
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2043  				  XHCI_EXT_PORT_PSIV(port_cap->psi[i]),
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2044  				  XHCI_EXT_PORT_PSIE(port_cap->psi[i]),
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2045  				  XHCI_EXT_PORT_PLT(port_cap->psi[i]),
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2046  				  XHCI_EXT_PORT_PFD(port_cap->psi[i]),
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2047  				  XHCI_EXT_PORT_LP(port_cap->psi[i]),
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2048  				  XHCI_EXT_PORT_PSIM(port_cap->psi[i]));
-> 47189098f8bebe Mathias Nyman    2015-10-01  2049  		}
-> 47189098f8bebe Mathias Nyman    2015-10-01  2050  	}
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2051
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2052  	rhub->maj_rev = major_revision;
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2053
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2054  	if (rhub->min_rev < minor_revision)
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2055  		rhub->min_rev = minor_revision;
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2056
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2057  	port_cap->maj_rev = major_revision;
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2058  	port_cap->min_rev = minor_revision;
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2059
-> b630d4b9d05ba2 Mathias Nyman    2013-05-23  2060  	/* cache usb2 port capabilities */
-> b630d4b9d05ba2 Mathias Nyman    2013-05-23  2061  	if (major_revision < 0x03 && xhci->num_ext_caps < max_caps)
-> b630d4b9d05ba2 Mathias Nyman    2013-05-23  2062  		xhci->ext_caps[xhci->num_ext_caps++] = temp;
-> b630d4b9d05ba2 Mathias Nyman    2013-05-23  2063
-> f1fd62a6b6c62e Zeng Tao         2018-12-07  2064  	if ((xhci->hci_version >= 0x100) && (major_revision != 0x03) &&
-> f1fd62a6b6c62e Zeng Tao         2018-12-07  2065  		 (temp & XHCI_HLC)) {
-> d195fcffe4c82c Xenia Ragiadakou 2013-08-14  2066  		xhci_dbg_trace(xhci, trace_xhci_dbg_init,
-> d195fcffe4c82c Xenia Ragiadakou 2013-08-14  2067  			       "xHCI 1.0: support USB2 hardware lpm");
-> fc71ff7583b143 Andiry Xu        2011-09-23  2068  		xhci->hw_lpm_support = 1;
-> fc71ff7583b143 Andiry Xu        2011-09-23  2069  	}
-> fc71ff7583b143 Andiry Xu        2011-09-23  2070
-> da6699ce4a889c Sarah Sharp      2010-10-26  2071  	port_offset--;
-> da6699ce4a889c Sarah Sharp      2010-10-26  2072  	for (i = port_offset; i < (port_offset + port_count); i++) {
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2073  		struct xhci_port *hw_port = &xhci->hw_ports[i];
-> da6699ce4a889c Sarah Sharp      2010-10-26  2074  		/* Duplicate entry.  Ignore the port if the revisions differ. */
-> 07f7619053874b Mathias Nyman    2018-05-21  2075  		if (hw_port->rhub) {
-> 4feb07d0ada339 Andy Shevchenko  2023-03-17  2076  			xhci_warn(xhci, "Duplicate port entry, Ext Cap %p, port %u\n", addr, i);
-> 4feb07d0ada339 Andy Shevchenko  2023-03-17  2077  			xhci_warn(xhci, "Port was marked as USB %u, duplicated as USB %u\n",
-> 07f7619053874b Mathias Nyman    2018-05-21  2078  					hw_port->rhub->maj_rev, major_revision);
-> da6699ce4a889c Sarah Sharp      2010-10-26  2079  			/* Only adjust the roothub port counts if we haven't
-> da6699ce4a889c Sarah Sharp      2010-10-26  2080  			 * found a similar duplicate.
-> da6699ce4a889c Sarah Sharp      2010-10-26  2081  			 */
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2082  			if (hw_port->rhub != rhub &&
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2083  				 hw_port->hcd_portnum != DUPLICATE_ENTRY) {
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2084  				hw_port->rhub->num_ports--;
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2085  				hw_port->hcd_portnum = DUPLICATE_ENTRY;
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2086  			}
-> f8bbeabc34aa94 Sarah Sharp      2010-12-09  2087  			continue;
-> da6699ce4a889c Sarah Sharp      2010-10-26  2088  		}
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2089  		hw_port->rhub = rhub;
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2090  		hw_port->port_cap = port_cap;
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2091  		rhub->num_ports++;
-> da6699ce4a889c Sarah Sharp      2010-10-26  2092  	}
-> da6699ce4a889c Sarah Sharp      2010-10-26  2093  	/* FIXME: Should we disable ports not in the Extended Capabilities? */
-> da6699ce4a889c Sarah Sharp      2010-10-26  2094  }
-> 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202305110245.MFxC9bUj-lkp@intel.com/
+
+smatch warnings:
+drivers/iio/accel/kionix-kx022a.c:1053 kx022a_probe_internal() warn: passing zero to 'dev_err_probe'
+
+vim +/dev_err_probe +1053 drivers/iio/accel/kionix-kx022a.c
+
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1000  int kx022a_probe_internal(struct device *dev)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1001  {
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1002  	static const char * const regulator_names[] = {"io-vdd", "vdd"};
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1003  	struct iio_trigger *indio_trig;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1004  	struct fwnode_handle *fwnode;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1005  	struct kx022a_data *data;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1006  	struct regmap *regmap;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1007  	unsigned int chip_id;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1008  	struct iio_dev *idev;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1009  	int ret, irq;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1010  	char *name;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1011  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1012  	regmap = dev_get_regmap(dev, NULL);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1013  	if (!regmap) {
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1014  		dev_err(dev, "no regmap\n");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1015  		return -EINVAL;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1016  	}
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1017  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1018  	fwnode = dev_fwnode(dev);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1019  	if (!fwnode)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1020  		return -ENODEV;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1021  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1022  	idev = devm_iio_device_alloc(dev, sizeof(*data));
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1023  	if (!idev)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1024  		return -ENOMEM;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1025  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1026  	data = iio_priv(idev);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1027  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1028  	/*
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1029  	 * VDD is the analog and digital domain voltage supply and
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1030  	 * IO_VDD is the digital I/O voltage supply.
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1031  	 */
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1032  	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(regulator_names),
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1033  					     regulator_names);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1034  	if (ret && ret != -ENODEV)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1035  		return dev_err_probe(dev, ret, "failed to enable regulator\n");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1036  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1037  	ret = regmap_read(regmap, KX022A_REG_WHO, &chip_id);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1038  	if (ret)
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1039  		return dev_err_probe(dev, ret, "Failed to access sensor\n");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1040  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1041  	if (chip_id != KX022A_ID) {
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1042  		dev_err(dev, "unsupported device 0x%x\n", chip_id);
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1043  		return -EINVAL;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1044  	}
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1045  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1046  	irq = fwnode_irq_get_byname(fwnode, "INT1");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1047  	if (irq > 0) {
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1048  		data->inc_reg = KX022A_REG_INC1;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1049  		data->ien_reg = KX022A_REG_INC4;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1050  	} else {
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1051  		irq = fwnode_irq_get_byname(fwnode, "INT2");
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1052  		if (irq <= 0)
+                                                                    ^^^^^^^^
+This code assumes fwnode_irq_get_byname() can return zero.
+
+7c1d1677b3227c Matti Vaittinen 2022-10-24 @1053  			return dev_err_probe(dev, irq, "No suitable IRQ\n");
+
+But fortunately, it can't otherwise this would return success.
+
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1054  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1055  		data->inc_reg = KX022A_REG_INC5;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1056  		data->ien_reg = KX022A_REG_INC6;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1057  	}
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1058  
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1059  	data->regmap = regmap;
+7c1d1677b3227c Matti Vaittinen 2022-10-24  1060  	data->dev = dev;
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
+
