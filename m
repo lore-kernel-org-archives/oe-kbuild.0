@@ -1,56 +1,54 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B649628F1
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 10:56:20 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f4c6c4b51eso16336765e9.2
-        for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 03:56:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C05174FD
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 10:57:16 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3f42d937d61so25752115e9.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 03:57:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683802578; x=1686394578;
+        d=linaro.org; s=google; t=1683802634; x=1686394634;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8UsFW/OKFLWzrfCHWAMRNvjMDP4f9tp8Nm34IOcM96Q=;
-        b=Fna4hgvy4ayNdl2Mw7PgG9YfGLMggJPpJVbidjfaUama/51qz00nOGttQcvAWaDqwB
-         u9TL2r8S9+R9piJxfwOCKdDBo4I0rl+Ed5PdQOtkqP6FxMxJU4kbkFqREqyQZff2cUrL
-         NV5IEszFMo+s12cAjxzLlIRk2YUAF7UObDdWykNUzVMk//jNKVw1rEvGJapVQy9L6pJE
-         IwzUs9NhPh6si5MlYEr+ftyW9jwY5vBqU0aNJ4vRsEEROKpIybncvu/FPLDQ8IYxHp7i
-         9kmw03xUvVfIuqGHL9tBm4LEU84SBmrla8GdQ+wyDwvwhRcCZ6GWuP5v0CSlquPlI+Bl
-         FP/A==
+        bh=riHRWt/DT+R28lyCQk8l026iqpHj8sFQPrXZkKMI/V8=;
+        b=NlqxWhQSqp4pPP59kmIiP6KPGwkBx08LzsGm5JsdqN3td5dPO+XFwobTm0PqtfPBHg
+         4l6907DDc2X68t7KDWg8o8avYdocnLTiKS6QPBP5Vd5mnExC95O0xoSVoyQEdhi39CC8
+         o0WYpK7xCePuEnZUHdcVc1vjT7t79VXMTMiEvkl8uYN5MFvh/Wz/JHhbqQHhV32HJRrC
+         i3u+iWOZApClFv5zvbFR+lPb7iu85MysO+nTlF+DnoRrcRbzeKclryegFYCdS3eL0VZl
+         vG/6/Me2bbPRQeqp2s1iza9kYcHtnxMFOVFenwm8YNnuAGDOwPUwTRaub4LSlf5sM+gF
+         xhcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683802578; x=1686394578;
+        d=1e100.net; s=20221208; t=1683802634; x=1686394634;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8UsFW/OKFLWzrfCHWAMRNvjMDP4f9tp8Nm34IOcM96Q=;
-        b=cyX1Tx30oyhan6K9vGpxicNMmAjxSqIt5JXPsz8YmA2BtoAhHfRyLLoIfmwmqcBgJ4
-         OeuxYshVcrK202Uvj0olgsfrD2ze/jvStlqW3VGLcZAL8ULTy0Xc5uuJCmjeMm6l1nLw
-         L6/bokANV30vUwRk28uyBUR82gNtzjdiJHwrQR1xZSCDivQ79Gbs6uB5lNAnmxVobkK4
-         eoJI56fEQ4dyxyMeybbnTp6a03GfLGDPsbM9b00ThU9LDQohWAJqprkl1oNQ4d3YSYZC
-         nlynRdrA87C6dOCtyEb44I26SQ0RrMm7Ha9HK/q1jwWP16g/0zasX4Sa/TkjfVrTJaBd
-         jwPw==
-X-Gm-Message-State: AC+VfDxv3xtzpW3sRynVsObhC1BVd1DI72lTq+oonwYXsW6+mNkzmI7M
-	KNlfngtKfrYHhGYJsRnaQdFqUXZv1HUMK1jBijQ=
-X-Google-Smtp-Source: ACHHUZ5Qb4Owy3olfvWB+XIkZ9U0CNEoY63lEPKXoLzpv/B9Aw7XlwLxfHWcozMz880g73eeikEk7w==
-X-Received: by 2002:a05:600c:2047:b0:3f4:2452:9675 with SMTP id p7-20020a05600c204700b003f424529675mr9666596wmg.0.1683802577815;
-        Thu, 11 May 2023 03:56:17 -0700 (PDT)
+        bh=riHRWt/DT+R28lyCQk8l026iqpHj8sFQPrXZkKMI/V8=;
+        b=HHua1upX9EunEMaWA0xIWjfitHJFnFEpGC5xxg9DKO4Wq6NNC2paBf5ezcHFs0pYt3
+         NvBn0EE29BAzMdno3JOETfWmNb3tQNiVJ37pbFyUNQIcBOs9W/xtqye+dHGBt70S8w+2
+         Fs/olaH61jMEv2NtFUlb2d+JmuaKmSbDuJzRsRrT9L32xw9IaYAPzJqBV0VXAvU+ZkQC
+         IcqnSvCdlsBfxAWUryYiIDUpLKTjEo49xigO0ghWS/fMHa3FHVLx1V5ECPR6niBPXyz8
+         3KFbTWBwP5fswX/maMx6EPoO/YB3TCaBSlR1QpIK1zidK8YZos4CrYq5ZGRTmHwHiUQK
+         4BzA==
+X-Gm-Message-State: AC+VfDy3w5/ymGbLjqqCtKeJv/30c6WaVTBblMxL24mVkB9zsCfVu8Oc
+	UdRb6R6MzjrghND4lrRIkIx+mIls+fW+tQ/Nqbc=
+X-Google-Smtp-Source: ACHHUZ4IgK5mNu3z2Q2O5fEX2GY1HT2CzWIHuj09gR8HPhiprguCuf6QlexEz5Hz9AoAYzkpp0ixNQ==
+X-Received: by 2002:a05:600c:3646:b0:3f4:2215:6d6 with SMTP id y6-20020a05600c364600b003f4221506d6mr12162026wmq.33.1683802634018;
+        Thu, 11 May 2023 03:57:14 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id f5-20020adff985000000b002fda1b12a0bsm20319280wrr.2.2023.05.11.03.55.59
+        by smtp.gmail.com with ESMTPSA id y18-20020a5d6212000000b0030796e103a1sm11826810wru.5.2023.05.11.03.57.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 03:56:15 -0700 (PDT)
-Date: Thu, 11 May 2023 13:55:57 +0300
+        Thu, 11 May 2023 03:57:12 -0700 (PDT)
+Date: Thu, 11 May 2023 13:57:07 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dominique Martinet <asmadeus@codewreck.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Pavel Begunkov <asml.silence@gmail.com>, Stefan Roesch <shr@fb.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Clay Harris <bugs@claycon.org>, Dave Chinner <david@fromorbit.com>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	io-uring@vger.kernel.org,
-	Dominique Martinet <asmadeus@codewreck.org>
-Subject: Re: [PATCH v2 4/6] kernfs: implement readdir FMODE_NOWAIT
-Message-ID: <4e88ec58-be22-4b0c-968d-fa9a52764c98@kili.mountain>
+To: oe-kbuild@lists.linux.dev, Wenchao Hao <haowenchao2@huawei.com>,
+	"James E . J . Bottomley" <jejb@linux.ibm.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	Douglas Gilbert <dgilbert@interlog.com>, linux-scsi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linfeilong@huawei.com,
+	louhongxiang@huawei.com, Wenchao Hao <haowenchao2@huawei.com>
+Subject: Re: [PATCH v2 2/6] scsi:scsi_debug: Add interface to manage single
+ device's error inject
+Message-ID: <5f8d3e23-9ac7-4ed2-bf5b-1d247109869a@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,85 +57,53 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230422-uring-getdents-v2-4-2db1e37dc55e@codewreck.org>
+In-Reply-To: <20230428013320.347050-3-haowenchao2@huawei.com>
 
-Hi Dominique,
+Hi Wenchao,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dominique-Martinet/fs-split-off-vfs_getdents-function-of-getdents64-syscall/20230510-185542
-base:   58390c8ce1bddb6c623f62e7ed36383e7fa5c02f
-patch link:    https://lore.kernel.org/r/20230422-uring-getdents-v2-4-2db1e37dc55e%40codewreck.org
-patch subject: [PATCH v2 4/6] kernfs: implement readdir FMODE_NOWAIT
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230511/202305110647.eSnSEulg-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wenchao-Hao/scsi-scsi_debug-create-scsi_debug-directory-in-the-debugfs-filesystem/20230427-201534
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230428013320.347050-3-haowenchao2%40huawei.com
+patch subject: [PATCH v2 2/6] scsi:scsi_debug: Add interface to manage single device's error inject
+config: mips-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110949.SGOuSCr6-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305110647.eSnSEulg-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305110949.SGOuSCr6-lkp@intel.com/
 
 smatch warnings:
-fs/kernfs/dir.c:1863 kernfs_fop_readdir() warn: inconsistent returns '&root->kernfs_rwsem'.
+drivers/scsi/scsi_debug.c:5359 scsi_debug_slave_destroy() warn: variable dereferenced before check 'devip' (see line 5358)
 
-vim +1863 fs/kernfs/dir.c
+vim +/devip +5359 drivers/scsi/scsi_debug.c
 
-c637b8acbe079e Tejun Heo          2013-12-11  1815  static int kernfs_fop_readdir(struct file *file, struct dir_context *ctx)
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1816  {
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1817  	struct dentry *dentry = file->f_path.dentry;
-319ba91d352a74 Shaohua Li         2017-07-12  1818  	struct kernfs_node *parent = kernfs_dentry_node(dentry);
-324a56e16e44ba Tejun Heo          2013-12-11  1819  	struct kernfs_node *pos = file->private_data;
-393c3714081a53 Minchan Kim        2021-11-18  1820  	struct kernfs_root *root;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1821  	const void *ns = NULL;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1822  
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1823  	if (!dir_emit_dots(file, ctx))
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1824  		return 0;
-393c3714081a53 Minchan Kim        2021-11-18  1825  
-393c3714081a53 Minchan Kim        2021-11-18  1826  	root = kernfs_root(parent);
-a551138c4b3b9f Dominique Martinet 2023-05-10  1827  	if (ctx->flags & DIR_CONTEXT_F_NOWAIT) {
-a551138c4b3b9f Dominique Martinet 2023-05-10  1828  		if (!down_read_trylock(&root->kernfs_rwsem))
-a551138c4b3b9f Dominique Martinet 2023-05-10  1829  			return -EAGAIN;
-a551138c4b3b9f Dominique Martinet 2023-05-10  1830  	} else {
-393c3714081a53 Minchan Kim        2021-11-18  1831  		down_read(&root->kernfs_rwsem);
-a551138c4b3b9f Dominique Martinet 2023-05-10  1832  	}
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1833  
-324a56e16e44ba Tejun Heo          2013-12-11  1834  	if (kernfs_ns_enabled(parent))
-c525aaddc366df Tejun Heo          2013-12-11  1835  		ns = kernfs_info(dentry->d_sb)->ns;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1836  
-c637b8acbe079e Tejun Heo          2013-12-11  1837  	for (pos = kernfs_dir_pos(ns, parent, ctx->pos, pos);
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1838  	     pos;
-c637b8acbe079e Tejun Heo          2013-12-11  1839  	     pos = kernfs_dir_next_pos(ns, parent, ctx->pos, pos)) {
-adc5e8b58f4886 Tejun Heo          2013-12-11  1840  		const char *name = pos->name;
-364595a6851bf6 Jeff Layton        2023-03-30  1841  		unsigned int type = fs_umode_to_dtype(pos->mode);
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1842  		int len = strlen(name);
-67c0496e87d193 Tejun Heo          2019-11-04  1843  		ino_t ino = kernfs_ino(pos);
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1844  
-adc5e8b58f4886 Tejun Heo          2013-12-11  1845  		ctx->pos = pos->hash;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1846  		file->private_data = pos;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1847  		kernfs_get(pos);
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1848  
-393c3714081a53 Minchan Kim        2021-11-18  1849  		up_read(&root->kernfs_rwsem);
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1850  		if (!dir_emit(ctx, name, len, ino, type))
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1851  			return 0;
-393c3714081a53 Minchan Kim        2021-11-18  1852  		down_read(&root->kernfs_rwsem);
-                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Needs to be deleted.
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5349  static void scsi_debug_slave_destroy(struct scsi_device *sdp)
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5350  {
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5351  	struct sdebug_dev_info *devip =
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5352  		(struct sdebug_dev_info *)sdp->hostdata;
+a34c4e98367965 FUJITA Tomonori 2008-03-25  5353  
+773642d95b8220 Douglas Gilbert 2016-04-25  5354  	if (sdebug_verbose)
+c1287970f4847a Tomas Winkler   2015-07-28  5355  		pr_info("slave_destroy <%u %u %u %llu>\n",
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5356  		       sdp->host->host_no, sdp->channel, sdp->id, sdp->lun);
+46ab9018f5b07d Wenchao Hao     2023-04-28  5357  
+46ab9018f5b07d Wenchao Hao     2023-04-28 @5358  	debugfs_remove(devip->debugfs_entry);
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+Dereference
 
-a551138c4b3b9f Dominique Martinet 2023-05-10  1853  		if (ctx->flags & DIR_CONTEXT_F_NOWAIT) {
-a551138c4b3b9f Dominique Martinet 2023-05-10  1854  			if (!down_read_trylock(&root->kernfs_rwsem))
-a551138c4b3b9f Dominique Martinet 2023-05-10  1855  				return 0;
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30 @5359  	if (devip) {
+                                                            ^^^^^
+Checked too late.
 
-It's a bit strange the this doesn't return -EAGAIN;
-
-a551138c4b3b9f Dominique Martinet 2023-05-10  1856  		} else {
-a551138c4b3b9f Dominique Martinet 2023-05-10  1857  			down_read(&root->kernfs_rwsem);
-a551138c4b3b9f Dominique Martinet 2023-05-10  1858  		}
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1859  	}
-393c3714081a53 Minchan Kim        2021-11-18  1860  	up_read(&root->kernfs_rwsem);
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1861  	file->private_data = NULL;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1862  	ctx->pos = INT_MAX;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28 @1863  	return 0;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1864  }
+25985edcedea63 Lucas De Marchi 2011-03-30  5360  		/* make this slot available for re-use */
+c2248fc974df7b Douglas Gilbert 2014-11-24  5361  		devip->used = false;
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5362  		sdp->hostdata = NULL;
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5363  	}
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5364  }
 
 -- 
 0-DAY CI Kernel Test Service
