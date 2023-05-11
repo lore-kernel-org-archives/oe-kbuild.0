@@ -1,41 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654AC21CED
-	for <oe-kbuild@lists.linux.dev>; Wed, 10 May 2023 23:13:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AFB2F2D
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 02:18:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683760431; x=1715296431;
+  t=1683771533; x=1715307533;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fC9rZur2No+UN2cER3CtIy3QfBD+U+MYZlntB7Co98s=;
-  b=nB42RE6c0idMOx8AmQvyB93yXJ7gQg2ErE3xtQCWzqyjrZAxXjxtmMHI
-   NNYNEnjeQdD+Qf7KPQ1/IFZhvYO2vJkpAhGIwm7kZw5LPQJCMeCoEHCwN
-   udYbgEXFnXWMYnKURBY358VqjemdrLnq+JeC6Boxg2ffRX5onoVMqhJ1d
-   94Q6JFUaVmiFam+EDiNV05hqRD0/ZKq3/MXqgXaQXnYFMK5z7UWFK9Rt/
-   wmQJrHhwZ/jm7XCBmu2bfniU3H50W5NouBifK511cBvQALV+lCM9gA9wo
-   O3OzIvDUFwZc9QjVKe8TyIDMApfMXBr3KsRk6gbRyTiw8PyS69pJQSVnb
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="436668880"
-X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; 
-   d="scan'208";a="436668880"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 16:13:50 -0700
+  bh=0Pcl85N0w58wZrSTFDPpRB33q8Iuxxb0E40n5g+Dibs=;
+  b=MKc9rlTrpfXsDE3NhvWaRf0fMhw74y4aF+ARFGh6iXyomvlquhvREQMI
+   uTniZvW04fuprth+xHX+fzIXf12B6ny0M0k587cvEYSTzj2rf+m2kHuWU
+   K6cyB0HPqttHveFWpGBhzZODoKRUJq0OVSmPJJhcrhVp7ZfNm4W7Z0amY
+   TfEUH1ENWzQPPnAL5o02s+5U1XvVGgemjBzrmLcJC7HcqO0gaibldK6Md
+   XHmhxHoUpYbvXW4cfaEY2+D/Tbj9cxDvsFWo7+lq74uqlbVdAjqKQH1B7
+   APbXyRi3DkZ55xepZ4Q6C2Z7+X0LzyyELT2HEix+uGk19HIj9JmDEqPjx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="339637100"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
+   d="scan'208";a="339637100"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 19:18:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="677028383"
-X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; 
-   d="scan'208";a="677028383"
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="693610585"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
+   d="scan'208";a="693610585"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 10 May 2023 16:13:49 -0700
+  by orsmga007.jf.intel.com with ESMTP; 10 May 2023 19:18:51 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pwt0G-0003eK-26;
-	Wed, 10 May 2023 23:13:48 +0000
-Date: Thu, 11 May 2023 07:13:04 +0800
+	id 1pwvtK-0003i4-1t;
+	Thu, 11 May 2023 02:18:50 +0000
+Date: Thu, 11 May 2023 10:18:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 4/6] kernfs: implement readdir FMODE_NOWAIT
-Message-ID: <202305110647.eSnSEulg-lkp@intel.com>
+Subject: Re: [PATCH v2 2/6] scsi:scsi_debug: Add interface to manage single
+ device's error inject
+Message-ID: <202305110949.SGOuSCr6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,98 +48,65 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230422-uring-getdents-v2-4-2db1e37dc55e@codewreck.org>
-References: <20230422-uring-getdents-v2-4-2db1e37dc55e@codewreck.org>
-TO: Dominique Martinet <asmadeus@codewreck.org>
-TO: Alexander Viro <viro@zeniv.linux.org.uk>
-TO: Christian Brauner <brauner@kernel.org>
-TO: Jens Axboe <axboe@kernel.dk>
-TO: Pavel Begunkov <asml.silence@gmail.com>
-TO: Stefan Roesch <shr@fb.com>
-CC: Clay Harris <bugs@claycon.org>
-CC: Dave Chinner <david@fromorbit.com>
-CC: linux-fsdevel@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: io-uring@vger.kernel.org
-CC: Dominique Martinet <asmadeus@codewreck.org>
+In-Reply-To: <20230428013320.347050-3-haowenchao2@huawei.com>
+References: <20230428013320.347050-3-haowenchao2@huawei.com>
+TO: Wenchao Hao <haowenchao2@huawei.com>
+TO: "James E . J . Bottomley" <jejb@linux.ibm.com>
+TO: "Martin K . Petersen" <martin.petersen@oracle.com>
+TO: Douglas Gilbert <dgilbert@interlog.com>
+TO: linux-scsi@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: linfeilong@huawei.com
+CC: louhongxiang@huawei.com
+CC: Wenchao Hao <haowenchao2@huawei.com>
 
-Hi Dominique,
+Hi Wenchao,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 58390c8ce1bddb6c623f62e7ed36383e7fa5c02f]
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on jejb-scsi/for-next linus/master v6.4-rc1 next-20230510]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dominique-Martinet/fs-split-off-vfs_getdents-function-of-getdents64-syscall/20230510-185542
-base:   58390c8ce1bddb6c623f62e7ed36383e7fa5c02f
-patch link:    https://lore.kernel.org/r/20230422-uring-getdents-v2-4-2db1e37dc55e%40codewreck.org
-patch subject: [PATCH v2 4/6] kernfs: implement readdir FMODE_NOWAIT
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230511/202305110647.eSnSEulg-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Wenchao-Hao/scsi-scsi_debug-create-scsi_debug-directory-in-the-debugfs-filesystem/20230427-201534
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230428013320.347050-3-haowenchao2%40huawei.com
+patch subject: [PATCH v2 2/6] scsi:scsi_debug: Add interface to manage single device's error inject
+:::::: branch date: 2 weeks ago
+:::::: commit date: 2 weeks ago
+config: mips-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110949.SGOuSCr6-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305110647.eSnSEulg-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305110949.SGOuSCr6-lkp@intel.com/
 
 smatch warnings:
-fs/kernfs/dir.c:1863 kernfs_fop_readdir() warn: inconsistent returns '&root->kernfs_rwsem'.
+drivers/scsi/scsi_debug.c:5359 scsi_debug_slave_destroy() warn: variable dereferenced before check 'devip' (see line 5358)
 
-vim +1863 fs/kernfs/dir.c
+vim +/devip +5359 drivers/scsi/scsi_debug.c
 
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1814  
-c637b8acbe079e Tejun Heo          2013-12-11  1815  static int kernfs_fop_readdir(struct file *file, struct dir_context *ctx)
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1816  {
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1817  	struct dentry *dentry = file->f_path.dentry;
-319ba91d352a74 Shaohua Li         2017-07-12  1818  	struct kernfs_node *parent = kernfs_dentry_node(dentry);
-324a56e16e44ba Tejun Heo          2013-12-11  1819  	struct kernfs_node *pos = file->private_data;
-393c3714081a53 Minchan Kim        2021-11-18  1820  	struct kernfs_root *root;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1821  	const void *ns = NULL;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1822  
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1823  	if (!dir_emit_dots(file, ctx))
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1824  		return 0;
-393c3714081a53 Minchan Kim        2021-11-18  1825  
-393c3714081a53 Minchan Kim        2021-11-18  1826  	root = kernfs_root(parent);
-a551138c4b3b9f Dominique Martinet 2023-05-10  1827  	if (ctx->flags & DIR_CONTEXT_F_NOWAIT) {
-a551138c4b3b9f Dominique Martinet 2023-05-10  1828  		if (!down_read_trylock(&root->kernfs_rwsem))
-a551138c4b3b9f Dominique Martinet 2023-05-10  1829  			return -EAGAIN;
-a551138c4b3b9f Dominique Martinet 2023-05-10  1830  	} else {
-393c3714081a53 Minchan Kim        2021-11-18  1831  		down_read(&root->kernfs_rwsem);
-a551138c4b3b9f Dominique Martinet 2023-05-10  1832  	}
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1833  
-324a56e16e44ba Tejun Heo          2013-12-11  1834  	if (kernfs_ns_enabled(parent))
-c525aaddc366df Tejun Heo          2013-12-11  1835  		ns = kernfs_info(dentry->d_sb)->ns;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1836  
-c637b8acbe079e Tejun Heo          2013-12-11  1837  	for (pos = kernfs_dir_pos(ns, parent, ctx->pos, pos);
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1838  	     pos;
-c637b8acbe079e Tejun Heo          2013-12-11  1839  	     pos = kernfs_dir_next_pos(ns, parent, ctx->pos, pos)) {
-adc5e8b58f4886 Tejun Heo          2013-12-11  1840  		const char *name = pos->name;
-364595a6851bf6 Jeff Layton        2023-03-30  1841  		unsigned int type = fs_umode_to_dtype(pos->mode);
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1842  		int len = strlen(name);
-67c0496e87d193 Tejun Heo          2019-11-04  1843  		ino_t ino = kernfs_ino(pos);
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1844  
-adc5e8b58f4886 Tejun Heo          2013-12-11  1845  		ctx->pos = pos->hash;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1846  		file->private_data = pos;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1847  		kernfs_get(pos);
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1848  
-393c3714081a53 Minchan Kim        2021-11-18  1849  		up_read(&root->kernfs_rwsem);
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1850  		if (!dir_emit(ctx, name, len, ino, type))
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1851  			return 0;
-393c3714081a53 Minchan Kim        2021-11-18  1852  		down_read(&root->kernfs_rwsem);
-a551138c4b3b9f Dominique Martinet 2023-05-10  1853  		if (ctx->flags & DIR_CONTEXT_F_NOWAIT) {
-a551138c4b3b9f Dominique Martinet 2023-05-10  1854  			if (!down_read_trylock(&root->kernfs_rwsem))
-a551138c4b3b9f Dominique Martinet 2023-05-10  1855  				return 0;
-a551138c4b3b9f Dominique Martinet 2023-05-10  1856  		} else {
-a551138c4b3b9f Dominique Martinet 2023-05-10  1857  			down_read(&root->kernfs_rwsem);
-a551138c4b3b9f Dominique Martinet 2023-05-10  1858  		}
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1859  	}
-393c3714081a53 Minchan Kim        2021-11-18  1860  	up_read(&root->kernfs_rwsem);
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1861  	file->private_data = NULL;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1862  	ctx->pos = INT_MAX;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28 @1863  	return 0;
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1864  }
-fd7b9f7b9776b1 Tejun Heo          2013-11-28  1865  
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5348  
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5349  static void scsi_debug_slave_destroy(struct scsi_device *sdp)
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5350  {
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5351  	struct sdebug_dev_info *devip =
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5352  		(struct sdebug_dev_info *)sdp->hostdata;
+a34c4e98367965 FUJITA Tomonori 2008-03-25  5353  
+773642d95b8220 Douglas Gilbert 2016-04-25  5354  	if (sdebug_verbose)
+c1287970f4847a Tomas Winkler   2015-07-28  5355  		pr_info("slave_destroy <%u %u %u %llu>\n",
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5356  		       sdp->host->host_no, sdp->channel, sdp->id, sdp->lun);
+46ab9018f5b07d Wenchao Hao     2023-04-28  5357  
+46ab9018f5b07d Wenchao Hao     2023-04-28 @5358  	debugfs_remove(devip->debugfs_entry);
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30 @5359  	if (devip) {
+25985edcedea63 Lucas De Marchi 2011-03-30  5360  		/* make this slot available for re-use */
+c2248fc974df7b Douglas Gilbert 2014-11-24  5361  		devip->used = false;
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5362  		sdp->hostdata = NULL;
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5363  	}
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5364  }
+8dea0d02f8bb71 FUJITA Tomonori 2008-03-30  5365  
 
 -- 
 0-DAY CI Kernel Test Service
