@@ -1,178 +1,166 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB198A42
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 May 2023 04:18:27 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3f417ea5252so48217155e9.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 21:18:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DB3A41;
+	Fri, 12 May 2023 05:16:05 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-4f1411e8111so10635449e87.1;
+        Thu, 11 May 2023 22:16:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683865105; x=1686457105;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lKSRIDy0J+UduLCQdBIRVgaNQhqBgLMPH7ha37U/mpY=;
-        b=blQ1l551mkk+RhRNR4/CbhJIKKut5nb8rgm1ZlVdYS3Xs/ZAsSfjl9OmJXiFhLRw//
-         fLThEdWuA50YQnH2BZtawfZwWJQL4qD7NbGHby0VERYx9vzBTpa+wxNjToFvj4uRjARx
-         Q1zj3aHn8M1OaIfRQN7nFnUYn/LIwrmKZ9YP9n3+D1R+hkV6k7Z8RenSqfHy9PuHieTZ
-         40zj5vxBqUuHpHvSZhtL86t70GXZZQNBvXN0cCqktdTtlrE2uWJ+HfdDCT8K7BmgBJCA
-         IV0REqLjOlrUvv0Ycs8yZm0zBIQrPutGQ7/qQZScPERY/ozbTz3c+t9jXjAATkuqlv49
-         j0tA==
+        d=gmail.com; s=20221208; t=1683868564; x=1686460564;
+        h=content-transfer-encoding:in-reply-to:subject:from:content-language
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YItu8HOFGjYbDrIPqGGARNcDK3pUy+l3/DwuX5PBOMY=;
+        b=bEsKpiJvKUTBv1g5LUaLwpyRPv+OK55MbS7suNx4ObvbZKT4LM+Azxm8g4Zsg3BMt7
+         2V/gJIDjieQa3gBjOfYjgKsWDpcLzs/Lkbo+4LZNNVBUlOr1A8o/V4Yp6mkOEgYqw47u
+         KjULcu/2+YI74c56daRLU/GgMo796idjRtzgW7D4rJxURF1qI/4Ki1YrQuRvLNYJierS
+         v5+CRtPkxUOLwxtXGvCRgzi1IZqskcb0SMuBlCl6AenvAz7Uxa50w0Qh7JXu70ihNbSA
+         jqGZygtnGnAunYRSFYUBz7LKxEVvkcKbZWV/qzvLYROoyl1OJTZUdC9ixw46c1y5tLWL
+         QkUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683865105; x=1686457105;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lKSRIDy0J+UduLCQdBIRVgaNQhqBgLMPH7ha37U/mpY=;
-        b=BsCEzNB+TSXX6f5LQbfd9kMpMKkuOHLozi0/WriKPBtskYsLseflT9iM1ijX15npNX
-         xpoPgYjOfNMvKD2GZPyT34stRLoOIpVcv1giscBBlvt6nk+yt09Nn6UpNi4nTMDk9Lgw
-         4LBrNoBmF5SG75voX8uioApemZjM3RS4cO+aBS1yY3fJ/KCIoCjiTvKnQ61enm1nt/Bt
-         zt9HTZWZgMCoGbavjVLQCnBglI6BC3mjuZGTFy+neCWn/Z4OcV3AO6DBOYEY+qAzFijs
-         h37KBiMz+3efVYVGhjiqVRfKuRp75m3BDAS2cm7ErqQuZIfzSLPP2AFqoZgQw/hEWw3P
-         rj0w==
-X-Gm-Message-State: AC+VfDzNi4HjzKOBG5eC4ne+C7duZ0MRSP1aK46jaGERvupJfjolNZvC
-	A2SDKIubako6aWr8wrjXpASno0/m23P05zrNg8o=
-X-Google-Smtp-Source: ACHHUZ5p1QJeBJjKCYP8wu3GMgGcx+MS7p0O3HhkJyuYY/Yip8cIUKZ3F1vH9Kfd5azZX90khyqONQ==
-X-Received: by 2002:a7b:c85a:0:b0:3f4:ecf0:8c93 with SMTP id c26-20020a7bc85a000000b003f4ecf08c93mr2384658wml.20.1683865104843;
-        Thu, 11 May 2023 21:18:24 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id x16-20020a05600c21d000b003f318be9442sm27555561wmj.40.2023.05.11.21.18.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 21:18:23 -0700 (PDT)
-Date: Fri, 12 May 2023 07:18:16 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Elson Roy Serrao <quic_eserrao@quicinc.com>,
-	gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
-	Elson Roy Serrao <quic_eserrao@quicinc.com>
-Subject: Re: [PATCH 2/2] usb: dwc3: Modify runtime pm ops to handle bus
- suspend
-Message-ID: <3e035312-3c06-44e1-95ef-0a4d36456a7d@kili.mountain>
+        d=1e100.net; s=20221208; t=1683868564; x=1686460564;
+        h=content-transfer-encoding:in-reply-to:subject:from:content-language
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YItu8HOFGjYbDrIPqGGARNcDK3pUy+l3/DwuX5PBOMY=;
+        b=XrJaHX/V7ri8Zyu6MjNVFPZlhGrqSXbDs6km/0W6fKIwBnlgPeMRgwBCzMGUo3feIQ
+         A2G/4dkrWOtyxACNyIVrA6Q3hUKvSyPQ1ttDXgSkWdG5hiw62SSFCqpDw6T+aB1SxdIJ
+         WenE5nudNGSueJhmYA4z6jUhWxa63DrO8D7zfshzxvPIDHFh57dsE7Hb9NzuaKzFztMS
+         K1NmsxE37xPVzdsrqsC2owjKtA1CuTjcpQYbyjZmt29ooJ80lEs8QiuK+r39nRfSmSQi
+         2DiVXgJjeN2DHvIQlHU7epMYuuOE+79tzuHiiq0LKHSFP+0v6cXLtpbtv2Ds6qlyRZQE
+         xukA==
+X-Gm-Message-State: AC+VfDyGny9Z3Jh1QZI5rhztxJMoypJHwcKod7Jc+VhZnCIEbZeKZw9F
+	hDS53bbAfXrq7pLaq87/SxQ=
+X-Google-Smtp-Source: ACHHUZ7xqbSiYWWJw+ymmfXp8GvtwoAJrLwf2Ob1CzonIyAw/QsmMJarpqeDK7MkXNJDYIICn8j1Xg==
+X-Received: by 2002:ac2:41cb:0:b0:4ec:a18e:f985 with SMTP id d11-20020ac241cb000000b004eca18ef985mr2847376lfi.13.1683868563709;
+        Thu, 11 May 2023 22:16:03 -0700 (PDT)
+Received: from [192.168.1.126] (62-78-225-252.bb.dnainternet.fi. [62.78.225.252])
+        by smtp.gmail.com with ESMTPSA id i4-20020ac25d24000000b004edb2cb3500sm1341672lfb.279.2023.05.11.22.16.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 May 2023 22:16:03 -0700 (PDT)
+Message-ID: <a1ad0e10-23d2-a860-e9a1-2680313d643f@gmail.com>
+Date: Fri, 12 May 2023 08:16:02 +0300
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1683827311-1462-3-git-send-email-quic_eserrao@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <46296e39-dbc1-4f27-b89c-af6f08d9f318@kili.mountain>
+Content-Language: en-US, en-GB
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+Subject: Re: drivers/iio/accel/kionix-kx022a.c:1053 kx022a_probe_internal()
+ warn: passing zero to 'dev_err_probe'
+In-Reply-To: <46296e39-dbc1-4f27-b89c-af6f08d9f318@kili.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Elson,
+On 5/11/23 13:48, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   ad2fd53a7870a395b8564697bef6c329d017c6c9
+> commit: 7c1d1677b3227c6b18ac999f2b84778baa280b8f iio: accel: Support Kionix/ROHM KX022A accelerometer
+> config: openrisc-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110245.MFxC9bUj-lkp@intel.com/config)
+> compiler: or1k-linux-gcc (GCC) 12.1.0
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Link: https://lore.kernel.org/r/202305110245.MFxC9bUj-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/iio/accel/kionix-kx022a.c:1053 kx022a_probe_internal() warn: passing zero to 'dev_err_probe'
+> 
+> vim +/dev_err_probe +1053 drivers/iio/accel/kionix-kx022a.c
+> 
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1000  int kx022a_probe_internal(struct device *dev)
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1001  {
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1002  	static const char * const regulator_names[] = {"io-vdd", "vdd"};
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1003  	struct iio_trigger *indio_trig;
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1004  	struct fwnode_handle *fwnode;
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1005  	struct kx022a_data *data;
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1006  	struct regmap *regmap;
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1007  	unsigned int chip_id;
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1008  	struct iio_dev *idev;
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1009  	int ret, irq;
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1010  	char *name;
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1011
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1012  	regmap = dev_get_regmap(dev, NULL);
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1013  	if (!regmap) {
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1014  		dev_err(dev, "no regmap\n");
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1015  		return -EINVAL;
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1016  	}
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1017
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1018  	fwnode = dev_fwnode(dev);
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1019  	if (!fwnode)
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1020  		return -ENODEV;
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1021
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1022  	idev = devm_iio_device_alloc(dev, sizeof(*data));
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1023  	if (!idev)
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1024  		return -ENOMEM;
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1025
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1026  	data = iio_priv(idev);
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1027
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1028  	/*
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1029  	 * VDD is the analog and digital domain voltage supply and
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1030  	 * IO_VDD is the digital I/O voltage supply.
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1031  	 */
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1032  	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(regulator_names),
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1033  					     regulator_names);
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1034  	if (ret && ret != -ENODEV)
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1035  		return dev_err_probe(dev, ret, "failed to enable regulator\n");
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1036
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1037  	ret = regmap_read(regmap, KX022A_REG_WHO, &chip_id);
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1038  	if (ret)
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1039  		return dev_err_probe(dev, ret, "Failed to access sensor\n");
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1040
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1041  	if (chip_id != KX022A_ID) {
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1042  		dev_err(dev, "unsupported device 0x%x\n", chip_id);
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1043  		return -EINVAL;
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1044  	}
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1045
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1046  	irq = fwnode_irq_get_byname(fwnode, "INT1");
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1047  	if (irq > 0) {
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1048  		data->inc_reg = KX022A_REG_INC1;
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1049  		data->ien_reg = KX022A_REG_INC4;
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1050  	} else {
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1051  		irq = fwnode_irq_get_byname(fwnode, "INT2");
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1052  		if (irq <= 0)
+>                                                                      ^^^^^^^^
+> This code assumes fwnode_irq_get_byname() can return zero.
+> 
+> 7c1d1677b3227c Matti Vaittinen 2022-10-24 @1053  			return dev_err_probe(dev, irq, "No suitable IRQ\n");
+> 
+> But fortunately, it can't otherwise this would return success.
+> 
 
-kernel test robot noticed the following build warnings:
+Ouch. Actually, the fwnode_irq_get_byname() can return zero on 
+device-tree mapping error. I did actually send a patch to address this 
+some time ago:
+https://lore.kernel.org/lkml/cover.1666710197.git.mazziesaccount@gmail.com/
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+but got stuck on not knowing "the right way" of handling an smbus 
+use-case. Later I forgot this.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Elson-Roy-Serrao/usb-function-u_ether-Handle-rx-requests-during-suspend-resume/20230512-015036
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/1683827311-1462-3-git-send-email-quic_eserrao%40quicinc.com
-patch subject: [PATCH 2/2] usb: dwc3: Modify runtime pm ops to handle bus suspend
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230512/202305120709.tCFYCtsd-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+It seems I did describe this very same error in the cover-letter - and 
+right after that I fell on this very trap I described... :/
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305120709.tCFYCtsd-lkp@intel.com/
+Thanks for the heads-up Dan!
 
-New smatch warnings:
-drivers/usb/dwc3/gadget.c:2409 dwc3_gadget_wakeup() warn: pm_runtime_get_sync() also returns 1 on success
-drivers/usb/dwc3/gadget.c:2437 dwc3_gadget_func_wakeup() warn: pm_runtime_get_sync() also returns 1 on success
-
-Old smatch warnings:
-drivers/usb/dwc3/gadget.c:1648 __dwc3_gadget_kick_transfer() warn: missing error code? 'ret'
-drivers/usb/dwc3/gadget.c:2744 dwc3_gadget_pullup() warn: pm_runtime_get_sync() also returns 1 on success
-
-vim +2409 drivers/usb/dwc3/gadget.c
-
-218ef7b647e336 Felipe Balbi     2016-04-04  2392  static int dwc3_gadget_wakeup(struct usb_gadget *g)
-218ef7b647e336 Felipe Balbi     2016-04-04  2393  {
-218ef7b647e336 Felipe Balbi     2016-04-04  2394  	struct dwc3		*dwc = gadget_to_dwc(g);
-218ef7b647e336 Felipe Balbi     2016-04-04  2395  	unsigned long		flags;
-218ef7b647e336 Felipe Balbi     2016-04-04  2396  	int			ret;
-218ef7b647e336 Felipe Balbi     2016-04-04  2397  
-047161686b813a Elson Roy Serrao 2023-03-24  2398  	if (!dwc->wakeup_configured) {
-047161686b813a Elson Roy Serrao 2023-03-24  2399  		dev_err(dwc->dev, "remote wakeup not configured\n");
-047161686b813a Elson Roy Serrao 2023-03-24  2400  		return -EINVAL;
-047161686b813a Elson Roy Serrao 2023-03-24  2401  	}
-047161686b813a Elson Roy Serrao 2023-03-24  2402  
-047161686b813a Elson Roy Serrao 2023-03-24  2403  	if (!dwc->gadget->wakeup_armed) {
-047161686b813a Elson Roy Serrao 2023-03-24  2404  		dev_err(dwc->dev, "not armed for remote wakeup\n");
-047161686b813a Elson Roy Serrao 2023-03-24  2405  		return -EINVAL;
-047161686b813a Elson Roy Serrao 2023-03-24  2406  	}
-047161686b813a Elson Roy Serrao 2023-03-24  2407  
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2408  	ret = pm_runtime_get_sync(dwc->dev);
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11 @2409  	if (ret) {
-
-The checker is correct.  These days it's better to use the
-pm_runtime_resume_and_get() function instead of pm_runtime_get_sync().
-
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2410  		pm_runtime_put(dwc->dev);
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2411  		return ret;
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2412  	}
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2413  
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2414  	spin_lock_irqsave(&dwc->lock, flags);
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2415  	ret = __dwc3_gadget_wakeup(dwc, true);
-72246da40f3719 Felipe Balbi     2011-08-19  2416  	spin_unlock_irqrestore(&dwc->lock, flags);
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2417  	pm_runtime_put_noidle(dwc->dev);
-72246da40f3719 Felipe Balbi     2011-08-19  2418  
-72246da40f3719 Felipe Balbi     2011-08-19  2419  	return ret;
-72246da40f3719 Felipe Balbi     2011-08-19  2420  }
-72246da40f3719 Felipe Balbi     2011-08-19  2421  
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2422  static void dwc3_resume_gadget(struct dwc3 *dwc);
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2423  
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2424  static int dwc3_gadget_func_wakeup(struct usb_gadget *g, int intf_id)
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2425  {
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2426  	struct  dwc3		*dwc = gadget_to_dwc(g);
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2427  	unsigned long		flags;
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2428  	int			ret;
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2429  	int			link_state;
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2430  
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2431  	if (!dwc->wakeup_configured) {
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2432  		dev_err(dwc->dev, "remote wakeup not configured\n");
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2433  		return -EINVAL;
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2434  	}
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2435  
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2436  	ret = pm_runtime_get_sync(dwc->dev);
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11 @2437  	if (ret) {
-
-Same.
-
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2438  		pm_runtime_put(dwc->dev);
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2439  		return ret;
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2440  	}
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2441  
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2442  	spin_lock_irqsave(&dwc->lock, flags);
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2443  	/*
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2444  	 * If the link is in U3, signal for remote wakeup and wait for the
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2445  	 * link to transition to U0 before sending device notification.
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2446  	 */
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2447  	link_state = dwc3_gadget_get_link_state(dwc);
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2448  	if (link_state == DWC3_LINK_STATE_U3) {
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2449  		ret = __dwc3_gadget_wakeup(dwc, false);
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2450  		if (ret) {
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2451  			spin_unlock_irqrestore(&dwc->lock, flags);
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2452  			pm_runtime_put_noidle(dwc->dev);
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2453  			return -EINVAL;
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2454  		}
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2455  		dwc3_resume_gadget(dwc);
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2456  		dwc->link_state = DWC3_LINK_STATE_U0;
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2457  	}
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2458  
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2459  	ret = dwc3_send_gadget_generic_command(dwc, DWC3_DGCMD_DEV_NOTIFICATION,
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2460  					       DWC3_DGCMDPAR_DN_FUNC_WAKE |
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2461  					       DWC3_DGCMDPAR_INTF_SEL(intf_id));
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2462  	if (ret)
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2463  		dev_err(dwc->dev, "function remote wakeup failed, ret:%d\n", ret);
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2464  
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2465  	spin_unlock_irqrestore(&dwc->lock, flags);
-0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2466  	pm_runtime_put_noidle(dwc->dev);
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2467  
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2468  	return ret;
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2469  }
+Yours,
+	-- Matti
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
 
