@@ -1,42 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A491320683
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 19:02:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E8C628
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 May 2023 00:08:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683831720; x=1715367720;
+  t=1683850113; x=1715386113;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZUxIeU1Lw3norkr4pBcGhAWaGHUnzdpD9wHFG4za5mc=;
-  b=a4+n8gwhSBa1PSb6SyMuQjopb4Bm3QfVI1VQncGBjmHHqQwmR5H34D+P
-   /XE/W1P5T274/Nc5Xe5HlMLPc3lyS0ft82wmraK/euqZV9AEji8pMJhUf
-   yHocPBfulLOzLkWBgl00ZZAzxknbK3Tr5NdbJBrX7fWL51WOiJ9+ZGsh9
-   p6724Qb28yC2/lQrx1wmBxWDlH0xL+DYt24s9NdnVbFSRNZjhemJEmoJW
-   SiLKeEAA1jtpXc5zBjLxdVXIoiooiVo6OHxNMsbc6rxbcnOH1bn8NGDRx
-   E5sjiI7HFbcyXdI7q1QKfgaJbpZOKc+CCx9aUtV0PwlUNbOjnEfN2GREv
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="339904005"
+  bh=536rWX3L5vD3J7U/sScmeZzFgiqYz2WQHaJDGoWliyw=;
+  b=M9OnqWRQD1FHtkolbxCwJK2xkgsMJqysyUoMGPL/cF8uyFK2IBJcZ8Rt
+   jQW3NtjXe90fmZ7P+9w1TJbqIytHNxbl6Via48WeIKUdBz2QdHYX4VWq0
+   IpMvzv66qF+FjSZyKTefKIddranoVZ3jREGpN9zBBNqpHfl691WYekK8O
+   w/hs/1HTDaw3ybX5xaNpRxKle5U2fayyxSCLBcIfT2YG55ITRn/+5xP/c
+   SoN8KYwGn3lZtJIJTy5BJ28NjZfCdG+5gggi4yHR9ki75DDVY1HEMnxsV
+   PpIU5fMaU9VimBUOzLe28iEg/sb96PyTZoNHT2y+1IgduItfD16ZnEWFM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="350694255"
 X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; 
-   d="scan'208";a="339904005"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 12:02:00 -0700
+   d="scan'208";a="350694255"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 17:08:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="677356981"
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="702951827"
 X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; 
-   d="scan'208";a="677356981"
+   d="scan'208";a="702951827"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 11 May 2023 12:01:58 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 11 May 2023 17:08:31 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxBY6-0004CV-0P;
-	Thu, 11 May 2023 19:01:58 +0000
-Date: Fri, 12 May 2023 03:01:29 +0800
+	id 1pxGKj-0004KA-2o;
+	Fri, 12 May 2023 00:08:29 +0000
+Date: Fri, 12 May 2023 08:07:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/erofs/zdata.c:991 z_erofs_decompress_pcluster() warn: ambiguous
- units merge 'pclusterpages' 'page' or 'array_size'
-Message-ID: <202305120241.oOBxWSYQ-lkp@intel.com>
+Subject: Re: [PATCH 2/2] usb: dwc3: Modify runtime pm ops to handle bus
+ suspend
+Message-ID: <202305120709.tCFYCtsd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,160 +48,131 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <1683827311-1462-3-git-send-email-quic_eserrao@quicinc.com>
+References: <1683827311-1462-3-git-send-email-quic_eserrao@quicinc.com>
+TO: Elson Roy Serrao <quic_eserrao@quicinc.com>
+TO: gregkh@linuxfoundation.org
+TO: Thinh.Nguyen@synopsys.com
 CC: linux-kernel@vger.kernel.org
-TO: Gao Xiang <hsiangkao@linux.alibaba.com>
+CC: linux-usb@vger.kernel.org
+CC: quic_wcheng@quicinc.com
+CC: quic_jackp@quicinc.com
+CC: Elson Roy Serrao <quic_eserrao@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   80e62bc8487b049696e67ad133c503bf7f6806f7
-commit: fe3e5914e6dc8db743fa587748ce1d9ecd4a5dba erofs: try to leave (de)compressed_pages on stack if possible
-date:   10 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 10 months ago
-config: openrisc-randconfig-m031-20230509 (https://download.01.org/0day-ci/archive/20230512/202305120241.oOBxWSYQ-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+Hi Elson,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.4-rc1 next-20230511]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Elson-Roy-Serrao/usb-function-u_ether-Handle-rx-requests-during-suspend-resume/20230512-015036
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/1683827311-1462-3-git-send-email-quic_eserrao%40quicinc.com
+patch subject: [PATCH 2/2] usb: dwc3: Modify runtime pm ops to handle bus suspend
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230512/202305120709.tCFYCtsd-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305120241.oOBxWSYQ-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305120709.tCFYCtsd-lkp@intel.com/
 
 New smatch warnings:
-fs/erofs/zdata.c:991 z_erofs_decompress_pcluster() warn: ambiguous units merge 'pclusterpages' 'page' or 'array_size'
-fs/erofs/zdata.c:991 z_erofs_decompress_pcluster() warn: ambiguous units merge 'pclusterpages' 'array_size' or 'page'
+drivers/usb/dwc3/gadget.c:2409 dwc3_gadget_wakeup() warn: pm_runtime_get_sync() also returns 1 on success
+drivers/usb/dwc3/gadget.c:2437 dwc3_gadget_func_wakeup() warn: pm_runtime_get_sync() also returns 1 on success
 
 Old smatch warnings:
-fs/erofs/zdata.c:542 z_erofs_register_pcluster() warn: passing a valid pointer to 'PTR_ERR'
-fs/erofs/zdata.c:987 z_erofs_decompress_pcluster() warn: ambiguous units merge 'nr_pages' 'page' or 'array_size'
-fs/erofs/zdata.c:987 z_erofs_decompress_pcluster() warn: ambiguous units merge 'nr_pages' 'array_size' or 'page'
+drivers/usb/dwc3/gadget.c:1648 __dwc3_gadget_kick_transfer() warn: missing error code? 'ret'
+drivers/usb/dwc3/gadget.c:2744 dwc3_gadget_pullup() warn: pm_runtime_get_sync() also returns 1 on success
 
-vim +991 fs/erofs/zdata.c
+vim +2409 drivers/usb/dwc3/gadget.c
 
-67139e36d97041 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   956  
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   957  static int z_erofs_decompress_pcluster(struct z_erofs_decompress_backend *be,
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   958  				       int err)
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26   959  {
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   960  	struct erofs_sb_info *const sbi = EROFS_SB(be->sb);
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   961  	struct z_erofs_pcluster *pcl = be->pcl;
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29   962  	unsigned int pclusterpages = z_erofs_pclusterpages(pcl);
-9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07   963  	unsigned int i, inputsize, outputsize, llen, nr_pages;
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   964  	struct page *page;
-671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   965  	int err2;
-b6a76183dea8df drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24   966  	bool overlapped, partial;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26   967  
-87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29   968  	DBG_BUGON(!READ_ONCE(pcl->nr_pages));
-87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29   969  	mutex_lock(&pcl->lock);
-87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29   970  	nr_pages = pcl->nr_pages;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26   971  
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   972  	/* allocate (de)compressed page arrays if cannot be kept on stack */
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   973  	be->decompressed_pages = NULL;
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   974  	be->compressed_pages = NULL;
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   975  	be->onstack_used = 0;
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   976  	if (nr_pages <= Z_EROFS_ONSTACK_PAGES) {
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   977  		be->decompressed_pages = be->onstack_pages;
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   978  		be->onstack_used = nr_pages;
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   979  		memset(be->decompressed_pages, 0,
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   980  		       sizeof(struct page *) * nr_pages);
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   981  	}
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   982  
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   983  	if (pclusterpages + be->onstack_used <= Z_EROFS_ONSTACK_PAGES)
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   984  		be->compressed_pages = be->onstack_pages + be->onstack_used;
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   985  
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   986  	if (!be->decompressed_pages)
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   987  		be->decompressed_pages =
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   988  			kvcalloc(nr_pages, sizeof(struct page *),
-e73681877d4c3a fs/erofs/zdata.c                  Gao Xiang 2022-07-15   989  				 GFP_KERNEL | __GFP_NOFAIL);
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   990  	if (!be->compressed_pages)
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15  @991  		be->compressed_pages =
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   992  			kvcalloc(pclusterpages, sizeof(struct page *),
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15   993  				 GFP_KERNEL | __GFP_NOFAIL);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26   994  
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   995  	err2 = z_erofs_parse_out_bvecs(be);
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   996  	if (err2)
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   997  		err = err2;
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   998  	err2 = z_erofs_parse_in_bvecs(be, &overlapped);
-671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15   999  	if (err2)
-671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1000  		err = err2;
-11152496021ea8 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25  1001  
-8d8a09b093d707 fs/erofs/zdata.c                  Gao Xiang 2019-08-30  1002  	if (err)
-11152496021ea8 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25  1003  		goto out;
-11152496021ea8 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25  1004  
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  1005  	llen = pcl->length >> Z_EROFS_PCLUSTER_LENGTH_BIT;
-87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1006  	if (nr_pages << PAGE_SHIFT >= pcl->pageofs_out + llen) {
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  1007  		outputsize = llen;
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  1008  		partial = !(pcl->length & Z_EROFS_PCLUSTER_FULL_LENGTH);
-b6a76183dea8df drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24  1009  	} else {
-87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1010  		outputsize = (nr_pages << PAGE_SHIFT) - pcl->pageofs_out;
-b6a76183dea8df drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24  1011  		partial = true;
-b6a76183dea8df drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24  1012  	}
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1013  
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1014  	if (z_erofs_is_inline_pcluster(pcl))
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1015  		inputsize = pcl->tailpacking_size;
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1016  	else
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1017  		inputsize = pclusterpages * PAGE_SIZE;
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1018  
-88aaf5a79c5cde drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24  1019  	err = z_erofs_decompress(&(struct z_erofs_decompress_req) {
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1020  					.sb = be->sb,
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1021  					.in = be->compressed_pages,
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1022  					.out = be->decompressed_pages,
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1023  					.pageofs_in = pcl->pageofs_in,
-87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1024  					.pageofs_out = pcl->pageofs_out,
-9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  1025  					.inputsize = inputsize,
-88aaf5a79c5cde drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24  1026  					.outputsize = outputsize,
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  1027  					.alg = pcl->algorithmformat,
-88aaf5a79c5cde drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24  1028  					.inplace_io = overlapped,
-b6a76183dea8df drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-06-24  1029  					.partial_decoding = partial
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1030  				 }, be->pagepool);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1031  
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1032  out:
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1033  	/* must handle all compressed pages before actual file pages */
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1034  	if (z_erofs_is_inline_pcluster(pcl)) {
-ed722fbccadb74 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1035  		page = pcl->compressed_bvecs[0].page;
-ed722fbccadb74 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1036  		WRITE_ONCE(pcl->compressed_bvecs[0].page, NULL);
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1037  		put_page(page);
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1038  	} else {
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1039  		for (i = 0; i < pclusterpages; ++i) {
-ed722fbccadb74 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1040  			page = pcl->compressed_bvecs[i].page;
-af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1041  
-d61fbb6b163494 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25  1042  			if (erofs_page_is_managed(sbi, page))
-af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1043  				continue;
-d61fbb6b163494 drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-03-25  1044  
-6aaa7b0664e688 fs/erofs/zdata.c                  Gao Xiang 2020-12-08  1045  			/* recycle all individual short-lived pages */
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1046  			(void)z_erofs_put_shortlivedpage(be->pagepool, page);
-ed722fbccadb74 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1047  			WRITE_ONCE(pcl->compressed_bvecs[i].page, NULL);
-af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1048  		}
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu    2021-12-29  1049  	}
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1050  	if (be->compressed_pages < be->onstack_pages ||
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1051  	    be->compressed_pages >= be->onstack_pages + Z_EROFS_ONSTACK_PAGES)
-fe3e5914e6dc8d fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1052  		kvfree(be->compressed_pages);
-af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1053  
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1054  	for (i = 0; i < nr_pages; ++i) {
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1055  		page = be->decompressed_pages[i];
-af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1056  		if (!page)
-af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1057  			continue;
-af692e117cb8cd drivers/staging/erofs/unzip_vle.c Gao Xiang 2019-02-27  1058  
-6aaa7b0664e688 fs/erofs/zdata.c                  Gao Xiang 2020-12-08  1059  		DBG_BUGON(z_erofs_page_is_invalidated(page));
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1060  
-6aaa7b0664e688 fs/erofs/zdata.c                  Gao Xiang 2020-12-08  1061  		/* recycle all individual short-lived pages */
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1062  		if (z_erofs_put_shortlivedpage(be->pagepool, page))
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1063  			continue;
-671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1064  		if (err)
-671485516e1c30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1065  			z_erofs_page_mark_eio(page);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1066  		z_erofs_onlinepage_endio(page);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1067  	}
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1068  
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1069  	if (be->decompressed_pages != be->onstack_pages)
-4f05687fd70364 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1070  		kvfree(be->decompressed_pages);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1071  
-87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1072  	pcl->nr_pages = 0;
-06a304cd9cc095 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  1073  	pcl->bvset.nextpage = NULL;
-87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1074  	pcl->vcnt = 0;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1075  
-87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1076  	/* pcluster lock MUST be taken before the following line */
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  1077  	WRITE_ONCE(pcl->next, Z_EROFS_PCLUSTER_NIL);
-87ca34a7065db6 fs/erofs/zdata.c                  Gao Xiang 2022-05-29  1078  	mutex_unlock(&pcl->lock);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1079  	return err;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1080  }
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  1081  
+218ef7b647e336 Felipe Balbi     2016-04-04  2391  
+218ef7b647e336 Felipe Balbi     2016-04-04  2392  static int dwc3_gadget_wakeup(struct usb_gadget *g)
+218ef7b647e336 Felipe Balbi     2016-04-04  2393  {
+218ef7b647e336 Felipe Balbi     2016-04-04  2394  	struct dwc3		*dwc = gadget_to_dwc(g);
+218ef7b647e336 Felipe Balbi     2016-04-04  2395  	unsigned long		flags;
+218ef7b647e336 Felipe Balbi     2016-04-04  2396  	int			ret;
+218ef7b647e336 Felipe Balbi     2016-04-04  2397  
+047161686b813a Elson Roy Serrao 2023-03-24  2398  	if (!dwc->wakeup_configured) {
+047161686b813a Elson Roy Serrao 2023-03-24  2399  		dev_err(dwc->dev, "remote wakeup not configured\n");
+047161686b813a Elson Roy Serrao 2023-03-24  2400  		return -EINVAL;
+047161686b813a Elson Roy Serrao 2023-03-24  2401  	}
+047161686b813a Elson Roy Serrao 2023-03-24  2402  
+047161686b813a Elson Roy Serrao 2023-03-24  2403  	if (!dwc->gadget->wakeup_armed) {
+047161686b813a Elson Roy Serrao 2023-03-24  2404  		dev_err(dwc->dev, "not armed for remote wakeup\n");
+047161686b813a Elson Roy Serrao 2023-03-24  2405  		return -EINVAL;
+047161686b813a Elson Roy Serrao 2023-03-24  2406  	}
+047161686b813a Elson Roy Serrao 2023-03-24  2407  
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2408  	ret = pm_runtime_get_sync(dwc->dev);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11 @2409  	if (ret) {
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2410  		pm_runtime_put(dwc->dev);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2411  		return ret;
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2412  	}
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2413  
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2414  	spin_lock_irqsave(&dwc->lock, flags);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2415  	ret = __dwc3_gadget_wakeup(dwc, true);
+72246da40f3719 Felipe Balbi     2011-08-19  2416  	spin_unlock_irqrestore(&dwc->lock, flags);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2417  	pm_runtime_put_noidle(dwc->dev);
+72246da40f3719 Felipe Balbi     2011-08-19  2418  
+72246da40f3719 Felipe Balbi     2011-08-19  2419  	return ret;
+72246da40f3719 Felipe Balbi     2011-08-19  2420  }
+72246da40f3719 Felipe Balbi     2011-08-19  2421  
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2422  static void dwc3_resume_gadget(struct dwc3 *dwc);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2423  
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2424  static int dwc3_gadget_func_wakeup(struct usb_gadget *g, int intf_id)
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2425  {
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2426  	struct  dwc3		*dwc = gadget_to_dwc(g);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2427  	unsigned long		flags;
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2428  	int			ret;
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2429  	int			link_state;
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2430  
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2431  	if (!dwc->wakeup_configured) {
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2432  		dev_err(dwc->dev, "remote wakeup not configured\n");
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2433  		return -EINVAL;
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2434  	}
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2435  
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2436  	ret = pm_runtime_get_sync(dwc->dev);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11 @2437  	if (ret) {
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2438  		pm_runtime_put(dwc->dev);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2439  		return ret;
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2440  	}
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2441  
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2442  	spin_lock_irqsave(&dwc->lock, flags);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2443  	/*
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2444  	 * If the link is in U3, signal for remote wakeup and wait for the
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2445  	 * link to transition to U0 before sending device notification.
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2446  	 */
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2447  	link_state = dwc3_gadget_get_link_state(dwc);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2448  	if (link_state == DWC3_LINK_STATE_U3) {
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2449  		ret = __dwc3_gadget_wakeup(dwc, false);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2450  		if (ret) {
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2451  			spin_unlock_irqrestore(&dwc->lock, flags);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2452  			pm_runtime_put_noidle(dwc->dev);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2453  			return -EINVAL;
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2454  		}
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2455  		dwc3_resume_gadget(dwc);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2456  		dwc->link_state = DWC3_LINK_STATE_U0;
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2457  	}
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2458  
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2459  	ret = dwc3_send_gadget_generic_command(dwc, DWC3_DGCMD_DEV_NOTIFICATION,
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2460  					       DWC3_DGCMDPAR_DN_FUNC_WAKE |
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2461  					       DWC3_DGCMDPAR_INTF_SEL(intf_id));
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2462  	if (ret)
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2463  		dev_err(dwc->dev, "function remote wakeup failed, ret:%d\n", ret);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2464  
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2465  	spin_unlock_irqrestore(&dwc->lock, flags);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2466  	pm_runtime_put_noidle(dwc->dev);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2467  
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2468  	return ret;
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2469  }
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2470  
 
 -- 
 0-DAY CI Kernel Test Service
