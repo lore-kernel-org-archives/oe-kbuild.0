@@ -1,166 +1,106 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DB3A41;
-	Fri, 12 May 2023 05:16:05 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-4f1411e8111so10635449e87.1;
-        Thu, 11 May 2023 22:16:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EED3ED6
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 May 2023 05:41:15 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3063208beedso9029034f8f.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 22:41:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683868564; x=1686460564;
-        h=content-transfer-encoding:in-reply-to:subject:from:content-language
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YItu8HOFGjYbDrIPqGGARNcDK3pUy+l3/DwuX5PBOMY=;
-        b=bEsKpiJvKUTBv1g5LUaLwpyRPv+OK55MbS7suNx4ObvbZKT4LM+Azxm8g4Zsg3BMt7
-         2V/gJIDjieQa3gBjOfYjgKsWDpcLzs/Lkbo+4LZNNVBUlOr1A8o/V4Yp6mkOEgYqw47u
-         KjULcu/2+YI74c56daRLU/GgMo796idjRtzgW7D4rJxURF1qI/4Ki1YrQuRvLNYJierS
-         v5+CRtPkxUOLwxtXGvCRgzi1IZqskcb0SMuBlCl6AenvAz7Uxa50w0Qh7JXu70ihNbSA
-         jqGZygtnGnAunYRSFYUBz7LKxEVvkcKbZWV/qzvLYROoyl1OJTZUdC9ixw46c1y5tLWL
-         QkUg==
+        d=linaro.org; s=google; t=1683870074; x=1686462074;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GRLM54m4oNof2pLRboZuVsUjfYt5aZs+58w3qZaftDY=;
+        b=kFDBkoGue96E/tX+H3qVJQxr7ukww/c4REfNOx2RBujhBTRXlOAWnKt7r5cgdmU1JB
+         aLbCxazsL0mhKGxbhhvjS8IfqoH3LM/EowWfU8d7xMWLq0aoJEm7bB1cCjf9PNdn7ouS
+         kSpIZd/d+Yltor7bIu1hKBwJ9yBiI2s8iaqDDV2gpJ/7aQxO8XfZsjmQbt6Yn0gvnxeC
+         62syf98HY8bSC9t8PPyWPDuc1G+8QULNXUhMeESQNcVLjnhIrHnUwdl50P9usyctng/r
+         zPG9OvzLbkPciHHy6ze9sycFdfYz1cEJ8gQlQPbthO0M99+wnRpxxtJx3hfrfgeaGGV3
+         rS7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683868564; x=1686460564;
-        h=content-transfer-encoding:in-reply-to:subject:from:content-language
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YItu8HOFGjYbDrIPqGGARNcDK3pUy+l3/DwuX5PBOMY=;
-        b=XrJaHX/V7ri8Zyu6MjNVFPZlhGrqSXbDs6km/0W6fKIwBnlgPeMRgwBCzMGUo3feIQ
-         A2G/4dkrWOtyxACNyIVrA6Q3hUKvSyPQ1ttDXgSkWdG5hiw62SSFCqpDw6T+aB1SxdIJ
-         WenE5nudNGSueJhmYA4z6jUhWxa63DrO8D7zfshzxvPIDHFh57dsE7Hb9NzuaKzFztMS
-         K1NmsxE37xPVzdsrqsC2owjKtA1CuTjcpQYbyjZmt29ooJ80lEs8QiuK+r39nRfSmSQi
-         2DiVXgJjeN2DHvIQlHU7epMYuuOE+79tzuHiiq0LKHSFP+0v6cXLtpbtv2Ds6qlyRZQE
-         xukA==
-X-Gm-Message-State: AC+VfDyGny9Z3Jh1QZI5rhztxJMoypJHwcKod7Jc+VhZnCIEbZeKZw9F
-	hDS53bbAfXrq7pLaq87/SxQ=
-X-Google-Smtp-Source: ACHHUZ7xqbSiYWWJw+ymmfXp8GvtwoAJrLwf2Ob1CzonIyAw/QsmMJarpqeDK7MkXNJDYIICn8j1Xg==
-X-Received: by 2002:ac2:41cb:0:b0:4ec:a18e:f985 with SMTP id d11-20020ac241cb000000b004eca18ef985mr2847376lfi.13.1683868563709;
-        Thu, 11 May 2023 22:16:03 -0700 (PDT)
-Received: from [192.168.1.126] (62-78-225-252.bb.dnainternet.fi. [62.78.225.252])
-        by smtp.gmail.com with ESMTPSA id i4-20020ac25d24000000b004edb2cb3500sm1341672lfb.279.2023.05.11.22.16.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 May 2023 22:16:03 -0700 (PDT)
-Message-ID: <a1ad0e10-23d2-a860-e9a1-2680313d643f@gmail.com>
-Date: Fri, 12 May 2023 08:16:02 +0300
+        d=1e100.net; s=20221208; t=1683870074; x=1686462074;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GRLM54m4oNof2pLRboZuVsUjfYt5aZs+58w3qZaftDY=;
+        b=St0p98vSXzsrLc5lGztdFRl8PENTOwADy2Lhsz+qzm2rll7m7aqzLJ41FQtVsQr+I8
+         ILuvU58J6A/s8J3I7qitodYsE1OwNh2FL5awA8bGCkLgowI9p4A9/QNQrboXFRzLC4yc
+         YQLc/zfCStheKxS0+dTnhSqdnyCT4C+FA6aaInvyARZfZBVX50H+13XZbUaw8DOboWa+
+         yfSTCdkZpz0SR5aF1vf8Lm+UkzWQHqhRmGZQfHQCFUCC/YliWQdoA0ByKcolBrofj2dE
+         Lp/irUCDfphHZZy0boc0aETWZBOiZBNWXyxS/sda/Kux8mYILQ0V1s0Y68nXgJl1bm17
+         YVqg==
+X-Gm-Message-State: AC+VfDzNHT4iROqTYBf5ZvKQfsgM5ByPtcuRAxMiFO41Bc+ZK3z722ZX
+	U0nxHphDzAMvzHzPG4xDkYFOkQ==
+X-Google-Smtp-Source: ACHHUZ6seLDwpj4RolVQYyb0o1iErqMDr1kmvf6fp+MtcMehIqrlZQ8vKDd63c9pWnSxB6RtD1MWgA==
+X-Received: by 2002:adf:cd0e:0:b0:304:6a26:1f6 with SMTP id w14-20020adfcd0e000000b003046a2601f6mr17996620wrm.59.1683870074239;
+        Thu, 11 May 2023 22:41:14 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id v3-20020adfebc3000000b00307c0afc030sm5251841wrn.4.2023.05.11.22.41.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 22:41:12 -0700 (PDT)
+Date: Fri, 12 May 2023 08:41:07 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: oe-kbuild@lists.linux.dev,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: drivers/iio/accel/kionix-kx022a.c:1053 kx022a_probe_internal()
+ warn: passing zero to 'dev_err_probe'
+Message-ID: <f5f669fc-ebb4-46df-8957-84c714481ace@kili.mountain>
+References: <46296e39-dbc1-4f27-b89c-af6f08d9f318@kili.mountain>
+ <a1ad0e10-23d2-a860-e9a1-2680313d643f@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <46296e39-dbc1-4f27-b89c-af6f08d9f318@kili.mountain>
-Content-Language: en-US, en-GB
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: Re: drivers/iio/accel/kionix-kx022a.c:1053 kx022a_probe_internal()
- warn: passing zero to 'dev_err_probe'
-In-Reply-To: <46296e39-dbc1-4f27-b89c-af6f08d9f318@kili.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a1ad0e10-23d2-a860-e9a1-2680313d643f@gmail.com>
 
-On 5/11/23 13:48, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   ad2fd53a7870a395b8564697bef6c329d017c6c9
-> commit: 7c1d1677b3227c6b18ac999f2b84778baa280b8f iio: accel: Support Kionix/ROHM KX022A accelerometer
-> config: openrisc-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110245.MFxC9bUj-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 12.1.0
+On Fri, May 12, 2023 at 08:16:02AM +0300, Matti Vaittinen wrote:
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1046  	irq = fwnode_irq_get_byname(fwnode, "INT1");
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1047  	if (irq > 0) {
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1048  		data->inc_reg = KX022A_REG_INC1;
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1049  		data->ien_reg = KX022A_REG_INC4;
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1050  	} else {
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1051  		irq = fwnode_irq_get_byname(fwnode, "INT2");
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1052  		if (irq <= 0)
+> >                                                                      ^^^^^^^^
+> > This code assumes fwnode_irq_get_byname() can return zero.
+> > 
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24 @1053  			return dev_err_probe(dev, irq, "No suitable IRQ\n");
+> > 
+> > But fortunately, it can't otherwise this would return success.
+> > 
 > 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202305110245.MFxC9bUj-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/iio/accel/kionix-kx022a.c:1053 kx022a_probe_internal() warn: passing zero to 'dev_err_probe'
-> 
-> vim +/dev_err_probe +1053 drivers/iio/accel/kionix-kx022a.c
-> 
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1000  int kx022a_probe_internal(struct device *dev)
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1001  {
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1002  	static const char * const regulator_names[] = {"io-vdd", "vdd"};
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1003  	struct iio_trigger *indio_trig;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1004  	struct fwnode_handle *fwnode;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1005  	struct kx022a_data *data;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1006  	struct regmap *regmap;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1007  	unsigned int chip_id;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1008  	struct iio_dev *idev;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1009  	int ret, irq;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1010  	char *name;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1011
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1012  	regmap = dev_get_regmap(dev, NULL);
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1013  	if (!regmap) {
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1014  		dev_err(dev, "no regmap\n");
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1015  		return -EINVAL;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1016  	}
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1017
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1018  	fwnode = dev_fwnode(dev);
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1019  	if (!fwnode)
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1020  		return -ENODEV;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1021
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1022  	idev = devm_iio_device_alloc(dev, sizeof(*data));
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1023  	if (!idev)
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1024  		return -ENOMEM;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1025
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1026  	data = iio_priv(idev);
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1027
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1028  	/*
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1029  	 * VDD is the analog and digital domain voltage supply and
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1030  	 * IO_VDD is the digital I/O voltage supply.
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1031  	 */
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1032  	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(regulator_names),
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1033  					     regulator_names);
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1034  	if (ret && ret != -ENODEV)
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1035  		return dev_err_probe(dev, ret, "failed to enable regulator\n");
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1036
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1037  	ret = regmap_read(regmap, KX022A_REG_WHO, &chip_id);
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1038  	if (ret)
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1039  		return dev_err_probe(dev, ret, "Failed to access sensor\n");
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1040
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1041  	if (chip_id != KX022A_ID) {
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1042  		dev_err(dev, "unsupported device 0x%x\n", chip_id);
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1043  		return -EINVAL;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1044  	}
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1045
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1046  	irq = fwnode_irq_get_byname(fwnode, "INT1");
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1047  	if (irq > 0) {
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1048  		data->inc_reg = KX022A_REG_INC1;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1049  		data->ien_reg = KX022A_REG_INC4;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1050  	} else {
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1051  		irq = fwnode_irq_get_byname(fwnode, "INT2");
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1052  		if (irq <= 0)
->                                                                      ^^^^^^^^
-> This code assumes fwnode_irq_get_byname() can return zero.
-> 
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24 @1053  			return dev_err_probe(dev, irq, "No suitable IRQ\n");
-> 
-> But fortunately, it can't otherwise this would return success.
+> Ouch. Actually, the fwnode_irq_get_byname() can return zero on device-tree
+> mapping error. I did actually send a patch to address this some time ago:
+> https://lore.kernel.org/lkml/cover.1666710197.git.mazziesaccount@gmail.com/
 > 
 
-Ouch. Actually, the fwnode_irq_get_byname() can return zero on 
-device-tree mapping error. I did actually send a patch to address this 
-some time ago:
-https://lore.kernel.org/lkml/cover.1666710197.git.mazziesaccount@gmail.com/
+Ah.  I just went by the documentation instead of looking at the code.
 
-but got stuck on not knowing "the right way" of handling an smbus 
-use-case. Later I forgot this.
+Originally a bunch of irq functions return NO_IRQ on error which was a
+design mistake...  irq_of_parse_and_map() still returns zero on error
+instead of negative error codes.  I wrote a check for that yesterday.
 
-It seems I did describe this very same error in the cover-letter - and 
-right after that I fell on this very trap I described... :/
+drivers/gpu/drm/msm/dsi/dsi_host.c:1949 msm_dsi_host_init() warn: irq_of_parse_and_map() returns zero on failure
+drivers/dma/ti/edma.c:2405 edma_probe() warn: irq_of_parse_and_map() returns zero on failure
+drivers/dma/ti/edma.c:2421 edma_probe() warn: irq_of_parse_and_map() returns zero on failure
+drivers/net/ethernet/xilinx/ll_temac_main.c:1570 temac_probe() warn: irq_of_parse_and_map() returns zero on failure
+drivers/net/ethernet/xilinx/ll_temac_main.c:1573 temac_probe() warn: irq_of_parse_and_map() returns zero on failure
+drivers/ata/sata_mv.c:4094 mv_platform_probe() warn: irq_of_parse_and_map() returns zero on failure
 
-Thanks for the heads-up Dan!
+It would be good if we could apply your patch, otherwise I could create
+an explicit check for fwnode_irq_get_byname() returns.
 
-Yours,
-	-- Matti
+Ideally, everything would just return negative error codes on error.
+It's harder to change irq_of_parse_and_map() because it doesn't return a
+mix of errors and zero, but just zero.  We would have to rename it to
+something else, otherwise backports would get messed up.
 
--- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~
-
+regards,
+dan carpenter
