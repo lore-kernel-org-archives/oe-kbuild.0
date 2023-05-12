@@ -1,42 +1,53 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E8C628
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 May 2023 00:08:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683850113; x=1715386113;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=536rWX3L5vD3J7U/sScmeZzFgiqYz2WQHaJDGoWliyw=;
-  b=M9OnqWRQD1FHtkolbxCwJK2xkgsMJqysyUoMGPL/cF8uyFK2IBJcZ8Rt
-   jQW3NtjXe90fmZ7P+9w1TJbqIytHNxbl6Via48WeIKUdBz2QdHYX4VWq0
-   IpMvzv66qF+FjSZyKTefKIddranoVZ3jREGpN9zBBNqpHfl691WYekK8O
-   w/hs/1HTDaw3ybX5xaNpRxKle5U2fayyxSCLBcIfT2YG55ITRn/+5xP/c
-   SoN8KYwGn3lZtJIJTy5BJ28NjZfCdG+5gggi4yHR9ki75DDVY1HEMnxsV
-   PpIU5fMaU9VimBUOzLe28iEg/sb96PyTZoNHT2y+1IgduItfD16ZnEWFM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="350694255"
-X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; 
-   d="scan'208";a="350694255"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 17:08:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="702951827"
-X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; 
-   d="scan'208";a="702951827"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 11 May 2023 17:08:31 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pxGKj-0004KA-2o;
-	Fri, 12 May 2023 00:08:29 +0000
-Date: Fri, 12 May 2023 08:07:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB198A42
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 May 2023 04:18:27 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3f417ea5252so48217155e9.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 11 May 2023 21:18:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683865105; x=1686457105;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lKSRIDy0J+UduLCQdBIRVgaNQhqBgLMPH7ha37U/mpY=;
+        b=blQ1l551mkk+RhRNR4/CbhJIKKut5nb8rgm1ZlVdYS3Xs/ZAsSfjl9OmJXiFhLRw//
+         fLThEdWuA50YQnH2BZtawfZwWJQL4qD7NbGHby0VERYx9vzBTpa+wxNjToFvj4uRjARx
+         Q1zj3aHn8M1OaIfRQN7nFnUYn/LIwrmKZ9YP9n3+D1R+hkV6k7Z8RenSqfHy9PuHieTZ
+         40zj5vxBqUuHpHvSZhtL86t70GXZZQNBvXN0cCqktdTtlrE2uWJ+HfdDCT8K7BmgBJCA
+         IV0REqLjOlrUvv0Ycs8yZm0zBIQrPutGQ7/qQZScPERY/ozbTz3c+t9jXjAATkuqlv49
+         j0tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683865105; x=1686457105;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lKSRIDy0J+UduLCQdBIRVgaNQhqBgLMPH7ha37U/mpY=;
+        b=BsCEzNB+TSXX6f5LQbfd9kMpMKkuOHLozi0/WriKPBtskYsLseflT9iM1ijX15npNX
+         xpoPgYjOfNMvKD2GZPyT34stRLoOIpVcv1giscBBlvt6nk+yt09Nn6UpNi4nTMDk9Lgw
+         4LBrNoBmF5SG75voX8uioApemZjM3RS4cO+aBS1yY3fJ/KCIoCjiTvKnQ61enm1nt/Bt
+         zt9HTZWZgMCoGbavjVLQCnBglI6BC3mjuZGTFy+neCWn/Z4OcV3AO6DBOYEY+qAzFijs
+         h37KBiMz+3efVYVGhjiqVRfKuRp75m3BDAS2cm7ErqQuZIfzSLPP2AFqoZgQw/hEWw3P
+         rj0w==
+X-Gm-Message-State: AC+VfDzNi4HjzKOBG5eC4ne+C7duZ0MRSP1aK46jaGERvupJfjolNZvC
+	A2SDKIubako6aWr8wrjXpASno0/m23P05zrNg8o=
+X-Google-Smtp-Source: ACHHUZ5p1QJeBJjKCYP8wu3GMgGcx+MS7p0O3HhkJyuYY/Yip8cIUKZ3F1vH9Kfd5azZX90khyqONQ==
+X-Received: by 2002:a7b:c85a:0:b0:3f4:ecf0:8c93 with SMTP id c26-20020a7bc85a000000b003f4ecf08c93mr2384658wml.20.1683865104843;
+        Thu, 11 May 2023 21:18:24 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id x16-20020a05600c21d000b003f318be9442sm27555561wmj.40.2023.05.11.21.18.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 21:18:23 -0700 (PDT)
+Date: Fri, 12 May 2023 07:18:16 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Elson Roy Serrao <quic_eserrao@quicinc.com>,
+	gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
+	Elson Roy Serrao <quic_eserrao@quicinc.com>
 Subject: Re: [PATCH 2/2] usb: dwc3: Modify runtime pm ops to handle bus
  suspend
-Message-ID: <202305120709.tCFYCtsd-lkp@intel.com>
+Message-ID: <3e035312-3c06-44e1-95ef-0a4d36456a7d@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,36 +56,18 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <1683827311-1462-3-git-send-email-quic_eserrao@quicinc.com>
-References: <1683827311-1462-3-git-send-email-quic_eserrao@quicinc.com>
-TO: Elson Roy Serrao <quic_eserrao@quicinc.com>
-TO: gregkh@linuxfoundation.org
-TO: Thinh.Nguyen@synopsys.com
-CC: linux-kernel@vger.kernel.org
-CC: linux-usb@vger.kernel.org
-CC: quic_wcheng@quicinc.com
-CC: quic_jackp@quicinc.com
-CC: Elson Roy Serrao <quic_eserrao@quicinc.com>
 
 Hi Elson,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.4-rc1 next-20230511]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Elson-Roy-Serrao/usb-function-u_ether-Handle-rx-requests-during-suspend-resume/20230512-015036
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
 patch link:    https://lore.kernel.org/r/1683827311-1462-3-git-send-email-quic_eserrao%40quicinc.com
 patch subject: [PATCH 2/2] usb: dwc3: Modify runtime pm ops to handle bus suspend
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 hours ago
 config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230512/202305120709.tCFYCtsd-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
@@ -93,7 +86,6 @@ drivers/usb/dwc3/gadget.c:2744 dwc3_gadget_pullup() warn: pm_runtime_get_sync() 
 
 vim +2409 drivers/usb/dwc3/gadget.c
 
-218ef7b647e336 Felipe Balbi     2016-04-04  2391  
 218ef7b647e336 Felipe Balbi     2016-04-04  2392  static int dwc3_gadget_wakeup(struct usb_gadget *g)
 218ef7b647e336 Felipe Balbi     2016-04-04  2393  {
 218ef7b647e336 Felipe Balbi     2016-04-04  2394  	struct dwc3		*dwc = gadget_to_dwc(g);
@@ -112,6 +104,10 @@ vim +2409 drivers/usb/dwc3/gadget.c
 047161686b813a Elson Roy Serrao 2023-03-24  2407  
 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2408  	ret = pm_runtime_get_sync(dwc->dev);
 0660b8a88d4d6a Elson Roy Serrao 2023-05-11 @2409  	if (ret) {
+
+The checker is correct.  These days it's better to use the
+pm_runtime_resume_and_get() function instead of pm_runtime_get_sync().
+
 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2410  		pm_runtime_put(dwc->dev);
 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2411  		return ret;
 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2412  	}
@@ -140,6 +136,9 @@ vim +2409 drivers/usb/dwc3/gadget.c
 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2435  
 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2436  	ret = pm_runtime_get_sync(dwc->dev);
 0660b8a88d4d6a Elson Roy Serrao 2023-05-11 @2437  	if (ret) {
+
+Same.
+
 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2438  		pm_runtime_put(dwc->dev);
 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2439  		return ret;
 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2440  	}
@@ -172,8 +171,8 @@ vim +2409 drivers/usb/dwc3/gadget.c
 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2467  
 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2468  	return ret;
 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2469  }
-92c08a84b53e5d Elson Roy Serrao 2023-03-24  2470  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
