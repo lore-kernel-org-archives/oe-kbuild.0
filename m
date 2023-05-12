@@ -1,42 +1,59 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9247EBE54
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 May 2023 12:22:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683894169; x=1715430169;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=seEnKHr3PceLx8/H6SPEtEzu5w9YYTVIyVE+M46uchg=;
-  b=JAXhP2qSQYYOvP7VYyC4y2clehUASEdeGMyfTUfiYWVK62Kab8CrKh7T
-   OVWg7cP9FDYKC94k+P/Q5sNmu5QRuuZcwkMBapmi1wPUo61etQZqf62a6
-   oQ1Gqbg52cw8VsyEnjZzP/OEmZ0wAmKlnAIx4ymODF0pHirfgvloYrK94
-   c9C2QWkRPEng9ZdofroNohmtCxOOU4FBXNHbFjtc3mgykYap/mf0fABgq
-   cMtF9bmXSvMQkxBfJKi5JmfWi68yjkco5/BJX1TMyFTWNSxIdNp/TnYHs
-   O/NCxk3Yti9+D5vwWUtorSFwk8UqQlRBlQQe0fH+cZwXIf8RGF8dSV16J
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="414146657"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="414146657"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 05:22:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="946608721"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="946608721"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 12 May 2023 05:22:47 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pxRnK-0004qO-2B;
-	Fri, 12 May 2023 12:22:46 +0000
-Date: Fri, 12 May 2023 20:22:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB7E1DDF5
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 May 2023 13:08:36 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3f42d937d61so39652945e9.3
+        for <oe-kbuild@lists.linux.dev>; Fri, 12 May 2023 06:08:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683896913; x=1686488913;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dmS/3zIbZVMhJuJsoKE7px+yK9u/iw8c9fdzMYkr+8g=;
+        b=MLKbyP7nMkzG3nUY1ZeuKoc6wro8yT0cWnze2hpkoVXUgwjOSJCZIV4fHbwTo0kS0Q
+         deKKJeNvxOQwIpMWcZ4/h7bTYR+HuqnSXsxmQRLJhREV9Do86sd2e1vvc089Q2d4LgJz
+         Uzu9SRoXrmVJ9Qy2FuZ6lCOALmLbPHuTJAdqmWM57pKy4pdVDNnkh7gL3GUZy3RSsxs4
+         jRBv0Hj7lZVqZItuFsjdkgZpPPPQn9w3OCg0W+4maSV8RPKYbHB/i4elDRTj0qnkV3jF
+         +XeeN7vcKXBPFZNH9JtRPCIMsK3elkqSudlOwjQKZnRHw8wwXqbocuZjByQ0el8+p3YV
+         qCIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683896913; x=1686488913;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dmS/3zIbZVMhJuJsoKE7px+yK9u/iw8c9fdzMYkr+8g=;
+        b=lIyC8bu/PA517apXJblG+k8Jaelo08SHDRbMQe5RG14cx2uM7CMSL2Q2/tZn5YUHCz
+         IjSuf/hCKZZjTuehXBK+Io1a3+GLyFQLpp3uBvi7zf9h8LaFc4qIiEsSgBNEUMMs/qFb
+         c/KM7xVrhqd725PuvaMqVIvzH3GCQs5ZfC7rkRb4D1YJOXpA7Srfb7Z/d0bCvTFhgZWy
+         HbxhXSman62HIF0QlACWKciOzNl4LDRItEUZL81u/hHc/h+gCXhmifqejC9LfHmsxCZw
+         6vPsWSwvupgWRkYpDO9OB0bWZMKEtuMSZYU/CVVXWrXLBvp4Ze9v9KGoBr/X1OVagTef
+         oLJA==
+X-Gm-Message-State: AC+VfDxXc2h782thiuvgZjjWJN931c5pqTPdOs9JcJT7ARwEXxoKCQEh
+	iDVt2abSE6RfzBy3jCiS1Yc9OVZTi4PfESzYgPQ=
+X-Google-Smtp-Source: ACHHUZ6Ty/EFcV7z8y9aH06p7h7QzBThGCcA+olD617fUtbEQbwVFr1mUEWzkHBltQ1a4qInkrwN3g==
+X-Received: by 2002:a1c:7702:0:b0:3f1:72ec:4009 with SMTP id t2-20020a1c7702000000b003f172ec4009mr18280372wmi.9.1683896913396;
+        Fri, 12 May 2023 06:08:33 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id v22-20020a7bcb56000000b003f1751016desm28562809wmj.28.2023.05.12.06.08.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 May 2023 06:08:31 -0700 (PDT)
+Date: Fri, 12 May 2023 16:08:14 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, zelong dong <zelong.dong@amlogic.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Sean Young <sean@mess.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	Qianggui.Song@amlogic.com, Yonghui.Yu@amlogic.com,
+	kelvin.zhang@amlogic.com, Zelong Dong <zelong.dong@amlogic.com>
 Subject: Re: [PATCH] media: rc: meson-ir: support MMIO regmaps to access
  registers
-Message-ID: <202305122010.lGsFA089-lkp@intel.com>
+Message-ID: <95860d11-8317-4082-a1b8-a1fdaba9f6aa@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,43 +62,18 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20230511034333.26800-1-zelong.dong@amlogic.com>
-References: <20230511034333.26800-1-zelong.dong@amlogic.com>
-TO: zelong dong <zelong.dong@amlogic.com>
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-TO: Sean Young <sean@mess.org>
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-TO: Rob Herring <robh+dt@kernel.org>
-TO: Jerome Brunet <jbrunet@baylibre.com>
-TO: Kevin Hilman <khilman@baylibre.com>
-TO: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-CC: linux-amlogic@lists.infradead.org
-CC: Qianggui.Song@amlogic.com
-CC: Yonghui.Yu@amlogic.com
-CC: kelvin.zhang@amlogic.com
-CC: Zelong Dong <zelong.dong@amlogic.com>
 
 Hi zelong,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on v6.3]
-[also build test WARNING on linus/master next-20230512]
-[cannot apply to media-tree/master v6.4-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/zelong-dong/media-rc-meson-ir-support-MMIO-regmaps-to-access-registers/20230511-114604
 base:   457391b0380335d5e9a5babdec90ac53928b23b4
 patch link:    https://lore.kernel.org/r/20230511034333.26800-1-zelong.dong%40amlogic.com
 patch subject: [PATCH] media: rc: meson-ir: support MMIO regmaps to access registers
-:::::: branch date: 33 hours ago
-:::::: commit date: 33 hours ago
 config: parisc-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230512/202305122010.lGsFA089-lkp@intel.com/config)
 compiler: hppa-linux-gcc (GCC) 12.1.0
 
@@ -98,7 +90,6 @@ drivers/media/rc/meson-ir.c:113 meson_ir_probe() warn: passing zero to 'PTR_ERR'
 
 vim +/PTR_ERR +111 drivers/media/rc/meson-ir.c
 
-12ddbadf383d55 Beniamino Galvani 2014-11-18   94  
 12ddbadf383d55 Beniamino Galvani 2014-11-18   95  static int meson_ir_probe(struct platform_device *pdev)
 12ddbadf383d55 Beniamino Galvani 2014-11-18   96  {
 12ddbadf383d55 Beniamino Galvani 2014-11-18   97  	struct device *dev = &pdev->dev;
@@ -118,6 +109,20 @@ vim +/PTR_ERR +111 drivers/media/rc/meson-ir.c
 5a048b4c2c04b7 Zelong Dong       2023-05-11 @111  		dev_err(&pdev->dev, "get mem resource error, %ld\n",
 5a048b4c2c04b7 Zelong Dong       2023-05-11  112  			PTR_ERR(res));
 5a048b4c2c04b7 Zelong Dong       2023-05-11  113  		return PTR_ERR(res);
+
+The platform_get_resource() function returns NULL on failure.  It never
+returns error pointers.  This means that return PTR_ERR(res); returns
+0 (which means success).  Please read my blog for more information.
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+
+This should be:
+
+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+	if (!res) {
+		dev_err(&pdev->dev, "get mem resource error\n");
+		return -EINVAL;
+	}
+
 5a048b4c2c04b7 Zelong Dong       2023-05-11  114  	}
 5a048b4c2c04b7 Zelong Dong       2023-05-11  115  
 5a048b4c2c04b7 Zelong Dong       2023-05-11  116  	res_start = devm_ioremap_resource(&pdev->dev, res);
@@ -193,8 +198,8 @@ b358e747aebc4a Sean Young        2018-03-12  143  	ir->rc->max_timeout = 10 * IR
 12ddbadf383d55 Beniamino Galvani 2014-11-18  186  
 12ddbadf383d55 Beniamino Galvani 2014-11-18  187  	return 0;
 12ddbadf383d55 Beniamino Galvani 2014-11-18  188  }
-12ddbadf383d55 Beniamino Galvani 2014-11-18  189  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
