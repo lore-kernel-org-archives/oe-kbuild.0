@@ -1,43 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015A922622
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 May 2023 21:38:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617E32262F
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 May 2023 21:58:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684013899; x=1715549899;
+  t=1684015099; x=1715551099;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m+BnNGlAROZjV87QsRmx8DirtqTkwzWdGERyTrIWPqU=;
-  b=irfwkjzr8dO2+qT+0a0p3D/Y+w9vaaoD/aJm5p23CQUjbgnOTw2EfJ1L
-   auRiBQeZRL6iz7NdfiOCyhRjlL57l+aOnaYwIsIXBumhmovaNrbR75VZk
-   vspe7Pe3qovsH4epY10LYn1lwFSygC/2mX6fHvRxMFVsRhB/yoyeWSlgp
-   8X78J0UKxBM2LEX44CR4vFybpOLX50EVuGyEXOkEtSSaK+XX0g/uC2aBt
-   5O7N3Dc5dA6V3sUZ5G2pURkXTfD/DsL+RCvAMqntb0/IAiPSa0Lm69VN+
-   5CZmwJ4eqVaJtGJD05laloe6YEg9wnF3uxX3FswCbDfRQOHYrmYcnOuhP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="335514350"
+  bh=4ggAK9ZTB7rur6pUo3HVNLQrShCWwBwvhGFy3bJ27YA=;
+  b=fq2r5nQluvYf5XNI7WsHM/8Sv3p77D/IBfZGgShh6atd/MvjUtsq9StI
+   9U+dsQpCfNYTDHsv17Kv+N9xJd6JS/TWXCgRXw8HCqBoXga9sya10Cx0d
+   9dfEqWjww1f2fz1wzzgRyIsybzKm2cChzg28EUKovLKTEYvRJJkJhEwst
+   lHnPTWR5e0H+S7QevbBSqJjOSsej1C5Uwo2Vv63JqzBphkbW2V1D9/qJr
+   BUxmB4plFnBJf27yQIAa3F5TfJtBI0Oqy8tIVMZNfIeNiXJsPUV7SNLr+
+   lQOLva7jccXRC5Ucv8JJG4JVcfANQ2WlaMHkgVs/vtABratvB6nOYzies
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="437324021"
 X-IronPort-AV: E=Sophos;i="5.99,273,1677571200"; 
-   d="scan'208";a="335514350"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 14:38:18 -0700
+   d="scan'208";a="437324021"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 14:58:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="703524646"
+X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="812472291"
 X-IronPort-AV: E=Sophos;i="5.99,273,1677571200"; 
-   d="scan'208";a="703524646"
+   d="scan'208";a="812472291"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 13 May 2023 14:38:17 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 13 May 2023 14:58:17 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxwwS-0005go-1a;
-	Sat, 13 May 2023 21:38:16 +0000
-Date: Sun, 14 May 2023 05:37:43 +0800
+	id 1pxxFo-0005hI-2F;
+	Sat, 13 May 2023 21:58:16 +0000
+Date: Sun, 14 May 2023 05:57:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: net/smc/smc_rx.c:212 smc_rx_splice() warn: comparing different
- units: 'i < ((((bytes + offset)) + ((((1 << 13))) - 1)) & ~((((1 << 13))) -
- 1)) / (1 << 13)' 'array_size < page'
-Message-ID: <202305140553.zCuRYx25-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/soc/fsl/qe/tsa.c:663:22: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202305140514.jzsGsWT4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,124 +46,235 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Wen Gu <guwen@linux.alibaba.com>
+TO: Herve Codina <herve.codina@bootlin.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Christophe Leroy <christophe.leroy@csgroup.eu>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   d4d58949a6eac1c45ab022562c8494725e1ac094
-commit: b8d199451c99b3796b840c350eb74b830c5c869b net/smc: Allow virtually contiguous sndbufs or RMBs for SMC-R
-date:   10 months ago
+commit: 1d4ba0b81c1cf2bfc0c55658f53809846ae9de52 soc: fsl: cpm1: Add support for TSA
+date:   10 weeks ago
 :::::: branch date: 7 hours ago
-:::::: commit date: 10 months ago
-config: openrisc-randconfig-m031-20230509 (https://download.01.org/0day-ci/archive/20230514/202305140553.zCuRYx25-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+:::::: commit date: 10 weeks ago
+config: riscv-randconfig-s033-20230514 (https://download.01.org/0day-ci/archive/20230514/202305140514.jzsGsWT4-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1d4ba0b81c1cf2bfc0c55658f53809846ae9de52
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 1d4ba0b81c1cf2bfc0c55658f53809846ae9de52
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/mm/ drivers/soc/fsl/qe/ lib/xz/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305140553.zCuRYx25-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305140514.jzsGsWT4-lkp@intel.com/
 
-smatch warnings:
-net/smc/smc_rx.c:212 smc_rx_splice() warn: comparing different units: 'i < ((((bytes + offset)) + ((((1 << 13))) - 1)) & ~((((1 << 13))) - 1)) / (1 << 13)' 'array_size < page'
-net/smc/smc_rx.c:212 smc_rx_splice() warn: comparing different units: 'i < ((((bytes + offset)) + ((((1 << 13))) - 1)) & ~((((1 << 13))) - 1)) / (1 << 13)' 'array_size < page'
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zihintpause'
+>> drivers/soc/fsl/qe/tsa.c:663:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] si_regs @@     got void [noderef] __iomem * @@
+   drivers/soc/fsl/qe/tsa.c:663:22: sparse:     expected void *[noderef] si_regs
+   drivers/soc/fsl/qe/tsa.c:663:22: sparse:     got void [noderef] __iomem *
+>> drivers/soc/fsl/qe/tsa.c:673:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] si_ram @@     got void [noderef] __iomem * @@
+   drivers/soc/fsl/qe/tsa.c:673:21: sparse:     expected void *[noderef] si_ram
+   drivers/soc/fsl/qe/tsa.c:673:21: sparse:     got void [noderef] __iomem *
+>> drivers/soc/fsl/qe/tsa.c:189:26: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/tsa.c:189:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:160:21: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/tsa.c:160:21: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:218:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:218:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:160:21: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/tsa.c:160:21: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:245:25: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:245:47: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:246:25: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:246:46: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:247:25: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:250:25: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:250:47: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:251:25: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:251:46: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:252:25: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:259:33: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:259:55: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:260:33: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:260:54: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:261:33: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:264:33: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:264:55: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:265:33: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:265:54: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:266:33: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:271:33: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:271:55: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:272:33: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:272:54: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:273:33: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:276:33: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:276:55: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:277:33: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:277:54: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:278:33: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:322:9: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:322:16: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:322:35: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:322:58: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:325:14: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:325:33: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:330:13: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:332:31: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:332:31: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:155:21: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:155:38: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/tsa.c:155:38: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/tsa.c:155:21: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:155:38: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:344:25: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:344:44: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:348:29: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/tsa.c:348:29: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:349:17: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:640:29: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/tsa.c:640:29: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:664:20: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:664:20: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:665:32: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:665:32: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:674:20: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/tsa.c:674:20: sparse: sparse: too many warnings
 
-vim +212 net/smc/smc_rx.c
+vim +663 drivers/soc/fsl/qe/tsa.c
 
-9014db202cb764 Stefan Raspl 2018-05-03  144  
-9014db202cb764 Stefan Raspl 2018-05-03  145  static int smc_rx_splice(struct pipe_inode_info *pipe, char *src, size_t len,
-9014db202cb764 Stefan Raspl 2018-05-03  146  			 struct smc_sock *smc)
-9014db202cb764 Stefan Raspl 2018-05-03  147  {
-b8d199451c99b3 Wen Gu       2022-07-14  148  	struct smc_link_group *lgr = smc->conn.lgr;
-b8d199451c99b3 Wen Gu       2022-07-14  149  	int offset = offset_in_page(src);
-b8d199451c99b3 Wen Gu       2022-07-14  150  	struct partial_page *partial;
-9014db202cb764 Stefan Raspl 2018-05-03  151  	struct splice_pipe_desc spd;
-b8d199451c99b3 Wen Gu       2022-07-14  152  	struct smc_spd_priv **priv;
-b8d199451c99b3 Wen Gu       2022-07-14  153  	struct page **pages;
-b8d199451c99b3 Wen Gu       2022-07-14  154  	int bytes, nr_pages;
-b8d199451c99b3 Wen Gu       2022-07-14  155  	int i;
-9014db202cb764 Stefan Raspl 2018-05-03  156  
-b8d199451c99b3 Wen Gu       2022-07-14  157  	nr_pages = !lgr->is_smcd && smc->conn.rmb_desc->is_vm ?
-b8d199451c99b3 Wen Gu       2022-07-14  158  		   PAGE_ALIGN(len + offset) / PAGE_SIZE : 1;
-b8d199451c99b3 Wen Gu       2022-07-14  159  
-b8d199451c99b3 Wen Gu       2022-07-14  160  	pages = kcalloc(nr_pages, sizeof(*pages), GFP_KERNEL);
-b8d199451c99b3 Wen Gu       2022-07-14  161  	if (!pages)
-b8d199451c99b3 Wen Gu       2022-07-14  162  		goto out;
-b8d199451c99b3 Wen Gu       2022-07-14  163  	partial = kcalloc(nr_pages, sizeof(*partial), GFP_KERNEL);
-b8d199451c99b3 Wen Gu       2022-07-14  164  	if (!partial)
-b8d199451c99b3 Wen Gu       2022-07-14  165  		goto out_page;
-b8d199451c99b3 Wen Gu       2022-07-14  166  	priv = kcalloc(nr_pages, sizeof(*priv), GFP_KERNEL);
-9014db202cb764 Stefan Raspl 2018-05-03  167  	if (!priv)
-b8d199451c99b3 Wen Gu       2022-07-14  168  		goto out_part;
-b8d199451c99b3 Wen Gu       2022-07-14  169  	for (i = 0; i < nr_pages; i++) {
-b8d199451c99b3 Wen Gu       2022-07-14  170  		priv[i] = kzalloc(sizeof(**priv), GFP_KERNEL);
-b8d199451c99b3 Wen Gu       2022-07-14  171  		if (!priv[i])
-b8d199451c99b3 Wen Gu       2022-07-14  172  			goto out_priv;
-b8d199451c99b3 Wen Gu       2022-07-14  173  	}
-b8d199451c99b3 Wen Gu       2022-07-14  174  
-b8d199451c99b3 Wen Gu       2022-07-14  175  	if (lgr->is_smcd ||
-b8d199451c99b3 Wen Gu       2022-07-14  176  	    (!lgr->is_smcd && !smc->conn.rmb_desc->is_vm)) {
-b8d199451c99b3 Wen Gu       2022-07-14  177  		/* smcd or smcr that uses physically contiguous RMBs */
-b8d199451c99b3 Wen Gu       2022-07-14  178  		priv[0]->len = len;
-b8d199451c99b3 Wen Gu       2022-07-14  179  		priv[0]->smc = smc;
-b8d199451c99b3 Wen Gu       2022-07-14  180  		partial[0].offset = src - (char *)smc->conn.rmb_desc->cpu_addr;
-b8d199451c99b3 Wen Gu       2022-07-14  181  		partial[0].len = len;
-b8d199451c99b3 Wen Gu       2022-07-14  182  		partial[0].private = (unsigned long)priv[0];
-b8d199451c99b3 Wen Gu       2022-07-14  183  		pages[0] = smc->conn.rmb_desc->pages;
-b8d199451c99b3 Wen Gu       2022-07-14  184  	} else {
-b8d199451c99b3 Wen Gu       2022-07-14  185  		int size, left = len;
-b8d199451c99b3 Wen Gu       2022-07-14  186  		void *buf = src;
-b8d199451c99b3 Wen Gu       2022-07-14  187  		/* smcr that uses virtually contiguous RMBs*/
-b8d199451c99b3 Wen Gu       2022-07-14  188  		for (i = 0; i < nr_pages; i++) {
-b8d199451c99b3 Wen Gu       2022-07-14  189  			size = min_t(int, PAGE_SIZE - offset, left);
-b8d199451c99b3 Wen Gu       2022-07-14  190  			priv[i]->len = size;
-b8d199451c99b3 Wen Gu       2022-07-14  191  			priv[i]->smc = smc;
-b8d199451c99b3 Wen Gu       2022-07-14  192  			pages[i] = vmalloc_to_page(buf);
-b8d199451c99b3 Wen Gu       2022-07-14  193  			partial[i].offset = offset;
-b8d199451c99b3 Wen Gu       2022-07-14  194  			partial[i].len = size;
-b8d199451c99b3 Wen Gu       2022-07-14  195  			partial[i].private = (unsigned long)priv[i];
-b8d199451c99b3 Wen Gu       2022-07-14  196  			buf += size / sizeof(*buf);
-b8d199451c99b3 Wen Gu       2022-07-14  197  			left -= size;
-b8d199451c99b3 Wen Gu       2022-07-14  198  			offset = 0;
-b8d199451c99b3 Wen Gu       2022-07-14  199  		}
-b8d199451c99b3 Wen Gu       2022-07-14  200  	}
-b8d199451c99b3 Wen Gu       2022-07-14  201  	spd.nr_pages_max = nr_pages;
-b8d199451c99b3 Wen Gu       2022-07-14  202  	spd.nr_pages = nr_pages;
-b8d199451c99b3 Wen Gu       2022-07-14  203  	spd.pages = pages;
-b8d199451c99b3 Wen Gu       2022-07-14  204  	spd.partial = partial;
-9014db202cb764 Stefan Raspl 2018-05-03  205  	spd.ops = &smc_pipe_ops;
-9014db202cb764 Stefan Raspl 2018-05-03  206  	spd.spd_release = smc_rx_spd_release;
-9014db202cb764 Stefan Raspl 2018-05-03  207  
-9014db202cb764 Stefan Raspl 2018-05-03  208  	bytes = splice_to_pipe(pipe, &spd);
-9014db202cb764 Stefan Raspl 2018-05-03  209  	if (bytes > 0) {
-9014db202cb764 Stefan Raspl 2018-05-03  210  		sock_hold(&smc->sk);
-b8d199451c99b3 Wen Gu       2022-07-14  211  		if (!lgr->is_smcd && smc->conn.rmb_desc->is_vm) {
-b8d199451c99b3 Wen Gu       2022-07-14 @212  			for (i = 0; i < PAGE_ALIGN(bytes + offset) / PAGE_SIZE; i++)
-b8d199451c99b3 Wen Gu       2022-07-14  213  				get_page(pages[i]);
-b8d199451c99b3 Wen Gu       2022-07-14  214  		} else {
-9014db202cb764 Stefan Raspl 2018-05-03  215  			get_page(smc->conn.rmb_desc->pages);
-b8d199451c99b3 Wen Gu       2022-07-14  216  		}
-9014db202cb764 Stefan Raspl 2018-05-03  217  		atomic_add(bytes, &smc->conn.splice_pending);
-9014db202cb764 Stefan Raspl 2018-05-03  218  	}
-b8d199451c99b3 Wen Gu       2022-07-14  219  	kfree(priv);
-b8d199451c99b3 Wen Gu       2022-07-14  220  	kfree(partial);
-b8d199451c99b3 Wen Gu       2022-07-14  221  	kfree(pages);
-9014db202cb764 Stefan Raspl 2018-05-03  222  
-9014db202cb764 Stefan Raspl 2018-05-03  223  	return bytes;
-b8d199451c99b3 Wen Gu       2022-07-14  224  
-b8d199451c99b3 Wen Gu       2022-07-14  225  out_priv:
-b8d199451c99b3 Wen Gu       2022-07-14  226  	for (i = (i - 1); i >= 0; i--)
-b8d199451c99b3 Wen Gu       2022-07-14  227  		kfree(priv[i]);
-b8d199451c99b3 Wen Gu       2022-07-14  228  	kfree(priv);
-b8d199451c99b3 Wen Gu       2022-07-14  229  out_part:
-b8d199451c99b3 Wen Gu       2022-07-14  230  	kfree(partial);
-b8d199451c99b3 Wen Gu       2022-07-14  231  out_page:
-b8d199451c99b3 Wen Gu       2022-07-14  232  	kfree(pages);
-b8d199451c99b3 Wen Gu       2022-07-14  233  out:
-b8d199451c99b3 Wen Gu       2022-07-14  234  	return -ENOMEM;
-9014db202cb764 Stefan Raspl 2018-05-03  235  }
-9014db202cb764 Stefan Raspl 2018-05-03  236  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  642  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  643  static int tsa_probe(struct platform_device *pdev)
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  644  {
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  645  	struct device_node *np = pdev->dev.of_node;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  646  	struct resource *res;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  647  	struct tsa *tsa;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  648  	unsigned int i;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  649  	u32 val;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  650  	int ret;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  651  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  652  	tsa = devm_kzalloc(&pdev->dev, sizeof(*tsa), GFP_KERNEL);
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  653  	if (!tsa)
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  654  		return -ENOMEM;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  655  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  656  	tsa->dev = &pdev->dev;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  657  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  658  	for (i = 0; i < ARRAY_SIZE(tsa->serials); i++)
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  659  		tsa->serials[i].id = i;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  660  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  661  	spin_lock_init(&tsa->lock);
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  662  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17 @663  	tsa->si_regs = devm_platform_ioremap_resource_byname(pdev, "si_regs");
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  664  	if (IS_ERR(tsa->si_regs))
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  665  		return PTR_ERR(tsa->si_regs);
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  666  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  667  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "si_ram");
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  668  	if (!res) {
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  669  		dev_err(tsa->dev, "si_ram resource missing\n");
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  670  		return -EINVAL;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  671  	}
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  672  	tsa->si_ram_sz = resource_size(res);
+1d4ba0b81c1cf2 Herve Codina 2023-02-17 @673  	tsa->si_ram = devm_ioremap_resource(&pdev->dev, res);
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  674  	if (IS_ERR(tsa->si_ram))
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  675  		return PTR_ERR(tsa->si_ram);
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  676  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  677  	tsa_init_si_ram(tsa);
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  678  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  679  	ret = tsa_of_parse_tdms(tsa, np);
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  680  	if (ret)
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  681  		return ret;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  682  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  683  	/* Set SIMODE */
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  684  	val = 0;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  685  	if (tsa->tdm[0].is_enable)
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  686  		val |= TSA_SIMODE_TDMA(tsa->tdm[0].simode_tdm);
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  687  	if (tsa->tdm[1].is_enable)
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  688  		val |= TSA_SIMODE_TDMB(tsa->tdm[1].simode_tdm);
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  689  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  690  	tsa_clrsetbits32(tsa->si_regs + TSA_SIMODE,
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  691  			 TSA_SIMODE_TDMA(TSA_SIMODE_TDM_MASK) |
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  692  			 TSA_SIMODE_TDMB(TSA_SIMODE_TDM_MASK),
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  693  			 val);
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  694  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  695  	/* Set SIGMR */
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  696  	val = (tsa->tdms == BIT(TSA_TDMA)) ?
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  697  		TSA_SIGMR_RDM_STATIC_TDMA : TSA_SIGMR_RDM_STATIC_TDMAB;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  698  	if (tsa->tdms & BIT(TSA_TDMA))
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  699  		val |= TSA_SIGMR_ENA;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  700  	if (tsa->tdms & BIT(TSA_TDMB))
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  701  		val |= TSA_SIGMR_ENB;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  702  	tsa_write8(tsa->si_regs + TSA_SIGMR, val);
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  703  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  704  	platform_set_drvdata(pdev, tsa);
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  705  
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  706  	return 0;
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  707  }
+1d4ba0b81c1cf2 Herve Codina 2023-02-17  708  
 
 -- 
 0-DAY CI Kernel Test Service
