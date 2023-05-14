@@ -1,143 +1,112 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29032137B
-	for <oe-kbuild@lists.linux.dev>; Sun, 14 May 2023 03:44:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E761101
+	for <oe-kbuild@lists.linux.dev>; Sun, 14 May 2023 04:50:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684035862; x=1715571862;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XOv91yGeieIYZNapSEzqTvzXlFVqD8cyu5wjo2bFnuQ=;
-  b=SJlMk0+r84rIcCgqRDxXGREQUN8E/AKpctbE6N2zwnqAFi+Z7FT7XucD
-   YdJJeWOciiMM+ksaDL8YJrdxPXvfdI8cJlLILnSLTGCuOd5XqezYmw7U7
-   ieXPmM/wliuVISTbjgm8zrgth0gfFEH5Uwt75osXs8lBzsiB51j9M3nIC
-   qRn4uY9SSzIBSKxJfq/XZTrPu5G+BTJDDQfTBOSMpcdimSRmrRsKmxHvU
-   RPW/Y6zZHAPblL1kiflG7VaDtwvRtY05FtFOT6AJmcxZPcLNuSBSCj7va
-   m6kZVERTgCqK0afBGl1sNHlkRSF2V7uuBLLVHZ2eClYIQEkRt5OVk0TJa
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="349850219"
+  t=1684039823; x=1715575823;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7uRXw/DRDUh/zBzpPxQJKfSxTLd2OpIJ7jKubUE8sdA=;
+  b=CMnHdUwxz3AWETcWh+F3u0x+dwqoOc22YwX/jcvZ80Bo9/rzDge7tV7E
+   H5hnsBenrEdJkAToGChSmkQFMcNR6GV8uZCZMdpECwSJhd9IXNVyo57J0
+   sYpMnYi7W8VP/4em3KmFqeDEr8znBmer8CLXa0ByATryJ1FRCncxZAp5d
+   QBiErBS/qUw2BiRVWCqSIHhIj7jWTnL8Xb4s62OxGzRfXjshq5jm42WIF
+   NZnXi5RkyxGHm8qq29Jo1xhx7KQ5CZZlk9GCPHcrZMZAdXAv5fLE7vtM5
+   Bcbf1zaK+J4uF9S7JobY/ROqwAc6qnqhIhZ4eP7sRq7tXkVLb5RW/nxxY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="335538712"
 X-IronPort-AV: E=Sophos;i="5.99,273,1677571200"; 
-   d="scan'208";a="349850219"
+   d="scan'208";a="335538712"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 20:44:21 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 21:50:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="1030495286"
+X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="1030502278"
 X-IronPort-AV: E=Sophos;i="5.99,273,1677571200"; 
-   d="scan'208";a="1030495286"
+   d="scan'208";a="1030502278"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 13 May 2023 20:44:20 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 13 May 2023 21:50:21 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1py2eh-0005o8-2Q;
-	Sun, 14 May 2023 03:44:19 +0000
-Date: Sun, 14 May 2023 11:43:47 +0800
+	id 1py3ga-0005pl-27;
+	Sun, 14 May 2023 04:50:20 +0000
+Date: Sun, 14 May 2023 12:49:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [avpatel:riscv_aia_v3 10/11]
- drivers/irqchip/irq-riscv-aplic.c:331:47: warning: right shift count >=
- width of type
-Message-ID: <202305141107.sy78Helj-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [tty:tty-testing 1/15] drivers/tty/serial/fsl_lpuart.c:1308
+ lpuart_timer_func() error: uninitialized symbol 'flags'.
+Message-ID: <202305141248.6QFTcwEs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/irqchip/irq-riscv-aplic.c:331:47: warning: right shift count >= width of type [-Wshift-count-overflow]"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Anup Patel <apatel@ventanamicro.com>
+CC: linux-serial@vger.kernel.org
+TO: Shenwei Wang <shenwei.wang@nxp.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
 
-Hi Anup,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://github.com/avpatel/linux.git riscv_aia_v3
-head:   0ee3245397a8c6ebaa36179fabea9d64b69c1ea5
-commit: a81f5ab22e765fe40a903c46531ada8da1eb0b8c [10/11] RISC-V: Select APLIC and IMSIC drivers
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: riscv-randconfig-s033-20230509 (https://download.01.org/0day-ci/archive/20230514/202305141107.sy78Helj-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/avpatel/linux/commit/a81f5ab22e765fe40a903c46531ada8da1eb0b8c
-        git remote add avpatel https://github.com/avpatel/linux.git
-        git fetch --no-tags avpatel riscv_aia_v3
-        git checkout a81f5ab22e765fe40a903c46531ada8da1eb0b8c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv SHELL=/bin/bash
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+head:   d5b3d02d0b107345f2a6ecb5b06f98356f5c97ab
+commit: cf9aa72d2f91defea23fe29b9e8e941bb2486d5c [1/15] tty: serial: fsl_lpuart: optimize the timer based EOP logic
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: csky-randconfig-m031-20230514 (https://download.01.org/0day-ci/archive/20230514/202305141248.6QFTcwEs-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202305141107.sy78Helj-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202305141248.6QFTcwEs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/tty/serial/fsl_lpuart.c:1308 lpuart_timer_func() error: uninitialized symbol 'flags'.
 
-   drivers/irqchip/irq-riscv-aplic.c: In function 'aplic_init_hw_global':
->> drivers/irqchip/irq-riscv-aplic.c:331:47: warning: right shift count >= width of type [-Wshift-count-overflow]
-     331 |                 valH = (priv->msicfg.base_ppn >> 32) &
-         |                                               ^~
+vim +/flags +1308 drivers/tty/serial/fsl_lpuart.c
 
-sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zihintpause'
->> drivers/irqchip/irq-riscv-aplic.c:331:50: sparse: sparse: shift too big (32) for type unsigned int
-
-vim +331 drivers/irqchip/irq-riscv-aplic.c
-
-f5e62553412fff Anup Patel 2022-01-18  322  
-f5e62553412fff Anup Patel 2022-01-18  323  static void aplic_init_hw_global(struct aplic_priv *priv)
-f5e62553412fff Anup Patel 2022-01-18  324  {
-f5e62553412fff Anup Patel 2022-01-18  325  	u32 val;
-f5e62553412fff Anup Patel 2022-01-18  326  #ifdef CONFIG_RISCV_M_MODE
-f5e62553412fff Anup Patel 2022-01-18  327  	u32 valH;
-f5e62553412fff Anup Patel 2022-01-18  328  
-f5e62553412fff Anup Patel 2022-01-18  329  	if (!priv->nr_idcs) {
-f5e62553412fff Anup Patel 2022-01-18  330  		val = priv->msicfg.base_ppn;
-f5e62553412fff Anup Patel 2022-01-18 @331  		valH = (priv->msicfg.base_ppn >> 32) &
-f5e62553412fff Anup Patel 2022-01-18  332  			APLIC_xMSICFGADDRH_BAPPN_MASK;
-f5e62553412fff Anup Patel 2022-01-18  333  		valH |= (priv->msicfg.lhxw & APLIC_xMSICFGADDRH_LHXW_MASK)
-f5e62553412fff Anup Patel 2022-01-18  334  			<< APLIC_xMSICFGADDRH_LHXW_SHIFT;
-f5e62553412fff Anup Patel 2022-01-18  335  		valH |= (priv->msicfg.hhxw & APLIC_xMSICFGADDRH_HHXW_MASK)
-f5e62553412fff Anup Patel 2022-01-18  336  			<< APLIC_xMSICFGADDRH_HHXW_SHIFT;
-f5e62553412fff Anup Patel 2022-01-18  337  		valH |= (priv->msicfg.lhxs & APLIC_xMSICFGADDRH_LHXS_MASK)
-f5e62553412fff Anup Patel 2022-01-18  338  			<< APLIC_xMSICFGADDRH_LHXS_SHIFT;
-f5e62553412fff Anup Patel 2022-01-18  339  		valH |= (priv->msicfg.hhxs & APLIC_xMSICFGADDRH_HHXS_MASK)
-f5e62553412fff Anup Patel 2022-01-18  340  			<< APLIC_xMSICFGADDRH_HHXS_SHIFT;
-f5e62553412fff Anup Patel 2022-01-18  341  		writel(val, priv->regs + APLIC_xMSICFGADDR);
-f5e62553412fff Anup Patel 2022-01-18  342  		writel(valH, priv->regs + APLIC_xMSICFGADDRH);
-f5e62553412fff Anup Patel 2022-01-18  343  	}
-f5e62553412fff Anup Patel 2022-01-18  344  #endif
-f5e62553412fff Anup Patel 2022-01-18  345  
-f5e62553412fff Anup Patel 2022-01-18  346  	/* Setup APLIC domaincfg register */
-f5e62553412fff Anup Patel 2022-01-18  347  	val = readl(priv->regs + APLIC_DOMAINCFG);
-f5e62553412fff Anup Patel 2022-01-18  348  	val |= APLIC_DOMAINCFG_IE;
-f5e62553412fff Anup Patel 2022-01-18  349  	if (!priv->nr_idcs)
-f5e62553412fff Anup Patel 2022-01-18  350  		val |= APLIC_DOMAINCFG_DM;
-f5e62553412fff Anup Patel 2022-01-18  351  	writel(val, priv->regs + APLIC_DOMAINCFG);
-f5e62553412fff Anup Patel 2022-01-18  352  	if (readl(priv->regs + APLIC_DOMAINCFG) != val)
-f5e62553412fff Anup Patel 2022-01-18  353  		pr_warn("%pfwP: unable to write 0x%x in domaincfg\n",
-f5e62553412fff Anup Patel 2022-01-18  354  			priv->fwnode, val);
-f5e62553412fff Anup Patel 2022-01-18  355  }
-f5e62553412fff Anup Patel 2022-01-18  356  
-
-:::::: The code at line 331 was first introduced by commit
-:::::: f5e62553412fff47a0babd7b77b4a4285ac3fa5c irqchip: Add RISC-V advanced PLIC driver
-
-:::::: TO: Anup Patel <apatel@ventanamicro.com>
-:::::: CC: Anup Patel <anup@brainfault.org>
+5887ad43ee02a0 Bhuvanchandra DV 2016-07-19  1278  
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1279  /*
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1280   * Timer function to simulate the hardware EOP (End Of Package) event.
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1281   * The timer callback is to check for new RX data and copy to TTY buffer.
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1282   * If no new data are received since last interval, the EOP condition is
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1283   * met, complete the DMA transfer by copying the data. Otherwise, just
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1284   * restart timer.
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1285   */
+e99e88a9d2b067 Kees Cook        2017-10-16  1286  static void lpuart_timer_func(struct timer_list *t)
+5887ad43ee02a0 Bhuvanchandra DV 2016-07-19  1287  {
+e99e88a9d2b067 Kees Cook        2017-10-16  1288  	struct lpuart_port *sport = from_timer(sport, t, lpuart_timer);
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1289  	struct dma_chan *chan = sport->dma_rx_chan;
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1290  	struct circ_buf *ring = &sport->rx_ring;
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1291  	struct dma_tx_state state;
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1292  	unsigned long flags;
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1293  	int count;
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1294  
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1295  	dmaengine_tx_status(chan, sport->dma_rx_cookie, &state);
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1296  	ring->head = sport->rx_sgl.length - state.residue;
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1297  	count = CIRC_CNT(ring->head, ring->tail, sport->rx_sgl.length);
+5887ad43ee02a0 Bhuvanchandra DV 2016-07-19  1298  
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1299  	/* Check if new data received before copying */
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1300  	if ((count != 0) && (sport->last_residue == state.residue))
+5887ad43ee02a0 Bhuvanchandra DV 2016-07-19  1301  		lpuart_copy_rx_to_tty(sport);
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1302  	else
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1303  		mod_timer(&sport->lpuart_timer,
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1304  			  jiffies + sport->dma_rx_timeout);
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1305  
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1306  	if (spin_trylock_irqsave(&sport->port.lock, flags)) {
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1307  		sport->last_residue = state.residue;
+cf9aa72d2f91de Shenwei Wang     2023-05-10 @1308  		spin_unlock_irqrestore(&sport->port.lock, flags);
+cf9aa72d2f91de Shenwei Wang     2023-05-10  1309  	}
+5887ad43ee02a0 Bhuvanchandra DV 2016-07-19  1310  }
+5887ad43ee02a0 Bhuvanchandra DV 2016-07-19  1311  
 
 -- 
 0-DAY CI Kernel Test Service
