@@ -1,52 +1,42 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCE38471
-	for <oe-kbuild@lists.linux.dev>; Mon, 15 May 2023 07:43:03 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3f42d937d61so61716065e9.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 15 May 2023 00:43:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684136581; x=1686728581;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kj4ZdnW0M2NIw/r58RrNWbXPLf2ZkNkSYUhgr2sJBMM=;
-        b=YOKgTp21/RP+G49WeMaFO2vL1Rgoatf9FXSjtOc25d4CZxgUZnaQjlwFHOciw3b9iL
-         79vYLsMC+Z4StgWaAjf8TCBd6EnAsUOMhsQE914QJysRTUa8OMhn8DpBS2EJJCVehpjJ
-         C0Hl9KyP2L6B2lYVGO1yTOPwuEGcoEmvQG3znrkZPzYmUCT9WJQ/cMS2r9Aim95oCuie
-         QYdXpBM9pSHv09uhiamjo39x+6wv0VZHpHVgrUmpzzae3Vn56MihnNyd2aoVrjbw67xt
-         dePqSiLaKMhgAi3VdPZBllq3tt47p3jR16LHz8+g3vLfOIQbt+CCf8qyLAyUGf6g6MiN
-         xp8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684136581; x=1686728581;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Kj4ZdnW0M2NIw/r58RrNWbXPLf2ZkNkSYUhgr2sJBMM=;
-        b=LF+IRXKdM29UhX/Elk1cE//unEBGWC4N2FnVqxmfwoI9kOUc+U10k6E7/ysqsk8JmW
-         sIrFxOaEHKonhuCD8PObeQIgT57XYIEBO+oCsYg/PLpmmfyw7qUa+8CYqQBWCuY5EgjO
-         oTdO/N0I6mTILS6RFp7X6LJW6iWW3fXB33jOVK1Amzk46Yc7iCVXvW18W1DNlue9NaKO
-         yL+Nq8z+nfLxWlfQVZhuCQhmtqtviOvz0uyhysve2Z7HJq4H/nTNap6DA6b4r48LmcXu
-         vREXXeKvUKEXOLfY4XBb3TaYdOkHsXGsABqrMfDvglS9E1MyB1yKD0n6dEj0aZbphWzv
-         QwMw==
-X-Gm-Message-State: AC+VfDw17HRlBYgbcx596a2S9FIs2fy3pWn8AdehQx98/DkI1/7QGdV1
-	Nv4DB4CBtTunzfVvK/yD7Jr7pAoLEm3iyvIEdb8=
-X-Google-Smtp-Source: ACHHUZ5b52vQ0CkeGQYDfkS3Z25fWaiHt1VhYG7BMaDGcGnNpNppedd5n7WuHUZAH2kWSh7v6fcOlw==
-X-Received: by 2002:a1c:f619:0:b0:3f5:ce4:6c3f with SMTP id w25-20020a1cf619000000b003f50ce46c3fmr1151671wmc.7.1684136581208;
-        Mon, 15 May 2023 00:43:01 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id v25-20020a1cf719000000b003f50e88ffb5sm846967wmh.24.2023.05.15.00.42.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 May 2023 00:42:59 -0700 (PDT)
-Date: Mon, 15 May 2023 10:42:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Prathu Baronia <prathubaronia2011@gmail.com>,
-	gregkh@linuxfoundation.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	prathubaronia2011@gmail.com
-Subject: Re: [PATCH v2 1/2] axis-fifo: use devm_kasprintf() for allocating
- formatted strings
-Message-ID: <30f4e6ff-5ad3-4b57-b7c7-228b97369b72@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE0AC2F7
+	for <oe-kbuild@lists.linux.dev>; Mon, 15 May 2023 12:20:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684153217; x=1715689217;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6lSAQDlOG8yg3Qs4DlS6knonoeGLQRUwCrOyOm3nmeo=;
+  b=N1L+O6KXzHqQ+eyR7aKkMd3xkCMRoxuG6ZgcIikDLk8lXD9DKT3DJ8P+
+   nCxhafXslHAmSHHlz6kwpj3VnpSdZrkCZ1l0vSy1mixOldlRXBGY4O3fl
+   H8+XKyxHUHTGNKXgVt/CUtpIb9R8pezfCbEjd3csXPF/Pj33bHW6XTphE
+   wP6WAzZNaqHjvPmpQ2ADDbT4ipd6jaPWDEdFTWDXpq3qJSd3/ieUxtcxl
+   g38UipGf3XsMA8Xr/EQ7/QSfo/piOp0wDsahN1vAZP9Ocz4+HB+STbzsJ
+   VTK9uvF+yYAc44TWTmv+6e4eRbaVE2bCKJW5hIiLa/TXj3m+2VdHGnpIg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="350023558"
+X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; 
+   d="scan'208";a="350023558"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 05:20:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="678424246"
+X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; 
+   d="scan'208";a="678424246"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 15 May 2023 05:20:15 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pyXBW-0006LK-1t;
+	Mon, 15 May 2023 12:20:14 +0000
+Date: Mon, 15 May 2023 20:20:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/nfc/st21nfca/se.c:343 st21nfca_connectivity_event_received()
+ warn: possible spectre second half.  'params_len'
+Message-ID: <202305152005.GyEKevc7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -55,155 +45,114 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230514130148.138624-2-prathubaronia2011@gmail.com>
 
-Hi Prathu,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Martin Faltesek <mfaltesek@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Guenter Roeck <groeck@chromium.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Prathu-Baronia/axis-fifo-cleanup-space-issues-with-fops-struct/20230514-220201
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20230514130148.138624-2-prathubaronia2011%40gmail.com
-patch subject: [PATCH v2 1/2] axis-fifo: use devm_kasprintf() for allocating formatted strings
-config: i386-randconfig-m021
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6
+commit: f2e19b36593caed4c977c2f55aeba7408aeb2132 nfc: st21nfca: fix incorrect sizing calculations in EVT_TRANSACTION
+date:   11 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 11 months ago
+config: x86_64-randconfig-m001-20230515 (https://download.01.org/0day-ci/archive/20230515/202305152005.GyEKevc7-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305150358.nt1BkbXz-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305152005.GyEKevc7-lkp@intel.com/
 
 New smatch warnings:
-drivers/staging/axis-fifo/axis-fifo.c:858 axis_fifo_probe() warn: missing unwind goto?
+drivers/nfc/st21nfca/se.c:343 st21nfca_connectivity_event_received() warn: possible spectre second half.  'params_len'
 
 Old smatch warnings:
-drivers/staging/axis-fifo/axis-fifo.c:907 axis_fifo_probe() error: '%pa' expects argument of type 'phys_addr_t*', argument 4 has type 'void**'
+drivers/nfc/st21nfca/se.c:337 st21nfca_connectivity_event_received() warn: potential spectre issue 'skb->data' [r]
 
-vim +858 drivers/staging/axis-fifo/axis-fifo.c
+vim +/params_len +343 drivers/nfc/st21nfca/se.c
 
-4a965c5f89decd Jacob Feder        2018-07-22  806  static int axis_fifo_probe(struct platform_device *pdev)
-4a965c5f89decd Jacob Feder        2018-07-22  807  {
-4a965c5f89decd Jacob Feder        2018-07-22  808  	struct resource *r_mem; /* IO mem resources */
-4a965c5f89decd Jacob Feder        2018-07-22  809  	struct device *dev = &pdev->dev; /* OS device (from device tree) */
-4a965c5f89decd Jacob Feder        2018-07-22  810  	struct axis_fifo *fifo = NULL;
-d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  811  	char *device_name;
-4a965c5f89decd Jacob Feder        2018-07-22  812  	int rc = 0; /* error return value */
-4a965c5f89decd Jacob Feder        2018-07-22  813  
-4a965c5f89decd Jacob Feder        2018-07-22  814  	/* ----------------------------
-4a965c5f89decd Jacob Feder        2018-07-22  815  	 *     init wrapper device
-4a965c5f89decd Jacob Feder        2018-07-22  816  	 * ----------------------------
-4a965c5f89decd Jacob Feder        2018-07-22  817  	 */
-4a965c5f89decd Jacob Feder        2018-07-22  818  
-4a965c5f89decd Jacob Feder        2018-07-22  819  	/* allocate device wrapper memory */
-d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  820  	fifo = devm_kzalloc(dev, sizeof(*fifo), GFP_KERNEL);
-4a965c5f89decd Jacob Feder        2018-07-22  821  	if (!fifo)
-4a965c5f89decd Jacob Feder        2018-07-22  822  		return -ENOMEM;
-4a965c5f89decd Jacob Feder        2018-07-22  823  
-4a965c5f89decd Jacob Feder        2018-07-22  824  	dev_set_drvdata(dev, fifo);
-4a965c5f89decd Jacob Feder        2018-07-22  825  	fifo->dt_device = dev;
-4a965c5f89decd Jacob Feder        2018-07-22  826  
-4a965c5f89decd Jacob Feder        2018-07-22  827  	init_waitqueue_head(&fifo->read_queue);
-4a965c5f89decd Jacob Feder        2018-07-22  828  	init_waitqueue_head(&fifo->write_queue);
-4a965c5f89decd Jacob Feder        2018-07-22  829  
-0443b3f4436321 Quentin Deslandes  2020-01-21  830  	mutex_init(&fifo->read_lock);
-0443b3f4436321 Quentin Deslandes  2020-01-21  831  	mutex_init(&fifo->write_lock);
-4a965c5f89decd Jacob Feder        2018-07-22  832  
-4a965c5f89decd Jacob Feder        2018-07-22  833  	/* ----------------------------
-4a965c5f89decd Jacob Feder        2018-07-22  834  	 *   init device memory space
-4a965c5f89decd Jacob Feder        2018-07-22  835  	 * ----------------------------
-4a965c5f89decd Jacob Feder        2018-07-22  836  	 */
-4a965c5f89decd Jacob Feder        2018-07-22  837  
-4a965c5f89decd Jacob Feder        2018-07-22  838  	/* get iospace for the device */
-4a965c5f89decd Jacob Feder        2018-07-22  839  	r_mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-4a965c5f89decd Jacob Feder        2018-07-22  840  	if (!r_mem) {
-4a965c5f89decd Jacob Feder        2018-07-22  841  		dev_err(fifo->dt_device, "invalid address\n");
-4a965c5f89decd Jacob Feder        2018-07-22  842  		rc = -ENODEV;
-4a965c5f89decd Jacob Feder        2018-07-22  843  		goto err_initial;
-4a965c5f89decd Jacob Feder        2018-07-22  844  	}
-4a965c5f89decd Jacob Feder        2018-07-22  845  
-4a965c5f89decd Jacob Feder        2018-07-22  846  	/* request physical memory */
-354e27a86b4c64 Quentin Deslandes  2019-11-01  847  	fifo->base_addr = devm_ioremap_resource(fifo->dt_device, r_mem);
-6a20d283ed6867 Quentin Deslandes  2019-11-01  848  	if (IS_ERR(fifo->base_addr)) {
-6a20d283ed6867 Quentin Deslandes  2019-11-01  849  		rc = PTR_ERR(fifo->base_addr);
-4a965c5f89decd Jacob Feder        2018-07-22  850  		goto err_initial;
-4a965c5f89decd Jacob Feder        2018-07-22  851  	}
-4a965c5f89decd Jacob Feder        2018-07-22  852  
-4a965c5f89decd Jacob Feder        2018-07-22  853  	dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
-4a965c5f89decd Jacob Feder        2018-07-22  854  
-4a965c5f89decd Jacob Feder        2018-07-22  855  	/* create unique device name */
-c5cab4f62648eb Prathu Baronia     2023-05-14  856  	device_name = devm_kasprintf(dev, GFP_KERNEL, "%s_%pa", DRIVER_NAME, &r_mem->start);
-c5cab4f62648eb Prathu Baronia     2023-05-14  857  	if (!device_name)
-c5cab4f62648eb Prathu Baronia     2023-05-14 @858  		return -ENOMEM;
-
-		rc = -ENOMEM;
-		goto err_initial;
-
-4a965c5f89decd Jacob Feder        2018-07-22  859  	dev_dbg(fifo->dt_device, "device name [%s]\n", device_name);
-4a965c5f89decd Jacob Feder        2018-07-22  860  
-4a965c5f89decd Jacob Feder        2018-07-22  861  	/* ----------------------------
-4a965c5f89decd Jacob Feder        2018-07-22  862  	 *          init IP
-4a965c5f89decd Jacob Feder        2018-07-22  863  	 * ----------------------------
-4a965c5f89decd Jacob Feder        2018-07-22  864  	 */
-4a965c5f89decd Jacob Feder        2018-07-22  865  
-ed6daf2b2832d9 Quentin Deslandes  2019-11-01  866  	rc = axis_fifo_parse_dt(fifo);
-4a965c5f89decd Jacob Feder        2018-07-22  867  	if (rc)
-6a20d283ed6867 Quentin Deslandes  2019-11-01  868  		goto err_initial;
-4a965c5f89decd Jacob Feder        2018-07-22  869  
-4a965c5f89decd Jacob Feder        2018-07-22  870  	reset_ip_core(fifo);
-4a965c5f89decd Jacob Feder        2018-07-22  871  
-4a965c5f89decd Jacob Feder        2018-07-22  872  	/* ----------------------------
-4a965c5f89decd Jacob Feder        2018-07-22  873  	 *    init device interrupts
-4a965c5f89decd Jacob Feder        2018-07-22  874  	 * ----------------------------
-4a965c5f89decd Jacob Feder        2018-07-22  875  	 */
-4a965c5f89decd Jacob Feder        2018-07-22  876  
-4a965c5f89decd Jacob Feder        2018-07-22  877  	/* get IRQ resource */
-790ada0e6ec33e Lad Prabhakar      2021-12-24  878  	rc = platform_get_irq(pdev, 0);
-790ada0e6ec33e Lad Prabhakar      2021-12-24  879  	if (rc < 0)
-6a20d283ed6867 Quentin Deslandes  2019-11-01  880  		goto err_initial;
-4a965c5f89decd Jacob Feder        2018-07-22  881  
-4a965c5f89decd Jacob Feder        2018-07-22  882  	/* request IRQ */
-790ada0e6ec33e Lad Prabhakar      2021-12-24  883  	fifo->irq = rc;
-6a20d283ed6867 Quentin Deslandes  2019-11-01  884  	rc = devm_request_irq(fifo->dt_device, fifo->irq, &axis_fifo_irq, 0,
-6a20d283ed6867 Quentin Deslandes  2019-11-01  885  			      DRIVER_NAME, fifo);
-4a965c5f89decd Jacob Feder        2018-07-22  886  	if (rc) {
-4a965c5f89decd Jacob Feder        2018-07-22  887  		dev_err(fifo->dt_device, "couldn't allocate interrupt %i\n",
-4a965c5f89decd Jacob Feder        2018-07-22  888  			fifo->irq);
-6a20d283ed6867 Quentin Deslandes  2019-11-01  889  		goto err_initial;
-4a965c5f89decd Jacob Feder        2018-07-22  890  	}
-4a965c5f89decd Jacob Feder        2018-07-22  891  
-4a965c5f89decd Jacob Feder        2018-07-22  892  	/* ----------------------------
-4a965c5f89decd Jacob Feder        2018-07-22  893  	 *      init char device
-4a965c5f89decd Jacob Feder        2018-07-22  894  	 * ----------------------------
-4a965c5f89decd Jacob Feder        2018-07-22  895  	 */
-4a965c5f89decd Jacob Feder        2018-07-22  896  
-d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  897  	/* create character device */
-d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  898  	fifo->miscdev.fops = &fops;
-d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  899  	fifo->miscdev.minor = MISC_DYNAMIC_MINOR;
-d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  900  	fifo->miscdev.name = device_name;
-d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  901  	fifo->miscdev.groups = axis_fifo_attrs_groups;
-d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  902  	fifo->miscdev.parent = dev;
-d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  903  	rc = misc_register(&fifo->miscdev);
-4a965c5f89decd Jacob Feder        2018-07-22  904  	if (rc < 0)
-6a20d283ed6867 Quentin Deslandes  2019-11-01  905  		goto err_initial;
-4a965c5f89decd Jacob Feder        2018-07-22  906  
-d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  907  	dev_info(fifo->dt_device, "axis-fifo created at %pa mapped to 0x%pa, irq=%i\n",
-                                                                                                                      ^^^^^
-d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  908  		 &r_mem->start, &fifo->base_addr, fifo->irq);
-                                                                                ^^^^^^^^^^^^^^^^
-I think Smatch is correct that it should just be %p instead of %pa but
-I don't know the rules here too well.
-
-4a965c5f89decd Jacob Feder        2018-07-22  909  
-4a965c5f89decd Jacob Feder        2018-07-22  910  	return 0;
-4a965c5f89decd Jacob Feder        2018-07-22  911  
-4a965c5f89decd Jacob Feder        2018-07-22  912  err_initial:
-4a965c5f89decd Jacob Feder        2018-07-22  913  	dev_set_drvdata(dev, NULL);
-4a965c5f89decd Jacob Feder        2018-07-22  914  	return rc;
-4a965c5f89decd Jacob Feder        2018-07-22  915  }
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  291  
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  292  /*
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  293   * Returns:
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  294   * <= 0: driver handled the event, skb consumed
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  295   *    1: driver does not handle the event, please do standard processing
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  296   */
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  297  int st21nfca_connectivity_event_received(struct nfc_hci_dev *hdev, u8 host,
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  298  				u8 event, struct sk_buff *skb)
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  299  {
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  300  	int r = 0;
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  301  	struct device *dev = &hdev->ndev->dev;
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  302  	struct nfc_evt_transaction *transaction;
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  303  	u32 aid_len;
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  304  	u8 params_len;
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  305  
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  306  	pr_debug("connectivity gate event: %x\n", event);
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  307  
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  308  	switch (event) {
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  309  	case ST21NFCA_EVT_CONNECTIVITY:
+72c54c42b29439 drivers/nfc/st21nfca/se.c          Christophe Ricard 2015-12-23  310  		r = nfc_se_connectivity(hdev->ndev, host);
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  311  	break;
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  312  	case ST21NFCA_EVT_TRANSACTION:
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  313  		/* According to specification etsi 102 622
+9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  314  		 * 11.2.2.4 EVT_TRANSACTION Table 52
+9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  315  		 * Description	Tag	Length
+9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  316  		 * AID		81	5 to 16
+9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  317  		 * PARAMETERS	82	0 to 255
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  318  		 *
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  319  		 * The key differences are aid storage length is variably sized
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  320  		 * in the packet, but fixed in nfc_evt_transaction, and that the aid_len
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  321  		 * is u8 in the packet, but u32 in the structure, and the tags in
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  322  		 * the packet are not included in nfc_evt_transaction.
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  323  		 *
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  324  		 * size in bytes: 1          1       5-16 1             1           0-255
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  325  		 * offset:        0          1       2    aid_len + 2   aid_len + 3 aid_len + 4
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  326  		 * member name:   aid_tag(M) aid_len aid  params_tag(M) params_len  params
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  327  		 * example:       0x81       5-16    X    0x82 0-255    X
+9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  328  		 */
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  329  		if (skb->len < 2 || skb->data[0] != NFC_EVT_TRANSACTION_AID_TAG)
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  330  			return -EPROTO;
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  331  
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  332  		aid_len = skb->data[1];
+4fbcc1a4cb20fe drivers/nfc/st21nfca/se.c          Jordy Zomer       2022-01-11  333  
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  334  		if (skb->len < aid_len + 4 || aid_len > sizeof(transaction->aid))
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  335  			return -EPROTO;
+4fbcc1a4cb20fe drivers/nfc/st21nfca/se.c          Jordy Zomer       2022-01-11  336  
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  337  		params_len = skb->data[aid_len + 3];
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  338  
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  339  		/* Verify PARAMETERS tag is (82), and final check that there is enough
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  340  		 * space in the packet to read everything.
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  341  		 */
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  342  		if ((skb->data[aid_len + 2] != NFC_EVT_TRANSACTION_PARAMS_TAG) ||
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06 @343  		    (skb->len < aid_len + 4 + params_len))
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  344  			return -EPROTO;
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  345  
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  346  		transaction = devm_kzalloc(dev, sizeof(*transaction) + params_len, GFP_KERNEL);
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  347  		if (!transaction)
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  348  			return -ENOMEM;
+4fbcc1a4cb20fe drivers/nfc/st21nfca/se.c          Jordy Zomer       2022-01-11  349  
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  350  		transaction->aid_len = aid_len;
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  351  		transaction->params_len = params_len;
+4fbcc1a4cb20fe drivers/nfc/st21nfca/se.c          Jordy Zomer       2022-01-11  352  
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  353  		memcpy(transaction->aid, &skb->data[2], aid_len);
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  354  		memcpy(transaction->params, &skb->data[aid_len + 4], params_len);
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  355  
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  356  		r = nfc_se_transaction(hdev->ndev, host, transaction);
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  357  	break;
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  358  	default:
+a9e062d0599f49 drivers/nfc/st21nfca/se.c          Christophe Ricard 2015-10-25  359  		nfc_err(&hdev->ndev->dev, "Unexpected event on connectivity gate\n");
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  360  		return 1;
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  361  	}
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  362  	kfree_skb(skb);
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  363  	return r;
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  364  }
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  365  EXPORT_SYMBOL(st21nfca_connectivity_event_received);
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  366  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
