@@ -1,48 +1,49 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D505226
-	for <oe-kbuild@lists.linux.dev>; Mon, 15 May 2023 06:28:29 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3f4c6c4b51eso52671595e9.2
-        for <oe-kbuild@lists.linux.dev>; Sun, 14 May 2023 23:28:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06EE3846B
+	for <oe-kbuild@lists.linux.dev>; Mon, 15 May 2023 07:34:51 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3078c092056so6351904f8f.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 15 May 2023 00:34:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684132106; x=1686724106;
+        d=linaro.org; s=google; t=1684136089; x=1686728089;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=NblqyHj1jPdvKtZnjswzIcSKDLF6U7a8syOnrcpqFdM=;
-        b=BxbOQ0UQu6IOrl/3BqvSEDXr6mPjOcBF6Gd7SLi6FDqvLUWt+fjK0IaaMSEquVQjRF
-         dxF7wpV0EkA3/+Xt2wWC+MEcsSa0SMefmvluidb4iP4tyO2bMggnGZoiwgLJk44HjXGh
-         hZby7dMO668+BtM3yaDMcsahTFZEm74xb0ubR9Iw/e4SA5/wpNsrgBSJxBVMdeMoUFpX
-         hPcw0En1D0dsyL4QfjzrwhH2ECRXvsrjsN1l/rRO1QNMZ6GzWbWGiTyMHMP7IACoyXks
-         b5WN+236fsDCcTAvVfxHdDPHj5QagGenanToVc3drqU1I+Kn3jcDgBqUhyt5HsLtDnsv
-         5cfw==
+        bh=6gfSJd3vy+0+DlmQAr/7jRIJEG9slIC2VDuxWzND7JM=;
+        b=PEZ4c4cQvSRWCKBhDpv8531TJfA8k173ajQdh5763cq4HgpqGuUDVbF+JSpBg/qwhd
+         5nPRpPwxH1tR8Af0eGtchQ68tyfUvjijnNvFWRD96PiOHLP9ywLSrd2e/ixtsLaRpIwy
+         JMQ3eu6hFoeQxqZnqYmRd8n6Gfhf75qyAUl0Qp9sQiCp6c6Xd3DT5bZVOPaLy1y0yZ/5
+         3Zuc0bFuqNsqoyhN6conwu59tU2Gp9GNeJAECjJK4m0M/jsBkCnFR9muvyEXj/XTXxiA
+         4udYhqO7LcNMHW+M6ypeb/8VNKzZbQy06t8AXozbpo6SKy1p3pWeJ4fhY1eC6Ifpo6MH
+         RUIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684132106; x=1686724106;
+        d=1e100.net; s=20221208; t=1684136089; x=1686728089;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NblqyHj1jPdvKtZnjswzIcSKDLF6U7a8syOnrcpqFdM=;
-        b=cqzqmPNDjwDmguTsK1sMIYme33bQOFZFBoSZoA4sz8LYBoAhMkf3WmBKPMFfhnP0FZ
-         aNSYpuA1orX99Wh7exxdr200FmB5xnIBsG8FmwokjiUhakGj6Zv1Jai9NgpYKxY7k+6d
-         av2kuoYOI+aBghTzX2XeaVAXAaYCQKM9lBYKxcXoFfwNA1eR9Hc06JdleT5rx/fic6Ch
-         rx5apSnsTumeR0bptHLyS3YbfctLj/N+e4uPbJQLsRoP3aUCAUuZqd7XrDmvakawvT7m
-         ICg98m2E5M2GgkohHWuP8ofLbuCTOu/Qz8MX2pyJEeSaruY0cJMUGdObgvYnXSsTDe7B
-         4ZuA==
-X-Gm-Message-State: AC+VfDyzlh5R3KFivxry8kjei1M8k2fVnC35wSMMJqaSLoSLDOKZPsNm
-	+F1Bed3eQIr1fvLqDNr/LeWy/Ro9Bqzd3oyr7VE=
-X-Google-Smtp-Source: ACHHUZ6LJ1S9/HKvZz9KIX3nzkBvk0CYODCeF2EQiDBhglBuPHDJRw2OlBCavYPFXCe621ZkKuT+FQ==
-X-Received: by 2002:a7b:c454:0:b0:3f4:2297:630a with SMTP id l20-20020a7bc454000000b003f42297630amr18922708wmi.20.1684132105963;
-        Sun, 14 May 2023 23:28:25 -0700 (PDT)
+        bh=6gfSJd3vy+0+DlmQAr/7jRIJEG9slIC2VDuxWzND7JM=;
+        b=MtchBAGrgC18vNMcbbnkZo3JIdRWnmbyACZpvHFq4XAnAvgkpj3VCN+KVgcTC1UpUT
+         5lqWl80PCnA/Rxv19wMaJmA5fws67f4AWydMMeFgYOwcr7abnLnzyozh2mKv2MmQlS02
+         g1gQ1iCL2coL9fGYO1TMOLFdZLk9XAycsu0tK3W5G21S40vo8cmjFy3BHFiGcCg1hpv0
+         5/zW0BX1ACvjoSrEOeICHMI8evM/2hTnN6hZOMz5YnATa6IDbURfmZPtDzBo1cp4S1qG
+         eVO1xaMa5xpdUv3pY/C128zs0OTKrXFS3HWinaA0CXmkC+MMdHiMRlg0S3dAHVedO1Ng
+         TGqg==
+X-Gm-Message-State: AC+VfDxnwrxEQqDGu/ZFgbOqUZoSwPMDwwYo6+7sx70TS6fB/VJuVWZy
+	MVSdkp9jauBTPAvGyBP3QgNrxXTZ4ohI5cNh1hg=
+X-Google-Smtp-Source: ACHHUZ4AV1bhDWszFWsspM3tY5j9w2VhPJmTY1CMAm6t9CDO1pVcL+KYe01h8AiYc5Eyp3Z2uJwUKQ==
+X-Received: by 2002:a05:6000:120a:b0:306:4054:6e41 with SMTP id e10-20020a056000120a00b0030640546e41mr26550358wrx.53.1684136089145;
+        Mon, 15 May 2023 00:34:49 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k11-20020a7bc40b000000b003f4247fbb5fsm22530487wmi.10.2023.05.14.23.28.22
+        by smtp.gmail.com with ESMTPSA id l8-20020a5d4bc8000000b0030631f199f9sm30973085wrt.34.2023.05.15.00.34.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 May 2023 23:28:23 -0700 (PDT)
-Date: Mon, 15 May 2023 09:28:18 +0300
+        Mon, 15 May 2023 00:34:47 -0700 (PDT)
+Date: Mon, 15 May 2023 10:34:44 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Edward Cree <ecree.xilinx@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: [net-next:main 21/23] drivers/net/ethernet/sfc/tc.c:501
- efx_tc_flower_record_encap_match() error: dereferencing freed memory 'encap'
-Message-ID: <bc9afc30-bd48-4afc-8b83-a7f5bd6fe64a@kili.mountain>
+To: oe-kbuild@lists.linux.dev, Joel Granados <j.granados@samsung.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [joelgranados:jag/sysctl-testing-for-0day 2/6]
+ drivers/parport/procfs.c:502 parport_proc_register() warn: possible memory
+ leak of 't'
+Message-ID: <819e68aa-8c11-4f4d-9dcb-d20ef136fe0f@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,226 +53,110 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
-head:   ba79e9a73284f576f336814125571432a2b3940f
-commit: 3c9561c0a5b988be3dfd24ea1de2301b95efc640 [21/23] sfc: support TC decap rules matching on enc_ip_tos
-config: microblaze-randconfig-m031-20230509 (https://download.01.org/0day-ci/archive/20230513/202305132017.hOzgJtBt-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/Joelgranados/linux.git jag/sysctl-testing-for-0day
+head:   947f41127456cd102688bcddc3002d03111668c1
+commit: 3756e44223c2862f95de9d4280b44987e0b3aafc [2/6] parport: Remove register_sysctl_table from parport_proc_register
+config: x86_64-randconfig-m001
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305132017.hOzgJtBt-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305150948.pHgIh7Ql-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/ethernet/sfc/tc.c:501 efx_tc_flower_record_encap_match() error: dereferencing freed memory 'encap'
-drivers/net/ethernet/sfc/tc.c:529 efx_tc_flower_record_encap_match() warn: missing unwind goto?
+smatch warnings:
+drivers/parport/procfs.c:502 parport_proc_register() warn: possible memory leak of 't'
+drivers/parport/procfs.c:509 parport_proc_register() warn: missing error code 'err'
 
-Old smatch warnings:
-drivers/net/ethernet/sfc/tc.c:515 efx_tc_flower_record_encap_match() error: dereferencing freed memory 'encap'
-drivers/net/ethernet/sfc/tc.c:971 efx_tc_flower_replace() warn: missing unwind goto?
+vim +/t +502 drivers/parport/procfs.c
 
-vim +/encap +501 drivers/net/ethernet/sfc/tc.c
+^1da177e4c3f41 Linus Torvalds       2005-04-16  468  int parport_proc_register(struct parport *port)
+^1da177e4c3f41 Linus Torvalds       2005-04-16  469  {
+^1da177e4c3f41 Linus Torvalds       2005-04-16  470  	struct parport_sysctl_table *t;
+3756e44223c286 Joel Granados        2023-05-12  471  	char *tmp_dir_path;
+3756e44223c286 Joel Granados        2023-05-12  472  	size_t tmp_path_len, port_name_len;
+3756e44223c286 Joel Granados        2023-05-12  473  	int i, err = 0;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  474  
+2451a84839187c Silviu-Mihai Popescu 2013-03-11  475  	t = kmemdup(&parport_sysctl_template, sizeof(*t), GFP_KERNEL);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  476  	if (t == NULL)
+^1da177e4c3f41 Linus Torvalds       2005-04-16  477  		return -ENOMEM;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  478  
+^1da177e4c3f41 Linus Torvalds       2005-04-16  479  	t->device_dir[0].extra1 = port;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  480  
+^1da177e4c3f41 Linus Torvalds       2005-04-16  481  	t->vars[0].data = &port->spintime;
+3756e44223c286 Joel Granados        2023-05-12  482  	for (i = 0; i < 5; i++) {
+3756e44223c286 Joel Granados        2023-05-12  483  		t->vars[i].extra1 = port;
+3756e44223c286 Joel Granados        2023-05-12  484  		t->vars[5 + i].extra2 = &port->probe_info[i];
+3756e44223c286 Joel Granados        2023-05-12  485  	}
+^1da177e4c3f41 Linus Torvalds       2005-04-16  486  
+3756e44223c286 Joel Granados        2023-05-12  487  	port_name_len = strnlen(port->name, PARPORT_NAME_MAX_LEN);
+3756e44223c286 Joel Granados        2023-05-12  488  	/*
+3756e44223c286 Joel Granados        2023-05-12  489  	 * Allocate a buffer for two paths: dev/parport/PORT and dev/parport/PORT/devices.
+3756e44223c286 Joel Granados        2023-05-12  490  	 * We calculate for the second as that will give us enough for the first.
+3756e44223c286 Joel Granados        2023-05-12  491  	 */
+3756e44223c286 Joel Granados        2023-05-12  492  	tmp_path_len = PARPORT_BASE_DEVICES_PATH_SIZE + port_name_len;
+3756e44223c286 Joel Granados        2023-05-12  493  	tmp_dir_path = kmalloc(tmp_path_len, GFP_KERNEL);
+3756e44223c286 Joel Granados        2023-05-12  494  	if (!tmp_dir_path) {
+3756e44223c286 Joel Granados        2023-05-12  495  		err = -ENOMEM;
+3756e44223c286 Joel Granados        2023-05-12  496  		goto exit_free_t;
+3756e44223c286 Joel Granados        2023-05-12  497  	}
+^1da177e4c3f41 Linus Torvalds       2005-04-16  498  
+3756e44223c286 Joel Granados        2023-05-12  499  	if (tmp_path_len
+3756e44223c286 Joel Granados        2023-05-12  500  	    <= snprintf(tmp_dir_path, tmp_path_len, "dev/parport/%s/devices", port->name)) {
+3756e44223c286 Joel Granados        2023-05-12  501  		kfree(tmp_dir_path);
+3756e44223c286 Joel Granados        2023-05-12 @502  		return -ENOENT;
 
-746224cdef013e Edward Cree 2023-03-27  375  static int efx_tc_flower_record_encap_match(struct efx_nic *efx,
-746224cdef013e Edward Cree 2023-03-27  376  					    struct efx_tc_match *match,
-746224cdef013e Edward Cree 2023-03-27  377  					    enum efx_encap_type type,
-3c9561c0a5b988 Edward Cree 2023-05-11  378  					    enum efx_tc_em_pseudo_type em_type,
-3c9561c0a5b988 Edward Cree 2023-05-11  379  					    u8 child_ip_tos_mask,
-746224cdef013e Edward Cree 2023-03-27  380  					    struct netlink_ext_ack *extack)
-746224cdef013e Edward Cree 2023-03-27  381  {
-3c9561c0a5b988 Edward Cree 2023-05-11  382  	struct efx_tc_encap_match *encap, *old, *pseudo = NULL;
-746224cdef013e Edward Cree 2023-03-27  383  	bool ipv6 = false;
-746224cdef013e Edward Cree 2023-03-27  384  	int rc;
-746224cdef013e Edward Cree 2023-03-27  385  
-746224cdef013e Edward Cree 2023-03-27  386  	/* We require that the socket-defining fields (IP addrs and UDP dest
-3c9561c0a5b988 Edward Cree 2023-05-11  387  	 * port) are present and exact-match.  Other fields may only be used
-3c9561c0a5b988 Edward Cree 2023-05-11  388  	 * if the field-set (and any masks) are the same for all encap
-3c9561c0a5b988 Edward Cree 2023-05-11  389  	 * matches on the same <sip,dip,dport> tuple; this is enforced by
-3c9561c0a5b988 Edward Cree 2023-05-11  390  	 * pseudo encap matches.
-746224cdef013e Edward Cree 2023-03-27  391  	 */
-746224cdef013e Edward Cree 2023-03-27  392  	if (match->mask.enc_dst_ip | match->mask.enc_src_ip) {
-746224cdef013e Edward Cree 2023-03-27  393  		if (!IS_ALL_ONES(match->mask.enc_dst_ip)) {
-746224cdef013e Edward Cree 2023-03-27  394  			NL_SET_ERR_MSG_MOD(extack,
-746224cdef013e Edward Cree 2023-03-27  395  					   "Egress encap match is not exact on dst IP address");
-746224cdef013e Edward Cree 2023-03-27  396  			return -EOPNOTSUPP;
-746224cdef013e Edward Cree 2023-03-27  397  		}
-746224cdef013e Edward Cree 2023-03-27  398  		if (!IS_ALL_ONES(match->mask.enc_src_ip)) {
-746224cdef013e Edward Cree 2023-03-27  399  			NL_SET_ERR_MSG_MOD(extack,
-746224cdef013e Edward Cree 2023-03-27  400  					   "Egress encap match is not exact on src IP address");
-746224cdef013e Edward Cree 2023-03-27  401  			return -EOPNOTSUPP;
-746224cdef013e Edward Cree 2023-03-27  402  		}
-746224cdef013e Edward Cree 2023-03-27  403  #ifdef CONFIG_IPV6
-746224cdef013e Edward Cree 2023-03-27  404  		if (!ipv6_addr_any(&match->mask.enc_dst_ip6) ||
-746224cdef013e Edward Cree 2023-03-27  405  		    !ipv6_addr_any(&match->mask.enc_src_ip6)) {
-746224cdef013e Edward Cree 2023-03-27  406  			NL_SET_ERR_MSG_MOD(extack,
-746224cdef013e Edward Cree 2023-03-27  407  					   "Egress encap match on both IPv4 and IPv6, don't understand");
-746224cdef013e Edward Cree 2023-03-27  408  			return -EOPNOTSUPP;
-746224cdef013e Edward Cree 2023-03-27  409  		}
-746224cdef013e Edward Cree 2023-03-27  410  	} else {
-746224cdef013e Edward Cree 2023-03-27  411  		ipv6 = true;
-746224cdef013e Edward Cree 2023-03-27  412  		if (!efx_ipv6_addr_all_ones(&match->mask.enc_dst_ip6)) {
-746224cdef013e Edward Cree 2023-03-27  413  			NL_SET_ERR_MSG_MOD(extack,
-746224cdef013e Edward Cree 2023-03-27  414  					   "Egress encap match is not exact on dst IP address");
-746224cdef013e Edward Cree 2023-03-27  415  			return -EOPNOTSUPP;
-746224cdef013e Edward Cree 2023-03-27  416  		}
-746224cdef013e Edward Cree 2023-03-27  417  		if (!efx_ipv6_addr_all_ones(&match->mask.enc_src_ip6)) {
-746224cdef013e Edward Cree 2023-03-27  418  			NL_SET_ERR_MSG_MOD(extack,
-746224cdef013e Edward Cree 2023-03-27  419  					   "Egress encap match is not exact on src IP address");
-746224cdef013e Edward Cree 2023-03-27  420  			return -EOPNOTSUPP;
-746224cdef013e Edward Cree 2023-03-27  421  		}
-746224cdef013e Edward Cree 2023-03-27  422  #endif
-746224cdef013e Edward Cree 2023-03-27  423  	}
-746224cdef013e Edward Cree 2023-03-27  424  	if (!IS_ALL_ONES(match->mask.enc_dport)) {
-746224cdef013e Edward Cree 2023-03-27  425  		NL_SET_ERR_MSG_MOD(extack, "Egress encap match is not exact on dst UDP port");
-746224cdef013e Edward Cree 2023-03-27  426  		return -EOPNOTSUPP;
-746224cdef013e Edward Cree 2023-03-27  427  	}
-746224cdef013e Edward Cree 2023-03-27  428  	if (match->mask.enc_sport) {
-746224cdef013e Edward Cree 2023-03-27  429  		NL_SET_ERR_MSG_MOD(extack, "Egress encap match on src UDP port not supported");
-746224cdef013e Edward Cree 2023-03-27  430  		return -EOPNOTSUPP;
-746224cdef013e Edward Cree 2023-03-27  431  	}
-746224cdef013e Edward Cree 2023-03-27  432  	if (match->mask.enc_ip_tos) {
-3c9561c0a5b988 Edward Cree 2023-05-11  433  		struct efx_tc_match pmatch = *match;
-3c9561c0a5b988 Edward Cree 2023-05-11  434  
-3c9561c0a5b988 Edward Cree 2023-05-11  435  		if (em_type == EFX_TC_EM_PSEUDO_MASK) { /* can't happen */
-3c9561c0a5b988 Edward Cree 2023-05-11  436  			NL_SET_ERR_MSG_MOD(extack, "Bad recursion in egress encap match handler");
-746224cdef013e Edward Cree 2023-03-27  437  			return -EOPNOTSUPP;
-746224cdef013e Edward Cree 2023-03-27  438  		}
-3c9561c0a5b988 Edward Cree 2023-05-11  439  		pmatch.value.enc_ip_tos = 0;
-3c9561c0a5b988 Edward Cree 2023-05-11  440  		pmatch.mask.enc_ip_tos = 0;
-3c9561c0a5b988 Edward Cree 2023-05-11  441  		rc = efx_tc_flower_record_encap_match(efx, &pmatch, type,
-3c9561c0a5b988 Edward Cree 2023-05-11  442  						      EFX_TC_EM_PSEUDO_MASK,
-3c9561c0a5b988 Edward Cree 2023-05-11  443  						      match->mask.enc_ip_tos,
-3c9561c0a5b988 Edward Cree 2023-05-11  444  						      extack);
-3c9561c0a5b988 Edward Cree 2023-05-11  445  		if (rc)
-3c9561c0a5b988 Edward Cree 2023-05-11  446  			return rc;
-3c9561c0a5b988 Edward Cree 2023-05-11  447  		pseudo = pmatch.encap;
-3c9561c0a5b988 Edward Cree 2023-05-11  448  	}
-746224cdef013e Edward Cree 2023-03-27  449  	if (match->mask.enc_ip_ttl) {
-746224cdef013e Edward Cree 2023-03-27  450  		NL_SET_ERR_MSG_MOD(extack, "Egress encap match on IP TTL not supported");
-3c9561c0a5b988 Edward Cree 2023-05-11  451  		rc = -EOPNOTSUPP;
-3c9561c0a5b988 Edward Cree 2023-05-11  452  		goto fail_pseudo;
-746224cdef013e Edward Cree 2023-03-27  453  	}
-746224cdef013e Edward Cree 2023-03-27  454  
-56beb35d85e290 Edward Cree 2023-05-11  455  	rc = efx_mae_check_encap_match_caps(efx, ipv6, match->mask.enc_ip_tos, extack);
-56beb35d85e290 Edward Cree 2023-05-11  456  	if (rc)
-3c9561c0a5b988 Edward Cree 2023-05-11  457  		goto fail_pseudo;
-746224cdef013e Edward Cree 2023-03-27  458  
-746224cdef013e Edward Cree 2023-03-27  459  	encap = kzalloc(sizeof(*encap), GFP_USER);
-3c9561c0a5b988 Edward Cree 2023-05-11  460  	if (!encap) {
-3c9561c0a5b988 Edward Cree 2023-05-11  461  		rc = -ENOMEM;
-3c9561c0a5b988 Edward Cree 2023-05-11  462  		goto fail_pseudo;
-3c9561c0a5b988 Edward Cree 2023-05-11  463  	}
-746224cdef013e Edward Cree 2023-03-27  464  	encap->src_ip = match->value.enc_src_ip;
-746224cdef013e Edward Cree 2023-03-27  465  	encap->dst_ip = match->value.enc_dst_ip;
-746224cdef013e Edward Cree 2023-03-27  466  #ifdef CONFIG_IPV6
-746224cdef013e Edward Cree 2023-03-27  467  	encap->src_ip6 = match->value.enc_src_ip6;
-746224cdef013e Edward Cree 2023-03-27  468  	encap->dst_ip6 = match->value.enc_dst_ip6;
-746224cdef013e Edward Cree 2023-03-27  469  #endif
-746224cdef013e Edward Cree 2023-03-27  470  	encap->udp_dport = match->value.enc_dport;
-746224cdef013e Edward Cree 2023-03-27  471  	encap->tun_type = type;
-3c9561c0a5b988 Edward Cree 2023-05-11  472  	encap->ip_tos = match->value.enc_ip_tos;
-3c9561c0a5b988 Edward Cree 2023-05-11  473  	encap->ip_tos_mask = match->mask.enc_ip_tos;
-3c9561c0a5b988 Edward Cree 2023-05-11  474  	encap->child_ip_tos_mask = child_ip_tos_mask;
-3c9561c0a5b988 Edward Cree 2023-05-11  475  	encap->type = em_type;
-3c9561c0a5b988 Edward Cree 2023-05-11  476  	encap->pseudo = pseudo;
-746224cdef013e Edward Cree 2023-03-27  477  	old = rhashtable_lookup_get_insert_fast(&efx->tc->encap_match_ht,
-746224cdef013e Edward Cree 2023-03-27  478  						&encap->linkage,
-746224cdef013e Edward Cree 2023-03-27  479  						efx_tc_encap_match_ht_params);
-746224cdef013e Edward Cree 2023-03-27  480  	if (old) {
+Should be goto exit_free_t;
 
-The latest versions of Smatch want an IS_ERR() check:
+3756e44223c286 Joel Granados        2023-05-12  503  	}
+3756e44223c286 Joel Granados        2023-05-12  504  	if (register_sysctl(tmp_dir_path, t->device_dir) == NULL)
+3756e44223c286 Joel Granados        2023-05-12  505  		/*
+3756e44223c286 Joel Granados        2023-05-12  506  		 * We keep the original behavior of parport where failure to register
+3756e44223c286 Joel Granados        2023-05-12  507  		 * does not return error.
+3756e44223c286 Joel Granados        2023-05-12  508  		 */
+3756e44223c286 Joel Granados        2023-05-12 @509  		goto  exit_free_tmp_dir_path;
 
-	old = rhashtable_lookup_get_insert_fast();
-	if (IS_ERR(old)) {
-		rc = PTR_ERR(old);
-		goto fail_pseudo;
-	}
-	if (old) {
+Smatch wants a error code for this error path.
 
-746224cdef013e Edward Cree 2023-03-27  481  		/* don't need our new entry */
-746224cdef013e Edward Cree 2023-03-27  482  		kfree(encap);
-                                                        ^^^^^^^^^^^^^
-Freed.
+The comments say that we are doing the wrong thing deliberately to
+maintain backwards compatibility and avoid breaking stuff.  Fortunately,
+(LOL), no one is checking the returns from parport_proc_register() so we
+are free to return a correct error code without any worry about breakage.
 
-3c9561c0a5b988 Edward Cree 2023-05-11  483  		if (pseudo) /* don't need our new pseudo either */
-3c9561c0a5b988 Edward Cree 2023-05-11  484  			efx_tc_flower_release_encap_match(efx, pseudo);
-3c9561c0a5b988 Edward Cree 2023-05-11  485  		/* check old and new em_types are compatible */
-3c9561c0a5b988 Edward Cree 2023-05-11  486  		switch (old->type) {
-3c9561c0a5b988 Edward Cree 2023-05-11  487  		case EFX_TC_EM_DIRECT:
-3c9561c0a5b988 Edward Cree 2023-05-11  488  			/* old EM is in hardware, so mustn't overlap with a
-3c9561c0a5b988 Edward Cree 2023-05-11  489  			 * pseudo, but may be shared with another direct EM
-3c9561c0a5b988 Edward Cree 2023-05-11  490  			 */
-3c9561c0a5b988 Edward Cree 2023-05-11  491  			if (em_type == EFX_TC_EM_DIRECT)
-3c9561c0a5b988 Edward Cree 2023-05-11  492  				break;
-3c9561c0a5b988 Edward Cree 2023-05-11  493  			NL_SET_ERR_MSG_MOD(extack, "Pseudo encap match conflicts with existing direct entry");
-3c9561c0a5b988 Edward Cree 2023-05-11  494  			return -EEXIST;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  510  
+^1da177e4c3f41 Linus Torvalds       2005-04-16  511  
+3756e44223c286 Joel Granados        2023-05-12  512  	tmp_path_len = PARPORT_BASE_PATH_SIZE + port_name_len;
+3756e44223c286 Joel Granados        2023-05-12  513  	if (tmp_path_len
+3756e44223c286 Joel Granados        2023-05-12  514  	   <= snprintf(tmp_dir_path, tmp_path_len, "dev/parport/%s", port->name)) {
+3756e44223c286 Joel Granados        2023-05-12  515  		err = -ENOENT;
+3756e44223c286 Joel Granados        2023-05-12  516  		goto exit_free_tmp_dir_path;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  517  	}
+3756e44223c286 Joel Granados        2023-05-12  518  
+3756e44223c286 Joel Granados        2023-05-12  519  	t->sysctl_header = register_sysctl(tmp_dir_path, t->vars);
+3756e44223c286 Joel Granados        2023-05-12  520  	if (t->sysctl_header == NULL)
+3756e44223c286 Joel Granados        2023-05-12  521  		goto exit_free_tmp_dir_path;
 
-Do we not have to call rhashtable_remove_fast() on these error paths?
+Same here.  Return an error code.
 
-3c9561c0a5b988 Edward Cree 2023-05-11  495  		case EFX_TC_EM_PSEUDO_MASK:
-3c9561c0a5b988 Edward Cree 2023-05-11  496  			/* old EM is protecting a ToS-qualified filter, so may
-3c9561c0a5b988 Edward Cree 2023-05-11  497  			 * only be shared with another pseudo for the same
-3c9561c0a5b988 Edward Cree 2023-05-11  498  			 * ToS mask.
-3c9561c0a5b988 Edward Cree 2023-05-11  499  			 */
-3c9561c0a5b988 Edward Cree 2023-05-11  500  			if (em_type != EFX_TC_EM_PSEUDO_MASK) {
-3c9561c0a5b988 Edward Cree 2023-05-11 @501  				NL_SET_ERR_MSG_FMT_MOD(extack,
-3c9561c0a5b988 Edward Cree 2023-05-11  502  						       "%s encap match conflicts with existing pseudo(MASK) entry",
-3c9561c0a5b988 Edward Cree 2023-05-11  503  						       encap->type ? "Pseudo" : "Direct");
-                                                                                               ^^^^^^^^^^^
-Dereferenced.
+3756e44223c286 Joel Granados        2023-05-12  522  
+^1da177e4c3f41 Linus Torvalds       2005-04-16  523  	port->sysctl_table = t;
+3756e44223c286 Joel Granados        2023-05-12  524  
+3756e44223c286 Joel Granados        2023-05-12  525  	kfree(tmp_dir_path);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  526  	return 0;
+3756e44223c286 Joel Granados        2023-05-12  527  
+3756e44223c286 Joel Granados        2023-05-12  528  exit_free_tmp_dir_path:
+3756e44223c286 Joel Granados        2023-05-12  529  	kfree(tmp_dir_path);
+3756e44223c286 Joel Granados        2023-05-12  530  exit_free_t:
+3756e44223c286 Joel Granados        2023-05-12  531  	kfree(t);
+3756e44223c286 Joel Granados        2023-05-12  532  	t = NULL;
 
-3c9561c0a5b988 Edward Cree 2023-05-11  504  				return -EEXIST;
-3c9561c0a5b988 Edward Cree 2023-05-11  505  			}
-3c9561c0a5b988 Edward Cree 2023-05-11  506  			if (child_ip_tos_mask != old->child_ip_tos_mask) {
-3c9561c0a5b988 Edward Cree 2023-05-11  507  				NL_SET_ERR_MSG_FMT_MOD(extack,
-3c9561c0a5b988 Edward Cree 2023-05-11  508  						       "Pseudo encap match for TOS mask %#04x conflicts with existing pseudo(MASK) entry for TOS mask %#04x",
-3c9561c0a5b988 Edward Cree 2023-05-11  509  						       child_ip_tos_mask,
-3c9561c0a5b988 Edward Cree 2023-05-11  510  						       old->child_ip_tos_mask);
-3c9561c0a5b988 Edward Cree 2023-05-11  511  				return -EEXIST;
-3c9561c0a5b988 Edward Cree 2023-05-11  512  			}
-3c9561c0a5b988 Edward Cree 2023-05-11  513  			break;
-3c9561c0a5b988 Edward Cree 2023-05-11  514  		default: /* Unrecognised pseudo-type.  Just say no */
-3c9561c0a5b988 Edward Cree 2023-05-11  515  			NL_SET_ERR_MSG_FMT_MOD(extack,
-3c9561c0a5b988 Edward Cree 2023-05-11  516  					       "%s encap match conflicts with existing pseudo(%d) entry",
-3c9561c0a5b988 Edward Cree 2023-05-11  517  					       encap->type ? "Pseudo" : "Direct",
-3c9561c0a5b988 Edward Cree 2023-05-11  518  					       old->type);
-3c9561c0a5b988 Edward Cree 2023-05-11  519  			return -EEXIST;
-3c9561c0a5b988 Edward Cree 2023-05-11  520  		}
-3c9561c0a5b988 Edward Cree 2023-05-11  521  		/* check old and new tun_types are compatible */
-746224cdef013e Edward Cree 2023-03-27  522  		if (old->tun_type != type) {
-746224cdef013e Edward Cree 2023-03-27  523  			NL_SET_ERR_MSG_FMT_MOD(extack,
-746224cdef013e Edward Cree 2023-03-27  524  					       "Egress encap match with conflicting tun_type %u != %u",
-746224cdef013e Edward Cree 2023-03-27  525  					       old->tun_type, type);
-746224cdef013e Edward Cree 2023-03-27  526  			return -EEXIST;
-746224cdef013e Edward Cree 2023-03-27  527  		}
-746224cdef013e Edward Cree 2023-03-27  528  		if (!refcount_inc_not_zero(&old->ref))
-746224cdef013e Edward Cree 2023-03-27 @529  			return -EAGAIN;
-746224cdef013e Edward Cree 2023-03-27  530  		/* existing entry found */
-746224cdef013e Edward Cree 2023-03-27  531  		encap = old;
-746224cdef013e Edward Cree 2023-03-27  532  	} else {
-3c9561c0a5b988 Edward Cree 2023-05-11  533  		if (em_type == EFX_TC_EM_DIRECT) {
-746224cdef013e Edward Cree 2023-03-27  534  			rc = efx_mae_register_encap_match(efx, encap);
-746224cdef013e Edward Cree 2023-03-27  535  			if (rc) {
-746224cdef013e Edward Cree 2023-03-27  536  				NL_SET_ERR_MSG_MOD(extack, "Failed to record egress encap match in HW");
-746224cdef013e Edward Cree 2023-03-27  537  				goto fail;
-746224cdef013e Edward Cree 2023-03-27  538  			}
-3c9561c0a5b988 Edward Cree 2023-05-11  539  		}
-746224cdef013e Edward Cree 2023-03-27  540  		refcount_set(&encap->ref, 1);
-746224cdef013e Edward Cree 2023-03-27  541  	}
-746224cdef013e Edward Cree 2023-03-27  542  	match->encap = encap;
-746224cdef013e Edward Cree 2023-03-27  543  	return 0;
-746224cdef013e Edward Cree 2023-03-27  544  fail:
-746224cdef013e Edward Cree 2023-03-27  545  	rhashtable_remove_fast(&efx->tc->encap_match_ht, &encap->linkage,
-746224cdef013e Edward Cree 2023-03-27  546  			       efx_tc_encap_match_ht_params);
-746224cdef013e Edward Cree 2023-03-27  547  	kfree(encap);
-3c9561c0a5b988 Edward Cree 2023-05-11  548  fail_pseudo:
-3c9561c0a5b988 Edward Cree 2023-05-11  549  	if (pseudo)
-3c9561c0a5b988 Edward Cree 2023-05-11  550  		efx_tc_flower_release_encap_match(efx, pseudo);
-746224cdef013e Edward Cree 2023-03-27  551  	return rc;
-746224cdef013e Edward Cree 2023-03-27  552  }
+t is a local variable.  No point in setting it to NULL.  (This was
+copied from the original code, I know, but since you're re-writing stuff
+you may as well delete the nonsense bits).
+
+3756e44223c286 Joel Granados        2023-05-12  533  	return err;
+3756e44223c286 Joel Granados        2023-05-12  534  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
