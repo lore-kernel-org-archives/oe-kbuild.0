@@ -1,49 +1,52 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06EE3846B
-	for <oe-kbuild@lists.linux.dev>; Mon, 15 May 2023 07:34:51 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3078c092056so6351904f8f.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 15 May 2023 00:34:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCE38471
+	for <oe-kbuild@lists.linux.dev>; Mon, 15 May 2023 07:43:03 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3f42d937d61so61716065e9.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 15 May 2023 00:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684136089; x=1686728089;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6gfSJd3vy+0+DlmQAr/7jRIJEG9slIC2VDuxWzND7JM=;
-        b=PEZ4c4cQvSRWCKBhDpv8531TJfA8k173ajQdh5763cq4HgpqGuUDVbF+JSpBg/qwhd
-         5nPRpPwxH1tR8Af0eGtchQ68tyfUvjijnNvFWRD96PiOHLP9ywLSrd2e/ixtsLaRpIwy
-         JMQ3eu6hFoeQxqZnqYmRd8n6Gfhf75qyAUl0Qp9sQiCp6c6Xd3DT5bZVOPaLy1y0yZ/5
-         3Zuc0bFuqNsqoyhN6conwu59tU2Gp9GNeJAECjJK4m0M/jsBkCnFR9muvyEXj/XTXxiA
-         4udYhqO7LcNMHW+M6ypeb/8VNKzZbQy06t8AXozbpo6SKy1p3pWeJ4fhY1eC6Ifpo6MH
-         RUIg==
+        d=linaro.org; s=google; t=1684136581; x=1686728581;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kj4ZdnW0M2NIw/r58RrNWbXPLf2ZkNkSYUhgr2sJBMM=;
+        b=YOKgTp21/RP+G49WeMaFO2vL1Rgoatf9FXSjtOc25d4CZxgUZnaQjlwFHOciw3b9iL
+         79vYLsMC+Z4StgWaAjf8TCBd6EnAsUOMhsQE914QJysRTUa8OMhn8DpBS2EJJCVehpjJ
+         C0Hl9KyP2L6B2lYVGO1yTOPwuEGcoEmvQG3znrkZPzYmUCT9WJQ/cMS2r9Aim95oCuie
+         QYdXpBM9pSHv09uhiamjo39x+6wv0VZHpHVgrUmpzzae3Vn56MihnNyd2aoVrjbw67xt
+         dePqSiLaKMhgAi3VdPZBllq3tt47p3jR16LHz8+g3vLfOIQbt+CCf8qyLAyUGf6g6MiN
+         xp8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684136089; x=1686728089;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6gfSJd3vy+0+DlmQAr/7jRIJEG9slIC2VDuxWzND7JM=;
-        b=MtchBAGrgC18vNMcbbnkZo3JIdRWnmbyACZpvHFq4XAnAvgkpj3VCN+KVgcTC1UpUT
-         5lqWl80PCnA/Rxv19wMaJmA5fws67f4AWydMMeFgYOwcr7abnLnzyozh2mKv2MmQlS02
-         g1gQ1iCL2coL9fGYO1TMOLFdZLk9XAycsu0tK3W5G21S40vo8cmjFy3BHFiGcCg1hpv0
-         5/zW0BX1ACvjoSrEOeICHMI8evM/2hTnN6hZOMz5YnATa6IDbURfmZPtDzBo1cp4S1qG
-         eVO1xaMa5xpdUv3pY/C128zs0OTKrXFS3HWinaA0CXmkC+MMdHiMRlg0S3dAHVedO1Ng
-         TGqg==
-X-Gm-Message-State: AC+VfDxnwrxEQqDGu/ZFgbOqUZoSwPMDwwYo6+7sx70TS6fB/VJuVWZy
-	MVSdkp9jauBTPAvGyBP3QgNrxXTZ4ohI5cNh1hg=
-X-Google-Smtp-Source: ACHHUZ4AV1bhDWszFWsspM3tY5j9w2VhPJmTY1CMAm6t9CDO1pVcL+KYe01h8AiYc5Eyp3Z2uJwUKQ==
-X-Received: by 2002:a05:6000:120a:b0:306:4054:6e41 with SMTP id e10-20020a056000120a00b0030640546e41mr26550358wrx.53.1684136089145;
-        Mon, 15 May 2023 00:34:49 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684136581; x=1686728581;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Kj4ZdnW0M2NIw/r58RrNWbXPLf2ZkNkSYUhgr2sJBMM=;
+        b=LF+IRXKdM29UhX/Elk1cE//unEBGWC4N2FnVqxmfwoI9kOUc+U10k6E7/ysqsk8JmW
+         sIrFxOaEHKonhuCD8PObeQIgT57XYIEBO+oCsYg/PLpmmfyw7qUa+8CYqQBWCuY5EgjO
+         oTdO/N0I6mTILS6RFp7X6LJW6iWW3fXB33jOVK1Amzk46Yc7iCVXvW18W1DNlue9NaKO
+         yL+Nq8z+nfLxWlfQVZhuCQhmtqtviOvz0uyhysve2Z7HJq4H/nTNap6DA6b4r48LmcXu
+         vREXXeKvUKEXOLfY4XBb3TaYdOkHsXGsABqrMfDvglS9E1MyB1yKD0n6dEj0aZbphWzv
+         QwMw==
+X-Gm-Message-State: AC+VfDw17HRlBYgbcx596a2S9FIs2fy3pWn8AdehQx98/DkI1/7QGdV1
+	Nv4DB4CBtTunzfVvK/yD7Jr7pAoLEm3iyvIEdb8=
+X-Google-Smtp-Source: ACHHUZ5b52vQ0CkeGQYDfkS3Z25fWaiHt1VhYG7BMaDGcGnNpNppedd5n7WuHUZAH2kWSh7v6fcOlw==
+X-Received: by 2002:a1c:f619:0:b0:3f5:ce4:6c3f with SMTP id w25-20020a1cf619000000b003f50ce46c3fmr1151671wmc.7.1684136581208;
+        Mon, 15 May 2023 00:43:01 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l8-20020a5d4bc8000000b0030631f199f9sm30973085wrt.34.2023.05.15.00.34.46
+        by smtp.gmail.com with ESMTPSA id v25-20020a1cf719000000b003f50e88ffb5sm846967wmh.24.2023.05.15.00.42.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 May 2023 00:34:47 -0700 (PDT)
-Date: Mon, 15 May 2023 10:34:44 +0300
+        Mon, 15 May 2023 00:42:59 -0700 (PDT)
+Date: Mon, 15 May 2023 10:42:52 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Joel Granados <j.granados@samsung.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [joelgranados:jag/sysctl-testing-for-0day 2/6]
- drivers/parport/procfs.c:502 parport_proc_register() warn: possible memory
- leak of 't'
-Message-ID: <819e68aa-8c11-4f4d-9dcb-d20ef136fe0f@kili.mountain>
+To: oe-kbuild@lists.linux.dev, Prathu Baronia <prathubaronia2011@gmail.com>,
+	gregkh@linuxfoundation.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	prathubaronia2011@gmail.com
+Subject: Re: [PATCH v2 1/2] axis-fifo: use devm_kasprintf() for allocating
+ formatted strings
+Message-ID: <30f4e6ff-5ad3-4b57-b7c7-228b97369b72@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,111 +55,155 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230514130148.138624-2-prathubaronia2011@gmail.com>
 
-tree:   https://github.com/Joelgranados/linux.git jag/sysctl-testing-for-0day
-head:   947f41127456cd102688bcddc3002d03111668c1
-commit: 3756e44223c2862f95de9d4280b44987e0b3aafc [2/6] parport: Remove register_sysctl_table from parport_proc_register
-config: x86_64-randconfig-m001
+Hi Prathu,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Prathu-Baronia/axis-fifo-cleanup-space-issues-with-fops-struct/20230514-220201
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20230514130148.138624-2-prathubaronia2011%40gmail.com
+patch subject: [PATCH v2 1/2] axis-fifo: use devm_kasprintf() for allocating formatted strings
+config: i386-randconfig-m021
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305150948.pHgIh7Ql-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305150358.nt1BkbXz-lkp@intel.com/
 
-smatch warnings:
-drivers/parport/procfs.c:502 parport_proc_register() warn: possible memory leak of 't'
-drivers/parport/procfs.c:509 parport_proc_register() warn: missing error code 'err'
+New smatch warnings:
+drivers/staging/axis-fifo/axis-fifo.c:858 axis_fifo_probe() warn: missing unwind goto?
 
-vim +/t +502 drivers/parport/procfs.c
+Old smatch warnings:
+drivers/staging/axis-fifo/axis-fifo.c:907 axis_fifo_probe() error: '%pa' expects argument of type 'phys_addr_t*', argument 4 has type 'void**'
 
-^1da177e4c3f41 Linus Torvalds       2005-04-16  468  int parport_proc_register(struct parport *port)
-^1da177e4c3f41 Linus Torvalds       2005-04-16  469  {
-^1da177e4c3f41 Linus Torvalds       2005-04-16  470  	struct parport_sysctl_table *t;
-3756e44223c286 Joel Granados        2023-05-12  471  	char *tmp_dir_path;
-3756e44223c286 Joel Granados        2023-05-12  472  	size_t tmp_path_len, port_name_len;
-3756e44223c286 Joel Granados        2023-05-12  473  	int i, err = 0;
-^1da177e4c3f41 Linus Torvalds       2005-04-16  474  
-2451a84839187c Silviu-Mihai Popescu 2013-03-11  475  	t = kmemdup(&parport_sysctl_template, sizeof(*t), GFP_KERNEL);
-^1da177e4c3f41 Linus Torvalds       2005-04-16  476  	if (t == NULL)
-^1da177e4c3f41 Linus Torvalds       2005-04-16  477  		return -ENOMEM;
-^1da177e4c3f41 Linus Torvalds       2005-04-16  478  
-^1da177e4c3f41 Linus Torvalds       2005-04-16  479  	t->device_dir[0].extra1 = port;
-^1da177e4c3f41 Linus Torvalds       2005-04-16  480  
-^1da177e4c3f41 Linus Torvalds       2005-04-16  481  	t->vars[0].data = &port->spintime;
-3756e44223c286 Joel Granados        2023-05-12  482  	for (i = 0; i < 5; i++) {
-3756e44223c286 Joel Granados        2023-05-12  483  		t->vars[i].extra1 = port;
-3756e44223c286 Joel Granados        2023-05-12  484  		t->vars[5 + i].extra2 = &port->probe_info[i];
-3756e44223c286 Joel Granados        2023-05-12  485  	}
-^1da177e4c3f41 Linus Torvalds       2005-04-16  486  
-3756e44223c286 Joel Granados        2023-05-12  487  	port_name_len = strnlen(port->name, PARPORT_NAME_MAX_LEN);
-3756e44223c286 Joel Granados        2023-05-12  488  	/*
-3756e44223c286 Joel Granados        2023-05-12  489  	 * Allocate a buffer for two paths: dev/parport/PORT and dev/parport/PORT/devices.
-3756e44223c286 Joel Granados        2023-05-12  490  	 * We calculate for the second as that will give us enough for the first.
-3756e44223c286 Joel Granados        2023-05-12  491  	 */
-3756e44223c286 Joel Granados        2023-05-12  492  	tmp_path_len = PARPORT_BASE_DEVICES_PATH_SIZE + port_name_len;
-3756e44223c286 Joel Granados        2023-05-12  493  	tmp_dir_path = kmalloc(tmp_path_len, GFP_KERNEL);
-3756e44223c286 Joel Granados        2023-05-12  494  	if (!tmp_dir_path) {
-3756e44223c286 Joel Granados        2023-05-12  495  		err = -ENOMEM;
-3756e44223c286 Joel Granados        2023-05-12  496  		goto exit_free_t;
-3756e44223c286 Joel Granados        2023-05-12  497  	}
-^1da177e4c3f41 Linus Torvalds       2005-04-16  498  
-3756e44223c286 Joel Granados        2023-05-12  499  	if (tmp_path_len
-3756e44223c286 Joel Granados        2023-05-12  500  	    <= snprintf(tmp_dir_path, tmp_path_len, "dev/parport/%s/devices", port->name)) {
-3756e44223c286 Joel Granados        2023-05-12  501  		kfree(tmp_dir_path);
-3756e44223c286 Joel Granados        2023-05-12 @502  		return -ENOENT;
+vim +858 drivers/staging/axis-fifo/axis-fifo.c
 
-Should be goto exit_free_t;
+4a965c5f89decd Jacob Feder        2018-07-22  806  static int axis_fifo_probe(struct platform_device *pdev)
+4a965c5f89decd Jacob Feder        2018-07-22  807  {
+4a965c5f89decd Jacob Feder        2018-07-22  808  	struct resource *r_mem; /* IO mem resources */
+4a965c5f89decd Jacob Feder        2018-07-22  809  	struct device *dev = &pdev->dev; /* OS device (from device tree) */
+4a965c5f89decd Jacob Feder        2018-07-22  810  	struct axis_fifo *fifo = NULL;
+d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  811  	char *device_name;
+4a965c5f89decd Jacob Feder        2018-07-22  812  	int rc = 0; /* error return value */
+4a965c5f89decd Jacob Feder        2018-07-22  813  
+4a965c5f89decd Jacob Feder        2018-07-22  814  	/* ----------------------------
+4a965c5f89decd Jacob Feder        2018-07-22  815  	 *     init wrapper device
+4a965c5f89decd Jacob Feder        2018-07-22  816  	 * ----------------------------
+4a965c5f89decd Jacob Feder        2018-07-22  817  	 */
+4a965c5f89decd Jacob Feder        2018-07-22  818  
+4a965c5f89decd Jacob Feder        2018-07-22  819  	/* allocate device wrapper memory */
+d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  820  	fifo = devm_kzalloc(dev, sizeof(*fifo), GFP_KERNEL);
+4a965c5f89decd Jacob Feder        2018-07-22  821  	if (!fifo)
+4a965c5f89decd Jacob Feder        2018-07-22  822  		return -ENOMEM;
+4a965c5f89decd Jacob Feder        2018-07-22  823  
+4a965c5f89decd Jacob Feder        2018-07-22  824  	dev_set_drvdata(dev, fifo);
+4a965c5f89decd Jacob Feder        2018-07-22  825  	fifo->dt_device = dev;
+4a965c5f89decd Jacob Feder        2018-07-22  826  
+4a965c5f89decd Jacob Feder        2018-07-22  827  	init_waitqueue_head(&fifo->read_queue);
+4a965c5f89decd Jacob Feder        2018-07-22  828  	init_waitqueue_head(&fifo->write_queue);
+4a965c5f89decd Jacob Feder        2018-07-22  829  
+0443b3f4436321 Quentin Deslandes  2020-01-21  830  	mutex_init(&fifo->read_lock);
+0443b3f4436321 Quentin Deslandes  2020-01-21  831  	mutex_init(&fifo->write_lock);
+4a965c5f89decd Jacob Feder        2018-07-22  832  
+4a965c5f89decd Jacob Feder        2018-07-22  833  	/* ----------------------------
+4a965c5f89decd Jacob Feder        2018-07-22  834  	 *   init device memory space
+4a965c5f89decd Jacob Feder        2018-07-22  835  	 * ----------------------------
+4a965c5f89decd Jacob Feder        2018-07-22  836  	 */
+4a965c5f89decd Jacob Feder        2018-07-22  837  
+4a965c5f89decd Jacob Feder        2018-07-22  838  	/* get iospace for the device */
+4a965c5f89decd Jacob Feder        2018-07-22  839  	r_mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+4a965c5f89decd Jacob Feder        2018-07-22  840  	if (!r_mem) {
+4a965c5f89decd Jacob Feder        2018-07-22  841  		dev_err(fifo->dt_device, "invalid address\n");
+4a965c5f89decd Jacob Feder        2018-07-22  842  		rc = -ENODEV;
+4a965c5f89decd Jacob Feder        2018-07-22  843  		goto err_initial;
+4a965c5f89decd Jacob Feder        2018-07-22  844  	}
+4a965c5f89decd Jacob Feder        2018-07-22  845  
+4a965c5f89decd Jacob Feder        2018-07-22  846  	/* request physical memory */
+354e27a86b4c64 Quentin Deslandes  2019-11-01  847  	fifo->base_addr = devm_ioremap_resource(fifo->dt_device, r_mem);
+6a20d283ed6867 Quentin Deslandes  2019-11-01  848  	if (IS_ERR(fifo->base_addr)) {
+6a20d283ed6867 Quentin Deslandes  2019-11-01  849  		rc = PTR_ERR(fifo->base_addr);
+4a965c5f89decd Jacob Feder        2018-07-22  850  		goto err_initial;
+4a965c5f89decd Jacob Feder        2018-07-22  851  	}
+4a965c5f89decd Jacob Feder        2018-07-22  852  
+4a965c5f89decd Jacob Feder        2018-07-22  853  	dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
+4a965c5f89decd Jacob Feder        2018-07-22  854  
+4a965c5f89decd Jacob Feder        2018-07-22  855  	/* create unique device name */
+c5cab4f62648eb Prathu Baronia     2023-05-14  856  	device_name = devm_kasprintf(dev, GFP_KERNEL, "%s_%pa", DRIVER_NAME, &r_mem->start);
+c5cab4f62648eb Prathu Baronia     2023-05-14  857  	if (!device_name)
+c5cab4f62648eb Prathu Baronia     2023-05-14 @858  		return -ENOMEM;
 
-3756e44223c286 Joel Granados        2023-05-12  503  	}
-3756e44223c286 Joel Granados        2023-05-12  504  	if (register_sysctl(tmp_dir_path, t->device_dir) == NULL)
-3756e44223c286 Joel Granados        2023-05-12  505  		/*
-3756e44223c286 Joel Granados        2023-05-12  506  		 * We keep the original behavior of parport where failure to register
-3756e44223c286 Joel Granados        2023-05-12  507  		 * does not return error.
-3756e44223c286 Joel Granados        2023-05-12  508  		 */
-3756e44223c286 Joel Granados        2023-05-12 @509  		goto  exit_free_tmp_dir_path;
+		rc = -ENOMEM;
+		goto err_initial;
 
-Smatch wants a error code for this error path.
+4a965c5f89decd Jacob Feder        2018-07-22  859  	dev_dbg(fifo->dt_device, "device name [%s]\n", device_name);
+4a965c5f89decd Jacob Feder        2018-07-22  860  
+4a965c5f89decd Jacob Feder        2018-07-22  861  	/* ----------------------------
+4a965c5f89decd Jacob Feder        2018-07-22  862  	 *          init IP
+4a965c5f89decd Jacob Feder        2018-07-22  863  	 * ----------------------------
+4a965c5f89decd Jacob Feder        2018-07-22  864  	 */
+4a965c5f89decd Jacob Feder        2018-07-22  865  
+ed6daf2b2832d9 Quentin Deslandes  2019-11-01  866  	rc = axis_fifo_parse_dt(fifo);
+4a965c5f89decd Jacob Feder        2018-07-22  867  	if (rc)
+6a20d283ed6867 Quentin Deslandes  2019-11-01  868  		goto err_initial;
+4a965c5f89decd Jacob Feder        2018-07-22  869  
+4a965c5f89decd Jacob Feder        2018-07-22  870  	reset_ip_core(fifo);
+4a965c5f89decd Jacob Feder        2018-07-22  871  
+4a965c5f89decd Jacob Feder        2018-07-22  872  	/* ----------------------------
+4a965c5f89decd Jacob Feder        2018-07-22  873  	 *    init device interrupts
+4a965c5f89decd Jacob Feder        2018-07-22  874  	 * ----------------------------
+4a965c5f89decd Jacob Feder        2018-07-22  875  	 */
+4a965c5f89decd Jacob Feder        2018-07-22  876  
+4a965c5f89decd Jacob Feder        2018-07-22  877  	/* get IRQ resource */
+790ada0e6ec33e Lad Prabhakar      2021-12-24  878  	rc = platform_get_irq(pdev, 0);
+790ada0e6ec33e Lad Prabhakar      2021-12-24  879  	if (rc < 0)
+6a20d283ed6867 Quentin Deslandes  2019-11-01  880  		goto err_initial;
+4a965c5f89decd Jacob Feder        2018-07-22  881  
+4a965c5f89decd Jacob Feder        2018-07-22  882  	/* request IRQ */
+790ada0e6ec33e Lad Prabhakar      2021-12-24  883  	fifo->irq = rc;
+6a20d283ed6867 Quentin Deslandes  2019-11-01  884  	rc = devm_request_irq(fifo->dt_device, fifo->irq, &axis_fifo_irq, 0,
+6a20d283ed6867 Quentin Deslandes  2019-11-01  885  			      DRIVER_NAME, fifo);
+4a965c5f89decd Jacob Feder        2018-07-22  886  	if (rc) {
+4a965c5f89decd Jacob Feder        2018-07-22  887  		dev_err(fifo->dt_device, "couldn't allocate interrupt %i\n",
+4a965c5f89decd Jacob Feder        2018-07-22  888  			fifo->irq);
+6a20d283ed6867 Quentin Deslandes  2019-11-01  889  		goto err_initial;
+4a965c5f89decd Jacob Feder        2018-07-22  890  	}
+4a965c5f89decd Jacob Feder        2018-07-22  891  
+4a965c5f89decd Jacob Feder        2018-07-22  892  	/* ----------------------------
+4a965c5f89decd Jacob Feder        2018-07-22  893  	 *      init char device
+4a965c5f89decd Jacob Feder        2018-07-22  894  	 * ----------------------------
+4a965c5f89decd Jacob Feder        2018-07-22  895  	 */
+4a965c5f89decd Jacob Feder        2018-07-22  896  
+d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  897  	/* create character device */
+d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  898  	fifo->miscdev.fops = &fops;
+d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  899  	fifo->miscdev.minor = MISC_DYNAMIC_MINOR;
+d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  900  	fifo->miscdev.name = device_name;
+d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  901  	fifo->miscdev.groups = axis_fifo_attrs_groups;
+d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  902  	fifo->miscdev.parent = dev;
+d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  903  	rc = misc_register(&fifo->miscdev);
+4a965c5f89decd Jacob Feder        2018-07-22  904  	if (rc < 0)
+6a20d283ed6867 Quentin Deslandes  2019-11-01  905  		goto err_initial;
+4a965c5f89decd Jacob Feder        2018-07-22  906  
+d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  907  	dev_info(fifo->dt_device, "axis-fifo created at %pa mapped to 0x%pa, irq=%i\n",
+                                                                                                                      ^^^^^
+d2d7aa53891ea1 Greg Kroah-Hartman 2021-09-07  908  		 &r_mem->start, &fifo->base_addr, fifo->irq);
+                                                                                ^^^^^^^^^^^^^^^^
+I think Smatch is correct that it should just be %p instead of %pa but
+I don't know the rules here too well.
 
-The comments say that we are doing the wrong thing deliberately to
-maintain backwards compatibility and avoid breaking stuff.  Fortunately,
-(LOL), no one is checking the returns from parport_proc_register() so we
-are free to return a correct error code without any worry about breakage.
-
-^1da177e4c3f41 Linus Torvalds       2005-04-16  510  
-^1da177e4c3f41 Linus Torvalds       2005-04-16  511  
-3756e44223c286 Joel Granados        2023-05-12  512  	tmp_path_len = PARPORT_BASE_PATH_SIZE + port_name_len;
-3756e44223c286 Joel Granados        2023-05-12  513  	if (tmp_path_len
-3756e44223c286 Joel Granados        2023-05-12  514  	   <= snprintf(tmp_dir_path, tmp_path_len, "dev/parport/%s", port->name)) {
-3756e44223c286 Joel Granados        2023-05-12  515  		err = -ENOENT;
-3756e44223c286 Joel Granados        2023-05-12  516  		goto exit_free_tmp_dir_path;
-^1da177e4c3f41 Linus Torvalds       2005-04-16  517  	}
-3756e44223c286 Joel Granados        2023-05-12  518  
-3756e44223c286 Joel Granados        2023-05-12  519  	t->sysctl_header = register_sysctl(tmp_dir_path, t->vars);
-3756e44223c286 Joel Granados        2023-05-12  520  	if (t->sysctl_header == NULL)
-3756e44223c286 Joel Granados        2023-05-12  521  		goto exit_free_tmp_dir_path;
-
-Same here.  Return an error code.
-
-3756e44223c286 Joel Granados        2023-05-12  522  
-^1da177e4c3f41 Linus Torvalds       2005-04-16  523  	port->sysctl_table = t;
-3756e44223c286 Joel Granados        2023-05-12  524  
-3756e44223c286 Joel Granados        2023-05-12  525  	kfree(tmp_dir_path);
-^1da177e4c3f41 Linus Torvalds       2005-04-16  526  	return 0;
-3756e44223c286 Joel Granados        2023-05-12  527  
-3756e44223c286 Joel Granados        2023-05-12  528  exit_free_tmp_dir_path:
-3756e44223c286 Joel Granados        2023-05-12  529  	kfree(tmp_dir_path);
-3756e44223c286 Joel Granados        2023-05-12  530  exit_free_t:
-3756e44223c286 Joel Granados        2023-05-12  531  	kfree(t);
-3756e44223c286 Joel Granados        2023-05-12  532  	t = NULL;
-
-t is a local variable.  No point in setting it to NULL.  (This was
-copied from the original code, I know, but since you're re-writing stuff
-you may as well delete the nonsense bits).
-
-3756e44223c286 Joel Granados        2023-05-12  533  	return err;
-3756e44223c286 Joel Granados        2023-05-12  534  
+4a965c5f89decd Jacob Feder        2018-07-22  909  
+4a965c5f89decd Jacob Feder        2018-07-22  910  	return 0;
+4a965c5f89decd Jacob Feder        2018-07-22  911  
+4a965c5f89decd Jacob Feder        2018-07-22  912  err_initial:
+4a965c5f89decd Jacob Feder        2018-07-22  913  	dev_set_drvdata(dev, NULL);
+4a965c5f89decd Jacob Feder        2018-07-22  914  	return rc;
+4a965c5f89decd Jacob Feder        2018-07-22  915  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
