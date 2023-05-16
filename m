@@ -1,61 +1,36 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397F124EB7
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 May 2023 11:53:03 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3077d134028so8525128f8f.3
-        for <oe-kbuild@lists.linux.dev>; Tue, 16 May 2023 04:53:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684237981; x=1686829981;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GBv3RQ9E2nj2VxVWOi5OYZIIGU6LVm0XUgPs/FVz3EY=;
-        b=dZj+q1a5cl045iNsMOKpwwF/V9dBa3peELj2cK5rM3PXOqVZChNxYzJEB2iupEZZML
-         q2/izu4n9Mbeoo9uEYcT3Se5AXydgPawXIzOiOIvoNbnJZxrgFxaLmOsXX34tnF1qI2J
-         LlRZy6Rnktc0gKa4Pp2zuudLHFJpPOi4V9qGY9Q2iLixuXRoEUS3//yxMl6Pn1dhDJXE
-         ItUxPQ2turFHIZg7pzRqc5Fc1hUAqYaBxc0PbScpuqixueiuA1zQTg1PuiJdd7rBXCt5
-         4Snkb94eYu9aLuxgk0NSx9rYkRpIlug1oytOWl7rJfbE8bWy9EnQEt8FHs3GYc15C487
-         Yw8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684237981; x=1686829981;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GBv3RQ9E2nj2VxVWOi5OYZIIGU6LVm0XUgPs/FVz3EY=;
-        b=HPa3xHkNSdcJZggawRjg6YrgCF385+yjySgIENmeko7ef29l8Dpin7HiF+5ku11xuz
-         m/xg/89tBrxx99HJq6OQgEq2OPAiXqemrDLWe9x2faHVFOmrHAKxEt5XevKoxHbZJ4CA
-         ajpDBYcd/XODcpm4n4+3PuYYHeml0REWQGCdjjzb18+vgKZmNBKsJYHq1gD/yXBSpMcY
-         sRNLd8HKIVzOktHEWGGWW6MVsGbzvHGXL7ADYKK6dwED5Cjl3Fta90WRCMBR9vLs3p4F
-         FV4bGNftXO3I0Uls8UETUmtB6rFMrdT/MVuO1kwFzAOTImBAhVm7DTTXAnNv9ZIUD1U8
-         M/2g==
-X-Gm-Message-State: AC+VfDzneNnvgZ7/QwBjhKMiMSBJq5M2xEQYz8Y+71tqU4PXiXyXuxHe
-	1WDgJRW0VCFXjMjB33Bp5WhRYw==
-X-Google-Smtp-Source: ACHHUZ7Wm97TbRm4zFAEgF4ZbdkO1QUID7eLVTIVYR6mk0NeWb3nVQ/3NU4NCXPFFIAkfTar3xo1IA==
-X-Received: by 2002:a5d:4904:0:b0:307:bd64:f5a4 with SMTP id x4-20020a5d4904000000b00307bd64f5a4mr15556197wrq.52.1684237981336;
-        Tue, 16 May 2023 04:53:01 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id e7-20020a5d5307000000b003063772a55bsm2399380wrv.61.2023.05.16.04.52.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 May 2023 04:52:59 -0700 (PDT)
-Date: Tue, 16 May 2023 14:52:47 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Zelong Dong <Zelong.Dong@amlogic.com>
-Cc: oe-kbuild@lists.linux.dev, Neil Armstrong <neil.armstrong@linaro.org>,
-	Sean Young <sean@mess.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	Qianggui.Song@amlogic.com, Yonghui.Yu@amlogic.com,
-	kelvin.zhang@amlogic.com
-Subject: Re: [PATCH] media: rc: meson-ir: support MMIO regmaps to access
- registers
-Message-ID: <1d4b788e-6750-4f72-ad70-c91319e6714d@kili.mountain>
-References: <95860d11-8317-4082-a1b8-a1fdaba9f6aa@kili.mountain>
- <32954093-cf5d-8802-eb1b-3458596a24ea@amlogic.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F6A24EA6;
+	Tue, 16 May 2023 12:17:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9EEAC433EF;
+	Tue, 16 May 2023 12:17:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1684239477;
+	bh=sP9gNr70JhVah2PxtGLjXPjgrkId19Xw0B/4W82U6Qo=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=DmiuJEhjigE9MaqcXF9VZ4sWQJB36J2eUJZrHX6Ca8BFifZt4T2m0YfQ5fVNO4RZO
+	 pB05XuJB9Wel9zois5Zrg98NoweZ/9AXGSb53/EYtKHr6wOin4M5a+TjHhc3MZzqDL
+	 ILFn6AfGXeh0aANY+gEsUK3NHIeYmEuppLsH9dqFDIYdwLIuYpsWUwK1fL0puTaeKV
+	 u1WJURX+geSw+/yzHhoxP9RTxQoP1H1TFXdTiftOd54Y1A4ac8H8SCKrKP2F5ogRY5
+	 hGyV4nC7eB8H1n+UmlZ5PAlDnRJvowTRt3eZxeXsNfdfyaFRO3F6bYiaNU21G0G8xi
+	 yLE6r+MqxAVoA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 644B5CE1432; Tue, 16 May 2023 05:17:57 -0700 (PDT)
+Date: Tue, 16 May 2023 05:17:57 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: kernel/rcu/srcutree.c:1644 srcu_advance_state() warn:
+ inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
+Message-ID: <2ef061eb-e82d-4c16-a333-e499095a7162@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <c0937326-1cf1-429a-9883-30d9d79b01d0@kili.mountain>
+ <c33b0348-7f86-47ce-913c-f1ebc6431f93@paulmck-laptop>
+ <30f2e760-e2f3-4941-be9b-b9c5624fd861@kili.mountain>
+ <4bdbbcd3-6620-4320-ada5-02b71a54106c@paulmck-laptop>
+ <782b3fa6-576d-4c26-888e-5dc151feaaa8@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,28 +39,70 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <32954093-cf5d-8802-eb1b-3458596a24ea@amlogic.com>
+In-Reply-To: <782b3fa6-576d-4c26-888e-5dc151feaaa8@kili.mountain>
 
-On Tue, May 16, 2023 at 07:47:24PM +0800, Zelong Dong wrote:
-> Hi Dan Carpenter,
+On Tue, May 09, 2023 at 06:13:02PM +0300, Dan Carpenter wrote:
+> On Tue, May 09, 2023 at 07:08:05AM -0700, Paul E. McKenney wrote:
+> > On Tue, May 09, 2023 at 08:40:33AM +0300, Dan Carpenter wrote:
+> > > On Sat, May 06, 2023 at 11:45:35AM -0700, Paul E. McKenney wrote:
+> > > > On Sat, May 06, 2023 at 10:22:04AM +0300, Dan Carpenter wrote:
+> > > > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1632  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN2) {
+> > > > > 
+> > > > > We don't mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex) if this if
+> > > > > statement is false.
+> > > > 
+> > > > Hmmm...
+> > > > 
+> > > > I could make the above line read something like the following:
+> > > > 
+> > > > 	if (!WARN_ON_ONCE(rcu_seq_state(READ_ONCE(ssp->srcu_sup->srcu_gp_seq)) != SRCU_STATE_SCAN2)) {
+> > > 
+> > > Smatch ignores WARN_ON().  WARNings are triggered all the time, so it's
+> > > not like a BUG() which stops the code flow.
+> > > 
+> > > > 
+> > > > The theory is that there are only three legal values for ->srcu_gp_seq.
+> > > > Because we hold ->srcu_gp_mutex, no one else can change it.   The first
+> > > > "if" statement either returns or sets that state to SRCU_STATE_SCAN1.
+> > > > The second "if" statement also either returns or sets that state to
+> > > > SRCU_STATE_SCAN2.  So that statement should not be false.
+> > > 
+> > > Smatch can't figure out that the statement is true.  The issue there is
+> > > that ssp->srcu_sup->srcu_gp_seq stores a value in the low bits and a
+> > > different value in the high bits.  This seems like something that might
+> > > be worth handling correctly at some point, but that point is in the
+> > > distant future...
+> > > 
+> > > Just ignore this one.
+> > 
+> > Fair enough!  Yeah, I could imagine that this would be non-trivial.
+> > 
+> > Is there a not-reached annotation that Smatch pays attention to?
 > 
-> Thanks for your review.
+> Hm...  Yeah.  If you wanted you could do this.  I'm not sure it improves
+> the readability.  Also for some reason my private Smatch build doesn't
+> print a warning...  I need to investigate why that is...
+
+There does seem to be a fair number of instances of unreachable() in
+the kernel, so why not?
+
+May I add your Signed-off-by?
+
+							Thanx, Paul
+
+> regards,
+> dan carpenter
 > 
-> Neil suggest to use devm_platform_ioremap_resource(), would it be better
-> like this?
-> 
-> 	res_start = devm_platform_ioremap_resource(pdev, 0);;
-> 	if (IS_ERR(res_start))
->         	return PTR_ERR(res_start);
-> 
-> 	ir->reg = devm_regmap_init_mmio(&pdev->dev, res_start,
->                                 	&meson_ir_regmap_config);
-> 	if (IS_ERR(ir->reg))
->         	return PTR_ERR(ir->reg);
-
-Yep.  That works.
-
-regards,
-dan carpenter
-
-
+> diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+> index 20d7a238d675..58e13d3c5a6a 100644
+> --- a/kernel/rcu/srcutree.c
+> +++ b/kernel/rcu/srcutree.c
+> @@ -1669,6 +1669,8 @@ static void srcu_advance_state(struct srcu_struct *ssp)
+>  		}
+>  		ssp->srcu_sup->srcu_n_exp_nodelay = 0;
+>  		srcu_gp_end(ssp);  /* Releases ->srcu_gp_mutex. */
+> +	} else {
+> +		unreachable();
+>  	}
+>  }
+>  
