@@ -1,148 +1,240 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF5734CE4
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 May 2023 14:31:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F6534CD7
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 May 2023 17:06:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684247494; x=1715783494;
+  t=1684256786; x=1715792786;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3g8yrv1VUdBuzIFDnoZBeCw8UZ8wp0SsGNtV1hrPPuQ=;
-  b=bw3Ex/+jDCngWiZeR85O6/ENrksCIvNfc3woimVQc5Yg10UYBTrDqy6T
-   g10OcUe4Oo5/4cD9bFEN9l6O+do6R+fpLrHWA1t9NF/O01G2vu+FL3BrR
-   A7VRZLU9OJcANoRcbLAA58tHAakx/tItPztis1yb7BjPfSQv3ckaTasAI
-   xUMPC85YQHI/rxrzl2oSalKDX/hJpAVziV8CBMVSaMvl7KpkserNcN1Nx
-   PauD7NaR9fDxWudI7QVPt02naV260/y1PS7XsXhvmQfZVjVYJJtAABGFZ
-   YCwrR/21g7t0ct98y6Dcffz4pDRfIbXZiEYrCMbugpr6avVzbVdV5PVHB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="437835097"
+  bh=G3DU2WZXqhtH7jeuUB3g4Nc9RITmSkoHXhRXDz0lIkY=;
+  b=htorox7r2i/cTdR6191yjm8zuehCmfTTyREHZE3OZQKEwLJUanOE2fxB
+   hkvjVpunEddK5G31CH4hsPf5hQTXYQ+eSOwnADnjcZF86xZZx8NDAIPCy
+   XRG12N55wTM6o7OmV620RxiHmUDnRrl4zLqUBhcBElIlvhy6Rvm0Nbvsl
+   ntzNjE+lnjubC10eI3b16UyyYCGwiDop5f7U+jOAxK723aiKFtKt5BshH
+   iprXDVgL2wp5KSm5tOUd9bliT2vW3vdtysP/kQ/MjqSbZvqAvgLO/9OCy
+   I5JB2MQMpXg5onyovFLnTm7cN2SeLTsACOmpfyDD77dhim2o4OI3x3K8k
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="336084662"
 X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="437835097"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2023 07:31:21 -0700
+   d="scan'208";a="336084662"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2023 10:06:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="766384342"
+X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="825627734"
 X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="766384342"
+   d="scan'208";a="825627734"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 16 May 2023 07:31:19 -0700
+  by orsmga004.jf.intel.com with ESMTP; 16 May 2023 10:06:22 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pyvhu-0007W0-2J;
-	Tue, 16 May 2023 14:31:18 +0000
-Date: Tue, 16 May 2023 22:30:27 +0800
+	id 1pyy7y-0007bu-34;
+	Tue, 16 May 2023 17:06:22 +0000
+Date: Wed, 17 May 2023 01:06:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/ext4/page-io.c:121 ext4_finish_bio() error: 'folio' dereferencing
- possible ERR_PTR()
-Message-ID: <202305162231.9pGUjDaB-lkp@intel.com>
+Subject: kernel/module/stats.c:394 read_file_mod_stats() warn: passing freed
+ memory 'buf'
+Message-ID: <202305170005.yroPW2N1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="58Dvh27TyZtJUTDD"
+Content-Type: multipart/mixed; boundary="JTggaPT+AmRxnHwG"
 Content-Disposition: inline
 
 
---58Dvh27TyZtJUTDD
+--JTggaPT+AmRxnHwG
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Matthew Wilcox <willy@infradead.org>
-CC: "Theodore Ts'o" <tytso@mit.edu>
-CC: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+TO: Arnd Bergmann <arnd@arndb.de>
+CC: Luis Chamberlain <mcgrof@kernel.org>
+
+Hi Arnd,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6
-commit: bb64c08bff6a6edbd85786c92a2cb980ed99b29f ext4: Convert ext4_finish_bio() to use folios
-date:   6 weeks ago
+commit: 719ccd803ed5bd1ad92b0b46fc095b8fe266827e module: fix building stats for 32-bit targets
+date:   4 weeks ago
 :::::: branch date: 2 days ago
-:::::: commit date: 6 weeks ago
+:::::: commit date: 4 weeks ago
 config: csky-randconfig-m031-20230515
 compiler: csky-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305162231.9pGUjDaB-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202305170005.yroPW2N1-lkp@intel.com/
 
-New smatch warnings:
-fs/ext4/page-io.c:121 ext4_finish_bio() error: 'folio' dereferencing possible ERR_PTR()
+smatch warnings:
+kernel/module/stats.c:394 read_file_mod_stats() warn: passing freed memory 'buf'
 
-Old smatch warnings:
-fs/ext4/page-io.c:123 ext4_finish_bio() error: 'folio' dereferencing possible ERR_PTR()
+vim +/buf +394 kernel/module/stats.c
 
-vim +/folio +121 fs/ext4/page-io.c
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  263  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  264  /*
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  265   * At 64 bytes per module and assuming a 1024 bytes preamble we can fit the
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  266   * 112 module prints within 8k.
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  267   *
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  268   * 1024 + (64*112) = 8k
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  269   */
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  270  #define MAX_PREAMBLE 1024
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  271  #define MAX_FAILED_MOD_PRINT 112
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  272  #define MAX_BYTES_PER_MOD 64
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  273  static ssize_t read_file_mod_stats(struct file *file, char __user *user_buf,
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  274  				   size_t count, loff_t *ppos)
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  275  {
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  276  	struct mod_fail_load *mod_fail;
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  277  	unsigned int len, size, count_failed = 0;
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  278  	char *buf;
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  279  	u32 live_mod_count, fkreads, fdecompress, fbecoming, floads;
+719ccd803ed5bd Arnd Bergmann    2023-04-18  280  	unsigned long total_size, text_size, ikread_bytes, ibecoming_bytes,
+719ccd803ed5bd Arnd Bergmann    2023-04-18  281  		idecompress_bytes, imod_bytes, total_virtual_lost;
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  282  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  283  	live_mod_count = atomic_read(&modcount);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  284  	fkreads = atomic_read(&failed_kreads);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  285  	fdecompress = atomic_read(&failed_decompress);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  286  	fbecoming = atomic_read(&failed_becoming);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  287  	floads = atomic_read(&failed_load_modules);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  288  
+719ccd803ed5bd Arnd Bergmann    2023-04-18  289  	total_size = atomic_long_read(&total_mod_size);
+719ccd803ed5bd Arnd Bergmann    2023-04-18  290  	text_size = atomic_long_read(&total_text_size);
+719ccd803ed5bd Arnd Bergmann    2023-04-18  291  	ikread_bytes = atomic_long_read(&invalid_kread_bytes);
+719ccd803ed5bd Arnd Bergmann    2023-04-18  292  	idecompress_bytes = atomic_long_read(&invalid_decompress_bytes);
+719ccd803ed5bd Arnd Bergmann    2023-04-18  293  	ibecoming_bytes = atomic_long_read(&invalid_becoming_bytes);
+719ccd803ed5bd Arnd Bergmann    2023-04-18  294  	imod_bytes = atomic_long_read(&invalid_mod_bytes);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  295  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  296  	total_virtual_lost = ikread_bytes + idecompress_bytes + ibecoming_bytes + imod_bytes;
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  297  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  298  	size = MAX_PREAMBLE + min((unsigned int)(floads + fbecoming),
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  299  				  (unsigned int)MAX_FAILED_MOD_PRINT) * MAX_BYTES_PER_MOD;
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  300  	buf = kzalloc(size, GFP_KERNEL);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  301  	if (buf == NULL)
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  302  		return -ENOMEM;
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  303  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  304  	/* The beginning of our debug preamble */
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  305  	len = scnprintf(buf + 0, size - len, "%25s\t%u\n", "Mods ever loaded", live_mod_count);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  306  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  307  	len += scnprintf(buf + len, size - len, "%25s\t%u\n", "Mods failed on kread", fkreads);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  308  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  309  	len += scnprintf(buf + len, size - len, "%25s\t%u\n", "Mods failed on decompress",
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  310  			 fdecompress);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  311  	len += scnprintf(buf + len, size - len, "%25s\t%u\n", "Mods failed on becoming", fbecoming);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  312  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  313  	len += scnprintf(buf + len, size - len, "%25s\t%u\n", "Mods failed on load", floads);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  314  
+719ccd803ed5bd Arnd Bergmann    2023-04-18  315  	len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Total module size", total_size);
+719ccd803ed5bd Arnd Bergmann    2023-04-18  316  	len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Total mod text size", text_size);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  317  
+719ccd803ed5bd Arnd Bergmann    2023-04-18  318  	len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Failed kread bytes", ikread_bytes);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  319  
+719ccd803ed5bd Arnd Bergmann    2023-04-18  320  	len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Failed decompress bytes",
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  321  			 idecompress_bytes);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  322  
+719ccd803ed5bd Arnd Bergmann    2023-04-18  323  	len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Failed becoming bytes", ibecoming_bytes);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  324  
+719ccd803ed5bd Arnd Bergmann    2023-04-18  325  	len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Failed kmod bytes", imod_bytes);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  326  
+719ccd803ed5bd Arnd Bergmann    2023-04-18  327  	len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Virtual mem wasted bytes", total_virtual_lost);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  328  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  329  	if (live_mod_count && total_size) {
+719ccd803ed5bd Arnd Bergmann    2023-04-18  330  		len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Average mod size",
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  331  				 DIV_ROUND_UP(total_size, live_mod_count));
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  332  	}
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  333  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  334  	if (live_mod_count && text_size) {
+719ccd803ed5bd Arnd Bergmann    2023-04-18  335  		len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Average mod text size",
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  336  				 DIV_ROUND_UP(text_size, live_mod_count));
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  337  	}
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  338  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  339  	/*
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  340  	 * We use WARN_ON_ONCE() for the counters to ensure we always have parity
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  341  	 * for keeping tabs on a type of failure with one type of byte counter.
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  342  	 * The counters for imod_bytes does not increase for fkreads failures
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  343  	 * for example, and so on.
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  344  	 */
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  345  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  346  	WARN_ON_ONCE(ikread_bytes && !fkreads);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  347  	if (fkreads && ikread_bytes) {
+719ccd803ed5bd Arnd Bergmann    2023-04-18  348  		len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Avg fail kread bytes",
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  349  				 DIV_ROUND_UP(ikread_bytes, fkreads));
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  350  	}
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  351  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  352  	WARN_ON_ONCE(ibecoming_bytes && !fbecoming);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  353  	if (fbecoming && ibecoming_bytes) {
+719ccd803ed5bd Arnd Bergmann    2023-04-18  354  		len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Avg fail becoming bytes",
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  355  				 DIV_ROUND_UP(ibecoming_bytes, fbecoming));
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  356  	}
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  357  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  358  	WARN_ON_ONCE(idecompress_bytes && !fdecompress);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  359  	if (fdecompress && idecompress_bytes) {
+719ccd803ed5bd Arnd Bergmann    2023-04-18  360  		len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Avg fail decomp bytes",
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  361  				 DIV_ROUND_UP(idecompress_bytes, fdecompress));
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  362  	}
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  363  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  364  	WARN_ON_ONCE(imod_bytes && !floads);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  365  	if (floads && imod_bytes) {
+719ccd803ed5bd Arnd Bergmann    2023-04-18  366  		len += scnprintf(buf + len, size - len, "%25s\t%lu\n", "Average fail load bytes",
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  367  				 DIV_ROUND_UP(imod_bytes, floads));
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  368  	}
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  369  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  370  	/* End of our debug preamble header. */
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  371  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  372  	/* Catch when we've gone beyond our expected preamble */
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  373  	WARN_ON_ONCE(len >= MAX_PREAMBLE);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  374  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  375  	if (list_empty(&dup_failed_modules))
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  376  		goto out;
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  377  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  378  	len += scnprintf(buf + len, size - len, "Duplicate failed modules:\n");
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  379  	len += scnprintf(buf + len, size - len, "%25s\t%15s\t%25s\n",
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  380  			 "Module-name", "How-many-times", "Reason");
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  381  	mutex_lock(&module_mutex);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  382  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  383  
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  384  	list_for_each_entry_rcu(mod_fail, &dup_failed_modules, list) {
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  385  		if (WARN_ON_ONCE(++count_failed >= MAX_FAILED_MOD_PRINT))
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  386  			goto out_unlock;
+719ccd803ed5bd Arnd Bergmann    2023-04-18  387  		len += scnprintf(buf + len, size - len, "%25s\t%15lu\t%25s\n", mod_fail->name,
+719ccd803ed5bd Arnd Bergmann    2023-04-18  388  				 atomic_long_read(&mod_fail->count), mod_fail_to_str(mod_fail));
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  389  	}
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  390  out_unlock:
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  391  	mutex_unlock(&module_mutex);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  392  out:
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  393  	kfree(buf);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28 @394          return simple_read_from_buffer(user_buf, count, ppos, buf, len);
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  395  }
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  396  #undef MAX_PREAMBLE
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  397  #undef MAX_FAILED_MOD_PRINT
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  398  #undef MAX_BYTES_PER_MOD
+df3e764d8e5cd4 Luis Chamberlain 2023-03-28  399  
 
-b0857d309faefaf Jan Kara          2013-06-04   99  
-b0857d309faefaf Jan Kara          2013-06-04  100  static void ext4_finish_bio(struct bio *bio)
-b0857d309faefaf Jan Kara          2013-06-04  101  {
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  102  	struct folio_iter fi;
-b0857d309faefaf Jan Kara          2013-06-04  103  
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  104  	bio_for_each_folio_all(fi, bio) {
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  105  		struct folio *folio = fi.folio;
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  106  		struct folio *io_folio = NULL;
-b0857d309faefaf Jan Kara          2013-06-04  107  		struct buffer_head *bh, *head;
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  108  		size_t bio_start = fi.offset;
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  109  		size_t bio_end = bio_start + fi.length;
-b0857d309faefaf Jan Kara          2013-06-04  110  		unsigned under_io = 0;
-b0857d309faefaf Jan Kara          2013-06-04  111  		unsigned long flags;
-b0857d309faefaf Jan Kara          2013-06-04  112  
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  113  		if (fscrypt_is_bounce_folio(folio)) {
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  114  			io_folio = folio;
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  115  			folio = fscrypt_pagecache_folio(folio);
-2058f83a728adff Michael Halcrow   2015-04-12  116  		}
-2058f83a728adff Michael Halcrow   2015-04-12  117  
-4e4cbee93d56137 Christoph Hellwig 2017-06-03  118  		if (bio->bi_status) {
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  119  			int err = blk_status_to_errno(bio->bi_status);
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  120  			folio_set_error(folio);
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24 @121  			mapping_set_error(folio->mapping, err);
-b0857d309faefaf Jan Kara          2013-06-04  122  		}
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  123  		bh = head = folio_buffers(folio);
-b0857d309faefaf Jan Kara          2013-06-04  124  		/*
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  125  		 * We check all buffers in the folio under b_uptodate_lock
-b0857d309faefaf Jan Kara          2013-06-04  126  		 * to avoid races with other end io clearing async_write flags
-b0857d309faefaf Jan Kara          2013-06-04  127  		 */
-f1e67e355c2aafe Thomas Gleixner   2019-11-18  128  		spin_lock_irqsave(&head->b_uptodate_lock, flags);
-b0857d309faefaf Jan Kara          2013-06-04  129  		do {
-b0857d309faefaf Jan Kara          2013-06-04  130  			if (bh_offset(bh) < bio_start ||
-b0857d309faefaf Jan Kara          2013-06-04  131  			    bh_offset(bh) + bh->b_size > bio_end) {
-b0857d309faefaf Jan Kara          2013-06-04  132  				if (buffer_async_write(bh))
-b0857d309faefaf Jan Kara          2013-06-04  133  					under_io++;
-b0857d309faefaf Jan Kara          2013-06-04  134  				continue;
-b0857d309faefaf Jan Kara          2013-06-04  135  			}
-b0857d309faefaf Jan Kara          2013-06-04  136  			clear_buffer_async_write(bh);
-a2b0b205d125f27 Ye Bin            2022-03-21  137  			if (bio->bi_status) {
-a2b0b205d125f27 Ye Bin            2022-03-21  138  				set_buffer_write_io_error(bh);
-b0857d309faefaf Jan Kara          2013-06-04  139  				buffer_io_error(bh);
-a2b0b205d125f27 Ye Bin            2022-03-21  140  			}
-b0857d309faefaf Jan Kara          2013-06-04  141  		} while ((bh = bh->b_this_page) != head);
-f1e67e355c2aafe Thomas Gleixner   2019-11-18  142  		spin_unlock_irqrestore(&head->b_uptodate_lock, flags);
-2058f83a728adff Michael Halcrow   2015-04-12  143  		if (!under_io) {
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  144  			fscrypt_free_bounce_page(&io_folio->page);
-bb64c08bff6a6ed Matthew Wilcox    2023-03-24  145  			folio_end_writeback(folio);
-b0857d309faefaf Jan Kara          2013-06-04  146  		}
-b0857d309faefaf Jan Kara          2013-06-04  147  	}
-2058f83a728adff Michael Halcrow   2015-04-12  148  }
-b0857d309faefaf Jan Kara          2013-06-04  149  
+:::::: The code at line 394 was first introduced by commit
+:::::: df3e764d8e5cd416efee29e0de3c93917dff5d33 module: add debug stats to help identify memory pressure
+
+:::::: TO: Luis Chamberlain <mcgrof@kernel.org>
+:::::: CC: Luis Chamberlain <mcgrof@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
 
---58Dvh27TyZtJUTDD
+--JTggaPT+AmRxnHwG
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/csky 6.3.0-rc3 Kernel Configuration
+# Linux/csky 6.3.0-rc1 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="csky-linux-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -479,6 +571,9 @@ CONFIG_RT_MUTEXES=y
 CONFIG_BASE_SMALL=0
 CONFIG_MODULE_SIG_FORMAT=y
 CONFIG_MODULES=y
+CONFIG_MODULE_DEBUGFS=y
+CONFIG_MODULE_DEBUG=y
+CONFIG_MODULE_STATS=y
 CONFIG_MODULE_FORCE_LOAD=y
 # CONFIG_MODULE_UNLOAD is not set
 CONFIG_MODVERSIONS=y
@@ -1800,7 +1895,6 @@ CONFIG_MLXBF_GIGE=y
 CONFIG_NET_VENDOR_MICROSOFT=y
 CONFIG_NET_VENDOR_MYRI=y
 CONFIG_MYRI10GE=y
-CONFIG_FEALNX=m
 CONFIG_NET_VENDOR_NI=y
 CONFIG_NI_XGE_MANAGEMENT_ENET=y
 # CONFIG_NET_VENDOR_NATSEMI is not set
@@ -6996,4 +7090,4 @@ CONFIG_TEST_FREE_PAGES=m
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Documentation
 
---58Dvh27TyZtJUTDD--
+--JTggaPT+AmRxnHwG--
