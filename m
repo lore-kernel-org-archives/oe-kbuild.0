@@ -1,55 +1,55 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C326E7E
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 May 2023 00:38:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882A315A2
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 May 2023 06:02:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684370295; x=1715906295;
+  t=1684389756; x=1715925756;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=nqhzOZCufTQmfq6u3k3KRzPKwcXm/ryA64tX71wxAGE=;
-  b=gX/6hp5pgbWH57iN6ncx1gab4y5icXLmQXHWmPR7pjmae2FsDJSl4q6V
-   joSp0G6QI0GG57H3i7s9MPSAs1b/THibE73eiTW7pObMdu+6x0dMtFMvP
-   3doKowo3z2Euh+N3Qpfvm3dG4bNuD9oV+g34BrnmZbUegZHV/1wAOq8te
-   eL7P11JOSPZ9FBSOrB8k0CPbTZXN+TaStQHc3Mb3nYtd/JHcK1DzRkNmb
-   uKNuAirJyjTLdjPUkTEGR757w/O2lRpFqWbf2YPu3HxEuYa5DIy3ty3BO
-   z9He8cCodnLTG2kp2AQ3YeIqCz5egoyH+cMZ5/jxwtbWNDPZ+uQzU1P2g
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10713"; a="438261053"
-X-IronPort-AV: E=Sophos;i="5.99,283,1677571200"; 
-   d="scan'208";a="438261053"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 17:37:54 -0700
+  bh=m66YoMobr7UgrnD/CjTo6BYDtbCj4Xf5fx/w5kmPfdI=;
+  b=MXhm6yya8u4uleTWjajcp0Wn2feyiAN3lHe4Ckf5GxPseNqJjLx8tSwZ
+   +CseX27KbCFPBvQpR2KWHxG2xxFzh3UdOxzYYZiCb1xYBcSaIHTyiU/2x
+   ElyPbL++QJp5INdK1dTzyOAcupK9pKK3S5Q03eHfD6OZcyGkVhF/mOrPZ
+   QUOe6reZC1H8Cgbjh1eLTzhrylTjzKXWx5CVBZ+sC5u582MSPExpFyO6S
+   MWItp8ldFa6O3rclQ3vVbIH9GBw4mOsknCkKWMyBXmziLaA9epPmBD0xg
+   hsJUQPcxJHlLHNmSTern/ZbBr50ieDV1EOXEB0oLMYMI2nw+8k9VfeCyC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10713"; a="417642026"
+X-IronPort-AV: E=Sophos;i="5.99,284,1677571200"; 
+   d="scan'208";a="417642026"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 23:02:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10713"; a="766974710"
-X-IronPort-AV: E=Sophos;i="5.99,283,1677571200"; 
-   d="scan'208";a="766974710"
+X-IronPort-AV: E=McAfee;i="6600,9927,10713"; a="702029883"
+X-IronPort-AV: E=Sophos;i="5.99,284,1677571200"; 
+   d="scan'208";a="702029883"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 17 May 2023 17:37:52 -0700
+  by orsmga002.jf.intel.com with ESMTP; 17 May 2023 23:02:06 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pzReR-0009MM-2U;
-	Thu, 18 May 2023 00:37:51 +0000
-Date: Thu, 18 May 2023 08:37:36 +0800
+	id 1pzWiD-0009cE-1q;
+	Thu, 18 May 2023 06:02:05 +0000
+Date: Thu, 18 May 2023 14:01:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/intel/avs/boards/rt298.c:177 avs_create_dapm_routes()
+Subject: sound/soc/intel/avs/boards/max98373.c:165 avs_create_dapm_routes()
  warn: potentially one past the end of array 'dr[idx]'
-Message-ID: <202305180817.3CRg5HT2-lkp@intel.com>
+Message-ID: <202305181301.ScYk5E0p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="+wUpLPVTeANuEEOj"
+Content-Type: multipart/mixed; boundary="6njxm2ldwZHFwKNC"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
 
---+wUpLPVTeANuEEOj
+--6njxm2ldwZHFwKNC
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
@@ -57,15 +57,15 @@ Content-Transfer-Encoding: 8bit
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Cezary Rojewski <cezary.rojewski@intel.com>
+TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
 CC: Mark Brown <broonie@kernel.org>
-CC: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
+CC: Cezary Rojewski <cezary.rojewski@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6
-commit: 88429ab16df4cd4a1a77d45b90ec95cf62cc22d1 ASoC: Intel: avs: Add rt298 machine board
+head:   4d6d4c7f541d7027beed4fb86eb2c451bd8d6fff
+commit: 223a0a945821b96f4ccd9940ee975499706e1794 ASoC: Intel: avs: Add max98373 machine board
 date:   12 months ago
-:::::: branch date: 3 days ago
+:::::: branch date: 11 hours ago
 :::::: commit date: 12 months ago
 config: ia64-randconfig-m041-20230514
 compiler: ia64-linux-gcc (GCC) 12.1.0
@@ -73,57 +73,57 @@ compiler: ia64-linux-gcc (GCC) 12.1.0
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202305180817.3CRg5HT2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202305181301.ScYk5E0p-lkp@intel.com/
 
 New smatch warnings:
-sound/soc/intel/avs/boards/rt298.c:177 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+sound/soc/intel/avs/boards/max98373.c:165 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
 
 Old smatch warnings:
-sound/soc/intel/avs/boards/rt298.c:178 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
-sound/soc/intel/avs/boards/rt298.c:179 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
-sound/soc/intel/avs/boards/rt298.c:179 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+sound/soc/intel/avs/boards/max98373.c:166 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+sound/soc/intel/avs/boards/max98373.c:167 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+sound/soc/intel/avs/boards/max98373.c:167 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
 
-vim +177 sound/soc/intel/avs/boards/rt298.c
+vim +165 sound/soc/intel/avs/boards/max98373.c
 
-88429ab16df4cd Cezary Rojewski 2022-05-11  155  
-88429ab16df4cd Cezary Rojewski 2022-05-11  156  static int avs_create_dapm_routes(struct device *dev, int ssp_port,
-88429ab16df4cd Cezary Rojewski 2022-05-11  157  				  struct snd_soc_dapm_route **routes, int *num_routes)
-88429ab16df4cd Cezary Rojewski 2022-05-11  158  {
-88429ab16df4cd Cezary Rojewski 2022-05-11  159  	struct snd_soc_dapm_route *dr;
-88429ab16df4cd Cezary Rojewski 2022-05-11  160  	const int num_base = ARRAY_SIZE(card_base_routes);
-88429ab16df4cd Cezary Rojewski 2022-05-11  161  	const int num_dr = num_base + 2;
-88429ab16df4cd Cezary Rojewski 2022-05-11  162  	int idx;
-88429ab16df4cd Cezary Rojewski 2022-05-11  163  
-88429ab16df4cd Cezary Rojewski 2022-05-11  164  	dr = devm_kcalloc(dev, num_dr, sizeof(*dr), GFP_KERNEL);
-88429ab16df4cd Cezary Rojewski 2022-05-11  165  	if (!dr)
-88429ab16df4cd Cezary Rojewski 2022-05-11  166  		return -ENOMEM;
-88429ab16df4cd Cezary Rojewski 2022-05-11  167  
-88429ab16df4cd Cezary Rojewski 2022-05-11  168  	memcpy(dr, card_base_routes, num_base * sizeof(*dr));
-88429ab16df4cd Cezary Rojewski 2022-05-11  169  
-88429ab16df4cd Cezary Rojewski 2022-05-11  170  	idx = num_base;
-88429ab16df4cd Cezary Rojewski 2022-05-11  171  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "AIF1 Playback");
-88429ab16df4cd Cezary Rojewski 2022-05-11  172  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Tx", ssp_port);
-88429ab16df4cd Cezary Rojewski 2022-05-11  173  	if (!dr[idx].sink || !dr[idx].source)
-88429ab16df4cd Cezary Rojewski 2022-05-11  174  		return -ENOMEM;
-88429ab16df4cd Cezary Rojewski 2022-05-11  175  
-88429ab16df4cd Cezary Rojewski 2022-05-11  176  	idx++;
-88429ab16df4cd Cezary Rojewski 2022-05-11 @177  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Rx", ssp_port);
-88429ab16df4cd Cezary Rojewski 2022-05-11  178  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "AIF1 Capture");
-88429ab16df4cd Cezary Rojewski 2022-05-11  179  	if (!dr[idx].sink || !dr[idx].source)
-88429ab16df4cd Cezary Rojewski 2022-05-11  180  		return -ENOMEM;
-88429ab16df4cd Cezary Rojewski 2022-05-11  181  
-88429ab16df4cd Cezary Rojewski 2022-05-11  182  	*routes = dr;
-88429ab16df4cd Cezary Rojewski 2022-05-11  183  	*num_routes = num_dr;
-88429ab16df4cd Cezary Rojewski 2022-05-11  184  
-88429ab16df4cd Cezary Rojewski 2022-05-11  185  	return 0;
-88429ab16df4cd Cezary Rojewski 2022-05-11  186  }
-88429ab16df4cd Cezary Rojewski 2022-05-11  187  
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  143  
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  144  static int avs_create_dapm_routes(struct device *dev, int ssp_port,
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  145  				  struct snd_soc_dapm_route **routes, int *num_routes)
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  146  {
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  147  	struct snd_soc_dapm_route *dr;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  148  	const int num_base = ARRAY_SIZE(card_base_routes);
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  149  	const int num_dr = num_base + 2;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  150  	int idx;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  151  
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  152  	dr = devm_kcalloc(dev, num_dr, sizeof(*dr), GFP_KERNEL);
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  153  	if (!dr)
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  154  		return -ENOMEM;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  155  
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  156  	memcpy(dr, card_base_routes, num_base * sizeof(*dr));
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  157  
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  158  	idx = num_base;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  159  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "Left HiFi Playback");
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  160  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Tx", ssp_port);
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  161  	if (!dr[idx].sink || !dr[idx].source)
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  162  		return -ENOMEM;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  163  
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  164  	idx++;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11 @165  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "Right HiFi Playback");
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  166  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Tx", ssp_port);
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  167  	if (!dr[idx].sink || !dr[idx].source)
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  168  		return -ENOMEM;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  169  
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  170  	*routes = dr;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  171  	*num_routes = num_dr;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  172  
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  173  	return 0;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  174  }
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  175  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
---+wUpLPVTeANuEEOj
+--6njxm2ldwZHFwKNC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -4391,9 +4391,14 @@ CONFIG_SND_SOC_INTEL_AVS=y
 CONFIG_SND_SOC_INTEL_AVS_MACH_DMIC=y
 CONFIG_SND_SOC_INTEL_AVS_MACH_HDAUDIO=y
 # CONFIG_SND_SOC_INTEL_AVS_MACH_I2S_TEST is not set
+CONFIG_SND_SOC_INTEL_AVS_MACH_MAX98357A=y
+CONFIG_SND_SOC_INTEL_AVS_MACH_MAX98373=y
+CONFIG_SND_SOC_INTEL_AVS_MACH_NAU8825=y
 CONFIG_SND_SOC_INTEL_AVS_MACH_RT274=y
 CONFIG_SND_SOC_INTEL_AVS_MACH_RT286=y
 CONFIG_SND_SOC_INTEL_AVS_MACH_RT298=y
+# CONFIG_SND_SOC_INTEL_AVS_MACH_RT5682 is not set
+CONFIG_SND_SOC_INTEL_AVS_MACH_SSM4567=y
 # end of Intel AVS Machine drivers
 
 CONFIG_SND_SOC_INTEL_MACH=y
@@ -6911,4 +6916,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---+wUpLPVTeANuEEOj--
+--6njxm2ldwZHFwKNC--
