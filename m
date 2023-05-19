@@ -1,117 +1,149 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8D3361
-	for <oe-kbuild@lists.linux.dev>; Fri, 19 May 2023 06:36:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684478176; x=1716014176;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N+hegbs9V0+GFvgY/CO+U5CVl7vFM5dC0WaEatdODNE=;
-  b=nIfNv9WrUoe22YrEu97Xw4yO8tehVJQKTszQtEo9u0G78ILn5sDQHI8Y
-   /Ue55ahGzBUL72t3rzNGF+D1hOaI1kAEH7stLzUgNuj0XU7oZD0jKHKhN
-   YJxt14Uv8L+aOf/Lvdjlh4+OmbiPKKRl6oE+z9hIJBtyvOgdbTGxNBj3f
-   b+4nHTxnoS1ueZ6VsJgntCHAierMeD4ZuO8kifE44ZurMRaXgJZu2sjk1
-   cm1Q/ASMoOGOaQONpOJu7b+IZ0n4PMwfLxGVPBURmZUw/0jBpeQA+3G7s
-   E0H/K+VC5rLP9xtN/UeMCTYZJJAdZ7iGnLfRs8B/LXnupgEuNCSglbCQI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="380508698"
-X-IronPort-AV: E=Sophos;i="6.00,175,1681196400"; 
-   d="scan'208";a="380508698"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2023 23:36:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="735390795"
-X-IronPort-AV: E=Sophos;i="6.00,175,1681196400"; 
-   d="scan'208";a="735390795"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 18 May 2023 23:36:01 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pztia-000Aeo-1v;
-	Fri, 19 May 2023 06:36:00 +0000
-Date: Fri, 19 May 2023 14:35:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c:65
- cpt_af_flt_intr_handler() error: uninitialized symbol 'eng'.
-Message-ID: <202305191436.0Q69ubgi-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDEB6FCF
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 May 2023 10:00:32 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1ae79528d4dso10274085ad.2
+        for <oe-kbuild@lists.linux.dev>; Fri, 19 May 2023 03:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1684490432; x=1687082432;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=bxFT/eH6fI01yzQTav7apbXJs4Zkvkdbiyhdl2n33zI=;
+        b=cvDpCNTPA3iJ2kdFkRCSMFHRtdReYV2KXQhy8iT3L9ZJ57nbIqLq8LmQb7Z118jA9Z
+         SeD9I7cI3Y8OG8enSiToTsSgDB8PDXjPB4UZO1pcKN7MMHybvVarhYsNfDvDhCTgFGvb
+         ZFPdyRXJ9FO6OyoWmqeWJD7xnpT4bdCerCbZ8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684490432; x=1687082432;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bxFT/eH6fI01yzQTav7apbXJs4Zkvkdbiyhdl2n33zI=;
+        b=XT+Wv/KkA5b3+4cR56tXhfULVPL+rs0czYPiIuWyzwwrA7KuQ88sX2KLB8IUprRWq1
+         m1ofheFthBWJA0DLnm2Ly8yI/2s3alBW5Diu7lS+Vd3YF//dkXW1XpZNHyoHLCYZ15XZ
+         vqT9e/XER7UgPne2KKaBbjklKEBCIP/poIyAk8z9PPWeF5GMwSjvw9a6wsshOqbToZ/g
+         d54crkQ2d7BwM7GUNqGMx76vriv1Rsv1gguvKGUjcXBzIGlHN+DQZOzyoGpc75F2Fz0E
+         e7lOKM7RO0uO4UbNnVVZf/JVDkyaZILCP2nZvRM8/3hC2jH6JuukDaFHicbMVOm5D+DW
+         1JaQ==
+X-Gm-Message-State: AC+VfDwjK7GKfpPiYbzRZPIuB+LiP0JX7j42MhuUrauhPXkOY6XSZybU
+	LJd1PJmHSvF60BgG9ub59vl2bg==
+X-Google-Smtp-Source: ACHHUZ65Vmg+CYxf6B2/ULrLmerlLS1jMd3W4m8M1xENFlfJroRC/2WxG/uzsCpP0fQnBk7vlkPoRQ==
+X-Received: by 2002:a17:902:ef84:b0:1ad:bb42:7672 with SMTP id iz4-20020a170902ef8400b001adbb427672mr2227133plb.29.1684490430693;
+        Fri, 19 May 2023 03:00:30 -0700 (PDT)
+Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
+        by smtp.gmail.com with ESMTPSA id a4-20020a1709027d8400b001ab12545508sm3043029plm.67.2023.05.19.03.00.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 May 2023 03:00:30 -0700 (PDT)
+Date: Fri, 19 May 2023 10:00:24 +0000
+From: Tomasz Figa <tfiga@chromium.org>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
+	m.szyprowski@samsung.com, mchehab@kernel.org, ming.qian@nxp.com,
+	shijie.qin@nxp.com, eagle.zhou@nxp.com, bin.liu@mediatek.com,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
+	yunfei.dong@mediatek.com, stanimir.k.varbanov@gmail.com,
+	quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
+	konrad.dybcio@linaro.org, ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de, daniel.almeida@collabora.com, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
+ allocated
+Message-ID: <20230519100024.en7immda3jdj2wwq@chromium.org>
+References: <4e2cb832-de83-4ba6-bd8a-119a19038cfe@kili.mountain>
+ <a88b93cc-a81f-6186-09fc-02223867e677@collabora.com>
+ <b0018f7b-0556-0ac1-d2fa-89787a27fba1@xs4all.nl>
+ <20230324084830.GA18895@pendragon.ideasonboard.com>
+ <d4b6ad10-1889-0a63-5a14-cb1320e2dc09@xs4all.nl>
+ <7ad524a1-c54f-a01c-3453-2cf1f0f82a13@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7ad524a1-c54f-a01c-3453-2cf1f0f82a13@collabora.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Srujana Challa <schalla@marvell.com>
-CC: Jakub Kicinski <kuba@kernel.org>
+On Fri, Mar 24, 2023 at 09:56:34AM +0100, Benjamin Gaignard wrote:
+> 
+> Le 24/03/2023 à 09:52, Hans Verkuil a écrit :
+> > On 24/03/2023 09:48, Laurent Pinchart wrote:
+> > > On Fri, Mar 24, 2023 at 09:31:35AM +0100, Hans Verkuil wrote:
+> > > > On 24/03/2023 09:11, Benjamin Gaignard wrote:
+> > > > > Le 24/03/2023 à 06:01, Dan Carpenter a écrit :
+> > > > > > Hi Benjamin,
+> > > > > > 
+> > > > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > > > > 
+> > > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
+> > > > > > base:   git://linuxtv.org/media_tree.git master
+> > > > > > patch link:    https://lore.kernel.org/r/20230321102855.346732-3-benjamin.gaignard%40collabora.com
+> > > > > > patch subject: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic allocated
+> > > > > > config: arm64-randconfig-m041-20230319 (https://download.01.org/0day-ci/archive/20230324/202303240148.lKRnUqW9-lkp@intel.com/config)
+> > > > > > compiler: aarch64-linux-gcc (GCC) 12.1.0
+> > > > > > 
+> > > > > > If you fix the issue, kindly add following tag where applicable
+> > > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > > > > > | Link: https://lore.kernel.org/r/202303240148.lKRnUqW9-lkp@intel.com/
+> > > > > > 
+> > > > > > smatch warnings:
+> > > > > > include/media/videobuf2-core.h:1272 vb2_queue_add_buffer() warn: sleeping in atomic context
+> > > > > > drivers/media/common/videobuf2/videobuf2-core.c:2456 vb2_core_queue_init() warn: Please consider using kcalloc instead of kmalloc_array
+> > > > > > 
+> > > > > > vim +1272 include/media/videobuf2-core.h
+> > > > > > 
+> > > > > > 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1263  static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
+> > > > > > 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1264  {
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1265      bool ret = false;
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1266
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1267      spin_lock(&q->bufs_lock);
+> > > > > >                                                           ^^^^^^^^^^^^^^^^^^^^^^^
+> > > > > > Holding a spin lock.
+> > > > > > 
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1268
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1269      if (vb->index >= q->max_num_bufs) {
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1270          struct vb2_buffer **tmp;
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1271
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21 @1272          tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
+> > > > > >                                                                                                                                        ^^^^^^^^^^
+> > > > > > Sleeping allocation.  GFP_ATOMIC?  Or is there a way to move the
+> > > > > > allocation outside the lock?
+> > > > > I will add GFP_ATOMIC flag in next version.
+> > > > No need. Instead, don't use realloc here, just allocate a new array, copy over all
+> > > > the data from the old, and then switch q->bufs with the spinlock held. Then you
+> > > > can free the old one.
+> > > > 
+> > > > It's only when you update q->bufs that you need the lock.
+> > > The copy also needs to be protected by the lock.
+> > I suspect that that is not needed, since you shouldn't be able to add buffers here
+> > since a mutex should be held at this time.
+> > 
+> > That said, it's something that Benjamin needs to analyze.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2d1bcbc6cd703e64caf8df314e3669b4786e008a
-commit: e625dad8c103bdeb9dab36e8f1630d75ff4558f0 octeontx2-af: recover CPT engine when it gets fault
-date:   4 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 4 months ago
-config: ia64-randconfig-m041-20230514 (https://download.01.org/0day-ci/archive/20230519/202305191436.0Q69ubgi-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+I spent some time looking through the call sites of vb2_get_buffer() and
+how those can be called and it turned out to be a massive list of code
+paths, including a lot of calls originating from codec drivers calling
+vb2_find_buffer() in random contexts (possibly even interrupt). So a
+spinlock protecting the array pointer makes sense indeed.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202305191436.0Q69ubgi-lkp@intel.com/
+> 
+> Does using GFP_ATOMIC is problematic ?
+> 
 
-smatch warnings:
-drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c:65 cpt_af_flt_intr_handler() error: uninitialized symbol 'eng'.
+Yes, because the ability to reclaim memory is drastically limited and
+the allocation is more likely to fail (as in: it's actually possible).
+(And generally the time with interrupts disabled should be minimized to
+keep system latency reasonable.)
 
-vim +/eng +65 drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c
-
-2e2ee4cd0ab546 Srujana Challa 2021-04-21  39  
-e625dad8c103bd Srujana Challa 2023-01-18  40  static irqreturn_t cpt_af_flt_intr_handler(int vec, void *ptr)
-4826090719d4bb Srujana Challa 2021-10-13  41  {
-4826090719d4bb Srujana Challa 2021-10-13  42  	struct rvu_block *block = ptr;
-4826090719d4bb Srujana Challa 2021-10-13  43  	struct rvu *rvu = block->rvu;
-4826090719d4bb Srujana Challa 2021-10-13  44  	int blkaddr = block->addr;
-e625dad8c103bd Srujana Challa 2023-01-18  45  	u64 reg, val;
-e625dad8c103bd Srujana Challa 2023-01-18  46  	int i, eng;
-e625dad8c103bd Srujana Challa 2023-01-18  47  	u8 grp;
-e625dad8c103bd Srujana Challa 2023-01-18  48  
-e625dad8c103bd Srujana Challa 2023-01-18  49  	reg = rvu_read64(rvu, blkaddr, CPT_AF_FLTX_INT(vec));
-e625dad8c103bd Srujana Challa 2023-01-18  50  	dev_err_ratelimited(rvu->dev, "Received CPTAF FLT%d irq : 0x%llx", vec, reg);
-e625dad8c103bd Srujana Challa 2023-01-18  51  
-e625dad8c103bd Srujana Challa 2023-01-18  52  	i = -1;
-e625dad8c103bd Srujana Challa 2023-01-18  53  	while ((i = find_next_bit((unsigned long *)&reg, 64, i + 1)) < 64) {
-e625dad8c103bd Srujana Challa 2023-01-18  54  		switch (vec) {
-e625dad8c103bd Srujana Challa 2023-01-18  55  		case 0:
-e625dad8c103bd Srujana Challa 2023-01-18  56  			eng = i;
-e625dad8c103bd Srujana Challa 2023-01-18  57  			break;
-e625dad8c103bd Srujana Challa 2023-01-18  58  		case 1:
-e625dad8c103bd Srujana Challa 2023-01-18  59  			eng = i + 64;
-e625dad8c103bd Srujana Challa 2023-01-18  60  			break;
-e625dad8c103bd Srujana Challa 2023-01-18  61  		case 2:
-e625dad8c103bd Srujana Challa 2023-01-18  62  			eng = i + 128;
-e625dad8c103bd Srujana Challa 2023-01-18  63  			break;
-4826090719d4bb Srujana Challa 2021-10-13  64  		}
-e625dad8c103bd Srujana Challa 2023-01-18 @65  		grp = rvu_read64(rvu, blkaddr, CPT_AF_EXEX_CTL2(eng)) & 0xFF;
-e625dad8c103bd Srujana Challa 2023-01-18  66  		/* Disable and enable the engine which triggers fault */
-e625dad8c103bd Srujana Challa 2023-01-18  67  		rvu_write64(rvu, blkaddr, CPT_AF_EXEX_CTL2(eng), 0x0);
-e625dad8c103bd Srujana Challa 2023-01-18  68  		val = rvu_read64(rvu, blkaddr, CPT_AF_EXEX_CTL(eng));
-e625dad8c103bd Srujana Challa 2023-01-18  69  		rvu_write64(rvu, blkaddr, CPT_AF_EXEX_CTL(eng), val & ~1ULL);
-e625dad8c103bd Srujana Challa 2023-01-18  70  
-e625dad8c103bd Srujana Challa 2023-01-18  71  		rvu_write64(rvu, blkaddr, CPT_AF_EXEX_CTL2(eng), grp);
-e625dad8c103bd Srujana Challa 2023-01-18  72  		rvu_write64(rvu, blkaddr, CPT_AF_EXEX_CTL(eng), val | 1ULL);
-e625dad8c103bd Srujana Challa 2023-01-18  73  	}
-e625dad8c103bd Srujana Challa 2023-01-18  74  	rvu_write64(rvu, blkaddr, CPT_AF_FLTX_INT(vec), reg);
-4826090719d4bb Srujana Challa 2021-10-13  75  
-4826090719d4bb Srujana Challa 2021-10-13  76  	return IRQ_HANDLED;
-4826090719d4bb Srujana Challa 2021-10-13  77  }
-4826090719d4bb Srujana Challa 2021-10-13  78  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Tomasz
