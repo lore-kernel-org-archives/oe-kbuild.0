@@ -1,42 +1,50 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEB27472
-	for <oe-kbuild@lists.linux.dev>; Fri, 19 May 2023 10:42:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684492929; x=1716028929;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RSC1JQSyLbvSi2+NajVCvzF2z8vgsmCELmpYlXvF+0k=;
-  b=JhOc3cUgaGoEU/3hO9Bv2EXTHSuuQNUZ6DDFtVpSHvPgRmzBraizA+oR
-   Qqa8+bALcn6ym7WlArqKFwqUzQgoV4V7XlRFz0xnw03XeoTvWWphPj6be
-   Q+vHSP82h47+Z4ZJCNjB78lj4fBQb+F+vn0IfsoME3KjL28Yo6cLklEiV
-   6PiIUkGJhHgV228pwRPzHfsFQbVDRsYQNjgbiHGwFe8m2qaa+3sS4S9KE
-   8j65jcSiBgphHAPftZFLo0GK3UI7pgxGo4yUhBUkWG/vDwj2wVakwBLpZ
-   Ko/a4XqYSIxFWI4UyfGL8xsKUIiEcqgoQuEtD9YbWTOCz5gqeEOay8MXm
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="332704854"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="332704854"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 03:42:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="680011210"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="680011210"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 19 May 2023 03:42:07 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pzxYk-000AmU-28;
-	Fri, 19 May 2023 10:42:06 +0000
-Date: Fri, 19 May 2023 18:41:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15048C17
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 May 2023 11:53:33 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3f42711865eso20081555e9.0
+        for <oe-kbuild@lists.linux.dev>; Fri, 19 May 2023 04:53:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684497211; x=1687089211;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wkRlnjVLLrCSiUvXAXLp50ZhpM/wimNPRci9+WoJKwE=;
+        b=aVGHyhoTabdge7XwQDeqn47qag3FVMN61T3G7y1hP660HYt+PSnVXmQoOkGWl+jw/q
+         oHitRzpNgagC4/3IIT6zI2zx6WIa0GujHjIcqzC8XQHO2XDstJD8lhTfOalbCITujpqQ
+         Z0xZrmsj2o5VOLPhR8n0fazu8GJBPC/MBu1wjQjZtkmaAADnE9uAEyD4+ALceaTN9erp
+         JrQE9Zlkeza1+8Z9nzmQDU/VBqSSlwiJiqX0wEdAiAcXBuwC5yNBHcCc+GEbZ+CedyJr
+         oS78ep/Pv7CYBVcwl8+5lh13xqh75nxbT8aHlyL81/Zd/SLSuPxFkTeERQH2EyurjyPu
+         u2Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684497211; x=1687089211;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wkRlnjVLLrCSiUvXAXLp50ZhpM/wimNPRci9+WoJKwE=;
+        b=INI9FroTa5F1GjBd+fhPTGRZgb831OrpGULolsuuXlTPxpbwgg5SFT3S+ARf+Eyb1T
+         d4MPje9IBEf15KS9Q5GPV+ATxQjF4N0x04ZNUIyYxNH1vO5ow/+zMq6JsEztUSOXG0EO
+         8rwdby2p2dgcIKyVPG1fnTRSvPDEnacbNNXx+xGpSi6M7HXTvbALz/IaYmccRjYWPi4X
+         u0nNq9kbx9JvvLX+Ik5TME5q3l2j80W0KM7ehGTga6+uUyxRDYgWWEoEtNcCbcLNmOmo
+         Kt1xuivnpHteA8Qb7vUyeM5zoPlSUakDlAEkoW6Y5taXd7pu5gmmb0XRaf12ijGejSpF
+         KeXw==
+X-Gm-Message-State: AC+VfDxgpzbUrem+m0jl1trMv79/FPME7Bc7Eaudk9S21QrtmuOZSgAN
+	5uX46hWGrJO+sGygoQJG8CZrHZ+d4nAEbpbCQsU=
+X-Google-Smtp-Source: ACHHUZ7QNMG+g1oFmony9OdgLN1V4JinX4eEHbXzwc2Tom6y7jcmaiBDHivNGJ4k82wPUwm5+CkH+A==
+X-Received: by 2002:a1c:7303:0:b0:3f1:9acf:8682 with SMTP id d3-20020a1c7303000000b003f19acf8682mr1020081wmb.17.1684497210786;
+        Fri, 19 May 2023 04:53:30 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id k15-20020a05600c1c8f00b003f1978bbcd6sm12076793wms.3.2023.05.19.04.53.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 May 2023 04:53:28 -0700 (PDT)
+Date: Fri, 19 May 2023 14:53:09 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Alejandro Lucero <alejandro.lucero-palau@amd.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>
 Subject: drivers/net/ethernet/sfc/ef100_netdev.c:457 ef100_probe_netdev()
  warn: 'net_dev' from alloc_etherdev_mqs() not released on lines: 418.
-Message-ID: <202305191859.O6KpRymX-lkp@intel.com>
+Message-ID: <bf07d188-a904-4987-816f-3d4f164bf608@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,18 +54,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Alejandro Lucero <alejandro.lucero-palau@amd.com>
-CC: Paolo Abeni <pabeni@redhat.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   2d1bcbc6cd703e64caf8df314e3669b4786e008a
 commit: 7e056e2360d9267a20509aa2cdb8905485499e95 sfc: obtain device mac address based on firmware handle for ef100
-date:   3 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 3 months ago
 config: ia64-randconfig-m041-20230514 (https://download.01.org/0day-ci/archive/20230519/202305191859.O6KpRymX-lkp@intel.com/config)
 compiler: ia64-linux-gcc (GCC) 12.1.0
 
@@ -74,7 +73,6 @@ drivers/net/ethernet/sfc/ef100_netdev.c:141 ef100_net_open() warn: missing unwin
 
 vim +/net_dev +457 drivers/net/ethernet/sfc/ef100_netdev.c
 
-98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  357  
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  358  int ef100_probe_netdev(struct efx_probe_data *probe_data)
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  359  {
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  360  	struct efx_nic *efx = &probe_data->efx;
@@ -91,6 +89,8 @@ vim +/net_dev +457 drivers/net/ethernet/sfc/ef100_netdev.c
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  371  
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  372  	/* Allocate and initialise a struct net_device */
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  373  	net_dev = alloc_etherdev_mq(sizeof(probe_data), EFX_MAX_CORE_TX_QUEUES);
+                                                                  ^^^^^^^^^^^^^^^^^
+
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  374  	if (!net_dev)
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  375  		return -ENOMEM;
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  376  	probe_ptr = netdev_priv(net_dev);
@@ -110,6 +110,14 @@ vim +/net_dev +457 drivers/net/ethernet/sfc/ef100_netdev.c
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  390  	rc = efx_ef100_init_datapath_caps(efx);
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  391  	if (rc < 0)
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  392  		goto fail;
+
+These goto fail paths will call efx_probe_devlink_unlock() when we have
+not yet taken the lock.  This is a canonical bug for one err label style
+error handling code.  I always try to discourage this style of error
+handling.
+
+https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  393  
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  394  	rc = ef100_phy_probe(efx);
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  395  	if (rc)
@@ -136,6 +144,9 @@ vim +/net_dev +457 drivers/net/ethernet/sfc/ef100_netdev.c
 7e056e2360d926 Alejandro Lucero 2023-02-15  416  				   efx->type->is_vf);
 7e056e2360d926 Alejandro Lucero 2023-02-15  417  	if (rc)
 7e056e2360d926 Alejandro Lucero 2023-02-15  418  		return rc;
+
+Yep.  We need to do some clean up before returning.
+
 7e056e2360d926 Alejandro Lucero 2023-02-15  419  	/* Assign MAC address */
 7e056e2360d926 Alejandro Lucero 2023-02-15  420  	eth_hw_addr_set(net_dev, net_dev->perm_addr);
 7e056e2360d926 Alejandro Lucero 2023-02-15  421  	ether_addr_copy(nic_data->port_id, net_dev->perm_addr);
@@ -176,12 +187,7 @@ fa34a5140a8e8f Alejandro Lucero 2023-02-15  427
 fa34a5140a8e8f Alejandro Lucero 2023-02-15  456  	efx_probe_devlink_unlock(efx);
 98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28 @457  	return rc;
 
-:::::: The code at line 457 was first introduced by commit
-:::::: 98ff4c7c8ac7f5339aac6114105395fea19f992e sfc: Separate netdev probe/remove from PCI probe/remove
-
-:::::: TO: Jonathan Cooper <jonathan.s.cooper@amd.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
-
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
