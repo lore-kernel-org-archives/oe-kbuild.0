@@ -1,42 +1,53 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D9BEA8
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 May 2023 14:33:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684766026; x=1716302026;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=anuioKmXBQzUV0BrNUHFV96LyjTw+3QoI8Vc6pNzRjs=;
-  b=NOrn8CCTm2O9Url4UG49RmwZDIshAF3QvhY8Ok3eQGtJaH/0KcFqbbP2
-   tOd8SgZA9RCDP6ToPrDPfY73k/NQ9CLtU77r4Xa6mwxWtU9a+V3NlkXSK
-   Rlp9IDJIDPZhLnSHK1Um9H/IZSYJa9QBNkzAKAl3smI97J2zYFdI3gaVU
-   buhGl6EDCDCPe6l771uPMlfekH8/GJN1CM7/hy5r/Tv1Ckd8OM/7ma2Wn
-   pedgCqSYFHZfiQviABBxVVD1pgTh9UNRimLOsTUlJ36xzbfJS95Ta7Fh2
-   5EPN/50i+k/OS64GvET0eZIMVFGmWOQmQLNj+gZl/GoIU0MGf+P+3lamz
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="439289956"
-X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
-   d="scan'208";a="439289956"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2023 07:33:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="1033643729"
-X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
-   d="scan'208";a="1033643729"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 22 May 2023 07:33:44 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q16bX-000Cuv-2D;
-	Mon, 22 May 2023 14:33:43 +0000
-Date: Mon, 22 May 2023 22:33:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06A013AF8
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 May 2023 14:56:25 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f423521b10so40398985e9.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 22 May 2023 07:56:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684767383; x=1687359383;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=b140pn1gYOSlEH47A+p/JRdrM+QQ5uQ8BF1K767advA=;
+        b=wl7yy7GK28mNGMeYrqFILf3sUKRAll13thAdDxiufy2lMIDkkCzsSh70zlLkqJ46+S
+         eyxDxFfiEakte1nxe5BBrTL4JHATMxL228DqZEmB5BdX/Y1n3HTze08SVOr22g5mj86B
+         POKWXvyUaFfmJiKrj8QFC1gQRBCwqLnqsHdrjWDkNTuXN8XeM2oNpr89/6ROT56sm2Al
+         K0KBhTTxIZhqmME0nU4zQADIaYHv1DJxDIYHc/F4HNel5dIWSw4UV+gOGFDkjwcEkx91
+         33aRK7xe9CBpkLsRPsm3ipFdfw69juo1J18okQ4vEcLjaBUgoQ8oMIyqYPZ6xSdjfVlp
+         lVCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684767383; x=1687359383;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=b140pn1gYOSlEH47A+p/JRdrM+QQ5uQ8BF1K767advA=;
+        b=g6YKOi9gO109IuaYIRRDVdTnN1sOzbD2Wwdlrk+kbSpDlw1RvFO8J3mFb20BYtXfhw
+         eGXftlacoMJz5DBP98kclDIEy32bVLDcTP7nMj5bnoRI+XbAoOsJ+EscmMtkPi7CsHOG
+         SSay+39xjMj52ZeutLGAH+zm2Bl7sjeChBGB2wglo+JB8saNiGkRu3V/57QXS5vsjeXw
+         GLGL6K3TmaF3aGNoIsoS60v7pfdFdV7mxoO9vusDqzv3KLnBOUGUXa2/fs+NyHr707JC
+         uQ+4JcKuDa4ArL4zI3spWqASLPr2s9tRDUlKwmrvw+JQDIFQ9G61+RmXSfswv4FrJXLj
+         L/eQ==
+X-Gm-Message-State: AC+VfDyj5FC9ltux4dZTx7+npmKPyws4mSW5VmHWOA2strHNOVlIcNWZ
+	C4uqEDN+z8G4ks1bJHrLpfyRReHLQvhG9TRD4xs=
+X-Google-Smtp-Source: ACHHUZ7RkOFwOC0AH5m7aYqiTD9Ph9ztRElXr/0GgrOqduYpZ7KTX4ONCTOACx0yGX5pkiokSu9udA==
+X-Received: by 2002:a05:600c:294c:b0:3f5:fa8e:aaa3 with SMTP id n12-20020a05600c294c00b003f5fa8eaaa3mr5338726wmd.28.1684767382846;
+        Mon, 22 May 2023 07:56:22 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o5-20020a05600c378500b003f42314832fsm8561082wmr.18.2023.05.22.07.56.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 May 2023 07:56:21 -0700 (PDT)
+Date: Mon, 22 May 2023 17:56:16 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Guo Ren <guoren@kernel.org>
 Subject: drivers/phy/renesas/phy-rcar-gen3-usb2.c:747
  rcar_gen3_phy_usb2_probe() warn: missing error code 'ret'
-Message-ID: <202305222220.VHYVac04-lkp@intel.com>
+Message-ID: <47e1e12a-f1a8-48a9-a37a-d60501f2ec50@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,14 +57,6 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
-CC: Conor Dooley <conor.dooley@microchip.com>
-CC: Guo Ren <guoren@kernel.org>
-
 Hi Lad,
 
 First bad commit (maybe != root cause):
@@ -61,9 +64,6 @@ First bad commit (maybe != root cause):
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   44c026a73be8038f03dbdeef028b642880cf1511
 commit: 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1 riscv: Kconfig.socs: Add ARCH_RENESAS kconfig option
-date:   6 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 6 months ago
 config: riscv-randconfig-m031-20230522 (https://download.01.org/0day-ci/archive/20230522/202305222220.VHYVac04-lkp@intel.com/config)
 compiler: riscv64-linux-gcc (GCC) 12.1.0
 
@@ -77,7 +77,6 @@ drivers/phy/renesas/phy-rcar-gen3-usb2.c:747 rcar_gen3_phy_usb2_probe() warn: mi
 
 vim +/ret +747 drivers/phy/renesas/phy-rcar-gen3-usb2.c
 
-549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  651  
 f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  652  static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
 f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  653  {
 b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  654  	const struct rcar_gen3_phy_drv_data *phy_data;
@@ -170,10 +169,16 @@ f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-1
 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  741  		goto error;
 979b519c7a1bff drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2018-09-21  742  	} else if (channel->is_otg_channel) {
 9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  743  		int ret;
+                                                                                                        ^^^^^^^
+This "ret" declaration shadows the earlier ret declaration
+
 9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  744  
 9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  745  		ret = device_create_file(dev, &dev_attr_role);
 9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  746  		if (ret < 0)
 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14 @747  			goto error;
+
+So it means we return success on this error path.
+
 9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  748  	}
 f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  749  
 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  750  	return 0;
@@ -183,14 +188,8 @@ f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-1
 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  754  
 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  755  	return ret;
 f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  756  }
-f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  757  
-
-:::::: The code at line 747 was first introduced by commit
-:::::: 441a681b8843474c9796b50c35794ff102701f37 phy: rcar-gen3-usb2: fix implementation for runtime PM
-
-:::::: TO: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-:::::: CC: Kishon Vijay Abraham I <kishon@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
