@@ -1,133 +1,131 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBEC814A8A
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 May 2023 15:23:04 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3f607e60902so4854885e9.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 22 May 2023 08:23:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684768982; x=1687360982;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FlPB+i0cWBReL9bMCFIoxhk9rmbhDvxNKsZ3lFgJML0=;
-        b=lqSpgql+BOR13T/DPFK4QhJ+PvCbAF1ur11Uri5H22adpiTIBqgWxbQ2BzrWiuL56s
-         ryq/B2pRIs/wLaPUdyKIa/75s0DIvXW3T4jCeymkh7Qi2cXf97eu0CYGQpf0me+Wd97k
-         B9SGFqBK5GJl11w2GXCytBRWKCufsfgS08mF3tzPyuMBP2mMR49n5POPiF567Zb37mBV
-         vq69mQaL9ePkuIlxchQS03JDZC0ZWtvT/bZbe5I6J7uQkoGPqk8idbr+pG6D+1pSM8Vx
-         cfDyFavvzCMfd5IR+ZeAWb3VPaJbieyeLQnn3Odk2KvChKjzD7QI6HJsgg3OSVgIbXAy
-         SM1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684768982; x=1687360982;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FlPB+i0cWBReL9bMCFIoxhk9rmbhDvxNKsZ3lFgJML0=;
-        b=I991vmmO0EJ2NzAwwfum9CgLFRUIwpwPtDZMoK2ig+pTemYGhUXF60jqJo63tfpvzp
-         0287DaCiQh9Ya573+t9Dth02AVTv5Su+vf1AvIBFy5QJUjfcFPviiSteYH/9vWUj94JK
-         0vVi6JKujNSAb47+qEhRzaB53dEkUTw5OgFOHpW5eI8gQINOw1yTmRKPMawHOT241yV1
-         /0ayZ4XDs6KsNYVbzrFYjbwRV3heqGWl5Lyi2BJzHChC3txXuEnwhkZv25PpMPSOcTeZ
-         xJ0wyDi5qdIOCfbeBCFhB4md+VsaYlzehVHK3WDQDdLQh8EttaQpqXfPP1/QC41NvC+1
-         iR5g==
-X-Gm-Message-State: AC+VfDyyC7JwjEF9fuYgRN5EUUIBynWyVNQPTHMxvjbqxSkH474XMVXZ
-	GrTlq57CPYJMUJZSxvS2YCJAC8nTHKiYAw3iams=
-X-Google-Smtp-Source: ACHHUZ4tYdrAVOYSrnuXTirvCvb4gKea7CA/iXGwZIZIvSAPARI9ESvbCR5TDys6jloKFC2c5S4V1g==
-X-Received: by 2002:a05:600c:21ca:b0:3f1:819d:d050 with SMTP id x10-20020a05600c21ca00b003f1819dd050mr7955563wmj.37.1684768981806;
-        Mon, 22 May 2023 08:23:01 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m25-20020a7bcb99000000b003f195d540d9sm11966879wmi.14.2023.05.22.08.22.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 May 2023 08:22:59 -0700 (PDT)
-Date: Mon, 22 May 2023 18:22:56 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Anna Schumaker <Anna.Schumaker@netapp.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Trond Myklebust <trond.myklebust@hammerspace.com>
-Subject: fs/nfs/nfs42xdr.c:1131 decode_read_plus() warn: missing error code?
- 'status'
-Message-ID: <20fe9f09-fe92-4a9f-a14d-853175e441bc@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33DE16426
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 May 2023 17:38:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684777134; x=1716313134;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=5dfqcyQNmUroc64hYtUuxsTgeLzqrZl2GA0POjK6i30=;
+  b=fqFtVhFx3RWVkXoETRY5HbHwOV1Zqi6nMkHvJy57CVwaWSXdDe6n/58S
+   5H/BZi52n0ZUw9bUuqxiBBNXbwMdS/nht5nuI9n9Gq9rQyGI7u1Eqdv95
+   1yftzHQUFEbnoFYZMlDU0i9g9MsBPquo3hYEoQMUU8Bn0Q74/kfFHxhrA
+   C/WY1DSyXdAZDNLNvqPfJJOF9F4kOHI91VnmqcUQsPgeaTKNjWk/xCYOx
+   DVhvEogEBOt9KVbZO8NS87sRd5Cr3v4e4Wq2hRvbxdb+8meIyF07YC3UG
+   1h6ybEjEKnzcid6KFhxlq4TYS6xvRF2A1pthRTcFmo9d1DpUqpblrRaYy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="332604267"
+X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
+   d="scan'208";a="332604267"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2023 10:38:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="877836397"
+X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
+   d="scan'208";a="877836397"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 22 May 2023 10:38:51 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q19Uh-000D24-0S;
+	Mon, 22 May 2023 17:38:51 +0000
+Date: Tue, 23 May 2023 01:38:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 540/3918]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:541 amdgpu_debugfs_mqd_read() warn:
+ ignoring unreachable code.
+Message-ID: <202305230149.9cPLihRI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   44c026a73be8038f03dbdeef028b642880cf1511
-commit: d3b00a802c845a6021148ce2e669b5a0b5729959 NFS: Replace the READ_PLUS decoding code
-config: microblaze-randconfig-m041-20230522 (https://download.01.org/0day-ci/archive/20230522/202305222209.6l5VM2lL-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Alex Deucher <alexander.deucher@amd.com>
+CC: "Christian König" <christian.koenig@amd.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9f258af06b6268be8e960f63c3f66e88bdbbbdb0
+commit: 445d85e3c1dfd8c45b24be6f1527f1e117256d0e [540/3918] drm/amdgpu: add debugfs interface for reading MQDs
+:::::: branch date: 14 hours ago
+:::::: commit date: 4 weeks ago
+config: s390-randconfig-m031-20230522 (https://download.01.org/0day-ci/archive/20230523/202305230149.9cPLihRI-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202305222209.6l5VM2lL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202305230149.9cPLihRI-lkp@intel.com/
 
 New smatch warnings:
-fs/nfs/nfs42xdr.c:1131 decode_read_plus() warn: missing error code? 'status'
+drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:541 amdgpu_debugfs_mqd_read() warn: ignoring unreachable code.
 
 Old smatch warnings:
-fs/nfs/nfs4xdr.c:1194 encode_attrs() error: we previously assumed 'umask' could be null (see line 1103)
+drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:480 amdgpu_debugfs_ring_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:495 amdgpu_debugfs_ring_read() warn: ignoring unreachable code.
 
-vim +/status +1131 fs/nfs/nfs42xdr.c
+vim +541 drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
 
-c567552612ece7 Anna Schumaker  2014-05-28  1108  static int decode_read_plus(struct xdr_stream *xdr, struct nfs_pgio_res *res)
-c567552612ece7 Anna Schumaker  2014-05-28  1109  {
-82f98c8b116bd7 Trond Myklebust 2020-12-08  1110  	struct nfs_pgio_header *hdr =
-82f98c8b116bd7 Trond Myklebust 2020-12-08  1111  		container_of(res, struct nfs_pgio_header, res);
-82f98c8b116bd7 Trond Myklebust 2020-12-08  1112  	struct nfs_pgio_args *args = &hdr->args;
-d3b00a802c845a Anna Schumaker  2022-07-21  1113  	uint32_t segments;
-d3b00a802c845a Anna Schumaker  2022-07-21  1114  	struct read_plus_segment *segs;
-bff049a3b5001e Anna Schumaker  2020-04-01  1115  	int status, i;
-d3b00a802c845a Anna Schumaker  2022-07-21  1116  	char scratch_buf[16];
-c567552612ece7 Anna Schumaker  2014-05-28  1117  	__be32 *p;
-c567552612ece7 Anna Schumaker  2014-05-28  1118  
-c567552612ece7 Anna Schumaker  2014-05-28  1119  	status = decode_op_hdr(xdr, OP_READ_PLUS);
-c567552612ece7 Anna Schumaker  2014-05-28  1120  	if (status)
-c567552612ece7 Anna Schumaker  2014-05-28  1121  		return status;
-c567552612ece7 Anna Schumaker  2014-05-28  1122  
-c567552612ece7 Anna Schumaker  2014-05-28  1123  	p = xdr_inline_decode(xdr, 4 + 4);
-c567552612ece7 Anna Schumaker  2014-05-28  1124  	if (unlikely(!p))
-c567552612ece7 Anna Schumaker  2014-05-28  1125  		return -EIO;
-c567552612ece7 Anna Schumaker  2014-05-28  1126  
-1ee6310119a5b4 Trond Myklebust 2020-12-08  1127  	res->count = 0;
-d3b00a802c845a Anna Schumaker  2022-07-21  1128  	res->eof = be32_to_cpup(p++);
-c567552612ece7 Anna Schumaker  2014-05-28  1129  	segments = be32_to_cpup(p++);
-c567552612ece7 Anna Schumaker  2014-05-28  1130  	if (segments == 0)
-d3b00a802c845a Anna Schumaker  2022-07-21 @1131  		return status;
-
-This looks like intentional?  It's probably better to to do a literal
-"return 0;"  Makes the static checkers happy.
-
-c567552612ece7 Anna Schumaker  2014-05-28  1132  
-d3b00a802c845a Anna Schumaker  2022-07-21  1133  	segs = kmalloc_array(segments, sizeof(*segs), GFP_KERNEL);
-d3b00a802c845a Anna Schumaker  2022-07-21  1134  	if (!segs)
-d3b00a802c845a Anna Schumaker  2022-07-21  1135  		return -ENOMEM;
-c567552612ece7 Anna Schumaker  2014-05-28  1136  
-d3b00a802c845a Anna Schumaker  2022-07-21  1137  	xdr_set_scratch_buffer(xdr, &scratch_buf, 32);
-d3b00a802c845a Anna Schumaker  2022-07-21  1138  	status = -EIO;
-
-This assignment is not used.
-
-d3b00a802c845a Anna Schumaker  2022-07-21  1139  	for (i = 0; i < segments; i++) {
-d3b00a802c845a Anna Schumaker  2022-07-21  1140  		status = decode_read_plus_segment(xdr, &segs[i]);
-bff049a3b5001e Anna Schumaker  2020-04-01  1141  		if (status < 0)
-d3b00a802c845a Anna Schumaker  2022-07-21  1142  			goto out;
-bff049a3b5001e Anna Schumaker  2020-04-01  1143  	}
-c567552612ece7 Anna Schumaker  2014-05-28  1144  
-d3b00a802c845a Anna Schumaker  2022-07-21  1145  	xdr_set_pagelen(xdr, xdr_align_size(args->count));
-d3b00a802c845a Anna Schumaker  2022-07-21  1146  	for (i = segments; i > 0; i--)
-d3b00a802c845a Anna Schumaker  2022-07-21 @1147  		res->count += process_read_plus_segment(xdr, args, res, &segs[i-1]);
-d3b00a802c845a Anna Schumaker  2022-07-21  1148  	status = 0;
-d3b00a802c845a Anna Schumaker  2022-07-21  1149  
-c567552612ece7 Anna Schumaker  2014-05-28  1150  out:
-d3b00a802c845a Anna Schumaker  2022-07-21  1151  	kfree(segs);
-d3b00a802c845a Anna Schumaker  2022-07-21  1152  	return status;
-c567552612ece7 Anna Schumaker  2014-05-28  1153  }
+d38ceaf99ed015 Alex Deucher 2015-04-20  511  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  512  static ssize_t amdgpu_debugfs_mqd_read(struct file *f, char __user *buf,
+445d85e3c1dfd8 Alex Deucher 2023-03-21  513  				       size_t size, loff_t *pos)
+445d85e3c1dfd8 Alex Deucher 2023-03-21  514  {
+445d85e3c1dfd8 Alex Deucher 2023-03-21  515  	struct amdgpu_ring *ring = file_inode(f)->i_private;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  516  	volatile u32 *mqd;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  517  	int r;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  518  	uint32_t value, result;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  519  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  520  	if (*pos & 3 || size & 3)
+445d85e3c1dfd8 Alex Deucher 2023-03-21  521  		return -EINVAL;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  522  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  523  	result = 0;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  524  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  525  	r = amdgpu_bo_reserve(ring->mqd_obj, false);
+445d85e3c1dfd8 Alex Deucher 2023-03-21  526  	if (unlikely(r != 0))
+445d85e3c1dfd8 Alex Deucher 2023-03-21  527  		return r;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  528  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  529  	r = amdgpu_bo_kmap(ring->mqd_obj, (void **)&mqd);
+445d85e3c1dfd8 Alex Deucher 2023-03-21  530  	if (r) {
+445d85e3c1dfd8 Alex Deucher 2023-03-21  531  		amdgpu_bo_unreserve(ring->mqd_obj);
+445d85e3c1dfd8 Alex Deucher 2023-03-21  532  		return r;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  533  	}
+445d85e3c1dfd8 Alex Deucher 2023-03-21  534  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  535  	while (size) {
+445d85e3c1dfd8 Alex Deucher 2023-03-21  536  		if (*pos >= ring->mqd_size)
+445d85e3c1dfd8 Alex Deucher 2023-03-21  537  			goto done;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  538  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  539  		value = mqd[*pos/4];
+445d85e3c1dfd8 Alex Deucher 2023-03-21  540  		r = put_user(value, (uint32_t *)buf);
+445d85e3c1dfd8 Alex Deucher 2023-03-21 @541  		if (r)
+445d85e3c1dfd8 Alex Deucher 2023-03-21  542  			goto done;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  543  		buf += 4;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  544  		result += 4;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  545  		size -= 4;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  546  		*pos += 4;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  547  	}
+445d85e3c1dfd8 Alex Deucher 2023-03-21  548  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  549  done:
+445d85e3c1dfd8 Alex Deucher 2023-03-21  550  	amdgpu_bo_kunmap(ring->mqd_obj);
+445d85e3c1dfd8 Alex Deucher 2023-03-21  551  	mqd = NULL;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  552  	amdgpu_bo_unreserve(ring->mqd_obj);
+445d85e3c1dfd8 Alex Deucher 2023-03-21  553  	if (r)
+445d85e3c1dfd8 Alex Deucher 2023-03-21  554  		return r;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  555  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  556  	return result;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  557  }
+445d85e3c1dfd8 Alex Deucher 2023-03-21  558  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
