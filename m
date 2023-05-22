@@ -1,51 +1,51 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DCA10F9
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 May 2023 06:47:46 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3f605d8a8a9so4053225e9.0
-        for <oe-kbuild@lists.linux.dev>; Sun, 21 May 2023 23:47:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A5E10F9
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 May 2023 06:51:14 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3094871953bso2706692f8f.0
+        for <oe-kbuild@lists.linux.dev>; Sun, 21 May 2023 23:51:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684738064; x=1687330064;
+        d=linaro.org; s=google; t=1684738272; x=1687330272;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=EpcVzZiQHuJlgNB+1GZ1+0T8mFu8yvELdw33UYkkLl8=;
-        b=MhTrOuJMVD/4Pr15dj2MrRWhZPx0is3SfH6Ud6YRvaJxvKiUbbEC7CTqI/Q5+iMV1b
-         XxxxSMSIWXe8jdGA2HUktG9hQAPY6LJBIklBVlzrf3IahiQyJxZPIB1XvjrBLr6w8pbu
-         jC+xl8sGfRJ+KzUC9kj/iPDhdBXIuMIOwR2dAacfsEGCMIDwc3clIxy3UeCWM5DptFTs
-         NBbh0hnEQdkA0Iqa8fBYEvvSiwDTBL601lXW4etNKf3nXesfrtuUBnhhNwaT3l1tLP7c
-         5xbiOibZ9X0v8dxTtb9dE9Kx/ViuFGrSX0er5Qug2HQumyMaVpTEHNF6jl/14dUUB1T4
-         9KNw==
+        bh=cks/I+E1RSxlLoqm9z0OX20VEKZhG/X4ISND5hJYIcM=;
+        b=a2O31w/EBtHd+uD8/QWMyb5ud4SeTdXu+pFwcFL7ODErD0fsCXCRZUHQLnwPc7nMLI
+         rmT2wDfuCZP26Ed4m6YOK1OoNXOksomW5fEWmGntC+cPp9/y/ZQeIxs+E6hSURUtNOW8
+         UCtF4il4pT4gUYwLGP1zmqqgKGkEmOy3J2OOZC2itZUHUVV8xj1u2LsOMkVb49HbDzYh
+         vnpUAwKAVYvcdnUFWovGIFBQsSdLLi+jGmKgEuh3eJv/l6HwG/GwRaJBe7CFjndnRSLO
+         BMFl053bPi+2Cnhnm7vZCJpuYkZBawfZbYPK9G4TLwAWl5uF6qPEv9fSpp41NQ+wAmmf
+         jZKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684738064; x=1687330064;
+        d=1e100.net; s=20221208; t=1684738272; x=1687330272;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EpcVzZiQHuJlgNB+1GZ1+0T8mFu8yvELdw33UYkkLl8=;
-        b=QH0WHxJoDIvz1iGwQRcz/4f7bfVHVkoKE6HKdSwVOpw+As0Du82Awv2aphr6FcksM9
-         Zjrn8lA+VRyWoDyJ+LaCstc7YOmzZ1z9AUHgXAjH514vGoMQgO61mM+AdmzCKDDJZ9xj
-         Y0VBGPIH11jtUGjIiLNNx/woyMGgEP5VBTumTUiQ1e9o7szHHFgwHTpftJASdaYuq246
-         rhVtI5JyT5ZoZesngsc7tjW0OV9wS3Rb1OIN1T7j0sIhTAYAj+3UJMDJs6ckkBuzTadO
-         7TYn+qdmrQ7PsyJ1cOY9mWJfCh0K6kcVRSW9buewdPICkXjt2AGFTv87UGY3SNwTZKRV
-         gmIw==
-X-Gm-Message-State: AC+VfDwCLY8ppHiKdfy48yeTP+/DmpzIF49Ao5jFvMaAhdp3ju5/8het
-	rBt2B0jryYeYaPBPBiA1GzgeuDj0AwGIajpG7DQ=
-X-Google-Smtp-Source: ACHHUZ61taaEnFgdPu7bLIwWViZ4oSt5EKj2mxSI/JiWU2FHciOor4L9SkuxyH8S00xOAaiKFcGkXw==
-X-Received: by 2002:a05:600c:281:b0:3f6:41d:24d2 with SMTP id 1-20020a05600c028100b003f6041d24d2mr1546520wmk.39.1684738063644;
-        Sun, 21 May 2023 23:47:43 -0700 (PDT)
+        bh=cks/I+E1RSxlLoqm9z0OX20VEKZhG/X4ISND5hJYIcM=;
+        b=h0pbQ/yWfdpcw2ajdtCM/DEwNZRtTnYQs3nW2jYvQG2nXoyzVVfnPd1qBCjRJhKXlM
+         wS04P+CGJBYN262yZ20zi186AmUw3oI6wJDaJ6bc4FGGatSzPh5dyiWAk5ZMPCyeB0sj
+         592tILiePwuAqjVCs47P7BqFM/4zp04MX7ibofgYfRTYw092HJs1fUARHNXXWNi5LYj5
+         ASgUqlxli+DIJkAz+RVX5/4Gd4s6+sexPpgz/TeVsBrZ3wJFsuPOaAQ8Qv20BMrSmP8R
+         o/LuwkOWmBtzlHd6gN1+wSxM6FVkYr4NyhGqpEn+AvgHIOF2UP3kBAIfwyvo14kkXsEZ
+         ndwQ==
+X-Gm-Message-State: AC+VfDw19FJjVFkF+RPUw61CBOPLap5vF8aMlvVAj852o5iuoX/nOact
+	rG/A31kRECDC+jwxitsRiP8P0a17legwElRYPWE=
+X-Google-Smtp-Source: ACHHUZ6AEyW+VSbffKx1wxnVJ3faV12vzE8Em+qeuI8U9Fgx6CGukMj4YwM2XVkZhJfXGq8FsBCOuw==
+X-Received: by 2002:a5d:494b:0:b0:307:8b3e:2858 with SMTP id r11-20020a5d494b000000b003078b3e2858mr6375277wrs.45.1684738271569;
+        Sun, 21 May 2023 23:51:11 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id 4-20020a05600c22c400b003f4e47c6504sm10440588wmg.21.2023.05.21.23.47.38
+        by smtp.gmail.com with ESMTPSA id o5-20020a5d62c5000000b003068f5cca8csm6615030wrv.94.2023.05.21.23.51.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 May 2023 23:47:42 -0700 (PDT)
-Date: Mon, 22 May 2023 09:47:36 +0300
+        Sun, 21 May 2023 23:51:10 -0700 (PDT)
+Date: Mon, 22 May 2023 09:50:53 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Wenjing Liu <wenjing.liu@amd.com>
+To: oe-kbuild@lists.linux.dev, David Tadokoro <davidbtadokoro@usp.br>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>, Jun Lei <Jun.Lei@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c:384
- construct_phy() warn: variable dereferenced before check 'link->link_enc'
- (see line 381)
-Message-ID: <aa1f09b5-4e29-48af-8b97-831115a7b682@kili.mountain>
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1263
+ amdgpu_dm_plane_handle_cursor_update() error: we previously assumed 'afb'
+ could be null (see line 1222)
+Message-ID: <16bdc393-7f1d-4823-8982-8c47cc80400b@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -55,54 +55,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi David,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   d635f6cc934bcd467c5d67148ece74632fd96abf
-commit: 76f5dc40ebb188b081e03783541856c03e97f8e0 drm/amd/display: move dc_link functions in link root folder to dc_link_exports
+commit: 8bf0d9cdf36b0bebf17b733e3f5158783d765df3 drm/amd/display: add prefix to amdgpu_dm_plane.h functions
 config: ia64-randconfig-m041-20230514
 compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202305201930.FVPVEaPp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202305210251.IqE6U5XP-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c:384 construct_phy() warn: variable dereferenced before check 'link->link_enc' (see line 381)
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1263 amdgpu_dm_plane_handle_cursor_update() error: we previously assumed 'afb' could be null (see line 1222)
 
-vim +384 drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c
+vim +/afb +1263 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c
 
-54618888d1ea7a Wenjing Liu    2023-01-18  367  	enc_init_data.ctx = dc_ctx;
-54618888d1ea7a Wenjing Liu    2023-01-18  368  	bp_funcs->get_src_obj(dc_ctx->dc_bios, link->link_id, 0,
-54618888d1ea7a Wenjing Liu    2023-01-18  369  			      &enc_init_data.encoder);
-54618888d1ea7a Wenjing Liu    2023-01-18  370  	enc_init_data.connector = link->link_id;
-54618888d1ea7a Wenjing Liu    2023-01-18  371  	enc_init_data.channel = get_ddc_line(link);
-54618888d1ea7a Wenjing Liu    2023-01-18  372  	enc_init_data.hpd_source = get_hpd_line(link);
-54618888d1ea7a Wenjing Liu    2023-01-18  373  
-54618888d1ea7a Wenjing Liu    2023-01-18  374  	link->hpd_src = enc_init_data.hpd_source;
-54618888d1ea7a Wenjing Liu    2023-01-18  375  
-54618888d1ea7a Wenjing Liu    2023-01-18  376  	enc_init_data.transmitter =
-54618888d1ea7a Wenjing Liu    2023-01-18  377  		translate_encoder_to_transmitter(enc_init_data.encoder);
-54618888d1ea7a Wenjing Liu    2023-01-18  378  	link->link_enc =
-54618888d1ea7a Wenjing Liu    2023-01-18  379  		link->dc->res_pool->funcs->link_enc_create(dc_ctx, &enc_init_data);
-54618888d1ea7a Wenjing Liu    2023-01-18  380  
-54618888d1ea7a Wenjing Liu    2023-01-18 @381  	DC_LOG_DC("BIOS object table - DP_IS_USB_C: %d", link->link_enc->features.flags.bits.DP_IS_USB_C);
-                                                                                                 ^^^^^^^^^^^^^^^^
-Dereference
+8bf0d9cdf36b0b David Tadokoro   2023-03-05  1214  void amdgpu_dm_plane_handle_cursor_update(struct drm_plane *plane,
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1215  				 struct drm_plane_state *old_plane_state)
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1216  {
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1217  	struct amdgpu_device *adev = drm_to_adev(plane->dev);
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1218  	struct amdgpu_framebuffer *afb = to_amdgpu_framebuffer(plane->state->fb);
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1219  	struct drm_crtc *crtc = afb ? plane->state->crtc : old_plane_state->crtc;
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1220  	struct dm_crtc_state *crtc_state = crtc ? to_dm_crtc_state(crtc->state) : NULL;
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1221  	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20 @1222  	uint64_t address = afb ? afb->address : 0;
+                                                                           ^^^
+Is this check required?
 
-54618888d1ea7a Wenjing Liu    2023-01-18  382  	DC_LOG_DC("BIOS object table - IS_DP2_CAPABLE: %d", link->link_enc->features.flags.bits.IS_DP2_CAPABLE);
-                                                                                                    ^^^^^^^^^^^^^^^^
-Here too.
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1223  	struct dc_cursor_position position = {0};
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1224  	struct dc_cursor_attributes attributes;
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1225  	int ret;
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1226  
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1227  	if (!plane->state->fb && !old_plane_state->fb)
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1228  		return;
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1229  
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1230  	DC_LOG_CURSOR("%s: crtc_id=%d with size %d to %d\n",
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1231  		      __func__,
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1232  		      amdgpu_crtc->crtc_id,
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1233  		      plane->state->crtc_w,
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1234  		      plane->state->crtc_h);
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1235  
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1236  	ret = get_cursor_position(plane, crtc, &position);
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1237  	if (ret)
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1238  		return;
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1239  
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1240  	if (!position.enable) {
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1241  		/* turn off cursor */
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1242  		if (crtc_state && crtc_state->stream) {
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1243  			mutex_lock(&adev->dm.dc_lock);
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1244  			dc_stream_set_cursor_position(crtc_state->stream,
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1245  						      &position);
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1246  			mutex_unlock(&adev->dm.dc_lock);
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1247  		}
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1248  		return;
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1249  	}
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1250  
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1251  	amdgpu_crtc->cursor_width = plane->state->crtc_w;
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1252  	amdgpu_crtc->cursor_height = plane->state->crtc_h;
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1253  
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1254  	memset(&attributes, 0, sizeof(attributes));
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1255  	attributes.address.high_part = upper_32_bits(address);
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1256  	attributes.address.low_part  = lower_32_bits(address);
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1257  	attributes.width             = plane->state->crtc_w;
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1258  	attributes.height            = plane->state->crtc_h;
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1259  	attributes.color_format      = CURSOR_MODE_COLOR_PRE_MULTIPLIED_ALPHA;
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1260  	attributes.rotation_angle    = 0;
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1261  	attributes.attribute_flags.value = 0;
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1262  
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20 @1263  	attributes.pitch = afb->base.pitches[0] / afb->base.format->cpp[0];
+                                                                           ^^^^^                  ^^^^^
+It's not checked here.
 
-54618888d1ea7a Wenjing Liu    2023-01-18  383  
-54618888d1ea7a Wenjing Liu    2023-01-18 @384  	if (!link->link_enc) {
-                                                     ^^^^^^^^^^^^^^
-NULL checked too late.
-
-
-54618888d1ea7a Wenjing Liu    2023-01-18  385  		DC_ERROR("Failed to create link encoder!\n");
-54618888d1ea7a Wenjing Liu    2023-01-18  386  		goto link_enc_create_fail;
-54618888d1ea7a Wenjing Liu    2023-01-18  387  	}
-54618888d1ea7a Wenjing Liu    2023-01-18  388  
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1264  
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1265  	if (crtc_state->stream) {
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1266  		mutex_lock(&adev->dm.dc_lock);
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1267  		if (!dc_stream_set_cursor_attributes(crtc_state->stream,
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1268  							 &attributes))
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1269  			DRM_ERROR("DC failed to set cursor attributes\n");
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1270  
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1271  		if (!dc_stream_set_cursor_position(crtc_state->stream,
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1272  						   &position))
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1273  			DRM_ERROR("DC failed to set cursor position\n");
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1274  		mutex_unlock(&adev->dm.dc_lock);
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1275  	}
+5d945cbcd4b16a Rodrigo Siqueira 2022-07-20  1276  }
 
 -- 
 0-DAY CI Kernel Test Service
