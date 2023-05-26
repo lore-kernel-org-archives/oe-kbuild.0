@@ -1,43 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2139AD27
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 May 2023 08:13:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79892322B
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 May 2023 08:23:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685088806; x=1716624806;
+  t=1685089406; x=1716625406;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0WTjVTxcji+VBOvSG27R2IcvLhlnobNSOMiEkAhjruk=;
-  b=Y4r2JxU1970dP6kBnNJbY979c8hLWpPMUrx0ELnb9+nJdQmtt+3SF24D
-   ks2FHIJN1oRszI+yFZpO1GLqd9MsaxfgJ87rMhnpf+1StfbvRsW+XuYwT
-   aykUWRqpS9xsgO31OXaai0lpsaILUpO+F0iUpzNVfL2SeA2IJyBj8kV1z
-   A9JAqwY1YSYGGef7ypiZJOWKEcph2pVgg0LbOZsVajCtQJrmfO6thUeG+
-   4cqdW4UpV2DHZYa7vPFOTP+h5BymrMzQ+TdGVkbuvg5r6+Q/UNsvXVMlT
-   JgK4V+4T9Nkz0JcBH2MX3u/ObjegCbAKX5qMqZzMdSLWwzriOnRfNKULR
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="352990654"
+  bh=moDffFwWdX75HOlwyoB6petRLE4J67opXaDML7tEMN4=;
+  b=I26NQWiHFjb+mQOuVMGLN10hrYGiKrVE+gfZmrcaHcsRt5Ze3qUi8TX5
+   Ljs/9wU8yZKk3afVw6Guh8yfdUEO1gkLHI4hcY9fwwWnrAYTSzk9QLqpx
+   dWUUWsuZV0c+WiPmGWzSIceSIFndzz4/pn2rKnGEfOHhTKNJuC9GT7+20
+   gK8BjmvN+AA3FS5/YElY/4bZmAPlIYgO3fdAwmPQsWQj+NMCU6LH1xUFg
+   Je7zo9BxRlIEgrFw9ZItUg8YXyJPB9ls1wjWX1cryQXYenBhBL2eRHXNp
+   OkfZsufQDdwpU6BUZ5CS9zVrK/8MlanakVkttFKfrxTrXjL30v1sXDAcu
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="440505204"
 X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
-   d="scan'208";a="352990654"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 01:13:25 -0700
+   d="scan'208";a="440505204"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 01:23:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="770262702"
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="705118063"
 X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
-   d="scan'208";a="770262702"
+   d="scan'208";a="705118063"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 26 May 2023 01:13:23 -0700
+  by orsmga002.jf.intel.com with ESMTP; 26 May 2023 01:23:24 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2SZf-000JBE-13;
-	Fri, 26 May 2023 08:13:23 +0000
-Date: Fri, 26 May 2023 16:12:34 +0800
+	id 1q2SjL-000JBh-1p;
+	Fri, 26 May 2023 08:23:23 +0000
+Date: Fri, 26 May 2023 16:22:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
 Subject: [tiwai-sound:topic/midi20 34/40] sound/core/seq/seq_clientmgr.c:2160
  snd_seq_ioctl_client_ump_info() warn: potential spectre issue
  'cptr->ump_info' [r] (local cap)
-Message-ID: <202305261642.d8KfrU35-lkp@intel.com>
+Message-ID: <202305261627.M5oSJR3a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,13 +58,13 @@ head:   77700b81bd0e47d89d50eb4b3f2f323492f79998
 commit: d2d247e35eeea8331150d7708211a013aabccb5b [34/40] ALSA: seq: Add ioctls for client UMP info query and setup
 :::::: branch date: 24 hours ago
 :::::: commit date: 3 days ago
-config: i386-randconfig-m021-20230525 (https://download.01.org/0day-ci/archive/20230526/202305261642.d8KfrU35-lkp@intel.com/config)
+config: i386-randconfig-m021-20230525 (https://download.01.org/0day-ci/archive/20230526/202305261627.M5oSJR3a-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202305261642.d8KfrU35-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202305261627.M5oSJR3a-lkp@intel.com/
 
 New smatch warnings:
 sound/core/seq/seq_clientmgr.c:2160 snd_seq_ioctl_client_ump_info() warn: potential spectre issue 'cptr->ump_info' [r] (local cap)
