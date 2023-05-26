@@ -1,42 +1,49 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E201C539E
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 May 2023 06:59:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685084363; x=1716620363;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/mzfvzhsAhX8YUNMKYOQDpHQPqZ93/WgpPSQjUZ9tvY=;
-  b=bWNwVjIFfhb6PUjy/K3kE9BDP1Xsh7qglQoHK5QtglweLsdC++1Lz7Vw
-   fxxwFc0EQYFa9EajNlzsKd43xNzuAUYiop7wLnt5DNu+n8+e0eGVVPt/1
-   a0/9T9l9f8MbNaq8Bq8vpxZoQhmTVJaC1HdSLrPO4Zj/yD9tJi4K/L2g6
-   Udai8p5zLCtzzrpOK9S5TihIKW/VaNaLQy+NBODaQN6tQvA1fcqfDqD2o
-   qz0VgD0AAIL+5Ic6VybZ+IMfkHSCTOj0yy9daKneAEZF/fslEyMQyT2aS
-   ig4XAbo1P+aorQPuI+3GS1NV9FeS3+O4iTl6/G0SpcEPRdLm0PxlnLQXa
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="354152197"
-X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
-   d="scan'208";a="354152197"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 23:59:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="774984823"
-X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
-   d="scan'208";a="774984823"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 25 May 2023 23:59:22 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q2RQ1-000J83-1O;
-	Fri, 26 May 2023 06:59:21 +0000
-Date: Fri, 26 May 2023 14:58:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56998567C
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 May 2023 07:05:04 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-30a95ec7744so306498f8f.3
+        for <oe-kbuild@lists.linux.dev>; Fri, 26 May 2023 00:05:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685084701; x=1687676701;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AEB3j9Hm4cFEq/IWrgb9Zt9idZi6mpH7UvBj/2wltyE=;
+        b=YSrKeg5whAJDn0g5cVRpfV7wR1PzZGXcMZUAkUVutOyRE/1794U3lHibYoa0McpWoc
+         TyCSwKXjmrBMXeKGb02wLVSvpUFQMW/UnYQ6CABaoywBxUOVXLabFwzkcU+NOsp/SIWd
+         l+eWzr9ypgocfjfcdFESwzQIJRUlpzPoVnZ5Gd49eqdmQrAKMlphMRoJX9on8MIZZirA
+         rHZFKlcExktHHZ0g0W0TWDUN8BSEag9b3cVUwpo6Vnuc7PhvCeazcYNfGuwY535KFj56
+         E5vVVCkKT4IkK6fTlwPNEkZ/EKHSwMVXN8mD9bW93VTKIofeHKcJT4/Fl0bqk0GXSd2f
+         xM8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685084701; x=1687676701;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AEB3j9Hm4cFEq/IWrgb9Zt9idZi6mpH7UvBj/2wltyE=;
+        b=U9K617QiljpR/RnDamwfxqJgVAJuO/8ec2htGQIoWvykPaS9rDIkSmV3/7PL6a78Q7
+         x42wA2BQ8oBOOK2Fcmz7OKoGY0CS+HcIUK0b70hK3P7eUuovPyO1/bMwHeElakrzwMxn
+         0xMNMO3GGAp4GPScLs/AhYKU8hgP5zZw47BGGCKJ9Msk4a/p5XiEEWLHzW3qP257oNM4
+         6HWLLVXq73YmtsCwX2NAz1OJFkz3p5aCAX2w9S5hCa5CwqXXpBLqh0rlgAiiQl8KFhJW
+         /BEgIpzAyVfXfAKMbRLH/U3K6wCnu1qqVzFmgHowONxbf8WymtI44wvQ0lehIowzRkc+
+         7nLg==
+X-Gm-Message-State: AC+VfDyMFI8/fNfyy+of7Ww2YfpLJVJxvd63FyqslzcIWiwyd8lMSOL6
+	zjZIpIrC12vEvJMvSxndstqSGe9Ql+jiep5rOPE=
+X-Google-Smtp-Source: ACHHUZ436Ll/zuj+aPZ58CU5j/t4v3v5iYkysrtJQ7kI4HwVs1SAf0wTOXQ6UMRhdRD5DYbfC7pd8g==
+X-Received: by 2002:adf:cd8e:0:b0:306:3ec8:289d with SMTP id q14-20020adfcd8e000000b003063ec8289dmr689173wrj.46.1685084701478;
+        Fri, 26 May 2023 00:05:01 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id f17-20020a5d5691000000b0030497b3224bsm4017317wrv.64.2023.05.26.00.04.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 May 2023 00:05:00 -0700 (PDT)
+Date: Fri, 26 May 2023 10:04:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>
 Subject: [tiwai-sound:topic/midi20 25/40] sound/core/seq/seq_clientmgr.c:482
  snd_seq_read() error: copy_to_user() '&cell->event' too small (28 vs 32)
-Message-ID: <202305261415.NY0vapZK-lkp@intel.com>
+Message-ID: <53743044-5b66-43ab-9675-db0eeed69736@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,17 +53,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: alsa-devel@alsa-project.org
-TO: Takashi Iwai <tiwai@suse.de>
-CC: Jaroslav Kysela <perex@perex.cz>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git topic/midi20
 head:   77700b81bd0e47d89d50eb4b3f2f323492f79998
 commit: 46397622a3fa8372b8fda0f04b33d16923b03b1b [25/40] ALSA: seq: Add UMP support
-:::::: branch date: 22 hours ago
-:::::: commit date: 3 days ago
 config: i386-randconfig-m021-20230525 (https://download.01.org/0day-ci/archive/20230526/202305261415.NY0vapZK-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
@@ -70,14 +69,6 @@ sound/core/seq/seq_clientmgr.c:482 snd_seq_read() error: copy_to_user() '&cell->
 
 vim +482 sound/core/seq/seq_clientmgr.c
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  399  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  400  /* handle client read() */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  401  /* possible error values:
-^1da177e4c3f41 Linus Torvalds  2005-04-16  402   *	-ENXIO	invalid client or file open mode
-^1da177e4c3f41 Linus Torvalds  2005-04-16  403   *	-ENOSPC	FIFO overflow (the flag is cleared after this error report)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  404   *	-EINVAL	no enough user-space buffer to write the whole event
-^1da177e4c3f41 Linus Torvalds  2005-04-16  405   *	-EFAULT	seg. fault during copy to user space
-^1da177e4c3f41 Linus Torvalds  2005-04-16  406   */
 c7e0b5bf9fff1b Takashi Iwai    2005-11-17  407  static ssize_t snd_seq_read(struct file *file, char __user *buf, size_t count,
 c7e0b5bf9fff1b Takashi Iwai    2005-11-17  408  			    loff_t *offset)
 ^1da177e4c3f41 Linus Torvalds  2005-04-16  409  {
@@ -134,6 +125,10 @@ f9a6bb841f7370 Takashi Iwai    2021-06-08  455  		if (err < 0)
 46397622a3fa83 Takashi Iwai    2023-05-23  460  			continue;
 46397622a3fa83 Takashi Iwai    2023-05-23  461  		}
 ^1da177e4c3f41 Linus Torvalds  2005-04-16  462  		if (snd_seq_ev_is_variable(&cell->event)) {
+
+Smatch isn't clever enough to know that if snd_seq_ev_is_variable()
+is false that means client->midi_version is zero.
+
 46397622a3fa83 Takashi Iwai    2023-05-23  463  			struct snd_seq_ump_event tmpev;
 46397622a3fa83 Takashi Iwai    2023-05-23  464  
 46397622a3fa83 Takashi Iwai    2023-05-23  465  			memcpy(&tmpev, &cell->event, aligned_size);
@@ -154,6 +149,9 @@ f9a6bb841f7370 Takashi Iwai    2021-06-08  455  		if (err < 0)
 ^1da177e4c3f41 Linus Torvalds  2005-04-16  480  			buf += err;
 ^1da177e4c3f41 Linus Torvalds  2005-04-16  481  		} else {
 46397622a3fa83 Takashi Iwai    2023-05-23 @482  			if (copy_to_user(buf, &cell->event, aligned_size)) {
+
+So smatch complains that this might be a read overflow.
+
 ^1da177e4c3f41 Linus Torvalds  2005-04-16  483  				err = -EFAULT;
 ^1da177e4c3f41 Linus Torvalds  2005-04-16  484  				break;
 ^1da177e4c3f41 Linus Torvalds  2005-04-16  485  			}
@@ -175,8 +173,8 @@ f9a6bb841f7370 Takashi Iwai    2021-06-08  455  		if (err < 0)
 ^1da177e4c3f41 Linus Torvalds  2005-04-16  501  
 ^1da177e4c3f41 Linus Torvalds  2005-04-16  502  	return (err < 0) ? err : result;
 ^1da177e4c3f41 Linus Torvalds  2005-04-16  503  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  504  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
