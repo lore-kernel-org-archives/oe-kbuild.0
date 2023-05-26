@@ -1,55 +1,42 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E72323CD
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 May 2023 05:37:08 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f603d4bc5bso3751385e9.3
-        for <oe-kbuild@lists.linux.dev>; Thu, 25 May 2023 22:37:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685079425; x=1687671425;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ia3v36xyxfeQr6pILyLNKr3HLDKWkSOuXI6pXCcmms8=;
-        b=kucb3530+RUZHNakYlOYNSOANPpXsGweBVE/tmqX8I+1/Rdnb1u8jALqxnNjj+PoX9
-         KqEWuQDqt/vt47WKgLZbCH3gIvMQgJ9w7FwfgWRmvZlHVtX31kCW5E9jbvvPpNA7yJur
-         1yxQZtVJYcPcEWDNpZkIeiWmWW4qmkp1RNc/wlRJlVXUzGSOEzIf4RX96bD6ibct+dGy
-         Yud2wd3Q6RVs31CY1UIxg1Cy1SN/W7H8pEF9nqcsvs9/wHhTrDANN3h3hSR82LO0Vy+f
-         /msz0UmVNXSvofffMaYcvFW8A7slw84RiipIVuBt4IioivW6kH2xdrPjzTE/l9Q67qHs
-         HfTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685079425; x=1687671425;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ia3v36xyxfeQr6pILyLNKr3HLDKWkSOuXI6pXCcmms8=;
-        b=j/zB+dQzyPXgdvhR1oe9uEbKCbJaKeNROa00oPx+4raAkWFqUfnecC8+w8VI7r1tJb
-         muFhiLDRm9X2+kkK1GfC2ygOJNq7eHdtwLYoWxjgOPx7l4MT5YxZC2XY1D9bhZMLLu/V
-         bfNJB71HBWmnVW7idxVMuYOM+54rHNotuftstzfAvTgZ7TFTwFy2NodwNc6MpO8iPxbe
-         eLLEnL/Yr42RyddaCZHcmMCGz69YX+nSNtjAUogXTkB9qZETB1FuZze1vxgA+ueYqFFf
-         AfV4cl6k2DarhzRcGLmD/cV7yZu3KOSh5pm21vnKU4x+3FTyuFiNOMHBKNKpZjG/5D5p
-         Jssw==
-X-Gm-Message-State: AC+VfDw6P6SlrTfjia1109xr/IDZLisddY6hicKBO2DeKbiKVRglxoIN
-	jEEVv7cspef9AHmUSSnTp9hblEdv+/bYXsPb7Zk=
-X-Google-Smtp-Source: ACHHUZ4VDHwDx1+fbg+8sv7LJMh4u+NScozxoFmaJKEhbzXLrM9hzN36CzLmtOZqp62PGO2/8cJeGw==
-X-Received: by 2002:a1c:7918:0:b0:3f1:98bd:acec with SMTP id l24-20020a1c7918000000b003f198bdacecmr423621wme.11.1685079425585;
-        Thu, 25 May 2023 22:37:05 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id y12-20020a1c4b0c000000b003f4290720d0sm7503569wma.47.2023.05.25.22.37.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 May 2023 22:37:04 -0700 (PDT)
-Date: Fri, 26 May 2023 08:37:00 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
-	krzysztof.kozlowski@linaro.org, devicetree@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	robh+dt@kernel.org, bhelgaas@google.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, lorenzo.pieralisi@arm.com,
-	linux-arm-kernel@lists.infradead.org, bharat.kumar.gogada@amd.com,
-	michals@amd.com, nagaradhesh.yeleswarapu@amd.com,
-	Thippeswamy Havalige <thippeswamy.havalige@amd.com>
-Subject: Re: [PATCH v3 3/3] PCI: xilinx-xdma: Add Xilinx XDMA Root Port driver
-Message-ID: <af5890b4-f084-48ad-adc2-3a664788f63e@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E201C539E
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 May 2023 06:59:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685084363; x=1716620363;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/mzfvzhsAhX8YUNMKYOQDpHQPqZ93/WgpPSQjUZ9tvY=;
+  b=bWNwVjIFfhb6PUjy/K3kE9BDP1Xsh7qglQoHK5QtglweLsdC++1Lz7Vw
+   fxxwFc0EQYFa9EajNlzsKd43xNzuAUYiop7wLnt5DNu+n8+e0eGVVPt/1
+   a0/9T9l9f8MbNaq8Bq8vpxZoQhmTVJaC1HdSLrPO4Zj/yD9tJi4K/L2g6
+   Udai8p5zLCtzzrpOK9S5TihIKW/VaNaLQy+NBODaQN6tQvA1fcqfDqD2o
+   qz0VgD0AAIL+5Ic6VybZ+IMfkHSCTOj0yy9daKneAEZF/fslEyMQyT2aS
+   ig4XAbo1P+aorQPuI+3GS1NV9FeS3+O4iTl6/G0SpcEPRdLm0PxlnLQXa
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="354152197"
+X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
+   d="scan'208";a="354152197"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 23:59:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="774984823"
+X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
+   d="scan'208";a="774984823"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 25 May 2023 23:59:22 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q2RQ1-000J83-1O;
+	Fri, 26 May 2023 06:59:21 +0000
+Date: Fri, 26 May 2023 14:58:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [tiwai-sound:topic/midi20 25/40] sound/core/seq/seq_clientmgr.c:482
+ snd_seq_read() error: copy_to_user() '&cell->event' too small (28 vs 32)
+Message-ID: <202305261415.NY0vapZK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,108 +45,138 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230519105901.2399452-4-thippeswamy.havalige@amd.com>
 
-Hi Thippeswamy,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: alsa-devel@alsa-project.org
+TO: Takashi Iwai <tiwai@suse.de>
+CC: Jaroslav Kysela <perex@perex.cz>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thippeswamy-Havalige/Move-and-rename-error-interrupt-bits-to-a-common-header/20230519-190203
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20230519105901.2399452-4-thippeswamy.havalige%40amd.com
-patch subject: [PATCH v3 3/3] PCI: xilinx-xdma: Add Xilinx XDMA Root Port driver
-config: loongarch-randconfig-m041-20230521
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git topic/midi20
+head:   77700b81bd0e47d89d50eb4b3f2f323492f79998
+commit: 46397622a3fa8372b8fda0f04b33d16923b03b1b [25/40] ALSA: seq: Add UMP support
+:::::: branch date: 22 hours ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-m021-20230525 (https://download.01.org/0day-ci/archive/20230526/202305261415.NY0vapZK-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202305261250.2cs1phTS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202305261415.NY0vapZK-lkp@intel.com/
 
-New smatch warnings:
-drivers/pci/controller/pcie-xilinx-dma-pl.c:562 xilinx_pl_dma_pcie_init_irq_domain() warn: passing zero to 'PTR_ERR'
-drivers/pci/controller/pcie-xilinx-dma-pl.c:600 xilinx_pl_dma_pcie_setup_irq() warn: unsigned 'port->irq' is never less than zero.
+smatch warnings:
+sound/core/seq/seq_clientmgr.c:482 snd_seq_read() error: copy_to_user() '&cell->event' too small (28 vs 32)
 
-Old smatch warnings:
-drivers/pci/controller/pcie-xilinx-dma-pl.c:576 xilinx_pl_dma_pcie_init_irq_domain() warn: passing zero to 'PTR_ERR'
+vim +482 sound/core/seq/seq_clientmgr.c
 
-vim +/PTR_ERR +562 drivers/pci/controller/pcie-xilinx-dma-pl.c
-
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  551  static int xilinx_pl_dma_pcie_init_irq_domain(struct pl_dma_pcie *port)
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  552  {
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  553  	struct device *dev = port->dev;
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  554  	struct device_node *node = dev->of_node;
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  555  	struct device_node *pcie_intc_node;
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  556  	int ret;
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  557  
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  558  	/* Setup INTx */
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  559  	pcie_intc_node = of_get_child_by_name(node, "interrupt-controller");
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  560  	if (!pcie_intc_node) {
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  561  		dev_err(dev, "No PCIe Intc node found\n");
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19 @562  		return PTR_ERR(pcie_intc_node);
-
-PTR_ERR(NULL) is success.
-
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  563  	}
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  564  
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  565  	port->pldma_domain = irq_domain_add_linear(pcie_intc_node, 32,
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  566  						   &event_domain_ops, port);
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  567  	if (!port->pldma_domain)
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  568  		return -ENOMEM;
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  569  
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  570  	irq_domain_update_bus_token(port->pldma_domain, DOMAIN_BUS_NEXUS);
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  571  
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  572  	port->intx_domain = irq_domain_add_linear(pcie_intc_node, PCI_NUM_INTX,
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  573  						  &intx_domain_ops, port);
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  574  	if (!port->intx_domain) {
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  575  		dev_err(dev, "Failed to get a legacy IRQ domain\n");
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  576  		return PTR_ERR(port->intx_domain);
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  577  	}
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  578  
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  579  	irq_domain_update_bus_token(port->intx_domain, DOMAIN_BUS_WIRED);
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  580  
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  581  	ret = xilinx_pl_dma_pcie_init_msi_irq_domain(port);
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  582  	if (ret != 0) {
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  583  		irq_domain_remove(port->intx_domain);
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  584  		return -ENOMEM;
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  585  	}
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  586  
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  587  	of_node_put(pcie_intc_node);
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  588  	raw_spin_lock_init(&port->lock);
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  589  
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  590  	return 0;
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  591  }
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  592  
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  593  static int xilinx_pl_dma_pcie_setup_irq(struct pl_dma_pcie *port)
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  594  {
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  595  	struct device *dev = port->dev;
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  596  	struct platform_device *pdev = to_platform_device(dev);
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  597  	int i, irq;
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  598  
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  599  	port->irq = platform_get_irq(pdev, 0);
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19 @600  	if (port->irq < 0)
-                                                            ^^^^^^^^^^^^^
-unsigned isn't less than zero.  Presumably other checkers have already
-complained about this...
-
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  601  		return port->irq;
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  602  
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  603  	for (i = 0; i < ARRAY_SIZE(intr_cause); i++) {
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  604  		int err;
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  605  
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  606  		if (!intr_cause[i].str)
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  607  			continue;
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  608  
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  609  		irq = irq_create_mapping(port->pldma_domain, i);
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  610  		if (!irq) {
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  611  			dev_err(dev, "Failed to map interrupt\n");
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  612  			return -ENXIO;
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  613  		}
-3edd32a3a46e2d Thippeswamy Havalige 2023-05-19  614  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  399  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  400  /* handle client read() */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  401  /* possible error values:
+^1da177e4c3f41 Linus Torvalds  2005-04-16  402   *	-ENXIO	invalid client or file open mode
+^1da177e4c3f41 Linus Torvalds  2005-04-16  403   *	-ENOSPC	FIFO overflow (the flag is cleared after this error report)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  404   *	-EINVAL	no enough user-space buffer to write the whole event
+^1da177e4c3f41 Linus Torvalds  2005-04-16  405   *	-EFAULT	seg. fault during copy to user space
+^1da177e4c3f41 Linus Torvalds  2005-04-16  406   */
+c7e0b5bf9fff1b Takashi Iwai    2005-11-17  407  static ssize_t snd_seq_read(struct file *file, char __user *buf, size_t count,
+c7e0b5bf9fff1b Takashi Iwai    2005-11-17  408  			    loff_t *offset)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  409  {
+c7e0b5bf9fff1b Takashi Iwai    2005-11-17  410  	struct snd_seq_client *client = file->private_data;
+c7e0b5bf9fff1b Takashi Iwai    2005-11-17  411  	struct snd_seq_fifo *fifo;
+46397622a3fa83 Takashi Iwai    2023-05-23  412  	size_t aligned_size;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  413  	int err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  414  	long result = 0;
+c7e0b5bf9fff1b Takashi Iwai    2005-11-17  415  	struct snd_seq_event_cell *cell;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  416  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  417  	if (!(snd_seq_file_flags(file) & SNDRV_SEQ_LFLG_INPUT))
+^1da177e4c3f41 Linus Torvalds  2005-04-16  418  		return -ENXIO;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  419  
+96d4f267e40f95 Linus Torvalds  2019-01-03  420  	if (!access_ok(buf, count))
+^1da177e4c3f41 Linus Torvalds  2005-04-16  421  		return -EFAULT;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  422  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  423  	/* check client structures are in place */
+7eaa943c8ed8e9 Takashi Iwai    2008-08-08  424  	if (snd_BUG_ON(!client))
+7eaa943c8ed8e9 Takashi Iwai    2008-08-08  425  		return -ENXIO;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  426  
+f9a6bb841f7370 Takashi Iwai    2021-06-08  427  	if (!client->accept_input)
+f9a6bb841f7370 Takashi Iwai    2021-06-08  428  		return -ENXIO;
+f9a6bb841f7370 Takashi Iwai    2021-06-08  429  	fifo = client->data.user.fifo;
+f9a6bb841f7370 Takashi Iwai    2021-06-08  430  	if (!fifo)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  431  		return -ENXIO;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  432  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  433  	if (atomic_read(&fifo->overflow) > 0) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  434  		/* buffer overflow is detected */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  435  		snd_seq_fifo_clear(fifo);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  436  		/* return error code */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  437  		return -ENOSPC;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  438  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  439  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  440  	cell = NULL;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  441  	err = 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  442  	snd_seq_fifo_lock(fifo);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  443  
+46397622a3fa83 Takashi Iwai    2023-05-23  444  	if (client->midi_version > 0)
+46397622a3fa83 Takashi Iwai    2023-05-23  445  		aligned_size = sizeof(struct snd_seq_ump_event);
+46397622a3fa83 Takashi Iwai    2023-05-23  446  	else
+46397622a3fa83 Takashi Iwai    2023-05-23  447  		aligned_size = sizeof(struct snd_seq_event);
+46397622a3fa83 Takashi Iwai    2023-05-23  448  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  449  	/* while data available in queue */
+46397622a3fa83 Takashi Iwai    2023-05-23  450  	while (count >= aligned_size) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  451  		int nonblock;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  452  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  453  		nonblock = (file->f_flags & O_NONBLOCK) || result > 0;
+f9a6bb841f7370 Takashi Iwai    2021-06-08  454  		err = snd_seq_fifo_cell_out(fifo, &cell, nonblock);
+f9a6bb841f7370 Takashi Iwai    2021-06-08  455  		if (err < 0)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  456  			break;
+46397622a3fa83 Takashi Iwai    2023-05-23  457  		if (!event_is_compatible(client, &cell->event)) {
+46397622a3fa83 Takashi Iwai    2023-05-23  458  			snd_seq_cell_free(cell);
+46397622a3fa83 Takashi Iwai    2023-05-23  459  			cell = NULL;
+46397622a3fa83 Takashi Iwai    2023-05-23  460  			continue;
+46397622a3fa83 Takashi Iwai    2023-05-23  461  		}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  462  		if (snd_seq_ev_is_variable(&cell->event)) {
+46397622a3fa83 Takashi Iwai    2023-05-23  463  			struct snd_seq_ump_event tmpev;
+46397622a3fa83 Takashi Iwai    2023-05-23  464  
+46397622a3fa83 Takashi Iwai    2023-05-23  465  			memcpy(&tmpev, &cell->event, aligned_size);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  466  			tmpev.data.ext.len &= ~SNDRV_SEQ_EXT_MASK;
+46397622a3fa83 Takashi Iwai    2023-05-23  467  			if (copy_to_user(buf, &tmpev, aligned_size)) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  468  				err = -EFAULT;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  469  				break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  470  			}
+46397622a3fa83 Takashi Iwai    2023-05-23  471  			count -= aligned_size;
+46397622a3fa83 Takashi Iwai    2023-05-23  472  			buf += aligned_size;
+4d23359b7ec8b0 Clemens Ladisch 2005-09-05  473  			err = snd_seq_expand_var_event(&cell->event, count,
+4d23359b7ec8b0 Clemens Ladisch 2005-09-05  474  						       (char __force *)buf, 0,
+46397622a3fa83 Takashi Iwai    2023-05-23  475  						       aligned_size);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  476  			if (err < 0)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  477  				break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  478  			result += err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  479  			count -= err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  480  			buf += err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  481  		} else {
+46397622a3fa83 Takashi Iwai    2023-05-23 @482  			if (copy_to_user(buf, &cell->event, aligned_size)) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  483  				err = -EFAULT;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  484  				break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  485  			}
+46397622a3fa83 Takashi Iwai    2023-05-23  486  			count -= aligned_size;
+46397622a3fa83 Takashi Iwai    2023-05-23  487  			buf += aligned_size;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  488  		}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  489  		snd_seq_cell_free(cell);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  490  		cell = NULL; /* to be sure */
+46397622a3fa83 Takashi Iwai    2023-05-23  491  		result += aligned_size;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  492  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  493  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  494  	if (err < 0) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  495  		if (cell)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  496  			snd_seq_fifo_cell_putback(fifo, cell);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  497  		if (err == -EAGAIN && result > 0)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  498  			err = 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  499  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  500  	snd_seq_fifo_unlock(fifo);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  501  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  502  	return (err < 0) ? err : result;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  503  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  504  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
