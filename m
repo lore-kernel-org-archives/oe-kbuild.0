@@ -1,49 +1,49 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4CD53A2;
-	Sat, 27 May 2023 11:51:08 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-64d30ab1ef2so1403870b3a.2;
-        Sat, 27 May 2023 04:51:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298AB53A2;
+	Sat, 27 May 2023 11:51:14 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-64d44b198baso1261389b3a.0;
+        Sat, 27 May 2023 04:51:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685188268; x=1687780268;
+        d=gmail.com; s=20221208; t=1685188273; x=1687780273;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M60H7z7OzZaor7WG8Tl37IOGxzGrsGYe7qShJ598B1U=;
-        b=eLTkkEMv24hkGpArLFJoQSm2dRo2aZ6VF7iXm2+b7wV6soXO3wlvk4dACyXkuo5wzj
-         vuxTGec3F8+p6kfXshI+Cmer0dheDH78ZaF4nbnsbJdQmhjUBGsRCGTKiVW1qAqJk/ce
-         BgY1TScQx7Pcnp04VaQLX5p0gYxgpX00I4rUQB2f35Mq8hEVwvitmccsFniarnP6Tebt
-         5jowgfa2FZmTHAfvtNhaFYi5/IuC7lLzFgD28c6KAAJR0gMqCRiwFV3YqiXa9fHUDU/G
-         rlx9pIfLQ/adgoWtN9jbUuS/sfF1LlNEEjOsuXC6TfzolufnWOmobpd1KmgbK+EXucID
-         2HHw==
+        bh=BJpCwbm/WEPiYbmZRcnPg3zbQ5py3aWRu6GVo31NF5g=;
+        b=VFlx8zg1fygBabKPB2KOGQRCchYmXp402Zvu6wRn5uitRW1YL3q5jEteJjdAmu0hCF
+         oevYt0FL1bljCoFGMw3r5dnGlARw/js9LNK4MKKH+mpZrTlX2XqZ8AKUYRItzALcuZtu
+         ntNkYqxO0cZWYr12k8u5znQt6ybj4uwHiL9OeCTrBrBJoBbGP4lndiwHhMTw2byLe4zH
+         oNnj1zFQd6+h89MatK18FUT0JbLvsdqRTtdVp8V8gg3h4VzM69ASFKH5SPYHNyfFJPgj
+         KRgv03mfFYM5MTjusHTRAoxTUSzdIzM6fIh8pv+92+XjLHbYYqNNt7VSscGtVfLAAFNw
+         O02A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685188268; x=1687780268;
+        d=1e100.net; s=20221208; t=1685188273; x=1687780273;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M60H7z7OzZaor7WG8Tl37IOGxzGrsGYe7qShJ598B1U=;
-        b=KXMpiHBSx5zFXzcZ+RmNFukPuIiPvYgNKF4EymfUEflUD2nolCpXzfAStdGl7+Mdee
-         xaW9oaOTMVXN4vUsg7wQiCGwsrjqoigTNGIxBGmFdsINGUYCvott9U7/lm2q4rHuYiXb
-         /t5z3c7pk18vT8/tRwWREYvYcAWrbX43sy/WtLlB0NDvddJ1fb44bofzJgpfKzIDnWli
-         KXLUWsoDOVaiKWgBSf70VkZMYyqN4+xizRebaJmRc9uAi3ODbFrgR2xoGpipOxXvPq7a
-         /RjSvxkL0U7vDs39zQ5awiBLWAbKtWaBzyPwcG5jzpoaklMWvmZVSVIMZVQ50Is1pSdm
-         vlOA==
-X-Gm-Message-State: AC+VfDzckHdSc50ewvBvHnRAlwOyMZ2g8zWBA5i3x5NtjxCFQyvWQfRY
-	nmyNH8DhpPkh9/Jlhxyfs9o=
-X-Google-Smtp-Source: ACHHUZ4QxAWCn3xuC6rLDt7vgW0oNL4lcvxTBwBD3SNf5vot9f+iW9ovjbAY4yk3I+5dfqUN5cCtQQ==
-X-Received: by 2002:a05:6a00:cc5:b0:643:bb16:7ca6 with SMTP id b5-20020a056a000cc500b00643bb167ca6mr9083610pfv.21.1685188268122;
-        Sat, 27 May 2023 04:51:08 -0700 (PDT)
+        bh=BJpCwbm/WEPiYbmZRcnPg3zbQ5py3aWRu6GVo31NF5g=;
+        b=WRAtacjfqQ99LJEjdigPi/DlUJIMrvEatnlLcUA9JkjxLqOX4NDalPHT/qyLRPET+3
+         OOGyDNrgchPWEh4HPYDWSSwlUFFUpiqa84IKZZ5VnXZz5iTAmDRp8ugEXUqCDKM4wzW5
+         QuEiqyugTroajZpx46SQrqX/MI4/OPolFMR8iARUo5ZawzRnWYkT1cmf5NMmxOLLKzJ3
+         8wNhFLACzTahA2ywp163kTNdvF58qP9VOZ9wSngdvT4cDz2gVB/aXwFnCRW7wca6cxLX
+         UBcpOdjOP6Xi1T3/l3fIVDYQW8Tl2SAoWjZT4pCRePqoMcsMcsT1HYL3aL01g2U3AK5p
+         Dv8w==
+X-Gm-Message-State: AC+VfDyXmMDOOrsk5wYxSZxL4TwUSaV7sPXn/wx3O68RazSYIFspT4Cz
+	KqU01vp0jCnjgFW2DFoceuWRHiWkW2wY2A==
+X-Google-Smtp-Source: ACHHUZ4EiLdl3+Jsl7/CLV58fqBgApK2hq9JBbNjF9xdOnsU3nSDEEnjEGgWueolcmgLNe4xLSoelg==
+X-Received: by 2002:a05:6a00:a12:b0:64d:60f8:cb35 with SMTP id p18-20020a056a000a1200b0064d60f8cb35mr2695560pfh.7.1685188273505;
+        Sat, 27 May 2023 04:51:13 -0700 (PDT)
 Received: from redkillpc.. ([49.207.219.227])
-        by smtp.gmail.com with ESMTPSA id x19-20020aa793b3000000b0064f97ff4506sm2988098pff.68.2023.05.27.04.51.04
+        by smtp.gmail.com with ESMTPSA id x19-20020aa793b3000000b0064f97ff4506sm2988098pff.68.2023.05.27.04.51.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 May 2023 04:51:07 -0700 (PDT)
+        Sat, 27 May 2023 04:51:12 -0700 (PDT)
 From: Prathu Baronia <prathubaronia2011@gmail.com>
 To: prathubaronia2011@gmail.com,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Khadija Kamran <kamrankhadijadj@gmail.com>,
 	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: dan.carpenter@linaro.org,
@@ -51,12 +51,13 @@ Cc: dan.carpenter@linaro.org,
 	lkp@intel.com,
 	oe-kbuild-all@lists.linux.dev,
 	oe-kbuild@lists.linux.dev
-Subject: [PATCH v4 1/3] axis-fifo: fix smatch warning for format specifier
-Date: Sat, 27 May 2023 17:20:58 +0530
-Message-Id: <20230527115101.47569-1-prathubaronia2011@gmail.com>
+Subject: [PATCH v4 2/3] axis-fifo: use devm_kasprintf() for allocating formatted strings
+Date: Sat, 27 May 2023 17:20:59 +0530
+Message-Id: <20230527115101.47569-2-prathubaronia2011@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <ZHHE/H2p4Go/Igc/@redkillpc>
+In-Reply-To: <20230527115101.47569-1-prathubaronia2011@gmail.com>
 References: <ZHHE/H2p4Go/Igc/@redkillpc>
+ <20230527115101.47569-1-prathubaronia2011@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,41 +66,45 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix an old smatch warning reported by lkp introduced by commit
-d2d7aa53891e. In the mentioned commit we had used "%pa" format specifier
-for a void* type and hence smatch complained about its use instead of
-"%p".
+In various places, string buffers of a fixed size are allocated, and
+filled using snprintf() with the same fixed size, which is error-prone.
 
-Fixes: d2d7aa53891e ("staging: axis-fifo: convert to use miscdevice")
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <error27@gmail.com>
-Link: https://lore.kernel.org/r/202305150358.nt1BkbXz-lkp@intel.com/
+Replace this by calling devm_kasprintf() instead, which always uses the
+appropriate size.
+
 Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
 ---
-V3 -> V4: Split into warning fixing and cleanup commits
-V2 -> V3: Fix smatch warnings from kernel test robot
-V1 -> V2: Split into logical commits and fix commit message
-
- drivers/staging/axis-fifo/axis-fifo.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/axis-fifo/axis-fifo.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 7a21f2423204..271cab805cad 100644
+index 271cab805cad..d71bdc6dd961 100644
 --- a/drivers/staging/axis-fifo/axis-fifo.c
 +++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -906,8 +906,8 @@ static int axis_fifo_probe(struct platform_device *pdev)
- 	if (rc < 0)
- 		goto err_initial;
+@@ -816,10 +816,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	 * ----------------------------
+ 	 */
  
--	dev_info(fifo->dt_device, "axis-fifo created at %pa mapped to 0x%pa, irq=%i\n",
--		 &r_mem->start, &fifo->base_addr, fifo->irq);
-+	dev_info(fifo->dt_device, "axis-fifo created at %pa mapped to 0x%p, irq=%i\n",
-+		 &r_mem->start, fifo->base_addr, fifo->irq);
+-	device_name = devm_kzalloc(dev, 32, GFP_KERNEL);
+-	if (!device_name)
+-		return -ENOMEM;
+-
+ 	/* allocate device wrapper memory */
+ 	fifo = devm_kzalloc(dev, sizeof(*fifo), GFP_KERNEL);
+ 	if (!fifo)
+@@ -857,7 +853,11 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
  
- 	return 0;
+ 	/* create unique device name */
+-	snprintf(device_name, 32, "%s_%pa", DRIVER_NAME, &r_mem->start);
++	device_name = devm_kasprintf(dev, GFP_KERNEL, "%s_%pa", DRIVER_NAME, &r_mem->start);
++	if (!device_name) {
++		rc = -ENOMEM;
++		goto err_initial;
++	}
+ 	dev_dbg(fifo->dt_device, "device name [%s]\n", device_name);
  
-
-base-commit: 44c026a73be8038f03dbdeef028b642880cf1511
+ 	/* ----------------------------
 -- 
 2.34.1
 
