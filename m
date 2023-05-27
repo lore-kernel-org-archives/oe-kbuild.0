@@ -1,43 +1,43 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298AB53A2;
-	Sat, 27 May 2023 11:51:14 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-64d44b198baso1261389b3a.0;
-        Sat, 27 May 2023 04:51:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6730053A2;
+	Sat, 27 May 2023 11:51:19 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-64d3fdcadb8so1362126b3a.3;
+        Sat, 27 May 2023 04:51:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685188273; x=1687780273;
+        d=gmail.com; s=20221208; t=1685188279; x=1687780279;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BJpCwbm/WEPiYbmZRcnPg3zbQ5py3aWRu6GVo31NF5g=;
-        b=VFlx8zg1fygBabKPB2KOGQRCchYmXp402Zvu6wRn5uitRW1YL3q5jEteJjdAmu0hCF
-         oevYt0FL1bljCoFGMw3r5dnGlARw/js9LNK4MKKH+mpZrTlX2XqZ8AKUYRItzALcuZtu
-         ntNkYqxO0cZWYr12k8u5znQt6ybj4uwHiL9OeCTrBrBJoBbGP4lndiwHhMTw2byLe4zH
-         oNnj1zFQd6+h89MatK18FUT0JbLvsdqRTtdVp8V8gg3h4VzM69ASFKH5SPYHNyfFJPgj
-         KRgv03mfFYM5MTjusHTRAoxTUSzdIzM6fIh8pv+92+XjLHbYYqNNt7VSscGtVfLAAFNw
-         O02A==
+        bh=ps7W4euBnPTypuQ48jqWiVzSPldfhUMwv3snwxq59YY=;
+        b=AqYl7ViqxvBn8HqG78gKCD/7rKL7HfBq1/pAor38gVc2DQg5wu3paaZGGxS4V7ZXlS
+         2jedEA59iAcVm+XTq+abpom59mTFsWn9Faeodygf0CuJjOohBCvIds+IGzzMGs+xVbil
+         Z3UNroBt9DysnC6W+qovqNd+CTCvW/e+abPur5uFCWAqnrV4wLz5dLSdyxreUll9Ww/N
+         YwSHPevF6IFrhRlMqtXCErTxxkG+KurtaHOuzZCd9sCUKeDncUTIgMgFWoZtxopNwmmw
+         8jYDOnkRLvJ4qXiOMrsCF34giu8WNZ2fuGm1QvE5N3/dr+/U1plyjdDbR03S7rAzWeK1
+         dC/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685188273; x=1687780273;
+        d=1e100.net; s=20221208; t=1685188279; x=1687780279;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BJpCwbm/WEPiYbmZRcnPg3zbQ5py3aWRu6GVo31NF5g=;
-        b=WRAtacjfqQ99LJEjdigPi/DlUJIMrvEatnlLcUA9JkjxLqOX4NDalPHT/qyLRPET+3
-         OOGyDNrgchPWEh4HPYDWSSwlUFFUpiqa84IKZZ5VnXZz5iTAmDRp8ugEXUqCDKM4wzW5
-         QuEiqyugTroajZpx46SQrqX/MI4/OPolFMR8iARUo5ZawzRnWYkT1cmf5NMmxOLLKzJ3
-         8wNhFLACzTahA2ywp163kTNdvF58qP9VOZ9wSngdvT4cDz2gVB/aXwFnCRW7wca6cxLX
-         UBcpOdjOP6Xi1T3/l3fIVDYQW8Tl2SAoWjZT4pCRePqoMcsMcsT1HYL3aL01g2U3AK5p
-         Dv8w==
-X-Gm-Message-State: AC+VfDyXmMDOOrsk5wYxSZxL4TwUSaV7sPXn/wx3O68RazSYIFspT4Cz
-	KqU01vp0jCnjgFW2DFoceuWRHiWkW2wY2A==
-X-Google-Smtp-Source: ACHHUZ4EiLdl3+Jsl7/CLV58fqBgApK2hq9JBbNjF9xdOnsU3nSDEEnjEGgWueolcmgLNe4xLSoelg==
-X-Received: by 2002:a05:6a00:a12:b0:64d:60f8:cb35 with SMTP id p18-20020a056a000a1200b0064d60f8cb35mr2695560pfh.7.1685188273505;
-        Sat, 27 May 2023 04:51:13 -0700 (PDT)
+        bh=ps7W4euBnPTypuQ48jqWiVzSPldfhUMwv3snwxq59YY=;
+        b=Cs668NvTmsVFqR/1GJuaqGQ8nwZ0tzOl+dYET2gvQdQIg4BIak7Fj7ec+wHhUw9Hvo
+         upR172cvwuwKVYPfVOpx0j4KA+S1g97bQPfQS2yZErK+hMRJIAMODSQ80aRg5RsWru39
+         QYb5T9WSDGJzF2tKpXLgf36bES/pTyf9E46qG+doEC01TtLPl1FZ2v396CQWNvz0Y9n9
+         OOVfsH8VNvudhwc00EVw+fuOeT+F2kxykTlG8FbeY4SlgVovwyRA8PPftmJtbJe7oU0Q
+         FYyArOy51dU9uGrVDStYi6LmATsVRlsqub76gyLks5b28dridLwzMOu21gnor9E1RDOC
+         ts/g==
+X-Gm-Message-State: AC+VfDzqEMtrNIQB+esuyPlOo9eXZwCZCIAHbVbzIuoALUHgMQC84a8L
+	KT0UBggEJIz+xDVqBzdoWYw=
+X-Google-Smtp-Source: ACHHUZ5zF+iygF5B/re2qY7V3eQMYr1cqIGaEaq0niqW5MExwb/4oKb4QmWjit3DZrE+2rrXv+iuSg==
+X-Received: by 2002:a05:6a20:5493:b0:10e:d90f:35d5 with SMTP id i19-20020a056a20549300b0010ed90f35d5mr2847160pzk.51.1685188278759;
+        Sat, 27 May 2023 04:51:18 -0700 (PDT)
 Received: from redkillpc.. ([49.207.219.227])
-        by smtp.gmail.com with ESMTPSA id x19-20020aa793b3000000b0064f97ff4506sm2988098pff.68.2023.05.27.04.51.09
+        by smtp.gmail.com with ESMTPSA id x19-20020aa793b3000000b0064f97ff4506sm2988098pff.68.2023.05.27.04.51.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 May 2023 04:51:12 -0700 (PDT)
+        Sat, 27 May 2023 04:51:18 -0700 (PDT)
 From: Prathu Baronia <prathubaronia2011@gmail.com>
 To: prathubaronia2011@gmail.com,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -51,9 +51,9 @@ Cc: dan.carpenter@linaro.org,
 	lkp@intel.com,
 	oe-kbuild-all@lists.linux.dev,
 	oe-kbuild@lists.linux.dev
-Subject: [PATCH v4 2/3] axis-fifo: use devm_kasprintf() for allocating formatted strings
-Date: Sat, 27 May 2023 17:20:59 +0530
-Message-Id: <20230527115101.47569-2-prathubaronia2011@gmail.com>
+Subject: [PATCH v4 3/3] axis-fifo: cleanup space issues with fops struct
+Date: Sat, 27 May 2023 17:21:00 +0530
+Message-Id: <20230527115101.47569-3-prathubaronia2011@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230527115101.47569-1-prathubaronia2011@gmail.com>
 References: <ZHHE/H2p4Go/Igc/@redkillpc>
@@ -66,45 +66,34 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In various places, string buffers of a fixed size are allocated, and
-filled using snprintf() with the same fixed size, which is error-prone.
-
-Replace this by calling devm_kasprintf() instead, which always uses the
-appropriate size.
+Add required spaces for proper formatting of fops members for better
+readability.
 
 Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
 ---
- drivers/staging/axis-fifo/axis-fifo.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/axis-fifo/axis-fifo.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 271cab805cad..d71bdc6dd961 100644
+index d71bdc6dd961..59e962467a3d 100644
 --- a/drivers/staging/axis-fifo/axis-fifo.c
 +++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -816,10 +816,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
- 	 * ----------------------------
- 	 */
+@@ -716,11 +716,11 @@ static int axis_fifo_close(struct inode *inod, struct file *f)
+ }
  
--	device_name = devm_kzalloc(dev, 32, GFP_KERNEL);
--	if (!device_name)
--		return -ENOMEM;
--
- 	/* allocate device wrapper memory */
- 	fifo = devm_kzalloc(dev, sizeof(*fifo), GFP_KERNEL);
- 	if (!fifo)
-@@ -857,7 +853,11 @@ static int axis_fifo_probe(struct platform_device *pdev)
- 	dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
+ static const struct file_operations fops = {
+-	.owner = THIS_MODULE,
+-	.open = axis_fifo_open,
++	.owner   = THIS_MODULE,
++	.open    = axis_fifo_open,
+ 	.release = axis_fifo_close,
+-	.read = axis_fifo_read,
+-	.write = axis_fifo_write
++	.read    = axis_fifo_read,
++	.write   = axis_fifo_write
+ };
  
- 	/* create unique device name */
--	snprintf(device_name, 32, "%s_%pa", DRIVER_NAME, &r_mem->start);
-+	device_name = devm_kasprintf(dev, GFP_KERNEL, "%s_%pa", DRIVER_NAME, &r_mem->start);
-+	if (!device_name) {
-+		rc = -ENOMEM;
-+		goto err_initial;
-+	}
- 	dev_dbg(fifo->dt_device, "device name [%s]\n", device_name);
- 
- 	/* ----------------------------
+ /* read named property from the device tree */
 -- 
 2.34.1
 
