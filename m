@@ -1,269 +1,415 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E791652
-	for <oe-kbuild@lists.linux.dev>; Mon, 29 May 2023 04:29:14 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3f623adec61so29468085e9.0
-        for <oe-kbuild@lists.linux.dev>; Sun, 28 May 2023 21:29:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70438652
+	for <oe-kbuild@lists.linux.dev>; Mon, 29 May 2023 04:29:19 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-30a1fdde3d6so2781968f8f.0
+        for <oe-kbuild@lists.linux.dev>; Sun, 28 May 2023 21:29:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685334551; x=1687926551;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ohsJJX90VuWM0uKjPqV8ba1igb9kMnE6eX395WBJCYg=;
-        b=hG2UzD1yG9lYLY4OMFzocdjcT2YT+YlaikY1dSHq5rITHE/Jy76Et+ySvM4bfUwfA3
-         ACG46AvS47raXwMcydbeb7sETGL4+SstJFe8BQUurgnXFf0NCbZesHFrYBBjouoRixsB
-         EngRp8qqpLvzLn8G/+MvcBqoHDumbjhl4gTPgHZoKaPeaOrm7EAr1hrhoqxtyvEzHbSR
-         y8VTQbhpdsRzBa4bww1Tpane2ggGDs0/2qaTjV/aiFRG1MjQIJjxAhhz1tPXxM4qAKDI
-         k24wXap8gVaaNeELolK2SDhdgJgMU6Am6DpbbQmCFgMbXu3TS0N/NgKkunm6djKpbYgB
-         dgbw==
+        d=linaro.org; s=google; t=1685334556; x=1687926556;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r6AA882SiBYMTpoVIxqOHdC7h2CDG5NOjhY0xj2x/PU=;
+        b=ClrrpEmDI1g1A81Zxiu3Tcv/ZF5EXZ7vFABNDNIt92SlIKYWW4KvYp1IKdDQES9etP
+         P+IOL5xqemSuYAQanc85hpu8KvNDDh68UTMZ08YCuCMXnT8gPgLhnBSq40AfWSaIGWdm
+         EeFyqG8ZagN2o3VRSBfOsOPDO5lMrK/foQhphmFBYkq7ouKZhrn9hc4Vr/yIQgeFf1nR
+         lSvM8aV0IYk65sEUvqOxlbOHwmjG+Mhd4ee1+IP1JtDcU2mlqpI9V+aJX5zfWeyHJiwS
+         5PGs3FwJwrpBcEgavQZ3YbqwXqyZyUCwLdNGMfdNSgiF503HbEeLdbN7jtyO+MgAoj0w
+         +n/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685334551; x=1687926551;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ohsJJX90VuWM0uKjPqV8ba1igb9kMnE6eX395WBJCYg=;
-        b=ideTynbFoA2XVa28qTXUE5UYIXjQyyVFqFQiivG0YX21E5C9OD7sU+M0ePeVD3eGqt
-         osmolbxZDVIRn3LV7TzMaooHo95p+6c+iNrrYla3FBTY/c0oqvtrlwU3xVDSsBgwJlqf
-         h9Zmcy58cNm79AKX/CPkkkPQcUTMVw+7rLdlexyFKYX0giGiXaGCB6tF7QKMOQUoJeSW
-         z0n5MpW1SFEmhr507Efob3ODvdwU15A+fxZqylvhGO2P5Z70P7nM0VOvlourt5eSi5gW
-         NyoaYyT4M/iXlJP0Z82T8xdQLM3Hlsd/2khxOkZwkXHKfL1mWjGJ2u+xobuJevD340XF
-         jQZw==
-X-Gm-Message-State: AC+VfDx3Zz4YZHxjrA02R9vE6zT51O5PROEqI9cScJwbkMVSZf9HqqWS
-	FN0/yMFlSrF17d3iN+hOnTos4bjueFhU6awzpw4=
-X-Google-Smtp-Source: ACHHUZ7PU2vIgE95SfRHql3Pd8dsB9URq9xGqjmKNIGH9ZttXte+4gUZFr4NVKyu7N2IQmzzMr+83g==
-X-Received: by 2002:a05:600c:21c6:b0:3f6:89a:94c8 with SMTP id x6-20020a05600c21c600b003f6089a94c8mr8143021wmj.24.1685334551243;
-        Sun, 28 May 2023 21:29:11 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685334556; x=1687926556;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r6AA882SiBYMTpoVIxqOHdC7h2CDG5NOjhY0xj2x/PU=;
+        b=aYJtACRYaYvPN/rBPZWbLcslBd6IulrVZesH/VEm+CHjVq/UCynDsOs42xlSxMN3DS
+         m4lEmpbe2PN2kvsanRybuOSzLl5fKBf9ateNEJMQVFq4RtTTaVH8UYJBdjVFQMJU/b4/
+         CyTUPb10ADd74VFbuL+BIDUiSLGogXPXxXQjWw2OlwUs1oZ28FR4RWbr046MlozD9mUZ
+         SJLwtv9B1S1D/0Ok20ye6mZ2YnBuxR7j3U29oeiJSb+naquPa/iULJ25GIknSRAVbqo+
+         cXlmO43gMUhLy0quAnfZHV1XUXAINo+Gn8sUycWbzPctZIClW0ikokDdnzCfY/nnFdR5
+         JBmA==
+X-Gm-Message-State: AC+VfDwL+teqn/x+/gDUEOJR/T+0vpcd+dF+Ct3vR6gCfU1AWol39lov
+	RtUizgxL4rGLkOztOSxhHFNCZ7IRtpbfsY5WKf4=
+X-Google-Smtp-Source: ACHHUZ4vycuytRWK3z5kWCzhZlxYVXWFd/CMlVWz6cY5+6X1xZZ0drJiIAb+ZjI5k5Ei8wBOmlH/bA==
+X-Received: by 2002:adf:df12:0:b0:2fe:851c:672f with SMTP id y18-20020adfdf12000000b002fe851c672fmr6723065wrl.8.1685334556365;
+        Sun, 28 May 2023 21:29:16 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id f16-20020a7bcc10000000b003f60fb2addbsm16705585wmh.44.2023.05.28.21.29.08
+        by smtp.gmail.com with ESMTPSA id z17-20020a1c4c11000000b003f4ecf1fcbcsm16616867wmf.22.2023.05.28.21.29.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 May 2023 21:29:09 -0700 (PDT)
-Date: Sat, 27 May 2023 12:50:02 +0300
+        Sun, 28 May 2023 21:29:14 -0700 (PDT)
+Date: Sat, 27 May 2023 12:55:03 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Francisco Munoz <francisco.munoz.ruiz@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Nirmal Patel <nirmal.patel@linux.intel.com>,
-	Jonathan Derrick <jonathan.derrick@linux.dev>
-Subject: drivers/pci/controller/vmd.c:876 vmd_enable_domain() error:
- uninitialized symbol 'ret'.
-Message-ID: <556247a2-aa6b-4aa6-9ffa-1066f9de86e9@kili.mountain>
+To: oe-kbuild@lists.linux.dev, Amir Goldstein <amir73il@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:ovl-origin-xino 21/21] fs/overlayfs/namei.c:1231
+ ovl_lookup() error: uninitialized symbol 'xino'.
+Message-ID: <33daf2b9-e452-43c5-a495-59630548bf8b@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0d85b27b0cc6b5cf54567c5ad913a247a71583ce
-commit: 0a584655ef89541dae4d48d2c523b1480ae80284 PCI: vmd: Fix secondary bus reset for Intel bridges
-config: x86_64-randconfig-m001-20230526 (https://download.01.org/0day-ci/archive/20230527/202305270219.B96IiIfv-lkp@intel.com/config)
+tree:   https://github.com/amir73il/linux ovl-origin-xino
+head:   dc6fca4068e8044aae880d4d5fc8060cd27a23c2
+commit: dc6fca4068e8044aae880d4d5fc8060cd27a23c2 [21/21] ovl: get persistent inode number from origin xattr
+config: i386-randconfig-m021-20230525 (https://download.01.org/0day-ci/archive/20230527/202305270836.IEnVP8NF-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202305270219.B96IiIfv-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202305270836.IEnVP8NF-lkp@intel.com/
 
-smatch warnings:
-drivers/pci/controller/vmd.c:876 vmd_enable_domain() error: uninitialized symbol 'ret'.
+New smatch warnings:
+fs/overlayfs/namei.c:1231 ovl_lookup() error: uninitialized symbol 'xino'.
 
-vim +/ret +876 drivers/pci/controller/vmd.c
+vim +/xino +1231 fs/overlayfs/namei.c
 
-6788958e4f3ca1 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  712  static int vmd_enable_domain(struct vmd_dev *vmd, unsigned long features)
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  713  {
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  714  	struct pci_sysdata *sd = &vmd->sysdata;
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  715  	struct resource *res;
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  716  	u32 upper_bits;
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  717  	unsigned long flags;
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  718  	LIST_HEAD(resources);
-6788958e4f3ca1 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  719  	resource_size_t offset[2] = {0};
-e3dffa4f6c3612 drivers/pci/controller/vmd.c Jon Derrick       2019-09-16  720  	resource_size_t membar2_offset = 0x2000;
-0294951030eb8e drivers/pci/controller/vmd.c Jon Derrick       2018-12-13  721  	struct pci_bus *child;
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  722  	struct pci_dev *dev;
-030109c0376c8f drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  723  	int ret;
-6788958e4f3ca1 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  724  
-6788958e4f3ca1 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  725  	/*
-6788958e4f3ca1 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  726  	 * Shadow registers may exist in certain VMD device ids which allow
-6788958e4f3ca1 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  727  	 * guests to correctly assign host physical addresses to the root ports
-6788958e4f3ca1 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  728  	 * and child devices. These registers will either return the host value
-6788958e4f3ca1 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  729  	 * or 0, depending on an enable bit in the VMD device.
-6788958e4f3ca1 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  730  	 */
-6788958e4f3ca1 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  731  	if (features & VMD_FEAT_HAS_MEMBAR_SHADOW) {
-a1a30170138c9c drivers/pci/controller/vmd.c Jon Derrick       2019-09-16  732  		membar2_offset = MB2_SHADOW_OFFSET + MB2_SHADOW_SIZE;
-030109c0376c8f drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  733  		ret = vmd_get_phys_offsets(vmd, true, &offset[0], &offset[1]);
-030109c0376c8f drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  734  		if (ret)
-030109c0376c8f drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  735  			return ret;
-030109c0376c8f drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  736  	} else if (features & VMD_FEAT_HAS_MEMBAR_SHADOW_VSCAP) {
-030109c0376c8f drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  737  		ret = vmd_get_phys_offsets(vmd, false, &offset[0], &offset[1]);
-030109c0376c8f drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  738  		if (ret)
-030109c0376c8f drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  739  			return ret;
-51f939b11cb1c4 drivers/pci/controller/vmd.c Jon Derrick       2020-05-27  740  	}
-51f939b11cb1c4 drivers/pci/controller/vmd.c Jon Derrick       2020-05-27  741  
-2a5a9c9a20f919 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  742  	/*
-2a5a9c9a20f919 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  743  	 * Certain VMD devices may have a root port configuration option which
-08bcdd22ecdb01 drivers/pci/controller/vmd.c Jon Derrick       2019-11-12  744  	 * limits the bus range to between 0-127, 128-255, or 224-255
-2a5a9c9a20f919 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  745  	 */
-2a5a9c9a20f919 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  746  	if (features & VMD_FEAT_HAS_BUS_RESTRICTIONS) {
-2e1224183b1bec drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  747  		ret = vmd_get_bus_number_start(vmd);
-2e1224183b1bec drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  748  		if (ret)
-2e1224183b1bec drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  749  			return ret;
-2a5a9c9a20f919 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  750  	}
-2a5a9c9a20f919 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  751  
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  752  	res = &vmd->dev->resource[VMD_CFGBAR];
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  753  	vmd->resources[0] = (struct resource) {
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  754  		.name  = "VMD CFGBAR",
-e3dffa4f6c3612 drivers/pci/controller/vmd.c Jon Derrick       2019-09-16  755  		.start = vmd->busn_start,
-e3dffa4f6c3612 drivers/pci/controller/vmd.c Jon Derrick       2019-09-16  756  		.end   = vmd->busn_start + (resource_size(res) >> 20) - 1,
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  757  		.flags = IORESOURCE_BUS | IORESOURCE_PCI_FIXED,
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  758  	};
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  759  
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  760  	/*
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  761  	 * If the window is below 4GB, clear IORESOURCE_MEM_64 so we can
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  762  	 * put 32-bit resources in the window.
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  763  	 *
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  764  	 * There's no hardware reason why a 64-bit window *couldn't*
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  765  	 * contain a 32-bit resource, but pbus_size_mem() computes the
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  766  	 * bridge window size assuming a 64-bit window will contain no
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  767  	 * 32-bit resources.  __pci_assign_resource() enforces that
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  768  	 * artificial restriction to make sure everything will fit.
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  769  	 *
-f6b6aefee70aa5 drivers/pci/controller/vmd.c Bjorn Helgaas     2019-05-30  770  	 * The only way we could use a 64-bit non-prefetchable MEMBAR is
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  771  	 * if its address is <4GB so that we can convert it to a 32-bit
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  772  	 * resource.  To be visible to the host OS, all VMD endpoints must
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  773  	 * be initially configured by platform BIOS, which includes setting
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  774  	 * up these resources.  We can assume the device is configured
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  775  	 * according to the platform needs.
-83cc54a608b66d arch/x86/pci/vmd.c           Keith Busch       2016-03-02  776  	 */
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  777  	res = &vmd->dev->resource[VMD_MEMBAR1];
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  778  	upper_bits = upper_32_bits(res->end);
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  779  	flags = res->flags & ~IORESOURCE_SIZEALIGN;
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  780  	if (!upper_bits)
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  781  		flags &= ~IORESOURCE_MEM_64;
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  782  	vmd->resources[1] = (struct resource) {
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  783  		.name  = "VMD MEMBAR1",
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  784  		.start = res->start,
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  785  		.end   = res->end,
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  786  		.flags = flags,
-2c2c5c5cd213ae arch/x86/pci/vmd.c           Jon Derrick       2016-02-24  787  		.parent = res,
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  788  	};
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  789  
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  790  	res = &vmd->dev->resource[VMD_MEMBAR2];
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  791  	upper_bits = upper_32_bits(res->end);
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  792  	flags = res->flags & ~IORESOURCE_SIZEALIGN;
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  793  	if (!upper_bits)
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  794  		flags &= ~IORESOURCE_MEM_64;
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  795  	vmd->resources[2] = (struct resource) {
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  796  		.name  = "VMD MEMBAR2",
-6788958e4f3ca1 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  797  		.start = res->start + membar2_offset,
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  798  		.end   = res->end,
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  799  		.flags = flags,
-2c2c5c5cd213ae arch/x86/pci/vmd.c           Jon Derrick       2016-02-24  800  		.parent = res,
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  801  	};
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  802  
-34067c56fa177d drivers/pci/controller/vmd.c Jon Derrick       2020-01-21  803  	sd->vmd_dev = vmd->dev;
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  804  	sd->domain = vmd_find_free_domain();
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  805  	if (sd->domain < 0)
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  806  		return sd->domain;
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  807  
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  808  	sd->node = pcibus_to_node(vmd->dev->bus);
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  809  
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  810  	/*
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  811  	 * Currently MSI remapping must be enabled in guest passthrough mode
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  812  	 * due to some missing interrupt remapping plumbing. This is probably
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  813  	 * acceptable because the guest is usually CPU-limited and MSI
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  814  	 * remapping doesn't become a performance bottleneck.
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  815  	 */
-c94f732e8001a8 drivers/pci/controller/vmd.c Nirmal Patel      2022-05-11  816  	if (!(features & VMD_FEAT_CAN_BYPASS_MSI_REMAP) ||
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  817  	    offset[0] || offset[1]) {
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  818  		ret = vmd_alloc_irqs(vmd);
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  819  		if (ret)
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  820  			return ret;
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  821  
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  822  		vmd_set_msi_remapping(vmd, true);
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  823  
-1552b11ba15e93 drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  824  		ret = vmd_create_irq_domain(vmd);
-1552b11ba15e93 drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  825  		if (ret)
-1552b11ba15e93 drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  826  			return ret;
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  827  
-d7f954e54079b4 drivers/pci/controller/vmd.c Thomas Gleixner   2020-08-26  828  		/*
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  829  		 * Override the IRQ domain bus token so the domain can be
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  830  		 * distinguished from a regular PCI/MSI domain.
-d7f954e54079b4 drivers/pci/controller/vmd.c Thomas Gleixner   2020-08-26  831  		 */
-d7f954e54079b4 drivers/pci/controller/vmd.c Thomas Gleixner   2020-08-26  832  		irq_domain_update_bus_token(vmd->irq_domain, DOMAIN_BUS_VMD_MSI);
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  833  	} else {
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  834  		vmd_set_msi_remapping(vmd, false);
-ee81ee84f8739e drivers/pci/controller/vmd.c Jon Derrick       2021-02-10  835  	}
-d7f954e54079b4 drivers/pci/controller/vmd.c Thomas Gleixner   2020-08-26  836  
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  837  	pci_add_resource(&resources, &vmd->resources[0]);
-6788958e4f3ca1 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  838  	pci_add_resource_offset(&resources, &vmd->resources[1], offset[0]);
-6788958e4f3ca1 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  839  	pci_add_resource_offset(&resources, &vmd->resources[2], offset[1]);
-6788958e4f3ca1 drivers/pci/host/vmd.c       Jon Derrick       2018-05-18  840  
-e3dffa4f6c3612 drivers/pci/controller/vmd.c Jon Derrick       2019-09-16  841  	vmd->bus = pci_create_root_bus(&vmd->dev->dev, vmd->busn_start,
-e3dffa4f6c3612 drivers/pci/controller/vmd.c Jon Derrick       2019-09-16  842  				       &vmd_ops, sd, &resources);
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  843  	if (!vmd->bus) {
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  844  		pci_free_resource_list(&resources);
-1552b11ba15e93 drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  845  		vmd_remove_irq_domain(vmd);
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  846  		return -ENODEV;
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  847  	}
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  848  
-04b12ef163d10e drivers/pci/controller/vmd.c Kai-Heng Feng     2021-12-03  849  	vmd_copy_host_bridge_flags(pci_find_host_bridge(vmd->dev->bus),
-04b12ef163d10e drivers/pci/controller/vmd.c Kai-Heng Feng     2021-12-03  850  				   to_pci_host_bridge(vmd->bus->bridge));
-04b12ef163d10e drivers/pci/controller/vmd.c Kai-Heng Feng     2021-12-03  851  
-2c2c5c5cd213ae arch/x86/pci/vmd.c           Jon Derrick       2016-02-24  852  	vmd_attach_resources(vmd);
-1552b11ba15e93 drivers/pci/controller/vmd.c Jon Derrick       2020-07-28  853  	if (vmd->irq_domain)
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  854  		dev_set_msi_domain(&vmd->bus->dev, vmd->irq_domain);
-886e67100b904c drivers/pci/controller/vmd.c Nirmal Patel      2022-05-11  855  	else
-886e67100b904c drivers/pci/controller/vmd.c Nirmal Patel      2022-05-11  856  		dev_set_msi_domain(&vmd->bus->dev,
-886e67100b904c drivers/pci/controller/vmd.c Nirmal Patel      2022-05-11  857  				   dev_get_msi_domain(&vmd->dev->dev));
-0294951030eb8e drivers/pci/controller/vmd.c Jon Derrick       2018-12-13  858  
-59dc33252ee777 drivers/pci/controller/vmd.c Rafael J. Wysocki 2021-08-24  859  	vmd_acpi_begin();
-59dc33252ee777 drivers/pci/controller/vmd.c Rafael J. Wysocki 2021-08-24  860  
-0294951030eb8e drivers/pci/controller/vmd.c Jon Derrick       2018-12-13  861  	pci_scan_child_bus(vmd->bus);
-6aab5622296b99 drivers/pci/controller/vmd.c Nirmal Patel      2021-11-16  862  	vmd_domain_reset(vmd);
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  863  
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  864  	/* When Intel VMD is enabled, the OS does not discover the Root Ports
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  865  	 * owned by Intel VMD within the MMCFG space. pci_reset_bus() applies
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  866  	 * a reset to the parent of the PCI device supplied as argument. This
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  867  	 * is why we pass a child device, so the reset can be triggered at
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  868  	 * the Intel bridge level and propagated to all the children in the
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  869  	 * hierarchy.
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  870  	 */
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  871  	list_for_each_entry(child, &vmd->bus->children, node) {
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  872  		if (!list_empty(&child->devices)) {
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  873  			dev = list_first_entry(&child->devices,
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  874  					       struct pci_dev, bus_list);
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  875  			if (pci_reset_bus(dev))
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05 @876  				pci_warn(dev, "can't reset device: %d\n", ret);
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   945  struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   946  			  unsigned int flags)
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   947  {
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   948  	struct ovl_entry *oe;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   949  	const struct cred *old_cred;
+6b2d5fe46fa8f4 Miklos Szeredi      2016-12-16   950  	struct ovl_fs *ofs = dentry->d_sb->s_fs_info;
+32a17d7733687a Amir Goldstein      2023-03-15   951  	struct ovl_entry *poe = OVL_E(dentry->d_parent);
+32a17d7733687a Amir Goldstein      2023-03-15   952  	struct ovl_entry *roe = OVL_E(dentry->d_sb->s_root);
+9d3dfea3d35a32 Vivek Goyal         2018-05-11   953  	struct ovl_path *stack = NULL, *origin_path = NULL;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   954  	struct dentry *upperdir, *upperdentry = NULL;
+ad1d615cec1c97 Amir Goldstein      2018-01-11   955  	struct dentry *origin = NULL;
+359f392ca53e91 Amir Goldstein      2017-06-21   956  	struct dentry *index = NULL;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   957  	unsigned int ctr = 0;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   958  	struct inode *inode = NULL;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   959  	bool upperopaque = false;
+02b69b284cd781 Miklos Szeredi      2016-12-16   960  	char *upperredirect = NULL;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   961  	struct dentry *this;
+dc6fca4068e804 Amir Goldstein      2023-05-25   962  	unsigned long xino;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   963  	unsigned int i;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   964  	int err;
+6815f479ca90ee Vivek Goyal         2020-06-01   965  	bool uppermetacopy = false;
+e28edc46b8e29d Miklos Szeredi      2016-12-16   966  	struct ovl_lookup_data d = {
+146d62e5a5867f Amir Goldstein      2019-04-18   967  		.sb = dentry->d_sb,
+e28edc46b8e29d Miklos Szeredi      2016-12-16   968  		.name = dentry->d_name,
+e28edc46b8e29d Miklos Szeredi      2016-12-16   969  		.is_dir = false,
+e28edc46b8e29d Miklos Szeredi      2016-12-16   970  		.opaque = false,
+e28edc46b8e29d Miklos Szeredi      2016-12-16   971  		.stop = false,
+a1ac2bc808c50e Amir Goldstein      2023-04-03   972  		.last = ofs->config.redirect_follow ? false : !ovl_numlower(poe),
+02b69b284cd781 Miklos Szeredi      2016-12-16   973  		.redirect = NULL,
+9d3dfea3d35a32 Vivek Goyal         2018-05-11   974  		.metacopy = false,
+e28edc46b8e29d Miklos Szeredi      2016-12-16   975  	};
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   976  
+6b2d5fe46fa8f4 Miklos Szeredi      2016-12-16   977  	if (dentry->d_name.len > ofs->namelen)
+6b2d5fe46fa8f4 Miklos Szeredi      2016-12-16   978  		return ERR_PTR(-ENAMETOOLONG);
+6b2d5fe46fa8f4 Miklos Szeredi      2016-12-16   979  
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   980  	old_cred = ovl_override_creds(dentry->d_sb);
+09d8b586731bf5 Miklos Szeredi      2017-07-04   981  	upperdir = ovl_dentry_upper(dentry->d_parent);
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   982  	if (upperdir) {
+dad7017a840d8d Christian Brauner   2022-04-04   983  		d.mnt = ovl_upper_mnt(ofs);
+1434a65ea625c5 Chengguang Xu       2020-05-26   984  		err = ovl_lookup_layer(upperdir, &d, &upperdentry, true);
+e28edc46b8e29d Miklos Szeredi      2016-12-16   985  		if (err)
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   986  			goto out;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   987  
+bccece1ead3681 Miklos Szeredi      2020-03-17   988  		if (upperdentry && upperdentry->d_flags & DCACHE_OP_REAL) {
+e28edc46b8e29d Miklos Szeredi      2016-12-16   989  			dput(upperdentry);
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   990  			err = -EREMOTE;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   991  			goto out;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   992  		}
+a9d019573e8814 Amir Goldstein      2017-04-30   993  		if (upperdentry && !d.is_dir) {
+f7d3daca7c79d9 Amir Goldstein      2017-06-21   994  			/*
+f7d3daca7c79d9 Amir Goldstein      2017-06-21   995  			 * Lookup copy up origin by decoding origin file handle.
+f7d3daca7c79d9 Amir Goldstein      2017-06-21   996  			 * We may get a disconnected dentry, which is fine,
+f7d3daca7c79d9 Amir Goldstein      2017-06-21   997  			 * because we only need to hold the origin inode in
+f7d3daca7c79d9 Amir Goldstein      2017-06-21   998  			 * cache and use its inode number.  We may even get a
+f7d3daca7c79d9 Amir Goldstein      2017-06-21   999  			 * connected dentry, that is not under any of the lower
+f7d3daca7c79d9 Amir Goldstein      2017-06-21  1000  			 * layers root.  That is also fine for using it's inode
+f7d3daca7c79d9 Amir Goldstein      2017-06-21  1001  			 * number - it's the same as if we held a reference
+f7d3daca7c79d9 Amir Goldstein      2017-06-21  1002  			 * to a dentry in lower layer that was moved under us.
+f7d3daca7c79d9 Amir Goldstein      2017-06-21  1003  			 */
+dc6fca4068e804 Amir Goldstein      2023-05-25  1004  			err = ovl_check_origin(ofs, upperdentry, &origin_path,
+dc6fca4068e804 Amir Goldstein      2023-05-25  1005  					       &xino);
+a9d019573e8814 Amir Goldstein      2017-04-30  1006  			if (err)
+5455f92b54e516 Vivek Goyal         2017-11-01  1007  				goto out_put_upper;
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1008  
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1009  			if (d.metacopy)
+6815f479ca90ee Vivek Goyal         2020-06-01  1010  				uppermetacopy = true;
+a9d019573e8814 Amir Goldstein      2017-04-30  1011  		}
 
-"ret" is not set here.  No use printing it.
+"xino" not initialized on else path.
 
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  877  
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  878  			break;
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  879  		}
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  880  	}
-0a584655ef8954 drivers/pci/controller/vmd.c Francisco Munoz   2022-12-05  881  
-0294951030eb8e drivers/pci/controller/vmd.c Jon Derrick       2018-12-13  882  	pci_assign_unassigned_bus_resources(vmd->bus);
-0294951030eb8e drivers/pci/controller/vmd.c Jon Derrick       2018-12-13  883  
-0294951030eb8e drivers/pci/controller/vmd.c Jon Derrick       2018-12-13  884  	/*
-0294951030eb8e drivers/pci/controller/vmd.c Jon Derrick       2018-12-13  885  	 * VMD root buses are virtual and don't return true on pci_is_pcie()
-0294951030eb8e drivers/pci/controller/vmd.c Jon Derrick       2018-12-13  886  	 * and will fail pcie_bus_configure_settings() early. It can instead be
-0294951030eb8e drivers/pci/controller/vmd.c Jon Derrick       2018-12-13  887  	 * run on each of the real root ports.
-0294951030eb8e drivers/pci/controller/vmd.c Jon Derrick       2018-12-13  888  	 */
-0294951030eb8e drivers/pci/controller/vmd.c Jon Derrick       2018-12-13  889  	list_for_each_entry(child, &vmd->bus->children, node)
-0294951030eb8e drivers/pci/controller/vmd.c Jon Derrick       2018-12-13  890  		pcie_bus_configure_settings(child);
-0294951030eb8e drivers/pci/controller/vmd.c Jon Derrick       2018-12-13  891  
-0294951030eb8e drivers/pci/controller/vmd.c Jon Derrick       2018-12-13  892  	pci_bus_add_devices(vmd->bus);
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  893  
-59dc33252ee777 drivers/pci/controller/vmd.c Rafael J. Wysocki 2021-08-24  894  	vmd_acpi_end();
-59dc33252ee777 drivers/pci/controller/vmd.c Rafael J. Wysocki 2021-08-24  895  
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  896  	WARN(sysfs_create_link(&vmd->dev->dev.kobj, &vmd->bus->dev.kobj,
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  897  			       "domain"), "Can't create symlink to domain\n");
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  898  	return 0;
-185a383ada2e77 arch/x86/pci/vmd.c           Keith Busch       2016-01-12  899  }
+02b69b284cd781 Miklos Szeredi      2016-12-16  1012  
+02b69b284cd781 Miklos Szeredi      2016-12-16  1013  		if (d.redirect) {
+0ce5cdc9d79277 Dan Carpenter       2017-09-22  1014  			err = -ENOMEM;
+02b69b284cd781 Miklos Szeredi      2016-12-16  1015  			upperredirect = kstrdup(d.redirect, GFP_KERNEL);
+02b69b284cd781 Miklos Szeredi      2016-12-16  1016  			if (!upperredirect)
+02b69b284cd781 Miklos Szeredi      2016-12-16  1017  				goto out_put_upper;
+02b69b284cd781 Miklos Szeredi      2016-12-16  1018  			if (d.redirect[0] == '/')
+c22205d0584bc6 Amir Goldstein      2017-04-26  1019  				poe = roe;
+02b69b284cd781 Miklos Szeredi      2016-12-16  1020  		}
+e28edc46b8e29d Miklos Szeredi      2016-12-16  1021  		upperopaque = d.opaque;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1022  	}
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1023  
+a1ac2bc808c50e Amir Goldstein      2023-04-03  1024  	if (!d.stop && ovl_numlower(poe)) {
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1025  		err = -ENOMEM;
+e07253481cf7a7 Amir Goldstein      2023-04-03  1026  		stack = ovl_stack_alloc(ofs->numlayer - 1);
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1027  		if (!stack)
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1028  			goto out_put_upper;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1029  	}
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1030  
+a1ac2bc808c50e Amir Goldstein      2023-04-03  1031  	for (i = 0; !d.stop && i < ovl_numlower(poe); i++) {
+a1ac2bc808c50e Amir Goldstein      2023-04-03  1032  		struct ovl_path lower = ovl_lowerstack(poe)[i];
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1033  
+452061fd4521b2 Vivek Goyal         2018-03-09  1034  		if (!ofs->config.redirect_follow)
+a1ac2bc808c50e Amir Goldstein      2023-04-03  1035  			d.last = i == ovl_numlower(poe) - 1;
+87424be97b2a7d Amir Goldstein      2023-04-27  1036  		else if (d.is_dir || !ofs->numdatalayer)
+a1ac2bc808c50e Amir Goldstein      2023-04-03  1037  			d.last = lower.layer->idx == ovl_numlower(roe);
+452061fd4521b2 Vivek Goyal         2018-03-09  1038  
+dad7017a840d8d Christian Brauner   2022-04-04  1039  		d.mnt = lower.layer->mnt;
+1434a65ea625c5 Chengguang Xu       2020-05-26  1040  		err = ovl_lookup_layer(lower.dentry, &d, &this, false);
+e28edc46b8e29d Miklos Szeredi      2016-12-16  1041  		if (err)
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1042  			goto out_put;
+6b2d5fe46fa8f4 Miklos Szeredi      2016-12-16  1043  
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1044  		if (!this)
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1045  			continue;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1046  
+6815f479ca90ee Vivek Goyal         2020-06-01  1047  		if ((uppermetacopy || d.metacopy) && !ofs->config.metacopy) {
+eaab1d45cdb4bb Mickaël Salaün      2021-03-29  1048  			dput(this);
+6815f479ca90ee Vivek Goyal         2020-06-01  1049  			err = -EPERM;
+6815f479ca90ee Vivek Goyal         2020-06-01  1050  			pr_warn_ratelimited("refusing to follow metacopy origin for (%pd2)\n", dentry);
+6815f479ca90ee Vivek Goyal         2020-06-01  1051  			goto out_put;
+6815f479ca90ee Vivek Goyal         2020-06-01  1052  		}
+6815f479ca90ee Vivek Goyal         2020-06-01  1053  
+9678e630305724 Amir Goldstein      2018-01-03  1054  		/*
+9678e630305724 Amir Goldstein      2018-01-03  1055  		 * If no origin fh is stored in upper of a merge dir, store fh
+9678e630305724 Amir Goldstein      2018-01-03  1056  		 * of lower dir and set upper parent "impure".
+9678e630305724 Amir Goldstein      2018-01-03  1057  		 */
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1058  		if (upperdentry && !ctr && !ofs->noxattr && d.is_dir) {
+610afc0bd40882 Miklos Szeredi      2020-09-02  1059  			err = ovl_fix_origin(ofs, dentry, this, upperdentry);
+9678e630305724 Amir Goldstein      2018-01-03  1060  			if (err) {
+9678e630305724 Amir Goldstein      2018-01-03  1061  				dput(this);
+9678e630305724 Amir Goldstein      2018-01-03  1062  				goto out_put;
+9678e630305724 Amir Goldstein      2018-01-03  1063  			}
+9678e630305724 Amir Goldstein      2018-01-03  1064  		}
+9678e630305724 Amir Goldstein      2018-01-03  1065  
+37b12916c0f802 Amir Goldstein      2018-01-10  1066  		/*
+37b12916c0f802 Amir Goldstein      2018-01-10  1067  		 * When "verify_lower" feature is enabled, do not merge with a
+ad1d615cec1c97 Amir Goldstein      2018-01-11  1068  		 * lower dir that does not match a stored origin xattr. In any
+ad1d615cec1c97 Amir Goldstein      2018-01-11  1069  		 * case, only verified origin is used for index lookup.
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1070  		 *
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1071  		 * For non-dir dentry, if index=on, then ensure origin
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1072  		 * matches the dentry found using path based lookup,
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1073  		 * otherwise error out.
+37b12916c0f802 Amir Goldstein      2018-01-10  1074  		 */
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1075  		if (upperdentry && !ctr &&
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1076  		    ((d.is_dir && ovl_verify_lower(dentry->d_sb)) ||
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1077  		     (!d.is_dir && ofs->config.index && origin_path))) {
+610afc0bd40882 Miklos Szeredi      2020-09-02  1078  			err = ovl_verify_origin(ofs, upperdentry, this, false);
+37b12916c0f802 Amir Goldstein      2018-01-10  1079  			if (err) {
+37b12916c0f802 Amir Goldstein      2018-01-10  1080  				dput(this);
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1081  				if (d.is_dir)
+37b12916c0f802 Amir Goldstein      2018-01-10  1082  					break;
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1083  				goto out_put;
+37b12916c0f802 Amir Goldstein      2018-01-10  1084  			}
+ad1d615cec1c97 Amir Goldstein      2018-01-11  1085  			origin = this;
+37b12916c0f802 Amir Goldstein      2018-01-10  1086  		}
+37b12916c0f802 Amir Goldstein      2018-01-10  1087  
+21d8d66abffb0c Vivek Goyal         2020-06-02  1088  		if (d.metacopy && ctr) {
+21d8d66abffb0c Vivek Goyal         2020-06-02  1089  			/*
+21d8d66abffb0c Vivek Goyal         2020-06-02  1090  			 * Do not store intermediate metacopy dentries in
+21d8d66abffb0c Vivek Goyal         2020-06-02  1091  			 * lower chain, except top most lower metacopy dentry.
+21d8d66abffb0c Vivek Goyal         2020-06-02  1092  			 * Continue the loop so that if there is an absolute
+21d8d66abffb0c Vivek Goyal         2020-06-02  1093  			 * redirect on this dentry, poe can be reset to roe.
+21d8d66abffb0c Vivek Goyal         2020-06-02  1094  			 */
+21d8d66abffb0c Vivek Goyal         2020-06-02  1095  			dput(this);
+21d8d66abffb0c Vivek Goyal         2020-06-02  1096  			this = NULL;
+21d8d66abffb0c Vivek Goyal         2020-06-02  1097  		} else {
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1098  			stack[ctr].dentry = this;
+b93436320c1e90 Chandan Rajendra    2017-07-24  1099  			stack[ctr].layer = lower.layer;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1100  			ctr++;
+21d8d66abffb0c Vivek Goyal         2020-06-02  1101  		}
+02b69b284cd781 Miklos Szeredi      2016-12-16  1102  
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1103  		/*
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1104  		 * Following redirects can have security consequences: it's like
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1105  		 * a symlink into the lower layer without the permission checks.
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1106  		 * This is only a problem if the upper layer is untrusted (e.g
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1107  		 * comes from an USB drive).  This can allow a non-readable file
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1108  		 * or directory to become readable.
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1109  		 *
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1110  		 * Only following redirects when redirects are enabled disables
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1111  		 * this attack vector when not necessary.
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1112  		 */
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1113  		err = -EPERM;
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1114  		if (d.redirect && !ofs->config.redirect_follow) {
+1bd0a3aea4357e lijiazi             2019-12-16  1115  			pr_warn_ratelimited("refusing to follow redirect for (%pd2)\n",
+f81678173ce25a Amir Goldstein      2017-12-18  1116  					    dentry);
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1117  			goto out_put;
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1118  		}
+438c84c2f0c794 Miklos Szeredi      2017-12-11  1119  
+d1fe96c0e4de78 Vivek Goyal         2018-02-02  1120  		if (d.stop)
+d1fe96c0e4de78 Vivek Goyal         2018-02-02  1121  			break;
+d1fe96c0e4de78 Vivek Goyal         2018-02-02  1122  
+c22205d0584bc6 Amir Goldstein      2017-04-26  1123  		if (d.redirect && d.redirect[0] == '/' && poe != roe) {
+c22205d0584bc6 Amir Goldstein      2017-04-26  1124  			poe = roe;
+02b69b284cd781 Miklos Szeredi      2016-12-16  1125  			/* Find the current layer on the root dentry */
+d583ed7d138825 Amir Goldstein      2017-11-08  1126  			i = lower.layer->idx - 1;
+02b69b284cd781 Miklos Szeredi      2016-12-16  1127  		}
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1128  	}
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1129  
+098509a162694f Amir Goldstein      2023-04-27  1130  	/* Defer lookup of lowerdata in data-only layers to first access */
+87424be97b2a7d Amir Goldstein      2023-04-27  1131  	if (d.metacopy && ctr && ofs->numdatalayer && d.absolute_redirect) {
+87424be97b2a7d Amir Goldstein      2023-04-27  1132  		d.metacopy = false;
+87424be97b2a7d Amir Goldstein      2023-04-27  1133  		ctr++;
+87424be97b2a7d Amir Goldstein      2023-04-27  1134  	}
+87424be97b2a7d Amir Goldstein      2023-04-27  1135  
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1136  	/*
+6815f479ca90ee Vivek Goyal         2020-06-01  1137  	 * For regular non-metacopy upper dentries, there is no lower
+6815f479ca90ee Vivek Goyal         2020-06-01  1138  	 * path based lookup, hence ctr will be zero. If a dentry is found
+6815f479ca90ee Vivek Goyal         2020-06-01  1139  	 * using ORIGIN xattr on upper, install it in stack.
+6815f479ca90ee Vivek Goyal         2020-06-01  1140  	 *
+6815f479ca90ee Vivek Goyal         2020-06-01  1141  	 * For metacopy dentry, path based lookup will find lower dentries.
+6815f479ca90ee Vivek Goyal         2020-06-01  1142  	 * Just make sure a corresponding data dentry has been found.
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1143  	 */
+6815f479ca90ee Vivek Goyal         2020-06-01  1144  	if (d.metacopy || (uppermetacopy && !ctr)) {
+0a8d0b64dd6acf Kevin Locke         2020-08-23  1145  		pr_warn_ratelimited("metacopy with no lower data found - abort lookup (%pd2)\n",
+0a8d0b64dd6acf Kevin Locke         2020-08-23  1146  				    dentry);
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1147  		err = -EIO;
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1148  		goto out_put;
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1149  	} else if (!d.is_dir && upperdentry && !ctr && origin_path) {
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1150  		if (WARN_ON(stack != NULL)) {
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1151  			err = -EIO;
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1152  			goto out_put;
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1153  		}
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1154  		stack = origin_path;
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1155  		ctr = 1;
+59fb20138a9b52 Vivek Goyal         2020-06-01  1156  		origin = origin_path->dentry;
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1157  		origin_path = NULL;
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1158  	}
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1159  
+ad1d615cec1c97 Amir Goldstein      2018-01-11  1160  	/*
+59fb20138a9b52 Vivek Goyal         2020-06-01  1161  	 * Always lookup index if there is no-upperdentry.
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1162  	 *
+59fb20138a9b52 Vivek Goyal         2020-06-01  1163  	 * For the case of upperdentry, we have set origin by now if it
+59fb20138a9b52 Vivek Goyal         2020-06-01  1164  	 * needed to be set. There are basically three cases.
+59fb20138a9b52 Vivek Goyal         2020-06-01  1165  	 *
+59fb20138a9b52 Vivek Goyal         2020-06-01  1166  	 * For directories, lookup index by lower inode and verify it matches
+59fb20138a9b52 Vivek Goyal         2020-06-01  1167  	 * upper inode. We only trust dir index if we verified that lower dir
+59fb20138a9b52 Vivek Goyal         2020-06-01  1168  	 * matches origin, otherwise dir index entries may be inconsistent
+59fb20138a9b52 Vivek Goyal         2020-06-01  1169  	 * and we ignore them.
+59fb20138a9b52 Vivek Goyal         2020-06-01  1170  	 *
+59fb20138a9b52 Vivek Goyal         2020-06-01  1171  	 * For regular upper, we already set origin if upper had ORIGIN
+59fb20138a9b52 Vivek Goyal         2020-06-01  1172  	 * xattr. There is no verification though as there is no path
+59fb20138a9b52 Vivek Goyal         2020-06-01  1173  	 * based dentry lookup in lower in this case.
+59fb20138a9b52 Vivek Goyal         2020-06-01  1174  	 *
+59fb20138a9b52 Vivek Goyal         2020-06-01  1175  	 * For metacopy upper, we set a verified origin already if index
+59fb20138a9b52 Vivek Goyal         2020-06-01  1176  	 * is enabled and if upper had an ORIGIN xattr.
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1177  	 *
+ad1d615cec1c97 Amir Goldstein      2018-01-11  1178  	 */
+59fb20138a9b52 Vivek Goyal         2020-06-01  1179  	if (!upperdentry && ctr)
+ad1d615cec1c97 Amir Goldstein      2018-01-11  1180  		origin = stack[0].dentry;
+359f392ca53e91 Amir Goldstein      2017-06-21  1181  
+ad1d615cec1c97 Amir Goldstein      2018-01-11  1182  	if (origin && ovl_indexdir(dentry->d_sb) &&
+ad1d615cec1c97 Amir Goldstein      2018-01-11  1183  	    (!d.is_dir || ovl_index_all(dentry->d_sb))) {
+061701540349c3 Amir Goldstein      2018-01-17  1184  		index = ovl_lookup_index(ofs, upperdentry, origin, true);
+359f392ca53e91 Amir Goldstein      2017-06-21  1185  		if (IS_ERR(index)) {
+359f392ca53e91 Amir Goldstein      2017-06-21  1186  			err = PTR_ERR(index);
+359f392ca53e91 Amir Goldstein      2017-06-21  1187  			index = NULL;
+359f392ca53e91 Amir Goldstein      2017-06-21  1188  			goto out_put;
+359f392ca53e91 Amir Goldstein      2017-06-21  1189  		}
+359f392ca53e91 Amir Goldstein      2017-06-21  1190  	}
+359f392ca53e91 Amir Goldstein      2017-06-21  1191  
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1192  	oe = ovl_alloc_entry(ctr);
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1193  	err = -ENOMEM;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1194  	if (!oe)
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1195  		goto out_put;
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1196  
+e07253481cf7a7 Amir Goldstein      2023-04-03  1197  	ovl_stack_cpy(ovl_lowerstack(oe), stack, ctr);
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1198  
+c62520a83bceae Amir Goldstein      2018-01-14  1199  	if (upperopaque)
+c62520a83bceae Amir Goldstein      2018-01-14  1200  		ovl_dentry_set_opaque(dentry);
+c62520a83bceae Amir Goldstein      2018-01-14  1201  
+55acc6618259c8 Miklos Szeredi      2017-07-04  1202  	if (upperdentry)
+55acc6618259c8 Miklos Szeredi      2017-07-04  1203  		ovl_dentry_set_upper_alias(dentry);
+0a2d0d3f2f291e Vivek Goyal         2018-05-11  1204  	else if (index) {
+dad7017a840d8d Christian Brauner   2022-04-04  1205  		struct path upperpath = {
+dad7017a840d8d Christian Brauner   2022-04-04  1206  			.dentry = upperdentry = dget(index),
+dad7017a840d8d Christian Brauner   2022-04-04  1207  			.mnt = ovl_upper_mnt(ofs),
+dad7017a840d8d Christian Brauner   2022-04-04  1208  		};
+dad7017a840d8d Christian Brauner   2022-04-04  1209  
+cf4ef7801a8c88 Stanislav Goriainov 2022-08-31  1210  		/*
+cf4ef7801a8c88 Stanislav Goriainov 2022-08-31  1211  		 * It's safe to assign upperredirect here: the previous
+cf4ef7801a8c88 Stanislav Goriainov 2022-08-31  1212  		 * assignment of happens only if upperdentry is non-NULL, and
+cf4ef7801a8c88 Stanislav Goriainov 2022-08-31  1213  		 * this one only if upperdentry is NULL.
+cf4ef7801a8c88 Stanislav Goriainov 2022-08-31  1214  		 */
+dad7017a840d8d Christian Brauner   2022-04-04  1215  		upperredirect = ovl_get_redirect_xattr(ofs, &upperpath, 0);
+0a2d0d3f2f291e Vivek Goyal         2018-05-11  1216  		if (IS_ERR(upperredirect)) {
+0a2d0d3f2f291e Vivek Goyal         2018-05-11  1217  			err = PTR_ERR(upperredirect);
+0a2d0d3f2f291e Vivek Goyal         2018-05-11  1218  			upperredirect = NULL;
+0a2d0d3f2f291e Vivek Goyal         2018-05-11  1219  			goto out_free_oe;
+0a2d0d3f2f291e Vivek Goyal         2018-05-11  1220  		}
+dad7017a840d8d Christian Brauner   2022-04-04  1221  		err = ovl_check_metacopy_xattr(ofs, &upperpath);
+4518dfcf761e3c Amir Goldstein      2020-07-15  1222  		if (err < 0)
+4518dfcf761e3c Amir Goldstein      2020-07-15  1223  			goto out_free_oe;
+4518dfcf761e3c Amir Goldstein      2020-07-15  1224  		uppermetacopy = err;
+0a2d0d3f2f291e Vivek Goyal         2018-05-11  1225  	}
+359f392ca53e91 Amir Goldstein      2017-06-21  1226  
+e6d2ebddbc5205 Miklos Szeredi      2017-07-04  1227  	if (upperdentry || ctr) {
+ac6a52eb65b532 Vivek Goyal         2018-05-08  1228  		struct ovl_inode_params oip = {
+ac6a52eb65b532 Vivek Goyal         2018-05-08  1229  			.upperdentry = upperdentry,
+70142d99656656 Amir Goldstein      2023-04-08  1230  			.oe = oe,
+dc6fca4068e804 Amir Goldstein      2023-05-25 @1231  			.xino = xino,
+                                                                        ^^^^^^^^^^^^
+Warning.
+
+ac6a52eb65b532 Vivek Goyal         2018-05-08  1232  			.index = index,
+9cec54c83a8bab Vivek Goyal         2018-05-11  1233  			.redirect = upperredirect,
+ac6a52eb65b532 Vivek Goyal         2018-05-08  1234  		};
+ac6a52eb65b532 Vivek Goyal         2018-05-08  1235  
+0612dea94ff5bf Amir Goldstein      2023-04-27  1236  		/* Store lowerdata redirect for lazy lookup */
+0612dea94ff5bf Amir Goldstein      2023-04-27  1237  		if (ctr > 1 && !d.is_dir && !stack[ctr - 1].dentry) {
+0612dea94ff5bf Amir Goldstein      2023-04-27  1238  			oip.lowerdata_redirect = d.redirect;
+0612dea94ff5bf Amir Goldstein      2023-04-27  1239  			d.redirect = NULL;
+0612dea94ff5bf Amir Goldstein      2023-04-27  1240  		}
+ac6a52eb65b532 Vivek Goyal         2018-05-08  1241  		inode = ovl_get_inode(dentry->d_sb, &oip);
+b9ac5c274b8c9d Miklos Szeredi      2017-07-04  1242  		err = PTR_ERR(inode);
+b9ac5c274b8c9d Miklos Szeredi      2017-07-04  1243  		if (IS_ERR(inode))
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1244  			goto out_free_oe;
+28166ab3c875b8 Vivek Goyal         2020-06-01  1245  		if (upperdentry && !uppermetacopy)
+28166ab3c875b8 Vivek Goyal         2020-06-01  1246  			ovl_set_flag(OVL_UPPERDATA, inode);
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1247  	}
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1248  
+70142d99656656 Amir Goldstein      2023-04-08  1249  	ovl_dentry_init_reval(dentry, upperdentry, OVL_I_E(inode));
+f4288844561922 Miklos Szeredi      2020-03-17  1250  
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1251  	revert_creds(old_cred);
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1252  	if (origin_path) {
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1253  		dput(origin_path->dentry);
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1254  		kfree(origin_path);
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1255  	}
+359f392ca53e91 Amir Goldstein      2017-06-21  1256  	dput(index);
+e07253481cf7a7 Amir Goldstein      2023-04-03  1257  	ovl_stack_free(stack, ctr);
+02b69b284cd781 Miklos Szeredi      2016-12-16  1258  	kfree(d.redirect);
+829c28be9bb9a0 Amir Goldstein      2017-09-29  1259  	return d_splice_alias(inode, dentry);
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1260  
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1261  out_free_oe:
+e07253481cf7a7 Amir Goldstein      2023-04-03  1262  	ovl_free_entry(oe);
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1263  out_put:
+359f392ca53e91 Amir Goldstein      2017-06-21  1264  	dput(index);
+e07253481cf7a7 Amir Goldstein      2023-04-03  1265  	ovl_stack_free(stack, ctr);
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1266  out_put_upper:
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1267  	if (origin_path) {
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1268  		dput(origin_path->dentry);
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1269  		kfree(origin_path);
+9d3dfea3d35a32 Vivek Goyal         2018-05-11  1270  	}
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1271  	dput(upperdentry);
+02b69b284cd781 Miklos Szeredi      2016-12-16  1272  	kfree(upperredirect);
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1273  out:
+02b69b284cd781 Miklos Szeredi      2016-12-16  1274  	kfree(d.redirect);
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1275  	revert_creds(old_cred);
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1276  	return ERR_PTR(err);
+bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1277  }
 
 -- 
 0-DAY CI Kernel Test Service
