@@ -1,155 +1,128 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857F07E
-	for <oe-kbuild@lists.linux.dev>; Sat, 27 May 2023 20:22:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685218936; x=1716754936;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=MZbzZLJ2IgSrQkuA6oMHj+c5gT2hBawUK9w8YGThtYI=;
-  b=oBKeXJWI0b3mXrUr7fNsY+9RgM82iBMT8CxLID2ElTkHuxt9rd8tAOdC
-   XX+iecTHf5+Ih48KIGTQcN+I3bwMWxzQVHv/ACD5n++1vf91uTFCaoO0V
-   IrYuvHB1cbhh0w5bubQvg8gh6CsGey44O3IrmZHtn7IbpGsaRxpGz89uA
-   uyijKz4b2jqr3DOaL49ZEuouXQXNq0HA8fg/Tbdgto6+IhIB/QdO6JNGK
-   2C0L1dvJmGVVPwngBV5q/lAWyaqaFzbYVcRRBwgT2zQPRJUtNkwNHA2d5
-   K0gmUuEJmmVa9sZxW0MDciZzesIIlbItISikBdAwMR9M78yo5RkzSGFKJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="440795920"
-X-IronPort-AV: E=Sophos;i="6.00,197,1681196400"; 
-   d="scan'208";a="440795920"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 13:22:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="708763108"
-X-IronPort-AV: E=Sophos;i="6.00,197,1681196400"; 
-   d="scan'208";a="708763108"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 27 May 2023 13:22:14 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q30QX-000KAk-0w;
-	Sat, 27 May 2023 20:22:13 +0000
-Date: Sun, 28 May 2023 04:21:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 01/15] drm/i915/plane: warn on non-zero plane
- offset
-Message-ID: <202305280453.8yzCMS2i-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4238B9461
+	for <oe-kbuild@lists.linux.dev>; Sat, 27 May 2023 22:31:35 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1q32RP-0008Lp-VI; Sun, 28 May 2023 00:31:16 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1q32RM-003HGI-6W; Sun, 28 May 2023 00:31:12 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1q32RL-008Zwc-ES; Sun, 28 May 2023 00:31:11 +0200
+Date: Sun, 28 May 2023 00:31:11 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Prathu Baronia <prathubaronia2011@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH v4 3/3] axis-fifo: cleanup space issues with fops struct
+Message-ID: <20230527223111.jidik3ffcsxdkenb@pengutronix.de>
+References: <ZHHE/H2p4Go/Igc/@redkillpc>
+ <20230527115101.47569-1-prathubaronia2011@gmail.com>
+ <20230527115101.47569-3-prathubaronia2011@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cdvvvrjjz27c3mvb"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230527115101.47569-3-prathubaronia2011@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild@lists.linux.dev
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <0988d237e56c56568f035053da8e2e2308a17d3a.1685119007.git.jani.nikula@intel.com>
-References: <0988d237e56c56568f035053da8e2e2308a17d3a.1685119007.git.jani.nikula@intel.com>
-TO: Jani Nikula <jani.nikula@intel.com>
-TO: intel-gfx@lists.freedesktop.org
-CC: jani.nikula@intel.com
 
-Hi Jani,
+--cdvvvrjjz27c3mvb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-kernel test robot noticed the following build warnings:
+Hello,
 
-[auto build test WARNING on drm-tip/drm-tip]
+On Sat, May 27, 2023 at 05:21:00PM +0530, Prathu Baronia wrote:
+> Add required spaces for proper formatting of fops members for better
+> readability.
+>=20
+> Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
+> ---
+>  drivers/staging/axis-fifo/axis-fifo.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis=
+-fifo/axis-fifo.c
+> index d71bdc6dd961..59e962467a3d 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -716,11 +716,11 @@ static int axis_fifo_close(struct inode *inod, stru=
+ct file *f)
+>  }
+> =20
+>  static const struct file_operations fops =3D {
+> -	.owner =3D THIS_MODULE,
+> -	.open =3D axis_fifo_open,
+> +	.owner   =3D THIS_MODULE,
+> +	.open    =3D axis_fifo_open,
+>  	.release =3D axis_fifo_close,
+> -	.read =3D axis_fifo_read,
+> -	.write =3D axis_fifo_write
+> +	.read    =3D axis_fifo_read,
+> +	.write   =3D axis_fifo_write
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i915-plane-warn-on-non-zero-plane-offset/20230527-003951
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/0988d237e56c56568f035053da8e2e2308a17d3a.1685119007.git.jani.nikula%40intel.com
-patch subject: [Intel-gfx] [PATCH 01/15] drm/i915/plane: warn on non-zero plane offset
-:::::: branch date: 28 hours ago
-:::::: commit date: 28 hours ago
-config: x86_64-randconfig-m031-20230526 (https://download.01.org/0day-ci/archive/20230528/202305280453.8yzCMS2i-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+Note this is only subjectively better. IMHO with just a single space
+this is perfectly readable. Aligning the =3D might look nice, but it's
+also annoying at times. When you add another member (e.g.
+=2Eiterate_shared) you either add a line that doesn't match all others, or
+you have to touch all other lines of that struct which (objectively?)
+hurts readability of that patch. Also for generated patches this kind of
+alignment yields extra work. (See for example
+https://lore.kernel.org/lkml/20230525205840.734432-1-u.kleine-koenig@pengut=
+ronix.de/
+which required semi-manual fixup to keep the alignment after coccinelle
+generated the patch.)
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202305280453.8yzCMS2i-lkp@intel.com/
+If you still think this is a good idea, I'd ask you to stick to one
+style for the whole file. e.g. axis_fifo_driver uses inconsistent
+and different indention.
 
-smatch warnings:
-drivers/gpu/drm/i915/display/i9xx_plane.c:1040 i9xx_get_initial_plane_config() error: uninitialized symbol 'offset'.
+A thing that IMHO is more useful to change here, is the name fops; I'd
+suggest something like axis_fifo_fops (and also use prefixes for some
+other symbols like "get_dts_property"). In 6.4-rc1 my ctags file knows
+about 64 different places that define something called "fops".
 
-vim +/offset +1040 drivers/gpu/drm/i915/display/i9xx_plane.c
+Just my 0.02=E2=82=AC,
+Uwe
 
-2a3014490cd18a Dave Airlie   2021-02-05   973  
-2a3014490cd18a Dave Airlie   2021-02-05   974  void
-2a3014490cd18a Dave Airlie   2021-02-05   975  i9xx_get_initial_plane_config(struct intel_crtc *crtc,
-2a3014490cd18a Dave Airlie   2021-02-05   976  			      struct intel_initial_plane_config *plane_config)
-2a3014490cd18a Dave Airlie   2021-02-05   977  {
-2a3014490cd18a Dave Airlie   2021-02-05   978  	struct drm_device *dev = crtc->base.dev;
-2a3014490cd18a Dave Airlie   2021-02-05   979  	struct drm_i915_private *dev_priv = to_i915(dev);
-2a3014490cd18a Dave Airlie   2021-02-05   980  	struct intel_plane *plane = to_intel_plane(crtc->base.primary);
-2a3014490cd18a Dave Airlie   2021-02-05   981  	enum i9xx_plane_id i9xx_plane = plane->i9xx_plane;
-2a3014490cd18a Dave Airlie   2021-02-05   982  	enum pipe pipe;
-2a3014490cd18a Dave Airlie   2021-02-05   983  	u32 val, base, offset;
-2a3014490cd18a Dave Airlie   2021-02-05   984  	int fourcc, pixel_format;
-2a3014490cd18a Dave Airlie   2021-02-05   985  	unsigned int aligned_height;
-2a3014490cd18a Dave Airlie   2021-02-05   986  	struct drm_framebuffer *fb;
-2a3014490cd18a Dave Airlie   2021-02-05   987  	struct intel_framebuffer *intel_fb;
-2a3014490cd18a Dave Airlie   2021-02-05   988  
-2a3014490cd18a Dave Airlie   2021-02-05   989  	if (!plane->get_hw_state(plane, &pipe))
-2a3014490cd18a Dave Airlie   2021-02-05   990  		return;
-2a3014490cd18a Dave Airlie   2021-02-05   991  
-2a3014490cd18a Dave Airlie   2021-02-05   992  	drm_WARN_ON(dev, pipe != crtc->pipe);
-2a3014490cd18a Dave Airlie   2021-02-05   993  
-2a3014490cd18a Dave Airlie   2021-02-05   994  	intel_fb = kzalloc(sizeof(*intel_fb), GFP_KERNEL);
-2a3014490cd18a Dave Airlie   2021-02-05   995  	if (!intel_fb) {
-2a3014490cd18a Dave Airlie   2021-02-05   996  		drm_dbg_kms(&dev_priv->drm, "failed to alloc fb\n");
-2a3014490cd18a Dave Airlie   2021-02-05   997  		return;
-2a3014490cd18a Dave Airlie   2021-02-05   998  	}
-2a3014490cd18a Dave Airlie   2021-02-05   999  
-2a3014490cd18a Dave Airlie   2021-02-05  1000  	fb = &intel_fb->base;
-2a3014490cd18a Dave Airlie   2021-02-05  1001  
-2a3014490cd18a Dave Airlie   2021-02-05  1002  	fb->dev = dev;
-2a3014490cd18a Dave Airlie   2021-02-05  1003  
-2a3014490cd18a Dave Airlie   2021-02-05  1004  	val = intel_de_read(dev_priv, DSPCNTR(i9xx_plane));
-2a3014490cd18a Dave Airlie   2021-02-05  1005  
-005e95377249cb Matt Roper    2021-03-19  1006  	if (DISPLAY_VER(dev_priv) >= 4) {
-428cb15d5b0031 Ville Syrjälä 2022-01-21  1007  		if (val & DISP_TILED) {
-2a3014490cd18a Dave Airlie   2021-02-05  1008  			plane_config->tiling = I915_TILING_X;
-2a3014490cd18a Dave Airlie   2021-02-05  1009  			fb->modifier = I915_FORMAT_MOD_X_TILED;
-2a3014490cd18a Dave Airlie   2021-02-05  1010  		}
-2a3014490cd18a Dave Airlie   2021-02-05  1011  
-428cb15d5b0031 Ville Syrjälä 2022-01-21  1012  		if (val & DISP_ROTATE_180)
-2a3014490cd18a Dave Airlie   2021-02-05  1013  			plane_config->rotation = DRM_MODE_ROTATE_180;
-2a3014490cd18a Dave Airlie   2021-02-05  1014  	}
-2a3014490cd18a Dave Airlie   2021-02-05  1015  
-2a3014490cd18a Dave Airlie   2021-02-05  1016  	if (IS_CHERRYVIEW(dev_priv) && pipe == PIPE_B &&
-428cb15d5b0031 Ville Syrjälä 2022-01-21  1017  	    val & DISP_MIRROR)
-2a3014490cd18a Dave Airlie   2021-02-05  1018  		plane_config->rotation |= DRM_MODE_REFLECT_X;
-2a3014490cd18a Dave Airlie   2021-02-05  1019  
-428cb15d5b0031 Ville Syrjälä 2022-01-21  1020  	pixel_format = val & DISP_FORMAT_MASK;
-2a3014490cd18a Dave Airlie   2021-02-05  1021  	fourcc = i9xx_format_to_fourcc(pixel_format);
-2a3014490cd18a Dave Airlie   2021-02-05  1022  	fb->format = drm_format_info(fourcc);
-2a3014490cd18a Dave Airlie   2021-02-05  1023  
-2a3014490cd18a Dave Airlie   2021-02-05  1024  	if (IS_HASWELL(dev_priv) || IS_BROADWELL(dev_priv)) {
-2a3014490cd18a Dave Airlie   2021-02-05  1025  		offset = intel_de_read(dev_priv, DSPOFFSET(i9xx_plane));
-428cb15d5b0031 Ville Syrjälä 2022-01-21  1026  		base = intel_de_read(dev_priv, DSPSURF(i9xx_plane)) & DISP_ADDR_MASK;
-005e95377249cb Matt Roper    2021-03-19  1027  	} else if (DISPLAY_VER(dev_priv) >= 4) {
-2a3014490cd18a Dave Airlie   2021-02-05  1028  		if (plane_config->tiling)
-2a3014490cd18a Dave Airlie   2021-02-05  1029  			offset = intel_de_read(dev_priv,
-2a3014490cd18a Dave Airlie   2021-02-05  1030  					       DSPTILEOFF(i9xx_plane));
-2a3014490cd18a Dave Airlie   2021-02-05  1031  		else
-2a3014490cd18a Dave Airlie   2021-02-05  1032  			offset = intel_de_read(dev_priv,
-2a3014490cd18a Dave Airlie   2021-02-05  1033  					       DSPLINOFF(i9xx_plane));
-428cb15d5b0031 Ville Syrjälä 2022-01-21  1034  		base = intel_de_read(dev_priv, DSPSURF(i9xx_plane)) & DISP_ADDR_MASK;
-2a3014490cd18a Dave Airlie   2021-02-05  1035  	} else {
-2a3014490cd18a Dave Airlie   2021-02-05  1036  		base = intel_de_read(dev_priv, DSPADDR(i9xx_plane));
-2a3014490cd18a Dave Airlie   2021-02-05  1037  	}
-2a3014490cd18a Dave Airlie   2021-02-05  1038  	plane_config->base = base;
-2a3014490cd18a Dave Airlie   2021-02-05  1039  
-40c3d9e9221e23 Jani Nikula   2023-05-26 @1040  	drm_WARN_ON(&dev_priv->drm, offset != 0);
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--cdvvvrjjz27c3mvb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmRyhK4ACgkQj4D7WH0S
+/k4GHQf/UqWfo79tCnSurnPKR+RHhrveNwWlX7kE0wdil5CyIe7xjiG/0TNrS86J
+DBhUGdUczfaKmeuTG3sQKTJowMSmRQyuIxCM37lnJPvYWBAdkuhbsBgHaRNdR5fA
+yIX9vrR9belBqHdMMl7sXdcLoIWdzsKUHL+8p2wiP5Qaz4X7WwyfPmkGLnk5Km49
+k11VFJT2HAdq3zut/83XO4JNIeX0WL3Yzz4LQFVcmLaU6K19dvXXIV/bN0cQEXwR
+hpUGiKWwWpEF9+JaFKIHfCsJ5luB9Nbb+HxU8ph84VOCgG8JFldIfylX1woz06R4
+kQRnDIRnbbALLfda5tit7DxPVRV/OA==
+=8i8o
+-----END PGP SIGNATURE-----
+
+--cdvvvrjjz27c3mvb--
