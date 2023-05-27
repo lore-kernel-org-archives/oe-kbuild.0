@@ -1,415 +1,225 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B8637E
-	for <oe-kbuild@lists.linux.dev>; Sat, 27 May 2023 00:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B19D37D
+	for <oe-kbuild@lists.linux.dev>; Sat, 27 May 2023 02:22:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685148592; x=1716684592;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=t3Uj3Gbk1+1h334E547XjkleXrzENKUMZdtIVpxY4I4=;
-  b=HkclT9k9xzXq6GgdsTC98rUGAK2hCD4MDZJzZg6s0ajLLs2klW8CmuXd
-   b9VGNzv9/zLWOomMlLOI9BFR0b+QiNJdTf+ULN4Od8YOu1/87TkSHIi2G
-   0r3m3//NRA4Gud2MSgn3WIfLq4UkYPhHoXIOixHInKo0pnbHVu5rTVHhE
-   MfM6IlYOfcj2t4R4EolppmYwiuHoIV2KNaLmyJCROEGLWxPYgPSgcaoaO
-   NP1/mMrFpQaDteq7K/MpvveVpsUTxlHJ4Hd5QrrrSiX6yI+cNnAi7rTta
-   Ux04ChvZ3HxmVKHAINZbXOW7jXo93kpRKiYoYqMUB3tIBxYe3LtgOSzGO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="354355072"
+  t=1685154172; x=1716690172;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PtvceMz2/wmWrBxf8Va1SV1SLBUE8/41a5cpmultjDw=;
+  b=kq1or7JXu3G0wYVOLUX4OXoj4OWcf+TUxd2oRe9t7VAg+cvm2MRKVymF
+   H4CWWatXY5AhGM6RFMQ+MIVM9FYILO1Kc0YbvjZ9kntXcKqKp87hjxDxw
+   NRRJ9HkbimRf6nQvgzQYEeD5oaNeMAkUeGnKl+7eFlS7G6N0HVteHjr0Z
+   fy1sHac1ieGBh2TxYkOJOtw18yfoOas7srQlGqtSlvL+24bxUDBDToITV
+   1VGTDheCgQTI5x01WLSuDr1j8MjVZirZ3TYu2lS02M7XYKdaLWtS0vlEW
+   qy9GiHNX5cBZBRS5Iac0tZqqRLxtwiffYSjd6Ok7yrd1YomwqSZApyZce
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="354364672"
 X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
-   d="scan'208";a="354355072"
+   d="scan'208";a="354364672"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 17:49:49 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 19:22:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="775254387"
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="775271105"
 X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
-   d="scan'208";a="775254387"
+   d="scan'208";a="775271105"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 26 May 2023 17:49:48 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 26 May 2023 19:22:49 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2i7v-000JgY-17;
-	Sat, 27 May 2023 00:49:47 +0000
-Date: Sat, 27 May 2023 08:49:22 +0800
+	id 1q2jZx-000Jis-1D;
+	Sat, 27 May 2023 02:22:49 +0000
+Date: Sat, 27 May 2023 10:22:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [amir73il:ovl-origin-xino 21/21] fs/overlayfs/namei.c:1231
- ovl_lookup() error: uninitialized symbol 'xino'.
-Message-ID: <202305270836.IEnVP8NF-lkp@intel.com>
+Subject: [mkl-can-next:bcm 3/3] net/can/bcm.c:1327 bcm_sendmsg() warn:
+ bitwise AND condition is false here
+Message-ID: <202305271026.THIYEmYX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Amir Goldstein <amir73il@gmail.com>
+CC: linux-can@vger.kernel.org
+TO: "Marc Kleine-Budde" <mkl@pengutronix.de>
 
-tree:   https://github.com/amir73il/linux ovl-origin-xino
-head:   dc6fca4068e8044aae880d4d5fc8060cd27a23c2
-commit: dc6fca4068e8044aae880d4d5fc8060cd27a23c2 [21/21] ovl: get persistent inode number from origin xattr
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-m021-20230525 (https://download.01.org/0day-ci/archive/20230527/202305270836.IEnVP8NF-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git bcm
+head:   78f1f58dba2bfcafe5affbedd074a0a84dea2dc6
+commit: 78f1f58dba2bfcafe5affbedd074a0a84dea2dc6 [3/3] can: bcm: add support for MSG_CMSG_COMPAT
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-m021-20230525 (https://download.01.org/0day-ci/archive/20230527/202305271026.THIYEmYX-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202305270836.IEnVP8NF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202305271026.THIYEmYX-lkp@intel.com/
 
 New smatch warnings:
-fs/overlayfs/namei.c:1231 ovl_lookup() error: uninitialized symbol 'xino'.
+net/can/bcm.c:1327 bcm_sendmsg() warn: bitwise AND condition is false here
+net/can/bcm.c:1719 bcm_recvmsg() warn: bitwise AND condition is false here
 
 Old smatch warnings:
-fs/overlayfs/namei.c:43 ovl_check_redirect() warn: passing zero to 'PTR_ERR'
-fs/overlayfs/namei.c:472 ovl_check_origin() warn: passing zero to 'PTR_ERR'
-fs/overlayfs/namei.c:569 ovl_index_upper() warn: passing zero to 'ERR_CAST'
+net/can/bcm.c:1205 bcm_rx_setup() warn: is 'op->frames' large enough for 'struct canfd_frame'? 0
 
-vim +/xino +1231 fs/overlayfs/namei.c
+vim +1327 net/can/bcm.c
 
-098509a162694f Amir Goldstein      2023-04-27   944  
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   945  struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   946  			  unsigned int flags)
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   947  {
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   948  	struct ovl_entry *oe;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   949  	const struct cred *old_cred;
-6b2d5fe46fa8f4 Miklos Szeredi      2016-12-16   950  	struct ovl_fs *ofs = dentry->d_sb->s_fs_info;
-32a17d7733687a Amir Goldstein      2023-03-15   951  	struct ovl_entry *poe = OVL_E(dentry->d_parent);
-32a17d7733687a Amir Goldstein      2023-03-15   952  	struct ovl_entry *roe = OVL_E(dentry->d_sb->s_root);
-9d3dfea3d35a32 Vivek Goyal         2018-05-11   953  	struct ovl_path *stack = NULL, *origin_path = NULL;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   954  	struct dentry *upperdir, *upperdentry = NULL;
-ad1d615cec1c97 Amir Goldstein      2018-01-11   955  	struct dentry *origin = NULL;
-359f392ca53e91 Amir Goldstein      2017-06-21   956  	struct dentry *index = NULL;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   957  	unsigned int ctr = 0;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   958  	struct inode *inode = NULL;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   959  	bool upperopaque = false;
-02b69b284cd781 Miklos Szeredi      2016-12-16   960  	char *upperredirect = NULL;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   961  	struct dentry *this;
-dc6fca4068e804 Amir Goldstein      2023-05-25   962  	unsigned long xino;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   963  	unsigned int i;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   964  	int err;
-6815f479ca90ee Vivek Goyal         2020-06-01   965  	bool uppermetacopy = false;
-e28edc46b8e29d Miklos Szeredi      2016-12-16   966  	struct ovl_lookup_data d = {
-146d62e5a5867f Amir Goldstein      2019-04-18   967  		.sb = dentry->d_sb,
-e28edc46b8e29d Miklos Szeredi      2016-12-16   968  		.name = dentry->d_name,
-e28edc46b8e29d Miklos Szeredi      2016-12-16   969  		.is_dir = false,
-e28edc46b8e29d Miklos Szeredi      2016-12-16   970  		.opaque = false,
-e28edc46b8e29d Miklos Szeredi      2016-12-16   971  		.stop = false,
-a1ac2bc808c50e Amir Goldstein      2023-04-03   972  		.last = ofs->config.redirect_follow ? false : !ovl_numlower(poe),
-02b69b284cd781 Miklos Szeredi      2016-12-16   973  		.redirect = NULL,
-9d3dfea3d35a32 Vivek Goyal         2018-05-11   974  		.metacopy = false,
-e28edc46b8e29d Miklos Szeredi      2016-12-16   975  	};
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   976  
-6b2d5fe46fa8f4 Miklos Szeredi      2016-12-16   977  	if (dentry->d_name.len > ofs->namelen)
-6b2d5fe46fa8f4 Miklos Szeredi      2016-12-16   978  		return ERR_PTR(-ENAMETOOLONG);
-6b2d5fe46fa8f4 Miklos Szeredi      2016-12-16   979  
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   980  	old_cred = ovl_override_creds(dentry->d_sb);
-09d8b586731bf5 Miklos Szeredi      2017-07-04   981  	upperdir = ovl_dentry_upper(dentry->d_parent);
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   982  	if (upperdir) {
-dad7017a840d8d Christian Brauner   2022-04-04   983  		d.mnt = ovl_upper_mnt(ofs);
-1434a65ea625c5 Chengguang Xu       2020-05-26   984  		err = ovl_lookup_layer(upperdir, &d, &upperdentry, true);
-e28edc46b8e29d Miklos Szeredi      2016-12-16   985  		if (err)
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   986  			goto out;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   987  
-bccece1ead3681 Miklos Szeredi      2020-03-17   988  		if (upperdentry && upperdentry->d_flags & DCACHE_OP_REAL) {
-e28edc46b8e29d Miklos Szeredi      2016-12-16   989  			dput(upperdentry);
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   990  			err = -EREMOTE;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   991  			goto out;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16   992  		}
-a9d019573e8814 Amir Goldstein      2017-04-30   993  		if (upperdentry && !d.is_dir) {
-f7d3daca7c79d9 Amir Goldstein      2017-06-21   994  			/*
-f7d3daca7c79d9 Amir Goldstein      2017-06-21   995  			 * Lookup copy up origin by decoding origin file handle.
-f7d3daca7c79d9 Amir Goldstein      2017-06-21   996  			 * We may get a disconnected dentry, which is fine,
-f7d3daca7c79d9 Amir Goldstein      2017-06-21   997  			 * because we only need to hold the origin inode in
-f7d3daca7c79d9 Amir Goldstein      2017-06-21   998  			 * cache and use its inode number.  We may even get a
-f7d3daca7c79d9 Amir Goldstein      2017-06-21   999  			 * connected dentry, that is not under any of the lower
-f7d3daca7c79d9 Amir Goldstein      2017-06-21  1000  			 * layers root.  That is also fine for using it's inode
-f7d3daca7c79d9 Amir Goldstein      2017-06-21  1001  			 * number - it's the same as if we held a reference
-f7d3daca7c79d9 Amir Goldstein      2017-06-21  1002  			 * to a dentry in lower layer that was moved under us.
-f7d3daca7c79d9 Amir Goldstein      2017-06-21  1003  			 */
-dc6fca4068e804 Amir Goldstein      2023-05-25  1004  			err = ovl_check_origin(ofs, upperdentry, &origin_path,
-dc6fca4068e804 Amir Goldstein      2023-05-25  1005  					       &xino);
-a9d019573e8814 Amir Goldstein      2017-04-30  1006  			if (err)
-5455f92b54e516 Vivek Goyal         2017-11-01  1007  				goto out_put_upper;
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1008  
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1009  			if (d.metacopy)
-6815f479ca90ee Vivek Goyal         2020-06-01  1010  				uppermetacopy = true;
-a9d019573e8814 Amir Goldstein      2017-04-30  1011  		}
-02b69b284cd781 Miklos Szeredi      2016-12-16  1012  
-02b69b284cd781 Miklos Szeredi      2016-12-16  1013  		if (d.redirect) {
-0ce5cdc9d79277 Dan Carpenter       2017-09-22  1014  			err = -ENOMEM;
-02b69b284cd781 Miklos Szeredi      2016-12-16  1015  			upperredirect = kstrdup(d.redirect, GFP_KERNEL);
-02b69b284cd781 Miklos Szeredi      2016-12-16  1016  			if (!upperredirect)
-02b69b284cd781 Miklos Szeredi      2016-12-16  1017  				goto out_put_upper;
-02b69b284cd781 Miklos Szeredi      2016-12-16  1018  			if (d.redirect[0] == '/')
-c22205d0584bc6 Amir Goldstein      2017-04-26  1019  				poe = roe;
-02b69b284cd781 Miklos Szeredi      2016-12-16  1020  		}
-e28edc46b8e29d Miklos Szeredi      2016-12-16  1021  		upperopaque = d.opaque;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1022  	}
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1023  
-a1ac2bc808c50e Amir Goldstein      2023-04-03  1024  	if (!d.stop && ovl_numlower(poe)) {
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1025  		err = -ENOMEM;
-e07253481cf7a7 Amir Goldstein      2023-04-03  1026  		stack = ovl_stack_alloc(ofs->numlayer - 1);
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1027  		if (!stack)
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1028  			goto out_put_upper;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1029  	}
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1030  
-a1ac2bc808c50e Amir Goldstein      2023-04-03  1031  	for (i = 0; !d.stop && i < ovl_numlower(poe); i++) {
-a1ac2bc808c50e Amir Goldstein      2023-04-03  1032  		struct ovl_path lower = ovl_lowerstack(poe)[i];
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1033  
-452061fd4521b2 Vivek Goyal         2018-03-09  1034  		if (!ofs->config.redirect_follow)
-a1ac2bc808c50e Amir Goldstein      2023-04-03  1035  			d.last = i == ovl_numlower(poe) - 1;
-87424be97b2a7d Amir Goldstein      2023-04-27  1036  		else if (d.is_dir || !ofs->numdatalayer)
-a1ac2bc808c50e Amir Goldstein      2023-04-03  1037  			d.last = lower.layer->idx == ovl_numlower(roe);
-452061fd4521b2 Vivek Goyal         2018-03-09  1038  
-dad7017a840d8d Christian Brauner   2022-04-04  1039  		d.mnt = lower.layer->mnt;
-1434a65ea625c5 Chengguang Xu       2020-05-26  1040  		err = ovl_lookup_layer(lower.dentry, &d, &this, false);
-e28edc46b8e29d Miklos Szeredi      2016-12-16  1041  		if (err)
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1042  			goto out_put;
-6b2d5fe46fa8f4 Miklos Szeredi      2016-12-16  1043  
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1044  		if (!this)
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1045  			continue;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1046  
-6815f479ca90ee Vivek Goyal         2020-06-01  1047  		if ((uppermetacopy || d.metacopy) && !ofs->config.metacopy) {
-eaab1d45cdb4bb Mickaël Salaün      2021-03-29  1048  			dput(this);
-6815f479ca90ee Vivek Goyal         2020-06-01  1049  			err = -EPERM;
-6815f479ca90ee Vivek Goyal         2020-06-01  1050  			pr_warn_ratelimited("refusing to follow metacopy origin for (%pd2)\n", dentry);
-6815f479ca90ee Vivek Goyal         2020-06-01  1051  			goto out_put;
-6815f479ca90ee Vivek Goyal         2020-06-01  1052  		}
-6815f479ca90ee Vivek Goyal         2020-06-01  1053  
-9678e630305724 Amir Goldstein      2018-01-03  1054  		/*
-9678e630305724 Amir Goldstein      2018-01-03  1055  		 * If no origin fh is stored in upper of a merge dir, store fh
-9678e630305724 Amir Goldstein      2018-01-03  1056  		 * of lower dir and set upper parent "impure".
-9678e630305724 Amir Goldstein      2018-01-03  1057  		 */
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1058  		if (upperdentry && !ctr && !ofs->noxattr && d.is_dir) {
-610afc0bd40882 Miklos Szeredi      2020-09-02  1059  			err = ovl_fix_origin(ofs, dentry, this, upperdentry);
-9678e630305724 Amir Goldstein      2018-01-03  1060  			if (err) {
-9678e630305724 Amir Goldstein      2018-01-03  1061  				dput(this);
-9678e630305724 Amir Goldstein      2018-01-03  1062  				goto out_put;
-9678e630305724 Amir Goldstein      2018-01-03  1063  			}
-9678e630305724 Amir Goldstein      2018-01-03  1064  		}
-9678e630305724 Amir Goldstein      2018-01-03  1065  
-37b12916c0f802 Amir Goldstein      2018-01-10  1066  		/*
-37b12916c0f802 Amir Goldstein      2018-01-10  1067  		 * When "verify_lower" feature is enabled, do not merge with a
-ad1d615cec1c97 Amir Goldstein      2018-01-11  1068  		 * lower dir that does not match a stored origin xattr. In any
-ad1d615cec1c97 Amir Goldstein      2018-01-11  1069  		 * case, only verified origin is used for index lookup.
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1070  		 *
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1071  		 * For non-dir dentry, if index=on, then ensure origin
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1072  		 * matches the dentry found using path based lookup,
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1073  		 * otherwise error out.
-37b12916c0f802 Amir Goldstein      2018-01-10  1074  		 */
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1075  		if (upperdentry && !ctr &&
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1076  		    ((d.is_dir && ovl_verify_lower(dentry->d_sb)) ||
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1077  		     (!d.is_dir && ofs->config.index && origin_path))) {
-610afc0bd40882 Miklos Szeredi      2020-09-02  1078  			err = ovl_verify_origin(ofs, upperdentry, this, false);
-37b12916c0f802 Amir Goldstein      2018-01-10  1079  			if (err) {
-37b12916c0f802 Amir Goldstein      2018-01-10  1080  				dput(this);
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1081  				if (d.is_dir)
-37b12916c0f802 Amir Goldstein      2018-01-10  1082  					break;
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1083  				goto out_put;
-37b12916c0f802 Amir Goldstein      2018-01-10  1084  			}
-ad1d615cec1c97 Amir Goldstein      2018-01-11  1085  			origin = this;
-37b12916c0f802 Amir Goldstein      2018-01-10  1086  		}
-37b12916c0f802 Amir Goldstein      2018-01-10  1087  
-21d8d66abffb0c Vivek Goyal         2020-06-02  1088  		if (d.metacopy && ctr) {
-21d8d66abffb0c Vivek Goyal         2020-06-02  1089  			/*
-21d8d66abffb0c Vivek Goyal         2020-06-02  1090  			 * Do not store intermediate metacopy dentries in
-21d8d66abffb0c Vivek Goyal         2020-06-02  1091  			 * lower chain, except top most lower metacopy dentry.
-21d8d66abffb0c Vivek Goyal         2020-06-02  1092  			 * Continue the loop so that if there is an absolute
-21d8d66abffb0c Vivek Goyal         2020-06-02  1093  			 * redirect on this dentry, poe can be reset to roe.
-21d8d66abffb0c Vivek Goyal         2020-06-02  1094  			 */
-21d8d66abffb0c Vivek Goyal         2020-06-02  1095  			dput(this);
-21d8d66abffb0c Vivek Goyal         2020-06-02  1096  			this = NULL;
-21d8d66abffb0c Vivek Goyal         2020-06-02  1097  		} else {
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1098  			stack[ctr].dentry = this;
-b93436320c1e90 Chandan Rajendra    2017-07-24  1099  			stack[ctr].layer = lower.layer;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1100  			ctr++;
-21d8d66abffb0c Vivek Goyal         2020-06-02  1101  		}
-02b69b284cd781 Miklos Szeredi      2016-12-16  1102  
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1103  		/*
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1104  		 * Following redirects can have security consequences: it's like
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1105  		 * a symlink into the lower layer without the permission checks.
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1106  		 * This is only a problem if the upper layer is untrusted (e.g
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1107  		 * comes from an USB drive).  This can allow a non-readable file
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1108  		 * or directory to become readable.
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1109  		 *
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1110  		 * Only following redirects when redirects are enabled disables
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1111  		 * this attack vector when not necessary.
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1112  		 */
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1113  		err = -EPERM;
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1114  		if (d.redirect && !ofs->config.redirect_follow) {
-1bd0a3aea4357e lijiazi             2019-12-16  1115  			pr_warn_ratelimited("refusing to follow redirect for (%pd2)\n",
-f81678173ce25a Amir Goldstein      2017-12-18  1116  					    dentry);
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1117  			goto out_put;
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1118  		}
-438c84c2f0c794 Miklos Szeredi      2017-12-11  1119  
-d1fe96c0e4de78 Vivek Goyal         2018-02-02  1120  		if (d.stop)
-d1fe96c0e4de78 Vivek Goyal         2018-02-02  1121  			break;
-d1fe96c0e4de78 Vivek Goyal         2018-02-02  1122  
-c22205d0584bc6 Amir Goldstein      2017-04-26  1123  		if (d.redirect && d.redirect[0] == '/' && poe != roe) {
-c22205d0584bc6 Amir Goldstein      2017-04-26  1124  			poe = roe;
-02b69b284cd781 Miklos Szeredi      2016-12-16  1125  			/* Find the current layer on the root dentry */
-d583ed7d138825 Amir Goldstein      2017-11-08  1126  			i = lower.layer->idx - 1;
-02b69b284cd781 Miklos Szeredi      2016-12-16  1127  		}
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1128  	}
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1129  
-098509a162694f Amir Goldstein      2023-04-27  1130  	/* Defer lookup of lowerdata in data-only layers to first access */
-87424be97b2a7d Amir Goldstein      2023-04-27  1131  	if (d.metacopy && ctr && ofs->numdatalayer && d.absolute_redirect) {
-87424be97b2a7d Amir Goldstein      2023-04-27  1132  		d.metacopy = false;
-87424be97b2a7d Amir Goldstein      2023-04-27  1133  		ctr++;
-87424be97b2a7d Amir Goldstein      2023-04-27  1134  	}
-87424be97b2a7d Amir Goldstein      2023-04-27  1135  
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1136  	/*
-6815f479ca90ee Vivek Goyal         2020-06-01  1137  	 * For regular non-metacopy upper dentries, there is no lower
-6815f479ca90ee Vivek Goyal         2020-06-01  1138  	 * path based lookup, hence ctr will be zero. If a dentry is found
-6815f479ca90ee Vivek Goyal         2020-06-01  1139  	 * using ORIGIN xattr on upper, install it in stack.
-6815f479ca90ee Vivek Goyal         2020-06-01  1140  	 *
-6815f479ca90ee Vivek Goyal         2020-06-01  1141  	 * For metacopy dentry, path based lookup will find lower dentries.
-6815f479ca90ee Vivek Goyal         2020-06-01  1142  	 * Just make sure a corresponding data dentry has been found.
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1143  	 */
-6815f479ca90ee Vivek Goyal         2020-06-01  1144  	if (d.metacopy || (uppermetacopy && !ctr)) {
-0a8d0b64dd6acf Kevin Locke         2020-08-23  1145  		pr_warn_ratelimited("metacopy with no lower data found - abort lookup (%pd2)\n",
-0a8d0b64dd6acf Kevin Locke         2020-08-23  1146  				    dentry);
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1147  		err = -EIO;
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1148  		goto out_put;
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1149  	} else if (!d.is_dir && upperdentry && !ctr && origin_path) {
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1150  		if (WARN_ON(stack != NULL)) {
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1151  			err = -EIO;
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1152  			goto out_put;
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1153  		}
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1154  		stack = origin_path;
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1155  		ctr = 1;
-59fb20138a9b52 Vivek Goyal         2020-06-01  1156  		origin = origin_path->dentry;
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1157  		origin_path = NULL;
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1158  	}
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1159  
-ad1d615cec1c97 Amir Goldstein      2018-01-11  1160  	/*
-59fb20138a9b52 Vivek Goyal         2020-06-01  1161  	 * Always lookup index if there is no-upperdentry.
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1162  	 *
-59fb20138a9b52 Vivek Goyal         2020-06-01  1163  	 * For the case of upperdentry, we have set origin by now if it
-59fb20138a9b52 Vivek Goyal         2020-06-01  1164  	 * needed to be set. There are basically three cases.
-59fb20138a9b52 Vivek Goyal         2020-06-01  1165  	 *
-59fb20138a9b52 Vivek Goyal         2020-06-01  1166  	 * For directories, lookup index by lower inode and verify it matches
-59fb20138a9b52 Vivek Goyal         2020-06-01  1167  	 * upper inode. We only trust dir index if we verified that lower dir
-59fb20138a9b52 Vivek Goyal         2020-06-01  1168  	 * matches origin, otherwise dir index entries may be inconsistent
-59fb20138a9b52 Vivek Goyal         2020-06-01  1169  	 * and we ignore them.
-59fb20138a9b52 Vivek Goyal         2020-06-01  1170  	 *
-59fb20138a9b52 Vivek Goyal         2020-06-01  1171  	 * For regular upper, we already set origin if upper had ORIGIN
-59fb20138a9b52 Vivek Goyal         2020-06-01  1172  	 * xattr. There is no verification though as there is no path
-59fb20138a9b52 Vivek Goyal         2020-06-01  1173  	 * based dentry lookup in lower in this case.
-59fb20138a9b52 Vivek Goyal         2020-06-01  1174  	 *
-59fb20138a9b52 Vivek Goyal         2020-06-01  1175  	 * For metacopy upper, we set a verified origin already if index
-59fb20138a9b52 Vivek Goyal         2020-06-01  1176  	 * is enabled and if upper had an ORIGIN xattr.
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1177  	 *
-ad1d615cec1c97 Amir Goldstein      2018-01-11  1178  	 */
-59fb20138a9b52 Vivek Goyal         2020-06-01  1179  	if (!upperdentry && ctr)
-ad1d615cec1c97 Amir Goldstein      2018-01-11  1180  		origin = stack[0].dentry;
-359f392ca53e91 Amir Goldstein      2017-06-21  1181  
-ad1d615cec1c97 Amir Goldstein      2018-01-11  1182  	if (origin && ovl_indexdir(dentry->d_sb) &&
-ad1d615cec1c97 Amir Goldstein      2018-01-11  1183  	    (!d.is_dir || ovl_index_all(dentry->d_sb))) {
-061701540349c3 Amir Goldstein      2018-01-17  1184  		index = ovl_lookup_index(ofs, upperdentry, origin, true);
-359f392ca53e91 Amir Goldstein      2017-06-21  1185  		if (IS_ERR(index)) {
-359f392ca53e91 Amir Goldstein      2017-06-21  1186  			err = PTR_ERR(index);
-359f392ca53e91 Amir Goldstein      2017-06-21  1187  			index = NULL;
-359f392ca53e91 Amir Goldstein      2017-06-21  1188  			goto out_put;
-359f392ca53e91 Amir Goldstein      2017-06-21  1189  		}
-359f392ca53e91 Amir Goldstein      2017-06-21  1190  	}
-359f392ca53e91 Amir Goldstein      2017-06-21  1191  
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1192  	oe = ovl_alloc_entry(ctr);
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1193  	err = -ENOMEM;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1194  	if (!oe)
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1195  		goto out_put;
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1196  
-e07253481cf7a7 Amir Goldstein      2023-04-03  1197  	ovl_stack_cpy(ovl_lowerstack(oe), stack, ctr);
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1198  
-c62520a83bceae Amir Goldstein      2018-01-14  1199  	if (upperopaque)
-c62520a83bceae Amir Goldstein      2018-01-14  1200  		ovl_dentry_set_opaque(dentry);
-c62520a83bceae Amir Goldstein      2018-01-14  1201  
-55acc6618259c8 Miklos Szeredi      2017-07-04  1202  	if (upperdentry)
-55acc6618259c8 Miklos Szeredi      2017-07-04  1203  		ovl_dentry_set_upper_alias(dentry);
-0a2d0d3f2f291e Vivek Goyal         2018-05-11  1204  	else if (index) {
-dad7017a840d8d Christian Brauner   2022-04-04  1205  		struct path upperpath = {
-dad7017a840d8d Christian Brauner   2022-04-04  1206  			.dentry = upperdentry = dget(index),
-dad7017a840d8d Christian Brauner   2022-04-04  1207  			.mnt = ovl_upper_mnt(ofs),
-dad7017a840d8d Christian Brauner   2022-04-04  1208  		};
-dad7017a840d8d Christian Brauner   2022-04-04  1209  
-cf4ef7801a8c88 Stanislav Goriainov 2022-08-31  1210  		/*
-cf4ef7801a8c88 Stanislav Goriainov 2022-08-31  1211  		 * It's safe to assign upperredirect here: the previous
-cf4ef7801a8c88 Stanislav Goriainov 2022-08-31  1212  		 * assignment of happens only if upperdentry is non-NULL, and
-cf4ef7801a8c88 Stanislav Goriainov 2022-08-31  1213  		 * this one only if upperdentry is NULL.
-cf4ef7801a8c88 Stanislav Goriainov 2022-08-31  1214  		 */
-dad7017a840d8d Christian Brauner   2022-04-04  1215  		upperredirect = ovl_get_redirect_xattr(ofs, &upperpath, 0);
-0a2d0d3f2f291e Vivek Goyal         2018-05-11  1216  		if (IS_ERR(upperredirect)) {
-0a2d0d3f2f291e Vivek Goyal         2018-05-11  1217  			err = PTR_ERR(upperredirect);
-0a2d0d3f2f291e Vivek Goyal         2018-05-11  1218  			upperredirect = NULL;
-0a2d0d3f2f291e Vivek Goyal         2018-05-11  1219  			goto out_free_oe;
-0a2d0d3f2f291e Vivek Goyal         2018-05-11  1220  		}
-dad7017a840d8d Christian Brauner   2022-04-04  1221  		err = ovl_check_metacopy_xattr(ofs, &upperpath);
-4518dfcf761e3c Amir Goldstein      2020-07-15  1222  		if (err < 0)
-4518dfcf761e3c Amir Goldstein      2020-07-15  1223  			goto out_free_oe;
-4518dfcf761e3c Amir Goldstein      2020-07-15  1224  		uppermetacopy = err;
-0a2d0d3f2f291e Vivek Goyal         2018-05-11  1225  	}
-359f392ca53e91 Amir Goldstein      2017-06-21  1226  
-e6d2ebddbc5205 Miklos Szeredi      2017-07-04  1227  	if (upperdentry || ctr) {
-ac6a52eb65b532 Vivek Goyal         2018-05-08  1228  		struct ovl_inode_params oip = {
-ac6a52eb65b532 Vivek Goyal         2018-05-08  1229  			.upperdentry = upperdentry,
-70142d99656656 Amir Goldstein      2023-04-08  1230  			.oe = oe,
-dc6fca4068e804 Amir Goldstein      2023-05-25 @1231  			.xino = xino,
-ac6a52eb65b532 Vivek Goyal         2018-05-08  1232  			.index = index,
-9cec54c83a8bab Vivek Goyal         2018-05-11  1233  			.redirect = upperredirect,
-ac6a52eb65b532 Vivek Goyal         2018-05-08  1234  		};
-ac6a52eb65b532 Vivek Goyal         2018-05-08  1235  
-0612dea94ff5bf Amir Goldstein      2023-04-27  1236  		/* Store lowerdata redirect for lazy lookup */
-0612dea94ff5bf Amir Goldstein      2023-04-27  1237  		if (ctr > 1 && !d.is_dir && !stack[ctr - 1].dentry) {
-0612dea94ff5bf Amir Goldstein      2023-04-27  1238  			oip.lowerdata_redirect = d.redirect;
-0612dea94ff5bf Amir Goldstein      2023-04-27  1239  			d.redirect = NULL;
-0612dea94ff5bf Amir Goldstein      2023-04-27  1240  		}
-ac6a52eb65b532 Vivek Goyal         2018-05-08  1241  		inode = ovl_get_inode(dentry->d_sb, &oip);
-b9ac5c274b8c9d Miklos Szeredi      2017-07-04  1242  		err = PTR_ERR(inode);
-b9ac5c274b8c9d Miklos Szeredi      2017-07-04  1243  		if (IS_ERR(inode))
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1244  			goto out_free_oe;
-28166ab3c875b8 Vivek Goyal         2020-06-01  1245  		if (upperdentry && !uppermetacopy)
-28166ab3c875b8 Vivek Goyal         2020-06-01  1246  			ovl_set_flag(OVL_UPPERDATA, inode);
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1247  	}
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1248  
-70142d99656656 Amir Goldstein      2023-04-08  1249  	ovl_dentry_init_reval(dentry, upperdentry, OVL_I_E(inode));
-f4288844561922 Miklos Szeredi      2020-03-17  1250  
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1251  	revert_creds(old_cred);
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1252  	if (origin_path) {
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1253  		dput(origin_path->dentry);
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1254  		kfree(origin_path);
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1255  	}
-359f392ca53e91 Amir Goldstein      2017-06-21  1256  	dput(index);
-e07253481cf7a7 Amir Goldstein      2023-04-03  1257  	ovl_stack_free(stack, ctr);
-02b69b284cd781 Miklos Szeredi      2016-12-16  1258  	kfree(d.redirect);
-829c28be9bb9a0 Amir Goldstein      2017-09-29  1259  	return d_splice_alias(inode, dentry);
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1260  
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1261  out_free_oe:
-e07253481cf7a7 Amir Goldstein      2023-04-03  1262  	ovl_free_entry(oe);
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1263  out_put:
-359f392ca53e91 Amir Goldstein      2017-06-21  1264  	dput(index);
-e07253481cf7a7 Amir Goldstein      2023-04-03  1265  	ovl_stack_free(stack, ctr);
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1266  out_put_upper:
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1267  	if (origin_path) {
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1268  		dput(origin_path->dentry);
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1269  		kfree(origin_path);
-9d3dfea3d35a32 Vivek Goyal         2018-05-11  1270  	}
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1271  	dput(upperdentry);
-02b69b284cd781 Miklos Szeredi      2016-12-16  1272  	kfree(upperredirect);
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1273  out:
-02b69b284cd781 Miklos Szeredi      2016-12-16  1274  	kfree(d.redirect);
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1275  	revert_creds(old_cred);
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1276  	return ERR_PTR(err);
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1277  }
-bbb1e54dd53cf8 Miklos Szeredi      2016-12-16  1278  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1311  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1312  /*
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1313   * bcm_sendmsg - process BCM commands (opcodes) from the userspace
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1314   */
+1b784140474e4f Ying Xue          2015-03-02  1315  static int bcm_sendmsg(struct socket *sock, struct msghdr *msg, size_t size)
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1316  {
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1317  	struct sock *sk = sock->sk;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1318  	struct bcm_sock *bo = bcm_sk(sk);
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1319  	int ifindex = bo->ifindex; /* default ifindex for this bcm_op */
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1320  	struct bcm_msg_head msg_head;
+b3cfa83eaa4ae2 Marc Kleine-Budde 2023-05-18  1321  	int cfsiz, msg_head_size;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1322  	int ret; /* read bytes or error codes as return value */
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1323  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1324  	if (!bo->bound)
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1325  		return -ENOTCONN;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1326  
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18 @1327  	if (msg->msg_flags & MSG_CMSG_COMPAT) {
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1328  		struct bcm_msg_head_compat msg_head_compat;
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1329  
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1330  		msg_head_size = sizeof(msg_head_compat);
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1331  
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1332  		/* check for valid message length from userspace */
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1333  		if (size < msg_head_size)
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1334  			return -EINVAL;
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1335  
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1336  		/* read message head information */
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1337  		ret = memcpy_from_msg(&msg_head_compat, msg, msg_head_size);
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1338  		if (ret < 0)
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1339  			return ret;
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1340  
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1341  		msg_head.opcode = msg_head_compat.opcode;
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1342  		msg_head.flags = msg_head_compat.flags;
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1343  		msg_head.count = msg_head_compat.count;
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1344  		msg_head.ival1.tv_sec = msg_head_compat.ival1.tv_sec;
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1345  		msg_head.ival1.tv_usec = msg_head_compat.ival1.tv_usec;
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1346  		msg_head.ival2.tv_sec = msg_head_compat.ival2.tv_sec;
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1347  		msg_head.ival2.tv_usec = msg_head_compat.ival2.tv_usec;
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1348  		msg_head.can_id = msg_head_compat.can_id;
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1349  		msg_head.nframes = msg_head_compat.nframes;
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1350  	} else {
+b3cfa83eaa4ae2 Marc Kleine-Budde 2023-05-18  1351  		msg_head_size = sizeof(msg_head);
+b3cfa83eaa4ae2 Marc Kleine-Budde 2023-05-18  1352  
+7f2d38eb7a42be Oliver Hartkopp   2008-07-05  1353  		/* check for valid message length from userspace */
+b3cfa83eaa4ae2 Marc Kleine-Budde 2023-05-18  1354  		if (size < msg_head_size)
+2b5f5f5dc11421 Oliver Hartkopp   2016-06-17  1355  			return -EINVAL;
+2b5f5f5dc11421 Oliver Hartkopp   2016-06-17  1356  
+2b5f5f5dc11421 Oliver Hartkopp   2016-06-17  1357  		/* read message head information */
+b3cfa83eaa4ae2 Marc Kleine-Budde 2023-05-18  1358  		ret = memcpy_from_msg((u8 *)&msg_head, msg, msg_head_size);
+2b5f5f5dc11421 Oliver Hartkopp   2016-06-17  1359  		if (ret < 0)
+2b5f5f5dc11421 Oliver Hartkopp   2016-06-17  1360  			return ret;
+78f1f58dba2bfc Marc Kleine-Budde 2023-05-18  1361  	}
+2b5f5f5dc11421 Oliver Hartkopp   2016-06-17  1362  
+6f3b911d5f29b9 Oliver Hartkopp   2016-06-17  1363  	cfsiz = CFSIZ(msg_head.flags);
+b3cfa83eaa4ae2 Marc Kleine-Budde 2023-05-18  1364  	if ((size - msg_head_size) % cfsiz)
+7f2d38eb7a42be Oliver Hartkopp   2008-07-05  1365  		return -EINVAL;
+7f2d38eb7a42be Oliver Hartkopp   2008-07-05  1366  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1367  	/* check for alternative ifindex for this bcm_op */
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1368  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1369  	if (!ifindex && msg->msg_name) {
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1370  		/* no bound device as default => check msg_name */
+342dfc306fb321 Steffen Hurrle    2014-01-17  1371  		DECLARE_SOCKADDR(struct sockaddr_can *, addr, msg->msg_name);
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1372  
+9e9714742fb704 Oliver Hartkopp   2021-03-25  1373  		if (msg->msg_namelen < BCM_MIN_NAMELEN)
+5e5073280379d3 Kurt Van Dijck    2011-01-15  1374  			return -EINVAL;
+5e5073280379d3 Kurt Van Dijck    2011-01-15  1375  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1376  		if (addr->can_family != AF_CAN)
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1377  			return -EINVAL;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1378  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1379  		/* ifindex from sendto() */
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1380  		ifindex = addr->can_ifindex;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1381  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1382  		if (ifindex) {
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1383  			struct net_device *dev;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1384  
+384317ef4187f5 Oliver Hartkopp   2017-04-25  1385  			dev = dev_get_by_index(sock_net(sk), ifindex);
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1386  			if (!dev)
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1387  				return -ENODEV;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1388  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1389  			if (dev->type != ARPHRD_CAN) {
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1390  				dev_put(dev);
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1391  				return -ENODEV;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1392  			}
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1393  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1394  			dev_put(dev);
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1395  		}
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1396  	}
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1397  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1398  	lock_sock(sk);
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1399  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1400  	switch (msg_head.opcode) {
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1401  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1402  	case TX_SETUP:
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1403  		ret = bcm_tx_setup(&msg_head, msg, ifindex, sk);
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1404  		break;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1405  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1406  	case RX_SETUP:
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1407  		ret = bcm_rx_setup(&msg_head, msg, ifindex, sk);
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1408  		break;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1409  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1410  	case TX_DELETE:
+2b5f5f5dc11421 Oliver Hartkopp   2016-06-17  1411  		if (bcm_delete_tx_op(&bo->tx_ops, &msg_head, ifindex))
+1194c6955f0c82 Marc Kleine-Budde 2023-05-18  1412  			ret = 0;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1413  		else
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1414  			ret = -EINVAL;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1415  		break;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1416  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1417  	case RX_DELETE:
+2b5f5f5dc11421 Oliver Hartkopp   2016-06-17  1418  		if (bcm_delete_rx_op(&bo->rx_ops, &msg_head, ifindex))
+1194c6955f0c82 Marc Kleine-Budde 2023-05-18  1419  			ret = 0;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1420  		else
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1421  			ret = -EINVAL;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1422  		break;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1423  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1424  	case TX_READ:
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1425  		/* reuse msg_head for the reply to TX_READ */
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1426  		msg_head.opcode  = TX_STATUS;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1427  		ret = bcm_read_op(&bo->tx_ops, &msg_head, ifindex);
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1428  		break;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1429  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1430  	case RX_READ:
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1431  		/* reuse msg_head for the reply to RX_READ */
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1432  		msg_head.opcode  = RX_STATUS;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1433  		ret = bcm_read_op(&bo->rx_ops, &msg_head, ifindex);
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1434  		break;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1435  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1436  	case TX_SEND:
+72c8a89ad2e4de Oliver Hartkopp   2016-06-17  1437  		/* we need exactly one CAN frame behind the msg head */
+b3cfa83eaa4ae2 Marc Kleine-Budde 2023-05-18  1438  		if ((msg_head.nframes != 1) || (size != cfsiz + msg_head_size))
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1439  			ret = -EINVAL;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1440  		else
+6f3b911d5f29b9 Oliver Hartkopp   2016-06-17  1441  			ret = bcm_tx_send(msg, ifindex, sk, cfsiz);
+b3cfa83eaa4ae2 Marc Kleine-Budde 2023-05-18  1442  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1443  		break;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1444  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1445  	default:
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1446  		ret = -EINVAL;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1447  		break;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1448  	}
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1449  
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1450  	release_sock(sk);
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1451  
+1194c6955f0c82 Marc Kleine-Budde 2023-05-18  1452  	if (ret < 0)
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1453  		return ret;
+1194c6955f0c82 Marc Kleine-Budde 2023-05-18  1454  
+b3cfa83eaa4ae2 Marc Kleine-Budde 2023-05-18  1455  	return ret + msg_head_size;
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1456  }
+ffd980f976e7fd Oliver Hartkopp   2007-11-16  1457  
 
 -- 
 0-DAY CI Kernel Test Service
