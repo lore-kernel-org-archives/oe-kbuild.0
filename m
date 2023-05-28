@@ -1,128 +1,140 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4238B9461
-	for <oe-kbuild@lists.linux.dev>; Sat, 27 May 2023 22:31:35 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q32RP-0008Lp-VI; Sun, 28 May 2023 00:31:16 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q32RM-003HGI-6W; Sun, 28 May 2023 00:31:12 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q32RL-008Zwc-ES; Sun, 28 May 2023 00:31:11 +0200
-Date: Sun, 28 May 2023 00:31:11 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Prathu Baronia <prathubaronia2011@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Khadija Kamran <kamrankhadijadj@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
-Subject: Re: [PATCH v4 3/3] axis-fifo: cleanup space issues with fops struct
-Message-ID: <20230527223111.jidik3ffcsxdkenb@pengutronix.de>
-References: <ZHHE/H2p4Go/Igc/@redkillpc>
- <20230527115101.47569-1-prathubaronia2011@gmail.com>
- <20230527115101.47569-3-prathubaronia2011@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810EC366
+	for <oe-kbuild@lists.linux.dev>; Sun, 28 May 2023 04:51:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685249517; x=1716785517;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BVupsgyP6qGtS9hjBxcH8t00s+UPSDfRyfPbkrEbjag=;
+  b=bB+tzR5q/FawzK7xk5jf+bFhhdkO6TPYJbAW1oLfKH57r5B2uA7Xjy2/
+   6fgDtJHLhDWW90BBJQK5Gj87NjBl75Gy+72g2+Z0nG0CUh2KB915F0EgF
+   ry/JG8gr30YP1BLsOeCILtwrSOl8MzyzNiy/mQ/w7/G0I/qvksjxfv9ob
+   pdQUund8iB2MDmoYxHcTVW9JmrgNdG/RR6Lo7bB1kr6DUDM2K442u5LXt
+   CFxaaG3IJjRt+YzW0W6Xrbylr8xU0WXUb+hdXRwcmc9/UtmqPue3pdowb
+   BczHnxsRXY+KfdRKzADxoPBqmzzSPbW/lyFo0kiTopXTHUg6LhP76I71h
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="339074547"
+X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
+   d="scan'208";a="339074547"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 21:51:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="818007505"
+X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
+   d="scan'208";a="818007505"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 27 May 2023 21:51:55 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q38Nm-000KRQ-1z;
+	Sun, 28 May 2023 04:51:54 +0000
+Date: Sun, 28 May 2023 12:50:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [RFC PATCH 4/5] gnss: ubx: add support for the reset gpio
+Message-ID: <202305281234.zR27yeIA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cdvvvrjjz27c3mvb"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230527115101.47569-3-prathubaronia2011@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild@lists.linux.dev
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230523064310.3005-5-wsa+renesas@sang-engineering.com>
+References: <20230523064310.3005-5-wsa+renesas@sang-engineering.com>
+TO: Wolfram Sang <wsa-dev@sang-engineering.com>
 
---cdvvvrjjz27c3mvb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Wolfram,
 
-Hello,
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-On Sat, May 27, 2023 at 05:21:00PM +0530, Prathu Baronia wrote:
-> Add required spaces for proper formatting of fops members for better
-> readability.
->=20
-> Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
-> ---
->  drivers/staging/axis-fifo/axis-fifo.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis=
--fifo/axis-fifo.c
-> index d71bdc6dd961..59e962467a3d 100644
-> --- a/drivers/staging/axis-fifo/axis-fifo.c
-> +++ b/drivers/staging/axis-fifo/axis-fifo.c
-> @@ -716,11 +716,11 @@ static int axis_fifo_close(struct inode *inod, stru=
-ct file *f)
->  }
-> =20
->  static const struct file_operations fops =3D {
-> -	.owner =3D THIS_MODULE,
-> -	.open =3D axis_fifo_open,
-> +	.owner   =3D THIS_MODULE,
-> +	.open    =3D axis_fifo_open,
->  	.release =3D axis_fifo_close,
-> -	.read =3D axis_fifo_read,
-> -	.write =3D axis_fifo_write
-> +	.read    =3D axis_fifo_read,
-> +	.write   =3D axis_fifo_write
+[auto build test WARNING on geert-renesas-devel/next]
+[also build test WARNING on linus/master v6.4-rc3 next-20230525]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Note this is only subjectively better. IMHO with just a single space
-this is perfectly readable. Aligning the =3D might look nice, but it's
-also annoying at times. When you add another member (e.g.
-=2Eiterate_shared) you either add a line that doesn't match all others, or
-you have to touch all other lines of that struct which (objectively?)
-hurts readability of that patch. Also for generated patches this kind of
-alignment yields extra work. (See for example
-https://lore.kernel.org/lkml/20230525205840.734432-1-u.kleine-koenig@pengut=
-ronix.de/
-which required semi-manual fixup to keep the alignment after coccinelle
-generated the patch.)
+url:    https://github.com/intel-lab-lkp/linux/commits/Wolfram-Sang/WIP-gnss-merge-MTK-driver-into-UBX-driver/20230523-144613
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+patch link:    https://lore.kernel.org/r/20230523064310.3005-5-wsa%2Brenesas%40sang-engineering.com
+patch subject: [RFC PATCH 4/5] gnss: ubx: add support for the reset gpio
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-m021-20230528 (https://download.01.org/0day-ci/archive/20230528/202305281234.zR27yeIA-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
-If you still think this is a good idea, I'd ask you to stick to one
-style for the whole file. e.g. axis_fifo_driver uses inconsistent
-and different indention.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202305281234.zR27yeIA-lkp@intel.com/
 
-A thing that IMHO is more useful to change here, is the name fops; I'd
-suggest something like axis_fifo_fops (and also use prefixes for some
-other symbols like "get_dts_property"). In 6.4-rc1 my ctags file knows
-about 64 different places that define something called "fops".
+smatch warnings:
+drivers/gnss/ubx.c:128 ubx_probe() warn: missing unwind goto?
 
-Just my 0.02=E2=82=AC,
-Uwe
+vim +128 drivers/gnss/ubx.c
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+7b5f4730e4af68 Wolfram Sang 2023-05-23   89  
+1ad69f10e3a58d Johan Hovold 2018-06-01   90  static int ubx_probe(struct serdev_device *serdev)
+1ad69f10e3a58d Johan Hovold 2018-06-01   91  {
+7b5f4730e4af68 Wolfram Sang 2023-05-23   92  	const struct ubx_info *info = of_device_get_match_data(&serdev->dev);
+1ad69f10e3a58d Johan Hovold 2018-06-01   93  	struct gnss_serial *gserial;
+1ad69f10e3a58d Johan Hovold 2018-06-01   94  	struct ubx_data *data;
+1ad69f10e3a58d Johan Hovold 2018-06-01   95  	int ret;
+1ad69f10e3a58d Johan Hovold 2018-06-01   96  
+7b5f4730e4af68 Wolfram Sang 2023-05-23   97  	if (!info)
+7b5f4730e4af68 Wolfram Sang 2023-05-23   98  		return -ENOENT;
+7b5f4730e4af68 Wolfram Sang 2023-05-23   99  
+1ad69f10e3a58d Johan Hovold 2018-06-01  100  	gserial = gnss_serial_allocate(serdev, sizeof(*data));
+1ad69f10e3a58d Johan Hovold 2018-06-01  101  	if (IS_ERR(gserial)) {
+1ad69f10e3a58d Johan Hovold 2018-06-01  102  		ret = PTR_ERR(gserial);
+1ad69f10e3a58d Johan Hovold 2018-06-01  103  		return ret;
+1ad69f10e3a58d Johan Hovold 2018-06-01  104  	}
+1ad69f10e3a58d Johan Hovold 2018-06-01  105  
+1ad69f10e3a58d Johan Hovold 2018-06-01  106  	gserial->ops = &ubx_gserial_ops;
+1ad69f10e3a58d Johan Hovold 2018-06-01  107  
+7b5f4730e4af68 Wolfram Sang 2023-05-23  108  	gserial->gdev->type = info->type;
+10f146639fee5f Johan Hovold 2018-06-01  109  
+1ad69f10e3a58d Johan Hovold 2018-06-01  110  	data = gnss_serial_get_drvdata(gserial);
+1ad69f10e3a58d Johan Hovold 2018-06-01  111  
+23c5c7e33b0fc6 Wolfram Sang 2023-05-23  112  	data->vcc = devm_regulator_get_optional(&serdev->dev, "vcc");
+1ad69f10e3a58d Johan Hovold 2018-06-01  113  	if (IS_ERR(data->vcc)) {
+1ad69f10e3a58d Johan Hovold 2018-06-01  114  		ret = PTR_ERR(data->vcc);
+23c5c7e33b0fc6 Wolfram Sang 2023-05-23  115  		if (ret == -ENODEV)
+23c5c7e33b0fc6 Wolfram Sang 2023-05-23  116  			data->vcc = NULL;
+23c5c7e33b0fc6 Wolfram Sang 2023-05-23  117  		else
+1ad69f10e3a58d Johan Hovold 2018-06-01  118  			goto err_free_gserial;
+1ad69f10e3a58d Johan Hovold 2018-06-01  119  	}
+1ad69f10e3a58d Johan Hovold 2018-06-01  120  
+58f289a9dc7461 Wolfram Sang 2023-05-23  121  	ret = devm_regulator_get_enable_optional(&serdev->dev, info->v_bckp_name);
+58f289a9dc7461 Wolfram Sang 2023-05-23  122  	if (ret < 0 && ret != -ENODEV)
+1ad69f10e3a58d Johan Hovold 2018-06-01  123  		goto err_free_gserial;
+1ad69f10e3a58d Johan Hovold 2018-06-01  124  
+32522a4fa4ae01 Wolfram Sang 2023-05-23  125  	/* Start with reset asserted (GPIO must be active low!) */
+32522a4fa4ae01 Wolfram Sang 2023-05-23  126  	data->reset_gpio = devm_gpiod_get_optional(&serdev->dev, "reset", GPIOD_OUT_HIGH);
+32522a4fa4ae01 Wolfram Sang 2023-05-23  127  	if (IS_ERR(data->reset_gpio))
+32522a4fa4ae01 Wolfram Sang 2023-05-23 @128  		return PTR_ERR(data->reset_gpio);
+32522a4fa4ae01 Wolfram Sang 2023-05-23  129  
+1ad69f10e3a58d Johan Hovold 2018-06-01  130  	ret = gnss_serial_register(gserial);
+1ad69f10e3a58d Johan Hovold 2018-06-01  131  	if (ret)
+58f289a9dc7461 Wolfram Sang 2023-05-23  132  		goto err_free_gserial;
+1ad69f10e3a58d Johan Hovold 2018-06-01  133  
+1ad69f10e3a58d Johan Hovold 2018-06-01  134  	return 0;
+1ad69f10e3a58d Johan Hovold 2018-06-01  135  
+1ad69f10e3a58d Johan Hovold 2018-06-01  136  err_free_gserial:
+1ad69f10e3a58d Johan Hovold 2018-06-01  137  	gnss_serial_free(gserial);
+1ad69f10e3a58d Johan Hovold 2018-06-01  138  
+1ad69f10e3a58d Johan Hovold 2018-06-01  139  	return ret;
+1ad69f10e3a58d Johan Hovold 2018-06-01  140  }
+1ad69f10e3a58d Johan Hovold 2018-06-01  141  
 
---cdvvvrjjz27c3mvb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmRyhK4ACgkQj4D7WH0S
-/k4GHQf/UqWfo79tCnSurnPKR+RHhrveNwWlX7kE0wdil5CyIe7xjiG/0TNrS86J
-DBhUGdUczfaKmeuTG3sQKTJowMSmRQyuIxCM37lnJPvYWBAdkuhbsBgHaRNdR5fA
-yIX9vrR9belBqHdMMl7sXdcLoIWdzsKUHL+8p2wiP5Qaz4X7WwyfPmkGLnk5Km49
-k11VFJT2HAdq3zut/83XO4JNIeX0WL3Yzz4LQFVcmLaU6K19dvXXIV/bN0cQEXwR
-hpUGiKWwWpEF9+JaFKIHfCsJ5luB9Nbb+HxU8ph84VOCgG8JFldIfylX1woz06R4
-kQRnDIRnbbALLfda5tit7DxPVRV/OA==
-=8i8o
------END PGP SIGNATURE-----
-
---cdvvvrjjz27c3mvb--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
