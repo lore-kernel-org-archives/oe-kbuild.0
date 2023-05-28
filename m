@@ -1,43 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9747C
-	for <oe-kbuild@lists.linux.dev>; Sun, 28 May 2023 08:02:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BF77C
+	for <oe-kbuild@lists.linux.dev>; Sun, 28 May 2023 08:02:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685260921; x=1716796921;
+  t=1685260925; x=1716796925;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qXXxpvrjSxSfi2tAX5SuDZXxP6asbo3MJ/gEAmZwQaM=;
-  b=T9eC0HCu1JkpIEKn2M0Y0klSPrIw3EbgcHA3LlM77OlX5m4X2QobRRCZ
-   0FZVpDp3IqfjMgrWkC8SyEWqeZ2ReIYkllbhQ0RpOJ4vGNddjDTDta6Y/
-   gDL4+RHSP4KoiJP7X4Zc6A3wyhoCxRKNYtMlgXP+MKD1GfpUWsFYOO6PH
-   Dlc9KoLgWRjOSxs6rLB4KK1fC//mcDqEscBXODFoR/TTbiAkMo5+CqAx9
-   ZHffFlZ4RV0RlLBQgh9Mlgc0BCuHONhigsZVpm85SIZRX49o2i/X7XxB8
-   V8mNDxUuzk6B1Ep3QOFcDN8yKEtaN4ZcVuzrMQ1skeKLjKqybBveWpKag
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="354508004"
+  bh=cp+arSrK9g3dS5s5gnus+BlIEV47SWicVYRp4dH64sk=;
+  b=F4dnY2+XIi446J3zpw3yNs2PTCsZKnWC9IkpdsimWRgF2rQlldI/co1E
+   YTFk1NOXclRRfthUoQSDSNfiom+dsTW0ZaU/4CTbUaO4kXAgG63TuaaZy
+   Fa4VAUFlkQ8TWyiAnidf+FOlbsB73vgjT+czm0I0nQxTjR8JaouSsbZj+
+   vCvHOcMEPThZF41vOgNrzOrI6ImbEoQaaRPgufiiDxapXMgG7rz8mUkOY
+   nJMNkp9lG/10pCfSUf98dIhlYV63wFtdZXgWzhPIv7lEqGOu8NNTa+MTM
+   cDwJt0+RATtQxn+kU1hTz6+5JYktLefyF6Gz7uWRA/wwaxxLSvzgvvWu9
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="420254176"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="354508004"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 01:02:01 -0700
+   d="scan'208";a="420254176"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 01:02:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="736488965"
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="1035828213"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="736488965"
+   d="scan'208";a="1035828213"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 28 May 2023 01:01:59 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 28 May 2023 01:01:59 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q3BLi-000KUS-32;
+	id 1q3BLi-000KUQ-2w;
 	Sun, 28 May 2023 08:01:58 +0000
-Date: Sun, 28 May 2023 16:01:17 +0800
+Date: Sun, 28 May 2023 16:01:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tiwai-sound:topic/midi20 34/40] sound/core/seq/seq_clientmgr.c:2160
- snd_seq_ioctl_client_ump_info() warn: potential spectre issue
- 'cptr->ump_info' [r] (local cap)
-Message-ID: <202305281525.BWp3JMOL-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [android-common:android14-6.1 3/7] mm/page_alloc.c: trace/hooks/mm.h
+ is included more than once.
+Message-ID: <202305281524.S4TJufi0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,111 +46,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: alsa-devel@alsa-project.org
-TO: Takashi Iwai <tiwai@suse.de>
-CC: Jaroslav Kysela <perex@perex.cz>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git topic/midi20
-head:   77700b81bd0e47d89d50eb4b3f2f323492f79998
-commit: d2d247e35eeea8331150d7708211a013aabccb5b [34/40] ALSA: seq: Add ioctls for client UMP info query and setup
-:::::: branch date: 3 days ago
-:::::: commit date: 5 days ago
-config: i386-randconfig-m021-20230525 (https://download.01.org/0day-ci/archive/20230528/202305281525.BWp3JMOL-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   500484f5be022b113cdfb97287e3491a149435cd
+commit: 573ba7b6e66e9aca2fe4a1c982bbced96a0d1e10 [3/7] ANDROID: vendor_hooks: Add hooks for memory when debug
+:::::: branch date: 31 hours ago
+:::::: commit date: 2 days ago
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202305281525.BWp3JMOL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202305281524.S4TJufi0-lkp@intel.com/
 
-New smatch warnings:
-sound/core/seq/seq_clientmgr.c:2160 snd_seq_ioctl_client_ump_info() warn: potential spectre issue 'cptr->ump_info' [r] (local cap)
-sound/core/seq/seq_clientmgr.c:2161 snd_seq_ioctl_client_ump_info() warn: possible spectre second half.  'p'
-
-Old smatch warnings:
-sound/core/seq/seq_clientmgr.c:492 snd_seq_read() error: copy_to_user() '&cell->event' too small (28 vs 32)
-
-vim +2160 sound/core/seq/seq_clientmgr.c
-
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2122  
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2123  /* UMP-specific ioctls -- called directly without data copy */
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2124  static int snd_seq_ioctl_client_ump_info(struct snd_seq_client *caller,
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2125  					 unsigned int cmd,
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2126  					 unsigned long arg)
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2127  {
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2128  	struct snd_seq_client_ump_info __user *argp =
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2129  		(struct snd_seq_client_ump_info __user *)arg;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2130  	struct snd_seq_client *cptr;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2131  	int client, type, err = 0;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2132  	size_t size;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2133  	void *p;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2134  
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2135  	if (get_user(client, &argp->client) || get_user(type, &argp->type))
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2136  		return -EFAULT;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2137  	if (cmd == SNDRV_SEQ_IOCTL_SET_CLIENT_UMP_INFO &&
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2138  	    caller->number != client)
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2139  		return -EPERM;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2140  	if (type < 0 || type >= NUM_UMP_INFOS)
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2141  		return -EINVAL;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2142  	if (type == SNDRV_SEQ_CLIENT_UMP_INFO_ENDPOINT)
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2143  		size = sizeof(struct snd_ump_endpoint_info);
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2144  	else
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2145  		size = sizeof(struct snd_ump_block_info);
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2146  	cptr = snd_seq_client_use_ptr(client);
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2147  	if (!cptr)
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2148  		return -ENOENT;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2149  
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2150  	mutex_lock(&cptr->ioctl_mutex);
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2151  	if (!cptr->midi_version) {
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2152  		err = -EBADFD;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2153  		goto error;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2154  	}
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2155  
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2156  	if (cmd == SNDRV_SEQ_IOCTL_GET_CLIENT_UMP_INFO) {
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2157  		if (!cptr->ump_info)
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2158  			p = NULL;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2159  		else
-d2d247e35eeea8 Takashi Iwai 2023-05-23 @2160  			p = cptr->ump_info[type];
-d2d247e35eeea8 Takashi Iwai 2023-05-23 @2161  		if (!p) {
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2162  			err = -ENODEV;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2163  			goto error;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2164  		}
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2165  		if (copy_to_user(argp->info, p, size)) {
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2166  			err = -EFAULT;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2167  			goto error;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2168  		}
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2169  	} else {
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2170  		if (cptr->type != USER_CLIENT) {
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2171  			err = -EBADFD;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2172  			goto error;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2173  		}
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2174  		if (!cptr->ump_info) {
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2175  			cptr->ump_info = kcalloc(NUM_UMP_INFOS,
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2176  						 sizeof(void *), GFP_KERNEL);
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2177  			if (!cptr->ump_info) {
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2178  				err = -ENOMEM;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2179  				goto error;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2180  			}
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2181  		}
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2182  		p = memdup_user(argp->info, size);
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2183  		if (IS_ERR(p)) {
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2184  			err = PTR_ERR(p);
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2185  			goto error;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2186  		}
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2187  		kfree(cptr->ump_info[type]);
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2188  		terminate_ump_info_strings(p, type);
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2189  		cptr->ump_info[type] = p;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2190  	}
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2191  
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2192   error:
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2193  	mutex_unlock(&cptr->ioctl_mutex);
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2194  	snd_seq_client_unlock(cptr);
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2195  	return err;
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2196  }
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2197  #endif
-d2d247e35eeea8 Takashi Iwai 2023-05-23  2198  
+includecheck warnings: (new ones prefixed by >>)
+>> mm/page_alloc.c: trace/hooks/mm.h is included more than once.
 
 -- 
 0-DAY CI Kernel Test Service
