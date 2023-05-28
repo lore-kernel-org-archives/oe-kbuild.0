@@ -1,188 +1,79 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED1A1384
-	for <oe-kbuild@lists.linux.dev>; Sun, 28 May 2023 13:25:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC6F2F3D
+	for <oe-kbuild@lists.linux.dev>; Sun, 28 May 2023 17:35:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685280308; x=1716816308;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=aee7Xt5PlacUcWY8Y5R0wCNwk4ld8j1zeF+S0i3mhfQ=;
-  b=HgO+gMuhhdmVkwzRfGW1IlWGtXcGrrzKkmNAYXNrs4eWOlD6oaN0Tdxn
-   eEc91vLxGdedzCcEoVGIbsloGmg5VkK9rhjE5tS6eGsG3cJ1xlwH8FDzP
-   jWVyWTTzNUjqcsel/62FXk7hnbTE6ULGWjKc2scD0KETC4M8KtbAxP4JN
-   7D/kKGM3XX+EaplvE4qGzETULuz4ZJRQ8xWUzDw0LZpstd4ZRHV3t7KkV
-   x6wJqaDT8KctpNPcRFIwFjb6M9NJxEDOTNizokcrTEUVighUVjpfTi2vQ
-   Jk7QTiMxWObqqaswXKspypHFhakGV1M8WlZGUCoIu6bq+/CfO/fB2lyKs
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="352021275"
+  t=1685295314; x=1716831314;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZeNoY3YflfkRiSrSvhM1oqjaayQ+4mH2MkLby/eGJI4=;
+  b=HzASPV5lBTOHNjLEO+E7GkmCW/Vwj0RpAErCrhshewTu7LZljjBVIUs3
+   qMWvnrZFOz7C8UP8u9jvC2g/Ss3mlVloaBwIJm9C3edFUxiKMwUsYlk9G
+   rX4wnXi6fv9oXg72lB67UPc/mZATOqRThQfxl4eiq1fgXF0moH1aHpi6c
+   L6schMD3CEf9oQBpIrgn3hsp8Ja0UTWyBe4tbHyRB1Q+xe4DJ2x8NI/ch
+   mNKJa8pf25v1lf2nLBuzx71a7v4YWf8PN5Sc9IUnralssHQ2CcBI2qmP/
+   Ahua3LjmrcTO+vuJjlpfDZRXgejne1ts363mBiHHxbQ56r+4tLYO+G/fV
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="382793578"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="352021275"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 06:25:07 -0700
+   d="scan'208";a="382793578"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 10:35:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="699937650"
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="795670549"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="699937650"
+   d="scan'208";a="795670549"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 28 May 2023 06:25:06 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 28 May 2023 10:35:12 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q3GOP-000Kao-2d;
-	Sun, 28 May 2023 13:25:05 +0000
-Date: Sun, 28 May 2023 21:24:22 +0800
+	id 1q3KIS-000KhC-03;
+	Sun, 28 May 2023 17:35:12 +0000
+Date: Mon, 29 May 2023 01:34:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH net-next 10/30] net: dsa: mt7530: call port 6 setup from
- mt7530_mac_config()
-Message-ID: <202305282154.NasXF6Fl-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/dma/idxd/device.c:774:8-26: WARNING: dma_alloc_coherent used
+ in
+Message-ID: <202305290109.qddh20pB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230522121532.86610-11-arinc.unal@arinc9.com>
-References: <20230522121532.86610-11-arinc.unal@arinc9.com>
-TO: arinc9.unal@gmail.com
-TO: Sean Wang <sean.wang@mediatek.com>
-TO: Landen Chao <Landen.Chao@mediatek.com>
-TO: DENG Qingfang <dqfext@gmail.com>
-TO: Daniel Golle <daniel@makrotopia.org>
-TO: Andrew Lunn <andrew@lunn.ch>
-TO: Florian Fainelli <f.fainelli@gmail.com>
-TO: Vladimir Oltean <olteanv@gmail.com>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev@vger.kernel.org
-TO: Eric Dumazet <edumazet@google.com>
-TO: Jakub Kicinski <kuba@kernel.org>
-TO: Paolo Abeni <pabeni@redhat.com>
-TO: Matthias Brugger <matthias.bgg@gmail.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-TO: Russell King <linux@armlinux.org.uk>
-CC: "Arınç ÜNAL" <arinc.unal@arinc9.com>
-CC: Richard van Schagen <richard@routerhints.com>
-CC: Frank Wunderlich <frank-w@public-files.de>
-CC: Bartel Eerdekens <bartel.eerdekens@constell8.be>
-CC: erkin.bozoglu@xeront.com
-CC: mithat.guner@xeront.com
 CC: linux-kernel@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-mediatek@lists.infradead.org
+TO: Dave Jiang <dave.jiang@intel.com>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Fenghua Yu <fenghua.yu@intel.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/arinc9-unal-gmail-com/net-dsa-mt7530-add-missing-p5_interface-to-mt7530_priv-description/20230522-222600
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230522121532.86610-11-arinc.unal%40arinc9.com
-patch subject: [PATCH net-next 10/30] net: dsa: mt7530: call port 6 setup from mt7530_mac_config()
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: x86_64-randconfig-m001-20230528 (https://download.01.org/0day-ci/archive/20230528/202305282154.NasXF6Fl-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7877cb91f1081754a1487c144d85dc0d2e2e7fc4
+commit: 244da66cda359227d80ccb41dbcb99da40eae186 dmaengine: idxd: setup event log configuration
+date:   7 weeks ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 7 weeks ago
+config: x86_64-randconfig-c022-20230528 (https://download.01.org/0day-ci/archive/20230529/202305290109.qddh20pB-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202305282154.NasXF6Fl-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202305290109.qddh20pB-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/dsa/mt7530.c:455 mt7530_setup_port6() error: uninitialized symbol 'ncpo1'.
-
-Old smatch warnings:
-drivers/net/dsa/mt7530.c:888 mt7530_set_ageing_time() error: uninitialized symbol 'age_count'.
-drivers/net/dsa/mt7530.c:888 mt7530_set_ageing_time() error: uninitialized symbol 'age_unit'.
-drivers/net/dsa/mt7530.c:2313 mt7530_setup() error: uninitialized symbol 'interface'.
-
-vim +/ncpo1 +455 drivers/net/dsa/mt7530.c
-
-c8b8a3c601f2cf Vladimir Oltean 2023-03-07  401  
-fdcc8ccd823740 Arınç ÜNAL      2023-03-20  402  /* Setup port 6 interface mode and TRGMII TX circuit */
-b8f126a8d54318 Sean Wang       2017-04-07  403  static int
-10afe5fa1644d9 Arınç ÜNAL      2023-05-22  404  mt7530_setup_port6(struct dsa_switch *ds, phy_interface_t interface)
-b8f126a8d54318 Sean Wang       2017-04-07  405  {
-b8f126a8d54318 Sean Wang       2017-04-07  406  	struct mt7530_priv *priv = ds->priv;
-fdcc8ccd823740 Arınç ÜNAL      2023-03-20  407  	u32 ncpo1, ssc_delta, trgint, xtal;
-7ef6f6f8d237fa René van Dorst  2019-06-20  408  
-2a9cfd93ccafaf Arınç ÜNAL      2023-05-22  409  	xtal = mt7530_read(priv, MT7530_HWTRAP) & HWTRAP_XTAL_MASK;
-7ef6f6f8d237fa René van Dorst  2019-06-20  410  
-7ef6f6f8d237fa René van Dorst  2019-06-20  411  	if (xtal == HWTRAP_XTAL_20MHZ) {
-7ef6f6f8d237fa René van Dorst  2019-06-20  412  		dev_err(priv->dev,
-7ef6f6f8d237fa René van Dorst  2019-06-20  413  			"%s: MT7530 with a 20MHz XTAL is not supported!\n",
-7ef6f6f8d237fa René van Dorst  2019-06-20  414  			__func__);
-7ef6f6f8d237fa René van Dorst  2019-06-20  415  		return -EINVAL;
-7ef6f6f8d237fa René van Dorst  2019-06-20  416  	}
-b8f126a8d54318 Sean Wang       2017-04-07  417  
-88bdef8be9f649 Landen Chao     2020-09-11  418  	switch (interface) {
-b8f126a8d54318 Sean Wang       2017-04-07  419  	case PHY_INTERFACE_MODE_RGMII:
-b8f126a8d54318 Sean Wang       2017-04-07  420  		trgint = 0;
-b8f126a8d54318 Sean Wang       2017-04-07  421  		break;
-b8f126a8d54318 Sean Wang       2017-04-07  422  	case PHY_INTERFACE_MODE_TRGMII:
-b8f126a8d54318 Sean Wang       2017-04-07  423  		trgint = 1;
-407b508bdd70b6 Arınç ÜNAL      2023-03-20  424  		if (xtal == HWTRAP_XTAL_25MHZ)
-407b508bdd70b6 Arınç ÜNAL      2023-03-20  425  			ssc_delta = 0x57;
-407b508bdd70b6 Arınç ÜNAL      2023-03-20  426  		else
-407b508bdd70b6 Arınç ÜNAL      2023-03-20  427  			ssc_delta = 0x87;
-7ef6f6f8d237fa René van Dorst  2019-06-20  428  		if (priv->id == ID_MT7621) {
-37c218d8021e36 Arınç ÜNAL      2023-05-03  429  			/* PLL frequency: 125MHz: 1.0GBit */
-7ef6f6f8d237fa René van Dorst  2019-06-20  430  			if (xtal == HWTRAP_XTAL_40MHZ)
-37c218d8021e36 Arınç ÜNAL      2023-05-03  431  				ncpo1 = 0x0640;
-7ef6f6f8d237fa René van Dorst  2019-06-20  432  			if (xtal == HWTRAP_XTAL_25MHZ)
-7ef6f6f8d237fa René van Dorst  2019-06-20  433  				ncpo1 = 0x0a00;
-7ef6f6f8d237fa René van Dorst  2019-06-20  434  		} else { /* PLL frequency: 250MHz: 2.0Gbit */
-7ef6f6f8d237fa René van Dorst  2019-06-20  435  			if (xtal == HWTRAP_XTAL_40MHZ)
-7ef6f6f8d237fa René van Dorst  2019-06-20  436  				ncpo1 = 0x0c80;
-7ef6f6f8d237fa René van Dorst  2019-06-20  437  			if (xtal == HWTRAP_XTAL_25MHZ)
-b8f126a8d54318 Sean Wang       2017-04-07  438  				ncpo1 = 0x1400;
-7ef6f6f8d237fa René van Dorst  2019-06-20  439  		}
-b8f126a8d54318 Sean Wang       2017-04-07  440  		break;
-b8f126a8d54318 Sean Wang       2017-04-07  441  	default:
-88bdef8be9f649 Landen Chao     2020-09-11  442  		dev_err(priv->dev, "xMII interface %d not supported\n",
-88bdef8be9f649 Landen Chao     2020-09-11  443  			interface);
-b8f126a8d54318 Sean Wang       2017-04-07  444  		return -EINVAL;
-b8f126a8d54318 Sean Wang       2017-04-07  445  	}
-b8f126a8d54318 Sean Wang       2017-04-07  446  
-b8f126a8d54318 Sean Wang       2017-04-07  447  	mt7530_rmw(priv, MT7530_P6ECR, P6_INTF_MODE_MASK,
-b8f126a8d54318 Sean Wang       2017-04-07  448  		   P6_INTF_MODE(trgint));
-b8f126a8d54318 Sean Wang       2017-04-07  449  
-0b086d76e7b011 Arınç ÜNAL      2023-03-10  450  	if (trgint) {
-8f058a6ef99f0b Arınç ÜNAL      2023-03-20  451  		/* Disable the MT7530 TRGMII clocks */
-8f058a6ef99f0b Arınç ÜNAL      2023-03-20  452  		core_clear(priv, CORE_TRGMII_GSW_CLK_CG, REG_TRGMIICK_EN);
-b8f126a8d54318 Sean Wang       2017-04-07  453  
-b8f126a8d54318 Sean Wang       2017-04-07  454  		/* Setup the MT7530 TRGMII Tx Clock */
-b8f126a8d54318 Sean Wang       2017-04-07 @455  		core_write(priv, CORE_PLL_GROUP5, RG_LCDDS_PCW_NCPO1(ncpo1));
-b8f126a8d54318 Sean Wang       2017-04-07  456  		core_write(priv, CORE_PLL_GROUP6, RG_LCDDS_PCW_NCPO0(0));
-b8f126a8d54318 Sean Wang       2017-04-07  457  		core_write(priv, CORE_PLL_GROUP10, RG_LCDDS_SSC_DELTA(ssc_delta));
-b8f126a8d54318 Sean Wang       2017-04-07  458  		core_write(priv, CORE_PLL_GROUP11, RG_LCDDS_SSC_DELTA1(ssc_delta));
-b8f126a8d54318 Sean Wang       2017-04-07  459  		core_write(priv, CORE_PLL_GROUP4,
-b8f126a8d54318 Sean Wang       2017-04-07  460  			   RG_SYSPLL_DDSFBK_EN | RG_SYSPLL_BIAS_EN |
-b8f126a8d54318 Sean Wang       2017-04-07  461  			   RG_SYSPLL_BIAS_LPF_EN);
-b8f126a8d54318 Sean Wang       2017-04-07  462  		core_write(priv, CORE_PLL_GROUP2,
-b8f126a8d54318 Sean Wang       2017-04-07  463  			   RG_SYSPLL_EN_NORMAL | RG_SYSPLL_VODEN |
-b8f126a8d54318 Sean Wang       2017-04-07  464  			   RG_SYSPLL_POSDIV(1));
-b8f126a8d54318 Sean Wang       2017-04-07  465  		core_write(priv, CORE_PLL_GROUP7,
-b8f126a8d54318 Sean Wang       2017-04-07  466  			   RG_LCDDS_PCW_NCPO_CHG | RG_LCCDS_C(3) |
-b8f126a8d54318 Sean Wang       2017-04-07  467  			   RG_LCDDS_PWDB | RG_LCDDS_ISO_EN);
-4732315ca9fe9f Ilya Lipnitskiy 2021-03-26  468  
-8f058a6ef99f0b Arınç ÜNAL      2023-03-20  469  		/* Enable the MT7530 TRGMII clocks */
-8f058a6ef99f0b Arınç ÜNAL      2023-03-20  470  		core_set(priv, CORE_TRGMII_GSW_CLK_CG, REG_TRGMIICK_EN);
-0b086d76e7b011 Arınç ÜNAL      2023-03-10  471  	}
-0b086d76e7b011 Arınç ÜNAL      2023-03-10  472  
-b8f126a8d54318 Sean Wang       2017-04-07  473  	return 0;
-b8f126a8d54318 Sean Wang       2017-04-07  474  }
-b8f126a8d54318 Sean Wang       2017-04-07  475  
+cocci warnings: (new ones prefixed by >>)
+>> drivers/dma/idxd/device.c:774:8-26: WARNING: dma_alloc_coherent used in 
+   	 /*
+>> 	 * Address needs to be page aligned. However, dma_alloc_coherent() provides
+>> 	 * at minimal page size aligned address. No manual alignment required.
+   	 */ 
+>> 	 addr   already zeroes out memory, so memset is not needed
 
 -- 
 0-DAY CI Kernel Test Service
