@@ -1,137 +1,188 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECAC7E
-	for <oe-kbuild@lists.linux.dev>; Sun, 28 May 2023 12:23:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED1A1384
+	for <oe-kbuild@lists.linux.dev>; Sun, 28 May 2023 13:25:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685276586; x=1716812586;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KB9xWAK51ESZ5vvFeISY+oERSUNutlBwqUUZpK+4FkA=;
-  b=M+iKG6ZZ66CumUjzU53BRAHWDtXVjRcG0r22CCyC9l8zTIgHYMBsEfPj
-   E/38VN4/wSn1mntVNOElhkrKzstTblBn6DL8fBGIgIVayVM/KS2F11+Qd
-   OUOr2jclAaUqYRSWeniZVpiacJaZ6Q0bNNgcslmZFC2qgQby2cUwu0cD5
-   SAdm32I/heQzGVVpQrwH4n6HXu68sJ0AJNOKdAp+tjMprE+AaVM9NimfL
-   oHCxZW05279hLwnTO3EJyyKOSqUf/MLC1fDV/mbXYFZSv6f3GBmTq+7aJ
-   FNWw5yqfx0M06Ls7Bga5iR+tJe4r0hg80vgnZo1DAyppjHj8fmjNMPUYJ
+  t=1685280308; x=1716816308;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=aee7Xt5PlacUcWY8Y5R0wCNwk4ld8j1zeF+S0i3mhfQ=;
+  b=HgO+gMuhhdmVkwzRfGW1IlWGtXcGrrzKkmNAYXNrs4eWOlD6oaN0Tdxn
+   eEc91vLxGdedzCcEoVGIbsloGmg5VkK9rhjE5tS6eGsG3cJ1xlwH8FDzP
+   jWVyWTTzNUjqcsel/62FXk7hnbTE6ULGWjKc2scD0KETC4M8KtbAxP4JN
+   7D/kKGM3XX+EaplvE4qGzETULuz4ZJRQ8xWUzDw0LZpstd4ZRHV3t7KkV
+   x6wJqaDT8KctpNPcRFIwFjb6M9NJxEDOTNizokcrTEUVighUVjpfTi2vQ
+   Jk7QTiMxWObqqaswXKspypHFhakGV1M8WlZGUCoIu6bq+/CfO/fB2lyKs
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="354522827"
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="352021275"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="354522827"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 05:23:06 -0700
+   d="scan'208";a="352021275"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 06:25:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="708928207"
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="699937650"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="708928207"
+   d="scan'208";a="699937650"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 28 May 2023 05:23:05 -0700
+  by orsmga007.jf.intel.com with ESMTP; 28 May 2023 06:25:06 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q3FQO-000KYk-16;
-	Sun, 28 May 2023 12:23:04 +0000
-Date: Sun, 28 May 2023 20:22:31 +0800
+	id 1q3GOP-000Kao-2d;
+	Sun, 28 May 2023 13:25:05 +0000
+Date: Sun, 28 May 2023 21:24:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 1786/4815]
- drivers/net/ethernet/emulex/benet/be_main.c:2460 be_rx_compl_process_gro()
- error: buffer overflow '((skb_end_pointer(skb)))->frags' 17 <= u16max
-Message-ID: <202305282032.tWwyTU3R-lkp@intel.com>
+Subject: Re: [PATCH net-next 10/30] net: dsa: mt7530: call port 6 setup from
+ mt7530_mac_config()
+Message-ID: <202305282154.NasXF6Fl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Yunsheng Lin <linyunsheng@huawei.com>
-CC: Leon Romanovsky <leonro@nvidia.com>
-CC: Simon Horman <simon.horman@corigine.com>
+In-Reply-To: <20230522121532.86610-11-arinc.unal@arinc9.com>
+References: <20230522121532.86610-11-arinc.unal@arinc9.com>
+TO: arinc9.unal@gmail.com
+TO: Sean Wang <sean.wang@mediatek.com>
+TO: Landen Chao <Landen.Chao@mediatek.com>
+TO: DENG Qingfang <dqfext@gmail.com>
+TO: Daniel Golle <daniel@makrotopia.org>
+TO: Andrew Lunn <andrew@lunn.ch>
+TO: Florian Fainelli <f.fainelli@gmail.com>
+TO: Vladimir Oltean <olteanv@gmail.com>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+TO: Eric Dumazet <edumazet@google.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+TO: Matthias Brugger <matthias.bgg@gmail.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: Russell King <linux@armlinux.org.uk>
+CC: "Arınç ÜNAL" <arinc.unal@arinc9.com>
+CC: Richard van Schagen <richard@routerhints.com>
+CC: Frank Wunderlich <frank-w@public-files.de>
+CC: Bartel Eerdekens <bartel.eerdekens@constell8.be>
+CC: erkin.bozoglu@xeront.com
+CC: mithat.guner@xeront.com
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-mediatek@lists.infradead.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6a3d37b4d885129561e1cef361216f00472f7d2e
-commit: b51f4113ebb02011f0ca86abc3134b28d2071b6a [1786/4815] net: introduce and use skb_frag_fill_page_desc()
-:::::: branch date: 3 days ago
-:::::: commit date: 2 weeks ago
-config: i386-randconfig-m021-20230525 (https://download.01.org/0day-ci/archive/20230528/202305282032.tWwyTU3R-lkp@intel.com/config)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/arinc9-unal-gmail-com/net-dsa-mt7530-add-missing-p5_interface-to-mt7530_priv-description/20230522-222600
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230522121532.86610-11-arinc.unal%40arinc9.com
+patch subject: [PATCH net-next 10/30] net: dsa: mt7530: call port 6 setup from mt7530_mac_config()
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: x86_64-randconfig-m001-20230528 (https://download.01.org/0day-ci/archive/20230528/202305282154.NasXF6Fl-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202305282032.tWwyTU3R-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202305282154.NasXF6Fl-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/emulex/benet/be_main.c:2460 be_rx_compl_process_gro() error: buffer overflow '((skb_end_pointer(skb)))->frags' 17 <= u16max
+New smatch warnings:
+drivers/net/dsa/mt7530.c:455 mt7530_setup_port6() error: uninitialized symbol 'ncpo1'.
 
-vim +2460 drivers/net/ethernet/emulex/benet/be_main.c
+Old smatch warnings:
+drivers/net/dsa/mt7530.c:888 mt7530_set_ageing_time() error: uninitialized symbol 'age_count'.
+drivers/net/dsa/mt7530.c:888 mt7530_set_ageing_time() error: uninitialized symbol 'age_unit'.
+drivers/net/dsa/mt7530.c:2313 mt7530_setup() error: uninitialized symbol 'interface'.
 
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2426  
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2427  /* Process the RX completion indicated by rxcp when GRO is enabled */
-4188e7df44bf31 drivers/net/ethernet/emulex/benet/be_main.c Jingoo Han      2013-08-05  2428  static void be_rx_compl_process_gro(struct be_rx_obj *rxo,
-4188e7df44bf31 drivers/net/ethernet/emulex/benet/be_main.c Jingoo Han      2013-08-05  2429  				    struct napi_struct *napi,
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2430  				    struct be_rx_compl_info *rxcp)
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2431  {
-10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2432  	struct be_adapter *adapter = rxo->adapter;
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2433  	struct be_rx_page_info *page_info;
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2434  	struct sk_buff *skb = NULL;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2435  	u16 remaining, curr_frag_len;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2436  	u16 i, j;
-3968fa1e588961 drivers/net/benet/be_main.c                 Ajit Khaparde   2011-02-20  2437  
-10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2438  	skb = napi_get_frags(napi);
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2439  	if (!skb) {
-10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2440  		be_rx_compl_discard(rxo, rxcp);
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2441  		return;
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2442  	}
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2443  
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2444  	remaining = rxcp->pkt_size;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2445  	for (i = 0, j = -1; i < rxcp->num_rcvd; i++) {
-0b0ef1d027008f drivers/net/ethernet/emulex/benet/be_main.c Suresh Reddy    2014-01-15  2446  		page_info = get_rx_page_info(rxo);
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2447  
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2448  		curr_frag_len = min(remaining, rx_frag_size);
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2449  
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2450  		/* Coalesce all frags from the same physical page in one slot */
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2451  		if (i == 0 || page_info->page_offset == 0) {
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2452  			/* First frag or Fresh page */
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2453  			j++;
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2454  			skb_frag_fill_page_desc(&skb_shinfo(skb)->frags[j],
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2455  						page_info->page,
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2456  						page_info->page_offset,
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2457  						curr_frag_len);
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2458  		} else {
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2459  			put_page(page_info->page);
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11 @2460  			skb_frag_size_add(&skb_shinfo(skb)->frags[j],
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2461  					  curr_frag_len);
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2462  		}
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2463  
-bdb28a97f46b53 drivers/net/ethernet/emulex/benet/be_main.c Eric Dumazet    2011-10-13  2464  		skb->truesize += rx_frag_size;
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2465  		remaining -= curr_frag_len;
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2466  		memset(page_info, 0, sizeof(*page_info));
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2467  	}
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2468  	BUG_ON(j > MAX_SKB_FRAGS);
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2469  
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2470  	skb_shinfo(skb)->nr_frags = j + 1;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2471  	skb->len = rxcp->pkt_size;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2472  	skb->data_len = rxcp->pkt_size;
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2473  	skb->ip_summed = CHECKSUM_UNNECESSARY;
-aaa6daec586cd3 drivers/net/ethernet/emulex/benet/be_main.c Somnath Kotur   2012-05-02  2474  	skb_record_rx_queue(skb, rxo - &adapter->rx_obj[0]);
-4b97291429bf59 drivers/net/benet/be_main.c                 Ajit Khaparde   2011-04-06  2475  	if (adapter->netdev->features & NETIF_F_RXHASH)
-d2464c8c547333 drivers/net/ethernet/emulex/benet/be_main.c Tom Herbert     2013-12-17  2476  		skb_set_hash(skb, rxcp->rss_hash, PKT_HASH_TYPE_L3);
-c9c47142f6bf46 drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2014-03-27  2477  
-b6c0e89dd3a1b2 drivers/net/ethernet/emulex/benet/be_main.c Tom Herbert     2014-08-27  2478  	skb->csum_level = rxcp->tunneled;
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2479  
-343e43c02850a3 drivers/net/ethernet/emulex/benet/be_main.c Jiri Pirko      2011-08-25  2480  	if (rxcp->vlanf)
-86a9bad3ab6b6f drivers/net/ethernet/emulex/benet/be_main.c Patrick McHardy 2013-04-19  2481  		__vlan_hwaccel_put_tag(skb, htons(ETH_P_8021Q), rxcp->vlan_tag);
-4c5102f94c175d drivers/net/benet/be_main.c                 Ajit Khaparde   2011-07-12  2482  
-10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2483  	napi_gro_frags(napi);
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2484  }
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2485  
+vim +/ncpo1 +455 drivers/net/dsa/mt7530.c
+
+c8b8a3c601f2cf Vladimir Oltean 2023-03-07  401  
+fdcc8ccd823740 Arınç ÜNAL      2023-03-20  402  /* Setup port 6 interface mode and TRGMII TX circuit */
+b8f126a8d54318 Sean Wang       2017-04-07  403  static int
+10afe5fa1644d9 Arınç ÜNAL      2023-05-22  404  mt7530_setup_port6(struct dsa_switch *ds, phy_interface_t interface)
+b8f126a8d54318 Sean Wang       2017-04-07  405  {
+b8f126a8d54318 Sean Wang       2017-04-07  406  	struct mt7530_priv *priv = ds->priv;
+fdcc8ccd823740 Arınç ÜNAL      2023-03-20  407  	u32 ncpo1, ssc_delta, trgint, xtal;
+7ef6f6f8d237fa René van Dorst  2019-06-20  408  
+2a9cfd93ccafaf Arınç ÜNAL      2023-05-22  409  	xtal = mt7530_read(priv, MT7530_HWTRAP) & HWTRAP_XTAL_MASK;
+7ef6f6f8d237fa René van Dorst  2019-06-20  410  
+7ef6f6f8d237fa René van Dorst  2019-06-20  411  	if (xtal == HWTRAP_XTAL_20MHZ) {
+7ef6f6f8d237fa René van Dorst  2019-06-20  412  		dev_err(priv->dev,
+7ef6f6f8d237fa René van Dorst  2019-06-20  413  			"%s: MT7530 with a 20MHz XTAL is not supported!\n",
+7ef6f6f8d237fa René van Dorst  2019-06-20  414  			__func__);
+7ef6f6f8d237fa René van Dorst  2019-06-20  415  		return -EINVAL;
+7ef6f6f8d237fa René van Dorst  2019-06-20  416  	}
+b8f126a8d54318 Sean Wang       2017-04-07  417  
+88bdef8be9f649 Landen Chao     2020-09-11  418  	switch (interface) {
+b8f126a8d54318 Sean Wang       2017-04-07  419  	case PHY_INTERFACE_MODE_RGMII:
+b8f126a8d54318 Sean Wang       2017-04-07  420  		trgint = 0;
+b8f126a8d54318 Sean Wang       2017-04-07  421  		break;
+b8f126a8d54318 Sean Wang       2017-04-07  422  	case PHY_INTERFACE_MODE_TRGMII:
+b8f126a8d54318 Sean Wang       2017-04-07  423  		trgint = 1;
+407b508bdd70b6 Arınç ÜNAL      2023-03-20  424  		if (xtal == HWTRAP_XTAL_25MHZ)
+407b508bdd70b6 Arınç ÜNAL      2023-03-20  425  			ssc_delta = 0x57;
+407b508bdd70b6 Arınç ÜNAL      2023-03-20  426  		else
+407b508bdd70b6 Arınç ÜNAL      2023-03-20  427  			ssc_delta = 0x87;
+7ef6f6f8d237fa René van Dorst  2019-06-20  428  		if (priv->id == ID_MT7621) {
+37c218d8021e36 Arınç ÜNAL      2023-05-03  429  			/* PLL frequency: 125MHz: 1.0GBit */
+7ef6f6f8d237fa René van Dorst  2019-06-20  430  			if (xtal == HWTRAP_XTAL_40MHZ)
+37c218d8021e36 Arınç ÜNAL      2023-05-03  431  				ncpo1 = 0x0640;
+7ef6f6f8d237fa René van Dorst  2019-06-20  432  			if (xtal == HWTRAP_XTAL_25MHZ)
+7ef6f6f8d237fa René van Dorst  2019-06-20  433  				ncpo1 = 0x0a00;
+7ef6f6f8d237fa René van Dorst  2019-06-20  434  		} else { /* PLL frequency: 250MHz: 2.0Gbit */
+7ef6f6f8d237fa René van Dorst  2019-06-20  435  			if (xtal == HWTRAP_XTAL_40MHZ)
+7ef6f6f8d237fa René van Dorst  2019-06-20  436  				ncpo1 = 0x0c80;
+7ef6f6f8d237fa René van Dorst  2019-06-20  437  			if (xtal == HWTRAP_XTAL_25MHZ)
+b8f126a8d54318 Sean Wang       2017-04-07  438  				ncpo1 = 0x1400;
+7ef6f6f8d237fa René van Dorst  2019-06-20  439  		}
+b8f126a8d54318 Sean Wang       2017-04-07  440  		break;
+b8f126a8d54318 Sean Wang       2017-04-07  441  	default:
+88bdef8be9f649 Landen Chao     2020-09-11  442  		dev_err(priv->dev, "xMII interface %d not supported\n",
+88bdef8be9f649 Landen Chao     2020-09-11  443  			interface);
+b8f126a8d54318 Sean Wang       2017-04-07  444  		return -EINVAL;
+b8f126a8d54318 Sean Wang       2017-04-07  445  	}
+b8f126a8d54318 Sean Wang       2017-04-07  446  
+b8f126a8d54318 Sean Wang       2017-04-07  447  	mt7530_rmw(priv, MT7530_P6ECR, P6_INTF_MODE_MASK,
+b8f126a8d54318 Sean Wang       2017-04-07  448  		   P6_INTF_MODE(trgint));
+b8f126a8d54318 Sean Wang       2017-04-07  449  
+0b086d76e7b011 Arınç ÜNAL      2023-03-10  450  	if (trgint) {
+8f058a6ef99f0b Arınç ÜNAL      2023-03-20  451  		/* Disable the MT7530 TRGMII clocks */
+8f058a6ef99f0b Arınç ÜNAL      2023-03-20  452  		core_clear(priv, CORE_TRGMII_GSW_CLK_CG, REG_TRGMIICK_EN);
+b8f126a8d54318 Sean Wang       2017-04-07  453  
+b8f126a8d54318 Sean Wang       2017-04-07  454  		/* Setup the MT7530 TRGMII Tx Clock */
+b8f126a8d54318 Sean Wang       2017-04-07 @455  		core_write(priv, CORE_PLL_GROUP5, RG_LCDDS_PCW_NCPO1(ncpo1));
+b8f126a8d54318 Sean Wang       2017-04-07  456  		core_write(priv, CORE_PLL_GROUP6, RG_LCDDS_PCW_NCPO0(0));
+b8f126a8d54318 Sean Wang       2017-04-07  457  		core_write(priv, CORE_PLL_GROUP10, RG_LCDDS_SSC_DELTA(ssc_delta));
+b8f126a8d54318 Sean Wang       2017-04-07  458  		core_write(priv, CORE_PLL_GROUP11, RG_LCDDS_SSC_DELTA1(ssc_delta));
+b8f126a8d54318 Sean Wang       2017-04-07  459  		core_write(priv, CORE_PLL_GROUP4,
+b8f126a8d54318 Sean Wang       2017-04-07  460  			   RG_SYSPLL_DDSFBK_EN | RG_SYSPLL_BIAS_EN |
+b8f126a8d54318 Sean Wang       2017-04-07  461  			   RG_SYSPLL_BIAS_LPF_EN);
+b8f126a8d54318 Sean Wang       2017-04-07  462  		core_write(priv, CORE_PLL_GROUP2,
+b8f126a8d54318 Sean Wang       2017-04-07  463  			   RG_SYSPLL_EN_NORMAL | RG_SYSPLL_VODEN |
+b8f126a8d54318 Sean Wang       2017-04-07  464  			   RG_SYSPLL_POSDIV(1));
+b8f126a8d54318 Sean Wang       2017-04-07  465  		core_write(priv, CORE_PLL_GROUP7,
+b8f126a8d54318 Sean Wang       2017-04-07  466  			   RG_LCDDS_PCW_NCPO_CHG | RG_LCCDS_C(3) |
+b8f126a8d54318 Sean Wang       2017-04-07  467  			   RG_LCDDS_PWDB | RG_LCDDS_ISO_EN);
+4732315ca9fe9f Ilya Lipnitskiy 2021-03-26  468  
+8f058a6ef99f0b Arınç ÜNAL      2023-03-20  469  		/* Enable the MT7530 TRGMII clocks */
+8f058a6ef99f0b Arınç ÜNAL      2023-03-20  470  		core_set(priv, CORE_TRGMII_GSW_CLK_CG, REG_TRGMIICK_EN);
+0b086d76e7b011 Arınç ÜNAL      2023-03-10  471  	}
+0b086d76e7b011 Arınç ÜNAL      2023-03-10  472  
+b8f126a8d54318 Sean Wang       2017-04-07  473  	return 0;
+b8f126a8d54318 Sean Wang       2017-04-07  474  }
+b8f126a8d54318 Sean Wang       2017-04-07  475  
 
 -- 
 0-DAY CI Kernel Test Service
