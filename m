@@ -1,42 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85968366
-	for <oe-kbuild@lists.linux.dev>; Sun, 28 May 2023 05:55:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CFC7C
+	for <oe-kbuild@lists.linux.dev>; Sun, 28 May 2023 06:37:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685253357; x=1716789357;
+  t=1685255878; x=1716791878;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qtk4jyCDwIM/qWbMEHQH6nJUdsANAtETQt3DDYFRPTY=;
-  b=PhdjMxxEQqFrQOujkAeHg72UDHTyQea7SZyq/voHLmwd6Na6Ls/EIEXN
-   8tHEvD+txaa4zxDAU+MWNpZEI57bSWWfhnOVN7uA1ujAfHAWYWegmPMrI
-   XrAJfkmdbWNKAwMutArrvLx1Fk7qK8vzyuugS2PjPkFLXYltyZDV1utwy
-   tnBh+ZICDFQFqZvFZp2BeD6PGSxUmI0HZ5NGes7RhBoIj7+FxDntI9toE
-   MWgEd6jWHj3LKHG5XS0tmbK/ZD06+9vGPa1s1kGT6jc4tBkS2QW7AXo4b
-   dv8K+BeoZWVGoyiIOugeqmFhXHSeRRjb+tBzRePGkwU5r5Ghp7nOL06lm
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="353327872"
+  bh=fGT9tsvJxYCmZ7PazIwb2E4jInPPGmazzyP/BmD7quE=;
+  b=Hh1crt4e6zAdK8ibRCCpuRWOEHb88knMb5odWcvaj7tEzviu7Bgv1Y73
+   qef88luwVwjL44GWNEy2X4wWBE0kJZWD61nEzM+EpwNb7dc3CE6ZFccl5
+   Bsy2GQvxPINB8ZGA6nUZNp1b/PmuZ6HHta7AH3kJA1N+CpkEfIaHcbypi
+   UldxLT7l/aRyDZOIAGNtUDlQ9EFlpKF1E3AOzylU3/R7HyrNrrZNAfEtN
+   bLWdNL5UnfHRqCb0BU0h25tQLpfFeoBS3TY2GWjN9Y4+jdI68eVqBoDKm
+   WYJ74MaaPPiz2wdmZ+LIACtifen6889ZLOYyET1nqOzNKCD79GJ+i9Vjg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="334844960"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="353327872"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 22:55:56 -0700
+   d="scan'208";a="334844960"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 23:37:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="829961121"
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="849993208"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="829961121"
+   d="scan'208";a="849993208"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 27 May 2023 22:55:55 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 27 May 2023 23:37:56 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q39Nj-000KSE-0T;
-	Sun, 28 May 2023 05:55:55 +0000
-Date: Sun, 28 May 2023 13:55:00 +0800
+	id 1q3A2O-000KTG-0t;
+	Sun, 28 May 2023 06:37:56 +0000
+Date: Sun, 28 May 2023 14:37:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [jolsa-perf:uprobe_multi_2 1/22] kernel/trace/bpf_trace.c:3035:31:
- sparse: sparse: duplicate [noderef]
-Message-ID: <202305281324.goZ3zHFS-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/net/wireless/legacy/ray_cs.c:2115:2-4: WARNING: possible
+ condition with no effect (if == else)
+Message-ID: <202305281428.rBPZ7Fn1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,48 +46,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: kernel/trace/bpf_trace.c:3035:31: sparse: sparse: duplicate [noderef]"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jiri Olsa <jolsa@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Kalle Valo <kvalo@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_multi_2
-head:   c8f1191093bc581ca849b4e106d98b69bdc3a9fd
-commit: cd4ef19c217089e0b5af3754c9b5915780926c9b [1/22] bpf: Add multi uprobe link
-:::::: branch date: 3 days ago
-:::::: commit date: 4 days ago
-config: x86_64-randconfig-s053-20230528 (https://download.01.org/0day-ci/archive/20230528/202305281324.goZ3zHFS-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=cd4ef19c217089e0b5af3754c9b5915780926c9b
-        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
-        git fetch --no-tags jolsa-perf uprobe_multi_2
-        git checkout cd4ef19c217089e0b5af3754c9b5915780926c9b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/ lib//
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   416839029e3858f61dc7dd346559c03e74ed8380
+commit: 298e50ad8eb8fa12ea68bb2da45bb8ef4edcd0ec wifi: move raycs, wl3501 and rndis_wlan to legacy directory
+date:   3 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 3 months ago
+config: xtensa-randconfig-c44-20230528 (https://download.01.org/0day-ci/archive/20230528/202305281428.rBPZ7Fn1-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202305281324.goZ3zHFS-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202305281428.rBPZ7Fn1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/trace/bpf_trace.c:3035:31: sparse: sparse: duplicate [noderef]
->> kernel/trace/bpf_trace.c:3035:31: sparse: sparse: multiple address spaces given: __user & __user
-   kernel/trace/bpf_trace.c:3035:46: sparse: sparse: multiple address spaces given: __user & __user
-
-vim +3035 kernel/trace/bpf_trace.c
-
-cd4ef19c217089 Jiri Olsa 2023-02-22  3032  
-cd4ef19c217089 Jiri Olsa 2023-02-22  3033  int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-cd4ef19c217089 Jiri Olsa 2023-02-22  3034  {
-cd4ef19c217089 Jiri Olsa 2023-02-22 @3035  	void __user **upaths, __user *upath, __user *old_upath = NULL;
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/legacy/ray_cs.c:2115:2-4: WARNING: possible condition with no effect (if == else)
+--
+>> drivers/net/wireless/legacy/ray_cs.c:2084:13-14: WARNING opportunity for min()
 
 -- 
 0-DAY CI Kernel Test Service
