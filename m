@@ -1,73 +1,92 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BF77C
-	for <oe-kbuild@lists.linux.dev>; Sun, 28 May 2023 08:02:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685260925; x=1716796925;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cp+arSrK9g3dS5s5gnus+BlIEV47SWicVYRp4dH64sk=;
-  b=F4dnY2+XIi446J3zpw3yNs2PTCsZKnWC9IkpdsimWRgF2rQlldI/co1E
-   YTFk1NOXclRRfthUoQSDSNfiom+dsTW0ZaU/4CTbUaO4kXAgG63TuaaZy
-   Fa4VAUFlkQ8TWyiAnidf+FOlbsB73vgjT+czm0I0nQxTjR8JaouSsbZj+
-   vCvHOcMEPThZF41vOgNrzOrI6ImbEoQaaRPgufiiDxapXMgG7rz8mUkOY
-   nJMNkp9lG/10pCfSUf98dIhlYV63wFtdZXgWzhPIv7lEqGOu8NNTa+MTM
-   cDwJt0+RATtQxn+kU1hTz6+5JYktLefyF6Gz7uWRA/wwaxxLSvzgvvWu9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="420254176"
-X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="420254176"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 01:02:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="1035828213"
-X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="1035828213"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 May 2023 01:01:59 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q3BLi-000KUQ-2w;
-	Sun, 28 May 2023 08:01:58 +0000
-Date: Sun, 28 May 2023 16:01:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [android-common:android14-6.1 3/7] mm/page_alloc.c: trace/hooks/mm.h
- is included more than once.
-Message-ID: <202305281524.S4TJufi0-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F585360;
+	Sun, 28 May 2023 08:57:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2902BC433D2;
+	Sun, 28 May 2023 08:57:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1685264275;
+	bh=+Z8b5BGxmEusB3RqdWRSJeINY+2EbMtiB0r09qz52HI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=r/34xDGLGn65sBIfi+1y4AXv1uYX26pIVTLcReKJ3U5z9nbymnwaMHXMaG5VvhGlA
+	 khsIUFRt3AGRQACTdVjnHgb3ntaNUyanG6ZRkvZqNa0qseGYvd18QI5KIwQNcQT0b9
+	 5MNObIjKwJARX5CF91LzzgCasEXZpjXQCSEkRW6I=
+Date: Sun, 28 May 2023 09:57:52 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Prathu Baronia <prathubaronia2011@gmail.com>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH v4 3/3] axis-fifo: cleanup space issues with fops struct
+Message-ID: <2023052808-predefine-thrive-d84a@gregkh>
+References: <ZHHE/H2p4Go/Igc/@redkillpc>
+ <20230527115101.47569-1-prathubaronia2011@gmail.com>
+ <20230527115101.47569-3-prathubaronia2011@gmail.com>
+ <20230527223111.jidik3ffcsxdkenb@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230527223111.jidik3ffcsxdkenb@pengutronix.de>
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
+On Sun, May 28, 2023 at 12:31:11AM +0200, Uwe Kleine-König wrote:
+> Hello,
+> 
+> On Sat, May 27, 2023 at 05:21:00PM +0530, Prathu Baronia wrote:
+> > Add required spaces for proper formatting of fops members for better
+> > readability.
+> > 
+> > Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
+> > ---
+> >  drivers/staging/axis-fifo/axis-fifo.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> > index d71bdc6dd961..59e962467a3d 100644
+> > --- a/drivers/staging/axis-fifo/axis-fifo.c
+> > +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> > @@ -716,11 +716,11 @@ static int axis_fifo_close(struct inode *inod, struct file *f)
+> >  }
+> >  
+> >  static const struct file_operations fops = {
+> > -	.owner = THIS_MODULE,
+> > -	.open = axis_fifo_open,
+> > +	.owner   = THIS_MODULE,
+> > +	.open    = axis_fifo_open,
+> >  	.release = axis_fifo_close,
+> > -	.read = axis_fifo_read,
+> > -	.write = axis_fifo_write
+> > +	.read    = axis_fifo_read,
+> > +	.write   = axis_fifo_write
+> 
+> Note this is only subjectively better. IMHO with just a single space
+> this is perfectly readable. Aligning the = might look nice, but it's
+> also annoying at times. When you add another member (e.g.
+> .iterate_shared) you either add a line that doesn't match all others, or
+> you have to touch all other lines of that struct which (objectively?)
+> hurts readability of that patch. Also for generated patches this kind of
+> alignment yields extra work. (See for example
+> https://lore.kernel.org/lkml/20230525205840.734432-1-u.kleine-koenig@pengutronix.de/
+> which required semi-manual fixup to keep the alignment after coccinelle
+> generated the patch.)
+> 
+> If you still think this is a good idea, I'd ask you to stick to one
+> style for the whole file. e.g. axis_fifo_driver uses inconsistent
+> and different indention.
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+I agree, there is no "requirement" that these fields are aligned at all,
+so I would stick to the real fixes that are needed for this code to be
+able to be moved out of staging instead.
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   500484f5be022b113cdfb97287e3491a149435cd
-commit: 573ba7b6e66e9aca2fe4a1c982bbced96a0d1e10 [3/7] ANDROID: vendor_hooks: Add hooks for memory when debug
-:::::: branch date: 31 hours ago
-:::::: commit date: 2 days ago
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+thanks,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202305281524.S4TJufi0-lkp@intel.com/
-
-includecheck warnings: (new ones prefixed by >>)
->> mm/page_alloc.c: trace/hooks/mm.h is included more than once.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+greg k-h
