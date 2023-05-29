@@ -1,139 +1,194 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D969246A4
-	for <oe-kbuild@lists.linux.dev>; Mon, 29 May 2023 09:30:34 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-30aa76048fbso1833984f8f.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 29 May 2023 02:30:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685352632; x=1687944632;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=T+PZ/8vtk+vOl9qqDm4A4Cvfl/A+cxzXZXve008UphE=;
-        b=K5q+5l7JUSToyu+fnkvfC2c2dAK70MGIt4nNsXq/uazURgxpkwi6nact6yLxwPOvOC
-         S/XBYZNFg58EIZFEMyM4dOka3k5jdYcn42grjheRkG97EvHzbJYC5QkB79wM484pLO7S
-         qFadtIiVJalIoTnm2f5lbJKif36yjaoCpPraX//9FbBYlscrjmiywbCU+Fas01aCNPUW
-         jK4n1YuO1QIDELhE2ZxscbSo0jMgGIPQhffZsopCC26NVvuMsYnv87T+Xdm9JUOVaN0R
-         YsEgtzTJOvHx6zD7hNZf+5wqoW/5V3AHxz6t+qBJqQVWDZtRTifRY0POsnyyO4paBu41
-         Eszw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685352632; x=1687944632;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=T+PZ/8vtk+vOl9qqDm4A4Cvfl/A+cxzXZXve008UphE=;
-        b=aix67cbM5QP/fYI/eRgCpmJRU6ukVz01fCpT51NyzzgflcZHGcWNPaQvgzLKAYPkTJ
-         tNwvGMAGWreQdAnnZ5VQehVm+Bat9ajmiHuCoEK++jKsSOh7NESkItRKZObQQg022X+0
-         +GOKt/ivg+S7xQ+ncFNRVLIK+WyXs8KjoIyedyWhCXSK87h2AAHFmZ5V10uvL4TfG37F
-         fcAv3ijnu7JRW9S/+hZiN8FD3IVzKbAo29XepNr8ghlxwdAtRhbfz6tWp+HMPBAOO00E
-         qPcUVkupYDJBtrXBjudcq+7pWriCLyTbeknpJExJTrockts28RXlPbg2tGvEnxwPpmv2
-         ff5A==
-X-Gm-Message-State: AC+VfDwcSStCdNBaNvX9G82X8dsY58HzBaJknx/OkjCOvFZZVuVRCGQf
-	IGjAKPScyKQTfl8DMIo6lXFRS8baZFmc9RSQkJY=
-X-Google-Smtp-Source: ACHHUZ53lvKO30FFBNzI4qx5jaiiupYOGUkXjxLKFe0TkRPpicjwR2wcycrBo84wy9OJwgLvwVUWXw==
-X-Received: by 2002:a5d:6644:0:b0:2ef:bada:2f25 with SMTP id f4-20020a5d6644000000b002efbada2f25mr9371736wrw.67.1685352632115;
-        Mon, 29 May 2023 02:30:32 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id x3-20020adfdcc3000000b0030ade1b9400sm8524003wrm.30.2023.05.29.02.30.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 May 2023 02:30:30 -0700 (PDT)
-Date: Mon, 29 May 2023 12:30:28 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Wolfram Sang <wsa-dev@sang-engineering.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4567C;
+	Mon, 29 May 2023 10:04:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685354688; x=1716890688;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=pFPxTmUeR4k15eiFkLVCz7znc+4svnROv7IKhLddWFE=;
+  b=e3KWfr/O878y6bQDnCEUxdK9+QSdkr4D3fp+aVukgLgux8IW96iuAXEo
+   mmVWDhYTkhkpfls4CYpUoEUjUA+LvIxSsqmRocBFvzo2rjHdX5wLnnvK+
+   kppOcAZtl/SqFy9t2ztpVbCNxr1+YSbSuNvxun4E+5rDl+6NnG/j+VX8i
+   BCr89lq/PktY5mxkxE1EI5wLYe5vE9dSM5ZYmW3NbHSj87f/RaeTpgFYB
+   mQJvalATj0RPKS738G08Jp3UHRBKR+WvFxwS7vCMmjz/Hp9BwWdEh58cT
+   uy0IFX6NOqYJjQbeU1l3ilUUUcjodopHP/aVG0qi5EJJlg6u8kQGPeRVM
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="357922661"
+X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
+   d="scan'208";a="357922661"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 03:04:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="850341362"
+X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
+   d="scan'208";a="850341362"
+Received: from iswiersz-mobl.ger.corp.intel.com (HELO localhost) ([10.252.55.191])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 03:04:44 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ intel-gfx@lists.freedesktop.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 4/5] gnss: ubx: add support for the reset gpio
-Message-ID: <a4648fe2-c439-4f3e-a09a-624d4b097d84@kili.mountain>
+Subject: Re: [Intel-gfx] [PATCH 01/15] drm/i915/plane: warn on non-zero
+ plane offset
+In-Reply-To: <67cd1180-7ffb-46f6-ab30-717219a654fe@kili.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <67cd1180-7ffb-46f6-ab30-717219a654fe@kili.mountain>
+Date: Mon, 29 May 2023 13:04:41 +0300
+Message-ID: <87zg5nh2rq.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230523064310.3005-5-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Wolfram,
+On Mon, 29 May 2023, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> Hi Jani,
+>
+> kernel test robot noticed the following build warnings:
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+Thanks, v2 already on the list:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+https://patchwork.freedesktop.org/patch/msgid/20230526172218.1597394-1-jani=
+.nikula@intel.com
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wolfram-Sang/WIP-gnss-merge-MTK-driver-into-UBX-driver/20230523-144613
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-patch link:    https://lore.kernel.org/r/20230523064310.3005-5-wsa%2Brenesas%40sang-engineering.com
-patch subject: [RFC PATCH 4/5] gnss: ubx: add support for the reset gpio
-config: i386-randconfig-m021-20230528 (https://download.01.org/0day-ci/archive/20230528/202305281234.zR27yeIA-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202305281234.zR27yeIA-lkp@intel.com/
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i9=
+15-plane-warn-on-non-zero-plane-offset/20230527-003951
+> base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+> patch link:    https://lore.kernel.org/r/0988d237e56c56568f035053da8e2e23=
+08a17d3a.1685119007.git.jani.nikula%40intel.com
+> patch subject: [Intel-gfx] [PATCH 01/15] drm/i915/plane: warn on non-zero=
+ plane offset
+> config: x86_64-randconfig-m031-20230526 (https://download.01.org/0day-ci/=
+archive/20230528/202305280453.8yzCMS2i-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202305280453.8yzCMS2i-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/gpu/drm/i915/display/i9xx_plane.c:1040 i9xx_get_initial_plane_con=
+fig() error: uninitialized symbol 'offset'.
+>
+> vim +/offset +1040 drivers/gpu/drm/i915/display/i9xx_plane.c
+>
+> 2a3014490cd18a Dave Airlie   2021-02-05   974  void
+> 2a3014490cd18a Dave Airlie   2021-02-05   975  i9xx_get_initial_plane_con=
+fig(struct intel_crtc *crtc,
+> 2a3014490cd18a Dave Airlie   2021-02-05   976  			      struct intel_init=
+ial_plane_config *plane_config)
+> 2a3014490cd18a Dave Airlie   2021-02-05   977  {
+> 2a3014490cd18a Dave Airlie   2021-02-05   978  	struct drm_device *dev =
+=3D crtc->base.dev;
+> 2a3014490cd18a Dave Airlie   2021-02-05   979  	struct drm_i915_private *=
+dev_priv =3D to_i915(dev);
+> 2a3014490cd18a Dave Airlie   2021-02-05   980  	struct intel_plane *plane=
+ =3D to_intel_plane(crtc->base.primary);
+> 2a3014490cd18a Dave Airlie   2021-02-05   981  	enum i9xx_plane_id i9xx_p=
+lane =3D plane->i9xx_plane;
+> 2a3014490cd18a Dave Airlie   2021-02-05   982  	enum pipe pipe;
+> 2a3014490cd18a Dave Airlie   2021-02-05   983  	u32 val, base, offset;
+> 2a3014490cd18a Dave Airlie   2021-02-05   984  	int fourcc, pixel_format;
+> 2a3014490cd18a Dave Airlie   2021-02-05   985  	unsigned int aligned_heig=
+ht;
+> 2a3014490cd18a Dave Airlie   2021-02-05   986  	struct drm_framebuffer *f=
+b;
+> 2a3014490cd18a Dave Airlie   2021-02-05   987  	struct intel_framebuffer =
+*intel_fb;
+> 2a3014490cd18a Dave Airlie   2021-02-05   988=20=20
+> 2a3014490cd18a Dave Airlie   2021-02-05   989  	if (!plane->get_hw_state(=
+plane, &pipe))
+> 2a3014490cd18a Dave Airlie   2021-02-05   990  		return;
+> 2a3014490cd18a Dave Airlie   2021-02-05   991=20=20
+> 2a3014490cd18a Dave Airlie   2021-02-05   992  	drm_WARN_ON(dev, pipe !=
+=3D crtc->pipe);
+> 2a3014490cd18a Dave Airlie   2021-02-05   993=20=20
+> 2a3014490cd18a Dave Airlie   2021-02-05   994  	intel_fb =3D kzalloc(size=
+of(*intel_fb), GFP_KERNEL);
+> 2a3014490cd18a Dave Airlie   2021-02-05   995  	if (!intel_fb) {
+> 2a3014490cd18a Dave Airlie   2021-02-05   996  		drm_dbg_kms(&dev_priv->d=
+rm, "failed to alloc fb\n");
+> 2a3014490cd18a Dave Airlie   2021-02-05   997  		return;
+> 2a3014490cd18a Dave Airlie   2021-02-05   998  	}
+> 2a3014490cd18a Dave Airlie   2021-02-05   999=20=20
+> 2a3014490cd18a Dave Airlie   2021-02-05  1000  	fb =3D &intel_fb->base;
+> 2a3014490cd18a Dave Airlie   2021-02-05  1001=20=20
+> 2a3014490cd18a Dave Airlie   2021-02-05  1002  	fb->dev =3D dev;
+> 2a3014490cd18a Dave Airlie   2021-02-05  1003=20=20
+> 2a3014490cd18a Dave Airlie   2021-02-05  1004  	val =3D intel_de_read(dev=
+_priv, DSPCNTR(i9xx_plane));
+> 2a3014490cd18a Dave Airlie   2021-02-05  1005=20=20
+> 005e95377249cb Matt Roper    2021-03-19  1006  	if (DISPLAY_VER(dev_priv)=
+ >=3D 4) {
+> 428cb15d5b0031 Ville Syrj=C3=A4l=C3=A4 2022-01-21  1007  		if (val & DISP=
+_TILED) {
+> 2a3014490cd18a Dave Airlie   2021-02-05  1008  			plane_config->tiling =
+=3D I915_TILING_X;
+> 2a3014490cd18a Dave Airlie   2021-02-05  1009  			fb->modifier =3D I915_F=
+ORMAT_MOD_X_TILED;
+> 2a3014490cd18a Dave Airlie   2021-02-05  1010  		}
+> 2a3014490cd18a Dave Airlie   2021-02-05  1011=20=20
+> 428cb15d5b0031 Ville Syrj=C3=A4l=C3=A4 2022-01-21  1012  		if (val & DISP=
+_ROTATE_180)
+> 2a3014490cd18a Dave Airlie   2021-02-05  1013  			plane_config->rotation =
+=3D DRM_MODE_ROTATE_180;
+> 2a3014490cd18a Dave Airlie   2021-02-05  1014  	}
+> 2a3014490cd18a Dave Airlie   2021-02-05  1015=20=20
+> 2a3014490cd18a Dave Airlie   2021-02-05  1016  	if (IS_CHERRYVIEW(dev_pri=
+v) && pipe =3D=3D PIPE_B &&
+> 428cb15d5b0031 Ville Syrj=C3=A4l=C3=A4 2022-01-21  1017  	    val & DISP_=
+MIRROR)
+> 2a3014490cd18a Dave Airlie   2021-02-05  1018  		plane_config->rotation |=
+=3D DRM_MODE_REFLECT_X;
+> 2a3014490cd18a Dave Airlie   2021-02-05  1019=20=20
+> 428cb15d5b0031 Ville Syrj=C3=A4l=C3=A4 2022-01-21  1020  	pixel_format =
+=3D val & DISP_FORMAT_MASK;
+> 2a3014490cd18a Dave Airlie   2021-02-05  1021  	fourcc =3D i9xx_format_to=
+_fourcc(pixel_format);
+> 2a3014490cd18a Dave Airlie   2021-02-05  1022  	fb->format =3D drm_format=
+_info(fourcc);
+> 2a3014490cd18a Dave Airlie   2021-02-05  1023=20=20
+> 2a3014490cd18a Dave Airlie   2021-02-05  1024  	if (IS_HASWELL(dev_priv) =
+|| IS_BROADWELL(dev_priv)) {
+> 2a3014490cd18a Dave Airlie   2021-02-05  1025  		offset =3D intel_de_read=
+(dev_priv, DSPOFFSET(i9xx_plane));
+> 428cb15d5b0031 Ville Syrj=C3=A4l=C3=A4 2022-01-21  1026  		base =3D intel=
+_de_read(dev_priv, DSPSURF(i9xx_plane)) & DISP_ADDR_MASK;
+> 005e95377249cb Matt Roper    2021-03-19  1027  	} else if (DISPLAY_VER(de=
+v_priv) >=3D 4) {
+> 2a3014490cd18a Dave Airlie   2021-02-05  1028  		if (plane_config->tiling)
+> 2a3014490cd18a Dave Airlie   2021-02-05  1029  			offset =3D intel_de_rea=
+d(dev_priv,
+> 2a3014490cd18a Dave Airlie   2021-02-05  1030  					       DSPTILEOFF(i9x=
+x_plane));
+> 2a3014490cd18a Dave Airlie   2021-02-05  1031  		else
+> 2a3014490cd18a Dave Airlie   2021-02-05  1032  			offset =3D intel_de_rea=
+d(dev_priv,
+> 2a3014490cd18a Dave Airlie   2021-02-05  1033  					       DSPLINOFF(i9xx=
+_plane));
+> 428cb15d5b0031 Ville Syrj=C3=A4l=C3=A4 2022-01-21  1034  		base =3D intel=
+_de_read(dev_priv, DSPSURF(i9xx_plane)) & DISP_ADDR_MASK;
+> 2a3014490cd18a Dave Airlie   2021-02-05  1035  	} else {
+> 2a3014490cd18a Dave Airlie   2021-02-05  1036  		base =3D intel_de_read(d=
+ev_priv, DSPADDR(i9xx_plane));
+>
+> offset not initialized on this path.
+>
+> 2a3014490cd18a Dave Airlie   2021-02-05  1037  	}
+> 2a3014490cd18a Dave Airlie   2021-02-05  1038  	plane_config->base =3D ba=
+se;
+> 2a3014490cd18a Dave Airlie   2021-02-05  1039=20=20
+> 40c3d9e9221e23 Jani Nikula   2023-05-26 @1040  	drm_WARN_ON(&dev_priv->dr=
+m, offset !=3D 0);
 
-smatch warnings:
-drivers/gnss/ubx.c:128 ubx_probe() warn: missing unwind goto?
-
-vim +128 drivers/gnss/ubx.c
-
-1ad69f10e3a58d Johan Hovold 2018-06-01   90  static int ubx_probe(struct serdev_device *serdev)
-1ad69f10e3a58d Johan Hovold 2018-06-01   91  {
-7b5f4730e4af68 Wolfram Sang 2023-05-23   92  	const struct ubx_info *info = of_device_get_match_data(&serdev->dev);
-1ad69f10e3a58d Johan Hovold 2018-06-01   93  	struct gnss_serial *gserial;
-1ad69f10e3a58d Johan Hovold 2018-06-01   94  	struct ubx_data *data;
-1ad69f10e3a58d Johan Hovold 2018-06-01   95  	int ret;
-1ad69f10e3a58d Johan Hovold 2018-06-01   96  
-7b5f4730e4af68 Wolfram Sang 2023-05-23   97  	if (!info)
-7b5f4730e4af68 Wolfram Sang 2023-05-23   98  		return -ENOENT;
-7b5f4730e4af68 Wolfram Sang 2023-05-23   99  
-1ad69f10e3a58d Johan Hovold 2018-06-01  100  	gserial = gnss_serial_allocate(serdev, sizeof(*data));
-1ad69f10e3a58d Johan Hovold 2018-06-01  101  	if (IS_ERR(gserial)) {
-1ad69f10e3a58d Johan Hovold 2018-06-01  102  		ret = PTR_ERR(gserial);
-1ad69f10e3a58d Johan Hovold 2018-06-01  103  		return ret;
-1ad69f10e3a58d Johan Hovold 2018-06-01  104  	}
-1ad69f10e3a58d Johan Hovold 2018-06-01  105  
-1ad69f10e3a58d Johan Hovold 2018-06-01  106  	gserial->ops = &ubx_gserial_ops;
-1ad69f10e3a58d Johan Hovold 2018-06-01  107  
-7b5f4730e4af68 Wolfram Sang 2023-05-23  108  	gserial->gdev->type = info->type;
-10f146639fee5f Johan Hovold 2018-06-01  109  
-1ad69f10e3a58d Johan Hovold 2018-06-01  110  	data = gnss_serial_get_drvdata(gserial);
-1ad69f10e3a58d Johan Hovold 2018-06-01  111  
-23c5c7e33b0fc6 Wolfram Sang 2023-05-23  112  	data->vcc = devm_regulator_get_optional(&serdev->dev, "vcc");
-1ad69f10e3a58d Johan Hovold 2018-06-01  113  	if (IS_ERR(data->vcc)) {
-1ad69f10e3a58d Johan Hovold 2018-06-01  114  		ret = PTR_ERR(data->vcc);
-23c5c7e33b0fc6 Wolfram Sang 2023-05-23  115  		if (ret == -ENODEV)
-23c5c7e33b0fc6 Wolfram Sang 2023-05-23  116  			data->vcc = NULL;
-23c5c7e33b0fc6 Wolfram Sang 2023-05-23  117  		else
-1ad69f10e3a58d Johan Hovold 2018-06-01  118  			goto err_free_gserial;
-1ad69f10e3a58d Johan Hovold 2018-06-01  119  	}
-1ad69f10e3a58d Johan Hovold 2018-06-01  120  
-58f289a9dc7461 Wolfram Sang 2023-05-23  121  	ret = devm_regulator_get_enable_optional(&serdev->dev, info->v_bckp_name);
-58f289a9dc7461 Wolfram Sang 2023-05-23  122  	if (ret < 0 && ret != -ENODEV)
-1ad69f10e3a58d Johan Hovold 2018-06-01  123  		goto err_free_gserial;
-1ad69f10e3a58d Johan Hovold 2018-06-01  124  
-32522a4fa4ae01 Wolfram Sang 2023-05-23  125  	/* Start with reset asserted (GPIO must be active low!) */
-32522a4fa4ae01 Wolfram Sang 2023-05-23  126  	data->reset_gpio = devm_gpiod_get_optional(&serdev->dev, "reset", GPIOD_OUT_HIGH);
-32522a4fa4ae01 Wolfram Sang 2023-05-23  127  	if (IS_ERR(data->reset_gpio))
-32522a4fa4ae01 Wolfram Sang 2023-05-23 @128  		return PTR_ERR(data->reset_gpio);
-
-ret = PTR_ERR(data->reset_gpio);
-goto err_free_gserial;
-
-32522a4fa4ae01 Wolfram Sang 2023-05-23  129  
-1ad69f10e3a58d Johan Hovold 2018-06-01  130  	ret = gnss_serial_register(gserial);
-1ad69f10e3a58d Johan Hovold 2018-06-01  131  	if (ret)
-58f289a9dc7461 Wolfram Sang 2023-05-23  132  		goto err_free_gserial;
-1ad69f10e3a58d Johan Hovold 2018-06-01  133  
-1ad69f10e3a58d Johan Hovold 2018-06-01  134  	return 0;
-1ad69f10e3a58d Johan Hovold 2018-06-01  135  
-1ad69f10e3a58d Johan Hovold 2018-06-01  136  err_free_gserial:
-1ad69f10e3a58d Johan Hovold 2018-06-01  137  	gnss_serial_free(gserial);
-1ad69f10e3a58d Johan Hovold 2018-06-01  138  
-1ad69f10e3a58d Johan Hovold 2018-06-01  139  	return ret;
-1ad69f10e3a58d Johan Hovold 2018-06-01  140  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+--=20
+Jani Nikula, Intel Open Source Graphics Center
