@@ -1,194 +1,179 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4567C;
-	Mon, 29 May 2023 10:04:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685354688; x=1716890688;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=pFPxTmUeR4k15eiFkLVCz7znc+4svnROv7IKhLddWFE=;
-  b=e3KWfr/O878y6bQDnCEUxdK9+QSdkr4D3fp+aVukgLgux8IW96iuAXEo
-   mmVWDhYTkhkpfls4CYpUoEUjUA+LvIxSsqmRocBFvzo2rjHdX5wLnnvK+
-   kppOcAZtl/SqFy9t2ztpVbCNxr1+YSbSuNvxun4E+5rDl+6NnG/j+VX8i
-   BCr89lq/PktY5mxkxE1EI5wLYe5vE9dSM5ZYmW3NbHSj87f/RaeTpgFYB
-   mQJvalATj0RPKS738G08Jp3UHRBKR+WvFxwS7vCMmjz/Hp9BwWdEh58cT
-   uy0IFX6NOqYJjQbeU1l3ilUUUcjodopHP/aVG0qi5EJJlg6u8kQGPeRVM
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="357922661"
-X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="357922661"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 03:04:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="850341362"
-X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="850341362"
-Received: from iswiersz-mobl.ger.corp.intel.com (HELO localhost) ([10.252.55.191])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 03:04:44 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- intel-gfx@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-gfx] [PATCH 01/15] drm/i915/plane: warn on non-zero
- plane offset
-In-Reply-To: <67cd1180-7ffb-46f6-ab30-717219a654fe@kili.mountain>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <67cd1180-7ffb-46f6-ab30-717219a654fe@kili.mountain>
-Date: Mon, 29 May 2023 13:04:41 +0300
-Message-ID: <87zg5nh2rq.fsf@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0104D7C;
+	Mon, 29 May 2023 10:15:01 +0000 (UTC)
+X-GND-Sasl: miquel.raynal@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1685355294;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a5U83pgtUbdNZXbGC3fVAgoMj9cpM77Fj84QM02uyq8=;
+	b=B6mAEL3uE7AHcxPnr4g5M93WAGfGZObq/ytl1vRxrauyVvX4RT+2UqQmz3pCzyxKpSh7O4
+	f6zi5R2Xkh+WkOyBfr1l7CLfBI5fDHB8F1VmK/aKlIxMiTCgTTT+rCzr3jjMiBmeNREFbN
+	xtnlfzZy3giBu9wC1ITJhZZnrxE5BaQd/B2HJB2yPnWDy9JK1UNQsnx9cVfQmTHRUuPpYi
+	lTImpP+8POay4K4xgQQuwdYW6sSUwXKKMiHXFBJGF6eygMxdU0NyxtiGuTtdoopWGq35nw
+	BwPQrG7lhQucPYs62utQHO5CW/ZgQjydTPfHctShicr5PjU1Zm6CV7XrwoE8yw==
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 41E30240002;
+	Mon, 29 May 2023 10:14:53 +0000 (UTC)
+Date: Mon, 29 May 2023 12:14:52 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Luka Perkov <luka.perkov@sartura.hr>, Robert
+ Marko <robert.marko@sartura.hr>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] nvmem: core: Expose cells through sysfs
+Message-ID: <20230529121452.3a2f33f2@xps-13>
+In-Reply-To: <8c442b03-bff3-4d25-96e0-eb297e280797@kili.mountain>
+References: <20230523100239.307574-3-miquel.raynal@bootlin.com>
+	<8c442b03-bff3-4d25-96e0-eb297e280797@kili.mountain>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 29 May 2023, Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> Hi Jani,
->
+Hi Dan,
+
+dan.carpenter@linaro.org wrote on Mon, 29 May 2023 07:28:59 +0300:
+
+> Hi Miquel,
+>=20
 > kernel test robot noticed the following build warnings:
-
-Thanks, v2 already on the list:
-
-https://patchwork.freedesktop.org/patch/msgid/20230526172218.1597394-1-jani=
-.nikula@intel.com
-
-
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i9=
-15-plane-warn-on-non-zero-plane-offset/20230527-003951
-> base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-> patch link:    https://lore.kernel.org/r/0988d237e56c56568f035053da8e2e23=
-08a17d3a.1685119007.git.jani.nikula%40intel.com
-> patch subject: [Intel-gfx] [PATCH 01/15] drm/i915/plane: warn on non-zero=
- plane offset
-> config: x86_64-randconfig-m031-20230526 (https://download.01.org/0day-ci/=
-archive/20230528/202305280453.8yzCMS2i-lkp@intel.com/config)
+>=20
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/ABI-=
+sysfs-nvmem-cells-Expose-cells-through-sysfs/20230523-203042
+> base:   char-misc/char-misc-testing
+> patch link:    https://lore.kernel.org/r/20230523100239.307574-3-miquel.r=
+aynal%40bootlin.com
+> patch subject: [PATCH 2/2] nvmem: core: Expose cells through sysfs
+> config: i386-randconfig-m021-20230525 (https://download.01.org/0day-ci/ar=
+chive/20230528/202305280054.NloN5RLk-lkp@intel.com/config)
 > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
->
+>=20
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
 > | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202305280453.8yzCMS2i-lkp@intel.com/
->
+> | Closes: https://lore.kernel.org/r/202305280054.NloN5RLk-lkp@intel.com/
+>=20
 > smatch warnings:
-> drivers/gpu/drm/i915/display/i9xx_plane.c:1040 i9xx_get_initial_plane_con=
-fig() error: uninitialized symbol 'offset'.
->
-> vim +/offset +1040 drivers/gpu/drm/i915/display/i9xx_plane.c
->
-> 2a3014490cd18a Dave Airlie   2021-02-05   974  void
-> 2a3014490cd18a Dave Airlie   2021-02-05   975  i9xx_get_initial_plane_con=
-fig(struct intel_crtc *crtc,
-> 2a3014490cd18a Dave Airlie   2021-02-05   976  			      struct intel_init=
-ial_plane_config *plane_config)
-> 2a3014490cd18a Dave Airlie   2021-02-05   977  {
-> 2a3014490cd18a Dave Airlie   2021-02-05   978  	struct drm_device *dev =
-=3D crtc->base.dev;
-> 2a3014490cd18a Dave Airlie   2021-02-05   979  	struct drm_i915_private *=
-dev_priv =3D to_i915(dev);
-> 2a3014490cd18a Dave Airlie   2021-02-05   980  	struct intel_plane *plane=
- =3D to_intel_plane(crtc->base.primary);
-> 2a3014490cd18a Dave Airlie   2021-02-05   981  	enum i9xx_plane_id i9xx_p=
-lane =3D plane->i9xx_plane;
-> 2a3014490cd18a Dave Airlie   2021-02-05   982  	enum pipe pipe;
-> 2a3014490cd18a Dave Airlie   2021-02-05   983  	u32 val, base, offset;
-> 2a3014490cd18a Dave Airlie   2021-02-05   984  	int fourcc, pixel_format;
-> 2a3014490cd18a Dave Airlie   2021-02-05   985  	unsigned int aligned_heig=
-ht;
-> 2a3014490cd18a Dave Airlie   2021-02-05   986  	struct drm_framebuffer *f=
-b;
-> 2a3014490cd18a Dave Airlie   2021-02-05   987  	struct intel_framebuffer =
-*intel_fb;
-> 2a3014490cd18a Dave Airlie   2021-02-05   988=20=20
-> 2a3014490cd18a Dave Airlie   2021-02-05   989  	if (!plane->get_hw_state(=
-plane, &pipe))
-> 2a3014490cd18a Dave Airlie   2021-02-05   990  		return;
-> 2a3014490cd18a Dave Airlie   2021-02-05   991=20=20
-> 2a3014490cd18a Dave Airlie   2021-02-05   992  	drm_WARN_ON(dev, pipe !=
-=3D crtc->pipe);
-> 2a3014490cd18a Dave Airlie   2021-02-05   993=20=20
-> 2a3014490cd18a Dave Airlie   2021-02-05   994  	intel_fb =3D kzalloc(size=
-of(*intel_fb), GFP_KERNEL);
-> 2a3014490cd18a Dave Airlie   2021-02-05   995  	if (!intel_fb) {
-> 2a3014490cd18a Dave Airlie   2021-02-05   996  		drm_dbg_kms(&dev_priv->d=
-rm, "failed to alloc fb\n");
-> 2a3014490cd18a Dave Airlie   2021-02-05   997  		return;
-> 2a3014490cd18a Dave Airlie   2021-02-05   998  	}
-> 2a3014490cd18a Dave Airlie   2021-02-05   999=20=20
-> 2a3014490cd18a Dave Airlie   2021-02-05  1000  	fb =3D &intel_fb->base;
-> 2a3014490cd18a Dave Airlie   2021-02-05  1001=20=20
-> 2a3014490cd18a Dave Airlie   2021-02-05  1002  	fb->dev =3D dev;
-> 2a3014490cd18a Dave Airlie   2021-02-05  1003=20=20
-> 2a3014490cd18a Dave Airlie   2021-02-05  1004  	val =3D intel_de_read(dev=
-_priv, DSPCNTR(i9xx_plane));
-> 2a3014490cd18a Dave Airlie   2021-02-05  1005=20=20
-> 005e95377249cb Matt Roper    2021-03-19  1006  	if (DISPLAY_VER(dev_priv)=
- >=3D 4) {
-> 428cb15d5b0031 Ville Syrj=C3=A4l=C3=A4 2022-01-21  1007  		if (val & DISP=
-_TILED) {
-> 2a3014490cd18a Dave Airlie   2021-02-05  1008  			plane_config->tiling =
-=3D I915_TILING_X;
-> 2a3014490cd18a Dave Airlie   2021-02-05  1009  			fb->modifier =3D I915_F=
-ORMAT_MOD_X_TILED;
-> 2a3014490cd18a Dave Airlie   2021-02-05  1010  		}
-> 2a3014490cd18a Dave Airlie   2021-02-05  1011=20=20
-> 428cb15d5b0031 Ville Syrj=C3=A4l=C3=A4 2022-01-21  1012  		if (val & DISP=
-_ROTATE_180)
-> 2a3014490cd18a Dave Airlie   2021-02-05  1013  			plane_config->rotation =
-=3D DRM_MODE_ROTATE_180;
-> 2a3014490cd18a Dave Airlie   2021-02-05  1014  	}
-> 2a3014490cd18a Dave Airlie   2021-02-05  1015=20=20
-> 2a3014490cd18a Dave Airlie   2021-02-05  1016  	if (IS_CHERRYVIEW(dev_pri=
-v) && pipe =3D=3D PIPE_B &&
-> 428cb15d5b0031 Ville Syrj=C3=A4l=C3=A4 2022-01-21  1017  	    val & DISP_=
-MIRROR)
-> 2a3014490cd18a Dave Airlie   2021-02-05  1018  		plane_config->rotation |=
-=3D DRM_MODE_REFLECT_X;
-> 2a3014490cd18a Dave Airlie   2021-02-05  1019=20=20
-> 428cb15d5b0031 Ville Syrj=C3=A4l=C3=A4 2022-01-21  1020  	pixel_format =
-=3D val & DISP_FORMAT_MASK;
-> 2a3014490cd18a Dave Airlie   2021-02-05  1021  	fourcc =3D i9xx_format_to=
-_fourcc(pixel_format);
-> 2a3014490cd18a Dave Airlie   2021-02-05  1022  	fb->format =3D drm_format=
-_info(fourcc);
-> 2a3014490cd18a Dave Airlie   2021-02-05  1023=20=20
-> 2a3014490cd18a Dave Airlie   2021-02-05  1024  	if (IS_HASWELL(dev_priv) =
-|| IS_BROADWELL(dev_priv)) {
-> 2a3014490cd18a Dave Airlie   2021-02-05  1025  		offset =3D intel_de_read=
-(dev_priv, DSPOFFSET(i9xx_plane));
-> 428cb15d5b0031 Ville Syrj=C3=A4l=C3=A4 2022-01-21  1026  		base =3D intel=
-_de_read(dev_priv, DSPSURF(i9xx_plane)) & DISP_ADDR_MASK;
-> 005e95377249cb Matt Roper    2021-03-19  1027  	} else if (DISPLAY_VER(de=
-v_priv) >=3D 4) {
-> 2a3014490cd18a Dave Airlie   2021-02-05  1028  		if (plane_config->tiling)
-> 2a3014490cd18a Dave Airlie   2021-02-05  1029  			offset =3D intel_de_rea=
-d(dev_priv,
-> 2a3014490cd18a Dave Airlie   2021-02-05  1030  					       DSPTILEOFF(i9x=
-x_plane));
-> 2a3014490cd18a Dave Airlie   2021-02-05  1031  		else
-> 2a3014490cd18a Dave Airlie   2021-02-05  1032  			offset =3D intel_de_rea=
-d(dev_priv,
-> 2a3014490cd18a Dave Airlie   2021-02-05  1033  					       DSPLINOFF(i9xx=
-_plane));
-> 428cb15d5b0031 Ville Syrj=C3=A4l=C3=A4 2022-01-21  1034  		base =3D intel=
-_de_read(dev_priv, DSPSURF(i9xx_plane)) & DISP_ADDR_MASK;
-> 2a3014490cd18a Dave Airlie   2021-02-05  1035  	} else {
-> 2a3014490cd18a Dave Airlie   2021-02-05  1036  		base =3D intel_de_read(d=
-ev_priv, DSPADDR(i9xx_plane));
->
-> offset not initialized on this path.
->
-> 2a3014490cd18a Dave Airlie   2021-02-05  1037  	}
-> 2a3014490cd18a Dave Airlie   2021-02-05  1038  	plane_config->base =3D ba=
-se;
-> 2a3014490cd18a Dave Airlie   2021-02-05  1039=20=20
-> 40c3d9e9221e23 Jani Nikula   2023-05-26 @1040  	drm_WARN_ON(&dev_priv->dr=
-m, offset !=3D 0);
+> drivers/nvmem/core.c:380 nvmem_cell_attr_read() error: uninitialized symb=
+ol 'read_len'.
+>=20
+> vim +/read_len +380 drivers/nvmem/core.c
+>=20
+> 22c370b2163e59 Miquel Raynal       2023-05-23  328  static struct nvmem_c=
+ell *nvmem_create_cell(struct nvmem_cell_entry *entry,
+> 22c370b2163e59 Miquel Raynal       2023-05-23  329  					    const char *=
+id, int index);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  330 =20
+> 22c370b2163e59 Miquel Raynal       2023-05-23  331  static ssize_t nvmem_=
+cell_attr_read(struct file *filp, struct kobject *kobj,
+> 22c370b2163e59 Miquel Raynal       2023-05-23  332  				    struct bin_at=
+tribute *attr, char *buf,
+> 22c370b2163e59 Miquel Raynal       2023-05-23  333  				    loff_t pos, s=
+ize_t count)
+> 22c370b2163e59 Miquel Raynal       2023-05-23  334  {
+> 22c370b2163e59 Miquel Raynal       2023-05-23  335  	struct nvmem_cell_en=
+try *entry;
+> 22c370b2163e59 Miquel Raynal       2023-05-23  336  	struct nvmem_cell *c=
+ell =3D NULL;
+> 22c370b2163e59 Miquel Raynal       2023-05-23  337  	struct nvmem_device =
+*nvmem;
+> 22c370b2163e59 Miquel Raynal       2023-05-23  338  	size_t cell_sz, read=
+_len;
+> 22c370b2163e59 Miquel Raynal       2023-05-23  339  	struct device *dev;
+> 22c370b2163e59 Miquel Raynal       2023-05-23  340  	void *content;
+> 22c370b2163e59 Miquel Raynal       2023-05-23  341 =20
+> 22c370b2163e59 Miquel Raynal       2023-05-23  342  	if (attr->private)
+> 22c370b2163e59 Miquel Raynal       2023-05-23  343  		dev =3D attr->priva=
+te;
+> 22c370b2163e59 Miquel Raynal       2023-05-23  344  	else
+> 22c370b2163e59 Miquel Raynal       2023-05-23  345  		dev =3D kobj_to_dev=
+(kobj);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  346  	nvmem =3D to_nvmem_d=
+evice(dev);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  347 =20
+> 22c370b2163e59 Miquel Raynal       2023-05-23  348  	mutex_lock(&nvmem_mu=
+tex);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  349  	list_for_each_entry(=
+entry, &nvmem->cells, node) {
+> 22c370b2163e59 Miquel Raynal       2023-05-23  350  		if (strncmp(entry->=
+name, attr->attr.name, XATTR_NAME_MAX))
+> 22c370b2163e59 Miquel Raynal       2023-05-23  351  			continue;
+> 22c370b2163e59 Miquel Raynal       2023-05-23  352 =20
+> 22c370b2163e59 Miquel Raynal       2023-05-23  353  		cell =3D nvmem_crea=
+te_cell(entry, entry->name, 0);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  354  		if (IS_ERR(cell)) {
+> 22c370b2163e59 Miquel Raynal       2023-05-23  355  			mutex_unlock(&nvme=
+m_mutex);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  356  			return PTR_ERR(cel=
+l);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  357  		}
+> 22c370b2163e59 Miquel Raynal       2023-05-23  358 =20
+> 22c370b2163e59 Miquel Raynal       2023-05-23  359  		break;
+> 22c370b2163e59 Miquel Raynal       2023-05-23  360  	}
+> 22c370b2163e59 Miquel Raynal       2023-05-23  361  	mutex_unlock(&nvmem_=
+mutex);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  362 =20
+> 22c370b2163e59 Miquel Raynal       2023-05-23  363  	if (!cell)
+> 22c370b2163e59 Miquel Raynal       2023-05-23  364  		return -EINVAL;
+> 22c370b2163e59 Miquel Raynal       2023-05-23  365 =20
+> 22c370b2163e59 Miquel Raynal       2023-05-23  366  	content =3D nvmem_ce=
+ll_read(cell, &cell_sz);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  367  	if (IS_ERR(content))=
+ {
+> 22c370b2163e59 Miquel Raynal       2023-05-23  368  		count =3D PTR_ERR(c=
+ontent);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  369  		goto destroy_cell;
+>=20
+> read_len not initialized on this goto path.
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+It should be:							read_len =3D PTR_ERR...
+
+I will correct this in the next version, thanks for the report.
+
+>=20
+> 22c370b2163e59 Miquel Raynal       2023-05-23  370  	}
+> 22c370b2163e59 Miquel Raynal       2023-05-23  371 =20
+> 22c370b2163e59 Miquel Raynal       2023-05-23  372  	read_len =3D min_t(u=
+nsigned int, cell_sz - pos, count);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  373  	memcpy(buf, content =
++ pos, read_len);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  374  	kfree(content);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  375 =20
+> 22c370b2163e59 Miquel Raynal       2023-05-23  376  destroy_cell:
+> 22c370b2163e59 Miquel Raynal       2023-05-23  377  	kfree_const(cell->id=
+);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  378  	kfree(cell);
+> 22c370b2163e59 Miquel Raynal       2023-05-23  379 =20
+> 22c370b2163e59 Miquel Raynal       2023-05-23 @380  	return read_len;
+>                                                         ^^^^^^^^^^^^^^^
+>=20
+> 22c370b2163e59 Miquel Raynal       2023-05-23  381  }
+>=20
+
+
+Thanks,
+Miqu=C3=A8l
