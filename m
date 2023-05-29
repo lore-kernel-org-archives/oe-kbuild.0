@@ -1,179 +1,124 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0104D7C;
-	Mon, 29 May 2023 10:15:01 +0000 (UTC)
-X-GND-Sasl: miquel.raynal@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1685355294;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a5U83pgtUbdNZXbGC3fVAgoMj9cpM77Fj84QM02uyq8=;
-	b=B6mAEL3uE7AHcxPnr4g5M93WAGfGZObq/ytl1vRxrauyVvX4RT+2UqQmz3pCzyxKpSh7O4
-	f6zi5R2Xkh+WkOyBfr1l7CLfBI5fDHB8F1VmK/aKlIxMiTCgTTT+rCzr3jjMiBmeNREFbN
-	xtnlfzZy3giBu9wC1ITJhZZnrxE5BaQd/B2HJB2yPnWDy9JK1UNQsnx9cVfQmTHRUuPpYi
-	lTImpP+8POay4K4xgQQuwdYW6sSUwXKKMiHXFBJGF6eygMxdU0NyxtiGuTtdoopWGq35nw
-	BwPQrG7lhQucPYs62utQHO5CW/ZgQjydTPfHctShicr5PjU1Zm6CV7XrwoE8yw==
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 41E30240002;
-	Mon, 29 May 2023 10:14:53 +0000 (UTC)
-Date: Mon, 29 May 2023 12:14:52 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Luka Perkov <luka.perkov@sartura.hr>, Robert
- Marko <robert.marko@sartura.hr>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] nvmem: core: Expose cells through sysfs
-Message-ID: <20230529121452.3a2f33f2@xps-13>
-In-Reply-To: <8c442b03-bff3-4d25-96e0-eb297e280797@kili.mountain>
-References: <20230523100239.307574-3-miquel.raynal@bootlin.com>
-	<8c442b03-bff3-4d25-96e0-eb297e280797@kili.mountain>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE67A53
+	for <oe-kbuild@lists.linux.dev>; Mon, 29 May 2023 10:47:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685357273; x=1716893273;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7yuhB/tr4RAEBh1dUazB6In1EdlQY97iJQ4vvXi7I1w=;
+  b=VSiP8bclmkDZ1L/5X+JYD2omqbOPV/Fn+RxhC9nVGWOI8O5lyHqbSHKd
+   vK8295YWSNxTVXxivGN1XQ4jNBec1ryENAzf205dBRD0PMuVJBwBpLB9r
+   LiTYUZvR1V8XLNpIZUqxmRENI8B4pm2CJ+36c5/gfev1gtB147GNp5/4V
+   uun0ht4ovWXnJtJ0FxUCowcDkyLFZE9wXAV8JQxPh7MfTwSC920JOAC84
+   uUMFdBZ5MMI6KRSEgMFXpn7gyGERmr/0ovMUX53ve6bewQooEbV1iWC12
+   yi6KrwZ2hHwLgsiDSkPYL0XA2Kw11H/9ce4AInFlwFtZPwl9ZLckpmoZq
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="357928803"
+X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
+   d="scan'208";a="357928803"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 03:47:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="771126618"
+X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
+   d="scan'208";a="771126618"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 29 May 2023 03:47:51 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q3aPn-000Kyc-0a;
+	Mon, 29 May 2023 10:47:51 +0000
+Date: Mon, 29 May 2023 18:47:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/smb/client/dfs_cache.c:403 copy_ref_data() warn: passing a valid
+ pointer to 'PTR_ERR'
+Message-ID: <202305291817.4nBE0sf4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dan,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Steve French <stfrench@microsoft.com>
 
-dan.carpenter@linaro.org wrote on Mon, 29 May 2023 07:28:59 +0300:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e338142b39cf40155054f95daa28d210d2ee1b2d
+commit: 38c8a9a52082579090e34c033d439ed2cd1a462d smb: move client and server files to common directory fs/smb
+date:   5 days ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-m021-20230529 (https://download.01.org/0day-ci/archive/20230529/202305291817.4nBE0sf4-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-> Hi Miquel,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/ABI-=
-sysfs-nvmem-cells-Expose-cells-through-sysfs/20230523-203042
-> base:   char-misc/char-misc-testing
-> patch link:    https://lore.kernel.org/r/20230523100239.307574-3-miquel.r=
-aynal%40bootlin.com
-> patch subject: [PATCH 2/2] nvmem: core: Expose cells through sysfs
-> config: i386-randconfig-m021-20230525 (https://download.01.org/0day-ci/ar=
-chive/20230528/202305280054.NloN5RLk-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
->=20
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202305280054.NloN5RLk-lkp@intel.com/
->=20
-> smatch warnings:
-> drivers/nvmem/core.c:380 nvmem_cell_attr_read() error: uninitialized symb=
-ol 'read_len'.
->=20
-> vim +/read_len +380 drivers/nvmem/core.c
->=20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  328  static struct nvmem_c=
-ell *nvmem_create_cell(struct nvmem_cell_entry *entry,
-> 22c370b2163e59 Miquel Raynal       2023-05-23  329  					    const char *=
-id, int index);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  330 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  331  static ssize_t nvmem_=
-cell_attr_read(struct file *filp, struct kobject *kobj,
-> 22c370b2163e59 Miquel Raynal       2023-05-23  332  				    struct bin_at=
-tribute *attr, char *buf,
-> 22c370b2163e59 Miquel Raynal       2023-05-23  333  				    loff_t pos, s=
-ize_t count)
-> 22c370b2163e59 Miquel Raynal       2023-05-23  334  {
-> 22c370b2163e59 Miquel Raynal       2023-05-23  335  	struct nvmem_cell_en=
-try *entry;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  336  	struct nvmem_cell *c=
-ell =3D NULL;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  337  	struct nvmem_device =
-*nvmem;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  338  	size_t cell_sz, read=
-_len;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  339  	struct device *dev;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  340  	void *content;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  341 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  342  	if (attr->private)
-> 22c370b2163e59 Miquel Raynal       2023-05-23  343  		dev =3D attr->priva=
-te;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  344  	else
-> 22c370b2163e59 Miquel Raynal       2023-05-23  345  		dev =3D kobj_to_dev=
-(kobj);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  346  	nvmem =3D to_nvmem_d=
-evice(dev);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  347 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  348  	mutex_lock(&nvmem_mu=
-tex);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  349  	list_for_each_entry(=
-entry, &nvmem->cells, node) {
-> 22c370b2163e59 Miquel Raynal       2023-05-23  350  		if (strncmp(entry->=
-name, attr->attr.name, XATTR_NAME_MAX))
-> 22c370b2163e59 Miquel Raynal       2023-05-23  351  			continue;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  352 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  353  		cell =3D nvmem_crea=
-te_cell(entry, entry->name, 0);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  354  		if (IS_ERR(cell)) {
-> 22c370b2163e59 Miquel Raynal       2023-05-23  355  			mutex_unlock(&nvme=
-m_mutex);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  356  			return PTR_ERR(cel=
-l);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  357  		}
-> 22c370b2163e59 Miquel Raynal       2023-05-23  358 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  359  		break;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  360  	}
-> 22c370b2163e59 Miquel Raynal       2023-05-23  361  	mutex_unlock(&nvmem_=
-mutex);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  362 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  363  	if (!cell)
-> 22c370b2163e59 Miquel Raynal       2023-05-23  364  		return -EINVAL;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  365 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  366  	content =3D nvmem_ce=
-ll_read(cell, &cell_sz);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  367  	if (IS_ERR(content))=
- {
-> 22c370b2163e59 Miquel Raynal       2023-05-23  368  		count =3D PTR_ERR(c=
-ontent);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  369  		goto destroy_cell;
->=20
-> read_len not initialized on this goto path.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202305291817.4nBE0sf4-lkp@intel.com/
 
-It should be:							read_len =3D PTR_ERR...
+smatch warnings:
+fs/smb/client/dfs_cache.c:403 copy_ref_data() warn: passing a valid pointer to 'PTR_ERR'
 
-I will correct this in the next version, thanks for the report.
+vim +/PTR_ERR +403 fs/smb/client/dfs_cache.c
 
->=20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  370  	}
-> 22c370b2163e59 Miquel Raynal       2023-05-23  371 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  372  	read_len =3D min_t(u=
-nsigned int, cell_sz - pos, count);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  373  	memcpy(buf, content =
-+ pos, read_len);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  374  	kfree(content);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  375 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  376  destroy_cell:
-> 22c370b2163e59 Miquel Raynal       2023-05-23  377  	kfree_const(cell->id=
-);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  378  	kfree(cell);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  379 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23 @380  	return read_len;
->                                                         ^^^^^^^^^^^^^^^
->=20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  381  }
->=20
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  379  
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  380  /*
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  381   * Copy DFS referral information to a cache entry and conditionally update
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  382   * target hint.
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  383   */
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  384  static int copy_ref_data(const struct dfs_info3_param *refs, int numrefs,
+185352ae6171c8 fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  385) 			 struct cache_entry *ce, const char *tgthint)
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  386  {
+11c8b3f8493cb5 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  387  	struct cache_dfs_tgt *target;
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  388  	int i;
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  389  
+c950fc7af9a7c2 fs/cifs/dfs_cache.c Paulo Alcantara        2021-06-04  390  	ce->ttl = max_t(int, refs[0].ttl, CACHE_MIN_TTL);
+185352ae6171c8 fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  391) 	ce->etime = get_expire_time(ce->ttl);
+185352ae6171c8 fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  392) 	ce->srvtype = refs[0].server_type;
+5ff2836ed3a5c2 fs/cifs/dfs_cache.c Paulo Alcantara        2021-02-24  393  	ce->hdr_flags = refs[0].flags;
+5ff2836ed3a5c2 fs/cifs/dfs_cache.c Paulo Alcantara        2021-02-24  394  	ce->ref_flags = refs[0].ref_flag;
+185352ae6171c8 fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  395) 	ce->path_consumed = refs[0].path_consumed;
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  396  
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  397  	for (i = 0; i < numrefs; i++) {
+185352ae6171c8 fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  398) 		struct cache_dfs_tgt *t;
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  399  
+7548e1da8d2d34 fs/cifs/dfs_cache.c Paulo Alcantara        2020-07-21  400  		t = alloc_target(refs[i].node_name, refs[i].path_consumed);
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  401  		if (IS_ERR(t)) {
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  402  			free_tgts(ce);
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14 @403  			return PTR_ERR(t);
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  404  		}
+185352ae6171c8 fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  405) 		if (tgthint && !strcasecmp(t->name, tgthint)) {
+185352ae6171c8 fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  406) 			list_add(&t->list, &ce->tlist);
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  407  			tgthint = NULL;
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  408  		} else {
+185352ae6171c8 fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  409) 			list_add_tail(&t->list, &ce->tlist);
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  410  		}
+185352ae6171c8 fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  411) 		ce->numtgts++;
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  412  	}
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  413  
+11c8b3f8493cb5 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  414  	target = list_first_entry_or_null(&ce->tlist, struct cache_dfs_tgt,
+11c8b3f8493cb5 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  415  					  list);
+11c8b3f8493cb5 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  416  	WRITE_ONCE(ce->tgthint, target);
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  417  
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  418  	return 0;
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  419  }
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  420  
 
+:::::: The code at line 403 was first introduced by commit
+:::::: 54be1f6c1c37498bba557049df646cc239fa37e3 cifs: Add DFS cache routines
 
-Thanks,
-Miqu=C3=A8l
+:::::: TO: Paulo Alcantara <palcantara@suse.de>
+:::::: CC: Steve French <stfrench@microsoft.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
