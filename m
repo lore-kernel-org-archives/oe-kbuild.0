@@ -1,96 +1,125 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8D61EA76;
-	Tue, 30 May 2023 18:26:50 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-30ad458f085so126797f8f.0;
-        Tue, 30 May 2023 11:26:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685471208; x=1688063208;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hfAiPhU6K+BMQeqpdySZgN46jLEtUlo38yIT0HEk7Yc=;
-        b=a3afgIpHXLDR+p6PUE88imzl1Fdd3I+Pd3mtn9+XPydzdk5TMgUOew7LiZopkYPuLA
-         QdollxMgOifJ2zwonHK94N/UfFJloiAKymBvDgx7D/aA5zL95o3CoseMcbTnEjPLvnUm
-         F5uT+JKIHlmS0rD8+QtE3uWgNSFkrG3v/h7zpF6OEF6dVru9qT6zyYTdulwsopUVPRsn
-         4O15lj6YRKmXGdSf1l5rUAI0yF/PeHw+H9QLfUJYZPhQGoeylsAc6z7mBQdZAE0V18mQ
-         8lCJr9MQ1lniDlerRHDsW3FYnP1+U67P8VPGJlIVX0D5JVVvuUYYPeoMCcDrNrUsKolW
-         R+rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685471208; x=1688063208;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hfAiPhU6K+BMQeqpdySZgN46jLEtUlo38yIT0HEk7Yc=;
-        b=Ngi9qPARlZ/aYGopHheWa0aH8XuroEAOQS3agTbvtpQG5wjWNl5KNNizT3bB1DUA3e
-         HeKWB/O5tu0fYbhxnP3TdQ70S+9cW0zWYhIJtzsPgS96iFnjo5/t8nGzt2j48aGNEcZC
-         5RSwrGN1wmjS1FJjYDjtmtMpI0/A4fJgR8mVmk7fT4glyuXGryYMZ0pIompsZXNaKY9I
-         Ri9WQO9h453gEz34HWu8/PW/FH8fFTcTKvpFvgkM40fXH420+OfgR4hVI5xaC37d15dI
-         OdqJpXbf3lX81utrCxeZZTgZK2KqfTWqWW9iLnHJG9nlpck0Ci175Ty+9yuIyLFNtQ6v
-         tdKA==
-X-Gm-Message-State: AC+VfDzxHWo0Cj54GZo7OqD0NoCK/MXL1uqo+eDPyd8jxdmx+TvBJmq8
-	3GUmTYoH0MPaW+4sWjuC5/0=
-X-Google-Smtp-Source: ACHHUZ5aG44i0I28ueBuL5OztclzexCR7D7YTc0Yrd8/OnoqXdXXyvWoHZ9uq94s9h334lCsqCSVUg==
-X-Received: by 2002:a5d:6984:0:b0:30a:8fc5:4411 with SMTP id g4-20020a5d6984000000b0030a8fc54411mr10453969wru.32.1685471208102;
-        Tue, 30 May 2023 11:26:48 -0700 (PDT)
-Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
-        by smtp.gmail.com with ESMTPSA id p17-20020a056000019100b00306415ac69asm4029180wrx.15.2023.05.30.11.26.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 11:26:47 -0700 (PDT)
-Subject: Re: drivers/net/ethernet/sfc/tc.c:450 efx_tc_flower_replace() warn:
- missing unwind goto?
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Simon Horman <simon.horman@corigine.com>
-References: <cbbbf576-6788-4049-b1e8-a05862f62cc2@kili.mountain>
-From: Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <4eabd7b1-66b3-7b3a-cabd-d1876767c49c@gmail.com>
-Date: Tue, 30 May 2023 19:26:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B29A21
+	for <oe-kbuild@lists.linux.dev>; Wed, 31 May 2023 02:58:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685501937; x=1717037937;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=U59jNPpzYIzMt0cgINeYTDGEYNCs8IvcwqjPcnsUA2s=;
+  b=fB1s3dFKvhNmEoa6M+fkWy767lGYIogoPtZ3g1pJGEE4EYsea2/Lidk+
+   kUVO5T9w/0QskcLnAaDJyAWTt9A3pzjIt5kHsFRGhkU9iSVcXd75ngtTC
+   en7XEYEEnZf1oYq7FNzLz2kMcIrAUEdXW4r6ASEe29to+oOjo9vvgYzNl
+   Bnxoto9dgf0WTHtLHBIjrbIJVHHNVv/1PCduGD7qLPLpy+fjQlx4ej1X2
+   phOKnrCyb+C0YdGjmSnF38c7gLdJ/ivsco/3PczBiiQgwcViQyZJWfqCP
+   iATQ3k6sTyvG1O5+iEc8xkBT4y/z3GjbrXStj3saWDiY9xci82BJclHZQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="358377592"
+X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
+   d="scan'208";a="358377592"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 19:58:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="851043406"
+X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
+   d="scan'208";a="851043406"
+Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 30 May 2023 19:58:55 -0700
+Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q4C35-00011l-0Z;
+	Wed, 31 May 2023 02:58:55 +0000
+Date: Wed, 31 May 2023 10:58:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH RFC v2] tpm: tpm_vtpm_proxy: do not reference kernel
+ memory as user memory
+Message-ID: <202305311050.cYKH2Hfq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <cbbbf576-6788-4049-b1e8-a05862f62cc2@kili.mountain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 20/05/2023 09:32, Dan Carpenter wrote:
-> b7f5e17b3bb961 Edward Cree 2023-03-27  432  	if (efx_tc_match_is_encap(&match.mask)) {
-> b7f5e17b3bb961 Edward Cree 2023-03-27  433  		NL_SET_ERR_MSG_MOD(extack, "Ingress enc_key matches not supported");
-> b7f5e17b3bb961 Edward Cree 2023-03-27  434  		rc = -EOPNOTSUPP;
-> b7f5e17b3bb961 Edward Cree 2023-03-27  435  		goto release;
-> 
-> This goto confuses Smatch.  It could be converted to a direct return.
-[...]
-> d902e1a737d44e Edward Cree 2022-09-26  456  	if (old) {
-> d902e1a737d44e Edward Cree 2022-09-26  457  		netif_dbg(efx, drv, efx->net_dev,
-> d902e1a737d44e Edward Cree 2022-09-26  458  			  "Already offloaded rule (cookie %lx)\n", tc->cookie);
-> d902e1a737d44e Edward Cree 2022-09-26  459  		rc = -EEXIST;
-> d902e1a737d44e Edward Cree 2022-09-26  460  		NL_SET_ERR_MSG_MOD(extack, "Rule already offloaded");
-> d902e1a737d44e Edward Cree 2022-09-26  461  		goto release;
-> 
-> It looks like this error path is problematic because it will remove the
-> existing rule from the list.  Better to just do:
-> 
-> 	if (old) {
-> 		netif_dbg(...);
-> 		NL_SET_ERR_MSG_MOD(extack, "Rule already offloaded");
-> 		kfree(rule);
-> 		return -EEXIST;
-> 	}
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230530020133.235765-1-jarkko@kernel.org>
+References: <20230530020133.235765-1-jarkko@kernel.org>
+TO: Jarkko Sakkinen <jarkko@kernel.org>
 
-Agreed on both counts.
-(Technically we could add a new goto label in the failure ladder to
- just do the kfree and return, but this is probably clearer.)
-Guess efx_tc_flower_replace_foreign() now has the latter problem
- too?  (And it _does_ want to use the failure ladder, because we've
- got to release the encap match.)
+Hi Jarkko,
 
-Thanks for catching this.  Patch for 'net' to follow shortly.
--ed
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.4-rc4 next-20230530]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sakkinen/tpm-tpm_vtpm_proxy-do-not-reference-kernel-memory-as-user-memory/20230530-100537
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20230530020133.235765-1-jarkko%40kernel.org
+patch subject: [PATCH RFC v2] tpm: tpm_vtpm_proxy: do not reference kernel memory as user memory
+:::::: branch date: 25 hours ago
+:::::: commit date: 25 hours ago
+config: m68k-randconfig-m031-20230530 (https://download.01.org/0day-ci/archive/20230531/202305311050.cYKH2Hfq-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202305311050.cYKH2Hfq-lkp@intel.com/
+
+smatch warnings:
+drivers/char/tpm/tpm_vtpm_proxy.c:83 __vtpm_proxy_read_unlocked() error: uninitialized symbol 'rc'.
+
+vim +/rc +83 drivers/char/tpm/tpm_vtpm_proxy.c
+
+6f99612e250041 Stefan Berger   2016-04-18  55  
+6f99612e250041 Stefan Berger   2016-04-18  56  /*
+6f99612e250041 Stefan Berger   2016-04-18  57   * Functions related to 'server side'
+6f99612e250041 Stefan Berger   2016-04-18  58   */
+6f99612e250041 Stefan Berger   2016-04-18  59  
+919bd177830a95 Jarkko Sakkinen 2023-05-30  60  static ssize_t __vtpm_proxy_read_unlocked(struct proxy_dev *proxy_dev, char __user *buf,
+919bd177830a95 Jarkko Sakkinen 2023-05-30  61  					  size_t count)
+6f99612e250041 Stefan Berger   2016-04-18  62  {
+6f99612e250041 Stefan Berger   2016-04-18  63  	size_t len;
+919bd177830a95 Jarkko Sakkinen 2023-05-30  64  	int rc;
+6f99612e250041 Stefan Berger   2016-04-18  65  
+919bd177830a95 Jarkko Sakkinen 2023-05-30  66  	if (!(proxy_dev->state & STATE_OPENED_FLAG))
+6f99612e250041 Stefan Berger   2016-04-18  67  		return -EPIPE;
+6f99612e250041 Stefan Berger   2016-04-18  68  
+6f99612e250041 Stefan Berger   2016-04-18  69  	len = proxy_dev->req_len;
+6f99612e250041 Stefan Berger   2016-04-18  70  
+e52432e1642309 Kees Cook       2022-01-19  71  	if (count < len || len > sizeof(proxy_dev->buffer)) {
+6f99612e250041 Stefan Berger   2016-04-18  72  		pr_debug("Invalid size in recv: count=%zd, req_len=%zd\n",
+6f99612e250041 Stefan Berger   2016-04-18  73  			 count, len);
+6f99612e250041 Stefan Berger   2016-04-18  74  		return -EIO;
+6f99612e250041 Stefan Berger   2016-04-18  75  	}
+6f99612e250041 Stefan Berger   2016-04-18  76  
+919bd177830a95 Jarkko Sakkinen 2023-05-30  77  	if (buf)
+6f99612e250041 Stefan Berger   2016-04-18  78  		rc = copy_to_user(buf, proxy_dev->buffer, len);
+919bd177830a95 Jarkko Sakkinen 2023-05-30  79  
+6f99612e250041 Stefan Berger   2016-04-18  80  	memset(proxy_dev->buffer, 0, len);
+6f99612e250041 Stefan Berger   2016-04-18  81  	proxy_dev->req_len = 0;
+6f99612e250041 Stefan Berger   2016-04-18  82  
+6f99612e250041 Stefan Berger   2016-04-18 @83  	if (!rc)
+6f99612e250041 Stefan Berger   2016-04-18  84  		proxy_dev->state |= STATE_WAIT_RESPONSE_FLAG;
+6f99612e250041 Stefan Berger   2016-04-18  85  
+6f99612e250041 Stefan Berger   2016-04-18  86  	if (rc)
+6f99612e250041 Stefan Berger   2016-04-18  87  		return -EFAULT;
+6f99612e250041 Stefan Berger   2016-04-18  88  
+6f99612e250041 Stefan Berger   2016-04-18  89  	return len;
+6f99612e250041 Stefan Berger   2016-04-18  90  }
+6f99612e250041 Stefan Berger   2016-04-18  91  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
