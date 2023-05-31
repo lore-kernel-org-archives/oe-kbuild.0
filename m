@@ -1,49 +1,42 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6647BE5F
-	for <oe-kbuild@lists.linux.dev>; Wed, 31 May 2023 08:26:27 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-30aebe2602fso2458979f8f.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 31 May 2023 01:26:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685521585; x=1688113585;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XdKjPgd3R5woBguqTFGwLAFeeRynVXyhLw91RrXKxqE=;
-        b=Vb6qggH957m3EEntu1j0btIeLakAckT8zk5d2LaI3uwZhUjZ4C/zv73lZ1EuBQcnUs
-         WjmCXHjPUiIPQpZ1Gcfr3G09wbOhQ5TeYyUZ1y5dNH/D5fsLqA952V8HkT4+Ib2xL2Xh
-         itWzDpZEgQkyYJax18AVcXx6yDP74kTYWFTnAwf29MnJvEJ5S+aLgMOA/mAPFuPvwPpU
-         Hpy04Sa/4INdzF2HnjFyVRZTVcOPoJTlxgwW0JmTDwF4IPMrgvfdwaWuBWeiMcmiai/3
-         5dGMOB4lbBwRfVYBifaUa1WKDl7+al3kqCpRS9JbBQ1+k8RjD0gT7MnKz9mJqGJonTrm
-         WWmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685521585; x=1688113585;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XdKjPgd3R5woBguqTFGwLAFeeRynVXyhLw91RrXKxqE=;
-        b=NUaGqeW3tVOstFPbfcsfmhoL9CoDIP5LLk26TcpxAtMFy1xU3/j0/Lc7Vdn4FRQE9N
-         26csUPlgqfFfcMz9EtYITefO5aZlIYvxutN+USxXMbUNNGtSuEG5twFX3kj75dCh11YI
-         gXJ4wox3USjZeGVqLKE5k6kjf0PF0+9w+LgnmS15JnfKCF1G41gyvh5NiaizXItp211k
-         DXcL8S6oidRfdSzJiE951wbnZBI6c5VfiQ5HI91z28Rx+vIa+B3L6ixj9Ld9TIteSi5Z
-         7LgnbEcjm85IOmQenCkJJphaBvLJqrFU568ajePOs5eDS8N82Nk2Y6JiA3cYNwVlYVZC
-         Td9Q==
-X-Gm-Message-State: AC+VfDwmXffoEEZoj43RYqE2NAg11E0h3YzyJ6vBvYoGPTTlXJ9I2A1u
-	/f36Km9MsRuqBUjZEbthXzrYH65FFdZRw0VXSnA=
-X-Google-Smtp-Source: ACHHUZ6yM7cLNNhma00AnGS7k5IS219zdPpNHSL2t2i1VXVqHeJURCnc9X4VDXc5MBIoOAcfmcmiuA==
-X-Received: by 2002:a5d:58d8:0:b0:306:2de2:f583 with SMTP id o24-20020a5d58d8000000b003062de2f583mr3382095wrf.53.1685521584906;
-        Wed, 31 May 2023 01:26:24 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id o11-20020adfeacb000000b0030ae7bd1737sm5924072wrn.45.2023.05.31.01.26.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 May 2023 01:26:23 -0700 (PDT)
-Date: Wed, 31 May 2023 11:26:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC v2] tpm: tpm_vtpm_proxy: do not reference kernel
- memory as user memory
-Message-ID: <df888b86-6749-4ab0-9c20-8925da16760b@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F4017736
+	for <oe-kbuild@lists.linux.dev>; Wed, 31 May 2023 17:10:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685553030; x=1717089030;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hrcGZjqnUb9Os1zikLLeseKfIAW0c+3LjXSnv7oz5wI=;
+  b=WtQ5blizU1r4RkYXsKnNNW6ApnnajBtoyJb5K7utnkS8kqkMv+ScrY/n
+   OTS4gvnMe7nrXFlb7YgUgZQGYxSuA68UX179PwBLLhw8f3HrAX/45OtO+
+   L1O64Lgznu8n0y3NAG49ejIqKYX4f3n1DGxESuRjb1TvewKlyygfD9yp/
+   YIj/fU5Rr2n0drM89aQlQFA5d2XAUcAYyOygIlHBKwAxiQGNpVgUGprV+
+   y0dVasKhTp1as2wDBp1NRFfsTcaGXIfuXND43VTQwP9KgCoKRYOn631yk
+   CTDfCvmaego2jTIuz1QhXV7t1GUclfrOIu6yBPmxCs+7OclEyK7Ti+ACk
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="354148042"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
+   d="scan'208";a="354148042"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 10:09:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="796798707"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
+   d="scan'208";a="796798707"
+Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 31 May 2023 10:07:34 -0700
+Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q4PIL-0001VG-2D;
+	Wed, 31 May 2023 17:07:33 +0000
+Date: Thu, 1 Jun 2023 01:06:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/phy/renesas/phy-rcar-gen3-usb2.c:747
+ rcar_gen3_phy_usb2_probe() warn: missing error code 'ret'
+Message-ID: <202306010128.L7WA8rEH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,71 +45,148 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230530020133.235765-1-jarkko@kernel.org>
 
-Hi Jarkko,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
+CC: Conor Dooley <conor.dooley@microchip.com>
+CC: Guo Ren <guoren@kernel.org>
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sakkinen/tpm-tpm_vtpm_proxy-do-not-reference-kernel-memory-as-user-memory/20230530-100537
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20230530020133.235765-1-jarkko%40kernel.org
-patch subject: [PATCH RFC v2] tpm: tpm_vtpm_proxy: do not reference kernel memory as user memory
-config: m68k-randconfig-m031-20230530 (https://download.01.org/0day-ci/archive/20230531/202305311050.cYKH2Hfq-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   48b1320a674e1ff5de2fad8606bee38f724594dc
+commit: 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1 riscv: Kconfig.socs: Add ARCH_RENESAS kconfig option
+date:   7 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 7 months ago
+config: riscv-randconfig-m031-20230531 (https://download.01.org/0day-ci/archive/20230601/202306010128.L7WA8rEH-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202305311050.cYKH2Hfq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306010128.L7WA8rEH-lkp@intel.com/
 
 smatch warnings:
-drivers/char/tpm/tpm_vtpm_proxy.c:83 __vtpm_proxy_read_unlocked() error: uninitialized symbol 'rc'.
+drivers/phy/renesas/phy-rcar-gen3-usb2.c:747 rcar_gen3_phy_usb2_probe() warn: missing error code 'ret'
 
-vim +/rc +83 drivers/char/tpm/tpm_vtpm_proxy.c
+vim +/ret +747 drivers/phy/renesas/phy-rcar-gen3-usb2.c
 
-919bd177830a95 Jarkko Sakkinen 2023-05-30  60  static ssize_t __vtpm_proxy_read_unlocked(struct proxy_dev *proxy_dev, char __user *buf,
-919bd177830a95 Jarkko Sakkinen 2023-05-30  61  					  size_t count)
-6f99612e250041 Stefan Berger   2016-04-18  62  {
-6f99612e250041 Stefan Berger   2016-04-18  63  	size_t len;
-919bd177830a95 Jarkko Sakkinen 2023-05-30  64  	int rc;
-6f99612e250041 Stefan Berger   2016-04-18  65  
-919bd177830a95 Jarkko Sakkinen 2023-05-30  66  	if (!(proxy_dev->state & STATE_OPENED_FLAG))
-6f99612e250041 Stefan Berger   2016-04-18  67  		return -EPIPE;
-6f99612e250041 Stefan Berger   2016-04-18  68  
-6f99612e250041 Stefan Berger   2016-04-18  69  	len = proxy_dev->req_len;
-6f99612e250041 Stefan Berger   2016-04-18  70  
-e52432e1642309 Kees Cook       2022-01-19  71  	if (count < len || len > sizeof(proxy_dev->buffer)) {
-6f99612e250041 Stefan Berger   2016-04-18  72  		pr_debug("Invalid size in recv: count=%zd, req_len=%zd\n",
-6f99612e250041 Stefan Berger   2016-04-18  73  			 count, len);
-6f99612e250041 Stefan Berger   2016-04-18  74  		return -EIO;
-6f99612e250041 Stefan Berger   2016-04-18  75  	}
-6f99612e250041 Stefan Berger   2016-04-18  76  
-919bd177830a95 Jarkko Sakkinen 2023-05-30  77  	if (buf)
-6f99612e250041 Stefan Berger   2016-04-18  78  		rc = copy_to_user(buf, proxy_dev->buffer, len);
+549b6b55b005581 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  651  
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  652  static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  653  {
+b0512a6ec0cd6dc drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  654  	const struct rcar_gen3_phy_drv_data *phy_data;
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  655  	struct device *dev = &pdev->dev;
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  656  	struct rcar_gen3_chan *channel;
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  657  	struct phy_provider *provider;
+08b0ad375ca6618 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2020-07-17  658  	int ret = 0, i;
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  659  
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  660  	if (!dev->of_node) {
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  661  		dev_err(dev, "This driver needs device tree\n");
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  662  		return -EINVAL;
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  663  	}
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  664  
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  665  	channel = devm_kzalloc(dev, sizeof(*channel), GFP_KERNEL);
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  666  	if (!channel)
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  667  		return -ENOMEM;
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  668  
+0b5604affbec024 drivers/phy/renesas/phy-rcar-gen3-usb2.c Chunfeng Yun      2020-11-06  669  	channel->base = devm_platform_ioremap_resource(pdev, 0);
+801a69c787812f9 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-03-03  670  	if (IS_ERR(channel->base))
+801a69c787812f9 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-03-03  671  		return PTR_ERR(channel->base);
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  672  
+b0512a6ec0cd6dc drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  673  	channel->obint_enable_bits = USB2_OBINT_BITS;
+08b0ad375ca6618 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2020-07-17  674  	/* get irq number here and request_irq for OTG in phy_init */
+08b0ad375ca6618 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2020-07-17  675  	channel->irq = platform_get_irq_optional(pdev, 0);
+549b6b55b005581 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  676  	channel->dr_mode = rcar_gen3_get_dr_mode(dev->of_node);
+73801b90a38ff1e drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2018-09-21  677  	if (channel->dr_mode != USB_DR_MODE_UNKNOWN) {
+7e0540f41332cb0 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2017-10-12  678  		int ret;
+7e0540f41332cb0 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2017-10-12  679  
+979b519c7a1bff5 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2018-09-21  680  		channel->is_otg_channel = true;
+8dde0008ffc9e2e drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2018-09-21  681  		channel->uses_otg_pins = !of_property_read_bool(dev->of_node,
+8dde0008ffc9e2e drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2018-09-21  682  							"renesas,no-otg-pins");
+2b38543c8db1c7d drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  683  		channel->extcon = devm_extcon_dev_allocate(dev,
+2b38543c8db1c7d drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  684  							rcar_gen3_phy_cable);
+2b38543c8db1c7d drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  685  		if (IS_ERR(channel->extcon))
+2b38543c8db1c7d drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  686  			return PTR_ERR(channel->extcon);
+2b38543c8db1c7d drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  687  
+2b38543c8db1c7d drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  688  		ret = devm_extcon_dev_register(dev, channel->extcon);
+2b38543c8db1c7d drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  689  		if (ret < 0) {
+2b38543c8db1c7d drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  690  			dev_err(dev, "Failed to register extcon\n");
+2b38543c8db1c7d drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  691  			return ret;
+2b38543c8db1c7d drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  692  		}
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  693  	}
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  694  
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  695  	/*
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  696  	 * devm_phy_create() will call pm_runtime_enable(&phy->dev);
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  697  	 * And then, phy-core will manage runtime pm for this device.
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  698  	 */
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  699  	pm_runtime_enable(dev);
+b0512a6ec0cd6dc drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  700  
+b0512a6ec0cd6dc drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  701  	phy_data = of_device_get_match_data(dev);
+b0512a6ec0cd6dc drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  702  	if (!phy_data) {
+51e339deab1e514 drivers/phy/renesas/phy-rcar-gen3-usb2.c Wang Li           2020-11-26  703  		ret = -EINVAL;
+51e339deab1e514 drivers/phy/renesas/phy-rcar-gen3-usb2.c Wang Li           2020-11-26  704  		goto error;
+51e339deab1e514 drivers/phy/renesas/phy-rcar-gen3-usb2.c Wang Li           2020-11-26  705  	}
+5d8042e95fd471d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2019-04-10  706  
+b0512a6ec0cd6dc drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  707  	channel->soc_no_adp_ctrl = phy_data->no_adp_ctrl;
+b0512a6ec0cd6dc drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  708  	if (phy_data->no_adp_ctrl)
+b0512a6ec0cd6dc drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  709  		channel->obint_enable_bits = USB2_OBINT_IDCHG_EN;
+b0512a6ec0cd6dc drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  710  
+5c9dc6379f539c6 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-06-10  711  	mutex_init(&channel->lock);
+549b6b55b005581 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  712  	for (i = 0; i < NUM_OF_PHYS; i++) {
+549b6b55b005581 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  713  		channel->rphys[i].phy = devm_phy_create(dev, NULL,
+b0512a6ec0cd6dc drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  714  							phy_data->phy_usb2_ops);
+549b6b55b005581 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  715  		if (IS_ERR(channel->rphys[i].phy)) {
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  716  			dev_err(dev, "Failed to create USB2 PHY\n");
+549b6b55b005581 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  717  			ret = PTR_ERR(channel->rphys[i].phy);
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  718  			goto error;
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  719  		}
+549b6b55b005581 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  720  		channel->rphys[i].ch = channel;
+549b6b55b005581 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  721  		channel->rphys[i].int_enable_bits = rcar_gen3_int_enable[i];
+549b6b55b005581 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  722  		phy_set_drvdata(channel->rphys[i].phy, &channel->rphys[i]);
+549b6b55b005581 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  723  	}
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  724  
+6dcfd7c300bf358 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-03-03  725  	channel->vbus = devm_regulator_get_optional(dev, "vbus");
+6dcfd7c300bf358 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-03-03  726  	if (IS_ERR(channel->vbus)) {
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  727  		if (PTR_ERR(channel->vbus) == -EPROBE_DEFER) {
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  728  			ret = PTR_ERR(channel->vbus);
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  729  			goto error;
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  730  		}
+6dcfd7c300bf358 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-03-03  731  		channel->vbus = NULL;
+6dcfd7c300bf358 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-03-03  732  	}
+6dcfd7c300bf358 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-03-03  733  
+9bb86777fb71eeb drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  734  	platform_set_drvdata(pdev, channel);
+92fec1c27caa7b6 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  735  	channel->dev = dev;
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  736  
+549b6b55b005581 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  737  	provider = devm_of_phy_provider_register(dev, rcar_gen3_phy_usb2_xlate);
+9bb86777fb71eeb drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  738  	if (IS_ERR(provider)) {
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  739  		dev_err(dev, "Failed to register PHY provider\n");
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  740  		ret = PTR_ERR(provider);
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  741  		goto error;
+979b519c7a1bff5 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2018-09-21  742  	} else if (channel->is_otg_channel) {
+9bb86777fb71eeb drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  743  		int ret;
+9bb86777fb71eeb drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  744  
+9bb86777fb71eeb drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  745  		ret = device_create_file(dev, &dev_attr_role);
+9bb86777fb71eeb drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  746  		if (ret < 0)
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14 @747  			goto error;
+9bb86777fb71eeb drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  748  	}
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  749  
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  750  	return 0;
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  751  
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  752  error:
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  753  	pm_runtime_disable(dev);
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  754  
+441a681b8843474 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  755  	return ret;
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  756  }
+f3b5a8d9b50d71b drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  757  
 
-rc not initialized on the else path.
+:::::: The code at line 747 was first introduced by commit
+:::::: 441a681b8843474c9796b50c35794ff102701f37 phy: rcar-gen3-usb2: fix implementation for runtime PM
 
-It must be really embarrassing for the kbuild-bot to be calling
-attention to your private trees.  :P
-
-919bd177830a95 Jarkko Sakkinen 2023-05-30  79  
-6f99612e250041 Stefan Berger   2016-04-18  80  	memset(proxy_dev->buffer, 0, len);
-6f99612e250041 Stefan Berger   2016-04-18  81  	proxy_dev->req_len = 0;
-6f99612e250041 Stefan Berger   2016-04-18  82  
-6f99612e250041 Stefan Berger   2016-04-18 @83  	if (!rc)
-6f99612e250041 Stefan Berger   2016-04-18  84  		proxy_dev->state |= STATE_WAIT_RESPONSE_FLAG;
-6f99612e250041 Stefan Berger   2016-04-18  85  
-6f99612e250041 Stefan Berger   2016-04-18  86  	if (rc)
-6f99612e250041 Stefan Berger   2016-04-18  87  		return -EFAULT;
-6f99612e250041 Stefan Berger   2016-04-18  88  
-6f99612e250041 Stefan Berger   2016-04-18  89  	return len;
-6f99612e250041 Stefan Berger   2016-04-18  90  }
+:::::: TO: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+:::::: CC: Kishon Vijay Abraham I <kishon@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
