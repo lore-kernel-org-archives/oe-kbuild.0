@@ -1,43 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97855101D7
-	for <oe-kbuild@lists.linux.dev>; Thu,  1 Jun 2023 14:34:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823FB19A
+	for <oe-kbuild@lists.linux.dev>; Fri,  2 Jun 2023 00:24:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685630067; x=1717166067;
+  t=1685665493; x=1717201493;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f2y82lG3ZJa0BNddsRHZ9tbvxSy4KrCoAXSOSx4pRFg=;
-  b=PFUOTDrzfIbEgy5SZCr2QAVewi1vvmQ7Wx45sE7eGGR45m3yq1d7J3yn
-   R4jwc5lKFV8OeyIz2IlyxMFpY8rxddyptMAAyJidqzevVgIMNwCYdEye3
-   EJXFP7+CrA0nWTuehopTAt8UyVIFKeLR5tBZavyrYcnRCAbm5aKsDbWx2
-   qgObkqN2+2vOHdNIh/Bz3jdqkk05hJf/dauohdn2oHd525pREMT7BNh03
-   neNu+RVR+Wgx2sNgj3PLatp9KCPVUbc6Z7S2qTL94144LTw2SNYVFkI5a
-   gQ1P0LIaUU2kPxZZyxyNt1Xa4eHq5mYkPT4/LT0VK9+NtlpWcpfaOdzll
+  bh=u/OwDwVZvtT2qlrLWqmq7tqWj+SZVJBxZALh6Qusy5E=;
+  b=iaTBv+tYt4wWERg396VtkeU9MvZz4E4VduRm/D2ndJGZvJy4vkicRc22
+   G2zQvQXunj0PCCf5gk9pupfhliXwR7UxIBxCz4So+zG9+pxsPBzICegh0
+   uHr3LRPdWqJr76Bq9i+lrJyF+MYrJWVi9wCQV0qGDejpXzfewsiWKgXI6
+   H+UjC3sufJasBURNrugkTLMYMvtuGKPv4fQTFHdoHB6tOgJOMIr8Oytcv
+   Bm7GFhUqzMul07BCF4t9D4glO+yod0u/lXE7hRFXYVfuO32zaOPkH2DbX
+   MkHbyJ/Ww6VhKnN5OhRgc7pP/mTEvmjwY5clOIO9HIYuBTCfMv1C0azyd
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="355585921"
-X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="355585921"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 07:34:24 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="354578721"
+X-IronPort-AV: E=Sophos;i="6.00,211,1681196400"; 
+   d="scan'208";a="354578721"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 17:24:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="737123566"
-X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="737123566"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="851915094"
+X-IronPort-AV: E=Sophos;i="6.00,211,1681196400"; 
+   d="scan'208";a="851915094"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 01 Jun 2023 07:34:22 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 01 Jun 2023 17:24:51 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4jNe-0002NM-0i;
-	Thu, 01 Jun 2023 14:34:22 +0000
-Date: Thu, 1 Jun 2023 22:33:49 +0800
+	id 1q4sb4-0002oa-2S;
+	Fri, 02 Jun 2023 00:24:50 +0000
+Date: Fri, 2 Jun 2023 08:24:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [chrome-os:chromeos-5.15 15/20]
- drivers/gpu/drm/drm_bridge.c:656:37-41: ERROR: invalid reference to the
- index variable of the iterator on line 646
-Message-ID: <202306011950.9HQ3HdZc-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [net-next/RFC PATCH v1 2/4] net: Add support for associating
+ napi with queue[s]
+Message-ID: <202306020821.NcqBX7pS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,101 +48,78 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+In-Reply-To: <168564135094.7284.9691772825401908320.stgit@anambiarhost.jf.intel.com>
+References: <168564135094.7284.9691772825401908320.stgit@anambiarhost.jf.intel.com>
+TO: Amritha Nambiar <amritha.nambiar@intel.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   df046a4b25bdf916c4cfaf0e0aaafb2950d62412
-commit: 27c34754f4710a915d73ba73cb8fda076f75bef1 [15/20] UPSTREAM: drm/bridge: Introduce pre_enable_prev_first to alter bridge init order
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: i386-randconfig-c001-20230531 (https://download.01.org/0day-ci/archive/20230601/202306011950.9HQ3HdZc-lkp@intel.com/config)
+Hi Amritha,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tnguy-next-queue/dev-queue]
+[also build test WARNING on tnguy-net-queue/dev-queue net/main net-next/main linus/master v6.4-rc4 next-20230601]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Amritha-Nambiar/net-Introduce-new-napi-fields-for-rx-tx-queues/20230602-013021
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/168564135094.7284.9691772825401908320.stgit%40anambiarhost.jf.intel.com
+patch subject: [net-next/RFC PATCH v1 2/4] net: Add support for associating napi with queue[s]
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: i386-randconfig-m021-20230531 (https://download.01.org/0day-ci/archive/20230602/202306020821.NcqBX7pS-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202306011950.9HQ3HdZc-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202306020821.NcqBX7pS-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/drm_bridge.c:656:37-41: ERROR: invalid reference to the index variable of the iterator on line 646
+New smatch warnings:
+net/core/dev.c:6396 netif_napi_add_queue() warn: possible memory leak of 'napi_queue'
 
-vim +656 drivers/gpu/drm/drm_bridge.c
+Old smatch warnings:
+net/core/dev.c:10454 netdev_run_todo() warn: passing freed memory 'dev'
 
-27c34754f4710a Dave Stevenson  2022-12-05  602  
-5ade071ba13e3b Sean Paul       2019-06-11  603  /**
-ea099adfdf4bf3 Boris Brezillon 2019-12-03  604   * drm_atomic_bridge_chain_post_disable - cleans up after disabling all bridges
-ea099adfdf4bf3 Boris Brezillon 2019-12-03  605   *					  in the encoder chain
-5ade071ba13e3b Sean Paul       2019-06-11  606   * @bridge: bridge control structure
-f3fdbc721b8bc9 Boris Brezillon 2019-12-03  607   * @old_state: old atomic state
-5ade071ba13e3b Sean Paul       2019-06-11  608   *
-5ade071ba13e3b Sean Paul       2019-06-11  609   * Calls &drm_bridge_funcs.atomic_post_disable (falls back on
-5ade071ba13e3b Sean Paul       2019-06-11  610   * &drm_bridge_funcs.post_disable) op for all the bridges in the encoder chain,
-5ade071ba13e3b Sean Paul       2019-06-11  611   * starting from the first bridge to the last. These are called after completing
-5ade071ba13e3b Sean Paul       2019-06-11  612   * &drm_encoder_helper_funcs.atomic_disable
-5ade071ba13e3b Sean Paul       2019-06-11  613   *
-27c34754f4710a Dave Stevenson  2022-12-05  614   * If a bridge sets @pre_enable_prev_first, then the @post_disable for that
-27c34754f4710a Dave Stevenson  2022-12-05  615   * bridge will be called before the previous one to reverse the @pre_enable
-27c34754f4710a Dave Stevenson  2022-12-05  616   * calling direction.
-27c34754f4710a Dave Stevenson  2022-12-05  617   *
-5ade071ba13e3b Sean Paul       2019-06-11  618   * Note: the bridge passed should be the one closest to the encoder
-5ade071ba13e3b Sean Paul       2019-06-11  619   */
-ea099adfdf4bf3 Boris Brezillon 2019-12-03  620  void drm_atomic_bridge_chain_post_disable(struct drm_bridge *bridge,
-f3fdbc721b8bc9 Boris Brezillon 2019-12-03  621  					  struct drm_atomic_state *old_state)
-5ade071ba13e3b Sean Paul       2019-06-11  622  {
-05193dc3819702 Boris Brezillon 2019-12-03  623  	struct drm_encoder *encoder;
-27c34754f4710a Dave Stevenson  2022-12-05  624  	struct drm_bridge *next, *limit;
-05193dc3819702 Boris Brezillon 2019-12-03  625  
-5ade071ba13e3b Sean Paul       2019-06-11  626  	if (!bridge)
-5ade071ba13e3b Sean Paul       2019-06-11  627  		return;
-5ade071ba13e3b Sean Paul       2019-06-11  628  
-05193dc3819702 Boris Brezillon 2019-12-03  629  	encoder = bridge->encoder;
-27c34754f4710a Dave Stevenson  2022-12-05  630  
-05193dc3819702 Boris Brezillon 2019-12-03  631  	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
-27c34754f4710a Dave Stevenson  2022-12-05  632  		limit = NULL;
-27c34754f4710a Dave Stevenson  2022-12-05  633  
-27c34754f4710a Dave Stevenson  2022-12-05  634  		if (!list_is_last(&bridge->chain_node, &encoder->bridge_chain)) {
-27c34754f4710a Dave Stevenson  2022-12-05  635  			next = list_next_entry(bridge, chain_node);
-27c34754f4710a Dave Stevenson  2022-12-05  636  
-27c34754f4710a Dave Stevenson  2022-12-05  637  			if (next->pre_enable_prev_first) {
-27c34754f4710a Dave Stevenson  2022-12-05  638  				/* next bridge had requested that prev
-27c34754f4710a Dave Stevenson  2022-12-05  639  				 * was enabled first, so disabled last
-27c34754f4710a Dave Stevenson  2022-12-05  640  				 */
-27c34754f4710a Dave Stevenson  2022-12-05  641  				limit = next;
-27c34754f4710a Dave Stevenson  2022-12-05  642  
-27c34754f4710a Dave Stevenson  2022-12-05  643  				/* Find the next bridge that has NOT requested
-27c34754f4710a Dave Stevenson  2022-12-05  644  				 * prev to be enabled first / disabled last
-27c34754f4710a Dave Stevenson  2022-12-05  645  				 */
-27c34754f4710a Dave Stevenson  2022-12-05 @646  				list_for_each_entry_from(next, &encoder->bridge_chain,
-27c34754f4710a Dave Stevenson  2022-12-05  647  							 chain_node) {
-27c34754f4710a Dave Stevenson  2022-12-05  648  					if (next->pre_enable_prev_first) {
-27c34754f4710a Dave Stevenson  2022-12-05  649  						next = list_prev_entry(next, chain_node);
-27c34754f4710a Dave Stevenson  2022-12-05  650  						limit = next;
-27c34754f4710a Dave Stevenson  2022-12-05  651  						break;
-27c34754f4710a Dave Stevenson  2022-12-05  652  					}
-27c34754f4710a Dave Stevenson  2022-12-05  653  				}
-27c34754f4710a Dave Stevenson  2022-12-05  654  
-27c34754f4710a Dave Stevenson  2022-12-05  655  				/* Call these bridges in reverse order */
-27c34754f4710a Dave Stevenson  2022-12-05 @656  				list_for_each_entry_from_reverse(next, &encoder->bridge_chain,
-27c34754f4710a Dave Stevenson  2022-12-05  657  								 chain_node) {
-27c34754f4710a Dave Stevenson  2022-12-05  658  					if (next == bridge)
-27c34754f4710a Dave Stevenson  2022-12-05  659  						break;
-27c34754f4710a Dave Stevenson  2022-12-05  660  
-27c34754f4710a Dave Stevenson  2022-12-05  661  					drm_atomic_bridge_call_post_disable(next,
-27c34754f4710a Dave Stevenson  2022-12-05  662  									    old_state);
-27c34754f4710a Dave Stevenson  2022-12-05  663  				}
-27c34754f4710a Dave Stevenson  2022-12-05  664  			}
-27c34754f4710a Dave Stevenson  2022-12-05  665  		}
-27c34754f4710a Dave Stevenson  2022-12-05  666  
-27c34754f4710a Dave Stevenson  2022-12-05  667  		drm_atomic_bridge_call_post_disable(bridge, old_state);
-27c34754f4710a Dave Stevenson  2022-12-05  668  
-27c34754f4710a Dave Stevenson  2022-12-05  669  		if (limit)
-27c34754f4710a Dave Stevenson  2022-12-05  670  			/* Jump all bridges that we have already post_disabled */
-27c34754f4710a Dave Stevenson  2022-12-05  671  			bridge = limit;
-27c34754f4710a Dave Stevenson  2022-12-05  672  	}
-27c34754f4710a Dave Stevenson  2022-12-05  673  }
-27c34754f4710a Dave Stevenson  2022-12-05  674  EXPORT_SYMBOL(drm_atomic_bridge_chain_post_disable);
-27c34754f4710a Dave Stevenson  2022-12-05  675  
+vim +/napi_queue +6396 net/core/dev.c
+
+5fdd2f0e5c6484 Wei Wang        2021-02-08  6368  
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6369  /**
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6370   * netif_napi_add_queue - Associate queue with the napi
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6371   * @napi: NAPI context
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6372   * @queue_index: Index of queue
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6373   * @napi_container_type: queue type as RX or TX
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6374   *
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6375   * Add queue with its corresponding napi context
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6376   */
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6377  int netif_napi_add_queue(struct napi_struct *napi, u16 queue_index,
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6378  			 enum napi_container_type type)
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6379  {
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6380  	struct napi_queue *napi_queue;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6381  
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6382  	napi_queue = kzalloc(sizeof(*napi_queue), GFP_KERNEL);
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6383  	if (!napi_queue)
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6384  		return -ENOMEM;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6385  
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6386  	napi_queue->queue_index = queue_index;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6387  
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6388  	switch (type) {
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6389  	case NAPI_RX_CONTAINER:
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6390  		list_add_rcu(&napi_queue->q_list, &napi->napi_rxq_list);
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6391  		break;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6392  	case NAPI_TX_CONTAINER:
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6393  		list_add_rcu(&napi_queue->q_list, &napi->napi_txq_list);
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6394  		break;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6395  	default:
+9b6d735207c0eb Amritha Nambiar 2023-06-01 @6396  		return -EINVAL;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6397  	}
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6398  
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6399  	return 0;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6400  }
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6401  EXPORT_SYMBOL(netif_napi_add_queue);
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6402  
 
 -- 
 0-DAY CI Kernel Test Service
