@@ -1,42 +1,49 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2549210E3
-	for <oe-kbuild@lists.linux.dev>; Fri,  2 Jun 2023 01:57:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685671077; x=1717207077;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sVu7sGuXn3UV7vrZly3/FdBa/hqnNvCQ4acLastf9mo=;
-  b=dCoEg+FZmOx3JnRJTsaVh6SIZIqa7LRn6JgW4O6x5Gj6hz5zlq/OUsvS
-   4vBwmgI6oKjXekVT0CkOXQnS2KNYyeVDUOBoqsCQuJsoRxtOi5TLJgP1g
-   EhCzsWWVl/EmweeIkJssxcs3I3l6asPyjDxdvo/28ysEdcCBya3T6Ttg5
-   WF0mc/mEZh87Qs2xgkxZfGjWa30s/HsKxfMZPPIGL7ZbyrX3qYOOOWZxp
-   VvMfCn9CNRPbRUjhacHaL5qkQVKwg81eWXBpvNZsW39PIMRlSZEXIXgLI
-   E5aQjyguRNdF7RJxHyfo0Seexeks2IiO5fXS4+KJ8ZmGzVmTqx2rb5SiA
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="354591796"
-X-IronPort-AV: E=Sophos;i="6.00,211,1681196400"; 
-   d="scan'208";a="354591796"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 18:57:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="737336429"
-X-IronPort-AV: E=Sophos;i="6.00,211,1681196400"; 
-   d="scan'208";a="737336429"
-Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 01 Jun 2023 18:57:54 -0700
-Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q4u38-0002u6-05;
-	Fri, 02 Jun 2023 01:57:54 +0000
-Date: Fri, 2 Jun 2023 09:57:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-nvme:nvme-6.5 15/21] drivers/nvme/host/fabrics.c:96:2-8:
- preceding lock on line 85
-Message-ID: <202306020909.MTUEBeIa-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF8E79F6
+	for <oe-kbuild@lists.linux.dev>; Fri,  2 Jun 2023 07:50:28 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3078a3f3b5fso1733298f8f.0
+        for <oe-kbuild@lists.linux.dev>; Fri, 02 Jun 2023 00:50:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685692225; x=1688284225;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NvA6TPqwWYJBBM3KRh/gfP2SQJsI9HaN4QQfikDaaUQ=;
+        b=c7+ynRzMurKCDeCkS0/J/1fxGF4iX3h5zqwjj15Y61n58J0O7RpI9NvzQuVho6NFoY
+         hFO6PF9ptwu68j77REdAgeIxlIHegoF9BPn5IPiJbVFKAZ3/wzdBtd/2GjK7ZFX22uaw
+         hcXuMtQnfiRwLy3poKdlGhjzqkRbfk1demqnnrWeRcPKHKyItpnm5qs1t5lpF1YV0D8T
+         CD+RHbw0My0Oi8AnzxEl3Tqfw4bIsQlIY7SwyGE5NTz+wleOHckjAdbwzFtE0algQ+ck
+         ejSPmBxry5U/Eb+dvMUglqKVF6/IRWaSBnWl10vY5v+jdY24pywbqUVgaGP5fJXf/fnO
+         5Xjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685692225; x=1688284225;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NvA6TPqwWYJBBM3KRh/gfP2SQJsI9HaN4QQfikDaaUQ=;
+        b=eWObeZvWdAZ7xpTgv6ooZ8S+JPXZDBhIzcI7pu1ZamVBlqwXsGAGJ+NaD2GJiauf8P
+         rf5mQWvc1bBTMIF/EAoqNMorLymqfNl0RGmloXWW+bBREI7ZZSyc8IY2AEyvysc20RSL
+         miSB9jmx8RoFKo5251hROjjE8YvFP4CpxVxkAFSBK0qar707dysuGwRNmouZpps5vLDO
+         DCZq+VXepAFdm1cTdjgvN0rQRl61NL8VZbPSDYZm0/CPgMoKE0S8tOllUFtGtLRmhGjS
+         SUgj9vbQSINvRDgZLH2nBGbv+P1uSpQooYx/rKpIhgpICLkVod/98jk0B3MDAY04BTSf
+         9JrA==
+X-Gm-Message-State: AC+VfDydBrO+udSHGD60G2GSc4Y3FSFYE3MZVBIViTaJL2E0qKIM2LWX
+	vmviIhhqjMlxBneiUXKwCtYSyFnzJhFYHFd5ruQ=
+X-Google-Smtp-Source: ACHHUZ7iV15ZFq7wZFlotpy8GQSUVIyR3DxbbrgM8JdDhTS9nAw61tUfGZkob9WTP8rybK0lRUMjYA==
+X-Received: by 2002:a05:6000:10d:b0:309:3e1e:fa23 with SMTP id o13-20020a056000010d00b003093e1efa23mr3398172wrx.19.1685692225433;
+        Fri, 02 Jun 2023 00:50:25 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id j11-20020a5d564b000000b00307c8d6b4a0sm891595wrw.26.2023.06.02.00.50.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Jun 2023 00:50:22 -0700 (PDT)
+Date: Fri, 2 Jun 2023 10:50:19 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Amritha Nambiar <amritha.nambiar@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [net-next/RFC PATCH v1 2/4] net: Add support for associating
+ napi with queue[s]
+Message-ID: <815f93a9-0d50-4b19-88ee-3bf9cdf16af0@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,58 +52,65 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <168564135094.7284.9691772825401908320.stgit@anambiarhost.jf.intel.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-nvme@lists.infradead.org
-TO: Max Gurtovoy <mgurtovoy@nvidia.com>
-CC: Keith Busch <kbusch@kernel.org>
-CC: Israel Rukshin <israelr@nvidia.com>
-CC: Christoph Hellwig <hch@lst.de>
+Hi Amritha,
 
-tree:   git://git.infradead.org/nvme.git nvme-6.5
-head:   14ad91f7a9a29562f23bedd205ef209255d8b8d1
-commit: f0cebf82004d610be3ef47abf315ddf95aa2dcd1 [15/21] nvme-fabrics: prevent overriding of existing host
-:::::: branch date: 9 hours ago
-:::::: commit date: 3 weeks ago
-config: riscv-randconfig-c032-20230531 (https://download.01.org/0day-ci/archive/20230602/202306020909.MTUEBeIa-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Amritha-Nambiar/net-Introduce-new-napi-fields-for-rx-tx-queues/20230602-013021
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/168564135094.7284.9691772825401908320.stgit%40anambiarhost.jf.intel.com
+patch subject: [net-next/RFC PATCH v1 2/4] net: Add support for associating napi with queue[s]
+config: i386-randconfig-m021-20230531 (https://download.01.org/0day-ci/archive/20230602/202306020821.NcqBX7pS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202306020909.MTUEBeIa-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202306020821.NcqBX7pS-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/nvme/host/fabrics.c:96:2-8: preceding lock on line 85
+New smatch warnings:
+net/core/dev.c:6396 netif_napi_add_queue() warn: possible memory leak of 'napi_queue'
 
-vim +96 drivers/nvme/host/fabrics.c
+Old smatch warnings:
+net/core/dev.c:10454 netdev_run_todo() warn: passing freed memory 'dev'
 
-f0cebf82004d61 Max Gurtovoy      2023-05-12   80  
-f0cebf82004d61 Max Gurtovoy      2023-05-12   81  static struct nvmf_host *nvmf_host_add(const char *hostnqn, uuid_t *id)
-07bfcd09a28855 Christoph Hellwig 2016-06-13   82  {
-07bfcd09a28855 Christoph Hellwig 2016-06-13   83  	struct nvmf_host *host;
-07bfcd09a28855 Christoph Hellwig 2016-06-13   84  
-07bfcd09a28855 Christoph Hellwig 2016-06-13  @85  	mutex_lock(&nvmf_hosts_mutex);
-f0cebf82004d61 Max Gurtovoy      2023-05-12   86  	host = __nvmf_host_find(hostnqn, id);
-f0cebf82004d61 Max Gurtovoy      2023-05-12   87  	if (IS_ERR(host)) {
-f0cebf82004d61 Max Gurtovoy      2023-05-12   88  		goto out_unlock;
-f0cebf82004d61 Max Gurtovoy      2023-05-12   89  	} else if (host) {
-98096d8a787f05 Christoph Hellwig 2016-08-18   90  		kref_get(&host->ref);
-07bfcd09a28855 Christoph Hellwig 2016-06-13   91  		goto out_unlock;
-98096d8a787f05 Christoph Hellwig 2016-08-18   92  	}
-07bfcd09a28855 Christoph Hellwig 2016-06-13   93  
-f0cebf82004d61 Max Gurtovoy      2023-05-12   94  	host = nvmf_host_alloc(hostnqn, id);
-07bfcd09a28855 Christoph Hellwig 2016-06-13   95  	if (!host)
-f0cebf82004d61 Max Gurtovoy      2023-05-12  @96  		return ERR_PTR(-ENOMEM);
-07bfcd09a28855 Christoph Hellwig 2016-06-13   97  
-07bfcd09a28855 Christoph Hellwig 2016-06-13   98  	list_add_tail(&host->list, &nvmf_hosts);
-07bfcd09a28855 Christoph Hellwig 2016-06-13   99  out_unlock:
-07bfcd09a28855 Christoph Hellwig 2016-06-13  100  	mutex_unlock(&nvmf_hosts_mutex);
-07bfcd09a28855 Christoph Hellwig 2016-06-13  101  	return host;
-07bfcd09a28855 Christoph Hellwig 2016-06-13  102  }
-07bfcd09a28855 Christoph Hellwig 2016-06-13  103  
+vim +/napi_queue +6396 net/core/dev.c
+
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6377  int netif_napi_add_queue(struct napi_struct *napi, u16 queue_index,
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6378  			 enum napi_container_type type)
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6379  {
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6380  	struct napi_queue *napi_queue;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6381  
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6382  	napi_queue = kzalloc(sizeof(*napi_queue), GFP_KERNEL);
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6383  	if (!napi_queue)
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6384  		return -ENOMEM;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6385  
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6386  	napi_queue->queue_index = queue_index;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6387  
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6388  	switch (type) {
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6389  	case NAPI_RX_CONTAINER:
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6390  		list_add_rcu(&napi_queue->q_list, &napi->napi_rxq_list);
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6391  		break;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6392  	case NAPI_TX_CONTAINER:
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6393  		list_add_rcu(&napi_queue->q_list, &napi->napi_txq_list);
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6394  		break;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6395  	default:
+9b6d735207c0eb Amritha Nambiar 2023-06-01 @6396  		return -EINVAL;
+
+This path is likely impossible, right?  Smatch still wants a
+kfree(napi_queue); before the return.
+
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6397  	}
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6398  
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6399  	return 0;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6400  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
