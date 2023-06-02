@@ -1,43 +1,52 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDBB111B8
-	for <oe-kbuild@lists.linux.dev>; Fri,  2 Jun 2023 13:51:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685713896; x=1717249896;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y9DkEZMjy0mxEB0CZFGeaBXxWd7Ep+GIIYRDlf8VoWQ=;
-  b=YO8CSt8gIYz7tdi76Lek04KVBbINnUR+0XteArlwYuroE0cazSNYVOFj
-   T0boRdlvzI2DqWl6lVQ3A08gXDO+mnuY/j1kwrpQn8rUeD/abJ1UqxSFc
-   Z7X4zdAhpeA77bdYCs7MohetIEQtAPo3jjkHMmJ5JTlQ1dH3+bJfey2AK
-   +DpxVVAM+5GEXTrwSx0VATcsRxKJRL29jPZ17YUo3OCr8FQ3ObG1pm2W7
-   gAVkVv7LOs2HcYVFy7uJJ0zW56JsRVeTTiys2TzHlWxVPYUkvgoB8u3yT
-   4cN1HHiaQQlQ1HSoSZYOHRl7LkqZP3TOEzAd5hg5PZEzCJHKnhfpLzhbw
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="336235016"
-X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
-   d="scan'208";a="336235016"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 06:51:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="772890363"
-X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
-   d="scan'208";a="772890363"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 02 Jun 2023 06:51:34 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q55Bl-0000Vh-1n;
-	Fri, 02 Jun 2023 13:51:33 +0000
-Date: Fri, 2 Jun 2023 21:51:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3B819917
+	for <oe-kbuild@lists.linux.dev>; Fri,  2 Jun 2023 14:04:45 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f606a80d34so20045985e9.0
+        for <oe-kbuild@lists.linux.dev>; Fri, 02 Jun 2023 07:04:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685714683; x=1688306683;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=svnJMtaW8Y9E9CY+u+dStnCdmYu7ZlCa7pmOlOmj2dI=;
+        b=rRVAzmuJcnkXcKFz2UsOXCzhj+YRYL2Sql7u9nU5Sxd0E04hAm91n0dhHbsWXYlm2P
+         sr0texIAmjMQc7TLiemvhmBphTWjGz0RXu0qcr5nfJMrU9k0p2nN7qDzZLaMCksp3UMD
+         Y8tHV9p0ufr1wED3bfZ7hE2cUCzBVB3GoCifugm/s329YyaiPMn37YPdamXln4mtzW7+
+         YNWwWH4ABerL4Vzs1ElA4vr0rH9V4u7M9JFsjbsJb/itiAgD0+ilVqvU9fx0WUnd2Yvl
+         4zFQkIyU4LdYnLxEMqdwLtgg4FMrKC/2OHcvTzasGhNs1t5wmiIqeSeD4qFeIURId5F3
+         Lixw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685714683; x=1688306683;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=svnJMtaW8Y9E9CY+u+dStnCdmYu7ZlCa7pmOlOmj2dI=;
+        b=BiRGhbMmAUHrZHdJRBRiRiTLMLgo4Ugjqf/kvd7lqGsdqNLmRr5Nsu7WA3gARyCZdR
+         8uhBw4ZsND3kkNBM1q38XHsM61b/LK7ntw4ML1SLVTp8swW8ZsG9IAFT73zUKOq+/7Cf
+         YsQBi2TUv7Ao1I0uEnbsKZ2sdEVjc+kW9jCQqWtzq1VQnCTVxr/ZRkEnE01EMBSvhViN
+         rXoyUXKHIGgrUo/LZikimwofNNtSoa/Nr0TDOAcyLuWih7YpmRx+07df+0y7XtQ7isSr
+         NGidkU2wzWvmjeBHK1uRgTLUk4gCD2/Dr03Zi1dXbW/bouyhF5n1/2EikktW056FFEoc
+         H2uA==
+X-Gm-Message-State: AC+VfDwxM+mezYXFl/Uack2zlppgS+zWeRGykKrULYxRE5MeXSDiHuN6
+	INs0mhebYkj3v1JxPpF16hs4ggCJEoRHKuyjbs0=
+X-Google-Smtp-Source: ACHHUZ7RdDW10TSm+9p0dIeNoW7WDD/eCTIDco94sxl8ab92Xv6CSvNrU2/7NEg68d52ZUbB5EQ85g==
+X-Received: by 2002:a7b:cbc9:0:b0:3f6:149:556c with SMTP id n9-20020a7bcbc9000000b003f60149556cmr1932887wmi.0.1685714682683;
+        Fri, 02 Jun 2023 07:04:42 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o7-20020a05600c378700b003f7191da579sm2047976wmr.42.2023.06.02.07.04.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Jun 2023 07:04:40 -0700 (PDT)
+Date: Fri, 2 Jun 2023 17:04:37 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-btrfs@vger.kernel.org, David Sterba <dsterba@suse.com>,
+	Qu Wenruo <wqu@suse.com>,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>
 Subject: [linux-next:master 6080/6849] fs/btrfs/volumes.c:6412
  btrfs_map_block() error: we previously assumed 'mirror_num_ret' could be
  null (see line 6250)
-Message-ID: <202306022143.zoQGZHa1-lkp@intel.com>
+Message-ID: <14e5f928-5395-4cc4-90ff-8223ef857320@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,23 +56,14 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Christoph Hellwig <hch@lst.de>
-CC: David Sterba <dsterba@suse.com>
-CC: Qu Wenruo <wqu@suse.com>
-CC: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-
 Hi Christoph,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+This is just a rename function so the warning is older but I didn't
+send this email before.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   bc708bbd8260ee4eb3428b0109f5f3be661fae46
 commit: f34e3e7526318e4fcda5b043c8d5e90cfac652c2 [6080/6849] btrfs: rename __btrfs_map_block to btrfs_map_block
-:::::: branch date: 10 hours ago
-:::::: commit date: 2 days ago
 config: x86_64-randconfig-m001-20230531 (https://download.01.org/0day-ci/archive/20230602/202306022143.zoQGZHa1-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
@@ -72,12 +72,12 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 | Closes: https://lore.kernel.org/r/202306022143.zoQGZHa1-lkp@intel.com/
 
+
 smatch warnings:
 fs/btrfs/volumes.c:6412 btrfs_map_block() error: we previously assumed 'mirror_num_ret' could be null (see line 6250)
 
 vim +/mirror_num_ret +6412 fs/btrfs/volumes.c
 
-03793cbbc80fe6 Christoph Hellwig 2022-08-06  6234  
 f34e3e7526318e Christoph Hellwig 2023-05-31  6235  int btrfs_map_block(struct btrfs_fs_info *fs_info, enum btrfs_map_op op,
 103c19723c80bf Christoph Hellwig 2022-11-15  6236  		    u64 logical, u64 *length,
 4c664611791239 Qu Wenruo         2021-09-15  6237  		    struct btrfs_io_context **bioc_ret,
@@ -94,6 +94,9 @@ cff8267228c14e David Sterba      2019-05-17  6247  	int data_stripes;
 cea9e4452ebaf1 Chris Mason       2008-04-09  6248  	int i;
 de11cc12df1733 Li Zefan          2011-12-01  6249  	int ret = 0;
 03793cbbc80fe6 Christoph Hellwig 2022-08-06 @6250  	int mirror_num = (mirror_num_ret ? *mirror_num_ret : 0);
+
+mirror_num set to zero here if mirror_num_ret is NULL.  Fine.
+
 f2d8d74d7874f8 Chris Mason       2008-04-21  6251  	int num_stripes;
 5f50fa918f0c17 Qu Wenruo         2023-02-22  6252  	int num_copies;
 a236aed14ccb06 Chris Mason       2008-04-29  6253  	int max_errors = 0;
@@ -174,6 +177,9 @@ dfe25020689bb2 Chris Mason       2008-05-13  6325  		else {
 30d9861ff9520e Stefan Behrens    2012-11-06  6328  					      stripe_index,
 30d9861ff9520e Stefan Behrens    2012-11-06  6329  					      dev_replace_is_ongoing);
 3e74317ad773ba Jan Schmidt       2012-04-27  6330  			mirror_num = stripe_index - old_stripe_index + 1;
+
+mirror_num is set > 1.
+
 dfe25020689bb2 Chris Mason       2008-05-13  6331  		}
 53b381b3abeb86 David Woodhouse   2013-01-29  6332  
 ffe2d2034bbb34 Zhao Lei          2015-01-20  6333  	} else if (map->type & BTRFS_BLOCK_GROUP_RAID56_MASK) {
@@ -224,6 +230,9 @@ de48373454acea Anand Jain        2017-10-12  6369  			if (!need_full_stripe(op) 
 6ded22c1bfe6a8 Qu Wenruo         2023-02-17  6378  		stripe_index = stripe_nr % map->num_stripes;
 6ded22c1bfe6a8 Qu Wenruo         2023-02-17  6379  		stripe_nr /= map->num_stripes;
 a1d3c4786a4b9c Jan Schmidt       2011-08-04  6380  		mirror_num = stripe_index + 1;
+
+Also set to > 1 here.
+
 8790d502e4401a Chris Mason       2008-04-03  6381  	}
 e042d1ec441798 Josef Bacik       2016-04-12  6382  	if (stripe_index >= map->num_stripes) {
 5d163e0e68ce74 Jeff Mahoney      2016-09-20  6383  		btrfs_crit(fs_info,
@@ -256,6 +265,9 @@ e042d1ec441798 Josef Bacik       2016-04-12  6388  	}
 03793cbbc80fe6 Christoph Hellwig 2022-08-06  6410  	     !dev_replace->tgtdev)) {
 5f50fa918f0c17 Qu Wenruo         2023-02-22  6411  		set_io_stripe(smap, map, stripe_index, stripe_offset, stripe_nr);
 03793cbbc80fe6 Christoph Hellwig 2022-08-06 @6412  		*mirror_num_ret = mirror_num;
+
+Unchecked dereference.
+
 03793cbbc80fe6 Christoph Hellwig 2022-08-06  6413  		*bioc_ret = NULL;
 03793cbbc80fe6 Christoph Hellwig 2022-08-06  6414  		ret = 0;
 03793cbbc80fe6 Christoph Hellwig 2022-08-06  6415  		goto out;
@@ -326,14 +338,8 @@ cb5583dd52fab4 David Sterba      2018-09-07  6478  		up_read(&dev_replace->rwsem
 0b86a832a1f38a Chris Mason       2008-03-24  6480  	free_extent_map(em);
 de11cc12df1733 Li Zefan          2011-12-01  6481  	return ret;
 0b86a832a1f38a Chris Mason       2008-03-24  6482  }
-0b86a832a1f38a Chris Mason       2008-03-24  6483  
-
-:::::: The code at line 6412 was first introduced by commit
-:::::: 03793cbbc80fe616498f8141f853575b2d140222 btrfs: add fast path for single device io in __btrfs_map_block
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: David Sterba <dsterba@suse.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
