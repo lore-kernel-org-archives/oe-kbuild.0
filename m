@@ -1,42 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3893A1FD6
-	for <oe-kbuild@lists.linux.dev>; Sun,  4 Jun 2023 06:10:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F64B256E
+	for <oe-kbuild@lists.linux.dev>; Sun,  4 Jun 2023 11:04:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685859015; x=1717395015;
+  t=1685876675; x=1717412675;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=poOgcZqvo7fj0K+leLO0cojYZUZT89jA6D6dTenQ8+k=;
-  b=h3Ayjz1HGEyjtrPih9nADWHKP4P+lc8TOO0t704KOP0QtMEV8B6nr9z8
-   6+4kHbU3wmBgJL8TH8W8ynNLDdqJT2CvVhtWvFwxS+2iuWR16e/VCwdJ4
-   71s2hpACHKeujtjCaigKY1q20GPAyIUYt50EBOgpqTTRnFa3q27eWRccc
-   uBLK080086XdVzFOge0z3V8/RD/U5ib/f7fqEt50tCBLuP8pvCh6MUimQ
-   FCi6YPGOi0eYHMSboVExVXHZqzBjOOlFwvfm4OU+mBxCZWoBkUB6X8EMd
-   iXtjPaSQf2YSgLXDTb1rWAJgHwuCm+NWJvCWTYWepj2vf0ZhdvfApbRui
+  bh=pJ2zIdRpMNBNwiu2c2zqWmyFVd2DOgVyxC9daF3eIL0=;
+  b=PdBIl39+RJznnOCnHXLCqp7VHAsdFiloJp5tG8Wp4YedJou5mRF99QR1
+   0w6DWwIcTrOiVJeZQ4c8RSqrKzS2r9ioEILBUA4ulyCPaT+qjrMWs2YjP
+   oAJB5pWT/OdAvEv16z+ODNSEh3SvRXyfSK/HaTTZrjZ4PdwRZAJ6ZveEN
+   BUMPggRF0ML2yVHfQTXZqQ4MLSEHzhKjTlWSvMzpmD5qVDZSMUrumOloh
+   BU89MY8VWHQSootTR2UCcrOV7KUsCz1OVzx8eATOl/sDnddWFjFRlJr1h
+   25q9O8t8cwHV9RJlVXwISnYA6CuSxIxtyYKO5o57oVl12DLQH/CHisSWs
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="384449489"
+X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="336533103"
 X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="384449489"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2023 23:10:14 -0700
+   d="scan'208";a="336533103"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2023 04:04:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="852595616"
+X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="702461155"
 X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="852595616"
+   d="scan'208";a="702461155"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 03 Jun 2023 23:10:13 -0700
+  by orsmga007.jf.intel.com with ESMTP; 04 Jun 2023 04:04:33 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q5gwO-0002Mv-2g;
-	Sun, 04 Jun 2023 06:10:12 +0000
-Date: Sun, 4 Jun 2023 14:09:24 +0800
+	id 1q5lXE-0002cp-1i;
+	Sun, 04 Jun 2023 11:04:32 +0000
+Date: Sun, 4 Jun 2023 19:04:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [djiang:cxl-qtg 6/26] lib/fw_table.c:60 acpi_get_entry_length()
- warn: statement has no effect 3
-Message-ID: <202306041414.zZ7hyfAQ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>,
+	Elena Reshetova <elena.reshetova@intel.com>
+Subject: fs/smb/client/connect.c:2614:6-25: WARNING: atomic_dec_and_test
+ variation before object free at line 2622.
+Message-ID: <202306041936.Gx8jFfyu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,47 +49,29 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Dave Jiang <dave.jiang@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Steve French <stfrench@microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl-qtg
-head:   d149ac9ae1abedde6933ea16e12a44b965bb1384
-commit: a4f8e943725bf7bb5dfb88bbca1f30c03f041dfa [6/26] lib/firmware_table: tables: Add CDAT table parsing support
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-m021-20230604 (https://download.01.org/0day-ci/archive/20230604/202306041414.zZ7hyfAQ-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e5282a7d8f6b604f2bb6a06457734b8cf1e2f8f2
+commit: 38c8a9a52082579090e34c033d439ed2cd1a462d smb: move client and server files to common directory fs/smb
+date:   11 days ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 11 days ago
+config: i386-randconfig-c001-20230604 (https://download.01.org/0day-ci/archive/20230604/202306041936.Gx8jFfyu-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306041414.zZ7hyfAQ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202306041936.Gx8jFfyu-lkp@intel.com/
 
-smatch warnings:
-lib/fw_table.c:60 acpi_get_entry_length() warn: statement has no effect 3
-
-vim +60 lib/fw_table.c
-
-773808188a9583 Dave Jiang 2023-05-11  46  
-773808188a9583 Dave Jiang 2023-05-11  47  static unsigned long __init_or_acpilib
-773808188a9583 Dave Jiang 2023-05-11  48  acpi_get_entry_length(struct acpi_subtable_entry *entry)
-773808188a9583 Dave Jiang 2023-05-11  49  {
-773808188a9583 Dave Jiang 2023-05-11  50  	switch (entry->type) {
-773808188a9583 Dave Jiang 2023-05-11  51  	case ACPI_SUBTABLE_COMMON:
-773808188a9583 Dave Jiang 2023-05-11  52  		return entry->hdr->common.length;
-773808188a9583 Dave Jiang 2023-05-11  53  	case ACPI_SUBTABLE_HMAT:
-773808188a9583 Dave Jiang 2023-05-11  54  		return entry->hdr->hmat.length;
-773808188a9583 Dave Jiang 2023-05-11  55  	case ACPI_SUBTABLE_PRMT:
-773808188a9583 Dave Jiang 2023-05-11  56  		return entry->hdr->prmt.length;
-773808188a9583 Dave Jiang 2023-05-11  57  	case ACPI_SUBTABLE_CEDT:
-773808188a9583 Dave Jiang 2023-05-11  58  		return entry->hdr->cedt.length;
-a4f8e943725bf7 Dave Jiang 2023-05-24  59  	case CDAT_SUBTABLE:
-a4f8e943725bf7 Dave Jiang 2023-05-24 @60  		__le16 length = (__force __le16)entry->hdr->cdat.length;
-a4f8e943725bf7 Dave Jiang 2023-05-24  61  
-a4f8e943725bf7 Dave Jiang 2023-05-24  62  		return le16_to_cpu(length);
-773808188a9583 Dave Jiang 2023-05-11  63  	}
-773808188a9583 Dave Jiang 2023-05-11  64  	return 0;
-773808188a9583 Dave Jiang 2023-05-11  65  }
-773808188a9583 Dave Jiang 2023-05-11  66  
+cocci warnings: (new ones prefixed by >>)
+>> fs/smb/client/connect.c:2614:6-25: WARNING: atomic_dec_and_test variation before object free at line 2622.
+--
+>> fs/smb/client/cifsfs.c:1186:6-12: ERROR: allocation function on line 1173 returns NULL not ERR_PTR on failure
+--
+>> fs/smb/client/cifsacl.c:190:23-24: WARNING opportunity for min()
 
 -- 
 0-DAY CI Kernel Test Service
