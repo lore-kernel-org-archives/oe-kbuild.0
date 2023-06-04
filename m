@@ -1,42 +1,32 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC2523A8
-	for <oe-kbuild@lists.linux.dev>; Sun,  4 Jun 2023 11:26:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685877996; x=1717413996;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=on9Bhbt1mKLVoXj/zAZqvOtRnGLhjcP7hZtlaPA+D8s=;
-  b=AyYw6cYMjq4vRNaj3U4FsmcCwiqjL1tpF1aYYJdJN2xPu+eHV1vuMmmf
-   m5lzoy9Wwgzr37lmeFK3kUerDlW80NzqbX9SQ3LNvbsdWtgTy7kfQKVci
-   0CJYYCMAr0WRLGP04gcjvS8KjbT+mp6cpD0ma8ib+21Cjc3O/O+UAhb8J
-   aQhbP62jegr3JZPoqAF9daE1wLVWX/uL+ZieXkZyVjbZOSKu7d87VW7H6
-   gZWvqHxENtfIyUyribmC1QiCfpvRKzkiUfCTIH5lxAu2+El7K6pymanZA
-   tepATeFfYO8UbCzfPMCue12Qo8ymq0C4W3KQeQUokKoWWNW2lm5lVbXEQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="422000252"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="422000252"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2023 04:26:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="741372686"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="741372686"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 04 Jun 2023 04:26:34 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q5lsX-0002dn-2j;
-	Sun, 04 Jun 2023 11:26:33 +0000
-Date: Sun, 4 Jun 2023 19:26:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [cel:topic-rpc-with-tls-upcall 12/16]
- net/handshake/alert.c:61:12-13: WARNING opportunity for min()
-Message-ID: <202306041946.8ZQsHH5y-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BCB33F2
+	for <oe-kbuild@lists.linux.dev>; Sun,  4 Jun 2023 12:41:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11B16C433EF;
+	Sun,  4 Jun 2023 12:41:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1685882473;
+	bh=0OYicLRoszo64H3XAFAzz5t3OTR4dF4uBXXnlT3N2Po=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eWw/KSMoJNszu7qVBKeglSv/J39kbZZrEqliDhYY/DXECRNXXijZf9SoAHwwlPgRD
+	 6i9PDNJrvmJcWCHkK9RAq7hlAZrgPFLs2Ydf2JdtuZeF2W/PDiNCNFWPevTX5mgjfo
+	 bsNio/HaesbnskpfYG+SPRGvcn1MPZi2nYiOWSh+2bWLNAGtV/AXJyo3n0EbLbD0NJ
+	 8GTPko89TM1Yz8fXjtiuOqnzUZfwG7ygDsy+OA+MlG4vsKt+gFIIoKv1u8BK88Tc7D
+	 eoD5lOQSPgt+9HN2zcXolGPnYyMFtp/3mHkpwIMpFyMIHiD/UqewSjIXkMruhw4tOl
+	 f6MNFwOncb75g==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+	(envelope-from <johan@kernel.org>)
+	id 1q5n31-0001Fs-Eb; Sun, 04 Jun 2023 14:41:28 +0200
+Date: Sun, 4 Jun 2023 14:41:27 +0200
+From: Johan Hovold <johan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild@lists.linux.dev, Dan Carpenter <error27@gmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: The robot is broken (was: Re: [PATCH 1/3] USB: serial: return errors
+ from break handling)
+Message-ID: <ZHyGd5BRjUaOdYyF@hovoldconsulting.com>
+References: <202306031014.qzAY3uQ6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,68 +35,36 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202306031014.qzAY3uQ6-lkp@intel.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Chuck Lever <chuck.lever@oracle.com>
+On Sat, Jun 03, 2023 at 10:40:42AM +0800, kernel test robot wrote:
+> BCC: lkp@intel.com
+> CC: oe-kbuild-all@lists.linux.dev
+> In-Reply-To: <20230602124642.19076-2-johan@kernel.org>
+> References: <20230602124642.19076-2-johan@kernel.org>
+> TO: Johan Hovold <johan@kernel.org>
+> TO: Johan Hovold <johan@kernel.org>
+> CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+> CC: linux-usb@vger.kernel.org
+> CC: linux-kernel@vger.kernel.org
+> CC: Corey Minyard <minyard@acm.org>
+> 
+> Hi Johan,
+> 
+> kernel test robot noticed the following build warnings:
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux topic-rpc-with-tls-upcall
-head:   992626e6338952c540dd06237f83e543e919554b
-commit: fe17f99eede7bd7b4c86d5b515218d3030d32fa9 [12/16] net/handshake: Add API for sending TLS Closure alerts
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-c021-20230604 (https://download.01.org/0day-ci/archive/20230604/202306041946.8ZQsHH5y-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> New smatch warnings:
+> drivers/usb/serial/io_edgeport.c:1601 edge_break() error: uninitialized symbol 'status'.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202306041946.8ZQsHH5y-lkp@intel.com/
+Thanks for the report. Now fixed up in v2:
 
-cocci warnings: (new ones prefixed by >>)
->> net/handshake/alert.c:61:12-13: WARNING opportunity for min()
+	https://lore.kernel.org/lkml/20230604123505.4661-1-johan@kernel.org
 
-vim +61 net/handshake/alert.c
+The robot currently appears to be broken though as this report was never
+sent to me or the relevant mailing lists (and I just happened to see it
+by chance).
 
-fe17f99eede7bd Chuck Lever 2023-05-02  24  
-fe17f99eede7bd Chuck Lever 2023-05-02  25  /**
-fe17f99eede7bd Chuck Lever 2023-05-02  26   * tls_alert_send - send a TLS Alert on a kTLS socket
-fe17f99eede7bd Chuck Lever 2023-05-02  27   * @sock: open kTLS socket to send on
-fe17f99eede7bd Chuck Lever 2023-05-02  28   * @level: TLS Alert level
-fe17f99eede7bd Chuck Lever 2023-05-02  29   * @description: TLS Alert description
-fe17f99eede7bd Chuck Lever 2023-05-02  30   *
-fe17f99eede7bd Chuck Lever 2023-05-02  31   * Returns zero on success or a negative errno.
-fe17f99eede7bd Chuck Lever 2023-05-02  32   */
-fe17f99eede7bd Chuck Lever 2023-05-02  33  int tls_alert_send(struct socket *sock, u8 level, u8 description)
-fe17f99eede7bd Chuck Lever 2023-05-02  34  {
-fe17f99eede7bd Chuck Lever 2023-05-02  35  	u8 record_type = TLS_RECORD_TYPE_ALERT;
-fe17f99eede7bd Chuck Lever 2023-05-02  36  	u8 buf[CMSG_SPACE(sizeof(record_type))];
-fe17f99eede7bd Chuck Lever 2023-05-02  37  	struct msghdr msg = { 0 };
-fe17f99eede7bd Chuck Lever 2023-05-02  38  	struct cmsghdr *cmsg;
-fe17f99eede7bd Chuck Lever 2023-05-02  39  	struct kvec iov;
-fe17f99eede7bd Chuck Lever 2023-05-02  40  	u8 alert[2];
-fe17f99eede7bd Chuck Lever 2023-05-02  41  	int ret;
-fe17f99eede7bd Chuck Lever 2023-05-02  42  
-fe17f99eede7bd Chuck Lever 2023-05-02  43  	alert[0] = level;
-fe17f99eede7bd Chuck Lever 2023-05-02  44  	alert[1] = description;
-fe17f99eede7bd Chuck Lever 2023-05-02  45  	iov.iov_base = alert;
-fe17f99eede7bd Chuck Lever 2023-05-02  46  	iov.iov_len = sizeof(alert);
-fe17f99eede7bd Chuck Lever 2023-05-02  47  
-fe17f99eede7bd Chuck Lever 2023-05-02  48  	memset(buf, 0, sizeof(buf));
-fe17f99eede7bd Chuck Lever 2023-05-02  49  	msg.msg_control = buf;
-fe17f99eede7bd Chuck Lever 2023-05-02  50  	msg.msg_controllen = sizeof(buf);
-fe17f99eede7bd Chuck Lever 2023-05-02  51  	msg.msg_flags = MSG_DONTWAIT;
-fe17f99eede7bd Chuck Lever 2023-05-02  52  
-fe17f99eede7bd Chuck Lever 2023-05-02  53  	cmsg = CMSG_FIRSTHDR(&msg);
-fe17f99eede7bd Chuck Lever 2023-05-02  54  	cmsg->cmsg_level = SOL_TLS;
-fe17f99eede7bd Chuck Lever 2023-05-02  55  	cmsg->cmsg_type = TLS_SET_RECORD_TYPE;
-fe17f99eede7bd Chuck Lever 2023-05-02  56  	cmsg->cmsg_len = CMSG_LEN(sizeof(record_type));
-fe17f99eede7bd Chuck Lever 2023-05-02  57  	memcpy(CMSG_DATA(cmsg), &record_type, sizeof(record_type));
-fe17f99eede7bd Chuck Lever 2023-05-02  58  
-fe17f99eede7bd Chuck Lever 2023-05-02  59  	iov_iter_kvec(&msg.msg_iter, ITER_SOURCE, &iov, 1, iov.iov_len);
-fe17f99eede7bd Chuck Lever 2023-05-02  60  	ret = sock_sendmsg(sock, &msg);
-fe17f99eede7bd Chuck Lever 2023-05-02 @61  	return ret < 0 ? ret : 0;
+Looks like there's a stray newline in the output of your scripts which
+causes the mail headers above to be included in the body instead.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Johan
