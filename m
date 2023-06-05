@@ -1,42 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B4F1F93A
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jun 2023 15:39:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB30DDC0
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jun 2023 19:50:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685979553; x=1717515553;
+  t=1685994624; x=1717530624;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tGdQBgulJSkhOPjXzSLVFPkXqGNoqHVTViVcuXLD4MM=;
-  b=M8VinKau4l7HlehE18xEM44/hsNVGHI0GnWsZgSkY5pdBr/qVHH8sE5b
-   37b0Zvyv+7iCBzYaKRCEdVsQCPO6MVj7N80zITykPmQbVBAchMCj9Ywdv
-   AwH3Lc0jc7CZ6HD0qvPDjU2VrkcZv+Lgf486nceVI44yj5Tdaucits7ta
-   H/ssLyu/+7m6OJfAsXirqH3po7j6dUY7KDPlzH+qh8CjjPU81U7LRxnDH
-   bc/zETz4HAQAvoU0YtfBu7SuQp6ERbkBSPZRAUp31zdTRsj692ITF9mqU
-   VBrke3sjsBJSHRlDFZudNeQEq2MTFHKGFYbnBt4lvy1EoREwLm1uo12/k
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="341038565"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="341038565"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 08:39:12 -0700
+  bh=axZr9yzjsJGsHeFeXP5uKOejz3E5BrZrxXJvXbkJ+uQ=;
+  b=P9ZMI1cXi0m8WZL8vUp+cFG72j9N63brchIuZb0Jm+Sabh75KEg7WN92
+   28WEOTOedfBtdyppbGrH+sUKdb+baLKmdBduqQVEElpwfCK9oyVXFqPsz
+   x5166a6fRLGUhaR9bio9w09p8bBUAtP3bUj/nFbXoxHkwtpldyEu8QBr6
+   HQDz2dDWCcMDkzhiH+l5hxO4IQnf2gGkNKuvvbcaMxZ3SNkKqAn9vpk6G
+   c0ti5fARTSPkk65HG6Kfxp6ou53bDom5y1AVqdst+F7CzxCE1/ULEty+w
+   ggmamnUHcceGWMx07u0mmSbDB6fROp0nqW+X0t6Qd4WCnooH+J0TTzWiP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="336087862"
+X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
+   d="scan'208";a="336087862"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 12:50:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="1038804196"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="1038804196"
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="741848468"
+X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
+   d="scan'208";a="741848468"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 05 Jun 2023 08:39:10 -0700
+  by orsmga001.jf.intel.com with ESMTP; 05 Jun 2023 12:50:22 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6CIX-0004Fe-1u;
-	Mon, 05 Jun 2023 15:39:09 +0000
-Date: Mon, 5 Jun 2023 23:38:13 +0800
+	id 1q6GDd-0004Oz-1X;
+	Mon, 05 Jun 2023 19:50:21 +0000
+Date: Tue, 6 Jun 2023 03:50:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/realtek/rtw88/mac.c:748
- __rtw_download_firmware() warn: missing unwind goto?
-Message-ID: <202306052310.OVhcUjZ3-lkp@intel.com>
+Subject: drivers/net/wireless/mediatek/mt76/mt76x02_util.c:475
+ mt76x02_set_key() warn: variable dereferenced before check 'key' (see line
+ 415)
+Message-ID: <202306060332.WbIToDHL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,95 +50,116 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Sascha Hauer <s.hauer@pengutronix.de>
+TO: Felix Fietkau <nbd@nbd.name>
 CC: Kalle Valo <kvalo@kernel.org>
 
-Hi Sascha,
-
-First bad commit (maybe != root cause):
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9561de3a55bed6bdd44a12820ba81ec416e705a7
-commit: 45794099f5e1d7abc5eb07e6eec7e1e5c6cb540d wifi: rtw88: Add rtw8822bu chipset support
-date:   6 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 6 months ago
-config: riscv-randconfig-m031-20230605 (https://download.01.org/0day-ci/archive/20230605/202306052310.OVhcUjZ3-lkp@intel.com/config)
+head:   f8dba31b0a826e691949cd4fdfa5c30defaac8c5
+commit: e6db67fa871dee37d22701daba806bfcd4d9df49 wifi: mt76: ignore key disable commands
+date:   9 weeks ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 9 weeks ago
+config: riscv-randconfig-m031-20230605 (https://download.01.org/0day-ci/archive/20230606/202306060332.WbIToDHL-lkp@intel.com/config)
 compiler: riscv64-linux-gcc (GCC) 12.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306052310.OVhcUjZ3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306060332.WbIToDHL-lkp@intel.com/
 
 smatch warnings:
-drivers/net/wireless/realtek/rtw88/mac.c:748 __rtw_download_firmware() warn: missing unwind goto?
-drivers/net/wireless/realtek/rtw88/debug.c:677 rtw_debugfs_get_tx_pwr_tbl() warn: argument 4 to %02x specifier has type 'schar'
+drivers/net/wireless/mediatek/mt76/mt76x02_util.c:475 mt76x02_set_key() warn: variable dereferenced before check 'key' (see line 415)
 
-vim +748 drivers/net/wireless/realtek/rtw88/mac.c
+vim +/key +475 drivers/net/wireless/mediatek/mt76/mt76x02_util.c
 
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  716  
-3d8bf50860c7de Yan-Hsuan Chuang 2020-04-24  717  static int __rtw_download_firmware(struct rtw_dev *rtwdev,
-3d8bf50860c7de Yan-Hsuan Chuang 2020-04-24  718  				   struct rtw_fw_state *fw)
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  719  {
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  720  	struct rtw_backup_info bckp[DLFW_RESTORE_REG_NUM];
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  721  	const u8 *data = fw->firmware->data;
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  722  	u32 size = fw->firmware->size;
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  723  	u32 ltecoex_bckp;
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  724  	int ret;
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  725  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  726  	if (!check_firmware_size(data, size))
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  727  		return -EINVAL;
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  728  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  729  	if (!ltecoex_read_reg(rtwdev, 0x38, &ltecoex_bckp))
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  730  		return -EBUSY;
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  731  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  732  	wlan_cpu_enable(rtwdev, false);
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  733  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  734  	download_firmware_reg_backup(rtwdev, bckp);
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  735  	download_firmware_reset_platform(rtwdev);
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  736  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  737  	ret = start_download_firmware(rtwdev, data, size);
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  738  	if (ret)
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  739  		goto dlfw_fail;
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  740  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  741  	download_firmware_reg_restore(rtwdev, bckp, DLFW_RESTORE_REG_NUM);
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  742  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  743  	download_firmware_end_flow(rtwdev);
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  744  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  745  	wlan_cpu_enable(rtwdev, true);
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  746  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  747  	if (!ltecoex_reg_write(rtwdev, 0x38, ltecoex_bckp))
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26 @748  		return -EBUSY;
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  749  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  750  	ret = download_firmware_validate(rtwdev);
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  751  	if (ret)
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  752  		goto dlfw_fail;
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  753  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  754  	/* reset desc and index */
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  755  	rtw_hci_setup(rtwdev);
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  756  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  757  	rtwdev->h2c.last_box_num = 0;
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  758  	rtwdev->h2c.seq = 0;
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  759  
-3c519605850890 Yan-Hsuan Chuang 2019-10-02  760  	set_bit(RTW_FLAG_FW_RUNNING, rtwdev->flags);
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  761  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  762  	return 0;
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  763  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  764  dlfw_fail:
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  765  	/* Disable FWDL_EN */
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  766  	rtw_write8_clr(rtwdev, REG_MCUFW_CTRL, BIT_MCUFWDL_EN);
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  767  	rtw_write8_set(rtwdev, REG_SYS_FUNC_EN + 1, BIT_FEN_CPUEN);
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  768  
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  769  	return ret;
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  770  }
-e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  771  
+22c575c4f1777f Stanislaw Gruszka 2018-09-04  406  
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  407  int mt76x02_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  408  		    struct ieee80211_vif *vif, struct ieee80211_sta *sta,
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  409  		    struct ieee80211_key_conf *key)
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  410  {
+d87cf75f111183 Lorenzo Bianconi  2018-10-07  411  	struct mt76x02_dev *dev = hw->priv;
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  412  	struct mt76x02_vif *mvif = (struct mt76x02_vif *)vif->drv_priv;
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  413  	struct mt76x02_sta *msta;
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  414  	struct mt76_wcid *wcid;
+60c26859e863c1 Stanislaw Gruszka 2018-09-04 @415  	int idx = key->keyidx;
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  416  	int ret;
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  417  
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  418  	/* fall back to sw encryption for unsupported ciphers */
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  419  	switch (key->cipher) {
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  420  	case WLAN_CIPHER_SUITE_WEP40:
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  421  	case WLAN_CIPHER_SUITE_WEP104:
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  422  	case WLAN_CIPHER_SUITE_TKIP:
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  423  	case WLAN_CIPHER_SUITE_CCMP:
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  424  		break;
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  425  	default:
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  426  		return -EOPNOTSUPP;
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  427  	}
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  428  
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  429  	/*
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  430  	 * The hardware does not support per-STA RX GTK, fall back
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  431  	 * to software mode for these.
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  432  	 */
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  433  	if ((vif->type == NL80211_IFTYPE_ADHOC ||
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  434  	     vif->type == NL80211_IFTYPE_MESH_POINT) &&
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  435  	    (key->cipher == WLAN_CIPHER_SUITE_TKIP ||
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  436  	     key->cipher == WLAN_CIPHER_SUITE_CCMP) &&
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  437  	    !(key->flags & IEEE80211_KEY_FLAG_PAIRWISE))
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  438  		return -EOPNOTSUPP;
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  439  
+b98558e2529986 Stanislaw Gruszka 2019-03-19  440  	/*
+b98558e2529986 Stanislaw Gruszka 2019-03-19  441  	 * In USB AP mode, broadcast/multicast frames are setup in beacon
+b98558e2529986 Stanislaw Gruszka 2019-03-19  442  	 * data registers and sent via HW beacons engine, they require to
+b98558e2529986 Stanislaw Gruszka 2019-03-19  443  	 * be already encrypted.
+b98558e2529986 Stanislaw Gruszka 2019-03-19  444  	 */
+61c51a74a4e586 Lorenzo Bianconi  2019-10-29  445  	if (mt76_is_usb(&dev->mt76) &&
+b98558e2529986 Stanislaw Gruszka 2019-03-19  446  	    vif->type == NL80211_IFTYPE_AP &&
+b98558e2529986 Stanislaw Gruszka 2019-03-19  447  	    !(key->flags & IEEE80211_KEY_FLAG_PAIRWISE))
+b98558e2529986 Stanislaw Gruszka 2019-03-19  448  		return -EOPNOTSUPP;
+b98558e2529986 Stanislaw Gruszka 2019-03-19  449  
+4b36cc6b390f18 David Bauer       2021-02-07  450  	/* MT76x0 GTK offloading does not work with more than one VIF */
+4b36cc6b390f18 David Bauer       2021-02-07  451  	if (is_mt76x0(dev) && !(key->flags & IEEE80211_KEY_FLAG_PAIRWISE))
+4b36cc6b390f18 David Bauer       2021-02-07  452  		return -EOPNOTSUPP;
+4b36cc6b390f18 David Bauer       2021-02-07  453  
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  454  	msta = sta ? (struct mt76x02_sta *)sta->drv_priv : NULL;
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  455  	wcid = msta ? &msta->wcid : &mvif->group_wcid;
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  456  
+e6db67fa871dee Felix Fietkau     2023-03-30  457  	if (cmd != SET_KEY) {
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  458  		if (idx == wcid->hw_key_idx) {
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  459  			wcid->hw_key_idx = -1;
+f2f6a47b504b8f Felix Fietkau     2019-01-25  460  			wcid->sw_iv = false;
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  461  		}
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  462  
+e6db67fa871dee Felix Fietkau     2023-03-30  463  		return 0;
+e6db67fa871dee Felix Fietkau     2023-03-30  464  	}
+e6db67fa871dee Felix Fietkau     2023-03-30  465  
+e6db67fa871dee Felix Fietkau     2023-03-30  466  	key->hw_key_idx = wcid->idx;
+e6db67fa871dee Felix Fietkau     2023-03-30  467  	wcid->hw_key_idx = idx;
+e6db67fa871dee Felix Fietkau     2023-03-30  468  	if (key->flags & IEEE80211_KEY_FLAG_RX_MGMT) {
+e6db67fa871dee Felix Fietkau     2023-03-30  469  		key->flags |= IEEE80211_KEY_FLAG_SW_MGMT_TX;
+e6db67fa871dee Felix Fietkau     2023-03-30  470  		wcid->sw_iv = true;
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  471  	}
+d87cf75f111183 Lorenzo Bianconi  2018-10-07  472  	mt76_wcid_key_setup(&dev->mt76, wcid, key);
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  473  
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  474  	if (!msta) {
+60c26859e863c1 Stanislaw Gruszka 2018-09-04 @475  		if (key || wcid->hw_key_idx == idx) {
+8d66af49a3db9a Lorenzo Bianconi  2018-10-07  476  			ret = mt76x02_mac_wcid_set_key(dev, wcid->idx, key);
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  477  			if (ret)
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  478  				return ret;
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  479  		}
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  480  
+8d66af49a3db9a Lorenzo Bianconi  2018-10-07  481  		return mt76x02_mac_shared_key_setup(dev, mvif->idx, idx, key);
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  482  	}
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  483  
+8d66af49a3db9a Lorenzo Bianconi  2018-10-07  484  	return mt76x02_mac_wcid_set_key(dev, msta->wcid.idx, key);
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  485  }
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  486  EXPORT_SYMBOL_GPL(mt76x02_set_key);
+60c26859e863c1 Stanislaw Gruszka 2018-09-04  487  
 
-:::::: The code at line 748 was first introduced by commit
-:::::: e3037485c68ec1a299ff41160d8fedbd4abc29b9 rtw88: new Realtek 802.11ac driver
+:::::: The code at line 475 was first introduced by commit
+:::::: 60c26859e863c1b83757759176517453599db500 mt76: unify set_key
 
-:::::: TO: Yan-Hsuan Chuang <yhchuang@realtek.com>
-:::::: CC: Kalle Valo <kvalo@codeaurora.org>
+:::::: TO: Stanislaw Gruszka <sgruszka@redhat.com>
+:::::: CC: Felix Fietkau <nbd@nbd.name>
 
 -- 
 0-DAY CI Kernel Test Service
