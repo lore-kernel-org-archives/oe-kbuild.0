@@ -1,43 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB30DDC0
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jun 2023 19:50:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF6B323E
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jun 2023 21:04:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685994624; x=1717530624;
+  t=1685999066; x=1717535066;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=axZr9yzjsJGsHeFeXP5uKOejz3E5BrZrxXJvXbkJ+uQ=;
-  b=P9ZMI1cXi0m8WZL8vUp+cFG72j9N63brchIuZb0Jm+Sabh75KEg7WN92
-   28WEOTOedfBtdyppbGrH+sUKdb+baLKmdBduqQVEElpwfCK9oyVXFqPsz
-   x5166a6fRLGUhaR9bio9w09p8bBUAtP3bUj/nFbXoxHkwtpldyEu8QBr6
-   HQDz2dDWCcMDkzhiH+l5hxO4IQnf2gGkNKuvvbcaMxZ3SNkKqAn9vpk6G
-   c0ti5fARTSPkk65HG6Kfxp6ou53bDom5y1AVqdst+F7CzxCE1/ULEty+w
-   ggmamnUHcceGWMx07u0mmSbDB6fROp0nqW+X0t6Qd4WCnooH+J0TTzWiP
+  bh=4/a3yutRjfLqw1L+P965CsVSMtI+sdtFIxeo7MxpPbI=;
+  b=Tj7MJPOiA5NLEf0GMa94WbWZjB8eC2FddDeM0BmmWey2uHEL/Z+2nLLW
+   W6xyI5sq14obj7L9wus3JKqmAXLRX/HNbJaP4HkhhM9dIHZBSzx9gi7Ha
+   TZAFlGvR2Q4yeXbLEDa6oB68j0dhRmlwI5Yt6RvZaQQyUKtkmIGzV/PJx
+   /HGtQL8LLmHyFDz559GX4S/j0wnXtnCA9EgwCWwcRmnT/jw85z1Y+seJy
+   NxGaK1i3jH/170wuhqSGwAZYUZtGLUfMY3Ne1abmBhisW67Oa+tq6R0Kx
+   Jn1jBFFxOyZF951PcJioqv3Pa146Vtj/yOn8xMm2xTOl8YtxMXf6/B0nB
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="336087862"
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="420027819"
 X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
-   d="scan'208";a="336087862"
+   d="scan'208";a="420027819"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 12:50:23 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 14:04:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="741848468"
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="741868230"
 X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
-   d="scan'208";a="741848468"
+   d="scan'208";a="741868230"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 05 Jun 2023 12:50:22 -0700
+  by orsmga001.jf.intel.com with ESMTP; 05 Jun 2023 14:04:24 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6GDd-0004Oz-1X;
-	Mon, 05 Jun 2023 19:50:21 +0000
-Date: Tue, 6 Jun 2023 03:50:09 +0800
+	id 1q6HNH-0004RH-2Q;
+	Mon, 05 Jun 2023 21:04:23 +0000
+Date: Tue, 6 Jun 2023 05:03:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/mediatek/mt76/mt76x02_util.c:475
- mt76x02_set_key() warn: variable dereferenced before check 'key' (see line
- 415)
-Message-ID: <202306060332.WbIToDHL-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 709/6966]
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c:251:12-13: WARNING opportunity
+ for min()
+Message-ID: <202306060436.OjDHaloq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,117 +49,98 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Felix Fietkau <nbd@nbd.name>
-CC: Kalle Valo <kvalo@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+CC: Alan Previn <alan.previn.teres.alexis@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f8dba31b0a826e691949cd4fdfa5c30defaac8c5
-commit: e6db67fa871dee37d22701daba806bfcd4d9df49 wifi: mt76: ignore key disable commands
-date:   9 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 9 weeks ago
-config: riscv-randconfig-m031-20230605 (https://download.01.org/0day-ci/archive/20230606/202306060332.WbIToDHL-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9ca10bfb8aa8fbf19ee22e702c8cf9b66ea73a54
+commit: 8a9bf29546a13efd3ed7784b890c2534e995348f [709/6966] drm/i915/gsc: add initial support for GSC proxy
+:::::: branch date: 17 hours ago
+:::::: commit date: 5 weeks ago
+config: x86_64-randconfig-c022-20230605 (https://download.01.org/0day-ci/archive/20230606/202306060436.OjDHaloq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306060332.WbIToDHL-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202306060436.OjDHaloq-lkp@intel.com/
 
-smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt76x02_util.c:475 mt76x02_set_key() warn: variable dereferenced before check 'key' (see line 415)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c:251:12-13: WARNING opportunity for min()
 
-vim +/key +475 drivers/net/wireless/mediatek/mt76/mt76x02_util.c
+vim +251 drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c
 
-22c575c4f1777f Stanislaw Gruszka 2018-09-04  406  
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  407  int mt76x02_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  408  		    struct ieee80211_vif *vif, struct ieee80211_sta *sta,
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  409  		    struct ieee80211_key_conf *key)
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  410  {
-d87cf75f111183 Lorenzo Bianconi  2018-10-07  411  	struct mt76x02_dev *dev = hw->priv;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  412  	struct mt76x02_vif *mvif = (struct mt76x02_vif *)vif->drv_priv;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  413  	struct mt76x02_sta *msta;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  414  	struct mt76_wcid *wcid;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04 @415  	int idx = key->keyidx;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  416  	int ret;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  417  
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  418  	/* fall back to sw encryption for unsupported ciphers */
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  419  	switch (key->cipher) {
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  420  	case WLAN_CIPHER_SUITE_WEP40:
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  421  	case WLAN_CIPHER_SUITE_WEP104:
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  422  	case WLAN_CIPHER_SUITE_TKIP:
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  423  	case WLAN_CIPHER_SUITE_CCMP:
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  424  		break;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  425  	default:
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  426  		return -EOPNOTSUPP;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  427  	}
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  428  
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  429  	/*
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  430  	 * The hardware does not support per-STA RX GTK, fall back
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  431  	 * to software mode for these.
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  432  	 */
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  433  	if ((vif->type == NL80211_IFTYPE_ADHOC ||
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  434  	     vif->type == NL80211_IFTYPE_MESH_POINT) &&
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  435  	    (key->cipher == WLAN_CIPHER_SUITE_TKIP ||
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  436  	     key->cipher == WLAN_CIPHER_SUITE_CCMP) &&
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  437  	    !(key->flags & IEEE80211_KEY_FLAG_PAIRWISE))
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  438  		return -EOPNOTSUPP;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  439  
-b98558e2529986 Stanislaw Gruszka 2019-03-19  440  	/*
-b98558e2529986 Stanislaw Gruszka 2019-03-19  441  	 * In USB AP mode, broadcast/multicast frames are setup in beacon
-b98558e2529986 Stanislaw Gruszka 2019-03-19  442  	 * data registers and sent via HW beacons engine, they require to
-b98558e2529986 Stanislaw Gruszka 2019-03-19  443  	 * be already encrypted.
-b98558e2529986 Stanislaw Gruszka 2019-03-19  444  	 */
-61c51a74a4e586 Lorenzo Bianconi  2019-10-29  445  	if (mt76_is_usb(&dev->mt76) &&
-b98558e2529986 Stanislaw Gruszka 2019-03-19  446  	    vif->type == NL80211_IFTYPE_AP &&
-b98558e2529986 Stanislaw Gruszka 2019-03-19  447  	    !(key->flags & IEEE80211_KEY_FLAG_PAIRWISE))
-b98558e2529986 Stanislaw Gruszka 2019-03-19  448  		return -EOPNOTSUPP;
-b98558e2529986 Stanislaw Gruszka 2019-03-19  449  
-4b36cc6b390f18 David Bauer       2021-02-07  450  	/* MT76x0 GTK offloading does not work with more than one VIF */
-4b36cc6b390f18 David Bauer       2021-02-07  451  	if (is_mt76x0(dev) && !(key->flags & IEEE80211_KEY_FLAG_PAIRWISE))
-4b36cc6b390f18 David Bauer       2021-02-07  452  		return -EOPNOTSUPP;
-4b36cc6b390f18 David Bauer       2021-02-07  453  
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  454  	msta = sta ? (struct mt76x02_sta *)sta->drv_priv : NULL;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  455  	wcid = msta ? &msta->wcid : &mvif->group_wcid;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  456  
-e6db67fa871dee Felix Fietkau     2023-03-30  457  	if (cmd != SET_KEY) {
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  458  		if (idx == wcid->hw_key_idx) {
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  459  			wcid->hw_key_idx = -1;
-f2f6a47b504b8f Felix Fietkau     2019-01-25  460  			wcid->sw_iv = false;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  461  		}
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  462  
-e6db67fa871dee Felix Fietkau     2023-03-30  463  		return 0;
-e6db67fa871dee Felix Fietkau     2023-03-30  464  	}
-e6db67fa871dee Felix Fietkau     2023-03-30  465  
-e6db67fa871dee Felix Fietkau     2023-03-30  466  	key->hw_key_idx = wcid->idx;
-e6db67fa871dee Felix Fietkau     2023-03-30  467  	wcid->hw_key_idx = idx;
-e6db67fa871dee Felix Fietkau     2023-03-30  468  	if (key->flags & IEEE80211_KEY_FLAG_RX_MGMT) {
-e6db67fa871dee Felix Fietkau     2023-03-30  469  		key->flags |= IEEE80211_KEY_FLAG_SW_MGMT_TX;
-e6db67fa871dee Felix Fietkau     2023-03-30  470  		wcid->sw_iv = true;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  471  	}
-d87cf75f111183 Lorenzo Bianconi  2018-10-07  472  	mt76_wcid_key_setup(&dev->mt76, wcid, key);
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  473  
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  474  	if (!msta) {
-60c26859e863c1 Stanislaw Gruszka 2018-09-04 @475  		if (key || wcid->hw_key_idx == idx) {
-8d66af49a3db9a Lorenzo Bianconi  2018-10-07  476  			ret = mt76x02_mac_wcid_set_key(dev, wcid->idx, key);
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  477  			if (ret)
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  478  				return ret;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  479  		}
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  480  
-8d66af49a3db9a Lorenzo Bianconi  2018-10-07  481  		return mt76x02_mac_shared_key_setup(dev, mvif->idx, idx, key);
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  482  	}
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  483  
-8d66af49a3db9a Lorenzo Bianconi  2018-10-07  484  	return mt76x02_mac_wcid_set_key(dev, msta->wcid.idx, key);
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  485  }
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  486  EXPORT_SYMBOL_GPL(mt76x02_set_key);
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  487  
-
-:::::: The code at line 475 was first introduced by commit
-:::::: 60c26859e863c1b83757759176517453599db500 mt76: unify set_key
-
-:::::: TO: Stanislaw Gruszka <sgruszka@redhat.com>
-:::::: CC: Felix Fietkau <nbd@nbd.name>
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  184  
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  185  static int proxy_query(struct intel_gsc_uc *gsc)
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  186  {
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  187  	struct intel_gt *gt = gsc_uc_to_gt(gsc);
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  188  	struct gsc_proxy_msg *to_gsc = gsc->proxy.to_gsc;
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  189  	struct gsc_proxy_msg *to_csme = gsc->proxy.to_csme;
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  190  	int ret;
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  191  
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  192  	intel_gsc_uc_heci_cmd_emit_mtl_header(&to_gsc->header,
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  193  					      HECI_MEADDRESS_PROXY,
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  194  					      sizeof(struct gsc_proxy_msg),
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  195  					      0);
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  196  
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  197  	to_gsc->proxy_header.hdr =
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  198  		FIELD_PREP(GSC_PROXY_TYPE, GSC_PROXY_MSG_TYPE_PROXY_QUERY) |
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  199  		FIELD_PREP(GSC_PROXY_PAYLOAD_LENGTH, 0);
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  200  
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  201  	to_gsc->proxy_header.source = GSC_PROXY_ADDRESSING_KMD;
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  202  	to_gsc->proxy_header.destination = GSC_PROXY_ADDRESSING_GSC;
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  203  	to_gsc->proxy_header.status = 0;
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  204  
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  205  	while (1) {
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  206  		/* clear the GSC response header space */
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  207  		memset(gsc->proxy.to_csme, 0, sizeof(struct gsc_proxy_msg));
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  208  
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  209  		/* send proxy message to GSC */
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  210  		ret = proxy_send_to_gsc(gsc);
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  211  		if (ret) {
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  212  			gt_err(gt, "failed to send proxy message to GSC! %d\n", ret);
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  213  			goto proxy_error;
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  214  		}
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  215  
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  216  		/* stop if this was the last message */
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  217  		if (FIELD_GET(GSC_PROXY_TYPE, to_csme->proxy_header.hdr) ==
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  218  				GSC_PROXY_MSG_TYPE_PROXY_END)
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  219  			break;
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  220  
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  221  		/* make sure the GSC-to-CSME proxy header is sane */
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  222  		ret = validate_proxy_header(&to_csme->proxy_header,
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  223  					    GSC_PROXY_ADDRESSING_GSC,
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  224  					    GSC_PROXY_ADDRESSING_CSME);
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  225  		if (ret) {
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  226  			gt_err(gt, "invalid GSC to CSME proxy header! %d\n", ret);
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  227  			goto proxy_error;
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  228  		}
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  229  
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  230  		/* send the GSC message to the CSME */
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  231  		ret = proxy_send_to_csme(gsc);
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  232  		if (ret < 0) {
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  233  			gt_err(gt, "failed to send proxy message to CSME! %d\n", ret);
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  234  			goto proxy_error;
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  235  		}
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  236  
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  237  		/* update the GSC message size with the returned value from CSME */
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  238  		to_gsc->header.message_size = ret + sizeof(struct intel_gsc_mtl_header);
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  239  
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  240  		/* make sure the CSME-to-GSC proxy header is sane */
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  241  		ret = validate_proxy_header(&to_gsc->proxy_header,
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  242  					    GSC_PROXY_ADDRESSING_CSME,
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  243  					    GSC_PROXY_ADDRESSING_GSC);
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  244  		if (ret) {
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  245  			gt_err(gt, "invalid CSME to GSC proxy header! %d\n", ret);
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  246  			goto proxy_error;
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  247  		}
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  248  	}
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  249  
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  250  proxy_error:
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02 @251  	return ret < 0 ? ret : 0;
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  252  }
+8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  253  
 
 -- 
 0-DAY CI Kernel Test Service
