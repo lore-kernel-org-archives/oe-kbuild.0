@@ -1,44 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2007156DE
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jun 2023 10:19:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B56168D3
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jun 2023 11:11:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685960341; x=1717496341;
+  t=1685963464; x=1717499464;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NCYs1dqGdEylbByZNDUvZwMnKM1BQEKtICGxyxFQsjg=;
-  b=SGFH1vYr9iffwxyPYCBNzqOJlOCNn98uoemsDcH1tpJxRIza6NN+XcOw
-   b+ZLB1Fw7MqYKWaSfvoknWKnnwZ+bXm1Ah2UQNftXOd8c1hpjjef0kDYs
-   xzbd82m4lUz+rF0mMebdxgrRhQFtdhGfaGLtwYf6Mc579n9G7uNeYJe+U
-   +8j5eeaB1u9/arzfz/aqP0SLE4xI9i9AKzgREzekbXSysQWwNBv4WPUfF
-   ypkiJXVxV4me9X0zQ53Jop5NB8P7odPBGKychblnSl5USZNlm8LU4ICXu
-   5tyNfW4U+K+llwRWMmfp0Etq6D+vjlkUXpNQtDYVK+/94NKhtm9nbTVHh
+  bh=kuAOUUFHx4VxpXCy/A9G1Tsnxay51BuP7r4yWvPOHYc=;
+  b=kSn8BPL9mbZmFkwNHuk4K/FCERnG1F3zohw8XQ40M/BnUoCYcG+oV2EF
+   YDZf3Rjz6evQmROtnjRszxro4lIW6DfWFg5byIfItTslL4ko53L0o32nH
+   0UWXFWq6fuENybO07aCkd0CCmcv6G9v4smPzdNgEiLCOJCyIxw1exQN0l
+   i0/2fM8d5TIIzZrtHgYXbhwFWJ4FLOZ9A/h8zzDfzKskmlfK5qw1+SRS9
+   pHQGYg9hWkrwgoCyE21ByGokxjxueM8UBcF9r/UOF4OCiLmK5J3NCqSRp
+   ur+0dR8yelZCqtgwg5Y4v7DVcNpiAQM7JR4ayk6+Mj/Dhi1sFyCCJY5Z+
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="340968681"
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="384643378"
 X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="340968681"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 03:19:00 -0700
+   d="scan'208";a="384643378"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 04:11:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="702699692"
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="708624352"
 X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="702699692"
+   d="scan'208";a="708624352"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 05 Jun 2023 03:18:59 -0700
+  by orsmga002.jf.intel.com with ESMTP; 05 Jun 2023 04:11:01 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q67Ig-00046N-2X;
-	Mon, 05 Jun 2023 10:18:58 +0000
-Date: Mon, 5 Jun 2023 18:18:05 +0800
+	id 1q6873-00048Z-0Z;
+	Mon, 05 Jun 2023 11:11:01 +0000
+Date: Mon, 5 Jun 2023 19:10:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 4582/6966] drivers/clk/qcom/gpucc-sm8550.c:37:22:
- sparse: sparse: decimal constant 2300000000 is between LONG_MAX and
- ULONG_MAX. For C99 that means long long, C90 compilers are very likely to
- produce unsigned long (and a warning) here
-Message-ID: <202306051838.2esVTCwJ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [asahilinux:bits/170-atcphy 3/4] drivers/phy/apple/atc.c:1589:2-8:
+ preceding lock on line 1578
+Message-ID: <202306051938.IDGMm36G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,53 +46,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/clk/qcom/gpucc-sm8550.c:37:22: sparse: sparse: decimal constant 2300000000 is between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers are very likely to produce unsigned long (and a warning) here"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jagadeesh Kona <quic_jkona@quicinc.com>
-CC: Bjorn Andersson <andersson@kernel.org>
-CC: Taniya Das <quic_tdas@quicinc.com>
+TO: Sven Peter <sven@svenpeter.dev>
+CC: Hector Martin <marcan@marcan.st>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9ca10bfb8aa8fbf19ee22e702c8cf9b66ea73a54
-commit: bfae40744b337928b1e65bf40efd91e715a5d808 [4582/6966] clk: qcom: gpucc-sm8550: Add support for graphics clock controller
-:::::: branch date: 7 hours ago
-:::::: commit date: 9 days ago
-config: m68k-randconfig-s043-20230605 (https://download.01.org/0day-ci/archive/20230605/202306051838.2esVTCwJ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce:
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=bfae40744b337928b1e65bf40efd91e715a5d808
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout bfae40744b337928b1e65bf40efd91e715a5d808
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash drivers/clk/qcom/
+tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
+head:   e3ed55ca947e67fac029ec3917d1f2ca6371d360
+commit: 42ffc8978cdb02ee0131e1315bd7548f92f09690 [3/4] WIP: phy: apple: Add Apple Type-C PHY
+:::::: branch date: 6 weeks ago
+:::::: commit date: 6 weeks ago
+config: parisc-randconfig-c043-20230605 (https://download.01.org/0day-ci/archive/20230605/202306051938.IDGMm36G-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202306051838.2esVTCwJ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202306051938.IDGMm36G-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/clk/qcom/gpucc-sm8550.c:37:22: sparse: sparse: decimal constant 2300000000 is between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers are very likely to produce unsigned long (and a warning) here
+cocci warnings: (new ones prefixed by >>)
+>> drivers/phy/apple/atc.c:1589:2-8: preceding lock on line 1578
+   drivers/phy/apple/atc.c:1589:2-8: preceding lock on line 1584
 
-vim +37 drivers/clk/qcom/gpucc-sm8550.c
+vim +1589 drivers/phy/apple/atc.c
 
-bfae40744b3379 Jagadeesh Kona 2023-05-24  35  
-bfae40744b3379 Jagadeesh Kona 2023-05-24  36  static const struct pll_vco lucid_ole_vco[] = {
-bfae40744b3379 Jagadeesh Kona 2023-05-24 @37  	{ 249600000, 2300000000, 0 },
-bfae40744b3379 Jagadeesh Kona 2023-05-24  38  };
-bfae40744b3379 Jagadeesh Kona 2023-05-24  39  
+42ffc8978cdb02 Sven Peter 2022-11-30  1566  
+42ffc8978cdb02 Sven Peter 2022-11-30  1567  static int atcphy_usb3_power_on(struct phy *phy)
+42ffc8978cdb02 Sven Peter 2022-11-30  1568  {
+42ffc8978cdb02 Sven Peter 2022-11-30  1569  	struct apple_atcphy *atcphy = phy_get_drvdata(phy);
+42ffc8978cdb02 Sven Peter 2022-11-30  1570  	enum atcphy_pipehandler_state state;
+42ffc8978cdb02 Sven Peter 2022-11-30  1571  	int ret = 0;
+42ffc8978cdb02 Sven Peter 2022-11-30  1572  
+42ffc8978cdb02 Sven Peter 2022-11-30  1573  	/*
+42ffc8978cdb02 Sven Peter 2022-11-30  1574  	 * Both usb role switch and mux set work will be running concurrently.
+42ffc8978cdb02 Sven Peter 2022-11-30  1575  	 * Make sure atcphy_mux_set_work is done bringing up ATCPHY before
+42ffc8978cdb02 Sven Peter 2022-11-30  1576  	 * trying to switch dwc3 to the correct PHY.
+42ffc8978cdb02 Sven Peter 2022-11-30  1577  	 */
+42ffc8978cdb02 Sven Peter 2022-11-30 @1578  	mutex_lock(&atcphy->lock);
+42ffc8978cdb02 Sven Peter 2022-11-30  1579  	if (atcphy->mode != atcphy->target_mode) {
+42ffc8978cdb02 Sven Peter 2022-11-30  1580  		reinit_completion(&atcphy->atcphy_online_event);
+42ffc8978cdb02 Sven Peter 2022-11-30  1581  		mutex_unlock(&atcphy->lock);
+42ffc8978cdb02 Sven Peter 2022-11-30  1582  		wait_for_completion_timeout(&atcphy->atcphy_online_event,
+42ffc8978cdb02 Sven Peter 2022-11-30  1583  					msecs_to_jiffies(1000));
+42ffc8978cdb02 Sven Peter 2022-11-30  1584  		mutex_lock(&atcphy->lock);
+42ffc8978cdb02 Sven Peter 2022-11-30  1585  	}
+42ffc8978cdb02 Sven Peter 2022-11-30  1586  
+42ffc8978cdb02 Sven Peter 2022-11-30  1587  	if (atcphy->mode != atcphy->target_mode) {
+42ffc8978cdb02 Sven Peter 2022-11-30  1588  		dev_err(atcphy->dev, "ATCPHY did not come up; won't allow dwc3 to come up.\n");
+42ffc8978cdb02 Sven Peter 2022-11-30 @1589  		return -EINVAL;
+42ffc8978cdb02 Sven Peter 2022-11-30  1590  	}
+42ffc8978cdb02 Sven Peter 2022-11-30  1591  
+42ffc8978cdb02 Sven Peter 2022-11-30  1592  	atcphy->dwc3_online = true;
+42ffc8978cdb02 Sven Peter 2022-11-30  1593  	state = atcphy_modes[atcphy->mode].pipehandler_state;
+42ffc8978cdb02 Sven Peter 2022-11-30  1594  	switch (state) {
+42ffc8978cdb02 Sven Peter 2022-11-30  1595  	case ATCPHY_PIPEHANDLER_STATE_USB2:
+42ffc8978cdb02 Sven Peter 2022-11-30  1596  	case ATCPHY_PIPEHANDLER_STATE_USB3:
+42ffc8978cdb02 Sven Peter 2022-11-30  1597  		ret = atcphy_configure_pipehandler(atcphy, state);
+42ffc8978cdb02 Sven Peter 2022-11-30  1598  		break;
+42ffc8978cdb02 Sven Peter 2022-11-30  1599  
+42ffc8978cdb02 Sven Peter 2022-11-30  1600  	case ATCPHY_PIPEHANDLER_STATE_INVALID:
+42ffc8978cdb02 Sven Peter 2022-11-30  1601  	default:
+42ffc8978cdb02 Sven Peter 2022-11-30  1602  		dev_warn(atcphy->dev, "Invalid state %d in usb3_set_phy\n",
+42ffc8978cdb02 Sven Peter 2022-11-30  1603  			 state);
+42ffc8978cdb02 Sven Peter 2022-11-30  1604  		ret = -EINVAL;
+42ffc8978cdb02 Sven Peter 2022-11-30  1605  	}
+42ffc8978cdb02 Sven Peter 2022-11-30  1606  
+42ffc8978cdb02 Sven Peter 2022-11-30  1607  	mutex_unlock(&atcphy->lock);
+42ffc8978cdb02 Sven Peter 2022-11-30  1608  
+42ffc8978cdb02 Sven Peter 2022-11-30  1609  	return 0;
+42ffc8978cdb02 Sven Peter 2022-11-30  1610  }
+42ffc8978cdb02 Sven Peter 2022-11-30  1611  
 
 -- 
 0-DAY CI Kernel Test Service
