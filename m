@@ -1,43 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF6B323E
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Jun 2023 21:04:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3BB395
+	for <oe-kbuild@lists.linux.dev>; Tue,  6 Jun 2023 04:10:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685999066; x=1717535066;
+  t=1686024657; x=1717560657;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4/a3yutRjfLqw1L+P965CsVSMtI+sdtFIxeo7MxpPbI=;
-  b=Tj7MJPOiA5NLEf0GMa94WbWZjB8eC2FddDeM0BmmWey2uHEL/Z+2nLLW
-   W6xyI5sq14obj7L9wus3JKqmAXLRX/HNbJaP4HkhhM9dIHZBSzx9gi7Ha
-   TZAFlGvR2Q4yeXbLEDa6oB68j0dhRmlwI5Yt6RvZaQQyUKtkmIGzV/PJx
-   /HGtQL8LLmHyFDz559GX4S/j0wnXtnCA9EgwCWwcRmnT/jw85z1Y+seJy
-   NxGaK1i3jH/170wuhqSGwAZYUZtGLUfMY3Ne1abmBhisW67Oa+tq6R0Kx
-   Jn1jBFFxOyZF951PcJioqv3Pa146Vtj/yOn8xMm2xTOl8YtxMXf6/B0nB
+  bh=yQ0tPAMgAPUolnUN86StzOpyHJMtCUDY5wkIutk7wGM=;
+  b=XGZuQZJW4bFB7Wawcevs6R8JZLi07q7Gie2j8SsOkc5qZeHRoK65ZNvd
+   uoLudxC+B5v8mCej6art9AZen8UoM2lFirV5u0qKWkLQP8OgPQ8OzhJrb
+   GXkdf+56fQchZBn5rg5yX7WMqqCKmrN+TXiW5lJv5jvMRhJkqHSDuVP8k
+   wpKIKND1XdB0jV2SwY/4wQ4YSsWRQ+GMi52P/avx9wjm8ZKw8eEbnjhy6
+   Zb3aEbfz7ki4HqymXLsMq4BGDbXaJY4mszMVUt3930TJwwM6R6+w6zce+
+   xGzLNhPthG5khIXc8ijeU30x1NGLJb03WSkz3H6gGJY5BpjDP2nZ2DTAG
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="420027819"
-X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
-   d="scan'208";a="420027819"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 14:04:25 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="384864407"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
+   d="scan'208";a="384864407"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 21:10:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="741868230"
-X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
-   d="scan'208";a="741868230"
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="738603916"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
+   d="scan'208";a="738603916"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 05 Jun 2023 14:04:24 -0700
+  by orsmga008.jf.intel.com with ESMTP; 05 Jun 2023 21:10:55 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6HNH-0004RH-2Q;
-	Mon, 05 Jun 2023 21:04:23 +0000
-Date: Tue, 6 Jun 2023 05:03:32 +0800
+	id 1q6O22-0004pX-2m;
+	Tue, 06 Jun 2023 04:10:54 +0000
+Date: Tue, 6 Jun 2023 12:10:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 709/6966]
- drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c:251:12-13: WARNING opportunity
- for min()
-Message-ID: <202306060436.OjDHaloq-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/iio/industrialio-gts-helper.c:394
+ iio_gts_build_avail_time_table() warn: double check that we're allocating
+ correct size: 4 vs 8
+Message-ID: <202306061239.AIaDBsVg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,98 +49,98 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-CC: Alan Previn <alan.previn.teres.alexis@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Matti Vaittinen <mazziesaccount@gmail.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9ca10bfb8aa8fbf19ee22e702c8cf9b66ea73a54
-commit: 8a9bf29546a13efd3ed7784b890c2534e995348f [709/6966] drm/i915/gsc: add initial support for GSC proxy
-:::::: branch date: 17 hours ago
-:::::: commit date: 5 weeks ago
-config: x86_64-randconfig-c022-20230605 (https://download.01.org/0day-ci/archive/20230606/202306060436.OjDHaloq-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f8dba31b0a826e691949cd4fdfa5c30defaac8c5
+commit: e65065132fa6d9e1fd3b7418eae5215e3b7bf6c7 iio: gts-helpers: fix integration time units
+date:   3 weeks ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 3 weeks ago
+config: x86_64-randconfig-m001-20230605 (https://download.01.org/0day-ci/archive/20230606/202306061239.AIaDBsVg-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202306060436.OjDHaloq-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202306061239.AIaDBsVg-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c:251:12-13: WARNING opportunity for min()
+New smatch warnings:
+drivers/iio/industrialio-gts-helper.c:394 iio_gts_build_avail_time_table() warn: double check that we're allocating correct size: 4 vs 8
 
-vim +251 drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c
+Old smatch warnings:
+drivers/iio/industrialio-gts-helper.c:246 gain_to_scaletables() warn: double check that we're allocating correct size: 4 vs 8
+drivers/iio/industrialio-gts-helper.c:269 gain_to_scaletables() error: uninitialized symbol 'ret'.
+drivers/iio/industrialio-gts-helper.c:302 iio_gts_build_avail_scale_table() warn: double check that we're allocating correct size: 4 vs 8
 
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  184  
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  185  static int proxy_query(struct intel_gsc_uc *gsc)
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  186  {
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  187  	struct intel_gt *gt = gsc_uc_to_gt(gsc);
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  188  	struct gsc_proxy_msg *to_gsc = gsc->proxy.to_gsc;
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  189  	struct gsc_proxy_msg *to_csme = gsc->proxy.to_csme;
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  190  	int ret;
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  191  
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  192  	intel_gsc_uc_heci_cmd_emit_mtl_header(&to_gsc->header,
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  193  					      HECI_MEADDRESS_PROXY,
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  194  					      sizeof(struct gsc_proxy_msg),
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  195  					      0);
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  196  
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  197  	to_gsc->proxy_header.hdr =
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  198  		FIELD_PREP(GSC_PROXY_TYPE, GSC_PROXY_MSG_TYPE_PROXY_QUERY) |
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  199  		FIELD_PREP(GSC_PROXY_PAYLOAD_LENGTH, 0);
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  200  
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  201  	to_gsc->proxy_header.source = GSC_PROXY_ADDRESSING_KMD;
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  202  	to_gsc->proxy_header.destination = GSC_PROXY_ADDRESSING_GSC;
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  203  	to_gsc->proxy_header.status = 0;
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  204  
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  205  	while (1) {
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  206  		/* clear the GSC response header space */
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  207  		memset(gsc->proxy.to_csme, 0, sizeof(struct gsc_proxy_msg));
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  208  
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  209  		/* send proxy message to GSC */
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  210  		ret = proxy_send_to_gsc(gsc);
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  211  		if (ret) {
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  212  			gt_err(gt, "failed to send proxy message to GSC! %d\n", ret);
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  213  			goto proxy_error;
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  214  		}
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  215  
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  216  		/* stop if this was the last message */
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  217  		if (FIELD_GET(GSC_PROXY_TYPE, to_csme->proxy_header.hdr) ==
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  218  				GSC_PROXY_MSG_TYPE_PROXY_END)
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  219  			break;
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  220  
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  221  		/* make sure the GSC-to-CSME proxy header is sane */
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  222  		ret = validate_proxy_header(&to_csme->proxy_header,
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  223  					    GSC_PROXY_ADDRESSING_GSC,
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  224  					    GSC_PROXY_ADDRESSING_CSME);
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  225  		if (ret) {
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  226  			gt_err(gt, "invalid GSC to CSME proxy header! %d\n", ret);
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  227  			goto proxy_error;
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  228  		}
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  229  
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  230  		/* send the GSC message to the CSME */
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  231  		ret = proxy_send_to_csme(gsc);
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  232  		if (ret < 0) {
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  233  			gt_err(gt, "failed to send proxy message to CSME! %d\n", ret);
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  234  			goto proxy_error;
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  235  		}
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  236  
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  237  		/* update the GSC message size with the returned value from CSME */
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  238  		to_gsc->header.message_size = ret + sizeof(struct intel_gsc_mtl_header);
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  239  
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  240  		/* make sure the CSME-to-GSC proxy header is sane */
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  241  		ret = validate_proxy_header(&to_gsc->proxy_header,
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  242  					    GSC_PROXY_ADDRESSING_CSME,
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  243  					    GSC_PROXY_ADDRESSING_GSC);
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  244  		if (ret) {
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  245  			gt_err(gt, "invalid CSME to GSC proxy header! %d\n", ret);
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  246  			goto proxy_error;
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  247  		}
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  248  	}
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  249  
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  250  proxy_error:
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02 @251  	return ret < 0 ? ret : 0;
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  252  }
-8a9bf29546a13e Daniele Ceraolo Spurio 2023-05-02  253  
+vim +394 drivers/iio/industrialio-gts-helper.c
+
+e65065132fa6d9 Matti Vaittinen 2023-04-17  350  
+38416c28e16890 Matti Vaittinen 2023-03-31  351  /**
+38416c28e16890 Matti Vaittinen 2023-03-31  352   * iio_gts_build_avail_time_table - build table of available integration times
+38416c28e16890 Matti Vaittinen 2023-03-31  353   * @gts:	Gain time scale descriptor
+38416c28e16890 Matti Vaittinen 2023-03-31  354   *
+38416c28e16890 Matti Vaittinen 2023-03-31  355   * Build the table which can represent the available times to be returned
+38416c28e16890 Matti Vaittinen 2023-03-31  356   * to users using the read_avail-callback.
+38416c28e16890 Matti Vaittinen 2023-03-31  357   *
+38416c28e16890 Matti Vaittinen 2023-03-31  358   * NOTE: Space allocated for the tables must be freed using
+38416c28e16890 Matti Vaittinen 2023-03-31  359   * iio_gts_purge_avail_time_table() when the tables are no longer needed.
+38416c28e16890 Matti Vaittinen 2023-03-31  360   *
+38416c28e16890 Matti Vaittinen 2023-03-31  361   * Return: 0 on success.
+38416c28e16890 Matti Vaittinen 2023-03-31  362   */
+38416c28e16890 Matti Vaittinen 2023-03-31  363  static int iio_gts_build_avail_time_table(struct iio_gts *gts)
+38416c28e16890 Matti Vaittinen 2023-03-31  364  {
+e65065132fa6d9 Matti Vaittinen 2023-04-17  365  	int *times, i, j, idx = 0, *int_micro_times;
+38416c28e16890 Matti Vaittinen 2023-03-31  366  
+38416c28e16890 Matti Vaittinen 2023-03-31  367  	if (!gts->num_itime)
+38416c28e16890 Matti Vaittinen 2023-03-31  368  		return 0;
+38416c28e16890 Matti Vaittinen 2023-03-31  369  
+38416c28e16890 Matti Vaittinen 2023-03-31  370  	times = kcalloc(gts->num_itime, sizeof(int), GFP_KERNEL);
+38416c28e16890 Matti Vaittinen 2023-03-31  371  	if (!times)
+38416c28e16890 Matti Vaittinen 2023-03-31  372  		return -ENOMEM;
+38416c28e16890 Matti Vaittinen 2023-03-31  373  
+38416c28e16890 Matti Vaittinen 2023-03-31  374  	/* Sort times from all tables to one and remove duplicates */
+38416c28e16890 Matti Vaittinen 2023-03-31  375  	for (i = gts->num_itime - 1; i >= 0; i--) {
+38416c28e16890 Matti Vaittinen 2023-03-31  376  		int new = gts->itime_table[i].time_us;
+38416c28e16890 Matti Vaittinen 2023-03-31  377  
+38416c28e16890 Matti Vaittinen 2023-03-31  378  		if (times[idx] < new) {
+38416c28e16890 Matti Vaittinen 2023-03-31  379  			times[idx++] = new;
+38416c28e16890 Matti Vaittinen 2023-03-31  380  			continue;
+38416c28e16890 Matti Vaittinen 2023-03-31  381  		}
+38416c28e16890 Matti Vaittinen 2023-03-31  382  
+38416c28e16890 Matti Vaittinen 2023-03-31  383  		for (j = 0; j <= idx; j++) {
+38416c28e16890 Matti Vaittinen 2023-03-31  384  			if (times[j] > new) {
+38416c28e16890 Matti Vaittinen 2023-03-31  385  				memmove(&times[j + 1], &times[j],
+38416c28e16890 Matti Vaittinen 2023-03-31  386  					(idx - j) * sizeof(int));
+38416c28e16890 Matti Vaittinen 2023-03-31  387  				times[j] = new;
+38416c28e16890 Matti Vaittinen 2023-03-31  388  				idx++;
+38416c28e16890 Matti Vaittinen 2023-03-31  389  			}
+38416c28e16890 Matti Vaittinen 2023-03-31  390  		}
+38416c28e16890 Matti Vaittinen 2023-03-31  391  	}
+e65065132fa6d9 Matti Vaittinen 2023-04-17  392  
+e65065132fa6d9 Matti Vaittinen 2023-04-17  393  	/* create a list of times formatted as list of IIO_VAL_INT_PLUS_MICRO */
+e65065132fa6d9 Matti Vaittinen 2023-04-17 @394  	int_micro_times = kcalloc(idx, sizeof(int) * 2, GFP_KERNEL);
+e65065132fa6d9 Matti Vaittinen 2023-04-17  395  	if (int_micro_times) {
+38416c28e16890 Matti Vaittinen 2023-03-31  396  		/*
+e65065132fa6d9 Matti Vaittinen 2023-04-17  397  		 * This is just to survive a unlikely corner-case where times in
+e65065132fa6d9 Matti Vaittinen 2023-04-17  398  		 * the given time table were not unique. Else we could just
+e65065132fa6d9 Matti Vaittinen 2023-04-17  399  		 * trust the gts->num_itime.
+38416c28e16890 Matti Vaittinen 2023-03-31  400  		 */
+38416c28e16890 Matti Vaittinen 2023-03-31  401  		gts->num_avail_time_tables = idx;
+e65065132fa6d9 Matti Vaittinen 2023-04-17  402  		iio_gts_us_to_int_micro(times, int_micro_times, idx);
+e65065132fa6d9 Matti Vaittinen 2023-04-17  403  	}
+e65065132fa6d9 Matti Vaittinen 2023-04-17  404  
+e65065132fa6d9 Matti Vaittinen 2023-04-17  405  	gts->avail_time_tables = int_micro_times;
+e65065132fa6d9 Matti Vaittinen 2023-04-17  406  	kfree(times);
+e65065132fa6d9 Matti Vaittinen 2023-04-17  407  
+e65065132fa6d9 Matti Vaittinen 2023-04-17  408  	if (!int_micro_times)
+e65065132fa6d9 Matti Vaittinen 2023-04-17  409  		return -ENOMEM;
+38416c28e16890 Matti Vaittinen 2023-03-31  410  
+38416c28e16890 Matti Vaittinen 2023-03-31  411  	return 0;
+38416c28e16890 Matti Vaittinen 2023-03-31  412  }
+38416c28e16890 Matti Vaittinen 2023-03-31  413  
 
 -- 
 0-DAY CI Kernel Test Service
