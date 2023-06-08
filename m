@@ -1,43 +1,41 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3E819930
-	for <oe-kbuild@lists.linux.dev>; Thu,  8 Jun 2023 18:13:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918B92A9CA
+	for <oe-kbuild@lists.linux.dev>; Thu,  8 Jun 2023 23:17:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686247997; x=1717783997;
+  t=1686266269; x=1717802269;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ELAwOpTeAGBUlBmd58Xim/Vytutl6FFQoSIo0qLRloo=;
-  b=Gscw6PsWrKm9oP0/xM6ZWpuDvMUXSRi7OAheSiDmpjztYbfQG6nbAdnD
-   CcO/MexZjEHXnLbmKVSFblehzUbhV4xi2uA2te1lEeQ0CCzP5OeYoKX+M
-   HW5nYNZlPiDWmYKkEPO4Zw1Yiu+jK8JAPB9aVPY8sa2CSEVT+JmhYc0b6
-   Jyyd8UserJ2H6YBn4MTH7bdZAtkpeFSXP4bqHTDuB4w5EsAD7O7TmasTt
-   P0LWICmmy1lHA+nUSVo/0NAtYNCpUOU2cc1AQNqsy6IyLMSnOSDOj2kaq
-   HVpxdP4DODVQLgrk4E6UP0fdxrB5g9P7q4s65srCKCcl25stM7UUNIw0m
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="342064725"
+  bh=b85vVQJWIEvGYuwQsY72zDJQJNRar7SxOH8ZiQjYXDo=;
+  b=AIgSiLwvCLcA+1bl5L07kzQfw7KLdyyUfrTThflosiyUbJkO943zXdO8
+   qEmuWaY3P+XbH2NSwac5ndsHPS82hFb5da7WVEOnIFxrlZ1KQET2+uwPv
+   3AUePHSy6ySe93TfPt9NZAvjf2yegFQJVxIPWBGh72dkmW+EgrpgP+G4c
+   QMiOctmt1qN9wBqUgNPysNcodVb5Ju2Ej/9mRNKFElCQDY1rgtSAL0et8
+   0Z/K9Gqm6Col+Nb6fZsprbicUDtC/IM1rPTv6QInCl3e5fhz/0VqM42hF
+   aEcQqy/T6ZE3vA9FhpFQVsjC4Zv/je1HiRS3E0thec86N9x0KJlZBumaM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="337816529"
 X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
-   d="scan'208";a="342064725"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 11:09:38 -0700
+   d="scan'208";a="337816529"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 16:17:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="854445783"
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="956921316"
 X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
-   d="scan'208";a="854445783"
+   d="scan'208";a="956921316"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 08 Jun 2023 11:09:37 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 08 Jun 2023 16:17:47 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7K4m-000896-2o;
-	Thu, 08 Jun 2023 18:09:36 +0000
-Date: Fri, 9 Jun 2023 02:09:17 +0800
+	id 1q7Ot0-0008LA-2L;
+	Thu, 08 Jun 2023 23:17:46 +0000
+Date: Fri, 9 Jun 2023 07:16:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 7389/8065]
- include/asm-generic/bitops/instrumented-non-atomic.h:141: undefined
- reference to `uv_info'
-Message-ID: <202306090202.CddcOgQ6-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 10/19] cxl/memdev: Indicate probe deferral
+Message-ID: <202306090732.SLD5PmoG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,71 +45,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: include/asm-generic/bitops/instrumented-non-atomic.h:141: undefined reference to `uv_info'"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Steffen Eiden <seiden@linux.ibm.com>
-CC: Claudio Imbrenda <imbrenda@linux.ibm.com>
-CC: Janosch Frank <frankja@linux.ibm.com>
+In-Reply-To: <168592155270.1948938.11536845108449547920.stgit@dwillia2-xfh.jf.intel.com>
+References: <168592155270.1948938.11536845108449547920.stgit@dwillia2-xfh.jf.intel.com>
+TO: Dan Williams <dan.j.williams@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   db10f126048021b86e43a5d6a335ec49dec10155
-commit: 6ea10af0617e18118653e041b4c3bb32e92421ad [7389/8065] s390/uvdevice: Add 'Add Secret' UVC
-:::::: branch date: 14 hours ago
-:::::: commit date: 26 hours ago
-config: s390-randconfig-s052-20230608 (https://download.01.org/0day-ci/archive/20230609/202306090202.CddcOgQ6-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce:
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=6ea10af0617e18118653e041b4c3bb32e92421ad
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 6ea10af0617e18118653e041b4c3bb32e92421ad
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash
+Hi Dan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9561de3a55bed6bdd44a12820ba81ec416e705a7]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/cxl-regs-Clarify-when-a-struct-cxl_register_map-is-input-vs-output/20230605-073402
+base:   9561de3a55bed6bdd44a12820ba81ec416e705a7
+patch link:    https://lore.kernel.org/r/168592155270.1948938.11536845108449547920.stgit%40dwillia2-xfh.jf.intel.com
+patch subject: [PATCH 10/19] cxl/memdev: Indicate probe deferral
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-m021-20230608 (https://download.01.org/0day-ci/archive/20230609/202306090732.SLD5PmoG-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202306090202.CddcOgQ6-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202306090732.SLD5PmoG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/cxl/core/memdev.c:642 cxl_acquire_endpoint() warn: inconsistent returns '&cxlmd->dev.mutex'.
 
-   s390-linux-ld: drivers/s390/char/uvdevice.o: in function `_test_bit':
->> include/asm-generic/bitops/instrumented-non-atomic.h:141: undefined reference to `uv_info'
+vim +642 drivers/cxl/core/memdev.c
 
-
-vim +141 include/asm-generic/bitops/instrumented-non-atomic.h
-
-81d2c6f81996e0 Daniel Axtens     2019-08-20  132  
-81d2c6f81996e0 Daniel Axtens     2019-08-20  133  /**
-e69eb9c460f128 Alexander Lobakin 2022-06-24  134   * _test_bit - Determine whether a bit is set
-81d2c6f81996e0 Daniel Axtens     2019-08-20  135   * @nr: bit number to test
-81d2c6f81996e0 Daniel Axtens     2019-08-20  136   * @addr: Address to start counting from
-81d2c6f81996e0 Daniel Axtens     2019-08-20  137   */
-0e862838f29014 Alexander Lobakin 2022-06-24  138  static __always_inline bool
-e69eb9c460f128 Alexander Lobakin 2022-06-24  139  _test_bit(unsigned long nr, const volatile unsigned long *addr)
-81d2c6f81996e0 Daniel Axtens     2019-08-20  140  {
-27f937cc810aef Marco Elver       2020-01-21 @141  	instrument_atomic_read(addr + BIT_WORD(nr), sizeof(long));
-81d2c6f81996e0 Daniel Axtens     2019-08-20  142  	return arch_test_bit(nr, addr);
-81d2c6f81996e0 Daniel Axtens     2019-08-20  143  }
-81d2c6f81996e0 Daniel Axtens     2019-08-20  144  
-
-:::::: The code at line 141 was first introduced by commit
-:::::: 27f937cc810aef63b0752f5bfbf383390dd076a1 asm-generic, kcsan: Add KCSAN instrumentation for bitops
-
-:::::: TO: Marco Elver <elver@google.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+3d135db510240f Ben Widawsky 2021-08-02  611  
+126ed1e685e817 Dan Williams 2023-06-04  612  /*
+126ed1e685e817 Dan Williams 2023-06-04  613   * Try to get a locked reference on a memdev's CXL port topology
+126ed1e685e817 Dan Williams 2023-06-04  614   * connection. Be careful to observe when cxl_mem_probe() has deposited
+126ed1e685e817 Dan Williams 2023-06-04  615   * a probe deferral awaiting the arrival of the CXL root driver
+126ed1e685e817 Dan Williams 2023-06-04  616   */
+126ed1e685e817 Dan Williams 2023-06-04  617  struct cxl_port *cxl_acquire_endpoint(struct cxl_memdev *cxlmd)
+126ed1e685e817 Dan Williams 2023-06-04  618  {
+126ed1e685e817 Dan Williams 2023-06-04  619  	struct cxl_port *endpoint;
+126ed1e685e817 Dan Williams 2023-06-04  620  	int rc = -ENXIO;
+126ed1e685e817 Dan Williams 2023-06-04  621  
+126ed1e685e817 Dan Williams 2023-06-04  622  	device_lock(&cxlmd->dev);
+126ed1e685e817 Dan Williams 2023-06-04  623  	endpoint = cxlmd->endpoint;
+126ed1e685e817 Dan Williams 2023-06-04  624  	if (!endpoint)
+126ed1e685e817 Dan Williams 2023-06-04  625  		goto err;
+126ed1e685e817 Dan Williams 2023-06-04  626  
+126ed1e685e817 Dan Williams 2023-06-04  627  	if (IS_ERR(endpoint)) {
+126ed1e685e817 Dan Williams 2023-06-04  628  		rc = PTR_ERR(endpoint);
+126ed1e685e817 Dan Williams 2023-06-04  629  		goto err;
+126ed1e685e817 Dan Williams 2023-06-04  630  	}
+126ed1e685e817 Dan Williams 2023-06-04  631  
+126ed1e685e817 Dan Williams 2023-06-04  632  	device_lock(&endpoint->dev);
+126ed1e685e817 Dan Williams 2023-06-04  633  	if (!endpoint->dev.driver)
+126ed1e685e817 Dan Williams 2023-06-04  634  		goto err_endpoint;
+126ed1e685e817 Dan Williams 2023-06-04  635  
+126ed1e685e817 Dan Williams 2023-06-04  636  	return endpoint;
+126ed1e685e817 Dan Williams 2023-06-04  637  
+126ed1e685e817 Dan Williams 2023-06-04  638  err_endpoint:
+126ed1e685e817 Dan Williams 2023-06-04  639  	device_unlock(&endpoint->dev);
+126ed1e685e817 Dan Williams 2023-06-04  640  err:
+126ed1e685e817 Dan Williams 2023-06-04  641  	device_unlock(&cxlmd->dev);
+126ed1e685e817 Dan Williams 2023-06-04 @642  	return ERR_PTR(rc);
+126ed1e685e817 Dan Williams 2023-06-04  643  }
+126ed1e685e817 Dan Williams 2023-06-04  644  EXPORT_SYMBOL_NS(cxl_acquire_endpoint, CXL);
+126ed1e685e817 Dan Williams 2023-06-04  645  
 
 -- 
 0-DAY CI Kernel Test Service
