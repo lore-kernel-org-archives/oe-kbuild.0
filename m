@@ -1,44 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF68B12B79
-	for <oe-kbuild@lists.linux.dev>; Wed,  7 Jun 2023 21:12:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9F1622
+	for <oe-kbuild@lists.linux.dev>; Thu,  8 Jun 2023 00:48:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686172367; x=1717708367;
+  t=1686185294; x=1717721294;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G15zhs7QQ+Cb7LRFQtDja+2njLrfFRYu199dBZeXBYA=;
-  b=WibWT4iIy/kOGSQboHjbxDbtg+SMx0jLKnvi48sKxXcxmKNAfcEEnEj2
-   skUwc8E6QwaHzhJLR/jOMttjmsw3I6OAJ69Vk+hrSOiE8Z8n4upSPhEiv
-   XLJvE7hg6MitHIGmKUkItRA0SdgnPP3JDKAbMy4FgHjI7cV4GlGozfu3v
-   P1UORtu25Tqy7YqP7uoTSy4RuxYJXs1ihuRqe/EGGFzDdWTSSPC5a8nP9
-   pe8OQkoaUU57lRi52PtMCw0kx1M1yM4HJtRrgvQmqbviv8N9v782Ge04r
-   UruHf4+sHcmhL70OII5c/gACjb2e37CTMzwqIW8tu14enYWfzSQh/KZtL
+  bh=YKAGZSPN6o5X+yqxRijJOEKAyQhTwJipxEb2b2gfOVM=;
+  b=A/tyNHJiHca0qevE+zB5epM0cuiA0UU9AMcspWniEJU6ydipHjFvVwWt
+   +ILfubclM0x5STo+ZXZVA6GFT1eGf2l9k2Vowxp6zQc7RvhqQtTaJzOEb
+   s7iJpoWusZ3GIoHBTYvg3Ano4emlaOyNLwkm35XWtcthlTcot8lycoWTM
+   qKYIwBp9hvmJl1CshjiIWg+9nWB6Xh5B4xq56h8GSJys4IxOVlkb35XEg
+   Zxr8tCA9x5V5loxApH5X+O9fI4CkkcwHnIBv+QmM+ajWAGT/OmhmdGwhR
+   CJalOaBT6NegDtZwGG15OurhzHFrD3IvfAOphCx2AivK/W9wgpOLdRBpn
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="422955572"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="385489524"
 X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
-   d="scan'208";a="422955572"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 14:12:45 -0700
+   d="scan'208";a="385489524"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 17:48:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="709698908"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="799602514"
 X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
-   d="scan'208";a="709698908"
+   d="scan'208";a="799602514"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 07 Jun 2023 14:12:43 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 07 Jun 2023 17:48:09 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q70SR-0006v3-0L;
-	Wed, 07 Jun 2023 21:12:43 +0000
-Date: Thu, 8 Jun 2023 05:12:35 +0800
+	id 1q73oq-000739-0H;
+	Thu, 08 Jun 2023 00:48:04 +0000
+Date: Thu, 8 Jun 2023 08:47:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 6029/7747]
- drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c:1538
- smu_v13_0_0_od_edit_dpm_table() warn: potential pointer math issue
- ('od_table' is a 1120 bit pointer)
-Message-ID: <202306080512.O4bwwEmx-lkp@intel.com>
+Subject: [tip:timers/core 2/21] kernel/time/posix-timers.c:1079
+ itimer_delete() warn: inconsistent returns '&timer->it_lock'.
+Message-ID: <202306080844.eQEGGwj2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,250 +48,81 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Evan Quan <evan.quan@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
+CC: linux-kernel@vger.kernel.org
+CC: x86@kernel.org
+TO: Thomas Gleixner <tglx@linutronix.de>
+CC: Frederic Weisbecker <frederic@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   abbd8bb42915d9ed06df11b430bf4ecb3d8ac5ad
-commit: f0a0c659fb96b74385b6f3d451d598752f4ef1a0 [6029/7747] drm/amd/pm: fulfill the OD support for SMU13.0.0
-:::::: branch date: 17 hours ago
-:::::: commit date: 5 days ago
-config: csky-randconfig-m031-20230606 (https://download.01.org/0day-ci/archive/20230608/202306080512.O4bwwEmx-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/core
+head:   6fbe3a3b4fa1fe5cf05f91193d81d930c6820eda
+commit: 1b59b2577582f9cf3d0f17245675a76859175cc1 [2/21] posix-timers: Prevent RT livelock in itimer_delete()
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-m001-20230607 (https://download.01.org/0day-ci/archive/20230608/202306080844.eQEGGwj2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306080512.O4bwwEmx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306080844.eQEGGwj2-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c:1538 smu_v13_0_0_od_edit_dpm_table() warn: potential pointer math issue ('od_table' is a 1120 bit pointer)
+smatch warnings:
+kernel/time/posix-timers.c:1079 itimer_delete() warn: inconsistent returns '&timer->it_lock'.
+kernel/time/posix-timers.c:1079 itimer_delete() warn: inconsistent returns 'flags'.
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c:1551 smu_v13_0_0_od_edit_dpm_table() warn: potential pointer math issue ('od_table' is a 1120 bit pointer)
-drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c:2552 smu_v13_0_0_check_ecc_table_support() warn: missing error code? 'ret'
+vim +1079 kernel/time/posix-timers.c
 
-vim +1538 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c
+becf8b5d00f4b4 kernel/posix-timers.c      Thomas Gleixner  2006-01-09  1038  
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1039  /*
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1040   * Delete a timer if it is armed, remove it from the hash and schedule it
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1041   * for RCU freeing.
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1042   */
+858119e1593843 kernel/posix-timers.c      Arjan van de Ven 2006-01-14  1043  static void itimer_delete(struct k_itimer *timer)
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1044  {
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1045  	unsigned long flags;
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1046  
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1047  retry_delete:
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1048  	/*
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1049  	 * irqsave is required to make timer_wait_running() work.
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1050  	 */
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1051  	spin_lock_irqsave(&timer->it_lock, flags);
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1052  
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1053  	/*
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1054  	 * Even if the timer is not longer accessible from other tasks
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1055  	 * it still might be armed and queued in the underlying timer
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1056  	 * mechanism. Worse, that timer mechanism might run the expiry
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1057  	 * function concurrently.
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1058  	 */
+becf8b5d00f4b4 kernel/posix-timers.c      Thomas Gleixner  2006-01-09  1059  	if (timer_delete_hook(timer) == TIMER_RETRY) {
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1060  		/*
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1061  		 * Timer is expired concurrently, prevent livelocks
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1062  		 * and pointless spinning on RT.
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1063  		 *
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1064  		 * timer_wait_running() drops timer::it_lock, which opens
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1065  		 * the possibility for another task to delete the timer.
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1066  		 *
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1067  		 * That's not possible here because this is invoked from
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1068  		 * do_exit() only for the last thread of the thread group.
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1069  		 * So no other task can access and delete that timer.
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1070  		 */
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1071  		if (WARN_ON_ONCE(timer_wait_running(timer, &flags) != timer))
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1072  			return;
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1073  
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1074  		goto retry_delete;
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1075  	}
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1076  	list_del(&timer->list);
+4b7a1304267bff kernel/posix-timers.c      Oleg Nesterov    2008-07-25  1077  
+1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1078  	spin_unlock_irqrestore(&timer->it_lock, flags);
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16 @1079  	release_posix_timer(timer, IT_ID_SET);
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1080  }
+^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1081  
 
-276c03a0547068 Evan Quan 2022-04-06  1353  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1354  static int smu_v13_0_0_od_edit_dpm_table(struct smu_context *smu,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1355  					 enum PP_OD_DPM_TABLE_COMMAND type,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1356  					 long input[],
-f0a0c659fb96b7 Evan Quan 2023-05-08  1357  					 uint32_t size)
-f0a0c659fb96b7 Evan Quan 2023-05-08  1358  {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1359  	struct smu_table_context *table_context = &smu->smu_table;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1360  	OverDriveTableExternal_t *od_table =
-f0a0c659fb96b7 Evan Quan 2023-05-08  1361  		(OverDriveTableExternal_t *)table_context->overdrive_table;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1362  	struct amdgpu_device *adev = smu->adev;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1363  	uint32_t offset_of_featurectrlmask;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1364  	int32_t minimum, maximum;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1365  	uint32_t feature_ctrlmask;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1366  	int i, ret = 0;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1367  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1368  	switch (type) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1369  	case PP_OD_EDIT_SCLK_VDDC_TABLE:
-f0a0c659fb96b7 Evan Quan 2023-05-08  1370  		if (!smu_v13_0_0_is_od_feature_supported(smu, PP_OD_FEATURE_GFXCLK_BIT)) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1371  			dev_warn(adev->dev, "GFXCLK_LIMITS setting not supported!\n");
-f0a0c659fb96b7 Evan Quan 2023-05-08  1372  			return -ENOTSUPP;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1373  		}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1374  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1375  		for (i = 0; i < size; i += 2) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1376  			if (i + 2 > size) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1377  				dev_info(adev->dev, "invalid number of input parameters %d\n", size);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1378  				return -EINVAL;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1379  			}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1380  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1381  			switch (input[i]) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1382  			case 0:
-f0a0c659fb96b7 Evan Quan 2023-05-08  1383  				smu_v13_0_0_get_od_setting_limits(smu,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1384  								  PP_OD_FEATURE_GFXCLK_BIT,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1385  								  true,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1386  								  &minimum,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1387  								  &maximum);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1388  				if (input[i + 1] < minimum ||
-f0a0c659fb96b7 Evan Quan 2023-05-08  1389  				    input[i + 1] > maximum) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1390  					dev_info(adev->dev, "GfxclkFmin (%ld) must be within [%u, %u]!\n",
-f0a0c659fb96b7 Evan Quan 2023-05-08  1391  						input[i + 1], minimum, maximum);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1392  					return -EINVAL;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1393  				}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1394  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1395  				od_table->OverDriveTable.GfxclkFmin = input[i + 1];
-f0a0c659fb96b7 Evan Quan 2023-05-08  1396  				od_table->OverDriveTable.FeatureCtrlMask |= 1U << PP_OD_FEATURE_GFXCLK_BIT;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1397  				break;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1398  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1399  			case 1:
-f0a0c659fb96b7 Evan Quan 2023-05-08  1400  				smu_v13_0_0_get_od_setting_limits(smu,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1401  								  PP_OD_FEATURE_GFXCLK_BIT,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1402  								  false,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1403  								  &minimum,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1404  								  &maximum);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1405  				if (input[i + 1] < minimum ||
-f0a0c659fb96b7 Evan Quan 2023-05-08  1406  				    input[i + 1] > maximum) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1407  					dev_info(adev->dev, "GfxclkFmax (%ld) must be within [%u, %u]!\n",
-f0a0c659fb96b7 Evan Quan 2023-05-08  1408  						input[i + 1], minimum, maximum);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1409  					return -EINVAL;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1410  				}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1411  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1412  				od_table->OverDriveTable.GfxclkFmax = input[i + 1];
-f0a0c659fb96b7 Evan Quan 2023-05-08  1413  				od_table->OverDriveTable.FeatureCtrlMask |= 1U << PP_OD_FEATURE_GFXCLK_BIT;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1414  				break;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1415  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1416  			default:
-f0a0c659fb96b7 Evan Quan 2023-05-08  1417  				dev_info(adev->dev, "Invalid SCLK_VDDC_TABLE index: %ld\n", input[i]);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1418  				dev_info(adev->dev, "Supported indices: [0:min,1:max]\n");
-f0a0c659fb96b7 Evan Quan 2023-05-08  1419  				return -EINVAL;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1420  			}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1421  		}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1422  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1423  		if (od_table->OverDriveTable.GfxclkFmin > od_table->OverDriveTable.GfxclkFmax) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1424  			dev_err(adev->dev,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1425  				"Invalid setting: GfxclkFmin(%u) is bigger than GfxclkFmax(%u)\n",
-f0a0c659fb96b7 Evan Quan 2023-05-08  1426  				(uint32_t)od_table->OverDriveTable.GfxclkFmin,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1427  				(uint32_t)od_table->OverDriveTable.GfxclkFmax);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1428  			return -EINVAL;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1429  		}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1430  		break;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1431  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1432  	case PP_OD_EDIT_MCLK_VDDC_TABLE:
-f0a0c659fb96b7 Evan Quan 2023-05-08  1433  		if (!smu_v13_0_0_is_od_feature_supported(smu, PP_OD_FEATURE_UCLK_BIT)) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1434  			dev_warn(adev->dev, "UCLK_LIMITS setting not supported!\n");
-f0a0c659fb96b7 Evan Quan 2023-05-08  1435  			return -ENOTSUPP;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1436  		}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1437  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1438  		for (i = 0; i < size; i += 2) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1439  			if (i + 2 > size) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1440  				dev_info(adev->dev, "invalid number of input parameters %d\n", size);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1441  				return -EINVAL;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1442  			}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1443  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1444  			switch (input[i]) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1445  			case 0:
-f0a0c659fb96b7 Evan Quan 2023-05-08  1446  				smu_v13_0_0_get_od_setting_limits(smu,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1447  								  PP_OD_FEATURE_UCLK_BIT,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1448  								  true,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1449  								  &minimum,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1450  								  &maximum);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1451  				if (input[i + 1] < minimum ||
-f0a0c659fb96b7 Evan Quan 2023-05-08  1452  				    input[i + 1] > maximum) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1453  					dev_info(adev->dev, "UclkFmin (%ld) must be within [%u, %u]!\n",
-f0a0c659fb96b7 Evan Quan 2023-05-08  1454  						input[i + 1], minimum, maximum);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1455  					return -EINVAL;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1456  				}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1457  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1458  				od_table->OverDriveTable.UclkFmin = input[i + 1];
-f0a0c659fb96b7 Evan Quan 2023-05-08  1459  				od_table->OverDriveTable.FeatureCtrlMask |= 1U << PP_OD_FEATURE_UCLK_BIT;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1460  				break;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1461  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1462  			case 1:
-f0a0c659fb96b7 Evan Quan 2023-05-08  1463  				smu_v13_0_0_get_od_setting_limits(smu,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1464  								  PP_OD_FEATURE_UCLK_BIT,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1465  								  false,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1466  								  &minimum,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1467  								  &maximum);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1468  				if (input[i + 1] < minimum ||
-f0a0c659fb96b7 Evan Quan 2023-05-08  1469  				    input[i + 1] > maximum) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1470  					dev_info(adev->dev, "UclkFmax (%ld) must be within [%u, %u]!\n",
-f0a0c659fb96b7 Evan Quan 2023-05-08  1471  						input[i + 1], minimum, maximum);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1472  					return -EINVAL;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1473  				}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1474  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1475  				od_table->OverDriveTable.UclkFmax = input[i + 1];
-f0a0c659fb96b7 Evan Quan 2023-05-08  1476  				od_table->OverDriveTable.FeatureCtrlMask |= 1U << PP_OD_FEATURE_UCLK_BIT;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1477  				break;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1478  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1479  			default:
-f0a0c659fb96b7 Evan Quan 2023-05-08  1480  				dev_info(adev->dev, "Invalid MCLK_VDDC_TABLE index: %ld\n", input[i]);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1481  				dev_info(adev->dev, "Supported indices: [0:min,1:max]\n");
-f0a0c659fb96b7 Evan Quan 2023-05-08  1482  				return -EINVAL;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1483  			}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1484  		}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1485  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1486  		if (od_table->OverDriveTable.UclkFmin > od_table->OverDriveTable.UclkFmax) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1487  			dev_err(adev->dev,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1488  				"Invalid setting: UclkFmin(%u) is bigger than UclkFmax(%u)\n",
-f0a0c659fb96b7 Evan Quan 2023-05-08  1489  				(uint32_t)od_table->OverDriveTable.UclkFmin,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1490  				(uint32_t)od_table->OverDriveTable.UclkFmax);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1491  			return -EINVAL;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1492  		}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1493  		break;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1494  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1495  	case PP_OD_EDIT_VDDC_CURVE:
-f0a0c659fb96b7 Evan Quan 2023-05-08  1496  		if (!smu_v13_0_0_is_od_feature_supported(smu, PP_OD_FEATURE_GFX_VF_CURVE_BIT)) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1497  			dev_warn(adev->dev, "VF curve setting not supported!\n");
-f0a0c659fb96b7 Evan Quan 2023-05-08  1498  			return -ENOTSUPP;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1499  		}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1500  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1501  		if (input[0] >= PP_NUM_OD_VF_CURVE_POINTS ||
-f0a0c659fb96b7 Evan Quan 2023-05-08  1502  		    input[0] < 0)
-f0a0c659fb96b7 Evan Quan 2023-05-08  1503  			return -EINVAL;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1504  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1505  		smu_v13_0_0_get_od_setting_limits(smu,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1506  						  PP_OD_FEATURE_GFX_VF_CURVE_BIT,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1507  						  true,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1508  						  &minimum,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1509  						  &maximum);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1510  		if (input[1] < minimum ||
-f0a0c659fb96b7 Evan Quan 2023-05-08  1511  		    input[1] > maximum) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1512  			dev_info(adev->dev, "Voltage offset (%ld) must be within [%d, %d]!\n",
-f0a0c659fb96b7 Evan Quan 2023-05-08  1513  				 input[1], minimum, maximum);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1514  			return -EINVAL;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1515  		}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1516  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1517  		od_table->OverDriveTable.VoltageOffsetPerZoneBoundary[input[0]] = input[1];
-f0a0c659fb96b7 Evan Quan 2023-05-08  1518  		od_table->OverDriveTable.FeatureCtrlMask |= 1U << PP_OD_FEATURE_GFX_VF_CURVE_BIT;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1519  		break;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1520  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1521  	case PP_OD_RESTORE_DEFAULT_TABLE:
-f0a0c659fb96b7 Evan Quan 2023-05-08  1522  		feature_ctrlmask = od_table->OverDriveTable.FeatureCtrlMask;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1523  		memcpy(od_table,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1524  		       table_context->boot_overdrive_table,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1525  		       sizeof(OverDriveTableExternal_t));
-f0a0c659fb96b7 Evan Quan 2023-05-08  1526  		od_table->OverDriveTable.FeatureCtrlMask = feature_ctrlmask;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1527  		fallthrough;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1528  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1529  	case PP_OD_COMMIT_DPM_TABLE:
-f0a0c659fb96b7 Evan Quan 2023-05-08  1530  		/*
-f0a0c659fb96b7 Evan Quan 2023-05-08  1531  		 * The member below instructs PMFW the settings focused in
-f0a0c659fb96b7 Evan Quan 2023-05-08  1532  		 * this single operation.
-f0a0c659fb96b7 Evan Quan 2023-05-08  1533  		 * `uint32_t FeatureCtrlMask;`
-f0a0c659fb96b7 Evan Quan 2023-05-08  1534  		 * It does not contain actual informations about user's custom
-f0a0c659fb96b7 Evan Quan 2023-05-08  1535  		 * settings. Thus we do not cache it.
-f0a0c659fb96b7 Evan Quan 2023-05-08  1536  		 */
-f0a0c659fb96b7 Evan Quan 2023-05-08  1537  		offset_of_featurectrlmask = offsetof(OverDriveTable_t, FeatureCtrlMask);
-f0a0c659fb96b7 Evan Quan 2023-05-08 @1538  		if (memcmp(od_table + offset_of_featurectrlmask,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1539  			   table_context->user_overdrive_table + offset_of_featurectrlmask,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1540  			   sizeof(OverDriveTableExternal_t) - offset_of_featurectrlmask)) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1541  			smu_v13_0_0_dump_od_table(smu, od_table);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1542  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1543  			ret = smu_v13_0_0_upload_overdrive_table(smu, od_table);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1544  			if (ret) {
-f0a0c659fb96b7 Evan Quan 2023-05-08  1545  				dev_err(adev->dev, "Failed to upload overdrive table!\n");
-f0a0c659fb96b7 Evan Quan 2023-05-08  1546  				return ret;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1547  			}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1548  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1549  			od_table->OverDriveTable.FeatureCtrlMask = 0;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1550  			memcpy(table_context->user_overdrive_table + offset_of_featurectrlmask,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1551  			       od_table + offset_of_featurectrlmask,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1552  			       sizeof(OverDriveTableExternal_t) - offset_of_featurectrlmask);
-f0a0c659fb96b7 Evan Quan 2023-05-08  1553  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1554  			if (!memcmp(table_context->user_overdrive_table,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1555  				    table_context->boot_overdrive_table,
-f0a0c659fb96b7 Evan Quan 2023-05-08  1556  				    sizeof(OverDriveTableExternal_t)))
-f0a0c659fb96b7 Evan Quan 2023-05-08  1557  				smu->user_dpm_profile.user_od = false;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1558  			else
-f0a0c659fb96b7 Evan Quan 2023-05-08  1559  				smu->user_dpm_profile.user_od = true;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1560  		}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1561  		break;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1562  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1563  	default:
-f0a0c659fb96b7 Evan Quan 2023-05-08  1564  		return -ENOSYS;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1565  	}
-f0a0c659fb96b7 Evan Quan 2023-05-08  1566  
-f0a0c659fb96b7 Evan Quan 2023-05-08  1567  	return ret;
-f0a0c659fb96b7 Evan Quan 2023-05-08  1568  }
-f0a0c659fb96b7 Evan Quan 2023-05-08  1569  
+:::::: The code at line 1079 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
