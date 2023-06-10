@@ -1,42 +1,57 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7372290E
-	for <oe-kbuild@lists.linux.dev>; Sat, 10 Jun 2023 06:57:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686380243; x=1717916243;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kA+3bad7dkzzK3afks19DC7jfhHZtw+WBLwHIuAGVg4=;
-  b=MRgDx5K9/OpNEcDgAYCPEH6kQu9OQAMXM4C2x5g+y8l40m+P+xZ5P05y
-   5JLXl6EkGVZvrLw5T7oLOMBA3y4pChJp7X0qItGcDRcM6Rf8MnST2Fcz8
-   n3XoJCZwt8SfQAtD5uir8wZBxQfa5tmgW9WJ11Imk8kOj/yEVpK+0OojO
-   r/z4T8Gpc23r6RN1mIL7HvNLh+/L9ccuZ90+QJf+NhtbLOFV1PNHsdPm8
-   cUn7bRV0GouRL5QEaC+1ZgbNz8ZPT/Sw+aUMTGfrECZD2rmUmYCm0VVNM
-   NZ+KmjVpnSwOimIW489svAuKcSROgGueBBFTmjWuEC/Gdk3f+r4cKFLlF
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="342416494"
-X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; 
-   d="scan'208";a="342416494"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 23:57:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="957394365"
-X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; 
-   d="scan'208";a="957394365"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 09 Jun 2023 23:57:21 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q7sXI-0009q8-29;
-	Sat, 10 Jun 2023 06:57:20 +0000
-Date: Sat, 10 Jun 2023 14:56:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [peterz-queue:core/guards 37/58] kernel/events/core.c:4798
- find_get_pmu_context() warn: possible memory leak of 'new'
-Message-ID: <202306101436.Jw8okc2P-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80446FBE
+	for <oe-kbuild@lists.linux.dev>; Sat, 10 Jun 2023 06:58:54 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-3f7a8089709so25917315e9.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 09 Jun 2023 23:58:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686380332; x=1688972332;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=e9bI4TpfYTuixB7ED0KYBY4FcJI9PZZMgv8pSr2aH3M=;
+        b=ktk+OOiFo7y2oE6/na7khsO5gkmjLhvfQyA0EZMqfbo4CV74/0m+h+R1SGNRxs9CTE
+         2yvTMkh86LdEZQuRdF6t15kC2lNOXA2N9E5BCk/3HNELis0QmvHpX4KX0OIopAnHH1d2
+         eT0J/NpU8rMruJQW2OGotX63X0vwFeFga3lPuTNP3jje/0Zs8n7VVArsTQHK7Ou8ZKrb
+         3MGacSRmLXPf6gIcrQ6YFikrzaCSA/86Y7nLnwqXU3hNZwAcnAW0nLPCO/92VgkAKGln
+         kYAixt0rqWx0EaoCwFvvTA/ou4yxeGUDa0YIZeBhoFZTikTjAN12CYgtUqY0NaAhPkQl
+         J8Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686380332; x=1688972332;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e9bI4TpfYTuixB7ED0KYBY4FcJI9PZZMgv8pSr2aH3M=;
+        b=PFVdj9uy4Rr1yKPGTfaRhcS3aecLUtb8lMnyrHESPJQJPdNI/PA+8J2K/vZG7FyzDL
+         pUz4p1/p3MEgkMG6Fu+626x83kfVdOdJE8dvKfsPdVsKzPrcsgYSwIOJgLxA2vmTI4zt
+         UWK1N9owkw+Ady3Uwnt078Mjhpmlwrn0nDSR5vAa4sWmjRcoEj5+NKv67/GBfuBHBWDG
+         aMZn3nQ10e3Rgtu1s6LAacR4YW35FSOjDn/yEhvJ7CzIw8Vvvds1PIV5eVRboVYTHKeY
+         aGzJ94gYFCXoUXBzjXy+n+oKNnfc+GCjXxL9cZDkdNJ1ZGt9bn+sdKvOeoylAH27mq6X
+         1ziA==
+X-Gm-Message-State: AC+VfDz09UYNT9rbheMU2J1TsNwcROSo6mlFlj9v4uoV6SU7A+WVqM6h
+	i7kGLJo54Nt4Uz4vbPbR0Y3gtwcUDiGwwKZZp5I=
+X-Google-Smtp-Source: ACHHUZ5CFVVyWp0cl9cTLVvzZxbKBRL/XTzzDb/STeOX/4dCnVkLgxjoBwzkievraVyTqF2fUIrnMA==
+X-Received: by 2002:a7b:c84c:0:b0:3f7:371a:ec8f with SMTP id c12-20020a7bc84c000000b003f7371aec8fmr2775426wml.15.1686380331895;
+        Fri, 09 Jun 2023 23:58:51 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id f3-20020a7bc8c3000000b003f1958eeadcsm4702848wml.17.2023.06.09.23.58.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jun 2023 23:58:50 -0700 (PDT)
+Date: Sat, 10 Jun 2023 09:58:46 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	chunkuang.hu@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	"Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-mediatek@lists.infradead.org, wenst@chromium.org,
+	matthias.bgg@gmail.com, kernel@collabora.com,
+	linux-arm-kernel@lists.infradead.org,
+	angelogioacchino.delregno@collabora.com
+Subject: Re: [PATCH v5 11/11] drm/mediatek: gamma: Program gamma LUT type for
+ descending or rising
+Message-ID: <cbe9008e-aebc-4dcc-9116-123b541c6574@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,114 +60,145 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230601121022.2401844-12-angelogioacchino.delregno@collabora.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Peter Zijlstra <peterz@infradead.org>
+Hi AngeloGioacchino,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git core/guards
-head:   dd132e83d180b932488bcf612576529e6163a1ea
-commit: bbca204d731b08997a60a4ca0530fdee8b6f429c [37/58] perf: Simplify find_get_pmu_context()
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
-config: arm64-randconfig-m031-20230608 (https://download.01.org/0day-ci/archive/20230610/202306101436.Jw8okc2P-lkp@intel.com/config)
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/drm-mediatek-gamma-Adjust-mtk_drm_gamma_set_common-parameters/20230601-222357
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230601121022.2401844-12-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v5 11/11] drm/mediatek: gamma: Program gamma LUT type for descending or rising
+config: arm64-randconfig-m031-20230608 (https://download.01.org/0day-ci/archive/20230610/202306101458.lRXHEE0Z-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 12.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306101436.Jw8okc2P-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202306101458.lRXHEE0Z-lkp@intel.com/
 
 smatch warnings:
-kernel/events/core.c:4798 find_get_pmu_context() warn: possible memory leak of 'new'
+drivers/gpu/drm/mediatek/mtk_disp_gamma.c:192 mtk_gamma_set_common() error: we previously assumed 'gamma->data' could be null (see line 120)
 
-vim +/new +4798 kernel/events/core.c
+vim +192 drivers/gpu/drm/mediatek/mtk_disp_gamma.c
 
-0793a61d4df8da kernel/perf_counter.c Thomas Gleixner 2008-12-04  4756  
-bbca204d731b08 kernel/events/core.c  Peter Zijlstra  2023-06-09  4757  /*
-bbca204d731b08 kernel/events/core.c  Peter Zijlstra  2023-06-09  4758   * Returns a matching perf_event_pmu_context with elevated refcount or NULL.
-bbca204d731b08 kernel/events/core.c  Peter Zijlstra  2023-06-09  4759   */
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4760  static struct perf_event_pmu_context *
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4761  find_get_pmu_context(struct pmu *pmu, struct perf_event_context *ctx,
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4762  		     struct perf_event *event)
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4763  {
-bbca204d731b08 kernel/events/core.c  Peter Zijlstra  2023-06-09  4764  	struct perf_event_pmu_context *epc;
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4765  	void *task_ctx_data = NULL;
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4766  
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4767  	if (!ctx->task) {
-b255c4a091a85e kernel/events/core.c  Peter Zijlstra  2023-06-09  4768  		/*
-b255c4a091a85e kernel/events/core.c  Peter Zijlstra  2023-06-09  4769  		 * perf_pmu_migrate_context() / __perf_pmu_install_event()
-b255c4a091a85e kernel/events/core.c  Peter Zijlstra  2023-06-09  4770  		 * relies on the fact that find_get_pmu_context() cannot fail
-b255c4a091a85e kernel/events/core.c  Peter Zijlstra  2023-06-09  4771  		 * for CPU contexts.
-b255c4a091a85e kernel/events/core.c  Peter Zijlstra  2023-06-09  4772  		 */
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4773  		struct perf_cpu_pmu_context *cpc;
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4774  
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4775  		cpc = per_cpu_ptr(pmu->cpu_pmu_context, event->cpu);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4776  		epc = &cpc->epc;
-4f64a6c9f6f11e kernel/events/core.c  James Clark     2023-01-27  4777  		raw_spin_lock_irq(&ctx->lock);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4778  		if (!epc->ctx) {
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4779  			atomic_set(&epc->refcount, 1);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4780  			epc->embedded = 1;
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4781  			list_add(&epc->pmu_ctx_entry, &ctx->pmu_ctx_list);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4782  			epc->ctx = ctx;
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4783  		} else {
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4784  			WARN_ON_ONCE(epc->ctx != ctx);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4785  			atomic_inc(&epc->refcount);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4786  		}
-4f64a6c9f6f11e kernel/events/core.c  James Clark     2023-01-27  4787  		raw_spin_unlock_irq(&ctx->lock);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4788  		return epc;
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4789  	}
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4790  
-bbca204d731b08 kernel/events/core.c  Peter Zijlstra  2023-06-09  4791  	void *new __free(kfree) = kzalloc(sizeof(*epc), GFP_KERNEL);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4792  	if (!new)
-bbca204d731b08 kernel/events/core.c  Peter Zijlstra  2023-06-09  4793  		return NULL;
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4794  
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4795  	if (event->attach_state & PERF_ATTACH_TASK_DATA) {
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4796  		task_ctx_data = alloc_task_ctx_data(pmu);
-bbca204d731b08 kernel/events/core.c  Peter Zijlstra  2023-06-09  4797  		if (!task_ctx_data)
-bbca204d731b08 kernel/events/core.c  Peter Zijlstra  2023-06-09 @4798  			return NULL;
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4799  	}
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4800  
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4801  	__perf_init_event_pmu_context(new, pmu);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4802  
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4803  	/*
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4804  	 * XXX
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4805  	 *
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4806  	 * lockdep_assert_held(&ctx->mutex);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4807  	 *
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4808  	 * can't because perf_event_init_task() doesn't actually hold the
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4809  	 * child_ctx->mutex.
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4810  	 */
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4811  
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4812  	raw_spin_lock_irq(&ctx->lock);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4813  	list_for_each_entry(epc, &ctx->pmu_ctx_list, pmu_ctx_entry) {
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4814  		if (epc->pmu == pmu) {
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4815  			WARN_ON_ONCE(epc->ctx != ctx);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4816  			atomic_inc(&epc->refcount);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4817  			goto found_epc;
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4818  		}
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4819  	}
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4820  
-bbca204d731b08 kernel/events/core.c  Peter Zijlstra  2023-06-09  4821  	epc = no_free_ptr(new);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4822  
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4823  	list_add(&epc->pmu_ctx_entry, &ctx->pmu_ctx_list);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4824  	epc->ctx = ctx;
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4825  
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4826  found_epc:
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4827  	if (task_ctx_data && !epc->task_ctx_data) {
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4828  		epc->task_ctx_data = task_ctx_data;
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4829  		task_ctx_data = NULL;
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4830  		ctx->nr_task_data++;
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4831  	}
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4832  	raw_spin_unlock_irq(&ctx->lock);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4833  
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4834  	free_task_ctx_data(pmu, task_ctx_data);
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4835  
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4836  	return epc;
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4837  }
-bd27568117664b kernel/events/core.c  Peter Zijlstra  2022-10-08  4838  
+4873468a82b553 Jason-JH.Lin               2023-06-01  103  void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crtc_state *state)
+69a4237ab1d13a Yongqiang Niu              2021-01-29  104  {
+4873468a82b553 Jason-JH.Lin               2023-06-01  105  	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  106  	void __iomem *lut0_base = regs + DISP_GAMMA_LUT;
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  107  	void __iomem *lut1_base = regs + DISP_GAMMA_LUT1;
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  108  	u32 cfg_val, data_mode, lbank_val, word[2];
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  109  	int cur_bank, num_lut_banks;
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  110  	u16 lut_bank_size, lut_size;
+69a4237ab1d13a Yongqiang Niu              2021-01-29  111  	struct drm_color_lut *lut;
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  112  	unsigned int i;
+4873468a82b553 Jason-JH.Lin               2023-06-01  113  	bool lut_diff;
+1829ae02cf6bb6 AngeloGioacchino Del Regno 2023-06-01  114  	u8 lut_bits;
+69a4237ab1d13a Yongqiang Niu              2021-01-29  115  
+e824bd353592b5 AngeloGioacchino Del Regno 2023-06-01  116  	/* If there's no gamma lut there's nothing to do here. */
+e824bd353592b5 AngeloGioacchino Del Regno 2023-06-01  117  	if (!state->gamma_lut)
+e824bd353592b5 AngeloGioacchino Del Regno 2023-06-01  118  		return;
+e824bd353592b5 AngeloGioacchino Del Regno 2023-06-01  119  
+ca340e013e3733 AngeloGioacchino Del Regno 2023-06-01 @120  	if (gamma && gamma->data) {
+                                                                             ^^^^^^^^^^^
+This code assumes "gamma->data" can be NULL
+
+4873468a82b553 Jason-JH.Lin               2023-06-01  121  		lut_diff = gamma->data->lut_diff;
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  122  		lut_bank_size = gamma->data->lut_bank_size;
+1829ae02cf6bb6 AngeloGioacchino Del Regno 2023-06-01  123  		lut_bits = gamma->data->lut_bits;
+ca340e013e3733 AngeloGioacchino Del Regno 2023-06-01  124  		lut_size = gamma->data->lut_size;
+ca340e013e3733 AngeloGioacchino Del Regno 2023-06-01  125  	} else {
+4873468a82b553 Jason-JH.Lin               2023-06-01  126  		lut_diff = false;
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  127  		lut_bank_size = LUT_SIZE_DEFAULT;
+1829ae02cf6bb6 AngeloGioacchino Del Regno 2023-06-01  128  		lut_bits = LUT_BITS_DEFAULT;
+ca340e013e3733 AngeloGioacchino Del Regno 2023-06-01  129  		lut_size = LUT_SIZE_DEFAULT;
+ca340e013e3733 AngeloGioacchino Del Regno 2023-06-01  130  	}
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  131  	num_lut_banks = lut_size / lut_bank_size;
+4873468a82b553 Jason-JH.Lin               2023-06-01  132  
+ee2cb37b9ac9e2 AngeloGioacchino Del Regno 2023-06-01  133  	cfg_val = readl(regs + DISP_GAMMA_CFG);
+69a4237ab1d13a Yongqiang Niu              2021-01-29  134  	lut = (struct drm_color_lut *)state->gamma_lut->data;
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  135  
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  136  	/* Switch to 12 bits data mode if supported */
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  137  	data_mode = FIELD_PREP(DISP_GAMMA_BANK_DATA_MODE, !!(lut_bits == 12));
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  138  
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  139  	for (cur_bank = 0; cur_bank < num_lut_banks; cur_bank++) {
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  140  
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  141  		/* Switch gamma bank and set data mode before writing LUT */
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  142  		if (num_lut_banks > 1) {
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  143  			lbank_val = FIELD_PREP(DISP_GAMMA_BANK_BANK, cur_bank);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  144  			lbank_val |= data_mode;
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  145  			writel(lbank_val, regs + DISP_GAMMA_BANK);
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  146  		}
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  147  
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  148  		for (i = 0; i < lut_bank_size; i++) {
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  149  			int n = (cur_bank * lut_bank_size) + i;
+77eb9fd1f1ff7c AngeloGioacchino Del Regno 2023-06-01  150  			struct drm_color_lut diff, hwlut;
+77eb9fd1f1ff7c AngeloGioacchino Del Regno 2023-06-01  151  
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  152  			hwlut.red = drm_color_lut_extract(lut[n].red, lut_bits);
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  153  			hwlut.green = drm_color_lut_extract(lut[n].green, lut_bits);
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  154  			hwlut.blue = drm_color_lut_extract(lut[n].blue, lut_bits);
+77eb9fd1f1ff7c AngeloGioacchino Del Regno 2023-06-01  155  
+ba99d08da6adec Yongqiang Niu              2022-04-28  156  			if (!lut_diff || (i % 2 == 0)) {
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  157  				if (lut_bits == 12) {
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  158  					word[0] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_R, hwlut.red);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  159  					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_12BIT_G, hwlut.green);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  160  					word[1] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_B, hwlut.blue);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  161  				} else {
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  162  					word[0] = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, hwlut.red);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  163  					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, hwlut.green);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  164  					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, hwlut.blue);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  165  				}
+ba99d08da6adec Yongqiang Niu              2022-04-28  166  			} else {
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  167  				diff.red = lut[n].red - lut[n - 1].red;
+1829ae02cf6bb6 AngeloGioacchino Del Regno 2023-06-01  168  				diff.red = drm_color_lut_extract(diff.red, lut_bits);
+77eb9fd1f1ff7c AngeloGioacchino Del Regno 2023-06-01  169  
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  170  				diff.green = lut[n].green - lut[n - 1].green;
+1829ae02cf6bb6 AngeloGioacchino Del Regno 2023-06-01  171  				diff.green = drm_color_lut_extract(diff.green, lut_bits);
+77eb9fd1f1ff7c AngeloGioacchino Del Regno 2023-06-01  172  
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  173  				diff.blue = lut[n].blue - lut[n - 1].blue;
+1829ae02cf6bb6 AngeloGioacchino Del Regno 2023-06-01  174  				diff.blue = drm_color_lut_extract(diff.blue, lut_bits);
+ba99d08da6adec Yongqiang Niu              2022-04-28  175  
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  176  				if (lut_bits == 12) {
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  177  					word[0] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_R, diff.red);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  178  					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_12BIT_G, diff.green);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  179  					word[1] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_B, diff.blue);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  180  				} else {
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  181  					word[0] = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, diff.red);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  182  					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, diff.green);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  183  					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, diff.blue);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  184  				}
+ba99d08da6adec Yongqiang Niu              2022-04-28  185  			}
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  186  			writel(word[0], (lut0_base + i * 4));
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  187  			if (lut_bits == 12)
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  188  				writel(word[1], (lut1_base + i * 4));
+69a4237ab1d13a Yongqiang Niu              2021-01-29  189  		}
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  190  	}
+ee2cb37b9ac9e2 AngeloGioacchino Del Regno 2023-06-01  191  
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01 @192  	if (gamma && !gamma->data->has_dither) {
+                                                                              ^^^^^^^^^^^^^
+"gamma->data" is derefrenced without being checked.
+
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01  193  		/* Descending or Rising LUT */
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01  194  		if (mtk_gamma_lut_is_descending(lut, lut_size))
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01  195  			cfg_val |= FIELD_PREP(GAMMA_LUT_TYPE, 1);
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01  196  		else
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01  197  			cfg_val &= ~GAMMA_LUT_TYPE;
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01  198  	}
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01  199  
+ee2cb37b9ac9e2 AngeloGioacchino Del Regno 2023-06-01  200  	/* Enable the gamma table */
+2979ceb320a4ed AngeloGioacchino Del Regno 2023-06-01  201  	cfg_val |= FIELD_PREP(GAMMA_LUT_EN, 1);
+ee2cb37b9ac9e2 AngeloGioacchino Del Regno 2023-06-01  202  
+e21d98027e50c8 AngeloGioacchino Del Regno 2023-06-01  203  	/* Disable RELAY mode to pass the processed image */
+e21d98027e50c8 AngeloGioacchino Del Regno 2023-06-01  204  	cfg_val &= ~GAMMA_RELAY_MODE;
+e21d98027e50c8 AngeloGioacchino Del Regno 2023-06-01  205  
+ee2cb37b9ac9e2 AngeloGioacchino Del Regno 2023-06-01  206  	writel(cfg_val, regs + DISP_GAMMA_CFG);
+69a4237ab1d13a Yongqiang Niu              2021-01-29  207  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
