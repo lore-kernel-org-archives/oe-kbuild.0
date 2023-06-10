@@ -1,42 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E8D2904
-	for <oe-kbuild@lists.linux.dev>; Sat, 10 Jun 2023 17:01:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D523023C5
+	for <oe-kbuild@lists.linux.dev>; Sat, 10 Jun 2023 18:25:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686416517; x=1717952517;
+  t=1686421511; x=1717957511;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Tm/+s9PfiMq0xIyGH4OfBafT24vpP4Q8wZViKmh2TUY=;
-  b=ayfujfVSLLNVZ6coZaly/8t3+DgWpSlHftrFpt59y8+MgYQLNSSDF1kF
-   KJE4htU7j0LBFIEmziy7WKVhNiYZASRvXGnNag+kOZTOO7tR64fYlZNsP
-   0fVqTA5fOUZ1yqM1IhWHbG3bF0jqm1bpE7GQoxBImkQBa8OjjXFsW6PtS
-   XgzHUbFmLJfZH3kku/njBK4D2DeDaZ4tBopjNg8VVkUFKTB1UtR29Imev
-   OaFQFz567xB1XXXr608LESILca9VxGHWPY3owEUbMPaFn7bE3ZdgFgolN
-   NIAYwe2k4arKWDuaCFC148obSDI1mOnYbw60XO9/9bCeh+0lnO7RA4fXu
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="444155631"
+  bh=W10dBL91u/X6WuAdxbmCyo+AZQed08ne4enjSqtb9fE=;
+  b=QFN+wRoWbN1MPRkUdAN6dcy5l2AAqIdcMPjG9a+h/VBs1ZkoGfSsrNkH
+   Y8GGczWeMCeIpF2gWR6QLR8lAvkpMP7YS4l3uLox/oXdgU5VPUaLSJdXb
+   nrAwKaG473Yk82S/w4Rea3aR49Y6N9eIzAD8qCSXwIhLZ6mRw5rtXuPAy
+   kNRDxl8jbPkxI3A77ecB0vaVQ1syyYRslRBTibHoL18qoEWbkQnGM5tnM
+   Pe48DYotNMMXRd8PUJI2Dz+cU7LLgyEyWftYUIfeqHTXskE+M3Fqb1xpC
+   Dj39K0kMyHch2bkXybqc3S8Q2caPu/llMj8celpHAIi9dDZubUbvYf/vq
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="342477887"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="444155631"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 10:01:56 -0700
+   d="scan'208";a="342477887"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 11:25:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="823418369"
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="710710432"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="823418369"
+   d="scan'208";a="710710432"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Jun 2023 10:01:54 -0700
+  by orsmga002.jf.intel.com with ESMTP; 10 Jun 2023 11:25:10 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q81yM-000AIG-0S;
-	Sat, 10 Jun 2023 17:01:54 +0000
-Date: Sun, 11 Jun 2023 01:01:19 +0800
+	id 1q83Gv-000ALo-13;
+	Sat, 10 Jun 2023 18:25:09 +0000
+Date: Sun, 11 Jun 2023 02:24:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [peterz-queue:core/guards2 55/58] kernel/events/core.c:1283
- perf_event_ctx_lock_nested() error: uninitialized symbol 'ctx'.
-Message-ID: <202306110010.cY1I7MpN-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:32:1: warning:
+ no previous prototype for 'bpf_testmod_test_struct_arg_1'
+Message-ID: <202306110247.E7uusHIr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,124 +46,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Peter Zijlstra <peterz@infradead.org>
+CC: linux-kernel@vger.kernel.org
+TO: Yonghong Song <yhs@fb.com>
+CC: Alexei Starovoitov <ast@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git core/guards2
-head:   2f378348009384ec621ed31458cad708cdfe1840
-commit: 45831cf2ac62c2cbae28cedce5a7622d36175df0 [55/58] perf: Misc cleanups
-:::::: branch date: 5 hours ago
-:::::: commit date: 8 hours ago
-config: arm64-randconfig-m031-20230608 (https://download.01.org/0day-ci/archive/20230611/202306110010.cY1I7MpN-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
+Hi Yonghong,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   64569520920a3ca5d456ddd9f4f95fc6ea9b8b45
+commit: 1642a3945e223a922312fab2401ecdf58b3825b9 selftests/bpf: Add struct argument tests with fentry/fexit programs.
+date:   9 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 9 months ago
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1642a3945e223a922312fab2401ecdf58b3825b9
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 1642a3945e223a922312fab2401ecdf58b3825b9
+        make W=1 O=/tmp/kselftest headers
+        make W=1 O=/tmp/kselftest -C tools/testing/selftests
+        make W=1 O=/tmp/kselftest -C tools/testing/selftests/bpf
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306110010.cY1I7MpN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306110247.E7uusHIr-lkp@intel.com/
 
-smatch warnings:
-kernel/events/core.c:1283 perf_event_ctx_lock_nested() error: uninitialized symbol 'ctx'.
+All warnings (new ones prefixed by >>):
 
-vim +/ctx +1283 kernel/events/core.c
+>> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:32:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_1' [-Wmissing-prototypes]
+      32 | bpf_testmod_test_struct_arg_1(struct bpf_testmod_struct_arg_2 a, int b, int c) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:38:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_2' [-Wmissing-prototypes]
+      38 | bpf_testmod_test_struct_arg_2(int a, struct bpf_testmod_struct_arg_2 b, int c) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:44:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_3' [-Wmissing-prototypes]
+      44 | bpf_testmod_test_struct_arg_3(int a, int b, struct bpf_testmod_struct_arg_2 c) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:50:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_4' [-Wmissing-prototypes]
+      50 | bpf_testmod_test_struct_arg_4(struct bpf_testmod_struct_arg_1 a, int b,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:57:1: warning: no previous prototype for 'bpf_testmod_test_struct_arg_5' [-Wmissing-prototypes]
+      57 | bpf_testmod_test_struct_arg_5(void) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:63:1: warning: no previous prototype for 'bpf_testmod_test_mod_kfunc' [-Wmissing-prototypes]
+      63 | bpf_testmod_test_mod_kfunc(int i)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:81:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_user_1' [-Wmissing-prototypes]
+      81 | bpf_testmod_test_btf_type_tag_user_1(struct bpf_testmod_btf_type_tag_1 __user *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:89:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_user_2' [-Wmissing-prototypes]
+      89 | bpf_testmod_test_btf_type_tag_user_2(struct bpf_testmod_btf_type_tag_2 *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:94:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_percpu_1' [-Wmissing-prototypes]
+      94 | bpf_testmod_test_btf_type_tag_percpu_1(struct bpf_testmod_btf_type_tag_1 __percpu *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:99:1: warning: no previous prototype for 'bpf_testmod_test_btf_type_tag_percpu_2' [-Wmissing-prototypes]
+      99 | bpf_testmod_test_btf_type_tag_percpu_2(struct bpf_testmod_btf_type_tag_3 *arg) {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:103:14: warning: no previous prototype for 'bpf_testmod_loop_test' [-Wmissing-prototypes]
+     103 | noinline int bpf_testmod_loop_test(int n)
+         |              ^~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:115:30: warning: no previous prototype for 'bpf_testmod_return_ptr' [-Wmissing-prototypes]
+     115 | __weak noinline struct file *bpf_testmod_return_ptr(int arg)
+         |                              ^~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:132:1: warning: no previous prototype for 'bpf_testmod_test_read' [-Wmissing-prototypes]
+     132 | bpf_testmod_test_read(struct file *file, struct kobject *kobj,
+         | ^~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:176:1: warning: no previous prototype for 'bpf_testmod_test_write' [-Wmissing-prototypes]
+     176 | bpf_testmod_test_write(struct file *file, struct kobject *kobj,
+         | ^~~~~~~~~~~~~~~~~~~~~~
 
-a63eaf34ae60bd kernel/perf_counter.c Paul Mackerras     2009-05-22  1204  
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1205  /*
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1206   * Because of perf_event::ctx migration in sys_perf_event_open::move_group and
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1207   * perf_pmu_migrate_context() we need some magic.
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1208   *
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1209   * Those places that change perf_event::ctx will hold both
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1210   * perf_event_ctx::mutex of the 'old' and 'new' ctx value.
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1211   *
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1212   * Lock ordering is by mutex address. There are two other sites where
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1213   * perf_event_context::mutex nests and those are:
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1214   *
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1215   *  - perf_event_exit_task_context()	[ child , 0 ]
-8ba289b8d4e4db kernel/events/core.c  Peter Zijlstra     2016-01-26  1216   *      perf_event_exit_event()
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1217   *        put_event()			[ parent, 1 ]
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1218   *
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1219   *  - perf_event_init_context()		[ parent, 0 ]
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1220   *      inherit_task_group()
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1221   *        inherit_group()
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1222   *          inherit_event()
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1223   *            perf_event_alloc()
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1224   *              perf_init_event()
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1225   *                perf_try_init_event()	[ child , 1 ]
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1226   *
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1227   * While it appears there is an obvious deadlock here -- the parent and child
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1228   * nesting levels are inverted between the two. This is in fact safe because
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1229   * life-time rules separate them. That is an exiting task cannot fork, and a
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1230   * spawning task cannot (yet) exit.
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1231   *
-c034f48e99907d kernel/events/core.c  Randy Dunlap       2021-02-25  1232   * But remember that these are parent<->child context relations, and
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1233   * migration does not affect children, therefore these two orderings should not
-8b10c5e2b59ef2 kernel/events/core.c  Peter Zijlstra     2015-05-01  1234   * interact.
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1235   *
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1236   * The change in perf_event::ctx does not affect children (as claimed above)
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1237   * because the sys_perf_event_open() case will install a new event and break
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1238   * the ctx parent<->child relation, and perf_pmu_migrate_context() is only
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1239   * concerned with cpuctx and that doesn't have children.
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1240   *
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1241   * The places that change perf_event::ctx will issue:
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1242   *
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1243   *   perf_remove_from_context();
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1244   *   synchronize_rcu();
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1245   *   perf_install_in_context();
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1246   *
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1247   * to affect the change. The remove_from_context() + synchronize_rcu() should
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1248   * quiesce the event, after which we can install it in the new location. This
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1249   * means that only external vectors (perf_fops, prctl) can perturb the event
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1250   * while in transit. Therefore all such accessors should also acquire
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1251   * perf_event_context::mutex to serialize against this.
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1252   *
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1253   * However; because event->ctx can change while we're waiting to acquire
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1254   * ctx->mutex we must be careful and use the below perf_event_ctx_lock()
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1255   * function.
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1256   *
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1257   * Lock order:
-f7cfd871ae0c50 kernel/events/core.c  Eric W. Biederman  2020-12-03  1258   *    exec_update_lock
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1259   *	task_struct::perf_event_mutex
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1260   *	  perf_event_context::mutex
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1261   *	    perf_event::child_mutex;
-07c4a776135ea6 kernel/events/core.c  Peter Zijlstra     2016-01-26  1262   *	      perf_event_context::lock
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1263   *	    perf_event::mmap_mutex
-c1e8d7c6a7a682 kernel/events/core.c  Michel Lespinasse  2020-06-08  1264   *	    mmap_lock
-18736eef12137c kernel/events/core.c  Alexander Shishkin 2019-02-15  1265   *	      perf_addr_filters_head::lock
-82d94856fa221b kernel/events/core.c  Peter Zijlstra     2018-01-09  1266   *
-82d94856fa221b kernel/events/core.c  Peter Zijlstra     2018-01-09  1267   *    cpu_hotplug_lock
-82d94856fa221b kernel/events/core.c  Peter Zijlstra     2018-01-09  1268   *      pmus_lock
-82d94856fa221b kernel/events/core.c  Peter Zijlstra     2018-01-09  1269   *	  cpuctx->mutex / perf_event_context::mutex
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1270   */
-a83fe28e2e4539 kernel/events/core.c  Peter Zijlstra     2015-01-29  1271  static struct perf_event_context *
-a83fe28e2e4539 kernel/events/core.c  Peter Zijlstra     2015-01-29  1272  perf_event_ctx_lock_nested(struct perf_event *event, int nesting)
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1273  {
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1274  	struct perf_event_context *ctx;
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1275  
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1276  again:
-45831cf2ac62c2 kernel/events/core.c  Peter Zijlstra     2023-06-09  1277  	scoped_guard (rcu) {
-6aa7de059173a9 kernel/events/core.c  Mark Rutland       2017-10-23  1278  		ctx = READ_ONCE(event->ctx);
-45831cf2ac62c2 kernel/events/core.c  Peter Zijlstra     2023-06-09  1279  		if (!refcount_inc_not_zero(&ctx->refcount))
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1280  			goto again;
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1281  	}
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1282  
-a83fe28e2e4539 kernel/events/core.c  Peter Zijlstra     2015-01-29 @1283  	mutex_lock_nested(&ctx->mutex, nesting);
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1284  	if (event->ctx != ctx) {
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1285  		mutex_unlock(&ctx->mutex);
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1286  		put_ctx(ctx);
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1287  		goto again;
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1288  	}
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1289  
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1290  	return ctx;
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1291  }
-f63a8daa5812af kernel/events/core.c  Peter Zijlstra     2015-01-23  1292  
 
-:::::: The code at line 1283 was first introduced by commit
-:::::: a83fe28e2e45392464858a96745db26ac73670c8 perf: Fix put_event() ctx lock
+vim +/bpf_testmod_test_struct_arg_1 +32 tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
 
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+1642a3945e223a Yonghong Song   2022-08-31  30  
+1642a3945e223a Yonghong Song   2022-08-31  31  noinline int
+1642a3945e223a Yonghong Song   2022-08-31 @32  bpf_testmod_test_struct_arg_1(struct bpf_testmod_struct_arg_2 a, int b, int c) {
+1642a3945e223a Yonghong Song   2022-08-31  33  	bpf_testmod_test_struct_arg_result = a.a + a.b  + b + c;
+1642a3945e223a Yonghong Song   2022-08-31  34  	return bpf_testmod_test_struct_arg_result;
+1642a3945e223a Yonghong Song   2022-08-31  35  }
+1642a3945e223a Yonghong Song   2022-08-31  36  
+1642a3945e223a Yonghong Song   2022-08-31  37  noinline int
+1642a3945e223a Yonghong Song   2022-08-31 @38  bpf_testmod_test_struct_arg_2(int a, struct bpf_testmod_struct_arg_2 b, int c) {
+1642a3945e223a Yonghong Song   2022-08-31  39  	bpf_testmod_test_struct_arg_result = a + b.a + b.b + c;
+1642a3945e223a Yonghong Song   2022-08-31  40  	return bpf_testmod_test_struct_arg_result;
+1642a3945e223a Yonghong Song   2022-08-31  41  }
+1642a3945e223a Yonghong Song   2022-08-31  42  
+1642a3945e223a Yonghong Song   2022-08-31  43  noinline int
+1642a3945e223a Yonghong Song   2022-08-31 @44  bpf_testmod_test_struct_arg_3(int a, int b, struct bpf_testmod_struct_arg_2 c) {
+1642a3945e223a Yonghong Song   2022-08-31  45  	bpf_testmod_test_struct_arg_result = a + b + c.a + c.b;
+1642a3945e223a Yonghong Song   2022-08-31  46  	return bpf_testmod_test_struct_arg_result;
+1642a3945e223a Yonghong Song   2022-08-31  47  }
+1642a3945e223a Yonghong Song   2022-08-31  48  
+1642a3945e223a Yonghong Song   2022-08-31  49  noinline int
+1642a3945e223a Yonghong Song   2022-08-31 @50  bpf_testmod_test_struct_arg_4(struct bpf_testmod_struct_arg_1 a, int b,
+1642a3945e223a Yonghong Song   2022-08-31  51  			      int c, int d, struct bpf_testmod_struct_arg_2 e) {
+1642a3945e223a Yonghong Song   2022-08-31  52  	bpf_testmod_test_struct_arg_result = a.a + b + c + d + e.a + e.b;
+1642a3945e223a Yonghong Song   2022-08-31  53  	return bpf_testmod_test_struct_arg_result;
+1642a3945e223a Yonghong Song   2022-08-31  54  }
+1642a3945e223a Yonghong Song   2022-08-31  55  
+1642a3945e223a Yonghong Song   2022-08-31  56  noinline int
+1642a3945e223a Yonghong Song   2022-08-31 @57  bpf_testmod_test_struct_arg_5(void) {
+1642a3945e223a Yonghong Song   2022-08-31  58  	bpf_testmod_test_struct_arg_result = 1;
+1642a3945e223a Yonghong Song   2022-08-31  59  	return bpf_testmod_test_struct_arg_result;
+1642a3945e223a Yonghong Song   2022-08-31  60  }
+430d97a8a7bf15 Andrii Nakryiko 2021-01-11  61  
 
 -- 
 0-DAY CI Kernel Test Service
