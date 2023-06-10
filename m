@@ -1,42 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DF31FC5
-	for <oe-kbuild@lists.linux.dev>; Sat, 10 Jun 2023 15:16:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF9BC8E3
+	for <oe-kbuild@lists.linux.dev>; Sat, 10 Jun 2023 16:08:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686410207; x=1717946207;
+  t=1686413329; x=1717949329;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yHoX63EQYMSSqzdm7+jgU5ihv7H/RiZHmtgX9d3Abuw=;
-  b=mxIwio57HLXmXFWqC7+NOTikyaK1NI2F8Fw+O8RsFYuqXVWIh0x7CSza
-   mH1qDbItcDMkQ43eurTIMRgBDs33TjhQLE70QvJFPkbcFPdZi4fFotEDR
-   K8JtIHeiJVbWutf0M0T1E8nJznW+IZNsKgbIhUnJ9Tj6ZjTMDVckeEfST
-   O5Wo5oJXSSrQqU2TfWHnWpuxSHVdX4TKwz2SCoHATSB9f/PIcbLQg0j+n
-   5EJ0ZEowKZmXjUOSGpK4yE5gLVxsPOPr3/awi/R9l/QFIXaIuzmjPjB3e
-   GB0uShXRmF0PqMge7l4/L7s6mc/ovtvBFKFYXqPOY4GMjyhH9Bayueen5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="347417234"
+  bh=xssCuGil2PmXZqKusb4FYhimXWul7s/zE41tasaY2YU=;
+  b=EAgySZJGw2XpuLx1mZeW+8e2v4KkaHsFk7b9UNF2TFidikpcVll8ICBa
+   WAyYbhfp39dKs5WMDvNUQVsInjHr5+xhMX15wb17BpMJc75kHInlgoKMS
+   KFYhYJLpyf87I4RObMeMIY3bRutcVDpnV4pXTP1hc+vlkHHil8u0gTG0J
+   MEL2c9yUp6DU3Gply+Lk/FydGK+cHA5kQmxpgmj9moqPbLAtUsgdbOtpk
+   wA4KXbK40NBquaMBSYmhug5rU6jRHIuELZNWrwzVsnSPDxQdAij37y3C4
+   lILlquCOWxJ19IaG9vDSDBt/FMdBmIKrgRJjQ/9dhTOhMRtBAhIGJ0DwF
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="386157841"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="347417234"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 08:16:46 -0700
+   d="scan'208";a="386157841"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 09:08:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="823401949"
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="743814403"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="823401949"
+   d="scan'208";a="743814403"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Jun 2023 08:16:44 -0700
+  by orsmga001.jf.intel.com with ESMTP; 10 Jun 2023 09:08:46 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q80Ka-000AAa-0P;
-	Sat, 10 Jun 2023 15:16:44 +0000
-Date: Sat, 10 Jun 2023 23:15:58 +0800
+	id 1q818w-000ACq-01;
+	Sat, 10 Jun 2023 16:08:46 +0000
+Date: Sun, 11 Jun 2023 00:08:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tip:timers/core 2/25] kernel/time/posix-timers.c:1079
- itimer_delete() warn: inconsistent returns '&timer->it_lock'.
-Message-ID: <202306102358.dS0ygMIv-lkp@intel.com>
+Subject: [peterz-queue:core/guards2 49/58] kernel/events/core.c:11553
+ perf_init_event() error: uninitialized symbol 'pmu'.
+Message-ID: <202306102341.r7oEVdNc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,81 +48,103 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Thomas Gleixner <tglx@linutronix.de>
-CC: Frederic Weisbecker <frederic@kernel.org>
+TO: Peter Zijlstra <peterz@infradead.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/core
-head:   5579a8a8f15bd08b731a015630daca6ccd0f8a14
-commit: 1b59b2577582f9cf3d0f17245675a76859175cc1 [2/25] posix-timers: Prevent RT livelock in itimer_delete()
-:::::: branch date: 3 hours ago
-:::::: commit date: 5 days ago
-config: x86_64-randconfig-m001-20230608 (https://download.01.org/0day-ci/archive/20230610/202306102358.dS0ygMIv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git core/guards2
+head:   2f378348009384ec621ed31458cad708cdfe1840
+commit: 1dde5101280115d1cf6259fc4e655f77b05339c3 [49/58] perf: Simplify perf_init_event()
+:::::: branch date: 5 hours ago
+:::::: commit date: 7 hours ago
+config: arm64-randconfig-m031-20230608 (https://download.01.org/0day-ci/archive/20230610/202306102341.r7oEVdNc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306102358.dS0ygMIv-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306102341.r7oEVdNc-lkp@intel.com/
 
 smatch warnings:
-kernel/time/posix-timers.c:1079 itimer_delete() warn: inconsistent returns '&timer->it_lock'.
-kernel/time/posix-timers.c:1079 itimer_delete() warn: inconsistent returns 'flags'.
+kernel/events/core.c:11553 perf_init_event() error: uninitialized symbol 'pmu'.
 
-vim +1079 kernel/time/posix-timers.c
+vim +/pmu +11553 kernel/events/core.c
 
-becf8b5d00f4b4 kernel/posix-timers.c      Thomas Gleixner  2006-01-09  1038  
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1039  /*
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1040   * Delete a timer if it is armed, remove it from the hash and schedule it
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1041   * for RCU freeing.
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1042   */
-858119e1593843 kernel/posix-timers.c      Arjan van de Ven 2006-01-14  1043  static void itimer_delete(struct k_itimer *timer)
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1044  {
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1045  	unsigned long flags;
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1046  
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1047  retry_delete:
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1048  	/*
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1049  	 * irqsave is required to make timer_wait_running() work.
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1050  	 */
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1051  	spin_lock_irqsave(&timer->it_lock, flags);
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1052  
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1053  	/*
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1054  	 * Even if the timer is not longer accessible from other tasks
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1055  	 * it still might be armed and queued in the underlying timer
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1056  	 * mechanism. Worse, that timer mechanism might run the expiry
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1057  	 * function concurrently.
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1058  	 */
-becf8b5d00f4b4 kernel/posix-timers.c      Thomas Gleixner  2006-01-09  1059  	if (timer_delete_hook(timer) == TIMER_RETRY) {
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1060  		/*
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1061  		 * Timer is expired concurrently, prevent livelocks
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1062  		 * and pointless spinning on RT.
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1063  		 *
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1064  		 * timer_wait_running() drops timer::it_lock, which opens
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1065  		 * the possibility for another task to delete the timer.
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1066  		 *
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1067  		 * That's not possible here because this is invoked from
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1068  		 * do_exit() only for the last thread of the thread group.
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1069  		 * So no other task can access and delete that timer.
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1070  		 */
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1071  		if (WARN_ON_ONCE(timer_wait_running(timer, &flags) != timer))
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1072  			return;
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1073  
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1074  		goto retry_delete;
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1075  	}
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1076  	list_del(&timer->list);
-4b7a1304267bff kernel/posix-timers.c      Oleg Nesterov    2008-07-25  1077  
-1b59b2577582f9 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1078  	spin_unlock_irqrestore(&timer->it_lock, flags);
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16 @1079  	release_posix_timer(timer, IT_ID_SET);
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1080  }
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1081  
+cc34b98bacb0e1 kernel/events/core.c  Mark Rutland              2015-01-07  11512  
+18ab2cd3ee9d52 kernel/events/core.c  Geliang Tang              2015-09-27  11513  static struct pmu *perf_init_event(struct perf_event *event)
+b0a873ebbf87bf kernel/perf_event.c   Peter Zijlstra            2010-06-11  11514  {
+55bcf6ef314ae8 kernel/events/core.c  Kan Liang                 2021-04-12  11515  	bool extended_type = false;
+85c617abc786d7 kernel/events/core.c  Dan Carpenter             2017-05-22  11516  	struct pmu *pmu;
+1dde5101280115 kernel/events/core.c  Peter Zijlstra            2023-06-09  11517  	int type, ret;
+76e1d9047e4ede kernel/perf_event.c   Frederic Weisbecker       2010-04-05  11518  
+1dde5101280115 kernel/events/core.c  Peter Zijlstra            2023-06-09  11519  	guard(srcu)(&pmus_srcu);
+2e80a82a49c4c7 kernel/perf_event.c   Peter Zijlstra            2010-11-17  11520  
+0d6d062ca27ec7 kernel/events/core.c  Ravi Bangoria             2023-05-04  11521  	/*
+0d6d062ca27ec7 kernel/events/core.c  Ravi Bangoria             2023-05-04  11522  	 * Save original type before calling pmu->event_init() since certain
+0d6d062ca27ec7 kernel/events/core.c  Ravi Bangoria             2023-05-04  11523  	 * pmus overwrites event->attr.type to forward event to another pmu.
+0d6d062ca27ec7 kernel/events/core.c  Ravi Bangoria             2023-05-04  11524  	 */
+0d6d062ca27ec7 kernel/events/core.c  Ravi Bangoria             2023-05-04  11525  	event->orig_type = event->attr.type;
+0d6d062ca27ec7 kernel/events/core.c  Ravi Bangoria             2023-05-04  11526  
+40999312c703f8 kernel/events/core.c  Kan Liang                 2017-01-18  11527  	/* Try parent's PMU first: */
+40999312c703f8 kernel/events/core.c  Kan Liang                 2017-01-18  11528  	if (event->parent && event->parent->pmu) {
+40999312c703f8 kernel/events/core.c  Kan Liang                 2017-01-18  11529  		pmu = event->parent->pmu;
+40999312c703f8 kernel/events/core.c  Kan Liang                 2017-01-18  11530  		ret = perf_try_init_event(pmu, event);
+40999312c703f8 kernel/events/core.c  Kan Liang                 2017-01-18  11531  		if (!ret)
+1dde5101280115 kernel/events/core.c  Peter Zijlstra            2023-06-09  11532  			return pmu;
+40999312c703f8 kernel/events/core.c  Kan Liang                 2017-01-18  11533  	}
+40999312c703f8 kernel/events/core.c  Kan Liang                 2017-01-18  11534  
+66d258c5b04884 kernel/events/core.c  Peter Zijlstra            2019-10-17  11535  	/*
+66d258c5b04884 kernel/events/core.c  Peter Zijlstra            2019-10-17  11536  	 * PERF_TYPE_HARDWARE and PERF_TYPE_HW_CACHE
+66d258c5b04884 kernel/events/core.c  Peter Zijlstra            2019-10-17  11537  	 * are often aliases for PERF_TYPE_RAW.
+66d258c5b04884 kernel/events/core.c  Peter Zijlstra            2019-10-17  11538  	 */
+66d258c5b04884 kernel/events/core.c  Peter Zijlstra            2019-10-17  11539  	type = event->attr.type;
+55bcf6ef314ae8 kernel/events/core.c  Kan Liang                 2021-04-12  11540  	if (type == PERF_TYPE_HARDWARE || type == PERF_TYPE_HW_CACHE) {
+55bcf6ef314ae8 kernel/events/core.c  Kan Liang                 2021-04-12  11541  		type = event->attr.config >> PERF_PMU_TYPE_SHIFT;
+55bcf6ef314ae8 kernel/events/core.c  Kan Liang                 2021-04-12  11542  		if (!type) {
+66d258c5b04884 kernel/events/core.c  Peter Zijlstra            2019-10-17  11543  			type = PERF_TYPE_RAW;
+55bcf6ef314ae8 kernel/events/core.c  Kan Liang                 2021-04-12  11544  		} else {
+55bcf6ef314ae8 kernel/events/core.c  Kan Liang                 2021-04-12  11545  			extended_type = true;
+55bcf6ef314ae8 kernel/events/core.c  Kan Liang                 2021-04-12  11546  			event->attr.config &= PERF_HW_EVENT_MASK;
+55bcf6ef314ae8 kernel/events/core.c  Kan Liang                 2021-04-12  11547  		}
+55bcf6ef314ae8 kernel/events/core.c  Kan Liang                 2021-04-12  11548  	}
+66d258c5b04884 kernel/events/core.c  Peter Zijlstra            2019-10-17  11549  
+66d258c5b04884 kernel/events/core.c  Peter Zijlstra            2019-10-17  11550  again:
+1dde5101280115 kernel/events/core.c  Peter Zijlstra            2023-06-09  11551  	scoped_guard (rcu)
+66d258c5b04884 kernel/events/core.c  Peter Zijlstra            2019-10-17  11552  		pmu = idr_find(&pmu_idr, type);
+940c5b2971de44 kernel/perf_event.c   Lin Ming                  2011-02-27 @11553  	if (pmu) {
+55bcf6ef314ae8 kernel/events/core.c  Kan Liang                 2021-04-12  11554  		if (event->attr.type != type && type != PERF_TYPE_RAW &&
+55bcf6ef314ae8 kernel/events/core.c  Kan Liang                 2021-04-12  11555  		    !(pmu->capabilities & PERF_PMU_CAP_EXTENDED_HW_TYPE))
+1dde5101280115 kernel/events/core.c  Peter Zijlstra            2023-06-09  11556  			return ERR_PTR(-ENOENT);
+55bcf6ef314ae8 kernel/events/core.c  Kan Liang                 2021-04-12  11557  
+cc34b98bacb0e1 kernel/events/core.c  Mark Rutland              2015-01-07  11558  		ret = perf_try_init_event(pmu, event);
+55bcf6ef314ae8 kernel/events/core.c  Kan Liang                 2021-04-12  11559  		if (ret == -ENOENT && event->attr.type != type && !extended_type) {
+66d258c5b04884 kernel/events/core.c  Peter Zijlstra            2019-10-17  11560  			type = event->attr.type;
+66d258c5b04884 kernel/events/core.c  Peter Zijlstra            2019-10-17  11561  			goto again;
+66d258c5b04884 kernel/events/core.c  Peter Zijlstra            2019-10-17  11562  		}
+66d258c5b04884 kernel/events/core.c  Peter Zijlstra            2019-10-17  11563  
+940c5b2971de44 kernel/perf_event.c   Lin Ming                  2011-02-27  11564  		if (ret)
+1dde5101280115 kernel/events/core.c  Peter Zijlstra            2023-06-09  11565  			return ERR_PTR(ret);
+66d258c5b04884 kernel/events/core.c  Peter Zijlstra            2019-10-17  11566  
+1dde5101280115 kernel/events/core.c  Peter Zijlstra            2023-06-09  11567  		return pmu;
+940c5b2971de44 kernel/perf_event.c   Lin Ming                  2011-02-27  11568  	}
+2e80a82a49c4c7 kernel/perf_event.c   Peter Zijlstra            2010-11-17  11569  
+9f0bff1180efc9 kernel/events/core.c  Sebastian Andrzej Siewior 2019-11-19  11570  	list_for_each_entry_rcu(pmu, &pmus, entry, lockdep_is_held(&pmus_srcu)) {
+cc34b98bacb0e1 kernel/events/core.c  Mark Rutland              2015-01-07  11571  		ret = perf_try_init_event(pmu, event);
+b0a873ebbf87bf kernel/perf_event.c   Peter Zijlstra            2010-06-11  11572  		if (!ret)
+1dde5101280115 kernel/events/core.c  Peter Zijlstra            2023-06-09  11573  			return pmu;
+76e1d9047e4ede kernel/perf_event.c   Frederic Weisbecker       2010-04-05  11574  
+1dde5101280115 kernel/events/core.c  Peter Zijlstra            2023-06-09  11575  		if (ret != -ENOENT)
+1dde5101280115 kernel/events/core.c  Peter Zijlstra            2023-06-09  11576  			return ERR_PTR(ret);
+5c92d12411dfe5 kernel/perf_counter.c Ingo Molnar               2008-12-11  11577  	}
+15dbf27cc18559 kernel/perf_counter.c Peter Zijlstra            2009-03-13  11578  
+1dde5101280115 kernel/events/core.c  Peter Zijlstra            2023-06-09  11579  	return ERR_PTR(-ENOENT);
+5c92d12411dfe5 kernel/perf_counter.c Ingo Molnar               2008-12-11  11580  }
+5c92d12411dfe5 kernel/perf_counter.c Ingo Molnar               2008-12-11  11581  
 
-:::::: The code at line 1079 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 11553 was first introduced by commit
+:::::: 940c5b2971de443df22eed0441bc74fb0116e9f5 perf: Fix the missing event initialization when pmu is found in idr
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Lin Ming <ming.m.lin@intel.com>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
