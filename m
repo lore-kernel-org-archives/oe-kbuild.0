@@ -1,42 +1,42 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2B91108
-	for <oe-kbuild@lists.linux.dev>; Sun, 11 Jun 2023 00:33:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4058C17C6
+	for <oe-kbuild@lists.linux.dev>; Sun, 11 Jun 2023 04:27:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686443598; x=1717979598;
+  t=1686457670; x=1717993670;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aUK1DBIw+kOld0VoaDjGXvsRfamZDh4oTZfuDsBDDks=;
-  b=PUY6yS39eCl2B88A+YSHPsA5pSTo1qVTb4jXt2Orn1+IoTUqRyEYIU7b
-   SYfkSxLFp5uiJYDzM2Vfjolz3edPrRgRiM+BODiMZ4OlGNRNqFLL9Pfre
-   OdrIq9lhBfl2bcHKKgzcS8fvE0RzLtq+ZuFT4goY5FPqPbK2TJyQS4b1k
-   MzWN7SVzqhMKiQ2fFY4eieaISkn2JPO+rRalMxtaHtinwakZ2TBFTSf+T
-   ag2DLB1R1EutV7WhyghEOTv5WjSL4JVtyrKyyBEeQ64eP2EatOXHRkqKd
-   a1gADxJGVs2NK49KfOFuCjHLefWQpjovQMu9jF4qz5SdWtvfTJWgEZe6i
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="357811521"
+  bh=RuwH3/HlfemTUQXRgBE2kjMkSAD0GGQYwnix5lqk4fo=;
+  b=Bjvsee9May9laW4CWggDU3gfCA3DgLPJ7glUksfWgZMVtmNTWgUXGdFV
+   t0TxTmomS4HOydyTSZhDN7rYK2seH2gHVQt0NFi6/w34qgEAzdbBpmCzZ
+   aqlegQn0z2tLNZp/vNBfsmWNVu7oX4MrFah7r/v7icAv58cPD8pJsZLOj
+   yXNGVWUHtutuVaA1pO38CdHYsF+wP5mVCA1FQpD43WJp1FWKkge1GY5CS
+   gXH3Eg1NsfsX1A0LgygPSxLRBuFWr7ehdluS46vag+mddZcRKl5iY9YZx
+   Qej+K1Tm3atqleONS+R5uJ4eSaPfn/xbbGjFddAXhKJAFYkQiBwknNyJ1
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="357824536"
 X-IronPort-AV: E=Sophos;i="6.00,233,1681196400"; 
-   d="scan'208";a="357811521"
+   d="scan'208";a="357824536"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 17:33:17 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 21:27:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="710763383"
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="710800395"
 X-IronPort-AV: E=Sophos;i="6.00,233,1681196400"; 
-   d="scan'208";a="710763383"
+   d="scan'208";a="710800395"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 10 Jun 2023 17:33:15 -0700
+  by orsmga002.jf.intel.com with ESMTP; 10 Jun 2023 21:27:47 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q8918-000AWK-1y;
-	Sun, 11 Jun 2023 00:33:14 +0000
-Date: Sun, 11 Jun 2023 08:32:14 +0800
+	id 1q8Cg7-000Ad1-0V;
+	Sun, 11 Jun 2023 04:27:47 +0000
+Date: Sun, 11 Jun 2023 12:27:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: lib/zstd/compress/zstd_lazy.c:1605 ZSTD_compressBlock_lazy_generic()
- warn: Function too hairy.  No more merges.
-Message-ID: <202306110843.63nmSCZl-lkp@intel.com>
+Subject: Re: [PATCH v1 4/6] drm/mediatek: mt8188: Modify display driver for
+ VDOSYS1
+Message-ID: <202306111219.xaQyPjpU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,282 +48,119 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230607061121.6732-5-shawn.sung@mediatek.com>
+References: <20230607061121.6732-5-shawn.sung@mediatek.com>
+TO: Hsiao Chien Sung <shawn.sung@mediatek.com>
+TO: Matthias Brugger <matthias.bgg@gmail.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: Philipp Zabel <p.zabel@pengutronix.de>
+TO: Rob Herring <robh+dt@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: linux-kernel@vger.kernel.org
-TO: Nick Terrell <terrelln@fb.com>
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-mediatek@lists.infradead.org
+CC: devicetree@vger.kernel.org
+CC: Project_Global_Chrome_Upstream_Group@mediatek.com
+CC: "Chun-Kuang Hu" <chunkuang.hu@kernel.org>
+CC: Singo Chang <singo.chang@mediatek.com>
+CC: Nancy Lin <nancy.lin@mediatek.com>
+CC: "Jason-JH Lin" <jason-jh.lin@mediatek.com>
+CC: Hsiao Chein Sung <shawn.sung@mediatek.com>
+CC: Fei Shao <fshao@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   022ce8862dff83c859089cd14bc4dca0733e2f90
-commit: 2aa14b1ab2c41a4fe41efae80d58bb77da91f19f zstd: import usptream v1.5.2
-date:   8 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 8 months ago
-config: s390-randconfig-m041-20230611 (https://download.01.org/0day-ci/archive/20230611/202306110843.63nmSCZl-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
+Hi Hsiao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next pza/reset/next linus/master v6.4-rc5 next-20230609]
+[cannot apply to pza/imx-drm/next mbgg-mediatek/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hsiao-Chien-Sung/dt-bindings-display-mediatek-mt8188-Add-documentations-for-VDOSYS1/20230607-141310
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230607061121.6732-5-shawn.sung%40mediatek.com
+patch subject: [PATCH v1 4/6] drm/mediatek: mt8188: Modify display driver for VDOSYS1
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm64-randconfig-m031-20230608 (https://download.01.org/0day-ci/archive/20230611/202306111219.xaQyPjpU-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306110843.63nmSCZl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306111219.xaQyPjpU-lkp@intel.com/
 
-New smatch warnings:
-lib/zstd/compress/zstd_lazy.c:1605 ZSTD_compressBlock_lazy_generic() warn: Function too hairy.  No more merges.
+smatch warnings:
+drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c:221 mtk_ovl_adaptor_clk_enable() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-lib/zstd/compress/zstd_lazy.c:1577 ZSTD_compressBlock_lazy_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:1915 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:1937 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:1947 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:1979 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:2026 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
+vim +/ret +221 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
 
-vim +1605 lib/zstd/compress/zstd_lazy.c
-
-e0c1b49f5b674c Nick Terrell 2020-09-11  1474  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1475  FORCE_INLINE_TEMPLATE size_t
-e0c1b49f5b674c Nick Terrell 2020-09-11  1476  ZSTD_compressBlock_lazy_generic(
-e0c1b49f5b674c Nick Terrell 2020-09-11  1477                          ZSTD_matchState_t* ms, seqStore_t* seqStore,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1478                          U32 rep[ZSTD_REP_NUM],
-e0c1b49f5b674c Nick Terrell 2020-09-11  1479                          const void* src, size_t srcSize,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1480                          const searchMethod_e searchMethod, const U32 depth,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1481                          ZSTD_dictMode_e const dictMode)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1482  {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1483      const BYTE* const istart = (const BYTE*)src;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1484      const BYTE* ip = istart;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1485      const BYTE* anchor = istart;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1486      const BYTE* const iend = istart + srcSize;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1487      const BYTE* const ilimit = (searchMethod == search_rowHash) ? iend - 8 - ZSTD_ROW_HASH_CACHE_SIZE : iend - 8;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1488      const BYTE* const base = ms->window.base;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1489      const U32 prefixLowestIndex = ms->window.dictLimit;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1490      const BYTE* const prefixLowest = base + prefixLowestIndex;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1491      const U32 mls = BOUNDED(4, ms->cParams.minMatch, 6);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1492      const U32 rowLog = BOUNDED(4, ms->cParams.searchLog, 6);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1493  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1494      U32 offset_1 = rep[0], offset_2 = rep[1], savedOffset=0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1495  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1496      const int isDMS = dictMode == ZSTD_dictMatchState;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1497      const int isDDS = dictMode == ZSTD_dedicatedDictSearch;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1498      const int isDxS = isDMS || isDDS;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1499      const ZSTD_matchState_t* const dms = ms->dictMatchState;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1500      const U32 dictLowestIndex      = isDxS ? dms->window.dictLimit : 0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1501      const BYTE* const dictBase     = isDxS ? dms->window.base : NULL;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1502      const BYTE* const dictLowest   = isDxS ? dictBase + dictLowestIndex : NULL;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1503      const BYTE* const dictEnd      = isDxS ? dms->window.nextSrc : NULL;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1504      const U32 dictIndexDelta       = isDxS ?
-e0c1b49f5b674c Nick Terrell 2020-09-11  1505                                       prefixLowestIndex - (U32)(dictEnd - dictBase) :
-e0c1b49f5b674c Nick Terrell 2020-09-11  1506                                       0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1507      const U32 dictAndPrefixLength = (U32)((ip - prefixLowest) + (dictEnd - dictLowest));
-e0c1b49f5b674c Nick Terrell 2020-09-11  1508  
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1509      DEBUGLOG(5, "ZSTD_compressBlock_lazy_generic (dictMode=%u) (searchFunc=%u)", (U32)dictMode, (U32)searchMethod);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1510      ip += (dictAndPrefixLength == 0);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1511      if (dictMode == ZSTD_noDict) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1512          U32 const curr = (U32)(ip - base);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1513          U32 const windowLow = ZSTD_getLowestPrefixIndex(ms, curr, ms->cParams.windowLog);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1514          U32 const maxRep = curr - windowLow;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1515          if (offset_2 > maxRep) savedOffset = offset_2, offset_2 = 0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1516          if (offset_1 > maxRep) savedOffset = offset_1, offset_1 = 0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1517      }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1518      if (isDxS) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1519          /* dictMatchState repCode checks don't currently handle repCode == 0
-e0c1b49f5b674c Nick Terrell 2020-09-11  1520           * disabling. */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1521          assert(offset_1 <= dictAndPrefixLength);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1522          assert(offset_2 <= dictAndPrefixLength);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1523      }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1524  
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1525      if (searchMethod == search_rowHash) {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1526          ZSTD_row_fillHashCache(ms, base, rowLog,
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1527                              MIN(ms->cParams.minMatch, 6 /* mls caps out at 6 */),
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1528                              ms->nextToUpdate, ilimit);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1529      }
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1530  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1531      /* Match Loop */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1532  #if defined(__x86_64__)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1533      /* I've measured random a 5% speed loss on levels 5 & 6 (greedy) when the
-e0c1b49f5b674c Nick Terrell 2020-09-11  1534       * code alignment is perturbed. To fix the instability align the loop on 32-bytes.
-e0c1b49f5b674c Nick Terrell 2020-09-11  1535       */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1536      __asm__(".p2align 5");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1537  #endif
-e0c1b49f5b674c Nick Terrell 2020-09-11  1538      while (ip < ilimit) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1539          size_t matchLength=0;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1540          size_t offcode=STORE_REPCODE_1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1541          const BYTE* start=ip+1;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1542          DEBUGLOG(7, "search baseline (depth 0)");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1543  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1544          /* check repCode */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1545          if (isDxS) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1546              const U32 repIndex = (U32)(ip - base) + 1 - offset_1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1547              const BYTE* repMatch = ((dictMode == ZSTD_dictMatchState || dictMode == ZSTD_dedicatedDictSearch)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1548                                  && repIndex < prefixLowestIndex) ?
-e0c1b49f5b674c Nick Terrell 2020-09-11  1549                                     dictBase + (repIndex - dictIndexDelta) :
-e0c1b49f5b674c Nick Terrell 2020-09-11  1550                                     base + repIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1551              if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1552                  && (MEM_read32(repMatch) == MEM_read32(ip+1)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1553                  const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1554                  matchLength = ZSTD_count_2segments(ip+1+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1555                  if (depth==0) goto _storeSequence;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1556              }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1557          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1558          if ( dictMode == ZSTD_noDict
-e0c1b49f5b674c Nick Terrell 2020-09-11  1559            && ((offset_1 > 0) & (MEM_read32(ip+1-offset_1) == MEM_read32(ip+1)))) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1560              matchLength = ZSTD_count(ip+1+4, ip+1+4-offset_1, iend) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1561              if (depth==0) goto _storeSequence;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1562          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1563  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1564          /* first search (depth 0) */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1565          {   size_t offsetFound = 999999999;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1566              size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offsetFound, mls, rowLog, searchMethod, dictMode);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1567              if (ml2 > matchLength)
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1568                  matchLength = ml2, start = ip, offcode=offsetFound;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1569          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1570  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1571          if (matchLength < 4) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1572              ip += ((ip-anchor) >> kSearchStrength) + 1;   /* jump faster over incompressible sections */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1573              continue;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1574          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1575  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1576          /* let's try to find a better solution */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1577          if (depth>=1)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1578          while (ip<ilimit) {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1579              DEBUGLOG(7, "search depth 1");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1580              ip ++;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1581              if ( (dictMode == ZSTD_noDict)
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1582                && (offcode) && ((offset_1>0) & (MEM_read32(ip) == MEM_read32(ip - offset_1)))) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1583                  size_t const mlRep = ZSTD_count(ip+4, ip+4-offset_1, iend) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1584                  int const gain2 = (int)(mlRep * 3);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1585                  int const gain1 = (int)(matchLength*3 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1586                  if ((mlRep >= 4) && (gain2 > gain1))
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1587                      matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1588              }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1589              if (isDxS) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1590                  const U32 repIndex = (U32)(ip - base) - offset_1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1591                  const BYTE* repMatch = repIndex < prefixLowestIndex ?
-e0c1b49f5b674c Nick Terrell 2020-09-11  1592                                 dictBase + (repIndex - dictIndexDelta) :
-e0c1b49f5b674c Nick Terrell 2020-09-11  1593                                 base + repIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1594                  if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1595                      && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1596                      const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1597                      size_t const mlRep = ZSTD_count_2segments(ip+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1598                      int const gain2 = (int)(mlRep * 3);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1599                      int const gain1 = (int)(matchLength*3 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1600                      if ((mlRep >= 4) && (gain2 > gain1))
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1601                          matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1602                  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1603              }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1604              {   size_t offset2=999999999;
-2aa14b1ab2c41a Nick Terrell 2022-10-17 @1605                  size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offset2, mls, rowLog, searchMethod, dictMode);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1606                  int const gain2 = (int)(ml2*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offset2)));   /* raw approx */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1607                  int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 4);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1608                  if ((ml2 >= 4) && (gain2 > gain1)) {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1609                      matchLength = ml2, offcode = offset2, start = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1610                      continue;   /* search a better one */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1611              }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1612  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1613              /* let's find an even better one */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1614              if ((depth==2) && (ip<ilimit)) {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1615                  DEBUGLOG(7, "search depth 2");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1616                  ip ++;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1617                  if ( (dictMode == ZSTD_noDict)
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1618                    && (offcode) && ((offset_1>0) & (MEM_read32(ip) == MEM_read32(ip - offset_1)))) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1619                      size_t const mlRep = ZSTD_count(ip+4, ip+4-offset_1, iend) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1620                      int const gain2 = (int)(mlRep * 4);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1621                      int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1622                      if ((mlRep >= 4) && (gain2 > gain1))
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1623                          matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1624                  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1625                  if (isDxS) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1626                      const U32 repIndex = (U32)(ip - base) - offset_1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1627                      const BYTE* repMatch = repIndex < prefixLowestIndex ?
-e0c1b49f5b674c Nick Terrell 2020-09-11  1628                                     dictBase + (repIndex - dictIndexDelta) :
-e0c1b49f5b674c Nick Terrell 2020-09-11  1629                                     base + repIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1630                      if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1631                          && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1632                          const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1633                          size_t const mlRep = ZSTD_count_2segments(ip+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1634                          int const gain2 = (int)(mlRep * 4);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1635                          int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1636                          if ((mlRep >= 4) && (gain2 > gain1))
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1637                              matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1638                      }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1639                  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1640                  {   size_t offset2=999999999;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1641                      size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offset2, mls, rowLog, searchMethod, dictMode);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1642                      int const gain2 = (int)(ml2*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offset2)));   /* raw approx */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1643                      int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 7);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1644                      if ((ml2 >= 4) && (gain2 > gain1)) {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1645                          matchLength = ml2, offcode = offset2, start = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1646                          continue;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1647              }   }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1648              break;  /* nothing found : store previous solution */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1649          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1650  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1651          /* NOTE:
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1652           * Pay attention that `start[-value]` can lead to strange undefined behavior
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1653           * notably if `value` is unsigned, resulting in a large positive `-value`.
-e0c1b49f5b674c Nick Terrell 2020-09-11  1654           */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1655          /* catch up */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1656          if (STORED_IS_OFFSET(offcode)) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1657              if (dictMode == ZSTD_noDict) {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1658                  while ( ((start > anchor) & (start - STORED_OFFSET(offcode) > prefixLowest))
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1659                       && (start[-1] == (start-STORED_OFFSET(offcode))[-1]) )  /* only search for offset within prefix */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1660                      { start--; matchLength++; }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1661              }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1662              if (isDxS) {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1663                  U32 const matchIndex = (U32)((size_t)(start-base) - STORED_OFFSET(offcode));
-e0c1b49f5b674c Nick Terrell 2020-09-11  1664                  const BYTE* match = (matchIndex < prefixLowestIndex) ? dictBase + matchIndex - dictIndexDelta : base + matchIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1665                  const BYTE* const mStart = (matchIndex < prefixLowestIndex) ? dictLowest : prefixLowest;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1666                  while ((start>anchor) && (match>mStart) && (start[-1] == match[-1])) { start--; match--; matchLength++; }  /* catch up */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1667              }
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1668              offset_2 = offset_1; offset_1 = (U32)STORED_OFFSET(offcode);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1669          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1670          /* store sequence */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1671  _storeSequence:
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1672          {   size_t const litLength = (size_t)(start - anchor);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1673              ZSTD_storeSeq(seqStore, litLength, anchor, iend, (U32)offcode, matchLength);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1674              anchor = ip = start + matchLength;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1675          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1676  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1677          /* check immediate repcode */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1678          if (isDxS) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1679              while (ip <= ilimit) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1680                  U32 const current2 = (U32)(ip-base);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1681                  U32 const repIndex = current2 - offset_2;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1682                  const BYTE* repMatch = repIndex < prefixLowestIndex ?
-e0c1b49f5b674c Nick Terrell 2020-09-11  1683                          dictBase - dictIndexDelta + repIndex :
-e0c1b49f5b674c Nick Terrell 2020-09-11  1684                          base + repIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1685                  if ( ((U32)((prefixLowestIndex-1) - (U32)repIndex) >= 3 /* intentional overflow */)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1686                     && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1687                      const BYTE* const repEnd2 = repIndex < prefixLowestIndex ? dictEnd : iend;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1688                      matchLength = ZSTD_count_2segments(ip+4, repMatch+4, iend, repEnd2, prefixLowest) + 4;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1689                      offcode = offset_2; offset_2 = offset_1; offset_1 = (U32)offcode;   /* swap offset_2 <=> offset_1 */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1690                      ZSTD_storeSeq(seqStore, 0, anchor, iend, STORE_REPCODE_1, matchLength);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1691                      ip += matchLength;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1692                      anchor = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1693                      continue;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1694                  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1695                  break;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1696              }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1697          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1698  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1699          if (dictMode == ZSTD_noDict) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1700              while ( ((ip <= ilimit) & (offset_2>0))
-e0c1b49f5b674c Nick Terrell 2020-09-11  1701                   && (MEM_read32(ip) == MEM_read32(ip - offset_2)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1702                  /* store sequence */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1703                  matchLength = ZSTD_count(ip+4, ip+4-offset_2, iend) + 4;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1704                  offcode = offset_2; offset_2 = offset_1; offset_1 = (U32)offcode; /* swap repcodes */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1705                  ZSTD_storeSeq(seqStore, 0, anchor, iend, STORE_REPCODE_1, matchLength);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1706                  ip += matchLength;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1707                  anchor = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1708                  continue;   /* faster when present ... (?) */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1709      }   }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1710  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1711      /* Save reps for next block */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1712      rep[0] = offset_1 ? offset_1 : savedOffset;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1713      rep[1] = offset_2 ? offset_2 : savedOffset;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1714  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1715      /* Return the last literals size */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1716      return (size_t)(iend - anchor);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1717  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1718  
+453c3364632a1f Nancy.Lin        2023-03-21  186  
+453c3364632a1f Nancy.Lin        2023-03-21  187  int mtk_ovl_adaptor_clk_enable(struct device *dev)
+453c3364632a1f Nancy.Lin        2023-03-21  188  {
+453c3364632a1f Nancy.Lin        2023-03-21  189  	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
+453c3364632a1f Nancy.Lin        2023-03-21  190  	struct device *comp;
+453c3364632a1f Nancy.Lin        2023-03-21  191  	int ret;
+453c3364632a1f Nancy.Lin        2023-03-21  192  	int i;
+453c3364632a1f Nancy.Lin        2023-03-21  193  
+453c3364632a1f Nancy.Lin        2023-03-21  194  	for (i = 0; i < OVL_ADAPTOR_MERGE0; i++) {
+453c3364632a1f Nancy.Lin        2023-03-21  195  		comp = ovl_adaptor->ovl_adaptor_comp[i];
+d7c6ad1b0a9ec1 Hsiao Chien Sung 2023-06-07  196  		if (!comp)
+d7c6ad1b0a9ec1 Hsiao Chien Sung 2023-06-07  197  			continue;
+453c3364632a1f Nancy.Lin        2023-03-21  198  		ret = pm_runtime_get_sync(comp);
+453c3364632a1f Nancy.Lin        2023-03-21  199  		if (ret < 0) {
+453c3364632a1f Nancy.Lin        2023-03-21  200  			dev_err(dev, "Failed to enable power domain %d, err %d\n", i, ret);
+453c3364632a1f Nancy.Lin        2023-03-21  201  			goto pwr_err;
+453c3364632a1f Nancy.Lin        2023-03-21  202  		}
+453c3364632a1f Nancy.Lin        2023-03-21  203  	}
+453c3364632a1f Nancy.Lin        2023-03-21  204  
+453c3364632a1f Nancy.Lin        2023-03-21  205  	for (i = 0; i < OVL_ADAPTOR_ID_MAX; i++) {
+453c3364632a1f Nancy.Lin        2023-03-21  206  		comp = ovl_adaptor->ovl_adaptor_comp[i];
+d7c6ad1b0a9ec1 Hsiao Chien Sung 2023-06-07  207  		if (!comp)
+d7c6ad1b0a9ec1 Hsiao Chien Sung 2023-06-07  208  			continue;
+453c3364632a1f Nancy.Lin        2023-03-21  209  		if (i < OVL_ADAPTOR_MERGE0)
+453c3364632a1f Nancy.Lin        2023-03-21  210  			ret = mtk_mdp_rdma_clk_enable(comp);
+453c3364632a1f Nancy.Lin        2023-03-21  211  		else if (i < OVL_ADAPTOR_ETHDR0)
+453c3364632a1f Nancy.Lin        2023-03-21  212  			ret = mtk_merge_clk_enable(comp);
+453c3364632a1f Nancy.Lin        2023-03-21  213  		else
+453c3364632a1f Nancy.Lin        2023-03-21  214  			ret = mtk_ethdr_clk_enable(comp);
+453c3364632a1f Nancy.Lin        2023-03-21  215  		if (ret) {
+453c3364632a1f Nancy.Lin        2023-03-21  216  			dev_err(dev, "Failed to enable clock %d, err %d\n", i, ret);
+453c3364632a1f Nancy.Lin        2023-03-21  217  			goto clk_err;
+453c3364632a1f Nancy.Lin        2023-03-21  218  		}
+453c3364632a1f Nancy.Lin        2023-03-21  219  	}
+453c3364632a1f Nancy.Lin        2023-03-21  220  
+453c3364632a1f Nancy.Lin        2023-03-21 @221  	return ret;
+453c3364632a1f Nancy.Lin        2023-03-21  222  
+453c3364632a1f Nancy.Lin        2023-03-21  223  clk_err:
+453c3364632a1f Nancy.Lin        2023-03-21  224  	while (--i >= 0) {
+453c3364632a1f Nancy.Lin        2023-03-21  225  		comp = ovl_adaptor->ovl_adaptor_comp[i];
+d7c6ad1b0a9ec1 Hsiao Chien Sung 2023-06-07  226  		if (!comp)
+d7c6ad1b0a9ec1 Hsiao Chien Sung 2023-06-07  227  			continue;
+453c3364632a1f Nancy.Lin        2023-03-21  228  		if (i < OVL_ADAPTOR_MERGE0)
+453c3364632a1f Nancy.Lin        2023-03-21  229  			mtk_mdp_rdma_clk_disable(comp);
+453c3364632a1f Nancy.Lin        2023-03-21  230  		else if (i < OVL_ADAPTOR_ETHDR0)
+453c3364632a1f Nancy.Lin        2023-03-21  231  			mtk_merge_clk_disable(comp);
+453c3364632a1f Nancy.Lin        2023-03-21  232  		else
+453c3364632a1f Nancy.Lin        2023-03-21  233  			mtk_ethdr_clk_disable(comp);
+453c3364632a1f Nancy.Lin        2023-03-21  234  	}
+453c3364632a1f Nancy.Lin        2023-03-21  235  	i = OVL_ADAPTOR_MERGE0;
+453c3364632a1f Nancy.Lin        2023-03-21  236  
+453c3364632a1f Nancy.Lin        2023-03-21  237  pwr_err:
+d7c6ad1b0a9ec1 Hsiao Chien Sung 2023-06-07  238  	while (--i >= 0) {
+d7c6ad1b0a9ec1 Hsiao Chien Sung 2023-06-07  239  		comp = ovl_adaptor->ovl_adaptor_comp[i];
+d7c6ad1b0a9ec1 Hsiao Chien Sung 2023-06-07  240  		if (!comp)
+d7c6ad1b0a9ec1 Hsiao Chien Sung 2023-06-07  241  			continue;
+d7c6ad1b0a9ec1 Hsiao Chien Sung 2023-06-07  242  		pm_runtime_put(comp);
+d7c6ad1b0a9ec1 Hsiao Chien Sung 2023-06-07  243  	}
+453c3364632a1f Nancy.Lin        2023-03-21  244  
+453c3364632a1f Nancy.Lin        2023-03-21  245  	return ret;
+453c3364632a1f Nancy.Lin        2023-03-21  246  }
+453c3364632a1f Nancy.Lin        2023-03-21  247  
 
 -- 
 0-DAY CI Kernel Test Service
