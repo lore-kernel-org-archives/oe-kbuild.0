@@ -1,42 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B4CA55
-	for <oe-kbuild@lists.linux.dev>; Mon, 12 Jun 2023 00:51:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5EE10EA
+	for <oe-kbuild@lists.linux.dev>; Mon, 12 Jun 2023 01:12:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686531082; x=1718067082;
+  t=1686532341; x=1718068341;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=piAIyJDrzU2pZVJxn5rJfTXcUuBuyBc5cJABmABpw5o=;
-  b=H3lgBewevX0qEg966S1UTTfa96sVqX2kMvmL308a9xjeLi8OzCXP/WOj
-   F9qXld4s4e0JmaRL650tFNnQvjoqW57jEMbFheZPjv+fAH5qto6WEebcT
-   35LQrUPphE/IL/FGCzmKFmso+7E1k1tgrDW3H36mO7UDGLBeFHNjM+pS/
-   8JW2GXiEHEhaK0rtvKSM+9X+CWjgvBqtBhYwSVU8wlQD95I5Z8A0MvVhM
-   8aCR2YC/XizJqMTMQxrL86cSmzrFb6ZjRWgvnJTI4ZzSCJ/2C5ZJqshXo
-   26snrMc2zv6u2e98k284IQ2qpZwBNBuCBO4TM/DlXrX9o2F9DXS3oy+/l
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="444287151"
+  bh=EiRN/m6e/jTBmjUUvrFii4NxkicpLUSz3vMC77T5Rig=;
+  b=NdOqdsFry7JZE9cWNuw4T3cO2j6LWUvJi0G0T6nlWqB7J7SvA+ie8up8
+   mpj9/AohavWfmxalPt3mVRES4RKZ69wIRl+GzNAyGsd+i/9OJSGO0Z4n1
+   zWnyDPrGvnDYFY+S0UNqg37qP+fKplpOBs+NrEaQzqrIskrbSFsbzIpDI
+   dlwCTqPLTnYy9gYDVaqfu02kPyV04Q6SmBxsO5IEL1eoHn2Z5IWuSqAFM
+   HsQbptZ9pRLudvafSoQ7CtBHZ/0tbcQD5Ka+psJC+X3BEWZiFo0ySLp5I
+   JCaTwgIZlHxsd0viVnPs7uFF+hrrhOaJ5FM20ZMbHkH7TNhUQsjheQYHg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="421513858"
 X-IronPort-AV: E=Sophos;i="6.00,235,1681196400"; 
-   d="scan'208";a="444287151"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2023 17:51:21 -0700
+   d="scan'208";a="421513858"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2023 18:12:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="740807237"
+X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="688428905"
 X-IronPort-AV: E=Sophos;i="6.00,235,1681196400"; 
-   d="scan'208";a="740807237"
+   d="scan'208";a="688428905"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 11 Jun 2023 17:51:19 -0700
+  by orsmga006.jf.intel.com with ESMTP; 11 Jun 2023 18:12:20 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q8VmB-000BAQ-05;
-	Mon, 12 Jun 2023 00:51:19 +0000
-Date: Mon, 12 Jun 2023 08:50:58 +0800
+	id 1q8W6V-000BAe-0V;
+	Mon, 12 Jun 2023 01:12:19 +0000
+Date: Mon, 12 Jun 2023 09:11:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: Re: [PATCH 2/2] hid-mcp2200 - updated hid-id.h
-Message-ID: <202306120800.HCd5Dlmq-lkp@intel.com>
+Message-ID: <202306120845.BHvT4f9N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,7 +48,7 @@ Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/hid/hid-ids.h:914:9: sparse: this was the original definition"
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/hid/i2c-hid/../hid-ids.h:914:9: sparse: this was the original definition"
 :::::: 
 
 BCC: lkp@intel.com
@@ -78,8 +78,8 @@ patch link:    https://lore.kernel.org/r/20230611164811.1388-2-johannes%40gnu-li
 patch subject: [PATCH 2/2] hid-mcp2200 - updated hid-id.h
 :::::: branch date: 8 hours ago
 :::::: commit date: 8 hours ago
-config: nios2-randconfig-s041-20230612 (https://download.01.org/0day-ci/archive/20230612/202306120800.HCd5Dlmq-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
+config: riscv-randconfig-s033-20230611 (https://download.01.org/0day-ci/archive/20230612/202306120845.BHvT4f9N-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.3.0
 reproduce:
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
@@ -92,210 +92,21 @@ reproduce:
         git checkout 01f63040a4a77e899a95ebda6ffcca6e1aea19f7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv SHELL=/bin/bash drivers/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202306120800.HCd5Dlmq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306120845.BHvT4f9N-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/hid/hid-core.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
-   drivers/hid/hid-core.c:636:15: sparse: sparse: memset with byte count of 110608
-   drivers/hid/hid-core.c:862:15: sparse: sparse: memset with byte count of 110608
---
-   drivers/hid/hid-quirks.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-input.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-a4tech.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-axff.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-belkin.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-apple.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-aureal.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-cougar.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-cypress.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-evision.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-emsff.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-ezkey.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-elecom.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-glorious.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-gyration.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-icade.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-ite.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-jabra.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-kensington.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-keytouch.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-lcpower.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-kye.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-monterey.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-magicmouse.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-pl.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-petalynx.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-nintendo.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-multitouch.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-picolcd_core.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-picolcd_leds.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-pxrc.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-plantronics.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-razer.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-saitek.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-playstation.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-steelseries.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-gaff.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-steam.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-tivo.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-twinhan.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-topre.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-xinmo.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-udraw-ps3.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-xiaomi.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-zydacron.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-viewsonic.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
---
-   drivers/hid/hid-sensor-hub.c: note: in included file:
-   drivers/hid/hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
->> drivers/hid/hid-ids.h:914:9: sparse: this was the original definition
+   WARNING: invalid argument to '-march': '_zihintpause'
+   drivers/hid/i2c-hid/i2c-hid-core.c: note: in included file:
+   drivers/hid/i2c-hid/../hid-ids.h:915:9: sparse: sparse: preprocessor token USB_DEVICE_ID_MCP2221 redefined
+>> drivers/hid/i2c-hid/../hid-ids.h:914:9: sparse: this was the original definition
 
-vim +914 drivers/hid/hid-ids.h
+vim +914 drivers/hid/i2c-hid/../hid-ids.h
 
 990436a7c9d0e5 Jiri Slaby       2008-06-04  905  
 990436a7c9d0e5 Jiri Slaby       2008-06-04  906  #define USB_VENDOR_ID_MICROCHIP		0x04d8
@@ -307,7 +118,7 @@ a8c8316b11594e Kristian Evensen 2015-01-20  911  #define USB_DEVICE_ID_PICK16F14
 84f6ea1d86bfe5 Kristian Evensen 2016-01-06  912  #define USB_DEVICE_ID_PICK16F1454_V2	0xf2f7
 9d1e048cc8e1f9 Heiner Kallweit  2016-07-04  913  #define USB_DEVICE_ID_LUXAFOR		0xf372
 67a95c21463d06 Rishi Gupta      2020-01-28 @914  #define USB_DEVICE_ID_MCP2221		0x00dd
-01f63040a4a77e Johannes Roith   2023-06-11 @915  #define USB_DEVICE_ID_MCP2221		0x00df
+01f63040a4a77e Johannes Roith   2023-06-11  915  #define USB_DEVICE_ID_MCP2221		0x00df
 990436a7c9d0e5 Jiri Slaby       2008-06-04  916  
 
 -- 
