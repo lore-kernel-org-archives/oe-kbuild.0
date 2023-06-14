@@ -1,43 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDD133C99
-	for <oe-kbuild@lists.linux.dev>; Tue, 13 Jun 2023 19:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05360160
+	for <oe-kbuild@lists.linux.dev>; Wed, 14 Jun 2023 04:33:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686683480; x=1718219480;
+  t=1686717239; x=1718253239;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6BrvU9TBBSiZz/ZSt3y80f/3KULCBjYLt6abFMtunis=;
-  b=cpyaYqu+iFy6IcOJblR58yiltcmCCAZef4zx5EWeJOWEdFp5xp0AzU0t
-   GVI4DPd0xiKAwsb5az4O/oWNhzJWXqqAf5h2TGJOq56Q9cI4nljLjhqo8
-   6k9agST6XqyJ7FccoDW4iS00Y4WENvA06E01ZEXVqPIVisrOEhBdLq2vg
-   fNc33lYXeTXq1/4NWBY/jTyKnKAlR/tMtL1Vjg+bSuFe1pq/EO5MlOFad
-   w6LAIrDq/7edpGVpQE/v6SQA1rI7fWrUJtzMcwHx7R3QQTo6ttC4FSCsb
-   JJ+KZn/zIUlFiY/1PrEH/F9PuHK7PSvawse/ha00OlPHvcnNUFUHc2hlH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="422027718"
-X-IronPort-AV: E=Sophos;i="6.00,240,1681196400"; 
-   d="scan'208";a="422027718"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 12:11:19 -0700
+  bh=yTXd7SVGWtxbhIU9TNoFxvpz2o8q8nbDa6ZJZt2lr0w=;
+  b=UGc9ka8r1UGDzByxy3BQPYvzYMbuopcWTdMSl8/EYUtyVv+jFRy/Xx28
+   y2RFK3t8vR0CBgnLJow6Iyvkb72aBzW2YPqe1dINH+L66GiKatljlz+GW
+   i4RCHjRukiE0ojKmi+8bnCGjRhXGeD9C0G1NBHiHrGCmju5MLQoE42Z6f
+   uv5v59vI5NG3R+gRLIBgypGqxToD/rZUzIQivxv2PEYPQgIIURD4+7PjC
+   2Ea4CHRopwCKzxq/mb8bEQTOZtOd5NB7m2F5gO102AS4ORsdfzo0Qtd2w
+   h+UIJpaJrLZO2syRrjOQzh6E31J1IVjEXRUVpbp8RiFuQO0qRa0QDv5tL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="338150324"
+X-IronPort-AV: E=Sophos;i="6.00,241,1681196400"; 
+   d="scan'208";a="338150324"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 21:33:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="824524778"
-X-IronPort-AV: E=Sophos;i="6.00,240,1681196400"; 
-   d="scan'208";a="824524778"
-Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Jun 2023 12:11:17 -0700
-Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="958672707"
+X-IronPort-AV: E=Sophos;i="6.00,241,1681196400"; 
+   d="scan'208";a="958672707"
+Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 13 Jun 2023 21:33:56 -0700
+Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q99QD-0001gi-05;
-	Tue, 13 Jun 2023 19:11:17 +0000
-Date: Wed, 14 Jun 2023 03:10:42 +0800
+	id 1q9ICi-0000Az-0q;
+	Wed, 14 Jun 2023 04:33:56 +0000
+Date: Wed, 14 Jun 2023 12:33:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 6203/9385]
- drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:98
- mlx5_devcom_register_device() error: uninitialized symbol 'tmp_dev'.
-Message-ID: <202306140330.pddHcwet-lkp@intel.com>
+Subject: [linux-next:master 8337/9385]
+ drivers/char/tpm/tpm_tis_spi_main.c:137 tpm_tis_spi_transfer_half() error:
+ uninitialized symbol 'ret'.
+Message-ID: <202306141240.zF5heDKe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,106 +50,95 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Shay Drory <shayd@nvidia.com>
-CC: Saeed Mahameed <saeedm@nvidia.com>
-CC: Mark Bloch <mbloch@nvidia.com>
+TO: Krishna Yarlagadda <kyarlagadda@nvidia.com>
+CC: Jarkko Sakkinen <jarkko@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   1f6ce8392d6ff486af5ca96df9ded5882c4b6977
-commit: 6ec0b55e72a5c6fb056ad1eea12a3b5a74a402fe [6203/9385] net/mlx5: Enable 4 ports VF LAG
-:::::: branch date: 12 hours ago
-:::::: commit date: 6 days ago
-config: x86_64-randconfig-m001-20230612 (https://download.01.org/0day-ci/archive/20230614/202306140330.pddHcwet-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+commit: 394dfc8ac4b00b38d4fb781794967aa5b2eac687 [8337/9385] tpm_tis-spi: Add hardware wait polling
+:::::: branch date: 21 hours ago
+:::::: commit date: 2 days ago
+config: m68k-randconfig-m041-20230611 (https://download.01.org/0day-ci/archive/20230614/202306141240.zF5heDKe-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306140330.pddHcwet-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306141240.zF5heDKe-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:98 mlx5_devcom_register_device() error: uninitialized symbol 'tmp_dev'.
+smatch warnings:
+drivers/char/tpm/tpm_tis_spi_main.c:137 tpm_tis_spi_transfer_half() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:309 mlx5_devcom_get_next_peer_data() error: uninitialized symbol 'ret'.
-drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:343 mlx5_devcom_get_next_peer_data_rcu() error: uninitialized symbol 'ret'.
+vim +/ret +137 drivers/char/tpm/tpm_tis_spi_main.c
 
-vim +/tmp_dev +98 drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c
-
-fadd59fc50d010 Aviv Heller 2018-12-04   66  
-fadd59fc50d010 Aviv Heller 2018-12-04   67  /* Must be called with intf_mutex held */
-fadd59fc50d010 Aviv Heller 2018-12-04   68  struct mlx5_devcom *mlx5_devcom_register_device(struct mlx5_core_dev *dev)
-fadd59fc50d010 Aviv Heller 2018-12-04   69  {
-fadd59fc50d010 Aviv Heller 2018-12-04   70  	struct mlx5_devcom_list *priv = NULL, *iter;
-fadd59fc50d010 Aviv Heller 2018-12-04   71  	struct mlx5_devcom *devcom = NULL;
-fadd59fc50d010 Aviv Heller 2018-12-04   72  	bool new_priv = false;
-fadd59fc50d010 Aviv Heller 2018-12-04   73  	u64 sguid0, sguid1;
-fadd59fc50d010 Aviv Heller 2018-12-04   74  	int idx, i;
-fadd59fc50d010 Aviv Heller 2018-12-04   75  
-fadd59fc50d010 Aviv Heller 2018-12-04   76  	if (!mlx5_core_is_pf(dev))
-fadd59fc50d010 Aviv Heller 2018-12-04   77  		return NULL;
-6ec0b55e72a5c6 Shay Drory  2023-06-06   78  	if (MLX5_CAP_GEN(dev, num_lag_ports) > MLX5_DEVCOM_PORTS_SUPPORTED)
-8a6e75e5f57e9a Mark Bloch  2022-02-27   79  		return NULL;
-fadd59fc50d010 Aviv Heller 2018-12-04   80  
-1f893f57a3bf9f Shay Drory  2023-05-02   81  	mlx5_dev_list_lock();
-fadd59fc50d010 Aviv Heller 2018-12-04   82  	sguid0 = mlx5_query_nic_system_image_guid(dev);
-fadd59fc50d010 Aviv Heller 2018-12-04   83  	list_for_each_entry(iter, &devcom_list, list) {
-6ec0b55e72a5c6 Shay Drory  2023-06-06   84  		/* There is at least one device in iter */
-6ec0b55e72a5c6 Shay Drory  2023-06-06   85  		struct mlx5_core_dev *tmp_dev;
-fadd59fc50d010 Aviv Heller 2018-12-04   86  
-fadd59fc50d010 Aviv Heller 2018-12-04   87  		idx = -1;
-8a6e75e5f57e9a Mark Bloch  2022-02-27   88  		for (i = 0; i < MLX5_DEVCOM_PORTS_SUPPORTED; i++) {
-fadd59fc50d010 Aviv Heller 2018-12-04   89  			if (iter->devs[i])
-fadd59fc50d010 Aviv Heller 2018-12-04   90  				tmp_dev = iter->devs[i];
-fadd59fc50d010 Aviv Heller 2018-12-04   91  			else
-fadd59fc50d010 Aviv Heller 2018-12-04   92  				idx = i;
-fadd59fc50d010 Aviv Heller 2018-12-04   93  		}
-fadd59fc50d010 Aviv Heller 2018-12-04   94  
-fadd59fc50d010 Aviv Heller 2018-12-04   95  		if (idx == -1)
-fadd59fc50d010 Aviv Heller 2018-12-04   96  			continue;
-fadd59fc50d010 Aviv Heller 2018-12-04   97  
-fadd59fc50d010 Aviv Heller 2018-12-04  @98  		sguid1 = mlx5_query_nic_system_image_guid(tmp_dev);
-fadd59fc50d010 Aviv Heller 2018-12-04   99  		if (sguid0 != sguid1)
-fadd59fc50d010 Aviv Heller 2018-12-04  100  			continue;
-fadd59fc50d010 Aviv Heller 2018-12-04  101  
-fadd59fc50d010 Aviv Heller 2018-12-04  102  		priv = iter;
-fadd59fc50d010 Aviv Heller 2018-12-04  103  		break;
-fadd59fc50d010 Aviv Heller 2018-12-04  104  	}
-fadd59fc50d010 Aviv Heller 2018-12-04  105  
-fadd59fc50d010 Aviv Heller 2018-12-04  106  	if (!priv) {
-fadd59fc50d010 Aviv Heller 2018-12-04  107  		priv = mlx5_devcom_list_alloc();
-1f893f57a3bf9f Shay Drory  2023-05-02  108  		if (!priv) {
-1f893f57a3bf9f Shay Drory  2023-05-02  109  			devcom = ERR_PTR(-ENOMEM);
-1f893f57a3bf9f Shay Drory  2023-05-02  110  			goto out;
-1f893f57a3bf9f Shay Drory  2023-05-02  111  		}
-fadd59fc50d010 Aviv Heller 2018-12-04  112  
-fadd59fc50d010 Aviv Heller 2018-12-04  113  		idx = 0;
-fadd59fc50d010 Aviv Heller 2018-12-04  114  		new_priv = true;
-fadd59fc50d010 Aviv Heller 2018-12-04  115  	}
-fadd59fc50d010 Aviv Heller 2018-12-04  116  
-fadd59fc50d010 Aviv Heller 2018-12-04  117  	priv->devs[idx] = dev;
-fadd59fc50d010 Aviv Heller 2018-12-04  118  	devcom = mlx5_devcom_alloc(priv, idx);
-fadd59fc50d010 Aviv Heller 2018-12-04  119  	if (!devcom) {
-af87194352cad8 Shay Drory  2023-05-02  120  		if (new_priv)
-fadd59fc50d010 Aviv Heller 2018-12-04  121  			kfree(priv);
-1f893f57a3bf9f Shay Drory  2023-05-02  122  		devcom = ERR_PTR(-ENOMEM);
-1f893f57a3bf9f Shay Drory  2023-05-02  123  		goto out;
-fadd59fc50d010 Aviv Heller 2018-12-04  124  	}
-fadd59fc50d010 Aviv Heller 2018-12-04  125  
-fadd59fc50d010 Aviv Heller 2018-12-04  126  	if (new_priv)
-fadd59fc50d010 Aviv Heller 2018-12-04  127  		list_add(&priv->list, &devcom_list);
-1f893f57a3bf9f Shay Drory  2023-05-02  128  out:
-1f893f57a3bf9f Shay Drory  2023-05-02  129  	mlx5_dev_list_unlock();
-fadd59fc50d010 Aviv Heller 2018-12-04  130  	return devcom;
-fadd59fc50d010 Aviv Heller 2018-12-04  131  }
-fadd59fc50d010 Aviv Heller 2018-12-04  132  
-
-:::::: The code at line 98 was first introduced by commit
-:::::: fadd59fc50d010145f251db583c7ccef37393d19 net/mlx5: Introduce inter-device communication mechanism
-
-:::::: TO: Aviv Heller <avivh@mellanox.com>
-:::::: CC: Saeed Mahameed <saeedm@mellanox.com>
+8ab5e82afa969b drivers/char/tpm/tpm_tis_spi.c      Stephen Boyd       2019-09-20   73  
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   74  /*
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   75   * Half duplex controller with support for TPM wait state detection like
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   76   * Tegra QSPI need CMD, ADDR & DATA sent in single message to manage HW flow
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   77   * control. Each phase sent in different transfer for controller to idenity
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   78   * phase.
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   79   */
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   80  static int tpm_tis_spi_transfer_half(struct tpm_tis_data *data,	u32 addr,
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   81  				     u16 len, u8 *in, const u8 *out)
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   82  {
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   83  	struct tpm_tis_spi_phy *phy = to_tpm_tis_spi_phy(data);
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   84  	struct spi_transfer spi_xfer[3];
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   85  	struct spi_message m;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   86  	u8 transfer_len;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   87  	int ret;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   88  
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   89  	while (len) {
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   90  		transfer_len = min_t(u16, len, MAX_SPI_FRAMESIZE);
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   91  
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   92  		spi_message_init(&m);
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   93  		phy->iobuf[0] = (in ? 0x80 : 0) | (transfer_len - 1);
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   94  		phy->iobuf[1] = 0xd4;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   95  		phy->iobuf[2] = addr >> 8;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   96  		phy->iobuf[3] = addr;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   97  
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   98  		memset(&spi_xfer, 0, sizeof(spi_xfer));
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   99  
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  100  		spi_xfer[0].tx_buf = phy->iobuf;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  101  		spi_xfer[0].len = 1;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  102  		spi_message_add_tail(&spi_xfer[0], &m);
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  103  
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  104  		spi_xfer[1].tx_buf = phy->iobuf + 1;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  105  		spi_xfer[1].len = 3;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  106  		spi_message_add_tail(&spi_xfer[1], &m);
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  107  
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  108  		if (out) {
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  109  			spi_xfer[2].tx_buf = &phy->iobuf[4];
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  110  			spi_xfer[2].rx_buf = NULL;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  111  			memcpy(&phy->iobuf[4], out, transfer_len);
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  112  			out += transfer_len;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  113  		}
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  114  
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  115  		if (in) {
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  116  			spi_xfer[2].tx_buf = NULL;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  117  			spi_xfer[2].rx_buf = &phy->iobuf[4];
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  118  		}
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  119  
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  120  		spi_xfer[2].len = transfer_len;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  121  		spi_message_add_tail(&spi_xfer[2], &m);
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  122  
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  123  		reinit_completion(&phy->ready);
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  124  
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  125  		ret = spi_sync(phy->spi_device, &m);
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  126  		if (ret < 0)
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  127  			return ret;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  128  
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  129  		if (in) {
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  130  			memcpy(in, &phy->iobuf[4], transfer_len);
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  131  			in += transfer_len;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  132  		}
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  133  
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  134  		len -= transfer_len;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  135  	}
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  136  
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21 @137  	return ret;
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  138  }
+394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  139  
 
 -- 
 0-DAY CI Kernel Test Service
