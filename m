@@ -1,43 +1,42 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05360160
-	for <oe-kbuild@lists.linux.dev>; Wed, 14 Jun 2023 04:33:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DFB6FBB
+	for <oe-kbuild@lists.linux.dev>; Wed, 14 Jun 2023 13:05:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686717239; x=1718253239;
+  t=1686747953; x=1718283953;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yTXd7SVGWtxbhIU9TNoFxvpz2o8q8nbDa6ZJZt2lr0w=;
-  b=UGc9ka8r1UGDzByxy3BQPYvzYMbuopcWTdMSl8/EYUtyVv+jFRy/Xx28
-   y2RFK3t8vR0CBgnLJow6Iyvkb72aBzW2YPqe1dINH+L66GiKatljlz+GW
-   i4RCHjRukiE0ojKmi+8bnCGjRhXGeD9C0G1NBHiHrGCmju5MLQoE42Z6f
-   uv5v59vI5NG3R+gRLIBgypGqxToD/rZUzIQivxv2PEYPQgIIURD4+7PjC
-   2Ea4CHRopwCKzxq/mb8bEQTOZtOd5NB7m2F5gO102AS4ORsdfzo0Qtd2w
-   h+UIJpaJrLZO2syRrjOQzh6E31J1IVjEXRUVpbp8RiFuQO0qRa0QDv5tL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="338150324"
-X-IronPort-AV: E=Sophos;i="6.00,241,1681196400"; 
-   d="scan'208";a="338150324"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 21:33:58 -0700
+  bh=IKN0mxzTknT+JPPo6VKOcIorcnyQpBoM+4fHhmSNcLQ=;
+  b=S9UglwoW2l+YZKEsNW4a5qpIeW7tW/8gOvWMjNTimZQuHW3uv6eYUtSw
+   CFJJQRYS4IUP95MQ9i3S8nPNOY8l72Ldn93GYx8cRSbc70InK6Nbu4K6G
+   hoiqnI78Cej/i9ULiPpLwGX8aOTG52bGCBQmNqbUbynAxiS3vJPvZbdTT
+   9pCVC/XGTJifAG0rS7KJGRT5wqvNtulmj2o2kzxADKwmx8XjmqnKdTSz4
+   9DKX6uuI6rRb7zRImmMCJqdEJkFuq9Hlp6wmJxjD/wNw6D5VGJ1Sk802Q
+   WsJ2tvKgZnrfRi7pgqIxAQBVJ0kbHo6rw2LC7q4UHi/GTPXnCpPiV999D
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="343301563"
+X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
+   d="scan'208";a="343301563"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 06:05:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="958672707"
-X-IronPort-AV: E=Sophos;i="6.00,241,1681196400"; 
-   d="scan'208";a="958672707"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="712062607"
+X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
+   d="scan'208";a="712062607"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 13 Jun 2023 21:33:56 -0700
+  by orsmga002.jf.intel.com with ESMTP; 14 Jun 2023 06:05:51 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9ICi-0000Az-0q;
-	Wed, 14 Jun 2023 04:33:56 +0000
-Date: Wed, 14 Jun 2023 12:33:48 +0800
+	id 1q9QC6-0000f9-2r;
+	Wed, 14 Jun 2023 13:05:50 +0000
+Date: Wed, 14 Jun 2023 21:05:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 8337/9385]
- drivers/char/tpm/tpm_tis_spi_main.c:137 tpm_tis_spi_transfer_half() error:
- uninitialized symbol 'ret'.
-Message-ID: <202306141240.zF5heDKe-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 06/18] clk: qcom: krait-cc: export L2 clock as an
+ interconnect
+Message-ID: <202306142030.hMUOwUb9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,98 +46,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "git am base is a link in commit message"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Krishna Yarlagadda <kyarlagadda@nvidia.com>
-CC: Jarkko Sakkinen <jarkko@kernel.org>
+In-Reply-To: <20230612053922.3284394-7-dmitry.baryshkov@linaro.org>
+References: <20230612053922.3284394-7-dmitry.baryshkov@linaro.org>
+TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+TO: Rob Herring <robh+dt@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Andy Gross <agross@kernel.org>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Konrad Dybcio <konrad.dybcio@linaro.org>
+TO: Ilia Lin <ilia.lin@kernel.org>
+TO: Viresh Kumar <vireshk@kernel.org>
+TO: Nishanth Menon <nm@ti.com>
+TO: Stephen Boyd <sboyd@kernel.org>
+TO: Michael Turquette <mturquette@baylibre.com>
+TO: "Rafael J. Wysocki" <rafael@kernel.org>
+CC: linux-arm-msm@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-pm@vger.kernel.org
+CC: linux-clk@vger.kernel.org
+CC: Christian Marangi <ansuelsmth@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1f6ce8392d6ff486af5ca96df9ded5882c4b6977
-commit: 394dfc8ac4b00b38d4fb781794967aa5b2eac687 [8337/9385] tpm_tis-spi: Add hardware wait polling
-:::::: branch date: 21 hours ago
+Hi Dmitry,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on rafael-pm/linux-next clk/clk-next linus/master v6.4-rc6]
+[cannot apply to next-20230614]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/dt-bindings-opp-opp-v2-kryo-cpu-support-Qualcomm-Krait-SoCs/20230612-134159
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230612053922.3284394-7-dmitry.baryshkov%40linaro.org
+patch subject: [PATCH 06/18] clk: qcom: krait-cc: export L2 clock as an interconnect
+:::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: m68k-randconfig-m041-20230611 (https://download.01.org/0day-ci/archive/20230614/202306141240.zF5heDKe-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230614/202306142030.hMUOwUb9-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch robh for-next
+        git checkout robh/for-next
+        b4 shazam https://lore.kernel.org/r/20230612053922.3284394-7-dmitry.baryshkov@linaro.org
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306141240.zF5heDKe-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306142030.hMUOwUb9-lkp@intel.com/
 
-smatch warnings:
-drivers/char/tpm/tpm_tis_spi_main.c:137 tpm_tis_spi_transfer_half() error: uninitialized symbol 'ret'.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/ret +137 drivers/char/tpm/tpm_tis_spi_main.c
-
-8ab5e82afa969b drivers/char/tpm/tpm_tis_spi.c      Stephen Boyd       2019-09-20   73  
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   74  /*
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   75   * Half duplex controller with support for TPM wait state detection like
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   76   * Tegra QSPI need CMD, ADDR & DATA sent in single message to manage HW flow
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   77   * control. Each phase sent in different transfer for controller to idenity
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   78   * phase.
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   79   */
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   80  static int tpm_tis_spi_transfer_half(struct tpm_tis_data *data,	u32 addr,
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   81  				     u16 len, u8 *in, const u8 *out)
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   82  {
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   83  	struct tpm_tis_spi_phy *phy = to_tpm_tis_spi_phy(data);
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   84  	struct spi_transfer spi_xfer[3];
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   85  	struct spi_message m;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   86  	u8 transfer_len;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   87  	int ret;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   88  
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   89  	while (len) {
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   90  		transfer_len = min_t(u16, len, MAX_SPI_FRAMESIZE);
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   91  
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   92  		spi_message_init(&m);
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   93  		phy->iobuf[0] = (in ? 0x80 : 0) | (transfer_len - 1);
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   94  		phy->iobuf[1] = 0xd4;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   95  		phy->iobuf[2] = addr >> 8;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   96  		phy->iobuf[3] = addr;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   97  
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   98  		memset(&spi_xfer, 0, sizeof(spi_xfer));
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21   99  
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  100  		spi_xfer[0].tx_buf = phy->iobuf;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  101  		spi_xfer[0].len = 1;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  102  		spi_message_add_tail(&spi_xfer[0], &m);
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  103  
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  104  		spi_xfer[1].tx_buf = phy->iobuf + 1;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  105  		spi_xfer[1].len = 3;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  106  		spi_message_add_tail(&spi_xfer[1], &m);
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  107  
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  108  		if (out) {
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  109  			spi_xfer[2].tx_buf = &phy->iobuf[4];
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  110  			spi_xfer[2].rx_buf = NULL;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  111  			memcpy(&phy->iobuf[4], out, transfer_len);
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  112  			out += transfer_len;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  113  		}
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  114  
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  115  		if (in) {
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  116  			spi_xfer[2].tx_buf = NULL;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  117  			spi_xfer[2].rx_buf = &phy->iobuf[4];
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  118  		}
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  119  
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  120  		spi_xfer[2].len = transfer_len;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  121  		spi_message_add_tail(&spi_xfer[2], &m);
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  122  
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  123  		reinit_completion(&phy->ready);
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  124  
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  125  		ret = spi_sync(phy->spi_device, &m);
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  126  		if (ret < 0)
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  127  			return ret;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  128  
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  129  		if (in) {
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  130  			memcpy(in, &phy->iobuf[4], transfer_len);
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  131  			in += transfer_len;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  132  		}
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  133  
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  134  		len -= transfer_len;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  135  	}
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  136  
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21 @137  	return ret;
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  138  }
-394dfc8ac4b00b drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-04-21  139  
+ERROR: modpost: missing MODULE_LICENSE() in drivers/interconnect/icc-clk.o
+>> ERROR: modpost: "icc_clk_unregister" [drivers/clk/qcom/krait-cc.ko] undefined!
+>> ERROR: modpost: "icc_clk_register" [drivers/clk/qcom/krait-cc.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
