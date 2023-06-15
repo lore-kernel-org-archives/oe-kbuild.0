@@ -1,42 +1,41 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DFB6FBB
-	for <oe-kbuild@lists.linux.dev>; Wed, 14 Jun 2023 13:05:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21551C29
+	for <oe-kbuild@lists.linux.dev>; Thu, 15 Jun 2023 07:47:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686747953; x=1718283953;
+  t=1686815262; x=1718351262;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IKN0mxzTknT+JPPo6VKOcIorcnyQpBoM+4fHhmSNcLQ=;
-  b=S9UglwoW2l+YZKEsNW4a5qpIeW7tW/8gOvWMjNTimZQuHW3uv6eYUtSw
-   CFJJQRYS4IUP95MQ9i3S8nPNOY8l72Ldn93GYx8cRSbc70InK6Nbu4K6G
-   hoiqnI78Cej/i9ULiPpLwGX8aOTG52bGCBQmNqbUbynAxiS3vJPvZbdTT
-   9pCVC/XGTJifAG0rS7KJGRT5wqvNtulmj2o2kzxADKwmx8XjmqnKdTSz4
-   9DKX6uuI6rRb7zRImmMCJqdEJkFuq9Hlp6wmJxjD/wNw6D5VGJ1Sk802Q
-   WsJ2tvKgZnrfRi7pgqIxAQBVJ0kbHo6rw2LC7q4UHi/GTPXnCpPiV999D
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="343301563"
-X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
-   d="scan'208";a="343301563"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 06:05:52 -0700
+  bh=8AmpIAXHfj0n8NQux+JMB6DtKdkWUMwZ4/Tvn4X8+r8=;
+  b=PneRTCuZrThdBwZOzwUNcHsJ5Oy/xi58E48Pd4av3d00gbdicJkbemEW
+   QDii4Kx7Czc2jjTvfRK7waf5vCQVteGoh85kEpWXfNQfYreD3/RbowNIR
+   uig6JSNGbZ5rtolFA/iyT+IVga+IXUg/V3UqHO9dzbsFKU/37NHKDtlbY
+   6Imts1qim37LnOtGQBSXD5BsQBuv0F2sWk1UZuDTpH6jf67oXeF25HuWm
+   lvVtW0n8r0kHmmJ5f315+PLphzjviztTeMwPBebschzHSLiJri4BbY22A
+   ZkPRRUmU4rHtZEENNMp2SKJWGDxTcqFRJ8YS8HqLirMngWd02AHCGirh5
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="445210865"
+X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
+   d="scan'208";a="445210865"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 00:47:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="712062607"
-X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
-   d="scan'208";a="712062607"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="742145817"
+X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
+   d="scan'208";a="742145817"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 14 Jun 2023 06:05:51 -0700
+  by orsmga008.jf.intel.com with ESMTP; 15 Jun 2023 00:47:40 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9QC6-0000f9-2r;
-	Wed, 14 Jun 2023 13:05:50 +0000
-Date: Wed, 14 Jun 2023 21:05:32 +0800
+	id 1q9hhD-0001cr-1U;
+	Thu, 15 Jun 2023 07:47:15 +0000
+Date: Thu, 15 Jun 2023 15:46:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 06/18] clk: qcom: krait-cc: export L2 clock as an
- interconnect
-Message-ID: <202306142030.hMUOwUb9-lkp@intel.com>
+Subject: Re: [PATCH v7 08/22] net/tcp: Add AO sign to RST packets
+Message-ID: <202306151524.UEz29Wc1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,74 +46,105 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "git am base is a link in commit message"
+:::::: Manual check reason: "low confidence static check warning: net/ipv6/tcp_ipv6.c:1136:1: sparse: sparse: unused label 'out'"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230612053922.3284394-7-dmitry.baryshkov@linaro.org>
-References: <20230612053922.3284394-7-dmitry.baryshkov@linaro.org>
-TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-TO: Rob Herring <robh+dt@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Andy Gross <agross@kernel.org>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konrad.dybcio@linaro.org>
-TO: Ilia Lin <ilia.lin@kernel.org>
-TO: Viresh Kumar <vireshk@kernel.org>
-TO: Nishanth Menon <nm@ti.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: "Rafael J. Wysocki" <rafael@kernel.org>
-CC: linux-arm-msm@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-pm@vger.kernel.org
-CC: linux-clk@vger.kernel.org
-CC: Christian Marangi <ansuelsmth@gmail.com>
+In-Reply-To: <20230614230947.3954084-9-dima@arista.com>
+References: <20230614230947.3954084-9-dima@arista.com>
+TO: Dmitry Safonov <dima@arista.com>
+TO: David Ahern <dsahern@kernel.org>
+TO: Eric Dumazet <edumazet@google.com>
+TO: Paolo Abeni <pabeni@redhat.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Dmitry Safonov <dima@arista.com>
+CC: Andy Lutomirski <luto@amacapital.net>
+CC: Ard Biesheuvel <ardb@kernel.org>
+CC: Bob Gilligan <gilligan@arista.com>
+CC: Dan Carpenter <error27@gmail.com>
+CC: David Laight <David.Laight@aculab.com>
+CC: Donald Cassidy <dcassidy@redhat.com>
+CC: Eric Biggers <ebiggers@kernel.org>
+CC: "Eric W. Biederman" <ebiederm@xmission.com>
+CC: Francesco Ruggeri <fruggeri05@gmail.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
+CC: Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>
+CC: Ivan Delalande <colona@arista.com>
+CC: Leonard Crestez <cdleonard@gmail.com>
+CC: Salam Noureddine <noureddine@arista.com>
 
 Hi Dmitry,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on rafael-pm/linux-next clk/clk-next linus/master v6.4-rc6]
-[cannot apply to next-20230614]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on b6dad5178ceaf23f369c3711062ce1f2afc33644]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/dt-bindings-opp-opp-v2-kryo-cpu-support-Qualcomm-Krait-SoCs/20230612-134159
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230612053922.3284394-7-dmitry.baryshkov%40linaro.org
-patch subject: [PATCH 06/18] clk: qcom: krait-cc: export L2 clock as an interconnect
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230614/202306142030.hMUOwUb9-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
-        git fetch robh for-next
-        git checkout robh/for-next
-        b4 shazam https://lore.kernel.org/r/20230612053922.3284394-7-dmitry.baryshkov@linaro.org
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Safonov/net-tcp-Prepare-tcp_md5sig_pool-for-TCP-AO/20230615-071334
+base:   b6dad5178ceaf23f369c3711062ce1f2afc33644
+patch link:    https://lore.kernel.org/r/20230614230947.3954084-9-dima%40arista.com
+patch subject: [PATCH v7 08/22] net/tcp: Add AO sign to RST packets
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: i386-randconfig-s001-20230614 (https://download.01.org/0day-ci/archive/20230615/202306151524.UEz29Wc1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/2045a93527d963ceabff145d0cc7c168e1bceedd
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dmitry-Safonov/net-tcp-Prepare-tcp_md5sig_pool-for-TCP-AO/20230615-071334
+        git checkout 2045a93527d963ceabff145d0cc7c168e1bceedd
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash net/ipv6/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202306142030.hMUOwUb9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306151524.UEz29Wc1-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> net/ipv6/tcp_ipv6.c:1136:1: sparse: sparse: unused label 'out'
+   net/ipv6/tcp_ipv6.c:1454:25: sparse: sparse: context imbalance in 'tcp_v6_syn_recv_sock' - unexpected unlock
+   net/ipv6/tcp_ipv6.c:1835:21: sparse: sparse: context imbalance in 'tcp_v6_rcv' - different lock contexts for basic block
 
-ERROR: modpost: missing MODULE_LICENSE() in drivers/interconnect/icc-clk.o
->> ERROR: modpost: "icc_clk_unregister" [drivers/clk/qcom/krait-cc.ko] undefined!
->> ERROR: modpost: "icc_clk_register" [drivers/clk/qcom/krait-cc.ko] undefined!
+vim +/out +1136 net/ipv6/tcp_ipv6.c
+
+2045a93527d963c Dmitry Safonov           2023-06-15  1110  
+c24b14c46bb88d8 Song Liu                 2017-10-23  1111  	if (sk) {
+c24b14c46bb88d8 Song Liu                 2017-10-23  1112  		oif = sk->sk_bound_dev_if;
+052e0690f1f62f7 Eric Dumazet             2019-07-10  1113  		if (sk_fullsock(sk)) {
+052e0690f1f62f7 Eric Dumazet             2019-07-10  1114  			const struct ipv6_pinfo *np = tcp_inet6_sk(sk);
+052e0690f1f62f7 Eric Dumazet             2019-07-10  1115  
+c24b14c46bb88d8 Song Liu                 2017-10-23  1116  			trace_tcp_send_reset(sk, skb);
+052e0690f1f62f7 Eric Dumazet             2019-07-10  1117  			if (np->repflow)
+052e0690f1f62f7 Eric Dumazet             2019-07-10  1118  				label = ip6_flowlabel(ipv6h);
+e9a5dceee56cb52 Eric Dumazet             2019-09-24  1119  			priority = sk->sk_priority;
+dc6456e938e938d Antoine Tenart           2023-04-27  1120  			txhash = sk->sk_txhash;
+052e0690f1f62f7 Eric Dumazet             2019-07-10  1121  		}
+f6c0f5d209fa80e Eric Dumazet             2019-09-24  1122  		if (sk->sk_state == TCP_TIME_WAIT) {
+50a8accf10627b3 Eric Dumazet             2019-06-05  1123  			label = cpu_to_be32(inet_twsk(sk)->tw_flowlabel);
+f6c0f5d209fa80e Eric Dumazet             2019-09-24  1124  			priority = inet_twsk(sk)->tw_priority;
+9258b8b1be2e1e2 Eric Dumazet             2022-09-22  1125  			txhash = inet_twsk(sk)->tw_txhash;
+f6c0f5d209fa80e Eric Dumazet             2019-09-24  1126  		}
+323a53c41292a0d Eric Dumazet             2019-06-05  1127  	} else {
+a346abe051bd2bd Eric Dumazet             2019-07-01  1128  		if (net->ipv6.sysctl.flowlabel_reflect & FLOWLABEL_REFLECT_TCP_RESET)
+323a53c41292a0d Eric Dumazet             2019-06-05  1129  			label = ip6_flowlabel(ipv6h);
+c24b14c46bb88d8 Song Liu                 2017-10-23  1130  	}
+c24b14c46bb88d8 Song Liu                 2017-10-23  1131  
+e92dd77e6fe0a33 Wei Wang                 2020-09-08  1132  	tcp_v6_send_response(sk, skb, seq, ack_seq, 0, 0, 0, oif, key, 1,
+2045a93527d963c Dmitry Safonov           2023-06-15  1133  			     ipv6_get_dsfield(ipv6h), label, priority, txhash,
+2045a93527d963c Dmitry Safonov           2023-06-15  1134  			     ao_key, traffic_key, rcv_next, ao_sne);
+658ddaaf6694adf Shawn Lu                 2012-01-31  1135  
+3b24d854cb35383 Eric Dumazet             2016-04-01 @1136  out:
+658ddaaf6694adf Shawn Lu                 2012-01-31  1137  	rcu_read_unlock();
+ecc51b6d5ca04bb Arnaldo Carvalho de Melo 2005-12-12  1138  }
+^1da177e4c3f415 Linus Torvalds           2005-04-16  1139  
 
 -- 
 0-DAY CI Kernel Test Service
