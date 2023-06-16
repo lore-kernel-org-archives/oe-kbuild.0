@@ -1,43 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26758EAF7
-	for <oe-kbuild@lists.linux.dev>; Thu, 15 Jun 2023 19:56:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27468808
+	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jun 2023 03:53:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686859015; x=1718395015;
+  t=1686887589; x=1718423589;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QK0TOBsdXm08WZtc0dJZhPdZgTWkV/CZxFMQUTQhLjs=;
-  b=jf8P5uhBcr7w8xAqncIaHG++K4LRzHRU7b1JbwpvcFqCDdTyyiQqdkwl
-   wNY0JSZJSTMbxZh98mm+hxgD1MUV6/c1iA0g8H2/sFw9mzBXzswCnzTff
-   E+9+8dTPrpWR/UDfmjtjUHkIJyHV8gJot91gDru3JCoNHof0wei/UNoy/
-   tUlQODXGKtFMSU7AaGw2J3lL7CmL8dJJ4u+AOhsnd3rEFqtU8YLJvwgv+
-   k5Bn9uSwuTW900AmA2k22dm2rr/hEiry1mY7E85CN17CRg/uAiSYuQQc+
-   dMqDLW9kx0AXmzgzk7/3365v6hRuZe41QVugWHdfbqujsV1paAIxqP1tU
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="362443450"
-X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="362443450"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 12:56:51 -0700
+  bh=KnUSwK/mzc7onm9UaFS+3bLseJkHJFCGQUiRxRPy7CI=;
+  b=gXS++VfMox/1c3J4uRz4h6uG8qO/mjWEDZUn1SkBwe7fUPKMj9Rpw2I3
+   U5tTpijMwAOeZLhZQqyje7K6RjRdC1QATXh93wygXfjVPFr9+bgz05JB5
+   zC2JWmUo25S56HG4k3+rsm0bzH6kgZeDJX3BJVKmo6uJ2DXUiNfwta+vo
+   YGqn1vN3BAKPX4ynZwXttkl04KGZmu3prir2FBP+5gwO96SyIiwdpERxk
+   IgEhaTRqLV/EwCE3tBz4p15o5hoFuaJVTUsiCXcJk+6cxtSG5VAmTKqg5
+   vLR/eeMJw8LGzVOJr7aoDHDtsp0U70djisLlqNYg0wdLf9pWGJ45L5waj
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="425041189"
+X-IronPort-AV: E=Sophos;i="6.00,246,1681196400"; 
+   d="scan'208";a="425041189"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 20:53:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="782615953"
-X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="782615953"
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="715851813"
+X-IronPort-AV: E=Sophos;i="6.00,246,1681196400"; 
+   d="scan'208";a="715851813"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 15 Jun 2023 12:56:48 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 15 Jun 2023 20:53:07 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9t5M-0000L6-06;
-	Thu, 15 Jun 2023 19:56:48 +0000
-Date: Fri, 16 Jun 2023 03:56:04 +0800
+	id 1qA0WI-0000mL-0u;
+	Fri, 16 Jun 2023 03:53:06 +0000
+Date: Fri, 16 Jun 2023 11:52:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 9802/10326] drivers/opp/core.c:2710
- dev_pm_opp_xlate_performance_state() warn: variable dereferenced before
- check 'src_table' (see line 2698)
-Message-ID: <202306160347.AahnsjDj-lkp@intel.com>
+Subject: [coresight:next 11/21]
+ drivers/hwtracing/coresight/coresight-core.c:349 coresight_enable_link()
+ warn: passing a valid pointer to 'PTR_ERR'
+Message-ID: <202306161134.akhjL4Ok-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,105 +49,68 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Viresh Kumar <viresh.kumar@linaro.org>
+TO: James Clark <james.clark@arm.com>
+CC: Suzuki K Poulose <suzuki.poulose@arm.com>
+CC: Mike Leach <mike.leach@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   925294c9aa184801cc0a451b69a18dd0fe7d847d
-commit: 5437756c65c79f9520886bc54321d39c022c8638 [9802/10326] OPP: pstate is only valid for genpd OPP tables
-:::::: branch date: 15 hours ago
-:::::: commit date: 33 hours ago
-config: i386-randconfig-m021-20230614 (https://download.01.org/0day-ci/archive/20230616/202306160347.AahnsjDj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/coresight/linux.git next
+head:   3b79104f80036231a40ba5d15c3e329985029a0f
+commit: ae7f2b5a7b569f8ede4af9e215515e5a0b824edd [11/21] coresight: Make refcount a property of the connection
+:::::: branch date: 20 hours ago
+:::::: commit date: 11 days ago
+config: arm-randconfig-m031-20230611 (https://download.01.org/0day-ci/archive/20230616/202306161134.akhjL4Ok-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306160347.AahnsjDj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306161134.akhjL4Ok-lkp@intel.com/
 
-smatch warnings:
-drivers/opp/core.c:2710 dev_pm_opp_xlate_performance_state() warn: variable dereferenced before check 'src_table' (see line 2698)
+New smatch warnings:
+drivers/hwtracing/coresight/coresight-core.c:349 coresight_enable_link() warn: passing a valid pointer to 'PTR_ERR'
 
-vim +/src_table +2710 drivers/opp/core.c
+Old smatch warnings:
+drivers/hwtracing/coresight/coresight-core.c:351 coresight_enable_link() warn: passing a valid pointer to 'PTR_ERR'
 
-7d8658ef65a4f8 Saravana Kannan 2021-02-04  2675  
-c8a59103e22b19 Viresh Kumar    2018-11-02  2676  /**
-c8a59103e22b19 Viresh Kumar    2018-11-02  2677   * dev_pm_opp_xlate_performance_state() - Find required OPP's pstate for src_table.
-c8a59103e22b19 Viresh Kumar    2018-11-02  2678   * @src_table: OPP table which has dst_table as one of its required OPP table.
-c8a59103e22b19 Viresh Kumar    2018-11-02  2679   * @dst_table: Required OPP table of the src_table.
-c8a59103e22b19 Viresh Kumar    2018-11-02  2680   * @pstate: Current performance state of the src_table.
-c8a59103e22b19 Viresh Kumar    2018-11-02  2681   *
-c8a59103e22b19 Viresh Kumar    2018-11-02  2682   * This Returns pstate of the OPP (present in @dst_table) pointed out by the
-c8a59103e22b19 Viresh Kumar    2018-11-02  2683   * "required-opps" property of the OPP (present in @src_table) which has
-c8a59103e22b19 Viresh Kumar    2018-11-02  2684   * performance state set to @pstate.
-c8a59103e22b19 Viresh Kumar    2018-11-02  2685   *
-c8a59103e22b19 Viresh Kumar    2018-11-02  2686   * Return: Zero or positive performance state on success, otherwise negative
-c8a59103e22b19 Viresh Kumar    2018-11-02  2687   * value on errors.
-c8a59103e22b19 Viresh Kumar    2018-11-02  2688   */
-c8a59103e22b19 Viresh Kumar    2018-11-02  2689  int dev_pm_opp_xlate_performance_state(struct opp_table *src_table,
-c8a59103e22b19 Viresh Kumar    2018-11-02  2690  				       struct opp_table *dst_table,
-c8a59103e22b19 Viresh Kumar    2018-11-02  2691  				       unsigned int pstate)
-c8a59103e22b19 Viresh Kumar    2018-11-02  2692  {
-c8a59103e22b19 Viresh Kumar    2018-11-02  2693  	struct dev_pm_opp *opp;
-c8a59103e22b19 Viresh Kumar    2018-11-02  2694  	int dest_pstate = -EINVAL;
-c8a59103e22b19 Viresh Kumar    2018-11-02  2695  	int i;
-c8a59103e22b19 Viresh Kumar    2018-11-02  2696  
-5437756c65c79f Viresh Kumar    2023-06-14  2697  	/* Both OPP tables must belong to genpds */
-5437756c65c79f Viresh Kumar    2023-06-14 @2698  	if (unlikely(!src_table->is_genpd || !dst_table->is_genpd)) {
-5437756c65c79f Viresh Kumar    2023-06-14  2699  		pr_err("%s: Performance state is only valid for genpds.\n", __func__);
-5437756c65c79f Viresh Kumar    2023-06-14  2700  		return -EINVAL;
-5437756c65c79f Viresh Kumar    2023-06-14  2701  	}
-5437756c65c79f Viresh Kumar    2023-06-14  2702  
-c8a59103e22b19 Viresh Kumar    2018-11-02  2703  	/*
-c8a59103e22b19 Viresh Kumar    2018-11-02  2704  	 * Normally the src_table will have the "required_opps" property set to
-c8a59103e22b19 Viresh Kumar    2018-11-02  2705  	 * point to one of the OPPs in the dst_table, but in some cases the
-c8a59103e22b19 Viresh Kumar    2018-11-02  2706  	 * genpd and its master have one to one mapping of performance states
-c8a59103e22b19 Viresh Kumar    2018-11-02  2707  	 * and so none of them have the "required-opps" property set. Return the
-c8a59103e22b19 Viresh Kumar    2018-11-02  2708  	 * pstate of the src_table as it is in such cases.
-c8a59103e22b19 Viresh Kumar    2018-11-02  2709  	 */
-f2f4d2b86f432f Dmitry Osipenko 2021-01-18 @2710  	if (!src_table || !src_table->required_opp_count)
-c8a59103e22b19 Viresh Kumar    2018-11-02  2711  		return pstate;
-c8a59103e22b19 Viresh Kumar    2018-11-02  2712  
-7eba0c7641b000 Viresh Kumar    2019-11-25  2713  	/* required-opps not fully initialized yet */
-7eba0c7641b000 Viresh Kumar    2019-11-25  2714  	if (lazy_linking_pending(src_table))
-7eba0c7641b000 Viresh Kumar    2019-11-25  2715  		return -EBUSY;
-7eba0c7641b000 Viresh Kumar    2019-11-25  2716  
-c8a59103e22b19 Viresh Kumar    2018-11-02  2717  	for (i = 0; i < src_table->required_opp_count; i++) {
-c8a59103e22b19 Viresh Kumar    2018-11-02  2718  		if (src_table->required_opp_tables[i]->np == dst_table->np)
-c8a59103e22b19 Viresh Kumar    2018-11-02  2719  			break;
-c8a59103e22b19 Viresh Kumar    2018-11-02  2720  	}
-c8a59103e22b19 Viresh Kumar    2018-11-02  2721  
-c8a59103e22b19 Viresh Kumar    2018-11-02  2722  	if (unlikely(i == src_table->required_opp_count)) {
-c8a59103e22b19 Viresh Kumar    2018-11-02  2723  		pr_err("%s: Couldn't find matching OPP table (%p: %p)\n",
-c8a59103e22b19 Viresh Kumar    2018-11-02  2724  		       __func__, src_table, dst_table);
-c8a59103e22b19 Viresh Kumar    2018-11-02  2725  		return -EINVAL;
-c8a59103e22b19 Viresh Kumar    2018-11-02  2726  	}
-c8a59103e22b19 Viresh Kumar    2018-11-02  2727  
-c8a59103e22b19 Viresh Kumar    2018-11-02  2728  	mutex_lock(&src_table->lock);
-c8a59103e22b19 Viresh Kumar    2018-11-02  2729  
-c8a59103e22b19 Viresh Kumar    2018-11-02  2730  	list_for_each_entry(opp, &src_table->opp_list, node) {
-c8a59103e22b19 Viresh Kumar    2018-11-02  2731  		if (opp->pstate == pstate) {
-c8a59103e22b19 Viresh Kumar    2018-11-02  2732  			dest_pstate = opp->required_opps[i]->pstate;
-c8a59103e22b19 Viresh Kumar    2018-11-02  2733  			goto unlock;
-c8a59103e22b19 Viresh Kumar    2018-11-02  2734  		}
-c8a59103e22b19 Viresh Kumar    2018-11-02  2735  	}
-c8a59103e22b19 Viresh Kumar    2018-11-02  2736  
-c8a59103e22b19 Viresh Kumar    2018-11-02  2737  	pr_err("%s: Couldn't find matching OPP (%p: %p)\n", __func__, src_table,
-c8a59103e22b19 Viresh Kumar    2018-11-02  2738  	       dst_table);
-c8a59103e22b19 Viresh Kumar    2018-11-02  2739  
-c8a59103e22b19 Viresh Kumar    2018-11-02  2740  unlock:
-c8a59103e22b19 Viresh Kumar    2018-11-02  2741  	mutex_unlock(&src_table->lock);
-c8a59103e22b19 Viresh Kumar    2018-11-02  2742  
-c8a59103e22b19 Viresh Kumar    2018-11-02  2743  	return dest_pstate;
-c8a59103e22b19 Viresh Kumar    2018-11-02  2744  }
-c8a59103e22b19 Viresh Kumar    2018-11-02  2745  
+vim +/PTR_ERR +349 drivers/hwtracing/coresight/coresight-core.c
 
-:::::: The code at line 2710 was first introduced by commit
-:::::: f2f4d2b86f432fecfd76afa5f4f60f47833121b5 opp: Handle missing OPP table in dev_pm_opp_xlate_performance_state()
-
-:::::: TO: Dmitry Osipenko <digetx@gmail.com>
-:::::: CC: Viresh Kumar <viresh.kumar@linaro.org>
+a06ae8609b3dd0 drivers/coresight/coresight.c                Pratik Patel     2014-11-03  332  
+b3e94405941e69 drivers/hwtracing/coresight/coresight.c      Mathieu Poirier  2016-02-17  333  static int coresight_enable_link(struct coresight_device *csdev,
+b3e94405941e69 drivers/hwtracing/coresight/coresight.c      Mathieu Poirier  2016-02-17  334  				 struct coresight_device *parent,
+b3e94405941e69 drivers/hwtracing/coresight/coresight.c      Mathieu Poirier  2016-02-17  335  				 struct coresight_device *child)
+a06ae8609b3dd0 drivers/coresight/coresight.c                Pratik Patel     2014-11-03  336  {
+edda32dabedb01 drivers/hwtracing/coresight/coresight.c      Yabin Cui        2019-11-04  337  	int ret = 0;
+a06ae8609b3dd0 drivers/coresight/coresight.c                Pratik Patel     2014-11-03  338  	int link_subtype;
+ae7f2b5a7b569f drivers/hwtracing/coresight/coresight-core.c James Clark      2023-04-25  339  	struct coresight_connection *inconn, *outconn;
+a06ae8609b3dd0 drivers/coresight/coresight.c                Pratik Patel     2014-11-03  340  
+b3e94405941e69 drivers/hwtracing/coresight/coresight.c      Mathieu Poirier  2016-02-17  341  	if (!parent || !child)
+b3e94405941e69 drivers/hwtracing/coresight/coresight.c      Mathieu Poirier  2016-02-17  342  		return -EINVAL;
+b3e94405941e69 drivers/hwtracing/coresight/coresight.c      Mathieu Poirier  2016-02-17  343  
+ae7f2b5a7b569f drivers/hwtracing/coresight/coresight-core.c James Clark      2023-04-25  344  	inconn = coresight_find_out_connection(parent, csdev);
+ae7f2b5a7b569f drivers/hwtracing/coresight/coresight-core.c James Clark      2023-04-25  345  	outconn = coresight_find_out_connection(csdev, child);
+a06ae8609b3dd0 drivers/coresight/coresight.c                Pratik Patel     2014-11-03  346  	link_subtype = csdev->subtype.link_subtype;
+a06ae8609b3dd0 drivers/coresight/coresight.c                Pratik Patel     2014-11-03  347  
+ae7f2b5a7b569f drivers/hwtracing/coresight/coresight-core.c James Clark      2023-04-25  348  	if (link_subtype == CORESIGHT_DEV_SUBTYPE_LINK_MERG && IS_ERR(inconn))
+ae7f2b5a7b569f drivers/hwtracing/coresight/coresight-core.c James Clark      2023-04-25 @349  		return PTR_ERR(inconn);
+ae7f2b5a7b569f drivers/hwtracing/coresight/coresight-core.c James Clark      2023-04-25  350  	if (link_subtype == CORESIGHT_DEV_SUBTYPE_LINK_SPLIT && IS_ERR(outconn))
+ae7f2b5a7b569f drivers/hwtracing/coresight/coresight-core.c James Clark      2023-04-25  351  		return PTR_ERR(outconn);
+fe470f5f7f684e drivers/hwtracing/coresight/coresight.c      Suzuki K Poulose 2018-07-11  352  
+177af8285b59a3 drivers/hwtracing/coresight/coresight.c      Mike Leach       2020-03-20  353  	if (link_ops(csdev)->enable) {
+177af8285b59a3 drivers/hwtracing/coresight/coresight.c      Mike Leach       2020-03-20  354  		ret = coresight_control_assoc_ectdev(csdev, true);
+177af8285b59a3 drivers/hwtracing/coresight/coresight.c      Mike Leach       2020-03-20  355  		if (!ret) {
+ae7f2b5a7b569f drivers/hwtracing/coresight/coresight-core.c James Clark      2023-04-25  356  			ret = link_ops(csdev)->enable(csdev, inconn, outconn);
+177af8285b59a3 drivers/hwtracing/coresight/coresight.c      Mike Leach       2020-03-20  357  			if (ret)
+177af8285b59a3 drivers/hwtracing/coresight/coresight.c      Mike Leach       2020-03-20  358  				coresight_control_assoc_ectdev(csdev, false);
+177af8285b59a3 drivers/hwtracing/coresight/coresight.c      Mike Leach       2020-03-20  359  		}
+177af8285b59a3 drivers/hwtracing/coresight/coresight.c      Mike Leach       2020-03-20  360  	}
+177af8285b59a3 drivers/hwtracing/coresight/coresight.c      Mike Leach       2020-03-20  361  
+edda32dabedb01 drivers/hwtracing/coresight/coresight.c      Yabin Cui        2019-11-04  362  	if (!ret)
+a06ae8609b3dd0 drivers/coresight/coresight.c                Pratik Patel     2014-11-03  363  		csdev->enable = true;
+a06ae8609b3dd0 drivers/coresight/coresight.c                Pratik Patel     2014-11-03  364  
+edda32dabedb01 drivers/hwtracing/coresight/coresight.c      Yabin Cui        2019-11-04  365  	return ret;
+a06ae8609b3dd0 drivers/coresight/coresight.c                Pratik Patel     2014-11-03  366  }
+a06ae8609b3dd0 drivers/coresight/coresight.c                Pratik Patel     2014-11-03  367  
 
 -- 
 0-DAY CI Kernel Test Service
