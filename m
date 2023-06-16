@@ -1,42 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D0F1B914
-	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jun 2023 19:16:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB47F2E0F7
+	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jun 2023 23:25:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686942981; x=1718478981;
+  t=1686957901; x=1718493901;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nhDAb0Htg5tzOAG0MILtt36JB5eW43VGBxjIDD9/EdI=;
-  b=dtybBkWpLoaWgkWKvqJGmMXRI8dYwF8hvnBPDhMfo2n4nT31rkvrIxPa
-   2I6aXWZhy0gs5VlnOPRkENi3fFOZJLDclBbfzlVUNVveskxTzr7PnvqHj
-   xbqgJ7GlSXLmjfsX6FnKocq72VBfhbTNYdor7Ga/mv0uymBOwsVso0c60
-   IlYskm2kkVC8KKjJzgpdG0Ug1dgHmLmm1XPytVjgnWfoBPWsV3AiHBvt9
-   Pa++3zYc/v48BYGKAotLKqad4GiWdjfxv4vssf4nvw3ZRRoedbQm8l1WU
-   lpREsKSl7GHYYlgdst7taOGG0IIox8n9Y47ZYNibSVI2fvAGcC7snlopj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="422946595"
+  bh=EEzwyF6IVD2xfZvkTIB962d1RYUJib5Tq9J7/WcxTVk=;
+  b=TG3LQvZdRDeJD5pQ72GFdMDd16Qa/F+tFVP6A3Ik9bDd1i4DVap3cOxM
+   v9oc+QrlWDeeMS7CbELG05aQbAK4BBPId+xaEsQxVlyykm5lHjTVC9fA0
+   accsA5c6YbiyHlrGApqpqP974PcOM0Fq1rPx2yv4dhZfczMkg6HHm81QC
+   zEBgvshpGLgUwyMHYRyExyRmtlggZzYDp+loog4vbWdMgeWfSniswu8y0
+   l48qU+eULH1A084VkSy5xfNnUdwYr3yJJseKGbNehmBJDyvimk631+1tT
+   1HhOJg5KhBJW12k59lAt5/Gi6YMA7/qimTiI6J7mc+PQHh6Lj1/cNM3tl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="339667672"
 X-IronPort-AV: E=Sophos;i="6.00,248,1681196400"; 
-   d="scan'208";a="422946595"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 12:15:52 -0700
+   d="scan'208";a="339667672"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 16:25:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="959725084"
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="778324093"
 X-IronPort-AV: E=Sophos;i="6.00,248,1681196400"; 
-   d="scan'208";a="959725084"
+   d="scan'208";a="778324093"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 16 Jun 2023 12:15:51 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 16 Jun 2023 16:24:59 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAEvG-0001ju-2I;
-	Fri, 16 Jun 2023 19:15:50 +0000
-Date: Sat, 17 Jun 2023 03:15:24 +0800
+	id 1qAIoM-0001uS-2b;
+	Fri, 16 Jun 2023 23:24:58 +0000
+Date: Sat, 17 Jun 2023 07:24:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/vhost/vringh.c:1320 putu16_iotlb() warn: ignoring
- unreachable code.
-Message-ID: <202306170341.RSzzJX6H-lkp@intel.com>
+Subject: [djwong-xfs:xfile-page-caching 161/202] fs/xfs/xfs_rtalloc.c:1552
+ xfs_rtfile_convert_one() warn: missing error code 'error'
+Message-ID: <202306170709.yzj6aBnP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,69 +48,106 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Stefano Garzarella <sgarzare@redhat.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   40f71e7cd3c6ac04293556ab0504a372393838ff
-commit: 42823a871fd4e17b34034f43b36ae57bd2ed8a67 vringh: support VA with iotlb
-date:   8 weeks ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 8 weeks ago
-config: arc-randconfig-m041-20230615 (https://download.01.org/0day-ci/archive/20230617/202306170341.RSzzJX6H-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230617/202306170341.RSzzJX6H-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
+head:   9f2fc0e8ef147d9fd9c6af47c4ab87427e0d2d19
+commit: 31fe3ca50677bd3b5f6d472bab77af46434dd62d [161/202] xfs: make atomic extent swapping support realtime files
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: mips-randconfig-m041-20230615 (https://download.01.org/0day-ci/archive/20230617/202306170709.yzj6aBnP-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230617/202306170709.yzj6aBnP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306170341.RSzzJX6H-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306170709.yzj6aBnP-lkp@intel.com/
 
-smatch warnings:
-drivers/vhost/vringh.c:1320 putu16_iotlb() warn: ignoring unreachable code.
+New smatch warnings:
+fs/xfs/xfs_rtalloc.c:1552 xfs_rtfile_convert_one() warn: missing error code 'error'
 
-vim +1320 drivers/vhost/vringh.c
+Old smatch warnings:
+fs/xfs/xfs_rtalloc.c:332 xfs_rtallocate_extent_block() error: uninitialized symbol 'next'.
+fs/xfs/xfs_rtalloc.c:847 xfs_growfs_rt_alloc() warn: missing unwind goto?
 
-9ad9c49cfe970b Jason Wang         2020-03-26  1295  
-9ad9c49cfe970b Jason Wang         2020-03-26  1296  static inline int putu16_iotlb(const struct vringh *vrh,
-9ad9c49cfe970b Jason Wang         2020-03-26  1297  			       __virtio16 *p, u16 val)
-9ad9c49cfe970b Jason Wang         2020-03-26  1298  {
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1299  	struct iotlb_vec ivec;
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1300  	union {
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1301  		struct iovec iovec;
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1302  		struct bio_vec bvec;
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1303  	} iov;
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1304  	__virtio16 tmp;
-9ad9c49cfe970b Jason Wang         2020-03-26  1305  	int ret;
-9ad9c49cfe970b Jason Wang         2020-03-26  1306  
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1307  	ivec.iov.iovec = &iov.iovec;
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1308  	ivec.count = 1;
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1309  
-9ad9c49cfe970b Jason Wang         2020-03-26  1310  	/* Atomic write is needed for putu16 */
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1311  	ret = iotlb_translate(vrh, (u64)(uintptr_t)p, sizeof(*p),
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1312  			      NULL, &ivec, VHOST_MAP_RO);
-9ad9c49cfe970b Jason Wang         2020-03-26  1313  	if (ret < 0)
-9ad9c49cfe970b Jason Wang         2020-03-26  1314  		return ret;
-9ad9c49cfe970b Jason Wang         2020-03-26  1315  
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1316  	tmp = cpu_to_vringh16(vrh, val);
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1317  
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1318  	if (vrh->use_va) {
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1319  		ret = __put_user(tmp, (__virtio16 __user *)ivec.iov.iovec[0].iov_base);
-42823a871fd4e1 Stefano Garzarella 2023-04-04 @1320  		if (ret)
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1321  			return ret;
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1322  	} else {
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1323  		void *kaddr = kmap_local_page(ivec.iov.bvec[0].bv_page);
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1324  		void *to = kaddr + ivec.iov.bvec[0].bv_offset;
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1325  
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1326  		WRITE_ONCE(*(__virtio16 *)to, tmp);
-c0371782500c53 Stefano Garzarella 2023-04-04  1327  		kunmap_local(kaddr);
-42823a871fd4e1 Stefano Garzarella 2023-04-04  1328  	}
-9ad9c49cfe970b Jason Wang         2020-03-26  1329  
-9ad9c49cfe970b Jason Wang         2020-03-26  1330  	return 0;
-9ad9c49cfe970b Jason Wang         2020-03-26  1331  }
-9ad9c49cfe970b Jason Wang         2020-03-26  1332  
+vim +/error +1552 fs/xfs/xfs_rtalloc.c
+
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1512  
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1513  /*
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1514   * Find an unwritten extent in the given file range, zero it, and convert the
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1515   * mapping to written.  Adjust the scan cursor on the way out.
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1516   */
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1517  STATIC int
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1518  xfs_rtfile_convert_one(
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1519  	struct xfs_inode	*ip,
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1520  	xfs_fileoff_t		*offp,
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1521  	xfs_fileoff_t		endoff)
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1522  {
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1523  	struct xfs_bmbt_irec	irec;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1524  	struct xfs_mount	*mp = ip->i_mount;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1525  	struct xfs_trans	*tp;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1526  	unsigned int		resblks;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1527  	int			nmap;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1528  	int			error;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1529  
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1530  	resblks = XFS_DIOSTRAT_SPACE_RES(mp, 1);
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1531  	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_write, resblks, 0, 0, &tp);
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1532  	if (error)
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1533  		return error;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1534  
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1535  	xfs_ilock(ip, XFS_ILOCK_EXCL);
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1536  	xfs_trans_ijoin(tp, ip, 0);
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1537  
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1538  	/*
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1539  	 * Read the mapping.  If we find an unwritten extent that isn't aligned
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1540  	 * to an rt extent boundary...
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1541  	 */
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1542  retry:
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1543  	nmap = 1;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1544  	error = xfs_bmapi_read(ip, *offp, endoff - *offp, &irec, &nmap, 0);
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1545  	if (error)
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1546  		goto out_cancel;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1547  	ASSERT(nmap == 1);
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1548  	ASSERT(irec.br_startoff == *offp);
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1549  	if (!xfs_rtfile_want_conversion(mp, &irec)) {
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1550  		*offp = irec.br_startoff + irec.br_blockcount;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1551  		if (*offp >= endoff)
+31fe3ca50677bd Darrick J. Wong 2023-03-06 @1552  			goto out_cancel;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1553  		goto retry;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1554  	}
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1555  
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1556  	/*
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1557  	 * ...make sure this partially unwritten rt extent gets converted to a
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1558  	 * zeroed written extent that we can remap.
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1559  	 */
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1560  	nmap = 1;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1561  	error = xfs_bmapi_write(tp, ip, irec.br_startoff, irec.br_blockcount,
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1562  			XFS_BMAPI_CONVERT | XFS_BMAPI_ZERO, 0, &irec, &nmap);
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1563  	if (error)
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1564  		goto out_cancel;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1565  	ASSERT(nmap == 1);
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1566  	if (irec.br_state != XFS_EXT_NORM) {
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1567  		ASSERT(0);
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1568  		error = -EIO;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1569  		goto out_cancel;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1570  	}
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1571  	error = xfs_trans_commit(tp);
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1572  	if (error)
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1573  		goto out_unlock;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1574  
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1575  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1576  	*offp = irec.br_startoff + irec.br_blockcount;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1577  	return 0;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1578  
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1579  out_cancel:
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1580  	xfs_trans_cancel(tp);
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1581  out_unlock:
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1582  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1583  	return error;
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1584  }
+31fe3ca50677bd Darrick J. Wong 2023-03-06  1585  
 
 -- 
 0-DAY CI Kernel Test Service
