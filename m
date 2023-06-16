@@ -1,94 +1,117 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BFAA92E;
-	Fri, 16 Jun 2023 15:26:16 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1b3ce6607cbso6927585ad.2;
-        Fri, 16 Jun 2023 08:26:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686929176; x=1689521176;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FYEUhusEwyxkiisDOSpxeCHXNG+5BbVISUY4GtvTkN8=;
-        b=p92nQbO9Sud5mdHG1nChDcyBp2JdCiUAywygC0zaZtY8TqIeGSEgsfxZZ8GfXydJoN
-         abu6F3+vcUKjN4ECTnu8V2nbopYCO+4QM4ggeNcpQZQYwWpf5zpzKwi7Jp/yL3VnEBHN
-         1hmW04lIkp1P6yTOt4ejPP0O0QT/h68y6Vm2KoMtY7ptw7UULJsT5D+NbRas/bM2T+MH
-         pSIuCXipV4WfzfeLwajUlyb3L4tiBuzYXnsRxX8g9QEk5IBX+WXtTNryj/KZroDJmx5v
-         bIOvtU2/Z7JD3VcszqFi1e6e3mwPyFOuBrIlvb/hrlhEfQ0sHToa/COoFHp2dYrsyave
-         tIig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686929176; x=1689521176;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FYEUhusEwyxkiisDOSpxeCHXNG+5BbVISUY4GtvTkN8=;
-        b=BXaPj11uVMJumcm6HeaFYja/nNPmtbGbTpTuhkvOY+4St031XAhZXGr21iwvYBRiFn
-         owecuJIQoJb2jx5OfdZ841UvQaklnzHXB+LlIyo5lD1YdoUyADEfcKI4NPAGHqOBpGjm
-         PYacApl0szdMpjSEMxTiQlYNEy0KnK/tCgs4rjhAxbmF9ExGtxhA2XHRq+nPYEaKexd8
-         6b+Su8+SPyM8o8eNDdLdQMVUMfRHUp8HTm+nzqT635iZmahk0Pf3egklfaAQT8rZKLj3
-         Fuubvt/PEJz6T9XxH6DzIj/5zWtOeP7vMcrzBYzYCUMI7kbx9LPPKOrtzxxWv/kNUgga
-         7r9w==
-X-Gm-Message-State: AC+VfDxm3Zu6yiCG8wnlcACYuJKUFivSRmKaUa3iaJXUD2W/W2oczPc2
-	1qhOziATFUPPIIdMIYw15O8=
-X-Google-Smtp-Source: ACHHUZ7QvN4j0Qeq68SxC2rezbHf0jggR9Y82c1vFRVSrbpVdi2lemrYvrrwPSofnw0kkQy4pIzj1Q==
-X-Received: by 2002:a17:903:2341:b0:1ad:f138:b2f6 with SMTP id c1-20020a170903234100b001adf138b2f6mr2576988plh.16.1686929175766;
-        Fri, 16 Jun 2023 08:26:15 -0700 (PDT)
-Received: from redkillpc.. ([49.207.203.99])
-        by smtp.gmail.com with ESMTPSA id y13-20020a17090322cd00b001a69dfd918dsm15992057plg.187.2023.06.16.08.26.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jun 2023 08:26:15 -0700 (PDT)
-From: Prathu Baronia <prathubaronia2011@gmail.com>
-To: prathubaronia2011@gmail.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Khadija Kamran <kamrankhadijadj@gmail.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org,
-	error27@gmail.com,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	oe-kbuild@lists.linux.dev
-Subject: [PATCH v5 2/2] axis-fifo: remove the unnecessary dev_info()
-Date: Fri, 16 Jun 2023 20:56:00 +0530
-Message-Id: <20230616152602.33232-2-prathubaronia2011@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230616152602.33232-1-prathubaronia2011@gmail.com>
-References: <ZIiTL5bzMUgs3L5K@redkillpc>
- <20230616152602.33232-1-prathubaronia2011@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D0F1B914
+	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jun 2023 19:16:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686942981; x=1718478981;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nhDAb0Htg5tzOAG0MILtt36JB5eW43VGBxjIDD9/EdI=;
+  b=dtybBkWpLoaWgkWKvqJGmMXRI8dYwF8hvnBPDhMfo2n4nT31rkvrIxPa
+   2I6aXWZhy0gs5VlnOPRkENi3fFOZJLDclBbfzlVUNVveskxTzr7PnvqHj
+   xbqgJ7GlSXLmjfsX6FnKocq72VBfhbTNYdor7Ga/mv0uymBOwsVso0c60
+   IlYskm2kkVC8KKjJzgpdG0Ug1dgHmLmm1XPytVjgnWfoBPWsV3AiHBvt9
+   Pa++3zYc/v48BYGKAotLKqad4GiWdjfxv4vssf4nvw3ZRRoedbQm8l1WU
+   lpREsKSl7GHYYlgdst7taOGG0IIox8n9Y47ZYNibSVI2fvAGcC7snlopj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="422946595"
+X-IronPort-AV: E=Sophos;i="6.00,248,1681196400"; 
+   d="scan'208";a="422946595"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 12:15:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="959725084"
+X-IronPort-AV: E=Sophos;i="6.00,248,1681196400"; 
+   d="scan'208";a="959725084"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 16 Jun 2023 12:15:51 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qAEvG-0001ju-2I;
+	Fri, 16 Jun 2023 19:15:50 +0000
+Date: Sat, 17 Jun 2023 03:15:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/vhost/vringh.c:1320 putu16_iotlb() warn: ignoring
+ unreachable code.
+Message-ID: <202306170341.RSzzJX6H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This dev_info() statement is not needed since drivers need to be quiet
-under normal operation and its not a good idea to print addresses in
-kernel log.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Stefano Garzarella <sgarzare@redhat.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>
 
-Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
----
- drivers/staging/axis-fifo/axis-fifo.c | 3 ---
- 1 file changed, 3 deletions(-)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   40f71e7cd3c6ac04293556ab0504a372393838ff
+commit: 42823a871fd4e17b34034f43b36ae57bd2ed8a67 vringh: support VA with iotlb
+date:   8 weeks ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 8 weeks ago
+config: arc-randconfig-m041-20230615 (https://download.01.org/0day-ci/archive/20230617/202306170341.RSzzJX6H-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230617/202306170341.RSzzJX6H-lkp@intel.com/reproduce)
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 5e070e00e27a..d1ce8b9e32eb 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -906,9 +906,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
- 	if (rc < 0)
- 		goto err_initial;
- 
--	dev_info(fifo->dt_device, "axis-fifo created at %pa mapped to 0x%pa, irq=%i\n",
--		 &r_mem->start, &fifo->base_addr, fifo->irq);
--
- 	return 0;
- 
- err_initial:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202306170341.RSzzJX6H-lkp@intel.com/
+
+smatch warnings:
+drivers/vhost/vringh.c:1320 putu16_iotlb() warn: ignoring unreachable code.
+
+vim +1320 drivers/vhost/vringh.c
+
+9ad9c49cfe970b Jason Wang         2020-03-26  1295  
+9ad9c49cfe970b Jason Wang         2020-03-26  1296  static inline int putu16_iotlb(const struct vringh *vrh,
+9ad9c49cfe970b Jason Wang         2020-03-26  1297  			       __virtio16 *p, u16 val)
+9ad9c49cfe970b Jason Wang         2020-03-26  1298  {
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1299  	struct iotlb_vec ivec;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1300  	union {
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1301  		struct iovec iovec;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1302  		struct bio_vec bvec;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1303  	} iov;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1304  	__virtio16 tmp;
+9ad9c49cfe970b Jason Wang         2020-03-26  1305  	int ret;
+9ad9c49cfe970b Jason Wang         2020-03-26  1306  
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1307  	ivec.iov.iovec = &iov.iovec;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1308  	ivec.count = 1;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1309  
+9ad9c49cfe970b Jason Wang         2020-03-26  1310  	/* Atomic write is needed for putu16 */
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1311  	ret = iotlb_translate(vrh, (u64)(uintptr_t)p, sizeof(*p),
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1312  			      NULL, &ivec, VHOST_MAP_RO);
+9ad9c49cfe970b Jason Wang         2020-03-26  1313  	if (ret < 0)
+9ad9c49cfe970b Jason Wang         2020-03-26  1314  		return ret;
+9ad9c49cfe970b Jason Wang         2020-03-26  1315  
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1316  	tmp = cpu_to_vringh16(vrh, val);
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1317  
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1318  	if (vrh->use_va) {
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1319  		ret = __put_user(tmp, (__virtio16 __user *)ivec.iov.iovec[0].iov_base);
+42823a871fd4e1 Stefano Garzarella 2023-04-04 @1320  		if (ret)
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1321  			return ret;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1322  	} else {
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1323  		void *kaddr = kmap_local_page(ivec.iov.bvec[0].bv_page);
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1324  		void *to = kaddr + ivec.iov.bvec[0].bv_offset;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1325  
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1326  		WRITE_ONCE(*(__virtio16 *)to, tmp);
+c0371782500c53 Stefano Garzarella 2023-04-04  1327  		kunmap_local(kaddr);
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1328  	}
+9ad9c49cfe970b Jason Wang         2020-03-26  1329  
+9ad9c49cfe970b Jason Wang         2020-03-26  1330  	return 0;
+9ad9c49cfe970b Jason Wang         2020-03-26  1331  }
+9ad9c49cfe970b Jason Wang         2020-03-26  1332  
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
