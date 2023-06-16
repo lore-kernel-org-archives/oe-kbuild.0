@@ -1,42 +1,49 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF5E624
-	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jun 2023 07:16:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686899775; x=1718435775;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EhBBDCc5FgDPziO9FgQDtSrx/49oLvmJJVhZsLmp51o=;
-  b=B9rDYHCY25WxjYNpCJmKWrFXUORK/MdMeXHHqp1JLGtf30Avg8LN3yff
-   485x3Ck/i45q7eJW/66CoJwBZ9tF4hXv1mX9dXY2n74Trrn8V3QNyANjb
-   EBh75V/VjpPmUbbtMsmyK61GiDAWDEyQIdODlN7mKbzjVVgZ/ARqJSAwe
-   FbNiTJ/r6Zfp8Z82L7cNitL4bc30qZ3DQue78MXf+vLq4gZkK6VoQcJt/
-   MJbVExh/B6ZAX1sWi2U+v7M0GtUfPaimgw9kDl9RupZbFV8VmxO4nqcbD
-   C9am3+9XJeLdkIKLu5mHHG9E/XfFSzKWv1bjjl8UApT7ZXenEQvyOJsmp
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="425083498"
-X-IronPort-AV: E=Sophos;i="6.00,246,1681196400"; 
-   d="scan'208";a="425083498"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 00:16:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="836919981"
-X-IronPort-AV: E=Sophos;i="6.00,246,1681196400"; 
-   d="scan'208";a="836919981"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 16 Jun 2023 00:16:13 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qA3gq-0000uS-29;
-	Fri, 16 Jun 2023 07:16:12 +0000
-Date: Fri, 16 Jun 2023 15:15:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4717323C2
+	for <oe-kbuild@lists.linux.dev>; Fri, 16 Jun 2023 07:31:15 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3f7368126a6so2635335e9.0
+        for <oe-kbuild@lists.linux.dev>; Fri, 16 Jun 2023 00:31:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686900672; x=1689492672;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cChGQIty1IYA1Z9QffYMVvMHSh58mShOrUm17pTqqNI=;
+        b=Hnqv1NZbrzS+ukYzcYXuMMMP+ZRBZFVf3YQxXb4Tlf7brJWBWQm7sVrrhvN1OLIh9I
+         0kTh3apJeYs3Vy6nNT8smeHvVoJYwFU8h6AMkBPxaFy+ENdufHSHq0ARmU3CYd3GpU6Y
+         Rkin+bSCfVWxY6SEEVKFKMywuGWe7tI10g6qeZ1eTYWrd55c9AZq6ssldTYGYt6Sewpf
+         Mp8b5fFr79R9mkFe+R5R2Dk6Kt2dS0emjI5t1p3kPozHnVtpsOTRmoTOjSV88UG4qGlC
+         ZwjR8AmHcpMwPiL41td4SRE44vX2+WkSIvvS+yK82HGizoGJErq0UtnKi0qwgmRy4WSS
+         u3NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686900672; x=1689492672;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cChGQIty1IYA1Z9QffYMVvMHSh58mShOrUm17pTqqNI=;
+        b=XfpdOmPjpYvJMqyEBlKZYNXYP5zKeq/HimSjjxnw1t2qkx9ESQqpz9FNaZxpGgF1zq
+         Cd0joQIFPaEZbnzpAv7GsyUpqduDsk6FxEkG9VDITC3CSxvwisj+6Fo64u9eqh/iPYus
+         gXLY0a3B98rvxk+DfWOmYgIp6u8mE2/cgI7twrkilOsrVCzkwoqL95oQEsLawOnUAQ5P
+         /Jk0kw1aynepTkEPBp/euXNRZuOumDLFJZoLv9ldGYBQU2A8ctqji1fmZ8kZN+sfbNOF
+         Ahyd8EaQxazyDN5d4SaQAoBrs+O51++qPqPZYHbDxUiBeOXTI1ozZ4SL9jbQiAt9xou8
+         FN/g==
+X-Gm-Message-State: AC+VfDw7t9xItkOu0EltklVsNp5KpX5KRJwONlcRfP1OzMhk02SSM00r
+	Bz6Tuwk8rqOtCXpY8LHEfKHX/I/tVAgp1Ysx7/w=
+X-Google-Smtp-Source: ACHHUZ6ueAVK11qRZPvI7PGYbkXA2M6FyjGq0KOMbk585g0qQQ/KUCeiXdglAMqym7LqwQaVRcFiQQ==
+X-Received: by 2002:a7b:ca4e:0:b0:3f7:e48b:9752 with SMTP id m14-20020a7bca4e000000b003f7e48b9752mr917771wml.32.1686900671912;
+        Fri, 16 Jun 2023 00:31:11 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id d22-20020a1c7316000000b003f80946116dsm1317726wmb.45.2023.06.16.00.31.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Jun 2023 00:31:10 -0700 (PDT)
+Date: Fri, 16 Jun 2023 10:31:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Zhanhao Hu <zero12113@hust.edu.cn>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Abel Vesa <abel.vesa@linaro.org>
 Subject: [linux-next:master 8294/10546] drivers/clk/imx/clk-imx93.c:294
  imx93_clocks_probe() error: uninitialized symbol 'base'.
-Message-ID: <202306161533.4YDmL22b-lkp@intel.com>
+Message-ID: <9c2acd81-3ad8-485d-819e-9e4201277831@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,24 +53,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Zhanhao Hu <zero12113@hust.edu.cn>
-CC: Abel Vesa <abel.vesa@linaro.org>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   925294c9aa184801cc0a451b69a18dd0fe7d847d
 commit: e02ba11b457647050cb16e7cad16cec3c252fade [8294/10546] clk: imx93: fix memory leak and missing unwind goto in imx93_clocks_probe
-:::::: branch date: 26 hours ago
-:::::: commit date: 4 days ago
 config: arm-randconfig-m031-20230611 (https://download.01.org/0day-ci/archive/20230616/202306161533.4YDmL22b-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202306161533.4YDmL22b-lkp@intel.com/
 
 smatch warnings:
@@ -71,7 +70,6 @@ drivers/clk/imx/clk-imx93.c:294 imx93_clocks_probe() error: uninitialized symbol
 
 vim +/base +294 drivers/clk/imx/clk-imx93.c
 
-24defbe194b650 Peng Fan       2022-02-28  257  
 24defbe194b650 Peng Fan       2022-02-28  258  static int imx93_clocks_probe(struct platform_device *pdev)
 24defbe194b650 Peng Fan       2022-02-28  259  {
 24defbe194b650 Peng Fan       2022-02-28  260  	struct device *dev = &pdev->dev;
@@ -109,66 +107,16 @@ e02ba11b457647 Zhanhao Hu     2023-06-01  291  	anatop_base = devm_of_iomap(dev,
 24defbe194b650 Peng Fan       2022-02-28  292  	of_node_put(np);
 e02ba11b457647 Zhanhao Hu     2023-06-01  293  	if (WARN_ON(IS_ERR(anatop_base))) {
 e02ba11b457647 Zhanhao Hu     2023-06-01 @294  		ret = PTR_ERR(base);
+
+s/anatop_base/base/
+
 e02ba11b457647 Zhanhao Hu     2023-06-01  295  		goto unregister_hws;
 e02ba11b457647 Zhanhao Hu     2023-06-01  296  	}
 24defbe194b650 Peng Fan       2022-02-28  297  
 6b60c3ae3e98d0 Peng Fan       2023-04-03  298  	clks[IMX93_CLK_ARM_PLL] = imx_clk_fracn_gppll_integer("arm_pll", "osc_24m",
 6b60c3ae3e98d0 Peng Fan       2023-04-03  299  							      anatop_base + 0x1000,
-6b60c3ae3e98d0 Peng Fan       2023-04-03  300  							      &imx_fracn_gppll_integer);
-bda7b7f396f94d Peng Fan       2022-10-28  301  	clks[IMX93_CLK_AUDIO_PLL] = imx_clk_fracn_gppll("audio_pll", "osc_24m", anatop_base + 0x1200,
-24defbe194b650 Peng Fan       2022-02-28  302  							&imx_fracn_gppll);
-bda7b7f396f94d Peng Fan       2022-10-28  303  	clks[IMX93_CLK_VIDEO_PLL] = imx_clk_fracn_gppll("video_pll", "osc_24m", anatop_base + 0x1400,
-24defbe194b650 Peng Fan       2022-02-28  304  							&imx_fracn_gppll);
-24defbe194b650 Peng Fan       2022-02-28  305  
-24defbe194b650 Peng Fan       2022-02-28  306  	np = dev->of_node;
-24defbe194b650 Peng Fan       2022-02-28  307  	base = devm_platform_ioremap_resource(pdev, 0);
-bda7b7f396f94d Peng Fan       2022-10-28  308  	if (WARN_ON(IS_ERR(base))) {
-e02ba11b457647 Zhanhao Hu     2023-06-01  309  		ret = PTR_ERR(base);
-e02ba11b457647 Zhanhao Hu     2023-06-01  310  		goto unregister_hws;
-bda7b7f396f94d Peng Fan       2022-10-28  311  	}
-24defbe194b650 Peng Fan       2022-02-28  312  
-24defbe194b650 Peng Fan       2022-02-28  313  	for (i = 0; i < ARRAY_SIZE(root_array); i++) {
-24defbe194b650 Peng Fan       2022-02-28  314  		root = &root_array[i];
-24defbe194b650 Peng Fan       2022-02-28  315  		clks[root->clk] = imx93_clk_composite_flags(root->name,
-24defbe194b650 Peng Fan       2022-02-28  316  							    parent_names[root->sel],
-2b66f02e2de174 Peng Fan       2022-08-30  317  							    4, base + root->off, 3,
-24defbe194b650 Peng Fan       2022-02-28  318  							    root->flags);
-24defbe194b650 Peng Fan       2022-02-28  319  	}
-24defbe194b650 Peng Fan       2022-02-28  320  
-24defbe194b650 Peng Fan       2022-02-28  321  	for (i = 0; i < ARRAY_SIZE(ccgr_array); i++) {
-24defbe194b650 Peng Fan       2022-02-28  322  		ccgr = &ccgr_array[i];
-d91012fa0058a7 Peng Fan       2022-08-30  323  		clks[ccgr->clk] = imx93_clk_gate(NULL, ccgr->name, ccgr->parent_name,
-d91012fa0058a7 Peng Fan       2022-08-30  324  						 ccgr->flags, base + ccgr->off, 0, 1, 1, 3,
-d91012fa0058a7 Peng Fan       2022-08-30  325  						 ccgr->shared_count);
-24defbe194b650 Peng Fan       2022-02-28  326  	}
-24defbe194b650 Peng Fan       2022-02-28  327  
-6b60c3ae3e98d0 Peng Fan       2023-04-03  328  	clks[IMX93_CLK_A55_SEL] = imx_clk_hw_mux2("a55_sel", base + 0x4820, 0, 1, a55_core_sels,
-6b60c3ae3e98d0 Peng Fan       2023-04-03  329  						  ARRAY_SIZE(a55_core_sels));
-6b60c3ae3e98d0 Peng Fan       2023-04-03  330  	clks[IMX93_CLK_A55_CORE] = imx_clk_hw_cpu("a55_core", "a55_sel",
-6b60c3ae3e98d0 Peng Fan       2023-04-03  331  						  clks[IMX93_CLK_A55_SEL]->clk,
-6b60c3ae3e98d0 Peng Fan       2023-04-03  332  						  clks[IMX93_CLK_A55_SEL]->clk,
-6b60c3ae3e98d0 Peng Fan       2023-04-03  333  						  clks[IMX93_CLK_ARM_PLL]->clk,
-6b60c3ae3e98d0 Peng Fan       2023-04-03  334  						  clks[IMX93_CLK_A55_GATE]->clk);
-6b60c3ae3e98d0 Peng Fan       2023-04-03  335  
-24defbe194b650 Peng Fan       2022-02-28  336  	imx_check_clk_hws(clks, IMX93_CLK_END);
-24defbe194b650 Peng Fan       2022-02-28  337  
-24defbe194b650 Peng Fan       2022-02-28  338  	ret = of_clk_add_hw_provider(np, of_clk_hw_onecell_get, clk_hw_data);
-24defbe194b650 Peng Fan       2022-02-28  339  	if (ret < 0) {
-24defbe194b650 Peng Fan       2022-02-28  340  		dev_err(dev, "failed to register clks for i.MX93\n");
-24defbe194b650 Peng Fan       2022-02-28  341  		goto unregister_hws;
-24defbe194b650 Peng Fan       2022-02-28  342  	}
-24defbe194b650 Peng Fan       2022-02-28  343  
-8cdaad718f1af2 Peng Fan       2023-01-04  344  	imx_register_uart_clocks();
-8cdaad718f1af2 Peng Fan       2023-01-04  345  
-24defbe194b650 Peng Fan       2022-02-28  346  	return 0;
-24defbe194b650 Peng Fan       2022-02-28  347  
-24defbe194b650 Peng Fan       2022-02-28  348  unregister_hws:
-24defbe194b650 Peng Fan       2022-02-28  349  	imx_unregister_hw_clocks(clks, IMX93_CLK_END);
-24defbe194b650 Peng Fan       2022-02-28  350  
-24defbe194b650 Peng Fan       2022-02-28  351  	return ret;
-24defbe194b650 Peng Fan       2022-02-28  352  }
-24defbe194b650 Peng Fan       2022-02-28  353  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
