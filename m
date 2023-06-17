@@ -1,42 +1,49 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D31111C
-	for <oe-kbuild@lists.linux.dev>; Sat, 17 Jun 2023 06:28:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686983302; x=1718519302;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nnVnwB4pxvNVnI4IMBW5EVPr3/CZCWyRlr2N9ZeZFXA=;
-  b=bKjLqUNZML7R89pmHI0OEC0WaPmkVCNx7PsxGDt7Y6xbngdWiKnrWzi8
-   281Xn1o3DBSpWlCzSkEwA2W2DLYu45ogrfbx0kzGySg+e4+Q01k5A9zB/
-   7pp/qmH1rQIKoGsQXzrG029y+IbFftqVXOhRDjA4xmKmI+gWoUQs0KDZN
-   bXy/bMZ0+g4LLnI5hEuh+/sKvOhzez+8CqAJxObI2cR3qOVeM/x/XYD2F
-   phNBZKOkdo2Cucl3pNZ9gxiKUe0H+84J+cjbSI3VX24Lb/NUiuAnNFdaG
-   iv/m6bxPKKESsMhuBRORugw1CDuMM9NPM9ax4WOWhfX/JLhKfi9uY0VfH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="423021973"
-X-IronPort-AV: E=Sophos;i="6.00,249,1681196400"; 
-   d="scan'208";a="423021973"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 23:28:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="959868917"
-X-IronPort-AV: E=Sophos;i="6.00,249,1681196400"; 
-   d="scan'208";a="959868917"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 16 Jun 2023 23:28:18 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qAPQ3-0002Nr-06;
-	Sat, 17 Jun 2023 06:28:19 +0000
-Date: Sat, 17 Jun 2023 14:28:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB3E79F8
+	for <oe-kbuild@lists.linux.dev>; Sat, 17 Jun 2023 11:38:18 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-30e3caa6aa7so1426455f8f.1
+        for <oe-kbuild@lists.linux.dev>; Sat, 17 Jun 2023 04:38:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687001896; x=1689593896;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VoVH6h/p+YtnHfXnmiQLUOabccFDd4jrrthEkbIEdwk=;
+        b=K/LO8Xdoqsk5r2kpjyF7C3Wy+hT9oXoakCeEO9Ja4LWd3fqURErZyNx2sTgCxngE9i
+         SHFiKynF89OLjXr0Wgr4j5WsEYTkm7sA3gtxJ0k/o7LL2/uRK8jAeZCu5+LnwHZjGoBC
+         QylFsUSYDtK1zutKwzwUQH/vTtH5OmQux2OmT/T1fs/hm/XTM7dPfiKTtKSRMq/URj5A
+         PaxtRdUNlEkJygHME0U6AOwQA/ZxBobWVh2cY4FCZlexWd1mJYgNdLQ0h2c4BVpE/zZE
+         xGz0+huqn15Xv5JH8JvfJjO4AnijAs4WvYHW4GLuYQypEKgSBMJ4Z2pg/g2mOLGtV3W0
+         /UkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687001896; x=1689593896;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VoVH6h/p+YtnHfXnmiQLUOabccFDd4jrrthEkbIEdwk=;
+        b=Kj20RLrtdGWVypaQGHjCpOsPrU8QHeapiXmByUi6D8kT0gJ3FMJsM5KTpLZBBBs0xI
+         yi1y5iWaKlQ9rPOR80NaI117U1di+8ANhdAukpN7i5S6ApUdI7XZLoWv9LKaj+yiBKz3
+         SRvUSl4VZhm59yBt3kLuYun6VdmNwHhpfnhjYnwlZ57P6yVIOLeyfqIlrks3vHBsTvjL
+         bLIIpFlA4XatUvWwlhB/TJtzDm93sc5YcvJ+KnSckT5nmnCUC8HNqNbHw2kN8j2knld5
+         zP6rEwQdNVHBP6Gs08LXqJJAJxvVIymdVLmdQBb2rPSd/k2UF6PNLfeWkLQ2T3v6y8J/
+         8oRA==
+X-Gm-Message-State: AC+VfDxGKFGXmVh/W0dTLLxIVzm3S1/JXYcx7mUEEcbRjGjdIfeKya9z
+	B3Ag+AU9xZBlinzzKCLWqqs13p2JW1HdI7jReQU=
+X-Google-Smtp-Source: ACHHUZ7+YnLmiv6yf/ZhrnbyzA0tC1BJUYqoBX7ZIcXVVPdHB3LBHZ/1ChBOxC5tDtKWvs8bbfJiCg==
+X-Received: by 2002:a05:6000:1370:b0:311:1a45:3606 with SMTP id q16-20020a056000137000b003111a453606mr3637529wrz.30.1687001895939;
+        Sat, 17 Jun 2023 04:38:15 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id y3-20020a5d6203000000b003062c0ef959sm26085813wru.69.2023.06.17.04.38.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Jun 2023 04:38:14 -0700 (PDT)
+Date: Sat, 17 Jun 2023 14:38:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v4 09/25] iommu: Allow an IDENTITY domain as the
  default_domain in ARM32
-Message-ID: <202306171458.LfWLILeK-lkp@intel.com>
+Message-ID: <f5719ba8-0beb-4eea-8d67-7624c1b62c79@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,25 +52,16 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <9-v4-874277bde66e+1a9f6-iommu_all_defdom_jgg@nvidia.com>
-References: <9-v4-874277bde66e+1a9f6-iommu_all_defdom_jgg@nvidia.com>
-TO: Jason Gunthorpe <jgg@nvidia.com>
 
 Hi Jason,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on fe420865bd74f5917ff0d8d38a46fbbbe5dd1ea6]
-
 url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Gunthorpe/iommu-Add-iommu_ops-identity_domain/20230617-032631
 base:   fe420865bd74f5917ff0d8d38a46fbbbe5dd1ea6
 patch link:    https://lore.kernel.org/r/9-v4-874277bde66e%2B1a9f6-iommu_all_defdom_jgg%40nvidia.com
 patch subject: [PATCH v4 09/25] iommu: Allow an IDENTITY domain as the default_domain in ARM32
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
 config: arm-randconfig-m031-20230611 (https://download.01.org/0day-ci/archive/20230617/202306171458.LfWLILeK-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
 reproduce: (https://download.01.org/0day-ci/archive/20230617/202306171458.LfWLILeK-lkp@intel.com/reproduce)
@@ -71,7 +69,7 @@ reproduce: (https://download.01.org/0day-ci/archive/20230617/202306171458.LfWLIL
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202306171458.LfWLILeK-lkp@intel.com/
 
 smatch warnings:
@@ -79,8 +77,6 @@ drivers/iommu/iommu.c:1800 iommu_get_default_domain_type() error: potentially de
 
 vim +/gdev +1800 drivers/iommu/iommu.c
 
-d72e31c9374627 Alex Williamson 2012-05-30  1746  
-8b4eb75ee50e6f Jason Gunthorpe 2023-05-11  1747  /* A target_type of 0 will select the best domain type and cannot fail */
 8b4eb75ee50e6f Jason Gunthorpe 2023-05-11  1748  static int iommu_get_default_domain_type(struct iommu_group *group,
 8b4eb75ee50e6f Jason Gunthorpe 2023-05-11  1749  					 int target_type)
 deac0b3bed26bb Joerg Roedel    2020-04-29  1750  {
@@ -105,6 +101,9 @@ deac0b3bed26bb Joerg Roedel    2020-04-29  1758
 03c9e7d1dd3c99 Jason Gunthorpe 2023-06-16  1769  		type = IOMMU_DOMAIN_IDENTITY;
 03c9e7d1dd3c99 Jason Gunthorpe 2023-06-16  1770  		if (best_type && type && best_type != type)
 03c9e7d1dd3c99 Jason Gunthorpe 2023-06-16  1771  			goto err;
+
+gdev is uninitialized.
+
 03c9e7d1dd3c99 Jason Gunthorpe 2023-06-16  1772  		best_type = target_type = IOMMU_DOMAIN_IDENTITY;
 03c9e7d1dd3c99 Jason Gunthorpe 2023-06-16  1773  	}
 03c9e7d1dd3c99 Jason Gunthorpe 2023-06-16  1774  
@@ -135,6 +134,8 @@ ddaf433cac2995 Jason Gunthorpe 2023-06-16  1798  err:
 8b4eb75ee50e6f Jason Gunthorpe 2023-05-11  1799  	if (target_type) {
 8b4eb75ee50e6f Jason Gunthorpe 2023-05-11 @1800  		dev_err_ratelimited(
 8b4eb75ee50e6f Jason Gunthorpe 2023-05-11  1801  			gdev->dev,
+                                                                        ^^^^^^^^^
+
 ddaf433cac2995 Jason Gunthorpe 2023-06-16  1802  			"Device cannot be in %s domain - it is forcing %s\n",
 ddaf433cac2995 Jason Gunthorpe 2023-06-16  1803  			iommu_domain_type_str(target_type),
 ddaf433cac2995 Jason Gunthorpe 2023-06-16  1804  			iommu_domain_type_str(type));
@@ -143,13 +144,15 @@ deac0b3bed26bb Joerg Roedel    2020-04-29  1806  	}
 deac0b3bed26bb Joerg Roedel    2020-04-29  1807  
 8b4eb75ee50e6f Jason Gunthorpe 2023-05-11  1808  	dev_warn(
 8b4eb75ee50e6f Jason Gunthorpe 2023-05-11  1809  		gdev->dev,
+                                                                ^^^^^^^^^
+
 8b4eb75ee50e6f Jason Gunthorpe 2023-05-11  1810  		"Device needs domain type %s, but device %s in the same iommu group requires type %s - using default\n",
 8b4eb75ee50e6f Jason Gunthorpe 2023-05-11  1811  		iommu_domain_type_str(type), dev_name(last_dev),
 8b4eb75ee50e6f Jason Gunthorpe 2023-05-11  1812  		iommu_domain_type_str(best_type));
 03c9e7d1dd3c99 Jason Gunthorpe 2023-06-16  1813  	return best_type;
 8b4eb75ee50e6f Jason Gunthorpe 2023-05-11  1814  }
-deac0b3bed26bb Joerg Roedel    2020-04-29  1815  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
