@@ -1,90 +1,78 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFDB3D82
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Jun 2023 06:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB600210F;
+	Mon, 19 Jun 2023 06:43:51 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6b46f27f562so580848a34.0;
+        Sun, 18 Jun 2023 23:43:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hnndZNisgDH2kSLiRNcu2OHP+GA8fDv/VdekdNT6KRg=;
-  b=LI49ehjZt9K6S/yH9IgojTMO/RU1bhRag7OnzOh77KhCF1Enod9RhiU8
-   GjxS3OGl+9A3MC3AwkalccFBDPD8QmycYUzC4k7GSmEVy66avoa4b1rxp
-   aTwhmZmpKJeKpaacsFuNMGVZpPu7/CeRzvD7KlrV3giTDO6z4MD8oGJLW
-   0=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.00,254,1681164000"; 
-   d="scan'208";a="59071543"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 08:27:46 +0200
-Date: Mon, 19 Jun 2023 08:27:45 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: oe-kbuild@lists.linux.dev
-cc: lkp@intel.com
-Subject: [joelgranados:jag/sysctl-testing-for-0day 17/17]
- drivers/parport/procfs.c:267:18-28: WARNING use flexible-array member instead
- (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
- (fwd)
-Message-ID: <3059ff7-7077-52e-e73b-5feaac6ac113@inria.fr>
+        d=gmail.com; s=20221208; t=1687157030; x=1689749030;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wcz5YhvDWo9nMHfrg8LSktuXw46EWE7Cp3QeJgkSwTE=;
+        b=LQh3szetdHM+fLNYjwGz+X0VS6/aRK9FnpzfrU51Wz/KPC+7bYIMu6ARsuh5ukHZT4
+         fhrs20Btt++OwXu8NMn1Bqb0BsVBd4F6Z1xV5wZk8qaYUNnrqKrTD9c6OToLvqbZKkir
+         paXANcxa81+mlAzCCWndqdEBCQ66h0Hd4Z0dR5LTuh+dLVkq5OacNbWHmm92npfg8+ec
+         PCk2Avg8kGY8+F9fu8YTWbg3SPIvXWKF2+cOrx6vKoLSUdW1RoYE2T6k6mur2BzTyj+p
+         yqYquc3YpaH+3qjiMTgz5UsKWdcNP7XLaTuPI1UU6WEcLe4iSlSPqONB9plGuma6xqTd
+         eMvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687157030; x=1689749030;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wcz5YhvDWo9nMHfrg8LSktuXw46EWE7Cp3QeJgkSwTE=;
+        b=hewgzIo9vI6xM1BUjCSD2LcVwmlGXExk/Td1HGCEezFwMKNONK3hi/wPa1zaDer5Qz
+         dQiROJuLpSLGhSL/8PSYX3GG4pNbT5C3V/Nyr4jRROFgRvQ32IBHKB/lpilf8UMackWL
+         9RuWcpyt8nH9zO/TTWTqeMoOfx8UBpYyQFjodaGAmGFi5M7Vth7I0GhvvYE8IToCXwCH
+         pIYt+1tRXbmtbuuhE2TDyDrQ7yvmP7NDFqv7xiLxk82lbNwfbWsKA+kuTfsLdfpslVGW
+         2ay+Nfm2KKKgng12JL2TlEMYh6GrwVtfQprz9dTDwVtwV+zVwdISdkKW2BCBM+YJtpkG
+         0ULw==
+X-Gm-Message-State: AC+VfDxmQGGZCac4bXo8U9o/apJ4b54+Mb7dwtVrL6HKESjQFNpU+rQR
+	BfzxizeVI+vsUKD8cWRgty8=
+X-Google-Smtp-Source: ACHHUZ7hnsP1SpKLEg4iXqF5ZLMnTU4bawweCSpP8YiMUr6Ed5E6li0w/lVKIhZjxzMVBHbqC0fgZw==
+X-Received: by 2002:a05:6358:cd23:b0:129:b96d:1b0d with SMTP id gv35-20020a056358cd2300b00129b96d1b0dmr1286509rwb.1.1687157030454;
+        Sun, 18 Jun 2023 23:43:50 -0700 (PDT)
+Received: from redkillpc ([49.207.216.186])
+        by smtp.gmail.com with ESMTPSA id s188-20020a635ec5000000b005538bf7e3d6sm3513612pgb.88.2023.06.18.23.43.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Jun 2023 23:43:49 -0700 (PDT)
+Date: Mon, 19 Jun 2023 12:13:43 +0530
+From: Prathu Baronia <prathubaronia2011@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH v5 1/2] axis-fifo: use devm_kasprintf() for allocating
+ formatted strings
+Message-ID: <ZI/5H+GZU6/2osGT@redkillpc>
+References: <ZIiTL5bzMUgs3L5K@redkillpc>
+ <20230616152602.33232-1-prathubaronia2011@gmail.com>
+ <2023061750-blog-curse-c1a3@gregkh>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023061750-blog-curse-c1a3@gregkh>
 
-See line 267.
+On Sat, Jun 17, 2023 at 04:00:02PM +0200, Greg Kroah-Hartman wrote:
+> 
+> You are doing two different things here, one is changing the allocation
+> way, and the other is the name.  If one of those things turns out to
+> break something, we have to revert this whole thing.
+> 
+> So please make this two different changes, one to change to use
+> devm_kasprintf() and the second to change the naming scheme, ESPECIALLY
+> as you do not mention the name change in the subject line.  And that's
+> going to be a user-visible change, so you need to make that VERY
+> obvious.
+Makes sense greg, will do in v6.
 
----------- Forwarded message ----------
-Date: Mon, 19 Jun 2023 05:30:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [joelgranados:jag/sysctl-testing-for-0day 17/17]
-    drivers/parport/procfs.c:267:18-28: WARNING use flexible-array member
-    instead
-    (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-
-    and-one-element-arrays)
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Joel Granados <j.granados@samsung.com>
-
-tree:   https://github.com/Joelgranados/linux.git jag/sysctl-testing-for-0day
-head:   cbba378db4b97256c72560da5762aaed778957c0
-commit: cbba378db4b97256c72560da5762aaed778957c0 [17/17] sysctl: Remove the end element in sysctl table arrays
-:::::: branch date: 25 hours ago
-:::::: commit date: 25 hours ago
-config: sparc64-randconfig-c034-20230618 (https://download.01.org/0day-ci/archive/20230619/202306190533.yZhS3sXC-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230619/202306190533.yZhS3sXC-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202306190533.yZhS3sXC-lkp@intel.com/
-
-cocci warnings: (new ones prefixed by >>)
->> drivers/parport/procfs.c:267:18-28: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-   drivers/parport/procfs.c:364:18-28: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-
-vim +267 drivers/parport/procfs.c
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  257
-^1da177e4c3f41 Linus Torvalds 2005-04-16  258
-^1da177e4c3f41 Linus Torvalds 2005-04-16  259  struct parport_sysctl_table {
-0f95d0ec20343b Joel Granados  2023-06-01  260  	struct ctl_table_header *port_header;
-0f95d0ec20343b Joel Granados  2023-06-01  261  	struct ctl_table_header *devices_header;
-cbba378db4b972 Joel Granados  2023-06-16  262  #ifdef CONFIG_PARPORT_1284
-cbba378db4b972 Joel Granados  2023-06-16  263  	struct ctl_table vars[10];
-cbba378db4b972 Joel Granados  2023-06-16  264  #else
-cbba378db4b972 Joel Granados  2023-06-16  265  	struct ctl_table vars[5];
-cbba378db4b972 Joel Granados  2023-06-16  266  #endif /* IEEE 1284 support */
-cbba378db4b972 Joel Granados  2023-06-16 @267  	struct ctl_table device_dir[1];
-^1da177e4c3f41 Linus Torvalds 2005-04-16  268  };
-^1da177e4c3f41 Linus Torvalds 2005-04-16  269
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Prathu
