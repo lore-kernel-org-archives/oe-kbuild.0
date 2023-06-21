@@ -1,138 +1,228 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8215015B1
-	for <oe-kbuild@lists.linux.dev>; Wed, 21 Jun 2023 01:55:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687312500; x=1718848500;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=hazIMhya6H9RrPp8Os7sQspF+TJTseQns/pmsj1jaVo=;
-  b=eSN3W6CL53Zna94zoIYUtYw5arG6keSdl19O/vtAxR68gl5P/TYiOjqJ
-   urdQ2BJkKwRoeX2yBphakvKDNc8z4OafPqR3cPinLBMMGjeV3VzxiiDgQ
-   QFUbS3bNzj54ewpmaFD1uhbFbR1IDILGAS1N0qATzY27JiwZ7knO2Lly7
-   wLpp15MRX5t+s1YBkQHsXo66dThMtYIP+ShjyLIE/mIhcMqTnLVTz2HLw
-   p6e490mDdRBZwN+e7ApD+bEGouScO8AOE/oRotKxf2nQHg1DGp2Ne3QrR
-   huoH7LYxA/HcxpUI7jdF+UUfmb/5oGBpDpHF60/P2j5rkl616yDEU869p
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="360044688"
-X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
-   d="scan'208";a="360044688"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 18:54:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="714261152"
-X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
-   d="scan'208";a="714261152"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 20 Jun 2023 18:54:49 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qBn3Z-0006Qa-0M;
-	Wed, 21 Jun 2023 01:54:49 +0000
-Date: Wed, 21 Jun 2023 09:54:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [pdx86-platform-drivers-x86:review-hans 93/97]
- drivers/platform/x86/intel/pmc/core.c:500 pmc_core_send_ltr_ignore() error:
- uninitialized symbol 'pmc'.
-Message-ID: <202306210915.0aKb5RTx-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08E0882A
+	for <oe-kbuild@lists.linux.dev>; Wed, 21 Jun 2023 06:11:54 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3f9c0abc8b1so1702255e9.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 20 Jun 2023 23:11:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687327911; x=1689919911;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=F9Z0ZKdA5n3E7YE752tNdx5GoNU7iNsBBAQ0Gt82VOE=;
+        b=DRmi3gsznytDQuMMXU7YZHpZsiMECAV9ottEdKtsKzWDvBM4fJBvzk1qLYHNb0PD0/
+         YEQNU8LgIu+oxmWx7ugFelR+TCf5Um9Lzt+LZViucERRjkMlJ/Jci7p2VMTb8Uc4qPJE
+         ha5Kloe7R1XRpM9LKzI2N+Wa/onj33zSsYw/+45KvOTcLT4moVmbGUGyqDofOqgEYEDQ
+         JcB64rKuRtZ6OVwRNzh8nrlpb5WFNIFLsTFc+U7adCMC9bAiFgKWFH5jEM40N4a1MMPn
+         k9XR/SglHt0FoeqgmKOFCmqlLeg27uP8YTqNTAWVOkzqqm3KhGI58aMzv8eck5PTAFkv
+         z5JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687327911; x=1689919911;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=F9Z0ZKdA5n3E7YE752tNdx5GoNU7iNsBBAQ0Gt82VOE=;
+        b=cpkNJDBwHFer5KRAniCdokyuelhjNmgoLbCzseFnn577P6Kkr0hRGy0BW05HqOkvoC
+         t/zvdWYw/sYw35KI+lSC6Z65XcZR6CYuUYa1g1S1cT5+hnVojBrXpOB9MHY+kh9ogR9Q
+         iKpbtJ4L/8aaZIfKudTGwDwf0ph1zOWMyR8TUmdBxtkZUTZriT0H442t/wh1+iagRQCr
+         97q9/rdRJah8xbxEQRXF5avGz3j6huY6USgIwOlrAG3qywmJo4gILwS33pSeDOVKWO/h
+         RR+hCZ28GEeCMgOodjdCUSyb3DQzJNeFrrfdBRiw5Wwz5t9MZXwKxckHhYeboyyhVKDx
+         F1dg==
+X-Gm-Message-State: AC+VfDxdPa8k7G2IWt0/OhXiEv80aqWk3lGgnZVkx3CvpWXbwOcomfsl
+	sTxuuHjC6b+o5eeTbfsJBxpV7iaNIQo3UuciC4c=
+X-Google-Smtp-Source: ACHHUZ5DW0QS3TpNIyGAdzmi9CLNjuKigdoS6JtdJYrwDa0SfRLkVj3i/ohJymd5Zir41g6uk4807Q==
+X-Received: by 2002:a7b:c34d:0:b0:3f7:b1df:26d with SMTP id l13-20020a7bc34d000000b003f7b1df026dmr15170735wmj.38.1687327911511;
+        Tue, 20 Jun 2023 23:11:51 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o10-20020a1c750a000000b003f604793989sm1570024wmc.18.2023.06.20.23.11.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jun 2023 23:11:49 -0700 (PDT)
+Date: Wed, 21 Jun 2023 09:11:46 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Su Hui <suhui@nfschina.com>,
+	alexander.deucher@amd.com, christian.koenig@amd.com,
+	Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Su Hui <suhui@nfschina.com>, Jane.Jian@amd.com,
+	David.Francis@amd.com, kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org, Likun.Gao@amd.com,
+	dan.carpenter@linaro.org
+Subject: Re: [PATCH] drm/amd/amdgpu: =?utf-8?Q?Use_?=
+ =?utf-8?B?4oCcX19wYWNrZWTigJw=?= instead of "pragma pack()"
+Message-ID: <34ae0f86-c32b-4d5a-be56-0654dba0f908@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230620085543.576733-1-suhui@nfschina.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Hans de Goede <hdegoede@redhat.com>
-TO: Xi Pardee <xi.pardee@intel.com>
-CC: Hans de Goede <hdegoede@redhat.com>
-CC: Rajvi Jingar <rajvi.jingar@linux.intel.com>
-CC: "Ilpo J�rvinen" <ilpo.jarvinen@linux.intel.com>
+When there was a #pragma then Sparse just turned off.  The Sparse
+warnings are places where people forgot to put the __user in their casts
+or didn't annotate endianness correctly.  It's not a "bug" to forget
+to annotate endianness or user pointers.  That's how we used to do it
+prior to 2003.  But these days it feels strange and dangerous to see
+these sorts of warnings.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-hans
-head:   d2a7bd3690990ab8a8239096ee432ad51985d5b6
-commit: 2bcef4529222424559ac9b45948ee9d82c09d9b5 [93/97] platform/x86:intel/pmc: Enable debugfs multiple PMC support
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: x86_64-randconfig-m001-20230620 (https://download.01.org/0day-ci/archive/20230621/202306210915.0aKb5RTx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210915.0aKb5RTx-lkp@intel.com/reproduce)
+Smatch also disabled some uninitialized variable checks.  These are
+mostly false positives where we have a loop:
+
+	int r;
+
+	while (something) {
+		r = frob();
+	}
+
+	return r;
+
+Smatch complains that we don't necessarily enter the loop.  I think
+I'm going to disable this type of "enter the loop" warning when you
+don't have the cross function database available.  That will silence
+these for the kbuild bot.
+
+regards,
+dan carpenter
+
+Hi Su,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Su-Hui/drm-amd-amdgpu-Use-__packed-instead-of-pragma-pack/20230620-165739
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230620085543.576733-1-suhui%40nfschina.com
+patch subject: [PATCH] drm/amd/amdgpu: Use “__packed“ instead of "pragma pack()"
+config: mips-randconfig-m031-20230620 (https://download.01.org/0day-ci/archive/20230621/202306210527.Oxvd2Jlz-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210527.Oxvd2Jlz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306210915.0aKb5RTx-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202306210527.Oxvd2Jlz-lkp@intel.com/
 
-smatch warnings:
-drivers/platform/x86/intel/pmc/core.c:500 pmc_core_send_ltr_ignore() error: uninitialized symbol 'pmc'.
-drivers/platform/x86/intel/pmc/core.c:500 pmc_core_send_ltr_ignore() error: potentially dereferencing uninitialized 'map'.
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:5914 amdgpu_pci_slot_reset() error: uninitialized symbol 'memsize'.
+drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:2244 amdgpu_fill_buffer() error: uninitialized symbol 'r'.
+drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c:55 amdgpu_benchmark_do_move() error: uninitialized symbol 'r'.
+drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:534 amdgpu_vram_mgr_new() error: uninitialized symbol 'cur_size'.
+drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:534 amdgpu_vram_mgr_new() error: uninitialized symbol 'size'.
+drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1274 amdgpu_ras_query_error_count() error: uninitialized symbol 'ret'.
+drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c:141 amdgpu_securedisplay_debugfs_write() error: uninitialized symbol 'phy_id'.
+drivers/gpu/drm/amd/amdgpu/aldebaran.c:103 aldebaran_mode2_suspend_ip() error: uninitialized symbol 'r'.
+drivers/gpu/drm/amd/amdgpu/aldebaran.c:385 aldebaran_mode2_restore_hwcontext() error: uninitialized symbol 'r'.
+drivers/gpu/drm/amd/amdgpu/sienna_cichlid.c:96 sienna_cichlid_mode2_suspend_ip() error: uninitialized symbol 'r'.
+drivers/gpu/drm/amd/amdgpu/smu_v13_0_10.c:95 smu_v13_0_10_mode2_suspend_ip() error: uninitialized symbol 'r'.
+drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:612 mmhub_v2_0_update_medium_grain_clock_gating() error: uninitialized symbol 'def'.
+drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1183 amdgpu_gfx_cp_init_microcode() error: uninitialized symbol 'ucode_fw'.
+drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1184 amdgpu_gfx_cp_init_microcode() error: uninitialized symbol 'fw_size'.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c:594 sdma_v4_0_init_microcode() error: uninitialized symbol 'ret'.
+drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:251 sdma_v5_0_init_microcode() error: uninitialized symbol 'ret'.
+drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:1021 sdma_v5_0_ring_test_ring() error: uninitialized symbol 'index'.
+drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:905 sdma_v6_0_ring_test_ring() error: uninitialized symbol 'index'.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:145 sdma_v4_4_2_init_microcode() error: uninitialized symbol 'ret'.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:1390 sdma_v4_4_2_sw_init() error: uninitialized symbol 'r'.
+drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c:855 sdma_v5_2_ring_test_ring() error: uninitialized symbol 'index'.
+drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c:361 vcn_v3_0_hw_init() error: uninitialized symbol 'r'.
+drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c:222 vcn_v4_0_3_hw_init() error: uninitialized symbol 'r'.
+drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c:281 vcn_v4_0_hw_init() error: uninitialized symbol 'r'.
+drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c:592 amdgpu_amdkfd_get_xgmi_bandwidth_mbytes() error: uninitialized symbol 'peer_adev'.
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/vangogh_ppt.c:1011 vangogh_get_dpm_ultimate_freq() error: uninitialized symbol 'mclk_mask'.
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/vangogh_ppt.c:1016 vangogh_get_dpm_ultimate_freq() error: uninitialized symbol 'soc_mask'.
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/vangogh_ppt.c:1021 vangogh_get_dpm_ultimate_freq() error: uninitialized symbol 'fclk_mask'.
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/vangogh_ppt.c:1026 vangogh_get_dpm_ultimate_freq() error: uninitialized symbol 'vclk_mask'.
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/vangogh_ppt.c:1031 vangogh_get_dpm_ultimate_freq() error: uninitialized symbol 'dclk_mask'.
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c:1085 smu_v13_0_0_get_od_setting_limits() error: uninitialized symbol 'od_min_setting'.
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c:1087 smu_v13_0_0_get_od_setting_limits() error: uninitialized symbol 'od_max_setting'.
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_7_ppt.c:1076 smu_v13_0_7_get_od_setting_limits() error: uninitialized symbol 'od_min_setting'.
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_7_ppt.c:1078 smu_v13_0_7_get_od_setting_limits() error: uninitialized symbol 'od_max_setting'.
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:121 __smu_cmn_poll_stat() error: uninitialized symbol 'reg'.
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:187 smu_get_mclk() error: uninitialized symbol 'clk_freq'.
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:201 smu_get_sclk() error: uninitialized symbol 'clk_freq'.
 
-vim +/pmc +500 drivers/platform/x86/intel/pmc/core.c
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:1344 amdgpu_device_resize_fb_bar() warn: impossible condition '(res->start > 4294967296) => (0-u32max > 4294967296)'
+drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2307 amdgpu_ras_recovery_init() warn: Please consider using kzalloc instead of kmalloc
+drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2579 amdgpu_ras_init() warn: Please consider using kzalloc instead of kmalloc
+drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:134 amdgpu_gfx_parse_disable_cu() warn: potential spectre issue 'mask' [w]
+drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:614 amdgpu_gfx_enable_kcq() warn: inconsistent indenting
+drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c:1879 sdma_v4_0_sw_init() error: uninitialized symbol 'r'.
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_0_ppt.c:2580 smu_v13_0_0_check_ecc_table_support() warn: missing error code? 'ret'
 
-fe748227570107 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  462  
-92f530edd7c955 drivers/platform/x86/intel/pmc/core.c Gayatri Kammela   2022-11-14  463  int pmc_core_send_ltr_ignore(struct pmc_dev *pmcdev, u32 value)
-9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  464  {
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  465  	struct pmc *pmc;
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  466  	const struct pmc_reg_map *map;
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  467  	u32 reg;
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  468  	int pmc_index, ltr_index;
-9592438886756c drivers/platform/x86/intel_pmc_core.c Andy Shevchenko   2019-12-18  469  
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  470  	ltr_index = value;
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  471  	/* For platforms with multiple pmcs, ltr index value given by user
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  472  	 * is based on the contiguous indexes from ltr_show output.
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  473  	 * pmc index and ltr index needs to be calculated from it.
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  474  	 */
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  475  	for (pmc_index = 0; pmc_index < ARRAY_SIZE(pmcdev->pmcs) && ltr_index > 0; pmc_index++) {
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  476  		pmc = pmcdev->pmcs[pmc_index];
-9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  477  
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  478  		if (!pmc)
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  479  			continue;
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  480  
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  481  		map = pmc->map;
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  482  		if (ltr_index <= map->ltr_ignore_max)
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  483  			break;
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  484  
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  485  		/* Along with IP names, ltr_show map includes CURRENT_PLATFORM
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  486  		 * and AGGREGATED_SYSTEM values per PMC. Take these two index
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  487  		 * values into account in ltr_index calculation. Also, to start
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  488  		 * ltr index from zero for next pmc, subtract it by 1.
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  489  		 */
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  490  		ltr_index = ltr_index - (map->ltr_ignore_max + 2) - 1;
-9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  491  	}
-9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  492  
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  493  	if (pmc_index >= ARRAY_SIZE(pmcdev->pmcs) || ltr_index < 0)
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  494  		return -EINVAL;
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  495  
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  496  	pr_debug("ltr_ignore for pmc%d: ltr_index:%d\n", pmc_index, ltr_index);
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  497  
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  498  	mutex_lock(&pmcdev->lock);
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  499  
-1c709ae12dad6f drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13 @500  	reg = pmc_core_reg_read(pmc, map->ltr_ignore_offset);
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  501  	reg |= BIT(ltr_index);
-1c709ae12dad6f drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  502  	pmc_core_reg_write(pmc, map->ltr_ignore_offset, reg);
-9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  503  
-9c2ee19987ef02 drivers/platform/x86/intel_pmc_core.c Rajneesh Bhardwaj 2016-10-07  504  	mutex_unlock(&pmcdev->lock);
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  505  
-2bcef452922242 drivers/platform/x86/intel/pmc/core.c Xi Pardee         2023-06-13  506  	return 0;
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  507  }
-36974daf53888e drivers/platform/x86/intel_pmc_core.c David E. Box      2021-03-19  508  
+vim +/memsize +5914 drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 
-:::::: The code at line 500 was first introduced by commit
-:::::: 1c709ae12dad6f7e2dd5becfbac0f5141c2e15fd platform/x86:intel/pmc: Add support to handle multiple PMCs
-
-:::::: TO: Xi Pardee <xi.pardee@intel.com>
-:::::: CC: Hans de Goede <hdegoede@redhat.com>
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5884  pci_ers_result_t amdgpu_pci_slot_reset(struct pci_dev *pdev)
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5885  {
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5886  	struct drm_device *dev = pci_get_drvdata(pdev);
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5887  	struct amdgpu_device *adev = drm_to_adev(dev);
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5888  	int r, i;
+04442bf70debb1 Lijo Lazar        2021-03-16  5889  	struct amdgpu_reset_context reset_context;
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5890  	u32 memsize;
+7ac71382e90aba Andrey Grodzovsky 2020-08-24  5891  	struct list_head device_list;
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5892  
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5893  	DRM_INFO("PCI error: slot reset callback!!\n");
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5894  
+04442bf70debb1 Lijo Lazar        2021-03-16  5895  	memset(&reset_context, 0, sizeof(reset_context));
+04442bf70debb1 Lijo Lazar        2021-03-16  5896  
+7ac71382e90aba Andrey Grodzovsky 2020-08-24  5897  	INIT_LIST_HEAD(&device_list);
+655ce9cb13b596 shaoyunl          2021-03-04  5898  	list_add_tail(&adev->reset_list, &device_list);
+7ac71382e90aba Andrey Grodzovsky 2020-08-24  5899  
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5900  	/* wait for asic to come out of reset */
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5901  	msleep(500);
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5902  
+7ac71382e90aba Andrey Grodzovsky 2020-08-24  5903  	/* Restore PCI confspace */
+c1dd4aa624076c Andrey Grodzovsky 2020-08-24  5904  	amdgpu_device_load_pci_state(pdev);
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5905  
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5906  	/* confirm  ASIC came out of reset */
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5907  	for (i = 0; i < adev->usec_timeout; i++) {
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5908  		memsize = amdgpu_asic_get_config_memsize(adev);
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5909  
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5910  		if (memsize != 0xffffffff)
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5911  			break;
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5912  		udelay(1);
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5913  	}
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24 @5914  	if (memsize == 0xffffffff) {
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5915  		r = -ETIME;
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5916  		goto out;
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5917  	}
+362c7b91c1b00e Andrey Grodzovsky 2020-08-24  5918  
+04442bf70debb1 Lijo Lazar        2021-03-16  5919  	reset_context.method = AMD_RESET_METHOD_NONE;
+04442bf70debb1 Lijo Lazar        2021-03-16  5920  	reset_context.reset_req_dev = adev;
+04442bf70debb1 Lijo Lazar        2021-03-16  5921  	set_bit(AMDGPU_NEED_FULL_RESET, &reset_context.flags);
+04442bf70debb1 Lijo Lazar        2021-03-16  5922  	set_bit(AMDGPU_SKIP_HW_RESET, &reset_context.flags);
+04442bf70debb1 Lijo Lazar        2021-03-16  5923  
+7afefb81b72cbc Andrey Grodzovsky 2021-05-21  5924  	adev->no_hw_access = true;
+04442bf70debb1 Lijo Lazar        2021-03-16  5925  	r = amdgpu_device_pre_asic_reset(adev, &reset_context);
+7afefb81b72cbc Andrey Grodzovsky 2021-05-21  5926  	adev->no_hw_access = false;
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5927  	if (r)
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5928  		goto out;
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5929  
+04442bf70debb1 Lijo Lazar        2021-03-16  5930  	r = amdgpu_do_asic_reset(&device_list, &reset_context);
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5931  
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5932  out:
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5933  	if (!r) {
+c1dd4aa624076c Andrey Grodzovsky 2020-08-24  5934  		if (amdgpu_device_cache_pci_state(adev->pdev))
+c1dd4aa624076c Andrey Grodzovsky 2020-08-24  5935  			pci_restore_state(adev->pdev);
+c1dd4aa624076c Andrey Grodzovsky 2020-08-24  5936  
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5937  		DRM_INFO("PCIe error recovery succeeded\n");
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5938  	} else {
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5939  		DRM_ERROR("PCIe error recovery failed, err:%d", r);
+e923be9934a9c5 Andrey Grodzovsky 2022-01-25  5940  		amdgpu_device_unset_mp1_state(adev);
+e923be9934a9c5 Andrey Grodzovsky 2022-01-25  5941  		amdgpu_device_unlock_reset_domain(adev->reset_domain);
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5942  	}
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5943  
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5944  	return r ? PCI_ERS_RESULT_DISCONNECT : PCI_ERS_RESULT_RECOVERED;
+c9a6b82f45e261 Andrey Grodzovsky 2020-07-29  5945  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
