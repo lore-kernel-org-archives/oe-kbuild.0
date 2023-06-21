@@ -1,49 +1,42 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542D917747
-	for <oe-kbuild@lists.linux.dev>; Wed, 21 Jun 2023 14:22:43 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3f8fcaa31c7so65462855e9.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 21 Jun 2023 07:22:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687357360; x=1689949360;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=i5FQ28UXLLS9quprYBX6Hgz3nuVVSc8qCU7+Q260LaE=;
-        b=o+/DzAm33ZFGKO4oDnoZZtxgwib4RZXyw9EATQB3KSTyNaYiQfxoZG1iX6u9g/Vxa9
-         A1iutDRj6P1M1juZwLwDDJ5dmCeJ2Pb5tegZGPezvazsLP+7lzuVh3tM/L0AjzUXlcX1
-         /cOPSofGJcUiezUpvfi9kgPS858T1kk7vhFm+iFTmimsEjAUTMZAHDUPyErHFk9qyo5t
-         0zeekHMHXWH0r6PbvTn37sbQx+552G/LPkRpguO7cw+e6Yomp6vMKHYN4G8zGypdkkAr
-         8sih1RdVMyKgKX6NFiMoBN8OmTED7JY8UEhNzLQKpgoAyggAxorPTiXhbo87BytSGJMP
-         uF6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687357360; x=1689949360;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=i5FQ28UXLLS9quprYBX6Hgz3nuVVSc8qCU7+Q260LaE=;
-        b=c+V59IhrVklN20gtC1aqGLPMaFRbB6/gWfUrzDXpNO1cy4xeKz13hJ73xyexJ2dhnY
-         VMSUYZuuuaX3k5U6/LigJCouXAe2p+i8qZMGctc3t2zRN0wUtJpdZbocUEZPHsB2vvFl
-         zLJGEaJhzfyPhs3lQcakZ6PlyEHxZ+mPxnfqcgDXcvjJis82LdPB/UXVbnwF133G/13a
-         t6bHldkANryfHRIWc0jvcnW/pHiTa/8ozfgnln+DLYEM6z/5UotG3bFhx/3hk79yET2P
-         ajlnt23Go8ZIKOCyUNY4lOri+W4gR3SFMegou5si73kWPFWITlN9NdHR3wRCagbO4h+E
-         Q92A==
-X-Gm-Message-State: AC+VfDzvTIjd397EiFQL2aLjz4mslFePFeWlbIhSXh0Za0r5CvwHXpWH
-	DQsC2pTnqZZaZDJlQJfep8xU3qvfegwn1yDw7X4=
-X-Google-Smtp-Source: ACHHUZ4QJ9krB1XYfv5R5c2CltCqvwm514jibjifvAvi1qnREZBLgEhh5Cl2bHJz0BksjYkAJ7yg1A==
-X-Received: by 2002:a05:600c:2255:b0:3f9:a6f3:8a55 with SMTP id a21-20020a05600c225500b003f9a6f38a55mr10035034wmm.37.1687357360178;
-        Wed, 21 Jun 2023 07:22:40 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id y7-20020a05600c364700b003f8fbe3bf7asm14483974wmq.32.2023.06.21.07.22.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jun 2023 07:22:38 -0700 (PDT)
-Date: Wed, 21 Jun 2023 17:22:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Lukas Wunner <lukas@wunner.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [l1k:doe 2/10] lib/asn1_encoder.c:345
- asn1_encode_integer_large_positive() error: we previously assumed 'integer'
- could be null (see line 331)
-Message-ID: <2fce3745-4b58-4599-9beb-9132ba63edd0@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5BCB125C7
+	for <oe-kbuild@lists.linux.dev>; Wed, 21 Jun 2023 14:34:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687358054; x=1718894054;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+7H0Z0yf/YE7/d8OWgE3Cz3UH3fz8DLva56Ra+padHw=;
+  b=oFy6X5yKXkqC7gTlFpMRgTMHkmy5WJtfy4CMXmIa1BB5CdY7YGf2vOcj
+   ajrS3BImtNhzD9lutHiLK+jj5BTXsmciT3+Ce16hR8c5uxWMK281/BJ/l
+   og9bpCD1nXDSAXn2dW/UUziW87jaJQLivw6xy7W6fUafO1ZQ28f2YBlkk
+   0dasFCHO9e01KQnvQLQZmxfbFoEKQGYRGkDIl+/Cgh681imzkd3XJiNqG
+   9vKvM1D8ALpwF75z2//56UYtltYSzUC7xjKbUh+14a0ENMqrWNwyNRqwe
+   bmizjGoHBIJeMAY/5fpVaghoz/KgiuB+T6DADr2hEtW35jV0vEUpHec0d
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="339806630"
+X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
+   d="scan'208";a="339806630"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 07:34:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="708725278"
+X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
+   d="scan'208";a="708725278"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 21 Jun 2023 07:34:09 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qByuO-0006tD-30;
+	Wed, 21 Jun 2023 14:34:08 +0000
+Date: Wed, 21 Jun 2023 22:33:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [jimc:dd-fix-2i 14/18] drivers/gpu/drm/drm_print.c:72:1: sparse:
+ sparse: symbol with external linkage has initializer
+Message-ID: <202306212236.GVs74ID5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,83 +46,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/l1k/linux doe
-head:   a80fa5bd85f66ad910329bbe8bbb004f45b2bd68
-commit: af175bd2d0ae71f1c4843947e7405ef8c5902ba1 [2/10] lib/asn1_encoder: Add a function to encode many byte integer values.
-config: i386-randconfig-m021-20230620 (https://download.01.org/0day-ci/archive/20230621/202306212123.meq6uVfL-lkp@intel.com/config)
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/gpu/drm/drm_print.c:72:1: sparse: sparse: symbol with external linkage has initializer"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Jim Cromie <jim.cromie@gmail.com>
+
+Hi Jim,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://github.com/jimc/linux.git dd-fix-2i
+head:   706822e871c197cefca034dce9582e0fc916732b
+commit: ef232594f3c9aad7f5e0025231dc669570c3548a [14/18] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: i386-randconfig-s002-20230620 (https://download.01.org/0day-ci/archive/20230621/202306212236.GVs74ID5-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212123.meq6uVfL-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212236.GVs74ID5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202306212123.meq6uVfL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306212236.GVs74ID5-lkp@intel.com/
 
-smatch warnings:
-lib/asn1_encoder.c:345 asn1_encode_integer_large_positive() error: we previously assumed 'integer' could be null (see line 331)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/drm_print.c:72:1: sparse: sparse: symbol with external linkage has initializer
+   drivers/gpu/drm/drm_print.c:59:1: sparse: sparse: symbol 'drm_debug_classes_classnames' was not declared. Should it be static?
 
-vim +/integer +345 lib/asn1_encoder.c
+vim +72 drivers/gpu/drm/drm_print.c
 
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  318  unsigned char *
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  319  asn1_encode_integer_large_positive(unsigned char *data,
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  320  				   const unsigned char *end_data, u32 tag,
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  321  				   const unsigned char *integer, int len)
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  322  {
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  323  	int data_len = end_data - data;
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  324  	unsigned char *d = &data[2];
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  325  	bool found = false;
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  326  	int i;
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  327  
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  328  	if (WARN(tag > 30, "ASN.1 tag can't be > 30"))
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  329  		return ERR_PTR(-EINVAL);
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  330  
-af175bd2d0ae71 Jonathan Cameron 2022-09-06 @331  	if (!integer && WARN(len > 127, "BUG: recode tag is too big (>127)"))
+f158936b60a787 Jim Cromie 2022-09-11  54  
+f158936b60a787 Jim Cromie 2022-09-11  55  #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
+f158936b60a787 Jim Cromie 2022-09-11  56  module_param_named(debug, __drm_debug, ulong, 0600);
+f158936b60a787 Jim Cromie 2022-09-11  57  #else
+164636c3874a28 Jim Cromie 2022-12-21  58  /* classnames must match value-symbols of enum drm_debug_category */
+164636c3874a28 Jim Cromie 2022-12-21  59  DRM_CLASSMAP_DEFINE(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS,
+164636c3874a28 Jim Cromie 2022-12-21  60  		    DRM_UT_CORE,
+f158936b60a787 Jim Cromie 2022-09-11  61  		    "DRM_UT_CORE",
+f158936b60a787 Jim Cromie 2022-09-11  62  		    "DRM_UT_DRIVER",
+f158936b60a787 Jim Cromie 2022-09-11  63  		    "DRM_UT_KMS",
+f158936b60a787 Jim Cromie 2022-09-11  64  		    "DRM_UT_PRIME",
+f158936b60a787 Jim Cromie 2022-09-11  65  		    "DRM_UT_ATOMIC",
+f158936b60a787 Jim Cromie 2022-09-11  66  		    "DRM_UT_VBL",
+f158936b60a787 Jim Cromie 2022-09-11  67  		    "DRM_UT_STATE",
+f158936b60a787 Jim Cromie 2022-09-11  68  		    "DRM_UT_LEASE",
+f158936b60a787 Jim Cromie 2022-09-11  69  		    "DRM_UT_DP",
+f158936b60a787 Jim Cromie 2022-09-11  70  		    "DRM_UT_DRMRES");
+f158936b60a787 Jim Cromie 2022-09-11  71  
+c3109b624b9d04 Jim Cromie 2023-06-09 @72  DRM_CLASSMAP_PARAM_REF(debug, __drm_debug, drm_debug_classes, p);
+c3109b624b9d04 Jim Cromie 2023-06-09  73  
 
-Let's assume !integer and len == 127
+:::::: The code at line 72 was first introduced by commit
+:::::: c3109b624b9d040f1002ae267886572688fd2d93 dyndbg-API: promote DYNDBG_CLASSMAP_PARAM to API
 
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  332  		return ERR_PTR(-EINVAL);
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  333  
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  334  	if (IS_ERR(data))
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  335  		return data;
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  336  
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  337  	if (data_len < 3)
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  338  		return ERR_PTR(-EINVAL);
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  339  
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  340  	data[0] = _tagn(UNIV, PRIM, tag);
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  341  	/* Leave space for length */
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  342  	data_len -= 2;
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  343  
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  344  	for (i = 0; i < len; i++) {
-af175bd2d0ae71 Jonathan Cameron 2022-09-06 @345  		int byte = integer[i];
-
-Then it would lead to a crash here
-
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  346  
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  347  		if (!found && byte == 0)
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  348  			continue;
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  349  
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  350  		/*
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  351  		 * as per encode_integer
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  352  		 */
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  353  		if (!found && (byte & 0x80)) {
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  354  			*d++ = 0;
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  355  			data_len--;
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  356  		}
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  357  		found = true;
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  358  		if (data_len == 0)
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  359  			return ERR_PTR(-EINVAL);
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  360  
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  361  		*d++ = byte;
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  362  		data_len--;
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  363  	}
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  364  
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  365  	data[1] = d - data - 2;
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  366  
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  367  	return d;
-af175bd2d0ae71 Jonathan Cameron 2022-09-06  368  }
+:::::: TO: Jim Cromie <jim.cromie@gmail.com>
+:::::: CC: Jim Cromie <jim.cromie@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
