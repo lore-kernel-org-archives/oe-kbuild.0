@@ -1,49 +1,42 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E15016406
-	for <oe-kbuild@lists.linux.dev>; Thu, 22 Jun 2023 08:27:14 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f9189228bcso43349485e9.3
-        for <oe-kbuild@lists.linux.dev>; Thu, 22 Jun 2023 01:27:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687422432; x=1690014432;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DJYHqw3D4Te2NgT7iaCLgVm9j4LM7F8hPpOSxaRVdzk=;
-        b=gP7EEAqA3xQjNJh7NhbxNgWTi6UzkZZJS5QUpJ6aKk0FpdwF6kBS/fusTOd3MJfaxZ
-         dE3C1gXGr0twsIU2NofYqTmAwsxUwJTtG832EAqv0oMXbD6VjFgwckcm+ULKQWZmzyVU
-         k2/IKx0n0uKp+g7/xR2HkYpulO8w1cYjRh5BrwxErAq1CORv33lq/Cko4kctDD2SzgAH
-         RgjVkWLBkyZOtIysN52AKCFBcnFcGoluEpckYeb6ucbfX8vBHdLN5mRfSeXvrs5ycGX7
-         oxIATVz8AOL3GAfpqQHq1zezkdyxqwElU4wq9p2trNOQvyDF8yvmlwLRpk2yWe11G45s
-         n6Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687422432; x=1690014432;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DJYHqw3D4Te2NgT7iaCLgVm9j4LM7F8hPpOSxaRVdzk=;
-        b=SnJXFpkwgOSdgvQMJ2UvShg1hVb+oxXMv/YOMPPtfUIsGrbqYYr2a1KhweA170VhTE
-         N6h6Az2L+6g1onL2MWdPZulAkoSkwDoylYUecXh2jxXSylSr1nTSzx7IpyrgBHLCMP2y
-         6k3XaOkuidSH302s2GP3b5cmMSZ827bt37iT9DduvXMELUMCxXBSaWbiK8OvEWEIWFO6
-         NZIojh1435eE8X1tmFBSgGvq7G4TXJTqtGg9uwfnDvLQCJsUYZnZ6cR3OF6TbOBB4tIm
-         vq01aSMf1HE0tNKkLEIS69EWA6M5NmSK/E/qd7n2+23rHiUPFkpFRsDbh6EtylO4lDbm
-         LHzA==
-X-Gm-Message-State: AC+VfDxdldyLfs4/fIbmXBDLAmHEUv5bjCJi9Mxcioa++u+oCIB1Y/fF
-	z8kXSlOmJRJtsfWA9vd8Wqsk1cwKpnFzEzxe6uY=
-X-Google-Smtp-Source: ACHHUZ5uClDGzi1K5FLFcx1TiwjyJvCJ4iEBx+lJqD0eiXBTyOn+Jsh6bSQQbmq+4a635ehxy5+xSw==
-X-Received: by 2002:a7b:cd14:0:b0:3f9:b445:903b with SMTP id f20-20020a7bcd14000000b003f9b445903bmr6373733wmj.9.1687422432051;
-        Thu, 22 Jun 2023 01:27:12 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id e22-20020a05600c219600b003f8fb02c413sm7056261wme.8.2023.06.22.01.27.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jun 2023 01:27:09 -0700 (PDT)
-Date: Thu, 22 Jun 2023 11:27:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Steve French <stfrench@microsoft.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: fs/smb/client/smb2ops.c:2029 smb3_enum_snapshots() warn: variable
- dereferenced before check 'ioc_buf' (see line 2003)
-Message-ID: <23b29243-66ba-4796-935a-39c7fff79027@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE1080C
+	for <oe-kbuild@lists.linux.dev>; Thu, 22 Jun 2023 08:48:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687423716; x=1718959716;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=65fCJgsppMa/rIRXZBW68tseNTMCEkL3b6y0c75r8DU=;
+  b=FhOYIu9IxwL+bbO87E7e9gzqwpbOZd04FhpkkkuzR4PoxQQiNkLXQ1pp
+   t5lfXpr3y5wKcqxRZLxZXh90ehLgSquBhAwRb0I3Goaxkwtc8enQw1afe
+   bSL3GWlQmRiLHl2LMMDRKRddeBGfkukeUoTfL808Dd+QKz3OzlKZ0asbb
+   W+feL98LWHj1meU4KsVVvqq7HwdTyAPtHYfv5dEuRkt5+c6fdvpIDhl8L
+   3X68AiEsabOeNzZffl90hIiik8Logr6MSY/ClMGwLJr8LWCmoYnjsw9Zw
+   Kd6UQHYJKqCuo/ewxp1ppV8GmPyhaFV7o2+YQASLzGYd1crNVeDDmdZU9
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="350165535"
+X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; 
+   d="scan'208";a="350165535"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 01:48:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="784819394"
+X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; 
+   d="scan'208";a="784819394"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 22 Jun 2023 01:48:34 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qCFzV-0007SP-37;
+	Thu, 22 Jun 2023 08:48:33 +0000
+Date: Thu, 22 Jun 2023 16:48:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 2829/11867] drivers/scsi/scsi.c:591:1-3: WARNING:
+ possible condition with no effect (if == else)
+Message-ID: <202306221657.BJHEADkz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,116 +46,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dad9774deaf1cf8e8f7483310dfb2690310193d2
-commit: 38c8a9a52082579090e34c033d439ed2cd1a462d smb: move client and server files to common directory fs/smb
-config: m68k-randconfig-m031-20230622 (https://download.01.org/0day-ci/archive/20230622/202306221539.2zBvWDuV-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306221539.2zBvWDuV-lkp@intel.com/reproduce)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Damien Le Moal <dlemoal@kernel.org>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Hannes Reinecke <hare@suse.de>
+CC: Niklas Cassel <niklas.cassel@wdc.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   15e71592dbae49a674429c618a10401d7f992ac3
+commit: 624885209f31eb9985bf51abe204ecbffe2fdeea [2829/11867] scsi: core: Detect support for command duration limits
+:::::: branch date: 28 hours ago
+:::::: commit date: 4 weeks ago
+config: csky-randconfig-c041-20230621 (https://download.01.org/0day-ci/archive/20230622/202306221657.BJHEADkz-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306221657.BJHEADkz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202306221539.2zBvWDuV-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202306221657.BJHEADkz-lkp@intel.com/
 
-smatch warnings:
-fs/smb/client/smb2ops.c:2029 smb3_enum_snapshots() warn: variable dereferenced before check 'ioc_buf' (see line 2003)
-fs/smb/client/dfs_cache.c:403 copy_ref_data() warn: passing a valid pointer to 'PTR_ERR'
+cocci warnings: (new ones prefixed by >>)
+>> drivers/scsi/scsi.c:591:1-3: WARNING: possible condition with no effect (if == else)
 
-vim +/ioc_buf +2029 fs/smb/client/smb2ops.c
+vim +591 drivers/scsi/scsi.c
 
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1985  static int
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1986  smb3_enum_snapshots(const unsigned int xid, struct cifs_tcon *tcon,
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1987  		   struct cifsFileInfo *cfile, void __user *ioc_buf)
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1988  {
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1989  	char *retbuf = NULL;
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1990  	unsigned int ret_data_len = 0;
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1991  	int rc;
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  1992  	u32 max_response_size;
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1993  	struct smb_snapshot_array snapshot_in;
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1994  
-973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  1995  	/*
-973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  1996  	 * On the first query to enumerate the list of snapshots available
-973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  1997  	 * for this volume the buffer begins with 0 (number of snapshots
-973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  1998  	 * which can be returned is zero since at that point we do not know
-973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  1999  	 * how big the buffer needs to be). On the second query,
-973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  2000  	 * it (ret_data_len) is set to number of snapshots so we can
-973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  2001  	 * know to set the maximum response size larger (see below).
-973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  2002  	 */
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28 @2003  	if (get_user(ret_data_len, (unsigned int __user *)ioc_buf))
-
-If ioc_buf is NULL then this get_user() will return -EFAULT.  It's not
-a dereference.  I think Smatch gets confused how this implemented on
-arch/m68k/.
-
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2004  		return -EFAULT;
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2005  
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2006  	/*
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2007  	 * Note that for snapshot queries that servers like Azure expect that
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2008  	 * the first query be minimal size (and just used to get the number/size
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2009  	 * of previous versions) so response size must be specified as EXACTLY
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2010  	 * sizeof(struct snapshot_array) which is 16 when rounded up to multiple
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2011  	 * of eight bytes.
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2012  	 */
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2013  	if (ret_data_len == 0)
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2014  		max_response_size = MIN_SNAPSHOT_ARRAY_SIZE;
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2015  	else
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2016  		max_response_size = CIFSMaxBufSize;
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2017  
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2018  	rc = SMB2_ioctl(xid, tcon, cfile->fid.persistent_fid,
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2019  			cfile->fid.volatile_fid,
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2020  			FSCTL_SRV_ENUMERATE_SNAPSHOTS,
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2021  			NULL, 0 /* no input data */, max_response_size,
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2022  			(char **)&retbuf,
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2023  			&ret_data_len);
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2024  	cifs_dbg(FYI, "enum snaphots ioctl returned %d and ret buflen is %d\n",
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2025  			rc, ret_data_len);
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2026  	if (rc)
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2027  		return rc;
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2028  
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30 @2029  	if (ret_data_len && (ioc_buf != NULL) && (retbuf != NULL)) {
-
-Anyway, ioc_buf still can't be NULL at this point.
-
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2030  		/* Fixup buffer */
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2031  		if (copy_from_user(&snapshot_in, ioc_buf,
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2032  		    sizeof(struct smb_snapshot_array))) {
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2033  			rc = -EFAULT;
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2034  			kfree(retbuf);
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2035  			return rc;
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2036  		}
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2037  
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2038  		/*
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2039  		 * Check for min size, ie not large enough to fit even one GMT
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2040  		 * token (snapshot).  On the first ioctl some users may pass in
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2041  		 * smaller size (or zero) to simply get the size of the array
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2042  		 * so the user space caller can allocate sufficient memory
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2043  		 * and retry the ioctl again with larger array size sufficient
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2044  		 * to hold all of the snapshot GMT tokens on the second try.
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2045  		 */
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2046  		if (snapshot_in.snapshot_array_size < GMT_TOKEN_SIZE)
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2047  			ret_data_len = sizeof(struct smb_snapshot_array);
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2048  
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2049  		/*
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2050  		 * We return struct SRV_SNAPSHOT_ARRAY, followed by
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2051  		 * the snapshot array (of 50 byte GMT tokens) each
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2052  		 * representing an available previous version of the data
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2053  		 */
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2054  		if (ret_data_len > (snapshot_in.snapshot_array_size +
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2055  					sizeof(struct smb_snapshot_array)))
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2056  			ret_data_len = snapshot_in.snapshot_array_size +
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2057  					sizeof(struct smb_snapshot_array);
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2058  
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2059  		if (copy_to_user(ioc_buf, retbuf, ret_data_len))
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2060  			rc = -EFAULT;
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2061  	}
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2062  
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2063  	kfree(retbuf);
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2064  	return rc;
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2065  }
+624885209f31eb Damien Le Moal 2023-05-11  574  
+624885209f31eb Damien Le Moal 2023-05-11  575  static bool scsi_cdl_check_cmd(struct scsi_device *sdev, u8 opcode, u16 sa,
+624885209f31eb Damien Le Moal 2023-05-11  576  			       unsigned char *buf)
+624885209f31eb Damien Le Moal 2023-05-11  577  {
+624885209f31eb Damien Le Moal 2023-05-11  578  	int ret;
+624885209f31eb Damien Le Moal 2023-05-11  579  	u8 cdlp;
+624885209f31eb Damien Le Moal 2023-05-11  580  
+624885209f31eb Damien Le Moal 2023-05-11  581  	/* Check operation code */
+624885209f31eb Damien Le Moal 2023-05-11  582  	ret = scsi_report_opcode(sdev, buf, SCSI_CDL_CHECK_BUF_LEN, opcode, sa);
+624885209f31eb Damien Le Moal 2023-05-11  583  	if (ret <= 0)
+624885209f31eb Damien Le Moal 2023-05-11  584  		return false;
+624885209f31eb Damien Le Moal 2023-05-11  585  
+624885209f31eb Damien Le Moal 2023-05-11  586  	if ((buf[1] & 0x03) != 0x03)
+624885209f31eb Damien Le Moal 2023-05-11  587  		return false;
+624885209f31eb Damien Le Moal 2023-05-11  588  
+624885209f31eb Damien Le Moal 2023-05-11  589  	/* See SPC-6, one command format of REPORT SUPPORTED OPERATION CODES */
+624885209f31eb Damien Le Moal 2023-05-11  590  	cdlp = (buf[1] & 0x18) >> 3;
+624885209f31eb Damien Le Moal 2023-05-11 @591  	if (buf[0] & 0x01) {
+624885209f31eb Damien Le Moal 2023-05-11  592  		/* rwcdlp == 1 */
+624885209f31eb Damien Le Moal 2023-05-11  593  		switch (cdlp) {
+624885209f31eb Damien Le Moal 2023-05-11  594  		case 0x01:
+624885209f31eb Damien Le Moal 2023-05-11  595  			/* T2A page */
+624885209f31eb Damien Le Moal 2023-05-11  596  			return true;
+624885209f31eb Damien Le Moal 2023-05-11  597  		case 0x02:
+624885209f31eb Damien Le Moal 2023-05-11  598  			/* T2B page */
+624885209f31eb Damien Le Moal 2023-05-11  599  			return true;
+624885209f31eb Damien Le Moal 2023-05-11  600  		}
+624885209f31eb Damien Le Moal 2023-05-11  601  	} else {
+624885209f31eb Damien Le Moal 2023-05-11  602  		/* rwcdlp == 0 */
+624885209f31eb Damien Le Moal 2023-05-11  603  		switch (cdlp) {
+624885209f31eb Damien Le Moal 2023-05-11  604  		case 0x01:
+624885209f31eb Damien Le Moal 2023-05-11  605  			/* A page */
+624885209f31eb Damien Le Moal 2023-05-11  606  			return true;
+624885209f31eb Damien Le Moal 2023-05-11  607  		case 0x02:
+624885209f31eb Damien Le Moal 2023-05-11  608  			/* B page */
+624885209f31eb Damien Le Moal 2023-05-11  609  			return true;
+624885209f31eb Damien Le Moal 2023-05-11  610  		}
+624885209f31eb Damien Le Moal 2023-05-11  611  	}
+624885209f31eb Damien Le Moal 2023-05-11  612  
+624885209f31eb Damien Le Moal 2023-05-11  613  	return false;
+624885209f31eb Damien Le Moal 2023-05-11  614  }
+624885209f31eb Damien Le Moal 2023-05-11  615  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
