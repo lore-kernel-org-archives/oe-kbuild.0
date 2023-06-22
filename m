@@ -1,121 +1,195 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22FB1F186
-	for <oe-kbuild@lists.linux.dev>; Thu, 22 Jun 2023 14:14:46 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3112f2b9625so5613180f8f.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 22 Jun 2023 07:14:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687443284; x=1690035284;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kfX6S9OowWMb6sUG+mepNdVVGBJ4KPy5SvO+ayQZZac=;
-        b=u7ZZMrU+t8YcO9ZBmaHYCTTHFGW2KNJ5fRHRMZ3J0E0245APLWB7SYDoS18ZfgaYiO
-         j9Ww4JENsGuw77b6lF/S9fKv776w0PcjNuJ1tr+PgKd9GjNSt6q/KuiEPAHgPY/wI6m0
-         96aKgTEoSRAoD1sdJEiCc4CHjeh5S0zAI42sJYXnQzpRX0fESKgc1QnTYuzFFovHO6xD
-         H8Bcs+s4h9RUK/CzBf8r7KcNeibfx8UGqK4KKCAkFYOcgz8XTOwTRBTDPQXHRRoEEy+O
-         j3jEXlLa+Wt1V3VQvPdaZ4wL1SufqB7qGU9n0PD6xVCRcYgbzday+Q2vo0NXabbtbUHe
-         Uq0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687443284; x=1690035284;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kfX6S9OowWMb6sUG+mepNdVVGBJ4KPy5SvO+ayQZZac=;
-        b=TdFUn1ob3QppekRrQ5PABOgrqwdgDNxIi+8MTK+cQc/CFQgFPV8sR4nH9JWdlETER3
-         uPu8YGhaAqxd9MEMjKNCsgjS2+eVsoywjVnvJgQ/Yc9ag2mROKGOPiY5KQPf03fjC06U
-         3kQt0gvVt3/11KMQMBbOG1P8ViNZ1fpj67ncuZAnemsHG7hT3mZhDE5d8ek6WlsuYzn3
-         ZL0qtZfLDZsRdhGQ9UbyC1kESNEY6ujLr79ZbCxy54TOjRL0T87NAi9pVV2OnsOOWyvw
-         2gn5IQS3V8LCIv76hKcgnWWNYeNg72QprUgwM0aQEDR087GNWSmnPDPAcQwuE22dS+aE
-         Oi1Q==
-X-Gm-Message-State: AC+VfDxHiNFYh7CcXoRHzYESfH48dwiuMg/KOPuWP7Mj5EDGti4KKp4/
-	xWq/GbYmSwXWI3bA/378htso4wW6XKrMpuI1Pzg=
-X-Google-Smtp-Source: ACHHUZ5IRYDOppEO4192S+gCKuJCmc4/7++Z/4J+9t60AsTnCc7smADETO8AlE2mUNvvzq/cAoegSw==
-X-Received: by 2002:a5d:6386:0:b0:2f9:c2ab:e1de with SMTP id p6-20020a5d6386000000b002f9c2abe1demr14535921wru.14.1687443284022;
-        Thu, 22 Jun 2023 07:14:44 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id w3-20020adfee43000000b0030e5b1fffc3sm7263993wro.9.2023.06.22.07.14.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jun 2023 07:14:42 -0700 (PDT)
-Date: Thu, 22 Jun 2023 17:14:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Aurabindo Pillai <aurabindo.pillai@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Harry Wentland <harry.wentland@amd.com>
-Subject: [linux-next:master 7316/11867]
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:1673
- amdgpu_dm_init() error: we previously assumed 'adev->dm.dc' could be null
- (see line 1669)
-Message-ID: <8889c4d2-2629-4d69-bc4a-9b46fe0c5997@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F101F164
+	for <oe-kbuild@lists.linux.dev>; Thu, 22 Jun 2023 14:17:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687443430; x=1718979430;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+rKwS+vlsNdgaUcsk00ROckEEFaP02fpUM7Tz4NB7I8=;
+  b=IcmUUiF3rXu+jOoTzUnMM5tCgq04UsTl2Y/PbAEi8qFNeZMWS2Ya9k6K
+   er/IMi0rxg/t7GoNcLy067eE0RWbt2wEU8g5HhB25Dvq/s2KMhyoLh82W
+   PXV+skeVthF2ZS3b5E2KQk+a0i0g9ju1i7RD8mSdqucVc9ZkeNBWdSo4m
+   nbNY5CmertFc8Oib+vxmlRif0xEpJ6vY/8sN4HBe14L294tq2m+AfiaiK
+   ZfMXzbujVhh+u2EkY+zmvMnLp9FZTmFvkdSXhOGuM4FWxOp0ZRWdCVD3D
+   IUqlzGOhEqBhKHSq+V8ZukJKvWya7Kxsw/sFV8oRwZmD2crkmJFF2Ir4q
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="426463888"
+X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; 
+   d="scan'208";a="426463888"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 06:38:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="784912780"
+X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; 
+   d="scan'208";a="784912780"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 22 Jun 2023 06:37:39 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qCKVG-0007ZP-1p;
+	Thu, 22 Jun 2023 13:37:38 +0000
+Date: Thu, 22 Jun 2023 21:37:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 10293/11867] net/wireless/scan.c:367
+ cfg80211_gen_new_ie() warn: potential spectre issue 'sub->data' [r]
+Message-ID: <202306222123.5qjvhJLp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Benjamin Berg <benjamin.berg@intel.com>
+CC: Johannes Berg <johannes.berg@intel.com>
+CC: Gregory Greenman <gregory.greenman@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   c87d46a9e8ebd2f2c3960927b1d21687096d1109
-commit: 9788d087caffd8358d6e14349ee69d9385666719 [7316/11867] drm/amd/display: improve the message printed when loading DC
-config: mips-randconfig-m031-20230620 (https://download.01.org/0day-ci/archive/20230622/202306222109.GOpiisJ1-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306222109.GOpiisJ1-lkp@intel.com/reproduce)
+commit: dfd9aa3e7a456d57b18021d66472ab7ff8373ab7 [10293/11867] wifi: cfg80211: rewrite merging of inherited elements
+:::::: branch date: 8 hours ago
+:::::: commit date: 3 days ago
+config: m68k-randconfig-m031-20230622 (https://download.01.org/0day-ci/archive/20230622/202306222123.5qjvhJLp-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306222123.5qjvhJLp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202306222109.GOpiisJ1-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202306222123.5qjvhJLp-lkp@intel.com/
 
 New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:1673 amdgpu_dm_init() error: we previously assumed 'adev->dm.dc' could be null (see line 1669)
+net/wireless/scan.c:367 cfg80211_gen_new_ie() warn: potential spectre issue 'sub->data' [r]
+net/wireless/scan.c:391 cfg80211_gen_new_ie() warn: possible spectre second half.  'ext_id'
 
 Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:1905 amdgpu_dm_fini() error: we previously assumed 'adev->dm.dc' could be null (see line 1889)
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6079 create_stream_for_sink() error: we previously assumed 'aconnector->dc_sink' could be null (see line 5971)
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:8708 amdgpu_dm_atomic_commit_tail() error: we previously assumed 'aconnector->dc_link' could be null (see line 8689)
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:8961 dm_force_atomic_commit() error: 'crtc_state' dereferencing possible ERR_PTR()
+net/wireless/scan.c:400 cfg80211_gen_new_ie() warn: possible spectre second half.  'ext_id'
 
-vim +1673 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
+vim +367 net/wireless/scan.c
 
-0dd79532340568 Zhan Liu            2021-03-08  1662  	INIT_LIST_HEAD(&adev->dm.da_list);
-57b9f3384c64e3 Fangzhi Zuo         2022-07-06  1663  
-57b9f3384c64e3 Fangzhi Zuo         2022-07-06  1664  	retrieve_dmi_info(&adev->dm);
-57b9f3384c64e3 Fangzhi Zuo         2022-07-06  1665  
-4562236b3bc0a2 Harry Wentland      2017-09-12  1666  	/* Display Core create. */
-4562236b3bc0a2 Harry Wentland      2017-09-12  1667  	adev->dm.dc = dc_create(&init_data);
-                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Allocation
-
-4562236b3bc0a2 Harry Wentland      2017-09-12  1668  
-423788c7a866cb Ernst Sjöstrand     2017-11-07 @1669  	if (adev->dm.dc) {
-                                                            ^^^^^^^^^^^
-Check for allocation failure
-
-
-9788d087caffd8 Aurabindo Pillai    2023-05-05  1670  		DRM_INFO("Display Core v%s initialized on %s\n", DC_VER,
-bf7fda0b3736f9 Rodrigo Siqueira    2023-04-25  1671  			 dce_version_to_string(adev->dm.dc->ctx->dce_version));
-423788c7a866cb Ernst Sjöstrand     2017-11-07  1672  	} else {
-9788d087caffd8 Aurabindo Pillai    2023-05-05 @1673  		DRM_INFO("Display Core v%s failed to initialize on %s\n", DC_VER,
-9788d087caffd8 Aurabindo Pillai    2023-05-05  1674  			 dce_version_to_string(adev->dm.dc->ctx->dce_version));
-                                                                                               ^^^^^^^^^^^^^
-NULL pointer dereference
-
-423788c7a866cb Ernst Sjöstrand     2017-11-07  1675  		goto error;
-423788c7a866cb Ernst Sjöstrand     2017-11-07  1676  	}
-4562236b3bc0a2 Harry Wentland      2017-09-12  1677  
-8a791dabea1816 Harry Wentland      2020-05-01  1678  	if (amdgpu_dc_debug_mask & DC_DISABLE_PIPE_SPLIT) {
-8a791dabea1816 Harry Wentland      2020-05-01  1679  		adev->dm.dc->debug.force_single_disp_pipe_split = false;
-8a791dabea1816 Harry Wentland      2020-05-01  1680  		adev->dm.dc->debug.pipe_split_policy = MPC_SPLIT_AVOID;
-8a791dabea1816 Harry Wentland      2020-05-01  1681  	}
+f7dacfb11475ba Sara Sharon   2019-03-15  299  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  300  static size_t cfg80211_gen_new_ie(const u8 *ie, size_t ielen,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  301  				  const u8 *subie, size_t subie_len,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  302  				  u8 *new_ie, size_t new_ie_len)
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  303  {
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  304  	const struct element *non_inherit_elem, *parent, *sub;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  305  	u8 *pos = new_ie;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  306  	u8 id, ext_id;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  307  	unsigned int match_len;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  308  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  309  	non_inherit_elem = cfg80211_find_ext_elem(WLAN_EID_EXT_NON_INHERITANCE,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  310  						  subie, subie_len);
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  311  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  312  	/* We copy the elements one by one from the parent to the generated
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  313  	 * elements.
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  314  	 * If they are not inherited (included in subie or in the non
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  315  	 * inheritance element), then we copy all occurrences the first time
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  316  	 * we see this element type.
+0b8fb8235be8be Peng Xu       2019-01-21  317  	 */
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  318  	for_each_element(parent, ie, ielen) {
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  319  		if (parent->id == WLAN_EID_FRAGMENT)
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  320  			continue;
+0b8fb8235be8be Peng Xu       2019-01-21  321  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  322  		if (parent->id == WLAN_EID_EXTENSION) {
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  323  			if (parent->datalen < 1)
+0b8fb8235be8be Peng Xu       2019-01-21  324  				continue;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  325  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  326  			id = WLAN_EID_EXTENSION;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  327  			ext_id = parent->data[0];
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  328  			match_len = 1;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  329  		} else {
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  330  			id = parent->id;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  331  			match_len = 0;
+0b8fb8235be8be Peng Xu       2019-01-21  332  		}
+0b8fb8235be8be Peng Xu       2019-01-21  333  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  334  		/* Find first occurrence in subie */
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  335  		sub = cfg80211_find_elem_match(id, subie, subie_len,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  336  					       &ext_id, match_len, 0);
+c17fe043a3b792 Sara Sharon   2019-01-29  337  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  338  		/* Copy from parent if not in subie and inherited */
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  339  		if (!sub &&
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  340  		    cfg80211_is_element_inherited(parent, non_inherit_elem)) {
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  341  			if (!cfg80211_copy_elem_with_frags(parent,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  342  							   ie, ielen,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  343  							   &pos, new_ie,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  344  							   new_ie_len))
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  345  				return 0;
+f7dacfb11475ba Sara Sharon   2019-03-15  346  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  347  			continue;
+0b8fb8235be8be Peng Xu       2019-01-21  348  		}
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  349  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  350  		/* Already copied if an earlier element had the same type */
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  351  		if (cfg80211_find_elem_match(id, ie, (u8 *)parent - ie,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  352  					     &ext_id, match_len, 0))
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  353  			continue;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  354  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  355  		/* Not inheriting, copy all similar elements from subie */
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  356  		while (sub) {
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  357  			if (!cfg80211_copy_elem_with_frags(sub,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  358  							   subie, subie_len,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  359  							   &pos, new_ie,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  360  							   new_ie_len))
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  361  				return 0;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  362  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  363  			sub = cfg80211_find_elem_match(id,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  364  						       sub->data + sub->datalen,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  365  						       subie_len + subie -
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  366  						       (sub->data +
+dfd9aa3e7a456d Benjamin Berg 2023-06-16 @367  							sub->datalen),
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  368  						       &ext_id, match_len, 0);
+0b8fb8235be8be Peng Xu       2019-01-21  369  		}
+0b8fb8235be8be Peng Xu       2019-01-21  370  	}
+0b8fb8235be8be Peng Xu       2019-01-21  371  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  372  	/* The above misses elements that are included in subie but not in the
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  373  	 * parent, so do a pass over subie and append those.
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  374  	 * Skip the non-tx BSSID caps and non-inheritance element.
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  375  	 */
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  376  	for_each_element(sub, subie, subie_len) {
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  377  		if (sub->id == WLAN_EID_NON_TX_BSSID_CAP)
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  378  			continue;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  379  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  380  		if (sub->id == WLAN_EID_FRAGMENT)
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  381  			continue;
+0b8fb8235be8be Peng Xu       2019-01-21  382  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  383  		if (sub->id == WLAN_EID_EXTENSION) {
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  384  			if (sub->datalen < 1)
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  385  				continue;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  386  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  387  			id = WLAN_EID_EXTENSION;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  388  			ext_id = sub->data[0];
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  389  			match_len = 1;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  390  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16 @391  			if (ext_id == WLAN_EID_EXT_NON_INHERITANCE)
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  392  				continue;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  393  		} else {
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  394  			id = sub->id;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  395  			match_len = 0;
+0b8fb8235be8be Peng Xu       2019-01-21  396  		}
+0b8fb8235be8be Peng Xu       2019-01-21  397  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  398  		/* Processed if one was included in the parent */
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  399  		if (cfg80211_find_elem_match(id, ie, ielen,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  400  					     &ext_id, match_len, 0))
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  401  			continue;
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  402  
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  403  		if (!cfg80211_copy_elem_with_frags(sub, subie, subie_len,
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  404  						   &pos, new_ie, new_ie_len))
+dfd9aa3e7a456d Benjamin Berg 2023-06-16  405  			return 0;
+0b8fb8235be8be Peng Xu       2019-01-21  406  	}
+0b8fb8235be8be Peng Xu       2019-01-21  407  
+0b8fb8235be8be Peng Xu       2019-01-21  408  	return pos - new_ie;
+0b8fb8235be8be Peng Xu       2019-01-21  409  }
+0b8fb8235be8be Peng Xu       2019-01-21  410  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
