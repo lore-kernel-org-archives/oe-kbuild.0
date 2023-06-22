@@ -1,42 +1,49 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00941FB4
-	for <oe-kbuild@lists.linux.dev>; Thu, 22 Jun 2023 07:46:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687419996; x=1718955996;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NBM48iIFWiwhUVcz7YJFCFjgr3Zm+wdiuuez5bBKeM4=;
-  b=NNuNNphWu1k8zUg318T2lu9njdH+PPHCh62s9+TpAz4QKcQIY4rBsuw0
-   31CHA3CyvduIO4qcLdlrEd+iJJ5BQTGcjPTIWESCC73T9AP2DwlIDffFH
-   mNfjsUhDlMW959XCmr9js+O9qqC6F2yVnzkXmpNXZphVwh/99aN/SvBzu
-   vK4V/CIJb4WA50JKECZXrlQGx5EP1AxfGOvKzq4ld8wciRdczNAd4NbPp
-   nQXFZcC7151Lb1yi+twiX8QB6KwA8m6vCtJ+wJ+n610xpL3qHe0N2XsnU
-   BvJltVXFbULMeJfmRRnrP1kQjFAYlRMiAC9DJILRX6W1EiGyR8ad953Ea
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="357908526"
-X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; 
-   d="scan'208";a="357908526"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 00:46:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="827786861"
-X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; 
-   d="scan'208";a="827786861"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 22 Jun 2023 00:46:33 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qCF1U-0007QA-26;
-	Thu, 22 Jun 2023 07:46:32 +0000
-Date: Thu, 22 Jun 2023 15:46:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E15016406
+	for <oe-kbuild@lists.linux.dev>; Thu, 22 Jun 2023 08:27:14 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f9189228bcso43349485e9.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 22 Jun 2023 01:27:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687422432; x=1690014432;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DJYHqw3D4Te2NgT7iaCLgVm9j4LM7F8hPpOSxaRVdzk=;
+        b=gP7EEAqA3xQjNJh7NhbxNgWTi6UzkZZJS5QUpJ6aKk0FpdwF6kBS/fusTOd3MJfaxZ
+         dE3C1gXGr0twsIU2NofYqTmAwsxUwJTtG832EAqv0oMXbD6VjFgwckcm+ULKQWZmzyVU
+         k2/IKx0n0uKp+g7/xR2HkYpulO8w1cYjRh5BrwxErAq1CORv33lq/Cko4kctDD2SzgAH
+         RgjVkWLBkyZOtIysN52AKCFBcnFcGoluEpckYeb6ucbfX8vBHdLN5mRfSeXvrs5ycGX7
+         oxIATVz8AOL3GAfpqQHq1zezkdyxqwElU4wq9p2trNOQvyDF8yvmlwLRpk2yWe11G45s
+         n6Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687422432; x=1690014432;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DJYHqw3D4Te2NgT7iaCLgVm9j4LM7F8hPpOSxaRVdzk=;
+        b=SnJXFpkwgOSdgvQMJ2UvShg1hVb+oxXMv/YOMPPtfUIsGrbqYYr2a1KhweA170VhTE
+         N6h6Az2L+6g1onL2MWdPZulAkoSkwDoylYUecXh2jxXSylSr1nTSzx7IpyrgBHLCMP2y
+         6k3XaOkuidSH302s2GP3b5cmMSZ827bt37iT9DduvXMELUMCxXBSaWbiK8OvEWEIWFO6
+         NZIojh1435eE8X1tmFBSgGvq7G4TXJTqtGg9uwfnDvLQCJsUYZnZ6cR3OF6TbOBB4tIm
+         vq01aSMf1HE0tNKkLEIS69EWA6M5NmSK/E/qd7n2+23rHiUPFkpFRsDbh6EtylO4lDbm
+         LHzA==
+X-Gm-Message-State: AC+VfDxdldyLfs4/fIbmXBDLAmHEUv5bjCJi9Mxcioa++u+oCIB1Y/fF
+	z8kXSlOmJRJtsfWA9vd8Wqsk1cwKpnFzEzxe6uY=
+X-Google-Smtp-Source: ACHHUZ5uClDGzi1K5FLFcx1TiwjyJvCJ4iEBx+lJqD0eiXBTyOn+Jsh6bSQQbmq+4a635ehxy5+xSw==
+X-Received: by 2002:a7b:cd14:0:b0:3f9:b445:903b with SMTP id f20-20020a7bcd14000000b003f9b445903bmr6373733wmj.9.1687422432051;
+        Thu, 22 Jun 2023 01:27:12 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id e22-20020a05600c219600b003f8fb02c413sm7056261wme.8.2023.06.22.01.27.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jun 2023 01:27:09 -0700 (PDT)
+Date: Thu, 22 Jun 2023 11:27:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Steve French <stfrench@microsoft.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: fs/smb/client/smb2ops.c:2029 smb3_enum_snapshots() warn: variable
  dereferenced before check 'ioc_buf' (see line 2003)
-Message-ID: <202306221539.2zBvWDuV-lkp@intel.com>
+Message-ID: <23b29243-66ba-4796-935a-39c7fff79027@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,17 +53,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Steve French <stfrench@microsoft.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   dad9774deaf1cf8e8f7483310dfb2690310193d2
 commit: 38c8a9a52082579090e34c033d439ed2cd1a462d smb: move client and server files to common directory fs/smb
-date:   4 weeks ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 4 weeks ago
 config: m68k-randconfig-m031-20230622 (https://download.01.org/0day-ci/archive/20230622/202306221539.2zBvWDuV-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 12.3.0
 reproduce: (https://download.01.org/0day-ci/archive/20230622/202306221539.2zBvWDuV-lkp@intel.com/reproduce)
@@ -64,7 +63,7 @@ reproduce: (https://download.01.org/0day-ci/archive/20230622/202306221539.2zBvWD
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202306221539.2zBvWDuV-lkp@intel.com/
 
 smatch warnings:
@@ -73,11 +72,6 @@ fs/smb/client/dfs_cache.c:403 copy_ref_data() warn: passing a valid pointer to '
 
 vim +/ioc_buf +2029 fs/smb/client/smb2ops.c
 
-153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  1980  
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  1981  /*
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  1982   * Input buffer contains (empty) struct smb_snapshot array with size filled in
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  1983   * For output see struct SRV_SNAPSHOT_ARRAY in MS-SMB2 section 2.2.32.2
-e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  1984   */
 834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1985  static int
 834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1986  smb3_enum_snapshots(const unsigned int xid, struct cifs_tcon *tcon,
 834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1987  		   struct cifsFileInfo *cfile, void __user *ioc_buf)
@@ -97,6 +91,11 @@ e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  1984   */
 973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  2001  	 * know to set the maximum response size larger (see below).
 973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  2002  	 */
 153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28 @2003  	if (get_user(ret_data_len, (unsigned int __user *)ioc_buf))
+
+If ioc_buf is NULL then this get_user() will return -EFAULT.  It's not
+a dereference.  I think Smatch gets confused how this implemented on
+arch/m68k/.
+
 153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2004  		return -EFAULT;
 153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2005  
 153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2006  	/*
@@ -123,6 +122,9 @@ e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  1984   */
 834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2027  		return rc;
 834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2028  
 834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30 @2029  	if (ret_data_len && (ioc_buf != NULL) && (retbuf != NULL)) {
+
+Anyway, ioc_buf still can't be NULL at this point.
+
 834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2030  		/* Fixup buffer */
 834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2031  		if (copy_from_user(&snapshot_in, ioc_buf,
 834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2032  		    sizeof(struct smb_snapshot_array))) {
@@ -159,14 +161,8 @@ e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2057  					sizeof(stru
 834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2063  	kfree(retbuf);
 834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2064  	return rc;
 834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2065  }
-834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2066  
-
-:::::: The code at line 2029 was first introduced by commit
-:::::: 834170c85978b0e85805364f623393968f7a9b5e Enable previous version support
-
-:::::: TO: Steve French <smfrench@gmail.com>
-:::::: CC: Steve French <smfrench@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
