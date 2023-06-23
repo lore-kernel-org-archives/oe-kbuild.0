@@ -1,42 +1,41 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BB419D
-	for <oe-kbuild@lists.linux.dev>; Fri, 23 Jun 2023 00:35:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C9E230E8
+	for <oe-kbuild@lists.linux.dev>; Fri, 23 Jun 2023 11:12:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687480553; x=1719016553;
+  t=1687518728; x=1719054728;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j4Zp9cK9f9gCwugFe8OOITOzd12SmaskUharkwnkLmE=;
-  b=g6r8yFAXr5C/CkVRw3OgXQpNth84IgSWDOrNzwFTgfWP0ZzeKZa4W+mw
-   fMtdQ73p5yyTzqnseWMHGUUDYbQfUwBGJWi6XKgTqvcEsOA/5XMv0eagS
-   dSbooGilVzRFfA8WrvgxbPcnG6I/KOU9UpM5OOKYzFJEPfriXupH+hHnk
-   TS17RBxz+J+kZy2CTCMxGo0IgTAPiFDTfGYW79+ljzwvMxL4o61od8208
-   yNGYlDpKT96pWrXXNJDe0EFf4a0+fywFtWROOWcE/E2zsqe4d/5xwmbvV
-   slGfhWTEyhICeMod7RtH8uEhLIu18srBUYMOdaYuN+zYYVbkXM+exOba5
+  bh=8KGGRt5R0gr162op60DPWNiMzIN5HbvBeD/bpFaQt3s=;
+  b=Qv9OhsLg2lw0aQRKw4tCFpqfBC2TkWvr7Oe+QaILdbBP+LiUdgVHux+X
+   XU27NyveVxcsg5TfS5/i0y/oNwvpfwwObDUJJ6eATsUKO6LgMabaCZe90
+   CjgVZFK3pwb6EzbvFRkoRd4U10KKnkBr+6+hs+MgtW1R49FyxMH7wJlTt
+   fDx5pFq4z0Zh4Mny3il1mKU0Ad+tlQHCYwAzwfV007AmcTMGOYRx/kIRJ
+   D2iUibLuu/UhGWcEyUeiQ3mPjswAYvYx/QmF2SvE0AH7RedvQjmk+9JRY
+   MlLnwNtLb8xgf/DEU4zAlIxpiGPdyDeczeKez5psJfxSA4mAOtyfA4/Jy
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="363208042"
-X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
-   d="scan'208";a="363208042"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 17:35:52 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="345496592"
+X-IronPort-AV: E=Sophos;i="6.01,151,1684825200"; 
+   d="scan'208";a="345496592"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 04:12:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="805009686"
-X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
-   d="scan'208";a="805009686"
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="780591774"
+X-IronPort-AV: E=Sophos;i="6.01,151,1684825200"; 
+   d="scan'208";a="780591774"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 22 Jun 2023 17:35:51 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 23 Jun 2023 04:12:06 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qCUmE-0007qv-1N;
-	Fri, 23 Jun 2023 00:35:50 +0000
-Date: Fri, 23 Jun 2023 08:35:48 +0800
+	id 1qCehx-0008Dv-2r;
+	Fri, 23 Jun 2023 11:12:05 +0000
+Date: Fri, 23 Jun 2023 19:12:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH drm-next v5 12/14] drm/nouveau: nvkm/vmm: implement raw
- ops to manage uvmm
-Message-ID: <202306230858.pAurt3QE-lkp@intel.com>
+Subject: Re: [PATCH drm-next v5 13/14] drm/nouveau: implement new VM_BIND uAPI
+Message-ID: <202306231838.qJDts46t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,8 +47,8 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230620004217.4700-13-dakr@redhat.com>
-References: <20230620004217.4700-13-dakr@redhat.com>
+In-Reply-To: <20230620004217.4700-14-dakr@redhat.com>
+References: <20230620004217.4700-14-dakr@redhat.com>
 TO: Danilo Krummrich <dakr@redhat.com>
 TO: airlied@gmail.com
 TO: daniel@ffwll.ch
@@ -81,51 +80,60 @@ kernel test robot noticed the following build warnings:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230620-084448
 base:   2222dcb0775d36de28992f56455ab3967b30d380
-patch link:    https://lore.kernel.org/r/20230620004217.4700-13-dakr%40redhat.com
-patch subject: [PATCH drm-next v5 12/14] drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
+patch link:    https://lore.kernel.org/r/20230620004217.4700-14-dakr%40redhat.com
+patch subject: [PATCH drm-next v5 13/14] drm/nouveau: implement new VM_BIND uAPI
 :::::: branch date: 3 days ago
 :::::: commit date: 3 days ago
-config: mips-randconfig-m031-20230620 (https://download.01.org/0day-ci/archive/20230623/202306230858.pAurt3QE-lkp@intel.com/config)
+config: mips-randconfig-m031-20230620 (https://download.01.org/0day-ci/archive/20230623/202306231838.qJDts46t-lkp@intel.com/config)
 compiler: mips-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230858.pAurt3QE-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230623/202306231838.qJDts46t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306230858.pAurt3QE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306231838.qJDts46t-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/nouveau/nvif/vmm.c:222 nvif_vmm_ctor() warn: possible memory leak of 'args'
+drivers/gpu/drm/nouveau/nouveau_uvmm.c:1528 nouveau_uvmm_bind_job_run() warn: passing zero to 'ERR_PTR'
 
-vim +/args +222 drivers/gpu/drm/nouveau/nvif/vmm.c
+vim +/ERR_PTR +1528 drivers/gpu/drm/nouveau/nouveau_uvmm.c
 
-920d2b5ef2157e Ben Skeggs       2017-11-01  197  
-920d2b5ef2157e Ben Skeggs       2017-11-01  198  int
-f5708c2f516f45 Danilo Krummrich 2023-06-20  199  nvif_vmm_ctor(struct nvif_mmu *mmu, const char *name, s32 oclass,
-f5708c2f516f45 Danilo Krummrich 2023-06-20  200  	      enum nvif_vmm_type type, u64 addr, u64 size, void *argv, u32 argc,
-f5708c2f516f45 Danilo Krummrich 2023-06-20  201  	      struct nvif_vmm *vmm)
-920d2b5ef2157e Ben Skeggs       2017-11-01  202  {
-920d2b5ef2157e Ben Skeggs       2017-11-01  203  	struct nvif_vmm_v0 *args;
-920d2b5ef2157e Ben Skeggs       2017-11-01  204  	u32 argn = sizeof(*args) + argc;
-920d2b5ef2157e Ben Skeggs       2017-11-01  205  	int ret = -ENOSYS, i;
-920d2b5ef2157e Ben Skeggs       2017-11-01  206  
-920d2b5ef2157e Ben Skeggs       2017-11-01  207  	vmm->object.client = NULL;
-920d2b5ef2157e Ben Skeggs       2017-11-01  208  	vmm->page = NULL;
-920d2b5ef2157e Ben Skeggs       2017-11-01  209  
-920d2b5ef2157e Ben Skeggs       2017-11-01  210  	if (!(args = kmalloc(argn, GFP_KERNEL)))
-920d2b5ef2157e Ben Skeggs       2017-11-01  211  		return -ENOMEM;
-920d2b5ef2157e Ben Skeggs       2017-11-01  212  	args->version = 0;
-920d2b5ef2157e Ben Skeggs       2017-11-01  213  	args->addr = addr;
-920d2b5ef2157e Ben Skeggs       2017-11-01  214  	args->size = size;
-f5708c2f516f45 Danilo Krummrich 2023-06-20  215  
-f5708c2f516f45 Danilo Krummrich 2023-06-20  216  	switch (type) {
-f5708c2f516f45 Danilo Krummrich 2023-06-20  217  	case UNMANAGED: args->type = NVIF_VMM_V0_TYPE_UNMANAGED; break;
-f5708c2f516f45 Danilo Krummrich 2023-06-20  218  	case MANAGED: args->type = NVIF_VMM_V0_TYPE_MANAGED; break;
-f5708c2f516f45 Danilo Krummrich 2023-06-20  219  	case RAW: args->type = NVIF_VMM_V0_TYPE_RAW; break;
-f5708c2f516f45 Danilo Krummrich 2023-06-20  220  	default:
-f5708c2f516f45 Danilo Krummrich 2023-06-20  221  		WARN_ON(1);
-f5708c2f516f45 Danilo Krummrich 2023-06-20 @222  		return -EINVAL;
+31c9499051f80c Danilo Krummrich 2023-06-20  1496  
+31c9499051f80c Danilo Krummrich 2023-06-20  1497  static struct dma_fence *
+31c9499051f80c Danilo Krummrich 2023-06-20  1498  nouveau_uvmm_bind_job_run(struct nouveau_job *job)
+31c9499051f80c Danilo Krummrich 2023-06-20  1499  {
+31c9499051f80c Danilo Krummrich 2023-06-20  1500  	struct nouveau_uvmm_bind_job *bind_job = to_uvmm_bind_job(job);
+31c9499051f80c Danilo Krummrich 2023-06-20  1501  	struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(job->cli);
+31c9499051f80c Danilo Krummrich 2023-06-20  1502  	struct bind_job_op *op;
+31c9499051f80c Danilo Krummrich 2023-06-20  1503  	int ret = 0;
+31c9499051f80c Danilo Krummrich 2023-06-20  1504  
+31c9499051f80c Danilo Krummrich 2023-06-20  1505  	list_for_each_op(op, &bind_job->ops) {
+31c9499051f80c Danilo Krummrich 2023-06-20  1506  		switch (op->op) {
+31c9499051f80c Danilo Krummrich 2023-06-20  1507  		case OP_MAP_SPARSE:
+31c9499051f80c Danilo Krummrich 2023-06-20  1508  			/* noop */
+31c9499051f80c Danilo Krummrich 2023-06-20  1509  			break;
+31c9499051f80c Danilo Krummrich 2023-06-20  1510  		case OP_MAP:
+31c9499051f80c Danilo Krummrich 2023-06-20  1511  			ret = nouveau_uvmm_sm_map(uvmm, &op->new, op->ops);
+31c9499051f80c Danilo Krummrich 2023-06-20  1512  			if (ret)
+31c9499051f80c Danilo Krummrich 2023-06-20  1513  				goto out;
+31c9499051f80c Danilo Krummrich 2023-06-20  1514  			break;
+31c9499051f80c Danilo Krummrich 2023-06-20  1515  		case OP_UNMAP_SPARSE:
+31c9499051f80c Danilo Krummrich 2023-06-20  1516  			fallthrough;
+31c9499051f80c Danilo Krummrich 2023-06-20  1517  		case OP_UNMAP:
+31c9499051f80c Danilo Krummrich 2023-06-20  1518  			ret = nouveau_uvmm_sm_unmap(uvmm, &op->new, op->ops);
+31c9499051f80c Danilo Krummrich 2023-06-20  1519  			if (ret)
+31c9499051f80c Danilo Krummrich 2023-06-20  1520  				goto out;
+31c9499051f80c Danilo Krummrich 2023-06-20  1521  			break;
+31c9499051f80c Danilo Krummrich 2023-06-20  1522  		}
+31c9499051f80c Danilo Krummrich 2023-06-20  1523  	}
+31c9499051f80c Danilo Krummrich 2023-06-20  1524  
+31c9499051f80c Danilo Krummrich 2023-06-20  1525  out:
+31c9499051f80c Danilo Krummrich 2023-06-20  1526  	if (ret)
+31c9499051f80c Danilo Krummrich 2023-06-20  1527  		NV_PRINTK(err, job->cli, "bind job failed: %d\n", ret);
+31c9499051f80c Danilo Krummrich 2023-06-20 @1528  	return ERR_PTR(ret);
+31c9499051f80c Danilo Krummrich 2023-06-20  1529  }
+31c9499051f80c Danilo Krummrich 2023-06-20  1530  
 
 -- 
 0-DAY CI Kernel Test Service
