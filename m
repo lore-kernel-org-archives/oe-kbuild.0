@@ -1,43 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C2F7F
-	for <oe-kbuild@lists.linux.dev>; Sun, 25 Jun 2023 00:36:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1C37F
+	for <oe-kbuild@lists.linux.dev>; Sun, 25 Jun 2023 01:27:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687653386; x=1719189386;
+  t=1687656446; x=1719192446;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UHoG63C0YTAXcMp0tJ8gqDFUmABbQcLelrRWUdyZ/1U=;
-  b=R+379yfjzRDrq+1SPAAiPEb0SdlElEAQRyW4LR9eyPQ90ZgbnTXcqrB2
-   Cepc8uUfW1LPqKv/hViDgQFAaTe4f6QPNgxcgX3Wl6sE/nJ72t00So9/p
-   zWlTncey6gdsSIwnb66CMUfo0rzrjdZ+J0o+oNG+NNdcz/zldsaDZ5Kmg
-   M+ld3vJUuYJFHShaZycDlymt/XqRb2F105nxB+RK66mxj5WiME47U/qew
-   H1KXI1tCVuNx+sPVA1IqbI15X+/cfWQe/JuDyEQ3Fp0xYYjajEX5g5S6K
-   8Bj8HUKJA4ufXnwxqqiaM/tHypQpuutk0RLipq1/vmuuA0Imzb3GRiJYI
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="358490808"
+  bh=QOGc/dFJThPYUHFR1Dmvq6t84iK9rB1z3ntaXscQ8W8=;
+  b=di2Rl2Xs4iDFKX/o6T9N1gT4kI1M2F5YGs8I9hc3W5zi8EVkL3Rwm3eR
+   UUpTzWDiasWX8eu+jTqYQI+1EaAR8cIf3oPJYpq+jA4bD9TfmWPEwDF4i
+   ExX9BpTi1UOzj0tJSTf3eQcrjL1TsqwsNRg9A0KxNB65OrqMSxd0xuwJp
+   vaa35cllHors2w54DyJoihBO+0pcsLkg3v8A1ToF5kpWQ3WhdUcLa14pX
+   oSH+V6XJtxDCFjMJLoYQcNClSJcrkyg2BauFgq8bdO5YBOGgAzN8LvvNS
+   wyd6f8LTUay9Km96vJy8mMBU7wtvekw3T3YkypyEheZ6ar7stDbo8rTa6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="340596354"
 X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
-   d="scan'208";a="358490808"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2023 17:36:25 -0700
+   d="scan'208";a="340596354"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2023 18:27:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="745368816"
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="962363675"
 X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
-   d="scan'208";a="745368816"
+   d="scan'208";a="962363675"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 24 Jun 2023 17:36:23 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 24 Jun 2023 18:27:24 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qDDjq-0009Z7-2B;
-	Sun, 25 Jun 2023 00:36:22 +0000
-Date: Sun, 25 Jun 2023 08:35:38 +0800
+	id 1qDEXD-0009bM-3D;
+	Sun, 25 Jun 2023 01:27:23 +0000
+Date: Sun, 25 Jun 2023 09:27:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [djwong-xfs:xfile-page-caching 49/202]
- fs/xfs/libxfs/xfs_refcount.c:128 xfs_refcount_check_perag_irec() warn:
- impossible condition '(irec->rc_blockcount > (~0)) => (0-u32max > u32max)'
-Message-ID: <202306250857.3mgCreb8-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [axboe-block:for-6.5/block-late 216/216]
+ drivers/md/bcache/super.c:2644:19-25: ERROR: reference preceded by free on
+ line 2639
+Message-ID: <202306250928.Qr2Ormmg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,57 +49,162 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+TO: Jan Kara <jack@suse.cz>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: Kent Overstreet <kmo@daterainc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
-head:   9f2fc0e8ef147d9fd9c6af47c4ab87427e0d2d19
-commit: 6bc9ccc0539af40fb32ea347a2d594c7c9a71946 [49/202] xfs: repair refcount btrees
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
-config: x86_64-randconfig-m001-20230625 (https://download.01.org/0day-ci/archive/20230625/202306250857.3mgCreb8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230625/202306250857.3mgCreb8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.5/block-late
+head:   2c5555983bd27d24162534b682b10654639a5576
+commit: 2c5555983bd27d24162534b682b10654639a5576 [216/216] bcache: Fix bcache device claiming
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: sh-randconfig-c041-20230625 (https://download.01.org/0day-ci/archive/20230625/202306250928.Qr2Ormmg-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230625/202306250928.Qr2Ormmg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306250857.3mgCreb8-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202306250928.Qr2Ormmg-lkp@intel.com/
 
-smatch warnings:
-fs/xfs/libxfs/xfs_refcount.c:128 xfs_refcount_check_perag_irec() warn: impossible condition '(irec->rc_blockcount > (~0)) => (0-u32max > u32max)'
-fs/xfs/libxfs/xfs_refcount.c:138 xfs_refcount_check_perag_irec() warn: impossible condition '(irec->rc_refcount > (~0)) => (0-u32max > u32max)'
+cocci warnings: (new ones prefixed by >>)
+>> drivers/md/bcache/super.c:2644:19-25: ERROR: reference preceded by free on line 2639
 
-vim +128 fs/xfs/libxfs/xfs_refcount.c
+vim +2644 drivers/md/bcache/super.c
 
-174edb0e46e520 Darrick J. Wong 2016-10-03  122  
-6bc9ccc0539af4 Darrick J. Wong 2023-03-06  123  inline xfs_failaddr_t
-6bc9ccc0539af4 Darrick J. Wong 2023-03-06  124  xfs_refcount_check_perag_irec(
-6bc9ccc0539af4 Darrick J. Wong 2023-03-06  125  	struct xfs_perag		*pag,
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  126  	const struct xfs_refcount_irec	*irec)
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  127  {
-2b30cc0bf0589d Darrick J. Wong 2023-04-11 @128  	if (irec->rc_blockcount == 0 || irec->rc_blockcount > MAXREFCEXTLEN)
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  129  		return __this_address;
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  130  
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  131  	if (!xfs_refcount_check_domain(irec))
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  132  		return __this_address;
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  133  
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  134  	/* check for valid extent range, including overflow */
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  135  	if (!xfs_verify_agbext(pag, irec->rc_startblock, irec->rc_blockcount))
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  136  		return __this_address;
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  137  
-2b30cc0bf0589d Darrick J. Wong 2023-04-11 @138  	if (irec->rc_refcount == 0 || irec->rc_refcount > MAXREFCOUNT)
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  139  		return __this_address;
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  140  
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  141  	return NULL;
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  142  }
-2b30cc0bf0589d Darrick J. Wong 2023-04-11  143  
-
-:::::: The code at line 128 was first introduced by commit
-:::::: 2b30cc0bf0589d1ea0506c019b9b81de77535c87 xfs: standardize ondisk to incore conversion for refcount btrees
-
-:::::: TO: Darrick J. Wong <djwong@kernel.org>
-:::::: CC: Darrick J. Wong <djwong@kernel.org>
+cafe563591446c Kent Overstreet   2013-03-23  2526  
+50246693f81fe8 Christoph Hellwig 2020-01-24  2527  	ret = -EBUSY;
+29cda393bcaad1 Coly Li           2020-01-24  2528  	err = "failed to reference bcache module";
+cafe563591446c Kent Overstreet   2013-03-23  2529  	if (!try_module_get(THIS_MODULE))
+50246693f81fe8 Christoph Hellwig 2020-01-24  2530  		goto out;
+cafe563591446c Kent Overstreet   2013-03-23  2531  
+a59ff6ccc2bf2e Coly Li           2019-06-28  2532  	/* For latest state of bcache_is_reboot */
+a59ff6ccc2bf2e Coly Li           2019-06-28  2533  	smp_mb();
+29cda393bcaad1 Coly Li           2020-01-24  2534  	err = "bcache is in reboot";
+a59ff6ccc2bf2e Coly Li           2019-06-28  2535  	if (bcache_is_reboot)
+50246693f81fe8 Christoph Hellwig 2020-01-24  2536  		goto out_module_put;
+a59ff6ccc2bf2e Coly Li           2019-06-28  2537  
+50246693f81fe8 Christoph Hellwig 2020-01-24  2538  	ret = -ENOMEM;
+50246693f81fe8 Christoph Hellwig 2020-01-24  2539  	err = "cannot allocate memory";
+a56489d4b3c914 Florian Schmaus   2018-07-26  2540  	path = kstrndup(buffer, size, GFP_KERNEL);
+a56489d4b3c914 Florian Schmaus   2018-07-26  2541  	if (!path)
+50246693f81fe8 Christoph Hellwig 2020-01-24  2542  		goto out_module_put;
+a56489d4b3c914 Florian Schmaus   2018-07-26  2543  
+a56489d4b3c914 Florian Schmaus   2018-07-26  2544  	sb = kmalloc(sizeof(struct cache_sb), GFP_KERNEL);
+a56489d4b3c914 Florian Schmaus   2018-07-26  2545  	if (!sb)
+50246693f81fe8 Christoph Hellwig 2020-01-24  2546  		goto out_free_path;
+cafe563591446c Kent Overstreet   2013-03-23  2547  
+50246693f81fe8 Christoph Hellwig 2020-01-24  2548  	ret = -EINVAL;
+cafe563591446c Kent Overstreet   2013-03-23  2549  	err = "failed to open device";
+2c5555983bd27d Jan Kara          2023-06-22  2550  	bdev = blkdev_get_by_path(strim(path), BLK_OPEN_READ, NULL, NULL);
+2c5555983bd27d Jan Kara          2023-06-22  2551  	if (IS_ERR(bdev))
+50246693f81fe8 Christoph Hellwig 2020-01-24  2552  		goto out_free_sb;
+f59fce847fc848 Kent Overstreet   2013-05-15  2553  
+f59fce847fc848 Kent Overstreet   2013-05-15  2554  	err = "failed to set blocksize";
+f59fce847fc848 Kent Overstreet   2013-05-15  2555  	if (set_blocksize(bdev, 4096))
+50246693f81fe8 Christoph Hellwig 2020-01-24  2556  		goto out_blkdev_put;
+cafe563591446c Kent Overstreet   2013-03-23  2557  
+cfa0c56db9c087 Christoph Hellwig 2020-01-24  2558  	err = read_super(sb, bdev, &sb_disk);
+cafe563591446c Kent Overstreet   2013-03-23  2559  	if (err)
+50246693f81fe8 Christoph Hellwig 2020-01-24  2560  		goto out_blkdev_put;
+cafe563591446c Kent Overstreet   2013-03-23  2561  
+abcc0cbd49283f Jan Kara          2023-06-22  2562  	holder = alloc_holder_object(sb);
+abcc0cbd49283f Jan Kara          2023-06-22  2563  	if (!holder) {
+abcc0cbd49283f Jan Kara          2023-06-22  2564  		ret = -ENOMEM;
+abcc0cbd49283f Jan Kara          2023-06-22  2565  		err = "cannot allocate memory";
+abcc0cbd49283f Jan Kara          2023-06-22  2566  		goto out_put_sb_page;
+abcc0cbd49283f Jan Kara          2023-06-22  2567  	}
+abcc0cbd49283f Jan Kara          2023-06-22  2568  
+2c5555983bd27d Jan Kara          2023-06-22  2569  	/* Now reopen in exclusive mode with proper holder */
+2c5555983bd27d Jan Kara          2023-06-22  2570  	bdev2 = blkdev_get_by_dev(bdev->bd_dev, BLK_OPEN_READ | BLK_OPEN_WRITE,
+2c5555983bd27d Jan Kara          2023-06-22  2571  				  holder, NULL);
+2c5555983bd27d Jan Kara          2023-06-22  2572  	blkdev_put(bdev, NULL);
+2c5555983bd27d Jan Kara          2023-06-22  2573  	bdev = bdev2;
+2c5555983bd27d Jan Kara          2023-06-22  2574  	if (IS_ERR(bdev)) {
+2c5555983bd27d Jan Kara          2023-06-22  2575  		ret = PTR_ERR(bdev);
+2c5555983bd27d Jan Kara          2023-06-22  2576  		bdev = NULL;
+2c5555983bd27d Jan Kara          2023-06-22  2577  		if (ret == -EBUSY) {
+2c5555983bd27d Jan Kara          2023-06-22  2578  			dev_t dev;
+2c5555983bd27d Jan Kara          2023-06-22  2579  
+2c5555983bd27d Jan Kara          2023-06-22  2580  			mutex_lock(&bch_register_lock);
+2c5555983bd27d Jan Kara          2023-06-22  2581  			if (lookup_bdev(strim(path), &dev) == 0 &&
+2c5555983bd27d Jan Kara          2023-06-22  2582  			    bch_is_open(dev))
+2c5555983bd27d Jan Kara          2023-06-22  2583  				err = "device already registered";
+2c5555983bd27d Jan Kara          2023-06-22  2584  			else
+2c5555983bd27d Jan Kara          2023-06-22  2585  				err = "device busy";
+2c5555983bd27d Jan Kara          2023-06-22  2586  			mutex_unlock(&bch_register_lock);
+2c5555983bd27d Jan Kara          2023-06-22  2587  			if (attr == &ksysfs_register_quiet) {
+2c5555983bd27d Jan Kara          2023-06-22  2588  				quiet = true;
+2c5555983bd27d Jan Kara          2023-06-22  2589  				ret = size;
+2c5555983bd27d Jan Kara          2023-06-22  2590  			}
+2c5555983bd27d Jan Kara          2023-06-22  2591  		}
+2c5555983bd27d Jan Kara          2023-06-22  2592  		goto out_free_holder;
+2c5555983bd27d Jan Kara          2023-06-22  2593  	}
+2c5555983bd27d Jan Kara          2023-06-22  2594  
+cc40daf91bdddb Tang Junhui       2018-03-05  2595  	err = "failed to register device";
+a58e88bfdc4d52 Coly Li           2020-10-01  2596  
+a58e88bfdc4d52 Coly Li           2020-10-01  2597  	if (async_registration) {
+9e23ccf8f0a22e Coly Li           2020-05-27  2598  		/* register in asynchronous way */
+9e23ccf8f0a22e Coly Li           2020-05-27  2599  		struct async_reg_args *args =
+9e23ccf8f0a22e Coly Li           2020-05-27  2600  			kzalloc(sizeof(struct async_reg_args), GFP_KERNEL);
+9e23ccf8f0a22e Coly Li           2020-05-27  2601  
+9e23ccf8f0a22e Coly Li           2020-05-27  2602  		if (!args) {
+9e23ccf8f0a22e Coly Li           2020-05-27  2603  			ret = -ENOMEM;
+9e23ccf8f0a22e Coly Li           2020-05-27  2604  			err = "cannot allocate memory";
+abcc0cbd49283f Jan Kara          2023-06-22  2605  			goto out_free_holder;
+9e23ccf8f0a22e Coly Li           2020-05-27  2606  		}
+9e23ccf8f0a22e Coly Li           2020-05-27  2607  
+9e23ccf8f0a22e Coly Li           2020-05-27  2608  		args->path	= path;
+9e23ccf8f0a22e Coly Li           2020-05-27  2609  		args->sb	= sb;
+9e23ccf8f0a22e Coly Li           2020-05-27  2610  		args->sb_disk	= sb_disk;
+9e23ccf8f0a22e Coly Li           2020-05-27  2611  		args->bdev	= bdev;
+abcc0cbd49283f Jan Kara          2023-06-22  2612  		args->holder	= holder;
+d7fae7b4fa1527 Kai Krakow        2021-02-10  2613  		register_device_async(args);
+9e23ccf8f0a22e Coly Li           2020-05-27  2614  		/* No wait and returns to user space */
+9e23ccf8f0a22e Coly Li           2020-05-27  2615  		goto async_done;
+9e23ccf8f0a22e Coly Li           2020-05-27  2616  	}
+9e23ccf8f0a22e Coly Li           2020-05-27  2617  
+2903381fce7100 Kent Overstreet   2013-04-11  2618  	if (SB_IS_BDEV(sb)) {
+4fa03402cda2fa Kent Overstreet   2014-03-17  2619  		mutex_lock(&bch_register_lock);
+abcc0cbd49283f Jan Kara          2023-06-22  2620  		ret = register_bdev(sb, sb_disk, bdev, holder);
+4fa03402cda2fa Kent Overstreet   2014-03-17  2621  		mutex_unlock(&bch_register_lock);
+bb6d355c2aff42 Coly Li           2019-04-25  2622  		/* blkdev_put() will be called in cached_dev_free() */
+fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2623  		if (ret < 0)
+fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2624  			goto out_free_sb;
+cafe563591446c Kent Overstreet   2013-03-23  2625  	} else {
+bb6d355c2aff42 Coly Li           2019-04-25  2626  		/* blkdev_put() will be called in bch_cache_release() */
+abcc0cbd49283f Jan Kara          2023-06-22  2627  		ret = register_cache(sb, sb_disk, bdev, holder);
+d55f7cb2e5c053 Chao Yu           2021-10-20  2628  		if (ret)
+fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2629  			goto out_free_sb;
+50246693f81fe8 Christoph Hellwig 2020-01-24  2630  	}
+50246693f81fe8 Christoph Hellwig 2020-01-24  2631  
+f59fce847fc848 Kent Overstreet   2013-05-15  2632  	kfree(sb);
+f59fce847fc848 Kent Overstreet   2013-05-15  2633  	kfree(path);
+f59fce847fc848 Kent Overstreet   2013-05-15  2634  	module_put(THIS_MODULE);
+9e23ccf8f0a22e Coly Li           2020-05-27  2635  async_done:
+50246693f81fe8 Christoph Hellwig 2020-01-24  2636  	return size;
+f59fce847fc848 Kent Overstreet   2013-05-15  2637  
+abcc0cbd49283f Jan Kara          2023-06-22  2638  out_free_holder:
+abcc0cbd49283f Jan Kara          2023-06-22 @2639  	kfree(holder);
+50246693f81fe8 Christoph Hellwig 2020-01-24  2640  out_put_sb_page:
+cfa0c56db9c087 Christoph Hellwig 2020-01-24  2641  	put_page(virt_to_page(sb_disk));
+50246693f81fe8 Christoph Hellwig 2020-01-24  2642  out_blkdev_put:
+2c5555983bd27d Jan Kara          2023-06-22  2643  	if (bdev)
+2c5555983bd27d Jan Kara          2023-06-22 @2644  		blkdev_put(bdev, holder);
+50246693f81fe8 Christoph Hellwig 2020-01-24  2645  out_free_sb:
+50246693f81fe8 Christoph Hellwig 2020-01-24  2646  	kfree(sb);
+50246693f81fe8 Christoph Hellwig 2020-01-24  2647  out_free_path:
+50246693f81fe8 Christoph Hellwig 2020-01-24  2648  	kfree(path);
+ae3cd299919af6 Coly Li           2020-01-24  2649  	path = NULL;
+50246693f81fe8 Christoph Hellwig 2020-01-24  2650  out_module_put:
+50246693f81fe8 Christoph Hellwig 2020-01-24  2651  	module_put(THIS_MODULE);
+50246693f81fe8 Christoph Hellwig 2020-01-24  2652  out:
+2c5555983bd27d Jan Kara          2023-06-22  2653  	if (!quiet)
+46f5aa8806e34f Joe Perches       2020-05-27  2654  		pr_info("error %s: %s\n", path?path:"", err);
+50246693f81fe8 Christoph Hellwig 2020-01-24  2655  	return ret;
+cafe563591446c Kent Overstreet   2013-03-23  2656  }
+cafe563591446c Kent Overstreet   2013-03-23  2657  
 
 -- 
 0-DAY CI Kernel Test Service
