@@ -1,43 +1,54 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0743046BA
-	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jun 2023 10:55:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687776908; x=1719312908;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QAAkMdDRjKqGMkatFpHE4M6LUx5vQyyvUv/b2UGcOeA=;
-  b=TANyf6Sf/TPa5nFKz3jP/JGDkXXu+aVwZuukfu6aK3u2ZD2mPdm4qN96
-   KiEdJnhaS933nIe1QePT7cXvci+nWZGDyNikebNIvfN8hRGkTD6pFfceU
-   6EqdfI3kiLtYEmfe7MWkwB2tDtDbwl6VlAO9b1SL7ZiMAHwrztoZmuH2C
-   fgmDVf6ansq4bu62GsD1Vbhe8x3ovzIrMeFLu5698xZztQVQCrqA9ZRmQ
-   l+3yTTSe9ymua5DyCIH4dYA9sxUapC+yQC2uYqaDqkpgp8+KKKnb7W/w0
-   zALx+rBjb8Gr+qACMc/2D0LxjgcHGGsawEKU8LLXr7t2XzLVAdfn8r6Fb
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="427231918"
-X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="427231918"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 03:55:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="890244130"
-X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="890244130"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 26 Jun 2023 03:55:07 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qDjsA-000Aez-1G;
-	Mon, 26 Jun 2023 10:55:06 +0000
-Date: Mon, 26 Jun 2023 18:54:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: include/linux/compiler_types.h:397:45: error: call to
- '__compiletime_assert_386' declared with attribute error: BUILD_BUG_ON
- failed: sizeof(mstat) > sizeof(skb->cb)
-Message-ID: <202306261838.EVIyaUhu-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30D96FD6
+	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jun 2023 11:00:05 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2b6a675743dso4558651fa.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 26 Jun 2023 04:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687777202; x=1690369202;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=G7sIG9mMWqnBSjmRGaB+tfEB5pMmkNJkQTNkwiFZC9I=;
+        b=kOuezhJK6qeL7RdVK0EOMNMSwUCf02bEbVt9y7n+j9VvQxFcy4KlmXddXqoSEo9xXw
+         Twj3oux1PDEvBM9/2TCSWUNNfx+Jh3sOhVwLSOMelasvm7JK/49oqOzkPnxvgR6rShTs
+         fhqd/Xktl6up0HT/IZGAldUumnle4bP0IQQuCNi8ALDLsig7t5ycgbte5L4+CtorhH7T
+         p5bEZMCRp91/Z9tD64QgcB61hKm42eeH0XdgZqedFbQpPzpzhZlkhSVtrnm8tHQzHOml
+         eHqGP7Pt/3v8HP739ro4zjbQcottNhuEZWYU5Mi47yOjxN/p8n0bxh1Ks//kGturNmfr
+         Ib2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687777202; x=1690369202;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G7sIG9mMWqnBSjmRGaB+tfEB5pMmkNJkQTNkwiFZC9I=;
+        b=cGYdTtsrENK7JUr1DQaxRKtwslBW103/87UnfX46Ia2TsSBJTmWF0vLjg2YAPpo/v6
+         yBst7JTr0z3T8D2piem1DJSxkhofZtH5YH+zRw6ZcM7/Xzm7hlOpmaEvLlJay+Aqk+dp
+         rRgPS9bRyDBAvBGxVYpybNAMBH7S6ZCHw5sZLzYgI69wWFFqPAhn88VhBur4UnV1AeA1
+         nNTyQKJt4uir/yTU9QYx0Re9R5MlJXsgsnU/48LRXlQQpk7k/cqSWzPcLOmF7SCpt33P
+         uUQPwYXPF9ZFaEwG+EaV5HYHXg6qpkb4PIT9l45HRCTh06Kw4zv4a5NplU0GjEfmFSeb
+         syyQ==
+X-Gm-Message-State: AC+VfDww2GR1UIJWztn8GTN+eKWNSE6qEJHnshcc/lfXdEcG/xmd/Mli
+	Ut420HoqJyaTpg3QwZSH36HJWXWGN/JfDm5l0ik=
+X-Google-Smtp-Source: ACHHUZ4zYjhSY+qg0esWzswppt9V4YWWBAzQx43K/Cea8Dvc33slbb6+aW2ukojrhy6ftK1bsVxRaA==
+X-Received: by 2002:a19:8c18:0:b0:4f4:fdb4:c76d with SMTP id o24-20020a198c18000000b004f4fdb4c76dmr18353746lfd.47.1687777202458;
+        Mon, 26 Jun 2023 04:00:02 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id t12-20020a7bc3cc000000b003f604793989sm10065546wmj.18.2023.06.26.04.00.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jun 2023 04:00:01 -0700 (PDT)
+Date: Mon, 26 Jun 2023 13:59:58 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Daniel Wagner <dwagner@suse.de>,
+	linux-nvme@lists.infradead.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
+	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+	James Smart <jsmart2021@gmail.com>, Daniel Wagner <dwagner@suse.de>
+Subject: Re: [PATCH v2 4/5] nvme-fc: Make initial connect attempt synchronous
+Message-ID: <7ba59f01-57fe-4ad2-917a-0a199528b1f6@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,96 +57,109 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230620133711.22840-5-dwagner@suse.de>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_386' declared with attribute error: BUILD_BUG_ON failed: sizeof(mstat) > sizeof(skb->cb)"
-:::::: 
+Hi Daniel,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Shayne Chen <shayne.chen@mediatek.com>
-CC: Felix Fietkau <nbd@nbd.name>
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6995e2de6891c724bfeb2db33d7b87775f913ad1
-commit: 021af945997ffaeaa37c9673d71afad7cde6bdef wifi: mt76: mt7996: add eht rx rate support
-date:   2 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 2 months ago
-config: arm-randconfig-r083-20230626 (https://download.01.org/0day-ci/archive/20230626/202306261838.EVIyaUhu-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230626/202306261838.EVIyaUhu-lkp@intel.com/reproduce)
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/nvme-fc-Do-not-wait-in-vain-when-unloading-module/20230620-213849
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230620133711.22840-5-dwagner%40suse.de
+patch subject: [PATCH v2 4/5] nvme-fc: Make initial connect attempt synchronous
+config: openrisc-randconfig-m041-20230622 (https://download.01.org/0day-ci/archive/20230624/202306240125.U2jdrjAY-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230624/202306240125.U2jdrjAY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202306261838.EVIyaUhu-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202306240125.U2jdrjAY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/nvme/host/fc.c:3590 nvme_fc_init_ctrl() warn: passing zero to 'ERR_PTR'
 
-   In file included from include/linux/string.h:254,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/rcupdate.h:29,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from drivers/net/wireless/mediatek/mt76/mac80211.c:5:
-   In function 'fortify_memset_chk',
-       inlined from 'mt76_rx_convert.constprop' at drivers/net/wireless/mediatek/mt76/mac80211.c:1063:2:
-   include/linux/fortify-string.h:430:25: warning: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Wattribute-warning]
-     430 |                         __write_overflow_field(p_size_field, size);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from <command-line>:
-   drivers/net/wireless/mediatek/mt76/mac80211.c: In function 'mt76_rx_convert.constprop':
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_386' declared with attribute error: BUILD_BUG_ON failed: sizeof(mstat) > sizeof(skb->cb)
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mac80211.c:1094:9: note: in expansion of macro 'BUILD_BUG_ON'
-    1094 |         BUILD_BUG_ON(sizeof(mstat) > sizeof(skb->cb));
-         |         ^~~~~~~~~~~~
+vim +/ERR_PTR +3590 drivers/nvme/host/fc.c
 
+61bff8ef008845 James Smart       2017-04-23  3533  	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_fc_ctrl_ops, 0);
+61bff8ef008845 James Smart       2017-04-23  3534  	if (ret)
+98e3528012cd57 Ross Lagerwall    2023-01-20  3535  		goto out_free_queues;
+e399441de9115c James Smart       2016-12-02  3536  
+61bff8ef008845 James Smart       2017-04-23  3537  	/* at this point, teardown path changes to ref counting on nvme ctrl */
+e399441de9115c James Smart       2016-12-02  3538  
+98e3528012cd57 Ross Lagerwall    2023-01-20  3539  	ret = nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
+98e3528012cd57 Ross Lagerwall    2023-01-20  3540  			&nvme_fc_admin_mq_ops,
+98e3528012cd57 Ross Lagerwall    2023-01-20  3541  			struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
+98e3528012cd57 Ross Lagerwall    2023-01-20  3542  				    ctrl->lport->ops->fcprqst_priv_sz));
+98e3528012cd57 Ross Lagerwall    2023-01-20  3543  	if (ret)
+98e3528012cd57 Ross Lagerwall    2023-01-20  3544  		goto fail_ctrl;
+98e3528012cd57 Ross Lagerwall    2023-01-20  3545  
+e399441de9115c James Smart       2016-12-02  3546  	spin_lock_irqsave(&rport->lock, flags);
+e399441de9115c James Smart       2016-12-02  3547  	list_add_tail(&ctrl->ctrl_list, &rport->ctrl_list);
+e399441de9115c James Smart       2016-12-02  3548  	spin_unlock_irqrestore(&rport->lock, flags);
+e399441de9115c James Smart       2016-12-02  3549  
+ac881fd1288ca6 Daniel Wagner     2023-06-20  3550  	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
+4c984154efa131 James Smart       2018-06-13  3551  		dev_err(ctrl->ctrl.device,
+4c984154efa131 James Smart       2018-06-13  3552  			"NVME-FC{%d}: failed to init ctrl state\n", ctrl->cnum);
+4c984154efa131 James Smart       2018-06-13  3553  		goto fail_ctrl;
 
-vim +/__compiletime_assert_386 +397 include/linux/compiler_types.h
+No error code on this path.  Originally it didn't matter because it was
+hardcoded to return ERR_PTR(-EIO);
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
-
-:::::: The code at line 397 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+17c4dc6eb7e1b2 James Smart       2017-10-09  3554  	}
+17c4dc6eb7e1b2 James Smart       2017-10-09  3555  
+ac881fd1288ca6 Daniel Wagner     2023-06-20  3556  	ret = nvme_fc_create_association(ctrl);
+ac881fd1288ca6 Daniel Wagner     2023-06-20  3557  	if (ret)
+4c984154efa131 James Smart       2018-06-13  3558  		goto fail_ctrl;
+4c984154efa131 James Smart       2018-06-13  3559  
+4c984154efa131 James Smart       2018-06-13  3560  	dev_info(ctrl->ctrl.device,
+4c984154efa131 James Smart       2018-06-13  3561  		"NVME-FC{%d}: new ctrl: NQN \"%s\"\n",
+e5ea42faa773c6 Hannes Reinecke   2021-09-22  3562  		ctrl->cnum, nvmf_ctrl_subsysnqn(&ctrl->ctrl));
+4c984154efa131 James Smart       2018-06-13  3563  
+4c984154efa131 James Smart       2018-06-13  3564  	return &ctrl->ctrl;
+4c984154efa131 James Smart       2018-06-13  3565  
+4c984154efa131 James Smart       2018-06-13  3566  fail_ctrl:
+19fce0470f0503 James Smart       2020-12-01  3567  	cancel_work_sync(&ctrl->ioerr_work);
+cf25809bec2c7d James Smart       2018-03-13  3568  	cancel_work_sync(&ctrl->ctrl.reset_work);
+cf25809bec2c7d James Smart       2018-03-13  3569  	cancel_delayed_work_sync(&ctrl->connect_work);
+cf25809bec2c7d James Smart       2018-03-13  3570  
+de41447aac034c Ewan D. Milne     2017-04-24  3571  	ctrl->ctrl.opts = NULL;
+17c4dc6eb7e1b2 James Smart       2017-10-09  3572  
+61bff8ef008845 James Smart       2017-04-23  3573  	/* initiate nvme ctrl ref counting teardown */
+e399441de9115c James Smart       2016-12-02  3574  	nvme_uninit_ctrl(&ctrl->ctrl);
+61bff8ef008845 James Smart       2017-04-23  3575  
+0b5a7669a457dd James Smart       2017-06-15  3576  	/* Remove core ctrl ref. */
+0b5a7669a457dd James Smart       2017-06-15  3577  	nvme_put_ctrl(&ctrl->ctrl);
+0b5a7669a457dd James Smart       2017-06-15  3578  
+61bff8ef008845 James Smart       2017-04-23  3579  	/* as we're past the point where we transition to the ref
+61bff8ef008845 James Smart       2017-04-23  3580  	 * counting teardown path, if we return a bad pointer here,
+61bff8ef008845 James Smart       2017-04-23  3581  	 * the calling routine, thinking it's prior to the
+61bff8ef008845 James Smart       2017-04-23  3582  	 * transition, will do an rport put. Since the teardown
+61bff8ef008845 James Smart       2017-04-23  3583  	 * path also does a rport put, we do an extra get here to
+61bff8ef008845 James Smart       2017-04-23  3584  	 * so proper order/teardown happens.
+61bff8ef008845 James Smart       2017-04-23  3585  	 */
+61bff8ef008845 James Smart       2017-04-23  3586  	nvme_fc_rport_get(rport);
+61bff8ef008845 James Smart       2017-04-23  3587  
+ac881fd1288ca6 Daniel Wagner     2023-06-20  3588  	if (ret > 0)
+ac881fd1288ca6 Daniel Wagner     2023-06-20  3589  		ret = -EIO;
+ac881fd1288ca6 Daniel Wagner     2023-06-20 @3590  	return ERR_PTR(ret);
+e399441de9115c James Smart       2016-12-02  3591  
+61bff8ef008845 James Smart       2017-04-23  3592  out_free_queues:
+61bff8ef008845 James Smart       2017-04-23  3593  	kfree(ctrl->queues);
+e399441de9115c James Smart       2016-12-02  3594  out_free_ida:
+61bff8ef008845 James Smart       2017-04-23  3595  	put_device(ctrl->dev);
+3dd83f4013f0e8 Sagi Grimberg     2022-02-14  3596  	ida_free(&nvme_fc_ctrl_cnt, ctrl->cnum);
+e399441de9115c James Smart       2016-12-02  3597  out_free_ctrl:
+e399441de9115c James Smart       2016-12-02  3598  	kfree(ctrl);
+e399441de9115c James Smart       2016-12-02  3599  out_fail:
+e399441de9115c James Smart       2016-12-02  3600  	/* exit via here doesn't follow ctlr ref points */
+e399441de9115c James Smart       2016-12-02  3601  	return ERR_PTR(ret);
+e399441de9115c James Smart       2016-12-02  3602  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
