@@ -1,42 +1,49 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1006E8C04
-	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jun 2023 12:17:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687781833; x=1719317833;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6dlwR/czVv81w56DNPNy6xSxmgJ1zbzxpwopeo0gQ0k=;
-  b=oIgjte7WBBUBiWFnpbyneAYGYFAaAXW3EY4k2L/V5WwVxCyvMR1sW3fe
-   biE/ME2kxCCQQmeyrIQGIpaZdkItbB905qAuPsH5Yi1qJ1J3iF+ky5zH6
-   +/nTCP0zwZ69uQZWF+KyrcpSOlj64NAEdzJ+2bAWypu03V580+JUMmw+V
-   QMFtQ1XkpjUzZNm0qptlx+94XgrQbCe4dpVfHP8o3pVX+kalJ/jtch8e4
-   lMtHh1cglCBvv002FVU+qX7ztlTvs0Oc8WMgb2+yM7JQF9Hz6+fz0STyw
-   OO5jVsOlHvWgapdftFVUoGFsAKyjbH7ybT72GU8iMTFUuAZv7l5fIrIXO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="341590582"
-X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="341590582"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 05:17:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="781414290"
-X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="781414290"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 26 Jun 2023 05:17:08 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qDl9X-000Agx-38;
-	Mon, 26 Jun 2023 12:17:07 +0000
-Date: Mon, 26 Jun 2023 20:16:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [vireshk-pm:opp/linux-next 8/8] drivers/opp/of.c:516
- dev_pm_opp_of_find_icc_paths() warn: passing zero to 'dev_err_probe'
-Message-ID: <202306262008.guNLgjt6-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CAA8F60
+	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jun 2023 13:05:35 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-313f04ff978so988101f8f.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 26 Jun 2023 06:05:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687784732; x=1690376732;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GjDvgBLfkeCQ7u1JAhSIaUDf6xaKsvh/5fwzmjOxvzY=;
+        b=eaIQGRKP860//c8yA0AgUhcPbWoikUFKNOD9r0CR+BYchlp0RDhI3PfNF5YWcv9LHz
+         9ywLsbOYH9Xach3blyCjLyWRw91F4y7OaqoJ+DHnZoW6hOpPWz5+SIAAb++f+hd1vNVx
+         I+RN1K007OlG4tTW3hR1abJKk41d62EVDZRl+8plaADRg5t0ZztbpCSKGrX/8QhoFuvQ
+         eCTFC3XFNz22x7JPNqegsJhPHepTAfGtaA/k8NuTM564jO4EBlH58uozElFb6WNDgHwX
+         zBkplqk40Tio3sjc1VworxvSBsVvfeVONGokSDy9iPLUUfOzW7PkjowCtj728/gsW4h0
+         cdiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687784732; x=1690376732;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GjDvgBLfkeCQ7u1JAhSIaUDf6xaKsvh/5fwzmjOxvzY=;
+        b=a/fa1M3AIa/SRyWV1ds/aKaNa2BfKIpemTREuTVbl70CdJ+V88czXlAPKDbXpXoweQ
+         tUmLElkG+2ZoxT+o9cGQx7byBME2Uo6SzvgTSiKbe7tPRPJa/SWkPrd250HVuxd80YBa
+         /YxBUDnvXzLhXyoB9ULCzPEinounw2dI9TY2WpMLFOOIFhF7UKDRUGltdqzT7wwtfXyw
+         05tFXgQhmaX0ofCL9N6XSatuHq3kCZAO3QfuRuHmgj1htOyIojcCmBsKGvtDMY8RXjxZ
+         O8b5qXlSK9f9OrVrJbxnRF+uAwhWe/2X0HuFBuJJuwJuzJolhD8e3EsPKs/gFoFWCL5C
+         WkVA==
+X-Gm-Message-State: AC+VfDzksHz3JCgs+FAEtbA/bkq4Z4aq3KDppUdz1BnA7Lt8qdo81v5J
+	V9bHnz83yK0nAxxOhSDkhLJGNJTHs+ibsZt3U/A=
+X-Google-Smtp-Source: ACHHUZ4mJvdIUeHYQShkE7gsmqFx5B0cm0FoWwqhcT2rDJPiGsKQdLI2VwLZoqbt+IVVVmKBKL+I4A==
+X-Received: by 2002:adf:ee50:0:b0:313:f59f:986d with SMTP id w16-20020adfee50000000b00313f59f986dmr977022wro.65.1687784732396;
+        Mon, 26 Jun 2023 06:05:32 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id g6-20020a5d6986000000b0031130b9b173sm7344716wru.34.2023.06.26.06.05.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jun 2023 06:05:31 -0700 (PDT)
+Date: Mon, 26 Jun 2023 16:05:28 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 22/24] Input: bcm-keypad - Simplify with
+ dev_err_probe()
+Message-ID: <3b63bde3-797e-4d58-92a7-c77c953f17d6@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,94 +52,68 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230625162817.100397-23-krzysztof.kozlowski@linaro.org>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Andrew Halaney <ahalaney@redhat.com>
-CC: Viresh Kumar <viresh.kumar@linaro.org>
+Hi Krzysztof,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git opp/linux-next
-head:   fa155f4f834882a79788218aea4914568b41dd0f
-commit: fa155f4f834882a79788218aea4914568b41dd0f [8/8] OPP: Use dev_err_probe() when failing to get icc_path
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
-config: openrisc-randconfig-m041-20230625 (https://download.01.org/0day-ci/archive/20230626/202306262008.guNLgjt6-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230626/202306262008.guNLgjt6-lkp@intel.com/reproduce)
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/Input-gpio_keys_polled-Simplify-with-dev_err_probe/20230626-003156
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20230625162817.100397-23-krzysztof.kozlowski%40linaro.org
+patch subject: [PATCH v4 22/24] Input: bcm-keypad - Simplify with dev_err_probe()
+config: i386-randconfig-m021-20230625 (https://download.01.org/0day-ci/archive/20230626/202306261505.wTjCXRIO-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230626/202306261505.wTjCXRIO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306262008.guNLgjt6-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202306261505.wTjCXRIO-lkp@intel.com/
 
 smatch warnings:
-drivers/opp/of.c:516 dev_pm_opp_of_find_icc_paths() warn: passing zero to 'dev_err_probe'
+drivers/input/keyboard/bcm-keypad.c:370 bcm_kp_probe() warn: passing zero to 'dev_err_probe'
 
-vim +/dev_err_probe +516 drivers/opp/of.c
+vim +/dev_err_probe +370 drivers/input/keyboard/bcm-keypad.c
 
-45679f9b508f10 Sibi Sankar      2020-05-28  476  
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  477  int dev_pm_opp_of_find_icc_paths(struct device *dev,
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  478  				 struct opp_table *opp_table)
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  479  {
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  480  	struct device_node *np;
-45679f9b508f10 Sibi Sankar      2020-05-28  481  	int ret, i, count, num_paths;
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  482  	struct icc_path **paths;
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  483  
-45679f9b508f10 Sibi Sankar      2020-05-28  484  	ret = _bandwidth_supported(dev, opp_table);
-6ee70e8c34e37a Nicola Mazzucato 2020-12-08  485  	if (ret == -EINVAL)
-6ee70e8c34e37a Nicola Mazzucato 2020-12-08  486  		return 0; /* Empty OPP table is a valid corner-case, let's not fail */
-6ee70e8c34e37a Nicola Mazzucato 2020-12-08  487  	else if (ret <= 0)
-45679f9b508f10 Sibi Sankar      2020-05-28  488  		return ret;
-45679f9b508f10 Sibi Sankar      2020-05-28  489  
-45679f9b508f10 Sibi Sankar      2020-05-28  490  	ret = 0;
-45679f9b508f10 Sibi Sankar      2020-05-28  491  
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  492  	np = of_node_get(dev->of_node);
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  493  	if (!np)
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  494  		return 0;
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  495  
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  496  	count = of_count_phandle_with_args(np, "interconnects",
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  497  					   "#interconnect-cells");
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  498  	of_node_put(np);
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  499  	if (count < 0)
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  500  		return 0;
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  501  
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  502  	/* two phandles when #interconnect-cells = <1> */
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  503  	if (count % 2) {
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  504  		dev_err(dev, "%s: Invalid interconnects values\n", __func__);
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  505  		return -EINVAL;
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  506  	}
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  507  
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  508  	num_paths = count / 2;
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  509  	paths = kcalloc(num_paths, sizeof(*paths), GFP_KERNEL);
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  510  	if (!paths)
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  511  		return -ENOMEM;
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  512  
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  513  	for (i = 0; i < num_paths; i++) {
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  514  		paths[i] = of_icc_get_by_index(dev, i);
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  515  		if (IS_ERR(paths[i])) {
-fa155f4f834882 Andrew Halaney   2023-06-23 @516  			ret = dev_err_probe(dev, ret, "%s: Unable to get path%d\n", __func__, i);
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  517  			goto err;
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  518  		}
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  519  	}
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  520  
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  521  	if (opp_table) {
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  522  		opp_table->paths = paths;
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  523  		opp_table->path_count = num_paths;
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  524  		return 0;
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  525  	}
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  526  
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  527  err:
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  528  	while (i--)
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  529  		icc_put(paths[i]);
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  530  
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  531  	kfree(paths);
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  532  
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  533  	return ret;
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  534  }
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  535  EXPORT_SYMBOL_GPL(dev_pm_opp_of_find_icc_paths);
-6d3f922c46f2e9 Georgi Djakov    2020-05-12  536  
+0c7e67a928ac53 Scott Branden       2015-02-28  348  	error = matrix_keypad_build_keymap(NULL, NULL,
+0c7e67a928ac53 Scott Branden       2015-02-28  349  					   kp->n_rows, kp->n_cols,
+0c7e67a928ac53 Scott Branden       2015-02-28  350  					   NULL, input_dev);
+0c7e67a928ac53 Scott Branden       2015-02-28  351  	if (error) {
+0c7e67a928ac53 Scott Branden       2015-02-28  352  		dev_err(&pdev->dev, "failed to build keymap\n");
+0c7e67a928ac53 Scott Branden       2015-02-28  353  		return error;
+0c7e67a928ac53 Scott Branden       2015-02-28  354  	}
+0c7e67a928ac53 Scott Branden       2015-02-28  355  
+0c7e67a928ac53 Scott Branden       2015-02-28  356  	/* Get the KEYPAD base address */
+0c7e67a928ac53 Scott Branden       2015-02-28  357  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+0c7e67a928ac53 Scott Branden       2015-02-28  358  	if (!res) {
+0c7e67a928ac53 Scott Branden       2015-02-28  359  		dev_err(&pdev->dev, "Missing keypad base address resource\n");
+0c7e67a928ac53 Scott Branden       2015-02-28  360  		return -ENODEV;
+0c7e67a928ac53 Scott Branden       2015-02-28  361  	}
+0c7e67a928ac53 Scott Branden       2015-02-28  362  
+0c7e67a928ac53 Scott Branden       2015-02-28  363  	kp->base = devm_ioremap_resource(&pdev->dev, res);
+0c7e67a928ac53 Scott Branden       2015-02-28  364  	if (IS_ERR(kp->base))
+0c7e67a928ac53 Scott Branden       2015-02-28  365  		return PTR_ERR(kp->base);
+0c7e67a928ac53 Scott Branden       2015-02-28  366  
+0c7e67a928ac53 Scott Branden       2015-02-28  367  	/* Enable clock */
+5d0380bcb07530 Krzysztof Kozlowski 2023-06-25  368  	kp->clk = devm_clk_get_optional(&pdev->dev, "peri_clk");
+0c7e67a928ac53 Scott Branden       2015-02-28  369  	if (IS_ERR(kp->clk)) {
+5d0380bcb07530 Krzysztof Kozlowski 2023-06-25 @370  		return dev_err_probe(&pdev->dev, error, "Failed to get clock\n");
+
+s/error/PTR_ERR(kp->clk)/
+
+5d0380bcb07530 Krzysztof Kozlowski 2023-06-25  371  	} else if (!kp->clk) {
+5d0380bcb07530 Krzysztof Kozlowski 2023-06-25  372  		dev_dbg(&pdev->dev, "No clock specified. Assuming it's enabled\n");
+0c7e67a928ac53 Scott Branden       2015-02-28  373  	} else {
+0c7e67a928ac53 Scott Branden       2015-02-28  374  		unsigned int desired_rate;
+0c7e67a928ac53 Scott Branden       2015-02-28  375  		long actual_rate;
+0c7e67a928ac53 Scott Branden       2015-02-28  376  
+0c7e67a928ac53 Scott Branden       2015-02-28  377  		error = of_property_read_u32(pdev->dev.of_node,
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
