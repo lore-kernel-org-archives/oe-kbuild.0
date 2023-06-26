@@ -1,50 +1,42 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5FAB883B
-	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jun 2023 12:05:14 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-313e68e99c7so2728234f8f.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 26 Jun 2023 05:05:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687781112; x=1690373112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XREjUniwO0JaqZmKbXGd3kgBg0KZt/FvmIqoaYNsVh8=;
-        b=SklCc6YUrjpFWFaERsq+sZlt9bVVLaK4bVUy0ZBkPKc8SD1sxoi8hXb910Br4QznAz
-         IcOkE1lB0A6rJfMWTex/aW7uQK0JbiVem70kv5jLxdyL4pGThD5exWSA0VOzY1QqiNvz
-         tCYyjywb3465N8esZhTZhyTP7OHK9GdBnErqGpDfkVBnFIPQ8lDNTVYx+Q/jrpKo/Is9
-         3aLDXAGa7rSpgp0QO4BWsp80dHFqkc46UU7WN4HzhRzQogyCE0nnCyzWWUkMeaDofYli
-         K8oCZl2rLI5d1z9amoXE8bWHssDZbcmA+VSJuoWIoeqxjg2HKhOKs9U8MLNbKa5Ea0h0
-         fQQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687781112; x=1690373112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XREjUniwO0JaqZmKbXGd3kgBg0KZt/FvmIqoaYNsVh8=;
-        b=jMrRk+1Wmk75u6G15ARxEab6g7WWIJ5HUZ7xtiWNipPrzhf4vBSsPxX8pjYH3Kjb4U
-         dvMUq5RtfdSdaGcbeihJPWDVd1isVzM/HhX8N+MN5g3ta7PI/PQz2SQEA3ooLkUFKF4M
-         8R4yzeatx/4z6fyYH4vviL5wtNJEv/xIeJ5FH7AApZeVzzWmt5wwItYTUBEPhPUA8hzZ
-         QAJbZc+iW9QNl/vnwqzvq35irp+RJSFkkUCmMWokCwcvgYX9pYhHjqM9QtI7mVIa6DC1
-         18gNP4F7Ge8amAFZDbCDoyKxTgHsOvKDOtd39hi0gbJiN6IRtqYd5p5bx38UBso6WjsN
-         yA1A==
-X-Gm-Message-State: AC+VfDzI6gzxc8zp4Gq+D1TnK3Zi3Pearz9NuzlUjQh3PrQoKfmL8JBy
-	A7oW7i6Z+kfk3pAkJ9w/Rhmltush1u3oXL0MC9k=
-X-Google-Smtp-Source: ACHHUZ7iuJ3F72MV2tHg8JzNQF0+zrbqCG9R7Oppvcnv91J7OlBBqk+XBjA6WQMjGgMMI58MP1+4ig==
-X-Received: by 2002:a5d:6145:0:b0:30f:c4ca:e9d6 with SMTP id y5-20020a5d6145000000b0030fc4cae9d6mr23385032wrt.54.1687781111848;
-        Mon, 26 Jun 2023 05:05:11 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q9-20020a056000136900b0030f9c3219aasm7192227wrz.47.2023.06.26.05.05.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jun 2023 05:05:10 -0700 (PDT)
-Date: Mon, 26 Jun 2023 15:05:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jan Kara <jack@suse.cz>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>, Kent Overstreet <kmo@daterainc.com>
-Subject: [axboe-block:for-6.5/block-late 216/216]
- drivers/md/bcache/super.c:2644 register_bcache() warn: passing freed memory
- 'holder'
-Message-ID: <0108ee74-6186-4707-ab31-8e4543d98db5@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1006E8C04
+	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jun 2023 12:17:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687781833; x=1719317833;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6dlwR/czVv81w56DNPNy6xSxmgJ1zbzxpwopeo0gQ0k=;
+  b=oIgjte7WBBUBiWFnpbyneAYGYFAaAXW3EY4k2L/V5WwVxCyvMR1sW3fe
+   biE/ME2kxCCQQmeyrIQGIpaZdkItbB905qAuPsH5Yi1qJ1J3iF+ky5zH6
+   +/nTCP0zwZ69uQZWF+KyrcpSOlj64NAEdzJ+2bAWypu03V580+JUMmw+V
+   QMFtQ1XkpjUzZNm0qptlx+94XgrQbCe4dpVfHP8o3pVX+kalJ/jtch8e4
+   lMtHh1cglCBvv002FVU+qX7ztlTvs0Oc8WMgb2+yM7JQF9Hz6+fz0STyw
+   OO5jVsOlHvWgapdftFVUoGFsAKyjbH7ybT72GU8iMTFUuAZv7l5fIrIXO
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="341590582"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
+   d="scan'208";a="341590582"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 05:17:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="781414290"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
+   d="scan'208";a="781414290"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 26 Jun 2023 05:17:08 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qDl9X-000Agx-38;
+	Mon, 26 Jun 2023 12:17:07 +0000
+Date: Mon, 26 Jun 2023 20:16:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [vireshk-pm:opp/linux-next 8/8] drivers/opp/of.c:516
+ dev_pm_opp_of_find_icc_paths() warn: passing zero to 'dev_err_probe'
+Message-ID: <202306262008.guNLgjt6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,81 +46,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.5/block-late
-head:   2c5555983bd27d24162534b682b10654639a5576
-commit: 2c5555983bd27d24162534b682b10654639a5576 [216/216] bcache: Fix bcache device claiming
-config: i386-randconfig-m031-20230622 (https://download.01.org/0day-ci/archive/20230624/202306241746.1sA0eBvt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230624/202306241746.1sA0eBvt-lkp@intel.com/reproduce)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Andrew Halaney <ahalaney@redhat.com>
+CC: Viresh Kumar <viresh.kumar@linaro.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git opp/linux-next
+head:   fa155f4f834882a79788218aea4914568b41dd0f
+commit: fa155f4f834882a79788218aea4914568b41dd0f [8/8] OPP: Use dev_err_probe() when failing to get icc_path
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: openrisc-randconfig-m041-20230625 (https://download.01.org/0day-ci/archive/20230626/202306262008.guNLgjt6-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230626/202306262008.guNLgjt6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202306241746.1sA0eBvt-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202306262008.guNLgjt6-lkp@intel.com/
 
 smatch warnings:
-drivers/md/bcache/super.c:2644 register_bcache() warn: passing freed memory 'holder'
+drivers/opp/of.c:516 dev_pm_opp_of_find_icc_paths() warn: passing zero to 'dev_err_probe'
 
-vim +/holder +2644 drivers/md/bcache/super.c
+vim +/dev_err_probe +516 drivers/opp/of.c
 
-9e23ccf8f0a22e Coly Li           2020-05-27  2608  		args->path	= path;
-9e23ccf8f0a22e Coly Li           2020-05-27  2609  		args->sb	= sb;
-9e23ccf8f0a22e Coly Li           2020-05-27  2610  		args->sb_disk	= sb_disk;
-9e23ccf8f0a22e Coly Li           2020-05-27  2611  		args->bdev	= bdev;
-abcc0cbd49283f Jan Kara          2023-06-22  2612  		args->holder	= holder;
-d7fae7b4fa1527 Kai Krakow        2021-02-10  2613  		register_device_async(args);
-9e23ccf8f0a22e Coly Li           2020-05-27  2614  		/* No wait and returns to user space */
-9e23ccf8f0a22e Coly Li           2020-05-27  2615  		goto async_done;
-9e23ccf8f0a22e Coly Li           2020-05-27  2616  	}
-9e23ccf8f0a22e Coly Li           2020-05-27  2617  
-2903381fce7100 Kent Overstreet   2013-04-11  2618  	if (SB_IS_BDEV(sb)) {
-4fa03402cda2fa Kent Overstreet   2014-03-17  2619  		mutex_lock(&bch_register_lock);
-abcc0cbd49283f Jan Kara          2023-06-22  2620  		ret = register_bdev(sb, sb_disk, bdev, holder);
-4fa03402cda2fa Kent Overstreet   2014-03-17  2621  		mutex_unlock(&bch_register_lock);
-bb6d355c2aff42 Coly Li           2019-04-25  2622  		/* blkdev_put() will be called in cached_dev_free() */
-fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2623  		if (ret < 0)
-fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2624  			goto out_free_sb;
-cafe563591446c Kent Overstreet   2013-03-23  2625  	} else {
-bb6d355c2aff42 Coly Li           2019-04-25  2626  		/* blkdev_put() will be called in bch_cache_release() */
-abcc0cbd49283f Jan Kara          2023-06-22  2627  		ret = register_cache(sb, sb_disk, bdev, holder);
-d55f7cb2e5c053 Chao Yu           2021-10-20  2628  		if (ret)
-fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2629  			goto out_free_sb;
-50246693f81fe8 Christoph Hellwig 2020-01-24  2630  	}
-50246693f81fe8 Christoph Hellwig 2020-01-24  2631  
-f59fce847fc848 Kent Overstreet   2013-05-15  2632  	kfree(sb);
-f59fce847fc848 Kent Overstreet   2013-05-15  2633  	kfree(path);
-f59fce847fc848 Kent Overstreet   2013-05-15  2634  	module_put(THIS_MODULE);
-9e23ccf8f0a22e Coly Li           2020-05-27  2635  async_done:
-50246693f81fe8 Christoph Hellwig 2020-01-24  2636  	return size;
-f59fce847fc848 Kent Overstreet   2013-05-15  2637  
-abcc0cbd49283f Jan Kara          2023-06-22  2638  out_free_holder:
-abcc0cbd49283f Jan Kara          2023-06-22  2639  	kfree(holder);
-                                                              ^^^^^^
-freed
-
-50246693f81fe8 Christoph Hellwig 2020-01-24  2640  out_put_sb_page:
-cfa0c56db9c087 Christoph Hellwig 2020-01-24  2641  	put_page(virt_to_page(sb_disk));
-50246693f81fe8 Christoph Hellwig 2020-01-24  2642  out_blkdev_put:
-2c5555983bd27d Jan Kara          2023-06-22  2643  	if (bdev)
-2c5555983bd27d Jan Kara          2023-06-22 @2644  		blkdev_put(bdev, holder);
-                                                                                 ^^^^^^
-Use after free
-
-50246693f81fe8 Christoph Hellwig 2020-01-24  2645  out_free_sb:
-50246693f81fe8 Christoph Hellwig 2020-01-24  2646  	kfree(sb);
-50246693f81fe8 Christoph Hellwig 2020-01-24  2647  out_free_path:
-50246693f81fe8 Christoph Hellwig 2020-01-24  2648  	kfree(path);
-ae3cd299919af6 Coly Li           2020-01-24  2649  	path = NULL;
-50246693f81fe8 Christoph Hellwig 2020-01-24  2650  out_module_put:
-50246693f81fe8 Christoph Hellwig 2020-01-24  2651  	module_put(THIS_MODULE);
-50246693f81fe8 Christoph Hellwig 2020-01-24  2652  out:
-2c5555983bd27d Jan Kara          2023-06-22  2653  	if (!quiet)
-46f5aa8806e34f Joe Perches       2020-05-27  2654  		pr_info("error %s: %s\n", path?path:"", err);
-50246693f81fe8 Christoph Hellwig 2020-01-24  2655  	return ret;
-cafe563591446c Kent Overstreet   2013-03-23  2656  }
+45679f9b508f10 Sibi Sankar      2020-05-28  476  
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  477  int dev_pm_opp_of_find_icc_paths(struct device *dev,
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  478  				 struct opp_table *opp_table)
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  479  {
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  480  	struct device_node *np;
+45679f9b508f10 Sibi Sankar      2020-05-28  481  	int ret, i, count, num_paths;
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  482  	struct icc_path **paths;
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  483  
+45679f9b508f10 Sibi Sankar      2020-05-28  484  	ret = _bandwidth_supported(dev, opp_table);
+6ee70e8c34e37a Nicola Mazzucato 2020-12-08  485  	if (ret == -EINVAL)
+6ee70e8c34e37a Nicola Mazzucato 2020-12-08  486  		return 0; /* Empty OPP table is a valid corner-case, let's not fail */
+6ee70e8c34e37a Nicola Mazzucato 2020-12-08  487  	else if (ret <= 0)
+45679f9b508f10 Sibi Sankar      2020-05-28  488  		return ret;
+45679f9b508f10 Sibi Sankar      2020-05-28  489  
+45679f9b508f10 Sibi Sankar      2020-05-28  490  	ret = 0;
+45679f9b508f10 Sibi Sankar      2020-05-28  491  
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  492  	np = of_node_get(dev->of_node);
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  493  	if (!np)
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  494  		return 0;
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  495  
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  496  	count = of_count_phandle_with_args(np, "interconnects",
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  497  					   "#interconnect-cells");
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  498  	of_node_put(np);
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  499  	if (count < 0)
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  500  		return 0;
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  501  
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  502  	/* two phandles when #interconnect-cells = <1> */
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  503  	if (count % 2) {
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  504  		dev_err(dev, "%s: Invalid interconnects values\n", __func__);
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  505  		return -EINVAL;
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  506  	}
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  507  
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  508  	num_paths = count / 2;
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  509  	paths = kcalloc(num_paths, sizeof(*paths), GFP_KERNEL);
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  510  	if (!paths)
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  511  		return -ENOMEM;
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  512  
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  513  	for (i = 0; i < num_paths; i++) {
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  514  		paths[i] = of_icc_get_by_index(dev, i);
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  515  		if (IS_ERR(paths[i])) {
+fa155f4f834882 Andrew Halaney   2023-06-23 @516  			ret = dev_err_probe(dev, ret, "%s: Unable to get path%d\n", __func__, i);
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  517  			goto err;
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  518  		}
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  519  	}
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  520  
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  521  	if (opp_table) {
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  522  		opp_table->paths = paths;
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  523  		opp_table->path_count = num_paths;
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  524  		return 0;
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  525  	}
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  526  
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  527  err:
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  528  	while (i--)
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  529  		icc_put(paths[i]);
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  530  
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  531  	kfree(paths);
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  532  
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  533  	return ret;
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  534  }
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  535  EXPORT_SYMBOL_GPL(dev_pm_opp_of_find_icc_paths);
+6d3f922c46f2e9 Georgi Djakov    2020-05-12  536  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
