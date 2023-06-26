@@ -1,42 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79456440C
-	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jun 2023 07:20:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0743046BA
+	for <oe-kbuild@lists.linux.dev>; Mon, 26 Jun 2023 10:55:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687764005; x=1719300005;
+  t=1687776908; x=1719312908;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ra7ZXgqrwn9rN/531sX9cxnnIai9u715J02DQxIViOQ=;
-  b=N6UhQnApCAxctx9Q/8D1EGe9NMByow87MsdrSn9bcYTa6uBcu9s2iYT0
-   Gz15yjZApPybKI4Zb1yl8cp54THwu/BGhTpLmsM08VjIAShQZCoi17rDX
-   s2UrMtMc7mc40IT8vOMBl7pQ1dYkV6g18YbeN+dSw8JGsZ0YKBMll/yeZ
-   7PHJja+QoCvwQavlkciLnjJ/mNjllyL37PO9wKPt/1PtcEEzyaoLrm7i5
-   OyDjHlhk4Wl0qgQm9zKCvxEq8tWL61gywAPoqzvK/Q/4XrmbY1U7mxRii
-   CLjutHX7BBAYPs1khCJmXqGZ9cagX2fdQA1oAySNi/h11EmmXctbSXccP
+  bh=QAAkMdDRjKqGMkatFpHE4M6LUx5vQyyvUv/b2UGcOeA=;
+  b=TANyf6Sf/TPa5nFKz3jP/JGDkXXu+aVwZuukfu6aK3u2ZD2mPdm4qN96
+   KiEdJnhaS933nIe1QePT7cXvci+nWZGDyNikebNIvfN8hRGkTD6pFfceU
+   6EqdfI3kiLtYEmfe7MWkwB2tDtDbwl6VlAO9b1SL7ZiMAHwrztoZmuH2C
+   fgmDVf6ansq4bu62GsD1Vbhe8x3ovzIrMeFLu5698xZztQVQCrqA9ZRmQ
+   l+3yTTSe9ymua5DyCIH4dYA9sxUapC+yQC2uYqaDqkpgp8+KKKnb7W/w0
+   zALx+rBjb8Gr+qACMc/2D0LxjgcHGGsawEKU8LLXr7t2XzLVAdfn8r6Fb
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="447578817"
-X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="447578817"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 00:20:03 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="427231918"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
+   d="scan'208";a="427231918"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 03:55:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="666199084"
-X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="666199084"
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="890244130"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
+   d="scan'208";a="890244130"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 26 Jun 2023 00:20:01 -0700
+  by orsmga005.jf.intel.com with ESMTP; 26 Jun 2023 03:55:07 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qDgW0-000AYT-1E;
-	Mon, 26 Jun 2023 07:20:00 +0000
-Date: Mon, 26 Jun 2023 15:19:35 +0800
+	id 1qDjsA-000Aez-1G;
+	Mon, 26 Jun 2023 10:55:06 +0000
+Date: Mon, 26 Jun 2023 18:54:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v4 22/24] Input: bcm-keypad - Simplify with
- dev_err_probe()
-Message-ID: <202306261505.wTjCXRIO-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: include/linux/compiler_types.h:397:45: error: call to
+ '__compiletime_assert_386' declared with attribute error: BUILD_BUG_ON
+ failed: sizeof(mstat) > sizeof(skb->cb)
+Message-ID: <202306261838.EVIyaUhu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,159 +47,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_386' declared with attribute error: BUILD_BUG_ON failed: sizeof(mstat) > sizeof(skb->cb)"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230625162817.100397-23-krzysztof.kozlowski@linaro.org>
-References: <20230625162817.100397-23-krzysztof.kozlowski@linaro.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Shayne Chen <shayne.chen@mediatek.com>
+CC: Felix Fietkau <nbd@nbd.name>
 
-Hi Krzysztof,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on next-20230623]
-[cannot apply to dtor-input/for-linus linus/master v6.4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/Input-gpio_keys_polled-Simplify-with-dev_err_probe/20230626-003156
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20230625162817.100397-23-krzysztof.kozlowski%40linaro.org
-patch subject: [PATCH v4 22/24] Input: bcm-keypad - Simplify with dev_err_probe()
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: i386-randconfig-m021-20230625 (https://download.01.org/0day-ci/archive/20230626/202306261505.wTjCXRIO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230626/202306261505.wTjCXRIO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6995e2de6891c724bfeb2db33d7b87775f913ad1
+commit: 021af945997ffaeaa37c9673d71afad7cde6bdef wifi: mt76: mt7996: add eht rx rate support
+date:   2 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 2 months ago
+config: arm-randconfig-r083-20230626 (https://download.01.org/0day-ci/archive/20230626/202306261838.EVIyaUhu-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230626/202306261838.EVIyaUhu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306261505.wTjCXRIO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306261838.EVIyaUhu-lkp@intel.com/
 
-smatch warnings:
-drivers/input/keyboard/bcm-keypad.c:370 bcm_kp_probe() warn: passing zero to 'dev_err_probe'
+All errors (new ones prefixed by >>):
 
-vim +/dev_err_probe +370 drivers/input/keyboard/bcm-keypad.c
+   In file included from include/linux/string.h:254,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/rcupdate.h:29,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from drivers/net/wireless/mediatek/mt76/mac80211.c:5:
+   In function 'fortify_memset_chk',
+       inlined from 'mt76_rx_convert.constprop' at drivers/net/wireless/mediatek/mt76/mac80211.c:1063:2:
+   include/linux/fortify-string.h:430:25: warning: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Wattribute-warning]
+     430 |                         __write_overflow_field(p_size_field, size);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   drivers/net/wireless/mediatek/mt76/mac80211.c: In function 'mt76_rx_convert.constprop':
+>> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_386' declared with attribute error: BUILD_BUG_ON failed: sizeof(mstat) > sizeof(skb->cb)
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/net/wireless/mediatek/mt76/mac80211.c:1094:9: note: in expansion of macro 'BUILD_BUG_ON'
+    1094 |         BUILD_BUG_ON(sizeof(mstat) > sizeof(skb->cb));
+         |         ^~~~~~~~~~~~
 
-0c7e67a928ac53 Scott Branden       2015-02-28  304  
-0c7e67a928ac53 Scott Branden       2015-02-28  305  
-0c7e67a928ac53 Scott Branden       2015-02-28  306  static int bcm_kp_probe(struct platform_device *pdev)
-0c7e67a928ac53 Scott Branden       2015-02-28  307  {
-0c7e67a928ac53 Scott Branden       2015-02-28  308  	struct bcm_kp *kp;
-0c7e67a928ac53 Scott Branden       2015-02-28  309  	struct input_dev *input_dev;
-0c7e67a928ac53 Scott Branden       2015-02-28  310  	struct resource *res;
-0c7e67a928ac53 Scott Branden       2015-02-28  311  	int error;
-0c7e67a928ac53 Scott Branden       2015-02-28  312  
-0c7e67a928ac53 Scott Branden       2015-02-28  313  	kp = devm_kzalloc(&pdev->dev, sizeof(*kp), GFP_KERNEL);
-0c7e67a928ac53 Scott Branden       2015-02-28  314  	if (!kp)
-0c7e67a928ac53 Scott Branden       2015-02-28  315  		return -ENOMEM;
-0c7e67a928ac53 Scott Branden       2015-02-28  316  
-0c7e67a928ac53 Scott Branden       2015-02-28  317  	input_dev = devm_input_allocate_device(&pdev->dev);
-0c7e67a928ac53 Scott Branden       2015-02-28  318  	if (!input_dev) {
-0c7e67a928ac53 Scott Branden       2015-02-28  319  		dev_err(&pdev->dev, "failed to allocate the input device\n");
-0c7e67a928ac53 Scott Branden       2015-02-28  320  		return -ENOMEM;
-0c7e67a928ac53 Scott Branden       2015-02-28  321  	}
-0c7e67a928ac53 Scott Branden       2015-02-28  322  
-0c7e67a928ac53 Scott Branden       2015-02-28  323  	__set_bit(EV_KEY, input_dev->evbit);
-0c7e67a928ac53 Scott Branden       2015-02-28  324  
-0c7e67a928ac53 Scott Branden       2015-02-28  325  	/* Enable auto repeat feature of Linux input subsystem */
-0c7e67a928ac53 Scott Branden       2015-02-28  326  	if (of_property_read_bool(pdev->dev.of_node, "autorepeat"))
-0c7e67a928ac53 Scott Branden       2015-02-28  327  		__set_bit(EV_REP, input_dev->evbit);
-0c7e67a928ac53 Scott Branden       2015-02-28  328  
-0c7e67a928ac53 Scott Branden       2015-02-28  329  	input_dev->name = pdev->name;
-0c7e67a928ac53 Scott Branden       2015-02-28  330  	input_dev->phys = "keypad/input0";
-0c7e67a928ac53 Scott Branden       2015-02-28  331  	input_dev->dev.parent = &pdev->dev;
-0c7e67a928ac53 Scott Branden       2015-02-28  332  	input_dev->open = bcm_kp_open;
-0c7e67a928ac53 Scott Branden       2015-02-28  333  	input_dev->close = bcm_kp_close;
-0c7e67a928ac53 Scott Branden       2015-02-28  334  
-0c7e67a928ac53 Scott Branden       2015-02-28  335  	input_dev->id.bustype = BUS_HOST;
-0c7e67a928ac53 Scott Branden       2015-02-28  336  	input_dev->id.vendor = 0x0001;
-0c7e67a928ac53 Scott Branden       2015-02-28  337  	input_dev->id.product = 0x0001;
-0c7e67a928ac53 Scott Branden       2015-02-28  338  	input_dev->id.version = 0x0100;
-0c7e67a928ac53 Scott Branden       2015-02-28  339  
-0c7e67a928ac53 Scott Branden       2015-02-28  340  	input_set_drvdata(input_dev, kp);
-0c7e67a928ac53 Scott Branden       2015-02-28  341  
-0c7e67a928ac53 Scott Branden       2015-02-28  342  	kp->input_dev = input_dev;
-0c7e67a928ac53 Scott Branden       2015-02-28  343  
-0c7e67a928ac53 Scott Branden       2015-02-28  344  	error = bcm_kp_matrix_key_parse_dt(kp);
-0c7e67a928ac53 Scott Branden       2015-02-28  345  	if (error)
-0c7e67a928ac53 Scott Branden       2015-02-28  346  		return error;
-0c7e67a928ac53 Scott Branden       2015-02-28  347  
-0c7e67a928ac53 Scott Branden       2015-02-28  348  	error = matrix_keypad_build_keymap(NULL, NULL,
-0c7e67a928ac53 Scott Branden       2015-02-28  349  					   kp->n_rows, kp->n_cols,
-0c7e67a928ac53 Scott Branden       2015-02-28  350  					   NULL, input_dev);
-0c7e67a928ac53 Scott Branden       2015-02-28  351  	if (error) {
-0c7e67a928ac53 Scott Branden       2015-02-28  352  		dev_err(&pdev->dev, "failed to build keymap\n");
-0c7e67a928ac53 Scott Branden       2015-02-28  353  		return error;
-0c7e67a928ac53 Scott Branden       2015-02-28  354  	}
-0c7e67a928ac53 Scott Branden       2015-02-28  355  
-0c7e67a928ac53 Scott Branden       2015-02-28  356  	/* Get the KEYPAD base address */
-0c7e67a928ac53 Scott Branden       2015-02-28  357  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-0c7e67a928ac53 Scott Branden       2015-02-28  358  	if (!res) {
-0c7e67a928ac53 Scott Branden       2015-02-28  359  		dev_err(&pdev->dev, "Missing keypad base address resource\n");
-0c7e67a928ac53 Scott Branden       2015-02-28  360  		return -ENODEV;
-0c7e67a928ac53 Scott Branden       2015-02-28  361  	}
-0c7e67a928ac53 Scott Branden       2015-02-28  362  
-0c7e67a928ac53 Scott Branden       2015-02-28  363  	kp->base = devm_ioremap_resource(&pdev->dev, res);
-0c7e67a928ac53 Scott Branden       2015-02-28  364  	if (IS_ERR(kp->base))
-0c7e67a928ac53 Scott Branden       2015-02-28  365  		return PTR_ERR(kp->base);
-0c7e67a928ac53 Scott Branden       2015-02-28  366  
-0c7e67a928ac53 Scott Branden       2015-02-28  367  	/* Enable clock */
-5d0380bcb07530 Krzysztof Kozlowski 2023-06-25  368  	kp->clk = devm_clk_get_optional(&pdev->dev, "peri_clk");
-0c7e67a928ac53 Scott Branden       2015-02-28  369  	if (IS_ERR(kp->clk)) {
-5d0380bcb07530 Krzysztof Kozlowski 2023-06-25 @370  		return dev_err_probe(&pdev->dev, error, "Failed to get clock\n");
-5d0380bcb07530 Krzysztof Kozlowski 2023-06-25  371  	} else if (!kp->clk) {
-5d0380bcb07530 Krzysztof Kozlowski 2023-06-25  372  		dev_dbg(&pdev->dev, "No clock specified. Assuming it's enabled\n");
-0c7e67a928ac53 Scott Branden       2015-02-28  373  	} else {
-0c7e67a928ac53 Scott Branden       2015-02-28  374  		unsigned int desired_rate;
-0c7e67a928ac53 Scott Branden       2015-02-28  375  		long actual_rate;
-0c7e67a928ac53 Scott Branden       2015-02-28  376  
-0c7e67a928ac53 Scott Branden       2015-02-28  377  		error = of_property_read_u32(pdev->dev.of_node,
-0c7e67a928ac53 Scott Branden       2015-02-28  378  					     "clock-frequency", &desired_rate);
-0c7e67a928ac53 Scott Branden       2015-02-28  379  		if (error < 0)
-0c7e67a928ac53 Scott Branden       2015-02-28  380  			desired_rate = DEFAULT_CLK_HZ;
-0c7e67a928ac53 Scott Branden       2015-02-28  381  
-0c7e67a928ac53 Scott Branden       2015-02-28  382  		actual_rate = clk_round_rate(kp->clk, desired_rate);
-0c7e67a928ac53 Scott Branden       2015-02-28  383  		if (actual_rate <= 0)
-0c7e67a928ac53 Scott Branden       2015-02-28  384  			return -EINVAL;
-0c7e67a928ac53 Scott Branden       2015-02-28  385  
-0c7e67a928ac53 Scott Branden       2015-02-28  386  		error = clk_set_rate(kp->clk, actual_rate);
-0c7e67a928ac53 Scott Branden       2015-02-28  387  		if (error)
-0c7e67a928ac53 Scott Branden       2015-02-28  388  			return error;
-0c7e67a928ac53 Scott Branden       2015-02-28  389  
-0c7e67a928ac53 Scott Branden       2015-02-28  390  		error = clk_prepare_enable(kp->clk);
-0c7e67a928ac53 Scott Branden       2015-02-28  391  		if (error)
-0c7e67a928ac53 Scott Branden       2015-02-28  392  			return error;
-0c7e67a928ac53 Scott Branden       2015-02-28  393  	}
-0c7e67a928ac53 Scott Branden       2015-02-28  394  
-0c7e67a928ac53 Scott Branden       2015-02-28  395  	/* Put the kp into a known sane state */
-0c7e67a928ac53 Scott Branden       2015-02-28  396  	bcm_kp_stop(kp);
-0c7e67a928ac53 Scott Branden       2015-02-28  397  
-0c7e67a928ac53 Scott Branden       2015-02-28  398  	kp->irq = platform_get_irq(pdev, 0);
-0bec8b7e5ca1a6 Stephen Boyd        2019-08-14  399  	if (kp->irq < 0)
-0c7e67a928ac53 Scott Branden       2015-02-28  400  		return -EINVAL;
-0c7e67a928ac53 Scott Branden       2015-02-28  401  
-0c7e67a928ac53 Scott Branden       2015-02-28  402  	error = devm_request_threaded_irq(&pdev->dev, kp->irq,
-0c7e67a928ac53 Scott Branden       2015-02-28  403  					  NULL, bcm_kp_isr_thread,
-0c7e67a928ac53 Scott Branden       2015-02-28  404  					  IRQF_ONESHOT, pdev->name, kp);
-0c7e67a928ac53 Scott Branden       2015-02-28  405  	if (error) {
-0c7e67a928ac53 Scott Branden       2015-02-28  406  		dev_err(&pdev->dev, "failed to request IRQ\n");
-0c7e67a928ac53 Scott Branden       2015-02-28  407  		return error;
-0c7e67a928ac53 Scott Branden       2015-02-28  408  	}
-0c7e67a928ac53 Scott Branden       2015-02-28  409  
-0c7e67a928ac53 Scott Branden       2015-02-28  410  	error = input_register_device(input_dev);
-0c7e67a928ac53 Scott Branden       2015-02-28  411  	if (error) {
-0c7e67a928ac53 Scott Branden       2015-02-28  412  		dev_err(&pdev->dev, "failed to register input device\n");
-0c7e67a928ac53 Scott Branden       2015-02-28  413  		return error;
-0c7e67a928ac53 Scott Branden       2015-02-28  414  	}
-0c7e67a928ac53 Scott Branden       2015-02-28  415  
-0c7e67a928ac53 Scott Branden       2015-02-28  416  	return 0;
-0c7e67a928ac53 Scott Branden       2015-02-28  417  }
-0c7e67a928ac53 Scott Branden       2015-02-28  418  
+
+vim +/__compiletime_assert_386 +397 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
+
+:::::: The code at line 397 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
