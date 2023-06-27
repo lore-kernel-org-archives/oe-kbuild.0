@@ -1,53 +1,42 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE878470
-	for <oe-kbuild@lists.linux.dev>; Tue, 27 Jun 2023 10:47:00 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-313e1c27476so2646526f8f.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 27 Jun 2023 03:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687862818; x=1690454818;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=B6xOLnDH1Xwqy0BlkVwmkMEhS7CVJz8R31Fj2eZ8B0o=;
-        b=uQ86zJvyZynE9HZPVEeB1dCmY2rg/Yb3BXZtw60CvMg6c8G/xc21cG4ehkmhwTwhZp
-         0qriGEFye2YRsW2T+fNX+70Lfw4D6oFCOtX4OiTMYLYW7rFdF7dfmHqgujkAL1lDZzE/
-         6uMFID+BJcg4AEgDhQI+513Yr6X9TAfpiF+truzz94kqMc5f16Dr2THzDpRC93wsPt/S
-         4riRP5JWrb07H5Nw8exEpAS/pG0TVC7KDG97R+n6H+yYQsUn7riil5JVVbNC0k3yVQdN
-         wgp1fttn88FxSVwuNn22hfZv4HpBvgvXve9Xkaq93f0eFJ8rW02iodm2Cq7fe/G0IR4k
-         H7Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687862818; x=1690454818;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B6xOLnDH1Xwqy0BlkVwmkMEhS7CVJz8R31Fj2eZ8B0o=;
-        b=Sjb2nXGn8oEJBkQlWvWucFOwiTEbwDU2uDJIaRFtEw/wghwVrahcLdGvIOfQPhcE0E
-         4NHjV6aCGlGdJavEPjlbT2XRIOUvHGCMpc3EMLaUvgghJ7FdNSVErr9leZwiSX0XQIwH
-         tH0x7ckOQCwze6LcLQEa2BNFm0qJ38PM4EyXIXjVrTGRcqvp6X5VSYX4MMtT1sp6jat7
-         AwcnVNxVAIvTSk8EJecaiw+pkOLGpMAGs6yD0J3TCWPqjclvQt8YlyGKnGa6p78v1i26
-         Bx1U5MANAgT55BPz10aY1CB/uMHu3/OMbCeSXnUG+u5eCrmz6O+iiXJH2tXU2/oJqfn2
-         bbJQ==
-X-Gm-Message-State: AC+VfDwwiX8EWRZ81X/XPvCHAxcWYFKPprU/cqTWj++v69zp5TbrbZr7
-	B0wu1t76Gn+RHYMUTid0SAps3A==
-X-Google-Smtp-Source: ACHHUZ4uEsh+WEqfxAguz/OPv0GnfpxWzzgy6xgJmKCLRmU00jQORKGZv/vH7477ZYyTvxhkJoh85w==
-X-Received: by 2002:adf:eb02:0:b0:310:faf6:1922 with SMTP id s2-20020adfeb02000000b00310faf61922mr33363822wrn.7.1687862818439;
-        Tue, 27 Jun 2023 03:46:58 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id a5-20020a5d5705000000b00313f9a0c521sm2437529wrv.107.2023.06.27.03.46.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jun 2023 03:46:56 -0700 (PDT)
-Date: Tue, 27 Jun 2023 13:46:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 22/24] Input: bcm-keypad - Simplify with
- dev_err_probe()
-Message-ID: <92a1d239-4da0-4f92-b3d8-8c2239df9950@kadam.mountain>
-References: <3b63bde3-797e-4d58-92a7-c77c953f17d6@kadam.mountain>
- <d5e3a542-3456-293e-8ea8-112eb8cff7cd@kernel.org>
- <8d3ff4b2-8f43-428a-9cb1-9f939f64636b@kadam.mountain>
- <e54c7b49-6d61-9de4-3cc5-4915fc800247@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E0713064
+	for <oe-kbuild@lists.linux.dev>; Tue, 27 Jun 2023 17:35:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687887316; x=1719423316;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Py23giblmkXIEch8hQxI75EbHTvfxjbzBeaW0aJ2Y+c=;
+  b=biw40nsWoD3J02V81Pky4fEDBEJ2LRgV7TB9D5hWc3O064Ba62MJk6Ki
+   Oh234YtkEotQhwFKbcpDPGEoM1ulQs0jKHa5ofApdQ6sLF0B7rhi1tVhI
+   8JV/jB+g6dNkDIcEikH8z5lIo53EYWcsFX3DHuj/tqw5/rjqZWjdtCFfi
+   wRvh8RdkCCRw59Ig4eQ3qgGMskE4AJSSObnvGfvGS3WxA+iZbRrUo9LhL
+   LPxYp5h3yaeDonjpsxlrwsvSLJwexUHxLdCHwjAon/hqoVDebOUmhXb0z
+   l10CnAhEOZ/wynd8X7DzOsWK66T3j6NivdpFkQSuIXPzapxPTflhpqQSO
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="361679348"
+X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
+   d="scan'208";a="361679348"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 10:35:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="751837668"
+X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
+   d="scan'208";a="751837668"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 27 Jun 2023 10:35:14 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qECav-000C6H-1M;
+	Tue, 27 Jun 2023 17:35:13 +0000
+Date: Wed, 28 Jun 2023 01:34:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/parisc/kernel/firmware.c:1271 pdc_soft_power_button_panic()
+ error: uninitialized symbol 'flags'.
+Message-ID: <202306280119.wLzufyey-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,28 +45,59 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e54c7b49-6d61-9de4-3cc5-4915fc800247@kernel.org>
 
-On Tue, Jun 27, 2023 at 12:35:24PM +0200, Krzysztof Kozlowski wrote:
-> $ x8664_cc make C=1 CHECK="~/dev/3rdparty/smatch/smatch" -j8  drivers/input/keyboard/
-> make[1]: Entering directory '/home/krzk/dev/linux/linux/out'
->   GEN     Makefile
->   DESCEND objtool
->   INSTALL libsubcmd_headers
->   CALL    ../scripts/checksyscalls.sh
->   CC      drivers/input/keyboard/bcm-keypad.o
->   CHECK   ../drivers/input/keyboard/bcm-keypad.c
->   AR      drivers/input/keyboard/built-in.a
-> make[1]: Leaving directory '/home/krzk/dev/linux/linux/out'
-> 
-> Does the C=1/CHECK method differs from kchecker?
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+CC: Helge Deller <deller@gmx.de>
 
-Ah...  Yes.  You need to add a -p=kernel to enable the kernel specific
-checkes.  I wonder there is some way I could automatically enable that
-if I detect you're in a linux kernel directory?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1ef6663a587ba3e57dc5065a477db1c64481eedd
+commit: 829632dae8321787525ee37dc4828bbe6edafdae parisc: Replace regular spinlock with spin_trylock on panic path
+date:   8 weeks ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 8 weeks ago
+config: parisc-randconfig-m031-20230627 (https://download.01.org/0day-ci/archive/20230628/202306280119.wLzufyey-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230628/202306280119.wLzufyey-lkp@intel.com/reproduce)
 
-x8664_cc make C=1 CHECK="~/dev/3rdparty/smatch/smatch -p=kernel" -j8 drivers/input/keyboard/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202306280119.wLzufyey-lkp@intel.com/
 
-regards,
-dan carpenter
+New smatch warnings:
+arch/parisc/kernel/firmware.c:1271 pdc_soft_power_button_panic() error: uninitialized symbol 'flags'.
 
+Old smatch warnings:
+arch/parisc/kernel/firmware.c:779 pdc_stable_read() warn: inconsistent indenting
+arch/parisc/kernel/firmware.c:805 pdc_stable_write() warn: inconsistent indenting
+arch/parisc/kernel/firmware.c:830 pdc_stable_get_size() warn: inconsistent indenting
+arch/parisc/kernel/firmware.c:850 pdc_stable_verify_contents() warn: inconsistent indenting
+arch/parisc/kernel/firmware.c:869 pdc_stable_initialize() warn: inconsistent indenting
+
+vim +/flags +1271 arch/parisc/kernel/firmware.c
+
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1259  
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1260  int pdc_soft_power_button_panic(int sw_control)
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1261  {
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1262  	int retval;
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1263  	unsigned long flags;
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1264  
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1265  	if (!spin_trylock_irqsave(&pdc_lock, flags)) {
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1266  		pr_emerg("Couldn't enable soft power button\n");
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1267  		return -EBUSY; /* ignored by the panic notifier */
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1268  	}
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1269  
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1270  	retval = mem_pdc_call(PDC_SOFT_POWER, PDC_SOFT_POWER_ENABLE, __pa(pdc_result), sw_control);
+829632dae83217 Guilherme G. Piccoli 2023-02-20 @1271  	spin_unlock_irqrestore(&pdc_lock, flags);
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1272  
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1273  	return retval;
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1274  }
+829632dae83217 Guilherme G. Piccoli 2023-02-20  1275  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
