@@ -1,41 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE529C122
-	for <oe-kbuild@lists.linux.dev>; Wed, 28 Jun 2023 14:14:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A5CD532
+	for <oe-kbuild@lists.linux.dev>; Wed, 28 Jun 2023 20:52:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687961691; x=1719497691;
+  t=1687985576; x=1719521576;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lBzfxp2sfsTBJm7JYahtCczZp2h2pxgulh0OOcCQOak=;
-  b=NjrC0jRsg0RR2i6YWVbpFJGCUX2Cm9Ruis8vthm0g6/d6POXgteAKiee
-   dedeXFHN4plLEMZQ9iaahTTXHm/j5yFTvDXgUf5UxWFtBFGFD2K4XiaNX
-   LrN9cGSeLZyvP5PaIgRVlV00w4PGGbReBuVPUrOrfXkVZWoEntPv/IpPp
-   Yd3CbYbt/rxsFXAqG8i/Umbw6fMGI7zDdTSo0Xz1AdafRdcoJ53FFuQi2
-   YUM8XhQ9+Th2V5bTq5/N9C2WTWfMkq71U+RC6Gb1zFb+UJIUDBVFwPzac
-   k5OLCFfDD1dyyEWI5tIpskDDQ0ENWZGbSlkKsz7TrbKZiLLuPuc46mcVE
+  bh=PsDD9FRcgmQf4oyfcqXC3q7HLrhA5K+p0ThK4nOztcI=;
+  b=kRy90QU0uoh2SNQqAyFAaHHRYsaW+rvIgAOYJ4TPOnnMvYIHuhqX0GAU
+   kyY2+4FhIw6QsE5XQws5HOyXqRpE2vJUvDCEDi5l4DVne774BQ8COVzsx
+   b9ZkXihlUJpp/4fzYMCCqP/L7Vd2WA+34SzxKoarFSiSNirPmDG5TGJdu
+   cqchv4GYfieeSVFQuWlAIvtXB1+F2FCzO4vJqOYomRM8Aqg4pQ+iQ42D5
+   R6ISnoPA5DWL38nZUYs2ksAy2EUmZ1AiP3nqn/8nwoDmGI5odrItYVQKK
+   W1cLNc945bUSahtQfL/lvEMJl1nQzX2hDCLcicgJr+nv4Q9/WKbFxa9s0
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="360707246"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="360707246"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 07:14:45 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="448342965"
+X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
+   d="scan'208";a="448342965"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 13:52:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="746670075"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="746670075"
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="807062740"
+X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
+   d="scan'208";a="807062740"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 28 Jun 2023 07:14:44 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 28 Jun 2023 13:52:54 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEVwR-000DIL-0w;
-	Wed, 28 Jun 2023 14:14:43 +0000
-Date: Wed, 28 Jun 2023 22:14:37 +0800
+	id 1qEc9l-000DUT-1E;
+	Wed, 28 Jun 2023 20:52:53 +0000
+Date: Thu, 29 Jun 2023 04:52:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: pata_cs5536.c:undefined reference to `__tracepoint_write_msr'
-Message-ID: <202306282236.C4KJNMae-lkp@intel.com>
+Subject: [linux-next:master 12532/12731] riscv32-linux-ld: section .data LMA
+ [01b96000,02229567] overlaps section .text LMA [001205fc,0320080d]
+Message-ID: <202306290421.XEeiEvha-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,42 +47,39 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: pata_cs5536.c:(.text+0x3c): undefined reference to `__tracepoint_write_msr'"
+:::::: Manual check reason: "low confidence static check first_new_problem: riscv32-linux-ld: section .data LMA [01b96000,02229567] overlaps section .text LMA [001205fc,0320080d]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Johannes Berg <johannes.berg@intel.com>
-CC: Richard Weinberger <richard@nod.at>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Hilda Wu <hildawu@realtek.com>
+CC: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+CC: Alex Lu <alex_lu@realsil.com.cn>
+CC: Simon Horman <simon.horman@corigine.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6aeadf7896bff4ca230702daba8788455e6b866e
-commit: 8c6174503c7b7134c22072b45f92724c8a959f06 um: hostfs: define our own API boundary
-date:   10 weeks ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 10 weeks ago
-config: um-randconfig-r092-20230628 (https://download.01.org/0day-ci/archive/20230628/202306282236.C4KJNMae-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230628/202306282236.C4KJNMae-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   5c875096d59010cee4e00da1f9c7bdb07a025dc2
+commit: e63d8ed98082395ca509163f386f5b04f53872b3 [12532/12731] Bluetooth: msft: Extended monitor tracking by address filter
+:::::: branch date: 16 hours ago
+:::::: commit date: 26 hours ago
+config: riscv-randconfig-r092-20230628 (https://download.01.org/0day-ci/archive/20230629/202306290421.XEeiEvha-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230629/202306290421.XEeiEvha-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202306282236.C4KJNMae-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306290421.XEeiEvha-lkp@intel.com/
+
+Note: the linux-next/master HEAD 5c875096d59010cee4e00da1f9c7bdb07a025dc2 builds fine.
+      It may have been fixed somewhere.
 
 All errors (new ones prefixed by >>):
 
-   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `cs5536_write.isra.0':
->> pata_cs5536.c:(.text+0x3c): undefined reference to `__tracepoint_write_msr'
->> /usr/bin/ld: pata_cs5536.c:(.text+0x4c): undefined reference to `do_trace_write_msr'
-   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `cs5536_read.isra.0':
->> pata_cs5536.c:(.text+0x9b): undefined reference to `__tracepoint_read_msr'
->> /usr/bin/ld: pata_cs5536.c:(.text+0xb6): undefined reference to `do_trace_read_msr'
-   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `cs5536_cable_detect':
-   pata_cs5536.c:(.text+0x389): undefined reference to `__tracepoint_read_msr'
-   /usr/bin/ld: pata_cs5536.c:(.text+0x3a3): undefined reference to `do_trace_read_msr'
-   collect2: error: ld returned 1 exit status
+>> riscv32-linux-ld: section .data LMA [01b96000,02229567] overlaps section .text LMA [001205fc,0320080d]
+>> riscv32-linux-ld: section .data..percpu LMA [03548000,036b0cff] overlaps section .rodata LMA [03200840,03b5ba69]
+>> riscv32-linux-ld: section .rodata VMA [c3200840,c3b5ba69] overlaps section .bss VMA [c26ef000,c39b1197]
 
 -- 
 0-DAY CI Kernel Test Service
