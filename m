@@ -1,103 +1,135 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3101714284;
-	Thu, 29 Jun 2023 19:09:20 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-676f16e0bc4so725052b3a.0;
-        Thu, 29 Jun 2023 12:09:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688065760; x=1690657760;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GHxUo6xmiZ7UJTmxLdtD1BHWN7DAFibiiT2PwkiPplg=;
-        b=dkblGDhOczYF7XZYo470P1DCjNQH8FV9XL0PGG+hD+i2tKz8Zu4X8SYjDgm27akZnK
-         1TemU5ktkZmvu/TQupvUMEPDb3gprAG6dLvr/+qi1G90lQWDNyNtp9ViUkDhSw1463xR
-         FSdamd+Bycidk0/lP24wJrPsyskplBkpWJYiPBm9zpG7ABlX54DO2BSXhI5MiJALKgLv
-         y77rPBVeRS2ArpE+D8WyEQgZz6hGkBsSLDkbXwKyAsrG4CuOsgwKNZ3UkHECXVH5UmTt
-         /yCRZpQIZ+DaHttFVVDv3GrzWLiB9zHQY43TCTg/I15K12z45V2K4ZH8bG0qjjpqzyfp
-         Zhxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688065760; x=1690657760;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GHxUo6xmiZ7UJTmxLdtD1BHWN7DAFibiiT2PwkiPplg=;
-        b=l81CwxHn2h3jOrr7IphqJb/c7Y/kER5voBX9tS1HqgFMgqbqxxkVheqqWmkZJQtLq1
-         FlzhsD9OPqddycEr0PU/yfv2y5ahkP8PXayzfU+LECWPaW+BrrAVgpEjR+flkBVbv1BS
-         fQxyzm6QTDfjZaBrpdSPi4eJX/MVm/NjMI9vDyXEyw6iEKXyoo1y6OGW+3RRa0nibole
-         HgpVGQvxUiCIUrf6udp5+dJMvd/hlgZHMpH6jkWo3jplmoxULhxZ30/t3GKjzhrjM+eZ
-         YwpZRN2S/RtYvfsbp7AAmBcNXSVTd5seVSU3Msm+c0qOMHkvXzP+6x3A//BTYF3UEaXl
-         mQtQ==
-X-Gm-Message-State: AC+VfDwdYPfS6tD3VSsLXwVQyu7h5LVekjjpTbX5J9Q6y3wGVB8FG4NS
-	Ig3bFf1pCyMtEDrGM2m0Gds=
-X-Google-Smtp-Source: ACHHUZ5ts0HuX+l+OlWWcaPzm44ZWfCrd+jBcwultPqhcIKPqEEJMAbPF34Pn5uh3O4z1VA32Ef9Cw==
-X-Received: by 2002:a05:6a20:258b:b0:124:3ad9:7455 with SMTP id k11-20020a056a20258b00b001243ad97455mr810517pzd.2.1688065760351;
-        Thu, 29 Jun 2023 12:09:20 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id j6-20020a655586000000b0054fe7736ac1sm8157228pgs.76.2023.06.29.12.09.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jun 2023 12:09:19 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <1a27469a-4cdb-8cf0-c539-05103f2e0b8f@roeck-us.net>
-Date: Thu, 29 Jun 2023 12:09:17 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7588315480
+	for <oe-kbuild@lists.linux.dev>; Thu, 29 Jun 2023 19:19:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688066380; x=1719602380;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QgZRbCfiVTlBZA9vfhL06v/nisVDr0bIa9fCebvBG1k=;
+  b=g41V/HdV2vyLKabByQEr9Xy6Vsql37alpZBBcHA3kNaP9pOpOWb063wh
+   x8kgWfuLUfbq2OqrPF52c/xw+VANVxpbr2unhy2ZGjSVnwt45pfrYHHa2
+   b4/x/fd6+Ucba/OSVkqVEol/yVnoDPegNgm24jevoPonL2Casw4WG1EP6
+   ZccpRM0rY7XyQ6KJZGBxiVIBsfYF1+Dq5+IwVS//IwuiFSQia1yxoSI+N
+   WfGWmSOpNGHPkO0WFHDxP7BR8rCUMgwouBYeF2VTIDTYR0kqsuF9SsUzP
+   IKEyac3IAYWhJWiYv3nOZRu1z54uCuUDSGuAw/ZYLKsqE0eY0/PiJTcUD
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="346987451"
+X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
+   d="scan'208";a="346987451"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 12:19:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="747130607"
+X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
+   d="scan'208";a="747130607"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 29 Jun 2023 12:19:38 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qExB3-000ELt-23;
+	Thu, 29 Jun 2023 19:19:37 +0000
+Date: Fri, 30 Jun 2023 03:18:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: mm/vmscan.c:4080:29: sparse: sparse: cast to non-scalar
+Message-ID: <202306300356.RiOenM6y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Eddie James <eajames@linux.ibm.com>, linux-hwmon@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, jdelvare@suse.com, lakshmiy@us.ibm.com
-References: <20230627184027.16343-1-eajames@linux.ibm.com>
- <b12935a2-a8b7-4d70-8c7d-6fd1e92037c2@kadam.mountain>
- <45a29025-4c06-4f88-b82f-a8002c25c376@kadam.mountain>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH] hwmon: (pmbus/acbel-fsg032) Add firmware version debugfs
- attribute
-In-Reply-To: <45a29025-4c06-4f88-b82f-a8002c25c376@kadam.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 6/29/23 11:59, Dan Carpenter wrote:
-> On Thu, Jun 29, 2023 at 09:53:16AM +0300, Dan Carpenter wrote:
->> d2c6444389b625 Eddie James 2023-06-27  22  	char out[8];
->> d2c6444389b625 Eddie James 2023-06-27  23  	int rc;
->> d2c6444389b625 Eddie James 2023-06-27  24  	int i;
->> d2c6444389b625 Eddie James 2023-06-27  25
->> d2c6444389b625 Eddie James 2023-06-27  26  	rc = pmbus_lock_interruptible(client);
->> d2c6444389b625 Eddie James 2023-06-27  27  	if (rc)
->> d2c6444389b625 Eddie James 2023-06-27  28  		return rc;
->> d2c6444389b625 Eddie James 2023-06-27  29
->> d2c6444389b625 Eddie James 2023-06-27  30  	rc = i2c_smbus_read_block_data(client, ACBEL_MFR_FW_REVISION, data);
->> d2c6444389b625 Eddie James 2023-06-27  31  	pmbus_unlock(client);
->> d2c6444389b625 Eddie James 2023-06-27  32  	if (rc < 0)
->> d2c6444389b625 Eddie James 2023-06-27  33  		return rc;
->> d2c6444389b625 Eddie James 2023-06-27  34
->> d2c6444389b625 Eddie James 2023-06-27  35  	for (i = 0; i < rc && i < 3; ++i)
->> d2c6444389b625 Eddie James 2023-06-27 @36  		snprintf(&out[i * 2], 3, "%02X", data[i]);
->>
->> If data[i] is negative this will print FFFFFFF1 etc.  (This is an x86
->> config...  Did we ever merge that patch to make char signed by default?)
-> 
-> I meant unsigned not signed.  But actually we debated both ways...
-> Signed by default would annoy PowerPC devs since they try to really
-> lean into the fact that char is unsigned on that arch.  :P
-> 
-> https://lwn.net/Articles/911914/
-> 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: mm/vmscan.c:4080:29: sparse: sparse: cast to non-scalar"
+:::::: 
 
-As if anything would be easy nowadays ;-). Anyway, in this case, the array
-should be explicitly unsigned, so changing the type to u8 was the right
-thing to do. Also, the driver should be usable on non-Intel systems,
-which is another reason to make the type sign-specific (even more so in
-the context of the above discussion).
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Yu Zhao <yuzhao@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Thanks,
-Guenter
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1b722407a13b7f8658d2e26917791f32805980a2
+commit: bd74fdaea146029e4fa12c6de89adbe0779348a9 mm: multi-gen LRU: support page table walks
+date:   9 months ago
+:::::: branch date: 72 minutes ago
+:::::: commit date: 9 months ago
+config: alpha-randconfig-r081-20230629 (https://download.01.org/0day-ci/archive/20230630/202306300356.RiOenM6y-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300356.RiOenM6y-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202306300356.RiOenM6y-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> mm/vmscan.c:4080:29: sparse: sparse: cast to non-scalar
+>> mm/vmscan.c:4080:29: sparse: sparse: cast from non-scalar
+   mm/vmscan.c:2274:33: sparse: sparse: context imbalance in 'folio_isolate_lru' - unexpected unlock
+   mm/vmscan.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:737:9: sparse: sparse: context imbalance in 'lru_gen_look_around' - different lock contexts for basic block
+   mm/vmscan.c: note: in included file (through include/linux/swap.h):
+   include/linux/memcontrol.h:1663:39: sparse: sparse: context imbalance in 'check_move_unevictable_folios' - unexpected unlock
+
+vim +4080 mm/vmscan.c
+
+bd74fdaea14602 Yu Zhao 2022-09-18  4065  
+bd74fdaea14602 Yu Zhao 2022-09-18  4066  static int walk_pud_range(p4d_t *p4d, unsigned long start, unsigned long end,
+bd74fdaea14602 Yu Zhao 2022-09-18  4067  			  struct mm_walk *args)
+bd74fdaea14602 Yu Zhao 2022-09-18  4068  {
+bd74fdaea14602 Yu Zhao 2022-09-18  4069  	int i;
+bd74fdaea14602 Yu Zhao 2022-09-18  4070  	pud_t *pud;
+bd74fdaea14602 Yu Zhao 2022-09-18  4071  	unsigned long addr;
+bd74fdaea14602 Yu Zhao 2022-09-18  4072  	unsigned long next;
+bd74fdaea14602 Yu Zhao 2022-09-18  4073  	struct lru_gen_mm_walk *walk = args->private;
+bd74fdaea14602 Yu Zhao 2022-09-18  4074  
+bd74fdaea14602 Yu Zhao 2022-09-18  4075  	VM_WARN_ON_ONCE(p4d_leaf(*p4d));
+bd74fdaea14602 Yu Zhao 2022-09-18  4076  
+bd74fdaea14602 Yu Zhao 2022-09-18  4077  	pud = pud_offset(p4d, start & P4D_MASK);
+bd74fdaea14602 Yu Zhao 2022-09-18  4078  restart:
+bd74fdaea14602 Yu Zhao 2022-09-18  4079  	for (i = pud_index(start), addr = start; addr != end; i++, addr = next) {
+bd74fdaea14602 Yu Zhao 2022-09-18 @4080  		pud_t val = READ_ONCE(pud[i]);
+bd74fdaea14602 Yu Zhao 2022-09-18  4081  
+bd74fdaea14602 Yu Zhao 2022-09-18  4082  		next = pud_addr_end(addr, end);
+bd74fdaea14602 Yu Zhao 2022-09-18  4083  
+bd74fdaea14602 Yu Zhao 2022-09-18  4084  		if (!pud_present(val) || WARN_ON_ONCE(pud_leaf(val)))
+bd74fdaea14602 Yu Zhao 2022-09-18  4085  			continue;
+bd74fdaea14602 Yu Zhao 2022-09-18  4086  
+bd74fdaea14602 Yu Zhao 2022-09-18  4087  		walk_pmd_range(&val, addr, next, args);
+bd74fdaea14602 Yu Zhao 2022-09-18  4088  
+bd74fdaea14602 Yu Zhao 2022-09-18  4089  		/* a racy check to curtail the waiting time */
+bd74fdaea14602 Yu Zhao 2022-09-18  4090  		if (wq_has_sleeper(&walk->lruvec->mm_state.wait))
+bd74fdaea14602 Yu Zhao 2022-09-18  4091  			return 1;
+bd74fdaea14602 Yu Zhao 2022-09-18  4092  
+bd74fdaea14602 Yu Zhao 2022-09-18  4093  		if (need_resched() || walk->batched >= MAX_LRU_BATCH) {
+bd74fdaea14602 Yu Zhao 2022-09-18  4094  			end = (addr | ~PUD_MASK) + 1;
+bd74fdaea14602 Yu Zhao 2022-09-18  4095  			goto done;
+bd74fdaea14602 Yu Zhao 2022-09-18  4096  		}
+bd74fdaea14602 Yu Zhao 2022-09-18  4097  	}
+bd74fdaea14602 Yu Zhao 2022-09-18  4098  
+bd74fdaea14602 Yu Zhao 2022-09-18  4099  	if (i < PTRS_PER_PUD && get_next_vma(P4D_MASK, PUD_SIZE, args, &start, &end))
+bd74fdaea14602 Yu Zhao 2022-09-18  4100  		goto restart;
+bd74fdaea14602 Yu Zhao 2022-09-18  4101  
+bd74fdaea14602 Yu Zhao 2022-09-18  4102  	end = round_up(end, P4D_SIZE);
+bd74fdaea14602 Yu Zhao 2022-09-18  4103  done:
+bd74fdaea14602 Yu Zhao 2022-09-18  4104  	if (!end || !args->vma)
+bd74fdaea14602 Yu Zhao 2022-09-18  4105  		return 1;
+bd74fdaea14602 Yu Zhao 2022-09-18  4106  
+bd74fdaea14602 Yu Zhao 2022-09-18  4107  	walk->next_addr = max(end, args->vma->vm_start);
+bd74fdaea14602 Yu Zhao 2022-09-18  4108  
+bd74fdaea14602 Yu Zhao 2022-09-18  4109  	return -EAGAIN;
+bd74fdaea14602 Yu Zhao 2022-09-18  4110  }
+bd74fdaea14602 Yu Zhao 2022-09-18  4111  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
