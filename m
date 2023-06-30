@@ -1,42 +1,56 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5361515A6
-	for <oe-kbuild@lists.linux.dev>; Fri, 30 Jun 2023 01:11:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688087469; x=1719623469;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lkGgBSHIN+q31nOcqjGTAq5HOD/6CrYh7I5TR8rZN/8=;
-  b=nwFTn0Zszxb+njmZY2/qcfoT9BAUYyemjULwGvjqir7TcsXyemYpFRSF
-   gBkeCHcivJiEf49yBsW3Hael708fdOjSk0CbT+PoJXAhqeWuE+ROsl1s4
-   YdvsawzS0K2XWqGZNHvp/H/s3l3YRXNA8NvPsxsg7s/QIDUBfR9OEBwkU
-   KHrSdfkNqdv+8ZuZbjdc+J363aj/mnVaaGTZIG8A+Wy21t9y6Y1zABzDk
-   qRC6Ez1p1no7eryZePNNXhG6qdW8Bj4a89uYRdKDWsKY8MvsBEMrgVTKI
-   N5QG16gEUG56vMN9HX9ivdmCkycKnWfE8irvWGJY88TfwU4UZB0/6OV8k
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="341861586"
-X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="341861586"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 18:11:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="807565094"
-X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="807565094"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 29 Jun 2023 18:11:07 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qF2fC-000EZN-0A;
-	Fri, 30 Jun 2023 01:11:06 +0000
-Date: Fri, 30 Jun 2023 09:10:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2] fuse: add a new fuse init flag to relax restrictions
- in no cache mode
-Message-ID: <202306300807.6nFdb8tj-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5CD5240
+	for <oe-kbuild@lists.linux.dev>; Fri, 30 Jun 2023 06:18:55 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3fbc5d5742eso5272185e9.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 29 Jun 2023 23:18:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688105933; x=1690697933;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zr5rF21wCxAgCyW7DuVdlBs4zYqth3c0/Oqjm5ElJHw=;
+        b=QX1GbHZHOMS/I6qduXCOvQHqbJKZov2iJoruAGrNr6y2rYLwgeZN26SBlS64A1M1Lj
+         YW9umBOvF6cfJPlxpPZJcwrucrulpyAjKTfGH8C6id3fVVhYx3LfyfMhd1K+7993wIOP
+         qMSfysesD8oqYY+3aQer4bI68T87PwQ15b1oWm9Tqfi42jL7nyqcf0HniCxzrt8+UnCG
+         tsWojuyS+Td5TbMp45LEdHvV9sBqY8kK9V6QlsVYVRzUxMbikZkKJ+xGE/w+ZyaiynLS
+         bAboVJkBsOuEvUvMa1nUkckbSIYsJmuMNA0GyzxFzyMFZDTvX3m6MUZVbFNw4F/M30QA
+         mfEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688105933; x=1690697933;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zr5rF21wCxAgCyW7DuVdlBs4zYqth3c0/Oqjm5ElJHw=;
+        b=gWeYV6hPctJrUmZp8497Fv0yETtQFwdFb8uWCTP3lldoEfZAlE6Qsft6bClY8JXiC2
+         oMp+nHwpLFup+ioVzFGq89GtnIpTOCNBxhaaD+jS9aQNhZpU8pTRedGc/wHUHExGzs2M
+         oqVJ7pcOnuWZp+kg2Y9mut3EbHHyY4lQoGWpxQs4Q0oyBLQr7EZx232zOlufTxyuHZa3
+         lFpvK5dXY5sbli5c+zveErvSDX/jEz7Scv9dDsjekZdIWA3iFqYdxY9y82NZhRcMHMlx
+         nYDf5TqaZv3LeVUfkRFUjKdJINt7uUUvS3Rak7tz6NDRhXm5YZVR4BjPD+ffqx12HlbX
+         tJ8w==
+X-Gm-Message-State: AC+VfDwJyBYnNSDW4Pxr8dlYWqsBnJ9DkwtJwMcBRkyuVYxsjaH8BLSM
+	OJT1I78wqQbAm7pxVraRKBE35Q==
+X-Google-Smtp-Source: ACHHUZ4nsmWQ8xs40ltmSBhxGzZcDTQ5vdYqASDgeCzIG3MODNSzst18118PLv/Va6+AHyucJZwfDg==
+X-Received: by 2002:a05:600c:2201:b0:3fa:91d2:55b6 with SMTP id z1-20020a05600c220100b003fa91d255b6mr1098206wml.9.1688105933535;
+        Thu, 29 Jun 2023 23:18:53 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q9-20020a1ce909000000b003fbc90e030csm191540wmc.37.2023.06.29.23.18.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jun 2023 23:18:51 -0700 (PDT)
+Date: Fri, 30 Jun 2023 09:18:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild@lists.linux.dev, Eddie James <eajames@linux.ibm.com>,
+	linux-hwmon@vger.kernel.org, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	jdelvare@suse.com, lakshmiy@us.ibm.com
+Subject: Re: [PATCH] hwmon: (pmbus/acbel-fsg032) Add firmware version debugfs
+ attribute
+Message-ID: <07dac6f4-5b40-4a62-b1a9-257ec13938ed@kadam.mountain>
+References: <20230627184027.16343-1-eajames@linux.ibm.com>
+ <b12935a2-a8b7-4d70-8c7d-6fd1e92037c2@kadam.mountain>
+ <45a29025-4c06-4f88-b82f-a8002c25c376@kadam.mountain>
+ <1a27469a-4cdb-8cf0-c539-05103f2e0b8f@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,83 +59,59 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1a27469a-4cdb-8cf0-c539-05103f2e0b8f@roeck-us.net>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230629081733.11309-1-hao.xu@linux.dev>
-References: <20230629081733.11309-1-hao.xu@linux.dev>
-TO: Hao Xu <hao.xu@linux.dev>
-TO: fuse-devel@lists.sourceforge.net
-CC: miklos@szeredi.hu
-CC: bernd.schubert@fastmail.fm
-CC: linux-fsdevel@vger.kernel.org
-CC: Wanpeng Li <wanpengli@tencent.com>
-CC: cgxu519@mykernel.net
+On Thu, Jun 29, 2023 at 12:09:17PM -0700, Guenter Roeck wrote:
+> On 6/29/23 11:59, Dan Carpenter wrote:
+> > On Thu, Jun 29, 2023 at 09:53:16AM +0300, Dan Carpenter wrote:
+> > > d2c6444389b625 Eddie James 2023-06-27  22  	char out[8];
+> > > d2c6444389b625 Eddie James 2023-06-27  23  	int rc;
+> > > d2c6444389b625 Eddie James 2023-06-27  24  	int i;
+> > > d2c6444389b625 Eddie James 2023-06-27  25
+> > > d2c6444389b625 Eddie James 2023-06-27  26  	rc = pmbus_lock_interruptible(client);
+> > > d2c6444389b625 Eddie James 2023-06-27  27  	if (rc)
+> > > d2c6444389b625 Eddie James 2023-06-27  28  		return rc;
+> > > d2c6444389b625 Eddie James 2023-06-27  29
+> > > d2c6444389b625 Eddie James 2023-06-27  30  	rc = i2c_smbus_read_block_data(client, ACBEL_MFR_FW_REVISION, data);
+> > > d2c6444389b625 Eddie James 2023-06-27  31  	pmbus_unlock(client);
+> > > d2c6444389b625 Eddie James 2023-06-27  32  	if (rc < 0)
+> > > d2c6444389b625 Eddie James 2023-06-27  33  		return rc;
+> > > d2c6444389b625 Eddie James 2023-06-27  34
+> > > d2c6444389b625 Eddie James 2023-06-27  35  	for (i = 0; i < rc && i < 3; ++i)
+> > > d2c6444389b625 Eddie James 2023-06-27 @36  		snprintf(&out[i * 2], 3, "%02X", data[i]);
+> > > 
+> > > If data[i] is negative this will print FFFFFFF1 etc.  (This is an x86
+> > > config...  Did we ever merge that patch to make char signed by default?)
+> > 
+> > I meant unsigned not signed.  But actually we debated both ways...
+> > Signed by default would annoy PowerPC devs since they try to really
+> > lean into the fact that char is unsigned on that arch.  :P
+> > 
+> > https://lwn.net/Articles/911914/
+> > 
+> 
+> As if anything would be easy nowadays ;-). Anyway, in this case, the array
+> should be explicitly unsigned, so changing the type to u8 was the right
+> thing to do. Also, the driver should be usable on non-Intel systems,
+> which is another reason to make the type sign-specific (even more so in
+> the context of the above discussion).
 
-Hi Hao,
+Actually we did make char unsigned.  I don't know if I'm super
+comfortable with code that assumes char is unsigned.  It's makes
+backporting trickier.  But this is definitely a false positive so I have
+silenced the warning in Smatch.
 
-kernel test robot noticed the following build warnings:
+regards,
+dan carpenter
 
-[auto build test WARNING on v6.4]
-[also build test WARNING on linus/master]
-[cannot apply to mszeredi-fuse/for-next next-20230629]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hao-Xu/fuse-add-a-new-fuse-init-flag-to-relax-restrictions-in-no-cache-mode/20230629-162139
-base:   v6.4
-patch link:    https://lore.kernel.org/r/20230629081733.11309-1-hao.xu%40linux.dev
-patch subject: [PATCH v2] fuse: add a new fuse init flag to relax restrictions in no cache mode
-:::::: branch date: 17 hours ago
-:::::: commit date: 17 hours ago
-config: i386-randconfig-m021-20230629 (https://download.01.org/0day-ci/archive/20230630/202306300807.6nFdb8tj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300807.6nFdb8tj-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306300807.6nFdb8tj-lkp@intel.com/
-
-smatch warnings:
-fs/fuse/file.c:2516 fuse_file_mmap() warn: maybe use && instead of &
-
-vim +2516 fs/fuse/file.c
-
-3be5a52b30aa5c Miklos Szeredi  2008-04-30  2502  
-3be5a52b30aa5c Miklos Szeredi  2008-04-30  2503  static int fuse_file_mmap(struct file *file, struct vm_area_struct *vma)
-3be5a52b30aa5c Miklos Szeredi  2008-04-30  2504  {
-55752a3aba1387 Miklos Szeredi  2019-01-24  2505  	struct fuse_file *ff = file->private_data;
-fad410b49bfb66 Hao Xu          2023-06-29  2506  	struct fuse_conn *fc = ff->fm->fc;
-b6aeadeda22a9a Miklos Szeredi  2005-09-09  2507  
-2a9a609a0c4a3b Stefan Hajnoczi 2020-08-19  2508  	/* DAX mmap is superior to direct_io mmap */
-2a9a609a0c4a3b Stefan Hajnoczi 2020-08-19  2509  	if (FUSE_IS_DAX(file_inode(file)))
-2a9a609a0c4a3b Stefan Hajnoczi 2020-08-19  2510  		return fuse_dax_mmap(file, vma);
-2a9a609a0c4a3b Stefan Hajnoczi 2020-08-19  2511  
-55752a3aba1387 Miklos Szeredi  2019-01-24  2512  	if (ff->open_flags & FOPEN_DIRECT_IO) {
-fad410b49bfb66 Hao Xu          2023-06-29  2513  		/* Can't provide the coherency needed for MAP_SHARED
-fad410b49bfb66 Hao Xu          2023-06-29  2514  		 * if FUSE_DIRECT_IO_RELAX isn't set.
-fad410b49bfb66 Hao Xu          2023-06-29  2515  		 */
-fad410b49bfb66 Hao Xu          2023-06-29 @2516  		if (!(ff->open_flags & fc->direct_io_relax) &&
-fad410b49bfb66 Hao Xu          2023-06-29  2517  		    vma->vm_flags & VM_MAYSHARE)
-fc280c9692031e Miklos Szeredi  2009-04-02  2518  			return -ENODEV;
-fc280c9692031e Miklos Szeredi  2009-04-02  2519  
-3121bfe7631126 Miklos Szeredi  2009-04-09  2520  		invalidate_inode_pages2(file->f_mapping);
-3121bfe7631126 Miklos Szeredi  2009-04-09  2521  
-fc280c9692031e Miklos Szeredi  2009-04-02  2522  		return generic_file_mmap(file, vma);
-fc280c9692031e Miklos Szeredi  2009-04-02  2523  	}
-fc280c9692031e Miklos Szeredi  2009-04-02  2524  
-55752a3aba1387 Miklos Szeredi  2019-01-24  2525  	if ((vma->vm_flags & VM_SHARED) && (vma->vm_flags & VM_MAYWRITE))
-55752a3aba1387 Miklos Szeredi  2019-01-24  2526  		fuse_link_write_file(file);
-55752a3aba1387 Miklos Szeredi  2019-01-24  2527  
-55752a3aba1387 Miklos Szeredi  2019-01-24  2528  	file_accessed(file);
-55752a3aba1387 Miklos Szeredi  2019-01-24  2529  	vma->vm_ops = &fuse_file_vm_ops;
-55752a3aba1387 Miklos Szeredi  2019-01-24  2530  	return 0;
-55752a3aba1387 Miklos Szeredi  2019-01-24  2531  }
-55752a3aba1387 Miklos Szeredi  2019-01-24  2532  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--- a/check_kernel_printf.c
++++ b/check_kernel_printf.c
+@@ -827,7 +827,7 @@ hexbyte(const char *fmt, int fmt_len, struct expression *arg, int vaidx, struct
+                sm_warning("could not determine type of argument %d", vaidx);
+                return;
+        }
+-       if (type == &char_ctype || type == &schar_ctype)
++       if (type_signed(type) && (type == &char_ctype || type == &schar_ctype))
+                sm_warning("argument %d to %.*s specifier has type '%s'",
+                       vaidx, fmt_len, fmt, type_to_str(type));
+ }
