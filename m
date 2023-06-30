@@ -1,41 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D885156FA
-	for <oe-kbuild@lists.linux.dev>; Fri, 30 Jun 2023 14:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7128E2F46
+	for <oe-kbuild@lists.linux.dev>; Fri, 30 Jun 2023 16:37:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688134773; x=1719670773;
+  t=1688143057; x=1719679057;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GVCgG/fX7p7ytWhNX1T5UqPE8jWaV+kEf5k03kC3C18=;
-  b=aPtAFu9+OWvYjLh3IHR+Jwe9/AleKoLAf6t2aJqm6PpboQ+uhhgk5XVH
-   Uu0iK1QwFqYa7Qe0MEBN9MAMuJYhL/KGv9DgFcJ9b4L5VtKiR/K0EoKj/
-   LPQp4t1W/RNIUSWb+b7wc4nHGudbZfMnDmvi+7dxuxsbC0iw4RQini+J9
-   InbC3dGVJNnHSpx1xGk2MmzY7K6sHYmScdY3Tib9Zp0Qobe7qC5UeOU65
-   u10pqUlCZ9a1YTUYCsf55fbW/vt6e2M/mejUWijb2BJk8uNZm/hRqNE+8
-   q84KuN12qQaVUHPlgKxXZ3LIvZ7lJ6bwADcmjAscmPeWsjVtcpifzDNDn
+  bh=UZ7UB3oQahR9A91yH62vvRjILElxw/LteOtigXHE+KM=;
+  b=cp2UpP/UDDdL2u7NRdD6IpzXYM/Xt1oN3JYlM8XVos8rw9VjKImI4oWQ
+   QwMkq98eFQ8wtEl9DYwnVQcOds8DwOhGffs80kaU3Yo6NmvqeaMwZ8KFZ
+   aqcLAJqFq6XyCTv4psP9BQKSHd3AtU2npjPWgnAz9yh7ab6wE5t5HTtuI
+   9Ax2d7ToTLU45mRwNqYAOpH4XVOikez7RudHkNOpm8xLcxNN5skXRw5KQ
+   bpVur45c1D7w1aYg/w+FTXzA55g+m0yZ+DvphwC8q3Tb8jYXAc+82h7OX
+   jlpD9OATCyic0UThCTVKSc/B7EsU7Lgs7DI1uojJLpjKfSqwOs9ntoZ83
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="426089548"
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="359913060"
 X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="426089548"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 07:19:30 -0700
+   d="scan'208";a="359913060"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 09:37:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="1048249660"
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="964455069"
 X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="1048249660"
+   d="scan'208";a="964455069"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 30 Jun 2023 07:19:29 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 30 Jun 2023 09:37:35 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qFEy8-000F21-17;
-	Fri, 30 Jun 2023 14:19:28 +0000
-Date: Fri, 30 Jun 2023 22:19:04 +0800
+	id 1qFH7m-000F9Y-2I;
+	Fri, 30 Jun 2023 16:37:34 +0000
+Date: Sat, 1 Jul 2023 00:37:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH net-next 1/6] net: dsa: vsc73xx: convert to PHYLINK
-Message-ID: <202306302257.DWKHSgvF-lkp@intel.com>
+Subject: Re: [PATCH drm-next v5 04/14] drm: debugfs: provide infrastructure
+ to dump a DRM GPU VA space
+Message-ID: <202307010020.iUbaRl4i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,82 +48,100 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230621191302.1405623-1-paweldembicki@gmail.com>
-References: <20230621191302.1405623-1-paweldembicki@gmail.com>
-TO: Pawel Dembicki <paweldembicki@gmail.com>
-TO: netdev@vger.kernel.org
-CC: linus.walleij@linaro.org
-CC: Pawel Dembicki <paweldembicki@gmail.com>
-CC: Andrew Lunn <andrew@lunn.ch>
-CC: Florian Fainelli <f.fainelli@gmail.com>
-CC: Vladimir Oltean <olteanv@gmail.com>
-CC: Eric Dumazet <edumazet@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Russell King <linux@armlinux.org.uk>
+In-Reply-To: <20230620004217.4700-5-dakr@redhat.com>
+References: <20230620004217.4700-5-dakr@redhat.com>
+TO: Danilo Krummrich <dakr@redhat.com>
+TO: airlied@gmail.com
+TO: daniel@ffwll.ch
+TO: tzimmermann@suse.de
+TO: mripard@kernel.org
+TO: corbet@lwn.net
+TO: christian.koenig@amd.com
+TO: bskeggs@redhat.com
+TO: Liam.Howlett@oracle.com
+TO: matthew.brost@intel.com
+TO: boris.brezillon@collabora.com
+TO: alexdeucher@gmail.com
+TO: ogabbay@kernel.org
+TO: bagasdotme@gmail.com
+TO: willy@infradead.org
+TO: jason@jlekstrand.net
+CC: linux-doc@vger.kernel.org
+CC: nouveau@lists.freedesktop.org
 CC: linux-kernel@vger.kernel.org
+CC: dri-devel@lists.freedesktop.org
+CC: linux-mm@kvack.org
+CC: Danilo Krummrich <dakr@redhat.com>
 
-Hi Pawel,
+Hi Danilo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on 2222dcb0775d36de28992f56455ab3967b30d380]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pawel-Dembicki/net-dsa-vsc73xx-add-port_stp_state_set-function/20230622-031529
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230621191302.1405623-1-paweldembicki%40gmail.com
-patch subject: [PATCH net-next 1/6] net: dsa: vsc73xx: convert to PHYLINK
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
-config: parisc-randconfig-m041-20230629 (https://download.01.org/0day-ci/archive/20230630/202306302257.DWKHSgvF-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230620-084448
+base:   2222dcb0775d36de28992f56455ab3967b30d380
+patch link:    https://lore.kernel.org/r/20230620004217.4700-5-dakr%40redhat.com
+patch subject: [PATCH drm-next v5 04/14] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
+:::::: branch date: 11 days ago
+:::::: commit date: 11 days ago
+config: parisc-randconfig-m041-20230629 (https://download.01.org/0day-ci/archive/20230701/202307010020.iUbaRl4i-lkp@intel.com/config)
 compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230630/202306302257.DWKHSgvF-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230701/202307010020.iUbaRl4i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306302257.DWKHSgvF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307010020.iUbaRl4i-lkp@intel.com/
 
 smatch warnings:
-drivers/net/dsa/vitesse-vsc73xx-core.c:891 vsc73xx_phylink_mac_link_up() error: uninitialized symbol 'val'.
+drivers/gpu/drm/drm_debugfs.c:213 drm_debugfs_gpuva_info() warn: argument 6 to %016llx specifier is cast from pointer
 
-vim +/val +891 drivers/net/dsa/vitesse-vsc73xx-core.c
+vim +213 drivers/gpu/drm/drm_debugfs.c
 
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  860  
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  861  static void vsc73xx_phylink_mac_link_up(struct dsa_switch *ds, int port,
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  862  					unsigned int mode,
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  863  					phy_interface_t interface,
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  864  					struct phy_device *phydev,
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  865  					int speed, int duplex,
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  866  					bool tx_pause, bool rx_pause)
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  867  {
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  868  	struct vsc73xx *vsc = ds->priv;
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  869  	u32 val;
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  870  
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  871  	switch (speed) {
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  872  	case SPEED_1000:
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  873  		/* Set up default for internal port or external RGMII */
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  874  		if (interface == PHY_INTERFACE_MODE_RGMII)
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  875  			val = VSC73XX_MAC_CFG_1000M_F_RGMII;
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  876  		else
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  877  			val = VSC73XX_MAC_CFG_1000M_F_PHY;
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  878  		break;
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  879  	case SPEED_100:
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  880  	case SPEED_10:
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  881  		if (duplex == DUPLEX_FULL)
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  882  			val = VSC73XX_MAC_CFG_100_10M_F_PHY;
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  883  		else
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  884  			val = VSC73XX_MAC_CFG_100_10M_H_PHY;
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21  885  		break;
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  886  	}
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  887  
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  888  	/* Enable port (forwarding) in the receieve mask */
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  889  	vsc73xx_update_bits(vsc, VSC73XX_BLOCK_ANALYZER, 0,
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  890  			    VSC73XX_RECVMASK, BIT(port), BIT(port));
-33f498e941bbd8 drivers/net/dsa/vitesse-vsc73xx-core.c Pawel Dembicki 2023-06-21 @891  	vsc73xx_adjust_enable_port(vsc, port, val);
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  892  }
-05bd97fc559df4 drivers/net/dsa/vitesse-vsc73xx.c      Linus Walleij  2018-06-30  893  
+28a62277e06f93 Ben Gamari       2009-02-17  178  
+61f21add16fe23 Danilo Krummrich 2023-06-20  179  /**
+61f21add16fe23 Danilo Krummrich 2023-06-20  180   * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
+61f21add16fe23 Danilo Krummrich 2023-06-20  181   * @m: pointer to the &seq_file to write
+61f21add16fe23 Danilo Krummrich 2023-06-20  182   * @mgr: the &drm_gpuva_manager representing the GPU VA space
+61f21add16fe23 Danilo Krummrich 2023-06-20  183   *
+61f21add16fe23 Danilo Krummrich 2023-06-20  184   * Dumps the GPU VA mappings of a given DRM GPU VA manager.
+61f21add16fe23 Danilo Krummrich 2023-06-20  185   *
+61f21add16fe23 Danilo Krummrich 2023-06-20  186   * For each DRM GPU VA space drivers should call this function from their
+61f21add16fe23 Danilo Krummrich 2023-06-20  187   * &drm_info_list's show callback.
+61f21add16fe23 Danilo Krummrich 2023-06-20  188   *
+61f21add16fe23 Danilo Krummrich 2023-06-20  189   * Returns: 0 on success, -ENODEV if the &mgr is not initialized
+61f21add16fe23 Danilo Krummrich 2023-06-20  190   */
+61f21add16fe23 Danilo Krummrich 2023-06-20  191  int drm_debugfs_gpuva_info(struct seq_file *m,
+61f21add16fe23 Danilo Krummrich 2023-06-20  192  			   struct drm_gpuva_manager *mgr)
+61f21add16fe23 Danilo Krummrich 2023-06-20  193  {
+61f21add16fe23 Danilo Krummrich 2023-06-20  194  	DRM_GPUVA_ITER(it, mgr, 0);
+61f21add16fe23 Danilo Krummrich 2023-06-20  195  	struct drm_gpuva *va, *kva = &mgr->kernel_alloc_node;
+61f21add16fe23 Danilo Krummrich 2023-06-20  196  
+61f21add16fe23 Danilo Krummrich 2023-06-20  197  	if (!mgr->name)
+61f21add16fe23 Danilo Krummrich 2023-06-20  198  		return -ENODEV;
+61f21add16fe23 Danilo Krummrich 2023-06-20  199  
+61f21add16fe23 Danilo Krummrich 2023-06-20  200  	seq_printf(m, "DRM GPU VA space (%s) [0x%016llx;0x%016llx]\n",
+61f21add16fe23 Danilo Krummrich 2023-06-20  201  		   mgr->name, mgr->mm_start, mgr->mm_start + mgr->mm_range);
+61f21add16fe23 Danilo Krummrich 2023-06-20  202  	seq_printf(m, "Kernel reserved node [0x%016llx;0x%016llx]\n",
+61f21add16fe23 Danilo Krummrich 2023-06-20  203  		   kva->va.addr, kva->va.addr + kva->va.range);
+61f21add16fe23 Danilo Krummrich 2023-06-20  204  	seq_puts(m, "\n");
+61f21add16fe23 Danilo Krummrich 2023-06-20  205  	seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
+61f21add16fe23 Danilo Krummrich 2023-06-20  206  	seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
+61f21add16fe23 Danilo Krummrich 2023-06-20  207  	drm_gpuva_iter_for_each(va, it) {
+61f21add16fe23 Danilo Krummrich 2023-06-20  208  		if (unlikely(va == &mgr->kernel_alloc_node))
+61f21add16fe23 Danilo Krummrich 2023-06-20  209  			continue;
+61f21add16fe23 Danilo Krummrich 2023-06-20  210  
+61f21add16fe23 Danilo Krummrich 2023-06-20  211  		seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
+61f21add16fe23 Danilo Krummrich 2023-06-20  212  			   va->va.addr, va->va.range, va->va.addr + va->va.range,
+61f21add16fe23 Danilo Krummrich 2023-06-20 @213  			   (u64)va->gem.obj, va->gem.offset);
+61f21add16fe23 Danilo Krummrich 2023-06-20  214  	}
+61f21add16fe23 Danilo Krummrich 2023-06-20  215  
+61f21add16fe23 Danilo Krummrich 2023-06-20  216  	return 0;
+61f21add16fe23 Danilo Krummrich 2023-06-20  217  }
+61f21add16fe23 Danilo Krummrich 2023-06-20  218  EXPORT_SYMBOL(drm_debugfs_gpuva_info);
+28a62277e06f93 Ben Gamari       2009-02-17  219  
 
 -- 
 0-DAY CI Kernel Test Service
