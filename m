@@ -1,42 +1,50 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CCDDF6D
-	for <oe-kbuild@lists.linux.dev>; Mon,  3 Jul 2023 12:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688386386; x=1719922386;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EpW7kwTUn0xGqZwPY5iXFzb4XNtU7XwylmBdPLLd0XQ=;
-  b=NMfZzlsBxo4y4ltHj8zb+JbqeN55B4s73cXS8rYwQVAoNYLz2pLEVn2+
-   thZmpUEEBv5GVIW8oUOq3lNSnH+CgpRctPg7K59ajwHcWdTuKtvMmHdFI
-   arYgwq4XwTyCCmNrGKOeGWCdKNwvI3UvCign/Vjp4jikODcI3P274Cm9D
-   3nKpLdKPjtk45z6qouJSzNQG5kZ7HAmwHImzRJXev/gmJX9gJx1i6vfPk
-   /fYVeiloqrQm0IIMo3Unp7dbAzVM/P3K3p8VvjU8LIztarSxS4vxT6Vf6
-   gibNrAqszBiXyL/z9T5FEB8F8uJ8tWjIXhPreYFo+ePIXsq/s+w/XEBkd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="366350108"
-X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="366350108"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 05:13:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="783883744"
-X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="783883744"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Jul 2023 05:13:04 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qGIQR-000HMl-26;
-	Mon, 03 Jul 2023 12:13:03 +0000
-Date: Mon, 3 Jul 2023 20:12:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/scsi/storvsc_drv.c:1857 storvsc_queuecommand() warn:
- possible memory leak of 'payload'
-Message-ID: <202307032042.BP7tt0U6-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBB7E565
+	for <oe-kbuild@lists.linux.dev>; Mon,  3 Jul 2023 12:16:44 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-313e742a787so3705781f8f.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 03 Jul 2023 05:16:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688386602; x=1690978602;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=peUQweafKnLLxk0k/IKIpDRdcCw7xS/vyg8SgVQE+Po=;
+        b=X23RBu4X8GXN5BYhCg+I+s2DZ7vEZFnY2FKP6CoZvHC6uNCxiPk+hZdjIwxtKfDRDL
+         lYZwX8VrB0BYfI7pNEb1j0uEcaTqIvJnXc1iNiLYp2SNz7kX3c4sKc8VnSY58PqVR5gK
+         +1bUqrwn7rEVZGv1C5O1AwVHF8tO93oX3XQmDfK017lyW8mlluTD7nBJ05Q3740PI6lw
+         +OvtKuJBNjylbvpCG80N7j4XUZbLg9neOisBJfFmw4jRWXFBKqFT6b54Gq/nx9CZSUec
+         S2uVhU2WBwNQqhWcS8OEtsm/34mu3vF+EOgsYE2Axg2dbFkhv7EH5ERgQO5gaDt0Ym4N
+         a06A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688386602; x=1690978602;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=peUQweafKnLLxk0k/IKIpDRdcCw7xS/vyg8SgVQE+Po=;
+        b=W57MhSh5ji61TER3eP0upG5zIAXe0juq/4hbHw8FyoYjYqdatapdbd+gRo65mUIsbg
+         RV3FJ2ffxfHMJvIT9irm9b+qhQQgiFiE2Wyj0DjUAVb69ZPsWj+qMhdDV2YuNrLhVyRx
+         h37ZDCHtsFo9e7sfIZeBPR0uJfF4+3HRGhejCqqi7LNTLQgb7Fi4OeMsSAg1UIYPkOp8
+         xCSYAt5NjqTW6Q6TS+mtv17IN1MZ3P5lUZsZ0tFiU/vsq6Lrv6ufeWGdfYCDLL/KUGwH
+         TiV1604fEImrdRz4rvyl3fZRC2DrOSPLRzfrsEdyTJhGjkeYcSimojmDUy+TqDXP2h3S
+         p/RA==
+X-Gm-Message-State: AC+VfDxtKEmYTGuladfk8pnvQosk/6/NZqQop7+Avivg9bruB2B9cvWJ
+	HXeFXx+uLKc1nu7rf5Knf5Z/sXUFekeTP56S4rA=
+X-Google-Smtp-Source: ACHHUZ7ZllFgiOaFcNA/5xTz3q4S6dDj6xdNTTZzk03ivO/3c4pVjeqa8Hzn3vR5YkbOio8MKVT42A==
+X-Received: by 2002:a5d:628c:0:b0:311:b18:9ca4 with SMTP id k12-20020a5d628c000000b003110b189ca4mr13570903wru.17.1688386601836;
+        Mon, 03 Jul 2023 05:16:41 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id t25-20020a7bc3d9000000b003fbb8c7c799sm12048317wmj.30.2023.07.03.05.16.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jul 2023 05:16:39 -0700 (PDT)
+Date: Mon, 3 Jul 2023 15:16:36 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jan Kara <jack@suse.cz>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>
+Subject: fs/namei.c:4875 vfs_rename() warn: variable dereferenced before
+ check 'source' (see line 4830)
+Message-ID: <a8200507-8e52-422d-85ad-22be78930099@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,203 +54,173 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Michael Kelley <mikelley@microsoft.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a901a3568fd26ca9c4a82d8bc5ed5b3ed844d451
-commit: 4e81a6cba517cb33584308a331f14f5e3fec369b scsi: storvsc: Don't pass unused PFNs to Hyper-V host
-date:   7 weeks ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 7 weeks ago
-config: i386-randconfig-m021-20230703 (https://download.01.org/0day-ci/archive/20230703/202307032042.BP7tt0U6-lkp@intel.com/config)
+head:   995b406c7e972fab181a4bb57f3b95e59b8e5bf3
+commit: 28eceeda130f5058074dd007d9c59d2e8bc5af2e fs: Lock moved directories
+config: x86_64-randconfig-m001-20230702 (https://download.01.org/0day-ci/archive/20230703/202307030026.9sE2pk2x-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230703/202307032042.BP7tt0U6-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230703/202307030026.9sE2pk2x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307032042.BP7tt0U6-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202307030026.9sE2pk2x-lkp@intel.com/
 
 New smatch warnings:
-drivers/scsi/storvsc_drv.c:1857 storvsc_queuecommand() warn: possible memory leak of 'payload'
+fs/namei.c:4875 vfs_rename() warn: variable dereferenced before check 'source' (see line 4830)
 
-Old smatch warnings:
-drivers/scsi/storvsc_drv.c:827 storvsc_execute_vstor_op() warn: missing error code? 'ret'
+vim +/source +4875 fs/namei.c
 
-vim +/payload +1857 drivers/scsi/storvsc_drv.c
+9fe61450972d39 Christian Brauner     2021-01-21  4752  int vfs_rename(struct renamedata *rd)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4753  {
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4754  	int error;
+9fe61450972d39 Christian Brauner     2021-01-21  4755  	struct inode *old_dir = rd->old_dir, *new_dir = rd->new_dir;
+9fe61450972d39 Christian Brauner     2021-01-21  4756  	struct dentry *old_dentry = rd->old_dentry;
+9fe61450972d39 Christian Brauner     2021-01-21  4757  	struct dentry *new_dentry = rd->new_dentry;
+9fe61450972d39 Christian Brauner     2021-01-21  4758  	struct inode **delegated_inode = rd->delegated_inode;
+9fe61450972d39 Christian Brauner     2021-01-21  4759  	unsigned int flags = rd->flags;
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4760  	bool is_dir = d_is_dir(old_dentry);
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4761  	struct inode *source = old_dentry->d_inode;
+9055cba711891a Sage Weil             2011-05-24  4762  	struct inode *target = new_dentry->d_inode;
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4763  	bool new_is_dir = false;
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4764  	unsigned max_links = new_dir->i_sb->s_max_links;
+49d31c2f389acf Al Viro               2017-07-07  4765  	struct name_snapshot old_name;
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4766  
+8d3e2936375bac Miklos Szeredi        2016-12-16  4767  	if (source == target)
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4768  		return 0;
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4769  
+4609e1f18e19c3 Christian Brauner     2023-01-13  4770  	error = may_delete(rd->old_mnt_idmap, old_dir, old_dentry, is_dir);
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4771  	if (error)
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4772  		return error;
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4773  
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4774  	if (!target) {
+4609e1f18e19c3 Christian Brauner     2023-01-13  4775  		error = may_create(rd->new_mnt_idmap, new_dir, new_dentry);
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4776  	} else {
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4777  		new_is_dir = d_is_dir(new_dentry);
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4778  
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4779  		if (!(flags & RENAME_EXCHANGE))
+4609e1f18e19c3 Christian Brauner     2023-01-13  4780  			error = may_delete(rd->new_mnt_idmap, new_dir,
+6521f891708292 Christian Brauner     2021-01-21  4781  					   new_dentry, is_dir);
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4782  		else
+4609e1f18e19c3 Christian Brauner     2023-01-13  4783  			error = may_delete(rd->new_mnt_idmap, new_dir,
+6521f891708292 Christian Brauner     2021-01-21  4784  					   new_dentry, new_is_dir);
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4785  	}
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4786  	if (error)
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4787  		return error;
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4788  
+2773bf00aeb9bf Miklos Szeredi        2016-09-27  4789  	if (!old_dir->i_op->rename)
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4790  		return -EPERM;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4791  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4792  	/*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4793  	 * If we are going to change the parent - check write permissions,
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4794  	 * we'll need to flip '..'.
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4795  	 */
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4796  	if (new_dir != old_dir) {
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4797  		if (is_dir) {
+4609e1f18e19c3 Christian Brauner     2023-01-13  4798  			error = inode_permission(rd->old_mnt_idmap, source,
+47291baa8ddfda Christian Brauner     2021-01-21  4799  						 MAY_WRITE);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4800  			if (error)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4801  				return error;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4802  		}
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4803  		if ((flags & RENAME_EXCHANGE) && new_is_dir) {
+4609e1f18e19c3 Christian Brauner     2023-01-13  4804  			error = inode_permission(rd->new_mnt_idmap, target,
+47291baa8ddfda Christian Brauner     2021-01-21  4805  						 MAY_WRITE);
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4806  			if (error)
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4807  				return error;
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4808  		}
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4809  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4810  
+0b3974eb04c487 Miklos Szeredi        2014-04-01  4811  	error = security_inode_rename(old_dir, old_dentry, new_dir, new_dentry,
+0b3974eb04c487 Miklos Szeredi        2014-04-01  4812  				      flags);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4813  	if (error)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4814  		return error;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4815  
+49d31c2f389acf Al Viro               2017-07-07  4816  	take_dentry_name_snapshot(&old_name, old_dentry);
+1d2ef590148300 Al Viro               2011-09-14  4817  	dget(new_dentry);
+28eceeda130f50 Jan Kara              2023-06-01  4818  	/*
+28eceeda130f50 Jan Kara              2023-06-01  4819  	 * Lock all moved children. Moved directories may need to change parent
+28eceeda130f50 Jan Kara              2023-06-01  4820  	 * pointer so they need the lock to prevent against concurrent
+28eceeda130f50 Jan Kara              2023-06-01  4821  	 * directory changes moving parent pointer. For regular files we've
+28eceeda130f50 Jan Kara              2023-06-01  4822  	 * historically always done this. The lockdep locking subclasses are
+28eceeda130f50 Jan Kara              2023-06-01  4823  	 * somewhat arbitrary but RENAME_EXCHANGE in particular can swap
+28eceeda130f50 Jan Kara              2023-06-01  4824  	 * regular files and directories so it's difficult to tell which
+28eceeda130f50 Jan Kara              2023-06-01  4825  	 * subclasses to use.
+28eceeda130f50 Jan Kara              2023-06-01  4826  	 */
+28eceeda130f50 Jan Kara              2023-06-01  4827  	lock_two_inodes(source, target, I_MUTEX_NORMAL, I_MUTEX_NONDIR2);
+9055cba711891a Sage Weil             2011-05-24  4828  
+51cc3a6620a6ca Hugh Dickins          2021-09-02  4829  	error = -EPERM;
+51cc3a6620a6ca Hugh Dickins          2021-09-02 @4830  	if (IS_SWAPFILE(source) || (target && IS_SWAPFILE(target)))
+                                                                        ^^^^^^
+Dereferenced.
 
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1700  
-bab445e12b4515 drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-11-08  1701  static int storvsc_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *scmnd)
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1702  {
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1703  	int ret;
-bab445e12b4515 drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-11-08  1704  	struct hv_host_device *host_dev = shost_priv(host);
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1705  	struct hv_device *dev = host_dev->dev;
-ead3700d893654 drivers/scsi/storvsc_drv.c       Christoph Hellwig 2014-12-29  1706  	struct storvsc_cmd_request *cmd_request = scsi_cmd_priv(scmnd);
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1707  	struct scatterlist *sgl;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1708  	struct vmscsi_request *vm_srb;
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1709  	struct vmbus_packet_mpb_array  *payload;
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1710  	u32 payload_sz;
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1711  	u32 length;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1712  
-2492fd7a60270b drivers/scsi/storvsc_drv.c       Keith Mange       2015-08-13  1713  	if (vmstor_proto_version <= VMSTOR_PROTO_VERSION_WIN8) {
-8caf92d80526f3 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1714  		/*
-8caf92d80526f3 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1715  		 * On legacy hosts filter unimplemented commands.
-8caf92d80526f3 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1716  		 * Future hosts are expected to correctly handle
-8caf92d80526f3 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1717  		 * unsupported commands. Furthermore, it is
-8caf92d80526f3 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1718  		 * possible that some of the currently
-8caf92d80526f3 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1719  		 * unsupported commands maybe supported in
-8caf92d80526f3 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1720  		 * future versions of the host.
-8caf92d80526f3 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1721  		 */
-c77b63b639f52b drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2012-01-12  1722  		if (!storvsc_scsi_cmd_ok(scmnd)) {
-0c31fa0e66195b drivers/scsi/storvsc_drv.c       Bart Van Assche   2021-10-07  1723  			scsi_done(scmnd);
-92ae4ebdaa6d6d drivers/staging/hv/storvsc_drv.c Olaf Hering       2011-10-10  1724  			return 0;
-92ae4ebdaa6d6d drivers/staging/hv/storvsc_drv.c Olaf Hering       2011-10-10  1725  		}
-8caf92d80526f3 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1726  	}
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1727  
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1728  	/* Setup the cmd request */
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1729  	cmd_request->cmd = scmnd;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1730  
-0a76566595bfb2 drivers/scsi/storvsc_drv.c       Andres Beltran    2020-07-06  1731  	memset(&cmd_request->vstor_packet, 0, sizeof(struct vstor_packet));
-61eaffc91d375e drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2012-01-12  1732  	vm_srb = &cmd_request->vstor_packet.vm_srb;
-86c8fb4d228ed8 drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1733  	vm_srb->time_out_value = 60;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1734  
-86c8fb4d228ed8 drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1735  	vm_srb->srb_flags |=
-8cf308e1225f5f drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-08-31  1736  		SRB_FLAGS_DISABLE_SYNCH_TRANSFER;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1737  
-3cd6d3d9b1abab drivers/scsi/storvsc_drv.c       Long Li           2016-12-14  1738  	if (scmnd->device->tagged_supported) {
-86c8fb4d228ed8 drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1739  		vm_srb->srb_flags |=
-3cd6d3d9b1abab drivers/scsi/storvsc_drv.c       Long Li           2016-12-14  1740  		(SRB_FLAGS_QUEUE_ACTION_ENABLE | SRB_FLAGS_NO_QUEUE_FREEZE);
-86c8fb4d228ed8 drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1741  		vm_srb->queue_tag = SP_UNTAGGED;
-86c8fb4d228ed8 drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1742  		vm_srb->queue_action = SRB_SIMPLE_TAG_REQUEST;
-3cd6d3d9b1abab drivers/scsi/storvsc_drv.c       Long Li           2016-12-14  1743  	}
-3cd6d3d9b1abab drivers/scsi/storvsc_drv.c       Long Li           2016-12-14  1744  
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1745  	/* Build the SRB */
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1746  	switch (scmnd->sc_data_direction) {
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1747  	case DMA_TO_DEVICE:
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1748  		vm_srb->data_in = WRITE_TYPE;
-86c8fb4d228ed8 drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1749  		vm_srb->srb_flags |= SRB_FLAGS_DATA_OUT;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1750  		break;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1751  	case DMA_FROM_DEVICE:
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1752  		vm_srb->data_in = READ_TYPE;
-86c8fb4d228ed8 drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1753  		vm_srb->srb_flags |= SRB_FLAGS_DATA_IN;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1754  		break;
-cb1cf0804fe582 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1755  	case DMA_NONE:
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1756  		vm_srb->data_in = UNKNOWN_TYPE;
-86c8fb4d228ed8 drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1757  		vm_srb->srb_flags |= SRB_FLAGS_NO_DATA_TRANSFER;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1758  		break;
-cb1cf0804fe582 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1759  	default:
-cb1cf0804fe582 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1760  		/*
-cb1cf0804fe582 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1761  		 * This is DMA_BIDIRECTIONAL or something else we are never
-cb1cf0804fe582 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1762  		 * supposed to see here.
-cb1cf0804fe582 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1763  		 */
-cb1cf0804fe582 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1764  		WARN(1, "Unexpected data direction: %d\n",
-cb1cf0804fe582 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1765  		     scmnd->sc_data_direction);
-cb1cf0804fe582 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1766  		return -EINVAL;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1767  	}
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1768  
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1769  
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1770  	vm_srb->port_number = host_dev->port;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1771  	vm_srb->path_id = scmnd->device->channel;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1772  	vm_srb->target_id = scmnd->device->id;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1773  	vm_srb->lun = scmnd->device->lun;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1774  
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1775  	vm_srb->cdb_length = scmnd->cmd_len;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1776  
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1777  	memcpy(vm_srb->cdb, scmnd->cmnd, vm_srb->cdb_length);
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1778  
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1779  	sgl = (struct scatterlist *)scsi_sglist(scmnd);
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1780  
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1781  	length = scsi_bufflen(scmnd);
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1782  	payload = (struct vmbus_packet_mpb_array *)&cmd_request->mpb;
-4e81a6cba517cb drivers/scsi/storvsc_drv.c       Michael Kelley    2023-05-15  1783  	payload_sz = 0;
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1784  
-0bd2fbee9d0b7f drivers/scsi/storvsc_drv.c       YueHaibing        2021-12-27  1785  	if (scsi_sg_count(scmnd)) {
-3d9c3dcc58e968 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1786  		unsigned long offset_in_hvpg = offset_in_hvpage(sgl->offset);
-8f43710543ef30 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1787  		unsigned int hvpg_count = HVPFN_UP(offset_in_hvpg + length);
-743b237c3a7b0f drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1788  		struct scatterlist *sg;
-743b237c3a7b0f drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1789  		unsigned long hvpfn, hvpfns_to_add;
-0bd2fbee9d0b7f drivers/scsi/storvsc_drv.c       YueHaibing        2021-12-27  1790  		int j, i = 0, sg_count;
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1791  
-8f43710543ef30 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1792  		payload_sz = (hvpg_count * sizeof(u64) +
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1793  			      sizeof(struct vmbus_packet_mpb_array));
-4e81a6cba517cb drivers/scsi/storvsc_drv.c       Michael Kelley    2023-05-15  1794  
-4e81a6cba517cb drivers/scsi/storvsc_drv.c       Michael Kelley    2023-05-15  1795  		if (hvpg_count > MAX_PAGE_BUFFER_COUNT) {
-b0120d99062535 drivers/scsi/storvsc_drv.c       Cathy Avery       2016-11-23  1796  			payload = kzalloc(payload_sz, GFP_ATOMIC);
-81988a0e6b031b drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-10-01  1797  			if (!payload)
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1798  				return SCSI_MLQUEUE_DEVICE_BUSY;
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1799  		}
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1800  
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1801  		payload->range.len = length;
-8f43710543ef30 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1802  		payload->range.offset = offset_in_hvpg;
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1803  
-743b237c3a7b0f drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1804  		sg_count = scsi_dma_map(scmnd);
-4eea5332d67d8a drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1805  		if (sg_count < 0) {
-4eea5332d67d8a drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1806  			ret = SCSI_MLQUEUE_DEVICE_BUSY;
-4eea5332d67d8a drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1807  			goto err_free_payload;
-4eea5332d67d8a drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1808  		}
-3d9c3dcc58e968 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1809  
-743b237c3a7b0f drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1810  		for_each_sg(sgl, sg, sg_count, j) {
-8f43710543ef30 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1811  			/*
-743b237c3a7b0f drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1812  			 * Init values for the current sgl entry. hvpfns_to_add
-743b237c3a7b0f drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1813  			 * is in units of Hyper-V size pages. Handling the
-743b237c3a7b0f drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1814  			 * PAGE_SIZE != HV_HYP_PAGE_SIZE case also handles
-743b237c3a7b0f drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1815  			 * values of sgl->offset that are larger than PAGE_SIZE.
-743b237c3a7b0f drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1816  			 * Such offsets are handled even on other than the first
-743b237c3a7b0f drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1817  			 * sgl entry, provided they are a multiple of PAGE_SIZE.
-8f43710543ef30 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1818  			 */
-743b237c3a7b0f drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1819  			hvpfn = HVPFN_DOWN(sg_dma_address(sg));
-743b237c3a7b0f drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1820  			hvpfns_to_add = HVPFN_UP(sg_dma_address(sg) +
-743b237c3a7b0f drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1821  						 sg_dma_len(sg)) - hvpfn;
-8f43710543ef30 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1822  
-8f43710543ef30 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1823  			/*
-3d9c3dcc58e968 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1824  			 * Fill the next portion of the PFN array with
-3d9c3dcc58e968 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1825  			 * sequential Hyper-V PFNs for the continguous physical
-3d9c3dcc58e968 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1826  			 * memory described by the sgl entry. The end of the
-3d9c3dcc58e968 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1827  			 * last sgl should be reached at the same time that
-3d9c3dcc58e968 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1828  			 * the PFN array is filled.
-8f43710543ef30 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1829  			 */
-3d9c3dcc58e968 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1830  			while (hvpfns_to_add--)
-3d9c3dcc58e968 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1831  				payload->range.pfn_array[i++] = hvpfn++;
-8f43710543ef30 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1832  		}
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1833  	}
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1834  
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1835  	cmd_request->payload = payload;
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1836  	cmd_request->payload_sz = payload_sz;
-be0cf6ca301c61 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1837  
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1838  	/* Invokes the vsc to start an IO */
-d86adf482b843b drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2016-12-14  1839  	ret = storvsc_do_io(dev, cmd_request, get_cpu());
-d86adf482b843b drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2016-12-14  1840  	put_cpu();
-636f0fd14ca29b drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1841  
-67ff3d0a49f3d4 drivers/scsi/storvsc_drv.c       Michael Kelley    2022-12-04  1842  	if (ret)
-67ff3d0a49f3d4 drivers/scsi/storvsc_drv.c       Michael Kelley    2022-12-04  1843  		scsi_dma_unmap(scmnd);
-67ff3d0a49f3d4 drivers/scsi/storvsc_drv.c       Michael Kelley    2022-12-04  1844  
-d2598f017f02bb drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-08-25  1845  	if (ret == -EAGAIN) {
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1846  		/* no more space */
-4eea5332d67d8a drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1847  		ret = SCSI_MLQUEUE_DEVICE_BUSY;
-4eea5332d67d8a drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1848  		goto err_free_payload;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1849  	}
-c77b63b639f52b drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2012-01-12  1850  
-c77b63b639f52b drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2012-01-12  1851  	return 0;
-4eea5332d67d8a drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1852  
-4eea5332d67d8a drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1853  err_free_payload:
-4eea5332d67d8a drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1854  	if (payload_sz > sizeof(cmd_request->mpb))
-4eea5332d67d8a drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1855  		kfree(payload);
-4eea5332d67d8a drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1856  
-4eea5332d67d8a drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08 @1857  	return ret;
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1858  }
-c5b463ae24244a drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1859  
+51cc3a6620a6ca Hugh Dickins          2021-09-02  4831  		goto out;
+                                                                ^^^^^^^^
+51cc3a6620a6ca Hugh Dickins          2021-09-02  4832  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4833  	error = -EBUSY;
+7af1364ffa64db Eric W. Biederman     2013-10-04  4834  	if (is_local_mountpoint(old_dentry) || is_local_mountpoint(new_dentry))
+9055cba711891a Sage Weil             2011-05-24  4835  		goto out;
+9055cba711891a Sage Weil             2011-05-24  4836  
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4837  	if (max_links && new_dir != old_dir) {
+8de52778798fe3 Al Viro               2012-02-06  4838  		error = -EMLINK;
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4839  		if (is_dir && !new_is_dir && new_dir->i_nlink >= max_links)
+8de52778798fe3 Al Viro               2012-02-06  4840  			goto out;
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4841  		if ((flags & RENAME_EXCHANGE) && !is_dir && new_is_dir &&
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4842  		    old_dir->i_nlink >= max_links)
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4843  			goto out;
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4844  	}
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4845  	if (!is_dir) {
+8e6d782cab5088 J. Bruce Fields       2011-09-20  4846  		error = try_break_deleg(source, delegated_inode);
+8e6d782cab5088 J. Bruce Fields       2011-09-20  4847  		if (error)
+8e6d782cab5088 J. Bruce Fields       2011-09-20  4848  			goto out;
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4849  	}
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4850  	if (target && !new_is_dir) {
+8e6d782cab5088 J. Bruce Fields       2011-09-20  4851  		error = try_break_deleg(target, delegated_inode);
+8e6d782cab5088 J. Bruce Fields       2011-09-20  4852  		if (error)
+8e6d782cab5088 J. Bruce Fields       2011-09-20  4853  			goto out;
+8e6d782cab5088 J. Bruce Fields       2011-09-20  4854  	}
+e18275ae55e07a Christian Brauner     2023-01-13  4855  	error = old_dir->i_op->rename(rd->new_mnt_idmap, old_dir, old_dentry,
+520c8b16505236 Miklos Szeredi        2014-04-01  4856  				      new_dir, new_dentry, flags);
+51892bbb57e878 Sage Weil             2011-05-24  4857  	if (error)
+51892bbb57e878 Sage Weil             2011-05-24  4858  		goto out;
+51892bbb57e878 Sage Weil             2011-05-24  4859  
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4860  	if (!(flags & RENAME_EXCHANGE) && target) {
+8767712f26d18a Al Viro               2018-05-27  4861  		if (is_dir) {
+8767712f26d18a Al Viro               2018-05-27  4862  			shrink_dcache_parent(new_dentry);
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4863  			target->i_flags |= S_DEAD;
+8767712f26d18a Al Viro               2018-05-27  4864  		}
+d83c49f3e36cec Al Viro               2010-04-30  4865  		dont_mount(new_dentry);
+8ed936b5671bfb Eric W. Biederman     2013-10-01  4866  		detach_mounts(new_dentry);
+bc27027a73e8b8 Miklos Szeredi        2014-04-01  4867  	}
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4868  	if (!(old_dir->i_sb->s_type->fs_flags & FS_RENAME_DOES_D_MOVE)) {
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4869  		if (!(flags & RENAME_EXCHANGE))
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4870  			d_move(old_dentry, new_dentry);
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4871  		else
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4872  			d_exchange(old_dentry, new_dentry);
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4873  	}
+51892bbb57e878 Sage Weil             2011-05-24  4874  out:
+28eceeda130f50 Jan Kara              2023-06-01 @4875  	if (source)
+                                                            ^^^^^^
+This check could be removed.
 
-:::::: The code at line 1857 was first introduced by commit
-:::::: 4eea5332d67d8ae6ba5717ec0f4e671fdbd222e7 scsi: storvsc: Fix storvsc_queuecommand() memory leak
-
-:::::: TO: Juan Vazquez <juvazq@linux.microsoft.com>
-:::::: CC: Wei Liu <wei.liu@kernel.org>
+28eceeda130f50 Jan Kara              2023-06-01  4876  		inode_unlock(source);
+28eceeda130f50 Jan Kara              2023-06-01  4877  	if (target)
+5955102c9984fa Al Viro               2016-01-22  4878  		inode_unlock(target);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4879  	dput(new_dentry);
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4880  	if (!error) {
+f4ec3a3d43bcdc Al Viro               2019-04-26  4881  		fsnotify_move(old_dir, new_dir, &old_name.name, is_dir,
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4882  			      !(flags & RENAME_EXCHANGE) ? target : NULL, old_dentry);
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4883  		if (flags & RENAME_EXCHANGE) {
+f4ec3a3d43bcdc Al Viro               2019-04-26  4884  			fsnotify_move(new_dir, old_dir, &old_dentry->d_name,
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4885  				      new_is_dir, NULL, new_dentry);
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4886  		}
+da1ce0670c14d8 Miklos Szeredi        2014-04-01  4887  	}
+49d31c2f389acf Al Viro               2017-07-07  4888  	release_dentry_name_snapshot(&old_name);
+0eeca28300df11 Robert Love           2005-07-12  4889  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4890  	return error;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4891  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
