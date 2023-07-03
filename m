@@ -1,50 +1,49 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBB7E565
-	for <oe-kbuild@lists.linux.dev>; Mon,  3 Jul 2023 12:16:44 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-313e742a787so3705781f8f.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 03 Jul 2023 05:16:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB4BEACF
+	for <oe-kbuild@lists.linux.dev>; Mon,  3 Jul 2023 13:00:17 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3fbd33a57ddso17731025e9.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 03 Jul 2023 06:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688386602; x=1690978602;
+        d=linaro.org; s=google; t=1688389214; x=1690981214;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=peUQweafKnLLxk0k/IKIpDRdcCw7xS/vyg8SgVQE+Po=;
-        b=X23RBu4X8GXN5BYhCg+I+s2DZ7vEZFnY2FKP6CoZvHC6uNCxiPk+hZdjIwxtKfDRDL
-         lYZwX8VrB0BYfI7pNEb1j0uEcaTqIvJnXc1iNiLYp2SNz7kX3c4sKc8VnSY58PqVR5gK
-         +1bUqrwn7rEVZGv1C5O1AwVHF8tO93oX3XQmDfK017lyW8mlluTD7nBJ05Q3740PI6lw
-         +OvtKuJBNjylbvpCG80N7j4XUZbLg9neOisBJfFmw4jRWXFBKqFT6b54Gq/nx9CZSUec
-         S2uVhU2WBwNQqhWcS8OEtsm/34mu3vF+EOgsYE2Axg2dbFkhv7EH5ERgQO5gaDt0Ym4N
-         a06A==
+        bh=M3dY32YJdb0J4v2AuSDueYcxVXmppCxt2qe2TyAIO3o=;
+        b=MQZ8h8b6MjG0SyuJltC9tce3fzjsrYF/2AMHoieVP29eU51GfZwk/rmJLhIn0kvPN+
+         QSSZ6BPCl04Xd5YBx9+RXSsDm2NX7lzZMHq8DsrfbxkYTVLBnTwhEGcmaELuFsBDUkAz
+         pqQdhPnePu+2ld+fhFbASxDSLh6fNRttzSC4dVII/2xnI0UxSOcef1+SoKBASDfrBsSL
+         reIFn0mT0tGVxVmuzMPFstrE+TF+Wi6ub6SqBwnhq9xbfZ9GFDA/8/syWgL1onZVGi6u
+         4fC+nUl80JtSiwO1Nq3cqE2RyN6oTqiC44Qp7Tib35kDDKKB4BREhQY2AJhBWcH/LlH1
+         e+3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688386602; x=1690978602;
+        d=1e100.net; s=20221208; t=1688389214; x=1690981214;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=peUQweafKnLLxk0k/IKIpDRdcCw7xS/vyg8SgVQE+Po=;
-        b=W57MhSh5ji61TER3eP0upG5zIAXe0juq/4hbHw8FyoYjYqdatapdbd+gRo65mUIsbg
-         RV3FJ2ffxfHMJvIT9irm9b+qhQQgiFiE2Wyj0DjUAVb69ZPsWj+qMhdDV2YuNrLhVyRx
-         h37ZDCHtsFo9e7sfIZeBPR0uJfF4+3HRGhejCqqi7LNTLQgb7Fi4OeMsSAg1UIYPkOp8
-         xCSYAt5NjqTW6Q6TS+mtv17IN1MZ3P5lUZsZ0tFiU/vsq6Lrv6ufeWGdfYCDLL/KUGwH
-         TiV1604fEImrdRz4rvyl3fZRC2DrOSPLRzfrsEdyTJhGjkeYcSimojmDUy+TqDXP2h3S
-         p/RA==
-X-Gm-Message-State: AC+VfDxtKEmYTGuladfk8pnvQosk/6/NZqQop7+Avivg9bruB2B9cvWJ
-	HXeFXx+uLKc1nu7rf5Knf5Z/sXUFekeTP56S4rA=
-X-Google-Smtp-Source: ACHHUZ7ZllFgiOaFcNA/5xTz3q4S6dDj6xdNTTZzk03ivO/3c4pVjeqa8Hzn3vR5YkbOio8MKVT42A==
-X-Received: by 2002:a5d:628c:0:b0:311:b18:9ca4 with SMTP id k12-20020a5d628c000000b003110b189ca4mr13570903wru.17.1688386601836;
-        Mon, 03 Jul 2023 05:16:41 -0700 (PDT)
+        bh=M3dY32YJdb0J4v2AuSDueYcxVXmppCxt2qe2TyAIO3o=;
+        b=bX0YymjAkd4h1IbDaEb72mZTSbXenRt9wRLShB8Nm2n+m3VYViIkJNpa6rh+gMW4Nw
+         e/jGIwW/D2KvQWbRyOrcoUNxiasFE9vFBmICMXxnyj/fIPsqszGaSipzQFC6y1w5lTGM
+         9YbRs9D81Rt4ISZfb+p+ntisIgYNRVbVglUNvw60QcR5I40dZaKCoRbKwtbMYvGt/RpX
+         btiap68+GrB2sJI+bLP/bpbz0VAECoDvCuhTp4pRtIVgSisIW4/VFHd0ENph7Hsit4rp
+         ph0vZbsybzbjAy27Y16oxB3jYHc/S3Rhx6RwiqdiFVwteChhKMEC+6B6NvN7XYTzKkoV
+         0bFg==
+X-Gm-Message-State: AC+VfDx1Q004ZS///LuiqMv3sHU6jX8gJc2Tef8q4kbwswRV8ocyapCn
+	bGv0eWKcu5Ru0y/PtVP46E2KKwD8cHUEe2ods1A=
+X-Google-Smtp-Source: ACHHUZ5MucnkBiYH+4dn5QH+ikSD6oOLJ3aNIEMsnuFc5fLEPobSu2rYMasE/30Qs0HcY1/DwwJQZA==
+X-Received: by 2002:a7b:cb9a:0:b0:3fa:9590:a365 with SMTP id m26-20020a7bcb9a000000b003fa9590a365mr7393073wmi.17.1688389214454;
+        Mon, 03 Jul 2023 06:00:14 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id t25-20020a7bc3d9000000b003fbb8c7c799sm12048317wmj.30.2023.07.03.05.16.38
+        by smtp.gmail.com with ESMTPSA id h9-20020a05600c314900b003fa9a00d74csm8594808wmo.3.2023.07.03.06.00.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jul 2023 05:16:39 -0700 (PDT)
-Date: Mon, 3 Jul 2023 15:16:36 +0300
+        Mon, 03 Jul 2023 06:00:11 -0700 (PDT)
+Date: Mon, 3 Jul 2023 16:00:01 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jan Kara <jack@suse.cz>
+To: oe-kbuild@lists.linux.dev, Takashi Sakamoto <o-takashi@sakamocchi.jp>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>
-Subject: fs/namei.c:4875 vfs_rename() warn: variable dereferenced before
- check 'source' (see line 4830)
-Message-ID: <a8200507-8e52-422d-85ad-22be78930099@kadam.mountain>
+	linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
+Subject: sound/firewire/amdtp-stream.c:1099 process_rx_packets() error:
+ uninitialized symbol 'curr_cycle_time'.
+Message-ID: <bacd122c-175c-4fe8-bc6a-66de5820eed0@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -55,170 +54,110 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   995b406c7e972fab181a4bb57f3b95e59b8e5bf3
-commit: 28eceeda130f5058074dd007d9c59d2e8bc5af2e fs: Lock moved directories
-config: x86_64-randconfig-m001-20230702 (https://download.01.org/0day-ci/archive/20230703/202307030026.9sE2pk2x-lkp@intel.com/config)
+head:   b25f62ccb490680a8cee755ac4528909395e0711
+commit: fef4e61b0b765b6d22badcd5b6575b159e7d510a ALSA: firewire-lib: extend tracepoints event including CYCLE_TIME of 1394 OHCI
+config: i386-randconfig-m021-20230701 (https://download.01.org/0day-ci/archive/20230701/202307011324.jFJ96dTo-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230703/202307030026.9sE2pk2x-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230701/202307011324.jFJ96dTo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307030026.9sE2pk2x-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307011324.jFJ96dTo-lkp@intel.com/
 
 New smatch warnings:
-fs/namei.c:4875 vfs_rename() warn: variable dereferenced before check 'source' (see line 4830)
+sound/firewire/amdtp-stream.c:1099 process_rx_packets() error: uninitialized symbol 'curr_cycle_time'.
 
-vim +/source +4875 fs/namei.c
+Old smatch warnings:
+sound/firewire/amdtp-stream.c:944 generate_tx_packet_descs() error: uninitialized symbol 'curr_cycle_time'.
 
-9fe61450972d39 Christian Brauner     2021-01-21  4752  int vfs_rename(struct renamedata *rd)
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4753  {
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4754  	int error;
-9fe61450972d39 Christian Brauner     2021-01-21  4755  	struct inode *old_dir = rd->old_dir, *new_dir = rd->new_dir;
-9fe61450972d39 Christian Brauner     2021-01-21  4756  	struct dentry *old_dentry = rd->old_dentry;
-9fe61450972d39 Christian Brauner     2021-01-21  4757  	struct dentry *new_dentry = rd->new_dentry;
-9fe61450972d39 Christian Brauner     2021-01-21  4758  	struct inode **delegated_inode = rd->delegated_inode;
-9fe61450972d39 Christian Brauner     2021-01-21  4759  	unsigned int flags = rd->flags;
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4760  	bool is_dir = d_is_dir(old_dentry);
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4761  	struct inode *source = old_dentry->d_inode;
-9055cba711891a Sage Weil             2011-05-24  4762  	struct inode *target = new_dentry->d_inode;
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4763  	bool new_is_dir = false;
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4764  	unsigned max_links = new_dir->i_sb->s_max_links;
-49d31c2f389acf Al Viro               2017-07-07  4765  	struct name_snapshot old_name;
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4766  
-8d3e2936375bac Miklos Szeredi        2016-12-16  4767  	if (source == target)
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4768  		return 0;
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4769  
-4609e1f18e19c3 Christian Brauner     2023-01-13  4770  	error = may_delete(rd->old_mnt_idmap, old_dir, old_dentry, is_dir);
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4771  	if (error)
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4772  		return error;
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4773  
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4774  	if (!target) {
-4609e1f18e19c3 Christian Brauner     2023-01-13  4775  		error = may_create(rd->new_mnt_idmap, new_dir, new_dentry);
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4776  	} else {
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4777  		new_is_dir = d_is_dir(new_dentry);
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4778  
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4779  		if (!(flags & RENAME_EXCHANGE))
-4609e1f18e19c3 Christian Brauner     2023-01-13  4780  			error = may_delete(rd->new_mnt_idmap, new_dir,
-6521f891708292 Christian Brauner     2021-01-21  4781  					   new_dentry, is_dir);
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4782  		else
-4609e1f18e19c3 Christian Brauner     2023-01-13  4783  			error = may_delete(rd->new_mnt_idmap, new_dir,
-6521f891708292 Christian Brauner     2021-01-21  4784  					   new_dentry, new_is_dir);
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4785  	}
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4786  	if (error)
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4787  		return error;
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4788  
-2773bf00aeb9bf Miklos Szeredi        2016-09-27  4789  	if (!old_dir->i_op->rename)
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4790  		return -EPERM;
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4791  
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4792  	/*
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4793  	 * If we are going to change the parent - check write permissions,
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4794  	 * we'll need to flip '..'.
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4795  	 */
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4796  	if (new_dir != old_dir) {
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4797  		if (is_dir) {
-4609e1f18e19c3 Christian Brauner     2023-01-13  4798  			error = inode_permission(rd->old_mnt_idmap, source,
-47291baa8ddfda Christian Brauner     2021-01-21  4799  						 MAY_WRITE);
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4800  			if (error)
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4801  				return error;
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4802  		}
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4803  		if ((flags & RENAME_EXCHANGE) && new_is_dir) {
-4609e1f18e19c3 Christian Brauner     2023-01-13  4804  			error = inode_permission(rd->new_mnt_idmap, target,
-47291baa8ddfda Christian Brauner     2021-01-21  4805  						 MAY_WRITE);
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4806  			if (error)
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4807  				return error;
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4808  		}
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4809  	}
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4810  
-0b3974eb04c487 Miklos Szeredi        2014-04-01  4811  	error = security_inode_rename(old_dir, old_dentry, new_dir, new_dentry,
-0b3974eb04c487 Miklos Szeredi        2014-04-01  4812  				      flags);
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4813  	if (error)
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4814  		return error;
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4815  
-49d31c2f389acf Al Viro               2017-07-07  4816  	take_dentry_name_snapshot(&old_name, old_dentry);
-1d2ef590148300 Al Viro               2011-09-14  4817  	dget(new_dentry);
-28eceeda130f50 Jan Kara              2023-06-01  4818  	/*
-28eceeda130f50 Jan Kara              2023-06-01  4819  	 * Lock all moved children. Moved directories may need to change parent
-28eceeda130f50 Jan Kara              2023-06-01  4820  	 * pointer so they need the lock to prevent against concurrent
-28eceeda130f50 Jan Kara              2023-06-01  4821  	 * directory changes moving parent pointer. For regular files we've
-28eceeda130f50 Jan Kara              2023-06-01  4822  	 * historically always done this. The lockdep locking subclasses are
-28eceeda130f50 Jan Kara              2023-06-01  4823  	 * somewhat arbitrary but RENAME_EXCHANGE in particular can swap
-28eceeda130f50 Jan Kara              2023-06-01  4824  	 * regular files and directories so it's difficult to tell which
-28eceeda130f50 Jan Kara              2023-06-01  4825  	 * subclasses to use.
-28eceeda130f50 Jan Kara              2023-06-01  4826  	 */
-28eceeda130f50 Jan Kara              2023-06-01  4827  	lock_two_inodes(source, target, I_MUTEX_NORMAL, I_MUTEX_NONDIR2);
-9055cba711891a Sage Weil             2011-05-24  4828  
-51cc3a6620a6ca Hugh Dickins          2021-09-02  4829  	error = -EPERM;
-51cc3a6620a6ca Hugh Dickins          2021-09-02 @4830  	if (IS_SWAPFILE(source) || (target && IS_SWAPFILE(target)))
-                                                                        ^^^^^^
-Dereferenced.
+vim +/curr_cycle_time +1099 sound/firewire/amdtp-stream.c
 
-51cc3a6620a6ca Hugh Dickins          2021-09-02  4831  		goto out;
-                                                                ^^^^^^^^
-51cc3a6620a6ca Hugh Dickins          2021-09-02  4832  
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4833  	error = -EBUSY;
-7af1364ffa64db Eric W. Biederman     2013-10-04  4834  	if (is_local_mountpoint(old_dentry) || is_local_mountpoint(new_dentry))
-9055cba711891a Sage Weil             2011-05-24  4835  		goto out;
-9055cba711891a Sage Weil             2011-05-24  4836  
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4837  	if (max_links && new_dir != old_dir) {
-8de52778798fe3 Al Viro               2012-02-06  4838  		error = -EMLINK;
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4839  		if (is_dir && !new_is_dir && new_dir->i_nlink >= max_links)
-8de52778798fe3 Al Viro               2012-02-06  4840  			goto out;
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4841  		if ((flags & RENAME_EXCHANGE) && !is_dir && new_is_dir &&
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4842  		    old_dir->i_nlink >= max_links)
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4843  			goto out;
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4844  	}
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4845  	if (!is_dir) {
-8e6d782cab5088 J. Bruce Fields       2011-09-20  4846  		error = try_break_deleg(source, delegated_inode);
-8e6d782cab5088 J. Bruce Fields       2011-09-20  4847  		if (error)
-8e6d782cab5088 J. Bruce Fields       2011-09-20  4848  			goto out;
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4849  	}
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4850  	if (target && !new_is_dir) {
-8e6d782cab5088 J. Bruce Fields       2011-09-20  4851  		error = try_break_deleg(target, delegated_inode);
-8e6d782cab5088 J. Bruce Fields       2011-09-20  4852  		if (error)
-8e6d782cab5088 J. Bruce Fields       2011-09-20  4853  			goto out;
-8e6d782cab5088 J. Bruce Fields       2011-09-20  4854  	}
-e18275ae55e07a Christian Brauner     2023-01-13  4855  	error = old_dir->i_op->rename(rd->new_mnt_idmap, old_dir, old_dentry,
-520c8b16505236 Miklos Szeredi        2014-04-01  4856  				      new_dir, new_dentry, flags);
-51892bbb57e878 Sage Weil             2011-05-24  4857  	if (error)
-51892bbb57e878 Sage Weil             2011-05-24  4858  		goto out;
-51892bbb57e878 Sage Weil             2011-05-24  4859  
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4860  	if (!(flags & RENAME_EXCHANGE) && target) {
-8767712f26d18a Al Viro               2018-05-27  4861  		if (is_dir) {
-8767712f26d18a Al Viro               2018-05-27  4862  			shrink_dcache_parent(new_dentry);
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4863  			target->i_flags |= S_DEAD;
-8767712f26d18a Al Viro               2018-05-27  4864  		}
-d83c49f3e36cec Al Viro               2010-04-30  4865  		dont_mount(new_dentry);
-8ed936b5671bfb Eric W. Biederman     2013-10-01  4866  		detach_mounts(new_dentry);
-bc27027a73e8b8 Miklos Szeredi        2014-04-01  4867  	}
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4868  	if (!(old_dir->i_sb->s_type->fs_flags & FS_RENAME_DOES_D_MOVE)) {
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4869  		if (!(flags & RENAME_EXCHANGE))
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4870  			d_move(old_dentry, new_dentry);
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4871  		else
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4872  			d_exchange(old_dentry, new_dentry);
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4873  	}
-51892bbb57e878 Sage Weil             2011-05-24  4874  out:
-28eceeda130f50 Jan Kara              2023-06-01 @4875  	if (source)
-                                                            ^^^^^^
-This check could be removed.
+9b1fcd9bf80206 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1047  static void process_rx_packets(struct fw_iso_context *context, u32 tstamp, size_t header_length,
+9b1fcd9bf80206 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1048  			       void *header, void *private_data)
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1049  {
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1050  	struct amdtp_stream *s = private_data;
+69efd5c4bd4c0e sound/firewire/amdtp-stream.c Takashi Sakamoto 2020-05-08  1051  	const struct amdtp_domain *d = s->domain;
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1052  	const __be32 *ctx_header = header;
+9b1fcd9bf80206 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1053  	const unsigned int events_per_period = d->events_per_period;
+60dd49298ec580 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1054  	unsigned int event_count = s->ctx_data.rx.event_count;
+f0117128879be6 sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1055  	struct pkt_desc *desc = s->packet_descs_cursor;
+233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1056  	unsigned int pkt_header_length;
+a0e023317e2d55 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1057  	unsigned int packets;
+fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10  1058  	u32 curr_cycle_time;
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1059  	bool need_hw_irq;
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1060  	int i;
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1061  
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1062  	if (s->packet_index < 0)
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1063  		return;
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1064  
+a0e023317e2d55 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1065  	// Calculate the number of packets in buffer and check XRUN.
+a0e023317e2d55 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1066  	packets = header_length / sizeof(*ctx_header);
+a0e023317e2d55 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1067  
+cec371ff1ab18d sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1068  	generate_rx_packet_descs(s, desc, ctx_header, packets);
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1069  
+cec371ff1ab18d sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1070  	process_ctx_payloads(s, desc, packets);
+5e2ece0fdceb02 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1071  
+233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1072  	if (!(s->flags & CIP_NO_HEADER))
+233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1073  		pkt_header_length = IT_PKT_HEADER_SIZE_CIP;
+233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1074  	else
+233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1075  		pkt_header_length = 0;
+233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1076  
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1077  	if (s == d->irq_target) {
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1078  		// At NO_PERIOD_WAKEUP mode, the packets for all IT/IR contexts are processed by
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1079  		// the tasks of user process operating ALSA PCM character device by calling ioctl(2)
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1080  		// with some requests, instead of scheduled hardware IRQ of an IT context.
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1081  		struct snd_pcm_substream *pcm = READ_ONCE(s->pcm);
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1082  		need_hw_irq = !pcm || !pcm->runtime->no_period_wakeup;
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1083  	} else {
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1084  		need_hw_irq = false;
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1085  	}
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1086  
+fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10  1087  	if (trace_amdtp_packet_enabled())
+fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10  1088  		(void)fw_card_read_cycle_time(fw_parent_device(s->unit)->card, &curr_cycle_time);
 
-28eceeda130f50 Jan Kara              2023-06-01  4876  		inode_unlock(source);
-28eceeda130f50 Jan Kara              2023-06-01  4877  	if (target)
-5955102c9984fa Al Viro               2016-01-22  4878  		inode_unlock(target);
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4879  	dput(new_dentry);
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4880  	if (!error) {
-f4ec3a3d43bcdc Al Viro               2019-04-26  4881  		fsnotify_move(old_dir, new_dir, &old_name.name, is_dir,
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4882  			      !(flags & RENAME_EXCHANGE) ? target : NULL, old_dentry);
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4883  		if (flags & RENAME_EXCHANGE) {
-f4ec3a3d43bcdc Al Viro               2019-04-26  4884  			fsnotify_move(new_dir, old_dir, &old_dentry->d_name,
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4885  				      new_is_dir, NULL, new_dentry);
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4886  		}
-da1ce0670c14d8 Miklos Szeredi        2014-04-01  4887  	}
-49d31c2f389acf Al Viro               2017-07-07  4888  	release_dentry_name_snapshot(&old_name);
-0eeca28300df11 Robert Love           2005-07-12  4889  
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4890  	return error;
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4891  }
+If trace_amdtp_packet_enabled() is false then curr_cycle_time is
+uninitialized.
+
+fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10  1089  
+5e2ece0fdceb02 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1090  	for (i = 0; i < packets; ++i) {
+6bc1a2699b79d7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-24  1091  		struct {
+6bc1a2699b79d7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-24  1092  			struct fw_iso_packet params;
+67d92ee7a50b00 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1093  			__be32 header[CIP_HEADER_QUADLETS];
+6bc1a2699b79d7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-24  1094  		} template = { {0}, {0} };
+e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1095  		bool sched_irq = false;
+6bc1a2699b79d7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-24  1096  
+233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1097  		build_it_pkt_header(s, desc->cycle, &template.params, pkt_header_length,
+f4f6ae7b7c1fdb sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1098  				    desc->data_blocks, desc->data_block_counter,
+fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10 @1099  				    desc->syt, i, curr_cycle_time);
+
+The curr_cycle_time variable is only going to be used if trace_amdtp_packet_enabled()
+is true.  We would consider it a false positive if build_it_pkt_header()
+is inlined but a bug if it's not.  (Technically passing uninitialized
+data is undefined behavior but if a function is inlined then it's not
+"passing" anything).
+
+31ef9134eb5263 sound/firewire/amdtp.c        Clemens Ladisch  2011-03-15  1100  
+2472cfb3232caf sound/firewire/amdtp-stream.c Takashi Sakamoto 2020-05-08  1101  		if (s == s->domain->irq_target) {
+e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1102  			event_count += desc->data_blocks;
+e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1103  			if (event_count >= events_per_period) {
+e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1104  				event_count -= events_per_period;
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1105  				sched_irq = need_hw_irq;
+e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1106  			}
+60dd49298ec580 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1107  		}
+e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1108  
+e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1109  		if (queue_out_packet(s, &template.params, sched_irq) < 0) {
+fce9b013fee94d sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-21  1110  			cancel_stream(s);
+a4103bd7fdd595 sound/firewire/amdtp.c        Takashi Sakamoto 2015-05-22  1111  			return;
+ccccad8646fad5 sound/firewire/amdtp.c        Takashi Sakamoto 2014-04-25  1112  		}
+cec371ff1ab18d sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1113  
+cec371ff1ab18d sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1114  		desc = amdtp_stream_next_packet_desc(s, desc);
+a4103bd7fdd595 sound/firewire/amdtp.c        Takashi Sakamoto 2015-05-22  1115  	}
+a4103bd7fdd595 sound/firewire/amdtp.c        Takashi Sakamoto 2015-05-22  1116  
+60dd49298ec580 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1117  	s->ctx_data.rx.event_count = event_count;
+f0117128879be6 sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1118  	s->packet_descs_cursor = desc;
+31ef9134eb5263 sound/firewire/amdtp.c        Clemens Ladisch  2011-03-15  1119  }
 
 -- 
 0-DAY CI Kernel Test Service
