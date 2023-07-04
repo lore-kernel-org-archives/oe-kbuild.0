@@ -1,42 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6D75661
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Jul 2023 14:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161F863C1
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Jul 2023 16:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688482199; x=1720018199;
+  t=1688486589; x=1720022589;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KrOxfVeZ4yTMEZ6jvOg+DYA8/Y0tESQ5Efyyo4z2kJk=;
-  b=SjVA88bkgMwa4DsSQ7ubHDouPGiwREvKzFoj1k/9l/YgBL58yQwb1gl0
-   McnR5CjZgGrceYmOYuTIwJ23jFdMdSPfsE1W4fEdENg60iqxsaFohT0QP
-   3CyF5KhcHsMTdOH11PAQoyjwKGZA6DGSj9EM698IVqqx/yBgkJcOOSQGt
-   qy0Mu4Ai09pNsBKFxCDneHMGaS6YpmG3NqmA+kibtpd34L+WlOvzZezqX
-   Jf4C9xirh98KtDkkD3hrKVZf6nrSj8Y579lLLBZ/E4k4M6EamyUUPQq5y
-   41i4lmAPdZtiNUxG70BxIV1zvmtispPF+JMQyMnXAkC8UvZ4swZAkmm4J
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="449504686"
+  bh=ebUTqm3Z4arA6OU2+yfw2+SYoewM5hco563IhbTjY6Q=;
+  b=BQHxVB2JYGEf3FHyPSqV5P1wZUofXrsvtY2rBl460jHiLlpYIfdXijD4
+   me3ps/JiR8XtmV/v+H4lv336yFEJqvvW9yajsuNTI/1BSBSTbEphialV8
+   oEFgR3/A6TFmPeSlZtkUWFtNFHcG3oVgkYBhZDDH3SFeF4centcFRO/Dd
+   iy6zYLcjFzlCn5nlKW5NKGR+j5ACS2w4QLxnXb8l9xrI17oaR+XBZbm0w
+   x285wwzyxdsxKRnOEWVOAJveghL3bmlkPVJ/ETwYW1UYs37euOXcQx4BP
+   k2Vi7aJgejqGzmjxoYMVUX9QGzF5GeoIqJBRPaY0ojHybvuhysA0Swp3c
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="360629839"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="449504686"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 07:49:58 -0700
+   d="scan'208";a="360629839"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 09:03:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="722097397"
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="788897653"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="722097397"
+   d="scan'208";a="788897653"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 04 Jul 2023 07:49:57 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 04 Jul 2023 09:02:59 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qGhLn-000IIx-3D;
-	Tue, 04 Jul 2023 14:49:55 +0000
-Date: Tue, 4 Jul 2023 22:49:41 +0800
+	id 1qGiUU-000ILh-1U;
+	Tue, 04 Jul 2023 16:02:58 +0000
+Date: Wed, 5 Jul 2023 00:02:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 12223/12997] drivers/vhost/vhost.c:1654
- vhost_vring_ioctl() error: uninitialized symbol 'vq'.
-Message-ID: <202307042241.Pax1zFVN-lkp@intel.com>
+Subject: [djwong-xfs:rename-child-lock-fixes 519/527]
+ fs/xfs/xfs_bmap_util.c:1359 xfs_map_free_extent() warn: missing error code
+ 'error'
+Message-ID: <202307042349.dH77Mnja-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,206 +49,244 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Mike Christie <michael.christie@oracle.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1c6f93977947dbba1fc4d250c4eb8a7d4cfdecf1
-commit: 8e355b19cf9c524883c6ec7c3431cd377a5f05bd [12223/12997] vhost: add helper to parse userspace vring state/file
-:::::: branch date: 11 hours ago
-:::::: commit date: 7 days ago
-config: riscv-randconfig-m031-20230703 (https://download.01.org/0day-ci/archive/20230704/202307042241.Pax1zFVN-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230704/202307042241.Pax1zFVN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git rename-child-lock-fixes
+head:   c16a758618d7d97bbef9eb9c6cbbdf7cecee1fe3
+commit: 31ac2efa11235657393e0c80de346d1deb3f41f0 [519/527] xfs: fallocate free space into a file
+:::::: branch date: 23 hours ago
+:::::: commit date: 23 hours ago
+config: i386-randconfig-m021-20230703 (https://download.01.org/0day-ci/archive/20230704/202307042349.dH77Mnja-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230704/202307042349.dH77Mnja-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307042241.Pax1zFVN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307042349.dH77Mnja-lkp@intel.com/
 
-New smatch warnings:
-drivers/vhost/vhost.c:1654 vhost_vring_ioctl() error: uninitialized symbol 'vq'.
-drivers/vhost/vhost.c:1685 vhost_vring_ioctl() error: uninitialized symbol 'idx'.
+smatch warnings:
+fs/xfs/xfs_bmap_util.c:1359 xfs_map_free_extent() warn: missing error code 'error'
+fs/xfs/xfs_bmap_util.c:1505 xfs_map_free_rt_extent() warn: missing error code 'error'
 
-Old smatch warnings:
-drivers/vhost/vhost.c:1657 vhost_vring_ioctl() error: uninitialized symbol 'vq'.
-drivers/vhost/vhost.c:1738 vhost_vring_ioctl() error: uninitialized symbol 'idx'.
-drivers/vhost/vhost.c:1748 vhost_vring_ioctl() error: uninitialized symbol 'idx'.
+vim +/error +1359 fs/xfs/xfs_bmap_util.c
 
-vim +/vq +1654 drivers/vhost/vhost.c
-
-feebcaeac79ad8 Jason Wang         2019-05-24  1612  
-feebcaeac79ad8 Jason Wang         2019-05-24  1613  static long vhost_vring_set_num_addr(struct vhost_dev *d,
-feebcaeac79ad8 Jason Wang         2019-05-24  1614  				     struct vhost_virtqueue *vq,
-feebcaeac79ad8 Jason Wang         2019-05-24  1615  				     unsigned int ioctl,
-feebcaeac79ad8 Jason Wang         2019-05-24  1616  				     void __user *argp)
-feebcaeac79ad8 Jason Wang         2019-05-24  1617  {
-feebcaeac79ad8 Jason Wang         2019-05-24  1618  	long r;
-feebcaeac79ad8 Jason Wang         2019-05-24  1619  
-feebcaeac79ad8 Jason Wang         2019-05-24  1620  	mutex_lock(&vq->mutex);
-feebcaeac79ad8 Jason Wang         2019-05-24  1621  
-feebcaeac79ad8 Jason Wang         2019-05-24  1622  	switch (ioctl) {
-feebcaeac79ad8 Jason Wang         2019-05-24  1623  	case VHOST_SET_VRING_NUM:
-feebcaeac79ad8 Jason Wang         2019-05-24  1624  		r = vhost_vring_set_num(d, vq, argp);
-feebcaeac79ad8 Jason Wang         2019-05-24  1625  		break;
-feebcaeac79ad8 Jason Wang         2019-05-24  1626  	case VHOST_SET_VRING_ADDR:
-feebcaeac79ad8 Jason Wang         2019-05-24  1627  		r = vhost_vring_set_addr(d, vq, argp);
-feebcaeac79ad8 Jason Wang         2019-05-24  1628  		break;
-feebcaeac79ad8 Jason Wang         2019-05-24  1629  	default:
-feebcaeac79ad8 Jason Wang         2019-05-24  1630  		BUG();
-feebcaeac79ad8 Jason Wang         2019-05-24  1631  	}
-feebcaeac79ad8 Jason Wang         2019-05-24  1632  
-feebcaeac79ad8 Jason Wang         2019-05-24  1633  	mutex_unlock(&vq->mutex);
-feebcaeac79ad8 Jason Wang         2019-05-24  1634  
-feebcaeac79ad8 Jason Wang         2019-05-24  1635  	return r;
-feebcaeac79ad8 Jason Wang         2019-05-24  1636  }
-26b36604523f4a Sonny Rao          2018-03-14  1637  long vhost_vring_ioctl(struct vhost_dev *d, unsigned int ioctl, void __user *argp)
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1638  {
-cecb46f194460d Al Viro            2012-08-27  1639  	struct file *eventfp, *filep = NULL;
-cecb46f194460d Al Viro            2012-08-27  1640  	bool pollstart = false, pollstop = false;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1641  	struct eventfd_ctx *ctx = NULL;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1642  	struct vhost_virtqueue *vq;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1643  	struct vhost_vring_state s;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1644  	struct vhost_vring_file f;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1645  	u32 idx;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1646  	long r;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1647  
-8e355b19cf9c52 Mike Christie      2023-06-26  1648  	r = vhost_get_vq_from_user(d, argp, &vq, &idx);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1649  	if (r < 0)
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1650  		return r;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1651  
-feebcaeac79ad8 Jason Wang         2019-05-24  1652  	if (ioctl == VHOST_SET_VRING_NUM ||
-feebcaeac79ad8 Jason Wang         2019-05-24  1653  	    ioctl == VHOST_SET_VRING_ADDR) {
-feebcaeac79ad8 Jason Wang         2019-05-24 @1654  		return vhost_vring_set_num_addr(d, vq, ioctl, argp);
-feebcaeac79ad8 Jason Wang         2019-05-24  1655  	}
-feebcaeac79ad8 Jason Wang         2019-05-24  1656  
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1657  	mutex_lock(&vq->mutex);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1658  
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1659  	switch (ioctl) {
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1660  	case VHOST_SET_VRING_BASE:
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1661  		/* Moving base with an active backend?
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1662  		 * You don't want to do that. */
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1663  		if (vq->private_data) {
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1664  			r = -EBUSY;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1665  			break;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1666  		}
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1667  		if (copy_from_user(&s, argp, sizeof s)) {
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1668  			r = -EFAULT;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1669  			break;
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1670  		}
-55d8122f5cd62d Shannon Nelson     2023-04-24  1671  		if (vhost_has_feature(vq, VIRTIO_F_RING_PACKED)) {
-55d8122f5cd62d Shannon Nelson     2023-04-24  1672  			vq->last_avail_idx = s.num & 0xffff;
-55d8122f5cd62d Shannon Nelson     2023-04-24  1673  			vq->last_used_idx = (s.num >> 16) & 0xffff;
-55d8122f5cd62d Shannon Nelson     2023-04-24  1674  		} else {
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1675  			if (s.num > 0xffff) {
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1676  				r = -EINVAL;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1677  				break;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1678  			}
-8d65843c44269c Jason Wang         2017-07-27  1679  			vq->last_avail_idx = s.num;
-55d8122f5cd62d Shannon Nelson     2023-04-24  1680  		}
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1681  		/* Forget the cached index value. */
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1682  		vq->avail_idx = vq->last_avail_idx;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1683  		break;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1684  	case VHOST_GET_VRING_BASE:
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14 @1685  		s.index = idx;
-55d8122f5cd62d Shannon Nelson     2023-04-24  1686  		if (vhost_has_feature(vq, VIRTIO_F_RING_PACKED))
-55d8122f5cd62d Shannon Nelson     2023-04-24  1687  			s.num = (u32)vq->last_avail_idx | ((u32)vq->last_used_idx << 16);
-55d8122f5cd62d Shannon Nelson     2023-04-24  1688  		else
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1689  			s.num = vq->last_avail_idx;
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1690  		if (copy_to_user(argp, &s, sizeof s))
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1691  			r = -EFAULT;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1692  		break;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1693  	case VHOST_SET_VRING_KICK:
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1694  		if (copy_from_user(&f, argp, sizeof f)) {
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1695  			r = -EFAULT;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1696  			break;
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1697  		}
-e0136c16fae95d Zhu Lingshan       2020-06-05  1698  		eventfp = f.fd == VHOST_FILE_UNBIND ? NULL : eventfd_fget(f.fd);
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1699  		if (IS_ERR(eventfp)) {
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1700  			r = PTR_ERR(eventfp);
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1701  			break;
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1702  		}
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1703  		if (eventfp != vq->kick) {
-cecb46f194460d Al Viro            2012-08-27  1704  			pollstop = (filep = vq->kick) != NULL;
-cecb46f194460d Al Viro            2012-08-27  1705  			pollstart = (vq->kick = eventfp) != NULL;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1706  		} else
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1707  			filep = eventfp;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1708  		break;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1709  	case VHOST_SET_VRING_CALL:
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1710  		if (copy_from_user(&f, argp, sizeof f)) {
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1711  			r = -EFAULT;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1712  			break;
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1713  		}
-e0136c16fae95d Zhu Lingshan       2020-06-05  1714  		ctx = f.fd == VHOST_FILE_UNBIND ? NULL : eventfd_ctx_fdget(f.fd);
-e050c7d93f4adb Eric Biggers       2018-01-06  1715  		if (IS_ERR(ctx)) {
-e050c7d93f4adb Eric Biggers       2018-01-06  1716  			r = PTR_ERR(ctx);
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1717  			break;
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1718  		}
-265a0ad8731dc0 Zhu Lingshan       2020-07-31  1719  
-265a0ad8731dc0 Zhu Lingshan       2020-07-31  1720  		swap(ctx, vq->call_ctx.ctx);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1721  		break;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1722  	case VHOST_SET_VRING_ERR:
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1723  		if (copy_from_user(&f, argp, sizeof f)) {
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1724  			r = -EFAULT;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1725  			break;
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1726  		}
-e0136c16fae95d Zhu Lingshan       2020-06-05  1727  		ctx = f.fd == VHOST_FILE_UNBIND ? NULL : eventfd_ctx_fdget(f.fd);
-09f332a589232f Eric Biggers       2018-01-06  1728  		if (IS_ERR(ctx)) {
-09f332a589232f Eric Biggers       2018-01-06  1729  			r = PTR_ERR(ctx);
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1730  			break;
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1731  		}
-09f332a589232f Eric Biggers       2018-01-06  1732  		swap(ctx, vq->error_ctx);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1733  		break;
-2751c9882b9472 Greg Kurz          2015-04-24  1734  	case VHOST_SET_VRING_ENDIAN:
-2751c9882b9472 Greg Kurz          2015-04-24  1735  		r = vhost_set_vring_endian(vq, argp);
-2751c9882b9472 Greg Kurz          2015-04-24  1736  		break;
-2751c9882b9472 Greg Kurz          2015-04-24  1737  	case VHOST_GET_VRING_ENDIAN:
-2751c9882b9472 Greg Kurz          2015-04-24  1738  		r = vhost_get_vring_endian(vq, idx, argp);
-2751c9882b9472 Greg Kurz          2015-04-24  1739  		break;
-03088137246065 Jason Wang         2016-03-04  1740  	case VHOST_SET_VRING_BUSYLOOP_TIMEOUT:
-03088137246065 Jason Wang         2016-03-04  1741  		if (copy_from_user(&s, argp, sizeof(s))) {
-03088137246065 Jason Wang         2016-03-04  1742  			r = -EFAULT;
-03088137246065 Jason Wang         2016-03-04  1743  			break;
-03088137246065 Jason Wang         2016-03-04  1744  		}
-03088137246065 Jason Wang         2016-03-04  1745  		vq->busyloop_timeout = s.num;
-03088137246065 Jason Wang         2016-03-04  1746  		break;
-03088137246065 Jason Wang         2016-03-04  1747  	case VHOST_GET_VRING_BUSYLOOP_TIMEOUT:
-03088137246065 Jason Wang         2016-03-04  1748  		s.index = idx;
-03088137246065 Jason Wang         2016-03-04  1749  		s.num = vq->busyloop_timeout;
-03088137246065 Jason Wang         2016-03-04  1750  		if (copy_to_user(argp, &s, sizeof(s)))
-03088137246065 Jason Wang         2016-03-04  1751  			r = -EFAULT;
-03088137246065 Jason Wang         2016-03-04  1752  		break;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1753  	default:
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1754  		r = -ENOIOCTLCMD;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1755  	}
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1756  
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1757  	if (pollstop && vq->handle_kick)
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1758  		vhost_poll_stop(&vq->poll);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1759  
-e050c7d93f4adb Eric Biggers       2018-01-06  1760  	if (!IS_ERR_OR_NULL(ctx))
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1761  		eventfd_ctx_put(ctx);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1762  	if (filep)
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1763  		fput(filep);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1764  
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1765  	if (pollstart && vq->handle_kick)
-2b8b328b61c799 Jason Wang         2013-01-28  1766  		r = vhost_poll_start(&vq->poll, vq->kick);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1767  
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1768  	mutex_unlock(&vq->mutex);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1769  
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1770  	if (pollstop && vq->handle_kick)
-b2ffa407ed5dd9 Mike Christie      2022-05-17  1771  		vhost_dev_flush(vq->poll.dev);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1772  	return r;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1773  }
-6ac1afbf6132df Asias He           2013-05-06  1774  EXPORT_SYMBOL_GPL(vhost_vring_ioctl);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1775  
-
-:::::: The code at line 1654 was first introduced by commit
-:::::: feebcaeac79ad86fb289ef55fa92f4a97ab8314e vhost: factor out setting vring addr and num
-
-:::::: TO: Jason Wang <jasowang@redhat.com>
-:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+31ac2efa112356 Darrick J. Wong 2023-03-06  1327  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1328  /* Find a free extent in this AG and map it into the file. */
+31ac2efa112356 Darrick J. Wong 2023-03-06  1329  STATIC int
+31ac2efa112356 Darrick J. Wong 2023-03-06  1330  xfs_map_free_extent(
+31ac2efa112356 Darrick J. Wong 2023-03-06  1331  	struct xfs_inode	*ip,
+31ac2efa112356 Darrick J. Wong 2023-03-06  1332  	struct xfs_perag	*pag,
+31ac2efa112356 Darrick J. Wong 2023-03-06  1333  	xfs_agblock_t		*cursor,
+31ac2efa112356 Darrick J. Wong 2023-03-06  1334  	xfs_agblock_t		end_agbno,
+31ac2efa112356 Darrick J. Wong 2023-03-06  1335  	xfs_agblock_t		*last_enospc_agbno)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1336  {
+31ac2efa112356 Darrick J. Wong 2023-03-06  1337  	struct xfs_bmbt_irec	irec;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1338  	struct xfs_mount	*mp = ip->i_mount;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1339  	struct xfs_trans	*tp;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1340  	xfs_off_t		endpos;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1341  	xfs_fsblock_t		fsbno;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1342  	xfs_extlen_t		len;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1343  	int			error;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1344  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1345  	if (fatal_signal_pending(current))
+31ac2efa112356 Darrick J. Wong 2023-03-06  1346  		return -EINTR;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1347  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1348  	error = xfs_trans_alloc_inode(ip, &M_RES(mp)->tr_write, 0, 0, false,
+31ac2efa112356 Darrick J. Wong 2023-03-06  1349  			&tp);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1350  	if (error)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1351  		return error;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1352  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1353  	error = xfs_alloc_find_freesp(tp, pag, cursor, end_agbno, &len);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1354  	if (error)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1355  		goto out_cancel;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1356  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1357  	/* Bail out if the cursor is beyond what we asked for. */
+31ac2efa112356 Darrick J. Wong 2023-03-06  1358  	if (*cursor >= end_agbno)
+31ac2efa112356 Darrick J. Wong 2023-03-06 @1359  		goto out_cancel;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1360  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1361  	error = xfs_map_free_reserve_more(tp, ip, &len);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1362  	if (error)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1363  		goto out_cancel;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1364  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1365  	fsbno = XFS_AGB_TO_FSB(mp, pag->pag_agno, *cursor);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1366  	do {
+31ac2efa112356 Darrick J. Wong 2023-03-06  1367  		error = xfs_bmapi_freesp(tp, ip, fsbno, len, &irec);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1368  		if (error == -EAGAIN) {
+31ac2efa112356 Darrick J. Wong 2023-03-06  1369  			/* Failed to map space but were told to try again. */
+31ac2efa112356 Darrick J. Wong 2023-03-06  1370  			error = xfs_trans_commit(tp);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1371  			goto out;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1372  		}
+31ac2efa112356 Darrick J. Wong 2023-03-06  1373  		if (error != -ENOSPC)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1374  			break;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1375  		/*
+31ac2efa112356 Darrick J. Wong 2023-03-06  1376  		 * If we can't get the space, try asking for successively less
+31ac2efa112356 Darrick J. Wong 2023-03-06  1377  		 * space in case we're bumping up against per-AG metadata
+31ac2efa112356 Darrick J. Wong 2023-03-06  1378  		 * reservation limits...
+31ac2efa112356 Darrick J. Wong 2023-03-06  1379  		 */
+31ac2efa112356 Darrick J. Wong 2023-03-06  1380  		len >>= 1;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1381  	} while (len > 0);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1382  	if (error == -ENOSPC && *last_enospc_agbno != *cursor) {
+31ac2efa112356 Darrick J. Wong 2023-03-06  1383  		/*
+31ac2efa112356 Darrick J. Wong 2023-03-06  1384  		 * ...but even that might not work if an AGFL fixup allocated
+31ac2efa112356 Darrick J. Wong 2023-03-06  1385  		 * the block at *cursor.  The first time this happens, remember
+31ac2efa112356 Darrick J. Wong 2023-03-06  1386  		 * that we ran out of space here, and try again.
+31ac2efa112356 Darrick J. Wong 2023-03-06  1387  		 */
+31ac2efa112356 Darrick J. Wong 2023-03-06  1388  		*last_enospc_agbno = *cursor;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1389  		error = 0;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1390  		goto out_cancel;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1391  	}
+31ac2efa112356 Darrick J. Wong 2023-03-06  1392  	if (error)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1393  		goto out_cancel;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1394  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1395  	/* Update isize if needed. */
+31ac2efa112356 Darrick J. Wong 2023-03-06  1396  	endpos = XFS_FSB_TO_B(mp, irec.br_startoff + irec.br_blockcount);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1397  	if (endpos > i_size_read(VFS_I(ip))) {
+31ac2efa112356 Darrick J. Wong 2023-03-06  1398  		i_size_write(VFS_I(ip), endpos);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1399  		ip->i_disk_size = endpos;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1400  		xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1401  	}
+31ac2efa112356 Darrick J. Wong 2023-03-06  1402  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1403  	error = xfs_trans_commit(tp);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1404  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1405  	if (error)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1406  		return error;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1407  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1408  	*cursor += irec.br_blockcount;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1409  	return 0;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1410  out_cancel:
+31ac2efa112356 Darrick J. Wong 2023-03-06  1411  	xfs_trans_cancel(tp);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1412  out:
+31ac2efa112356 Darrick J. Wong 2023-03-06  1413  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1414  	return error;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1415  }
+31ac2efa112356 Darrick J. Wong 2023-03-06  1416  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1417  /*
+31ac2efa112356 Darrick J. Wong 2023-03-06  1418   * Allocate all free physical space between off and len and map it to this
+31ac2efa112356 Darrick J. Wong 2023-03-06  1419   * regular non-realtime file.
+31ac2efa112356 Darrick J. Wong 2023-03-06  1420   */
+31ac2efa112356 Darrick J. Wong 2023-03-06  1421  int
+31ac2efa112356 Darrick J. Wong 2023-03-06  1422  xfs_map_free_space(
+31ac2efa112356 Darrick J. Wong 2023-03-06  1423  	struct xfs_inode	*ip,
+31ac2efa112356 Darrick J. Wong 2023-03-06  1424  	xfs_off_t		off,
+31ac2efa112356 Darrick J. Wong 2023-03-06  1425  	xfs_off_t		len)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1426  {
+31ac2efa112356 Darrick J. Wong 2023-03-06  1427  	struct xfs_mount	*mp = ip->i_mount;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1428  	struct xfs_perag	*pag = NULL;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1429  	xfs_daddr_t		off_daddr = BTOBB(off);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1430  	xfs_daddr_t		end_daddr = BTOBBT(off + len);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1431  	xfs_fsblock_t		off_fsb = XFS_DADDR_TO_FSB(mp, off_daddr);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1432  	xfs_fsblock_t		end_fsb = XFS_DADDR_TO_FSB(mp, end_daddr);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1433  	xfs_agnumber_t		off_agno = XFS_FSB_TO_AGNO(mp, off_fsb);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1434  	xfs_agnumber_t		end_agno = XFS_FSB_TO_AGNO(mp, end_fsb);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1435  	xfs_agnumber_t		agno;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1436  	int			error = 0;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1437  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1438  	trace_xfs_map_free_space(ip, off, len);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1439  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1440  	agno = off_agno;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1441  	for_each_perag_range(mp, agno, end_agno, pag) {
+31ac2efa112356 Darrick J. Wong 2023-03-06  1442  		xfs_agblock_t	off_agbno = 0;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1443  		xfs_agblock_t	end_agbno;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1444  		xfs_agblock_t	last_enospc_agbno = NULLAGBLOCK;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1445  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1446  		end_agbno = xfs_ag_block_count(mp, pag->pag_agno);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1447  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1448  		if (pag->pag_agno == off_agno)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1449  			off_agbno = XFS_FSB_TO_AGBNO(mp, off_fsb);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1450  		if (pag->pag_agno == end_agno)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1451  			end_agbno = XFS_FSB_TO_AGBNO(mp, end_fsb);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1452  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1453  		while (off_agbno < end_agbno) {
+31ac2efa112356 Darrick J. Wong 2023-03-06  1454  			error = xfs_map_free_extent(ip, pag, &off_agbno,
+31ac2efa112356 Darrick J. Wong 2023-03-06  1455  					end_agbno, &last_enospc_agbno);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1456  			if (error)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1457  				goto out;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1458  		}
+31ac2efa112356 Darrick J. Wong 2023-03-06  1459  	}
+31ac2efa112356 Darrick J. Wong 2023-03-06  1460  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1461  out:
+31ac2efa112356 Darrick J. Wong 2023-03-06  1462  	if (pag)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1463  		xfs_perag_rele(pag);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1464  	if (error == -ENOSPC)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1465  		return 0;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1466  	return error;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1467  }
+31ac2efa112356 Darrick J. Wong 2023-03-06  1468  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1469  #ifdef CONFIG_XFS_RT
+31ac2efa112356 Darrick J. Wong 2023-03-06  1470  STATIC int
+31ac2efa112356 Darrick J. Wong 2023-03-06  1471  xfs_map_free_rt_extent(
+31ac2efa112356 Darrick J. Wong 2023-03-06  1472  	struct xfs_inode	*ip,
+31ac2efa112356 Darrick J. Wong 2023-03-06  1473  	xfs_rtxnum_t		*cursor,
+31ac2efa112356 Darrick J. Wong 2023-03-06  1474  	xfs_rtxnum_t		end_rtx)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1475  {
+31ac2efa112356 Darrick J. Wong 2023-03-06  1476  	struct xfs_bmbt_irec	irec;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1477  	struct xfs_mount	*mp = ip->i_mount;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1478  	struct xfs_trans	*tp;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1479  	xfs_off_t		endpos;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1480  	xfs_rtblock_t		rtbno;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1481  	xfs_rtxnum_t		add;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1482  	xfs_rtxlen_t		len_rtx;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1483  	xfs_extlen_t		len;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1484  	uint32_t		mod;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1485  	int			error;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1486  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1487  	if (fatal_signal_pending(current))
+31ac2efa112356 Darrick J. Wong 2023-03-06  1488  		return -EINTR;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1489  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1490  	error = xfs_trans_alloc_inode(ip, &M_RES(mp)->tr_write, 0, 0, false,
+31ac2efa112356 Darrick J. Wong 2023-03-06  1491  			&tp);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1492  	if (error)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1493  		return error;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1494  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1495  	xfs_rtbitmap_lock(tp, mp);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1496  	error = xfs_rtalloc_find_freesp(tp, cursor, end_rtx, &len_rtx);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1497  	if (error)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1498  		goto out_cancel;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1499  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1500  	/*
+31ac2efa112356 Darrick J. Wong 2023-03-06  1501  	 * If off_rtx is beyond the end of the rt device or is past what the
+31ac2efa112356 Darrick J. Wong 2023-03-06  1502  	 * user asked for, bail out.
+31ac2efa112356 Darrick J. Wong 2023-03-06  1503  	 */
+31ac2efa112356 Darrick J. Wong 2023-03-06  1504  	if (*cursor >= end_rtx)
+31ac2efa112356 Darrick J. Wong 2023-03-06 @1505  		goto out_cancel;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1506  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1507  	len = xfs_rtx_to_rtb(mp, len_rtx);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1508  	error = xfs_map_free_reserve_more(tp, ip, &len);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1509  	if (error)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1510  		goto out_cancel;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1511  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1512  	rtbno = xfs_rtx_to_rtb(mp, *cursor);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1513  	error = xfs_bmapi_freesp(tp, ip, rtbno, len, &irec);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1514  	if (error)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1515  		goto out_cancel;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1516  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1517  	/* Update isize if needed. */
+31ac2efa112356 Darrick J. Wong 2023-03-06  1518  	endpos = XFS_FSB_TO_B(mp, irec.br_startoff + irec.br_blockcount);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1519  	if (endpos > i_size_read(VFS_I(ip))) {
+31ac2efa112356 Darrick J. Wong 2023-03-06  1520  		i_size_write(VFS_I(ip), endpos);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1521  		ip->i_disk_size = endpos;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1522  		xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1523  	}
+31ac2efa112356 Darrick J. Wong 2023-03-06  1524  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1525  	error = xfs_trans_commit(tp);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1526  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1527  	if (error)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1528  		return error;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1529  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1530  	add = xfs_rtb_to_rtx(mp, irec.br_blockcount, &mod);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1531  	if (mod)
+31ac2efa112356 Darrick J. Wong 2023-03-06  1532  		return -EFSCORRUPTED;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1533  
+31ac2efa112356 Darrick J. Wong 2023-03-06  1534  	*cursor += add;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1535  	return 0;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1536  out_cancel:
+31ac2efa112356 Darrick J. Wong 2023-03-06  1537  	xfs_trans_cancel(tp);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1538  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+31ac2efa112356 Darrick J. Wong 2023-03-06  1539  	return error;
+31ac2efa112356 Darrick J. Wong 2023-03-06  1540  }
+31ac2efa112356 Darrick J. Wong 2023-03-06  1541  
 
 -- 
 0-DAY CI Kernel Test Service
