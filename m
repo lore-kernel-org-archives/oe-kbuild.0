@@ -1,95 +1,104 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8141717DB;
-	Tue,  4 Jul 2023 08:16:46 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CF886225A0;
-	Tue,  4 Jul 2023 08:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1688458598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FPBg6p9QylZ6LXwL7TvvMNJ95t3SM1oPEWDK0MHP+qk=;
-	b=rfrgAHLrrecq/cG6+NsHPf0UHlh9zEBr5aPHwvIy5RVe7QWYZmYt3uJV7vHrkVAwYDKc2D
-	qxvX41Lu6qKN1+r1wF+ch8INYqV5N9OVm93FhVvwE64zunlo4HIcqXv8CT/q1UK7qAdLJM
-	0ANUF8usKFTFo9B5SQe1Dpdwq7MEjag=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1688458598;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FPBg6p9QylZ6LXwL7TvvMNJ95t3SM1oPEWDK0MHP+qk=;
-	b=zgMUnSPzMkS7ARahdYyIvfy9W954bZlpyFHkl4jpkfzi+iq7L/pp78K/HOnBTc6d6nKcgj
-	mjhfKJjLdJ3UU3DA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9E3F71346D;
-	Tue,  4 Jul 2023 08:16:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Gae5JWbVo2R8JwAAMHmgww
-	(envelope-from <tiwai@suse.de>); Tue, 04 Jul 2023 08:16:38 +0000
-Date: Tue, 04 Jul 2023 10:16:38 +0200
-Message-ID: <87o7ks2is9.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>
-Subject: Re: sound/firewire/amdtp-stream.c:1099 process_rx_packets() error: uninitialized symbol 'curr_cycle_time'.
-In-Reply-To: <bacd122c-175c-4fe8-bc6a-66de5820eed0@kadam.mountain>
-References: <bacd122c-175c-4fe8-bc6a-66de5820eed0@kadam.mountain>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D43C1104
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Jul 2023 08:37:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688459866; x=1719995866;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HFeXVAEpTcmxOsQCgEuQe/uWNTlA7huyPDpdEo2f+Zk=;
+  b=gWlxSDfZAlotueBUlh7/uBH8GLMG6a9vFKKz8Y2S7Z0cmpaIHvorh2nx
+   zixarJVqNmgdaJ2gPJjr0ZYnWHWPD6SQx/Z9wUY6rtF8VHTAA4FPItB+9
+   3KF3J6451kcpwRMhFvAAPTmw2spNWhioeCdmnytIULd3bSV/+IRTRzQpN
+   fPw4cR3UFM16F4TnoWiDPF5GfeSxbyrq3b/SI5yIgKCEt4AuuGhLKxaIt
+   UXiAbRLz1jHuy4CybsXRRO52SUvQKlbHodyEz0u8RptPok4hsrQ7rcj9m
+   4tGAfVxr1qH0U4Savu5BVPCeX22iE6HsWfNa31IE3KP9PAFGUwoFdNMKp
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="343406614"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
+   d="scan'208";a="343406614"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 01:37:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="892795485"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
+   d="scan'208";a="892795485"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 04 Jul 2023 01:37:43 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qGbXb-000I8R-00;
+	Tue, 04 Jul 2023 08:37:43 +0000
+Date: Tue, 4 Jul 2023 16:36:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [djwong-xfs:vectorized-scrub 455/513]
+ fs/xfs/libxfs/xfs_refcount.c:161 xfs_refcount_check_rtgroup_irec() warn:
+ impossible condition '(irec->rc_blockcount > (~0)) => (0-u32max > u32max)'
+Message-ID: <202307041659.8Xz4EbwO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 03 Jul 2023 15:00:01 +0200,
-Dan Carpenter wrote:
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   b25f62ccb490680a8cee755ac4528909395e0711
-> commit: fef4e61b0b765b6d22badcd5b6575b159e7d510a ALSA: firewire-lib: extend tracepoints event including CYCLE_TIME of 1394 OHCI
-> config: i386-randconfig-m021-20230701 (https://download.01.org/0day-ci/archive/20230701/202307011324.jFJ96dTo-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230701/202307011324.jFJ96dTo-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202307011324.jFJ96dTo-lkp@intel.com/
-> 
-> New smatch warnings:
-> sound/firewire/amdtp-stream.c:1099 process_rx_packets() error: uninitialized symbol 'curr_cycle_time'.
-> 
-> Old smatch warnings:
-> sound/firewire/amdtp-stream.c:944 generate_tx_packet_descs() error: uninitialized symbol 'curr_cycle_time'.
-(snip)
-> The curr_cycle_time variable is only going to be used if trace_amdtp_packet_enabled()
-> is true.  We would consider it a false positive if build_it_pkt_header()
-> is inlined but a bug if it's not.  (Technically passing uninitialized
-> data is undefined behavior but if a function is inlined then it's not
-> "passing" anything).
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-Yes, this is a false-positive, so no much worry needed.  But it's hard
-for compiler / checker to know it, and I guess that simply
-initializing the variable would be the easiest workaround, after all.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git vectorized-scrub
+head:   4d957d5fd4dc29d4f948807700f12587ca2feb2f
+commit: 611aaa20406150b786b16500dc33848909bdb4e4 [455/513] xfs: prepare refcount functions to deal with rtrefcountbt
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: riscv-randconfig-m031-20230703 (https://download.01.org/0day-ci/archive/20230704/202307041659.8Xz4EbwO-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230704/202307041659.8Xz4EbwO-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202307041659.8Xz4EbwO-lkp@intel.com/
 
-thanks,
+New smatch warnings:
+fs/xfs/libxfs/xfs_refcount.c:161 xfs_refcount_check_rtgroup_irec() warn: impossible condition '(irec->rc_blockcount > (~0)) => (0-u32max > u32max)'
+fs/xfs/libxfs/xfs_refcount.c:171 xfs_refcount_check_rtgroup_irec() warn: impossible condition '(irec->rc_refcount > (~0)) => (0-u32max > u32max)'
 
-Takashi
+Old smatch warnings:
+fs/xfs/libxfs/xfs_refcount.c:140 xfs_refcount_check_perag_irec() warn: impossible condition '(irec->rc_blockcount > (~0)) => (0-u32max > u32max)'
+fs/xfs/libxfs/xfs_refcount.c:150 xfs_refcount_check_perag_irec() warn: impossible condition '(irec->rc_refcount > (~0)) => (0-u32max > u32max)'
+
+vim +161 fs/xfs/libxfs/xfs_refcount.c
+
+2b30cc0bf0589d Darrick J. Wong 2023-04-11  155  
+611aaa20406150 Darrick J. Wong 2023-03-06  156  static inline xfs_failaddr_t
+611aaa20406150 Darrick J. Wong 2023-03-06  157  xfs_refcount_check_rtgroup_irec(
+611aaa20406150 Darrick J. Wong 2023-03-06  158  	struct xfs_rtgroup		*rtg,
+611aaa20406150 Darrick J. Wong 2023-03-06  159  	const struct xfs_refcount_irec	*irec)
+611aaa20406150 Darrick J. Wong 2023-03-06  160  {
+611aaa20406150 Darrick J. Wong 2023-03-06 @161  	if (irec->rc_blockcount == 0 || irec->rc_blockcount > XFS_REFC_LEN_MAX)
+611aaa20406150 Darrick J. Wong 2023-03-06  162  		return __this_address;
+611aaa20406150 Darrick J. Wong 2023-03-06  163  
+611aaa20406150 Darrick J. Wong 2023-03-06  164  	if (!xfs_refcount_check_domain(irec))
+611aaa20406150 Darrick J. Wong 2023-03-06  165  		return __this_address;
+611aaa20406150 Darrick J. Wong 2023-03-06  166  
+611aaa20406150 Darrick J. Wong 2023-03-06  167  	/* check for valid extent range, including overflow */
+611aaa20406150 Darrick J. Wong 2023-03-06  168  	if (!xfs_verify_rgbext(rtg, irec->rc_startblock, irec->rc_blockcount))
+611aaa20406150 Darrick J. Wong 2023-03-06  169  		return __this_address;
+611aaa20406150 Darrick J. Wong 2023-03-06  170  
+611aaa20406150 Darrick J. Wong 2023-03-06 @171  	if (irec->rc_refcount == 0 || irec->rc_refcount > XFS_REFC_REFCOUNT_MAX)
+611aaa20406150 Darrick J. Wong 2023-03-06  172  		return __this_address;
+611aaa20406150 Darrick J. Wong 2023-03-06  173  
+611aaa20406150 Darrick J. Wong 2023-03-06  174  	return NULL;
+611aaa20406150 Darrick J. Wong 2023-03-06  175  }
+611aaa20406150 Darrick J. Wong 2023-03-06  176  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
