@@ -1,42 +1,42 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600C7A3D
-	for <oe-kbuild@lists.linux.dev>; Wed,  5 Jul 2023 03:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C91E110D
+	for <oe-kbuild@lists.linux.dev>; Wed,  5 Jul 2023 07:45:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688529530; x=1720065530;
+  t=1688543155; x=1720079155;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0tRjJgC2FeRCGCeUmgZT+w52/gJOxt/EsCfDhfP91oA=;
-  b=JhGQHm98WUEosazBy+FQ2nWpcrp4ih2ElY5pegXMIQlhMdqg7/BFGmPA
-   JqT9BGCIAOqTA67M9SaVxUVupJ3adHb2t5Ln9dCrH0sopHSRDlfEvKlT0
-   aZJQQHwWBSlJ8g99eVAQgS4kADoTe6H4cLZkZPKxMTCgrC/Liga3i7MJR
-   h+F6+SbLicupbaT9JO5i5a2hUijyq+mRkoEvr5ouAmqM7M3KnPOsYzpjS
-   P8CM16U+BWj/s2p5RwqImsYzeC5rTQvblvFJMo69g1JmqJUzpv5eIJgEn
-   slLhduBKTOkYnCSSfdWbzZ5+blov2ZvhvNoa0+fj/KFfbrcAAkvHzkXvA
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="342832723"
-X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="342832723"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 20:58:48 -0700
+  bh=aDWnjDDjOkCSLr96n+dTKP4CAeQgCFKCzmLfOs7H9KU=;
+  b=D3xEHTV4RpOHq57bkfbG19hqyWE9TKnFyxLhtTWS+kXNoammxXhm59yk
+   fnF2XwGeVfSM4PGEodA/hXZQ0YHZssoDRO0nXak7bEAq+W/8ijAHjn+YY
+   Au0iweDBGTFNOQqDclTqKOUpALkLMwHUIPKomjrZGbFpxIMl+ZIVTmj6I
+   dIFDgpUsEXa0kZuSUn9Mhgk1mHiGktTa03/fvO6QAP3vC7L77pqvWWjRK
+   Ro/ovhjf4mNh7Zf5ApVfOQX1vPoDO5ai78tG5tCodSxxJKAIgE1EcZhdL
+   u3nq3QhVLBN3o5GaHtZ3Mt+0xRmZCDHY1McWedwISMU+yIpimIvWO8tKI
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="360751639"
+X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
+   d="scan'208";a="360751639"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 00:45:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="843149553"
-X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="843149553"
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="754264962"
+X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
+   d="scan'208";a="754264962"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 04 Jul 2023 20:58:47 -0700
+  by orsmga001.jf.intel.com with ESMTP; 05 Jul 2023 00:45:52 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qGtfC-0000Kc-20;
-	Wed, 05 Jul 2023 03:58:46 +0000
-Date: Wed, 5 Jul 2023 11:58:36 +0800
+	id 1qGxCx-0000U8-1a;
+	Wed, 05 Jul 2023 07:45:51 +0000
+Date: Wed, 5 Jul 2023 15:44:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [djwong-xfs:xfile-page-caching 166/217] fs/xfs/xfs_xchgrange.c:666
- xfs_xchg_range_grab_log_assist() warn: missing error code 'error'
-Message-ID: <202307051158.UjG46D3c-lkp@intel.com>
+Subject: arch/csky/kernel/setup.c:133 csky_start() warn: ignoring unreachable
+ code.
+Message-ID: <202307051531.e2wyIEed-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,91 +48,56 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+CC: linux-kernel@vger.kernel.org
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
-head:   c0ed27a65e17a5d3db3a6e2a4df60d4642524c8c
-commit: 4885e2ac7dc43f02ff2a18bbec51e198086ab318 [166/217] xfs: bind the xfs-specific extent swape code to the vfs-generic file exchange code
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
-config: riscv-randconfig-m031-20230703 (https://download.01.org/0day-ci/archive/20230705/202307051158.UjG46D3c-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230705/202307051158.UjG46D3c-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d528014517f2b0531862c02865b9d4c908019dc4
+commit: 25a6917ca63ad4470bf88535c56f0dec72b570fe init: Mark start_kernel() __noreturn
+date:   3 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 3 months ago
+config: csky-randconfig-m041-20230705 (https://download.01.org/0day-ci/archive/20230705/202307051531.e2wyIEed-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230705/202307051531.e2wyIEed-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307051158.UjG46D3c-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307051531.e2wyIEed-lkp@intel.com/
 
 smatch warnings:
-fs/xfs/xfs_xchgrange.c:666 xfs_xchg_range_grab_log_assist() warn: missing error code 'error'
+arch/csky/kernel/setup.c:133 csky_start() warn: ignoring unreachable code.
 
-vim +/error +666 fs/xfs/xfs_xchgrange.c
+vim +133 arch/csky/kernel/setup.c
 
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  629  
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  630  /*
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  631   * Get permission to use log-assisted atomic exchange of file extents.
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  632   *
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  633   * Callers must hold the IOLOCK and MMAPLOCK of both files.  They must not be
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  634   * running any transactions or hold any ILOCKS.  If @use_logging is set after a
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  635   * successful return, callers must call xfs_xchg_range_rele_log_assist after
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  636   * the exchange is completed.
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  637   */
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  638  int
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  639  xfs_xchg_range_grab_log_assist(
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  640  	struct xfs_mount	*mp,
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  641  	bool			force,
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  642  	bool			*use_logging)
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  643  {
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  644  	int			error = 0;
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  645  
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  646  	/*
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  647  	 * Protect ourselves from an idle log clearing the atomic swapext
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  648  	 * log incompat feature bit.
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  649  	 */
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  650  	xlog_use_incompat_feat(mp->m_log, XLOG_INCOMPAT_FEAT_SWAPEXT);
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  651  	*use_logging = true;
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  652  
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  653  	/*
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  654  	 * If log-assisted swapping is already enabled, the caller can use the
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  655  	 * log assisted swap functions with the log-incompat reference we got.
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  656  	 */
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  657  	if (xfs_sb_version_haslogswapext(&mp->m_sb))
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  658  		return 0;
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  659  
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  660  	/*
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  661  	 * If the caller doesn't /require/ log-assisted swapping, drop the
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  662  	 * log-incompat feature protection and exit.  The caller cannot use
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  663  	 * log assisted swapping.
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  664  	 */
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  665  	if (!force)
-4885e2ac7dc43f Darrick J. Wong 2023-03-06 @666  		goto drop_incompat;
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  667  
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  668  	/*
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  669  	 * Caller requires log-assisted swapping but the fs feature set isn't
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  670  	 * rich enough to support it.  Bail out.
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  671  	 */
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  672  	if (!xfs_swapext_supported(mp)) {
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  673  		error = -EOPNOTSUPP;
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  674  		goto drop_incompat;
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  675  	}
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  676  
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  677  	error = xfs_add_incompat_log_feature(mp,
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  678  			XFS_SB_FEAT_INCOMPAT_LOG_SWAPEXT);
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  679  	if (error)
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  680  		goto drop_incompat;
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  681  
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  682  	xfs_warn_mount(mp, XFS_OPSTATE_WARNED_SWAPEXT,
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  683   "EXPERIMENTAL atomic file range swap feature in use. Use at your own risk!");
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  684  
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  685  	return 0;
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  686  drop_incompat:
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  687  	xlog_drop_incompat_feat(mp->m_log, XLOG_INCOMPAT_FEAT_SWAPEXT);
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  688  	*use_logging = false;
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  689  	return error;
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  690  }
-4885e2ac7dc43f Darrick J. Wong 2023-03-06  691  
+0c8a32eed1625a Guo Ren 2020-09-07  115  
+205353fa06cc5d Guo Ren 2019-04-12  116  asmlinkage __visible void __init csky_start(unsigned int unused,
+205353fa06cc5d Guo Ren 2019-04-12  117  					    void *dtb_start)
+9143a9359d0511 Guo Ren 2018-09-05  118  {
+9143a9359d0511 Guo Ren 2018-09-05  119  	/* Clean up bss section */
+9143a9359d0511 Guo Ren 2018-09-05  120  	memset(__bss_start, 0, __bss_stop - __bss_start);
+9143a9359d0511 Guo Ren 2018-09-05  121  
+0c8a32eed1625a Guo Ren 2020-09-07  122  	va_pa_offset = read_mmu_msa() & ~(SSEG_SIZE - 1);
+f62e31623d718a Guo Ren 2019-04-08  123  
+9143a9359d0511 Guo Ren 2018-09-05  124  	pre_trap_init();
+9143a9359d0511 Guo Ren 2018-09-05  125  
+205353fa06cc5d Guo Ren 2019-04-12  126  	if (dtb_start == NULL)
+9143a9359d0511 Guo Ren 2018-09-05  127  		early_init_dt_scan(__dtb_start);
+9143a9359d0511 Guo Ren 2018-09-05  128  	else
+205353fa06cc5d Guo Ren 2019-04-12  129  		early_init_dt_scan(dtb_start);
+9143a9359d0511 Guo Ren 2018-09-05  130  
+9143a9359d0511 Guo Ren 2018-09-05  131  	start_kernel();
+9143a9359d0511 Guo Ren 2018-09-05  132  
+9143a9359d0511 Guo Ren 2018-09-05 @133  	asm volatile("br .\n");
+
+:::::: The code at line 133 was first introduced by commit
+:::::: 9143a9359d051142081b26c3726c928f965c5eb7 csky: Kernel booting
+
+:::::: TO: Guo Ren <ren_guo@c-sky.com>
+:::::: CC: Guo Ren <ren_guo@c-sky.com>
 
 -- 
 0-DAY CI Kernel Test Service
