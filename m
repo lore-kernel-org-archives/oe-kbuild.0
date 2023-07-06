@@ -1,52 +1,43 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A456779D9
-	for <oe-kbuild@lists.linux.dev>; Wed,  5 Jul 2023 13:19:23 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3142a9ff6d8so5076659f8f.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 05 Jul 2023 06:19:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688563161; x=1691155161;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8jQ1QZCzOqYPccUdEQio2rDBD6NWfAGUMfJT4X6RlT4=;
-        b=E6rCtPwojHdNIMxoUgZKv66Bs+OYEog0GyT5T/lOP9loO1pPjzG8oMPXweCUxxVHM4
-         IjjQnoT6U6HRfTU8r4sIJjEw+hHZwjQMeobpeYrY8uZHe3lc2x2goYtKB48HOReJg91m
-         tgdMflNhGCCFlm7wT9Xa6uaGwU/JxoZGCVsFUIdrKrgWGUZRleyKVFjT71oWUfBTvaqR
-         4XAhi87JUt60UsHCRW9Uayfh+nwPTyO/PKOccAm1bZcks/pi1i9jd75XyfNb80LvML+O
-         3iq6Y+VJVBQ4voc2X3BXRn1blmsrTY+n1COLARTuCpa/VIO26Xf1q7mgLY3/mKU0uiSw
-         rFEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688563161; x=1691155161;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8jQ1QZCzOqYPccUdEQio2rDBD6NWfAGUMfJT4X6RlT4=;
-        b=Ruw7NHOEb1gldDg32XngViGep1DjRdZU/cGXKEheJ7Y8ecTl5A+3UYa7/uYrt0HEOa
-         3ZN8DTq3rtXyCi77JYLVDG9yizQ7sxxGhViyH3U1h70FuP9zgZ5kEDlFVGeTZ8d9AlvB
-         g7GDiFV6j1d461OQaI3lxLpTc4AV/WNsykEF4M5Su9ToHZmIBkWrQIULuRpxMwCRniYL
-         28tQ4mzPeRP5nD/p5Rx4EOKpueVAzsnIfmU0jZrmKdK3OIprV7u6lhG/CnWog4wvEdBO
-         iQSuQlL7ZaLhbYUrPzsaS9bo7Kmk4NocKu8Sz5CUNBLfFPs5UYSlkPlwNOnrrZsTwOFJ
-         s+3Q==
-X-Gm-Message-State: ABy/qLaGMh7Y1wutHa1d6bxtVRmTtTZWDXP7nEi3FhOlsFLA0SZRosDn
-	yMABo19Q92hDDPvaD6eZkxMxi4kd4HfC4/1inNA=
-X-Google-Smtp-Source: APBJJlGH81r1mWbyZGmNL/M3bj/VYx8oNm4wYVvpRZdishpUEgE1rGXAW74yaGJ2SXBstrEmCF4D3A==
-X-Received: by 2002:adf:e407:0:b0:314:f18:bc65 with SMTP id g7-20020adfe407000000b003140f18bc65mr14172900wrm.66.1688563160993;
-        Wed, 05 Jul 2023 06:19:20 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c23-20020a05600c0ad700b003fa95890484sm2132562wmr.20.2023.07.05.06.19.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jul 2023 06:19:19 -0700 (PDT)
-Date: Wed, 5 Jul 2023 16:19:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jorge Lopez <jorge.lopez2@hp.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Subject: [pdx86-platform-drivers-x86:review-hans 109/110]
- drivers/platform/x86/hp/hp-bioscfg/bioscfg.c:637 hp_add_other_attributes()
- warn: missing error code 'ret'
-Message-ID: <46230c3f-106f-492e-bb4a-b53306f9ff04@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D2BA40
+	for <oe-kbuild@lists.linux.dev>; Thu,  6 Jul 2023 02:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688609356; x=1720145356;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9aCOrlJA7bvBPER1hqWXyJyb/QvPCfolXI7X1uUZBHo=;
+  b=LilaJEZHi3c/DURBmk5kC5s1OqBO2Xxgyl86cI3R17JhB0RXeHK3cbBC
+   8eW3MpLgxn/Fmlb5k/pjdMr9fsEYnwSspHK1QteabJYcWmSkNqcvSGJiC
+   Xk7ZJQzwvSB+lNmiUmMbUZK/uYvJaw5xyW/mwOBAeNIanA9wHE14YJGCv
+   KQEkvmasvVCfCPRJTYCrXaxJ/ylOlO0zvJFotZr634QdwYscIvSbNDT3D
+   WEnnssxEyY8gD5UXoIOjo6RkrkVbX1QqM26aCKFQTdHKdOQnqKd1Blwmj
+   bPAtXy3zrA82jDkyI1vFX6XSyBl18b2I/g+L7ZsqsLz/I9mpcEMi6nQTS
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="449845211"
+X-IronPort-AV: E=Sophos;i="6.01,184,1684825200"; 
+   d="scan'208";a="449845211"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 19:09:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="754582177"
+X-IronPort-AV: E=Sophos;i="6.01,184,1684825200"; 
+   d="scan'208";a="754582177"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 05 Jul 2023 19:09:12 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qHEQh-0000yU-1l;
+	Thu, 06 Jul 2023 02:09:11 +0000
+Date: Thu, 6 Jul 2023 10:08:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [jsarha:topic/cros-sof-v4.14-rebase 3532/9999]
+ sound/soc/soc-topology.c:1138:60: sparse: sparse: incorrect type in argument
+ 3 (different base types)
+Message-ID: <202307061052.GNxIJD99-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,172 +47,352 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-hans
-head:   645a08fa74b9add29eed1c15824f697ab3a1e843
-commit: 16f2ee70f189cba76416436763d34109f2690b9f [109/110] platform/x86: hp-bioscfg: Makefile
-config: i386-randconfig-m021-20230703 (https://download.01.org/0day-ci/archive/20230705/202307052003.TLrtMhBi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230705/202307052003.TLrtMhBi-lkp@intel.com/reproduce)
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Liam Girdwood <liam.r.girdwood@linux.intel.com>
+CC: Samaga Prasanna Krishna <samaga.krishna@intel.corp-partner.google.com>
+CC: Curtis Malainey <cujomalainey@chromium.org>
+
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.14-rebase
+head:   18a233f3f676a98dde00947535d99ab1a54da340
+commit: 9e1491388e755ed2b1dcffbaa54f76b2ad7a67ea [3532/9999] FROMLIST: ASoC: SOF: Add Build support for SOF core and Intel drivers
+:::::: branch date: 4 years, 2 months ago
+:::::: commit date: 4 years, 8 months ago
+config: i386-randconfig-i061-20230704 (https://download.01.org/0day-ci/archive/20230706/202307061052.GNxIJD99-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230706/202307061052.GNxIJD99-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307052003.TLrtMhBi-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307061052.GNxIJD99-lkp@intel.com/
 
-[
-  I would normally go through these and filter out the false positives.
-  My guess is that probably the majority of the "int_value" warnings are
-  false positives but you have to do some cross function analysis to
-  verify it.  Probably just initialize it to zero is the best approach.
+sparse warnings: (new ones prefixed by >>)
+   sound/soc/soc-topology.c:2503:45: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:261:28: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:262:39: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __le32 [usertype] reg @@
+   sound/soc/soc-topology.c:262:39: sparse:     expected int
+   sound/soc/soc-topology.c:262:39: sparse:     got restricted __le32 [usertype] reg
+   sound/soc/soc-topology.c:274:28: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:275:39: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __le32 [usertype] shift @@
+   sound/soc/soc-topology.c:275:39: sparse:     expected int
+   sound/soc/soc-topology.c:275:39: sparse:     got restricted __le32 [usertype] shift
+   sound/soc/soc-topology.c:604:21: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:623:70: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:625:70: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:640:60: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:642:60: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:644:61: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:657:60: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:659:60: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:661:61: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:720:14: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __le32 [usertype] min @@
+   sound/soc/soc-topology.c:720:14: sparse:     expected unsigned int
+   sound/soc/soc-topology.c:720:14: sparse:     got restricted __le32 [usertype] min
+   sound/soc/soc-topology.c:721:22: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:733:17: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:736:17: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:738:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:789:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:799:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] access @@     got restricted __le32 [usertype] access @@
+   sound/soc/soc-topology.c:799:27: sparse:     expected unsigned int [addressable] [assigned] access
+   sound/soc/soc-topology.c:799:27: sparse:     got restricted __le32 [usertype] access
+   sound/soc/soc-topology.c:801:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
+   sound/soc/soc-topology.c:801:26: sparse:     expected int max
+   sound/soc/soc-topology.c:801:26: sparse:     got restricted __le32 [usertype] max
+   sound/soc/soc-topology.c:869:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:879:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] access @@     got restricted __le32 [usertype] access @@
+   sound/soc/soc-topology.c:879:27: sparse:     expected unsigned int [addressable] [assigned] access
+   sound/soc/soc-topology.c:879:27: sparse:     got restricted __le32 [usertype] access
+   sound/soc/soc-topology.c:891:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
+   sound/soc/soc-topology.c:891:25: sparse:     expected int max
+   sound/soc/soc-topology.c:891:25: sparse:     got restricted __le32 [usertype] max
+   sound/soc/soc-topology.c:892:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int min @@     got restricted __le32 [usertype] min @@
+   sound/soc/soc-topology.c:892:25: sparse:     expected int min
+   sound/soc/soc-topology.c:892:25: sparse:     got restricted __le32 [usertype] min
+   sound/soc/soc-topology.c:893:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int invert:1 @@     got restricted __le32 [usertype] invert @@
+   sound/soc/soc-topology.c:893:28: sparse:     expected unsigned int invert:1
+   sound/soc/soc-topology.c:893:28: sparse:     got restricted __le32 [usertype] invert
+   sound/soc/soc-topology.c:894:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected int platform_max @@     got restricted __le32 [usertype] platform_max @@
+   sound/soc/soc-topology.c:894:34: sparse:     expected int platform_max
+   sound/soc/soc-topology.c:894:34: sparse:     got restricted __le32 [usertype] platform_max
+   sound/soc/soc-topology.c:944:44: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:948:27: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:976:15: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:980:46: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1008:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1026:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] access @@     got restricted __le32 [usertype] access @@
+   sound/soc/soc-topology.c:1026:27: sparse:     expected unsigned int [addressable] [assigned] access
+   sound/soc/soc-topology.c:1026:27: sparse:     got restricted __le32 [usertype] access
+   sound/soc/soc-topology.c:1034:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int items @@     got restricted __le32 [usertype] items @@
+   sound/soc/soc-topology.c:1034:27: sparse:     expected unsigned int items
+   sound/soc/soc-topology.c:1034:27: sparse:     got restricted __le32 [usertype] items
+   sound/soc/soc-topology.c:1035:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int mask @@     got restricted __le32 [usertype] mask @@
+   sound/soc/soc-topology.c:1035:26: sparse:     expected unsigned int mask
+   sound/soc/soc-topology.c:1035:26: sparse:     got restricted __le32 [usertype] mask
+   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1114:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1114:45: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1121:28: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1125:32: sparse: sparse: restricted __le32 degrades to integer
+>> sound/soc/soc-topology.c:1138:60: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] size @@     got restricted __le32 [usertype] payload_size @@
+   sound/soc/soc-topology.c:1138:60: sparse:     expected unsigned int [usertype] size
+   sound/soc/soc-topology.c:1138:60: sparse:     got restricted __le32 [usertype] payload_size
+   sound/soc/soc-topology.c:1145:59: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] size @@     got restricted __le32 [usertype] payload_size @@
+   sound/soc/soc-topology.c:1145:59: sparse:     expected unsigned int [usertype] size
+   sound/soc/soc-topology.c:1145:59: sparse:     got restricted __le32 [usertype] payload_size
+   sound/soc/soc-topology.c:1148:60: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] size @@     got restricted __le32 [usertype] payload_size @@
+   sound/soc/soc-topology.c:1148:60: sparse:     expected unsigned int [usertype] size
+   sound/soc/soc-topology.c:1148:60: sparse:     got restricted __le32 [usertype] payload_size
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1176:24: sparse: sparse: incorrect type in initializer (different base types) @@     expected int count @@     got restricted __le32 [usertype] count @@
+   sound/soc/soc-topology.c:1176:24: sparse:     expected int count
+   sound/soc/soc-topology.c:1176:24: sparse:     got restricted __le32 [usertype] count
+   sound/soc/soc-topology.c:1179:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1179:45: sparse: sparse: restricted __le32 degrades to integer
+>> sound/soc/soc-topology.c:1185:27: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned int [usertype] bytes @@     got restricted __le32 [usertype] payload_size @@
+   sound/soc/soc-topology.c:1185:27: sparse:     expected unsigned int [usertype] bytes
+   sound/soc/soc-topology.c:1185:27: sparse:     got restricted __le32 [usertype] payload_size
+   sound/soc/soc-topology.c:1246:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1261:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int access @@     got restricted __le32 [usertype] access @@
+   sound/soc/soc-topology.c:1261:30: sparse:     expected unsigned int access
+   sound/soc/soc-topology.c:1261:30: sparse:     got restricted __le32 [usertype] access
+   sound/soc/soc-topology.c:1273:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
+   sound/soc/soc-topology.c:1273:25: sparse:     expected int max
+   sound/soc/soc-topology.c:1273:25: sparse:     got restricted __le32 [usertype] max
+   sound/soc/soc-topology.c:1274:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int min @@     got restricted __le32 [usertype] min @@
+   sound/soc/soc-topology.c:1274:25: sparse:     expected int min
+   sound/soc/soc-topology.c:1274:25: sparse:     got restricted __le32 [usertype] min
+   sound/soc/soc-topology.c:1275:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int invert:1 @@     got restricted __le32 [usertype] invert @@
+   sound/soc/soc-topology.c:1275:28: sparse:     expected unsigned int invert:1
+   sound/soc/soc-topology.c:1275:28: sparse:     got restricted __le32 [usertype] invert
+   sound/soc/soc-topology.c:1276:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected int platform_max @@     got restricted __le32 [usertype] platform_max @@
+   sound/soc/soc-topology.c:1276:34: sparse:     expected int platform_max
+   sound/soc/soc-topology.c:1276:34: sparse:     got restricted __le32 [usertype] platform_max
+   sound/soc/soc-topology.c:1345:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int access @@     got restricted __le32 [usertype] access @@
+   sound/soc/soc-topology.c:1345:30: sparse:     expected unsigned int access
+   sound/soc/soc-topology.c:1345:30: sparse:     got restricted __le32 [usertype] access
+   sound/soc/soc-topology.c:1354:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int items @@     got restricted __le32 [usertype] items @@
+   sound/soc/soc-topology.c:1354:27: sparse:     expected unsigned int items
+   sound/soc/soc-topology.c:1354:27: sparse:     got restricted __le32 [usertype] items
+   sound/soc/soc-topology.c:1355:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int mask @@     got restricted __le32 [usertype] mask @@
+   sound/soc/soc-topology.c:1355:26: sparse:     expected unsigned int mask
+   sound/soc/soc-topology.c:1355:26: sparse:     got restricted __le32 [usertype] mask
+   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1401:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1414:35: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1451:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1462:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int access @@     got restricted __le32 [usertype] access @@
+   sound/soc/soc-topology.c:1462:30: sparse:     expected unsigned int access
+   sound/soc/soc-topology.c:1462:30: sparse:     got restricted __le32 [usertype] access
+   sound/soc/soc-topology.c:1464:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
+   sound/soc/soc-topology.c:1464:26: sparse:     expected int max
+   sound/soc/soc-topology.c:1464:26: sparse:     got restricted __le32 [usertype] max
+   sound/soc/soc-topology.c:1521:38: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected int tplg_type @@     got restricted __le32 [usertype] id @@
+   sound/soc/soc-topology.c:1521:38: sparse:     expected int tplg_type
+   sound/soc/soc-topology.c:1521:38: sparse:     got restricted __le32 [usertype] id
+   sound/soc/soc-topology.c:1534:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] reg @@     got restricted __le32 [usertype] reg @@
+   sound/soc/soc-topology.c:1534:22: sparse:     expected int [addressable] [assigned] reg
+   sound/soc/soc-topology.c:1534:22: sparse:     got restricted __le32 [usertype] reg
+   sound/soc/soc-topology.c:1535:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [addressable] [assigned] shift @@     got restricted __le32 [usertype] shift @@
+   sound/soc/soc-topology.c:1535:24: sparse:     expected unsigned char [addressable] [assigned] shift
+   sound/soc/soc-topology.c:1535:24: sparse:     got restricted __le32 [usertype] shift
+   sound/soc/soc-topology.c:1536:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] mask @@     got restricted __le32 [usertype] mask @@
+   sound/soc/soc-topology.c:1536:23: sparse:     expected unsigned int [addressable] [assigned] mask
+   sound/soc/soc-topology.c:1536:23: sparse:     got restricted __le32 [usertype] mask
+   sound/soc/soc-topology.c:1537:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] subseq @@     got restricted __le32 [usertype] subseq @@
+   sound/soc/soc-topology.c:1537:25: sparse:     expected int [addressable] [assigned] subseq
+   sound/soc/soc-topology.c:1537:25: sparse:     got restricted __le32 [usertype] subseq
+   sound/soc/soc-topology.c:1540:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [addressable] [assigned] ignore_suspend:1 @@     got restricted __le32 [usertype] ignore_suspend @@
+   sound/soc/soc-topology.c:1540:33: sparse:     expected unsigned char [addressable] [assigned] ignore_suspend:1
+   sound/soc/soc-topology.c:1540:33: sparse:     got restricted __le32 [usertype] ignore_suspend
+   sound/soc/soc-topology.c:1541:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [assigned] event_flags @@     got restricted __le16 [usertype] event_flags @@
+   sound/soc/soc-topology.c:1541:30: sparse:     expected unsigned short [addressable] [assigned] event_flags
+   sound/soc/soc-topology.c:1541:30: sparse:     got restricted __le16 [usertype] event_flags
+   sound/soc/soc-topology.c:1545:67: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1564:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] num_kcontrols @@     got restricted __le32 [usertype] num_kcontrols @@
+   sound/soc/soc-topology.c:1564:40: sparse:     expected int [addressable] [assigned] num_kcontrols
+   sound/soc/soc-topology.c:1564:40: sparse:     got restricted __le32 [usertype] num_kcontrols
+   sound/soc/soc-topology.c:1579:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] num_kcontrols @@     got restricted __le32 [usertype] num_kcontrols @@
+   sound/soc/soc-topology.c:1579:40: sparse:     expected int [addressable] [assigned] num_kcontrols
+   sound/soc/soc-topology.c:1579:40: sparse:     got restricted __le32 [usertype] num_kcontrols
+   sound/soc/soc-topology.c:1590:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] num_kcontrols @@     got restricted __le32 [usertype] num_kcontrols @@
+   sound/soc/soc-topology.c:1590:40: sparse:     expected int [addressable] [assigned] num_kcontrols
+   sound/soc/soc-topology.c:1590:40: sparse:     got restricted __le32 [usertype] num_kcontrols
+   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1556:33: sparse: sparse: too many warnings
+   sound/soc/soc-topology.c: In function 'soc_tplg_denum_create':
+   sound/soc/soc-topology.c:1045:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
+       if (err < 0) {
+          ^
+   sound/soc/soc-topology.c:1053:3: note: here
+      case SND_SOC_TPLG_CTL_ENUM:
+      ^~~~
+   sound/soc/soc-topology.c: In function 'soc_tplg_dapm_widget_denum_create':
+   sound/soc/soc-topology.c:1362:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
+       if (err < 0) {
+          ^
+   sound/soc/soc-topology.c:1368:3: note: here
+      case SND_SOC_TPLG_CTL_ENUM:
+      ^~~~
 
-  Sometimes people complain about initializing stuff to zero but I don't
-  see the harm.  The compiler is already going to do that anyway so it
-  shouldn't affect the compiled code.  (Only irresponsible people who
-  want to be hacked turn off the GCC extension to automatically
-  initialize stack variables these days).
+vim +1138 sound/soc/soc-topology.c
 
-  - dan ]
+8a9782346dccd8 Liam Girdwood 2015-05-29  1106  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1107  static int soc_tplg_kcontrol_elems_load(struct soc_tplg *tplg,
+8a9782346dccd8 Liam Girdwood 2015-05-29  1108  	struct snd_soc_tplg_hdr *hdr)
+8a9782346dccd8 Liam Girdwood 2015-05-29  1109  {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1110  	struct snd_soc_tplg_ctl_hdr *control_hdr;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1111  	int i;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1112  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1113  	if (tplg->pass != SOC_TPLG_PASS_MIXER) {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1114  		tplg->pos += hdr->size + hdr->payload_size;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1115  		return 0;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1116  	}
+8a9782346dccd8 Liam Girdwood 2015-05-29  1117  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1118  	dev_dbg(tplg->dev, "ASoC: adding %d kcontrols at 0x%lx\n", hdr->count,
+8a9782346dccd8 Liam Girdwood 2015-05-29  1119  		soc_tplg_get_offset(tplg));
+8a9782346dccd8 Liam Girdwood 2015-05-29  1120  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1121  	for (i = 0; i < hdr->count; i++) {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1122  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1123  		control_hdr = (struct snd_soc_tplg_ctl_hdr *)tplg->pos;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1124  
+06eb49f72fa57f Mengdong Lin  2016-04-27  1125  		if (control_hdr->size != sizeof(*control_hdr)) {
+06eb49f72fa57f Mengdong Lin  2016-04-27  1126  			dev_err(tplg->dev, "ASoC: invalid control size\n");
+06eb49f72fa57f Mengdong Lin  2016-04-27  1127  			return -EINVAL;
+06eb49f72fa57f Mengdong Lin  2016-04-27  1128  		}
+06eb49f72fa57f Mengdong Lin  2016-04-27  1129  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1130  		switch (control_hdr->ops.info) {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1131  		case SND_SOC_TPLG_CTL_VOLSW:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1132  		case SND_SOC_TPLG_CTL_STROBE:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1133  		case SND_SOC_TPLG_CTL_VOLSW_SX:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1134  		case SND_SOC_TPLG_CTL_VOLSW_XR_SX:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1135  		case SND_SOC_TPLG_CTL_RANGE:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1136  		case SND_SOC_TPLG_DAPM_CTL_VOLSW:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1137  		case SND_SOC_TPLG_DAPM_CTL_PIN:
+8a9782346dccd8 Liam Girdwood 2015-05-29 @1138  			soc_tplg_dmixer_create(tplg, 1, hdr->payload_size);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1139  			break;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1140  		case SND_SOC_TPLG_CTL_ENUM:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1141  		case SND_SOC_TPLG_CTL_ENUM_VALUE:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1142  		case SND_SOC_TPLG_DAPM_CTL_ENUM_DOUBLE:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1143  		case SND_SOC_TPLG_DAPM_CTL_ENUM_VIRT:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1144  		case SND_SOC_TPLG_DAPM_CTL_ENUM_VALUE:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1145  			soc_tplg_denum_create(tplg, 1, hdr->payload_size);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1146  			break;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1147  		case SND_SOC_TPLG_CTL_BYTES:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1148  			soc_tplg_dbytes_create(tplg, 1, hdr->payload_size);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1149  			break;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1150  		default:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1151  			soc_bind_err(tplg, control_hdr, i);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1152  			return -EINVAL;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1153  		}
+8a9782346dccd8 Liam Girdwood 2015-05-29  1154  	}
+8a9782346dccd8 Liam Girdwood 2015-05-29  1155  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1156  	return 0;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1157  }
+8a9782346dccd8 Liam Girdwood 2015-05-29  1158  
+cefcae315215e6 Liam Girdwood 2018-06-14  1159  /* optionally pass new dynamic kcontrol to component driver. */
+cefcae315215e6 Liam Girdwood 2018-06-14  1160  static int soc_tplg_add_route(struct soc_tplg *tplg,
+cefcae315215e6 Liam Girdwood 2018-06-14  1161  	struct snd_soc_dapm_route *route)
+cefcae315215e6 Liam Girdwood 2018-06-14  1162  {
+cefcae315215e6 Liam Girdwood 2018-06-14  1163  	if (tplg->comp && tplg->ops && tplg->ops->dapm_route_load)
+cefcae315215e6 Liam Girdwood 2018-06-14  1164  		return tplg->ops->dapm_route_load(tplg->comp, tplg->index,
+cefcae315215e6 Liam Girdwood 2018-06-14  1165  			route);
+cefcae315215e6 Liam Girdwood 2018-06-14  1166  
+cefcae315215e6 Liam Girdwood 2018-06-14  1167  	return 0;
+cefcae315215e6 Liam Girdwood 2018-06-14  1168  }
+cefcae315215e6 Liam Girdwood 2018-06-14  1169  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1170  static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
+8a9782346dccd8 Liam Girdwood 2015-05-29  1171  	struct snd_soc_tplg_hdr *hdr)
+8a9782346dccd8 Liam Girdwood 2015-05-29  1172  {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1173  	struct snd_soc_dapm_context *dapm = &tplg->comp->dapm;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1174  	struct snd_soc_dapm_route route;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1175  	struct snd_soc_tplg_dapm_graph_elem *elem;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1176  	int count = hdr->count, i;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1177  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1178  	if (tplg->pass != SOC_TPLG_PASS_GRAPH) {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1179  		tplg->pos += hdr->size + hdr->payload_size;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1180  		return 0;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1181  	}
+8a9782346dccd8 Liam Girdwood 2015-05-29  1182  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1183  	if (soc_tplg_check_elem_count(tplg,
+8a9782346dccd8 Liam Girdwood 2015-05-29  1184  		sizeof(struct snd_soc_tplg_dapm_graph_elem),
+8a9782346dccd8 Liam Girdwood 2015-05-29 @1185  		count, hdr->payload_size, "graph")) {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1186  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1187  		dev_err(tplg->dev, "ASoC: invalid count %d for DAPM routes\n",
+8a9782346dccd8 Liam Girdwood 2015-05-29  1188  			count);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1189  		return -EINVAL;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1190  	}
+8a9782346dccd8 Liam Girdwood 2015-05-29  1191  
+b75a65118d287a Liam Girdwood 2017-06-29  1192  	dev_dbg(tplg->dev, "ASoC: adding %d DAPM routes for index %d\n", count,
+b75a65118d287a Liam Girdwood 2017-06-29  1193  		hdr->index);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1194  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1195  	for (i = 0; i < count; i++) {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1196  		elem = (struct snd_soc_tplg_dapm_graph_elem *)tplg->pos;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1197  		tplg->pos += sizeof(struct snd_soc_tplg_dapm_graph_elem);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1198  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1199  		/* validate routes */
+8a9782346dccd8 Liam Girdwood 2015-05-29  1200  		if (strnlen(elem->source, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) ==
+8a9782346dccd8 Liam Girdwood 2015-05-29  1201  			SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
+8a9782346dccd8 Liam Girdwood 2015-05-29  1202  			return -EINVAL;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1203  		if (strnlen(elem->sink, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) ==
+8a9782346dccd8 Liam Girdwood 2015-05-29  1204  			SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
+8a9782346dccd8 Liam Girdwood 2015-05-29  1205  			return -EINVAL;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1206  		if (strnlen(elem->control, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) ==
+8a9782346dccd8 Liam Girdwood 2015-05-29  1207  			SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
+8a9782346dccd8 Liam Girdwood 2015-05-29  1208  			return -EINVAL;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1209  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1210  		route.source = elem->source;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1211  		route.sink = elem->sink;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1212  		route.connected = NULL; /* set to NULL atm for tplg users */
+8a9782346dccd8 Liam Girdwood 2015-05-29  1213  		if (strnlen(elem->control, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) == 0)
+8a9782346dccd8 Liam Girdwood 2015-05-29  1214  			route.control = NULL;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1215  		else
+8a9782346dccd8 Liam Girdwood 2015-05-29  1216  			route.control = elem->control;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1217  
+cefcae315215e6 Liam Girdwood 2018-06-14  1218  		soc_tplg_add_route(tplg, &route);
+cefcae315215e6 Liam Girdwood 2018-06-14  1219  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1220  		/* add route, but keep going if some fail */
+8a9782346dccd8 Liam Girdwood 2015-05-29  1221  		snd_soc_dapm_add_routes(dapm, &route, 1);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1222  	}
+8a9782346dccd8 Liam Girdwood 2015-05-29  1223  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1224  	return 0;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1225  }
+8a9782346dccd8 Liam Girdwood 2015-05-29  1226  
 
-New smatch warnings:
-drivers/platform/x86/hp/hp-bioscfg/bioscfg.c:637 hp_add_other_attributes() warn: missing error code 'ret'
-drivers/platform/x86/hp/hp-bioscfg/bioscfg.c:646 hp_add_other_attributes() warn: possible memory leak of 'attr_name_kobj'
-drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.c:130 hp_wmi_perform_query() warn: unsigned 'mid' is never less than zero.
-drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c:180 hp_populate_enumeration_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c:285 hp_populate_enumeration_elements_from_package() error: double free of 'str_value'
-drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c:192 hp_populate_ordered_list_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c:262 hp_populate_ordered_list_elements_from_package() error: uninitialized symbol 'value_len'.
-drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c:286 hp_populate_ordered_list_elements_from_package() error: double free of 'str_value'
-drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c:290 hp_populate_ordered_list_elements_from_package() error: double free of 'tmpstr'
-drivers/platform/x86/hp/hp-bioscfg/int-attributes.c:198 hp_populate_integer_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/int-attributes.c:263 hp_populate_integer_elements_from_package() error: double free of 'str_value'
-drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:279 hp_populate_password_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:371 hp_populate_password_elements_from_package() error: double free of 'str_value'
-drivers/platform/x86/hp/hp-bioscfg/string-attributes.c:188 hp_populate_string_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/string-attributes.c:252 hp_populate_string_elements_from_package() error: double free of 'str_value'
+:::::: The code at line 1138 was first introduced by commit
+:::::: 8a9782346dccd82cf912552735bda619de4efd8c ASoC: topology: Add topology core
 
-Old smatch warnings:
-drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c:183 hp_populate_enumeration_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c:186 hp_populate_enumeration_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c:189 hp_populate_enumeration_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c:192 hp_populate_enumeration_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c:231 hp_populate_enumeration_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c:239 hp_populate_enumeration_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/enum-attributes.c:289 hp_populate_enumeration_elements_from_package() error: double free of 'str_value'
-drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c:195 hp_populate_ordered_list_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c:198 hp_populate_ordered_list_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c:201 hp_populate_ordered_list_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c:204 hp_populate_ordered_list_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c:238 hp_populate_ordered_list_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c:242 hp_populate_ordered_list_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/order-list-attributes.c:291 hp_populate_ordered_list_elements_from_package() error: double free of 'str_value'
-drivers/platform/x86/hp/hp-bioscfg/int-attributes.c:201 hp_populate_integer_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/int-attributes.c:204 hp_populate_integer_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/int-attributes.c:207 hp_populate_integer_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/int-attributes.c:246 hp_populate_integer_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/int-attributes.c:249 hp_populate_integer_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/int-attributes.c:252 hp_populate_integer_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/int-attributes.c:255 hp_populate_integer_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:282 hp_populate_password_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:285 hp_populate_password_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:288 hp_populate_password_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:291 hp_populate_password_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:324 hp_populate_password_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:327 hp_populate_password_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:330 hp_populate_password_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:333 hp_populate_password_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/passwdobj-attributes.c:362 hp_populate_password_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/string-attributes.c:191 hp_populate_string_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/string-attributes.c:194 hp_populate_string_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/string-attributes.c:197 hp_populate_string_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/string-attributes.c:200 hp_populate_string_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/string-attributes.c:239 hp_populate_string_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/string-attributes.c:242 hp_populate_string_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/string-attributes.c:245 hp_populate_string_elements_from_package() error: uninitialized symbol 'int_value'.
-drivers/platform/x86/hp/hp-bioscfg/string-attributes.c:256 hp_populate_string_elements_from_package() error: double free of 'str_value'
-
-vim +/ret +637 drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
-
-f0e157e6f70ccf Jorge Lopez 2023-06-08  571  
-f0e157e6f70ccf Jorge Lopez 2023-06-08  572  /**
-f0e157e6f70ccf Jorge Lopez 2023-06-08  573   * hp_add_other_attributes() - Initialize HP custom attributes not
-f0e157e6f70ccf Jorge Lopez 2023-06-08  574   * reported by BIOS and required to support Secure Platform and Sure
-f0e157e6f70ccf Jorge Lopez 2023-06-08  575   * Start.
-f0e157e6f70ccf Jorge Lopez 2023-06-08  576   *
-f0e157e6f70ccf Jorge Lopez 2023-06-08  577   * @attr_type: Custom HP attribute not reported by BIOS
-f0e157e6f70ccf Jorge Lopez 2023-06-08  578   *
-f0e157e6f70ccf Jorge Lopez 2023-06-08  579   * Initialize all 2 types of attributes: Platform and Sure Start
-f0e157e6f70ccf Jorge Lopez 2023-06-08  580   * object.  Populates each attribute types respective properties
-f0e157e6f70ccf Jorge Lopez 2023-06-08  581   * under sysfs files.
-f0e157e6f70ccf Jorge Lopez 2023-06-08  582   *
-f0e157e6f70ccf Jorge Lopez 2023-06-08  583   * Returns zero(0) if successful. Otherwise, a negative value.
-f0e157e6f70ccf Jorge Lopez 2023-06-08  584   */
-f0e157e6f70ccf Jorge Lopez 2023-06-08  585  static int hp_add_other_attributes(int attr_type)
-f0e157e6f70ccf Jorge Lopez 2023-06-08  586  {
-f0e157e6f70ccf Jorge Lopez 2023-06-08  587  	struct kobject *attr_name_kobj;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  588  	union acpi_object *obj = NULL;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  589  	int ret;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  590  	char *attr_name;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  591  
-f0e157e6f70ccf Jorge Lopez 2023-06-08  592  	mutex_lock(&bioscfg_drv.mutex);
-f0e157e6f70ccf Jorge Lopez 2023-06-08  593  
-f0e157e6f70ccf Jorge Lopez 2023-06-08  594  	attr_name_kobj = kzalloc(sizeof(*attr_name_kobj), GFP_KERNEL);
-f0e157e6f70ccf Jorge Lopez 2023-06-08  595  	if (!attr_name_kobj) {
-f0e157e6f70ccf Jorge Lopez 2023-06-08  596  		ret = -ENOMEM;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  597  		goto err_other_attr_init;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  598  	}
-f0e157e6f70ccf Jorge Lopez 2023-06-08  599  
-f0e157e6f70ccf Jorge Lopez 2023-06-08  600  	/* Check if attribute type is supported */
-f0e157e6f70ccf Jorge Lopez 2023-06-08  601  	switch (attr_type) {
-f0e157e6f70ccf Jorge Lopez 2023-06-08  602  	case HPWMI_SECURE_PLATFORM_TYPE:
-f0e157e6f70ccf Jorge Lopez 2023-06-08  603  		attr_name_kobj->kset = bioscfg_drv.authentication_dir_kset;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  604  		attr_name = SPM_STR;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  605  		break;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  606  
-f0e157e6f70ccf Jorge Lopez 2023-06-08  607  	case HPWMI_SURE_START_TYPE:
-f0e157e6f70ccf Jorge Lopez 2023-06-08  608  		attr_name_kobj->kset = bioscfg_drv.main_dir_kset;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  609  		attr_name = SURE_START_STR;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  610  		break;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  611  
-f0e157e6f70ccf Jorge Lopez 2023-06-08  612  	default:
-f0e157e6f70ccf Jorge Lopez 2023-06-08  613  		pr_err("Error: Unknown attr_type: %d\n", attr_type);
-f0e157e6f70ccf Jorge Lopez 2023-06-08  614  		ret = -EINVAL;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  615  		goto err_other_attr_init;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  616  	}
-f0e157e6f70ccf Jorge Lopez 2023-06-08  617  
-f0e157e6f70ccf Jorge Lopez 2023-06-08  618  	ret = kobject_init_and_add(attr_name_kobj, &attr_name_ktype,
-f0e157e6f70ccf Jorge Lopez 2023-06-08  619  				   NULL, "%s", attr_name);
-f0e157e6f70ccf Jorge Lopez 2023-06-08  620  	if (ret) {
-f0e157e6f70ccf Jorge Lopez 2023-06-08  621  		pr_err("Error encountered [%d]\n", ret);
-f0e157e6f70ccf Jorge Lopez 2023-06-08  622  		kobject_put(attr_name_kobj);
-f0e157e6f70ccf Jorge Lopez 2023-06-08  623  		goto err_other_attr_init;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  624  	}
-f0e157e6f70ccf Jorge Lopez 2023-06-08  625  
-f0e157e6f70ccf Jorge Lopez 2023-06-08  626  	/* Populate attribute data */
-f0e157e6f70ccf Jorge Lopez 2023-06-08  627  	switch (attr_type) {
-f0e157e6f70ccf Jorge Lopez 2023-06-08  628  	case HPWMI_SECURE_PLATFORM_TYPE:
-f0e157e6f70ccf Jorge Lopez 2023-06-08  629  		ret = hp_populate_secure_platform_data(attr_name_kobj);
-f0e157e6f70ccf Jorge Lopez 2023-06-08  630  		break;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  631  
-f0e157e6f70ccf Jorge Lopez 2023-06-08  632  	case HPWMI_SURE_START_TYPE:
-f0e157e6f70ccf Jorge Lopez 2023-06-08  633  		ret = hp_populate_sure_start_data(attr_name_kobj);
-f0e157e6f70ccf Jorge Lopez 2023-06-08  634  		break;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  635  
-f0e157e6f70ccf Jorge Lopez 2023-06-08  636  	default:
-f0e157e6f70ccf Jorge Lopez 2023-06-08 @637  		goto err_other_attr_init;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  638  	}
-f0e157e6f70ccf Jorge Lopez 2023-06-08  639  
-f0e157e6f70ccf Jorge Lopez 2023-06-08  640  	mutex_unlock(&bioscfg_drv.mutex);
-f0e157e6f70ccf Jorge Lopez 2023-06-08  641  	return 0;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  642  
-f0e157e6f70ccf Jorge Lopez 2023-06-08  643  err_other_attr_init:
-f0e157e6f70ccf Jorge Lopez 2023-06-08  644  	mutex_unlock(&bioscfg_drv.mutex);
-f0e157e6f70ccf Jorge Lopez 2023-06-08  645  	kfree(obj);
-f0e157e6f70ccf Jorge Lopez 2023-06-08 @646  	return ret;
-f0e157e6f70ccf Jorge Lopez 2023-06-08  647  }
-f0e157e6f70ccf Jorge Lopez 2023-06-08  648  
+:::::: TO: Liam Girdwood <liam.r.girdwood@linux.intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
