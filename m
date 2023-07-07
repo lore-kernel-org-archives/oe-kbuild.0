@@ -1,42 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DF663BA
-	for <oe-kbuild@lists.linux.dev>; Thu,  6 Jul 2023 23:12:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD99BA2F
+	for <oe-kbuild@lists.linux.dev>; Fri,  7 Jul 2023 10:27:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688685166; x=1720221166;
+  t=1688725678; x=1720261678;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D7dJcWLi92QqQTyI6OCIy/LH9F/E2VI7iRgAnBdcNgE=;
-  b=ef8QcaMnA7NJ8hQgtOts2kl2Ufs531QtDYbSTGoYr+xIvVv5ht7ySg9i
-   t6OGeAENp2iLdcjD3YNpkpHbVdvK6dVATv2JFFSHIqP8CM/E0vq3S2k0x
-   bns33dZ9rSx5iwh3HLnuSShg8KcIQnVKeetAHi4MZC04S80ADJbUJGisB
-   tGYhe+05Fp5lhczXaX8KACZyEZaXMYZUyC/OPhsSZ/8RIoupvkiCxGyWC
-   85VM4nz+kjQnvkKtrhfw11KaGQM0+kfu0cIuTSaMRzJhLE3sd70QhSpAe
-   jdgchyRrtWhkKTlL+LTQU1rp8q+4jpB771NMK5xOk2sYbgQA9OwPHFjTH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="343336500"
+  bh=455AWBwvygyOlA9SUR17Q0UMrGaZb81ZHRNi9bttFU0=;
+  b=fm3svllvZXZyeWlga5Ner3UZ928pdcfZZ6Q0UyuoEDW+i6blOv4GTAcK
+   eutDCd+FTJzdvrn6fn73GZ8iJmGsHIuBoPu7b6I/KpMmfcNh+gjmhCTz8
+   3YOlcqPFg879SWb2sCsPksFFR8cGsRImJlVEOkJnIWZmRgEq46cB9ZRV/
+   sFduvbnHcq4ub4ne8bPh/gwbTc2WywHNN0KJ5wnbmyZxShhuUDTmfiBpp
+   xFc+yrDEP/95QR3HYZU9cZPGmZh5xejcK+madL+binMumsov7l9bBLvoa
+   nW1zE1aW3LVVfWRNCd3B5DfyoLxQ9E5DV9XzScxBP76PbtkgrumbeNsVX
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="427543683"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="343336500"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 16:12:45 -0700
+   d="scan'208";a="427543683"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 03:27:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="789737780"
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="844075490"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="789737780"
+   d="scan'208";a="844075490"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 06 Jul 2023 16:12:44 -0700
+  by orsmga004.jf.intel.com with ESMTP; 07 Jul 2023 03:27:56 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHY9U-0001bW-0Y;
-	Thu, 06 Jul 2023 23:12:44 +0000
-Date: Fri, 7 Jul 2023 07:12:16 +0800
+	id 1qHigt-0001wY-2y;
+	Fri, 07 Jul 2023 10:27:55 +0000
+Date: Fri, 7 Jul 2023 18:27:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/vfio/cdx/main.c:95 vfio_cdx_ioctl_get_region_info() warn:
- potential spectre issue 'vdev->regions' [r] (local cap)
-Message-ID: <202307070752.up2vbT9k-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [shenki:aspeed-xvuart-host-driver 3/3]
+ drivers/soc/aspeed/aspeed-host-bmc-dev.c: linux/module.h is included more
+ than once.
+Message-ID: <202307071806.FEKZ7a84-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,59 +47,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Nipun Gupta <nipun.gupta@amd.com>
-CC: Alex Williamson <alex.williamson@redhat.com>
-CC: Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
+TO: Joel Stanley <joel@jms.id.au>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a452483508d7b70b0f6c69e249ec0b3ea2330b5c
-commit: 234489ac561300ceed33e64c3bf3a810b9e2051d vfio/cdx: add support for CDX bus
-date:   3 weeks ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 weeks ago
-config: arm64-randconfig-m031-20230706 (https://download.01.org/0day-ci/archive/20230707/202307070752.up2vbT9k-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230707/202307070752.up2vbT9k-lkp@intel.com/reproduce)
+tree:   https://github.com/shenki/linux aspeed-xvuart-host-driver
+head:   8384d7b383c2aff772d5503ddddd8a938e48c43f
+commit: 8384d7b383c2aff772d5503ddddd8a938e48c43f [3/3] soc/aspeed: Add BMC host driver
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230707/202307071806.FEKZ7a84-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307070752.up2vbT9k-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307071806.FEKZ7a84-lkp@intel.com/
 
-smatch warnings:
-drivers/vfio/cdx/main.c:95 vfio_cdx_ioctl_get_region_info() warn: potential spectre issue 'vdev->regions' [r] (local cap)
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/soc/aspeed/aspeed-host-bmc-dev.c: linux/module.h is included more than once.
 
-vim +95 drivers/vfio/cdx/main.c
+vim +6 drivers/soc/aspeed/aspeed-host-bmc-dev.c
 
-234489ac561300 Nipun Gupta 2023-05-31   76  
-234489ac561300 Nipun Gupta 2023-05-31   77  static int vfio_cdx_ioctl_get_region_info(struct vfio_cdx_device *vdev,
-234489ac561300 Nipun Gupta 2023-05-31   78  					  struct vfio_region_info __user *arg)
-234489ac561300 Nipun Gupta 2023-05-31   79  {
-234489ac561300 Nipun Gupta 2023-05-31   80  	unsigned long minsz = offsetofend(struct vfio_region_info, offset);
-234489ac561300 Nipun Gupta 2023-05-31   81  	struct cdx_device *cdx_dev = to_cdx_device(vdev->vdev.dev);
-234489ac561300 Nipun Gupta 2023-05-31   82  	struct vfio_region_info info;
-234489ac561300 Nipun Gupta 2023-05-31   83  
-234489ac561300 Nipun Gupta 2023-05-31   84  	if (copy_from_user(&info, arg, minsz))
-234489ac561300 Nipun Gupta 2023-05-31   85  		return -EFAULT;
-234489ac561300 Nipun Gupta 2023-05-31   86  
-234489ac561300 Nipun Gupta 2023-05-31   87  	if (info.argsz < minsz)
-234489ac561300 Nipun Gupta 2023-05-31   88  		return -EINVAL;
-234489ac561300 Nipun Gupta 2023-05-31   89  
-234489ac561300 Nipun Gupta 2023-05-31   90  	if (info.index >= cdx_dev->res_count)
-234489ac561300 Nipun Gupta 2023-05-31   91  		return -EINVAL;
-234489ac561300 Nipun Gupta 2023-05-31   92  
-234489ac561300 Nipun Gupta 2023-05-31   93  	/* map offset to the physical address */
-234489ac561300 Nipun Gupta 2023-05-31   94  	info.offset = vfio_cdx_index_to_offset(info.index);
-234489ac561300 Nipun Gupta 2023-05-31  @95  	info.size = vdev->regions[info.index].size;
-234489ac561300 Nipun Gupta 2023-05-31   96  	info.flags = vdev->regions[info.index].flags;
-234489ac561300 Nipun Gupta 2023-05-31   97  
-234489ac561300 Nipun Gupta 2023-05-31   98  	return copy_to_user(arg, &info, minsz) ? -EFAULT : 0;
-234489ac561300 Nipun Gupta 2023-05-31   99  }
-234489ac561300 Nipun Gupta 2023-05-31  100  
+     3	
+     4	#include <linux/init.h>
+     5	#include <linux/version.h>
+   > 6	#include <linux/module.h>
+     7	#include <linux/kernel.h>
+     8	#include <linux/errno.h>
+     9	
+    10	#include <linux/pci.h>
+    11	#include <linux/file.h>
+    12	#include <linux/fs.h>
+    13	#include <linux/interrupt.h>
+    14	#include <linux/wait.h>
+    15	#include <linux/workqueue.h>
+    16	
+    17	
+  > 18	#include <linux/module.h>
+    19	#include <linux/serial_core.h>
+    20	#include <linux/serial_8250.h>
+    21	
 
 -- 
 0-DAY CI Kernel Test Service
