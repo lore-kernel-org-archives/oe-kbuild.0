@@ -1,42 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF1C17CB
-	for <oe-kbuild@lists.linux.dev>; Mon, 10 Jul 2023 01:46:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC1317C4
+	for <oe-kbuild@lists.linux.dev>; Mon, 10 Jul 2023 04:40:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688953565; x=1720489565;
+  t=1688964015; x=1720500015;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A75ptFhJr4C8o//Bh3hvXoJUzYOasdsCrio9rLy9ZSM=;
-  b=nK97UsBmT4kAQ0eKYTK315IWGB824mRay/ZbU9SVY70XIUlrXt7M4pDs
-   iWTl1a8tWf5Yk1IcwlQn7BrEZYCWc64jZ2BCtqxbSTjmZ9tlU6puPJL13
-   +28vO4xrwjDvhy5lZX8edz5ELZnUGmCedE41rpTe8+LT2pmJC6mKChDZr
-   tQ5SFPKcNGtxn4wataUY7N499WEPS1ra+HF4YuxdXhg/7VsdkwZfH5sCQ
-   gwEldNweWKh5ORrsn59MC9SuF56SzKpfzTvcUPYg86F9c1uL+uCd7BanB
-   vCHHxwfdv93C28DYY86M2+fGpGZJF7vry3ArX6NAYgE78ebbWwEnTXHh5
+  bh=QH/UCvFvZDF/cjuZGjA8BQNFdi+Bj2UqvbkXpI9n1vg=;
+  b=GqnKNQoOyaJgFEC0wnh+iIvAG3prKw32N5Ie+OK4VB6DUTzUKX+ilsfl
+   E1Eys58/o4Vtc3rODQ2Rho1zQzzG6cCfYe+oK7yc4X5ojPRE2j3P5uI0J
+   yXBOxwsCBzW+0qeRhepGOtyzE2TwPK/LPhvvNjcrHGhNlP52K35QoO8Br
+   X0+W7pLI8mcBKqK1/u7VUjzrFDuAdbVO+9S2tJ/bWgIlY6TaPuICqtby+
+   Bzf5djVUWh0+ss0U+45dyowVda2FjNtosXerJhaNrtDJen/5EjpwmAYlX
+   4cGdghHnZgo3vutBxcCUP/OUXg0UjtBoBgiQ+mnrBaqSZ3H8MaHhw3hi4
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="366816645"
-X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; 
-   d="scan'208";a="366816645"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2023 18:46:05 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="354112395"
+X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
+   d="scan'208";a="354112395"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2023 21:40:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="790628511"
-X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; 
-   d="scan'208";a="790628511"
+X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="755864398"
+X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
+   d="scan'208";a="755864398"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Jul 2023 18:46:03 -0700
+  by orsmga001.jf.intel.com with ESMTP; 09 Jul 2023 21:40:07 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qIfyV-0003T7-0H;
-	Mon, 10 Jul 2023 01:46:03 +0000
-Date: Mon, 10 Jul 2023 09:45:23 +0800
+	id 1qIigw-0003XG-17;
+	Mon, 10 Jul 2023 04:40:06 +0000
+Date: Mon, 10 Jul 2023 12:39:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
 Subject: drivers/clk/ingenic/jz4760-cgu.c:80 jz4760_cgu_calc_m_n_od() error:
  uninitialized symbol 'od'.
-Message-ID: <202307100958.lrltYkor-lkp@intel.com>
+Message-ID: <202307101213.PJCNH4wW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,17 +56,17 @@ tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git maste
 head:   06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
 commit: ecfb9f404771dde909ce7743df954370933c3be2 clk: ingenic: jz4760: Update M/N/OD calculation algorithm
 date:   6 months ago
-:::::: branch date: 5 hours ago
+:::::: branch date: 8 hours ago
 :::::: commit date: 6 months ago
-config: mips-randconfig-m031-20230710 (https://download.01.org/0day-ci/archive/20230710/202307100958.lrltYkor-lkp@intel.com/config)
+config: mips-randconfig-m031-20230710 (https://download.01.org/0day-ci/archive/20230710/202307101213.PJCNH4wW-lkp@intel.com/config)
 compiler: mips64el-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230710/202307100958.lrltYkor-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230710/202307101213.PJCNH4wW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307100958.lrltYkor-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307101213.PJCNH4wW-lkp@intel.com/
 
 smatch warnings:
 drivers/clk/ingenic/jz4760-cgu.c:80 jz4760_cgu_calc_m_n_od() error: uninitialized symbol 'od'.
