@@ -1,43 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3110036D
-	for <oe-kbuild@lists.linux.dev>; Fri, 14 Jul 2023 00:42:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04EF10F4
+	for <oe-kbuild@lists.linux.dev>; Fri, 14 Jul 2023 03:16:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689295352; x=1720831352;
+  t=1689304582; x=1720840582;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y+nR+NAMLLmzOvSgFiRueUD01VhNlTJsnvNbAMw8WtI=;
-  b=XmiIJ23KffewQTrvoHTU98nPVa1Xi5zK70QZAZreKme0C7cFMZSnbV4W
-   d3dEBvlQoDhsyKMuOmoQiQ3STQl74JJ7Tu6vxvCoXrBziJTXfZvHtcu5g
-   cuSTfGOXtF4Gq/z7EC6ebIMQNO2ewSR294zAXaxz6ieWuQe1q1aEBFunm
-   lA2ASNkY5XlscUQARXTOmtk9otU15FQiWFOOQDyIczAfR4SoGi+9TAlQw
-   HJLMBfMC4WX5DCVJUy1Y/ms1+onuZYaz8G2vtuhKqUbhyCmuO9yKLOEig
-   FvUmt8hW3NGyduSjvkLZt56aKEoBj8bJFLe9Hb1xgA6LubCCL6YRDo4zT
+  bh=IhU9qaCmTDS2hstOvmy8kgZTAuDEdUwalyoSPI0Tm+g=;
+  b=SV9lOH+no4ZQ64IEvCmRYHpvaXKiskBs0c2YOPJHEdxbQJezRQJrl1R8
+   kxJVtzXClpmL2KgpL9ippz+4278ithuQISzDFc05OQBNefiGBVcGlxKdx
+   GeZ0hbQ2CirVksQKUsu81Zauz787PMlV7QXEkuA/ymzY2WBPYdUn/Jh8R
+   AObr94X9m0koJ8RUW0mHRBqpC3QuFr76txXBPxIfvKwlY7jDPy7r6NtUu
+   8NkYLy+AnLfsXFjKk+hmz8IXHw4V0yz05P0xgrjlZZ7JaoLeMZ45RYvMy
+   9kU5hHj1Cq0czjNdicQZu2KeHirb1IekuA4uV3+3a2e153mYrSsLvYbhk
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="365391166"
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="350249439"
 X-IronPort-AV: E=Sophos;i="6.01,204,1684825200"; 
-   d="scan'208";a="365391166"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 17:42:16 -0700
+   d="scan'208";a="350249439"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 20:16:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="1052857194"
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="787698504"
 X-IronPort-AV: E=Sophos;i="6.01,204,1684825200"; 
-   d="scan'208";a="1052857194"
+   d="scan'208";a="787698504"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 13 Jul 2023 17:42:14 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 13 Jul 2023 20:16:20 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qK6sv-00070t-2y;
-	Fri, 14 Jul 2023 00:42:13 +0000
-Date: Fri, 14 Jul 2023 08:41:37 +0800
+	id 1qK9I4-000785-06;
+	Fri, 14 Jul 2023 03:16:20 +0000
+Date: Fri, 14 Jul 2023 11:16:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [krzk-github:n/audio-wsa884x-on-top-of-wip-sm8450-audio-on-next
- 38/42] sound/soc/codecs/lpass-tx-macro.c:847 tx_macro_put_dec_enum() error:
- uninitialized symbol 'dmic_clk_reg'.
-Message-ID: <202307140850.pbc9EDI4-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [yiliu1765-iommufd:wip/iommufd_pasid 67/73]
+ drivers/iommu/iommufd/pasid.c:29:1-3: WARNING: possible condition with no
+ effect (if == else)
+Message-ID: <202307141101.6mFGzFS2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,94 +49,62 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Yi Liu <yi.l.liu@intel.com>
+TO: Kevin Tian <kevin.tian@intel.com>
 
-tree:   https://github.com/krzk/linux n/audio-wsa884x-on-top-of-wip-sm8450-audio-on-next
-head:   e3b5f5398ba6aa06d39089408493667a98fa0a60
-commit: 9e9e574223b5ed43d8d8c9ba0faa1546b6d20919 [38/42] ASoC: codecs: tx-macro: correct TX SMIC MUXn widgets on SM8350+
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid
+head:   e3941047a07be80cb3b87129cb372c1e6e7f4ced
+commit: 0fb50342800a867a8e56866fddd1f3d0752c45a9 [67/73] iommufd: Allow attach/replace hwpt per pasid
 :::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: m68k-randconfig-m041-20230713 (https://download.01.org/0day-ci/archive/20230714/202307140850.pbc9EDI4-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230714/202307140850.pbc9EDI4-lkp@intel.com/reproduce)
+:::::: commit date: 19 hours ago
+config: arc-randconfig-r061-20230713 (https://download.01.org/0day-ci/archive/20230714/202307141101.6mFGzFS2-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230714/202307141101.6mFGzFS2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307140850.pbc9EDI4-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202307141101.6mFGzFS2-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/codecs/lpass-tx-macro.c:847 tx_macro_put_dec_enum() error: uninitialized symbol 'dmic_clk_reg'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/iommu/iommufd/pasid.c:29:1-3: WARNING: possible condition with no effect (if == else)
 
-Old smatch warnings:
-sound/soc/codecs/lpass-tx-macro.c:851 tx_macro_put_dec_enum() error: uninitialized symbol 'dmic_clk_reg'.
+vim +29 drivers/iommu/iommufd/pasid.c
 
-vim +/dmic_clk_reg +847 sound/soc/codecs/lpass-tx-macro.c
-
-9e9e574223b5ed Krzysztof Kozlowski           2023-07-07  795  
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  796  static int tx_macro_put_dec_enum(struct snd_kcontrol *kcontrol,
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  797  				 struct snd_ctl_elem_value *ucontrol)
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  798  {
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  799  	struct snd_soc_dapm_widget *widget = snd_soc_dapm_kcontrol_widget(kcontrol);
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  800  	struct snd_soc_component *component = snd_soc_dapm_to_component(widget->dapm);
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  801  	struct soc_enum *e = (struct soc_enum *)kcontrol->private_value;
-9e9e574223b5ed Krzysztof Kozlowski           2023-07-07  802  	unsigned int val;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  803  	u16 mic_sel_reg;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  804  	u16 dmic_clk_reg;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  805  	struct tx_macro *tx = snd_soc_component_get_drvdata(component);
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  806  
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  807  	val = ucontrol->value.enumerated.item[0];
-75e5fab7db0cec Ravulapati Vishnu Vardhan Rao 2023-05-11  808  	if (val >= e->items)
-75e5fab7db0cec Ravulapati Vishnu Vardhan Rao 2023-05-11  809  		return -EINVAL;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  810  
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  811  	switch (e->reg) {
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  812  	case CDC_TX_INP_MUX_ADC_MUX0_CFG0:
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  813  		mic_sel_reg = CDC_TX0_TX_PATH_CFG0;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  814  		break;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  815  	case CDC_TX_INP_MUX_ADC_MUX1_CFG0:
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  816  		mic_sel_reg = CDC_TX1_TX_PATH_CFG0;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  817  		break;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  818  	case CDC_TX_INP_MUX_ADC_MUX2_CFG0:
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  819  		mic_sel_reg = CDC_TX2_TX_PATH_CFG0;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  820  		break;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  821  	case CDC_TX_INP_MUX_ADC_MUX3_CFG0:
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  822  		mic_sel_reg = CDC_TX3_TX_PATH_CFG0;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  823  		break;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  824  	case CDC_TX_INP_MUX_ADC_MUX4_CFG0:
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  825  		mic_sel_reg = CDC_TX4_TX_PATH_CFG0;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  826  		break;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  827  	case CDC_TX_INP_MUX_ADC_MUX5_CFG0:
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  828  		mic_sel_reg = CDC_TX5_TX_PATH_CFG0;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  829  		break;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  830  	case CDC_TX_INP_MUX_ADC_MUX6_CFG0:
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  831  		mic_sel_reg = CDC_TX6_TX_PATH_CFG0;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  832  		break;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  833  	case CDC_TX_INP_MUX_ADC_MUX7_CFG0:
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  834  		mic_sel_reg = CDC_TX7_TX_PATH_CFG0;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  835  		break;
-75e5fab7db0cec Ravulapati Vishnu Vardhan Rao 2023-05-11  836  	default:
-75e5fab7db0cec Ravulapati Vishnu Vardhan Rao 2023-05-11  837  		dev_err(component->dev, "Error in configuration!!\n");
-75e5fab7db0cec Ravulapati Vishnu Vardhan Rao 2023-05-11  838  		return -EINVAL;
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  839  	}
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  840  
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  841  	if (val != 0) {
-9e9e574223b5ed Krzysztof Kozlowski           2023-07-07  842  		if (widget->shift) /* MSM DMIC */
-710ccba0cf0e12 Srinivas Kandagatla           2022-11-15  843  			snd_soc_component_write_field(component, mic_sel_reg,
-710ccba0cf0e12 Srinivas Kandagatla           2022-11-15  844  						      CDC_TXn_ADC_DMIC_SEL_MASK, 1);
-9e9e574223b5ed Krzysztof Kozlowski           2023-07-07  845  		else if (tx->data->ver <= LPASS_VER_9_0_0)
-9e9e574223b5ed Krzysztof Kozlowski           2023-07-07  846  			tx_macro_update_smic_sel_v9(component, widget, tx,
-9e9e574223b5ed Krzysztof Kozlowski           2023-07-07 @847  						    mic_sel_reg, dmic_clk_reg,
-9e9e574223b5ed Krzysztof Kozlowski           2023-07-07  848  						    val);
-9e9e574223b5ed Krzysztof Kozlowski           2023-07-07  849  		else
-9e9e574223b5ed Krzysztof Kozlowski           2023-07-07  850  			tx_macro_update_smic_sel_v9_2(component, widget, tx,
-9e9e574223b5ed Krzysztof Kozlowski           2023-07-07  851  						      mic_sel_reg, dmic_clk_reg,
-9e9e574223b5ed Krzysztof Kozlowski           2023-07-07  852  						      val);
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  853  	}
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  854  
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  855  	return snd_soc_dapm_put_enum_double(kcontrol, ucontrol);
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  856  }
-d207bdea0ca9ef Srinivas Kandagatla           2021-02-11  857  
+0fb50342800a86 Kevin Tian 2023-05-22   9  
+0fb50342800a86 Kevin Tian 2023-05-22  10  static int __iommufd_device_pasid_do_attach(struct iommufd_device *idev,
+0fb50342800a86 Kevin Tian 2023-05-22  11  					    u32 pasid,
+0fb50342800a86 Kevin Tian 2023-05-22  12  					    struct iommufd_hw_pagetable *hwpt,
+0fb50342800a86 Kevin Tian 2023-05-22  13  					    bool replace)
+0fb50342800a86 Kevin Tian 2023-05-22  14  {
+0fb50342800a86 Kevin Tian 2023-05-22  15  	int rc;
+0fb50342800a86 Kevin Tian 2023-05-22  16  
+0fb50342800a86 Kevin Tian 2023-05-22  17  	/*
+0fb50342800a86 Kevin Tian 2023-05-22  18  	 * Try to upgrade the domain we have. This is also required for
+0fb50342800a86 Kevin Tian 2023-05-22  19  	 * pasid attach since pasid only matters for identifying a hwpt
+0fb50342800a86 Kevin Tian 2023-05-22  20  	 * while cache coherency is about memory access semantics post
+0fb50342800a86 Kevin Tian 2023-05-22  21  	 * walking hwpt.
+0fb50342800a86 Kevin Tian 2023-05-22  22  	 */
+0fb50342800a86 Kevin Tian 2023-05-22  23  	if (idev->enforce_cache_coherency) {
+0fb50342800a86 Kevin Tian 2023-05-22  24  		rc = iommufd_hw_pagetable_enforce_cc(hwpt);
+0fb50342800a86 Kevin Tian 2023-05-22  25  		if (rc)
+0fb50342800a86 Kevin Tian 2023-05-22  26  			return rc;
+0fb50342800a86 Kevin Tian 2023-05-22  27  	}
+0fb50342800a86 Kevin Tian 2023-05-22  28  
+0fb50342800a86 Kevin Tian 2023-05-22 @29  	if (!replace)
+0fb50342800a86 Kevin Tian 2023-05-22  30  		rc = iommu_attach_device_pasid(hwpt->domain, idev->dev, pasid);
+0fb50342800a86 Kevin Tian 2023-05-22  31  	else
+0fb50342800a86 Kevin Tian 2023-05-22  32  		/* FIXEME: need a pasid replace IOMMU API */
+0fb50342800a86 Kevin Tian 2023-05-22  33  		rc = iommu_attach_device_pasid(hwpt->domain, idev->dev, pasid);
+0fb50342800a86 Kevin Tian 2023-05-22  34  	if (rc)
+0fb50342800a86 Kevin Tian 2023-05-22  35  		return rc;
+0fb50342800a86 Kevin Tian 2023-05-22  36  
+0fb50342800a86 Kevin Tian 2023-05-22  37  	xa_store(&idev->pasid_hwpts, pasid, hwpt, GFP_KERNEL);
+0fb50342800a86 Kevin Tian 2023-05-22  38  	refcount_inc(&hwpt->obj.users);
+0fb50342800a86 Kevin Tian 2023-05-22  39  	return 0;
+0fb50342800a86 Kevin Tian 2023-05-22  40  }
+0fb50342800a86 Kevin Tian 2023-05-22  41  
 
 -- 
 0-DAY CI Kernel Test Service
