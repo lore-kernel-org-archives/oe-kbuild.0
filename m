@@ -1,42 +1,41 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE5A1C39
-	for <oe-kbuild@lists.linux.dev>; Sat, 15 Jul 2023 11:54:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA89C291D
+	for <oe-kbuild@lists.linux.dev>; Sat, 15 Jul 2023 20:06:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689422040; x=1720958040;
+  t=1689451572; x=1720987572;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QvECkv6bFJr9gp89MPiFSbOSHVljIMRPNWulh8iEzdo=;
-  b=ZpjDj0LOmroFdwc5QTX0MhjrSjgE9m4I3D3JIM1vdjdI/qcUxlwbjNIz
-   8+0hcYqAC6/CfxtbcVjgJC/iI/vvd/8J0HGZCJ0WbmV3tcK//9WnVk2bK
-   z91mjtSMkp3Kn64qedWndr1u0gCDisjQ0Oxih559ycd/13q9WFYXO983/
-   6tuH5pyBvjv2vuHRyRvx5MSF+kxFcs2kRmUyZKyhsF+TROt7bD2n0iRW1
-   iSeMAxIbCvC0hW/4n4vfgcnK+xq1uGvM8173NjZopShnAr8SYWkSnWHO+
-   NSFPEk8xONm0JVsltTcUHphh5o52p9T/yDoVGi0p+f7Tmr/lppAGXNnxC
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="396468418"
+  bh=1YNYKKVjP7MOhkt8tiLL4e7lkplT8ZQXNPcSyUgy2Yw=;
+  b=Pz29DvzZJl05ARrf4PSj1rCrkm+86eKlpgmZVFQQxC7/ri6TPwNBsSlk
+   D0jv1pc//JZG/4azYyWCKyUewZXsryNKkSqR3ZOxVxvZ7VvW6QNBIsN4t
+   6cibGHzMaFAdJQ1opGHwyoIat2MBhjktUG9N0f6Jzv9/UQIRQ35QH2Mi/
+   QWa/TBn3u450JTYXo0sCyvro7bCBwYqBOLJZlOw6a6QV5w0nsdjL5LyEe
+   e3HW9Xt48jk2pi1SY/GqbqqyKKIV1oCZSa8XHVzjrs42xsytkPmvMXVgF
+   cS66PCUjV6c+5wMLN3hQYHuB+u/cY3I/jIYueDhhUVWuTRHCBU+5SfPw8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="368338590"
 X-IronPort-AV: E=Sophos;i="6.01,208,1684825200"; 
-   d="scan'208";a="396468418"
+   d="scan'208";a="368338590"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2023 04:54:00 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2023 13:06:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="836329917"
+X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="836409918"
 X-IronPort-AV: E=Sophos;i="6.01,208,1684825200"; 
-   d="scan'208";a="836329917"
+   d="scan'208";a="836409918"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2023 04:53:58 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2023 13:06:06 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qKdqX-00089F-2U;
-	Sat, 15 Jul 2023 11:53:57 +0000
-Date: Sat, 15 Jul 2023 19:53:35 +0800
+	id 1qKlWn-0008LX-0A;
+	Sat, 15 Jul 2023 20:06:05 +0000
+Date: Sun, 16 Jul 2023 04:05:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [sashal-stable:pending-6.1 476/494] block/blk-cgroup.c:1258
- blkcg_css_alloc() error: uninitialized symbol 'ret'.
-Message-ID: <202307151941.rN09QKcs-lkp@intel.com>
+Subject: Re: [PATCH v3] bcache: Separate bch_moving_gc() from bch_btree_gc()
+Message-ID: <202307160359.0vHG3r40-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,107 +47,99 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sasha Levin <sashal@kernel.org>
+In-Reply-To: <20230629114740.311-1-mingzhe.zou@easystack.cn>
+References: <20230629114740.311-1-mingzhe.zou@easystack.cn>
+TO: Mingzhe Zou <mingzhe.zou@easystack.cn>
+TO: colyli@suse.de
+TO: linux-bcache@vger.kernel.org
+CC: bcache@lists.ewheeler.net
+CC: zoumingzhe@qq.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.1
-head:   8ed10e3be3d7f6905f1a98b67b823e83668664e3
-commit: f73586085d021950507a5d20f7288a9f092589f0 [476/494] blk-cgroup: Optimize blkcg_rstat_flush()
-:::::: branch date: 23 hours ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-m001-20230713 (https://download.01.org/0day-ci/archive/20230715/202307151941.rN09QKcs-lkp@intel.com/config)
+Hi Mingzhe,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.5-rc1 next-20230714]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mingzhe-Zou/bcache-Separate-bch_moving_gc-from-bch_btree_gc/20230629-194834
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230629114740.311-1-mingzhe.zou%40easystack.cn
+patch subject: [PATCH v3] bcache: Separate bch_moving_gc() from bch_btree_gc()
+:::::: branch date: 2 weeks ago
+:::::: commit date: 2 weeks ago
+config: x86_64-randconfig-m001-20230710 (https://download.01.org/0day-ci/archive/20230716/202307160359.0vHG3r40-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230715/202307151941.rN09QKcs-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230716/202307160359.0vHG3r40-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307151941.rN09QKcs-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307160359.0vHG3r40-lkp@intel.com/
 
-smatch warnings:
-block/blk-cgroup.c:1258 blkcg_css_alloc() error: uninitialized symbol 'ret'.
+New smatch warnings:
+drivers/md/bcache/btree.c:1887 moving_gc_should_run() error: uninitialized symbol 'used_sectors'.
 
-vim +/ret +1258 block/blk-cgroup.c
+Old smatch warnings:
+drivers/md/bcache/btree.c:1535 btree_gc_rewrite_node() error: 'n' dereferencing possible ERR_PTR()
+drivers/md/bcache/btree.c:1551 btree_gc_rewrite_node() error: 'n' dereferencing possible ERR_PTR()
 
-31e4c28d95e64f Vivek Goyal      2009-12-03  1188  
-eb95419b023aba Tejun Heo        2013-08-08  1189  static struct cgroup_subsys_state *
-eb95419b023aba Tejun Heo        2013-08-08  1190  blkcg_css_alloc(struct cgroup_subsys_state *parent_css)
-31e4c28d95e64f Vivek Goyal      2009-12-03  1191  {
-3c798398e393e5 Tejun Heo        2012-04-16  1192  	struct blkcg *blkcg;
-e48453c386f39c Arianna Avanzini 2015-06-05  1193  	struct cgroup_subsys_state *ret;
-e48453c386f39c Arianna Avanzini 2015-06-05  1194  	int i;
-31e4c28d95e64f Vivek Goyal      2009-12-03  1195  
-7876f930d0e78a Tejun Heo        2015-07-09  1196  	mutex_lock(&blkcg_pol_mutex);
-7876f930d0e78a Tejun Heo        2015-07-09  1197  
-eb95419b023aba Tejun Heo        2013-08-08  1198  	if (!parent_css) {
-3c798398e393e5 Tejun Heo        2012-04-16  1199  		blkcg = &blkcg_root;
-bc915e61cde25d Tejun Heo        2015-08-18  1200  	} else {
-31e4c28d95e64f Vivek Goyal      2009-12-03  1201  		blkcg = kzalloc(sizeof(*blkcg), GFP_KERNEL);
-e48453c386f39c Arianna Avanzini 2015-06-05  1202  		if (!blkcg) {
-e48453c386f39c Arianna Avanzini 2015-06-05  1203  			ret = ERR_PTR(-ENOMEM);
-4c18c9e962eb02 weiping zhang    2017-08-25  1204  			goto unlock;
-e48453c386f39c Arianna Avanzini 2015-06-05  1205  		}
-bc915e61cde25d Tejun Heo        2015-08-18  1206  	}
-e48453c386f39c Arianna Avanzini 2015-06-05  1207  
-f73586085d0219 Waiman Long      2022-11-04  1208  	if (init_blkcg_llists(blkcg))
-f73586085d0219 Waiman Long      2022-11-04  1209  		goto free_blkcg;
-f73586085d0219 Waiman Long      2022-11-04  1210  
-e48453c386f39c Arianna Avanzini 2015-06-05  1211  	for (i = 0; i < BLKCG_MAX_POLS ; i++) {
-e48453c386f39c Arianna Avanzini 2015-06-05  1212  		struct blkcg_policy *pol = blkcg_policy[i];
-e48453c386f39c Arianna Avanzini 2015-06-05  1213  		struct blkcg_policy_data *cpd;
-e48453c386f39c Arianna Avanzini 2015-06-05  1214  
-e48453c386f39c Arianna Avanzini 2015-06-05  1215  		/*
-e48453c386f39c Arianna Avanzini 2015-06-05  1216  		 * If the policy hasn't been attached yet, wait for it
-e48453c386f39c Arianna Avanzini 2015-06-05  1217  		 * to be attached before doing anything else. Otherwise,
-e48453c386f39c Arianna Avanzini 2015-06-05  1218  		 * check if the policy requires any specific per-cgroup
-e48453c386f39c Arianna Avanzini 2015-06-05  1219  		 * data: if it does, allocate and initialize it.
-e48453c386f39c Arianna Avanzini 2015-06-05  1220  		 */
-e4a9bde9589fdc Tejun Heo        2015-08-18  1221  		if (!pol || !pol->cpd_alloc_fn)
-e48453c386f39c Arianna Avanzini 2015-06-05  1222  			continue;
-e48453c386f39c Arianna Avanzini 2015-06-05  1223  
-e4a9bde9589fdc Tejun Heo        2015-08-18  1224  		cpd = pol->cpd_alloc_fn(GFP_KERNEL);
-e48453c386f39c Arianna Avanzini 2015-06-05  1225  		if (!cpd) {
-e48453c386f39c Arianna Avanzini 2015-06-05  1226  			ret = ERR_PTR(-ENOMEM);
-e48453c386f39c Arianna Avanzini 2015-06-05  1227  			goto free_pd_blkcg;
-e48453c386f39c Arianna Avanzini 2015-06-05  1228  		}
-814376483e7d85 Tejun Heo        2015-08-18  1229  		blkcg->cpd[i] = cpd;
-814376483e7d85 Tejun Heo        2015-08-18  1230  		cpd->blkcg = blkcg;
-e48453c386f39c Arianna Avanzini 2015-06-05  1231  		cpd->plid = i;
-e4a9bde9589fdc Tejun Heo        2015-08-18  1232  		if (pol->cpd_init_fn)
-814376483e7d85 Tejun Heo        2015-08-18  1233  			pol->cpd_init_fn(cpd);
-e48453c386f39c Arianna Avanzini 2015-06-05  1234  	}
-31e4c28d95e64f Vivek Goyal      2009-12-03  1235  
-31e4c28d95e64f Vivek Goyal      2009-12-03  1236  	spin_lock_init(&blkcg->lock);
-d866dbf6178713 Tejun Heo        2019-07-24  1237  	refcount_set(&blkcg->online_pin, 1);
-e00f4f4d0ff7e1 Tejun Heo        2016-11-21  1238  	INIT_RADIX_TREE(&blkcg->blkg_tree, GFP_NOWAIT | __GFP_NOWARN);
-31e4c28d95e64f Vivek Goyal      2009-12-03  1239  	INIT_HLIST_HEAD(&blkcg->blkg_list);
-52ebea749aaed1 Tejun Heo        2015-05-22  1240  #ifdef CONFIG_CGROUP_WRITEBACK
-52ebea749aaed1 Tejun Heo        2015-05-22  1241  	INIT_LIST_HEAD(&blkcg->cgwb_list);
-52ebea749aaed1 Tejun Heo        2015-05-22  1242  #endif
-7876f930d0e78a Tejun Heo        2015-07-09  1243  	list_add_tail(&blkcg->all_blkcgs_node, &all_blkcgs);
-7876f930d0e78a Tejun Heo        2015-07-09  1244  
-7876f930d0e78a Tejun Heo        2015-07-09  1245  	mutex_unlock(&blkcg_pol_mutex);
-31e4c28d95e64f Vivek Goyal      2009-12-03  1246  	return &blkcg->css;
-e48453c386f39c Arianna Avanzini 2015-06-05  1247  
-e48453c386f39c Arianna Avanzini 2015-06-05  1248  free_pd_blkcg:
-e48453c386f39c Arianna Avanzini 2015-06-05  1249  	for (i--; i >= 0; i--)
-e4a9bde9589fdc Tejun Heo        2015-08-18  1250  		if (blkcg->cpd[i])
-e4a9bde9589fdc Tejun Heo        2015-08-18  1251  			blkcg_policy[i]->cpd_free_fn(blkcg->cpd[i]);
-f73586085d0219 Waiman Long      2022-11-04  1252  	free_percpu(blkcg->lhead);
-f73586085d0219 Waiman Long      2022-11-04  1253  free_blkcg:
-4c18c9e962eb02 weiping zhang    2017-08-25  1254  	if (blkcg != &blkcg_root)
-e48453c386f39c Arianna Avanzini 2015-06-05  1255  		kfree(blkcg);
-4c18c9e962eb02 weiping zhang    2017-08-25  1256  unlock:
-7876f930d0e78a Tejun Heo        2015-07-09  1257  	mutex_unlock(&blkcg_pol_mutex);
-e48453c386f39c Arianna Avanzini 2015-06-05 @1258  	return ret;
-31e4c28d95e64f Vivek Goyal      2009-12-03  1259  }
-31e4c28d95e64f Vivek Goyal      2009-12-03  1260  
+vim +/used_sectors +1887 drivers/md/bcache/btree.c
 
-:::::: The code at line 1258 was first introduced by commit
-:::::: e48453c386f39ca9ea29e9df6efef78f56746af0 block, cgroup: implement policy-specific per-blkcg data
-
-:::::: TO: Arianna Avanzini <avanzini.arianna@gmail.com>
-:::::: CC: Jens Axboe <axboe@fb.com>
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1855  
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1856  static bool moving_gc_should_run(struct cache_set *c)
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1857  {
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1858  	struct bucket *b;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1859  	struct cache *ca = c->cache;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1860  	size_t moving_gc_threshold = ca->sb.bucket_size >> 2, frag_percent;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1861  	unsigned long used_buckets = 0, frag_buckets = 0, move_buckets = 0;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1862  	unsigned long dirty_sectors = 0, frag_sectors, used_sectors;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1863  
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1864  	if (c->gc_stats.in_use > bch_cutoff_writeback_sync)
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1865  		return true;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1866  
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1867  	mutex_lock(&c->bucket_lock);
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1868  	for_each_bucket(b, ca) {
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1869  		if (GC_MARK(b) != GC_MARK_DIRTY)
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1870  			continue;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1871  
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1872  		used_buckets++;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1873  
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1874  		used_sectors = GC_SECTORS_USED(b);
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1875  		dirty_sectors += used_sectors;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1876  
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1877  		if (used_sectors < ca->sb.bucket_size)
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1878  			frag_buckets++;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1879  
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1880  		if (used_sectors <= moving_gc_threshold)
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1881  			move_buckets++;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1882  	}
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1883  	mutex_unlock(&c->bucket_lock);
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1884  
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1885  	c->fragment_nbuckets = frag_buckets;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1886  
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29 @1887  	if (used_sectors < c->nbuckets * bch_cutoff_writeback / 100)
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1888  		return false;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1889  
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1890  	if (move_buckets > ca->heap.size)
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1891  		return true;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1892  
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1893  	frag_sectors = used_buckets * ca->sb.bucket_size - dirty_sectors;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1894  	frag_percent = div_u64(frag_sectors * 100, ca->sb.bucket_size * c->nbuckets);
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1895  
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1896  	if (frag_percent >= COPY_GC_PERCENT)
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1897  		return true;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1898  
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1899  	if (used_sectors > c->nbuckets * bch_cutoff_writeback_sync / 100)
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1900  		return true;
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1901  
+4b0cf76f1e36e7 Mingzhe Zou     2023-06-29  1902  	return false;
+cafe563591446c Kent Overstreet 2013-03-23  1903  }
+cafe563591446c Kent Overstreet 2013-03-23  1904  
 
 -- 
 0-DAY CI Kernel Test Service
