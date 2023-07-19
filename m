@@ -1,41 +1,40 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B0D1FB25
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Jul 2023 21:11:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39FB1BB23
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Jul 2023 21:31:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689801118; x=1721337118;
+  t=1689802274; x=1721338274;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ef538uh5kxLmvUy0xJEEUXd30KZXT/9UUuM7Rwm8pUs=;
-  b=hk6S+JfKr7EYHx1XXdLU8BXs3aPCW8MPVN2/Z0X/okq6wHmSOhM+dUXz
-   D8M9bnGaPJ5WMVYgvSaJ6qGm270GhJlxsib1G64156WvUxzIfG4C2D8Hs
-   1PjWPQKGqcJCgftZTc8tKsMSXISWun/Lz6RGQIV018fTaIY3Agts69P5e
-   0FT55Xq6sC5VtUfyyfAYBEDRevTWEEryB/6YgoEedgpKZhvGySKWRlxZO
-   1SnTGZBmpojegCIa+jjQ70DDshgmdpy2vk4DRDhZTZigK6/Cq8FZPGTn7
-   HuXLh+0KSGHSIIEmU2i2MFKu1bgYvdl9G8YehifXyJTAF65Q4fAmBZJhm
+  bh=ni6m8JygRFBP6JhDhw3LvAjt8+XbzeLDIyyXLELUasw=;
+  b=OqZIwmDxW+t4/V+Tl40zUF9Sn6m86udRA2+kYlVWkevlzxzZtUQiL2zy
+   iWAl4nH5w4T2wjfxI6EC9/VBRs3Fttjc3r047X09l8QjUSftGhYgvR1U2
+   QJu6XHAzHH9K2lIAA2wmitFceZZsNj1iv2pC0s0HsbMI4mMquolTMu3c6
+   zidl5h8oqtFQIrjkdIRqHR7CMr1D6BG0F7rKMhVqAnkYriDtyF5PHFdV/
+   agmIhG8FH0KFyeGgwIGQEH7oLluCrEmA8sZvUyesdfXbqG4jt2S1uXlBP
+   yS0o9ChlFPWHI6r1Bkwr8FHNqlDZzJnZVs6Ncx4VoBe6ivGp4WQuH87CE
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="369221200"
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="364033864"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="369221200"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 14:10:50 -0700
+   d="scan'208";a="364033864"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 14:31:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="848184311"
-X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="848184311"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="867618959"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 19 Jul 2023 14:10:48 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 19 Jul 2023 14:31:13 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMERI-0005UD-0X;
-	Wed, 19 Jul 2023 21:10:32 +0000
-Date: Thu, 20 Jul 2023 05:09:35 +0800
+	id 1qMElE-0005Ue-0W;
+	Wed, 19 Jul 2023 21:31:08 +0000
+Date: Thu, 20 Jul 2023 05:30:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: Re: [RFC PATCH 3/3] io_uring/cmd: Add support for set_sockopt
-Message-ID: <202307200541.M2snHBYx-lkp@intel.com>
+Message-ID: <202307200559.88er76l4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,20 +71,20 @@ patch link:    https://lore.kernel.org/r/20230719102737.2513246-4-leitao%40debia
 patch subject: [RFC PATCH 3/3] io_uring/cmd: Add support for set_sockopt
 :::::: branch date: 11 hours ago
 :::::: commit date: 11 hours ago
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20230720/202307200541.M2snHBYx-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200541.M2snHBYx-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-r002-20230718 (https://download.01.org/0day-ci/archive/20230720/202307200559.88er76l4-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200559.88er76l4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202307200541.M2snHBYx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307200559.88er76l4-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   loongarch64-linux-ld: io_uring/uring_cmd.o: in function `io_uring_cmd_sock':
->> uring_cmd.c:(.text+0x454): undefined reference to `sock_setsockopt'
->> loongarch64-linux-ld: uring_cmd.c:(.text+0x4cc): undefined reference to `sk_getsockopt'
+   ld: io_uring/uring_cmd.o: in function `io_uring_cmd_sock':
+   io_uring/uring_cmd.c:183: undefined reference to `sk_getsockopt'
+>> ld: io_uring/uring_cmd.c:208: undefined reference to `sock_setsockopt'
 
 -- 
 0-DAY CI Kernel Test Service
