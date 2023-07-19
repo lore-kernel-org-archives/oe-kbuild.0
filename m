@@ -1,41 +1,41 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B591FB52
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Jul 2023 17:22:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B0D1FB25
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Jul 2023 21:11:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689787364; x=1721323364;
+  t=1689801118; x=1721337118;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Aka5GOX/haIlPfIKhVrCboaDJVgvac0kiSs7s/x/rwI=;
-  b=VIYbgUXrbrcfrRSqXVbbGznUCjFpNHPxC6n0locF27q+27MfPucEm1M5
-   ap6dhxNHZ/gX4AmUxZa7mCaUk5oEoMY11AI6eDvNFgsPDkikFCIJ1+T1c
-   0ucu9mD/ShqSDahNHwY/3jpibj6UMvw5zSleSS2m5ynCz5sAS4uYBkuiE
-   kIeCkzEPNyTdEnJy6VKS93b05ksRqTmXywPp4PJQkoTzLcKjBsLxqAAZA
-   PGG/6atXwYaKzDrMjz4RAdQfZUjrAYVD7OwxbH8wdcQp+mLURkehtf1sX
-   uB76w4k0D4O2eaqfyaxHGc/qpr0c0b52jkoUQ4a0/RQP2UObOPtz6OM0r
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="366569083"
+  bh=Ef538uh5kxLmvUy0xJEEUXd30KZXT/9UUuM7Rwm8pUs=;
+  b=hk6S+JfKr7EYHx1XXdLU8BXs3aPCW8MPVN2/Z0X/okq6wHmSOhM+dUXz
+   D8M9bnGaPJ5WMVYgvSaJ6qGm270GhJlxsib1G64156WvUxzIfG4C2D8Hs
+   1PjWPQKGqcJCgftZTc8tKsMSXISWun/Lz6RGQIV018fTaIY3Agts69P5e
+   0FT55Xq6sC5VtUfyyfAYBEDRevTWEEryB/6YgoEedgpKZhvGySKWRlxZO
+   1SnTGZBmpojegCIa+jjQ70DDshgmdpy2vk4DRDhZTZigK6/Cq8FZPGTn7
+   HuXLh+0KSGHSIIEmU2i2MFKu1bgYvdl9G8YehifXyJTAF65Q4fAmBZJhm
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="369221200"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="366569083"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 10:22:40 -0700
+   d="scan'208";a="369221200"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 14:10:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="759259179"
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="848184311"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="759259179"
+   d="scan'208";a="848184311"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 19 Jul 2023 10:22:39 -0700
+  by orsmga004.jf.intel.com with ESMTP; 19 Jul 2023 14:10:48 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMAsp-0005KV-0B;
-	Wed, 19 Jul 2023 17:22:39 +0000
-Date: Thu, 20 Jul 2023 01:22:24 +0800
+	id 1qMERI-0005UD-0X;
+	Wed, 19 Jul 2023 21:10:32 +0000
+Date: Thu, 20 Jul 2023 05:09:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [RFC PATCH 2/3] io_uring/cmd: Add support for getsockopt command
-Message-ID: <202307200143.xRoDsxlU-lkp@intel.com>
+Subject: Re: [RFC PATCH 3/3] io_uring/cmd: Add support for set_sockopt
+Message-ID: <202307200541.M2snHBYx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,10 +50,9 @@ Content-Disposition: inline
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230719102737.2513246-3-leitao@debian.org>
-References: <20230719102737.2513246-3-leitao@debian.org>
+In-Reply-To: <20230719102737.2513246-4-leitao@debian.org>
+References: <20230719102737.2513246-4-leitao@debian.org>
 TO: Breno Leitao <leitao@debian.org>
 
 Hi Breno,
@@ -69,26 +68,24 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Leitao/net-expose-sock_use_custom_sol_socket/20230719-183153
 base:   net/main
-patch link:    https://lore.kernel.org/r/20230719102737.2513246-3-leitao%40debian.org
-patch subject: [RFC PATCH 2/3] io_uring/cmd: Add support for getsockopt command
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: hexagon-randconfig-r034-20230718 (https://download.01.org/0day-ci/archive/20230720/202307200143.xRoDsxlU-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200143.xRoDsxlU-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20230719102737.2513246-4-leitao%40debian.org
+patch subject: [RFC PATCH 3/3] io_uring/cmd: Add support for set_sockopt
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20230720/202307200541.M2snHBYx-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200541.M2snHBYx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202307200143.xRoDsxlU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307200541.M2snHBYx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: sk_getsockopt
-   >>> referenced by uring_cmd.c
-   >>>               io_uring/uring_cmd.o:(io_uring_cmd_sock) in archive vmlinux.a
-   >>> referenced by uring_cmd.c
-   >>>               io_uring/uring_cmd.o:(io_uring_cmd_sock) in archive vmlinux.a
+   loongarch64-linux-ld: io_uring/uring_cmd.o: in function `io_uring_cmd_sock':
+>> uring_cmd.c:(.text+0x454): undefined reference to `sock_setsockopt'
+>> loongarch64-linux-ld: uring_cmd.c:(.text+0x4cc): undefined reference to `sk_getsockopt'
 
 -- 
 0-DAY CI Kernel Test Service
