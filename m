@@ -1,144 +1,244 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0DF2FA49
-	for <oe-kbuild@lists.linux.dev>; Thu, 20 Jul 2023 20:50:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481A4168C3
+	for <oe-kbuild@lists.linux.dev>; Thu, 20 Jul 2023 21:33:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689886250; x=1721422250;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q/WRzXqo5IU7wKpFJqcnzqXEk/hPcG0P9KGXoYHMQWM=;
-  b=FtU5YfVSBxlueoQq1mNk1/5TX4s2qr2f5ORQZ+3eCAuf86/dQ6+GC3z7
-   xexMJRwEGRU0lvqizul2LQJPz9UVSZEmcdfyJ+a9cg/4otTf0LXReBW+Z
-   LO/ncjNBXI+yZqIElSoF2WXqKJYz4AFqh1cCmo6TqzR3XV+YgxshvCPQO
-   J185303b1bG5sw74Lww0kgiQG9UEJ2qlEoY5glukQEOy5g+Aqy1d9GNpz
-   Z26G7k66/KfCNSKO0kLciYQ/83DbwGFsxtN+ME59BD9hj3lFe5erCaqKC
-   gUnZGJH+CLiLtmyQ6Zh3SVzPZFc9+hTeuGN4HQykjeS7bFRNQZZ5cUFYc
+  t=1689888797; x=1721424797;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=i9LlVTlUTES9AxDWBp8DFBBHCK2Gc3pj+ozcIIavmiw=;
+  b=OVxeDIKye1nEGCoFV3jeemNRrxGyAuttpXV1bYrYE7gVv1uERW04v57w
+   cPF760j/z7NwGN8+ydf00SdtanFvQxGWdKZrITLhgaP+0VMiU1buCNnMA
+   qS5rSjOloR7BRMO+NxbpX71+GWQ1XGteHDFNo4/ZrVYTmAxdgqZwal2sW
+   rs1b3wBpSu80n/FWKSBy9jdj+ijFGZqo8tuSg+c96RPzY5V1wGpI6Tm5Q
+   4KhjsXE9h+k4V3M7/F2qZrVZKsHMfduI2IYAR8zDBKtjddKl0dasxWrbT
+   W82hEiBI2v2bGDF88WfnAA+G40e6S3BxKtFbDNw3BOifRqqYG27sh7uva
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="370459363"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="370466410"
 X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="370459363"
+   d="scan'208";a="370466410"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 13:50:50 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 14:33:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="971168002"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="971188224"
 X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="971168002"
+   d="scan'208";a="971188224"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 20 Jul 2023 13:50:48 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 20 Jul 2023 14:33:15 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMabn-0006VN-39;
-	Thu, 20 Jul 2023 20:50:47 +0000
-Date: Fri, 21 Jul 2023 04:50:44 +0800
+	id 1qMbGs-0006XR-1A;
+	Thu, 20 Jul 2023 21:33:14 +0000
+Date: Fri, 21 Jul 2023 05:32:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 08/15] OPP: Introduce dev_pm_opp_get_freq_indexed() API
-Message-ID: <202307210431.3S4SeXVw-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1080
+ amdgpu_debugfs_gfxoff_residency_read() warn: ignoring unreachable code.
+Message-ID: <202307210545.Rpnnd0tJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230720054100.9940-9-manivannan.sadhasivam@linaro.org>
-References: <20230720054100.9940-9-manivannan.sadhasivam@linaro.org>
-TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-TO: vireshk@kernel.org
-TO: nm@ti.com
-TO: sboyd@kernel.org
-TO: myungjoo.ham@samsung.com
-TO: kyungmin.park@samsung.com
-TO: cw00.choi@samsung.com
-TO: andersson@kernel.org
-TO: konrad.dybcio@linaro.org
-TO: robh+dt@kernel.org
-TO: krzysztof.kozlowski+dt@linaro.org
-TO: conor+dt@kernel.org
-TO: jejb@linux.ibm.com
-TO: martin.petersen@oracle.com
-CC: alim.akhtar@samsung.com
-CC: avri.altman@wdc.com
-CC: bvanassche@acm.org
-CC: linux-scsi@vger.kernel.org
-CC: linux-pm@vger.kernel.org
-CC: linux-arm-msm@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: quic_asutoshd@quicinc.com
-CC: quic_cang@quicinc.com
-CC: quic_nitirawa@quicinc.com
-CC: quic_narepall@quicinc.com
-CC: quic_bhaskarv@quicinc.com
-CC: quic_richardp@quicinc.com
-CC: quic_nguyenb@quicinc.com
-CC: quic_ziqichen@quicinc.com
-CC: bmasney@redhat.com
-CC: krzysztof.kozlowski@linaro.org
+CC: linux-kernel@vger.kernel.org
+TO: "André Almeida" <andrealmeid@igalia.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
 
-Hi Manivannan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on mkp-scsi/for-next jejb-scsi/for-next linus/master v6.5-rc2 next-20230720]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam/dt-bindings-ufs-common-add-OPP-table/20230720-134720
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230720054100.9940-9-manivannan.sadhasivam%40linaro.org
-patch subject: [PATCH v2 08/15] OPP: Introduce dev_pm_opp_get_freq_indexed() API
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: i386-randconfig-m041-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210431.3S4SeXVw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210431.3S4SeXVw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e599e16c16a16be9907fb00608212df56d08d57b
+commit: 0ad7347a64ac4baec1786810709eebedc5f823d5 drm/amd: Add detailed GFXOFF stats to debugfs
+date:   11 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 11 months ago
+config: s390-randconfig-m031-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210545.Rpnnd0tJ-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210545.Rpnnd0tJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307210431.3S4SeXVw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307210545.Rpnnd0tJ-lkp@intel.com/
 
 New smatch warnings:
-drivers/opp/core.c:213 dev_pm_opp_get_freq_indexed() warn: variable dereferenced before IS_ERR check 'opp' (see line 211)
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1080 amdgpu_debugfs_gfxoff_residency_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1179 amdgpu_debugfs_gfxoff_count_read() warn: ignoring unreachable code.
 
 Old smatch warnings:
-drivers/opp/core.c:254 dev_pm_opp_get_required_pstate() warn: variable dereferenced before IS_ERR check 'opp' (see line 252)
-drivers/opp/core.c:2458 _opp_attach_genpd() warn: passing zero to 'PTR_ERR'
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:386 amdgpu_debugfs_regs_pcie_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:499 amdgpu_debugfs_regs_didt_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:612 amdgpu_debugfs_regs_smc_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:768 amdgpu_debugfs_gca_config_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:846 amdgpu_debugfs_sensor_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:932 amdgpu_debugfs_wave_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1025 amdgpu_debugfs_gpr_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1274 amdgpu_debugfs_gfxoff_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1315 amdgpu_debugfs_gfxoff_status_read() warn: ignoring unreachable code.
 
-vim +/opp +213 drivers/opp/core.c
+vim +1080 drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
 
-e1f60b292ffd61 drivers/base/power/opp.c Nishanth Menon        2010-10-13  199  
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  200  /**
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  201   * dev_pm_opp_get_freq_indexed() - Gets the frequency corresponding to an
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  202   *				   available opp with specified index
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  203   * @opp: opp for which frequency has to be returned for
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  204   * @index: index of the frequency within the required opp
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  205   *
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  206   * Return: frequency in hertz corresponding to the opp with specified index,
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  207   * else return 0
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  208   */
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  209  unsigned long dev_pm_opp_get_freq_indexed(struct dev_pm_opp *opp, u32 index)
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  210  {
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20 @211  	struct opp_table *opp_table = opp->opp_table;
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  212  
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20 @213  	if (IS_ERR_OR_NULL(opp) || index >= opp_table->clk_count) {
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  214  		pr_err("%s: Invalid parameters\n", __func__);
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  215  		return 0;
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  216  	}
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  217  
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  218  	return opp->rates[index];
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  219  }
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  220  EXPORT_SYMBOL_GPL(dev_pm_opp_get_freq_indexed);
-a772c36cb3fb41 drivers/opp/core.c       Manivannan Sadhasivam 2023-07-20  221  
+75758255dc0fae Alex Deucher  2017-12-14  1044  
+0ad7347a64ac4b André Almeida 2022-08-10  1045  /**
+0ad7347a64ac4b André Almeida 2022-08-10  1046   * amdgpu_debugfs_gfxoff_residency_read - Read GFXOFF residency
+0ad7347a64ac4b André Almeida 2022-08-10  1047   *
+0ad7347a64ac4b André Almeida 2022-08-10  1048   * @f: open file handle
+0ad7347a64ac4b André Almeida 2022-08-10  1049   * @buf: User buffer to store read data in
+0ad7347a64ac4b André Almeida 2022-08-10  1050   * @size: Number of bytes to read
+0ad7347a64ac4b André Almeida 2022-08-10  1051   * @pos:  Offset to seek to
+0ad7347a64ac4b André Almeida 2022-08-10  1052   *
+0ad7347a64ac4b André Almeida 2022-08-10  1053   * Read the last residency value logged. It doesn't auto update, one needs to
+0ad7347a64ac4b André Almeida 2022-08-10  1054   * stop logging before getting the current value.
+0ad7347a64ac4b André Almeida 2022-08-10  1055   */
+0ad7347a64ac4b André Almeida 2022-08-10  1056  static ssize_t amdgpu_debugfs_gfxoff_residency_read(struct file *f, char __user *buf,
+0ad7347a64ac4b André Almeida 2022-08-10  1057  						    size_t size, loff_t *pos)
+0ad7347a64ac4b André Almeida 2022-08-10  1058  {
+0ad7347a64ac4b André Almeida 2022-08-10  1059  	struct amdgpu_device *adev = file_inode(f)->i_private;
+0ad7347a64ac4b André Almeida 2022-08-10  1060  	ssize_t result = 0;
+0ad7347a64ac4b André Almeida 2022-08-10  1061  	int r;
+0ad7347a64ac4b André Almeida 2022-08-10  1062  
+0ad7347a64ac4b André Almeida 2022-08-10  1063  	if (size & 0x3 || *pos & 0x3)
+0ad7347a64ac4b André Almeida 2022-08-10  1064  		return -EINVAL;
+0ad7347a64ac4b André Almeida 2022-08-10  1065  
+0ad7347a64ac4b André Almeida 2022-08-10  1066  	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1067  	if (r < 0) {
+0ad7347a64ac4b André Almeida 2022-08-10  1068  		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1069  		return r;
+0ad7347a64ac4b André Almeida 2022-08-10  1070  	}
+0ad7347a64ac4b André Almeida 2022-08-10  1071  
+0ad7347a64ac4b André Almeida 2022-08-10  1072  	while (size) {
+0ad7347a64ac4b André Almeida 2022-08-10  1073  		uint32_t value;
+0ad7347a64ac4b André Almeida 2022-08-10  1074  
+0ad7347a64ac4b André Almeida 2022-08-10  1075  		r = amdgpu_get_gfx_off_residency(adev, &value);
+0ad7347a64ac4b André Almeida 2022-08-10  1076  		if (r)
+0ad7347a64ac4b André Almeida 2022-08-10  1077  			goto out;
+0ad7347a64ac4b André Almeida 2022-08-10  1078  
+0ad7347a64ac4b André Almeida 2022-08-10  1079  		r = put_user(value, (uint32_t *)buf);
+0ad7347a64ac4b André Almeida 2022-08-10 @1080  		if (r)
+0ad7347a64ac4b André Almeida 2022-08-10  1081  			goto out;
+0ad7347a64ac4b André Almeida 2022-08-10  1082  
+0ad7347a64ac4b André Almeida 2022-08-10  1083  		result += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1084  		buf += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1085  		*pos += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1086  		size -= 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1087  	}
+0ad7347a64ac4b André Almeida 2022-08-10  1088  
+0ad7347a64ac4b André Almeida 2022-08-10  1089  	r = result;
+0ad7347a64ac4b André Almeida 2022-08-10  1090  out:
+0ad7347a64ac4b André Almeida 2022-08-10  1091  	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1092  	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1093  
+0ad7347a64ac4b André Almeida 2022-08-10  1094  	return r;
+0ad7347a64ac4b André Almeida 2022-08-10  1095  }
+0ad7347a64ac4b André Almeida 2022-08-10  1096  
+0ad7347a64ac4b André Almeida 2022-08-10  1097  /**
+0ad7347a64ac4b André Almeida 2022-08-10  1098   * amdgpu_debugfs_gfxoff_residency_write - Log GFXOFF Residency
+0ad7347a64ac4b André Almeida 2022-08-10  1099   *
+0ad7347a64ac4b André Almeida 2022-08-10  1100   * @f: open file handle
+0ad7347a64ac4b André Almeida 2022-08-10  1101   * @buf: User buffer to write data from
+0ad7347a64ac4b André Almeida 2022-08-10  1102   * @size: Number of bytes to write
+0ad7347a64ac4b André Almeida 2022-08-10  1103   * @pos:  Offset to seek to
+0ad7347a64ac4b André Almeida 2022-08-10  1104   *
+0ad7347a64ac4b André Almeida 2022-08-10  1105   * Write a 32-bit non-zero to start logging; write a 32-bit zero to stop
+0ad7347a64ac4b André Almeida 2022-08-10  1106   */
+0ad7347a64ac4b André Almeida 2022-08-10  1107  static ssize_t amdgpu_debugfs_gfxoff_residency_write(struct file *f, const char __user *buf,
+0ad7347a64ac4b André Almeida 2022-08-10  1108  						     size_t size, loff_t *pos)
+0ad7347a64ac4b André Almeida 2022-08-10  1109  {
+0ad7347a64ac4b André Almeida 2022-08-10  1110  	struct amdgpu_device *adev = file_inode(f)->i_private;
+0ad7347a64ac4b André Almeida 2022-08-10  1111  	ssize_t result = 0;
+0ad7347a64ac4b André Almeida 2022-08-10  1112  	int r;
+0ad7347a64ac4b André Almeida 2022-08-10  1113  
+0ad7347a64ac4b André Almeida 2022-08-10  1114  	if (size & 0x3 || *pos & 0x3)
+0ad7347a64ac4b André Almeida 2022-08-10  1115  		return -EINVAL;
+0ad7347a64ac4b André Almeida 2022-08-10  1116  
+0ad7347a64ac4b André Almeida 2022-08-10  1117  	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1118  	if (r < 0) {
+0ad7347a64ac4b André Almeida 2022-08-10  1119  		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1120  		return r;
+0ad7347a64ac4b André Almeida 2022-08-10  1121  	}
+0ad7347a64ac4b André Almeida 2022-08-10  1122  
+0ad7347a64ac4b André Almeida 2022-08-10  1123  	while (size) {
+0ad7347a64ac4b André Almeida 2022-08-10  1124  		u32 value;
+0ad7347a64ac4b André Almeida 2022-08-10  1125  
+0ad7347a64ac4b André Almeida 2022-08-10  1126  		r = get_user(value, (uint32_t *)buf);
+0ad7347a64ac4b André Almeida 2022-08-10  1127  		if (r)
+0ad7347a64ac4b André Almeida 2022-08-10  1128  			goto out;
+0ad7347a64ac4b André Almeida 2022-08-10  1129  
+0ad7347a64ac4b André Almeida 2022-08-10  1130  		amdgpu_set_gfx_off_residency(adev, value ? true : false);
+0ad7347a64ac4b André Almeida 2022-08-10  1131  
+0ad7347a64ac4b André Almeida 2022-08-10  1132  		result += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1133  		buf += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1134  		*pos += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1135  		size -= 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1136  	}
+0ad7347a64ac4b André Almeida 2022-08-10  1137  
+0ad7347a64ac4b André Almeida 2022-08-10  1138  	r = result;
+0ad7347a64ac4b André Almeida 2022-08-10  1139  out:
+0ad7347a64ac4b André Almeida 2022-08-10  1140  	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1141  	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1142  
+0ad7347a64ac4b André Almeida 2022-08-10  1143  	return r;
+0ad7347a64ac4b André Almeida 2022-08-10  1144  }
+0ad7347a64ac4b André Almeida 2022-08-10  1145  
+0ad7347a64ac4b André Almeida 2022-08-10  1146  
+0ad7347a64ac4b André Almeida 2022-08-10  1147  /**
+0ad7347a64ac4b André Almeida 2022-08-10  1148   * amdgpu_debugfs_gfxoff_count_read - Read GFXOFF entry count
+0ad7347a64ac4b André Almeida 2022-08-10  1149   *
+0ad7347a64ac4b André Almeida 2022-08-10  1150   * @f: open file handle
+0ad7347a64ac4b André Almeida 2022-08-10  1151   * @buf: User buffer to store read data in
+0ad7347a64ac4b André Almeida 2022-08-10  1152   * @size: Number of bytes to read
+0ad7347a64ac4b André Almeida 2022-08-10  1153   * @pos:  Offset to seek to
+0ad7347a64ac4b André Almeida 2022-08-10  1154   */
+0ad7347a64ac4b André Almeida 2022-08-10  1155  static ssize_t amdgpu_debugfs_gfxoff_count_read(struct file *f, char __user *buf,
+0ad7347a64ac4b André Almeida 2022-08-10  1156  						size_t size, loff_t *pos)
+0ad7347a64ac4b André Almeida 2022-08-10  1157  {
+0ad7347a64ac4b André Almeida 2022-08-10  1158  	struct amdgpu_device *adev = file_inode(f)->i_private;
+0ad7347a64ac4b André Almeida 2022-08-10  1159  	ssize_t result = 0;
+0ad7347a64ac4b André Almeida 2022-08-10  1160  	int r;
+0ad7347a64ac4b André Almeida 2022-08-10  1161  
+0ad7347a64ac4b André Almeida 2022-08-10  1162  	if (size & 0x3 || *pos & 0x3)
+0ad7347a64ac4b André Almeida 2022-08-10  1163  		return -EINVAL;
+0ad7347a64ac4b André Almeida 2022-08-10  1164  
+0ad7347a64ac4b André Almeida 2022-08-10  1165  	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1166  	if (r < 0) {
+0ad7347a64ac4b André Almeida 2022-08-10  1167  		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1168  		return r;
+0ad7347a64ac4b André Almeida 2022-08-10  1169  	}
+0ad7347a64ac4b André Almeida 2022-08-10  1170  
+0ad7347a64ac4b André Almeida 2022-08-10  1171  	while (size) {
+0ad7347a64ac4b André Almeida 2022-08-10  1172  		u64 value = 0;
+0ad7347a64ac4b André Almeida 2022-08-10  1173  
+0ad7347a64ac4b André Almeida 2022-08-10  1174  		r = amdgpu_get_gfx_off_entrycount(adev, &value);
+0ad7347a64ac4b André Almeida 2022-08-10  1175  		if (r)
+0ad7347a64ac4b André Almeida 2022-08-10  1176  			goto out;
+0ad7347a64ac4b André Almeida 2022-08-10  1177  
+0ad7347a64ac4b André Almeida 2022-08-10  1178  		r = put_user(value, (u64 *)buf);
+0ad7347a64ac4b André Almeida 2022-08-10 @1179  		if (r)
+0ad7347a64ac4b André Almeida 2022-08-10  1180  			goto out;
+0ad7347a64ac4b André Almeida 2022-08-10  1181  
+0ad7347a64ac4b André Almeida 2022-08-10  1182  		result += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1183  		buf += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1184  		*pos += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1185  		size -= 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1186  	}
+0ad7347a64ac4b André Almeida 2022-08-10  1187  
+0ad7347a64ac4b André Almeida 2022-08-10  1188  	r = result;
+0ad7347a64ac4b André Almeida 2022-08-10  1189  out:
+0ad7347a64ac4b André Almeida 2022-08-10  1190  	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1191  	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1192  
+0ad7347a64ac4b André Almeida 2022-08-10  1193  	return r;
+0ad7347a64ac4b André Almeida 2022-08-10  1194  }
+0ad7347a64ac4b André Almeida 2022-08-10  1195  
 
 -- 
 0-DAY CI Kernel Test Service
