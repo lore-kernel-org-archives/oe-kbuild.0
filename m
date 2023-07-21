@@ -1,43 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B477B363
-	for <oe-kbuild@lists.linux.dev>; Fri, 21 Jul 2023 01:00:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0996363
+	for <oe-kbuild@lists.linux.dev>; Fri, 21 Jul 2023 02:03:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689901230; x=1721437230;
+  t=1689905019; x=1721441019;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fouaYXg0tdxNY0btWNkz7qQVSKUTrl01rU0k4sglPL0=;
-  b=RBQ7Aiizq/piCxe5kmcF3iYYFgwWOop/0CrfInfZxRXE9wTsEYoaJNWb
-   O9IYFk2xK60+tfy8T82YBfeTQdX//9DwC8FUuplG4z+ERULBGtmAZFC61
-   vVF5AaYwxSE2gH1vzd7Oz5RGjjxEhiTje1ehzYKuXRXahI+PJYQupW8aA
-   OqBFl7sgq0b28NAtd/Af5XSKq0RpXMPWfLbRnXe2EgCz4/UsikkJtftDg
-   4UPX8TQvd89rZVWNZoy8HcZjNFdJ2mwvaDt1W9WX19CxIu3H7baNvdwyg
-   vE6YK1b4nrNVToug/oD6Gzfu7SvfTdxMv94zTDISGaYy7x6Qs/Z342cDT
+  bh=TLpk9FWPyiqLcmJkdRvYFO2kZu2MVyzTjn1a7ZUtGhw=;
+  b=QMK6QUGf+SEFDDRSODlc1w1Zj5o1N/bhck2O+vFk+w3qRvesJN3lGdDT
+   4wOIXqB1NQuDWyYji0/z0xPFWb0MeYJrNE3NH4vSzf82KrrsvosGWrPBm
+   7IGqTyXXjQBPxhw1v+VygFFypuu/t7wPZ7JLH9SNruF2tEgfu7NHyepQC
+   0c7zVafquW3EFv9rS1gRPIw0gsJMoCSz8/AnhjctaH5u/U2VtTvywWV0L
+   EFGfh2uqIcS/4I23Posl2LeRdliJcr7Sv/exl39gjgFGtnO1NKh/OuZlT
+   yosmQboBLx7h10Q8a9j16to7YRGZjPzIoxMrzoxWXVP+TaRVJyJQkPeLY
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="453281740"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="370514618"
 X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
-   d="scan'208";a="453281740"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 18:00:21 -0700
+   d="scan'208";a="370514618"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 19:03:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="759760080"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="898544160"
 X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
-   d="scan'208";a="759760080"
+   d="scan'208";a="898544160"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 20 Jul 2023 18:00:19 -0700
+  by orsmga005.jf.intel.com with ESMTP; 20 Jul 2023 19:03:38 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMeVG-0006gz-2t;
-	Fri, 21 Jul 2023 01:00:18 +0000
-Date: Fri, 21 Jul 2023 08:59:36 +0800
+	id 1qMfUC-0006jv-27;
+	Fri, 21 Jul 2023 02:03:22 +0000
+Date: Fri, 21 Jul 2023 10:02:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/s390/block/dasd_devmap.c:2067
- dasd_devmap_clear_copy_relation() error: 'devmap' dereferencing possible
- ERR_PTR()
-Message-ID: <202307210802.PN7P1PuK-lkp@intel.com>
+Subject: [linux-next:master 1550/3762]
+ drivers/phy/starfive/phy-jh7110-pcie.c:154 jh7110_pcie_phy_probe() warn:
+ passing zero to 'PTR_ERR'
+Message-ID: <202307210935.mEohoXIv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,83 +49,82 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Stefan Haberland <sth@linux.ibm.com>
-CC: Jens Axboe <axboe@kernel.dk>
-CC: Jan Hoeppner <hoeppner@linux.ibm.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Minda Chen <minda.chen@starfivetech.com>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Roger Quadros <rogerq@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   57f1f9dd3abea322173ea75a15887ccf14bbbe51
-commit: a91ff09d39f9b6545254839ac91f1ff7bd21d39e s390/dasd: add copy pair setup
-date:   10 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 10 months ago
-config: s390-randconfig-m031-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210802.PN7P1PuK-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210802.PN7P1PuK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c58c49dd89324b18a812762a2bfa5a0458e4f252
+commit: fd097f48eea95c9776a8846edfe9e328e9eaf7e2 [1550/3762] phy: starfive: Add JH7110 PCIE 2.0 PHY driver
+:::::: branch date: 22 hours ago
+:::::: commit date: 8 days ago
+config: parisc-randconfig-m041-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210935.mEohoXIv-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210935.mEohoXIv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307210802.PN7P1PuK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307210935.mEohoXIv-lkp@intel.com/
 
-New smatch warnings:
-drivers/s390/block/dasd_devmap.c:2067 dasd_devmap_clear_copy_relation() error: 'devmap' dereferencing possible ERR_PTR()
+smatch warnings:
+drivers/phy/starfive/phy-jh7110-pcie.c:154 jh7110_pcie_phy_probe() warn: passing zero to 'PTR_ERR'
 
-Old smatch warnings:
-drivers/s390/block/dasd_devmap.c:1959 dasd_copy_pair_show() error: buffer overflow 'copy->entry' 5 <= 5 (assuming for loop doesn't break)
-arch/s390/include/asm/cio.h:356 pathmask_to_pos() warn: signedness bug returning '(-119)'
+vim +/PTR_ERR +154 drivers/phy/starfive/phy-jh7110-pcie.c
 
-vim +/devmap +2067 drivers/s390/block/dasd_devmap.c
-
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2030  
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2031  static int dasd_devmap_clear_copy_relation(struct device *dev)
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2032  {
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2033  	struct dasd_copy_relation *copy;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2034  	struct dasd_devmap *devmap;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2035  	int i, rc = 1;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2036  
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2037  	devmap = dasd_devmap_from_cdev(to_ccwdev(dev));
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2038  	if (IS_ERR(devmap))
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2039  		return 1;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2040  
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2041  	spin_lock(&dasd_devmap_lock);
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2042  	if (!devmap->copy)
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2043  		goto out;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2044  
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2045  	copy = devmap->copy;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2046  	/* first check if all secondary devices are offline*/
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2047  	for (i = 0; i < DASD_CP_ENTRIES; i++) {
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2048  		if (!copy->entry[i].configured)
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2049  			continue;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2050  
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2051  		if (copy->entry[i].device == copy->active->device)
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2052  			continue;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2053  
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2054  		if (copy->entry[i].device)
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2055  			goto out;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2056  	}
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2057  	/* clear all devmap entries */
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2058  	for (i = 0; i < DASD_CP_ENTRIES; i++) {
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2059  		if (strlen(copy->entry[i].busid) == 0)
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2060  			continue;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2061  		if (copy->entry[i].device) {
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2062  			dasd_put_device(copy->entry[i].device);
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2063  			copy->entry[i].device->copy = NULL;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2064  			copy->entry[i].device = NULL;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2065  		}
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2066  		devmap = dasd_find_busid_locked(copy->entry[i].busid);
-a91ff09d39f9b6 Stefan Haberland 2022-09-20 @2067  		devmap->copy = NULL;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2068  		memset(copy->entry[i].busid, 0, DASD_BUS_ID_SIZE);
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2069  	}
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2070  	kfree(copy);
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2071  	rc = 0;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2072  out:
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2073  	spin_unlock(&dasd_devmap_lock);
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2074  	return rc;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2075  }
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2076  
+fd097f48eea95c Minda Chen 2023-06-29  136  
+fd097f48eea95c Minda Chen 2023-06-29  137  static int jh7110_pcie_phy_probe(struct platform_device *pdev)
+fd097f48eea95c Minda Chen 2023-06-29  138  {
+fd097f48eea95c Minda Chen 2023-06-29  139  	struct jh7110_pcie_phy *phy;
+fd097f48eea95c Minda Chen 2023-06-29  140  	struct device *dev = &pdev->dev;
+fd097f48eea95c Minda Chen 2023-06-29  141  	struct phy_provider *phy_provider;
+fd097f48eea95c Minda Chen 2023-06-29  142  	u32 args[2];
+fd097f48eea95c Minda Chen 2023-06-29  143  
+fd097f48eea95c Minda Chen 2023-06-29  144  	phy = devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
+fd097f48eea95c Minda Chen 2023-06-29  145  	if (!phy)
+fd097f48eea95c Minda Chen 2023-06-29  146  		return -ENOMEM;
+fd097f48eea95c Minda Chen 2023-06-29  147  
+fd097f48eea95c Minda Chen 2023-06-29  148  	phy->regs = devm_platform_ioremap_resource(pdev, 0);
+fd097f48eea95c Minda Chen 2023-06-29  149  	if (IS_ERR(phy->regs))
+fd097f48eea95c Minda Chen 2023-06-29  150  		return PTR_ERR(phy->regs);
+fd097f48eea95c Minda Chen 2023-06-29  151  
+fd097f48eea95c Minda Chen 2023-06-29  152  	phy->phy = devm_phy_create(dev, NULL, &jh7110_pcie_phy_ops);
+fd097f48eea95c Minda Chen 2023-06-29  153  	if (IS_ERR(phy->phy))
+fd097f48eea95c Minda Chen 2023-06-29 @154  		return dev_err_probe(dev, PTR_ERR(phy->regs),
+fd097f48eea95c Minda Chen 2023-06-29  155  				     "Failed to map phy base\n");
+fd097f48eea95c Minda Chen 2023-06-29  156  
+fd097f48eea95c Minda Chen 2023-06-29  157  	phy->sys_syscon =
+fd097f48eea95c Minda Chen 2023-06-29  158  		syscon_regmap_lookup_by_phandle_args(pdev->dev.of_node,
+fd097f48eea95c Minda Chen 2023-06-29  159  						     "starfive,sys-syscon",
+fd097f48eea95c Minda Chen 2023-06-29  160  						     1, args);
+fd097f48eea95c Minda Chen 2023-06-29  161  
+fd097f48eea95c Minda Chen 2023-06-29  162  	if (!IS_ERR_OR_NULL(phy->sys_syscon))
+fd097f48eea95c Minda Chen 2023-06-29  163  		phy->sys_phy_connect = args[0];
+fd097f48eea95c Minda Chen 2023-06-29  164  	else
+fd097f48eea95c Minda Chen 2023-06-29  165  		phy->sys_syscon = NULL;
+fd097f48eea95c Minda Chen 2023-06-29  166  
+fd097f48eea95c Minda Chen 2023-06-29  167  	phy->stg_syscon =
+fd097f48eea95c Minda Chen 2023-06-29  168  		syscon_regmap_lookup_by_phandle_args(pdev->dev.of_node,
+fd097f48eea95c Minda Chen 2023-06-29  169  						     "starfive,stg-syscon",
+fd097f48eea95c Minda Chen 2023-06-29  170  						     2, args);
+fd097f48eea95c Minda Chen 2023-06-29  171  
+fd097f48eea95c Minda Chen 2023-06-29  172  	if (!IS_ERR_OR_NULL(phy->stg_syscon)) {
+fd097f48eea95c Minda Chen 2023-06-29  173  		phy->stg_pcie_mode = args[0];
+fd097f48eea95c Minda Chen 2023-06-29  174  		phy->stg_pcie_usb = args[1];
+fd097f48eea95c Minda Chen 2023-06-29  175  	} else {
+fd097f48eea95c Minda Chen 2023-06-29  176  		phy->stg_syscon = NULL;
+fd097f48eea95c Minda Chen 2023-06-29  177  	}
+fd097f48eea95c Minda Chen 2023-06-29  178  
+fd097f48eea95c Minda Chen 2023-06-29  179  	phy_kvco_gain_set(phy);
+fd097f48eea95c Minda Chen 2023-06-29  180  
+fd097f48eea95c Minda Chen 2023-06-29  181  	phy_set_drvdata(phy->phy, phy);
+fd097f48eea95c Minda Chen 2023-06-29  182  	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+fd097f48eea95c Minda Chen 2023-06-29  183  
+fd097f48eea95c Minda Chen 2023-06-29  184  	return PTR_ERR_OR_ZERO(phy_provider);
+fd097f48eea95c Minda Chen 2023-06-29  185  }
+fd097f48eea95c Minda Chen 2023-06-29  186  
 
 -- 
 0-DAY CI Kernel Test Service
