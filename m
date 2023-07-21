@@ -1,131 +1,132 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150D520F8F
-	for <oe-kbuild@lists.linux.dev>; Fri, 21 Jul 2023 19:19:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC6CDDC2
+	for <oe-kbuild@lists.linux.dev>; Fri, 21 Jul 2023 23:15:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689967156; x=1721503156;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nt5IzyjtEsvFRsqUfUazZtoCzYG1/Q65IFUV8S5rFSA=;
-  b=HBSek9kVEwt86pjhKcPvrnEw6q4HP/3y0qDxrR2VqjlrixWTFVUD3DmH
-   jE62VURQ5ms3EDua4s9hlGlVWfFKKNPDf+rE1bBz0NaQrsLn5ioK9ZGML
-   Mj/j2MFfnaTwOCrns14W1JtLg6/kRa8erEFHGfQ1fve+qR6rkiRm5tnJE
-   t1CtwaEkG1EYru7wI1CBUD1VN/box+4mIK3NeUEVIY4upqhNBH8fufzTQ
-   DkjYxWQAWcKxrPIjgq8LJ4kIO7/hB6mmtfov5MKclJQWzkQ3unnHyIkh9
-   sVhGYN8p4pBr46Vh239olCDJC8g9VIPGRPFWFtSLo/6New5IthttVL3hp
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="347392754"
+  t=1689981334; x=1721517334;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=aBDH6PuVZoUajeI46GDDgI1oPdZsSdIQkmREpTVu1Lw=;
+  b=lwSx8gGmC4K3SpWAFQHQFrp6jhNYeEasdFI/UJlNW5l/ZUD9K1q8XeUE
+   ygRK8oVaYBTTAm2XSFodJzbAkp1hSevHaDOoFnSzAfux818aktdrfxyZe
+   FJnYBD1NVbdjlhuv+pir+3OEvlQs1M9mL7IxQ3+V2rDkc9boRrNe63Anm
+   5a9qrHca0Oi5u674nwWZ+M0rIJvOHuq8pM7rENkJVxIVhqwSQdc/DHH62
+   a3lXu1XEdmtkmocsJwkQ4Vrcor+fYDTqci1+g3cEUDud5sovUBRg3JgcQ
+   0OwzBteZEEEtA7iYhi0wbUHh9pnKkzoaDqBPdcAfy4/DLgc+kvZpNg/pR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="346737633"
 X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
-   d="scan'208";a="347392754"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 12:19:15 -0700
+   d="scan'208";a="346737633"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 16:15:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="760062305"
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="754654507"
 X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
-   d="scan'208";a="760062305"
+   d="scan'208";a="754654507"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 21 Jul 2023 12:19:13 -0700
+  by orsmga008.jf.intel.com with ESMTP; 21 Jul 2023 16:15:29 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMvei-0007ZN-1w;
-	Fri, 21 Jul 2023 19:19:12 +0000
-Date: Sat, 22 Jul 2023 03:18:40 +0800
+	id 1qMzLM-0007kN-1e;
+	Fri, 21 Jul 2023 23:15:28 +0000
+Date: Sat, 22 Jul 2023 07:15:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/s390/block/dasd_devmap.c:2067
- dasd_devmap_clear_copy_relation() error: 'devmap' dereferencing possible
- ERR_PTR()
-Message-ID: <202307220335.Spd6Y6Xm-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:541
+ amdgpu_debugfs_mqd_read() warn: ignoring unreachable code.
+Message-ID: <202307220756.LixozHQP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Stefan Haberland <sth@linux.ibm.com>
-CC: Jens Axboe <axboe@kernel.dk>
-CC: Jan Hoeppner <hoeppner@linux.ibm.com>
+TO: Alex Deucher <alexander.deucher@amd.com>
+CC: "Christian König" <christian.koenig@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f7e3a1bafdea735050dfde00523cf505dc7fd309
-commit: a91ff09d39f9b6545254839ac91f1ff7bd21d39e s390/dasd: add copy pair setup
-date:   10 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 10 months ago
-config: s390-randconfig-m031-20230720 (https://download.01.org/0day-ci/archive/20230722/202307220335.Spd6Y6Xm-lkp@intel.com/config)
+head:   d192f5382581d972c4ae1b4d72e0b59b34cadeb9
+commit: 445d85e3c1dfd8c45b24be6f1527f1e117256d0e drm/amdgpu: add debugfs interface for reading MQDs
+date:   3 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 3 months ago
+config: s390-randconfig-m031-20230720 (https://download.01.org/0day-ci/archive/20230722/202307220756.LixozHQP-lkp@intel.com/config)
 compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220335.Spd6Y6Xm-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220756.LixozHQP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307220335.Spd6Y6Xm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307220756.LixozHQP-lkp@intel.com/
 
 New smatch warnings:
-drivers/s390/block/dasd_devmap.c:2067 dasd_devmap_clear_copy_relation() error: 'devmap' dereferencing possible ERR_PTR()
+drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:541 amdgpu_debugfs_mqd_read() warn: ignoring unreachable code.
 
 Old smatch warnings:
-drivers/s390/block/dasd_devmap.c:1959 dasd_copy_pair_show() error: buffer overflow 'copy->entry' 5 <= 5 (assuming for loop doesn't break)
-arch/s390/include/asm/cio.h:356 pathmask_to_pos() warn: signedness bug returning '(-119)'
+drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:480 amdgpu_debugfs_ring_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:495 amdgpu_debugfs_ring_read() warn: ignoring unreachable code.
 
-vim +/devmap +2067 drivers/s390/block/dasd_devmap.c
+vim +541 drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
 
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2030  
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2031  static int dasd_devmap_clear_copy_relation(struct device *dev)
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2032  {
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2033  	struct dasd_copy_relation *copy;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2034  	struct dasd_devmap *devmap;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2035  	int i, rc = 1;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2036  
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2037  	devmap = dasd_devmap_from_cdev(to_ccwdev(dev));
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2038  	if (IS_ERR(devmap))
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2039  		return 1;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2040  
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2041  	spin_lock(&dasd_devmap_lock);
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2042  	if (!devmap->copy)
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2043  		goto out;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2044  
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2045  	copy = devmap->copy;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2046  	/* first check if all secondary devices are offline*/
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2047  	for (i = 0; i < DASD_CP_ENTRIES; i++) {
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2048  		if (!copy->entry[i].configured)
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2049  			continue;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2050  
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2051  		if (copy->entry[i].device == copy->active->device)
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2052  			continue;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2053  
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2054  		if (copy->entry[i].device)
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2055  			goto out;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2056  	}
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2057  	/* clear all devmap entries */
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2058  	for (i = 0; i < DASD_CP_ENTRIES; i++) {
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2059  		if (strlen(copy->entry[i].busid) == 0)
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2060  			continue;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2061  		if (copy->entry[i].device) {
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2062  			dasd_put_device(copy->entry[i].device);
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2063  			copy->entry[i].device->copy = NULL;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2064  			copy->entry[i].device = NULL;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2065  		}
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2066  		devmap = dasd_find_busid_locked(copy->entry[i].busid);
-a91ff09d39f9b6 Stefan Haberland 2022-09-20 @2067  		devmap->copy = NULL;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2068  		memset(copy->entry[i].busid, 0, DASD_BUS_ID_SIZE);
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2069  	}
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2070  	kfree(copy);
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2071  	rc = 0;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2072  out:
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2073  	spin_unlock(&dasd_devmap_lock);
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2074  	return rc;
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2075  }
-a91ff09d39f9b6 Stefan Haberland 2022-09-20  2076  
+d38ceaf99ed015 Alex Deucher 2015-04-20  511  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  512  static ssize_t amdgpu_debugfs_mqd_read(struct file *f, char __user *buf,
+445d85e3c1dfd8 Alex Deucher 2023-03-21  513  				       size_t size, loff_t *pos)
+445d85e3c1dfd8 Alex Deucher 2023-03-21  514  {
+445d85e3c1dfd8 Alex Deucher 2023-03-21  515  	struct amdgpu_ring *ring = file_inode(f)->i_private;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  516  	volatile u32 *mqd;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  517  	int r;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  518  	uint32_t value, result;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  519  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  520  	if (*pos & 3 || size & 3)
+445d85e3c1dfd8 Alex Deucher 2023-03-21  521  		return -EINVAL;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  522  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  523  	result = 0;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  524  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  525  	r = amdgpu_bo_reserve(ring->mqd_obj, false);
+445d85e3c1dfd8 Alex Deucher 2023-03-21  526  	if (unlikely(r != 0))
+445d85e3c1dfd8 Alex Deucher 2023-03-21  527  		return r;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  528  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  529  	r = amdgpu_bo_kmap(ring->mqd_obj, (void **)&mqd);
+445d85e3c1dfd8 Alex Deucher 2023-03-21  530  	if (r) {
+445d85e3c1dfd8 Alex Deucher 2023-03-21  531  		amdgpu_bo_unreserve(ring->mqd_obj);
+445d85e3c1dfd8 Alex Deucher 2023-03-21  532  		return r;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  533  	}
+445d85e3c1dfd8 Alex Deucher 2023-03-21  534  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  535  	while (size) {
+445d85e3c1dfd8 Alex Deucher 2023-03-21  536  		if (*pos >= ring->mqd_size)
+445d85e3c1dfd8 Alex Deucher 2023-03-21  537  			goto done;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  538  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  539  		value = mqd[*pos/4];
+445d85e3c1dfd8 Alex Deucher 2023-03-21  540  		r = put_user(value, (uint32_t *)buf);
+445d85e3c1dfd8 Alex Deucher 2023-03-21 @541  		if (r)
+445d85e3c1dfd8 Alex Deucher 2023-03-21  542  			goto done;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  543  		buf += 4;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  544  		result += 4;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  545  		size -= 4;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  546  		*pos += 4;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  547  	}
+445d85e3c1dfd8 Alex Deucher 2023-03-21  548  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  549  done:
+445d85e3c1dfd8 Alex Deucher 2023-03-21  550  	amdgpu_bo_kunmap(ring->mqd_obj);
+445d85e3c1dfd8 Alex Deucher 2023-03-21  551  	mqd = NULL;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  552  	amdgpu_bo_unreserve(ring->mqd_obj);
+445d85e3c1dfd8 Alex Deucher 2023-03-21  553  	if (r)
+445d85e3c1dfd8 Alex Deucher 2023-03-21  554  		return r;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  555  
+445d85e3c1dfd8 Alex Deucher 2023-03-21  556  	return result;
+445d85e3c1dfd8 Alex Deucher 2023-03-21  557  }
+445d85e3c1dfd8 Alex Deucher 2023-03-21  558  
 
 -- 
 0-DAY CI Kernel Test Service
