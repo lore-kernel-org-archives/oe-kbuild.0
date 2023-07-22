@@ -1,42 +1,42 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B34927F3B
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Jul 2023 03:03:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4C1613A
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Jul 2023 05:06:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689994986; x=1721530986;
+  t=1690002401; x=1721538401;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c642FE/EFMGip4JTWLMZQkpf6SV6oHh6JOFQpm1Py24=;
-  b=m0CTfYacpqdOsQPAcj7N485JoXE4sDf8ZE83NyxWTx6hmlLUSuoZul4g
-   mZxxUygGqS2lSHekLpiR+cOzqixmmExpjB+uIJp+OeEnJM9t9b46w1lXq
-   6855q+KajF2PvbdwDo6rXDjxsSsrkDHFnnZr+GpLbGhpv+MKE1c0gPztZ
-   v/kq7wKEx4kBDYEBPr4hkFrT2DQFP0ZkUzUl6jyZ5oLczRU1VEHlsi4Vn
-   vbkJEsb8d7BRHe5ZD5IHt5lIQxlRow/SSVGd498kyV9BHatqnewm9p9AS
-   sblsMJCfpkuHiHn29G7C3BJVGtoqbQ/l1X+7l030OZLp1CO6HDAh0sHsr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="364618172"
+  bh=o5j1pjn6urar7xfof+wn1Weg2Y261FX5Sni9LiahfcA=;
+  b=GQAu3+x0/Yt5kzVID15noe1t2r9uXJahpKr/TwMfeG+47+oNhnmG7/fI
+   m1Yojl0ZPhC/e9EXLGIxI04F5DdwsahJa+byjpYjQbsnFHOrFkUlsVNln
+   APpFz9Z71qCp3bCfXbKlsk1pw+ZN1tbLyELSEAXaBPs6cslwfX/UZsx0S
+   SQAYBTfn/1/6TBzyyqh61+e7tjJRLKktO4lv+l1frhvSmv/hnKWhHwDnn
+   hQx1orv1gU1LiwsXhUldoUarM4GDSuyuTmHhuUCllYlDsh03vrcWFw7FY
+   zoQFPCtC4BOhIWNC1UQUPhCGI6jf1bLoL3hAhS2dejrf39CyVj5OiL10Q
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="364625123"
 X-IronPort-AV: E=Sophos;i="6.01,223,1684825200"; 
-   d="scan'208";a="364618172"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 20:03:04 -0700
+   d="scan'208";a="364625123"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 22:06:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="725084039"
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="719071157"
 X-IronPort-AV: E=Sophos;i="6.01,223,1684825200"; 
-   d="scan'208";a="725084039"
+   d="scan'208";a="719071157"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 21 Jul 2023 20:03:03 -0700
+  by orsmga007.jf.intel.com with ESMTP; 21 Jul 2023 22:06:38 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qN2sw-0007uL-1k;
-	Sat, 22 Jul 2023 03:02:27 +0000
-Date: Sat, 22 Jul 2023 11:01:51 +0800
+	id 1qN4pB-0007zF-1c;
+	Sat, 22 Jul 2023 05:06:37 +0000
+Date: Sat, 22 Jul 2023 13:06:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:461
- amdgpu_debugfs_gprwave_read() warn: ignoring unreachable code.
-Message-ID: <202307221022.RffFHqdu-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: progs/hid_bpf_helpers.h:9:38: error: declaration of 'struct
+ hid_bpf_ctx' will not be visible outside of this function
+Message-ID: <202307221250.TO1vcIdj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,131 +46,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Tom St Denis <tom.stdenis@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
+TO: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+CC: Jiri Kosina <jkosina@suse.cz>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   d192f5382581d972c4ae1b4d72e0b59b34cadeb9
-commit: 553f973a0d7bbe95ea5da46979d926a9c0ada109 drm/amd/amdgpu: Update debugfs for XCC support (v3)
-date:   6 weeks ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 6 weeks ago
-config: s390-randconfig-m031-20230720 (https://download.01.org/0day-ci/archive/20230722/202307221022.RffFHqdu-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307221022.RffFHqdu-lkp@intel.com/reproduce)
+commit: e9d48abbce93e2138e37a695ba5931f3d3c9fdd9 kselftests: hid: fix missing headers_install step
+date:   7 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 7 months ago
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307221250.TO1vcIdj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307221022.RffFHqdu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307221250.TO1vcIdj-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:461 amdgpu_debugfs_gprwave_read() warn: ignoring unreachable code.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:498 amdgpu_debugfs_gprwave_ioctl() warn: inconsistent returns '&rd->lock'.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:543 amdgpu_debugfs_regs_pcie_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:656 amdgpu_debugfs_regs_didt_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:769 amdgpu_debugfs_regs_smc_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:925 amdgpu_debugfs_gca_config_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1003 amdgpu_debugfs_sensor_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1089 amdgpu_debugfs_wave_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1182 amdgpu_debugfs_gpr_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1237 amdgpu_debugfs_gfxoff_residency_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1336 amdgpu_debugfs_gfxoff_count_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1431 amdgpu_debugfs_gfxoff_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1472 amdgpu_debugfs_gfxoff_status_read() warn: ignoring unreachable code.
-
-vim +461 drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-
-553f973a0d7bbe Tom St Denis 2022-10-11  395  
-553f973a0d7bbe Tom St Denis 2022-10-11  396  static ssize_t amdgpu_debugfs_gprwave_read(struct file *f, char __user *buf, size_t size, loff_t *pos)
-553f973a0d7bbe Tom St Denis 2022-10-11  397  {
-553f973a0d7bbe Tom St Denis 2022-10-11  398  	struct amdgpu_debugfs_gprwave_data *rd = f->private_data;
-553f973a0d7bbe Tom St Denis 2022-10-11  399  	struct amdgpu_device *adev = rd->adev;
-553f973a0d7bbe Tom St Denis 2022-10-11  400  	ssize_t result = 0;
-553f973a0d7bbe Tom St Denis 2022-10-11  401  	int r;
-553f973a0d7bbe Tom St Denis 2022-10-11  402  	uint32_t *data, x;
-553f973a0d7bbe Tom St Denis 2022-10-11  403  
-553f973a0d7bbe Tom St Denis 2022-10-11  404  	if (size & 0x3 || *pos & 0x3)
-553f973a0d7bbe Tom St Denis 2022-10-11  405  		return -EINVAL;
-553f973a0d7bbe Tom St Denis 2022-10-11  406  
-553f973a0d7bbe Tom St Denis 2022-10-11  407  	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
-553f973a0d7bbe Tom St Denis 2022-10-11  408  	if (r < 0) {
-553f973a0d7bbe Tom St Denis 2022-10-11  409  		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-553f973a0d7bbe Tom St Denis 2022-10-11  410  		return r;
-553f973a0d7bbe Tom St Denis 2022-10-11  411  	}
-553f973a0d7bbe Tom St Denis 2022-10-11  412  
-553f973a0d7bbe Tom St Denis 2022-10-11  413  	r = amdgpu_virt_enable_access_debugfs(adev);
-553f973a0d7bbe Tom St Denis 2022-10-11  414  	if (r < 0) {
-553f973a0d7bbe Tom St Denis 2022-10-11  415  		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-553f973a0d7bbe Tom St Denis 2022-10-11  416  		return r;
-553f973a0d7bbe Tom St Denis 2022-10-11  417  	}
-553f973a0d7bbe Tom St Denis 2022-10-11  418  
-553f973a0d7bbe Tom St Denis 2022-10-11  419  	data = kcalloc(1024, sizeof(*data), GFP_KERNEL);
-553f973a0d7bbe Tom St Denis 2022-10-11  420  	if (!data) {
-553f973a0d7bbe Tom St Denis 2022-10-11  421  		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-553f973a0d7bbe Tom St Denis 2022-10-11  422  		amdgpu_virt_disable_access_debugfs(adev);
-553f973a0d7bbe Tom St Denis 2022-10-11  423  		return -ENOMEM;
-553f973a0d7bbe Tom St Denis 2022-10-11  424  	}
-553f973a0d7bbe Tom St Denis 2022-10-11  425  
-553f973a0d7bbe Tom St Denis 2022-10-11  426  	/* switch to the specific se/sh/cu */
-553f973a0d7bbe Tom St Denis 2022-10-11  427  	mutex_lock(&adev->grbm_idx_mutex);
-553f973a0d7bbe Tom St Denis 2022-10-11  428  	amdgpu_gfx_select_se_sh(adev, rd->id.se, rd->id.sh, rd->id.cu, rd->id.xcc_id);
-553f973a0d7bbe Tom St Denis 2022-10-11  429  
-553f973a0d7bbe Tom St Denis 2022-10-11  430  	if (!rd->id.gpr_or_wave) {
-553f973a0d7bbe Tom St Denis 2022-10-11  431  		x = 0;
-553f973a0d7bbe Tom St Denis 2022-10-11  432  		if (adev->gfx.funcs->read_wave_data)
-553f973a0d7bbe Tom St Denis 2022-10-11  433  			adev->gfx.funcs->read_wave_data(adev, rd->id.xcc_id, rd->id.simd, rd->id.wave, data, &x);
-553f973a0d7bbe Tom St Denis 2022-10-11  434  	} else {
-553f973a0d7bbe Tom St Denis 2022-10-11  435  		x = size >> 2;
-553f973a0d7bbe Tom St Denis 2022-10-11  436  		if (rd->id.gpr.vpgr_or_sgpr) {
-553f973a0d7bbe Tom St Denis 2022-10-11  437  			if (adev->gfx.funcs->read_wave_vgprs)
-553f973a0d7bbe Tom St Denis 2022-10-11  438  				adev->gfx.funcs->read_wave_vgprs(adev, rd->id.xcc_id, rd->id.simd, rd->id.wave, rd->id.gpr.thread, *pos, size>>2, data);
-553f973a0d7bbe Tom St Denis 2022-10-11  439  		} else {
-553f973a0d7bbe Tom St Denis 2022-10-11  440  			if (adev->gfx.funcs->read_wave_sgprs)
-553f973a0d7bbe Tom St Denis 2022-10-11  441  				adev->gfx.funcs->read_wave_sgprs(adev, rd->id.xcc_id, rd->id.simd, rd->id.wave, *pos, size>>2, data);
-553f973a0d7bbe Tom St Denis 2022-10-11  442  		}
-553f973a0d7bbe Tom St Denis 2022-10-11  443  	}
-553f973a0d7bbe Tom St Denis 2022-10-11  444  
-553f973a0d7bbe Tom St Denis 2022-10-11  445  	amdgpu_gfx_select_se_sh(adev, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, rd->id.xcc_id);
-553f973a0d7bbe Tom St Denis 2022-10-11  446  	mutex_unlock(&adev->grbm_idx_mutex);
-553f973a0d7bbe Tom St Denis 2022-10-11  447  
-553f973a0d7bbe Tom St Denis 2022-10-11  448  	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-553f973a0d7bbe Tom St Denis 2022-10-11  449  	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-553f973a0d7bbe Tom St Denis 2022-10-11  450  
-553f973a0d7bbe Tom St Denis 2022-10-11  451  	if (!x) {
-553f973a0d7bbe Tom St Denis 2022-10-11  452  		result = -EINVAL;
-553f973a0d7bbe Tom St Denis 2022-10-11  453  		goto done;
-553f973a0d7bbe Tom St Denis 2022-10-11  454  	}
-553f973a0d7bbe Tom St Denis 2022-10-11  455  
-553f973a0d7bbe Tom St Denis 2022-10-11  456  	while (size && (*pos < x * 4)) {
-553f973a0d7bbe Tom St Denis 2022-10-11  457  		uint32_t value;
-553f973a0d7bbe Tom St Denis 2022-10-11  458  
-553f973a0d7bbe Tom St Denis 2022-10-11  459  		value = data[*pos >> 2];
-553f973a0d7bbe Tom St Denis 2022-10-11  460  		r = put_user(value, (uint32_t *)buf);
-553f973a0d7bbe Tom St Denis 2022-10-11 @461  		if (r) {
-553f973a0d7bbe Tom St Denis 2022-10-11  462  			result = r;
-553f973a0d7bbe Tom St Denis 2022-10-11  463  			goto done;
-553f973a0d7bbe Tom St Denis 2022-10-11  464  		}
-553f973a0d7bbe Tom St Denis 2022-10-11  465  
-553f973a0d7bbe Tom St Denis 2022-10-11  466  		result += 4;
-553f973a0d7bbe Tom St Denis 2022-10-11  467  		buf += 4;
-553f973a0d7bbe Tom St Denis 2022-10-11  468  		*pos += 4;
-553f973a0d7bbe Tom St Denis 2022-10-11  469  		size -= 4;
-553f973a0d7bbe Tom St Denis 2022-10-11  470  	}
-553f973a0d7bbe Tom St Denis 2022-10-11  471  
-553f973a0d7bbe Tom St Denis 2022-10-11  472  done:
-553f973a0d7bbe Tom St Denis 2022-10-11  473  	amdgpu_virt_disable_access_debugfs(adev);
-553f973a0d7bbe Tom St Denis 2022-10-11  474  	kfree(data);
-553f973a0d7bbe Tom St Denis 2022-10-11  475  	return result;
-553f973a0d7bbe Tom St Denis 2022-10-11  476  }
-553f973a0d7bbe Tom St Denis 2022-10-11  477  
+   In file included from progs/hid.c:6:
+>> progs/hid_bpf_helpers.h:9:38: error: declaration of 'struct hid_bpf_ctx' will not be visible outside of this function [-Werror,-Wvisibility]
+       9 | extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx,
+         |                                      ^
+>> progs/hid.c:23:35: error: incompatible pointer types passing 'struct hid_bpf_ctx *' to parameter of type 'struct hid_bpf_ctx *' [-Werror,-Wincompatible-pointer-types]
+      23 |         __u8 *rw_data = hid_bpf_get_data(hid_ctx, 0 /* offset */, 3 /* size */);
+         |                                          ^~~~~~~
+   progs/hid_bpf_helpers.h:9:51: note: passing argument to parameter 'ctx' here
+       9 | extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx,
+         |                                                   ^
+>> progs/hid.c:32:16: error: incomplete definition of type 'struct hid_bpf_ctx'
+      32 |         return hid_ctx->size;
+         |                ~~~~~~~^
+   progs/hid_bpf_helpers.h:13:15: note: forward declaration of 'struct hid_bpf_ctx'
+      13 | extern struct hid_bpf_ctx *hid_bpf_allocate_context(unsigned int hid_id) __ksym;
+         |               ^
+   progs/hid.c:38:35: error: incompatible pointer types passing 'struct hid_bpf_ctx *' to parameter of type 'struct hid_bpf_ctx *' [-Werror,-Wincompatible-pointer-types]
+      38 |         __u8 *rw_data = hid_bpf_get_data(hid_ctx, 0 /* offset */, 3 /* size */);
+         |                                          ^~~~~~~
+   progs/hid_bpf_helpers.h:9:51: note: passing argument to parameter 'ctx' here
+       9 | extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx,
+         |                                                   ^
+>> progs/hid.c:53:27: error: use of undeclared identifier 'HID_BPF_FLAG_INSERT_HEAD'
+      53 |                                           ctx->insert_head ? HID_BPF_FLAG_INSERT_HEAD :
+         |                                                              ^
+>> progs/hid.c:54:13: error: use of undeclared identifier 'HID_BPF_FLAG_NONE'
+      54 |                                                              HID_BPF_FLAG_NONE);
+         |                                                              ^
+   progs/hid.c:131:32: error: incompatible pointer types passing 'struct hid_bpf_ctx *' to parameter of type 'struct hid_bpf_ctx *' [-Werror,-Wincompatible-pointer-types]
+     131 |         __u8 *data = hid_bpf_get_data(hid_ctx, 0 /* offset */, 4096 /* size */);
+         |                                       ^~~~~~~
+   progs/hid_bpf_helpers.h:9:51: note: passing argument to parameter 'ctx' here
+       9 | extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx,
+         |                                                   ^
+   progs/hid.c:150:32: error: incompatible pointer types passing 'struct hid_bpf_ctx *' to parameter of type 'struct hid_bpf_ctx *' [-Werror,-Wincompatible-pointer-types]
+     150 |         __u8 *data = hid_bpf_get_data(hid_ctx, 0 /* offset */, 4 /* size */);
+         |                                       ^~~~~~~
+   progs/hid_bpf_helpers.h:9:51: note: passing argument to parameter 'ctx' here
+       9 | extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx,
+         |                                                   ^
+   progs/hid.c:167:32: error: incompatible pointer types passing 'struct hid_bpf_ctx *' to parameter of type 'struct hid_bpf_ctx *' [-Werror,-Wincompatible-pointer-types]
+     167 |         __u8 *data = hid_bpf_get_data(hid_ctx, 0 /* offset */, 4 /* size */);
+         |                                       ^~~~~~~
+   progs/hid_bpf_helpers.h:9:51: note: passing argument to parameter 'ctx' here
+       9 | extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx,
+         |                                                   ^
+   progs/hid.c:184:32: error: incompatible pointer types passing 'struct hid_bpf_ctx *' to parameter of type 'struct hid_bpf_ctx *' [-Werror,-Wincompatible-pointer-types]
+     184 |         __u8 *data = hid_bpf_get_data(hid_ctx, 0 /* offset */, 4 /* size */);
+         |                                       ^~~~~~~
+   progs/hid_bpf_helpers.h:9:51: note: passing argument to parameter 'ctx' here
+       9 | extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx,
+         |                                                   ^
+   10 errors generated.
 
 -- 
 0-DAY CI Kernel Test Service
