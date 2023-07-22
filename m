@@ -1,43 +1,41 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696F762A
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Jul 2023 12:00:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651933D9E
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Jul 2023 12:51:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690027226; x=1721563226;
+  t=1690030303; x=1721566303;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZEf4FPnc4cXWH3qGsa/ttIAEvcgPAeek7j5SYAn6nEU=;
-  b=lRwtO7U89hfzz2+BFFXK/v4UOjgdJrj50qtP1VQ3fRujt4WX4jlzPuk7
-   Y4JaiHI/eFJGwguxGAhXrC5iTEVh7URsOzq7K4JTBZ4rjXKRIh/P2EZvF
-   gbpuVnIFb/+ThVYgc5z2C0ImW3xei0P2Sl3mQIhqb1ma0UnsWkCLZCHuq
-   p4l/11joXgjwsOH7I1FLIWRHEODJrT38pYOh2k2iKFfzq5ZJC3F0Y6vtn
-   XPdXOoJRz+CSuLhoOsvWjdv/NdUh6nShCb//mpWBLwdkF/vn3vCbhu/vH
-   7kdydWtTn0FyJ/BuFBLr6q78LuLoUj6AVWcEuFz0kiaVjeOtTWiiUcJeO
+  bh=fKQc07jrePdLXuiXfaEKloCZDkeCVTnckRTQT0UJCVc=;
+  b=Y/TTr0MSmzd7sOUs5UAgA6TLV9tpVfVb4/KEXlMkVyXGOSZ0j+LlWcxJ
+   P1XlPgjiTTLvncI7DUolFvHMZe8qwcgQ+wItzL0minjsZMjGyZZvQCDEQ
+   Y3ke2UmC0sNoQwNpJWvTASsknJNVkA2Qs6WOI+2a2Jjp4ZTCrUVY5AE1J
+   1lp4TYvyqsZB/emFQfEGaVmLyGq3wbspCX1rRvpiIc+HcipTusersKUCg
+   cI/cM42uJqCHf7KcH74BappIDNEk+uoIFnCpywTgEQ5EzuakNKPvvuF9R
+   R+W4IsE1vdR5BRRtjhfwmIXDoVFgaX6MVSaCue0mFrQ7KoXTFJB/O1mtP
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="369859078"
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="347477771"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="369859078"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 05:00:25 -0700
+   d="scan'208";a="347477771"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 05:51:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="838862611"
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="760267327"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="838862611"
+   d="scan'208";a="760267327"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 22 Jul 2023 05:00:24 -0700
+  by orsmga001.jf.intel.com with ESMTP; 22 Jul 2023 05:51:41 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qNBHb-0008IP-1f;
-	Sat, 22 Jul 2023 12:00:23 +0000
-Date: Sat, 22 Jul 2023 19:59:50 +0800
+	id 1qNC5E-0008Jl-2c;
+	Sat, 22 Jul 2023 12:51:40 +0000
+Date: Sat, 22 Jul 2023 20:51:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [joelgranados:jag/sysctl_remove_empty_elem 61/65]
- net/ax25/sysctl_net_ax25.c:158 ax25_register_dev_sysctl() error: buffer
- overflow 'table' 13 <= 13
-Message-ID: <202307221942.GeOTwYoS-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH] riscv: Add HAVE_IOREMAP_PROT support
+Message-ID: <202307222034.TVCQ8Y8c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,60 +45,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: dfl-afu-main.c:(.rodata+0x2c): undefined reference to `generic_access_phys'"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Joel Granados <j.granados@samsung.com>
+In-Reply-To: <20230716152033.3713581-1-guoren@kernel.org>
+References: <20230716152033.3713581-1-guoren@kernel.org>
+TO: guoren@kernel.org
+TO: guoren@kernel.org
+TO: palmer@rivosinc.com
+TO: paul.walmsley@sifive.com
+TO: falcon@tinylab.org
+TO: bjorn@kernel.org
+TO: conor.dooley@microchip.com
+TO: alex@ghiti.fr
+CC: linux-arch@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-riscv@lists.infradead.org
+CC: Guo Ren <guoren@linux.alibaba.com>
 
-tree:   https://github.com/Joelgranados/linux.git jag/sysctl_remove_empty_elem
-head:   c09c3a77be9924c3bbab7b538a03ecd68734e799
-commit: 857e2e5922b442beef8ba18fa9ff9cec659003a1 [61/65] ax.25: rm sentinel element from ctl_table array
-:::::: branch date: 21 hours ago
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.5-rc2 next-20230721]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/guoren-kernel-org/riscv-Add-HAVE_IOREMAP_PROT-support/20230718-181937
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230716152033.3713581-1-guoren%40kernel.org
+patch subject: [PATCH] riscv: Add HAVE_IOREMAP_PROT support
+:::::: branch date: 4 days ago
 :::::: commit date: 4 days ago
-config: i386-randconfig-m021-20230717 (https://download.01.org/0day-ci/archive/20230722/202307221942.GeOTwYoS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307221942.GeOTwYoS-lkp@intel.com/reproduce)
+config: riscv-randconfig-r083-20230720 (https://download.01.org/0day-ci/archive/20230722/202307222034.TVCQ8Y8c-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307222034.TVCQ8Y8c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307221942.GeOTwYoS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307222034.TVCQ8Y8c-lkp@intel.com/
 
-smatch warnings:
-net/ax25/sysctl_net_ax25.c:158 ax25_register_dev_sysctl() error: buffer overflow 'table' 13 <= 13
+All errors (new ones prefixed by >>):
 
-vim +/table +158 net/ax25/sysctl_net_ax25.c
-
-^1da177e4c3f415 Linus Torvalds    2005-04-16  146  
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  147  int ax25_register_dev_sysctl(ax25_dev *ax25_dev)
-^1da177e4c3f415 Linus Torvalds    2005-04-16  148  {
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  149  	char path[sizeof("net/ax25/") + IFNAMSIZ];
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  150  	int k;
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  151  	struct ctl_table *table;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  152  
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  153  	table = kmemdup(ax25_param_table, sizeof(ax25_param_table), GFP_KERNEL);
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  154  	if (!table)
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  155  		return -ENOMEM;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  156  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  157  	for (k = 0; k < AX25_MAX_VALUES; k++)
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19 @158  		table[k].data = &ax25_dev->values[k];
-^1da177e4c3f415 Linus Torvalds    2005-04-16  159  
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  160  	snprintf(path, sizeof(path), "net/ax25/%s", ax25_dev->dev->name);
-4a00c5fa7a2b9ee Joel Granados     2023-06-27  161  	ax25_dev->sysheader = register_net_sysctl_sz(&init_net, path, table,
-4a00c5fa7a2b9ee Joel Granados     2023-06-27  162  						  ARRAY_SIZE(ax25_param_table));
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  163  	if (!ax25_dev->sysheader) {
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  164  		kfree(table);
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  165  		return -ENOMEM;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  166  	}
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  167  	return 0;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  168  }
-^1da177e4c3f415 Linus Torvalds    2005-04-16  169  
-
-:::::: The code at line 158 was first introduced by commit
-:::::: 0ca7a4c87d27dd2fde0783dec94a821d6d035696 net ax25: Simplify and cleanup the ax25 sysctl handling.
-
-:::::: TO: Eric W. Biederman <ebiederm@xmission.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   riscv32-linux-ld: drivers/fpga/dfl-afu-main.o: in function `.LANCHOR2':
+>> dfl-afu-main.c:(.rodata+0x2c): undefined reference to `generic_access_phys'
 
 -- 
 0-DAY CI Kernel Test Service
