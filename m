@@ -1,43 +1,42 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB5B111C
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Jul 2023 11:18:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CFD111C
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Jul 2023 11:18:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690111134; x=1721647134;
+  t=1690111136; x=1721647136;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P9UMSCYzGn+0Ar6nLggNLk0rupihhZBnC7xqQMvjskw=;
-  b=ZEg+GUVBT8Vqih62E/ZtXC6HwZ+nkyEv1a/1QoPAyjduSZSgYXYMo4w1
-   84uzutxa3I0UK2LsipoDzXvCNRPj0Th8T1s3Vtllh5HT83WrQlySSnd+P
-   43B4hGsUpOhYtTW64B4fnzmv7LiTf4s2OCW1sIBOZgLdycNMQCpbHFeZX
-   jmmE21WRjcq8FBZpw0Vacd9cRGlGm0m+pP2FAgRMMysZR2td6nCGmKFQ7
-   gMi6QlE6TLLdz7C8j76wiFKZOpqSwRr+XLMKz+PxFe4+9/xHrRiTTpZ5J
-   BcBCbJN5ZJUgEz73HfeSczC1ym7hrIK2+DkMVfp6w4l2qyYn36nXNkpC9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="366159530"
+  bh=kfFVr7Ul8qqec2Xlq7ue/fTWfr2oiXKGMeKUXYPXfXg=;
+  b=bX++Qpkk5nbvkdJKxjO3/uAChNjtsunqp27qvYTJOnl2VY7ROND/v6rG
+   AikAj3yXjqZOF7CBVj9FShwH4t/6dy3VVCzeff15vqPCv49E2eTjkvVEY
+   k0VfJldLXUI2ziNXxOcKACas16lqtVPBLSnvxYiyCESsFUqvIHO7baGD6
+   5BNKz84WYuQLO1STU2sRDHOVoPxaBVjl02Zzv4BAlUM3ukXhsGLqwrXBv
+   W8LQLIJu4K5ZP/+ICjS8lqNZ4yA2MHSLjtyIdZDaSrXRXZVMCCl7x4dHY
+   c1XhxsARyj+zGTLlve7YHc3SYXCtciYrbPgeKvfmvUBIR6LdrqAO5zftk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="366159528"
 X-IronPort-AV: E=Sophos;i="6.01,226,1684825200"; 
-   d="scan'208";a="366159530"
+   d="scan'208";a="366159528"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2023 04:18:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="899205431"
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="899205429"
 X-IronPort-AV: E=Sophos;i="6.01,226,1684825200"; 
-   d="scan'208";a="899205431"
+   d="scan'208";a="899205429"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
   by orsmga005.jf.intel.com with ESMTP; 23 Jul 2023 04:18:51 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qNX6x-0008yP-0G;
+	id 1qNX6x-0008yT-0P;
 	Sun, 23 Jul 2023 11:18:51 +0000
-Date: Sun, 23 Jul 2023 19:18:28 +0800
+Date: Sun, 23 Jul 2023 19:18:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:900
- isst_if_get_perf_level_info() warn: potential spectre issue
- 'power_domain_info->perf_levels' [r] (local cap)
-Message-ID: <202307231956.9pwPQ2Jc-lkp@intel.com>
+Subject: kernel/trace/trace_functions_graph.c:726 print_graph_entry_leaf()
+ warn: bitwise AND condition is false here
+Message-ID: <202307231900.Pcc0jcaN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,176 +49,92 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-CC: Hans de Goede <hdegoede@redhat.com>
-CC: Zhang Rui <rui.zhang@intel.com>
+TO: Donglin Peng <pengdonglin@sangfor.com.cn>
+CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c2782531397f5cb19ca3f8f9c17727f1cdf5bee8
-commit: ea009e4769fa3bd05d4c111c3b6865eb3a9be829 platform/x86: ISST: Add SST-PP support via TPMI
-date:   4 months ago
+commit: a1be9ccc57f07d54278be34eed6bd679bc941c97 function_graph: Support recording and printing the return value of function
+date:   5 weeks ago
 :::::: branch date: 9 hours ago
-:::::: commit date: 4 months ago
-config: x86_64-randconfig-m001-20230723 (https://download.01.org/0day-ci/archive/20230723/202307231956.9pwPQ2Jc-lkp@intel.com/config)
+:::::: commit date: 5 weeks ago
+config: x86_64-randconfig-m001-20230723 (https://download.01.org/0day-ci/archive/20230723/202307231900.Pcc0jcaN-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230723/202307231956.9pwPQ2Jc-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230723/202307231900.Pcc0jcaN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307231956.9pwPQ2Jc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307231900.Pcc0jcaN-lkp@intel.com/
 
-New smatch warnings:
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:900 isst_if_get_perf_level_info() warn: potential spectre issue 'power_domain_info->perf_levels' [r] (local cap)
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1002 isst_if_get_perf_level_mask() warn: potential spectre issue 'power_domain_info->perf_levels' [r]
+smatch warnings:
+kernel/trace/trace_functions_graph.c:726 print_graph_entry_leaf() warn: bitwise AND condition is false here
+kernel/trace/trace_functions_graph.c:1012 print_graph_return() warn: bitwise AND condition is false here
 
-Old smatch warnings:
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:585 isst_if_clos_assoc() warn: potential spectre issue 'isst_common.sst_inst' [r]
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:587 isst_if_clos_assoc() warn: possible spectre second half.  'sst_inst'
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:590 isst_if_clos_assoc() warn: potential spectre issue 'sst_inst->power_domain_info' [r]
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1029 isst_if_get_tpmi_instance_count() warn: potential spectre issue 'isst_common.sst_inst' [r] (local cap)
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1033 isst_if_get_tpmi_instance_count() warn: possible spectre second half.  'sst_inst'
+vim +726 kernel/trace/trace_functions_graph.c
 
-vim +900 drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c
-
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   880  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   881  static int isst_if_get_perf_level_info(void __user *argp)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   882  {
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   883  	struct isst_perf_level_data_info perf_level;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   884  	struct tpmi_per_power_domain_info *power_domain_info;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   885  	int i, j;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   886  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   887  	if (copy_from_user(&perf_level, argp, sizeof(perf_level)))
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   888  		return -EFAULT;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   889  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   890  	power_domain_info = get_instance(perf_level.socket_id, perf_level.power_domain_id);
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   891  	if (!power_domain_info)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   892  		return -EINVAL;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   893  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   894  	if (perf_level.level > power_domain_info->max_level)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   895  		return -EINVAL;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   896  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   897  	if (!(power_domain_info->pp_header.level_en_mask & BIT(perf_level.level)))
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   898  		return -EINVAL;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   899  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  @900  	_read_pp_level_info("tdp_ratio", perf_level.tdp_ratio, perf_level.level,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   901  			    SST_PP_INFO_0_OFFSET, SST_PP_P1_SSE_START, SST_PP_P1_SSE_WIDTH,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   902  			    SST_MUL_FACTOR_NONE)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   903  	_read_pp_level_info("base_freq_mhz", perf_level.base_freq_mhz, perf_level.level,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   904  			    SST_PP_INFO_0_OFFSET, SST_PP_P1_SSE_START, SST_PP_P1_SSE_WIDTH,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   905  			    SST_MUL_FACTOR_FREQ)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   906  	_read_pp_level_info("base_freq_avx2_mhz", perf_level.base_freq_avx2_mhz, perf_level.level,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   907  			    SST_PP_INFO_0_OFFSET, SST_PP_P1_AVX2_START, SST_PP_P1_AVX2_WIDTH,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   908  			    SST_MUL_FACTOR_FREQ)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   909  	_read_pp_level_info("base_freq_avx512_mhz", perf_level.base_freq_avx512_mhz,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   910  			    perf_level.level, SST_PP_INFO_0_OFFSET, SST_PP_P1_AVX512_START,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   911  			    SST_PP_P1_AVX512_WIDTH, SST_MUL_FACTOR_FREQ)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   912  	_read_pp_level_info("base_freq_amx_mhz", perf_level.base_freq_amx_mhz, perf_level.level,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   913  			    SST_PP_INFO_0_OFFSET, SST_PP_P1_AMX_START, SST_PP_P1_AMX_WIDTH,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   914  			    SST_MUL_FACTOR_FREQ)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   915  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   916  	_read_pp_level_info("thermal_design_power_w", perf_level.thermal_design_power_w,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   917  			    perf_level.level, SST_PP_INFO_1_OFFSET, SST_PP_TDP_START,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   918  			    SST_PP_TDP_WIDTH, SST_MUL_FACTOR_NONE)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   919  	perf_level.thermal_design_power_w /= 8; /* units are in 1/8th watt */
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   920  	_read_pp_level_info("tjunction_max_c", perf_level.tjunction_max_c, perf_level.level,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   921  			    SST_PP_INFO_1_OFFSET, SST_PP_T_PROCHOT_START, SST_PP_T_PROCHOT_WIDTH,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   922  			    SST_MUL_FACTOR_NONE)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   923  	_read_pp_level_info("max_memory_freq_mhz", perf_level.max_memory_freq_mhz,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   924  			    perf_level.level, SST_PP_INFO_1_OFFSET, SST_PP_MAX_MEMORY_FREQ_START,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   925  			    SST_PP_MAX_MEMORY_FREQ_WIDTH, SST_MUL_FACTOR_FREQ)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   926  	_read_pp_level_info("cooling_type", perf_level.cooling_type, perf_level.level,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   927  			    SST_PP_INFO_1_OFFSET, SST_PP_COOLING_TYPE_START,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   928  			    SST_PP_COOLING_TYPE_WIDTH, SST_MUL_FACTOR_NONE)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   929  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   930  	for (i = 0; i < TRL_MAX_LEVELS; ++i) {
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   931  		for (j = 0; j < TRL_MAX_BUCKETS; ++j)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   932  			_read_pp_level_info("trl*_bucket*_freq_mhz",
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   933  					    perf_level.trl_freq_mhz[i][j], perf_level.level,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   934  					    SST_PP_INFO_4_OFFSET + (i * SST_PP_TRL_0_RATIO_0_WIDTH),
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   935  					    j * SST_PP_TRL_0_RATIO_0_WIDTH,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   936  					    SST_PP_TRL_0_RATIO_0_WIDTH,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   937  					    SST_MUL_FACTOR_FREQ);
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   938  	}
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   939  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   940  	for (i = 0; i < TRL_MAX_BUCKETS; ++i)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   941  		_read_pp_level_info("bucket*_core_count", perf_level.bucket_core_counts[i],
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   942  				    perf_level.level, SST_PP_INFO_10_OFFSET,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   943  				    SST_PP_TRL_CORES_BUCKET_0_WIDTH * i,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   944  				    SST_PP_TRL_CORES_BUCKET_0_WIDTH, SST_MUL_FACTOR_NONE)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   945  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   946  	perf_level.max_buckets = TRL_MAX_BUCKETS;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   947  	perf_level.max_trl_levels = TRL_MAX_LEVELS;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   948  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   949  	_read_pp_level_info("p0_freq_mhz", perf_level.p0_freq_mhz, perf_level.level,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   950  			    SST_PP_INFO_11_OFFSET, SST_PP_CORE_RATIO_P0_START,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   951  			    SST_PP_CORE_RATIO_P0_WIDTH, SST_MUL_FACTOR_FREQ)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   952  	_read_pp_level_info("p1_freq_mhz", perf_level.p1_freq_mhz, perf_level.level,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   953  			    SST_PP_INFO_11_OFFSET, SST_PP_CORE_RATIO_P1_START,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   954  			    SST_PP_CORE_RATIO_P1_WIDTH, SST_MUL_FACTOR_FREQ)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   955  	_read_pp_level_info("pn_freq_mhz", perf_level.pn_freq_mhz, perf_level.level,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   956  			    SST_PP_INFO_11_OFFSET, SST_PP_CORE_RATIO_PN_START,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   957  			    SST_PP_CORE_RATIO_PN_WIDTH, SST_MUL_FACTOR_FREQ)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   958  	_read_pp_level_info("pm_freq_mhz", perf_level.pm_freq_mhz, perf_level.level,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   959  			    SST_PP_INFO_11_OFFSET, SST_PP_CORE_RATIO_PM_START,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   960  			    SST_PP_CORE_RATIO_PM_WIDTH, SST_MUL_FACTOR_FREQ)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   961  	_read_pp_level_info("p0_fabric_freq_mhz", perf_level.p0_fabric_freq_mhz,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   962  			    perf_level.level, SST_PP_INFO_11_OFFSET,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   963  			    SST_PP_CORE_RATIO_P0_FABRIC_START,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   964  			    SST_PP_CORE_RATIO_P0_FABRIC_WIDTH, SST_MUL_FACTOR_FREQ)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   965  	_read_pp_level_info("p1_fabric_freq_mhz", perf_level.p1_fabric_freq_mhz,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   966  			    perf_level.level, SST_PP_INFO_11_OFFSET,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   967  			    SST_PP_CORE_RATIO_P1_FABRIC_START,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   968  			    SST_PP_CORE_RATIO_P1_FABRIC_WIDTH, SST_MUL_FACTOR_FREQ)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   969  	_read_pp_level_info("pm_fabric_freq_mhz", perf_level.pm_fabric_freq_mhz,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   970  			    perf_level.level, SST_PP_INFO_11_OFFSET,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   971  			    SST_PP_CORE_RATIO_PM_FABRIC_START,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   972  			    SST_PP_CORE_RATIO_PM_FABRIC_WIDTH, SST_MUL_FACTOR_FREQ)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   973  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   974  	if (copy_to_user(argp, &perf_level, sizeof(perf_level)))
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   975  		return -EFAULT;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   976  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   977  	return 0;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   978  }
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   979  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   980  #define SST_PP_FUSED_CORE_COUNT_START	0
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   981  #define SST_PP_FUSED_CORE_COUNT_WIDTH	8
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   982  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   983  #define SST_PP_RSLVD_CORE_COUNT_START	8
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   984  #define SST_PP_RSLVD_CORE_COUNT_WIDTH	8
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   985  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   986  #define SST_PP_RSLVD_CORE_MASK_START	0
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   987  #define SST_PP_RSLVD_CORE_MASK_WIDTH	64
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   988  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   989  static int isst_if_get_perf_level_mask(void __user *argp)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   990  {
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   991  	static struct isst_perf_level_cpu_mask cpumask;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   992  	struct tpmi_per_power_domain_info *power_domain_info;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   993  	u64 mask;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   994  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   995  	if (copy_from_user(&cpumask, argp, sizeof(cpumask)))
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   996  		return -EFAULT;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   997  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   998  	power_domain_info = get_instance(cpumask.socket_id, cpumask.power_domain_id);
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07   999  	if (!power_domain_info)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1000  		return -EINVAL;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1001  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07 @1002  	_read_pp_level_info("mask", mask, cpumask.level, SST_PP_INFO_2_OFFSET,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1003  			    SST_PP_RSLVD_CORE_MASK_START, SST_PP_RSLVD_CORE_MASK_WIDTH,
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1004  			    SST_MUL_FACTOR_NONE)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1005  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1006  	cpumask.mask = mask;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1007  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1008  	if (!cpumask.punit_cpu_map)
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1009  		return -EOPNOTSUPP;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1010  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1011  	if (copy_to_user(argp, &cpumask, sizeof(cpumask)))
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1012  		return -EFAULT;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1013  
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1014  	return 0;
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1015  }
-ea009e4769fa3b Srinivas Pandruvada 2023-03-07  1016  
+a1be9ccc57f07d5 Donglin Peng             2023-04-08  677  
+83a8df618eb04bd Frederic Weisbecker      2008-11-27  678  /* Case of a leaf function on its call entry */
+287b6e68ca7209c Frederic Weisbecker      2008-11-26  679  static enum print_line_t
+83a8df618eb04bd Frederic Weisbecker      2008-11-27  680  print_graph_entry_leaf(struct trace_iterator *iter,
+b91facc367366b3 Frederic Weisbecker      2009-02-06  681  		struct ftrace_graph_ent_entry *entry,
+d7a8d9e907cc294 Jiri Olsa                2010-04-02  682  		struct ftrace_graph_ret_entry *ret_entry,
+d7a8d9e907cc294 Jiri Olsa                2010-04-02  683  		struct trace_seq *s, u32 flags)
+fb52607afcd0629 Frederic Weisbecker      2008-11-25  684  {
+2fbcdb35aca614f Steven Rostedt           2009-03-19  685  	struct fgraph_data *data = iter->private;
+983f938ae695852 Steven Rostedt (Red Hat  2015-09-30  686) 	struct trace_array *tr = iter->tr;
+83a8df618eb04bd Frederic Weisbecker      2008-11-27  687  	struct ftrace_graph_ret *graph_ret;
+83a8df618eb04bd Frederic Weisbecker      2008-11-27  688  	struct ftrace_graph_ent *call;
+83a8df618eb04bd Frederic Weisbecker      2008-11-27  689  	unsigned long long duration;
+1fe4293f4b8de75 Changbin Du              2018-01-31  690  	int cpu = iter->cpu;
+1a056155edd458e Frederic Weisbecker      2008-11-28  691  	int i;
+fb52607afcd0629 Frederic Weisbecker      2008-11-25  692  
+83a8df618eb04bd Frederic Weisbecker      2008-11-27  693  	graph_ret = &ret_entry->ret;
+83a8df618eb04bd Frederic Weisbecker      2008-11-27  694  	call = &entry->graph_ent;
+83a8df618eb04bd Frederic Weisbecker      2008-11-27  695  	duration = graph_ret->rettime - graph_ret->calltime;
+83a8df618eb04bd Frederic Weisbecker      2008-11-27  696  
+2fbcdb35aca614f Steven Rostedt           2009-03-19  697  	if (data) {
+f1c7f517a5dc23b Steven Rostedt           2010-02-26  698  		struct fgraph_cpu_data *cpu_data;
+f1c7f517a5dc23b Steven Rostedt           2010-02-26  699  
+f1c7f517a5dc23b Steven Rostedt           2010-02-26  700  		cpu_data = per_cpu_ptr(data->cpu_data, cpu);
+2fbcdb35aca614f Steven Rostedt           2009-03-19  701  
+2fbcdb35aca614f Steven Rostedt           2009-03-19  702  		/*
+2fbcdb35aca614f Steven Rostedt           2009-03-19  703  		 * Comments display at + 1 to depth. Since
+2fbcdb35aca614f Steven Rostedt           2009-03-19  704  		 * this is a leaf function, keep the comments
+2fbcdb35aca614f Steven Rostedt           2009-03-19  705  		 * equal to this depth.
+2fbcdb35aca614f Steven Rostedt           2009-03-19  706  		 */
+f1c7f517a5dc23b Steven Rostedt           2010-02-26  707  		cpu_data->depth = call->depth - 1;
+f1c7f517a5dc23b Steven Rostedt           2010-02-26  708  
+f1c7f517a5dc23b Steven Rostedt           2010-02-26  709  		/* No need to keep this function around for this depth */
+794de08a16cf1fc Steven Rostedt (Red Hat  2016-12-08  710) 		if (call->depth < FTRACE_RETFUNC_DEPTH &&
+794de08a16cf1fc Steven Rostedt (Red Hat  2016-12-08  711) 		    !WARN_ON_ONCE(call->depth < 0))
+f1c7f517a5dc23b Steven Rostedt           2010-02-26  712  			cpu_data->enter_funcs[call->depth] = 0;
+2fbcdb35aca614f Steven Rostedt           2009-03-19  713  	}
+2fbcdb35aca614f Steven Rostedt           2009-03-19  714  
+ffeb80fc30acbf6 Jiri Olsa                2011-06-03  715  	/* Overhead and duration */
+983f938ae695852 Steven Rostedt (Red Hat  2015-09-30  716) 	print_graph_duration(tr, duration, s, flags);
+437f24fb897d409 Steven Rostedt           2008-11-26  717  
+83a8df618eb04bd Frederic Weisbecker      2008-11-27  718  	/* Function */
+9d9add34ec7b2cd Steven Rostedt (Red Hat  2014-11-12  719) 	for (i = 0; i < call->depth * TRACE_GRAPH_INDENT; i++)
+9d9add34ec7b2cd Steven Rostedt (Red Hat  2014-11-12  720) 		trace_seq_putc(s, ' ');
+287b6e68ca7209c Frederic Weisbecker      2008-11-26  721  
+a1be9ccc57f07d5 Donglin Peng             2023-04-08  722  	/*
+a1be9ccc57f07d5 Donglin Peng             2023-04-08  723  	 * Write out the function return value if the option function-retval is
+a1be9ccc57f07d5 Donglin Peng             2023-04-08  724  	 * enabled.
+a1be9ccc57f07d5 Donglin Peng             2023-04-08  725  	 */
+a1be9ccc57f07d5 Donglin Peng             2023-04-08 @726  	if (flags & __TRACE_GRAPH_PRINT_RETVAL)
+a1be9ccc57f07d5 Donglin Peng             2023-04-08  727  		print_graph_retval(s, graph_ret->retval, true, (void *)call->func,
+a1be9ccc57f07d5 Donglin Peng             2023-04-08  728  				!!(flags & TRACE_GRAPH_PRINT_RETVAL_HEX));
+a1be9ccc57f07d5 Donglin Peng             2023-04-08  729  	else
+9d9add34ec7b2cd Steven Rostedt (Red Hat  2014-11-12  730) 		trace_seq_printf(s, "%ps();\n", (void *)call->func);
+83a8df618eb04bd Frederic Weisbecker      2008-11-27  731  
+1fe4293f4b8de75 Changbin Du              2018-01-31  732  	print_graph_irq(iter, graph_ret->func, TRACE_GRAPH_RET,
+1fe4293f4b8de75 Changbin Du              2018-01-31  733  			cpu, iter->ent->pid, flags);
+1fe4293f4b8de75 Changbin Du              2018-01-31  734  
+9d9add34ec7b2cd Steven Rostedt (Red Hat  2014-11-12  735) 	return trace_handle_return(s);
+83a8df618eb04bd Frederic Weisbecker      2008-11-27  736  }
+83a8df618eb04bd Frederic Weisbecker      2008-11-27  737  
 
 -- 
 0-DAY CI Kernel Test Service
