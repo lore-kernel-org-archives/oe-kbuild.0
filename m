@@ -1,49 +1,49 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1641C03
-	for <oe-kbuild@lists.linux.dev>; Mon, 24 Jul 2023 08:12:07 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-316feb137a7so3605912f8f.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 24 Jul 2023 01:12:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE161C39
+	for <oe-kbuild@lists.linux.dev>; Mon, 24 Jul 2023 08:22:23 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3fbc59de009so30760135e9.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 24 Jul 2023 01:22:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690186325; x=1690791125;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4k5OhMJhQ2+wDaIsnK+q2wvHycQR/3aKhiixy4fXYjI=;
-        b=Q4/qBPr2wh7Vf+6gHroZxcJ+7gzZx0/Av1wcmElSjFA4y0oi776ht2hQ6fCKBLZwZJ
-         UiVJpifa1e/VhxyvH9hVomB/04uSpj1hHTd0EzE8/85CRJNycxJMRufM3Ugar5TTok39
-         9UqtEOdI+jOm7Jt1lTnD06xSl8oPs+YwiVsGtxRGsLQqhZiZwefa1uvGZWyq5UxqWfNx
-         Vr2xfFD+0O2+ZaQqA12VQ3NeeBpa3V/S+6IRN9YFqK+Hv5dru4jtwbr9u18vhMwX1atd
-         AQJKGqDRTxgkpnrTo1qUULp6RAroNBVcJjMYBdb6g3H4mfAPLawwUMAF4/9YTAInGPdb
-         GpZg==
+        d=linaro.org; s=google; t=1690186941; x=1690791741;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=w2+VUqJtyd/w3GfH8mvUNPvMT12jE1tBR6ud/MPqXew=;
+        b=qlIkEs8LqOcRVJ3NDcjFhiZtTreJGhBElRggyWIYyD6RKPzKHIhJX7xRbjrgfaXkui
+         wyDMuKn7fygcRtd3DRe+Gb4w8J8g+UFF65rA5LEhJy8icmdLCAzlBSMRVfW/tS/PW4eQ
+         PfJX0WuKVakmb0obAgkYECL8yYV88rY2iMA8xtb7GhBWgfI71cqY/D99Et4vQ6RteWi8
+         E/o6FCUZYlZ6TSy7KWMv0g8V34PjffDc01I6W0hFwoO5SRJYzjTqhQpZVVoncx/ryY8J
+         fWMf7pOheOzhceebidcb6EcRhXNV5vb81YyfNnBw1Ie3oxZsZvqsUydTdk9nBZTsAvif
+         2WJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690186325; x=1690791125;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4k5OhMJhQ2+wDaIsnK+q2wvHycQR/3aKhiixy4fXYjI=;
-        b=EyKDWTQUTrGl7Cry1g6sEuGvuRhk7+RAJDXWw/cLhx4fZ0LhWpqj96Eq1QZhczLVDR
-         OAXQa/L9YxhKE7lFKRfnxUbo7+OnBowzGHxEASXfHGVivrUuD9cD3z3616DNST+fG4wh
-         DZn+dQwmtaB11M9xCMlDaZ3qNqcYLUciCDeHOaDiJOeuQjNO/29thRRAyVBczhA4HG4H
-         eTqlvtkKNYha/LxqvBQGKSxZpTGfPnylSu74krwRvHaFO21e0rgbm2viRXI8L0MBcdBn
-         edGdh+La9SNLFp/dbLeevGncUKacVg9wkvlAcd5RRoZoEUFaaC7bS9CnsAVmkIrj1sWu
-         gmJg==
-X-Gm-Message-State: ABy/qLbKmvbbDd8BKp+jkbtEhi3b8xlJDcwT3jDv4O8oOmDo3Begd1k9
-	0mGFvjCGVdPmSCMSfQzKtmBVJCi2qP2afzOmdMM=
-X-Google-Smtp-Source: APBJJlGoMgHLJ1cKd5aJqaLTlO06gDBNrDyl//41YVyP447RVi+HA13AfLB5FkE7sUp3G1ToOQiivw==
-X-Received: by 2002:adf:ec8e:0:b0:317:6513:da7c with SMTP id z14-20020adfec8e000000b003176513da7cmr119308wrn.18.1690186325043;
-        Mon, 24 Jul 2023 01:12:05 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690186941; x=1690791741;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w2+VUqJtyd/w3GfH8mvUNPvMT12jE1tBR6ud/MPqXew=;
+        b=FPqoDfMiUUsXSyjhYqGKahjQy9Hg7aFkWic0bTELowQD6CwtosiigIBkSHmepmy4k2
+         FL1WCImCnnT6Zg0WOnmhWQRP/swkxH4+lb8qAfbIZZun54+4Off5EKRtuwkd6jTDVxVt
+         CHk8hf0KxrN1Hj+HHzDqtusCuu5LkELdV1CR099cBEqs4f9qDv0HuNiaUzFlyq+5YA7k
+         cwO81VkgxkNCY4Uo/cM9bah0Jc5Jdf8nZ/nsTvAw/dE1Fi+m54AGg6G+2wIkiu1ZDXEy
+         ACwG03LSo2XwILqxdGw3Ojs+3mFDBM8OWou5Euke91c8jVh5xu0jq7oBqFyXCT0+Oyoq
+         LdEA==
+X-Gm-Message-State: ABy/qLaJ/XtuWTEvEg9WNUld2sC1r3O47Wqqw+cipGKeBeEAj7PVCwRV
+	PCUcpeagag1BeJ48kitmgE/X4DfDGEgIJ1CBK3U=
+X-Google-Smtp-Source: APBJJlG799j3jx6GBChiLoMBbfL06GaU4jVrUjTFq97xnFgsO0AHFWiebwHliwISuR9i3QmkuvOUrw==
+X-Received: by 2002:a7b:cd91:0:b0:3f7:f584:579b with SMTP id y17-20020a7bcd91000000b003f7f584579bmr5869491wmj.9.1690186941543;
+        Mon, 24 Jul 2023 01:22:21 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id p15-20020adfce0f000000b00301a351a8d6sm12050255wrn.84.2023.07.24.01.12.04
+        by smtp.gmail.com with ESMTPSA id q21-20020a1ce915000000b003fba6709c68sm9638511wmc.47.2023.07.24.01.22.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 01:12:04 -0700 (PDT)
-Date: Mon, 24 Jul 2023 11:12:02 +0300
+        Mon, 24 Jul 2023 01:22:21 -0700 (PDT)
+Date: Mon, 24 Jul 2023 11:22:18 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Joel Granados <j.granados@samsung.com>
+To: oe-kbuild@lists.linux.dev, Alexander Aring <aahringo@redhat.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [joelgranados:jag/sysctl_remove_empty_elem 61/65]
- net/ax25/sysctl_net_ax25.c:158 ax25_register_dev_sysctl() error: buffer
- overflow 'table' 13 <= 13
-Message-ID: <06d26e2d-88ab-4b17-919a-893426577ac3@kadam.mountain>
+Subject: Re: [RFC v6.5-rc2 2/3] fs: lockd: fix race in async lock request
+ handling
+Message-ID: <41e30f88-b065-44b4-8536-dca47f02aa63@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,50 +52,83 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230720125806.1385279-2-aahringo@redhat.com>
 
-tree:   https://github.com/Joelgranados/linux.git jag/sysctl_remove_empty_elem
-head:   c09c3a77be9924c3bbab7b538a03ecd68734e799
-commit: 857e2e5922b442beef8ba18fa9ff9cec659003a1 [61/65] ax.25: rm sentinel element from ctl_table array
-config: i386-randconfig-m021-20230717 (https://download.01.org/0day-ci/archive/20230722/202307221942.GeOTwYoS-lkp@intel.com/config)
+Hi Alexander,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Aring/fs-lockd-fix-race-in-async-lock-request-handling/20230720-210010
+base:   v6.5-rc2
+patch link:    https://lore.kernel.org/r/20230720125806.1385279-2-aahringo%40redhat.com
+patch subject: [RFC v6.5-rc2 2/3] fs: lockd: fix race in async lock request handling
+config: x86_64-randconfig-m001-20230720 (https://download.01.org/0day-ci/archive/20230722/202307220225.DeAIaATn-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307221942.GeOTwYoS-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220225.DeAIaATn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307221942.GeOTwYoS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307220225.DeAIaATn-lkp@intel.com/
 
 smatch warnings:
-net/ax25/sysctl_net_ax25.c:158 ax25_register_dev_sysctl() error: buffer overflow 'table' 13 <= 13
+fs/lockd/svclock.c:798 nlmsvc_grant_deferred() warn: iterator used outside loop: 'block'
 
-vim +/table +158 net/ax25/sysctl_net_ax25.c
+vim +/block +798 fs/lockd/svclock.c
 
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  147  int ax25_register_dev_sysctl(ax25_dev *ax25_dev)
-^1da177e4c3f415 Linus Torvalds    2005-04-16  148  {
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  149  	char path[sizeof("net/ax25/") + IFNAMSIZ];
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  150  	int k;
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  151  	struct ctl_table *table;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  152  
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  153  	table = kmemdup(ax25_param_table, sizeof(ax25_param_table), GFP_KERNEL);
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  154  	if (!table)
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  155  		return -ENOMEM;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  156  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  157  	for (k = 0; k < AX25_MAX_VALUES; k++)
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19 @158  		table[k].data = &ax25_dev->values[k];
-                                                                ^^^^^^^^
-I trust the checker that this is a buffer overflow.
+385d3265c23730 Alexander Aring 2023-07-20  778  static int nlmsvc_grant_deferred(struct file_lock *fl, int result)
+385d3265c23730 Alexander Aring 2023-07-20  779  {
+385d3265c23730 Alexander Aring 2023-07-20  780  	struct nlm_block *block = NULL;
 
-^1da177e4c3f415 Linus Torvalds    2005-04-16  159  
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  160  	snprintf(path, sizeof(path), "net/ax25/%s", ax25_dev->dev->name);
-4a00c5fa7a2b9ee Joel Granados     2023-06-27  161  	ax25_dev->sysheader = register_net_sysctl_sz(&init_net, path, table,
-4a00c5fa7a2b9ee Joel Granados     2023-06-27  162  						  ARRAY_SIZE(ax25_param_table));
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  163  	if (!ax25_dev->sysheader) {
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  164  		kfree(table);
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  165  		return -ENOMEM;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  166  	}
-0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  167  	return 0;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  168  }
+No need.
+
+385d3265c23730 Alexander Aring 2023-07-20  781  	int rc;
+385d3265c23730 Alexander Aring 2023-07-20  782  
+385d3265c23730 Alexander Aring 2023-07-20  783  	spin_lock(&nlm_blocked_lock);
+385d3265c23730 Alexander Aring 2023-07-20  784  	list_for_each_entry(block, &nlm_blocked, b_list) {
+385d3265c23730 Alexander Aring 2023-07-20  785  		if (nlm_compare_locks(&block->b_call->a_args.lock.fl, fl)) {
+385d3265c23730 Alexander Aring 2023-07-20  786  			kref_get(&block->b_count);
+0e4ac9d93515b2 Marc Eshel      2006-11-28  787  			break;
+0e4ac9d93515b2 Marc Eshel      2006-11-28  788  		}
+0e4ac9d93515b2 Marc Eshel      2006-11-28  789  	}
+f904be9cc77f36 Bryan Schumaker 2010-09-21  790  	spin_unlock(&nlm_blocked_lock);
+385d3265c23730 Alexander Aring 2023-07-20  791  
+385d3265c23730 Alexander Aring 2023-07-20  792  	if (!block) {
+
+The list iterator is never NULL.  The old way to check was something
+list if list_entry_is_head() but now we just say:
+
+	bool found = false;
+
+	list_for_each() {
+		if (whatever) {
+			found = true;
+			break;
+		}
+	}
+
+	if (!found)
+		return -ENOENT;
+
+385d3265c23730 Alexander Aring 2023-07-20  793  		pr_warn("lockd: grant for unknown pending block\n");
+385d3265c23730 Alexander Aring 2023-07-20  794  		return -ENOENT;
+385d3265c23730 Alexander Aring 2023-07-20  795  	}
+385d3265c23730 Alexander Aring 2023-07-20  796  
+385d3265c23730 Alexander Aring 2023-07-20  797  	/* don't interfere with nlmsvc_lock() */
+385d3265c23730 Alexander Aring 2023-07-20 @798  	mutex_lock(&block->b_file->f_mutex);
+385d3265c23730 Alexander Aring 2023-07-20  799  	block->b_flags &= ~B_PENDING_CALLBACK;
+385d3265c23730 Alexander Aring 2023-07-20  800  
+385d3265c23730 Alexander Aring 2023-07-20  801  	spin_lock(&nlm_blocked_lock);
+385d3265c23730 Alexander Aring 2023-07-20  802  	WARN_ON_ONCE(list_empty(&block->b_list));
+385d3265c23730 Alexander Aring 2023-07-20  803  	rc = __nlmsvc_grant_deferred(block, fl, result);
+385d3265c23730 Alexander Aring 2023-07-20  804  	spin_unlock(&nlm_blocked_lock);
+385d3265c23730 Alexander Aring 2023-07-20  805  	mutex_unlock(&block->b_file->f_mutex);
+385d3265c23730 Alexander Aring 2023-07-20  806  
+385d3265c23730 Alexander Aring 2023-07-20  807  	nlmsvc_release_block(block);
+0e4ac9d93515b2 Marc Eshel      2006-11-28  808  	return rc;
+0e4ac9d93515b2 Marc Eshel      2006-11-28  809  }
 
 -- 
 0-DAY CI Kernel Test Service
