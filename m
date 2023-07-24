@@ -1,42 +1,49 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686A21850
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Jul 2023 14:45:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690123520; x=1721659520;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NOugYOHY9WjtuRC1qKwQuT47Y07YOGt7uh1lbmR/cvc=;
-  b=bEWadV4guBh89cje3OMlx8x4VpMV6abdJCjGdTQX8RkKWnThsk6igqx2
-   EWhuPdnd+k7mh1ddWqwihxERfmPldO53REyPejtq75hcrBLx4rYtf0aw2
-   niZ2k8hTLhO0ILGmHJDs5RbvyEjeC8zHXSGNuKmpQFoGL5I8UFRI3Hgy2
-   v14k9hfE+VRjjlSocwWSOhgbRmAIp0r4LhnLo8gkuw1tuvu4ODRJ/et+v
-   1G7NVUhtld6ZI3cw4X9h6bzICUXGEkEyMrUXRkZQEjztkI0nd/Aubb3HF
-   hC+hIhTLZ6UoVfa4f4p1gH4T4jIrROURAoGUSNaBv+2ASYiAUOYN1uZFU
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="357278882"
-X-IronPort-AV: E=Sophos;i="6.01,227,1684825200"; 
-   d="scan'208";a="357278882"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2023 07:45:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="868791904"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 23 Jul 2023 07:45:19 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qNaKj-000941-2C;
-	Sun, 23 Jul 2023 14:45:17 +0000
-Date: Sun, 23 Jul 2023 22:45:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1164
- isst_if_get_turbo_freq_info() warn: potential spectre issue
- 'power_domain_info->perf_levels' [r] (local cap)
-Message-ID: <202307232205.Kr2BsVQP-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A79185B
+	for <oe-kbuild@lists.linux.dev>; Mon, 24 Jul 2023 07:49:02 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2b70bfc8db5so55942351fa.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 24 Jul 2023 00:49:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690184940; x=1690789740;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VGFCCeg2byd2qpHnykIbQNcCUC+/iaRSYwJUr21hqv0=;
+        b=OygH/B4P60d/08GcNqBfcwRPiqXI3HpJr+TwA59TPKg+67U/86cITcUYi7fNrUCOsh
+         FI8Q2doTAxER+MBRfTOMvF7apCtB0rDdicD7zwE8x1uIHjKNOUaN3t/l4QReTrdlNLnt
+         ddUL18EiHX3qe9HSEho9uLU8WFP+W92bPycaULowuw7Q6Yae8KvMCmkPfS2hnItIfAJF
+         D2j3tIjGf1tkFcAVx2cDhzsN4AvLJXFcVTvFYWtBYqgXBsqbh33w1b5C8zBFb4CkpeUt
+         o4uhjUWKSHV4HqXc8JgYH2CIxz2F+jxX0Wib9UC2dcdMkqczUk/2l3Av19YkIIrgVM99
+         vLzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690184940; x=1690789740;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VGFCCeg2byd2qpHnykIbQNcCUC+/iaRSYwJUr21hqv0=;
+        b=Pj6NBSWy3bbcDMlJqKti9JMhMPlnQ11G39nkxGZe+Q1L5hKjLCq/7gwQOaQx44h8y+
+         vihoa7ml+lulUcPUAwVM/xjATzP0eQGMdyjgcHhSXAmPflIQq44aX+fnI1TI+cw5aPFs
+         kF+CvjqlyKJuAyV7C3/3hPXn5zaWP/WIgaoqUjs5lC930F2iZh2xonQBYnQ48DxjLHKJ
+         LNnPW9xrgNsShfWiycTj+uENWGJqbohuRlxaXmvzqGhqmVc0Bap1jWnAIe+5Pik1D78K
+         sYRlsBmx+jst1bNjh6ZRKj7Iuz7nKOIigh6OIPHbshh6wqz9bu2nKVWGIedmFIdFx3kJ
+         L9aw==
+X-Gm-Message-State: ABy/qLbqan+dyQlbxtw5ZY+HlgoCvmhrMbz8zcBvDIdDiFNpEzhptKr+
+	ruNB0/QTpHHA8gxV9dKgTFKoUxaZWnWd04FFxE8=
+X-Google-Smtp-Source: APBJJlFS+YxymqSyaSgKgMWRHZEXV72PB7gTsbnol+aUZEWOebWGk3pz7kRD0nnKJRtI1w4KteFuNw==
+X-Received: by 2002:a05:651c:21b:b0:2b6:e128:e7a3 with SMTP id y27-20020a05651c021b00b002b6e128e7a3mr5267999ljn.33.1690184940059;
+        Mon, 24 Jul 2023 00:49:00 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q3-20020a05600c46c300b003fc3b03caa5sm12302287wmo.1.2023.07.24.00.48.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jul 2023 00:48:59 -0700 (PDT)
+Date: Mon, 24 Jul 2023 10:48:57 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Steve French <stfrench@microsoft.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: fs/smb/client/dfs_cache.c:750 cache_refresh_path() warn:
+ inconsistent returns '&htable_rw_lock'.
+Message-ID: <a0160841-6ea2-4989-8250-877ee9d82c82@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,95 +53,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-CC: Hans de Goede <hdegoede@redhat.com>
-CC: Zhang Rui <rui.zhang@intel.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c2782531397f5cb19ca3f8f9c17727f1cdf5bee8
-commit: f8e0077a9d526cac7abbc682d83e98f834ffa909 platform/x86: ISST: Add SST-TF support via TPMI
-date:   4 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 4 months ago
-config: x86_64-randconfig-m001-20230723 (https://download.01.org/0day-ci/archive/20230723/202307232205.Kr2BsVQP-lkp@intel.com/config)
+head:   295e1388de2d5c0c354adbd65d0319c5d636c222
+commit: 38c8a9a52082579090e34c033d439ed2cd1a462d smb: move client and server files to common directory fs/smb
+config: i386-randconfig-m021-20230723 (https://download.01.org/0day-ci/archive/20230723/202307231110.D2DlDq9B-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230723/202307232205.Kr2BsVQP-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230723/202307231110.D2DlDq9B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307232205.Kr2BsVQP-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202307231110.D2DlDq9B-lkp@intel.com/
 
 New smatch warnings:
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1164 isst_if_get_turbo_freq_info() warn: potential spectre issue 'power_domain_info->perf_levels' [r] (local cap)
+fs/smb/client/dfs_cache.c:750 cache_refresh_path() warn: inconsistent returns '&htable_rw_lock'.
 
 Old smatch warnings:
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:585 isst_if_clos_assoc() warn: potential spectre issue 'isst_common.sst_inst' [r]
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:587 isst_if_clos_assoc() warn: possible spectre second half.  'sst_inst'
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:590 isst_if_clos_assoc() warn: potential spectre issue 'sst_inst->power_domain_info' [r]
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:900 isst_if_get_perf_level_info() warn: potential spectre issue 'power_domain_info->perf_levels' [r] (local cap)
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1002 isst_if_get_perf_level_mask() warn: potential spectre issue 'power_domain_info->perf_levels' [r]
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1047 isst_if_get_base_freq_info() warn: potential spectre issue 'power_domain_info->perf_levels' [r] (local cap)
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1083 isst_if_get_base_freq_mask() warn: potential spectre issue 'power_domain_info->perf_levels' [r]
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1110 isst_if_get_tpmi_instance_count() warn: potential spectre issue 'isst_common.sst_inst' [r] (local cap)
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1114 isst_if_get_tpmi_instance_count() warn: possible spectre second half.  'sst_inst'
+fs/smb/client/dfs_cache.c:403 copy_ref_data() warn: passing a valid pointer to 'PTR_ERR'
 
-vim +1164 drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c
+vim +750 fs/smb/client/dfs_cache.c
 
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1142  
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1143  static int isst_if_get_turbo_freq_info(void __user *argp)
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1144  {
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1145  	static struct isst_turbo_freq_info turbo_freq;
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1146  	struct tpmi_per_power_domain_info *power_domain_info;
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1147  	int i, j;
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1148  
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1149  	if (copy_from_user(&turbo_freq, argp, sizeof(turbo_freq)))
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1150  		return -EFAULT;
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1151  
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1152  	power_domain_info = get_instance(turbo_freq.socket_id, turbo_freq.power_domain_id);
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1153  	if (!power_domain_info)
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1154  		return -EINVAL;
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1155  
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1156  	if (turbo_freq.level > power_domain_info->max_level)
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1157  		return -EINVAL;
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1158  
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1159  	turbo_freq.max_buckets = TRL_MAX_BUCKETS;
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1160  	turbo_freq.max_trl_levels = TRL_MAX_LEVELS;
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1161  	turbo_freq.max_clip_freqs = SST_TF_MAX_LP_CLIP_RATIOS;
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1162  
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1163  	for (i = 0; i < turbo_freq.max_clip_freqs; ++i)
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07 @1164  		_read_tf_level_info("lp_clip*", turbo_freq.lp_clip_freq_mhz[i],
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1165  				    turbo_freq.level, SST_TF_INFO_0_OFFSET,
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1166  				    SST_TF_LP_CLIP_RATIO_0_START +
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1167  				    (i * SST_TF_LP_CLIP_RATIO_0_WIDTH),
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1168  				    SST_TF_LP_CLIP_RATIO_0_WIDTH, SST_MUL_FACTOR_FREQ)
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1169  
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1170  	for (i = 0; i < TRL_MAX_LEVELS; ++i) {
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1171  		for (j = 0; j < TRL_MAX_BUCKETS; ++j)
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1172  			_read_tf_level_info("cydn*_bucket_*_trl",
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1173  					    turbo_freq.trl_freq_mhz[i][j], turbo_freq.level,
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1174  					    SST_TF_INFO_2_OFFSET + (i * SST_TF_RATIO_0_WIDTH),
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1175  					    j * SST_TF_RATIO_0_WIDTH, SST_TF_RATIO_0_WIDTH,
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1176  					    SST_MUL_FACTOR_FREQ)
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1177  	}
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1178  
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1179  	for (i = 0; i < TRL_MAX_BUCKETS; ++i)
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1180  		_read_tf_level_info("bucket_*_core_count", turbo_freq.bucket_core_counts[i],
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1181  				    turbo_freq.level, SST_TF_INFO_1_OFFSET,
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1182  				    SST_TF_NUM_CORE_0_WIDTH * i, SST_TF_NUM_CORE_0_WIDTH,
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1183  				    SST_MUL_FACTOR_NONE)
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1184  
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1185  	if (copy_to_user(argp, &turbo_freq, sizeof(turbo_freq)))
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1186  		return -EFAULT;
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1187  
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1188  	return 0;
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1189  }
-f8e0077a9d526c Srinivas Pandruvada 2023-03-07  1190  
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  685  static struct cache_entry *cache_refresh_path(const unsigned int xid,
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  686  					      struct cifs_ses *ses,
+8064f711c6a461 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  687  					      const char *path,
+8064f711c6a461 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  688  					      bool force_refresh)
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  689  {
+742d8de0186e9f fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  690) 	struct dfs_info3_param *refs = NULL;
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  691  	struct cache_entry *ce;
+742d8de0186e9f fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  692) 	int numrefs = 0;
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  693  	int rc;
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  694  
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  695  	cifs_dbg(FYI, "%s: search path: %s\n", __func__, path);
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  696  
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  697  	down_read(&htable_rw_lock);
+742d8de0186e9f fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  698) 
+42caeba713b12e fs/cifs/dfs_cache.c Paulo Alcantara        2021-06-04  699  	ce = lookup_cache_entry(path);
+3deddb77fdd932 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  700  	if (!IS_ERR(ce)) {
+3deddb77fdd932 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  701  		if (!force_refresh && !cache_entry_expired(ce))
+3deddb77fdd932 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  702  			return ce;
+
+Call up_read(&htable_rw_lock) before returning
+
+3deddb77fdd932 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  703  	} else if (PTR_ERR(ce) != -ENOENT) {
+3deddb77fdd932 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  704  		up_read(&htable_rw_lock);
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  705  		return ce;
+3deddb77fdd932 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  706  	}
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  707  
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  708  	/*
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  709  	 * Unlock shared access as we don't want to hold any locks while getting
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  710  	 * a new referral.  The @ses used for performing the I/O could be
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  711  	 * reconnecting and it acquires @htable_rw_lock to look up the dfs cache
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  712  	 * in order to failover -- if necessary.
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  713  	 */
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  714  	up_read(&htable_rw_lock);
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  715  
+742d8de0186e9f fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  716) 	/*
+8064f711c6a461 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  717  	 * Either the entry was not found, or it is expired, or it is a forced
+8064f711c6a461 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  718  	 * refresh.
+c9f71103990591 fs/cifs/dfs_cache.c Paulo Alcantara        2021-06-04  719  	 * Request a new DFS referral in order to create or update a cache entry.
+742d8de0186e9f fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  720) 	 */
+c870a8e70e6827 fs/cifs/dfs_cache.c Paulo Alcantara        2021-06-04  721  	rc = get_dfs_referral(xid, ses, path, &refs, &numrefs);
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  722  	if (rc) {
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  723  		ce = ERR_PTR(rc);
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  724  		goto out;
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  725  	}
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  726  
+742d8de0186e9f fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  727) 	dump_refs(refs, numrefs);
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  728  
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  729  	down_write(&htable_rw_lock);
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  730  	/* Re-check as another task might have it added or refreshed already */
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  731  	ce = lookup_cache_entry(path);
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  732  	if (!IS_ERR(ce)) {
+8064f711c6a461 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  733  		if (force_refresh || cache_entry_expired(ce)) {
+1023e90b733acd fs/cifs/dfs_cache.c Paulo Alcantara        2021-06-08  734  			rc = update_cache_entry_locked(ce, refs, numrefs);
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  735  			if (rc)
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  736  				ce = ERR_PTR(rc);
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  737  		}
+3deddb77fdd932 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  738  	} else if (PTR_ERR(ce) == -ENOENT) {
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  739  		ce = add_cache_entry_locked(refs, numrefs);
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  740  	}
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  741  
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  742  	if (IS_ERR(ce)) {
+c9f71103990591 fs/cifs/dfs_cache.c Paulo Alcantara        2021-06-04  743  		up_write(&htable_rw_lock);
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  744  		goto out;
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  745  	}
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  746  
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  747  	downgrade_write(&htable_rw_lock);
+9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  748  out:
+742d8de0186e9f fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  749) 	free_dfs_info_array(refs, numrefs);
+48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17 @750  	return ce;
+54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  751  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
