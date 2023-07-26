@@ -1,42 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5D5CA41
-	for <oe-kbuild@lists.linux.dev>; Wed, 26 Jul 2023 12:15:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21AF17EE
+	for <oe-kbuild@lists.linux.dev>; Wed, 26 Jul 2023 19:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690373737; x=1721909737;
+  t=1690398471; x=1721934471;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dzB9sMAdx8qRA6oSyHqJJkQ1dL+f67PKrWJzU/YvF7s=;
-  b=E+96oYOQ1nlUs5kOTRs1kTK40uBWBx94+KiAuPj3Rs11guh02mneixGw
-   QAVJg0ZwnBBWvqcqfOf/VKjfsHx3qyAi3fiuP/7qA1zDHMynGxgnNpebU
-   gNhZiRYAvsSDhc8PQPJIxMt//zO8U7sGGcAU8QIS4SjyW6dMfx/kDNEgr
-   ju8Ut67R4EP2Bh1az3bELUVL6C+92PKfayWQvmCjrTOhtBAR6ZYeEKFCE
-   wbnFoS9HHHZLHdKgwQ52p9AKnn3QyYvt8XDSsECodSNGJTaNeKRbuo7uu
-   /PwZ719Ksm7mneD2FiLLhDIOsWGPaL0NyAZ3YMeS5lallHaCG5aagXyHj
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="365454965"
+  bh=Hj+OpsCdArBCmjy78EbgK/MzZY2J9sGVCv8DDHESRXc=;
+  b=kI/O9/ylUr2QVECtDxi63fgyeeMzWgqLnP0VFG1zSqFNSF+j5aAQJPRP
+   4Mfpd/8PT0eXVAkmLlHXckwv7nPNTSCsckdSuih24z8247xs7x7mkVTDA
+   mjE/YOiw5VoQazYVFqqcIKgMmJIq1ofOJF3+H+uhG3ra8jPDx5Aa9ZKuT
+   zl05/ICYdiw/WilTPBthLoEN45Ub5+DOLeW/XwNxlOqp3BipPBSKFojhP
+   7hOMOj6JeT2JFte/YuX0TWjjkr2ziNMKvoxeVbf/XySefddfJSilmZFSI
+   r3BqOrCofmINLVpZdPY0N133rLMpO0Rw2zgAEFHa2j/ZoNRGhoFglAIGa
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="366986193"
 X-IronPort-AV: E=Sophos;i="6.01,232,1684825200"; 
-   d="scan'208";a="365454965"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 05:15:19 -0700
+   d="scan'208";a="366986193"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 12:07:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="900406556"
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="676818553"
 X-IronPort-AV: E=Sophos;i="6.01,232,1684825200"; 
-   d="scan'208";a="900406556"
+   d="scan'208";a="676818553"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 26 Jul 2023 05:15:18 -0700
+  by orsmga003.jf.intel.com with ESMTP; 26 Jul 2023 12:07:48 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOdQD-0000wZ-1G;
-	Wed, 26 Jul 2023 12:15:17 +0000
-Date: Wed, 26 Jul 2023 20:15:04 +0800
+	id 1qOjrP-0001Db-2b;
+	Wed, 26 Jul 2023 19:07:47 +0000
+Date: Thu, 27 Jul 2023 03:06:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the
- arguments have the same signedness.
-Message-ID: <202307262034.GIhyGilK-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: mm/kfence/kfence_test.c:287 test_alloc() warn: use 'gfp' here
+ instead of GFP_KERNEL?
+Message-ID: <202307270305.L19EfaJD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,144 +46,205 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: block/kyber-iosched.c:269:17: sparse: sparse: bad integer constant expression"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <a09512c8526b46759669d0b879144563@AcuMS.aculab.com>
-References: <a09512c8526b46759669d0b879144563@AcuMS.aculab.com>
-TO: David Laight <David.Laight@ACULAB.COM>
-TO: "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>
-TO: "'Andy Shevchenko'" <andriy.shevchenko@linux.intel.com>
-TO: "'Andrew Morton'" <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "'Matthew Wilcox (Oracle)'" <willy@infradead.org>
-TO: "'Christoph Hellwig'" <hch@infradead.org>
-TO: "'Jason A. Donenfeld'" <Jason@zx2c4.com>
+CC: linux-kernel@vger.kernel.org
+TO: Helge Deller <deller@gmx.de>
 
-Hi David,
+Hi Helge,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master crng-random/master v6.5-rc3 next-20230726]
-[cannot apply to next-20230725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Allow-min-max-clamp-if-the-arguments-have-the-same-signedness/20230725-204940
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/a09512c8526b46759669d0b879144563%40AcuMS.aculab.com
-patch subject: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the arguments have the same signedness.
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-config: xtensa-randconfig-r093-20230725 (https://download.01.org/0day-ci/archive/20230726/202307262034.GIhyGilK-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307262034.GIhyGilK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   18b44bc5a67275641fb26f2c54ba7eef80ac5950
+commit: adf8e96a7ea670d45b5de7594acc67e8f4787ae6 parisc: Enable LOCKDEP support
+date:   9 weeks ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 9 weeks ago
+config: parisc-randconfig-m041-20230726 (https://download.01.org/0day-ci/archive/20230727/202307270305.L19EfaJD-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270305.L19EfaJD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202307262034.GIhyGilK-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202307270305.L19EfaJD-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   block/kyber-iosched.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> block/kyber-iosched.c:269:17: sparse: sparse: bad integer constant expression
->> block/kyber-iosched.c:269:17: sparse: sparse: static assertion failed: "clamp() low limit 1U greater than high limit kyber_depth[sched_domain]"
---
-   block/bfq-iosched.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> block/bfq-iosched.c:1120:16: sparse: sparse: bad integer constant expression
->> block/bfq-iosched.c:1120:16: sparse: sparse: static assertion failed: "clamp() low limit (typeof(dur))(msecs_to_jiffies(3000)) greater than high limit (typeof(dur))(msecs_to_jiffies(25000))"
---
-   mm/memtest.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> mm/memtest.c:79:30: sparse: sparse: bad integer constant expression
->> mm/memtest.c:79:30: sparse: sparse: static assertion failed: "clamp() low limit start greater than high limit end"
-   mm/memtest.c:80:28: sparse: sparse: bad integer constant expression
-   mm/memtest.c:80:28: sparse: sparse: static assertion failed: "clamp() low limit start greater than high limit end"
---
-   drivers/regulator/rtmv20-regulator.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> drivers/regulator/rtmv20-regulator.c:192:22: sparse: sparse: bad integer constant expression
->> drivers/regulator/rtmv20-regulator.c:192:22: sparse: sparse: static assertion failed: "clamp() low limit (typeof(val))(min) greater than high limit (typeof(val))(max)"
---
-   drivers/md/bcache/sysfs.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> drivers/md/bcache/sysfs.c:315:9: sparse: sparse: bad integer constant expression
->> drivers/md/bcache/sysfs.c:315:9: sparse: sparse: static assertion failed: "clamp() low limit (typeof(v))(0) greater than high limit (typeof(v))(bch_cutoff_writeback)"
-   drivers/md/bcache/sysfs.c:341:9: sparse: sparse: bad integer constant expression
->> drivers/md/bcache/sysfs.c:341:9: sparse: sparse: static assertion failed: "clamp() low limit (typeof(v))(1) greater than high limit (typeof(v))(dc->writeback_rate_fp_term_mid - 1)"
-   drivers/md/bcache/sysfs.c:344:9: sparse: sparse: bad integer constant expression
->> drivers/md/bcache/sysfs.c:344:9: sparse: sparse: static assertion failed: "clamp() low limit (typeof(v))(dc->writeback_rate_fp_term_low + 1) greater than high limit (typeof(v))(dc->writeback_rate_fp_term_high - 1)"
-   drivers/md/bcache/sysfs.c:348:9: sparse: sparse: bad integer constant expression
->> drivers/md/bcache/sysfs.c:348:9: sparse: sparse: static assertion failed: "clamp() low limit (typeof(v))(dc->writeback_rate_fp_term_mid + 1) greater than high limit (typeof(v))((~0U))"
---
-   drivers/md/bcache/writeback.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> drivers/md/bcache/writeback.c:149:20: sparse: sparse: bad integer constant expression
->> drivers/md/bcache/writeback.c:149:20: sparse: sparse: static assertion failed: "clamp() low limit (int32_t)(dc->writeback_rate_minimum) greater than high limit (int32_t)(1000000000L)"
---
-   drivers/clk/xilinx/xlnx_vcu.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> drivers/clk/xilinx/xlnx_vcu.c:317:16: sparse: sparse: bad integer constant expression
->> drivers/clk/xilinx/xlnx_vcu.c:317:16: sparse: sparse: static assertion failed: "clamp() low limit (unsigned long)(pll->fvco_min) greater than high limit (unsigned long)(pll->fvco_max)"
---
-   fs/btrfs/async-thread.c: note: in included file (through arch/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, include/linux/sched.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> fs/btrfs/async-thread.c:197:30: sparse: sparse: bad integer constant expression
->> fs/btrfs/async-thread.c:197:30: sparse: sparse: static assertion failed: "clamp() low limit (typeof(new_current_active))(1) greater than high limit (typeof(new_current_active))(wq->limit_active)"
---
-   fs/btrfs/discard.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> fs/btrfs/discard.c:621:17: sparse: sparse: bad integer constant expression
->> fs/btrfs/discard.c:621:17: sparse: sparse: static assertion failed: "clamp() low limit min_delay greater than high limit (1000UL)"
---
-   fs/gfs2/rgrp.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> fs/gfs2/rgrp.c:1586:26: sparse: sparse: bad integer constant expression
->> fs/gfs2/rgrp.c:1586:26: sparse: sparse: static assertion failed: "clamp() low limit (u32)32 greater than high limit free_blocks"
---
-   drivers/nvme/host/core.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> drivers/nvme/host/core.c:3064:42: sparse: sparse: bad integer constant expression
->> drivers/nvme/host/core.c:3064:42: sparse: sparse: static assertion failed: "clamp() low limit (unsigned int)(shutdown_timeout) greater than high limit (unsigned int)(60)"
---
-   drivers/video/backlight/lv5207lp.c: note: in included file (through arch/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, include/linux/sched.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> drivers/video/backlight/lv5207lp.c:109:28: sparse: sparse: bad integer constant expression
->> drivers/video/backlight/lv5207lp.c:109:28: sparse: sparse: static assertion failed: "clamp() low limit (unsigned int)(0) greater than high limit (unsigned int)(props.max_brightness)"
+smatch warnings:
+mm/kfence/kfence_test.c:287 test_alloc() warn: use 'gfp' here instead of GFP_KERNEL?
+mm/kfence/kfence_test.c:395 test_double_free() error: double free of 'expect.addr'
+mm/kfence/kfence_test.c:671 test_memcache_typesafe_by_rcu() error: dereferencing freed memory 'expect.addr'
 
-vim +269 block/kyber-iosched.c
+vim +/gfp +287 mm/kfence/kfence_test.c
 
-00e043936e9a1c Omar Sandoval     2017-04-14  265  
-6e25cb01ea2063 Omar Sandoval     2018-09-27  266  static void kyber_resize_domain(struct kyber_queue_data *kqd,
-6e25cb01ea2063 Omar Sandoval     2018-09-27  267  				unsigned int sched_domain, unsigned int depth)
-6e25cb01ea2063 Omar Sandoval     2018-09-27  268  {
-00e043936e9a1c Omar Sandoval     2017-04-14 @269  	depth = clamp(depth, 1U, kyber_depth[sched_domain]);
-6c3b7af1c975b8 Omar Sandoval     2018-09-27  270  	if (depth != kqd->domain_tokens[sched_domain].sb.depth) {
-00e043936e9a1c Omar Sandoval     2017-04-14  271  		sbitmap_queue_resize(&kqd->domain_tokens[sched_domain], depth);
-c41108049d1433 Christoph Hellwig 2021-10-12  272  		trace_kyber_adjust(kqd->dev, kyber_domain_names[sched_domain],
-6c3b7af1c975b8 Omar Sandoval     2018-09-27  273  				   depth);
-6c3b7af1c975b8 Omar Sandoval     2018-09-27  274  	}
-00e043936e9a1c Omar Sandoval     2017-04-14  275  }
-00e043936e9a1c Omar Sandoval     2017-04-14  276  
+bc8fbc5f305aec Marco Elver     2021-02-25  238  
+bc8fbc5f305aec Marco Elver     2021-02-25  239  /*
+bc8fbc5f305aec Marco Elver     2021-02-25  240   * Try to get a guarded allocation from KFENCE. Uses either kmalloc() or the
+bc8fbc5f305aec Marco Elver     2021-02-25  241   * current test_cache if set up.
+bc8fbc5f305aec Marco Elver     2021-02-25  242   */
+bc8fbc5f305aec Marco Elver     2021-02-25  243  static void *test_alloc(struct kunit *test, size_t size, gfp_t gfp, enum allocation_policy policy)
+bc8fbc5f305aec Marco Elver     2021-02-25  244  {
+bc8fbc5f305aec Marco Elver     2021-02-25  245  	void *alloc;
+bc8fbc5f305aec Marco Elver     2021-02-25  246  	unsigned long timeout, resched_after;
+bc8fbc5f305aec Marco Elver     2021-02-25  247  	const char *policy_name;
+bc8fbc5f305aec Marco Elver     2021-02-25  248  
+bc8fbc5f305aec Marco Elver     2021-02-25  249  	switch (policy) {
+bc8fbc5f305aec Marco Elver     2021-02-25  250  	case ALLOCATE_ANY:
+bc8fbc5f305aec Marco Elver     2021-02-25  251  		policy_name = "any";
+bc8fbc5f305aec Marco Elver     2021-02-25  252  		break;
+bc8fbc5f305aec Marco Elver     2021-02-25  253  	case ALLOCATE_LEFT:
+bc8fbc5f305aec Marco Elver     2021-02-25  254  		policy_name = "left";
+bc8fbc5f305aec Marco Elver     2021-02-25  255  		break;
+bc8fbc5f305aec Marco Elver     2021-02-25  256  	case ALLOCATE_RIGHT:
+bc8fbc5f305aec Marco Elver     2021-02-25  257  		policy_name = "right";
+bc8fbc5f305aec Marco Elver     2021-02-25  258  		break;
+bc8fbc5f305aec Marco Elver     2021-02-25  259  	case ALLOCATE_NONE:
+bc8fbc5f305aec Marco Elver     2021-02-25  260  		policy_name = "none";
+bc8fbc5f305aec Marco Elver     2021-02-25  261  		break;
+bc8fbc5f305aec Marco Elver     2021-02-25  262  	}
+bc8fbc5f305aec Marco Elver     2021-02-25  263  
+bc8fbc5f305aec Marco Elver     2021-02-25  264  	kunit_info(test, "%s: size=%zu, gfp=%x, policy=%s, cache=%i\n", __func__, size, gfp,
+bc8fbc5f305aec Marco Elver     2021-02-25  265  		   policy_name, !!test_cache);
+bc8fbc5f305aec Marco Elver     2021-02-25  266  
+bc8fbc5f305aec Marco Elver     2021-02-25  267  	/*
+bc8fbc5f305aec Marco Elver     2021-02-25  268  	 * 100x the sample interval should be more than enough to ensure we get
+bc8fbc5f305aec Marco Elver     2021-02-25  269  	 * a KFENCE allocation eventually.
+bc8fbc5f305aec Marco Elver     2021-02-25  270  	 */
+8913c610014823 Peng Liu        2022-02-11  271  	timeout = jiffies + msecs_to_jiffies(100 * kfence_sample_interval);
+bc8fbc5f305aec Marco Elver     2021-02-25  272  	/*
+bc8fbc5f305aec Marco Elver     2021-02-25  273  	 * Especially for non-preemption kernels, ensure the allocation-gate
+bc8fbc5f305aec Marco Elver     2021-02-25  274  	 * timer can catch up: after @resched_after, every failed allocation
+bc8fbc5f305aec Marco Elver     2021-02-25  275  	 * attempt yields, to ensure the allocation-gate timer is scheduled.
+bc8fbc5f305aec Marco Elver     2021-02-25  276  	 */
+8913c610014823 Peng Liu        2022-02-11  277  	resched_after = jiffies + msecs_to_jiffies(kfence_sample_interval);
+bc8fbc5f305aec Marco Elver     2021-02-25  278  	do {
+bc8fbc5f305aec Marco Elver     2021-02-25  279  		if (test_cache)
+bc8fbc5f305aec Marco Elver     2021-02-25  280  			alloc = kmem_cache_alloc(test_cache, gfp);
+bc8fbc5f305aec Marco Elver     2021-02-25  281  		else
+bc8fbc5f305aec Marco Elver     2021-02-25  282  			alloc = kmalloc(size, gfp);
+bc8fbc5f305aec Marco Elver     2021-02-25  283  
+bc8fbc5f305aec Marco Elver     2021-02-25  284  		if (is_kfence_address(alloc)) {
+8dae0cfed57357 Vlastimil Babka 2021-11-03  285  			struct slab *slab = virt_to_slab(alloc);
+588c7fa022d7b2 Hyeonggon Yoo   2021-06-28  286  			struct kmem_cache *s = test_cache ?:
+588c7fa022d7b2 Hyeonggon Yoo   2021-06-28 @287  					kmalloc_caches[kmalloc_type(GFP_KERNEL)][__kmalloc_index(size, false)];
+bc8fbc5f305aec Marco Elver     2021-02-25  288  
+bc8fbc5f305aec Marco Elver     2021-02-25  289  			/*
+bc8fbc5f305aec Marco Elver     2021-02-25  290  			 * Verify that various helpers return the right values
+bc8fbc5f305aec Marco Elver     2021-02-25  291  			 * even for KFENCE objects; these are required so that
+bc8fbc5f305aec Marco Elver     2021-02-25  292  			 * memcg accounting works correctly.
+bc8fbc5f305aec Marco Elver     2021-02-25  293  			 */
+8dae0cfed57357 Vlastimil Babka 2021-11-03  294  			KUNIT_EXPECT_EQ(test, obj_to_index(s, slab, alloc), 0U);
+8dae0cfed57357 Vlastimil Babka 2021-11-03  295  			KUNIT_EXPECT_EQ(test, objs_per_slab(s, slab), 1);
+bc8fbc5f305aec Marco Elver     2021-02-25  296  
+bc8fbc5f305aec Marco Elver     2021-02-25  297  			if (policy == ALLOCATE_ANY)
+bc8fbc5f305aec Marco Elver     2021-02-25  298  				return alloc;
+f403f22f8ccb12 Kefeng Wang     2022-05-20  299  			if (policy == ALLOCATE_LEFT && PAGE_ALIGNED(alloc))
+bc8fbc5f305aec Marco Elver     2021-02-25  300  				return alloc;
+f403f22f8ccb12 Kefeng Wang     2022-05-20  301  			if (policy == ALLOCATE_RIGHT && !PAGE_ALIGNED(alloc))
+bc8fbc5f305aec Marco Elver     2021-02-25  302  				return alloc;
+bc8fbc5f305aec Marco Elver     2021-02-25  303  		} else if (policy == ALLOCATE_NONE)
+bc8fbc5f305aec Marco Elver     2021-02-25  304  			return alloc;
+bc8fbc5f305aec Marco Elver     2021-02-25  305  
+bc8fbc5f305aec Marco Elver     2021-02-25  306  		test_free(alloc);
+bc8fbc5f305aec Marco Elver     2021-02-25  307  
+bc8fbc5f305aec Marco Elver     2021-02-25  308  		if (time_after(jiffies, resched_after))
+bc8fbc5f305aec Marco Elver     2021-02-25  309  			cond_resched();
+bc8fbc5f305aec Marco Elver     2021-02-25  310  	} while (time_before(jiffies, timeout));
+bc8fbc5f305aec Marco Elver     2021-02-25  311  
+bc8fbc5f305aec Marco Elver     2021-02-25  312  	KUNIT_ASSERT_TRUE_MSG(test, false, "failed to allocate from KFENCE");
+bc8fbc5f305aec Marco Elver     2021-02-25  313  	return NULL; /* Unreachable. */
+bc8fbc5f305aec Marco Elver     2021-02-25  314  }
+bc8fbc5f305aec Marco Elver     2021-02-25  315  
+bc8fbc5f305aec Marco Elver     2021-02-25  316  static void test_out_of_bounds_read(struct kunit *test)
+bc8fbc5f305aec Marco Elver     2021-02-25  317  {
+bc8fbc5f305aec Marco Elver     2021-02-25  318  	size_t size = 32;
+bc8fbc5f305aec Marco Elver     2021-02-25  319  	struct expect_report expect = {
+bc8fbc5f305aec Marco Elver     2021-02-25  320  		.type = KFENCE_ERROR_OOB,
+bc8fbc5f305aec Marco Elver     2021-02-25  321  		.fn = test_out_of_bounds_read,
+bc8fbc5f305aec Marco Elver     2021-02-25  322  		.is_write = false,
+bc8fbc5f305aec Marco Elver     2021-02-25  323  	};
+bc8fbc5f305aec Marco Elver     2021-02-25  324  	char *buf;
+bc8fbc5f305aec Marco Elver     2021-02-25  325  
+bc8fbc5f305aec Marco Elver     2021-02-25  326  	setup_test_cache(test, size, 0, NULL);
+bc8fbc5f305aec Marco Elver     2021-02-25  327  
+bc8fbc5f305aec Marco Elver     2021-02-25  328  	/*
+bc8fbc5f305aec Marco Elver     2021-02-25  329  	 * If we don't have our own cache, adjust based on alignment, so that we
+bc8fbc5f305aec Marco Elver     2021-02-25  330  	 * actually access guard pages on either side.
+bc8fbc5f305aec Marco Elver     2021-02-25  331  	 */
+bc8fbc5f305aec Marco Elver     2021-02-25  332  	if (!test_cache)
+bc8fbc5f305aec Marco Elver     2021-02-25  333  		size = kmalloc_cache_alignment(size);
+bc8fbc5f305aec Marco Elver     2021-02-25  334  
+bc8fbc5f305aec Marco Elver     2021-02-25  335  	/* Test both sides. */
+bc8fbc5f305aec Marco Elver     2021-02-25  336  
+bc8fbc5f305aec Marco Elver     2021-02-25  337  	buf = test_alloc(test, size, GFP_KERNEL, ALLOCATE_LEFT);
+bc8fbc5f305aec Marco Elver     2021-02-25  338  	expect.addr = buf - 1;
+bc8fbc5f305aec Marco Elver     2021-02-25  339  	READ_ONCE(*expect.addr);
+bc8fbc5f305aec Marco Elver     2021-02-25  340  	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+bc8fbc5f305aec Marco Elver     2021-02-25  341  	test_free(buf);
+bc8fbc5f305aec Marco Elver     2021-02-25  342  
+bc8fbc5f305aec Marco Elver     2021-02-25  343  	buf = test_alloc(test, size, GFP_KERNEL, ALLOCATE_RIGHT);
+bc8fbc5f305aec Marco Elver     2021-02-25  344  	expect.addr = buf + size;
+bc8fbc5f305aec Marco Elver     2021-02-25  345  	READ_ONCE(*expect.addr);
+bc8fbc5f305aec Marco Elver     2021-02-25  346  	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+bc8fbc5f305aec Marco Elver     2021-02-25  347  	test_free(buf);
+bc8fbc5f305aec Marco Elver     2021-02-25  348  }
+bc8fbc5f305aec Marco Elver     2021-02-25  349  
+bc8fbc5f305aec Marco Elver     2021-02-25  350  static void test_out_of_bounds_write(struct kunit *test)
+bc8fbc5f305aec Marco Elver     2021-02-25  351  {
+bc8fbc5f305aec Marco Elver     2021-02-25  352  	size_t size = 32;
+bc8fbc5f305aec Marco Elver     2021-02-25  353  	struct expect_report expect = {
+bc8fbc5f305aec Marco Elver     2021-02-25  354  		.type = KFENCE_ERROR_OOB,
+bc8fbc5f305aec Marco Elver     2021-02-25  355  		.fn = test_out_of_bounds_write,
+bc8fbc5f305aec Marco Elver     2021-02-25  356  		.is_write = true,
+bc8fbc5f305aec Marco Elver     2021-02-25  357  	};
+bc8fbc5f305aec Marco Elver     2021-02-25  358  	char *buf;
+bc8fbc5f305aec Marco Elver     2021-02-25  359  
+bc8fbc5f305aec Marco Elver     2021-02-25  360  	setup_test_cache(test, size, 0, NULL);
+bc8fbc5f305aec Marco Elver     2021-02-25  361  	buf = test_alloc(test, size, GFP_KERNEL, ALLOCATE_LEFT);
+bc8fbc5f305aec Marco Elver     2021-02-25  362  	expect.addr = buf - 1;
+bc8fbc5f305aec Marco Elver     2021-02-25  363  	WRITE_ONCE(*expect.addr, 42);
+bc8fbc5f305aec Marco Elver     2021-02-25  364  	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+bc8fbc5f305aec Marco Elver     2021-02-25  365  	test_free(buf);
+bc8fbc5f305aec Marco Elver     2021-02-25  366  }
+bc8fbc5f305aec Marco Elver     2021-02-25  367  
+bc8fbc5f305aec Marco Elver     2021-02-25  368  static void test_use_after_free_read(struct kunit *test)
+bc8fbc5f305aec Marco Elver     2021-02-25  369  {
+bc8fbc5f305aec Marco Elver     2021-02-25  370  	const size_t size = 32;
+bc8fbc5f305aec Marco Elver     2021-02-25  371  	struct expect_report expect = {
+bc8fbc5f305aec Marco Elver     2021-02-25  372  		.type = KFENCE_ERROR_UAF,
+bc8fbc5f305aec Marco Elver     2021-02-25  373  		.fn = test_use_after_free_read,
+bc8fbc5f305aec Marco Elver     2021-02-25  374  		.is_write = false,
+bc8fbc5f305aec Marco Elver     2021-02-25  375  	};
+bc8fbc5f305aec Marco Elver     2021-02-25  376  
+bc8fbc5f305aec Marco Elver     2021-02-25  377  	setup_test_cache(test, size, 0, NULL);
+bc8fbc5f305aec Marco Elver     2021-02-25  378  	expect.addr = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
+bc8fbc5f305aec Marco Elver     2021-02-25  379  	test_free(expect.addr);
+bc8fbc5f305aec Marco Elver     2021-02-25  380  	READ_ONCE(*expect.addr);
+bc8fbc5f305aec Marco Elver     2021-02-25  381  	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+bc8fbc5f305aec Marco Elver     2021-02-25  382  }
+bc8fbc5f305aec Marco Elver     2021-02-25  383  
+bc8fbc5f305aec Marco Elver     2021-02-25  384  static void test_double_free(struct kunit *test)
+bc8fbc5f305aec Marco Elver     2021-02-25  385  {
+bc8fbc5f305aec Marco Elver     2021-02-25  386  	const size_t size = 32;
+bc8fbc5f305aec Marco Elver     2021-02-25  387  	struct expect_report expect = {
+bc8fbc5f305aec Marco Elver     2021-02-25  388  		.type = KFENCE_ERROR_INVALID_FREE,
+bc8fbc5f305aec Marco Elver     2021-02-25  389  		.fn = test_double_free,
+bc8fbc5f305aec Marco Elver     2021-02-25  390  	};
+bc8fbc5f305aec Marco Elver     2021-02-25  391  
+bc8fbc5f305aec Marco Elver     2021-02-25  392  	setup_test_cache(test, size, 0, NULL);
+bc8fbc5f305aec Marco Elver     2021-02-25  393  	expect.addr = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
+bc8fbc5f305aec Marco Elver     2021-02-25  394  	test_free(expect.addr);
+bc8fbc5f305aec Marco Elver     2021-02-25 @395  	test_free(expect.addr); /* Double-free. */
+bc8fbc5f305aec Marco Elver     2021-02-25  396  	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+bc8fbc5f305aec Marco Elver     2021-02-25  397  }
+bc8fbc5f305aec Marco Elver     2021-02-25  398  
+
+:::::: The code at line 287 was first introduced by commit
+:::::: 588c7fa022d7b2361500ead5660d9a1a2ecd9b7d mm, slub: change run-time assertion in kmalloc_index() to compile-time
+
+:::::: TO: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
