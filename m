@@ -1,252 +1,131 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0B11CA1A
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 21:50:41 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3fbb07e7155so30345e9.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 14:50:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690494639; x=1691099439;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RI0/6vL/m7bgkzyt2vUFGujFlbsSfvpOKZPzorAEEyc=;
-        b=0kz+ihkRydomSiHYc/gqMT7X2ms0VTHByJFGQ4RQj8hkFkpKQP7o6/1QtH0V0BiWAk
-         RlVEE557QqVqm4RQPjBU8Uev3dPTt6F1cLYc/ujNkpvLM7jQ/a9qoal64j1fFUKNF9WP
-         DoratLgAjK1SMzE2m18+o15Nq0jR5Sj9nWujMmkjp2LsO3sc43PxhtBcU6Z62g9TS2jb
-         iqBZj7Fcpsjo31xHFJFkqKUkQtNgAd/AoNKhyzroEIpBIK2bEKKMaps15vYK97gf/py/
-         Jb+AdcGFiu2OCPJJSrhIYalDBVHCkEVDN63hQoWxNioC30Wxc04ndbA1seszNSbTAw8j
-         gA1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690494639; x=1691099439;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RI0/6vL/m7bgkzyt2vUFGujFlbsSfvpOKZPzorAEEyc=;
-        b=VKsIGoXXPcz5G7p4PQM8HdVt38yb4rkbj1v9fCfM6AV30yHEagZ1WRrdhY36qlWlCP
-         IYDvTHN1Z+lsl5fZlj248chR6YIKSilEX1DUAzQGWJfcHL6LieJevyewFns3fOiA4thU
-         SQ8v92A2ZcOjSlw31Ktwf1SfqFCoqlVmq8qyrMaRuyGttkyJwFr9/gRBvVXpVJwZWXfc
-         y2AnTb4qXk2JOicVlcnj5GGAK8Hh+3QJJnIzquA8gcQ7r0ips9uOllpLVVxitoCwQiVc
-         rE7hMy78A1f9Kfk3ZxsGFs33gNUaq+0LzOUB6vRO099L88cH9J0TwdYQWN+Q1SRuy0JD
-         PesQ==
-X-Gm-Message-State: ABy/qLZy0EkbkhAgyGi9b39LiILkLYmTZxF9qKrAOMmf9a4EC9ehw7Ip
-	D66HbBR7nvHujEc3jqVCWB26/Phg//uIj3Rn2n7rNw==
-X-Google-Smtp-Source: APBJJlEpi+j4SuzDxnrOmvVKFnq/Z9MusBXqaHl8J/+/7mrzDnD23tMUwzWnawJa3x4Qy5qvDHDfabEcDJvd5zXN7jM=
-X-Received: by 2002:a05:600c:4753:b0:3f6:f4b:d4a6 with SMTP id
- w19-20020a05600c475300b003f60f4bd4a6mr16057wmo.7.1690494639171; Thu, 27 Jul
- 2023 14:50:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCD83FF4
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 22:37:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690497453; x=1722033453;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dy2g7XKdBubYP6f7LQd3I6P7eqO7t6xw11M77O1EThw=;
+  b=KD49Lsd6FvW5Sf13azY2jhgNJ0RXa66D8q+7iz82FTL+vjw3mGctGOq0
+   ujiQwOVDsbbsk2xGFy2urKNaYnWxlDdhUSCbEccV55nHybe5ucwVdjBcc
+   nkA1t9zOzQIaH18q/o56vUn4Kl9o7rwNxcSs3yT60IfhyaDcAngW1Y/3R
+   C/KyzSMNyHmvnQS376vIuyHU3UFXkSO0h5Lpe0m5yMMWExtehvlys2eCo
+   2M7KQy8kNpgGtkf9AEQIsiVkwwEC9NA+PLjRqlWaGM2/POzuE/0a21vqB
+   bX9pKc1ESV5ICxdtc/CGprDqfRuq89qR/vfVl6YzJkzr88DlHD8NRYFvu
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="353360876"
+X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
+   d="scan'208";a="353360876"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 15:37:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="704310198"
+X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
+   d="scan'208";a="704310198"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 27 Jul 2023 15:37:28 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qP9br-0002fD-1n;
+	Thu, 27 Jul 2023 22:37:27 +0000
+Date: Fri, 28 Jul 2023 06:37:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/power/supply/qcom_pmi8998_charger.c:565
+ smb2_status_change_work() error: uninitialized symbol 'usb_online'.
+Message-ID: <202307280638.556PrzIS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230725212522.1622716-5-rmoar@google.com> <3cfb0706-0873-4839-b6e1-e8f1c994d6a6@kadam.mountain>
-In-Reply-To: <3cfb0706-0873-4839-b6e1-e8f1c994d6a6@kadam.mountain>
-From: Rae Moar <rmoar@google.com>
-Date: Thu, 27 Jul 2023 17:50:26 -0400
-Message-ID: <CA+GJov4m=Rh4g8RxhK+Aq+grJK6yZvghEn_B2NXqCOuq_eDvxw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/9] kunit: Add ability to filter attributes
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Jul 27, 2023 at 1:12=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> Hi Rae,
->
-> kernel test robot noticed the following build warnings:
->
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Caleb Connolly <caleb.connolly@linaro.org>
+CC: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-Hello!
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   57012c57536f8814dec92e74197ee96c3498d24e
+commit: 8648aeb5d7b70e13264ff5f444f22081d37d4670 power: supply: add Qualcomm PMI8998 SMB2 Charger driver
+date:   7 weeks ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 7 weeks ago
+config: arm-randconfig-m041-20230727 (https://download.01.org/0day-ci/archive/20230728/202307280638.556PrzIS-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230728/202307280638.556PrzIS-lkp@intel.com/reproduce)
 
-Sorry for this bug. It looks like I have a few uninitialized
-variables. I am going to send out a fix for this in the next day or
-so.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202307280638.556PrzIS-lkp@intel.com/
 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Rae-Moar/kunit-Add=
--test-attributes-API-structure/20230726-052754
-> base:   64bd4641310c41a1ecf07c13c67bc0ed61045dfd
-> patch link:    https://lore.kernel.org/r/20230725212522.1622716-5-rmoar%4=
-0google.com
-> patch subject: [PATCH v3 4/9] kunit: Add ability to filter attributes
-> config: parisc-randconfig-m041-20230726 (https://download.01.org/0day-ci/=
-archive/20230727/202307270610.s0w4NKEn-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270610=
-.s0w4NKEn-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202307270610.s0w4NKEn-lkp@intel.com/
->
-> New smatch warnings:
-> lib/kunit/attributes.c:127 attr_enum_filter() error: uninitialized symbol=
- 'input_int'.
-> lib/kunit/attributes.c:262 kunit_get_filter_count() error: uninitialized =
-symbol 'comma_index'.
-> lib/kunit/attributes.c:284 kunit_next_attr_filter() error: uninitialized =
-symbol 'comma_index'.
-> lib/kunit/executor.c:168 kunit_filter_suites() error: uninitialized symbo=
-l 'filter_count'.
-> lib/kunit/executor.c:171 kunit_filter_suites() error: uninitialized symbo=
-l 'parsed_filters'.
+smatch warnings:
+drivers/power/supply/qcom_pmi8998_charger.c:565 smb2_status_change_work() error: uninitialized symbol 'usb_online'.
 
-I'll initialize filter_count as 0. I'll also initialize parsed_filters
-as NULL and add an extra check for parsed_filters.
+vim +/usb_online +565 drivers/power/supply/qcom_pmi8998_charger.c
 
->
-> Old smatch warnings:
-> lib/kunit/attributes.c:267 kunit_get_filter_count() error: uninitialized =
-symbol 'comma_index'.
-> lib/kunit/executor.c:201 kunit_filter_suites() error: uninitialized symbo=
-l 'filter_count'.
-> lib/kunit/executor.c:202 kunit_filter_suites() error: uninitialized symbo=
-l 'parsed_filters'.
->
-> vim +/input_int +127 lib/kunit/attributes.c
->
-> 793862a3f94d2f Rae Moar 2023-07-25  102  static int attr_enum_filter(void=
- *attr, const char *input, int *err,
-> 793862a3f94d2f Rae Moar 2023-07-25  103                 const char * cons=
-t str_list[], int max)
-> 793862a3f94d2f Rae Moar 2023-07-25  104  {
-> 793862a3f94d2f Rae Moar 2023-07-25  105         int i, j, input_int;
->                                                           ^^^^^^^^^
->
-> 793862a3f94d2f Rae Moar 2023-07-25  106         long test_val =3D (long)a=
-ttr;
-> 793862a3f94d2f Rae Moar 2023-07-25  107         const char *input_val =3D=
- NULL;
-> 793862a3f94d2f Rae Moar 2023-07-25  108
-> 793862a3f94d2f Rae Moar 2023-07-25  109         for (i =3D 0; input[i]; i=
-++) {
-> 793862a3f94d2f Rae Moar 2023-07-25  110                 if (!strchr(op_li=
-st, input[i])) {
-> 793862a3f94d2f Rae Moar 2023-07-25  111                         input_val=
- =3D input + i;
-> 793862a3f94d2f Rae Moar 2023-07-25  112                         break;
-> 793862a3f94d2f Rae Moar 2023-07-25  113                 }
-> 793862a3f94d2f Rae Moar 2023-07-25  114         }
-> 793862a3f94d2f Rae Moar 2023-07-25  115
-> 793862a3f94d2f Rae Moar 2023-07-25  116         if (!input_val) {
-> 793862a3f94d2f Rae Moar 2023-07-25  117                 *err =3D -EINVAL;
-> 793862a3f94d2f Rae Moar 2023-07-25  118                 pr_err("kunit exe=
-cutor: filter value not found: %s\n", input);
-> 793862a3f94d2f Rae Moar 2023-07-25  119                 return false;
-> 793862a3f94d2f Rae Moar 2023-07-25  120         }
-> 793862a3f94d2f Rae Moar 2023-07-25  121
-> 793862a3f94d2f Rae Moar 2023-07-25  122         for (j =3D 0; j <=3D max;=
- j++) {
-> 793862a3f94d2f Rae Moar 2023-07-25  123                 if (!strcmp(input=
-_val, str_list[j]))
-> 793862a3f94d2f Rae Moar 2023-07-25  124                         input_int=
- =3D j;
-> 793862a3f94d2f Rae Moar 2023-07-25  125         }
-> 793862a3f94d2f Rae Moar 2023-07-25  126
-> 793862a3f94d2f Rae Moar 2023-07-25 @127         if (!input_int) {
->
-> This is a bug, but wait, what?  Why is the first element invalid?  Maybe
-> do:
->         int input_int =3D -1;
->
->         for (j =3D 0; j <=3D max; j++) {
->                 if found
->                         input_int =3D j;
->         }
->
->         if (input_int =3D=3D -1) {
->
+8648aeb5d7b70e Caleb Connolly 2023-05-26  555  
+8648aeb5d7b70e Caleb Connolly 2023-05-26  556  static void smb2_status_change_work(struct work_struct *work)
+8648aeb5d7b70e Caleb Connolly 2023-05-26  557  {
+8648aeb5d7b70e Caleb Connolly 2023-05-26  558  	unsigned int charger_type, current_ua;
+8648aeb5d7b70e Caleb Connolly 2023-05-26  559  	int usb_online, count, rc;
+8648aeb5d7b70e Caleb Connolly 2023-05-26  560  	struct smb2_chip *chip;
+8648aeb5d7b70e Caleb Connolly 2023-05-26  561  
+8648aeb5d7b70e Caleb Connolly 2023-05-26  562  	chip = container_of(work, struct smb2_chip, status_change_work.work);
+8648aeb5d7b70e Caleb Connolly 2023-05-26  563  
+8648aeb5d7b70e Caleb Connolly 2023-05-26  564  	smb2_get_prop_usb_online(chip, &usb_online);
+8648aeb5d7b70e Caleb Connolly 2023-05-26 @565  	if (!usb_online)
+8648aeb5d7b70e Caleb Connolly 2023-05-26  566  		return;
+8648aeb5d7b70e Caleb Connolly 2023-05-26  567  
+8648aeb5d7b70e Caleb Connolly 2023-05-26  568  	for (count = 0; count < 3; count++) {
+8648aeb5d7b70e Caleb Connolly 2023-05-26  569  		dev_dbg(chip->dev, "get charger type retry %d\n", count);
+8648aeb5d7b70e Caleb Connolly 2023-05-26  570  		rc = smb2_apsd_get_charger_type(chip, &charger_type);
+8648aeb5d7b70e Caleb Connolly 2023-05-26  571  		if (rc != -EAGAIN)
+8648aeb5d7b70e Caleb Connolly 2023-05-26  572  			break;
+8648aeb5d7b70e Caleb Connolly 2023-05-26  573  		msleep(100);
+8648aeb5d7b70e Caleb Connolly 2023-05-26  574  	}
+8648aeb5d7b70e Caleb Connolly 2023-05-26  575  
+8648aeb5d7b70e Caleb Connolly 2023-05-26  576  	if (rc < 0 && rc != -EAGAIN) {
+8648aeb5d7b70e Caleb Connolly 2023-05-26  577  		dev_err(chip->dev, "get charger type failed: %d\n", rc);
+8648aeb5d7b70e Caleb Connolly 2023-05-26  578  		return;
+8648aeb5d7b70e Caleb Connolly 2023-05-26  579  	}
+8648aeb5d7b70e Caleb Connolly 2023-05-26  580  
+8648aeb5d7b70e Caleb Connolly 2023-05-26  581  	if (rc < 0) {
+8648aeb5d7b70e Caleb Connolly 2023-05-26  582  		rc = regmap_update_bits(chip->regmap, chip->base + CMD_APSD,
+8648aeb5d7b70e Caleb Connolly 2023-05-26  583  					APSD_RERUN_BIT, APSD_RERUN_BIT);
+8648aeb5d7b70e Caleb Connolly 2023-05-26  584  		schedule_delayed_work(&chip->status_change_work,
+8648aeb5d7b70e Caleb Connolly 2023-05-26  585  				      msecs_to_jiffies(1000));
+8648aeb5d7b70e Caleb Connolly 2023-05-26  586  		dev_dbg(chip->dev, "get charger type failed, rerun apsd\n");
+8648aeb5d7b70e Caleb Connolly 2023-05-26  587  		return;
+8648aeb5d7b70e Caleb Connolly 2023-05-26  588  	}
+8648aeb5d7b70e Caleb Connolly 2023-05-26  589  
+8648aeb5d7b70e Caleb Connolly 2023-05-26  590  	switch (charger_type) {
+8648aeb5d7b70e Caleb Connolly 2023-05-26  591  	case POWER_SUPPLY_USB_TYPE_CDP:
+8648aeb5d7b70e Caleb Connolly 2023-05-26  592  		current_ua = CDP_CURRENT_UA;
+8648aeb5d7b70e Caleb Connolly 2023-05-26  593  		break;
+8648aeb5d7b70e Caleb Connolly 2023-05-26  594  	case POWER_SUPPLY_USB_TYPE_DCP:
+8648aeb5d7b70e Caleb Connolly 2023-05-26  595  		current_ua = DCP_CURRENT_UA;
+8648aeb5d7b70e Caleb Connolly 2023-05-26  596  		break;
+8648aeb5d7b70e Caleb Connolly 2023-05-26  597  	case POWER_SUPPLY_USB_TYPE_SDP:
+8648aeb5d7b70e Caleb Connolly 2023-05-26  598  	default:
+8648aeb5d7b70e Caleb Connolly 2023-05-26  599  		current_ua = SDP_CURRENT_UA;
+8648aeb5d7b70e Caleb Connolly 2023-05-26  600  		break;
+8648aeb5d7b70e Caleb Connolly 2023-05-26  601  	}
+8648aeb5d7b70e Caleb Connolly 2023-05-26  602  
+8648aeb5d7b70e Caleb Connolly 2023-05-26  603  	smb2_set_current_limit(chip, current_ua);
+8648aeb5d7b70e Caleb Connolly 2023-05-26  604  	power_supply_changed(chip->chg_psy);
+8648aeb5d7b70e Caleb Connolly 2023-05-26  605  }
+8648aeb5d7b70e Caleb Connolly 2023-05-26  606  
 
-What you have above looks like a great change.
-
-> 793862a3f94d2f Rae Moar 2023-07-25  128                 *err =3D -EINVAL;
-> 793862a3f94d2f Rae Moar 2023-07-25  129                 pr_err("kunit exe=
-cutor: invalid filter input: %s\n", input);
-> 793862a3f94d2f Rae Moar 2023-07-25  130                 return false;
-> 793862a3f94d2f Rae Moar 2023-07-25  131         }
-> 793862a3f94d2f Rae Moar 2023-07-25  132
-> 793862a3f94d2f Rae Moar 2023-07-25  133         return int_filter(test_va=
-l, input, input_int, err);
-> 793862a3f94d2f Rae Moar 2023-07-25  134  }
->
-> [ snip ]
->
-> 793862a3f94d2f Rae Moar 2023-07-25  256  int kunit_get_filter_count(char =
-*input)
-> 793862a3f94d2f Rae Moar 2023-07-25  257  {
-> 793862a3f94d2f Rae Moar 2023-07-25  258         int i, comma_index, count=
- =3D 0;
-> 793862a3f94d2f Rae Moar 2023-07-25  259
-> 793862a3f94d2f Rae Moar 2023-07-25  260         for (i =3D 0; input[i]; i=
-++) {
-> 793862a3f94d2f Rae Moar 2023-07-25  261                 if (input[i] =3D=
-=3D ',') {
-> 793862a3f94d2f Rae Moar 2023-07-25 @262                         if ((i - =
-comma_index) > 1)
->
-> initialize comma_index =3D 0
-
-I will change this to be initialized to 0.
-
->
-> 793862a3f94d2f Rae Moar 2023-07-25  263                                 c=
-ount++;
-> 793862a3f94d2f Rae Moar 2023-07-25  264                         comma_ind=
-ex =3D i;
-> 793862a3f94d2f Rae Moar 2023-07-25  265                 }
-> 793862a3f94d2f Rae Moar 2023-07-25  266         }
-> 793862a3f94d2f Rae Moar 2023-07-25  267         if ((i - comma_index) > 0=
-)
-> 793862a3f94d2f Rae Moar 2023-07-25  268                 count++;
-> 793862a3f94d2f Rae Moar 2023-07-25  269         return count;
-> 793862a3f94d2f Rae Moar 2023-07-25  270  }
-> 793862a3f94d2f Rae Moar 2023-07-25  271
-> 793862a3f94d2f Rae Moar 2023-07-25  272  struct kunit_attr_filter kunit_n=
-ext_attr_filter(char **filters, int *err)
-> 793862a3f94d2f Rae Moar 2023-07-25  273  {
-> 793862a3f94d2f Rae Moar 2023-07-25  274         struct kunit_attr_filter =
-filter =3D {};
-> 793862a3f94d2f Rae Moar 2023-07-25  275         int i, j, comma_index, ne=
-w_start_index;
-> 793862a3f94d2f Rae Moar 2023-07-25  276         int op_index =3D -1, attr=
-_index =3D -1;
-> 793862a3f94d2f Rae Moar 2023-07-25  277         char op;
-> 793862a3f94d2f Rae Moar 2023-07-25  278         char *input =3D *filters;
-> 793862a3f94d2f Rae Moar 2023-07-25  279
-> 793862a3f94d2f Rae Moar 2023-07-25  280         /* Parse input until oper=
-ation */
-> 793862a3f94d2f Rae Moar 2023-07-25  281         for (i =3D 0; input[i]; i=
-++) {
-> 793862a3f94d2f Rae Moar 2023-07-25  282                 if (op_index < 0 =
-&& strchr(op_list, input[i])) {
-> 793862a3f94d2f Rae Moar 2023-07-25  283                         op_index =
-=3D i;
-> 793862a3f94d2f Rae Moar 2023-07-25 @284                 } else if (!comma=
-_index && input[i] =3D=3D ',') {
->
-> same
-
-I will also change this here.
-
->
-> 793862a3f94d2f Rae Moar 2023-07-25  285                         comma_ind=
-ex =3D i;
-> 793862a3f94d2f Rae Moar 2023-07-25  286                 } else if (comma_=
-index && input[i] !=3D ' ') {
-> 793862a3f94d2f Rae Moar 2023-07-25  287                         new_start=
-_index =3D i;
-> 793862a3f94d2f Rae Moar 2023-07-25  288                         break;
-> 793862a3f94d2f Rae Moar 2023-07-25  289                 }
-> 793862a3f94d2f Rae Moar 2023-07-25  290         }
-> 793862a3f94d2f Rae Moar 2023-07-25  291
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
