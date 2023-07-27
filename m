@@ -1,173 +1,252 @@
-Received: from mgamail.intel.com (unknown [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E838D1C9E4
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 21:35:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690493725; x=1722029725;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=LQ/waZCKknLpli7958GBqQ2Kj6TIouelxOrWl+40xx0=;
-  b=QhCMFwEE/bi1D+SppkGD9Fj8+eSBC6Y/+gxU/nC2aaZH7lW88F3SN0hS
-   0ruSqwYNFK8CgCwaowRnkTaYJWl2pN1VMhkNeOmGw6e+dQHdbzQ3RjRAn
-   CUArEqvXdbJ33IAsCs2GOMFd7IhxBvgW5K53Z5WGVUPlFKDJuvl+nDuh0
-   1YBHNfyFzleH5kBgqUKuntbgFzD7EEEuO0Fr+9UleYUeymLh9NyacqR47
-   ZwToNynnYjgmijOVFD7y5tjM14/qFuXdp+mNhyd5xb3K5KgLr/jcqEUld
-   rRYBgl0k9fR1Y/Rqa+Ga6grhnrqp5fku3Xj8QKxAKX9DLO2D69ZjL0URx
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="399375154"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="399375154"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 14:35:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="721024067"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="721024067"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 27 Jul 2023 14:35:22 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qP8dl-0002cT-38;
-	Thu, 27 Jul 2023 21:35:21 +0000
-Date: Fri, 28 Jul 2023 05:35:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/tegra/dpaux.c:750 drm_dp_aux_attach() error:
- uninitialized symbol 'status'.
-Message-ID: <202307280510.HIWfdKAm-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0B11CA1A
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 21:50:41 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3fbb07e7155so30345e9.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 14:50:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1690494639; x=1691099439;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RI0/6vL/m7bgkzyt2vUFGujFlbsSfvpOKZPzorAEEyc=;
+        b=0kz+ihkRydomSiHYc/gqMT7X2ms0VTHByJFGQ4RQj8hkFkpKQP7o6/1QtH0V0BiWAk
+         RlVEE557QqVqm4RQPjBU8Uev3dPTt6F1cLYc/ujNkpvLM7jQ/a9qoal64j1fFUKNF9WP
+         DoratLgAjK1SMzE2m18+o15Nq0jR5Sj9nWujMmkjp2LsO3sc43PxhtBcU6Z62g9TS2jb
+         iqBZj7Fcpsjo31xHFJFkqKUkQtNgAd/AoNKhyzroEIpBIK2bEKKMaps15vYK97gf/py/
+         Jb+AdcGFiu2OCPJJSrhIYalDBVHCkEVDN63hQoWxNioC30Wxc04ndbA1seszNSbTAw8j
+         gA1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690494639; x=1691099439;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RI0/6vL/m7bgkzyt2vUFGujFlbsSfvpOKZPzorAEEyc=;
+        b=VKsIGoXXPcz5G7p4PQM8HdVt38yb4rkbj1v9fCfM6AV30yHEagZ1WRrdhY36qlWlCP
+         IYDvTHN1Z+lsl5fZlj248chR6YIKSilEX1DUAzQGWJfcHL6LieJevyewFns3fOiA4thU
+         SQ8v92A2ZcOjSlw31Ktwf1SfqFCoqlVmq8qyrMaRuyGttkyJwFr9/gRBvVXpVJwZWXfc
+         y2AnTb4qXk2JOicVlcnj5GGAK8Hh+3QJJnIzquA8gcQ7r0ips9uOllpLVVxitoCwQiVc
+         rE7hMy78A1f9Kfk3ZxsGFs33gNUaq+0LzOUB6vRO099L88cH9J0TwdYQWN+Q1SRuy0JD
+         PesQ==
+X-Gm-Message-State: ABy/qLZy0EkbkhAgyGi9b39LiILkLYmTZxF9qKrAOMmf9a4EC9ehw7Ip
+	D66HbBR7nvHujEc3jqVCWB26/Phg//uIj3Rn2n7rNw==
+X-Google-Smtp-Source: APBJJlEpi+j4SuzDxnrOmvVKFnq/Z9MusBXqaHl8J/+/7mrzDnD23tMUwzWnawJa3x4Qy5qvDHDfabEcDJvd5zXN7jM=
+X-Received: by 2002:a05:600c:4753:b0:3f6:f4b:d4a6 with SMTP id
+ w19-20020a05600c475300b003f60f4bd4a6mr16057wmo.7.1690494639171; Thu, 27 Jul
+ 2023 14:50:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20230725212522.1622716-5-rmoar@google.com> <3cfb0706-0873-4839-b6e1-e8f1c994d6a6@kadam.mountain>
+In-Reply-To: <3cfb0706-0873-4839-b6e1-e8f1c994d6a6@kadam.mountain>
+From: Rae Moar <rmoar@google.com>
+Date: Thu, 27 Jul 2023 17:50:26 -0400
+Message-ID: <CA+GJov4m=Rh4g8RxhK+Aq+grJK6yZvghEn_B2NXqCOuq_eDvxw@mail.gmail.com>
+Subject: Re: [PATCH v3 4/9] kunit: Add ability to filter attributes
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Christian König" <christian.koenig@amd.com>
-CC: Thierry Reding <treding@nvidia.com>
+On Thu, Jul 27, 2023 at 1:12=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> Hi Rae,
+>
+> kernel test robot noticed the following build warnings:
+>
 
-Hi Christian,
+Hello!
 
-First bad commit (maybe != root cause):
+Sorry for this bug. It looks like I have a few uninitialized
+variables. I am going to send out a fix for this in the next day or
+so.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0a8db05b571ad5b8d5c8774a004c0424260a90bd
-commit: f75d19827b731c6f24930ef77e5a46cf2242bc68 drm/tegra: Allow compile test on !ARM v2
-date:   4 months ago
-:::::: branch date: 27 hours ago
-:::::: commit date: 4 months ago
-config: csky-randconfig-m041-20230727 (https://download.01.org/0day-ci/archive/20230728/202307280510.HIWfdKAm-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307280510.HIWfdKAm-lkp@intel.com/reproduce)
+> url:    https://github.com/intel-lab-lkp/linux/commits/Rae-Moar/kunit-Add=
+-test-attributes-API-structure/20230726-052754
+> base:   64bd4641310c41a1ecf07c13c67bc0ed61045dfd
+> patch link:    https://lore.kernel.org/r/20230725212522.1622716-5-rmoar%4=
+0google.com
+> patch subject: [PATCH v3 4/9] kunit: Add ability to filter attributes
+> config: parisc-randconfig-m041-20230726 (https://download.01.org/0day-ci/=
+archive/20230727/202307270610.s0w4NKEn-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270610=
+.s0w4NKEn-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202307270610.s0w4NKEn-lkp@intel.com/
+>
+> New smatch warnings:
+> lib/kunit/attributes.c:127 attr_enum_filter() error: uninitialized symbol=
+ 'input_int'.
+> lib/kunit/attributes.c:262 kunit_get_filter_count() error: uninitialized =
+symbol 'comma_index'.
+> lib/kunit/attributes.c:284 kunit_next_attr_filter() error: uninitialized =
+symbol 'comma_index'.
+> lib/kunit/executor.c:168 kunit_filter_suites() error: uninitialized symbo=
+l 'filter_count'.
+> lib/kunit/executor.c:171 kunit_filter_suites() error: uninitialized symbo=
+l 'parsed_filters'.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307280510.HIWfdKAm-lkp@intel.com/
+I'll initialize filter_count as 0. I'll also initialize parsed_filters
+as NULL and add an extra check for parsed_filters.
 
-smatch warnings:
-drivers/gpu/drm/tegra/dpaux.c:750 drm_dp_aux_attach() error: uninitialized symbol 'status'.
-drivers/gpu/drm/tegra/dpaux.c:787 drm_dp_aux_detach() error: uninitialized symbol 'status'.
+>
+> Old smatch warnings:
+> lib/kunit/attributes.c:267 kunit_get_filter_count() error: uninitialized =
+symbol 'comma_index'.
+> lib/kunit/executor.c:201 kunit_filter_suites() error: uninitialized symbo=
+l 'filter_count'.
+> lib/kunit/executor.c:202 kunit_filter_suites() error: uninitialized symbo=
+l 'parsed_filters'.
+>
+> vim +/input_int +127 lib/kunit/attributes.c
+>
+> 793862a3f94d2f Rae Moar 2023-07-25  102  static int attr_enum_filter(void=
+ *attr, const char *input, int *err,
+> 793862a3f94d2f Rae Moar 2023-07-25  103                 const char * cons=
+t str_list[], int max)
+> 793862a3f94d2f Rae Moar 2023-07-25  104  {
+> 793862a3f94d2f Rae Moar 2023-07-25  105         int i, j, input_int;
+>                                                           ^^^^^^^^^
+>
+> 793862a3f94d2f Rae Moar 2023-07-25  106         long test_val =3D (long)a=
+ttr;
+> 793862a3f94d2f Rae Moar 2023-07-25  107         const char *input_val =3D=
+ NULL;
+> 793862a3f94d2f Rae Moar 2023-07-25  108
+> 793862a3f94d2f Rae Moar 2023-07-25  109         for (i =3D 0; input[i]; i=
+++) {
+> 793862a3f94d2f Rae Moar 2023-07-25  110                 if (!strchr(op_li=
+st, input[i])) {
+> 793862a3f94d2f Rae Moar 2023-07-25  111                         input_val=
+ =3D input + i;
+> 793862a3f94d2f Rae Moar 2023-07-25  112                         break;
+> 793862a3f94d2f Rae Moar 2023-07-25  113                 }
+> 793862a3f94d2f Rae Moar 2023-07-25  114         }
+> 793862a3f94d2f Rae Moar 2023-07-25  115
+> 793862a3f94d2f Rae Moar 2023-07-25  116         if (!input_val) {
+> 793862a3f94d2f Rae Moar 2023-07-25  117                 *err =3D -EINVAL;
+> 793862a3f94d2f Rae Moar 2023-07-25  118                 pr_err("kunit exe=
+cutor: filter value not found: %s\n", input);
+> 793862a3f94d2f Rae Moar 2023-07-25  119                 return false;
+> 793862a3f94d2f Rae Moar 2023-07-25  120         }
+> 793862a3f94d2f Rae Moar 2023-07-25  121
+> 793862a3f94d2f Rae Moar 2023-07-25  122         for (j =3D 0; j <=3D max;=
+ j++) {
+> 793862a3f94d2f Rae Moar 2023-07-25  123                 if (!strcmp(input=
+_val, str_list[j]))
+> 793862a3f94d2f Rae Moar 2023-07-25  124                         input_int=
+ =3D j;
+> 793862a3f94d2f Rae Moar 2023-07-25  125         }
+> 793862a3f94d2f Rae Moar 2023-07-25  126
+> 793862a3f94d2f Rae Moar 2023-07-25 @127         if (!input_int) {
+>
+> This is a bug, but wait, what?  Why is the first element invalid?  Maybe
+> do:
+>         int input_int =3D -1;
+>
+>         for (j =3D 0; j <=3D max; j++) {
+>                 if found
+>                         input_int =3D j;
+>         }
+>
+>         if (input_int =3D=3D -1) {
+>
 
-vim +/status +750 drivers/gpu/drm/tegra/dpaux.c
+What you have above looks like a great change.
 
-6b6b604215c646 Thierry Reding 2013-11-15  715  
-9542c2376efaf5 Thierry Reding 2015-07-08  716  int drm_dp_aux_attach(struct drm_dp_aux *aux, struct tegra_output *output)
-6b6b604215c646 Thierry Reding 2013-11-15  717  {
-9542c2376efaf5 Thierry Reding 2015-07-08  718  	struct tegra_dpaux *dpaux = to_dpaux(aux);
-6b6b604215c646 Thierry Reding 2013-11-15  719  	unsigned long timeout;
-6b6b604215c646 Thierry Reding 2013-11-15  720  	int err;
-6b6b604215c646 Thierry Reding 2013-11-15  721  
-6cba3fe433415b Lyude Paul     2021-04-23  722  	aux->drm_dev = output->connector.dev;
-39c17ae60ea9ad Lyude Paul     2021-03-26  723  	err = drm_dp_aux_register(aux);
-39c17ae60ea9ad Lyude Paul     2021-03-26  724  	if (err < 0)
-39c17ae60ea9ad Lyude Paul     2021-03-26  725  		return err;
-39c17ae60ea9ad Lyude Paul     2021-03-26  726  
-7c4633861f810f Thierry Reding 2014-04-25  727  	output->connector.polled = DRM_CONNECTOR_POLL_HPD;
-6b6b604215c646 Thierry Reding 2013-11-15  728  	dpaux->output = output;
-6b6b604215c646 Thierry Reding 2013-11-15  729  
-6c79f09fce4dd0 Thierry Reding 2019-06-24  730  	if (output->panel) {
-6c79f09fce4dd0 Thierry Reding 2019-06-24  731  		enum drm_connector_status status;
-6c79f09fce4dd0 Thierry Reding 2019-06-24  732  
-6c79f09fce4dd0 Thierry Reding 2019-06-24  733  		if (dpaux->vdd) {
-6b6b604215c646 Thierry Reding 2013-11-15  734  			err = regulator_enable(dpaux->vdd);
-6b6b604215c646 Thierry Reding 2013-11-15  735  			if (err < 0)
-6b6b604215c646 Thierry Reding 2013-11-15  736  				return err;
-6c79f09fce4dd0 Thierry Reding 2019-06-24  737  		}
-5e881f6b29fe69 Thierry Reding 2015-08-03  738  
-6b6b604215c646 Thierry Reding 2013-11-15  739  		timeout = jiffies + msecs_to_jiffies(250);
-6b6b604215c646 Thierry Reding 2013-11-15  740  
-6b6b604215c646 Thierry Reding 2013-11-15  741  		while (time_before(jiffies, timeout)) {
-9542c2376efaf5 Thierry Reding 2015-07-08  742  			status = drm_dp_aux_detect(aux);
-5e881f6b29fe69 Thierry Reding 2015-08-03  743  
-5e881f6b29fe69 Thierry Reding 2015-08-03  744  			if (status == connector_status_connected)
-5e881f6b29fe69 Thierry Reding 2015-08-03  745  				break;
-6b6b604215c646 Thierry Reding 2013-11-15  746  
-6b6b604215c646 Thierry Reding 2013-11-15  747  			usleep_range(1000, 2000);
-6b6b604215c646 Thierry Reding 2013-11-15  748  		}
-6b6b604215c646 Thierry Reding 2013-11-15  749  
-5e881f6b29fe69 Thierry Reding 2015-08-03 @750  		if (status != connector_status_connected)
-6b6b604215c646 Thierry Reding 2013-11-15  751  			return -ETIMEDOUT;
-6b6b604215c646 Thierry Reding 2013-11-15  752  	}
-6b6b604215c646 Thierry Reding 2013-11-15  753  
-5e881f6b29fe69 Thierry Reding 2015-08-03  754  	enable_irq(dpaux->irq);
-5e881f6b29fe69 Thierry Reding 2015-08-03  755  	return 0;
-5e881f6b29fe69 Thierry Reding 2015-08-03  756  }
-5e881f6b29fe69 Thierry Reding 2015-08-03  757  
-9542c2376efaf5 Thierry Reding 2015-07-08  758  int drm_dp_aux_detach(struct drm_dp_aux *aux)
-6b6b604215c646 Thierry Reding 2013-11-15  759  {
-9542c2376efaf5 Thierry Reding 2015-07-08  760  	struct tegra_dpaux *dpaux = to_dpaux(aux);
-6b6b604215c646 Thierry Reding 2013-11-15  761  	unsigned long timeout;
-6b6b604215c646 Thierry Reding 2013-11-15  762  	int err;
-6b6b604215c646 Thierry Reding 2013-11-15  763  
-39c17ae60ea9ad Lyude Paul     2021-03-26  764  	drm_dp_aux_unregister(aux);
-9e532b3ad9a7fc Thierry Reding 2015-07-03  765  	disable_irq(dpaux->irq);
-9e532b3ad9a7fc Thierry Reding 2015-07-03  766  
-6c79f09fce4dd0 Thierry Reding 2019-06-24  767  	if (dpaux->output->panel) {
-6c79f09fce4dd0 Thierry Reding 2019-06-24  768  		enum drm_connector_status status;
-6c79f09fce4dd0 Thierry Reding 2019-06-24  769  
-6c79f09fce4dd0 Thierry Reding 2019-06-24  770  		if (dpaux->vdd) {
-6b6b604215c646 Thierry Reding 2013-11-15  771  			err = regulator_disable(dpaux->vdd);
-6b6b604215c646 Thierry Reding 2013-11-15  772  			if (err < 0)
-6b6b604215c646 Thierry Reding 2013-11-15  773  				return err;
-6c79f09fce4dd0 Thierry Reding 2019-06-24  774  		}
-5e881f6b29fe69 Thierry Reding 2015-08-03  775  
-6b6b604215c646 Thierry Reding 2013-11-15  776  		timeout = jiffies + msecs_to_jiffies(250);
-6b6b604215c646 Thierry Reding 2013-11-15  777  
-6b6b604215c646 Thierry Reding 2013-11-15  778  		while (time_before(jiffies, timeout)) {
-9542c2376efaf5 Thierry Reding 2015-07-08  779  			status = drm_dp_aux_detect(aux);
-5e881f6b29fe69 Thierry Reding 2015-08-03  780  
-5e881f6b29fe69 Thierry Reding 2015-08-03  781  			if (status == connector_status_disconnected)
-5e881f6b29fe69 Thierry Reding 2015-08-03  782  				break;
-6b6b604215c646 Thierry Reding 2013-11-15  783  
-6b6b604215c646 Thierry Reding 2013-11-15  784  			usleep_range(1000, 2000);
-6b6b604215c646 Thierry Reding 2013-11-15  785  		}
-6b6b604215c646 Thierry Reding 2013-11-15  786  
-5e881f6b29fe69 Thierry Reding 2015-08-03 @787  		if (status != connector_status_disconnected)
-6b6b604215c646 Thierry Reding 2013-11-15  788  			return -ETIMEDOUT;
-5e881f6b29fe69 Thierry Reding 2015-08-03  789  
-5e881f6b29fe69 Thierry Reding 2015-08-03  790  		dpaux->output = NULL;
-5e881f6b29fe69 Thierry Reding 2015-08-03  791  	}
-5e881f6b29fe69 Thierry Reding 2015-08-03  792  
-5e881f6b29fe69 Thierry Reding 2015-08-03  793  	return 0;
-6b6b604215c646 Thierry Reding 2013-11-15  794  }
-6b6b604215c646 Thierry Reding 2013-11-15  795  
+> 793862a3f94d2f Rae Moar 2023-07-25  128                 *err =3D -EINVAL;
+> 793862a3f94d2f Rae Moar 2023-07-25  129                 pr_err("kunit exe=
+cutor: invalid filter input: %s\n", input);
+> 793862a3f94d2f Rae Moar 2023-07-25  130                 return false;
+> 793862a3f94d2f Rae Moar 2023-07-25  131         }
+> 793862a3f94d2f Rae Moar 2023-07-25  132
+> 793862a3f94d2f Rae Moar 2023-07-25  133         return int_filter(test_va=
+l, input, input_int, err);
+> 793862a3f94d2f Rae Moar 2023-07-25  134  }
+>
+> [ snip ]
+>
+> 793862a3f94d2f Rae Moar 2023-07-25  256  int kunit_get_filter_count(char =
+*input)
+> 793862a3f94d2f Rae Moar 2023-07-25  257  {
+> 793862a3f94d2f Rae Moar 2023-07-25  258         int i, comma_index, count=
+ =3D 0;
+> 793862a3f94d2f Rae Moar 2023-07-25  259
+> 793862a3f94d2f Rae Moar 2023-07-25  260         for (i =3D 0; input[i]; i=
+++) {
+> 793862a3f94d2f Rae Moar 2023-07-25  261                 if (input[i] =3D=
+=3D ',') {
+> 793862a3f94d2f Rae Moar 2023-07-25 @262                         if ((i - =
+comma_index) > 1)
+>
+> initialize comma_index =3D 0
 
-:::::: The code at line 750 was first introduced by commit
-:::::: 5e881f6b29fe69726d0aa11f846c438a5cb7ddb0 drm/tegra: dpaux: Support monitor hotplugging
+I will change this to be initialized to 0.
 
-:::::: TO: Thierry Reding <treding@nvidia.com>
-:::::: CC: Thierry Reding <treding@nvidia.com>
+>
+> 793862a3f94d2f Rae Moar 2023-07-25  263                                 c=
+ount++;
+> 793862a3f94d2f Rae Moar 2023-07-25  264                         comma_ind=
+ex =3D i;
+> 793862a3f94d2f Rae Moar 2023-07-25  265                 }
+> 793862a3f94d2f Rae Moar 2023-07-25  266         }
+> 793862a3f94d2f Rae Moar 2023-07-25  267         if ((i - comma_index) > 0=
+)
+> 793862a3f94d2f Rae Moar 2023-07-25  268                 count++;
+> 793862a3f94d2f Rae Moar 2023-07-25  269         return count;
+> 793862a3f94d2f Rae Moar 2023-07-25  270  }
+> 793862a3f94d2f Rae Moar 2023-07-25  271
+> 793862a3f94d2f Rae Moar 2023-07-25  272  struct kunit_attr_filter kunit_n=
+ext_attr_filter(char **filters, int *err)
+> 793862a3f94d2f Rae Moar 2023-07-25  273  {
+> 793862a3f94d2f Rae Moar 2023-07-25  274         struct kunit_attr_filter =
+filter =3D {};
+> 793862a3f94d2f Rae Moar 2023-07-25  275         int i, j, comma_index, ne=
+w_start_index;
+> 793862a3f94d2f Rae Moar 2023-07-25  276         int op_index =3D -1, attr=
+_index =3D -1;
+> 793862a3f94d2f Rae Moar 2023-07-25  277         char op;
+> 793862a3f94d2f Rae Moar 2023-07-25  278         char *input =3D *filters;
+> 793862a3f94d2f Rae Moar 2023-07-25  279
+> 793862a3f94d2f Rae Moar 2023-07-25  280         /* Parse input until oper=
+ation */
+> 793862a3f94d2f Rae Moar 2023-07-25  281         for (i =3D 0; input[i]; i=
+++) {
+> 793862a3f94d2f Rae Moar 2023-07-25  282                 if (op_index < 0 =
+&& strchr(op_list, input[i])) {
+> 793862a3f94d2f Rae Moar 2023-07-25  283                         op_index =
+=3D i;
+> 793862a3f94d2f Rae Moar 2023-07-25 @284                 } else if (!comma=
+_index && input[i] =3D=3D ',') {
+>
+> same
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I will also change this here.
+
+>
+> 793862a3f94d2f Rae Moar 2023-07-25  285                         comma_ind=
+ex =3D i;
+> 793862a3f94d2f Rae Moar 2023-07-25  286                 } else if (comma_=
+index && input[i] !=3D ' ') {
+> 793862a3f94d2f Rae Moar 2023-07-25  287                         new_start=
+_index =3D i;
+> 793862a3f94d2f Rae Moar 2023-07-25  288                         break;
+> 793862a3f94d2f Rae Moar 2023-07-25  289                 }
+> 793862a3f94d2f Rae Moar 2023-07-25  290         }
+> 793862a3f94d2f Rae Moar 2023-07-25  291
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
