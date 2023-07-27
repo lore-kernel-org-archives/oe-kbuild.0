@@ -1,108 +1,190 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (unknown [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6D1C2E5
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 08:07:04 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3fbc59de009so6690905e9.3
-        for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 01:07:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690445222; x=1691050022;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9FYxBpzPpC5O6YqpkIvrfnMVqesGcNf08sa9kAENUdY=;
-        b=DPHqd4jJ4aCJ/ldSJMSi2jpGa9mD88lGm346gmWtivG/pxsYPMaWip1zoYbH/a4coT
-         1u6SknFx4FWBaUj+1vMwJ0oZicCLV8K9PG7TQkgYkxQyICErAjNTPFvGWLAh8lWw6dpY
-         q+i1F4j2Lf4KXij+sw2p6q2WkpVclXZTptS/Vr7lgFgU8IJs+YeRZair63x655FFyIBR
-         ScsonJm1JrPcdavl7kjoD49RAbj77BQVPfADOUA8GYdLyC88Ie3tCCgUJKFBVfxWjBLR
-         FibTVEScPEX8iUoEtf3jR3zNd61RhU4cxrNaGtBGbfjpcE8O8saA1d41XdwB/xiGsrZZ
-         1SLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690445222; x=1691050022;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9FYxBpzPpC5O6YqpkIvrfnMVqesGcNf08sa9kAENUdY=;
-        b=BnpPUlrkv6p6KrRXM6dM+Ks8jUxeg3ACKm5Fgiit2aL03aqH2ydiy8YeIEYgpbJFUV
-         ss9wHgQKMoy3Di5DMbRV11LphTDJDQyhiU8JNDGBsAr9fhELscosShQeO9EJpgBo/gjd
-         POVCEVf10zAwkQlMkPmNfZ/Vtr1O05R0/46nemgXMeBQfh/uTh3u8VIqcDjbztIBBobm
-         JEAaPO6fSGReTz2d6Opzu9Xt511TrYRmaGIz8sVFS3lm26Mkt0v0XI9V09EmFikItInY
-         5HTG7+15MvGYIzR+/mQgoTBLxKFmjPwe+96g6iDWt2rm0fEkeuXNzlhWBi/pri3qR+UN
-         gmyA==
-X-Gm-Message-State: ABy/qLYM75ak9IJxolAQYbv9938xoKNAA2DfA8TuB+4xQ9coQ04voRIX
-	FL2Z+AEYCKou3nWsssTrM6dtZRJV/Hyoe5DnuhL2ew==
-X-Google-Smtp-Source: APBJJlESVm3o8EnthSnO0wSdv89jxTgM1e60N2vrTcCIowIo43OPkYeplR8UZwVzk03vqs4NZslRBGLk21TmdRmjyEM=
-X-Received: by 2002:a05:600c:ad6:b0:3fc:2dfb:3cd3 with SMTP id
- c22-20020a05600c0ad600b003fc2dfb3cd3mr1012433wmr.41.1690445222226; Thu, 27
- Jul 2023 01:07:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2E7C8E0
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 12:37:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690461474; x=1721997474;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AgXqImZhNSTkTJwR7VGRaXV79lwPssA0cptrAyVs+Ss=;
+  b=IOmbiI29oEuPndc0RbonEj49V7zKLT8Ia/No1uCsy8iC79+F1fodavGF
+   /VHDXLaCKF7DOlhXUhP4Wynb0b94MENo2o7fWpEFnAxst7lj3CalFyVIy
+   4hWuHfTKrLLaLA44qcyPzCasrijXBjdO6vSbc4gA1GbsYGbBeopQdj5TY
+   KcxoGFSBKI0h7B8TmK0ygrpqIu3lG2sojkyCGAkcD8MOPTD4GSah3ylzJ
+   ta2e5TFz7v8LGZf6L/7SuE3+nR/3wVj0XYbAcLXeUk2O2m6oJPdgZXsjJ
+   U6I3DpylB19oRhRKxcEjnM653zQFOUYl2KvEoZwCIQCwbBEipzFIfzhD3
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="454661327"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="454661327"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 05:37:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="720875476"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="720875476"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 27 Jul 2023 05:37:51 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qP0FI-0002HH-0J;
+	Thu, 27 Jul 2023 12:37:42 +0000
+Date: Thu, 27 Jul 2023 20:37:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the
+ arguments have the same signedness.
+Message-ID: <202307272044.StbwTfqy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <9e72b7ea-9598-415d-bc55-f2f42b7fcb3b@kadam.mountain>
-In-Reply-To: <9e72b7ea-9598-415d-bc55-f2f42b7fcb3b@kadam.mountain>
-From: Marco Elver <elver@google.com>
-Date: Thu, 27 Jul 2023 10:06:25 +0200
-Message-ID: <CANpmjNMWqcseZAijhVP_TDORXxBTgj0GWbTzq5ive2e+0Xto+A@mail.gmail.com>
-Subject: Re: mm/kfence/kfence_test.c:287 test_alloc() warn: use 'gfp' here
- instead of GFP_KERNEL?
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Helge Deller <deller@gmx.de>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 27 Jul 2023 at 06:51, Dan Carpenter <dan.carpenter@linaro.org> wrote:
-[...]
-> smatch warnings:
-> mm/kfence/kfence_test.c:287 test_alloc() warn: use 'gfp' here instead of GFP_KERNEL?
->
-> (Just included these for the LOLs)
-> mm/kfence/kfence_test.c:395 test_double_free() error: double free of 'expect.addr'
-> mm/kfence/kfence_test.c:671 test_memcache_typesafe_by_rcu() error: dereferencing freed memory 'expect.addr'
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: block/kyber-iosched.c:269:17: sparse: sparse: bad integer constant expression"
+:::::: 
 
-Nice! ;-)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <a09512c8526b46759669d0b879144563@AcuMS.aculab.com>
+References: <a09512c8526b46759669d0b879144563@AcuMS.aculab.com>
+TO: David Laight <David.Laight@ACULAB.COM>
+TO: "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>
+TO: "'Andy Shevchenko'" <andriy.shevchenko@linux.intel.com>
+TO: "'Andrew Morton'" <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "'Matthew Wilcox (Oracle)'" <willy@infradead.org>
+TO: "'Christoph Hellwig'" <hch@infradead.org>
+TO: "'Jason A. Donenfeld'" <Jason@zx2c4.com>
 
-> vim +/gfp +287 mm/kfence/kfence_test.c
->
-[...]
-> bc8fbc5f305aec Marco Elver     2021-02-25  278          do {
-> bc8fbc5f305aec Marco Elver     2021-02-25  279                  if (test_cache)
-> bc8fbc5f305aec Marco Elver     2021-02-25  280                          alloc = kmem_cache_alloc(test_cache, gfp);
-> bc8fbc5f305aec Marco Elver     2021-02-25  281                  else
-> bc8fbc5f305aec Marco Elver     2021-02-25  282                          alloc = kmalloc(size, gfp);
->                                                                                               ^^^
->
-> bc8fbc5f305aec Marco Elver     2021-02-25  283
-> bc8fbc5f305aec Marco Elver     2021-02-25  284                  if (is_kfence_address(alloc)) {
-> 8dae0cfed57357 Vlastimil Babka 2021-11-03  285                          struct slab *slab = virt_to_slab(alloc);
-> 588c7fa022d7b2 Hyeonggon Yoo   2021-06-28  286                          struct kmem_cache *s = test_cache ?:
-> 588c7fa022d7b2 Hyeonggon Yoo   2021-06-28 @287                                          kmalloc_caches[kmalloc_type(GFP_KERNEL)][__kmalloc_index(size, false)];
->                                                                                                                     ^^^^^^^^^^
-> I feel like using gfp might be correct but I'm not sure?  This code
-> is from prior to this commit.  Let's add Marco to the CC.
+Hi David,
 
-It's not a bug today: If we were testing something other than
-GFP_KERNEL, then yes, we should use gfp here. But the only reason
-"gfp" is a function arg at all, is that 1 test case also uses
-__GFP_ZERO, but that's irrelevant in getting the kmalloc type (at
-least today).
+kernel test robot noticed the following build warnings:
 
-The cache is used to test the below "helpers return the right values
-even for KFENCE objects".
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master crng-random/master v6.5-rc3 next-20230727]
+[cannot apply to next-20230725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I think when I wrote the test I just chose GFP_KERNEL, because none of
-the test cases use something else, and didn't give it a second
-thought. Not sure it's worth changing, because functionally it doesn't
-matter.
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Allow-min-max-clamp-if-the-arguments-have-the-same-signedness/20230725-204940
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/a09512c8526b46759669d0b879144563%40AcuMS.aculab.com
+patch subject: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the arguments have the same signedness.
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: xtensa-randconfig-r093-20230725 (https://download.01.org/0day-ci/archive/20230727/202307272044.StbwTfqy-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307272044.StbwTfqy-lkp@intel.com/reproduce)
 
-I'm open to changing it, if it makes this warning go away. Preferences?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202307272044.StbwTfqy-lkp@intel.com/
 
-> bc8fbc5f305aec Marco Elver     2021-02-25  288
-> bc8fbc5f305aec Marco Elver     2021-02-25  289                          /*
-> bc8fbc5f305aec Marco Elver     2021-02-25  290                           * Verify that various helpers return the right values
-> bc8fbc5f305aec Marco Elver     2021-02-25  291                           * even for KFENCE objects; these are required so that
-> bc8fbc5f305aec Marco Elver     2021-02-25  292                           * memcg accounting works correctly.
-> bc8fbc5f305aec Marco Elver     2021-02-25  293                           */
-> 8dae0cfed57357 Vlastimil Babka 2021-11-03  294                          KUNIT_EXPECT_EQ(test, obj_to_index(s, slab, alloc), 0U);
-> 8dae0cfed57357 Vlastimil Babka 2021-11-03  295                          KUNIT_EXPECT_EQ(test, objs_per_slab(s, slab), 1);
+sparse warnings: (new ones prefixed by >>)
+   block/kyber-iosched.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h):
+   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
+>> block/kyber-iosched.c:269:17: sparse: sparse: bad integer constant expression
+>> block/kyber-iosched.c:269:17: sparse: sparse: static assertion failed: "clamp() low limit 1U greater than high limit kyber_depth[sched_domain]"
+--
+   block/bfq-iosched.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
+   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
+>> block/bfq-iosched.c:1120:16: sparse: sparse: bad integer constant expression
+>> block/bfq-iosched.c:1120:16: sparse: sparse: static assertion failed: "clamp() low limit (typeof(dur))(msecs_to_jiffies(3000)) greater than high limit (typeof(dur))(msecs_to_jiffies(25000))"
+--
+   mm/memtest.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h):
+   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
+>> mm/memtest.c:79:30: sparse: sparse: bad integer constant expression
+>> mm/memtest.c:79:30: sparse: sparse: static assertion failed: "clamp() low limit start greater than high limit end"
+   mm/memtest.c:80:28: sparse: sparse: bad integer constant expression
+   mm/memtest.c:80:28: sparse: sparse: static assertion failed: "clamp() low limit start greater than high limit end"
+--
+   drivers/regulator/rtmv20-regulator.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
+   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
+>> drivers/regulator/rtmv20-regulator.c:192:22: sparse: sparse: bad integer constant expression
+>> drivers/regulator/rtmv20-regulator.c:192:22: sparse: sparse: static assertion failed: "clamp() low limit (typeof(val))(min) greater than high limit (typeof(val))(max)"
+--
+   drivers/clk/xilinx/xlnx_vcu.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h, ...):
+   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
+>> drivers/clk/xilinx/xlnx_vcu.c:317:16: sparse: sparse: bad integer constant expression
+>> drivers/clk/xilinx/xlnx_vcu.c:317:16: sparse: sparse: static assertion failed: "clamp() low limit (unsigned long)(pll->fvco_min) greater than high limit (unsigned long)(pll->fvco_max)"
+--
+   fs/btrfs/async-thread.c: note: in included file (through arch/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, include/linux/sched.h, ...):
+   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
+>> fs/btrfs/async-thread.c:197:30: sparse: sparse: bad integer constant expression
+>> fs/btrfs/async-thread.c:197:30: sparse: sparse: static assertion failed: "clamp() low limit (typeof(new_current_active))(1) greater than high limit (typeof(new_current_active))(wq->limit_active)"
+--
+   fs/btrfs/discard.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
+   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
+>> fs/btrfs/discard.c:621:17: sparse: sparse: bad integer constant expression
+>> fs/btrfs/discard.c:621:17: sparse: sparse: static assertion failed: "clamp() low limit min_delay greater than high limit (1000UL)"
+--
+   drivers/md/bcache/sysfs.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
+   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
+>> drivers/md/bcache/sysfs.c:315:9: sparse: sparse: bad integer constant expression
+>> drivers/md/bcache/sysfs.c:315:9: sparse: sparse: static assertion failed: "clamp() low limit (typeof(v))(0) greater than high limit (typeof(v))(bch_cutoff_writeback)"
+   drivers/md/bcache/sysfs.c:341:9: sparse: sparse: bad integer constant expression
+>> drivers/md/bcache/sysfs.c:341:9: sparse: sparse: static assertion failed: "clamp() low limit (typeof(v))(1) greater than high limit (typeof(v))(dc->writeback_rate_fp_term_mid - 1)"
+   drivers/md/bcache/sysfs.c:344:9: sparse: sparse: bad integer constant expression
+>> drivers/md/bcache/sysfs.c:344:9: sparse: sparse: static assertion failed: "clamp() low limit (typeof(v))(dc->writeback_rate_fp_term_low + 1) greater than high limit (typeof(v))(dc->writeback_rate_fp_term_high - 1)"
+   drivers/md/bcache/sysfs.c:348:9: sparse: sparse: bad integer constant expression
+>> drivers/md/bcache/sysfs.c:348:9: sparse: sparse: static assertion failed: "clamp() low limit (typeof(v))(dc->writeback_rate_fp_term_mid + 1) greater than high limit (typeof(v))((~0U))"
+--
+   drivers/md/bcache/writeback.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
+   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
+>> drivers/md/bcache/writeback.c:149:20: sparse: sparse: bad integer constant expression
+>> drivers/md/bcache/writeback.c:149:20: sparse: sparse: static assertion failed: "clamp() low limit (int32_t)(dc->writeback_rate_minimum) greater than high limit (int32_t)(1000000000L)"
+--
+   fs/gfs2/rgrp.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
+   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
+>> fs/gfs2/rgrp.c:1586:26: sparse: sparse: bad integer constant expression
+>> fs/gfs2/rgrp.c:1586:26: sparse: sparse: static assertion failed: "clamp() low limit (u32)32 greater than high limit free_blocks"
+--
+   drivers/nvme/host/core.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
+   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
+>> drivers/nvme/host/core.c:3064:42: sparse: sparse: bad integer constant expression
+>> drivers/nvme/host/core.c:3064:42: sparse: sparse: static assertion failed: "clamp() low limit (unsigned int)(shutdown_timeout) greater than high limit (unsigned int)(60)"
+--
+   drivers/video/backlight/lv5207lp.c: note: in included file (through arch/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, include/linux/sched.h, ...):
+   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
+>> drivers/video/backlight/lv5207lp.c:109:28: sparse: sparse: bad integer constant expression
+>> drivers/video/backlight/lv5207lp.c:109:28: sparse: sparse: static assertion failed: "clamp() low limit (unsigned int)(0) greater than high limit (unsigned int)(props.max_brightness)"
+
+vim +269 block/kyber-iosched.c
+
+00e043936e9a1c Omar Sandoval     2017-04-14  265  
+6e25cb01ea2063 Omar Sandoval     2018-09-27  266  static void kyber_resize_domain(struct kyber_queue_data *kqd,
+6e25cb01ea2063 Omar Sandoval     2018-09-27  267  				unsigned int sched_domain, unsigned int depth)
+6e25cb01ea2063 Omar Sandoval     2018-09-27  268  {
+00e043936e9a1c Omar Sandoval     2017-04-14 @269  	depth = clamp(depth, 1U, kyber_depth[sched_domain]);
+6c3b7af1c975b8 Omar Sandoval     2018-09-27  270  	if (depth != kqd->domain_tokens[sched_domain].sb.depth) {
+00e043936e9a1c Omar Sandoval     2017-04-14  271  		sbitmap_queue_resize(&kqd->domain_tokens[sched_domain], depth);
+c41108049d1433 Christoph Hellwig 2021-10-12  272  		trace_kyber_adjust(kqd->dev, kyber_domain_names[sched_domain],
+6c3b7af1c975b8 Omar Sandoval     2018-09-27  273  				   depth);
+6c3b7af1c975b8 Omar Sandoval     2018-09-27  274  	}
+00e043936e9a1c Omar Sandoval     2017-04-14  275  }
+00e043936e9a1c Omar Sandoval     2017-04-14  276  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
