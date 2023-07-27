@@ -1,42 +1,43 @@
 Received: from mgamail.intel.com (unknown [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBB617AC4
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 21:25:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0AB17AC4
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 21:26:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690493160; x=1722029160;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Mb8Y7cCQcBl7zk4Zg+ZS5SJRNqGiuMHY3S/7Cw0Vopk=;
-  b=aXGrdNh8stn/IuA3q6Z4zCEIefHpU2ugC2UxjRKF+4akcaMxDrHyb8hL
-   5HqmoxgXKiX+tRz0SsNsdUEO/+MzP0bwdPhYbqhWrz69Wq2z2vNyzT8oV
-   5brHdi15bTBs/yC4wXGA1AUiGpzbVReHNcSjDfss+FKPt3PCIlVAmFYk8
-   cuSOqGTxXkJBCtckqhiKp4HH6ePjXkM2U3+x57Pg0LvugNP6JtSE79b0W
-   H8PitOl7R242vDwrsDIlQsw0XfI6J6OSlVU3ANk1pJLlAPuobbh1hxVHy
-   R34rBQ9s8uqtDsroOPi3KceAsY7TcFfqtF50/UsFm0NdCvrmWcLFptSVn
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="432249067"
+  t=1690493186; x=1722029186;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jbk8Vp1wrQlH/OXoIFCO/Vnz8yAa33hB/jn++kS+1Tw=;
+  b=SP9T9vRwdsw/S2liJHT09leLiw/H2bzji/4qzLHDu9IBQHYGBvUzczP5
+   ySi79FrjOAOTK/aqddRVFezqatQ5fSET1/ZCM/AYCUiu0pImo7olnP+4K
+   lxvsJXCAjHEpZf+F5UBed3EnvMOmkpXtzexwyvZO9u4SN3Bngkvs5u7Ku
+   +f5B75dT+8BPzvR5A0FkNPPMveZLthX0+uxgSdROmXY/J5AlSRRi+CcFt
+   NEDgzJfZ5mv3RKw0bvQRe2NY64aVtpgg32mzPxwh6PAbobt+4KRMWdaoq
+   UyVCcg8PHiN76qteAHphUduc61G5dJVaU8o/Q01uusD3dvvGHLmX+WZPY
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="432249086"
 X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="432249067"
+   d="scan'208";a="432249086"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 14:25:58 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 14:26:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="817241354"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="817241398"
 X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="817241354"
+   d="scan'208";a="817241398"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 27 Jul 2023 14:25:56 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 27 Jul 2023 14:26:22 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qP8UZ-0002c7-0P;
-	Thu, 27 Jul 2023 21:25:52 +0000
-Date: Fri, 28 Jul 2023 05:25:00 +0800
+	id 1qP8Uw-0002cD-1W;
+	Thu, 27 Jul 2023 21:26:18 +0000
+Date: Fri, 28 Jul 2023 05:24:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/i2c/busses/i2c-sun6i-p2wi.c:253 p2wi_probe() error:
- uninitialized symbol 'ret'.
-Message-ID: <202307280529.CoPajtme-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the
+ arguments have the same signedness.
+Message-ID: <202307280529.mXOy9Qpi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,166 +46,2283 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+::::::=20
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ fs/inode.c:2462:20: sparse: sparse: bad integer constant expression"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Andi Shyti <andi.shyti@kernel.org>
-CC: Wolfram Sang <wsa-dev@sang-engineering.com>
-CC: Jernej Skrabec <jernej.skrabec@gmail.com>
+In-Reply-To: <a09512c8526b46759669d0b879144563@AcuMS.aculab.com>
+References: <a09512c8526b46759669d0b879144563@AcuMS.aculab.com>
+TO: David Laight <David.Laight@ACULAB.COM>
+TO: "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>
+TO: "'Andy Shevchenko'" <andriy.shevchenko@linux.intel.com>
+TO: "'Andrew Morton'" <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "'Matthew Wilcox (Oracle)'" <willy@infradead.org>
+TO: "'Christoph Hellwig'" <hch@infradead.org>
+TO: "'Jason A. Donenfeld'" <Jason@zx2c4.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   57012c57536f8814dec92e74197ee96c3498d24e
-commit: 75ff8a340a81252b71611ca3a60c03cf86310955 i2c: sun6i-p2wi: Use devm_clk_get_enabled()
-date:   5 weeks ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 5 weeks ago
-config: arm-randconfig-m041-20230727 (https://download.01.org/0day-ci/archive/20230728/202307280529.CoPajtme-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307280529.CoPajtme-lkp@intel.com/reproduce)
+Hi David,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.5-rc3 next-20230727]
+[cannot apply to next-20230725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-=
+Allow-min-max-clamp-if-the-arguments-have-the-same-signedness/20230725-2049=
+40
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ever=
+ything
+patch link:    https://lore.kernel.org/r/a09512c8526b46759669d0b879144563%4=
+0AcuMS.aculab.com
+patch subject: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if=
+ the arguments have the same signedness.
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: microblaze-randconfig-r092-20230725 (https://download.01.org/0day-c=
+i/archive/20230728/202307280529.mXOy9Qpi-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230728/202307280529.m=
+XOy9Qpi-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307280529.CoPajtme-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307280529.mXOy9Qpi-lkp@intel.com/
 
-smatch warnings:
-drivers/i2c/busses/i2c-sun6i-p2wi.c:253 p2wi_probe() error: uninitialized symbol 'ret'.
+sparse warnings: (new ones prefixed by >>)
+>> fs/inode.c:2462:20: sparse: sparse: bad integer constant expression
+>> fs/inode.c:2462:20: sparse: sparse: static assertion failed: "clamp() lo=
+w limit sb->s_time_min greater than high limit sb->s_time_max"
+--
+>> kernel/workqueue.c:4579:16: sparse: sparse: bad integer constant express=
+ion
+>> kernel/workqueue.c:4579:16: sparse: sparse: static assertion failed: "cl=
+amp() low limit (typeof(max_active))(1) greater than high limit (typeof(max=
+_active))(lim)"
+--
+>> lib/dynamic_queue_limits.c:101:17: sparse: sparse: bad integer constant =
+expression
+>> lib/dynamic_queue_limits.c:101:17: sparse: sparse: static assertion fail=
+ed: "clamp() low limit dql->min_limit greater than high limit dql->max_limi=
+t"
+--
+>> mm/mm_init.c:908:21: sparse: sparse: bad integer constant expression
+>> mm/mm_init.c:908:21: sparse: sparse: static assertion failed: "clamp() l=
+ow limit zone_start_pfn greater than high limit zone_end_pfn"
+   mm/mm_init.c:909:19: sparse: sparse: bad integer constant expression
+   mm/mm_init.c:909:19: sparse: sparse: static assertion failed: "clamp() l=
+ow limit zone_start_pfn greater than high limit zone_end_pfn"
+   mm/mm_init.c:1145:29: sparse: sparse: bad integer constant expression
+>> mm/mm_init.c:1145:29: sparse: sparse: static assertion failed: "clamp() =
+low limit range_start_pfn greater than high limit range_end_pfn"
+   mm/mm_init.c:1146:27: sparse: sparse: bad integer constant expression
+   mm/mm_init.c:1146:27: sparse: sparse: static assertion failed: "clamp() =
+low limit range_start_pfn greater than high limit range_end_pfn"
+   mm/mm_init.c:1189:37: sparse: sparse: bad integer constant expression
+   mm/mm_init.c:1189:37: sparse: sparse: static assertion failed: "clamp() =
+low limit zone_start_pfn greater than high limit zone_end_pfn"
+   mm/mm_init.c:1191:35: sparse: sparse: bad integer constant expression
+   mm/mm_init.c:1191:35: sparse: sparse: static assertion failed: "clamp() =
+low limit zone_start_pfn greater than high limit zone_end_pfn"
+   mm/mm_init.c:1222:27: sparse: sparse: bad integer constant expression
+>> mm/mm_init.c:1222:27: sparse: sparse: static assertion failed: "clamp() =
+low limit zone_low greater than high limit zone_high"
+   mm/mm_init.c:1223:25: sparse: sparse: bad integer constant expression
+   mm/mm_init.c:1223:25: sparse: sparse: static assertion failed: "clamp() =
+low limit zone_low greater than high limit zone_high"
+--
+>> mm/memblock.c:222:30: sparse: sparse: bad integer constant expression
+>> mm/memblock.c:222:30: sparse: sparse: static assertion failed: "clamp() =
+low limit start greater than high limit end"
+   mm/memblock.c:223:28: sparse: sparse: bad integer constant expression
+   mm/memblock.c:223:28: sparse: sparse: static assertion failed: "clamp() =
+low limit start greater than high limit end"
+   mm/memblock.c:258:30: sparse: sparse: bad integer constant expression
+   mm/memblock.c:258:30: sparse: sparse: static assertion failed: "clamp() =
+low limit start greater than high limit end"
+   mm/memblock.c:259:28: sparse: sparse: bad integer constant expression
+   mm/memblock.c:259:28: sparse: sparse: static assertion failed: "clamp() =
+low limit start greater than high limit end"
+--
+>> mm/page_alloc.c:2415:17: sparse: sparse: bad integer constant expression
+>> mm/page_alloc.c:2415:17: sparse: sparse: static assertion failed: "clamp=
+() low limit min_nr_free greater than high limit max_nr_free"
+--
+>> drivers/clk/clk.c:1484:29: sparse: sparse: bad integer constant expressi=
+on
+>> drivers/clk/clk.c:1484:29: sparse: sparse: static assertion failed: "cla=
+mp() low limit req->min_rate greater than high limit req->max_rate"
+   drivers/clk/clk.c:2613:16: sparse: sparse: bad integer constant expressi=
+on
+>> drivers/clk/clk.c:2613:16: sparse: sparse: static assertion failed: "cla=
+mp() low limit min greater than high limit max"
+--
+>> drivers/clk/clk-versaclock5.c:456:16: sparse: sparse: bad integer consta=
+nt expression
+>> drivers/clk/clk-versaclock5.c:456:16: sparse: sparse: static assertion f=
+ailed: "clamp() low limit 2500000000UL greater than high limit vc5->chip_in=
+fo->vco_max"
+--
+>> security/apparmor/lsm.c:1559:42: sparse: sparse: bad integer constant ex=
+pression
+>> security/apparmor/lsm.c:1559:42: sparse: sparse: static assertion failed=
+: "clamp() low limit zstd_min_clevel() greater than high limit zstd_max_cle=
+vel()"
+--
+>> drivers/hwmon/w83793.c:201:16: sparse: sparse: bad integer constant expr=
+ession
+>> drivers/hwmon/w83793.c:201:16: sparse: sparse: static assertion failed: =
+"clamp() low limit (typeof((val + (val < 0 ? -500 : 500)) / 1000))(min) gre=
+ater than high limit (typeof((val + (val < 0 ? -500 : 500)) / 1000))(max)"
+--
+>> drivers/hwmon/w83795.c:273:16: sparse: sparse: bad integer constant expr=
+ession
+>> drivers/hwmon/w83795.c:273:16: sparse: sparse: static assertion failed: =
+"clamp() low limit (typeof(val / 1000))(min) greater than high limit (typeo=
+f(val / 1000))(max)"
+--
+>> drivers/hwmon/adm1026.c:498:28: sparse: sparse: bad integer constant exp=
+ression
+>> drivers/hwmon/adm1026.c:498:28: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(val))(0) greater than high limit (typeof(val))(=
+255 * adm1026_scaling[nr] / 192)"
+   drivers/hwmon/adm1026.c:526:28: sparse: sparse: bad integer constant exp=
+ression
+   drivers/hwmon/adm1026.c:526:28: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(val))(0) greater than high limit (typeof(val))(=
+255 * adm1026_scaling[nr] / 192)"
+   drivers/hwmon/adm1026.c:609:28: sparse: sparse: bad integer constant exp=
+ression
+   drivers/hwmon/adm1026.c:609:28: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(({ __builtin_choose_expr((sizeof(int) =3D=3D si=
+zeof(*(8 ? ((void *)((long)(((typeof(val))(val)) - ((typeof(val))((-((int)(=
+~0U >> 1)) - 1))) + ((typeof(val))(((int)(~0U >> 1)) - 16000))) * 0l)) : (i=
+nt *)8))), (((typeof(val))(val)) >=3D ((typeof(val))(((int)(~0U >> 1)) - 16=
+000)) ? ((typeof(val))(((int)(~0U >> 1)) - 16000)) : (((typeof(val))(val)) =
+<=3D ((typeof(val))((-((int)(~0U >> 1)) - 1))) ? ((typeof(val))((-((int)(~0=
+U >> 1)) - 1))) : ((typeof(val))(val)))), ({ typeof((typeof(val))(val)) __U=
+NIQUE_ID___val326 =3D ((typeof(val))(val)); typeof((typeof(val))((-((int)(~=
+0U >> 1)) - 1))) __UNIQUE_ID___lo327 =3D ((typeof(val))((-((int)(~0U >> 1))=
+ - 1))); typeof((typeof(val))(((int)(~0U >> 1)) - 16000)) __UNIQUE_ID___hi3=
+28 =3D ((typeof(val))(((int)(~0U >> 1)) - 16000)); _Static_assert(!(sizeof(=
+int) =3D=3D sizeof(*(8 ? ((void *)((long)(((typeof(val))((-((int)(~0U >> 1)=
+) - 1))) > ((typeof(val))(((int)(~0U >> 1)) - 16000))) * 0l)) : (int *)8)))=
+ || ((typeof(val))((-((int)(~0U >> 1)) - 1))) <=3D ((typeof(val))(((int)(~0=
+U >> 1)) - 16000)), "clamp() low limit " "(typeof(val))((-((int)(~0U >> 1))=
+ - 1))" " greater than high limit " "(typeof(val))(((int)(~0U >> 1)) - 1600=
+0)"); _Static_assert(((((typeof((typeof(val))(val)))(-1)) < (__attribute__(=
+(force)) typeof((typeof(val))(val)))1) =3D=3D (((typeof((typeof(val))((-((i=
+nt)(~0U >> 1)) - 1))))(-1)) < (__attribute__((force)) typeof((typeof(val))(=
+(-((int)(~0U >> 1)) - 1))))1)), "clamp() 'lo' signedness error"); _Static_a=
+ssert(((((typeof((typeof(val))(val)))(-1)) < (__attribute__((force)) typeof=
+((typeof(val))(val)))1) =3D=3D (((typeof((typeof(val))(((int)(~0U >> 1)) - =
+16000)))(-1)) < (__attribute__((force)) typeof((typeof(val))(((int)(~0U >> =
+1)) - 16000)))1)), "clamp() 'hi' signedness error"); ((__UNIQUE_ID___val326=
+) >=3D (__UNIQUE_ID___hi328) ? (__UNIQUE_ID___hi328) : ((__UNIQUE_ID___val3=
+26) <=3D (__UNIQUE_ID___lo327) ? (__UNIQUE_ID___lo327) : (__UNIQUE_ID___val=
+326))); })); }) + 16000))(0) greater than high limit (typeof(({ __builtin_c=
+hoose_expr((sizeof(int) =3D=3D sizeof(*(8 ? ((void *)((long)(((typeof(val))=
+(val)) - ((typeof(val))((-((int)(~0U >> 1)) - 1))) + ((typeof(val))(((int)(=
+~0U >> 1)) - 16000))) * 0l)) : (int *)8))), (((typeof(val))(val)) >=3D ((ty=
+peof(val))(((int)(~0U >> 1)) - 16000)) ? ((typeof(val))(((int)(~0U >> 1)) -=
+ 16000)) : (((typeof(val))(val)) <=3D ((typeof(val))((-((int)(~0U >> 1)) - =
+1))) ? ((typeof(val))((-((int)(~0U >> 1)) - 1))) : ((typeof(val))(val)))), =
+({ typeof((typeof(val))(val)) __UNIQUE_ID___val326 =3D ((typeof(val))(val))=
+; typeof((typeof(val))((-((int)(~0U >> 1)) - 1))) __UNIQUE_ID___lo327 =3D (=
+(typeof(val))((-((int)(~0U >> 1)) - 1))); typeof((typeof(val))(((int)(~0U >=
+> 1)) - 16000)) __UNIQUE_ID___hi328 =3D ((typeof(val))(((int)(~0U >> 1)) - =
+16000)); _Static_assert(!(sizeof(int) =3D=3D sizeof(*(8 ? ((void *)((long)(=
+((typeof(val))((-((int)(~0U >> 1)) - 1))) > ((typeof(val))(((int)(~0U >> 1)=
+) - 16000))) * 0l)) : (int *)8))) || ((typeof(val))((-((int)(~0U >> 1)) - 1=
+))) <=3D ((typeof(val))(((int)(~0U >> 1)) - 16000)), "clamp() low limit " "=
+(typeof(val))((-((int)(~0U >> 1)) - 1))" " greater than high limit " "(type=
+of(val))(((int)(~0U >> 1)) - 16000)"); _Static_assert(((((typeof((typeof(va=
+l))(val)))(-1)) < (__attribute__((force)) typeof((typeof(val))(val)))1) =3D=
+=3D (((typeof((typeof(val))((-((int)(~0U >> 1)) - 1))))(-1)) < (__attribute=
+__((force)) typeof((typeof(val))((-((int)(~0U >> 1)) - 1))))1)), "clamp() '=
+lo' signedness error"); _Static_assert(((((typeof((typeof(val))(val)))(-1))=
+ < (__attribute__((force)) typeof((typeof(val))(val)))1) =3D=3D (((typeof((=
+typeof(val))(((int)(~0U >> 1)) - 16000)))(-1)) < (__attribute__((force)) ty=
+peof((typeof(val))(((int)(~0U >> 1)) - 16000)))1)), "clamp() 'hi' signednes=
+s error"); ((__UNIQUE_ID___val326) >=3D (__UNIQUE_ID___hi328) ? (__UNIQUE_I=
+D___hi328) : ((__UNIQUE_ID___val326) <=3D (__UNIQUE_ID___lo327) ? (__UNIQUE=
+_ID___lo327) : (__UNIQUE_ID___val326))); })); }) + 16000))(255 * adm1026_sc=
+aling[16] / 192)"
+   drivers/hwmon/adm1026.c:638:28: sparse: sparse: bad integer constant exp=
+ression
+   drivers/hwmon/adm1026.c:638:28: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(({ __builtin_choose_expr((sizeof(int) =3D=3D si=
+zeof(*(8 ? ((void *)((long)(((typeof(val))(val)) - ((typeof(val))((-((int)(=
+~0U >> 1)) - 1))) + ((typeof(val))(((int)(~0U >> 1)) - 16000))) * 0l)) : (i=
+nt *)8))), (((typeof(val))(val)) >=3D ((typeof(val))(((int)(~0U >> 1)) - 16=
+000)) ? ((typeof(val))(((int)(~0U >> 1)) - 16000)) : (((typeof(val))(val)) =
+<=3D ((typeof(val))((-((int)(~0U >> 1)) - 1))) ? ((typeof(val))((-((int)(~0=
+U >> 1)) - 1))) : ((typeof(val))(val)))), ({ typeof((typeof(val))(val)) __U=
+NIQUE_ID___val332 =3D ((typeof(val))(val)); typeof((typeof(val))((-((int)(~=
+0U >> 1)) - 1))) __UNIQUE_ID___lo333 =3D ((typeof(val))((-((int)(~0U >> 1))=
+ - 1))); typeof((typeof(val))(((int)(~0U >> 1)) - 16000)) __UNIQUE_ID___hi3=
+34 =3D ((typeof(val))(((int)(~0U >> 1)) - 16000)); _Static_assert(!(sizeof(=
+int) =3D=3D sizeof(*(8 ? ((void *)((long)(((typeof(val))((-((int)(~0U >> 1)=
+) - 1))) > ((typeof(val))(((int)(~0U >> 1)) - 16000))) * 0l)) : (int *)8)))=
+ || ((typeof(val))((-((int)(~0U >> 1)) - 1))) <=3D ((typeof(val))(((int)(~0=
+U >> 1)) - 16000)), "clamp() low limit " "(typeof(val))((-((int)(~0U >> 1))=
+ - 1))" " greater than high limit " "(typeof(val))(((int)(~0U >> 1)) - 1600=
+0)"); _Static_assert(((((typeof((typeof(val))(val)))(-1)) < (__attribute__(=
+(force)) typeof((typeof(val))(val)))1) =3D=3D (((typeof((typeof(val))((-((i=
+nt)(~0U >> 1)) - 1))))(-1)) < (__attribute__((force)) typeof((typeof(val))(=
+(-((int)(~0U >> 1)) - 1))))1)), "clamp() 'lo' signedness error"); _Static_a=
+ssert(((((typeof((typeof(val))(val)))(-1)) < (__attribute__((force)) typeof=
+((typeof(val))(val)))1) =3D=3D (((typeof((typeof(val))(((int)(~0U >> 1)) - =
+16000)))(-1)) < (__attribute__((force)) typeof((typeof(val))(((int)(~0U >> =
+1)) - 16000)))1)), "clamp() 'hi' signedness error"); ((__UNIQUE_ID___val332=
+) >=3D (__UNIQUE_ID___hi334) ? (__UNIQUE_ID___hi334) : ((__UNIQUE_ID___val3=
+32) <=3D (__UNIQUE_ID___lo333) ? (__UNIQUE_ID___lo333) : (__UNIQUE_ID___val=
+332))); })); }) + 16000))(0) greater than high limit (typeof(({ __builtin_c=
+hoose_expr((sizeof(int) =3D=3D sizeof(*(8 ? ((void *)((long)(((typeof(val))=
+(val)) - ((typeof(val))((-((int)(~0U >> 1)) - 1))) + ((typeof(val))(((int)(=
+~0U >> 1)) - 16000))) * 0l)) : (int *)8))), (((typeof(val))(val)) >=3D ((ty=
+peof(val))(((int)(~0U >> 1)) - 16000)) ? ((typeof(val))(((int)(~0U >> 1)) -=
+ 16000)) : (((typeof(val))(val)) <=3D ((typeof(val))((-((int)(~0U >> 1)) - =
+1))) ? ((typeof(val))((-((int)(~0U >> 1)) - 1))) : ((typeof(val))(val)))), =
+({ typeof((typeof(val))(val)) __UNIQUE_ID___val332 =3D ((typeof(val))(val))=
+; typeof((typeof(val))((-((int)(~0U >> 1)) - 1))) __UNIQUE_ID___lo333 =3D (=
+(typeof(val))((-((int)(~0U >> 1)) - 1))); typeof((typeof(val))(((int)(~0U >=
+> 1)) - 16000)) __UNIQUE_ID___hi334 =3D ((typeof(val))(((int)(~0U >> 1)) - =
+16000)); _Static_assert(!(sizeof(int) =3D=3D sizeof(*(8 ? ((void *)((long)(=
+((typeof(val))((-((int)(~0U >> 1)) - 1))) > ((typeof(val))(((int)(~0U >> 1)=
+) - 16000))) * 0l)) : (int *)8))) || ((typeof(val))((-((int)(~0U >> 1)) - 1=
+))) <=3D ((typeof(val))(((int)(~0U >> 1)) - 16000)), "clamp() low limit " "=
+(typeof(val))((-((int)(~0U >> 1)) - 1))" " greater than high limit " "(type=
+of(val))(((int)(~0U >> 1)) - 16000)"); _Static_assert(((((typeof((typeof(va=
+l))(val)))(-1)) < (__attribute__((force)) typeof((typeof(val))(val)))1) =3D=
+=3D (((typeof((typeof(val))((-((int)(~0U >> 1)) - 1))))(-1)) < (__attribute=
+__((force)) typeof((typeof(val))((-((int)(~0U >> 1)) - 1))))1)), "clamp() '=
+lo' signedness error"); _Static_assert(((((typeof((typeof(val))(val)))(-1))=
+ < (__attribute__((force)) typeof((typeof(val))(val)))1) =3D=3D (((typeof((=
+typeof(val))(((int)(~0U >> 1)) - 16000)))(-1)) < (__attribute__((force)) ty=
+peof((typeof(val))(((int)(~0U >> 1)) - 16000)))1)), "clamp() 'hi' signednes=
+s error"); ((__UNIQUE_ID___val332) >=3D (__UNIQUE_ID___hi334) ? (__UNIQUE_I=
+D___hi334) : ((__UNIQUE_ID___val332) <=3D (__UNIQUE_ID___lo333) ? (__UNIQUE=
+_ID___lo333) : (__UNIQUE_ID___val332))); })); }) + 16000))(255 * adm1026_sc=
+aling[16] / 192)"
+   /bin/bash: line 1: 52348 Segmentation fault      sparse -D__linux__ -Dli=
+nux -D__STDC__ -Dunix -D__unix__ -Wbitwise -Wno-return-void -Wno-unknown-at=
+tribute -fdiagnostic-prefix -D__CHECK_ENDIAN__ --arch=3Dmicroblaze -mlittle=
+-endian -m32 -Wp,-MMD,drivers/hwmon/.adm1026.o.d -nostdinc -Iarch/microblaz=
+e/include -I./arch/microblaze/include/generated -Iinclude -I./include -Iarc=
+h/microblaze/include/uapi -I./arch/microblaze/include/generated/uapi -Iincl=
+ude/uapi -I./include/generated/uapi -include include/linux/compiler-version=
+=2Eh -include include/linux/kconfig.h -include include/linux/compiler_types=
+=2Eh -D__KERNEL__ -fmacro-prefix-map=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -st=
+d=3Dgnu11 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-al=
+iasing -Wall -Wundef -Werror=3Dimplicit-function-declaration -Werror=3Dimpl=
+icit-int -Werror=3Dreturn-type -Werror=3Dstrict-prototypes -Wno-format-secu=
+rity -Wno-trigraphs -mlittle-endian -ffixed-r31 -mcpu=3Dv7.10.d -fno-delete=
+-null-pointer-checks -Wno-frame-address -Wno-format-truncation -Wno-format-=
+overflow -Wno-address-of-packed-member -Os -fno-allow-store-data-races -fno=
+-reorder-blocks -fno-ipa-cp-clone -fno-partial-inlining -Wframe-larger-than=
+=3D1024 -fno-stack-protector -Wno-main -Wno-unused-but-set-variable -Wno-un=
+used-const-variable -Wno-dangling-pointer -ftrivial-auto-var-init=3Dzero -f=
+no-stack-clash-protection -fzero-call-used-regs=3Dused-gpr -pg -fno-inline-=
+functions-called-once -Wvla -Wno-pointer-sign -Wcast-function-type -Wno-str=
+ingop-truncation -Wno-stringop-overflow -Wno-restrict -Wno-maybe-uninitiali=
+zed -Wno-array-bounds -Wno-alloc-size-larger-than -Wimplicit-fallthrough=3D=
+5 -fno-strict-overflow -fno-stack-check -fconserve-stack -Werror=3Ddate-tim=
+e -Werror=3Dincompatible-pointer-types -Werror=3Ddesignated-init -Wno-packe=
+d-not-aligned -Wextra -Wunused -Wno-unused-parameter -Wmissing-declarations=
+ -Wmissing-format-attribute -Wmissing-prototypes -Wold-style-definition -Wm=
+issing-include-dirs -Wunused-but-set-variable -Wunused-const-variable -Wpac=
+ked-not-aligned -Wstringop-truncation -Wno-missing-field-initializers -Wno-=
+sign-compare -Wno-type-limits -Wno-shift-negative-value -gsplit-dwarf -g -g=
+dwarf-4 -fno-var-tracking -femit-struct-debug-baseonly -gz=3Dzlib -DDEBUG -=
+I drivers/hwmon -I ./drivers/hwmon -DKBUILD_MODFILE=3D'"drivers/hwmon/adm10=
+26"' -DKBUILD_BASENAME=3D'"adm1026"' -DKBUILD_MODNAME=3D'"adm1026"' -D__KBU=
+ILD_MODNAME=3Dkmod_adm1026 drivers/hwmon/adm1026.c
+--
+>> drivers/hwmon/adm9240.c:89:15: sparse: sparse: bad integer constant expr=
+ession
+>> drivers/hwmon/adm9240.c:89:15: sparse: sparse: static assertion failed: =
+"clamp() low limit (typeof(val))(0) greater than high limit (typeof(val))(n=
+om_mv[n] * 255 / 192)"
+--
+>> drivers/hwmon/adt7411.c:464:15: sparse: sparse: bad integer constant exp=
+ression
+>> drivers/hwmon/adt7411.c:464:15: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(val))(0) greater than high limit (typeof(val))(=
+255 * data->vref_cached / 256)"
+--
+>> drivers/hwmon/adt7462.c:899:16: sparse: sparse: bad integer constant exp=
+ression
+>> drivers/hwmon/adt7462.c:899:16: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(temp))(0) greater than high limit (typeof(temp)=
+)(255 * x / 1000)"
+   drivers/hwmon/adt7462.c:939:16: sparse: sparse: bad integer constant exp=
+ression
+   drivers/hwmon/adt7462.c:939:16: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(temp))(0) greater than high limit (typeof(temp)=
+)(255 * x / 1000)"
+--
+>> drivers/hwmon/asc7621.c:214:18: sparse: sparse: bad integer constant exp=
+ression
+>> drivers/hwmon/asc7621.c:214:18: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(reqval))(0) greater than high limit (typeof(req=
+val))(param->mask[0])"
+   drivers/hwmon/asc7621.c:479:18: sparse: sparse: bad integer constant exp=
+ression
+>> drivers/hwmon/asc7621.c:479:18: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(reqval))(auto_point1 + 2000) greater than high =
+limit (typeof(reqval))(auto_point1 + 80000)"
+--
+>> drivers/hwmon/dme1737.c:269:15: sparse: sparse: bad integer constant exp=
+ression
+>> drivers/hwmon/dme1737.c:269:15: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(val))(0) greater than high limit (typeof(val))(=
+255 * nominal / 192)"
+   drivers/hwmon/dme1737.c:325:16: sparse: sparse: bad integer constant exp=
+ression
+>> drivers/hwmon/dme1737.c:325:16: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(hyst))(temp - 15000) greater than high limit (t=
+ypeof(hyst))(temp)"
+   drivers/hwmon/dme1737.c:1050:23: sparse: sparse: bad integer constant ex=
+pression
+>> drivers/hwmon/dme1737.c:1050:23: sparse: sparse: static assertion failed=
+: "clamp() low limit (typeof(val))(temp) greater than high limit (typeof(va=
+l))(temp + 80000)"
+--
+>> drivers/hwmon/emc6w201.c:205:15: sparse: sparse: bad integer constant ex=
+pression
+>> drivers/hwmon/emc6w201.c:205:15: sparse: sparse: static assertion failed=
+: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(val))=
+(255 * nominal_mv[nr] / 192)"
+--
+>> drivers/hwmon/f71882fg.c:616:15: sparse: sparse: bad integer constant ex=
+pression
+>> drivers/hwmon/f71882fg.c:616:15: sparse: sparse: static assertion failed=
+: "clamp() low limit (typeof(val))(data->temp_high[nr] - 15) greater than h=
+igh limit (typeof(val))(data->temp_high[nr])"
+   drivers/hwmon/f71882fg.c:1591:15: sparse: sparse: bad integer constant e=
+xpression
+>> drivers/hwmon/f71882fg.c:1591:15: sparse: sparse: static assertion faile=
+d: "clamp() low limit (typeof(val))(data->pwm_auto_point_temp[nr][point] - =
+15) greater than high limit (typeof(val))(data->pwm_auto_point_temp[nr][poi=
+nt])"
+--
+>> drivers/hwmon/g762.c:191:15: sparse: sparse: bad integer constant expres=
+sion
+>> drivers/hwmon/g762.c:191:15: sparse: sparse: static assertion failed: "c=
+lamp() low limit (typeof(rpm))(f1 / (255 * f2)) greater than high limit (ty=
+peof(rpm))((~0UL) / f2)"
+--
+>> drivers/hwmon/gl520sm.c:390:13: sparse: sparse: bad integer constant exp=
+ression
+>> drivers/hwmon/gl520sm.c:390:13: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(v))((480000 >> (data->fan_div[n])) / 255) great=
+er than high limit (typeof(v))((480000 >> (data->fan_div[n])))"
+>> drivers/hwmon/gl520sm.c:390:13: sparse: sparse: bad integer constant exp=
+ression
+>> drivers/hwmon/gl520sm.c:390:13: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(v))((480000 >> (data->fan_div[n])) / 255) great=
+er than high limit (typeof(v))((480000 >> (data->fan_div[n])))"
+>> drivers/hwmon/gl520sm.c:390:13: sparse: sparse: bad integer constant exp=
+ression
+>> drivers/hwmon/gl520sm.c:390:13: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(v))((480000 >> (data->fan_div[n])) / 255) great=
+er than high limit (typeof(v))((480000 >> (data->fan_div[n])))"
+--
+>> drivers/hwmon/ina3221.c:448:22: sparse: sparse: bad integer constant exp=
+ression
+>> drivers/hwmon/ina3221.c:448:22: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(val))((-((int)(~0U >> 1)) - 1) / resistance_uo)=
+ greater than high limit (typeof(val))(((int)(~0U >> 1)) / resistance_uo)"
+--
+>> drivers/hwmon/jc42.c:219:21: sparse: sparse: bad integer constant expres=
+sion
+>> drivers/hwmon/jc42.c:219:21: sparse: sparse: static assertion failed: "c=
+lamp() low limit (typeof(temp))(extended ? (-40000) : 0) greater than high =
+limit (typeof(temp))(125000)"
+   drivers/hwmon/jc42.c:359:23: sparse: sparse: bad integer constant expres=
+sion
+>> drivers/hwmon/jc42.c:359:23: sparse: sparse: static assertion failed: "c=
+lamp() low limit (typeof(val))((data->extended ? (-40000) : 0) - 6000) grea=
+ter than high limit (typeof(val))(125000)"
+--
+>> drivers/hwmon/lm85.c:874:28: sparse: sparse: bad integer constant expres=
+sion
+>> drivers/hwmon/lm85.c:874:28: sparse: sparse: static assertion failed: "c=
+lamp() low limit (typeof(val))(0) greater than high limit (typeof(val))(255=
+ * lm85_scaling[nr] / 192)"
+   drivers/hwmon/lm85.c:902:28: sparse: sparse: bad integer constant expres=
+sion
+   drivers/hwmon/lm85.c:902:28: sparse: sparse: static assertion failed: "c=
+lamp() low limit (typeof(val))(0) greater than high limit (typeof(val))(255=
+ * lm85_scaling[nr] / 192)"
+--
+>> drivers/hwmon/lm93.c:361:25: sparse: sparse: bad integer constant expres=
+sion
+>> drivers/hwmon/lm93.c:361:25: sparse: sparse: static assertion failed: "c=
+lamp() low limit (typeof(val))(lm93_vin_val_min[nr]) greater than high limi=
+t (typeof(val))(lm93_vin_val_max[nr])"
+   drivers/hwmon/lm93.c:375:18: sparse: sparse: bad integer constant expres=
+sion
+>> drivers/hwmon/lm93.c:375:18: sparse: sparse: static assertion failed: "c=
+lamp() low limit (typeof(result))(lm93_vin_reg_min[nr]) greater than high l=
+imit (typeof(result))(lm93_vin_reg_max[nr])"
+   drivers/hwmon/lm93.c:462:15: sparse: sparse: bad integer constant expres=
+sion
+>> drivers/hwmon/lm93.c:462:15: sparse: sparse: static assertion failed: "c=
+lamp() low limit (typeof(off))((0)) greater than high limit (typeof(off))(m=
+ode ? (75) : (150))"
+--
+>> drivers/hwmon/max6697.c:316:16: sparse: sparse: bad integer constant exp=
+ression
+>> drivers/hwmon/max6697.c:316:16: sparse: sparse: static assertion failed:=
+ "clamp() low limit (typeof(temp))(0) greater than high limit (typeof(temp)=
+)(data->type =3D=3D max6581 ? 255 : 127)"
+--
+>> drivers/hwmon/sbrmi.c:239:15: sparse: sparse: bad integer constant expre=
+ssion
+>> drivers/hwmon/sbrmi.c:239:15: sparse: sparse: static assertion failed: "=
+clamp() low limit (typeof(val))(0) greater than high limit (typeof(val))(da=
+ta->pwr_limit_max)"
+--
+>> drivers/hwmon/smsc47m192.c:67:15: sparse: sparse: bad integer constant e=
+xpression
+>> drivers/hwmon/smsc47m192.c:67:15: sparse: sparse: static assertion faile=
+d: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(val)=
+)(nom_mv[n] * 255 / 192)"
+--
+>> drivers/hwmon/tmp401.c:388:23: sparse: sparse: bad integer constant expr=
+ession
+>> drivers/hwmon/tmp401.c:388:23: sparse: sparse: static assertion failed: =
+"clamp() low limit (typeof(val))(temp - 255000) greater than high limit (ty=
+peof(val))(temp)"
+--
+>> drivers/leds/led-class-flash.c:383:13: sparse: sparse: bad integer const=
+ant expression
+>> drivers/leds/led-class-flash.c:383:13: sparse: sparse: static assertion =
+failed: "clamp() low limit s->min greater than high limit s->max"
+--
+>> net/core/flow_dissector.c:949:28: sparse: sparse: bad integer constant e=
+xpression
+>> net/core/flow_dissector.c:949:28: sparse: sparse: static assertion faile=
+d: "clamp() low limit (u16)(nhoff) greater than high limit (u16)(hlen)"
+   net/core/flow_dissector.c:950:28: sparse: sparse: bad integer constant e=
+xpression
+>> net/core/flow_dissector.c:950:28: sparse: sparse: static assertion faile=
+d: "clamp() low limit (u16)(flow_keys->nhoff) greater than high limit (u16)=
+(hlen)"
+--
+>> net/dccp/ccids/ccid3.c:75:30: sparse: sparse: bad integer constant expre=
+ssion
+>> net/dccp/ccids/ccid3.c:75:30: sparse: sparse: static assertion failed: "=
+clamp() low limit (__u32)(2 * hc->tx_s) greater than high limit (__u32)(4 *=
+ hc->tx_s)"
+--
+>> drivers/spi/spi-cadence.c:313:15: sparse: sparse: bad integer constant e=
+xpression
+>> drivers/spi/spi-cadence.c:313:15: sparse: sparse: static assertion faile=
+d: "clamp() low limit 0 greater than high limit xspi->tx_bytes"
+   drivers/spi/spi-cadence.c:314:15: sparse: sparse: bad integer constant e=
+xpression
+>> drivers/spi/spi-cadence.c:314:15: sparse: sparse: static assertion faile=
+d: "clamp() low limit 0 greater than high limit xspi->rx_bytes"
+--
+>> drivers/spi/spi-cadence-xspi.c:436:27: sparse: sparse: bad integer const=
+ant expression
+>> drivers/spi/spi-cadence-xspi.c:436:27: sparse: sparse: static assertion =
+failed: "clamp() low limit (typeof(op->data.nbytes))(0) greater than high l=
+imit (typeof(op->data.nbytes))(cdns_xspi->sdmasize)"
+--
+>> net/ipv4/ip_tunnel.c:1186:23: sparse: sparse: bad integer constant expre=
+ssion
+>> net/ipv4/ip_tunnel.c:1186:23: sparse: sparse: static assertion failed: "=
+clamp() low limit (unsigned int)68 greater than high limit max"
+--
+>> net/ipv6/ip6_vti.c:674:28: sparse: sparse: bad integer constant expressi=
+on
+>> net/ipv6/ip6_vti.c:674:28: sparse: sparse: static assertion failed: "cla=
+mp() low limit dev->min_mtu greater than high limit dev->max_mtu"
+--
+>> drivers/power/supply/cpcap-battery.c:730:31: sparse: sparse: bad integer=
+ constant expression
+>> drivers/power/supply/cpcap-battery.c:730:31: sparse: sparse: static asse=
+rtion failed: "clamp() low limit 0 greater than high limit ddata->charge_fu=
+ll"
+--
+>> drivers/power/supply/max77976_charger.c:259:16: sparse: sparse: bad inte=
+ger constant expression
+>> drivers/power/supply/max77976_charger.c:259:16: sparse: sparse: static a=
+ssertion failed: "clamp() low limit (typeof(regval * mult))(clamp_min) grea=
+ter than high limit (typeof(regval * mult))(clamp_max)"
+   drivers/power/supply/max77976_charger.c:270:18: sparse: sparse: bad inte=
+ger constant expression
+>> drivers/power/supply/max77976_charger.c:270:18: sparse: sparse: static a=
+ssertion failed: "clamp() low limit (typeof(val))(clamp_min) greater than h=
+igh limit (typeof(val))(clamp_max)"
+--
+>> drivers/power/supply/bq256xx_charger.c:525:16: sparse: sparse: bad integ=
+er constant expression
+>> drivers/power/supply/bq256xx_charger.c:525:16: sparse: sparse: static as=
+sertion failed: "clamp() low limit 0 greater than high limit ichg_max"
+   drivers/power/supply/bq256xx_charger.c:538:16: sparse: sparse: bad integ=
+er constant expression
+   drivers/power/supply/bq256xx_charger.c:538:16: sparse: sparse: static as=
+sertion failed: "clamp() low limit 0 greater than high limit ichg_max"
+   drivers/power/supply/bq256xx_charger.c:638:19: sparse: sparse: bad integ=
+er constant expression
+>> drivers/power/supply/bq256xx_charger.c:638:19: sparse: sparse: static as=
+sertion failed: "clamp() low limit 3504000 greater than high limit vbatreg_=
+max"
+   drivers/power/supply/bq256xx_charger.c:660:19: sparse: sparse: bad integ=
+er constant expression
+   drivers/power/supply/bq256xx_charger.c:660:19: sparse: sparse: static as=
+sertion failed: "clamp() low limit 3494000 greater than high limit vbatreg_=
+max"
+   drivers/power/supply/bq256xx_charger.c:681:19: sparse: sparse: bad integ=
+er constant expression
+   drivers/power/supply/bq256xx_charger.c:681:19: sparse: sparse: static as=
+sertion failed: "clamp() low limit 3856000 greater than high limit vbatreg_=
+max"
+   drivers/power/supply/bq256xx_charger.c:696:19: sparse: sparse: bad integ=
+er constant expression
+   drivers/power/supply/bq256xx_charger.c:696:19: sparse: sparse: static as=
+sertion failed: "clamp() low limit 3847000 greater than high limit vbatreg_=
+max"
+--
+>> drivers/dma/dw/core.c:791:17: sparse: sparse: bad integer constant expre=
+ssion
+>> drivers/dma/dw/core.c:791:17: sparse: sparse: static assertion failed: "=
+clamp() low limit 0U greater than high limit dwc->max_burst"
+   drivers/dma/dw/core.c:793:17: sparse: sparse: bad integer constant expre=
+ssion
+   drivers/dma/dw/core.c:793:17: sparse: sparse: static assertion failed: "=
+clamp() low limit 0U greater than high limit dwc->max_burst"
+--
+>> drivers/media/i2c/max2175.c:1107:16: sparse: sparse: bad integer constan=
+t expression
+>> drivers/media/i2c/max2175.c:1107:16: sparse: sparse: static assertion fa=
+iled: "clamp() low limit ctx->bands_rf->rangelow greater than high limit ct=
+x->bands_rf->rangehigh"
+--
+>> drivers/media/i2c/imx296.c:711:25: sparse: sparse: bad integer constant =
+expression
+>> drivers/media/i2c/imx296.c:711:25: sparse: sparse: static assertion fail=
+ed: "clamp() low limit (unsigned int)(crop->width / 2) greater than high li=
+mit (unsigned int)(crop->width)"
+   drivers/media/i2c/imx296.c:713:26: sparse: sparse: bad integer constant =
+expression
+>> drivers/media/i2c/imx296.c:713:26: sparse: sparse: static assertion fail=
+ed: "clamp() low limit (unsigned int)(crop->height / 2) greater than high l=
+imit (unsigned int)(crop->height)"
+--
+>> drivers/media/i2c/mt9m001.c:281:21: sparse: sparse: bad integer constant=
+ expression
+>> drivers/media/i2c/mt9m001.c:281:21: sparse: sparse: static assertion fai=
+led: "clamp() low limit (u32)(20) greater than high limit (u32)(20 + 1280 -=
+ rect.width)"
+   drivers/media/i2c/mt9m001.c:286:20: sparse: sparse: bad integer constant=
+ expression
+>> drivers/media/i2c/mt9m001.c:286:20: sparse: sparse: static assertion fai=
+led: "clamp() low limit (u32)(12) greater than high limit (u32)(12 + 1024 -=
+ rect.height)"
+--
+>> drivers/media/i2c/mt9p031.c:604:17: sparse: sparse: bad integer constant=
+ expression
+   drivers/media/i2c/mt9p031.c:604:17: sparse: sparse: static assertion fai=
+led: "clamp() low limit (unsigned int)(__builtin_choose_expr((sizeof(int) =
+=3D=3D sizeof(*(8 ? ((void *)((long)(((unsigned int)(__crop->width / 7)) - =
+((unsigned int)(2))) * 0l)) : (int *)8))), (((unsigned int)(__crop->width /=
+ 7)) > ((unsigned int)(2)) ? ((unsigned int)(__crop->width / 7)) : ((unsign=
+ed int)(2))), ({ typeof((unsigned int)(__crop->width / 7)) __UNIQUE_ID___x3=
+24 =3D ((unsigned int)(__crop->width / 7)); typeof((unsigned int)(2)) __UNI=
+QUE_ID___y325 =3D ((unsigned int)(2)); _Static_assert(((((typeof((unsigned =
+int)(__crop->width / 7)))(-1)) < (__attribute__((force)) typeof((unsigned i=
+nt)(__crop->width / 7)))1) =3D=3D (((typeof((unsigned int)(2)))(-1)) < (__a=
+ttribute__((force)) typeof((unsigned int)(2)))1)), "max" "(" "(unsigned int=
+)(__crop->width / 7)" ", " "(unsigned int)(2)" ") signedness error, fix typ=
+es or consider " "max" "_unsigned() before " "max" "_t()"); ((__UNIQUE_ID__=
+_x324) > (__UNIQUE_ID___y325) ? (__UNIQUE_ID___x324) : (__UNIQUE_ID___y325)=
+); }))) greater than high limit (unsigned int)(__crop->width)"
+   drivers/media/i2c/mt9p031.c:608:18: sparse: sparse: bad integer constant=
+ expression
+   drivers/media/i2c/mt9p031.c:608:18: sparse: sparse: static assertion fai=
+led: "clamp() low limit (unsigned int)(__builtin_choose_expr((sizeof(int) =
+=3D=3D sizeof(*(8 ? ((void *)((long)(((unsigned int)(__crop->height / 8)) -=
+ ((unsigned int)(2))) * 0l)) : (int *)8))), (((unsigned int)(__crop->height=
+ / 8)) > ((unsigned int)(2)) ? ((unsigned int)(__crop->height / 8)) : ((uns=
+igned int)(2))), ({ typeof((unsigned int)(__crop->height / 8)) __UNIQUE_ID_=
+__x329 =3D ((unsigned int)(__crop->height / 8)); typeof((unsigned int)(2)) =
+__UNIQUE_ID___y330 =3D ((unsigned int)(2)); _Static_assert(((((typeof((unsi=
+gned int)(__crop->height / 8)))(-1)) < (__attribute__((force)) typeof((unsi=
+gned int)(__crop->height / 8)))1) =3D=3D (((typeof((unsigned int)(2)))(-1))=
+ < (__attribute__((force)) typeof((unsigned int)(2)))1)), "max" "(" "(unsig=
+ned int)(__crop->height / 8)" ", " "(unsigned int)(2)" ") signedness error,=
+ fix types or consider " "max" "_unsigned() before " "max" "_t()"); ((__UNI=
+QUE_ID___x329) > (__UNIQUE_ID___y330) ? (__UNIQUE_ID___x329) : (__UNIQUE_ID=
+___y330)); }))) greater than high limit (unsigned int)(__crop->height)"
+   /bin/bash: line 1: 62381 Segmentation fault      sparse -D__linux__ -Dli=
+nux -D__STDC__ -Dunix -D__unix__ -Wbitwise -Wno-return-void -Wno-unknown-at=
+tribute -fdiagnostic-prefix -D__CHECK_ENDIAN__ --arch=3Dmicroblaze -mlittle=
+-endian -m32 -Wp,-MMD,drivers/media/i2c/.mt9p031.o.d -nostdinc -Iarch/micro=
+blaze/include -I./arch/microblaze/include/generated -Iinclude -I./include -=
+Iarch/microblaze/include/uapi -I./arch/microblaze/include/generated/uapi -I=
+include/uapi -I./include/generated/uapi -include include/linux/compiler-ver=
+sion.h -include include/linux/kconfig.h -include include/linux/compiler_typ=
+es.h -D__KERNEL__ -fmacro-prefix-map=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -st=
+d=3Dgnu11 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-al=
+iasing -Wall -Wundef -Werror=3Dimplicit-function-declaration -Werror=3Dimpl=
+icit-int -Werror=3Dreturn-type -Werror=3Dstrict-prototypes -Wno-format-secu=
+rity -Wno-trigraphs -mlittle-endian -ffixed-r31 -mcpu=3Dv7.10.d -fno-delete=
+-null-pointer-checks -Wno-frame-address -Wno-format-truncation -Wno-format-=
+overflow -Wno-address-of-packed-member -Os -fno-allow-store-data-races -fno=
+-reorder-blocks -fno-ipa-cp-clone -fno-partial-inlining -Wframe-larger-than=
+=3D1024 -fno-stack-protector -Wno-main -Wno-unused-but-set-variable -Wno-un=
+used-const-variable -Wno-dangling-pointer -ftrivial-auto-var-init=3Dzero -f=
+no-stack-clash-protection -fzero-call-used-regs=3Dused-gpr -pg -fno-inline-=
+functions-called-once -Wvla -Wno-pointer-sign -Wcast-function-type -Wno-str=
+ingop-truncation -Wno-stringop-overflow -Wno-restrict -Wno-maybe-uninitiali=
+zed -Wno-array-bounds -Wno-alloc-size-larger-than -Wimplicit-fallthrough=3D=
+5 -fno-strict-overflow -fno-stack-check -fconserve-stack -Werror=3Ddate-tim=
+e -Werror=3Dincompatible-pointer-types -Werror=3Ddesignated-init -Wno-packe=
+d-not-aligned -Wextra -Wunused -Wno-unused-parameter -Wmissing-declarations=
+ -Wmissing-format-attribute -Wmissing-prototypes -Wold-style-definition -Wm=
+issing-include-dirs -Wunused-but-set-variable -Wunused-const-variable -Wpac=
+ked-not-aligned -Wstringop-truncation -Wno-missing-field-initializers -Wno-=
+sign-compare -Wno-type-limits -Wno-shift-negative-value -gsplit-dwarf -g -g=
+dwarf-4 -fno-var-tracking -femit-struct-debug-baseonly -gz=3Dzlib -I driver=
+s/media/i2c -I ./drivers/media/i2c -DKBUILD_MODFILE=3D'"drivers/media/i2c/m=
+t9p031"' -DKBUILD_BASENAME=3D'"mt9p031"' -DKBUILD_MODNAME=3D'"mt9p031"' -D_=
+_KBUILD_MODNAME=3Dkmod_mt9p031 drivers/media/i2c/mt9p031.c
+--
+>> drivers/media/i2c/mt9v032.c:515:17: sparse: sparse: bad integer constant=
+ expression
+   drivers/media/i2c/mt9v032.c:515:17: sparse: sparse: static assertion fai=
+led: "clamp() low limit __builtin_choose_expr((sizeof(int) =3D=3D sizeof(*(=
+8 ? ((void *)((long)(((unsigned int)(__crop->width / 4)) - ((unsigned int)(=
+1))) * 0l)) : (int *)8))), (((unsigned int)(__crop->width / 4)) > ((unsigne=
+d int)(1)) ? ((unsigned int)(__crop->width / 4)) : ((unsigned int)(1))), ({=
+ typeof((unsigned int)(__crop->width / 4)) __UNIQUE_ID___x322 =3D ((unsigne=
+d int)(__crop->width / 4)); typeof((unsigned int)(1)) __UNIQUE_ID___y323 =
+=3D ((unsigned int)(1)); _Static_assert(((((typeof((unsigned int)(__crop->w=
+idth / 4)))(-1)) < (__attribute__((force)) typeof((unsigned int)(__crop->wi=
+dth / 4)))1) =3D=3D (((typeof((unsigned int)(1)))(-1)) < (__attribute__((fo=
+rce)) typeof((unsigned int)(1)))1)), "max" "(" "(unsigned int)(__crop->widt=
+h / 4)" ", " "(unsigned int)(1)" ") signedness error, fix types or consider=
+ " "max" "_unsigned() before " "max" "_t()"); ((__UNIQUE_ID___x322) > (__UN=
+IQUE_ID___y323) ? (__UNIQUE_ID___x322) : (__UNIQUE_ID___y323)); })) greater=
+ than high limit __crop->width"
+   drivers/media/i2c/mt9v032.c:519:18: sparse: sparse: bad integer constant=
+ expression
+   drivers/media/i2c/mt9v032.c:519:18: sparse: sparse: static assertion fai=
+led: "clamp() low limit __builtin_choose_expr((sizeof(int) =3D=3D sizeof(*(=
+8 ? ((void *)((long)(((unsigned int)(__crop->height / 4)) - ((unsigned int)=
+(1))) * 0l)) : (int *)8))), (((unsigned int)(__crop->height / 4)) > ((unsig=
+ned int)(1)) ? ((unsigned int)(__crop->height / 4)) : ((unsigned int)(1))),=
+ ({ typeof((unsigned int)(__crop->height / 4)) __UNIQUE_ID___x327 =3D ((uns=
+igned int)(__crop->height / 4)); typeof((unsigned int)(1)) __UNIQUE_ID___y3=
+28 =3D ((unsigned int)(1)); _Static_assert(((((typeof((unsigned int)(__crop=
+->height / 4)))(-1)) < (__attribute__((force)) typeof((unsigned int)(__crop=
+->height / 4)))1) =3D=3D (((typeof((unsigned int)(1)))(-1)) < (__attribute_=
+_((force)) typeof((unsigned int)(1)))1)), "max" "(" "(unsigned int)(__crop-=
+>height / 4)" ", " "(unsigned int)(1)" ") signedness error, fix types or co=
+nsider " "max" "_unsigned() before " "max" "_t()"); ((__UNIQUE_ID___x327) >=
+ (__UNIQUE_ID___y328) ? (__UNIQUE_ID___x327) : (__UNIQUE_ID___y328)); })) g=
+reater than high limit __crop->height"
+   /bin/bash: line 1: 62761 Segmentation fault      sparse -D__linux__ -Dli=
+nux -D__STDC__ -Dunix -D__unix__ -Wbitwise -Wno-return-void -Wno-unknown-at=
+tribute -fdiagnostic-prefix -D__CHECK_ENDIAN__ --arch=3Dmicroblaze -mlittle=
+-endian -m32 -Wp,-MMD,drivers/media/i2c/.mt9v032.o.d -nostdinc -Iarch/micro=
+blaze/include -I./arch/microblaze/include/generated -Iinclude -I./include -=
+Iarch/microblaze/include/uapi -I./arch/microblaze/include/generated/uapi -I=
+include/uapi -I./include/generated/uapi -include include/linux/compiler-ver=
+sion.h -include include/linux/kconfig.h -include include/linux/compiler_typ=
+es.h -D__KERNEL__ -fmacro-prefix-map=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -st=
+d=3Dgnu11 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-al=
+iasing -Wall -Wundef -Werror=3Dimplicit-function-declaration -Werror=3Dimpl=
+icit-int -Werror=3Dreturn-type -Werror=3Dstrict-prototypes -Wno-format-secu=
+rity -Wno-trigraphs -mlittle-endian -ffixed-r31 -mcpu=3Dv7.10.d -fno-delete=
+-null-pointer-checks -Wno-frame-address -Wno-format-truncation -Wno-format-=
+overflow -Wno-address-of-packed-member -Os -fno-allow-store-data-races -fno=
+-reorder-blocks -fno-ipa-cp-clone -fno-partial-inlining -Wframe-larger-than=
+=3D1024 -fno-stack-protector -Wno-main -Wno-unused-but-set-variable -Wno-un=
+used-const-variable -Wno-dangling-pointer -ftrivial-auto-var-init=3Dzero -f=
+no-stack-clash-protection -fzero-call-used-regs=3Dused-gpr -pg -fno-inline-=
+functions-called-once -Wvla -Wno-pointer-sign -Wcast-function-type -Wno-str=
+ingop-truncation -Wno-stringop-overflow -Wno-restrict -Wno-maybe-uninitiali=
+zed -Wno-array-bounds -Wno-alloc-size-larger-than -Wimplicit-fallthrough=3D=
+5 -fno-strict-overflow -fno-stack-check -fconserve-stack -Werror=3Ddate-tim=
+e -Werror=3Dincompatible-pointer-types -Werror=3Ddesignated-init -Wno-packe=
+d-not-aligned -Wextra -Wunused -Wno-unused-parameter -Wmissing-declarations=
+ -Wmissing-format-attribute -Wmissing-prototypes -Wold-style-definition -Wm=
+issing-include-dirs -Wunused-but-set-variable -Wunused-const-variable -Wpac=
+ked-not-aligned -Wstringop-truncation -Wno-missing-field-initializers -Wno-=
+sign-compare -Wno-type-limits -Wno-shift-negative-value -gsplit-dwarf -g -g=
+dwarf-4 -fno-var-tracking -femit-struct-debug-baseonly -gz=3Dzlib -I driver=
+s/media/i2c -I ./drivers/media/i2c -DKBUILD_MODFILE=3D'"drivers/media/i2c/m=
+t9v032"' -DKBUILD_BASENAME=3D'"mt9v032"' -DKBUILD_MODNAME=3D'"mt9v032"' -D_=
+_KBUILD_MODNAME=3Dkmod_mt9v032 drivers/media/i2c/mt9v032.c
+--
+>> drivers/media/i2c/ov4689.c:638:19: sparse: sparse: bad integer constant =
+expression
+>> drivers/media/i2c/ov4689.c:638:19: sparse: sparse: static assertion fail=
+ed: "clamp() low limit range->physical_min greater than high limit range->p=
+hysical_max"
+--
+>> drivers/media/i2c/ov5640.c:2770:15: sparse: sparse: bad integer constant=
+ expression
+>> drivers/media/i2c/ov5640.c:2770:15: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(( { typeof(fi->denominator) __x =3D fi->den=
+ominator; typeof(fi->numerator) __d =3D fi->numerator; (((typeof(fi->denomi=
+nator))-1) > 0 || ((typeof(fi->numerator))-1) > 0 || (((__x) > 0) =3D=3D ((=
+__d) > 0))) ? (((__x) + ((__d) / 2)) / (__d)) : (((__x) - ((__d) / 2)) / (_=
+_d)); } )))(minfps) greater than high limit (typeof(( { typeof(fi->denomina=
+tor) __x =3D fi->denominator; typeof(fi->numerator) __d =3D fi->numerator; =
+(((typeof(fi->denominator))-1) > 0 || ((typeof(fi->numerator))-1) > 0 || ((=
+(__x) > 0) =3D=3D ((__d) > 0))) ? (((__x) + ((__d) / 2)) / (__d)) : (((__x)=
+ - ((__d) / 2)) / (__d)); } )))(maxfps)"
+   drivers/media/i2c/ov5640.c:2934:24: sparse: sparse: bad integer constant=
+ expression
+>> drivers/media/i2c/ov5640.c:2934:24: sparse: sparse: static assertion fai=
+led: "clamp() low limit (s32)(sensor->ctrls.exposure->minimum) greater than=
+ high limit (s32)(exposure_max)"
+   /bin/bash: line 1: 65824 Segmentation fault      sparse -D__linux__ -Dli=
+nux -D__STDC__ -Dunix -D__unix__ -Wbitwise -Wno-return-void -Wno-unknown-at=
+tribute -fdiagnostic-prefix -D__CHECK_ENDIAN__ --arch=3Dmicroblaze -mlittle=
+-endian -m32 -Wp,-MMD,drivers/media/i2c/.ov5640.o.d -nostdinc -Iarch/microb=
+laze/include -I./arch/microblaze/include/generated -Iinclude -I./include -I=
+arch/microblaze/include/uapi -I./arch/microblaze/include/generated/uapi -Ii=
+nclude/uapi -I./include/generated/uapi -include include/linux/compiler-vers=
+ion.h -include include/linux/kconfig.h -include include/linux/compiler_type=
+s.h -D__KERNEL__ -fmacro-prefix-map=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -std=
+=3Dgnu11 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-ali=
+asing -Wall -Wundef -Werror=3Dimplicit-function-declaration -Werror=3Dimpli=
+cit-int -Werror=3Dreturn-type -Werror=3Dstrict-prototypes -Wno-format-secur=
+ity -Wno-trigraphs -mlittle-endian -ffixed-r31 -mcpu=3Dv7.10.d -fno-delete-=
+null-pointer-checks -Wno-frame-address -Wno-format-truncation -Wno-format-o=
+verflow -Wno-address-of-packed-member -Os -fno-allow-store-data-races -fno-=
+reorder-blocks -fno-ipa-cp-clone -fno-partial-inlining -Wframe-larger-than=
+=3D1024 -fno-stack-protector -Wno-main -Wno-unused-but-set-variable -Wno-un=
+used-const-variable -Wno-dangling-pointer -ftrivial-auto-var-init=3Dzero -f=
+no-stack-clash-protection -fzero-call-used-regs=3Dused-gpr -pg -fno-inline-=
+functions-called-once -Wvla -Wno-pointer-sign -Wcast-function-type -Wno-str=
+ingop-truncation -Wno-stringop-overflow -Wno-restrict -Wno-maybe-uninitiali=
+zed -Wno-array-bounds -Wno-alloc-size-larger-than -Wimplicit-fallthrough=3D=
+5 -fno-strict-overflow -fno-stack-check -fconserve-stack -Werror=3Ddate-tim=
+e -Werror=3Dincompatible-pointer-types -Werror=3Ddesignated-init -Wno-packe=
+d-not-aligned -Wextra -Wunused -Wno-unused-parameter -Wmissing-declarations=
+ -Wmissing-format-attribute -Wmissing-prototypes -Wold-style-definition -Wm=
+issing-include-dirs -Wunused-but-set-variable -Wunused-const-variable -Wpac=
+ked-not-aligned -Wstringop-truncation -Wno-missing-field-initializers -Wno-=
+sign-compare -Wno-type-limits -Wno-shift-negative-value -gsplit-dwarf -g -g=
+dwarf-4 -fno-var-tracking -femit-struct-debug-baseonly -gz=3Dzlib -I driver=
+s/media/i2c -I ./drivers/media/i2c -DKBUILD_MODFILE=3D'"drivers/media/i2c/o=
+v5640"' -DKBUILD_BASENAME=3D'"ov5640"' -DKBUILD_MODNAME=3D'"ov5640"' -D__KB=
+UILD_MODNAME=3Dkmod_ov5640 drivers/media/i2c/ov5640.c
+--
+>> drivers/media/i2c/ov5693.c:963:17: sparse: sparse: bad integer constant =
+expression
+>> drivers/media/i2c/ov5693.c:963:17: sparse: sparse: static assertion fail=
+ed: "clamp() low limit (unsigned int)(2) greater than high limit (unsigned =
+int)(crop->width)"
+   drivers/media/i2c/ov5693.c:965:18: sparse: sparse: bad integer constant =
+expression
+>> drivers/media/i2c/ov5693.c:965:18: sparse: sparse: static assertion fail=
+ed: "clamp() low limit (unsigned int)(2) greater than high limit (unsigned =
+int)(crop->height)"
+--
+>> drivers/media/radio/radio-tea5777.c:178:16: sparse: sparse: bad integer =
+constant expression
+>> drivers/media/radio/radio-tea5777.c:178:16: sparse: sparse: static asser=
+tion failed: "clamp() low limit bands[tea->band].rangelow greater than high=
+ limit bands[tea->band].rangehigh"
+   drivers/media/radio/radio-tea5777.c:398:37: sparse: sparse: bad integer =
+constant expression
+>> drivers/media/radio/radio-tea5777.c:398:37: sparse: sparse: static asser=
+tion failed: "clamp() low limit rangelow greater than high limit rangehigh"
+--
+>> drivers/media/radio/radio-si476x.c:699:16: sparse: sparse: bad integer c=
+onstant expression
+>> drivers/media/radio/radio-si476x.c:699:16: sparse: sparse: static assert=
+ion failed: "clamp() low limit si476x_bands[band].rangelow greater than hig=
+h limit si476x_bands[band].rangehigh"
+--
+>> drivers/media/radio/tea575x.c:170:16: sparse: sparse: bad integer consta=
+nt expression
+>> drivers/media/radio/tea575x.c:170:16: sparse: sparse: static assertion f=
+ailed: "clamp() low limit bands[tea->band].rangelow greater than high limit=
+ bands[tea->band].rangehigh"
+   drivers/media/radio/tea575x.c:350:21: sparse: sparse: bad integer consta=
+nt expression
+>> drivers/media/radio/tea575x.c:350:21: sparse: sparse: static assertion f=
+ailed: "clamp() low limit (u32)(bands[tea->band].rangelow) greater than hig=
+h limit (u32)(bands[tea->band].rangehigh)"
+   drivers/media/radio/tea575x.c:384:37: sparse: sparse: bad integer consta=
+nt expression
+>> drivers/media/radio/tea575x.c:384:37: sparse: sparse: static assertion f=
+ailed: "clamp() low limit bands[i].rangelow greater than high limit bands[i=
+].rangehigh"
+--
+>> drivers/media/radio/radio-ma901.c:252:43: sparse: sparse: bad integer co=
+nstant expression
+>> drivers/media/radio/radio-ma901.c:252:43: sparse: sparse: static asserti=
+on failed: "clamp() low limit (unsigned)(87.5 * 16000) greater than high li=
+mit (unsigned)(108.0 * 16000)"
+--
+>> drivers/media/radio/radio-mr800.c:198:16: sparse: sparse: bad integer co=
+nstant expression
+>> drivers/media/radio/radio-mr800.c:198:16: sparse: sparse: static asserti=
+on failed: "clamp() low limit (unsigned)(87.5 * 16000) greater than high li=
+mit (unsigned)(108.0 * 16000)"
+--
+>> drivers/media/radio/radio-raremono.c:256:16: sparse: sparse: bad integer=
+ constant expression
+>> drivers/media/radio/radio-raremono.c:256:16: sparse: sparse: static asse=
+rtion failed: "clamp() low limit (u32)(bands[band].rangelow) greater than h=
+igh limit (u32)(bands[band].rangehigh)"
+--
+>> drivers/iio/magnetometer/ak8975.c:745:16: sparse: sparse: bad integer co=
+nstant expression
+>> drivers/iio/magnetometer/ak8975.c:745:16: sparse: sparse: static asserti=
+on failed: "clamp() low limit (s16)(-def->range) greater than high limit (s=
+16)(def->range)"
+   drivers/iio/magnetometer/ak8975.c:855:34: sparse: sparse: bad integer co=
+nstant expression
+   drivers/iio/magnetometer/ak8975.c:855:34: sparse: sparse: static asserti=
+on failed: "clamp() low limit (s16)(-def->range) greater than high limit (s=
+16)(def->range)"
+   drivers/iio/magnetometer/ak8975.c:856:34: sparse: sparse: bad integer co=
+nstant expression
+   drivers/iio/magnetometer/ak8975.c:856:34: sparse: sparse: static asserti=
+on failed: "clamp() low limit (s16)(-def->range) greater than high limit (s=
+16)(def->range)"
+   drivers/iio/magnetometer/ak8975.c:857:34: sparse: sparse: bad integer co=
+nstant expression
+   drivers/iio/magnetometer/ak8975.c:857:34: sparse: sparse: static asserti=
+on failed: "clamp() low limit (s16)(-def->range) greater than high limit (s=
+16)(def->range)"
+--
+>> drivers/media/tuners/e4000.c:338:28: sparse: sparse: bad integer constan=
+t expression
+>> drivers/media/tuners/e4000.c:338:28: sparse: sparse: static assertion fa=
+iled: "clamp() low limit (unsigned int)(bands[0].rangelow) greater than hig=
+h limit (unsigned int)(bands[1].rangehigh)"
+--
+>> drivers/media/tuners/fc2580.c:431:28: sparse: sparse: bad integer consta=
+nt expression
+>> drivers/media/tuners/fc2580.c:431:28: sparse: sparse: static assertion f=
+ailed: "clamp() low limit (unsigned int)(bands[0].rangelow) greater than hi=
+gh limit (unsigned int)(bands[0].rangehigh)"
+--
+>> drivers/media/tuners/msi001.c:341:24: sparse: sparse: bad integer consta=
+nt expression
+>> drivers/media/tuners/msi001.c:341:24: sparse: sparse: static assertion f=
+ailed: "clamp() low limit (unsigned int)(bands[band].rangelow) greater than=
+ high limit (unsigned int)(bands[band].rangehigh)"
+--
+>> drivers/media/v4l2-core/v4l2-common.c:100:13: sparse: sparse: bad intege=
+r constant expression
+>> drivers/media/v4l2-core/v4l2-common.c:100:13: sparse: sparse: static ass=
+ertion failed: "clamp() low limit (min + ~mask) & mask greater than high li=
+mit max & mask"
+   drivers/media/v4l2-core/v4l2-common.c:112:13: sparse: sparse: bad intege=
+r constant expression
+>> drivers/media/v4l2-core/v4l2-common.c:112:13: sparse: sparse: static ass=
+ertion failed: "clamp() low limit min greater than high limit max"
+--
+>> drivers/media/v4l2-core/v4l2-ctrls-core.c:1188:24: sparse: sparse: bad i=
+nteger constant expression
+>> drivers/media/v4l2-core/v4l2-ctrls-core.c:1188:24: sparse: sparse: stati=
+c assertion failed: "clamp() low limit (typeof(ptr.p_s32[idx]))((ctrl)->min=
+imum) greater than high limit (typeof(ptr.p_s32[idx]))((ctrl)->maximum)"
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:1199:23: sparse: sparse: bad i=
+nteger constant expression
+>> drivers/media/v4l2-core/v4l2-ctrls-core.c:1199:23: sparse: sparse: stati=
+c assertion failed: "clamp() low limit (s64)(ctrl->minimum) greater than hi=
+gh limit (s64)(ctrl->maximum)"
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:1205:24: sparse: sparse: bad i=
+nteger constant expression
+>> drivers/media/v4l2-core/v4l2-ctrls-core.c:1205:24: sparse: sparse: stati=
+c assertion failed: "clamp() low limit (typeof(ptr.p_u8[idx]))((ctrl)->mini=
+mum) greater than high limit (typeof(ptr.p_u8[idx]))((ctrl)->maximum)"
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:1207:24: sparse: sparse: bad i=
+nteger constant expression
+>> drivers/media/v4l2-core/v4l2-ctrls-core.c:1207:24: sparse: sparse: stati=
+c assertion failed: "clamp() low limit (typeof(ptr.p_u16[idx]))((ctrl)->min=
+imum) greater than high limit (typeof(ptr.p_u16[idx]))((ctrl)->maximum)"
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:1209:24: sparse: sparse: bad i=
+nteger constant expression
+>> drivers/media/v4l2-core/v4l2-ctrls-core.c:1209:24: sparse: sparse: stati=
+c assertion failed: "clamp() low limit (typeof(ptr.p_u32[idx]))((ctrl)->min=
+imum) greater than high limit (typeof(ptr.p_u32[idx]))((ctrl)->maximum)"
+--
+>> drivers/usb/core/config.c:347:37: sparse: sparse: bad integer constant e=
+xpression
+>> drivers/usb/core/config.c:347:37: sparse: sparse: static assertion faile=
+d: "clamp() low limit i greater than high limit j"
+   drivers/usb/core/config.c:355:37: sparse: sparse: bad integer constant e=
+xpression
+   drivers/usb/core/config.c:355:37: sparse: sparse: static assertion faile=
+d: "clamp() low limit i greater than high limit j"
+--
+   drivers/gpu/drm/drm_atomic.c: note: in included file (through include/dr=
+m/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_atomic_uapi.c: note: in included file (through inclu=
+de/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_blend.c: note: in included file (through include/drm=
+/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_bridge.c: note: in included file (through include/dr=
+m/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_client.c: note: in included file (through include/dr=
+m/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_client.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_client_modeset.c: note: in included file (through in=
+clude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_color_mgmt.c: note: in included file (through includ=
+e/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+>> drivers/gpu/drm/drm_color_mgmt.c:142:15: sparse: sparse: bad integer con=
+stant expression
+>> drivers/gpu/drm/drm_color_mgmt.c:142:15: sparse: sparse: static assertio=
+n failed: "clamp() low limit (typeof(mag))(0) greater than high limit (type=
+of(mag))(negative ? ((((1ULL))) << (n + m - 1)) : ((((1ULL))) << (n + m - 1=
+)) - 1)"
+--
+   drivers/gpu/drm/drm_crtc.c: note: in included file (through include/drm/=
+drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_connector.c: note: in included file (through include=
+/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_encoder.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_drv.c: note: in included file (through include/drm/d=
+rm_plane.h, include/drm/drm_crtc.h, include/drm/drm_client.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_encoder.c: note: in included file (through include/d=
+rm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_file.c: note: in included file (through include/drm/=
+drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_client.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_edid.c: note: in included file (through include/drm/=
+drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_encoder.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_framebuffer.c: note: in included file (through inclu=
+de/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_ioctl.c: note: in included file (through include/drm=
+/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_lease.c: note: in included file (through include/drm=
+/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_mode_config.c: note: in included file (through inclu=
+de/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_encoder.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_mode_object.c: note: in included file (through inclu=
+de/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_modes.c: note: in included file (through include/drm=
+/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+   drivers/gpu/drm/drm_modes.c:2474:29: sparse: sparse: bad integer constan=
+t expression
+   drivers/gpu/drm/drm_modes.c:2474:29: sparse: sparse: static assertion fa=
+iled: "max(bpp_end_ptr, refresh_end_ptr) signedness error, fix types or con=
+sider max_unsigned() before max_t()"
+--
+   drivers/gpu/drm/drm_modeset_lock.c: note: in included file (through incl=
+ude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_plane.c: note: in included file (through include/drm=
+/drm_plane.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_property.c: note: in included file (through include/=
+drm/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_vblank.c: note: in included file (through include/dr=
+m/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_vblank_work.c: note: in included file (through inclu=
+de/drm/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_writeback.c: note: in included file (through include=
+/drm/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_panel.c: note: in included file (through include/drm=
+/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_of.c: note: in included file (through include/drm/dr=
+m_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_debugfs.c: note: in included file (through include/d=
+rm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_debugfs_crc.c: note: in included file (through inclu=
+de/drm/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_fb_dma_helper.c: note: in included file (through inc=
+lude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper=
+=2Eh, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_bridge_connector.c: note: in included file (through =
+include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, =
+=2E..):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_atomic_state_helper.c: note: in included file (throu=
+gh include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.=
+h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_crtc_helper.c: note: in included file (through inclu=
+de/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_damage_helper.c: note: in included file (through inc=
+lude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_atomic_helper.c: note: in included file (through inc=
+lude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_encoder_slave.c: note: in included file (through inc=
+lude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_encoder_slave=
+=2Eh):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_kms_helper_common.c: note: in included file (through=
+ include/drm/drm_plane.h, include/drm/drm_crtc.h, drivers/gpu/drm/drm_crtc_=
+helper_internal.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_gem_framebuffer_helper.c: note: in included file (th=
+rough include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atom=
+ic_helper.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_gem_atomic_helper.c: note: in included file (through=
+ include/drm/drm_plane.h, include/drm/drm_gem_atomic_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_modeset_helper.c: note: in included file (through in=
+clude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helpe=
+r.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_plane_helper.c: note: in included file (through incl=
+ude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_probe_helper.c: note: in included file (through incl=
+ude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_self_refresh_helper.c: note: in included file (throu=
+gh include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.=
+h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_simple_kms_helper.c: note: in included file (through=
+ include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/panel.c: note: in included file (through include/=
+drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/drm_mipi_dbi.c: note: in included file (through include/=
+drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h, .=
+=2E.):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+>> drivers/usb/host/xhci-mem.c:1231:20: sparse: sparse: bad integer constan=
+t expression
+>> drivers/usb/host/xhci-mem.c:1231:20: sparse: sparse: static assertion fa=
+iled: "clamp() low limit (typeof(interval))(min_exponent) greater than high=
+ limit (typeof(interval))(max_exponent)"
+--
+>> drivers/media/usb/msi2500/msi2500.c:1043:30: sparse: sparse: bad integer=
+ constant expression
+>> drivers/media/usb/msi2500/msi2500.c:1043:30: sparse: sparse: static asse=
+rtion failed: "clamp() low limit (unsigned int)(bands[0].rangelow) greater =
+than high limit (unsigned int)(bands[0].rangehigh)"
+--
+>> drivers/media/usb/stk1160/stk1160-v4l.c:385:17: sparse: sparse: bad inte=
+ger constant expression
+>> drivers/media/usb/stk1160/stk1160-v4l.c:385:17: sparse: sparse: static a=
+ssertion failed: "clamp() low limit (unsigned int)(base_width / 20) greater=
+ than high limit (unsigned int)(base_width)"
+   drivers/media/usb/stk1160/stk1160-v4l.c:387:18: sparse: sparse: bad inte=
+ger constant expression
+>> drivers/media/usb/stk1160/stk1160-v4l.c:387:18: sparse: sparse: static a=
+ssertion failed: "clamp() low limit (unsigned int)(base_height / 20) greate=
+r than high limit (unsigned int)(base_height)"
+--
+>> drivers/video/backlight/bd6107.c:159:28: sparse: sparse: bad integer con=
+stant expression
+>> drivers/video/backlight/bd6107.c:159:28: sparse: sparse: static assertio=
+n failed: "clamp() low limit (unsigned int)(0) greater than high limit (uns=
+igned int)(props.max_brightness)"
+--
+>> drivers/media/usb/uvc/uvc_driver.c:454:25: sparse: sparse: bad integer c=
+onstant expression
+>> drivers/media/usb/uvc/uvc_driver.c:454:25: sparse: sparse: static assert=
+ion failed: "clamp() low limit frame->dwFrameInterval[0] greater than high =
+limit frame->dwFrameInterval[maxIntervalIndex]"
+--
+>> drivers/media/usb/uvc/uvc_ctrl.c:1922:40: sparse: sparse: bad integer co=
+nstant expression
+>> drivers/media/usb/uvc/uvc_ctrl.c:1922:40: sparse: sparse: static asserti=
+on failed: "clamp() low limit min greater than high limit max"
+   drivers/media/usb/uvc/uvc_ctrl.c:1924:40: sparse: sparse: bad integer co=
+nstant expression
+>> drivers/media/usb/uvc/uvc_ctrl.c:1924:40: sparse: sparse: static asserti=
+on failed: "clamp() low limit (u32)(min) greater than high limit (u32)(max)"
+--
+>> drivers/usb/gadget/function/u_audio.c:801:15: sparse: sparse: bad intege=
+r constant expression
+>> drivers/usb/gadget/function/u_audio.c:801:15: sparse: sparse: static ass=
+ertion failed: "clamp() low limit prm->volume_min greater than high limit p=
+rm->volume_max"
+   drivers/usb/gadget/function/u_audio.c:1041:18: sparse: sparse: bad integ=
+er constant expression
+   drivers/usb/gadget/function/u_audio.c:1041:18: sparse: sparse: static as=
+sertion failed: "clamp() low limit prm->volume_min greater than high limit =
+prm->volume_max"
+--
+>> drivers/media/radio/si470x/radio-si470x-common.c:281:16: sparse: sparse:=
+ bad integer constant expression
+>> drivers/media/radio/si470x/radio-si470x-common.c:281:16: sparse: sparse:=
+ static assertion failed: "clamp() low limit bands[radio->band].rangelow gr=
+eater than high limit bands[radio->band].rangehigh"
+--
+>> drivers/media/i2c/ccs/ccs-core.c:1461:17: sparse: sparse: bad integer co=
+nstant expression
+>> drivers/media/i2c/ccs/ccs-core.c:1461:17: sparse: sparse: static asserti=
+on failed: "clamp() low limit (u32)(1) greater than high limit (u32)(tmp)"
+   drivers/media/i2c/ccs/ccs-core.c:2247:17: sparse: sparse: bad integer co=
+nstant expression
+>> drivers/media/i2c/ccs/ccs-core.c:2247:17: sparse: sparse: static asserti=
+on failed: "clamp() low limit ccs_get_limit(sensor, 79, 0) greater than hig=
+h limit ccs_get_limit(sensor, 81, 0)"
+   drivers/media/i2c/ccs/ccs-core.c:2251:17: sparse: sparse: bad integer co=
+nstant expression
+   drivers/media/i2c/ccs/ccs-core.c:2251:17: sparse: sparse: static asserti=
+on failed: "clamp() low limit ccs_get_limit(sensor, 80, 0) greater than hig=
+h limit ccs_get_limit(sensor, 82, 0)"
+   drivers/media/i2c/ccs/ccs-core.c:2391:13: sparse: sparse: bad integer co=
+nstant expression
+   drivers/media/i2c/ccs/ccs-core.c:2391:13: sparse: sparse: static asserti=
+on failed: "clamp() low limit ccs_get_limit(sensor, 123, 0) greater than hi=
+gh limit ccs_get_limit(sensor, 124, 0)"
+   drivers/media/i2c/ccs/ccs-core.c:2393:13: sparse: sparse: bad integer co=
+nstant expression
+   drivers/media/i2c/ccs/ccs-core.c:2393:13: sparse: sparse: static asserti=
+on failed: "clamp() low limit ccs_get_limit(sensor, 123, 0) greater than hi=
+gh limit ccs_get_limit(sensor, 124, 0)"
+   drivers/media/i2c/ccs/ccs-core.c:2395:17: sparse: sparse: bad integer co=
+nstant expression
+   drivers/media/i2c/ccs/ccs-core.c:2395:17: sparse: sparse: static asserti=
+on failed: "clamp() low limit ccs_get_limit(sensor, 123, 0) greater than hi=
+gh limit ccs_get_limit(sensor, 124, 0)"
+--
+>> drivers/media/i2c/cx25840/cx25840-core.c:1809:22: sparse: sparse: bad in=
+teger constant expression
+>> drivers/media/i2c/cx25840/cx25840-core.c:1809:22: sparse: sparse: static=
+ assertion failed: "clamp() low limit (h_src + 15) / 16 greater than high l=
+imit h_src"
+   drivers/media/i2c/cx25840/cx25840-core.c:1812:31: sparse: sparse: bad in=
+teger constant expression
+>> drivers/media/i2c/cx25840/cx25840-core.c:1812:31: sparse: sparse: static=
+ assertion failed: "clamp() low limit (u32)1 greater than high limit v_src =
+- v_add"
+   drivers/media/i2c/cx25840/cx25840-core.c:1814:31: sparse: sparse: bad in=
+teger constant expression
+>> drivers/media/i2c/cx25840/cx25840-core.c:1814:31: sparse: sparse: static=
+ assertion failed: "clamp() low limit (v_src - v_add * 8 + 7) / 8 greater t=
+han high limit v_src - v_add"
+--
+>> drivers/leds/flash/leds-mt6360.c:606:18: sparse: sparse: bad integer con=
+stant expression
+>> drivers/leds/flash/leds-mt6360.c:606:18: sparse: sparse: static assertio=
+n failed: "clamp() low limit (typeof(val))(min) greater than high limit (ty=
+peof(val))(max)"
+--
+>> drivers/leds/flash/leds-mt6370-flash.c:428:18: sparse: sparse: bad integ=
+er constant expression
+>> drivers/leds/flash/leds-mt6370-flash.c:428:18: sparse: sparse: static as=
+sertion failed: "clamp() low limit (typeof(val))(min) greater than high lim=
+it (typeof(val))(max)"
+--
+   drivers/gpu/drm/arm/display/komeda/komeda_drv.c: note: in included file =
+(through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_a=
+tomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/arm/display/komeda/komeda_dev.c: note: in included file =
+(through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_a=
+tomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/arm/display/komeda/komeda_color_mgmt.c: note: in include=
+d file (through drivers/gpu/drm/arm/display/komeda/komeda_color_mgmt.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c: note: in included =
+file (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/=
+drm_atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c: note: in inc=
+luded file (through include/drm/drm_plane.h, include/drm/drm_crtc.h, includ=
+e/drm/drm_atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c: note: in includ=
+ed file (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/d=
+rm/drm_atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c: note: in included file =
+(through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_a=
+tomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/arm/display/komeda/komeda_crtc.c: note: in included file=
+ (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_=
+atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/arm/display/komeda/komeda_plane.c: note: in included fil=
+e (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm=
+_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/arm/display/komeda/komeda_event.c: note: in included fil=
+e (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm=
+_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c: note: in inclu=
+ded file (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/=
+drm/drm_atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/arm/display/komeda/komeda_private_obj.c: note: in includ=
+ed file (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/d=
+rm/drm_atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c: note: in included file=
+ (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_=
+atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/arm/display/komeda/d71/d71_component.c: note: in include=
+d file (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/dr=
+m/drm_atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/display/drm_dp_helper.c: note: in included file (through=
+ include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h,=
+ ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/display/drm_dp_mst_topology.c: note: in included file (t=
+hrough include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_ato=
+mic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/virtio/virtgpu_drv.c: note: in included file (through in=
+clude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helpe=
+r.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/virtio/virtgpu_kms.c: note: in included file (through in=
+clude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, ..=
+=2E):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/virtio/virtgpu_gem.c: note: in included file (through in=
+clude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, ..=
+=2E):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/virtio/virtgpu_vram.c: note: in included file (through i=
+nclude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, .=
+=2E.):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/virtio/virtgpu_display.c: note: in included file (throug=
+h include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_h=
+elper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/virtio/virtgpu_vq.c: note: in included file (through inc=
+lude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, ...=
+):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/virtio/virtgpu_fence.c: note: in included file (through =
+include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, =
+=2E..):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/virtio/virtgpu_object.c: note: in included file (through=
+ include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h,=
+ ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/virtio/virtgpu_debugfs.c: note: in included file (throug=
+h include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h=
+, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/virtio/virtgpu_ioctl.c: note: in included file (through =
+include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, =
+=2E..):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/virtio/virtgpu_plane.c: note: in included file (through =
+include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_hel=
+per.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/virtio/virtgpu_prime.c: note: in included file (through =
+include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, =
+=2E..):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/virtio/virtgpu_trace_points.c: note: in included file (t=
+hrough include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_ato=
+mic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/virtio/virtgpu_submit.c: note: in included file (through=
+ include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h,=
+ ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/i2c/ch7006_drv.c: note: in included file (through includ=
+e/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_encoder_slave.h,=
+ ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/i2c/ch7006_mode.c: note: in included file (through inclu=
+de/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_encoder_slave.h=
+, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-lvds.c: note: in included file (through incl=
+ude/drm/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-ilitek-ili9341.c: note: in included file (th=
+rough include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atom=
+ic_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-innolux-p079zca.c: note: in included file (t=
+hrough include/drm/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c: note: in included fi=
+le (through include/drm/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c: note: in included fi=
+le (through include/drm/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c: note: in included f=
+ile (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/d=
+rm_simple_kms_helper.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-newvision-nv3052c.c: note: in included file =
+(through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_s=
+imple_kms_helper.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-raydium-rm67191.c: note: in included file (t=
+hrough include/drm/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c: note: in included=
+ file (through include/drm/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c: note: in included fi=
+le (through include/drm/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-samsung-db7430.c: note: in included file (th=
+rough include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_simp=
+le_kms_helper.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-samsung-s6d27a1.c: note: in included file (t=
+hrough include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_sim=
+ple_kms_helper.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c: note: in included fil=
+e (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm=
+_simple_kms_helper.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c: note: in included file (th=
+rough include/drm/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/panel/panel-novatek-nt36523.c: note: in included file (t=
+hrough include/drm/drm_plane.h, include/drm/drm_crtc.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/chrontel-ch7033.c: note: in included file (throug=
+h include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_h=
+elper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/display-connector.c: note: in included file (thro=
+ugh include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic=
+_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/lontium-lt9211.c: note: in included file (through=
+ include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_he=
+lper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/lontium-lt9611.c: note: in included file (through=
+ include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_he=
+lper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/ite-it6505.c: note: in included file (through inc=
+lude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper=
+=2Eh):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/parade-ps8622.c: note: in included file (through =
+include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_hel=
+per.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/lontium-lt9611uxc.c: note: in included file (thro=
+ugh include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic=
+_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/sii9234.c: note: in included file (through includ=
+e/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/sil-sii8620.c: note: in included file (through in=
+clude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, ..=
+=2E):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/thc63lvd1024.c: note: in included file (through i=
+nclude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, .=
+=2E.):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/simple-bridge.c: note: in included file (through =
+include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_hel=
+per.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/tc358762.c: note: in included file (through inclu=
+de/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h=
+):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/tc358764.c: note: in included file (through inclu=
+de/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h=
+):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/tc358768.c: note: in included file (through inclu=
+de/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h=
+):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/tc358767.c: note: in included file (through inclu=
+de/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h=
+):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/tc358775.c: note: in included file (through inclu=
+de/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h=
+):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/ti-sn65dsi83.c: note: in included file (through i=
+nclude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_help=
+er.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/ti-tfp410.c: note: in included file (through incl=
+ude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.=
+h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/ti-sn65dsi86.c: note: in included file (through i=
+nclude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/ti-tpd12s015.c: note: in included file (through i=
+nclude/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, .=
+=2E.):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/nwl-dsi.c: note: in included file (through includ=
+e/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/tiny/arcpgu.c: note: in included file (through include/d=
+rm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/tiny/gm12u320.c: note: in included file (through include=
+/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/tiny/hx8357d.c: note: in included file (through include/=
+drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/tiny/ili9341.c: note: in included file (through include/=
+drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/tiny/mi0283qt.c: note: in included file (through include=
+/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/tiny/repaper.c: note: in included file (through include/=
+drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/tiny/st7586.c: note: in included file (through include/d=
+rm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/tiny/st7735r.c: note: in included file (through include/=
+drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/solomon/ssd130x.c: note: in included file (through inclu=
+de/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/solomon/ssd130x-spi.c: note: in included file (through i=
+nclude/drm/drm_plane.h, include/drm/drm_crtc.h, drivers/gpu/drm/solomon/ssd=
+130x.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c: note: in included fi=
+le (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/dr=
+m_atomic_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/analogix/anx7625.c: note: in included file (throu=
+gh include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_atomic_=
+helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/analogix/analogix_dp_core.c: note: in included fi=
+le (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/br=
+idge/analogix_dp.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c: note: in included fil=
+e (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/bri=
+dge/analogix_dp.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c: note: in included file (=
+through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_at=
+omic_helper.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.c: note: in included file =
+(through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/drm_a=
+tomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c: note: in included f=
+ile (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/d=
+rm_atomic.h):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c: note: in included f=
+ile (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/d=
+rm_atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c: note: in included =
+file (through include/drm/drm_plane.h, include/drm/drm_crtc.h, include/drm/=
+drm_atomic.h, ...):
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant=
+ expression
+>> include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion fai=
+led: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(va=
+l))(max)"
+--
+>> drivers/hwmon/pmbus/pmbus_core.c:969:20: sparse: sparse: too long token =
+expansion
+--
+>> drivers/hwmon/pmbus/lm25066.c:394:46: sparse: sparse: bad integer consta=
+nt expression
+>> drivers/hwmon/pmbus/lm25066.c:394:46: sparse: sparse: static assertion f=
+ailed: "clamp() low limit (typeof(word))(0) greater than high limit (typeof=
+(word))(data->rlimit)"
+   drivers/hwmon/pmbus/lm25066.c:398:46: sparse: sparse: bad integer consta=
+nt expression
+   drivers/hwmon/pmbus/lm25066.c:398:46: sparse: sparse: static assertion f=
+ailed: "clamp() low limit (typeof(word))(0) greater than high limit (typeof=
+(word))(data->rlimit)"
+   drivers/hwmon/pmbus/lm25066.c:404:46: sparse: sparse: bad integer consta=
+nt expression
+   drivers/hwmon/pmbus/lm25066.c:404:46: sparse: sparse: static assertion f=
+ailed: "clamp() low limit (typeof(word))(0) greater than high limit (typeof=
+(word))(data->rlimit)"
+   drivers/hwmon/pmbus/lm25066.c:412:46: sparse: sparse: bad integer consta=
+nt expression
+   drivers/hwmon/pmbus/lm25066.c:412:46: sparse: sparse: static assertion f=
+ailed: "clamp() low limit (typeof(word))(0) greater than high limit (typeof=
+(word))(data->rlimit)"
+   drivers/hwmon/pmbus/lm25066.c:419:46: sparse: sparse: bad integer consta=
+nt expression
+   drivers/hwmon/pmbus/lm25066.c:419:46: sparse: sparse: static assertion f=
+ailed: "clamp() low limit (typeof(word))(0) greater than high limit (typeof=
+(word))(data->rlimit)"
 
-vim +/ret +253 drivers/i2c/busses/i2c-sun6i-p2wi.c
+vim +2462 fs/inode.c
 
-3e833490fae556 Boris Brezillon 2014-06-11  182  
-3e833490fae556 Boris Brezillon 2014-06-11  183  static int p2wi_probe(struct platform_device *pdev)
-3e833490fae556 Boris Brezillon 2014-06-11  184  {
-3e833490fae556 Boris Brezillon 2014-06-11  185  	struct device *dev = &pdev->dev;
-3e833490fae556 Boris Brezillon 2014-06-11  186  	struct device_node *np = dev->of_node;
-3e833490fae556 Boris Brezillon 2014-06-11  187  	struct device_node *childnp;
-3e833490fae556 Boris Brezillon 2014-06-11  188  	unsigned long parent_clk_freq;
-90224e6468e15d Andy Shevchenko 2020-03-24  189  	u32 clk_freq = I2C_MAX_STANDARD_MODE_FREQ;
-3e833490fae556 Boris Brezillon 2014-06-11  190  	struct p2wi *p2wi;
-3e833490fae556 Boris Brezillon 2014-06-11  191  	u32 slave_addr;
-3e833490fae556 Boris Brezillon 2014-06-11  192  	int clk_div;
-3e833490fae556 Boris Brezillon 2014-06-11  193  	int irq;
-3e833490fae556 Boris Brezillon 2014-06-11  194  	int ret;
-3e833490fae556 Boris Brezillon 2014-06-11  195  
-3e833490fae556 Boris Brezillon 2014-06-11  196  	of_property_read_u32(np, "clock-frequency", &clk_freq);
-3e833490fae556 Boris Brezillon 2014-06-11  197  	if (clk_freq > P2WI_MAX_FREQ) {
-3e833490fae556 Boris Brezillon 2014-06-11  198  		dev_err(dev,
-3e833490fae556 Boris Brezillon 2014-06-11  199  			"required clock-frequency (%u Hz) is too high (max = 6MHz)",
-3e833490fae556 Boris Brezillon 2014-06-11  200  			clk_freq);
-3e833490fae556 Boris Brezillon 2014-06-11  201  		return -EINVAL;
-3e833490fae556 Boris Brezillon 2014-06-11  202  	}
-3e833490fae556 Boris Brezillon 2014-06-11  203  
-3e833490fae556 Boris Brezillon 2014-06-11  204  	if (of_get_child_count(np) > 1) {
-3e833490fae556 Boris Brezillon 2014-06-11  205  		dev_err(dev, "P2WI only supports one slave device\n");
-3e833490fae556 Boris Brezillon 2014-06-11  206  		return -EINVAL;
-3e833490fae556 Boris Brezillon 2014-06-11  207  	}
-3e833490fae556 Boris Brezillon 2014-06-11  208  
-3e833490fae556 Boris Brezillon 2014-06-11  209  	p2wi = devm_kzalloc(dev, sizeof(struct p2wi), GFP_KERNEL);
-3e833490fae556 Boris Brezillon 2014-06-11  210  	if (!p2wi)
-3e833490fae556 Boris Brezillon 2014-06-11  211  		return -ENOMEM;
-3e833490fae556 Boris Brezillon 2014-06-11  212  
-3e833490fae556 Boris Brezillon 2014-06-11  213  	p2wi->slave_addr = -1;
-3e833490fae556 Boris Brezillon 2014-06-11  214  
-3e833490fae556 Boris Brezillon 2014-06-11  215  	/*
-3e833490fae556 Boris Brezillon 2014-06-11  216  	 * Authorize a p2wi node without any children to be able to use an
-3e833490fae556 Boris Brezillon 2014-06-11  217  	 * i2c-dev from userpace.
-3e833490fae556 Boris Brezillon 2014-06-11  218  	 * In this case the slave_addr is set to -1 and won't be checked when
-3e833490fae556 Boris Brezillon 2014-06-11  219  	 * launching a P2WI transfer.
-3e833490fae556 Boris Brezillon 2014-06-11  220  	 */
-3e833490fae556 Boris Brezillon 2014-06-11  221  	childnp = of_get_next_available_child(np, NULL);
-3e833490fae556 Boris Brezillon 2014-06-11  222  	if (childnp) {
-3e833490fae556 Boris Brezillon 2014-06-11  223  		ret = of_property_read_u32(childnp, "reg", &slave_addr);
-3e833490fae556 Boris Brezillon 2014-06-11  224  		if (ret) {
-453a237ccffad8 Rob Herring     2017-07-18  225  			dev_err(dev, "invalid slave address on node %pOF\n",
-453a237ccffad8 Rob Herring     2017-07-18  226  				childnp);
-3e833490fae556 Boris Brezillon 2014-06-11  227  			return -EINVAL;
-3e833490fae556 Boris Brezillon 2014-06-11  228  		}
-3e833490fae556 Boris Brezillon 2014-06-11  229  
-3e833490fae556 Boris Brezillon 2014-06-11  230  		p2wi->slave_addr = slave_addr;
-3e833490fae556 Boris Brezillon 2014-06-11  231  	}
-3e833490fae556 Boris Brezillon 2014-06-11  232  
-e0442d76213981 Dejin Zheng     2020-04-09  233  	p2wi->regs = devm_platform_ioremap_resource(pdev, 0);
-3e833490fae556 Boris Brezillon 2014-06-11  234  	if (IS_ERR(p2wi->regs))
-3e833490fae556 Boris Brezillon 2014-06-11  235  		return PTR_ERR(p2wi->regs);
-3e833490fae556 Boris Brezillon 2014-06-11  236  
-e47a0ced40472c Len Baker       2021-08-17  237  	strscpy(p2wi->adapter.name, pdev->name, sizeof(p2wi->adapter.name));
-3e833490fae556 Boris Brezillon 2014-06-11  238  	irq = platform_get_irq(pdev, 0);
-e42688ed5cf593 Dejin Zheng     2020-04-16  239  	if (irq < 0)
-3e833490fae556 Boris Brezillon 2014-06-11  240  		return irq;
-3e833490fae556 Boris Brezillon 2014-06-11  241  
-75ff8a340a8125 Andi Shyti      2023-06-12  242  	p2wi->clk = devm_clk_get_enabled(dev, NULL);
-3e833490fae556 Boris Brezillon 2014-06-11  243  	if (IS_ERR(p2wi->clk)) {
-3e833490fae556 Boris Brezillon 2014-06-11  244  		ret = PTR_ERR(p2wi->clk);
-3e833490fae556 Boris Brezillon 2014-06-11  245  		dev_err(dev, "failed to enable clk: %d\n", ret);
-3e833490fae556 Boris Brezillon 2014-06-11  246  		return ret;
-3e833490fae556 Boris Brezillon 2014-06-11  247  	}
-3e833490fae556 Boris Brezillon 2014-06-11  248  
-3e833490fae556 Boris Brezillon 2014-06-11  249  	parent_clk_freq = clk_get_rate(p2wi->clk);
-3e833490fae556 Boris Brezillon 2014-06-11  250  
-96ae9eab03b5d5 Philipp Zabel   2017-07-19  251  	p2wi->rstc = devm_reset_control_get_exclusive(dev, NULL);
-3e833490fae556 Boris Brezillon 2014-06-11  252  	if (IS_ERR(p2wi->rstc)) {
-3e833490fae556 Boris Brezillon 2014-06-11 @253  		dev_err(dev, "failed to retrieve reset controller: %d\n", ret);
-75ff8a340a8125 Andi Shyti      2023-06-12  254  		return PTR_ERR(p2wi->rstc);
-3e833490fae556 Boris Brezillon 2014-06-11  255  	}
-3e833490fae556 Boris Brezillon 2014-06-11  256  
-3e833490fae556 Boris Brezillon 2014-06-11  257  	ret = reset_control_deassert(p2wi->rstc);
-3e833490fae556 Boris Brezillon 2014-06-11  258  	if (ret) {
-3e833490fae556 Boris Brezillon 2014-06-11  259  		dev_err(dev, "failed to deassert reset line: %d\n", ret);
-75ff8a340a8125 Andi Shyti      2023-06-12  260  		return ret;
-3e833490fae556 Boris Brezillon 2014-06-11  261  	}
-3e833490fae556 Boris Brezillon 2014-06-11  262  
-3e833490fae556 Boris Brezillon 2014-06-11  263  	init_completion(&p2wi->complete);
-3e833490fae556 Boris Brezillon 2014-06-11  264  	p2wi->adapter.dev.parent = dev;
-3e833490fae556 Boris Brezillon 2014-06-11  265  	p2wi->adapter.algo = &p2wi_algo;
-3e833490fae556 Boris Brezillon 2014-06-11  266  	p2wi->adapter.owner = THIS_MODULE;
-3e833490fae556 Boris Brezillon 2014-06-11  267  	p2wi->adapter.dev.of_node = pdev->dev.of_node;
-3e833490fae556 Boris Brezillon 2014-06-11  268  	platform_set_drvdata(pdev, p2wi);
-3e833490fae556 Boris Brezillon 2014-06-11  269  	i2c_set_adapdata(&p2wi->adapter, p2wi);
-3e833490fae556 Boris Brezillon 2014-06-11  270  
-3e833490fae556 Boris Brezillon 2014-06-11  271  	ret = devm_request_irq(dev, irq, p2wi_interrupt, 0, pdev->name, p2wi);
-3e833490fae556 Boris Brezillon 2014-06-11  272  	if (ret) {
-3e833490fae556 Boris Brezillon 2014-06-11  273  		dev_err(dev, "can't register interrupt handler irq%d: %d\n",
-3e833490fae556 Boris Brezillon 2014-06-11  274  			irq, ret);
-3e833490fae556 Boris Brezillon 2014-06-11  275  		goto err_reset_assert;
-3e833490fae556 Boris Brezillon 2014-06-11  276  	}
-3e833490fae556 Boris Brezillon 2014-06-11  277  
-3e833490fae556 Boris Brezillon 2014-06-11  278  	writel(P2WI_CTRL_SOFT_RST, p2wi->regs + P2WI_CTRL);
-3e833490fae556 Boris Brezillon 2014-06-11  279  
-3e833490fae556 Boris Brezillon 2014-06-11  280  	clk_div = parent_clk_freq / clk_freq;
-3e833490fae556 Boris Brezillon 2014-06-11  281  	if (!clk_div) {
-3e833490fae556 Boris Brezillon 2014-06-11  282  		dev_warn(dev,
-3e833490fae556 Boris Brezillon 2014-06-11  283  			 "clock-frequency is too high, setting it to %lu Hz\n",
-3e833490fae556 Boris Brezillon 2014-06-11  284  			 parent_clk_freq);
-3e833490fae556 Boris Brezillon 2014-06-11  285  		clk_div = 1;
-3e833490fae556 Boris Brezillon 2014-06-11  286  	} else if (clk_div > P2WI_CCR_MAX_CLK_DIV) {
-3e833490fae556 Boris Brezillon 2014-06-11  287  		dev_warn(dev,
-3e833490fae556 Boris Brezillon 2014-06-11  288  			 "clock-frequency is too low, setting it to %lu Hz\n",
-3e833490fae556 Boris Brezillon 2014-06-11  289  			 parent_clk_freq / P2WI_CCR_MAX_CLK_DIV);
-3e833490fae556 Boris Brezillon 2014-06-11  290  		clk_div = P2WI_CCR_MAX_CLK_DIV;
-3e833490fae556 Boris Brezillon 2014-06-11  291  	}
-3e833490fae556 Boris Brezillon 2014-06-11  292  
-3e833490fae556 Boris Brezillon 2014-06-11  293  	writel(P2WI_CCR_SDA_OUT_DELAY(1) | P2WI_CCR_CLK_DIV(clk_div),
-3e833490fae556 Boris Brezillon 2014-06-11  294  	       p2wi->regs + P2WI_CCR);
-3e833490fae556 Boris Brezillon 2014-06-11  295  
-3e833490fae556 Boris Brezillon 2014-06-11  296  	ret = i2c_add_adapter(&p2wi->adapter);
-3e833490fae556 Boris Brezillon 2014-06-11  297  	if (!ret)
-3e833490fae556 Boris Brezillon 2014-06-11  298  		return 0;
-3e833490fae556 Boris Brezillon 2014-06-11  299  
-3e833490fae556 Boris Brezillon 2014-06-11  300  err_reset_assert:
-3e833490fae556 Boris Brezillon 2014-06-11  301  	reset_control_assert(p2wi->rstc);
-3e833490fae556 Boris Brezillon 2014-06-11  302  
-3e833490fae556 Boris Brezillon 2014-06-11  303  	return ret;
-3e833490fae556 Boris Brezillon 2014-06-11  304  }
-3e833490fae556 Boris Brezillon 2014-06-11  305  
+3cd886666ff19e Deepa Dinamani 2016-09-14  2447 =20
+50e17c000c467f Deepa Dinamani 2018-01-21  2448  /**
+50e17c000c467f Deepa Dinamani 2018-01-21  2449   * timestamp_truncate - Tru=
+ncate timespec to a granularity
+50e17c000c467f Deepa Dinamani 2018-01-21  2450   * @t: Timespec
+50e17c000c467f Deepa Dinamani 2018-01-21  2451   * @inode: inode being upda=
+ted
+50e17c000c467f Deepa Dinamani 2018-01-21  2452   *
+50e17c000c467f Deepa Dinamani 2018-01-21  2453   * Truncate a timespec to t=
+he granularity supported by the fs
+50e17c000c467f Deepa Dinamani 2018-01-21  2454   * containing the inode. Al=
+ways rounds down. gran must
+50e17c000c467f Deepa Dinamani 2018-01-21  2455   * not be 0 nor greater tha=
+n a second (NSEC_PER_SEC, or 10^9 ns).
+50e17c000c467f Deepa Dinamani 2018-01-21  2456   */
+50e17c000c467f Deepa Dinamani 2018-01-21  2457  struct timespec64 timestamp=
+_truncate(struct timespec64 t, struct inode *inode)
+50e17c000c467f Deepa Dinamani 2018-01-21  2458  {
+50e17c000c467f Deepa Dinamani 2018-01-21  2459  	struct super_block *sb =3D=
+ inode->i_sb;
+50e17c000c467f Deepa Dinamani 2018-01-21  2460  	unsigned int gran =3D sb->=
+s_time_gran;
+50e17c000c467f Deepa Dinamani 2018-01-21  2461 =20
+50e17c000c467f Deepa Dinamani 2018-01-21 @2462  	t.tv_sec =3D clamp(t.tv_se=
+c, sb->s_time_min, sb->s_time_max);
+50e17c000c467f Deepa Dinamani 2018-01-21  2463  	if (unlikely(t.tv_sec =3D=
+=3D sb->s_time_max || t.tv_sec =3D=3D sb->s_time_min))
+50e17c000c467f Deepa Dinamani 2018-01-21  2464  		t.tv_nsec =3D 0;
+50e17c000c467f Deepa Dinamani 2018-01-21  2465 =20
+50e17c000c467f Deepa Dinamani 2018-01-21  2466  	/* Avoid division in the c=
+ommon cases 1 ns and 1 s. */
+50e17c000c467f Deepa Dinamani 2018-01-21  2467  	if (gran =3D=3D 1)
+50e17c000c467f Deepa Dinamani 2018-01-21  2468  		; /* nothing */
+50e17c000c467f Deepa Dinamani 2018-01-21  2469  	else if (gran =3D=3D NSEC_=
+PER_SEC)
+50e17c000c467f Deepa Dinamani 2018-01-21  2470  		t.tv_nsec =3D 0;
+50e17c000c467f Deepa Dinamani 2018-01-21  2471  	else if (gran > 1 && gran =
+< NSEC_PER_SEC)
+50e17c000c467f Deepa Dinamani 2018-01-21  2472  		t.tv_nsec -=3D t.tv_nsec =
+% gran;
+50e17c000c467f Deepa Dinamani 2018-01-21  2473  	else
+50e17c000c467f Deepa Dinamani 2018-01-21  2474  		WARN(1, "invalid file tim=
+e granularity: %u", gran);
+50e17c000c467f Deepa Dinamani 2018-01-21  2475  	return t;
+50e17c000c467f Deepa Dinamani 2018-01-21  2476  }
+50e17c000c467f Deepa Dinamani 2018-01-21  2477  EXPORT_SYMBOL(timestamp_tru=
+ncate);
+50e17c000c467f Deepa Dinamani 2018-01-21  2478 =20
 
-:::::: The code at line 253 was first introduced by commit
-:::::: 3e833490fae55633f6adc03a5e6172d47c01f3e4 i2c: sunxi: add P2WI (Push/Pull 2 Wire Interface) controller support
-
-:::::: TO: Boris BREZILLON <boris.brezillon@free-electrons.com>
-:::::: CC: Wolfram Sang <wsa@the-dreams.de>
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
