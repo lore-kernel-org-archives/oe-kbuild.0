@@ -1,186 +1,179 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6566442E
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 05:13:56 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3141fa31c2bso537061f8f.2
-        for <oe-kbuild@lists.linux.dev>; Wed, 26 Jul 2023 22:13:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690434834; x=1691039634;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ms4Imiuy8EKPlBwbhJcl0rqifwGh1e3doJx4I3vmVvQ=;
-        b=RwB4ctSiG4gotI8gXGOmkJ+YY04bn9dQ6ZNptpH2irOhCFc3WKZBcplvhvPsw7t4a7
-         qo6n7fTSFM2b116LQmxEACCBJvtPv8S8B0h22kY8Exjlz85LghJeKYWopaglEptRJVln
-         cjTL2Mudx3ttff8X1zsJtjwtHIL5gkCl4zDdMC+7deCcIB/lZfHTAuWV8s0Sc+VyW8ha
-         aMZmAp9e82TyyW915sj1lIRul94HUIZXFkupT/M8S7YVsu8hw7jthNahRsuz3tqZli5w
-         U6ap6A19S2LHjLt54BKtzqQBYLPHjyQSOpHihTClM9tIbMcePJQunEcsFOShoPH191Qq
-         5C3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690434834; x=1691039634;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ms4Imiuy8EKPlBwbhJcl0rqifwGh1e3doJx4I3vmVvQ=;
-        b=WE46IpxAkU6xVkuevSdhDcMhyUf3/4w6K4mqgrqpNDCmGZ+6YIGBSV5rjzPNo3kmV+
-         PjFMkkm3cZXjHUzK8PSavU9gvW3pV5HjRod8Jp/N/5q8BMuiP5dOOUp5FYMkgJITCm4u
-         lDTU1BOWPs+HPHZBkuXQgcKa2twc6Lk6YY25Nv8jwvZ0IqfhN6VGTvlOZ4Be7CqenRSB
-         3R6QoQWB2Kq73/wg0/ORYots+H6vuPU4b7OE6P46bRtkrvYFbwdJSG5yMqc9f0o+C2eo
-         tV+4rVspZ7UG56Ws9odyD3VXdv8N6TXcbrqqgWtyiz38iHXlWjt7FLHH7d/h4qqOAPww
-         Q5Kw==
-X-Gm-Message-State: ABy/qLaR/RPjzOTGnOa+hQFUEAVzYOhe6Kqkf4VY2aaWxW09gB1ho3Ck
-	Xn15u1xKXbRLgB8RcZNAShZvYHThH1tr2GbV46A=
-X-Google-Smtp-Source: APBJJlGaZecOr21g+QCaQjqbhPKMTK925noBExwDyAVrGeBj5YNKzUHzMh7YpOPgqhhCNdberX0jdQ==
-X-Received: by 2002:adf:fece:0:b0:314:2735:dc13 with SMTP id q14-20020adffece000000b003142735dc13mr895897wrs.47.1690434834323;
-        Wed, 26 Jul 2023 22:13:54 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id y8-20020adffa48000000b003159d2dabbasm798202wrr.94.2023.07.26.22.13.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jul 2023 22:13:54 -0700 (PDT)
-Date: Thu, 27 Jul 2023 08:13:51 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Aman Deep <aman.deep@samsung.com>,
-	gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
-	laurent.pinchart@ideasonboard.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Aman Deep <aman.deep@samsung.com>,
-	Anuj Gupta <anuj01.gupta@samsung.com>
-Subject: Re: [PATCH] USB: Fix race condition during UVC webcam disconnect
-Message-ID: <8961ae64-35c4-4092-8bbe-6e903feaacd4@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACEEA20F1;
+	Thu, 27 Jul 2023 05:23:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
+ s=s31663417; t=1690435404; x=1691040204; i=deller@gmx.de;
+ bh=9Ba+rWrFA1c6ljXrc+1qjjYtNpjV+RX1ly8w80Fi4Vs=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=sqrp0QhNyF1+/uKFfq40dRiCySTYfpHen4TMtucLuIdIzgNZNOa2suzxKUZ2alfcd3B00K1
+ NSfOY8fl1ER/541wLoV2wwmJojWdf8iNqMXGToVizXQsvcvfJnCaoHZ0KI5Wa5ITfoYCFqeu3
+ Gxst2YZFcmjfeFGeVLGnUm8Ven0t2FG9yUYMVDUsoghT3uYHI+EANWe/d6fKKxiM0U8yzt26v
+ 9GmQANZyNsA9exfJPSlmtGhVC9ZYBF3mxl87I9SNiRRdo0k45+pz3NkoQw9l9xzrrJJJHpX8D
+ a09Q6uw/vupSShET7ZmBmbVgQCLddY9rCwq+ita6JqlCnR0ETkJQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.159.20]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MMXUN-1q8aq33I0N-00JelA; Thu, 27
+ Jul 2023 07:23:24 +0200
+Message-ID: <fea8677b-348a-dd67-4eac-12c547afa00d@gmx.de>
+Date: Thu, 27 Jul 2023 07:23:23 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230720113142.3070583-1-aman.deep@samsung.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: mm/kfence/kfence_test.c:287 test_alloc() warn: use 'gfp' here
+ instead of GFP_KERNEL?
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ Marco Elver <elver@google.com>, Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <9e72b7ea-9598-415d-bc55-f2f42b7fcb3b@kadam.mountain>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <9e72b7ea-9598-415d-bc55-f2f42b7fcb3b@kadam.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:q4WUBWKRB56NS4WI95CxOuAsJCM7QUFH7uLOg9pzPo9C2W2/wKo
+ 5NCZSMv0k9M9YSzg5wtc3jW2hGxcOHK459q4zYn/luUXJEizQ2e8mNCyf579+sPlxloLotj
+ GlSH/DrZXdqNuOCRtkhtux3uxQ+5PXSTu/zRdsHAaOHMuIkVGQpjKYyi18jju4Hn3nBKlOD
+ kkW4Fq21LbSQPQQN2g0qw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:GM5V8VKyGsU=;6Zmw/GchiKIohQKoDtRfZPJ/A/x
+ MhL+ufBurSSyoDGbVj371Rf4t8YAfyvvLfrS1Y1CFZiMNw0eyfZb3tDV/gMlAMbAIDwf0tiMo
+ rXKRMrl2mCe6OrHsH3yuwSq9AHAVN4CJ5mXHhxA5zM3ugCXsK54HGJoqR5d59UdhnQfWTHDed
+ gRWJlEXeWr4Krih6k4mKk0Zy0Uj+hdx+5GGPWtVY6dveDAcbQCHwJJfYGl+cc4GQCax0z0iQA
+ sFz88QWgQTekHWQuhrJd89syUoGrAhjL/Tz4sBkj74fVEx9GCRF0TiyEJfibm51Bw650KJhSJ
+ qYme21NcfHv1nYmO37pIUJxEuStSzKoPcpiYjgoqHv6fWmeijjWhRbWruVQ7379JpqzJAmR0D
+ 0nn7JvF6U6ebHp8VshmT/4Gij92OAOMpmKIeAJNhlvaK5cTZFDydNempeg/+AHS57B+M/hNWB
+ 1Fow3qS+43/BBp7no08KaKeWRcFP6JNsNKLtuhHLHECej8OBjT6qrodcaKEjGz7y656GxmYGE
+ CqZXHSNcQ9fQWRoPWOlWlDYEcc6MfmDjeTt/MCAczowakUflWz212jWAEub+y1YoblomlsVEE
+ G9PoRL8CSvyErErVcJ3uaiahYanzJNzj1xHL5XhgXsQ9SYYmoDP6PYnGpmRCPGK9BRXFA9pbK
+ yQYXdfaww62TRhrL98M0jhObL/0Qp3Gc/pjfLBdjjwr2gq8Ydlro+6NiScF0fxtrrvb4qHRwh
+ tN0caya5Qw9femg4NvsEFd5mugTYD9Q9U8WaPgFZTpIPP569HZqD3gLr1t1NBDidRS10H0pkG
+ zPvYG6mn0FqkQzV/bRIdisVkVEsmOmWAwV3NjhJv7+rV5yesaZIsdK3fwuBQuJnEXxBSSGUxB
+ eujv9UZsHzmdfzZ478+sLV1UjmFA4EaEZYOWQN9LT7QNjeS1eww0KnoJsMn5G3730uM7utcwV
+ SAHr8toM19n5uDlSzaxkQwOUYD8=
 
-Hi Aman,
+On 7/27/23 06:51, Dan Carpenter wrote:
+> Hi Helge,
+>
+> FYI, the error/warning was bisected to this commit, please ignore it if =
+it's irrelevant.
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
+it master
+> head:   18b44bc5a67275641fb26f2c54ba7eef80ac5950
+> commit: adf8e96a7ea670d45b5de7594acc67e8f4787ae6 parisc: Enable LOCKDEP =
+support
+> config: parisc-randconfig-m041-20230726 (https://download.01.org/0day-ci=
+/archive/20230727/202307270305.L19EfaJD-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230727/20230727030=
+5.L19EfaJD-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new ver=
+sion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202307270305.L19EfaJD-lkp@intel.com/
+>
+> smatch warnings:
+> mm/kfence/kfence_test.c:287 test_alloc() warn: use 'gfp' here instead of=
+ GFP_KERNEL?
+>
+> (Just included these for the LOLs)
+> mm/kfence/kfence_test.c:395 test_double_free() error: double free of 'ex=
+pect.addr'
+> mm/kfence/kfence_test.c:671 test_memcache_typesafe_by_rcu() error: deref=
+erencing freed memory 'expect.addr'
+>
+> vim +/gfp +287 mm/kfence/kfence_test.c
+>
+> bc8fbc5f305aec Marco Elver     2021-02-25  243  static void *test_alloc(=
+struct kunit *test, size_t size, gfp_t gfp, enum allocation_policy policy)
+> bc8fbc5f305aec Marco Elver     2021-02-25  244  {
+> bc8fbc5f305aec Marco Elver     2021-02-25  245  	void *alloc;
+> bc8fbc5f305aec Marco Elver     2021-02-25  246  	unsigned long timeout, =
+resched_after;
+> bc8fbc5f305aec Marco Elver     2021-02-25  247  	const char *policy_name=
+;
+> bc8fbc5f305aec Marco Elver     2021-02-25  248
+> bc8fbc5f305aec Marco Elver     2021-02-25  249  	switch (policy) {
+> bc8fbc5f305aec Marco Elver     2021-02-25  250  	case ALLOCATE_ANY:
+> bc8fbc5f305aec Marco Elver     2021-02-25  251  		policy_name =3D "any";
+> bc8fbc5f305aec Marco Elver     2021-02-25  252  		break;
+> bc8fbc5f305aec Marco Elver     2021-02-25  253  	case ALLOCATE_LEFT:
+> bc8fbc5f305aec Marco Elver     2021-02-25  254  		policy_name =3D "left"=
+;
+> bc8fbc5f305aec Marco Elver     2021-02-25  255  		break;
+> bc8fbc5f305aec Marco Elver     2021-02-25  256  	case ALLOCATE_RIGHT:
+> bc8fbc5f305aec Marco Elver     2021-02-25  257  		policy_name =3D "right=
+";
+> bc8fbc5f305aec Marco Elver     2021-02-25  258  		break;
+> bc8fbc5f305aec Marco Elver     2021-02-25  259  	case ALLOCATE_NONE:
+> bc8fbc5f305aec Marco Elver     2021-02-25  260  		policy_name =3D "none"=
+;
+> bc8fbc5f305aec Marco Elver     2021-02-25  261  		break;
+> bc8fbc5f305aec Marco Elver     2021-02-25  262  	}
+> bc8fbc5f305aec Marco Elver     2021-02-25  263
+> bc8fbc5f305aec Marco Elver     2021-02-25  264  	kunit_info(test, "%s: s=
+ize=3D%zu, gfp=3D%x, policy=3D%s, cache=3D%i\n", __func__, size, gfp,
+> bc8fbc5f305aec Marco Elver     2021-02-25  265  		   policy_name, !!test=
+_cache);
+> bc8fbc5f305aec Marco Elver     2021-02-25  266
+> bc8fbc5f305aec Marco Elver     2021-02-25  267  	/*
+> bc8fbc5f305aec Marco Elver     2021-02-25  268  	 * 100x the sample inte=
+rval should be more than enough to ensure we get
+> bc8fbc5f305aec Marco Elver     2021-02-25  269  	 * a KFENCE allocation =
+eventually.
+> bc8fbc5f305aec Marco Elver     2021-02-25  270  	 */
+> 8913c610014823 Peng Liu        2022-02-11  271  	timeout =3D jiffies + m=
+secs_to_jiffies(100 * kfence_sample_interval);
+> bc8fbc5f305aec Marco Elver     2021-02-25  272  	/*
+> bc8fbc5f305aec Marco Elver     2021-02-25  273  	 * Especially for non-p=
+reemption kernels, ensure the allocation-gate
+> bc8fbc5f305aec Marco Elver     2021-02-25  274  	 * timer can catch up: =
+after @resched_after, every failed allocation
+> bc8fbc5f305aec Marco Elver     2021-02-25  275  	 * attempt yields, to e=
+nsure the allocation-gate timer is scheduled.
+> bc8fbc5f305aec Marco Elver     2021-02-25  276  	 */
+> 8913c610014823 Peng Liu        2022-02-11  277  	resched_after =3D jiffi=
+es + msecs_to_jiffies(kfence_sample_interval);
+> bc8fbc5f305aec Marco Elver     2021-02-25  278  	do {
+> bc8fbc5f305aec Marco Elver     2021-02-25  279  		if (test_cache)
+> bc8fbc5f305aec Marco Elver     2021-02-25  280  			alloc =3D kmem_cache_=
+alloc(test_cache, gfp);
+> bc8fbc5f305aec Marco Elver     2021-02-25  281  		else
+> bc8fbc5f305aec Marco Elver     2021-02-25  282  			alloc =3D kmalloc(siz=
+e, gfp);
+>                                                                         =
+                       ^^^
+>
+> bc8fbc5f305aec Marco Elver     2021-02-25  283
+> bc8fbc5f305aec Marco Elver     2021-02-25  284  		if (is_kfence_address(=
+alloc)) {
+> 8dae0cfed57357 Vlastimil Babka 2021-11-03  285  			struct slab *slab =3D=
+ virt_to_slab(alloc);
+> 588c7fa022d7b2 Hyeonggon Yoo   2021-06-28  286  			struct kmem_cache *s =
+=3D test_cache ?:
+> 588c7fa022d7b2 Hyeonggon Yoo   2021-06-28 @287  					kmalloc_caches[kmal=
+loc_type(GFP_KERNEL)][__kmalloc_index(size, false)];
+>                                                                         =
+                                             ^^^^^^^^^^
+> I feel like using gfp might be correct but I'm not sure?  This code
+> is from prior to this commit.  Let's add Marco to the CC.
 
-kernel test robot noticed the following build warnings:
+Since this is a test program, I assume that "GFP_KERNEL" is used intention=
+ally
+instead of "gfp" here to check if the "kmalloc(size, gfp)" above gets the =
+right kmalloc_caches[].
+If so, is there a way to silence the smatch warning ("mm/kfence/kfence_tes=
+t.c:287 test_alloc() warn: use 'gfp' here instead of GFP_KERNEL?") ?
+But I'm not sure either, so adding Hyeonggon to the CC too...
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aman-Deep/USB-Fix-race-condition-during-UVC-webcam-disconnect/20230720-202046
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230720113142.3070583-1-aman.deep%40samsung.com
-patch subject: [PATCH] USB: Fix race condition during UVC webcam disconnect
-config: parisc-randconfig-m041-20230726 (https://download.01.org/0day-ci/archive/20230727/202307270834.rpaexQSs-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270834.rpaexQSs-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307270834.rpaexQSs-lkp@intel.com/
-
-smatch warnings:
-drivers/usb/core/message.c:1668 usb_set_interface() warn: inconsistent returns 'hcd->bandwidth_mutex'.
-
-vim +1668 drivers/usb/core/message.c
-
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1528  int usb_set_interface(struct usb_device *dev, int interface, int alternate)
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1529  {
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1530  	struct usb_interface *iface;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1531  	struct usb_host_interface *alt;
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1532  	struct usb_hcd *hcd = bus_to_hcd(dev->bus);
-7a7b562d08ad6d Hans de Goede                 2013-11-08  1533  	int i, ret, manual = 0;
-3e35bf39e0b909 Greg Kroah-Hartman            2008-01-30  1534  	unsigned int epaddr;
-3e35bf39e0b909 Greg Kroah-Hartman            2008-01-30  1535  	unsigned int pipe;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1536  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1537  	if (dev->state == USB_STATE_SUSPENDED)
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1538  		return -EHOSTUNREACH;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1539  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1540  	iface = usb_ifnum_to_if(dev, interface);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1541  	if (!iface) {
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1542  		dev_dbg(&dev->dev, "selecting invalid interface %d\n",
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1543  			interface);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1544  		return -EINVAL;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1545  	}
-e534c5b831c8b8 Alan Stern                    2011-07-01  1546  	if (iface->unregistering)
-e534c5b831c8b8 Alan Stern                    2011-07-01  1547  		return -ENODEV;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1548  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1549  	alt = usb_altnum_to_altsetting(iface, alternate);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1550  	if (!alt) {
-385f690bc058ba Thadeu Lima de Souza Cascardo 2010-01-17  1551  		dev_warn(&dev->dev, "selecting invalid altsetting %d\n",
-3b6004f3b5a8b4 Greg Kroah-Hartman            2008-08-14  1552  			 alternate);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1553  		return -EINVAL;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1554  	}
-f9a5b4f58b280c Mathias Nyman                 2018-09-03  1555  	/*
-f9a5b4f58b280c Mathias Nyman                 2018-09-03  1556  	 * usb3 hosts configure the interface in usb_hcd_alloc_bandwidth,
-f9a5b4f58b280c Mathias Nyman                 2018-09-03  1557  	 * including freeing dropped endpoint ring buffers.
-f9a5b4f58b280c Mathias Nyman                 2018-09-03  1558  	 * Make sure the interface endpoints are flushed before that
-f9a5b4f58b280c Mathias Nyman                 2018-09-03  1559  	 */
-f9a5b4f58b280c Mathias Nyman                 2018-09-03  1560  	usb_disable_interface(dev, iface, false);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1561  
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1562  	/* Make sure we have enough bandwidth for this alternate interface.
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1563  	 * Remove the current alt setting and add the new alt setting.
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1564  	 */
-d673bfcbfffdeb Sarah Sharp                   2010-10-15  1565  	mutex_lock(hcd->bandwidth_mutex);
-8306095fd2c110 Sarah Sharp                   2012-05-02  1566  	/* Disable LPM, and re-enable it once the new alt setting is installed,
-8306095fd2c110 Sarah Sharp                   2012-05-02  1567  	 * so that the xHCI driver can recalculate the U1/U2 timeouts.
-8306095fd2c110 Sarah Sharp                   2012-05-02  1568  	 */
-8306095fd2c110 Sarah Sharp                   2012-05-02  1569  	if (usb_disable_lpm(dev)) {
-1ccc417e6c3201 Joe Perches                   2017-12-05  1570  		dev_err(&iface->dev, "%s Failed to disable LPM\n", __func__);
-8306095fd2c110 Sarah Sharp                   2012-05-02  1571  		mutex_unlock(hcd->bandwidth_mutex);
-8306095fd2c110 Sarah Sharp                   2012-05-02  1572  		return -ENOMEM;
-8306095fd2c110 Sarah Sharp                   2012-05-02  1573  	}
-7a7b562d08ad6d Hans de Goede                 2013-11-08  1574  	/* Changing alt-setting also frees any allocated streams */
-7a7b562d08ad6d Hans de Goede                 2013-11-08  1575  	for (i = 0; i < iface->cur_altsetting->desc.bNumEndpoints; i++)
-7a7b562d08ad6d Hans de Goede                 2013-11-08  1576  		iface->cur_altsetting->endpoint[i].streams = 0;
-7a7b562d08ad6d Hans de Goede                 2013-11-08  1577  
-4682bbb9e2f196 Aman Deep                     2023-07-20  1578  	if (dev->state == USB_STATE_NOTATTACHED)
-4682bbb9e2f196 Aman Deep                     2023-07-20  1579  		return -ENODEV;
-
-
-mutex_unlock(hcd->bandwidth_mutex); before returning
-
-4682bbb9e2f196 Aman Deep                     2023-07-20  1580  
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1581  	ret = usb_hcd_alloc_bandwidth(dev, NULL, iface->cur_altsetting, alt);
-4682bbb9e2f196 Aman Deep                     2023-07-20  1582  
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1583  	if (ret < 0) {
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1584  		dev_info(&dev->dev, "Not enough bandwidth for altsetting %d\n",
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1585  				alternate);
-8306095fd2c110 Sarah Sharp                   2012-05-02  1586  		usb_enable_lpm(dev);
-d673bfcbfffdeb Sarah Sharp                   2010-10-15  1587  		mutex_unlock(hcd->bandwidth_mutex);
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1588  		return ret;
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1589  	}
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1590  
-392e1d9817d002 Alan Stern                    2008-03-11  1591  	if (dev->quirks & USB_QUIRK_NO_SET_INTF)
-392e1d9817d002 Alan Stern                    2008-03-11  1592  		ret = -EPIPE;
-392e1d9817d002 Alan Stern                    2008-03-11  1593  	else
-297e84c04d76b9 Greg Kroah-Hartman            2020-09-14  1594  		ret = usb_control_msg_send(dev, 0,
-297e84c04d76b9 Greg Kroah-Hartman            2020-09-14  1595  					   USB_REQ_SET_INTERFACE,
-297e84c04d76b9 Greg Kroah-Hartman            2020-09-14  1596  					   USB_RECIP_INTERFACE, alternate,
-ddd1198e3e0935 Oliver Neukum                 2020-09-23  1597  					   interface, NULL, 0, 5000,
-ddd1198e3e0935 Oliver Neukum                 2020-09-23  1598  					   GFP_NOIO);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1599  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1600  	/* 9.4.10 says devices don't need this and are free to STALL the
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1601  	 * request if the interface only has one alternate setting.
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1602  	 */
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1603  	if (ret == -EPIPE && iface->num_altsetting == 1) {
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1604  		dev_dbg(&dev->dev,
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1605  			"manual set_interface for iface %d, alt %d\n",
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1606  			interface, alternate);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1607  		manual = 1;
-297e84c04d76b9 Greg Kroah-Hartman            2020-09-14  1608  	} else if (ret) {
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1609  		/* Re-instate the old alt setting */
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1610  		usb_hcd_alloc_bandwidth(dev, NULL, alt, iface->cur_altsetting);
-8306095fd2c110 Sarah Sharp                   2012-05-02  1611  		usb_enable_lpm(dev);
-d673bfcbfffdeb Sarah Sharp                   2010-10-15  1612  		mutex_unlock(hcd->bandwidth_mutex);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1613  		return ret;
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1614  	}
-d673bfcbfffdeb Sarah Sharp                   2010-10-15  1615  	mutex_unlock(hcd->bandwidth_mutex);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1616  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1617  	/* FIXME drivers shouldn't need to replicate/bugfix the logic here
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1618  	 * when they implement async or easily-killable versions of this or
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1619  	 * other "should-be-internal" functions (like clear_halt).
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1620  	 * should hcd+usbcore postprocess control requests?
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Helge
