@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (unknown [192.55.52.43])
+Received: from mgamail.intel.com (unknown [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2E7C8E0
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 12:37:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF50174F4
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 14:11:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690461474; x=1721997474;
+  t=1690467116; x=1722003116;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AgXqImZhNSTkTJwR7VGRaXV79lwPssA0cptrAyVs+Ss=;
-  b=IOmbiI29oEuPndc0RbonEj49V7zKLT8Ia/No1uCsy8iC79+F1fodavGF
-   /VHDXLaCKF7DOlhXUhP4Wynb0b94MENo2o7fWpEFnAxst7lj3CalFyVIy
-   4hWuHfTKrLLaLA44qcyPzCasrijXBjdO6vSbc4gA1GbsYGbBeopQdj5TY
-   KcxoGFSBKI0h7B8TmK0ygrpqIu3lG2sojkyCGAkcD8MOPTD4GSah3ylzJ
-   ta2e5TFz7v8LGZf6L/7SuE3+nR/3wVj0XYbAcLXeUk2O2m6oJPdgZXsjJ
-   U6I3DpylB19oRhRKxcEjnM653zQFOUYl2KvEoZwCIQCwbBEipzFIfzhD3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="454661327"
-X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="454661327"
+  bh=M2m/l1lg1Pnb32RulaIm4G1P3FWmkImhfT7Ejk5qxyU=;
+  b=HFi31YpbPPtkvJLgW42sfiI+Myu81TbiWq67t0V0SF8tvHJpFssCdk/C
+   eg2GskxGOnGU9ctMqmTHEBL9bLNa3uiELmxpsYxPPUZ17DI9//25naiTW
+   KqV9jN7u65MqjVt4O0KVwehixEQacatSma4gfpTdCYCrzSJ1DfQ/+AtDx
+   6iJTorZqLF59UuQLwFMfH4kpN3oeQz8ChW1PgrXWc39OVPxYuHlyhnYBD
+   ZO0RQeApU70yQ0mRZVpvDoGDC553P4DemrDyQEs9Pj/3rbaj4Eq97jdb1
+   H6TJnlq4gRV0xjG9+8Bk+fkinx6/3YyNCunC1UXBi5uxsD4uZwRFaLX4+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="399256851"
+X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; 
+   d="scan'208";a="399256851"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 05:37:53 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 07:11:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="720875476"
-X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="720875476"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="720891893"
+X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; 
+   d="scan'208";a="720891893"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 27 Jul 2023 05:37:51 -0700
+  by orsmga007.jf.intel.com with ESMTP; 27 Jul 2023 07:11:51 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qP0FI-0002HH-0J;
-	Thu, 27 Jul 2023 12:37:42 +0000
-Date: Thu, 27 Jul 2023 20:37:16 +0800
+	id 1qP1iY-0002Jj-2M;
+	Thu, 27 Jul 2023 14:11:50 +0000
+Date: Thu, 27 Jul 2023 22:10:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the
- arguments have the same signedness.
-Message-ID: <202307272044.StbwTfqy-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: kernel/irq/msi.c:801 msi_handle_pci_fail() warn: ignoring
+ unreachable code.
+Message-ID: <202307272213.4XeMAbNw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,144 +46,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: block/kyber-iosched.c:269:17: sparse: sparse: bad integer constant expression"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <a09512c8526b46759669d0b879144563@AcuMS.aculab.com>
-References: <a09512c8526b46759669d0b879144563@AcuMS.aculab.com>
-TO: David Laight <David.Laight@ACULAB.COM>
-TO: "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>
-TO: "'Andy Shevchenko'" <andriy.shevchenko@linux.intel.com>
-TO: "'Andrew Morton'" <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "'Matthew Wilcox (Oracle)'" <willy@infradead.org>
-TO: "'Christoph Hellwig'" <hch@infradead.org>
-TO: "'Jason A. Donenfeld'" <Jason@zx2c4.com>
+CC: linux-kernel@vger.kernel.org
+TO: Frank Li <Frank.Li@nxp.com>
+CC: Marc Zyngier <maz@kernel.org>
 
-Hi David,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master crng-random/master v6.5-rc3 next-20230727]
-[cannot apply to next-20230725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Allow-min-max-clamp-if-the-arguments-have-the-same-signedness/20230725-204940
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/a09512c8526b46759669d0b879144563%40AcuMS.aculab.com
-patch subject: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the arguments have the same signedness.
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: xtensa-randconfig-r093-20230725 (https://download.01.org/0day-ci/archive/20230727/202307272044.StbwTfqy-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307272044.StbwTfqy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0a8db05b571ad5b8d5c8774a004c0424260a90bd
+commit: 70afdab904d2d1e68bffe75fe08e7e48e0b0ff8e irqchip: Add IMX MU MSI controller driver
+date:   10 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 10 months ago
+config: arm-randconfig-m041-20230727 (https://download.01.org/0day-ci/archive/20230727/202307272213.4XeMAbNw-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307272213.4XeMAbNw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202307272044.StbwTfqy-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202307272213.4XeMAbNw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   block/kyber-iosched.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> block/kyber-iosched.c:269:17: sparse: sparse: bad integer constant expression
->> block/kyber-iosched.c:269:17: sparse: sparse: static assertion failed: "clamp() low limit 1U greater than high limit kyber_depth[sched_domain]"
---
-   block/bfq-iosched.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> block/bfq-iosched.c:1120:16: sparse: sparse: bad integer constant expression
->> block/bfq-iosched.c:1120:16: sparse: sparse: static assertion failed: "clamp() low limit (typeof(dur))(msecs_to_jiffies(3000)) greater than high limit (typeof(dur))(msecs_to_jiffies(25000))"
---
-   mm/memtest.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> mm/memtest.c:79:30: sparse: sparse: bad integer constant expression
->> mm/memtest.c:79:30: sparse: sparse: static assertion failed: "clamp() low limit start greater than high limit end"
-   mm/memtest.c:80:28: sparse: sparse: bad integer constant expression
-   mm/memtest.c:80:28: sparse: sparse: static assertion failed: "clamp() low limit start greater than high limit end"
---
-   drivers/regulator/rtmv20-regulator.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> drivers/regulator/rtmv20-regulator.c:192:22: sparse: sparse: bad integer constant expression
->> drivers/regulator/rtmv20-regulator.c:192:22: sparse: sparse: static assertion failed: "clamp() low limit (typeof(val))(min) greater than high limit (typeof(val))(max)"
---
-   drivers/clk/xilinx/xlnx_vcu.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> drivers/clk/xilinx/xlnx_vcu.c:317:16: sparse: sparse: bad integer constant expression
->> drivers/clk/xilinx/xlnx_vcu.c:317:16: sparse: sparse: static assertion failed: "clamp() low limit (unsigned long)(pll->fvco_min) greater than high limit (unsigned long)(pll->fvco_max)"
---
-   fs/btrfs/async-thread.c: note: in included file (through arch/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, include/linux/sched.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> fs/btrfs/async-thread.c:197:30: sparse: sparse: bad integer constant expression
->> fs/btrfs/async-thread.c:197:30: sparse: sparse: static assertion failed: "clamp() low limit (typeof(new_current_active))(1) greater than high limit (typeof(new_current_active))(wq->limit_active)"
---
-   fs/btrfs/discard.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> fs/btrfs/discard.c:621:17: sparse: sparse: bad integer constant expression
->> fs/btrfs/discard.c:621:17: sparse: sparse: static assertion failed: "clamp() low limit min_delay greater than high limit (1000UL)"
---
-   drivers/md/bcache/sysfs.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> drivers/md/bcache/sysfs.c:315:9: sparse: sparse: bad integer constant expression
->> drivers/md/bcache/sysfs.c:315:9: sparse: sparse: static assertion failed: "clamp() low limit (typeof(v))(0) greater than high limit (typeof(v))(bch_cutoff_writeback)"
-   drivers/md/bcache/sysfs.c:341:9: sparse: sparse: bad integer constant expression
->> drivers/md/bcache/sysfs.c:341:9: sparse: sparse: static assertion failed: "clamp() low limit (typeof(v))(1) greater than high limit (typeof(v))(dc->writeback_rate_fp_term_mid - 1)"
-   drivers/md/bcache/sysfs.c:344:9: sparse: sparse: bad integer constant expression
->> drivers/md/bcache/sysfs.c:344:9: sparse: sparse: static assertion failed: "clamp() low limit (typeof(v))(dc->writeback_rate_fp_term_low + 1) greater than high limit (typeof(v))(dc->writeback_rate_fp_term_high - 1)"
-   drivers/md/bcache/sysfs.c:348:9: sparse: sparse: bad integer constant expression
->> drivers/md/bcache/sysfs.c:348:9: sparse: sparse: static assertion failed: "clamp() low limit (typeof(v))(dc->writeback_rate_fp_term_mid + 1) greater than high limit (typeof(v))((~0U))"
---
-   drivers/md/bcache/writeback.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> drivers/md/bcache/writeback.c:149:20: sparse: sparse: bad integer constant expression
->> drivers/md/bcache/writeback.c:149:20: sparse: sparse: static assertion failed: "clamp() low limit (int32_t)(dc->writeback_rate_minimum) greater than high limit (int32_t)(1000000000L)"
---
-   fs/gfs2/rgrp.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> fs/gfs2/rgrp.c:1586:26: sparse: sparse: bad integer constant expression
->> fs/gfs2/rgrp.c:1586:26: sparse: sparse: static assertion failed: "clamp() low limit (u32)32 greater than high limit free_blocks"
---
-   drivers/nvme/host/core.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> drivers/nvme/host/core.c:3064:42: sparse: sparse: bad integer constant expression
->> drivers/nvme/host/core.c:3064:42: sparse: sparse: static assertion failed: "clamp() low limit (unsigned int)(shutdown_timeout) greater than high limit (unsigned int)(60)"
---
-   drivers/video/backlight/lv5207lp.c: note: in included file (through arch/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, include/linux/sched.h, ...):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> drivers/video/backlight/lv5207lp.c:109:28: sparse: sparse: bad integer constant expression
->> drivers/video/backlight/lv5207lp.c:109:28: sparse: sparse: static assertion failed: "clamp() low limit (unsigned int)(0) greater than high limit (unsigned int)(props.max_brightness)"
+smatch warnings:
+kernel/irq/msi.c:801 msi_handle_pci_fail() warn: ignoring unreachable code.
 
-vim +269 block/kyber-iosched.c
+vim +801 kernel/irq/msi.c
 
-00e043936e9a1c Omar Sandoval     2017-04-14  265  
-6e25cb01ea2063 Omar Sandoval     2018-09-27  266  static void kyber_resize_domain(struct kyber_queue_data *kqd,
-6e25cb01ea2063 Omar Sandoval     2018-09-27  267  				unsigned int sched_domain, unsigned int depth)
-6e25cb01ea2063 Omar Sandoval     2018-09-27  268  {
-00e043936e9a1c Omar Sandoval     2017-04-14 @269  	depth = clamp(depth, 1U, kyber_depth[sched_domain]);
-6c3b7af1c975b8 Omar Sandoval     2018-09-27  270  	if (depth != kqd->domain_tokens[sched_domain].sb.depth) {
-00e043936e9a1c Omar Sandoval     2017-04-14  271  		sbitmap_queue_resize(&kqd->domain_tokens[sched_domain], depth);
-c41108049d1433 Christoph Hellwig 2021-10-12  272  		trace_kyber_adjust(kqd->dev, kyber_domain_names[sched_domain],
-6c3b7af1c975b8 Omar Sandoval     2018-09-27  273  				   depth);
-6c3b7af1c975b8 Omar Sandoval     2018-09-27  274  	}
-00e043936e9a1c Omar Sandoval     2017-04-14  275  }
-00e043936e9a1c Omar Sandoval     2017-04-14  276  
+da5dd9e854d2edd Thomas Gleixner 2017-12-29  786  
+890337624e1fa2d Thomas Gleixner 2021-12-06  787  static int msi_handle_pci_fail(struct irq_domain *domain, struct msi_desc *desc,
+890337624e1fa2d Thomas Gleixner 2021-12-06  788  			       int allocated)
+890337624e1fa2d Thomas Gleixner 2021-12-06  789  {
+890337624e1fa2d Thomas Gleixner 2021-12-06  790  	switch(domain->bus_token) {
+890337624e1fa2d Thomas Gleixner 2021-12-06  791  	case DOMAIN_BUS_PCI_MSI:
+890337624e1fa2d Thomas Gleixner 2021-12-06  792  	case DOMAIN_BUS_VMD_MSI:
+890337624e1fa2d Thomas Gleixner 2021-12-06  793  		if (IS_ENABLED(CONFIG_PCI_MSI))
+890337624e1fa2d Thomas Gleixner 2021-12-06  794  			break;
+890337624e1fa2d Thomas Gleixner 2021-12-06  795  		fallthrough;
+890337624e1fa2d Thomas Gleixner 2021-12-06  796  	default:
+890337624e1fa2d Thomas Gleixner 2021-12-06  797  		return -ENOSPC;
+890337624e1fa2d Thomas Gleixner 2021-12-06  798  	}
+890337624e1fa2d Thomas Gleixner 2021-12-06  799  
+890337624e1fa2d Thomas Gleixner 2021-12-06  800  	/* Let a failed PCI multi MSI allocation retry */
+890337624e1fa2d Thomas Gleixner 2021-12-06 @801  	if (desc->nvec_used > 1)
+890337624e1fa2d Thomas Gleixner 2021-12-06  802  		return 1;
+890337624e1fa2d Thomas Gleixner 2021-12-06  803  
+890337624e1fa2d Thomas Gleixner 2021-12-06  804  	/* If there was a successful allocation let the caller know */
+890337624e1fa2d Thomas Gleixner 2021-12-06  805  	return allocated ? allocated : -ENOSPC;
+890337624e1fa2d Thomas Gleixner 2021-12-06  806  }
+890337624e1fa2d Thomas Gleixner 2021-12-06  807  
+
+:::::: The code at line 801 was first introduced by commit
+:::::: 890337624e1fa2da079fc1c036a62d178c985280 genirq/msi: Handle PCI/MSI allocation fail in core code
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
