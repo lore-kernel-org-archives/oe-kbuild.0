@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (unknown [134.134.136.100])
+Received: from mgamail.intel.com (unknown [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE9B1118B
-	for <oe-kbuild@lists.linux.dev>; Fri, 28 Jul 2023 10:25:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90FE1D304
+	for <oe-kbuild@lists.linux.dev>; Fri, 28 Jul 2023 11:06:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690539911; x=1722075911;
+  t=1690542382; x=1722078382;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G05ZPEddqdtud9eD4oQEnkNoFBH+dmMdfiUpI/+/IN0=;
-  b=G8v64ah/FywpF5V7+dHS4xqnxY3yix4a/OAVsf/2hh2tvhee0xhZGEqz
-   QbQTJVF0dbH89FkOln3h/cy7p3rrp8tlRvyGKwhD9/pRTMa5Nz3CgdIj5
-   EyIKPbkbn2/7iDcTSCfeS7hCx/ec0YafvIn10OYLYbT2BwXZVZLalWgWi
-   /aeo0eH2Is9MEjqqao0mVGv3J05peJ8VYBgUoBHnIrDZU9D6E5uNAWI0N
-   OAftK+mvDyDhYH1sw96WvVLqiuQ2v6Yk14L58uPlp27ZYNbhTwzlXE4Tz
-   XJ39BUJB4z/6736spz15WYeYHPQoLyBdUvXPbfJfeM8MNVhLk1dVveUw/
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="434844512"
+  bh=kEQ5naTnFLr4aGuk/avCdnYby12+aSXhQRlC0KZOXa4=;
+  b=MYD/hxLSaLD7+dApnF7a4wBSNoopsHMSBedczjyFAkpVkkHV1/1V3XVN
+   6mn9KlAVwZsOWiP2Qd5Cvh/fRkk+Ho93p0qgp5L0/QC7M1GsgKwx+8GSN
+   OJqwxYxLS+PN4ZHwKwVzFWDLMqCLpxLuTkKPBnh8XjsFy5sIidA38vWQx
+   wAr6HDgLOhdssWfbl83cixWNRl/3D3MqMXx/HIkN68ZDvXNYYj0VgV0na
+   034VumsRIesMuVIOpjzF3Mj0KegTg3bzKkxmgmKJQhBut1sWNx4i0p82M
+   JF/vr13OE2XhgiUEt5I/jHrg406ZH/HH5jSqEUPXtdO22wReHosLxjahR
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="353476613"
 X-IronPort-AV: E=Sophos;i="6.01,237,1684825200"; 
-   d="scan'208";a="434844512"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 03:25:10 -0700
+   d="scan'208";a="353476613"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 04:06:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="704503781"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="901240962"
 X-IronPort-AV: E=Sophos;i="6.01,237,1684825200"; 
-   d="scan'208";a="704503781"
+   d="scan'208";a="901240962"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 28 Jul 2023 03:25:09 -0700
+  by orsmga005.jf.intel.com with ESMTP; 28 Jul 2023 04:06:20 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPKei-00035n-2p;
-	Fri, 28 Jul 2023 10:25:08 +0000
-Date: Fri, 28 Jul 2023 18:25:08 +0800
+	id 1qPLIa-00037J-0O;
+	Fri, 28 Jul 2023 11:06:20 +0000
+Date: Fri, 28 Jul 2023 19:05:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the
- arguments have the same signedness.
-Message-ID: <202307281858.Z5bry3r7-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [alobakin:iavf-pp-frag 3/28]
+ drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c:525:29-44: ERROR:
+ reference preceded by free on line 524
+Message-ID: <202307281918.q35tlDWz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,85 +47,133 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/hid/hid-nintendo.c:1568:32: sparse: sparse: bad integer constant expression"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <a09512c8526b46759669d0b879144563@AcuMS.aculab.com>
-References: <a09512c8526b46759669d0b879144563@AcuMS.aculab.com>
-TO: David Laight <David.Laight@ACULAB.COM>
-TO: "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>
-TO: "'Andy Shevchenko'" <andriy.shevchenko@linux.intel.com>
-TO: "'Andrew Morton'" <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "'Matthew Wilcox (Oracle)'" <willy@infradead.org>
-TO: "'Christoph Hellwig'" <hch@infradead.org>
-TO: "'Jason A. Donenfeld'" <Jason@zx2c4.com>
+TO: Alexander Lobakin <aleksander.lobakin@intel.com>
 
-Hi David,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.5-rc3 next-20230728]
-[cannot apply to next-20230725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Allow-min-max-clamp-if-the-arguments-have-the-same-signedness/20230725-204940
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/a09512c8526b46759669d0b879144563%40AcuMS.aculab.com
-patch subject: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the arguments have the same signedness.
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: sparc-randconfig-r091-20230727 (https://download.01.org/0day-ci/archive/20230728/202307281858.Z5bry3r7-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281858.Z5bry3r7-lkp@intel.com/reproduce)
+tree:   https://github.com/alobakin/linux iavf-pp-frag
+head:   bd8ea2a4f32691ee972ce571a8489aa04e5b08f3
+commit: ac8f720051f28c4000cd0f6f080b73b1ce8e89e4 [3/28] virtchnl: fix fake 1-elem arrays for structures allocated as `nents`
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: sparc64-randconfig-r052-20230727 (https://download.01.org/0day-ci/archive/20230728/202307281918.q35tlDWz-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281918.q35tlDWz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202307281858.Z5bry3r7-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202307281918.q35tlDWz-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hid/hid-nintendo.c:1568:32: sparse: sparse: bad integer constant expression
->> drivers/hid/hid-nintendo.c:1568:32: sparse: sparse: static assertion failed: "clamp() low limit JOYCON_MIN_RUMBLE_LOW_FREQ greater than high limit JOYCON_MAX_RUMBLE_LOW_FREQ"
-   drivers/hid/hid-nintendo.c:1571:32: sparse: sparse: bad integer constant expression
->> drivers/hid/hid-nintendo.c:1571:32: sparse: sparse: static assertion failed: "clamp() low limit JOYCON_MIN_RUMBLE_HIGH_FREQ greater than high limit JOYCON_MAX_RUMBLE_HIGH_FREQ"
-   drivers/hid/hid-nintendo.c:1574:32: sparse: sparse: bad integer constant expression
-   drivers/hid/hid-nintendo.c:1574:32: sparse: sparse: static assertion failed: "clamp() low limit JOYCON_MIN_RUMBLE_LOW_FREQ greater than high limit JOYCON_MAX_RUMBLE_LOW_FREQ"
-   drivers/hid/hid-nintendo.c:1577:32: sparse: sparse: bad integer constant expression
-   drivers/hid/hid-nintendo.c:1577:32: sparse: sparse: static assertion failed: "clamp() low limit JOYCON_MIN_RUMBLE_HIGH_FREQ greater than high limit JOYCON_MAX_RUMBLE_HIGH_FREQ"
---
->> sound/pci/emu10k1/emuproc.c:370:17: sparse: sparse: bad integer constant expression
->> sound/pci/emu10k1/emuproc.c:370:17: sparse: sparse: static assertion failed: "clamp() low limit 0 greater than high limit nspaces"
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c:525:29-44: ERROR: reference preceded by free on line 524
 
-vim +1568 drivers/hid/hid-nintendo.c
+vim +525 drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c
 
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1562  
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1563  static void joycon_clamp_rumble_freqs(struct joycon_ctlr *ctlr)
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1564  {
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1565  	unsigned long flags;
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1566  
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1567  	spin_lock_irqsave(&ctlr->lock, flags);
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11 @1568  	ctlr->rumble_ll_freq = clamp(ctlr->rumble_ll_freq,
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1569  				     JOYCON_MIN_RUMBLE_LOW_FREQ,
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1570  				     JOYCON_MAX_RUMBLE_LOW_FREQ);
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11 @1571  	ctlr->rumble_lh_freq = clamp(ctlr->rumble_lh_freq,
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1572  				     JOYCON_MIN_RUMBLE_HIGH_FREQ,
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1573  				     JOYCON_MAX_RUMBLE_HIGH_FREQ);
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1574  	ctlr->rumble_rl_freq = clamp(ctlr->rumble_rl_freq,
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1575  				     JOYCON_MIN_RUMBLE_LOW_FREQ,
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1576  				     JOYCON_MAX_RUMBLE_LOW_FREQ);
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1577  	ctlr->rumble_rh_freq = clamp(ctlr->rumble_rh_freq,
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1578  				     JOYCON_MIN_RUMBLE_HIGH_FREQ,
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1579  				     JOYCON_MAX_RUMBLE_HIGH_FREQ);
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1580  	spin_unlock_irqrestore(&ctlr->lock, flags);
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1581  }
-c4eae84feff3e6 Daniel J. Ogorchock 2021-09-11  1582  
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  492  
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  493  /**
+2723f3b5d4ff58 Jesse Brandeburg    2022-12-16  494   * i40e_config_rdma_qvlist
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  495   * @vf: pointer to the VF info
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  496   * @qvlist_info: queue and vector list
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  497   *
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  498   * Return 0 on success or < 0 on error
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  499   **/
+2723f3b5d4ff58 Jesse Brandeburg    2022-12-16  500  static int
+2723f3b5d4ff58 Jesse Brandeburg    2022-12-16  501  i40e_config_rdma_qvlist(struct i40e_vf *vf,
+2723f3b5d4ff58 Jesse Brandeburg    2022-12-16  502  			struct virtchnl_rdma_qvlist_info *qvlist_info)
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  503  {
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  504  	struct i40e_pf *pf = vf->pf;
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  505  	struct i40e_hw *hw = &pf->hw;
+2723f3b5d4ff58 Jesse Brandeburg    2022-12-16  506  	struct virtchnl_rdma_qv_info *qv_info;
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  507  	u32 v_idx, i, reg_idx, reg;
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  508  	u32 next_q_idx, next_q_type;
+ac8f720051f28c Alexander Lobakin   2023-07-27  509  	size_t size;
+fae6cad17ce39b Gustavo A. R. Silva 2019-06-05  510  	u32 msix_vf;
+0b63644602cfcb Martyna Szapar      2019-04-18  511  	int ret = 0;
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  512  
+7015ca3df96537 Sergey Nemov        2019-03-29  513  	msix_vf = pf->hw.func_caps.num_msix_vectors_vf;
+7015ca3df96537 Sergey Nemov        2019-03-29  514  
+7015ca3df96537 Sergey Nemov        2019-03-29  515  	if (qvlist_info->num_vectors > msix_vf) {
+7015ca3df96537 Sergey Nemov        2019-03-29  516  		dev_warn(&pf->pdev->dev,
+7015ca3df96537 Sergey Nemov        2019-03-29  517  			 "Incorrect number of iwarp vectors %u. Maximum %u allowed.\n",
+7015ca3df96537 Sergey Nemov        2019-03-29  518  			 qvlist_info->num_vectors,
+7015ca3df96537 Sergey Nemov        2019-03-29  519  			 msix_vf);
+0b63644602cfcb Martyna Szapar      2019-04-18  520  		ret = -EINVAL;
+0b63644602cfcb Martyna Szapar      2019-04-18  521  		goto err_out;
+7015ca3df96537 Sergey Nemov        2019-03-29  522  	}
+7015ca3df96537 Sergey Nemov        2019-03-29  523  
+0b63644602cfcb Martyna Szapar      2019-04-18 @524  	kfree(vf->qvlist_info);
+ac8f720051f28c Alexander Lobakin   2023-07-27 @525  	size = virtchnl_struct_size(vf->qvlist_info, qv_info,
+ac8f720051f28c Alexander Lobakin   2023-07-27  526  				    qvlist_info->num_vectors);
+ac8f720051f28c Alexander Lobakin   2023-07-27  527  	vf->qvlist_info = kzalloc(size, GFP_KERNEL);
+0b63644602cfcb Martyna Szapar      2019-04-18  528  	if (!vf->qvlist_info) {
+0b63644602cfcb Martyna Szapar      2019-04-18  529  		ret = -ENOMEM;
+0b63644602cfcb Martyna Szapar      2019-04-18  530  		goto err_out;
+0b63644602cfcb Martyna Szapar      2019-04-18  531  	}
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  532  	vf->qvlist_info->num_vectors = qvlist_info->num_vectors;
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  533  
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  534  	msix_vf = pf->hw.func_caps.num_msix_vectors_vf;
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  535  	for (i = 0; i < qvlist_info->num_vectors; i++) {
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  536  		qv_info = &qvlist_info->qv_info[i];
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  537  		if (!qv_info)
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  538  			continue;
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  539  
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  540  		/* Validate vector id belongs to this vf */
+d510497b8397ec Sergey Nemov        2019-04-24  541  		if (!i40e_vc_isvalid_vector_id(vf, qv_info->v_idx)) {
+0b63644602cfcb Martyna Szapar      2019-04-18  542  			ret = -EINVAL;
+0b63644602cfcb Martyna Szapar      2019-04-18  543  			goto err_free;
+0b63644602cfcb Martyna Szapar      2019-04-18  544  		}
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  545  
+d510497b8397ec Sergey Nemov        2019-04-24  546  		v_idx = qv_info->v_idx;
+d510497b8397ec Sergey Nemov        2019-04-24  547  
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  548  		vf->qvlist_info->qv_info[i] = *qv_info;
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  549  
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  550  		reg_idx = ((msix_vf - 1) * vf->vf_id) + (v_idx - 1);
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  551  		/* We might be sharing the interrupt, so get the first queue
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  552  		 * index and type, push it down the list by adding the new
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  553  		 * queue on top. Also link it with the new queue in CEQCTL.
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  554  		 */
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  555  		reg = rd32(hw, I40E_VPINT_LNKLSTN(reg_idx));
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  556  		next_q_idx = ((reg & I40E_VPINT_LNKLSTN_FIRSTQ_INDX_MASK) >>
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  557  				I40E_VPINT_LNKLSTN_FIRSTQ_INDX_SHIFT);
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  558  		next_q_type = ((reg & I40E_VPINT_LNKLSTN_FIRSTQ_TYPE_MASK) >>
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  559  				I40E_VPINT_LNKLSTN_FIRSTQ_TYPE_SHIFT);
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  560  
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  561  		if (qv_info->ceq_idx != I40E_QUEUE_INVALID_IDX) {
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  562  			reg_idx = (msix_vf - 1) * vf->vf_id + qv_info->ceq_idx;
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  563  			reg = (I40E_VPINT_CEQCTL_CAUSE_ENA_MASK |
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  564  			(v_idx << I40E_VPINT_CEQCTL_MSIX_INDX_SHIFT) |
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  565  			(qv_info->itr_idx << I40E_VPINT_CEQCTL_ITR_INDX_SHIFT) |
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  566  			(next_q_type << I40E_VPINT_CEQCTL_NEXTQ_TYPE_SHIFT) |
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  567  			(next_q_idx << I40E_VPINT_CEQCTL_NEXTQ_INDX_SHIFT));
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  568  			wr32(hw, I40E_VPINT_CEQCTL(reg_idx), reg);
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  569  
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  570  			reg_idx = ((msix_vf - 1) * vf->vf_id) + (v_idx - 1);
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  571  			reg = (qv_info->ceq_idx &
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  572  			       I40E_VPINT_LNKLSTN_FIRSTQ_INDX_MASK) |
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  573  			       (I40E_QUEUE_TYPE_PE_CEQ <<
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  574  			       I40E_VPINT_LNKLSTN_FIRSTQ_TYPE_SHIFT);
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  575  			wr32(hw, I40E_VPINT_LNKLSTN(reg_idx), reg);
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  576  		}
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  577  
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  578  		if (qv_info->aeq_idx != I40E_QUEUE_INVALID_IDX) {
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  579  			reg = (I40E_VPINT_AEQCTL_CAUSE_ENA_MASK |
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  580  			(v_idx << I40E_VPINT_AEQCTL_MSIX_INDX_SHIFT) |
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  581  			(qv_info->itr_idx << I40E_VPINT_AEQCTL_ITR_INDX_SHIFT));
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  582  
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  583  			wr32(hw, I40E_VPINT_AEQCTL(vf->vf_id), reg);
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  584  		}
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  585  	}
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  586  
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  587  	return 0;
+0b63644602cfcb Martyna Szapar      2019-04-18  588  err_free:
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  589  	kfree(vf->qvlist_info);
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  590  	vf->qvlist_info = NULL;
+0b63644602cfcb Martyna Szapar      2019-04-18  591  err_out:
+0b63644602cfcb Martyna Szapar      2019-04-18  592  	return ret;
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  593  }
+e3219ce6a77546 Anjali Singhai Jain 2016-01-20  594  
 
 -- 
 0-DAY CI Kernel Test Service
