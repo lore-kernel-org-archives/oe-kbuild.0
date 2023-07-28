@@ -1,421 +1,406 @@
-Received: from mgamail.intel.com (unknown [134.134.136.100])
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0AE87C
-	for <oe-kbuild@lists.linux.dev>; Fri, 28 Jul 2023 02:26:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690511207; x=1722047207;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=t8JfPcC6QJV9FicMmhN38v0MLLCNc3U36TqyP27+n40=;
-  b=Mw5EeHNueXhB2iZoAGI+o36qsyxQRD2vBUfSJAQgp9Knvk1yUQtMewi7
-   RxkTMYlXXjASs+zimUF6/O/u+d/8uSjJn9ISTqON+SUydfcFzfq5J2YID
-   c1/JzlH0SAqeE+aXxrzGwBrcmYDamKGhzyb7t3sSVEaySIpY9KV6GF/ph
-   xrU8/6E7fQpa5PHbRUe4V5FqozwneRMVBMgFW2TVa/VJi1WCbVcU9yVyg
-   DMsm51TgnNFmd/OXcFG1v2Pl6uogqM/apIk2m7rJkJnzjYS7TfinzPT8K
-   6yRTkV381VrqqvGKRi+EQ9yes1J1d/ser/x1B/d2Ly7VeGd1iqrqv8y65
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="434772713"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="434772713"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 19:26:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="730576831"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="730576831"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 27 Jul 2023 19:26:44 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qPDBk-0002nR-0N;
-	Fri, 28 Jul 2023 02:26:44 +0000
-Date: Fri, 28 Jul 2023 10:25:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH next resend 4/5] minmax: Allow comparisons of 'int'
- against 'unsigned char/short'.
-Message-ID: <202307281006.KbhrGgb3-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB02823AE
+	for <oe-kbuild@lists.linux.dev>; Fri, 28 Jul 2023 05:28:57 +0000 (UTC)
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20230728052855epoutp04f3e070c933c4d6082eea18ce59ceb930~18OzoLC1H1234012340epoutp04e
+	for <oe-kbuild@lists.linux.dev>; Fri, 28 Jul 2023 05:28:55 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20230728052855epoutp04f3e070c933c4d6082eea18ce59ceb930~18OzoLC1H1234012340epoutp04e
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1690522135;
+	bh=vGRRultiFfnmCKJ6+H+vx2w/kEBScSd8rkAGbBRfaYk=;
+	h=Subject:Reply-To:From:To:CC:Date:References:From;
+	b=Pi6NjrgTw+p5YAuBKak8JMKK8JgWO0l/iGf82nn6FIzVp8FbP26wHYBUv05qbk8o5
+	 rRZwqHn+eMlfcGqC0UP9XQVD8LkFoaGM86bP1qw+so2OcRG8Tdhzr1BSzR2dg93LZa
+	 879ovnjy+xdOCzT8eUVzn1dUP7gA+Zejn80176YA=
+Received: from epsmgec5p1-new.samsung.com (unknown [182.195.42.80]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20230728052854epcas5p4596c08e6a1c73eb517651bfd5e912a9f~18Oy4scK31507015070epcas5p49;
+	Fri, 28 Jul 2023 05:28:54 +0000 (GMT)
+X-AuditID: b6c32a50-e61c07000001d785-63-64c35216a25d
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	E4.1D.55173.61253C46; Fri, 28 Jul 2023 14:28:54 +0900 (KST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Subject: RE: Re: [PATCH] USB: Fix race condition during UVC webcam
+ disconnect
+Reply-To: aman.deep@samsung.com
+Sender: AMAN DEEP <aman.deep@samsung.com>
+From: AMAN DEEP <aman.deep@samsung.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, "oe-kbuild@lists.linux.dev"
+	<oe-kbuild@lists.linux.dev>, "gregkh@linuxfoundation.org"
+	<gregkh@linuxfoundation.org>, "stern@rowland.harvard.edu"
+	<stern@rowland.harvard.edu>, "laurent.pinchart@ideasonboard.com"
+	<laurent.pinchart@ideasonboard.com>
+CC: "lkp@intel.com" <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Anuj Gupta <anuj01.gupta@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20230728050206epcms5p80a1e40db7bec854cb6ac6676f28c6c3b@epcms5p8>
+Date: Fri, 28 Jul 2023 10:32:06 +0530
+X-CMS-MailID: 20230728050206epcms5p80a1e40db7bec854cb6ac6676f28c6c3b
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCKsWRmVeSWpSXmKPExsWy7bCmpq5Y0OEUg5lP5Syu3PSx+DCvld2i
+	efF6NovOiUvYLS7vmsNmsWhZK7PFq+ZHbBaHVl5hsmhYd5bdYsLvC2wOXB6zO2ayeize85LJ
+	4861PWwe++euYfd4sXkmo8fsuz8YPfq2rGL0+LxJLoAjissmJTUnsyy1SN8ugStj8e2ljAW7
+	jjJWfP5/nbGBcc4Bxi5GTg4JAROJ0+8OM3UxcnEICexhlLh+eTFzFyMHB6+AoMTfHcIgNcIC
+	/hKPtv1lB7GFBOQlVj/axAgR15Q4N+kbWJxNQF3i1J+P7CBzRARWMUks2N7IBuIwC3QySRy8
+	sJ0dYhuvxIz2pywQtrTE9uVboa4Qlbi5+i07jP3+2HyouIhE672zzBC2oMSDn7uh4jISHZN2
+	QM2plpjQfB3sAwmBFkaJOxcmQhWZS+z6uRrM5hXwlTh18A9YA4uAqsTnm5uYQL6UEHCRuLnV
+	HiTMLKAtsWzha7DnmYE+W79LH2KKrMTUU+uYIEr4JHp/P2GCeWXHPBhbWeL9zQ9Q50tKHLzU
+	A3Wyh8SFH1NZIQEXKNHx4TDbBEb5WYjgnYVk8SyExQsYmVcxSqUWFOempyabFhjq5qWW6xUn
+	5haX5qXrJefnbmIEJyStgB2Mqzf81TvEyMTBeIhRgoNZSYT3VMChFCHelMTKqtSi/Pii0pzU
+	4kOM0hwsSuK8r1vnpggJpCeWpGanphakFsFkmTg4pRqYtkdxzveu/7BHJkr7ifP7Rzmb2HJe
+	Nmw6esAlzMQt3OdG4McLWZqfQ+wT36+5eem2grp3R0f0f5HGsG86vUqpi36tzt190Yu/53p8
+	r/Ilr+3arpKaR7NPXlisecfh0YwNxjUT22/88+mUMubnUJave6pwrP3yu5+z71au/9u/zefi
+	vv292jtX8MnPez617RxLxPXm4geKxf+qNfz9uOO2J/6OkPZpX73C5aG0VtZ3xx9Rhd9rvT+/
+	YFuRcqxgg5J1W6Xy1YNid++8UL6Qr1tb94cjMNb38HmpXQrqJ+X/VSSaiCR8z7Futzy2o6JQ
+	OMvB9pktV/m6qxdfb6ypfmmWb3kx/YYFz/O0z1u1z09TYinOSDTUYi4qTgQA6ajSlLcDAAA=
+X-CMS-RootMailID: 20230727051400epcas5p37b126b7496a916be24632d805ec8a47b
+References: <CGME20230727051400epcas5p37b126b7496a916be24632d805ec8a47b@epcms5p8>
 
-::::::=20
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- drivers/hwmon/adm1026.c:609:28: sparse: sparse: too long token expansion"
-::::::=20
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <a3309fcd947a4fb3826f1e8b8b9da585@AcuMS.aculab.com>
-References: <a3309fcd947a4fb3826f1e8b8b9da585@AcuMS.aculab.com>
-TO: David Laight <David.Laight@ACULAB.COM>
-TO: "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>
-TO: "'Andy Shevchenko'" <andriy.shevchenko@linux.intel.com>
-TO: "'Andrew Morton'" <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "'Matthew Wilcox (Oracle)'" <willy@infradead.org>
-TO: "'Christoph Hellwig'" <hch@infradead.org>
-TO: "'Jason A. Donenfeld'" <Jason@zx2c4.com>
 
-Hi David,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.5-rc3 next-20230727]
-[cannot apply to next-20230725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-=
-Allow-min-max-clamp-if-the-arguments-have-the-same-signedness/20230725-2049=
-40
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ever=
-ything
-patch link:    https://lore.kernel.org/r/a3309fcd947a4fb3826f1e8b8b9da585%4=
-0AcuMS.aculab.com
-patch subject: [PATCH next resend 4/5] minmax: Allow comparisons of 'int' a=
-gainst 'unsigned char/short'.
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: microblaze-randconfig-r092-20230725 (https://download.01.org/0day-c=
-i/archive/20230728/202307281006.KbhrGgb3-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281006.K=
-bhrGgb3-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202307281006.KbhrGgb3-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/hwmon/adm1026.c:609:28: sparse: sparse: too long token expansion
-   drivers/hwmon/adm1026.c:638:28: sparse: sparse: too long token expansion
-   drivers/hwmon/adm1026.c:498:28: sparse: sparse: bad integer constant exp=
-ression
-   drivers/hwmon/adm1026.c:498:28: sparse: sparse: static assertion failed:=
- "clamp() low limit (typeof(val))(0) greater than high limit (typeof(val))(=
-255 * adm1026_scaling[nr] / 192)"
-   drivers/hwmon/adm1026.c:526:28: sparse: sparse: bad integer constant exp=
-ression
-   drivers/hwmon/adm1026.c:526:28: sparse: sparse: static assertion failed:=
- "clamp() low limit (typeof(val))(0) greater than high limit (typeof(val))(=
-255 * adm1026_scaling[nr] / 192)"
-   drivers/hwmon/adm1026.c:609:28: sparse: sparse: bad integer constant exp=
-ression
-   drivers/hwmon/adm1026.c:609:28: sparse: sparse: static assertion failed:=
- "clamp() low limit (typeof(({ __builtin_choose_expr((sizeof(int) =3D=3D si=
-zeof(*(8 ? ((void *)((long)(((typeof(val))(val)) - ((typeof(val))((-((int)(=
-~0U >> 1)) - 1))) + ((typeof(val))(((int)(~0U >> 1)) - 16000))) * 0l)) : (i=
-nt *)8))), (((typeof(val))(val)) >=3D ((typeof(val))(((int)(~0U >> 1)) - 16=
-000)) ? ((typeof(val))(((int)(~0U >> 1)) - 16000)) : (((typeof(val))(val)) =
-<=3D ((typeof(val))((-((int)(~0U >> 1)) - 1))) ? ((typeof(val))((-((int)(~0=
-U >> 1)) - 1))) : ((typeof(val))(val)))), ({ typeof((typeof(val))(val)) __U=
-NIQUE_ID___val326 =3D ((typeof(val))(val)); typeof((typeof(val))((-((int)(~=
-0U >> 1)) - 1))) __UNIQUE_ID___lo327 =3D ((typeof(val))((-((int)(~0U >> 1))=
- - 1))); typeof((typeof(val))(((int)(~0U >> 1)) - 16000)) __UNIQUE_ID___hi3=
-28 =3D ((typeof(val))(((int)(~0U >> 1)) - 16000)); _Static_assert(!(sizeof(=
-int) =3D=3D sizeof(*(8 ? ((void *)((long)(((typeof(val))((-((int)(~0U >> 1)=
-) - 1))) > ((typeof(val))(((int)(~0U >> 1)) - 16000))) * 0l)) : (int *)8)))=
- || ((typeof(val))((-((int)(~0U >> 1)) - 1))) <=3D ((typeof(val))(((int)(~0=
-U >> 1)) - 16000)), "clamp() low limit " "(typeof(val))((-((int)(~0U >> 1))=
- - 1))" " greater than high limit " "(typeof(val))(((int)(~0U >> 1)) - 1600=
-0)"); _Static_assert(((((typeof((typeof(val))(val)))(-1)) < (__attribute__(=
-(force)) typeof((typeof(val))(val)))1) =3D=3D (((typeof((typeof(val))((-((i=
-nt)(~0U >> 1)) - 1))))(-1)) < (__attribute__((force)) typeof((typeof(val))(=
-(-((int)(~0U >> 1)) - 1))))1) || (((typeof(((typeof(val))(val)) + 0))(-1)) =
-< (__attribute__((force)) typeof(((typeof(val))(val)) + 0))1) =3D=3D (((typ=
-eof(((typeof(val))((-((int)(~0U >> 1)) - 1))) + 0))(-1)) < (__attribute__((=
-force)) typeof(((typeof(val))((-((int)(~0U >> 1)) - 1))) + 0))1)), "clamp()=
- 'lo' signedness error"); _Static_assert(((((typeof((typeof(val))(val)))(-1=
-)) < (__attribute__((force)) typeof((typeof(val))(val)))1) =3D=3D (((typeof=
-((typeof(val))(((int)(~0U >> 1)) - 16000)))(-1)) < (__attribute__((force)) =
-typeof((typeof(val))(((int)(~0U >> 1)) - 16000)))1) || (((typeof(((typeof(v=
-al))(val)) + 0))(-1)) < (__attribute__((force)) typeof(((typeof(val))(val))=
- + 0))1) =3D=3D (((typeof(((typeof(val))(((int)(~0U >> 1)) - 16000)) + 0))(=
--1)) < (__attribute__((force)) typeof(((typeof(val))(((int)(~0U >> 1)) - 16=
-000)) + 0))1)), "clamp() 'hi' signedness error"); ((__UNIQUE_ID___val326) >=
-=3D (__UNIQUE_ID___hi328) ? (__UNIQUE_ID___hi328) : ((__UNIQUE_ID___val326)=
- <=3D (__UNIQUE_ID___lo327) ? (__UNIQUE_ID___lo327) : (__UNIQUE_ID___val326=
-))); })); }) + 16000))(0) greater than high limit (typeof(({ __builtin_choo=
-se_expr((sizeof(int) =3D=3D sizeof(*(8 ? ((void *)((long)(((typeof(val))(va=
-l)) - ((typeof(val))((-((int)(~0U >> 1)) - 1))) + ((typeof(val))(((int)(~0U=
- >> 1)) - 16000))) * 0l)) : (int *)8))), (((typeof(val))(val)) >=3D ((typeo=
-f(val))(((int)(~0U >> 1)) - 16000)) ? ((typeof(val))(((int)(~0U >> 1)) - 16=
-000)) : (((typeof(val))(val)) <=3D ((typeof(val))((-((int)(~0U >> 1)) - 1))=
-) ? ((typeof(val))((-((int)(~0U >> 1)) - 1))) : ((typeof(val))(val)))), ({ =
-typeof((typeof(val))(val)) __UNIQUE_ID___val326 =3D ((typeof(val))(val)); t=
-ypeof((typeof(val))((-((int)(~0U >> 1)) - 1))) __UNIQUE_ID___lo327 =3D ((ty=
-peof(val))((-((int)(~0U >> 1)) - 1))); typeof((typeof(val))(((int)(~0U >> 1=
-)) - 16000)) __UNIQUE_ID___hi328 =3D ((typeof(val))(((int)(~0U >> 1)) - 160=
-00)); _Static_assert(!(sizeof(int) =3D=3D sizeof(*(8 ? ((void *)((long)(((t=
-ypeof(val))((-((int)(~0U >> 1)) - 1))) > ((typeof(val))(((int)(~0U >> 1)) -=
- 16000))) * 0l)) : (int *)8))) || ((typeof(val))((-((int)(~0U >> 1)) - 1)))=
- <=3D ((typeof(val))(((int)(~0U >> 1)) - 16000)), "clamp() low limit " "(ty=
-peof(val))((-((int)(~0U >> 1)) - 1))" " greater than high limit " "(typeof(=
-val))(((int)(~0U >> 1)) - 16000)"); _Static_assert(((((typeof((typeof(val))=
-(val)))(-1)) < (__attribute__((force)) typeof((typeof(val))(val)))1) =3D=3D=
- (((typeof((typeof(val))((-((int)(~0U >> 1)) - 1))))(-1)) < (__attribute__(=
-(force)) typeof((typeof(val))((-((int)(~0U >> 1)) - 1))))1) || (((typeof(((=
-typeof(val))(val)) + 0))(-1)) < (__attribute__((force)) typeof(((typeof(val=
-))(val)) + 0))1) =3D=3D (((typeof(((typeof(val))((-((int)(~0U >> 1)) - 1)))=
- + 0))(-1)) < (__attribute__((force)) typeof(((typeof(val))((-((int)(~0U >>=
- 1)) - 1))) + 0))1)), "clamp() 'lo' signedness error"); _Static_assert(((((=
-typeof((typeof(val))(val)))(-1)) < (__attribute__((force)) typeof((typeof(v=
-al))(val)))1) =3D=3D (((typeof((typeof(val))(((int)(~0U >> 1)) - 16000)))(-=
-1)) < (__attribute__((force)) typeof((typeof(val))(((int)(~0U >> 1)) - 1600=
-0)))1) || (((typeof(((typeof(val))(val)) + 0))(-1)) < (__attribute__((force=
-)) typeof(((typeof(val))(val)) + 0))1) =3D=3D (((typeof(((typeof(val))(((in=
-t)(~0U >> 1)) - 16000)) + 0))(-1)) < (__attribute__((force)) typeof(((typeo=
-f(val))(((int)(~0U >> 1)) - 16000)) + 0))1)), "clamp() 'hi' signedness erro=
-r"); ((__UNIQUE_ID___val326) >=3D (__UNIQUE_ID___hi328) ? (__UNIQUE_ID___hi=
-328) : ((__UNIQUE_ID___val326) <=3D (__UNIQUE_ID___lo327) ? (__UNIQUE_ID___=
-lo327) : (__UNIQUE_ID___val326))); })); }) + 16000))(255 * adm1026_scaling[=
-16] / 192)"
-   drivers/hwmon/adm1026.c:638:28: sparse: sparse: bad integer constant exp=
-ression
-   drivers/hwmon/adm1026.c:638:28: sparse: sparse: static assertion failed:=
- "clamp() low limit (typeof(({ __builtin_choose_expr((sizeof(int) =3D=3D si=
-zeof(*(8 ? ((void *)((long)(((typeof(val))(val)) - ((typeof(val))((-((int)(=
-~0U >> 1)) - 1))) + ((typeof(val))(((int)(~0U >> 1)) - 16000))) * 0l)) : (i=
-nt *)8))), (((typeof(val))(val)) >=3D ((typeof(val))(((int)(~0U >> 1)) - 16=
-000)) ? ((typeof(val))(((int)(~0U >> 1)) - 16000)) : (((typeof(val))(val)) =
-<=3D ((typeof(val))((-((int)(~0U >> 1)) - 1))) ? ((typeof(val))((-((int)(~0=
-U >> 1)) - 1))) : ((typeof(val))(val)))), ({ typeof((typeof(val))(val)) __U=
-NIQUE_ID___val332 =3D ((typeof(val))(val)); typeof((typeof(val))((-((int)(~=
-0U >> 1)) - 1))) __UNIQUE_ID___lo333 =3D ((typeof(val))((-((int)(~0U >> 1))=
- - 1))); typeof((typeof(val))(((int)(~0U >> 1)) - 16000)) __UNIQUE_ID___hi3=
-34 =3D ((typeof(val))(((int)(~0U >> 1)) - 16000)); _Static_assert(!(sizeof(=
-int) =3D=3D sizeof(*(8 ? ((void *)((long)(((typeof(val))((-((int)(~0U >> 1)=
-) - 1))) > ((typeof(val))(((int)(~0U >> 1)) - 16000))) * 0l)) : (int *)8)))=
- || ((typeof(val))((-((int)(~0U >> 1)) - 1))) <=3D ((typeof(val))(((int)(~0=
-U >> 1)) - 16000)), "clamp() low limit " "(typeof(val))((-((int)(~0U >> 1))=
- - 1))" " greater than high limit " "(typeof(val))(((int)(~0U >> 1)) - 1600=
-0)"); _Static_assert(((((typeof((typeof(val))(val)))(-1)) < (__attribute__(=
-(force)) typeof((typeof(val))(val)))1) =3D=3D (((typeof((typeof(val))((-((i=
-nt)(~0U >> 1)) - 1))))(-1)) < (__attribute__((force)) typeof((typeof(val))(=
-(-((int)(~0U >> 1)) - 1))))1) || (((typeof(((typeof(val))(val)) + 0))(-1)) =
-< (__attribute__((force)) typeof(((typeof(val))(val)) + 0))1) =3D=3D (((typ=
-eof(((typeof(val))((-((int)(~0U >> 1)) - 1))) + 0))(-1)) < (__attribute__((=
-force)) typeof(((typeof(val))((-((int)(~0U >> 1)) - 1))) + 0))1)), "clamp()=
- 'lo' signedness error"); _Static_assert(((((typeof((typeof(val))(val)))(-1=
-)) < (__attribute__((force)) typeof((typeof(val))(val)))1) =3D=3D (((typeof=
-((typeof(val))(((int)(~0U >> 1)) - 16000)))(-1)) < (__attribute__((force)) =
-typeof((typeof(val))(((int)(~0U >> 1)) - 16000)))1) || (((typeof(((typeof(v=
-al))(val)) + 0))(-1)) < (__attribute__((force)) typeof(((typeof(val))(val))=
- + 0))1) =3D=3D (((typeof(((typeof(val))(((int)(~0U >> 1)) - 16000)) + 0))(=
--1)) < (__attribute__((force)) typeof(((typeof(val))(((int)(~0U >> 1)) - 16=
-000)) + 0))1)), "clamp() 'hi' signedness error"); ((__UNIQUE_ID___val332) >=
-=3D (__UNIQUE_ID___hi334) ? (__UNIQUE_ID___hi334) : ((__UNIQUE_ID___val332)=
- <=3D (__UNIQUE_ID___lo333) ? (__UNIQUE_ID___lo333) : (__UNIQUE_ID___val332=
-))); })); }) + 16000))(0) greater than high limit (typeof(({ __builtin_choo=
-se_expr((sizeof(int) =3D=3D sizeof(*(8 ? ((void *)((long)(((typeof(val))(va=
-l)) - ((typeof(val))((-((int)(~0U >> 1)) - 1))) + ((typeof(val))(((int)(~0U=
- >> 1)) - 16000))) * 0l)) : (int *)8))), (((typeof(val))(val)) >=3D ((typeo=
-f(val))(((int)(~0U >> 1)) - 16000)) ? ((typeof(val))(((int)(~0U >> 1)) - 16=
-000)) : (((typeof(val))(val)) <=3D ((typeof(val))((-((int)(~0U >> 1)) - 1))=
-) ? ((typeof(val))((-((int)(~0U >> 1)) - 1))) : ((typeof(val))(val)))), ({ =
-typeof((typeof(val))(val)) __UNIQUE_ID___val332 =3D ((typeof(val))(val)); t=
-ypeof((typeof(val))((-((int)(~0U >> 1)) - 1))) __UNIQUE_ID___lo333 =3D ((ty=
-peof(val))((-((int)(~0U >> 1)) - 1))); typeof((typeof(val))(((int)(~0U >> 1=
-)) - 16000)) __UNIQUE_ID___hi334 =3D ((typeof(val))(((int)(~0U >> 1)) - 160=
-00)); _Static_assert(!(sizeof(int) =3D=3D sizeof(*(8 ? ((void *)((long)(((t=
-ypeof(val))((-((int)(~0U >> 1)) - 1))) > ((typeof(val))(((int)(~0U >> 1)) -=
- 16000))) * 0l)) : (int *)8))) || ((typeof(val))((-((int)(~0U >> 1)) - 1)))=
- <=3D ((typeof(val))(((int)(~0U >> 1)) - 16000)), "clamp() low limit " "(ty=
-peof(val))((-((int)(~0U >> 1)) - 1))" " greater than high limit " "(typeof(=
-val))(((int)(~0U >> 1)) - 16000)"); _Static_assert(((((typeof((typeof(val))=
-(val)))(-1)) < (__attribute__((force)) typeof((typeof(val))(val)))1) =3D=3D=
- (((typeof((typeof(val))((-((int)(~0U >> 1)) - 1))))(-1)) < (__attribute__(=
-(force)) typeof((typeof(val))((-((int)(~0U >> 1)) - 1))))1) || (((typeof(((=
-typeof(val))(val)) + 0))(-1)) < (__attribute__((force)) typeof(((typeof(val=
-))(val)) + 0))1) =3D=3D (((typeof(((typeof(val))((-((int)(~0U >> 1)) - 1)))=
- + 0))(-1)) < (__attribute__((force)) typeof(((typeof(val))((-((int)(~0U >>=
- 1)) - 1))) + 0))1)), "clamp() 'lo' signedness error"); _Static_assert(((((=
-typeof((typeof(val))(val)))(-1)) < (__attribute__((force)) typeof((typeof(v=
-al))(val)))1) =3D=3D (((typeof((typeof(val))(((int)(~0U >> 1)) - 16000)))(-=
-1)) < (__attribute__((force)) typeof((typeof(val))(((int)(~0U >> 1)) - 1600=
-0)))1) || (((typeof(((typeof(val))(val)) + 0))(-1)) < (__attribute__((force=
-)) typeof(((typeof(val))(val)) + 0))1) =3D=3D (((typeof(((typeof(val))(((in=
-t)(~0U >> 1)) - 16000)) + 0))(-1)) < (__attribute__((force)) typeof(((typeo=
-f(val))(((int)(~0U >> 1)) - 16000)) + 0))1)), "clamp() 'hi' signedness erro=
-r"); ((__UNIQUE_ID___val332) >=3D (__UNIQUE_ID___hi334) ? (__UNIQUE_ID___hi=
-334) : ((__UNIQUE_ID___val332) <=3D (__UNIQUE_ID___lo333) ? (__UNIQUE_ID___=
-lo333) : (__UNIQUE_ID___val332))); })); }) + 16000))(255 * adm1026_scaling[=
-16] / 192)"
-   /bin/bash: line 1:  8821 Segmentation fault      sparse -D__linux__ -Dli=
-nux -D__STDC__ -Dunix -D__unix__ -Wbitwise -Wno-return-void -Wno-unknown-at=
-tribute -fdiagnostic-prefix -D__CHECK_ENDIAN__ --arch=3Dmicroblaze -mlittle=
--endian -m32 -Wp,-MMD,drivers/hwmon/.adm1026.o.d -nostdinc -Iarch/microblaz=
-e/include -I./arch/microblaze/include/generated -Iinclude -I./include -Iarc=
-h/microblaze/include/uapi -I./arch/microblaze/include/generated/uapi -Iincl=
-ude/uapi -I./include/generated/uapi -include include/linux/compiler-version=
-=2Eh -include include/linux/kconfig.h -include include/linux/compiler_types=
-=2Eh -D__KERNEL__ -fmacro-prefix-map=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -st=
-d=3Dgnu11 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-al=
-iasing -Wall -Wundef -Werror=3Dimplicit-function-declaration -Werror=3Dimpl=
-icit-int -Werror=3Dreturn-type -Werror=3Dstrict-prototypes -Wno-format-secu=
-rity -Wno-trigraphs -mlittle-endian -ffixed-r31 -mcpu=3Dv7.10.d -fno-delete=
--null-pointer-checks -Wno-frame-address -Wno-format-truncation -Wno-format-=
-overflow -Wno-address-of-packed-member -Os -fno-allow-store-data-races -fno=
--reorder-blocks -fno-ipa-cp-clone -fno-partial-inlining -Wframe-larger-than=
-=3D1024 -fno-stack-protector -Wno-main -Wno-unused-but-set-variable -Wno-un=
-used-const-variable -Wno-dangling-pointer -ftrivial-auto-var-init=3Dzero -f=
-no-stack-clash-protection -fzero-call-used-regs=3Dused-gpr -pg -fno-inline-=
-functions-called-once -Wvla -Wno-pointer-sign -Wcast-function-type -Wno-str=
-ingop-truncation -Wno-stringop-overflow -Wno-restrict -Wno-maybe-uninitiali=
-zed -Wno-array-bounds -Wno-alloc-size-larger-than -Wimplicit-fallthrough=3D=
-5 -fno-strict-overflow -fno-stack-check -fconserve-stack -Werror=3Ddate-tim=
-e -Werror=3Dincompatible-pointer-types -Werror=3Ddesignated-init -Wno-packe=
-d-not-aligned -Wextra -Wunused -Wno-unused-parameter -Wmissing-declarations=
- -Wmissing-format-attribute -Wmissing-prototypes -Wold-style-definition -Wm=
-issing-include-dirs -Wunused-but-set-variable -Wunused-const-variable -Wpac=
-ked-not-aligned -Wstringop-truncation -Wno-missing-field-initializers -Wno-=
-sign-compare -Wno-type-limits -Wno-shift-negative-value -gsplit-dwarf -g -g=
-dwarf-4 -fno-var-tracking -femit-struct-debug-baseonly -gz=3Dzlib -DDEBUG -=
-I drivers/hwmon -I ./drivers/hwmon -DKBUILD_MODFILE=3D'"drivers/hwmon/adm10=
-26"' -DKBUILD_BASENAME=3D'"adm1026"' -DKBUILD_MODNAME=3D'"adm1026"' -D__KBU=
-ILD_MODNAME=3Dkmod_adm1026 drivers/hwmon/adm1026.c
-
-vim +609 drivers/hwmon/adm1026.c
-
-7ded2315ffe2b5 drivers/hwmon/adm1026.c     Guenter Roeck  2019-01-21  580 =
-=20
-7ded2315ffe2b5 drivers/hwmon/adm1026.c     Guenter Roeck  2019-01-21  581  =
-static ssize_t in16_show(struct device *dev, struct device_attribute *attr,
-86aa3e22106be3 drivers/hwmon/adm1026.c     Guenter Roeck  2012-01-14  582  =
-			 char *buf)
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  583  {
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  584  =
-	struct adm1026_data *data =3D adm1026_update_device(dev);
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  585  =
-	return sprintf(buf, "%d\n", INS_FROM_REG(16, data->in[16]) -
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  586  =
-		NEG12_OFFSET);
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  587  }
-7ded2315ffe2b5 drivers/hwmon/adm1026.c     Guenter Roeck  2019-01-21  588  =
-static ssize_t in16_min_show(struct device *dev,
-7ded2315ffe2b5 drivers/hwmon/adm1026.c     Guenter Roeck  2019-01-21  589  =
-			     struct device_attribute *attr, char *buf)
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  590  {
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  591  =
-	struct adm1026_data *data =3D adm1026_update_device(dev);
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  592  =
-	return sprintf(buf, "%d\n", INS_FROM_REG(16, data->in_min[16])
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  593  =
-		- NEG12_OFFSET);
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  594  }
-7ded2315ffe2b5 drivers/hwmon/adm1026.c     Guenter Roeck  2019-01-21  595  =
-static ssize_t in16_min_store(struct device *dev,
-7ded2315ffe2b5 drivers/hwmon/adm1026.c     Guenter Roeck  2019-01-21  596  =
-			      struct device_attribute *attr, const char *buf,
-7ded2315ffe2b5 drivers/hwmon/adm1026.c     Guenter Roeck  2019-01-21  597  =
-			      size_t count)
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  598  {
-b591d3c1964e7c drivers/hwmon/adm1026.c     Axel Lin       2014-07-03  599  =
-	struct adm1026_data *data =3D dev_get_drvdata(dev);
-b591d3c1964e7c drivers/hwmon/adm1026.c     Axel Lin       2014-07-03  600  =
-	struct i2c_client *client =3D data->client;
-86aa3e22106be3 drivers/hwmon/adm1026.c     Guenter Roeck  2012-01-14  601  =
-	long val;
-86aa3e22106be3 drivers/hwmon/adm1026.c     Guenter Roeck  2012-01-14  602  =
-	int err;
-86aa3e22106be3 drivers/hwmon/adm1026.c     Guenter Roeck  2012-01-14  603 =
-=20
-86aa3e22106be3 drivers/hwmon/adm1026.c     Guenter Roeck  2012-01-14  604  =
-	err =3D kstrtol(buf, 10, &val);
-86aa3e22106be3 drivers/hwmon/adm1026.c     Guenter Roeck  2012-01-14  605  =
-	if (err)
-86aa3e22106be3 drivers/hwmon/adm1026.c     Guenter Roeck  2012-01-14  606  =
-		return err;
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  607 =
-=20
-9a61bf6300533d drivers/hwmon/adm1026.c     Ingo Molnar    2006-01-18  608  =
-	mutex_lock(&data->update_lock);
-f1b9baa99bd98f drivers/hwmon/adm1026.c     Guenter Roeck  2016-12-03 @609  =
-	data->in_min[16] =3D INS_TO_REG(16,
-f1b9baa99bd98f drivers/hwmon/adm1026.c     Guenter Roeck  2016-12-03  610  =
-				      clamp_val(val, INT_MIN,
-f1b9baa99bd98f drivers/hwmon/adm1026.c     Guenter Roeck  2016-12-03  611  =
-						INT_MAX - NEG12_OFFSET) +
-f1b9baa99bd98f drivers/hwmon/adm1026.c     Guenter Roeck  2016-12-03  612  =
-				      NEG12_OFFSET);
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  613  =
-	adm1026_write_value(client, ADM1026_REG_IN_MIN[16], data->in_min[16]);
-9a61bf6300533d drivers/hwmon/adm1026.c     Ingo Molnar    2006-01-18  614  =
-	mutex_unlock(&data->update_lock);
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  615  =
-	return count;
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  616  }
-7ded2315ffe2b5 drivers/hwmon/adm1026.c     Guenter Roeck  2019-01-21  617  =
-static ssize_t in16_max_show(struct device *dev,
-7ded2315ffe2b5 drivers/hwmon/adm1026.c     Guenter Roeck  2019-01-21  618  =
-			     struct device_attribute *attr, char *buf)
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  619  {
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  620  =
-	struct adm1026_data *data =3D adm1026_update_device(dev);
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  621  =
-	return sprintf(buf, "%d\n", INS_FROM_REG(16, data->in_max[16])
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  622  =
-			- NEG12_OFFSET);
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  623  }
-7ded2315ffe2b5 drivers/hwmon/adm1026.c     Guenter Roeck  2019-01-21  624  =
-static ssize_t in16_max_store(struct device *dev,
-7ded2315ffe2b5 drivers/hwmon/adm1026.c     Guenter Roeck  2019-01-21  625  =
-			      struct device_attribute *attr, const char *buf,
-7ded2315ffe2b5 drivers/hwmon/adm1026.c     Guenter Roeck  2019-01-21  626  =
-			      size_t count)
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  627  {
-b591d3c1964e7c drivers/hwmon/adm1026.c     Axel Lin       2014-07-03  628  =
-	struct adm1026_data *data =3D dev_get_drvdata(dev);
-b591d3c1964e7c drivers/hwmon/adm1026.c     Axel Lin       2014-07-03  629  =
-	struct i2c_client *client =3D data->client;
-86aa3e22106be3 drivers/hwmon/adm1026.c     Guenter Roeck  2012-01-14  630  =
-	long val;
-86aa3e22106be3 drivers/hwmon/adm1026.c     Guenter Roeck  2012-01-14  631  =
-	int err;
-86aa3e22106be3 drivers/hwmon/adm1026.c     Guenter Roeck  2012-01-14  632 =
-=20
-86aa3e22106be3 drivers/hwmon/adm1026.c     Guenter Roeck  2012-01-14  633  =
-	err =3D kstrtol(buf, 10, &val);
-86aa3e22106be3 drivers/hwmon/adm1026.c     Guenter Roeck  2012-01-14  634  =
-	if (err)
-86aa3e22106be3 drivers/hwmon/adm1026.c     Guenter Roeck  2012-01-14  635  =
-		return err;
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  636 =
-=20
-9a61bf6300533d drivers/hwmon/adm1026.c     Ingo Molnar    2006-01-18  637  =
-	mutex_lock(&data->update_lock);
-f1b9baa99bd98f drivers/hwmon/adm1026.c     Guenter Roeck  2016-12-03  638  =
-	data->in_max[16] =3D INS_TO_REG(16,
-f1b9baa99bd98f drivers/hwmon/adm1026.c     Guenter Roeck  2016-12-03  639  =
-				      clamp_val(val, INT_MIN,
-f1b9baa99bd98f drivers/hwmon/adm1026.c     Guenter Roeck  2016-12-03  640  =
-						INT_MAX - NEG12_OFFSET) +
-f1b9baa99bd98f drivers/hwmon/adm1026.c     Guenter Roeck  2016-12-03  641  =
-				      NEG12_OFFSET);
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  642  =
-	adm1026_write_value(client, ADM1026_REG_IN_MAX[16], data->in_max[16]);
-9a61bf6300533d drivers/hwmon/adm1026.c     Ingo Molnar    2006-01-18  643  =
-	mutex_unlock(&data->update_lock);
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  644  =
-	return count;
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  645  }
-^1da177e4c3f41 drivers/i2c/chips/adm1026.c Linus Torvalds 2005-04-16  646 =
-=20
-
---=20
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks Den Carpenter for information.
+yes, i will modify new patch version accordingly to add for=C2=A0mutex_unlo=
+ck(hcd->bandwidth_mutex);=20before=20returning.=0D=0A=C2=A0=C2=A0=0D=0A>Hi=
+=20Aman,=0D=0A>=0D=0A>kernel=20test=20robot=20noticed=20the=20following=20b=
+uild=20warnings:=0D=0A>=0D=0A>https://git-scm.com/docs/git-format-patch=23_=
+base_tree_information=5D=0D=0A>=0D=0A>url:=C2=A0=20=C2=A0=20https://protect=
+2.fireeye.com/v1/url?k=3Dc33c7aba-a2b76f89-c33df1f5-000babff9bb7-672d2cfefe=
+2327a5&q=3D1&e=3D0dbea670-3cf3-4a45-a999->157e4e0dcad9&u=3Dhttps%3A%2F%2Fgi=
+thub.com%2Fintel-lab-lkp%2Flinux%2Fcommits%2FAman-Deep%2FUSB-Fix-race-condi=
+tion-during-UVC-webcam-disconnect%2F20230720->202046=0D=0A>base:=C2=A0=20=
+=20https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git=20usb-tes=
+ting=0D=0A>patch=20link:=C2=A0=20=C2=A0=20https://lore.kernel.org/r/2023072=
+0113142.3070583-1-aman.deep%40samsung.com=0D=0A>patch=20subject:=20=5BPATCH=
+=5D=20USB:=20Fix=20race=20condition=20during=20UVC=20webcam=20disconnect=0D=
+=0A>config:=20parisc-randconfig-m041-20230726=20(https://download.01.org/0d=
+ay-ci/archive/20230727/202307270834.rpaexQSs-lkp=40intel.com/config)=0D=0A>=
+compiler:=20hppa-linux-gcc=20(GCC)=2012.3.0=0D=0A>reproduce:=20(https://dow=
+nload.01.org/0day-ci/archive/20230727/202307270834.rpaexQSs-lkp=40intel.com=
+/reproduce)=0D=0A>=0D=0A>If=20you=20fix=20the=20issue=20in=20a=20separate=
+=20patch/commit=20(i.e.=20not=20just=20a=20new=20version=20of=0D=0A>the=20s=
+ame=20patch/commit),=20kindly=20add=20following=20tags=0D=0A>=7C=20Reported=
+-by:=20kernel=20test=20robot=20<lkp=40intel.com>=0D=0A>=7C=20Reported-by:=
+=20Dan=20Carpenter=20<dan.carpenter=40linaro.org>=0D=0A>=7C=20Closes:=20htt=
+ps://lore.kernel.org/r/202307270834.rpaexQSs-lkp=40intel.com/=0D=0A=0D=0A=
+=0D=0Awe=20will=20add=20it=20when=20creating=20new=20patch=20version.=0D=0A=
+=0D=0A=0D=0A>=0D=0A>smatch=20warnings:=0D=0A>drivers/usb/core/message.c:166=
+8=20usb_set_interface()=20warn:=20inconsistent=20returns=20'hcd->bandwidth_=
+mutex'.=0D=0A>=0D=0A>vim=20+1668=20drivers/usb/core/message.c=0D=0A>=0D=0A>=
+=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201528=C2=A0=20int=20usb_=
+set_interface(struct=20usb_device=20*dev,=20int=20interface,=20int=20altern=
+ate)=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201529=C2=A0=
+=20=7B=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201530=C2=A0=
+=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0struct=20usb_interface=20*iface;=0D=
+=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201531=C2=A0=20=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0struct=20usb_host_interface=20*alt;=0D=0A>3f0=
+479e00a3fca=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202009-12-03=C2=A0=201532=C2=A0=20=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0struct=20usb_hcd=20*hcd=20=3D=20bus_to_hcd(de=
+v->bus);=0D=0A>7a7b562d08ad6d=20Hans=20de=20Goede=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202013-11-08=C2=A0=201533=
+=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0int=20i,=20ret,=20manual=20=3D=
+=200;=0D=0A>3e35bf39e0b909=20Greg=20Kroah-Hartman=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=202008-01-30=C2=A0=201534=C2=A0=20=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0unsigned=20int=20epaddr;=0D=0A>3e35bf39e0b909=20Gre=
+g=20Kroah-Hartman=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202008=
+-01-30=C2=A0=201535=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0unsigned=20=
+int=20pipe;=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201536=
+=C2=A0=20=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201537=C2=
+=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0if=20(dev->state=20=3D=3D=20USB_S=
+TATE_SUSPENDED)=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=2015=
+38=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0return=20-EHOSTUNREACH;=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20200=
+5-04-16=C2=A0=201539=C2=A0=20=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-0=
+4-16=C2=A0=201540=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0iface=20=3D=
+=20usb_ifnum_to_if(dev,=20interface);=0D=0A>=5E1da177e4c3f41=20Linus=20Torv=
+alds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=202005-04-16=C2=A0=201541=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0if=
+=20(=21iface)=20=7B=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=
+=A0=201542=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0dev_dbg(&dev->dev,=20=22selecting=20invalid=20interface=
+=20%d=5Cn=22,=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=2015=
+43=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0interface);=0D=0A>=5E1da177e4c=
+3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201544=C2=A0=20=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0return=20-EINVAL;=0D=0A>=
+=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201545=C2=A0=20=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=7D=0D=0A>e534c5b831c8b8=20Alan=20Stern=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=202011-07-01=C2=A0=201546=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0i=
+f=20(iface->unregistering)=0D=0A>e534c5b831c8b8=20Alan=20Stern=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=202011-07-01=C2=A0=201547=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0return=20-ENODEV;=0D=0A>=5E1da177e4c3f41=
+=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=202005-04-16=C2=A0=201548=C2=A0=20=0D=0A>=5E1da177e4c3f41=
+=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=202005-04-16=C2=A0=201549=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0alt=20=3D=20usb_altnum_to_altsetting(iface,=20alternate);=0D=0A=
+>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201550=C2=A0=20=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0if=20(=21alt)=20=7B=0D=0A>385f690bc058ba=20Thade=
+u=20Lima=20de=20Souza=20Cascardo=202010-01-17=C2=A0=201551=C2=A0=20=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0dev_warn(=
+&dev->dev,=20=22selecting=20invalid=20altsetting=20%d=5Cn=22,=0D=0A>3b6004f=
+3b5a8b4=20Greg=20Kroah-Hartman=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=202008-08-14=C2=A0=201552=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20alternate);=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=2015=
+53=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0return=20-EINVAL;=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-1=
+6=C2=A0=201554=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7D=0D=0A>f9a5b4=
+f58b280c=20Mathias=20Nyman=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=202018-09-03=C2=A0=201555=C2=A0=20=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0/*=0D=0A>f9a5b4f58b280c=20Mathias=20Nyman=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202018-09-03=
+=C2=A0=201556=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20*=20usb3=20hos=
+ts=20configure=20the=20interface=20in=20usb_hcd_alloc_bandwidth,=0D=0A>f9a5=
+b4f58b280c=20Mathias=20Nyman=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=202018-09-03=C2=A0=201557=C2=A0=20=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20*=20including=20freeing=20dropped=20endpoint=20r=
+ing=20buffers.=0D=0A>f9a5b4f58b280c=20Mathias=20Nyman=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202018-09-03=C2=A0=2015=
+58=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20*=20Make=20sure=20the=20i=
+nterface=20endpoints=20are=20flushed=20before=20that=0D=0A>f9a5b4f58b280c=
+=20Mathias=20Nyman=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=202018-09-03=C2=A0=201559=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20*/=0D=0A>f9a5b4f58b280c=20Mathias=20Nyman=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202018-09-03=C2=A0=
+=201560=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0usb_disable_interface(d=
+ev,=20iface,=20false);=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=
+=C2=A0=201561=C2=A0=20=0D=0A>3f0479e00a3fca=20Sarah=20Sharp=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202009-1=
+2-03=C2=A0=201562=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0/*=20Make=20s=
+ure=20we=20have=20enough=20bandwidth=20for=20this=20alternate=20interface.=
+=0D=0A>3f0479e00a3fca=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202009-12-03=C2=A0=201563=C2=
+=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20*=20Remove=20the=20current=20a=
+lt=20setting=20and=20add=20the=20new=20alt=20setting.=0D=0A>3f0479e00a3fca=
+=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=202009-12-03=C2=A0=201564=C2=A0=20=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20*/=0D=0A>d673bfcbfffdeb=20Sarah=20Sharp=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=20201=
+0-10-15=C2=A0=201565=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0mutex_lock=
+(hcd->bandwidth_mutex);=0D=0A>8306095fd2c110=20Sarah=20Sharp=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202012-0=
+5-02=C2=A0=201566=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0/*=20Disable=
+=20LPM,=20and=20re-enable=20it=20once=20the=20new=20alt=20setting=20is=20in=
+stalled,=0D=0A>8306095fd2c110=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202012-05-02=C2=A0=2015=
+67=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20*=20so=20that=20the=20xHC=
+I=20driver=20can=20recalculate=20the=20U1/U2=20timeouts.=0D=0A>8306095fd2c1=
+10=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=202012-05-02=C2=A0=201568=C2=A0=20=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20*/=0D=0A>8306095fd2c110=20Sarah=20Sharp=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=20201=
+2-05-02=C2=A0=201569=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0if=20(usb_=
+disable_lpm(dev))=20=7B=0D=0A>1ccc417e6c3201=20Joe=20Perches=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202017-1=
+2-05=C2=A0=201570=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0dev_err(&iface->dev,=20=22%s=20Failed=20to=20disabl=
+e=20LPM=5Cn=22,=20__func__);=0D=0A>8306095fd2c110=20Sarah=20Sharp=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=20=
+2012-05-02=C2=A0=201571=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0mutex_unlock(hcd->bandwidth_mutex);=0D=0A>830=
+6095fd2c110=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202012-05-02=C2=A0=201572=C2=A0=20=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0return=20=
+-ENOMEM;=0D=0A>8306095fd2c110=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202012-05-02=C2=A0=2015=
+73=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7D=0D=0A>7a7b562d08ad6d=20H=
+ans=20de=20Goede=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=202013-11-08=C2=A0=201574=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0/*=20Changing=20alt-setting=20also=20frees=20any=20allocated=20=
+streams=20*/=0D=0A>7a7b562d08ad6d=20Hans=20de=20Goede=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202013-11-08=C2=A0=2015=
+75=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0for=20(i=20=3D=200;=20i=20<=
+=20iface->cur_altsetting->desc.bNumEndpoints;=20i++)=0D=0A>7a7b562d08ad6d=
+=20Hans=20de=20Goede=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=202013-11-08=C2=A0=201576=C2=A0=20=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0iface->cur_altsetting->e=
+ndpoint=5Bi=5D.streams=20=3D=200;=0D=0A>7a7b562d08ad6d=20Hans=20de=20Goede=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=20=
+2013-11-08=C2=A0=201577=C2=A0=20=0D=0A>4682bbb9e2f196=20Aman=20Deep=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=202023-07-20=C2=A0=201578=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0if=20(dev->state=20=3D=3D=20USB_STATE_NOTATTACHED)=0D=0A>4682bbb9e2f1=
+96=20Aman=20Deep=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202023-07-20=C2=A0=201579=C2=A0=20=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0return=20=
+-ENODEV;=0D=0A>=0D=0A>=0D=0A>mutex_unlock(hcd->bandwidth_mutex);=20before=
+=20returning=0D=0A>=0D=0A>4682bbb9e2f196=20Aman=20Deep=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=20202=
+3-07-20=C2=A0=201580=C2=A0=20=0D=0A>3f0479e00a3fca=20Sarah=20Sharp=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=20=
+2009-12-03=C2=A0=201581=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0ret=20=
+=3D=20usb_hcd_alloc_bandwidth(dev,=20NULL,=20iface->cur_altsetting,=20alt);=
+=0D=0A>4682bbb9e2f196=20Aman=20Deep=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202023-07-20=C2=A0=2015=
+82=C2=A0=20=0D=0A>3f0479e00a3fca=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202009-12-03=C2=A0=
+=201583=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0if=20(ret=20<=200)=20=
+=7B=0D=0A>3f0479e00a3fca=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202009-12-03=C2=A0=201584=
+=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0dev_info(&dev->dev,=20=22Not=20enough=20bandwidth=20for=20altsetting=
+=20%d=5Cn=22,=0D=0A>3f0479e00a3fca=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202009-12-03=C2=
+=A0=201585=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0alternate);=0D=0A>8306095fd2c110=20Sarah=20Sharp=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=20201=
+2-05-02=C2=A0=201586=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0usb_enable_lpm(dev);=0D=0A>d673bfcbfffdeb=20Sara=
+h=20Sharp=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=202010-10-15=C2=A0=201587=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0mutex_unlock(hcd->bandwidth=
+_mutex);=0D=0A>3f0479e00a3fca=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202009-12-03=C2=A0=2015=
+88=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0return=20ret;=0D=0A>3f0479e00a3fca=20Sarah=20Sharp=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202009-1=
+2-03=C2=A0=201589=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7D=0D=0A>3f0=
+479e00a3fca=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202009-12-03=C2=A0=201590=C2=A0=20=0D=0A>=
+392e1d9817d002=20Alan=20Stern=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202008-03-11=C2=A0=201591=C2=A0=
+=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0if=20(dev->quirks=20&=20USB_QUIRK_NO=
+_SET_INTF)=0D=0A>392e1d9817d002=20Alan=20Stern=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202008-03-11=
+=C2=A0=201592=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0ret=20=3D=20-EPIPE;=0D=0A>392e1d9817d002=20Alan=20Ster=
+n=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=202008-03-11=C2=A0=201593=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0else=0D=0A>297e84c04d76b9=20Greg=20Kroah-Hartman=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202020-09-14=C2=A0=201594=C2=A0=20=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0ret=20=
+=3D=20usb_control_msg_send(dev,=200,=0D=0A>297e84c04d76b9=20Greg=20Kroah-Ha=
+rtman=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202020-09-14=C2=A0=
+=201595=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=C2=A0=20=20USB_REQ_SET_INT=
+ERFACE,=0D=0A>297e84c04d76b9=20Greg=20Kroah-Hartman=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=202020-09-14=C2=A0=201596=C2=A0=20=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=C2=A0=20=20USB_RECIP_INTERFACE,=20alternate,=0D=0A>ddd11=
+98e3e0935=20Oliver=20Neukum=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=202020-09-23=C2=A0=201597=C2=A0=20=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=C2=A0=20=20interface,=20NULL,=200,=205000,=0D=0A>ddd1198e3e=
+0935=20Oliver=20Neukum=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=202020-09-23=C2=A0=201598=C2=A0=20=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=C2=A0=20=20GFP_NOIO);=0D=0A>=5E1da177e4c3f41=20Linus=20Torvald=
+s=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=2020=
+05-04-16=C2=A0=201599=C2=A0=20=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-0=
+4-16=C2=A0=201600=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0/*=209.4.10=
+=20says=20devices=20don't=20need=20this=20and=20are=20free=20to=20STALL=20t=
+he=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201601=C2=A0=20=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20*=20request=20if=20the=20interface=
+=20only=20has=20one=20alternate=20setting.=0D=0A>=5E1da177e4c3f41=20Linus=
+=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=202005-04-16=C2=A0=201602=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20*/=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201603=C2=
+=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0if=20(ret=20=3D=3D=20-EPIPE=20&&=
+=20iface->num_altsetting=20=3D=3D=201)=20=7B=0D=0A>=5E1da177e4c3f41=20Linus=
+=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=202005-04-16=C2=A0=201604=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0dev_dbg(&dev->dev,=0D=0A>=5E1da177e4=
+c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201605=C2=A0=20=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=22manual=20set_interface=20for=20iface=20%d,=20alt=20%d=5Cn=22=
+,=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201606=C2=A0=20=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0interface,=20alternate);=0D=0A>=5E1da177e4=
+c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201607=C2=A0=20=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0manual=20=3D=201;=0D=0A>=
+297e84c04d76b9=20Greg=20Kroah-Hartman=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=202020-09-14=C2=A0=201608=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=7D=20else=20if=20(ret)=20=7B=0D=0A>3f0479e00a3fca=20Sarah=20Sh=
+arp=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=202009-12-03=C2=A0=201609=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0/*=20Re-instate=20the=20old=20alt=
+=20setting=20*/=0D=0A>3f0479e00a3fca=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202009-12-03=
+=C2=A0=201610=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0usb_hcd_alloc_bandwidth(dev,=20NULL,=20alt,=20iface->c=
+ur_altsetting);=0D=0A>8306095fd2c110=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202012-05-02=
+=C2=A0=201611=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0usb_enable_lpm(dev);=0D=0A>d673bfcbfffdeb=20Sarah=20Sh=
+arp=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=202010-10-15=C2=A0=201612=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0mutex_unlock(hcd->bandwidth_mutex=
+);=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201613=C2=A0=20=
+=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0ret=
+urn=20ret;=0D=0A>3f0479e00a3fca=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=202009-12-03=C2=A0=
+=201614=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=7D=0D=0A>d673bfcbfffde=
+b=20Sarah=20Sharp=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=202010-10-15=C2=A0=201615=C2=A0=20=20=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0mutex_unlock(hcd->bandwidth_mutex);=0D=0A>=5E1da177e4c=
+3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=
+=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201616=C2=A0=20=0D=0A>=5E1da177e4c3f4=
+1=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=202005-04-16=C2=A0=201617=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=
+=A0=20=C2=A0/*=20FIXME=20drivers=20shouldn't=20need=20to=20replicate/bugfix=
+=20the=20logic=20here=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=
+=A0=201618=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20*=20when=20they=
+=20implement=20async=20or=20easily-killable=20versions=20of=20this=20or=0D=
+=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=
+=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-04-16=C2=A0=201619=C2=A0=20=20=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20*=20other=20=22should-be-internal=22=20fun=
+ctions=20(like=20clear_halt).=0D=0A>=5E1da177e4c3f41=20Linus=20Torvalds=C2=
+=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=202005-0=
+4-16=C2=A0=201620=C2=A0=20=20=C2=A0=20=C2=A0=20=C2=A0=20=C2=A0=20*=20should=
+=20hcd+usbcore=20postprocess=20control=20requests?=0D=0A>=0D=0A>--=20=0D=0A=
+>0-DAY=20CI=20Kernel=20Test=20Service=0D=0A>https://protect2.fireeye.com/v1=
+/url?k=3Df58bda35-9400cf06-f58a517a-000babff9bb7-d72ab9bab3df6b4a&q=3D1&e=
+=3D0dbea670-3cf3-4a45-a999->157e4e0dcad9&u=3Dhttps%3A%2F%2Fgithub.com%2Fint=
+el%2Flkp-tests%2Fwiki=0D=0A>=0D=0A>=0D=0A=0D=0A=0D=0AThanks,=0D=0AAman=0D=
+=0A=C2=A0=0D=0A=0D=0A
