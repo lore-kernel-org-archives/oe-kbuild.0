@@ -1,52 +1,42 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (unknown [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC8979EE
-	for <oe-kbuild@lists.linux.dev>; Fri, 28 Jul 2023 05:45:50 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2b974031aeaso26035841fa.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 27 Jul 2023 22:45:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690523148; x=1691127948;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/sQXttJnykhKVDMwbiijzxff1XBZQFDGDEMk6NB3ReU=;
-        b=kgLA/R1R1IDZO40aa97Pv2S7Goyt+AhDthxuhRtWcKwutIS6WTZdb213eaJM2Sn9Z+
-         M+o07TTT1+v2BXmNZ8m9s3g/jrDNphfJZTlFSXVLixA9qSt4A5vAMhP27cxgAcOf0w5c
-         yxrkkA4yPa2KYrPqrDGYqivGHZB4MJBQrRvSGiDcmEQpZ99n61KwdyGYZSoWq/h6K72Q
-         U751DTGH7pkMqUb/SOehaSyi5PCufa0CpBBk0nDy0yQb4a4wEmF7dc2kc7VAkuW20U9e
-         UwKzr4C65oHBPAHlTiRerQfguua1fKxtVXGAmAi+D8AtlnvVVJx2xrUTdjG9jOtB9UDh
-         Yd4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690523148; x=1691127948;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/sQXttJnykhKVDMwbiijzxff1XBZQFDGDEMk6NB3ReU=;
-        b=iueEzW3t1reKUp2AqQ3OPouSMFHc6kLLuOyJe4mFCx6qP43uP1NYJ8SxXVnNxId95W
-         a3O2nYH2b9tFyVXaUiCLBLrCoHlnZnu74KZCK+7DSulBdCrapfmg0LbW+Emi1/tKszcZ
-         l9vj6CKSxhSmJ8VtJuL2pz9oQGfL/xkSThHhaSvaHPFxIzSVPrJQ1Dm+y7XncnqqdaOz
-         TH+eLRUy2RK3YUPSOi76e/XUruwfmLJKMccedvZLfM75O4dPfTi7HFBYCOUxCzrZ+uH2
-         xTTFjWHvLH5VH8PMFoWfzMN/dHHpPAqWTa5qRqbSdK+NUpMCT+b4k0VWFTjfjGb3qsWL
-         sZRw==
-X-Gm-Message-State: ABy/qLaro8x2PBIMfVN3oYPDoncKKbZ1gguZSP2odhZAn9VsXSdYgS8H
-	rQviw9bD42psU35/nHPcwDIueSdo0xDSEHNuKwI=
-X-Google-Smtp-Source: APBJJlGyGsI4r7dzgYdqmWjNyQNwwjtQNvH3s0KWZh0XKpQ9Uit9XoQBlL9VtgG1IsIjaGSyBxO2oA==
-X-Received: by 2002:a2e:b0ce:0:b0:2b7:1dd:b416 with SMTP id g14-20020a2eb0ce000000b002b701ddb416mr897908ljl.15.1690523147893;
-        Thu, 27 Jul 2023 22:45:47 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id r13-20020adff70d000000b00313f9085119sm3765216wrp.113.2023.07.27.22.45.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 22:45:47 -0700 (PDT)
-From: kernel test robot <dan.carpenter@linaro.org>
-X-Google-Original-From: kernel test robot <lkp@intel.com>
-Date: Fri, 28 Jul 2023 08:45:44 +0300
-To: oe-kbuild@lists.linux.dev, Caleb Connolly <caleb.connolly@linaro.org>
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Subject: drivers/power/supply/qcom_pmi8998_charger.c:565
- smb2_status_change_work() error: uninitialized symbol 'usb_online'.
-Message-ID: <ZMNWCD66TAhahJ2Y@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D838A101C9
+	for <oe-kbuild@lists.linux.dev>; Fri, 28 Jul 2023 09:55:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690538110; x=1722074110;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QanT6OfdMTQN8NpGPi2P4SybArs7DzTqADoftaisfto=;
+  b=YmYRBk9qGH3OH4l/UbhD8Ehdt1TaM4XCoTT7/u0xeKSd9fzv5FFd1hkE
+   yKNdSqTQEJc9Rm+g9ETHOAbXRhACt07WIHkNhtJJiy5DkRMVS831LskiB
+   c82JdqEwMVD4/NOU+2Go+omJGzovfTTe5gPjo2C5wp1S+pxhq8oyfo1ZI
+   zYIZ+WbO5itJi6pPWcT5LMIH268G1k14QXWbhh3t4KFMuueDIG3DJwQDL
+   4ZyNwC9YJKxhEaL66/7lbMnT1iTTRAtW4X5rTxoXgTz/y0yHYfpFUycG+
+   CWFKtLgV/2VK67/ajUpwqxO/FfpTZs3m8KgVcSmG+py1zNRe9U2PIZpGF
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="366014834"
+X-IronPort-AV: E=Sophos;i="6.01,237,1684825200"; 
+   d="scan'208";a="366014834"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 02:55:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="974020550"
+X-IronPort-AV: E=Sophos;i="6.01,237,1684825200"; 
+   d="scan'208";a="974020550"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 28 Jul 2023 02:55:08 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qPKBN-00034x-2J;
+	Fri, 28 Jul 2023 09:55:04 +0000
+Date: Fri, 28 Jul 2023 17:53:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the
+ arguments have the same signedness.
+Message-ID: <202307281720.mbvQspFC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,52 +46,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   57012c57536f8814dec92e74197ee96c3498d24e
-commit: 8648aeb5d7b70e13264ff5f444f22081d37d4670 power: supply: add Qualcomm PMI8998 SMB2 Charger driver
-config: arm-randconfig-m041-20230727 (https://download.01.org/0day-ci/archive/20230728/202307280638.556PrzIS-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307280638.556PrzIS-lkp@intel.com/reproduce)
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/clk/baikal-t1/ccu-div.c:227:16: sparse: sparse: bad integer constant expression"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <a09512c8526b46759669d0b879144563@AcuMS.aculab.com>
+References: <a09512c8526b46759669d0b879144563@AcuMS.aculab.com>
+TO: David Laight <David.Laight@ACULAB.COM>
+TO: "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>
+TO: "'Andy Shevchenko'" <andriy.shevchenko@linux.intel.com>
+TO: "'Andrew Morton'" <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "'Matthew Wilcox (Oracle)'" <willy@infradead.org>
+TO: "'Christoph Hellwig'" <hch@infradead.org>
+TO: "'Jason A. Donenfeld'" <Jason@zx2c4.com>
+
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master crng-random/master v6.5-rc3 next-20230728]
+[cannot apply to next-20230725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Allow-min-max-clamp-if-the-arguments-have-the-same-signedness/20230725-204940
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/a09512c8526b46759669d0b879144563%40AcuMS.aculab.com
+patch subject: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the arguments have the same signedness.
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: m68k-randconfig-r092-20230727 (https://download.01.org/0day-ci/archive/20230728/202307281720.mbvQspFC-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281720.mbvQspFC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202307280638.556PrzIS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307281720.mbvQspFC-lkp@intel.com/
 
-smatch warnings:
-drivers/power/supply/qcom_pmi8998_charger.c:565 smb2_status_change_work() error: uninitialized symbol 'usb_online'.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clk/baikal-t1/ccu-div.c:227:16: sparse: sparse: bad integer constant expression
+>> drivers/clk/baikal-t1/ccu-div.c:227:16: sparse: sparse: static assertion failed: "clamp() low limit (unsigned long)(0) greater than high limit (unsigned long)(((mask) >> 4))"
+--
+>> drivers/clk/ingenic/jz4760-cgu.c:67:13: sparse: sparse: bad integer constant expression
+>> drivers/clk/ingenic/jz4760-cgu.c:67:13: sparse: sparse: static assertion failed: "clamp() low limit (typeof(n))(2) greater than high limit (typeof(n))(1 << pll_info->n_bits)"
+--
+>> drivers/media/radio/dsbr100.c:209:39: sparse: sparse: bad integer constant expression
+>> drivers/media/radio/dsbr100.c:209:39: sparse: sparse: static assertion failed: "clamp() low limit (unsigned)(87.5 * 16000) greater than high limit (unsigned)(108.0 * 16000)"
+--
+>> drivers/clk/renesas/rcar-gen2-cpg.c:78:16: sparse: sparse: bad integer constant expression
+>> drivers/clk/renesas/rcar-gen2-cpg.c:78:16: sparse: sparse: static assertion failed: "clamp() low limit min_mult greater than high limit max_mult"
+--
+>> drivers/clk/renesas/rcar-gen3-cpg.c:79:16: sparse: sparse: bad integer constant expression
+>> drivers/clk/renesas/rcar-gen3-cpg.c:79:16: sparse: sparse: static assertion failed: "clamp() low limit min_mult greater than high limit max_mult"
+   drivers/clk/renesas/rcar-gen3-cpg.c:214:16: sparse: sparse: bad integer constant expression
+   drivers/clk/renesas/rcar-gen3-cpg.c:214:16: sparse: sparse: static assertion failed: "clamp() low limit min_mult greater than high limit max_mult"
+--
+>> drivers/clk/renesas/rcar-gen4-cpg.c:94:16: sparse: sparse: bad integer constant expression
+>> drivers/clk/renesas/rcar-gen4-cpg.c:94:16: sparse: sparse: static assertion failed: "clamp() low limit min_mult greater than high limit max_mult"
+   drivers/clk/renesas/rcar-gen4-cpg.c:234:16: sparse: sparse: bad integer constant expression
+   drivers/clk/renesas/rcar-gen4-cpg.c:234:16: sparse: sparse: static assertion failed: "clamp() low limit min_mult greater than high limit max_mult"
+--
+>> drivers/clk/renesas/clk-div6.c:127:23: sparse: sparse: bad integer constant expression
+>> drivers/clk/renesas/clk-div6.c:127:23: sparse: sparse: static assertion failed: "clamp() low limit min_div greater than high limit max_div"
+--
+>> drivers/net/phy/bcm54140.c:311:15: sparse: sparse: bad integer constant expression
+>> drivers/net/phy/bcm54140.c:311:15: sparse: sparse: static assertion failed: "clamp() low limit (typeof(val))((413350L - (mask) * 491)) greater than high limit (typeof(val))((413350L - (0) * 491))"
+   drivers/net/phy/bcm54140.c:336:15: sparse: sparse: bad integer constant expression
+>> drivers/net/phy/bcm54140.c:336:15: sparse: sparse: static assertion failed: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(val))(((channel) ? ((mask) * 4400 >> 12) : ((mask) * 2514 >> 11)))"
+--
+>> drivers/media/usb/airspy/airspy.c:758:28: sparse: sparse: bad integer constant expression
+>> drivers/media/usb/airspy/airspy.c:758:28: sparse: sparse: static assertion failed: "clamp() low limit (unsigned int)(bands[0].rangelow) greater than high limit (unsigned int)(bands[0].rangehigh)"
+   drivers/media/usb/airspy/airspy.c:764:27: sparse: sparse: bad integer constant expression
+>> drivers/media/usb/airspy/airspy.c:764:27: sparse: sparse: static assertion failed: "clamp() low limit (unsigned int)(bands_rf[0].rangelow) greater than high limit (unsigned int)(bands_rf[0].rangehigh)"
+--
+>> drivers/media/usb/hackrf/hackrf.c:1098:25: sparse: sparse: bad integer constant expression
+>> drivers/media/usb/hackrf/hackrf.c:1098:25: sparse: sparse: static assertion failed: "clamp() low limit bands_adc_dac[0].rangelow greater than high limit bands_adc_dac[0].rangehigh"
+   drivers/media/usb/hackrf/hackrf.c:1108:25: sparse: sparse: bad integer constant expression
+>> drivers/media/usb/hackrf/hackrf.c:1108:25: sparse: sparse: static assertion failed: "clamp() low limit bands_rx_tx[0].rangelow greater than high limit bands_rx_tx[0].rangehigh"
 
-vim +/usb_online +565 drivers/power/supply/qcom_pmi8998_charger.c
+vim +227 drivers/clk/baikal-t1/ccu-div.c
 
-8648aeb5d7b70e Caleb Connolly 2023-05-26  556  static void smb2_status_change_work(struct work_struct *work)
-8648aeb5d7b70e Caleb Connolly 2023-05-26  557  {
-8648aeb5d7b70e Caleb Connolly 2023-05-26  558  	unsigned int charger_type, current_ua;
-8648aeb5d7b70e Caleb Connolly 2023-05-26  559  	int usb_online, count, rc;
-8648aeb5d7b70e Caleb Connolly 2023-05-26  560  	struct smb2_chip *chip;
-8648aeb5d7b70e Caleb Connolly 2023-05-26  561  
-8648aeb5d7b70e Caleb Connolly 2023-05-26  562  	chip = container_of(work, struct smb2_chip, status_change_work.work);
-8648aeb5d7b70e Caleb Connolly 2023-05-26  563  
-8648aeb5d7b70e Caleb Connolly 2023-05-26  564  	smb2_get_prop_usb_online(chip, &usb_online);
-
-This can only happen if regmap_read() fails, and in real life they
-can't actually fail can they?  We can't really recover if regmap
-breaks so in that situation this uninitialized variable would be the
-least of our concerns.  Right?
-
-So what I could do is just delete the regmap_read error paths from
-the DB.  I just add these two lines to smatch_data/db/kernel.delete.return_states
-
-regmap_read (-22)
-regmap_read (-4095)-(-1)
-
-8648aeb5d7b70e Caleb Connolly 2023-05-26 @565  	if (!usb_online)
-                                                     ^^^^^^^^^^
-
-8648aeb5d7b70e Caleb Connolly 2023-05-26  566  		return;
-8648aeb5d7b70e Caleb Connolly 2023-05-26  567  
-8648aeb5d7b70e Caleb Connolly 2023-05-26  568  	for (count = 0; count < 3; count++) {
-8648aeb5d7b70e Caleb Connolly 2023-05-26  569  		dev_dbg(chip->dev, "get charger type retry %d\n", count);
+353afa3a8d2ef4a Serge Semin 2020-05-27  219  
+353afa3a8d2ef4a Serge Semin 2020-05-27  220  static inline unsigned long ccu_div_var_calc_divider(unsigned long rate,
+353afa3a8d2ef4a Serge Semin 2020-05-27  221  						     unsigned long parent_rate,
+353afa3a8d2ef4a Serge Semin 2020-05-27  222  						     unsigned int mask)
+353afa3a8d2ef4a Serge Semin 2020-05-27  223  {
+353afa3a8d2ef4a Serge Semin 2020-05-27  224  	unsigned long divider;
+353afa3a8d2ef4a Serge Semin 2020-05-27  225  
+353afa3a8d2ef4a Serge Semin 2020-05-27  226  	divider = parent_rate / rate;
+353afa3a8d2ef4a Serge Semin 2020-05-27 @227  	return clamp_t(unsigned long, divider, CCU_DIV_CLKDIV_MIN,
+353afa3a8d2ef4a Serge Semin 2020-05-27  228  		       CCU_DIV_CLKDIV_MAX(mask));
+353afa3a8d2ef4a Serge Semin 2020-05-27  229  }
+353afa3a8d2ef4a Serge Semin 2020-05-27  230  
 
 -- 
 0-DAY CI Kernel Test Service
