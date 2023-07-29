@@ -1,41 +1,42 @@
-Received: from mgamail.intel.com (unknown [192.55.52.136])
+Received: from mgamail.intel.com (unknown [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28BD7C
-	for <oe-kbuild@lists.linux.dev>; Sat, 29 Jul 2023 02:01:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA00465D
+	for <oe-kbuild@lists.linux.dev>; Sat, 29 Jul 2023 02:41:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690596106; x=1722132106;
+  t=1690598507; x=1722134507;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d2a/R0hv8OS4Evn86SfviycdCPNvW1KGMOMz6r8Ap9Q=;
-  b=Mikb1krX3M1i0DwvuOUmtZSW+q9cYsk0hbHNPTvAGe38iNfnxt0SrHrA
-   ESBZTrgtvJw4/kx5d0sAkpzVps+xmoUqi0gfZm6g9/NEOqQVJ6ovhLnS4
-   EdB7eBoXvrScYDglRd6zgf39cA4tdPCkYKW/15nIV6PdSpIExH1mPmMzA
-   0bNuLDInprPO5/snXKWot9dNTLoYExhRr5S9ZCpAEnpRQ8nh0Ygjb9wqR
-   6cb9aZQVeJgEGW/2x2Y83ohZfdHv8MECQ0/RBsOYb7iL635Ib8+1fNvP9
-   5n6Cwk4MlWOnwpKNJ9DvyGfS8Pf18HNveun6wwfFB21op2GgDEq6YC1Gj
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="348325952"
+  bh=82qnXk84ZgKiBMP8PzejPgVhhXbTqfR6Uxlf14Ikl8I=;
+  b=fWbbbI1OBYzBJaqtf+BDVTRAZOSteGxCS2d4VabFvHrqNg9HXajxLtkq
+   UQOSS8O+/M+3EhwX0ITN44GhLHjesNXWkBiJRzzEsUGFOBmz9KS47Ou1D
+   18gdc76XA7axRnCgWYJ80PjTzCaZa6bORTHMdbf1Op0E2uCP8lZVSqMdJ
+   tXdw95I2XZ4B1n/HF4wmas1ZUZKew+1nZ/mqj6lUQ2P940O8bfoqqnbyh
+   +4siR2RYKnHsFnZ7IlpFQGmJppYUJxKtTYJ9HDL/VSJ3X0pVsI9qBNvZw
+   WSuaym9YuBXkOiVTi5B6X4OaFTQwFYx+Kz2SYO+UOmlgPnl+ym5Fracc+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="367606323"
 X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="348325952"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 19:01:46 -0700
+   d="scan'208";a="367606323"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 19:41:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="871024703"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="1058339351"
+X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
+   d="scan'208";a="1058339351"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2023 19:01:46 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 28 Jul 2023 19:41:45 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPZH6-0003kZ-0H;
-	Sat, 29 Jul 2023 02:01:44 +0000
-Date: Sat, 29 Jul 2023 10:00:48 +0800
+	id 1qPZto-0003lv-2l;
+	Sat, 29 Jul 2023 02:41:44 +0000
+Date: Sat, 29 Jul 2023 10:41:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: Re: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the
  arguments have the same signedness.
-Message-ID: <202307290936.NsOTbkUu-lkp@intel.com>
+Message-ID: <202307291049.THzIoWG5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,7 +47,7 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: kernel/sched/fair.c:2427:31: sparse: sparse: static assertion failed: "clamp() low limit task_scan_min(p) greater than high limit task_scan_max(p)""
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/staging/media/imx/imx-media-csc-scaler.c:367:22: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
@@ -79,121 +80,101 @@ patch link:    https://lore.kernel.org/r/a09512c8526b46759669d0b879144563%40AcuM
 patch subject: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the arguments have the same signedness.
 :::::: branch date: 4 days ago
 :::::: commit date: 4 days ago
-config: s390-randconfig-r083-20230728 (https://download.01.org/0day-ci/archive/20230729/202307290936.NsOTbkUu-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290936.NsOTbkUu-lkp@intel.com/reproduce)
+config: sparc64-randconfig-r081-20230728 (https://download.01.org/0day-ci/archive/20230729/202307291049.THzIoWG5-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291049.THzIoWG5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202307290936.NsOTbkUu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202307291049.THzIoWG5-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   kernel/sched/fair.c:2427:31: sparse: sparse: bad integer constant expression
->> kernel/sched/fair.c:2427:31: sparse: sparse: static assertion failed: "clamp() low limit task_scan_min(p) greater than high limit task_scan_max(p)"
-   kernel/sched/fair.c:3521:16: sparse: sparse: bad integer constant expression
-   kernel/sched/fair.c:3521:16: sparse: sparse: static assertion failed: "clamp() low limit (long)((1UL << 1)) greater than high limit (long)(tg_shares)"
-   kernel/sched/fair.c:9226:20: sparse: sparse: bad integer constant expression
-   kernel/sched/fair.c:9226:20: sparse: sparse: static assertion failed: "clamp() low limit 1UL greater than high limit max_load_balance_interval"
-   kernel/sched/fair.c:11091:20: sparse: sparse: bad integer constant expression
-   kernel/sched/fair.c:11091:20: sparse: sparse: static assertion failed: "clamp() low limit 1UL greater than high limit max_load_balance_interval"
-   kernel/sched/fair.c:5566:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:5566:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:5566:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:9762:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:9762:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:9762:22: sparse:    struct task_struct *
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2273:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2111:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2111:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct *
+   drivers/staging/media/imx/imx-media-csc-scaler.c: note: in included file (through include/video/imx-ipu-v3.h):
+   include/drm/drm_color_mgmt.h:52:16: sparse: sparse: bad integer constant expression
+   include/drm/drm_color_mgmt.h:52:16: sparse: sparse: static assertion failed: "clamp() low limit (typeof(val))(0) greater than high limit (typeof(val))(max)"
+>> drivers/staging/media/imx/imx-media-csc-scaler.c:367:22: sparse: sparse: bad integer constant expression
+>> drivers/staging/media/imx/imx-media-csc-scaler.c:367:22: sparse: sparse: static assertion failed: "clamp() low limit (unsigned int)(8) greater than high limit (unsigned int)(((q_data->cur_fmt.width) & ~((__typeof__(q_data->cur_fmt.width))((8)-1))))"
+   drivers/staging/media/imx/imx-media-csc-scaler.c:369:23: sparse: sparse: bad integer constant expression
+>> drivers/staging/media/imx/imx-media-csc-scaler.c:369:23: sparse: sparse: static assertion failed: "clamp() low limit (unsigned int)(1) greater than high limit (unsigned int)(q_data->cur_fmt.height)"
+   drivers/staging/media/imx/imx-media-csc-scaler.c:371:21: sparse: sparse: bad integer constant expression
+>> drivers/staging/media/imx/imx-media-csc-scaler.c:371:21: sparse: sparse: static assertion failed: "clamp() low limit (unsigned int)(0) greater than high limit (unsigned int)(q_data->cur_fmt.width - s->r.width)"
+   drivers/staging/media/imx/imx-media-csc-scaler.c:373:20: sparse: sparse: bad integer constant expression
+>> drivers/staging/media/imx/imx-media-csc-scaler.c:373:20: sparse: sparse: static assertion failed: "clamp() low limit (unsigned int)(0) greater than high limit (unsigned int)(q_data->cur_fmt.height - s->r.height)"
+--
+>> drivers/staging/media/omap4iss/iss_ipipe.c:231:30: sparse: sparse: bad integer constant expression
+>> drivers/staging/media/omap4iss/iss_ipipe.c:231:30: sparse: sparse: static assertion failed: "clamp() low limit (u32)(32) greater than high limit (u32)(fmt->width)"
+   drivers/staging/media/omap4iss/iss_ipipe.c:232:31: sparse: sparse: bad integer constant expression
+>> drivers/staging/media/omap4iss/iss_ipipe.c:232:31: sparse: sparse: static assertion failed: "clamp() low limit (u32)(32) greater than high limit (u32)(fmt->height)"
+--
+>> drivers/staging/media/omap4iss/iss_video.c:143:23: sparse: sparse: bad integer constant expression
+>> drivers/staging/media/omap4iss/iss_video.c:143:23: sparse: sparse: static assertion failed: "clamp() low limit min_bpl greater than high limit video->bpl_max"
+--
+>> drivers/staging/media/omap4iss/iss_ipipeif.c:417:30: sparse: sparse: bad integer constant expression
+>> drivers/staging/media/omap4iss/iss_ipipeif.c:417:30: sparse: sparse: static assertion failed: "clamp() low limit (u32)(32) greater than high limit (u32)((fmt->width + 15) & ~15)"
+   drivers/staging/media/omap4iss/iss_ipipeif.c:419:31: sparse: sparse: bad integer constant expression
+>> drivers/staging/media/omap4iss/iss_ipipeif.c:419:31: sparse: sparse: static assertion failed: "clamp() low limit (u32)(32) greater than high limit (u32)(fmt->height)"
+   drivers/staging/media/omap4iss/iss_ipipeif.c:428:30: sparse: sparse: bad integer constant expression
+>> drivers/staging/media/omap4iss/iss_ipipeif.c:428:30: sparse: sparse: static assertion failed: "clamp() low limit (u32)(32) greater than high limit (u32)(fmt->width)"
+   drivers/staging/media/omap4iss/iss_ipipeif.c:429:31: sparse: sparse: bad integer constant expression
+   drivers/staging/media/omap4iss/iss_ipipeif.c:429:31: sparse: sparse: static assertion failed: "clamp() low limit (u32)(32) greater than high limit (u32)(fmt->height)"
+--
+>> drivers/staging/media/omap4iss/iss_resizer.c:479:30: sparse: sparse: bad integer constant expression
+>> drivers/staging/media/omap4iss/iss_resizer.c:479:30: sparse: sparse: static assertion failed: "clamp() low limit (u32)(32) greater than high limit (u32)((fmt->width + 15) & ~15)"
+   drivers/staging/media/omap4iss/iss_resizer.c:481:31: sparse: sparse: bad integer constant expression
+>> drivers/staging/media/omap4iss/iss_resizer.c:481:31: sparse: sparse: static assertion failed: "clamp() low limit (u32)(32) greater than high limit (u32)(fmt->height)"
 
-vim +2427 kernel/sched/fair.c
+vim +367 drivers/staging/media/imx/imx-media-csc-scaler.c
 
-04bb2f94750542 Rik van Riel  2013-10-07  2354  
-04bb2f94750542 Rik van Riel  2013-10-07  2355  /*
-04bb2f94750542 Rik van Riel  2013-10-07  2356   * Increase the scan period (slow down scanning) if the majority of
-04bb2f94750542 Rik van Riel  2013-10-07  2357   * our memory is already on our local node, or if the majority of
-04bb2f94750542 Rik van Riel  2013-10-07  2358   * the page accesses are shared with other processes.
-04bb2f94750542 Rik van Riel  2013-10-07  2359   * Otherwise, decrease the scan period.
-04bb2f94750542 Rik van Riel  2013-10-07  2360   */
-04bb2f94750542 Rik van Riel  2013-10-07  2361  static void update_task_scan_period(struct task_struct *p,
-04bb2f94750542 Rik van Riel  2013-10-07  2362  			unsigned long shared, unsigned long private)
-04bb2f94750542 Rik van Riel  2013-10-07  2363  {
-04bb2f94750542 Rik van Riel  2013-10-07  2364  	unsigned int period_slot;
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2365  	int lr_ratio, ps_ratio;
-04bb2f94750542 Rik van Riel  2013-10-07  2366  	int diff;
-04bb2f94750542 Rik van Riel  2013-10-07  2367  
-04bb2f94750542 Rik van Riel  2013-10-07  2368  	unsigned long remote = p->numa_faults_locality[0];
-04bb2f94750542 Rik van Riel  2013-10-07  2369  	unsigned long local = p->numa_faults_locality[1];
-04bb2f94750542 Rik van Riel  2013-10-07  2370  
-04bb2f94750542 Rik van Riel  2013-10-07  2371  	/*
-04bb2f94750542 Rik van Riel  2013-10-07  2372  	 * If there were no record hinting faults then either the task is
-7d380f24fe6620 Bharata B Rao 2021-10-04  2373  	 * completely idle or all activity is in areas that are not of interest
-074c238177a75f Mel Gorman    2015-03-25  2374  	 * to automatic numa balancing. Related to that, if there were failed
-074c238177a75f Mel Gorman    2015-03-25  2375  	 * migration then it implies we are migrating too quickly or the local
-074c238177a75f Mel Gorman    2015-03-25  2376  	 * node is overloaded. In either case, scan slower
-04bb2f94750542 Rik van Riel  2013-10-07  2377  	 */
-074c238177a75f Mel Gorman    2015-03-25  2378  	if (local + shared == 0 || p->numa_faults_locality[2]) {
-04bb2f94750542 Rik van Riel  2013-10-07  2379  		p->numa_scan_period = min(p->numa_scan_period_max,
-04bb2f94750542 Rik van Riel  2013-10-07  2380  			p->numa_scan_period << 1);
-04bb2f94750542 Rik van Riel  2013-10-07  2381  
-04bb2f94750542 Rik van Riel  2013-10-07  2382  		p->mm->numa_next_scan = jiffies +
-04bb2f94750542 Rik van Riel  2013-10-07  2383  			msecs_to_jiffies(p->numa_scan_period);
-04bb2f94750542 Rik van Riel  2013-10-07  2384  
-04bb2f94750542 Rik van Riel  2013-10-07  2385  		return;
-04bb2f94750542 Rik van Riel  2013-10-07  2386  	}
-04bb2f94750542 Rik van Riel  2013-10-07  2387  
-04bb2f94750542 Rik van Riel  2013-10-07  2388  	/*
-04bb2f94750542 Rik van Riel  2013-10-07  2389  	 * Prepare to scale scan period relative to the current period.
-04bb2f94750542 Rik van Riel  2013-10-07  2390  	 *	 == NUMA_PERIOD_THRESHOLD scan period stays the same
-04bb2f94750542 Rik van Riel  2013-10-07  2391  	 *       <  NUMA_PERIOD_THRESHOLD scan period decreases (scan faster)
-04bb2f94750542 Rik van Riel  2013-10-07  2392  	 *	 >= NUMA_PERIOD_THRESHOLD scan period increases (scan slower)
-04bb2f94750542 Rik van Riel  2013-10-07  2393  	 */
-04bb2f94750542 Rik van Riel  2013-10-07  2394  	period_slot = DIV_ROUND_UP(p->numa_scan_period, NUMA_PERIOD_SLOTS);
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2395  	lr_ratio = (local * NUMA_PERIOD_SLOTS) / (local + remote);
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2396  	ps_ratio = (private * NUMA_PERIOD_SLOTS) / (private + shared);
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2397  
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2398  	if (ps_ratio >= NUMA_PERIOD_THRESHOLD) {
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2399  		/*
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2400  		 * Most memory accesses are local. There is no need to
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2401  		 * do fast NUMA scanning, since memory is already local.
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2402  		 */
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2403  		int slot = ps_ratio - NUMA_PERIOD_THRESHOLD;
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2404  		if (!slot)
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2405  			slot = 1;
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2406  		diff = slot * period_slot;
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2407  	} else if (lr_ratio >= NUMA_PERIOD_THRESHOLD) {
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2408  		/*
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2409  		 * Most memory accesses are shared with other tasks.
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2410  		 * There is no point in continuing fast NUMA scanning,
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2411  		 * since other tasks may just move the memory elsewhere.
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2412  		 */
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2413  		int slot = lr_ratio - NUMA_PERIOD_THRESHOLD;
-04bb2f94750542 Rik van Riel  2013-10-07  2414  		if (!slot)
-04bb2f94750542 Rik van Riel  2013-10-07  2415  			slot = 1;
-04bb2f94750542 Rik van Riel  2013-10-07  2416  		diff = slot * period_slot;
-04bb2f94750542 Rik van Riel  2013-10-07  2417  	} else {
-04bb2f94750542 Rik van Riel  2013-10-07  2418  		/*
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2419  		 * Private memory faults exceed (SLOTS-THRESHOLD)/SLOTS,
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2420  		 * yet they are not on the local NUMA node. Speed up
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2421  		 * NUMA scanning to get the memory moved over.
-04bb2f94750542 Rik van Riel  2013-10-07  2422  		 */
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2423  		int ratio = max(lr_ratio, ps_ratio);
-37ec97deb3a8c6 Rik van Riel  2017-07-31  2424  		diff = -(NUMA_PERIOD_THRESHOLD - ratio) * period_slot;
-04bb2f94750542 Rik van Riel  2013-10-07  2425  	}
-04bb2f94750542 Rik van Riel  2013-10-07  2426  
-04bb2f94750542 Rik van Riel  2013-10-07 @2427  	p->numa_scan_period = clamp(p->numa_scan_period + diff,
-04bb2f94750542 Rik van Riel  2013-10-07  2428  			task_scan_min(p), task_scan_max(p));
-04bb2f94750542 Rik van Riel  2013-10-07  2429  	memset(p->numa_faults_locality, 0, sizeof(p->numa_faults_locality));
-04bb2f94750542 Rik van Riel  2013-10-07  2430  }
-04bb2f94750542 Rik van Riel  2013-10-07  2431  
+a8ef0488cc5929 Philipp Zabel 2019-08-14  333  
+a8ef0488cc5929 Philipp Zabel 2019-08-14  334  static int ipu_csc_scaler_s_selection(struct file *file, void *priv,
+a8ef0488cc5929 Philipp Zabel 2019-08-14  335  				      struct v4l2_selection *s)
+a8ef0488cc5929 Philipp Zabel 2019-08-14  336  {
+a8ef0488cc5929 Philipp Zabel 2019-08-14  337  	struct ipu_csc_scaler_ctx *ctx = fh_to_ctx(priv);
+a8ef0488cc5929 Philipp Zabel 2019-08-14  338  	struct ipu_csc_scaler_q_data *q_data;
+a8ef0488cc5929 Philipp Zabel 2019-08-14  339  
+a8ef0488cc5929 Philipp Zabel 2019-08-14  340  	switch (s->target) {
+a8ef0488cc5929 Philipp Zabel 2019-08-14  341  	case V4L2_SEL_TGT_CROP:
+a8ef0488cc5929 Philipp Zabel 2019-08-14  342  		if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+a8ef0488cc5929 Philipp Zabel 2019-08-14  343  			return -EINVAL;
+a8ef0488cc5929 Philipp Zabel 2019-08-14  344  		break;
+a8ef0488cc5929 Philipp Zabel 2019-08-14  345  	case V4L2_SEL_TGT_COMPOSE:
+a8ef0488cc5929 Philipp Zabel 2019-08-14  346  		if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+a8ef0488cc5929 Philipp Zabel 2019-08-14  347  			return -EINVAL;
+a8ef0488cc5929 Philipp Zabel 2019-08-14  348  		break;
+a8ef0488cc5929 Philipp Zabel 2019-08-14  349  	default:
+a8ef0488cc5929 Philipp Zabel 2019-08-14  350  		return -EINVAL;
+a8ef0488cc5929 Philipp Zabel 2019-08-14  351  	}
+a8ef0488cc5929 Philipp Zabel 2019-08-14  352  
+a8ef0488cc5929 Philipp Zabel 2019-08-14  353  	if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE &&
+a8ef0488cc5929 Philipp Zabel 2019-08-14  354  	    s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+a8ef0488cc5929 Philipp Zabel 2019-08-14  355  		return -EINVAL;
+a8ef0488cc5929 Philipp Zabel 2019-08-14  356  
+a8ef0488cc5929 Philipp Zabel 2019-08-14  357  	q_data = get_q_data(ctx, s->type);
+a8ef0488cc5929 Philipp Zabel 2019-08-14  358  
+a8ef0488cc5929 Philipp Zabel 2019-08-14  359  	/* The input's frame width to the IC must be a multiple of 8 pixels
+a8ef0488cc5929 Philipp Zabel 2019-08-14  360  	 * When performing resizing the frame width must be multiple of burst
+a8ef0488cc5929 Philipp Zabel 2019-08-14  361  	 * size - 8 or 16 pixels as defined by CB#_BURST_16 parameter.
+a8ef0488cc5929 Philipp Zabel 2019-08-14  362  	 */
+a8ef0488cc5929 Philipp Zabel 2019-08-14  363  	if (s->flags & V4L2_SEL_FLAG_GE)
+a8ef0488cc5929 Philipp Zabel 2019-08-14  364  		s->r.width = round_up(s->r.width, 8);
+a8ef0488cc5929 Philipp Zabel 2019-08-14  365  	if (s->flags & V4L2_SEL_FLAG_LE)
+a8ef0488cc5929 Philipp Zabel 2019-08-14  366  		s->r.width = round_down(s->r.width, 8);
+a8ef0488cc5929 Philipp Zabel 2019-08-14 @367  	s->r.width = clamp_t(unsigned int, s->r.width, 8,
+a8ef0488cc5929 Philipp Zabel 2019-08-14  368  			     round_down(q_data->cur_fmt.width, 8));
+a8ef0488cc5929 Philipp Zabel 2019-08-14 @369  	s->r.height = clamp_t(unsigned int, s->r.height, 1,
+a8ef0488cc5929 Philipp Zabel 2019-08-14  370  			      q_data->cur_fmt.height);
+a8ef0488cc5929 Philipp Zabel 2019-08-14 @371  	s->r.left = clamp_t(unsigned int, s->r.left, 0,
+a8ef0488cc5929 Philipp Zabel 2019-08-14  372  			    q_data->cur_fmt.width - s->r.width);
+a8ef0488cc5929 Philipp Zabel 2019-08-14 @373  	s->r.top = clamp_t(unsigned int, s->r.top, 0,
+a8ef0488cc5929 Philipp Zabel 2019-08-14  374  			   q_data->cur_fmt.height - s->r.height);
+a8ef0488cc5929 Philipp Zabel 2019-08-14  375  
+a8ef0488cc5929 Philipp Zabel 2019-08-14  376  	/* V4L2_SEL_FLAG_KEEP_CONFIG is only valid for subdevices */
+a8ef0488cc5929 Philipp Zabel 2019-08-14  377  	q_data->rect = s->r;
+a8ef0488cc5929 Philipp Zabel 2019-08-14  378  
+a8ef0488cc5929 Philipp Zabel 2019-08-14  379  	return 0;
+a8ef0488cc5929 Philipp Zabel 2019-08-14  380  }
+a8ef0488cc5929 Philipp Zabel 2019-08-14  381  
 
 -- 
 0-DAY CI Kernel Test Service
