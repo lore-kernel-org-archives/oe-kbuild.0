@@ -1,41 +1,53 @@
-Received: from mgamail.intel.com (unknown [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153997E
-	for <oe-kbuild@lists.linux.dev>; Mon, 31 Jul 2023 00:11:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690762310; x=1722298310;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cyokcYvfjTSS5s9In5kokRZsn1wOKsemrW+8pyvxIpM=;
-  b=FFl2O8NkfIohXYGLa1/jw77HOraIieARkQ4zXhJ4dhvBkWPwCmrTzRJp
-   MM197sSE/6N02jzkmQM1w2u3PlYXDjUVc3ah8H0AWNa29YiVVTj2igs8T
-   4AtoVTZvmUaSuD84sw7OCCGXRz7jh+GhdAdeRj7JLgSLqKEesvacloJ1T
-   INTp8/Ae4idpLUT9cdAbMhVvm7R47oOIP/kwjsHJnor9vijlZfDipyI8v
-   Vrkc72FgoRDbkumbgItkD/gXfGyfTkeksHCo8SOpnmvdfNLmz6c38nZYC
-   UsuXZnCT2dx8h03N0QbmC8rCZO8b7Uwd9dOfOjX/KuDfHlW6rNzISjxXu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="435187009"
-X-IronPort-AV: E=Sophos;i="6.01,243,1684825200"; 
-   d="scan'208";a="435187009"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 17:11:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="871441905"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 30 Jul 2023 17:11:49 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qQGVm-0004qJ-1q;
-	Mon, 31 Jul 2023 00:11:46 +0000
-Date: Mon, 31 Jul 2023 08:11:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [akpm-mm:mm-unstable 266/338] drivers/dax/kmem.c:74:8-13: ERROR:
- invalid reference to the index variable of the iterator on line 61
-Message-ID: <202307310839.tZIHRFBp-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C4D171A6
+	for <oe-kbuild@lists.linux.dev>; Mon, 31 Jul 2023 09:22:46 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-31751d7d96eso3545238f8f.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 31 Jul 2023 02:22:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690795365; x=1691400165;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lgbharsQKntdUER6lVZNSvC7uX5P5g4vU3d2CiQCSZI=;
+        b=HBx4eY3No4DDP4Mdjht6hrsNHYqF6NcaEYh9FQgreZ5QM0Ro0AaR4H9JY9SW4lNLmB
+         0vkl+WKJHjlBHiBtFksEDJgky4JhfD6Z2kpgb1VhlKU1M/Pe2ZPIosafh9SrIQoETvf/
+         udwaMy+HPCNj8LTKYJkwyW9DRime67iPoE1jpoDUaYI/83Gje/Z1BexzfK8sRKd569hO
+         Tcbg8o2YVx5lk6EOa80PE7fxES85bJVYUIl0S19WXLUNAn09pS5c8Mk5fc/jPgmA/fzr
+         Xc4AAtaheSvuKWNfOOIxggvikrSDSDWipMFNYCEQTCIbCaoG/DOcFo/utzoyG0YMMUQJ
+         vJGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690795365; x=1691400165;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lgbharsQKntdUER6lVZNSvC7uX5P5g4vU3d2CiQCSZI=;
+        b=QhtZwyza2xirDz2Hp1Ra2ufEYRfDqXpYAkLrsdn549BgdOP4ZqSFFpUmXHgxR1Qn5r
+         0S0KC1Vz0d/0qnjLd3/tiUXIhIE9aCf1BjAifs6MdQzvtZkxf2Hx5ZL+GwI+KykMjla6
+         dXzJMG4Z8tW9pKKlLv4zGpxZl6E5NHPpR7tE1/3E7f2HYidylMBOLZqjV8gYXKcqZCzA
+         s4LzFV+lxHZ1PTCmGuAv2YDk3PCs93yItKPJoGFoMx1kxY8m6qmRKpEHH1FjYUcS/A40
+         ivdcEXQxVtkzh4k+RcNo4QRI1sruSMs42pzwgz3xa5MlJJ6nvtYIb8aDZvXxS+l1xbxa
+         PGtQ==
+X-Gm-Message-State: ABy/qLaesk5R6tew3Amw4nPxE0PRxF2VJi3MKIudB+3I51aFA/mHSd4Q
+	Hm+BpQfl9XRKnQ32scpOj0Sgg1rpZRetHYdW0IQ=
+X-Google-Smtp-Source: APBJJlHw/GcIf7e08/QXfEbqiKdJncACDTkw/RFbul2a8Frea13WRXYpNkpCKC1KOZOxvCu1scRxyQ==
+X-Received: by 2002:adf:e586:0:b0:314:4915:689 with SMTP id l6-20020adfe586000000b0031449150689mr6522564wrm.34.1690795364743;
+        Mon, 31 Jul 2023 02:22:44 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id f17-20020adffcd1000000b00313f61889ecsm12520466wrs.66.2023.07.31.02.22.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Jul 2023 02:22:44 -0700 (PDT)
+Date: Mon, 31 Jul 2023 08:40:12 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Sergey Temerkhanov <sergey.temerkhanov@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Jacob Keller <jacob.e.keller@intel.com>
+Subject: [tnguy-next-queue:dev-queue 20/51]
+ drivers/net/ethernet/intel/ice/ice_ptp_hw.c:2181
+ ice_read_phy_and_phc_time_e822() warn: if statement not indented
+Message-ID: <f7214ccb-4adb-4184-9f62-09fba84bd744@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,56 +57,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Huang Ying <ying.huang@intel.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   d7928c9026c83acc1b3dd2a10ef48489aa0c56d0
-commit: c5a826a35e392d073a71479cd981edad85aaca05 [266/338] dax, kmem: calculate abstract distance with general interface
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: s390-randconfig-r062-20230730 (https://download.01.org/0day-ci/archive/20230731/202307310839.tZIHRFBp-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307310839.tZIHRFBp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+head:   79dc5308c824de000283d82a4496567bbedae5db
+commit: a9c0311851c4ab40093e5c629881499f2639f229 [20/51] ice: prefix clock timer command enumeration values with ICE_PTP
+config: i386-randconfig-m021-20230728 (https://download.01.org/0day-ci/archive/20230730/202307300951.kWJSF1tX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230730/202307300951.kWJSF1tX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202307310839.tZIHRFBp-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202307300951.kWJSF1tX-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/dax/kmem.c:74:8-13: ERROR: invalid reference to the index variable of the iterator on line 61
+smatch warnings:
+drivers/net/ethernet/intel/ice/ice_ptp_hw.c:2181 ice_read_phy_and_phc_time_e822() warn: if statement not indented
 
-vim +74 drivers/dax/kmem.c
+vim +2181 drivers/net/ethernet/intel/ice/ice_ptp_hw.c
 
-c5a826a35e392d Huang Ying 2023-07-21  54  
-c5a826a35e392d Huang Ying 2023-07-21  55  static struct memory_dev_type *kmem_find_alloc_memorty_type(int adist)
-c5a826a35e392d Huang Ying 2023-07-21  56  {
-c5a826a35e392d Huang Ying 2023-07-21  57  	bool found = false;
-c5a826a35e392d Huang Ying 2023-07-21  58  	struct memory_dev_type *mtype;
-c5a826a35e392d Huang Ying 2023-07-21  59  
-c5a826a35e392d Huang Ying 2023-07-21  60  	mutex_lock(&kmem_memory_type_lock);
-c5a826a35e392d Huang Ying 2023-07-21 @61  	list_for_each_entry(mtype, &kmem_memory_types, list) {
-c5a826a35e392d Huang Ying 2023-07-21  62  		if (mtype->adistance == adist) {
-c5a826a35e392d Huang Ying 2023-07-21  63  			found = true;
-c5a826a35e392d Huang Ying 2023-07-21  64  			break;
-c5a826a35e392d Huang Ying 2023-07-21  65  		}
-c5a826a35e392d Huang Ying 2023-07-21  66  	}
-c5a826a35e392d Huang Ying 2023-07-21  67  	if (!found) {
-c5a826a35e392d Huang Ying 2023-07-21  68  		mtype = alloc_memory_type(adist);
-c5a826a35e392d Huang Ying 2023-07-21  69  		if (!IS_ERR(mtype))
-c5a826a35e392d Huang Ying 2023-07-21  70  			list_add(&mtype->list, &kmem_memory_types);
-c5a826a35e392d Huang Ying 2023-07-21  71  	}
-c5a826a35e392d Huang Ying 2023-07-21  72  	mutex_unlock(&kmem_memory_type_lock);
-c5a826a35e392d Huang Ying 2023-07-21  73  
-c5a826a35e392d Huang Ying 2023-07-21 @74  	return mtype;
-c5a826a35e392d Huang Ying 2023-07-21  75  }
-c5a826a35e392d Huang Ying 2023-07-21  76  
+3a7496234d179a Jacob Keller       2021-10-13  2165  static int
+3a7496234d179a Jacob Keller       2021-10-13  2166  ice_read_phy_and_phc_time_e822(struct ice_hw *hw, u8 port, u64 *phy_time,
+3a7496234d179a Jacob Keller       2021-10-13  2167  			       u64 *phc_time)
+3a7496234d179a Jacob Keller       2021-10-13  2168  {
+3a7496234d179a Jacob Keller       2021-10-13  2169  	u64 tx_time, rx_time;
+3a7496234d179a Jacob Keller       2021-10-13  2170  	u32 zo, lo;
+3a7496234d179a Jacob Keller       2021-10-13  2171  	u8 tmr_idx;
+3a7496234d179a Jacob Keller       2021-10-13  2172  	int err;
+3a7496234d179a Jacob Keller       2021-10-13  2173  
+3a7496234d179a Jacob Keller       2021-10-13  2174  	tmr_idx = ice_get_ptp_src_clock_index(hw);
+3a7496234d179a Jacob Keller       2021-10-13  2175  
+a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2176  	/* Prepare the PHC timer for a ICE_PTP_READ_TIME capture command */
+a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2177  	ice_ptp_src_cmd(hw, ICE_PTP_READ_TIME);
+3a7496234d179a Jacob Keller       2021-10-13  2178  
+a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2179  	/* Prepare the PHY timer for a ICE_PTP_READ_TIME capture command */
+a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2180  	err = ice_ptp_one_port_cmd(hw, port, ICE_PTP_READ_TIME);
+3a7496234d179a Jacob Keller       2021-10-13 @2181  	if (err)
+
+return err; statement is somehow missing.
+
+3a7496234d179a Jacob Keller       2021-10-13  2182  
+a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2183  	/* Issue the sync to start the ICE_PTP_READ_TIME capture */
+3a7496234d179a Jacob Keller       2021-10-13  2184  	ice_ptp_exec_tmr_cmd(hw);
+3a7496234d179a Jacob Keller       2021-10-13  2185  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
