@@ -1,53 +1,54 @@
-Received: from mgamail.intel.com (unknown [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4D71DDC4
-	for <oe-kbuild@lists.linux.dev>; Mon, 31 Jul 2023 20:41:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08651DDE3
+	for <oe-kbuild@lists.linux.dev>; Mon, 31 Jul 2023 21:23:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690836074; x=1722372074;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HWpxl7lUGks5CjSNw7ngC1/2NVVmJVhHvR6QNITP07Y=;
-  b=hZdD0C82yNU1HJ90IIoq7y5mnauxA8dliWGUtm8J5hF8lKyk747TMbrL
-   v311bUdi9lwrUfBu7x5twrz+gc7n7j5nERmpsdBISUigili5i3ji8inkR
-   +d+SfJSEH84wF7qlqqEyNH50Y7qAOfQgWrdLN9unCwr6NnQzhAo3cWnVG
-   tE2tXtJ8W0Bf69bgjpILTEGYsC3KCjD6ZBYqn2HpYxEhlV2reKGJrpXr4
-   oJxaWb3aN5xtaSmf3qQei3uGGE+nKU/QBKR/6IjyhR3vRTBhpGvtVjiBu
-   e/iEZRF9rg7wxEdgmDo/GpJ2BQHsNGCt9f5CdNd96BwWnkfgO7M4qi85S
+  t=1690838610; x=1722374610;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yRoyPKBci1HnVa7jmCSA+lPgdfVMP5Z4usWd4xolUw0=;
+  b=aiUmXn7C908ltT9+0/xVSCAYZG+p9SbvwJBCNFhvcPNMLxMfiQPgi3D/
+   7nVx521dVTkszpiqIsFJZUaZAPS/zU82Z1SdICw6biauZAcMY00nClQfz
+   DgpNq1qZWKEj5oQ9shwc1FphialbfkT+/s/T7/novvp7Y4DzeV6fAa+wE
+   Zyo04dFTQ6k8MQFbmxItfh5OeBGWnjKmo8tk5yhPkXAIV2j+PGyoDTScY
+   nhv1gXGQaPOOxKPZQZf1fsZoArgcCsB+48CapLOFj5ukGyYpmc5c0qmTU
+   sONiTK+9OgZ3O/8lWHhekWlxVuSJNgSiW8bSvsvSUEmCSr85os/X/bVPa
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="435438580"
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="455504945"
 X-IronPort-AV: E=Sophos;i="6.01,245,1684825200"; 
-   d="scan'208";a="435438580"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 13:41:13 -0700
+   d="scan'208";a="455504945"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 14:23:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="818521652"
-X-IronPort-AV: E=Sophos;i="6.01,245,1684825200"; 
-   d="scan'208";a="818521652"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="871806928"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 31 Jul 2023 13:41:12 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2023 14:23:30 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQZhX-0005MV-2q;
-	Mon, 31 Jul 2023 20:41:11 +0000
-Date: Tue, 1 Aug 2023 04:41:02 +0800
+	id 1qQaMS-0005NX-0B;
+	Mon, 31 Jul 2023 21:23:28 +0000
+Date: Tue, 1 Aug 2023 05:23:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: Re: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the
  arguments have the same signedness.
-Message-ID: <202308010430.Dga44296-lkp@intel.com>
+Message-ID: <202308010503.8XSvuAs8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: fs/nfsd/nfs3proc.c:561:23: sparse: sparse: bad integer constant expression"
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/net/usb/cdc_ncm.c:166:15: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
@@ -68,7 +69,7 @@ Hi David,
 kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master]
+[also build test WARNING on linus/master v6.5-rc4 next-20230731]
 [cannot apply to next-20230725]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -80,42 +81,56 @@ patch link:    https://lore.kernel.org/r/a09512c8526b46759669d0b879144563%40AcuM
 patch subject: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the arguments have the same signedness.
 :::::: branch date: 6 days ago
 :::::: commit date: 6 days ago
-config: i386-randconfig-i062-20230730 (https://download.01.org/0day-ci/archive/20230801/202308010430.Dga44296-lkp@intel.com/config)
+config: i386-randconfig-i061-20230730 (https://download.01.org/0day-ci/archive/20230801/202308010503.8XSvuAs8-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230801/202308010430.Dga44296-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230801/202308010503.8XSvuAs8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202308010430.Dga44296-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308010503.8XSvuAs8-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/nfsd/nfs3proc.c:561:23: sparse: sparse: bad integer constant expression
->> fs/nfsd/nfs3proc.c:561:23: sparse: sparse: static assertion failed: "clamp() low limit (u32)(sizeof(__be32) * 2) greater than high limit sendbuf"
+>> drivers/net/usb/cdc_ncm.c:166:15: sparse: sparse: bad integer constant expression
+>> drivers/net/usb/cdc_ncm.c:166:15: sparse: sparse: static assertion failed: "clamp() low limit (u32)(min) greater than high limit (u32)(max)"
+   drivers/net/usb/cdc_ncm.c:194:15: sparse: sparse: bad integer constant expression
+   drivers/net/usb/cdc_ncm.c:194:15: sparse: sparse: static assertion failed: "clamp() low limit (u32)(min) greater than high limit (u32)(max)"
+   drivers/net/usb/cdc_ncm.c:472:27: sparse: sparse: bad integer constant expression
+>> drivers/net/usb/cdc_ncm.c:472:27: sparse: sparse: static assertion failed: "clamp() low limit (u16)(512) greater than high limit (u16)(ctx->tx_max)"
+   drivers/net/usb/cdc_ncm.c:618:34: sparse: sparse: bad integer constant expression
+>> drivers/net/usb/cdc_ncm.c:618:34: sparse: sparse: static assertion failed: "clamp() low limit (u32)(cdc_ncm_min_dgram_size(dev)) greater than high limit (u32)(8192)"
+--
+>> drivers/media/platform/xilinx/xilinx-dma.c:548:22: sparse: sparse: bad integer constant expression
+>> drivers/media/platform/xilinx/xilinx-dma.c:548:22: sparse: sparse: static assertion failed: "clamp() low limit min_width greater than high limit max_width"
+   drivers/media/platform/xilinx/xilinx-dma.c:560:29: sparse: sparse: bad integer constant expression
+>> drivers/media/platform/xilinx/xilinx-dma.c:560:29: sparse: sparse: static assertion failed: "clamp() low limit min_bpl greater than high limit max_bpl"
 
-vim +561 fs/nfsd/nfs3proc.c
+vim +166 drivers/net/usb/cdc_ncm.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  548  
-40116ebd0934cc Chuck Lever    2020-11-17  549  static void nfsd3_init_dirlist_pages(struct svc_rqst *rqstp,
-40116ebd0934cc Chuck Lever    2020-11-17  550  				     struct nfsd3_readdirres *resp,
-53b1119a6e5028 Chuck Lever    2021-12-16  551  				     u32 count)
-40116ebd0934cc Chuck Lever    2020-11-17  552  {
-7f87fc2d34d475 Chuck Lever    2020-10-22  553  	struct xdr_buf *buf = &resp->dirlist;
-7f87fc2d34d475 Chuck Lever    2020-10-22  554  	struct xdr_stream *xdr = &resp->xdr;
-640f87c190e0d1 Chuck Lever    2022-09-01  555  	unsigned int sendbuf = min_t(unsigned int, rqstp->rq_res.buflen,
-640f87c190e0d1 Chuck Lever    2022-09-01  556  				     svc_max_payload(rqstp));
-40116ebd0934cc Chuck Lever    2020-11-17  557  
-7f87fc2d34d475 Chuck Lever    2020-10-22  558  	memset(buf, 0, sizeof(*buf));
-40116ebd0934cc Chuck Lever    2020-11-17  559  
-7f87fc2d34d475 Chuck Lever    2020-10-22  560  	/* Reserve room for the NULL ptr & eof flag (-2 words) */
-640f87c190e0d1 Chuck Lever    2022-09-01 @561  	buf->buflen = clamp(count, (u32)(XDR_UNIT * 2), sendbuf);
-640f87c190e0d1 Chuck Lever    2022-09-01  562  	buf->buflen -= XDR_UNIT * 2;
-7f87fc2d34d475 Chuck Lever    2020-10-22  563  	buf->pages = rqstp->rq_next_page;
-53b1119a6e5028 Chuck Lever    2021-12-16  564  	rqstp->rq_next_page += (buf->buflen + PAGE_SIZE - 1) >> PAGE_SHIFT;
-7f87fc2d34d475 Chuck Lever    2020-10-22  565  
-98124f5bd6c766 Chuck Lever    2022-09-12  566  	xdr_init_encode_pages(xdr, buf, buf->pages,  NULL);
-40116ebd0934cc Chuck Lever    2020-11-17  567  }
-40116ebd0934cc Chuck Lever    2020-11-17  568  
+6c4e548ff36672 Bjørn Mork 2014-05-16  149  
+289507d3364f96 Bjørn Mork 2014-05-30  150  static u32 cdc_ncm_check_rx_max(struct usbnet *dev, u32 new_rx)
+5aa73d5d72bddf Bjørn Mork 2014-05-16  151  {
+5aa73d5d72bddf Bjørn Mork 2014-05-16  152  	struct cdc_ncm_ctx *ctx = (struct cdc_ncm_ctx *)dev->data[0];
+5aa73d5d72bddf Bjørn Mork 2014-05-16  153  	u32 val, max, min;
+5aa73d5d72bddf Bjørn Mork 2014-05-16  154  
+5aa73d5d72bddf Bjørn Mork 2014-05-16  155  	/* clamp new_rx to sane values */
+5aa73d5d72bddf Bjørn Mork 2014-05-16  156  	min = USB_CDC_NCM_NTB_MIN_IN_SIZE;
+5aa73d5d72bddf Bjørn Mork 2014-05-16  157  	max = min_t(u32, CDC_NCM_NTB_MAX_SIZE_RX, le32_to_cpu(ctx->ncm_parm.dwNtbInMaxSize));
+5aa73d5d72bddf Bjørn Mork 2014-05-16  158  
+5aa73d5d72bddf Bjørn Mork 2014-05-16  159  	/* dwNtbInMaxSize spec violation? Use MIN size for both limits */
+5aa73d5d72bddf Bjørn Mork 2014-05-16  160  	if (max < min) {
+5aa73d5d72bddf Bjørn Mork 2014-05-16  161  		dev_warn(&dev->intf->dev, "dwNtbInMaxSize=%u is too small. Using %u\n",
+5aa73d5d72bddf Bjørn Mork 2014-05-16  162  			 le32_to_cpu(ctx->ncm_parm.dwNtbInMaxSize), min);
+5aa73d5d72bddf Bjørn Mork 2014-05-16  163  		max = min;
+5aa73d5d72bddf Bjørn Mork 2014-05-16  164  	}
+5aa73d5d72bddf Bjørn Mork 2014-05-16  165  
+5aa73d5d72bddf Bjørn Mork 2014-05-16 @166  	val = clamp_t(u32, new_rx, min, max);
+289507d3364f96 Bjørn Mork 2014-05-30  167  	if (val != new_rx)
+289507d3364f96 Bjørn Mork 2014-05-30  168  		dev_dbg(&dev->intf->dev, "rx_max must be in the [%u, %u] range\n", min, max);
+289507d3364f96 Bjørn Mork 2014-05-30  169  
+289507d3364f96 Bjørn Mork 2014-05-30  170  	return val;
+289507d3364f96 Bjørn Mork 2014-05-30  171  }
+289507d3364f96 Bjørn Mork 2014-05-30  172  
 
 -- 
 0-DAY CI Kernel Test Service
