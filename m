@@ -1,106 +1,196 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (unknown [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C4D171A6
-	for <oe-kbuild@lists.linux.dev>; Mon, 31 Jul 2023 09:22:46 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-31751d7d96eso3545238f8f.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 31 Jul 2023 02:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690795365; x=1691400165;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lgbharsQKntdUER6lVZNSvC7uX5P5g4vU3d2CiQCSZI=;
-        b=HBx4eY3No4DDP4Mdjht6hrsNHYqF6NcaEYh9FQgreZ5QM0Ro0AaR4H9JY9SW4lNLmB
-         0vkl+WKJHjlBHiBtFksEDJgky4JhfD6Z2kpgb1VhlKU1M/Pe2ZPIosafh9SrIQoETvf/
-         udwaMy+HPCNj8LTKYJkwyW9DRime67iPoE1jpoDUaYI/83Gje/Z1BexzfK8sRKd569hO
-         Tcbg8o2YVx5lk6EOa80PE7fxES85bJVYUIl0S19WXLUNAn09pS5c8Mk5fc/jPgmA/fzr
-         Xc4AAtaheSvuKWNfOOIxggvikrSDSDWipMFNYCEQTCIbCaoG/DOcFo/utzoyG0YMMUQJ
-         vJGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690795365; x=1691400165;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lgbharsQKntdUER6lVZNSvC7uX5P5g4vU3d2CiQCSZI=;
-        b=QhtZwyza2xirDz2Hp1Ra2ufEYRfDqXpYAkLrsdn549BgdOP4ZqSFFpUmXHgxR1Qn5r
-         0S0KC1Vz0d/0qnjLd3/tiUXIhIE9aCf1BjAifs6MdQzvtZkxf2Hx5ZL+GwI+KykMjla6
-         dXzJMG4Z8tW9pKKlLv4zGpxZl6E5NHPpR7tE1/3E7f2HYidylMBOLZqjV8gYXKcqZCzA
-         s4LzFV+lxHZ1PTCmGuAv2YDk3PCs93yItKPJoGFoMx1kxY8m6qmRKpEHH1FjYUcS/A40
-         ivdcEXQxVtkzh4k+RcNo4QRI1sruSMs42pzwgz3xa5MlJJ6nvtYIb8aDZvXxS+l1xbxa
-         PGtQ==
-X-Gm-Message-State: ABy/qLaesk5R6tew3Amw4nPxE0PRxF2VJi3MKIudB+3I51aFA/mHSd4Q
-	Hm+BpQfl9XRKnQ32scpOj0Sgg1rpZRetHYdW0IQ=
-X-Google-Smtp-Source: APBJJlHw/GcIf7e08/QXfEbqiKdJncACDTkw/RFbul2a8Frea13WRXYpNkpCKC1KOZOxvCu1scRxyQ==
-X-Received: by 2002:adf:e586:0:b0:314:4915:689 with SMTP id l6-20020adfe586000000b0031449150689mr6522564wrm.34.1690795364743;
-        Mon, 31 Jul 2023 02:22:44 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id f17-20020adffcd1000000b00313f61889ecsm12520466wrs.66.2023.07.31.02.22.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jul 2023 02:22:44 -0700 (PDT)
-Date: Mon, 31 Jul 2023 08:40:12 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Sergey Temerkhanov <sergey.temerkhanov@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Jacob Keller <jacob.e.keller@intel.com>
-Subject: [tnguy-next-queue:dev-queue 20/51]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2148BEE;
+	Mon, 31 Jul 2023 16:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690822157; x=1722358157;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=jslrzKWN+iMWrqOzrvW8ZEqYdSd6qmQTo+Z9o6gsrXo=;
+  b=khIaEepUB72RRZjh9I2czLMzuAtu46ZKfpFmTXrQpKRZb79P2VRRVyh1
+   AWKLit1w3q3iAKU1EqyxGN287NcfrtEwFkY50qGCaRbE7x3wvT9uuewPN
+   HKQZNX0T8LUrn+cRoNqHq3yIOR8gy7qPx41KOnW+OGasdTU9G4iQk+P29
+   0TRDFITd5PK6xZ2Xlhy8oncJ8YShMT5GzNHUGqsNT/RsHXDyWvDXRwRJr
+   UCS/zhW/pP/RfqxdJQof2NU+CgNpS46ALOHd6HSTWdKQxVJNhDhw1xZra
+   wWpnkheVIyLLhHYs/U46d3ceVJU365yfeQJUi0Fo7boNH/medk4klc1jt
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="367972191"
+X-IronPort-AV: E=Sophos;i="6.01,245,1684825200"; 
+   d="scan'208";a="367972191"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 09:49:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="871721988"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2023 09:49:12 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 31 Jul 2023 09:49:10 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 31 Jul 2023 09:49:10 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Mon, 31 Jul 2023 09:49:10 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.46) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Mon, 31 Jul 2023 09:49:09 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F4d6yeyGfViDgA2SNIsJGNx90xB8frfxqWj8byHu32UGvquTeQoCsPsYsqrPn4WsM0QXPCd2bOkmwrRuBT2nLl21Aldz++hKtYwa0uPQCr1EmfX8gHiZTlMX0aTWJ45YvY6p3qHIGuPpG5e8nAtqWglHpPn9H2lcGhWwZ73/KkLPvqiAWv+NYJeR44VqkS5oATfljs1eGf369eXaNuci9qUKB1M02mVqQ43Da7qtHeAngFPe/bPfuSEDrang+AuxBTaZrC/mFd/C3A2Lhopz5vQqdxTwGq8VaGxPHGvZptwTRW113uC+7/AFVykxAaRRb2jyKtUV/LPXwixZ2gFBQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2qzr38qEkr8JdlmcvaCRU2VrTHQRRa7FYFDg8eqsutQ=;
+ b=Ck9WdSaSIS2qEU5rHXUZf7AoGZWMw6KohMgwQiZbowqVUVX1DY6MatUJZxcqBpMw7ZYBCm9l6FGszJ+aajZhDHYeaplV1ruMmEeWmmZga1I3mx0Pkq0oWvj6QVsPk6dH23DU97zPPq3oYeSLHE5Kb1D+9w/PV89qLo3+uIkVqlWHUlptscYOnAaoVKiuKk6VkIugVQqAgpqfP16f7aEm7Ibuex7XqPPrGoRE0Et27oIz1ZowAC1j266tgpPlm7Y4C8TX8MDk5pILm4LunzoNYp/IMekm0gg5z5vy9ppweSbtYPe1vxTQEn0TYUxnSVOF41Uodj7Qzn7knmTuMJvBjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN6PR11MB3229.namprd11.prod.outlook.com (2603:10b6:805:ba::28)
+ by LV8PR11MB8462.namprd11.prod.outlook.com (2603:10b6:408:1e8::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.39; Mon, 31 Jul
+ 2023 16:49:07 +0000
+Received: from SN6PR11MB3229.namprd11.prod.outlook.com
+ ([fe80::5c09:3f09:aae8:6468]) by SN6PR11MB3229.namprd11.prod.outlook.com
+ ([fe80::5c09:3f09:aae8:6468%6]) with mapi id 15.20.6631.026; Mon, 31 Jul 2023
+ 16:49:07 +0000
+Message-ID: <54976cbd-d737-acd4-c7dc-f5e71817e920@intel.com>
+Date: Mon, 31 Jul 2023 09:49:03 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [tnguy-next-queue:dev-queue 20/51]
  drivers/net/ethernet/intel/ice/ice_ptp_hw.c:2181
  ice_read_phy_and_phc_time_e822() warn: if statement not indented
-Message-ID: <f7214ccb-4adb-4184-9f62-09fba84bd744@kadam.mountain>
+To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
+	Sergey Temerkhanov <sergey.temerkhanov@intel.com>
+CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Intel Wired LAN
+	<intel-wired-lan@lists.osuosl.org>, Jacob Keller <jacob.e.keller@intel.com>
+References: <f7214ccb-4adb-4184-9f62-09fba84bd744@kadam.mountain>
+Content-Language: en-US
+From: Tony Nguyen <anthony.l.nguyen@intel.com>
+In-Reply-To: <f7214ccb-4adb-4184-9f62-09fba84bd744@kadam.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0095.namprd03.prod.outlook.com
+ (2603:10b6:303:b7::10) To SN6PR11MB3229.namprd11.prod.outlook.com
+ (2603:10b6:805:ba::28)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR11MB3229:EE_|LV8PR11MB8462:EE_
+X-MS-Office365-Filtering-Correlation-Id: bb056992-770a-489c-3b46-08db91e60e57
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: j2bSqKCEO1i6iw/rJUelpdFG/nXeH6Ol8I5EaFJYaEw6/cnAINXQt6TsEKpwA5DZGOO2TlPgFNa4+S2Z9Cgkp9ljYX/JKiRbobYtrV9oLul+yYkTLq/QLfXQ42eEB1vRK2DMSNQEh7Fxjpj2LBWJR2fLaKVM23uSF6ek5cVkZvgsQ3k/J3qXtcHsgGqh17aEi5WRTKQpsUbYzDYzUbTHIR+P161MgkLB3oaGcQIfltYqAsPRJQvPeSg+6LLT6i+1IYAfCyqnCT0WhLiD/IeByKs5rKgF3O/H7+KilktkwtaLxCxVqaz8XK3pV4/KGlcuLfUka97WmLQ1yaMxoPZujkItWsxEMV1gyRnldOtwa5sZ0nKwoS9ETbpKNruQw6aYwhm5F98EXUSsNxFaffqrEMDa/2fOQ7NziOK9r5n5V6NP3/+ZV5NPYQN2TnZUycp3EJc+qklQ7qL2IJRw3tB1wmeFteMQaRLRi6uLaS6m8239N3uGtJUQ4P/hL+SpBpUdeIlZbnzei9R6x0wlRzZKHrKZRPoDlyfPdmFoHhpu+/2UkSKIiT5m8G9X0OupVVvzVFnGeKvIT01YEXPAm3/Z3wDjj5dKEFZwoJLu+ZSBFyrrq9rPs67kZNmcUinD7SNAWIezdrf5fU0ui44iGofZ9PK0Mjyw8/LVsSkMqBpZURI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3229.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(136003)(396003)(376002)(346002)(366004)(39860400002)(451199021)(478600001)(38100700002)(82960400001)(36756003)(31696002)(86362001)(6512007)(966005)(6486002)(6666004)(2616005)(53546011)(107886003)(186003)(8676002)(26005)(8936002)(6506007)(5660300002)(6636002)(4326008)(2906002)(66476007)(66946007)(66556008)(54906003)(41300700001)(31686004)(110136005)(316002)(4001150100001)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V0pZTk1Sa3YvSHVWZEZlMWxMVHYxT0o5QzEzOVZGZnVRQlJ6S3dqYkJ5dGxu?=
+ =?utf-8?B?TEVEZmdPWWJURVdRbnBYOXhSNGluakpBdFdISG1WQmdHVk9GSWhFVENnek9x?=
+ =?utf-8?B?OFdRMStROTcrVDdldTZSbzQ0aGlrL3AzaVdnYUI3eGdGRC93a0hDZUFOOTlE?=
+ =?utf-8?B?Tzl2SW5WUmRjbXZiQkdNaTlqMkc1WWhQeHJMZUFRSk4vODRnUWR1dGxXR3JY?=
+ =?utf-8?B?WEs3U3AzcjlWUjlhd2tYMGtHOElCb0ptN0VhYllZTmFsamlFRmQyVmxkOGRi?=
+ =?utf-8?B?VFhOakN3TTBmcTlQemxEUTlGT01SdElKbklQdEgxTld5UGhEZENxZ2Qza0tS?=
+ =?utf-8?B?VmJrTDNscHRLTVU0ZkxNNTFQNm80L1J5LzBaSndiWWo0UEtmSGtmQkVXTlZV?=
+ =?utf-8?B?Si83S1g2dFoxcGFCcEtxcmtzVTd6cnh0MFVESzFyczlFMkNWRG40SldPU2Zt?=
+ =?utf-8?B?WmxzTWp3WjhhZUxBL1poWkNFVzFSTkR6U2tpN0hYSW5rd1hKSzgwb3U2L0NQ?=
+ =?utf-8?B?Wm04cXZDTDBlL3lLcTBpUEdyU0FpdFZyWnZxNFNGaUhmaU0yUDd1LzhSck5l?=
+ =?utf-8?B?d2diUTlEbTYyMjFLQkc1VGVtMHh1bGNXRG5yRUpsOHBSdmV2WUVTaXR6Q0V2?=
+ =?utf-8?B?ZzFiVVZsK3pkN3haTWFpbXRiQnRCNkQ5a3Y5MDArbEtoNituNGpYbThBMkh1?=
+ =?utf-8?B?a0o4enlqR0pFeldTSUJjSFRSQ25VTGhuNW9YMi9Gc3o3dHZ3aVBjdndSU3pR?=
+ =?utf-8?B?NzdaWlpXZzNLRVEzUXd4R1dxYkg3WWREN0RYb1NrMFM3aWcyVE5rbUJZbFdM?=
+ =?utf-8?B?RUV0Qkx3cXIrOEZ2Q1RYaWR2bTVYUDYxMFF1RFFRd0U0UTJ6TktUTGovcFRT?=
+ =?utf-8?B?R3M3Y2NSc1dqTWFTaGhYUFE1aHRvNWtlajR5RW5QV0VubzlsdkI3VGNsUkhG?=
+ =?utf-8?B?NDJwbStYdGU3NHlmYU1jUjB4WHVjUmUxazdGRmQyNmtYSlk2bFRBMkRVcFQ5?=
+ =?utf-8?B?OVEzWGIvbHlQdnJuVFZlcEh5Qlo4YmN4OTU2N0Z3aHVyaXpBU0w4NTZmSkor?=
+ =?utf-8?B?MzFsdlpzaWxXOHJiS2NSbGttampyNzY4NkVIeTNDS09CaXNpT3BJUUJyK1lC?=
+ =?utf-8?B?WTdnMFJCVFJzcjQ0azYxYjkrNnFkMHFnVlNvcEVkbURSNHpYSGR5ckR6MUVY?=
+ =?utf-8?B?U2lCVW4xU1hXTFRsTWZvY3dvdmhQYlNLbkNHdld0V01BNWxEblc1SGZoYXdp?=
+ =?utf-8?B?MkpocVNEL0RGdmd4M0VncDlob2Y3ZU1IVWFwYXZsU0xSdlpsUldSQ0NzN0R3?=
+ =?utf-8?B?WHpUQXcwQjlXemd1SE05QjRLcFJyTnNCVmozblBsOHpuVldteGUxRkNWT1Ni?=
+ =?utf-8?B?T3RYKzUvSm9kdDRlajVjZ3h4ZzlLVTV2U0RFUktwODkrSHJJWE1qbFlpWjFB?=
+ =?utf-8?B?M2E3K1VJNU9QMmRaMWlDbXRyWmRyS215Y2xDY1VaSEtlTzRDdUZpc1BZRjly?=
+ =?utf-8?B?c1p0WThCM2hyZ2RBemVtZy8vQkJtQzhMZ0E5M3VNVU1tUmFJL1VxeWMwaGRr?=
+ =?utf-8?B?T1QrMUFZb2N2Sy9lT0w2ZklLL0M0V3NQOGlsWmQ1ZE96UmtFcktKaG5ac1hG?=
+ =?utf-8?B?S1hpTU5vdHlkVmdQelorMjFONFBsV0diVkFIS3N6Ukc3bno1dVZ2WGIreXAr?=
+ =?utf-8?B?NEJGb3NPMEVrQXpwWTc1VHNNUTdsNHl4NExPMlMwenJ0V3lpbmVhRFQ4QUtM?=
+ =?utf-8?B?UE84azV6dGpPdGdtdkEvWlF5ZlJRWk9XVWlrVTJjWFRYM1MyRDNOaU1vNHZY?=
+ =?utf-8?B?YmVwdUdHU1czWWdrTEFhR1dRYllDSWxhL0haWldVUnpuV1BaWXhkb3Vlbjgw?=
+ =?utf-8?B?aXRTVnhnMEh0SkdCRUJ4ZmpqNTIxeVlRNys5SnlnQU5KWWZqOElheWYvbXpq?=
+ =?utf-8?B?Y0hqeU00VVo4SEhtZTZvM2ZxRWlubVBWRXp5ME9SejF2N1lnd1FCSE00MUhR?=
+ =?utf-8?B?dmdaWXREcWpiVjRYZEdBQXhPYjFoZU5PdFY3bFVUNVlZS1NtS1I5Zy9tUEd0?=
+ =?utf-8?B?MzFETi9GbDNCNS9WWUEzejJnNU8vYWtZVkdLaVBIRVk0WWhoT2gwZ0I3U2pN?=
+ =?utf-8?B?ZkVwWHVGTmZLRVBEejJHYTVDcmhNNmlDUzRSdUl0K2FTTTRwdElLS3FsUjN5?=
+ =?utf-8?B?S2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb056992-770a-489c-3b46-08db91e60e57
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3229.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2023 16:49:07.4229
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: e++uyyFXtqpE/yMA3FNip8596q9eVCxxUIoJijGkgPbf39NSp/WVBUvlQnWjibD9KCONrE7nkwtr4dEcbMEi+1TjrVbae+Ais90WPB4wLHE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8462
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-head:   79dc5308c824de000283d82a4496567bbedae5db
-commit: a9c0311851c4ab40093e5c629881499f2639f229 [20/51] ice: prefix clock timer command enumeration values with ICE_PTP
-config: i386-randconfig-m021-20230728 (https://download.01.org/0day-ci/archive/20230730/202307300951.kWJSF1tX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230730/202307300951.kWJSF1tX-lkp@intel.com/reproduce)
+On 7/30/2023 10:40 PM, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+> head:   79dc5308c824de000283d82a4496567bbedae5db
+> commit: a9c0311851c4ab40093e5c629881499f2639f229 [20/51] ice: prefix clock timer command enumeration values with ICE_PTP
+> config: i386-randconfig-m021-20230728 (https://download.01.org/0day-ci/archive/20230730/202307300951.kWJSF1tX-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230730/202307300951.kWJSF1tX-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202307300951.kWJSF1tX-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/net/ethernet/intel/ice/ice_ptp_hw.c:2181 ice_read_phy_and_phc_time_e822() warn: if statement not indented
+> 
+> vim +2181 drivers/net/ethernet/intel/ice/ice_ptp_hw.c
+> 
+> 3a7496234d179a Jacob Keller       2021-10-13  2165  static int
+> 3a7496234d179a Jacob Keller       2021-10-13  2166  ice_read_phy_and_phc_time_e822(struct ice_hw *hw, u8 port, u64 *phy_time,
+> 3a7496234d179a Jacob Keller       2021-10-13  2167  			       u64 *phc_time)
+> 3a7496234d179a Jacob Keller       2021-10-13  2168  {
+> 3a7496234d179a Jacob Keller       2021-10-13  2169  	u64 tx_time, rx_time;
+> 3a7496234d179a Jacob Keller       2021-10-13  2170  	u32 zo, lo;
+> 3a7496234d179a Jacob Keller       2021-10-13  2171  	u8 tmr_idx;
+> 3a7496234d179a Jacob Keller       2021-10-13  2172  	int err;
+> 3a7496234d179a Jacob Keller       2021-10-13  2173
+> 3a7496234d179a Jacob Keller       2021-10-13  2174  	tmr_idx = ice_get_ptp_src_clock_index(hw);
+> 3a7496234d179a Jacob Keller       2021-10-13  2175
+> a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2176  	/* Prepare the PHC timer for a ICE_PTP_READ_TIME capture command */
+> a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2177  	ice_ptp_src_cmd(hw, ICE_PTP_READ_TIME);
+> 3a7496234d179a Jacob Keller       2021-10-13  2178
+> a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2179  	/* Prepare the PHY timer for a ICE_PTP_READ_TIME capture command */
+> a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2180  	err = ice_ptp_one_port_cmd(hw, port, ICE_PTP_READ_TIME);
+> 3a7496234d179a Jacob Keller       2021-10-13 @2181  	if (err)
+> 
+> return err; statement is somehow missing.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307300951.kWJSF1tX-lkp@intel.com/
+Thanks for catching this Dan. Patch has been updated/fixed.
 
-smatch warnings:
-drivers/net/ethernet/intel/ice/ice_ptp_hw.c:2181 ice_read_phy_and_phc_time_e822() warn: if statement not indented
-
-vim +2181 drivers/net/ethernet/intel/ice/ice_ptp_hw.c
-
-3a7496234d179a Jacob Keller       2021-10-13  2165  static int
-3a7496234d179a Jacob Keller       2021-10-13  2166  ice_read_phy_and_phc_time_e822(struct ice_hw *hw, u8 port, u64 *phy_time,
-3a7496234d179a Jacob Keller       2021-10-13  2167  			       u64 *phc_time)
-3a7496234d179a Jacob Keller       2021-10-13  2168  {
-3a7496234d179a Jacob Keller       2021-10-13  2169  	u64 tx_time, rx_time;
-3a7496234d179a Jacob Keller       2021-10-13  2170  	u32 zo, lo;
-3a7496234d179a Jacob Keller       2021-10-13  2171  	u8 tmr_idx;
-3a7496234d179a Jacob Keller       2021-10-13  2172  	int err;
-3a7496234d179a Jacob Keller       2021-10-13  2173  
-3a7496234d179a Jacob Keller       2021-10-13  2174  	tmr_idx = ice_get_ptp_src_clock_index(hw);
-3a7496234d179a Jacob Keller       2021-10-13  2175  
-a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2176  	/* Prepare the PHC timer for a ICE_PTP_READ_TIME capture command */
-a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2177  	ice_ptp_src_cmd(hw, ICE_PTP_READ_TIME);
-3a7496234d179a Jacob Keller       2021-10-13  2178  
-a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2179  	/* Prepare the PHY timer for a ICE_PTP_READ_TIME capture command */
-a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2180  	err = ice_ptp_one_port_cmd(hw, port, ICE_PTP_READ_TIME);
-3a7496234d179a Jacob Keller       2021-10-13 @2181  	if (err)
-
-return err; statement is somehow missing.
-
-3a7496234d179a Jacob Keller       2021-10-13  2182  
-a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2183  	/* Issue the sync to start the ICE_PTP_READ_TIME capture */
-3a7496234d179a Jacob Keller       2021-10-13  2184  	ice_ptp_exec_tmr_cmd(hw);
-3a7496234d179a Jacob Keller       2021-10-13  2185  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+> 3a7496234d179a Jacob Keller       2021-10-13  2182
+> a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2183  	/* Issue the sync to start the ICE_PTP_READ_TIME capture */
+> 3a7496234d179a Jacob Keller       2021-10-13  2184  	ice_ptp_exec_tmr_cmd(hw);
+> 3a7496234d179a Jacob Keller       2021-10-13  2185
+> 
