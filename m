@@ -1,136 +1,138 @@
-Received: from mgamail.intel.com (unknown [134.134.136.24])
+Received: from mgamail.intel.com (unknown [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A0D1869
-	for <oe-kbuild@lists.linux.dev>; Wed,  2 Aug 2023 07:30:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433FF5230
+	for <oe-kbuild@lists.linux.dev>; Wed,  2 Aug 2023 13:00:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690961444; x=1722497444;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tCcpEFuH6dnxjHClPjg27ausyDAiWsrNvnPdQLbn4Ts=;
-  b=Ir35M2CyxhUf+H3UEHei8C0sHDyKcXOXsPZ4xjtp+dI5Ql7UQJQGANYw
-   dDODbHm6iaYroHlCk8KhnLT8QBWAlwF1P2t8AqYetHj5w/8XB0ITiW3S9
-   kiXCu8FK6ikjirOMpDVMkT8Zfjy7rKDzg+w6wdpM9+vSbkOoLr1xDkyCw
-   BwLSMkgLgnJbeo7+qeDYfiqY2Ux9MLviBxixujyXQup1kXc8Ln3Bx/Mug
-   fHDX/vAR8gmco6uApDulTiEqnWLzlUZsqRDIvQhl1HfD17elUUWZq1TPA
-   PiOnAXxb7EEpaEGjm/Nix6W+Tp7X8vzRjJeFySGgtaikcbeXGqvb22xgc
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="372237462"
-X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
-   d="scan'208";a="372237462"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 00:30:19 -0700
+  t=1690981206; x=1722517206;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=k5UURGAy+rdDN4TDyiCoA3pxofFFsq8pVWxyn2tnUnM=;
+  b=MFbHDF5uZUnkIjuqJlZhcLH5I3CQx6lQ2+8VItQFWTZwRG2XfxzjsLXH
+   69/WT33saCrF3tmNTuEa0Yq9Qs6rRoSRTM3YHMMngefXrYFz1y/GPmc+i
+   VlU7J9RU7a7BRkedNEjDjrq4StcA6qXW0gcLSIpBD0dCmEyMv9iyjoNoM
+   W7+p2aGHBNvgpUQlWVEOE5NbAqlvAS+F83UhlzGeJifguo0CQBFkDqNMJ
+   JhSvjMKIt4jcNPpZUF01t0FzrMn8F/8aMb+cXFaTO7+w7i81maLuroieP
+   bUu5nuFcgedTxaQ3HOt8img7UBKKU2l1YrYwg7QwO+COvaLxAXN+vxqby
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="368481803"
+X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
+   d="scan'208";a="368481803"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 06:00:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="758642774"
-X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
-   d="scan'208";a="758642774"
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="843125788"
+X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
+   d="scan'208";a="843125788"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 02 Aug 2023 00:30:18 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 02 Aug 2023 06:00:03 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qR6JF-0000zp-2h;
-	Wed, 02 Aug 2023 07:30:17 +0000
-Date: Wed, 2 Aug 2023 15:29:58 +0800
+	id 1qRBSM-0001Cx-1t;
+	Wed, 02 Aug 2023 13:00:02 +0000
+Date: Wed, 2 Aug 2023 20:59:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/hid/hid-nvidia-shield.c:61:1: sparse: sparse: static
- assertion failed: "sizeof(enum thunderstrike_led_state) == 1"
-Message-ID: <202308021501.T2U3kOwK-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v7 2/7] nvmem: core: Do not open-code existing functions
+Message-ID: <202308022032.L1zC4lik-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/hid/hid-nvidia-shield.c:61:1: sparse: sparse: static assertion failed: "sizeof(enum thunderstrike_led_state) == 1""
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230801182132.1058707-3-miquel.raynal@bootlin.com>
+References: <20230801182132.1058707-3-miquel.raynal@bootlin.com>
+TO: Miquel Raynal <miquel.raynal@bootlin.com>
+TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+CC: Robert Marko <robert.marko@sartura.hr>
+CC: Luka Perkov <luka.perkov@sartura.hr>
+CC: Michael Walle <michael@walle.cc>
 CC: linux-kernel@vger.kernel.org
-TO: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-CC: Jiri Kosina <jkosina@suse.cz>
+CC: Randy Dunlap <rdunlap@infradead.org>
+CC: "Chen-Yu Tsai" <wenst@chromium.org>
+CC: Daniel Golle <daniel@makrotopia.org>
+CC: "Rafał Miłecki" <rafal@milecki.pl>
+CC: Miquel Raynal <miquel.raynal@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5d0c230f1de8c7515b6567d9afba1f196fb4e2f4
-commit: f88af60e74a5b31be1551ffb9af216c8a800501c HID: nvidia-shield: Support LED functionality for Thunderstrike
-date:   8 weeks ago
-:::::: branch date: 2 days ago
-:::::: commit date: 8 weeks ago
-config: nios2-randconfig-r072-20230802 (https://download.01.org/0day-ci/archive/20230802/202308021501.T2U3kOwK-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021501.T2U3kOwK-lkp@intel.com/reproduce)
+Hi Miquel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.5-rc4 next-20230802]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/nvmem-core-Create-all-cells-before-adding-the-nvmem-device/20230802-022331
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20230801182132.1058707-3-miquel.raynal%40bootlin.com
+patch subject: [PATCH v7 2/7] nvmem: core: Do not open-code existing functions
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: x86_64-randconfig-m001-20230730 (https://download.01.org/0day-ci/archive/20230802/202308022032.L1zC4lik-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230802/202308022032.L1zC4lik-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202308021501.T2U3kOwK-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202308022032.L1zC4lik-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hid/hid-nvidia-shield.c:61:1: sparse: sparse: static assertion failed: "sizeof(enum thunderstrike_led_state) == 1"
-   drivers/hid/hid-nvidia-shield.c:86:1: sparse: sparse: static assertion failed: "sizeof(struct thunderstrike_hostcmd_resp_report) == THUNDERSTRIKE_HOSTCMD_REPORT_SIZE"
->> drivers/hid/hid-nvidia-shield.c:106:1: sparse: sparse: static assertion failed: "sizeof(struct thunderstrike_hostcmd_req_report) == THUNDERSTRIKE_HOSTCMD_REPORT_SIZE"
+New smatch warnings:
+drivers/nvmem/core.c:793 nvmem_layout_get() warn: 'layout_np' is an error pointer or valid
 
-vim +61 drivers/hid/hid-nvidia-shield.c
+Old smatch warnings:
+drivers/nvmem/core.c:756 nvmem_add_cells_from_fixed_layout() warn: 'layout_np' is an error pointer or valid
 
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   56  
-f88af60e74a5b31 Rahul Rameshbabu 2023-05-29   57  enum thunderstrike_led_state {
-f88af60e74a5b31 Rahul Rameshbabu 2023-05-29   58  	THUNDERSTRIKE_LED_OFF = 1,
-f88af60e74a5b31 Rahul Rameshbabu 2023-05-29   59  	THUNDERSTRIKE_LED_ON = 8,
-f88af60e74a5b31 Rahul Rameshbabu 2023-05-29   60  } __packed;
-f88af60e74a5b31 Rahul Rameshbabu 2023-05-29  @61  static_assert(sizeof(enum thunderstrike_led_state) == 1);
-f88af60e74a5b31 Rahul Rameshbabu 2023-05-29   62  
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   63  struct thunderstrike_hostcmd_board_info {
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   64  	__le16 revision;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   65  	__le16 serial[7];
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   66  };
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   67  
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   68  struct thunderstrike_hostcmd_haptics {
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   69  	u8 motor_left;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   70  	u8 motor_right;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   71  };
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   72  
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   73  struct thunderstrike_hostcmd_resp_report {
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   74  	u8 report_id; /* THUNDERSTRIKE_HOSTCMD_RESP_REPORT_ID */
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   75  	u8 cmd_id;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   76  	u8 reserved_at_10;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   77  
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   78  	union {
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   79  		struct thunderstrike_hostcmd_board_info board_info;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   80  		struct thunderstrike_hostcmd_haptics motors;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   81  		__le16 fw_version;
-f88af60e74a5b31 Rahul Rameshbabu 2023-05-29   82  		enum thunderstrike_led_state led_state;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   83  		u8 payload[30];
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   84  	};
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   85  } __packed;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   86  static_assert(sizeof(struct thunderstrike_hostcmd_resp_report) ==
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   87  	      THUNDERSTRIKE_HOSTCMD_REPORT_SIZE);
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   88  
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   89  struct thunderstrike_hostcmd_req_report {
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   90  	u8 report_id; /* THUNDERSTRIKE_HOSTCMD_REQ_REPORT_ID */
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   91  	u8 cmd_id;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   92  	u8 reserved_at_10;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   93  
-f88af60e74a5b31 Rahul Rameshbabu 2023-05-29   94  	union {
-f88af60e74a5b31 Rahul Rameshbabu 2023-05-29   95  		struct {
-f88af60e74a5b31 Rahul Rameshbabu 2023-05-29   96  			u8 update;
-f88af60e74a5b31 Rahul Rameshbabu 2023-05-29   97  			enum thunderstrike_led_state state;
-f88af60e74a5b31 Rahul Rameshbabu 2023-05-29   98  		} led;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08   99  		struct {
-09308562d4afb1a Rahul Rameshbabu 2023-06-08  100  			u8 update;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08  101  			struct thunderstrike_hostcmd_haptics motors;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08  102  		} haptics;
-f88af60e74a5b31 Rahul Rameshbabu 2023-05-29  103  	};
-09308562d4afb1a Rahul Rameshbabu 2023-06-08  104  	u8 reserved_at_30[27];
-09308562d4afb1a Rahul Rameshbabu 2023-06-08  105  } __packed;
-09308562d4afb1a Rahul Rameshbabu 2023-06-08 @106  static_assert(sizeof(struct thunderstrike_hostcmd_req_report) ==
-09308562d4afb1a Rahul Rameshbabu 2023-06-08  107  	      THUNDERSTRIKE_HOSTCMD_REPORT_SIZE);
-09308562d4afb1a Rahul Rameshbabu 2023-06-08  108  
+vim +/layout_np +793 drivers/nvmem/core.c
+
+266570f496b90d Michael Walle 2023-04-04  786  
+266570f496b90d Michael Walle 2023-04-04  787  static struct nvmem_layout *nvmem_layout_get(struct nvmem_device *nvmem)
+266570f496b90d Michael Walle 2023-04-04  788  {
+58302db804f7b8 Miquel Raynal 2023-08-01  789  	struct device_node *layout_np;
+6468a6f45148fb Miquel Raynal 2023-04-04  790  	struct nvmem_layout *l, *layout = ERR_PTR(-EPROBE_DEFER);
+266570f496b90d Michael Walle 2023-04-04  791  
+58302db804f7b8 Miquel Raynal 2023-08-01  792  	layout_np = of_nvmem_layout_get_container(nvmem);
+266570f496b90d Michael Walle 2023-04-04 @793  	if (!layout_np)
+266570f496b90d Michael Walle 2023-04-04  794  		return NULL;
+266570f496b90d Michael Walle 2023-04-04  795  
+b1c37bec1ccfe5 Miquel Raynal 2023-04-04  796  	/*
+b1c37bec1ccfe5 Miquel Raynal 2023-04-04  797  	 * In case the nvmem device was built-in while the layout was built as a
+b1c37bec1ccfe5 Miquel Raynal 2023-04-04  798  	 * module, we shall manually request the layout driver loading otherwise
+b1c37bec1ccfe5 Miquel Raynal 2023-04-04  799  	 * we'll never have any match.
+b1c37bec1ccfe5 Miquel Raynal 2023-04-04  800  	 */
+b1c37bec1ccfe5 Miquel Raynal 2023-04-04  801  	of_request_module(layout_np);
+b1c37bec1ccfe5 Miquel Raynal 2023-04-04  802  
+266570f496b90d Michael Walle 2023-04-04  803  	spin_lock(&nvmem_layout_lock);
+266570f496b90d Michael Walle 2023-04-04  804  
+266570f496b90d Michael Walle 2023-04-04  805  	list_for_each_entry(l, &nvmem_layouts, node) {
+266570f496b90d Michael Walle 2023-04-04  806  		if (of_match_node(l->of_match_table, layout_np)) {
+266570f496b90d Michael Walle 2023-04-04  807  			if (try_module_get(l->owner))
+266570f496b90d Michael Walle 2023-04-04  808  				layout = l;
+266570f496b90d Michael Walle 2023-04-04  809  
+266570f496b90d Michael Walle 2023-04-04  810  			break;
+266570f496b90d Michael Walle 2023-04-04  811  		}
+266570f496b90d Michael Walle 2023-04-04  812  	}
+266570f496b90d Michael Walle 2023-04-04  813  
+266570f496b90d Michael Walle 2023-04-04  814  	spin_unlock(&nvmem_layout_lock);
+266570f496b90d Michael Walle 2023-04-04  815  	of_node_put(layout_np);
+266570f496b90d Michael Walle 2023-04-04  816  
+266570f496b90d Michael Walle 2023-04-04  817  	return layout;
+266570f496b90d Michael Walle 2023-04-04  818  }
+266570f496b90d Michael Walle 2023-04-04  819  
 
 -- 
 0-DAY CI Kernel Test Service
