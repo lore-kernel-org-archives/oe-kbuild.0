@@ -1,41 +1,41 @@
-Received: from mgamail.intel.com (unknown [134.134.136.100])
+Received: from mgamail.intel.com (unknown [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DBF100AD
-	for <oe-kbuild@lists.linux.dev>; Wed,  2 Aug 2023 20:03:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6114D51F
+	for <oe-kbuild@lists.linux.dev>; Wed,  2 Aug 2023 22:16:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691006606; x=1722542606;
+  t=1691014592; x=1722550592;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ndPrILVvCyeR3qWYmTCycvSReGl9yLaRNtPfxZ8WxhE=;
-  b=SDvdvBpNRisQsAsh34kW7xEldlay/U9+dwUts4XkgANUk1Y87doSkvZm
-   ybSdeBfSVsBI7f9j/PBgQ+6Bg+k8wrhvic/rF5hI11Wgs6mVfm05DS74p
-   mGf+2Yog7xWlnSPqZluSzNgx9gUqZYpCxCpgYr+RN/4zaRSjBNkwAemgF
-   fOAeTy9fGf7CqQ7sSxXPKCTRmB0+tkOxBH/Rle0xeBJvA6PYoo3s9rxnf
-   7PaUsa7Lb4f4+wY2wwZyUNO/z/q7VeCySfX1QVPbtBo+VK3/hHkM8QT7U
-   RKtYAE+doxzE6ERwTigFybCQ149gM8m+vrbcRW4LZaFhUSlOttC0yYYXy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="436004244"
-X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
-   d="scan'208";a="436004244"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 13:03:26 -0700
+  bh=+MdeRsKM39d/9/MAn6CPOXA6GKI7YTcd3xT1iekhHCE=;
+  b=G/oOAOopuYcKZPn+qjukAE4qYD9Y86z8QVBP3+94T0lyEjnfe1mXzTTN
+   GTq+qpwQRPNtlP6UKYNLBS2ZL1EDjFsGDzYrhrYcYjQZtqDdd248fAMj8
+   rbjD8cNrnyjUEg7UoaCpXSYDgfKuMSbhDxWUtH3t/QCrjvYUK4IwMUB/C
+   el2w2PfzSQCj+C/rReOXNheuJ8M2aqrv8CSQBR7Cg2onV7Z939YTN4S0J
+   duKowSNaJclP+TRbw6DxhvrUGQsaoXqJ6cqCw0mLLfNKT+oIYTejAwbS7
+   FjrgMMdaEh+B4GntjwJPa9Posn1RgWbmfh3pmFCL3bIHE9u6DweeFQDg5
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="349309907"
+X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
+   d="scan'208";a="349309907"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 15:16:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="758873029"
-X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
-   d="scan'208";a="758873029"
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="903104034"
+X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
+   d="scan'208";a="903104034"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 02 Aug 2023 13:03:25 -0700
+  by orsmga005.jf.intel.com with ESMTP; 02 Aug 2023 15:16:30 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRI44-0001SB-1o;
-	Wed, 02 Aug 2023 20:03:24 +0000
-Date: Thu, 3 Aug 2023 04:02:40 +0800
+	id 1qRK8s-0001WR-07;
+	Wed, 02 Aug 2023 22:16:30 +0000
+Date: Thu, 3 Aug 2023 06:16:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [RFC PATCH 4/6] virtio-net: support rx netdim
-Message-ID: <202308030335.S81NnNgz-lkp@intel.com>
+Subject: Re: [RFC PATCH 5/6] virtio-net: support tx netdim
+Message-ID: <202308030654.2yAeKpbK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,8 +51,8 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230801082235.21634-5-hengqi@linux.alibaba.com>
-References: <20230801082235.21634-5-hengqi@linux.alibaba.com>
+In-Reply-To: <20230801082235.21634-6-hengqi@linux.alibaba.com>
+References: <20230801082235.21634-6-hengqi@linux.alibaba.com>
 TO: Heng Qi <hengqi@linux.alibaba.com>
 
 Hi Heng,
@@ -69,25 +69,31 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/virtio-net-returns-whether-napi-is-complete/20230801-162552
 base:   linus/master
-patch link:    https://lore.kernel.org/r/20230801082235.21634-5-hengqi%40linux.alibaba.com
-patch subject: [RFC PATCH 4/6] virtio-net: support rx netdim
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230803/202308030335.S81NnNgz-lkp@intel.com/config)
+patch link:    https://lore.kernel.org/r/20230801082235.21634-6-hengqi%40linux.alibaba.com
+patch subject: [RFC PATCH 5/6] virtio-net: support tx netdim
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230803/202308030654.2yAeKpbK-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030335.S81NnNgz-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030654.2yAeKpbK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202308030335.S81NnNgz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308030654.2yAeKpbK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
+   ld: vmlinux.o: in function `virtnet_poll_tx':
+   virtio_net.c:(.text+0x932b85): undefined reference to `net_dim'
+   ld: vmlinux.o: in function `virtnet_tx_dim_work':
+>> virtio_net.c:(.text+0x9335a4): undefined reference to `net_dim_get_tx_moderation'
    ld: vmlinux.o: in function `virtnet_rx_dim_work':
->> virtio_net.c:(.text+0x933c64): undefined reference to `net_dim_get_rx_moderation'
+   virtio_net.c:(.text+0x934034): undefined reference to `net_dim_get_rx_moderation'
+   ld: vmlinux.o: in function `skb_xmit_done':
+   virtio_net.c:(.text+0x9346fa): undefined reference to `net_dim'
    ld: vmlinux.o: in function `virtnet_poll':
->> virtio_net.c:(.text+0x93b6b0): undefined reference to `net_dim'
+   virtio_net.c:(.text+0x93b923): undefined reference to `net_dim'
 
 -- 
 0-DAY CI Kernel Test Service
