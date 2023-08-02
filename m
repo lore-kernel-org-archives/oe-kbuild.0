@@ -1,172 +1,131 @@
-Received: from mgamail.intel.com (unknown [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F6FD52F
-	for <oe-kbuild@lists.linux.dev>; Wed,  2 Aug 2023 16:50:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B001D5230
+	for <oe-kbuild@lists.linux.dev>; Wed,  2 Aug 2023 16:50:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690995029; x=1722531029;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=NW57atyaV9W9CYVo73k4N3LOQjnPIT/mZP3hAJ6Ff9s=;
-  b=JwJ+psuzIVxTeopug8IJfTqdm7YHvvIFeRA8g1Aj75Ag2zl4imbcLnaD
-   rKVeUoecQn8gQnPZ0kXfSOB5Yr0MEKga0vqt/wSmH2zw4JmTSpbir4Atm
-   rJXRhL9XOPnTowSZBRsJ+Ty5XjPc3Upicn6svpCVbYpE3Mbr2b5TZctxe
-   guc8N0ON+sWgk30rodBu/P60hGSPB7Tr+GBRCv1jr+0f/SgWnLHboH0Lp
-   Wqwd68+mpgW6RVLZ2M2gouUrx71HGljnR9jMD3ZeqKw6H1aefVY/7A7bp
-   zHgWO4lmXXcFs2RfP+Ejw+V7ZnycWdqUNmWVp1HFQWL08JwSnj7q+MiCk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="433480811"
+  t=1690995030; x=1722531030;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KGrL/OwSoIvjUnL+NlSV4Oe0dl9P7lFFzygf4Zi3/6c=;
+  b=e+wsbTVKkWmCmw9vINd2KSe/2Ht+cUjeJGVrcyK7gUd5lI5PJpnY8j5B
+   oaf+ueIfP2/93giUNlrigNePPeiY2iz6LrumLkYYVNdhxyS3v0A5Ad9YS
+   xuFPcOHArV04gnWYOsm+FRDQmuLt4KMVLCzoYPvh+AWDraILQ6FxApmvt
+   wfKm036n+iMAiTqii4MTpnwSGWofxBAbuHquZtdCorMC04xlErJV88Zv6
+   Qw+u6ZggEUORXvOhIQjzWDEcQ3ulutMhRjPk6I4sszFSXesu2yLjYhO4j
+   9FhRnKj5IdcthX5M7a3wCXofqovbA8nspJY9WU4X+O+fkY0otNcA4kZah
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="400585276"
 X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
-   d="scan'208";a="433480811"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 09:50:26 -0700
+   d="scan'208";a="400585276"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 09:50:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="1059904152"
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="794658000"
 X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
-   d="scan'208";a="1059904152"
+   d="scan'208";a="794658000"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 02 Aug 2023 09:50:25 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 02 Aug 2023 09:50:25 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRF3J-0001LO-0H;
+	id 1qRF3J-0001LR-0Q;
 	Wed, 02 Aug 2023 16:50:25 +0000
-Date: Thu, 3 Aug 2023 00:49:42 +0800
+Date: Thu, 3 Aug 2023 00:49:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v7 5/7] nvmem: core: Rework layouts to become platform
- devices
-Message-ID: <202308030002.DnSFOrMB-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [tnguy-next-queue:dev-queue 6/35]
+ drivers/net/ethernet/intel/ice/ice_main.c:8876:2-8: preceding lock on line
+ 8856
+Message-ID: <202308030015.k9edygXw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230801182132.1058707-6-miquel.raynal@bootlin.com>
-References: <20230801182132.1058707-6-miquel.raynal@bootlin.com>
-TO: Miquel Raynal <miquel.raynal@bootlin.com>
-TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-CC: Robert Marko <robert.marko@sartura.hr>
-CC: Luka Perkov <luka.perkov@sartura.hr>
-CC: Michael Walle <michael@walle.cc>
-CC: linux-kernel@vger.kernel.org
-CC: Randy Dunlap <rdunlap@infradead.org>
-CC: "Chen-Yu Tsai" <wenst@chromium.org>
-CC: Daniel Golle <daniel@makrotopia.org>
-CC: "Rafał Miłecki" <rafal@milecki.pl>
-CC: Miquel Raynal <miquel.raynal@bootlin.com>
+CC: Intel Wired LAN <intel-wired-lan@lists.osuosl.org>
+TO: Rafal Rogalski <rafalx.rogalski@intel.com>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+CC: Mateusz Palczewski <mateusz.palczewski@intel.com>
+CC: Kamil Maziarz <kamil.maziarz@intel.com>
 
-Hi Miquel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.5-rc4 next-20230802]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/nvmem-core-Create-all-cells-before-adding-the-nvmem-device/20230802-022331
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20230801182132.1058707-6-miquel.raynal%40bootlin.com
-patch subject: [PATCH v7 5/7] nvmem: core: Rework layouts to become platform devices
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
-config: x86_64-randconfig-m001-20230730 (https://download.01.org/0day-ci/archive/20230803/202308030002.DnSFOrMB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030002.DnSFOrMB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+head:   7f7d9efdd14a69d9e90700098448f6e15dce70ff
+commit: ec38e724a7f8ba46d2f5a0e0a51bba595272e6fc [6/35] ice: Fix RDMA VSI removal during queue rebuild
+:::::: branch date: 21 hours ago
+:::::: commit date: 25 hours ago
+config: s390-randconfig-r051-20230730 (https://download.01.org/0day-ci/archive/20230803/202308030015.k9edygXw-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030015.k9edygXw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308030002.DnSFOrMB-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202308030015.k9edygXw-lkp@intel.com/
 
-New smatch warnings:
-drivers/nvmem/core.c:1003 nvmem_register() warn: 'layout_np' is an error pointer or valid
-drivers/nvmem/core.c:2130 nvmem_try_loading_layout_driver() warn: 'layout_np' is an error pointer or valid
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/ice/ice_main.c:8876:2-8: preceding lock on line 8856
 
-Old smatch warnings:
-drivers/nvmem/core.c:761 nvmem_add_cells_from_fixed_layout() warn: 'layout_np' is an error pointer or valid
-drivers/nvmem/core.c:802 nvmem_layout_get() warn: 'layout_np' is an error pointer or valid
+vim +8876 drivers/net/ethernet/intel/ice/ice_main.c
 
-vim +/layout_np +1003 drivers/nvmem/core.c
+0d08a441fb1a5c Kiran Patil    2021-08-06  8838  
+0d08a441fb1a5c Kiran Patil    2021-08-06  8839  static int
+0d08a441fb1a5c Kiran Patil    2021-08-06  8840  ice_setup_tc(struct net_device *netdev, enum tc_setup_type type,
+0d08a441fb1a5c Kiran Patil    2021-08-06  8841  	     void *type_data)
+0d08a441fb1a5c Kiran Patil    2021-08-06  8842  {
+0d08a441fb1a5c Kiran Patil    2021-08-06  8843  	struct ice_netdev_priv *np = netdev_priv(netdev);
+fbc7b27af0f9fb Kiran Patil    2021-10-15  8844  	struct ice_pf *pf = np->vsi->back;
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8845  	bool locked = false;
+fbc7b27af0f9fb Kiran Patil    2021-10-15  8846  	int err;
+0d08a441fb1a5c Kiran Patil    2021-08-06  8847  
+0d08a441fb1a5c Kiran Patil    2021-08-06  8848  	switch (type) {
+0d08a441fb1a5c Kiran Patil    2021-08-06  8849  	case TC_SETUP_BLOCK:
+0d08a441fb1a5c Kiran Patil    2021-08-06  8850  		return flow_block_cb_setup_simple(type_data,
+0d08a441fb1a5c Kiran Patil    2021-08-06  8851  						  &ice_block_cb_list,
+0d08a441fb1a5c Kiran Patil    2021-08-06  8852  						  ice_setup_tc_block_cb,
+0d08a441fb1a5c Kiran Patil    2021-08-06  8853  						  np, np, true);
+fbc7b27af0f9fb Kiran Patil    2021-10-15  8854  	case TC_SETUP_QDISC_MQPRIO:
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8855  		if (pf->adev) {
+ec38e724a7f8ba Rafal Rogalski 2023-07-03 @8856  			mutex_lock(&pf->adev_mutex);
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8857  			device_lock(&pf->adev->dev);
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8858  			locked = true;
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8859  			if (pf->adev->dev.driver) {
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8860  				netdev_err(netdev, "Cannot change qdisc when RDMA is active\n");
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8861  				err = -EBUSY;
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8862  				goto adev_unlock;
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8863  			}
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8864  		}
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8865  
+fbc7b27af0f9fb Kiran Patil    2021-10-15  8866  		/* setup traffic classifier for receive side */
+fbc7b27af0f9fb Kiran Patil    2021-10-15  8867  		mutex_lock(&pf->tc_mutex);
+fbc7b27af0f9fb Kiran Patil    2021-10-15  8868  		err = ice_setup_tc_mqprio_qdisc(netdev, type_data);
+fbc7b27af0f9fb Kiran Patil    2021-10-15  8869  		mutex_unlock(&pf->tc_mutex);
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8870  
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8871  adev_unlock:
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8872  		if (locked) {
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8873  			device_unlock(&pf->adev->dev);
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8874  			mutex_unlock(&pf->adev_mutex);
+ec38e724a7f8ba Rafal Rogalski 2023-07-03  8875  		}
+fbc7b27af0f9fb Kiran Patil    2021-10-15 @8876  		return err;
+0d08a441fb1a5c Kiran Patil    2021-08-06  8877  	default:
+0d08a441fb1a5c Kiran Patil    2021-08-06  8878  		return -EOPNOTSUPP;
+0d08a441fb1a5c Kiran Patil    2021-08-06  8879  	}
+0d08a441fb1a5c Kiran Patil    2021-08-06  8880  	return -EOPNOTSUPP;
+0d08a441fb1a5c Kiran Patil    2021-08-06  8881  }
+0d08a441fb1a5c Kiran Patil    2021-08-06  8882  
 
-eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27   964  
-bd1244561fa2a4 Gaosheng Cui          2022-09-16   965  	if (nvmem->nkeepout) {
-bd1244561fa2a4 Gaosheng Cui          2022-09-16   966  		rval = nvmem_validate_keepouts(nvmem);
-bd1244561fa2a4 Gaosheng Cui          2022-09-16   967  		if (rval)
-ab3428cfd9aa2f Russell King (Oracle  2023-01-27   968) 			goto err_put_device;
-bd1244561fa2a4 Gaosheng Cui          2022-09-16   969  	}
-bd1244561fa2a4 Gaosheng Cui          2022-09-16   970  
-b6c217ab9be689 Andrew Lunn           2016-02-26   971  	if (config->compat) {
-ae0c2d725512f3 Srinivas Kandagatla   2019-04-16   972  		rval = nvmem_sysfs_setup_compat(nvmem, config);
-b6c217ab9be689 Andrew Lunn           2016-02-26   973  		if (rval)
-ab3428cfd9aa2f Russell King (Oracle  2023-01-27   974) 			goto err_put_device;
-eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27   975  	}
-eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27   976  
-fa72d847d68d78 Bartosz Golaszewski   2018-09-21   977  	if (config->cells) {
-fa72d847d68d78 Bartosz Golaszewski   2018-09-21   978  		rval = nvmem_add_cells(nvmem, config->cells, config->ncells);
-fa72d847d68d78 Bartosz Golaszewski   2018-09-21   979  		if (rval)
-db3546d58b5a0f Michael Walle         2023-01-27   980  			goto err_remove_cells;
-fa72d847d68d78 Bartosz Golaszewski   2018-09-21   981  	}
-eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27   982  
-b985f4cba6dbb3 Bartosz Golaszewski   2018-09-21   983  	rval = nvmem_add_cells_from_table(nvmem);
-b985f4cba6dbb3 Bartosz Golaszewski   2018-09-21   984  	if (rval)
-b985f4cba6dbb3 Bartosz Golaszewski   2018-09-21   985  		goto err_remove_cells;
-b985f4cba6dbb3 Bartosz Golaszewski   2018-09-21   986  
-27f699e578b1a7 Rafał Miłecki         2023-06-11   987  	rval = nvmem_add_cells_from_legacy_of(nvmem);
-e888d445ac33a5 Bartosz Golaszewski   2018-09-21   988  	if (rval)
-e888d445ac33a5 Bartosz Golaszewski   2018-09-21   989  		goto err_remove_cells;
-e888d445ac33a5 Bartosz Golaszewski   2018-09-21   990  
-571c19069d5f4b Miquel Raynal         2023-08-01   991  	rval = nvmem_add_cells_from_fixed_layout(nvmem);
-ab3428cfd9aa2f Russell King (Oracle  2023-01-27   992) 	if (rval)
-ab3428cfd9aa2f Russell King (Oracle  2023-01-27   993) 		goto err_remove_cells;
-ab3428cfd9aa2f Russell King (Oracle  2023-01-27   994) 
-571c19069d5f4b Miquel Raynal         2023-08-01   995  	dev_dbg(&nvmem->dev, "Registering nvmem device %s\n", config->name);
-571c19069d5f4b Miquel Raynal         2023-08-01   996  
-571c19069d5f4b Miquel Raynal         2023-08-01   997  	rval = device_add(&nvmem->dev);
-266570f496b90d Michael Walle         2023-04-04   998  	if (rval)
-266570f496b90d Michael Walle         2023-04-04   999  		goto err_remove_cells;
-266570f496b90d Michael Walle         2023-04-04  1000  
-00d059fd6702f0 Miquel Raynal         2023-08-01  1001  	/* Populate layouts as devices */
-00d059fd6702f0 Miquel Raynal         2023-08-01  1002  	layout_np = of_nvmem_layout_get_container(nvmem);
-00d059fd6702f0 Miquel Raynal         2023-08-01 @1003  	if (layout_np) {
-00d059fd6702f0 Miquel Raynal         2023-08-01  1004  		rval = of_platform_populate(nvmem->dev.of_node, NULL, NULL, NULL);
-00d059fd6702f0 Miquel Raynal         2023-08-01  1005  		if (rval)
-00d059fd6702f0 Miquel Raynal         2023-08-01  1006  			goto err_remove_cells;
-00d059fd6702f0 Miquel Raynal         2023-08-01  1007  		of_node_put(layout_np);
-00d059fd6702f0 Miquel Raynal         2023-08-01  1008  	}
-00d059fd6702f0 Miquel Raynal         2023-08-01  1009  
-25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1010  	mutex_lock(&nvmem_devices_mutex);
-25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1011  	list_add_tail(&nvmem->node, &nvmem_devices_list);
-25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1012  	mutex_unlock(&nvmem_devices_mutex);
-25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1013  
-f4853e1c321edb Bartosz Golaszewski   2019-02-15  1014  	blocking_notifier_call_chain(&nvmem_notifier, NVMEM_ADD, nvmem);
-bee1138bea15a6 Bartosz Golaszewski   2018-09-21  1015  
-eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27  1016  	return nvmem;
-3360acdf839170 Johan Hovold          2017-06-09  1017  
-b985f4cba6dbb3 Bartosz Golaszewski   2018-09-21  1018  err_remove_cells:
-b985f4cba6dbb3 Bartosz Golaszewski   2018-09-21  1019  	nvmem_device_remove_all_cells(nvmem);
-fa72d847d68d78 Bartosz Golaszewski   2018-09-21  1020  	if (config->compat)
-ae0c2d725512f3 Srinivas Kandagatla   2019-04-16  1021  		nvmem_sysfs_remove_compat(nvmem, config);
-3360acdf839170 Johan Hovold          2017-06-09  1022  err_put_device:
-3360acdf839170 Johan Hovold          2017-06-09  1023  	put_device(&nvmem->dev);
-3360acdf839170 Johan Hovold          2017-06-09  1024  
-b6c217ab9be689 Andrew Lunn           2016-02-26  1025  	return ERR_PTR(rval);
-eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27  1026  }
-eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27  1027  EXPORT_SYMBOL_GPL(nvmem_register);
-eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27  1028  
+:::::: The code at line 8876 was first introduced by commit
+:::::: fbc7b27af0f9fb181811424e29caf6825594a841 ice: enable ndo_setup_tc support for mqprio_qdisc
+
+:::::: TO: Kiran Patil <kiran.patil@intel.com>
+:::::: CC: Tony Nguyen <anthony.l.nguyen@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
