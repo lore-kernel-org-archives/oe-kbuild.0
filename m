@@ -1,139 +1,125 @@
-Received: from mgamail.intel.com (unknown [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433FF5230
-	for <oe-kbuild@lists.linux.dev>; Wed,  2 Aug 2023 13:00:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690981206; x=1722517206;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=k5UURGAy+rdDN4TDyiCoA3pxofFFsq8pVWxyn2tnUnM=;
-  b=MFbHDF5uZUnkIjuqJlZhcLH5I3CQx6lQ2+8VItQFWTZwRG2XfxzjsLXH
-   69/WT33saCrF3tmNTuEa0Yq9Qs6rRoSRTM3YHMMngefXrYFz1y/GPmc+i
-   VlU7J9RU7a7BRkedNEjDjrq4StcA6qXW0gcLSIpBD0dCmEyMv9iyjoNoM
-   W7+p2aGHBNvgpUQlWVEOE5NbAqlvAS+F83UhlzGeJifguo0CQBFkDqNMJ
-   JhSvjMKIt4jcNPpZUF01t0FzrMn8F/8aMb+cXFaTO7+w7i81maLuroieP
-   bUu5nuFcgedTxaQ3HOt8img7UBKKU2l1YrYwg7QwO+COvaLxAXN+vxqby
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="368481803"
-X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
-   d="scan'208";a="368481803"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 06:00:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="843125788"
-X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
-   d="scan'208";a="843125788"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 02 Aug 2023 06:00:03 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qRBSM-0001Cx-1t;
-	Wed, 02 Aug 2023 13:00:02 +0000
-Date: Wed, 2 Aug 2023 20:59:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v7 2/7] nvmem: core: Do not open-code existing functions
-Message-ID: <202308022032.L1zC4lik-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9072563B1
+	for <oe-kbuild@lists.linux.dev>; Wed,  2 Aug 2023 13:19:29 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-314172bac25so6047333f8f.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 02 Aug 2023 06:19:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690982367; x=1691587167;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=O/2WIVROlZsV9PaE7ZRV5iugvs6edZ71omTT4F/SSvo=;
+        b=b5ttnfL5oEhNHJ+OuMs3TaY01QRb+YOyogeni8rOKLZRF34u4K7seXIEgc9zybGmDy
+         i6CL1VdjafelnmnuFFrUfjUn2XCMDV0Dn0c/CIQ9VnH35f0a/AmkWcnQFD931P2VnAvi
+         ppn66jIET8cdYTFhWERY2AFPKxopY+IyxBsAoKoVMSGyYaEEJ8wLYHFH0qM/WdDzm75M
+         DzRsx+xyBo/RoEwtmvScNiwcPUmZqmpPSfsQ8SI1HOKOfgCjojPjI/zbXUF++XjXeVIu
+         Hc7uLzGLqp0iKRBZg5lmWkB4q5qcyV1ZRNIRmrHJzWBF5GaE84d3dQLZxFnfxu2x7ca0
+         6FBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690982367; x=1691587167;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=O/2WIVROlZsV9PaE7ZRV5iugvs6edZ71omTT4F/SSvo=;
+        b=K+mbdixF0T819wCH5eUX2ZZQKNtBFeGi/gVTNnRrScVd5eqvEytekqIWZ0N4gNlkrg
+         GJufGSHRF8KfA51bezY/VdRh1/J7amAurLfEI53xwpQL7pCl22snkjhdYWDtbsFxCI8h
+         ccfOX74tBOdJ2lAVT3mypVE5Z3Cv1L65OHsJlbhCYIe+EafNzlLJ/aPzw8KECeE4ZHUL
+         akzCGhTdBW/ORYwkNyyisfDisd1mt3JS/eLRZDF/uMFa4BunEYSja1WQRCOB/cOt+Kfh
+         bpFXQVeuuSwW83Wjg6KAVo9M1D+UrHlSBSoaUgIQA4W/9I+5ylXN38X8J0AOWqebbwMP
+         3Jow==
+X-Gm-Message-State: ABy/qLZnK2+Luu4LMJ9xD+K06PB1q7+E/siwG6shYZn8JGLpAk9o5ksD
+	B4si32ZcM0tGFirghArIqBP58g==
+X-Google-Smtp-Source: APBJJlHDtPxPkjUQDc9Cgo3moh4rigDIqtwormB9fceq6QeriPzioOsRh/evkwesGLHEjyC7EvY7hw==
+X-Received: by 2002:adf:f44c:0:b0:317:3f64:4901 with SMTP id f12-20020adff44c000000b003173f644901mr4651149wrp.41.1690982367568;
+        Wed, 02 Aug 2023 06:19:27 -0700 (PDT)
+Received: from [192.168.1.14] (host-92-17-103-66.as13285.net. [92.17.103.66])
+        by smtp.gmail.com with ESMTPSA id d14-20020adff2ce000000b003176053506fsm15276105wrp.99.2023.08.02.06.19.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Aug 2023 06:19:27 -0700 (PDT)
+Message-ID: <2c0860e2-40d6-ec91-60cf-2684edd52676@linaro.org>
+Date: Wed, 2 Aug 2023 14:19:26 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: drivers/power/supply/qcom_pmi8998_charger.c:565
+ smb2_status_change_work() error: uninitialized symbol 'usb_online'.
+Content-Language: en-US
+To: kernel test robot <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+References: <ZMNWCD66TAhahJ2Y@kadam>
+From: Caleb Connolly <caleb.connolly@linaro.org>
+In-Reply-To: <ZMNWCD66TAhahJ2Y@kadam>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230801182132.1058707-3-miquel.raynal@bootlin.com>
-References: <20230801182132.1058707-3-miquel.raynal@bootlin.com>
-TO: Miquel Raynal <miquel.raynal@bootlin.com>
-TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-CC: Robert Marko <robert.marko@sartura.hr>
-CC: Luka Perkov <luka.perkov@sartura.hr>
-CC: Michael Walle <michael@walle.cc>
-CC: linux-kernel@vger.kernel.org
-CC: Randy Dunlap <rdunlap@infradead.org>
-CC: "Chen-Yu Tsai" <wenst@chromium.org>
-CC: Daniel Golle <daniel@makrotopia.org>
-CC: "Rafał Miłecki" <rafal@milecki.pl>
-CC: Miquel Raynal <miquel.raynal@bootlin.com>
 
-Hi Miquel,
 
-kernel test robot noticed the following build warnings:
+On 28/07/2023 06:45, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   57012c57536f8814dec92e74197ee96c3498d24e
+> commit: 8648aeb5d7b70e13264ff5f444f22081d37d4670 power: supply: add Qualcomm PMI8998 SMB2 Charger driver
+> config: arm-randconfig-m041-20230727 (https://download.01.org/0day-ci/archive/20230728/202307280638.556PrzIS-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230728/202307280638.556PrzIS-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202307280638.556PrzIS-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/power/supply/qcom_pmi8998_charger.c:565 smb2_status_change_work() error: uninitialized symbol 'usb_online'.
 
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.5-rc4 next-20230802]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Hi, thanks for the report.
+> 
+> vim +/usb_online +565 drivers/power/supply/qcom_pmi8998_charger.c
+> 
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  556  static void smb2_status_change_work(struct work_struct *work)
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  557  {
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  558  	unsigned int charger_type, current_ua;
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  559  	int usb_online, count, rc;
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  560  	struct smb2_chip *chip;
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  561  
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  562  	chip = container_of(work, struct smb2_chip, status_change_work.work);
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  563  
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  564  	smb2_get_prop_usb_online(chip, &usb_online);
+> 
+> This can only happen if regmap_read() fails, and in real life they
+> can't actually fail can they?  We can't really recover if regmap
+> breaks so in that situation this uninitialized variable would be the
+> least of our concerns.  Right?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/nvmem-core-Create-all-cells-before-adding-the-nvmem-device/20230802-022331
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20230801182132.1058707-3-miquel.raynal%40bootlin.com
-patch subject: [PATCH v7 2/7] nvmem: core: Do not open-code existing functions
-:::::: branch date: 18 hours ago
-:::::: commit date: 18 hours ago
-config: x86_64-randconfig-m001-20230730 (https://download.01.org/0day-ci/archive/20230802/202308022032.L1zC4lik-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230802/202308022032.L1zC4lik-lkp@intel.com/reproduce)
+In this case, the driver is for a peripheral on the SPMI bus, a read
+failing is extremely unlikely but under some conditions like bandwidth
+constraints it could happen. Though admittedly there are likely bigger
+issues to deal with in that situation heh.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308022032.L1zC4lik-lkp@intel.com/
-
-New smatch warnings:
-drivers/nvmem/core.c:793 nvmem_layout_get() warn: 'layout_np' is an error pointer or valid
-
-Old smatch warnings:
-drivers/nvmem/core.c:756 nvmem_add_cells_from_fixed_layout() warn: 'layout_np' is an error pointer or valid
-
-vim +/layout_np +793 drivers/nvmem/core.c
-
-266570f496b90d Michael Walle 2023-04-04  786  
-266570f496b90d Michael Walle 2023-04-04  787  static struct nvmem_layout *nvmem_layout_get(struct nvmem_device *nvmem)
-266570f496b90d Michael Walle 2023-04-04  788  {
-58302db804f7b8 Miquel Raynal 2023-08-01  789  	struct device_node *layout_np;
-6468a6f45148fb Miquel Raynal 2023-04-04  790  	struct nvmem_layout *l, *layout = ERR_PTR(-EPROBE_DEFER);
-266570f496b90d Michael Walle 2023-04-04  791  
-58302db804f7b8 Miquel Raynal 2023-08-01  792  	layout_np = of_nvmem_layout_get_container(nvmem);
-266570f496b90d Michael Walle 2023-04-04 @793  	if (!layout_np)
-266570f496b90d Michael Walle 2023-04-04  794  		return NULL;
-266570f496b90d Michael Walle 2023-04-04  795  
-b1c37bec1ccfe5 Miquel Raynal 2023-04-04  796  	/*
-b1c37bec1ccfe5 Miquel Raynal 2023-04-04  797  	 * In case the nvmem device was built-in while the layout was built as a
-b1c37bec1ccfe5 Miquel Raynal 2023-04-04  798  	 * module, we shall manually request the layout driver loading otherwise
-b1c37bec1ccfe5 Miquel Raynal 2023-04-04  799  	 * we'll never have any match.
-b1c37bec1ccfe5 Miquel Raynal 2023-04-04  800  	 */
-b1c37bec1ccfe5 Miquel Raynal 2023-04-04  801  	of_request_module(layout_np);
-b1c37bec1ccfe5 Miquel Raynal 2023-04-04  802  
-266570f496b90d Michael Walle 2023-04-04  803  	spin_lock(&nvmem_layout_lock);
-266570f496b90d Michael Walle 2023-04-04  804  
-266570f496b90d Michael Walle 2023-04-04  805  	list_for_each_entry(l, &nvmem_layouts, node) {
-266570f496b90d Michael Walle 2023-04-04  806  		if (of_match_node(l->of_match_table, layout_np)) {
-266570f496b90d Michael Walle 2023-04-04  807  			if (try_module_get(l->owner))
-266570f496b90d Michael Walle 2023-04-04  808  				layout = l;
-266570f496b90d Michael Walle 2023-04-04  809  
-266570f496b90d Michael Walle 2023-04-04  810  			break;
-266570f496b90d Michael Walle 2023-04-04  811  		}
-266570f496b90d Michael Walle 2023-04-04  812  	}
-266570f496b90d Michael Walle 2023-04-04  813  
-266570f496b90d Michael Walle 2023-04-04  814  	spin_unlock(&nvmem_layout_lock);
-266570f496b90d Michael Walle 2023-04-04  815  	of_node_put(layout_np);
-266570f496b90d Michael Walle 2023-04-04  816  
-266570f496b90d Michael Walle 2023-04-04  817  	return layout;
-266570f496b90d Michael Walle 2023-04-04  818  }
-266570f496b90d Michael Walle 2023-04-04  819  
+It's a trivial fix so I'll send a patch over.
+> 
+> So what I could do is just delete the regmap_read error paths from
+> the DB.  I just add these two lines to smatch_data/db/kernel.delete.return_states
+> 
+> regmap_read (-22)
+> regmap_read (-4095)-(-1)
+> 
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26 @565  	if (!usb_online)
+>                                                      ^^^^^^^^^^
+> 
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  566  		return;
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  567  
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  568  	for (count = 0; count < 3; count++) {
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  569  		dev_dbg(chip->dev, "get charger type retry %d\n", count);
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+// Caleb (they/them)
