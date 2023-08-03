@@ -1,42 +1,51 @@
-Received: from mgamail.intel.com (unknown [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA101EA72
-	for <oe-kbuild@lists.linux.dev>; Thu,  3 Aug 2023 12:16:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691064987; x=1722600987;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NZSPxpJfeRQjknYrP2ncpQtId0XXuEEquPQqrDPEkrg=;
-  b=E3lVBBn5Wi5jC6Tg5xbf7ITV6/t3OWyVNz0ewwVcVbVOwE44ycF5tvYx
-   8ec0dLC9n22O+66jSKAADz6RUv+WiFj4A+eTfq7AGwyR34+YdtjKd6mQ2
-   oBEW3cGKh/Rb4IlAg8kPdkkjrqaKKXshIF5D1pdztxcoV6mlvtqbTiQ3x
-   L7BBEvGQuS0bIPIW3yZD303zzBeQhPO727iV9SDrXtOdZeksWP1ev52AM
-   CpjZf3Ttoydi6drTb+fC2TjLnvyL63g4CFEUc1o3a42FXCO5fmkaRROZx
-   LRaSbvk2Vd+jAGA+thlCMATIu4kHG+GjK33CKqxo3WnzrBKNU0JyEZD8g
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="400795174"
-X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
-   d="scan'208";a="400795174"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 05:16:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="732732316"
-X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
-   d="scan'208";a="732732316"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 03 Aug 2023 05:16:25 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qRXFg-00026R-1K;
-	Thu, 03 Aug 2023 12:16:24 +0000
-Date: Thu, 3 Aug 2023 20:15:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DB21EA72
+	for <oe-kbuild@lists.linux.dev>; Thu,  3 Aug 2023 12:21:02 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-51e2a6a3768so1135757a12.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 03 Aug 2023 05:21:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691065260; x=1691670060;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KmQ2BxlsmB7Qtd3nt7EKtDmDGfI6XLh/lQMuL64mWFU=;
+        b=zFVE6o3Ok35akuD1/c8IOhghZEaiqDMj7Zv2ndQPkNn/qSDyIY4wW0LARR7PQcIQdd
+         f0zwLyCDjQPe/WVaXCp5AkHw/ox5NPZ/WwUuc1h55KL1nWjl+iPshv4jTyTcyt+lAZvz
+         5j66zhvtXQVLO2Z8GHK/qmTqoqn9Xha654vGV7sBl8Htyho6dfJDymLsfv7m8yo2bq50
+         dWB4GgLhC03G7fpO2RzrcDJ5SdJFQZTEngj+MY+/302qo08EO54GJXHIuvrN/sPAtZ0R
+         SBkZe8PRoxjwSYoD8KCpxEN2EyC2BZk3bzHP+WoIXJVxdPSh7W/ZAiRnsPS0QE09oUGl
+         l05A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691065260; x=1691670060;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KmQ2BxlsmB7Qtd3nt7EKtDmDGfI6XLh/lQMuL64mWFU=;
+        b=gGAeDVWyPO6JIH/pcDyRs1l6B9FMsdEL9pyl/dcmBmmFFWF1uaMdjF7Mvo9yBVHMCC
+         TA7+ZL6cH2VDLsGNppwlNfYmVbR8J0CnmUQ4Ck4EKhkhFfvJ3WPnR8yLBaFCaLrJ5868
+         MFH7rtcQWpzelk+fc01zTk0uWEvE0OvJigwqTI/DcmKTDXKidaWdF1WrDW6PNBPQ1gYZ
+         NvTJqKyHRLrnXXQPK/mknYjSAJEPh6WrfVKx0RLUngMpb0BGNKvvr+oyyr3Tv7kfAlpe
+         4UTp4COclrYPKHWrt5cPrSOpA0smpvN/8ZzYZIWtDOeKc7Gw5QDnhbaMDcq2oFIcq0CY
+         8TGQ==
+X-Gm-Message-State: ABy/qLY07JN2KL6PbvpbOHB2sZUc6CoLnRrdJ22lXhfZ2QPDcNI6VQTa
+	Z33123THBishcI1D1MuY9+3Y5+JFLQeQ0LpkztQ=
+X-Google-Smtp-Source: APBJJlHo7J+seTjhMsDZ133lQ1/1DZWLsyz5vYy/JFYEsSVCkOjiMvXnOaaxsYCNPCvXPZpmbsUaKQ==
+X-Received: by 2002:aa7:c70c:0:b0:522:1d1d:1de8 with SMTP id i12-20020aa7c70c000000b005221d1d1de8mr6722844edq.2.1691065260250;
+        Thu, 03 Aug 2023 05:21:00 -0700 (PDT)
+Received: from localhost (h3221.n1.ips.mtn.co.ug. [41.210.178.33])
+        by smtp.gmail.com with ESMTPSA id p4-20020a056402044400b00521d2f7459fsm10175004edw.49.2023.08.03.05.20.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Aug 2023 05:20:59 -0700 (PDT)
+Date: Thu, 3 Aug 2023 15:20:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Md Sadre Alam <quic_mdalam@quicinc.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Sricharan Ramabadhran <quic_srichara@quicinc.com>
 Subject: [linux-next:master 1937/6910] drivers/mtd/nand/raw/qcom_nandc.c:2941
  qcom_op_cmd_mapping() error: uninitialized symbol 'ret'.
-Message-ID: <202308032022.SnXkKyFs-lkp@intel.com>
+Message-ID: <7ad1160b-5f8c-47af-a1c5-51b34f656fab@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,18 +55,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Md Sadre Alam <quic_mdalam@quicinc.com>
-CC: Miquel Raynal <miquel.raynal@bootlin.com>
-CC: Sricharan Ramabadhran <quic_srichara@quicinc.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   fb4327106e5250ee360d0d8b056c1eef7eeb9a98
 commit: 89550beb098e04b951df079483fb064eafc0e5fa [1937/6910] mtd: rawnand: qcom: Implement exec_op()
-:::::: branch date: 8 hours ago
-:::::: commit date: 3 weeks ago
 config: riscv-randconfig-m031-20230730 (https://download.01.org/0day-ci/archive/20230803/202308032022.SnXkKyFs-lkp@intel.com/config)
 compiler: riscv64-linux-gcc (GCC) 12.3.0
 reproduce: (https://download.01.org/0day-ci/archive/20230803/202308032022.SnXkKyFs-lkp@intel.com/reproduce)
@@ -65,7 +65,7 @@ reproduce: (https://download.01.org/0day-ci/archive/20230803/202308032022.SnXkKy
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202308032022.SnXkKyFs-lkp@intel.com/
 
 New smatch warnings:
@@ -77,7 +77,6 @@ drivers/mtd/nand/raw/qcom_nandc.c:3076 qcom_read_status_exec() warn: inconsisten
 
 vim +/ret +2941 drivers/mtd/nand/raw/qcom_nandc.c
 
-c76b78d8ec05a2 drivers/mtd/nand/qcom_nandc.c     Archit Taneja 2016-02-03  2908  
 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2909  static int qcom_op_cmd_mapping(struct qcom_nand_controller *nandc, u8 cmd,
 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2910  			       struct qcom_op *q_op)
 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2911  {
@@ -108,12 +107,16 @@ c76b78d8ec05a2 drivers/mtd/nand/qcom_nandc.c     Archit Taneja 2016-02-03  2908
 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2936  		q_op->flag = OP_PROGRAM_PAGE;
 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2937  		nandc->exec_opwrite = true;
 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2938  		break;
+
+No default case.  I'm more concerned about the && vs || warning, but
+the zero day bot doesn't include that code into the email.
+
 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2939  	}
 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2940  
 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10 @2941  	return ret;
 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2942  }
-89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2943  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
