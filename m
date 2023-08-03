@@ -1,41 +1,60 @@
-Received: from mgamail.intel.com (unknown [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6114D51F
-	for <oe-kbuild@lists.linux.dev>; Wed,  2 Aug 2023 22:16:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691014592; x=1722550592;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+MdeRsKM39d/9/MAn6CPOXA6GKI7YTcd3xT1iekhHCE=;
-  b=G/oOAOopuYcKZPn+qjukAE4qYD9Y86z8QVBP3+94T0lyEjnfe1mXzTTN
-   GTq+qpwQRPNtlP6UKYNLBS2ZL1EDjFsGDzYrhrYcYjQZtqDdd248fAMj8
-   rbjD8cNrnyjUEg7UoaCpXSYDgfKuMSbhDxWUtH3t/QCrjvYUK4IwMUB/C
-   el2w2PfzSQCj+C/rReOXNheuJ8M2aqrv8CSQBR7Cg2onV7Z939YTN4S0J
-   duKowSNaJclP+TRbw6DxhvrUGQsaoXqJ6cqCw0mLLfNKT+oIYTejAwbS7
-   FjrgMMdaEh+B4GntjwJPa9Posn1RgWbmfh3pmFCL3bIHE9u6DweeFQDg5
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="349309907"
-X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
-   d="scan'208";a="349309907"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 15:16:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="903104034"
-X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
-   d="scan'208";a="903104034"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 02 Aug 2023 15:16:30 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qRK8s-0001WR-07;
-	Wed, 02 Aug 2023 22:16:30 +0000
-Date: Thu, 3 Aug 2023 06:16:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [RFC PATCH 5/6] virtio-net: support tx netdim
-Message-ID: <202308030654.2yAeKpbK-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B228215AEF
+	for <oe-kbuild@lists.linux.dev>; Thu,  3 Aug 2023 10:13:10 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-4fe27849e6aso1370915e87.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 03 Aug 2023 03:13:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691057588; x=1691662388;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OU5jzGZ8m41pATVhJIjp/1tCj5Z8zNWOvgLIF0xT0VI=;
+        b=WhRABPa8KudWq8HGeFEQHTRnJX5bqXx3uuHCrwIy+PRZWiV74ZFYdMLx97qnMd2aHR
+         KtVwZdiTWzaztZ0XvOPgiF32MinhIqiyyXR6WLjjsI2iKxwzV0oydua3OqTaELn05yij
+         ejOEGg+h0GeUXjiuAvk5mz1yB9ZVsflAxVSbv4CwnHwN+71j0hfopIZTmTsIuQHc03gu
+         KzQpuWjtaxjGtmKmBp3vXma01nZbeTbjzDEp23VpVbIEkW2d+rgFmT5P47V3wUslfNAH
+         tm24mdR7DyDf+bYUOTYS7s6mmU47UHrB5ZYKio67dbYD2TG1qvYBRYbmrvlMvJvOyS10
+         r/ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691057588; x=1691662388;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OU5jzGZ8m41pATVhJIjp/1tCj5Z8zNWOvgLIF0xT0VI=;
+        b=CtImmTecAxNIsk/hF/UBvl2uPmVLW4gYVVMSTIWzPwu3bwgLm5/qTFSLF8cc/rmxX7
+         XVw2dYPPxjtq0VejRrAnU++tSiqiZqKpP1hpIYzh6WeeQKs9MWM6jErh1j0Zkcb0V6MG
+         jZ7JKkGc37ZNEkg/HcOykVHDbar1mC7b5ZzFfmXPMjA6MP8Ux75zv8qS2qZGjUxK99xV
+         m7MzWtT3OJY+j0Vo36Db7K3DtaQYIWxVKUJ30p9wXoRj67qz5fbzVeve3POTAHiei6U3
+         oZhlFdOWgd763K3G3OAgofWEKCdwjG5HpkhRLiylk+G1qiqz4PjGf6TRcyDsRJ7wS/AU
+         r3OA==
+X-Gm-Message-State: ABy/qLYsG7lP+pF17G11+WVdV3tCcfEDvpayXkg57EsIjRTAtg4m/8px
+	cOtiG+BBrKErV3B3Bpskq6RJ55bJb6LXbTxugy0=
+X-Google-Smtp-Source: APBJJlFzLvmCL4CL7n09K35pdMou3HjnQXAkP5YaT0kUUukk6bteJ+F+BRkjTzQJlPFEkNS7BDWsJg==
+X-Received: by 2002:ac2:5332:0:b0:4f1:3d7d:409e with SMTP id f18-20020ac25332000000b004f13d7d409emr6539094lfh.0.1691057588186;
+        Thu, 03 Aug 2023 03:13:08 -0700 (PDT)
+Received: from localhost (h3221.n1.ips.mtn.co.ug. [41.210.178.33])
+        by smtp.gmail.com with ESMTPSA id g7-20020aa7c847000000b0051e2549c4f9sm9974394edt.47.2023.08.03.03.13.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Aug 2023 03:13:07 -0700 (PDT)
+Date: Thu, 3 Aug 2023 13:13:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Miquel Raynal <miquel.raynal@bootlin.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Robert Marko <robert.marko@sartura.hr>,
+	Luka Perkov <luka.perkov@sartura.hr>,
+	Michael Walle <michael@walle.cc>, linux-kernel@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	Daniel Golle <daniel@makrotopia.org>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v7 5/7] nvmem: core: Rework layouts to become platform
+ devices
+Message-ID: <b9040273-aca8-432a-83aa-b0d6b1b88529@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -44,57 +63,86 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230801182132.1058707-6-miquel.raynal@bootlin.com>
 
-:::::: 
-:::::: Manual check reason: "git am base is a link in commit message"
-:::::: 
+Hi Miquel,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230801082235.21634-6-hengqi@linux.alibaba.com>
-References: <20230801082235.21634-6-hengqi@linux.alibaba.com>
-TO: Heng Qi <hengqi@linux.alibaba.com>
+kernel test robot noticed the following build warnings:
 
-Hi Heng,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.5-rc4 next-20230802]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/virtio-net-returns-whether-napi-is-complete/20230801-162552
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230801082235.21634-6-hengqi%40linux.alibaba.com
-patch subject: [RFC PATCH 5/6] virtio-net: support tx netdim
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230803/202308030654.2yAeKpbK-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/nvmem-core-Create-all-cells-before-adding-the-nvmem-device/20230802-022331
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20230801182132.1058707-6-miquel.raynal%40bootlin.com
+patch subject: [PATCH v7 5/7] nvmem: core: Rework layouts to become platform devices
+config: x86_64-randconfig-m001-20230730 (https://download.01.org/0day-ci/archive/20230803/202308030002.DnSFOrMB-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030654.2yAeKpbK-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030002.DnSFOrMB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202308030654.2yAeKpbK-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202308030002.DnSFOrMB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/nvmem/core.c:1003 nvmem_register() warn: 'layout_np' is an error pointer or valid
+drivers/nvmem/core.c:2130 nvmem_try_loading_layout_driver() warn: 'layout_np' is an error pointer or valid
 
-   ld: vmlinux.o: in function `virtnet_poll_tx':
-   virtio_net.c:(.text+0x932b85): undefined reference to `net_dim'
-   ld: vmlinux.o: in function `virtnet_tx_dim_work':
->> virtio_net.c:(.text+0x9335a4): undefined reference to `net_dim_get_tx_moderation'
-   ld: vmlinux.o: in function `virtnet_rx_dim_work':
-   virtio_net.c:(.text+0x934034): undefined reference to `net_dim_get_rx_moderation'
-   ld: vmlinux.o: in function `skb_xmit_done':
-   virtio_net.c:(.text+0x9346fa): undefined reference to `net_dim'
-   ld: vmlinux.o: in function `virtnet_poll':
-   virtio_net.c:(.text+0x93b923): undefined reference to `net_dim'
+Old smatch warnings:
+drivers/nvmem/core.c:761 nvmem_add_cells_from_fixed_layout() warn: 'layout_np' is an error pointer or valid
+drivers/nvmem/core.c:802 nvmem_layout_get() warn: 'layout_np' is an error pointer or valid
+
+vim +/layout_np +1003 drivers/nvmem/core.c
+
+266570f496b90d Michael Walle         2023-04-04  1000  
+00d059fd6702f0 Miquel Raynal         2023-08-01  1001  	/* Populate layouts as devices */
+00d059fd6702f0 Miquel Raynal         2023-08-01  1002  	layout_np = of_nvmem_layout_get_container(nvmem);
+00d059fd6702f0 Miquel Raynal         2023-08-01 @1003  	if (layout_np) {
+
+So, ugh, of_nvmem_layout_get_container() return NULL on error or error
+pointer if either CONFIG_NVMEM or CONFIG_OF is turned off.  I feel like
+that's a mistake.  Normally when a function returns both error pointers
+and NULL then the NULL means the feature is disabled and the error
+pointers mean there was an error.  Here it is the opposite.
+
+I have written a blog about this:
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+
+At first I thought that this was to do with CONFIG_COMPILE_TEST but
+actually that is disabled.  The issue here is that CONFIG_OF is turned
+off.  So this is a genuine bug, we're compiling a module which will
+always crash.
+
+So I guess the fix is easy that this should return NULL if either
+CONFIG_NVMEM or CONFIG_OF is turned off.  That was a long explanation
+which is no longer required now that it's not a COMPILE_TEST issue.  :P
+
+00d059fd6702f0 Miquel Raynal         2023-08-01  1004  		rval = of_platform_populate(nvmem->dev.of_node, NULL, NULL, NULL);
+00d059fd6702f0 Miquel Raynal         2023-08-01  1005  		if (rval)
+00d059fd6702f0 Miquel Raynal         2023-08-01  1006  			goto err_remove_cells;
+00d059fd6702f0 Miquel Raynal         2023-08-01  1007  		of_node_put(layout_np);
+00d059fd6702f0 Miquel Raynal         2023-08-01  1008  	}
+00d059fd6702f0 Miquel Raynal         2023-08-01  1009  
+25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1010  	mutex_lock(&nvmem_devices_mutex);
+25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1011  	list_add_tail(&nvmem->node, &nvmem_devices_list);
+25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1012  	mutex_unlock(&nvmem_devices_mutex);
+25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1013  
+f4853e1c321edb Bartosz Golaszewski   2019-02-15  1014  	blocking_notifier_call_chain(&nvmem_notifier, NVMEM_ADD, nvmem);
+bee1138bea15a6 Bartosz Golaszewski   2018-09-21  1015  
+eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27  1016  	return nvmem;
+3360acdf839170 Johan Hovold          2017-06-09  1017  
+b985f4cba6dbb3 Bartosz Golaszewski   2018-09-21  1018  err_remove_cells:
+b985f4cba6dbb3 Bartosz Golaszewski   2018-09-21  1019  	nvmem_device_remove_all_cells(nvmem);
+fa72d847d68d78 Bartosz Golaszewski   2018-09-21  1020  	if (config->compat)
+ae0c2d725512f3 Srinivas Kandagatla   2019-04-16  1021  		nvmem_sysfs_remove_compat(nvmem, config);
+3360acdf839170 Johan Hovold          2017-06-09  1022  err_put_device:
+3360acdf839170 Johan Hovold          2017-06-09  1023  	put_device(&nvmem->dev);
+3360acdf839170 Johan Hovold          2017-06-09  1024  
+b6c217ab9be689 Andrew Lunn           2016-02-26  1025  	return ERR_PTR(rval);
+eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27  1026  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
