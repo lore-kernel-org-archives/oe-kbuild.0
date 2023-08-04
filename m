@@ -1,42 +1,42 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05079253A8
-	for <oe-kbuild@lists.linux.dev>; Fri,  4 Aug 2023 23:42:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC284253A8
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Aug 2023 23:43:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691192578; x=1722728578;
+  t=1691192581; x=1722728581;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F1XjasjEQ9bgeX2bSefhtRRNfakURPiS1JyrPplU0LY=;
-  b=HJOM9WmFVsgfGrqnQzxfNolHZ2xTGY/AV/VKb1sIc1ULHY6+eHNq1lEi
-   FkvbnZ7GnYt17/s1O8fNrHGztG2LDpEQt94/amdwtJqyqUKqGAxE7xu/J
-   yfdq/lhY1jyJnstDBvcX3QMCHykHD7KunUMyJ6DWusVTBNyYb0j8gBV3g
-   nJ8i/EzVQW/F+DnIUtdGPCjebCxQZIVKk3Ernx4+TzH3FQwYdJ706ibG1
-   W9kTya/FYT6SzHjQ4472ynNJhaVzrwWQsghVXsUDaswKHFfT7q5CtgVfW
-   YfzB0+2QkpiUQbZEDR2Ca1q616vH74RrK7DRSVopR9XIB995SZf+ScZs3
+  bh=Rz2iErD1KcQKj5LxDjkX1L6fdc5Sh4xXt7S8T4Kb3GM=;
+  b=F0iV7raPQlkSWg4X97KgU4fLfT6itdxcHYdr+HSrLKqFF515ksoTxLAh
+   jF3KxhtQlzzPunBs/4DMvJoHZ1FK/aBsYGaQLTx5+BF2bR3xnVOpurIr7
+   zUlS09ccY4cAjIRznY/vabOZ+jRowjrUFYyRFmYeIrGpK28o4PnLKdpgr
+   r4IJamFYZSJbjwSGmvoCRVX0qUxd2kReUOJDyXFq3tpzRKQCGZaQKe+gA
+   e42wPSgT+7QtnDoX7sB4/XtaK3V8waToT5M4jpPKD0tGkY0dCT9cOHAJF
+   EGhVLfVTKk6vToVA3plVCASm9ReolHW9q0ZUVOIwSvq8nB7v9fevU3Prl
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="373925219"
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="373925220"
 X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
-   d="scan'208";a="373925219"
+   d="scan'208";a="373925220"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 16:42:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="853989508"
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="853989510"
 X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
-   d="scan'208";a="853989508"
+   d="scan'208";a="853989510"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
   by orsmga004.jf.intel.com with ESMTP; 04 Aug 2023 16:42:57 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qS4Rc-0003CN-1i;
+	id 1qS4Rc-0003CQ-23;
 	Fri, 04 Aug 2023 23:42:56 +0000
-Date: Sat, 5 Aug 2023 07:42:37 +0800
+Date: Sat, 5 Aug 2023 07:42:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: Re: [PATCH v3 5/5] minmax: Relax check to allow comparison between
  int and small unsigned constants.
-Message-ID: <202308050722.nnqMDL7A-lkp@intel.com>
+Message-ID: <202308050753.i1OaY1Fl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,7 +47,7 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/char/agp/generic.c:746:14: sparse: sparse: too long token expansion"
+:::::: Manual check reason: "low confidence static check first_new_problem: net/wireless/reg.c:1911:17: sparse: sparse: too long token expansion"
 :::::: 
 
 BCC: lkp@intel.com
@@ -79,83 +79,145 @@ url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Add-m
 base:   linus/master
 patch link:    https://lore.kernel.org/r/b6a49ed73aba427ca8bb433763fa94e9%40AcuMS.aculab.com
 patch subject: [PATCH v3 5/5] minmax: Relax check to allow comparison between int and small unsigned constants.
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: x86_64-randconfig-x061-20230730 (https://download.01.org/0day-ci/archive/20230805/202308050722.nnqMDL7A-lkp@intel.com/config)
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: i386-randconfig-i061-20230730 (https://download.01.org/0day-ci/archive/20230805/202308050753.i1OaY1Fl-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230805/202308050722.nnqMDL7A-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230805/202308050753.i1OaY1Fl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202308050722.nnqMDL7A-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308050753.i1OaY1Fl-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/char/agp/generic.c:746:14: sparse: sparse: too long token expansion
->> drivers/char/agp/generic.c:746:14: sparse: sparse: too long token expansion
+>> net/wireless/reg.c:1911:17: sparse: sparse: too long token expansion
+>> net/wireless/reg.c:1911:17: sparse: sparse: too long token expansion
 --
->> drivers/media/i2c/mt9p031.c:604:17: sparse: sparse: too long token expansion
-   drivers/media/i2c/mt9p031.c:608:18: sparse: sparse: too long token expansion
+   drivers/firmware/edd.c: note: in included file (through include/linux/blkdev.h):
+   include/linux/bio.h:194:9: sparse: sparse: too long token expansion
+   include/linux/bio.h:194:9: sparse: sparse: too long token expansion
+>> drivers/firmware/edd.c:717:16: sparse: sparse: too long token expansion
+--
+>> drivers/hid/hid-u2fzero.c:230:25: sparse: sparse: too long token expansion
+>> drivers/hid/hid-u2fzero.c:230:25: sparse: sparse: too long token expansion
+--
+>> drivers/hwmon/nzxt-smart2.c:218:16: sparse: sparse: too long token expansion
+>> drivers/hwmon/nzxt-smart2.c:218:16: sparse: sparse: too long token expansion
 
-vim +746 drivers/char/agp/generic.c
+vim +1911 net/wireless/reg.c
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  710  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  711  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  712  /**
-^1da177e4c3f41 Linus Torvalds  2005-04-16  713   * agp_collect_device_status - determine correct agp_cmd from various agp_stat's
-^1da177e4c3f41 Linus Torvalds  2005-04-16  714   * @bridge: an agp_bridge_data struct allocated for the AGP host bridge.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  715   * @requested_mode: requested agp_stat from userspace (Typically from X)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  716   * @bridge_agpstat: current agp_stat from AGP bridge.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  717   *
-^1da177e4c3f41 Linus Torvalds  2005-04-16  718   * This function will hunt for an AGP graphics card, and try to match
-^1da177e4c3f41 Linus Torvalds  2005-04-16  719   * the requested mode to the capabilities of both the bridge and the card.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  720   */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  721  u32 agp_collect_device_status(struct agp_bridge_data *bridge, u32 requested_mode, u32 bridge_agpstat)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  722  {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  723  	struct pci_dev *device = NULL;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  724  	u32 vga_agpstat;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  725  	u8 cap_ptr;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  726  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  727  	for (;;) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  728  		device = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, device);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  729  		if (!device) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  730  			printk(KERN_INFO PFX "Couldn't find an AGP VGA controller.\n");
-^1da177e4c3f41 Linus Torvalds  2005-04-16  731  			return 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  732  		}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  733  		cap_ptr = pci_find_capability(device, PCI_CAP_ID_AGP);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  734  		if (cap_ptr)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  735  			break;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  736  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  737  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  738  	/*
-^1da177e4c3f41 Linus Torvalds  2005-04-16  739  	 * Ok, here we have a AGP device. Disable impossible
-^1da177e4c3f41 Linus Torvalds  2005-04-16  740  	 * settings, and adjust the readqueue to the minimum.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  741  	 */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  742  	pci_read_config_dword(device, cap_ptr+PCI_AGP_STATUS, &vga_agpstat);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  743  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  744  	/* adjust RQ depth */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  745  	bridge_agpstat = ((bridge_agpstat & ~AGPSTAT_RQ_DEPTH) |
-^1da177e4c3f41 Linus Torvalds  2005-04-16 @746  	     min_t(u32, (requested_mode & AGPSTAT_RQ_DEPTH),
-^1da177e4c3f41 Linus Torvalds  2005-04-16  747  		 min_t(u32, (bridge_agpstat & AGPSTAT_RQ_DEPTH), (vga_agpstat & AGPSTAT_RQ_DEPTH))));
-^1da177e4c3f41 Linus Torvalds  2005-04-16  748  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  749  	/* disable FW if it's not supported */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  750  	if (!((bridge_agpstat & AGPSTAT_FW) &&
-^1da177e4c3f41 Linus Torvalds  2005-04-16  751  		 (vga_agpstat & AGPSTAT_FW) &&
-^1da177e4c3f41 Linus Torvalds  2005-04-16  752  		 (requested_mode & AGPSTAT_FW)))
-^1da177e4c3f41 Linus Torvalds  2005-04-16  753  		bridge_agpstat &= ~AGPSTAT_FW;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  754  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  755  	/* Check to see if we are operating in 3.0 mode */
-66bb8bf8b235ba David Mosberger 2005-04-04  756  	if (agp_bridge->mode & AGPSTAT_MODE_3_0)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  757  		agp_v3_parse_one(&requested_mode, &bridge_agpstat, &vga_agpstat);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  758  	else
-^1da177e4c3f41 Linus Torvalds  2005-04-16  759  		agp_v2_parse_one(&requested_mode, &bridge_agpstat, &vga_agpstat);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  760  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  761  	pci_dev_put(device);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  762  	return bridge_agpstat;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  763  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  764  EXPORT_SYMBOL(agp_collect_device_status);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  765  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  766  
+8318d78a44d49a Johannes Berg 2008-01-24  1832  
+12adee3c467dd3 Markus Theil  2020-08-03  1833  static void handle_channel_adjacent_rules(struct wiphy *wiphy,
+12adee3c467dd3 Markus Theil  2020-08-03  1834  					  enum nl80211_reg_initiator initiator,
+12adee3c467dd3 Markus Theil  2020-08-03  1835  					  struct ieee80211_channel *chan,
+12adee3c467dd3 Markus Theil  2020-08-03  1836  					  u32 flags,
+12adee3c467dd3 Markus Theil  2020-08-03  1837  					  struct regulatory_request *lr,
+12adee3c467dd3 Markus Theil  2020-08-03  1838  					  struct wiphy *request_wiphy,
+12adee3c467dd3 Markus Theil  2020-08-03  1839  					  const struct ieee80211_reg_rule *rrule1,
+12adee3c467dd3 Markus Theil  2020-08-03  1840  					  const struct ieee80211_reg_rule *rrule2,
+12adee3c467dd3 Markus Theil  2020-08-03  1841  					  struct ieee80211_freq_range *comb_range)
+12adee3c467dd3 Markus Theil  2020-08-03  1842  {
+12adee3c467dd3 Markus Theil  2020-08-03  1843  	u32 bw_flags1 = 0;
+12adee3c467dd3 Markus Theil  2020-08-03  1844  	u32 bw_flags2 = 0;
+12adee3c467dd3 Markus Theil  2020-08-03  1845  	const struct ieee80211_power_rule *power_rule1 = NULL;
+12adee3c467dd3 Markus Theil  2020-08-03  1846  	const struct ieee80211_power_rule *power_rule2 = NULL;
+12adee3c467dd3 Markus Theil  2020-08-03  1847  	const struct ieee80211_regdomain *regd;
+12adee3c467dd3 Markus Theil  2020-08-03  1848  
+12adee3c467dd3 Markus Theil  2020-08-03  1849  	regd = reg_get_regdomain(wiphy);
+12adee3c467dd3 Markus Theil  2020-08-03  1850  
+12adee3c467dd3 Markus Theil  2020-08-03  1851  	power_rule1 = &rrule1->power_rule;
+12adee3c467dd3 Markus Theil  2020-08-03  1852  	power_rule2 = &rrule2->power_rule;
+12adee3c467dd3 Markus Theil  2020-08-03  1853  	bw_flags1 = reg_rule_to_chan_bw_flags(regd, rrule1, chan);
+12adee3c467dd3 Markus Theil  2020-08-03  1854  	bw_flags2 = reg_rule_to_chan_bw_flags(regd, rrule2, chan);
+12adee3c467dd3 Markus Theil  2020-08-03  1855  
+12adee3c467dd3 Markus Theil  2020-08-03  1856  	if (lr->initiator == NL80211_REGDOM_SET_BY_DRIVER &&
+12adee3c467dd3 Markus Theil  2020-08-03  1857  	    request_wiphy && request_wiphy == wiphy &&
+12adee3c467dd3 Markus Theil  2020-08-03  1858  	    request_wiphy->regulatory_flags & REGULATORY_STRICT_REG) {
+12adee3c467dd3 Markus Theil  2020-08-03  1859  		/* This guarantees the driver's requested regulatory domain
+12adee3c467dd3 Markus Theil  2020-08-03  1860  		 * will always be used as a base for further regulatory
+12adee3c467dd3 Markus Theil  2020-08-03  1861  		 * settings
+12adee3c467dd3 Markus Theil  2020-08-03  1862  		 */
+12adee3c467dd3 Markus Theil  2020-08-03  1863  		chan->flags =
+12adee3c467dd3 Markus Theil  2020-08-03  1864  			map_regdom_flags(rrule1->flags) |
+12adee3c467dd3 Markus Theil  2020-08-03  1865  			map_regdom_flags(rrule2->flags) |
+12adee3c467dd3 Markus Theil  2020-08-03  1866  			bw_flags1 |
+12adee3c467dd3 Markus Theil  2020-08-03  1867  			bw_flags2;
+12adee3c467dd3 Markus Theil  2020-08-03  1868  		chan->orig_flags = chan->flags;
+12adee3c467dd3 Markus Theil  2020-08-03  1869  		chan->max_antenna_gain =
+12adee3c467dd3 Markus Theil  2020-08-03  1870  			min_t(int, MBI_TO_DBI(power_rule1->max_antenna_gain),
+12adee3c467dd3 Markus Theil  2020-08-03  1871  			      MBI_TO_DBI(power_rule2->max_antenna_gain));
+12adee3c467dd3 Markus Theil  2020-08-03  1872  		chan->orig_mag = chan->max_antenna_gain;
+12adee3c467dd3 Markus Theil  2020-08-03  1873  		chan->max_reg_power =
+12adee3c467dd3 Markus Theil  2020-08-03  1874  			min_t(int, MBM_TO_DBM(power_rule1->max_eirp),
+12adee3c467dd3 Markus Theil  2020-08-03  1875  			      MBM_TO_DBM(power_rule2->max_eirp));
+12adee3c467dd3 Markus Theil  2020-08-03  1876  		chan->max_power = chan->max_reg_power;
+12adee3c467dd3 Markus Theil  2020-08-03  1877  		chan->orig_mpwr = chan->max_reg_power;
+12adee3c467dd3 Markus Theil  2020-08-03  1878  
+12adee3c467dd3 Markus Theil  2020-08-03  1879  		if (chan->flags & IEEE80211_CHAN_RADAR) {
+12adee3c467dd3 Markus Theil  2020-08-03  1880  			chan->dfs_cac_ms = IEEE80211_DFS_MIN_CAC_TIME_MS;
+12adee3c467dd3 Markus Theil  2020-08-03  1881  			if (rrule1->dfs_cac_ms || rrule2->dfs_cac_ms)
+12adee3c467dd3 Markus Theil  2020-08-03  1882  				chan->dfs_cac_ms = max_t(unsigned int,
+12adee3c467dd3 Markus Theil  2020-08-03  1883  							 rrule1->dfs_cac_ms,
+12adee3c467dd3 Markus Theil  2020-08-03  1884  							 rrule2->dfs_cac_ms);
+12adee3c467dd3 Markus Theil  2020-08-03  1885  		}
+12adee3c467dd3 Markus Theil  2020-08-03  1886  
+12adee3c467dd3 Markus Theil  2020-08-03  1887  		return;
+12adee3c467dd3 Markus Theil  2020-08-03  1888  	}
+12adee3c467dd3 Markus Theil  2020-08-03  1889  
+12adee3c467dd3 Markus Theil  2020-08-03  1890  	chan->dfs_state = NL80211_DFS_USABLE;
+12adee3c467dd3 Markus Theil  2020-08-03  1891  	chan->dfs_state_entered = jiffies;
+12adee3c467dd3 Markus Theil  2020-08-03  1892  
+12adee3c467dd3 Markus Theil  2020-08-03  1893  	chan->beacon_found = false;
+12adee3c467dd3 Markus Theil  2020-08-03  1894  	chan->flags = flags | bw_flags1 | bw_flags2 |
+12adee3c467dd3 Markus Theil  2020-08-03  1895  		      map_regdom_flags(rrule1->flags) |
+12adee3c467dd3 Markus Theil  2020-08-03  1896  		      map_regdom_flags(rrule2->flags);
+12adee3c467dd3 Markus Theil  2020-08-03  1897  
+12adee3c467dd3 Markus Theil  2020-08-03  1898  	/* reg_rule_to_chan_bw_flags may forbids 10 and forbids 20 MHz
+12adee3c467dd3 Markus Theil  2020-08-03  1899  	 * (otherwise no adj. rule case), recheck therefore
+12adee3c467dd3 Markus Theil  2020-08-03  1900  	 */
+12adee3c467dd3 Markus Theil  2020-08-03  1901  	if (cfg80211_does_bw_fit_range(comb_range,
+12adee3c467dd3 Markus Theil  2020-08-03  1902  				       ieee80211_channel_to_khz(chan),
+12adee3c467dd3 Markus Theil  2020-08-03  1903  				       MHZ_TO_KHZ(10)))
+12adee3c467dd3 Markus Theil  2020-08-03  1904  		chan->flags &= ~IEEE80211_CHAN_NO_10MHZ;
+12adee3c467dd3 Markus Theil  2020-08-03  1905  	if (cfg80211_does_bw_fit_range(comb_range,
+12adee3c467dd3 Markus Theil  2020-08-03  1906  				       ieee80211_channel_to_khz(chan),
+12adee3c467dd3 Markus Theil  2020-08-03  1907  				       MHZ_TO_KHZ(20)))
+12adee3c467dd3 Markus Theil  2020-08-03  1908  		chan->flags &= ~IEEE80211_CHAN_NO_20MHZ;
+12adee3c467dd3 Markus Theil  2020-08-03  1909  
+12adee3c467dd3 Markus Theil  2020-08-03  1910  	chan->max_antenna_gain =
+12adee3c467dd3 Markus Theil  2020-08-03 @1911  		min_t(int, chan->orig_mag,
+12adee3c467dd3 Markus Theil  2020-08-03  1912  		      min_t(int,
+12adee3c467dd3 Markus Theil  2020-08-03  1913  			    MBI_TO_DBI(power_rule1->max_antenna_gain),
+12adee3c467dd3 Markus Theil  2020-08-03  1914  			    MBI_TO_DBI(power_rule2->max_antenna_gain)));
+12adee3c467dd3 Markus Theil  2020-08-03  1915  	chan->max_reg_power = min_t(int,
+12adee3c467dd3 Markus Theil  2020-08-03  1916  				    MBM_TO_DBM(power_rule1->max_eirp),
+12adee3c467dd3 Markus Theil  2020-08-03  1917  				    MBM_TO_DBM(power_rule2->max_eirp));
+12adee3c467dd3 Markus Theil  2020-08-03  1918  
+12adee3c467dd3 Markus Theil  2020-08-03  1919  	if (chan->flags & IEEE80211_CHAN_RADAR) {
+12adee3c467dd3 Markus Theil  2020-08-03  1920  		if (rrule1->dfs_cac_ms || rrule2->dfs_cac_ms)
+12adee3c467dd3 Markus Theil  2020-08-03  1921  			chan->dfs_cac_ms = max_t(unsigned int,
+12adee3c467dd3 Markus Theil  2020-08-03  1922  						 rrule1->dfs_cac_ms,
+12adee3c467dd3 Markus Theil  2020-08-03  1923  						 rrule2->dfs_cac_ms);
+12adee3c467dd3 Markus Theil  2020-08-03  1924  		else
+12adee3c467dd3 Markus Theil  2020-08-03  1925  			chan->dfs_cac_ms = IEEE80211_DFS_MIN_CAC_TIME_MS;
+12adee3c467dd3 Markus Theil  2020-08-03  1926  	}
+12adee3c467dd3 Markus Theil  2020-08-03  1927  
+12adee3c467dd3 Markus Theil  2020-08-03  1928  	if (chan->orig_mpwr) {
+12adee3c467dd3 Markus Theil  2020-08-03  1929  		/* Devices that use REGULATORY_COUNTRY_IE_FOLLOW_POWER
+12adee3c467dd3 Markus Theil  2020-08-03  1930  		 * will always follow the passed country IE power settings.
+12adee3c467dd3 Markus Theil  2020-08-03  1931  		 */
+12adee3c467dd3 Markus Theil  2020-08-03  1932  		if (initiator == NL80211_REGDOM_SET_BY_COUNTRY_IE &&
+12adee3c467dd3 Markus Theil  2020-08-03  1933  		    wiphy->regulatory_flags & REGULATORY_COUNTRY_IE_FOLLOW_POWER)
+12adee3c467dd3 Markus Theil  2020-08-03  1934  			chan->max_power = chan->max_reg_power;
+12adee3c467dd3 Markus Theil  2020-08-03  1935  		else
+12adee3c467dd3 Markus Theil  2020-08-03  1936  			chan->max_power = min(chan->orig_mpwr,
+12adee3c467dd3 Markus Theil  2020-08-03  1937  					      chan->max_reg_power);
+12adee3c467dd3 Markus Theil  2020-08-03  1938  	} else {
+12adee3c467dd3 Markus Theil  2020-08-03  1939  		chan->max_power = chan->max_reg_power;
+12adee3c467dd3 Markus Theil  2020-08-03  1940  	}
+12adee3c467dd3 Markus Theil  2020-08-03  1941  }
+12adee3c467dd3 Markus Theil  2020-08-03  1942  
 
 -- 
 0-DAY CI Kernel Test Service
