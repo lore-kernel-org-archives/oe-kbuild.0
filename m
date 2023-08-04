@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60B3253A8
-	for <oe-kbuild@lists.linux.dev>; Fri,  4 Aug 2023 23:33:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05079253A8
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Aug 2023 23:42:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691191980; x=1722727980;
+  t=1691192578; x=1722728578;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q8dcamfdXJ5FNnLRYPkLlT6LngIUA4+xg13h/ER9OvE=;
-  b=gfeDEKTd82Cy5OR+JUizQQXGLFba2vCJglPt4gPwYCFL2PDmmjijkyqF
-   WYnlKHDnh30VPbDL3y/O+jh82nvFzA2VQtEH0IALwsU/ukZVSqdeZaUYJ
-   +7C/Y5BA5mgd89PB0hPZIwVJE+e/iKu0sXe5Y8sv3j5ROBYyKantu5bSz
-   HT6hVOVCxkeNN72YhB6w7Q4Y7GQE375A0xmgKQImmmw+KGLnQLUWpvUE9
-   EsSmw+eHIHquLzkzAcDeV06Jt7qwO6rBmFYupjxVoIVQrMhltcvV+1kHr
-   /x3S6wABnpC0AIbA5XExdrTgzfI+SraSTchSK5KsDAS7h8Hz+IdZGIHVs
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="350576756"
+  bh=F1XjasjEQ9bgeX2bSefhtRRNfakURPiS1JyrPplU0LY=;
+  b=HJOM9WmFVsgfGrqnQzxfNolHZ2xTGY/AV/VKb1sIc1ULHY6+eHNq1lEi
+   FkvbnZ7GnYt17/s1O8fNrHGztG2LDpEQt94/amdwtJqyqUKqGAxE7xu/J
+   yfdq/lhY1jyJnstDBvcX3QMCHykHD7KunUMyJ6DWusVTBNyYb0j8gBV3g
+   nJ8i/EzVQW/F+DnIUtdGPCjebCxQZIVKk3Ernx4+TzH3FQwYdJ706ibG1
+   W9kTya/FYT6SzHjQ4472ynNJhaVzrwWQsghVXsUDaswKHFfT7q5CtgVfW
+   YfzB0+2QkpiUQbZEDR2Ca1q616vH74RrK7DRSVopR9XIB995SZf+ScZs3
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="373925219"
 X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
-   d="scan'208";a="350576756"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 16:33:00 -0700
+   d="scan'208";a="373925219"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 16:42:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="680142347"
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="853989508"
 X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
-   d="scan'208";a="680142347"
+   d="scan'208";a="853989508"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 04 Aug 2023 16:32:57 -0700
+  by orsmga004.jf.intel.com with ESMTP; 04 Aug 2023 16:42:57 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qS4Hv-0003Bx-0A;
-	Fri, 04 Aug 2023 23:32:55 +0000
-Date: Sat, 5 Aug 2023 07:32:22 +0800
+	id 1qS4Rc-0003CN-1i;
+	Fri, 04 Aug 2023 23:42:56 +0000
+Date: Sat, 5 Aug 2023 07:42:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: Re: [PATCH v3 5/5] minmax: Relax check to allow comparison between
  int and small unsigned constants.
-Message-ID: <202308050743.oh37xogm-lkp@intel.com>
+Message-ID: <202308050722.nnqMDL7A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,7 +47,7 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/nvdimm/pmem.c:217:9: sparse: sparse: too long token expansion"
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/char/agp/generic.c:746:14: sparse: sparse: too long token expansion"
 :::::: 
 
 BCC: lkp@intel.com
@@ -69,6 +69,7 @@ Hi David,
 kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on linus/master]
+[also build test WARNING on crng-random/master v6.5-rc4 next-20230804]
 [cannot apply to next-20230804 akpm-mm/mm-everything]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -80,69 +81,81 @@ patch link:    https://lore.kernel.org/r/b6a49ed73aba427ca8bb433763fa94e9%40AcuM
 patch subject: [PATCH v3 5/5] minmax: Relax check to allow comparison between int and small unsigned constants.
 :::::: branch date: 12 hours ago
 :::::: commit date: 12 hours ago
-config: i386-randconfig-i063-20230730 (https://download.01.org/0day-ci/archive/20230805/202308050743.oh37xogm-lkp@intel.com/config)
+config: x86_64-randconfig-x061-20230730 (https://download.01.org/0day-ci/archive/20230805/202308050722.nnqMDL7A-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230805/202308050743.oh37xogm-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230805/202308050722.nnqMDL7A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202308050743.oh37xogm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308050722.nnqMDL7A-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/nvdimm/pmem.c: note: in included file (through include/linux/blkdev.h):
-   include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   drivers/nvdimm/pmem.c: note: in included file:
-   include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
-   include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> drivers/nvdimm/pmem.c:217:9: sparse: sparse: too long token expansion
->> drivers/nvdimm/pmem.c:217:9: sparse: sparse: too long token expansion
+>> drivers/char/agp/generic.c:746:14: sparse: sparse: too long token expansion
+>> drivers/char/agp/generic.c:746:14: sparse: sparse: too long token expansion
+--
+>> drivers/media/i2c/mt9p031.c:604:17: sparse: sparse: too long token expansion
+   drivers/media/i2c/mt9p031.c:608:18: sparse: sparse: too long token expansion
 
-vim +217 drivers/nvdimm/pmem.c
+vim +746 drivers/char/agp/generic.c
 
-9e853f2313e5eb drivers/block/pmem.c  Ross Zwisler      2015-04-01  199  
-3e08773c3841e9 drivers/nvdimm/pmem.c Christoph Hellwig 2021-10-12  200  static void pmem_submit_bio(struct bio *bio)
-9e853f2313e5eb drivers/block/pmem.c  Ross Zwisler      2015-04-01  201  {
-c5d4355d10d414 drivers/nvdimm/pmem.c Pankaj Gupta      2019-07-05  202  	int ret = 0;
-4e4cbee93d5613 drivers/nvdimm/pmem.c Christoph Hellwig 2017-06-03  203  	blk_status_t rc = 0;
-f0dc089ce217e7 drivers/nvdimm/pmem.c Dan Williams      2015-05-16  204  	bool do_acct;
-f0dc089ce217e7 drivers/nvdimm/pmem.c Dan Williams      2015-05-16  205  	unsigned long start;
-9e853f2313e5eb drivers/block/pmem.c  Ross Zwisler      2015-04-01  206  	struct bio_vec bvec;
-9e853f2313e5eb drivers/block/pmem.c  Ross Zwisler      2015-04-01  207  	struct bvec_iter iter;
-309dca309fc39a drivers/nvdimm/pmem.c Christoph Hellwig 2021-01-24  208  	struct pmem_device *pmem = bio->bi_bdev->bd_disk->private_data;
-7e267a8c790edf drivers/nvdimm/pmem.c Dan Williams      2016-06-01  209  	struct nd_region *nd_region = to_region(pmem);
-7e267a8c790edf drivers/nvdimm/pmem.c Dan Williams      2016-06-01  210  
-d2d6364dcbf6af drivers/nvdimm/pmem.c Ross Zwisler      2018-06-06  211  	if (bio->bi_opf & REQ_PREFLUSH)
-c5d4355d10d414 drivers/nvdimm/pmem.c Pankaj Gupta      2019-07-05  212  		ret = nvdimm_flush(nd_region, bio);
-9e853f2313e5eb drivers/block/pmem.c  Ross Zwisler      2015-04-01  213  
-309dca309fc39a drivers/nvdimm/pmem.c Christoph Hellwig 2021-01-24  214  	do_acct = blk_queue_io_stat(bio->bi_bdev->bd_disk->queue);
-0fd92f89a44d3b drivers/nvdimm/pmem.c Christoph Hellwig 2020-05-27  215  	if (do_acct)
-0fd92f89a44d3b drivers/nvdimm/pmem.c Christoph Hellwig 2020-05-27  216  		start = bio_start_io_acct(bio);
-e10624f8c09710 drivers/nvdimm/pmem.c Dan Williams      2016-01-06 @217  	bio_for_each_segment(bvec, bio, iter) {
-5d64efe79703c4 drivers/nvdimm/pmem.c Vivek Goyal       2020-02-28  218  		if (op_is_write(bio_op(bio)))
-5d64efe79703c4 drivers/nvdimm/pmem.c Vivek Goyal       2020-02-28  219  			rc = pmem_do_write(pmem, bvec.bv_page, bvec.bv_offset,
-5d64efe79703c4 drivers/nvdimm/pmem.c Vivek Goyal       2020-02-28  220  				iter.bi_sector, bvec.bv_len);
-5d64efe79703c4 drivers/nvdimm/pmem.c Vivek Goyal       2020-02-28  221  		else
-5d64efe79703c4 drivers/nvdimm/pmem.c Vivek Goyal       2020-02-28  222  			rc = pmem_do_read(pmem, bvec.bv_page, bvec.bv_offset,
-5d64efe79703c4 drivers/nvdimm/pmem.c Vivek Goyal       2020-02-28  223  				iter.bi_sector, bvec.bv_len);
-e10624f8c09710 drivers/nvdimm/pmem.c Dan Williams      2016-01-06  224  		if (rc) {
-4e4cbee93d5613 drivers/nvdimm/pmem.c Christoph Hellwig 2017-06-03  225  			bio->bi_status = rc;
-e10624f8c09710 drivers/nvdimm/pmem.c Dan Williams      2016-01-06  226  			break;
-e10624f8c09710 drivers/nvdimm/pmem.c Dan Williams      2016-01-06  227  		}
-e10624f8c09710 drivers/nvdimm/pmem.c Dan Williams      2016-01-06  228  	}
-f0dc089ce217e7 drivers/nvdimm/pmem.c Dan Williams      2015-05-16  229  	if (do_acct)
-0fd92f89a44d3b drivers/nvdimm/pmem.c Christoph Hellwig 2020-05-27  230  		bio_end_io_acct(bio, start);
-61031952f4c89d drivers/nvdimm/pmem.c Ross Zwisler      2015-06-25  231  
-1eff9d322a4442 drivers/nvdimm/pmem.c Jens Axboe        2016-08-05  232  	if (bio->bi_opf & REQ_FUA)
-c5d4355d10d414 drivers/nvdimm/pmem.c Pankaj Gupta      2019-07-05  233  		ret = nvdimm_flush(nd_region, bio);
-c5d4355d10d414 drivers/nvdimm/pmem.c Pankaj Gupta      2019-07-05  234  
-c5d4355d10d414 drivers/nvdimm/pmem.c Pankaj Gupta      2019-07-05  235  	if (ret)
-c5d4355d10d414 drivers/nvdimm/pmem.c Pankaj Gupta      2019-07-05  236  		bio->bi_status = errno_to_blk_status(ret);
-61031952f4c89d drivers/nvdimm/pmem.c Ross Zwisler      2015-06-25  237  
-4246a0b63bd8f5 drivers/nvdimm/pmem.c Christoph Hellwig 2015-07-20  238  	bio_endio(bio);
-9e853f2313e5eb drivers/block/pmem.c  Ross Zwisler      2015-04-01  239  }
-9e853f2313e5eb drivers/block/pmem.c  Ross Zwisler      2015-04-01  240  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  710  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  711  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  712  /**
+^1da177e4c3f41 Linus Torvalds  2005-04-16  713   * agp_collect_device_status - determine correct agp_cmd from various agp_stat's
+^1da177e4c3f41 Linus Torvalds  2005-04-16  714   * @bridge: an agp_bridge_data struct allocated for the AGP host bridge.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  715   * @requested_mode: requested agp_stat from userspace (Typically from X)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  716   * @bridge_agpstat: current agp_stat from AGP bridge.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  717   *
+^1da177e4c3f41 Linus Torvalds  2005-04-16  718   * This function will hunt for an AGP graphics card, and try to match
+^1da177e4c3f41 Linus Torvalds  2005-04-16  719   * the requested mode to the capabilities of both the bridge and the card.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  720   */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  721  u32 agp_collect_device_status(struct agp_bridge_data *bridge, u32 requested_mode, u32 bridge_agpstat)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  722  {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  723  	struct pci_dev *device = NULL;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  724  	u32 vga_agpstat;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  725  	u8 cap_ptr;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  726  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  727  	for (;;) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  728  		device = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, device);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  729  		if (!device) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  730  			printk(KERN_INFO PFX "Couldn't find an AGP VGA controller.\n");
+^1da177e4c3f41 Linus Torvalds  2005-04-16  731  			return 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  732  		}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  733  		cap_ptr = pci_find_capability(device, PCI_CAP_ID_AGP);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  734  		if (cap_ptr)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  735  			break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  736  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  737  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  738  	/*
+^1da177e4c3f41 Linus Torvalds  2005-04-16  739  	 * Ok, here we have a AGP device. Disable impossible
+^1da177e4c3f41 Linus Torvalds  2005-04-16  740  	 * settings, and adjust the readqueue to the minimum.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  741  	 */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  742  	pci_read_config_dword(device, cap_ptr+PCI_AGP_STATUS, &vga_agpstat);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  743  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  744  	/* adjust RQ depth */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  745  	bridge_agpstat = ((bridge_agpstat & ~AGPSTAT_RQ_DEPTH) |
+^1da177e4c3f41 Linus Torvalds  2005-04-16 @746  	     min_t(u32, (requested_mode & AGPSTAT_RQ_DEPTH),
+^1da177e4c3f41 Linus Torvalds  2005-04-16  747  		 min_t(u32, (bridge_agpstat & AGPSTAT_RQ_DEPTH), (vga_agpstat & AGPSTAT_RQ_DEPTH))));
+^1da177e4c3f41 Linus Torvalds  2005-04-16  748  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  749  	/* disable FW if it's not supported */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  750  	if (!((bridge_agpstat & AGPSTAT_FW) &&
+^1da177e4c3f41 Linus Torvalds  2005-04-16  751  		 (vga_agpstat & AGPSTAT_FW) &&
+^1da177e4c3f41 Linus Torvalds  2005-04-16  752  		 (requested_mode & AGPSTAT_FW)))
+^1da177e4c3f41 Linus Torvalds  2005-04-16  753  		bridge_agpstat &= ~AGPSTAT_FW;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  754  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  755  	/* Check to see if we are operating in 3.0 mode */
+66bb8bf8b235ba David Mosberger 2005-04-04  756  	if (agp_bridge->mode & AGPSTAT_MODE_3_0)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  757  		agp_v3_parse_one(&requested_mode, &bridge_agpstat, &vga_agpstat);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  758  	else
+^1da177e4c3f41 Linus Torvalds  2005-04-16  759  		agp_v2_parse_one(&requested_mode, &bridge_agpstat, &vga_agpstat);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  760  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  761  	pci_dev_put(device);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  762  	return bridge_agpstat;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  763  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  764  EXPORT_SYMBOL(agp_collect_device_status);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  765  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  766  
 
 -- 
 0-DAY CI Kernel Test Service
