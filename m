@@ -1,212 +1,234 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83861AA6B;
-	Fri,  4 Aug 2023 17:07:57 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F359960004;
-	Fri,  4 Aug 2023 17:07:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1691168873;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mqwLfsFStLwaPoJP+zluIlhc4Jek8QTsb97B1RLI8vY=;
-	b=QW/7a6nVp75rGAqqX6BttucLKteiCe5HTzvvAUBd/kaMPXTpEyGJia0KBmen0P1+aYpsZd
-	QTQg6gsFVr2/wq8jxeRz8pCnvDu12/kS5rNh+VPaEmzWY52rp9CAlpdbmmgPCqHEp12PPN
-	7wg/Q/6jcu1+OaDICpBSOb7oEg/9XrnYL38XsTh/iR6EHFBPpq/eUdQUQZxQmakRkfi6Yq
-	iZmbfag7+Fr18SynaRuxTbP4eW7KD6N3CEHjqK5/VG8r4kfIdHtXjwtc4JwN40QV4S4dwo
-	JygfuEjp/gQdXAnQquhoZXytn+MV3u9XlO9pdp3NnXNkte2CiLyC8gYaTxQ3og==
-Date: Fri, 4 Aug 2023 19:07:50 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Md Sadre Alam <quic_mdalam@quicinc.com>,
- lkp@intel.com, oe-kbuild-all@lists.linux.dev, Linux Memory Management List
- <linux-mm@kvack.org>, Sricharan Ramabadhran <quic_srichara@quicinc.com>,
- Manivannan Sadhasivam <mani@kernel.org>
-Subject: Re: [linux-next:master 1937/6910]
- drivers/mtd/nand/raw/qcom_nandc.c:2941 qcom_op_cmd_mapping() error:
- uninitialized symbol 'ret'.
-Message-ID: <20230804190750.3367a044@xps-13>
-In-Reply-To: <3604e2ed-8d30-4f7b-9e56-7af5b23b2ac5@kadam.mountain>
-References: <7ad1160b-5f8c-47af-a1c5-51b34f656fab@kadam.mountain>
-	<20230804184550.0cb12369@xps-13>
-	<3604e2ed-8d30-4f7b-9e56-7af5b23b2ac5@kadam.mountain>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633E61AA9F
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Aug 2023 21:49:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691185789; x=1722721789;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tPhIWvowTP6uGeZT7mNErEVHm2EVK6iYh/t1Zy8zGIM=;
+  b=gnvHyUgtjmdfkFLy9h0KAodUj/ZUNZYUC1QHfJFbdc1lMlLN3WDBfWcx
+   cwMJBDJKNdC6cGKBvHq16Y1UdFczJMXU6Y7hUC6q+ydx7dHxM/p/MyH/c
+   6Aq4LudcawDvVQFDb2R/3I8tFhjgS7h7bscrUKjKW/vGiciKdctrbfPRR
+   rfaCXj9VEFfHQLkTL4elrLd/ha0Pa74pW6NXYAat6ZvAyD+9tRdgWWKmA
+   U7X5qkYk0URBUg7T/yOQw/3XSoE2d8CMUiieMRDTp87pAbRV8Y+nlesHe
+   uDn5e/oz1riaY1kP1XFgFATZUrjRmLtzhih4NbEffIvL7Jj71T6U3AEKc
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="350561962"
+X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
+   d="scan'208";a="350561962"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 14:49:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="1060938805"
+X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
+   d="scan'208";a="1060938805"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 04 Aug 2023 14:49:47 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qS2g6-00037n-2c;
+	Fri, 04 Aug 2023 21:49:46 +0000
+Date: Sat, 5 Aug 2023 05:49:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3 5/5] minmax: Relax check to allow comparison between
+ int and small unsigned constants.
+Message-ID: <202308050550.HJtYgHLX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dan,
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: fs/xfs/scrub/repair.c:297:16: sparse: sparse: too long token expansion"
+:::::: 
 
-dan.carpenter@linaro.org wrote on Fri, 4 Aug 2023 19:52:50 +0300:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <b6a49ed73aba427ca8bb433763fa94e9@AcuMS.aculab.com>
+References: <b6a49ed73aba427ca8bb433763fa94e9@AcuMS.aculab.com>
+TO: David Laight <David.Laight@ACULAB.COM>
+TO: "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>
+TO: "'Andy Shevchenko'" <andriy.shevchenko@linux.intel.com>
+TO: "'Andrew Morton'" <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "'Matthew Wilcox (Oracle)'" <willy@infradead.org>
+TO: "'Christoph Hellwig'" <hch@infradead.org>
+TO: "'Jason A. Donenfeld'" <Jason@zx2c4.com>
+TO: "'Linus Torvalds'" <torvalds@linux-foundation.org>
 
-> On Fri, Aug 04, 2023 at 06:45:50PM +0200, Miquel Raynal wrote:
-> > Hi Sadre, Sricharan & Manivannan,
-> >=20
-> > A couple of questions for you below.
-> >=20
-> > dan.carpenter@linaro.org wrote on Thu, 3 Aug 2023 15:20:56 +0300:
-> >  =20
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-ne=
-xt.git master
-> > > head:   fb4327106e5250ee360d0d8b056c1eef7eeb9a98
-> > > commit: 89550beb098e04b951df079483fb064eafc0e5fa [1937/6910] mtd: raw=
-nand: qcom: Implement exec_op()
-> > > config: riscv-randconfig-m031-20230730 (https://download.01.org/0day-=
-ci/archive/20230803/202308032022.SnXkKyFs-lkp@intel.com/config)
-> > > compiler: riscv64-linux-gcc (GCC) 12.3.0
-> > > reproduce: (https://download.01.org/0day-ci/archive/20230803/20230803=
-2022.SnXkKyFs-lkp@intel.com/reproduce)
-> > >=20
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > > | Closes: https://lore.kernel.org/r/202308032022.SnXkKyFs-lkp@intel.c=
-om/
-> > >=20
-> > > New smatch warnings:
-> > > drivers/mtd/nand/raw/qcom_nandc.c:2941 qcom_op_cmd_mapping() error: u=
-ninitialized symbol 'ret'.
-> > > drivers/mtd/nand/raw/qcom_nandc.c:3369 qcom_check_op() warn: was && i=
-ntended here instead of ||?
-> > >=20
-> > > Old smatch warnings:
-> > > drivers/mtd/nand/raw/qcom_nandc.c:3076 qcom_read_status_exec() warn: =
-inconsistent indenting
-> > >=20
-> > > vim +/ret +2941 drivers/mtd/nand/raw/qcom_nandc.c
-> > >=20
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2909  static int qcom_op_cmd_mapping(struct qcom_nand_controller *nan=
-dc, u8 cmd,
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2910  			       struct qcom_op *q_op)
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2911  {
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2912  	int ret;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2913 =20
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2914  	switch (cmd) {
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2915  	case NAND_CMD_RESET:
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2916  		ret =3D OP_RESET_DEVICE;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2917  		break;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2918  	case NAND_CMD_READID:
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2919  		ret =3D OP_FETCH_ID;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2920  		break;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2921  	case NAND_CMD_PARAM:
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2922  		if (nandc->props->qpic_v2)
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2923  			ret =3D OP_PAGE_READ_ONFI_READ;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2924  		else
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2925  			ret =3D OP_PAGE_READ;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2926  		break;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2927  	case NAND_CMD_ERASE1:
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2928  	case NAND_CMD_ERASE2:
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2929  		ret =3D OP_BLOCK_ERASE;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2930  		break;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2931  	case NAND_CMD_STATUS:
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2932  		ret =3D OP_CHECK_STATUS;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2933  		break;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2934  	case NAND_CMD_PAGEPROG:
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2935  		ret =3D OP_PROGRAM_PAGE;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2936  		q_op->flag =3D OP_PROGRAM_PAGE;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2937  		nandc->exec_opwrite =3D true;
-> > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-0=
-7-10  2938  		break;
-> > >=20
-> > > No default case.  I'm more concerned about the && vs || warning, but
-> > > the zero day bot doesn't include that code into the email. =20
-> >=20
-> > The default case here is in theory not possible, as long as
-> > qcom_check_op() is properly implemented. We should however silence the
-> > warning by handling it. Maybe a WARN_ON_ONCE() + ret =3D <anything that
-> > will produce an error when executing the command> would work.
-> >  =20
->=20
-> The kbuild-bot runs without the cross function database so it has a lot
-> of false positives that you wouldn't see if you had the DB.  (There
-> isn't really a way to build with the cross function DB.  It takes way
-> way way too long.  Also it sometimes finds bug which are complicated to
-> explain or to assign blame for in an automated way).  But these false
-> positives are frustrating to me.
+Hi David,
 
-I understand.
+kernel test robot noticed the following build warnings:
 
-> In real life, GCC is going to automatically initialize stack variables
-> to zero on production systems.
+[auto build test WARNING on linus/master]
+[also build test WARNING on crng-random/master v6.5-rc4 next-20230804]
+[cannot apply to next-20230804 akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Well, we must silence this by setting reg in all cases, but here the
-variable is badly named, it should be s/ret/cmd/. That's why, if we
-silence it properly, I would go for a runtime warning if we ever
-encounter the situation because this is a purely software bug.
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Add-min_unsigned-a-b-and-max_unsigned-a-b/20230804-190414
+base:   linus/master
+patch link:    https://lore.kernel.org/r/b6a49ed73aba427ca8bb433763fa94e9%40AcuMS.aculab.com
+patch subject: [PATCH v3 5/5] minmax: Relax check to allow comparison between int and small unsigned constants.
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: nios2-randconfig-r073-20230730 (https://download.01.org/0day-ci/archive/20230805/202308050550.HJtYgHLX-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230805/202308050550.HJtYgHLX-lkp@intel.com/reproduce)
 
-> > However I doubt the following piece of code has been successfully
-> > tested:
-> >=20
-> >         for (op_id =3D 0; op_id < op->ninstrs; op_id++) {
-> >                 instr =3D &op->instrs[op_id];
-> >=20
-> >                 switch (instr->type) {
-> >                 case NAND_OP_CMD_INSTR:
-> >                         if (instr->ctx.cmd.opcode !=3D NAND_CMD_RESET ||
-> >                             instr->ctx.cmd.opcode !=3D NAND_CMD_READID =
-||
-> >                             instr->ctx.cmd.opcode !=3D NAND_CMD_PARAM ||
-> >                             instr->ctx.cmd.opcode !=3D NAND_CMD_ERASE1 =
-||
-> >                             instr->ctx.cmd.opcode !=3D NAND_CMD_ERASE2 =
-||
-> >                             instr->ctx.cmd.opcode !=3D NAND_CMD_STATUS =
-||
-> >                             instr->ctx.cmd.opcode !=3D NAND_CMD_PAGEPRO=
-G)
-> >                                 return -ENOTSUPP;
-> >                         break;
-> >=20
-> > The || should be &&, otherwise it cannot work, or am I missing
-> > something? =20
->=20
-> Yeah.  That's how this bug normally looks like.  NAND_OP_CMD_INSTR
-> always returns -ENOTSUPP.
->=20
-> regards,
-> dan carpenter
->=20
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202308050550.HJtYgHLX-lkp@intel.com/
 
+sparse warnings: (new ones prefixed by >>)
+   fs/xfs/scrub/repair.c: note: in included file (through include/linux/blkdev.h, fs/xfs/xfs_linux.h, fs/xfs/xfs.h):
+   include/linux/bio.h:194:9: sparse: sparse: too long token expansion
+   include/linux/bio.h:194:9: sparse: sparse: too long token expansion
+>> fs/xfs/scrub/repair.c:297:16: sparse: sparse: too long token expansion
+   fs/xfs/scrub/repair.c: note: in included file (through include/uapi/linux/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+--
+   drivers/mtd/ubi/block.c: note: in included file (through include/linux/blkdev.h):
+   include/linux/bio.h:194:9: sparse: sparse: too long token expansion
+   include/linux/bio.h:194:9: sparse: sparse: too long token expansion
+   drivers/mtd/ubi/block.c: note: in included file:
+   include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
+   include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
+>> drivers/mtd/ubi/block.c:222:9: sparse: sparse: too long token expansion
+>> drivers/mtd/ubi/block.c:222:9: sparse: sparse: too long token expansion
 
-Thanks,
-Miqu=C3=A8l
+vim +297 fs/xfs/scrub/repair.c
+
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  184  
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  185  /*
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  186   * Figure out how many blocks to reserve for an AG repair.  We calculate the
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  187   * worst case estimate for the number of blocks we'd need to rebuild one of
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  188   * any type of per-AG btree.
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  189   */
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  190  xfs_extlen_t
+b5e2196e9c7217 Darrick J. Wong   2018-07-19  191  xrep_calc_ag_resblks(
+1d8a748a8aa94a Darrick J. Wong   2018-07-19  192  	struct xfs_scrub		*sc)
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  193  {
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  194  	struct xfs_mount		*mp = sc->mp;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  195  	struct xfs_scrub_metadata	*sm = sc->sm;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  196  	struct xfs_perag		*pag;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  197  	struct xfs_buf			*bp;
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  198  	xfs_agino_t			icount = NULLAGINO;
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  199  	xfs_extlen_t			aglen = NULLAGBLOCK;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  200  	xfs_extlen_t			usedlen;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  201  	xfs_extlen_t			freelen;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  202  	xfs_extlen_t			bnobt_sz;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  203  	xfs_extlen_t			inobt_sz;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  204  	xfs_extlen_t			rmapbt_sz;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  205  	xfs_extlen_t			refcbt_sz;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  206  	int				error;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  207  
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  208  	if (!(sm->sm_flags & XFS_SCRUB_IFLAG_REPAIR))
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  209  		return 0;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  210  
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  211  	pag = xfs_perag_get(mp, sm->sm_agno);
+7ac2ff8bb3713c Dave Chinner      2023-02-13  212  	if (xfs_perag_initialised_agi(pag)) {
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  213  		/* Use in-core icount if possible. */
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  214  		icount = pag->pagi_count;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  215  	} else {
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  216  		/* Try to get the actual counters from disk. */
+99b13c7f0bd35d Dave Chinner      2022-07-07  217  		error = xfs_ialloc_read_agi(pag, NULL, &bp);
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  218  		if (!error) {
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  219  			icount = pag->pagi_count;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  220  			xfs_buf_relse(bp);
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  221  		}
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  222  	}
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  223  
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  224  	/* Now grab the block counters from the AGF. */
+08d3e84feeb8cb Dave Chinner      2022-07-07  225  	error = xfs_alloc_read_agf(pag, NULL, 0, &bp);
+1aa26707ebd65e Darrick J. Wong   2021-03-22  226  	if (error) {
+3829c9a10fc7da Dave Chinner      2022-07-07  227  		aglen = pag->block_count;
+1aa26707ebd65e Darrick J. Wong   2021-03-22  228  		freelen = aglen;
+1aa26707ebd65e Darrick J. Wong   2021-03-22  229  		usedlen = aglen;
+1aa26707ebd65e Darrick J. Wong   2021-03-22  230  	} else {
+9798f615ad2be4 Christoph Hellwig 2020-03-10  231  		struct xfs_agf	*agf = bp->b_addr;
+9798f615ad2be4 Christoph Hellwig 2020-03-10  232  
+9798f615ad2be4 Christoph Hellwig 2020-03-10  233  		aglen = be32_to_cpu(agf->agf_length);
+9798f615ad2be4 Christoph Hellwig 2020-03-10  234  		freelen = be32_to_cpu(agf->agf_freeblks);
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  235  		usedlen = aglen - freelen;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  236  		xfs_buf_relse(bp);
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  237  	}
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  238  
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  239  	/* If the icount is impossible, make some worst-case assumptions. */
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  240  	if (icount == NULLAGINO ||
+2d6ca8321c354e Dave Chinner      2022-07-07  241  	    !xfs_verify_agino(pag, icount)) {
+2d6ca8321c354e Dave Chinner      2022-07-07  242  		icount = pag->agino_max - pag->agino_min + 1;
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  243  	}
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  244  
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  245  	/* If the block counts are impossible, make worst-case assumptions. */
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  246  	if (aglen == NULLAGBLOCK ||
+3829c9a10fc7da Dave Chinner      2022-07-07  247  	    aglen != pag->block_count ||
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  248  	    freelen >= aglen) {
+3829c9a10fc7da Dave Chinner      2022-07-07  249  		aglen = pag->block_count;
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  250  		freelen = aglen;
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  251  		usedlen = aglen;
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  252  	}
+3829c9a10fc7da Dave Chinner      2022-07-07  253  	xfs_perag_put(pag);
+1fc25f51d7c18e Darrick J. Wong   2018-08-10  254  
+b5e2196e9c7217 Darrick J. Wong   2018-07-19  255  	trace_xrep_calc_ag_resblks(mp, sm->sm_agno, icount, aglen,
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  256  			freelen, usedlen);
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  257  
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  258  	/*
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  259  	 * Figure out how many blocks we'd need worst case to rebuild
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  260  	 * each type of btree.  Note that we can only rebuild the
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  261  	 * bnobt/cntbt or inobt/finobt as pairs.
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  262  	 */
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  263  	bnobt_sz = 2 * xfs_allocbt_calc_size(mp, freelen);
+38c26bfd90e199 Dave Chinner      2021-08-18  264  	if (xfs_has_sparseinodes(mp))
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  265  		inobt_sz = xfs_iallocbt_calc_size(mp, icount /
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  266  				XFS_INODES_PER_HOLEMASK_BIT);
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  267  	else
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  268  		inobt_sz = xfs_iallocbt_calc_size(mp, icount /
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  269  				XFS_INODES_PER_CHUNK);
+38c26bfd90e199 Dave Chinner      2021-08-18  270  	if (xfs_has_finobt(mp))
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  271  		inobt_sz *= 2;
+38c26bfd90e199 Dave Chinner      2021-08-18  272  	if (xfs_has_reflink(mp))
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  273  		refcbt_sz = xfs_refcountbt_calc_size(mp, usedlen);
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  274  	else
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  275  		refcbt_sz = 0;
+38c26bfd90e199 Dave Chinner      2021-08-18  276  	if (xfs_has_rmapbt(mp)) {
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  277  		/*
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  278  		 * Guess how many blocks we need to rebuild the rmapbt.
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  279  		 * For non-reflink filesystems we can't have more records than
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  280  		 * used blocks.  However, with reflink it's possible to have
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  281  		 * more than one rmap record per AG block.  We don't know how
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  282  		 * many rmaps there could be in the AG, so we start off with
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  283  		 * what we hope is an generous over-estimation.
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  284  		 */
+38c26bfd90e199 Dave Chinner      2021-08-18  285  		if (xfs_has_reflink(mp))
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  286  			rmapbt_sz = xfs_rmapbt_calc_size(mp,
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  287  					(unsigned long long)aglen * 2);
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  288  		else
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  289  			rmapbt_sz = xfs_rmapbt_calc_size(mp, usedlen);
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  290  	} else {
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  291  		rmapbt_sz = 0;
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  292  	}
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  293  
+b5e2196e9c7217 Darrick J. Wong   2018-07-19  294  	trace_xrep_calc_ag_resblks_btsize(mp, sm->sm_agno, bnobt_sz,
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  295  			inobt_sz, rmapbt_sz, refcbt_sz);
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  296  
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29 @297  	return max(max(bnobt_sz, inobt_sz), max(rmapbt_sz, refcbt_sz));
+0a9633fa2f9a7a Darrick J. Wong   2018-05-29  298  }
+73d6b42aa4dcdd Darrick J. Wong   2018-05-29  299  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
