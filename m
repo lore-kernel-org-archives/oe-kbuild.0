@@ -1,26 +1,26 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09DFBE7B;
-	Fri,  4 Aug 2023 15:53:01 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id C8762CCDCB;
-	Fri,  4 Aug 2023 15:39:14 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C8FEA2000A;
-	Fri,  4 Aug 2023 15:39:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A58AC14A;
+	Fri,  4 Aug 2023 15:56:46 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::223])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id C9914D042C;
+	Fri,  4 Aug 2023 15:46:38 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C4CC160003;
+	Fri,  4 Aug 2023 15:46:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1691163547;
+	t=1691163990;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9eqVdQmb69nE6gA2ZPZcqVY0YmH//5Gzc/TTIiSEFwA=;
-	b=DjNRsXa/WlgfoqNCGgY6+APxCq0EOnlVc08V72+fG9DtrH+cyl5N3VVyjH67xKXQiiXKp1
-	YXzesO5t8jit/8LAo6/UUirgqRChhhmnJEMA2k+z9hSJ8TZ975BLFwrF/b5c9BDKP46J0Y
-	Tza755a7UyMi0VPj5frZweZAwfpGUD4uOAZlCz46eA+SlSpxSmbT6FHFuvOGU/y5skVCre
-	3DPcFjkqfTM7qAn3lGj4s+Baf22Y+nJmyeDot+LuF/fExQslDyX1SsG/NstdH5GBbsykHS
-	zwuzSJMQD4FPaOl4wk9p5nxqrvxXsUPU/r0xSKAGaJrmJLb27s1Sy7oXiAigPw==
-Date: Fri, 4 Aug 2023 17:39:03 +0200
+	bh=DXdt9jg170O0khRMY6w6+QCKt9NkNze+0Sh36YFkoIM=;
+	b=PtC9sfpHGnn/OsV9bW60xEuVWu6YkUumxDeDcyoYPmnVfhlaVDUgVKMJUF6WlwMwQ9526g
+	rKrcISgjy7MDAsocxx1ihKZGCya7AG7fGKd5POs8/JqgY7sqa2Hm6FCcH/We99VzlzYp1J
+	rcYlxYn5L0MhXXH3zPdRh02p5D15HJjyyjeRCHMrL1+d7eab7pbQG6h2PW7t0oskNgEizI
+	GvwOqnmEiMJEBVShD/B+RABok6yxilI5F+w9S/Xo3SbzHiIBjA7n34f4sPT+jW8JjAAP0N
+	75QcwczKwR5HUAGYsgDBD4F+s9AQEFCXdG34LkOOoQRsHJNxUWJx3zZD+cPmAw==
+Date: Fri, 4 Aug 2023 17:46:25 +0200
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: Dan Carpenter <dan.carpenter@linaro.org>
 Cc: oe-kbuild@lists.linux.dev, Srinivas Kandagatla
@@ -34,10 +34,11 @@ Cc: oe-kbuild@lists.linux.dev, Srinivas Kandagatla
  =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
 Subject: Re: [PATCH v7 5/7] nvmem: core: Rework layouts to become platform
  devices
-Message-ID: <20230804173903.2b298cd3@xps-13>
-In-Reply-To: <b9040273-aca8-432a-83aa-b0d6b1b88529@kadam.mountain>
+Message-ID: <20230804174625.4c27fe9a@xps-13>
+In-Reply-To: <20230804173903.2b298cd3@xps-13>
 References: <20230801182132.1058707-6-miquel.raynal@bootlin.com>
- <b9040273-aca8-432a-83aa-b0d6b1b88529@kadam.mountain>
+	<b9040273-aca8-432a-83aa-b0d6b1b88529@kadam.mountain>
+	<20230804173903.2b298cd3@xps-13>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
@@ -50,124 +51,136 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-GND-Sasl: miquel.raynal@bootlin.com
 
-Hi Dan,
+Hi again Dan,
 
-dan.carpenter@linaro.org wrote on Thu, 3 Aug 2023 13:13:04 +0300:
+miquel.raynal@bootlin.com wrote on Fri, 4 Aug 2023 17:39:03 +0200:
 
-> Hi Miquel,
+> Hi Dan,
 >=20
-> kernel test robot noticed the following build warnings:
+> dan.carpenter@linaro.org wrote on Thu, 3 Aug 2023 13:13:04 +0300:
 >=20
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > Hi Miquel,
+> >=20
+> > kernel test robot noticed the following build warnings:
+> >=20
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >=20
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/nv=
+mem-core-Create-all-cells-before-adding-the-nvmem-device/20230802-022331
+> > base:   char-misc/char-misc-testing
+> > patch link:    https://lore.kernel.org/r/20230801182132.1058707-6-mique=
+l.raynal%40bootlin.com
+> > patch subject: [PATCH v7 5/7] nvmem: core: Rework layouts to become pla=
+tform devices
+> > config: x86_64-randconfig-m001-20230730 (https://download.01.org/0day-c=
+i/archive/20230803/202308030002.DnSFOrMB-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce: (https://download.01.org/0day-ci/archive/20230803/2023080300=
+02.DnSFOrMB-lkp@intel.com/reproduce)
+> >=20
+> > If you fix the issue in a separate patch/commit
+> > (i.e. not just a new version of the same patch/commit),
 >=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/nvme=
-m-core-Create-all-cells-before-adding-the-nvmem-device/20230802-022331
-> base:   char-misc/char-misc-testing
-> patch link:    https://lore.kernel.org/r/20230801182132.1058707-6-miquel.=
-raynal%40bootlin.com
-> patch subject: [PATCH v7 5/7] nvmem: core: Rework layouts to become platf=
-orm devices
-> config: x86_64-randconfig-m001-20230730 (https://download.01.org/0day-ci/=
-archive/20230803/202308030002.DnSFOrMB-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030002=
-.DnSFOrMB-lkp@intel.com/reproduce)
+> (Nice addition, a lot of newcomers would always add these tags
+> otherwise.)
 >=20
-> If you fix the issue in a separate patch/commit
-> (i.e. not just a new version of the same patch/commit),
+> > kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202308030002.DnSFOrMB-lkp@intel.com/
+> >=20
+> > New smatch warnings:
+> > drivers/nvmem/core.c:1003 nvmem_register() warn: 'layout_np' is an erro=
+r pointer or valid
+> > drivers/nvmem/core.c:2130 nvmem_try_loading_layout_driver() warn: 'layo=
+ut_np' is an error pointer or valid
+> >=20
+> > Old smatch warnings:
+> > drivers/nvmem/core.c:761 nvmem_add_cells_from_fixed_layout() warn: 'lay=
+out_np' is an error pointer or valid
+> > drivers/nvmem/core.c:802 nvmem_layout_get() warn: 'layout_np' is an err=
+or pointer or valid
+> >=20
+> > vim +/layout_np +1003 drivers/nvmem/core.c
+> >=20
+> > 266570f496b90d Michael Walle         2023-04-04  1000 =20
+> > 00d059fd6702f0 Miquel Raynal         2023-08-01  1001  	/* Populate lay=
+outs as devices */
+> > 00d059fd6702f0 Miquel Raynal         2023-08-01  1002  	layout_np =3D o=
+f_nvmem_layout_get_container(nvmem);
+> > 00d059fd6702f0 Miquel Raynal         2023-08-01 @1003  	if (layout_np) {
+> >=20
+> > So, ugh, of_nvmem_layout_get_container() return NULL on error or error
+> > pointer if either CONFIG_NVMEM or CONFIG_OF is turned off.  I feel like
+> > that's a mistake.  Normally when a function returns both error pointers
+> > and NULL then the NULL means the feature is disabled and the error
+> > pointers mean there was an error.  Here it is the opposite.
+> >=20
+> > I have written a blog about this:
+> > https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-a=
+nd-null/
+>=20
+> Nice (besides the huge spider which stared at me unexpectedly :-) )
+>=20
+> > At first I thought that this was to do with CONFIG_COMPILE_TEST but
+> > actually that is disabled.  The issue here is that CONFIG_OF is turned
+> > off.  So this is a genuine bug, we're compiling a module which will
+> > always crash.
+> >=20
+> > So I guess the fix is easy that this should return NULL if either
+> > CONFIG_NVMEM or CONFIG_OF is turned off.  That was a long explanation
+> > which is no longer required now that it's not a COMPILE_TEST issue.  :P
+>=20
+> I wanted to disable CONFIG_OF to make the test, I totally forget, I'll
+> handle this case and return NULL when this happens.
 
-(Nice addition, a lot of newcomers would always add these tags
-otherwise.)
+Actually of_nvmem_layout_get_container() already returns NULL if
+CONFIG_OF is not defined. This helper returns either a valid pointer of
+NULL. Where can it return an error pointer?
 
-> kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202308030002.DnSFOrMB-lkp@intel.com/
+> However I don't understand why you mention CONFIG_NVMEM, because if it
+> is not defined, this file will not compile at all?
 >=20
-> New smatch warnings:
-> drivers/nvmem/core.c:1003 nvmem_register() warn: 'layout_np' is an error =
-pointer or valid
-> drivers/nvmem/core.c:2130 nvmem_try_loading_layout_driver() warn: 'layout=
-_np' is an error pointer or valid
->=20
-> Old smatch warnings:
-> drivers/nvmem/core.c:761 nvmem_add_cells_from_fixed_layout() warn: 'layou=
-t_np' is an error pointer or valid
-> drivers/nvmem/core.c:802 nvmem_layout_get() warn: 'layout_np' is an error=
- pointer or valid
->=20
-> vim +/layout_np +1003 drivers/nvmem/core.c
->=20
-> 266570f496b90d Michael Walle         2023-04-04  1000 =20
-> 00d059fd6702f0 Miquel Raynal         2023-08-01  1001  	/* Populate layou=
-ts as devices */
-> 00d059fd6702f0 Miquel Raynal         2023-08-01  1002  	layout_np =3D of_=
-nvmem_layout_get_container(nvmem);
-> 00d059fd6702f0 Miquel Raynal         2023-08-01 @1003  	if (layout_np) {
->=20
-> So, ugh, of_nvmem_layout_get_container() return NULL on error or error
-> pointer if either CONFIG_NVMEM or CONFIG_OF is turned off.  I feel like
-> that's a mistake.  Normally when a function returns both error pointers
-> and NULL then the NULL means the feature is disabled and the error
-> pointers mean there was an error.  Here it is the opposite.
->=20
-> I have written a blog about this:
-> https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and=
--null/
-
-Nice (besides the huge spider which stared at me unexpectedly :-) )
-
-> At first I thought that this was to do with CONFIG_COMPILE_TEST but
-> actually that is disabled.  The issue here is that CONFIG_OF is turned
-> off.  So this is a genuine bug, we're compiling a module which will
-> always crash.
->=20
-> So I guess the fix is easy that this should return NULL if either
-> CONFIG_NVMEM or CONFIG_OF is turned off.  That was a long explanation
-> which is no longer required now that it's not a COMPILE_TEST issue.  :P
-
-I wanted to disable CONFIG_OF to make the test, I totally forget, I'll
-handle this case and return NULL when this happens.
-
-However I don't understand why you mention CONFIG_NVMEM, because if it
-is not defined, this file will not compile at all?
-
-> 00d059fd6702f0 Miquel Raynal         2023-08-01  1004  		rval =3D of_plat=
-form_populate(nvmem->dev.of_node, NULL, NULL, NULL);
-> 00d059fd6702f0 Miquel Raynal         2023-08-01  1005  		if (rval)
-> 00d059fd6702f0 Miquel Raynal         2023-08-01  1006  			goto err_remove=
-_cells;
-> 00d059fd6702f0 Miquel Raynal         2023-08-01  1007  		of_node_put(layo=
-ut_np);
-> 00d059fd6702f0 Miquel Raynal         2023-08-01  1008  	}
-> 00d059fd6702f0 Miquel Raynal         2023-08-01  1009 =20
-> 25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1010  	mutex_lock(&nvmem=
-_devices_mutex);
-> 25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1011  	list_add_tail(&nv=
-mem->node, &nvmem_devices_list);
-> 25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1012  	mutex_unlock(&nvm=
+> > 00d059fd6702f0 Miquel Raynal         2023-08-01  1004  		rval =3D of_pl=
+atform_populate(nvmem->dev.of_node, NULL, NULL, NULL);
+> > 00d059fd6702f0 Miquel Raynal         2023-08-01  1005  		if (rval)
+> > 00d059fd6702f0 Miquel Raynal         2023-08-01  1006  			goto err_remo=
+ve_cells;
+> > 00d059fd6702f0 Miquel Raynal         2023-08-01  1007  		of_node_put(la=
+yout_np);
+> > 00d059fd6702f0 Miquel Raynal         2023-08-01  1008  	}
+> > 00d059fd6702f0 Miquel Raynal         2023-08-01  1009 =20
+> > 25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1010  	mutex_lock(&nvm=
 em_devices_mutex);
-> 25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1013 =20
-> f4853e1c321edb Bartosz Golaszewski   2019-02-15  1014  	blocking_notifier=
-_call_chain(&nvmem_notifier, NVMEM_ADD, nvmem);
-> bee1138bea15a6 Bartosz Golaszewski   2018-09-21  1015 =20
-> eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27  1016  	return nvmem;
-> 3360acdf839170 Johan Hovold          2017-06-09  1017 =20
-> b985f4cba6dbb3 Bartosz Golaszewski   2018-09-21  1018  err_remove_cells:
-> b985f4cba6dbb3 Bartosz Golaszewski   2018-09-21  1019  	nvmem_device_remo=
-ve_all_cells(nvmem);
-> fa72d847d68d78 Bartosz Golaszewski   2018-09-21  1020  	if (config->compa=
-t)
-> ae0c2d725512f3 Srinivas Kandagatla   2019-04-16  1021  		nvmem_sysfs_remo=
-ve_compat(nvmem, config);
-> 3360acdf839170 Johan Hovold          2017-06-09  1022  err_put_device:
-> 3360acdf839170 Johan Hovold          2017-06-09  1023  	put_device(&nvmem=
-->dev);
-> 3360acdf839170 Johan Hovold          2017-06-09  1024 =20
-> b6c217ab9be689 Andrew Lunn           2016-02-26  1025  	return ERR_PTR(rv=
-al);
-> eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27  1026  }
+> > 25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1011  	list_add_tail(&=
+nvmem->node, &nvmem_devices_list);
+> > 25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1012  	mutex_unlock(&n=
+vmem_devices_mutex);
+> > 25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1013 =20
+> > f4853e1c321edb Bartosz Golaszewski   2019-02-15  1014  	blocking_notifi=
+er_call_chain(&nvmem_notifier, NVMEM_ADD, nvmem);
+> > bee1138bea15a6 Bartosz Golaszewski   2018-09-21  1015 =20
+> > eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27  1016  	return nvmem;
+> > 3360acdf839170 Johan Hovold          2017-06-09  1017 =20
+> > b985f4cba6dbb3 Bartosz Golaszewski   2018-09-21  1018  err_remove_cells:
+> > b985f4cba6dbb3 Bartosz Golaszewski   2018-09-21  1019  	nvmem_device_re=
+move_all_cells(nvmem);
+> > fa72d847d68d78 Bartosz Golaszewski   2018-09-21  1020  	if (config->com=
+pat)
+> > ae0c2d725512f3 Srinivas Kandagatla   2019-04-16  1021  		nvmem_sysfs_re=
+move_compat(nvmem, config);
+> > 3360acdf839170 Johan Hovold          2017-06-09  1022  err_put_device:
+> > 3360acdf839170 Johan Hovold          2017-06-09  1023  	put_device(&nvm=
+em->dev);
+> > 3360acdf839170 Johan Hovold          2017-06-09  1024 =20
+> > b6c217ab9be689 Andrew Lunn           2016-02-26  1025  	return ERR_PTR(=
+rval);
+> > eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27  1026  }
+> >=20
 >=20
+>=20
+> Thanks,
+> Miqu=C3=A8l
 
 
 Thanks,
