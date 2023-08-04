@@ -1,88 +1,173 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07111804B
-	for <oe-kbuild@lists.linux.dev>; Fri,  4 Aug 2023 16:05:25 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3fe2d218eedso22016295e9.0
-        for <oe-kbuild@lists.linux.dev>; Fri, 04 Aug 2023 09:05:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691165124; x=1691769924;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ox8Iga73YVuYG7AbvArZALqGxDCiOsgsOfD0SAAN2aw=;
-        b=MYpTL98vMojDZtPFROL7yzKAAkuwF7MrpzXffQSomKIp0MsNlFbe3ucjOtH/hOInjD
-         HT4hV3dUoNOWdgU2+VrD0niOZU8RDhYmT4M6Sz3vkxz8uNl53cUty8frMU2WtJuMnm/U
-         N2VANZ2MLeApumKbnzazGM8B1lxAm2lovOiPVURlxYrOxZlDww5jd/9iVJ8PXJqdpXur
-         LShLGnQscLSLrvSZno/Vqlse+deZmsAlJFK3eRlz5/TcVrueArvZPRRk/gFn5xzSpCYe
-         +7IJq+5qZ7rFWfydgKUirSv/dG6XNrrZhdT2EQ417VOAn5/d633BBCAWzdj7j5mmkF+J
-         Kl5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691165124; x=1691769924;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ox8Iga73YVuYG7AbvArZALqGxDCiOsgsOfD0SAAN2aw=;
-        b=aU/WYCeFlc9RuDHXZNU29bLuq+i9/ADAD2eTdcNvshVYWe2HNRJ+ZNgvXZqw1hxG/l
-         7OQGm8RpxbbF9TaHKtw2kI1/KAeiwd2j3fTo2TTQyEdKkGirDzYtar7Zyf87CV83t+TB
-         G/XhPwYufbI3NeiGE8gF828VqmjgbwWt+T6XTv39rb/XGFqh9oa063XFn3ZbBvsUlOut
-         ZFMCFzCDhUALUT6N64naHjEKoq4/k+hlBtlJKq7HlRajUXuQky+GxhoGrBNvK77OXLC7
-         5lVZX+SXrn53NAtxJP/ZSe7zfShaN/YJwcPHsshC+8s6P/6JwoizQR54qDyF+Z0EaVAp
-         f4fQ==
-X-Gm-Message-State: AOJu0Ywd1gBHNNeqWxGR2Tb0vwi0K7BNXSI9PssEIJKHR/6DGtFTuKQK
-	8wX1iqcTjSoR5OFCilH6IIIoNA==
-X-Google-Smtp-Source: AGHT+IHHk/v2jjUyrx3GaDx38eWLyd6yfqNnQpWrCXoIz3KI9OmMFfu96D2Q1NM7SUuF5X1sdm9Kgw==
-X-Received: by 2002:a5d:67c6:0:b0:317:393f:6e6a with SMTP id n6-20020a5d67c6000000b00317393f6e6amr1537552wrw.59.1691165123848;
-        Fri, 04 Aug 2023 09:05:23 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id o11-20020a5d670b000000b0031753073abcsm2823192wru.36.2023.08.04.09.05.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 09:05:23 -0700 (PDT)
-Date: Fri, 4 Aug 2023 19:05:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: oe-kbuild@lists.linux.dev,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Robert Marko <robert.marko@sartura.hr>,
-	Luka Perkov <luka.perkov@sartura.hr>,
-	Michael Walle <michael@walle.cc>, linux-kernel@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Subject: Re: [PATCH v7 5/7] nvmem: core: Rework layouts to become platform
- devices
-Message-ID: <3a4aa779-f8b8-4178-8d65-b6aae9183fb7@kadam.mountain>
-References: <20230801182132.1058707-6-miquel.raynal@bootlin.com>
- <b9040273-aca8-432a-83aa-b0d6b1b88529@kadam.mountain>
- <20230804173903.2b298cd3@xps-13>
- <20230804174625.4c27fe9a@xps-13>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D8FBE7C;
+	Fri,  4 Aug 2023 16:46:00 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3D37C1BF203;
+	Fri,  4 Aug 2023 16:45:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1691167553;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ugXLElAAOKIEAnk0rKLdwh1BvZ5lkdepZXqjWfYBi5k=;
+	b=YeTfnxEIi2KBO5Pm2Cksuk0Go2jOP+tP3reRouVRKO6aXfshamx2U2KecMWfcKHDCz9VtW
+	0GNwfpg/CluISdTqVBDmF8MkgSP7I9vI+mDmeB2QvFvt1y43zvCukiHxuNQ3zHByDH4bKr
+	ZMia7AZpCpSzdi9i/zge20lnhjZhqIN4zrS2Pq1AdZ8KOM9M1AapwkLT0LfrFWwJm6CzHV
+	SnlcGzegx+fv4NgdgDDYc9/hVa3NzIAi0Z87ti0hajHODC10x5tesgWCsYIsUu9iUHiAKS
+	IMClv+QYTAisyCzv2gnXzynU9ysTMmhe6mIVfdHVv4/snHuI6WxYHSKr35WEJA==
+Date: Fri, 4 Aug 2023 18:45:50 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Md Sadre Alam <quic_mdalam@quicinc.com>,
+ lkp@intel.com, oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, Sricharan Ramabadhran <quic_srichara@quicinc.com>,
+ Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: [linux-next:master 1937/6910]
+ drivers/mtd/nand/raw/qcom_nandc.c:2941 qcom_op_cmd_mapping() error:
+ uninitialized symbol 'ret'.
+Message-ID: <20230804184550.0cb12369@xps-13>
+In-Reply-To: <7ad1160b-5f8c-47af-a1c5-51b34f656fab@kadam.mountain>
+References: <7ad1160b-5f8c-47af-a1c5-51b34f656fab@kadam.mountain>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230804174625.4c27fe9a@xps-13>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-On Fri, Aug 04, 2023 at 05:46:25PM +0200, Miquel Raynal wrote:
-> Actually of_nvmem_layout_get_container() already returns NULL if
-> CONFIG_OF is not defined. This helper returns either a valid pointer of
-> NULL. Where can it return an error pointer?
+Hi Sadre, Sricharan & Manivannan,
 
-This is from linux-next.
+A couple of questions for you below.
 
-include/linux/nvmem-consumer.h
-   256  static inline struct device_node *
-   257  of_nvmem_layout_get_container(struct nvmem_device *nvmem)
-   258  {
-   259          return ERR_PTR(-EOPNOTSUPP);
-   260  }
-   261  #endif /* CONFIG_NVMEM && CONFIG_OF */
+dan.carpenter@linaro.org wrote on Thu, 3 Aug 2023 15:20:56 +0300:
 
-regards,
-dan carpenter
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   fb4327106e5250ee360d0d8b056c1eef7eeb9a98
+> commit: 89550beb098e04b951df079483fb064eafc0e5fa [1937/6910] mtd: rawnand=
+: qcom: Implement exec_op()
+> config: riscv-randconfig-m031-20230730 (https://download.01.org/0day-ci/a=
+rchive/20230803/202308032022.SnXkKyFs-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230803/202308032022=
+.SnXkKyFs-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202308032022.SnXkKyFs-lkp@intel.com/
+>=20
+> New smatch warnings:
+> drivers/mtd/nand/raw/qcom_nandc.c:2941 qcom_op_cmd_mapping() error: unini=
+tialized symbol 'ret'.
+> drivers/mtd/nand/raw/qcom_nandc.c:3369 qcom_check_op() warn: was && inten=
+ded here instead of ||?
+>=20
+> Old smatch warnings:
+> drivers/mtd/nand/raw/qcom_nandc.c:3076 qcom_read_status_exec() warn: inco=
+nsistent indenting
+>=20
+> vim +/ret +2941 drivers/mtd/nand/raw/qcom_nandc.c
+>=20
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2909  static int qcom_op_cmd_mapping(struct qcom_nand_controller *nandc, =
+u8 cmd,
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2910  			       struct qcom_op *q_op)
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2911  {
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2912  	int ret;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2913 =20
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2914  	switch (cmd) {
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2915  	case NAND_CMD_RESET:
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2916  		ret =3D OP_RESET_DEVICE;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2917  		break;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2918  	case NAND_CMD_READID:
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2919  		ret =3D OP_FETCH_ID;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2920  		break;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2921  	case NAND_CMD_PARAM:
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2922  		if (nandc->props->qpic_v2)
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2923  			ret =3D OP_PAGE_READ_ONFI_READ;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2924  		else
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2925  			ret =3D OP_PAGE_READ;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2926  		break;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2927  	case NAND_CMD_ERASE1:
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2928  	case NAND_CMD_ERASE2:
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2929  		ret =3D OP_BLOCK_ERASE;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2930  		break;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2931  	case NAND_CMD_STATUS:
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2932  		ret =3D OP_CHECK_STATUS;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2933  		break;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2934  	case NAND_CMD_PAGEPROG:
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2935  		ret =3D OP_PROGRAM_PAGE;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2936  		q_op->flag =3D OP_PROGRAM_PAGE;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2937  		nandc->exec_opwrite =3D true;
+> 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10=
+  2938  		break;
+>=20
+> No default case.  I'm more concerned about the && vs || warning, but
+> the zero day bot doesn't include that code into the email.
+
+The default case here is in theory not possible, as long as
+qcom_check_op() is properly implemented. We should however silence the
+warning by handling it. Maybe a WARN_ON_ONCE() + ret =3D <anything that
+will produce an error when executing the command> would work.
+
+However I doubt the following piece of code has been successfully
+tested:
+
+        for (op_id =3D 0; op_id < op->ninstrs; op_id++) {
+                instr =3D &op->instrs[op_id];
+
+                switch (instr->type) {
+                case NAND_OP_CMD_INSTR:
+                        if (instr->ctx.cmd.opcode !=3D NAND_CMD_RESET ||
+                            instr->ctx.cmd.opcode !=3D NAND_CMD_READID ||
+                            instr->ctx.cmd.opcode !=3D NAND_CMD_PARAM ||
+                            instr->ctx.cmd.opcode !=3D NAND_CMD_ERASE1 ||
+                            instr->ctx.cmd.opcode !=3D NAND_CMD_ERASE2 ||
+                            instr->ctx.cmd.opcode !=3D NAND_CMD_STATUS ||
+                            instr->ctx.cmd.opcode !=3D NAND_CMD_PAGEPROG)
+                                return -ENOTSUPP;
+                        break;
+
+The || should be &&, otherwise it cannot work, or am I missing
+something?
+
+Thanks,
+Miqu=C3=A8l
