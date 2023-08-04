@@ -1,58 +1,42 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC3AA92D
-	for <oe-kbuild@lists.linux.dev>; Fri,  4 Aug 2023 09:29:21 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2b9cdbf682eso29262951fa.2
-        for <oe-kbuild@lists.linux.dev>; Fri, 04 Aug 2023 02:29:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691141359; x=1691746159;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dnn3YjqK0gYS2d3cBmIF54I2GW/nHeks1WnBWbPsCqA=;
-        b=LSoxPSq6PqUSUyUwQor3UO7ej1NFQ1w4NXKg0U9UgkTQuNs7Wc5AVke2/McAMrWT+4
-         /DtkaJ4zVQshHs/utXvU0hppM4B988NMvyyIH3sk1n0Vq4mrLnt8dQ4oa8goPba7vExa
-         vx2slalXu7r2P1NFZ2LlJ1BDujQihTqO19ZhgRyF1Vb6ZVovAFIEI6Ujb6w+vQBiKb2Z
-         urt5JNTo3bq83k1jYouWXynVOT80QpAKIYfO4qigVB7bRH8siqUZLzd3wXljoqbGC3R7
-         aL43JH45KlCDdUmPkbCb2oNJ4Ea3wLh1ubtIOAj/QGX/sNXtlNGZd5JADjXRL/Thgpe9
-         23CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691141359; x=1691746159;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Dnn3YjqK0gYS2d3cBmIF54I2GW/nHeks1WnBWbPsCqA=;
-        b=Vg9Nys0dudozIzLA1MoPKYKr3JwpC8xTCtW3+tdI7x8aPdU0V4PCQo0uwTFRFckYhs
-         DPNLofZ42UrQkRVKvApRO6aivjPO+CbIixeahamgHUVo5CYi3KC6OTZl3sHq9a+7tc9d
-         Ii09nSFDOOm77cf6XkqRKv0jobcmM9LyF4zvVqdq1k6yC7oJlqjrEbGJgiQmLgohZPob
-         dnc/2S0CtSGZYm3mXVh8SuplpQNMn4BwmoGKzs5weGMAz9slX/zlqIrFjrIeoS9BR/ni
-         Th/noI0eZAl0Je4eNMWhyk+NYckllQ+Nf3icYq7fNVCKjd5UFyrYawQWTfxZWTFTNQBO
-         2Tuw==
-X-Gm-Message-State: AOJu0YxyaQJkpTK6YEAcF86OEgF9AeMsmlFOGAed9Ev9KtrUZvJn69ie
-	HL+uFWcgYcWJke9ZjZX9fub77nxaFBByTA42kxA=
-X-Google-Smtp-Source: AGHT+IEHiVe4K3MqLOjm+DVCGQ3jTlV9XKFXZSedQKFKvv1j9d815up6QRwY2QCphNtBD8WAdX0iUw==
-X-Received: by 2002:a05:651c:102a:b0:2b6:fc60:776f with SMTP id w10-20020a05651c102a00b002b6fc60776fmr972258ljm.30.1691141359043;
-        Fri, 04 Aug 2023 02:29:19 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id b13-20020a05600c11cd00b003fba6709c68sm1877070wmi.47.2023.08.04.02.29.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 02:29:18 -0700 (PDT)
-Date: Fri, 4 Aug 2023 12:29:15 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Rob Clark <robdclark@gmail.com>,
-	dri-devel@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Rob Clark <robdclark@chromium.org>, Len Brown <len.brown@intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	"open list:POWER MANAGEMENT CORE" <linux-pm@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Pavel Machek <pavel@ucw.cz>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v3 4/9] PM / QoS: Decouple request alloc from
- dev_pm_qos_mtx
-Message-ID: <1085ed08-ac8f-4847-b232-0dcea6a61d77@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D002FBE48
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Aug 2023 14:07:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691158048; x=1722694048;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5GOZCtqMbWC0sZZwBxKBs+Ces/FXVjj25iRJihl10c8=;
+  b=Y2TRuF6OVH/iiScCLoT+JlLizkHAtOGklbIzpZFbo9CBFEwxQNsQ6kpX
+   pvouFi+luQeBXla+Tl2xeenkHf5Jv6EodY/GWuC1UhILY51dgRuzR6/RW
+   ls36qhHbQ7pRMWgfafMuQKpaG6WOpXK/ar7gt+mkBkPnQnb0NwKfmFjEO
+   O3QXvo1OHf0wfoTBAa4eiCaAZ4uenXiUl6WvqmQyid2HLq1aplBjEkBxr
+   TFivvl2W5aspqPtuYmlesVCjBLV6qyMvJebvMebY3Htm1Tx44RQPDs7EB
+   5KiiC5RJWX0v4h2EEACDg5LHHLirXm/aHvfmOPOves6W8ZktdV827c3vL
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="401117541"
+X-IronPort-AV: E=Sophos;i="6.01,255,1684825200"; 
+   d="scan'208";a="401117541"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 07:07:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="844099532"
+X-IronPort-AV: E=Sophos;i="6.01,255,1684825200"; 
+   d="scan'208";a="844099532"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 04 Aug 2023 07:07:26 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qRvSg-0002sZ-0j;
+	Fri, 04 Aug 2023 14:07:26 +0000
+Date: Fri, 4 Aug 2023 22:06:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [RFC PATCH 3/3] coresight: Support exclude_guest with Feat_TRF
+ and nVHE
+Message-ID: <202308042132.rqsif2vw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,90 +45,70 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230803220202.78036-5-robdclark@gmail.com>
 
-Hi Rob,
+:::::: 
+:::::: Manual check reason: "git am base is a link in commit message"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230804101317.460697-4-james.clark@arm.com>
+References: <20230804101317.460697-4-james.clark@arm.com>
+TO: James Clark <james.clark@arm.com>
 
+Hi James,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on kvmarm/next]
+[also build test ERROR on arm64/for-next/core soc/for-next linus/master v6.5-rc4 next-20230804]
+[cannot apply to arm/for-next arm/fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/PM-devfreq-Drop-unneed-locking-to-appease-lockdep/20230804-060505
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230803220202.78036-5-robdclark%40gmail.com
-patch subject: [PATCH v3 4/9] PM / QoS: Decouple request alloc from dev_pm_qos_mtx
-config: i386-randconfig-m021-20230730 (https://download.01.org/0day-ci/archive/20230804/202308041725.Npwswh0L-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041725.Npwswh0L-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Clark/arm64-KVM-Add-support-for-exclude_guest-and-exclude_host-for-ETM/20230804-181613
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kvmarm/kvmarm.git next
+patch link:    https://lore.kernel.org/r/20230804101317.460697-4-james.clark%40arm.com
+patch subject: [RFC PATCH 3/3] coresight: Support exclude_guest with Feat_TRF and nVHE
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 hours ago
+config: arm-randconfig-r012-20230731 (https://download.01.org/0day-ci/archive/20230804/202308042132.rqsif2vw-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230804/202308042132.rqsif2vw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202308041725.Npwswh0L-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308042132.rqsif2vw-lkp@intel.com/
 
-smatch warnings:
-drivers/base/power/qos.c:973 dev_pm_qos_update_user_latency_tolerance() warn: possible memory leak of 'req'
+All errors (new ones prefixed by >>):
 
-vim +/req +973 drivers/base/power/qos.c
+   In file included from include/linux/kvm_host.h:40,
+                    from drivers/hwtracing/coresight/coresight-etm-perf.c:12:
+>> include/uapi/linux/kvm.h:15:10: fatal error: asm/kvm.h: No such file or directory
+      15 | #include <asm/kvm.h>
+         |          ^~~~~~~~~~~
+   compilation terminated.
 
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  923  int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val)
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  924  {
-b5ac35ff4296f7 Rob Clark         2023-08-03  925  	struct dev_pm_qos_request *req = NULL;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  926  	int ret;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  927  
-211fb32e3a0547 Rob Clark         2023-08-03  928  	ret = dev_pm_qos_constraints_ensure_allocated(dev);
-211fb32e3a0547 Rob Clark         2023-08-03  929  	if (ret)
-211fb32e3a0547 Rob Clark         2023-08-03  930  		return ret;
-211fb32e3a0547 Rob Clark         2023-08-03  931  
-b5ac35ff4296f7 Rob Clark         2023-08-03  932  	if (!dev->power.qos->latency_tolerance_req)
-b5ac35ff4296f7 Rob Clark         2023-08-03  933  		req = kzalloc(sizeof(*req), GFP_KERNEL);
-b5ac35ff4296f7 Rob Clark         2023-08-03  934  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  935  	mutex_lock(&dev_pm_qos_mtx);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  936  
-211fb32e3a0547 Rob Clark         2023-08-03  937  	if (!dev->power.qos->latency_tolerance_req) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  938  		if (val < 0) {
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  939  			if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT)
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  940  				ret = 0;
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  941  			else
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  942  				ret = -EINVAL;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  943  			goto out;
 
-kfree(req);?
+vim +15 include/uapi/linux/kvm.h
 
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  944  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  945  		if (!req) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  946  			ret = -ENOMEM;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  947  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  948  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  949  		ret = __dev_pm_qos_add_request(dev, req, DEV_PM_QOS_LATENCY_TOLERANCE, val);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  950  		if (ret < 0) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  951  			kfree(req);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  952  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  953  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  954  		dev->power.qos->latency_tolerance_req = req;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  955  	} else {
-b5ac35ff4296f7 Rob Clark         2023-08-03  956  		/*
-b5ac35ff4296f7 Rob Clark         2023-08-03  957  		 * If we raced with another thread to allocate the request,
-b5ac35ff4296f7 Rob Clark         2023-08-03  958  		 * simply free the redundant allocation and move on.
-b5ac35ff4296f7 Rob Clark         2023-08-03  959  		 */
-b5ac35ff4296f7 Rob Clark         2023-08-03  960  		if (req)
-b5ac35ff4296f7 Rob Clark         2023-08-03  961  			kfree(req);
-b5ac35ff4296f7 Rob Clark         2023-08-03  962  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  963  		if (val < 0) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  964  			__dev_pm_qos_drop_user_request(dev, DEV_PM_QOS_LATENCY_TOLERANCE);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  965  			ret = 0;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  966  		} else {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  967  			ret = __dev_pm_qos_update_request(dev->power.qos->latency_tolerance_req, val);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  968  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  969  	}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  970  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  971   out:
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  972  	mutex_unlock(&dev_pm_qos_mtx);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11 @973  	return ret;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  974  }
+6aa8b732ca01c3 include/linux/kvm.h      Avi Kivity             2006-12-10   4  
+6aa8b732ca01c3 include/linux/kvm.h      Avi Kivity             2006-12-10   5  /*
+6aa8b732ca01c3 include/linux/kvm.h      Avi Kivity             2006-12-10   6   * Userspace interface for /dev/kvm - kernel based virtual machine
+6aa8b732ca01c3 include/linux/kvm.h      Avi Kivity             2006-12-10   7   *
+dea8caee7b6971 include/linux/kvm.h      Rusty Russell          2007-07-17   8   * Note: you must update KVM_API_VERSION if you change this interface.
+6aa8b732ca01c3 include/linux/kvm.h      Avi Kivity             2006-12-10   9   */
+6aa8b732ca01c3 include/linux/kvm.h      Avi Kivity             2006-12-10  10  
+fb1070d18edb37 include/uapi/linux/kvm.h Joe Richey             2021-05-21  11  #include <linux/const.h>
+00bfddaf7f68a6 include/linux/kvm.h      Jaswinder Singh Rajput 2009-01-15  12  #include <linux/types.h>
+97646202bc3f19 include/linux/kvm.h      Christian Borntraeger  2008-03-12  13  #include <linux/compiler.h>
+6aa8b732ca01c3 include/linux/kvm.h      Avi Kivity             2006-12-10  14  #include <linux/ioctl.h>
+f6a40e3bdf5fe0 include/linux/kvm.h      Jerone Young           2007-11-19 @15  #include <asm/kvm.h>
+6aa8b732ca01c3 include/linux/kvm.h      Avi Kivity             2006-12-10  16  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
