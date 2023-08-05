@@ -1,898 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B6C17C6
-	for <oe-kbuild@lists.linux.dev>; Sat,  5 Aug 2023 06:14:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691216060; x=1722752060;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Kasqj8NyKY0vLdZq1wjGG/ETlxWWBi2IMJU5B6sqTDw=;
-  b=cNrlgE0vPmMnscn5IYfIUXiMZdSJOYjV0YTCd4QeIafqO8FTEaE7cljW
-   dEE3k/wE7D2l/1NccbGrBHXz6Pf4lKqoKUDhwcJ/PKLVm8HHwG40nClSy
-   rgEwY09xY59ciY4dtlnQzRurOxGI/EMeAqqQStW/V7ysz8fwbGZylVQf5
-   2ltafFwKK/0pakTteWKiKpiLDw3s8RKPw59KbGwau4SlmNKW9H3le725J
-   n6Bzh5yaCL0EmhIla37DNaqomkH626XP3RzjNmkh3FYDLqwDtui9S3aBV
-   +eQzcQuFN+gqi4PbyTEwg9of9SA/RjV+hIyCxk3zw+8pU00rZbF3z5zbq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="369191326"
-X-IronPort-AV: E=Sophos;i="6.01,257,1684825200"; 
-   d="scan'208";a="369191326"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 23:14:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="733521314"
-X-IronPort-AV: E=Sophos;i="6.01,257,1684825200"; 
-   d="scan'208";a="733521314"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 04 Aug 2023 23:14:17 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qSAYK-0003Lr-2F;
-	Sat, 05 Aug 2023 06:14:16 +0000
-Date: Sat, 5 Aug 2023 14:13:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v3 5/5] minmax: Relax check to allow comparison between
- int and small unsigned constants.
-Message-ID: <202308051343.jPxNEkVB-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6DF1FA5;
+	Sat,  5 Aug 2023 06:55:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84FCEC433C8;
+	Sat,  5 Aug 2023 06:55:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1691218515;
+	bh=CWuiwNpYaagDLL/LrQOC3RkL/Tw83UVKw2ZR/aOcvKU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K0Zy+XPZZso7N5yfqEPNfN0WQiLnvUCJ0C8WUrGQiCcewD2skHPlxqugoIQ4PMGxP
+	 y60ozeZVrBJfTfPkJCM+8Yx8+RNsRyjUSkQiGXA+yhZsJFaFnw2qR64kNyTKQVgidi
+	 h+FPHrNRHVSSAZ0ld5iF6hwNqvjdBWBL1MC3WpxJ6Rw+yABo5oRiEm1mJfAC1bdSSI
+	 VXNe2f/jBrjStGYqZ4V6g3zGwHtzEzBD49wVd5uyw8O6MyoA15paHTDkl4tdzTToEY
+	 6o33PqgLZzntfmA0kEG/ydJn7D3Tc72RLVsQeiKJiuFg/L60mCzkik1w5ZPx1LrzEi
+	 U9iLz803jJdfA==
+Date: Sat, 5 Aug 2023 12:25:10 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+	Md Sadre Alam <quic_mdalam@quicinc.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Sricharan Ramabadhran <quic_srichara@quicinc.com>
+Subject: Re: [linux-next:master 1937/6910]
+ drivers/mtd/nand/raw/qcom_nandc.c:2941 qcom_op_cmd_mapping() error:
+ uninitialized symbol 'ret'.
+Message-ID: <20230805065510.GA18650@thinkpad>
+References: <7ad1160b-5f8c-47af-a1c5-51b34f656fab@kadam.mountain>
+ <20230804184550.0cb12369@xps-13>
+ <3604e2ed-8d30-4f7b-9e56-7af5b23b2ac5@kadam.mountain>
+ <20230804190750.3367a044@xps-13>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230804190750.3367a044@xps-13>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: include/linux/bio.h:194:9: sparse: sparse: too long token expansion"
-:::::: 
+On Fri, Aug 04, 2023 at 07:07:50PM +0200, Miquel Raynal wrote:
+> Hi Dan,
+> 
+> dan.carpenter@linaro.org wrote on Fri, 4 Aug 2023 19:52:50 +0300:
+> 
+> > On Fri, Aug 04, 2023 at 06:45:50PM +0200, Miquel Raynal wrote:
+> > > Hi Sadre, Sricharan & Manivannan,
+> > > 
+> > > A couple of questions for you below.
+> > > 
+> > > dan.carpenter@linaro.org wrote on Thu, 3 Aug 2023 15:20:56 +0300:
+> > >   
+> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > > > head:   fb4327106e5250ee360d0d8b056c1eef7eeb9a98
+> > > > commit: 89550beb098e04b951df079483fb064eafc0e5fa [1937/6910] mtd: rawnand: qcom: Implement exec_op()
+> > > > config: riscv-randconfig-m031-20230730 (https://download.01.org/0day-ci/archive/20230803/202308032022.SnXkKyFs-lkp@intel.com/config)
+> > > > compiler: riscv64-linux-gcc (GCC) 12.3.0
+> > > > reproduce: (https://download.01.org/0day-ci/archive/20230803/202308032022.SnXkKyFs-lkp@intel.com/reproduce)
+> > > > 
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > > > | Closes: https://lore.kernel.org/r/202308032022.SnXkKyFs-lkp@intel.com/
+> > > > 
+> > > > New smatch warnings:
+> > > > drivers/mtd/nand/raw/qcom_nandc.c:2941 qcom_op_cmd_mapping() error: uninitialized symbol 'ret'.
+> > > > drivers/mtd/nand/raw/qcom_nandc.c:3369 qcom_check_op() warn: was && intended here instead of ||?
+> > > > 
+> > > > Old smatch warnings:
+> > > > drivers/mtd/nand/raw/qcom_nandc.c:3076 qcom_read_status_exec() warn: inconsistent indenting
+> > > > 
+> > > > vim +/ret +2941 drivers/mtd/nand/raw/qcom_nandc.c
+> > > > 
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2909  static int qcom_op_cmd_mapping(struct qcom_nand_controller *nandc, u8 cmd,
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2910  			       struct qcom_op *q_op)
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2911  {
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2912  	int ret;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2913  
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2914  	switch (cmd) {
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2915  	case NAND_CMD_RESET:
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2916  		ret = OP_RESET_DEVICE;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2917  		break;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2918  	case NAND_CMD_READID:
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2919  		ret = OP_FETCH_ID;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2920  		break;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2921  	case NAND_CMD_PARAM:
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2922  		if (nandc->props->qpic_v2)
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2923  			ret = OP_PAGE_READ_ONFI_READ;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2924  		else
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2925  			ret = OP_PAGE_READ;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2926  		break;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2927  	case NAND_CMD_ERASE1:
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2928  	case NAND_CMD_ERASE2:
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2929  		ret = OP_BLOCK_ERASE;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2930  		break;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2931  	case NAND_CMD_STATUS:
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2932  		ret = OP_CHECK_STATUS;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2933  		break;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2934  	case NAND_CMD_PAGEPROG:
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2935  		ret = OP_PROGRAM_PAGE;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2936  		q_op->flag = OP_PROGRAM_PAGE;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2937  		nandc->exec_opwrite = true;
+> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2938  		break;
+> > > > 
+> > > > No default case.  I'm more concerned about the && vs || warning, but
+> > > > the zero day bot doesn't include that code into the email.  
+> > > 
+> > > The default case here is in theory not possible, as long as
+> > > qcom_check_op() is properly implemented. We should however silence the
+> > > warning by handling it. Maybe a WARN_ON_ONCE() + ret = <anything that
+> > > will produce an error when executing the command> would work.
+> > >   
+> > 
+> > The kbuild-bot runs without the cross function database so it has a lot
+> > of false positives that you wouldn't see if you had the DB.  (There
+> > isn't really a way to build with the cross function DB.  It takes way
+> > way way too long.  Also it sometimes finds bug which are complicated to
+> > explain or to assign blame for in an automated way).  But these false
+> > positives are frustrating to me.
+> 
+> I understand.
+> 
+> > In real life, GCC is going to automatically initialize stack variables
+> > to zero on production systems.
+> 
+> Well, we must silence this by setting reg in all cases, but here the
+> variable is badly named, it should be s/ret/cmd/. That's why, if we
+> silence it properly, I would go for a runtime warning if we ever
+> encounter the situation because this is a purely software bug.
+> 
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <b6a49ed73aba427ca8bb433763fa94e9@AcuMS.aculab.com>
-References: <b6a49ed73aba427ca8bb433763fa94e9@AcuMS.aculab.com>
-TO: David Laight <David.Laight@ACULAB.COM>
-TO: "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>
-TO: "'Andy Shevchenko'" <andriy.shevchenko@linux.intel.com>
-TO: "'Andrew Morton'" <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "'Matthew Wilcox (Oracle)'" <willy@infradead.org>
-TO: "'Christoph Hellwig'" <hch@infradead.org>
-TO: "'Jason A. Donenfeld'" <Jason@zx2c4.com>
-TO: "'Linus Torvalds'" <torvalds@linux-foundation.org>
+I agree, it is better to add a default case for sanity. Regarding the variable
+naming, I agree it should be improved. Something like,
 
-Hi David,
+s/cmd/opcode
+s/ret/cmd
 
-kernel test robot noticed the following build warnings:
+Also, I do not want to add WARN_ON_ONCE() here, but rather a dev_err().
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on crng-random/master v6.5-rc4 next-20230804]
-[cannot apply to next-20230804 akpm-mm/mm-everything]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > However I doubt the following piece of code has been successfully
+> > > tested:
+> > > 
+> > >         for (op_id = 0; op_id < op->ninstrs; op_id++) {
+> > >                 instr = &op->instrs[op_id];
+> > > 
+> > >                 switch (instr->type) {
+> > >                 case NAND_OP_CMD_INSTR:
+> > >                         if (instr->ctx.cmd.opcode != NAND_CMD_RESET ||
+> > >                             instr->ctx.cmd.opcode != NAND_CMD_READID ||
+> > >                             instr->ctx.cmd.opcode != NAND_CMD_PARAM ||
+> > >                             instr->ctx.cmd.opcode != NAND_CMD_ERASE1 ||
+> > >                             instr->ctx.cmd.opcode != NAND_CMD_ERASE2 ||
+> > >                             instr->ctx.cmd.opcode != NAND_CMD_STATUS ||
+> > >                             instr->ctx.cmd.opcode != NAND_CMD_PAGEPROG)
+> > >                                 return -ENOTSUPP;
+> > >                         break;
+> > > 
+> > > The || should be &&, otherwise it cannot work, or am I missing
+> > > something?  
+> > 
+> > Yeah.  That's how this bug normally looks like.  NAND_OP_CMD_INSTR
+> > always returns -ENOTSUPP.
+> > 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Add-min_unsigned-a-b-and-max_unsigned-a-b/20230804-190414
-base:   linus/master
-patch link:    https://lore.kernel.org/r/b6a49ed73aba427ca8bb433763fa94e9%40AcuMS.aculab.com
-patch subject: [PATCH v3 5/5] minmax: Relax check to allow comparison between int and small unsigned constants.
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: s390-randconfig-r072-20230730 (https://download.01.org/0day-ci/archive/20230805/202308051343.jPxNEkVB-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230805/202308051343.jPxNEkVB-lkp@intel.com/reproduce)
+Yes, this is a bug.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202308051343.jPxNEkVB-lkp@intel.com/
+I didn't get a chance to review the exec_op conversion series (blame myself).
+Now I see scope for a cleaup series :/
 
-sparse warnings: (new ones prefixed by >>)
-   block/blk-ioc.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-ioc.c: note: in included file (through block/blk-crypto-internal.h, block/blk.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-flush.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-flush.c: note: in included file (through block/blk-crypto-internal.h, block/blk.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-map.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-map.c: note: in included file (through block/blk-crypto-internal.h, block/blk.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-settings.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-settings.c: note: in included file (through block/blk-crypto-internal.h, block/blk.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/fops.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/fops.c: note: in included file (through block/blk-crypto-internal.h, block/blk.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-sysfs.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-sysfs.c: note: in included file (through include/linux/blktrace_api.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/bdev.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/bdev.c: note: in included file (through include/linux/blk-integrity.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/elevator.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/elevator.c: note: in included file (through include/linux/blktrace_api.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-core.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-core.c: note: in included file (through include/linux/blk-integrity.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-timeout.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-timeout.c: note: in included file (through block/blk-crypto-internal.h, block/blk.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-lib.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-lib.c: note: in included file (through block/blk-crypto-internal.h, block/blk.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/bio.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/bio.c: note: in included file (through include/linux/blktrace_api.h, include/trace/events/block.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> block/bio.c:614:9: sparse: sparse: too long token expansion
->> block/bio.c:614:9: sparse: sparse: too long token expansion
-   block/bio.c:642:9: sparse: sparse: too long token expansion
-   block/bio.c:642:9: sparse: sparse: too long token expansion
-   block/bio.c:1410:41: sparse: sparse: too long token expansion
-   block/bio.c:1410:41: sparse: sparse: too long token expansion
-   block/bio.c:1411:41: sparse: sparse: too long token expansion
-   block/bio.c:1411:41: sparse: sparse: too long token expansion
---
-   block/blk-stat.c: note: in included file (through include/linux/blkdev.h, block/blk-stat.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-stat.c: note: in included file (through block/blk-mq.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-mq-sysfs.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-mq-sysfs.c: note: in included file (through block/blk-crypto-internal.h, block/blk.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-merge.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-merge.c: note: in included file (through include/linux/blk-integrity.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-mq-tag.c: note: in included file (through include/linux/blkdev.h, include/linux/blk-crypto.h, block/blk.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-mq-tag.c: note: in included file (through block/blk-crypto-internal.h, block/blk.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-mq-cpumap.c: note: in included file (through include/linux/blkdev.h, include/linux/blk-crypto.h, block/blk.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-mq-cpumap.c: note: in included file (through block/blk-crypto-internal.h, block/blk.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-mq-sched.c: note: in included file (through include/linux/blkdev.h, include/linux/blk-mq.h, include/linux/blktrace_api.h, ...):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-mq-sched.c: note: in included file (through include/linux/blktrace_api.h, include/trace/events/block.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/genhd.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/genhd.c: note: in included file (through include/linux/blktrace_api.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/ioprio.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   block/ioctl.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/ioctl.c: note: in included file (through include/linux/blktrace_api.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-rq-qos.c: note: in included file (through include/linux/blkdev.h, block/blk-rq-qos.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-rq-qos.c: note: in included file (through block/blk-rq-qos.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/disk-events.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/disk-events.c: note: in included file (through block/blk-crypto-internal.h, block/blk.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-ia-ranges.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-ia-ranges.c: note: in included file (through block/blk-crypto-internal.h, block/blk.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/early-lookup.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   block/blk-mq.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-mq.c: note: in included file (through include/linux/blk-integrity.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/bio-integrity.c: note: in included file (through include/linux/blkdev.h, include/linux/blk-mq.h, include/linux/blk-integrity.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/bio-integrity.c: note: in included file (through include/linux/blk-integrity.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> block/bio-integrity.c:167:9: sparse: sparse: too long token expansion
->> block/bio-integrity.c:167:9: sparse: sparse: too long token expansion
---
-   block/blk-integrity.c: note: in included file (through include/linux/blkdev.h, include/linux/blk-mq.h, include/linux/blk-integrity.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-integrity.c: note: in included file (through include/linux/blk-integrity.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> block/blk-integrity.c:35:9: sparse: sparse: too long token expansion
->> block/blk-integrity.c:35:9: sparse: sparse: too long token expansion
-   block/blk-integrity.c:77:9: sparse: sparse: too long token expansion
-   block/blk-integrity.c:77:9: sparse: sparse: too long token expansion
---
-   block/mq-deadline.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/mq-deadline.c: note: in included file (through include/linux/blktrace_api.h, include/trace/events/block.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/kyber-iosched.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/kyber-iosched.c: note: in included file (through include/linux/blktrace_api.h, include/trace/events/block.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/t10-pi.c: note: in included file (through include/linux/blkdev.h, include/linux/blk-mq.h, include/linux/t10-pi.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/t10-pi.c: note: in included file (through include/linux/t10-pi.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> block/t10-pi.c:151:17: sparse: sparse: too long token expansion
->> block/t10-pi.c:151:17: sparse: sparse: too long token expansion
-   block/t10-pi.c:197:17: sparse: sparse: too long token expansion
-   block/t10-pi.c:197:17: sparse: sparse: too long token expansion
-   block/t10-pi.c:390:17: sparse: sparse: too long token expansion
-   block/t10-pi.c:390:17: sparse: sparse: too long token expansion
-   block/t10-pi.c:425:17: sparse: sparse: too long token expansion
-   block/t10-pi.c:425:17: sparse: sparse: too long token expansion
---
-   block/blk-mq-virtio.c: note: in included file (through include/linux/blkdev.h, include/linux/blk-mq.h, block/blk-mq.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-mq-virtio.c: note: in included file (through block/blk-mq.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-mq-debugfs-zoned.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   block/blk-zoned.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-zoned.c: note: in included file:
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/blk-mq-debugfs.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/blk-mq-debugfs.c: note: in included file (through block/blk-crypto-internal.h, block/blk.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/sed-opal.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   kernel/exit.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   kernel/exit.c:455:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/exit.c:455:23: sparse:    struct task_struct [noderef] __rcu *
-   kernel/exit.c:455:23: sparse:    struct task_struct *
-   kernel/exit.c:479:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/exit.c:479:9: sparse:    struct list_head *
-   kernel/exit.c:479:9: sparse:    struct list_head [noderef] __rcu *
-   kernel/exit.c:1533:59: sparse: sparse: incompatible types in comparison expression (different base types):
-   kernel/exit.c:1533:59: sparse:    void *
-   kernel/exit.c:1533:59: sparse:    struct task_struct [noderef] __rcu *
---
->> kernel/pid.c:651:19: sparse: sparse: too long token expansion
->> kernel/pid.c:651:19: sparse: sparse: too long token expansion
-   kernel/pid.c:379:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/pid.c:379:9: sparse:    struct pid [noderef] __rcu *
-   kernel/pid.c:379:9: sparse:    struct pid *
-   kernel/pid.c:380:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/pid.c:380:9: sparse:    struct pid [noderef] __rcu *
-   kernel/pid.c:380:9: sparse:    struct pid *
-   kernel/pid.c:442:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/pid.c:442:23: sparse:    struct pid [noderef] __rcu *
-   kernel/pid.c:442:23: sparse:    struct pid *
-   kernel/pid.c:500:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/pid.c:500:24: sparse:    struct pid [noderef] __rcu *
-   kernel/pid.c:500:24: sparse:    struct pid *
-   kernel/pid.c: note: in included file (through include/linux/pid.h, include/linux/sched.h, include/linux/mm.h):
-   include/linux/rculist.h:552:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rculist.h:552:9: sparse:    struct hlist_node [noderef] __rcu *
-   include/linux/rculist.h:552:9: sparse:    struct hlist_node *
-   include/linux/rculist.h:553:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rculist.h:553:9: sparse:    struct hlist_node [noderef] __rcu *
-   include/linux/rculist.h:553:9: sparse:    struct hlist_node *
---
-   mm/page_io.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   mm/swap_state.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   mm/swapfile.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   mm/page-writeback.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   mm/readahead.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
->> mm/page_alloc.c:800:9: sparse: sparse: too long token expansion
---
-   mm/vmscan.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   mm/backing-dev.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   mm/show_mem.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   mm/highmem.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   drivers/mtd/mtdsuper.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   drivers/mtd/mtd_blkdevs.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   drivers/mtd/mtd_blkdevs.c: note: in included file:
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> drivers/mtd/mtd_blkdevs.c:76:17: sparse: sparse: too long token expansion
->> drivers/mtd/mtd_blkdevs.c:76:17: sparse: sparse: too long token expansion
-   drivers/mtd/mtd_blkdevs.c:83:17: sparse: sparse: too long token expansion
-   drivers/mtd/mtd_blkdevs.c:83:17: sparse: sparse: too long token expansion
---
-   drivers/mtd/nftlcore.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   drivers/mtd/mtdswap.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/tree-mod-log.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h, fs/btrfs/tree-mod-log.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/fs.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/messages.c: note: in included file (through include/linux/blkdev.h, fs/btrfs/fs.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/extent-io-tree.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/acl.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/bio.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> fs/btrfs/bio.c:308:37: sparse: sparse: too long token expansion
->> fs/btrfs/bio.c:308:37: sparse: sparse: too long token expansion
---
-   fs/btrfs/tests/extent-buffer-tests.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/tests/../ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/tests/free-space-tests.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/tests/../ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/zoned.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/tests/btrfs-tests.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/tests/../ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/tests/inode-tests.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/tests/../ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/tests/extent-io-tests.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/tests/../ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/tests/qgroup-tests.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/tests/../ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/tests/free-space-tree-tests.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/tests/../ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/tests/extent-map-tests.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/tests/../ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/free-space-tree.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/super.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/print-tree.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/root-tree.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/dir-item.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/ctree.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   fs/btrfs/ctree.c:260:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/btrfs/ctree.c:260:22: sparse:    struct extent_buffer [noderef] __rcu *
-   fs/btrfs/ctree.c:260:22: sparse:    struct extent_buffer *
-   fs/btrfs/ctree.c:599:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/btrfs/ctree.c:599:17: sparse:    struct extent_buffer [noderef] __rcu *
-   fs/btrfs/ctree.c:599:17: sparse:    struct extent_buffer *
-   fs/btrfs/ctree.c:1066:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/btrfs/ctree.c:1066:17: sparse:    struct extent_buffer [noderef] __rcu *
-   fs/btrfs/ctree.c:1066:17: sparse:    struct extent_buffer *
-   fs/btrfs/ctree.c:2983:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/btrfs/ctree.c:2983:9: sparse:    struct extent_buffer [noderef] __rcu *
-   fs/btrfs/ctree.c:2983:9: sparse:    struct extent_buffer *
---
-   fs/btrfs/extent-tree.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/inode-item.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/file-item.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> fs/btrfs/file-item.c:754:9: sparse: sparse: too long token expansion
->> fs/btrfs/file-item.c:754:9: sparse: sparse: too long token expansion
-   fs/btrfs/file-item.c:1187:24: sparse: sparse: too long token expansion
-   fs/btrfs/file-item.c:1187:24: sparse: sparse: too long token expansion
-   fs/btrfs/file-item.c:1212:23: sparse: sparse: too long token expansion
-   fs/btrfs/file-item.c:1212:23: sparse: sparse: too long token expansion
---
-   fs/btrfs/transaction.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/defrag.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/disk-io.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/file.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/extent_map.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/sysfs.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/accessors.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/xattr.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/ordered-data.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/async-thread.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/inode.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/orphan.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/locking.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/export.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/extent_io.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/ioctl.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/lzo.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/zlib.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/zstd.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/compression.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> fs/btrfs/compression.c:1025:24: sparse: sparse: too long token expansion
->> fs/btrfs/compression.c:1025:24: sparse: sparse: too long token expansion
---
-   fs/btrfs/delayed-ref.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/volumes.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/free-space-cache.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/relocation.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/ulist.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/delayed-inode.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/tree-log.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/dev-replace.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/scrub.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/backref.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/uuid-tree.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/props.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h, fs/btrfs/props.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/tree-checker.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/qgroup.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/block-rsv.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/raid56.c: note: in included file:
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> fs/btrfs/raid56.c:1118:9: sparse: sparse: too long token expansion
->> fs/btrfs/raid56.c:1118:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/delalloc-space.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/space-info.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/send.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/discard.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/reflink.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/subpage.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   fs/btrfs/block-group.c: note: in included file (through include/linux/blkdev.h, include/linux/iomap.h, fs/btrfs/ctree.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
---
-   block/partitions/core.c: note: in included file (through include/linux/blkdev.h, block/partitions/check.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/partitions/core.c: note: in included file (through block/partitions/../blk-crypto-internal.h, block/partitions/../blk.h, block/partitions/check.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/partitions/amiga.c: note: in included file (through include/linux/blkdev.h, block/partitions/check.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/partitions/amiga.c: note: in included file (through block/partitions/../blk-crypto-internal.h, block/partitions/../blk.h, block/partitions/check.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/partitions/atari.c: note: in included file (through include/linux/blkdev.h, block/partitions/check.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/partitions/atari.c: note: in included file (through block/partitions/../blk-crypto-internal.h, block/partitions/../blk.h, block/partitions/check.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/partitions/aix.c: note: in included file (through include/linux/blkdev.h, block/partitions/check.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/partitions/aix.c: note: in included file (through block/partitions/../blk-crypto-internal.h, block/partitions/../blk.h, block/partitions/check.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/partitions/cmdline.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/partitions/cmdline.c: note: in included file (through block/partitions/../blk-crypto-internal.h, block/partitions/../blk.h, block/partitions/check.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/partitions/sgi.c: note: in included file (through include/linux/blkdev.h, block/partitions/check.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/partitions/sgi.c: note: in included file (through block/partitions/../blk-crypto-internal.h, block/partitions/../blk.h, block/partitions/check.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/partitions/osf.c: note: in included file (through include/linux/blkdev.h, block/partitions/check.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/partitions/osf.c: note: in included file (through block/partitions/../blk-crypto-internal.h, block/partitions/../blk.h, block/partitions/check.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/partitions/karma.c: note: in included file (through include/linux/blkdev.h, block/partitions/check.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/partitions/karma.c: note: in included file (through block/partitions/../blk-crypto-internal.h, block/partitions/../blk.h, block/partitions/check.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   block/partitions/sysv68.c: note: in included file (through include/linux/blkdev.h, block/partitions/check.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   block/partitions/sysv68.c: note: in included file (through block/partitions/../blk-crypto-internal.h, block/partitions/../blk.h, block/partitions/check.h):
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
->> include/linux/blk-mq.h:1051:16: sparse: sparse: too long token expansion
---
-   kernel/sched/core.c: note: in included file (through include/linux/blkdev.h):
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
->> include/linux/bio.h:194:9: sparse: sparse: too long token expansion
-   kernel/sched/core.c:7128:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:7128:17: sparse:    struct task_struct *
-   kernel/sched/core.c:7128:17: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:7344:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:7344:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:7344:22: sparse:    struct task_struct *
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:2111:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2273:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct *
-   kernel/sched/core.c:2178:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:2178:38: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:2178:38: sparse:    struct task_struct const *
-   kernel/sched/sched.h:2111:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2273:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2273:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2111:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2273:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2111:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2273:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2111:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2273:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2111:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2273:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2111:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2111:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2273:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2273:9: sparse:    struct task_struct *
+Let me spin something by the end of today.
 
-vim +194 include/linux/bio.h
+- Mani
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  173  
-f45958756fef55 Shaohua Li         2017-03-24  174  static inline unsigned bio_segments(struct bio *bio)
-458b76ed2f9517 Kent Overstreet    2013-09-24  175  {
-458b76ed2f9517 Kent Overstreet    2013-09-24  176  	unsigned segs = 0;
-458b76ed2f9517 Kent Overstreet    2013-09-24  177  	struct bio_vec bv;
-458b76ed2f9517 Kent Overstreet    2013-09-24  178  	struct bvec_iter iter;
-458b76ed2f9517 Kent Overstreet    2013-09-24  179  
-8423ae3d7a3cfe Kent Overstreet    2014-02-10  180  	/*
-a6f0788ec2881a Chaitanya Kulkarni 2016-11-30  181  	 * We special case discard/write same/write zeroes, because they
-a6f0788ec2881a Chaitanya Kulkarni 2016-11-30  182  	 * interpret bi_size differently:
-8423ae3d7a3cfe Kent Overstreet    2014-02-10  183  	 */
-8423ae3d7a3cfe Kent Overstreet    2014-02-10  184  
-a6f0788ec2881a Chaitanya Kulkarni 2016-11-30  185  	switch (bio_op(bio)) {
-a6f0788ec2881a Chaitanya Kulkarni 2016-11-30  186  	case REQ_OP_DISCARD:
-a6f0788ec2881a Chaitanya Kulkarni 2016-11-30  187  	case REQ_OP_SECURE_ERASE:
-a6f0788ec2881a Chaitanya Kulkarni 2016-11-30  188  	case REQ_OP_WRITE_ZEROES:
-f9d03f96b98800 Christoph Hellwig  2016-12-08  189  		return 0;
-a6f0788ec2881a Chaitanya Kulkarni 2016-11-30  190  	default:
-a6f0788ec2881a Chaitanya Kulkarni 2016-11-30  191  		break;
-a6f0788ec2881a Chaitanya Kulkarni 2016-11-30  192  	}
-8423ae3d7a3cfe Kent Overstreet    2014-02-10  193  
-f45958756fef55 Shaohua Li         2017-03-24 @194  	bio_for_each_segment(bv, bio, iter)
-458b76ed2f9517 Kent Overstreet    2013-09-24  195  		segs++;
-458b76ed2f9517 Kent Overstreet    2013-09-24  196  
-458b76ed2f9517 Kent Overstreet    2013-09-24  197  	return segs;
-458b76ed2f9517 Kent Overstreet    2013-09-24  198  }
-458b76ed2f9517 Kent Overstreet    2013-09-24  199  
+> > regards,
+> > dan carpenter
+> > 
+> 
+> 
+> Thanks,
+> Miquèl
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+மணிவண்ணன் சதாசிவம்
