@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7863D90
-	for <oe-kbuild@lists.linux.dev>; Sun,  6 Aug 2023 16:57:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF646392
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Aug 2023 01:53:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691341036; x=1722877036;
+  t=1691373210; x=1722909210;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JPf7SI4vchwBsANz5kgnZEGBwA93jvyWZLLpMEq2yHk=;
-  b=jG5gPp4wQIfsGHzkASTv/tuahZr1/ExFNFrTYSsEF6qmKGwvUaOFW8zi
-   e4cpWd1zjfYIha3jBvs0k3eULozrhrWavpS8LH0xPxxBmO3qypmLHq3d4
-   dzDHVJN69Npbn+uvyAQInLRv7Hhx76CdaUkxZsadHytsKDbFrwQQvwa5+
-   wpGBaTkb1XDE36q/dIygETr2kbXKwx+BGW3B+2I3Cfk9zRmKXKsk+NSiG
-   w2b1koVvj0uadqRLGtN+9oZvP/BFisZNS6IYYZN3NiNu2OHkFRUnxWO+q
-   KcpFw7rUsPKXvRjfWWI1FwNTOIJABgyS8m8xjgSHA38DGArm1yrbAvR03
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="369304999"
-X-IronPort-AV: E=Sophos;i="6.01,260,1684825200"; 
-   d="scan'208";a="369304999"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 09:57:15 -0700
+  bh=xB+ZgrGXmhhwBjWVkZoxFO66r5UiztMCd1yTTUhF7G4=;
+  b=hcO69FuvAeGokg81HzZq7qj36na9g4RFpwBIr21XtU7RkU8gNCZ9wuSz
+   At3yy934JpxoXlg4sS0+p+yAGNSVOZw0ElPKbTjrPXaGRWCwuMkSvAVEK
+   Jutgc4F8l68tI4mT8yB8T+BnAqhNlq1WPKN+qQnaXHLlhkc5/1mm/bQWU
+   uaigpSdBDlX3eusd2F0j1mESvYF/DGl64cRnXiCPkOMB3Zluj2D8kP/s7
+   QF0Rm7JAQUNqJhVb8KTeU/p30xtrxPIVUD8nZz+i+HI6vMZof2KZg70E8
+   DAbxXN9i/l12FcR6GXJT/mzQK2I4+UgXtUZ86/YNIdqP3sUXq0zHXI1xI
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="370431261"
+X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
+   d="scan'208";a="370431261"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 18:53:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="724256995"
-X-IronPort-AV: E=Sophos;i="6.01,260,1684825200"; 
-   d="scan'208";a="724256995"
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="800759375"
+X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
+   d="scan'208";a="800759375"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 06 Aug 2023 09:57:14 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 06 Aug 2023 18:53:28 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qSh45-0004JL-0Z;
-	Sun, 06 Aug 2023 16:57:13 +0000
-Date: Mon, 7 Aug 2023 00:56:37 +0800
+	id 1qSpR1-0004Tt-18;
+	Mon, 07 Aug 2023 01:53:27 +0000
+Date: Mon, 7 Aug 2023 09:52:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
 Subject: Re: [RFC net-next v4 2/8] xsk: add TX timestamp and TX checksum
  offload support
-Message-ID: <202308070029.iaEW5Co2-lkp@intel.com>
+Message-ID: <202308070948.jjqDEUQa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,22 +65,21 @@ patch link:    https://lore.kernel.org/r/20230724235957.1953861-3-sdf%40google.c
 patch subject: [RFC net-next v4 2/8] xsk: add TX timestamp and TX checksum offload support
 :::::: branch date: 13 days ago
 :::::: commit date: 13 days ago
-config: i386-randconfig-m021-20230806 (https://download.01.org/0day-ci/archive/20230807/202308070029.iaEW5Co2-lkp@intel.com/config)
+config: i386-randconfig-m021-20230806 (https://download.01.org/0day-ci/archive/20230807/202308070948.jjqDEUQa-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230807/202308070029.iaEW5Co2-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230807/202308070948.jjqDEUQa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308070029.iaEW5Co2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308070948.jjqDEUQa-lkp@intel.com/
 
 New smatch warnings:
 net/xdp/xsk.c:707 xsk_build_skb() error: uninitialized symbol 'hr'.
 
 Old smatch warnings:
 net/xdp/xsk.c:733 xsk_build_skb() error: 'skb' dereferencing possible ERR_PTR()
-net/xdp/xsk.c:1178 xsk_bind() warn: passing a valid pointer to 'PTR_ERR'
 
 vim +/hr +707 net/xdp/xsk.c
 
