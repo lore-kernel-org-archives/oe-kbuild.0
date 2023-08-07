@@ -1,198 +1,130 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15703136A
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Aug 2023 05:47:58 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3fe1d9a8ec6so29519615e9.1
-        for <oe-kbuild@lists.linux.dev>; Sun, 06 Aug 2023 22:47:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691387277; x=1691992077;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A2lqaFP8Knrgb+FHi43o2lKjtcbfxhIgf4CGx+AFgEA=;
-        b=xmMjG2oiA6uXq//d82A/o8s61H8S5cCU5g9cwMLc9VzzPPAUPplMJK8D8cM1lk57OZ
-         FNvsLCxnA3rJYMC2Fq2k1Qmm3hinQH/nUcde3l6uG5d3WuHEZmgWXKiO2p694H83v18Q
-         v50KeqvWD1D0mQrfthUswmYIcs8T7GDaFNU2cRktczk9IbLCleFtg57Y44JjcYe/bjc+
-         wZPNxTPkI1N296QXtpP0QEExexAz5z0ek6dJFXuorTMhYgU+ArM4EP8NYWoL2Y64Rx1R
-         qCt1KV8Vdm3opIuFI0uvFgIESW+5L3k8rB/4pYHOHqeEqZw4ih7cUKLUG02c4JDjYNmJ
-         3ALA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691387277; x=1691992077;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A2lqaFP8Knrgb+FHi43o2lKjtcbfxhIgf4CGx+AFgEA=;
-        b=NsGZ+hP7AFK8dOGjSKBEBw1TzGocp92lFrlJg20O8RnMyzs55QsVr4yShI6A0dZbzD
-         m4tJN7R2vs2K6qEGNJnD/eP+/hgJcnViIdzepPD2Pr2gIqsT/21IF3myxiKd41vpuclW
-         ewOdTaUqdFUSF17DLerv0Q9HcQSduhJ572VOxovuFwhGF/ydBuT3GOoSP9HPpOoe9TjH
-         euOEX4cfmzNLTv9GJeAbRMDgRb0l90gVhJiSywyxVQTPc61V0ebCl4ejgv764j5udzxW
-         AUjW507XntnsuptGNWZhy/pQ3jgCXoseN/G7RmVhaX5TSnv4/B3A0dIbIDVHhf8YHEpz
-         H7dg==
-X-Gm-Message-State: AOJu0YwuLy8SOeD5B2X8e+L4fr3naWvewUS4+dh1/uNo6lQmX84R31x5
-	eoCqFq6cl5vD/svUe/jz/XRnGADnRVuCHHlVBwk=
-X-Google-Smtp-Source: AGHT+IFaQ4oOCA5mHemv6K2siNMRL1nP0TAv/RhSy5k7SARgMeucBj8ZZKRyin1tiddeRr0QVYebXg==
-X-Received: by 2002:a5d:5681:0:b0:317:4bde:9e72 with SMTP id f1-20020a5d5681000000b003174bde9e72mr4407571wrv.10.1691387276728;
-        Sun, 06 Aug 2023 22:47:56 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id r15-20020adfdc8f000000b00317909f9985sm9308531wrj.113.2023.08.06.22.47.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Aug 2023 22:47:56 -0700 (PDT)
-Date: Mon, 7 Aug 2023 08:47:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Stanislav Fomichev <sdf@google.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC net-next v4 2/8] xsk: add TX timestamp and TX checksum
- offload support
-Message-ID: <2e5f3a43-c16c-41ac-a303-6374b2cf9fb5@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C1420FE
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Aug 2023 16:33:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691425986; x=1722961986;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=HSSbVrvfWsy4YWN9CGP4bP24o65dQtKhL1WeTqVtJr8=;
+  b=CeTUQukY0fklRx0bb/1JBcK6YCHxJ1nWvbgTuXm9xX6iIgLZJ1EmpOSa
+   exweuK1Sc17XYzr2ycsCdidNqeLt7kze1x7k3jv9kA0qHN+YlOuceOwEk
+   B/C/X2x15imN6wtUMuVhTGe10GISUvs/Ei6EYTCQXRq0VNp9XW2MCrDfv
+   ywojdiTJnYKoERVRo4PHyQIKgp5M2uA8BgtJrYY9sda/rKYmo4aLOt16D
+   DOwa7m2VuoGkOzmzO/OwcRga4F9NxQOdmFeR/lFcK8nRYLTz/INm5jEt7
+   HnJikBIbIdEpPaY6tQbAAG67dbQi5rHaoeqUMEQEN9taVc2JZvLI8dVIR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="350896719"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; 
+   d="scan'208";a="350896719"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 09:33:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="766052349"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; 
+   d="scan'208";a="766052349"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 07 Aug 2023 09:33:03 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qT3AF-0004lj-00;
+	Mon, 07 Aug 2023 16:33:03 +0000
+Date: Tue, 8 Aug 2023 00:32:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 2/2] drm/exec: add test case for using a drm_exec
+ multiple times
+Message-ID: <202308080017.Zek8Gf7v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230724235957.1953861-3-sdf@google.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Stanislav,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230731123625.3766-2-christian.koenig@amd.com>
+References: <20230731123625.3766-2-christian.koenig@amd.com>
+TO: "Christian König" <ckoenig.leichtzumerken@gmail.com>
+TO: boris.brezillon@collabora.com
+TO: ndesaulniers@google.com
+TO: maarten.lankhorst@linux.intel.com
+TO: mripard@kernel.org
+TO: tzimmermann@suse.de
+TO: airlied@gmail.com
+TO: daniel@ffwll.ch
+TO: trix@redhat.com
+TO: dri-devel@lists.freedesktop.org
+TO: linux-kernel@vger.kernel.org
+TO: llvm@lists.linux.dev
+TO: naresh.kamboju@linaro.org
+TO: dakr@redhat.com
 
-[This is a private test report for your RFC patch.]
+Hi Christian,
+
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/xsk-Support-XDP_TX_METADATA_LEN/20230725-080600
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230724235957.1953861-3-sdf%40google.com
-patch subject: [RFC net-next v4 2/8] xsk: add TX timestamp and TX checksum offload support
-config: i386-randconfig-m021-20230806 (https://download.01.org/0day-ci/archive/20230807/202308070029.iaEW5Co2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230807/202308070029.iaEW5Co2-lkp@intel.com/reproduce)
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on next-20230807]
+[cannot apply to linus/master v6.5-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-exec-add-test-case-for-using-a-drm_exec-multiple-times/20230731-203823
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230731123625.3766-2-christian.koenig%40amd.com
+patch subject: [PATCH 2/2] drm/exec: add test case for using a drm_exec multiple times
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: parisc-randconfig-m041-20230807 (https://download.01.org/0day-ci/archive/20230808/202308080017.Zek8Gf7v-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230808/202308080017.Zek8Gf7v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202308070029.iaEW5Co2-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202308080017.Zek8Gf7v-lkp@intel.com/
 
 New smatch warnings:
-net/xdp/xsk.c:707 xsk_build_skb() error: uninitialized symbol 'hr'.
+drivers/gpu/drm/tests/drm_exec_test.c:146 test_multiple_loops() warn: ignoring unreachable code.
 
-vim +/hr +707 net/xdp/xsk.c
+Old smatch warnings:
+drivers/gpu/drm/tests/drm_exec_test.c:137 test_prepare_array() error: uninitialized symbol 'ret'.
+drivers/gpu/drm/tests/drm_exec_test.c:153 test_multiple_loops() warn: ignoring unreachable code.
 
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  635  static struct sk_buff *xsk_build_skb(struct xdp_sock *xs,
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  636  				     struct xdp_desc *desc)
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  637  {
-105eed6b3f493a Stanislav Fomichev 2023-07-24  638  	struct xsk_tx_metadata *meta = NULL;
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  639  	struct net_device *dev = xs->dev;
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  640  	struct sk_buff *skb = xs->skb;
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  641  	int err;
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  642  
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  643  	if (dev->priv_flags & IFF_TX_SKB_NO_LINEAR) {
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  644  		skb = xsk_build_skb_zerocopy(xs, desc);
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  645  		if (IS_ERR(skb)) {
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  646  			err = PTR_ERR(skb);
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  647  			goto free_err;
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  648  		}
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  649  	} else {
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  650  		u32 hr, tr, len;
-                                                                ^^^^^^^
+vim +146 drivers/gpu/drm/tests/drm_exec_test.c
 
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  651  		void *buffer;
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  652  
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  653  		buffer = xsk_buff_raw_get_data(xs->pool, desc->addr);
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  654  		len = desc->len;
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  655  
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  656  		if (!skb) {
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  657  			hr = max(NET_SKB_PAD, L1_CACHE_ALIGN(dev->needed_headroom));
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  658  			tr = dev->needed_tailroom;
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  659  			skb = sock_alloc_send_skb(&xs->sk, hr + len + tr, 1, &err);
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  660  			if (unlikely(!skb))
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  661  				goto free_err;
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  662  
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  663  			skb_reserve(skb, hr);
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  664  			skb_put(skb, len);
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  665  
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  666  			err = skb_store_bits(skb, 0, buffer, len);
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  667  			if (unlikely(err))
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  668  				goto free_err;
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  669  		} else {
-
-"hr" isn't set if skb is non-NULL at the start.
-
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  670  			int nr_frags = skb_shinfo(skb)->nr_frags;
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  671  			struct page *page;
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  672  			u8 *vaddr;
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  673  
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  674  			if (unlikely(nr_frags == (MAX_SKB_FRAGS - 1) && xp_mb_desc(desc))) {
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  675  				err = -EFAULT;
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  676  				goto free_err;
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  677  			}
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  678  
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  679  			page = alloc_page(xs->sk.sk_allocation);
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  680  			if (unlikely(!page)) {
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  681  				err = -EAGAIN;
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  682  				goto free_err;
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  683  			}
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  684  
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  685  			vaddr = kmap_local_page(page);
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  686  			memcpy(vaddr, buffer, len);
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  687  			kunmap_local(vaddr);
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  688  
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  689  			skb_add_rx_frag(skb, nr_frags, page, 0, len, 0);
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  690  		}
-105eed6b3f493a Stanislav Fomichev 2023-07-24  691  
-105eed6b3f493a Stanislav Fomichev 2023-07-24  692  		if (desc->options & XDP_TX_METADATA) {
-105eed6b3f493a Stanislav Fomichev 2023-07-24  693  			if (unlikely(xs->tx_metadata_len == 0)) {
-105eed6b3f493a Stanislav Fomichev 2023-07-24  694  				err = -EINVAL;
-105eed6b3f493a Stanislav Fomichev 2023-07-24  695  				goto free_err;
-105eed6b3f493a Stanislav Fomichev 2023-07-24  696  			}
-105eed6b3f493a Stanislav Fomichev 2023-07-24  697  
-105eed6b3f493a Stanislav Fomichev 2023-07-24  698  			meta = buffer - xs->tx_metadata_len;
-105eed6b3f493a Stanislav Fomichev 2023-07-24  699  
-105eed6b3f493a Stanislav Fomichev 2023-07-24  700  			if (meta->flags & XDP_TX_METADATA_CHECKSUM) {
-105eed6b3f493a Stanislav Fomichev 2023-07-24  701  				if (unlikely(meta->csum_start + meta->csum_offset +
-105eed6b3f493a Stanislav Fomichev 2023-07-24  702  					     sizeof(__sum16) > len)) {
-105eed6b3f493a Stanislav Fomichev 2023-07-24  703  					err = -EINVAL;
-105eed6b3f493a Stanislav Fomichev 2023-07-24  704  					goto free_err;
-105eed6b3f493a Stanislav Fomichev 2023-07-24  705  				}
-105eed6b3f493a Stanislav Fomichev 2023-07-24  706  
-105eed6b3f493a Stanislav Fomichev 2023-07-24 @707  				skb->csum_start = hr + meta->csum_start;
-                                                                                                  ^^
-Uninitialized?
-
-105eed6b3f493a Stanislav Fomichev 2023-07-24  708  				skb->csum_offset = meta->csum_offset;
-105eed6b3f493a Stanislav Fomichev 2023-07-24  709  				skb->ip_summed = CHECKSUM_PARTIAL;
-105eed6b3f493a Stanislav Fomichev 2023-07-24  710  
-105eed6b3f493a Stanislav Fomichev 2023-07-24  711  				if (unlikely(meta->flags & XDP_TX_METADATA_CHECKSUM_SW)) {
-105eed6b3f493a Stanislav Fomichev 2023-07-24  712  					err = skb_checksum_help(skb);
-105eed6b3f493a Stanislav Fomichev 2023-07-24  713  					if (err)
-105eed6b3f493a Stanislav Fomichev 2023-07-24  714  						goto free_err;
-105eed6b3f493a Stanislav Fomichev 2023-07-24  715  				}
-105eed6b3f493a Stanislav Fomichev 2023-07-24  716  			}
-105eed6b3f493a Stanislav Fomichev 2023-07-24  717  		}
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  718  	}
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  719  
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  720  	skb->dev = dev;
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  721  	skb->priority = xs->sk.sk_priority;
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  722  	skb->mark = xs->sk.sk_mark;
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  723  	skb->destructor = xsk_destruct_skb;
-105eed6b3f493a Stanislav Fomichev 2023-07-24  724  	skb_shinfo(skb)->xsk_meta = meta;
-b7f72a30e9ac25 Tirthendu Sarkar   2023-07-19  725  	xsk_set_destructor_arg(skb);
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  726  
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  727  	return skb;
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  728  
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  729  free_err:
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  730  	if (err == -EAGAIN) {
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  731  		xsk_cq_cancel_locked(xs, 1);
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  732  	} else {
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  733  		xsk_set_destructor_arg(skb);
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  734  		xsk_drop_skb(skb);
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  735  		xskq_cons_release(xs->tx);
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  736  	}
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  737  
-cf24f5a5feeaae Tirthendu Sarkar   2023-07-19  738  	return ERR_PTR(err);
-9c8f21e6f8856a Xuan Zhuo          2021-02-18  739  }
+9710631cc8f367 Christian König 2022-04-13  140  
+6fa89ae7cfcd00 Christian König 2023-07-31  141  static void test_multiple_loops(struct kunit *test)
+6fa89ae7cfcd00 Christian König 2023-07-31  142  {
+6fa89ae7cfcd00 Christian König 2023-07-31  143  	struct drm_exec exec;
+6fa89ae7cfcd00 Christian König 2023-07-31  144  
+6fa89ae7cfcd00 Christian König 2023-07-31  145  	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+6fa89ae7cfcd00 Christian König 2023-07-31 @146  	drm_exec_until_all_locked(&exec)
+6fa89ae7cfcd00 Christian König 2023-07-31  147  	{
+6fa89ae7cfcd00 Christian König 2023-07-31  148  		break;
+6fa89ae7cfcd00 Christian König 2023-07-31  149  	}
+6fa89ae7cfcd00 Christian König 2023-07-31  150  	drm_exec_fini(&exec);
+6fa89ae7cfcd00 Christian König 2023-07-31  151  
+6fa89ae7cfcd00 Christian König 2023-07-31  152  	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+6fa89ae7cfcd00 Christian König 2023-07-31  153  	drm_exec_until_all_locked(&exec)
+6fa89ae7cfcd00 Christian König 2023-07-31  154  	{
+6fa89ae7cfcd00 Christian König 2023-07-31  155  		break;
+6fa89ae7cfcd00 Christian König 2023-07-31  156  	}
+6fa89ae7cfcd00 Christian König 2023-07-31  157  	drm_exec_fini(&exec);
+6fa89ae7cfcd00 Christian König 2023-07-31  158  	KUNIT_SUCCEED(test);
+6fa89ae7cfcd00 Christian König 2023-07-31  159  }
+6fa89ae7cfcd00 Christian König 2023-07-31  160  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
