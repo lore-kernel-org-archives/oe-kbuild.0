@@ -1,43 +1,42 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2527392
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Aug 2023 02:28:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C1B392
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Aug 2023 02:38:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691375308; x=1722911308;
+  t=1691375908; x=1722911908;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gPiaxKuug4yk7C96mZDGf0EeNWwnIDSupYHliQ+Yqdo=;
-  b=Qlojg1MuKyBKJzmiyVtdMK12hFbLhPLZig4Vg/i4rVcBvwlO5Czk1eAN
-   K3PURad1T0ay2SKg/oxi658NxQcroucNfNoXi8GB+LXOPyQ95DUxmCbgO
-   pyCX3yuLAqjY5SEUmLKM54K/LGtp7qQC9NsYcMWPyp0pZhoCDeb7WerS6
-   ok1QFPAUnH1uz+JT/f8vBPH2r3UNsEStGxxIE7RMCinsLAQeq97LzonaB
-   QyflAXJlfLmPGqzTgtmi7nc7bH4EA/KWmA8NowhImei03XEp3CYkMtUNE
-   Ggx4e7linzCNPtV5qdvqSGeF8hTi/tllydE4y0ZKgDl+gN6JzLoU141HC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="360520274"
+  bh=+IkG2yzK4YBTj8Tr8fqzl2v5u6tyZYd7kaxuOq0RoKs=;
+  b=ldGQD6p74VPCDltAnOb66y6Zk4xT3rJs0YyUr6Wi7yklUBpUuOVX0f4x
+   EqNKUauBfk0uir0YiMCWDEhjk4oDXY2h7Ds3UlXW77lCnKIQVxWQNrv24
+   vW7GINTDVAQ6/+vb4Wj8IZa3xY15ZHZv70USorCr3TaTikk3OwqrgQWSr
+   RoDHo4CrOqVFuS6xvRqFTQ6bU+NV2eCYkE4WzVF64RKUTv/Gz4aZPPirR
+   JpOnueCoa+Q++WqLeol1LgAK/icWfD4Ll5dVyRwFl5th8aIx0EqkKgEOy
+   TaBYG2RZgBmDXYakGF7OnM1RSm20JlTUQ29M6ayYv3YbUPhz215feMEi3
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="360522286"
 X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
-   d="scan'208";a="360520274"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 19:28:28 -0700
+   d="scan'208";a="360522286"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 19:38:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="820836126"
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="904553937"
 X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
-   d="scan'208";a="820836126"
+   d="scan'208";a="904553937"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 06 Aug 2023 19:28:26 -0700
+  by orsmga005.jf.intel.com with ESMTP; 06 Aug 2023 19:38:26 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qSpys-0004UR-08;
-	Mon, 07 Aug 2023 02:28:26 +0000
-Date: Mon, 7 Aug 2023 10:27:45 +0800
+	id 1qSq8Y-0004Uh-0q;
+	Mon, 07 Aug 2023 02:38:26 +0000
+Date: Mon, 7 Aug 2023 10:38:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [djwong-xfs:xfile-page-caching 195/198]
- fs/xfs/scrub/agheader_repair.c:1101 xrep_iunlink_walk_ondisk_bucket() error:
- we previously assumed 'ip' could be null (see line 1083)
-Message-ID: <202308071020.cF23y82h-lkp@intel.com>
+Subject: [djwong-xfs:djwong-wtf 509/510] fs/xfs/xfs_bmap_util.c:1505
+ xfs_map_free_rt_extent() warn: missing error code 'error'
+Message-ID: <202308071043.K0mvspzv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,79 +50,104 @@ BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
-head:   627ea4d1b15ea69698ec5b3a106d5bcd998f388f
-commit: ef17644a1634000ae26e589a9d79ceabe1f2f4e7 [195/198] xfs: repair AGI unlinked inode bucket lists
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git djwong-wtf
+head:   b4b732d27b8ac9e8db0b841af516cd4906ed3376
+commit: a7107bda4b584348eba0da75db0678a72b04a3c4 [509/510] xfs: fallocate free space into a file
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: x86_64-randconfig-m001-20230807 (https://download.01.org/0day-ci/archive/20230807/202308071020.cF23y82h-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230807/202308071020.cF23y82h-lkp@intel.com/reproduce)
+config: mips-randconfig-m031-20230807 (https://download.01.org/0day-ci/archive/20230807/202308071043.K0mvspzv-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230807/202308071043.K0mvspzv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308071020.cF23y82h-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308071043.K0mvspzv-lkp@intel.com/
 
-smatch warnings:
-fs/xfs/scrub/agheader_repair.c:1101 xrep_iunlink_walk_ondisk_bucket() error: we previously assumed 'ip' could be null (see line 1083)
-fs/xfs/scrub/agheader_repair.c:1448 xrep_iunlink_relink_next() error: we previously assumed 'ip' could be null (see line 1427)
-fs/xfs/scrub/agheader_repair.c:1514 xrep_iunlink_relink_prev() error: we previously assumed 'ip' could be null (see line 1489)
+New smatch warnings:
+fs/xfs/xfs_bmap_util.c:1505 xfs_map_free_rt_extent() warn: missing error code 'error'
 
-vim +/ip +1101 fs/xfs/scrub/agheader_repair.c
+Old smatch warnings:
+fs/xfs/xfs_buf.h:453 xfs_buftarg_zeroout() warn: bitwise AND condition is false here
+fs/xfs/xfs_bmap_util.c:1359 xfs_map_free_extent() warn: missing error code 'error'
 
-ef17644a163400 Darrick J. Wong 2023-03-06  1056  
-ef17644a163400 Darrick J. Wong 2023-03-06  1057  /*
-ef17644a163400 Darrick J. Wong 2023-03-06  1058   * Walk an AGI unlinked bucket's list to load incore any unlinked inodes that
-ef17644a163400 Darrick J. Wong 2023-03-06  1059   * still existed at mount time.  This can happen if iunlink processing fails
-ef17644a163400 Darrick J. Wong 2023-03-06  1060   * during log recovery.
-ef17644a163400 Darrick J. Wong 2023-03-06  1061   */
-ef17644a163400 Darrick J. Wong 2023-03-06  1062  STATIC int
-ef17644a163400 Darrick J. Wong 2023-03-06  1063  xrep_iunlink_walk_ondisk_bucket(
-ef17644a163400 Darrick J. Wong 2023-03-06  1064  	struct xrep_agi		*ragi,
-ef17644a163400 Darrick J. Wong 2023-03-06  1065  	unsigned int		bucket)
-ef17644a163400 Darrick J. Wong 2023-03-06  1066  {
-ef17644a163400 Darrick J. Wong 2023-03-06  1067  	struct xfs_scrub	*sc = ragi->sc;
-ef17644a163400 Darrick J. Wong 2023-03-06  1068  	struct xfs_inode	*ip;
-ef17644a163400 Darrick J. Wong 2023-03-06  1069  	struct xfs_agi		*agi = sc->sa.agi_bp->b_addr;
-ef17644a163400 Darrick J. Wong 2023-03-06  1070  	xfs_agino_t		prev_agino = NULLAGINO;
-ef17644a163400 Darrick J. Wong 2023-03-06  1071  	xfs_agino_t		next_agino;
-ef17644a163400 Darrick J. Wong 2023-03-06  1072  	int			error = 0;
-ef17644a163400 Darrick J. Wong 2023-03-06  1073  
-ef17644a163400 Darrick J. Wong 2023-03-06  1074  	next_agino = be32_to_cpu(agi->agi_unlinked[bucket]);
-ef17644a163400 Darrick J. Wong 2023-03-06  1075  	while (next_agino != NULLAGINO) {
-ef17644a163400 Darrick J. Wong 2023-03-06  1076  		if (xchk_should_terminate(ragi->sc, &error))
-ef17644a163400 Darrick J. Wong 2023-03-06  1077  			return error;
-ef17644a163400 Darrick J. Wong 2023-03-06  1078  
-ef17644a163400 Darrick J. Wong 2023-03-06  1079  		trace_xrep_iunlink_walk_ondisk_bucket(sc->sa.pag, bucket,
-ef17644a163400 Darrick J. Wong 2023-03-06  1080  				prev_agino, next_agino);
-ef17644a163400 Darrick J. Wong 2023-03-06  1081  
-ef17644a163400 Darrick J. Wong 2023-03-06  1082  		ip = xfs_iunlink_lookup(sc->sa.pag, next_agino);
-ef17644a163400 Darrick J. Wong 2023-03-06 @1083  		if (!ip) {
-ef17644a163400 Darrick J. Wong 2023-03-06  1084  			/*
-ef17644a163400 Darrick J. Wong 2023-03-06  1085  			 * This unlinked inode wasn't incore.  Try to load it
-ef17644a163400 Darrick J. Wong 2023-03-06  1086  			 * and link it into the incore list.
-ef17644a163400 Darrick J. Wong 2023-03-06  1087  			 */
-ef17644a163400 Darrick J. Wong 2023-03-06  1088  			error = xrep_iunlink_reload_inode(ragi, prev_agino,
-ef17644a163400 Darrick J. Wong 2023-03-06  1089  					next_agino, &ip);
-ef17644a163400 Darrick J. Wong 2023-03-06  1090  			if (error) {
-ef17644a163400 Darrick J. Wong 2023-03-06  1091  				/*
-ef17644a163400 Darrick J. Wong 2023-03-06  1092  				 * Inode cannot be resuscitated?  Terminate the
-ef17644a163400 Darrick J. Wong 2023-03-06  1093  				 * chain.  We have other ways to find the rest
-ef17644a163400 Darrick J. Wong 2023-03-06  1094  				 * of the inode(s) that might have been in this
-ef17644a163400 Darrick J. Wong 2023-03-06  1095  				 * chain.
-ef17644a163400 Darrick J. Wong 2023-03-06  1096  				 */
-ef17644a163400 Darrick J. Wong 2023-03-06  1097  				break;
-ef17644a163400 Darrick J. Wong 2023-03-06  1098  			}
-ef17644a163400 Darrick J. Wong 2023-03-06  1099  		}
-ef17644a163400 Darrick J. Wong 2023-03-06  1100  
-ef17644a163400 Darrick J. Wong 2023-03-06 @1101  		next_agino = ip->i_next_unlinked;
-ef17644a163400 Darrick J. Wong 2023-03-06  1102  	}
-ef17644a163400 Darrick J. Wong 2023-03-06  1103  
-ef17644a163400 Darrick J. Wong 2023-03-06  1104  	return 0;
-ef17644a163400 Darrick J. Wong 2023-03-06  1105  }
-ef17644a163400 Darrick J. Wong 2023-03-06  1106  
+vim +/error +1505 fs/xfs/xfs_bmap_util.c
+
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1468  
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1469  #ifdef CONFIG_XFS_RT
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1470  STATIC int
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1471  xfs_map_free_rt_extent(
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1472  	struct xfs_inode	*ip,
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1473  	xfs_rtxnum_t		*cursor,
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1474  	xfs_rtxnum_t		end_rtx)
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1475  {
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1476  	struct xfs_bmbt_irec	irec;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1477  	struct xfs_mount	*mp = ip->i_mount;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1478  	struct xfs_trans	*tp;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1479  	xfs_off_t		endpos;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1480  	xfs_rtblock_t		rtbno;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1481  	xfs_rtxnum_t		add;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1482  	xfs_rtxlen_t		len_rtx;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1483  	xfs_extlen_t		len;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1484  	uint32_t		mod;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1485  	int			error;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1486  
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1487  	if (fatal_signal_pending(current))
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1488  		return -EINTR;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1489  
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1490  	error = xfs_trans_alloc_inode(ip, &M_RES(mp)->tr_write, 0, 0, false,
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1491  			&tp);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1492  	if (error)
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1493  		return error;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1494  
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1495  	xfs_rtbitmap_lock(tp, mp);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1496  	error = xfs_rtalloc_find_freesp(tp, cursor, end_rtx, &len_rtx);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1497  	if (error)
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1498  		goto out_cancel;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1499  
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1500  	/*
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1501  	 * If off_rtx is beyond the end of the rt device or is past what the
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1502  	 * user asked for, bail out.
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1503  	 */
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1504  	if (*cursor >= end_rtx)
+a7107bda4b5843 Darrick J. Wong 2023-03-06 @1505  		goto out_cancel;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1506  
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1507  	len = xfs_rtx_to_rtb(mp, len_rtx);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1508  	error = xfs_map_free_reserve_more(tp, ip, &len);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1509  	if (error)
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1510  		goto out_cancel;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1511  
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1512  	rtbno = xfs_rtx_to_rtb(mp, *cursor);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1513  	error = xfs_bmapi_freesp(tp, ip, rtbno, len, &irec);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1514  	if (error)
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1515  		goto out_cancel;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1516  
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1517  	/* Update isize if needed. */
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1518  	endpos = XFS_FSB_TO_B(mp, irec.br_startoff + irec.br_blockcount);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1519  	if (endpos > i_size_read(VFS_I(ip))) {
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1520  		i_size_write(VFS_I(ip), endpos);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1521  		ip->i_disk_size = endpos;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1522  		xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1523  	}
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1524  
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1525  	error = xfs_trans_commit(tp);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1526  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1527  	if (error)
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1528  		return error;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1529  
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1530  	add = xfs_rtb_to_rtx(mp, irec.br_blockcount, &mod);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1531  	if (mod)
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1532  		return -EFSCORRUPTED;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1533  
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1534  	*cursor += add;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1535  	return 0;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1536  out_cancel:
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1537  	xfs_trans_cancel(tp);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1538  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1539  	return error;
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1540  }
+a7107bda4b5843 Darrick J. Wong 2023-03-06  1541  
 
 -- 
 0-DAY CI Kernel Test Service
