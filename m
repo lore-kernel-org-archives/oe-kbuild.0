@@ -1,115 +1,124 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D1F639;
-	Tue,  8 Aug 2023 05:16:35 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3784PbrP011994;
-	Tue, 8 Aug 2023 05:16:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=6ZpYYIt2np6keIa5ulfCQJosBJ95lN4ipIo9wBWLRgI=;
- b=DsVaD5tO+GtpEtTOwuJvr/PKylzklbmx3+4OGRk6leA1r+TvuBG/JqYjpAKtRXveBOZX
- PMOIKZ3UIg3FljDxs4bGFAtT1X6QFHbh9t0bVUdCNmgBiE7gilzPx6I9Mgs6fEGVLweG
- lRPaQTRXdnDC64WCz4mDjc+aQ89VtrEVnouLrblndPym1Hx5+NSBjKBimm/+jeaxjEfB
- LNVIfBLtCBUW788aw7GysvekcE9sOBZZZppoSdFaIKHMsmystp01HdYa1IxonFkQi8/T
- bzMbLJ+vuaaeiBkkgc0E5p50E2X/5kzrZbyDEvGRn3Y7mtQgm2hQzY7v7TI7vBodj8Dz iw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sb6pqgun6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 08 Aug 2023 05:16:21 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3785GKfO032077
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 8 Aug 2023 05:16:20 GMT
-Received: from [10.216.1.26] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 7 Aug
- 2023 22:16:17 -0700
-Message-ID: <4b8607e8-4df8-3b15-693f-7d7478caedac@quicinc.com>
-Date: Tue, 8 Aug 2023 10:46:14 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E8D2104
+	for <oe-kbuild@lists.linux.dev>; Tue,  8 Aug 2023 07:52:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691481173; x=1723017173;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=M+TkfQF+1p2jeCCRADfo7FmRfHFNIXzmTL0uxRUJpoo=;
+  b=fHcnTyt93H594B+D82gl64h7AM7CsV7kaTq6eAMTgG3Q2SpUw0hXms1q
+   CJ5SDsz0TJCClOU6AUZUVNo0DE3eLqwkzE4AP4nFGHof70ZYPHitmfeZh
+   wNtbBA4/wxO0xv/UasZWPyb39b9UqUHqMk40zrrZPYoAEN9jOlXpmu5j4
+   fIbEVFDPJUWqmS8/QgU4ooP9Kt19EjgNWpJFVNwDS+JxQsb8wqs90kjXF
+   ETf+WNFSiVS1x/jhBHY4ZiyMRi39A3VOFUPtOZMF8U3M9IuygtOPfBXct
+   DRA9e1aXsHPY036QnuBQMWIy/pIYxEnHWamIRnz18iWJZB+5Avcuaqh3v
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="350340492"
+X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; 
+   d="scan'208";a="350340492"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 00:52:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="845362064"
+X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; 
+   d="scan'208";a="845362064"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2023 00:52:51 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qTHWM-0005D6-3B;
+	Tue, 08 Aug 2023 07:52:50 +0000
+Date: Tue, 8 Aug 2023 15:51:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [asahilinux:bits/170-atcphy 3/4] drivers/phy/apple/atc.c:1589:2-8:
+ preceding lock on line 1578
+Message-ID: <202308081540.at9YfMlb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [linux-next:master 1937/6910]
- drivers/mtd/nand/raw/qcom_nandc.c:2941 qcom_op_cmd_mapping() error:
- uninitialized symbol 'ret'.
-Content-Language: en-US
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-CC: Manivannan Sadhasivam <mani@kernel.org>,
-        Dan Carpenter
-	<dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
-        Md Sadre Alam
-	<quic_mdalam@quicinc.com>, <lkp@intel.com>,
-        <oe-kbuild-all@lists.linux.dev>,
-        Linux Memory Management List <linux-mm@kvack.org>
-References: <7ad1160b-5f8c-47af-a1c5-51b34f656fab@kadam.mountain>
- <20230804184550.0cb12369@xps-13>
- <3604e2ed-8d30-4f7b-9e56-7af5b23b2ac5@kadam.mountain>
- <20230804190750.3367a044@xps-13> <20230805065510.GA18650@thinkpad>
- <db088950-c25b-f0c0-851a-c5d56611c7c9@quicinc.com>
- <908ee5e8-6213-5685-7094-8c4b1282015c@quicinc.com>
- <20230807211458.3de7c627@xps-13>
-From: Sricharan Ramabadhran <quic_srichara@quicinc.com>
-In-Reply-To: <20230807211458.3de7c627@xps-13>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: PPjIip63PxDxaD5_ZqIfVrrwtLGyVRQE
-X-Proofpoint-ORIG-GUID: PPjIip63PxDxaD5_ZqIfVrrwtLGyVRQE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-08_03,2023-08-03_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
- adultscore=0 malwarescore=0 suspectscore=0 spamscore=0 impostorscore=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 mlxlogscore=999
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308080046
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Sven Peter <sven@svenpeter.dev>
+CC: Hector Martin <marcan@marcan.st>
 
-<..>
+tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
+head:   7f54207023c688cf98ee1245fc8e845387c53f51
+commit: 43a0fefe50ef2c66965279c857544eafe439c687 [3/4] WIP: phy: apple: Add Apple Type-C PHY
+:::::: branch date: 4 weeks ago
+:::::: commit date: 4 weeks ago
+config: arc-randconfig-r061-20230808 (https://download.01.org/0day-ci/archive/20230808/202308081540.at9YfMlb-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230808/202308081540.at9YfMlb-lkp@intel.com/reproduce)
 
->>    With this series applied on linux-next, started seeing the below
->>    messages flooded on console while doing mtd r/w.
->>    "xxx "Opcode not supported: 0"
->>
->>    opcode '0' corresponds to NAND_CMD_READ0. This command inturn was
->>    invoked from qcom_nandc.c driver from below places. For read/write_page
->>    driver does not use the exec ops. Hence these calls just ends up
->>    being -ENOTSUPP and ignored. So removed their invocations.
->>    If this is fine, can this be added to your series ? (will send
->>    git-format patch to add to your cleanup series). So far, tested
->>    mtd raw/block read/writes and all works fine. Will do further tests
->>    as well.
-> 
-> Unless I really don't understand the controller, this is non sense.
-> nand_read_page_op() is precisely what allows your NAND to perform a
-> read. Removing this call cannot work.
-> 
-> What you need is a proper ->exec_op() implementation, and repeating
-> this becomes slightly annoying.
-> 
-> Look at your qcom_op_cmd_mapping, you don't even have a path for reads.
-> I bet something along:
-> 	CMD_READ0:
-> 		ret = XXX_OPCODE_READ;
-> 		break;
-> will make it work.
-> 
-> Please fix the driver and test with nandbiterrs -i. If this test works,
-> it is encouraging. Otherwise it is still broken.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202308081540.at9YfMlb-lkp@intel.com/
 
-  ok understand. Will fix this up.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/phy/apple/atc.c:1589:2-8: preceding lock on line 1578
+   drivers/phy/apple/atc.c:1589:2-8: preceding lock on line 1584
 
-Regards,
-  Sricharan
+vim +1589 drivers/phy/apple/atc.c
+
+43a0fefe50ef2c Sven Peter 2022-11-30  1566  
+43a0fefe50ef2c Sven Peter 2022-11-30  1567  static int atcphy_usb3_power_on(struct phy *phy)
+43a0fefe50ef2c Sven Peter 2022-11-30  1568  {
+43a0fefe50ef2c Sven Peter 2022-11-30  1569  	struct apple_atcphy *atcphy = phy_get_drvdata(phy);
+43a0fefe50ef2c Sven Peter 2022-11-30  1570  	enum atcphy_pipehandler_state state;
+43a0fefe50ef2c Sven Peter 2022-11-30  1571  	int ret = 0;
+43a0fefe50ef2c Sven Peter 2022-11-30  1572  
+43a0fefe50ef2c Sven Peter 2022-11-30  1573  	/*
+43a0fefe50ef2c Sven Peter 2022-11-30  1574  	 * Both usb role switch and mux set work will be running concurrently.
+43a0fefe50ef2c Sven Peter 2022-11-30  1575  	 * Make sure atcphy_mux_set_work is done bringing up ATCPHY before
+43a0fefe50ef2c Sven Peter 2022-11-30  1576  	 * trying to switch dwc3 to the correct PHY.
+43a0fefe50ef2c Sven Peter 2022-11-30  1577  	 */
+43a0fefe50ef2c Sven Peter 2022-11-30 @1578  	mutex_lock(&atcphy->lock);
+43a0fefe50ef2c Sven Peter 2022-11-30  1579  	if (atcphy->mode != atcphy->target_mode) {
+43a0fefe50ef2c Sven Peter 2022-11-30  1580  		reinit_completion(&atcphy->atcphy_online_event);
+43a0fefe50ef2c Sven Peter 2022-11-30  1581  		mutex_unlock(&atcphy->lock);
+43a0fefe50ef2c Sven Peter 2022-11-30  1582  		wait_for_completion_timeout(&atcphy->atcphy_online_event,
+43a0fefe50ef2c Sven Peter 2022-11-30  1583  					msecs_to_jiffies(1000));
+43a0fefe50ef2c Sven Peter 2022-11-30  1584  		mutex_lock(&atcphy->lock);
+43a0fefe50ef2c Sven Peter 2022-11-30  1585  	}
+43a0fefe50ef2c Sven Peter 2022-11-30  1586  
+43a0fefe50ef2c Sven Peter 2022-11-30  1587  	if (atcphy->mode != atcphy->target_mode) {
+43a0fefe50ef2c Sven Peter 2022-11-30  1588  		dev_err(atcphy->dev, "ATCPHY did not come up; won't allow dwc3 to come up.\n");
+43a0fefe50ef2c Sven Peter 2022-11-30 @1589  		return -EINVAL;
+43a0fefe50ef2c Sven Peter 2022-11-30  1590  	}
+43a0fefe50ef2c Sven Peter 2022-11-30  1591  
+43a0fefe50ef2c Sven Peter 2022-11-30  1592  	atcphy->dwc3_online = true;
+43a0fefe50ef2c Sven Peter 2022-11-30  1593  	state = atcphy_modes[atcphy->mode].pipehandler_state;
+43a0fefe50ef2c Sven Peter 2022-11-30  1594  	switch (state) {
+43a0fefe50ef2c Sven Peter 2022-11-30  1595  	case ATCPHY_PIPEHANDLER_STATE_USB2:
+43a0fefe50ef2c Sven Peter 2022-11-30  1596  	case ATCPHY_PIPEHANDLER_STATE_USB3:
+43a0fefe50ef2c Sven Peter 2022-11-30  1597  		ret = atcphy_configure_pipehandler(atcphy, state);
+43a0fefe50ef2c Sven Peter 2022-11-30  1598  		break;
+43a0fefe50ef2c Sven Peter 2022-11-30  1599  
+43a0fefe50ef2c Sven Peter 2022-11-30  1600  	case ATCPHY_PIPEHANDLER_STATE_INVALID:
+43a0fefe50ef2c Sven Peter 2022-11-30  1601  	default:
+43a0fefe50ef2c Sven Peter 2022-11-30  1602  		dev_warn(atcphy->dev, "Invalid state %d in usb3_set_phy\n",
+43a0fefe50ef2c Sven Peter 2022-11-30  1603  			 state);
+43a0fefe50ef2c Sven Peter 2022-11-30  1604  		ret = -EINVAL;
+43a0fefe50ef2c Sven Peter 2022-11-30  1605  	}
+43a0fefe50ef2c Sven Peter 2022-11-30  1606  
+43a0fefe50ef2c Sven Peter 2022-11-30  1607  	mutex_unlock(&atcphy->lock);
+43a0fefe50ef2c Sven Peter 2022-11-30  1608  
+43a0fefe50ef2c Sven Peter 2022-11-30  1609  	return 0;
+43a0fefe50ef2c Sven Peter 2022-11-30  1610  }
+43a0fefe50ef2c Sven Peter 2022-11-30  1611  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
