@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E8D2104
-	for <oe-kbuild@lists.linux.dev>; Tue,  8 Aug 2023 07:52:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9922D15AC1
+	for <oe-kbuild@lists.linux.dev>; Tue,  8 Aug 2023 15:59:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691481173; x=1723017173;
+  t=1691510350; x=1723046350;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M+TkfQF+1p2jeCCRADfo7FmRfHFNIXzmTL0uxRUJpoo=;
-  b=fHcnTyt93H594B+D82gl64h7AM7CsV7kaTq6eAMTgG3Q2SpUw0hXms1q
-   CJ5SDsz0TJCClOU6AUZUVNo0DE3eLqwkzE4AP4nFGHof70ZYPHitmfeZh
-   wNtbBA4/wxO0xv/UasZWPyb39b9UqUHqMk40zrrZPYoAEN9jOlXpmu5j4
-   fIbEVFDPJUWqmS8/QgU4ooP9Kt19EjgNWpJFVNwDS+JxQsb8wqs90kjXF
-   ETf+WNFSiVS1x/jhBHY4ZiyMRi39A3VOFUPtOZMF8U3M9IuygtOPfBXct
-   DRA9e1aXsHPY036QnuBQMWIy/pIYxEnHWamIRnz18iWJZB+5Avcuaqh3v
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="350340492"
-X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; 
-   d="scan'208";a="350340492"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 00:52:53 -0700
+  bh=iuW+7jNGtMyDwbbHO9v7Eptu1RIpB4fDUo05bSnEOBI=;
+  b=KuX7M6FCgdjKHWd3uZpPO5GNbSccqitHbdY1EaRo1YdwCt2sHtHcd1WN
+   X/lcCfFwNHi0D/ReRKnxSu7Q8i2Re3ujWf4WZSJXcS649204Sp/G9aOCX
+   YbQByzPdtvIJV6LK5yWSFpZaz/kyBUJkNM4ejUnpnkZqkLxYMuDK6ySsX
+   V4jmff4NrGXwFuHYEOZUDOruefvMDSPrk3LcK3OPyc7gVHP2vYafOqeQf
+   2YXJTsIy0gAS5xRy13vpBi6U3/nGPz9oprbZcEbAd6Q7KNllyRcyvUO9C
+   8aTlYr8L7KnQMb7mj1alczDKzaglykcfKcB0c03YueebEllp3Ox7VtRBj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="401826577"
+X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
+   d="scan'208";a="401826577"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 08:59:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="845362064"
-X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; 
-   d="scan'208";a="845362064"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="905244371"
+X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
+   d="scan'208";a="905244371"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2023 00:52:51 -0700
+  by orsmga005.jf.intel.com with ESMTP; 08 Aug 2023 08:59:04 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qTHWM-0005D6-3B;
-	Tue, 08 Aug 2023 07:52:50 +0000
-Date: Tue, 8 Aug 2023 15:51:52 +0800
+	id 1qTP6t-0005RQ-24;
+	Tue, 08 Aug 2023 15:59:03 +0000
+Date: Tue, 8 Aug 2023 23:58:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [asahilinux:bits/170-atcphy 3/4] drivers/phy/apple/atc.c:1589:2-8:
- preceding lock on line 1578
-Message-ID: <202308081540.at9YfMlb-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/riscv/kernel/signal.c:153 setup_sigcontext() warn: ignoring
+ unreachable code.
+Message-ID: <202308082338.k5TKuNKJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,76 +48,57 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sven Peter <sven@svenpeter.dev>
-CC: Hector Martin <marcan@marcan.st>
+CC: linux-kernel@vger.kernel.org
+TO: Andy Chiu <andy.chiu@sifive.com>
+CC: Palmer Dabbelt <palmer@rivosinc.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
-head:   7f54207023c688cf98ee1245fc8e845387c53f51
-commit: 43a0fefe50ef2c66965279c857544eafe439c687 [3/4] WIP: phy: apple: Add Apple Type-C PHY
-:::::: branch date: 4 weeks ago
-:::::: commit date: 4 weeks ago
-config: arc-randconfig-r061-20230808 (https://download.01.org/0day-ci/archive/20230808/202308081540.at9YfMlb-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230808/202308081540.at9YfMlb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   14f9643dc90adea074a0ffb7a17d337eafc6a5cc
+commit: a45cedaa1ac0da7b30882afb42ff9d5285e9bb44 riscv: signal: check fp-reserved words unconditionally
+date:   9 weeks ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 9 weeks ago
+config: riscv-randconfig-m031-20230808 (https://download.01.org/0day-ci/archive/20230808/202308082338.k5TKuNKJ-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230808/202308082338.k5TKuNKJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202308081540.at9YfMlb-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202308082338.k5TKuNKJ-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/phy/apple/atc.c:1589:2-8: preceding lock on line 1578
-   drivers/phy/apple/atc.c:1589:2-8: preceding lock on line 1584
+New smatch warnings:
+arch/riscv/kernel/signal.c:153 setup_sigcontext() warn: ignoring unreachable code.
 
-vim +1589 drivers/phy/apple/atc.c
+Old smatch warnings:
+arch/riscv/kernel/signal.c:46 restore_fp_state() warn: maybe return -EFAULT instead of the bytes remaining?
+arch/riscv/kernel/signal.c:60 save_fp_state() warn: maybe return -EFAULT instead of the bytes remaining?
+arch/riscv/kernel/signal.c:76 restore_sigcontext() warn: maybe return -EFAULT instead of the bytes remaining?
+arch/riscv/kernel/signal.c:197 setup_rt_frame() warn: ignoring unreachable code.
 
-43a0fefe50ef2c Sven Peter 2022-11-30  1566  
-43a0fefe50ef2c Sven Peter 2022-11-30  1567  static int atcphy_usb3_power_on(struct phy *phy)
-43a0fefe50ef2c Sven Peter 2022-11-30  1568  {
-43a0fefe50ef2c Sven Peter 2022-11-30  1569  	struct apple_atcphy *atcphy = phy_get_drvdata(phy);
-43a0fefe50ef2c Sven Peter 2022-11-30  1570  	enum atcphy_pipehandler_state state;
-43a0fefe50ef2c Sven Peter 2022-11-30  1571  	int ret = 0;
-43a0fefe50ef2c Sven Peter 2022-11-30  1572  
-43a0fefe50ef2c Sven Peter 2022-11-30  1573  	/*
-43a0fefe50ef2c Sven Peter 2022-11-30  1574  	 * Both usb role switch and mux set work will be running concurrently.
-43a0fefe50ef2c Sven Peter 2022-11-30  1575  	 * Make sure atcphy_mux_set_work is done bringing up ATCPHY before
-43a0fefe50ef2c Sven Peter 2022-11-30  1576  	 * trying to switch dwc3 to the correct PHY.
-43a0fefe50ef2c Sven Peter 2022-11-30  1577  	 */
-43a0fefe50ef2c Sven Peter 2022-11-30 @1578  	mutex_lock(&atcphy->lock);
-43a0fefe50ef2c Sven Peter 2022-11-30  1579  	if (atcphy->mode != atcphy->target_mode) {
-43a0fefe50ef2c Sven Peter 2022-11-30  1580  		reinit_completion(&atcphy->atcphy_online_event);
-43a0fefe50ef2c Sven Peter 2022-11-30  1581  		mutex_unlock(&atcphy->lock);
-43a0fefe50ef2c Sven Peter 2022-11-30  1582  		wait_for_completion_timeout(&atcphy->atcphy_online_event,
-43a0fefe50ef2c Sven Peter 2022-11-30  1583  					msecs_to_jiffies(1000));
-43a0fefe50ef2c Sven Peter 2022-11-30  1584  		mutex_lock(&atcphy->lock);
-43a0fefe50ef2c Sven Peter 2022-11-30  1585  	}
-43a0fefe50ef2c Sven Peter 2022-11-30  1586  
-43a0fefe50ef2c Sven Peter 2022-11-30  1587  	if (atcphy->mode != atcphy->target_mode) {
-43a0fefe50ef2c Sven Peter 2022-11-30  1588  		dev_err(atcphy->dev, "ATCPHY did not come up; won't allow dwc3 to come up.\n");
-43a0fefe50ef2c Sven Peter 2022-11-30 @1589  		return -EINVAL;
-43a0fefe50ef2c Sven Peter 2022-11-30  1590  	}
-43a0fefe50ef2c Sven Peter 2022-11-30  1591  
-43a0fefe50ef2c Sven Peter 2022-11-30  1592  	atcphy->dwc3_online = true;
-43a0fefe50ef2c Sven Peter 2022-11-30  1593  	state = atcphy_modes[atcphy->mode].pipehandler_state;
-43a0fefe50ef2c Sven Peter 2022-11-30  1594  	switch (state) {
-43a0fefe50ef2c Sven Peter 2022-11-30  1595  	case ATCPHY_PIPEHANDLER_STATE_USB2:
-43a0fefe50ef2c Sven Peter 2022-11-30  1596  	case ATCPHY_PIPEHANDLER_STATE_USB3:
-43a0fefe50ef2c Sven Peter 2022-11-30  1597  		ret = atcphy_configure_pipehandler(atcphy, state);
-43a0fefe50ef2c Sven Peter 2022-11-30  1598  		break;
-43a0fefe50ef2c Sven Peter 2022-11-30  1599  
-43a0fefe50ef2c Sven Peter 2022-11-30  1600  	case ATCPHY_PIPEHANDLER_STATE_INVALID:
-43a0fefe50ef2c Sven Peter 2022-11-30  1601  	default:
-43a0fefe50ef2c Sven Peter 2022-11-30  1602  		dev_warn(atcphy->dev, "Invalid state %d in usb3_set_phy\n",
-43a0fefe50ef2c Sven Peter 2022-11-30  1603  			 state);
-43a0fefe50ef2c Sven Peter 2022-11-30  1604  		ret = -EINVAL;
-43a0fefe50ef2c Sven Peter 2022-11-30  1605  	}
-43a0fefe50ef2c Sven Peter 2022-11-30  1606  
-43a0fefe50ef2c Sven Peter 2022-11-30  1607  	mutex_unlock(&atcphy->lock);
-43a0fefe50ef2c Sven Peter 2022-11-30  1608  
-43a0fefe50ef2c Sven Peter 2022-11-30  1609  	return 0;
-43a0fefe50ef2c Sven Peter 2022-11-30  1610  }
-43a0fefe50ef2c Sven Peter 2022-11-30  1611  
+vim +153 arch/riscv/kernel/signal.c
+
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  139  
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  140  static long setup_sigcontext(struct rt_sigframe __user *frame,
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  141  	struct pt_regs *regs)
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  142  {
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  143  	struct sigcontext __user *sc = &frame->uc.uc_mcontext;
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  144  	long err;
+a45cedaa1ac0da Andy Chiu      2023-06-05  145  	size_t i;
+a45cedaa1ac0da Andy Chiu      2023-06-05  146  
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  147  	/* sc_regs is structured the same as the start of pt_regs */
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  148  	err = __copy_to_user(&sc->sc_regs, regs, sizeof(sc->sc_regs));
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  149  	/* Save the floating-point state. */
+37a7a2a10ec525 Jisheng Zhang  2021-05-12  150  	if (has_fpu())
+007f5c35895786 Alan Kao       2018-10-09  151  		err |= save_fp_state(regs, &sc->sc_fpregs);
+a45cedaa1ac0da Andy Chiu      2023-06-05  152  	/* We support no other extension state at this time. */
+a45cedaa1ac0da Andy Chiu      2023-06-05 @153  	for (i = 0; i < ARRAY_SIZE(sc->sc_fpregs.q.reserved); i++)
+a45cedaa1ac0da Andy Chiu      2023-06-05  154  		err |= __put_user(0, &sc->sc_fpregs.q.reserved[i]);
+a45cedaa1ac0da Andy Chiu      2023-06-05  155  
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  156  	return err;
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  157  }
+e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  158  
 
 -- 
 0-DAY CI Kernel Test Service
