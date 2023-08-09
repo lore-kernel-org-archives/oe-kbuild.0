@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229E018AE4
-	for <oe-kbuild@lists.linux.dev>; Wed,  9 Aug 2023 16:15:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2593317AD2
+	for <oe-kbuild@lists.linux.dev>; Wed,  9 Aug 2023 16:36:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691597716; x=1723133716;
+  t=1691599005; x=1723135005;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4dQ+EYQvTGyt9jIUcwUPuU9TgqztB7h1k7IZ2HopbDU=;
-  b=VjSMPhcbbadtHFEjpC52cMCQacUHAAozNxO1wQ7yVm1gqo9AoNKbE5aX
-   xK6+Dg52eJzMGoMwTLFUb9od8xMzbuENMMI69pWrpNpWNEssx3mWl0EjB
-   IL4UjyE3SS7rpW9EiiW0cWwwT4oL4HRhfuWU3vjY/oVYrYZfuEVooXNO/
-   45wNsCVqGYJ5ObQq96UfeRKBtnW0Ep41KtC4TbSf0a3Gaig2RexeB8s+R
-   Kevp/FVlt4u7w0bjFbaSMcubsHNmvakRl2/R86k8uHgbWkb1uPfm3+ayK
-   4N+6ttPSVcc5xTLlT6HlnxaI5bH2dfp/7991w2xSEMrX5Cd9kVkFXSp1D
+  bh=erXZtzZdzaxo7WOhu+BlNY8cG5cd9If+WaK8XwHk4Tk=;
+  b=bwXg3AaaXaMMxs6vxYQ7WzBq0lba9q2nwb+OPZffmNi5MdEzLW+NQmD9
+   xztST3ys7YkiaE+iM8n/fStZK67Sa516ZzjlRTYczY/eEajgOBYkJ0K/Y
+   F/8Bv5tiWJ2MlrzS/g46zVSzozVPckenMX0oMU1bF+xgZFqtA5xxiJMQH
+   oDPo++ZJF66z/mnM6PsPVY/FEl42P/R9/2cGMF6XVGjQZ4FaLl9JI8laL
+   QKsfOzSoxy8jhsKxKJC8KFhuNZMxNPbiHlV+Vw59eJTy0Zn72gLzVFYII
+   pqZPWy0yJmCb/2tvqe1KXH39z0SYdLuLyLFP6eM32KwJbdTNEBBceVzGp
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="361296287"
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="371160767"
 X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="361296287"
+   d="scan'208";a="371160767"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 09:14:39 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 09:36:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="735068541"
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="735072543"
 X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="735068541"
+   d="scan'208";a="735072543"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 09 Aug 2023 09:14:39 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 09 Aug 2023 09:36:39 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qTlpV-0006Em-21;
-	Wed, 09 Aug 2023 16:14:37 +0000
-Date: Thu, 10 Aug 2023 00:14:36 +0800
+	id 1qTmAp-0006GI-0U;
+	Wed, 09 Aug 2023 16:36:39 +0000
+Date: Thu, 10 Aug 2023 00:36:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 7373/8441] kernel/workqueue.c:324:40: sparse:
- sparse: duplicate [noderef]
-Message-ID: <202308100034.m16oYrdB-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 423/8441]
+ drivers/video/fbdev/core/fb_chrdev.c:239 do_fscreeninfo_to_user() warn:
+ ignoring unreachable code.
+Message-ID: <202308100023.4D0PLLaB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,83 +47,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: kernel/workqueue.c:324:40: sparse: sparse: duplicate [noderef]"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Tejun Heo <tj@kernel.org>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+CC: Sam Ravnborg <sam@ravnborg.org>
+
+Hi Thomas,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   21ef7b1e17d039053edaeaf41142423810572741
-commit: 636b927eba5bc633753f8eb80f35e1d5be806e51 [7373/8441] workqueue: Make unbound workqueues to use per-cpu pool_workqueues
-:::::: branch date: 10 hours ago
-:::::: commit date: 2 days ago
-config: alpha-randconfig-r082-20230808 (https://download.01.org/0day-ci/archive/20230810/202308100034.m16oYrdB-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230810/202308100034.m16oYrdB-lkp@intel.com/reproduce)
+commit: 588b35634a5aabce1aef3297a048e42279f62dec [423/8441] fbdev/core: Move file-I/O code into separate file
+:::::: branch date: 11 hours ago
+:::::: commit date: 6 weeks ago
+config: s390-randconfig-m041-20230809 (https://download.01.org/0day-ci/archive/20230810/202308100023.4D0PLLaB-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230810/202308100023.4D0PLLaB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202308100034.m16oYrdB-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202308100023.4D0PLLaB-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/workqueue.c:324:40: sparse: sparse: duplicate [noderef]
->> kernel/workqueue.c:324:40: sparse: sparse: multiple address spaces given: __percpu & __rcu
+smatch warnings:
+drivers/video/fbdev/core/fb_chrdev.c:239 do_fscreeninfo_to_user() warn: ignoring unreachable code.
 
-vim +324 kernel/workqueue.c
+vim +239 drivers/video/fbdev/core/fb_chrdev.c
 
-226223ab3c4118 Tejun Heo       2013-03-12  279  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  280  /*
-c5aa87bbf4b23f Tejun Heo       2013-03-13  281   * The externally visible workqueue.  It relays the issued work items to
-c5aa87bbf4b23f Tejun Heo       2013-03-13  282   * the appropriate worker_pool through its pool_workqueues.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  283   */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  284  struct workqueue_struct {
-3c25a55daadc7e Lai Jiangshan   2013-03-25  285  	struct list_head	pwqs;		/* WR: all pwqs of this wq */
-e2dca7adff8f3f Tejun Heo       2015-03-09  286  	struct list_head	list;		/* PR: list of all workqueues */
-73f53c4aa732ec Tejun Heo       2010-06-29  287  
-3c25a55daadc7e Lai Jiangshan   2013-03-25  288  	struct mutex		mutex;		/* protects this wq */
-3c25a55daadc7e Lai Jiangshan   2013-03-25  289  	int			work_color;	/* WQ: current work color */
-3c25a55daadc7e Lai Jiangshan   2013-03-25  290  	int			flush_color;	/* WQ: current flush color */
-112202d9098aae Tejun Heo       2013-02-13  291  	atomic_t		nr_pwqs_to_flush; /* flush in progress */
-3c25a55daadc7e Lai Jiangshan   2013-03-25  292  	struct wq_flusher	*first_flusher;	/* WQ: first flusher */
-3c25a55daadc7e Lai Jiangshan   2013-03-25  293  	struct list_head	flusher_queue;	/* WQ: flush waiters */
-3c25a55daadc7e Lai Jiangshan   2013-03-25  294  	struct list_head	flusher_overflow; /* WQ: flush overflow list */
-73f53c4aa732ec Tejun Heo       2010-06-29  295  
-2e109a2855bf6c Tejun Heo       2013-03-13  296  	struct list_head	maydays;	/* MD: pwqs requesting rescue */
-30ae2fc0a75eb5 Tejun Heo       2019-09-20  297  	struct worker		*rescuer;	/* MD: rescue worker */
-e22bee782b3b00 Tejun Heo       2010-06-29  298  
-87fc741e94cf64 Lai Jiangshan   2013-03-25  299  	int			nr_drainers;	/* WQ: drain in progress */
-a357fc03262988 Lai Jiangshan   2013-03-25  300  	int			saved_max_active; /* WQ: saved pwq max_active */
-226223ab3c4118 Tejun Heo       2013-03-12  301  
-5b95e1af8d17d8 Lai Jiangshan   2015-05-12  302  	struct workqueue_attrs	*unbound_attrs;	/* PW: only for unbound wqs */
-5b95e1af8d17d8 Lai Jiangshan   2015-05-12  303  	struct pool_workqueue	*dfl_pwq;	/* PW: only for unbound wqs */
-6029a91829ad2b Tejun Heo       2013-04-01  304  
-226223ab3c4118 Tejun Heo       2013-03-12  305  #ifdef CONFIG_SYSFS
-226223ab3c4118 Tejun Heo       2013-03-12  306  	struct wq_device	*wq_dev;	/* I: for sysfs interface */
-226223ab3c4118 Tejun Heo       2013-03-12  307  #endif
-4e6045f134784f Johannes Berg   2007-10-18  308  #ifdef CONFIG_LOCKDEP
-669de8bda87b92 Bart Van Assche 2019-02-14  309  	char			*lock_name;
-669de8bda87b92 Bart Van Assche 2019-02-14  310  	struct lock_class_key	key;
-4e6045f134784f Johannes Berg   2007-10-18  311  	struct lockdep_map	lockdep_map;
-4e6045f134784f Johannes Berg   2007-10-18  312  #endif
-ecf6881ff349ad Tejun Heo       2013-04-01  313  	char			name[WQ_NAME_LEN]; /* I: workqueue name */
-2728fd2f098c3c Tejun Heo       2013-04-01  314  
-e2dca7adff8f3f Tejun Heo       2015-03-09  315  	/*
-24acfb71822566 Thomas Gleixner 2019-03-13  316  	 * Destruction of workqueue_struct is RCU protected to allow walking
-24acfb71822566 Thomas Gleixner 2019-03-13  317  	 * the workqueues list without grabbing wq_pool_mutex.
-e2dca7adff8f3f Tejun Heo       2015-03-09  318  	 * This is used to dump all workqueues from sysrq.
-e2dca7adff8f3f Tejun Heo       2015-03-09  319  	 */
-e2dca7adff8f3f Tejun Heo       2015-03-09  320  	struct rcu_head		rcu;
-e2dca7adff8f3f Tejun Heo       2015-03-09  321  
-2728fd2f098c3c Tejun Heo       2013-04-01  322  	/* hot fields used during command issue, aligned to cacheline */
-2728fd2f098c3c Tejun Heo       2013-04-01  323  	unsigned int		flags ____cacheline_aligned; /* WQ: WQ_* flags */
-636b927eba5bc6 Tejun Heo       2023-08-07 @324  	struct pool_workqueue __percpu __rcu **cpu_pwq; /* I: per-cpu pwqs */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  325  };
-^1da177e4c3f41 Linus Torvalds  2005-04-16  326  
+588b35634a5aabc Thomas Zimmermann 2023-06-13  227  
+588b35634a5aabc Thomas Zimmermann 2023-06-13  228  static int do_fscreeninfo_to_user(struct fb_fix_screeninfo *fix,
+588b35634a5aabc Thomas Zimmermann 2023-06-13  229  				  struct fb_fix_screeninfo32 __user *fix32)
+588b35634a5aabc Thomas Zimmermann 2023-06-13  230  {
+588b35634a5aabc Thomas Zimmermann 2023-06-13  231  	__u32 data;
+588b35634a5aabc Thomas Zimmermann 2023-06-13  232  	int err;
+588b35634a5aabc Thomas Zimmermann 2023-06-13  233  
+588b35634a5aabc Thomas Zimmermann 2023-06-13  234  	err = copy_to_user(&fix32->id, &fix->id, sizeof(fix32->id));
+588b35634a5aabc Thomas Zimmermann 2023-06-13  235  
+588b35634a5aabc Thomas Zimmermann 2023-06-13  236  	data = (__u32) (unsigned long) fix->smem_start;
+588b35634a5aabc Thomas Zimmermann 2023-06-13  237  	err |= put_user(data, &fix32->smem_start);
+588b35634a5aabc Thomas Zimmermann 2023-06-13  238  
+588b35634a5aabc Thomas Zimmermann 2023-06-13 @239  	err |= put_user(fix->smem_len, &fix32->smem_len);
+588b35634a5aabc Thomas Zimmermann 2023-06-13  240  	err |= put_user(fix->type, &fix32->type);
+588b35634a5aabc Thomas Zimmermann 2023-06-13  241  	err |= put_user(fix->type_aux, &fix32->type_aux);
+588b35634a5aabc Thomas Zimmermann 2023-06-13  242  	err |= put_user(fix->visual, &fix32->visual);
+588b35634a5aabc Thomas Zimmermann 2023-06-13  243  	err |= put_user(fix->xpanstep, &fix32->xpanstep);
+588b35634a5aabc Thomas Zimmermann 2023-06-13  244  	err |= put_user(fix->ypanstep, &fix32->ypanstep);
+588b35634a5aabc Thomas Zimmermann 2023-06-13  245  	err |= put_user(fix->ywrapstep, &fix32->ywrapstep);
+588b35634a5aabc Thomas Zimmermann 2023-06-13  246  	err |= put_user(fix->line_length, &fix32->line_length);
+588b35634a5aabc Thomas Zimmermann 2023-06-13  247  
+588b35634a5aabc Thomas Zimmermann 2023-06-13  248  	data = (__u32) (unsigned long) fix->mmio_start;
+588b35634a5aabc Thomas Zimmermann 2023-06-13  249  	err |= put_user(data, &fix32->mmio_start);
+588b35634a5aabc Thomas Zimmermann 2023-06-13  250  
+588b35634a5aabc Thomas Zimmermann 2023-06-13  251  	err |= put_user(fix->mmio_len, &fix32->mmio_len);
+588b35634a5aabc Thomas Zimmermann 2023-06-13  252  	err |= put_user(fix->accel, &fix32->accel);
+588b35634a5aabc Thomas Zimmermann 2023-06-13  253  	err |= copy_to_user(fix32->reserved, fix->reserved,
+588b35634a5aabc Thomas Zimmermann 2023-06-13  254  			    sizeof(fix->reserved));
+588b35634a5aabc Thomas Zimmermann 2023-06-13  255  
+588b35634a5aabc Thomas Zimmermann 2023-06-13  256  	if (err)
+588b35634a5aabc Thomas Zimmermann 2023-06-13  257  		return -EFAULT;
+588b35634a5aabc Thomas Zimmermann 2023-06-13  258  	return 0;
+588b35634a5aabc Thomas Zimmermann 2023-06-13  259  }
+588b35634a5aabc Thomas Zimmermann 2023-06-13  260  
 
 -- 
 0-DAY CI Kernel Test Service
