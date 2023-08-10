@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0AE71E53C
-	for <oe-kbuild@lists.linux.dev>; Thu, 10 Aug 2023 09:49:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E1B200A4
+	for <oe-kbuild@lists.linux.dev>; Thu, 10 Aug 2023 18:55:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691660958; x=1723196958;
+  t=1691693720; x=1723229720;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/aofbxE3AwzKyJNVmEEuQIfWba/c9nCOw6dme/tQdWg=;
-  b=CtB9MPznecfxcBOlHXc34H/uQjW08HVQKZC/5Jx95dqwIn3JWtyRVhsm
-   Yd5kW18Wb4/GL0UlbSNOVLJUTCbIVX9kXQjdstsHUkMnsdWqIETAANGx2
-   2Rv7CZP2glwRAs9fkNfgIE2HahxXLLc4cDzeRwREt7sDRM+ATZrSpEraU
-   WJO7BTEKkOfg22sva9/TN3Q5SKSOSVuGk2ZWgpeMEuFs7qFnMkhr4rmXH
-   6TkGjbw0x5EvI0E9LZy3yPCW5qj0qiXqQCwwKXPfb0XnqMQYNU80p8egF
-   1C8Kzr2zhGYqg2/uS2fjYTNR+u+VGOAcS+6GlQuqEEzENtJq0Q2dZc5pG
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="457714938"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="457714938"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 02:49:07 -0700
+  bh=6e76fAuxIPkdC84Fpq5N6WMg4CjGU0QQMquQKw9J8tg=;
+  b=Shstipo0cReBkc1gnLAvc0fpzdngYCa+fUU2BjFv0miRdAXy3gMd8/2e
+   JLX0YsAXiiU2pDjw5HgWyCDJN8m/QeO9TSk/XVUFgkn9OeXSm8Z+f+xdO
+   RvaXj7zpIrA75FW28D+0W0EqPtKKIDAsuuXla4Q7/9ZeiuZ5SWLl4LxqP
+   LEinPSjmErZZbrabutFwcYcEwUSh+ciWKtgyULNoi4adYkyLfwHzqTeiK
+   awdqpt1MQ+9/HCIrQsoezB7X/HDRh3pUTGJ8zZwM/dMr/dlbWRV670nI5
+   P65iHjCyAlY1aBRj03I6CfhWZTKBeosk1zJvM9/0TGgSkdcJ27DtYF9Xc
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="375208113"
+X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
+   d="scan'208";a="375208113"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 11:55:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="797545823"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="797545823"
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="1063022048"
+X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
+   d="scan'208";a="1063022048"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 10 Aug 2023 02:49:06 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 10 Aug 2023 11:55:17 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qU2Hy-0006uR-0D;
-	Thu, 10 Aug 2023 09:49:06 +0000
-Date: Thu, 10 Aug 2023 17:48:56 +0800
+	id 1qUAoX-0007C4-0P;
+	Thu, 10 Aug 2023 18:55:17 +0000
+Date: Fri, 11 Aug 2023 02:54:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [arm-integrator:b4/virt-to-phys-hexagon 2/2]
- arch/hexagon/include/asm/page.h: asm/mem-layout.h is included more than
- once.
-Message-ID: <202308101750.4MLmptyl-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 3394/8441] drivers/pwm/pwm-atmel.c:479
+ atmel_pwm_enable_clk_if_on() warn: missing error code 'ret'
+Message-ID: <202308110234.5VFNBwRh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,101 +46,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Linus Walleij <linus.walleij@linaro.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Guiting Shen <aarongt.shen@gmail.com>
+CC: Thierry Reding <thierry.reding@gmail.com>
+CC: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/virt-to-phys-hexagon
-head:   7c4642d79e7c215d50be255a36ddc985015a1054
-commit: 6646b27652fd8a19e0c1435d6eeffc947e5c20f3 [2/2] Hexagon: Make pfn accessors statics inlines
-:::::: branch date: 20 hours ago
-:::::: commit date: 2 days ago
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230810/202308101750.4MLmptyl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   21ef7b1e17d039053edaeaf41142423810572741
+commit: a2f68c7e312f94c8f78740449a88e8d7308ab18d [3394/8441] pwm: atmel: Enable clk when pwm already enabled in bootloader
+:::::: branch date: 2 days ago
+:::::: commit date: 2 weeks ago
+config: nios2-randconfig-m031-20230809 (https://download.01.org/0day-ci/archive/20230811/202308110234.5VFNBwRh-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308110234.5VFNBwRh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202308101750.4MLmptyl-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202308110234.5VFNBwRh-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> arch/hexagon/include/asm/page.h: asm/mem-layout.h is included more than once.
+New smatch warnings:
+drivers/pwm/pwm-atmel.c:479 atmel_pwm_enable_clk_if_on() warn: missing error code 'ret'
 
-vim +82 arch/hexagon/include/asm/page.h
+Old smatch warnings:
+arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
 
-    80	
-    81	/* Needed for PAGE_OFFSET used in the macro right below */
-  > 82	#include <asm/mem-layout.h>
-    83	
-    84	/*
-    85	 * We need a __pa and a __va routine for kernel space.
-    86	 * MIPS says they're only used during mem_init.
-    87	 * also, check if we need a PHYS_OFFSET.
-    88	 */
-    89	#define __pa(x) ((unsigned long)(x) - PAGE_OFFSET + PHYS_OFFSET)
-    90	#define __va(x) ((void *)((unsigned long)(x) - PHYS_OFFSET + PAGE_OFFSET))
-    91	
-    92	/* The "page frame" descriptor is defined in linux/mm.h */
-    93	struct page;
-    94	
-    95	/* Returns page frame descriptor for virtual address. */
-    96	#define virt_to_page(kaddr) pfn_to_page(PFN_DOWN(__pa(kaddr)))
-    97	
-    98	/* Default vm area behavior is non-executable.  */
-    99	#define VM_DATA_DEFAULT_FLAGS	VM_DATA_FLAGS_NON_EXEC
-   100	
-   101	#define virt_addr_valid(kaddr) pfn_valid(__pa(kaddr) >> PAGE_SHIFT)
-   102	
-   103	/*  Need to not use a define for linesize; may move this to another file.  */
-   104	static inline void clear_page(void *page)
-   105	{
-   106		/*  This can only be done on pages with L1 WB cache */
-   107		asm volatile(
-   108			"	loop0(1f,%1);\n"
-   109			"1:	{ dczeroa(%0);\n"
-   110			"	  %0 = add(%0,#32); }:endloop0\n"
-   111			: "+r" (page)
-   112			: "r" (PAGE_SIZE/32)
-   113			: "lc0", "sa0", "memory"
-   114		);
-   115	}
-   116	
-   117	#define copy_page(to, from)	memcpy((to), (from), PAGE_SIZE)
-   118	
-   119	/*
-   120	 * Under assumption that kernel always "sees" user map...
-   121	 */
-   122	#define clear_user_page(page, vaddr, pg)	clear_page(page)
-   123	#define copy_user_page(to, from, vaddr, pg)	copy_page(to, from)
-   124	
-   125	/*
-   126	 * page_to_phys - convert page to physical address
-   127	 * @page - pointer to page entry in mem_map
-   128	 */
-   129	#define page_to_phys(page)      (page_to_pfn(page) << PAGE_SHIFT)
-   130	
-   131	static inline unsigned long virt_to_pfn(const void *kaddr)
-   132	{
-   133		return __pa(kaddr) >> PAGE_SHIFT;
-   134	}
-   135	
-   136	static inline void * pfn_to_virt(unsigned long pfn)
-   137	{
-   138		return __va(pfn) << PAGE_SHIFT;
-   139	}
-   140	
-   141	
-   142	#define page_to_virt(page)	__va(page_to_phys(page))
-   143	
- > 144	#include <asm/mem-layout.h>
-   145	#include <asm-generic/memory_model.h>
-   146	/* XXX Todo: implement assembly-optimized version of getorder. */
-   147	#include <asm-generic/getorder.h>
-   148	
+vim +/ret +479 drivers/pwm/pwm-atmel.c
+
+32b16d46e4154d Bo Shen      2013-12-13  465  
+a2f68c7e312f94 Guiting Shen 2023-07-16  466  static int atmel_pwm_enable_clk_if_on(struct atmel_pwm_chip *atmel_pwm, bool on)
+a2f68c7e312f94 Guiting Shen 2023-07-16  467  {
+a2f68c7e312f94 Guiting Shen 2023-07-16  468  	unsigned int i, cnt = 0;
+a2f68c7e312f94 Guiting Shen 2023-07-16  469  	unsigned long sr;
+a2f68c7e312f94 Guiting Shen 2023-07-16  470  	int ret = 0;
+a2f68c7e312f94 Guiting Shen 2023-07-16  471  
+a2f68c7e312f94 Guiting Shen 2023-07-16  472  	sr = atmel_pwm_readl(atmel_pwm, PWM_SR) & PWM_SR_ALL_CH_MASK;
+a2f68c7e312f94 Guiting Shen 2023-07-16  473  	if (!sr)
+a2f68c7e312f94 Guiting Shen 2023-07-16  474  		return 0;
+a2f68c7e312f94 Guiting Shen 2023-07-16  475  
+a2f68c7e312f94 Guiting Shen 2023-07-16  476  	cnt = bitmap_weight(&sr, atmel_pwm->chip.npwm);
+a2f68c7e312f94 Guiting Shen 2023-07-16  477  
+a2f68c7e312f94 Guiting Shen 2023-07-16  478  	if (!on)
+a2f68c7e312f94 Guiting Shen 2023-07-16 @479  		goto disable_clk;
+a2f68c7e312f94 Guiting Shen 2023-07-16  480  
+a2f68c7e312f94 Guiting Shen 2023-07-16  481  	for (i = 0; i < cnt; i++) {
+a2f68c7e312f94 Guiting Shen 2023-07-16  482  		ret = clk_enable(atmel_pwm->clk);
+a2f68c7e312f94 Guiting Shen 2023-07-16  483  		if (ret) {
+a2f68c7e312f94 Guiting Shen 2023-07-16  484  			dev_err(atmel_pwm->chip.dev,
+a2f68c7e312f94 Guiting Shen 2023-07-16  485  				"failed to enable clock for pwm %pe\n",
+a2f68c7e312f94 Guiting Shen 2023-07-16  486  				ERR_PTR(ret));
+a2f68c7e312f94 Guiting Shen 2023-07-16  487  
+a2f68c7e312f94 Guiting Shen 2023-07-16  488  			cnt = i;
+a2f68c7e312f94 Guiting Shen 2023-07-16  489  			goto disable_clk;
+a2f68c7e312f94 Guiting Shen 2023-07-16  490  		}
+a2f68c7e312f94 Guiting Shen 2023-07-16  491  	}
+a2f68c7e312f94 Guiting Shen 2023-07-16  492  
+a2f68c7e312f94 Guiting Shen 2023-07-16  493  	return 0;
+a2f68c7e312f94 Guiting Shen 2023-07-16  494  
+a2f68c7e312f94 Guiting Shen 2023-07-16  495  disable_clk:
+a2f68c7e312f94 Guiting Shen 2023-07-16  496  	while (cnt--)
+a2f68c7e312f94 Guiting Shen 2023-07-16  497  		clk_disable(atmel_pwm->clk);
+a2f68c7e312f94 Guiting Shen 2023-07-16  498  
+a2f68c7e312f94 Guiting Shen 2023-07-16  499  	return ret;
+a2f68c7e312f94 Guiting Shen 2023-07-16  500  }
+a2f68c7e312f94 Guiting Shen 2023-07-16  501  
 
 -- 
 0-DAY CI Kernel Test Service
