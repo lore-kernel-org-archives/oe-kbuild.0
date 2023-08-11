@@ -1,156 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9449917FE
-	for <oe-kbuild@lists.linux.dev>; Fri, 11 Aug 2023 06:16:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691734602; x=1723270602;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ARzkH2k43e06hgLTWWbYC8SvBtui0Y3FS482OPLUY1E=;
-  b=KpEqqiMhi8Ze8GU2AVsi72Hy6uMrz7PYpgMcznX/uT3Auwdu754IBlHz
-   LQKN0btSRM7dmHKHRWNR0PJvUcUTTQaHCxF+tmFvOqcrx1Yz3nXK8nHkv
-   icjufnUT6IFY/igydaRQ8pqXeWxYU6njD/ARtnrJmIHTmiGG1we4hU7/V
-   /Sl8XVhwlQ6J5EGi7LXxraBUO1gFK2pCGFQW/rZ0fTcH+hZNSS6OGtg2r
-   cgJjc6Bu+OxJT0/yK7Hm7lDFPdbwCQLR2O/oO47Ybfd8luCS1U0njGSjz
-   GAECRH1BZGyFgXXYDJth4HiXArkjYpgEV5ujFBDsHvDJV4tbKUYNd9FqG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="437944222"
-X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="437944222"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 23:16:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="906328905"
-X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="906328905"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 10 Aug 2023 23:16:33 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qULRo-0007Yv-14;
-	Fri, 11 Aug 2023 06:16:32 +0000
-Date: Fri, 11 Aug 2023 14:15:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH bpf-next 2/3] bpf: Introduce task_vma open-coded iterator
- kfuncs
-Message-ID: <202308111423.MRMNWfoF-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD6AA35
+	for <oe-kbuild@lists.linux.dev>; Fri, 11 Aug 2023 06:43:32 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-586b78aa26eso18851667b3.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 10 Aug 2023 23:43:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1691736211; x=1692341011;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2dK3EUoqZAv7ENaLYy1IgVWN87Fn2SJNSzCc2nDnrO0=;
+        b=0nNFLV64eY93K3GbZY5ZC7+OZM6Hh6nQ+yPnGajBjRMSAJ+0aTt2Tfgc2Gu4PyCoAL
+         10SNPtE7edUOPOZICCLXF3MHABnNe8ja8Te5Qe2hWOq4umfrgzsvwae35nMLLB7h2E+J
+         gYr+9USIWZfpAfM8FrFzMvkNaPs5FZfJFGmwz5qqp05wiaA+Yk0KVm8rhv7mLlvYAF1p
+         VOdNBr+BIOcvfFQF9+Ko9qrzs9+4v2XeguhsoNXKB1HgHpleAUk6CezuNVt9B2LduDLs
+         n7Ao9U9Ntu9LwwjZm9X54tHhCVMmfd2YR47e0TAvYUCIsO95R8BLNma7Iv9bUGm+jkbY
+         nbig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691736211; x=1692341011;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2dK3EUoqZAv7ENaLYy1IgVWN87Fn2SJNSzCc2nDnrO0=;
+        b=dnHrabSL4IodJ3wzGjiSl33/u+oZpjand83APtcAVEuVjhHW4y6Khnv+mbN7jtTiVr
+         2wZG1OeBeMFpA2nx3LV+lRShjGPLc7ZENXaKmNdaj+0+dhZgwzJE+FuieK9P5EDXFXIb
+         kiooScTtWhKGSFoMDgAMCs33zOHw5Sf4YsdxunEBgfJimeNuy3Ng6fbS/4smkGphNkrQ
+         UDAXRuuQ27ySFIOe+7xsmp9Ujh0OddrGFRXP6oxTrrXODfexxt1p2zdR+6I730suQ5AB
+         tHsyvN2mNGg4Qm3rcbAd7FpygEDMFafSV0J09sDv7p03IHdetUQoB/OB9udMVy1sfwCm
+         m1Rw==
+X-Gm-Message-State: AOJu0Yyaa5JIgGjR1sx8JG29dGVPO6E0uzwS3FRZzWsKDdWGX7qtogll
+	v0NYE8a6SzS1TTffibL9Ho+xZw==
+X-Google-Smtp-Source: AGHT+IEAI1JXOrxuFnx7rotJkOQaZauKbrWuvV7z/71KhyN7P09Q/L2GJGAPYOOVpuoOMkR58H4evA==
+X-Received: by 2002:a81:6907:0:b0:583:af98:6fb3 with SMTP id e7-20020a816907000000b00583af986fb3mr1408578ywc.15.1691736211346;
+        Thu, 10 Aug 2023 23:43:31 -0700 (PDT)
+Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id w190-20020a0dd4c7000000b00583d67839fasm831585ywd.121.2023.08.10.23.43.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Aug 2023 23:43:30 -0700 (PDT)
+Date: Thu, 10 Aug 2023 23:43:29 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@ripple.attlocal.net
+To: Dan Carpenter <dan.carpenter@linaro.org>
+cc: oe-kbuild@lists.linux.dev, Hugh Dickins <hughd@google.com>, lkp@intel.com, 
+    oe-kbuild-all@lists.linux.dev, 
+    Christian Brauner <christianvanbrauner@gmail.com>, 
+    Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Subject: Re: [brauner-vfs:vfs.tmpfs 15/19] mm/shmem.c:3611 shmem_xattr_handler_set()
+ warn: passing zero to 'PTR_ERR'
+In-Reply-To: <dd00b419-ca16-48fb-b493-890ab47cc930@kadam.mountain>
+Message-ID: <baf5ac73-23b4-e325-28e5-9547af7ec3a@google.com>
+References: <dd00b419-ca16-48fb-b493-890ab47cc930@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-:::::: 
-:::::: Manual check reason: "git am base is a link in commit message"
-:::::: 
+On Fri, 11 Aug 2023, Dan Carpenter wrote:
+...
+> smatch warnings:
+> mm/shmem.c:3611 shmem_xattr_handler_set() warn: passing zero to 'PTR_ERR'
+...
+> 46170cc50828c3 Hugh Dickins        2023-08-08  3604  	old_xattr = simple_xattr_set(&info->xattrs, name, value, size, flags);
+> 46170cc50828c3 Hugh Dickins        2023-08-08  3605  	if (!IS_ERR(old_xattr)) {
+> 46170cc50828c3 Hugh Dickins        2023-08-08  3606  		simple_xattr_free(old_xattr);
+> 46170cc50828c3 Hugh Dickins        2023-08-08  3607  		old_xattr = NULL;
+> 36f05cab0a2c97 Jeff Layton         2022-09-09  3608  		inode->i_ctime = current_time(inode);
+> 36f05cab0a2c97 Jeff Layton         2022-09-09  3609  		inode_inc_iversion(inode);
+> 36f05cab0a2c97 Jeff Layton         2022-09-09  3610  	}
+> 46170cc50828c3 Hugh Dickins        2023-08-08 @3611  	return PTR_ERR(old_xattr);
+> 
+> This code is correct but it would be nicer to reverse the checking:
+> 
+> 	old_xattr = simple_xattr_set(&info->xattrs, name, value, size, flags);
+> 	if (IS_ERR(old_xattr))
+> 		return PTR_ERR(old_xattr);
+> 
+> 	simple_xattr_free(old_xattr);
+> 	inode->i_ctime = current_time(inode);
+> 	inode_inc_iversion(inode);
+> 
+> 	return 0;
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230810183513.684836-3-davemarchevsky@fb.com>
-References: <20230810183513.684836-3-davemarchevsky@fb.com>
-TO: Dave Marchevsky <davemarchevsky@fb.com>
-TO: bpf@vger.kernel.org
-CC: Alexei Starovoitov <ast@kernel.org>
-CC: Daniel Borkmann <daniel@iogearbox.net>
-CC: Andrii Nakryiko <andrii@kernel.org>
-CC: Martin KaFai Lau <martin.lau@kernel.org>
-CC: Kernel Team <kernel-team@fb.com>
-CC: Dave Marchevsky <davemarchevsky@fb.com>
-CC: Nathan Slingerland <slinger@meta.com>
+Thanks, Dan, but I'm going to resist making any change here.
 
-Hi Dave,
+As you observe, the code is correct as is.  And I did have a version
+(unposted) which laid it out exactly as you have it there.  But the
+collisions between different branches of vfs.git (and subsequent mods
+here in vfs.tmpfs) was such that I aimed to minimize the interference.
 
-kernel test robot noticed the following build warnings:
+Please let's leave it as is: there is nothing wrong with PTR_ERR(NULL).
 
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Marchevsky/bpf-Explicitly-emit-BTF-for-struct-bpf_iter_num-not-btf_iter_num/20230811-023615
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230810183513.684836-3-davemarchevsky%40fb.com
-patch subject: [PATCH bpf-next 2/3] bpf: Introduce task_vma open-coded iterator kfuncs
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230811/202308111423.MRMNWfoF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111423.MRMNWfoF-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202308111423.MRMNWfoF-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> kernel/bpf/task_iter.c:837:17: warning: no previous prototype for 'bpf_iter_task_vma_new' [-Wmissing-prototypes]
-     837 | __bpf_kfunc int bpf_iter_task_vma_new(struct bpf_iter_task_vma *it,
-         |                 ^~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/task_iter.c:869:36: warning: no previous prototype for 'bpf_iter_task_vma_next' [-Wmissing-prototypes]
-     869 | __bpf_kfunc struct vm_area_struct *bpf_iter_task_vma_next(struct bpf_iter_task_vma *it)
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/task_iter.c:878:18: warning: no previous prototype for 'bpf_iter_task_vma_destroy' [-Wmissing-prototypes]
-     878 | __bpf_kfunc void bpf_iter_task_vma_destroy(struct bpf_iter_task_vma *it)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/bpf_iter_task_vma_new +837 kernel/bpf/task_iter.c
-
-35129a6b021441 Dave Marchevsky 2023-08-10  836  
-35129a6b021441 Dave Marchevsky 2023-08-10 @837  __bpf_kfunc int bpf_iter_task_vma_new(struct bpf_iter_task_vma *it,
-35129a6b021441 Dave Marchevsky 2023-08-10  838  				      struct task_struct *task, u64 addr)
-35129a6b021441 Dave Marchevsky 2023-08-10  839  {
-35129a6b021441 Dave Marchevsky 2023-08-10  840  	struct bpf_iter_task_vma_kern *i = (void *)it;
-35129a6b021441 Dave Marchevsky 2023-08-10  841  	bool irq_work_busy = false;
-35129a6b021441 Dave Marchevsky 2023-08-10  842  
-35129a6b021441 Dave Marchevsky 2023-08-10  843  	BUILD_BUG_ON(sizeof(struct bpf_iter_task_vma_kern) != sizeof(struct bpf_iter_task_vma));
-35129a6b021441 Dave Marchevsky 2023-08-10  844  	BUILD_BUG_ON(__alignof__(struct bpf_iter_task_vma_kern) != __alignof__(struct bpf_iter_task_vma));
-35129a6b021441 Dave Marchevsky 2023-08-10  845  
-35129a6b021441 Dave Marchevsky 2023-08-10  846  	BTF_TYPE_EMIT(struct bpf_iter_task_vma);
-35129a6b021441 Dave Marchevsky 2023-08-10  847  
-35129a6b021441 Dave Marchevsky 2023-08-10  848  	/* NULL i->mm signals failed bpf_iter_task_vma initialization.
-35129a6b021441 Dave Marchevsky 2023-08-10  849  	 * i->work == NULL is valid.
-35129a6b021441 Dave Marchevsky 2023-08-10  850  	 */
-35129a6b021441 Dave Marchevsky 2023-08-10  851  	i->mm = NULL;
-35129a6b021441 Dave Marchevsky 2023-08-10  852  	if (!task)
-35129a6b021441 Dave Marchevsky 2023-08-10  853  		return -ENOENT;
-35129a6b021441 Dave Marchevsky 2023-08-10  854  
-35129a6b021441 Dave Marchevsky 2023-08-10  855  	i->mm = task->mm;
-35129a6b021441 Dave Marchevsky 2023-08-10  856  	if (!i->mm)
-35129a6b021441 Dave Marchevsky 2023-08-10  857  		return -ENOENT;
-35129a6b021441 Dave Marchevsky 2023-08-10  858  
-35129a6b021441 Dave Marchevsky 2023-08-10  859  	irq_work_busy = bpf_mmap_unlock_get_irq_work(&i->work);
-35129a6b021441 Dave Marchevsky 2023-08-10  860  	if (irq_work_busy || !mmap_read_trylock(i->mm)) {
-35129a6b021441 Dave Marchevsky 2023-08-10  861  		i->mm = NULL;
-35129a6b021441 Dave Marchevsky 2023-08-10  862  		return -EBUSY;
-35129a6b021441 Dave Marchevsky 2023-08-10  863  	}
-35129a6b021441 Dave Marchevsky 2023-08-10  864  
-35129a6b021441 Dave Marchevsky 2023-08-10  865  	vma_iter_init(&i->vmi, i->mm, addr);
-35129a6b021441 Dave Marchevsky 2023-08-10  866  	return 0;
-35129a6b021441 Dave Marchevsky 2023-08-10  867  }
-35129a6b021441 Dave Marchevsky 2023-08-10  868  
-35129a6b021441 Dave Marchevsky 2023-08-10 @869  __bpf_kfunc struct vm_area_struct *bpf_iter_task_vma_next(struct bpf_iter_task_vma *it)
-35129a6b021441 Dave Marchevsky 2023-08-10  870  {
-35129a6b021441 Dave Marchevsky 2023-08-10  871  	struct bpf_iter_task_vma_kern *i = (void *)it;
-35129a6b021441 Dave Marchevsky 2023-08-10  872  
-35129a6b021441 Dave Marchevsky 2023-08-10  873  	if (!i->mm) /* bpf_iter_task_vma_new failed */
-35129a6b021441 Dave Marchevsky 2023-08-10  874  		return NULL;
-35129a6b021441 Dave Marchevsky 2023-08-10  875  	return vma_next(&i->vmi);
-35129a6b021441 Dave Marchevsky 2023-08-10  876  }
-35129a6b021441 Dave Marchevsky 2023-08-10  877  
-35129a6b021441 Dave Marchevsky 2023-08-10 @878  __bpf_kfunc void bpf_iter_task_vma_destroy(struct bpf_iter_task_vma *it)
-35129a6b021441 Dave Marchevsky 2023-08-10  879  {
-35129a6b021441 Dave Marchevsky 2023-08-10  880  	struct bpf_iter_task_vma_kern *i = (void *)it;
-35129a6b021441 Dave Marchevsky 2023-08-10  881  
-35129a6b021441 Dave Marchevsky 2023-08-10  882  	if (i->mm)
-35129a6b021441 Dave Marchevsky 2023-08-10  883  		bpf_mmap_unlock_mm(i->work, i->mm);
-35129a6b021441 Dave Marchevsky 2023-08-10  884  }
-35129a6b021441 Dave Marchevsky 2023-08-10  885  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Hugh
