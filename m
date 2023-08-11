@@ -1,42 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E786BA40
-	for <oe-kbuild@lists.linux.dev>; Fri, 11 Aug 2023 02:49:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691722171; x=1723258171;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZxX4G7PtRKZnYfXyIOIPFaeF+A92AyQPhPhcSqkvvqc=;
-  b=eu5lrQnDd8OcrbIiXgjz1rPs81oXcr767HvosKOugCYo4SJp5swHDBPK
-   zWHr25fZbT/07Jc1keNKpS95gUjcg2Z8aWNg2yzHZn6KKfltdGQwMDR9s
-   8R949Xckl4WOPRVtUtjTL550OmmwlpcXisuO1UWIGaxHIHEw/PVDX+wd4
-   mIEgtZHQ/32ZIKZyxg2g1+9yTz0gKMS6le9j6PVBy7ql/1gMzyCs7ldcm
-   iv33O6/+3t+kt+mQQ9T8NR2jxFlJjUBqdH9eF8PIr3t2m5jWhVN1DhWkh
-   sz0D2m4wSOHwflg8xoW+6kuFgvP8WHgAlqCRg2E/QMajFrEH8nHfRpy+M
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="369050268"
-X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="369050268"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 19:49:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="726086707"
-X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="726086707"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 10 Aug 2023 19:49:27 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qUIDO-0007RO-3A;
-	Fri, 11 Aug 2023 02:49:26 +0000
-Date: Fri, 11 Aug 2023 10:49:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [brauner-vfs:vfs.tmpfs 15/19] mm/shmem.c:3611
- shmem_xattr_handler_set() warn: passing zero to 'PTR_ERR'
-Message-ID: <202308111016.rximb8Ah-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E51C10F9
+	for <oe-kbuild@lists.linux.dev>; Fri, 11 Aug 2023 05:20:16 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3fbea14700bso14956065e9.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 10 Aug 2023 22:20:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691731215; x=1692336015;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lHN6nCsindmvZSmW+Ost0OAJtww0JSFN6IJG/A95yG8=;
+        b=v0oTBmkA30g63g+zrXaH+kC255DqRrabdvs7JqZ9wTjTPt81N83qGEDoJw976hJ8wn
+         TFY4fW8brmtxQXBe9fMyLnuGq5Cql7ArRzf7XS1iueDKNkGUHcEAdOzNktX9C7Bek1WL
+         Pqp3Hu87Z9vuU++K3QmFZ7J9z0eUE6AaMWi2k2PEXBwJ00+h5Fk4hYnCJgKqafYDl+XC
+         MdHOXg53C7xL480FEeAuVPkzCMwqNLFtPnRNOMqLLfDfyhufgNebnLe+nfAjA9hSnLZL
+         /MuX5JTomrHDcUG1O4x5jlDdwWK/Ic3Vh1NB2yM7TZGeP38uZmxKhbsDqYAJ2R8LQ5SY
+         dv7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691731215; x=1692336015;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lHN6nCsindmvZSmW+Ost0OAJtww0JSFN6IJG/A95yG8=;
+        b=OQl4OQOwNKyJHAR0/6mSREt/QxSU9yW9R9xUAAKRYsupenAusuouPezqwcR37xPXpR
+         82mA5a7RiIeETxRE/vHeIsyDGxBgK65X/t2CF+sXT4eaun5DTO/rE/Xg4m5RmxMCFVJn
+         2bO0r/DAU6GcuU/xvFAZ0Dyzkdt1MkbH8TMw4PHjAeuiEELx9dWtTGskv8TvDw0icMSB
+         WECyDB8oJ6qGuNfQq+Xk9nghQCYRUUw/q6vIWbAYlTiLR8r4DngnVu9iWRYmfsmSViFn
+         diTKJ7M7CXlX4TQ2Fw5SZtiL7+HEtKYU8j9XOgOJy1ajdvgZXkAo4kWUVEDUefiFqA7z
+         tnbQ==
+X-Gm-Message-State: AOJu0YxI1NU3OBJtUPSOvvoliyVZ9Bk/YcsQkOda904gKhf6j0BmkYbg
+	AQXJ2+rwWAJwhtD5CDi+0YQzvgjfIkA54sBzjdk=
+X-Google-Smtp-Source: AGHT+IFYOi7MjNr25x0oxodE8rfqcV/8fg2eV6bH03ZaZGO+V393IALekROo8p9DYd5efNxF6gZHyQ==
+X-Received: by 2002:a05:600c:249:b0:3fe:15e7:c8a1 with SMTP id 9-20020a05600c024900b003fe15e7c8a1mr683291wmj.16.1691731214921;
+        Thu, 10 Aug 2023 22:20:14 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id t16-20020a05600001d000b00317b5c8a4f1sm4152202wrx.60.2023.08.10.22.20.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Aug 2023 22:20:14 -0700 (PDT)
+Date: Fri, 11 Aug 2023 08:20:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Kent Gibson <warthog618@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH 2/2] gpio: sim: simplify code with cleanup helpers
+Message-ID: <2444c3ff-eaf3-4cb9-851b-8e92156128b0@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,56 +56,63 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230809131442.25524-2-brgl@bgdev.pl>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Christian Brauner <christianvanbrauner@gmail.com>
-TO: Hugh Dickins <hughd@google.com>
-CC: Christian Brauner <brauner@kernel.org>
-CC: Jan Kara <jack@suse.cz>
+Hi Bartosz,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.tmpfs
-head:   3a3c2ca1fb82b27073db2ae1f3eb06820e8d6143
-commit: 46170cc50828c33897d192668884d570b2c4e79b [15/19] xattr: simple_xattr_set() return old_xattr to be freed
-:::::: branch date: 17 hours ago
-:::::: commit date: 2 days ago
-config: mips-randconfig-m031-20230809 (https://download.01.org/0day-ci/archive/20230811/202308111016.rximb8Ah-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111016.rximb8Ah-lkp@intel.com/reproduce)
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/gpio-sim-simplify-code-with-cleanup-helpers/20230809-211601
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20230809131442.25524-2-brgl%40bgdev.pl
+patch subject: [PATCH 2/2] gpio: sim: simplify code with cleanup helpers
+config: i386-randconfig-m021-20230809 (https://download.01.org/0day-ci/archive/20230811/202308110253.R2TUMfFr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308110253.R2TUMfFr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308111016.rximb8Ah-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202308110253.R2TUMfFr-lkp@intel.com/
 
 smatch warnings:
-mm/shmem.c:3611 shmem_xattr_handler_set() warn: passing zero to 'PTR_ERR'
+drivers/gpio/gpio-sim.c:1472 gpio_sim_config_make_device_group() warn: possible memory leak of 'dev'
 
-vim +/PTR_ERR +3611 mm/shmem.c
+vim +/dev +1472 drivers/gpio/gpio-sim.c
 
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3593  
-aa7c5241c380ad Andreas Gruenbacher 2015-12-02  3594  static int shmem_xattr_handler_set(const struct xattr_handler *handler,
-39f60c1ccee72c Christian Brauner   2023-01-13  3595  				   struct mnt_idmap *idmap,
-5930122683dff5 Al Viro             2016-05-27  3596  				   struct dentry *unused, struct inode *inode,
-5930122683dff5 Al Viro             2016-05-27  3597  				   const char *name, const void *value,
-5930122683dff5 Al Viro             2016-05-27  3598  				   size_t size, int flags)
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3599  {
-5930122683dff5 Al Viro             2016-05-27  3600  	struct shmem_inode_info *info = SHMEM_I(inode);
-46170cc50828c3 Hugh Dickins        2023-08-08  3601  	struct simple_xattr *old_xattr;
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3602  
-aa7c5241c380ad Andreas Gruenbacher 2015-12-02  3603  	name = xattr_full_name(handler, name);
-46170cc50828c3 Hugh Dickins        2023-08-08  3604  	old_xattr = simple_xattr_set(&info->xattrs, name, value, size, flags);
-46170cc50828c3 Hugh Dickins        2023-08-08  3605  	if (!IS_ERR(old_xattr)) {
-46170cc50828c3 Hugh Dickins        2023-08-08  3606  		simple_xattr_free(old_xattr);
-46170cc50828c3 Hugh Dickins        2023-08-08  3607  		old_xattr = NULL;
-36f05cab0a2c97 Jeff Layton         2022-09-09  3608  		inode->i_ctime = current_time(inode);
-36f05cab0a2c97 Jeff Layton         2022-09-09  3609  		inode_inc_iversion(inode);
-36f05cab0a2c97 Jeff Layton         2022-09-09  3610  	}
-46170cc50828c3 Hugh Dickins        2023-08-08 @3611  	return PTR_ERR(old_xattr);
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3612  }
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3613  
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1460  static struct config_group *
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1461  gpio_sim_config_make_device_group(struct config_group *group, const char *name)
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1462  {
+c7a663cdcfc698 Bartosz Golaszewski 2023-08-09  1463  	struct gpio_sim_device *dev __free(kfree) = NULL;
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1464  	int id;
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1465  
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1466  	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1467  	if (!dev)
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1468  		return ERR_PTR(-ENOMEM);
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1469  
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1470  	id = ida_alloc(&gpio_sim_ida, GFP_KERNEL);
+c7a663cdcfc698 Bartosz Golaszewski 2023-08-09  1471  	if (id < 0)
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07 @1472  		return ERR_PTR(id);
+
+kfree(dev);
+
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1473  
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1474  	config_group_init_type_name(&dev->group, name,
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1475  				    &gpio_sim_device_config_group_type);
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1476  	dev->id = id;
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1477  	mutex_init(&dev->lock);
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1478  	INIT_LIST_HEAD(&dev->bank_list);
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1479  
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1480  	dev->bus_notifier.notifier_call = gpio_sim_bus_notifier_call;
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1481  	init_completion(&dev->probe_completion);
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1482  
+c7a663cdcfc698 Bartosz Golaszewski 2023-08-09  1483  	return &no_free_ptr(dev)->group;
+cb8c474e79be45 Bartosz Golaszewski 2021-12-07  1484  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
