@@ -1,39 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF755675;
-	Fri, 11 Aug 2023 09:14:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691745297; x=1723281297;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=B0PTp68QBaHEMGjETTEG/Ui5ge9x1geBW0y6XBpBgCs=;
-  b=ff0+U0yPxq/q8XIjLzZFPzNxL5Z36Xc7D8CoISkoCecf4JDj6kfvD+x/
-   D1fN6AmvJ47YyqnoLS7wtfEbXALn0J+wmuxA3dJa+x0fsJFpFEGF5sQ6r
-   rZyUOHC+oolbDNooIDqDTm0wQMN3Y01byu7+xXdbR5wfqMP4Rf+VTnYXm
-   Lo9l1gvny4TWYTt0A19nLXahX1pMRnmGA6Q1smrKgNxa0k2J48inezf8c
-   AdtoiHQS/3l5uzNK+kFCgcaLcJ8mA8VhXk2NdUA9p3Lq/GCAUXtQfl6a4
-   j1C24e6yT2i98j7UYAcQTgmI8i3eKQd3majOJoNU+H5HkRLsY8d+bM1HR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="369106398"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="369106398"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 02:14:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="802601945"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="802601945"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Aug 2023 02:14:54 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1qUOEO-00852W-25;
-	Fri, 11 Aug 2023 12:14:52 +0300
-Date: Fri, 11 Aug 2023 12:14:52 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D836B53A5
+	for <oe-kbuild@lists.linux.dev>; Fri, 11 Aug 2023 09:31:58 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2b962c226ceso28363271fa.3
+        for <oe-kbuild@lists.linux.dev>; Fri, 11 Aug 2023 02:31:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691746317; x=1692351117;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=G2VGyZBytmpnhJA0vv2u38IIsmTj+XuPqzVQBW8m7X8=;
+        b=pC1Os6ZCtOEPs37F7qkk1QPZGPEYNG3QycSK86EQO7CfDh4WeEengx5Q7GbAdpbtyu
+         NbGVzL/JtntLzzgbs4OSb1JOh0kZN5bqQ1v0/tdgr25+tFtLO9BQYB9xQ6HsimF197B9
+         Rdbr37zidkokL2for+H9vX+8p3WCo2R/nFhx4Vb5/aeal12LD/HglVlCte6QcXn9rRTh
+         DJ+/EWj2HiLgBFV60XqexbZOhG5EJQL1rE2YtGvclqXO0tFMacDgkpSXghctoSITgJHi
+         q2LoXpxtzrf6mc17Yus3kSunD5oA26l8YMxlyy0Q+XYyXWRulJMzfQSBbbXxcyu2/8WH
+         dqcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691746317; x=1692351117;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G2VGyZBytmpnhJA0vv2u38IIsmTj+XuPqzVQBW8m7X8=;
+        b=OnYbUFgBbW5YFZzCoaDdwAIgHcbgdD18i4apMS/WCQ5dXeNN8r/D+6r/msfZIbS6jg
+         z7ibpJHY0zhFRUg1stqT/SMvXzTdXgywc85vJf/R4aqVTJXFvTHe1oRgzyT8wsB90m1t
+         1ebLmdz9V+LA9skDtjQ6cWqNiWd/jfkVvtW0Xu6i7sZxCtxhJwEETw/EQqVcqFb+gV3b
+         LVDyWJEEbLnZ4a+gXtH3I+1Qc/j0coUfmTOooAa3oAzTosACsqumJ9yzQSbZK6mOhmYS
+         hDt0uuFAY+N4SXGMfd36C4WF57FQ4br0h0JOKryDaLZfGJQjlnS7I2T5ukC1L57125Yz
+         vIbQ==
+X-Gm-Message-State: AOJu0YxJjMtFkjPm9oIca6IqclueRRi7s5e6ezVk24io8ufw8hhzR/K5
+	gSUX7QnKcNw+peW2zXhh4neoFQ==
+X-Google-Smtp-Source: AGHT+IEgLWmt9jM55+QIvswvVbtk9wb3d49vZcs5e6sq7Hrp8q5aRDoXXwp7b+uYFEjuwAOVYgb/zw==
+X-Received: by 2002:a05:651c:104f:b0:2b7:2db:8ea4 with SMTP id x15-20020a05651c104f00b002b702db8ea4mr1336268ljm.30.1691746316757;
+        Fri, 11 Aug 2023 02:31:56 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id f9-20020a7bc8c9000000b003fba92fad35sm7608507wml.26.2023.08.11.02.31.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Aug 2023 02:31:56 -0700 (PDT)
+Date: Fri, 11 Aug 2023 12:31:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: oe-kbuild@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
 	Linus Walleij <linus.walleij@linaro.org>,
 	Kent Gibson <warthog618@gmail.com>, lkp@intel.com,
@@ -41,9 +47,10 @@ Cc: oe-kbuild@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
 	linux-kernel@vger.kernel.org,
 	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Subject: Re: [PATCH 2/2] gpio: sim: simplify code with cleanup helpers
-Message-ID: <ZNX8DDKYMOyxdTnB@smile.fi.intel.com>
+Message-ID: <e1f0ddf1-542f-423b-9484-5f992c1f7d1d@kadam.mountain>
 References: <20230809131442.25524-2-brgl@bgdev.pl>
  <2444c3ff-eaf3-4cb9-851b-8e92156128b0@kadam.mountain>
+ <ZNX8DDKYMOyxdTnB@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,18 +59,21 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2444c3ff-eaf3-4cb9-851b-8e92156128b0@kadam.mountain>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <ZNX8DDKYMOyxdTnB@smile.fi.intel.com>
 
-On Fri, Aug 11, 2023 at 08:20:11AM +0300, Dan Carpenter wrote:
+On Fri, Aug 11, 2023 at 12:14:52PM +0300, Andy Shevchenko wrote:
+> On Fri, Aug 11, 2023 at 08:20:11AM +0300, Dan Carpenter wrote:
+> 
+> > smatch warnings:
+> > drivers/gpio/gpio-sim.c:1472 gpio_sim_config_make_device_group() warn: possible memory leak of 'dev'
+> 
+> Isn't smatch a bit dumb about cleanup.h?
+> 
 
-> smatch warnings:
-> drivers/gpio/gpio-sim.c:1472 gpio_sim_config_make_device_group() warn: possible memory leak of 'dev'
+Aw.  Crud.  I hadn't seen that this was a cleanup.h thing.
 
-Isn't smatch a bit dumb about cleanup.h?
+I did do some work to suppoort cleanup.h but probably it will take a
+while to work out the kinks.  Let me figure this out.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+regards,
+dan carpenter
