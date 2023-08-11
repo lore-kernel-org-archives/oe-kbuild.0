@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47849219EF
-	for <oe-kbuild@lists.linux.dev>; Fri, 11 Aug 2023 20:43:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FF3219DA
+	for <oe-kbuild@lists.linux.dev>; Fri, 11 Aug 2023 20:53:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691786639; x=1723322639;
+  t=1691787234; x=1723323234;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LQRJK8TDoQuMrQX0N0l1BaJWMlHdhXzPvkwrm9zp3fc=;
-  b=hlZFQhYpTtbgIZN/gqx8ScVqUyJRSFA8/EHSsaaDJtNulJT13maIkprU
-   ZhtPw/nencxJT3bCs0MGfvONsNvMsl/CCu87eXjQkLoK+fQ0SfTI7eFzf
-   RnNlxqpICbgtHX2UQ+WMsomrHHIwapy7ffR8XD3VMPhybX5Pb02dtRnsE
-   UBo8Rzjhz95N7V4WM1rgO1MYfdHBy5EO2bMXPbE64rOQpbJg7fOkYC4OR
-   n7+S74TJ0pSohKUj3EMYYuGn8U5QbnKMw4yvdcDIysjLCPAlN4wg/JvpC
-   NjbOeB8o4FWUfFxEFCoN0U6huYzxq6VQ2YZvibthGaDHY7Kk27u6zJReA
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="370660939"
+  bh=HlFU/dqLOGD+ySTAKi/lbsx7+uJogvcfB80KMbWmGKQ=;
+  b=ITS/d8erwq1u57JR8ayBIhYrlx5VNWCpUYf1oTkpeRbKprpsiXJf2R/Y
+   P9vlC6ZJpP2g+IutIj0fKtfhk7S5oMwOC7xGvskuAT9qHyzpz7hYCjYxS
+   g37+QvgZKg9LuuDsGj77VkgpsFurarU0K0noaQmmpfJDk9DNBNhm8sioR
+   gSDo/45i5W/wZmUEiUBdhsObAppmhLOnKPAKpcG4F+W+wMqwL+5xF6naj
+   Y1aMsyfvHlOrYEPeuC363AuAHADfFZ7BIhM3pRL+2qGDSnCBt3v7tMvw9
+   q4mwojlzCrcxPiSG9svPIdeB1nF1wroumCBCMvj5CMCj7MWmoFe1K0MWe
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="402739273"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="370660939"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 13:43:53 -0700
+   d="scan'208";a="402739273"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 13:53:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="732784317"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="979330496"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="732784317"
+   d="scan'208";a="979330496"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 11 Aug 2023 13:43:52 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 11 Aug 2023 13:53:52 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUYz9-00081P-17;
-	Fri, 11 Aug 2023 20:43:51 +0000
-Date: Sat, 12 Aug 2023 04:43:19 +0800
+	id 1qUZ8p-000820-22;
+	Fri, 11 Aug 2023 20:53:51 +0000
+Date: Sat, 12 Aug 2023 04:53:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
 Subject: drivers/infiniband/hw/hfi1/verbs.c:1661 hfi1_alloc_hw_device_stats()
  error: we previously assumed 'dev_cntr_descs' could be null (see line 1650)
-Message-ID: <202308120410.cpPKwe9p-lkp@intel.com>
+Message-ID: <202308120423.boZN1wFN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,15 +59,15 @@ commit: ef90f0a1913e8b60101c374010847615172a77d1 IB/hfi1: Split IB counter alloc
 date:   7 months ago
 :::::: branch date: 4 hours ago
 :::::: commit date: 7 months ago
-config: x86_64-randconfig-m001-20230811 (https://download.01.org/0day-ci/archive/20230812/202308120410.cpPKwe9p-lkp@intel.com/config)
+config: x86_64-randconfig-m001-20230811 (https://download.01.org/0day-ci/archive/20230812/202308120423.boZN1wFN-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120410.cpPKwe9p-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120423.boZN1wFN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308120410.cpPKwe9p-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308120423.boZN1wFN-lkp@intel.com/
 
 smatch warnings:
 drivers/infiniband/hw/hfi1/verbs.c:1661 hfi1_alloc_hw_device_stats() error: we previously assumed 'dev_cntr_descs' could be null (see line 1650)
