@@ -1,42 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E53811700
-	for <oe-kbuild@lists.linux.dev>; Fri, 11 Aug 2023 21:16:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AAD360FF
+	for <oe-kbuild@lists.linux.dev>; Fri, 11 Aug 2023 23:08:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691788568; x=1723324568;
+  t=1691795336; x=1723331336;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XwEJ3qCetRC59QImME24eTCRBmlDYR4nstdxLFugpow=;
-  b=nlrURcX8YElcErt/wCjCEs6uSdJx/quAuRENQgwxYB5QF4OvE+Ajp47U
-   3ALE4fG/mrH+BnqT6pN0dc4W1n54IP4tFxG+8Zd7eGCtlr/Z7gVflcuFQ
-   QCPQdZ0zQAdUkSi0Y/5ZeH1WhW5IVZBlwfcvYLCJEx5YwfPVX7ctEq6qx
-   w07J9bNwr2gUQNUVDNmMyUAzqgGuGeOdsYzxjJLl+XR4eqE3/HcsEqwe7
-   3Z6CPuBUgixZdhU5ZubFmJXwzK10pcHD4u8nm8GbPrAS7y6vr/D4nTFr1
-   jGDixoFzt/4Dh/iJbh7Djsr/IEfwc4dSHmrvCw/xPkzfggnBypOofPehA
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="374533184"
+  bh=b1PXJZwY7Fhx6tMpCLFqBh1FwFY4nm/W0wsXS9MeRXs=;
+  b=gx78hOaX0N8NX7IRt0Q0cx8bIxhFAY5YMb3B4pHHAif4gO9DodmKX1x3
+   WrVGLkw+6PsI2lcKwNylF4WnBn/TD3SofweC6JAy9An82W9z0UVJ7W1EV
+   XHJyhmQcq3YM9HkM/MABPnjv5KSNtFcvon5B4O+phRHLDyPJQoZ//VDs2
+   UVxi5OHznyWFMhhqmmUo/32NBjjZ1VS4MAaK1rLhcjm0ut/5Fb+VUtcaF
+   l+E8mTzMMC5ePMWtf3/UAv4+z4zEZDvPE6SxQibd17vgiJ9ZLA12guvet
+   CfwdzUpTsYFQMN/fcHnag2AyiGCOVUYpjz7z8xxeiXNUmbW2xB4ec1TZ7
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="438113635"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="374533184"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 14:15:54 -0700
+   d="scan'208";a="438113635"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 16:08:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="735900295"
-X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="735900295"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="876334249"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Aug 2023 14:15:52 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 11 Aug 2023 16:08:57 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUZU8-00082w-09;
-	Fri, 11 Aug 2023 21:15:52 +0000
-Date: Sat, 12 Aug 2023 05:15:09 +0800
+	id 1qUbFV-00085w-2F;
+	Fri, 11 Aug 2023 23:08:53 +0000
+Date: Sat, 12 Aug 2023 07:08:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [brauner-vfs:vfs.tmpfs 15/19] mm/shmem.c:3611
- shmem_xattr_handler_set() warn: passing zero to 'PTR_ERR'
-Message-ID: <202308120509.hkikGgvH-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH bpf-next 2/3] bpf: Introduce task_vma open-coded iterator
+ kfuncs
+Message-ID: <202308120622.rMu98Wlt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,54 +45,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "git am base is a link in commit message"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Christian Brauner <christianvanbrauner@gmail.com>
-TO: Hugh Dickins <hughd@google.com>
-CC: Christian Brauner <brauner@kernel.org>
-CC: Jan Kara <jack@suse.cz>
+In-Reply-To: <20230810183513.684836-3-davemarchevsky@fb.com>
+References: <20230810183513.684836-3-davemarchevsky@fb.com>
+TO: Dave Marchevsky <davemarchevsky@fb.com>
+TO: bpf@vger.kernel.org
+CC: Alexei Starovoitov <ast@kernel.org>
+CC: Daniel Borkmann <daniel@iogearbox.net>
+CC: Andrii Nakryiko <andrii@kernel.org>
+CC: Martin KaFai Lau <martin.lau@kernel.org>
+CC: Kernel Team <kernel-team@fb.com>
+CC: Dave Marchevsky <davemarchevsky@fb.com>
+CC: Nathan Slingerland <slinger@meta.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.tmpfs
-head:   aa5b9178c01905d7691512b366cf2886dfe2680c
-commit: 46170cc50828c33897d192668884d570b2c4e79b [15/19] xattr: simple_xattr_set() return old_xattr to be freed
-:::::: branch date: 9 hours ago
-:::::: commit date: 3 days ago
-config: mips-randconfig-m031-20230809 (https://download.01.org/0day-ci/archive/20230812/202308120509.hkikGgvH-lkp@intel.com/config)
+Hi Dave,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Marchevsky/bpf-Explicitly-emit-BTF-for-struct-bpf_iter_num-not-btf_iter_num/20230811-023615
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230810183513.684836-3-davemarchevsky%40fb.com
+patch subject: [PATCH bpf-next 2/3] bpf: Introduce task_vma open-coded iterator kfuncs
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230812/202308120622.rMu98Wlt-lkp@intel.com/config)
 compiler: mips-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120509.hkikGgvH-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120622.rMu98Wlt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308120509.hkikGgvH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308120622.rMu98Wlt-lkp@intel.com/
 
-smatch warnings:
-mm/shmem.c:3611 shmem_xattr_handler_set() warn: passing zero to 'PTR_ERR'
+All errors (new ones prefixed by >>):
 
-vim +/PTR_ERR +3611 mm/shmem.c
+   kernel/bpf/task_iter.c:837:17: warning: no previous prototype for 'bpf_iter_task_vma_new' [-Wmissing-prototypes]
+     837 | __bpf_kfunc int bpf_iter_task_vma_new(struct bpf_iter_task_vma *it,
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/task_iter.c:869:36: warning: no previous prototype for 'bpf_iter_task_vma_next' [-Wmissing-prototypes]
+     869 | __bpf_kfunc struct vm_area_struct *bpf_iter_task_vma_next(struct bpf_iter_task_vma *it)
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/task_iter.c:878:18: warning: no previous prototype for 'bpf_iter_task_vma_destroy' [-Wmissing-prototypes]
+     878 | __bpf_kfunc void bpf_iter_task_vma_destroy(struct bpf_iter_task_vma *it)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   kernel/bpf/task_iter.c: In function 'bpf_iter_task_vma_new':
+>> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_554' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct bpf_iter_task_vma_kern) != sizeof(struct bpf_iter_task_vma)
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   kernel/bpf/task_iter.c:843:9: note: in expansion of macro 'BUILD_BUG_ON'
+     843 |         BUILD_BUG_ON(sizeof(struct bpf_iter_task_vma_kern) != sizeof(struct bpf_iter_task_vma));
+         |         ^~~~~~~~~~~~
 
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3593  
-aa7c5241c380ad Andreas Gruenbacher 2015-12-02  3594  static int shmem_xattr_handler_set(const struct xattr_handler *handler,
-39f60c1ccee72c Christian Brauner   2023-01-13  3595  				   struct mnt_idmap *idmap,
-5930122683dff5 Al Viro             2016-05-27  3596  				   struct dentry *unused, struct inode *inode,
-5930122683dff5 Al Viro             2016-05-27  3597  				   const char *name, const void *value,
-5930122683dff5 Al Viro             2016-05-27  3598  				   size_t size, int flags)
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3599  {
-5930122683dff5 Al Viro             2016-05-27  3600  	struct shmem_inode_info *info = SHMEM_I(inode);
-46170cc50828c3 Hugh Dickins        2023-08-08  3601  	struct simple_xattr *old_xattr;
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3602  
-aa7c5241c380ad Andreas Gruenbacher 2015-12-02  3603  	name = xattr_full_name(handler, name);
-46170cc50828c3 Hugh Dickins        2023-08-08  3604  	old_xattr = simple_xattr_set(&info->xattrs, name, value, size, flags);
-46170cc50828c3 Hugh Dickins        2023-08-08  3605  	if (!IS_ERR(old_xattr)) {
-46170cc50828c3 Hugh Dickins        2023-08-08  3606  		simple_xattr_free(old_xattr);
-46170cc50828c3 Hugh Dickins        2023-08-08  3607  		old_xattr = NULL;
-36f05cab0a2c97 Jeff Layton         2022-09-09  3608  		inode->i_ctime = current_time(inode);
-36f05cab0a2c97 Jeff Layton         2022-09-09  3609  		inode_inc_iversion(inode);
-36f05cab0a2c97 Jeff Layton         2022-09-09  3610  	}
-46170cc50828c3 Hugh Dickins        2023-08-08 @3611  	return PTR_ERR(old_xattr);
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3612  }
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3613  
+
+vim +/__compiletime_assert_554 +397 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
 
 -- 
 0-DAY CI Kernel Test Service
