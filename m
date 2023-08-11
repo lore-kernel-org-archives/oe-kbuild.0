@@ -1,95 +1,341 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD6AA35
-	for <oe-kbuild@lists.linux.dev>; Fri, 11 Aug 2023 06:43:32 +0000 (UTC)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-586b78aa26eso18851667b3.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 10 Aug 2023 23:43:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1691736211; x=1692341011;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2dK3EUoqZAv7ENaLYy1IgVWN87Fn2SJNSzCc2nDnrO0=;
-        b=0nNFLV64eY93K3GbZY5ZC7+OZM6Hh6nQ+yPnGajBjRMSAJ+0aTt2Tfgc2Gu4PyCoAL
-         10SNPtE7edUOPOZICCLXF3MHABnNe8ja8Te5Qe2hWOq4umfrgzsvwae35nMLLB7h2E+J
-         gYr+9USIWZfpAfM8FrFzMvkNaPs5FZfJFGmwz5qqp05wiaA+Yk0KVm8rhv7mLlvYAF1p
-         VOdNBr+BIOcvfFQF9+Ko9qrzs9+4v2XeguhsoNXKB1HgHpleAUk6CezuNVt9B2LduDLs
-         n7Ao9U9Ntu9LwwjZm9X54tHhCVMmfd2YR47e0TAvYUCIsO95R8BLNma7Iv9bUGm+jkbY
-         nbig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691736211; x=1692341011;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2dK3EUoqZAv7ENaLYy1IgVWN87Fn2SJNSzCc2nDnrO0=;
-        b=dnHrabSL4IodJ3wzGjiSl33/u+oZpjand83APtcAVEuVjhHW4y6Khnv+mbN7jtTiVr
-         2wZG1OeBeMFpA2nx3LV+lRShjGPLc7ZENXaKmNdaj+0+dhZgwzJE+FuieK9P5EDXFXIb
-         kiooScTtWhKGSFoMDgAMCs33zOHw5Sf4YsdxunEBgfJimeNuy3Ng6fbS/4smkGphNkrQ
-         UDAXRuuQ27ySFIOe+7xsmp9Ujh0OddrGFRXP6oxTrrXODfexxt1p2zdR+6I730suQ5AB
-         tHsyvN2mNGg4Qm3rcbAd7FpygEDMFafSV0J09sDv7p03IHdetUQoB/OB9udMVy1sfwCm
-         m1Rw==
-X-Gm-Message-State: AOJu0Yyaa5JIgGjR1sx8JG29dGVPO6E0uzwS3FRZzWsKDdWGX7qtogll
-	v0NYE8a6SzS1TTffibL9Ho+xZw==
-X-Google-Smtp-Source: AGHT+IEAI1JXOrxuFnx7rotJkOQaZauKbrWuvV7z/71KhyN7P09Q/L2GJGAPYOOVpuoOMkR58H4evA==
-X-Received: by 2002:a81:6907:0:b0:583:af98:6fb3 with SMTP id e7-20020a816907000000b00583af986fb3mr1408578ywc.15.1691736211346;
-        Thu, 10 Aug 2023 23:43:31 -0700 (PDT)
-Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id w190-20020a0dd4c7000000b00583d67839fasm831585ywd.121.2023.08.10.23.43.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 23:43:30 -0700 (PDT)
-Date: Thu, 10 Aug 2023 23:43:29 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@ripple.attlocal.net
-To: Dan Carpenter <dan.carpenter@linaro.org>
-cc: oe-kbuild@lists.linux.dev, Hugh Dickins <hughd@google.com>, lkp@intel.com, 
-    oe-kbuild-all@lists.linux.dev, 
-    Christian Brauner <christianvanbrauner@gmail.com>, 
-    Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: Re: [brauner-vfs:vfs.tmpfs 15/19] mm/shmem.c:3611 shmem_xattr_handler_set()
- warn: passing zero to 'PTR_ERR'
-In-Reply-To: <dd00b419-ca16-48fb-b493-890ab47cc930@kadam.mountain>
-Message-ID: <baf5ac73-23b4-e325-28e5-9547af7ec3a@google.com>
-References: <dd00b419-ca16-48fb-b493-890ab47cc930@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41A91869
+	for <oe-kbuild@lists.linux.dev>; Fri, 11 Aug 2023 09:10:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691745048; x=1723281048;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=W8VYK8R+IBTXrrzC7xh4oKnVdWeWoB98x8hQhEMhZyo=;
+  b=G/ND0IZOBIqRSKRUG7+lk1uKlkHCKw2/RQET/UtnHYVbe6Po2uHF5tQk
+   5nCc0S4f42adDfR0oSgXsnyqY0DTftuXVZB4EcDAaqvT4aR2L/N+IWk0F
+   52+ZTsl8jnmG3JzKUsNmU6aDlGtrZcvtC6lwej78Whd8JuC6htcSuY5xa
+   43RxfUu6eUsTsZ9HD8nQehGZArM5Li/peLEsIkQ34XD1p9UG1ROUeQHX5
+   GcuD9cvIeKx1Wc6RRMvuz/bqVfwtT19VG1t53KCzLwHsI2klbqCiKVGbt
+   LmYbAA+hY508P9u7tkYqieQm51OEP2rxZwuHXzwU0IzfXI5KuEYsZLeiI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="375349993"
+X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
+   d="scan'208";a="375349993"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 02:10:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="797958374"
+X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
+   d="scan'208";a="797958374"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 11 Aug 2023 02:10:38 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qUOAH-0007fI-1J;
+	Fri, 11 Aug 2023 09:10:37 +0000
+Date: Fri, 11 Aug 2023 17:10:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: kernel/rcu/tree.c:2247:25: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202308111754.YCz6Mqu2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 11 Aug 2023, Dan Carpenter wrote:
-...
-> smatch warnings:
-> mm/shmem.c:3611 shmem_xattr_handler_set() warn: passing zero to 'PTR_ERR'
-...
-> 46170cc50828c3 Hugh Dickins        2023-08-08  3604  	old_xattr = simple_xattr_set(&info->xattrs, name, value, size, flags);
-> 46170cc50828c3 Hugh Dickins        2023-08-08  3605  	if (!IS_ERR(old_xattr)) {
-> 46170cc50828c3 Hugh Dickins        2023-08-08  3606  		simple_xattr_free(old_xattr);
-> 46170cc50828c3 Hugh Dickins        2023-08-08  3607  		old_xattr = NULL;
-> 36f05cab0a2c97 Jeff Layton         2022-09-09  3608  		inode->i_ctime = current_time(inode);
-> 36f05cab0a2c97 Jeff Layton         2022-09-09  3609  		inode_inc_iversion(inode);
-> 36f05cab0a2c97 Jeff Layton         2022-09-09  3610  	}
-> 46170cc50828c3 Hugh Dickins        2023-08-08 @3611  	return PTR_ERR(old_xattr);
-> 
-> This code is correct but it would be nicer to reverse the checking:
-> 
-> 	old_xattr = simple_xattr_set(&info->xattrs, name, value, size, flags);
-> 	if (IS_ERR(old_xattr))
-> 		return PTR_ERR(old_xattr);
-> 
-> 	simple_xattr_free(old_xattr);
-> 	inode->i_ctime = current_time(inode);
-> 	inode_inc_iversion(inode);
-> 
-> 	return 0;
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
-Thanks, Dan, but I'm going to resist making any change here.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Qing Zhang <zhangqing@loongson.cn>
+CC: Huacai Chen <chenhuacai@kernel.org>
 
-As you observe, the code is correct as is.  And I did have a version
-(unposted) which laid it out exactly as you have it there.  But the
-collisions between different branches of vfs.git (and subsequent mods
-here in vfs.tmpfs) was such that I aimed to minimize the interference.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   25aa0bebba72b318e71fe205bfd1236550cc9534
+commit: 93a4fa622eb061f75f87f0cf9609ab4e69c67d01 LoongArch: Add STACKTRACE support
+date:   12 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 12 months ago
+config: loongarch-randconfig-r071-20230811 (https://download.01.org/0day-ci/archive/20230811/202308111754.YCz6Mqu2-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111754.YCz6Mqu2-lkp@intel.com/reproduce)
 
-Please let's leave it as is: there is nothing wrong with PTR_ERR(NULL).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202308111754.YCz6Mqu2-lkp@intel.com/
 
-Hugh
+sparse warnings: (new ones prefixed by >>)
+   kernel/rcu/tree_stall.h:941:17: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:941:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:941:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:941:17: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:957:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:957:25: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:957:25: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:957:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:957:25: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:957:25: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:957:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:957:25: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:957:25: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:957:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:957:25: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:957:25: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:957:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:957:25: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:957:25: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:957:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:957:25: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:957:25: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:957:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:957:25: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:957:25: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:957:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:957:25: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:957:25: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:958:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:958:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:958:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:958:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:958:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:958:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:958:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:958:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:958:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:958:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:958:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:958:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:958:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:958:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:958:17: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:958:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:958:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:958:17: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:958:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:958:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:958:17: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:958:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:958:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:958:17: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:963:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:963:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:963:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:963:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:963:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:963:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:963:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:963:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:963:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:963:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:963:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:963:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:963:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:963:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:963:17: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:963:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:963:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:963:17: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:963:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:963:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:963:17: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:963:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:963:17: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:963:17: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:964:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:964:9: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:964:9: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:964:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:964:9: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:964:9: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:964:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:964:9: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:964:9: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:964:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:964:9: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:964:9: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:964:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:964:9: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:964:9: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:964:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:964:9: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:964:9: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:964:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:964:9: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:964:9: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree_stall.h:964:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree_stall.h:964:9: sparse:     expected void *ptr
+   kernel/rcu/tree_stall.h:964:9: sparse:     got int [noderef] __percpu *
+>> kernel/rcu/tree.c:2247:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2247:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2247:25: sparse:     got unsigned int [noderef] __percpu *
+>> kernel/rcu/tree.c:2247:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2247:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2247:25: sparse:     got unsigned int [noderef] __percpu *
+>> kernel/rcu/tree.c:2247:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2247:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2247:25: sparse:     got unsigned int [noderef] __percpu *
+>> kernel/rcu/tree.c:2247:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2247:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2247:25: sparse:     got unsigned int [noderef] __percpu *
+>> kernel/rcu/tree.c:2247:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2247:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2247:25: sparse:     got int [noderef] __percpu *
+>> kernel/rcu/tree.c:2247:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2247:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2247:25: sparse:     got int [noderef] __percpu *
+>> kernel/rcu/tree.c:2247:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2247:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2247:25: sparse:     got int [noderef] __percpu *
+>> kernel/rcu/tree.c:2247:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2247:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2247:25: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree.c:2261:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2261:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2261:25: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree.c:2261:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2261:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2261:25: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree.c:2261:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2261:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2261:25: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree.c:2261:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2261:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2261:25: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree.c:2261:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2261:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2261:25: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree.c:2261:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2261:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2261:25: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree.c:2261:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2261:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2261:25: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree.c:2261:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2261:25: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2261:25: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree.c:2272:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2272:17: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2272:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree.c:2272:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2272:17: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2272:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree.c:2272:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2272:17: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2272:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree.c:2272:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2272:17: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2272:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree.c:2272:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2272:17: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2272:17: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree.c:2272:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2272:17: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2272:17: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree.c:2272:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2272:17: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2272:17: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree.c:2272:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/rcu/tree.c:2272:17: sparse:     expected void *ptr
+   kernel/rcu/tree.c:2272:17: sparse:     got int [noderef] __percpu *
+   kernel/rcu/tree.c:4212:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:4212:17: sparse:     expected void *ptr
+   kernel/rcu/tree.c:4212:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree.c:4212:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:4212:17: sparse:     expected void *ptr
+   kernel/rcu/tree.c:4212:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree.c:4212:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/rcu/tree.c:4212:17: sparse:     expected void *ptr
+   kernel/rcu/tree.c:4212:17: sparse:     got unsigned int [noderef] __percpu *
+   kernel/rcu/tree.c:4212:17: sparse: sparse: too many warnings
+
+vim +2247 kernel/rcu/tree.c
+
+f41d911f8c49a5 kernel/rcutree.c  Paul E. McKenney 2009-08-22  2215  
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2216  /*
+d3f6bad3911736 kernel/rcutree.c  Paul E. McKenney 2009-12-02  2217   * Similar to rcu_report_qs_rdp(), for which it is a helper function.
+d3f6bad3911736 kernel/rcutree.c  Paul E. McKenney 2009-12-02  2218   * Allows quiescent states for a group of CPUs to be reported at one go
+d3f6bad3911736 kernel/rcutree.c  Paul E. McKenney 2009-12-02  2219   * to the specified rcu_node structure, though all the CPUs in the group
+654e953340491e kernel/rcu/tree.c Paul E. McKenney 2015-03-15  2220   * must be represented by the same rcu_node structure (which need not be a
+654e953340491e kernel/rcu/tree.c Paul E. McKenney 2015-03-15  2221   * leaf rcu_node structure, though it often will be).  The gps parameter
+654e953340491e kernel/rcu/tree.c Paul E. McKenney 2015-03-15  2222   * is the grace-period snapshot, which means that the quiescent states
+c9a24e2d0c7d33 kernel/rcu/tree.c Paul E. McKenney 2018-04-27  2223   * are valid only if rnp->gp_seq is equal to gps.  That structure's lock
+654e953340491e kernel/rcu/tree.c Paul E. McKenney 2015-03-15  2224   * must be held upon entry, and it is released before return.
+ec2c29765a4ab1 kernel/rcu/tree.c Paul E. McKenney 2018-05-07  2225   *
+ec2c29765a4ab1 kernel/rcu/tree.c Paul E. McKenney 2018-05-07  2226   * As a special case, if mask is zero, the bit-already-cleared check is
+ec2c29765a4ab1 kernel/rcu/tree.c Paul E. McKenney 2018-05-07  2227   * disabled.  This allows propagating quiescent state due to resumed tasks
+ec2c29765a4ab1 kernel/rcu/tree.c Paul E. McKenney 2018-05-07  2228   * during grace-period initialization.
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2229   */
+b50912d0b5e03f kernel/rcu/tree.c Paul E. McKenney 2018-07-03  2230  static void rcu_report_qs_rnp(unsigned long mask, struct rcu_node *rnp,
+b50912d0b5e03f kernel/rcu/tree.c Paul E. McKenney 2018-07-03  2231  			      unsigned long gps, unsigned long flags)
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2232  	__releases(rnp->lock)
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2233  {
+654e953340491e kernel/rcu/tree.c Paul E. McKenney 2015-03-15  2234  	unsigned long oldmask = 0;
+28ecd58020409b kernel/rcutree.c  Paul E. McKenney 2009-09-18  2235  	struct rcu_node *rnp_c;
+28ecd58020409b kernel/rcutree.c  Paul E. McKenney 2009-09-18  2236  
+a32e01ee689794 kernel/rcu/tree.c Matthew Wilcox   2018-01-17  2237  	raw_lockdep_assert_held_rcu_node(rnp);
+c0b334c5bfa98a kernel/rcu/tree.c Paul E. McKenney 2017-04-28  2238  
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2239  	/* Walk up the rcu_node hierarchy. */
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2240  	for (;;) {
+ec2c29765a4ab1 kernel/rcu/tree.c Paul E. McKenney 2018-05-07  2241  		if ((!(rnp->qsmask & mask) && mask) || rnp->gp_seq != gps) {
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2242  
+654e953340491e kernel/rcu/tree.c Paul E. McKenney 2015-03-15  2243  			/*
+654e953340491e kernel/rcu/tree.c Paul E. McKenney 2015-03-15  2244  			 * Our bit has already been cleared, or the
+654e953340491e kernel/rcu/tree.c Paul E. McKenney 2015-03-15  2245  			 * relevant grace period is already over, so done.
+654e953340491e kernel/rcu/tree.c Paul E. McKenney 2015-03-15  2246  			 */
+67c583a7de3433 kernel/rcu/tree.c Boqun Feng       2015-12-29 @2247  			raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2248  			return;
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2249  		}
+654e953340491e kernel/rcu/tree.c Paul E. McKenney 2015-03-15  2250  		WARN_ON_ONCE(oldmask); /* Any child must be all zeroed! */
+5b4c11d54b1b8d kernel/rcu/tree.c Paul E. McKenney 2018-04-13  2251  		WARN_ON_ONCE(!rcu_is_leaf_node(rnp) &&
+2dee9404fa8c43 kernel/rcu/tree.c Paul E. McKenney 2017-07-11  2252  			     rcu_preempt_blocked_readers_cgp(rnp));
+7672d647ddae37 kernel/rcu/tree.c Paul E. McKenney 2020-01-03  2253  		WRITE_ONCE(rnp->qsmask, rnp->qsmask & ~mask);
+67a0edbf3c4dfc kernel/rcu/tree.c Paul E. McKenney 2018-07-05  2254  		trace_rcu_quiescent_state_report(rcu_state.name, rnp->gp_seq,
+d4c08f2ac311a3 kernel/rcutree.c  Paul E. McKenney 2011-06-25  2255  						 mask, rnp->qsmask, rnp->level,
+d4c08f2ac311a3 kernel/rcutree.c  Paul E. McKenney 2011-06-25  2256  						 rnp->grplo, rnp->grphi,
+d4c08f2ac311a3 kernel/rcutree.c  Paul E. McKenney 2011-06-25  2257  						 !!rnp->gp_tasks);
+27f4d28057adf9 kernel/rcutree.c  Paul E. McKenney 2011-02-07  2258  		if (rnp->qsmask != 0 || rcu_preempt_blocked_readers_cgp(rnp)) {
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2259  
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2260  			/* Other bits still set at this level, so done. */
+67c583a7de3433 kernel/rcu/tree.c Boqun Feng       2015-12-29  2261  			raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2262  			return;
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2263  		}
+d43a5d32e125db kernel/rcu/tree.c Paul E. McKenney 2018-04-28  2264  		rnp->completedqs = rnp->gp_seq;
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2265  		mask = rnp->grpmask;
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2266  		if (rnp->parent == NULL) {
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2267  
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2268  			/* No more levels.  Exit loop holding root lock. */
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2269  
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2270  			break;
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2271  		}
+67c583a7de3433 kernel/rcu/tree.c Boqun Feng       2015-12-29  2272  		raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
+28ecd58020409b kernel/rcutree.c  Paul E. McKenney 2009-09-18  2273  		rnp_c = rnp;
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2274  		rnp = rnp->parent;
+2a67e741bbbc02 kernel/rcu/tree.c Peter Zijlstra   2015-10-08  2275  		raw_spin_lock_irqsave_rcu_node(rnp, flags);
+0937d045732b5d kernel/rcu/tree.c Paul E. McKenney 2020-01-03  2276  		oldmask = READ_ONCE(rnp_c->qsmask);
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2277  	}
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2278  
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2279  	/*
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2280  	 * Get here if we are the last CPU to pass through a quiescent
+d3f6bad3911736 kernel/rcutree.c  Paul E. McKenney 2009-12-02  2281  	 * state for this grace period.  Invoke rcu_report_qs_rsp()
+f41d911f8c49a5 kernel/rcutree.c  Paul E. McKenney 2009-08-22  2282  	 * to clean up and start the next grace period if one is needed.
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2283  	 */
+aff4e9ede52bad kernel/rcu/tree.c Paul E. McKenney 2018-07-03  2284  	rcu_report_qs_rsp(flags); /* releases rnp->lock. */
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2285  }
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney 2008-12-18  2286  
+
+:::::: The code at line 2247 was first introduced by commit
+:::::: 67c583a7de3433a971983490b37ad2bff3c55463 RCU: Privatize rcu_node::lock
+
+:::::: TO: Boqun Feng <boqun.feng@gmail.com>
+:::::: CC: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
