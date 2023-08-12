@@ -1,41 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CDF1CCD8
-	for <oe-kbuild@lists.linux.dev>; Sat, 12 Aug 2023 09:55:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB081861
+	for <oe-kbuild@lists.linux.dev>; Sat, 12 Aug 2023 10:27:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691834112; x=1723370112;
+  t=1691836034; x=1723372034;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/rRD+fghLsuVK7bv7v+L84gpyCi9Wdu3XgXUAFub1Q4=;
-  b=VF4n8u9g9+V7C1Hez9uJ8rmQ0eA5S7uTaC98EG7jNrs4ugwddAYTL8+K
-   wqtxZ/5p0tsDlTJuCOv3796jO9gxBnmi05e/qOV5xA1LpLEEzmZxK86Ro
-   lVLK2kS4WPIOsoIXl/ly83xwJkxgAANbheR/AVZMLmnkuIboHlbLvyonn
-   KlZUs1o3Ip/OnmZt6mstM7eENdomLGCbufBoOUvIiU4jDvKy7hc0puW9b
-   TaP4naF+dKchv04xUN53vod2mr4K72E2zB9WjCBBwdckq42kU5quw2Wds
-   FTMG6WrET4vAvWscKohOK+KGQuFi44uoSf04ChvojPm56SN12n0dX0aTa
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="402799054"
+  bh=n900bFDrCANHr8OCSBqcONYmPiHLIhOdpS9OA9JEDrQ=;
+  b=MiSycmDWLoE2ZqhDTN0UOLGgVpzL7p2A/8VqDmaBaLEBOoNezgTK1e8C
+   5OaT2Ivv8Bbjeo1ubydKbB/1A7oipAmQ8gfWcy2oJ5HSolRhas6H6IaK2
+   oBUd0hfCudWIvFu+YYlmEB5NNJ2Ofg1EncA/GlbJdzMyVvecUC7cgpYJX
+   F9CAX3kgwvIvz+lYTtXPVkamJyanmlVDSK4d3y8bSz46SBrToaYIViHP3
+   cK8XZlAchzNj96Zew3xqYu/lbbcSXFvYQ6fXMi7PUi3rg/dzkRRWYsx71
+   jUEC1NWibyYHzSzeyD+eGP7i8uwgyABHY/7ARKxJXO5IbB5unrC+Z2r94
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="371824622"
 X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="402799054"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 02:55:11 -0700
+   d="scan'208";a="371824622"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 03:27:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="906687303"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="736015252"
 X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="906687303"
+   d="scan'208";a="736015252"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 12 Aug 2023 02:55:10 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 12 Aug 2023 03:27:12 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUlKv-0008TA-2I;
-	Sat, 12 Aug 2023 09:55:09 +0000
-Date: Sat, 12 Aug 2023 17:55:08 +0800
+	id 1qUlpv-0008VE-0W;
+	Sat, 12 Aug 2023 10:27:11 +0000
+Date: Sat, 12 Aug 2023 18:26:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/2] drivers: misc: adi-axi-tdd: Add new TDD engine driver
-Message-ID: <202308121705.lCNuhNwj-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [intel-tdx:kvm-upstream-workaround 230/338]
+ arch/x86/kvm/mmu/tdp_mmu.c:738:9-11: WARNING: possible condition with no
+ effect (if == else)
+Message-ID: <202308121852.XNHwJKdU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,102 +49,123 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230726071103.12172-2-eliza.balas@analog.com>
-References: <20230726071103.12172-2-eliza.balas@analog.com>
-TO: Eliza Balas <eliza.balas@analog.com>
-CC: Eliza Balas <eliza.balas@analog.com>
-CC: Rob Herring <robh+dt@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Derek Kiernan <derek.kiernan@amd.com>
-CC: Dragan Cvetic <dragan.cvetic@amd.com>
-CC: Arnd Bergmann <arnd@arndb.de>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
+TO: Isaku Yamahata <isaku.yamahata@intel.com>
 
-Hi Eliza,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.5-rc5 next-20230809]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eliza-Balas/drivers-misc-adi-axi-tdd-Add-new-TDD-engine-driver/20230726-151745
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20230726071103.12172-2-eliza.balas%40analog.com
-patch subject: [PATCH 2/2] drivers: misc: adi-axi-tdd: Add new TDD engine driver
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-config: nios2-randconfig-m031-20230812 (https://download.01.org/0day-ci/archive/20230812/202308121705.lCNuhNwj-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121705.lCNuhNwj-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   57250b72d19fb19552ae54811695727debe3a257
+commit: 23912770c8910581737d2b3fe18d30d3978d6157 [230/338] KVM: TDX: Allow splitting private zapped large page
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-x052-20230812 (https://download.01.org/0day-ci/archive/20230812/202308121852.XNHwJKdU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121852.XNHwJKdU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308121705.lCNuhNwj-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202308121852.XNHwJKdU-lkp@intel.com/
 
-smatch warnings:
-drivers/misc/adi-axi-tdd.c:607 adi_axi_tdd_init_sysfs() error: not allocating enough for = 'attr_group' 20 vs 4
+cocci warnings: (new ones prefixed by >>)
+>> arch/x86/kvm/mmu/tdp_mmu.c:738:9-11: WARNING: possible condition with no effect (if == else)
 
-vim +/attr_group +607 drivers/misc/adi-axi-tdd.c
+vim +738 arch/x86/kvm/mmu/tdp_mmu.c
 
-2e18ca4ce802a7 Eliza Balas 2023-07-26  565  
-2e18ca4ce802a7 Eliza Balas 2023-07-26  566  static int adi_axi_tdd_init_sysfs(struct platform_device *pdev, struct adi_axi_tdd_state *st)
-2e18ca4ce802a7 Eliza Balas 2023-07-26  567  {
-2e18ca4ce802a7 Eliza Balas 2023-07-26  568  	size_t base_attr_count = ARRAY_SIZE(adi_axi_tdd_base_attributes);
-2e18ca4ce802a7 Eliza Balas 2023-07-26  569  	size_t attribute_count = base_attr_count + 6 * st->channel_count + 1;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  570  	struct adi_axi_tdd_attribute *channel_attributes;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  571  	struct adi_axi_tdd_attribute *channel_iter;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  572  	struct attribute_group *attr_group;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  573  	struct attribute **tdd_attrs;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  574  	u32 i, j;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  575  
-2e18ca4ce802a7 Eliza Balas 2023-07-26  576  	channel_attributes = devm_kcalloc(&pdev->dev, 6 * st->channel_count,
-2e18ca4ce802a7 Eliza Balas 2023-07-26  577  					  sizeof(*channel_attributes), GFP_KERNEL);
-2e18ca4ce802a7 Eliza Balas 2023-07-26  578  	if (!channel_attributes)
-2e18ca4ce802a7 Eliza Balas 2023-07-26  579  		return -ENOMEM;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  580  
-2e18ca4ce802a7 Eliza Balas 2023-07-26  581  	tdd_attrs = devm_kcalloc(&pdev->dev, attribute_count,
-2e18ca4ce802a7 Eliza Balas 2023-07-26  582  				 sizeof(*tdd_attrs), GFP_KERNEL);
-2e18ca4ce802a7 Eliza Balas 2023-07-26  583  	if (!tdd_attrs)
-2e18ca4ce802a7 Eliza Balas 2023-07-26  584  		return -ENOMEM;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  585  
-2e18ca4ce802a7 Eliza Balas 2023-07-26  586  	memcpy(tdd_attrs, adi_axi_tdd_base_attributes, sizeof(adi_axi_tdd_base_attributes));
-2e18ca4ce802a7 Eliza Balas 2023-07-26  587  
-2e18ca4ce802a7 Eliza Balas 2023-07-26  588  	channel_iter = channel_attributes;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  589  
-2e18ca4ce802a7 Eliza Balas 2023-07-26  590  	for (i = 0; i < st->channel_count; i++) {
-2e18ca4ce802a7 Eliza Balas 2023-07-26  591  		for (j = 0; j < ARRAY_SIZE(channel_names); j++) {
-2e18ca4ce802a7 Eliza Balas 2023-07-26  592  			snprintf(channel_iter->name,
-2e18ca4ce802a7 Eliza Balas 2023-07-26  593  				 sizeof(channel_iter->name), channel_names[j],
-2e18ca4ce802a7 Eliza Balas 2023-07-26  594  				 i);
-2e18ca4ce802a7 Eliza Balas 2023-07-26  595  			channel_iter->id = channel_ids[j];
-2e18ca4ce802a7 Eliza Balas 2023-07-26  596  			channel_iter->channel = i;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  597  			channel_iter->attr.attr.name = channel_iter->name;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  598  			channel_iter->attr.attr.mode = 0644;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  599  			channel_iter->attr.show = adi_axi_tdd_show;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  600  			channel_iter->attr.store = adi_axi_tdd_store;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  601  
-2e18ca4ce802a7 Eliza Balas 2023-07-26  602  			tdd_attrs[base_attr_count + 6 * i + j] = &channel_iter->attr.attr;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  603  			channel_iter++;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  604  		}
-2e18ca4ce802a7 Eliza Balas 2023-07-26  605  	}
-2e18ca4ce802a7 Eliza Balas 2023-07-26  606  
-2e18ca4ce802a7 Eliza Balas 2023-07-26 @607  	attr_group = devm_kzalloc(&pdev->dev, sizeof(attr_group), GFP_KERNEL);
-2e18ca4ce802a7 Eliza Balas 2023-07-26  608  	if (!attr_group)
-2e18ca4ce802a7 Eliza Balas 2023-07-26  609  		return -ENOMEM;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  610  
-2e18ca4ce802a7 Eliza Balas 2023-07-26  611  	attr_group->attrs = tdd_attrs;
-2e18ca4ce802a7 Eliza Balas 2023-07-26  612  
-2e18ca4ce802a7 Eliza Balas 2023-07-26  613  	return devm_device_add_group(&pdev->dev, attr_group);
-2e18ca4ce802a7 Eliza Balas 2023-07-26  614  }
-2e18ca4ce802a7 Eliza Balas 2023-07-26  615  
+faaf05b00aecdb Ben Gardon     2020-10-14  694  
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  695  static int __must_check __set_private_spte_present(struct kvm *kvm, tdp_ptep_t sptep,
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  696  						   gfn_t gfn, u64 old_spte,
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  697  						   u64 new_spte, int level)
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  698  {
+8e040da2fbb553 Isaku Yamahata 2022-01-19  699  	bool was_private_zapped = is_private_zapped_spte(old_spte);
+8e040da2fbb553 Isaku Yamahata 2022-01-19  700  	bool is_private_zapped = is_private_zapped_spte(new_spte);
+23912770c89105 Isaku Yamahata 2022-07-07  701  	bool was_last = is_last_spte(old_spte, level);
+23912770c89105 Isaku Yamahata 2022-07-07  702  	bool is_last = is_last_spte(new_spte, level);
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  703  	bool was_present = is_shadow_present_pte(old_spte);
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  704  	bool is_present = is_shadow_present_pte(new_spte);
+4dd456d9316feb Xiaoyao Li     2021-08-31  705  	bool was_leaf = was_present && is_last_spte(old_spte, level);
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  706  	bool is_leaf = is_present && is_last_spte(new_spte, level);
+8e040da2fbb553 Isaku Yamahata 2022-01-19  707  	kvm_pfn_t old_pfn = spte_to_pfn(old_spte);
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  708  	kvm_pfn_t new_pfn = spte_to_pfn(new_spte);
+4dd456d9316feb Xiaoyao Li     2021-08-31  709  	void *private_spt;
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  710  	int ret = 0;
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  711  
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  712  	lockdep_assert_held(&kvm->mmu_lock);
+4dd456d9316feb Xiaoyao Li     2021-08-31  713  	/*
+4dd456d9316feb Xiaoyao Li     2021-08-31  714  	 * TDP MMU doesn't change present -> present. split or merge of large
+4dd456d9316feb Xiaoyao Li     2021-08-31  715  	 * page can happen.
+4dd456d9316feb Xiaoyao Li     2021-08-31  716  	 */
+4dd456d9316feb Xiaoyao Li     2021-08-31  717  	KVM_BUG_ON(was_present && (was_leaf == is_leaf), kvm);
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  718  
+8e040da2fbb553 Isaku Yamahata 2022-01-19  719  	/*
+8e040da2fbb553 Isaku Yamahata 2022-01-19  720  	 * Handle special case of old_spte being temporarily blocked private
+8e040da2fbb553 Isaku Yamahata 2022-01-19  721  	 * SPTE.  There are two cases: 1) Need to restore the original mapping
+8e040da2fbb553 Isaku Yamahata 2022-01-19  722  	 * (unblock) when guest accesses the private page; 2) Need to truly zap
+8e040da2fbb553 Isaku Yamahata 2022-01-19  723  	 * the SPTE because of zapping aliasing in fault handler, or when VM is
+8e040da2fbb553 Isaku Yamahata 2022-01-19  724  	 * being destroyed.
+8e040da2fbb553 Isaku Yamahata 2022-01-19  725  	 * See handel_private_zapped_spte() for zapping case.
+8e040da2fbb553 Isaku Yamahata 2022-01-19  726  	 */
+8e040da2fbb553 Isaku Yamahata 2022-01-19  727  	if (was_private_zapped) {
+8e040da2fbb553 Isaku Yamahata 2022-01-19  728  		/* Temporarily blocked private SPTE can only be leaf. */
+8e040da2fbb553 Isaku Yamahata 2022-01-19  729  		KVM_BUG_ON(!is_last_spte(old_spte, level), kvm);
+8e040da2fbb553 Isaku Yamahata 2022-01-19  730  		KVM_BUG_ON(!is_present, kvm);
+8e040da2fbb553 Isaku Yamahata 2022-01-19  731  		KVM_BUG_ON(is_private_zapped, kvm);
+8e040da2fbb553 Isaku Yamahata 2022-01-19  732  		KVM_BUG_ON(was_present, kvm);
+8e040da2fbb553 Isaku Yamahata 2022-01-19  733  		KVM_BUG_ON(!was_private_zapped, kvm);
+8e040da2fbb553 Isaku Yamahata 2022-01-19  734  
+8e040da2fbb553 Isaku Yamahata 2022-01-19  735  		if (old_pfn == new_pfn) {
+8e040da2fbb553 Isaku Yamahata 2022-01-19  736  			ret = static_call(kvm_x86_unzap_private_spte)(kvm, gfn,
+8e040da2fbb553 Isaku Yamahata 2022-01-19  737  								      level);
+23912770c89105 Isaku Yamahata 2022-07-07 @738  		} else if (level > PG_LEVEL_4K && was_last && !is_last) {
+23912770c89105 Isaku Yamahata 2022-07-07  739  			/*
+23912770c89105 Isaku Yamahata 2022-07-07  740  			 * Splitting private_zapped large page doesn't happen.
+23912770c89105 Isaku Yamahata 2022-07-07  741  			 * Unzap and then split.
+23912770c89105 Isaku Yamahata 2022-07-07  742  			 */
+23912770c89105 Isaku Yamahata 2022-07-07  743  			pr_err("gfn 0x%llx old_spte 0x%llx new_spte 0x%llx level %d\n",
+23912770c89105 Isaku Yamahata 2022-07-07  744  			       gfn, old_spte, new_spte, level);
+23912770c89105 Isaku Yamahata 2022-07-07  745  			WARN_ON(1);
+8e040da2fbb553 Isaku Yamahata 2022-01-19  746  		} else {
+8e040da2fbb553 Isaku Yamahata 2022-01-19  747  			/*
+8e040da2fbb553 Isaku Yamahata 2022-01-19  748  			 * Because page is pinned (refer to
+8e040da2fbb553 Isaku Yamahata 2022-01-19  749  			 * kvm_faultin_pfn_private()), page migration shouldn't
+8e040da2fbb553 Isaku Yamahata 2022-01-19  750  			 * be triggered for private page.  kvm private memory
+8e040da2fbb553 Isaku Yamahata 2022-01-19  751  			 * slot case should also prevent page migration.
+8e040da2fbb553 Isaku Yamahata 2022-01-19  752  			 */
+8e040da2fbb553 Isaku Yamahata 2022-01-19  753  			pr_err("gfn 0x%llx old_spte 0x%llx new_spte 0x%llx level %d\n",
+8e040da2fbb553 Isaku Yamahata 2022-01-19  754  			       gfn, old_spte, new_spte, level);
+8e040da2fbb553 Isaku Yamahata 2022-01-19  755  			WARN_ON(1);
+8e040da2fbb553 Isaku Yamahata 2022-01-19  756  		}
+8e040da2fbb553 Isaku Yamahata 2022-01-19  757  
+8e040da2fbb553 Isaku Yamahata 2022-01-19  758  		if (ret)
+8e040da2fbb553 Isaku Yamahata 2022-01-19  759  			return ret;
+8e040da2fbb553 Isaku Yamahata 2022-01-19  760  	}
+8e040da2fbb553 Isaku Yamahata 2022-01-19  761  
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  762  	/*
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  763  	 * Use different call to either set up middle level
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  764  	 * private page table, or leaf.
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  765  	 */
+4dd456d9316feb Xiaoyao Li     2021-08-31  766  	if (level > PG_LEVEL_4K && was_leaf && !is_leaf) {
+4dd456d9316feb Xiaoyao Li     2021-08-31  767  		/*
+4dd456d9316feb Xiaoyao Li     2021-08-31  768  		 * splitting large page into 4KB.
+4dd456d9316feb Xiaoyao Li     2021-08-31  769  		 * tdp_mmu_split_huage_page() => tdp_mmu_link_sp()
+4dd456d9316feb Xiaoyao Li     2021-08-31  770  		 */
+4dd456d9316feb Xiaoyao Li     2021-08-31  771  		private_spt = get_private_spt(gfn, new_spte, level);
+4dd456d9316feb Xiaoyao Li     2021-08-31  772  		KVM_BUG_ON(!private_spt, kvm);
+4dd456d9316feb Xiaoyao Li     2021-08-31  773  		ret = static_call(kvm_x86_zap_private_spte)(kvm, gfn, level);
+4dd456d9316feb Xiaoyao Li     2021-08-31  774  		kvm_flush_remote_tlbs(kvm);
+4dd456d9316feb Xiaoyao Li     2021-08-31  775  		if (!ret)
+4dd456d9316feb Xiaoyao Li     2021-08-31  776  			ret = static_call(kvm_x86_split_private_spt)(kvm, gfn,
+4dd456d9316feb Xiaoyao Li     2021-08-31  777  								     level, private_spt);
+4dd456d9316feb Xiaoyao Li     2021-08-31  778  	} else if (is_leaf)
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  779  		ret = static_call(kvm_x86_set_private_spte)(kvm, gfn, level, new_pfn);
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  780  	else {
+4dd456d9316feb Xiaoyao Li     2021-08-31  781  		private_spt = get_private_spt(gfn, new_spte, level);
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  782  		KVM_BUG_ON(!private_spt, kvm);
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  783  		ret = static_call(kvm_x86_link_private_spt)(kvm, gfn, level, private_spt);
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  784  	}
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  785  
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  786  	return ret;
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  787  }
+134e8fd3aa98ee Isaku Yamahata 2022-10-28  788  
 
 -- 
 0-DAY CI Kernel Test Service
