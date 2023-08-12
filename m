@@ -1,42 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5267FEA0
-	for <oe-kbuild@lists.linux.dev>; Sat, 12 Aug 2023 07:08:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CDF1CCD8
+	for <oe-kbuild@lists.linux.dev>; Sat, 12 Aug 2023 09:55:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691824093; x=1723360093;
+  t=1691834112; x=1723370112;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=moYX/HzEYf1zpSRAVH/yvMSho6kyy/06tOf57RP9u+k=;
-  b=bjzP6i9i2AJ9l7Yom8QC3y/CQGC4uWyod8oK7RKHAA87XmsJVHfp45x8
-   YksHSqYxmvW82Ko+pQVXJppUBEJTspuHGZUCSBCSCeAlFWzgVTJ6SMPs2
-   tx/tPYZVC0v75vuhYJ5VZC7cyJYPDpujnfNjDt9Uts5MF/PY3AKwyS9mu
-   hRRhaO6FcFPj2zTCVeRUena4eUkI5pW9aDApQv24A8fdvDS69pFRhxYej
-   6V5pd94KjBAFhVmxzXfE3mwymnbhOAlpIOsv19yTvprK2wDVf5xL00Oj2
-   0TonVNjiFHKgJI0Ceqz17zvh1GGs+BA83crBKr/02sZbrexGOTWUfzzmr
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="351415793"
-X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="351415793"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 00:08:07 -0700
+  bh=/rRD+fghLsuVK7bv7v+L84gpyCi9Wdu3XgXUAFub1Q4=;
+  b=VF4n8u9g9+V7C1Hez9uJ8rmQ0eA5S7uTaC98EG7jNrs4ugwddAYTL8+K
+   wqtxZ/5p0tsDlTJuCOv3796jO9gxBnmi05e/qOV5xA1LpLEEzmZxK86Ro
+   lVLK2kS4WPIOsoIXl/ly83xwJkxgAANbheR/AVZMLmnkuIboHlbLvyonn
+   KlZUs1o3Ip/OnmZt6mstM7eENdomLGCbufBoOUvIiU4jDvKy7hc0puW9b
+   TaP4naF+dKchv04xUN53vod2mr4K72E2zB9WjCBBwdckq42kU5quw2Wds
+   FTMG6WrET4vAvWscKohOK+KGQuFi44uoSf04ChvojPm56SN12n0dX0aTa
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="402799054"
+X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
+   d="scan'208";a="402799054"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 02:55:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="762411787"
-X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="762411787"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="906687303"
+X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
+   d="scan'208";a="906687303"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 12 Aug 2023 00:08:05 -0700
+  by orsmga005.jf.intel.com with ESMTP; 12 Aug 2023 02:55:10 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUijF-0008M6-0j;
-	Sat, 12 Aug 2023 07:08:05 +0000
-Date: Sat, 12 Aug 2023 15:07:18 +0800
+	id 1qUlKv-0008TA-2I;
+	Sat, 12 Aug 2023 09:55:09 +0000
+Date: Sat, 12 Aug 2023 17:55:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [robh:for-kernelci 1/2] drivers/watchdog/sa1100_wdt.c:149
- sa1100dog_ioctl() warn: check for integer overflow 'time'
-Message-ID: <202308121408.x50QkVgj-lkp@intel.com>
+Subject: Re: [PATCH 2/2] drivers: misc: adi-axi-tdd: Add new TDD engine driver
+Message-ID: <202308121705.lCNuhNwj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,83 +47,102 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Rob Herring <robh@kernel.org>
+In-Reply-To: <20230726071103.12172-2-eliza.balas@analog.com>
+References: <20230726071103.12172-2-eliza.balas@analog.com>
+TO: Eliza Balas <eliza.balas@analog.com>
+CC: Eliza Balas <eliza.balas@analog.com>
+CC: Rob Herring <robh+dt@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: Derek Kiernan <derek.kiernan@amd.com>
+CC: Dragan Cvetic <dragan.cvetic@amd.com>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: linux-kernel@vger.kernel.org
+CC: devicetree@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
-head:   fa388d0bb6108cf4ced53aadb5f9bca7753954de
-commit: 11b42f6418bd440f99d1816557a31cc529645b6a [1/2] watchdog: Enable more drivers for COMPILE_TEST
+Hi Eliza,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.5-rc5 next-20230809]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eliza-Balas/drivers-misc-adi-axi-tdd-Add-new-TDD-engine-driver/20230726-151745
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20230726071103.12172-2-eliza.balas%40analog.com
+patch subject: [PATCH 2/2] drivers: misc: adi-axi-tdd: Add new TDD engine driver
 :::::: branch date: 2 weeks ago
 :::::: commit date: 2 weeks ago
-config: nios2-randconfig-m031-20230812 (https://download.01.org/0day-ci/archive/20230812/202308121408.x50QkVgj-lkp@intel.com/config)
+config: nios2-randconfig-m031-20230812 (https://download.01.org/0day-ci/archive/20230812/202308121705.lCNuhNwj-lkp@intel.com/config)
 compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121408.x50QkVgj-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121705.lCNuhNwj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308121408.x50QkVgj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308121705.lCNuhNwj-lkp@intel.com/
 
 smatch warnings:
-drivers/watchdog/sa1100_wdt.c:149 sa1100dog_ioctl() warn: check for integer overflow 'time'
+drivers/misc/adi-axi-tdd.c:607 adi_axi_tdd_init_sysfs() error: not allocating enough for = 'attr_group' 20 vs 4
 
-vim +/time +149 drivers/watchdog/sa1100_wdt.c
+vim +/attr_group +607 drivers/misc/adi-axi-tdd.c
 
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  116  
-f19e031265dc6e drivers/watchdog/sa1100_wdt.c      Alan Cox            2008-05-19  117  static long sa1100dog_ioctl(struct file *file, unsigned int cmd,
-f19e031265dc6e drivers/watchdog/sa1100_wdt.c      Alan Cox            2008-05-19  118  							unsigned long arg)
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  119  {
-795b89d207d8ff drivers/char/watchdog/sa1100_wdt.c Samuel Tardieu      2006-09-09  120  	int ret = -ENOTTY;
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  121  	int time;
-3a69e5791379a7 drivers/char/watchdog/sa1100_wdt.c Ian Campbell        2005-11-07  122  	void __user *argp = (void __user *)arg;
-3a69e5791379a7 drivers/char/watchdog/sa1100_wdt.c Ian Campbell        2005-11-07  123  	int __user *p = argp;
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  124  
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  125  	switch (cmd) {
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  126  	case WDIOC_GETSUPPORT:
-3a69e5791379a7 drivers/char/watchdog/sa1100_wdt.c Ian Campbell        2005-11-07  127  		ret = copy_to_user(argp, &ident,
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  128  				   sizeof(ident)) ? -EFAULT : 0;
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  129  		break;
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  130  
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  131  	case WDIOC_GETSTATUS:
-3a69e5791379a7 drivers/char/watchdog/sa1100_wdt.c Ian Campbell        2005-11-07  132  		ret = put_user(0, p);
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  133  		break;
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  134  
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  135  	case WDIOC_GETBOOTSTATUS:
-3a69e5791379a7 drivers/char/watchdog/sa1100_wdt.c Ian Campbell        2005-11-07  136  		ret = put_user(boot_status, p);
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  137  		break;
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  138  
-0c06090c9472db drivers/watchdog/sa1100_wdt.c      Wim Van Sebroeck    2008-07-18  139  	case WDIOC_KEEPALIVE:
-e86bd43bcfc579 drivers/watchdog/sa1100_wdt.c      Arnd Bergmann       2019-09-08  140  		sa1100_wr(sa1100_rd(REG_OSCR) + pre_margin, REG_OSMR3);
-0c06090c9472db drivers/watchdog/sa1100_wdt.c      Wim Van Sebroeck    2008-07-18  141  		ret = 0;
-0c06090c9472db drivers/watchdog/sa1100_wdt.c      Wim Van Sebroeck    2008-07-18  142  		break;
-0c06090c9472db drivers/watchdog/sa1100_wdt.c      Wim Van Sebroeck    2008-07-18  143  
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  144  	case WDIOC_SETTIMEOUT:
-3a69e5791379a7 drivers/char/watchdog/sa1100_wdt.c Ian Campbell        2005-11-07  145  		ret = get_user(time, p);
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  146  		if (ret)
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  147  			break;
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  148  
-a6f052e39c3832 drivers/watchdog/sa1100_wdt.c      Raphael Assenat     2009-06-29 @149  		if (time <= 0 || (oscr_freq * (long long)time >= 0xffffffff)) {
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  150  			ret = -EINVAL;
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  151  			break;
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  152  		}
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  153  
-28a623855f737a drivers/watchdog/sa1100_wdt.c      Eric Miao           2008-12-24  154  		pre_margin = oscr_freq * time;
-e86bd43bcfc579 drivers/watchdog/sa1100_wdt.c      Arnd Bergmann       2019-09-08  155  		sa1100_wr(sa1100_rd(REG_OSCR) + pre_margin, REG_OSMR3);
-bd490f8222510d drivers/watchdog/sa1100_wdt.c      Gustavo A. R. Silva 2020-07-07  156  		fallthrough;
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  157  
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  158  	case WDIOC_GETTIMEOUT:
-28a623855f737a drivers/watchdog/sa1100_wdt.c      Eric Miao           2008-12-24  159  		ret = put_user(pre_margin / oscr_freq, p);
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  160  		break;
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  161  	}
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  162  	return ret;
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  163  }
-^1da177e4c3f41 drivers/char/watchdog/sa1100_wdt.c Linus Torvalds      2005-04-16  164  
-
-:::::: The code at line 149 was first introduced by commit
-:::::: a6f052e39c3832b5842c4f44d9b3a4295dacfc4a [WATCHDOG] SA1100 watchdog maximum timeout
-
-:::::: TO: Raphael Assenat <raph@8d.com>
-:::::: CC: Wim Van Sebroeck <wim@iguana.be>
+2e18ca4ce802a7 Eliza Balas 2023-07-26  565  
+2e18ca4ce802a7 Eliza Balas 2023-07-26  566  static int adi_axi_tdd_init_sysfs(struct platform_device *pdev, struct adi_axi_tdd_state *st)
+2e18ca4ce802a7 Eliza Balas 2023-07-26  567  {
+2e18ca4ce802a7 Eliza Balas 2023-07-26  568  	size_t base_attr_count = ARRAY_SIZE(adi_axi_tdd_base_attributes);
+2e18ca4ce802a7 Eliza Balas 2023-07-26  569  	size_t attribute_count = base_attr_count + 6 * st->channel_count + 1;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  570  	struct adi_axi_tdd_attribute *channel_attributes;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  571  	struct adi_axi_tdd_attribute *channel_iter;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  572  	struct attribute_group *attr_group;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  573  	struct attribute **tdd_attrs;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  574  	u32 i, j;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  575  
+2e18ca4ce802a7 Eliza Balas 2023-07-26  576  	channel_attributes = devm_kcalloc(&pdev->dev, 6 * st->channel_count,
+2e18ca4ce802a7 Eliza Balas 2023-07-26  577  					  sizeof(*channel_attributes), GFP_KERNEL);
+2e18ca4ce802a7 Eliza Balas 2023-07-26  578  	if (!channel_attributes)
+2e18ca4ce802a7 Eliza Balas 2023-07-26  579  		return -ENOMEM;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  580  
+2e18ca4ce802a7 Eliza Balas 2023-07-26  581  	tdd_attrs = devm_kcalloc(&pdev->dev, attribute_count,
+2e18ca4ce802a7 Eliza Balas 2023-07-26  582  				 sizeof(*tdd_attrs), GFP_KERNEL);
+2e18ca4ce802a7 Eliza Balas 2023-07-26  583  	if (!tdd_attrs)
+2e18ca4ce802a7 Eliza Balas 2023-07-26  584  		return -ENOMEM;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  585  
+2e18ca4ce802a7 Eliza Balas 2023-07-26  586  	memcpy(tdd_attrs, adi_axi_tdd_base_attributes, sizeof(adi_axi_tdd_base_attributes));
+2e18ca4ce802a7 Eliza Balas 2023-07-26  587  
+2e18ca4ce802a7 Eliza Balas 2023-07-26  588  	channel_iter = channel_attributes;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  589  
+2e18ca4ce802a7 Eliza Balas 2023-07-26  590  	for (i = 0; i < st->channel_count; i++) {
+2e18ca4ce802a7 Eliza Balas 2023-07-26  591  		for (j = 0; j < ARRAY_SIZE(channel_names); j++) {
+2e18ca4ce802a7 Eliza Balas 2023-07-26  592  			snprintf(channel_iter->name,
+2e18ca4ce802a7 Eliza Balas 2023-07-26  593  				 sizeof(channel_iter->name), channel_names[j],
+2e18ca4ce802a7 Eliza Balas 2023-07-26  594  				 i);
+2e18ca4ce802a7 Eliza Balas 2023-07-26  595  			channel_iter->id = channel_ids[j];
+2e18ca4ce802a7 Eliza Balas 2023-07-26  596  			channel_iter->channel = i;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  597  			channel_iter->attr.attr.name = channel_iter->name;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  598  			channel_iter->attr.attr.mode = 0644;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  599  			channel_iter->attr.show = adi_axi_tdd_show;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  600  			channel_iter->attr.store = adi_axi_tdd_store;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  601  
+2e18ca4ce802a7 Eliza Balas 2023-07-26  602  			tdd_attrs[base_attr_count + 6 * i + j] = &channel_iter->attr.attr;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  603  			channel_iter++;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  604  		}
+2e18ca4ce802a7 Eliza Balas 2023-07-26  605  	}
+2e18ca4ce802a7 Eliza Balas 2023-07-26  606  
+2e18ca4ce802a7 Eliza Balas 2023-07-26 @607  	attr_group = devm_kzalloc(&pdev->dev, sizeof(attr_group), GFP_KERNEL);
+2e18ca4ce802a7 Eliza Balas 2023-07-26  608  	if (!attr_group)
+2e18ca4ce802a7 Eliza Balas 2023-07-26  609  		return -ENOMEM;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  610  
+2e18ca4ce802a7 Eliza Balas 2023-07-26  611  	attr_group->attrs = tdd_attrs;
+2e18ca4ce802a7 Eliza Balas 2023-07-26  612  
+2e18ca4ce802a7 Eliza Balas 2023-07-26  613  	return devm_device_add_group(&pdev->dev, attr_group);
+2e18ca4ce802a7 Eliza Balas 2023-07-26  614  }
+2e18ca4ce802a7 Eliza Balas 2023-07-26  615  
 
 -- 
 0-DAY CI Kernel Test Service
