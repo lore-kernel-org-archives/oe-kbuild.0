@@ -1,43 +1,41 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4238BE2
-	for <oe-kbuild@lists.linux.dev>; Fri, 18 Aug 2023 04:21:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CA2812
+	for <oe-kbuild@lists.linux.dev>; Fri, 18 Aug 2023 05:50:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692332499; x=1723868499;
+  t=1692337859; x=1723873859;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wehWNc1S5IC/f3euXyVJIe4peURGLIKHqHuP2rg4hZg=;
-  b=DlCjHwbIMiTDHBazG8/6mmy7z+K47QlkJRBdjmriaQd8YnoJZYVlvF2H
-   Tp7StEDPsuSXwHWbtKawK7+q091WN0zFJj+woS0Q0Xn3Kw8GLhu9Jv2bo
-   jLbhpvCemqZ8pPZ9/ywrPHd8Svln38gTnl9cE93oaSELvPa6EdYgaYOD+
-   z6Yl3NkRSj1MGe4G64nwyfVTR6/k+R2jt+XAtaXgwQB2cAnKF3WUR7MsB
-   Rk7u5nnnPads5yRhbH3ld1YdpXwYNLu4fhGGH3TaMKCgC/TSC5b8esn6X
-   1Joz7QAJXH2M1wInT9Wu+W7yAsFmV4Rnb226C3EqhROpt9xVZMhBxR2Sp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="459363859"
+  bh=KfgC4i8IdJ6tJCIawHFAY6pjZFOSC212D8fekSnnJXY=;
+  b=UokkkyhIOST5ZokcJ89y/+e0mjmVdWStL7J4sW8/oeUVxOtvdxalkIpt
+   +fLm0tKsEmwJnh9/T/XLfs3n5SV6Ng5JU8SQhQDXvY409xYoMPJXJFBhI
+   XBAxLt3Hx6RnFuIDn/Z+q5AuiGu9OB/MGyWGDONN6zOjwTvNTUoFDmVd5
+   bmwQ9lK2q8TgAYYhm8H7ICI8Ei1kJ/gP8wPgYtRjgArtHVIrjm4Ivphu9
+   RsRY9Pp7USH7QMlIhGz8IiFZcj4KZBZbtgnCSEtuAaM4kCtg18LvOok6s
+   TtAO3YTDE8bDWz29wNyU6sKvdGRh+MjJUx2zQMbdX4lwlBGAdB55ERE2u
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="459374292"
 X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="459363859"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 21:21:38 -0700
+   d="scan'208";a="459374292"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 22:50:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="858528611"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="981511421"
 X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="858528611"
+   d="scan'208";a="981511421"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 17 Aug 2023 21:21:36 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 17 Aug 2023 22:50:56 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWqzK-00025Y-2B;
-	Fri, 18 Aug 2023 04:21:32 +0000
-Date: Fri, 18 Aug 2023 12:20:17 +0800
+	id 1qWsN5-00029I-1n;
+	Fri, 18 Aug 2023 05:50:10 +0000
+Date: Fri, 18 Aug 2023 13:48:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/infiniband/hw/bnxt_re/ib_verbs.c:4189
- bnxt_re_handler_BNXT_RE_METHOD_ALLOC_PAGE() error: uninitialized symbol
- '_val'.
-Message-ID: <202308181216.NYHDqB4l-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH RFC v3] mm: Proper document tail pages fields for folio
+Message-ID: <202308181323.AdR1xgvN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,104 +45,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: include/linux/mm_types.h:440:1: sparse: sparse: static assertion failed: "offsetof(struct folio, _mapcount_1) == offsetof(struct page, _mapcount) + sizeof(struct page)""
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Selvin Xavier <selvin.xavier@broadcom.com>
-CC: Jason Gunthorpe <jgg@ziepe.ca>
+In-Reply-To: <20230815212547.431693-1-peterx@redhat.com>
+References: <20230815212547.431693-1-peterx@redhat.com>
+TO: Peter Xu <peterx@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   16931859a6500d360b90aeacab3b505a3560a3ed
-commit: 360da60d6c6edb9740de7a8e6d8969d62ceff956 RDMA/bnxt_re: Enable low latency push
-date:   8 weeks ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 8 weeks ago
-config: riscv-randconfig-m031-20230816 (https://download.01.org/0day-ci/archive/20230818/202308181216.NYHDqB4l-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230818/202308181216.NYHDqB4l-lkp@intel.com/reproduce)
+Hi Peter,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.5-rc6 next-20230817]
+[cannot apply to akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Xu/mm-Proper-document-tail-pages-fields-for-folio/20230816-052726
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230815212547.431693-1-peterx%40redhat.com
+patch subject: [PATCH RFC v3] mm: Proper document tail pages fields for folio
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: mips-randconfig-r073-20230818 (https://download.01.org/0day-ci/archive/20230818/202308181323.AdR1xgvN-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230818/202308181323.AdR1xgvN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308181216.NYHDqB4l-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308181323.AdR1xgvN-lkp@intel.com/
 
-smatch warnings:
-drivers/infiniband/hw/bnxt_re/ib_verbs.c:4189 bnxt_re_handler_BNXT_RE_METHOD_ALLOC_PAGE() error: uninitialized symbol '_val'.
+sparse warnings: (new ones prefixed by >>)
+   command-line: note: in included file:
+   builtin:1:9: sparse: sparse: preprocessor token __STDC_HOSTED__ redefined
+   builtin:0:0: sparse: this was the original definition
+   command-line: note: in included file (through arch/mips/include/asm/vdso.h, arch/mips/include/asm/vdso/vdso.h, arch/mips/include/asm/vdso/gettimeofday.h, ...):
+>> include/linux/mm_types.h:440:1: sparse: sparse: static assertion failed: "offsetof(struct folio, _mapcount_1) == offsetof(struct page, _mapcount) + sizeof(struct page)"
+>> include/linux/mm_types.h:441:1: sparse: sparse: static assertion failed: "offsetof(struct folio, _refcount_1) == offsetof(struct page, _refcount) + sizeof(struct page)"
+>> include/linux/mm_types.h:452:1: sparse: sparse: static assertion failed: "offsetof(struct folio, _mapcount_2a) == offsetof(struct page, _mapcount) + 2 * sizeof(struct page)"
+>> include/linux/mm_types.h:453:1: sparse: sparse: static assertion failed: "offsetof(struct folio, _refcount_2a) == offsetof(struct page, _refcount) + 2 * sizeof(struct page)"
+   command-line: note: in included file (through builtin):
+   lib/vdso/gettimeofday.c:282:24: sparse: sparse: undefined identifier 'clock_gettime32_fallback'
+   lib/vdso/gettimeofday.c:425:24: sparse: sparse: undefined identifier 'clock_getres32_fallback'
 
-vim +/_val +4189 drivers/infiniband/hw/bnxt_re/ib_verbs.c
+vim +440 include/linux/mm_types.h
 
-360da60d6c6edb Selvin Xavier 2023-06-13  4169  
-360da60d6c6edb Selvin Xavier 2023-06-13  4170  static int UVERBS_HANDLER(BNXT_RE_METHOD_ALLOC_PAGE)(struct uverbs_attr_bundle *attrs)
-360da60d6c6edb Selvin Xavier 2023-06-13  4171  {
-360da60d6c6edb Selvin Xavier 2023-06-13  4172  	struct ib_uobject *uobj = uverbs_attr_get_uobject(attrs, BNXT_RE_ALLOC_PAGE_HANDLE);
-360da60d6c6edb Selvin Xavier 2023-06-13  4173  	enum bnxt_re_alloc_page_type alloc_type;
-360da60d6c6edb Selvin Xavier 2023-06-13  4174  	struct bnxt_re_user_mmap_entry *entry;
-360da60d6c6edb Selvin Xavier 2023-06-13  4175  	enum bnxt_re_mmap_flag mmap_flag;
-360da60d6c6edb Selvin Xavier 2023-06-13  4176  	struct bnxt_qplib_chip_ctx *cctx;
-360da60d6c6edb Selvin Xavier 2023-06-13  4177  	struct bnxt_re_ucontext *uctx;
-360da60d6c6edb Selvin Xavier 2023-06-13  4178  	struct bnxt_re_dev *rdev;
-360da60d6c6edb Selvin Xavier 2023-06-13  4179  	u64 mmap_offset;
-360da60d6c6edb Selvin Xavier 2023-06-13  4180  	u32 length;
-360da60d6c6edb Selvin Xavier 2023-06-13  4181  	u32 dpi;
-360da60d6c6edb Selvin Xavier 2023-06-13  4182  	u64 dbr;
-360da60d6c6edb Selvin Xavier 2023-06-13  4183  	int err;
-360da60d6c6edb Selvin Xavier 2023-06-13  4184  
-360da60d6c6edb Selvin Xavier 2023-06-13  4185  	uctx = container_of(ib_uverbs_get_ucontext(attrs), struct bnxt_re_ucontext, ib_uctx);
-360da60d6c6edb Selvin Xavier 2023-06-13  4186  	if (IS_ERR(uctx))
-360da60d6c6edb Selvin Xavier 2023-06-13  4187  		return PTR_ERR(uctx);
-360da60d6c6edb Selvin Xavier 2023-06-13  4188  
-360da60d6c6edb Selvin Xavier 2023-06-13 @4189  	err = uverbs_get_const(&alloc_type, attrs, BNXT_RE_ALLOC_PAGE_TYPE);
-360da60d6c6edb Selvin Xavier 2023-06-13  4190  	if (err)
-360da60d6c6edb Selvin Xavier 2023-06-13  4191  		return err;
-360da60d6c6edb Selvin Xavier 2023-06-13  4192  
-360da60d6c6edb Selvin Xavier 2023-06-13  4193  	rdev = uctx->rdev;
-360da60d6c6edb Selvin Xavier 2023-06-13  4194  	cctx = rdev->chip_ctx;
-360da60d6c6edb Selvin Xavier 2023-06-13  4195  
-360da60d6c6edb Selvin Xavier 2023-06-13  4196  	switch (alloc_type) {
-360da60d6c6edb Selvin Xavier 2023-06-13  4197  	case BNXT_RE_ALLOC_WC_PAGE:
-360da60d6c6edb Selvin Xavier 2023-06-13  4198  		if (cctx->modes.db_push)  {
-360da60d6c6edb Selvin Xavier 2023-06-13  4199  			if (bnxt_qplib_alloc_dpi(&rdev->qplib_res, &uctx->wcdpi,
-360da60d6c6edb Selvin Xavier 2023-06-13  4200  						 uctx, BNXT_QPLIB_DPI_TYPE_WC))
-360da60d6c6edb Selvin Xavier 2023-06-13  4201  				return -ENOMEM;
-360da60d6c6edb Selvin Xavier 2023-06-13  4202  			length = PAGE_SIZE;
-360da60d6c6edb Selvin Xavier 2023-06-13  4203  			dpi = uctx->wcdpi.dpi;
-360da60d6c6edb Selvin Xavier 2023-06-13  4204  			dbr = (u64)uctx->wcdpi.umdbr;
-360da60d6c6edb Selvin Xavier 2023-06-13  4205  			mmap_flag = BNXT_RE_MMAP_WC_DB;
-360da60d6c6edb Selvin Xavier 2023-06-13  4206  		} else {
-360da60d6c6edb Selvin Xavier 2023-06-13  4207  			return -EINVAL;
-360da60d6c6edb Selvin Xavier 2023-06-13  4208  		}
-360da60d6c6edb Selvin Xavier 2023-06-13  4209  
-360da60d6c6edb Selvin Xavier 2023-06-13  4210  		break;
-360da60d6c6edb Selvin Xavier 2023-06-13  4211  
-360da60d6c6edb Selvin Xavier 2023-06-13  4212  	default:
-360da60d6c6edb Selvin Xavier 2023-06-13  4213  		return -EOPNOTSUPP;
-360da60d6c6edb Selvin Xavier 2023-06-13  4214  	}
-360da60d6c6edb Selvin Xavier 2023-06-13  4215  
-360da60d6c6edb Selvin Xavier 2023-06-13  4216  	entry = bnxt_re_mmap_entry_insert(uctx, dbr, mmap_flag, &mmap_offset);
-360da60d6c6edb Selvin Xavier 2023-06-13  4217  	if (IS_ERR(entry))
-360da60d6c6edb Selvin Xavier 2023-06-13  4218  		return PTR_ERR(entry);
-360da60d6c6edb Selvin Xavier 2023-06-13  4219  
-360da60d6c6edb Selvin Xavier 2023-06-13  4220  	uobj->object = entry;
-360da60d6c6edb Selvin Xavier 2023-06-13  4221  	uverbs_finalize_uobj_create(attrs, BNXT_RE_ALLOC_PAGE_HANDLE);
-360da60d6c6edb Selvin Xavier 2023-06-13  4222  	err = uverbs_copy_to(attrs, BNXT_RE_ALLOC_PAGE_MMAP_OFFSET,
-360da60d6c6edb Selvin Xavier 2023-06-13  4223  			     &mmap_offset, sizeof(mmap_offset));
-360da60d6c6edb Selvin Xavier 2023-06-13  4224  	if (err)
-360da60d6c6edb Selvin Xavier 2023-06-13  4225  		return err;
-360da60d6c6edb Selvin Xavier 2023-06-13  4226  
-360da60d6c6edb Selvin Xavier 2023-06-13  4227  	err = uverbs_copy_to(attrs, BNXT_RE_ALLOC_PAGE_MMAP_LENGTH,
-360da60d6c6edb Selvin Xavier 2023-06-13  4228  			     &length, sizeof(length));
-360da60d6c6edb Selvin Xavier 2023-06-13  4229  	if (err)
-360da60d6c6edb Selvin Xavier 2023-06-13  4230  		return err;
-360da60d6c6edb Selvin Xavier 2023-06-13  4231  
-360da60d6c6edb Selvin Xavier 2023-06-13  4232  	err = uverbs_copy_to(attrs, BNXT_RE_ALLOC_PAGE_DPI,
-360da60d6c6edb Selvin Xavier 2023-06-13  4233  			     &dpi, sizeof(length));
-360da60d6c6edb Selvin Xavier 2023-06-13  4234  	if (err)
-360da60d6c6edb Selvin Xavier 2023-06-13  4235  		return err;
-360da60d6c6edb Selvin Xavier 2023-06-13  4236  
-360da60d6c6edb Selvin Xavier 2023-06-13  4237  	return 0;
-360da60d6c6edb Selvin Xavier 2023-06-13  4238  }
-360da60d6c6edb Selvin Xavier 2023-06-13  4239  
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  417) 
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  418) #define FOLIO_MATCH(pg, fl)						\
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  419) 	static_assert(offsetof(struct page, pg) == offsetof(struct folio, fl))
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  420) FOLIO_MATCH(flags, flags);
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  421) FOLIO_MATCH(lru, lru);
+536f4217ced62b Wei Yang                2022-01-29  422  FOLIO_MATCH(mapping, mapping);
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  423) FOLIO_MATCH(compound_head, lru);
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  424) FOLIO_MATCH(index, index);
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  425) FOLIO_MATCH(private, private);
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  426) FOLIO_MATCH(_mapcount, _mapcount);
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  427) FOLIO_MATCH(_refcount, _refcount);
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  428) #ifdef CONFIG_MEMCG
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  429) FOLIO_MATCH(memcg_data, memcg_data);
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  430) #endif
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  431) #undef FOLIO_MATCH
+379708ffde1b04 Matthew Wilcox (Oracle  2022-09-02  432) #define FOLIO_MATCH(pg, fl)						\
+379708ffde1b04 Matthew Wilcox (Oracle  2022-09-02  433) 	static_assert(offsetof(struct folio, fl) ==			\
+379708ffde1b04 Matthew Wilcox (Oracle  2022-09-02  434) 			offsetof(struct page, pg) + sizeof(struct page))
+379708ffde1b04 Matthew Wilcox (Oracle  2022-09-02  435) FOLIO_MATCH(flags, _flags_1);
+dad6a5eb555648 Hugh Dickins            2022-11-02  436  FOLIO_MATCH(compound_head, _head_1);
+2a678a0821365b Peter Xu                2023-08-15  437  #ifdef CONFIG_64BIT
+2a678a0821365b Peter Xu                2023-08-15  438  FOLIO_MATCH(private, _private_1);
+2a678a0821365b Peter Xu                2023-08-15  439  #endif
+2a678a0821365b Peter Xu                2023-08-15 @440  FOLIO_MATCH(_mapcount, _mapcount_1);
+2a678a0821365b Peter Xu                2023-08-15 @441  FOLIO_MATCH(_refcount, _refcount_1);
+379708ffde1b04 Matthew Wilcox (Oracle  2022-09-02  442) #undef FOLIO_MATCH
+dad6a5eb555648 Hugh Dickins            2022-11-02  443  #define FOLIO_MATCH(pg, fl)						\
+dad6a5eb555648 Hugh Dickins            2022-11-02  444  	static_assert(offsetof(struct folio, fl) ==			\
+dad6a5eb555648 Hugh Dickins            2022-11-02  445  			offsetof(struct page, pg) + 2 * sizeof(struct page))
+dad6a5eb555648 Hugh Dickins            2022-11-02  446  FOLIO_MATCH(flags, _flags_2);
+dad6a5eb555648 Hugh Dickins            2022-11-02  447  FOLIO_MATCH(compound_head, _head_2);
+2a678a0821365b Peter Xu                2023-08-15  448  FOLIO_MATCH(_mapcount, _mapcount_2);
+2a678a0821365b Peter Xu                2023-08-15  449  FOLIO_MATCH(_refcount, _refcount_2);
+2a678a0821365b Peter Xu                2023-08-15  450  FOLIO_MATCH(flags, _flags_2a);
+2a678a0821365b Peter Xu                2023-08-15  451  FOLIO_MATCH(compound_head, _head_2a);
+2a678a0821365b Peter Xu                2023-08-15 @452  FOLIO_MATCH(_mapcount, _mapcount_2a);
+2a678a0821365b Peter Xu                2023-08-15 @453  FOLIO_MATCH(_refcount, _refcount_2a);
+2a678a0821365b Peter Xu                2023-08-15  454  #ifdef CONFIG_64BIT
+2a678a0821365b Peter Xu                2023-08-15  455  FOLIO_MATCH(private, _private_2a);
+2a678a0821365b Peter Xu                2023-08-15  456  #endif
+dad6a5eb555648 Hugh Dickins            2022-11-02  457  #undef FOLIO_MATCH
+7b230db3b8d373 Matthew Wilcox (Oracle  2020-12-06  458) 
 
 -- 
 0-DAY CI Kernel Test Service
