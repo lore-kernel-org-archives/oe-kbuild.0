@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5E1EA8
-	for <oe-kbuild@lists.linux.dev>; Tue, 22 Aug 2023 08:07:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0A31FD0
+	for <oe-kbuild@lists.linux.dev>; Tue, 22 Aug 2023 15:20:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692691663; x=1724227663;
+  t=1692717629; x=1724253629;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/G1W707QjJTKtQ+QI7ogTgBihBUsDHFjbE9bz97t9h4=;
-  b=AaayoVnlDzYEpHv6hq7RhIaSP9bBpvj3G8fn3CRru2LeYuZxG9kTB7qC
-   qf+K159RFsKAYcOwBsHpw+RAcNzQCzdU9XV/f8jWq3YXc1BAYPPC7VQ5B
-   MA4/2QQCV+4atHqVbMmV6v9Wi7nxuDOKaHturjtOcQCUKfLScmppF971l
-   uR+Mu92qU13dTkGYtTSYj7I2NCQVi5a2Li7JSSq2KsyVAsS9eFmgapZ3v
-   RIZ4Rh6p1TI3BrmnvD3m0hkameS+AdYHAuxodP7dW2+UniC7keKU6BLyL
-   fhR0PHMcRInGYn0fKBIQIfQyBda/MTwswlYJ5JrCb/ZqkTn+Zq+gCBPMh
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="371241360"
-X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; 
-   d="scan'208";a="371241360"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 01:07:42 -0700
+  bh=ih6Cd9v/41hW8ArNsVU0B5hNvSoLFljUesVjbf5dEps=;
+  b=OnGmNeSy06pLxcscVAH74LX49f6A8bnjSqGCvqfxLERvn3u7Izypm+RG
+   xE0tQX3JjlErJrA9IQJvN+KjTPJutLB4dPGP1XOhNsVSHo+tz55i+6ElC
+   1ClAbYBvn32N25GYVxjQSFsQkgrMnIJ2Np25epugxydo1R/bVelRzwWFD
+   pWRf2/lqDt/AetlkfN8GnB15vSAQGZB2JZpM+gFo/ClgqCRoO2cfDsnoq
+   j4M7XUFxX6dWGb4t1/7JncR94vgG6D1CC4zOv7EhYwPtuc5dmJc+YV+fl
+   ptXpagSCxM1piE8yd3zoVsZZseRjJNkuRBJlZjzjvOO7ZyXcu9sn36k+C
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="404912752"
+X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; 
+   d="scan'208";a="404912752"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 08:20:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="685950598"
-X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; 
-   d="scan'208";a="685950598"
-Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 22 Aug 2023 01:07:40 -0700
-Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="879993564"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 22 Aug 2023 08:20:30 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYMQD-0001Xk-0p;
-	Tue, 22 Aug 2023 08:07:31 +0000
-Date: Tue, 22 Aug 2023 16:06:09 +0800
+	id 1qYTBB-0000HT-1P;
+	Tue, 22 Aug 2023 15:20:25 +0000
+Date: Tue, 22 Aug 2023 23:20:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
 Subject: drivers/firmware/efi/libstub/unaccepted_memory.c:73
  allocate_unaccepted_bitmap() error: we previously assumed 'unaccepted_table'
  could be null (see line 19)
-Message-ID: <202308221650.5RbCjJYK-lkp@intel.com>
+Message-ID: <202308222325.RBrPmjdG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,17 +56,17 @@ tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git maste
 head:   f7757129e3dea336c407551c98f50057c22bb266
 commit: 6c3211796326a9d35618b866826ca556c8f008a8 x86/sev: Add SNP-specific unaccepted memory support
 date:   3 months ago
-:::::: branch date: 27 hours ago
+:::::: branch date: 34 hours ago
 :::::: commit date: 3 months ago
-config: x86_64-randconfig-161-20230822 (https://download.01.org/0day-ci/archive/20230822/202308221650.5RbCjJYK-lkp@intel.com/config)
+config: x86_64-randconfig-161-20230822 (https://download.01.org/0day-ci/archive/20230822/202308222325.RBrPmjdG-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230822/202308221650.5RbCjJYK-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308222325.RBrPmjdG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308221650.5RbCjJYK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308222325.RBrPmjdG-lkp@intel.com/
 
 smatch warnings:
 drivers/firmware/efi/libstub/unaccepted_memory.c:73 allocate_unaccepted_bitmap() error: we previously assumed 'unaccepted_table' could be null (see line 19)
