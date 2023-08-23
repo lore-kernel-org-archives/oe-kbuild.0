@@ -1,187 +1,190 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5B815BC
-	for <oe-kbuild@lists.linux.dev>; Wed, 23 Aug 2023 03:33:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870407E1
+	for <oe-kbuild@lists.linux.dev>; Wed, 23 Aug 2023 04:52:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692761596; x=1724297596;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vyYqbV9x2vxreT/ojgiN0ocrDeE5KCmFpHwGf6JNcqU=;
-  b=KQdoPimyOhzHdaw4bBJ/qgaP+DWEWMVSX1XRUnnRgbMIHKgj2Sq9YK4O
-   5F72nuPPD7m336tOu5PIJXXN/moY2p8+OGwIKGLcYX/uxR+i1Acs8tsFi
-   WuXx2w9OynKEQuQGvfrFxQFgfmsouEdxA/zbfSriICH+diQ+HsEyT4JAt
-   F5ApIK4I+n5jEdHmNn+UHsZ9VwIXTdSmKhs/Kq3nySbtNibr8ASfOUTUk
-   ZqrT0i0bO4SElMENUX4ZTZR/7aMEmSaV59iMzFq010W2Cs2OATYgHTKEW
-   5tk/wJM8M/F5blborWy8Hwv0h8FKwNyNK5h/To5w250JBYNz0vzQcvoDM
+  t=1692766358; x=1724302358;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XrVoK4Raspnl3CBf9xoknhnAVQu4dNuUu4C7WVWohxc=;
+  b=J2C/U6BnzuSi8J+dsAHF8yl3+tZY04GpCePxgoYXvT24eGwWaqoj87Ap
+   g1wAgsRPS3ck+/IeF83AISQnQcc+P7m8QD9FasQ7wyURmoJef98TJ3ukR
+   jKjg78qc5zlsuLWhvvNRMKwQQFQmdvef7ZkoCVDpWUb5KJGnxQ54h3oXd
+   Up5qWL8A3V5S4OLYNMdn5imRg1OMvrbSa52GqYYxYU63tjgrs3Cy2C1eY
+   6TBwJRHBGm04df6YZowx0/bn4SZhcIuAkznGZr2Go7fGCghGsit62KvZV
+   2UMwrn96IZtTqeN1FuWM9dEhyRiPScUad/3WBFSrtPLUgdTviNX2MV63e
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="353608247"
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="359052113"
 X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="353608247"
+   d="scan'208";a="359052113"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 20:33:15 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 21:52:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="826561114"
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="826575926"
 X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="826561114"
+   d="scan'208";a="826575926"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 22 Aug 2023 20:33:13 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Aug 2023 21:52:36 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYecD-0000oI-1g;
-	Wed, 23 Aug 2023 03:33:13 +0000
-Date: Wed, 23 Aug 2023 11:30:58 +0800
+	id 1qYfr6-0000rQ-1s;
+	Wed, 23 Aug 2023 04:52:33 +0000
+Date: Wed, 23 Aug 2023 12:51:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [snitzer:dm-6.5-vdo 44/57] ERROR: modpost: "vdo_write_stats"
- [drivers/md/dm-vdo.ko] undefined!
-Message-ID: <202308231137.mQuHAyqG-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 9878/11453] fs/erofs/zdata.c:1054
+ z_erofs_do_read_page() error: we previously assumed 'fe->pcl' could be null
+ (see line 1002)
+Message-ID: <202308231210.8oBFCxip-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: ERROR: modpost: "vdo_write_stats" [drivers/md/dm-vdo.ko] undefined!"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "J. corwin Coburn" <corwin@redhat.com>
-CC: Mike Snitzer <snitzer@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Gao Xiang <hsiangkao@linux.alibaba.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git dm-6.5-vdo
-head:   1b656e4da993f9926698aa369eb63c21d875edd5
-commit: f7d7b3d23a6056e994442fd8628cd9882eea8e02 [44/57] Enable configuration and building of dm-vdo.
-:::::: branch date: 9 hours ago
-:::::: commit date: 4 weeks ago
-config: loongarch-randconfig-r123-20230822 (https://download.01.org/0day-ci/archive/20230823/202308231137.mQuHAyqG-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308231137.mQuHAyqG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   28c736b0e92e11bfe2b9997688213dc43cb22182
+commit: 3b815464a3094b1095a9f333e5c5fb5a6073d89c [9878/11453] erofs: move preparation logic into z_erofs_pcluster_begin()
+:::::: branch date: 21 hours ago
+:::::: commit date: 6 days ago
+config: parisc-randconfig-r071-20230822 (https://download.01.org/0day-ci/archive/20230823/202308231210.8oBFCxip-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308231210.8oBFCxip-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202308231137.mQuHAyqG-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202308231210.8oBFCxip-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+smatch warnings:
+fs/erofs/zdata.c:1054 z_erofs_do_read_page() error: we previously assumed 'fe->pcl' could be null (see line 1002)
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_gsm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap3-rom-rng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/st-rng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/ublk_drv.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/timberdale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/phy/mdio_devres.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/mdio/acpi_mdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/mdio/fwnode_mdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/mdio/of_mdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/mdio/mdio-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/mdio/mdio-bitbang.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/dummy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/appletalk/ipddp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/plip/plip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/bsd_comp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/slip/slip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/slip/slhc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line-display.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-tps65910.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/marvell/mcam-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos-fimc-lite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos4-is-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-empress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-alsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/menz69_wdt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/renesas_sdhi_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/xilinx/zynqmp-aes-gcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/arm_cspmu_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/libnvdimm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_btt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/of_pmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_virtio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/ata/sata_gemini.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netlink/netlink_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
->> ERROR: modpost: "vdo_write_stats" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "VDO_ADMIN_STATE_SUSPENDED_OPERATION" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "VDO_ADMIN_STATE_FORMATTING" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "vdo_make_logical_zones" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "vdo_set_state" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "vdo_resume_slab_depot" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "vdo_repair" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "drain_data_vio_pool" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "vdo_get_current_work_queue" [drivers/md/dm-vdo.ko] undefined!
->> ERROR: modpost: "uds_unregister_thread_device_id" [drivers/md/dm-vdo.ko] undefined!
-WARNING: modpost: suppressed 103 unresolved symbol warnings because there were too many)
+vim +1054 fs/erofs/zdata.c
+
+b15b2e307c3a19 fs/erofs/zdata.c                  Yue Hu            2022-09-23   975  
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang         2019-07-31   976  static int z_erofs_do_read_page(struct z_erofs_decompress_frontend *fe,
+6ab5eed6002edc fs/erofs/zdata.c                  Gao Xiang         2023-05-27   977  				struct page *page)
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26   978  {
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang         2019-07-31   979  	struct inode *const inode = fe->inode;
+3b423417d0d1d5 drivers/staging/erofs/unzip_vle.c Chao Yu           2019-01-15   980  	struct erofs_map_blocks *const map = &fe->map;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26   981  	const loff_t offset = page_offset(page);
+5b220b204c5fcd fs/erofs/zdata.c                  Gao Xiang         2022-07-15   982  	bool tight = true, exclusive;
+0fe55a9055f0c9 fs/erofs/zdata.c                  Gao Xiang         2023-08-17   983  	unsigned int cur, end, len, spiltted;
+1e05ff36e6921c drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09-18   984  	int err = 0;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26   985  
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26   986  	/* register locked file pages as online pages in pack */
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26   987  	z_erofs_onlinepage_init(page);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26   988  
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26   989  	spiltted = 0;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26   990  	end = PAGE_SIZE;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26   991  repeat:
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26   992  	cur = end - 1;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26   993  
+39397a46cff3d7 fs/erofs/zdata.c                  Gao Xiang         2022-05-29   994  	if (offset + cur < map->m_la ||
+39397a46cff3d7 fs/erofs/zdata.c                  Gao Xiang         2022-05-29   995  	    offset + cur >= map->m_la + map->m_llen) {
+74c5187630e862 fs/erofs/zdata.c                  Gao Xiang         2023-08-17   996  		z_erofs_pcluster_end(fe);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26   997  		map->m_la = offset + cur;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26   998  		map->m_llen = 0;
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang         2019-07-31   999  		err = z_erofs_map_blocks_iter(inode, map, 0);
+8d8a09b093d707 fs/erofs/zdata.c                  Gao Xiang         2019-08-30  1000  		if (err)
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1001  			goto out;
+3b815464a3094b fs/erofs/zdata.c                  Gao Xiang         2023-08-17 @1002  	} else if (fe->pcl) {
+39397a46cff3d7 fs/erofs/zdata.c                  Gao Xiang         2022-05-29  1003  		goto hitted;
+39397a46cff3d7 fs/erofs/zdata.c                  Gao Xiang         2022-05-29  1004  	}
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1005  
+3b815464a3094b fs/erofs/zdata.c                  Gao Xiang         2023-08-17  1006  	if ((map->m_flags & EROFS_MAP_MAPPED) &&
+3b815464a3094b fs/erofs/zdata.c                  Gao Xiang         2023-08-17  1007  	    !(map->m_flags & EROFS_MAP_FRAGMENT)) {
+74c5187630e862 fs/erofs/zdata.c                  Gao Xiang         2023-08-17  1008  		err = z_erofs_pcluster_begin(fe);
+8d8a09b093d707 fs/erofs/zdata.c                  Gao Xiang         2019-08-30  1009  		if (err)
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1010  			goto out;
+cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu            2021-12-29  1011  	}
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1012  hitted:
+dc76ea8c1087b5 fs/erofs/zdata.c                  Gao Xiang         2019-09-22  1013  	/*
+dc76ea8c1087b5 fs/erofs/zdata.c                  Gao Xiang         2019-09-22  1014  	 * Ensure the current partial page belongs to this submit chain rather
+dc76ea8c1087b5 fs/erofs/zdata.c                  Gao Xiang         2019-09-22  1015  	 * than other concurrent submit chains or the noio(bypass) chain since
+dc76ea8c1087b5 fs/erofs/zdata.c                  Gao Xiang         2019-09-22  1016  	 * those chains are handled asynchronously thus the page cannot be used
+387bab8716e20f fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1017  	 * for inplace I/O or bvpage (should be processed in a strict order.)
+dc76ea8c1087b5 fs/erofs/zdata.c                  Gao Xiang         2019-09-22  1018  	 */
+967c28b23f6c89 fs/erofs/zdata.c                  Gao Xiang         2023-05-27  1019  	tight &= (fe->mode > Z_EROFS_PCLUSTER_FOLLOWED_NOINPLACE);
+dc76ea8c1087b5 fs/erofs/zdata.c                  Gao Xiang         2019-09-22  1020  
+8191213a5835b0 fs/erofs/zdata.c                  Chunhai Guo       2023-07-10  1021  	cur = end - min_t(erofs_off_t, offset + end - map->m_la, end);
+8d8a09b093d707 fs/erofs/zdata.c                  Gao Xiang         2019-08-30  1022  	if (!(map->m_flags & EROFS_MAP_MAPPED)) {
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1023  		zero_user_segment(page, cur, end);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1024  		goto next_part;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1025  	}
+b15b2e307c3a19 fs/erofs/zdata.c                  Yue Hu            2022-09-23  1026  	if (map->m_flags & EROFS_MAP_FRAGMENT) {
+0fe55a9055f0c9 fs/erofs/zdata.c                  Gao Xiang         2023-08-17  1027  		erofs_off_t fpos = offset + cur - map->m_la;
+b15b2e307c3a19 fs/erofs/zdata.c                  Yue Hu            2022-09-23  1028  
+0fe55a9055f0c9 fs/erofs/zdata.c                  Gao Xiang         2023-08-17  1029  		len = min_t(unsigned int, map->m_llen - fpos, end - cur);
+0fe55a9055f0c9 fs/erofs/zdata.c                  Gao Xiang         2023-08-17  1030  		err = z_erofs_read_fragment(inode->i_sb, page, cur, cur + len,
+0fe55a9055f0c9 fs/erofs/zdata.c                  Gao Xiang         2023-08-17  1031  				EROFS_I(inode)->z_fragmentoff + fpos);
+b15b2e307c3a19 fs/erofs/zdata.c                  Yue Hu            2022-09-23  1032  		if (err)
+b15b2e307c3a19 fs/erofs/zdata.c                  Yue Hu            2022-09-23  1033  			goto out;
+b15b2e307c3a19 fs/erofs/zdata.c                  Yue Hu            2022-09-23  1034  		++spiltted;
+b15b2e307c3a19 fs/erofs/zdata.c                  Yue Hu            2022-09-23  1035  		tight = false;
+b15b2e307c3a19 fs/erofs/zdata.c                  Yue Hu            2022-09-23  1036  		goto next_part;
+b15b2e307c3a19 fs/erofs/zdata.c                  Yue Hu            2022-09-23  1037  	}
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1038  
+5b220b204c5fcd fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1039  	exclusive = (!cur && (!spiltted || tight));
+a112152f6f3a2a drivers/staging/erofs/unzip_vle.c Gao Xiang         2019-02-27  1040  	if (cur)
+db166fc2020d30 fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1041  		tight &= (fe->mode >= Z_EROFS_PCLUSTER_FOLLOWED);
+a112152f6f3a2a drivers/staging/erofs/unzip_vle.c Gao Xiang         2019-02-27  1042  
+06a304cd9cc095 fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1043  	err = z_erofs_attach_page(fe, &((struct z_erofs_bvec) {
+06a304cd9cc095 fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1044  					.page = page,
+06a304cd9cc095 fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1045  					.offset = offset - map->m_la,
+06a304cd9cc095 fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1046  					.end = end,
+5b220b204c5fcd fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1047  				  }), exclusive);
+05b63d2beb8b0f fs/erofs/zdata.c                  Gao Xiang         2023-05-27  1048  	if (err)
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1049  		goto out;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1050  
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1051  	z_erofs_onlinepage_split(page);
+1e05ff36e6921c drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09-18  1052  	/* bump up the number of spiltted parts of a page */
+1e05ff36e6921c drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09-18  1053  	++spiltted;
+267f2492c8f71d fs/erofs/zdata.c                  Gao Xiang         2022-07-15 @1054  	if (fe->pcl->pageofs_out != (map->m_la & ~PAGE_MASK))
+267f2492c8f71d fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1055  		fe->pcl->multibases = true;
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1056  	if (fe->pcl->length < offset + end - map->m_la) {
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1057  		fe->pcl->length = offset + end - map->m_la;
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1058  		fe->pcl->pageofs_out = map->m_la & ~PAGE_MASK;
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1059  	}
+e7933278b442f9 fs/erofs/zdata.c                  Gao Xiang         2022-10-14  1060  	if ((map->m_flags & EROFS_MAP_FULL_MAPPED) &&
+e7933278b442f9 fs/erofs/zdata.c                  Gao Xiang         2022-10-14  1061  	    !(map->m_flags & EROFS_MAP_PARTIAL_REF) &&
+e7933278b442f9 fs/erofs/zdata.c                  Gao Xiang         2022-10-14  1062  	    fe->pcl->length == map->m_llen)
+e7933278b442f9 fs/erofs/zdata.c                  Gao Xiang         2022-10-14  1063  		fe->pcl->partial = false;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1064  next_part:
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1065  	/* shorten the remaining extent to update progress */
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1066  	map->m_llen = offset + cur - map->m_la;
+2bfab9c0edac5f fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1067  	map->m_flags &= ~EROFS_MAP_FULL_MAPPED;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1068  
+2bc7596438aba6 drivers/staging/erofs/unzip_vle.c Kristaps Čivkulis 2018-08-05  1069  	end = cur;
+2bc7596438aba6 drivers/staging/erofs/unzip_vle.c Kristaps Čivkulis 2018-08-05  1070  	if (end > 0)
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1071  		goto repeat;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1072  
+1e05ff36e6921c drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09-18  1073  out:
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1074  	if (err)
+671485516e1c30 fs/erofs/zdata.c                  Gao Xiang         2022-07-15  1075  		z_erofs_page_mark_eio(page);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1076  	z_erofs_onlinepage_endio(page);
+1e05ff36e6921c drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09-18  1077  	return err;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1078  }
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-26  1079  
+
+:::::: The code at line 1054 was first introduced by commit
+:::::: 267f2492c8f71dac44399988b510f9bf6b074a51 erofs: introduce multi-reference pclusters (fully-referenced)
+
+:::::: TO: Gao Xiang <hsiangkao@linux.alibaba.com>
+:::::: CC: Gao Xiang <hsiangkao@linux.alibaba.com>
 
 -- 
 0-DAY CI Kernel Test Service
