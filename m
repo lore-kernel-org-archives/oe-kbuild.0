@@ -1,43 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5315BC12A
-	for <oe-kbuild@lists.linux.dev>; Wed, 23 Aug 2023 13:41:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE5BDDA9
+	for <oe-kbuild@lists.linux.dev>; Thu, 24 Aug 2023 09:26:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692798083; x=1724334083;
+  t=1692869208; x=1724405208;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wQnoKT/fP1tQUT7neioaL9MecEKqcnWuKbgI9LVKUTs=;
-  b=KlVxBb6T251dnLrBSkVh2hqs0ypL44fteyA9rAq5nUpOqpj03kF8omTy
-   zvIdYQTXJSXNgyf8XHhmo7oKLV+eDOhkEIhl7ngHYhtVMsgL2y5SlIMtT
-   A27fGtKymTQpySiXKY0gCDXDazRef/mKzmzmtSvmv8LYOS8GVJZfPnZz/
-   fa2aT0ZtHy2AvIyOblo9e5/NvnM+79NkAxO9wh0hqp9NsVcxiLbkWTTpK
-   0rALoTgorOWiyeSJisE9FUdO8ypu+2oBmziaHrS3d4g5kRhOQOXr2h5G5
-   jd3WrtfxqDd85xhkzOJlOQdZJ4b20sur3qHwhykWK3WHuoll2PdyUV7O0
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="374135523"
+  bh=4/ihOsK0nVkbc5FgnQR3gDYmNqJH2N6u9Fyeb0/N4j4=;
+  b=hcP2eNVXxr9YVmqGm1TFoxgI4eZP9D7oslM/Fq8boeLFGY3pZzA8NkOR
+   bq3iSBgH7WWTw5WoK4ZEOcBiKWCpNt3qIVNvxU7CJm53h4k3cNO3E44Xi
+   WmrU7E2ayqw9ga771nOY9vv8897HJBU8TkrDraS+zPgYMJXiWymgXitX1
+   6pVbO4JWkS+aZStT92fnxyXJSM2eAfg5jPOMzykFsnv/4yIeipug5b0Nl
+   zRdefZCkT/T8GhsLZ1DQgeMtm4loGhy0HFply/8GANnFYOcrT0tpN9CUa
+   AhjTuCSAhn0B688Eyp2wMdm5t3kFMNJwDuVhc9H8fM8EkrdoLzjUonP03
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="377119959"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="374135523"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 06:41:22 -0700
+   d="scan'208";a="377119959"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 02:26:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="739782082"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="686803601"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="739782082"
+   d="scan'208";a="686803601"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 23 Aug 2023 06:41:15 -0700
+  by orsmga003.jf.intel.com with ESMTP; 24 Aug 2023 02:26:46 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYo6k-0001F6-1e;
-	Wed, 23 Aug 2023 13:41:14 +0000
-Date: Wed, 23 Aug 2023 21:40:40 +0800
+	id 1qZ6bg-0001uU-36;
+	Thu, 24 Aug 2023 09:26:31 +0000
+Date: Thu, 24 Aug 2023 17:25:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [djwong-xfs:rmap-intent-cleanups 311/407]
- fs/xfs/xfs_imeta_utils.c:167 xfs_imeta_start_dir_update() warn: missing
- error code 'error'
-Message-ID: <202308232139.Lh5BLLmW-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [RFC] scmi: pinctrl: support i.MX9
+Message-ID: <202308241754.4zFwbyxp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,84 +45,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "git am base is a link in commit message"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+In-Reply-To: <20230824070611.3335107-1-peng.fan@oss.nxp.com>
+References: <20230824070611.3335107-1-peng.fan@oss.nxp.com>
+TO: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git rmap-intent-cleanups
-head:   55b33d3f7a00cf89ee5c47dba0a8c0ffe7f1f8bb
-commit: ea9de6f697b65f02e13e509091b4f5191ebfa981 [311/407] xfs: read and write metadata inode directory
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: parisc-randconfig-r081-20230823 (https://download.01.org/0day-ci/archive/20230823/202308232139.Lh5BLLmW-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232139.Lh5BLLmW-lkp@intel.com/reproduce)
+Hi Peng,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next]
+[cannot apply to linus/master v6.5-rc7 next-20230824]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan-OSS/scmi-pinctrl-support-i-MX9/20230824-150323
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20230824070611.3335107-1-peng.fan%40oss.nxp.com
+patch subject: [RFC] scmi: pinctrl: support i.MX9
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 hours ago
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230824/202308241754.4zFwbyxp-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230824/202308241754.4zFwbyxp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308232139.Lh5BLLmW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308241754.4zFwbyxp-lkp@intel.com/
 
-smatch warnings:
-fs/xfs/xfs_imeta_utils.c:167 xfs_imeta_start_dir_update() warn: missing error code 'error'
+All warnings (new ones prefixed by >>):
 
-vim +/error +167 fs/xfs/xfs_imeta_utils.c
+   drivers/firmware/arm_scmi/pinctrl.c: In function 'scmi_pinctrl_config_get':
+>> drivers/firmware/arm_scmi/pinctrl.c:308:13: warning: unused variable 'attributes' [-Wunused-variable]
+     308 |         u32 attributes;
+         |             ^~~~~~~~~~
+--
+>> drivers/pinctrl/freescale/pinctrl-imx.c:83:5: warning: no previous prototype for 'imx_scmi_dt_node_to_map' [-Wmissing-prototypes]
+      83 | int imx_scmi_dt_node_to_map(struct pinctrl_dev *pctldev, struct device_node *np,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
 
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  131  
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  132  /*
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  133   * Begin the process of linking a metadata file by allocating transactions
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  134   * and locking whatever resources we're going to need.
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  135   */
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  136  static inline int
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  137  xfs_imeta_start_dir_update(
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  138  	struct xfs_mount		*mp,
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  139  	const struct xfs_imeta_path	*path,
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  140  	struct xfs_inode		*ip,
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  141  	struct xfs_trans_res		*tr_resv,
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  142  	unsigned int			resblks,
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  143  	struct xfs_imeta_update		*upd)
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  144  {
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  145  	int				error;
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  146  
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  147  	error = xfs_imeta_init(mp, path, upd);
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  148  	if (error)
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  149  		return error;
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  150  
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  151  	upd->ip = ip;
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  152  
-ea9de6f697b65f Darrick J. Wong 2023-03-06  153  	if (upd->dp) {
-ea9de6f697b65f Darrick J. Wong 2023-03-06  154  		int			nospace_error = 0;
-ea9de6f697b65f Darrick J. Wong 2023-03-06  155  
-ea9de6f697b65f Darrick J. Wong 2023-03-06  156  		error = xfs_trans_alloc_dir(upd->dp, tr_resv, upd->ip,
-ea9de6f697b65f Darrick J. Wong 2023-03-06  157  				&resblks, &upd->tp, &nospace_error);
-ea9de6f697b65f Darrick J. Wong 2023-03-06  158  		if (error)
-ea9de6f697b65f Darrick J. Wong 2023-03-06  159  			goto out_teardown;
-ea9de6f697b65f Darrick J. Wong 2023-03-06  160  		if (!resblks) {
-ea9de6f697b65f Darrick J. Wong 2023-03-06  161  			/* We don't allow reservationless updates. */
-ea9de6f697b65f Darrick J. Wong 2023-03-06  162  			xfs_trans_cancel(upd->tp);
-ea9de6f697b65f Darrick J. Wong 2023-03-06  163  			upd->tp = NULL;
-ea9de6f697b65f Darrick J. Wong 2023-03-06  164  			xfs_iunlock(upd->dp, XFS_ILOCK_EXCL);
-ea9de6f697b65f Darrick J. Wong 2023-03-06  165  			xfs_iunlock(upd->ip, XFS_ILOCK_EXCL);
-ea9de6f697b65f Darrick J. Wong 2023-03-06  166  			error = nospace_error;
-ea9de6f697b65f Darrick J. Wong 2023-03-06 @167  			goto out_teardown;
-ea9de6f697b65f Darrick J. Wong 2023-03-06  168  		}
-ea9de6f697b65f Darrick J. Wong 2023-03-06  169  
-ea9de6f697b65f Darrick J. Wong 2023-03-06  170  		upd->dp_locked = true;
-ea9de6f697b65f Darrick J. Wong 2023-03-06  171  	} else {
-ea9de6f697b65f Darrick J. Wong 2023-03-06  172  		error = xfs_trans_alloc_inode(upd->ip, tr_resv, resblks, 0,
-ea9de6f697b65f Darrick J. Wong 2023-03-06  173  				false, &upd->tp);
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  174  		if (error)
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  175  			goto out_teardown;
-ea9de6f697b65f Darrick J. Wong 2023-03-06  176  	}
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  177  
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  178  	upd->ip_locked = true;
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  179  	return 0;
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  180  out_teardown:
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  181  	xfs_imeta_teardown(upd, error);
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  182  	return error;
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  183  }
-94d1dbc5f4d8ff Darrick J. Wong 2023-03-06  184  
+
+vim +/attributes +308 drivers/firmware/arm_scmi/pinctrl.c
+
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  301  
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  302  static int scmi_pinctrl_config_get(const struct scmi_protocol_handle *ph,
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  303  				   u32 selector,
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  304  				   enum scmi_pinctrl_selector_type type,
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  305  				   u8 config_type, unsigned long *config_value)
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  306  {
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  307  	int ret;
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08 @308  	u32 attributes;
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  309  	struct scmi_xfer *t;
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  310  	struct scmi_msg_conf_get *tx;
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  311  
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  312  	if (!config_value || type == FUNCTION_TYPE)
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  313  		return -EINVAL;
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  314  
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  315  	ret = scmi_pinctrl_validate_id(ph, selector, type);
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  316  	if (ret)
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  317  		return ret;
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  318  
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  319  	ret = ph->xops->xfer_get_init(ph, PINCTRL_CONFIG_GET, sizeof(*tx), sizeof(__le32), &t);
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  320  	if (ret)
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  321  		return ret;
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  322  
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  323  	tx = t->tx.buf;
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  324  	tx->identifier = cpu_to_le32(selector);
+1d613cbfa881b8 Peng Fan          2023-08-24  325  	/*
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  326  	attributes = FIELD_PREP(REG_TYPE_BITS, type) |
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  327  		FIELD_PREP(REG_CONFIG, config_type);
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  328  	tx->attributes = cpu_to_le32(attributes);
+1d613cbfa881b8 Peng Fan          2023-08-24  329  	*/
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  330  
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  331  	ret = ph->xops->do_xfer(ph, t);
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  332  	if (!ret)
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  333  		*config_value = get_unaligned_le32(t->rx.buf);
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  334  
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  335  	ph->xops->xfer_put(ph, t);
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  336  	return ret;
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  337  }
+3a61c44f60d18a Oleksii Moisieiev 2023-08-08  338  
 
 -- 
 0-DAY CI Kernel Test Service
