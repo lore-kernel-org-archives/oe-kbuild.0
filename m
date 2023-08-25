@@ -1,145 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9733FCA60
-	for <oe-kbuild@lists.linux.dev>; Fri, 25 Aug 2023 15:16:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA402571
+	for <oe-kbuild@lists.linux.dev>; Fri, 25 Aug 2023 16:00:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692976563; x=1724512563;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KdG6wdEK5GZ+v3smnBEZHXr6xSFal/cOUpG4UckZBJ8=;
-  b=VhGNWuT6CsiZ8f1e/t2OQaYrkd/Mu/8CH1f5z0s97qUpUlBJI4ZDbXGu
-   0TMu0SvPSxz/to59/DCXgYRWteXZW5qGykNwn/y1EeZ+5ld7u/irelpSK
-   xAvSRa5OcLt/GsR2Sr22bMQXXC9LlSgw2IOHDvOwY0EqJBtZyCRfvPWL/
-   Lgt0JojU5uwumm7h+tZMNe6p8akx+hrsqlSnLpWr/4SKz52KlMLNWW/hc
-   VDZ5GaswIn7zrsKvAiyaG2z1LHnoK4dCRaRhyBJVDE/At/GINrdYNX8dg
-   61kv+7JUticGOrB7gd7PNKx6JKqmKTXN2VNMODaWBj4BSMQcdTFJRgzc9
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="438672166"
+  t=1692979256; x=1724515256;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lyxz7tmqztQNRUM0uutTCRFsB38fJELi3x6vqIo1+ig=;
+  b=OGEmWPD25Iw/MERgmZDBWXEBb4V3ebXlIyIIIBUo/QHP2M0ldtffS8wh
+   nlCauM+9qRgMwkUlxvSnAwvUGCIthw0YAccCkCHF9782+HiQHSD0n9wNK
+   66cnt/obva/nz3cnaBZ9uWrzdyA4BnnJaPdk6A/OmCzkNMRWxYZ5vLZY3
+   Jw07WenjP+jfv+wIIZlAlypu5DyyY8NcVTudMdHNrRrWSL8mMVBUDfFEv
+   WZb+GNn13o5XQ6AZeNrMpXgDDNj22rBusao9UIAAB4PamWtepZnxBmo6F
+   gkdiGTl1vgW4qIl3JDdDdwIWattl4CZpTMAnFzDu0+uvwoKOYjW1fWPSv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="377479726"
 X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
-   d="scan'208";a="438672166"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 08:16:03 -0700
+   d="scan'208";a="377479726"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 09:00:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="802997223"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="984156086"
 X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
-   d="scan'208";a="802997223"
+   d="scan'208";a="984156086"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 25 Aug 2023 08:16:01 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 25 Aug 2023 09:00:33 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZYXO-0003jT-0X;
-	Fri, 25 Aug 2023 15:15:53 +0000
-Date: Fri, 25 Aug 2023 23:15:07 +0800
+	id 1qZZET-0003mE-0h;
+	Fri, 25 Aug 2023 16:00:25 +0000
+Date: Fri, 25 Aug 2023 23:59:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [RFC] scmi: pinctrl: support i.MX9
-Message-ID: <202308252347.LRqRzky5-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [asahilinux:bits/070-audio 17/37] sound/soc/soc-dapm.c:2260
+ dapm_graph_read_file() error: testing array offset 'num_wdone' after use.
+Message-ID: <202308252346.7wpnLutf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "git am base is a link in commit message"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230824070611.3335107-1-peng.fan@oss.nxp.com>
-References: <20230824070611.3335107-1-peng.fan@oss.nxp.com>
-TO: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+TO: "Martin Povišer" <povik+lin@cutebit.org>
+CC: Hector Martin <marcan@marcan.st>
 
-Hi Peng,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next]
-[cannot apply to linus/master v6.5-rc7 next-20230825]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan-OSS/scmi-pinctrl-support-i-MX9/20230824-150323
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20230824070611.3335107-1-peng.fan%40oss.nxp.com
-patch subject: [RFC] scmi: pinctrl: support i.MX9
-:::::: branch date: 32 hours ago
-:::::: commit date: 32 hours ago
-config: i386-buildonly-randconfig-002-20230825 (https://download.01.org/0day-ci/archive/20230825/202308252347.LRqRzky5-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308252347.LRqRzky5-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   fd19415d77a7612b4edbe780d58328ec41019816
+commit: f664a1ed8e4e6cae5697db372d62cac0fafde939 [17/37] ASoC: dapm: Export new 'graph.dot' file in debugfs
+:::::: branch date: 6 weeks ago
+:::::: commit date: 6 weeks ago
+config: i386-randconfig-141-20230825 (https://download.01.org/0day-ci/archive/20230825/202308252346.7wpnLutf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308252346.7wpnLutf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202308252347.LRqRzky5-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202308252346.7wpnLutf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+sound/soc/soc-dapm.c:2260 dapm_graph_read_file() error: testing array offset 'num_wdone' after use.
 
->> drivers/firmware/arm_scmi/pinctrl.c:308:6: warning: unused variable 'attributes' [-Wunused-variable]
-           u32 attributes;
-               ^
-   1 warning generated.
---
->> drivers/pinctrl/freescale/pinctrl-imx.c:83:5: warning: no previous prototype for function 'imx_scmi_dt_node_to_map' [-Wmissing-prototypes]
-   int imx_scmi_dt_node_to_map(struct pinctrl_dev *pctldev, struct device_node *np,
-       ^
-   drivers/pinctrl/freescale/pinctrl-imx.c:83:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int imx_scmi_dt_node_to_map(struct pinctrl_dev *pctldev, struct device_node *np,
-   ^
-   static 
-   1 warning generated.
+vim +/num_wdone +2260 sound/soc/soc-dapm.c
 
-
-vim +/attributes +308 drivers/firmware/arm_scmi/pinctrl.c
-
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  301  
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  302  static int scmi_pinctrl_config_get(const struct scmi_protocol_handle *ph,
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  303  				   u32 selector,
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  304  				   enum scmi_pinctrl_selector_type type,
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  305  				   u8 config_type, unsigned long *config_value)
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  306  {
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  307  	int ret;
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08 @308  	u32 attributes;
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  309  	struct scmi_xfer *t;
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  310  	struct scmi_msg_conf_get *tx;
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  311  
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  312  	if (!config_value || type == FUNCTION_TYPE)
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  313  		return -EINVAL;
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  314  
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  315  	ret = scmi_pinctrl_validate_id(ph, selector, type);
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  316  	if (ret)
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  317  		return ret;
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  318  
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  319  	ret = ph->xops->xfer_get_init(ph, PINCTRL_CONFIG_GET, sizeof(*tx), sizeof(__le32), &t);
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  320  	if (ret)
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  321  		return ret;
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  322  
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  323  	tx = t->tx.buf;
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  324  	tx->identifier = cpu_to_le32(selector);
-1d613cbfa881b8 Peng Fan          2023-08-24  325  	/*
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  326  	attributes = FIELD_PREP(REG_TYPE_BITS, type) |
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  327  		FIELD_PREP(REG_CONFIG, config_type);
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  328  	tx->attributes = cpu_to_le32(attributes);
-1d613cbfa881b8 Peng Fan          2023-08-24  329  	*/
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  330  
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  331  	ret = ph->xops->do_xfer(ph, t);
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  332  	if (!ret)
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  333  		*config_value = get_unaligned_le32(t->rx.buf);
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  334  
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  335  	ph->xops->xfer_put(ph, t);
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  336  	return ret;
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  337  }
-3a61c44f60d18a Oleksii Moisieiev 2023-08-08  338  
+ef49e4fae3f364 Mark Brown     2011-04-04  2195  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2196  static ssize_t dapm_graph_read_file(struct file *file, char __user *user_buf,
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2197  				    size_t count, loff_t *ppos)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2198  {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2199  	struct snd_soc_card *card = file->private_data;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2200  	struct snd_soc_dapm_context *dapm;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2201  	struct snd_soc_dapm_path *p;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2202  	struct snd_soc_dapm_widget *w;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2203  	struct snd_soc_pcm_runtime *rtd;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2204  	struct snd_soc_dapm_widget *wdone[16];
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2205  	struct snd_soc_dai *dai;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2206  	int i, num_wdone = 0, cluster = 0;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2207  	char *buf;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2208  	ssize_t bufsize;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2209  	ssize_t ret = 0;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2210  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2211  	bufsize = 1024 * card->num_dapm_widgets;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2212  	buf = kmalloc(bufsize, GFP_KERNEL);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2213  	if (!buf)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2214  		return -ENOMEM;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2215  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2216  	mutex_lock(&card->dapm_mutex);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2217  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2218  #define bufprintf(...) \
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2219  		ret += scnprintf(buf + ret, bufsize - ret, __VA_ARGS__)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2220  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2221  	bufprintf("digraph dapm {\n");
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2222  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2223  	/*
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2224  	 * Print the user-visible devices of the card.
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2225  	 */
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2226  	bufprintf("subgraph cluster_%d {\n", cluster++);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2227  	bufprintf("label=\"Devices\";style=filled;fillcolor=gray;\n");
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2228  	for_each_card_rtds(card, rtd) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2229  		if (rtd->dai_link->no_pcm)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2230  			continue;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2231  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2232  		bufprintf("w%pK [label=\"%d: %s\"];\n", rtd,
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2233  			  rtd->pcm->device, rtd->dai_link->name);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2234  	}
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2235  	bufprintf("};\n");
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2236  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2237  	/*
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2238  	 * Print the playback/capture widgets of DAIs just next to
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2239  	 * the user-visible devices. Keep the list of already printed
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2240  	 * widgets in 'wdone', so they will be skipped later.
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2241  	 */
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2242  	for_each_card_rtds(card, rtd) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2243  		for_each_rtd_cpu_dais(rtd, i, dai) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2244  			if (dai->stream[SNDRV_PCM_STREAM_PLAYBACK].widget) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2245  				w = dai->stream[SNDRV_PCM_STREAM_PLAYBACK].widget;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2246  				bufprintf("w%pK [label=\"%s\"];\n", w, w->name);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2247  				if (!rtd->dai_link->no_pcm)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2248  					bufprintf("w%pK -> w%pK;\n", rtd, w);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2249  				wdone[num_wdone] = w;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2250  				if (num_wdone < ARRAY_SIZE(wdone))
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2251  					num_wdone++;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2252  			}
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2253  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2254  			if (dai->stream[SNDRV_PCM_STREAM_CAPTURE].widget) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2255  				w = dai->stream[SNDRV_PCM_STREAM_CAPTURE].widget;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2256  				bufprintf("w%pK [label=\"%s\"];\n", w, w->name);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2257  				if (!rtd->dai_link->no_pcm)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2258  					bufprintf("w%pK -> w%pK;\n", w, rtd);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2259  				wdone[num_wdone] = w;
+f664a1ed8e4e6c Martin Povišer 2022-08-21 @2260  				if (num_wdone < ARRAY_SIZE(wdone))
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2261  					num_wdone++;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2262  			}
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2263  		}
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2264  	}
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2265  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2266  	for_each_card_dapms(card, dapm) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2267  		const char *prefix = soc_dapm_prefix(dapm);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2268  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2269  		if (dapm != &card->dapm) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2270  			bufprintf("subgraph cluster_%d {\n", cluster++);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2271  			if (prefix)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2272  				bufprintf("label=\"%s\";\n", prefix);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2273  			else if (dapm->component)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2274  				bufprintf("label=\"%s\";\n",
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2275  					  dapm->component->name);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2276  		}
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2277  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2278  		for_each_card_widgets(dapm->card, w) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2279  			const char *name = w->name;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2280  			bool skip = false;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2281  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2282  			if (w->dapm != dapm)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2283  				continue;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2284  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2285  			if (list_empty(&w->edges[0]) && list_empty(&w->edges[1]))
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2286  				continue;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2287  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2288  			for (i = 0; i < num_wdone; i++)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2289  				if (wdone[i] == w)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2290  					skip = true;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2291  			if (skip)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2292  				continue;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2293  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2294  			if (prefix && strlen(name) > strlen(prefix) + 1)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2295  				name += strlen(prefix) + 1;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2296  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2297  			bufprintf("w%pK [label=\"%s\"];\n", w, name);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2298  		}
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2299  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2300  		if (dapm != &card->dapm)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2301  			bufprintf("}\n");
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2302  	}
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2303  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2304  	list_for_each_entry(p, &card->paths, list) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2305  		if (p->name)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2306  			bufprintf("w%pK -> w%pK [label=\"%s\"];\n",
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2307  				  p->source, p->sink, p->name);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2308  		else
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2309  			bufprintf("w%pK -> w%pK;\n", p->source, p->sink);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2310  	}
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2311  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2312  	bufprintf("}\n");
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2313  #undef bufprintf
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2314  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2315  	mutex_unlock(&card->dapm_mutex);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2316  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2317  	ret = simple_read_from_buffer(user_buf, count, ppos, buf, ret);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2318  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2319  	kfree(buf);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2320  	return ret;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2321  }
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2322  
 
 -- 
 0-DAY CI Kernel Test Service
