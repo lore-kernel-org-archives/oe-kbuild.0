@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EAF12571
-	for <oe-kbuild@lists.linux.dev>; Fri, 25 Aug 2023 16:15:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9336A18041
+	for <oe-kbuild@lists.linux.dev>; Fri, 25 Aug 2023 18:04:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692980122; x=1724516122;
+  t=1692986646; x=1724522646;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZOGUuq2TNAaTNc4kfnlQEoQM/qGx2eBWNQadWs+zMqE=;
-  b=Q6iELvpdFVj1EQwUZZoKXgbII0zHjE7Wq0zwJQLwgfpvqA6bxr7/6CXb
-   F+bcvuMohT6RwwBb6Y1zH3A7coPElC45ZHHvSJHVkuaYKmr0CijmA6ukj
-   O5EK7MaQRTVzgxspihrGgzZE5vSZ4gOU0QFleCVwljNCMKrPfGk3xx9ZH
-   MDt/J+mOBR2fwyKkCWltnNuRJMczN8hHRRb4My8NmtpT6M0SUx3LJYULi
-   0+IciBAoEuuUzoZDDC2tq2zkQYCnbgNlYfzWOYSeLiJ92Yzxi0vshYNXw
-   oT7yY3PJKxFlZKejCQOpBpuBfmurezNxh5hMWsqXe/lfQgaJAt61Imjj8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="364942517"
+  bh=pWmlXJpFnEaZt9JmiF1iZ7Q1jxI6N8NFY84MNDb4NW8=;
+  b=EZ8KjLTi8vMD1SmLJmaJD3oxj34Efjat7e4cR04SpO5Rj1SF6huiczu/
+   6YiZY2VLV8sVyJLOGUI2l8EVOqm0ot0gi/fEwrQCB70OLlIGTZAuF9hwY
+   ozArFS8Xsw5hDeMQheODxYdHu9UrHjQ3E5WT62WNNH5nk85O5Mje5eo5N
+   vieX1ulIVd8pHd8Qi+ZetyqBToPleAy9qAf4wmTxzmHQ4Cb0P7mmrpNS9
+   vAmd9wJJhDjIKJtTnvP8Xt3ZbLjPhL7R8GJQ06KuES5+xRIO5OVCd96k3
+   NNN7PRNMf+HE6h/OwI55GfsmX2x4KSbhdKx86jNnPcrZH2lgcUCnk/Tm+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="441117990"
 X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
-   d="scan'208";a="364942517"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 09:10:48 -0700
+   d="scan'208";a="441117990"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 11:03:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="1068283954"
-X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
-   d="scan'208";a="1068283954"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="881223651"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 25 Aug 2023 09:10:47 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 25 Aug 2023 11:03:42 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZZOY-0003nN-1F;
-	Fri, 25 Aug 2023 16:10:46 +0000
-Date: Sat, 26 Aug 2023 00:09:51 +0800
+	id 1qZb9k-0003s5-2k;
+	Fri, 25 Aug 2023 18:03:36 +0000
+Date: Sat, 26 Aug 2023 02:03:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:100
- isst_if_get_tpmi_instance_count() warn: potential spectre issue
- 'isst_common.sst_inst' [r] (local cap)
-Message-ID: <202308260026.QIMj168R-lkp@intel.com>
+Subject: drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:584
+ isst_if_clos_assoc() warn: potential spectre issue 'isst_common.sst_inst'
+ [r]
+Message-ID: <202308260123.ZZqPhukD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -55,58 +54,108 @@ CC: Hans de Goede <hdegoede@redhat.com>
 CC: Zhang Rui <rui.zhang@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4f9e7fabf8643003afefc172e62dd276686f016e
-commit: d805456c712f93ba8a012430f2a93bec133b6ff4 platform/x86: ISST: Enumerate TPMI SST and create framework
+head:   4942fed84b98cfb71d3cdff1a3df0072a57bbdfa
+commit: 12a7d2cb811dd8a884dea088a2701fcb8d00136e platform/x86: ISST: Add SST-CP support via TPMI
 date:   5 months ago
-:::::: branch date: 13 hours ago
+:::::: branch date: 84 minutes ago
 :::::: commit date: 5 months ago
-config: x86_64-randconfig-r071-20230824 (https://download.01.org/0day-ci/archive/20230826/202308260026.QIMj168R-lkp@intel.com/config)
+config: x86_64-randconfig-r071-20230824 (https://download.01.org/0day-ci/archive/20230826/202308260123.ZZqPhukD-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260026.QIMj168R-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260123.ZZqPhukD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308260026.QIMj168R-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308260123.ZZqPhukD-lkp@intel.com/
 
-smatch warnings:
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:100 isst_if_get_tpmi_instance_count() warn: potential spectre issue 'isst_common.sst_inst' [r] (local cap)
-drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:104 isst_if_get_tpmi_instance_count() warn: possible spectre second half.  'sst_inst'
+New smatch warnings:
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:584 isst_if_clos_assoc() warn: potential spectre issue 'isst_common.sst_inst' [r]
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:586 isst_if_clos_assoc() warn: possible spectre second half.  'sst_inst'
 
-vim +100 drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c
+Old smatch warnings:
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:589 isst_if_clos_assoc() warn: potential spectre issue 'sst_inst->power_domain_info' [r]
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:629 isst_if_get_tpmi_instance_count() warn: potential spectre issue 'isst_common.sst_inst' [r] (local cap)
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:633 isst_if_get_tpmi_instance_count() warn: possible spectre second half.  'sst_inst'
 
-d805456c712f93 Srinivas Pandruvada 2023-03-07   87  
-d805456c712f93 Srinivas Pandruvada 2023-03-07   88  static int isst_if_get_tpmi_instance_count(void __user *argp)
-d805456c712f93 Srinivas Pandruvada 2023-03-07   89  {
-d805456c712f93 Srinivas Pandruvada 2023-03-07   90  	struct isst_tpmi_instance_count tpmi_inst;
-d805456c712f93 Srinivas Pandruvada 2023-03-07   91  	struct tpmi_sst_struct *sst_inst;
-d805456c712f93 Srinivas Pandruvada 2023-03-07   92  	int i;
-d805456c712f93 Srinivas Pandruvada 2023-03-07   93  
-d805456c712f93 Srinivas Pandruvada 2023-03-07   94  	if (copy_from_user(&tpmi_inst, argp, sizeof(tpmi_inst)))
-d805456c712f93 Srinivas Pandruvada 2023-03-07   95  		return -EFAULT;
-d805456c712f93 Srinivas Pandruvada 2023-03-07   96  
-d805456c712f93 Srinivas Pandruvada 2023-03-07   97  	if (tpmi_inst.socket_id >= topology_max_packages())
-d805456c712f93 Srinivas Pandruvada 2023-03-07   98  		return -EINVAL;
-d805456c712f93 Srinivas Pandruvada 2023-03-07   99  
-d805456c712f93 Srinivas Pandruvada 2023-03-07 @100  	tpmi_inst.count = isst_common.sst_inst[tpmi_inst.socket_id]->number_of_power_domains;
-d805456c712f93 Srinivas Pandruvada 2023-03-07  101  
-d805456c712f93 Srinivas Pandruvada 2023-03-07  102  	sst_inst = isst_common.sst_inst[tpmi_inst.socket_id];
-d805456c712f93 Srinivas Pandruvada 2023-03-07  103  	tpmi_inst.valid_mask = 0;
-d805456c712f93 Srinivas Pandruvada 2023-03-07 @104  	for (i = 0; i < sst_inst->number_of_power_domains; ++i) {
-d805456c712f93 Srinivas Pandruvada 2023-03-07  105  		struct tpmi_per_power_domain_info *power_domain_info;
-d805456c712f93 Srinivas Pandruvada 2023-03-07  106  
-d805456c712f93 Srinivas Pandruvada 2023-03-07  107  		power_domain_info = &sst_inst->power_domain_info[i];
-d805456c712f93 Srinivas Pandruvada 2023-03-07  108  		if (power_domain_info->sst_base)
-d805456c712f93 Srinivas Pandruvada 2023-03-07  109  			tpmi_inst.valid_mask |= BIT(i);
-d805456c712f93 Srinivas Pandruvada 2023-03-07  110  	}
-d805456c712f93 Srinivas Pandruvada 2023-03-07  111  
-d805456c712f93 Srinivas Pandruvada 2023-03-07  112  	if (copy_to_user(argp, &tpmi_inst, sizeof(tpmi_inst)))
-d805456c712f93 Srinivas Pandruvada 2023-03-07  113  		return -EFAULT;
-d805456c712f93 Srinivas Pandruvada 2023-03-07  114  
-d805456c712f93 Srinivas Pandruvada 2023-03-07  115  	return 0;
-d805456c712f93 Srinivas Pandruvada 2023-03-07  116  }
-d805456c712f93 Srinivas Pandruvada 2023-03-07  117  
+vim +584 drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c
+
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  541  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  542  static long isst_if_clos_assoc(void __user *argp)
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  543  {
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  544  	struct isst_if_clos_assoc_cmds assoc_cmds;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  545  	unsigned char __user *ptr;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  546  	int i;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  547  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  548  	/* Each multi command has u16 command count as the first field */
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  549  	if (copy_from_user(&assoc_cmds, argp, sizeof(assoc_cmds)))
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  550  		return -EFAULT;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  551  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  552  	if (!assoc_cmds.cmd_count || assoc_cmds.cmd_count > ISST_IF_CMD_LIMIT)
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  553  		return -EINVAL;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  554  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  555  	ptr = argp + offsetof(struct isst_if_clos_assoc_cmds, assoc_info);
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  556  	for (i = 0; i < assoc_cmds.cmd_count; ++i) {
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  557  		struct tpmi_per_power_domain_info *power_domain_info;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  558  		struct isst_if_clos_assoc clos_assoc;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  559  		int punit_id, punit_cpu_no, pkg_id;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  560  		struct tpmi_sst_struct *sst_inst;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  561  		int offset, shift, cpu;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  562  		u64 val, mask, clos;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  563  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  564  		if (copy_from_user(&clos_assoc, ptr, sizeof(clos_assoc)))
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  565  			return -EFAULT;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  566  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  567  		if (clos_assoc.socket_id > topology_max_packages())
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  568  			return -EINVAL;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  569  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  570  		cpu = clos_assoc.logical_cpu;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  571  		clos = clos_assoc.clos;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  572  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  573  		if (assoc_cmds.punit_cpu_map)
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  574  			punit_cpu_no = cpu;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  575  		else
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  576  			return -EOPNOTSUPP;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  577  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  578  		if (punit_cpu_no < 0)
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  579  			return -EINVAL;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  580  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  581  		punit_id = clos_assoc.power_domain_id;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  582  		pkg_id = clos_assoc.socket_id;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  583  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07 @584  		sst_inst = isst_common.sst_inst[pkg_id];
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  585  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07 @586  		if (clos_assoc.power_domain_id > sst_inst->number_of_power_domains)
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  587  			return -EINVAL;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  588  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  589  		power_domain_info = &sst_inst->power_domain_info[punit_id];
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  590  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  591  		offset = SST_CLOS_ASSOC_0_OFFSET +
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  592  				(punit_cpu_no / SST_CLOS_ASSOC_CPUS_PER_REG) * SST_REG_SIZE;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  593  		shift = punit_cpu_no % SST_CLOS_ASSOC_CPUS_PER_REG;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  594  		shift *= SST_CLOS_ASSOC_BITS_PER_CPU;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  595  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  596  		val = readq(power_domain_info->sst_base +
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  597  				power_domain_info->sst_header.cp_offset + offset);
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  598  		if (assoc_cmds.get_set) {
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  599  			mask = GENMASK_ULL((shift + SST_CLOS_ASSOC_BITS_PER_CPU - 1), shift);
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  600  			val &= ~mask;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  601  			val |= (clos << shift);
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  602  			writeq(val, power_domain_info->sst_base +
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  603  					power_domain_info->sst_header.cp_offset + offset);
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  604  		} else {
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  605  			val >>= shift;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  606  			clos_assoc.clos = val & GENMASK(SST_CLOS_ASSOC_BITS_PER_CPU - 1, 0);
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  607  			if (copy_to_user(ptr, &clos_assoc, sizeof(clos_assoc)))
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  608  				return -EFAULT;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  609  		}
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  610  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  611  		ptr += sizeof(clos_assoc);
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  612  	}
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  613  
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  614  	return 0;
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  615  }
+12a7d2cb811dd8 Srinivas Pandruvada 2023-03-07  616  
 
 -- 
 0-DAY CI Kernel Test Service
