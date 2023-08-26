@@ -1,41 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291F9C151
-	for <oe-kbuild@lists.linux.dev>; Sat, 26 Aug 2023 10:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E89A100CC
+	for <oe-kbuild@lists.linux.dev>; Sat, 26 Aug 2023 21:54:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693045782; x=1724581782;
+  t=1693086845; x=1724622845;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H0eGfeDjjkRNPubRN07lj5WQXexnU4tnkgEzw62jaos=;
-  b=hKQEhEzH9soE4mcMEXfFqGPeFk2KloinzA+kYEqkGAhBRaTkYh79jujT
-   XuLu2VJL+uUBCnYE5ITK5bRW6tbb5oy3RBeIEFGXyFVvAihrpJn/IcJBo
-   Vo5G/2+g22PjjghoUTWrTcsDQ0IA31JY1HiWkJ7VFSeZ5U63vPOmjIez4
-   CioGA4a6UkFbK1KEHAPny29H1o16M8m175/pxJco3AkK1BtoUJWMPfn7D
-   HB+eiXn8btzIyetcCz6SmuOU+aRr7KU/949XpNOVLbUjmCT+8cT95hELp
-   6FtT3+95e+2ppb9V71OqTTlYCoHVZMSKHDVmY6RwIHsc5CsdpSIW6swWv
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="359857843"
+  bh=2myIRre/ZB+dcewUjYANHtiWl1oKAh3dIXZLLTrny2M=;
+  b=T1WHMQJ2LkIfcICcwVUXP8Ga5oRqAoPQtFrWhLwaUvP9LAjeMaDzcOUo
+   zcHEegwaaIs5OxLBKpiwqm8krx+TfzTFmMMwcOVgLEvDDUcSoq48IE4i4
+   07KwsSMsSJaMM/SJ7WCpSbBaae7mVhNHhdnBwS81wA4lrQnToiySF0pN4
+   b7N5uhpVL/QsbJQpEUsxqilHtPOc9AdtKO5GIDyEQbgQLfa1qcSvn2Ofh
+   A74UUvT4x3PN7izQUwoF59RIj4nS8HZJy61jcTJRxW7ava0/jYa2xyOoS
+   hodRljND4TOsdl+XWf9Mpah0ihacAh5sU+BqJ2P6UuN8eC3eU9VDYv/oW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="438847648"
 X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="359857843"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 03:29:41 -0700
+   d="scan'208";a="438847648"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 14:54:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="1068513381"
+X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="827922334"
 X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="1068513381"
+   d="scan'208";a="827922334"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 26 Aug 2023 03:29:39 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 26 Aug 2023 14:54:03 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZqXz-0004c1-00;
-	Sat, 26 Aug 2023 10:29:39 +0000
-Date: Sat, 26 Aug 2023 18:29:15 +0800
+	id 1qa1E7-00057P-2F;
+	Sat, 26 Aug 2023 21:53:58 +0000
+Date: Sun, 27 Aug 2023 05:53:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: lib/kunit/test.c:336 __kunit_abort() warn: ignoring unreachable code.
-Message-ID: <202308261835.XGKyoddf-lkp@intel.com>
+Subject: [yiliu1765-iommufd:wip/iommufd_pasid-0825 3/95]
+ drivers/iommu/iommufd/main.c:259 iommufd_get_hw_info() warn: maybe return
+ -EFAULT instead of the bytes remaining?
+Message-ID: <202308270513.l9Ht4WmD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,54 +49,72 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: David Gow <davidgow@google.com>
-CC: Shuah Khan <skhan@linuxfoundation.org>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Daniel Latypov <dlatypov@google.com>
+TO: Yi Liu <yi.l.liu@intel.com>
+TO: Kevin Tian <kevin.tian@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7d2f353b2682dcfe5f9bc71e5b61d5b61770d98e
-commit: 260755184cbdb267a046e7ffd397c1d2ba09bb5e kunit: Move kunit_abort() call out of kunit_do_failed_assertion()
-date:   3 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-161-20230823 (https://download.01.org/0day-ci/archive/20230826/202308261835.XGKyoddf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308261835.XGKyoddf-lkp@intel.com/reproduce)
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid-0825
+head:   98c119bc01ddf99ad4ac7c3e93980e3d835c0901
+commit: 69055cc0284095e68fd61f1705ef518ad731d120 [3/95] iommufd: Add IOMMU_GET_HW_INFO
+:::::: branch date: 2 days ago
+:::::: commit date: 2 weeks ago
+config: x86_64-randconfig-161-20230826 (https://download.01.org/0day-ci/archive/20230827/202308270513.l9Ht4WmD-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230827/202308270513.l9Ht4WmD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308261835.XGKyoddf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308270513.l9Ht4WmD-lkp@intel.com/
 
 smatch warnings:
-lib/kunit/test.c:336 __kunit_abort() warn: ignoring unreachable code.
+drivers/iommu/iommufd/main.c:259 iommufd_get_hw_info() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +336 lib/kunit/test.c
+vim +259 drivers/iommu/iommufd/main.c
 
-73cda7bb8bfb1d Brendan Higgins 2019-09-23  325  
-260755184cbdb2 David Gow       2023-05-31  326  void __noreturn __kunit_abort(struct kunit *test)
-5f3e06208920ee Brendan Higgins 2019-09-23  327  {
-5f3e06208920ee Brendan Higgins 2019-09-23  328  	kunit_try_catch_throw(&test->try_catch); /* Does not return. */
-5f3e06208920ee Brendan Higgins 2019-09-23  329  
-5f3e06208920ee Brendan Higgins 2019-09-23  330  	/*
-5f3e06208920ee Brendan Higgins 2019-09-23  331  	 * Throw could not abort from test.
-5f3e06208920ee Brendan Higgins 2019-09-23  332  	 *
-5f3e06208920ee Brendan Higgins 2019-09-23  333  	 * XXX: we should never reach this line! As kunit_try_catch_throw is
-5f3e06208920ee Brendan Higgins 2019-09-23  334  	 * marked __noreturn.
-5f3e06208920ee Brendan Higgins 2019-09-23  335  	 */
-5f3e06208920ee Brendan Higgins 2019-09-23 @336  	WARN_ONCE(true, "Throw could not abort from test!\n");
-5f3e06208920ee Brendan Higgins 2019-09-23  337  }
-260755184cbdb2 David Gow       2023-05-31  338  EXPORT_SYMBOL_GPL(__kunit_abort);
-5f3e06208920ee Brendan Higgins 2019-09-23  339  
-
-:::::: The code at line 336 was first introduced by commit
-:::::: 5f3e06208920ee78b68cf3527f40ffbff83cb3bc kunit: test: add support for test abort
-
-:::::: TO: Brendan Higgins <brendanhiggins@google.com>
-:::::: CC: Shuah Khan <skhan@linuxfoundation.org>
+69055cc0284095e Yi Liu 2023-01-12  219  
+69055cc0284095e Yi Liu 2023-01-12  220  static int iommufd_get_hw_info(struct iommufd_ucmd *ucmd)
+69055cc0284095e Yi Liu 2023-01-12  221  {
+69055cc0284095e Yi Liu 2023-01-12  222  	struct iommu_hw_info *cmd = ucmd->cmd;
+69055cc0284095e Yi Liu 2023-01-12  223  	unsigned int length = cmd->data_len;
+69055cc0284095e Yi Liu 2023-01-12  224  	struct iommufd_device *idev;
+69055cc0284095e Yi Liu 2023-01-12  225  	void __user *user_ptr;
+69055cc0284095e Yi Liu 2023-01-12  226  	u32 hw_info_type;
+69055cc0284095e Yi Liu 2023-01-12  227  	int rc = 0;
+69055cc0284095e Yi Liu 2023-01-12  228  
+69055cc0284095e Yi Liu 2023-01-12  229  	if (cmd->flags || cmd->__reserved || !cmd->data_len)
+69055cc0284095e Yi Liu 2023-01-12  230  		return -EOPNOTSUPP;
+69055cc0284095e Yi Liu 2023-01-12  231  
+69055cc0284095e Yi Liu 2023-01-12  232  	idev = iommufd_get_device(ucmd, cmd->dev_id);
+69055cc0284095e Yi Liu 2023-01-12  233  	if (IS_ERR(idev))
+69055cc0284095e Yi Liu 2023-01-12  234  		return PTR_ERR(idev);
+69055cc0284095e Yi Liu 2023-01-12  235  
+69055cc0284095e Yi Liu 2023-01-12  236  	user_ptr = u64_to_user_ptr(cmd->data_ptr);
+69055cc0284095e Yi Liu 2023-01-12  237  
+69055cc0284095e Yi Liu 2023-01-12  238  	rc = iommufd_fill_hw_info(idev->dev, user_ptr,
+69055cc0284095e Yi Liu 2023-01-12  239  				  &length, &hw_info_type);
+69055cc0284095e Yi Liu 2023-01-12  240  	if (rc)
+69055cc0284095e Yi Liu 2023-01-12  241  		goto err_put;
+69055cc0284095e Yi Liu 2023-01-12  242  
+69055cc0284095e Yi Liu 2023-01-12  243  	/*
+69055cc0284095e Yi Liu 2023-01-12  244  	 * Zero the trailing bytes if the user buffer is bigger than the
+69055cc0284095e Yi Liu 2023-01-12  245  	 * data size kernel actually has.
+69055cc0284095e Yi Liu 2023-01-12  246  	 */
+69055cc0284095e Yi Liu 2023-01-12  247  	if (length < cmd->data_len) {
+69055cc0284095e Yi Liu 2023-01-12  248  		rc = clear_user(user_ptr + length, cmd->data_len - length);
+69055cc0284095e Yi Liu 2023-01-12  249  		if (rc)
+69055cc0284095e Yi Liu 2023-01-12  250  			goto err_put;
+69055cc0284095e Yi Liu 2023-01-12  251  	}
+69055cc0284095e Yi Liu 2023-01-12  252  
+69055cc0284095e Yi Liu 2023-01-12  253  	cmd->data_len = length;
+69055cc0284095e Yi Liu 2023-01-12  254  	cmd->out_data_type = hw_info_type;
+69055cc0284095e Yi Liu 2023-01-12  255  	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
+69055cc0284095e Yi Liu 2023-01-12  256  
+69055cc0284095e Yi Liu 2023-01-12  257  err_put:
+69055cc0284095e Yi Liu 2023-01-12  258  	iommufd_put_object(&idev->obj);
+69055cc0284095e Yi Liu 2023-01-12 @259  	return rc;
+69055cc0284095e Yi Liu 2023-01-12  260  }
+69055cc0284095e Yi Liu 2023-01-12  261  
 
 -- 
 0-DAY CI Kernel Test Service
