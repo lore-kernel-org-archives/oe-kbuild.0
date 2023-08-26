@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5D7386
-	for <oe-kbuild@lists.linux.dev>; Sat, 26 Aug 2023 01:33:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D7917E4
+	for <oe-kbuild@lists.linux.dev>; Sat, 26 Aug 2023 08:12:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693013582; x=1724549582;
+  t=1693037537; x=1724573537;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pOWL2qvac4uhp3nazvJcsFvQCkd8DYDNB1ZCqw9N0h8=;
-  b=F3cuBBcdCslEsiBpY3tWwpwM43KR6Dw4EXO0TsGAX3aSrMvZpJjS+Ebr
-   Nz01v5bZd08d06mVz8KsJkZEFKppvVHDcYGGDHAAXw+Z267nafnlwSkJW
-   ekgQRR1fwkhgT+oC1fEuyZ/rSg2YnkULe4U77sz4/+axndzkGm1LxcZNB
-   SqpsZ+JYhipp6SiYPpJ/gKt52WgjaT0WOSYEOvcfZjmLVYCUW8mDe+I2V
-   TZaM5PaXacswe4D3zQvzDRnhT2q1XZMWom531tjAFk2GmkJjmG/9SewMD
-   sUHtqPsJumtLFcKZqF4nxk9qa0VAZrza2+eMvHlFwxZXt2mGDlhPdEIcE
+  bh=KksvD32rghjZsXfUyWaEFx/O3n05uGNWYjtP84hPW2s=;
+  b=aIRiRgmXWld7egFgksfTAHP5KhAoksa+cswsoqBrlKRWnqreMjolxME3
+   SDjmJeYxr8uXz6gZEGzt3tI72P1S71cVePuLz00fiiYA9Ak/IaATUm5tE
+   Xyy3ergRTGOVyoLvHy4a03TWS+yj8MXOEwApY9MZVGLQ0tt/UizWMIZLE
+   kWqIUH2MZzUXHexFPXSyQPgX2bBkc0Y3CaFK2d2KZl1LZivlVUQmp3A5Q
+   k1bF/FnVlrR+LY9PTMOL4rb7n299zU+y2wnrf5otpd1FjSC1+FNv7HG2/
+   4yKAvFDjnIIPmSA792Sfzx2kinAFGVUGZ7ue+RkTNZusEFhIO5NCk4D92
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="405831039"
-X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="405831039"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 18:33:01 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="372261394"
+X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
+   d="scan'208";a="372261394"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 01:12:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="767095330"
-X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="767095330"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="1068481573"
+X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
+   d="scan'208";a="1068481573"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 25 Aug 2023 18:33:00 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 26 Aug 2023 01:12:15 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZiAd-0004Dl-0w;
-	Sat, 26 Aug 2023 01:32:59 +0000
-Date: Sat, 26 Aug 2023 09:32:06 +0800
+	id 1qZoP0-0004Ur-1b;
+	Sat, 26 Aug 2023 08:12:14 +0000
+Date: Sat, 26 Aug 2023 16:12:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 1/2] drm/display/dp: Default 8 bpc support when DSC is
- supported
-Message-ID: <202308260936.KLU5QX9V-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [yiliu1765-iommufd:wip/iommufd_pasid-0825 3/95]
+ drivers/iommu/iommufd/main.c:259 iommufd_get_hw_info() warn: maybe return
+ -EFAULT instead of the bytes remaining?
+Message-ID: <202308261625.4I238pvv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,89 +47,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/display/drm_dp_helper.c:2451:39: sparse: sparse: dubious: !x & y"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230823115425.715644-2-ankit.k.nautiyal@intel.com>
-References: <20230823115425.715644-2-ankit.k.nautiyal@intel.com>
-TO: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-TO: dri-devel@lists.freedesktop.org
-TO: intel-gfx@lists.freedesktop.org
+TO: Yi Liu <yi.l.liu@intel.com>
+TO: Kevin Tian <kevin.tian@intel.com>
 
-Hi Ankit,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-tip/drm-tip]
-[also build test WARNING on linus/master v6.5-rc7 next-20230825]
-[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ankit-Nautiyal/drm-display-dp-Default-8-bpc-support-when-DSC-is-supported/20230823-195946
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230823115425.715644-2-ankit.k.nautiyal%40intel.com
-patch subject: [PATCH 1/2] drm/display/dp: Default 8 bpc support when DSC is supported
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: openrisc-randconfig-r132-20230823 (https://download.01.org/0day-ci/archive/20230826/202308260936.KLU5QX9V-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260936.KLU5QX9V-lkp@intel.com/reproduce)
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid-0825
+head:   98c119bc01ddf99ad4ac7c3e93980e3d835c0901
+commit: 69055cc0284095e68fd61f1705ef518ad731d120 [3/95] iommufd: Add IOMMU_GET_HW_INFO
+:::::: branch date: 23 hours ago
+:::::: commit date: 2 weeks ago
+config: x86_64-randconfig-161-20230826 (https://download.01.org/0day-ci/archive/20230826/202308261625.4I238pvv-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308261625.4I238pvv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202308260936.KLU5QX9V-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202308261625.4I238pvv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/display/drm_dp_helper.c:2451:39: sparse: sparse: dubious: !x & y
+smatch warnings:
+drivers/iommu/iommufd/main.c:259 iommufd_get_hw_info() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +2451 drivers/gpu/drm/display/drm_dp_helper.c
+vim +259 drivers/iommu/iommufd/main.c
 
-0575650077eae2 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-10-30  2428  
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2429  /**
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2430   * drm_dp_dsc_sink_supported_input_bpcs() - Get all the input bits per component
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2431   * values supported by the DSC sink.
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2432   * @dsc_dpcd: DSC capabilities from DPCD
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2433   * @dsc_bpc: An array to be filled by this helper with supported
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2434   *           input bpcs.
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2435   *
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2436   * Read the DSC DPCD from the sink device to parse the supported bits per
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2437   * component values. This is used to populate the DSC parameters
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2438   * in the &struct drm_dsc_config by the driver.
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2439   * Driver creates an infoframe using these parameters to populate
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2440   * &struct drm_dsc_pps_infoframe. These are sent to the sink using DSC
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2441   * infoframe using the helper function drm_dsc_pps_infoframe_pack()
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2442   *
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2443   * Returns:
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2444   * Number of input BPC values parsed from the DPCD
-05bad2357afcb9 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2019-02-06  2445   */
-4d4101c8b32186 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-11-27  2446  int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE],
-4d4101c8b32186 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-11-27  2447  					 u8 dsc_bpc[3])
-0575650077eae2 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-10-30  2448  {
-4d4101c8b32186 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-11-27  2449  	int num_bpc = 0;
-133b5d2265a650 drivers/gpu/drm/display/drm_dp_helper.c Ankit Nautiyal 2023-08-23  2450  
-133b5d2265a650 drivers/gpu/drm/display/drm_dp_helper.c Ankit Nautiyal 2023-08-23 @2451  	if (!dsc_dpcd[DP_DSC_SUPPORT] & DP_DSC_DECOMPRESSION_IS_SUPPORTED)
-133b5d2265a650 drivers/gpu/drm/display/drm_dp_helper.c Ankit Nautiyal 2023-08-23  2452  		return 0;
-133b5d2265a650 drivers/gpu/drm/display/drm_dp_helper.c Ankit Nautiyal 2023-08-23  2453  
-0575650077eae2 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-10-30  2454  	u8 color_depth = dsc_dpcd[DP_DSC_DEC_COLOR_DEPTH_CAP - DP_DSC_SUPPORT];
-0575650077eae2 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-10-30  2455  
-0575650077eae2 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-10-30  2456  	if (color_depth & DP_DSC_12_BPC)
-4d4101c8b32186 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-11-27  2457  		dsc_bpc[num_bpc++] = 12;
-0575650077eae2 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-10-30  2458  	if (color_depth & DP_DSC_10_BPC)
-4d4101c8b32186 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-11-27  2459  		dsc_bpc[num_bpc++] = 10;
-133b5d2265a650 drivers/gpu/drm/display/drm_dp_helper.c Ankit Nautiyal 2023-08-23  2460  
-133b5d2265a650 drivers/gpu/drm/display/drm_dp_helper.c Ankit Nautiyal 2023-08-23  2461  	/* A DP DSC Sink devices shall support 8 bpc. */
-4d4101c8b32186 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-11-27  2462  	dsc_bpc[num_bpc++] = 8;
-0575650077eae2 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-10-30  2463  
-4d4101c8b32186 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-11-27  2464  	return num_bpc;
-0575650077eae2 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-10-30  2465  }
-4d4101c8b32186 drivers/gpu/drm/drm_dp_helper.c         Manasi Navare  2018-11-27  2466  EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
-4342f839ae7e61 drivers/gpu/drm/drm_dp_helper.c         Animesh Manna  2020-03-16  2467  
+69055cc0284095 Yi Liu 2023-01-12  219  
+69055cc0284095 Yi Liu 2023-01-12  220  static int iommufd_get_hw_info(struct iommufd_ucmd *ucmd)
+69055cc0284095 Yi Liu 2023-01-12  221  {
+69055cc0284095 Yi Liu 2023-01-12  222  	struct iommu_hw_info *cmd = ucmd->cmd;
+69055cc0284095 Yi Liu 2023-01-12  223  	unsigned int length = cmd->data_len;
+69055cc0284095 Yi Liu 2023-01-12  224  	struct iommufd_device *idev;
+69055cc0284095 Yi Liu 2023-01-12  225  	void __user *user_ptr;
+69055cc0284095 Yi Liu 2023-01-12  226  	u32 hw_info_type;
+69055cc0284095 Yi Liu 2023-01-12  227  	int rc = 0;
+69055cc0284095 Yi Liu 2023-01-12  228  
+69055cc0284095 Yi Liu 2023-01-12  229  	if (cmd->flags || cmd->__reserved || !cmd->data_len)
+69055cc0284095 Yi Liu 2023-01-12  230  		return -EOPNOTSUPP;
+69055cc0284095 Yi Liu 2023-01-12  231  
+69055cc0284095 Yi Liu 2023-01-12  232  	idev = iommufd_get_device(ucmd, cmd->dev_id);
+69055cc0284095 Yi Liu 2023-01-12  233  	if (IS_ERR(idev))
+69055cc0284095 Yi Liu 2023-01-12  234  		return PTR_ERR(idev);
+69055cc0284095 Yi Liu 2023-01-12  235  
+69055cc0284095 Yi Liu 2023-01-12  236  	user_ptr = u64_to_user_ptr(cmd->data_ptr);
+69055cc0284095 Yi Liu 2023-01-12  237  
+69055cc0284095 Yi Liu 2023-01-12  238  	rc = iommufd_fill_hw_info(idev->dev, user_ptr,
+69055cc0284095 Yi Liu 2023-01-12  239  				  &length, &hw_info_type);
+69055cc0284095 Yi Liu 2023-01-12  240  	if (rc)
+69055cc0284095 Yi Liu 2023-01-12  241  		goto err_put;
+69055cc0284095 Yi Liu 2023-01-12  242  
+69055cc0284095 Yi Liu 2023-01-12  243  	/*
+69055cc0284095 Yi Liu 2023-01-12  244  	 * Zero the trailing bytes if the user buffer is bigger than the
+69055cc0284095 Yi Liu 2023-01-12  245  	 * data size kernel actually has.
+69055cc0284095 Yi Liu 2023-01-12  246  	 */
+69055cc0284095 Yi Liu 2023-01-12  247  	if (length < cmd->data_len) {
+69055cc0284095 Yi Liu 2023-01-12  248  		rc = clear_user(user_ptr + length, cmd->data_len - length);
+69055cc0284095 Yi Liu 2023-01-12  249  		if (rc)
+69055cc0284095 Yi Liu 2023-01-12  250  			goto err_put;
+69055cc0284095 Yi Liu 2023-01-12  251  	}
+69055cc0284095 Yi Liu 2023-01-12  252  
+69055cc0284095 Yi Liu 2023-01-12  253  	cmd->data_len = length;
+69055cc0284095 Yi Liu 2023-01-12  254  	cmd->out_data_type = hw_info_type;
+69055cc0284095 Yi Liu 2023-01-12  255  	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
+69055cc0284095 Yi Liu 2023-01-12  256  
+69055cc0284095 Yi Liu 2023-01-12  257  err_put:
+69055cc0284095 Yi Liu 2023-01-12  258  	iommufd_put_object(&idev->obj);
+69055cc0284095 Yi Liu 2023-01-12 @259  	return rc;
+69055cc0284095 Yi Liu 2023-01-12  260  }
+69055cc0284095 Yi Liu 2023-01-12  261  
 
 -- 
 0-DAY CI Kernel Test Service
