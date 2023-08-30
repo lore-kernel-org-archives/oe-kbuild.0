@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DED1871
-	for <oe-kbuild@lists.linux.dev>; Wed, 30 Aug 2023 08:12:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE44B6FB5
+	for <oe-kbuild@lists.linux.dev>; Wed, 30 Aug 2023 15:19:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693383121; x=1724919121;
+  t=1693408791; x=1724944791;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DWsLH4RsEISG0qPxZle0FoOvPS3i3Y13Zym9zGnalr8=;
-  b=a24MIhMHgPdeCs3STFLV/H25YykWKnfbDMdw76x7SfELclx6lJ7u1zBE
-   Wwlr21pEam/yjmcxF+AGL3vj/svAwJ+noQoaViJ1dcC/fzQnw9eOSMm/G
-   /GGWP1muK95u/IilnPd7c/SDGf4XAn9Z/n3M+McQ1TSvB1zKdYMuSOP2x
-   Pykdl1Tp9aSGIk7qAExaSHPXqXpN6hYNsVmoKeSQMvzQeP5g1pKp9bKTj
-   ywAXkwsgo/vdUYTlnuHOHx0IoaMVkstFKyRowdsAwTR1BD8i5g5FmezEO
-   /eQZNR+bAdhP+Mo9CoXo6e1zEZfRN6aVPKxtBLnmH8Kv5zy49TteVRV0N
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="441941423"
-X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; 
-   d="scan'208";a="441941423"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 01:12:01 -0700
+  bh=V9Mj+xiJgjGVZw/Jvx/3ReSZJ/uzXHgwTmGnX/vW8LU=;
+  b=NlI3t3BOQEA9P1ZAP2MOf7NGmbo9eeIw0yfszOhJ7n+VYuWVdU6+6L+r
+   iKdOyf4j61jjApW+Ls510wMOlTGBrolXQwz6XiNqHHEJ7goe7DHDFvwZa
+   MXteiLygcP/yji6smox/K4zdLBzyR2Pu9rLaPKO4f3uR4QbxFFvFgOdK3
+   daS4E6aASQTZYhm3egWcxraK5uo15DKDRTyIMJvwwzvi36bsCfOEnaMh+
+   4dF7KRTXR0s7skW08cxk6dnjvnl2gogGJGyZD6MDUp5UyqqyotjGDpmyH
+   Eq13IN8tu9Oq/Jx5p/7JbXiq8an2Wq2vbSZ1L1xgzgKQxbaSo7H3XVGNq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="360665284"
+X-IronPort-AV: E=Sophos;i="6.02,214,1688454000"; 
+   d="scan'208";a="360665284"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 08:19:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="804429525"
-X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; 
-   d="scan'208";a="804429525"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="688951007"
+X-IronPort-AV: E=Sophos;i="6.02,214,1688454000"; 
+   d="scan'208";a="688951007"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Aug 2023 01:12:00 -0700
+  by orsmga003.jf.intel.com with ESMTP; 30 Aug 2023 08:19:48 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbGIx-0009bR-1Y;
-	Wed, 30 Aug 2023 08:11:59 +0000
-Date: Wed, 30 Aug 2023 16:11:31 +0800
+	id 1qbMyx-0009vT-0r;
+	Wed, 30 Aug 2023 15:19:47 +0000
+Date: Wed, 30 Aug 2023 23:19:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: Re: [RFC PATCH] drm/ssd130x: Allocate buffer in the CRTC's
  .atomic_check() callback
-Message-ID: <202308301645.bMtYLYr9-lkp@intel.com>
+Message-ID: <202308302310.DJgZdxyk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,6 +51,7 @@ Content-Disposition: inline
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20230830062546.720679-1-javierm@redhat.com>
 References: <20230830062546.720679-1-javierm@redhat.com>
@@ -71,22 +72,27 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Martinez-Canillas/
 base:   linux-next/master
 patch link:    https://lore.kernel.org/r/20230830062546.720679-1-javierm%40redhat.com
 patch subject: [RFC PATCH] drm/ssd130x: Allocate buffer in the CRTC's .atomic_check() callback
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 hours ago
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230830/202308301645.bMtYLYr9-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308301645.bMtYLYr9-lkp@intel.com/reproduce)
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: arm-randconfig-r011-20230830 (https://download.01.org/0day-ci/archive/20230830/202308302310.DJgZdxyk-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308302310.DJgZdxyk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202308301645.bMtYLYr9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308302310.DJgZdxyk-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/solomon/ssd130x.c:774:5: warning: no previous prototype for 'ssd130x_crtc_helper_atomic_check' [-Wmissing-prototypes]
+>> drivers/gpu/drm/solomon/ssd130x.c:774:5: warning: no previous prototype for function 'ssd130x_crtc_helper_atomic_check' [-Wmissing-prototypes]
      774 | int ssd130x_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |     ^
+   drivers/gpu/drm/solomon/ssd130x.c:774:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     774 | int ssd130x_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
+         | ^
+         | static 
+   1 warning generated.
 
 
 vim +/ssd130x_crtc_helper_atomic_check +774 drivers/gpu/drm/solomon/ssd130x.c
