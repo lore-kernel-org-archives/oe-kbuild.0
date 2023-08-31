@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93DE749B
-	for <oe-kbuild@lists.linux.dev>; Wed, 30 Aug 2023 21:55:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14395255
+	for <oe-kbuild@lists.linux.dev>; Thu, 31 Aug 2023 00:30:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693432507; x=1724968507;
+  t=1693441826; x=1724977826;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N1CqtNJ3oAvaHTWLXiapCKffhCd3cKe1XU8G/SgZoGY=;
-  b=CJ+3q3GfGUHC0N/neYng4r/IaI7ZK82QwenoyASOV7WaDL8jtCeBw6g2
-   2MkzRijCFf+c/GQzJeaWGojD7LHbsvQOuymUj/2R4EpKIm8DdEWFwGWH5
-   T0HoPYfJrFnM+GECmhkLeSXUsUNh/TRFmVyXFZCgNKvR5IBIzj7V09xoI
-   bg5/fIFsN59Xj9oORCfSMlIPMfTB9pgJIkmXFFZmCO5NkBcgAu2/uTNRc
-   E2/p1lsaak6hoxs3fgii58ZtQeiaFk1JYk7+LJ0tN0eFa2rMxeilyVeet
-   0cOoFuZXhx40E2bpRZml2on9SJLNAVlBEzttEWGIvhwSQ6cXQBjI/limd
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="406749969"
-X-IronPort-AV: E=Sophos;i="6.02,214,1688454000"; 
-   d="scan'208";a="406749969"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 14:55:06 -0700
+  bh=5XjWZEobY7hayRjs3odtnS/hEAOUdxmliULQPh+IDmQ=;
+  b=lsoZ+v41ln6BBu6DcD+NAdRSuyT3GvKhosMYVrUvkv8GDnMI2rZwk234
+   Hgj7nyyTNY6Y39cjBLPPAjEdKTa0cLmV/s2I74tnMe1eUrfrZiwuEP7Ob
+   wUxhA2c/UcKxT3daNOx9rreC9M8XwUrpeANIVIe119lf3rMUx8OtVJoxZ
+   7jvsg0gzVx1sU/lqu4/ZEwAvLDEsNKHcv7Sfoip0v1LGw65A4LPpOewH/
+   fOEMtRVzs3TKjwVGJSg+UB0iNaM0+xNYPfh9W3mukUb829eU3lbC559o/
+   EeRZSCfK5UVC+Q+bDX/+KjiO6dB054jyfHEK7N1V2Y8p9KGzGNfpOTI8u
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="365984327"
+X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
+   d="scan'208";a="365984327"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 17:30:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="768555053"
-X-IronPort-AV: E=Sophos;i="6.02,214,1688454000"; 
-   d="scan'208";a="768555053"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="774286722"
+X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
+   d="scan'208";a="774286722"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 30 Aug 2023 14:55:04 -0700
+  by orsmga001.jf.intel.com with ESMTP; 30 Aug 2023 17:30:24 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbT9Q-000AGZ-1p;
-	Wed, 30 Aug 2023 21:55:01 +0000
-Date: Thu, 31 Aug 2023 05:54:17 +0800
+	id 1qbVZo-000APD-0d;
+	Thu, 31 Aug 2023 00:30:24 +0000
+Date: Thu, 31 Aug 2023 08:29:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [chrome-os:chromeos-5.15 7/49]
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c:171 boe_tv110c9m_init() warn:
- Function too hairy.  No more merges.
-Message-ID: <202308310502.DeoSqFOI-lkp@intel.com>
+Subject: [sashal-stable:pending-5.10 47/53] mm/memory-failure.c:1926
+ soft_offline_page() error: '%pG' must be followed by one of [gpv]
+Message-ID: <202308310845.KU1RWOf6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,416 +48,86 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+TO: Sasha Levin <sashal@kernel.org>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   3d89b54178748460716b1a6d6c4e4860ca4c2616
-commit: 0da6f03369c6cc562e47c92275fc41402477b4d7 [7/49] FROMLIST: drm/panel: boe-tv101wum-nl6: Drop macros and open code sequences
-:::::: branch date: 14 hours ago
-:::::: commit date: 2 weeks ago
-config: x86_64-randconfig-161-20230831 (https://download.01.org/0day-ci/archive/20230831/202308310502.DeoSqFOI-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230831/202308310502.DeoSqFOI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
+head:   7bc636a9c8ac76445b7aac5ad0636c27711cdd80
+commit: c60183ae1a1b4adea62af23fe1f18474a2511759 [47/53] mm,hwpoison: refactor get_any_page
+:::::: branch date: 3 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-141-20230831 (https://download.01.org/0day-ci/archive/20230831/202308310845.KU1RWOf6-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230831/202308310845.KU1RWOf6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202308310502.DeoSqFOI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308310845.KU1RWOf6-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c:171 boe_tv110c9m_init() warn: Function too hairy.  No more merges.
-drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c:527 inx_hj110iz_init() warn: Function too hairy.  No more merges.
-drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c:865 boe_init() warn: Function too hairy.  No more merges.
-drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c:1230 starry_qfh032011_53g_init() warn: Function too hairy.  No more merges.
+smatch warnings:
+mm/memory-failure.c:1926 soft_offline_page() error: '%pG' must be followed by one of [gpv]
 
-Old smatch warnings:
-drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c:1456 starry_ili9882t_init() warn: Function too hairy.  No more merges.
+vim +1926 mm/memory-failure.c
 
-vim +171 drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-
-a869b9db7adf3bd Jitao Shi     2020-01-16   57  
-0da6f03369c6cc5 Linus Walleij 2023-07-03   58  static int boe_tv110c9m_init(struct mipi_dsi_device *dsi)
-0da6f03369c6cc5 Linus Walleij 2023-07-03   59  {
-0da6f03369c6cc5 Linus Walleij 2023-07-03   60  	int ret;
-a869b9db7adf3bd Jitao Shi     2020-01-16   61  
-0da6f03369c6cc5 Linus Walleij 2023-07-03   62  	mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x20);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   63  	mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   64  	mipi_dsi_dcs_write_seq(dsi, 0x05, 0xD9);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   65  	mipi_dsi_dcs_write_seq(dsi, 0x07, 0x78);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   66  	mipi_dsi_dcs_write_seq(dsi, 0x08, 0x5A);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   67  	mipi_dsi_dcs_write_seq(dsi, 0x0D, 0x63);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   68  	mipi_dsi_dcs_write_seq(dsi, 0x0E, 0x91);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   69  	mipi_dsi_dcs_write_seq(dsi, 0x0F, 0x73);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   70  	mipi_dsi_dcs_write_seq(dsi, 0x95, 0xE6);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   71  	mipi_dsi_dcs_write_seq(dsi, 0x96, 0xF0);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   72  	mipi_dsi_dcs_write_seq(dsi, 0x30, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   73  	mipi_dsi_dcs_write_seq(dsi, 0x6D, 0x66);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   74  	mipi_dsi_dcs_write_seq(dsi, 0x75, 0xA2);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   75  	mipi_dsi_dcs_write_seq(dsi, 0x77, 0x3B);
-a869b9db7adf3bd Jitao Shi     2020-01-16   76  
-0da6f03369c6cc5 Linus Walleij 2023-07-03   77  	mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x00, 0x08, 0x00, 0x23, 0x00, 0x4D, 0x00, 0x6D, 0x00, 0x89, 0x00, 0xA1, 0x00, 0xB6, 0x00, 0xC9);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   78  	mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x00, 0xDA, 0x01, 0x13, 0x01, 0x3C, 0x01, 0x7E, 0x01, 0xAB, 0x01, 0xF7, 0x02, 0x2F, 0x02, 0x31);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   79  	mipi_dsi_dcs_write_seq(dsi, 0xB2, 0x02, 0x67, 0x02, 0xA6, 0x02, 0xD1, 0x03, 0x08, 0x03, 0x2E, 0x03, 0x5B, 0x03, 0x6B, 0x03, 0x7B);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   80  	mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x03, 0x8E, 0x03, 0xA2, 0x03, 0xB7, 0x03, 0xE7, 0x03, 0xFD, 0x03, 0xFF);
-d1c2f6808dad64a yangcong      2021-09-14   81  
-0da6f03369c6cc5 Linus Walleij 2023-07-03   82  	mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x00, 0x08, 0x00, 0x23, 0x00, 0x4D, 0x00, 0x6D, 0x00, 0x89, 0x00, 0xA1, 0x00, 0xB6, 0x00, 0xC9);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   83  	mipi_dsi_dcs_write_seq(dsi, 0xB5, 0x00, 0xDA, 0x01, 0x13, 0x01, 0x3C, 0x01, 0x7E, 0x01, 0xAB, 0x01, 0xF7, 0x02, 0x2F, 0x02, 0x31);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   84  	mipi_dsi_dcs_write_seq(dsi, 0xB6, 0x02, 0x67, 0x02, 0xA6, 0x02, 0xD1, 0x03, 0x08, 0x03, 0x2E, 0x03, 0x5B, 0x03, 0x6B, 0x03, 0x7B);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   85  	mipi_dsi_dcs_write_seq(dsi, 0xB7, 0x03, 0x8E, 0x03, 0xA2, 0x03, 0xB7, 0x03, 0xE7, 0x03, 0xFD, 0x03, 0xFF);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   86  	mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x00, 0x08, 0x00, 0x23, 0x00, 0x4D, 0x00, 0x6D, 0x00, 0x89, 0x00, 0xA1, 0x00, 0xB6, 0x00, 0xC9);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   87  	mipi_dsi_dcs_write_seq(dsi, 0xB9, 0x00, 0xDA, 0x01, 0x13, 0x01, 0x3C, 0x01, 0x7E, 0x01, 0xAB, 0x01, 0xF7, 0x02, 0x2F, 0x02, 0x31);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   88  	mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x02, 0x67, 0x02, 0xA6, 0x02, 0xD1, 0x03, 0x08, 0x03, 0x2E, 0x03, 0x5B, 0x03, 0x6B, 0x03, 0x7B);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   89  	mipi_dsi_dcs_write_seq(dsi, 0xBB, 0x03, 0x8E, 0x03, 0xA2, 0x03, 0xB7, 0x03, 0xE7, 0x03, 0xFD, 0x03, 0xFF);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   90  
-0da6f03369c6cc5 Linus Walleij 2023-07-03   91  	mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x21);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   92  	mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   93  
-0da6f03369c6cc5 Linus Walleij 2023-07-03   94  	mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x00, 0x00, 0x00, 0x1B, 0x00, 0x45, 0x00, 0x65, 0x00, 0x81, 0x00, 0x99, 0x00, 0xAE, 0x00, 0xC1);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   95  	mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x00, 0xD2, 0x01, 0x0B, 0x01, 0x34, 0x01, 0x76, 0x01, 0xA3, 0x01, 0xEF, 0x02, 0x27, 0x02, 0x29);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   96  	mipi_dsi_dcs_write_seq(dsi, 0xB2, 0x02, 0x5F, 0x02, 0x9E, 0x02, 0xC9, 0x03, 0x00, 0x03, 0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   97  
-0da6f03369c6cc5 Linus Walleij 2023-07-03   98  	mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xAF, 0x03, 0xDF, 0x03, 0xF5, 0x03, 0xE0);
-0da6f03369c6cc5 Linus Walleij 2023-07-03   99  	mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x00, 0x00, 0x00, 0x1B, 0x00, 0x45, 0x00, 0x65, 0x00, 0x81, 0x00, 0x99, 0x00, 0xAE, 0x00, 0xC1);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  100  	mipi_dsi_dcs_write_seq(dsi, 0xB5, 0x00, 0xD2, 0x01, 0x0B, 0x01, 0x34, 0x01, 0x76, 0x01, 0xA3, 0x01, 0xEF, 0x02, 0x27, 0x02, 0x29);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  101  	mipi_dsi_dcs_write_seq(dsi, 0xB6, 0x02, 0x5F, 0x02, 0x9E, 0x02, 0xC9, 0x03, 0x00, 0x03, 0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  102  	mipi_dsi_dcs_write_seq(dsi, 0xB7, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xAF, 0x03, 0xDF, 0x03, 0xF5, 0x03, 0xE0);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  103  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  104  	mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x00, 0x00, 0x00, 0x1B, 0x00, 0x45, 0x00, 0x65, 0x00, 0x81, 0x00, 0x99, 0x00, 0xAE, 0x00, 0xC1);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  105  	mipi_dsi_dcs_write_seq(dsi, 0xB9, 0x00, 0xD2, 0x01, 0x0B, 0x01, 0x34, 0x01, 0x76, 0x01, 0xA3, 0x01, 0xEF, 0x02, 0x27, 0x02, 0x29);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  106  	mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x02, 0x5F, 0x02, 0x9E, 0x02, 0xC9, 0x03, 0x00, 0x03, 0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  107  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  108  	mipi_dsi_dcs_write_seq(dsi, 0xBB, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xAF, 0x03, 0xDF, 0x03, 0xF5, 0x03, 0xE0);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  109  	mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x24);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  110  	mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  111  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  112  	mipi_dsi_dcs_write_seq(dsi, 0x00, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  113  	mipi_dsi_dcs_write_seq(dsi, 0x01, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  114  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  115  	mipi_dsi_dcs_write_seq(dsi, 0x02, 0x1C);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  116  	mipi_dsi_dcs_write_seq(dsi, 0x03, 0x1C);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  117  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  118  	mipi_dsi_dcs_write_seq(dsi, 0x04, 0x1D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  119  	mipi_dsi_dcs_write_seq(dsi, 0x05, 0x1D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  120  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  121  	mipi_dsi_dcs_write_seq(dsi, 0x06, 0x04);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  122  	mipi_dsi_dcs_write_seq(dsi, 0x07, 0x04);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  123  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  124  	mipi_dsi_dcs_write_seq(dsi, 0x08, 0x0F);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  125  	mipi_dsi_dcs_write_seq(dsi, 0x09, 0x0F);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  126  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  127  	mipi_dsi_dcs_write_seq(dsi, 0x0A, 0x0E);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  128  	mipi_dsi_dcs_write_seq(dsi, 0x0B, 0x0E);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  129  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  130  	mipi_dsi_dcs_write_seq(dsi, 0x0C, 0x0D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  131  	mipi_dsi_dcs_write_seq(dsi, 0x0D, 0x0D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  132  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  133  	mipi_dsi_dcs_write_seq(dsi, 0x0E, 0x0C);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  134  	mipi_dsi_dcs_write_seq(dsi, 0x0F, 0x0C);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  135  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  136  	mipi_dsi_dcs_write_seq(dsi, 0x10, 0x08);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  137  	mipi_dsi_dcs_write_seq(dsi, 0x11, 0x08);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  138  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  139  	mipi_dsi_dcs_write_seq(dsi, 0x12, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  140  	mipi_dsi_dcs_write_seq(dsi, 0x13, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  141  	mipi_dsi_dcs_write_seq(dsi, 0x14, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  142  	mipi_dsi_dcs_write_seq(dsi, 0x15, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  143  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  144  	mipi_dsi_dcs_write_seq(dsi, 0x16, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  145  	mipi_dsi_dcs_write_seq(dsi, 0x17, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  146  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  147  	mipi_dsi_dcs_write_seq(dsi, 0x18, 0x1C);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  148  	mipi_dsi_dcs_write_seq(dsi, 0x19, 0x1C);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  149  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  150  	mipi_dsi_dcs_write_seq(dsi, 0x1A, 0x1D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  151  	mipi_dsi_dcs_write_seq(dsi, 0x1B, 0x1D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  152  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  153  	mipi_dsi_dcs_write_seq(dsi, 0x1C, 0x04);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  154  	mipi_dsi_dcs_write_seq(dsi, 0x1D, 0x04);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  155  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  156  	mipi_dsi_dcs_write_seq(dsi, 0x1E, 0x0F);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  157  	mipi_dsi_dcs_write_seq(dsi, 0x1F, 0x0F);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  158  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  159  	mipi_dsi_dcs_write_seq(dsi, 0x20, 0x0E);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  160  	mipi_dsi_dcs_write_seq(dsi, 0x21, 0x0E);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  161  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  162  	mipi_dsi_dcs_write_seq(dsi, 0x22, 0x0D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  163  	mipi_dsi_dcs_write_seq(dsi, 0x23, 0x0D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  164  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  165  	mipi_dsi_dcs_write_seq(dsi, 0x24, 0x0C);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  166  	mipi_dsi_dcs_write_seq(dsi, 0x25, 0x0C);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  167  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  168  	mipi_dsi_dcs_write_seq(dsi, 0x26, 0x08);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  169  	mipi_dsi_dcs_write_seq(dsi, 0x27, 0x08);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  170  
-0da6f03369c6cc5 Linus Walleij 2023-07-03 @171  	mipi_dsi_dcs_write_seq(dsi, 0x28, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  172  	mipi_dsi_dcs_write_seq(dsi, 0x29, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  173  	mipi_dsi_dcs_write_seq(dsi, 0x2A, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  174  	mipi_dsi_dcs_write_seq(dsi, 0x2B, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  175  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  176  	mipi_dsi_dcs_write_seq(dsi, 0x2D, 0x20);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  177  	mipi_dsi_dcs_write_seq(dsi, 0x2F, 0x0A);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  178  	mipi_dsi_dcs_write_seq(dsi, 0x30, 0x44);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  179  	mipi_dsi_dcs_write_seq(dsi, 0x33, 0x0C);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  180  	mipi_dsi_dcs_write_seq(dsi, 0x34, 0x32);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  181  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  182  	mipi_dsi_dcs_write_seq(dsi, 0x37, 0x44);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  183  	mipi_dsi_dcs_write_seq(dsi, 0x38, 0x40);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  184  	mipi_dsi_dcs_write_seq(dsi, 0x39, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  185  	mipi_dsi_dcs_write_seq(dsi, 0x3A, 0x5D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  186  	mipi_dsi_dcs_write_seq(dsi, 0x3B, 0x60);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  187  	mipi_dsi_dcs_write_seq(dsi, 0x3D, 0x42);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  188  	mipi_dsi_dcs_write_seq(dsi, 0x3F, 0x06);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  189  	mipi_dsi_dcs_write_seq(dsi, 0x43, 0x06);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  190  	mipi_dsi_dcs_write_seq(dsi, 0x47, 0x66);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  191  	mipi_dsi_dcs_write_seq(dsi, 0x4A, 0x5D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  192  	mipi_dsi_dcs_write_seq(dsi, 0x4B, 0x60);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  193  	mipi_dsi_dcs_write_seq(dsi, 0x4C, 0x91);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  194  	mipi_dsi_dcs_write_seq(dsi, 0x4D, 0x21);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  195  	mipi_dsi_dcs_write_seq(dsi, 0x4E, 0x43);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  196  	mipi_dsi_dcs_write_seq(dsi, 0x51, 0x12);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  197  	mipi_dsi_dcs_write_seq(dsi, 0x52, 0x34);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  198  	mipi_dsi_dcs_write_seq(dsi, 0x55, 0x82, 0x02);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  199  	mipi_dsi_dcs_write_seq(dsi, 0x56, 0x04);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  200  	mipi_dsi_dcs_write_seq(dsi, 0x58, 0x21);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  201  	mipi_dsi_dcs_write_seq(dsi, 0x59, 0x30);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  202  	mipi_dsi_dcs_write_seq(dsi, 0x5A, 0x60);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  203  	mipi_dsi_dcs_write_seq(dsi, 0x5B, 0x50);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  204  	mipi_dsi_dcs_write_seq(dsi, 0x5E, 0x00, 0x06);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  205  	mipi_dsi_dcs_write_seq(dsi, 0x5F, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  206  	mipi_dsi_dcs_write_seq(dsi, 0x65, 0x82);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  207  	mipi_dsi_dcs_write_seq(dsi, 0x7E, 0x20);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  208  	mipi_dsi_dcs_write_seq(dsi, 0x7F, 0x3C);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  209  	mipi_dsi_dcs_write_seq(dsi, 0x82, 0x04);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  210  	mipi_dsi_dcs_write_seq(dsi, 0x97, 0xC0);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  211  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  212  	mipi_dsi_dcs_write_seq(dsi, 0xB6, 0x05, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x05, 0x00, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  213  	mipi_dsi_dcs_write_seq(dsi, 0x91, 0x44);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  214  	mipi_dsi_dcs_write_seq(dsi, 0x92, 0xA9);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  215  	mipi_dsi_dcs_write_seq(dsi, 0x93, 0x1A);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  216  	mipi_dsi_dcs_write_seq(dsi, 0x94, 0x96);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  217  	mipi_dsi_dcs_write_seq(dsi, 0xD7, 0x55);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  218  	mipi_dsi_dcs_write_seq(dsi, 0xDA, 0x0A);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  219  	mipi_dsi_dcs_write_seq(dsi, 0xDE, 0x08);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  220  	mipi_dsi_dcs_write_seq(dsi, 0xDB, 0x05);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  221  	mipi_dsi_dcs_write_seq(dsi, 0xDC, 0xA9);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  222  	mipi_dsi_dcs_write_seq(dsi, 0xDD, 0x22);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  223  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  224  	mipi_dsi_dcs_write_seq(dsi, 0xDF, 0x05);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  225  	mipi_dsi_dcs_write_seq(dsi, 0xE0, 0xA9);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  226  	mipi_dsi_dcs_write_seq(dsi, 0xE1, 0x05);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  227  	mipi_dsi_dcs_write_seq(dsi, 0xE2, 0xA9);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  228  	mipi_dsi_dcs_write_seq(dsi, 0xE3, 0x05);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  229  	mipi_dsi_dcs_write_seq(dsi, 0xE4, 0xA9);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  230  	mipi_dsi_dcs_write_seq(dsi, 0xE5, 0x05);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  231  	mipi_dsi_dcs_write_seq(dsi, 0xE6, 0xA9);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  232  	mipi_dsi_dcs_write_seq(dsi, 0x5C, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  233  	mipi_dsi_dcs_write_seq(dsi, 0x5D, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  234  	mipi_dsi_dcs_write_seq(dsi, 0x8D, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  235  	mipi_dsi_dcs_write_seq(dsi, 0x8E, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  236  	mipi_dsi_dcs_write_seq(dsi, 0xB5, 0x90);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  237  	mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x25);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  238  	mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  239  	mipi_dsi_dcs_write_seq(dsi, 0x05, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  240  	mipi_dsi_dcs_write_seq(dsi, 0x19, 0x07);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  241  	mipi_dsi_dcs_write_seq(dsi, 0x1F, 0x60);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  242  	mipi_dsi_dcs_write_seq(dsi, 0x20, 0x50);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  243  	mipi_dsi_dcs_write_seq(dsi, 0x26, 0x60);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  244  	mipi_dsi_dcs_write_seq(dsi, 0x27, 0x50);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  245  	mipi_dsi_dcs_write_seq(dsi, 0x33, 0x60);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  246  	mipi_dsi_dcs_write_seq(dsi, 0x34, 0x50);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  247  	mipi_dsi_dcs_write_seq(dsi, 0x3F, 0xE0);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  248  	mipi_dsi_dcs_write_seq(dsi, 0x40, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  249  	mipi_dsi_dcs_write_seq(dsi, 0x44, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  250  	mipi_dsi_dcs_write_seq(dsi, 0x45, 0x40);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  251  	mipi_dsi_dcs_write_seq(dsi, 0x48, 0x60);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  252  	mipi_dsi_dcs_write_seq(dsi, 0x49, 0x50);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  253  	mipi_dsi_dcs_write_seq(dsi, 0x5B, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  254  	mipi_dsi_dcs_write_seq(dsi, 0x5C, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  255  	mipi_dsi_dcs_write_seq(dsi, 0x5D, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  256  	mipi_dsi_dcs_write_seq(dsi, 0x5E, 0xD0);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  257  	mipi_dsi_dcs_write_seq(dsi, 0x61, 0x60);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  258  	mipi_dsi_dcs_write_seq(dsi, 0x62, 0x50);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  259  	mipi_dsi_dcs_write_seq(dsi, 0xF1, 0x10);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  260  	mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x2A);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  261  	mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  262  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  263  	mipi_dsi_dcs_write_seq(dsi, 0x64, 0x16);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  264  	mipi_dsi_dcs_write_seq(dsi, 0x67, 0x16);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  265  	mipi_dsi_dcs_write_seq(dsi, 0x6A, 0x16);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  266  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  267  	mipi_dsi_dcs_write_seq(dsi, 0x70, 0x30);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  268  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  269  	mipi_dsi_dcs_write_seq(dsi, 0xA2, 0xF3);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  270  	mipi_dsi_dcs_write_seq(dsi, 0xA3, 0xFF);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  271  	mipi_dsi_dcs_write_seq(dsi, 0xA4, 0xFF);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  272  	mipi_dsi_dcs_write_seq(dsi, 0xA5, 0xFF);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  273  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  274  	mipi_dsi_dcs_write_seq(dsi, 0xD6, 0x08);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  275  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  276  	mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x26);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  277  	mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  278  	mipi_dsi_dcs_write_seq(dsi, 0x00, 0xA1);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  279  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  280  	mipi_dsi_dcs_write_seq(dsi, 0x02, 0x31);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  281  	mipi_dsi_dcs_write_seq(dsi, 0x04, 0x28);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  282  	mipi_dsi_dcs_write_seq(dsi, 0x06, 0x30);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  283  	mipi_dsi_dcs_write_seq(dsi, 0x0C, 0x16);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  284  	mipi_dsi_dcs_write_seq(dsi, 0x0D, 0x0D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  285  	mipi_dsi_dcs_write_seq(dsi, 0x0F, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  286  	mipi_dsi_dcs_write_seq(dsi, 0x11, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  287  	mipi_dsi_dcs_write_seq(dsi, 0x12, 0x50);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  288  	mipi_dsi_dcs_write_seq(dsi, 0x13, 0x56);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  289  	mipi_dsi_dcs_write_seq(dsi, 0x14, 0x57);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  290  	mipi_dsi_dcs_write_seq(dsi, 0x15, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  291  	mipi_dsi_dcs_write_seq(dsi, 0x16, 0x10);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  292  	mipi_dsi_dcs_write_seq(dsi, 0x17, 0xA0);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  293  	mipi_dsi_dcs_write_seq(dsi, 0x18, 0x86);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  294  	mipi_dsi_dcs_write_seq(dsi, 0x19, 0x0D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  295  	mipi_dsi_dcs_write_seq(dsi, 0x1A, 0x7F);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  296  	mipi_dsi_dcs_write_seq(dsi, 0x1B, 0x0C);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  297  	mipi_dsi_dcs_write_seq(dsi, 0x1C, 0xBF);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  298  	mipi_dsi_dcs_write_seq(dsi, 0x22, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  299  	mipi_dsi_dcs_write_seq(dsi, 0x23, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  300  	mipi_dsi_dcs_write_seq(dsi, 0x2A, 0x0D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  301  	mipi_dsi_dcs_write_seq(dsi, 0x2B, 0x7F);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  302  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  303  	mipi_dsi_dcs_write_seq(dsi, 0x1D, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  304  	mipi_dsi_dcs_write_seq(dsi, 0x1E, 0x65);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  305  	mipi_dsi_dcs_write_seq(dsi, 0x1F, 0x65);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  306  	mipi_dsi_dcs_write_seq(dsi, 0x24, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  307  	mipi_dsi_dcs_write_seq(dsi, 0x25, 0x65);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  308  	mipi_dsi_dcs_write_seq(dsi, 0x2F, 0x05);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  309  	mipi_dsi_dcs_write_seq(dsi, 0x30, 0x65);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  310  	mipi_dsi_dcs_write_seq(dsi, 0x31, 0x05);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  311  	mipi_dsi_dcs_write_seq(dsi, 0x32, 0x7D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  312  	mipi_dsi_dcs_write_seq(dsi, 0x39, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  313  	mipi_dsi_dcs_write_seq(dsi, 0x3A, 0x65);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  314  	mipi_dsi_dcs_write_seq(dsi, 0x20, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  315  	mipi_dsi_dcs_write_seq(dsi, 0x33, 0x11);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  316  	mipi_dsi_dcs_write_seq(dsi, 0x34, 0x78);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  317  	mipi_dsi_dcs_write_seq(dsi, 0x35, 0x16);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  318  	mipi_dsi_dcs_write_seq(dsi, 0xC8, 0x04);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  319  	mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x9E);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  320  	mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x4E);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  321  	mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  322  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  323  	mipi_dsi_dcs_write_seq(dsi, 0xA9, 0x49);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  324  	mipi_dsi_dcs_write_seq(dsi, 0xAA, 0x4B);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  325  	mipi_dsi_dcs_write_seq(dsi, 0xAB, 0x48);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  326  	mipi_dsi_dcs_write_seq(dsi, 0xAC, 0x43);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  327  	mipi_dsi_dcs_write_seq(dsi, 0xAD, 0x40);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  328  	mipi_dsi_dcs_write_seq(dsi, 0xAE, 0x50);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  329  	mipi_dsi_dcs_write_seq(dsi, 0xAF, 0x44);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  330  	mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x54);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  331  	mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x4E);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  332  	mipi_dsi_dcs_write_seq(dsi, 0xB2, 0x4D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  333  	mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x4C);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  334  	mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x41);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  335  	mipi_dsi_dcs_write_seq(dsi, 0xB5, 0x47);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  336  	mipi_dsi_dcs_write_seq(dsi, 0xB6, 0x53);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  337  	mipi_dsi_dcs_write_seq(dsi, 0xB7, 0x3E);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  338  	mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x51);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  339  	mipi_dsi_dcs_write_seq(dsi, 0xB9, 0x3C);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  340  	mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x3B);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  341  	mipi_dsi_dcs_write_seq(dsi, 0xBB, 0x46);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  342  	mipi_dsi_dcs_write_seq(dsi, 0xBC, 0x45);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  343  	mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x55);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  344  	mipi_dsi_dcs_write_seq(dsi, 0xBE, 0x3D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  345  	mipi_dsi_dcs_write_seq(dsi, 0xBF, 0x3F);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  346  	mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x52);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  347  	mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x4A);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  348  	mipi_dsi_dcs_write_seq(dsi, 0xC2, 0x39);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  349  	mipi_dsi_dcs_write_seq(dsi, 0xC3, 0x4F);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  350  	mipi_dsi_dcs_write_seq(dsi, 0xC4, 0x3A);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  351  	mipi_dsi_dcs_write_seq(dsi, 0xC5, 0x42);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  352  	mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x27);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  353  	mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  354  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  355  	mipi_dsi_dcs_write_seq(dsi, 0x56, 0x06);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  356  	mipi_dsi_dcs_write_seq(dsi, 0x58, 0x80);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  357  	mipi_dsi_dcs_write_seq(dsi, 0x59, 0x75);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  358  	mipi_dsi_dcs_write_seq(dsi, 0x5A, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  359  	mipi_dsi_dcs_write_seq(dsi, 0x5B, 0x02);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  360  	mipi_dsi_dcs_write_seq(dsi, 0x5C, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  361  	mipi_dsi_dcs_write_seq(dsi, 0x5D, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  362  	mipi_dsi_dcs_write_seq(dsi, 0x5E, 0x20);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  363  	mipi_dsi_dcs_write_seq(dsi, 0x5F, 0x10);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  364  	mipi_dsi_dcs_write_seq(dsi, 0x60, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  365  	mipi_dsi_dcs_write_seq(dsi, 0x61, 0x2E);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  366  	mipi_dsi_dcs_write_seq(dsi, 0x62, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  367  	mipi_dsi_dcs_write_seq(dsi, 0x63, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  368  	mipi_dsi_dcs_write_seq(dsi, 0x64, 0x43);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  369  	mipi_dsi_dcs_write_seq(dsi, 0x65, 0x2D);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  370  	mipi_dsi_dcs_write_seq(dsi, 0x66, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  371  	mipi_dsi_dcs_write_seq(dsi, 0x67, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  372  	mipi_dsi_dcs_write_seq(dsi, 0x68, 0x44);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  373  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  374  	mipi_dsi_dcs_write_seq(dsi, 0x00, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  375  	mipi_dsi_dcs_write_seq(dsi, 0x78, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  376  	mipi_dsi_dcs_write_seq(dsi, 0xC3, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  377  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  378  	mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x2A);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  379  	mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  380  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  381  	mipi_dsi_dcs_write_seq(dsi, 0x22, 0x2F);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  382  	mipi_dsi_dcs_write_seq(dsi, 0x23, 0x08);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  383  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  384  	mipi_dsi_dcs_write_seq(dsi, 0x24, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  385  	mipi_dsi_dcs_write_seq(dsi, 0x25, 0x65);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  386  	mipi_dsi_dcs_write_seq(dsi, 0x26, 0xF8);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  387  	mipi_dsi_dcs_write_seq(dsi, 0x27, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  388  	mipi_dsi_dcs_write_seq(dsi, 0x28, 0x1A);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  389  	mipi_dsi_dcs_write_seq(dsi, 0x29, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  390  	mipi_dsi_dcs_write_seq(dsi, 0x2A, 0x1A);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  391  	mipi_dsi_dcs_write_seq(dsi, 0x2B, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  392  	mipi_dsi_dcs_write_seq(dsi, 0x2D, 0x1A);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  393  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  394  	mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x23);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  395  	mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  396  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  397  	mipi_dsi_dcs_write_seq(dsi, 0x00, 0x80);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  398  	mipi_dsi_dcs_write_seq(dsi, 0x07, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  399  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  400  	mipi_dsi_dcs_write_seq(dsi, 0xFF, 0xE0);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  401  	mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  402  	mipi_dsi_dcs_write_seq(dsi, 0x14, 0x60);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  403  	mipi_dsi_dcs_write_seq(dsi, 0x16, 0xC0);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  404  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  405  	mipi_dsi_dcs_write_seq(dsi, 0xFF, 0xF0);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  406  	mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  407  	mipi_dsi_dcs_write_seq(dsi, 0x3A, 0x08);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  408  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  409  	mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x10);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  410  	mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  411  	mipi_dsi_dcs_write_seq(dsi, 0xB9, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  412  	mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x20);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  413  	mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  414  	mipi_dsi_dcs_write_seq(dsi, 0x18, 0x40);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  415  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  416  	mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x10);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  417  	mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  418  	mipi_dsi_dcs_write_seq(dsi, 0xB9, 0x02);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  419  	mipi_dsi_dcs_write_seq(dsi, 0x35, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  420  	mipi_dsi_dcs_write_seq(dsi, 0x51, 0x00, 0xFF);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  421  	mipi_dsi_dcs_write_seq(dsi, 0x53, 0x24);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  422  	mipi_dsi_dcs_write_seq(dsi, 0x55, 0x00);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  423  	mipi_dsi_dcs_write_seq(dsi, 0xBB, 0x13);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  424  	mipi_dsi_dcs_write_seq(dsi, 0x3B, 0x03, 0x96, 0x1A, 0x04, 0x04);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  425  	msleep(100);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  426  	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  427  	if (ret)
-0da6f03369c6cc5 Linus Walleij 2023-07-03  428  		return ret;
-0da6f03369c6cc5 Linus Walleij 2023-07-03  429  	msleep(200);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  430  	ret = mipi_dsi_dcs_set_display_on(dsi);
-0da6f03369c6cc5 Linus Walleij 2023-07-03  431  	if (ret)
-0da6f03369c6cc5 Linus Walleij 2023-07-03  432  		return ret;
-0da6f03369c6cc5 Linus Walleij 2023-07-03  433  	msleep(100);
-d1c2f6808dad64a yangcong      2021-09-14  434  
-0da6f03369c6cc5 Linus Walleij 2023-07-03  435  	return 0;
-0da6f03369c6cc5 Linus Walleij 2023-07-03  436  }
-a869b9db7adf3bd Jitao Shi     2020-01-16  437  
+acc14dc4bd484f Naoya Horiguchi 2016-01-15  1869  
+86e057734bd1c4 Wanpeng Li      2013-09-11  1870  /**
+86e057734bd1c4 Wanpeng Li      2013-09-11  1871   * soft_offline_page - Soft offline a page.
+feec24a6139d46 Naoya Horiguchi 2019-11-30  1872   * @pfn: pfn to soft-offline
+86e057734bd1c4 Wanpeng Li      2013-09-11  1873   * @flags: flags. Same as memory_failure().
+86e057734bd1c4 Wanpeng Li      2013-09-11  1874   *
+86e057734bd1c4 Wanpeng Li      2013-09-11  1875   * Returns 0 on success, otherwise negated errno.
+86e057734bd1c4 Wanpeng Li      2013-09-11  1876   *
+86e057734bd1c4 Wanpeng Li      2013-09-11  1877   * Soft offline a page, by migration or invalidation,
+86e057734bd1c4 Wanpeng Li      2013-09-11  1878   * without killing anything. This is for the case when
+86e057734bd1c4 Wanpeng Li      2013-09-11  1879   * a page is not corrupted yet (so it's still valid to access),
+86e057734bd1c4 Wanpeng Li      2013-09-11  1880   * but has had a number of corrected errors and is better taken
+86e057734bd1c4 Wanpeng Li      2013-09-11  1881   * out.
+86e057734bd1c4 Wanpeng Li      2013-09-11  1882   *
+86e057734bd1c4 Wanpeng Li      2013-09-11  1883   * The actual policy on when to do that is maintained by
+86e057734bd1c4 Wanpeng Li      2013-09-11  1884   * user space.
+86e057734bd1c4 Wanpeng Li      2013-09-11  1885   *
+86e057734bd1c4 Wanpeng Li      2013-09-11  1886   * This should never impact any application or cause data loss,
+86e057734bd1c4 Wanpeng Li      2013-09-11  1887   * however it might take some time.
+86e057734bd1c4 Wanpeng Li      2013-09-11  1888   *
+86e057734bd1c4 Wanpeng Li      2013-09-11  1889   * This is not a 100% solution for all memory, but tries to be
+86e057734bd1c4 Wanpeng Li      2013-09-11  1890   * ``good enough'' for the majority of memory.
+86e057734bd1c4 Wanpeng Li      2013-09-11  1891   */
+feec24a6139d46 Naoya Horiguchi 2019-11-30  1892  int soft_offline_page(unsigned long pfn, int flags)
+86e057734bd1c4 Wanpeng Li      2013-09-11  1893  {
+86e057734bd1c4 Wanpeng Li      2013-09-11  1894  	int ret;
+feec24a6139d46 Naoya Horiguchi 2019-11-30  1895  	struct page *page;
+b94e02822debdf Oscar Salvador  2020-10-15  1896  	bool try_again = true;
+86e057734bd1c4 Wanpeng Li      2013-09-11  1897  
+feec24a6139d46 Naoya Horiguchi 2019-11-30  1898  	if (!pfn_valid(pfn))
+feec24a6139d46 Naoya Horiguchi 2019-11-30  1899  		return -ENXIO;
+feec24a6139d46 Naoya Horiguchi 2019-11-30  1900  	/* Only online pages can be soft-offlined (esp., not ZONE_DEVICE). */
+feec24a6139d46 Naoya Horiguchi 2019-11-30  1901  	page = pfn_to_online_page(pfn);
+feec24a6139d46 Naoya Horiguchi 2019-11-30  1902  	if (!page)
+86a66810baa87e Dan Williams    2018-07-13  1903  		return -EIO;
+86a66810baa87e Dan Williams    2018-07-13  1904  
+86e057734bd1c4 Wanpeng Li      2013-09-11  1905  	if (PageHWPoison(page)) {
+c60183ae1a1b4a Oscar Salvador  2020-12-14  1906  		pr_info("%s: %#lx page already poisoned\n", __func__, pfn);
+1e0e635be82132 Wanpeng Li      2015-09-08  1907  		if (flags & MF_COUNT_INCREASED)
+dd6e2402fad966 Oscar Salvador  2020-10-15  1908  			put_page(page);
+5a2ffca3c23333 Oscar Salvador  2020-10-15  1909  		return 0;
+86e057734bd1c4 Wanpeng Li      2013-09-11  1910  	}
+4e41a30c6d506c Naoya Horiguchi 2016-01-15  1911  
+b94e02822debdf Oscar Salvador  2020-10-15  1912  retry:
+4e41a30c6d506c Naoya Horiguchi 2016-01-15  1913  	get_online_mems();
+c60183ae1a1b4a Oscar Salvador  2020-12-14  1914  	ret = get_any_page(page, flags);
+4e41a30c6d506c Naoya Horiguchi 2016-01-15  1915  	put_online_mems();
+4e41a30c6d506c Naoya Horiguchi 2016-01-15  1916  
+c60183ae1a1b4a Oscar Salvador  2020-12-14  1917  	if (ret > 0) {
+6b9a217eda4a13 Oscar Salvador  2020-10-15  1918  		ret = soft_offline_in_use_page(page);
+c60183ae1a1b4a Oscar Salvador  2020-12-14  1919  	} else if (ret == 0) {
+b94e02822debdf Oscar Salvador  2020-10-15  1920  		if (soft_offline_free_page(page) && try_again) {
+b94e02822debdf Oscar Salvador  2020-10-15  1921  			try_again = false;
+1f207076740101 Liu Shixin      2021-12-24  1922  			flags &= ~MF_COUNT_INCREASED;
+b94e02822debdf Oscar Salvador  2020-10-15  1923  			goto retry;
+b94e02822debdf Oscar Salvador  2020-10-15  1924  		}
+c60183ae1a1b4a Oscar Salvador  2020-12-14  1925  	} else if (ret == -EIO) {
+c60183ae1a1b4a Oscar Salvador  2020-12-14 @1926  		pr_info("%s: %#lx: unknown page type: %lx (%pGP)\n",
 
 -- 
 0-DAY CI Kernel Test Service
