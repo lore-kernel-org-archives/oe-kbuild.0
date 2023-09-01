@@ -1,42 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E061510E3
-	for <oe-kbuild@lists.linux.dev>; Fri,  1 Sep 2023 02:22:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536E41386
+	for <oe-kbuild@lists.linux.dev>; Fri,  1 Sep 2023 04:35:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693534940; x=1725070940;
+  t=1693542926; x=1725078926;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fO4Hw1LwG8kM1u6UBShJIfTmDSKZzaWcpaxYFo1ZGnM=;
-  b=b7HQLDI2J5Jii8OD9aNOfBZ7VzHbqYmY+s8o2CLapWmvXanIvKmojqAP
-   zthibZ8T4VHMXwx1uWgTBsknCySyqDXgWjgIDpNG+tCk4TnG8Ex0fEtEM
-   CZRu0AQ6rVXjJyRwmjCth6tP/K9tMtfXY5g28GTNzm/a6MxZjrkxLWITe
-   MOCiaZo5v95bXtPrKBqriayFBhTHVUx4GNJiBZhwtA7njw/SOy/720nlj
-   hgicUPRpv9CRBFHm71jS9AMzB6Qpqg3D5+07KexMJhoRctEx02A8GGExd
-   kVo8tIjEAFHV499XxZ1gCU05bQsey/RwB1a5RLC6mQyXNx37RJWjNOhQQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="442513485"
+  bh=dwhTnvzyhbmwCupC58k/lOkFhMZFCNdrz62xetX3S/E=;
+  b=aLuWMkeO2sy3LmFjpXW82utuJcw5r2gmTdwRLUAMYFVjQ1Y47I8RTJm0
+   w/tKcIN0vFkKf5gB2/oDAgjp/iWFTCXxDPpcfRnWSwTDpELaIlB/Mu1GP
+   i8nCPCG+ooW/nqR1S2mBPMleJ5wkJmS+BKDL22TJcPQ2JzPP1SYxqcZw+
+   xPyjw+raSTLf+AhruVcbSnMXM704BjmhJSrRdxDTQKIfrEavy+UBEVSIa
+   m8IxnZ6anjRyelZU/twsJZ1+x2OFjI4mlukfozLhjfIxih6wi/Lq2ofMn
+   KW1VfGYy3CPt/eb7sgum8hcpoIeB5dEwQxtNzGiuZqSsTtPP9Ig/74gtw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="375036994"
 X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; 
-   d="scan'208";a="442513485"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 19:22:19 -0700
+   d="scan'208";a="375036994"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 21:35:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="883029725"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="863416045"
 X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; 
-   d="scan'208";a="883029725"
+   d="scan'208";a="863416045"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 31 Aug 2023 19:22:22 -0700
+  by orsmga004.jf.intel.com with ESMTP; 31 Aug 2023 21:35:22 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbtnc-0000m7-11;
-	Fri, 01 Sep 2023 02:22:16 +0000
-Date: Fri, 1 Sep 2023 10:22:13 +0800
+	id 1qbvsN-0000sO-37;
+	Fri, 01 Sep 2023 04:35:19 +0000
+Date: Fri, 1 Sep 2023 12:34:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/of/dynamic.c:935 of_changeset_action() warn: possible memory
- leak of 'ce'
-Message-ID: <202309011059.EOdr4im9-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 2/3] tty: Serialise racing tiocspgrp() callers
+Message-ID: <202309011252.ItlD27Mg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,62 +45,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "checkpatch"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Rob Herring <robh@kernel.org>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
+In-Reply-To: <20230901015030.2469062-3-earl.chew@yahoo.ca>
+References: <20230901015030.2469062-3-earl.chew@yahoo.ca>
+TO: Earl Chew <earl.chew@yahoo.ca>
+TO: linux-kernel@vger.kernel.org
+TO: gregkh@linuxfoundation.org
+TO: jirislaby@kernel.org
+CC: peter@hurleysoftware.com
+CC: earl.chew@yahoo.ca
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   99d99825fc075fd24b60cc9cf0fb1e20b9c16b0f
-commit: 914d9d831e6126a6e7a92e27fcfaa250671be42c of: dynamic: Refactor action prints to not use "%pOF" inside devtree_lock
-date:   11 days ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 11 days ago
-config: x86_64-randconfig-161-20230831 (https://download.01.org/0day-ci/archive/20230901/202309011059.EOdr4im9-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230901/202309011059.EOdr4im9-lkp@intel.com/reproduce)
+Hi Earl,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tty/tty-testing]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Earl-Chew/tty-Serialise-racing-tiocspgrp-callers/20230901-095411
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20230901015030.2469062-3-earl.chew%40yahoo.ca
+patch subject: [PATCH 2/3] tty: Serialise racing tiocspgrp() callers
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20230901/202309011252.ItlD27Mg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309011059.EOdr4im9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309011252.ItlD27Mg-lkp@intel.com/
 
-smatch warnings:
-drivers/of/dynamic.c:935 of_changeset_action() warn: possible memory leak of 'ce'
+# many are suggestions rather than must-fix
 
-vim +/ce +935 drivers/of/dynamic.c
+ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit 47f86834bbd4 ("redo locking of tty->pgrp")'
+#8: 
+the introduction of tty->ctrl.lock in commit 47f86834bbd4
+(redo locking of tty->pgrp), tiocspgrp() has acquired the
 
-183223770ae862 Gavin Shan        2015-11-05  907  
-201c910bd6898d Pantelis Antoniou 2014-07-04  908  /**
-0290c4ca2536a3 Frank Rowand      2017-10-17  909   * of_changeset_action - Add an action to the tail of the changeset list
-201c910bd6898d Pantelis Antoniou 2014-07-04  910   *
-201c910bd6898d Pantelis Antoniou 2014-07-04  911   * @ocs:	changeset pointer
-201c910bd6898d Pantelis Antoniou 2014-07-04  912   * @action:	action to perform
-201c910bd6898d Pantelis Antoniou 2014-07-04  913   * @np:		Pointer to device node
-201c910bd6898d Pantelis Antoniou 2014-07-04  914   * @prop:	Pointer to property
-201c910bd6898d Pantelis Antoniou 2014-07-04  915   *
-201c910bd6898d Pantelis Antoniou 2014-07-04  916   * On action being one of:
-201c910bd6898d Pantelis Antoniou 2014-07-04  917   * + OF_RECONFIG_ATTACH_NODE
-201c910bd6898d Pantelis Antoniou 2014-07-04  918   * + OF_RECONFIG_DETACH_NODE,
-201c910bd6898d Pantelis Antoniou 2014-07-04  919   * + OF_RECONFIG_ADD_PROPERTY
-201c910bd6898d Pantelis Antoniou 2014-07-04  920   * + OF_RECONFIG_REMOVE_PROPERTY,
-201c910bd6898d Pantelis Antoniou 2014-07-04  921   * + OF_RECONFIG_UPDATE_PROPERTY
-8c8239c2c1fb82 Rob Herring       2021-03-25  922   *
-8c8239c2c1fb82 Rob Herring       2021-03-25  923   * Return: 0 on success, a negative error value in case of an error.
-201c910bd6898d Pantelis Antoniou 2014-07-04  924   */
-201c910bd6898d Pantelis Antoniou 2014-07-04  925  int of_changeset_action(struct of_changeset *ocs, unsigned long action,
-201c910bd6898d Pantelis Antoniou 2014-07-04  926  		struct device_node *np, struct property *prop)
-201c910bd6898d Pantelis Antoniou 2014-07-04  927  {
-201c910bd6898d Pantelis Antoniou 2014-07-04  928  	struct of_changeset_entry *ce;
-201c910bd6898d Pantelis Antoniou 2014-07-04  929  
-201c910bd6898d Pantelis Antoniou 2014-07-04  930  	ce = kzalloc(sizeof(*ce), GFP_KERNEL);
-606ad42aa3b1fe Rob Herring       2016-06-15  931  	if (!ce)
-201c910bd6898d Pantelis Antoniou 2014-07-04  932  		return -ENOMEM;
-606ad42aa3b1fe Rob Herring       2016-06-15  933  
-914d9d831e6126 Rob Herring       2023-08-18  934  	if (WARN_ON(action >= ARRAY_SIZE(action_names)))
-914d9d831e6126 Rob Herring       2023-08-18 @935  		return -EINVAL;
+WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
+#36: drivers/tty/tty_jobctrl.c:40:
++	BUG_ON(ctrl_lock && (
+
+WARNING: Where possible, use lockdep_assert_held instead of assertions based on spin_is_locked
+#37: drivers/tty/tty_jobctrl.c:41:
++	       ctrl_lock != &tty->ctrl.lock || !spin_is_locked(ctrl_lock)));
+
+ERROR: code indent should use tabs where possible
+#105: drivers/tty/tty_jobctrl.c:521:
++        }$
+
+WARNING: please, no spaces at the start of a line
+#105: drivers/tty/tty_jobctrl.c:521:
++        }$
 
 -- 
 0-DAY CI Kernel Test Service
