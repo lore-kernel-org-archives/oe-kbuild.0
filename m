@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F77EC3
-	for <oe-kbuild@lists.linux.dev>; Sun,  3 Sep 2023 05:16:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA681369
+	for <oe-kbuild@lists.linux.dev>; Sun,  3 Sep 2023 06:19:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693718206; x=1725254206;
+  t=1693721988; x=1725257988;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ITabKsEWX/dgm680gM6MOzMmR2VIaLWkR4TY7aMo+IA=;
-  b=kDShoYkJe0drpGhUu2NjEPv9VRc2veoSO9rk0ntP1sfSU+b5yLh/n4+O
-   MR/Y3YJSf2qicLo3DdsYKIpmnk0C1rTh/Vtjh7SwwQIbjxxb+w+6CB4BY
-   9vKI8HD08hnauu3Xt+Jdq1WhN5YQpuxKGUw+JQTvbBUP3nk/pv/kQervH
-   7oec7z4Nhl3WeZex/bHS2U5zAQAwTZv3BNGYCdCIHPKZxMzgrwSDw/pat
-   Yi0GrF8zls3HQ+mISLFVv4REmnUjHtELdL+JACwGSO7YKlBxA8jiwbR1a
-   eHP3ddT2TIPw1LPyCNdOYUm9/Cg+H87khDBoGSYVTufuvTx2Jww3i/Wsz
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="380211348"
-X-IronPort-AV: E=Sophos;i="6.02,223,1688454000"; 
-   d="scan'208";a="380211348"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2023 22:16:45 -0700
+  bh=tBI8tWHvmNCL+YyqCsAt5qjD45g9ltfXnUmtlIuXP6c=;
+  b=hvydMk8VOv6TGaCMVcQnZrPhkOgsU/kPg2ii56DrdRt+GXQ35nUWrL9l
+   wmmDA5IgcaM0rE0aWIpR88sKZvqZklfx81Tkd+YwHJ5bFWGsHxOs14OUx
+   ll5rORtV2TStROUf9vxP747Si310i8HBcG+j1OhlW3S8TuZ7i0I/y3tys
+   lShZUgpnSI4c9Pj9gCisyumwlQJmTm704cbzmQSWc7+7wqXZkSlE1pXUM
+   F1PaQOpLraJ3zxz3G5VeVtbRaDBPfv+gTe3djTFEKoRFwqjav3ge4Apve
+   izXRWeHGiDsH/I8ad9HludHDziJOpltzVUpHTr9yKFA/QYWTW0c4UySkM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="376358952"
+X-IronPort-AV: E=Sophos;i="6.02,224,1688454000"; 
+   d="scan'208";a="376358952"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2023 23:19:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="855192929"
-X-IronPort-AV: E=Sophos;i="6.02,223,1688454000"; 
-   d="scan'208";a="855192929"
+X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="717228715"
+X-IronPort-AV: E=Sophos;i="6.02,224,1688454000"; 
+   d="scan'208";a="717228715"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 02 Sep 2023 22:16:44 -0700
+  by orsmga006.jf.intel.com with ESMTP; 02 Sep 2023 23:19:45 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcfTW-0002vL-0V;
-	Sun, 03 Sep 2023 05:16:42 +0000
-Date: Sun, 3 Sep 2023 13:15:46 +0800
+	id 1qcgSV-0002xN-1U;
+	Sun, 03 Sep 2023 06:19:43 +0000
+Date: Sun, 3 Sep 2023 14:18:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [amir73il:fuse-backing-fd 11/14] fs/fuse/passthrough.c:23
- fuse_backing_free() error: we previously assumed 'fb' could be null (see
- line 21)
-Message-ID: <202309031342.V3G49Lbc-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [robh:for-kernelci 5/68] sound/soc/fsl/fsl_mqs.c: linux/of.h is
+ included more than once.
+Message-ID: <202309031400.lChpIxaI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,40 +46,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Amir Goldstein <amir73il@gmail.com>
+TO: Rob Herring <robh@kernel.org>
 
-tree:   https://github.com/amir73il/linux fuse-backing-fd
-head:   563a1dbd5121cbe0239528370c886b990224403f
-commit: c437debbc26ca8097efb08e5f279b4bd5c8376a3 [11/14] fuse: backing file id initialization and release
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: i386-randconfig-141-20230903 (https://download.01.org/0day-ci/archive/20230903/202309031342.V3G49Lbc-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
+head:   9ece0c059fa7600e46d8e2deecc2fa1bd86cde7e
+commit: 464bd291819a7bb45d817c915bab8f126fbd7191 [5/68] ASoC: Clean-up DT includes
+:::::: branch date: 29 hours ago
+:::::: commit date: 2 days ago
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230903/202309031342.V3G49Lbc-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230903/202309031400.lChpIxaI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309031342.V3G49Lbc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309031400.lChpIxaI-lkp@intel.com/
 
-smatch warnings:
-fs/fuse/passthrough.c:23 fuse_backing_free() error: we previously assumed 'fb' could be null (see line 21)
+includecheck warnings: (new ones prefixed by >>)
+>> sound/soc/fsl/fsl_mqs.c: linux/of.h is included more than once.
 
-vim +/fb +23 fs/fuse/passthrough.c
+vim +13 sound/soc/fsl/fsl_mqs.c
 
-96e6d03cee90a5 Amir Goldstein 2023-05-20  18  
-96e6d03cee90a5 Amir Goldstein 2023-05-20  19  static void fuse_backing_free(struct fuse_backing *fb)
-96e6d03cee90a5 Amir Goldstein 2023-05-20  20  {
-96e6d03cee90a5 Amir Goldstein 2023-05-20 @21  	if (fb && fb->file)
-96e6d03cee90a5 Amir Goldstein 2023-05-20  22  		fput(fb->file);
-c437debbc26ca8 Amir Goldstein 2023-09-02 @23  	if (fb->cred)
-c437debbc26ca8 Amir Goldstein 2023-09-02  24  		put_cred(fb->cred);
-c437debbc26ca8 Amir Goldstein 2023-09-02  25  	kfree_rcu(fb, rcu);
-96e6d03cee90a5 Amir Goldstein 2023-05-20  26  }
-96e6d03cee90a5 Amir Goldstein 2023-05-20  27  
+     7	
+     8	#include <linux/clk.h>
+     9	#include <linux/module.h>
+    10	#include <linux/moduleparam.h>
+    11	#include <linux/mfd/syscon.h>
+    12	#include <linux/mfd/syscon/imx6q-iomuxc-gpr.h>
+  > 13	#include <linux/of.h>
+    14	#include <linux/pm_runtime.h>
+  > 15	#include <linux/of.h>
+    16	#include <linux/pm.h>
+    17	#include <linux/slab.h>
+    18	#include <sound/soc.h>
+    19	#include <sound/pcm.h>
+    20	#include <sound/initval.h>
+    21	
 
 -- 
 0-DAY CI Kernel Test Service
