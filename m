@@ -1,44 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502751C13
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Sep 2023 07:53:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4FF20EC
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Sep 2023 08:05:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693900383; x=1725436383;
+  t=1693901139; x=1725437139;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=yOZoWvMqmjEOmaRm6a+RoY6605Y+sqw68h2G30rOUKQ=;
-  b=agaIZssivdtF1K3jZuvlixxnnBJvQbQM4Nyu1qghxEDy0N4Ostv81J0o
-   G97HssChBGkaG6uqLdvOTJEBiDeZ8lTTI+n1UkNP9lXn3T+dnmV3oxeR/
-   X+U9sXHofEWyvzo1yJCBgUzJsg5mQ74Wc9ppnmpce8FjcR00GUvBkYOpz
-   miWwLxv+yhEXojJ+mcofa/t2DFq1J/X4tqz0UqK0SHL0Q5Dm4f8582sj4
-   GGOddXpscsklvkAg/W9kzX/OSEI/GmizmKlkNW0LqX0BNYuyXoRcI2f5Y
-   gc7xOtYTLvobAlctizSxl0Szo920yXizUKINHxJrM3ecVrIqr1iPcUayi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="356224960"
+  bh=d0E1jEPeOwvGQVw8MpTzTAE1XKvRDvUgxa/Pa8nhRoA=;
+  b=jeVBPW8p669CIjQG/wcEqKWoMeAzGP5C2r9Pvb82/JyRIiAKjHa5S74K
+   5oOO3VMTvc8434beb6sFrD98foRmU5Aa767C8Ip40Ofx7+ul/mRQRBfFo
+   23ei4I8K0Lw4UBdPiZO/77Hc0awhlUHHzJ6OCQh6EPW34+nIZfMAjXTVq
+   0pBrclI7pSxclB9DNslBbo3zKgSaNiDNEZoja+oWH//HM9EoZQzRFFjhq
+   tLtu06v3YuG+Hle7yFTzqo/ipDPP/3E414/AYMRzopcirF9z4/J8m1G1C
+   UUCf9sdPj+vaS44VeerEH38mAFHrRW0oSqed8d3GqUeVOhUrfuf2hM1IH
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="356229159"
 X-IronPort-AV: E=Sophos;i="6.02,228,1688454000"; 
-   d="scan'208";a="356224960"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 00:52:55 -0700
+   d="scan'208";a="356229159"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 01:04:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="690841288"
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="806517076"
 X-IronPort-AV: E=Sophos;i="6.02,228,1688454000"; 
-   d="scan'208";a="690841288"
+   d="scan'208";a="806517076"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 05 Sep 2023 00:52:53 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 05 Sep 2023 01:04:53 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdQrj-0001P4-05;
-	Tue, 05 Sep 2023 07:52:51 +0000
-Date: Tue, 5 Sep 2023 15:52:49 +0800
+	id 1qdR3L-0001Pv-1y;
+	Tue, 05 Sep 2023 08:04:51 +0000
+Date: Tue, 5 Sep 2023 16:04:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [pci:controller/rcar 11/19] checkpatch:   ERROR:
- "dw_pcie_write_dbi2" [drivers/pci/controller/dwc/pcie-rcar-gen4-host-drv.ko]
- undefined!
-Message-ID: <202309051511.QVDeFBBg-lkp@intel.com>
+Subject: [pci:controller/rcar 14/19] checkpatch: WARNING: added, moved or
+ deleted file(s), does MAINTAINERS need updating?
+Message-ID: <202309051539.invJakYd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,26 +57,28 @@ CC: oe-kbuild-all@lists.linux.dev
 CC: linux-pci@vger.kernel.org
 TO: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 CC: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
+CC: Rob Herring <robh@kernel.org>
 CC: Serge Semin <fancer.lancer@gmail.com>
 INFO skip CC for checkpatch warnings
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/rcar
 head:   7af65c1120567de8624e021d798438252cbde876
-commit: a986f6fd339e322db1d427e547b69189f58bc692 [11/19] PCI: dwc: Expose dw_pcie_write_dbi2() to module
+commit: d828097a0bef346e836430b62aa8d8a9180f9a11 [14/19] dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Host
 :::::: branch date: 4 hours ago
-:::::: commit date: 9 days ago
-reproduce: (https://download.01.org/0day-ci/archive/20230905/202309051511.QVDeFBBg-lkp@intel.com/reproduce)
+:::::: commit date: 4 hours ago
+reproduce: (https://download.01.org/0day-ci/archive/20230905/202309051539.invJakYd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309051511.QVDeFBBg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309051539.invJakYd-lkp@intel.com/
 
 # many are suggestions rather than must-fix
 
-WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
-#14: 
-  ERROR: "dw_pcie_write_dbi2" [drivers/pci/controller/dwc/pcie-rcar-gen4-host-drv.ko] undefined!
+WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+#26: 
+new file mode 100644
 
 -- 
 0-DAY CI Kernel Test Service
