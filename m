@@ -1,42 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359EAD30A
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Sep 2023 12:55:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C6DDDAF
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Sep 2023 18:59:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693918529; x=1725454529;
+  t=1693940365; x=1725476365;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yc6SXmbDPrVeNIondxpsuiKlWDeU8JyYW99TrIIgUEI=;
-  b=T+rputiFsXPDrveDHZF8XOyhGFRFjMy2D2zYzzu+ioiKG/WcLm3N0sRL
-   yVpBqmFB+BhYKM5a3b1SFqR9u0fR08ilE/U3CGOspsF1g5I2BvqjpujBt
-   Wmu8IYtp/prxYdWCdIGjrje66gX/BZ/P5m3fRay4af7JX9BfJW4OYPIFy
-   ke4L9hPmnfB0MMALcR04U/aLYeLrfUiNhBjGNoaw2oXuwqld7bh7ZmXRA
-   0c/sOm4dHw5ejfMJ73153RY9hdREg7PyFora3UFchwt0xu8oSRhIOeZMB
-   74AxPkSJazibxqPnlKvLdvOCF4b6VB0pZsLG0CgwZkz/ZegVJWO2Mt+2Y
+  bh=Iqpi2hEVbnQIGj0ksrCFs3o6zfs3LVOPeMJRSFMfSLg=;
+  b=DbH66jUCwd43gFS+2wHYdWpp4lfymXBElpCFtj/4MogAER8qCePKVzr4
+   kUL+hk3oXRtZw/1Dr8Ae0/wHVEnaJN7QO5jSburYiPaTW9FQcGq6lY4ky
+   yYHjNg2ETwxlhDCq/utDXSYFfS4BKNiGUiiz05pQudz1f2QuBo3pKNR1G
+   LPh1jYV/gyWrxkp/uAWKK9bCT1B53BeuPUoUSHY1OjPtDrYQ2PnzryxnG
+   hSxYgOZU4uIOzY4Bb6fgeAjaYGZ+t6oQjJvENFUCSyHAKb+drlzGR+g7V
+   nVaLFauVEOupumzRgVE8hcEOKbxT/mfAba2I8I4LCjogChc07jbsIPaLb
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="357093352"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="376797990"
 X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="357093352"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 05:55:27 -0700
+   d="scan'208";a="376797990"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 11:59:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="744261554"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="831360569"
 X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="744261554"
+   d="scan'208";a="831360569"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 05 Sep 2023 05:55:26 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Sep 2023 11:59:16 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdVaV-0001gd-2W;
-	Tue, 05 Sep 2023 12:55:23 +0000
-Date: Tue, 5 Sep 2023 20:54:53 +0800
+	id 1qdbGJ-0001yt-30;
+	Tue, 05 Sep 2023 18:59:05 +0000
+Date: Wed, 6 Sep 2023 02:58:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/x86/kernel/fpu/xstate.c:1691: warning: Excess function
- parameter 'tsk' description in 'fpu_xstate_prctl'
-Message-ID: <202309052029.TNyqXyIT-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 13273/13985]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:1756
+ dcn20_program_pipe() error: we previously assumed 'pipe_ctx->plane_state'
+ could be null (see line 1719)
+Message-ID: <202309060233.75PHiDL2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,105 +48,147 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "force check is set"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Thomas Gleixner <tglx@linutronix.de>
-CC: Borislav Petkov <bp@suse.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Wenjing Liu <wenjing.liu@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Dillon Varone <dillon.varone@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3f86ed6ec0b390c033eae7f9c487a3fea268e027
-commit: f5c0b4f30416c670408a77be94703d04d22b57df x86/prctl: Remove pointless task argument
-date:   1 year, 4 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 1 year, 4 months ago
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20230905/202309052029.TNyqXyIT-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309052029.TNyqXyIT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c50216cfa084d5eb67dc10e646a3283da1595bb6
+commit: 15e6b396f5ac259126f2447fcd2279ed5d3dd14f [13273/13985] drm/amd/display: update blank state on ODM changes
+:::::: branch date: 16 hours ago
+:::::: commit date: 6 days ago
+config: i386-randconfig-141-20230905 (https://download.01.org/0day-ci/archive/20230906/202309060233.75PHiDL2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230906/202309060233.75PHiDL2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309052029.TNyqXyIT-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202309060233.75PHiDL2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:1756 dcn20_program_pipe() error: we previously assumed 'pipe_ctx->plane_state' could be null (see line 1719)
 
->> arch/x86/kernel/fpu/xstate.c:1691: warning: Excess function parameter 'tsk' description in 'fpu_xstate_prctl'
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:815 dcn20_enable_stream_timing() warn: variable dereferenced before check 'pipe_ctx->stream_res.tg' (see line 722)
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:2016 dcn20_post_unlock_program_front_end() error: we previously assumed 'hwseq' could be null (see line 2010)
 
+vim +1756 drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c
 
-vim +1691 arch/x86/kernel/fpu/xstate.c
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1705  
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1706  static void dcn20_program_pipe(
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1707  		struct dc *dc,
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1708  		struct pipe_ctx *pipe_ctx,
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1709  		struct dc_state *context)
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1710  {
+f42ea55be11147 Anthony Koo         2019-11-05  1711  	struct dce_hwseq *hws = dc->hwseq;
+d3dfceb58de5f8 Aurabindo Pillai    2022-02-23  1712  
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1713  	/* Only need to unblank on top pipe */
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1714  	if (resource_is_pipe_type(pipe_ctx, OTG_MASTER)) {
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1715  		if (pipe_ctx->update_flags.bits.enable ||
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1716  				pipe_ctx->update_flags.bits.odm ||
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1717  				pipe_ctx->stream->update_flags.bits.abm_level)
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1718  			hws->funcs.blank_pixel_data(dc, pipe_ctx,
+15e6b396f5ac25 Wenjing Liu         2023-08-14 @1719  					!pipe_ctx->plane_state ||
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1720  					!pipe_ctx->plane_state->visible);
+15e6b396f5ac25 Wenjing Liu         2023-08-14  1721  	}
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1722  
+a71e5529d26745 Aric Cyr            2020-12-10  1723  	/* Only update TG on top pipe */
+a71e5529d26745 Aric Cyr            2020-12-10  1724  	if (pipe_ctx->update_flags.bits.global_sync && !pipe_ctx->top_pipe
+a71e5529d26745 Aric Cyr            2020-12-10  1725  			&& !pipe_ctx->prev_odm_pipe) {
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1726  		pipe_ctx->stream_res.tg->funcs->program_global_sync(
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1727  				pipe_ctx->stream_res.tg,
+5842abd985b792 Wesley Chalmers     2022-11-09  1728  				calculate_vready_offset_for_group(pipe_ctx),
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1729  				pipe_ctx->pipe_dlg_param.vstartup_start,
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1730  				pipe_ctx->pipe_dlg_param.vupdate_offset,
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1731  				pipe_ctx->pipe_dlg_param.vupdate_width);
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1732  
+ac84304d68c4b3 Zhikai Zhai         2023-03-02  1733  		if (pipe_ctx->stream->mall_stream_config.type != SUBVP_PHANTOM)
+203ccaf586446b Haiyi Zhou          2022-10-20  1734  			pipe_ctx->stream_res.tg->funcs->wait_for_state(pipe_ctx->stream_res.tg, CRTC_STATE_VACTIVE);
+a71e5529d26745 Aric Cyr            2020-12-10  1735  
+a14e9e0292e299 Dmytro Laktyushkin  2019-08-26  1736  		pipe_ctx->stream_res.tg->funcs->set_vtg_params(
+a71e5529d26745 Aric Cyr            2020-12-10  1737  				pipe_ctx->stream_res.tg, &pipe_ctx->stream->timing, true);
+1caba4e83b9d8a Aric Cyr            2019-09-06  1738  
+f42ea55be11147 Anthony Koo         2019-11-05  1739  		if (hws->funcs.setup_vupdate_interrupt)
+f42ea55be11147 Anthony Koo         2019-11-05  1740  			hws->funcs.setup_vupdate_interrupt(dc, pipe_ctx);
+a14e9e0292e299 Dmytro Laktyushkin  2019-08-26  1741  	}
+a14e9e0292e299 Dmytro Laktyushkin  2019-08-26  1742  
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1743  	if (pipe_ctx->update_flags.bits.odm)
+f42ea55be11147 Anthony Koo         2019-11-05  1744  		hws->funcs.update_odm(dc, context, pipe_ctx);
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1745  
+868149c9a072cb Joshua Aberback     2020-03-30  1746  	if (pipe_ctx->update_flags.bits.enable) {
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1747  		dcn20_enable_plane(dc, pipe_ctx, context);
+868149c9a072cb Joshua Aberback     2020-03-30  1748  		if (dc->res_pool->hubbub->funcs->force_wm_propagate_to_pipes)
+868149c9a072cb Joshua Aberback     2020-03-30  1749  			dc->res_pool->hubbub->funcs->force_wm_propagate_to_pipes(dc->res_pool->hubbub);
+868149c9a072cb Joshua Aberback     2020-03-30  1750  	}
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1751  
+ba5a5371812e1f Nicholas Kazlauskas 2021-05-19  1752  	if (dc->res_pool->hubbub->funcs->program_det_size && pipe_ctx->update_flags.bits.det_size)
+ba5a5371812e1f Nicholas Kazlauskas 2021-05-19  1753  		dc->res_pool->hubbub->funcs->program_det_size(
+ba5a5371812e1f Nicholas Kazlauskas 2021-05-19  1754  			dc->res_pool->hubbub, pipe_ctx->plane_res.hubp->inst, pipe_ctx->det_buffer_size_kb);
+ba5a5371812e1f Nicholas Kazlauskas 2021-05-19  1755  
+747012382937e4 Dmytro Laktyushkin  2019-08-22 @1756  	if (pipe_ctx->update_flags.raw || pipe_ctx->plane_state->update_flags.raw || pipe_ctx->stream->update_flags.raw)
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1757  		dcn20_update_dchubp_dpp(dc, pipe_ctx, context);
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1758  
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1759  	if (pipe_ctx->update_flags.bits.enable
+46250a0cba4ce9 Michael Strauss     2019-11-03  1760  			|| pipe_ctx->plane_state->update_flags.bits.hdr_mult)
+f42ea55be11147 Anthony Koo         2019-11-05  1761  		hws->funcs.set_hdr_multiplier(pipe_ctx);
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1762  
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1763  	if (pipe_ctx->update_flags.bits.enable ||
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1764  	    pipe_ctx->plane_state->update_flags.bits.in_transfer_func_change ||
+2dc84508f8c692 Melissa Wen         2023-05-23  1765  	    pipe_ctx->plane_state->update_flags.bits.gamma_change ||
+2dc84508f8c692 Melissa Wen         2023-05-23  1766  	    pipe_ctx->plane_state->update_flags.bits.lut_3d)
+f42ea55be11147 Anthony Koo         2019-11-05  1767  		hws->funcs.set_input_transfer_func(dc, pipe_ctx, pipe_ctx->plane_state);
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1768  
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1769  	/* dcn10_translate_regamma_to_hw_format takes 750us to finish
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1770  	 * only do gamma programming for powering on, internal memcmp to avoid
+b6e881c947417e Dmytro Laktyushkin  2019-09-13  1771  	 * updating on slave planes
+7ed4e6352c16fe Harry Wentland      2019-02-22  1772  	 */
+bb622e0c004404 Dillon Varone       2022-11-17  1773  	if (pipe_ctx->update_flags.bits.enable ||
+bb622e0c004404 Dillon Varone       2022-11-17  1774  			pipe_ctx->update_flags.bits.plane_changed ||
+bb622e0c004404 Dillon Varone       2022-11-17  1775  			pipe_ctx->stream->update_flags.bits.out_tf ||
+bb622e0c004404 Dillon Varone       2022-11-17  1776  			pipe_ctx->plane_state->update_flags.bits.output_tf_change)
+f42ea55be11147 Anthony Koo         2019-11-05  1777  		hws->funcs.set_output_transfer_func(dc, pipe_ctx, pipe_ctx->stream);
+377c9d04737914 Julian Parkin       2019-08-22  1778  
+377c9d04737914 Julian Parkin       2019-08-22  1779  	/* If the pipe has been enabled or has a different opp, we
+377c9d04737914 Julian Parkin       2019-08-22  1780  	 * should reprogram the fmt. This deals with cases where
+377c9d04737914 Julian Parkin       2019-08-22  1781  	 * interation between mpc and odm combine on different streams
+377c9d04737914 Julian Parkin       2019-08-22  1782  	 * causes a different pipe to be chosen to odm combine with.
+377c9d04737914 Julian Parkin       2019-08-22  1783  	 */
+377c9d04737914 Julian Parkin       2019-08-22  1784  	if (pipe_ctx->update_flags.bits.enable
+377c9d04737914 Julian Parkin       2019-08-22  1785  	    || pipe_ctx->update_flags.bits.opp_changed) {
+377c9d04737914 Julian Parkin       2019-08-22  1786  
+377c9d04737914 Julian Parkin       2019-08-22  1787  		pipe_ctx->stream_res.opp->funcs->opp_set_dyn_expansion(
+377c9d04737914 Julian Parkin       2019-08-22  1788  			pipe_ctx->stream_res.opp,
+377c9d04737914 Julian Parkin       2019-08-22  1789  			COLOR_SPACE_YCBCR601,
+377c9d04737914 Julian Parkin       2019-08-22  1790  			pipe_ctx->stream->timing.display_color_depth,
+377c9d04737914 Julian Parkin       2019-08-22  1791  			pipe_ctx->stream->signal);
+377c9d04737914 Julian Parkin       2019-08-22  1792  
+377c9d04737914 Julian Parkin       2019-08-22  1793  		pipe_ctx->stream_res.opp->funcs->opp_program_fmt(
+377c9d04737914 Julian Parkin       2019-08-22  1794  			pipe_ctx->stream_res.opp,
+377c9d04737914 Julian Parkin       2019-08-22  1795  			&pipe_ctx->stream->bit_depth_params,
+377c9d04737914 Julian Parkin       2019-08-22  1796  			&pipe_ctx->stream->clamping);
+377c9d04737914 Julian Parkin       2019-08-22  1797  	}
+32e3da4310bb1c Leon Huang          2023-01-17  1798  
+32e3da4310bb1c Leon Huang          2023-01-17  1799  	/* Set ABM pipe after other pipe configurations done */
+32e3da4310bb1c Leon Huang          2023-01-17  1800  	if (pipe_ctx->plane_state->visible) {
+32e3da4310bb1c Leon Huang          2023-01-17  1801  		if (pipe_ctx->stream_res.abm) {
+32e3da4310bb1c Leon Huang          2023-01-17  1802  			dc->hwss.set_pipe(pipe_ctx);
+32e3da4310bb1c Leon Huang          2023-01-17  1803  			pipe_ctx->stream_res.abm->funcs->set_abm_level(pipe_ctx->stream_res.abm,
+32e3da4310bb1c Leon Huang          2023-01-17  1804  				pipe_ctx->stream->abm_level);
+32e3da4310bb1c Leon Huang          2023-01-17  1805  		}
+32e3da4310bb1c Leon Huang          2023-01-17  1806  	}
+7ed4e6352c16fe Harry Wentland      2019-02-22  1807  }
+7ed4e6352c16fe Harry Wentland      2019-02-22  1808  
 
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1671  
-db8268df0983ad Chang S. Bae    2021-10-21  1672  /**
-db8268df0983ad Chang S. Bae    2021-10-21  1673   * fpu_xstate_prctl - xstate permission operations
-db8268df0983ad Chang S. Bae    2021-10-21  1674   * @tsk:	Redundant pointer to current
-db8268df0983ad Chang S. Bae    2021-10-21  1675   * @option:	A subfunction of arch_prctl()
-db8268df0983ad Chang S. Bae    2021-10-21  1676   * @arg2:	option argument
-db8268df0983ad Chang S. Bae    2021-10-21  1677   * Return:	0 if successful; otherwise, an error code
-db8268df0983ad Chang S. Bae    2021-10-21  1678   *
-db8268df0983ad Chang S. Bae    2021-10-21  1679   * Option arguments:
-db8268df0983ad Chang S. Bae    2021-10-21  1680   *
-db8268df0983ad Chang S. Bae    2021-10-21  1681   * ARCH_GET_XCOMP_SUPP: Pointer to user space u64 to store the info
-db8268df0983ad Chang S. Bae    2021-10-21  1682   * ARCH_GET_XCOMP_PERM: Pointer to user space u64 to store the info
-db8268df0983ad Chang S. Bae    2021-10-21  1683   * ARCH_REQ_XCOMP_PERM: Facility number requested
-db8268df0983ad Chang S. Bae    2021-10-21  1684   *
-db8268df0983ad Chang S. Bae    2021-10-21  1685   * For facilities which require more than one XSTATE component, the request
-db8268df0983ad Chang S. Bae    2021-10-21  1686   * must be the highest state component number related to that facility,
-db8268df0983ad Chang S. Bae    2021-10-21  1687   * e.g. for AMX which requires XFEATURE_XTILE_CFG(17) and
-db8268df0983ad Chang S. Bae    2021-10-21  1688   * XFEATURE_XTILE_DATA(18) this would be XFEATURE_XTILE_DATA(18).
-db8268df0983ad Chang S. Bae    2021-10-21  1689   */
-f5c0b4f30416c6 Thomas Gleixner 2022-05-12  1690  long fpu_xstate_prctl(int option, unsigned long arg2)
-db8268df0983ad Chang S. Bae    2021-10-21 @1691  {
-db8268df0983ad Chang S. Bae    2021-10-21  1692  	u64 __user *uptr = (u64 __user *)arg2;
-db8268df0983ad Chang S. Bae    2021-10-21  1693  	u64 permitted, supported;
-db8268df0983ad Chang S. Bae    2021-10-21  1694  	unsigned long idx = arg2;
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1695  	bool guest = false;
-db8268df0983ad Chang S. Bae    2021-10-21  1696  
-db8268df0983ad Chang S. Bae    2021-10-21  1697  	switch (option) {
-db8268df0983ad Chang S. Bae    2021-10-21  1698  	case ARCH_GET_XCOMP_SUPP:
-db8268df0983ad Chang S. Bae    2021-10-21  1699  		supported = fpu_user_cfg.max_features |	fpu_user_cfg.legacy_features;
-db8268df0983ad Chang S. Bae    2021-10-21  1700  		return put_user(supported, uptr);
-db8268df0983ad Chang S. Bae    2021-10-21  1701  
-db8268df0983ad Chang S. Bae    2021-10-21  1702  	case ARCH_GET_XCOMP_PERM:
-db8268df0983ad Chang S. Bae    2021-10-21  1703  		/*
-db8268df0983ad Chang S. Bae    2021-10-21  1704  		 * Lockless snapshot as it can also change right after the
-db8268df0983ad Chang S. Bae    2021-10-21  1705  		 * dropping the lock.
-db8268df0983ad Chang S. Bae    2021-10-21  1706  		 */
-db8268df0983ad Chang S. Bae    2021-10-21  1707  		permitted = xstate_get_host_group_perm();
-db8268df0983ad Chang S. Bae    2021-10-21  1708  		permitted &= XFEATURE_MASK_USER_SUPPORTED;
-db8268df0983ad Chang S. Bae    2021-10-21  1709  		return put_user(permitted, uptr);
-db8268df0983ad Chang S. Bae    2021-10-21  1710  
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1711  	case ARCH_GET_XCOMP_GUEST_PERM:
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1712  		permitted = xstate_get_guest_group_perm();
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1713  		permitted &= XFEATURE_MASK_USER_SUPPORTED;
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1714  		return put_user(permitted, uptr);
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1715  
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1716  	case ARCH_REQ_XCOMP_GUEST_PERM:
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1717  		guest = true;
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1718  		fallthrough;
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1719  
-db8268df0983ad Chang S. Bae    2021-10-21  1720  	case ARCH_REQ_XCOMP_PERM:
-db8268df0983ad Chang S. Bae    2021-10-21  1721  		if (!IS_ENABLED(CONFIG_X86_64))
-db8268df0983ad Chang S. Bae    2021-10-21  1722  			return -EOPNOTSUPP;
-db8268df0983ad Chang S. Bae    2021-10-21  1723  
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1724  		return xstate_request_perm(idx, guest);
-db8268df0983ad Chang S. Bae    2021-10-21  1725  
-db8268df0983ad Chang S. Bae    2021-10-21  1726  	default:
-db8268df0983ad Chang S. Bae    2021-10-21  1727  		return -EINVAL;
-db8268df0983ad Chang S. Bae    2021-10-21  1728  	}
-db8268df0983ad Chang S. Bae    2021-10-21  1729  }
-db8268df0983ad Chang S. Bae    2021-10-21  1730  
+:::::: The code at line 1756 was first introduced by commit
+:::::: 747012382937e4b6eb34ba730e815f9da836e454 drm/amd/display: add additional flag consideration for surface update
 
-:::::: The code at line 1691 was first introduced by commit
-:::::: db8268df0983adc2bb1fb48c9e5f7bfbb5f617f3 x86/arch_prctl: Add controls for dynamic XSTATE components
-
-:::::: TO: Chang S. Bae <chang.seok.bae@intel.com>
-:::::: CC: Borislav Petkov <bp@suse.de>
+:::::: TO: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
