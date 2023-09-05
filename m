@@ -1,49 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F5C7F3
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Sep 2023 06:07:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC5CA5D
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Sep 2023 07:42:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693894030; x=1725430030;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qPv5yRs2GVRxB6Jw8taOXRWasSvFKpPNP23vVl4CcXw=;
-  b=SE0HQ6gVXzMhnId+esUX7kDthTtQaPIbQZwyMMtiTHSdoEiaUzCp/I93
-   B4RrPNkJqU0IuTh9mINZmG1eeLNbFYEVNI8pQPJwQ1LgPb9FbVCWEysH2
-   lbjRlE5DNI/tBVX5cOgbLNESqHx59Pog+TTUM/AXWaKEyETPXe5cbEbNm
-   UMafKTpZxWfIBBXOPm0HsfsgHPjGh9EQTanu5B2lv0JMmJMQ7xGxLik5h
-   rMBfL+8TVgV1cT9XcqYftUw5PDKOYEgqZ+RcNCeYnkg6kH4k3avVYZNax
-   YJdcLCNcjEVL+n5Sf1UJK/ofhiP14y3v0mBjJ3gUmZygfMMxYzUZuIIDK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="375603646"
+  t=1693899732; x=1725435732;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=fmGzNld1ytVzEj5DZZcEInZwSMz0EFNae+d73Tnjqcg=;
+  b=IUtCsjlxCX4yJH+nllCvDbWw7bX9ARlcI9M6Ufy+2X2bFyTGYC/NLe0w
+   JgLKgzzMI3joXIDahAmROENXNutgYTwrMjNwHLw6oX8EeCdeVZENtEC+P
+   SN4acP27XtIZiz/rS2J4aIQLxYDTX8NUlfvfScZ8Pf1C0eZUk6is94tTT
+   J2wBCshocxwWIr7E96VgBjD3rTa/AVyZFd9lDseR3qk5o0BoDmORK2bxj
+   QP91oYl8bjbvl9p7TnYCTQDsOSAEBUfK4LzzbzP6Kqoof3WLfGgscsR6S
+   L0KBoBC4KEICR6hUkCGk69XAd6Wb5jw+7IOkHphW/B34BX/qf8bFSx6f8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="356223206"
 X-IronPort-AV: E=Sophos;i="6.02,228,1688454000"; 
-   d="scan'208";a="375603646"
+   d="scan'208";a="356223206"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2023 23:07:09 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 00:41:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="914716570"
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="914740419"
 X-IronPort-AV: E=Sophos;i="6.02,228,1688454000"; 
-   d="scan'208";a="914716570"
+   d="scan'208";a="914740419"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 04 Sep 2023 23:07:03 -0700
+  by orsmga005.jf.intel.com with ESMTP; 05 Sep 2023 00:41:52 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdPDJ-0001Jz-0Y;
-	Tue, 05 Sep 2023 06:07:01 +0000
-Date: Tue, 5 Sep 2023 14:06:07 +0800
+	id 1qdQh4-0001ON-1B;
+	Tue, 05 Sep 2023 07:41:50 +0000
+Date: Tue, 5 Sep 2023 15:41:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 13985/13985] checkpatch: ERROR: DOS line endings
-Message-ID: <202309051413.xJulIMv3-lkp@intel.com>
+Subject: [pci:controller/rcar 7/19] checkpatch: WARNING: Prefer a maximum 75
+ chars per line (possible unwrapped commit description?)
+Message-ID: <202309051556.mYjw3EX6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "checkpatch"
@@ -51,33 +54,29 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Stephen Rothwell <sfr@canb.auug.org.au>
+CC: linux-pci@vger.kernel.org
+TO: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+CC: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+CC: Serge Semin <fancer.lancer@gmail.com>
 INFO skip CC for checkpatch warnings
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   c50216cfa084d5eb67dc10e646a3283da1595bb6
-commit: c50216cfa084d5eb67dc10e646a3283da1595bb6 [13985/13985] Add linux-next specific files for 20230905
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/rcar
+head:   7af65c1120567de8624e021d798438252cbde876
+commit: a0473c77b4c19a108c9b19ba58aa2509fdefc534 [7/19] PCI: dwc: Add missing PCI_EXP_LNKCAP_MLW handling
 :::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20230905/202309051413.xJulIMv3-lkp@intel.com/reproduce)
+:::::: commit date: 9 days ago
+reproduce: (https://download.01.org/0day-ci/archive/20230905/202309051556.mYjw3EX6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309051413.xJulIMv3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309051556.mYjw3EX6-lkp@intel.com/
 
 # many are suggestions rather than must-fix
 
-WARNING: Missing commit description - Add an appropriate one
-
-WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-#19: 
-new file mode 100644
-
-ERROR: DOS line endings
-#777: Next/merge.log:6:
-+Updating files:  81% (6141/7581)^MUpdating files:  82% (6217/7581)^MUpdating files:  83% (6293/7581)^MUpdating files:  84% (6369/7581)^MUpdating files:  85% (6444/7581)^MUpdating files:  86% (6520/7581)^MUpdating files:  87% (6596/7581)^MUpdating files:  88% (6672/7581)^MUpdating files:  89% (6748/7581)^MUpdating files:  90% (6823/7581)^MUpdating files:  91% (6899/7581)^MUpdating files:  92% (6975/7581)^MUpdating files:  93% (7051/7581)^MUpdating files:  94% (7127/7581)^MUpdating files:  95% (7202/7581)^MUpdating files:  96% (7278/7581)^MUpdating files:  97% (7354/7581)^MUpdating files:  98% (7430/7581)^MUpdating files:  99% (7506/7581)^MUpdating files: 100% (7581/7581)^MUpdating files: 100% (7581/7581), done.$
+WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+#28: 
+[X+1] DesignWare Cores PCI Express Controller Databook - DWC PCIe Root Port,
 
 -- 
 0-DAY CI Kernel Test Service
