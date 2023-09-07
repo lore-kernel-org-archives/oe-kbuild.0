@@ -1,127 +1,152 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EEF5668
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Sep 2023 09:58:36 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-402c1407139so8848035e9.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 07 Sep 2023 02:58:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0AD5663
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Sep 2023 10:03:18 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-31aeedbb264so882588f8f.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 07 Sep 2023 03:03:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694080714; x=1694685514; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=H93pY4K5RGy48Le8MtNuXSVW/3TVf9QahqAqyrN5AqA=;
-        b=mTBbFHSEG9Dq+QrMR14zJb8ptswv4xDfhWBsBXjWJoXZ9eAx+Az2CwESe4p21ONgpq
-         9A11Xs9JJSiGwtNkJVzjc5+idmzh2egIyU0mB9Uopz1Nu7ndJyPIxIf9KsDsRFgK3ySp
-         Am2eEqCbDifXEfWfDqcZCXbzdFUm4INHeJu26vARFgcUWtZSnj1lqcgoUiCD0XuBXnk1
-         VPKVzbT5hzmA9NwAHwq1EGvDuDylSLzqJpLeggY64aWHcfHvlbVmtWR9q+VhHhnpgVpk
-         c9cqYbu5wWvbascHxPwjgKLa8A6c7NF0HJMmpCPGZIpnXIHuvT08BZDDZ1Jn45ZVemDJ
-         +e3g==
+        d=linaro.org; s=google; t=1694080997; x=1694685797; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=xeGzb3Erff18jo9CQXt1zkXNyc0LLxENLPAQOePXlG4=;
+        b=NLddkWKGTdnmsdG6/2RqwXWFuGKkUXCTca4SvpaIzy+ucvl8PW20SS9Cmg499dYiMJ
+         +RpRdHEd/lWU7pZBqzu0QoRnjydEs0foVxYRaFBErZQj7w6Qilblni72MaKo6IRRSLsx
+         lVXr/N4zKMuQYzoVaTs8BbWOz49teX1Gn74H3OeW0ZYBBU72XPk1lVIoB6ZwphR9ypgZ
+         38Z71+DPDRUfqoj5tP/eyHf27XuNMKGY4AQk3tHIQCYK7OMXAVaI8eof6MqtLZQ1nTqN
+         ucAp1kHVN3GjYQzLe2jaglbrnpOZALSIq03Tnr101zXWmgWvUf9ICS3OeQowMQMcC+tm
+         FQTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694080714; x=1694685514;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H93pY4K5RGy48Le8MtNuXSVW/3TVf9QahqAqyrN5AqA=;
-        b=RFNSMecwR3/W9Wph9b9P8WrlRrfR7GlX4cZjVxvqhZCNKTYPEGdrFp27IXuvq7mhtJ
-         QZ9qaCPXkvnzDXnS+ltVrhmtg83Engt47IPj7uCxIlaJCFqZ46uTYQzyG19qlkWTCsA+
-         rlBsvDSy+4VN7ycbfk73P1KMihNgd6YCT96mx7dHG/3JBpmWjNIh7bxETSEor0tqLQ3F
-         28EdJK3v991rHjqxK68ujWTb8o0Wzw8pZoCwJIMV5s+hB1+9aA+8EwFFqp9ZJ4KpoZJJ
-         UtDYyFQykGf6pya4vRhj37Eir6sFiCqfgd8fV/47owCuUo+xWV4oN7V5G+5qiRCTIMyI
-         yTpA==
-X-Gm-Message-State: AOJu0YyOtAzUY1QT9oZ+jhiyQYc5cOcxGNz3s+ZgfPbIcPIxHmPS/2iL
-	jfV78kGLJZstu1CX3lFJJTkWOfegtBSYrT9Ywbs=
-X-Google-Smtp-Source: AGHT+IH+lYPU38QUaXAeYYuqKyQrTXDFtyGYgyHVyQ4jUsHelGNmSs0dnNbyJqEJz/httA9y1Roo5Q==
-X-Received: by 2002:a5d:4406:0:b0:317:5fe7:6844 with SMTP id z6-20020a5d4406000000b003175fe76844mr4113931wrq.39.1694080714060;
-        Thu, 07 Sep 2023 02:58:34 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1694080997; x=1694685797;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xeGzb3Erff18jo9CQXt1zkXNyc0LLxENLPAQOePXlG4=;
+        b=Wh5HuR1cOwkqD12aCvxsS3obHZO14z0cv/PHCTwKBd6tyEkvbUCiQ7XXoV9p9A+XG1
+         R4/4qadJMWsPDsEIPp7fsP9hivaCmDeqly7BAHW0i/mirTlZ6XpwIns2A2sKpfyAuLfS
+         KJZZy+OLxAO6FEAq3DT0RZ8NucC99aKOYRJpGFrGZllKVB/w6HlnZ+5nrTFpsY5FvtFs
+         zDtov8uFxfYsB84a8JKZXhjUdUqAyhVoxKrZXdNNOCyIvcBUoGGM7O/tm0bMqRf4/IbN
+         bb5lH26f9SvatT6KWjmgeMWnnnn4KGXMwv5f8rOkqvOhs9RNUNmoFcBufguo9J29B5I7
+         nzvA==
+X-Gm-Message-State: AOJu0Yxp7i9ep+1qwKlkEr4NPo87z2Fu0ckAENr4uPTUzJsYwxM511cb
+	02LTsd32KrU2iBU4I+WyblEs2q9Lfego1QjNt5c=
+X-Google-Smtp-Source: AGHT+IGY0h7WcTk6nrH2GKB5AeQw5TEuZroHYOktVcTxrpTsoqZptvoAwNyaRLvYhuRDptYyw9C0/g==
+X-Received: by 2002:a5d:4651:0:b0:317:e08b:7b1d with SMTP id j17-20020a5d4651000000b00317e08b7b1dmr4125801wrs.11.1694080996869;
+        Thu, 07 Sep 2023 03:03:16 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id bj13-20020a0560001e0d00b00317b5c8a4f1sm9837124wrb.60.2023.09.07.02.58.33
+        by smtp.gmail.com with ESMTPSA id q20-20020a056000137400b003142c85fbcdsm22997110wrz.11.2023.09.07.03.03.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Sep 2023 02:58:33 -0700 (PDT)
-Date: Thu, 7 Sep 2023 12:58:31 +0300
+        Thu, 07 Sep 2023 03:03:16 -0700 (PDT)
+Date: Thu, 7 Sep 2023 13:03:14 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Yi Liu <yi.l.liu@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/iommufd_pasid-0825 3/95]
- drivers/iommu/iommufd/main.c:259 iommufd_get_hw_info() warn: maybe return
- -EFAULT instead of the bytes remaining?
-Message-ID: <9bdc6686-8561-4ee9-8cd5-adb66daa2bef@kadam.mountain>
+To: oe-kbuild@lists.linux.dev,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v16 15/20] drm/shmem-helper: Add memory shrinker
+Message-ID: <55952e5b-8c55-4888-ba22-eda33525c3b9@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230903170736.513347-16-dmitry.osipenko@collabora.com>
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid-0825
-head:   98c119bc01ddf99ad4ac7c3e93980e3d835c0901
-commit: 69055cc0284095e68fd61f1705ef518ad731d120 [3/95] iommufd: Add IOMMU_GET_HW_INFO
-config: x86_64-randconfig-161-20230826 (https://download.01.org/0day-ci/archive/20230827/202308270513.l9Ht4WmD-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230827/202308270513.l9Ht4WmD-lkp@intel.com/reproduce)
+Hi Dmitry,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Osipenko/drm-shmem-helper-Fix-UAF-in-error-path-when-freeing-SGT-of-imported-GEM/20230904-011037
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230903170736.513347-16-dmitry.osipenko%40collabora.com
+patch subject: [PATCH v16 15/20] drm/shmem-helper: Add memory shrinker
+config: x86_64-randconfig-161-20230907 (https://download.01.org/0day-ci/archive/20230907/202309070814.jyGJOJzY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230907/202309070814.jyGJOJzY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202308270513.l9Ht4WmD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309070814.jyGJOJzY-lkp@intel.com/
 
 smatch warnings:
-drivers/iommu/iommufd/main.c:259 iommufd_get_hw_info() warn: maybe return -EFAULT instead of the bytes remaining?
+drivers/gpu/drm/drm_gem_shmem_helper.c:733 drm_gem_shmem_fault() error: we previously assumed 'shmem->pages' could be null (see line 724)
 
-vim +259 drivers/iommu/iommufd/main.c
+vim +733 drivers/gpu/drm/drm_gem_shmem_helper.c
 
-69055cc0284095e Yi Liu 2023-01-12  220  static int iommufd_get_hw_info(struct iommufd_ucmd *ucmd)
-69055cc0284095e Yi Liu 2023-01-12  221  {
-69055cc0284095e Yi Liu 2023-01-12  222  	struct iommu_hw_info *cmd = ucmd->cmd;
-69055cc0284095e Yi Liu 2023-01-12  223  	unsigned int length = cmd->data_len;
-69055cc0284095e Yi Liu 2023-01-12  224  	struct iommufd_device *idev;
-69055cc0284095e Yi Liu 2023-01-12  225  	void __user *user_ptr;
-69055cc0284095e Yi Liu 2023-01-12  226  	u32 hw_info_type;
-69055cc0284095e Yi Liu 2023-01-12  227  	int rc = 0;
-69055cc0284095e Yi Liu 2023-01-12  228  
-69055cc0284095e Yi Liu 2023-01-12  229  	if (cmd->flags || cmd->__reserved || !cmd->data_len)
-69055cc0284095e Yi Liu 2023-01-12  230  		return -EOPNOTSUPP;
-69055cc0284095e Yi Liu 2023-01-12  231  
-69055cc0284095e Yi Liu 2023-01-12  232  	idev = iommufd_get_device(ucmd, cmd->dev_id);
-69055cc0284095e Yi Liu 2023-01-12  233  	if (IS_ERR(idev))
-69055cc0284095e Yi Liu 2023-01-12  234  		return PTR_ERR(idev);
-69055cc0284095e Yi Liu 2023-01-12  235  
-69055cc0284095e Yi Liu 2023-01-12  236  	user_ptr = u64_to_user_ptr(cmd->data_ptr);
-69055cc0284095e Yi Liu 2023-01-12  237  
-69055cc0284095e Yi Liu 2023-01-12  238  	rc = iommufd_fill_hw_info(idev->dev, user_ptr,
-69055cc0284095e Yi Liu 2023-01-12  239  				  &length, &hw_info_type);
-69055cc0284095e Yi Liu 2023-01-12  240  	if (rc)
-69055cc0284095e Yi Liu 2023-01-12  241  		goto err_put;
-69055cc0284095e Yi Liu 2023-01-12  242  
-69055cc0284095e Yi Liu 2023-01-12  243  	/*
-69055cc0284095e Yi Liu 2023-01-12  244  	 * Zero the trailing bytes if the user buffer is bigger than the
-69055cc0284095e Yi Liu 2023-01-12  245  	 * data size kernel actually has.
-69055cc0284095e Yi Liu 2023-01-12  246  	 */
-69055cc0284095e Yi Liu 2023-01-12  247  	if (length < cmd->data_len) {
-69055cc0284095e Yi Liu 2023-01-12  248  		rc = clear_user(user_ptr + length, cmd->data_len - length);
+2194a63a818db7 Noralf Trønnes  2019-03-12  702  static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+2194a63a818db7 Noralf Trønnes  2019-03-12  703  {
+2194a63a818db7 Noralf Trønnes  2019-03-12  704  	struct vm_area_struct *vma = vmf->vma;
+2194a63a818db7 Noralf Trønnes  2019-03-12  705  	struct drm_gem_object *obj = vma->vm_private_data;
+2194a63a818db7 Noralf Trønnes  2019-03-12  706  	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+2194a63a818db7 Noralf Trønnes  2019-03-12  707  	loff_t num_pages = obj->size >> PAGE_SHIFT;
+d611b4a0907cec Neil Roberts    2021-02-23  708  	vm_fault_t ret;
+2194a63a818db7 Noralf Trønnes  2019-03-12  709  	struct page *page;
+11d5a4745e00e7 Neil Roberts    2021-02-23  710  	pgoff_t page_offset;
+2c607edf57db6a Dmitry Osipenko 2023-09-03  711  	bool pages_unpinned;
+2c607edf57db6a Dmitry Osipenko 2023-09-03  712  	int err;
+11d5a4745e00e7 Neil Roberts    2021-02-23  713  
+11d5a4745e00e7 Neil Roberts    2021-02-23  714  	/* We don't use vmf->pgoff since that has the fake offset */
+11d5a4745e00e7 Neil Roberts    2021-02-23  715  	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
+2194a63a818db7 Noralf Trønnes  2019-03-12  716  
+21aa27ddc58269 Dmitry Osipenko 2023-05-30  717  	dma_resv_lock(shmem->base.resv, NULL);
+2194a63a818db7 Noralf Trønnes  2019-03-12  718  
+2c607edf57db6a Dmitry Osipenko 2023-09-03  719  	/* Sanity-check that we have the pages pointer when it should present */
+2c607edf57db6a Dmitry Osipenko 2023-09-03  720  	pages_unpinned = (shmem->evicted || shmem->madv < 0 ||
+2c607edf57db6a Dmitry Osipenko 2023-09-03  721  			  !refcount_read(&shmem->pages_use_count));
+2c607edf57db6a Dmitry Osipenko 2023-09-03  722  	drm_WARN_ON_ONCE(obj->dev, !shmem->pages ^ pages_unpinned);
+2c607edf57db6a Dmitry Osipenko 2023-09-03  723  
+2c607edf57db6a Dmitry Osipenko 2023-09-03 @724  	if (page_offset >= num_pages || (!shmem->pages && !shmem->evicted)) {
+                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Should this be || instead of &&?  (The other thing that people do is
+add "!shmem->evicted" for readability even though it doesn't need to be
+checked.  So maybe that's the issue, but the checker assumes it needs to
+be checked).
 
-clear_user() has the same return values as copy_to/from_user().  This
-should be:
+d611b4a0907cec Neil Roberts    2021-02-23  725  		ret = VM_FAULT_SIGBUS;
+d611b4a0907cec Neil Roberts    2021-02-23  726  	} else {
+2c607edf57db6a Dmitry Osipenko 2023-09-03  727  		err = drm_gem_shmem_swapin_locked(shmem);
 
-	if (clear_user(user_ptr + length, cmd->data_len - length)) {
-		rc = -EFAULT;
-		goto err_put;
-	}
+Or maybe it's because the kbuild bot can't use the cross function db
+and shmem->pages is assigned here?
 
-69055cc0284095e Yi Liu 2023-01-12  249  		if (rc)
-69055cc0284095e Yi Liu 2023-01-12  250  			goto err_put;
-69055cc0284095e Yi Liu 2023-01-12  251  	}
-69055cc0284095e Yi Liu 2023-01-12  252  
-69055cc0284095e Yi Liu 2023-01-12  253  	cmd->data_len = length;
-69055cc0284095e Yi Liu 2023-01-12  254  	cmd->out_data_type = hw_info_type;
-69055cc0284095e Yi Liu 2023-01-12  255  	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
-69055cc0284095e Yi Liu 2023-01-12  256  
-69055cc0284095e Yi Liu 2023-01-12  257  err_put:
-69055cc0284095e Yi Liu 2023-01-12  258  	iommufd_put_object(&idev->obj);
-69055cc0284095e Yi Liu 2023-01-12 @259  	return rc;
-69055cc0284095e Yi Liu 2023-01-12  260  }
+2c607edf57db6a Dmitry Osipenko 2023-09-03  728  		if (err) {
+2c607edf57db6a Dmitry Osipenko 2023-09-03  729  			ret = VM_FAULT_OOM;
+2c607edf57db6a Dmitry Osipenko 2023-09-03  730  			goto unlock;
+2c607edf57db6a Dmitry Osipenko 2023-09-03  731  		}
+2c607edf57db6a Dmitry Osipenko 2023-09-03  732  
+11d5a4745e00e7 Neil Roberts    2021-02-23 @733  		page = shmem->pages[page_offset];
+                                                                       ^^^^^^^^^^^^
+Unchecked dereference
+
+2194a63a818db7 Noralf Trønnes  2019-03-12  734  
+8b93d1d7dbd578 Daniel Vetter   2021-08-12  735  		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
+d611b4a0907cec Neil Roberts    2021-02-23  736  	}
+d611b4a0907cec Neil Roberts    2021-02-23  737  
+2c607edf57db6a Dmitry Osipenko 2023-09-03  738  unlock:
+21aa27ddc58269 Dmitry Osipenko 2023-05-30  739  	dma_resv_unlock(shmem->base.resv);
+d611b4a0907cec Neil Roberts    2021-02-23  740  
+d611b4a0907cec Neil Roberts    2021-02-23  741  	return ret;
+2194a63a818db7 Noralf Trønnes  2019-03-12  742  }
 
 -- 
 0-DAY CI Kernel Test Service
