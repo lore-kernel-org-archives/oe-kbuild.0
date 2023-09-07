@@ -1,152 +1,90 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0AD5663
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Sep 2023 10:03:18 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-31aeedbb264so882588f8f.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 07 Sep 2023 03:03:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7EE5683
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Sep 2023 10:52:52 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-31c3df710bdso775349f8f.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 07 Sep 2023 03:52:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694080997; x=1694685797; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xeGzb3Erff18jo9CQXt1zkXNyc0LLxENLPAQOePXlG4=;
-        b=NLddkWKGTdnmsdG6/2RqwXWFuGKkUXCTca4SvpaIzy+ucvl8PW20SS9Cmg499dYiMJ
-         +RpRdHEd/lWU7pZBqzu0QoRnjydEs0foVxYRaFBErZQj7w6Qilblni72MaKo6IRRSLsx
-         lVXr/N4zKMuQYzoVaTs8BbWOz49teX1Gn74H3OeW0ZYBBU72XPk1lVIoB6ZwphR9ypgZ
-         38Z71+DPDRUfqoj5tP/eyHf27XuNMKGY4AQk3tHIQCYK7OMXAVaI8eof6MqtLZQ1nTqN
-         ucAp1kHVN3GjYQzLe2jaglbrnpOZALSIq03Tnr101zXWmgWvUf9ICS3OeQowMQMcC+tm
-         FQTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694080997; x=1694685797;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+        d=linaro.org; s=google; t=1694083971; x=1694688771; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=xeGzb3Erff18jo9CQXt1zkXNyc0LLxENLPAQOePXlG4=;
-        b=Wh5HuR1cOwkqD12aCvxsS3obHZO14z0cv/PHCTwKBd6tyEkvbUCiQ7XXoV9p9A+XG1
-         R4/4qadJMWsPDsEIPp7fsP9hivaCmDeqly7BAHW0i/mirTlZ6XpwIns2A2sKpfyAuLfS
-         KJZZy+OLxAO6FEAq3DT0RZ8NucC99aKOYRJpGFrGZllKVB/w6HlnZ+5nrTFpsY5FvtFs
-         zDtov8uFxfYsB84a8JKZXhjUdUqAyhVoxKrZXdNNOCyIvcBUoGGM7O/tm0bMqRf4/IbN
-         bb5lH26f9SvatT6KWjmgeMWnnnn4KGXMwv5f8rOkqvOhs9RNUNmoFcBufguo9J29B5I7
-         nzvA==
-X-Gm-Message-State: AOJu0Yxp7i9ep+1qwKlkEr4NPo87z2Fu0ckAENr4uPTUzJsYwxM511cb
-	02LTsd32KrU2iBU4I+WyblEs2q9Lfego1QjNt5c=
-X-Google-Smtp-Source: AGHT+IGY0h7WcTk6nrH2GKB5AeQw5TEuZroHYOktVcTxrpTsoqZptvoAwNyaRLvYhuRDptYyw9C0/g==
-X-Received: by 2002:a5d:4651:0:b0:317:e08b:7b1d with SMTP id j17-20020a5d4651000000b00317e08b7b1dmr4125801wrs.11.1694080996869;
-        Thu, 07 Sep 2023 03:03:16 -0700 (PDT)
+        bh=1wPPunoJweAisiG61XaqfURd25US3DbZZdoZ6G+g2JY=;
+        b=TDonnHg1K0dMKQa6BiBdgqChqqSwmOioD0C3Rg+RkTRXJ42wTp61UvcunMxLDgDqnO
+         YQNoJldidps6PDcAxz/dLwrm1zDLBLVYZrw18Q1wZJ4SHLnjjWOmbe0S9KlR5z2xAYPD
+         JTei7VMBBIm+RNQ5fsTtud6ojF2f2IDGvdTfY5c2j+DMwovmF4gjrt87TCW9hSqA0pvs
+         aegdrDwkUVimCvtv6VuoFrxFyxjEaCHmtDou9J+4b7+1PTPpPMPIXXlNji/xXKBSu1fZ
+         jm51EhTp2nSPyb5DfoZPwAgSLLlYXrNChZzxO0feZrWhVSAKV6vA+k4qXWZBX5L6/5dS
+         Lqdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1694083971; x=1694688771;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1wPPunoJweAisiG61XaqfURd25US3DbZZdoZ6G+g2JY=;
+        b=IVjdqxe8oDKY+GqHVlbQStC1RqJRQdox8Go0K/n2zV0BM9YWV6kuomoyhRsdb8lPAY
+         Mwu+UtEosD3qCkfWN3RVvbGpR+xLjNf3jHMSwHEc7wQonestj0L4hP1MRoUySV3+R/nc
+         uEg37WMMlmg49KB6w1uVlzgWS8DUgX7RneQNMhp5n3vP9VnGrky6nwbHMO5dxI0NKm3b
+         gvHgiVSuuTFMm4biA7xNq6Pc1EydRzONFdnQ9j5Y35fo1xJPCbPRDXtWb8iaXF9t2e6z
+         Y1Vjow4KdStJ1GkhoE/fOVCLeUYQYRfltvnOn7YGpKoPlBgIlIWCQXvuAcLtW6i3qzKV
+         Z89A==
+X-Gm-Message-State: AOJu0YwtCQFywRU5J/+HcLy9gOse6phw6VihIs9cHUpoAuuJvkPHQIYZ
+	d4dofzPpU+AhtHyyi9T+fcR/tXJbHvLSMb0LR1Q=
+X-Google-Smtp-Source: AGHT+IFkGoYeNhD80XRXiu4J3BySdBgX4kx7Q/cBAx337ZDivO9FJW07aVYeg6Jxv26gzJ+jFFW2XQ==
+X-Received: by 2002:adf:edc9:0:b0:31c:8c93:61e3 with SMTP id v9-20020adfedc9000000b0031c8c9361e3mr4104296wro.60.1694083970810;
+        Thu, 07 Sep 2023 03:52:50 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q20-20020a056000137400b003142c85fbcdsm22997110wrz.11.2023.09.07.03.03.16
+        by smtp.gmail.com with ESMTPSA id l10-20020a5d4bca000000b003180155493esm22952369wrt.67.2023.09.07.03.52.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Sep 2023 03:03:16 -0700 (PDT)
-Date: Thu, 7 Sep 2023 13:03:14 +0300
+        Thu, 07 Sep 2023 03:52:50 -0700 (PDT)
+Date: Thu, 7 Sep 2023 13:52:48 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v16 15/20] drm/shmem-helper: Add memory shrinker
-Message-ID: <55952e5b-8c55-4888-ba22-eda33525c3b9@kadam.mountain>
+To: oe-kbuild@lists.linux.dev, Rob Herring <robh@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: drivers/of/dynamic.c:935 of_changeset_action() warn: possible memory
+ leak of 'ce'
+Message-ID: <eaa86211-436d-445b-80bd-84cea5745b5a@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230903170736.513347-16-dmitry.osipenko@collabora.com>
 
-Hi Dmitry,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Osipenko/drm-shmem-helper-Fix-UAF-in-error-path-when-freeing-SGT-of-imported-GEM/20230904-011037
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230903170736.513347-16-dmitry.osipenko%40collabora.com
-patch subject: [PATCH v16 15/20] drm/shmem-helper: Add memory shrinker
-config: x86_64-randconfig-161-20230907 (https://download.01.org/0day-ci/archive/20230907/202309070814.jyGJOJzY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230907/202309070814.jyGJOJzY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   99d99825fc075fd24b60cc9cf0fb1e20b9c16b0f
+commit: 914d9d831e6126a6e7a92e27fcfaa250671be42c of: dynamic: Refactor action prints to not use "%pOF" inside devtree_lock
+config: x86_64-randconfig-161-20230831 (https://download.01.org/0day-ci/archive/20230901/202309011059.EOdr4im9-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230901/202309011059.EOdr4im9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309070814.jyGJOJzY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309011059.EOdr4im9-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/drm_gem_shmem_helper.c:733 drm_gem_shmem_fault() error: we previously assumed 'shmem->pages' could be null (see line 724)
+drivers/of/dynamic.c:935 of_changeset_action() warn: possible memory leak of 'ce'
 
-vim +733 drivers/gpu/drm/drm_gem_shmem_helper.c
+vim +/ce +935 drivers/of/dynamic.c
 
-2194a63a818db7 Noralf Trønnes  2019-03-12  702  static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
-2194a63a818db7 Noralf Trønnes  2019-03-12  703  {
-2194a63a818db7 Noralf Trønnes  2019-03-12  704  	struct vm_area_struct *vma = vmf->vma;
-2194a63a818db7 Noralf Trønnes  2019-03-12  705  	struct drm_gem_object *obj = vma->vm_private_data;
-2194a63a818db7 Noralf Trønnes  2019-03-12  706  	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-2194a63a818db7 Noralf Trønnes  2019-03-12  707  	loff_t num_pages = obj->size >> PAGE_SHIFT;
-d611b4a0907cec Neil Roberts    2021-02-23  708  	vm_fault_t ret;
-2194a63a818db7 Noralf Trønnes  2019-03-12  709  	struct page *page;
-11d5a4745e00e7 Neil Roberts    2021-02-23  710  	pgoff_t page_offset;
-2c607edf57db6a Dmitry Osipenko 2023-09-03  711  	bool pages_unpinned;
-2c607edf57db6a Dmitry Osipenko 2023-09-03  712  	int err;
-11d5a4745e00e7 Neil Roberts    2021-02-23  713  
-11d5a4745e00e7 Neil Roberts    2021-02-23  714  	/* We don't use vmf->pgoff since that has the fake offset */
-11d5a4745e00e7 Neil Roberts    2021-02-23  715  	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-2194a63a818db7 Noralf Trønnes  2019-03-12  716  
-21aa27ddc58269 Dmitry Osipenko 2023-05-30  717  	dma_resv_lock(shmem->base.resv, NULL);
-2194a63a818db7 Noralf Trønnes  2019-03-12  718  
-2c607edf57db6a Dmitry Osipenko 2023-09-03  719  	/* Sanity-check that we have the pages pointer when it should present */
-2c607edf57db6a Dmitry Osipenko 2023-09-03  720  	pages_unpinned = (shmem->evicted || shmem->madv < 0 ||
-2c607edf57db6a Dmitry Osipenko 2023-09-03  721  			  !refcount_read(&shmem->pages_use_count));
-2c607edf57db6a Dmitry Osipenko 2023-09-03  722  	drm_WARN_ON_ONCE(obj->dev, !shmem->pages ^ pages_unpinned);
-2c607edf57db6a Dmitry Osipenko 2023-09-03  723  
-2c607edf57db6a Dmitry Osipenko 2023-09-03 @724  	if (page_offset >= num_pages || (!shmem->pages && !shmem->evicted)) {
-                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Should this be || instead of &&?  (The other thing that people do is
-add "!shmem->evicted" for readability even though it doesn't need to be
-checked.  So maybe that's the issue, but the checker assumes it needs to
-be checked).
+201c910bd6898d Pantelis Antoniou 2014-07-04  925  int of_changeset_action(struct of_changeset *ocs, unsigned long action,
+201c910bd6898d Pantelis Antoniou 2014-07-04  926  		struct device_node *np, struct property *prop)
+201c910bd6898d Pantelis Antoniou 2014-07-04  927  {
+201c910bd6898d Pantelis Antoniou 2014-07-04  928  	struct of_changeset_entry *ce;
+201c910bd6898d Pantelis Antoniou 2014-07-04  929  
+201c910bd6898d Pantelis Antoniou 2014-07-04  930  	ce = kzalloc(sizeof(*ce), GFP_KERNEL);
+606ad42aa3b1fe Rob Herring       2016-06-15  931  	if (!ce)
+201c910bd6898d Pantelis Antoniou 2014-07-04  932  		return -ENOMEM;
+606ad42aa3b1fe Rob Herring       2016-06-15  933  
+914d9d831e6126 Rob Herring       2023-08-18  934  	if (WARN_ON(action >= ARRAY_SIZE(action_names)))
+914d9d831e6126 Rob Herring       2023-08-18 @935  		return -EINVAL;
 
-d611b4a0907cec Neil Roberts    2021-02-23  725  		ret = VM_FAULT_SIGBUS;
-d611b4a0907cec Neil Roberts    2021-02-23  726  	} else {
-2c607edf57db6a Dmitry Osipenko 2023-09-03  727  		err = drm_gem_shmem_swapin_locked(shmem);
-
-Or maybe it's because the kbuild bot can't use the cross function db
-and shmem->pages is assigned here?
-
-2c607edf57db6a Dmitry Osipenko 2023-09-03  728  		if (err) {
-2c607edf57db6a Dmitry Osipenko 2023-09-03  729  			ret = VM_FAULT_OOM;
-2c607edf57db6a Dmitry Osipenko 2023-09-03  730  			goto unlock;
-2c607edf57db6a Dmitry Osipenko 2023-09-03  731  		}
-2c607edf57db6a Dmitry Osipenko 2023-09-03  732  
-11d5a4745e00e7 Neil Roberts    2021-02-23 @733  		page = shmem->pages[page_offset];
-                                                                       ^^^^^^^^^^^^
-Unchecked dereference
-
-2194a63a818db7 Noralf Trønnes  2019-03-12  734  
-8b93d1d7dbd578 Daniel Vetter   2021-08-12  735  		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
-d611b4a0907cec Neil Roberts    2021-02-23  736  	}
-d611b4a0907cec Neil Roberts    2021-02-23  737  
-2c607edf57db6a Dmitry Osipenko 2023-09-03  738  unlock:
-21aa27ddc58269 Dmitry Osipenko 2023-05-30  739  	dma_resv_unlock(shmem->base.resv);
-d611b4a0907cec Neil Roberts    2021-02-23  740  
-d611b4a0907cec Neil Roberts    2021-02-23  741  	return ret;
-2194a63a818db7 Noralf Trønnes  2019-03-12  742  }
+No kfree(ce).  Probably we move this check before the kmalloc()?
 
 -- 
 0-DAY CI Kernel Test Service
