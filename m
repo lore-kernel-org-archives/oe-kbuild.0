@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9909E7EC
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Sep 2023 00:57:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4485CEA9
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Sep 2023 03:46:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694048246; x=1725584246;
+  t=1694058404; x=1725594404;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j8eAAfYRMAB1KPZOq8pzciPm3oKVk86aNNGUrQEnDbw=;
-  b=Kb9KC+7XWK9PIBu+LjOq0IjX6lzhGP0wYD5XKupaofWkAIqZdvwVwiPQ
-   H4ZXQMvDFZgtTB7ozlju/alLa5VtUDmOB5myuri7noWPxbyuUEYUCowZ3
-   HS/BXWudU/Qt0HM97jrYkyYdwdecJxeaILevWzto1d2yj1Z9AN/4EyEGE
-   fdhIUrcs2dapXlAN770/urS23Zgg4JcevZ00kQNMNh+mLOqg8M8mV3I51
-   HtbsbpWtkrtCVax/LNtCmqjlrEZr85OrJss4tQqt+aVXuzeb3NBZE+I3B
-   kvEMzz6oXZmPHH9cJDTd2g1hZaS6SKAyYnX1uj3Fk/2HePfGPP7dldVRh
+  bh=oLxhOzOIDbTrCPjJxo5Fb6anYfudOnujEPz7sz1q5jc=;
+  b=mxMah+nkUnZgLCa2pqV3sP+jV14BkdD2S3M2prn96u3Skle33y5r64cS
+   py58P4aPqA5Dv2pJVHPL8V5CS5phs/puquVUovSHxcgsNIHJ+hANMN7Ke
+   WbhYxgktYOiWMgdeBXHDg8TNu5jPk9CO4h83id8bTNZGtzddWXHD1gm7b
+   l7ZHqFQnw3IJpb4XVHm7FPVEbnwQSaMXcvbckXRl5KoFHIWap4RWfNN1o
+   ZJ5BOWiOSqrAHVVJdxBaMVkrpAeCNiDIv6/FxMNqhdDViUYTfJpKFOKUs
+   RpCW9dUCDz4w+VfK4FcHNB6EbJ/YR+MjuMrVLrovM5A0RZoNHeIDEd5/U
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="443611106"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="441235889"
 X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="443611106"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 17:57:25 -0700
+   d="scan'208";a="441235889"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 20:46:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="1072631905"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="771081940"
 X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="1072631905"
+   d="scan'208";a="771081940"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 06 Sep 2023 17:57:23 -0700
+  by orsmga008.jf.intel.com with ESMTP; 06 Sep 2023 20:46:41 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qe3Kj-0000kt-28;
-	Thu, 07 Sep 2023 00:57:21 +0000
-Date: Thu, 7 Sep 2023 08:56:55 +0800
+	id 1qe5yZ-0000ql-2U;
+	Thu, 07 Sep 2023 03:46:39 +0000
+Date: Thu, 7 Sep 2023 11:45:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c:275
- vcap_show_admin() warn: passing zero to 'PTR_ERR'
-Message-ID: <202309070831.hTvj9ekP-lkp@intel.com>
+Subject: drivers/firmware/efi/libstub/unaccepted_memory.c:73
+ allocate_unaccepted_bitmap() error: we previously assumed 'unaccepted_table'
+ could be null (see line 19)
+Message-ID: <202309071147.a2l2DL6p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,58 +50,117 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Horatiu Vultur <horatiu.vultur@microchip.com>
-CC: Paolo Abeni <pabeni@redhat.com>
+TO: Tom Lendacky <thomas.lendacky@amd.com>
+CC: "Borislav Petkov (AMD)" <bp@alien8.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7ba2090ca64ea1aa435744884124387db1fac70f
-commit: 610c32b2ce66d4aaa07b3a77a709bd4d2b268bb1 net: microchip: vcap: Add vcap_get_rule
-date:   9 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 9 months ago
-config: x86_64-randconfig-161-20230906 (https://download.01.org/0day-ci/archive/20230907/202309070831.hTvj9ekP-lkp@intel.com/config)
+commit: 6c3211796326a9d35618b866826ca556c8f008a8 x86/sev: Add SNP-specific unaccepted memory support
+date:   3 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-161-20230906 (https://download.01.org/0day-ci/archive/20230907/202309071147.a2l2DL6p-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230907/202309070831.hTvj9ekP-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230907/202309071147.a2l2DL6p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309070831.hTvj9ekP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309071147.a2l2DL6p-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c:275 vcap_show_admin() warn: passing zero to 'PTR_ERR'
+smatch warnings:
+drivers/firmware/efi/libstub/unaccepted_memory.c:73 allocate_unaccepted_bitmap() error: we previously assumed 'unaccepted_table' could be null (see line 19)
 
-Old smatch warnings:
-drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c:103 vcap_debugfs_show_rule_keyfield() error: uninitialized symbol 'value'.
-drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c:106 vcap_debugfs_show_rule_keyfield() error: uninitialized symbol 'mask'.
+vim +/unaccepted_table +73 drivers/firmware/efi/libstub/unaccepted_memory.c
 
-vim +/PTR_ERR +275 drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06   8  
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06   9  efi_status_t allocate_unaccepted_bitmap(__u32 nr_desc,
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  10  					struct efi_boot_memmap *map)
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  11  {
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  12  	efi_guid_t unaccepted_table_guid = LINUX_EFI_UNACCEPTED_MEM_TABLE_GUID;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  13  	u64 unaccepted_start = ULLONG_MAX, unaccepted_end = 0, bitmap_size;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  14  	efi_status_t status;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  15  	int i;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  16  
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  17  	/* Check if the table is already installed */
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  18  	unaccepted_table = get_efi_config_table(unaccepted_table_guid);
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06 @19  	if (unaccepted_table) {
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  20  		if (unaccepted_table->version != 1) {
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  21  			efi_err("Unknown version of unaccepted memory table\n");
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  22  			return EFI_UNSUPPORTED;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  23  		}
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  24  		return EFI_SUCCESS;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  25  	}
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  26  
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  27  	/* Check if there's any unaccepted memory and find the max address */
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  28  	for (i = 0; i < nr_desc; i++) {
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  29  		efi_memory_desc_t *d;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  30  		unsigned long m = (unsigned long)map->map;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  31  
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  32  		d = efi_early_memdesc_ptr(m, map->desc_size, i);
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  33  		if (d->type != EFI_UNACCEPTED_MEMORY)
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  34  			continue;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  35  
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  36  		unaccepted_start = min(unaccepted_start, d->phys_addr);
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  37  		unaccepted_end = max(unaccepted_end,
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  38  				     d->phys_addr + d->num_pages * PAGE_SIZE);
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  39  	}
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  40  
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  41  	if (unaccepted_start == ULLONG_MAX)
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  42  		return EFI_SUCCESS;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  43  
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  44  	unaccepted_start = round_down(unaccepted_start,
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  45  				      EFI_UNACCEPTED_UNIT_SIZE);
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  46  	unaccepted_end = round_up(unaccepted_end, EFI_UNACCEPTED_UNIT_SIZE);
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  47  
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  48  	/*
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  49  	 * If unaccepted memory is present, allocate a bitmap to track what
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  50  	 * memory has to be accepted before access.
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  51  	 *
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  52  	 * One bit in the bitmap represents 2MiB in the address space:
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  53  	 * A 4k bitmap can track 64GiB of physical address space.
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  54  	 *
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  55  	 * In the worst case scenario -- a huge hole in the middle of the
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  56  	 * address space -- It needs 256MiB to handle 4PiB of the address
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  57  	 * space.
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  58  	 *
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  59  	 * The bitmap will be populated in setup_e820() according to the memory
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  60  	 * map after efi_exit_boot_services().
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  61  	 */
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  62  	bitmap_size = DIV_ROUND_UP(unaccepted_end - unaccepted_start,
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  63  				   EFI_UNACCEPTED_UNIT_SIZE * BITS_PER_BYTE);
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  64  
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  65  	status = efi_bs_call(allocate_pool, EFI_LOADER_DATA,
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  66  			     sizeof(*unaccepted_table) + bitmap_size,
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  67  			     (void **)&unaccepted_table);
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  68  	if (status != EFI_SUCCESS) {
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  69  		efi_err("Failed to allocate unaccepted memory config table\n");
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  70  		return status;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  71  	}
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  72  
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06 @73  	unaccepted_table->version = 1;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  74  	unaccepted_table->unit_size = EFI_UNACCEPTED_UNIT_SIZE;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  75  	unaccepted_table->phys_base = unaccepted_start;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  76  	unaccepted_table->size = bitmap_size;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  77  	memset(unaccepted_table->bitmap, 0, bitmap_size);
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  78  
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  79  	status = efi_bs_call(install_configuration_table,
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  80  			     &unaccepted_table_guid, unaccepted_table);
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  81  	if (status != EFI_SUCCESS) {
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  82  		efi_bs_call(free_pool, unaccepted_table);
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  83  		efi_err("Failed to install unaccepted memory config table!\n");
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  84  	}
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  85  
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  86  	return status;
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  87  }
+745e3ed85f71a6 Kirill A. Shutemov 2023-06-06  88  
 
-3a7921560d2fd3 Steen Hegelund 2022-11-17  262  
-3a7921560d2fd3 Steen Hegelund 2022-11-17  263  static int vcap_show_admin(struct vcap_control *vctrl,
-3a7921560d2fd3 Steen Hegelund 2022-11-17  264  			   struct vcap_admin *admin,
-3a7921560d2fd3 Steen Hegelund 2022-11-17  265  			   struct vcap_output_print *out)
-3a7921560d2fd3 Steen Hegelund 2022-11-17  266  {
-610c32b2ce66d4 Horatiu Vultur 2022-12-03  267  	struct vcap_rule_internal *elem;
-610c32b2ce66d4 Horatiu Vultur 2022-12-03  268  	struct vcap_rule *vrule;
-3a7921560d2fd3 Steen Hegelund 2022-11-17  269  	int ret = 0;
-3a7921560d2fd3 Steen Hegelund 2022-11-17  270  
-3a7921560d2fd3 Steen Hegelund 2022-11-17  271  	vcap_show_admin_info(vctrl, admin, out);
-3a7921560d2fd3 Steen Hegelund 2022-11-17  272  	list_for_each_entry(elem, &admin->rules, list) {
-610c32b2ce66d4 Horatiu Vultur 2022-12-03  273  		vrule = vcap_get_rule(vctrl, elem->data.id);
-610c32b2ce66d4 Horatiu Vultur 2022-12-03  274  		if (IS_ERR_OR_NULL(vrule)) {
-610c32b2ce66d4 Horatiu Vultur 2022-12-03 @275  			ret = PTR_ERR(vrule);
-610c32b2ce66d4 Horatiu Vultur 2022-12-03  276  			break;
-682f560b8a87bf Dan Carpenter  2022-11-29  277  		}
-610c32b2ce66d4 Horatiu Vultur 2022-12-03  278  
-3a7921560d2fd3 Steen Hegelund 2022-11-17  279  		out->prf(out->dst, "\n");
-610c32b2ce66d4 Horatiu Vultur 2022-12-03  280  		vcap_show_admin_rule(vctrl, admin, out, to_intrule(vrule));
-610c32b2ce66d4 Horatiu Vultur 2022-12-03  281  		vcap_free_rule(vrule);
-3a7921560d2fd3 Steen Hegelund 2022-11-17  282  	}
-3a7921560d2fd3 Steen Hegelund 2022-11-17  283  	return ret;
-3a7921560d2fd3 Steen Hegelund 2022-11-17  284  }
-3a7921560d2fd3 Steen Hegelund 2022-11-17  285  
+:::::: The code at line 73 was first introduced by commit
+:::::: 745e3ed85f71a6382a239b03d9278a8025f2beae efi/libstub: Implement support for unaccepted memory
+
+:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+:::::: CC: Borislav Petkov (AMD) <bp@alien8.de>
 
 -- 
 0-DAY CI Kernel Test Service
