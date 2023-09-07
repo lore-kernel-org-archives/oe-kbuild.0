@@ -1,111 +1,141 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE63568E
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Sep 2023 11:47:25 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-31c7912416bso968094f8f.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 07 Sep 2023 04:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694087243; x=1694692043; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Rd3g14aq0Z17dL7uhkaawHdoYkXsMOdf9lkrn2VBQN8=;
-        b=dYQBMhkFT0RxardBGaxIm6U5QS4rShkoBaGMeSNKqBUrVC9SA/sNCrYc7hSSQzi7Du
-         7YxguFBbn77cH1ONlYnh6mCo2/HW9t3tU3g+UK6HMcIwMOWGeAuHQxYI6wAEgsOKTMkS
-         BueTB9+8h428ZR4m+wtnIlWe4LrgXHancZsOhuabbu+WEnKSuhg8KKCBsmH5acTw4+UF
-         Jg66N2XOgYI6jbghwm2S2Z/eT56CdhWZ2iSrPpRuQXFCFaXVzXtNF3bYZqV8ugc3DYy3
-         kDleqTTiHymIExsa8/R33JazIKKkOuojJ9zZRDiHCUyiKk18z+2LBlUT+qNwRcdFO+P2
-         3CVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694087243; x=1694692043;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rd3g14aq0Z17dL7uhkaawHdoYkXsMOdf9lkrn2VBQN8=;
-        b=QRwLNrj4GZuW7HiUye+n2pcKPDKlEWVnwlCGTkQtiLjYAF5OB30x0QWLN9dJbgjgvI
-         hIq+9YIU5fACXgtpNSJGb8MqgyiHy9ctI6ZuJv5Jc8E5mpbv5uEtd81ibu7+qhzt6spm
-         rJabzuM6z/3NHrN8uUhRnMOgjMab9jsGrqZm7GA2cVB1voCcyVqwhXm26AOmAGwLOul2
-         RUi7snDyFlaXFKA2oOYO+hRYsNpo313d88jpKZAhMEenRnax1bfinlB0oxEqefI4I+e8
-         3wSVYjgeWtuLqLC4jZCr9JQspJ6eVFLu/sbbvZh5+1XtLxJZfCb4RO7c668EY7PVpi8M
-         Qc7A==
-X-Gm-Message-State: AOJu0Yx/OJFo01sBfIc7RZZirjGs4x3DgG+GHhDrAIVYyd+1s9z/klK+
-	JTWvRPBP96XC6bufF0wkwRKGiA==
-X-Google-Smtp-Source: AGHT+IGglI0RO6vx8D5x0p1s9L/ra8iOSpCNNTG2ytt6fbbSiSjyPJglvq7Yl3BORRm775/WPHbEig==
-X-Received: by 2002:adf:f749:0:b0:314:748:d59d with SMTP id z9-20020adff749000000b003140748d59dmr4553606wrp.27.1694087243431;
-        Thu, 07 Sep 2023 04:47:23 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id bp5-20020a5d5a85000000b0031f07d1edbcsm20553045wrb.77.2023.09.07.04.47.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Sep 2023 04:47:23 -0700 (PDT)
-Date: Thu, 7 Sep 2023 14:47:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: oe-kbuild@lists.linux.dev, Rob Herring <robh@kernel.org>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: drivers/of/dynamic.c:935 of_changeset_action() warn: possible
- memory leak of 'ce'
-Message-ID: <e902e684-5953-4e71-82b3-28166666bc6d@kadam.mountain>
-References: <eaa86211-436d-445b-80bd-84cea5745b5a@kadam.mountain>
- <CAMuHMdUgTKfk0DdzS1ZtKuij1NE-nTEBdgnnS0o2uy8RbtagmQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B8C2C80
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Sep 2023 16:33:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694104436; x=1725640436;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=esnBVOr3H26S9BOZM6pNw0pTLO/ZpppguMhN+Qkf37g=;
+  b=bSWvqL5N58WdHBaMMA3fH/6SpNrLhySVuuvArKZ7wy+phqO1m3boSS9Q
+   TbRfRCnoEcVUmG4DMlIhBM4vyrHVfH7hs8YFVLMuIUF4PfcMfpuA5g6i6
+   ITOZRB9f+nKWZgTby0p2wfcSX7AzBPb01iVymvhWsQ57EWXzybb4AJJfp
+   lHKbW0/LHBmkvCB1OgWwojERbf8QlVOVYoTQdFaGV7qgfCaXv+tA2Xewz
+   1uyN6YhIVGlAXgS9aS9GJgg7uBqXT1nrtdT+aCYS2KeudSCkUbKWRccSz
+   C5Zzq4rc7n/7F/cA2fCRV8X0I79Rf12Ocns9Wif/RA+oGaNR7nzeeKYMi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="367659785"
+X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
+   d="scan'208";a="367659785"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 09:32:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="691859210"
+X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
+   d="scan'208";a="691859210"
+Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 07 Sep 2023 09:32:16 -0700
+Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qeHvR-0001NX-33;
+	Thu, 07 Sep 2023 16:32:13 +0000
+Date: Fri, 8 Sep 2023 00:31:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [ti:ti-rt-linux-6.1.y 45/107] drivers/media/i2c/ds90ub960.c:1780
+ ub960_init_tx_ports() error: uninitialized symbol 'pll_div'.
+Message-ID: <202309080024.9FjHTyqa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUgTKfk0DdzS1ZtKuij1NE-nTEBdgnnS0o2uy8RbtagmQ@mail.gmail.com>
 
-On Thu, Sep 07, 2023 at 01:30:09PM +0200, Geert Uytterhoeven wrote:
-> Hi Dan,
-> 
-> On Thu, Sep 7, 2023 at 12:52 PM Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   99d99825fc075fd24b60cc9cf0fb1e20b9c16b0f
-> > commit: 914d9d831e6126a6e7a92e27fcfaa250671be42c of: dynamic: Refactor action prints to not use "%pOF" inside devtree_lock
-> > config: x86_64-randconfig-161-20230831 (https://download.01.org/0day-ci/archive/20230901/202309011059.EOdr4im9-lkp@intel.com/config)
-> > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20230901/202309011059.EOdr4im9-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202309011059.EOdr4im9-lkp@intel.com/
-> >
-> > smatch warnings:
-> > drivers/of/dynamic.c:935 of_changeset_action() warn: possible memory leak of 'ce'
-> >
-> > vim +/ce +935 drivers/of/dynamic.c
-> >
-> > 201c910bd6898d Pantelis Antoniou 2014-07-04  925  int of_changeset_action(struct of_changeset *ocs, unsigned long action,
-> > 201c910bd6898d Pantelis Antoniou 2014-07-04  926                struct device_node *np, struct property *prop)
-> > 201c910bd6898d Pantelis Antoniou 2014-07-04  927  {
-> > 201c910bd6898d Pantelis Antoniou 2014-07-04  928        struct of_changeset_entry *ce;
-> > 201c910bd6898d Pantelis Antoniou 2014-07-04  929
-> > 201c910bd6898d Pantelis Antoniou 2014-07-04  930        ce = kzalloc(sizeof(*ce), GFP_KERNEL);
-> > 606ad42aa3b1fe Rob Herring       2016-06-15  931        if (!ce)
-> > 201c910bd6898d Pantelis Antoniou 2014-07-04  932                return -ENOMEM;
-> > 606ad42aa3b1fe Rob Herring       2016-06-15  933
-> > 914d9d831e6126 Rob Herring       2023-08-18  934        if (WARN_ON(action >= ARRAY_SIZE(action_names)))
-> > 914d9d831e6126 Rob Herring       2023-08-18 @935                return -EINVAL;
-> >
-> > No kfree(ce).  Probably we move this check before the kmalloc()?
-> 
-> Yes, moving up sounds great.
-> Care to send a patch?
-> 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: vigneshr@ti.com
+CC: nm@ti.com
+CC: Vignesh Raghavendra <vigneshr@ti.com>
+CC: Jai Luthra <j-luthra@ti.com>
 
-Sure.  I can do that.
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
+head:   6c7b09058d06625c8386decb5573da65e3c4ccfc
+commit: cf0136753f9892c69092d959eb86c8e06e706138 [45/107] media: i2c: add DS90UB960 driver
+:::::: branch date: 2 days ago
+:::::: commit date: 4 months ago
+config: x86_64-randconfig-161-20230907 (https://download.01.org/0day-ci/archive/20230908/202309080024.9FjHTyqa-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230908/202309080024.9FjHTyqa-lkp@intel.com/reproduce)
 
-These are zero day bot warnings from Intel.  I normally just look them
-over and hit the forward button.  Quite often the zero day bot will find
-the warnings before the patch has been apply.  But in this case, it's
-simple enough to patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202309080024.9FjHTyqa-lkp@intel.com/
 
-regards,
-dan carpenter
+smatch warnings:
+drivers/media/i2c/ds90ub960.c:1780 ub960_init_tx_ports() error: uninitialized symbol 'pll_div'.
 
+vim +/pll_div +1780 drivers/media/i2c/ds90ub960.c
+
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1749  
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1750  static int ub960_init_tx_ports(struct ub960_data *priv)
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1751  {
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1752  	unsigned int nport;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1753  	u8 speed_select;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1754  	u8 pll_div;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1755  
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1756  	/* TX ports */
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1757  
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1758  	switch (priv->tx_data_rate) {
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1759  	case MHZ(1600):
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1760  	default:
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1761  		speed_select = 0;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1762  		pll_div = 0x10;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1763  		break;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1764  	case MHZ(1200):
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1765  		speed_select = 1;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1766  		break;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1767  	case MHZ(800):
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1768  		speed_select = 2;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1769  		pll_div = 0x10;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1770  		break;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1771  	case MHZ(400):
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1772  		speed_select = 3;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1773  		pll_div = 0x10;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1774  		break;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1775  	}
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1776  
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1777  	ub960_write(priv, UB960_SR_CSI_PLL_CTL, speed_select);
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1778  
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1779  	if (priv->hw_data->is_ub9702) {
+cf0136753f9892 Tomi Valkeinen 2023-05-09 @1780  		ub960_write(priv, UB960_SR_CSI_PLL_DIV, pll_div);
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1781  
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1782  		switch (priv->tx_data_rate) {
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1783  		case MHZ(1600):
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1784  		default:
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1785  			ub960_write_ind(priv, UB960_IND_TARGET_CSI_ANA, 0x92, 0x80);
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1786  			ub960_write_ind(priv, UB960_IND_TARGET_CSI_ANA, 0x4b, 0x2a);
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1787  			break;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1788  		case MHZ(800):
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1789  			ub960_write_ind(priv, UB960_IND_TARGET_CSI_ANA, 0x92, 0x90);
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1790  			ub960_write_ind(priv, UB960_IND_TARGET_CSI_ANA, 0x4f, 0x2a);
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1791  			ub960_write_ind(priv, UB960_IND_TARGET_CSI_ANA, 0x4b, 0x2a);
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1792  			break;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1793  		case MHZ(400):
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1794  			ub960_write_ind(priv, UB960_IND_TARGET_CSI_ANA, 0x92, 0xa0);
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1795  			break;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1796  		}
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1797  	}
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1798  
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1799  	for (nport = 0; nport < priv->hw_data->num_txports; nport++) {
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1800  		struct ub960_txport *txport = priv->txports[nport];
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1801  
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1802  		if (!txport)
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1803  			continue;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1804  
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1805  		ub960_init_tx_port(priv, txport);
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1806  	}
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1807  
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1808  	return 0;
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1809  }
+cf0136753f9892 Tomi Valkeinen 2023-05-09  1810  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
