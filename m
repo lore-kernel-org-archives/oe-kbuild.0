@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFC12108
-	for <oe-kbuild@lists.linux.dev>; Fri,  8 Sep 2023 11:25:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F181A4C6D
+	for <oe-kbuild@lists.linux.dev>; Fri,  8 Sep 2023 12:17:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694172304; x=1725708304;
+  t=1694175426; x=1725711426;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rTp3hME0CS3OrqIWHx8Bd270ULdNaICfiaGQCAlY4tI=;
-  b=JW9XidqG3WELcH4wrgAWy4njVLfLeapq1eGY2sHJVr71D95pSONtx3AG
-   q82e20RdfkH6gofSPTB3aQy/kA8H09TdMQT9fMV0KKo2bpmkmZebUkr1w
-   rwvpcAsLlryCXFJQME+OhJiFSD8Xvj4YV+qvZEsXdqXOfdL3Q//h867yz
-   g6gaI1IwPDjErK9XsvryQDP/F/RNCgmlXSXYGVf4cuGveFLIp/Ln2sUxP
-   tVHKg551ERuyBYm6lt6MynmVT5ry8+Gyfw75/Ovnb0XOgsBUZ1izh16sU
-   AftXfxsGv8hEDB1reFTRtme/RjDUsVmuqK7f6S2lbkN2q78FNC7NBwqxK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="357928812"
+  bh=8pp6XN9kZJzhKdm5SgOvSpOTCIImCAyDbCcR68YUN1s=;
+  b=XntGJX+6LsimYukNX3CL1aQkt8605RCcgmis/JiXLiRpl4lwICmb65VN
+   l4ozgh90Ey46TMzBBxtc9oeC0XfoR+3SmU3HOxO4WY5+qVUn//1Yo+N+I
+   WAJGSb9sARH+Kl8o+YTVXPrXvjJ1QtZGhMaCwPyGgT8jU3QjTyInLAhPO
+   JFIUDFS32/6JGhZ4s8yxEMdHrpbJ8V5OYaJu1aCSyHwxJ3Ymd+096iRfH
+   ibUwnxdB4De8QhHIZllhmvbMhq64mPzIfbFyBY3hHkqWVyr9sV8N9pbgD
+   V2k786myb4P1RDz/cJZ+kJX5wx/N5qhhQLhA5YKZ+40Y6S86N3r9VWsDU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="464007583"
 X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="357928812"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 04:25:03 -0700
+   d="scan'208";a="464007583"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2023 05:17:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="745575031"
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="857379277"
 X-IronPort-AV: E=Sophos;i="6.02,237,1688454000"; 
-   d="scan'208";a="745575031"
+   d="scan'208";a="857379277"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 08 Sep 2023 04:25:02 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 08 Sep 2023 05:17:03 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qeZbg-0002D5-0T;
-	Fri, 08 Sep 2023 11:25:00 +0000
-Date: Fri, 8 Sep 2023 19:24:34 +0800
+	id 1qeaQ1-0002FS-30;
+	Fri, 08 Sep 2023 12:17:01 +0000
+Date: Fri, 8 Sep 2023 20:16:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [qais-yousef:sched-setscheduler-hide 12/12] kernel/kthread.c:1570
- param_get_namefmt() warn: variable dereferenced before check 'param' (see
- line 1567)
-Message-ID: <202309081907.lbs9VWMn-lkp@intel.com>
+Subject: drivers/firmware/efi/libstub/x86-stub.c:342
+ setup_unaccepted_memory() error: uninitialized symbol 'proto'.
+Message-ID: <202309082031.eCX2lE5l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,49 +48,63 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Qais Yousef <qyousef@layalina.io>
+CC: linux-kernel@vger.kernel.org
+TO: Dionna Glaze <dionnaglaze@google.com>
+CC: "Borislav Petkov (AMD)" <bp@alien8.de>
+CC: Tom Lendacky <thomas.lendacky@amd.com>
+CC: Ard Biesheuvel <ardb@kernel.org>
 
-tree:   https://github.com/qais-yousef/linux sched-setscheduler-hide
-head:   557fb1e21399de5f674beb93fa6793adce124cc2
-commit: 557fb1e21399de5f674beb93fa6793adce124cc2 [12/12] kthread: Implement parameter handling logic
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20230907 (https://download.01.org/0day-ci/archive/20230908/202309081907.lbs9VWMn-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a48fa7efaf1161c1c898931fe4c7f0070964233a
+commit: c0461bd16666351f0de11578b1e02dcdae4db736 x86/efi: Safely enable unaccepted memory in UEFI
+date:   3 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-161-20230906 (https://download.01.org/0day-ci/archive/20230908/202309082031.eCX2lE5l-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230908/202309081907.lbs9VWMn-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230908/202309082031.eCX2lE5l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309081907.lbs9VWMn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309082031.eCX2lE5l-lkp@intel.com/
 
-smatch warnings:
-kernel/kthread.c:1570 param_get_namefmt() warn: variable dereferenced before check 'param' (see line 1567)
-kernel/kthread.c:1794 param_set_sched_util_min() warn: ignoring unreachable code.
+New smatch warnings:
+drivers/firmware/efi/libstub/x86-stub.c:342 setup_unaccepted_memory() error: uninitialized symbol 'proto'.
 
-vim +/param +1570 kernel/kthread.c
+Old smatch warnings:
+drivers/firmware/efi/libstub/x86-stub.c:188 retrieve_apple_device_properties() error: potentially dereferencing uninitialized 'p'.
+drivers/firmware/efi/libstub/x86-stub.c:188 retrieve_apple_device_properties() error: potentially dereferencing uninitialized 'p'.
+drivers/firmware/efi/libstub/x86-stub.c:206 retrieve_apple_device_properties() error: potentially dereferencing uninitialized 'new'.
+drivers/firmware/efi/libstub/x86-stub.c:206 retrieve_apple_device_properties() error: potentially dereferencing uninitialized 'new'.
 
-4328f6314232c50e Qais Yousef 2023-08-26  1558  
-4328f6314232c50e Qais Yousef 2023-08-26  1559  /*
-4328f6314232c50e Qais Yousef 2023-08-26  1560   * Kthread sysfs params handling
-4328f6314232c50e Qais Yousef 2023-08-26  1561   */
-557fb1e21399de5f Qais Yousef 2023-08-27  1562  static int param_get_namefmt(char *buffer, int len,
-557fb1e21399de5f Qais Yousef 2023-08-27  1563  			     const char *name, const char *param)
-557fb1e21399de5f Qais Yousef 2023-08-27  1564  {
-557fb1e21399de5f Qais Yousef 2023-08-27  1565  	int namelen = strlen(name);
-557fb1e21399de5f Qais Yousef 2023-08-27  1566  	int kthreadlen = strlen("kthread.");
-557fb1e21399de5f Qais Yousef 2023-08-27 @1567  	int paramlen = strlen(param);
-557fb1e21399de5f Qais Yousef 2023-08-27  1568  	int size = namelen - kthreadlen - paramlen;
-557fb1e21399de5f Qais Yousef 2023-08-27  1569  
-557fb1e21399de5f Qais Yousef 2023-08-27 @1570  	if (!namelen || !param || size > len)
-557fb1e21399de5f Qais Yousef 2023-08-27  1571  		return -EINVAL;
-557fb1e21399de5f Qais Yousef 2023-08-27  1572  
-557fb1e21399de5f Qais Yousef 2023-08-27  1573  	strlcpy(buffer, name + kthreadlen, size);
-557fb1e21399de5f Qais Yousef 2023-08-27  1574  
-557fb1e21399de5f Qais Yousef 2023-08-27  1575  	return 0;
-557fb1e21399de5f Qais Yousef 2023-08-27  1576  }
-557fb1e21399de5f Qais Yousef 2023-08-27  1577  
+vim +/proto +342 drivers/firmware/efi/libstub/x86-stub.c
+
+82e0d6d76a2a74 Baskov Evgeniy 2022-03-03  323  
+c0461bd1666635 Dionna Glaze   2023-06-06  324  static void setup_unaccepted_memory(void)
+c0461bd1666635 Dionna Glaze   2023-06-06  325  {
+c0461bd1666635 Dionna Glaze   2023-06-06  326  	efi_guid_t mem_acceptance_proto = OVMF_SEV_MEMORY_ACCEPTANCE_PROTOCOL_GUID;
+c0461bd1666635 Dionna Glaze   2023-06-06  327  	sev_memory_acceptance_protocol_t *proto;
+c0461bd1666635 Dionna Glaze   2023-06-06  328  	efi_status_t status;
+c0461bd1666635 Dionna Glaze   2023-06-06  329  
+c0461bd1666635 Dionna Glaze   2023-06-06  330  	if (!IS_ENABLED(CONFIG_UNACCEPTED_MEMORY))
+c0461bd1666635 Dionna Glaze   2023-06-06  331  		return;
+c0461bd1666635 Dionna Glaze   2023-06-06  332  
+c0461bd1666635 Dionna Glaze   2023-06-06  333  	/*
+c0461bd1666635 Dionna Glaze   2023-06-06  334  	 * Enable unaccepted memory before calling exit boot services in order
+c0461bd1666635 Dionna Glaze   2023-06-06  335  	 * for the UEFI to not accept all memory on EBS.
+c0461bd1666635 Dionna Glaze   2023-06-06  336  	 */
+c0461bd1666635 Dionna Glaze   2023-06-06  337  	status = efi_bs_call(locate_protocol, &mem_acceptance_proto, NULL,
+c0461bd1666635 Dionna Glaze   2023-06-06  338  			     (void **)&proto);
+c0461bd1666635 Dionna Glaze   2023-06-06  339  	if (status != EFI_SUCCESS)
+c0461bd1666635 Dionna Glaze   2023-06-06  340  		return;
+c0461bd1666635 Dionna Glaze   2023-06-06  341  
+c0461bd1666635 Dionna Glaze   2023-06-06 @342  	status = efi_call_proto(proto, allow_unaccepted_memory);
+c0461bd1666635 Dionna Glaze   2023-06-06  343  	if (status != EFI_SUCCESS)
+c0461bd1666635 Dionna Glaze   2023-06-06  344  		efi_err("Memory acceptance protocol failed\n");
+c0461bd1666635 Dionna Glaze   2023-06-06  345  }
+c0461bd1666635 Dionna Glaze   2023-06-06  346  
 
 -- 
 0-DAY CI Kernel Test Service
