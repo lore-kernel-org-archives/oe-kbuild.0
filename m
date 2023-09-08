@@ -1,87 +1,100 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6669F4C93
-	for <oe-kbuild@lists.linux.dev>; Fri,  8 Sep 2023 16:15:36 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40078c4855fso24140235e9.3
-        for <oe-kbuild@lists.linux.dev>; Fri, 08 Sep 2023 09:15:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932CF125AF
+	for <oe-kbuild@lists.linux.dev>; Fri,  8 Sep 2023 16:19:50 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-31c93d2a24fso2000065f8f.2
+        for <oe-kbuild@lists.linux.dev>; Fri, 08 Sep 2023 09:19:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694189734; x=1694794534; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=NdY+Hi7Z5IsSCFidZsYVzGby7mhpfwXXWQqVcfLwpC4=;
-        b=pEVKjqMyYJ0RsezhT8cP41UZUicRMWV4XxltQnrNj2qaPJHixVvu6aJfXeClfbs6l4
-         n8vJ1ikrGZ+hzLqvyHjNNuZDwdiiPlxdipPQl+8+20VRIO9cb5Ad0cWX7nfNExPJPgal
-         wdy/25tITz5corG+rc7b2CaKS9BREZUPNAzTTV5gZ0bAjn4yGY16sL9cdaCI+rXZaEUl
-         S+/28pXqXGwKu2CJI06/chRE4oJIcyitc137ac0EzSonDEfhxpj16BvUNoMNMS1ELiEi
-         TA84blxzRubTplYfLNdUF/WeqfBQdmFcYNBJFTCtJfjrMbxb80MlZwM6FgrYBepfsQlT
-         /47A==
+        d=linaro.org; s=google; t=1694189988; x=1694794788; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mDFzOanx+BpNbVGy3qDAQpXcV3UnjdmqJ63Po7rTs+Q=;
+        b=u03t6fzYSixCcTmrLvke7VcV28BCFIKr5jAGKFNS3S45K/HZVuoMrO/+x5+rfZclTH
+         IBC2hAbDL0JWTvI2tMF9C39M/5Nb2xQyib4TC6quaKFPf2ia1+bxetYjPmqlcYZ4wpio
+         90BNdJS2nlqLMm3wG3n9j2s+4ejOCTQ4OwSGdP0PwuXylve1hkFip4Qc5Z+LlMaEkwPZ
+         ozoD0t/If9WgNwuMjqpBeNsOh1WlZzuoEb2xNghl+0x8kpFsZCaPbjfmtxfaLQ653Ri1
+         YbNXr3ll9uuNYPyIVtzxwrZ6gMugQ5hGUcTQ1zGa061rvhMIzpxTohHp/4n+xHN35DzL
+         ANcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694189734; x=1694794534;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1694189988; x=1694794788;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NdY+Hi7Z5IsSCFidZsYVzGby7mhpfwXXWQqVcfLwpC4=;
-        b=TOZQuY/pMEmpOUeMDCr6z036aozBjEAEcZA8WRWcT9r218Z32bkTSd9aiMik9jXaxd
-         X2bXF6VRPmx38N9HC+h+DzsTHVIXNNBMw+Ccj5Uz+HyLPLW0tvM5wj8XLrZ1oZINIbYO
-         e+eDJh8+/rOzLBXNZWZxoJqK12JoNg+y483CJLdmHZJycEgsEfUnnolc0Ep6RGeQQ7ec
-         RuOPO04QPBcaJOGM/pW0o/LjZ1KPy/nkhbtpA5fVRLbQVwhyirK/i8IUECOVOQf4+Itq
-         UZYWBJLVwiZIsvOiCXFK6A17RHD0xpnskX4Xc/HaX20JDxFmbxG4ID9pXvFMbiLz7Xam
-         TEBQ==
-X-Gm-Message-State: AOJu0YyOnzCFO1YBhQOqoMUY3+9PqEi5rzhCjN0BOx2EfT7pca8tG0oM
-	go2IKjX1XOw46OshYf1oUnqANw==
-X-Google-Smtp-Source: AGHT+IHX6AY4vhEX2QTvLHk6NT4JT6LAvRkwmSIN4QaO6rIoRIOguCBZO9n3eeVHULGrTtBE/kAzEw==
-X-Received: by 2002:a7b:c7d5:0:b0:3fb:a102:6d7a with SMTP id z21-20020a7bc7d5000000b003fba1026d7amr2503328wmk.28.1694189734535;
-        Fri, 08 Sep 2023 09:15:34 -0700 (PDT)
+        bh=mDFzOanx+BpNbVGy3qDAQpXcV3UnjdmqJ63Po7rTs+Q=;
+        b=V2LeU/g1fuabW9I8/UsqaLNT2SiFv0gRkGj4nvSMaS1Dc0IqckPf2SCkJSL0L2jonT
+         PXwAODaGg8fkUzuUUIe6mHjzmKBtWajmPUd6JUvl0Cppnob8G4mpZhGEOxa0W2yF6Ogu
+         vPTG3pXLACiqFaONNSm/6wx2TjKSHkK0BiQ8TGMKKj5xwUAY4LEcABGkWNhzeIRY2Wck
+         5qUmqN+BazkFwTQXfJrShKiEFSPPkVf08h94YKqEDkVPzPBHhaAAfb6TNbcNxEsn/2lw
+         6ouU/vsEVrZluyN9tAqnbTF42E8qNUedIw45xfqvQeNeAAUw9zffBwMxlQwi86dZGwY3
+         gvbg==
+X-Gm-Message-State: AOJu0YzeyKvE80AeZtgXPT2/KvyoHrX5SFY14LC6HFsdi3e+5bniqCCV
+	3AkO1B36Jj0285PPCMIIn/n3RVIlp4LYKlRCvwA=
+X-Google-Smtp-Source: AGHT+IHI98LB4GDIFEg7lIxqmlCeJmiPjoMLjyle8kGaSLlST3oO0yrhVT64FzWvSZnvz19+ENMEyw==
+X-Received: by 2002:a05:6000:1374:b0:317:6e62:b124 with SMTP id q20-20020a056000137400b003176e62b124mr2458373wrz.18.1694189988422;
+        Fri, 08 Sep 2023 09:19:48 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id t20-20020a1c7714000000b003fbc9d178a8sm5643477wmi.4.2023.09.08.09.15.33
+        by smtp.gmail.com with ESMTPSA id x6-20020a5d54c6000000b0031c855d52efsm2427411wrv.87.2023.09.08.09.19.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Sep 2023 09:15:34 -0700 (PDT)
-Date: Fri, 8 Sep 2023 19:15:31 +0300
+        Fri, 08 Sep 2023 09:19:47 -0700 (PDT)
+Date: Fri, 8 Sep 2023 19:19:45 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild@lists.linux.dev, John Ogness <john.ogness@linutronix.de>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [rt-devel:linux-6.1.y-rt-rebase 21/51]
- kernel/printk/printk.c:2468 __alloc_atomic_data() warn: returning -1 instead
- of -ENOMEM is sloppy
-Message-ID: <3e2976e8-57c7-47eb-97a5-8fd5254c89e9@kadam.mountain>
-References: <a6fa0763-b82f-4eff-9e50-06519db5722d@kadam.mountain>
- <20230908151924.S37nvge4@linutronix.de>
+To: oe-kbuild@lists.linux.dev, Qais Yousef <qyousef@layalina.io>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [qais-yousef:sched-setscheduler-hide 12/12] kernel/kthread.c:1570
+ param_get_namefmt() warn: variable dereferenced before check 'param' (see
+ line 1567)
+Message-ID: <6a7a19b2-908e-42e0-9488-a142cff4140b@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230908151924.S37nvge4@linutronix.de>
 
-On Fri, Sep 08, 2023 at 05:19:24PM +0200, Sebastian Andrzej Siewior wrote:
-> On 2023-09-05 12:43:35 [+0300], Dan Carpenter wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.1.y-rt-rebase
-> > head:   90d96fee668dc306dd748393383c0fc74b798eee
-> > commit: cf8dd889ea20ae7091d3b27029b07bef13298291 [21/51] serial: 8250: implement write_atomic
-> > config: i386-randconfig-141-20230828 (https://download.01.org/0day-ci/archive/20230828/202308281100.1LIdaKaP-lkp@intel.com/config)
-> > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20230828/202308281100.1LIdaKaP-lkp@intel.com/reproduce)
-> 
-> Now that I looked again at it. The 6.1 is outdated and no longer
-> updated. The -1 vs -ENOMEM is not present in the v6.5 series which
-> current so I can't fix it there…
-> 
-> The 6.1 tree itself is stable maintained. If you want this fixed in the
-> stable tree for 6.1
-> 	https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git
-> 
-> and I assume it is there, then I would send Clark a patch…
+tree:   https://github.com/qais-yousef/linux sched-setscheduler-hide
+head:   557fb1e21399de5f674beb93fa6793adce124cc2
+commit: 557fb1e21399de5f674beb93fa6793adce124cc2 [12/12] kthread: Implement parameter handling logic
+config: x86_64-randconfig-161-20230907 (https://download.01.org/0day-ci/archive/20230908/202309081907.lbs9VWMn-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230908/202309081907.lbs9VWMn-lkp@intel.com/reproduce)
 
-Forget about it.  This doesn't matter at all.  I thought since kbuild
-was reporting it then the code was new.  Sorry for the noise.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202309081907.lbs9VWMn-lkp@intel.com/
 
-regards,
-dan carpenter
+smatch warnings:
+kernel/kthread.c:1570 param_get_namefmt() warn: variable dereferenced before check 'param' (see line 1567)
+kernel/kthread.c:1794 param_set_sched_util_min() warn: ignoring unreachable code.
+
+vim +/param +1570 kernel/kthread.c
+
+557fb1e21399de5f Qais Yousef 2023-08-27  1562  static int param_get_namefmt(char *buffer, int len,
+557fb1e21399de5f Qais Yousef 2023-08-27  1563  			     const char *name, const char *param)
+557fb1e21399de5f Qais Yousef 2023-08-27  1564  {
+557fb1e21399de5f Qais Yousef 2023-08-27  1565  	int namelen = strlen(name);
+557fb1e21399de5f Qais Yousef 2023-08-27  1566  	int kthreadlen = strlen("kthread.");
+557fb1e21399de5f Qais Yousef 2023-08-27 @1567  	int paramlen = strlen(param);
+                                                                      ^^^^^
+Dereferenced
+
+557fb1e21399de5f Qais Yousef 2023-08-27  1568  	int size = namelen - kthreadlen - paramlen;
+557fb1e21399de5f Qais Yousef 2023-08-27  1569  
+557fb1e21399de5f Qais Yousef 2023-08-27 @1570  	if (!namelen || !param || size > len)
+                                                                 ^^^^^
+Checked too late.
+
+557fb1e21399de5f Qais Yousef 2023-08-27  1571  		return -EINVAL;
+557fb1e21399de5f Qais Yousef 2023-08-27  1572  
+557fb1e21399de5f Qais Yousef 2023-08-27  1573  	strlcpy(buffer, name + kthreadlen, size);
+557fb1e21399de5f Qais Yousef 2023-08-27  1574  
+557fb1e21399de5f Qais Yousef 2023-08-27  1575  	return 0;
+557fb1e21399de5f Qais Yousef 2023-08-27  1576  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
