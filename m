@@ -1,48 +1,42 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1110BE5D
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 Sep 2023 09:19:47 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-31ad779e6b3so4186469f8f.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 11 Sep 2023 02:19:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694423985; x=1695028785; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2ZE7dnC4pH3loX1YgIlsYQxEchxcxB2/dXrFFcl1BpI=;
-        b=HMLGid0RY8Z1ndP5xyX0ZEzvoBpldlSLkItFF6AabYPFM7n1ILV7HWZjzeE5HpUk/N
-         pv6NHdwil/hcxWFitRPrtCDmfEwnizUpJU7uEpZMXs1y7l9TIPaGVhmO4Cg7/05BGjXN
-         VkhJYNmummv4KTyqS05zRbFjPYhv3xlCU3o0q7bJlc2ICTuhKpEY5ffHZisT7Sd4fR/Q
-         /rAGdQKcGhCdU+fYDwGEiCDIru7ScliS+36ap52DtEPbMV2Jl05cn559JfPgE4w8uzpw
-         7S5h+N/D28IiLrmXJC64mraUoLh7GjlI4KEg4aQxk97AMU8uV/92sl2KD1UtsOeOMEVp
-         zPVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694423985; x=1695028785;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2ZE7dnC4pH3loX1YgIlsYQxEchxcxB2/dXrFFcl1BpI=;
-        b=cfoSVEAGdbm3BcB80/f4lMPGg0wLm0sS6hBRU6hsskO337g9qQC5W6BpeJIbzesgP+
-         Z1uZJe8dwCT05Oyuu1h+bctpQ/h+ruCYit4HbeJ5x+nLV+BHxyyJbXZmtLj/g9+Q9ww1
-         ITSlQ6CkdTf5blAgAU+SXys4pdNcgZX+3xFmJcq6TsD1UsZMcTHbUoE8PacXYXF/EoHZ
-         4iNKDTRRnu9FJBxGq7ZIxkhjrLViwYSohu6uE8oJApF3jI+/Tz/NMP1Qi9uWve9QgBCO
-         FdMFlitMlKmAHBQKCPFY7xKr4Gc2yz8D+SqRRNvmtNu4Z0mFA7/Np0fraAjod1YUfwhP
-         zfZw==
-X-Gm-Message-State: AOJu0Yyx9X9fscqEixHQO25uClDlf0wdqBXSXKX6Qvf8NR2ubJlTTg90
-	aVC3EBSxolgT/xSSk2iuMaDsVGYG9ofqkrrVuZE=
-X-Google-Smtp-Source: AGHT+IGYUkFJxWZ6Hscm8xGOikeUHIghvhDtfhIl+KftX4nErJ+LK7eaj8NGPS4PBhoIbU4xGUeJqg==
-X-Received: by 2002:a05:6000:180b:b0:31a:d450:c513 with SMTP id m11-20020a056000180b00b0031ad450c513mr7705684wrh.26.1694423985540;
-        Mon, 11 Sep 2023 02:19:45 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id t24-20020a1c7718000000b003fee7b67f67sm9381590wmi.31.2023.09.11.02.19.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 02:19:45 -0700 (PDT)
-Date: Mon, 11 Sep 2023 12:19:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Sasha Levin <sashal@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.10 47/53] mm/memory-failure.c:1926
- soft_offline_page() error: '%pG' must be followed by one of [gpv]
-Message-ID: <4f8a9bc5-9c28-440f-b436-5ba115e29dcc@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9310BE67
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 Sep 2023 11:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694432231; x=1725968231;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9f/Hgnqi1dQM3yvos6lKAdgWuamyWJwaPcHj2IMYsjk=;
+  b=cSYuGgnbDpMzoX8hLPssINAyNarE3XhBlCPvLQi6RhsVjyFLvEZdNDSF
+   PX756NlmjcyyKtI9GJCvmYmC3nYaJnVmSrRZi3lHtqv1nvENhorwaGfFk
+   K4sMw7TmIrj9h7BwFUcAZR0b9ENAZl6fuZr3bw/PmcimTUFLaCNW8zjir
+   j+drVQzJSBWQKtNfLf6PRGAi88s0W8HKZmRluw/y2E8pNFngtNattJDzn
+   S13Or3Y9qYDfH5dSbRgwZsYUPR4HiVPvCa9yXm4dIb+NaGR5Q9eZTKnGV
+   qiNYxGvDHj6LW/7tty8HooQg5oR8ZtEIKe90lURVpjAG0oNEdRlq6GOaP
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="358361010"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
+   d="scan'208";a="358361010"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 04:37:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="778359701"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
+   d="scan'208";a="778359701"
+Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 11 Sep 2023 04:37:01 -0700
+Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qffDv-0006AA-26;
+	Mon, 11 Sep 2023 11:36:59 +0000
+Date: Mon, 11 Sep 2023 19:36:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: mm/slub.c:571 __slab_update_freelist() warn: bitwise AND condition
+ is false here
+Message-ID: <202309111927.iYOIXSWs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,65 +46,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
-head:   7bc636a9c8ac76445b7aac5ad0636c27711cdd80
-commit: c60183ae1a1b4adea62af23fe1f18474a2511759 [47/53] mm,hwpoison: refactor get_any_page
-config: i386-randconfig-141-20230831 (https://download.01.org/0day-ci/archive/20230831/202308310845.KU1RWOf6-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230831/202308310845.KU1RWOf6-lkp@intel.com/reproduce)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: Mark Rutland <mark.rutland@arm.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+commit: 6801be4f2653e5fdddca73b527cf0728284ba8a3 slub: Replace cmpxchg_double()
+date:   3 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 3 months ago
+config: openrisc-randconfig-r071-20230906 (https://download.01.org/0day-ci/archive/20230911/202309111927.iYOIXSWs-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230911/202309111927.iYOIXSWs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202308310845.KU1RWOf6-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202309111927.iYOIXSWs-lkp@intel.com/
 
 smatch warnings:
-mm/memory-failure.c:1926 soft_offline_page() error: '%pG' must be followed by one of [gpv]
+mm/slub.c:571 __slab_update_freelist() warn: bitwise AND condition is false here
+mm/slub.c:598 slab_update_freelist() warn: bitwise AND condition is false here
 
-vim +1926 mm/memory-failure.c
+vim +571 mm/slub.c
 
-feec24a6139d46 Naoya Horiguchi 2019-11-30  1892  int soft_offline_page(unsigned long pfn, int flags)
-86e057734bd1c4 Wanpeng Li      2013-09-11  1893  {
-86e057734bd1c4 Wanpeng Li      2013-09-11  1894  	int ret;
-feec24a6139d46 Naoya Horiguchi 2019-11-30  1895  	struct page *page;
-b94e02822debdf Oscar Salvador  2020-10-15  1896  	bool try_again = true;
-86e057734bd1c4 Wanpeng Li      2013-09-11  1897  
-feec24a6139d46 Naoya Horiguchi 2019-11-30  1898  	if (!pfn_valid(pfn))
-feec24a6139d46 Naoya Horiguchi 2019-11-30  1899  		return -ENXIO;
-feec24a6139d46 Naoya Horiguchi 2019-11-30  1900  	/* Only online pages can be soft-offlined (esp., not ZONE_DEVICE). */
-feec24a6139d46 Naoya Horiguchi 2019-11-30  1901  	page = pfn_to_online_page(pfn);
-feec24a6139d46 Naoya Horiguchi 2019-11-30  1902  	if (!page)
-86a66810baa87e Dan Williams    2018-07-13  1903  		return -EIO;
-86a66810baa87e Dan Williams    2018-07-13  1904  
-86e057734bd1c4 Wanpeng Li      2013-09-11  1905  	if (PageHWPoison(page)) {
-c60183ae1a1b4a Oscar Salvador  2020-12-14  1906  		pr_info("%s: %#lx page already poisoned\n", __func__, pfn);
-1e0e635be82132 Wanpeng Li      2015-09-08  1907  		if (flags & MF_COUNT_INCREASED)
-dd6e2402fad966 Oscar Salvador  2020-10-15  1908  			put_page(page);
-5a2ffca3c23333 Oscar Salvador  2020-10-15  1909  		return 0;
-86e057734bd1c4 Wanpeng Li      2013-09-11  1910  	}
-4e41a30c6d506c Naoya Horiguchi 2016-01-15  1911  
-b94e02822debdf Oscar Salvador  2020-10-15  1912  retry:
-4e41a30c6d506c Naoya Horiguchi 2016-01-15  1913  	get_online_mems();
-c60183ae1a1b4a Oscar Salvador  2020-12-14  1914  	ret = get_any_page(page, flags);
-4e41a30c6d506c Naoya Horiguchi 2016-01-15  1915  	put_online_mems();
-4e41a30c6d506c Naoya Horiguchi 2016-01-15  1916  
-c60183ae1a1b4a Oscar Salvador  2020-12-14  1917  	if (ret > 0) {
-6b9a217eda4a13 Oscar Salvador  2020-10-15  1918  		ret = soft_offline_in_use_page(page);
-c60183ae1a1b4a Oscar Salvador  2020-12-14  1919  	} else if (ret == 0) {
-b94e02822debdf Oscar Salvador  2020-10-15  1920  		if (soft_offline_free_page(page) && try_again) {
-b94e02822debdf Oscar Salvador  2020-10-15  1921  			try_again = false;
-1f207076740101 Liu Shixin      2021-12-24  1922  			flags &= ~MF_COUNT_INCREASED;
-b94e02822debdf Oscar Salvador  2020-10-15  1923  			goto retry;
-b94e02822debdf Oscar Salvador  2020-10-15  1924  		}
-c60183ae1a1b4a Oscar Salvador  2020-12-14  1925  	} else if (ret == -EIO) {
-c60183ae1a1b4a Oscar Salvador  2020-12-14 @1926  		pr_info("%s: %#lx: unknown page type: %lx (%pGP)\n",
-                                                                                                              ^
-This was intended to be lower case 'p' was intended.  Fixed in commit
-6696d2a6f38c ("mm,hwpoison: fix printing of page flags").
+6801be4f2653e5 Peter Zijlstra    2023-05-31  553  
+a2b4ae8bfd9c10 Vlastimil Babka   2021-06-04  554  /*
+a2b4ae8bfd9c10 Vlastimil Babka   2021-06-04  555   * Interrupts must be disabled (for the fallback code to work right), typically
+5875e59828a026 Vlastimil Babka   2022-08-23  556   * by an _irqsave() lock variant. On PREEMPT_RT the preempt_disable(), which is
+5875e59828a026 Vlastimil Babka   2022-08-23  557   * part of bit_spin_lock(), is sufficient because the policy is not to allow any
+5875e59828a026 Vlastimil Babka   2022-08-23  558   * allocation/ free operation in hardirq context. Therefore nothing can
+5875e59828a026 Vlastimil Babka   2022-08-23  559   * interrupt the operation.
+a2b4ae8bfd9c10 Vlastimil Babka   2021-06-04  560   */
+6801be4f2653e5 Peter Zijlstra    2023-05-31  561  static inline bool __slab_update_freelist(struct kmem_cache *s, struct slab *slab,
+1d07171c5e58e6 Christoph Lameter 2011-07-14  562  		void *freelist_old, unsigned long counters_old,
+1d07171c5e58e6 Christoph Lameter 2011-07-14  563  		void *freelist_new, unsigned long counters_new,
+1d07171c5e58e6 Christoph Lameter 2011-07-14  564  		const char *n)
+1d07171c5e58e6 Christoph Lameter 2011-07-14  565  {
+6801be4f2653e5 Peter Zijlstra    2023-05-31  566  	bool ret;
+6801be4f2653e5 Peter Zijlstra    2023-05-31  567  
+1f04b07d976da0 Thomas Gleixner   2022-08-25  568  	if (USE_LOCKLESS_FAST_PATH())
+a2b4ae8bfd9c10 Vlastimil Babka   2021-06-04  569  		lockdep_assert_irqs_disabled();
+6801be4f2653e5 Peter Zijlstra    2023-05-31  570  
+1d07171c5e58e6 Christoph Lameter 2011-07-14 @571  	if (s->flags & __CMPXCHG_DOUBLE) {
+6801be4f2653e5 Peter Zijlstra    2023-05-31  572  		ret = __update_freelist_fast(slab, freelist_old, counters_old,
+6801be4f2653e5 Peter Zijlstra    2023-05-31  573  				            freelist_new, counters_new);
+6801be4f2653e5 Peter Zijlstra    2023-05-31  574  	} else {
+6801be4f2653e5 Peter Zijlstra    2023-05-31  575  		ret = __update_freelist_slow(slab, freelist_old, counters_old,
+6801be4f2653e5 Peter Zijlstra    2023-05-31  576  				            freelist_new, counters_new);
+1d07171c5e58e6 Christoph Lameter 2011-07-14  577  	}
+6801be4f2653e5 Peter Zijlstra    2023-05-31  578  	if (likely(ret))
+6801be4f2653e5 Peter Zijlstra    2023-05-31  579  		return true;
+1d07171c5e58e6 Christoph Lameter 2011-07-14  580  
+1d07171c5e58e6 Christoph Lameter 2011-07-14  581  	cpu_relax();
+1d07171c5e58e6 Christoph Lameter 2011-07-14  582  	stat(s, CMPXCHG_DOUBLE_FAIL);
+1d07171c5e58e6 Christoph Lameter 2011-07-14  583  
+1d07171c5e58e6 Christoph Lameter 2011-07-14  584  #ifdef SLUB_DEBUG_CMPXCHG
+f9f58285947d9c Fabian Frederick  2014-06-04  585  	pr_info("%s %s: cmpxchg double redo ", n, s->name);
+1d07171c5e58e6 Christoph Lameter 2011-07-14  586  #endif
+1d07171c5e58e6 Christoph Lameter 2011-07-14  587  
+6f6528a1632cb9 Joe Perches       2015-04-14  588  	return false;
+1d07171c5e58e6 Christoph Lameter 2011-07-14  589  }
+1d07171c5e58e6 Christoph Lameter 2011-07-14  590  
+6801be4f2653e5 Peter Zijlstra    2023-05-31  591  static inline bool slab_update_freelist(struct kmem_cache *s, struct slab *slab,
+b789ef518b2a72 Christoph Lameter 2011-06-01  592  		void *freelist_old, unsigned long counters_old,
+b789ef518b2a72 Christoph Lameter 2011-06-01  593  		void *freelist_new, unsigned long counters_new,
+b789ef518b2a72 Christoph Lameter 2011-06-01  594  		const char *n)
+b789ef518b2a72 Christoph Lameter 2011-06-01  595  {
+6801be4f2653e5 Peter Zijlstra    2023-05-31  596  	bool ret;
+6801be4f2653e5 Peter Zijlstra    2023-05-31  597  
+b789ef518b2a72 Christoph Lameter 2011-06-01 @598  	if (s->flags & __CMPXCHG_DOUBLE) {
+6801be4f2653e5 Peter Zijlstra    2023-05-31  599  		ret = __update_freelist_fast(slab, freelist_old, counters_old,
+6801be4f2653e5 Peter Zijlstra    2023-05-31  600  				            freelist_new, counters_new);
+6801be4f2653e5 Peter Zijlstra    2023-05-31  601  	} else {
+1d07171c5e58e6 Christoph Lameter 2011-07-14  602  		unsigned long flags;
+1d07171c5e58e6 Christoph Lameter 2011-07-14  603  
+1d07171c5e58e6 Christoph Lameter 2011-07-14  604  		local_irq_save(flags);
+6801be4f2653e5 Peter Zijlstra    2023-05-31  605  		ret = __update_freelist_slow(slab, freelist_old, counters_old,
+6801be4f2653e5 Peter Zijlstra    2023-05-31  606  				            freelist_new, counters_new);
+1d07171c5e58e6 Christoph Lameter 2011-07-14  607  		local_irq_restore(flags);
+b789ef518b2a72 Christoph Lameter 2011-06-01  608  	}
+6801be4f2653e5 Peter Zijlstra    2023-05-31  609  	if (likely(ret))
+6801be4f2653e5 Peter Zijlstra    2023-05-31  610  		return true;
+b789ef518b2a72 Christoph Lameter 2011-06-01  611  
+b789ef518b2a72 Christoph Lameter 2011-06-01  612  	cpu_relax();
+b789ef518b2a72 Christoph Lameter 2011-06-01  613  	stat(s, CMPXCHG_DOUBLE_FAIL);
+b789ef518b2a72 Christoph Lameter 2011-06-01  614  
 
+:::::: The code at line 571 was first introduced by commit
+:::::: 1d07171c5e58e68a76a141970a3a5e816a414ce6 slub: disable interrupts in cmpxchg_double_slab when falling back to pagelock
+
+:::::: TO: Christoph Lameter <cl@linux.com>
+:::::: CC: Pekka Enberg <penberg@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
