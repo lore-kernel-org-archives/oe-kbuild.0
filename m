@@ -1,50 +1,52 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50BC188
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 Sep 2023 07:51:09 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-401da71b85eso45067215e9.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 11 Sep 2023 00:51:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA3BAD36
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 Sep 2023 08:18:02 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-401bbfc05fcso46069395e9.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 11 Sep 2023 01:18:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694418668; x=1695023468; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1694420281; x=1695025081; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=gWnYh4CN57jmnhJ4yU3N3USKhafop4eKhKph1Fyl+mc=;
-        b=aSY8gTYKmBCPNgaU2GEK6+64sfhzuGQKyGwnuz01Hn4o1jRLv8PSO90fzWQOinz4/Y
-         cdsBwvM7bwQ6vkNeO0WuHwJ/6CKinU4u3sJrlySMpPE+BdEUp8RaSo2P9mXP5Rixi6wf
-         pqtQ1Onh7SiQkVa5blaB13TBR+K5rXBiUjP9ntEPiUQ2X4yTdbvJVGFw0FlHZPzXXHfA
-         jFJP4lDraS/NDSGqokAq0QpnN4lWwbBwkwR5lvW5Cwqbd0MuFDgkW2T7mkpzZzeKl/vn
-         U0NIrF47uEYQwmTCm6O+kTGLw4pyvPc2AGv/Ru0BFl9oR4Qw6TUOsdm0y8cCwqxHlng6
-         DQKg==
+        bh=ghOk3mQjRD6nktkkJO9Z2clGd3jvPgI65U2kpsQhXa0=;
+        b=KSPNBxItCtYVcOEVj0hWcgiC6r0m28NWRkcobHBCn/SktBBtI6CRJwniq87n5+v6Kg
+         NIDWQ8N97sq0YHQBkNRVkheB5qYiJ1MxJ2ymZdCTbT6oBY6VFfVDIIQZZYWBVFEAQIMz
+         PN0JLinfh/9NnLRKyCZ/xS1neIoNDZyF2PFZhddym5trEn4fHimK4ZRqDs9TzwESJdnW
+         h37Hlj8Mde7a21R/A0KcsYeVcxRdtKMAsXFnfyGZ7IxDE8b4GcZVPlHUSc0zOBonM5wi
+         ZSFL761/TQM5eCtsE7zCQoKuYgOHd/lugH7hNlMWZjaKBeDQcOK/usDFp52uy+PpHmSv
+         wctQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694418668; x=1695023468;
+        d=1e100.net; s=20230601; t=1694420281; x=1695025081;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gWnYh4CN57jmnhJ4yU3N3USKhafop4eKhKph1Fyl+mc=;
-        b=Zfa7rpH3fIGICGkDvRWmcz+lxLjDR9HiVbjGrPh6BDfP1KeQUJZcKSyB7KhNz+NoRf
-         2dP1LgUIozi71efIJF2QE/6qv7pgSuz+VON9j49LkicfXTwnYO+IsZ+Pikqh2S+ZAk1U
-         AusZWe7Aapukq6FieUL8GiwewI7jviM1re+HZuls8o3X8LbsdQ9RUGxpS7+Qh8So1CC7
-         +nhjgvd+LAqYVTkPe+k3UT7a6qKDirYAKkwdJEZHwGJyrtVOGNTbxG6QlB6Hp2VNR/aS
-         +Me0PYUyKklocW525dA9SH83YGRpPSyUBoGBK7HXysTdQmP79sqBqXrZAh/SM0QH8793
-         4W8A==
-X-Gm-Message-State: AOJu0YzN8eueZaGLGty2PCN6TI4C3TqX5GraVjWe6kbXEEScWAnm7q6s
-	YTH8jd7RH/QeFCf17O5G483J991OI+0Tya6r6T8=
-X-Google-Smtp-Source: AGHT+IECbvY4Hp7cae3cXFMGtYytnGnLISzQ3uBSG7uUw/oIeICC3Zeub830AdClcieScDUYfqLX7Q==
-X-Received: by 2002:a05:600c:21d8:b0:3fc:e1:24b5 with SMTP id x24-20020a05600c21d800b003fc00e124b5mr7405212wmj.23.1694418667873;
-        Mon, 11 Sep 2023 00:51:07 -0700 (PDT)
+        bh=ghOk3mQjRD6nktkkJO9Z2clGd3jvPgI65U2kpsQhXa0=;
+        b=TBY8AMFAgMyc3HgP5dKpWMK/bSNOIBcBpI17ERy5cXrJTJg6JT7hw7k7DRs4EqmZu6
+         GkjxbNKzicKawdZvlEXMlDHYqYdaUWpC7ED7OIIeq3UZjs5luMMWxUP6Xt4SU6L+Dhap
+         vam0L/w/qI1AhK1IrfnhKhb3mEEb46uY7ERxdHMZsAhUO1O+AECkUKUtUtB36zB1eXK2
+         4iZEW0RjhOCWt1mj3cdV/25ZnixTdHxpGgn6TVlrb0OVGdwzikwKyEofgzbdiId1IhVo
+         SwCC2RzQgc8k83Wstg7pV8ruJDZ1lgjIoJCrCI0OK6yF014wdklHA98KhhSgf1u1i0tZ
+         IamQ==
+X-Gm-Message-State: AOJu0Yy1BUiSnvuZtTSOKgXJ3p6w6Cp5go6IjWzDoy9LleExcGAl/dKa
+	kSb9SEBsUQhe76Rp/Ta+X5MCG54Zzj8p5JzPGTQ=
+X-Google-Smtp-Source: AGHT+IFNDdz058vs4BTxajc1ALDRYm9virYOJkO60ysTS5r67aIuq/AAZX2CYNe3A5EYX1ziG3MITA==
+X-Received: by 2002:a05:600c:1d82:b0:402:f510:e5b3 with SMTP id p2-20020a05600c1d8200b00402f510e5b3mr7681351wms.2.1694420280716;
+        Mon, 11 Sep 2023 01:18:00 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id f7-20020a7bcd07000000b00401c595fcc7sm12415696wmj.11.2023.09.11.00.51.07
+        by smtp.gmail.com with ESMTPSA id u3-20020a05600c210300b003fe601a7d46sm12445939wml.45.2023.09.11.01.17.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 00:51:07 -0700 (PDT)
-Date: Mon, 11 Sep 2023 10:51:04 +0300
+        Mon, 11 Sep 2023 01:18:00 -0700 (PDT)
+Date: Mon, 11 Sep 2023 11:17:57 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Yi Liu <yi.l.liu@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/iommufd_nesting_09042023-yi-not-tested 13/26]
- drivers/iommu/iommufd/hw_pagetable.c:325 iommufd_hwpt_alloc() error:
- potentially dereferencing uninitialized 'parent'.
-Message-ID: <3ae3ca2f-290b-4697-b8f3-4c1f98ac01d3@kadam.mountain>
+To: oe-kbuild@lists.linux.dev, Hilda Wu <hildawu@realtek.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	Alex Lu <alex_lu@realsil.com.cn>,
+	Simon Horman <simon.horman@corigine.com>
+Subject: net/bluetooth/msft.c:563 msft_add_monitor_sync() warn: passing zero
+ to 'PTR_ERR'
+Message-ID: <6b4f7617-8885-4444-9e59-2ddb5994b2b5@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,70 +56,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting_09042023-yi-not-tested
-head:   19df4ebfe078e091791110a53bfcc1abc6f72fb3
-commit: 56bfc2cb8d81259247dcedd479140554c66f9aa3 [13/26] iommufd: Add user-managed hw_pagetable support
-config: x86_64-randconfig-161-20230907 (https://download.01.org/0day-ci/archive/20230909/202309090432.uLNWDOfL-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   32bf43e4efdb87e0f7e90ba3883e07b8522322ad
+commit: 9e14606d8f38ea52a38c27692a9c1513c987a5da Bluetooth: msft: Extended monitor tracking by address filter
+config: x86_64-randconfig-161-20230906 (https://download.01.org/0day-ci/archive/20230909/202309091157.V0PEAQVg-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230909/202309090432.uLNWDOfL-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230909/202309091157.V0PEAQVg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309090432.uLNWDOfL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309091157.V0PEAQVg-lkp@intel.com/
 
 smatch warnings:
-drivers/iommu/iommufd/hw_pagetable.c:325 iommufd_hwpt_alloc() error: potentially dereferencing uninitialized 'parent'.
+net/bluetooth/msft.c:563 msft_add_monitor_sync() warn: passing zero to 'PTR_ERR'
 
-vim +/parent +325 drivers/iommu/iommufd/hw_pagetable.c
+vim +/PTR_ERR +563 net/bluetooth/msft.c
 
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  284  int iommufd_hwpt_alloc(struct iommufd_ucmd *ucmd)
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  285  {
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  286  	struct iommufd_hw_pagetable *(*alloc_fn)(
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  287  					struct iommufd_ctx *ictx,
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  288  					struct iommufd_object *pt_obj,
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  289  					struct iommufd_device *idev,
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  290  					u32 flags, enum iommu_hwpt_type type,
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  291  					struct iommu_user_data *user_data,
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  292  					bool flag);
-56bfc2cb8d8125 Nicolin Chen    2023-08-02  293  	struct iommufd_hw_pagetable *hwpt, *parent;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  294  	struct iommu_hwpt_alloc *cmd = ucmd->cmd;
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  295  	struct iommufd_object *pt_obj;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  296  	struct iommufd_device *idev;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  297  	struct iommufd_ioas *ioas;
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  298  	struct mutex *mutex;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  299  	int rc;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  300  
-08fa18dbae1178 Yi Liu          2023-09-01  301  	if (cmd->flags & (~IOMMU_HWPT_ALLOC_NEST_PARENT) || cmd->__reserved)
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  302  		return -EOPNOTSUPP;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  303  
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  304  	idev = iommufd_get_device(ucmd, cmd->dev_id);
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  305  	if (IS_ERR(idev))
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  306  		return PTR_ERR(idev);
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  307  
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  308  	pt_obj = iommufd_get_object(ucmd->ictx, cmd->pt_id, IOMMUFD_OBJ_ANY);
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  309  	if (IS_ERR(pt_obj)) {
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  310  		rc = -EINVAL;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  311  		goto out_put_idev;
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  312  	}
-7074d7bd67d495 Jason Gunthorpe 2023-07-17  313  
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  314  	switch (pt_obj->type) {
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  315  	case IOMMUFD_OBJ_IOAS:
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  316  		ioas = container_of(pt_obj, struct iommufd_ioas, obj);
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  317  		mutex = &ioas->mutex;
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  318  		alloc_fn = iommufd_hw_pagetable_alloc;
-cbc3bc72c8f4d4 Nicolin Chen    2023-08-02  319  		break;
-56bfc2cb8d8125 Nicolin Chen    2023-08-02  320  	case IOMMUFD_OBJ_HW_PAGETABLE:
-56bfc2cb8d8125 Nicolin Chen    2023-08-02  321  		/*
-56bfc2cb8d8125 Nicolin Chen    2023-08-02  322  		 * No user-managed HWPT on top of an user-managed one,
-56bfc2cb8d8125 Nicolin Chen    2023-08-02  323  		 * parent should be allocated with NEST_PARENT flag.
-56bfc2cb8d8125 Nicolin Chen    2023-08-02  324  		 */
-56bfc2cb8d8125 Nicolin Chen    2023-08-02 @325  		if (parent->user_managed || !parent->nest_parent) {
-                                                                    ^^^^^^^^                ^^^^^^^^^^
-parent is uninitialized.
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  549  	list_for_each_entry(entry, &monitor->patterns, list) {
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  550  		pattern = (void *)(pattern_data->data + offset);
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  551  		/* the length also includes data_type and offset */
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  552  		pattern->length = entry->length + 2;
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  553  		pattern->data_type = entry->ad_type;
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  554  		pattern->start_byte = entry->offset;
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  555  		memcpy(pattern->pattern, entry->value, entry->length);
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  556  		offset += sizeof(*pattern) + entry->length;
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  557  	}
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  558  
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  559  	skb = __hci_cmd_sync(hdev, hdev->msft_opcode, total_size, cp,
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  560  			     HCI_CMD_TIMEOUT);
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  561  
+ce78e557ff8819 Soenke Huster          2022-07-22  562  	if (IS_ERR_OR_NULL(skb)) {
+9e14606d8f38ea Hilda Wu               2023-06-21 @563  		err = PTR_ERR(skb);
+9e14606d8f38ea Hilda Wu               2023-06-21  564  		goto out_free;
+
+This returns success if __hci_cmd_sync() returns NULL.
+
+I don't think __hci_cmd_sync() can return NULL.  It is a design fail if
+it can.  And it needs to be commented what the NULL means.  And yet this
+file consistently assumes that __hci_cmd_sync() can be NULL.
 
 
+ce78e557ff8819 Soenke Huster          2022-07-22  565  	}
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  566  
+9e14606d8f38ea Hilda Wu               2023-06-21  567  	err = msft_le_monitor_advertisement_cb(hdev, hdev->msft_opcode,
+b747a83690c8f5 Manish Mandlik         2022-07-20  568  					       monitor, skb);
+9e14606d8f38ea Hilda Wu               2023-06-21  569  	if (err)
+9e14606d8f38ea Hilda Wu               2023-06-21  570  		goto out_free;
+9e14606d8f38ea Hilda Wu               2023-06-21  571  
+9e14606d8f38ea Hilda Wu               2023-06-21  572  	handle_data = msft_find_handle_data(hdev, monitor->handle, true);
+9e14606d8f38ea Hilda Wu               2023-06-21  573  	if (!handle_data) {
+9e14606d8f38ea Hilda Wu               2023-06-21  574  		err = -ENODATA;
+9e14606d8f38ea Hilda Wu               2023-06-21  575  		goto out_free;
+9e14606d8f38ea Hilda Wu               2023-06-21  576  	}
+9e14606d8f38ea Hilda Wu               2023-06-21  577  
+9e14606d8f38ea Hilda Wu               2023-06-21  578  	handle_data->rssi_high	= cp->rssi_high;
+9e14606d8f38ea Hilda Wu               2023-06-21  579  	handle_data->rssi_low	= cp->rssi_low;
+9e14606d8f38ea Hilda Wu               2023-06-21  580  	handle_data->rssi_low_interval	  = cp->rssi_low_interval;
+9e14606d8f38ea Hilda Wu               2023-06-21  581  	handle_data->rssi_sampling_period = cp->rssi_sampling_period;
+9e14606d8f38ea Hilda Wu               2023-06-21  582  
+9e14606d8f38ea Hilda Wu               2023-06-21  583  out_free:
+9e14606d8f38ea Hilda Wu               2023-06-21  584  	kfree(cp);
+9e14606d8f38ea Hilda Wu               2023-06-21  585  	return err;
+b747a83690c8f5 Manish Mandlik         2022-07-20  586  }
 
 -- 
 0-DAY CI Kernel Test Service
