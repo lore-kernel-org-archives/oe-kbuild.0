@@ -1,155 +1,324 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511B3623
-	for <oe-kbuild@lists.linux.dev>; Tue, 12 Sep 2023 00:37:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E3D1382
+	for <oe-kbuild@lists.linux.dev>; Tue, 12 Sep 2023 02:04:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694479024; x=1726015024;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zvYsMXxysP+6X5JRr6PEXNdOZHTIOcdIAnG/xeYXEYM=;
-  b=fxZwsjK++1mmsDMXnNGp5IPM/k7BAM5X6UxQdZ/CQfufUPK3gKPpxAYD
-   tiwpVklOentL7ts9AYtWxJi8ArR4NQbPzokr0orz892OgwuujsrLnFcli
-   uGf7UtRCCRii+Wolnc3NXo1M+X7k3FXeoimdCEiUcT+fm/SAclIIikWwn
-   Kn347cPU58UtMx7sXUtRHoXntM35s0SgPgRMnYeDt63O3gJjS/+EK0tJL
-   8YME1yeRA1Nwk1y8tvn2VrTpgOa0xscv+6L0QswzawkzVofLOeZFprEon
-   qtXEV4Go+Bb6yslluYo0mxejfKul/Ri8jUB0zpMiUr4VlAPx+jchVYt35
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="444680138"
+  t=1694484257; x=1726020257;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=O9UXLVET4tp+KvwhDDirBboWV1PGlwQE2PegVnOWxAw=;
+  b=jJOHzKCbITRxPRH8uHcNd+xiqVlbZb8U7H3s6JTDPe3zYtT/Yti8qwHe
+   +I4/WH65mgejowg+4bEmHTu3HHBjOqhHxclnWdQPOuihoKp+D9oulVlNu
+   herQlVl6UxLuoRpRSZEwR/YWrj6PfHWwkRx9pV9W6WvxWO4ZMHn0mpRhY
+   toNC2aTVRMIXivQnAbYy/l0T6cxXVkXZCeyNHBTOt7zazFvf/LlI50ovH
+   ozjPSM8B8FLUiIuDxi4MUO1ksg5IHgbqScz7NpTQxZPNzt49oqkQwcyKs
+   n3bdoPOQws6DxAbUkFUqLYw+cQLv2XVcwgAIaizBBX4xCE4B7jbPNwqHh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="363289111"
 X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="444680138"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 17:37:03 -0700
+   d="scan'208";a="363289111"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 19:04:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="813593501"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="1074382265"
 X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="813593501"
+   d="scan'208";a="1074382265"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Sep 2023 17:37:01 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 11 Sep 2023 19:04:08 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfrOl-0006zO-13;
-	Tue, 12 Sep 2023 00:36:59 +0000
-Date: Tue, 12 Sep 2023 08:36:11 +0800
+	id 1qfsl4-00077u-0n;
+	Tue, 12 Sep 2023 02:04:06 +0000
+Date: Tue, 12 Sep 2023 10:03:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [skeggsb-nouveau:00.02-gsp-rm 10/88]
- drivers/gpu/drm/nouveau/dispnv50/disp.c:2565 nv50_display_read_hw_or_state()
- error: uninitialized symbol 'head_idx'.
-Message-ID: <202309120801.w9evdkkZ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits
+ from constant value (a008a becomes 8a)
+Message-ID: <202309121022.yyjvvQ24-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Lyude Paul <lyude@redhat.com>
-CC: Ben Skeggs <bskeggs@redhat.com>
+CC: linux-kernel@vger.kernel.org
+TO: Vitaly Kuznetsov <vkuznets@redhat.com>
+CC: Paolo Bonzini <pbonzini@redhat.com>
+CC: Sean Christopherson <seanjc@google.com>
 
-tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 00.02-gsp-rm
-head:   89551217290c31848a7662d659ced417db386bc7
-commit: c38b1778a9baee914921a6743ba924907b96caa2 [10/88] drm/nouveau/kms: Add INHERIT ioctl to nvkm/nvif for reading IOR state
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+commit: a789aeba419647c44d7e7320de20fea037c211d0 KVM: VMX: Rename "vmx/evmcs.{ch}" to "vmx/hyperv.{ch}"
+date:   10 months ago
 :::::: branch date: 27 hours ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-141-20230911 (https://download.01.org/0day-ci/archive/20230912/202309120801.w9evdkkZ-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230912/202309120801.w9evdkkZ-lkp@intel.com/reproduce)
+:::::: commit date: 10 months ago
+config: i386-randconfig-061-20230912 (https://download.01.org/0day-ci/archive/20230912/202309121022.yyjvvQ24-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309121022.yyjvvQ24-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309120801.w9evdkkZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309121022.yyjvvQ24-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/nouveau/dispnv50/disp.c:2565 nv50_display_read_hw_or_state() error: uninitialized symbol 'head_idx'.
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/kvm/vmx/pmu_intel.c: note: in included file (through arch/x86/kvm/vmx/vmx_ops.h, arch/x86/kvm/vmx/vmx.h, arch/x86/kvm/vmx/nested.h):
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a008a becomes 8a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a008a becomes 8a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a008a becomes 8a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a008a becomes 8a)
+--
+   arch/x86/kvm/vmx/nested.c: note: in included file:
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100790 becomes 790)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a000a becomes a)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80688 becomes 688)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80608 becomes 608)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80108 becomes 108)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80388 becomes 388)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (20482 becomes 482)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80b88 becomes b88)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100910 becomes 910)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80188 becomes 188)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80208 becomes 208)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80288 becomes 288)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a000a becomes a)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100010 becomes 10)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100710 becomes 710)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100090 becomes 90)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (20402 becomes 402)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80b88 becomes b88)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100790 becomes 790)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100490 becomes 490)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100310 becomes 310)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100590 becomes 590)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100610 becomes 610)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100690 becomes 690)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120912 becomes 912)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100590 becomes 590)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (20002 becomes 2)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (20082 becomes 82)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (20102 becomes 102)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (20182 becomes 182)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (20202 becomes 202)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (20282 becomes 282)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (20302 becomes 302)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (20382 becomes 382)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120012 becomes 12)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120092 becomes 92)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120112 becomes 112)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120192 becomes 192)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120212 becomes 212)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120292 becomes 292)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120312 becomes 312)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120392 becomes 392)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120412 becomes 412)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120492 becomes 492)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120592 becomes 592)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120612 becomes 612)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120512 becomes 512)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120692 becomes 692)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120712 becomes 712)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120792 becomes 792)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120812 becomes 812)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120892 becomes 892)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a019a becomes 19a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a021a becomes 21a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a029a becomes 29a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a031a becomes 31a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a039a becomes 39a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a041a becomes 41a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a049a becomes 49a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a051a becomes 51a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a059a becomes 59a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a061a becomes 61a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120a92 becomes a92)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a089a becomes 89a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a091a becomes 91a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a099a becomes 99a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a028a becomes 28a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a030a becomes 30a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a038a becomes 38a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a040a becomes 40a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a048a becomes 48a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80b08 becomes b08)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100190 becomes 190)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100210 becomes 210)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100190 becomes 190)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100210 becomes 210)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80708 becomes 708)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80788 becomes 788)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80808 becomes 808)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80888 becomes 888)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100390 becomes 390)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100410 becomes 410)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100510 becomes 510)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a008a becomes 8a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a008a becomes 8a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a048a becomes 48a)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (180018 becomes 18)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a010a becomes 10a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a010a becomes 10a)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80408 becomes 408)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80c88 becomes c88)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (180118 becomes 118)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (180198 becomes 198)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a009a becomes 9a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a028a becomes 28a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a030a becomes 30a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a038a becomes 38a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a040a becomes 40a)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100410 becomes 410)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: too many warnings
+--
+   arch/x86/kvm/vmx/vmx.c: note: in included file:
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (110011 becomes 11)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (110011 becomes 11)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (110011 becomes 11)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (110011 becomes 11)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (110011 becomes 11)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (110011 becomes 11)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100190 becomes 190)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100210 becomes 210)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100110 becomes 110)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100490 becomes 490)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100310 becomes 310)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100490 becomes 490)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100310 becomes 310)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100510 becomes 510)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100410 becomes 410)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a018a becomes 18a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (b008b becomes 8b)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100490 becomes 490)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100310 becomes 310)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a020a becomes 20a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (b010b becomes 10b)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100490 becomes 490)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100310 becomes 310)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100510 becomes 510)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100410 becomes 410)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (30203 becomes 203)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (30203 becomes 203)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (30283 becomes 283)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (30283 becomes 283)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1b019b becomes 19b)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1b021b becomes 21b)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1b029b becomes 29b)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1b031b becomes 31b)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1b041b becomes 41b)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120912 becomes 912)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120912 becomes 912)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120912 becomes 912)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (110311 becomes 311)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120992 becomes 992)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120992 becomes 992)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100610 becomes 610)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100690 becomes 690)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100590 becomes 590)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80408 becomes 408)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80c88 becomes c88)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120a92 becomes a92)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a099a becomes 99a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a091a becomes 91a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a048a becomes 48a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a008a becomes 8a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120a92 becomes a92)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a099a becomes 99a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a091a becomes 91a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a008a becomes 8a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a048a becomes 48a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a010a becomes 10a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80b88 becomes b88)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a050a becomes 50a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a071a becomes 71a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a079a becomes 79a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a001a becomes 1a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a009a becomes 9a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a011a becomes 11a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a011a becomes 11a)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (180198 becomes 198)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a011a becomes 11a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a051a becomes 51a)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120392 becomes 392)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120892 becomes 892)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a011a becomes 11a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a011a becomes 11a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a028a becomes 28a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a030a becomes 30a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a038a becomes 38a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a040a becomes 40a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a028a becomes 28a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a030a becomes 30a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a038a becomes 38a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a040a becomes 40a)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (180118 becomes 118)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a001a becomes 1a)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100090 becomes 90)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100090 becomes 90)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100090 becomes 90)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (80688 becomes 688)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a009a becomes 9a)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100790 becomes 790)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (100790 becomes 790)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (180198 becomes 198)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a011a becomes 11a)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (120492 becomes 492)
+>> arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (1a061a becomes 61a)
+   arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: too many warnings
 
-vim +/head_idx +2565 drivers/gpu/drm/nouveau/dispnv50/disp.c
+vim +79 arch/x86/kvm/vmx/hyperv.h
 
-26f6d88b3270605 drivers/gpu/drm/nouveau/nvd0_display.c  Ben Skeggs 2011-07-04  2523  
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2524  static inline void
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2525  nv50_display_read_hw_or_state(struct drm_device *dev, struct nv50_disp *disp,
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2526  			      struct nouveau_encoder *outp)
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2527  {
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2528  	struct drm_crtc *crtc;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2529  	struct drm_connector_list_iter conn_iter;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2530  	struct drm_connector *conn;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2531  	struct nv50_head_atom *armh;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2532  	const u32 encoder_mask = drm_encoder_mask(&outp->base.base);
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2533  	bool found_conn = false, found_head = false;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2534  	u8 proto;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2535  	int head_idx;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2536  	int ret;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2537  
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2538  	switch (outp->dcb->type) {
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2539  	case DCB_OUTPUT_TMDS:
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2540  		ret = nvif_outp_inherit_tmds(&outp->outp, &proto);
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2541  		break;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2542  	case DCB_OUTPUT_DP:
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2543  		ret = nvif_outp_inherit_dp(&outp->outp, &proto);
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2544  		break;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2545  	case DCB_OUTPUT_LVDS:
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2546  		ret = nvif_outp_inherit_lvds(&outp->outp, &proto);
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2547  		break;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2548  	case DCB_OUTPUT_ANALOG:
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2549  		ret = nvif_outp_inherit_rgb_crt(&outp->outp, &proto);
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2550  		break;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2551  	default:
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2552  		drm_dbg_kms(dev, "Readback for %s not implemented yet, skipping\n",
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2553  			    outp->base.base.name);
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2554  		drm_WARN_ON(dev, true);
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2555  		return;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2556  	}
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2557  	if (ret >= 0) {
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2558  		head_idx = ret;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2559  		ret = 0;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2560  	} else if (ret == -ENODEV) {
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2561  		return;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2562  	}
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2563  
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2564  	drm_for_each_crtc(crtc, dev) {
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11 @2565  		if (crtc->index != head_idx)
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2566  			continue;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2567  
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2568  		armh = nv50_head_atom(crtc->state);
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2569  		found_head = true;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2570  		break;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2571  	}
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2572  	if (drm_WARN_ON(dev, !found_head))
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2573  		return;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2574  
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2575  	/* Figure out which connector is being used by this encoder */
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2576  	drm_connector_list_iter_begin(dev, &conn_iter);
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2577  	nouveau_for_each_non_mst_connector_iter(conn, &conn_iter) {
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2578  		if (nouveau_connector(conn)->index == outp->dcb->connector) {
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2579  			found_conn = true;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2580  			break;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2581  		}
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2582  	}
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2583  	drm_connector_list_iter_end(&conn_iter);
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2584  	if (drm_WARN_ON(dev, !found_conn))
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2585  		return;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2586  
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2587  	armh->state.encoder_mask = encoder_mask;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2588  	armh->state.connector_mask = drm_connector_mask(conn);
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2589  	armh->state.active = true;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2590  	armh->state.enable = true;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2591  	pm_runtime_get_noresume(dev->dev);
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2592  
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2593  	outp->crtc = crtc;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2594  	outp->ctrl = NVVAL(NV507D, SOR_SET_CONTROL, PROTOCOL, proto) | BIT(crtc->index);
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2595  
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2596  	drm_connector_get(conn);
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2597  	conn->state->crtc = crtc;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2598  	conn->state->best_encoder = &outp->base.base;
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2599  }
-c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2600  
+75edce8a45486f arch/x86/kvm/vmx/evmcs.h Sean Christopherson 2018-12-03   75  
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12   76  static __always_inline int evmcs_field_offset(unsigned long field,
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20   77  					      u16 *clean_field)
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20   78  {
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  @79  	unsigned int index = ROL16(field, 6);
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20   80  	const struct evmcs_field *evmcs_field;
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20   81  
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12   82  	if (unlikely(index >= nr_evmcs_1_fields))
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20   83  		return -ENOENT;
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20   84  
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20   85  	evmcs_field = &vmcs_field_to_evmcs_1[index];
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20   86  
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12   87  	/*
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12   88  	 * Use offset=0 to detect holes in eVMCS. This offset belongs to
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12   89  	 * 'revision_id' but this field has no encoding and is supposed to
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12   90  	 * be accessed directly.
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12   91  	 */
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12   92  	if (unlikely(!evmcs_field->offset))
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12   93  		return -ENOENT;
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12   94  
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20   95  	if (clean_field)
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20   96  		*clean_field = evmcs_field->clean_field;
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20   97  
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20   98  	return evmcs_field->offset;
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20   99  }
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  100  
+
+:::::: The code at line 79 was first introduced by commit
+:::::: 773e8a0425c923bc02668a2d6534a5ef5a43cc69 x86/kvm: use Enlightened VMCS when running on Hyper-V
+
+:::::: TO: Vitaly Kuznetsov <vkuznets@redhat.com>
+:::::: CC: Radim Krčmář <rkrcmar@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
