@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC56617D0
-	for <oe-kbuild@lists.linux.dev>; Tue, 12 Sep 2023 04:32:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F93B17D0
+	for <oe-kbuild@lists.linux.dev>; Tue, 12 Sep 2023 04:43:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694493141; x=1726029141;
+  t=1694493802; x=1726029802;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oi5mcguSKosoCzxcJUZK5wZWLBliGNB8w7VUTuyINdA=;
-  b=OaqsIRpElzG7F2X6+cwD4i0GrvcbDrhYR2E+FwEUIxhtoRAP0OognKw5
-   BGAVSPRX3nbjFQHHrU0UiSdDdjDICGYPXdwV7ev4hDSWCiIbdaZxTSXBM
-   4I7tmU4BmcYSKsKNgOf6gTvmY8KzjoJlAjENeOdWuCEBak2YBvxX65gLN
-   Fw/hLr/yMp9t5jVMCnWKXwBMJadtEvmhByzjAaWdz49wjrYoQIk69sbH+
-   e0qT9joOQYpFdwWKjc2M2pETyd2wxuaHB6G1MiNhbZSeOwu1+umRhbd0S
-   7CJ39b78vixDj0kpzM2bYf0NlrQn7QwFuzByYrPSCCunytidFNX0Tx0gU
+  bh=77lrZHdRQG16Qq52s+Jqw3VlwsNW+oArbentdfyG/10=;
+  b=j176z6wjllvZc2XeExNahPPSmVJc71dDRFKrAQOOlAHjJF9dVGGoLCfx
+   pIUaXKlJdyK2BWv4FtkC3y3FgEnjvJ04OC/2MElMGXtsehm7VGmV7/7JL
+   +X6vA05MJff49AzYbpl9AbUxpQosQrui7+YbI/EJAYNCOhqTaw81/xgGJ
+   iEzYrS5PaSfRHE2H9Q18kToM/vEkVzWUEqyWXcqeeII777AdGQXS55lhe
+   IgU43RS5nsHG4EsnyQI2nnajfN6gT5lfZ+qHmYe630KNkBKaYs00JTiph
+   dno/5Bf3xk5QiO96P8qKOwZGnRW8IdGbSm2RuxHi1Bw4OeazHfk7DK0Zc
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="377187832"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="464642921"
 X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="scan'208";a="377187832"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 21:32:20 -0700
+   d="scan'208";a="464642921"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 21:43:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="917283509"
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="746716506"
 X-IronPort-AV: E=Sophos;i="6.02,245,1688454000"; 
-   d="scan'208";a="917283509"
+   d="scan'208";a="746716506"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 11 Sep 2023 21:32:18 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 11 Sep 2023 21:43:19 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qfv4S-0007JO-2W;
-	Tue, 12 Sep 2023 04:32:16 +0000
-Date: Tue, 12 Sep 2023 12:31:50 +0800
+	id 1qfvF7-0007Ka-1p;
+	Tue, 12 Sep 2023 04:43:17 +0000
+Date: Tue, 12 Sep 2023 12:42:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:1746
- dcn20_program_pipe() error: we previously assumed 'pipe_ctx->plane_state'
- could be null (see line 1709)
-Message-ID: <202309121248.2GEYg0D3-lkp@intel.com>
+Subject: kernel/scftorture.c:437 scftorture_invoke_one() warn: possible
+ memory leak of 'scfcp'
+Message-ID: <202309121220.4Ve6PtQ9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,145 +49,163 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Wenjing Liu <wenjing.liu@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Dillon Varone <dillon.varone@amd.com>
+TO: "Paul E. McKenney" <paulmck@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-commit: 1482650bc7ef01ebb24ec2c3a2e4d50e45da4d8c drm/amd/display: update blank state on ODM changes
-date:   11 days ago
+commit: 013608cd0812bdb21fc26d39ed8fdd2fc76e8b9b scftorture: Forgive memory-allocation failure if KASAN
+date:   8 weeks ago
 :::::: branch date: 29 hours ago
-:::::: commit date: 11 days ago
-config: x86_64-randconfig-161-20230911 (https://download.01.org/0day-ci/archive/20230912/202309121248.2GEYg0D3-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230912/202309121248.2GEYg0D3-lkp@intel.com/reproduce)
+:::::: commit date: 8 weeks ago
+config: openrisc-randconfig-r071-20230906 (https://download.01.org/0day-ci/archive/20230912/202309121220.4Ve6PtQ9-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230912/202309121220.4Ve6PtQ9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309121248.2GEYg0D3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309121220.4Ve6PtQ9-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:1746 dcn20_program_pipe() error: we previously assumed 'pipe_ctx->plane_state' could be null (see line 1709)
+smatch warnings:
+kernel/scftorture.c:437 scftorture_invoke_one() warn: possible memory leak of 'scfcp'
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:815 dcn20_enable_stream_timing() warn: variable dereferenced before check 'pipe_ctx->stream_res.tg' (see line 722)
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c:2006 dcn20_post_unlock_program_front_end() error: we previously assumed 'hwseq' could be null (see line 2000)
+vim +/scfcp +437 kernel/scftorture.c
 
-vim +1746 drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_hwseq.c
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  312  
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  313  // Randomly do an smp_call_function*() invocation.
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  314  static void scftorture_invoke_one(struct scf_statistics *scfp, struct torture_random_state *trsp)
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  315  {
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  316  	uintptr_t cpu;
+676e5469643e716 Paul E. McKenney 2020-07-01  317  	int ret = 0;
+b93e21a51e1c8ed Paul E. McKenney 2020-06-30  318  	struct scf_check *scfcp = NULL;
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  319  	struct scf_selector *scfsp = scf_sel_rand(trsp);
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  320  
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  321  	if (use_cpus_read_lock)
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  322  		cpus_read_lock();
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  323  	else
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  324  		preempt_disable();
+34e8c4837adb579 Paul E. McKenney 2020-07-01  325  	if (scfsp->scfs_prim == SCF_PRIM_SINGLE || scfsp->scfs_wait) {
+b93e21a51e1c8ed Paul E. McKenney 2020-06-30  326  		scfcp = kmalloc(sizeof(*scfcp), GFP_ATOMIC);
+013608cd0812bdb Paul E. McKenney 2023-05-15  327  		if (!scfcp) {
+013608cd0812bdb Paul E. McKenney 2023-05-15  328  			WARN_ON_ONCE(!IS_ENABLED(CONFIG_KASAN));
+b93e21a51e1c8ed Paul E. McKenney 2020-06-30  329  			atomic_inc(&n_alloc_errs);
+4df55bddc1a360e Paul E. McKenney 2020-07-09  330  		} else {
+4df55bddc1a360e Paul E. McKenney 2020-07-09  331  			scfcp->scfc_cpu = -1;
+4df55bddc1a360e Paul E. McKenney 2020-07-09  332  			scfcp->scfc_wait = scfsp->scfs_wait;
+4df55bddc1a360e Paul E. McKenney 2020-07-09  333  			scfcp->scfc_out = false;
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  334  			scfcp->scfc_rpc = false;
+4df55bddc1a360e Paul E. McKenney 2020-07-09  335  		}
+34e8c4837adb579 Paul E. McKenney 2020-07-01  336  	}
+34e8c4837adb579 Paul E. McKenney 2020-07-01  337  	switch (scfsp->scfs_prim) {
+1ac78b49d61d4a0 Paul E. McKenney 2020-09-03  338  	case SCF_PRIM_RESCHED:
+1ac78b49d61d4a0 Paul E. McKenney 2020-09-03  339  		if (IS_BUILTIN(CONFIG_SCF_TORTURE_TEST)) {
+1ac78b49d61d4a0 Paul E. McKenney 2020-09-03  340  			cpu = torture_random(trsp) % nr_cpu_ids;
+1ac78b49d61d4a0 Paul E. McKenney 2020-09-03  341  			scfp->n_resched++;
+1ac78b49d61d4a0 Paul E. McKenney 2020-09-03  342  			resched_cpu(cpu);
+c3d0258d5af2a50 Paul E. McKenney 2021-07-14  343  			this_cpu_inc(scf_invoked_count);
+1ac78b49d61d4a0 Paul E. McKenney 2020-09-03  344  		}
+1ac78b49d61d4a0 Paul E. McKenney 2020-09-03  345  		break;
+34e8c4837adb579 Paul E. McKenney 2020-07-01  346  	case SCF_PRIM_SINGLE:
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  347  		cpu = torture_random(trsp) % nr_cpu_ids;
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  348  		if (scfsp->scfs_wait)
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  349  			scfp->n_single_wait++;
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  350  		else
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  351  			scfp->n_single++;
+b93e21a51e1c8ed Paul E. McKenney 2020-06-30  352  		if (scfcp) {
+b93e21a51e1c8ed Paul E. McKenney 2020-06-30  353  			scfcp->scfc_cpu = cpu;
+ee7035d29576dcb Paul E. McKenney 2020-07-01  354  			barrier(); // Prevent race-reduction compiler optimizations.
+b93e21a51e1c8ed Paul E. McKenney 2020-06-30  355  			scfcp->scfc_in = true;
+b93e21a51e1c8ed Paul E. McKenney 2020-06-30  356  		}
+b93e21a51e1c8ed Paul E. McKenney 2020-06-30  357  		ret = smp_call_function_single(cpu, scf_handler_1, (void *)scfcp, scfsp->scfs_wait);
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  358  		if (ret) {
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  359  			if (scfsp->scfs_wait)
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  360  				scfp->n_single_wait_ofl++;
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  361  			else
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  362  				scfp->n_single_ofl++;
+b93e21a51e1c8ed Paul E. McKenney 2020-06-30  363  			kfree(scfcp);
+676e5469643e716 Paul E. McKenney 2020-07-01  364  			scfcp = NULL;
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  365  		}
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  366  		break;
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  367  	case SCF_PRIM_SINGLE_RPC:
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  368  		if (!scfcp)
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  369  			break;
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  370  		cpu = torture_random(trsp) % nr_cpu_ids;
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  371  		scfp->n_single_rpc++;
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  372  		scfcp->scfc_cpu = cpu;
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  373  		scfcp->scfc_wait = true;
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  374  		init_completion(&scfcp->scfc_completion);
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  375  		scfcp->scfc_rpc = true;
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  376  		barrier(); // Prevent race-reduction compiler optimizations.
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  377  		scfcp->scfc_in = true;
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  378  		ret = smp_call_function_single(cpu, scf_handler_1, (void *)scfcp, 0);
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  379  		if (!ret) {
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  380  			if (use_cpus_read_lock)
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  381  				cpus_read_unlock();
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  382  			else
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  383  				preempt_enable();
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  384  			wait_for_completion(&scfcp->scfc_completion);
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  385  			if (use_cpus_read_lock)
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  386  				cpus_read_lock();
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  387  			else
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  388  				preempt_disable();
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  389  		} else {
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  390  			scfp->n_single_rpc_ofl++;
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  391  			kfree(scfcp);
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  392  			scfcp = NULL;
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  393  		}
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  394  		break;
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  395  	case SCF_PRIM_MANY:
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  396  		if (scfsp->scfs_wait)
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  397  			scfp->n_many_wait++;
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  398  		else
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  399  			scfp->n_many++;
+ee7035d29576dcb Paul E. McKenney 2020-07-01  400  		if (scfcp) {
+ee7035d29576dcb Paul E. McKenney 2020-07-01  401  			barrier(); // Prevent race-reduction compiler optimizations.
+980205ee8489d53 Paul E. McKenney 2020-07-01  402  			scfcp->scfc_in = true;
+ee7035d29576dcb Paul E. McKenney 2020-07-01  403  		}
+980205ee8489d53 Paul E. McKenney 2020-07-01  404  		smp_call_function_many(cpu_online_mask, scf_handler, scfcp, scfsp->scfs_wait);
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  405  		break;
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  406  	case SCF_PRIM_ALL:
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  407  		if (scfsp->scfs_wait)
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  408  			scfp->n_all_wait++;
+5022b8ac608f8b8 Paul E. McKenney 2020-06-25  409  		else
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  410  			scfp->n_all++;
+ee7035d29576dcb Paul E. McKenney 2020-07-01  411  		if (scfcp) {
+ee7035d29576dcb Paul E. McKenney 2020-07-01  412  			barrier(); // Prevent race-reduction compiler optimizations.
+34e8c4837adb579 Paul E. McKenney 2020-07-01  413  			scfcp->scfc_in = true;
+ee7035d29576dcb Paul E. McKenney 2020-07-01  414  		}
+34e8c4837adb579 Paul E. McKenney 2020-07-01  415  		smp_call_function(scf_handler, scfcp, scfsp->scfs_wait);
+676e5469643e716 Paul E. McKenney 2020-07-01  416  		break;
+de77d4da54d10df Paul E. McKenney 2020-07-02  417  	default:
+de77d4da54d10df Paul E. McKenney 2020-07-02  418  		WARN_ON_ONCE(1);
+de77d4da54d10df Paul E. McKenney 2020-07-02  419  		if (scfcp)
+de77d4da54d10df Paul E. McKenney 2020-07-02  420  			scfcp->scfc_out = true;
+676e5469643e716 Paul E. McKenney 2020-07-01  421  	}
+676e5469643e716 Paul E. McKenney 2020-07-01  422  	if (scfcp && scfsp->scfs_wait) {
+9e66bf03f9c5388 Paul E. McKenney 2020-07-03  423  		if (WARN_ON_ONCE((num_online_cpus() > 1 || scfsp->scfs_prim == SCF_PRIM_SINGLE) &&
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  424  				 !scfcp->scfc_out)) {
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  425  			pr_warn("%s: Memory-ordering failure, scfs_prim: %d.\n", __func__, scfsp->scfs_prim);
+34e8c4837adb579 Paul E. McKenney 2020-07-01  426  			atomic_inc(&n_mb_out_errs); // Leak rather than trash!
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  427  		} else {
+34e8c4837adb579 Paul E. McKenney 2020-07-01  428  			kfree(scfcp);
+9b9a80677fd80bd Paul E. McKenney 2021-06-24  429  		}
+ee7035d29576dcb Paul E. McKenney 2020-07-01  430  		barrier(); // Prevent race-reduction compiler optimizations.
+34e8c4837adb579 Paul E. McKenney 2020-07-01  431  	}
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  432  	if (use_cpus_read_lock)
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  433  		cpus_read_unlock();
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  434  	else
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  435  		preempt_enable();
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  436  	if (!(torture_random(trsp) & 0xfff))
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24 @437  		schedule_timeout_uninterruptible(1);
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  438  }
+e9d338a0b1799c9 Paul E. McKenney 2020-06-24  439  
 
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1695  
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1696  static void dcn20_program_pipe(
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1697  		struct dc *dc,
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1698  		struct pipe_ctx *pipe_ctx,
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1699  		struct dc_state *context)
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1700  {
-f42ea55be11147 Anthony Koo         2019-11-05  1701  	struct dce_hwseq *hws = dc->hwseq;
-d3dfceb58de5f8 Aurabindo Pillai    2022-02-23  1702  
-1482650bc7ef01 Wenjing Liu         2023-08-14  1703  	/* Only need to unblank on top pipe */
-1482650bc7ef01 Wenjing Liu         2023-08-14  1704  	if (resource_is_pipe_type(pipe_ctx, OTG_MASTER)) {
-1482650bc7ef01 Wenjing Liu         2023-08-14  1705  		if (pipe_ctx->update_flags.bits.enable ||
-1482650bc7ef01 Wenjing Liu         2023-08-14  1706  				pipe_ctx->update_flags.bits.odm ||
-1482650bc7ef01 Wenjing Liu         2023-08-14  1707  				pipe_ctx->stream->update_flags.bits.abm_level)
-1482650bc7ef01 Wenjing Liu         2023-08-14  1708  			hws->funcs.blank_pixel_data(dc, pipe_ctx,
-1482650bc7ef01 Wenjing Liu         2023-08-14 @1709  					!pipe_ctx->plane_state ||
-1482650bc7ef01 Wenjing Liu         2023-08-14  1710  					!pipe_ctx->plane_state->visible);
-1482650bc7ef01 Wenjing Liu         2023-08-14  1711  	}
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1712  
-a71e5529d26745 Aric Cyr            2020-12-10  1713  	/* Only update TG on top pipe */
-a71e5529d26745 Aric Cyr            2020-12-10  1714  	if (pipe_ctx->update_flags.bits.global_sync && !pipe_ctx->top_pipe
-a71e5529d26745 Aric Cyr            2020-12-10  1715  			&& !pipe_ctx->prev_odm_pipe) {
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1716  		pipe_ctx->stream_res.tg->funcs->program_global_sync(
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1717  				pipe_ctx->stream_res.tg,
-5842abd985b792 Wesley Chalmers     2022-11-09  1718  				calculate_vready_offset_for_group(pipe_ctx),
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1719  				pipe_ctx->pipe_dlg_param.vstartup_start,
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1720  				pipe_ctx->pipe_dlg_param.vupdate_offset,
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1721  				pipe_ctx->pipe_dlg_param.vupdate_width);
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1722  
-ac84304d68c4b3 Zhikai Zhai         2023-03-02  1723  		if (pipe_ctx->stream->mall_stream_config.type != SUBVP_PHANTOM)
-203ccaf586446b Haiyi Zhou          2022-10-20  1724  			pipe_ctx->stream_res.tg->funcs->wait_for_state(pipe_ctx->stream_res.tg, CRTC_STATE_VACTIVE);
-a71e5529d26745 Aric Cyr            2020-12-10  1725  
-a14e9e0292e299 Dmytro Laktyushkin  2019-08-26  1726  		pipe_ctx->stream_res.tg->funcs->set_vtg_params(
-a71e5529d26745 Aric Cyr            2020-12-10  1727  				pipe_ctx->stream_res.tg, &pipe_ctx->stream->timing, true);
-1caba4e83b9d8a Aric Cyr            2019-09-06  1728  
-f42ea55be11147 Anthony Koo         2019-11-05  1729  		if (hws->funcs.setup_vupdate_interrupt)
-f42ea55be11147 Anthony Koo         2019-11-05  1730  			hws->funcs.setup_vupdate_interrupt(dc, pipe_ctx);
-a14e9e0292e299 Dmytro Laktyushkin  2019-08-26  1731  	}
-a14e9e0292e299 Dmytro Laktyushkin  2019-08-26  1732  
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1733  	if (pipe_ctx->update_flags.bits.odm)
-f42ea55be11147 Anthony Koo         2019-11-05  1734  		hws->funcs.update_odm(dc, context, pipe_ctx);
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1735  
-868149c9a072cb Joshua Aberback     2020-03-30  1736  	if (pipe_ctx->update_flags.bits.enable) {
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1737  		dcn20_enable_plane(dc, pipe_ctx, context);
-868149c9a072cb Joshua Aberback     2020-03-30  1738  		if (dc->res_pool->hubbub->funcs->force_wm_propagate_to_pipes)
-868149c9a072cb Joshua Aberback     2020-03-30  1739  			dc->res_pool->hubbub->funcs->force_wm_propagate_to_pipes(dc->res_pool->hubbub);
-868149c9a072cb Joshua Aberback     2020-03-30  1740  	}
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1741  
-ba5a5371812e1f Nicholas Kazlauskas 2021-05-19  1742  	if (dc->res_pool->hubbub->funcs->program_det_size && pipe_ctx->update_flags.bits.det_size)
-ba5a5371812e1f Nicholas Kazlauskas 2021-05-19  1743  		dc->res_pool->hubbub->funcs->program_det_size(
-ba5a5371812e1f Nicholas Kazlauskas 2021-05-19  1744  			dc->res_pool->hubbub, pipe_ctx->plane_res.hubp->inst, pipe_ctx->det_buffer_size_kb);
-ba5a5371812e1f Nicholas Kazlauskas 2021-05-19  1745  
-747012382937e4 Dmytro Laktyushkin  2019-08-22 @1746  	if (pipe_ctx->update_flags.raw || pipe_ctx->plane_state->update_flags.raw || pipe_ctx->stream->update_flags.raw)
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1747  		dcn20_update_dchubp_dpp(dc, pipe_ctx, context);
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1748  
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1749  	if (pipe_ctx->update_flags.bits.enable
-46250a0cba4ce9 Michael Strauss     2019-11-03  1750  			|| pipe_ctx->plane_state->update_flags.bits.hdr_mult)
-f42ea55be11147 Anthony Koo         2019-11-05  1751  		hws->funcs.set_hdr_multiplier(pipe_ctx);
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1752  
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1753  	if (pipe_ctx->update_flags.bits.enable ||
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1754  	    pipe_ctx->plane_state->update_flags.bits.in_transfer_func_change ||
-2dc84508f8c692 Melissa Wen         2023-05-23  1755  	    pipe_ctx->plane_state->update_flags.bits.gamma_change ||
-2dc84508f8c692 Melissa Wen         2023-05-23  1756  	    pipe_ctx->plane_state->update_flags.bits.lut_3d)
-f42ea55be11147 Anthony Koo         2019-11-05  1757  		hws->funcs.set_input_transfer_func(dc, pipe_ctx, pipe_ctx->plane_state);
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1758  
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1759  	/* dcn10_translate_regamma_to_hw_format takes 750us to finish
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1760  	 * only do gamma programming for powering on, internal memcmp to avoid
-b6e881c947417e Dmytro Laktyushkin  2019-09-13  1761  	 * updating on slave planes
-7ed4e6352c16fe Harry Wentland      2019-02-22  1762  	 */
-bb622e0c004404 Dillon Varone       2022-11-17  1763  	if (pipe_ctx->update_flags.bits.enable ||
-bb622e0c004404 Dillon Varone       2022-11-17  1764  			pipe_ctx->update_flags.bits.plane_changed ||
-bb622e0c004404 Dillon Varone       2022-11-17  1765  			pipe_ctx->stream->update_flags.bits.out_tf ||
-bb622e0c004404 Dillon Varone       2022-11-17  1766  			pipe_ctx->plane_state->update_flags.bits.output_tf_change)
-f42ea55be11147 Anthony Koo         2019-11-05  1767  		hws->funcs.set_output_transfer_func(dc, pipe_ctx, pipe_ctx->stream);
-377c9d04737914 Julian Parkin       2019-08-22  1768  
-377c9d04737914 Julian Parkin       2019-08-22  1769  	/* If the pipe has been enabled or has a different opp, we
-377c9d04737914 Julian Parkin       2019-08-22  1770  	 * should reprogram the fmt. This deals with cases where
-377c9d04737914 Julian Parkin       2019-08-22  1771  	 * interation between mpc and odm combine on different streams
-377c9d04737914 Julian Parkin       2019-08-22  1772  	 * causes a different pipe to be chosen to odm combine with.
-377c9d04737914 Julian Parkin       2019-08-22  1773  	 */
-377c9d04737914 Julian Parkin       2019-08-22  1774  	if (pipe_ctx->update_flags.bits.enable
-377c9d04737914 Julian Parkin       2019-08-22  1775  	    || pipe_ctx->update_flags.bits.opp_changed) {
-377c9d04737914 Julian Parkin       2019-08-22  1776  
-377c9d04737914 Julian Parkin       2019-08-22  1777  		pipe_ctx->stream_res.opp->funcs->opp_set_dyn_expansion(
-377c9d04737914 Julian Parkin       2019-08-22  1778  			pipe_ctx->stream_res.opp,
-377c9d04737914 Julian Parkin       2019-08-22  1779  			COLOR_SPACE_YCBCR601,
-377c9d04737914 Julian Parkin       2019-08-22  1780  			pipe_ctx->stream->timing.display_color_depth,
-377c9d04737914 Julian Parkin       2019-08-22  1781  			pipe_ctx->stream->signal);
-377c9d04737914 Julian Parkin       2019-08-22  1782  
-377c9d04737914 Julian Parkin       2019-08-22  1783  		pipe_ctx->stream_res.opp->funcs->opp_program_fmt(
-377c9d04737914 Julian Parkin       2019-08-22  1784  			pipe_ctx->stream_res.opp,
-377c9d04737914 Julian Parkin       2019-08-22  1785  			&pipe_ctx->stream->bit_depth_params,
-377c9d04737914 Julian Parkin       2019-08-22  1786  			&pipe_ctx->stream->clamping);
-377c9d04737914 Julian Parkin       2019-08-22  1787  	}
-32e3da4310bb1c Leon Huang          2023-01-17  1788  
-32e3da4310bb1c Leon Huang          2023-01-17  1789  	/* Set ABM pipe after other pipe configurations done */
-32e3da4310bb1c Leon Huang          2023-01-17  1790  	if (pipe_ctx->plane_state->visible) {
-32e3da4310bb1c Leon Huang          2023-01-17  1791  		if (pipe_ctx->stream_res.abm) {
-32e3da4310bb1c Leon Huang          2023-01-17  1792  			dc->hwss.set_pipe(pipe_ctx);
-32e3da4310bb1c Leon Huang          2023-01-17  1793  			pipe_ctx->stream_res.abm->funcs->set_abm_level(pipe_ctx->stream_res.abm,
-32e3da4310bb1c Leon Huang          2023-01-17  1794  				pipe_ctx->stream->abm_level);
-32e3da4310bb1c Leon Huang          2023-01-17  1795  		}
-32e3da4310bb1c Leon Huang          2023-01-17  1796  	}
-7ed4e6352c16fe Harry Wentland      2019-02-22  1797  }
-7ed4e6352c16fe Harry Wentland      2019-02-22  1798  
+:::::: The code at line 437 was first introduced by commit
+:::::: e9d338a0b1799c988b678e8ccb66a442272e6aa3 scftorture: Add smp_call_function() torture test
 
-:::::: The code at line 1746 was first introduced by commit
-:::::: 747012382937e4b6eb34ba730e815f9da836e454 drm/amd/display: add additional flag consideration for surface update
-
-:::::: TO: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+:::::: TO: Paul E. McKenney <paulmck@kernel.org>
+:::::: CC: Paul E. McKenney <paulmck@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
