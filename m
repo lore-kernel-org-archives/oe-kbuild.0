@@ -1,50 +1,50 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A72171B1
-	for <oe-kbuild@lists.linux.dev>; Tue, 12 Sep 2023 06:22:05 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-402cc6b8bedso59380235e9.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 11 Sep 2023 23:22:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD1A17C2
+	for <oe-kbuild@lists.linux.dev>; Tue, 12 Sep 2023 06:30:59 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-401bbfc05fcso57717265e9.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 11 Sep 2023 23:30:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694499724; x=1695104524; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1694500258; x=1695105058; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=WHZmX0HdVaeA7e+GTMUWOnquBG2VN2h00kw4Wwdycoc=;
-        b=C982y8V7YvcGJdWknTCseJE2lyauX5sBk0bmFpHD+LWnVD7mO3mKmjSU7HgjNLmea4
-         p8CQ9EjY6S+yIZLIzrYk4EJeobqMbXMLqYt0dWGTe8Mnd1cbea+nslbkfs40KHCxj85e
-         33hmm2iyVZ2mT91HHvglnCeLxM7Kgu10iUfRjfrs18Jg2NzPIzCT/JIcLK+y4kRB7ATo
-         VUfeVoQvqPiJElW771lKujyKyyhy5KNv8/sRlEjZ8VIvB1WzhoAGLVat2i1X6iNJcdtH
-         33ma/MfMJaZ/MP/0wortOejV1NCayEecm6v0oh/B88M7q5sbmDwsHwaamz+xNqRNbv7f
-         xqgw==
+        bh=FIn4Kk7jIwQSG9c/HJ5tAWmDzOcZ4E4d9oYfZniuHQY=;
+        b=prUop93NYlNcJKRRb2EiFcWvh1bzsNfhGKruV7yJVW1fesn/+dL1NAt4rk6MpdWoFd
+         nWqV/Ip9e7N5ZNB7FugLfCYBHeUZcXK2B4topnOmIsidwQCxBf1l95DjOZ2DLCt9r04J
+         E1PYNTwbQAQcBG68nwwZVdMcaL+NxvNNYqT131IVODge173v78feMLmDPARjFj1jDCyi
+         TWQnRdXiDhNxM6WKTbPQ+2Ff2KLvSS6g+cYxx91bXofTwrD28RxgiszhAqlEjI+aptmH
+         v7+F8l1mea4KltluxXyQK4mmV4ARKXhpNSsqKewNwGN4Htdxjgfy3z5MrSXjePBeIVnb
+         jKNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694499724; x=1695104524;
+        d=1e100.net; s=20230601; t=1694500258; x=1695105058;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WHZmX0HdVaeA7e+GTMUWOnquBG2VN2h00kw4Wwdycoc=;
-        b=dPb55KzAGqy2C8MFfmVH+3onirnoEUoF8h1UkU1IlPYEHyKamwuHURi/U/xgq9LLSU
-         MmfDMzD1GLYzHNee/SDynGI6JOXKGDpjAlTq8ekn7I6Zl90KDlt1LqC/0p1/HGG/EVut
-         p6Q+HiVTA/Soi4u+oilh8P1A/XHfJMEWr7u5y9BX1qwvmHPJQOcFG/jxhtiEkbBsISgQ
-         WkBflw0bWDJJB8yBAdTMHGOSq6Iv9/k2ADGUeenKIA249sWyCHPvb0OgMQ7+qDbqAafA
-         jNSarGK1JJcxPAa1L3yBz3x+QFkMmirqS5uI9iLymzI3YjDJ/Lh2vY3I5wSueL3vnxpe
-         x7ng==
-X-Gm-Message-State: AOJu0Yzntc+WirDnngFtxP0yNHbMY+D59j/45uyvopLWzApDcyWdZ/f5
-	hF8jHqjt+mDsFj68+MFo5RWUJ6CKauSOAU64iB8=
-X-Google-Smtp-Source: AGHT+IG+I5BM37b86sq3KhHg2M4gwi+dJ5j0QXzcWb/eRJJdZtbiMZShPPawrSYbiYVy5fd/1WoMtA==
-X-Received: by 2002:a7b:c7d5:0:b0:3fe:d1b9:7ea8 with SMTP id z21-20020a7bc7d5000000b003fed1b97ea8mr9409877wmk.28.1694499724016;
-        Mon, 11 Sep 2023 23:22:04 -0700 (PDT)
+        bh=FIn4Kk7jIwQSG9c/HJ5tAWmDzOcZ4E4d9oYfZniuHQY=;
+        b=h+rWML4OoBY/uzXK3qHaPrfdTc4K94R2JV7wA1uTuRZM3+flOZ8dfsAX76cj3fbc3I
+         h0KzqtZ1M31vwuc6tmqVUqoRHjkVzoffA+E27Us+o/10Ol9kav4PhTJdpA2+wyqHcU31
+         jSWxf+jXSGYBtXrabDTt5fAPXfGm2FuSuxOUkkwhMYI7u/TqdXaIWaHG1LjHikYCesPL
+         pDMP14x6uCD0HUII6DYo6JDpvLI+epwc6PwNukc6y78Y6sApeACHqOa0dk6r7bm7inOo
+         JJxFSjfPDjhnCAHd1MLEDTJqc8GlDoStvJO3SL8/BCuRxD9CAVi+jE25Kv7dq6UIBgG9
+         CkCw==
+X-Gm-Message-State: AOJu0YzXBn74ouB/+7Fq7pd9VHnXvW/sFMWpzSQ+hGaO4qAbrRPYHBwr
+	38y9eJbjUxg44WuLsp+MXZlM2gGGMwBS/eftvTw=
+X-Google-Smtp-Source: AGHT+IHqUEFDSVjWI0pr1H57n4SR2+Zw7yL7UkRBYDe6yujnqynyVa2WqHIF7BHIZdepvXSDL+sJDw==
+X-Received: by 2002:adf:ce89:0:b0:31a:d4d0:6e98 with SMTP id r9-20020adfce89000000b0031ad4d06e98mr8895825wrn.8.1694500258109;
+        Mon, 11 Sep 2023 23:30:58 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id 3-20020a05600c22c300b003fe2b6d64c8sm15036691wmg.21.2023.09.11.23.22.03
+        by smtp.gmail.com with ESMTPSA id e12-20020a5d594c000000b0031ad5470f89sm11838554wri.18.2023.09.11.23.30.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 23:22:03 -0700 (PDT)
-Date: Tue, 12 Sep 2023 09:22:01 +0300
+        Mon, 11 Sep 2023 23:30:57 -0700 (PDT)
+Date: Tue, 12 Sep 2023 09:30:55 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Cai Huoqing <cai.huoqing@linux.dev>
+To: oe-kbuild@lists.linux.dev, Lyude Paul <lyude@redhat.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: drivers/net/ethernet/huawei/hinic/hinic_port.c:459
- hinic_set_vlan_fliter() warn: variable dereferenced before check 'hwdev'
- (see line 453)
-Message-ID: <dce439ac-bf77-408a-b017-1ffe5ccdd755@kadam.mountain>
+	Ben Skeggs <bskeggs@redhat.com>
+Subject: [skeggsb-nouveau:00.02-gsp-rm 10/88]
+ drivers/gpu/drm/nouveau/dispnv50/disp.c:2565 nv50_display_read_hw_or_state()
+ error: uninitialized symbol 'head_idx'.
+Message-ID: <d7387068-2163-4316-9ad7-c00747817596@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,46 +54,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-commit: 2acf960e3be6177f437baade6d1883ebe4c641b2 net: hinic: Add support for configuration of rx-vlan-filter by ethtool
-config: x86_64-randconfig-161-20230911 (https://download.01.org/0day-ci/archive/20230911/202309112354.pikZCmyk-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230911/202309112354.pikZCmyk-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 00.02-gsp-rm
+head:   89551217290c31848a7662d659ced417db386bc7
+commit: c38b1778a9baee914921a6743ba924907b96caa2 [10/88] drm/nouveau/kms: Add INHERIT ioctl to nvkm/nvif for reading IOR state
+config: i386-randconfig-141-20230911 (https://download.01.org/0day-ci/archive/20230912/202309120801.w9evdkkZ-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230912/202309120801.w9evdkkZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309112354.pikZCmyk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309120801.w9evdkkZ-lkp@intel.com/
 
 smatch warnings:
-drivers/net/ethernet/huawei/hinic/hinic_port.c:459 hinic_set_vlan_fliter() warn: variable dereferenced before check 'hwdev' (see line 453)
+drivers/gpu/drm/nouveau/dispnv50/disp.c:2565 nv50_display_read_hw_or_state() error: uninitialized symbol 'head_idx'.
 
-vim +/hwdev +459 drivers/net/ethernet/huawei/hinic/hinic_port.c
+vim +/head_idx +2565 drivers/gpu/drm/nouveau/dispnv50/disp.c
 
-2acf960e3be617 Cai Huoqing  2022-11-03  450  int hinic_set_vlan_fliter(struct hinic_dev *nic_dev, u32 en)
-2acf960e3be617 Cai Huoqing  2022-11-03  451  {
-2acf960e3be617 Cai Huoqing  2022-11-03  452  	struct hinic_hwdev *hwdev = nic_dev->hwdev;
-2acf960e3be617 Cai Huoqing  2022-11-03 @453  	struct hinic_hwif *hwif = hwdev->hwif;
-                                                                          ^^^^^^^
-Dereference
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2524  static inline void
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2525  nv50_display_read_hw_or_state(struct drm_device *dev, struct nv50_disp *disp,
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2526  			      struct nouveau_encoder *outp)
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2527  {
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2528  	struct drm_crtc *crtc;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2529  	struct drm_connector_list_iter conn_iter;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2530  	struct drm_connector *conn;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2531  	struct nv50_head_atom *armh;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2532  	const u32 encoder_mask = drm_encoder_mask(&outp->base.base);
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2533  	bool found_conn = false, found_head = false;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2534  	u8 proto;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2535  	int head_idx;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2536  	int ret;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2537  
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2538  	switch (outp->dcb->type) {
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2539  	case DCB_OUTPUT_TMDS:
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2540  		ret = nvif_outp_inherit_tmds(&outp->outp, &proto);
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2541  		break;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2542  	case DCB_OUTPUT_DP:
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2543  		ret = nvif_outp_inherit_dp(&outp->outp, &proto);
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2544  		break;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2545  	case DCB_OUTPUT_LVDS:
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2546  		ret = nvif_outp_inherit_lvds(&outp->outp, &proto);
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2547  		break;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2548  	case DCB_OUTPUT_ANALOG:
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2549  		ret = nvif_outp_inherit_rgb_crt(&outp->outp, &proto);
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2550  		break;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2551  	default:
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2552  		drm_dbg_kms(dev, "Readback for %s not implemented yet, skipping\n",
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2553  			    outp->base.base.name);
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2554  		drm_WARN_ON(dev, true);
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2555  		return;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2556  	}
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2557  	if (ret >= 0) {
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2558  		head_idx = ret;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2559  		ret = 0;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2560  	} else if (ret == -ENODEV) {
 
-2acf960e3be617 Cai Huoqing  2022-11-03  454  	struct pci_dev *pdev = hwif->pdev;
-2acf960e3be617 Cai Huoqing  2022-11-03  455  	struct hinic_vlan_filter vlan_filter;
-2acf960e3be617 Cai Huoqing  2022-11-03  456  	u16 out_size = sizeof(vlan_filter);
-2acf960e3be617 Cai Huoqing  2022-11-03  457  	int err;
-2acf960e3be617 Cai Huoqing  2022-11-03  458  
-2acf960e3be617 Cai Huoqing  2022-11-03 @459  	if (!hwdev)
-                                                    ^^^^^^
-Checked too late.
+Why only -ENODEV?
 
-2acf960e3be617 Cai Huoqing  2022-11-03  460  		return -EINVAL;
-2acf960e3be617 Cai Huoqing  2022-11-03  461  
-2acf960e3be617 Cai Huoqing  2022-11-03  462  	vlan_filter.func_idx = HINIC_HWIF_FUNC_IDX(hwif);
-2acf960e3be617 Cai Huoqing  2022-11-03  463  	vlan_filter.enable = en;
-2acf960e3be617 Cai Huoqing  2022-11-03  464  
-2acf960e3be617 Cai Huoqing  2022-11-03  465  	err = hinic_port_msg_cmd(hwdev, HINIC_PORT_CMD_SET_VLAN_FILTER,
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2561  		return;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2562  	}
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2563  
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2564  	drm_for_each_crtc(crtc, dev) {
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11 @2565  		if (crtc->index != head_idx)
+
+Uninitialized for other error codes.
+
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2566  			continue;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2567  
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2568  		armh = nv50_head_atom(crtc->state);
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2569  		found_head = true;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2570  		break;
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2571  	}
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2572  	if (drm_WARN_ON(dev, !found_head))
+c38b1778a9baee9 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-11-11  2573  		return;
 
 -- 
 0-DAY CI Kernel Test Service
