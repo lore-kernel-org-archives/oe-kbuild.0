@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4516C33D4
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 Sep 2023 19:45:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB6729CA
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 Sep 2023 21:22:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694634303; x=1726170303;
+  t=1694640127; x=1726176127;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sU3ijG1Ixvn77lgXNiTZ8u0nN354TGFiDKaaoRkJHg8=;
-  b=oAZNbsHkV43BBiFDUhF3HTXNCsRdsuLI+B3Jq9CqxLMya/LOf7igOg9y
-   DTdI3+NecW3CbeyFGjgCp0PwHC/h3ORDHE8D8OVp7+xe9i1eNvWwfcC79
-   Fy9LUqSJTidzJ3pRylYdGAWXL769lDVP+4HiU1UWQTJtqwSzE4Cdn1wnG
-   ymbvCbBjkVMt8UEq156LKZIDA2QdPGqsT3AScE+aKKOCU3TqbzTBaIofu
-   YdoPqH1RUw0wRU9k8n72X2ZGo0IKexl8kKfYIHHvtruOgc6Dik4BIa/dL
-   Cb7U7G8/qtXOzBnui9MqJAh5Sa3XkcceN95FjtlYNLnXzu3VmC4Pft8hY
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="376104312"
+  bh=iyrctvyqyYzkB42Q6sOokgoGsQ00bHjQ0J8dkNmgW7U=;
+  b=kwr9GGUQw3kt8ixJ9QU8XYE4dxlcYy/15/x3j2bWbPWN8zNvBs0GCLZP
+   oNGG8f0oBBiP1GQR+tu2BV4NWH+3Ih8KNG4UhmCau3kYo0hc3aWLBsGXP
+   WceYHm2GQX/QWkxIFi2tamfrnUEaQtUg/wT5mx04QC7iHf0CRweaCLaur
+   EiQ7PwO7aw87mU3IDoXJe50aqaVeBTWS3uPcvEpihUlSSpybvoMuVc3ss
+   JgXHuSsJrMA6gpNpKAw9Xv6h1rv+o1b+AUHkZOj2vjVBB6JMd50ddJGPy
+   IGwhWa6mOmwxGnj1yENxPkT2PeD3ZH5GEJ0hQUU+Y5+8Gh47shirp69TV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="378713091"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="376104312"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 12:45:01 -0700
+   d="scan'208";a="378713091"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 14:21:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="693966587"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="887498303"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="693966587"
+   d="scan'208";a="887498303"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 13 Sep 2023 12:45:00 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 13 Sep 2023 14:21:27 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgVnF-0000Y8-2x;
-	Wed, 13 Sep 2023 19:44:57 +0000
-Date: Thu, 14 Sep 2023 03:44:36 +0800
+	id 1qgXJ5-0000g9-37;
+	Wed, 13 Sep 2023 21:21:55 +0000
+Date: Thu, 14 Sep 2023 05:21:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [staging:staging-testing 17/17] drivers/staging/vme_user/vme.c:296
- vme_slave_request() error: we previously assumed 'slave_image' could be null
- (see line 297)
-Message-ID: <202309140330.fgOxoRhE-lkp@intel.com>
+Subject: [linux-next:master 1275/4965] drivers/spi/spi-cadence-quadspi.c:1882
+ cqspi_probe() warn: missing unwind goto?
+Message-ID: <202309140543.03dMbMM5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,306 +48,240 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: devel@driverdev.osuosl.org
-TO: Jinjie Ruan <ruanjinjie@huawei.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Dhruva Gole <d-gole@ti.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Apurva Nandan <a-nandan@ti.com>
 
-Hi Jinjie,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git staging-testing
-head:   4c5ba1d7a93e098aececbf93afbdd7add98ec6f3
-commit: 4c5ba1d7a93e098aececbf93afbdd7add98ec6f3 [17/17] staging: vme_user: Use list_for_each_entry() helper
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: x86_64-randconfig-161-20230913 (https://download.01.org/0day-ci/archive/20230914/202309140330.fgOxoRhE-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e143016b56ecb0fcda5bb6026b0a25fe55274f56
+commit: 0578a6dbfe7514db7134501cf93acc21cf13e479 [1275/4965] spi: spi-cadence-quadspi: add runtime pm support
+:::::: branch date: 16 hours ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-161-20230913 (https://download.01.org/0day-ci/archive/20230914/202309140543.03dMbMM5-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230914/202309140330.fgOxoRhE-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230914/202309140543.03dMbMM5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309140330.fgOxoRhE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309140543.03dMbMM5-lkp@intel.com/
 
 smatch warnings:
-drivers/staging/vme_user/vme.c:296 vme_slave_request() error: we previously assumed 'slave_image' could be null (see line 297)
-drivers/staging/vme_user/vme.c:492 vme_master_request() error: we previously assumed 'master_image' could be null (see line 493)
-drivers/staging/vme_user/vme.c:866 vme_dma_request() error: we previously assumed 'dma_ctrlr' could be null (see line 867)
-drivers/staging/vme_user/vme.c:1460 vme_lm_request() error: we previously assumed 'lm' could be null (see line 1461)
+drivers/spi/spi-cadence-quadspi.c:1882 cqspi_probe() warn: missing unwind goto?
 
-vim +/slave_image +296 drivers/staging/vme_user/vme.c
+vim +1882 drivers/spi/spi-cadence-quadspi.c
 
-472f16f33c7d53 drivers/vme/vme.c              Dmitry Kalinkin 2015-09-18  269  
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  270  /**
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  271   * vme_slave_request - Request a VME slave window resource.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  272   * @vdev: Pointer to VME device struct vme_dev assigned to driver instance.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  273   * @address: Required VME address space.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  274   * @cycle: Required VME data transfer cycle type.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  275   *
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  276   * Request use of a VME window resource capable of being set for the requested
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  277   * address space and data transfer cycle.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  278   *
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  279   * Return: Pointer to VME resource on success, NULL on failure.
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  280   */
-6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  281  struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
-6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  282  				       u32 cycle)
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  283  {
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  284  	struct vme_bridge *bridge;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  285  	struct vme_slave_resource *allocated_image = NULL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  286  	struct vme_slave_resource *slave_image = NULL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  287  	struct vme_resource *resource = NULL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  288  
-8f966dc444b11a drivers/staging/vme/vme.c      Manohar Vanga   2011-09-26  289  	bridge = vdev->bridge;
-61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  290  	if (!bridge) {
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  291  		printk(KERN_ERR "Can't find VME bus\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  292  		goto err_bus;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  293  	}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  294  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  295  	/* Loop through slave resources */
-4c5ba1d7a93e09 drivers/staging/vme_user/vme.c Jinjie Ruan     2023-08-23 @296  	list_for_each_entry(slave_image, &bridge->slave_resources, list) {
-61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24 @297  		if (!slave_image) {
-ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  298  			printk(KERN_ERR "Registered NULL Slave resource\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  299  			continue;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  300  		}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  301  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  302  		/* Find an unlocked and compatible image */
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  303  		mutex_lock(&slave_image->mtx);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  304  		if (((slave_image->address_attr & address) == address) &&
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  305  		    ((slave_image->cycle_attr & cycle) == cycle) &&
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  306  		    (slave_image->locked == 0)) {
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  307  			slave_image->locked = 1;
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  308  			mutex_unlock(&slave_image->mtx);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  309  			allocated_image = slave_image;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  310  			break;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  311  		}
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  312  		mutex_unlock(&slave_image->mtx);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  313  	}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  314  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  315  	/* No free image */
-61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  316  	if (!allocated_image)
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  317  		goto err_image;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  318  
-1ff0a19ce12c82 drivers/vme/vme.c              Markus Elfring  2017-08-24  319  	resource = kmalloc(sizeof(*resource), GFP_KERNEL);
-94eefcc1cb648a drivers/vme/vme.c              Markus Elfring  2017-08-24  320  	if (!resource)
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  321  		goto err_alloc;
-94eefcc1cb648a drivers/vme/vme.c              Markus Elfring  2017-08-24  322  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  323  	resource->type = VME_SLAVE;
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  324  	resource->entry = &allocated_image->list;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  325  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  326  	return resource;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  327  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  328  err_alloc:
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  329  	/* Unlock image */
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  330  	mutex_lock(&slave_image->mtx);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  331  	slave_image->locked = 0;
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  332  	mutex_unlock(&slave_image->mtx);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  333  err_image:
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  334  err_bus:
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  335  	return NULL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  336  }
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  337  EXPORT_SYMBOL(vme_slave_request);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  338  
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  339  /**
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  340   * vme_slave_set - Set VME slave window configuration.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  341   * @resource: Pointer to VME slave resource.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  342   * @enabled: State to which the window should be configured.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  343   * @vme_base: Base address for the window.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  344   * @size: Size of the VME window.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  345   * @buf_base: Based address of buffer used to provide VME slave window storage.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  346   * @aspace: VME address space for the VME window.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  347   * @cycle: VME data transfer cycle type for the VME window.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  348   *
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  349   * Set configuration for provided VME slave window.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  350   *
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  351   * Return: Zero on success, -EINVAL if operation is not supported on this
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  352   *         device, if an invalid resource has been provided or invalid
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  353   *         attributes are provided. Hardware specific errors may also be
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  354   *         returned.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  355   */
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  356  int vme_slave_set(struct vme_resource *resource, int enabled,
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  357  		  unsigned long long vme_base, unsigned long long size,
-6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  358  		  dma_addr_t buf_base, u32 aspace, u32 cycle)
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  359  {
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  360  	struct vme_bridge *bridge = find_bridge(resource);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  361  	struct vme_slave_resource *image;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  362  	int retval;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  363  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  364  	if (resource->type != VME_SLAVE) {
-ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  365  		printk(KERN_ERR "Not a slave resource\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  366  		return -EINVAL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  367  	}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  368  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  369  	image = list_entry(resource->entry, struct vme_slave_resource, list);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  370  
-61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  371  	if (!bridge->slave_set) {
-ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  372  		printk(KERN_ERR "Function not supported\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  373  		return -ENOSYS;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  374  	}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  375  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  376  	if (!(((image->address_attr & aspace) == aspace) &&
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  377  	      ((image->cycle_attr & cycle) == cycle))) {
-ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  378  		printk(KERN_ERR "Invalid attributes\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  379  		return -EINVAL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  380  	}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  381  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  382  	retval = vme_check_window(aspace, vme_base, size);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  383  	if (retval)
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  384  		return retval;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  385  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  386  	return bridge->slave_set(image, enabled, vme_base, size, buf_base,
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  387  		aspace, cycle);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  388  }
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  389  EXPORT_SYMBOL(vme_slave_set);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  390  
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  391  /**
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  392   * vme_slave_get - Retrieve VME slave window configuration.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  393   * @resource: Pointer to VME slave resource.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  394   * @enabled: Pointer to variable for storing state.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  395   * @vme_base: Pointer to variable for storing window base address.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  396   * @size: Pointer to variable for storing window size.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  397   * @buf_base: Pointer to variable for storing slave buffer base address.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  398   * @aspace: Pointer to variable for storing VME address space.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  399   * @cycle: Pointer to variable for storing VME data transfer cycle type.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  400   *
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  401   * Return configuration for provided VME slave window.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  402   *
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  403   * Return: Zero on success, -EINVAL if operation is not supported on this
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  404   *         device or if an invalid resource has been provided.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  405   */
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  406  int vme_slave_get(struct vme_resource *resource, int *enabled,
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  407  		  unsigned long long *vme_base, unsigned long long *size,
-6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  408  		  dma_addr_t *buf_base, u32 *aspace, u32 *cycle)
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  409  {
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  410  	struct vme_bridge *bridge = find_bridge(resource);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  411  	struct vme_slave_resource *image;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  412  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  413  	if (resource->type != VME_SLAVE) {
-ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  414  		printk(KERN_ERR "Not a slave resource\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  415  		return -EINVAL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  416  	}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  417  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  418  	image = list_entry(resource->entry, struct vme_slave_resource, list);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  419  
-61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  420  	if (!bridge->slave_get) {
-ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  421  		printk(KERN_ERR "vme_slave_get not supported\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  422  		return -EINVAL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  423  	}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  424  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  425  	return bridge->slave_get(image, enabled, vme_base, size, buf_base,
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  426  		aspace, cycle);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  427  }
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  428  EXPORT_SYMBOL(vme_slave_get);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  429  
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  430  /**
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  431   * vme_slave_free - Free VME slave window
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  432   * @resource: Pointer to VME slave resource.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  433   *
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  434   * Free the provided slave resource so that it may be reallocated.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  435   */
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  436  void vme_slave_free(struct vme_resource *resource)
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  437  {
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  438  	struct vme_slave_resource *slave_image;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  439  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  440  	if (resource->type != VME_SLAVE) {
-ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  441  		printk(KERN_ERR "Not a slave resource\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  442  		return;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  443  	}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  444  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  445  	slave_image = list_entry(resource->entry, struct vme_slave_resource,
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  446  				 list);
-61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  447  	if (!slave_image) {
-ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  448  		printk(KERN_ERR "Can't find slave resource\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  449  		return;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  450  	}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  451  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  452  	/* Unlock image */
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  453  	mutex_lock(&slave_image->mtx);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  454  	if (slave_image->locked == 0)
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  455  		printk(KERN_ERR "Image is already free\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  456  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  457  	slave_image->locked = 0;
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  458  	mutex_unlock(&slave_image->mtx);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  459  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  460  	/* Free up resource memory */
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  461  	kfree(resource);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  462  }
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  463  EXPORT_SYMBOL(vme_slave_free);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  464  
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  465  /**
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  466   * vme_master_request - Request a VME master window resource.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  467   * @vdev: Pointer to VME device struct vme_dev assigned to driver instance.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  468   * @address: Required VME address space.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  469   * @cycle: Required VME data transfer cycle type.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  470   * @dwidth: Required VME data transfer width.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  471   *
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  472   * Request use of a VME window resource capable of being set for the requested
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  473   * address space, data transfer cycle and width.
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  474   *
-b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  475   * Return: Pointer to VME resource on success, NULL on failure.
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  476   */
-6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  477  struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
-6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  478  					u32 cycle, u32 dwidth)
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  479  {
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  480  	struct vme_bridge *bridge;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  481  	struct vme_master_resource *allocated_image = NULL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  482  	struct vme_master_resource *master_image = NULL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  483  	struct vme_resource *resource = NULL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  484  
-8f966dc444b11a drivers/staging/vme/vme.c      Manohar Vanga   2011-09-26  485  	bridge = vdev->bridge;
-61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  486  	if (!bridge) {
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  487  		printk(KERN_ERR "Can't find VME bus\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  488  		goto err_bus;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  489  	}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  490  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  491  	/* Loop through master resources */
-4c5ba1d7a93e09 drivers/staging/vme_user/vme.c Jinjie Ruan     2023-08-23 @492  	list_for_each_entry(master_image, &bridge->master_resources, list) {
-61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24 @493  		if (!master_image) {
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  494  			printk(KERN_WARNING "Registered NULL master resource\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  495  			continue;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  496  		}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  497  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  498  		/* Find an unlocked and compatible image */
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  499  		spin_lock(&master_image->lock);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  500  		if (((master_image->address_attr & address) == address) &&
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  501  		    ((master_image->cycle_attr & cycle) == cycle) &&
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  502  		    ((master_image->width_attr & dwidth) == dwidth) &&
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  503  		    (master_image->locked == 0)) {
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  504  			master_image->locked = 1;
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  505  			spin_unlock(&master_image->lock);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  506  			allocated_image = master_image;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  507  			break;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  508  		}
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  509  		spin_unlock(&master_image->lock);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  510  	}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  511  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  512  	/* Check to see if we found a resource */
-61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  513  	if (!allocated_image) {
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  514  		printk(KERN_ERR "Can't find a suitable resource\n");
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  515  		goto err_image;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  516  	}
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  517  
-1ff0a19ce12c82 drivers/vme/vme.c              Markus Elfring  2017-08-24  518  	resource = kmalloc(sizeof(*resource), GFP_KERNEL);
-94eefcc1cb648a drivers/vme/vme.c              Markus Elfring  2017-08-24  519  	if (!resource)
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  520  		goto err_alloc;
-94eefcc1cb648a drivers/vme/vme.c              Markus Elfring  2017-08-24  521  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  522  	resource->type = VME_MASTER;
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  523  	resource->entry = &allocated_image->list;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  524  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  525  	return resource;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  526  
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  527  err_alloc:
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  528  	/* Unlock image */
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  529  	spin_lock(&master_image->lock);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  530  	master_image->locked = 0;
-886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  531  	spin_unlock(&master_image->lock);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  532  err_image:
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  533  err_bus:
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  534  	return NULL;
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  535  }
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  536  EXPORT_SYMBOL(vme_master_request);
-a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  537  
+33f1ef6d4eb6bc drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-08-04  1697  
+33f1ef6d4eb6bc drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-08-04  1698  static void cqspi_jh7110_disable_clk(struct platform_device *pdev, struct cqspi_st *cqspi)
+33f1ef6d4eb6bc drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-08-04  1699  {
+33f1ef6d4eb6bc drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-08-04  1700  	clk_disable_unprepare(cqspi->clks[CLK_QSPI_AHB]);
+33f1ef6d4eb6bc drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-08-04  1701  	clk_disable_unprepare(cqspi->clks[CLK_QSPI_APB]);
+33f1ef6d4eb6bc drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-08-04  1702  }
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1703  static int cqspi_probe(struct platform_device *pdev)
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1704  {
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1705  	const struct cqspi_driver_platdata *ddata;
+47fef94afeae2a drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-03-02  1706  	struct reset_control *rstc, *rstc_ocp, *rstc_ref;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1707  	struct device *dev = &pdev->dev;
+1c75d749b5ebd2 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2023-08-07  1708  	struct spi_controller *host;
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1709  	struct resource *res_ahb;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1710  	struct cqspi_st *cqspi;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1711  	int ret;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1712  	int irq;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1713  
+1c75d749b5ebd2 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2023-08-07  1714  	host = devm_spi_alloc_host(&pdev->dev, sizeof(*cqspi));
+1c75d749b5ebd2 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2023-08-07  1715  	if (!host) {
+1c75d749b5ebd2 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2023-08-07  1716  		dev_err(&pdev->dev, "devm_spi_alloc_host failed\n");
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1717  		return -ENOMEM;
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1718  	}
+1c75d749b5ebd2 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2023-08-07  1719  	host->mode_bits = SPI_RX_QUAD | SPI_RX_DUAL;
+1c75d749b5ebd2 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2023-08-07  1720  	host->mem_ops = &cqspi_mem_ops;
+1c75d749b5ebd2 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2023-08-07  1721  	host->mem_caps = &cqspi_mem_caps;
+1c75d749b5ebd2 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2023-08-07  1722  	host->dev.of_node = pdev->dev.of_node;
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1723  
+1c75d749b5ebd2 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2023-08-07  1724  	cqspi = spi_controller_get_devdata(host);
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1725  
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1726  	cqspi->pdev = pdev;
+1c75d749b5ebd2 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2023-08-07  1727  	cqspi->host = host;
+33f1ef6d4eb6bc drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-08-04  1728  	cqspi->is_jh7110 = false;
+ea94191e584b14 drivers/spi/spi-cadence-quadspi.c                 Meng Li                    2021-03-11  1729  	platform_set_drvdata(pdev, cqspi);
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1730  
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1731  	/* Obtain configuration from OF. */
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1732  	ret = cqspi_of_get_pdata(cqspi);
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1733  	if (ret) {
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1734  		dev_err(dev, "Cannot get mandatory OF data.\n");
+73d5fe04627028 drivers/spi/spi-cadence-quadspi.c                 Vaishnav Achath            2022-06-01  1735  		return -ENODEV;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1736  	}
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1737  
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1738  	/* Obtain QSPI clock. */
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1739  	cqspi->clk = devm_clk_get(dev, NULL);
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1740  	if (IS_ERR(cqspi->clk)) {
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1741  		dev_err(dev, "Cannot claim QSPI clock.\n");
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1742  		ret = PTR_ERR(cqspi->clk);
+73d5fe04627028 drivers/spi/spi-cadence-quadspi.c                 Vaishnav Achath            2022-06-01  1743  		return ret;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1744  	}
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1745  
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1746  	/* Obtain and remap controller address. */
+4e12ef2b2e3f65 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2022-09-28  1747  	cqspi->iobase = devm_platform_ioremap_resource(pdev, 0);
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1748  	if (IS_ERR(cqspi->iobase)) {
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1749  		dev_err(dev, "Cannot remap controller address.\n");
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1750  		ret = PTR_ERR(cqspi->iobase);
+73d5fe04627028 drivers/spi/spi-cadence-quadspi.c                 Vaishnav Achath            2022-06-01  1751  		return ret;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1752  	}
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1753  
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1754  	/* Obtain and remap AHB address. */
+4e12ef2b2e3f65 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2022-09-28  1755  	cqspi->ahb_base = devm_platform_get_and_ioremap_resource(pdev, 1, &res_ahb);
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1756  	if (IS_ERR(cqspi->ahb_base)) {
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1757  		dev_err(dev, "Cannot remap AHB address.\n");
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1758  		ret = PTR_ERR(cqspi->ahb_base);
+73d5fe04627028 drivers/spi/spi-cadence-quadspi.c                 Vaishnav Achath            2022-06-01  1759  		return ret;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1760  	}
+ffa639e069fb55 drivers/mtd/spi-nor/cadence-quadspi.c             Vignesh R                  2018-04-10  1761  	cqspi->mmap_phys_base = (dma_addr_t)res_ahb->start;
+a27f2eaf2b2757 drivers/mtd/spi-nor/cadence-quadspi.c             Vignesh R                  2017-12-29  1762  	cqspi->ahb_size = resource_size(res_ahb);
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1763  
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1764  	init_completion(&cqspi->transfer_complete);
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1765  
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1766  	/* Obtain IRQ line. */
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1767  	irq = platform_get_irq(pdev, 0);
+73d5fe04627028 drivers/spi/spi-cadence-quadspi.c                 Vaishnav Achath            2022-06-01  1768  	if (irq < 0)
+73d5fe04627028 drivers/spi/spi-cadence-quadspi.c                 Vaishnav Achath            2022-06-01  1769  		return -ENXIO;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1770  
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29  1771  	ret = pm_runtime_set_active(dev);
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29  1772  	if (ret)
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29  1773  		return ret;
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29  1774  
+4892b374c9b797 drivers/mtd/spi-nor/cadence-quadspi.c             Vignesh R                  2017-10-03  1775  
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1776  	ret = clk_prepare_enable(cqspi->clk);
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1777  	if (ret) {
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1778  		dev_err(dev, "Cannot enable QSPI clock.\n");
+4892b374c9b797 drivers/mtd/spi-nor/cadence-quadspi.c             Vignesh R                  2017-10-03  1779  		goto probe_clk_failed;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1780  	}
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1781  
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1782  	/* Obtain QSPI reset control */
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1783  	rstc = devm_reset_control_get_optional_exclusive(dev, "qspi");
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1784  	if (IS_ERR(rstc)) {
+ac9978fcad3c5a drivers/spi/spi-cadence-quadspi.c                 Zhihao Cheng               2020-11-16  1785  		ret = PTR_ERR(rstc);
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1786  		dev_err(dev, "Cannot get QSPI reset.\n");
+c61088d1f99329 drivers/mtd/spi-nor/controllers/cadence-quadspi.c Vignesh Raghavendra        2020-06-01  1787  		goto probe_reset_failed;
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1788  	}
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1789  
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1790  	rstc_ocp = devm_reset_control_get_optional_exclusive(dev, "qspi-ocp");
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1791  	if (IS_ERR(rstc_ocp)) {
+ac9978fcad3c5a drivers/spi/spi-cadence-quadspi.c                 Zhihao Cheng               2020-11-16  1792  		ret = PTR_ERR(rstc_ocp);
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1793  		dev_err(dev, "Cannot get QSPI OCP reset.\n");
+c61088d1f99329 drivers/mtd/spi-nor/controllers/cadence-quadspi.c Vignesh Raghavendra        2020-06-01  1794  		goto probe_reset_failed;
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1795  	}
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1796  
+47fef94afeae2a drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-03-02  1797  	if (of_device_is_compatible(pdev->dev.of_node, "starfive,jh7110-qspi")) {
+47fef94afeae2a drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-03-02  1798  		rstc_ref = devm_reset_control_get_optional_exclusive(dev, "rstc_ref");
+47fef94afeae2a drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-03-02  1799  		if (IS_ERR(rstc_ref)) {
+47fef94afeae2a drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-03-02  1800  			ret = PTR_ERR(rstc_ref);
+47fef94afeae2a drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-03-02  1801  			dev_err(dev, "Cannot get QSPI REF reset.\n");
+47fef94afeae2a drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-03-02  1802  			goto probe_reset_failed;
+47fef94afeae2a drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-03-02  1803  		}
+47fef94afeae2a drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-03-02  1804  		reset_control_assert(rstc_ref);
+47fef94afeae2a drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-03-02  1805  		reset_control_deassert(rstc_ref);
+47fef94afeae2a drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-03-02  1806  	}
+47fef94afeae2a drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-03-02  1807  
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1808  	reset_control_assert(rstc);
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1809  	reset_control_deassert(rstc);
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1810  
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1811  	reset_control_assert(rstc_ocp);
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1812  	reset_control_deassert(rstc_ocp);
+8d1336c241bdad drivers/mtd/spi-nor/cadence-quadspi.c             Dinh Nguyen                2019-06-13  1813  
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1814  	cqspi->master_ref_clk_hz = clk_get_rate(cqspi->clk);
+1c75d749b5ebd2 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2023-08-07  1815  	host->max_speed_hz = cqspi->master_ref_clk_hz;
+98d948eb833104 drivers/spi/spi-cadence-quadspi.c                 Dinh Nguyen                2021-11-08  1816  
+98d948eb833104 drivers/spi/spi-cadence-quadspi.c                 Dinh Nguyen                2021-11-08  1817  	/* write completion is supported by default */
+98d948eb833104 drivers/spi/spi-cadence-quadspi.c                 Dinh Nguyen                2021-11-08  1818  	cqspi->wr_completion = true;
+98d948eb833104 drivers/spi/spi-cadence-quadspi.c                 Dinh Nguyen                2021-11-08  1819  
+2cc788387497d1 drivers/mtd/spi-nor/cadence-quadspi.c             Vignesh R                  2019-02-12  1820  	ddata  = of_device_get_match_data(dev);
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1821  	if (ddata) {
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1822  		if (ddata->quirks & CQSPI_NEEDS_WR_DELAY)
+f453f293979fb6 drivers/spi/spi-cadence-quadspi.c                 Pratyush Yadav             2020-12-23  1823  			cqspi->wr_delay = 50 * DIV_ROUND_UP(NSEC_PER_SEC,
+61dc8493bae9ba drivers/mtd/spi-nor/cadence-quadspi.c             Vignesh R                  2017-10-03  1824  						cqspi->master_ref_clk_hz);
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1825  		if (ddata->hwcaps_mask & CQSPI_SUPPORTS_OCTAL)
+1c75d749b5ebd2 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2023-08-07  1826  			host->mode_bits |= SPI_RX_OCTAL | SPI_TX_OCTAL;
+e8c51b164355c1 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-01-25  1827  		if (!(ddata->quirks & CQSPI_DISABLE_DAC_MODE)) {
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1828  			cqspi->use_direct_mode = true;
+e8c51b164355c1 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-01-25  1829  			cqspi->use_direct_mode_wr = true;
+e8c51b164355c1 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-01-25  1830  		}
+1a6f854f7daab1 drivers/spi/spi-cadence-quadspi.c                 Sai Krishna Potthuri       2021-09-24  1831  		if (ddata->quirks & CQSPI_SUPPORT_EXTERNAL_DMA)
+1a6f854f7daab1 drivers/spi/spi-cadence-quadspi.c                 Sai Krishna Potthuri       2021-09-24  1832  			cqspi->use_dma_read = true;
+98d948eb833104 drivers/spi/spi-cadence-quadspi.c                 Dinh Nguyen                2021-11-08  1833  		if (ddata->quirks & CQSPI_NO_SUPPORT_WR_COMPLETION)
+98d948eb833104 drivers/spi/spi-cadence-quadspi.c                 Dinh Nguyen                2021-11-08  1834  			cqspi->wr_completion = false;
+9ee5b6d53b8c99 drivers/spi/spi-cadence-quadspi.c                 Niravkumar L Rabara        2022-08-13  1835  		if (ddata->quirks & CQSPI_SLOW_SRAM)
+9ee5b6d53b8c99 drivers/spi/spi-cadence-quadspi.c                 Niravkumar L Rabara        2022-08-13  1836  			cqspi->slow_sram = true;
+f5c2f9f9584353 drivers/spi/spi-cadence-quadspi.c                 Brad Larson                2023-05-15  1837  		if (ddata->quirks & CQSPI_NEEDS_APB_AHB_HAZARD_WAR)
+f5c2f9f9584353 drivers/spi/spi-cadence-quadspi.c                 Brad Larson                2023-05-15  1838  			cqspi->apb_ahb_hazard = true;
+1a6f854f7daab1 drivers/spi/spi-cadence-quadspi.c                 Sai Krishna Potthuri       2021-09-24  1839  
+33f1ef6d4eb6bc drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-08-04  1840  		if (ddata->jh7110_clk_init) {
+33f1ef6d4eb6bc drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-08-04  1841  			ret = cqspi_jh7110_clk_init(pdev, cqspi);
+33f1ef6d4eb6bc drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-08-04  1842  			if (ret)
+33f1ef6d4eb6bc drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-08-04  1843  				goto probe_clk_failed;
+33f1ef6d4eb6bc drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-08-04  1844  		}
+33f1ef6d4eb6bc drivers/spi/spi-cadence-quadspi.c                 William Qiu                2023-08-04  1845  
+09e393e3f13970 drivers/spi/spi-cadence-quadspi.c                 Sai Krishna Potthuri       2021-09-24  1846  		if (of_device_is_compatible(pdev->dev.of_node,
+947c70a213769f drivers/spi/spi-cadence-quadspi.c                 Jiasheng Jiang             2023-06-06  1847  					    "xlnx,versal-ospi-1.0")) {
+947c70a213769f drivers/spi/spi-cadence-quadspi.c                 Jiasheng Jiang             2023-06-06  1848  			ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
+947c70a213769f drivers/spi/spi-cadence-quadspi.c                 Jiasheng Jiang             2023-06-06  1849  			if (ret)
+947c70a213769f drivers/spi/spi-cadence-quadspi.c                 Jiasheng Jiang             2023-06-06  1850  				goto probe_reset_failed;
+947c70a213769f drivers/spi/spi-cadence-quadspi.c                 Jiasheng Jiang             2023-06-06  1851  		}
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1852  	}
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1853  
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1854  	ret = devm_request_irq(dev, irq, cqspi_irq_handler, 0,
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1855  			       pdev->name, cqspi);
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1856  	if (ret) {
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1857  		dev_err(dev, "Cannot request IRQ.\n");
+c61088d1f99329 drivers/mtd/spi-nor/controllers/cadence-quadspi.c Vignesh Raghavendra        2020-06-01  1858  		goto probe_reset_failed;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1859  	}
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1860  
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1861  	cqspi_wait_idle(cqspi);
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1862  	cqspi_controller_init(cqspi);
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1863  	cqspi->current_cs = -1;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1864  	cqspi->sclk = 0;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1865  
+1c75d749b5ebd2 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2023-08-07  1866  	host->num_chipselect = cqspi->num_chipselect;
+b436fb7d29bfa4 drivers/spi/spi-cadence-quadspi.c                 Ramuthevar Vadivel Murugan 2020-11-24  1867  
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1868  	ret = cqspi_setup_flash(cqspi);
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1869  	if (ret) {
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1870  		dev_err(dev, "failed to setup flash parameters %d\n", ret);
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1871  		goto probe_setup_failed;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1872  	}
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1873  
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1874  	if (cqspi->use_direct_mode) {
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1875  		ret = cqspi_request_mmap_dma(cqspi);
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1876  		if (ret == -EPROBE_DEFER)
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1877  			goto probe_setup_failed;
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1878  	}
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1879  
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29  1880  	ret = devm_pm_runtime_enable(dev);
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29  1881  	if (ret)
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29 @1882  		return ret;
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29  1883  
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29  1884  	pm_runtime_set_autosuspend_delay(dev, CQSPI_AUTOSUSPEND_TIMEOUT);
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29  1885  	pm_runtime_use_autosuspend(dev);
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29  1886  	pm_runtime_get_noresume(dev);
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29  1887  
+1c75d749b5ebd2 drivers/spi/spi-cadence-quadspi.c                 Yang Yingliang             2023-08-07  1888  	ret = spi_register_controller(host);
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1889  	if (ret) {
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1890  		dev_err(&pdev->dev, "failed to register SPI ctlr %d\n", ret);
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1891  		goto probe_setup_failed;
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1892  	}
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1893  
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29  1894  	pm_runtime_mark_last_busy(dev);
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29  1895  	pm_runtime_put_autosuspend(dev);
+0578a6dbfe7514 drivers/spi/spi-cadence-quadspi.c                 Dhruva Gole                2023-08-29  1896  
+a314f6367787ee drivers/mtd/spi-nor/controllers/cadence-quadspi.c Ramuthevar Vadivel Murugan 2020-06-01  1897  	return 0;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1898  probe_setup_failed:
+329864d35a7f49 drivers/mtd/spi-nor/cadence-quadspi.c             Vignesh R                  2017-10-03  1899  	cqspi_controller_enable(cqspi, 0);
+c61088d1f99329 drivers/mtd/spi-nor/controllers/cadence-quadspi.c Vignesh Raghavendra        2020-06-01  1900  probe_reset_failed:
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1901  	clk_disable_unprepare(cqspi->clk);
+4892b374c9b797 drivers/mtd/spi-nor/cadence-quadspi.c             Vignesh R                  2017-10-03  1902  probe_clk_failed:
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1903  	return ret;
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1904  }
+14062341053690 drivers/mtd/spi-nor/cadence-quadspi.c             Graham Moore               2016-06-04  1905  
 
 -- 
 0-DAY CI Kernel Test Service
