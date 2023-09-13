@@ -1,43 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A1C1A261
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 Sep 2023 19:35:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4516C33D4
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 Sep 2023 19:45:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694633702; x=1726169702;
+  t=1694634303; x=1726170303;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cQII915dDKRzNKfM5E8CAm/1IYPDMFsNWB64Xb36BbA=;
-  b=lDKucp5hP7iy/Fl8pSkmLkNS0MWHfCxn6BDVYdCyfrdeSpvkxyQKhzsl
-   7g5LelbAItRyns28aUGllu2cnYQXJeWxxHSPql5bzq1r6awQDHaJnOqpM
-   BGLAx975DqbThw6iQNpY9coGoOiMfBnwmnGf+aDH/UGfsobW9vIA5SynV
-   z2T51QpqHZXHSNX++ddWpCJE/Sllmu+gRuLlA2m3B4Ry1ldjuXY3TzaNh
-   LITrPxJb1g28hYDxcXyPWZB0MM1+LfVGHAIyowgVLBNaXa7hdJYi/i4n3
-   isZnij7onKq3atwvE1ybKXeaqIyWhQxOIVZuYaAGDNHiTwTqZkco5XeKi
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="376102084"
+  bh=sU3ijG1Ixvn77lgXNiTZ8u0nN354TGFiDKaaoRkJHg8=;
+  b=oAZNbsHkV43BBiFDUhF3HTXNCsRdsuLI+B3Jq9CqxLMya/LOf7igOg9y
+   DTdI3+NecW3CbeyFGjgCp0PwHC/h3ORDHE8D8OVp7+xe9i1eNvWwfcC79
+   Fy9LUqSJTidzJ3pRylYdGAWXL769lDVP+4HiU1UWQTJtqwSzE4Cdn1wnG
+   ymbvCbBjkVMt8UEq156LKZIDA2QdPGqsT3AScE+aKKOCU3TqbzTBaIofu
+   YdoPqH1RUw0wRU9k8n72X2ZGo0IKexl8kKfYIHHvtruOgc6Dik4BIa/dL
+   Cb7U7G8/qtXOzBnui9MqJAh5Sa3XkcceN95FjtlYNLnXzu3VmC4Pft8hY
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="376104312"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="376102084"
+   d="scan'208";a="376104312"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 12:35:01 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 12:45:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="693965173"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="693966587"
 X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="693965173"
+   d="scan'208";a="693966587"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 13 Sep 2023 12:34:59 -0700
+  by orsmga003.jf.intel.com with ESMTP; 13 Sep 2023 12:45:00 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgVdZ-0000Wt-1F;
-	Wed, 13 Sep 2023 19:34:57 +0000
-Date: Thu, 14 Sep 2023 03:34:14 +0800
+	id 1qgVnF-0000Y8-2x;
+	Wed, 13 Sep 2023 19:44:57 +0000
+Date: Thu, 14 Sep 2023 03:44:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android14-6.1 6539/11302]
- kernel/trace/ring_buffer.c:2177 ring_buffer_resize() warn: variable
- dereferenced before check 'buffer' (see line 2172)
-Message-ID: <202309140321.8D6yrzxp-lkp@intel.com>
+Subject: [staging:staging-testing 17/17] drivers/staging/vme_user/vme.c:296
+ vme_slave_request() error: we previously assumed 'slave_image' could be null
+ (see line 297)
+Message-ID: <202309140330.fgOxoRhE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,237 +49,306 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: devel@driverdev.osuosl.org
+TO: Jinjie Ruan <ruanjinjie@huawei.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   7579b22626ff63d1e755c7afe0e6a82b879f939e
-commit: 5ecbcb61e172d82faf1bd8c00b17837d3c658c59 [6539/11302] ANDROID: ring-buffer: Introducing external writer support
-:::::: branch date: 19 hours ago
-:::::: commit date: 8 months ago
-config: x86_64-randconfig-161-20230913 (https://download.01.org/0day-ci/archive/20230914/202309140321.8D6yrzxp-lkp@intel.com/config)
+Hi Jinjie,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git staging-testing
+head:   4c5ba1d7a93e098aececbf93afbdd7add98ec6f3
+commit: 4c5ba1d7a93e098aececbf93afbdd7add98ec6f3 [17/17] staging: vme_user: Use list_for_each_entry() helper
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: x86_64-randconfig-161-20230913 (https://download.01.org/0day-ci/archive/20230914/202309140330.fgOxoRhE-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230914/202309140321.8D6yrzxp-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230914/202309140330.fgOxoRhE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309140321.8D6yrzxp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309140330.fgOxoRhE-lkp@intel.com/
 
 smatch warnings:
-kernel/trace/ring_buffer.c:2177 ring_buffer_resize() warn: variable dereferenced before check 'buffer' (see line 2172)
+drivers/staging/vme_user/vme.c:296 vme_slave_request() error: we previously assumed 'slave_image' could be null (see line 297)
+drivers/staging/vme_user/vme.c:492 vme_master_request() error: we previously assumed 'master_image' could be null (see line 493)
+drivers/staging/vme_user/vme.c:866 vme_dma_request() error: we previously assumed 'dma_ctrlr' could be null (see line 867)
+drivers/staging/vme_user/vme.c:1460 vme_lm_request() error: we previously assumed 'lm' could be null (see line 1461)
 
-vim +/buffer +2177 kernel/trace/ring_buffer.c
+vim +/slave_image +296 drivers/staging/vme_user/vme.c
 
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2154  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2155  /**
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2156   * ring_buffer_resize - resize the ring buffer
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2157   * @buffer: the buffer to resize.
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2158   * @size: the new size.
-d611851b421731 zhangwei(Jovi             2013-07-15  2159)  * @cpu_id: the cpu buffer to resize
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2160   *
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2161   * Minimum size is 2 * BUF_PAGE_SIZE.
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2162   *
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2163   * Returns 0 on success and < 0 on failure.
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2164   */
-13292494379f92 Steven Rostedt (VMware    2019-12-13  2165) int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2166  			int cpu_id)
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2167  {
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2168  	struct ring_buffer_per_cpu *cpu_buffer;
-9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  2169) 	unsigned long nr_pages;
-0a1754b2a97efa Qiujun Huang              2020-10-19  2170  	int cpu, err;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2171  
-5ecbcb61e172d8 Vincent Donnefort         2022-08-24 @2172  	if (unlikely(has_ext_writer(buffer)))
-5ecbcb61e172d8 Vincent Donnefort         2022-08-24  2173  		return -EINVAL;
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2174  	/*
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2175  	 * Always succeed at resizing a non-existent buffer:
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2176  	 */
-ee51a1de7e3837 Ingo Molnar               2008-11-13 @2177  	if (!buffer)
-0a1754b2a97efa Qiujun Huang              2020-10-19  2178  		return 0;
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2179  
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2180  	/* Make sure the requested buffer exists */
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2181  	if (cpu_id != RING_BUFFER_ALL_CPUS &&
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2182  	    !cpumask_test_cpu(cpu_id, buffer->cpumask))
-0a1754b2a97efa Qiujun Huang              2020-10-19  2183  		return 0;
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2184  
-59643d1535eb22 Steven Rostedt (Red Hat   2016-05-13  2185) 	nr_pages = DIV_ROUND_UP(size, BUF_PAGE_SIZE);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2186  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2187  	/* we need a minimum of two pages */
-59643d1535eb22 Steven Rostedt (Red Hat   2016-05-13  2188) 	if (nr_pages < 2)
-59643d1535eb22 Steven Rostedt (Red Hat   2016-05-13  2189) 		nr_pages = 2;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2190  
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2191) 	/* prevent another thread from changing buffer sizes */
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2192) 	mutex_lock(&buffer->mutex);
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2193) 
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2194) 
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2195) 	if (cpu_id == RING_BUFFER_ALL_CPUS) {
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2196  		/*
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2197  		 * Don't succeed if resizing is disabled, as a reader might be
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2198  		 * manipulating the ring buffer and is expecting a sane state while
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2199  		 * this is true.
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2200  		 */
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2201) 		for_each_buffer_cpu(buffer, cpu) {
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2202) 			cpu_buffer = buffer->buffers[cpu];
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2203) 			if (atomic_read(&cpu_buffer->resize_disabled)) {
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2204) 				err = -EBUSY;
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2205) 				goto out_err_unlock;
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2206) 			}
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2207) 		}
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2208  
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2209  		/* calculate the pages to update */
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2210  		for_each_buffer_cpu(buffer, cpu) {
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2211  			cpu_buffer = buffer->buffers[cpu];
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2212  
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2213  			cpu_buffer->nr_pages_to_update = nr_pages -
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2214  							cpu_buffer->nr_pages;
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2215  			/*
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2216  			 * nothing more to do for removing pages or no update
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2217  			 */
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2218  			if (cpu_buffer->nr_pages_to_update <= 0)
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2219  				continue;
-d7ec4bfed6c974 Vaibhav Nagarnaik         2011-06-07  2220  			/*
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2221  			 * to add pages, make sure all new pages can be
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2222  			 * allocated without receiving ENOMEM
-d7ec4bfed6c974 Vaibhav Nagarnaik         2011-06-07  2223  			 */
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2224  			INIT_LIST_HEAD(&cpu_buffer->new_pages);
-74e2afc6df5782 Qiujun Huang              2020-10-15  2225  			if (__rb_allocate_pages(cpu_buffer, cpu_buffer->nr_pages_to_update,
-74e2afc6df5782 Qiujun Huang              2020-10-15  2226  						&cpu_buffer->new_pages)) {
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2227  				/* not enough memory for new pages */
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2228  				err = -ENOMEM;
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2229  				goto out_err;
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2230  			}
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2231  		}
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2232  
-99c37d1a63eafc Sebastian Andrzej Siewior 2021-08-03  2233  		cpus_read_lock();
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2234  		/*
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2235  		 * Fire off all the required work handlers
-05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2236  		 * We can't schedule on offline CPUs, but it's not necessary
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2237  		 * since we can change their buffer sizes without any race.
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2238  		 */
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2239  		for_each_buffer_cpu(buffer, cpu) {
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2240  			cpu_buffer = buffer->buffers[cpu];
-05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2241  			if (!cpu_buffer->nr_pages_to_update)
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2242  				continue;
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2243  
-021c5b34452d52 Corey Minyard             2014-07-16  2244  			/* Can't run something on an offline CPU. */
-021c5b34452d52 Corey Minyard             2014-07-16  2245  			if (!cpu_online(cpu)) {
-f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2246) 				rb_update_pages(cpu_buffer);
-f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2247) 				cpu_buffer->nr_pages_to_update = 0;
-f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2248) 			} else {
-05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2249  				schedule_work_on(cpu,
-05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2250  						&cpu_buffer->update_pages_work);
-f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2251) 			}
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2252  		}
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2253  
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2254  		/* wait for all the updates to complete */
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2255  		for_each_buffer_cpu(buffer, cpu) {
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2256  			cpu_buffer = buffer->buffers[cpu];
-05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2257  			if (!cpu_buffer->nr_pages_to_update)
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2258  				continue;
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2259  
-05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2260  			if (cpu_online(cpu))
-05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2261  				wait_for_completion(&cpu_buffer->update_done);
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2262  			cpu_buffer->nr_pages_to_update = 0;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2263  		}
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2264  
-99c37d1a63eafc Sebastian Andrzej Siewior 2021-08-03  2265  		cpus_read_unlock();
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2266  	} else {
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2267  		cpu_buffer = buffer->buffers[cpu_id];
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2268  
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2269  		if (nr_pages == cpu_buffer->nr_pages)
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2270  			goto out;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2271  
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2272) 		/*
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2273) 		 * Don't succeed if resizing is disabled, as a reader might be
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2274) 		 * manipulating the ring buffer and is expecting a sane state while
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2275) 		 * this is true.
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2276) 		 */
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2277) 		if (atomic_read(&cpu_buffer->resize_disabled)) {
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2278) 			err = -EBUSY;
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2279) 			goto out_err_unlock;
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2280) 		}
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2281) 
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2282  		cpu_buffer->nr_pages_to_update = nr_pages -
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2283  						cpu_buffer->nr_pages;
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2284  
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2285  		INIT_LIST_HEAD(&cpu_buffer->new_pages);
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2286  		if (cpu_buffer->nr_pages_to_update > 0 &&
-74e2afc6df5782 Qiujun Huang              2020-10-15  2287  			__rb_allocate_pages(cpu_buffer, cpu_buffer->nr_pages_to_update,
-74e2afc6df5782 Qiujun Huang              2020-10-15  2288  					    &cpu_buffer->new_pages)) {
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2289  			err = -ENOMEM;
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2290  			goto out_err;
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2291  		}
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2292  
-99c37d1a63eafc Sebastian Andrzej Siewior 2021-08-03  2293  		cpus_read_lock();
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2294  
-021c5b34452d52 Corey Minyard             2014-07-16  2295  		/* Can't run something on an offline CPU. */
-021c5b34452d52 Corey Minyard             2014-07-16  2296  		if (!cpu_online(cpu_id))
-f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2297) 			rb_update_pages(cpu_buffer);
-f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2298) 		else {
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2299  			schedule_work_on(cpu_id,
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2300  					 &cpu_buffer->update_pages_work);
-05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2301  			wait_for_completion(&cpu_buffer->update_done);
-f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2302) 		}
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2303  
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2304  		cpu_buffer->nr_pages_to_update = 0;
-99c37d1a63eafc Sebastian Andrzej Siewior 2021-08-03  2305  		cpus_read_unlock();
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2306  	}
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2307  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2308   out:
-659f451ff21315 Steven Rostedt            2012-05-14  2309  	/*
-659f451ff21315 Steven Rostedt            2012-05-14  2310  	 * The ring buffer resize can happen with the ring buffer
-659f451ff21315 Steven Rostedt            2012-05-14  2311  	 * enabled, so that the update disturbs the tracing as little
-659f451ff21315 Steven Rostedt            2012-05-14  2312  	 * as possible. But if the buffer is disabled, we do not need
-659f451ff21315 Steven Rostedt            2012-05-14  2313  	 * to worry about that, and we can take the time to verify
-659f451ff21315 Steven Rostedt            2012-05-14  2314  	 * that the buffer is not corrupt.
-659f451ff21315 Steven Rostedt            2012-05-14  2315  	 */
-659f451ff21315 Steven Rostedt            2012-05-14  2316  	if (atomic_read(&buffer->record_disabled)) {
-659f451ff21315 Steven Rostedt            2012-05-14  2317  		atomic_inc(&buffer->record_disabled);
-659f451ff21315 Steven Rostedt            2012-05-14  2318  		/*
-659f451ff21315 Steven Rostedt            2012-05-14  2319  		 * Even though the buffer was disabled, we must make sure
-659f451ff21315 Steven Rostedt            2012-05-14  2320  		 * that it is truly disabled before calling rb_check_pages.
-659f451ff21315 Steven Rostedt            2012-05-14  2321  		 * There could have been a race between checking
-659f451ff21315 Steven Rostedt            2012-05-14  2322  		 * record_disable and incrementing it.
-659f451ff21315 Steven Rostedt            2012-05-14  2323  		 */
-7440172974e85b Paul E. McKenney          2018-11-06  2324  		synchronize_rcu();
-659f451ff21315 Steven Rostedt            2012-05-14  2325  		for_each_buffer_cpu(buffer, cpu) {
-659f451ff21315 Steven Rostedt            2012-05-14  2326  			cpu_buffer = buffer->buffers[cpu];
-659f451ff21315 Steven Rostedt            2012-05-14  2327  			rb_check_pages(cpu_buffer);
-659f451ff21315 Steven Rostedt            2012-05-14  2328  		}
-659f451ff21315 Steven Rostedt            2012-05-14  2329  		atomic_dec(&buffer->record_disabled);
-659f451ff21315 Steven Rostedt            2012-05-14  2330  	}
-659f451ff21315 Steven Rostedt            2012-05-14  2331  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2332  	mutex_unlock(&buffer->mutex);
-0a1754b2a97efa Qiujun Huang              2020-10-19  2333  	return 0;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2334  
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2335   out_err:
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2336  	for_each_buffer_cpu(buffer, cpu) {
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2337  		struct buffer_page *bpage, *tmp;
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2338  
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2339  		cpu_buffer = buffer->buffers[cpu];
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2340  		cpu_buffer->nr_pages_to_update = 0;
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2341  
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2342  		if (list_empty(&cpu_buffer->new_pages))
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2343  			continue;
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2344  
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2345  		list_for_each_entry_safe(bpage, tmp, &cpu_buffer->new_pages,
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2346  					list) {
-044fa782ebb947 Steven Rostedt            2008-12-02  2347  			list_del_init(&bpage->list);
-044fa782ebb947 Steven Rostedt            2008-12-02  2348  			free_buffer_page(bpage);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2349  		}
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2350  	}
-07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2351)  out_err_unlock:
-641d2f63cfe245 Vegard Nossum             2008-11-18  2352  	mutex_unlock(&buffer->mutex);
-83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2353  	return err;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2354  }
-c4f50183f90fb1 Robert Richter            2008-12-11  2355  EXPORT_SYMBOL_GPL(ring_buffer_resize);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2356  
-
-:::::: The code at line 2177 was first introduced by commit
-:::::: ee51a1de7e3837577412be269e0100038068e691 tracing: fix mmiotrace resizing crash
-
-:::::: TO: Ingo Molnar <mingo@elte.hu>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+472f16f33c7d53 drivers/vme/vme.c              Dmitry Kalinkin 2015-09-18  269  
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  270  /**
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  271   * vme_slave_request - Request a VME slave window resource.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  272   * @vdev: Pointer to VME device struct vme_dev assigned to driver instance.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  273   * @address: Required VME address space.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  274   * @cycle: Required VME data transfer cycle type.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  275   *
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  276   * Request use of a VME window resource capable of being set for the requested
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  277   * address space and data transfer cycle.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  278   *
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  279   * Return: Pointer to VME resource on success, NULL on failure.
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  280   */
+6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  281  struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
+6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  282  				       u32 cycle)
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  283  {
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  284  	struct vme_bridge *bridge;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  285  	struct vme_slave_resource *allocated_image = NULL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  286  	struct vme_slave_resource *slave_image = NULL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  287  	struct vme_resource *resource = NULL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  288  
+8f966dc444b11a drivers/staging/vme/vme.c      Manohar Vanga   2011-09-26  289  	bridge = vdev->bridge;
+61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  290  	if (!bridge) {
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  291  		printk(KERN_ERR "Can't find VME bus\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  292  		goto err_bus;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  293  	}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  294  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  295  	/* Loop through slave resources */
+4c5ba1d7a93e09 drivers/staging/vme_user/vme.c Jinjie Ruan     2023-08-23 @296  	list_for_each_entry(slave_image, &bridge->slave_resources, list) {
+61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24 @297  		if (!slave_image) {
+ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  298  			printk(KERN_ERR "Registered NULL Slave resource\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  299  			continue;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  300  		}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  301  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  302  		/* Find an unlocked and compatible image */
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  303  		mutex_lock(&slave_image->mtx);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  304  		if (((slave_image->address_attr & address) == address) &&
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  305  		    ((slave_image->cycle_attr & cycle) == cycle) &&
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  306  		    (slave_image->locked == 0)) {
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  307  			slave_image->locked = 1;
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  308  			mutex_unlock(&slave_image->mtx);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  309  			allocated_image = slave_image;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  310  			break;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  311  		}
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  312  		mutex_unlock(&slave_image->mtx);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  313  	}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  314  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  315  	/* No free image */
+61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  316  	if (!allocated_image)
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  317  		goto err_image;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  318  
+1ff0a19ce12c82 drivers/vme/vme.c              Markus Elfring  2017-08-24  319  	resource = kmalloc(sizeof(*resource), GFP_KERNEL);
+94eefcc1cb648a drivers/vme/vme.c              Markus Elfring  2017-08-24  320  	if (!resource)
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  321  		goto err_alloc;
+94eefcc1cb648a drivers/vme/vme.c              Markus Elfring  2017-08-24  322  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  323  	resource->type = VME_SLAVE;
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  324  	resource->entry = &allocated_image->list;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  325  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  326  	return resource;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  327  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  328  err_alloc:
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  329  	/* Unlock image */
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  330  	mutex_lock(&slave_image->mtx);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  331  	slave_image->locked = 0;
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  332  	mutex_unlock(&slave_image->mtx);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  333  err_image:
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  334  err_bus:
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  335  	return NULL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  336  }
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  337  EXPORT_SYMBOL(vme_slave_request);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  338  
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  339  /**
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  340   * vme_slave_set - Set VME slave window configuration.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  341   * @resource: Pointer to VME slave resource.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  342   * @enabled: State to which the window should be configured.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  343   * @vme_base: Base address for the window.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  344   * @size: Size of the VME window.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  345   * @buf_base: Based address of buffer used to provide VME slave window storage.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  346   * @aspace: VME address space for the VME window.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  347   * @cycle: VME data transfer cycle type for the VME window.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  348   *
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  349   * Set configuration for provided VME slave window.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  350   *
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  351   * Return: Zero on success, -EINVAL if operation is not supported on this
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  352   *         device, if an invalid resource has been provided or invalid
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  353   *         attributes are provided. Hardware specific errors may also be
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  354   *         returned.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  355   */
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  356  int vme_slave_set(struct vme_resource *resource, int enabled,
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  357  		  unsigned long long vme_base, unsigned long long size,
+6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  358  		  dma_addr_t buf_base, u32 aspace, u32 cycle)
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  359  {
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  360  	struct vme_bridge *bridge = find_bridge(resource);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  361  	struct vme_slave_resource *image;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  362  	int retval;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  363  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  364  	if (resource->type != VME_SLAVE) {
+ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  365  		printk(KERN_ERR "Not a slave resource\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  366  		return -EINVAL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  367  	}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  368  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  369  	image = list_entry(resource->entry, struct vme_slave_resource, list);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  370  
+61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  371  	if (!bridge->slave_set) {
+ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  372  		printk(KERN_ERR "Function not supported\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  373  		return -ENOSYS;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  374  	}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  375  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  376  	if (!(((image->address_attr & aspace) == aspace) &&
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  377  	      ((image->cycle_attr & cycle) == cycle))) {
+ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  378  		printk(KERN_ERR "Invalid attributes\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  379  		return -EINVAL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  380  	}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  381  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  382  	retval = vme_check_window(aspace, vme_base, size);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  383  	if (retval)
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  384  		return retval;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  385  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  386  	return bridge->slave_set(image, enabled, vme_base, size, buf_base,
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  387  		aspace, cycle);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  388  }
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  389  EXPORT_SYMBOL(vme_slave_set);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  390  
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  391  /**
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  392   * vme_slave_get - Retrieve VME slave window configuration.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  393   * @resource: Pointer to VME slave resource.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  394   * @enabled: Pointer to variable for storing state.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  395   * @vme_base: Pointer to variable for storing window base address.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  396   * @size: Pointer to variable for storing window size.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  397   * @buf_base: Pointer to variable for storing slave buffer base address.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  398   * @aspace: Pointer to variable for storing VME address space.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  399   * @cycle: Pointer to variable for storing VME data transfer cycle type.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  400   *
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  401   * Return configuration for provided VME slave window.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  402   *
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  403   * Return: Zero on success, -EINVAL if operation is not supported on this
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  404   *         device or if an invalid resource has been provided.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  405   */
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  406  int vme_slave_get(struct vme_resource *resource, int *enabled,
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  407  		  unsigned long long *vme_base, unsigned long long *size,
+6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  408  		  dma_addr_t *buf_base, u32 *aspace, u32 *cycle)
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  409  {
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  410  	struct vme_bridge *bridge = find_bridge(resource);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  411  	struct vme_slave_resource *image;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  412  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  413  	if (resource->type != VME_SLAVE) {
+ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  414  		printk(KERN_ERR "Not a slave resource\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  415  		return -EINVAL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  416  	}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  417  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  418  	image = list_entry(resource->entry, struct vme_slave_resource, list);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  419  
+61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  420  	if (!bridge->slave_get) {
+ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  421  		printk(KERN_ERR "vme_slave_get not supported\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  422  		return -EINVAL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  423  	}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  424  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  425  	return bridge->slave_get(image, enabled, vme_base, size, buf_base,
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  426  		aspace, cycle);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  427  }
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  428  EXPORT_SYMBOL(vme_slave_get);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  429  
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  430  /**
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  431   * vme_slave_free - Free VME slave window
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  432   * @resource: Pointer to VME slave resource.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  433   *
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  434   * Free the provided slave resource so that it may be reallocated.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  435   */
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  436  void vme_slave_free(struct vme_resource *resource)
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  437  {
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  438  	struct vme_slave_resource *slave_image;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  439  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  440  	if (resource->type != VME_SLAVE) {
+ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  441  		printk(KERN_ERR "Not a slave resource\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  442  		return;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  443  	}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  444  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  445  	slave_image = list_entry(resource->entry, struct vme_slave_resource,
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  446  				 list);
+61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  447  	if (!slave_image) {
+ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  448  		printk(KERN_ERR "Can't find slave resource\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  449  		return;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  450  	}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  451  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  452  	/* Unlock image */
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  453  	mutex_lock(&slave_image->mtx);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  454  	if (slave_image->locked == 0)
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  455  		printk(KERN_ERR "Image is already free\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  456  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  457  	slave_image->locked = 0;
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  458  	mutex_unlock(&slave_image->mtx);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  459  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  460  	/* Free up resource memory */
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  461  	kfree(resource);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  462  }
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  463  EXPORT_SYMBOL(vme_slave_free);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  464  
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  465  /**
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  466   * vme_master_request - Request a VME master window resource.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  467   * @vdev: Pointer to VME device struct vme_dev assigned to driver instance.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  468   * @address: Required VME address space.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  469   * @cycle: Required VME data transfer cycle type.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  470   * @dwidth: Required VME data transfer width.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  471   *
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  472   * Request use of a VME window resource capable of being set for the requested
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  473   * address space, data transfer cycle and width.
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  474   *
+b5bc980a4929bb drivers/vme/vme.c              Martyn Welch    2017-03-04  475   * Return: Pointer to VME resource on success, NULL on failure.
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  476   */
+6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  477  struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
+6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  478  					u32 cycle, u32 dwidth)
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  479  {
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  480  	struct vme_bridge *bridge;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  481  	struct vme_master_resource *allocated_image = NULL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  482  	struct vme_master_resource *master_image = NULL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  483  	struct vme_resource *resource = NULL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  484  
+8f966dc444b11a drivers/staging/vme/vme.c      Manohar Vanga   2011-09-26  485  	bridge = vdev->bridge;
+61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  486  	if (!bridge) {
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  487  		printk(KERN_ERR "Can't find VME bus\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  488  		goto err_bus;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  489  	}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  490  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  491  	/* Loop through master resources */
+4c5ba1d7a93e09 drivers/staging/vme_user/vme.c Jinjie Ruan     2023-08-23 @492  	list_for_each_entry(master_image, &bridge->master_resources, list) {
+61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24 @493  		if (!master_image) {
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  494  			printk(KERN_WARNING "Registered NULL master resource\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  495  			continue;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  496  		}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  497  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  498  		/* Find an unlocked and compatible image */
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  499  		spin_lock(&master_image->lock);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  500  		if (((master_image->address_attr & address) == address) &&
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  501  		    ((master_image->cycle_attr & cycle) == cycle) &&
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  502  		    ((master_image->width_attr & dwidth) == dwidth) &&
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  503  		    (master_image->locked == 0)) {
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  504  			master_image->locked = 1;
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  505  			spin_unlock(&master_image->lock);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  506  			allocated_image = master_image;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  507  			break;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  508  		}
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  509  		spin_unlock(&master_image->lock);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  510  	}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  511  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  512  	/* Check to see if we found a resource */
+61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  513  	if (!allocated_image) {
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  514  		printk(KERN_ERR "Can't find a suitable resource\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  515  		goto err_image;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  516  	}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  517  
+1ff0a19ce12c82 drivers/vme/vme.c              Markus Elfring  2017-08-24  518  	resource = kmalloc(sizeof(*resource), GFP_KERNEL);
+94eefcc1cb648a drivers/vme/vme.c              Markus Elfring  2017-08-24  519  	if (!resource)
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  520  		goto err_alloc;
+94eefcc1cb648a drivers/vme/vme.c              Markus Elfring  2017-08-24  521  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  522  	resource->type = VME_MASTER;
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  523  	resource->entry = &allocated_image->list;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  524  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  525  	return resource;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  526  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  527  err_alloc:
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  528  	/* Unlock image */
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  529  	spin_lock(&master_image->lock);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  530  	master_image->locked = 0;
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  531  	spin_unlock(&master_image->lock);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  532  err_image:
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  533  err_bus:
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  534  	return NULL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  535  }
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  536  EXPORT_SYMBOL(vme_master_request);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  537  
 
 -- 
 0-DAY CI Kernel Test Service
