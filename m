@@ -1,200 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2130.outbound.protection.outlook.com [40.107.113.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5B41CF84
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 Sep 2023 16:00:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694707233; x=1726243233;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Av29HZQkTNBZTxu+4+8M8WBACNdB0vsezA/f850/Enk=;
-  b=ETHLk7Oc+zWY2MfMUkRFnoxPmaixk07z6ZXWn37ALX2EJ7nCec3c8xWP
-   I+rnfFPSKMGhwANlY3hiio1akmeMSOH3a7BAsExp3dtyI3rtoB+mEWLDD
-   3GPDm7aTpS+DlxiceFen0GS4L5q08K3xVqOVW5XHfA2elC8/DxZJ8SxWl
-   tAO8veZpQ9u/NCEje9ZT3gWOjTx7wOgtX9oXDikQUf54Wt1ejiURfIGuW
-   oTTjj14KNSfK50Bla1cdAInKmuxLu5ljpnLnfBxrSvRlhsFrVX/1MuG66
-   SUs1zxwSm7lPiSjVMIO1VmOAXtf73mXMTXbR83JdgTuX5O9l7sTm9gfaG
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="369294435"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="369294435"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 09:00:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="747801005"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="747801005"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Sep 2023 09:00:29 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qgolX-0001mk-2F;
-	Thu, 14 Sep 2023 16:00:27 +0000
-Date: Fri, 15 Sep 2023 00:00:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 2/3] userfaultfd: UFFDIO_REMAP uABI
-Message-ID: <202309142309.BK8T9rG6-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753E33C05;
+	Thu, 14 Sep 2023 23:00:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dXSHw9FjT4Exe9eQOkoRVT0bvR1j91HJFOqVqgn12bDuXba5R6O/sC/43HMhDlF36iGi1xhFwMVkgWVFOGv0yeIqCoRwjJtfjIAiL4sxYXxD9YIaC2ntM7DRXseZHRv8424nNykX1E3vT2kC+zcGRXryBvx21ViFl/vWQYMeUJJ7IRE4or9qNgcb9D4ONOxAQfhqdbkK28nxbWj9QY1Zz/4RI5K2aJQ9klXNtZvRT9LDm1++R7NuKfwYLJvD/5k/blDxSOcKeEhgxg+Q5onGfWDtA5nuGDLg3XxfUcrBwGdIeTSmIgH3x+sV6+Z5iojlT3MdlcZLJMl2YSn5tc9FBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yIPxLkR9bzxNUVN4DXEy7xNMHzQHCqUq0EfoCTmy1zk=;
+ b=PKnBDuAgJ8tAfYQRFWV1nqsxaTcXXZOf5JihpPI0xCZ3WI14VbxFM+k5AYwK2bCrNk61bC+twxp+zs2/IRPPHpIXyzRvoOo9ksRBNAuvusbzA9L+VLdRDmBfODUgM5HNG1dGWyrNTfai8GLER0P3/al3xtaBmqu4z8p3fCkRs4dJwvlzLoMyi/AEXfUBath7mho7GZGZ4LcuoUCK37YftM9r3JeXJNveUns/drtQs9MfOmzO6oAieSSogI1FSoY8Hw5GAFMhkyNek0OEKFLt/ZWdEqlIJ2irSutaqGgXMa6uw328gqj3205d53H0wDcpA1aYwE+4LdcQ5oIYBC9/Hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yIPxLkR9bzxNUVN4DXEy7xNMHzQHCqUq0EfoCTmy1zk=;
+ b=FqaPT7pFF5WJjxSian/A1HrphsaDVHIg34esx/lWr/75kkqloxRlGQ7x0LAPC/k6m3n6Z+DECjpAEgpGCTnia242Ng/VdhHZDkod1w/gk2vgIw1+VoBj3uryRG7eNosaHW1BWhaMLovPY/J/esbV67q97AuQA2D34UqwGmjZp8Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
+ by TYWPR01MB8329.jpnprd01.prod.outlook.com (2603:1096:400:165::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.21; Thu, 14 Sep
+ 2023 22:59:58 +0000
+Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::8c08:d94c:8e54:9b5d]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
+ ([fe80::8c08:d94c:8e54:9b5d%6]) with mapi id 15.20.6792.021; Thu, 14 Sep 2023
+ 22:59:58 +0000
+Message-ID: <8734zgqs2h.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH 02/54] ASoC: simple_card_utils.h: convert not to use asoc_xxx()
+In-Reply-To: <3def750c-5f58-4c36-a58b-bd839a38d3a7@kadam.mountain>
+References: <87edj4s26a.wl-kuninori.morimoto.gx@renesas.com>
+	<3def750c-5f58-4c36-a58b-bd839a38d3a7@kadam.mountain>
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 14 Sep 2023 22:59:57 +0000
+X-ClientProxiedBy: TYBP286CA0011.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:404:ce::23) To OS3PR01MB8426.jpnprd01.prod.outlook.com
+ (2603:1096:604:194::10)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS3PR01MB8426:EE_|TYWPR01MB8329:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1e34390b-2712-4af1-9b81-08dbb576515d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	iUey2nvzVoKAw2uL2FNfXW20S35YWfIv/PVqlDAUd1VCsAsmINiii6BSW4e4zcKJ052MtY6DaBIgKW3Nzlsy2V6bt5pxZwi06QtyD8lL9Jr12Mtr8wu+jyK7IvA5yQZyA8yzdNlBxNflU/z3NyGzIeFMga43vKaC9hhM4ao7wuEhGVroWD0YKDW6NoorQc/ewaZsg8mqj/vQ1WzdogcILYRp8x1oC9wxsmAypXG4gCM26S25JqGCpADffuppnJx+dCTNPn6tva1KuxfZaDJ6hk3ksEtspGr12RQ8adlh9gfWUJXtr4yOq/2yHsfu5uCjlylcgpC1Qj1GzwIkMH5fcV+VZF2z+OoHH0tBuZDkAEREco5XP9gYQwb6AgixLxHm66oni+ALpiIOO7LBf4rqdQRlr/DBNTletwYlktExktxII1YXmYPIto6IZbeqoR8xg2/JA72q6nJydnjLcaXhheFaI9p/rSV+czKIpFHkfMS2xV4R2/2UEyaloVRLiRCmwJq0mmLcmM27PmG7CsZV+APDsL/aMJfqb7q94m8anM1IMcjAb7De1UOQlmZN1rNjwgS+kKBblitWlkBsIeFLYUD+94jtJBioS4w5DxTLtnE6C2EYTZXcbRZjkRKiPKHqqmA9dacbp49G3kXl96YXgg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(376002)(346002)(366004)(39860400002)(186009)(451199024)(1800799009)(86362001)(36756003)(478600001)(38350700002)(38100700002)(26005)(2906002)(2616005)(5660300002)(41300700001)(6512007)(52116002)(6486002)(6506007)(66946007)(66556008)(66476007)(316002)(4326008)(8676002)(6916009)(8936002)(54906003)(21314003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?FyF2RKKK5aSKni59T6GjQNr3fzAYwHrRjNgLKuEpDxLrCiWAFUgDbvOc5moT?=
+ =?us-ascii?Q?y+wH/atJlIpn2C8zrczkKg+up6lgaECMwfvQfCpsdoagTRtUb8Guapaz1ITp?=
+ =?us-ascii?Q?iXHaFavpKEJpQQqgLySTJfBTEvkTk8D8Z52CZTpbYIlElsa64tmqFCwtReGr?=
+ =?us-ascii?Q?smhAvsaqPJK3tFs9oFaMeQtEyzbxF4G4i89rnMxJhOpxpY6loghuF3mo+qq8?=
+ =?us-ascii?Q?wmjEauss1N+y5BSTmr1qZZxrevV+hw5QtGI9dZXLmCCYhiFiHpSkdIONlfkl?=
+ =?us-ascii?Q?UyB3t2CLShPppKxh3gjgOCC4R6doZmRiS3+9olEcBKrRzKmSUYhne49tkMne?=
+ =?us-ascii?Q?SjDZPcQe39Qg9P7fGWFpsXtxlagdSX5lfcl2fnqlnq3m0MuZvHrE6MlctFv+?=
+ =?us-ascii?Q?P1uZj1gOcBkmhXi30iy1nFXExs5uLmm5zgdLO9qlpYUw9HkmmyG2jhXMlbaf?=
+ =?us-ascii?Q?5Fu0wpGyQ/vL6KMANaBLOnoImT5mWNHz2mGYT648lIpQ8HvSLFRHGYDMd4hI?=
+ =?us-ascii?Q?+RiteM3SQEdCPZnxOeS2lK/cHuytp9SNvvld/zUrg+3XHLgytfYGxWWioSG8?=
+ =?us-ascii?Q?c+k1rBobnYj8i58tLTspnOLWUaRlOTtXveS0O1JvraR8v6hA1SMT6erc1t3b?=
+ =?us-ascii?Q?Vgc6ndT1O9trNOeKRnmr8fBTclC+33ZqgqhyvVLc0y70QD+zKiV8OPUJzG7D?=
+ =?us-ascii?Q?XHdS8iWcvo1BvSp5m/egZ200eiu0IQ5IRFzgsCIm3otLNOtExh6kn7HCyyHw?=
+ =?us-ascii?Q?Vn3os7NITbH8WgPLNgz9L9bGNyGq/50DDH+6AVa753TyGrTRT678CnXpoE96?=
+ =?us-ascii?Q?KxBE0NOayVg6aEoqCtK0SOcBjix3Wj72miO9C66F4kqM+XtIi/cDTA6/WoFn?=
+ =?us-ascii?Q?ATdAeeAUdgGIyr+AB02JVQ1kyb6FkwMv64YsGqq08WRtEp7PaN+0DeY/EgmT?=
+ =?us-ascii?Q?yP+ht53JLWfIMpdds4KPkwUSBVihvKzZYvaw1WYYHrI6EkRDvYG2js9gy1d4?=
+ =?us-ascii?Q?YtRdbl+kDVzMOke03O1m3daxhIqC1qCzLB7jJg1KZ1CtePhSZA5UoWfEAtI9?=
+ =?us-ascii?Q?3fgx/UYVgYe9j5FTK88ZeWlgU+yNfF+wDLkTzyfheNsjdldc6EwMtzQuSXh9?=
+ =?us-ascii?Q?ug8DKPjBbJ2ERTp5tXB6i3LJvJ+cUZtGHTRjC2rgNYPslpi9bHehEo88Lffe?=
+ =?us-ascii?Q?2+jsLAYO+zLeqpMGrT/9UDCoxjN+EGmSdCYhbF6XFz3iGf8OP4cDWoa3KlFK?=
+ =?us-ascii?Q?t2qLpxvMiv67Axwt+ypkQsrOtiGMoEoxM9EHmSeZ8jIkwNOMMHJGbMU4ZJ2i?=
+ =?us-ascii?Q?sAUm06YWhWDx7dFpom95bd4bVVMIDuJGBgFhLqOSMQuJufM3C52mqbHj3Zza?=
+ =?us-ascii?Q?0kqXV4iqLiHzaUD8Bk3xEl9aZEq7U9s5vBa3K+dGPfFK6A/p6QAUc1JR5FcO?=
+ =?us-ascii?Q?+4NBk02wmbBlW1+aWaUp8XKvoYd1kt5iesrm+YCYYHZfh2Nsib0kfUAMDQYr?=
+ =?us-ascii?Q?DJtH2hx3CFfzdl6cX/Mzn1zzwT0nUH/afWGlmrupe37b3uC5jotcrQkiHTZn?=
+ =?us-ascii?Q?JNh+9sPldLakjLYY72sdQepQFxJhIA5AkyJlgbFE9fZaDEWERN4L0rK1b6aa?=
+ =?us-ascii?Q?FqC+usTjiR7RtMamDZyhCKg=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e34390b-2712-4af1-9b81-08dbb576515d
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2023 22:59:58.2326
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Vup+SpZK6V5+M8QB3n9vtk1rijnkdzShhh8+dPpxW/Ygi0TZiqU45lvFbwatPjX7WefuDKatFkOz4BatnYkS2KUKt4vAHwnfDUg/2O3+uhrk5nPSuNOSW7/qpgm7RA5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8329
 
-:::::: 
-:::::: Manual check reason: "checkpatch"
-:::::: 
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230914152620.2743033-3-surenb@google.com>
-References: <20230914152620.2743033-3-surenb@google.com>
-TO: Suren Baghdasaryan <surenb@google.com>
+Hi Dan
 
-Hi Suren,
+Thank you for the report
 
-kernel test robot noticed the following build warnings:
+> 5ca2ab4598179a Robert Hancock    2022-01-20  307  	if (fixed_sysclk && props->mclk_fs) {
+> 5ca2ab4598179a Robert Hancock    2022-01-20  308  		unsigned int fixed_rate = fixed_sysclk / props->mclk_fs;
+> 5ca2ab4598179a Robert Hancock    2022-01-20  309  
+> 5ca2ab4598179a Robert Hancock    2022-01-20  310  		if (fixed_sysclk % props->mclk_fs) {
+> 5ca2ab4598179a Robert Hancock    2022-01-20  311  			dev_err(rtd->dev, "fixed sysclk %u not divisible by mclk_fs %u\n",
+> 5ca2ab4598179a Robert Hancock    2022-01-20  312  				fixed_sysclk, props->mclk_fs);
+> 5ca2ab4598179a Robert Hancock    2022-01-20 @313  			return -EINVAL;
+> 
+> goto codec_err?
+> 
+> 5ca2ab4598179a Robert Hancock    2022-01-20  314  		}
+> 5ca2ab4598179a Robert Hancock    2022-01-20  315  		ret = snd_pcm_hw_constraint_minmax(substream->runtime, SNDRV_PCM_HW_PARAM_RATE,
+> 5ca2ab4598179a Robert Hancock    2022-01-20  316  			fixed_rate, fixed_rate);
+> 635071f5fee315 Robert Hancock    2023-06-01  317  		if (ret < 0)
+> 5ca2ab4598179a Robert Hancock    2022-01-20  318  			goto codec_err;
+> fafc05aadd4b6c Kuninori Morimoto 2021-04-12  319  	}
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The correct fixup is not for line 313, but line 318,
+but thank you for pointing it.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan/userfaultfd-UFFDIO_REMAP-rmap-preparation/20230914-232739
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230914152620.2743033-3-surenb%40google.com
-patch subject: [PATCH 2/3] userfaultfd: UFFDIO_REMAP uABI
-:::::: branch date: 27 minutes ago
-:::::: commit date: 27 minutes ago
-reproduce: (https://download.01.org/0day-ci/archive/20230914/202309142309.BK8T9rG6-lkp@intel.com/reproduce)
+This issue itself is not related to "convert not to use asoc_xxx()"
+patch. I will post separate patch with your sign.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309142309.BK8T9rG6-lkp@intel.com/
+Thank you for your help !!
 
-# many are suggestions rather than must-fix
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#66: fs/userfaultfd.c:2065:
-+	BUG_ON(!ret);
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#225: mm/huge_memory.c:1991:
-+	BUG_ON(!pmd_trans_huge(src_pmdval));
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#226: mm/huge_memory.c:1992:
-+	BUG_ON(!pmd_none(dst_pmdval));
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#227: mm/huge_memory.c:1993:
-+	BUG_ON(!spin_is_locked(src_ptl));
-
-WARNING: Where possible, use lockdep_assert_held instead of assertions based on spin_is_locked
-#227: mm/huge_memory.c:1993:
-+	BUG_ON(!spin_is_locked(src_ptl));
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#230: mm/huge_memory.c:1996:
-+	BUG_ON(src_addr & ~HPAGE_PMD_MASK);
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#231: mm/huge_memory.c:1997:
-+	BUG_ON(dst_addr & ~HPAGE_PMD_MASK);
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#234: mm/huge_memory.c:2000:
-+	BUG_ON(!PageHead(src_page));
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#235: mm/huge_memory.c:2001:
-+	BUG_ON(!PageAnon(src_page));
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#279: mm/huge_memory.c:2045:
-+	BUG_ON(!PageHead(src_page));
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#280: mm/huge_memory.c:2046:
-+	BUG_ON(!PageAnon(src_page));
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#290: mm/huge_memory.c:2056:
-+		BUG_ON(1);
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#423: mm/userfaultfd.c:929:
-+	BUG_ON(pmd_none(*dst_pmd));
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#424: mm/userfaultfd.c:930:
-+	BUG_ON(pmd_none(*src_pmd));
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#425: mm/userfaultfd.c:931:
-+	BUG_ON(pmd_trans_huge(*dst_pmd));
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#426: mm/userfaultfd.c:932:
-+	BUG_ON(pmd_trans_huge(*src_pmd));
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#519: mm/userfaultfd.c:1025:
-+		BUG_ON(!folio_test_anon(src_folio));
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#531: mm/userfaultfd.c:1037:
-+			BUG_ON(1);
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#603: mm/userfaultfd.c:1109:
-+			BUG_ON(1);
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#717: mm/userfaultfd.c:1223:
-+	BUG_ON(src_start & ~PAGE_MASK);
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#718: mm/userfaultfd.c:1224:
-+	BUG_ON(dst_start & ~PAGE_MASK);
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#719: mm/userfaultfd.c:1225:
-+	BUG_ON(len & ~PAGE_MASK);
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#722: mm/userfaultfd.c:1228:
-+	BUG_ON(src_start + len <= src_start);
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#723: mm/userfaultfd.c:1229:
-+	BUG_ON(dst_start + len <= dst_start);
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#800: mm/userfaultfd.c:1306:
-+		BUG_ON(dst_addr >= dst_start + len);
-
-WARNING: Prefer 'fallthrough;' over fallthrough comment
-#846: mm/userfaultfd.c:1352:
-+				/* Fall through */
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#920: mm/userfaultfd.c:1426:
-+	BUG_ON(moved < 0);
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#921: mm/userfaultfd.c:1427:
-+	BUG_ON(err > 0);
-
-WARNING: Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants
-#922: mm/userfaultfd.c:1428:
-+	BUG_ON(!moved && !err);
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards
+---
+Kuninori Morimoto
