@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBDB1873
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 Sep 2023 04:40:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEA9398
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 Sep 2023 04:50:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694666404; x=1726202404;
+  t=1694667007; x=1726203007;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cZ1+Ngy+38PtmZUGDhbpMKN2T1RnNKEnmMhCoZLpG+E=;
-  b=B1VCb0Uy9T8cEAdMLtPcJYf01I3MaUTBIKymnOLTxZF8NIMZn8mauwds
-   bb6CE6usfD7c+rslP+6rMagJkA5OPtxaWR/ld03caOXwTEAQwg7zmRgEF
-   eRQHTDsLWhyH9TU7S0yoL+jN3ILqj39VjwOutWKqhe9kdElqOewJzI8HC
-   C3m8I07nHI0olrh4LiTEU8Uc2B8XlKrvQeVpuUR2NGZy0atIyheoSlyeb
-   UnipSbqhs01cRHitbyKuIBJWbfClVpIbp3DqZBA/5a1UdsnUInKLu62sE
-   pb+Tv44vFGFivxEHcz5XXUgqXJ6zPptsSCg/RwOaZi43tNj8S2mGSV3E/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="369123207"
+  bh=84EBgmoC/06FXEXZjQ8be+jYImA8uqVk/hfgsAK5LKA=;
+  b=nGX+GB9Mzj3OXs2p5hxC5h1KunyRNPwuqJcdZha4ekshptH+DU5ZlNZc
+   tTpWviuM8sK9q+sQ19bBH9AfbtwpBhIwANS2XpnmLfEh0lHYKSw1Veby7
+   cju7dhcjLCS6J1/dr9VjdbZarhW/rqymC/UsZrWCEZ6v/FZoWZKPI8GS3
+   9m7eNJuHkNTFrJELzK0SuQz/vWieHPF5/t14iEEEKpyYVUnPYo1QDk9ns
+   WmuWxmQrJB7iBPENYASCCFiiNp5cz0PGFfs3P4XZEhmCyyjST88z8ICi3
+   MmVg/Sg+hO96atsuzrUir8Vf3WiAlsVkffhn3cXwGYKnQroVNoYnYatYX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="378775265"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="369123207"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 21:39:58 -0700
+   d="scan'208";a="378775265"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 21:49:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="868097141"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779483828"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="868097141"
+   d="scan'208";a="779483828"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 13 Sep 2023 21:39:57 -0700
+  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 21:49:57 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qge8w-0001AH-3C;
-	Thu, 14 Sep 2023 04:39:54 +0000
-Date: Thu, 14 Sep 2023 12:39:32 +0800
+	id 1qgeId-0001Ar-15;
+	Thu, 14 Sep 2023 04:49:55 +0000
+Date: Thu, 14 Sep 2023 12:49:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 02/54] ASoC: simple_card_utils.h: convert not to use
- asoc_xxx()
-Message-ID: <202309141205.ITZeDJxV-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 3/4] hwmon: max31827: Handle new properties from the
+ devicetree
+Message-ID: <202309141207.ONsvOJbh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,110 +46,140 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/hwmon/max31827.c:414:16: sparse: sparse: dubious: x & !y"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <87edj4s26a.wl-kuninori.morimoto.gx@renesas.com>
-References: <87edj4s26a.wl-kuninori.morimoto.gx@renesas.com>
-TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-TO: Jaroslav Kysela <perex@perex.cz>
-TO: Liam Girdwood <lgirdwood@gmail.com>
-TO: Mark Brown <broonie@kernel.org>
-TO: Takashi Iwai <tiwai@suse.com>
-CC: alsa-devel@alsa-project.org
+In-Reply-To: <20230913152135.457892-4-daniel.matyas@analog.com>
+References: <20230913152135.457892-4-daniel.matyas@analog.com>
+TO: Daniel Matyas <daniel.matyas@analog.com>
+CC: Daniel Matyas <daniel.matyas@analog.com>
+CC: Jean Delvare <jdelvare@suse.com>
+CC: Guenter Roeck <linux@roeck-us.net>
+CC: Rob Herring <robh+dt@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: linux-hwmon@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-doc@vger.kernel.org
 
-Hi Kuninori,
+Hi Daniel,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on tiwai-sound/for-linus linus/master v6.6-rc1 next-20230913]
-[cannot apply to broonie-sound/for-next shawnguo/for-next]
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.6-rc1 next-20230913]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/ASoC-simple_card_utils-h-convert-not-to-use-asoc_xxx/20230912-084751
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/87edj4s26a.wl-kuninori.morimoto.gx%40renesas.com
-patch subject: [PATCH 02/54] ASoC: simple_card_utils.h: convert not to use asoc_xxx()
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20230914 (https://download.01.org/0day-ci/archive/20230914/202309141205.ITZeDJxV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230914/202309141205.ITZeDJxV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Matyas/hwmon-max31827-Make-code-cleaner/20230913-232729
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20230913152135.457892-4-daniel.matyas%40analog.com
+patch subject: [PATCH 3/4] hwmon: max31827: Handle new properties from the devicetree
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: x86_64-randconfig-121-20230914 (https://download.01.org/0day-ci/archive/20230914/202309141207.ONsvOJbh-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230914/202309141207.ONsvOJbh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309141205.ITZeDJxV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309141207.ONsvOJbh-lkp@intel.com/
 
-smatch warnings:
-sound/soc/generic/simple-card-utils.c:313 simple_util_startup() warn: missing unwind goto?
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hwmon/max31827.c:414:16: sparse: sparse: dubious: x & !y
+   drivers/hwmon/max31827.c:426:24: sparse: sparse: dubious: x & !y
 
-vim +313 sound/soc/generic/simple-card-utils.c
+vim +414 drivers/hwmon/max31827.c
 
-5ca2ab4598179a Robert Hancock    2022-01-20  278  
-674d245538be0d Kuninori Morimoto 2023-09-11  279  int simple_util_startup(struct snd_pcm_substream *substream)
-f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  280  {
-9ae035e289379b Kuninori Morimoto 2020-07-20  281  	struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
-f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  282  	struct asoc_simple_priv *priv = snd_soc_card_get_drvdata(rtd->card);
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  283  	struct simple_dai_props *props = simple_priv_to_props(priv, rtd->num);
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  284  	struct asoc_simple_dai *dai;
-5ca2ab4598179a Robert Hancock    2022-01-20  285  	unsigned int fixed_sysclk = 0;
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  286  	int i1, i2, i;
-f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  287  	int ret;
-f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  288  
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  289  	for_each_prop_dai_cpu(props, i1, dai) {
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  290  		ret = asoc_simple_clk_enable(dai);
-f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  291  		if (ret)
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  292  			goto cpu_err;
-5ca2ab4598179a Robert Hancock    2022-01-20  293  		ret = asoc_simple_check_fixed_sysclk(rtd->dev, dai, &fixed_sysclk);
-5ca2ab4598179a Robert Hancock    2022-01-20  294  		if (ret)
-5ca2ab4598179a Robert Hancock    2022-01-20  295  			goto cpu_err;
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  296  	}
-f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  297  
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  298  	for_each_prop_dai_codec(props, i2, dai) {
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  299  		ret = asoc_simple_clk_enable(dai);
-f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  300  		if (ret)
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  301  			goto codec_err;
-5ca2ab4598179a Robert Hancock    2022-01-20  302  		ret = asoc_simple_check_fixed_sysclk(rtd->dev, dai, &fixed_sysclk);
-5ca2ab4598179a Robert Hancock    2022-01-20  303  		if (ret)
-5ca2ab4598179a Robert Hancock    2022-01-20  304  			goto codec_err;
-5ca2ab4598179a Robert Hancock    2022-01-20  305  	}
-5ca2ab4598179a Robert Hancock    2022-01-20  306  
-5ca2ab4598179a Robert Hancock    2022-01-20  307  	if (fixed_sysclk && props->mclk_fs) {
-5ca2ab4598179a Robert Hancock    2022-01-20  308  		unsigned int fixed_rate = fixed_sysclk / props->mclk_fs;
-5ca2ab4598179a Robert Hancock    2022-01-20  309  
-5ca2ab4598179a Robert Hancock    2022-01-20  310  		if (fixed_sysclk % props->mclk_fs) {
-5ca2ab4598179a Robert Hancock    2022-01-20  311  			dev_err(rtd->dev, "fixed sysclk %u not divisible by mclk_fs %u\n",
-5ca2ab4598179a Robert Hancock    2022-01-20  312  				fixed_sysclk, props->mclk_fs);
-5ca2ab4598179a Robert Hancock    2022-01-20 @313  			return -EINVAL;
-5ca2ab4598179a Robert Hancock    2022-01-20  314  		}
-5ca2ab4598179a Robert Hancock    2022-01-20  315  		ret = snd_pcm_hw_constraint_minmax(substream->runtime, SNDRV_PCM_HW_PARAM_RATE,
-5ca2ab4598179a Robert Hancock    2022-01-20  316  			fixed_rate, fixed_rate);
-635071f5fee315 Robert Hancock    2023-06-01  317  		if (ret < 0)
-5ca2ab4598179a Robert Hancock    2022-01-20  318  			goto codec_err;
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  319  	}
-f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  320  
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  321  	return 0;
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  322  
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  323  codec_err:
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  324  	for_each_prop_dai_codec(props, i, dai) {
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  325  		if (i >= i2)
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  326  			break;
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  327  		asoc_simple_clk_disable(dai);
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  328  	}
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  329  cpu_err:
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  330  	for_each_prop_dai_cpu(props, i, dai) {
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  331  		if (i >= i1)
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  332  			break;
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  333  		asoc_simple_clk_disable(dai);
-fafc05aadd4b6c Kuninori Morimoto 2021-04-12  334  	}
-f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  335  	return ret;
-f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  336  }
-674d245538be0d Kuninori Morimoto 2023-09-11  337  EXPORT_SYMBOL_GPL(simple_util_startup);
-f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  338  
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  395  
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  396  static int max31827_init_client(struct max31827_state *st,
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  397  				struct fwnode_handle *fwnode)
+16d60ba8fdc4c6 Daniel Matyas 2023-05-24  398  {
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  399  	bool prop;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  400  	u32 data, lsb_idx;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  401  	unsigned int res = 0;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  402  	enum chips type;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  403  	int ret;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  404  
+16d60ba8fdc4c6 Daniel Matyas 2023-05-24  405  	st->enable = true;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  406  	res |= MAX31827_DEVICE_ENABLE(1);
+16d60ba8fdc4c6 Daniel Matyas 2023-05-24  407  
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  408  	res |= MAX31827_CONFIGURATION_RESOLUTION_MASK;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  409  
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  410  	prop = fwnode_property_read_bool(fwnode, "adi,comp-int");
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  411  	res |= FIELD_PREP(MAX31827_CONFIGURATION_COMP_INT_MASK, prop);
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  412  
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  413  	prop = fwnode_property_read_bool(fwnode, "adi,timeout-enable");
+e0b6a7b273eb37 Daniel Matyas 2023-09-13 @414  	res |= FIELD_PREP(MAX31827_CONFIGURATION_TIMEOUT_MASK, !prop);
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  415  
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  416  	if (st->client->dev.of_node)
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  417  		type = (enum chips)of_device_get_match_data(&st->client->dev);
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  418  	else
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  419  		type = i2c_match_id(max31827_i2c_ids, st->client)->driver_data;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  420  
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  421  	if (fwnode_property_present(fwnode, "adi,alrm-pol")) {
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  422  		ret = fwnode_property_read_u32(fwnode, "adi,alrm-pol", &data);
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  423  		if (ret)
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  424  			return ret;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  425  
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  426  		res |= FIELD_PREP(MAX31827_CONFIGURATION_ALRM_POL_MASK, !!data);
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  427  	} else {
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  428  		switch (type) {
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  429  		case max31827:
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  430  		case max31828:
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  431  			res |= FIELD_PREP(MAX31827_CONFIGURATION_ALRM_POL_MASK,
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  432  					  0x0);
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  433  			break;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  434  		case max31829:
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  435  			res |= FIELD_PREP(MAX31827_CONFIGURATION_ALRM_POL_MASK,
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  436  					  0x1);
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  437  			break;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  438  		default:
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  439  			return -EOPNOTSUPP;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  440  		}
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  441  	}
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  442  
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  443  	if (fwnode_property_present(fwnode, "adi,flt-q")) {
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  444  		ret = fwnode_property_read_u32(fwnode, "adi,flt-q", &data);
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  445  		if (ret)
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  446  			return ret;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  447  
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  448  		/*
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  449  		 * Convert the desired fault queue into register bits.
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  450  		 */
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  451  		lsb_idx = max31827__bf_shf(data);
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  452  		if (lsb_idx > 3 || data != BIT(lsb_idx)) {
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  453  			dev_err(&st->client->dev, "Invalid data in fault queue\n");
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  454  			return -EOPNOTSUPP;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  455  		}
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  456  
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  457  		res |= FIELD_PREP(MAX31827_CONFIGURATION_FLT_Q_MASK, lsb_idx);
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  458  	} else {
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  459  		switch (type) {
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  460  		case max31827:
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  461  			res |= FIELD_PREP(MAX31827_CONFIGURATION_FLT_Q_MASK,
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  462  					  MAX31827_FLT_Q_1);
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  463  			break;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  464  		case max31828:
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  465  		case max31829:
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  466  			res |= FIELD_PREP(MAX31827_CONFIGURATION_FLT_Q_MASK,
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  467  					  MAX31827_FLT_Q_4);
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  468  			break;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  469  		default:
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  470  			return -EOPNOTSUPP;
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  471  		}
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  472  	}
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  473  
+e0b6a7b273eb37 Daniel Matyas 2023-09-13  474  	return regmap_write(st->regmap, MAX31827_CONFIGURATION_REG, res);
+16d60ba8fdc4c6 Daniel Matyas 2023-05-24  475  }
+16d60ba8fdc4c6 Daniel Matyas 2023-05-24  476  
 
 -- 
 0-DAY CI Kernel Test Service
