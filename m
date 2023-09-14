@@ -1,49 +1,51 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4F23D7F
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 Sep 2023 06:39:21 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-402c46c49f4so5903385e9.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 13 Sep 2023 23:39:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A821C13
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 Sep 2023 06:41:34 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-401b393ddd2so6573215e9.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 13 Sep 2023 23:41:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694673559; x=1695278359; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1694673692; x=1695278492; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=rryeilmHVsTcYrCE5ypYa65vGftDTEhvKiA4HjqLsnY=;
-        b=iYEbrAosXtu9auaEKoTsF+KnWDwXpOiJU6WqC8V3qC9QbqTN5t1emOEm/0N4xCDixS
-         JUEy8ihMOgRWQ5FBIeuUHxas9KIsltMlb7RdEhc64yq2lgpBInIPXUO/veP4Ax9VojzR
-         lu649eySKy317yLrZzHsbI89qC7eakT0khK1KW43JpZpdJNQRSbLE8Vbi8N1ky5fhTHU
-         MXRSNaYydZKXsW/W+/3E7e5FGy0KSSDq4PZSvihahHByZJgrTisLxYSnvfXQVzETqhhB
-         GVK9u4D25fgvCcVdDRU4W5fQCxhb1XwTLXrGSmDw+aF1kO7FT86F652Dt8O30bGcsTHV
-         KU9Q==
+        bh=mbPn8jG0aaiKDlxm4t2ttIZEEd6U3lKk9eO8XNX7zCA=;
+        b=pLMUpDB7gFe5hQt7w5C4ljVlJzlgjGvpWaV1i7ekOS7UJQ+3EnKH1KT24CGPXNnwC9
+         bkjMzpqlre6oh0sEDlrPEqQv8JYKzaYxaFV0EJyBhVUuOomUO8kgjc4r9YE2GygxbqQ+
+         vlsPfVwycoHinjWEZktUMBPfUC5JLNiRshuMxIPmkuCM1hCTrSCdklSbcvv+JUhyhD2y
+         n9qp/nCTqAa9Trda/0jmnOJJHb4eC/vyK6X15glYPg4oh7KVPu24P1id3dCjaOfYkkLO
+         gEyVgowrQBOMp/U90IFnlFshLPC80Ut9/7WJR80joT6lrPxqo60LusGQbDkWX+PoS6hZ
+         NMHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694673559; x=1695278359;
+        d=1e100.net; s=20230601; t=1694673692; x=1695278492;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rryeilmHVsTcYrCE5ypYa65vGftDTEhvKiA4HjqLsnY=;
-        b=GEuih3g1fUEpZMrv6Ao7bkDb2/8QLGm4H/Ww8S+Y1Q42MB2RVU5hsvJrFKExUvZaNd
-         +ganaMWC9qweq4CJUMk3yHswfUVzXO9fZtyrgqfqll4JkJF/KUVHO0RjBWQ9B8yWQPxU
-         RihnlZ4lfWAoLMgMRe97wZfQcNgQrEeDHia5ueGm6Yz7kV3eO8Db9dtHnSC4NqOSKktT
-         vmXtgYGttxoMmZ4L8CkW6KQmlZIuyRv/cjEZDORxZlE6nfrFakz9q9wOQ7T6zZz+YcvY
-         lu/JkdIPOuYOpNi47oF3Un+/nbM/JDsI3rSO2PFgvvo8gz0t6APaqHM2/avHM9zTYjOF
-         xh6w==
-X-Gm-Message-State: AOJu0YzObnJtqUJH/7tLkgm6AvLZa5gCBVr4aYvCq1bZ1c3QynbVtnvM
-	RAGCHn+/n7ZdmipFFUrZKrVQi+3erovo/ZjNQBs=
-X-Google-Smtp-Source: AGHT+IG+/qdPplJXDD0+lN4yHo05FQxVTl93zDo17Uyz7IvIM31rz3w/2/XB3ia+oEveTVposJWNFg==
-X-Received: by 2002:a1c:f717:0:b0:401:23fc:1f92 with SMTP id v23-20020a1cf717000000b0040123fc1f92mr3982730wmh.25.1694673559261;
-        Wed, 13 Sep 2023 23:39:19 -0700 (PDT)
+        bh=mbPn8jG0aaiKDlxm4t2ttIZEEd6U3lKk9eO8XNX7zCA=;
+        b=KM/jiHPxO2asNWbI9MGKR5VpDFRbWRjI68FbvTY22fiBBxU+pDgUwdnlamZ2JrIrED
+         fcSUVIl46+7mya9v1zCYX3votqJFv1OuGnEXN/bPE2E5oplx2YXkuaTuV0xl+L0lkXCg
+         zV35uMFxxJMyjfkITqyCyKQLFUB4fn3fp2bd2qEyBVdduDJhznVBUkdx+p4x0DtmFo5F
+         x7d1r6KgaTh7d5inhHb6yibhFG17m5vPSQn9074UgZLcLu2xzOsWqv+OZ1+mxfIMUvbD
+         YmhsrfG2UDU+S4IQaTSg4CgDlxiRtsnQuMYkQ2kgj0x5y+HLQj12amAuCUAuhBO4TSzK
+         3A6A==
+X-Gm-Message-State: AOJu0Yx5P5fG0X56Q+iSm3phk7/iOzLYKqwg3WZ65mk8TyAVjo3B4V5X
+	SlFUKrgJzYCBdAtOoFbT/CwSQ60fhXtVVZG4eZY=
+X-Google-Smtp-Source: AGHT+IFgeGqKGjC19iBPDtNMSzCBGblrqc4Ak12Todt8W8/zsACpjAIRkD+d9CMRsRDWUFDe6Nn7WA==
+X-Received: by 2002:a1c:7204:0:b0:403:442:5421 with SMTP id n4-20020a1c7204000000b0040304425421mr3855814wmc.4.1694673692426;
+        Wed, 13 Sep 2023 23:41:32 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c3-20020a05600c0ac300b003fef6881350sm1052699wmr.25.2023.09.13.23.39.18
+        by smtp.gmail.com with ESMTPSA id m10-20020a7bce0a000000b003fee53feab5sm1061962wmc.10.2023.09.13.23.41.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 23:39:18 -0700 (PDT)
-Date: Thu, 14 Sep 2023 09:39:16 +0300
+        Wed, 13 Sep 2023 23:41:32 -0700 (PDT)
+Date: Thu, 14 Sep 2023 09:41:29 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 6539/11302]
- kernel/trace/ring_buffer.c:2177 ring_buffer_resize() warn: variable
- dereferenced before check 'buffer' (see line 2172)
-Message-ID: <844e068c-5d8e-489b-9bff-7b98996fa3b9@kadam.mountain>
+To: oe-kbuild@lists.linux.dev, Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	devel@driverdev.osuosl.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [staging:staging-testing 17/17] drivers/staging/vme_user/vme.c:296
+ vme_slave_request() error: we previously assumed 'slave_image' could be null
+ (see line 297)
+Message-ID: <87c5de5b-ecb8-46ec-8489-605971214683@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,47 +55,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   7579b22626ff63d1e755c7afe0e6a82b879f939e
-commit: 5ecbcb61e172d82faf1bd8c00b17837d3c658c59 [6539/11302] ANDROID: ring-buffer: Introducing external writer support
-config: x86_64-randconfig-161-20230913 (https://download.01.org/0day-ci/archive/20230914/202309140321.8D6yrzxp-lkp@intel.com/config)
+Hi Jinjie,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git staging-testing
+head:   4c5ba1d7a93e098aececbf93afbdd7add98ec6f3
+commit: 4c5ba1d7a93e098aececbf93afbdd7add98ec6f3 [17/17] staging: vme_user: Use list_for_each_entry() helper
+config: x86_64-randconfig-161-20230913 (https://download.01.org/0day-ci/archive/20230914/202309140330.fgOxoRhE-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230914/202309140321.8D6yrzxp-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230914/202309140330.fgOxoRhE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309140321.8D6yrzxp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309140330.fgOxoRhE-lkp@intel.com/
 
 smatch warnings:
-kernel/trace/ring_buffer.c:2177 ring_buffer_resize() warn: variable dereferenced before check 'buffer' (see line 2172)
+drivers/staging/vme_user/vme.c:296 vme_slave_request() error: we previously assumed 'slave_image' could be null (see line 297)
+drivers/staging/vme_user/vme.c:492 vme_master_request() error: we previously assumed 'master_image' could be null (see line 493)
+drivers/staging/vme_user/vme.c:866 vme_dma_request() error: we previously assumed 'dma_ctrlr' could be null (see line 867)
+drivers/staging/vme_user/vme.c:1460 vme_lm_request() error: we previously assumed 'lm' could be null (see line 1461)
 
-vim +/buffer +2177 kernel/trace/ring_buffer.c
+vim +/slave_image +296 drivers/staging/vme_user/vme.c
 
-13292494379f92 Steven Rostedt (VMware    2019-12-13  2165) int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2166  			int cpu_id)
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2167  {
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2168  	struct ring_buffer_per_cpu *cpu_buffer;
-9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  2169) 	unsigned long nr_pages;
-0a1754b2a97efa Qiujun Huang              2020-10-19  2170  	int cpu, err;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  2171  
-5ecbcb61e172d8 Vincent Donnefort         2022-08-24 @2172  	if (unlikely(has_ext_writer(buffer)))
-                                                                                            ^^^^^^
-Dereferenced inside the function.
+6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  281  struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
+6af04b065b048e drivers/staging/vme/vme.c      Martyn Welch    2011-12-01  282  				       u32 cycle)
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  283  {
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  284  	struct vme_bridge *bridge;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  285  	struct vme_slave_resource *allocated_image = NULL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  286  	struct vme_slave_resource *slave_image = NULL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  287  	struct vme_resource *resource = NULL;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  288  
+8f966dc444b11a drivers/staging/vme/vme.c      Manohar Vanga   2011-09-26  289  	bridge = vdev->bridge;
+61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24  290  	if (!bridge) {
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  291  		printk(KERN_ERR "Can't find VME bus\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  292  		goto err_bus;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  293  	}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  294  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  295  	/* Loop through slave resources */
+4c5ba1d7a93e09 drivers/staging/vme_user/vme.c Jinjie Ruan     2023-08-23 @296  	list_for_each_entry(slave_image, &bridge->slave_resources, list) {
+                                                                                                    ^^^^^^^^^^^
+This is the iterator.
 
-5ecbcb61e172d8 Vincent Donnefort         2022-08-24  2173  		return -EINVAL;
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2174  	/*
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2175  	 * Always succeed at resizing a non-existent buffer:
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2176  	 */
-ee51a1de7e3837 Ingo Molnar               2008-11-13 @2177  	if (!buffer)
-                                                                     ^^^^^^
-Too late.
+61282c04984e40 drivers/vme/vme.c              Markus Elfring  2017-08-24 @297  		if (!slave_image) {
 
-0a1754b2a97efa Qiujun Huang              2020-10-19  2178  		return 0;
-ee51a1de7e3837 Ingo Molnar               2008-11-13  2179  
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2180  	/* Make sure the requested buffer exists */
-6a31e1f135d1ab Steven Rostedt            2012-05-23  2181  	if (cpu_id != RING_BUFFER_ALL_CPUS &&
+And list iterators are never NULL.  Please remove this if statement.
+
+ead1f3e301e2d8 drivers/staging/vme/vme.c      Martyn Welch    2009-12-15  298  			printk(KERN_ERR "Registered NULL Slave resource\n");
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  299  			continue;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  300  		}
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  301  
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  302  		/* Find an unlocked and compatible image */
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  303  		mutex_lock(&slave_image->mtx);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  304  		if (((slave_image->address_attr & address) == address) &&
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  305  		    ((slave_image->cycle_attr & cycle) == cycle) &&
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  306  		    (slave_image->locked == 0)) {
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  307  			slave_image->locked = 1;
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  308  			mutex_unlock(&slave_image->mtx);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  309  			allocated_image = slave_image;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  310  			break;
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  311  		}
+886953e9b70bcb drivers/staging/vme/vme.c      Emilio G. Cota  2010-11-12  312  		mutex_unlock(&slave_image->mtx);
+a17a75e2666f71 drivers/staging/vme/vme.c      Martyn Welch    2009-07-31  313  	}
 
 -- 
 0-DAY CI Kernel Test Service
