@@ -1,144 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B588191
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 Sep 2023 00:23:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBDB1873
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 Sep 2023 04:40:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694651000; x=1726187000;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=+UlneO/H8spGePlq3BR0HSExrmBtbt2tbye9uUFRAGE=;
-  b=j/yNK7WjfWcyVdrxnFMCqU+3vF8kur3VJeQfntJE/VKdA7RfAsfs2NDq
-   hE8iDnMZ2PKaXYM+WMRmNZMGi0Bsk88gS2eQ7oa+uuRsE6jXEfhbwkVFD
-   plgYSS6UUSRGJRqAdRA4jaH3OK7od2M+YDJLNPVoMDf/3N3pBcctngt5R
-   /mQvHd2xY9hIYsQ1wdi9l3ykFI8B0rfXTCooObr5kRmv41tXO+ULnT7kF
-   e0pItCP8g8LHuS82j9XO2mJS38KNObi2fjZ7FCAJNYW8Rm8PZjtnb/ydZ
-   VHfthXlvOfKyPI/sVEtKtVV2HkHnMAu34RiLHJzqkM/mpg+D+3IGWbljU
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="378743038"
-X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="378743038"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 17:23:19 -0700
+  t=1694666404; x=1726202404;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cZ1+Ngy+38PtmZUGDhbpMKN2T1RnNKEnmMhCoZLpG+E=;
+  b=B1VCb0Uy9T8cEAdMLtPcJYf01I3MaUTBIKymnOLTxZF8NIMZn8mauwds
+   bb6CE6usfD7c+rslP+6rMagJkA5OPtxaWR/ld03caOXwTEAQwg7zmRgEF
+   eRQHTDsLWhyH9TU7S0yoL+jN3ILqj39VjwOutWKqhe9kdElqOewJzI8HC
+   C3m8I07nHI0olrh4LiTEU8Uc2B8XlKrvQeVpuUR2NGZy0atIyheoSlyeb
+   UnipSbqhs01cRHitbyKuIBJWbfClVpIbp3DqZBA/5a1UdsnUInKLu62sE
+   pb+Tv44vFGFivxEHcz5XXUgqXJ6zPptsSCg/RwOaZi43tNj8S2mGSV3E/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="369123207"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="369123207"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 21:39:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="918043401"
-X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="918043401"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="868097141"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="868097141"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 13 Sep 2023 17:23:18 -0700
+  by orsmga004.jf.intel.com with ESMTP; 13 Sep 2023 21:39:57 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qga8Y-0000rZ-1W;
-	Thu, 14 Sep 2023 00:23:15 +0000
-Date: Thu, 14 Sep 2023 08:22:55 +0800
+	id 1qge8w-0001AH-3C;
+	Thu, 14 Sep 2023 04:39:54 +0000
+Date: Thu, 14 Sep 2023 12:39:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/2] leds: triggers: gpio: Rewrite to use trigger-sources
-Message-ID: <202309140825.cVUTHU1K-lkp@intel.com>
+Subject: Re: [PATCH 02/54] ASoC: simple_card_utils.h: convert not to use
+ asoc_xxx()
+Message-ID: <202309141205.ITZeDJxV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230912-gpio-led-trigger-dt-v1-2-1b50e3756dda@linaro.org>
-References: <20230912-gpio-led-trigger-dt-v1-2-1b50e3756dda@linaro.org>
-TO: Linus Walleij <linus.walleij@linaro.org>
-TO: "Jan Kundrát" <jan.kundrat@cesnet.cz>
-TO: Pavel Machek <pavel@ucw.cz>
-TO: Lee Jones <lee@kernel.org>
-TO: Rob Herring <robh+dt@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-CC: linux-leds@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Linus Walleij <linus.walleij@linaro.org>
+In-Reply-To: <87edj4s26a.wl-kuninori.morimoto.gx@renesas.com>
+References: <87edj4s26a.wl-kuninori.morimoto.gx@renesas.com>
+TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+TO: Jaroslav Kysela <perex@perex.cz>
+TO: Liam Girdwood <lgirdwood@gmail.com>
+TO: Mark Brown <broonie@kernel.org>
+TO: Takashi Iwai <tiwai@suse.com>
+CC: alsa-devel@alsa-project.org
 
-Hi Linus,
+Hi Kuninori,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 0bb80ecc33a8fb5a682236443c1e740d5c917d1d]
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus linus/master v6.6-rc1 next-20230913]
+[cannot apply to broonie-sound/for-next shawnguo/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/dt-bindings-leds-Mention-GPIO-triggers/20230912-214554
-base:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-patch link:    https://lore.kernel.org/r/20230912-gpio-led-trigger-dt-v1-2-1b50e3756dda%40linaro.org
-patch subject: [PATCH 2/2] leds: triggers: gpio: Rewrite to use trigger-sources
-:::::: branch date: 34 hours ago
-:::::: commit date: 34 hours ago
-config: x86_64-randconfig-161-20230913 (https://download.01.org/0day-ci/archive/20230914/202309140825.cVUTHU1K-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/ASoC-simple_card_utils-h-convert-not-to-use-asoc_xxx/20230912-084751
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/87edj4s26a.wl-kuninori.morimoto.gx%40renesas.com
+patch subject: [PATCH 02/54] ASoC: simple_card_utils.h: convert not to use asoc_xxx()
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20230914 (https://download.01.org/0day-ci/archive/20230914/202309141205.ITZeDJxV-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230914/202309140825.cVUTHU1K-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230914/202309141205.ITZeDJxV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309140825.cVUTHU1K-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309141205.ITZeDJxV-lkp@intel.com/
 
 smatch warnings:
-drivers/leds/trigger/ledtrig-gpio.c:98 gpio_trig_activate() error: dereferencing freed memory 'gpio_data'
+sound/soc/generic/simple-card-utils.c:313 simple_util_startup() warn: missing unwind goto?
 
-vim +/gpio_data +98 drivers/leds/trigger/ledtrig-gpio.c
+vim +313 sound/soc/generic/simple-card-utils.c
 
-9bfd7d9e5d6353 drivers/leds/trigger/ledtrig-gpio.c Uwe Kleine-König 2018-07-02   77  
-2282e125a406e0 drivers/leds/trigger/ledtrig-gpio.c Uwe Kleine-König 2018-07-02   78  static int gpio_trig_activate(struct led_classdev *led)
-17354bfe85275f drivers/leds/ledtrig-gpio.c         Felipe Balbi     2009-02-17   79  {
-17354bfe85275f drivers/leds/ledtrig-gpio.c         Felipe Balbi     2009-02-17   80  	struct gpio_trig_data *gpio_data;
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   81  	struct device *dev = led->dev;
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   82  	int ret;
-17354bfe85275f drivers/leds/ledtrig-gpio.c         Felipe Balbi     2009-02-17   83  
-17354bfe85275f drivers/leds/ledtrig-gpio.c         Felipe Balbi     2009-02-17   84  	gpio_data = kzalloc(sizeof(*gpio_data), GFP_KERNEL);
-17354bfe85275f drivers/leds/ledtrig-gpio.c         Felipe Balbi     2009-02-17   85  	if (!gpio_data)
-9bfd7d9e5d6353 drivers/leds/trigger/ledtrig-gpio.c Uwe Kleine-König 2018-07-02   86  		return -ENOMEM;
-17354bfe85275f drivers/leds/ledtrig-gpio.c         Felipe Balbi     2009-02-17   87  
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   88  	/*
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   89  	 * The generic property "trigger-sources" is followed,
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   90  	 * and we hope that this is a GPIO.
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   91  	 */
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   92  	gpio_data->gpiod = fwnode_gpiod_get_index(dev->fwnode,
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   93  						  "trigger-sources",
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   94  						  0, GPIOD_IN,
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   95  						  "led-trigger");
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   96  	if (IS_ERR(gpio_data->gpiod)) {
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   97  		kfree(gpio_data);
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  @98  		return PTR_ERR(gpio_data->gpiod);
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   99  	}
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  100  	if (!gpio_data->gpiod) {
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  101  		dev_err(dev, "no valid GPIO for the trigger\n");
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  102  		kfree(gpio_data);
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  103  		return -EINVAL;
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  104  	}
-4e4210402639f1 drivers/leds/trigger/ledtrig-gpio.c Andy Shevchenko  2019-08-30  105  
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  106  	gpio_data->led = led;
-9bfd7d9e5d6353 drivers/leds/trigger/ledtrig-gpio.c Uwe Kleine-König 2018-07-02  107  	led_set_trigger_data(led, gpio_data);
-2282e125a406e0 drivers/leds/trigger/ledtrig-gpio.c Uwe Kleine-König 2018-07-02  108  
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  109  	ret = request_threaded_irq(gpiod_to_irq(gpio_data->gpiod), NULL, gpio_trig_irq,
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  110  			IRQF_ONESHOT | IRQF_SHARED | IRQF_TRIGGER_RISING
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  111  			| IRQF_TRIGGER_FALLING, "ledtrig-gpio", led);
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  112  	if (ret) {
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  113  		dev_err(dev, "request_irq failed with error %d\n", ret);
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  114  		gpiod_put(gpio_data->gpiod);
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  115  		kfree(gpio_data);
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  116  		return ret;
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  117  	}
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  118  
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  119  	/* Finally update the LED to initial status */
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  120  	gpio_trig_irq(0, led);
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  121  
-2282e125a406e0 drivers/leds/trigger/ledtrig-gpio.c Uwe Kleine-König 2018-07-02  122  	return 0;
-17354bfe85275f drivers/leds/ledtrig-gpio.c         Felipe Balbi     2009-02-17  123  }
-17354bfe85275f drivers/leds/ledtrig-gpio.c         Felipe Balbi     2009-02-17  124  
+5ca2ab4598179a Robert Hancock    2022-01-20  278  
+674d245538be0d Kuninori Morimoto 2023-09-11  279  int simple_util_startup(struct snd_pcm_substream *substream)
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  280  {
+9ae035e289379b Kuninori Morimoto 2020-07-20  281  	struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  282  	struct asoc_simple_priv *priv = snd_soc_card_get_drvdata(rtd->card);
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  283  	struct simple_dai_props *props = simple_priv_to_props(priv, rtd->num);
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  284  	struct asoc_simple_dai *dai;
+5ca2ab4598179a Robert Hancock    2022-01-20  285  	unsigned int fixed_sysclk = 0;
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  286  	int i1, i2, i;
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  287  	int ret;
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  288  
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  289  	for_each_prop_dai_cpu(props, i1, dai) {
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  290  		ret = asoc_simple_clk_enable(dai);
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  291  		if (ret)
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  292  			goto cpu_err;
+5ca2ab4598179a Robert Hancock    2022-01-20  293  		ret = asoc_simple_check_fixed_sysclk(rtd->dev, dai, &fixed_sysclk);
+5ca2ab4598179a Robert Hancock    2022-01-20  294  		if (ret)
+5ca2ab4598179a Robert Hancock    2022-01-20  295  			goto cpu_err;
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  296  	}
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  297  
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  298  	for_each_prop_dai_codec(props, i2, dai) {
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  299  		ret = asoc_simple_clk_enable(dai);
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  300  		if (ret)
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  301  			goto codec_err;
+5ca2ab4598179a Robert Hancock    2022-01-20  302  		ret = asoc_simple_check_fixed_sysclk(rtd->dev, dai, &fixed_sysclk);
+5ca2ab4598179a Robert Hancock    2022-01-20  303  		if (ret)
+5ca2ab4598179a Robert Hancock    2022-01-20  304  			goto codec_err;
+5ca2ab4598179a Robert Hancock    2022-01-20  305  	}
+5ca2ab4598179a Robert Hancock    2022-01-20  306  
+5ca2ab4598179a Robert Hancock    2022-01-20  307  	if (fixed_sysclk && props->mclk_fs) {
+5ca2ab4598179a Robert Hancock    2022-01-20  308  		unsigned int fixed_rate = fixed_sysclk / props->mclk_fs;
+5ca2ab4598179a Robert Hancock    2022-01-20  309  
+5ca2ab4598179a Robert Hancock    2022-01-20  310  		if (fixed_sysclk % props->mclk_fs) {
+5ca2ab4598179a Robert Hancock    2022-01-20  311  			dev_err(rtd->dev, "fixed sysclk %u not divisible by mclk_fs %u\n",
+5ca2ab4598179a Robert Hancock    2022-01-20  312  				fixed_sysclk, props->mclk_fs);
+5ca2ab4598179a Robert Hancock    2022-01-20 @313  			return -EINVAL;
+5ca2ab4598179a Robert Hancock    2022-01-20  314  		}
+5ca2ab4598179a Robert Hancock    2022-01-20  315  		ret = snd_pcm_hw_constraint_minmax(substream->runtime, SNDRV_PCM_HW_PARAM_RATE,
+5ca2ab4598179a Robert Hancock    2022-01-20  316  			fixed_rate, fixed_rate);
+635071f5fee315 Robert Hancock    2023-06-01  317  		if (ret < 0)
+5ca2ab4598179a Robert Hancock    2022-01-20  318  			goto codec_err;
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  319  	}
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  320  
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  321  	return 0;
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  322  
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  323  codec_err:
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  324  	for_each_prop_dai_codec(props, i, dai) {
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  325  		if (i >= i2)
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  326  			break;
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  327  		asoc_simple_clk_disable(dai);
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  328  	}
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  329  cpu_err:
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  330  	for_each_prop_dai_cpu(props, i, dai) {
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  331  		if (i >= i1)
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  332  			break;
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  333  		asoc_simple_clk_disable(dai);
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  334  	}
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  335  	return ret;
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  336  }
+674d245538be0d Kuninori Morimoto 2023-09-11  337  EXPORT_SYMBOL_GPL(simple_util_startup);
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  338  
 
 -- 
 0-DAY CI Kernel Test Service
