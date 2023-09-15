@@ -1,51 +1,41 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5852611C
-	for <oe-kbuild@lists.linux.dev>; Fri, 15 Sep 2023 06:39:35 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-31c7912416bso1601591f8f.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 14 Sep 2023 23:39:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694759974; x=1695364774; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iTvz/7YrGXBBG3/XgDpueAsB2wVewc4vUbof5jngdtw=;
-        b=crWNqShyWn9PcUByFUsTPNkUqy5aeYublsggP/uqBr7kipeqZl1Vr+wveUtyzxix9I
-         hbLEEJh7LGbe/bzhMfSLv9LAyP/AARFqurI2/ypNMwSZih7aK9Ko9Q0G8npEj5D6SRAn
-         GmHJAdZytgZ1OejTxqL+VjmFao9BbzGz0tV1McMJwLWCNF0y0qu3piY3ZVXn8y3+DkD2
-         z3ljjfXstmakc8ZcwsuWJHkTFF2LGDlS1zYr8jMKT5iFvvIFkvM6ETskElRnXdX5qO2E
-         p/KWBkl2d2eNjlBSFYFNq867Kx+RgH1olSrGhC007R+7Mw6mZHoI/BrgulbeRhB4meoA
-         a8dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694759974; x=1695364774;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iTvz/7YrGXBBG3/XgDpueAsB2wVewc4vUbof5jngdtw=;
-        b=oRiRFv8bLR8Vad3aVcYIixbyV27qE48cO2xr41w53WHoeiHLiuceIpVOhXTrLhiGFO
-         e0WJp/yzAxWnYPqhG0TDbeDnpyuYqI0X5cROtnts6Prdu07dCKr1E2/TrY7m23YYAxUm
-         HAzbDLHgCEXmjWscdiJaKtb1FmTJ7gNV/hdt8KQUvGTMX+AUHW3hq67gl1tXHC5siJfO
-         V1VBXngVWmbw4YmTh/5idVhB4/3wDii8XhImC4fUce0I9ShCS748igk8oD92JskiUBGA
-         H7cO+jGEJw2ldj+YTBaxpcmucNRU6Sh8CD44cxuj6CxTlMHumrNzxEdIgQBcD5QJnSYC
-         k3bg==
-X-Gm-Message-State: AOJu0YxqIRgKn0xaPcsXMCE2uLbDm6yHrxaPVoREbP1RYCCfFP8mDyMe
-	mgBCNwtki7aAzRBC8NyVNe/kSA==
-X-Google-Smtp-Source: AGHT+IEq+d+DobvWyQp3Y+xzHX1/5fJhxIphESRsiOJ85Fg497Atqyldi/+PGTfAwHwISmsSbsPArA==
-X-Received: by 2002:adf:f110:0:b0:319:7c7d:8d1 with SMTP id r16-20020adff110000000b003197c7d08d1mr579352wro.44.1694759973935;
-        Thu, 14 Sep 2023 23:39:33 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id t18-20020a5d5352000000b0031c3ee933b5sm3562792wrv.108.2023.09.14.23.39.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 23:39:33 -0700 (PDT)
-Date: Fri, 15 Sep 2023 09:39:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 25/54] ASoC: generic: convert not to use asoc_xxx()
-Message-ID: <f8790567-237c-4424-b185-9862a168c91d@kadam.mountain>
-References: <87h6o0qnho.wl-kuninori.morimoto.gx@renesas.com>
- <3a818c96-8056-44ea-bc62-7104606da2ed@kadam.mountain>
- <871qf0qrwk.wl-kuninori.morimoto.gx@renesas.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB929D290
+	for <oe-kbuild@lists.linux.dev>; Fri, 15 Sep 2023 07:39:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694763575; x=1726299575;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0u4sjZTKDePYU14w0JEmv5tHWi9dNdncrGXKdN+ovP8=;
+  b=HkN+5t03FsGMukTz9Fk0I5Bgm4ma5pfmb2dJ3Zz8UEPcg4GnG0Pq2Qyn
+   jK+hnh54+aWvcKCT54nxQmuL5k3xCaMoa0sUKUHwCOPqfYg5LejpUcSVy
+   KYVAduM6l8FHOgOMAMlREJdjkiIkn1jZVvwE3pGnMzei66YN14HZ502IP
+   5yN0ULQG/lbKUg8L+FZahBq4MDI3tnQXf2h55PJYsFiNZFYI0qsokYYrP
+   sH+kXA9m17B9k5bEUfahYYLmbVuAT4YfxAc/mtS6CqvJoXw0NL/hDEHKl
+   /gghBE76BFp66eyuMMmmN3reqKuHFLwtHmkpr4GUqkHM8x/Lw5qn0rbYh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="378101988"
+X-IronPort-AV: E=Sophos;i="6.02,148,1688454000"; 
+   d="scan'208";a="378101988"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 00:39:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="744876505"
+X-IronPort-AV: E=Sophos;i="6.02,148,1688454000"; 
+   d="scan'208";a="744876505"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 15 Sep 2023 00:39:33 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qh3QJ-0002eP-0h;
+	Fri, 15 Sep 2023 07:39:31 +0000
+Date: Fri, 15 Sep 2023 15:38:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH vfio] vfio/pci: remove msi domain on msi disable
+Message-ID: <202309151535.q1bqfuzX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,56 +44,92 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <871qf0qrwk.wl-kuninori.morimoto.gx@renesas.com>
 
-On Thu, Sep 14, 2023 at 11:03:23PM +0000, Kuninori Morimoto wrote:
-> 
-> Hi Dan
-> 
-> Thank you for the report
-> 
-> > fa558c2801fc17 Kuninori Morimoto   2013-11-20  753  	} else {
-> > 88c819af51a9cc Kuninori Morimoto   2023-09-11  754  		struct simple_util_info *cinfo;
-> > f107294c6422e7 Kuninori Morimoto   2019-06-06  755  		struct snd_soc_dai_link_component *cpus;
-> > 710af9196ce614 Kuninori Morimoto   2018-08-31  756  		struct snd_soc_dai_link_component *codecs;
-> > e58f41e41185c6 Kuninori Morimoto   2018-08-31  757  		struct snd_soc_dai_link_component *platform;
-> > 65a5056b21202e Kuninori Morimoto   2019-03-20  758  		struct snd_soc_dai_link *dai_link = priv->dai_link;
-> > 65a5056b21202e Kuninori Morimoto   2019-03-20  759  		struct simple_dai_props *dai_props = priv->dai_props;
-> > 65a5056b21202e Kuninori Morimoto   2019-03-20  760  
-> > ca65b492c7a265 Jean-Francois Moine 2014-01-15  761  		cinfo = dev->platform_data;
-> > ca65b492c7a265 Jean-Francois Moine 2014-01-15  762  		if (!cinfo) {
-> > f89983ef61677a Kuninori Morimoto   2012-12-25  763  			dev_err(dev, "no info for asoc-simple-card\n");
-> > f2390880ec0264 Kuninori Morimoto   2012-04-08  764  			return -EINVAL;
-> > 
-> > goto err?
-> > 
-> > f2390880ec0264 Kuninori Morimoto   2012-04-08  765  		}
-> > f2390880ec0264 Kuninori Morimoto   2012-04-08  766  
-> > f2390880ec0264 Kuninori Morimoto   2012-04-08  767  		if (!cinfo->name ||
-> > fa558c2801fc17 Kuninori Morimoto   2013-11-20  768  		    !cinfo->codec_dai.name ||
-> > 7722f830a45f7f Jean-Francois Moine 2014-01-15  769  		    !cinfo->codec ||
-> > 7722f830a45f7f Jean-Francois Moine 2014-01-15  770  		    !cinfo->platform ||
-> > 7722f830a45f7f Jean-Francois Moine 2014-01-15  771  		    !cinfo->cpu_dai.name) {
-> > 88c819af51a9cc Kuninori Morimoto   2023-09-11  772  			dev_err(dev, "insufficient simple_util_info settings\n");
-> > f2390880ec0264 Kuninori Morimoto   2012-04-08 @773  			return -EINVAL;
-> > 
-> > goto err?
-> 
-> Thank you for pointing it, but it is correct.
-> This driver is supporting both "DT sytle" and "platform data style"
-> and "DT style" error only need to use "goto err".
+:::::: 
+:::::: Manual check reason: "git am base is a link in commit message"
+:::::: 
 
-Currently, this check looks at if there is a return surrounded by goto
-cleanup.  I could silence this false positive by adding a check that
-it has to be surrounded but also we have to have goto in our path
-earlier.  In this case, the goto cleanup was on the if true side and
-we are on the if false side.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230914191406.54656-1-shannon.nelson@amd.com>
+References: <20230914191406.54656-1-shannon.nelson@amd.com>
+TO: Shannon Nelson <shannon.nelson@amd.com>
+TO: alex.williamson@redhat.com
+TO: jgg@ziepe.ca
+TO: kevin.tian@intel.com
+TO: reinette.chatre@intel.com
+TO: tglx@linutronix.de
+TO: kvm@vger.kernel.org
+CC: shannon.nelson@amd.com
+CC: brett.creeley@amd.com
+CC: linux-kernel@vger.kernel.org
 
-It's a little bit of work to write this code but it's doable.  I'll add
-it to my TODO list (and then probably forget about it forever honestly.
-:P).
+Hi Shannon,
 
-KTODO: Modifiy smatch to silence goto unwind false positive
+kernel test robot noticed the following build errors:
 
-regards,
-dan carpenter
+[auto build test ERROR on awilliam-vfio/for-linus]
+[cannot apply to awilliam-vfio/next linus/master v6.6-rc1 next-20230915]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shannon-Nelson/vfio-pci-remove-msi-domain-on-msi-disable/20230915-031544
+base:   https://github.com/awilliam/linux-vfio.git for-linus
+patch link:    https://lore.kernel.org/r/20230914191406.54656-1-shannon.nelson%40amd.com
+patch subject: [PATCH vfio] vfio/pci: remove msi domain on msi disable
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: i386-randconfig-004-20230915 (https://download.01.org/0day-ci/archive/20230915/202309151535.q1bqfuzX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309151535.q1bqfuzX-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202309151535.q1bqfuzX-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/vfio/pci/vfio_pci_intrs.c: In function 'vfio_msi_disable':
+>> drivers/vfio/pci/vfio_pci_intrs.c:541:9: error: implicit declaration of function 'msi_remove_device_irq_domain' [-Werror=implicit-function-declaration]
+     541 |         msi_remove_device_irq_domain(&pdev->dev, MSI_DEFAULT_DOMAIN);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/msi_remove_device_irq_domain +541 drivers/vfio/pci/vfio_pci_intrs.c
+
+89e1f7d4c66d85f Alex Williamson   2012-07-31  524  
+536475109c82841 Max Gurtovoy      2021-08-26  525  static void vfio_msi_disable(struct vfio_pci_core_device *vdev, bool msix)
+89e1f7d4c66d85f Alex Williamson   2012-07-31  526  {
+89e1f7d4c66d85f Alex Williamson   2012-07-31  527  	struct pci_dev *pdev = vdev->pdev;
+d74e9fd8c9c81e2 Reinette Chatre   2023-05-11  528  	struct vfio_pci_irq_ctx *ctx;
+7f95ee792e66322 Reinette Chatre   2023-05-11  529  	unsigned long i;
+abafbc551fddede Alex Williamson   2020-04-22  530  	u16 cmd;
+89e1f7d4c66d85f Alex Williamson   2012-07-31  531  
+7f95ee792e66322 Reinette Chatre   2023-05-11  532  	xa_for_each(&vdev->ctx, i, ctx) {
+d74e9fd8c9c81e2 Reinette Chatre   2023-05-11  533  		vfio_virqfd_disable(&ctx->unmask);
+d74e9fd8c9c81e2 Reinette Chatre   2023-05-11  534  		vfio_virqfd_disable(&ctx->mask);
+287c9512e767e82 Reinette Chatre   2023-05-11  535  		vfio_msi_set_vector_signal(vdev, i, -1, msix);
+89e1f7d4c66d85f Alex Williamson   2012-07-31  536  	}
+89e1f7d4c66d85f Alex Williamson   2012-07-31  537  
+abafbc551fddede Alex Williamson   2020-04-22  538  	cmd = vfio_pci_memory_lock_and_enable(vdev);
+61771468e0a567f Christoph Hellwig 2016-09-11  539  	pci_free_irq_vectors(pdev);
+abafbc551fddede Alex Williamson   2020-04-22  540  	vfio_pci_memory_unlock_and_restore(vdev, cmd);
+d32739dbb39d42c Shannon Nelson    2023-09-14 @541  	msi_remove_device_irq_domain(&pdev->dev, MSI_DEFAULT_DOMAIN);
+89e1f7d4c66d85f Alex Williamson   2012-07-31  542  
+c93a97ee0583cd6 Alex Williamson   2016-09-26  543  	/*
+c93a97ee0583cd6 Alex Williamson   2016-09-26  544  	 * Both disable paths above use pci_intx_for_msi() to clear DisINTx
+c93a97ee0583cd6 Alex Williamson   2016-09-26  545  	 * via their shutdown paths.  Restore for NoINTx devices.
+c93a97ee0583cd6 Alex Williamson   2016-09-26  546  	 */
+c93a97ee0583cd6 Alex Williamson   2016-09-26  547  	if (vdev->nointx)
+c93a97ee0583cd6 Alex Williamson   2016-09-26  548  		pci_intx(pdev, 0);
+c93a97ee0583cd6 Alex Williamson   2016-09-26  549  
+89e1f7d4c66d85f Alex Williamson   2012-07-31  550  	vdev->irq_type = VFIO_PCI_NUM_IRQS;
+89e1f7d4c66d85f Alex Williamson   2012-07-31  551  }
+89e1f7d4c66d85f Alex Williamson   2012-07-31  552  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
