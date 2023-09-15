@@ -1,42 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115D5211A
-	for <oe-kbuild@lists.linux.dev>; Fri, 15 Sep 2023 03:27:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694748468; x=1726284468;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2Ptkc8gTE0+8rQGCSmxvYwMktpKNhqUk9MqP2Jj5cys=;
-  b=KppJjr6Ouz58Kg4dAtzwFwa7ZlJ6d3so19B5RfpV/Z4IkuXZ08xctjIt
-   6Hc1whfOiPwAo8UlBqj1Gub0frrH5Cv59oUa9VYNKK2gmvhgWDd31o+r3
-   OkyoSId9WoxgrFWunmJhyHv/hCUQT6K4usvVvw1CEnLhxygoLKnITM85K
-   f1DU5dI8/1CwYMgJkABjY1OCdGq84k+3mgu5PJwnQ2mGSeh18UJZTwtQK
-   HQ0Fh+rXH1uFKAl05u2dVjLmTw4uOShk6VE9ng64iqP6Uf/1PrATARBhp
-   frlD4mwfRPLmE0ybY/Lvdw/DXZCKxpvMkGuS2xiElVVGWDdg1QyLA6L5a
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="359403311"
-X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="359403311"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 20:27:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="779926199"
-X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="779926199"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 14 Sep 2023 20:27:35 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qgzUT-0002NZ-11;
-	Fri, 15 Sep 2023 03:27:33 +0000
-Date: Fri, 15 Sep 2023 11:27:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:pending-fixes 5/445] checkpatch: WARNING: %Lx is
- non-standard C, use %llx
-Message-ID: <202309151120.DpIUuO0k-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5852611C
+	for <oe-kbuild@lists.linux.dev>; Fri, 15 Sep 2023 06:39:35 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-31c7912416bso1601591f8f.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 14 Sep 2023 23:39:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694759974; x=1695364774; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iTvz/7YrGXBBG3/XgDpueAsB2wVewc4vUbof5jngdtw=;
+        b=crWNqShyWn9PcUByFUsTPNkUqy5aeYublsggP/uqBr7kipeqZl1Vr+wveUtyzxix9I
+         hbLEEJh7LGbe/bzhMfSLv9LAyP/AARFqurI2/ypNMwSZih7aK9Ko9Q0G8npEj5D6SRAn
+         GmHJAdZytgZ1OejTxqL+VjmFao9BbzGz0tV1McMJwLWCNF0y0qu3piY3ZVXn8y3+DkD2
+         z3ljjfXstmakc8ZcwsuWJHkTFF2LGDlS1zYr8jMKT5iFvvIFkvM6ETskElRnXdX5qO2E
+         p/KWBkl2d2eNjlBSFYFNq867Kx+RgH1olSrGhC007R+7Mw6mZHoI/BrgulbeRhB4meoA
+         a8dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694759974; x=1695364774;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iTvz/7YrGXBBG3/XgDpueAsB2wVewc4vUbof5jngdtw=;
+        b=oRiRFv8bLR8Vad3aVcYIixbyV27qE48cO2xr41w53WHoeiHLiuceIpVOhXTrLhiGFO
+         e0WJp/yzAxWnYPqhG0TDbeDnpyuYqI0X5cROtnts6Prdu07dCKr1E2/TrY7m23YYAxUm
+         HAzbDLHgCEXmjWscdiJaKtb1FmTJ7gNV/hdt8KQUvGTMX+AUHW3hq67gl1tXHC5siJfO
+         V1VBXngVWmbw4YmTh/5idVhB4/3wDii8XhImC4fUce0I9ShCS748igk8oD92JskiUBGA
+         H7cO+jGEJw2ldj+YTBaxpcmucNRU6Sh8CD44cxuj6CxTlMHumrNzxEdIgQBcD5QJnSYC
+         k3bg==
+X-Gm-Message-State: AOJu0YxqIRgKn0xaPcsXMCE2uLbDm6yHrxaPVoREbP1RYCCfFP8mDyMe
+	mgBCNwtki7aAzRBC8NyVNe/kSA==
+X-Google-Smtp-Source: AGHT+IEq+d+DobvWyQp3Y+xzHX1/5fJhxIphESRsiOJ85Fg497Atqyldi/+PGTfAwHwISmsSbsPArA==
+X-Received: by 2002:adf:f110:0:b0:319:7c7d:8d1 with SMTP id r16-20020adff110000000b003197c7d08d1mr579352wro.44.1694759973935;
+        Thu, 14 Sep 2023 23:39:33 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id t18-20020a5d5352000000b0031c3ee933b5sm3562792wrv.108.2023.09.14.23.39.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Sep 2023 23:39:33 -0700 (PDT)
+Date: Fri, 15 Sep 2023 09:39:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 25/54] ASoC: generic: convert not to use asoc_xxx()
+Message-ID: <f8790567-237c-4424-b185-9862a168c91d@kadam.mountain>
+References: <87h6o0qnho.wl-kuninori.morimoto.gx@renesas.com>
+ <3a818c96-8056-44ea-bc62-7104606da2ed@kadam.mountain>
+ <871qf0qrwk.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,56 +54,56 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <871qf0qrwk.wl-kuninori.morimoto.gx@renesas.com>
 
-:::::: 
-:::::: Manual check reason: "checkpatch"
-:::::: 
+On Thu, Sep 14, 2023 at 11:03:23PM +0000, Kuninori Morimoto wrote:
+> 
+> Hi Dan
+> 
+> Thank you for the report
+> 
+> > fa558c2801fc17 Kuninori Morimoto   2013-11-20  753  	} else {
+> > 88c819af51a9cc Kuninori Morimoto   2023-09-11  754  		struct simple_util_info *cinfo;
+> > f107294c6422e7 Kuninori Morimoto   2019-06-06  755  		struct snd_soc_dai_link_component *cpus;
+> > 710af9196ce614 Kuninori Morimoto   2018-08-31  756  		struct snd_soc_dai_link_component *codecs;
+> > e58f41e41185c6 Kuninori Morimoto   2018-08-31  757  		struct snd_soc_dai_link_component *platform;
+> > 65a5056b21202e Kuninori Morimoto   2019-03-20  758  		struct snd_soc_dai_link *dai_link = priv->dai_link;
+> > 65a5056b21202e Kuninori Morimoto   2019-03-20  759  		struct simple_dai_props *dai_props = priv->dai_props;
+> > 65a5056b21202e Kuninori Morimoto   2019-03-20  760  
+> > ca65b492c7a265 Jean-Francois Moine 2014-01-15  761  		cinfo = dev->platform_data;
+> > ca65b492c7a265 Jean-Francois Moine 2014-01-15  762  		if (!cinfo) {
+> > f89983ef61677a Kuninori Morimoto   2012-12-25  763  			dev_err(dev, "no info for asoc-simple-card\n");
+> > f2390880ec0264 Kuninori Morimoto   2012-04-08  764  			return -EINVAL;
+> > 
+> > goto err?
+> > 
+> > f2390880ec0264 Kuninori Morimoto   2012-04-08  765  		}
+> > f2390880ec0264 Kuninori Morimoto   2012-04-08  766  
+> > f2390880ec0264 Kuninori Morimoto   2012-04-08  767  		if (!cinfo->name ||
+> > fa558c2801fc17 Kuninori Morimoto   2013-11-20  768  		    !cinfo->codec_dai.name ||
+> > 7722f830a45f7f Jean-Francois Moine 2014-01-15  769  		    !cinfo->codec ||
+> > 7722f830a45f7f Jean-Francois Moine 2014-01-15  770  		    !cinfo->platform ||
+> > 7722f830a45f7f Jean-Francois Moine 2014-01-15  771  		    !cinfo->cpu_dai.name) {
+> > 88c819af51a9cc Kuninori Morimoto   2023-09-11  772  			dev_err(dev, "insufficient simple_util_info settings\n");
+> > f2390880ec0264 Kuninori Morimoto   2012-04-08 @773  			return -EINVAL;
+> > 
+> > goto err?
+> 
+> Thank you for pointing it, but it is correct.
+> This driver is supporting both "DT sytle" and "platform data style"
+> and "DT style" error only need to use "goto err".
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Helge Deller <deller@gmx.de>
-INFO skip CC for checkpatch warnings
+Currently, this check looks at if there is a return surrounded by goto
+cleanup.  I could silence this false positive by adding a check that
+it has to be surrounded but also we have to have goto in our path
+earlier.  In this case, the goto cleanup was on the if true side and
+we are on the if false side.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
-head:   66b45e71c969032c8c1564217e8596103b451145
-commit: c1ebb94071cb4455177bafa619423acb3494d15d [5/445] parisc: sba-iommu: Fix sparse warnigs
-:::::: branch date: 5 hours ago
-:::::: commit date: 2 weeks ago
-reproduce: (https://download.01.org/0day-ci/archive/20230915/202309151120.DpIUuO0k-lkp@intel.com/reproduce)
+It's a little bit of work to write this code but it's doable.  I'll add
+it to my TODO list (and then probably forget about it forever honestly.
+:P).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309151120.DpIUuO0k-lkp@intel.com/
+KTODO: Modifiy smatch to silence goto unwind false positive
 
-# many are suggestions rather than must-fix
-
-WARNING: A patch subject line should describe the change not the tool that found it
-#4: 
-Subject: sba-iommu: Fix sparse warnigs
-
-ERROR: Macros with complex values should be enclosed in parentheses
-#33: arch/parisc/include/asm/ropes.h:116:
-+#define SBA_AGPGART_COOKIE	(__force __le64) 0x0000badbadc0ffeeULL
-
-WARNING: Using vsprintf specifier '%px' potentially exposes the kernel memory layout, if you don't really need the address please consider using '%p'.
-#102: drivers/parisc/sba_iommu.c:1435:
-+	DBG_INIT("%s() hpa %px mem %ldMB IOV %dMB (%d bits)\n",
- 			__func__,
- 			ioc->ioc_hpa,
- 			(unsigned long) totalram_pages() >> (20 - PAGE_SHIFT),
-@@ -1469,7 +1469,7 @@ sba_ioc_init(struct parisc_device *sba, struct ioc *ioc, int ioc_num)
-
-WARNING: %Lx is non-standard C, use %llx
-#120: drivers/parisc/sba_iommu.c:1584:
-+		DBG_INIT("%s() hpa %px ioc_ctl 0x%Lx ->",
-
-WARNING: Using vsprintf specifier '%px' potentially exposes the kernel memory layout, if you don't really need the address please consider using '%p'.
-#120: drivers/parisc/sba_iommu.c:1584:
-+		DBG_INIT("%s() hpa %px ioc_ctl 0x%Lx ->",
- 			__func__, sba_dev->sba_hpa, ioc_ctl);
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+regards,
+dan carpenter
