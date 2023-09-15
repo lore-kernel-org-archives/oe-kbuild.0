@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418C6D50C
-	for <oe-kbuild@lists.linux.dev>; Fri, 15 Sep 2023 08:21:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FD563A5
+	for <oe-kbuild@lists.linux.dev>; Fri, 15 Sep 2023 10:18:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694766117; x=1726302117;
+  t=1694773086; x=1726309086;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kXF1aU9154kZJBGZxwICXUG3XUGStnKFHjZbb+WY+t4=;
-  b=RyTk13EC54TaHlaqwmfuPxoVIX0p6U4bhsERmiP2Z/Oy/cjfLW4POe1t
-   Sl2OaEFtV4PaXciVWY/WjQZQQcNf/JsAn7KRh5T/fE97NZ6hwsi+/78wB
-   mZ2sGv9vY24QtWh7bsU0ywttuYMNcm9+ydDJVcZBhdGzXqGUDzgC/uMBf
-   OMnwdYcjIpt0uPWETl846+C6LsHlNTMF2e8gsEinhlm3i5Av3GS/CGuLR
-   V4hxVJoFZFVSLthoYr9sJQ6Ya3wDKBG9KWER1O5P75vXFdmLccV6v1VWW
-   j73qT0XrooHnMbse3PrXamvgBjl3tcclcwjb9yIgQPpeArf51rWEfQU9W
+  bh=aJA6Ve0Mi4nQtC3QMlx6PCTxupIJaYODNO+9mfY7LXs=;
+  b=QE2lpsAiPrgYTavtLGkK4oVnwA3NNrKSBgtaELFy4ue0yBjiYs31h+LU
+   HxlCEd1LIXH/lyEok3GJPvogmxXb8xNxr7BuOnzHBxZPgkIfFumZ4QCvC
+   NGX4pxiwLT2eyr1pDREzwTL/BFq4GYBbUou1wTuvveSZ3ebKAm9AeWsPy
+   d+35UTssHURPZpiR2ZAhagKyNeeJ4mY2Iw9Itk+cFoYihTEcBsRZ8omuB
+   1BxC3QlZ4YnAIgaGfV75+BrHYy5pNMHpJUmbfoNW+DfmYDgag1d6hsWRw
+   6tZW7BbXegVBmbbfBM2Z5Yc31hc/RvG6xtnotcrQNgmpS3WGnK0WHh/9V
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="445652490"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="379134078"
 X-IronPort-AV: E=Sophos;i="6.02,148,1688454000"; 
-   d="scan'208";a="445652490"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 01:21:56 -0700
+   d="scan'208";a="379134078"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 03:17:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="991770642"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="774256938"
 X-IronPort-AV: E=Sophos;i="6.02,148,1688454000"; 
-   d="scan'208";a="991770642"
+   d="scan'208";a="774256938"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 15 Sep 2023 01:21:54 -0700
+  by orsmga008.jf.intel.com with ESMTP; 15 Sep 2023 03:17:49 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qh45I-0002gj-2i;
-	Fri, 15 Sep 2023 08:21:52 +0000
-Date: Fri, 15 Sep 2023 16:21:32 +0800
+	id 1qh5tT-0002qL-0y;
+	Fri, 15 Sep 2023 10:17:47 +0000
+Date: Fri, 15 Sep 2023 18:16:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: samples/vfio-mdev/mbochs.c:1359 mbochs_show_description() warn: can
- 'type' even be NULL?
-Message-ID: <202309151653.Krs0HrG4-lkp@intel.com>
+Subject: Re: [PATCH] ASoC: simple-card-utils: fixup simple_util_startup()
+ error handling
+Message-ID: <202309151840.au9Aa2W4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,50 +48,106 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Alex Williamson <alex.williamson@redhat.com>
-CC: Jason Gunthorpe <jgg@nvidia.com>
-CC: Kevin Tian <kevin.tian@intel.com>
-CC: Kirti Wankhede <kwankhede@nvidia.com>
+In-Reply-To: <87zg1opcwt.wl-kuninori.morimoto.gx@renesas.com>
+References: <87zg1opcwt.wl-kuninori.morimoto.gx@renesas.com>
+TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+TO: Mark Brown <broonie@kernel.org>
+CC: "Linux-ALSA" <alsa-devel@alsa-project.org>
+CC: Dan Carpenter <error27@gmail.com>
+CC: Robert Hancock <robert.hancock@calian.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9fdfb15a3dbf818e06be514f4abbfc071004cbe7
-commit: 685a1537f4c603cfcaf4b9be56ff6a571f7ddd08 vfio/mdev: consolidate all the description sysfs into the core code
-date:   12 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 12 months ago
-config: x86_64-randconfig-161-20230915 (https://download.01.org/0day-ci/archive/20230915/202309151653.Krs0HrG4-lkp@intel.com/config)
+Hi Kuninori,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.6-rc1 next-20230915]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/ASoC-simple-card-utils-fixup-simple_util_startup-error-handling/20230915-071518
+base:   linus/master
+patch link:    https://lore.kernel.org/r/87zg1opcwt.wl-kuninori.morimoto.gx%40renesas.com
+patch subject: [PATCH] ASoC: simple-card-utils: fixup simple_util_startup() error handling
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: x86_64-randconfig-161-20230915 (https://download.01.org/0day-ci/archive/20230915/202309151840.au9Aa2W4-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230915/202309151653.Krs0HrG4-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230915/202309151840.au9Aa2W4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309151653.Krs0HrG4-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309151840.au9Aa2W4-lkp@intel.com/
 
 smatch warnings:
-samples/vfio-mdev/mbochs.c:1359 mbochs_show_description() warn: can 'type' even be NULL?
+sound/soc/generic/simple-card-utils.c:313 asoc_simple_startup() warn: missing error code 'ret'
 
-vim +/type +1359 samples/vfio-mdev/mbochs.c
+vim +/ret +313 sound/soc/generic/simple-card-utils.c
 
-a5e6e6505f38f7 Gerd Hoffmann     2018-05-11  1352  
-685a1537f4c603 Christoph Hellwig 2022-09-23  1353  static ssize_t mbochs_show_description(struct mdev_type *mtype, char *buf)
-a5e6e6505f38f7 Gerd Hoffmann     2018-05-11  1354  {
-da44c340c4fe9d Christoph Hellwig 2022-09-23  1355  	struct mbochs_type *type =
-da44c340c4fe9d Christoph Hellwig 2022-09-23  1356  		container_of(mtype, struct mbochs_type, type);
-a5e6e6505f38f7 Gerd Hoffmann     2018-05-11  1357  
-a5e6e6505f38f7 Gerd Hoffmann     2018-05-11  1358  	return sprintf(buf, "virtual display, %d MB video memory\n",
-a5e6e6505f38f7 Gerd Hoffmann     2018-05-11 @1359  		       type ? type->mbytes  : 0);
-a5e6e6505f38f7 Gerd Hoffmann     2018-05-11  1360  }
-a5e6e6505f38f7 Gerd Hoffmann     2018-05-11  1361  
-
-:::::: The code at line 1359 was first introduced by commit
-:::::: a5e6e6505f38f7bce1d3576503a2bffff3fa888c sample: vfio bochs vbe display (host device for bochs-drm)
-
-:::::: TO: Gerd Hoffmann <kraxel@redhat.com>
-:::::: CC: Alex Williamson <alex.williamson@redhat.com>
+5ca2ab4598179a Robert Hancock    2022-01-20  278  
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  279  int asoc_simple_startup(struct snd_pcm_substream *substream)
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  280  {
+9ae035e289379b Kuninori Morimoto 2020-07-20  281  	struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  282  	struct asoc_simple_priv *priv = snd_soc_card_get_drvdata(rtd->card);
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  283  	struct simple_dai_props *props = simple_priv_to_props(priv, rtd->num);
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  284  	struct asoc_simple_dai *dai;
+5ca2ab4598179a Robert Hancock    2022-01-20  285  	unsigned int fixed_sysclk = 0;
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  286  	int i1, i2, i;
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  287  	int ret;
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  288  
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  289  	for_each_prop_dai_cpu(props, i1, dai) {
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  290  		ret = asoc_simple_clk_enable(dai);
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  291  		if (ret)
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  292  			goto cpu_err;
+5ca2ab4598179a Robert Hancock    2022-01-20  293  		ret = asoc_simple_check_fixed_sysclk(rtd->dev, dai, &fixed_sysclk);
+5ca2ab4598179a Robert Hancock    2022-01-20  294  		if (ret)
+5ca2ab4598179a Robert Hancock    2022-01-20  295  			goto cpu_err;
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  296  	}
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  297  
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  298  	for_each_prop_dai_codec(props, i2, dai) {
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  299  		ret = asoc_simple_clk_enable(dai);
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  300  		if (ret)
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  301  			goto codec_err;
+5ca2ab4598179a Robert Hancock    2022-01-20  302  		ret = asoc_simple_check_fixed_sysclk(rtd->dev, dai, &fixed_sysclk);
+5ca2ab4598179a Robert Hancock    2022-01-20  303  		if (ret)
+5ca2ab4598179a Robert Hancock    2022-01-20  304  			goto codec_err;
+5ca2ab4598179a Robert Hancock    2022-01-20  305  	}
+5ca2ab4598179a Robert Hancock    2022-01-20  306  
+5ca2ab4598179a Robert Hancock    2022-01-20  307  	if (fixed_sysclk && props->mclk_fs) {
+5ca2ab4598179a Robert Hancock    2022-01-20  308  		unsigned int fixed_rate = fixed_sysclk / props->mclk_fs;
+5ca2ab4598179a Robert Hancock    2022-01-20  309  
+5ca2ab4598179a Robert Hancock    2022-01-20  310  		if (fixed_sysclk % props->mclk_fs) {
+5ca2ab4598179a Robert Hancock    2022-01-20  311  			dev_err(rtd->dev, "fixed sysclk %u not divisible by mclk_fs %u\n",
+5ca2ab4598179a Robert Hancock    2022-01-20  312  				fixed_sysclk, props->mclk_fs);
+2f7ac863515034 Kuninori Morimoto 2023-09-14 @313  			goto codec_err;
+5ca2ab4598179a Robert Hancock    2022-01-20  314  		}
+5ca2ab4598179a Robert Hancock    2022-01-20  315  		ret = snd_pcm_hw_constraint_minmax(substream->runtime, SNDRV_PCM_HW_PARAM_RATE,
+5ca2ab4598179a Robert Hancock    2022-01-20  316  			fixed_rate, fixed_rate);
+635071f5fee315 Robert Hancock    2023-06-01  317  		if (ret < 0)
+5ca2ab4598179a Robert Hancock    2022-01-20  318  			goto codec_err;
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  319  	}
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  320  
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  321  	return 0;
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  322  
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  323  codec_err:
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  324  	for_each_prop_dai_codec(props, i, dai) {
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  325  		if (i >= i2)
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  326  			break;
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  327  		asoc_simple_clk_disable(dai);
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  328  	}
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  329  cpu_err:
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  330  	for_each_prop_dai_cpu(props, i, dai) {
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  331  		if (i >= i1)
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  332  			break;
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  333  		asoc_simple_clk_disable(dai);
+fafc05aadd4b6c Kuninori Morimoto 2021-04-12  334  	}
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  335  	return ret;
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  336  }
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  337  EXPORT_SYMBOL_GPL(asoc_simple_startup);
+f38df5bf0c9cb9 Kuninori Morimoto 2019-03-20  338  
 
 -- 
 0-DAY CI Kernel Test Service
