@@ -1,41 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB929D290
-	for <oe-kbuild@lists.linux.dev>; Fri, 15 Sep 2023 07:39:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418C6D50C
+	for <oe-kbuild@lists.linux.dev>; Fri, 15 Sep 2023 08:21:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694763575; x=1726299575;
+  t=1694766117; x=1726302117;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0u4sjZTKDePYU14w0JEmv5tHWi9dNdncrGXKdN+ovP8=;
-  b=HkN+5t03FsGMukTz9Fk0I5Bgm4ma5pfmb2dJ3Zz8UEPcg4GnG0Pq2Qyn
-   jK+hnh54+aWvcKCT54nxQmuL5k3xCaMoa0sUKUHwCOPqfYg5LejpUcSVy
-   KYVAduM6l8FHOgOMAMlREJdjkiIkn1jZVvwE3pGnMzei66YN14HZ502IP
-   5yN0ULQG/lbKUg8L+FZahBq4MDI3tnQXf2h55PJYsFiNZFYI0qsokYYrP
-   sH+kXA9m17B9k5bEUfahYYLmbVuAT4YfxAc/mtS6CqvJoXw0NL/hDEHKl
-   /gghBE76BFp66eyuMMmmN3reqKuHFLwtHmkpr4GUqkHM8x/Lw5qn0rbYh
+  bh=kXF1aU9154kZJBGZxwICXUG3XUGStnKFHjZbb+WY+t4=;
+  b=RyTk13EC54TaHlaqwmfuPxoVIX0p6U4bhsERmiP2Z/Oy/cjfLW4POe1t
+   Sl2OaEFtV4PaXciVWY/WjQZQQcNf/JsAn7KRh5T/fE97NZ6hwsi+/78wB
+   mZ2sGv9vY24QtWh7bsU0ywttuYMNcm9+ydDJVcZBhdGzXqGUDzgC/uMBf
+   OMnwdYcjIpt0uPWETl846+C6LsHlNTMF2e8gsEinhlm3i5Av3GS/CGuLR
+   V4hxVJoFZFVSLthoYr9sJQ6Ya3wDKBG9KWER1O5P75vXFdmLccV6v1VWW
+   j73qT0XrooHnMbse3PrXamvgBjl3tcclcwjb9yIgQPpeArf51rWEfQU9W
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="378101988"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="445652490"
 X-IronPort-AV: E=Sophos;i="6.02,148,1688454000"; 
-   d="scan'208";a="378101988"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 00:39:34 -0700
+   d="scan'208";a="445652490"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 01:21:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="744876505"
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="991770642"
 X-IronPort-AV: E=Sophos;i="6.02,148,1688454000"; 
-   d="scan'208";a="744876505"
+   d="scan'208";a="991770642"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 15 Sep 2023 00:39:33 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 15 Sep 2023 01:21:54 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qh3QJ-0002eP-0h;
-	Fri, 15 Sep 2023 07:39:31 +0000
-Date: Fri, 15 Sep 2023 15:38:52 +0800
+	id 1qh45I-0002gj-2i;
+	Fri, 15 Sep 2023 08:21:52 +0000
+Date: Fri, 15 Sep 2023 16:21:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH vfio] vfio/pci: remove msi domain on msi disable
-Message-ID: <202309151535.q1bqfuzX-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: samples/vfio-mdev/mbochs.c:1359 mbochs_show_description() warn: can
+ 'type' even be NULL?
+Message-ID: <202309151653.Krs0HrG4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,90 +46,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "git am base is a link in commit message"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230914191406.54656-1-shannon.nelson@amd.com>
-References: <20230914191406.54656-1-shannon.nelson@amd.com>
-TO: Shannon Nelson <shannon.nelson@amd.com>
-TO: alex.williamson@redhat.com
-TO: jgg@ziepe.ca
-TO: kevin.tian@intel.com
-TO: reinette.chatre@intel.com
-TO: tglx@linutronix.de
-TO: kvm@vger.kernel.org
-CC: shannon.nelson@amd.com
-CC: brett.creeley@amd.com
 CC: linux-kernel@vger.kernel.org
+TO: Christoph Hellwig <hch@lst.de>
+CC: Alex Williamson <alex.williamson@redhat.com>
+CC: Jason Gunthorpe <jgg@nvidia.com>
+CC: Kevin Tian <kevin.tian@intel.com>
+CC: Kirti Wankhede <kwankhede@nvidia.com>
 
-Hi Shannon,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on awilliam-vfio/for-linus]
-[cannot apply to awilliam-vfio/next linus/master v6.6-rc1 next-20230915]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shannon-Nelson/vfio-pci-remove-msi-domain-on-msi-disable/20230915-031544
-base:   https://github.com/awilliam/linux-vfio.git for-linus
-patch link:    https://lore.kernel.org/r/20230914191406.54656-1-shannon.nelson%40amd.com
-patch subject: [PATCH vfio] vfio/pci: remove msi domain on msi disable
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: i386-randconfig-004-20230915 (https://download.01.org/0day-ci/archive/20230915/202309151535.q1bqfuzX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309151535.q1bqfuzX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9fdfb15a3dbf818e06be514f4abbfc071004cbe7
+commit: 685a1537f4c603cfcaf4b9be56ff6a571f7ddd08 vfio/mdev: consolidate all the description sysfs into the core code
+date:   12 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 12 months ago
+config: x86_64-randconfig-161-20230915 (https://download.01.org/0day-ci/archive/20230915/202309151653.Krs0HrG4-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230915/202309151653.Krs0HrG4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309151535.q1bqfuzX-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202309151653.Krs0HrG4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+samples/vfio-mdev/mbochs.c:1359 mbochs_show_description() warn: can 'type' even be NULL?
 
-   drivers/vfio/pci/vfio_pci_intrs.c: In function 'vfio_msi_disable':
->> drivers/vfio/pci/vfio_pci_intrs.c:541:9: error: implicit declaration of function 'msi_remove_device_irq_domain' [-Werror=implicit-function-declaration]
-     541 |         msi_remove_device_irq_domain(&pdev->dev, MSI_DEFAULT_DOMAIN);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +/type +1359 samples/vfio-mdev/mbochs.c
 
+a5e6e6505f38f7 Gerd Hoffmann     2018-05-11  1352  
+685a1537f4c603 Christoph Hellwig 2022-09-23  1353  static ssize_t mbochs_show_description(struct mdev_type *mtype, char *buf)
+a5e6e6505f38f7 Gerd Hoffmann     2018-05-11  1354  {
+da44c340c4fe9d Christoph Hellwig 2022-09-23  1355  	struct mbochs_type *type =
+da44c340c4fe9d Christoph Hellwig 2022-09-23  1356  		container_of(mtype, struct mbochs_type, type);
+a5e6e6505f38f7 Gerd Hoffmann     2018-05-11  1357  
+a5e6e6505f38f7 Gerd Hoffmann     2018-05-11  1358  	return sprintf(buf, "virtual display, %d MB video memory\n",
+a5e6e6505f38f7 Gerd Hoffmann     2018-05-11 @1359  		       type ? type->mbytes  : 0);
+a5e6e6505f38f7 Gerd Hoffmann     2018-05-11  1360  }
+a5e6e6505f38f7 Gerd Hoffmann     2018-05-11  1361  
 
-vim +/msi_remove_device_irq_domain +541 drivers/vfio/pci/vfio_pci_intrs.c
+:::::: The code at line 1359 was first introduced by commit
+:::::: a5e6e6505f38f7bce1d3576503a2bffff3fa888c sample: vfio bochs vbe display (host device for bochs-drm)
 
-89e1f7d4c66d85f Alex Williamson   2012-07-31  524  
-536475109c82841 Max Gurtovoy      2021-08-26  525  static void vfio_msi_disable(struct vfio_pci_core_device *vdev, bool msix)
-89e1f7d4c66d85f Alex Williamson   2012-07-31  526  {
-89e1f7d4c66d85f Alex Williamson   2012-07-31  527  	struct pci_dev *pdev = vdev->pdev;
-d74e9fd8c9c81e2 Reinette Chatre   2023-05-11  528  	struct vfio_pci_irq_ctx *ctx;
-7f95ee792e66322 Reinette Chatre   2023-05-11  529  	unsigned long i;
-abafbc551fddede Alex Williamson   2020-04-22  530  	u16 cmd;
-89e1f7d4c66d85f Alex Williamson   2012-07-31  531  
-7f95ee792e66322 Reinette Chatre   2023-05-11  532  	xa_for_each(&vdev->ctx, i, ctx) {
-d74e9fd8c9c81e2 Reinette Chatre   2023-05-11  533  		vfio_virqfd_disable(&ctx->unmask);
-d74e9fd8c9c81e2 Reinette Chatre   2023-05-11  534  		vfio_virqfd_disable(&ctx->mask);
-287c9512e767e82 Reinette Chatre   2023-05-11  535  		vfio_msi_set_vector_signal(vdev, i, -1, msix);
-89e1f7d4c66d85f Alex Williamson   2012-07-31  536  	}
-89e1f7d4c66d85f Alex Williamson   2012-07-31  537  
-abafbc551fddede Alex Williamson   2020-04-22  538  	cmd = vfio_pci_memory_lock_and_enable(vdev);
-61771468e0a567f Christoph Hellwig 2016-09-11  539  	pci_free_irq_vectors(pdev);
-abafbc551fddede Alex Williamson   2020-04-22  540  	vfio_pci_memory_unlock_and_restore(vdev, cmd);
-d32739dbb39d42c Shannon Nelson    2023-09-14 @541  	msi_remove_device_irq_domain(&pdev->dev, MSI_DEFAULT_DOMAIN);
-89e1f7d4c66d85f Alex Williamson   2012-07-31  542  
-c93a97ee0583cd6 Alex Williamson   2016-09-26  543  	/*
-c93a97ee0583cd6 Alex Williamson   2016-09-26  544  	 * Both disable paths above use pci_intx_for_msi() to clear DisINTx
-c93a97ee0583cd6 Alex Williamson   2016-09-26  545  	 * via their shutdown paths.  Restore for NoINTx devices.
-c93a97ee0583cd6 Alex Williamson   2016-09-26  546  	 */
-c93a97ee0583cd6 Alex Williamson   2016-09-26  547  	if (vdev->nointx)
-c93a97ee0583cd6 Alex Williamson   2016-09-26  548  		pci_intx(pdev, 0);
-c93a97ee0583cd6 Alex Williamson   2016-09-26  549  
-89e1f7d4c66d85f Alex Williamson   2012-07-31  550  	vdev->irq_type = VFIO_PCI_NUM_IRQS;
-89e1f7d4c66d85f Alex Williamson   2012-07-31  551  }
-89e1f7d4c66d85f Alex Williamson   2012-07-31  552  
+:::::: TO: Gerd Hoffmann <kraxel@redhat.com>
+:::::: CC: Alex Williamson <alex.williamson@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
