@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9867913AD9
-	for <oe-kbuild@lists.linux.dev>; Sat, 16 Sep 2023 15:09:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526DC1BDF1
+	for <oe-kbuild@lists.linux.dev>; Sat, 16 Sep 2023 19:53:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694876940; x=1726412940;
+  t=1694894001; x=1726430001;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NMkAQhaToqWf21iNtEWPNOEq5V3mouPuroQNkNQZDqU=;
-  b=MKEtGLbaH3ZMYAUywF1Y2458NstRGhvhKZabdZJvZq1RiiUCvq0QLanA
-   bDhdJDGcOKI0iKTZkFXQtjQAPsAoLz36ayDBCPdv4L8S4VfmEV6DTo9HD
-   ghe2t7uQsJpwpKHj2S9vEa9BqPWITVVfCedK95WWhUoG7m42xoLUqfw3o
-   +qKAVoROZg4rlD3uT3yRNrOpqVnD1b8iOuPy4mrmkcXUWdT7p8s33VIKS
-   JTCwMcUMkCzgYNZ8NglXvttdw8b2zUmDuZBub08aLh8Rsw8UuZqjq6sx+
-   VbecT2a/W8YYYJEJArhbQO4UvfxodBc3bqMUygBUGTp6QZYi3O3hSHCdy
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="465781423"
+  bh=ymZRznD7Jpe8jzA2SPKPTpj+LHN+bhYYxj9TWuPPGSY=;
+  b=m+8d4uaQobrkIa2NYwsQ2AWX263hWbZxnOqRBJ3ziF1VUrl3nPAa3gba
+   h498hd1j+zI+h5MYBFwEnlGqIZMH029j5io9liVDUjWTg6ngW5QceYEJl
+   2SbHciICJJxZ9cCjmPr6eGYcd4viiZxA284LIGcRU/2Y4fU6XCe3/eMlq
+   awoJV7RX0vjxdN+FCkZPNkKv+gGB7VorW/tvd11Fq2djylapOdoj/ECeT
+   vOaI9BLGzfx3ZGt+LlzU/V5fa1uVlu+kht1GjPzx8AFWqDEPYuwG5gxfw
+   UZjTo3Sb8eJ0xaImBQ/TEcWQfG1ljGa7rkihBCSqOUDYhJotAVzwbn4HA
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="410404740"
 X-IronPort-AV: E=Sophos;i="6.02,152,1688454000"; 
-   d="scan'208";a="465781423"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2023 08:08:58 -0700
+   d="scan'208";a="410404740"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2023 12:53:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="815522728"
+X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="738706185"
 X-IronPort-AV: E=Sophos;i="6.02,152,1688454000"; 
-   d="scan'208";a="815522728"
+   d="scan'208";a="738706185"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 16 Sep 2023 08:08:57 -0700
+  by orsmga007.jf.intel.com with ESMTP; 16 Sep 2023 12:53:18 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qhWul-0004NS-1o;
-	Sat, 16 Sep 2023 15:08:55 +0000
-Date: Sat, 16 Sep 2023 23:08:46 +0800
+	id 1qhbLw-0004bK-0k;
+	Sat, 16 Sep 2023 19:53:16 +0000
+Date: Sun, 17 Sep 2023 03:52:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: kernel/time/posix-timers.c:1079 itimer_delete() warn: inconsistent
- returns '&timer->it_lock'.
-Message-ID: <202309162338.5vPeJwM9-lkp@intel.com>
+Subject: drivers/iio/addac/ad74115.c:828 _ad74115_get_adc_code() error:
+ uninitialized symbol 'rate'.
+Message-ID: <202309170343.bfb0EKrz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,81 +49,101 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Thomas Gleixner <tglx@linutronix.de>
-CC: Frederic Weisbecker <frederic@kernel.org>
+TO: Cosmin Tanislav <demonsingur@gmail.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Linus Walleij <linus.walleij@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   57d88e8a5974644039fbc47806bac7bb12025636
-commit: 9d9e522010eb5685d8b53e8a24320653d9d4cbbf posix-timers: Prevent RT livelock in itimer_delete()
-date:   3 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-161-20230914 (https://download.01.org/0day-ci/archive/20230916/202309162338.5vPeJwM9-lkp@intel.com/config)
+commit: 48ea75598db2b38e4a4b5738d65f226be717bd59 iio: addac: add AD74115 driver
+date:   10 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-161-20230916 (https://download.01.org/0day-ci/archive/20230917/202309170343.bfb0EKrz-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230916/202309162338.5vPeJwM9-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230917/202309170343.bfb0EKrz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309162338.5vPeJwM9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309170343.bfb0EKrz-lkp@intel.com/
 
 smatch warnings:
-kernel/time/posix-timers.c:1079 itimer_delete() warn: inconsistent returns '&timer->it_lock'.
-kernel/time/posix-timers.c:1079 itimer_delete() warn: inconsistent returns 'flags'.
+drivers/iio/addac/ad74115.c:828 _ad74115_get_adc_code() error: uninitialized symbol 'rate'.
 
-vim +1079 kernel/time/posix-timers.c
+vim +/rate +828 drivers/iio/addac/ad74115.c
 
-becf8b5d00f4b4 kernel/posix-timers.c      Thomas Gleixner  2006-01-09  1038  
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1039  /*
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1040   * Delete a timer if it is armed, remove it from the hash and schedule it
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1041   * for RCU freeing.
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1042   */
-858119e1593843 kernel/posix-timers.c      Arjan van de Ven 2006-01-14  1043  static void itimer_delete(struct k_itimer *timer)
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1044  {
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1045  	unsigned long flags;
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1046  
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1047  	/*
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1048  	 * irqsave is required to make timer_wait_running() work.
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1049  	 */
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1050  	spin_lock_irqsave(&timer->it_lock, flags);
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1051  
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1052  retry_delete:
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1053  	/*
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1054  	 * Even if the timer is not longer accessible from other tasks
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1055  	 * it still might be armed and queued in the underlying timer
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1056  	 * mechanism. Worse, that timer mechanism might run the expiry
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1057  	 * function concurrently.
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1058  	 */
-becf8b5d00f4b4 kernel/posix-timers.c      Thomas Gleixner  2006-01-09  1059  	if (timer_delete_hook(timer) == TIMER_RETRY) {
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1060  		/*
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1061  		 * Timer is expired concurrently, prevent livelocks
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1062  		 * and pointless spinning on RT.
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1063  		 *
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1064  		 * timer_wait_running() drops timer::it_lock, which opens
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1065  		 * the possibility for another task to delete the timer.
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1066  		 *
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1067  		 * That's not possible here because this is invoked from
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1068  		 * do_exit() only for the last thread of the thread group.
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1069  		 * So no other task can access and delete that timer.
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1070  		 */
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1071  		if (WARN_ON_ONCE(timer_wait_running(timer, &flags) != timer))
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1072  			return;
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1073  
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1074  		goto retry_delete;
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1075  	}
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1076  	list_del(&timer->list);
-4b7a1304267bff kernel/posix-timers.c      Oleg Nesterov    2008-07-25  1077  
-9d9e522010eb56 kernel/time/posix-timers.c Thomas Gleixner  2023-06-01  1078  	spin_unlock_irqrestore(&timer->it_lock, flags);
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16 @1079  	release_posix_timer(timer, IT_ID_SET);
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1080  }
-^1da177e4c3f41 kernel/posix-timers.c      Linus Torvalds   2005-04-16  1081  
-
-:::::: The code at line 1079 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  798  
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  799  static int _ad74115_get_adc_code(struct ad74115_state *st,
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  800  				 enum ad74115_adc_ch channel, int *val)
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  801  {
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  802  	unsigned int uval;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  803  	int ret;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  804  
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  805  	reinit_completion(&st->adc_data_completion);
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  806  
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  807  	ret = ad74115_set_adc_ch_en(st, channel, true);
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  808  	if (ret)
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  809  		return ret;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  810  
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  811  	ret = ad74115_set_adc_conv_seq(st, AD74115_ADC_CONV_SEQ_SINGLE);
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  812  	if (ret)
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  813  		return ret;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  814  
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  815  	if (st->irq) {
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  816  		ret = wait_for_completion_timeout(&st->adc_data_completion,
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  817  						  msecs_to_jiffies(1000));
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  818  		if (!ret)
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  819  			return -ETIMEDOUT;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  820  	} else {
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  821  		unsigned int regval, wait_time;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  822  		int rate;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  823  
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  824  		ret = ad74115_get_adc_rate(st, channel, &rate);
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  825  		if (ret < 0)
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  826  			return ret;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  827  
+48ea75598db2b3 Cosmin Tanislav 2022-11-17 @828  		wait_time = DIV_ROUND_CLOSEST(AD74115_CONV_TIME_US, rate);
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  829  
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  830  		ret = regmap_read_poll_timeout(st->regmap, AD74115_LIVE_STATUS_REG,
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  831  					       regval, regval & AD74115_ADC_DATA_RDY_MASK,
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  832  					       wait_time, 5 * wait_time);
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  833  		if (ret)
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  834  			return ret;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  835  
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  836  		/*
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  837  		 * The ADC_DATA_RDY bit is W1C.
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  838  		 * See datasheet page 98, Table 62. Bit Descriptions for
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  839  		 * LIVE_STATUS.
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  840  		 * Although the datasheet mentions that the bit will auto-clear
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  841  		 * when writing to the ADC_CONV_CTRL register, this does not
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  842  		 * seem to happen.
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  843  		 */
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  844  		ret = regmap_write_bits(st->regmap, AD74115_LIVE_STATUS_REG,
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  845  					AD74115_ADC_DATA_RDY_MASK,
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  846  					FIELD_PREP(AD74115_ADC_DATA_RDY_MASK, 1));
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  847  		if (ret)
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  848  			return ret;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  849  	}
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  850  
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  851  	ret = regmap_read(st->regmap, ad74115_adc_ch_data_regs_tbl[channel], &uval);
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  852  	if (ret)
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  853  		return ret;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  854  
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  855  	ret = ad74115_set_adc_conv_seq(st, AD74115_ADC_CONV_SEQ_STANDBY);
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  856  	if (ret)
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  857  		return ret;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  858  
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  859  	ret = ad74115_set_adc_ch_en(st, channel, false);
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  860  	if (ret)
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  861  		return ret;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  862  
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  863  	*val = uval;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  864  
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  865  	return IIO_VAL_INT;
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  866  }
+48ea75598db2b3 Cosmin Tanislav 2022-11-17  867  
 
 -- 
 0-DAY CI Kernel Test Service
