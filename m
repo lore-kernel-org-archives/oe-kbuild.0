@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B6C6D38
-	for <oe-kbuild@lists.linux.dev>; Sat, 16 Sep 2023 06:19:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111031FA3
+	for <oe-kbuild@lists.linux.dev>; Sat, 16 Sep 2023 08:05:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694845164; x=1726381164;
+  t=1694851549; x=1726387549;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jhEG0ZRFzLeGRywa4+r+vbRM+t/CmStb+sEYSKFmHZg=;
-  b=AJoFgdSAQf4Hku8s+tJwZMMk2nPuFHDRXkDhQ8rTjC0SN8/Z6O/1rpBL
-   D0LAzABIAtoaXwKq2QA241P8lMO2n4qH4/GUV/Si2SrsFS9aroaNBMryL
-   AjR8iD8Ew9DWH0RM9JG4fM1aqhq0tWhljkroQpo5IUmO2O9HxYsmHcG8u
-   evTf9ZEWKgU2NosZOkty7nNKvqrygq+iGKcpGG2H5KzYCmdxVOQChe0iU
-   bVaP8wu3jah/mu4lcfc3CH/RgJX6+uhIkqU3ttWfjbNFebscmbgK17Jo4
-   SeW5ReMi5DtpMevSTrKhSHUtx0M2iMnvLaRlBI2zRhepYtwi7yT4BcPAB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="465749082"
+  bh=4PVdrAdlO+iCihei0OjTuNMLUFjOFeC5jmLzXeWoVfM=;
+  b=ClQipGTSCAVbx2mOqNvjgImOulsQo56pxKHpFt0RXnC0LSCSq+8bbPFw
+   4RNFsiHFGHDXD+Szaf8kcgd+txtKDnwkLm1ZnGyT1Xw2C4UUcOiC0gOQL
+   ezJX63BywsgF3a1/9BWzqW5pD7G9AP6QGajkEJLvncTxF51oucVqOLS3K
+   wWubslvkbGgVMpbNU8dUPg4X1h1oWlCe69r5ulyyKGPOFG4Xe9rTwGokF
+   yQE4HpdBC25uGQclHJqVAZ/g14lHeeX8VRpHWF9ENGNHIRJJFXVdcrE9n
+   q8aEWyw6+P3dOz3AJklPbMC+xssdjlbjRWoDOUMqUPS3LPgK8Dx77jksa
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="379308524"
 X-IronPort-AV: E=Sophos;i="6.02,151,1688454000"; 
-   d="scan'208";a="465749082"
+   d="scan'208";a="379308524"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 23:19:21 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2023 01:05:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="1076008128"
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="1076027380"
 X-IronPort-AV: E=Sophos;i="6.02,151,1688454000"; 
-   d="scan'208";a="1076008128"
+   d="scan'208";a="1076027380"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 15 Sep 2023 23:19:20 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 16 Sep 2023 01:05:43 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qhOeE-0003xR-0d;
-	Sat, 16 Sep 2023 06:19:18 +0000
-Date: Sat, 16 Sep 2023 14:18:29 +0800
+	id 1qhQJ8-00043G-1B;
+	Sat, 16 Sep 2023 08:05:38 +0000
+Date: Sat, 16 Sep 2023 16:05:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer()
- warn: inconsistent returns '&d->i2c_mutex'.
-Message-ID: <202309161450.UGS3ftuW-lkp@intel.com>
+Subject: drivers/ufs/core/ufshcd.c:7528 ufshcd_abort() error: uninitialized
+ symbol 'reg'.
+Message-ID: <202309161614.PVEMoVw8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,240 +49,157 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Zhang Shurong <zhang_shurong@foxmail.com>
-CC: Hans Verkuil <hverkuil@xs4all.nl>
+TO: "Bao D. Nguyen" <quic_nguyenb@quicinc.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Bart Van Assche <bvanassche@acm.org>
+CC: Stanley Chu <stanley.chu@mediatek.com>
+CC: Can Guo <quic_cang@quicinc.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   57d88e8a5974644039fbc47806bac7bb12025636
-commit: 7bf744f2de0a848fb1d717f5831b03db96feae89 media: dvb-usb-v2: af9035: Fix null-ptr-deref in af9035_i2c_master_xfer
-date:   8 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 8 weeks ago
-config: i386-randconfig-141-20230916 (https://download.01.org/0day-ci/archive/20230916/202309161450.UGS3ftuW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230916/202309161450.UGS3ftuW-lkp@intel.com/reproduce)
+commit: adf452611677d048203398f489e2175a9068f9f7 scsi: ufs: mcq: Add support for cleaning up MCQ resources
+date:   4 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 4 months ago
+config: x86_64-randconfig-161-20230915 (https://download.01.org/0day-ci/archive/20230916/202309161614.PVEMoVw8-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230916/202309161614.PVEMoVw8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309161450.UGS3ftuW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309161614.PVEMoVw8-lkp@intel.com/
 
-smatch warnings:
-drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
+New smatch warnings:
+drivers/ufs/core/ufshcd.c:7528 ufshcd_abort() error: uninitialized symbol 'reg'.
 
-vim +467 drivers/media/usb/dvb-usb-v2/af9035.c
+Old smatch warnings:
+drivers/ufs/core/ufshcd.c:5440 ufshcd_uic_cmd_compl() error: we previously assumed 'hba->active_uic_cmd' could be null (see line 5428)
+drivers/ufs/core/ufshcd.c:9073 ufshcd_setup_clocks() warn: 'clki->clk' from clk_prepare_enable() not released on lines: 9053.
+drivers/ufs/core/ufshcd.c:2343 ufshcd_hba_capabilities() warn: missing error code? 'err'
 
-3b2a5e8c080da3 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-26  266  
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  267  static int af9035_i2c_master_xfer(struct i2c_adapter *adap,
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  268  		struct i2c_msg msg[], int num)
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  269  {
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  270  	struct dvb_usb_device *d = i2c_get_adapdata(adap);
-5da2aecb46597c drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-06-17  271  	struct state *state = d_to_priv(d);
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  272  	int ret;
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  273  
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  274  	if (mutex_lock_interruptible(&d->i2c_mutex) < 0)
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  275  		return -EAGAIN;
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  276  
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  277  	/*
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  278  	 * AF9035 I2C sub header is 5 bytes long. Meaning of those bytes are:
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  279  	 * 0: data len
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  280  	 * 1: I2C addr << 1
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  281  	 * 2: reg addr len
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  282  	 *    byte 3 and 4 can be used as reg addr
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  283  	 * 3: reg addr MSB
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  284  	 *    used when reg addr len is set to 2
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  285  	 * 4: reg addr LSB
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  286  	 *    used when reg addr len is set to 1 or 2
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  287  	 *
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  288  	 * For the simplify we do not use register addr at all.
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  289  	 * NOTE: As a firmware knows tuner type there is very small possibility
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  290  	 * there could be some tuner I2C hacks done by firmware and this may
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  291  	 * lead problems if firmware expects those bytes are used.
-f5b00a767006e4 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  292  	 *
-f5b00a767006e4 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  293  	 * TODO: Here is few hacks. AF9035 chip integrates AF9033 demodulator.
-f5b00a767006e4 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  294  	 * IT9135 chip integrates AF9033 demodulator and RF tuner. For dual
-f5b00a767006e4 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  295  	 * tuner devices, there is also external AF9033 demodulator connected
-f5b00a767006e4 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  296  	 * via external I2C bus. All AF9033 demod I2C traffic, both single and
-f5b00a767006e4 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  297  	 * dual tuner configuration, is covered by firmware - actual USB IO
-f5b00a767006e4 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  298  	 * looks just like a memory access.
-f5b00a767006e4 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  299  	 * In case of IT913x chip, there is own tuner driver. It is implemented
-f5b00a767006e4 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  300  	 * currently as a I2C driver, even tuner IP block is likely build
-f5b00a767006e4 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  301  	 * directly into the demodulator memory space and there is no own I2C
-f5b00a767006e4 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  302  	 * bus. I2C subsystem does not allow register multiple devices to same
-f5b00a767006e4 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  303  	 * bus, having same slave address. Due to that we reuse demod address,
-f5b00a767006e4 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  304  	 * shifted by one bit, on that case.
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  305  	 *
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  306  	 * For IT930x we use a different command and the sub header is
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  307  	 * different as well:
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  308  	 * 0: data len
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  309  	 * 1: I2C bus (0x03 seems to be only value used)
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  310  	 * 2: I2C addr << 1
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  311  	 */
-ee36381ee8cec6 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  312  #define AF9035_IS_I2C_XFER_WRITE_READ(_msg, _num) \
-ee36381ee8cec6 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  313  	(_num == 2 && !(_msg[0].flags & I2C_M_RD) && (_msg[1].flags & I2C_M_RD))
-ee36381ee8cec6 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  314  #define AF9035_IS_I2C_XFER_WRITE(_msg, _num) \
-ee36381ee8cec6 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  315  	(_num == 1 && !(_msg[0].flags & I2C_M_RD))
-ee36381ee8cec6 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  316  #define AF9035_IS_I2C_XFER_READ(_msg, _num) \
-ee36381ee8cec6 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  317  	(_num == 1 && (_msg[0].flags & I2C_M_RD))
-ee36381ee8cec6 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  318  
-ee36381ee8cec6 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  319  	if (AF9035_IS_I2C_XFER_WRITE_READ(msg, num)) {
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  320  		if (msg[0].len > 40 || msg[1].len > 40) {
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  321  			/* TODO: correct limits > 40 */
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  322  			ret = -EOPNOTSUPP;
-a781edd16c9da9 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  323  		} else if ((msg[0].addr == state->af9033_i2c_addr[0]) ||
-35ef193b2aa35e drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2016-11-07  324  			   (msg[0].addr == state->af9033_i2c_addr[1])) {
-7bf744f2de0a84 drivers/media/usb/dvb-usb-v2/af9035.c Zhang Shurong         2023-07-06  325  			if (msg[0].len < 3 || msg[1].len < 1)
-7bf744f2de0a84 drivers/media/usb/dvb-usb-v2/af9035.c Zhang Shurong         2023-07-06  326  				return -EOPNOTSUPP;
-bf97b6373bb10b drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2012-12-08  327  			/* demod access via firmware interface */
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  328  			u32 reg = msg[0].buf[0] << 16 | msg[0].buf[1] << 8 |
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  329  					msg[0].buf[2];
-bf97b6373bb10b drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2012-12-08  330  
-35ef193b2aa35e drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2016-11-07  331  			if (msg[0].addr == state->af9033_i2c_addr[1])
-9805992ffc59ec drivers/media/usb/dvb-usb-v2/af9035.c Jose Alberto Reguero  2012-09-23  332  				reg |= 0x100000;
-bf97b6373bb10b drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2012-12-08  333  
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  334  			ret = af9035_rd_regs(d, reg, &msg[1].buf[0],
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  335  					msg[1].len);
-1882f59f93066c drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-05-12  336  		} else if (state->no_read) {
-1882f59f93066c drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-05-12  337  			memset(msg[1].buf, 0, msg[1].len);
-1882f59f93066c drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-05-12  338  			ret = 0;
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  339  		} else {
-ee36381ee8cec6 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  340  			/* I2C write + read */
-7760e148350bf6 drivers/media/usb/dvb-usb-v2/af9035.c Mauro Carvalho Chehab 2013-11-02  341  			u8 buf[MAX_XFER_SIZE];
-9323297dc0ea91 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-11-27  342  			struct usb_req req = { CMD_I2C_RD, 0, 5 + msg[0].len,
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  343  					buf, msg[1].len, msg[1].buf };
-7760e148350bf6 drivers/media/usb/dvb-usb-v2/af9035.c Mauro Carvalho Chehab 2013-11-02  344  
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  345  			if (state->chip_type == 0x9306) {
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  346  				req.cmd = CMD_GENERIC_I2C_RD;
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  347  				req.wlen = 3 + msg[0].len;
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  348  			}
-9805992ffc59ec drivers/media/usb/dvb-usb-v2/af9035.c Jose Alberto Reguero  2012-09-23  349  			req.mbox |= ((msg[0].addr & 0x80)  >>  3);
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  350  
-812fe6d9426a23 drivers/media/dvb/dvb-usb/af9035.c    Hans-Frieder Vogt     2012-04-01  351  			buf[0] = msg[1].len;
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  352  			if (state->chip_type == 0x9306) {
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  353  				buf[1] = 0x03; /* I2C bus */
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  354  				buf[2] = msg[0].addr << 1;
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  355  				memcpy(&buf[3], msg[0].buf, msg[0].len);
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  356  			} else {
-bf97b6373bb10b drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2012-12-08  357  				buf[1] = msg[0].addr << 1;
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  358  				buf[3] = 0x00; /* reg addr MSB */
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  359  				buf[4] = 0x00; /* reg addr LSB */
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  360  
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  361  				/* Keep prev behavior for write req len > 2*/
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  362  				if (msg[0].len > 2) {
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  363  					buf[2] = 0x00; /* reg addr len */
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  364  					memcpy(&buf[5], msg[0].buf, msg[0].len);
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  365  
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  366  				/* Use reg addr fields if write req len <= 2 */
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  367  				} else {
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  368  					req.wlen = 5;
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  369  					buf[2] = msg[0].len;
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  370  					if (msg[0].len == 2) {
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  371  						buf[3] = msg[0].buf[0];
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  372  						buf[4] = msg[0].buf[1];
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  373  					} else if (msg[0].len == 1) {
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  374  						buf[4] = msg[0].buf[0];
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  375  					}
-57f1c0533850c0 drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-04-05  376  				}
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  377  			}
-5da2aecb46597c drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-06-17  378  			ret = af9035_ctrl_msg(d, &req);
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  379  		}
-ee36381ee8cec6 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  380  	} else if (AF9035_IS_I2C_XFER_WRITE(msg, num)) {
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  381  		if (msg[0].len > 40) {
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  382  			/* TODO: correct limits > 40 */
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  383  			ret = -EOPNOTSUPP;
-a781edd16c9da9 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  384  		} else if ((msg[0].addr == state->af9033_i2c_addr[0]) ||
-35ef193b2aa35e drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2016-11-07  385  			   (msg[0].addr == state->af9033_i2c_addr[1])) {
-7bf744f2de0a84 drivers/media/usb/dvb-usb-v2/af9035.c Zhang Shurong         2023-07-06  386  			if (msg[0].len < 3)
-7bf744f2de0a84 drivers/media/usb/dvb-usb-v2/af9035.c Zhang Shurong         2023-07-06  387  				return -EOPNOTSUPP;
-bf97b6373bb10b drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2012-12-08  388  			/* demod access via firmware interface */
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  389  			u32 reg = msg[0].buf[0] << 16 | msg[0].buf[1] << 8 |
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  390  					msg[0].buf[2];
-bf97b6373bb10b drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2012-12-08  391  
-35ef193b2aa35e drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2016-11-07  392  			if (msg[0].addr == state->af9033_i2c_addr[1])
-9805992ffc59ec drivers/media/usb/dvb-usb-v2/af9035.c Jose Alberto Reguero  2012-09-23  393  				reg |= 0x100000;
-bf97b6373bb10b drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2012-12-08  394  
-7bf744f2de0a84 drivers/media/usb/dvb-usb-v2/af9035.c Zhang Shurong         2023-07-06  395  			ret = af9035_wr_regs(d, reg, &msg[0].buf[3], msg[0].len - 3);
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  396  		} else {
-ee36381ee8cec6 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  397  			/* I2C write */
-7760e148350bf6 drivers/media/usb/dvb-usb-v2/af9035.c Mauro Carvalho Chehab 2013-11-02  398  			u8 buf[MAX_XFER_SIZE];
-9323297dc0ea91 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-11-27  399  			struct usb_req req = { CMD_I2C_WR, 0, 5 + msg[0].len,
-9323297dc0ea91 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-11-27  400  					buf, 0, NULL };
-7760e148350bf6 drivers/media/usb/dvb-usb-v2/af9035.c Mauro Carvalho Chehab 2013-11-02  401  
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  402  			if (state->chip_type == 0x9306) {
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  403  				req.cmd = CMD_GENERIC_I2C_WR;
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  404  				req.wlen = 3 + msg[0].len;
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  405  			}
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  406  
-9805992ffc59ec drivers/media/usb/dvb-usb-v2/af9035.c Jose Alberto Reguero  2012-09-23  407  			req.mbox |= ((msg[0].addr & 0x80)  >>  3);
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  408  			buf[0] = msg[0].len;
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  409  			if (state->chip_type == 0x9306) {
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  410  				buf[1] = 0x03; /* I2C bus */
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  411  				buf[2] = msg[0].addr << 1;
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  412  				memcpy(&buf[3], msg[0].buf, msg[0].len);
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  413  			} else {
-bf97b6373bb10b drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2012-12-08  414  				buf[1] = msg[0].addr << 1;
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  415  				buf[2] = 0x00; /* reg addr len */
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  416  				buf[3] = 0x00; /* reg addr MSB */
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  417  				buf[4] = 0x00; /* reg addr LSB */
-ad30e91befd715 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-04-02  418  				memcpy(&buf[5], msg[0].buf, msg[0].len);
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  419  			}
-5da2aecb46597c drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-06-17  420  			ret = af9035_ctrl_msg(d, &req);
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  421  		}
-ee36381ee8cec6 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  422  	} else if (AF9035_IS_I2C_XFER_READ(msg, num)) {
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  423  		if (msg[0].len > 40) {
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  424  			/* TODO: correct limits > 40 */
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  425  			ret = -EOPNOTSUPP;
-1882f59f93066c drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-05-12  426  		} else if (state->no_read) {
-1882f59f93066c drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-05-12  427  			memset(msg[0].buf, 0, msg[0].len);
-1882f59f93066c drivers/media/usb/dvb-usb-v2/af9035.c Alessandro Radicati   2016-05-12  428  			ret = 0;
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  429  		} else {
-ee36381ee8cec6 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  430  			/* I2C read */
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  431  			u8 buf[5];
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  432  			struct usb_req req = { CMD_I2C_RD, 0, sizeof(buf),
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  433  						buf, msg[0].len, msg[0].buf };
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  434  
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  435  			if (state->chip_type == 0x9306) {
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  436  				req.cmd = CMD_GENERIC_I2C_RD;
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  437  				req.wlen = 3;
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  438  			}
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  439  			req.mbox |= ((msg[0].addr & 0x80)  >>  3);
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  440  			buf[0] = msg[0].len;
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  441  			if (state->chip_type == 0x9306) {
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  442  				buf[1] = 0x03; /* I2C bus */
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  443  				buf[2] = msg[0].addr << 1;
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  444  			} else {
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  445  				buf[1] = msg[0].addr << 1;
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  446  				buf[2] = 0x00; /* reg addr len */
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  447  				buf[3] = 0x00; /* reg addr MSB */
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  448  				buf[4] = 0x00; /* reg addr LSB */
-5b5560842a7ee0 drivers/media/usb/dvb-usb-v2/af9035.c Olli Salonen          2014-09-21  449  			}
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  450  			ret = af9035_ctrl_msg(d, &req);
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  451  		}
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  452  	} else {
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  453  		/*
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  454  		 * We support only three kind of I2C transactions:
-ee36381ee8cec6 drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2014-08-31  455  		 * 1) 1 x write + 1 x read (repeated start)
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  456  		 * 2) 1 x write
-3b98c347838d0a drivers/media/usb/dvb-usb-v2/af9035.c Antti Palosaari       2013-03-11  457  		 * 3) 1 x read
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  458  		 */
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  459  		ret = -EOPNOTSUPP;
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  460  	}
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  461  
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  462  	mutex_unlock(&d->i2c_mutex);
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  463  
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  464  	if (ret < 0)
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  465  		return ret;
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  466  	else
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30 @467  		return num;
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  468  }
-7f882c2e353ca5 drivers/media/dvb/dvb-usb/af9035.c    Antti Palosaari       2012-03-30  469  
+vim +/reg +7528 drivers/ufs/core/ufshcd.c
 
-:::::: The code at line 467 was first introduced by commit
-:::::: 7f882c2e353ca58695e9b4fcc9e97a9d4cbcf273 [media] Afatech AF9035 DVB USB driver
-
-:::::: TO: Antti Palosaari <crope@iki.fi>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+307348f6ab144b drivers/scsi/ufs/ufshcd.c Can Guo            2020-08-24  7473  
+307348f6ab144b drivers/scsi/ufs/ufshcd.c Can Guo            2020-08-24  7474  /**
+307348f6ab144b drivers/scsi/ufs/ufshcd.c Can Guo            2020-08-24  7475   * ufshcd_abort - scsi host template eh_abort_handler callback
+307348f6ab144b drivers/scsi/ufs/ufshcd.c Can Guo            2020-08-24  7476   * @cmd: SCSI command pointer
+307348f6ab144b drivers/scsi/ufs/ufshcd.c Can Guo            2020-08-24  7477   *
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  7478   * Returns SUCCESS/FAILED
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  7479   */
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  7480  static int ufshcd_abort(struct scsi_cmnd *cmd)
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  7481  {
+4728ab4a8e6490 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7482  	struct Scsi_Host *host = cmd->device->host;
+4728ab4a8e6490 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7483  	struct ufs_hba *hba = shost_priv(host);
+3f2c1002e0fcb6 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-08-09  7484  	int tag = scsi_cmd_to_rq(cmd)->tag;
+4728ab4a8e6490 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7485  	struct ufshcd_lrb *lrbp = &hba->lrb[tag];
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  7486  	unsigned long flags;
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7487  	int err = FAILED;
+1fbaa02dfd0522 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  7488  	bool outstanding;
+e9d501b154ff62 drivers/scsi/ufs/ufshcd.c Dolev Raviv        2014-07-01  7489  	u32 reg;
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  7490  
+4728ab4a8e6490 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7491  	WARN_ONCE(tag < 0, "Invalid tag %d\n", tag);
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  7492  
+1ab27c9cf8b63d drivers/scsi/ufs/ufshcd.c Sahitya Tummala    2014-09-25  7493  	ufshcd_hold(hba, false);
+adf452611677d0 drivers/ufs/core/ufshcd.c Bao D. Nguyen      2023-05-29  7494  
+adf452611677d0 drivers/ufs/core/ufshcd.c Bao D. Nguyen      2023-05-29  7495  	if (!is_mcq_enabled(hba)) {
+14497328b6a628 drivers/scsi/ufs/ufshcd.c Yaniv Gardi        2016-02-01  7496  		reg = ufshcd_readl(hba, REG_UTP_TRANSFER_REQ_DOOR_BELL);
+adf452611677d0 drivers/ufs/core/ufshcd.c Bao D. Nguyen      2023-05-29  7497  		if (!test_bit(tag, &hba->outstanding_reqs)) {
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7498  			/* If command is already aborted/completed, return FAILED. */
+14497328b6a628 drivers/scsi/ufs/ufshcd.c Yaniv Gardi        2016-02-01  7499  			dev_err(hba->dev,
+14497328b6a628 drivers/scsi/ufs/ufshcd.c Yaniv Gardi        2016-02-01  7500  				"%s: cmd at tag %d already completed, outstanding=0x%lx, doorbell=0x%x\n",
+14497328b6a628 drivers/scsi/ufs/ufshcd.c Yaniv Gardi        2016-02-01  7501  				__func__, tag, hba->outstanding_reqs, reg);
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7502  			goto release;
+14497328b6a628 drivers/scsi/ufs/ufshcd.c Yaniv Gardi        2016-02-01  7503  		}
+adf452611677d0 drivers/ufs/core/ufshcd.c Bao D. Nguyen      2023-05-29  7504  	}
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  7505  
+66cc820f9cbf12 drivers/scsi/ufs/ufshcd.c Dolev Raviv        2016-12-22  7506  	/* Print Transfer Request of aborted task */
+d87a1f6d021f40 drivers/scsi/ufs/ufshcd.c Bean Huo           2020-08-11  7507  	dev_info(hba->dev, "%s: Device abort task at tag %d\n", __func__, tag);
+7fabb77b3aa016 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7508  
+7fabb77b3aa016 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7509  	/*
+7fabb77b3aa016 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7510  	 * Print detailed info about aborted request.
+7fabb77b3aa016 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7511  	 * As more than one request might get aborted at the same time,
+7fabb77b3aa016 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7512  	 * print full information only for the first aborted request in order
+7fabb77b3aa016 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7513  	 * to reduce repeated printouts. For other aborted requests only print
+7fabb77b3aa016 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7514  	 * basic details.
+7fabb77b3aa016 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7515  	 */
+7a7e66c65d4148 drivers/scsi/ufs/ufshcd.c Can Guo            2020-12-02  7516  	scsi_print_command(cmd);
+7fabb77b3aa016 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7517  	if (!hba->req_abort_count) {
+e965e5e00b23c4 drivers/scsi/ufs/ufshcd.c Stanley Chu        2020-12-05  7518  		ufshcd_update_evt_hist(hba, UFS_EVT_ABORT, tag);
+e965e5e00b23c4 drivers/scsi/ufs/ufshcd.c Stanley Chu        2020-12-05  7519  		ufshcd_print_evt_hist(hba);
+6ba65588381d59 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7520  		ufshcd_print_host_state(hba);
+66cc820f9cbf12 drivers/scsi/ufs/ufshcd.c Dolev Raviv        2016-12-22  7521  		ufshcd_print_pwr_info(hba);
+127fd07da45937 drivers/ufs/core/ufshcd.c Ziqi Chen          2023-03-15  7522  		ufshcd_print_tr(hba, tag, true);
+7fabb77b3aa016 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7523  	} else {
+127fd07da45937 drivers/ufs/core/ufshcd.c Ziqi Chen          2023-03-15  7524  		ufshcd_print_tr(hba, tag, false);
+7fabb77b3aa016 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7525  	}
+7fabb77b3aa016 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7526  	hba->req_abort_count++;
+e0b299e36004f5 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7527  
+adf452611677d0 drivers/ufs/core/ufshcd.c Bao D. Nguyen      2023-05-29 @7528  	if (!is_mcq_enabled(hba) && !(reg & (1 << tag))) {
+adf452611677d0 drivers/ufs/core/ufshcd.c Bao D. Nguyen      2023-05-29  7529  		/* only execute this code in single doorbell mode */
+d87a1f6d021f40 drivers/scsi/ufs/ufshcd.c Bean Huo           2020-08-11  7530  		dev_err(hba->dev,
+d87a1f6d021f40 drivers/scsi/ufs/ufshcd.c Bean Huo           2020-08-11  7531  		"%s: cmd was completed, but without a notifying intr, tag = %d",
+d87a1f6d021f40 drivers/scsi/ufs/ufshcd.c Bean Huo           2020-08-11  7532  		__func__, tag);
+11682523573c1c drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-10-20  7533  		__ufshcd_transfer_req_compl(hba, 1UL << tag);
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7534  		goto release;
+d87a1f6d021f40 drivers/scsi/ufs/ufshcd.c Bean Huo           2020-08-11  7535  	}
+d87a1f6d021f40 drivers/scsi/ufs/ufshcd.c Bean Huo           2020-08-11  7536  
+7a7e66c65d4148 drivers/scsi/ufs/ufshcd.c Can Guo            2020-12-02  7537  	/*
+7a7e66c65d4148 drivers/scsi/ufs/ufshcd.c Can Guo            2020-12-02  7538  	 * Task abort to the device W-LUN is illegal. When this command
+7a7e66c65d4148 drivers/scsi/ufs/ufshcd.c Can Guo            2020-12-02  7539  	 * will fail, due to spec violation, scsi err handling next step
+7a7e66c65d4148 drivers/scsi/ufs/ufshcd.c Can Guo            2020-12-02  7540  	 * will be to send LU reset which, again, is a spec violation.
+7a7e66c65d4148 drivers/scsi/ufs/ufshcd.c Can Guo            2020-12-02  7541  	 * To avoid these unnecessary/illegal steps, first we clean up
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  7542  	 * the lrb taken by this cmd and re-set it in outstanding_reqs,
+88b099006d83b0 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-09-17  7543  	 * then queue the eh_work and bail.
+7a7e66c65d4148 drivers/scsi/ufs/ufshcd.c Can Guo            2020-12-02  7544  	 */
+7a7e66c65d4148 drivers/scsi/ufs/ufshcd.c Can Guo            2020-12-02  7545  	if (lrbp->lun == UFS_UPIU_UFS_DEVICE_WLUN) {
+7a7e66c65d4148 drivers/scsi/ufs/ufshcd.c Can Guo            2020-12-02  7546  		ufshcd_update_evt_hist(hba, UFS_EVT_ABORT, lrbp->lun);
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7547  
+a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  7548  		spin_lock_irqsave(host->host_lock, flags);
+7a7e66c65d4148 drivers/scsi/ufs/ufshcd.c Can Guo            2020-12-02  7549  		hba->force_reset = true;
+88b099006d83b0 drivers/scsi/ufs/ufshcd.c Adrian Hunter      2021-09-17  7550  		ufshcd_schedule_eh_work(hba);
+7a7e66c65d4148 drivers/scsi/ufs/ufshcd.c Can Guo            2020-12-02  7551  		spin_unlock_irqrestore(host->host_lock, flags);
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7552  		goto release;
+7a7e66c65d4148 drivers/scsi/ufs/ufshcd.c Can Guo            2020-12-02  7553  	}
+7a7e66c65d4148 drivers/scsi/ufs/ufshcd.c Can Guo            2020-12-02  7554  
+adf452611677d0 drivers/ufs/core/ufshcd.c Bao D. Nguyen      2023-05-29  7555  	if (is_mcq_enabled(hba))
+adf452611677d0 drivers/ufs/core/ufshcd.c Bao D. Nguyen      2023-05-29  7556  		goto release;
+adf452611677d0 drivers/ufs/core/ufshcd.c Bao D. Nguyen      2023-05-29  7557  
+e0b299e36004f5 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7558  	/* Skip task abort in case previous aborts failed and report failure */
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7559  	if (lrbp->req_abort_skip) {
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7560  		dev_err(hba->dev, "%s: skipping abort\n", __func__);
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7561  		ufshcd_set_req_abort_skip(hba, hba->outstanding_reqs);
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7562  		goto release;
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7563  	}
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  7564  
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7565  	err = ufshcd_try_to_abort_task(hba, tag);
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7566  	if (err) {
+f20810d8d0bbe7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-05-26  7567  		dev_err(hba->dev, "%s: failed with err %d\n", __func__, err);
+e0b299e36004f5 drivers/scsi/ufs/ufshcd.c Gilad Broner       2017-02-03  7568  		ufshcd_set_req_abort_skip(hba, hba->outstanding_reqs);
+f20810d8d0bbe7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-05-26  7569  		err = FAILED;
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7570  		goto release;
+f20810d8d0bbe7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-05-26  7571  	}
+f20810d8d0bbe7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-05-26  7572  
+1fbaa02dfd0522 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  7573  	/*
+1fbaa02dfd0522 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  7574  	 * Clear the corresponding bit from outstanding_reqs since the command
+1fbaa02dfd0522 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  7575  	 * has been aborted successfully.
+1fbaa02dfd0522 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  7576  	 */
+1fbaa02dfd0522 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  7577  	spin_lock_irqsave(&hba->outstanding_lock, flags);
+1fbaa02dfd0522 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  7578  	outstanding = __test_and_clear_bit(tag, &hba->outstanding_reqs);
+1fbaa02dfd0522 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  7579  	spin_unlock_irqrestore(&hba->outstanding_lock, flags);
+1fbaa02dfd0522 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  7580  
+1fbaa02dfd0522 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  7581  	if (outstanding)
+1fbaa02dfd0522 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  7582  		ufshcd_release_scsi_cmd(hba, lrbp);
+1fbaa02dfd0522 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  7583  
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7584  	err = SUCCESS;
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7585  
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7586  release:
+64180742605f77 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-07-21  7587  	/* Matches the ufshcd_hold() call at the start of this function. */
+1ab27c9cf8b63d drivers/scsi/ufs/ufshcd.c Sahitya Tummala    2014-09-25  7588  	ufshcd_release(hba);
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  7589  	return err;
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  7590  }
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  7591  
 
 -- 
 0-DAY CI Kernel Test Service
