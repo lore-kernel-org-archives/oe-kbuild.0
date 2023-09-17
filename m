@@ -1,42 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F27A3C0C
-	for <oe-kbuild@lists.linux.dev>; Sun, 17 Sep 2023 12:07:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FF32594
+	for <oe-kbuild@lists.linux.dev>; Sun, 17 Sep 2023 12:27:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694952454; x=1726488454;
+  t=1694953655; x=1726489655;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ew7g34DmUae8akFAr0kHyLB8f04JXUVAPcI0ras+tOk=;
-  b=SfgbCOcG7zH+BX75jayj1c5L/SZF4dOopK7nY+D22HkbcbVi/trMb73q
-   tv36kPQwPCfEaHyB03NivgbnofR2I8GwLXpozHjmC4Mgzs8ehhf3CQjLM
-   NJLIQG/+2nnHzwCjPd/X9Fiz3PHt1kFisniXwMcO8V4fBw5hSKQUF6yDp
-   nSdTW7BWadvSKPIAmr9z0iHxbjEWzsSpssdv9pNYSy7lbN5zlkHdgRdr5
-   EWkAeqqM59hLovZqpjeiHl5aZ0uR4vLvEWQX70LE9OjZv/BHT7lq0/PEu
-   yLTM7Z03GeICDqbP9D/OWzVDZX2m4bDKp1FAXhu+H6sJw9//IUtWTIQ2/
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="382228830"
+  bh=Ybc/LPhzPi3hFYJxt5ZOEwGBqIEut/gAYw1jJPG7tRY=;
+  b=N9ov6h/tV8wIWBjIYkYR/NAAk+tw5rl4s9nHmx/kM+lCJgQCoOQh3SLZ
+   jJGvRpJE9091RpoD4VDNh0kOpElTnXnZhywplwofkHhTt+2kJ7h0EtAwo
+   4dIgtNFz7PZHvaudBlIv9TXfd6jJXVwAfeT81U+LmZcoH723WboSkvC0R
+   w1ZswAPTs7HHoVQWO/fN5fOJxHubIscCL5NVtQqlR26OXW3pANQlyjg38
+   NkF+VTOXX06tQSH0PVikveNuR/plCtOgufnWOG19wvhf+usnpV7GpTWJz
+   Vg3V+sDhSvJBnz+5oamGu4DH1LBjdVMW3xXv4TyAluqQ2pS39fOp8rRd/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="410452933"
 X-IronPort-AV: E=Sophos;i="6.02,154,1688454000"; 
-   d="scan'208";a="382228830"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2023 05:07:33 -0700
+   d="scan'208";a="410452933"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2023 05:27:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="835731571"
+X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="745528874"
 X-IronPort-AV: E=Sophos;i="6.02,154,1688454000"; 
-   d="scan'208";a="835731571"
+   d="scan'208";a="745528874"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 17 Sep 2023 05:07:32 -0700
+  by orsmga002.jf.intel.com with ESMTP; 17 Sep 2023 05:27:32 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qhqYk-0005Bq-0z;
-	Sun, 17 Sep 2023 12:07:30 +0000
-Date: Sun, 17 Sep 2023 20:06:33 +0800
+	id 1qhqs6-0005Ce-2R;
+	Sun, 17 Sep 2023 12:27:30 +0000
+Date: Sun, 17 Sep 2023 20:27:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: net/mac80211/rx.c:2947 __ieee80211_rx_h_amsdu() error: we previously
- assumed 'rx->sta' could be null (see line 2933)
-Message-ID: <202309172031.N71PSgrY-lkp@intel.com>
+Subject: fs/exfat/dir.c:874 exfat_get_dentry_set() warn: missing unwind goto?
+Message-ID: <202309172025.exj2QAwk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,119 +48,147 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Felix Fietkau <nbd@nbd.name>
-CC: Johannes Berg <johannes.berg@intel.com>
+TO: Yuezhang Mo <Yuezhang.Mo@sony.com>
+CC: Namjae Jeon <linkinjeon@kernel.org>
+CC: Andy Wu <Andy.Wu@sony.com>
+CC: Aoyama Wataru <wataru.aoyama@sony.com>
+CC: Sungjong Seo <sj1557.seo@samsung.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f0b0d403eabbe135d8dbb40ad5e41018947d336c
-commit: 6e4c0d0460bd32ca9244dff3ba2d2da27235de11 wifi: mac80211: add a workaround for receiving non-standard mesh A-MSDU
-date:   7 months ago
+commit: 20914ff6dd56dd6b548bf5dd90bff09ef89999e4 exfat: move exfat_entry_set_cache from heap to stack
+date:   9 months ago
 :::::: branch date: 14 hours ago
-:::::: commit date: 7 months ago
-config: x86_64-randconfig-161-20230917 (https://download.01.org/0day-ci/archive/20230917/202309172031.N71PSgrY-lkp@intel.com/config)
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-161-20230913 (https://download.01.org/0day-ci/archive/20230917/202309172025.exj2QAwk-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230917/202309172031.N71PSgrY-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230917/202309172025.exj2QAwk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309172031.N71PSgrY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309172025.exj2QAwk-lkp@intel.com/
 
 New smatch warnings:
-net/mac80211/rx.c:2947 __ieee80211_rx_h_amsdu() error: we previously assumed 'rx->sta' could be null (see line 2933)
+fs/exfat/dir.c:874 exfat_get_dentry_set() warn: missing unwind goto?
 
 Old smatch warnings:
-net/mac80211/rx.c:888 ieee80211_rx_monitor() warn: variable dereferenced before check 'origskb' (see line 781)
-net/mac80211/rx.c:4131 ieee80211_rx_data_set_sta() warn: can 'sta' even be NULL?
+fs/exfat/dir.c:163 exfat_readdir() warn: passing freed memory 'bh'
+fs/exfat/dir.c:484 exfat_init_dir_entry() warn: passing freed memory 'bh'
+fs/exfat/dir.c:549 exfat_init_ext_entry() warn: passing freed memory 'bh'
+fs/exfat/dir.c:558 exfat_init_ext_entry() warn: passing freed memory 'bh'
 
-vim +2947 net/mac80211/rx.c
+vim +874 fs/exfat/dir.c
 
-986e43b19ae917 Felix Fietkau   2023-02-13  2890  
-49461622edf74c Johannes Berg   2008-06-30  2891  static ieee80211_rx_result debug_noinline
-24bba078eca099 Felix Fietkau   2018-02-27  2892  __ieee80211_rx_h_amsdu(struct ieee80211_rx_data *rx, u8 data_offset)
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2893  {
-eb9fb5b8883535 Johannes Berg   2009-11-16  2894  	struct net_device *dev = rx->sdata->dev;
-eaf85ca7fecb21 Zhu Yi          2009-12-01  2895  	struct sk_buff *skb = rx->skb;
-358c8d9d332230 Harvey Harrison 2008-07-15  2896  	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
-358c8d9d332230 Harvey Harrison 2008-07-15  2897  	__le16 fc = hdr->frame_control;
-eaf85ca7fecb21 Zhu Yi          2009-12-01  2898  	struct sk_buff_head frame_list;
-986e43b19ae917 Felix Fietkau   2023-02-13  2899  	static ieee80211_rx_result res;
-7f6990c830f3e8 Johannes Berg   2016-10-05  2900  	struct ethhdr ethhdr;
-e2b5227faaf331 Johannes Berg   2016-10-05  2901  	const u8 *check_da = ethhdr.h_dest, *check_sa = ethhdr.h_source;
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2902  
-ea720935cf6686 Johannes Berg   2016-10-05  2903  	if (unlikely(ieee80211_has_a4(hdr->frame_control))) {
-e2b5227faaf331 Johannes Berg   2016-10-05  2904  		check_da = NULL;
-e2b5227faaf331 Johannes Berg   2016-10-05  2905  		check_sa = NULL;
-e2b5227faaf331 Johannes Berg   2016-10-05  2906  	} else switch (rx->sdata->vif.type) {
-e2b5227faaf331 Johannes Berg   2016-10-05  2907  		case NL80211_IFTYPE_AP:
-e2b5227faaf331 Johannes Berg   2016-10-05  2908  		case NL80211_IFTYPE_AP_VLAN:
-e2b5227faaf331 Johannes Berg   2016-10-05  2909  			check_da = NULL;
-e2b5227faaf331 Johannes Berg   2016-10-05  2910  			break;
-e2b5227faaf331 Johannes Berg   2016-10-05  2911  		case NL80211_IFTYPE_STATION:
-e2b5227faaf331 Johannes Berg   2016-10-05  2912  			if (!rx->sta ||
-e2b5227faaf331 Johannes Berg   2016-10-05  2913  			    !test_sta_flag(rx->sta, WLAN_STA_TDLS_PEER))
-e2b5227faaf331 Johannes Berg   2016-10-05  2914  				check_sa = NULL;
-e2b5227faaf331 Johannes Berg   2016-10-05  2915  			break;
-e2b5227faaf331 Johannes Berg   2016-10-05  2916  		case NL80211_IFTYPE_MESH_POINT:
-e2b5227faaf331 Johannes Berg   2016-10-05  2917  			check_sa = NULL;
-986e43b19ae917 Felix Fietkau   2023-02-13  2918  			check_da = NULL;
-e2b5227faaf331 Johannes Berg   2016-10-05  2919  			break;
-e2b5227faaf331 Johannes Berg   2016-10-05  2920  		default:
-e2b5227faaf331 Johannes Berg   2016-10-05  2921  			break;
-ea720935cf6686 Johannes Berg   2016-10-05  2922  	}
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2923  
-eaf85ca7fecb21 Zhu Yi          2009-12-01  2924  	skb->dev = dev;
-eaf85ca7fecb21 Zhu Yi          2009-12-01  2925  	__skb_queue_head_init(&frame_list);
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2926  
-7f6990c830f3e8 Johannes Berg   2016-10-05  2927  	if (ieee80211_data_to_8023_exthdr(skb, &ethhdr,
-7f6990c830f3e8 Johannes Berg   2016-10-05  2928  					  rx->sdata->vif.addr,
-24bba078eca099 Felix Fietkau   2018-02-27  2929  					  rx->sdata->vif.type,
-a1d5ff5651ea59 Mathy Vanhoef   2021-05-11  2930  					  data_offset, true))
-7f6990c830f3e8 Johannes Berg   2016-10-05  2931  		return RX_DROP_UNUSABLE;
-7f6990c830f3e8 Johannes Berg   2016-10-05  2932  
-6e4c0d0460bd32 Felix Fietkau   2023-02-13 @2933  	if (rx->sta && rx->sta->amsdu_mesh_control < 0) {
-6e4c0d0460bd32 Felix Fietkau   2023-02-13  2934  		bool valid_std = ieee80211_is_valid_amsdu(skb, true);
-6e4c0d0460bd32 Felix Fietkau   2023-02-13  2935  		bool valid_nonstd = ieee80211_is_valid_amsdu(skb, false);
-6e4c0d0460bd32 Felix Fietkau   2023-02-13  2936  
-6e4c0d0460bd32 Felix Fietkau   2023-02-13  2937  		if (valid_std && !valid_nonstd)
-6e4c0d0460bd32 Felix Fietkau   2023-02-13  2938  			rx->sta->amsdu_mesh_control = 1;
-6e4c0d0460bd32 Felix Fietkau   2023-02-13  2939  		else if (valid_nonstd && !valid_std)
-6e4c0d0460bd32 Felix Fietkau   2023-02-13  2940  			rx->sta->amsdu_mesh_control = 0;
-6e4c0d0460bd32 Felix Fietkau   2023-02-13  2941  	}
-6e4c0d0460bd32 Felix Fietkau   2023-02-13  2942  
-eaf85ca7fecb21 Zhu Yi          2009-12-01  2943  	ieee80211_amsdu_to_8023s(skb, &frame_list, dev->dev_addr,
-eaf85ca7fecb21 Zhu Yi          2009-12-01  2944  				 rx->sdata->vif.type,
-8b935ee2ea17db Johannes Berg   2016-10-05  2945  				 rx->local->hw.extra_tx_headroom,
-6e4c0d0460bd32 Felix Fietkau   2023-02-13  2946  				 check_da, check_sa,
-6e4c0d0460bd32 Felix Fietkau   2023-02-13 @2947  				 rx->sta->amsdu_mesh_control);
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2948  
-eaf85ca7fecb21 Zhu Yi          2009-12-01  2949  	while (!skb_queue_empty(&frame_list)) {
-eaf85ca7fecb21 Zhu Yi          2009-12-01  2950  		rx->skb = __skb_dequeue(&frame_list);
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2951  
-986e43b19ae917 Felix Fietkau   2023-02-13  2952  		res = ieee80211_rx_mesh_data(rx->sdata, rx->sta, rx->skb);
-986e43b19ae917 Felix Fietkau   2023-02-13  2953  		switch (res) {
-986e43b19ae917 Felix Fietkau   2023-02-13  2954  		case RX_QUEUED:
-ce3edf6d0b979f Johannes Berg   2007-12-19  2955  			continue;
-986e43b19ae917 Felix Fietkau   2023-02-13  2956  		case RX_CONTINUE:
-986e43b19ae917 Felix Fietkau   2023-02-13  2957  			break;
-986e43b19ae917 Felix Fietkau   2023-02-13  2958  		default:
-986e43b19ae917 Felix Fietkau   2023-02-13  2959  			goto free;
-ce3edf6d0b979f Johannes Berg   2007-12-19  2960  		}
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2961  
-986e43b19ae917 Felix Fietkau   2023-02-13  2962  		if (!ieee80211_frame_allowed(rx, fc))
-986e43b19ae917 Felix Fietkau   2023-02-13  2963  			goto free;
-986e43b19ae917 Felix Fietkau   2023-02-13  2964  
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2965  		ieee80211_deliver_skb(rx);
-986e43b19ae917 Felix Fietkau   2023-02-13  2966  		continue;
-986e43b19ae917 Felix Fietkau   2023-02-13  2967  
-986e43b19ae917 Felix Fietkau   2023-02-13  2968  free:
-986e43b19ae917 Felix Fietkau   2023-02-13  2969  		dev_kfree_skb(rx->skb);
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2970  	}
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2971  
-9ae54c8463691b Johannes Berg   2008-01-31  2972  	return RX_QUEUED;
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2973  }
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2974  
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  802  
+ca06197382bde0 Namjae Jeon           2020-03-02  803  /*
+ca06197382bde0 Namjae Jeon           2020-03-02  804   * Returns a set of dentries for a file or dir.
+ca06197382bde0 Namjae Jeon           2020-03-02  805   *
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  806   * Note It provides a direct pointer to bh->data via exfat_get_dentry_cached().
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  807   * User should call exfat_get_dentry_set() after setting 'modified' to apply
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  808   * changes made in this entry set to the real device.
+ca06197382bde0 Namjae Jeon           2020-03-02  809   *
+ca06197382bde0 Namjae Jeon           2020-03-02  810   * in:
+ca06197382bde0 Namjae Jeon           2020-03-02  811   *   sb+p_dir+entry: indicates a file/dir
+ca06197382bde0 Namjae Jeon           2020-03-02  812   *   type:  specifies how many dentries should be included.
+ca06197382bde0 Namjae Jeon           2020-03-02  813   * return:
+ca06197382bde0 Namjae Jeon           2020-03-02  814   *   pointer of entry set on success,
+ca06197382bde0 Namjae Jeon           2020-03-02  815   *   NULL on failure.
+ca06197382bde0 Namjae Jeon           2020-03-02  816   */
+20914ff6dd56dd Yuezhang Mo           2022-11-17  817  int exfat_get_dentry_set(struct exfat_entry_set_cache *es,
+20914ff6dd56dd Yuezhang Mo           2022-11-17  818  		struct super_block *sb, struct exfat_chain *p_dir, int entry,
+20914ff6dd56dd Yuezhang Mo           2022-11-17  819  		unsigned int type)
+ca06197382bde0 Namjae Jeon           2020-03-02  820  {
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  821  	int ret, i, num_bh;
+ca06197382bde0 Namjae Jeon           2020-03-02  822  	unsigned int off, byte_offset, clu = 0;
+ca06197382bde0 Namjae Jeon           2020-03-02  823  	sector_t sec;
+ca06197382bde0 Namjae Jeon           2020-03-02  824  	struct exfat_sb_info *sbi = EXFAT_SB(sb);
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  825  	struct exfat_dentry *ep;
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  826  	int num_entries;
+ca06197382bde0 Namjae Jeon           2020-03-02  827  	enum exfat_validate_dentry_mode mode = ES_MODE_STARTED;
+ca06197382bde0 Namjae Jeon           2020-03-02  828  	struct buffer_head *bh;
+ca06197382bde0 Namjae Jeon           2020-03-02  829  
+ca06197382bde0 Namjae Jeon           2020-03-02  830  	if (p_dir->dir == DIR_DELETED) {
+d1727d55c0327e Joe Perches           2020-04-24  831  		exfat_err(sb, "access to deleted dentry");
+20914ff6dd56dd Yuezhang Mo           2022-11-17  832  		return -EIO;
+ca06197382bde0 Namjae Jeon           2020-03-02  833  	}
+ca06197382bde0 Namjae Jeon           2020-03-02  834  
+ca06197382bde0 Namjae Jeon           2020-03-02  835  	byte_offset = EXFAT_DEN_TO_B(entry);
+ca06197382bde0 Namjae Jeon           2020-03-02  836  	ret = exfat_walk_fat_chain(sb, p_dir, byte_offset, &clu);
+ca06197382bde0 Namjae Jeon           2020-03-02  837  	if (ret)
+20914ff6dd56dd Yuezhang Mo           2022-11-17  838  		return ret;
+ca06197382bde0 Namjae Jeon           2020-03-02  839  
+20914ff6dd56dd Yuezhang Mo           2022-11-17  840  	memset(es, 0, sizeof(*es));
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  841  	es->sb = sb;
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  842  	es->modified = false;
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  843  
+ca06197382bde0 Namjae Jeon           2020-03-02  844  	/* byte offset in cluster */
+ca06197382bde0 Namjae Jeon           2020-03-02  845  	byte_offset = EXFAT_CLU_OFFSET(byte_offset, sbi);
+ca06197382bde0 Namjae Jeon           2020-03-02  846  
+ca06197382bde0 Namjae Jeon           2020-03-02  847  	/* byte offset in sector */
+ca06197382bde0 Namjae Jeon           2020-03-02  848  	off = EXFAT_BLK_OFFSET(byte_offset, sb);
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  849  	es->start_off = off;
+a3ff29a95fde16 Yuezhang Mo           2022-11-09  850  	es->bh = es->__bh;
+ca06197382bde0 Namjae Jeon           2020-03-02  851  
+ca06197382bde0 Namjae Jeon           2020-03-02  852  	/* sector offset in cluster */
+ca06197382bde0 Namjae Jeon           2020-03-02  853  	sec = EXFAT_B_TO_BLK(byte_offset, sb);
+ca06197382bde0 Namjae Jeon           2020-03-02  854  	sec += exfat_cluster_to_sector(sbi, clu);
+ca06197382bde0 Namjae Jeon           2020-03-02  855  
+ca06197382bde0 Namjae Jeon           2020-03-02  856  	bh = sb_bread(sb, sec);
+ca06197382bde0 Namjae Jeon           2020-03-02  857  	if (!bh)
+20914ff6dd56dd Yuezhang Mo           2022-11-17  858  		return -EIO;
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  859  	es->bh[es->num_bh++] = bh;
+ca06197382bde0 Namjae Jeon           2020-03-02  860  
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  861  	ep = exfat_get_dentry_cached(es, 0);
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  862  	if (!exfat_validate_entry(exfat_get_entry_type(ep), &mode))
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  863  		goto free_es;
+ca06197382bde0 Namjae Jeon           2020-03-02  864  
+ca06197382bde0 Namjae Jeon           2020-03-02  865  	num_entries = type == ES_ALL_ENTRIES ?
+ca06197382bde0 Namjae Jeon           2020-03-02  866  		ep->dentry.file.num_ext + 1 : type;
+ca06197382bde0 Namjae Jeon           2020-03-02  867  	es->num_entries = num_entries;
+ca06197382bde0 Namjae Jeon           2020-03-02  868  
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  869  	num_bh = EXFAT_B_TO_BLK_ROUND_UP(off + num_entries * DENTRY_SIZE, sb);
+a3ff29a95fde16 Yuezhang Mo           2022-11-09  870  	if (num_bh > ARRAY_SIZE(es->__bh)) {
+a3ff29a95fde16 Yuezhang Mo           2022-11-09  871  		es->bh = kmalloc_array(num_bh, sizeof(*es->bh), GFP_KERNEL);
+a3ff29a95fde16 Yuezhang Mo           2022-11-09  872  		if (!es->bh) {
+a3ff29a95fde16 Yuezhang Mo           2022-11-09  873  			brelse(bh);
+20914ff6dd56dd Yuezhang Mo           2022-11-17 @874  			return -ENOMEM;
+a3ff29a95fde16 Yuezhang Mo           2022-11-09  875  		}
+a3ff29a95fde16 Yuezhang Mo           2022-11-09  876  		es->bh[0] = bh;
+a3ff29a95fde16 Yuezhang Mo           2022-11-09  877  	}
+a3ff29a95fde16 Yuezhang Mo           2022-11-09  878  
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  879  	for (i = 1; i < num_bh; i++) {
+ca06197382bde0 Namjae Jeon           2020-03-02  880  		/* get the next sector */
+ca06197382bde0 Namjae Jeon           2020-03-02  881  		if (exfat_is_last_sector_in_cluster(sbi, sec)) {
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  882  			if (p_dir->flags == ALLOC_NO_FAT_CHAIN)
+ca06197382bde0 Namjae Jeon           2020-03-02  883  				clu++;
+ca06197382bde0 Namjae Jeon           2020-03-02  884  			else if (exfat_get_next_cluster(sb, &clu))
+ca06197382bde0 Namjae Jeon           2020-03-02  885  				goto free_es;
+ca06197382bde0 Namjae Jeon           2020-03-02  886  			sec = exfat_cluster_to_sector(sbi, clu);
+ca06197382bde0 Namjae Jeon           2020-03-02  887  		} else {
+ca06197382bde0 Namjae Jeon           2020-03-02  888  			sec++;
+ca06197382bde0 Namjae Jeon           2020-03-02  889  		}
+ca06197382bde0 Namjae Jeon           2020-03-02  890  
+ca06197382bde0 Namjae Jeon           2020-03-02  891  		bh = sb_bread(sb, sec);
+ca06197382bde0 Namjae Jeon           2020-03-02  892  		if (!bh)
+ca06197382bde0 Namjae Jeon           2020-03-02  893  			goto free_es;
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  894  		es->bh[es->num_bh++] = bh;
+ca06197382bde0 Namjae Jeon           2020-03-02  895  	}
+ca06197382bde0 Namjae Jeon           2020-03-02  896  
+6fa96cd5ad7a0c Christophe Vu-Brugier 2021-11-02  897  	/* validate cached dentries */
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  898  	for (i = 1; i < num_entries; i++) {
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  899  		ep = exfat_get_dentry_cached(es, i);
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  900  		if (!exfat_validate_entry(exfat_get_entry_type(ep), &mode))
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  901  			goto free_es;
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  902  	}
+20914ff6dd56dd Yuezhang Mo           2022-11-17  903  	return 0;
+ca06197382bde0 Namjae Jeon           2020-03-02  904  
+ca06197382bde0 Namjae Jeon           2020-03-02  905  free_es:
+943af1fdacfebe Tetsuhiro Kohada      2020-05-20  906  	exfat_free_dentry_set(es, false);
+20914ff6dd56dd Yuezhang Mo           2022-11-17  907  	return -EIO;
+ca06197382bde0 Namjae Jeon           2020-03-02  908  }
+ca06197382bde0 Namjae Jeon           2020-03-02  909  
 
 -- 
 0-DAY CI Kernel Test Service
