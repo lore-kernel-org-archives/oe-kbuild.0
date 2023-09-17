@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E13636
-	for <oe-kbuild@lists.linux.dev>; Sun, 17 Sep 2023 06:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDDC15CE
+	for <oe-kbuild@lists.linux.dev>; Sun, 17 Sep 2023 07:08:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694933181; x=1726469181;
+  t=1694934502; x=1726470502;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y/EH5osnW4/DGs5nlug5fOyECsH+KRJotcDTcciiCNw=;
-  b=iXHlagjLTYItzU5n/1VKlIU1q/Dk60oiRv+fLZxGAchpWMGKYLx9Wjm2
-   G+N7fgAz50NEA9TK9HlxOkc8rrf7FsFXMPJlhRcbHXlTfhq52H7yV0osG
-   yp9DgrcPl4yU9645MZ0HDJQr83k3UGOE5l4XWdZG111jnhKHh8jdS2GU3
-   LAI4yYqI5nW380FIpbEIiGTF++0EIeKMOU+/ep0yXyuDZk0PwDZtxLUGV
-   lssS4V+JHWSuSKRPmxKzF6MNpWHSgzvCVXMgfywejdFwByTiqLsJ3A3CZ
-   FAO/AS9saSqnKiSBQQ9S7dgvmdlv0XYGCRHSiY5n+XtoNtI9v8J7la/IC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="359725095"
+  bh=eTl8NWrs/w6mQKxHVB+3P5BuuLG3g1xkKL4Gtzxmmcc=;
+  b=HU4nJahu1LivuCEVxsydWxFVVl5vzvib0zE0BdjzZgsLpcxPvg3E0njZ
+   vfICddfJHnwQeDNcU9Z5PTZNtmyipAh+3xA5Em1VL7y8+WlYt9yYZ4vX5
+   79e8WD7irCNGCf0iCAcneYXBJIRjqbSzhbqlcOzz/jB7J0/uCWBog3QuU
+   6ZvMFAeADEbKIJ/lkBTlDqwmaebwDma0GK11KSzypis4cofVN1r/MXN//
+   LVXqQ76+hqI4CNA0/t3+uSR4F6zM7/qqOcnkEF6JkL7IhDm0bC4DU3TQx
+   QtFLNqJJx7bIb5vImXJrdmCwmF5ECiSByT/LZpCsAbNowKVog3jpl8N/z
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="443553450"
 X-IronPort-AV: E=Sophos;i="6.02,153,1688454000"; 
-   d="scan'208";a="359725095"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2023 23:46:20 -0700
+   d="scan'208";a="443553450"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2023 00:08:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="815655838"
+X-IronPort-AV: E=McAfee;i="6600,9927,10835"; a="888687060"
 X-IronPort-AV: E=Sophos;i="6.02,153,1688454000"; 
-   d="scan'208";a="815655838"
+   d="scan'208";a="888687060"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 16 Sep 2023 23:46:19 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 17 Sep 2023 00:07:40 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qhlXt-000524-2U;
-	Sun, 17 Sep 2023 06:46:17 +0000
-Date: Sun, 17 Sep 2023 14:45:40 +0800
+	id 1qhltC-00053W-1y;
+	Sun, 17 Sep 2023 07:08:18 +0000
+Date: Sun, 17 Sep 2023 15:07:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/i2c/busses/i2c-ls2x.c:153 ls2x_i2c_send_byte() error:
- uninitialized symbol 'rxdata'.
-Message-ID: <202309171426.6XFHCjac-lkp@intel.com>
+Subject: drivers/firmware/efi/libstub/file.c:147 efi_open_device_path()
+ error: we previously assumed 'text_to_dp' could be null (see line 140)
+Message-ID: <202309171515.XKMmq9yS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,50 +49,79 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Binbin Zhou <zhoubinbin@loongson.cn>
-CC: Wolfram Sang <wsa-dev@sang-engineering.com>
-CC: Andy Shevchenko <andy@kernel.org>
+TO: Ard Biesheuvel <ardb@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f0b0d403eabbe135d8dbb40ad5e41018947d336c
-commit: 015e61f0bffd46600496e50d3b2298f51f6b11a8 i2c: ls2x: Add driver for Loongson-2K/LS7A I2C controller
-date:   8 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 months ago
-config: csky-randconfig-r071-20230917 (https://download.01.org/0day-ci/archive/20230917/202309171426.6XFHCjac-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230917/202309171426.6XFHCjac-lkp@intel.com/reproduce)
+commit: 70912985545adc81716164271401c9ffb0acdd0f efi: libstub: Implement devicepath support for initrd commandline loader
+date:   10 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-161-20230913 (https://download.01.org/0day-ci/archive/20230917/202309171515.XKMmq9yS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230917/202309171515.XKMmq9yS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309171426.6XFHCjac-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309171515.XKMmq9yS-lkp@intel.com/
 
 smatch warnings:
-drivers/i2c/busses/i2c-ls2x.c:153 ls2x_i2c_send_byte() error: uninitialized symbol 'rxdata'.
+drivers/firmware/efi/libstub/file.c:147 efi_open_device_path() error: we previously assumed 'text_to_dp' could be null (see line 140)
 
-vim +/rxdata +153 drivers/i2c/busses/i2c-ls2x.c
+vim +/text_to_dp +147 drivers/firmware/efi/libstub/file.c
 
-015e61f0bffd46 Binbin Zhou 2023-01-31  143  
-015e61f0bffd46 Binbin Zhou 2023-01-31  144  static int ls2x_i2c_send_byte(struct ls2x_i2c_priv *priv, u8 txdata)
-015e61f0bffd46 Binbin Zhou 2023-01-31  145  {
-015e61f0bffd46 Binbin Zhou 2023-01-31  146  	int ret;
-015e61f0bffd46 Binbin Zhou 2023-01-31  147  	u8 rxdata;
-015e61f0bffd46 Binbin Zhou 2023-01-31  148  
-015e61f0bffd46 Binbin Zhou 2023-01-31  149  	ret = ls2x_i2c_xfer_byte(priv, txdata, &rxdata);
-015e61f0bffd46 Binbin Zhou 2023-01-31  150  	if (ret)
-015e61f0bffd46 Binbin Zhou 2023-01-31  151  		return ret;
-015e61f0bffd46 Binbin Zhou 2023-01-31  152  
-015e61f0bffd46 Binbin Zhou 2023-01-31 @153  	if (rxdata & LS2X_SR_AL)
-015e61f0bffd46 Binbin Zhou 2023-01-31  154  		return -EAGAIN;
-015e61f0bffd46 Binbin Zhou 2023-01-31  155  
-015e61f0bffd46 Binbin Zhou 2023-01-31  156  	if (rxdata & LS2X_SR_NOACK)
-015e61f0bffd46 Binbin Zhou 2023-01-31  157  		return -ENXIO;
-015e61f0bffd46 Binbin Zhou 2023-01-31  158  
-015e61f0bffd46 Binbin Zhou 2023-01-31  159  	return 0;
-015e61f0bffd46 Binbin Zhou 2023-01-31  160  }
-015e61f0bffd46 Binbin Zhou 2023-01-31  161  
+9302c1bb8e4758 Ard Biesheuvel 2020-02-10  126  
+70912985545adc Ard Biesheuvel 2022-09-26  127  static efi_status_t efi_open_device_path(efi_file_protocol_t **volume,
+70912985545adc Ard Biesheuvel 2022-09-26  128  					 struct finfo *fi)
+70912985545adc Ard Biesheuvel 2022-09-26  129  {
+70912985545adc Ard Biesheuvel 2022-09-26  130  	efi_guid_t text_to_dp_guid = EFI_DEVICE_PATH_FROM_TEXT_PROTOCOL_GUID;
+70912985545adc Ard Biesheuvel 2022-09-26  131  	static efi_device_path_from_text_protocol_t *text_to_dp = NULL;
+70912985545adc Ard Biesheuvel 2022-09-26  132  	efi_guid_t fs_proto = EFI_FILE_SYSTEM_GUID;
+70912985545adc Ard Biesheuvel 2022-09-26  133  	efi_device_path_protocol_t *initrd_dp;
+70912985545adc Ard Biesheuvel 2022-09-26  134  	efi_simple_file_system_protocol_t *io;
+70912985545adc Ard Biesheuvel 2022-09-26  135  	struct efi_file_path_dev_path *fpath;
+70912985545adc Ard Biesheuvel 2022-09-26  136  	efi_handle_t handle;
+70912985545adc Ard Biesheuvel 2022-09-26  137  	efi_status_t status;
+70912985545adc Ard Biesheuvel 2022-09-26  138  
+70912985545adc Ard Biesheuvel 2022-09-26  139  	/* See if the text to device path protocol exists */
+70912985545adc Ard Biesheuvel 2022-09-26 @140  	if (!text_to_dp &&
+70912985545adc Ard Biesheuvel 2022-09-26  141  	    efi_bs_call(locate_protocol, &text_to_dp_guid, NULL,
+70912985545adc Ard Biesheuvel 2022-09-26  142  			(void **)&text_to_dp) != EFI_SUCCESS)
+70912985545adc Ard Biesheuvel 2022-09-26  143  		return EFI_UNSUPPORTED;
+70912985545adc Ard Biesheuvel 2022-09-26  144  
+70912985545adc Ard Biesheuvel 2022-09-26  145  
+70912985545adc Ard Biesheuvel 2022-09-26  146  	/* Convert the filename wide string into a device path */
+70912985545adc Ard Biesheuvel 2022-09-26 @147  	initrd_dp = text_to_dp->convert_text_to_device_path(fi->filename);
+70912985545adc Ard Biesheuvel 2022-09-26  148  
+70912985545adc Ard Biesheuvel 2022-09-26  149  	/* Check whether the device path in question implements simple FS */
+70912985545adc Ard Biesheuvel 2022-09-26  150  	if ((efi_bs_call(locate_device_path, &fs_proto, &initrd_dp, &handle) ?:
+70912985545adc Ard Biesheuvel 2022-09-26  151  	     efi_bs_call(handle_protocol, handle, &fs_proto, (void **)&io))
+70912985545adc Ard Biesheuvel 2022-09-26  152  	    != EFI_SUCCESS)
+70912985545adc Ard Biesheuvel 2022-09-26  153  		return EFI_NOT_FOUND;
+70912985545adc Ard Biesheuvel 2022-09-26  154  
+70912985545adc Ard Biesheuvel 2022-09-26  155  	/* Check whether the remaining device path is a file device path */
+70912985545adc Ard Biesheuvel 2022-09-26  156  	if (initrd_dp->type != EFI_DEV_MEDIA ||
+70912985545adc Ard Biesheuvel 2022-09-26  157  	    initrd_dp->sub_type != EFI_DEV_MEDIA_FILE) {
+70912985545adc Ard Biesheuvel 2022-09-26  158  		efi_warn("Unexpected device path node type: (%x, %x)\n",
+70912985545adc Ard Biesheuvel 2022-09-26  159  			 initrd_dp->type, initrd_dp->sub_type);
+70912985545adc Ard Biesheuvel 2022-09-26  160  		return EFI_LOAD_ERROR;
+70912985545adc Ard Biesheuvel 2022-09-26  161  	}
+70912985545adc Ard Biesheuvel 2022-09-26  162  
+70912985545adc Ard Biesheuvel 2022-09-26  163  	/* Copy the remaining file path into the fi structure */
+70912985545adc Ard Biesheuvel 2022-09-26  164  	fpath = (struct efi_file_path_dev_path *)initrd_dp;
+70912985545adc Ard Biesheuvel 2022-09-26  165  	memcpy(fi->filename, fpath->filename,
+70912985545adc Ard Biesheuvel 2022-09-26  166  	       min(sizeof(fi->filename),
+70912985545adc Ard Biesheuvel 2022-09-26  167  		   fpath->header.length - sizeof(fpath->header)));
+70912985545adc Ard Biesheuvel 2022-09-26  168  
+70912985545adc Ard Biesheuvel 2022-09-26  169  	status = io->open_volume(io, volume);
+70912985545adc Ard Biesheuvel 2022-09-26  170  	if (status != EFI_SUCCESS)
+70912985545adc Ard Biesheuvel 2022-09-26  171  		efi_err("Failed to open volume\n");
+70912985545adc Ard Biesheuvel 2022-09-26  172  
+70912985545adc Ard Biesheuvel 2022-09-26  173  	return status;
+70912985545adc Ard Biesheuvel 2022-09-26  174  }
+70912985545adc Ard Biesheuvel 2022-09-26  175  
 
 -- 
 0-DAY CI Kernel Test Service
