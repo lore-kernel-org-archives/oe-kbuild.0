@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C3B273C8
-	for <oe-kbuild@lists.linux.dev>; Mon, 18 Sep 2023 17:08:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE44273FE
+	for <oe-kbuild@lists.linux.dev>; Mon, 18 Sep 2023 19:21:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695056881; x=1726592881;
+  t=1695064913; x=1726600913;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3qvPWd39y4K4llnR0nk/qqoxFI72iCB+126wN+mC3yE=;
-  b=mG4+VBK7g33/57tluM/Yo8guh7YJeM20/jnJBJBOY2cDcOxQEZhxO+UX
-   53aAemjt1TDZEDFHK5rh8TOZ5BxxLuoO+n9Keokx5qKLTnaDs3qtWAbtN
-   aMLzbKz5CASxz76qMGk3z+EIOjwWsf4X54Ee3eZgBdhe9bhYjl1/dQYJN
-   jRZvT1BtEYxYlOYpRdrz69KSZnhFGQX8ZFOI7KmrtqqjBICXphgOiX+15
-   NLgljxpPaYQOZI3oEvoRQP+2PnI+avUngR0B240bP1LL247GfyYsqxAhx
-   4w+H8ND5fB4xYjptu6m4fPW2LPnbbcIrYJIrLOal8uNyGY+E5OIq40DF+
+  bh=sVNtVM48FnYRAKq/i+NKy0snyXzARZ/Wy7GgfmmtZFw=;
+  b=marS3m03UImMt33NIfCOUKrufNLnH9EH+qFnMh4aMPTUXXpKP025VkgM
+   Y5iDvX3c5AAjL7yky2wH4P/cUzWYQ8TY2c1Hmrfk++opofEKBRWTA0YID
+   HRhe98UznErCXsmJQNCJRhDiATZVoZr/c/SA4Cepj1j3GAhrEgFxqH4y4
+   KQJluzASmj92s1x4Yiam+AINWnV44ZmgpzPvgB4vz52eYlshOX4A6Ev7N
+   HxNSNlgUgv9V4ublXkIY+IGteVyPrj0ZFwcwy0WgHNjnAGbw0f2JOuDz5
+   O8vdkjBbmqULzchKvBKPPhbrjaofXLrAyd8X6opYl+jeUHg4L91AJ5NSK
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="466068020"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="446210776"
 X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
-   d="scan'208";a="466068020"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 10:08:00 -0700
+   d="scan'208";a="446210776"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 12:21:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="695588271"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="836146843"
 X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
-   d="scan'208";a="695588271"
+   d="scan'208";a="836146843"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 18 Sep 2023 10:07:58 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Sep 2023 12:21:51 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiHj2-0006J8-1p;
-	Mon, 18 Sep 2023 17:07:56 +0000
-Date: Tue, 19 Sep 2023 01:07:44 +0800
+	id 1qiJoa-0006Oi-36;
+	Mon, 18 Sep 2023 19:21:49 +0000
+Date: Tue, 19 Sep 2023 03:21:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/clk/ingenic/jz4760-cgu.c:80 jz4760_cgu_calc_m_n_od() error:
- uninitialized symbol 'od'.
-Message-ID: <202309190010.sfZ60CIj-lkp@intel.com>
+Subject: kernel/dma/swiotlb.c:581 swiotlb_alloc_tlb() warn: ignoring
+ unreachable code.
+Message-ID: <202309190334.Lr7ejWXE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,64 +49,85 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Paul Cercueil <paul@crapouillou.net>
-CC: Stephen Boyd <sboyd@kernel.org>
+TO: Petr Tesarik <petr.tesarik.ext@huawei.com>
+CC: Christoph Hellwig <hch@lst.de>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ce9ecca0238b140b88f43859b211c9fdfd8e5b70
-commit: ecfb9f404771dde909ce7743df954370933c3be2 clk: ingenic: jz4760: Update M/N/OD calculation algorithm
-date:   8 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 8 months ago
-config: csky-randconfig-r071-20230917 (https://download.01.org/0day-ci/archive/20230919/202309190010.sfZ60CIj-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230919/202309190010.sfZ60CIj-lkp@intel.com/reproduce)
+commit: 79636caad3618e2b38457f6e298c9b31ba82b489 swiotlb: if swiotlb is full, fall back to a transient memory pool
+date:   7 weeks ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 7 weeks ago
+config: i386-randconfig-141-20230918 (https://download.01.org/0day-ci/archive/20230919/202309190334.Lr7ejWXE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230919/202309190334.Lr7ejWXE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309190010.sfZ60CIj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309190334.Lr7ejWXE-lkp@intel.com/
 
 smatch warnings:
-drivers/clk/ingenic/jz4760-cgu.c:80 jz4760_cgu_calc_m_n_od() error: uninitialized symbol 'od'.
+kernel/dma/swiotlb.c:581 swiotlb_alloc_tlb() warn: ignoring unreachable code.
 
-vim +/od +80 drivers/clk/ingenic/jz4760-cgu.c
+vim +581 kernel/dma/swiotlb.c
 
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  55  
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  56  static void
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  57  jz4760_cgu_calc_m_n_od(const struct ingenic_cgu_pll_info *pll_info,
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  58  		       unsigned long rate, unsigned long parent_rate,
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  59  		       unsigned int *pm, unsigned int *pn, unsigned int *pod)
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  60  {
-ecfb9f404771dde Paul Cercueil 2022-12-14  61  	unsigned int m, n, od, m_max = (1 << pll_info->m_bits) - 1;
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  62  
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  63  	/* The frequency after the N divider must be between 1 and 50 MHz. */
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  64  	n = parent_rate / (1 * MHZ);
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  65  
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  66  	/* The N divider must be >= 2. */
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  67  	n = clamp_val(n, 2, 1 << pll_info->n_bits);
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  68  
-ecfb9f404771dde Paul Cercueil 2022-12-14  69  	rate /= MHZ;
-ecfb9f404771dde Paul Cercueil 2022-12-14  70  	parent_rate /= MHZ;
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  71  
-ecfb9f404771dde Paul Cercueil 2022-12-14  72  	for (m = m_max; m >= m_max && n >= 2; n--) {
-ecfb9f404771dde Paul Cercueil 2022-12-14  73  		m = rate * n / parent_rate;
-ecfb9f404771dde Paul Cercueil 2022-12-14  74  		od = m & 1;
-ecfb9f404771dde Paul Cercueil 2022-12-14  75  		m <<= od;
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  76  	}
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  77  
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  78  	*pm = m;
-ecfb9f404771dde Paul Cercueil 2022-12-14  79  	*pn = n + 1;
-bdbfc029374f6d9 Paul Cercueil 2021-05-30 @80  	*pod = 1 << od;
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  81  }
-bdbfc029374f6d9 Paul Cercueil 2021-05-30  82  
-
-:::::: The code at line 80 was first introduced by commit
-:::::: bdbfc029374f6d9ed31bc44983501fd1008b677f clk: ingenic: Add support for the JZ4760
-
-:::::: TO: Paul Cercueil <paul@crapouillou.net>
-:::::: CC: Stephen Boyd <sboyd@kernel.org>
+79636caad3618e Petr Tesarik 2023-08-01  545  
+79636caad3618e Petr Tesarik 2023-08-01  546  /**
+79636caad3618e Petr Tesarik 2023-08-01  547   * swiotlb_alloc_tlb() - allocate a dynamic IO TLB buffer
+79636caad3618e Petr Tesarik 2023-08-01  548   * @dev:	Device for which a memory pool is allocated.
+79636caad3618e Petr Tesarik 2023-08-01  549   * @bytes:	Size of the buffer.
+79636caad3618e Petr Tesarik 2023-08-01  550   * @phys_limit:	Maximum allowed physical address of the buffer.
+79636caad3618e Petr Tesarik 2023-08-01  551   * @gfp:	GFP flags for the allocation.
+79636caad3618e Petr Tesarik 2023-08-01  552   *
+79636caad3618e Petr Tesarik 2023-08-01  553   * Return: Allocated pages, or %NULL on allocation failure.
+79636caad3618e Petr Tesarik 2023-08-01  554   */
+79636caad3618e Petr Tesarik 2023-08-01  555  static struct page *swiotlb_alloc_tlb(struct device *dev, size_t bytes,
+79636caad3618e Petr Tesarik 2023-08-01  556  		u64 phys_limit, gfp_t gfp)
+79636caad3618e Petr Tesarik 2023-08-01  557  {
+79636caad3618e Petr Tesarik 2023-08-01  558  	struct page *page;
+79636caad3618e Petr Tesarik 2023-08-01  559  
+79636caad3618e Petr Tesarik 2023-08-01  560  	/*
+79636caad3618e Petr Tesarik 2023-08-01  561  	 * Allocate from the atomic pools if memory is encrypted and
+79636caad3618e Petr Tesarik 2023-08-01  562  	 * the allocation is atomic, because decrypting may block.
+79636caad3618e Petr Tesarik 2023-08-01  563  	 */
+79636caad3618e Petr Tesarik 2023-08-01  564  	if (!gfpflags_allow_blocking(gfp) && dev && force_dma_unencrypted(dev)) {
+79636caad3618e Petr Tesarik 2023-08-01  565  		void *vaddr;
+79636caad3618e Petr Tesarik 2023-08-01  566  
+79636caad3618e Petr Tesarik 2023-08-01  567  		if (!IS_ENABLED(CONFIG_DMA_COHERENT_POOL))
+79636caad3618e Petr Tesarik 2023-08-01  568  			return NULL;
+79636caad3618e Petr Tesarik 2023-08-01  569  
+79636caad3618e Petr Tesarik 2023-08-01  570  		return dma_alloc_from_pool(dev, bytes, &vaddr, gfp,
+79636caad3618e Petr Tesarik 2023-08-01  571  					   dma_coherent_ok);
+79636caad3618e Petr Tesarik 2023-08-01  572  	}
+79636caad3618e Petr Tesarik 2023-08-01  573  
+79636caad3618e Petr Tesarik 2023-08-01  574  	gfp &= ~GFP_ZONEMASK;
+79636caad3618e Petr Tesarik 2023-08-01  575  	if (phys_limit <= DMA_BIT_MASK(zone_dma_bits))
+79636caad3618e Petr Tesarik 2023-08-01  576  		gfp |= __GFP_DMA;
+79636caad3618e Petr Tesarik 2023-08-01  577  	else if (phys_limit <= DMA_BIT_MASK(32))
+79636caad3618e Petr Tesarik 2023-08-01  578  		gfp |= __GFP_DMA32;
+79636caad3618e Petr Tesarik 2023-08-01  579  
+79636caad3618e Petr Tesarik 2023-08-01  580  	while ((page = alloc_dma_pages(gfp, bytes)) &&
+79636caad3618e Petr Tesarik 2023-08-01 @581  	       page_to_phys(page) + bytes - 1 > phys_limit) {
+79636caad3618e Petr Tesarik 2023-08-01  582  		/* allocated, but too high */
+79636caad3618e Petr Tesarik 2023-08-01  583  		__free_pages(page, get_order(bytes));
+79636caad3618e Petr Tesarik 2023-08-01  584  
+79636caad3618e Petr Tesarik 2023-08-01  585  		if (IS_ENABLED(CONFIG_ZONE_DMA32) &&
+79636caad3618e Petr Tesarik 2023-08-01  586  		    phys_limit < DMA_BIT_MASK(64) &&
+79636caad3618e Petr Tesarik 2023-08-01  587  		    !(gfp & (__GFP_DMA32 | __GFP_DMA)))
+79636caad3618e Petr Tesarik 2023-08-01  588  			gfp |= __GFP_DMA32;
+79636caad3618e Petr Tesarik 2023-08-01  589  		else if (IS_ENABLED(CONFIG_ZONE_DMA) &&
+79636caad3618e Petr Tesarik 2023-08-01  590  			 !(gfp & __GFP_DMA))
+79636caad3618e Petr Tesarik 2023-08-01  591  			gfp = (gfp & ~__GFP_DMA32) | __GFP_DMA;
+79636caad3618e Petr Tesarik 2023-08-01  592  		else
+79636caad3618e Petr Tesarik 2023-08-01  593  			return NULL;
+79636caad3618e Petr Tesarik 2023-08-01  594  	}
+79636caad3618e Petr Tesarik 2023-08-01  595  
+79636caad3618e Petr Tesarik 2023-08-01  596  	return page;
+79636caad3618e Petr Tesarik 2023-08-01  597  }
+79636caad3618e Petr Tesarik 2023-08-01  598  
 
 -- 
 0-DAY CI Kernel Test Service
