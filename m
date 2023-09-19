@@ -1,147 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A6633D5
-	for <oe-kbuild@lists.linux.dev>; Tue, 19 Sep 2023 22:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CF8881E
+	for <oe-kbuild@lists.linux.dev>; Tue, 19 Sep 2023 22:40:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695163222; x=1726699222;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X0f6tkH1xJsRLY1bY2Snc6pP8XAM39XtebMMLbUYDDc=;
-  b=SdG7iQ2t6yBywhE8pgH4h8mAj9HJfJ/Hy74Eu2W8/bzziGVLMuvlkJC8
-   Gx2xWnRx2oK1qLQFLR+myI1kM1++CVs0y+J29tn4wjSfIKBk6dgSjE0RZ
-   FznZJgKjg+GhnB+WI5mF9pFq4WKcY59ctzuOBTk++Z8Yma5cracqira9N
-   pE7mL3iUh0v8141Pa2Zmmi2hLUKTyjFSvglPjWw9tuiBh3kaW6zoMZ4pA
-   LL5bJk94Mr/C+yYyJFn5fIvOaqX1lqBsXSF4te5yG1ZzVoy9+pwXd2vl3
-   JCJ4emHYuh7UEntmkzmDUFBAHtFd78uM7js+E5MgzkLjXfkEcrvluY6/Q
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="365118769"
+  t=1695163249; x=1726699249;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zc+sauxwLY0MVqrTSx0uorPimhzUZeFfXRiY7NnRIqk=;
+  b=nIwOJCZwfPxpV3o3wO1SE8BNDNsI54Pds9Qa1cHMl09hbpU/JhRiAMB7
+   GYuostQgo9MYblYqZ0Rut3HxwanB2rsbXITt7sczcxshiGneteWSAtNdB
+   FWDdHifIewxPeGThFRLnd2lAh+RUeG5IXs+MHNRHe7tObBfGL5++35LrC
+   lSNcty6/IHUxaTKDvYpbiepkN4yb0GLAf9rDU72ah5XBoMRBduBYXca4a
+   6nVc5s9PZvx9QD+p+S5GmhhIdcEvo5ir1gBQqhkR7JLI3xGANx6b109Wx
+   nyKEL9CqZMMtiRQe7+qG1af0fYOjlTmvDSe/yBrN19goMOFJFCGwxNrjX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="466383057"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="365118769"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 15:40:22 -0700
+   d="scan'208";a="466383057"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 15:40:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="920035738"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="816618129"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="920035738"
+   d="scan'208";a="816618129"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 19 Sep 2023 15:40:20 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 19 Sep 2023 15:40:47 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qijMe-00080K-1h;
-	Tue, 19 Sep 2023 22:39:13 +0000
-Date: Wed, 20 Sep 2023 06:38:33 +0800
+	id 1qijOB-00080M-2t;
+	Tue, 19 Sep 2023 22:40:30 +0000
+Date: Wed, 20 Sep 2023 06:38:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v5 bpf-next 02/13] bpf: add BPF token delegation mount
- options to BPF FS
-Message-ID: <202309200632.7YokfzI3-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/host1x/dev.c:417 host1x_iommu_attach() warn: passing
+ zero to 'ERR_PTR'
+Message-ID: <202309200604.SU0YJbch-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "checkpatch"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230919214800.3803828-3-andrii@kernel.org>
-References: <20230919214800.3803828-3-andrii@kernel.org>
-TO: Andrii Nakryiko <andrii@kernel.org>
-TO: bpf@vger.kernel.org
-TO: netdev@vger.kernel.org
-CC: linux-fsdevel@vger.kernel.org
-CC: linux-security-module@vger.kernel.org
-CC: keescook@chromium.org
-CC: brauner@kernel.org
-CC: lennart@poettering.net
-CC: kernel-team@meta.com
-CC: sargun@sargun.me
+CC: linux-kernel@vger.kernel.org
+TO: "Christian König" <christian.koenig@amd.com>
+CC: Thierry Reding <treding@nvidia.com>
 
-Hi Andrii,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-align-CAP_NET_ADMIN-checks-with-bpf_capable-approach/20230920-055119
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230919214800.3803828-3-andrii%40kernel.org
-patch subject: [PATCH v5 bpf-next 02/13] bpf: add BPF token delegation mount options to BPF FS
-:::::: branch date: 44 minutes ago
-:::::: commit date: 44 minutes ago
-reproduce: (https://download.01.org/0day-ci/archive/20230920/202309200632.7YokfzI3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2cf0f715623872823a72e451243bbf555d10d032
+commit: f75d19827b731c6f24930ef77e5a46cf2242bc68 drm/tegra: Allow compile test on !ARM v2
+date:   6 months ago
+:::::: branch date: 27 hours ago
+:::::: commit date: 6 months ago
+config: csky-randconfig-r071-20230917 (https://download.01.org/0day-ci/archive/20230920/202309200604.SU0YJbch-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230920/202309200604.SU0YJbch-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309200632.7YokfzI3-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202309200604.SU0YJbch-lkp@intel.com/
 
-# many are suggestions rather than must-fix
+New smatch warnings:
+drivers/gpu/host1x/dev.c:417 host1x_iommu_attach() warn: passing zero to 'ERR_PTR'
 
-WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
-#15: 
-    a set of allowable BPF program types that could be loaded with BPF token;
+Old smatch warnings:
+drivers/gpu/host1x/dev.c:520 host1x_probe() error: uninitialized symbol 'syncpt_irq'.
 
-WARNING: Prefer seq_puts to seq_printf
-#119: kernel/bpf/inode.c:611:
-+		seq_printf(m, ",delegate_cmds=any");
+vim +/ERR_PTR +417 drivers/gpu/host1x/dev.c
 
-WARNING: Prefer seq_puts to seq_printf
-#124: kernel/bpf/inode.c:616:
-+		seq_printf(m, ",delegate_maps=any");
+d5185965c3b590 Dmitry Osipenko 2021-12-04  359  
+06867a362de08f Thierry Reding  2019-10-28  360  	/*
+4010e729349fca Thierry Reding  2020-03-25  361  	 * We may not always want to enable IOMMU support (for example if the
+4010e729349fca Thierry Reding  2020-03-25  362  	 * host1x firewall is already enabled and we don't support addressing
+4010e729349fca Thierry Reding  2020-03-25  363  	 * more than 32 bits of physical memory), so check for that first.
+4010e729349fca Thierry Reding  2020-03-25  364  	 *
+4010e729349fca Thierry Reding  2020-03-25  365  	 * Similarly, if host1x is already attached to an IOMMU (via the DMA
+4010e729349fca Thierry Reding  2020-03-25  366  	 * API), don't try to attach again.
+06867a362de08f Thierry Reding  2019-10-28  367  	 */
+4010e729349fca Thierry Reding  2020-03-25  368  	if (!host1x_wants_iommu(host) || domain)
+06867a362de08f Thierry Reding  2019-10-28  369  		return domain;
+06867a362de08f Thierry Reding  2019-10-28  370  
+06867a362de08f Thierry Reding  2019-10-28  371  	host->group = iommu_group_get(host->dev);
+06867a362de08f Thierry Reding  2019-10-28  372  	if (host->group) {
+06867a362de08f Thierry Reding  2019-10-28  373  		struct iommu_domain_geometry *geometry;
+06867a362de08f Thierry Reding  2019-10-28  374  		dma_addr_t start, end;
+06867a362de08f Thierry Reding  2019-10-28  375  		unsigned long order;
+06867a362de08f Thierry Reding  2019-10-28  376  
+06867a362de08f Thierry Reding  2019-10-28  377  		err = iova_cache_get();
+06867a362de08f Thierry Reding  2019-10-28  378  		if (err < 0)
+06867a362de08f Thierry Reding  2019-10-28  379  			goto put_group;
+06867a362de08f Thierry Reding  2019-10-28  380  
+06867a362de08f Thierry Reding  2019-10-28  381  		host->domain = iommu_domain_alloc(&platform_bus_type);
+06867a362de08f Thierry Reding  2019-10-28  382  		if (!host->domain) {
+06867a362de08f Thierry Reding  2019-10-28  383  			err = -ENOMEM;
+06867a362de08f Thierry Reding  2019-10-28  384  			goto put_cache;
+06867a362de08f Thierry Reding  2019-10-28  385  		}
+06867a362de08f Thierry Reding  2019-10-28  386  
+06867a362de08f Thierry Reding  2019-10-28  387  		err = iommu_attach_group(host->domain, host->group);
+06867a362de08f Thierry Reding  2019-10-28  388  		if (err) {
+06867a362de08f Thierry Reding  2019-10-28  389  			if (err == -ENODEV)
+06867a362de08f Thierry Reding  2019-10-28  390  				err = 0;
+06867a362de08f Thierry Reding  2019-10-28  391  
+06867a362de08f Thierry Reding  2019-10-28  392  			goto free_domain;
+06867a362de08f Thierry Reding  2019-10-28  393  		}
+06867a362de08f Thierry Reding  2019-10-28  394  
+06867a362de08f Thierry Reding  2019-10-28  395  		geometry = &host->domain->geometry;
+06867a362de08f Thierry Reding  2019-10-28  396  		start = geometry->aperture_start & host->info->dma_mask;
+06867a362de08f Thierry Reding  2019-10-28  397  		end = geometry->aperture_end & host->info->dma_mask;
+06867a362de08f Thierry Reding  2019-10-28  398  
+06867a362de08f Thierry Reding  2019-10-28  399  		order = __ffs(host->domain->pgsize_bitmap);
+06867a362de08f Thierry Reding  2019-10-28  400  		init_iova_domain(&host->iova, 1UL << order, start >> order);
+06867a362de08f Thierry Reding  2019-10-28  401  		host->iova_end = end;
+06867a362de08f Thierry Reding  2019-10-28  402  
+06867a362de08f Thierry Reding  2019-10-28  403  		domain = host->domain;
+06867a362de08f Thierry Reding  2019-10-28  404  	}
+06867a362de08f Thierry Reding  2019-10-28  405  
+06867a362de08f Thierry Reding  2019-10-28  406  	return domain;
+06867a362de08f Thierry Reding  2019-10-28  407  
+06867a362de08f Thierry Reding  2019-10-28  408  free_domain:
+06867a362de08f Thierry Reding  2019-10-28  409  	iommu_domain_free(host->domain);
+06867a362de08f Thierry Reding  2019-10-28  410  	host->domain = NULL;
+06867a362de08f Thierry Reding  2019-10-28  411  put_cache:
+06867a362de08f Thierry Reding  2019-10-28  412  	iova_cache_put();
+06867a362de08f Thierry Reding  2019-10-28  413  put_group:
+06867a362de08f Thierry Reding  2019-10-28  414  	iommu_group_put(host->group);
+06867a362de08f Thierry Reding  2019-10-28  415  	host->group = NULL;
+06867a362de08f Thierry Reding  2019-10-28  416  
+06867a362de08f Thierry Reding  2019-10-28 @417  	return ERR_PTR(err);
+06867a362de08f Thierry Reding  2019-10-28  418  }
+06867a362de08f Thierry Reding  2019-10-28  419  
 
-WARNING: Prefer seq_puts to seq_printf
-#129: kernel/bpf/inode.c:621:
-+		seq_printf(m, ",delegate_progs=any");
+:::::: The code at line 417 was first introduced by commit
+:::::: 06867a362de08ff94fb573d84fd213795fbb3922 gpu: host1x: Set DMA mask based on IOMMU setup
 
-WARNING: Prefer seq_puts to seq_printf
-#134: kernel/bpf/inode.c:626:
-+		seq_printf(m, ",delegate_attachs=any");
-
-WARNING: space prohibited between function name and open parenthesis '('
-#152: kernel/bpf/inode.c:660:
-+	fsparam_string	("delegate_cmds",		OPT_DELEGATE_CMDS),
-
-WARNING: space prohibited between function name and open parenthesis '('
-#153: kernel/bpf/inode.c:661:
-+	fsparam_string	("delegate_maps",		OPT_DELEGATE_MAPS),
-
-WARNING: space prohibited between function name and open parenthesis '('
-#154: kernel/bpf/inode.c:662:
-+	fsparam_string	("delegate_progs",		OPT_DELEGATE_PROGS),
-
-WARNING: space prohibited between function name and open parenthesis '('
-#155: kernel/bpf/inode.c:663:
-+	fsparam_string	("delegate_attachs",		OPT_DELEGATE_ATTACHS),
-
-ERROR: trailing statements should be on next line
-#190: kernel/bpf/inode.c:708:
-+		case OPT_DELEGATE_CMDS: opts->delegate_cmds |= msk; break;
-
-ERROR: trailing statements should be on next line
-#191: kernel/bpf/inode.c:709:
-+		case OPT_DELEGATE_MAPS: opts->delegate_maps |= msk; break;
-
-ERROR: trailing statements should be on next line
-#192: kernel/bpf/inode.c:710:
-+		case OPT_DELEGATE_PROGS: opts->delegate_progs |= msk; break;
-
-ERROR: trailing statements should be on next line
-#193: kernel/bpf/inode.c:711:
-+		case OPT_DELEGATE_ATTACHS: opts->delegate_attachs |= msk; break;
-
-WARNING: kfree(NULL) is safe and this check is probably not required
-#224: kernel/bpf/inode.c:821:
-+	if (opts)
-+		kfree(opts);
+:::::: TO: Thierry Reding <treding@nvidia.com>
+:::::: CC: Thierry Reding <treding@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
