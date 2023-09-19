@@ -1,42 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB3A28DD6
-	for <oe-kbuild@lists.linux.dev>; Mon, 18 Sep 2023 22:52:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F07B180
+	for <oe-kbuild@lists.linux.dev>; Tue, 19 Sep 2023 00:15:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695077535; x=1726613535;
+  t=1695082517; x=1726618517;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F+tgaMz9qYOwR+ECmjlLXkY+45ptqTiwzknpwrkyXL8=;
-  b=BMXmsuYR7Td0YJrq0mMICVHArREjWx3xjwz62WrYk6aLvL4vlNpqm+s1
-   n0/sOEk58UrEToCwmLDOY50AjFKqcxSATmPdhznvyK+T49DVpwVLmfNUH
-   aBZ8Lz1QDMC0sEDesMGFk82FoeTCWxrFVAbNjBjOQITJi5FoMuqJyf2aX
-   /y40R3FdEiOYbLX0s3N0L3WvB0e3oR4QVuhi9LLZ4kc/Ruk4Ns7epd1WX
-   hOCEwFiUAwUMxpBstSIq93vqpH9Z96UbpFZXv45EkrhK40KvKWrzBeCs9
-   3XZnTBxqR7KoQToGf7kjF/NQL7W97mN/+IQunxNsWMwFuog8QztmmVv3F
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="443885466"
+  bh=vzIvXuU6Lx7N2Xuuq+9eqbDRt1wwqdSJ2i6tR/5RL2M=;
+  b=JDc9pk/aV/WM9m6twGvsjTdDOmcUoeKWo7hjfjoxKP5aKVX7z4OMzCKG
+   JiDyagvWF778t1CeWRVgUZz75YwPyqfhVddCL85sKiXF5LX0CXrWf06Fy
+   yXXDWKzWT+7r6ry/EOMZ4PmTZKxZ+Z6GQZ614Q/OROuodR1QS2Rhof6zz
+   2L8xjF+iwXsx/cahwW822JDGMbFwbs47QiT2GKSOIM2YWPeTdLG5Gx7jd
+   bOrM/yh6VPinbQtTpDydrDZ+Ujm8CQSB0oXh0MrVh6cg4+/6QzfNDPIs5
+   pcpJjoF7igHwEIpGUwQm+bdHYAzrTREzGd4GNGXw1e/yj9lQ2GVS+jj5/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="378710791"
 X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
-   d="scan'208";a="443885466"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 15:52:03 -0700
+   d="scan'208";a="378710791"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 17:15:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="889270526"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="869766742"
 X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
-   d="scan'208";a="889270526"
+   d="scan'208";a="869766742"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Sep 2023 15:51:17 -0700
+  by orsmga004.jf.intel.com with ESMTP; 18 Sep 2023 17:15:14 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiN5z-0006bT-1r;
-	Mon, 18 Sep 2023 22:51:59 +0000
-Date: Tue, 19 Sep 2023 06:51:14 +0800
+	id 1qiOOW-0006fR-1E;
+	Tue, 19 Sep 2023 00:15:12 +0000
+Date: Tue, 19 Sep 2023 08:14:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/char/hw_random/jh7110-trng.c:303 starfive_trng_probe() warn:
- passing zero to 'dev_err_probe'
-Message-ID: <202309190603.3VtRfc4z-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v6 19/25] KVM: VMX: Emulate read and write to CET MSRs
+Message-ID: <202309190838.32kXx2Zr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,123 +45,172 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Conor Dooley <conor.dooley@microchip.com>
-CC: Jia Jie Ho <jiajie.ho@starfivetech.com>
+In-Reply-To: <20230914063325.85503-20-weijiang.yang@intel.com>
+References: <20230914063325.85503-20-weijiang.yang@intel.com>
+TO: Yang Weijiang <weijiang.yang@intel.com>
 
-Hi Herbert,
+Hi Yang,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2cf0f715623872823a72e451243bbf555d10d032
-commit: c7410b425de40e9b163eef781e1bdacf1bf2962e hwrng: starfive - Enable compile testing
-date:   8 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 8 months ago
-config: csky-randconfig-r071-20230917 (https://download.01.org/0day-ci/archive/20230919/202309190603.3VtRfc4z-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230919/202309190603.3VtRfc4z-lkp@intel.com/reproduce)
+[auto build test WARNING on ff6e6ded54725cd01623b9a1a86b74a523198733]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Weijiang/x86-fpu-xstate-Manually-check-and-add-XFEATURE_CET_USER-xstate-bit/20230914-174056
+base:   ff6e6ded54725cd01623b9a1a86b74a523198733
+patch link:    https://lore.kernel.org/r/20230914063325.85503-20-weijiang.yang%40intel.com
+patch subject: [PATCH v6 19/25] KVM: VMX: Emulate read and write to CET MSRs
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: x86_64-randconfig-121-20230919 (https://download.01.org/0day-ci/archive/20230919/202309190838.32kXx2Zr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309190838.32kXx2Zr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309190603.3VtRfc4z-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309190838.32kXx2Zr-lkp@intel.com/
 
-smatch warnings:
-drivers/char/hw_random/jh7110-trng.c:303 starfive_trng_probe() warn: passing zero to 'dev_err_probe'
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/kvm/vmx/vmx.c: note: in included file:
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (110011 becomes 11)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (110011 becomes 11)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (110011 becomes 11)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (110011 becomes 11)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (110011 becomes 11)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (110011 becomes 11)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100190 becomes 190)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100210 becomes 210)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100110 becomes 110)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100490 becomes 490)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100310 becomes 310)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100490 becomes 490)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100310 becomes 310)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100510 becomes 510)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100410 becomes 410)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (a018a becomes 18a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (b008b becomes 8b)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100490 becomes 490)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100310 becomes 310)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (a020a becomes 20a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (b010b becomes 10b)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100490 becomes 490)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100310 becomes 310)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100510 becomes 510)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100410 becomes 410)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (30203 becomes 203)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (30203 becomes 203)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (30283 becomes 283)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (30283 becomes 283)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1b019b becomes 19b)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1b021b becomes 21b)
+   arch/x86/kvm/vmx/vmx.c: note: in included file (through arch/x86/include/asm/cpufeature.h, arch/x86/include/asm/thread_info.h, include/linux/thread_info.h, ...):
+   arch/x86/include/asm/processor.h:399:31: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got char ( * )[40] @@
+   arch/x86/include/asm/processor.h:399:31: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   arch/x86/include/asm/processor.h:399:31: sparse:     got char ( * )[40]
+   arch/x86/kvm/vmx/vmx.c: note: in included file:
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1b029b becomes 29b)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1b031b becomes 31b)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1b041b becomes 41b)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (120912 becomes 912)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (120912 becomes 912)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (120912 becomes 912)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (110311 becomes 311)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (120992 becomes 992)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (120992 becomes 992)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100610 becomes 610)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100690 becomes 690)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100590 becomes 590)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (80408 becomes 408)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (80c88 becomes c88)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a039a becomes 39a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a041a becomes 41a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (120a92 becomes a92)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a099a becomes 99a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a091a becomes 91a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (a048a becomes 48a)
+>> arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a0a1a becomes a1a)
+>> arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a0a9a becomes a9a)
+>> arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a0b1a becomes b1a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (a008a becomes 8a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a039a becomes 39a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a041a becomes 41a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (120a92 becomes a92)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a099a becomes 99a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a091a becomes 91a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (a008a becomes 8a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (a048a becomes 48a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (a010a becomes 10a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (80b88 becomes b88)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (a050a becomes 50a)
+>> arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a0a1a becomes a1a)
+>> arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a0a9a becomes a9a)
+>> arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a0b1a becomes b1a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a071a becomes 71a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a079a becomes 79a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a001a becomes 1a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a009a becomes 9a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a011a becomes 11a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a011a becomes 11a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (180198 becomes 198)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a011a becomes 11a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a051a becomes 51a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (120392 becomes 392)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (120892 becomes 892)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a011a becomes 11a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (1a011a becomes 11a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100490 becomes 490)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (100490 becomes 490)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (120892 becomes 892)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (120892 becomes 892)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (a028a becomes 28a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (a030a becomes 30a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (a038a becomes 38a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (a040a becomes 40a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (a028a becomes 28a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: cast truncates bits from constant value (a030a becomes 30a)
+   arch/x86/kvm/vmx/hyperv.h:34:30: sparse: sparse: too many warnings
 
-vim +/dev_err_probe +303 drivers/char/hw_random/jh7110-trng.c
+vim +34 arch/x86/kvm/vmx/hyperv.h
 
-c388f458bc34eb Jia Jie Ho 2023-01-17  273  
-c388f458bc34eb Jia Jie Ho 2023-01-17  274  static int starfive_trng_probe(struct platform_device *pdev)
-c388f458bc34eb Jia Jie Ho 2023-01-17  275  {
-c388f458bc34eb Jia Jie Ho 2023-01-17  276  	int ret;
-c388f458bc34eb Jia Jie Ho 2023-01-17  277  	int irq;
-c388f458bc34eb Jia Jie Ho 2023-01-17  278  	struct starfive_trng *trng;
-c388f458bc34eb Jia Jie Ho 2023-01-17  279  
-c388f458bc34eb Jia Jie Ho 2023-01-17  280  	trng = devm_kzalloc(&pdev->dev, sizeof(*trng), GFP_KERNEL);
-c388f458bc34eb Jia Jie Ho 2023-01-17  281  	if (!trng)
-c388f458bc34eb Jia Jie Ho 2023-01-17  282  		return -ENOMEM;
-c388f458bc34eb Jia Jie Ho 2023-01-17  283  
-c388f458bc34eb Jia Jie Ho 2023-01-17  284  	platform_set_drvdata(pdev, trng);
-c388f458bc34eb Jia Jie Ho 2023-01-17  285  	trng->dev = &pdev->dev;
-c388f458bc34eb Jia Jie Ho 2023-01-17  286  
-c388f458bc34eb Jia Jie Ho 2023-01-17  287  	trng->base = devm_platform_ioremap_resource(pdev, 0);
-c388f458bc34eb Jia Jie Ho 2023-01-17  288  	if (IS_ERR(trng->base))
-c388f458bc34eb Jia Jie Ho 2023-01-17  289  		return dev_err_probe(&pdev->dev, PTR_ERR(trng->base),
-c388f458bc34eb Jia Jie Ho 2023-01-17  290  				     "Error remapping memory for platform device.\n");
-c388f458bc34eb Jia Jie Ho 2023-01-17  291  
-c388f458bc34eb Jia Jie Ho 2023-01-17  292  	irq = platform_get_irq(pdev, 0);
-c388f458bc34eb Jia Jie Ho 2023-01-17  293  	if (irq < 0)
-c388f458bc34eb Jia Jie Ho 2023-01-17  294  		return irq;
-c388f458bc34eb Jia Jie Ho 2023-01-17  295  
-c388f458bc34eb Jia Jie Ho 2023-01-17  296  	init_completion(&trng->random_done);
-c388f458bc34eb Jia Jie Ho 2023-01-17  297  	init_completion(&trng->reseed_done);
-c388f458bc34eb Jia Jie Ho 2023-01-17  298  	spin_lock_init(&trng->write_lock);
-c388f458bc34eb Jia Jie Ho 2023-01-17  299  
-c388f458bc34eb Jia Jie Ho 2023-01-17  300  	ret = devm_request_irq(&pdev->dev, irq, starfive_trng_irq, 0, pdev->name,
-c388f458bc34eb Jia Jie Ho 2023-01-17  301  			       (void *)trng);
-c388f458bc34eb Jia Jie Ho 2023-01-17  302  	if (ret)
-c388f458bc34eb Jia Jie Ho 2023-01-17 @303  		return dev_err_probe(&pdev->dev, irq,
-c388f458bc34eb Jia Jie Ho 2023-01-17  304  				     "Failed to register interrupt handler\n");
-c388f458bc34eb Jia Jie Ho 2023-01-17  305  
-c388f458bc34eb Jia Jie Ho 2023-01-17  306  	trng->hclk = devm_clk_get(&pdev->dev, "hclk");
-c388f458bc34eb Jia Jie Ho 2023-01-17  307  	if (IS_ERR(trng->hclk))
-c388f458bc34eb Jia Jie Ho 2023-01-17  308  		return dev_err_probe(&pdev->dev, PTR_ERR(trng->hclk),
-c388f458bc34eb Jia Jie Ho 2023-01-17  309  				     "Error getting hardware reference clock\n");
-c388f458bc34eb Jia Jie Ho 2023-01-17  310  
-c388f458bc34eb Jia Jie Ho 2023-01-17  311  	trng->ahb = devm_clk_get(&pdev->dev, "ahb");
-c388f458bc34eb Jia Jie Ho 2023-01-17  312  	if (IS_ERR(trng->ahb))
-c388f458bc34eb Jia Jie Ho 2023-01-17  313  		return dev_err_probe(&pdev->dev, PTR_ERR(trng->ahb),
-c388f458bc34eb Jia Jie Ho 2023-01-17  314  				     "Error getting ahb reference clock\n");
-c388f458bc34eb Jia Jie Ho 2023-01-17  315  
-c388f458bc34eb Jia Jie Ho 2023-01-17  316  	trng->rst = devm_reset_control_get_shared(&pdev->dev, NULL);
-c388f458bc34eb Jia Jie Ho 2023-01-17  317  	if (IS_ERR(trng->rst))
-c388f458bc34eb Jia Jie Ho 2023-01-17  318  		return dev_err_probe(&pdev->dev, PTR_ERR(trng->rst),
-c388f458bc34eb Jia Jie Ho 2023-01-17  319  				     "Error getting hardware reset line\n");
-c388f458bc34eb Jia Jie Ho 2023-01-17  320  
-c388f458bc34eb Jia Jie Ho 2023-01-17  321  	clk_prepare_enable(trng->hclk);
-c388f458bc34eb Jia Jie Ho 2023-01-17  322  	clk_prepare_enable(trng->ahb);
-c388f458bc34eb Jia Jie Ho 2023-01-17  323  	reset_control_deassert(trng->rst);
-c388f458bc34eb Jia Jie Ho 2023-01-17  324  
-c388f458bc34eb Jia Jie Ho 2023-01-17  325  	trng->rng.name = dev_driver_string(&pdev->dev);
-c388f458bc34eb Jia Jie Ho 2023-01-17  326  	trng->rng.init = starfive_trng_init;
-c388f458bc34eb Jia Jie Ho 2023-01-17  327  	trng->rng.cleanup = starfive_trng_cleanup;
-c388f458bc34eb Jia Jie Ho 2023-01-17  328  	trng->rng.read = starfive_trng_read;
-c388f458bc34eb Jia Jie Ho 2023-01-17  329  
-c388f458bc34eb Jia Jie Ho 2023-01-17  330  	trng->mode = PRNG_256BIT;
-c388f458bc34eb Jia Jie Ho 2023-01-17  331  	trng->mission = 1;
-c388f458bc34eb Jia Jie Ho 2023-01-17  332  	trng->reseed = RANDOM_RESEED;
-c388f458bc34eb Jia Jie Ho 2023-01-17  333  
-c388f458bc34eb Jia Jie Ho 2023-01-17  334  	pm_runtime_use_autosuspend(&pdev->dev);
-c388f458bc34eb Jia Jie Ho 2023-01-17  335  	pm_runtime_set_autosuspend_delay(&pdev->dev, 100);
-c388f458bc34eb Jia Jie Ho 2023-01-17  336  	pm_runtime_enable(&pdev->dev);
-c388f458bc34eb Jia Jie Ho 2023-01-17  337  
-c388f458bc34eb Jia Jie Ho 2023-01-17  338  	ret = devm_hwrng_register(&pdev->dev, &trng->rng);
-c388f458bc34eb Jia Jie Ho 2023-01-17  339  	if (ret) {
-c388f458bc34eb Jia Jie Ho 2023-01-17  340  		pm_runtime_disable(&pdev->dev);
-c388f458bc34eb Jia Jie Ho 2023-01-17  341  
-c388f458bc34eb Jia Jie Ho 2023-01-17  342  		reset_control_assert(trng->rst);
-c388f458bc34eb Jia Jie Ho 2023-01-17  343  		clk_disable_unprepare(trng->ahb);
-c388f458bc34eb Jia Jie Ho 2023-01-17  344  		clk_disable_unprepare(trng->hclk);
-c388f458bc34eb Jia Jie Ho 2023-01-17  345  
-c388f458bc34eb Jia Jie Ho 2023-01-17  346  		return dev_err_probe(&pdev->dev, ret, "Failed to register hwrng\n");
-c388f458bc34eb Jia Jie Ho 2023-01-17  347  	}
-c388f458bc34eb Jia Jie Ho 2023-01-17  348  
-c388f458bc34eb Jia Jie Ho 2023-01-17  349  	return 0;
-c388f458bc34eb Jia Jie Ho 2023-01-17  350  }
-c388f458bc34eb Jia Jie Ho 2023-01-17  351  
-
-:::::: The code at line 303 was first introduced by commit
-:::::: c388f458bc34eb3a5728b67f6614f9375cd99087 hwrng: starfive - Add TRNG driver for StarFive SoC
-
-:::::: TO: Jia Jie Ho <jiajie.ho@starfivetech.com>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+75edce8a45486f arch/x86/kvm/vmx/evmcs.h Sean Christopherson 2018-12-03  30  
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12  31  static __always_inline int evmcs_field_offset(unsigned long field,
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  32  					      u16 *clean_field)
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  33  {
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20 @34  	unsigned int index = ROL16(field, 6);
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  35  	const struct evmcs_field *evmcs_field;
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  36  
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12  37  	if (unlikely(index >= nr_evmcs_1_fields))
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  38  		return -ENOENT;
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  39  
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  40  	evmcs_field = &vmcs_field_to_evmcs_1[index];
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  41  
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12  42  	/*
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12  43  	 * Use offset=0 to detect holes in eVMCS. This offset belongs to
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12  44  	 * 'revision_id' but this field has no encoding and is supposed to
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12  45  	 * be accessed directly.
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12  46  	 */
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12  47  	if (unlikely(!evmcs_field->offset))
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12  48  		return -ENOENT;
+892a42c10ddb94 arch/x86/kvm/vmx/evmcs.h Vitaly Kuznetsov    2022-01-12  49  
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  50  	if (clean_field)
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  51  		*clean_field = evmcs_field->clean_field;
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  52  
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  53  	return evmcs_field->offset;
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  54  }
+773e8a0425c923 arch/x86/kvm/vmx_evmcs.h Vitaly Kuznetsov    2018-03-20  55  
 
 -- 
 0-DAY CI Kernel Test Service
