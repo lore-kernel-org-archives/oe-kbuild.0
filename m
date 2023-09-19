@@ -1,134 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05891BA20
-	for <oe-kbuild@lists.linux.dev>; Tue, 19 Sep 2023 07:24:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4504E38BB2
+	for <oe-kbuild@lists.linux.dev>; Tue, 19 Sep 2023 08:09:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695108278; x=1726644278;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9nfBaECzL96TRVjMRVHSMQOyGn2vMXvX81m3QRwlbRc=;
-  b=K41NaJ/qF1hC2KcEGzueCEiQQ/+SQX7pc5ljvDRE+TXo5vjx1+XljvhT
-   uLJGvFBkYcM6gc4HeMbLnMLmLGQnEFDydsolCUkWLak2+AyzjSd5GDR22
-   IXwG8j04yL+bwd4Co5ozCMxarsM9zfXP/0K2Ll7OsKVDYMeM5JNMv+JZ9
-   r1xbB8JXXtDxIG3IkXYo3IHLTXdHf5P91DwN44DK+Wvou+u2VZQDqLp8y
-   xq2ntAGJtKQQgTsloKq6XVQgQVeP5g5POZD/5JoUo2rSI53e1FfyCCEMk
-   cIPLJvkBa4dCXp+1v4sgocNeNvCgYwl2k06q0Ysng3jmgytWxP0+zgUDa
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="383694829"
-X-IronPort-AV: E=Sophos;i="6.02,158,1688454000"; 
-   d="scan'208";a="383694829"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 00:24:37 -0700
+  t=1695110952; x=1726646952;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wqYFh5x9KnZOZ7U3R1Djin9DXv+CWH0kZovVLx8nGvQ=;
+  b=GRLBqlekOkrc+gzmb/ZOm8vRMUZ4GZPVBlSW+1yJd2TRpp/WrdIO4HkG
+   gQpP+A1Kad+irTjmSeviurd6ev1dMD2NrkFmryWgnMaaNMPerzQ8tSC0i
+   ZTQLz/vfLYi6ASHsZrkd9QT8iUnXJ9rYdKuB4YHy6y6jwl0eHjhO67k0G
+   PIrg5B7DnypEEudoxqBBVCcxZFoFtqMLx8WNA8dgCvsd8x3cnedMENG+V
+   B0lhhUf7joMBzWnsxtPGxMrmYqFmdcVgSE8YGIY5iNcjQrLy+F+RV8+g0
+   1/p2R28QtXO/99vPCv6zOzuyydlqPm2PYRkQp1pq5yrg78WNBrJGWuV7s
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="446355663"
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
+   d="scan'208";a="446355663"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 01:09:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="739578102"
-X-IronPort-AV: E=Sophos;i="6.02,158,1688454000"; 
-   d="scan'208";a="739578102"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="1076898253"
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
+   d="scan'208";a="1076898253"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 19 Sep 2023 00:24:36 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 19 Sep 2023 01:09:10 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiV61-00072M-36;
-	Tue, 19 Sep 2023 07:24:33 +0000
-Date: Tue, 19 Sep 2023 15:23:21 +0800
+	id 1qiVn7-00076R-1L;
+	Tue, 19 Sep 2023 08:09:06 +0000
+Date: Tue, 19 Sep 2023 16:08:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH next v4 4/5] minmax: Allow comparisons of 'int' against
- 'unsigned char/short'.
-Message-ID: <202309191508.kUazRL3v-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/host1x/dev.c:417 host1x_iommu_attach() warn: passing
+ zero to 'ERR_PTR'
+Message-ID: <202309191617.Owrf9JaU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: mm/compaction.c:1436:21: sparse: sparse: too long token expansion"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <8732ef5f809c47c28a7be47c938b28d4@AcuMS.aculab.com>
-References: <8732ef5f809c47c28a7be47c938b28d4@AcuMS.aculab.com>
-TO: David Laight <David.Laight@ACULAB.COM>
-TO: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC: "'Andy Shevchenko'" <andriy.shevchenko@linux.intel.com>
-CC: "'Andrew Morton'" <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: "'Matthew Wilcox (Oracle)'" <willy@infradead.org>
-CC: "'Christoph Hellwig'" <hch@infradead.org>
-CC: "'Jason A. Donenfeld'" <Jason@zx2c4.com>
+CC: linux-kernel@vger.kernel.org
+TO: "Christian König" <christian.koenig@amd.com>
+CC: Thierry Reding <treding@nvidia.com>
 
-Hi David,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linux/master]
-[also build test WARNING on linus/master v6.6-rc2]
-[cannot apply to next-20230918 next-20230918]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Add-umin-a-b-and-umax-a-b/20230918-162441
-base:   linux/master
-patch link:    https://lore.kernel.org/r/8732ef5f809c47c28a7be47c938b28d4%40AcuMS.aculab.com
-patch subject: [PATCH next v4 4/5] minmax: Allow comparisons of 'int' against 'unsigned char/short'.
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-config: i386-randconfig-062-20230919 (https://download.01.org/0day-ci/archive/20230919/202309191508.kUazRL3v-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230919/202309191508.kUazRL3v-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2cf0f715623872823a72e451243bbf555d10d032
+commit: f75d19827b731c6f24930ef77e5a46cf2242bc68 drm/tegra: Allow compile test on !ARM v2
+date:   6 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 6 months ago
+config: csky-randconfig-r071-20230917 (https://download.01.org/0day-ci/archive/20230919/202309191617.Owrf9JaU-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230919/202309191617.Owrf9JaU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309191508.kUazRL3v-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202309191617.Owrf9JaU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/compaction.c:1436:21: sparse: sparse: too long token expansion
->> mm/compaction.c:1436:21: sparse: sparse: too long token expansion
-   mm/compaction.c:1532:43: sparse: sparse: too long token expansion
-   mm/compaction.c:1532:43: sparse: sparse: too long token expansion
-   mm/compaction.c:2511:45: sparse: sparse: too long token expansion
-   mm/compaction.c:2511:45: sparse: sparse: too long token expansion
+New smatch warnings:
+drivers/gpu/host1x/dev.c:417 host1x_iommu_attach() warn: passing zero to 'ERR_PTR'
 
-vim +1436 mm/compaction.c
+Old smatch warnings:
+drivers/gpu/host1x/dev.c:520 host1x_probe() error: uninitialized symbol 'syncpt_irq'.
 
-70b44595eafe9c Mel Gorman        2019-03-05  1420  
-5a811889de10f1 Mel Gorman        2019-03-05  1421  static void
-be21b32afe470c NARIBAYASHI Akira 2022-10-26  1422  fast_isolate_around(struct compact_control *cc, unsigned long pfn)
-5a811889de10f1 Mel Gorman        2019-03-05  1423  {
-5a811889de10f1 Mel Gorman        2019-03-05  1424  	unsigned long start_pfn, end_pfn;
-6e2b7044c19922 Vlastimil Babka   2021-02-24  1425  	struct page *page;
-5a811889de10f1 Mel Gorman        2019-03-05  1426  
-5a811889de10f1 Mel Gorman        2019-03-05  1427  	/* Do not search around if there are enough pages already */
-5a811889de10f1 Mel Gorman        2019-03-05  1428  	if (cc->nr_freepages >= cc->nr_migratepages)
-5a811889de10f1 Mel Gorman        2019-03-05  1429  		return;
-5a811889de10f1 Mel Gorman        2019-03-05  1430  
-5a811889de10f1 Mel Gorman        2019-03-05  1431  	/* Minimise scanning during async compaction */
-5a811889de10f1 Mel Gorman        2019-03-05  1432  	if (cc->direct_compaction && cc->mode == MIGRATE_ASYNC)
-5a811889de10f1 Mel Gorman        2019-03-05  1433  		return;
-5a811889de10f1 Mel Gorman        2019-03-05  1434  
-5a811889de10f1 Mel Gorman        2019-03-05  1435  	/* Pageblock boundaries */
-6e2b7044c19922 Vlastimil Babka   2021-02-24 @1436  	start_pfn = max(pageblock_start_pfn(pfn), cc->zone->zone_start_pfn);
-6e2b7044c19922 Vlastimil Babka   2021-02-24  1437  	end_pfn = min(pageblock_end_pfn(pfn), zone_end_pfn(cc->zone));
-6e2b7044c19922 Vlastimil Babka   2021-02-24  1438  
-6e2b7044c19922 Vlastimil Babka   2021-02-24  1439  	page = pageblock_pfn_to_page(start_pfn, end_pfn, cc->zone);
-6e2b7044c19922 Vlastimil Babka   2021-02-24  1440  	if (!page)
-6e2b7044c19922 Vlastimil Babka   2021-02-24  1441  		return;
-5a811889de10f1 Mel Gorman        2019-03-05  1442  
-4fca9730c51d51 Mel Gorman        2019-03-05  1443  	isolate_freepages_block(cc, &start_pfn, end_pfn, &cc->freepages, 1, false);
-5a811889de10f1 Mel Gorman        2019-03-05  1444  
-5a811889de10f1 Mel Gorman        2019-03-05  1445  	/* Skip this pageblock in the future as it's full or nearly full */
-18c59d58baa60a Kemeng Shi        2023-08-04  1446  	if (start_pfn == end_pfn && !cc->no_set_skip_hint)
-5a811889de10f1 Mel Gorman        2019-03-05  1447  		set_pageblock_skip(page);
-5a811889de10f1 Mel Gorman        2019-03-05  1448  }
-5a811889de10f1 Mel Gorman        2019-03-05  1449  
+vim +/ERR_PTR +417 drivers/gpu/host1x/dev.c
+
+d5185965c3b590 Dmitry Osipenko 2021-12-04  359  
+06867a362de08f Thierry Reding  2019-10-28  360  	/*
+4010e729349fca Thierry Reding  2020-03-25  361  	 * We may not always want to enable IOMMU support (for example if the
+4010e729349fca Thierry Reding  2020-03-25  362  	 * host1x firewall is already enabled and we don't support addressing
+4010e729349fca Thierry Reding  2020-03-25  363  	 * more than 32 bits of physical memory), so check for that first.
+4010e729349fca Thierry Reding  2020-03-25  364  	 *
+4010e729349fca Thierry Reding  2020-03-25  365  	 * Similarly, if host1x is already attached to an IOMMU (via the DMA
+4010e729349fca Thierry Reding  2020-03-25  366  	 * API), don't try to attach again.
+06867a362de08f Thierry Reding  2019-10-28  367  	 */
+4010e729349fca Thierry Reding  2020-03-25  368  	if (!host1x_wants_iommu(host) || domain)
+06867a362de08f Thierry Reding  2019-10-28  369  		return domain;
+06867a362de08f Thierry Reding  2019-10-28  370  
+06867a362de08f Thierry Reding  2019-10-28  371  	host->group = iommu_group_get(host->dev);
+06867a362de08f Thierry Reding  2019-10-28  372  	if (host->group) {
+06867a362de08f Thierry Reding  2019-10-28  373  		struct iommu_domain_geometry *geometry;
+06867a362de08f Thierry Reding  2019-10-28  374  		dma_addr_t start, end;
+06867a362de08f Thierry Reding  2019-10-28  375  		unsigned long order;
+06867a362de08f Thierry Reding  2019-10-28  376  
+06867a362de08f Thierry Reding  2019-10-28  377  		err = iova_cache_get();
+06867a362de08f Thierry Reding  2019-10-28  378  		if (err < 0)
+06867a362de08f Thierry Reding  2019-10-28  379  			goto put_group;
+06867a362de08f Thierry Reding  2019-10-28  380  
+06867a362de08f Thierry Reding  2019-10-28  381  		host->domain = iommu_domain_alloc(&platform_bus_type);
+06867a362de08f Thierry Reding  2019-10-28  382  		if (!host->domain) {
+06867a362de08f Thierry Reding  2019-10-28  383  			err = -ENOMEM;
+06867a362de08f Thierry Reding  2019-10-28  384  			goto put_cache;
+06867a362de08f Thierry Reding  2019-10-28  385  		}
+06867a362de08f Thierry Reding  2019-10-28  386  
+06867a362de08f Thierry Reding  2019-10-28  387  		err = iommu_attach_group(host->domain, host->group);
+06867a362de08f Thierry Reding  2019-10-28  388  		if (err) {
+06867a362de08f Thierry Reding  2019-10-28  389  			if (err == -ENODEV)
+06867a362de08f Thierry Reding  2019-10-28  390  				err = 0;
+06867a362de08f Thierry Reding  2019-10-28  391  
+06867a362de08f Thierry Reding  2019-10-28  392  			goto free_domain;
+06867a362de08f Thierry Reding  2019-10-28  393  		}
+06867a362de08f Thierry Reding  2019-10-28  394  
+06867a362de08f Thierry Reding  2019-10-28  395  		geometry = &host->domain->geometry;
+06867a362de08f Thierry Reding  2019-10-28  396  		start = geometry->aperture_start & host->info->dma_mask;
+06867a362de08f Thierry Reding  2019-10-28  397  		end = geometry->aperture_end & host->info->dma_mask;
+06867a362de08f Thierry Reding  2019-10-28  398  
+06867a362de08f Thierry Reding  2019-10-28  399  		order = __ffs(host->domain->pgsize_bitmap);
+06867a362de08f Thierry Reding  2019-10-28  400  		init_iova_domain(&host->iova, 1UL << order, start >> order);
+06867a362de08f Thierry Reding  2019-10-28  401  		host->iova_end = end;
+06867a362de08f Thierry Reding  2019-10-28  402  
+06867a362de08f Thierry Reding  2019-10-28  403  		domain = host->domain;
+06867a362de08f Thierry Reding  2019-10-28  404  	}
+06867a362de08f Thierry Reding  2019-10-28  405  
+06867a362de08f Thierry Reding  2019-10-28  406  	return domain;
+06867a362de08f Thierry Reding  2019-10-28  407  
+06867a362de08f Thierry Reding  2019-10-28  408  free_domain:
+06867a362de08f Thierry Reding  2019-10-28  409  	iommu_domain_free(host->domain);
+06867a362de08f Thierry Reding  2019-10-28  410  	host->domain = NULL;
+06867a362de08f Thierry Reding  2019-10-28  411  put_cache:
+06867a362de08f Thierry Reding  2019-10-28  412  	iova_cache_put();
+06867a362de08f Thierry Reding  2019-10-28  413  put_group:
+06867a362de08f Thierry Reding  2019-10-28  414  	iommu_group_put(host->group);
+06867a362de08f Thierry Reding  2019-10-28  415  	host->group = NULL;
+06867a362de08f Thierry Reding  2019-10-28  416  
+06867a362de08f Thierry Reding  2019-10-28 @417  	return ERR_PTR(err);
+06867a362de08f Thierry Reding  2019-10-28  418  }
+06867a362de08f Thierry Reding  2019-10-28  419  
+
+:::::: The code at line 417 was first introduced by commit
+:::::: 06867a362de08ff94fb573d84fd213795fbb3922 gpu: host1x: Set DMA mask based on IOMMU setup
+
+:::::: TO: Thierry Reding <treding@nvidia.com>
+:::::: CC: Thierry Reding <treding@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
