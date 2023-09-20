@@ -1,150 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CF8881E
-	for <oe-kbuild@lists.linux.dev>; Tue, 19 Sep 2023 22:40:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA8315A0
+	for <oe-kbuild@lists.linux.dev>; Wed, 20 Sep 2023 00:03:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695163249; x=1726699249;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=zc+sauxwLY0MVqrTSx0uorPimhzUZeFfXRiY7NnRIqk=;
-  b=nIwOJCZwfPxpV3o3wO1SE8BNDNsI54Pds9Qa1cHMl09hbpU/JhRiAMB7
-   GYuostQgo9MYblYqZ0Rut3HxwanB2rsbXITt7sczcxshiGneteWSAtNdB
-   FWDdHifIewxPeGThFRLnd2lAh+RUeG5IXs+MHNRHe7tObBfGL5++35LrC
-   lSNcty6/IHUxaTKDvYpbiepkN4yb0GLAf9rDU72ah5XBoMRBduBYXca4a
-   6nVc5s9PZvx9QD+p+S5GmhhIdcEvo5ir1gBQqhkR7JLI3xGANx6b109Wx
-   nyKEL9CqZMMtiRQe7+qG1af0fYOjlTmvDSe/yBrN19goMOFJFCGwxNrjX
+  t=1695168199; x=1726704199;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZMt4TdmrhlKon0lfngQ0c88EfuoT02h1AMq/wnY453k=;
+  b=Gy7X0rjXvum/LaqBm78bQ7yU2wl8Va6VnMmOtw6uFiae0B3MyRipxplj
+   wZtZv96lzqbrdSYO2weNm6XidRHOr5vrhw2DX2WDm2iJAXZQktMl4g1eI
+   9k4i7R+UshK8P54jgeNMwzJbMTu4kK/XmQJr5gwqI3mZZVRrtnMjQCuam
+   wnYsS1oIpNDQKSoyERYAqgod4UYWCD/d2gfYuujWbTHHJk3QTD7JpkHaj
+   ekXi2QFR4QndFsqMP07ruEs3ri8F4PXXauNvomzqy015lrg0H2yhcg4d7
+   PUspYLxripVvn96/0mYAupuV5Q9lNQn7qBRCBPog2DHdcbC7axDuZYGH/
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="466383057"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="377399033"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="466383057"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 15:40:49 -0700
+   d="scan'208";a="377399033"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 17:02:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="816618129"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="1077196887"
 X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="816618129"
+   d="scan'208";a="1077196887"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Sep 2023 15:40:47 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 19 Sep 2023 17:02:35 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qijOB-00080M-2t;
-	Tue, 19 Sep 2023 22:40:30 +0000
-Date: Wed, 20 Sep 2023 06:38:31 +0800
+	id 1qikfp-00085g-0Y;
+	Wed, 20 Sep 2023 00:02:33 +0000
+Date: Wed, 20 Sep 2023 08:01:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/host1x/dev.c:417 host1x_iommu_attach() warn: passing
- zero to 'ERR_PTR'
-Message-ID: <202309200604.SU0YJbch-lkp@intel.com>
+Subject: security/apparmor/policy_unpack.c:1212 verify_profile() warn: can
+ 'rules' even be NULL?
+Message-ID: <202309200745.QZY8nf8F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Christian König" <christian.koenig@amd.com>
-CC: Thierry Reding <treding@nvidia.com>
+TO: John Johansen <john.johansen@canonical.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   2cf0f715623872823a72e451243bbf555d10d032
-commit: f75d19827b731c6f24930ef77e5a46cf2242bc68 drm/tegra: Allow compile test on !ARM v2
-date:   6 months ago
-:::::: branch date: 27 hours ago
-:::::: commit date: 6 months ago
-config: csky-randconfig-r071-20230917 (https://download.01.org/0day-ci/archive/20230920/202309200604.SU0YJbch-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230920/202309200604.SU0YJbch-lkp@intel.com/reproduce)
+commit: 1ad22fcc4d0d2fb2e0f35aed555a86d016d5e590 apparmor: rework profile->rules to be a list
+date:   12 months ago
+:::::: branch date: 29 hours ago
+:::::: commit date: 12 months ago
+config: x86_64-randconfig-161-20230919 (https://download.01.org/0day-ci/archive/20230920/202309200745.QZY8nf8F-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230920/202309200745.QZY8nf8F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309200604.SU0YJbch-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309200745.QZY8nf8F-lkp@intel.com/
 
 New smatch warnings:
-drivers/gpu/host1x/dev.c:417 host1x_iommu_attach() warn: passing zero to 'ERR_PTR'
+security/apparmor/policy_unpack.c:1212 verify_profile() warn: can 'rules' even be NULL?
 
 Old smatch warnings:
-drivers/gpu/host1x/dev.c:520 host1x_probe() error: uninitialized symbol 'syncpt_irq'.
+security/apparmor/policy_unpack.c:175 aa_loaddata_kref() warn: can 'd' even be NULL?
+security/apparmor/policy_unpack.c:488 unpack_trans_table() warn: impossible condition '(size > (1 << 24)) => (0-u16max > 16777216)'
+security/apparmor/policy_unpack.c:544 unpack_trans_table() error: uninitialized symbol 'table'.
+security/apparmor/policy_unpack.c:735 unpack_pdb() warn: unsigned 'policy->size' is never less than zero.
+security/apparmor/policy_unpack.c:1081 unpack_profile() warn: passing zero to 'ERR_PTR'
 
-vim +/ERR_PTR +417 drivers/gpu/host1x/dev.c
+vim +/rules +1212 security/apparmor/policy_unpack.c
 
-d5185965c3b590 Dmitry Osipenko 2021-12-04  359  
-06867a362de08f Thierry Reding  2019-10-28  360  	/*
-4010e729349fca Thierry Reding  2020-03-25  361  	 * We may not always want to enable IOMMU support (for example if the
-4010e729349fca Thierry Reding  2020-03-25  362  	 * host1x firewall is already enabled and we don't support addressing
-4010e729349fca Thierry Reding  2020-03-25  363  	 * more than 32 bits of physical memory), so check for that first.
-4010e729349fca Thierry Reding  2020-03-25  364  	 *
-4010e729349fca Thierry Reding  2020-03-25  365  	 * Similarly, if host1x is already attached to an IOMMU (via the DMA
-4010e729349fca Thierry Reding  2020-03-25  366  	 * API), don't try to attach again.
-06867a362de08f Thierry Reding  2019-10-28  367  	 */
-4010e729349fca Thierry Reding  2020-03-25  368  	if (!host1x_wants_iommu(host) || domain)
-06867a362de08f Thierry Reding  2019-10-28  369  		return domain;
-06867a362de08f Thierry Reding  2019-10-28  370  
-06867a362de08f Thierry Reding  2019-10-28  371  	host->group = iommu_group_get(host->dev);
-06867a362de08f Thierry Reding  2019-10-28  372  	if (host->group) {
-06867a362de08f Thierry Reding  2019-10-28  373  		struct iommu_domain_geometry *geometry;
-06867a362de08f Thierry Reding  2019-10-28  374  		dma_addr_t start, end;
-06867a362de08f Thierry Reding  2019-10-28  375  		unsigned long order;
-06867a362de08f Thierry Reding  2019-10-28  376  
-06867a362de08f Thierry Reding  2019-10-28  377  		err = iova_cache_get();
-06867a362de08f Thierry Reding  2019-10-28  378  		if (err < 0)
-06867a362de08f Thierry Reding  2019-10-28  379  			goto put_group;
-06867a362de08f Thierry Reding  2019-10-28  380  
-06867a362de08f Thierry Reding  2019-10-28  381  		host->domain = iommu_domain_alloc(&platform_bus_type);
-06867a362de08f Thierry Reding  2019-10-28  382  		if (!host->domain) {
-06867a362de08f Thierry Reding  2019-10-28  383  			err = -ENOMEM;
-06867a362de08f Thierry Reding  2019-10-28  384  			goto put_cache;
-06867a362de08f Thierry Reding  2019-10-28  385  		}
-06867a362de08f Thierry Reding  2019-10-28  386  
-06867a362de08f Thierry Reding  2019-10-28  387  		err = iommu_attach_group(host->domain, host->group);
-06867a362de08f Thierry Reding  2019-10-28  388  		if (err) {
-06867a362de08f Thierry Reding  2019-10-28  389  			if (err == -ENODEV)
-06867a362de08f Thierry Reding  2019-10-28  390  				err = 0;
-06867a362de08f Thierry Reding  2019-10-28  391  
-06867a362de08f Thierry Reding  2019-10-28  392  			goto free_domain;
-06867a362de08f Thierry Reding  2019-10-28  393  		}
-06867a362de08f Thierry Reding  2019-10-28  394  
-06867a362de08f Thierry Reding  2019-10-28  395  		geometry = &host->domain->geometry;
-06867a362de08f Thierry Reding  2019-10-28  396  		start = geometry->aperture_start & host->info->dma_mask;
-06867a362de08f Thierry Reding  2019-10-28  397  		end = geometry->aperture_end & host->info->dma_mask;
-06867a362de08f Thierry Reding  2019-10-28  398  
-06867a362de08f Thierry Reding  2019-10-28  399  		order = __ffs(host->domain->pgsize_bitmap);
-06867a362de08f Thierry Reding  2019-10-28  400  		init_iova_domain(&host->iova, 1UL << order, start >> order);
-06867a362de08f Thierry Reding  2019-10-28  401  		host->iova_end = end;
-06867a362de08f Thierry Reding  2019-10-28  402  
-06867a362de08f Thierry Reding  2019-10-28  403  		domain = host->domain;
-06867a362de08f Thierry Reding  2019-10-28  404  	}
-06867a362de08f Thierry Reding  2019-10-28  405  
-06867a362de08f Thierry Reding  2019-10-28  406  	return domain;
-06867a362de08f Thierry Reding  2019-10-28  407  
-06867a362de08f Thierry Reding  2019-10-28  408  free_domain:
-06867a362de08f Thierry Reding  2019-10-28  409  	iommu_domain_free(host->domain);
-06867a362de08f Thierry Reding  2019-10-28  410  	host->domain = NULL;
-06867a362de08f Thierry Reding  2019-10-28  411  put_cache:
-06867a362de08f Thierry Reding  2019-10-28  412  	iova_cache_put();
-06867a362de08f Thierry Reding  2019-10-28  413  put_group:
-06867a362de08f Thierry Reding  2019-10-28  414  	iommu_group_put(host->group);
-06867a362de08f Thierry Reding  2019-10-28  415  	host->group = NULL;
-06867a362de08f Thierry Reding  2019-10-28  416  
-06867a362de08f Thierry Reding  2019-10-28 @417  	return ERR_PTR(err);
-06867a362de08f Thierry Reding  2019-10-28  418  }
-06867a362de08f Thierry Reding  2019-10-28  419  
-
-:::::: The code at line 417 was first introduced by commit
-:::::: 06867a362de08ff94fb573d84fd213795fbb3922 gpu: host1x: Set DMA mask based on IOMMU setup
-
-:::::: TO: Thierry Reding <treding@nvidia.com>
-:::::: CC: Thierry Reding <treding@nvidia.com>
+670f31774ab6bf John Johansen 2022-08-26  1199  
+736ec752d95e91 John Johansen 2010-07-29  1200  /**
+736ec752d95e91 John Johansen 2010-07-29  1201   * verify_profile - Do post unpack analysis to verify profile consistency
+736ec752d95e91 John Johansen 2010-07-29  1202   * @profile: profile to verify (NOT NULL)
+736ec752d95e91 John Johansen 2010-07-29  1203   *
+736ec752d95e91 John Johansen 2010-07-29  1204   * Returns: 0 if passes verification else error
+7572fea31e3e5c John Johansen 2020-11-13  1205   *
+7572fea31e3e5c John Johansen 2020-11-13  1206   * This verification is post any unpack mapping or changes
+736ec752d95e91 John Johansen 2010-07-29  1207   */
+736ec752d95e91 John Johansen 2010-07-29  1208  static int verify_profile(struct aa_profile *profile)
+736ec752d95e91 John Johansen 2010-07-29  1209  {
+1ad22fcc4d0d2f John Johansen 2022-09-05  1210  	struct aa_ruleset *rules = list_first_entry(&profile->rules,
+1ad22fcc4d0d2f John Johansen 2022-09-05  1211  						    typeof(*rules), list);
+1ad22fcc4d0d2f John Johansen 2022-09-05 @1212  	if (!rules)
+1ad22fcc4d0d2f John Johansen 2022-09-05  1213  		return 0;
+1ad22fcc4d0d2f John Johansen 2022-09-05  1214  
+1ad22fcc4d0d2f John Johansen 2022-09-05  1215  	if ((rules->file.dfa && !verify_dfa_xindex(rules->file.dfa,
+1ad22fcc4d0d2f John Johansen 2022-09-05  1216  						  rules->file.trans.size)) ||
+1ad22fcc4d0d2f John Johansen 2022-09-05  1217  	    (rules->policy.dfa &&
+1ad22fcc4d0d2f John Johansen 2022-09-05  1218  	     !verify_dfa_xindex(rules->policy.dfa, rules->policy.trans.size))) {
+7572fea31e3e5c John Johansen 2020-11-13  1219  		audit_iface(profile, NULL, NULL,
+7572fea31e3e5c John Johansen 2020-11-13  1220  			    "Unpack: Invalid named transition", NULL, -EPROTO);
+736ec752d95e91 John Johansen 2010-07-29  1221  		return -EPROTO;
+736ec752d95e91 John Johansen 2010-07-29  1222  	}
+736ec752d95e91 John Johansen 2010-07-29  1223  
+1ad22fcc4d0d2f John Johansen 2022-09-05  1224  	if (!verify_perms(&rules->file)) {
+670f31774ab6bf John Johansen 2022-08-26  1225  		audit_iface(profile, NULL, NULL,
+670f31774ab6bf John Johansen 2022-08-26  1226  			    "Unpack: Invalid perm index", NULL, -EPROTO);
+670f31774ab6bf John Johansen 2022-08-26  1227  		return -EPROTO;
+670f31774ab6bf John Johansen 2022-08-26  1228  	}
+1ad22fcc4d0d2f John Johansen 2022-09-05  1229  	if (!verify_perms(&rules->policy)) {
+670f31774ab6bf John Johansen 2022-08-26  1230  		audit_iface(profile, NULL, NULL,
+670f31774ab6bf John Johansen 2022-08-26  1231  			    "Unpack: Invalid perm index", NULL, -EPROTO);
+670f31774ab6bf John Johansen 2022-08-26  1232  		return -EPROTO;
+670f31774ab6bf John Johansen 2022-08-26  1233  	}
+217af7e2f4deb6 John Johansen 2022-07-29  1234  	if (!verify_perms(&profile->attach.xmatch)) {
+670f31774ab6bf John Johansen 2022-08-26  1235  		audit_iface(profile, NULL, NULL,
+670f31774ab6bf John Johansen 2022-08-26  1236  			    "Unpack: Invalid perm index", NULL, -EPROTO);
+670f31774ab6bf John Johansen 2022-08-26  1237  		return -EPROTO;
+670f31774ab6bf John Johansen 2022-08-26  1238  	}
+670f31774ab6bf John Johansen 2022-08-26  1239  
+736ec752d95e91 John Johansen 2010-07-29  1240  	return 0;
+736ec752d95e91 John Johansen 2010-07-29  1241  }
+736ec752d95e91 John Johansen 2010-07-29  1242  
 
 -- 
 0-DAY CI Kernel Test Service
