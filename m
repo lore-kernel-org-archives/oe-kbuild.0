@@ -1,43 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF63515A5
-	for <oe-kbuild@lists.linux.dev>; Wed, 20 Sep 2023 04:45:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54FE81FC8
+	for <oe-kbuild@lists.linux.dev>; Wed, 20 Sep 2023 05:59:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695185106; x=1726721106;
+  t=1695189551; x=1726725551;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dJJxdzHEFO1nLIip4+edrmbRWeECH3xoGdEm4kYGEY0=;
-  b=ARUKf1isemFw8j1z2rfGYIo83f0g8FMUfHP18+OiZuvQnLRVfCGJLIDk
-   UTJ1B6k1UprIzY3avrAMI89EXYnxRFDUz+KTG60fP0Dq+3TBYsAxClgh5
-   PzzlQK4qkoJwXIIVyegjyEAGZXNMbF5967pY0lEZJfGZn9BktQ4nu4ZBx
-   Ik3a6wOU+2IYZ7tjVh8noRII58AE6K+lo9EogQQDBpnU+pWJqwytRXK/J
-   Yx7vpL1Bln93wQST3cXxRiTwxbTclI5+lMUSOj1CPuWNyE2at5EyvBpK5
-   eLFVy82KB8oHnzUesJxgqAuiCIV8phrm/7HGcyTYMplmiGD4FlFkTpXf7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="380022063"
+  bh=R4gojcOXXkOiOfnFpwIvcyfG6qVC0N7fclEcWBFUYDg=;
+  b=BN64WduBchCxt7l86FDHpJtYg0Uv/RUUZxxv6BMxHfb80Sh9XWGV2FlD
+   vJWZeKH0i29dbnXSqeoO7xCWheOx4a79sNhm8jsdSmhDmUKMK92XNNbra
+   HZHgEbj6UVEwc52D0v5Tm03QXC4EsaFpCXCThcvkiGCQla6jIViJZ5hJ3
+   Z2isOTyPh+CX3NVx0R9kAEgQIPYvZbNGRNwvLRm6WjryqfGhrgnK7yI9i
+   l5+KXUmnOV9udd+3dhXfdrvktGzB1/YQr9SJ1jDTqAP3qmx3FCqJEeNEK
+   RRWPTwrh/R6EhHmPUB9z2rVypOAle4x8oguF1wRDX6EJJ3P2fFgWqbM/C
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="466448605"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="380022063"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 21:45:03 -0700
+   d="scan'208";a="466448605"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 22:59:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="836698275"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="920147989"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="836698275"
+   d="scan'208";a="920147989"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Sep 2023 21:45:02 -0700
+  by orsmga005.jf.intel.com with ESMTP; 19 Sep 2023 22:59:09 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qip5A-0008II-1t;
-	Wed, 20 Sep 2023 04:45:00 +0000
-Date: Wed, 20 Sep 2023 12:44:15 +0800
+	id 1qiqEs-0008N0-33;
+	Wed, 20 Sep 2023 05:59:06 +0000
+Date: Wed, 20 Sep 2023 13:58:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c:374
- rzg2l_mipi_dsi_set_display_timing() error: uninitialized symbol
- 'vich1ppsetr'.
-Message-ID: <202309201237.goHm8N25-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH] x86/hyperv: Remove hv_vtl_early_init initcall
+Message-ID: <202309201327.J4pfXnUv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,113 +45,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "git am base is a link in commit message"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Biju Das <biju.das.jz@bp.renesas.com>
-CC: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <1695185552-19910-1-git-send-email-ssengar@linux.microsoft.com>
+References: <1695185552-19910-1-git-send-email-ssengar@linux.microsoft.com>
+TO: Saurabh Sengar <ssengar@linux.microsoft.com>
+TO: kys@microsoft.com
+TO: haiyangz@microsoft.com
+TO: wei.liu@kernel.org
+TO: decui@microsoft.com
+TO: tglx@linutronix.de
+TO: mingo@redhat.com
+TO: bp@alien8.de
+TO: dave.hansen@linux.intel.com
+TO: x86@kernel.org
+TO: hpa@zytor.com
+TO: linux-hyperv@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: mikelley@microsoft.com
+CC: minipli@grsecurity.net
+CC: ssengar@microsoft.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2cf0f715623872823a72e451243bbf555d10d032
-commit: 11696c5e89245a1d360f75be3dfc4960b25a265a drm: Place Renesas drivers in a separate dir
-date:   4 months ago
-:::::: branch date: 33 hours ago
-:::::: commit date: 4 months ago
-config: csky-randconfig-r071-20230917 (https://download.01.org/0day-ci/archive/20230920/202309201237.goHm8N25-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230920/202309201237.goHm8N25-lkp@intel.com/reproduce)
+Hi Saurabh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.6-rc2]
+[also build test WARNING on linus/master next-20230920]
+[cannot apply to tip/x86/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Saurabh-Sengar/x86-hyperv-Remove-hv_vtl_early_init-initcall/20230920-125357
+base:   v6.6-rc2
+patch link:    https://lore.kernel.org/r/1695185552-19910-1-git-send-email-ssengar%40linux.microsoft.com
+patch subject: [PATCH] x86/hyperv: Remove hv_vtl_early_init initcall
+:::::: branch date: 59 minutes ago
+:::::: commit date: 59 minutes ago
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230920/202309201327.J4pfXnUv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201327.J4pfXnUv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309201237.goHm8N25-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309201327.J4pfXnUv-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c:374 rzg2l_mipi_dsi_set_display_timing() error: uninitialized symbol 'vich1ppsetr'.
+All warnings (new ones prefixed by >>):
 
-vim +/vich1ppsetr +374 drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c
+   In file included from arch/x86/mm/pat/set_memory.c:36:
+   arch/x86/include/asm/mshyperv.h: In function 'hv_vtl_early_init':
+   arch/x86/include/asm/mshyperv.h:346:1: error: no return statement in function returning non-void [-Werror=return-type]
+     346 | static int __init hv_vtl_early_init(void) {}
+         | ^~~~~~
+   arch/x86/include/asm/mshyperv.h: At top level:
+>> arch/x86/include/asm/mshyperv.h:346:19: warning: 'hv_vtl_early_init' defined but not used [-Wunused-function]
+     346 | static int __init hv_vtl_early_init(void) {}
+         |                   ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  346  
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  347  static void rzg2l_mipi_dsi_set_display_timing(struct rzg2l_mipi_dsi *dsi,
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  348  					      const struct drm_display_mode *mode)
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  349  {
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  350  	u32 vich1ppsetr;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  351  	u32 vich1vssetr;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  352  	u32 vich1vpsetr;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  353  	u32 vich1hssetr;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  354  	u32 vich1hpsetr;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  355  	int dsi_format;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  356  	u32 delay[2];
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  357  	u8 index;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  358  
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  359  	/* Configuration for Pixel Packet */
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  360  	dsi_format = mipi_dsi_pixel_format_to_bpp(dsi->format);
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  361  	switch (dsi_format) {
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  362  	case 24:
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  363  		vich1ppsetr = VICH1PPSETR_DT_RGB24;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  364  		break;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  365  	case 18:
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  366  		vich1ppsetr = VICH1PPSETR_DT_RGB18;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  367  		break;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  368  	}
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  369  
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  370  	if ((dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) &&
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  371  	    !(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST))
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  372  		vich1ppsetr |= VICH1PPSETR_TXESYNC_PULSE;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  373  
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20 @374  	rzg2l_mipi_dsi_link_write(dsi, VICH1PPSETR, vich1ppsetr);
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  375  
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  376  	/* Configuration for Video Parameters */
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  377  	vich1vssetr = VICH1VSSETR_VACTIVE(mode->vdisplay) |
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  378  		      VICH1VSSETR_VSA(mode->vsync_end - mode->vsync_start);
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  379  	vich1vssetr |= (mode->flags & DRM_MODE_FLAG_PVSYNC) ?
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  380  			VICH1VSSETR_VSPOL_HIGH : VICH1VSSETR_VSPOL_LOW;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  381  
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  382  	vich1vpsetr = VICH1VPSETR_VFP(mode->vsync_start - mode->vdisplay) |
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  383  		      VICH1VPSETR_VBP(mode->vtotal - mode->vsync_end);
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  384  
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  385  	vich1hssetr = VICH1HSSETR_HACTIVE(mode->hdisplay) |
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  386  		      VICH1HSSETR_HSA(mode->hsync_end - mode->hsync_start);
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  387  	vich1hssetr |= (mode->flags & DRM_MODE_FLAG_PHSYNC) ?
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  388  			VICH1HSSETR_HSPOL_HIGH : VICH1HSSETR_HSPOL_LOW;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  389  
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  390  	vich1hpsetr = VICH1HPSETR_HFP(mode->hsync_start - mode->hdisplay) |
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  391  		      VICH1HPSETR_HBP(mode->htotal - mode->hsync_end);
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  392  
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  393  	rzg2l_mipi_dsi_link_write(dsi, VICH1VSSETR, vich1vssetr);
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  394  	rzg2l_mipi_dsi_link_write(dsi, VICH1VPSETR, vich1vpsetr);
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  395  	rzg2l_mipi_dsi_link_write(dsi, VICH1HSSETR, vich1hssetr);
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  396  	rzg2l_mipi_dsi_link_write(dsi, VICH1HPSETR, vich1hpsetr);
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  397  
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  398  	/*
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  399  	 * Configuration for Delay Value
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  400  	 * Delay value based on 2 ranges of video clock.
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  401  	 * 74.25MHz is videoclock of HD@60p or FHD@30p
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  402  	 */
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  403  	if (mode->clock > 74250) {
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  404  		delay[0] = 231;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  405  		delay[1] = 216;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  406  	} else {
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  407  		delay[0] = 220;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  408  		delay[1] = 212;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  409  	}
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  410  
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  411  	if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  412  		index = 0;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  413  	else
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  414  		index = 1;
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  415  
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  416  	rzg2l_mipi_dsi_link_write(dsi, VICH1SET1R,
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  417  				  VICH1SET1R_DLY(delay[index]));
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  418  }
-7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c Biju Das 2022-09-20  419  
 
-:::::: The code at line 374 was first introduced by commit
-:::::: 7a043f978ed1433bddb088a732e9bb91501ebd76 drm: rcar-du: Add RZ/G2L DSI driver
+vim +/hv_vtl_early_init +346 arch/x86/include/asm/mshyperv.h
 
-:::::: TO: Biju Das <biju.das.jz@bp.renesas.com>
-:::::: CC: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+79cadff2d92bb8 Vitaly Kuznetsov 2017-08-02  339  
+765e33f5211ab6 Michael Kelley   2019-05-30  340  
+3be1bc2fe9d2e4 Saurabh Sengar   2023-04-10  341  #ifdef CONFIG_HYPERV_VTL_MODE
+3be1bc2fe9d2e4 Saurabh Sengar   2023-04-10  342  void __init hv_vtl_init_platform(void);
+9081cfc5d0e7fa Saurabh Sengar   2023-09-19  343  int __init hv_vtl_early_init(void);
+3be1bc2fe9d2e4 Saurabh Sengar   2023-04-10  344  #else
+3be1bc2fe9d2e4 Saurabh Sengar   2023-04-10  345  static inline void __init hv_vtl_init_platform(void) {}
+9081cfc5d0e7fa Saurabh Sengar   2023-09-19 @346  static int __init hv_vtl_early_init(void) {}
+3be1bc2fe9d2e4 Saurabh Sengar   2023-04-10  347  #endif
+3be1bc2fe9d2e4 Saurabh Sengar   2023-04-10  348  
 
 -- 
 0-DAY CI Kernel Test Service
