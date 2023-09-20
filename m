@@ -1,127 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54FE81FC8
-	for <oe-kbuild@lists.linux.dev>; Wed, 20 Sep 2023 05:59:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0E3522B
+	for <oe-kbuild@lists.linux.dev>; Wed, 20 Sep 2023 06:19:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695189551; x=1726725551;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R4gojcOXXkOiOfnFpwIvcyfG6qVC0N7fclEcWBFUYDg=;
-  b=BN64WduBchCxt7l86FDHpJtYg0Uv/RUUZxxv6BMxHfb80Sh9XWGV2FlD
-   vJWZeKH0i29dbnXSqeoO7xCWheOx4a79sNhm8jsdSmhDmUKMK92XNNbra
-   HZHgEbj6UVEwc52D0v5Tm03QXC4EsaFpCXCThcvkiGCQla6jIViJZ5hJ3
-   Z2isOTyPh+CX3NVx0R9kAEgQIPYvZbNGRNwvLRm6WjryqfGhrgnK7yI9i
-   l5+KXUmnOV9udd+3dhXfdrvktGzB1/YQr9SJ1jDTqAP3qmx3FCqJEeNEK
-   RRWPTwrh/R6EhHmPUB9z2rVypOAle4x8oguF1wRDX6EJJ3P2fFgWqbM/C
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="466448605"
+  t=1695190772; x=1726726772;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rc9Bj/uxk6S6WQKhrrLb8oY1tXMpXUGMuaXYSfIJJTk=;
+  b=UlrB8FaNq+63ZPM5fS4yTjZxw1eanPeab3mSi342vGoiuuAziF/5dJT5
+   I9I6+8ss+DVucfWluDRH5bWS6WXZyxsIVUPjo+MmOIAp7kR09uv3ulqY/
+   YBTr3QPXPogAeQJcMIM36jPtsHhVy5Y6ZkWpZ9DzrPZMwyZ1kFQu6r94p
+   QaazraSeNSTi0NtWRv0/xE6rR8ISbi00Y15asragX1gLnLMJP+2wdE9Nw
+   sGE8ulsp2ymQsPeeJTVKh9HxkhpkwjBj7iWh4G2MoMn0S1xTWTVzyWrvq
+   NZ2aJIbJRBz4SshXcgpxo2FRHV05olDNZRPN/BP8fiT0TzygM4y+JN3y3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="365187552"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="466448605"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 22:59:10 -0700
+   d="scan'208";a="365187552"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 23:19:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="920147989"
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="1077296746"
 X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
-   d="scan'208";a="920147989"
+   d="scan'208";a="1077296746"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 19 Sep 2023 22:59:09 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 19 Sep 2023 23:19:29 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qiqEs-0008N0-33;
-	Wed, 20 Sep 2023 05:59:06 +0000
-Date: Wed, 20 Sep 2023 13:58:59 +0800
+	id 1qiqYZ-0008OS-15;
+	Wed, 20 Sep 2023 06:19:27 +0000
+Date: Wed, 20 Sep 2023 14:19:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] x86/hyperv: Remove hv_vtl_early_init initcall
-Message-ID: <202309201327.J4pfXnUv-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/platform/x86/hp/hp-bioscfg/bioscfg.c:646
+ hp_add_other_attributes() warn: possible memory leak of 'attr_name_kobj'
+Message-ID: <202309201412.on0VXJGo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "git am base is a link in commit message"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <1695185552-19910-1-git-send-email-ssengar@linux.microsoft.com>
-References: <1695185552-19910-1-git-send-email-ssengar@linux.microsoft.com>
-TO: Saurabh Sengar <ssengar@linux.microsoft.com>
-TO: kys@microsoft.com
-TO: haiyangz@microsoft.com
-TO: wei.liu@kernel.org
-TO: decui@microsoft.com
-TO: tglx@linutronix.de
-TO: mingo@redhat.com
-TO: bp@alien8.de
-TO: dave.hansen@linux.intel.com
-TO: x86@kernel.org
-TO: hpa@zytor.com
-TO: linux-hyperv@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: mikelley@microsoft.com
-CC: minipli@grsecurity.net
-CC: ssengar@microsoft.com
+CC: linux-kernel@vger.kernel.org
+TO: Jorge Lopez <jorge.lopez2@hp.com>
+CC: Hans de Goede <hdegoede@redhat.com>
+CC: "Thomas Weiﬂschuh" <linux@weissschuh.net>
 
-Hi Saurabh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.6-rc2]
-[also build test WARNING on linus/master next-20230920]
-[cannot apply to tip/x86/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Saurabh-Sengar/x86-hyperv-Remove-hv_vtl_early_init-initcall/20230920-125357
-base:   v6.6-rc2
-patch link:    https://lore.kernel.org/r/1695185552-19910-1-git-send-email-ssengar%40linux.microsoft.com
-patch subject: [PATCH] x86/hyperv: Remove hv_vtl_early_init initcall
-:::::: branch date: 59 minutes ago
-:::::: commit date: 59 minutes ago
-config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230920/202309201327.J4pfXnUv-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2cf0f715623872823a72e451243bbf555d10d032
+commit: eff3bac88aeda6f10f3b3c5e146e8ce29ff3bfb9 platform/x86: hp-bioscfg: Makefile
+date:   2 months ago
+:::::: branch date: 35 hours ago
+:::::: commit date: 2 months ago
+config: i386-randconfig-141-20230920 (https://download.01.org/0day-ci/archive/20230920/202309201412.on0VXJGo-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230920/202309201327.J4pfXnUv-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230920/202309201412.on0VXJGo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309201327.J4pfXnUv-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202309201412.on0VXJGo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/platform/x86/hp/hp-bioscfg/bioscfg.c:646 hp_add_other_attributes() warn: possible memory leak of 'attr_name_kobj'
 
-   In file included from arch/x86/mm/pat/set_memory.c:36:
-   arch/x86/include/asm/mshyperv.h: In function 'hv_vtl_early_init':
-   arch/x86/include/asm/mshyperv.h:346:1: error: no return statement in function returning non-void [-Werror=return-type]
-     346 | static int __init hv_vtl_early_init(void) {}
-         | ^~~~~~
-   arch/x86/include/asm/mshyperv.h: At top level:
->> arch/x86/include/asm/mshyperv.h:346:19: warning: 'hv_vtl_early_init' defined but not used [-Wunused-function]
-     346 | static int __init hv_vtl_early_init(void) {}
-         |                   ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+Old smatch warnings:
+drivers/platform/x86/hp/hp-bioscfg/bioscfg.c:637 hp_add_other_attributes() warn: missing error code 'ret'
 
+vim +/attr_name_kobj +646 drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
 
-vim +/hv_vtl_early_init +346 arch/x86/include/asm/mshyperv.h
+a34fc329b1895f Jorge Lopez 2023-06-08  571  
+a34fc329b1895f Jorge Lopez 2023-06-08  572  /**
+a34fc329b1895f Jorge Lopez 2023-06-08  573   * hp_add_other_attributes() - Initialize HP custom attributes not
+a34fc329b1895f Jorge Lopez 2023-06-08  574   * reported by BIOS and required to support Secure Platform and Sure
+a34fc329b1895f Jorge Lopez 2023-06-08  575   * Start.
+a34fc329b1895f Jorge Lopez 2023-06-08  576   *
+a34fc329b1895f Jorge Lopez 2023-06-08  577   * @attr_type: Custom HP attribute not reported by BIOS
+a34fc329b1895f Jorge Lopez 2023-06-08  578   *
+a34fc329b1895f Jorge Lopez 2023-06-08  579   * Initialize all 2 types of attributes: Platform and Sure Start
+a34fc329b1895f Jorge Lopez 2023-06-08  580   * object.  Populates each attribute types respective properties
+a34fc329b1895f Jorge Lopez 2023-06-08  581   * under sysfs files.
+a34fc329b1895f Jorge Lopez 2023-06-08  582   *
+a34fc329b1895f Jorge Lopez 2023-06-08  583   * Returns zero(0) if successful. Otherwise, a negative value.
+a34fc329b1895f Jorge Lopez 2023-06-08  584   */
+a34fc329b1895f Jorge Lopez 2023-06-08  585  static int hp_add_other_attributes(int attr_type)
+a34fc329b1895f Jorge Lopez 2023-06-08  586  {
+a34fc329b1895f Jorge Lopez 2023-06-08  587  	struct kobject *attr_name_kobj;
+a34fc329b1895f Jorge Lopez 2023-06-08  588  	union acpi_object *obj = NULL;
+a34fc329b1895f Jorge Lopez 2023-06-08  589  	int ret;
+a34fc329b1895f Jorge Lopez 2023-06-08  590  	char *attr_name;
+a34fc329b1895f Jorge Lopez 2023-06-08  591  
+a34fc329b1895f Jorge Lopez 2023-06-08  592  	mutex_lock(&bioscfg_drv.mutex);
+a34fc329b1895f Jorge Lopez 2023-06-08  593  
+a34fc329b1895f Jorge Lopez 2023-06-08  594  	attr_name_kobj = kzalloc(sizeof(*attr_name_kobj), GFP_KERNEL);
+a34fc329b1895f Jorge Lopez 2023-06-08  595  	if (!attr_name_kobj) {
+a34fc329b1895f Jorge Lopez 2023-06-08  596  		ret = -ENOMEM;
+a34fc329b1895f Jorge Lopez 2023-06-08  597  		goto err_other_attr_init;
+a34fc329b1895f Jorge Lopez 2023-06-08  598  	}
+a34fc329b1895f Jorge Lopez 2023-06-08  599  
+a34fc329b1895f Jorge Lopez 2023-06-08  600  	/* Check if attribute type is supported */
+a34fc329b1895f Jorge Lopez 2023-06-08  601  	switch (attr_type) {
+a34fc329b1895f Jorge Lopez 2023-06-08  602  	case HPWMI_SECURE_PLATFORM_TYPE:
+a34fc329b1895f Jorge Lopez 2023-06-08  603  		attr_name_kobj->kset = bioscfg_drv.authentication_dir_kset;
+a34fc329b1895f Jorge Lopez 2023-06-08  604  		attr_name = SPM_STR;
+a34fc329b1895f Jorge Lopez 2023-06-08  605  		break;
+a34fc329b1895f Jorge Lopez 2023-06-08  606  
+a34fc329b1895f Jorge Lopez 2023-06-08  607  	case HPWMI_SURE_START_TYPE:
+a34fc329b1895f Jorge Lopez 2023-06-08  608  		attr_name_kobj->kset = bioscfg_drv.main_dir_kset;
+a34fc329b1895f Jorge Lopez 2023-06-08  609  		attr_name = SURE_START_STR;
+a34fc329b1895f Jorge Lopez 2023-06-08  610  		break;
+a34fc329b1895f Jorge Lopez 2023-06-08  611  
+a34fc329b1895f Jorge Lopez 2023-06-08  612  	default:
+a34fc329b1895f Jorge Lopez 2023-06-08  613  		pr_err("Error: Unknown attr_type: %d\n", attr_type);
+a34fc329b1895f Jorge Lopez 2023-06-08  614  		ret = -EINVAL;
+a34fc329b1895f Jorge Lopez 2023-06-08  615  		goto err_other_attr_init;
+a34fc329b1895f Jorge Lopez 2023-06-08  616  	}
+a34fc329b1895f Jorge Lopez 2023-06-08  617  
+a34fc329b1895f Jorge Lopez 2023-06-08  618  	ret = kobject_init_and_add(attr_name_kobj, &attr_name_ktype,
+a34fc329b1895f Jorge Lopez 2023-06-08  619  				   NULL, "%s", attr_name);
+a34fc329b1895f Jorge Lopez 2023-06-08  620  	if (ret) {
+a34fc329b1895f Jorge Lopez 2023-06-08  621  		pr_err("Error encountered [%d]\n", ret);
+a34fc329b1895f Jorge Lopez 2023-06-08  622  		kobject_put(attr_name_kobj);
+a34fc329b1895f Jorge Lopez 2023-06-08  623  		goto err_other_attr_init;
+a34fc329b1895f Jorge Lopez 2023-06-08  624  	}
+a34fc329b1895f Jorge Lopez 2023-06-08  625  
+a34fc329b1895f Jorge Lopez 2023-06-08  626  	/* Populate attribute data */
+a34fc329b1895f Jorge Lopez 2023-06-08  627  	switch (attr_type) {
+a34fc329b1895f Jorge Lopez 2023-06-08  628  	case HPWMI_SECURE_PLATFORM_TYPE:
+a34fc329b1895f Jorge Lopez 2023-06-08  629  		ret = hp_populate_secure_platform_data(attr_name_kobj);
+a34fc329b1895f Jorge Lopez 2023-06-08  630  		break;
+a34fc329b1895f Jorge Lopez 2023-06-08  631  
+a34fc329b1895f Jorge Lopez 2023-06-08  632  	case HPWMI_SURE_START_TYPE:
+a34fc329b1895f Jorge Lopez 2023-06-08  633  		ret = hp_populate_sure_start_data(attr_name_kobj);
+a34fc329b1895f Jorge Lopez 2023-06-08  634  		break;
+a34fc329b1895f Jorge Lopez 2023-06-08  635  
+a34fc329b1895f Jorge Lopez 2023-06-08  636  	default:
+a34fc329b1895f Jorge Lopez 2023-06-08  637  		goto err_other_attr_init;
+a34fc329b1895f Jorge Lopez 2023-06-08  638  	}
+a34fc329b1895f Jorge Lopez 2023-06-08  639  
+a34fc329b1895f Jorge Lopez 2023-06-08  640  	mutex_unlock(&bioscfg_drv.mutex);
+a34fc329b1895f Jorge Lopez 2023-06-08  641  	return 0;
+a34fc329b1895f Jorge Lopez 2023-06-08  642  
+a34fc329b1895f Jorge Lopez 2023-06-08  643  err_other_attr_init:
+a34fc329b1895f Jorge Lopez 2023-06-08  644  	mutex_unlock(&bioscfg_drv.mutex);
+a34fc329b1895f Jorge Lopez 2023-06-08  645  	kfree(obj);
+a34fc329b1895f Jorge Lopez 2023-06-08 @646  	return ret;
+a34fc329b1895f Jorge Lopez 2023-06-08  647  }
+a34fc329b1895f Jorge Lopez 2023-06-08  648  
 
-79cadff2d92bb8 Vitaly Kuznetsov 2017-08-02  339  
-765e33f5211ab6 Michael Kelley   2019-05-30  340  
-3be1bc2fe9d2e4 Saurabh Sengar   2023-04-10  341  #ifdef CONFIG_HYPERV_VTL_MODE
-3be1bc2fe9d2e4 Saurabh Sengar   2023-04-10  342  void __init hv_vtl_init_platform(void);
-9081cfc5d0e7fa Saurabh Sengar   2023-09-19  343  int __init hv_vtl_early_init(void);
-3be1bc2fe9d2e4 Saurabh Sengar   2023-04-10  344  #else
-3be1bc2fe9d2e4 Saurabh Sengar   2023-04-10  345  static inline void __init hv_vtl_init_platform(void) {}
-9081cfc5d0e7fa Saurabh Sengar   2023-09-19 @346  static int __init hv_vtl_early_init(void) {}
-3be1bc2fe9d2e4 Saurabh Sengar   2023-04-10  347  #endif
-3be1bc2fe9d2e4 Saurabh Sengar   2023-04-10  348  
+:::::: The code at line 646 was first introduced by commit
+:::::: a34fc329b1895fc8a6eb12099adc47009421ba6a platform/x86: hp-bioscfg: bioscfg
+
+:::::: TO: Jorge Lopez <jorge.lopez2@hp.com>
+:::::: CC: Hans de Goede <hdegoede@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
