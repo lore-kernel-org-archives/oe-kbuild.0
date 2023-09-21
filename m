@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB69944C
-	for <oe-kbuild@lists.linux.dev>; Thu, 21 Sep 2023 09:35:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F62AD49
+	for <oe-kbuild@lists.linux.dev>; Thu, 21 Sep 2023 12:19:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695288903; x=1726824903;
+  t=1695298774; x=1726834774;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pqtwkrokbR3dyXoUggHaXcJpln+4i80IKnwxvNGa7L0=;
-  b=Ku5KqxqHm2GbMNvlVgklUQ7TV2ycvRhCltg606svWKmj4LngBPok283U
-   zpfNjswevAOibV+3N/ME1fTZQKxiM90ryV95bpAPL8+d9TWCL7tqZ0b0F
-   z5JJjdVSaObWGdl4KpOHdtv66Ml91eBCkpfINKddgU0sSFRyVqztxMFFy
-   BqGlO40t9GgpXBcwpsMNA9t0f2/wpG2FYl2o9pDgAqEdbMbKlNTbh0oXt
-   5W43r895MyeULzATqsXGYklrOqkwICy08FMhgkI/ximF3v8JzIa8XqJp9
-   ORUFHOvS0lEpRdkK08jihmgHTBanrUnDYqWpbOhIZZkTgcZ9QKgusEHea
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="365525863"
+  bh=zarzqXr5FSj0ihZAc1GmeTOd4avATJxCbz/l9JAUSuU=;
+  b=l4mAJ1dYJoO3FluXebO5UXW76FmEr11rvuVH5aXLkdGz0m6N5EhjPCjb
+   CzMrj1ueC4sCkNlEc6L4D09ORtyAiAr5xyZ+ce2QRxp7WdNSD2S3ov19C
+   0r91hAY3IocXgZEd0Y5Ov8LAJA2UNMsbOY5wocmsne/rYYRKr56rLRDwj
+   n2TaryTBkix053Yq6OoniySde3wogMBaxIElGTIms9gULiYeiTFl+qeBZ
+   1qZQZxwZTI2wenjyFY3spHxWxGFIBMJE4FhygWpbaEIJlEsFq/kf8M7pl
+   A3fZYQesHiMkFGOPhzkMBlmmS6Dozqox1WtvpxLnZKhqlJD9NOHjmdVDn
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="446973058"
 X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="365525863"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 02:35:02 -0700
+   d="scan'208";a="446973058"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 05:19:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="890295724"
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="750370596"
 X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
-   d="scan'208";a="890295724"
+   d="scan'208";a="750370596"
 Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Sep 2023 02:34:10 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 21 Sep 2023 05:19:24 -0700
 Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjG5J-0009pY-1R;
-	Thu, 21 Sep 2023 09:34:57 +0000
-Date: Thu, 21 Sep 2023 17:33:39 +0800
+	id 1qjIeQ-0009wq-33;
+	Thu, 21 Sep 2023 12:19:22 +0000
+Date: Thu, 21 Sep 2023 20:18:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/csky/kernel/setup.c:133 csky_start() warn: ignoring unreachable
- code.
-Message-ID: <202309211734.AiCcvZTf-lkp@intel.com>
+Subject: security/apparmor/policy_unpack.c:1212 verify_profile() warn: can
+ 'rules' even be NULL?
+Message-ID: <202309212000.R48tdNv9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,55 +49,80 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: Peter Zijlstra <peterz@infradead.org>
+TO: John Johansen <john.johansen@canonical.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   42dc814987c1feb6410904e58cfd4c36c4146150
-commit: 25a6917ca63ad4470bf88535c56f0dec72b570fe init: Mark start_kernel() __noreturn
-date:   5 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 5 months ago
-config: csky-randconfig-r071-20230917 (https://download.01.org/0day-ci/archive/20230921/202309211734.AiCcvZTf-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230921/202309211734.AiCcvZTf-lkp@intel.com/reproduce)
+commit: 1ad22fcc4d0d2fb2e0f35aed555a86d016d5e590 apparmor: rework profile->rules to be a list
+date:   12 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 12 months ago
+config: x86_64-randconfig-161-20230919 (https://download.01.org/0day-ci/archive/20230921/202309212000.R48tdNv9-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230921/202309212000.R48tdNv9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309211734.AiCcvZTf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309212000.R48tdNv9-lkp@intel.com/
 
-smatch warnings:
-arch/csky/kernel/setup.c:133 csky_start() warn: ignoring unreachable code.
+New smatch warnings:
+security/apparmor/policy_unpack.c:1212 verify_profile() warn: can 'rules' even be NULL?
 
-vim +133 arch/csky/kernel/setup.c
+Old smatch warnings:
+security/apparmor/policy_unpack.c:175 aa_loaddata_kref() warn: can 'd' even be NULL?
+security/apparmor/policy_unpack.c:488 unpack_trans_table() warn: impossible condition '(size > (1 << 24)) => (0-u16max > 16777216)'
+security/apparmor/policy_unpack.c:544 unpack_trans_table() error: uninitialized symbol 'table'.
+security/apparmor/policy_unpack.c:735 unpack_pdb() warn: unsigned 'policy->size' is never less than zero.
+security/apparmor/policy_unpack.c:1081 unpack_profile() warn: passing zero to 'ERR_PTR'
 
-0c8a32eed1625a6 Guo Ren 2020-09-07  115  
-205353fa06cc5db Guo Ren 2019-04-12  116  asmlinkage __visible void __init csky_start(unsigned int unused,
-205353fa06cc5db Guo Ren 2019-04-12  117  					    void *dtb_start)
-9143a9359d05114 Guo Ren 2018-09-05  118  {
-9143a9359d05114 Guo Ren 2018-09-05  119  	/* Clean up bss section */
-9143a9359d05114 Guo Ren 2018-09-05  120  	memset(__bss_start, 0, __bss_stop - __bss_start);
-9143a9359d05114 Guo Ren 2018-09-05  121  
-0c8a32eed1625a6 Guo Ren 2020-09-07  122  	va_pa_offset = read_mmu_msa() & ~(SSEG_SIZE - 1);
-f62e31623d718a7 Guo Ren 2019-04-08  123  
-9143a9359d05114 Guo Ren 2018-09-05  124  	pre_trap_init();
-9143a9359d05114 Guo Ren 2018-09-05  125  
-205353fa06cc5db Guo Ren 2019-04-12  126  	if (dtb_start == NULL)
-9143a9359d05114 Guo Ren 2018-09-05  127  		early_init_dt_scan(__dtb_start);
-9143a9359d05114 Guo Ren 2018-09-05  128  	else
-205353fa06cc5db Guo Ren 2019-04-12  129  		early_init_dt_scan(dtb_start);
-9143a9359d05114 Guo Ren 2018-09-05  130  
-9143a9359d05114 Guo Ren 2018-09-05  131  	start_kernel();
-9143a9359d05114 Guo Ren 2018-09-05  132  
-9143a9359d05114 Guo Ren 2018-09-05 @133  	asm volatile("br .\n");
+vim +/rules +1212 security/apparmor/policy_unpack.c
 
-:::::: The code at line 133 was first introduced by commit
-:::::: 9143a9359d051142081b26c3726c928f965c5eb7 csky: Kernel booting
-
-:::::: TO: Guo Ren <ren_guo@c-sky.com>
-:::::: CC: Guo Ren <ren_guo@c-sky.com>
+670f31774ab6bf John Johansen 2022-08-26  1199  
+736ec752d95e91 John Johansen 2010-07-29  1200  /**
+736ec752d95e91 John Johansen 2010-07-29  1201   * verify_profile - Do post unpack analysis to verify profile consistency
+736ec752d95e91 John Johansen 2010-07-29  1202   * @profile: profile to verify (NOT NULL)
+736ec752d95e91 John Johansen 2010-07-29  1203   *
+736ec752d95e91 John Johansen 2010-07-29  1204   * Returns: 0 if passes verification else error
+7572fea31e3e5c John Johansen 2020-11-13  1205   *
+7572fea31e3e5c John Johansen 2020-11-13  1206   * This verification is post any unpack mapping or changes
+736ec752d95e91 John Johansen 2010-07-29  1207   */
+736ec752d95e91 John Johansen 2010-07-29  1208  static int verify_profile(struct aa_profile *profile)
+736ec752d95e91 John Johansen 2010-07-29  1209  {
+1ad22fcc4d0d2f John Johansen 2022-09-05  1210  	struct aa_ruleset *rules = list_first_entry(&profile->rules,
+1ad22fcc4d0d2f John Johansen 2022-09-05  1211  						    typeof(*rules), list);
+1ad22fcc4d0d2f John Johansen 2022-09-05 @1212  	if (!rules)
+1ad22fcc4d0d2f John Johansen 2022-09-05  1213  		return 0;
+1ad22fcc4d0d2f John Johansen 2022-09-05  1214  
+1ad22fcc4d0d2f John Johansen 2022-09-05  1215  	if ((rules->file.dfa && !verify_dfa_xindex(rules->file.dfa,
+1ad22fcc4d0d2f John Johansen 2022-09-05  1216  						  rules->file.trans.size)) ||
+1ad22fcc4d0d2f John Johansen 2022-09-05  1217  	    (rules->policy.dfa &&
+1ad22fcc4d0d2f John Johansen 2022-09-05  1218  	     !verify_dfa_xindex(rules->policy.dfa, rules->policy.trans.size))) {
+7572fea31e3e5c John Johansen 2020-11-13  1219  		audit_iface(profile, NULL, NULL,
+7572fea31e3e5c John Johansen 2020-11-13  1220  			    "Unpack: Invalid named transition", NULL, -EPROTO);
+736ec752d95e91 John Johansen 2010-07-29  1221  		return -EPROTO;
+736ec752d95e91 John Johansen 2010-07-29  1222  	}
+736ec752d95e91 John Johansen 2010-07-29  1223  
+1ad22fcc4d0d2f John Johansen 2022-09-05  1224  	if (!verify_perms(&rules->file)) {
+670f31774ab6bf John Johansen 2022-08-26  1225  		audit_iface(profile, NULL, NULL,
+670f31774ab6bf John Johansen 2022-08-26  1226  			    "Unpack: Invalid perm index", NULL, -EPROTO);
+670f31774ab6bf John Johansen 2022-08-26  1227  		return -EPROTO;
+670f31774ab6bf John Johansen 2022-08-26  1228  	}
+1ad22fcc4d0d2f John Johansen 2022-09-05  1229  	if (!verify_perms(&rules->policy)) {
+670f31774ab6bf John Johansen 2022-08-26  1230  		audit_iface(profile, NULL, NULL,
+670f31774ab6bf John Johansen 2022-08-26  1231  			    "Unpack: Invalid perm index", NULL, -EPROTO);
+670f31774ab6bf John Johansen 2022-08-26  1232  		return -EPROTO;
+670f31774ab6bf John Johansen 2022-08-26  1233  	}
+217af7e2f4deb6 John Johansen 2022-07-29  1234  	if (!verify_perms(&profile->attach.xmatch)) {
+670f31774ab6bf John Johansen 2022-08-26  1235  		audit_iface(profile, NULL, NULL,
+670f31774ab6bf John Johansen 2022-08-26  1236  			    "Unpack: Invalid perm index", NULL, -EPROTO);
+670f31774ab6bf John Johansen 2022-08-26  1237  		return -EPROTO;
+670f31774ab6bf John Johansen 2022-08-26  1238  	}
+670f31774ab6bf John Johansen 2022-08-26  1239  
+736ec752d95e91 John Johansen 2010-07-29  1240  	return 0;
+736ec752d95e91 John Johansen 2010-07-29  1241  }
+736ec752d95e91 John Johansen 2010-07-29  1242  
 
 -- 
 0-DAY CI Kernel Test Service
