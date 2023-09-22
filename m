@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76ABB45F67
-	for <oe-kbuild@lists.linux.dev>; Fri, 22 Sep 2023 21:43:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA33147357
+	for <oe-kbuild@lists.linux.dev>; Fri, 22 Sep 2023 22:24:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695418995; x=1726954995;
+  t=1695421453; x=1726957453;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IaswA+0vOT2rYDGbmPwskPlfrKFex3tBa/twpheQbtw=;
-  b=EPYOvHsqWaPvD7R/uocdRHZH3HP+zKcbNQBlNWtD+iVc9klaVtARDbDg
-   MhEQPCFSnRiv+R4nd9JBq/Mr8KOyiJu7SHzTUAMo0kZq/CcStGrTDfWEk
-   /LH1HnepW2uvBbt7nCdmNwDIFJ0shfDjD8SjBJ5KK1TvccYOu0VYQSRGb
-   E/WYUTfmiWFbpgny7Xbf0HS+Ghh4y2o/qAu7P1kgMp+BEVZNEHEITWGSy
-   7ettpi8AyfUV2140Jxx0cR7y9696afdjDqZc5cZNgEH1PDUTG6oQEDLak
-   b7GmdpVmK2Ow1+yRJjb9lAgbh/HlmWsX6UT6JR3M7txS2tZYQx/s3Bpwx
+  bh=2k8AUQTIADFa+Sp2kTuX1MEyb+SphZWGzfi9FFLmUyI=;
+  b=CXu6CTXHKDXMRI6B2KeZiT/OEQYvopO4y7FGnjhFhRvI5E+R6QPt2KX1
+   +Fcw2RNeC8pgyWvi3lexu5KpCxaWaYdV10uAgym+KLcja9pVivB+hHL79
+   7xH4C9UhpDkm4jy7SSvuwAsW+xxtCN9hE+6p3TrgV8JhqScKEEc9sAASb
+   nggqTG4Tw5BewkwkUtYtx9K240KYP/2LEs3caAhbv8kaLJ+/wqq4AE45C
+   2U+8RdUQN1O8+pz6CrlrfR5UhTeX8ZfwODk4KHQkTgz0da+TqXjgTA313
+   ELgegopLZcdfz6GtLyYhPFObQrW3z6YzxhTbXyTalaqWdWJztMWws7Bhs
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447429822"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="360340290"
 X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
-   d="scan'208";a="447429822"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 14:43:07 -0700
+   d="scan'208";a="360340290"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 15:24:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="697352863"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813244482"
 X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
-   d="scan'208";a="697352863"
+   d="scan'208";a="813244482"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 22 Sep 2023 14:43:06 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 22 Sep 2023 15:24:11 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjnvT-0001N7-0B;
-	Fri, 22 Sep 2023 21:43:03 +0000
-Date: Sat, 23 Sep 2023 05:42:43 +0800
+	id 1qjoZF-0001P7-0W;
+	Fri, 22 Sep 2023 22:24:09 +0000
+Date: Sat, 23 Sep 2023 06:23:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/scsi/advansys.c:4263:9: sparse: sparse: incorrect type in
- argument 1 (different base types)
-Message-ID: <202309230554.7TE10r0J-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [nf PATCH v2] netfilter: nf_tables: Fix entries val in rule
+ reset audit log
+Message-ID: <202309230628.jYkaSoee-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,223 +46,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Linus Walleij <linus.walleij@linaro.org>
-CC: Arnd Bergmann <arnd@arndb.de>
+In-Reply-To: <20230908081033.30806-1-phil@nwl.cc>
+References: <20230908081033.30806-1-phil@nwl.cc>
+TO: Phil Sutter <phil@nwl.cc>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dc912ba91b7e2fa74650a0fc22cccf0e0d50f371
-commit: 437b6b35362b206fdf881fe6dea76720eedb6d25 parisc: Use the generic IO helpers
-date:   1 year ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 1 year ago
-config: parisc-randconfig-r113-20230920 (https://download.01.org/0day-ci/archive/20230923/202309230554.7TE10r0J-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230923/202309230554.7TE10r0J-lkp@intel.com/reproduce)
+Hi Phil,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on netfilter-nf/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Phil-Sutter/netfilter-nf_tables-Fix-entries-val-in-rule-reset-audit-log/20230908-161249
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20230908081033.30806-1-phil%40nwl.cc
+patch subject: [nf PATCH v2] netfilter: nf_tables: Fix entries val in rule reset audit log
+:::::: branch date: 2 weeks ago
+:::::: commit date: 2 weeks ago
+config: i386-randconfig-141-20230922 (https://download.01.org/0day-ci/archive/20230923/202309230628.jYkaSoee-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230923/202309230628.jYkaSoee-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309230554.7TE10r0J-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202309230628.jYkaSoee-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/scsi/advansys.c:4263:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4263:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4263:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4263:9: sparse: sparse: restricted __le32 degrades to integer
->> drivers/scsi/advansys.c:4263:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/scsi/advansys.c:4263:9: sparse:     expected unsigned short [usertype] value
-   drivers/scsi/advansys.c:4263:9: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/advansys.c:4263:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4263:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4263:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4263:9: sparse: sparse: restricted __le32 degrades to integer
->> drivers/scsi/advansys.c:4263:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/scsi/advansys.c:4263:9: sparse:     expected unsigned short [usertype] value
-   drivers/scsi/advansys.c:4263:9: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/advansys.c:4721:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4721:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4721:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4721:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4721:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/scsi/advansys.c:4721:9: sparse:     expected unsigned short [usertype] value
-   drivers/scsi/advansys.c:4721:9: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/advansys.c:4721:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4721:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4721:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4721:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4721:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/scsi/advansys.c:4721:9: sparse:     expected unsigned short [usertype] value
-   drivers/scsi/advansys.c:4721:9: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/advansys.c:4735:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4735:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4735:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4735:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4735:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/scsi/advansys.c:4735:9: sparse:     expected unsigned short [usertype] value
-   drivers/scsi/advansys.c:4735:9: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/advansys.c:4735:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4735:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4735:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4735:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:4735:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/scsi/advansys.c:4735:9: sparse:     expected unsigned short [usertype] value
-   drivers/scsi/advansys.c:4735:9: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/advansys.c:5204:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5204:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5204:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5204:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5204:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/scsi/advansys.c:5204:9: sparse:     expected unsigned short [usertype] value
-   drivers/scsi/advansys.c:5204:9: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/advansys.c:5204:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5204:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5204:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5204:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5204:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/scsi/advansys.c:5204:9: sparse:     expected unsigned short [usertype] value
-   drivers/scsi/advansys.c:5204:9: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/advansys.c:5221:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5221:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5221:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5221:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5221:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/scsi/advansys.c:5221:9: sparse:     expected unsigned short [usertype] value
-   drivers/scsi/advansys.c:5221:9: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/advansys.c:5221:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5221:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5221:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5221:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5221:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/scsi/advansys.c:5221:9: sparse:     expected unsigned short [usertype] value
-   drivers/scsi/advansys.c:5221:9: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/advansys.c:5700:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5700:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5700:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5700:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5700:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/scsi/advansys.c:5700:9: sparse:     expected unsigned short [usertype] value
-   drivers/scsi/advansys.c:5700:9: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/advansys.c:5700:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5700:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5700:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5700:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5700:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/scsi/advansys.c:5700:9: sparse:     expected unsigned short [usertype] value
-   drivers/scsi/advansys.c:5700:9: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/advansys.c:5716:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5716:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5716:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5716:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5716:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/scsi/advansys.c:5716:9: sparse:     expected unsigned short [usertype] value
-   drivers/scsi/advansys.c:5716:9: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/advansys.c:5716:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5716:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5716:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5716:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:5716:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [usertype] @@
-   drivers/scsi/advansys.c:5716:9: sparse:     expected unsigned short [usertype] value
-   drivers/scsi/advansys.c:5716:9: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/advansys.c:6095:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] irq_next_vpa @@     got unsigned int [usertype] @@
-   drivers/scsi/advansys.c:6095:31: sparse:     expected restricted __le32 [usertype] irq_next_vpa
-   drivers/scsi/advansys.c:6095:31: sparse:     got unsigned int [usertype]
-   drivers/scsi/advansys.c:6117:22: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:6130:51: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/advansys.c:7933:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] addr @@
-   drivers/scsi/advansys.c:7933:31: sparse:     expected unsigned int [usertype] val
-   drivers/scsi/advansys.c:7933:31: sparse:     got restricted __le32 [usertype] addr
-   drivers/scsi/advansys.c:7933:31: sparse: sparse: cast from restricted __le32
-   drivers/scsi/advansys.c:7933:31: sparse: sparse: cast from restricted __le32
-   drivers/scsi/advansys.c:7933:31: sparse: sparse: cast from restricted __le32
-   drivers/scsi/advansys.c:7933:31: sparse: sparse: cast from restricted __le32
-   drivers/scsi/advansys.c:7934:30: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] bytes @@
-   drivers/scsi/advansys.c:7934:30: sparse:     expected unsigned int [usertype] val
+smatch warnings:
+net/netfilter/nf_tables_api.c:3546 nf_tables_dump_rules() error: uninitialized symbol 'ret'.
 
-vim +4263 drivers/scsi/advansys.c
+vim +/ret +3546 net/netfilter/nf_tables_api.c
 
-4b47e464510c52 Hannes Reinecke 2015-04-24  4226  
-512193588db0d3 Matthew Wilcox  2007-10-02  4227  /*
-512193588db0d3 Matthew Wilcox  2007-10-02  4228   * Send an idle command to the chip and wait for completion.
-512193588db0d3 Matthew Wilcox  2007-10-02  4229   *
-512193588db0d3 Matthew Wilcox  2007-10-02  4230   * Command completion is polled for once per microsecond.
-512193588db0d3 Matthew Wilcox  2007-10-02  4231   *
-512193588db0d3 Matthew Wilcox  2007-10-02  4232   * The function can be called from anywhere including an interrupt handler.
-512193588db0d3 Matthew Wilcox  2007-10-02  4233   * But the function is not re-entrant, so it uses the DvcEnter/LeaveCritical()
-512193588db0d3 Matthew Wilcox  2007-10-02  4234   * functions to prevent reentrancy.
-512193588db0d3 Matthew Wilcox  2007-10-02  4235   *
-512193588db0d3 Matthew Wilcox  2007-10-02  4236   * Return Values:
-512193588db0d3 Matthew Wilcox  2007-10-02  4237   *   ADV_TRUE - command completed successfully
-512193588db0d3 Matthew Wilcox  2007-10-02  4238   *   ADV_FALSE - command failed
-512193588db0d3 Matthew Wilcox  2007-10-02  4239   *   ADV_ERROR - command timed out
-512193588db0d3 Matthew Wilcox  2007-10-02  4240   */
-512193588db0d3 Matthew Wilcox  2007-10-02  4241  static int
-512193588db0d3 Matthew Wilcox  2007-10-02  4242  AdvSendIdleCmd(ADV_DVC_VAR *asc_dvc,
-95cfab6c11180f Hannes Reinecke 2015-04-24  4243  	       ushort idle_cmd, u32 idle_cmd_parameter)
-512193588db0d3 Matthew Wilcox  2007-10-02  4244  {
-95cfab6c11180f Hannes Reinecke 2015-04-24  4245  	int result, i, j;
-512193588db0d3 Matthew Wilcox  2007-10-02  4246  	AdvPortAddr iop_base;
-512193588db0d3 Matthew Wilcox  2007-10-02  4247  
-512193588db0d3 Matthew Wilcox  2007-10-02  4248  	iop_base = asc_dvc->iop_base;
-512193588db0d3 Matthew Wilcox  2007-10-02  4249  
-512193588db0d3 Matthew Wilcox  2007-10-02  4250  	/*
-512193588db0d3 Matthew Wilcox  2007-10-02  4251  	 * Clear the idle command status which is set by the microcode
-512193588db0d3 Matthew Wilcox  2007-10-02  4252  	 * to a non-zero value to indicate when the command is completed.
-512193588db0d3 Matthew Wilcox  2007-10-02  4253  	 * The non-zero result is one of the IDLE_CMD_STATUS_* values
-512193588db0d3 Matthew Wilcox  2007-10-02  4254  	 */
-512193588db0d3 Matthew Wilcox  2007-10-02  4255  	AdvWriteWordLram(iop_base, ASC_MC_IDLE_CMD_STATUS, (ushort)0);
-512193588db0d3 Matthew Wilcox  2007-10-02  4256  
-512193588db0d3 Matthew Wilcox  2007-10-02  4257  	/*
-512193588db0d3 Matthew Wilcox  2007-10-02  4258  	 * Write the idle command value after the idle command parameter
-512193588db0d3 Matthew Wilcox  2007-10-02  4259  	 * has been written to avoid a race condition. If the order is not
-512193588db0d3 Matthew Wilcox  2007-10-02  4260  	 * followed, the microcode may process the idle command before the
-512193588db0d3 Matthew Wilcox  2007-10-02  4261  	 * parameters have been written to LRAM.
-512193588db0d3 Matthew Wilcox  2007-10-02  4262  	 */
-512193588db0d3 Matthew Wilcox  2007-10-02 @4263  	AdvWriteDWordLramNoSwap(iop_base, ASC_MC_IDLE_CMD_PARAMETER,
-512193588db0d3 Matthew Wilcox  2007-10-02  4264  				cpu_to_le32(idle_cmd_parameter));
-512193588db0d3 Matthew Wilcox  2007-10-02  4265  	AdvWriteWordLram(iop_base, ASC_MC_IDLE_CMD, idle_cmd);
-512193588db0d3 Matthew Wilcox  2007-10-02  4266  
-512193588db0d3 Matthew Wilcox  2007-10-02  4267  	/*
-512193588db0d3 Matthew Wilcox  2007-10-02  4268  	 * Tickle the RISC to tell it to process the idle command.
-512193588db0d3 Matthew Wilcox  2007-10-02  4269  	 */
-512193588db0d3 Matthew Wilcox  2007-10-02  4270  	AdvWriteByteRegister(iop_base, IOPB_TICKLE, ADV_TICKLE_B);
-512193588db0d3 Matthew Wilcox  2007-10-02  4271  	if (asc_dvc->chip_type == ADV_CHIP_ASC3550) {
-512193588db0d3 Matthew Wilcox  2007-10-02  4272  		/*
-512193588db0d3 Matthew Wilcox  2007-10-02  4273  		 * Clear the tickle value. In the ASC-3550 the RISC flag
-512193588db0d3 Matthew Wilcox  2007-10-02  4274  		 * command 'clr_tickle_b' does not work unless the host
-512193588db0d3 Matthew Wilcox  2007-10-02  4275  		 * value is cleared.
-512193588db0d3 Matthew Wilcox  2007-10-02  4276  		 */
-512193588db0d3 Matthew Wilcox  2007-10-02  4277  		AdvWriteByteRegister(iop_base, IOPB_TICKLE, ADV_TICKLE_NOP);
-512193588db0d3 Matthew Wilcox  2007-10-02  4278  	}
-512193588db0d3 Matthew Wilcox  2007-10-02  4279  
-512193588db0d3 Matthew Wilcox  2007-10-02  4280  	/* Wait for up to 100 millisecond for the idle command to timeout. */
-512193588db0d3 Matthew Wilcox  2007-10-02  4281  	for (i = 0; i < SCSI_WAIT_100_MSEC; i++) {
-512193588db0d3 Matthew Wilcox  2007-10-02  4282  		/* Poll once each microsecond for command completion. */
-512193588db0d3 Matthew Wilcox  2007-10-02  4283  		for (j = 0; j < SCSI_US_PER_MSEC; j++) {
-512193588db0d3 Matthew Wilcox  2007-10-02  4284  			AdvReadWordLram(iop_base, ASC_MC_IDLE_CMD_STATUS,
-512193588db0d3 Matthew Wilcox  2007-10-02  4285  					result);
-512193588db0d3 Matthew Wilcox  2007-10-02  4286  			if (result != 0)
-512193588db0d3 Matthew Wilcox  2007-10-02  4287  				return result;
-512193588db0d3 Matthew Wilcox  2007-10-02  4288  			udelay(1);
-512193588db0d3 Matthew Wilcox  2007-10-02  4289  		}
-512193588db0d3 Matthew Wilcox  2007-10-02  4290  	}
-512193588db0d3 Matthew Wilcox  2007-10-02  4291  
-512193588db0d3 Matthew Wilcox  2007-10-02  4292  	BUG();		/* The idle command should never timeout. */
-512193588db0d3 Matthew Wilcox  2007-10-02  4293  	return ADV_ERROR;
-512193588db0d3 Matthew Wilcox  2007-10-02  4294  }
-512193588db0d3 Matthew Wilcox  2007-10-02  4295  
-
-:::::: The code at line 4263 was first introduced by commit
-:::::: 512193588db0d38ae6aa78802bb15f3ef3104a00 [SCSI] advansys: Eliminate prototypes
-
-:::::: TO: Matthew Wilcox <matthew@wil.cx>
-:::::: CC: James Bottomley <jejb@mulgrave.localdomain>
+241faeceb849cb Phil Sutter       2018-12-12  3486  
+96518518cc417b Patrick McHardy   2013-10-14  3487  static int nf_tables_dump_rules(struct sk_buff *skb,
+96518518cc417b Patrick McHardy   2013-10-14  3488  				struct netlink_callback *cb)
+96518518cc417b Patrick McHardy   2013-10-14  3489  {
+96518518cc417b Patrick McHardy   2013-10-14  3490  	const struct nfgenmsg *nfmsg = nlmsg_data(cb->nlh);
+6e1f760e13c75e Pablo Neira Ayuso 2016-07-19  3491  	const struct nft_rule_dump_ctx *ctx = cb->data;
+241faeceb849cb Phil Sutter       2018-12-12  3492  	struct nft_table *table;
+96518518cc417b Patrick McHardy   2013-10-14  3493  	const struct nft_chain *chain;
+35118755b61ff5 Phil Sutter       2023-09-08  3494  	unsigned int idx = 0, s_idx;
+99633ab29b2131 Pablo Neira Ayuso 2013-10-10  3495  	struct net *net = sock_net(skb->sk);
+96518518cc417b Patrick McHardy   2013-10-14  3496  	int family = nfmsg->nfgen_family;
+0854db2aaef3fc Florian Westphal  2021-04-01  3497  	struct nftables_pernet *nft_net;
+8daa8fde3fc3f0 Phil Sutter       2022-10-14  3498  	bool reset = false;
+35118755b61ff5 Phil Sutter       2023-09-08  3499  	int ret;
+8daa8fde3fc3f0 Phil Sutter       2022-10-14  3500  
+8daa8fde3fc3f0 Phil Sutter       2022-10-14  3501  	if (NFNL_MSG_TYPE(cb->nlh->nlmsg_type) == NFT_MSG_GETRULE_RESET)
+8daa8fde3fc3f0 Phil Sutter       2022-10-14  3502  		reset = true;
+96518518cc417b Patrick McHardy   2013-10-14  3503  
+e688a7f8c6cb7a Pablo Neira Ayuso 2014-07-01  3504  	rcu_read_lock();
+d59d2f82f984df Pablo Neira Ayuso 2021-04-23  3505  	nft_net = nft_pernet(net);
+3400278328285a Pablo Neira Ayuso 2022-08-09  3506  	cb->seq = READ_ONCE(nft_net->base_seq);
+38e029f14a9702 Pablo Neira Ayuso 2014-07-01  3507  
+0854db2aaef3fc Florian Westphal  2021-04-01  3508  	list_for_each_entry_rcu(table, &nft_net->tables, list) {
+98319cb9089844 Pablo Neira Ayuso 2018-01-09  3509  		if (family != NFPROTO_UNSPEC && family != table->family)
+96518518cc417b Patrick McHardy   2013-10-14  3510  			continue;
+96518518cc417b Patrick McHardy   2013-10-14  3511  
+36596dadf54a92 Pablo Neira Ayuso 2018-01-09  3512  		if (ctx && ctx->table && strcmp(ctx->table, table->name) != 0)
+6e1f760e13c75e Pablo Neira Ayuso 2016-07-19  3513  			continue;
+6e1f760e13c75e Pablo Neira Ayuso 2016-07-19  3514  
+715849ab31f8e5 Pablo Neira Ayuso 2019-01-08  3515  		if (ctx && ctx->table && ctx->chain) {
+241faeceb849cb Phil Sutter       2018-12-12  3516  			struct rhlist_head *list, *tmp;
+6e1f760e13c75e Pablo Neira Ayuso 2016-07-19  3517  
+241faeceb849cb Phil Sutter       2018-12-12  3518  			list = rhltable_lookup(&table->chains_ht, ctx->chain,
+241faeceb849cb Phil Sutter       2018-12-12  3519  					       nft_chain_ht_params);
+241faeceb849cb Phil Sutter       2018-12-12  3520  			if (!list)
+96518518cc417b Patrick McHardy   2013-10-14  3521  				goto done;
+38e029f14a9702 Pablo Neira Ayuso 2014-07-01  3522  
+241faeceb849cb Phil Sutter       2018-12-12  3523  			rhl_for_each_entry_rcu(chain, tmp, list, rhlhead) {
+241faeceb849cb Phil Sutter       2018-12-12  3524  				if (!nft_is_active(net, chain))
+241faeceb849cb Phil Sutter       2018-12-12  3525  					continue;
+241faeceb849cb Phil Sutter       2018-12-12  3526  				__nf_tables_dump_rules(skb, &idx,
+8daa8fde3fc3f0 Phil Sutter       2022-10-14  3527  						       cb, table, chain, reset);
+241faeceb849cb Phil Sutter       2018-12-12  3528  				break;
+96518518cc417b Patrick McHardy   2013-10-14  3529  			}
+35118755b61ff5 Phil Sutter       2023-09-08  3530  			if (reset && idx > cb->args[0])
+35118755b61ff5 Phil Sutter       2023-09-08  3531  				audit_log_rule_reset(table, cb->seq,
+35118755b61ff5 Phil Sutter       2023-09-08  3532  						     idx - cb->args[0]);
+241faeceb849cb Phil Sutter       2018-12-12  3533  			goto done;
+96518518cc417b Patrick McHardy   2013-10-14  3534  		}
+241faeceb849cb Phil Sutter       2018-12-12  3535  
+35118755b61ff5 Phil Sutter       2023-09-08  3536  		s_idx = max_t(long, idx, cb->args[0]);
+241faeceb849cb Phil Sutter       2018-12-12  3537  		list_for_each_entry_rcu(chain, &table->chains, list) {
+35118755b61ff5 Phil Sutter       2023-09-08  3538  			ret = __nf_tables_dump_rules(skb, &idx,
+35118755b61ff5 Phil Sutter       2023-09-08  3539  						     cb, table, chain, reset);
+35118755b61ff5 Phil Sutter       2023-09-08  3540  			if (ret)
+35118755b61ff5 Phil Sutter       2023-09-08  3541  				break;
+241faeceb849cb Phil Sutter       2018-12-12  3542  		}
+35118755b61ff5 Phil Sutter       2023-09-08  3543  		if (reset && idx > s_idx)
+35118755b61ff5 Phil Sutter       2023-09-08  3544  			audit_log_rule_reset(table, cb->seq, idx - s_idx);
+241faeceb849cb Phil Sutter       2018-12-12  3545  
+35118755b61ff5 Phil Sutter       2023-09-08 @3546  		if ((ctx && ctx->table) || ret)
+241faeceb849cb Phil Sutter       2018-12-12  3547  			break;
+96518518cc417b Patrick McHardy   2013-10-14  3548  	}
+96518518cc417b Patrick McHardy   2013-10-14  3549  done:
+e688a7f8c6cb7a Pablo Neira Ayuso 2014-07-01  3550  	rcu_read_unlock();
+310529e663ed97 Phil Sutter       2018-12-30  3551  
+310529e663ed97 Phil Sutter       2018-12-30  3552  	cb->args[0] = idx;
+96518518cc417b Patrick McHardy   2013-10-14  3553  	return skb->len;
+96518518cc417b Patrick McHardy   2013-10-14  3554  }
+96518518cc417b Patrick McHardy   2013-10-14  3555  
 
 -- 
 0-DAY CI Kernel Test Service
