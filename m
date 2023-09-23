@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764FE37A
-	for <oe-kbuild@lists.linux.dev>; Sat, 23 Sep 2023 00:59:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D47624
+	for <oe-kbuild@lists.linux.dev>; Sat, 23 Sep 2023 02:22:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695430783; x=1726966783;
+  t=1695435750; x=1726971750;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=seeSmgrMWwgJf1ZckrVxDDOlZpgs6TmgjexQXrqIlHk=;
-  b=CF7GYedTkgYK5f/IZxgcwUzXwmK8p2I0Uok7m83XNffrA71F+pBH0Ib8
-   DUrc3Zw6cfxE3NNI4uyjADWZnbm+28xTb1iMC/H75KkGPMKtDjsMZ1kQP
-   j7G/o8ORESWJkYApfSPBxdH1//TfV3IwD2F2VNNe9CAszR9hOeplYdWwL
-   tH/7zuMuxPjknhuI8CLVf91RRYBCYbs+hCm/X4cOtQ0pkvWTyrapmX/t5
-   c/2uA2Yd5CY7OGRvrYdgqd7ikAeQvRfbTYH4rme9+ERj4cYEXtEsgmHAc
-   FJyWEik+/MQn8q8saRio1eCWOZdzLJysc2rDD9ZNW2wS9sFZoJXY1O406
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="366031502"
+  bh=sXvIEUNlWlAEd//uET5aJ+c42Zsay/H5Zeh91INpMsQ=;
+  b=H3zGv7WY/UFzQGi78dPFX0ZiAAO27EyLwBaH3weJmhXvb/8T2WfZixZR
+   EUZPknrWA9U/lIL3V86ORZoNAKN+ICRiWngwLJcp57CvihpO9nhnE4yTJ
+   3VduJlw2OxJHk+1hH6hjgUs1Dhm3NL/U7qmdGdLMgb1/3gOZrkA6pg+rV
+   7CE1GfCQXXflfyi2XTa0Z9DzysI+aXdYO+XiFJlfr/WQpj0E+bdpcZI4v
+   nD38z3FJnHalQ1ioR9VpUSCfx820cD+Ei2RhwM0CsDbsZBYfdhiIeCwTM
+   0R3CwtcUpFMrHb4XYv20mqvqg2KIZO1MuXaPr3lIFCDoMZdetN/0+5Djm
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="361232993"
 X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
-   d="scan'208";a="366031502"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 17:59:42 -0700
+   d="scan'208";a="361232993"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 19:22:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="837959949"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="891040672"
 X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
-   d="scan'208";a="837959949"
+   d="scan'208";a="891040672"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 22 Sep 2023 17:59:42 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 22 Sep 2023 19:21:32 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qjqzk-0001XV-07;
-	Sat, 23 Sep 2023 00:59:40 +0000
-Date: Sat, 23 Sep 2023 08:59:14 +0800
+	id 1qjsHq-0001cz-0e;
+	Sat, 23 Sep 2023 02:22:26 +0000
+Date: Sat, 23 Sep 2023 10:22:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/i2c/busses/i2c-ls2x.c:153 ls2x_i2c_send_byte() error:
- uninitialized symbol 'rxdata'.
-Message-ID: <202309230858.vzuVRyFD-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [chrome-os:chromeos-6.1 40/42] dtbs_check:
+ Documentation/devicetree/bindings/uwb/nxp,uwb-sr1xx.yaml:8:8: [warning] too
+ many spaces after colon (colons)
+Message-ID: <202309231039.ZDPB8T55-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,53 +47,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: Documentation/devicetree/bindings/uwb/nxp,uwb-sr1xx.yaml:8:8: [warning] too many spaces after colon (colons)"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Binbin Zhou <zhoubinbin@loongson.cn>
-CC: Wolfram Sang <wsa-dev@sang-engineering.com>
-CC: Andy Shevchenko <andy@kernel.org>
+TO: cros-kernel-buildreports@googlegroups.com
+TO: Guenter Roeck <groeck@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d90b0276af8f25a0b8ae081a30d1b2a61263393b
-commit: 015e61f0bffd46600496e50d3b2298f51f6b11a8 i2c: ls2x: Add driver for Loongson-2K/LS7A I2C controller
-date:   8 months ago
-:::::: branch date: 70 minutes ago
-:::::: commit date: 8 months ago
-config: csky-randconfig-r071-20230917 (https://download.01.org/0day-ci/archive/20230923/202309230858.vzuVRyFD-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230923/202309230858.vzuVRyFD-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   0fc3a2e40457fa5b337c9dad35cce2a9cacdbb18
+commit: 66577bfbdfab156961e5839e55e386b55cd7d4b9 [40/42] FROMLIST: dt-bindings: uwb: Device tree information for Nxp SR1XX SOCs
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230923/202309231039.ZDPB8T55-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309230858.vzuVRyFD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309231039.ZDPB8T55-lkp@intel.com/
 
-smatch warnings:
-drivers/i2c/busses/i2c-ls2x.c:153 ls2x_i2c_send_byte() error: uninitialized symbol 'rxdata'.
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/uwb/nxp,uwb-sr1xx.yaml:8:8: [warning] too many spaces after colon (colons)
+   Documentation/devicetree/bindings/media/mediatek-mdp3.yaml:20:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+   Documentation/devicetree/bindings/media/mediatek-mdp3.yaml:22:11: [warning] wrong indentation: expected 12 but found 10 (indentation)
+   Documentation/devicetree/bindings/media/mediatek-mdp3.yaml:24:11: [warning] wrong indentation: expected 12 but found 10 (indentation)
+   Documentation/devicetree/bindings/media/mediatek-mdp3.yaml:27:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+   Documentation/devicetree/bindings/media/mediatek-mdp3.yaml:29:11: [warning] wrong indentation: expected 12 but found 10 (indentation)
+   Documentation/devicetree/bindings/media/mediatek-mdp3.yaml:136:11: [warning] wrong indentation: expected 12 but found 10 (indentation)
+   Documentation/devicetree/bindings/media/mediatek-mdp3.yaml:138:11: [warning] wrong indentation: expected 12 but found 10 (indentation)
+--
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml: title: 'Broadcom V3D GPU Bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/clock/imx25-clock.yaml: title: 'Clock bindings for Freescale i.MX25' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/dma/dma-controller.yaml: title: 'DMA Controller Generic Binding' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+>> Documentation/devicetree/bindings/uwb/nxp,uwb-sr1xx.yaml: title: 'NXP SR1XX SOC family of Ultra Wide Band(UWB) device bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/trivial-devices.yaml: title: 'Trivial I2C and SPI devices that have simple device tree bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/clock/qcom,gpucc.yaml: title: 'Qualcomm Graphics Clock & Reset Controller Binding' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/clock/imx5-clock.yaml: title: 'Clock bindings for Freescale i.MX5' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
 
-vim +/rxdata +153 drivers/i2c/busses/i2c-ls2x.c
+vim +8 Documentation/devicetree/bindings/uwb/nxp,uwb-sr1xx.yaml
 
-015e61f0bffd46 Binbin Zhou 2023-01-31  143  
-015e61f0bffd46 Binbin Zhou 2023-01-31  144  static int ls2x_i2c_send_byte(struct ls2x_i2c_priv *priv, u8 txdata)
-015e61f0bffd46 Binbin Zhou 2023-01-31  145  {
-015e61f0bffd46 Binbin Zhou 2023-01-31  146  	int ret;
-015e61f0bffd46 Binbin Zhou 2023-01-31  147  	u8 rxdata;
-015e61f0bffd46 Binbin Zhou 2023-01-31  148  
-015e61f0bffd46 Binbin Zhou 2023-01-31  149  	ret = ls2x_i2c_xfer_byte(priv, txdata, &rxdata);
-015e61f0bffd46 Binbin Zhou 2023-01-31  150  	if (ret)
-015e61f0bffd46 Binbin Zhou 2023-01-31  151  		return ret;
-015e61f0bffd46 Binbin Zhou 2023-01-31  152  
-015e61f0bffd46 Binbin Zhou 2023-01-31 @153  	if (rxdata & LS2X_SR_AL)
-015e61f0bffd46 Binbin Zhou 2023-01-31  154  		return -EAGAIN;
-015e61f0bffd46 Binbin Zhou 2023-01-31  155  
-015e61f0bffd46 Binbin Zhou 2023-01-31  156  	if (rxdata & LS2X_SR_NOACK)
-015e61f0bffd46 Binbin Zhou 2023-01-31  157  		return -ENXIO;
-015e61f0bffd46 Binbin Zhou 2023-01-31  158  
-015e61f0bffd46 Binbin Zhou 2023-01-31  159  	return 0;
-015e61f0bffd46 Binbin Zhou 2023-01-31  160  }
-015e61f0bffd46 Binbin Zhou 2023-01-31  161  
+66577bfbdfab15 Manjunatha Venkatesh 2022-12-20  7  
+66577bfbdfab15 Manjunatha Venkatesh 2022-12-20 @8  title:  NXP SR1XX SOC family of Ultra Wide Band(UWB) device bindings
+66577bfbdfab15 Manjunatha Venkatesh 2022-12-20  9  
 
 -- 
 0-DAY CI Kernel Test Service
