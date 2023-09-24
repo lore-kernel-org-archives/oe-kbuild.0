@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D37A57
-	for <oe-kbuild@lists.linux.dev>; Sun, 24 Sep 2023 22:49:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8BDDF52
+	for <oe-kbuild@lists.linux.dev>; Sun, 24 Sep 2023 23:51:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695595741; x=1727131741;
+  t=1695599463; x=1727135463;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=suckDHk9cPZSD8kA3e3PqhWFs4ZiF2sW+6Wq6zoUv/4=;
-  b=dx05p4Ub07rFZaZESAOIEXRhxocVMieAHHpWilOThnRaBKDpBtvdi6y1
-   KKbRCT3yP9M5EXCCpWWTV9ClCaEVRcLso1yM8zkMe+TOXU2Iaq3vceAPB
-   4I0GMzN8SJ1SF8do5NJZum9nyP18SXfg+6Q8VCKUstBzt8iRWorH6sA5L
-   d7NdPVMcPGyfJ1Dm1Z2rYrAWKSUWCA7DjmL9VLTCGyporKMFeTWJjGxOj
-   w1aV8rSulELS9XlOxbyl9xM7EipyLO7XB1MuEeaAJwIoobZisZge8TqcF
-   lJd+2F2AsXjWkbtn+KW0PPNw+DinT3npWXQhLMwgX9GJg3PBtPVQF5CAh
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="378400003"
+  bh=nxnX1VBBlvvm/8coXG09RDwDRxabuk8HzZKYtbvck/c=;
+  b=R18o8iujRREsqe7UNx8s2ekUkvIBTMB6WbqsV4SQS5m07pzVrVR7LsaI
+   cIDOQMDO05EWAJoO6vS+F4V8AsTWmk9/TvrblWhMAWlNgKIgqXmWnRwkY
+   xdmKxQ30JzWE1moSbK50tLXF1MI9gAFWumUbeXMl7wF7F6oe6GXyIOuV/
+   D2gN1S1CjbqqJBNymdts028iv8pLub5IoJR52nXnVZYQctTc0bXagN+bu
+   ZF65s/wwMugGYz+9q6TX+0rcyYH+qndCiHJRndi9e1/vaggwDdEaAtatE
+   8fmfmJdZm3SfzalsYQg0hpFl5k2padsO9yPeYD3+AENBRbk834jfGDZWd
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="366192859"
 X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="378400003"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 15:49:00 -0700
+   d="scan'208";a="366192859"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 16:51:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="921786110"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="1079024817"
 X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="921786110"
+   d="scan'208";a="1079024817"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 24 Sep 2023 15:48:59 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 24 Sep 2023 16:51:01 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkXuK-0000Yr-1O;
-	Sun, 24 Sep 2023 22:48:56 +0000
-Date: Mon, 25 Sep 2023 06:48:31 +0800
+	id 1qkYsN-0000cf-15;
+	Sun, 24 Sep 2023 23:50:59 +0000
+Date: Mon, 25 Sep 2023 07:50:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 2626/6975] fs/bcachefs/journal_reclaim.c:57:33:
- sparse: sparse: invalid access past the end of 'new' (4 8)
-Message-ID: <202309250617.6EPwctHm-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [peterz-queue:core/guards2 15/38] kernel/events/core.c:4380
+ perf_event_remove_on_exec() warn: inconsistent returns 'scope'.
+Message-ID: <202309250715.q0tXft95-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,60 +46,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: fs/bcachefs/journal_reclaim.c:57:33: sparse: sparse: invalid access past the end of 'new' (4 8)"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Kent Overstreet <kmo@daterainc.com>
+TO: Peter Zijlstra <peterz@infradead.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   940fcc189c51032dd0282cbee4497542c982ac59
-commit: 38e616ec358d67e922b7f82d55d2f5b64dd3124d [2626/6975] bcachefs: Eliminate memory barrier from fast path of journal_preres_put()
-:::::: branch date: 4 days ago
-:::::: commit date: 13 days ago
-config: i386-randconfig-062-20230924 (https://download.01.org/0day-ci/archive/20230925/202309250617.6EPwctHm-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git core/guards2
+head:   d131dfd46333faf6f8bafdc688402f8e1847b4c6
+commit: a2c3318d6d464d3d728b524c0475d62a6c263b3a [15/38] perf: Simplify perf_event_*_on_exec()
+:::::: branch date: 9 days ago
+:::::: commit date: 9 days ago
+config: i386-randconfig-141-20230924 (https://download.01.org/0day-ci/archive/20230925/202309250715.q0tXft95-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309250617.6EPwctHm-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230925/202309250715.q0tXft95-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309250617.6EPwctHm-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202309250715.q0tXft95-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/bcachefs/journal_reclaim.c: note: in included file:
-   fs/bcachefs/bcachefs.h:771:9: sparse: sparse: array of flexible structures
-   fs/bcachefs/journal_reclaim.c:623:26: sparse: sparse: incompatible types in comparison expression (different type sizes):
-   fs/bcachefs/journal_reclaim.c:623:26: sparse:    unsigned int *
-   fs/bcachefs/journal_reclaim.c:623:26: sparse:    unsigned long *
->> fs/bcachefs/journal_reclaim.c:57:33: sparse: sparse: invalid access past the end of 'new' (4 8)
-   fs/bcachefs/journal_reclaim.c: note: in included file:
-   fs/bcachefs/journal.h:388:34: sparse: sparse: invalid access past the end of 's' (4 8)
+smatch warnings:
+kernel/events/core.c:4380 perf_event_remove_on_exec() warn: inconsistent returns 'scope'.
 
-vim +/new +57 fs/bcachefs/journal_reclaim.c
+vim +/scope +4380 kernel/events/core.c
 
-cd44c469c719de Kent Overstreet 2019-02-21  49  
-e65c9500a745e5 Kent Overstreet 2019-02-19  50  static void journal_set_remaining(struct journal *j, unsigned u64s_remaining)
-e65c9500a745e5 Kent Overstreet 2019-02-19  51  {
-e65c9500a745e5 Kent Overstreet 2019-02-19  52  	union journal_preres_state old, new;
-e65c9500a745e5 Kent Overstreet 2019-02-19  53  	u64 v = atomic64_read(&j->prereserved.counter);
-e65c9500a745e5 Kent Overstreet 2019-02-19  54  
-e65c9500a745e5 Kent Overstreet 2019-02-19  55  	do {
-e65c9500a745e5 Kent Overstreet 2019-02-19  56  		old.v = new.v = v;
-e65c9500a745e5 Kent Overstreet 2019-02-19 @57  		new.remaining = u64s_remaining;
-e65c9500a745e5 Kent Overstreet 2019-02-19  58  	} while ((v = atomic64_cmpxchg(&j->prereserved.counter,
-e65c9500a745e5 Kent Overstreet 2019-02-19  59  				       old.v, new.v)) != old.v);
-e65c9500a745e5 Kent Overstreet 2019-02-19  60  }
-e65c9500a745e5 Kent Overstreet 2019-02-19  61  
+57e7986ed14241 kernel/perf_counter.c Paul Mackerras 2009-06-30  4343  
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4344  static void perf_remove_from_owner(struct perf_event *event);
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4345  static void perf_event_exit_event(struct perf_event *event,
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4346  				  struct perf_event_context *ctx);
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4347  
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4348  /*
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4349   * Removes all events from the current task that have been marked
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4350   * remove-on-exec, and feeds their values back to parent events.
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4351   */
+bd27568117664b kernel/events/core.c  Peter Zijlstra 2022-10-08  4352  static void perf_event_remove_on_exec(struct perf_event_context *ctx)
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4353  {
+bd27568117664b kernel/events/core.c  Peter Zijlstra 2022-10-08  4354  	struct perf_event_context *clone_ctx = NULL;
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4355  	struct perf_event *event, *next;
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4356  	bool modified = false;
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4357  
+a2c3318d6d464d kernel/events/core.c  Peter Zijlstra 2023-06-09  4358  	scoped_guard (mutex, &ctx->mutex) {
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4359  		if (WARN_ON_ONCE(ctx->task != current))
+a2c3318d6d464d kernel/events/core.c  Peter Zijlstra 2023-06-09  4360  			return;
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4361  
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4362  		list_for_each_entry_safe(event, next, &ctx->event_list, event_entry) {
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4363  			if (!event->attr.remove_on_exec)
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4364  				continue;
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4365  
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4366  			if (!is_kernel_event(event))
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4367  				perf_remove_from_owner(event);
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4368  
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4369  			modified = true;
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4370  
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4371  			perf_event_exit_event(event, ctx);
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4372  		}
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4373  
+a2c3318d6d464d kernel/events/core.c  Peter Zijlstra 2023-06-09  4374  		guard(raw_spinlock_irqsave)(&ctx->lock);
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4375  		if (modified)
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4376  			clone_ctx = unclone_ctx(ctx);
+a2c3318d6d464d kernel/events/core.c  Peter Zijlstra 2023-06-09  4377  	}
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4378  
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4379  	if (clone_ctx)
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08 @4380  		put_ctx(clone_ctx);
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4381  }
+2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4382  
 
-:::::: The code at line 57 was first introduced by commit
-:::::: e65c9500a745e5e75c3f01d6e5246a135ec7c019 bcachefs: Add a pre-reserve mechanism for the journal
+:::::: The code at line 4380 was first introduced by commit
+:::::: 2e498d0a74e5b88a6689ae1b811f247f91ff188e perf: Add support for event removal on exec
 
-:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: TO: Marco Elver <elver@google.com>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 -- 
 0-DAY CI Kernel Test Service
