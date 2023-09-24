@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D801A365
-	for <oe-kbuild@lists.linux.dev>; Sun, 24 Sep 2023 06:44:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286B365B
+	for <oe-kbuild@lists.linux.dev>; Sun, 24 Sep 2023 06:55:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695537851; x=1727073851;
+  t=1695538511; x=1727074511;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ERJ3t1o1qe6NE3ivFMsjRMEb9Dcw0668498sIKZDJXc=;
-  b=ljhuV4zJAGV7TRCSkxKVF+Vtqeeky1nEvOv7JLdGVCPwA3DxU/m2GJwL
-   jytWj/LUTlOP103S0umuWlgNq+LQZ9s0dtnWgU8oDQjVBiOrNvZDk6A4W
-   hYFt+qoirIivxuz3ksNXs1v5ff8UjTkK2uHmoOZR29WKrn7R5cRTra9fN
-   fuVQOC5QZlBHmsQM8mgFpD0WciP6gfjgdPp7Z2KsMHZTKQjH/d/N2qevq
-   k6HJ/RAWo8oDAPBMe23ze+z/ccpxqiXLszcygfzu6rCR8BEvTHtr5CRtz
-   KJmvidcWZhP4NCU7AaZwDl5+ke+2UpIyYUYaIj/MKl556tWFqAD/Z0VED
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="412010264"
+  bh=cCCnG56Zb+Slgt7GQ9PKPsLfs7G7D2L/2ZoTYgzzfZ4=;
+  b=SJ6TY1WQFELcY4xlB/9XX9CNT5b33BjggFzB8oBukbyeUmaVfbpG8bf8
+   J1EVPHLsmKSXk4jtsrWYJ+/1CE2BGaEFhV3LC4Bb1Q/t8dg1R8+ILLPq/
+   OFwE0IGoJOucB9/SNj95Xll4FLdiNkFlgp9eu+xc6DNb8Yilpi1wvALXp
+   PeMlSkGk/EWyoyz6tXs2fe7sLT7nE5MRRy2G5CxzD/CqCmBx0z5j1j4wL
+   IqkBlR+RZNv+uUDrYoUlPJAcoJSwVotMsT+7A0VI7O1f4iF/PZCPFm0gF
+   9/Sw6s1fG22QiVSsAUj4wT6hkLb5droDGQFbqx9ZGJ6B6Pm4Qa87ADILd
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="366139604"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="412010264"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 23:44:09 -0700
+   d="scan'208";a="366139604"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 23:55:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="777324257"
+X-IronPort-AV: E=McAfee;i="6600,9927,10842"; a="871728084"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="777324257"
+   d="scan'208";a="871728084"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 23 Sep 2023 23:44:08 -0700
+  by orsmga004.jf.intel.com with ESMTP; 23 Sep 2023 23:55:09 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkIqc-0003KD-0m;
-	Sun, 24 Sep 2023 06:44:06 +0000
-Date: Sun, 24 Sep 2023 14:43:58 +0800
+	id 1qkJ1G-0003KT-1t;
+	Sun, 24 Sep 2023 06:55:06 +0000
+Date: Sun, 24 Sep 2023 14:54:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v4 13/18] EDAC/synopsys: Introduce System/SDRAM address
- translation interface
-Message-ID: <202309241453.RCKvoFI9-lkp@intel.com>
+Subject: [linux-next:master 2626/6975] fs/bcachefs/journal_reclaim.c:57:33:
+ sparse: sparse: invalid access past the end of 'new' (4 8)
+Message-ID: <202309241441.pFU4m1W8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,88 +47,59 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "git am base is a link in commit message"
+:::::: Manual check reason: "low confidence static check first_new_problem: fs/bcachefs/journal_reclaim.c:57:33: sparse: sparse: invalid access past the end of 'new' (4 8)"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230920192806.29960-14-fancer.lancer@gmail.com>
-References: <20230920192806.29960-14-fancer.lancer@gmail.com>
-TO: Serge Semin <fancer.lancer@gmail.com>
-TO: Michal Simek <monstr@monstr.eu>
-TO: Alexander Stein <alexander.stein@ew.tq-group.com>
-TO: Borislav Petkov <bp@alien8.de>
-TO: Tony Luck <tony.luck@intel.com>
-TO: James Morse <james.morse@arm.com>
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-TO: Robert Richter <rric@kernel.org>
-CC: Serge Semin <fancer.lancer@gmail.com>
-CC: Punnaiah Choudary Kalluri <punnaiah.choudary.kalluri@xilinx.com>
-CC: Dinh Nguyen <dinguyen@kernel.org>
-CC: Arnd Bergmann <arnd@arndb.de>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-edac@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kent Overstreet <kmo@daterainc.com>
 
-Hi Serge,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ras/edac-for-next]
-[also build test WARNING on linus/master v6.6-rc2 next-20230921]
-[cannot apply to xilinx-xlnx/master bp/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Serge-Semin/EDAC-synopsys-Convert-sysfs-nodes-to-debugfs-ones/20230921-035302
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
-patch link:    https://lore.kernel.org/r/20230920192806.29960-14-fancer.lancer%40gmail.com
-patch subject: [PATCH v4 13/18] EDAC/synopsys: Introduce System/SDRAM address translation interface
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   940fcc189c51032dd0282cbee4497542c982ac59
+commit: 38e616ec358d67e922b7f82d55d2f5b64dd3124d [2626/6975] bcachefs: Eliminate memory barrier from fast path of journal_preres_put()
 :::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-003-20230924 (https://download.01.org/0day-ci/archive/20230924/202309241453.RCKvoFI9-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309241453.RCKvoFI9-lkp@intel.com/reproduce)
+:::::: commit date: 12 days ago
+config: i386-randconfig-062-20230924 (https://download.01.org/0day-ci/archive/20230924/202309241441.pFU4m1W8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309241441.pFU4m1W8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309241453.RCKvoFI9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309241441.pFU4m1W8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/bcachefs/journal_reclaim.c: note: in included file:
+   fs/bcachefs/bcachefs.h:771:9: sparse: sparse: array of flexible structures
+   fs/bcachefs/journal_reclaim.c:623:26: sparse: sparse: incompatible types in comparison expression (different type sizes):
+   fs/bcachefs/journal_reclaim.c:623:26: sparse:    unsigned int *
+   fs/bcachefs/journal_reclaim.c:623:26: sparse:    unsigned long *
+>> fs/bcachefs/journal_reclaim.c:57:33: sparse: sparse: invalid access past the end of 'new' (4 8)
+   fs/bcachefs/journal_reclaim.c: note: in included file:
+   fs/bcachefs/journal.h:388:34: sparse: sparse: invalid access past the end of 's' (4 8)
 
->> drivers/edac/synopsys_edac.c:482:13: warning: 'snps_map_sys_to_sdram' defined but not used [-Wunused-function]
-     482 | static void snps_map_sys_to_sdram(struct snps_edac_priv *priv,
-         |             ^~~~~~~~~~~~~~~~~~~~~
+vim +/new +57 fs/bcachefs/journal_reclaim.c
 
+cd44c469c719de Kent Overstreet 2019-02-21  49  
+e65c9500a745e5 Kent Overstreet 2019-02-19  50  static void journal_set_remaining(struct journal *j, unsigned u64s_remaining)
+e65c9500a745e5 Kent Overstreet 2019-02-19  51  {
+e65c9500a745e5 Kent Overstreet 2019-02-19  52  	union journal_preres_state old, new;
+e65c9500a745e5 Kent Overstreet 2019-02-19  53  	u64 v = atomic64_read(&j->prereserved.counter);
+e65c9500a745e5 Kent Overstreet 2019-02-19  54  
+e65c9500a745e5 Kent Overstreet 2019-02-19  55  	do {
+e65c9500a745e5 Kent Overstreet 2019-02-19  56  		old.v = new.v = v;
+e65c9500a745e5 Kent Overstreet 2019-02-19 @57  		new.remaining = u64s_remaining;
+e65c9500a745e5 Kent Overstreet 2019-02-19  58  	} while ((v = atomic64_cmpxchg(&j->prereserved.counter,
+e65c9500a745e5 Kent Overstreet 2019-02-19  59  				       old.v, new.v)) != old.v);
+e65c9500a745e5 Kent Overstreet 2019-02-19  60  }
+e65c9500a745e5 Kent Overstreet 2019-02-19  61  
 
-vim +/snps_map_sys_to_sdram +482 drivers/edac/synopsys_edac.c
+:::::: The code at line 57 was first introduced by commit
+:::::: e65c9500a745e5e75c3f01d6e5246a135ec7c019 bcachefs: Add a pre-reserve mechanism for the journal
 
-07abea90e8d373 Serge Semin 2023-09-20  472  
-07abea90e8d373 Serge Semin 2023-09-20  473  /**
-07abea90e8d373 Serge Semin 2023-09-20  474   * snps_map_sys_to_sdram - Map System address to SDRAM address.
-07abea90e8d373 Serge Semin 2023-09-20  475   * @priv:	DDR memory controller private instance data.
-07abea90e8d373 Serge Semin 2023-09-20  476   * @sys:	System address (source).
-07abea90e8d373 Serge Semin 2023-09-20  477   * @sdram:	SDRAM address (destination).
-07abea90e8d373 Serge Semin 2023-09-20  478   *
-07abea90e8d373 Serge Semin 2023-09-20  479   * Perform a full mapping of the system address (detected on the controller
-07abea90e8d373 Serge Semin 2023-09-20  480   * ports) to the SDRAM address tuple row/column/bank/etc.
-07abea90e8d373 Serge Semin 2023-09-20  481   */
-07abea90e8d373 Serge Semin 2023-09-20 @482  static void snps_map_sys_to_sdram(struct snps_edac_priv *priv,
-07abea90e8d373 Serge Semin 2023-09-20  483  				  dma_addr_t sys, struct snps_sdram_addr *sdram)
-07abea90e8d373 Serge Semin 2023-09-20  484  {
-07abea90e8d373 Serge Semin 2023-09-20  485  	u64 app, hif;
-07abea90e8d373 Serge Semin 2023-09-20  486  
-07abea90e8d373 Serge Semin 2023-09-20  487  	app = sys;
-07abea90e8d373 Serge Semin 2023-09-20  488  
-07abea90e8d373 Serge Semin 2023-09-20  489  	snps_map_app_to_hif(priv, app, &hif);
-07abea90e8d373 Serge Semin 2023-09-20  490  
-07abea90e8d373 Serge Semin 2023-09-20  491  	snps_map_hif_to_sdram(priv, hif, sdram);
-07abea90e8d373 Serge Semin 2023-09-20  492  }
-07abea90e8d373 Serge Semin 2023-09-20  493  
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
