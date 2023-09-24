@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FA9CA76
-	for <oe-kbuild@lists.linux.dev>; Sun, 24 Sep 2023 13:52:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FC7D26E
+	for <oe-kbuild@lists.linux.dev>; Sun, 24 Sep 2023 14:36:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695563577; x=1727099577;
+  t=1695566179; x=1727102179;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B4GJPQzwR6kGQl4pva9e/h6/tsdHWDXCO6OiP1T7RA4=;
-  b=ORSeliYsFUafSQf8dTil5nZlacH1Lc248dwadl4eTB4edWokxnVDx34k
-   k/pDpXMdSTdg8CkTOCXXkQuLMCrBf7i9bxfq5I6SJifYyWQTxBdiPuX4C
-   zJhn8Kz4r3d38Ldg/DsZRsAVb9/Ppy9xGxP/IVK6Z4pQtcfCvF2OjnKGq
-   JCzx8wvrcYfBh/iZHisPI8xpTDifIU8P8+4pEJ5pXgcC8BPQFwBIakdrg
-   Dpm1kpz4JTeAmueNoWAjklPgnpFGj+TPytKyFrETJud0/EZGeoRIf+Dzm
-   jCdEJ3e3YBZjehCxsPn4bt5lkllibVOOEY07k+vyZNhlhflt7tivdu2im
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="379972495"
+  bh=kPvvSYuRKFgRYojJ3MuypGqeVsakfGBKT7DY59vrScM=;
+  b=TvVItHyg/Og3BNUNUivvnqZQlCJoxitBl5KcNXkzlIJMYXX0cnHsRWbW
+   CSaUeUET31iH65I23xa/RkEdm5WcSmZa9NQ7wDutGFKas8ZH8FrL8OStr
+   1GbuaugMj7jkdwvd28aNXZjGZEckR4JJ4HPNBxppv6tNlsYVL8U9D1+o+
+   nmwgynsfYXBOAVlgEZQ3ZOXtVrdGRZCfxaNRwVPqPZJXKxTL0PRE4NBmY
+   IQ3lBy1UJvpSt9MIYYwYEh6heR01rbO4FDFie7x8FQIxXE+im8w1wNK1Z
+   wSgYq3ti2+Xl0OPep5wFboGbYgyYz1L3owmTQTzIW83sHGwJltD49xJ5D
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="371419357"
 X-IronPort-AV: E=Sophos;i="6.03,173,1694761200"; 
-   d="scan'208";a="379972495"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 06:52:55 -0700
+   d="scan'208";a="371419357"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 07:36:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="783186519"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="724714994"
 X-IronPort-AV: E=Sophos;i="6.03,173,1694761200"; 
-   d="scan'208";a="783186519"
+   d="scan'208";a="724714994"
 Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 24 Sep 2023 06:52:52 -0700
+  by orsmga006.jf.intel.com with ESMTP; 24 Sep 2023 07:36:17 -0700
 Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkPXW-0003k1-2u;
-	Sun, 24 Sep 2023 13:52:50 +0000
-Date: Sun, 24 Sep 2023 21:52:34 +0800
+	id 1qkQDW-0003m9-23;
+	Sun, 24 Sep 2023 14:36:14 +0000
+Date: Sun, 24 Sep 2023 22:35:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 1536/6975] fs/bcachefs/journal.h:158:9: sparse:
- sparse: invalid access past the end of 'new' (4 8)
-Message-ID: <202309242157.Wspj6iMI-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 893/1370]
+ drivers/mtd/spi-nor/core.c:1862 spi_nor_read() warn: possible memory leak of
+ 'readbuf'
+Message-ID: <202309242242.TrcXYJpQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,193 +47,143 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: fs/bcachefs/journal.h:158:9: sparse: sparse: invalid access past the end of 'new' (4 8)"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Kent Overstreet <kmo@daterainc.com>
+CC: git@amd.com
+TO: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+CC: Michal Simek <monstr@monstr.eu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   940fcc189c51032dd0282cbee4497542c982ac59
-commit: e0750d9473522d076b33ee257a21e27a5dd75031 [1536/6975] bcachefs: Initial commit
-:::::: branch date: 3 days ago
-:::::: commit date: 12 days ago
-config: i386-randconfig-062-20230924 (https://download.01.org/0day-ci/archive/20230924/202309242157.Wspj6iMI-lkp@intel.com/config)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
+commit: 8a6272094c8daba59954d3f7ce6e43b04a56bcbb [893/1370] mtd: spi-nor: Add parallel memories support in spi-nor
+:::::: branch date: 2 days ago
+:::::: commit date: 8 months ago
+config: i386-randconfig-141-20230924 (https://download.01.org/0day-ci/archive/20230924/202309242242.TrcXYJpQ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230924/202309242157.Wspj6iMI-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230924/202309242242.TrcXYJpQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309242157.Wspj6iMI-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202309242242.TrcXYJpQ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/bcachefs/btree_update_leaf.c: note: in included file (through fs/bcachefs/btree_update.h):
->> fs/bcachefs/journal.h:158:9: sparse: sparse: invalid access past the end of 'new' (4 8)
->> fs/bcachefs/journal.h:237:58: sparse: sparse: invalid access past the end of '<noident>' (4 8)
->> fs/bcachefs/journal.h:152:43: sparse: sparse: invalid access past the end of 's' (4 8)
---
-   fs/bcachefs/journal.c: note: in included file (through fs/bcachefs/bcachefs.h):
-   fs/bcachefs/bcachefs_format.h:1022:42: sparse: sparse: array of flexible structures
-   fs/bcachefs/journal.c: note: in included file:
->> fs/bcachefs/journal.h:158:9: sparse: sparse: invalid access past the end of 'new' (4 8)
->> fs/bcachefs/journal.h:152:43: sparse: sparse: invalid access past the end of 's' (4 8)
->> fs/bcachefs/journal.h:237:58: sparse: sparse: invalid access past the end of '<noident>' (4 8)
->> fs/bcachefs/journal.h:152:43: sparse: sparse: invalid access past the end of 's' (4 8)
-   fs/bcachefs/journal.c:150:9: sparse: sparse: context imbalance in 'journal_buf_switch' - unexpected unlock
-   fs/bcachefs/journal.c:271:13: sparse: sparse: context imbalance in 'journal_flush_write' - wrong count at exit
->> fs/bcachefs/journal.h:158:9: sparse: sparse: invalid access past the end of 'new' (4 8)
->> fs/bcachefs/journal.h:158:9: sparse: sparse: invalid access past the end of 'new' (4 8)
-   fs/bcachefs/journal.c:329:35: sparse: sparse: context imbalance in '__journal_res_get' - different lock contexts for basic block
-   fs/bcachefs/journal.c:509:6: sparse: sparse: context imbalance in 'bch2_journal_flush_seq_async' - different lock contexts for basic block
-   fs/bcachefs/journal.c:570:12: sparse: sparse: context imbalance in 'journal_seq_flushed' - different lock contexts for basic block
->> fs/bcachefs/journal.h:158:9: sparse: sparse: invalid access past the end of 'new' (4 8)
->> fs/bcachefs/journal.h:237:58: sparse: sparse: invalid access past the end of '<noident>' (4 8)
->> fs/bcachefs/journal.h:152:43: sparse: sparse: invalid access past the end of 's' (4 8)
->> fs/bcachefs/journal.h:158:9: sparse: sparse: invalid access past the end of 'new' (4 8)
->> fs/bcachefs/journal.h:237:58: sparse: sparse: invalid access past the end of '<noident>' (4 8)
->> fs/bcachefs/journal.h:152:43: sparse: sparse: invalid access past the end of 's' (4 8)
-   fs/bcachefs/journal.c:797:17: sparse: sparse: context imbalance in '__bch2_set_nr_journal_buckets' - different lock contexts for basic block
->> fs/bcachefs/journal.h:152:43: sparse: sparse: invalid access past the end of 's' (4 8)
---
-   fs/bcachefs/rebalance.c: note: in included file (through fs/bcachefs/bcachefs.h):
-   fs/bcachefs/bcachefs_format.h:1022:42: sparse: sparse: array of flexible structures
-   fs/bcachefs/rebalance.c: note: in included file (through fs/bcachefs/super.h, fs/bcachefs/buckets.h):
-   fs/bcachefs/extents.h:287:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
-   fs/bcachefs/extents.h:287:44: sparse:     expected restricted __le32 [usertype]
-   fs/bcachefs/extents.h:287:44: sparse:     got unsigned int const [usertype] csum
-   fs/bcachefs/extents.h:301:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
-   fs/bcachefs/extents.h:301:44: sparse:     expected restricted __le16 [usertype]
-   fs/bcachefs/extents.h:301:44: sparse:     got unsigned long long const [usertype] csum_hi:16
-   fs/bcachefs/extents.h:287:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
-   fs/bcachefs/extents.h:287:44: sparse:     expected restricted __le32 [usertype]
-   fs/bcachefs/extents.h:287:44: sparse:     got unsigned int const [usertype] csum
-   fs/bcachefs/extents.h:301:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
-   fs/bcachefs/extents.h:301:44: sparse:     expected restricted __le16 [usertype]
-   fs/bcachefs/extents.h:301:44: sparse:     got unsigned long long const [usertype] csum_hi:16
-   fs/bcachefs/extents.h:287:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
-   fs/bcachefs/extents.h:287:44: sparse:     expected restricted __le32 [usertype]
-   fs/bcachefs/extents.h:287:44: sparse:     got unsigned int const [usertype] csum
-   fs/bcachefs/extents.h:301:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
-   fs/bcachefs/extents.h:301:44: sparse:     expected restricted __le16 [usertype]
-   fs/bcachefs/extents.h:301:44: sparse:     got unsigned long long const [usertype] csum_hi:16
-   fs/bcachefs/extents.h:287:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
-   fs/bcachefs/extents.h:287:44: sparse:     expected restricted __le32 [usertype]
-   fs/bcachefs/extents.h:287:44: sparse:     got unsigned int const [usertype] csum
-   fs/bcachefs/extents.h:301:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
-   fs/bcachefs/extents.h:301:44: sparse:     expected restricted __le16 [usertype]
-   fs/bcachefs/extents.h:301:44: sparse:     got unsigned long long const [usertype] csum_hi:16
-   fs/bcachefs/rebalance.c: note: in included file (through arch/x86/include/asm/atomic.h, include/linux/atomic.h, include/linux/cpumask.h, ...):
->> arch/x86/include/asm/atomic64_32.h:85:34: sparse: sparse: cast truncates bits from constant value (7fffffffffffffff becomes ffffffff)
+New smatch warnings:
+drivers/mtd/spi-nor/core.c:1862 spi_nor_read() warn: possible memory leak of 'readbuf'
 
-vim +/new +158 fs/bcachefs/journal.h
+Old smatch warnings:
+drivers/mtd/spi-nor/core.c:3063 spi_nor_quad_enable() error: uninitialized symbol 'err'.
 
-e0750d9473522d Kent Overstreet 2017-03-16  149  
-e0750d9473522d Kent Overstreet 2017-03-16  150  static inline int journal_state_count(union journal_res_state s, int idx)
-e0750d9473522d Kent Overstreet 2017-03-16  151  {
-e0750d9473522d Kent Overstreet 2017-03-16 @152  	return idx == 0 ? s.buf0_count : s.buf1_count;
-e0750d9473522d Kent Overstreet 2017-03-16  153  }
-e0750d9473522d Kent Overstreet 2017-03-16  154  
-e0750d9473522d Kent Overstreet 2017-03-16  155  static inline void journal_state_inc(union journal_res_state *s)
-e0750d9473522d Kent Overstreet 2017-03-16  156  {
-e0750d9473522d Kent Overstreet 2017-03-16  157  	s->buf0_count += s->idx == 0;
-e0750d9473522d Kent Overstreet 2017-03-16 @158  	s->buf1_count += s->idx == 1;
-e0750d9473522d Kent Overstreet 2017-03-16  159  }
-e0750d9473522d Kent Overstreet 2017-03-16  160  
-e0750d9473522d Kent Overstreet 2017-03-16  161  static inline void bch2_journal_set_has_inode(struct journal *j,
-e0750d9473522d Kent Overstreet 2017-03-16  162  					      struct journal_res *res,
-e0750d9473522d Kent Overstreet 2017-03-16  163  					      u64 inum)
-e0750d9473522d Kent Overstreet 2017-03-16  164  {
-e0750d9473522d Kent Overstreet 2017-03-16  165  	struct journal_buf *buf = &j->buf[res->idx];
-e0750d9473522d Kent Overstreet 2017-03-16  166  	unsigned long bit = hash_64(inum, ilog2(sizeof(buf->has_inode) * 8));
-e0750d9473522d Kent Overstreet 2017-03-16  167  
-e0750d9473522d Kent Overstreet 2017-03-16  168  	/* avoid atomic op if possible */
-e0750d9473522d Kent Overstreet 2017-03-16  169  	if (unlikely(!test_bit(bit, buf->has_inode)))
-e0750d9473522d Kent Overstreet 2017-03-16  170  		set_bit(bit, buf->has_inode);
-e0750d9473522d Kent Overstreet 2017-03-16  171  }
-e0750d9473522d Kent Overstreet 2017-03-16  172  
-e0750d9473522d Kent Overstreet 2017-03-16  173  /*
-e0750d9473522d Kent Overstreet 2017-03-16  174   * Amount of space that will be taken up by some keys in the journal (i.e.
-e0750d9473522d Kent Overstreet 2017-03-16  175   * including the jset header)
-e0750d9473522d Kent Overstreet 2017-03-16  176   */
-e0750d9473522d Kent Overstreet 2017-03-16  177  static inline unsigned jset_u64s(unsigned u64s)
-e0750d9473522d Kent Overstreet 2017-03-16  178  {
-e0750d9473522d Kent Overstreet 2017-03-16  179  	return u64s + sizeof(struct jset_entry) / sizeof(u64);
-e0750d9473522d Kent Overstreet 2017-03-16  180  }
-e0750d9473522d Kent Overstreet 2017-03-16  181  
-e0750d9473522d Kent Overstreet 2017-03-16  182  static inline struct jset_entry *
-e0750d9473522d Kent Overstreet 2017-03-16  183  bch2_journal_add_entry_noreservation(struct journal_buf *buf, size_t u64s)
-e0750d9473522d Kent Overstreet 2017-03-16  184  {
-e0750d9473522d Kent Overstreet 2017-03-16  185  	struct jset *jset = buf->data;
-e0750d9473522d Kent Overstreet 2017-03-16  186  	struct jset_entry *entry = vstruct_idx(jset, le32_to_cpu(jset->u64s));
-e0750d9473522d Kent Overstreet 2017-03-16  187  
-e0750d9473522d Kent Overstreet 2017-03-16  188  	memset(entry, 0, sizeof(*entry));
-e0750d9473522d Kent Overstreet 2017-03-16  189  	entry->u64s = cpu_to_le16(u64s);
-e0750d9473522d Kent Overstreet 2017-03-16  190  
-e0750d9473522d Kent Overstreet 2017-03-16  191  	le32_add_cpu(&jset->u64s, jset_u64s(u64s));
-e0750d9473522d Kent Overstreet 2017-03-16  192  
-e0750d9473522d Kent Overstreet 2017-03-16  193  	return entry;
-e0750d9473522d Kent Overstreet 2017-03-16  194  }
-e0750d9473522d Kent Overstreet 2017-03-16  195  
-e0750d9473522d Kent Overstreet 2017-03-16  196  static inline void bch2_journal_add_entry(struct journal *j, struct journal_res *res,
-e0750d9473522d Kent Overstreet 2017-03-16  197  					  unsigned type, enum btree_id id,
-e0750d9473522d Kent Overstreet 2017-03-16  198  					  unsigned level,
-e0750d9473522d Kent Overstreet 2017-03-16  199  					  const void *data, unsigned u64s)
-e0750d9473522d Kent Overstreet 2017-03-16  200  {
-e0750d9473522d Kent Overstreet 2017-03-16  201  	struct journal_buf *buf = &j->buf[res->idx];
-e0750d9473522d Kent Overstreet 2017-03-16  202  	struct jset_entry *entry = vstruct_idx(buf->data, res->offset);
-e0750d9473522d Kent Overstreet 2017-03-16  203  	unsigned actual = jset_u64s(u64s);
-e0750d9473522d Kent Overstreet 2017-03-16  204  
-e0750d9473522d Kent Overstreet 2017-03-16  205  	EBUG_ON(!res->ref);
-e0750d9473522d Kent Overstreet 2017-03-16  206  	EBUG_ON(actual > res->u64s);
-e0750d9473522d Kent Overstreet 2017-03-16  207  
-e0750d9473522d Kent Overstreet 2017-03-16  208  	res->offset	+= actual;
-e0750d9473522d Kent Overstreet 2017-03-16  209  	res->u64s	-= actual;
-e0750d9473522d Kent Overstreet 2017-03-16  210  
-e0750d9473522d Kent Overstreet 2017-03-16  211  	entry->u64s	= cpu_to_le16(u64s);
-e0750d9473522d Kent Overstreet 2017-03-16  212  	entry->btree_id = id;
-e0750d9473522d Kent Overstreet 2017-03-16  213  	entry->level	= level;
-e0750d9473522d Kent Overstreet 2017-03-16  214  	entry->type	= type;
-e0750d9473522d Kent Overstreet 2017-03-16  215  	entry->pad[0]	= 0;
-e0750d9473522d Kent Overstreet 2017-03-16  216  	entry->pad[1]	= 0;
-e0750d9473522d Kent Overstreet 2017-03-16  217  	entry->pad[2]	= 0;
-e0750d9473522d Kent Overstreet 2017-03-16  218  	memcpy_u64s(entry->_data, data, u64s);
-e0750d9473522d Kent Overstreet 2017-03-16  219  }
-e0750d9473522d Kent Overstreet 2017-03-16  220  
-e0750d9473522d Kent Overstreet 2017-03-16  221  static inline void bch2_journal_add_keys(struct journal *j, struct journal_res *res,
-e0750d9473522d Kent Overstreet 2017-03-16  222  					enum btree_id id, const struct bkey_i *k)
-e0750d9473522d Kent Overstreet 2017-03-16  223  {
-e0750d9473522d Kent Overstreet 2017-03-16  224  	bch2_journal_add_entry(j, res, BCH_JSET_ENTRY_btree_keys,
-e0750d9473522d Kent Overstreet 2017-03-16  225  			       id, 0, k, k->k.u64s);
-e0750d9473522d Kent Overstreet 2017-03-16  226  }
-e0750d9473522d Kent Overstreet 2017-03-16  227  
-e0750d9473522d Kent Overstreet 2017-03-16  228  void bch2_journal_buf_put_slowpath(struct journal *, bool);
-e0750d9473522d Kent Overstreet 2017-03-16  229  
-e0750d9473522d Kent Overstreet 2017-03-16  230  static inline void bch2_journal_buf_put(struct journal *j, unsigned idx,
-e0750d9473522d Kent Overstreet 2017-03-16  231  				       bool need_write_just_set)
-e0750d9473522d Kent Overstreet 2017-03-16  232  {
-e0750d9473522d Kent Overstreet 2017-03-16  233  	union journal_res_state s;
-e0750d9473522d Kent Overstreet 2017-03-16  234  
-e0750d9473522d Kent Overstreet 2017-03-16  235  	s.v = atomic64_sub_return(((union journal_res_state) {
-e0750d9473522d Kent Overstreet 2017-03-16  236  				    .buf0_count = idx == 0,
-e0750d9473522d Kent Overstreet 2017-03-16 @237  				    .buf1_count = idx == 1,
-e0750d9473522d Kent Overstreet 2017-03-16  238  				    }).v, &j->reservations.counter);
-e0750d9473522d Kent Overstreet 2017-03-16  239  
-e0750d9473522d Kent Overstreet 2017-03-16  240  	EBUG_ON(s.idx != idx && !s.prev_buf_unwritten);
-e0750d9473522d Kent Overstreet 2017-03-16  241  
-e0750d9473522d Kent Overstreet 2017-03-16  242  	/*
-e0750d9473522d Kent Overstreet 2017-03-16  243  	 * Do not initiate a journal write if the journal is in an error state
-e0750d9473522d Kent Overstreet 2017-03-16  244  	 * (previous journal entry write may have failed)
-e0750d9473522d Kent Overstreet 2017-03-16  245  	 */
-e0750d9473522d Kent Overstreet 2017-03-16  246  	if (s.idx != idx &&
-e0750d9473522d Kent Overstreet 2017-03-16  247  	    !journal_state_count(s, idx) &&
-e0750d9473522d Kent Overstreet 2017-03-16  248  	    s.cur_entry_offset != JOURNAL_ENTRY_ERROR_VAL)
-e0750d9473522d Kent Overstreet 2017-03-16  249  		bch2_journal_buf_put_slowpath(j, need_write_just_set);
-e0750d9473522d Kent Overstreet 2017-03-16  250  }
-e0750d9473522d Kent Overstreet 2017-03-16  251  
+vim +/readbuf +1862 drivers/mtd/spi-nor/core.c
+
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1820  
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1821  static int spi_nor_read(struct mtd_info *mtd, loff_t from, size_t len,
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1822  			size_t *retlen, u_char *buf)
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1823  {
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1824  	struct spi_nor *nor = mtd_to_spi_nor(mtd);
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1825  	struct spi_nor_flash_parameter *params;
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1826  	ssize_t ret, read_len;
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1827  	u32 cur_cs_num = 0;
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1828  	u_char *readbuf;
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1829  	bool is_ofst_odd = false;
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1830  	u64 sz = 0;
+3d20dfdb2efb3f drivers/mtd/spi-nor/core.c    Michal Simek         2023-01-19  1831  
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1832  	dev_dbg(nor->dev, "from 0x%08x, len %zd\n", (u32)from, len);
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1833  
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1834  	params = spi_nor_get_params(nor, 0);
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1835  	sz = params->size;
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1836  
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1837  	/*
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1838  	 * Cannot read from odd offset in parallel mode, so read
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1839  	 * len + 1 from offset + 1 and ignore offset[0] data.
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1840  	 */
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1841  	if ((nor->flags & SNOR_F_HAS_PARALLEL) && (from & 0x01)) {
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1842  		from = (loff_t)(from - 1);
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1843  		len = (size_t)(len + 1);
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1844  		is_ofst_odd = true;
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1845  		readbuf = kmalloc(len, GFP_KERNEL);
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1846  		if (!readbuf)
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1847  			return -ENOMEM;
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1848  	} else {
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1849  		readbuf = buf;
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1850  	}
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1851  
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1852  	if (!(nor->flags & SNOR_F_HAS_PARALLEL)) {
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1853  		/* Determine the flash from which the operation need to start */
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1854  		while ((cur_cs_num < SNOR_FLASH_CNT_MAX) && (from > sz - 1) && params) {
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1855  			cur_cs_num++;
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1856  			params = spi_nor_get_params(nor, cur_cs_num);
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1857  			sz += params->size;
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1858  		}
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1859  	}
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1860  	ret = spi_nor_lock_and_prep(nor);
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1861  	if (ret)
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18 @1862  		return ret;
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1863  
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1864  	while (len) {
+3d20dfdb2efb3f drivers/mtd/spi-nor/core.c    Michal Simek         2023-01-19  1865  		loff_t addr = from;
+933c6de1167e55 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2022-11-11  1866  
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1867  		if (nor->flags & SNOR_F_HAS_PARALLEL) {
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1868  			nor->spimem->spi->cs_index_mask = SPI_NOR_ENABLE_MULTI_CS;
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1869  			read_len = len;
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1870  			addr /= 2;
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1871  		} else {
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1872  			nor->spimem->spi->cs_index_mask = 1 << cur_cs_num;
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1873  			read_len = (len > (sz - addr)) ? (sz - addr) : len;
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1874  			params = spi_nor_get_params(nor, cur_cs_num);
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1875  			addr -= (sz - params->size);
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1876  		}
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1877  
+3d20dfdb2efb3f drivers/mtd/spi-nor/core.c    Michal Simek         2023-01-19  1878  		addr = spi_nor_convert_addr(nor, addr);
+e99ca98f1d7190 drivers/mtd/spi-nor/spi-nor.c Ricardo Ribalda      2016-12-02  1879  
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1880  		ret = spi_nor_read_data(nor, addr, read_len, readbuf);
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1881  		if (ret == 0) {
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1882  			/* We shouldn't see 0-length reads */
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1883  			ret = -EIO;
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1884  			goto read_err;
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1885  		}
+59451e1233bd31 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1886  		if (ret < 0)
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1887  			goto read_err;
+59451e1233bd31 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1888  
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1889  		WARN_ON(ret > read_len);
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1890  		if (is_ofst_odd) {
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1891  			/*
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1892  			 * Cannot read from odd offset in parallel mode.
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1893  			 * So read len + 1 from offset + 1 from the flash
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1894  			 * and copy len data from readbuf[1].
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1895  			 */
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1896  			memcpy(buf, (readbuf + 1), (len - 1));
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1897  			*retlen += (ret - 1);
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1898  		} else {
+2dd087b16946cf drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1899  			*retlen += ret;
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1900  		}
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1901  		buf += ret;
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1902  		if (!is_ofst_odd)
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1903  			readbuf += ret;
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1904  		from += ret;
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1905  		len -= ret;
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1906  
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1907  		/*
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1908  		 * Flash cross over condition in stacked mode.
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1909  		 *
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1910  		 */
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1911  		if ((nor->flags & SNOR_F_HAS_STACKED) && (from > sz - 1)) {
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1912  			cur_cs_num++;
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1913  			params = spi_nor_get_params(nor, cur_cs_num);
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1914  			sz += params->size;
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1915  		}
+e500b96b4c8a5c drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1916  
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1917  	}
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1918  	ret = 0;
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1919  
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1920  read_err:
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1921  	if (is_ofst_odd)
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1922  		kfree(readbuf);
+8a6272094c8dab drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2023-01-18  1923  
+52bbd2dcb42c21 drivers/mtd/spi-nor/spi-nor.c Michael Walle        2020-01-13  1924  	spi_nor_unlock_and_unprep(nor);
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-05  1925  	return ret;
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1926  }
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1927  
 
 -- 
 0-DAY CI Kernel Test Service
