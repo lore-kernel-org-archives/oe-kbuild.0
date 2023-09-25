@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8BDDF52
-	for <oe-kbuild@lists.linux.dev>; Sun, 24 Sep 2023 23:51:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EF47F6
+	for <oe-kbuild@lists.linux.dev>; Mon, 25 Sep 2023 00:53:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695599463; x=1727135463;
+  t=1695603192; x=1727139192;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nxnX1VBBlvvm/8coXG09RDwDRxabuk8HzZKYtbvck/c=;
-  b=R18o8iujRREsqe7UNx8s2ekUkvIBTMB6WbqsV4SQS5m07pzVrVR7LsaI
-   cIDOQMDO05EWAJoO6vS+F4V8AsTWmk9/TvrblWhMAWlNgKIgqXmWnRwkY
-   xdmKxQ30JzWE1moSbK50tLXF1MI9gAFWumUbeXMl7wF7F6oe6GXyIOuV/
-   D2gN1S1CjbqqJBNymdts028iv8pLub5IoJR52nXnVZYQctTc0bXagN+bu
-   ZF65s/wwMugGYz+9q6TX+0rcyYH+qndCiHJRndi9e1/vaggwDdEaAtatE
-   8fmfmJdZm3SfzalsYQg0hpFl5k2padsO9yPeYD3+AENBRbk834jfGDZWd
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="366192859"
+  bh=PJsHULFGJba0PHubP426Ri81hoMFJyBNS5d/EFZVD/Q=;
+  b=Gfea8eRZz2cfUhADu3CZjPUmN0YYfBKTzY5XhWNfviF0IkONterKUmrg
+   Cbqlcib/v8NTqI7sVGDPRpTG7j2Agpk3vgNoZnv3am0PlHj0KgSUaFoe6
+   /dNf6n42dyqotYS8CPOOz8qKRBntBvsud51MzCI5c++lu/ZzNUqnh4/kI
+   D79bKGKu0yPRYifREG36H671ceUwOXe+pGTyoVFzNXHYWvJhm1oanIgY3
+   B5kAAKNU9OtEMDFJSxxw09A0m8bpMmlBg74zQeKY9Xr7mZgd0yw7OV6Im
+   vdn6Z+RrWv/2X3losS8V2rVC037JHYYva7TyiimtdSd7yeWGX5eIkxJ+c
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="447626589"
 X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="366192859"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 16:51:02 -0700
+   d="scan'208";a="447626589"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 17:53:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="1079024817"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="838414866"
 X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
-   d="scan'208";a="1079024817"
+   d="scan'208";a="838414866"
 Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 24 Sep 2023 16:51:01 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 24 Sep 2023 17:53:10 -0700
 Received: from kbuild by 32c80313467c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qkYsN-0000cf-15;
-	Sun, 24 Sep 2023 23:50:59 +0000
-Date: Mon, 25 Sep 2023 07:50:18 +0800
+	id 1qkZqW-0000hl-0s;
+	Mon, 25 Sep 2023 00:53:08 +0000
+Date: Mon, 25 Sep 2023 08:52:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [peterz-queue:core/guards2 15/38] kernel/events/core.c:4380
- perf_event_remove_on_exec() warn: inconsistent returns 'scope'.
-Message-ID: <202309250715.q0tXft95-lkp@intel.com>
+Subject: Re: [PATCH RFC v2 11/37] drm/connector: hdmi: Add Infoframes
+ generation
+Message-ID: <202309250813.H4gRAtza-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,74 +48,61 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Peter Zijlstra <peterz@infradead.org>
+In-Reply-To: <20230920-kms-hdmi-connector-state-v2-11-17932daddd7d@kernel.org>
+References: <20230920-kms-hdmi-connector-state-v2-11-17932daddd7d@kernel.org>
+TO: Maxime Ripard <mripard@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git core/guards2
-head:   d131dfd46333faf6f8bafdc688402f8e1847b4c6
-commit: a2c3318d6d464d3d728b524c0475d62a6c263b3a [15/38] perf: Simplify perf_event_*_on_exec()
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
-config: i386-randconfig-141-20230924 (https://download.01.org/0day-ci/archive/20230925/202309250715.q0tXft95-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230925/202309250715.q0tXft95-lkp@intel.com/reproduce)
+Hi Maxime,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0bb80ecc33a8fb5a682236443c1e740d5c917d1d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-connector-Introduce-an-HDMI-connector/20230920-224045
+base:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+patch link:    https://lore.kernel.org/r/20230920-kms-hdmi-connector-state-v2-11-17932daddd7d%40kernel.org
+patch subject: [PATCH RFC v2 11/37] drm/connector: hdmi: Add Infoframes generation
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-141-20230921 (https://download.01.org/0day-ci/archive/20230925/202309250813.H4gRAtza-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230925/202309250813.H4gRAtza-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309250715.q0tXft95-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309250813.H4gRAtza-lkp@intel.com/
 
 smatch warnings:
-kernel/events/core.c:4380 perf_event_remove_on_exec() warn: inconsistent returns 'scope'.
+drivers/gpu/drm/drm_atomic_state_helper.c:938 hdmi_generate_vendor_infoframe() warn: ignoring unreachable code.
 
-vim +/scope +4380 kernel/events/core.c
+vim +938 drivers/gpu/drm/drm_atomic_state_helper.c
 
-57e7986ed14241 kernel/perf_counter.c Paul Mackerras 2009-06-30  4343  
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4344  static void perf_remove_from_owner(struct perf_event *event);
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4345  static void perf_event_exit_event(struct perf_event *event,
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4346  				  struct perf_event_context *ctx);
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4347  
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4348  /*
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4349   * Removes all events from the current task that have been marked
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4350   * remove-on-exec, and feeds their values back to parent events.
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4351   */
-bd27568117664b kernel/events/core.c  Peter Zijlstra 2022-10-08  4352  static void perf_event_remove_on_exec(struct perf_event_context *ctx)
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4353  {
-bd27568117664b kernel/events/core.c  Peter Zijlstra 2022-10-08  4354  	struct perf_event_context *clone_ctx = NULL;
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4355  	struct perf_event *event, *next;
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4356  	bool modified = false;
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4357  
-a2c3318d6d464d kernel/events/core.c  Peter Zijlstra 2023-06-09  4358  	scoped_guard (mutex, &ctx->mutex) {
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4359  		if (WARN_ON_ONCE(ctx->task != current))
-a2c3318d6d464d kernel/events/core.c  Peter Zijlstra 2023-06-09  4360  			return;
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4361  
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4362  		list_for_each_entry_safe(event, next, &ctx->event_list, event_entry) {
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4363  			if (!event->attr.remove_on_exec)
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4364  				continue;
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4365  
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4366  			if (!is_kernel_event(event))
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4367  				perf_remove_from_owner(event);
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4368  
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4369  			modified = true;
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4370  
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4371  			perf_event_exit_event(event, ctx);
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4372  		}
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4373  
-a2c3318d6d464d kernel/events/core.c  Peter Zijlstra 2023-06-09  4374  		guard(raw_spinlock_irqsave)(&ctx->lock);
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4375  		if (modified)
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4376  			clone_ctx = unclone_ctx(ctx);
-a2c3318d6d464d kernel/events/core.c  Peter Zijlstra 2023-06-09  4377  	}
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4378  
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4379  	if (clone_ctx)
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08 @4380  		put_ctx(clone_ctx);
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4381  }
-2e498d0a74e5b8 kernel/events/core.c  Marco Elver    2021-04-08  4382  
-
-:::::: The code at line 4380 was first introduced by commit
-:::::: 2e498d0a74e5b88a6689ae1b811f247f91ff188e perf: Add support for event removal on exec
-
-:::::: TO: Marco Elver <elver@google.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  920  
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  921  static int hdmi_generate_vendor_infoframe(const struct drm_connector *connector,
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  922  					  struct drm_connector_state *state)
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  923  {
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  924  	const struct drm_display_mode *mode =
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  925  		connector_state_get_adjusted_mode(state);
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  926  	struct drm_connector_hdmi_infoframe *infoframe =
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  927  		&state->hdmi.infoframes.vendor;
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  928  	struct hdmi_vendor_infoframe *frame =
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  929  		&infoframe->data.vendor.hdmi;
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  930  	int ret;
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  931  
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  932  	ret = drm_hdmi_vendor_infoframe_from_display_mode(frame, connector, mode);
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  933  	if (ret == -EINVAL)
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  934  		return 0;
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  935  	else
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  936  		return ret;
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  937  
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20 @938  	infoframe->set = true;
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  939  
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  940  	return 0;
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  941  }
+ae7d8bc7dd1dbff Maxime Ripard 2023-09-20  942  
 
 -- 
 0-DAY CI Kernel Test Service
