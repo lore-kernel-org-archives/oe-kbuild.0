@@ -1,82 +1,121 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC64D1D6B0
-	for <oe-kbuild@lists.linux.dev>; Mon, 25 Sep 2023 19:05:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=eVPdm35yEAi6MXOLFffQZxHdkcxMNqV/gKh6yiC0GD0=;
-  b=J/5l2ZQ8xRnNSnMD1nbiTia213kzOAmgT31+UbHfuBywS4ybwmXPRGnh
-   etpx5vpxi9otP5j81R3NsTxMDFd7yVstlp9MsEVosMHkrj82oZ1YEpVMM
-   zkFGcBMQTvosbOlLavk5GR+dn1bBz0YbxKq3XOF/TJRVhzDu9xoFB8KiB
-   s=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.03,175,1694728800"; 
-   d="scan'208";a="127841919"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 21:05:26 +0200
-Date: Mon, 25 Sep 2023 21:05:26 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: David Sterba <dsterba@suse.cz>
-cc: Boris Burkov <boris@bur.io>, David Sterba <dsterba@suse.com>, 
-    oe-kbuild@lists.linux.dev
-Subject: Re: [kdave-btrfs-devel:misc-next 105/126] fs/btrfs/qgroup.c:3305:22-29:
- ERROR: reference preceded by free on line 3303
-In-Reply-To: <20230925175311.GS13697@suse.cz>
-Message-ID: <alpine.DEB.2.22.394.2309252103560.3165@hadrien>
-References: <202309230501.FnBPmnOv-lkp@intel.com> <alpine.DEB.2.22.394.2309231652390.15175@hadrien> <20230925175311.GS13697@suse.cz>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48071170A
+	for <oe-kbuild@lists.linux.dev>; Mon, 25 Sep 2023 21:42:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695678175; x=1727214175;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LtF+XBruP1DGrAdJQ7hFNzSRXLwVdeFiHI8bxCbyrRE=;
+  b=Stk44AqKR36kV/z9b0viVrIknzebNeyGZeVPzV/3ZWduiWdqdl9wRvjt
+   ltlycbRUQ6VTmlhl8RCSJbn+C7VOAqBQc9DunjXw6pd2bTb5cVL/9IE1V
+   YagVydzjnE8wh9rDvloHg6mZWXs8ngg+WrdQS6Eo1qoSNvlkTRVDJvtfv
+   kJwARC+xmJ/bMFgJO7sjcZrf4CLFgXvX1sZpGewbobuHBzko9RbSx3UpS
+   chL0CTfUvFIKQlHR4h6EWKxIgytBNL2Qbz6ekevJQ2fTVl41MsnKLxvIp
+   vxBpjZQ9amaKGWuQHDZIdEzoFjtZcPIVaWLobtGEB5D50bpCKQGhYieOC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="380273454"
+X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
+   d="scan'208";a="380273454"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 14:42:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="838725567"
+X-IronPort-AV: E=Sophos;i="6.03,176,1694761200"; 
+   d="scan'208";a="838725567"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 25 Sep 2023 14:42:53 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qktLv-00022l-1M;
+	Mon, 25 Sep 2023 21:42:51 +0000
+Date: Tue, 26 Sep 2023 05:42:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [peterz-queue:core/guards2 18/38] kernel/events/core.c:5493
+ perf_read_group() warn: inconsistent returns 'scope'.
+Message-ID: <202309260503.3sIcZNcZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Peter Zijlstra <peterz@infradead.org>
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git core/guards2
+head:   d131dfd46333faf6f8bafdc688402f8e1847b4c6
+commit: 40986e7b9f54e0eae23e7680fb85b86f6914b508 [18/38] perf: Simplify perf_read_group()
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: i386-randconfig-141-20230924 (https://download.01.org/0day-ci/archive/20230926/202309260503.3sIcZNcZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230926/202309260503.3sIcZNcZ-lkp@intel.com/reproduce)
 
-On Mon, 25 Sep 2023, David Sterba wrote:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202309260503.3sIcZNcZ-lkp@intel.com/
 
-> On Sat, Sep 23, 2023 at 04:56:44PM +0200, Julia Lawall wrote:
-> > Please check the tests on lines 3302 and 3304 and see if they both can be
-> > true.  If they cannot, perhaps an else code be added to make that apparent
-> > in the code.
-> >
-> > On Sat, 23 Sep 2023, kernel test robot wrote:
-> >
-> > > BCC: lkp@intel.com
-> > > CC: oe-kbuild-all@lists.linux.dev
-> > > TO: Boris Burkov <boris@bur.io>
-> > > CC: David Sterba <dsterba@suse.com>
-> > >
-> > > tree:   https://github.com/kdave/btrfs-devel.git misc-next
-> > > head:   8e6405aa4724626637e23a02ab145b0c69edb7d7
-> > > commit: 356d8a4649959f1cb271fbdf7052447592b1d2ec [105/126] btrfs: qgroup: simple quota auto hierarchy for nested subvolumes
-> > > :::::: branch date: 3 hours ago
-> > > :::::: commit date: 22 hours ago
-> > > config: i386-randconfig-053-20230922 (https://download.01.org/0day-ci/archive/20230923/202309230501.FnBPmnOv-lkp@intel.com/config)
-> > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > > reproduce: (https://download.01.org/0day-ci/archive/20230923/202309230501.FnBPmnOv-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> > > | Closes: https://lore.kernel.org/r/202309230501.FnBPmnOv-lkp@intel.com/
-> > >
-> > > cocci warnings: (new ones prefixed by >>)
-> > > >> fs/btrfs/qgroup.c:3305:22-29: ERROR: reference preceded by free on line 3303
->
-> Is there a reason whye the mails haven't been CCed to linux-btrfs@vger?
-> I don't know if the build bot reports are always relevant so it may make
-> sense to report it privately first and then to forward after a human
-> review.
+smatch warnings:
+kernel/events/core.c:5493 perf_read_group() warn: inconsistent returns 'scope'.
 
-I'm not sure how 0-day chooses what to include the CC list.  Perhaps send
-them a mail directly asking for the mailing list to be added.
+vim +/scope +5493 kernel/events/core.c
 
-julia
+3dab77fb1bf896 kernel/perf_counter.c Peter Zijlstra      2009-08-13  5457  
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5458  static int perf_read_group(struct perf_event *event,
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5459  				   u64 read_format, char __user *buf)
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5460  {
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5461  	struct perf_event *leader = event->group_leader, *child;
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5462  	struct perf_event_context *ctx = leader->ctx;
+7d88962e230c83 kernel/events/core.c  Sukadev Bhattiprolu 2015-09-03  5463  	int ret;
+3dab77fb1bf896 kernel/perf_counter.c Peter Zijlstra      2009-08-13  5464  
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5465  	lockdep_assert_held(&ctx->mutex);
+3dab77fb1bf896 kernel/perf_counter.c Peter Zijlstra      2009-08-13  5466  
+40986e7b9f54e0 kernel/events/core.c  Peter Zijlstra      2023-06-09  5467  	u64 *values __free(kfree) = kzalloc(event->read_size, GFP_KERNEL);
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5468  	if (!values)
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5469  		return -ENOMEM;
+abf4868b8548ca kernel/perf_event.c   Peter Zijlstra      2009-11-20  5470  
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5471  	values[0] = 1 + leader->nr_siblings;
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5472  
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5473  	/*
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5474  	 * By locking the child_mutex of the leader we effectively
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5475  	 * lock the child list of all siblings.. XXX explain how.
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5476  	 */
+40986e7b9f54e0 kernel/events/core.c  Peter Zijlstra      2023-06-09  5477  	scoped_guard (mutex, &leader->child_mutex) {
+7d88962e230c83 kernel/events/core.c  Sukadev Bhattiprolu 2015-09-03  5478  		ret = __perf_read_group_add(leader, read_format, values);
+7d88962e230c83 kernel/events/core.c  Sukadev Bhattiprolu 2015-09-03  5479  		if (ret)
+40986e7b9f54e0 kernel/events/core.c  Peter Zijlstra      2023-06-09  5480  			return ret;
+7d88962e230c83 kernel/events/core.c  Sukadev Bhattiprolu 2015-09-03  5481  
+7d88962e230c83 kernel/events/core.c  Sukadev Bhattiprolu 2015-09-03  5482  		list_for_each_entry(child, &leader->child_list, child_list) {
+7d88962e230c83 kernel/events/core.c  Sukadev Bhattiprolu 2015-09-03  5483  			ret = __perf_read_group_add(child, read_format, values);
+7d88962e230c83 kernel/events/core.c  Sukadev Bhattiprolu 2015-09-03  5484  			if (ret)
+40986e7b9f54e0 kernel/events/core.c  Peter Zijlstra      2023-06-09  5485  				return ret;
+40986e7b9f54e0 kernel/events/core.c  Peter Zijlstra      2023-06-09  5486  		}
+7d88962e230c83 kernel/events/core.c  Sukadev Bhattiprolu 2015-09-03  5487  	}
+abf4868b8548ca kernel/perf_event.c   Peter Zijlstra      2009-11-20  5488  
+7d88962e230c83 kernel/events/core.c  Sukadev Bhattiprolu 2015-09-03  5489  	ret = event->read_size;
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5490  	if (copy_to_user(buf, values, event->read_size))
+40986e7b9f54e0 kernel/events/core.c  Peter Zijlstra      2023-06-09  5491  		return -EFAULT;
+fa8c269353d560 kernel/events/core.c  Peter Zijlstra      2015-09-03  5492  
+abf4868b8548ca kernel/perf_event.c   Peter Zijlstra      2009-11-20 @5493  	return ret;
+3dab77fb1bf896 kernel/perf_counter.c Peter Zijlstra      2009-08-13  5494  }
+3dab77fb1bf896 kernel/perf_counter.c Peter Zijlstra      2009-08-13  5495  
+
+:::::: The code at line 5493 was first introduced by commit
+:::::: abf4868b8548cae18d4fe8bbfb4e207443be01be perf: Fix PERF_FORMAT_GROUP scale info
+
+:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
