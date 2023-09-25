@@ -1,103 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A77224D8
-	for <oe-kbuild@lists.linux.dev>; Mon, 25 Sep 2023 18:24:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695666284; x=1727202284;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=kORMIdSRhhxxWSLgkuBuj+5rmJU3InxP7iIC3T48h7M=;
-  b=RyHlwIYtn3AwAb7DuDEwJktqmaSUAFRf2KJF9fSIWDRdGanLS69V6L+K
-   7E3WnWd2fDmWSCbdu/FBWHwzHIYwnI7A93cdzB08i0vQ867MrnYlopCLB
-   Tiuj59nCyqXFDh2a1XW5G7+ccNVNokfDHCtG82XimoAcuU9Xem21mlYfS
-   5ujZFDMgOkhTcTIwAQcE5AjZMPOFWK2lryGP8ji/2optt8QrbMCDvjdfZ
-   4TsidjVjZOOIvHwX+Oxtq/w4l0e3I+OUHUdSAGvwV66zY9KeKAg2GUdXi
-   Ih7lR6+haxp/mKsWcJMI1qiF8SMHExgnYrf2CDc7GwVMYpm+CEQs/uSoc
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="378610614"
-X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
-   d="scan'208";a="378610614"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 11:24:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="748431345"
-X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
-   d="scan'208";a="748431345"
-Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 25 Sep 2023 11:24:40 -0700
-Received: from kbuild by 32c80313467c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qkqG5-0001uM-0A;
-	Mon, 25 Sep 2023 18:24:37 +0000
-Date: Tue, 26 Sep 2023 02:24:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [chrome-os:chromeos-5.4 32/34]
- drivers/iio/industrialio-core.c:1851:2-8: preceding lock on line 1848
-Message-ID: <202309260246.FFJPzbf1-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC64D1D6B0
+	for <oe-kbuild@lists.linux.dev>; Mon, 25 Sep 2023 19:05:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=eVPdm35yEAi6MXOLFffQZxHdkcxMNqV/gKh6yiC0GD0=;
+  b=J/5l2ZQ8xRnNSnMD1nbiTia213kzOAmgT31+UbHfuBywS4ybwmXPRGnh
+   etpx5vpxi9otP5j81R3NsTxMDFd7yVstlp9MsEVosMHkrj82oZ1YEpVMM
+   zkFGcBMQTvosbOlLavk5GR+dn1bBz0YbxKq3XOF/TJRVhzDu9xoFB8KiB
+   s=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.03,175,1694728800"; 
+   d="scan'208";a="127841919"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 21:05:26 +0200
+Date: Mon, 25 Sep 2023 21:05:26 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: David Sterba <dsterba@suse.cz>
+cc: Boris Burkov <boris@bur.io>, David Sterba <dsterba@suse.com>, 
+    oe-kbuild@lists.linux.dev
+Subject: Re: [kdave-btrfs-devel:misc-next 105/126] fs/btrfs/qgroup.c:3305:22-29:
+ ERROR: reference preceded by free on line 3303
+In-Reply-To: <20230925175311.GS13697@suse.cz>
+Message-ID: <alpine.DEB.2.22.394.2309252103560.3165@hadrien>
+References: <202309230501.FnBPmnOv-lkp@intel.com> <alpine.DEB.2.22.394.2309231652390.15175@hadrien> <20230925175311.GS13697@suse.cz>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.4
-head:   47a5bab6041a6e6381156a2dfe5781ded89ffa63
-commit: 16382e4ab8163f25b527ef0982887c66a9042a42 [32/34] BACKPORT: iio: core: introduce iio_device_{claim|release}_buffer_mode() APIs
-:::::: branch date: 2 days ago
-:::::: commit date: 4 days ago
-config: x86_64-randconfig-101-20230925 (https://download.01.org/0day-ci/archive/20230926/202309260246.FFJPzbf1-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230926/202309260246.FFJPzbf1-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202309260246.FFJPzbf1-lkp@intel.com/
+On Mon, 25 Sep 2023, David Sterba wrote:
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/iio/industrialio-core.c:1851:2-8: preceding lock on line 1848
+> On Sat, Sep 23, 2023 at 04:56:44PM +0200, Julia Lawall wrote:
+> > Please check the tests on lines 3302 and 3304 and see if they both can be
+> > true.  If they cannot, perhaps an else code be added to make that apparent
+> > in the code.
+> >
+> > On Sat, 23 Sep 2023, kernel test robot wrote:
+> >
+> > > BCC: lkp@intel.com
+> > > CC: oe-kbuild-all@lists.linux.dev
+> > > TO: Boris Burkov <boris@bur.io>
+> > > CC: David Sterba <dsterba@suse.com>
+> > >
+> > > tree:   https://github.com/kdave/btrfs-devel.git misc-next
+> > > head:   8e6405aa4724626637e23a02ab145b0c69edb7d7
+> > > commit: 356d8a4649959f1cb271fbdf7052447592b1d2ec [105/126] btrfs: qgroup: simple quota auto hierarchy for nested subvolumes
+> > > :::::: branch date: 3 hours ago
+> > > :::::: commit date: 22 hours ago
+> > > config: i386-randconfig-053-20230922 (https://download.01.org/0day-ci/archive/20230923/202309230501.FnBPmnOv-lkp@intel.com/config)
+> > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > > reproduce: (https://download.01.org/0day-ci/archive/20230923/202309230501.FnBPmnOv-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> > > | Closes: https://lore.kernel.org/r/202309230501.FnBPmnOv-lkp@intel.com/
+> > >
+> > > cocci warnings: (new ones prefixed by >>)
+> > > >> fs/btrfs/qgroup.c:3305:22-29: ERROR: reference preceded by free on line 3303
+>
+> Is there a reason whye the mails haven't been CCed to linux-btrfs@vger?
+> I don't know if the build bot reports are always relevant so it may make
+> sense to report it privately first and then to forward after a human
+> review.
 
-vim +1851 drivers/iio/industrialio-core.c
+I'm not sure how 0-day chooses what to include the CC list.  Perhaps send
+them a mail directly asking for the mailing list to be added.
 
-08a33805518e784 Alison Schofield 2016-03-09  1834  
-16382e4ab8163f2 Nuno Sá          2022-10-12  1835  /**
-16382e4ab8163f2 Nuno Sá          2022-10-12  1836   * iio_device_claim_buffer_mode - Keep device in buffer mode
-16382e4ab8163f2 Nuno Sá          2022-10-12  1837   * @indio_dev:	the iio_dev associated with the device
-16382e4ab8163f2 Nuno Sá          2022-10-12  1838   *
-16382e4ab8163f2 Nuno Sá          2022-10-12  1839   * If the device is in buffer mode it is guaranteed to stay
-16382e4ab8163f2 Nuno Sá          2022-10-12  1840   * that way until iio_device_release_buffer_mode() is called.
-16382e4ab8163f2 Nuno Sá          2022-10-12  1841   *
-16382e4ab8163f2 Nuno Sá          2022-10-12  1842   * Use with iio_device_release_buffer_mode().
-16382e4ab8163f2 Nuno Sá          2022-10-12  1843   *
-16382e4ab8163f2 Nuno Sá          2022-10-12  1844   * Returns: 0 on success, -EBUSY on failure.
-16382e4ab8163f2 Nuno Sá          2022-10-12  1845   */
-16382e4ab8163f2 Nuno Sá          2022-10-12  1846  int iio_device_claim_buffer_mode(struct iio_dev *indio_dev)
-16382e4ab8163f2 Nuno Sá          2022-10-12  1847  {
-16382e4ab8163f2 Nuno Sá          2022-10-12 @1848  	mutex_lock(&indio_dev->mlock);
-16382e4ab8163f2 Nuno Sá          2022-10-12  1849  
-16382e4ab8163f2 Nuno Sá          2022-10-12  1850  	if (iio_buffer_enabled(indio_dev))
-16382e4ab8163f2 Nuno Sá          2022-10-12 @1851  		return 0;
-16382e4ab8163f2 Nuno Sá          2022-10-12  1852  
-16382e4ab8163f2 Nuno Sá          2022-10-12  1853  	mutex_unlock(&indio_dev->mlock);
-16382e4ab8163f2 Nuno Sá          2022-10-12  1854  	return -EBUSY;
-16382e4ab8163f2 Nuno Sá          2022-10-12  1855  }
-16382e4ab8163f2 Nuno Sá          2022-10-12  1856  EXPORT_SYMBOL_GPL(iio_device_claim_buffer_mode);
-16382e4ab8163f2 Nuno Sá          2022-10-12  1857  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+julia
