@@ -1,246 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F9446A8
-	for <oe-kbuild@lists.linux.dev>; Tue, 26 Sep 2023 06:12:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12315221
+	for <oe-kbuild@lists.linux.dev>; Tue, 26 Sep 2023 06:28:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695708726; x=1727244726;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=rnHpwaB+sDEgg2GxrG5a48EGFsRte6NuEm24Cgtcf8Q=;
-  b=ep2IREAbYg59/bcOjbS3R+sJK7t7yerIzzkan2wqdoND78BeNqkK40Jl
-   /knaksve20U0R1Tf9PAh0maUzhni8RTqmvmudkQMMIIgWoxSlXSe+tle5
-   wZGUeKV7IcIarIMHqk2KUH4G4nfBXjOlgCU5FduPeZgKEn6wC5/QS8uvX
-   L8N5/lKgE4xdy6ALlkzGDmijiA/+zQf7gf+Zls91iZ+n/usu5HoC2/PKi
-   zVerJmGHXq2fWSkBF4IL+8Z9t8PywW8YRhSoOhAPMc04NnQgdfMaXE+CR
-   COgF7GdDrDTzZ/2cK3HrAD4tjGHrSb5xaGjd4sDScwLUJ/CJJAx9u+8R/
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="447991918"
+  t=1695709704; x=1727245704;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WHcklMqs0DB7Glk664DZ3XZDmqfRZcHhWZu1aLFiqqg=;
+  b=ZYxXAraMxZguYg6qgjYor/77xgW64zCSJC8a9XNlsyRDWklQ8Ykx76xG
+   kRsD5kLwMxVEH0sREoaFXAP66RHXJdWU4s8+GS/RALXil2HK8zVt3gT0P
+   zDb4GghEZLxA/yuVdJ9ZVf9N7Dei/uFbA6GWJuAkBGQcy792Akc9/MkLp
+   uZtLg+uzKSVKff8NYURw5cITyQ2TY+NyE1XqkWiWo7Q3f2dzH7KwhNEaX
+   gvVDYHsrJhQ3ZpeShzrkB9QV0Oa+DJyg+LH+wWb2fAECbJFpo0TQdEhVs
+   GPtiLrB4IcXyRvV7IXsN0iGavq4baucYCuXrxtHZJ9SrILb4vWeSuxnpa
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="378775436"
 X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; 
-   d="scan'208";a="447991918"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 23:12:05 -0700
+   d="scan'208";a="378775436"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 23:28:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="777999237"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="748709403"
 X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; 
-   d="scan'208";a="777999237"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 25 Sep 2023 23:12:05 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 25 Sep 2023 23:12:04 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 25 Sep 2023 23:12:04 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.105)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 25 Sep 2023 23:12:04 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XoVd4ePd1HKUGHLqjY5eImgxIkWYEQeaSTZL6RS0MyGD83DuGbmtRrHNNsrmKU0Id1sgmQPzxXuSQ32U1dwPFsv7IJ+zKe9UC6Ipi9DyY4tmypRSZE62PEKYYtOPtmZEVyb8jFONFlk3ZtNJUHzU1Nm7MEWkQoAmkDFQVhwJZMbr4Gn71/U+0i0ra/Qdn1aW0aXjaHTicMMZtG1vUUG8yDCJ6NOVq31IMO73Z0/gAWzvjUrc/x6aBkrXbb4CSb1VJfSG6OcGe7FMRRZgGnuvs+efnnCJo4ZT0VoX5nCMs3TFRq34i08V3dXW9YUMkenQB1FyLicn5zkGEY757QP+8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LlD2OoiAh+yEupA2aq4rbacdBPOWDTxgKbqMY5H0Stc=;
- b=m79xD0vlMBi2yx0OGW005EJTuoLLvBg1p0Y7VvEnbJSCjBKUYfzowUl/erV8Pyt2vDOFKqgGQ4XrXsvYxDGV/dOgw7Vo+cut4v5C6RFVwCFkbPbAp6vb6E+ZKAlD5ctAdpyacOv3EYSyoxtg4wBV53hJeKXozQHryLLjuSORsHOZAwp3hcVz7rM8yuCIx0GhBbxBWnDBiFPKELdKZwvIV/egBjHdNx65yYhysoyNJJI8wQyA7sCop6lIhCAjPzggdfqfH1EdERPpJLHRpBVq19YlFF/psZeOwLJwNvMNl0DerlNfCKscIWUbAztSN80NlcsqCipUTwcm2Dxh3++USg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by SA0PR11MB4767.namprd11.prod.outlook.com (2603:10b6:806:97::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Tue, 26 Sep
- 2023 06:12:03 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::d35:d16b:4ee3:77e5]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::d35:d16b:4ee3:77e5%7]) with mapi id 15.20.6792.026; Tue, 26 Sep 2023
- 06:12:02 +0000
-From: "Liu, Yujie" <yujie.liu@intel.com>
-To: lkp <lkp@intel.com>, "oe-kbuild@lists.linux.dev"
-	<oe-kbuild@lists.linux.dev>
-Subject: RE: [PATCH v4 05/18] EDAC/synopsys: Add DDRC basic parameters
- infrastructure
-Thread-Topic: [PATCH v4 05/18] EDAC/synopsys: Add DDRC basic parameters
- infrastructure
-Thread-Index: AQHZ7p9uajy0zy4UY028drdhEShgfbAsoyKQ
-Date: Tue, 26 Sep 2023 06:12:02 +0000
-Message-ID: <CY5PR11MB63929B64448E617B7D60890DFBC3A@CY5PR11MB6392.namprd11.prod.outlook.com>
-References: <202309241117.1QIu7Ipb-lkp@intel.com>
-In-Reply-To: <202309241117.1QIu7Ipb-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY5PR11MB6392:EE_|SA0PR11MB4767:EE_
-x-ms-office365-filtering-correlation-id: a3369a98-4149-4c33-1a32-08dbbe578070
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zrOUeftkooYzKVCTxiH6BDARLkQDMFA+fEmaA7FPkoJEXWkaIU5AMCGBaMbkE6BTMg/BSSJZcLbAPIN33uQAfr21litvqHqJm0ohp+oVHqxet1d29ifbl5DMbRFNW8CeUxZHX8n3J+aoKl56H2IKANMdpC4VFuE+zEvUv4cQelgGH0mcFqWbshFEqGVYSUKF9n7T70sI8m2pJJSYgqzmZcGGz3IhvlUL7tKGEShdVX+1QM1R2h7NFPPtcqCZGs/FzpF1g+7b+len1ofIQ1hEY1GKGCTt0nUpOiUdKEOrBhkjDLLy5Vxkd6iCi6sve7EEQgTEkonmJTVXKqC0JhgjVWVJJipjZjEoYUZHhF+KD4UO1EEseUTwos2ghA35MnkS1zW5g/ARjR1PHb2iqPwkdILUyNgck9t7l9bibCCRF9FOKtsHQQdoJbd7TlnPFPH+rHj9c3zSuDHfffbnifdmdBXVzv3LtjxYX+wq2AYjfxinVER4nTGehvWIAtUnv2msAk+qOXEjqYJ3lRHV7MuRbwYXBeJETODlqwKvdUNVo6kCql+ZBkrjGcD+hG3uo7XMNVX6xgT9PQs3PIVqaaHkVSz3jc0KP/yNiZ/2ootNZm+vlBVhquckXRoSGh4QvwHapLCsqjDyIVkqquh5M78A1A==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(366004)(39860400002)(396003)(136003)(230922051799003)(451199024)(1800799009)(186009)(8936002)(8676002)(55016003)(26005)(110136005)(52536014)(2906002)(478600001)(966005)(66476007)(41300700001)(76116006)(316002)(66556008)(66446008)(66946007)(5660300002)(64756008)(6506007)(7696005)(71200400001)(53546011)(9686003)(83380400001)(38100700002)(122000001)(38070700005)(82960400001)(86362001)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?w3Ub6/WDl6k+svJONqO+yzrh7akNCU/9SHZ7+WsRX/nM9T33Stf14SdUOJZd?=
- =?us-ascii?Q?uUS38w4xfcDhP0RU66/8HUzFc0obYu//bgcTeC4fbJGCBF24oF+tc9hx7fjH?=
- =?us-ascii?Q?UjkycFMcl4Rjga7GZKiPAMWj4BpME7ZxlMyJyUP6J2BthNYK0eZVjk+FFXyT?=
- =?us-ascii?Q?WeoWd5vc9vcz+g5dkg746cXgPEYQLbBTqNfoMofTqb4OAyS2vefsE5AEbIPB?=
- =?us-ascii?Q?NGlwo3zxOCoxZvQG/gAnqTA7j5wT/1/BX+IXQzjoNbKCCeKvENTORMOs8yAc?=
- =?us-ascii?Q?Rq6Lt68gGpxGhF9r+lFXQ8RdiIzdsskuuP2ZSlHPQnxs31dwzSym1KhV2vV7?=
- =?us-ascii?Q?zZFmppsM9DAVOQP34cW/fduPCUb1qXW1L8pEY0x12Vks8wf/Q8j+IW/iihrl?=
- =?us-ascii?Q?rUTY+e7/5eiCzr9WIMvcte2ylidHj6YkM2frIig8G3ZuCN51ZDwAQgttBCA1?=
- =?us-ascii?Q?Mg55Jf+vmCKmihcZqyOxg1Ba3PuIH8qRTpDBez5DXJzihl2VXcqMMKEep8yS?=
- =?us-ascii?Q?KGj6n4xh9ePEs9SvOSfL0aS0cUlyT3me4vb90Nlbb9Xn+HkjUF51X6tFRrqD?=
- =?us-ascii?Q?Nn009YwhxnL/cDJOl2/qfkMWHzZVctxSNGBKSClhqlufCC7nKVaKoU4FNe/N?=
- =?us-ascii?Q?Uf/3RNtPNFCFczOTXpFm9vom25GH0YxWOJ0rFnRkJKZCOtEFLw7DhU4TyrIj?=
- =?us-ascii?Q?5nmErsnoMSUcHHS62hOmSt0RpDADfMC79qsFE7t0Q3zZTiIHnF2T5YM4BwPo?=
- =?us-ascii?Q?BOsvppJvRAWvIffyjdfAncooWW7fw17tejKAcjSRVBN5d7ZRS1I10F+OZhs4?=
- =?us-ascii?Q?pwc88E/AaXSBOwewACgACRbpbVEqoOdOqVnfuYMejv40JYUHob3iaEGDSl7E?=
- =?us-ascii?Q?NAkp/AvyknXeYT3Q+XrxcPoAov/ZVDrAIEwH/jMoH4gk4i/hqA/fAZG9tB+C?=
- =?us-ascii?Q?5Om41EX21aJZ3bKlZWgNBzHHWcudjLRhO4+lJKwrfLmAp6PsOQfM4hgTty9l?=
- =?us-ascii?Q?OdW6E/iyj87uDQ9pLVSxnqpsyElDZEe+NtQ913UiKDrq2HwJqKSyEcB6KM5X?=
- =?us-ascii?Q?eDGcW08CgwFDge2khWGb9pxmjp0OIRiVJaMzBbdb74VaHI8usXJbdkBDXZQ7?=
- =?us-ascii?Q?VkPbi0XGUrFqqJvKgE/hO3baz1ZvucwzKL4X6tSaIqqcnxZxwClNOjYEtd7h?=
- =?us-ascii?Q?G36WVqA8kddHoPV/0cwFlmddMaA99eeu+8t12z8OWSeDMYbS4lI7jCKgDK6v?=
- =?us-ascii?Q?s/uJOXJ7d1fzpFU3eA8pYFdm0rpr5hYQUQHcbec35XHiwvH1BIK31HiftYS5?=
- =?us-ascii?Q?n8C2d6+8uLJFeKuEQcGn6mCm86saiNYaclXInpyQQRUad5/gAkLZkiGdaCON?=
- =?us-ascii?Q?gMADOssw3PngS2eTVylUoAuP1RmQBKANVwYJhNFM6+SFp/CvoxblYlWW0ysO?=
- =?us-ascii?Q?dRfFfP1AdJuctEaAYMQfhh/j9pReWlV6I8UAy/WlDL+XClzfgCmrR0r3Rey8?=
- =?us-ascii?Q?rXcThxJL77ZxqIFWlq1brPS6LnyQmQNW3oYZM30uCdJRNkFBI/c5lVC9Zno/?=
- =?us-ascii?Q?SEgSFcrJeLEh2xzuhmNNv8D5kBD5OPBXtuqr2960?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="748709403"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 25 Sep 2023 23:28:21 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ql1YR-0002Wb-0z;
+	Tue, 26 Sep 2023 06:28:19 +0000
+Date: Tue, 26 Sep 2023 14:27:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH next v4 2/5] minmax: Allow min()/max()/clamp() if the
+ arguments have the same signedness.
+Message-ID: <202309261405.qSNuGpjv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3369a98-4149-4c33-1a32-08dbbe578070
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2023 06:12:02.9310
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JYJAo6H0RtcmDL7ADqzeBZ/qIAxbtK3bnt1LtRjzFySue/efmXm5e8qsm7liQY3ByGjWqC88fywWbaaUJEOz8w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4767
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-not_report
-
-Cannot understand. The code clearly shows that enum 'SNPS_DQ_32' and 'SNPS_=
-DQ_64' are defined.
-
-237 /**
- 238  * enum snps_dq_width - SDRAM DQ bus width (ECC capable).
- 239  * SNPS_DQ_32:  32-bit memory data width.
- 240  * SNPS_DQ_64:  64-bit memory data width.
- 241  */
- 242 enum snps_dq_width {
- 243         SNPS_DQ_32 =3D 2,
- 244         SNPS_DQ_64 =3D 3,
- 245 };
-
------Original Message-----
-From: lkp <lkp@intel.com>=20
-Sent: Sunday, September 24, 2023 11:56
-To: oe-kbuild@lists.linux.dev
-Cc: lkp <lkp@intel.com>
-Subject: Re: [PATCH v4 05/18] EDAC/synopsys: Add DDRC basic parameters infr=
-astructure
-
-::::::=20
-:::::: Manual check reason: "git am base is a link in commit message"
-::::::=20
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/media/pci/solo6x10/solo6x10-core.c:362:24: sparse: sparse: too long token expansion"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230920192806.29960-6-fancer.lancer@gmail.com>
-References: <20230920192806.29960-6-fancer.lancer@gmail.com>
-TO: Serge Semin <fancer.lancer@gmail.com>
-TO: Michal Simek <monstr@monstr.eu>
-TO: Alexander Stein <alexander.stein@ew.tq-group.com>
-TO: Borislav Petkov <bp@alien8.de>
-TO: Tony Luck <tony.luck@intel.com>
-TO: James Morse <james.morse@arm.com>
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-TO: Robert Richter <rric@kernel.org>
-CC: Serge Semin <fancer.lancer@gmail.com>
-CC: Punnaiah Choudary Kalluri <punnaiah.choudary.kalluri@xilinx.com>
-CC: Dinh Nguyen <dinguyen@kernel.org>
-CC: Arnd Bergmann <arnd@arndb.de>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-edac@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+In-Reply-To: <fe7e6c542e094bfca655abcd323c1c98@AcuMS.aculab.com>
+References: <fe7e6c542e094bfca655abcd323c1c98@AcuMS.aculab.com>
+TO: David Laight <David.Laight@ACULAB.COM>
+TO: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC: "'Andy Shevchenko'" <andriy.shevchenko@linux.intel.com>
+CC: "'Andrew Morton'" <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: "'Matthew Wilcox (Oracle)'" <willy@infradead.org>
+CC: "'Christoph Hellwig'" <hch@infradead.org>
+CC: "'Jason A. Donenfeld'" <Jason@zx2c4.com>
 
-Hi Serge,
+Hi David,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on ras/edac-for-next]
-[also build test WARNING on linus/master v6.6-rc2 next-20230921]
-[cannot apply to xilinx-xlnx/master bp/for-next]
+[auto build test WARNING on linux/master]
+[also build test WARNING on linus/master v6.6-rc3]
+[cannot apply to next-20230918 next-20230925]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Serge-Semin/EDAC-syn=
-opsys-Convert-sysfs-nodes-to-debugfs-ones/20230921-035302
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-fo=
-r-next
-patch link:    https://lore.kernel.org/r/20230920192806.29960-6-fancer.lanc=
-er%40gmail.com
-patch subject: [PATCH v4 05/18] EDAC/synopsys: Add DDRC basic parameters in=
-frastructure
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-003-20230924 (https://download.01.org/0day-ci/arch=
-ive/20230924/202309241117.1QIu7Ipb-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20230924/202309241117.1QIu7Ipb-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Add-umin-a-b-and-umax-a-b/20230918-162441
+base:   linux/master
+patch link:    https://lore.kernel.org/r/fe7e6c542e094bfca655abcd323c1c98%40AcuMS.aculab.com
+patch subject: [PATCH next v4 2/5] minmax: Allow min()/max()/clamp() if the arguments have the same signedness.
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: i386-randconfig-061-20230926 (https://download.01.org/0day-ci/archive/20230926/202309261405.qSNuGpjv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230926/202309261405.qSNuGpjv-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309241117.1QIu7Ipb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309261405.qSNuGpjv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/media/pci/solo6x10/solo6x10-core.c:362:24: sparse: sparse: too long token expansion
+>> drivers/media/pci/solo6x10/solo6x10-core.c:362:24: sparse: sparse: too long token expansion
+>> drivers/media/pci/solo6x10/solo6x10-core.c:362:24: sparse: sparse: too long token expansion
+>> drivers/media/pci/solo6x10/solo6x10-core.c:362:24: sparse: sparse: too long token expansion
+--
+>> drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:468:30: sparse: sparse: too long token expansion
+>> drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:468:30: sparse: sparse: too long token expansion
+>> drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:468:30: sparse: sparse: too long token expansion
+>> drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:468:30: sparse: sparse: too long token expansion
+--
+>> drivers/media/pci/solo6x10/solo6x10-p2m.c:309:13: sparse: sparse: too long token expansion
+>> drivers/media/pci/solo6x10/solo6x10-p2m.c:309:13: sparse: sparse: too long token expansion
+>> drivers/media/pci/solo6x10/solo6x10-p2m.c:309:13: sparse: sparse: too long token expansion
+>> drivers/media/pci/solo6x10/solo6x10-p2m.c:309:13: sparse: sparse: too long token expansion
+   drivers/media/pci/solo6x10/solo6x10-p2m.c:310:17: sparse: sparse: too long token expansion
+   drivers/media/pci/solo6x10/solo6x10-p2m.c:310:17: sparse: sparse: too long token expansion
+   drivers/media/pci/solo6x10/solo6x10-p2m.c:310:17: sparse: sparse: too long token expansion
+   drivers/media/pci/solo6x10/solo6x10-p2m.c:310:17: sparse: sparse: too long token expansion
+--
+>> drivers/media/pci/solo6x10/solo6x10-enc.c:245:18: sparse: sparse: too long token expansion
+>> drivers/media/pci/solo6x10/solo6x10-enc.c:245:18: sparse: sparse: too long token expansion
+>> drivers/media/pci/solo6x10/solo6x10-enc.c:245:18: sparse: sparse: too long token expansion
+>> drivers/media/pci/solo6x10/solo6x10-enc.c:245:18: sparse: sparse: too long token expansion
+   drivers/media/pci/solo6x10/solo6x10-enc.c:270:24: sparse: sparse: too long token expansion
+   drivers/media/pci/solo6x10/solo6x10-enc.c:270:24: sparse: sparse: too long token expansion
+   drivers/media/pci/solo6x10/solo6x10-enc.c:270:24: sparse: sparse: too long token expansion
+   drivers/media/pci/solo6x10/solo6x10-enc.c:270:24: sparse: sparse: too long token expansion
 
->> drivers/edac/synopsys_edac.c:224: warning: Enum value 'SNPS_DQ_32' not d=
-escribed in enum 'snps_dq_width'
->> drivers/edac/synopsys_edac.c:224: warning: Enum value 'SNPS_DQ_64' not d=
-escribed in enum 'snps_dq_width'
+vim +362 drivers/media/pci/solo6x10/solo6x10-core.c
 
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  316  
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  317  static ssize_t sdram_offsets_show(struct device *dev,
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  318  				  struct device_attribute *attr,
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  319  				  char *buf)
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  320  {
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  321  	struct solo_dev *solo_dev =
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  322  		container_of(dev, struct solo_dev, dev);
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  323  	char *out = buf;
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  324  
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  325  	out += sprintf(out, "DISP: 0x%08x @ 0x%08x\n",
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  326  		       SOLO_DISP_EXT_ADDR,
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  327  		       SOLO_DISP_EXT_SIZE);
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  328  
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  329  	out += sprintf(out, "EOSD: 0x%08x @ 0x%08x (0x%08x * %d)\n",
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  330  		       SOLO_EOSD_EXT_ADDR,
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  331  		       SOLO_EOSD_EXT_AREA(solo_dev),
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  332  		       SOLO_EOSD_EXT_SIZE(solo_dev),
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  333  		       SOLO_EOSD_EXT_AREA(solo_dev) /
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  334  		       SOLO_EOSD_EXT_SIZE(solo_dev));
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  335  
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  336  	out += sprintf(out, "MOTI: 0x%08x @ 0x%08x\n",
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  337  		       SOLO_MOTION_EXT_ADDR(solo_dev),
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  338  		       SOLO_MOTION_EXT_SIZE);
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  339  
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  340  	out += sprintf(out, "G723: 0x%08x @ 0x%08x\n",
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  341  		       SOLO_G723_EXT_ADDR(solo_dev),
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  342  		       SOLO_G723_EXT_SIZE);
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  343  
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  344  	out += sprintf(out, "CAPT: 0x%08x @ 0x%08x (0x%08x * %d)\n",
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  345  		       SOLO_CAP_EXT_ADDR(solo_dev),
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  346  		       SOLO_CAP_EXT_SIZE(solo_dev),
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  347  		       SOLO_CAP_PAGE_SIZE,
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  348  		       SOLO_CAP_EXT_SIZE(solo_dev) / SOLO_CAP_PAGE_SIZE);
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  349  
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  350  	out += sprintf(out, "EREF: 0x%08x @ 0x%08x (0x%08x * %d)\n",
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  351  		       SOLO_EREF_EXT_ADDR(solo_dev),
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  352  		       SOLO_EREF_EXT_AREA(solo_dev),
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  353  		       SOLO_EREF_EXT_SIZE,
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  354  		       SOLO_EREF_EXT_AREA(solo_dev) / SOLO_EREF_EXT_SIZE);
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  355  
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  356  	out += sprintf(out, "MPEG: 0x%08x @ 0x%08x\n",
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  357  		       SOLO_MP4E_EXT_ADDR(solo_dev),
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  358  		       SOLO_MP4E_EXT_SIZE(solo_dev));
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  359  
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  360  	out += sprintf(out, "JPEG: 0x%08x @ 0x%08x\n",
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  361  		       SOLO_JPEG_EXT_ADDR(solo_dev),
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25 @362  		       SOLO_JPEG_EXT_SIZE(solo_dev));
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  363  
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  364  	return out - buf;
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  365  }
+dcae5dacbce518 drivers/staging/media/solo6x10/core.c Hans Verkuil 2013-03-25  366  
 
-vim +224 drivers/edac/synopsys_edac.c
-
-c85ef1323d2330 Serge Semin 2023-09-20  215 =20
-9e617225f1d8ba Serge Semin 2023-09-20  216  /**
-9e617225f1d8ba Serge Semin 2023-09-20  217   * enum snps_dq_width - SDRAM D=
-Q bus width (ECC capable).
-9e617225f1d8ba Serge Semin 2023-09-20  218   * SNPS_DQ_32:	32-bit memory da=
-ta width.
-9e617225f1d8ba Serge Semin 2023-09-20  219   * SNPS_DQ_64:	64-bit memory da=
-ta width.
-9e617225f1d8ba Serge Semin 2023-09-20  220   */
-9e617225f1d8ba Serge Semin 2023-09-20  221  enum snps_dq_width {
-9e617225f1d8ba Serge Semin 2023-09-20  222  	SNPS_DQ_32 =3D 2,
-9e617225f1d8ba Serge Semin 2023-09-20  223  	SNPS_DQ_64 =3D 3,
-9e617225f1d8ba Serge Semin 2023-09-20 @224  };
-9e617225f1d8ba Serge Semin 2023-09-20  225 =20
-
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
