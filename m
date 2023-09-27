@@ -1,44 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2B828E1F
-	for <oe-kbuild@lists.linux.dev>; Wed, 27 Sep 2023 12:57:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695819458; x=1727355458;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eTFaczyJlAqmwLVapfUF2X6r80DUmr14xFF02L9wu+k=;
-  b=eIBpcF1JtykaQkbaijWrQqba3ZrWE81BJkEnWwuj3bdVSKlZFJXuNcOI
-   ti6I5xjPUIC1zIvV78zEc6gjgvcWBuvQD0JkIIa9Q9F+qGTOhGycakj02
-   SsnqOAw5jQbPZEkYDdGK23JAKy67OopCw1rlJzRUG5hPbJruisrSROnYC
-   +nYOnPC4zQ/E5O/CRqg12DnOCMYyTLG6iLcYCiTqJbijA6Eo0SRA1s2TR
-   ShTRlrOjt4IfCcsyt02+6vpMO0DUJqhYSOcaWPUH/kCQXxzmJppnNrbqE
-   TSk4PZmIVKzRUYjsxzqsTDxCcXqJ21MsF+9XvAA4ame5JDcwTjWr2qb2Y
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="385675868"
-X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="385675868"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 05:57:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="749185834"
-X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="749185834"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 27 Sep 2023 05:57:36 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qlU6g-0000CB-1m;
-	Wed, 27 Sep 2023 12:57:34 +0000
-Date: Wed, 27 Sep 2023 20:56:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 99/1370] dtbs_check:
- Documentation/devicetree/bindings/remoteproc/xilinx,zynqmp-r5-remoteproc.yaml:
- title: 'Xilinx R5 remote processor controller bindings' should not be valid
- under {'pattern': '([Bb]inding| [Ss]chema)'}
-Message-ID: <202309272051.avo6KQBS-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED7727ECE
+	for <oe-kbuild@lists.linux.dev>; Wed, 27 Sep 2023 13:08:43 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-31ff985e292so10626804f8f.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 27 Sep 2023 06:08:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695820122; x=1696424922; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QdVOA/aq5JkSKJGgI5bK4SRqTQ/yVTjIHBO44KR+OKc=;
+        b=DbQW6xa2/tI9ZGps5mPkcQ64pBXGmJ0PRY0Xhy2crrDSO8HtGQW+/bbvfGHxfz3TIl
+         hXrrHaSdUGPRYl5DvQa/pqpISK/L/CnmM8qepnkUU1PNl/raNYEZSdf0eGv0CxEwsLWR
+         +Q6/JbWE5TP4aOeKHCgnCrhLRPXGKL5r0e24gvEBfyOYsiA2nIWB/4V4zttXdzyqwEsP
+         T4p5xHfTdq8rW+6bxm2ccdLrs2JuosGcSDPXvRht6nIj6yDK3AzXiSO3jXWj+oe1oC6p
+         Mkbp0ql8MhGwFyMKodqpGOyyxsOQPaqhjpWJd3HFbyx5jwHjd8DsXGrrvgQ9Uh7GO1Db
+         1MBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695820122; x=1696424922;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QdVOA/aq5JkSKJGgI5bK4SRqTQ/yVTjIHBO44KR+OKc=;
+        b=oddOU70eOBajE8FdGHRh1e9NhUnxPsLUzFLKsSQQc3UyjVfszrD2O6aaDvvBMUcvQn
+         9HPgnOrFezRpjs8st8mdaKPEB2LcR5Zj5GGgPERIa9qoNDsjl4LtAECixctp1cmR5Gcr
+         STlYnrkshJndWtsrZCStrxF2Vk42rAPXMRlkS5yjb7j0WLWwnN1WalFJ0+f5SGilSZfG
+         7djk6Q3Rtzu9D7z05Auor54LuQURTqfZxQ3tjXPR6jfw/wfEDJ94Lpi94u2S8Zdac98I
+         WiwUH5Wv0AmbisqxcdU6WEvFNfEGRCPdT71YEYr4VFesQFJlKzjHYtoY19TcinIf6A7V
+         HyWg==
+X-Gm-Message-State: AOJu0Yyt8vFRSSe5e2OWtrYPUfbQEL/ccuJS0OniTGbruguR1dF9HHcn
+	umy1Lplp8afcv5Jg/ZE/rKJcRw==
+X-Google-Smtp-Source: AGHT+IGMfRHK1WjljFK41O4BF3DjSvdhbDESVgABGKMrS1tvfer3+IYk5kyekAOKBlohWVvYZdZzJw==
+X-Received: by 2002:a5d:444e:0:b0:320:a19:7f87 with SMTP id x14-20020a5d444e000000b003200a197f87mr1763257wrr.18.1695820122005;
+        Wed, 27 Sep 2023 06:08:42 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id d26-20020adfa41a000000b003247d3e5d99sm1004740wra.55.2023.09.27.06.08.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Sep 2023 06:08:41 -0700 (PDT)
+Date: Wed, 27 Sep 2023 13:56:59 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Su Hui <suhui@nfschina.com>, oe-kbuild@lists.linux.dev, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [amir73il:ovl_want_write 8/8] fs/overlayfs/copy_up.c:459
+ ovl_set_origin_fh() warn: variable dereferenced before check 'fh' (see line
+ 458)
+Message-ID: <9675c618-0bc3-44b6-b3aa-a127fd2c80fc@kadam.mountain>
+References: <1ce9ae3e-718d-490f-b85d-80f7a5d1df72@kadam.mountain>
+ <CAOQ4uxizw5ogqcehJcmuZTDBNLM=hx=jZpdQZ2fsTyVdMZHf1g@mail.gmail.com>
+ <d41c7647-2085-4f80-9d7c-5f17eecb03ba@kadam.mountain>
+ <374b9ca8-1391-4c30-8c70-b788cb656a94@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,50 +58,59 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <374b9ca8-1391-4c30-8c70-b788cb656a94@kadam.mountain>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: Documentation/devicetree/bindings/remoteproc/xilinx,zynqmp-r5-remoteproc.yaml: title: 'Xilinx R5 remote processor controller bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}"
-:::::: 
+On Wed, Sep 27, 2023 at 11:41:46AM +0300, Dan Carpenter wrote:
+> On Wed, Sep 27, 2023 at 11:39:09AM +0300, Dan Carpenter wrote:
+> > On Wed, Sep 27, 2023 at 11:16:12AM +0300, Amir Goldstein wrote:
+> > > > a0c236b11706cc Amir Goldstein 2021-06-19 @458   err = ovl_check_setxattr(ofs, upper, OVL_XATTR_ORIGIN, fh->buf,
+> > > >                                                                                                        ^^^^^^^
+> > > > Dereference
+> > > >
+> > > > cbe7fba8edfc8c Amir Goldstein 2019-11-15 @459                            fh ? fh->fb.len : 0, 0);
+> > > >                                                                          ^^
+> > > > Checked too late.  This code is from 2021 though, so why is the warning
+> > > > getting reported now?
+> > > 
+> > > That is what I was asking myself as well.
+> > > The regressing commit is actually from 2019:
+> > > 
+> > > cbe7fba8edfc ("ovl: make sure that real fid is 32bit aligned in memory")
+> > > 
+> > > I am guessing that the report above was triggered by my change of helper
+> > > name (to ovl_set_origin_fh()) in overlayfs-next.
+> > > 
+> > > Anyway, Su Hui just reported the same smatch warning a few days ago:
+> > > 
+> > > https://lore.kernel.org/linux-unionfs/20230925045059.92883-1-suhui@nfschina.com/
+> > > 
+> > > I will apply Su Hui's fix to overlayfs-next.
+> > > It does not seem too urgent though, because setxattr with 0 length
+> > > would probably ignore the invalid value of buf.
+> > 
+> > I don't know if it's urgent or not, but that explanation doesn't work.
+> > This isn't an inline function.  So the dereference would happen at the
+> > call site and not inside the ovl_check_setxattr() function.
+> 
+> Ah.  Nope.   I'm wrong.  fb->buf[] is an array, so this is pointer
+> math and not a dereference.  Sorry!
+> 
+> Perhaps we did discuss this earlier and decided it's not a bug.
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: git@amd.com
-TO: Wendy Liang <wendy.liang@xilinx.com>
-CC: Michal Simek <monstr@monstr.eu>
-CC: linux-doc@vger.kernel.org
+The truth is that these are not supposed to generate warnings.
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
-head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: 4a9dac9504e729fa23e81c5c83edfeb9a8f91721 [99/1370] dt-binding: soc: xilinx: ai-engine: Add new AI engine binding
-:::::: branch date: 5 days ago
-:::::: commit date: 9 months ago
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230927/202309272051.avo6KQBS-lkp@intel.com/reproduce)
+Previously Smatch handled dereferences in an awkward way and that code
+was duplicated in a bunch of different checks.  So I would maybe silence
+something like this in one place but forget to update the other five
+places.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309272051.avo6KQBS-lkp@intel.com/
+I've cleaned up that code now and centralized it.  It's more user
+friendly and also just better and more accurate.
 
-dtcheck warnings: (new ones prefixed by >>)
-   Documentation/devicetree/bindings/clock/imx31-clock.yaml: title: 'Clock bindings for Freescale i.MX31' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/clock/renesas,9series.yaml: title: 'Binding for Renesas 9-series I2C PCIe clock generators' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
->> Documentation/devicetree/bindings/remoteproc/xilinx,zynqmp-r5-remoteproc.yaml: title: 'Xilinx R5 remote processor controller bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/thermal/st,stm32-thermal.yaml: title: 'STMicroelectronics STM32 digital thermal sensor (DTS) binding' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/phy/ti,phy-am654-serdes.yaml: title: 'TI AM654 SERDES binding' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/clock/qcom,sc7280-camcc.yaml: title: 'Qualcomm Camera Clock & Reset Controller Binding for SC7280' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+So I've written a patch today to silence this warning in Smatch because
+it actually was not supposed to print a warning.  I'll test it out and
+push it later.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+regards,
+dan carpenter
+
