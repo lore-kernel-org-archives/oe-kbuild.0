@@ -1,44 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D003B3FF5
-	for <oe-kbuild@lists.linux.dev>; Wed, 27 Sep 2023 11:54:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2B828E1F
+	for <oe-kbuild@lists.linux.dev>; Wed, 27 Sep 2023 12:57:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695815678; x=1727351678;
+  t=1695819458; x=1727355458;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6MwuNEaK9w6nyQT/GFyqz5yvart9C4FNk46l0ughB3U=;
-  b=SLSpaKWiWMJpd5Os+iXMctusvG+k5ZQxKIGpBDa0Ocjv00LeK6rwoLTy
-   aL80X+micWQvbeL7zMSx50YDRnyY22dr0dbFCsywd52WEsuchtI2t/jji
-   oatQF1GvtaeorIsEmdCV54grEJDhm5x24M3/XKb0O8+8Wh+bZmkcFhrss
-   sNdAOBYAOM8U6/JQua/oPDOdNgp6T6vjamqjC+Z/ev360+QxNAbciIWIH
-   x5HPPCWQHx1/VEDBjRtGow684gOURDpdyH6Sq/xzqu9lqf8swj5ghfD+M
-   uEFmAJ38EbH5S/5Ru8VWZa2Me5UUkxitfplEGQzoToWt86InP9mOt8z55
+  bh=eTFaczyJlAqmwLVapfUF2X6r80DUmr14xFF02L9wu+k=;
+  b=eIBpcF1JtykaQkbaijWrQqba3ZrWE81BJkEnWwuj3bdVSKlZFJXuNcOI
+   ti6I5xjPUIC1zIvV78zEc6gjgvcWBuvQD0JkIIa9Q9F+qGTOhGycakj02
+   SsnqOAw5jQbPZEkYDdGK23JAKy67OopCw1rlJzRUG5hPbJruisrSROnYC
+   +nYOnPC4zQ/E5O/CRqg12DnOCMYyTLG6iLcYCiTqJbijA6Eo0SRA1s2TR
+   ShTRlrOjt4IfCcsyt02+6vpMO0DUJqhYSOcaWPUH/kCQXxzmJppnNrbqE
+   TSk4PZmIVKzRUYjsxzqsTDxCcXqJ21MsF+9XvAA4ame5JDcwTjWr2qb2Y
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="401137"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="385675868"
 X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="401137"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 04:54:37 -0700
+   d="scan'208";a="385675868"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 05:57:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="725771547"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="749185834"
 X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="725771547"
+   d="scan'208";a="749185834"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 27 Sep 2023 04:54:35 -0700
+  by orsmga002.jf.intel.com with ESMTP; 27 Sep 2023 05:57:36 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qlT7h-00009j-0F;
-	Wed, 27 Sep 2023 11:54:33 +0000
-Date: Wed, 27 Sep 2023 19:53:57 +0800
+	id 1qlU6g-0000CB-1m;
+	Wed, 27 Sep 2023 12:57:34 +0000
+Date: Wed, 27 Sep 2023 20:56:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 75/1370] dtbs_check:
- Documentation/devicetree/bindings/perf/xilinx-apm.yaml: title: 'Xilinx Axi
- Performance Monitor device tree bindings' should not be valid under
- {'pattern': '([Bb]inding| [Ss]chema)'}
-Message-ID: <202309271912.or8lobOA-lkp@intel.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 99/1370] dtbs_check:
+ Documentation/devicetree/bindings/remoteproc/xilinx,zynqmp-r5-remoteproc.yaml:
+ title: 'Xilinx R5 remote processor controller bindings' should not be valid
+ under {'pattern': '([Bb]inding| [Ss]chema)'}
+Message-ID: <202309272051.avo6KQBS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,51 +49,46 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: Documentation/devicetree/bindings/perf/xilinx-apm.yaml: title: 'Xilinx Axi Performance Monitor device tree bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}"
+:::::: Manual check reason: "low confidence static check first_new_problem: Documentation/devicetree/bindings/remoteproc/xilinx,zynqmp-r5-remoteproc.yaml: title: 'Xilinx R5 remote processor controller bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: git@amd.com
-TO: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+TO: Wendy Liang <wendy.liang@xilinx.com>
 CC: Michal Simek <monstr@monstr.eu>
-CC: Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
 CC: linux-doc@vger.kernel.org
 
 tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
 head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
-commit: dd65426231fcfbf88e45190dc2846ade079bde8f [75/1370] dt-binding: apm: Add the binding document for APM
+commit: 4a9dac9504e729fa23e81c5c83edfeb9a8f91721 [99/1370] dt-binding: soc: xilinx: ai-engine: Add new AI engine binding
 :::::: branch date: 5 days ago
 :::::: commit date: 9 months ago
 compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230927/202309271912.or8lobOA-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230927/202309272051.avo6KQBS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309271912.or8lobOA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309272051.avo6KQBS-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/phy/intel,phy-thunderbay-emmc.yaml: title: 'Intel Thunder Bay eMMC PHY bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   Documentation/devicetree/bindings/clock/imx31-clock.yaml: title: 'Clock bindings for Freescale i.MX31' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
    hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
    from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/net/ingenic,mac.yaml: title: 'Bindings for MAC in Ingenic SoCs' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   Documentation/devicetree/bindings/clock/renesas,9series.yaml: title: 'Binding for Renesas 9-series I2C PCIe clock generators' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
    hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
    from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/clock/ti/ti,clksel.yaml: title: 'Binding for TI clksel clock' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+>> Documentation/devicetree/bindings/remoteproc/xilinx,zynqmp-r5-remoteproc.yaml: title: 'Xilinx R5 remote processor controller bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
    hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
    from schema $id: http://devicetree.org/meta-schemas/base.yaml#
->> Documentation/devicetree/bindings/perf/xilinx-apm.yaml: title: 'Xilinx Axi Performance Monitor device tree bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   Documentation/devicetree/bindings/thermal/st,stm32-thermal.yaml: title: 'STMicroelectronics STM32 digital thermal sensor (DTS) binding' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
    hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
    from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/spi/spi-gpio.yaml: title: 'SPI-GPIO devicetree bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   Documentation/devicetree/bindings/phy/ti,phy-am654-serdes.yaml: title: 'TI AM654 SERDES binding' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
    hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
    from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/display/bridge/ps8640.yaml: title: 'MIPI DSI to eDP Video Format Converter Device Tree Bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/dma/st,stm32-dmamux.yaml: title: 'STMicroelectronics STM32 DMA MUX (DMA request router) bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   Documentation/devicetree/bindings/clock/qcom,sc7280-camcc.yaml: title: 'Qualcomm Camera Clock & Reset Controller Binding for SC7280' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
    hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
 
 -- 
