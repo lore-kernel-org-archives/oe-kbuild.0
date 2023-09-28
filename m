@@ -1,43 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D384F47C84
-	for <oe-kbuild@lists.linux.dev>; Thu, 28 Sep 2023 14:55:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695912905; x=1727448905;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9xD4Sq5AABZJ8OpMdGGbJGGnKGYC7xlgvfSU0DK2Z38=;
-  b=naMD20F6pDnEtkoNLxXMnGRWF1Axr2GNT9hOWYimNg7CtOQW4JtpZIV3
-   mk9uXIwD0sxQGr0acFJ5353kg2Civ019MxcZxCvsGNw7cuTR4GllUMod0
-   pJ1JjL2dGxSZbySOP2F9pT+bH/jEKAFvVKzH/Kap/DhlCDZnsc7EpDiHv
-   7dEVs1OTOE1ga99YVl0OzxjjHbH/P8kLvGxJ7GE6Fjfk5syhmAGP31dTW
-   izWWn/BxJ3mG4Wmb7z0rLo03ex0kfsqxnwYGpvMp23D9/KJIK6x4RTQew
-   nV74gfHEN8hJFVK3J5bW2GAtwjRnyHN3xBjHY5sYDUtoG0/8CTRnV6aY3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="446232023"
-X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; 
-   d="scan'208";a="446232023"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 07:55:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="873319282"
-X-IronPort-AV: E=Sophos;i="6.03,184,1694761200"; 
-   d="scan'208";a="873319282"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 28 Sep 2023 07:55:01 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qlsPr-0001ZZ-0f;
-	Thu, 28 Sep 2023 14:54:59 +0000
-Date: Thu, 28 Sep 2023 22:54:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66D14D8FF
+	for <oe-kbuild@lists.linux.dev>; Thu, 28 Sep 2023 15:12:32 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40572aeb73cso100939395e9.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 28 Sep 2023 08:12:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695913951; x=1696518751; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QbZ/IqNedSBPQT19iHqk9aJKTCqpT7A2JizGg5+9yTU=;
+        b=fxopEYvtOVvQrT5BrgJ6EN0KCGgFbGh0ffpNJxpewD40+FOg5BLg3I/bP5YVTCuexx
+         /SGTFr9oVsnHlGBeeneiovhraW9uB0JihFj2FLGo9ffF1/BoGDCIdsmU4qwh08cxw/14
+         hUhA2s1nNaNFbTyvBPsBgGtk5aw6nCPZeLfjehAEylyZVe2T4VBPrbFujVnO64nKriWF
+         VPNfzQ0EFJcdS4gX3C7OTykWehDKFYXlg23StFNSPgUrh+xCpzdiuXFZYKHE8y3XSNbD
+         fWAWAxv5ThoTeqTfdgLzKPWw2uEbOz1LXkkGD23ebP9E3XVgf1hj7uYzD1J8Jd36qGl3
+         3ElA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695913951; x=1696518751;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QbZ/IqNedSBPQT19iHqk9aJKTCqpT7A2JizGg5+9yTU=;
+        b=PN2qIiA49oq7nt3No/BtjY7ChYhX161ggsh1pCfN0C890lsXw0g5wFVCM27wIzCuRh
+         d3iLnz0CoMvG1XuKpVKZXlpQtXnYgDcDcyfVtqxKIDJxnWXziuUl64r3/4Pc/1LXn2Hs
+         FnXL17MCN5/UXwlYL+n5UoQhZf7evQhwmdbyaOFYw7XwEzBaic23XZjCt4B2So00EAVt
+         bh2x2nYzVoMcZn+CCI1YceE7mPUOO8DkehU+FXng6Ucoyoo/giPbWhQu9tpeqhUXtDZy
+         HWenuVODNlza93TSSamcUEqzz2WgKvQQ2xK9wS693PubJu2OSH0+O7VZeJQ1kiuVvJJX
+         a82A==
+X-Gm-Message-State: AOJu0YzXfXA9gI/roeUk63X6DvM9CpCf+42nMfK5ecKgzGeGCy9BTXxq
+	f6rlDkebLJn97w7HMpFoq5rNj+5iVDAKxOL1NLU=
+X-Google-Smtp-Source: AGHT+IGnch1UoBa2jDjMOtVTX2kWLxJsEK2B3q+kzsrdf7SdOiCY8CqOEICMXM1NQiFOJg/HOVKVMg==
+X-Received: by 2002:a7b:c5c6:0:b0:406:51a0:17fd with SMTP id n6-20020a7bc5c6000000b0040651a017fdmr1384997wmk.18.1695913950564;
+        Thu, 28 Sep 2023 08:12:30 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p8-20020a7bcc88000000b004064cd71aa8sm2086981wma.34.2023.09.28.08.12.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Sep 2023 08:12:29 -0700 (PDT)
+Date: Thu, 28 Sep 2023 18:12:27 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	=?iso-8859-1?Q?Lu=EDs?= Henriques <lhenriques@suse.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Ilya Dryomov <idryomov@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>, Xiubo Li <xiubli@redhat.com>,
+	Milind Changire <mchangir@redhat.com>
 Subject: fs/ceph/crypto.c:465 ceph_fname_to_usr() warn: variable dereferenced
  before IS_ERR check 'dir' (see line 403)
-Message-ID: <202309282202.xZxGdvS3-lkp@intel.com>
+Message-ID: <b5a0acdb-9c25-46f3-aa44-ac57da8efeee@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,21 +59,9 @@ Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Luís Henriques" <lhenriques@suse.de>
-CC: Ilya Dryomov <idryomov@gmail.com>
-CC: Jeff Layton <jlayton@kernel.org>
-CC: Xiubo Li <xiubli@redhat.com>
-CC: Milind Changire <mchangir@redhat.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   633b47cb009d09dc8f4ba9cdb3a0ca138809c7c7
 commit: dd66df0053ef84add5e684df517aa9b498342381 ceph: add support for encrypted snapshot names
-date:   5 weeks ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 5 weeks ago
 config: x86_64-randconfig-161-20230928 (https://download.01.org/0day-ci/archive/20230928/202309282202.xZxGdvS3-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce: (https://download.01.org/0day-ci/archive/20230928/202309282202.xZxGdvS3-lkp@intel.com/reproduce)
@@ -70,7 +69,7 @@ reproduce: (https://download.01.org/0day-ci/archive/20230928/202309282202.xZxGdv
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202309282202.xZxGdvS3-lkp@intel.com/
 
 smatch warnings:
@@ -78,22 +77,6 @@ fs/ceph/crypto.c:465 ceph_fname_to_usr() warn: variable dereferenced before IS_E
 
 vim +/dir +465 fs/ceph/crypto.c
 
-af9ffa6df7e337 Xiubo Li       2022-03-14  364  
-457117f077c674 Jeff Layton    2021-03-26  365  /**
-457117f077c674 Jeff Layton    2021-03-26  366   * ceph_fname_to_usr - convert a filename for userland presentation
-457117f077c674 Jeff Layton    2021-03-26  367   * @fname: ceph_fname to be converted
-457117f077c674 Jeff Layton    2021-03-26  368   * @tname: temporary name buffer to use for conversion (may be NULL)
-457117f077c674 Jeff Layton    2021-03-26  369   * @oname: where converted name should be placed
-457117f077c674 Jeff Layton    2021-03-26  370   * @is_nokey: set to true if key wasn't available during conversion (may be NULL)
-457117f077c674 Jeff Layton    2021-03-26  371   *
-457117f077c674 Jeff Layton    2021-03-26  372   * Given a filename (usually from the MDS), format it for presentation to
-457117f077c674 Jeff Layton    2021-03-26  373   * userland. If @parent is not encrypted, just pass it back as-is.
-457117f077c674 Jeff Layton    2021-03-26  374   *
-457117f077c674 Jeff Layton    2021-03-26  375   * Otherwise, base64 decode the string, and then ask fscrypt to format it
-457117f077c674 Jeff Layton    2021-03-26  376   * for userland presentation.
-457117f077c674 Jeff Layton    2021-03-26  377   *
-457117f077c674 Jeff Layton    2021-03-26  378   * Returns 0 on success or negative error code on error.
-457117f077c674 Jeff Layton    2021-03-26  379   */
 457117f077c674 Jeff Layton    2021-03-26  380  int ceph_fname_to_usr(const struct ceph_fname *fname, struct fscrypt_str *tname,
 457117f077c674 Jeff Layton    2021-03-26  381  		      struct fscrypt_str *oname, bool *is_nokey)
 457117f077c674 Jeff Layton    2021-03-26  382  {
@@ -114,6 +97,9 @@ dd66df0053ef84 Luís Henriques 2022-08-25  396  	    (name[0] == '_')) {
 dd66df0053ef84 Luís Henriques 2022-08-25  397  		dir = parse_longname(dir, name, &name_len);
 dd66df0053ef84 Luís Henriques 2022-08-25  398  		if (IS_ERR(dir))
 dd66df0053ef84 Luís Henriques 2022-08-25  399  			return PTR_ERR(dir);
+
+If dir is an error pointer, then we return directly.
+
 dd66df0053ef84 Luís Henriques 2022-08-25  400  		name++; /* skip initial '_' */
 dd66df0053ef84 Luís Henriques 2022-08-25  401  	}
 dd66df0053ef84 Luís Henriques 2022-08-25  402  
@@ -180,6 +166,17 @@ dd66df0053ef84 Luís Henriques 2022-08-25  461
 457117f077c674 Jeff Layton    2021-03-26  463  	fscrypt_fname_free_buffer(&_tname);
 dd66df0053ef84 Luís Henriques 2022-08-25  464  out_inode:
 dd66df0053ef84 Luís Henriques 2022-08-25 @465  	if ((dir != fname->dir) && !IS_ERR(dir)) {
+                                                                           ^^^^^^^^^^^^
+Checking a second time, is harmless but annoys static analysis.  I think
+if you have the cross function database then this warning is not
+triggered because Smatch tries to not warn about unnecessary checks so
+long as we are sure they are harmless.  Without the cross function
+database we know that "dir" isn't an error pointer but it might still
+be an invalid pointer.  I guess I could make this more strict to only
+count dereferencing which are potentially error pointer dereferences
+instead of just potentially invalid.  With the cross function database
+we know that parse_longname() either returns valid or error pointers.
+
 dd66df0053ef84 Luís Henriques 2022-08-25  466  		if ((dir->i_state & I_NEW))
 dd66df0053ef84 Luís Henriques 2022-08-25  467  			discard_new_inode(dir);
 dd66df0053ef84 Luís Henriques 2022-08-25  468  		else
@@ -187,8 +184,8 @@ dd66df0053ef84 Luís Henriques 2022-08-25  469  			iput(dir);
 dd66df0053ef84 Luís Henriques 2022-08-25  470  	}
 457117f077c674 Jeff Layton    2021-03-26  471  	return ret;
 457117f077c674 Jeff Layton    2021-03-26  472  }
-14e034a61c908d Luís Henriques 2022-11-29  473  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
