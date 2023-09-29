@@ -1,226 +1,260 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02219CA41
-	for <oe-kbuild@lists.linux.dev>; Fri, 29 Sep 2023 08:23:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695975802; x=1727511802;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B4pcMUO5XUnyMJIHhg4Q32xTVPFJzBXmlGglG94CoOo=;
-  b=BHvzPh9GYANQFBJRb1bAq+ccWRIFEzTvtbu3Q/MFCyUJfmZ185F/IVGE
-   YaAYSPoxE995YIX+Mz64+1ebt8bmKiK4dQs9E/N/ZObltHeNtmgOs02k4
-   ym0+vKqDEneSKTj/DpEuQ6u/5WzkfIEH+KXvQoplpFDC3H6Vj8Ju5Dn0X
-   mjbxyHPJSk+t+mL+xd4EwhpPrRbN9t9UdG2ddhMiSP67PshuXNfjHl5Yz
-   Qvrtki/Z0GMjACJ/l7FVpUn7MuqJAUA7opGHdIKof9PmurCTu09+XFcfU
-   YPXcQNjLgZ/WgX3zgngkHuAo4C4sJVE3Smtldj6kFwfNfYy1ZUvcmKlK1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="468531632"
-X-IronPort-AV: E=Sophos;i="6.03,186,1694761200"; 
-   d="scan'208";a="468531632"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 00:51:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="923533645"
-X-IronPort-AV: E=Sophos;i="6.03,186,1694761200"; 
-   d="scan'208";a="923533645"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 29 Sep 2023 00:51:38 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qm8Hg-0002b5-2C;
-	Fri, 29 Sep 2023 07:51:36 +0000
-Date: Fri, 29 Sep 2023 15:51:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 1206/8790] sound/pci/hda/cs35l41_hda.c:1559
- cs35l41_hda_probe() warn: passing zero to 'dev_err_probe'
-Message-ID: <202309291552.x9o0voiU-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2E61172A;
+	Fri, 29 Sep 2023 09:06:20 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C50B51F45E;
+	Fri, 29 Sep 2023 09:06:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1695978372; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vRsZf1pplGepqP9aipigqi9rZI39Tqxq9C+/yMVZbrk=;
+	b=F4hhoi9CadpF6CO33OymGXwS1dO61J1qkrtAcl+QHRUrBPNYNUM5CCDuPN6GocBAb3rEHA
+	bd4LpAvXiQQCuad4aDO2tclUBC9bj9wnvQ+JVnCL/9MY5bCizbxyar0Ip/y5tQHHnYx47t
+	VtrxXFJR40kfa7GRDcndS8Uo2bGTI6w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1695978372;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vRsZf1pplGepqP9aipigqi9rZI39Tqxq9C+/yMVZbrk=;
+	b=X1rfM2q+eXA8hBq8BhcB0A4dQbdESf1Wd6d5wrVAE83Rbmwh71t6CVORM+x8ynhbL53G72
+	YWjDxzjnKWpOhVDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 329AB13434;
+	Fri, 29 Sep 2023 09:06:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 2K8sCYSTFmXYfQAAMHmgww
+	(envelope-from <lhenriques@suse.de>); Fri, 29 Sep 2023 09:06:12 +0000
+Received: from localhost (brahms.olymp [local])
+	by brahms.olymp (OpenSMTPD) with ESMTPA id 7a904682;
+	Fri, 29 Sep 2023 09:06:09 +0000 (UTC)
+From: =?utf-8?Q?Lu=C3=ADs_Henriques?= <lhenriques@suse.de>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,  lkp@intel.com,
+  oe-kbuild-all@lists.linux.dev,  linux-kernel@vger.kernel.org,  Ilya
+ Dryomov <idryomov@gmail.com>,  Jeff Layton <jlayton@kernel.org>,  Xiubo Li
+ <xiubli@redhat.com>,  Milind Changire <mchangir@redhat.com>
+Subject: Re: fs/ceph/crypto.c:465 ceph_fname_to_usr() warn: variable
+ dereferenced before IS_ERR check 'dir' (see line 403)
+In-Reply-To: <b5a0acdb-9c25-46f3-aa44-ac57da8efeee@kadam.mountain> (Dan
+	Carpenter's message of "Thu, 28 Sep 2023 18:12:27 +0300")
+References: <b5a0acdb-9c25-46f3-aa44-ac57da8efeee@kadam.mountain>
+Date: Fri, 29 Sep 2023 10:06:09 +0100
+Message-ID: <87ttrdz6v2.fsf@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Takashi Iwai <tiwai@suse.de>
+Hi Dan,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   df964ce9ef9fea10cf131bf6bad8658fde7956f6
-commit: 206b250c3e9be44c096bb9bb1f9d6b7f3440bfbb [1206/8790] ALSA: hda: cs35l41: Consistently use dev_err_probe()
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 weeks ago
-config: x86_64-randconfig-161-20230929 (https://download.01.org/0day-ci/archive/20230929/202309291552.x9o0voiU-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230929/202309291552.x9o0voiU-lkp@intel.com/reproduce)
+Dan Carpenter <dan.carpenter@linaro.org> writes:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309291552.x9o0voiU-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   633b47cb009d09dc8f4ba9cdb3a0ca138809c7c7
+> commit: dd66df0053ef84add5e684df517aa9b498342381 ceph: add support for en=
+crypted snapshot names
+> config: x86_64-randconfig-161-20230928 (https://download.01.org/0day-ci/a=
+rchive/20230928/202309282202.xZxGdvS3-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230928/202309282202=
+.xZxGdvS3-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202309282202.xZxGdvS3-lkp@intel.com/
+>
+> smatch warnings:
+> fs/ceph/crypto.c:465 ceph_fname_to_usr() warn: variable dereferenced befo=
+re IS_ERR check 'dir' (see line 403)
 
-New smatch warnings:
-sound/pci/hda/cs35l41_hda.c:1559 cs35l41_hda_probe() warn: passing zero to 'dev_err_probe'
+I agree that this check here is indeed useless and the IS_ERR() here
+could/should be dropped.  In fact, function ceph_encode_encrypted_dname()
+has a similar structure and is not repeating this error check in the
+clean-up code.
 
-Old smatch warnings:
-sound/pci/hda/cs35l41_hda.c:311 cs35l41_request_firmware_files() error: double free of '*wmfw_filename'
+I'll send out a clean-up fix for this in a second (although I also don't
+think there's a real bug here).  Thank you for your report.
 
-vim +/dev_err_probe +1559 sound/pci/hda/cs35l41_hda.c
+Cheers,
+--=20
+Lu=C3=ADs
 
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1506  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1507  int cs35l41_hda_probe(struct device *dev, const char *device_name, int id, int irq,
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1508  		      struct regmap *regmap)
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1509  {
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1510  	unsigned int int_sts, regid, reg_revid, mtl_revid, chipid, int_status;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1511  	struct cs35l41_hda *cs35l41;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1512  	int ret;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1513  
-aa4a38af97e9f1 Stefan Binding     2022-05-09  1514  	BUILD_BUG_ON(ARRAY_SIZE(cs35l41_irqs) != ARRAY_SIZE(cs35l41_reg_irqs));
-aa4a38af97e9f1 Stefan Binding     2022-05-09  1515  	BUILD_BUG_ON(ARRAY_SIZE(cs35l41_irqs) != CS35L41_NUM_IRQ);
-aa4a38af97e9f1 Stefan Binding     2022-05-09  1516  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1517  	if (IS_ERR(regmap))
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1518  		return PTR_ERR(regmap);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1519  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1520  	cs35l41 = devm_kzalloc(dev, sizeof(*cs35l41), GFP_KERNEL);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1521  	if (!cs35l41)
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1522  		return -ENOMEM;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1523  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1524  	cs35l41->dev = dev;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1525  	cs35l41->irq = irq;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1526  	cs35l41->regmap = regmap;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1527  	dev_set_drvdata(dev, cs35l41);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1528  
-f7f207375d4e6e Lucas Tanure       2022-04-13  1529  	ret = cs35l41_hda_read_acpi(cs35l41, device_name, id);
-e35cd6881dd56d Andy Shevchenko    2022-07-11  1530  	if (ret)
-e35cd6881dd56d Andy Shevchenko    2022-07-11  1531  		return dev_err_probe(cs35l41->dev, ret, "Platform not supported\n");
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1532  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1533  	if (IS_ERR(cs35l41->reset_gpio)) {
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1534  		ret = PTR_ERR(cs35l41->reset_gpio);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1535  		cs35l41->reset_gpio = NULL;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1536  		if (ret == -EBUSY) {
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1537  			dev_info(cs35l41->dev, "Reset line busy, assuming shared reset\n");
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1538  		} else {
-e35cd6881dd56d Andy Shevchenko    2022-07-11  1539  			dev_err_probe(cs35l41->dev, ret, "Failed to get reset GPIO\n");
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1540  			goto err;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1541  		}
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1542  	}
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1543  	if (cs35l41->reset_gpio) {
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1544  		usleep_range(2000, 2100);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1545  		gpiod_set_value_cansleep(cs35l41->reset_gpio, 1);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1546  	}
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1547  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1548  	usleep_range(2000, 2100);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1549  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1550  	ret = regmap_read_poll_timeout(cs35l41->regmap, CS35L41_IRQ1_STATUS4, int_status,
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1551  				       int_status & CS35L41_OTP_BOOT_DONE, 1000, 100000);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1552  	if (ret) {
-206b250c3e9be4 Cristian Ciocaltea 2023-09-07  1553  		dev_err_probe(cs35l41->dev, ret, "Failed waiting for OTP_BOOT_DONE\n");
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1554  		goto err;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1555  	}
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1556  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1557  	ret = regmap_read(cs35l41->regmap, CS35L41_IRQ1_STATUS3, &int_sts);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1558  	if (ret || (int_sts & CS35L41_OTP_BOOT_ERR)) {
-206b250c3e9be4 Cristian Ciocaltea 2023-09-07 @1559  		dev_err_probe(cs35l41->dev, ret, "OTP Boot status %x error\n",
-206b250c3e9be4 Cristian Ciocaltea 2023-09-07  1560  			      int_sts & CS35L41_OTP_BOOT_ERR);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1561  		ret = -EIO;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1562  		goto err;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1563  	}
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1564  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1565  	ret = regmap_read(cs35l41->regmap, CS35L41_DEVID, &regid);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1566  	if (ret) {
-206b250c3e9be4 Cristian Ciocaltea 2023-09-07  1567  		dev_err_probe(cs35l41->dev, ret, "Get Device ID failed\n");
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1568  		goto err;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1569  	}
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1570  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1571  	ret = regmap_read(cs35l41->regmap, CS35L41_REVID, &reg_revid);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1572  	if (ret) {
-206b250c3e9be4 Cristian Ciocaltea 2023-09-07  1573  		dev_err_probe(cs35l41->dev, ret, "Get Revision ID failed\n");
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1574  		goto err;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1575  	}
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1576  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1577  	mtl_revid = reg_revid & CS35L41_MTLREVID_MASK;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1578  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1579  	chipid = (mtl_revid % 2) ? CS35L41R_CHIP_ID : CS35L41_CHIP_ID;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1580  	if (regid != chipid) {
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1581  		dev_err(cs35l41->dev, "CS35L41 Device ID (%X). Expected ID %X\n", regid, chipid);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1582  		ret = -ENODEV;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1583  		goto err;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1584  	}
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1585  
-6e4320d8ecbc87 Charles Keepax     2022-01-17  1586  	ret = cs35l41_test_key_unlock(cs35l41->dev, cs35l41->regmap);
-6e4320d8ecbc87 Charles Keepax     2022-01-17  1587  	if (ret)
-6e4320d8ecbc87 Charles Keepax     2022-01-17  1588  		goto err;
-6e4320d8ecbc87 Charles Keepax     2022-01-17  1589  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1590  	ret = cs35l41_register_errata_patch(cs35l41->dev, cs35l41->regmap, reg_revid);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1591  	if (ret)
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1592  		goto err;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1593  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1594  	ret = cs35l41_otp_unpack(cs35l41->dev, cs35l41->regmap);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1595  	if (ret) {
-206b250c3e9be4 Cristian Ciocaltea 2023-09-07  1596  		dev_err_probe(cs35l41->dev, ret, "OTP Unpack failed\n");
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1597  		goto err;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1598  	}
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1599  
-6e4320d8ecbc87 Charles Keepax     2022-01-17  1600  	ret = cs35l41_test_key_lock(cs35l41->dev, cs35l41->regmap);
-6e4320d8ecbc87 Charles Keepax     2022-01-17  1601  	if (ret)
-6e4320d8ecbc87 Charles Keepax     2022-01-17  1602  		goto err;
-6e4320d8ecbc87 Charles Keepax     2022-01-17  1603  
-2d816d4f92086c Stefan Binding     2023-07-21  1604  	ret = regmap_multi_reg_write(cs35l41->regmap, cs35l41_hda_mute,
-2d816d4f92086c Stefan Binding     2023-07-21  1605  				     ARRAY_SIZE(cs35l41_hda_mute));
-2d816d4f92086c Stefan Binding     2023-07-21  1606  	if (ret)
-2d816d4f92086c Stefan Binding     2023-07-21  1607  		goto err;
-2d816d4f92086c Stefan Binding     2023-07-21  1608  
-47ceabd99a2839 Stefan Binding     2022-06-30  1609  	INIT_WORK(&cs35l41->fw_load_work, cs35l41_fw_load_work);
-2e81e1fffd53ba Vitaly Rodionov    2022-06-30  1610  	mutex_init(&cs35l41->fw_mutex);
-2e81e1fffd53ba Vitaly Rodionov    2022-06-30  1611  
-1873ebd30cc818 Stefan Binding     2022-06-30  1612  	pm_runtime_set_autosuspend_delay(cs35l41->dev, 3000);
-1873ebd30cc818 Stefan Binding     2022-06-30  1613  	pm_runtime_use_autosuspend(cs35l41->dev);
-1873ebd30cc818 Stefan Binding     2022-06-30  1614  	pm_runtime_mark_last_busy(cs35l41->dev);
-1873ebd30cc818 Stefan Binding     2022-06-30  1615  	pm_runtime_set_active(cs35l41->dev);
-1873ebd30cc818 Stefan Binding     2022-06-30  1616  	pm_runtime_get_noresume(cs35l41->dev);
-1873ebd30cc818 Stefan Binding     2022-06-30  1617  	pm_runtime_enable(cs35l41->dev);
-1873ebd30cc818 Stefan Binding     2022-06-30  1618  
-f7f207375d4e6e Lucas Tanure       2022-04-13  1619  	ret = cs35l41_hda_apply_properties(cs35l41);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1620  	if (ret)
-1873ebd30cc818 Stefan Binding     2022-06-30  1621  		goto err_pm;
-1873ebd30cc818 Stefan Binding     2022-06-30  1622  
-1873ebd30cc818 Stefan Binding     2022-06-30  1623  	pm_runtime_put_autosuspend(cs35l41->dev);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1624  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1625  	ret = component_add(cs35l41->dev, &cs35l41_hda_comp_ops);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1626  	if (ret) {
-206b250c3e9be4 Cristian Ciocaltea 2023-09-07  1627  		dev_err_probe(cs35l41->dev, ret, "Register component failed\n");
-486465508f8a5f Cristian Ciocaltea 2023-09-07  1628  		goto err_pm;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1629  	}
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1630  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1631  	dev_info(cs35l41->dev, "Cirrus Logic CS35L41 (%x), Revision: %02X\n", regid, reg_revid);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1632  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1633  	return 0;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1634  
-1873ebd30cc818 Stefan Binding     2022-06-30  1635  err_pm:
-85a1bf86fac0c1 Cristian Ciocaltea 2023-09-07  1636  	pm_runtime_dont_use_autosuspend(cs35l41->dev);
-1873ebd30cc818 Stefan Binding     2022-06-30  1637  	pm_runtime_disable(cs35l41->dev);
-1873ebd30cc818 Stefan Binding     2022-06-30  1638  	pm_runtime_put_noidle(cs35l41->dev);
-1873ebd30cc818 Stefan Binding     2022-06-30  1639  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1640  err:
-5577dd2329d03e Lucas Tanure       2022-04-13  1641  	if (cs35l41_safe_reset(cs35l41->regmap, cs35l41->hw_cfg.bst_type))
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1642  		gpiod_set_value_cansleep(cs35l41->reset_gpio, 0);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1643  	gpiod_put(cs35l41->reset_gpio);
-7269734abbf596 Andy Shevchenko    2022-09-05  1644  	kfree(cs35l41->acpi_subsystem_id);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1645  
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1646  	return ret;
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1647  }
-77dc3a6ee2eb58 Lucas Tanure       2022-01-17  1648  EXPORT_SYMBOL_NS_GPL(cs35l41_hda_probe, SND_HDA_SCODEC_CS35L41);
-7b2f3eb492dac7 Lucas Tanure       2021-12-17  1649  
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> vim +/dir +465 fs/ceph/crypto.c
+>
+> 457117f077c674 Jeff Layton    2021-03-26  380  int ceph_fname_to_usr(cons=
+t struct ceph_fname *fname, struct fscrypt_str *tname,
+> 457117f077c674 Jeff Layton    2021-03-26  381  		      struct fscrypt_str=
+ *oname, bool *is_nokey)
+> 457117f077c674 Jeff Layton    2021-03-26  382  {
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  383  	struct inode *dir =
+=3D fname->dir;
+> 457117f077c674 Jeff Layton    2021-03-26  384  	struct fscrypt_str _tname=
+ =3D FSTR_INIT(NULL, 0);
+> 457117f077c674 Jeff Layton    2021-03-26  385  	struct fscrypt_str iname;
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  386  	char *name =3D fname=
+->name;
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  387  	int name_len =3D fna=
+me->name_len;
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  388  	int ret;
+> 457117f077c674 Jeff Layton    2021-03-26  389=20=20
+> 457117f077c674 Jeff Layton    2021-03-26  390  	/* Sanity check that the =
+resulting name will fit in the buffer */
+> 457117f077c674 Jeff Layton    2021-03-26  391  	if (fname->name_len > NAM=
+E_MAX || fname->ctext_len > NAME_MAX)
+> 457117f077c674 Jeff Layton    2021-03-26  392  		return -EIO;
+> 457117f077c674 Jeff Layton    2021-03-26  393=20=20
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  394  	/* Handle the specia=
+l case of snapshot names that start with '_' */
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  395  	if ((ceph_snap(dir) =
+=3D=3D CEPH_SNAPDIR) && (name_len > 0) &&
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  396  	    (name[0] =3D=3D =
+'_')) {
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  397  		dir =3D parse_longn=
+ame(dir, name, &name_len);
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  398  		if (IS_ERR(dir))
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  399  			return PTR_ERR(dir=
+);
+>
+> If dir is an error pointer, then we return directly.
+>
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  400  		name++; /* skip ini=
+tial '_' */
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  401  	}
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  402=20=20
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25 @403  	if (!IS_ENCRYPTED(di=
+r)) {
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  404  		oname->name =3D fna=
+me->name;
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  405  		oname->len =3D fnam=
+e->name_len;
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  406  		ret =3D 0;
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  407  		goto out_inode;
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  408  	}
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  409=20=20
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  410  	ret =3D ceph_fscrypt=
+_prepare_readdir(dir);
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  411  	if (ret)
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  412  		goto out_inode;
+> 457117f077c674 Jeff Layton    2021-03-26  413=20=20
+> 457117f077c674 Jeff Layton    2021-03-26  414  	/*
+> 457117f077c674 Jeff Layton    2021-03-26  415  	 * Use the raw dentry nam=
+e as sent by the MDS instead of
+> 457117f077c674 Jeff Layton    2021-03-26  416  	 * generating a nokey nam=
+e via fscrypt.
+> 457117f077c674 Jeff Layton    2021-03-26  417  	 */
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  418  	if (!fscrypt_has_enc=
+ryption_key(dir)) {
+> af9ffa6df7e337 Xiubo Li       2022-03-14  419  		if (fname->no_copy)
+> af9ffa6df7e337 Xiubo Li       2022-03-14  420  			oname->name =3D fname->=
+name;
+> af9ffa6df7e337 Xiubo Li       2022-03-14  421  		else
+> 457117f077c674 Jeff Layton    2021-03-26  422  			memcpy(oname->name, fna=
+me->name, fname->name_len);
+> 457117f077c674 Jeff Layton    2021-03-26  423  		oname->len =3D fname->na=
+me_len;
+> 457117f077c674 Jeff Layton    2021-03-26  424  		if (is_nokey)
+> 457117f077c674 Jeff Layton    2021-03-26  425  			*is_nokey =3D true;
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  426  		ret =3D 0;
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  427  		goto out_inode;
+> 457117f077c674 Jeff Layton    2021-03-26  428  	}
+> 457117f077c674 Jeff Layton    2021-03-26  429=20=20
+> 457117f077c674 Jeff Layton    2021-03-26  430  	if (fname->ctext_len =3D=
+=3D 0) {
+> 457117f077c674 Jeff Layton    2021-03-26  431  		int declen;
+> 457117f077c674 Jeff Layton    2021-03-26  432=20=20
+> 457117f077c674 Jeff Layton    2021-03-26  433  		if (!tname) {
+> 457117f077c674 Jeff Layton    2021-03-26  434  			ret =3D fscrypt_fname_a=
+lloc_buffer(NAME_MAX, &_tname);
+> 457117f077c674 Jeff Layton    2021-03-26  435  			if (ret)
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  436  				goto out_inode;
+> 457117f077c674 Jeff Layton    2021-03-26  437  			tname =3D &_tname;
+> 457117f077c674 Jeff Layton    2021-03-26  438  		}
+> 457117f077c674 Jeff Layton    2021-03-26  439=20=20
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  440  		declen =3D ceph_bas=
+e64_decode(name, name_len, tname->name);
+> 457117f077c674 Jeff Layton    2021-03-26  441  		if (declen <=3D 0) {
+> 457117f077c674 Jeff Layton    2021-03-26  442  			ret =3D -EIO;
+> 457117f077c674 Jeff Layton    2021-03-26  443  			goto out;
+> 457117f077c674 Jeff Layton    2021-03-26  444  		}
+> 457117f077c674 Jeff Layton    2021-03-26  445  		iname.name =3D tname->na=
+me;
+> 457117f077c674 Jeff Layton    2021-03-26  446  		iname.len =3D declen;
+> 457117f077c674 Jeff Layton    2021-03-26  447  	} else {
+> 457117f077c674 Jeff Layton    2021-03-26  448  		iname.name =3D fname->ct=
+ext;
+> 457117f077c674 Jeff Layton    2021-03-26  449  		iname.len =3D fname->cte=
+xt_len;
+> 457117f077c674 Jeff Layton    2021-03-26  450  	}
+> 457117f077c674 Jeff Layton    2021-03-26  451=20=20
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  452  	ret =3D fscrypt_fnam=
+e_disk_to_usr(dir, 0, 0, &iname, oname);
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  453  	if (!ret && (dir !=
+=3D fname->dir)) {
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  454  		char tmp_buf[CEPH_B=
+ASE64_CHARS(NAME_MAX)];
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  455=20=20
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  456  		name_len =3D snprin=
+tf(tmp_buf, sizeof(tmp_buf), "_%.*s_%ld",
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  457  				    oname->len, o=
+name->name, dir->i_ino);
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  458  		memcpy(oname->name,=
+ tmp_buf, name_len);
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  459  		oname->len =3D name=
+_len;
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  460  	}
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  461=20=20
+> 457117f077c674 Jeff Layton    2021-03-26  462  out:
+> 457117f077c674 Jeff Layton    2021-03-26  463  	fscrypt_fname_free_buffer=
+(&_tname);
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  464  out_inode:
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25 @465  	if ((dir !=3D fname-=
+>dir) && !IS_ERR(dir)) {
+>                                                                          =
+  ^^^^^^^^^^^^
+> Checking a second time, is harmless but annoys static analysis.  I think
+> if you have the cross function database then this warning is not
+> triggered because Smatch tries to not warn about unnecessary checks so
+> long as we are sure they are harmless.  Without the cross function
+> database we know that "dir" isn't an error pointer but it might still
+> be an invalid pointer.  I guess I could make this more strict to only
+> count dereferencing which are potentially error pointer dereferences
+> instead of just potentially invalid.  With the cross function database
+> we know that parse_longname() either returns valid or error pointers.
+>
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  466  		if ((dir->i_state &=
+ I_NEW))
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  467  			discard_new_inode(=
+dir);
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  468  		else
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  469  			iput(dir);
+> dd66df0053ef84 Lu=C3=ADs Henriques 2022-08-25  470  	}
+> 457117f077c674 Jeff Layton    2021-03-26  471  	return ret;
+> 457117f077c674 Jeff Layton    2021-03-26  472  }
+>
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
+
