@@ -1,42 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0381773E
-	for <oe-kbuild@lists.linux.dev>; Thu, 28 Sep 2023 21:43:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1ECA10FA
+	for <oe-kbuild@lists.linux.dev>; Fri, 29 Sep 2023 01:34:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695937414; x=1727473414;
+  t=1695951243; x=1727487243;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8Xp8zgcCP6FrduhclIV7Lntj35t9EWJEvw7aGjGqo1s=;
-  b=YCYEPinxDWbQiSkTp1nJKyzh0zF5wJYLreT61h3Vk1gPOSiaK+lqjHuj
-   yYdeXF8w0LwfPIfrKoT7PbYlwQjy2hEIaChFlFnAwxF77mMLhKRfLEw5c
-   J2S63KIB9siGblamdCP7zZWgIeuR/b1pZYUN9PKgc5XQ5Vb3D8aVWzCus
-   xBpXmAhQdzx82KODIwqCusfd2TaimTzesosEO2w1eWt8XG1ThKmw4H0mb
-   QyQGRQ3maVdyHbpMH3t5/W4Pa+/yrbVYqJR0aVNZ22J+q+uqn/NIbCz4I
-   VczgkcYRGJ26HY26jLOvZ5tATfAb4ChalyC5WatK1TsDZdSmijxqZ5zYv
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="789503"
+  bh=xgr3kPzmCx/3kpKBEjTrhvMFgzpIU8wXljQSrcieNDk=;
+  b=SuJcV+615+KrnW4WIuVu6kNkYLiWjcwoWG8MTGMFUitEJfu4MP3cZns2
+   SaqsMXhoG/Zfbh33x0xnPj+IEWYKfRNvjyPplKvODwBtgAotJlQ8e8RhG
+   CBt017FfM1/AgxBEqI9KmWkyOt/aTTUXJVpcgjH4mVUHdFmj7j2PpmIWl
+   659eN3UK2weBjCXQ7Qez0J1otpYPou33OzA41q4nFz9x7tT8Y4xYhcJLx
+   cDzT2EilJe6XiA6v4xKRvM5hW2LHi6oSX33hAhzU4iUnBYAreUAqQl7sO
+   Jxd/WpAxT8bYRplRYaztTgfkofVr6hbQuFG70g4MV5TU4D6Fi7wiJujh1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="822101"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="789503"
+   d="scan'208";a="822101"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 14:43:34 -0700
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 18:34:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="996720992"
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="996767250"
 X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
-   d="scan'208";a="996720992"
+   d="scan'208";a="996767250"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 28 Sep 2023 14:43:31 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 28 Sep 2023 18:34:00 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qlynB-0001zj-1f;
-	Thu, 28 Sep 2023 21:43:29 +0000
-Date: Fri, 29 Sep 2023 05:43:12 +0800
+	id 1qm2OE-0002Hv-0L;
+	Fri, 29 Sep 2023 01:33:58 +0000
+Date: Fri, 29 Sep 2023 09:33:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [jirislaby:devel 59/60] arch/x86/kernel/cpu/common.c: asm/ia32.h is
- included more than once.
-Message-ID: <202309290535.d6LqYcCu-lkp@intel.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS 149/1370]
+ drivers/clk/clk-xlnx-clock-wizard-v.c:231:41: sparse: sparse: decimal
+ constant 2160000000 is between LONG_MAX and ULONG_MAX. For C99 that means
+ long long, C90 compilers are very likely to produce unsigned long (and a
+ warning) here
+Message-ID: <202309290902.iD4ygGSq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,74 +50,63 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/clk/clk-xlnx-clock-wizard-v.c:231:41: sparse: sparse: decimal constant 2160000000 is between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers are very likely to produce unsigned long (and a warning) here"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Nikolay Borisov <nik.borisov@suse.com>
-CC: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+CC: git@amd.com
+TO: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+CC: Michal Simek <monstr@monstr.eu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
-head:   f0b9af5cd227a9275843be23ecfed63be10a7abb
-commit: 708eb744b1edaa9c5fca8f9a2d59293b8959e9dd [59/60] x86/entry: Make IA32 syscalls' availability depend on ia32_enabled()
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230929/202309290535.d6LqYcCu-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS
+head:   a19da02cf5b44420ec6afb1eef348c21d9e8cda2
+commit: e756a95a51aa08308550da18fbd27b4811517b68 [149/1370] clocking-wizard: Add versal clocking wizard support
+:::::: branch date: 7 days ago
+:::::: commit date: 9 months ago
+config: i386-randconfig-062-20230929 (https://download.01.org/0day-ci/archive/20230929/202309290902.iD4ygGSq-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290902.iD4ygGSq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202309290535.d6LqYcCu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309290902.iD4ygGSq-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> arch/x86/kernel/cpu/common.c: asm/ia32.h is included more than once.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clk/clk-xlnx-clock-wizard-v.c:231:41: sparse: sparse: decimal constant 2160000000 is between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers are very likely to produce unsigned long (and a warning) here
 
-vim +65 arch/x86/kernel/cpu/common.c
+vim +231 drivers/clk/clk-xlnx-clock-wizard-v.c
 
-    29	
-    30	#include <asm/alternative.h>
-    31	#include <asm/cmdline.h>
-    32	#include <asm/perf_event.h>
-    33	#include <asm/mmu_context.h>
-    34	#include <asm/doublefault.h>
-    35	#include <asm/archrandom.h>
-    36	#include <asm/hypervisor.h>
-    37	#include <asm/processor.h>
-    38	#include <asm/tlbflush.h>
-    39	#include <asm/debugreg.h>
-    40	#include <asm/sections.h>
-    41	#include <asm/vsyscall.h>
-    42	#include <linux/topology.h>
-    43	#include <linux/cpumask.h>
-    44	#include <linux/atomic.h>
-    45	#include <asm/proto.h>
-    46	#include <asm/setup.h>
-    47	#include <asm/apic.h>
-    48	#include <asm/desc.h>
-    49	#include <asm/fpu/api.h>
-    50	#include <asm/mtrr.h>
-    51	#include <asm/hwcap2.h>
-    52	#include <linux/numa.h>
-    53	#include <asm/numa.h>
-    54	#include <asm/asm.h>
-    55	#include <asm/bugs.h>
-    56	#include <asm/cpu.h>
-    57	#include <asm/mce.h>
-    58	#include <asm/msr.h>
-    59	#include <asm/cacheinfo.h>
-    60	#include <asm/memtype.h>
-    61	#include <asm/microcode.h>
-    62	#include <asm/intel-family.h>
-    63	#include <asm/cpu_device_id.h>
-    64	#include <asm/uv/uv.h>
-  > 65	#include <asm/ia32.h>
-    66	#include <asm/set_memory.h>
-  > 67	#include <asm/ia32.h>
-    68	#include <asm/traps.h>
-    69	#include <asm/sev.h>
-    70	
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  220  
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  221  static int clk_wzrd_get_divisors(struct clk_hw *hw, unsigned long rate,
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  222  				 unsigned long parent_rate)
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  223  {
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  224  	struct clk_wzrd_divider *divider = to_clk_wzrd_divider(hw);
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  225  	u64 vco_freq, freq, diff;
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  226  	u32 m, d, o;
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  227  
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  228  	for (m = WZRD_M_MIN; m <= WZRD_M_MAX; m++) {
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  229  		for (d = WZRD_D_MIN; d <= WZRD_D_MAX; d++) {
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  230  			vco_freq = DIV_ROUND_CLOSEST((parent_rate * m), d);
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31 @231  			if (vco_freq >= WZRD_VCO_MIN && vco_freq <= WZRD_VCO_MAX) {
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  232  				for (o = WZRD_O_MIN; o <= WZRD_O_MAX; o++) {
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  233  					freq = DIV_ROUND_CLOSEST_ULL(vco_freq, o);
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  234  					diff = abs(freq - rate);
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  235  
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  236  					if (diff < WZRD_MIN_ERR) {
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  237  						divider->valuem = m;
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  238  						divider->valued = d;
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  239  						divider->valueo = o;
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  240  						return 0;
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  241  					}
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  242  				}
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  243  			}
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  244  		}
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  245  	}
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  246  	return -EBUSY;
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  247  }
+e756a95a51aa08 Shubhrajyoti Datta 2020-03-31  248  
 
 -- 
 0-DAY CI Kernel Test Service
