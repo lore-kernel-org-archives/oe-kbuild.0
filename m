@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39DF15A6
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Sep 2023 11:05:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6EEA5E
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Sep 2023 12:24:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696071944; x=1727607944;
+  t=1696076687; x=1727612687;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vJbGeW+L1zvyhXWdy18iF+9sduZuX7ihDatY30NvZ7o=;
-  b=ItshlJxUPzQSKO82JfcBu0wBNHpwEZSLPbLjZ6KtFjLgS0NxkYGYtjIe
-   RdscSNUejAShWQXUoBL0jFl2gFpsEEzRkyFJZ70bPVcOGZasyTJWMihd+
-   jjb3uLd9/gurlnrgsAMB7R+ID/Ws5srMcCCzvW7EBY9+sIgbp+HAWD4oe
-   H0I0t+Czx6/jdOFqcItgb3zMdFzDgLv792EuIBEHXFyqakNHmd32LkptT
-   WZM1o/2lZ+2s6G/CGhfGGU97fDKxN2AmqGVDGnIea24qxIP3jScTNyWnw
-   udp9WDQx8KJgEh6X6md0wzpS4TLpsF90klHDFzwNlKk/5gBR/MmAURxh1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="446597890"
+  bh=toBZ2RXmqzdAB0oFsRAnow2M5eIO9ByAlNzBIgCrYSw=;
+  b=XU65dq7sIW8PnAd2FWewkXKxhH69Fj94SOteM+Q/DaD9sWz+X4yyIwiW
+   ez2TvwbDnx9QKRnS/JNXkhHG0EgUGNDJd/bfk0c9fp/5yxudEnteBhC9x
+   U739gxMUtKxpCLYu1t1tXQwevj2j9l1gI5u1R7nqxc5H/56fOzhVr+AFF
+   ORd3SSDQDC1GKBSVhVy7JN2ETODPf0q8t+2++vE/toaUePGjEtULUxw0h
+   E1wAtbkp9Sck1D9hUc/yUCO0NOAs8ygzh8Ngc8bp7Rr1LLjVbUtpuQbDT
+   AJ7XW0+6JTPFfYeZJ2NEAY3vOqXXGJLJWyGH3W5zAsx17qQI+ICJ1FW7m
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="381322897"
 X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="446597890"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 04:05:43 -0700
+   d="scan'208";a="381322897"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 05:24:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="815833277"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="840542083"
 X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="815833277"
+   d="scan'208";a="840542083"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Sep 2023 04:05:42 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 30 Sep 2023 05:24:45 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmXn2-000440-0z;
-	Sat, 30 Sep 2023 11:05:40 +0000
-Date: Sat, 30 Sep 2023 19:05:19 +0800
+	id 1qmZ1W-00048F-2y;
+	Sat, 30 Sep 2023 12:24:42 +0000
+Date: Sat, 30 Sep 2023 20:23:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/i915/gvt/vgpu.c:119 intel_gvt_init_vgpu_types()
- warn: replace divide condition 'low_avail / conf->low_mm' with 'low_avail >=
- conf->low_mm'
-Message-ID: <202309301821.Y19XmTEQ-lkp@intel.com>
+Subject: drivers/net/ethernet/emulex/benet/be_main.c:2460
+ be_rx_compl_process_gro() error: buffer overflow
+ '((skb_end_pointer(skb)))->frags' 17 <= u16max
+Message-ID: <202309302057.MA60uL2G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,80 +50,91 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Alex Williamson <alex.williamson@redhat.com>
-CC: Jason Gunthorpe <jgg@nvidia.com>
-CC: Zhenyu Wang <zhenyuw@linux.intel.com>
+TO: Yunsheng Lin <linyunsheng@huawei.com>
+CC: Leon Romanovsky <leonro@nvidia.com>
+CC: Simon Horman <simon.horman@corigine.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9f3ebbef746f89f860a90ced99a359202ea86fde
-commit: 1aa3834f510c9d9206ce4d40aff4903b0c016761 drm/i915/gvt: simplify vgpu configuration management
-date:   12 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 12 months ago
-config: x86_64-randconfig-161-20230930 (https://download.01.org/0day-ci/archive/20230930/202309301821.Y19XmTEQ-lkp@intel.com/config)
+commit: b51f4113ebb02011f0ca86abc3134b28d2071b6a net: introduce and use skb_frag_fill_page_desc()
+date:   5 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-161-20230930 (https://download.01.org/0day-ci/archive/20230930/202309302057.MA60uL2G-lkp@intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230930/202309301821.Y19XmTEQ-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230930/202309302057.MA60uL2G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309301821.Y19XmTEQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309302057.MA60uL2G-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/i915/gvt/vgpu.c:119 intel_gvt_init_vgpu_types() warn: replace divide condition 'low_avail / conf->low_mm' with 'low_avail >= conf->low_mm'
+drivers/net/ethernet/emulex/benet/be_main.c:2460 be_rx_compl_process_gro() error: buffer overflow '((skb_end_pointer(skb)))->frags' 17 <= u16max
 
-vim +119 drivers/gpu/drm/i915/gvt/vgpu.c
+vim +2460 drivers/net/ethernet/emulex/benet/be_main.c
 
-191020b670f84f Zhenyu Wang       2017-02-23   96  
-1f31c8294880d1 Zhenyu Wang       2016-11-03   97  /**
-1f31c8294880d1 Zhenyu Wang       2016-11-03   98   * intel_gvt_init_vgpu_types - initialize vGPU type list
-1f31c8294880d1 Zhenyu Wang       2016-11-03   99   * @gvt : GVT device
-1f31c8294880d1 Zhenyu Wang       2016-11-03  100   *
-1f31c8294880d1 Zhenyu Wang       2016-11-03  101   * Initialize vGPU type list based on available resource.
-1f31c8294880d1 Zhenyu Wang       2016-11-03  102   *
-1f31c8294880d1 Zhenyu Wang       2016-11-03  103   */
-1f31c8294880d1 Zhenyu Wang       2016-11-03  104  int intel_gvt_init_vgpu_types(struct intel_gvt *gvt)
-1f31c8294880d1 Zhenyu Wang       2016-11-03  105  {
-1aa3834f510c9d Christoph Hellwig 2022-09-23  106  	unsigned int low_avail = gvt_aperture_sz(gvt) - HOST_LOW_GM_SIZE;
-1aa3834f510c9d Christoph Hellwig 2022-09-23  107  	unsigned int high_avail = gvt_hidden_sz(gvt) - HOST_HIGH_GM_SIZE;
-1aa3834f510c9d Christoph Hellwig 2022-09-23  108  	unsigned int num_types = ARRAY_SIZE(intel_vgpu_configs);
-1aa3834f510c9d Christoph Hellwig 2022-09-23  109  	unsigned int i;
-1f31c8294880d1 Zhenyu Wang       2016-11-03  110  
-6396bb221514d2 Kees Cook         2018-06-12  111  	gvt->types = kcalloc(num_types, sizeof(struct intel_vgpu_type),
-1f31c8294880d1 Zhenyu Wang       2016-11-03  112  			     GFP_KERNEL);
-1f31c8294880d1 Zhenyu Wang       2016-11-03  113  	if (!gvt->types)
-1f31c8294880d1 Zhenyu Wang       2016-11-03  114  		return -ENOMEM;
-1f31c8294880d1 Zhenyu Wang       2016-11-03  115  
-1f31c8294880d1 Zhenyu Wang       2016-11-03  116  	for (i = 0; i < num_types; ++i) {
-1aa3834f510c9d Christoph Hellwig 2022-09-23  117  		const struct intel_vgpu_config *conf = &intel_vgpu_configs[i];
-191020b670f84f Zhenyu Wang       2017-02-23  118  
-1aa3834f510c9d Christoph Hellwig 2022-09-23 @119  		if (low_avail / conf->low_mm == 0)
-1aa3834f510c9d Christoph Hellwig 2022-09-23  120  			break;
-1aa3834f510c9d Christoph Hellwig 2022-09-23  121  		if (conf->weight < 1 || conf->weight > VGPU_MAX_WEIGHT)
-98828955971363 Christoph Hellwig 2022-09-23  122  			goto out_free_types;
-bc90d097ae144f Ping Gao          2017-03-30  123  
-1aa3834f510c9d Christoph Hellwig 2022-09-23  124  		sprintf(gvt->types[i].name, "GVTg_V%u_%s",
-1aa3834f510c9d Christoph Hellwig 2022-09-23  125  			GRAPHICS_VER(gvt->gt->i915) == 8 ? 4 : 5, conf->name);
-1aa3834f510c9d Christoph Hellwig 2022-09-23  126  		gvt->types[i].conf = conf;
-1aa3834f510c9d Christoph Hellwig 2022-09-23  127  		gvt->types[i].avail_instance = min(low_avail / conf->low_mm,
-1aa3834f510c9d Christoph Hellwig 2022-09-23  128  						   high_avail / conf->high_mm);
-1f31c8294880d1 Zhenyu Wang       2016-11-03  129  
-bc90d097ae144f Ping Gao          2017-03-30  130  		gvt_dbg_core("type[%d]: %s avail %u low %u high %u fence %u weight %u res %s\n",
-1aa3834f510c9d Christoph Hellwig 2022-09-23  131  			     i, gvt->types[i].name, gvt->types[i].avail_instance,
-1aa3834f510c9d Christoph Hellwig 2022-09-23  132  			     conf->low_mm, conf->high_mm, conf->fence,
-1aa3834f510c9d Christoph Hellwig 2022-09-23  133  			     conf->weight, vgpu_edid_str(conf->edid));
-1f31c8294880d1 Zhenyu Wang       2016-11-03  134  	}
-1f31c8294880d1 Zhenyu Wang       2016-11-03  135  
-1f31c8294880d1 Zhenyu Wang       2016-11-03  136  	gvt->num_types = i;
-1f31c8294880d1 Zhenyu Wang       2016-11-03  137  	return 0;
-98828955971363 Christoph Hellwig 2022-09-23  138  
-98828955971363 Christoph Hellwig 2022-09-23  139  out_free_types:
-98828955971363 Christoph Hellwig 2022-09-23  140  	kfree(gvt->types);
-98828955971363 Christoph Hellwig 2022-09-23  141  	return -EINVAL;
-1f31c8294880d1 Zhenyu Wang       2016-11-03  142  }
-1f31c8294880d1 Zhenyu Wang       2016-11-03  143  
+6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2426  
+5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2427  /* Process the RX completion indicated by rxcp when GRO is enabled */
+4188e7df44bf31 drivers/net/ethernet/emulex/benet/be_main.c Jingoo Han      2013-08-05  2428  static void be_rx_compl_process_gro(struct be_rx_obj *rxo,
+4188e7df44bf31 drivers/net/ethernet/emulex/benet/be_main.c Jingoo Han      2013-08-05  2429  				    struct napi_struct *napi,
+2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2430  				    struct be_rx_compl_info *rxcp)
+6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2431  {
+10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2432  	struct be_adapter *adapter = rxo->adapter;
+6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2433  	struct be_rx_page_info *page_info;
+5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2434  	struct sk_buff *skb = NULL;
+2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2435  	u16 remaining, curr_frag_len;
+2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2436  	u16 i, j;
+3968fa1e588961 drivers/net/benet/be_main.c                 Ajit Khaparde   2011-02-20  2437  
+10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2438  	skb = napi_get_frags(napi);
+5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2439  	if (!skb) {
+10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2440  		be_rx_compl_discard(rxo, rxcp);
+5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2441  		return;
+5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2442  	}
+5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2443  
+2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2444  	remaining = rxcp->pkt_size;
+2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2445  	for (i = 0, j = -1; i < rxcp->num_rcvd; i++) {
+0b0ef1d027008f drivers/net/ethernet/emulex/benet/be_main.c Suresh Reddy    2014-01-15  2446  		page_info = get_rx_page_info(rxo);
+6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2447  
+6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2448  		curr_frag_len = min(remaining, rx_frag_size);
+6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2449  
+bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2450  		/* Coalesce all frags from the same physical page in one slot */
+bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2451  		if (i == 0 || page_info->page_offset == 0) {
+bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2452  			/* First frag or Fresh page */
+bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2453  			j++;
+b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2454  			skb_frag_fill_page_desc(&skb_shinfo(skb)->frags[j],
+b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2455  						page_info->page,
+b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2456  						page_info->page_offset,
+b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2457  						curr_frag_len);
+bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2458  		} else {
+bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2459  			put_page(page_info->page);
+b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11 @2460  			skb_frag_size_add(&skb_shinfo(skb)->frags[j],
+b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2461  					  curr_frag_len);
+bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2462  		}
+b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2463  
+bdb28a97f46b53 drivers/net/ethernet/emulex/benet/be_main.c Eric Dumazet    2011-10-13  2464  		skb->truesize += rx_frag_size;
+bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2465  		remaining -= curr_frag_len;
+6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2466  		memset(page_info, 0, sizeof(*page_info));
+6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2467  	}
+bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2468  	BUG_ON(j > MAX_SKB_FRAGS);
+6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2469  
+5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2470  	skb_shinfo(skb)->nr_frags = j + 1;
+2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2471  	skb->len = rxcp->pkt_size;
+2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2472  	skb->data_len = rxcp->pkt_size;
+5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2473  	skb->ip_summed = CHECKSUM_UNNECESSARY;
+aaa6daec586cd3 drivers/net/ethernet/emulex/benet/be_main.c Somnath Kotur   2012-05-02  2474  	skb_record_rx_queue(skb, rxo - &adapter->rx_obj[0]);
+4b97291429bf59 drivers/net/benet/be_main.c                 Ajit Khaparde   2011-04-06  2475  	if (adapter->netdev->features & NETIF_F_RXHASH)
+d2464c8c547333 drivers/net/ethernet/emulex/benet/be_main.c Tom Herbert     2013-12-17  2476  		skb_set_hash(skb, rxcp->rss_hash, PKT_HASH_TYPE_L3);
+c9c47142f6bf46 drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2014-03-27  2477  
+b6c0e89dd3a1b2 drivers/net/ethernet/emulex/benet/be_main.c Tom Herbert     2014-08-27  2478  	skb->csum_level = rxcp->tunneled;
+5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2479  
+343e43c02850a3 drivers/net/ethernet/emulex/benet/be_main.c Jiri Pirko      2011-08-25  2480  	if (rxcp->vlanf)
+86a9bad3ab6b6f drivers/net/ethernet/emulex/benet/be_main.c Patrick McHardy 2013-04-19  2481  		__vlan_hwaccel_put_tag(skb, htons(ETH_P_8021Q), rxcp->vlan_tag);
+4c5102f94c175d drivers/net/benet/be_main.c                 Ajit Khaparde   2011-07-12  2482  
+10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2483  	napi_gro_frags(napi);
+2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2484  }
+2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2485  
 
 -- 
 0-DAY CI Kernel Test Service
