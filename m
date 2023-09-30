@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2738F5F
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Sep 2023 10:02:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39DF15A6
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Sep 2023 11:05:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696068148; x=1727604148;
+  t=1696071944; x=1727607944;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DNKJPeL11iqE96nE8dnDFOWziacMZLryJboR9tPyJ3U=;
-  b=f0yHTwCrpz57k7fQgW9YM/UeW2oFXmMYj/M2/n5YBjgyHNs/ZRizjlyt
-   MMO3bXOo3uD4dizamZccjuUAICivt+0JeNXLn9AXvWw/wlVel99dNfLAf
-   JJMPn2Igi6v0Aqq/iTGmtKa9ZiluyQMYwn9ROoHSFq3LQ/yORRjT1BWc/
-   mPAYhiPSGPytOsTzOHMhp1h0tbIagotD8NpYF7g8WkSdr/qnoSbC3hof+
-   Cy+bu8qi/oURiNPENJNr2OIiyo0G62ipw5nh+sR1w1qEPApxJEqIngJi9
-   03c/9qhM80Z28W/oePMWo2sfIzmXxFpcbicxq7ojRqB+dzvZ/tE3xyHRO
+  bh=vJbGeW+L1zvyhXWdy18iF+9sduZuX7ihDatY30NvZ7o=;
+  b=ItshlJxUPzQSKO82JfcBu0wBNHpwEZSLPbLjZ6KtFjLgS0NxkYGYtjIe
+   RdscSNUejAShWQXUoBL0jFl2gFpsEEzRkyFJZ70bPVcOGZasyTJWMihd+
+   jjb3uLd9/gurlnrgsAMB7R+ID/Ws5srMcCCzvW7EBY9+sIgbp+HAWD4oe
+   H0I0t+Czx6/jdOFqcItgb3zMdFzDgLv792EuIBEHXFyqakNHmd32LkptT
+   WZM1o/2lZ+2s6G/CGhfGGU97fDKxN2AmqGVDGnIea24qxIP3jScTNyWnw
+   udp9WDQx8KJgEh6X6md0wzpS4TLpsF90klHDFzwNlKk/5gBR/MmAURxh1
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="385263583"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="446597890"
 X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="385263583"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 03:02:28 -0700
+   d="scan'208";a="446597890"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 04:05:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="923807244"
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="815833277"
 X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="923807244"
+   d="scan'208";a="815833277"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 30 Sep 2023 03:02:26 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 30 Sep 2023 04:05:42 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmWnn-00040V-2k;
-	Sat, 30 Sep 2023 10:02:23 +0000
-Date: Sat, 30 Sep 2023 18:02:16 +0800
+	id 1qmXn2-000440-0z;
+	Sat, 30 Sep 2023 11:05:40 +0000
+Date: Sat, 30 Sep 2023 19:05:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/broadcom/bnxt/bnxt_ulp.c:415
- bnxt_rdma_aux_device_init() warn: possible memory leak of 'edev'
-Message-ID: <202309301712.5srMAyFC-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/gvt/vgpu.c:119 intel_gvt_init_vgpu_types()
+ warn: replace divide condition 'low_avail / conf->low_mm' with 'low_avail >=
+ conf->low_mm'
+Message-ID: <202309301821.Y19XmTEQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,104 +50,80 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Ajit Khaparde <ajit.khaparde@broadcom.com>
-CC: Leon Romanovsky <leonro@nvidia.com>
+TO: Christoph Hellwig <hch@lst.de>
+CC: Alex Williamson <alex.williamson@redhat.com>
+CC: Jason Gunthorpe <jgg@nvidia.com>
+CC: Zhenyu Wang <zhenyuw@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9f3ebbef746f89f860a90ced99a359202ea86fde
-commit: 30343221132430c24b468493c861f71e2bad131f bnxt_en: Remove runtime interrupt vector allocation
-date:   8 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 8 months ago
-config: x86_64-randconfig-161-20230930 (https://download.01.org/0day-ci/archive/20230930/202309301712.5srMAyFC-lkp@intel.com/config)
+commit: 1aa3834f510c9d9206ce4d40aff4903b0c016761 drm/i915/gvt: simplify vgpu configuration management
+date:   12 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 12 months ago
+config: x86_64-randconfig-161-20230930 (https://download.01.org/0day-ci/archive/20230930/202309301821.Y19XmTEQ-lkp@intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230930/202309301712.5srMAyFC-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230930/202309301821.Y19XmTEQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309301712.5srMAyFC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309301821.Y19XmTEQ-lkp@intel.com/
 
 smatch warnings:
-drivers/net/ethernet/broadcom/bnxt/bnxt_ulp.c:415 bnxt_rdma_aux_device_init() warn: possible memory leak of 'edev'
+drivers/gpu/drm/i915/gvt/vgpu.c:119 intel_gvt_init_vgpu_types() warn: replace divide condition 'low_avail / conf->low_mm' with 'low_avail >= conf->low_mm'
 
-vim +/edev +415 drivers/net/ethernet/broadcom/bnxt/bnxt_ulp.c
+vim +119 drivers/gpu/drm/i915/gvt/vgpu.c
 
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  348  
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  349  void bnxt_rdma_aux_device_init(struct bnxt *bp)
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  350  {
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  351  	struct auxiliary_device *aux_dev;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  352  	struct bnxt_aux_priv *aux_priv;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  353  	struct bnxt_en_dev *edev;
-30343221132430 Ajit Khaparde 2022-12-12  354  	struct bnxt_ulp *ulp;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  355  	int rc;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  356  
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  357  	if (!(bp->flags & BNXT_FLAG_ROCE_CAP))
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  358  		return;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  359  
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  360  	bp->aux_priv = kzalloc(sizeof(*bp->aux_priv), GFP_KERNEL);
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  361  	if (!bp->aux_priv)
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  362  		goto exit;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  363  
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  364  	bp->aux_priv->id = ida_alloc(&bnxt_aux_dev_ids, GFP_KERNEL);
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  365  	if (bp->aux_priv->id < 0) {
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  366  		netdev_warn(bp->dev,
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  367  			    "ida alloc failed for ROCE auxiliary device\n");
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  368  		kfree(bp->aux_priv);
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  369  		goto exit;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  370  	}
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  371  
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  372  	aux_priv = bp->aux_priv;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  373  	aux_dev = &aux_priv->aux_dev;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  374  	aux_dev->id = aux_priv->id;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  375  	aux_dev->name = "rdma";
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  376  	aux_dev->dev.parent = &bp->pdev->dev;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  377  	aux_dev->dev.release = bnxt_aux_dev_release;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  378  
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  379  	rc = auxiliary_device_init(aux_dev);
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  380  	if (rc) {
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  381  		ida_free(&bnxt_aux_dev_ids, bp->aux_priv->id);
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  382  		kfree(bp->aux_priv);
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  383  		goto exit;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  384  	}
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  385  
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  386  	/* From this point, all cleanup will happen via the .release callback &
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  387  	 * any error unwinding will need to include a call to
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  388  	 * auxiliary_device_uninit.
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  389  	 */
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  390  	edev = kzalloc(sizeof(*edev), GFP_KERNEL);
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  391  	if (!edev)
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  392  		goto aux_dev_uninit;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  393  
-30343221132430 Ajit Khaparde 2022-12-12  394  	ulp = kzalloc(sizeof(*ulp), GFP_KERNEL);
-30343221132430 Ajit Khaparde 2022-12-12  395  	if (!ulp)
-30343221132430 Ajit Khaparde 2022-12-12  396  		goto aux_dev_uninit;
-30343221132430 Ajit Khaparde 2022-12-12  397  
-30343221132430 Ajit Khaparde 2022-12-12  398  	edev->ulp_tbl = ulp;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  399  	aux_priv->edev = edev;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  400  	bp->edev = edev;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  401  	bnxt_set_edev_info(edev, bp);
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  402  
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  403  	rc = auxiliary_device_add(aux_dev);
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  404  	if (rc) {
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  405  		netdev_warn(bp->dev,
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  406  			    "Failed to add auxiliary device for ROCE\n");
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  407  		goto aux_dev_uninit;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  408  	}
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  409  
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  410  	return;
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  411  
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  412  aux_dev_uninit:
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  413  	auxiliary_device_uninit(aux_dev);
-d80d88b0dfff58 Ajit Khaparde 2022-03-06  414  exit:
-d80d88b0dfff58 Ajit Khaparde 2022-03-06 @415  	bp->flags &= ~BNXT_FLAG_ROCE_CAP;
-
-:::::: The code at line 415 was first introduced by commit
-:::::: d80d88b0dfff5829ab31030692672ba6fe9cde48 bnxt_en: Add auxiliary driver support
-
-:::::: TO: Ajit Khaparde <ajit.khaparde@broadcom.com>
-:::::: CC: Ajit Khaparde <ajit.khaparde@broadcom.com>
+191020b670f84f Zhenyu Wang       2017-02-23   96  
+1f31c8294880d1 Zhenyu Wang       2016-11-03   97  /**
+1f31c8294880d1 Zhenyu Wang       2016-11-03   98   * intel_gvt_init_vgpu_types - initialize vGPU type list
+1f31c8294880d1 Zhenyu Wang       2016-11-03   99   * @gvt : GVT device
+1f31c8294880d1 Zhenyu Wang       2016-11-03  100   *
+1f31c8294880d1 Zhenyu Wang       2016-11-03  101   * Initialize vGPU type list based on available resource.
+1f31c8294880d1 Zhenyu Wang       2016-11-03  102   *
+1f31c8294880d1 Zhenyu Wang       2016-11-03  103   */
+1f31c8294880d1 Zhenyu Wang       2016-11-03  104  int intel_gvt_init_vgpu_types(struct intel_gvt *gvt)
+1f31c8294880d1 Zhenyu Wang       2016-11-03  105  {
+1aa3834f510c9d Christoph Hellwig 2022-09-23  106  	unsigned int low_avail = gvt_aperture_sz(gvt) - HOST_LOW_GM_SIZE;
+1aa3834f510c9d Christoph Hellwig 2022-09-23  107  	unsigned int high_avail = gvt_hidden_sz(gvt) - HOST_HIGH_GM_SIZE;
+1aa3834f510c9d Christoph Hellwig 2022-09-23  108  	unsigned int num_types = ARRAY_SIZE(intel_vgpu_configs);
+1aa3834f510c9d Christoph Hellwig 2022-09-23  109  	unsigned int i;
+1f31c8294880d1 Zhenyu Wang       2016-11-03  110  
+6396bb221514d2 Kees Cook         2018-06-12  111  	gvt->types = kcalloc(num_types, sizeof(struct intel_vgpu_type),
+1f31c8294880d1 Zhenyu Wang       2016-11-03  112  			     GFP_KERNEL);
+1f31c8294880d1 Zhenyu Wang       2016-11-03  113  	if (!gvt->types)
+1f31c8294880d1 Zhenyu Wang       2016-11-03  114  		return -ENOMEM;
+1f31c8294880d1 Zhenyu Wang       2016-11-03  115  
+1f31c8294880d1 Zhenyu Wang       2016-11-03  116  	for (i = 0; i < num_types; ++i) {
+1aa3834f510c9d Christoph Hellwig 2022-09-23  117  		const struct intel_vgpu_config *conf = &intel_vgpu_configs[i];
+191020b670f84f Zhenyu Wang       2017-02-23  118  
+1aa3834f510c9d Christoph Hellwig 2022-09-23 @119  		if (low_avail / conf->low_mm == 0)
+1aa3834f510c9d Christoph Hellwig 2022-09-23  120  			break;
+1aa3834f510c9d Christoph Hellwig 2022-09-23  121  		if (conf->weight < 1 || conf->weight > VGPU_MAX_WEIGHT)
+98828955971363 Christoph Hellwig 2022-09-23  122  			goto out_free_types;
+bc90d097ae144f Ping Gao          2017-03-30  123  
+1aa3834f510c9d Christoph Hellwig 2022-09-23  124  		sprintf(gvt->types[i].name, "GVTg_V%u_%s",
+1aa3834f510c9d Christoph Hellwig 2022-09-23  125  			GRAPHICS_VER(gvt->gt->i915) == 8 ? 4 : 5, conf->name);
+1aa3834f510c9d Christoph Hellwig 2022-09-23  126  		gvt->types[i].conf = conf;
+1aa3834f510c9d Christoph Hellwig 2022-09-23  127  		gvt->types[i].avail_instance = min(low_avail / conf->low_mm,
+1aa3834f510c9d Christoph Hellwig 2022-09-23  128  						   high_avail / conf->high_mm);
+1f31c8294880d1 Zhenyu Wang       2016-11-03  129  
+bc90d097ae144f Ping Gao          2017-03-30  130  		gvt_dbg_core("type[%d]: %s avail %u low %u high %u fence %u weight %u res %s\n",
+1aa3834f510c9d Christoph Hellwig 2022-09-23  131  			     i, gvt->types[i].name, gvt->types[i].avail_instance,
+1aa3834f510c9d Christoph Hellwig 2022-09-23  132  			     conf->low_mm, conf->high_mm, conf->fence,
+1aa3834f510c9d Christoph Hellwig 2022-09-23  133  			     conf->weight, vgpu_edid_str(conf->edid));
+1f31c8294880d1 Zhenyu Wang       2016-11-03  134  	}
+1f31c8294880d1 Zhenyu Wang       2016-11-03  135  
+1f31c8294880d1 Zhenyu Wang       2016-11-03  136  	gvt->num_types = i;
+1f31c8294880d1 Zhenyu Wang       2016-11-03  137  	return 0;
+98828955971363 Christoph Hellwig 2022-09-23  138  
+98828955971363 Christoph Hellwig 2022-09-23  139  out_free_types:
+98828955971363 Christoph Hellwig 2022-09-23  140  	kfree(gvt->types);
+98828955971363 Christoph Hellwig 2022-09-23  141  	return -EINVAL;
+1f31c8294880d1 Zhenyu Wang       2016-11-03  142  }
+1f31c8294880d1 Zhenyu Wang       2016-11-03  143  
 
 -- 
 0-DAY CI Kernel Test Service
