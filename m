@@ -1,43 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6EEA5E
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Sep 2023 12:24:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50984156C9
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Sep 2023 19:19:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696076687; x=1727612687;
+  t=1696101546; x=1727637546;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=toBZ2RXmqzdAB0oFsRAnow2M5eIO9ByAlNzBIgCrYSw=;
-  b=XU65dq7sIW8PnAd2FWewkXKxhH69Fj94SOteM+Q/DaD9sWz+X4yyIwiW
-   ez2TvwbDnx9QKRnS/JNXkhHG0EgUGNDJd/bfk0c9fp/5yxudEnteBhC9x
-   U739gxMUtKxpCLYu1t1tXQwevj2j9l1gI5u1R7nqxc5H/56fOzhVr+AFF
-   ORd3SSDQDC1GKBSVhVy7JN2ETODPf0q8t+2++vE/toaUePGjEtULUxw0h
-   E1wAtbkp9Sck1D9hUc/yUCO0NOAs8ygzh8Ngc8bp7Rr1LLjVbUtpuQbDT
-   AJ7XW0+6JTPFfYeZJ2NEAY3vOqXXGJLJWyGH3W5zAsx17qQI+ICJ1FW7m
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="381322897"
+  bh=qAYoVpOmCClqmUXpEs7w6yxkeD1HmuA37nzmiM0wXQM=;
+  b=CWtMaEfYBRodQADmjDRusJxYpJUvKtPQZUq1IEnGNLVSazY6HsZ4bugS
+   PC9VvFfkkg0jgMkGaBDex2K31XqrIaRLdnwJtVMpvrwZq/BLnzrFeD99O
+   +2x3FmsyLLK+lr72yIP0ZTzH7l1w7krOcuTprJDEaQLEC1BtaKz5t4FvD
+   4gIi6xUlSbKaOnlINsRqv8KZDE8b2hf7BI9GWGljXeM2+SRpDom2iIm6J
+   M6Ufsr4NXgOnUR42uKu56P4pPCjAw2v0ezB9edJ3dyeAfYTxg7ARcCoqz
+   le73oI+TKs7F0euEbr/LWCiHVqSuYJvuGxWSd+lS5rCdLqaVRHBhh82Vy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="361848959"
 X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="381322897"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 05:24:46 -0700
+   d="scan'208";a="361848959"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 12:19:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="840542083"
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="753681252"
 X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="840542083"
+   d="scan'208";a="753681252"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 30 Sep 2023 05:24:45 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 30 Sep 2023 12:19:03 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmZ1W-00048F-2y;
-	Sat, 30 Sep 2023 12:24:42 +0000
-Date: Sat, 30 Sep 2023 20:23:50 +0800
+	id 1qmfUT-0004O1-1p;
+	Sat, 30 Sep 2023 19:19:01 +0000
+Date: Sun, 1 Oct 2023 03:18:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/emulex/benet/be_main.c:2460
- be_rx_compl_process_gro() error: buffer overflow
- '((skb_end_pointer(skb)))->frags' 17 <= u16max
-Message-ID: <202309302057.MA60uL2G-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [RFC PATCH 4/4] tracing/timer: use __print_sym()
+Message-ID: <202310010306.v3XTbHaU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,94 +45,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: include/trace/events/timer.h:398:1: sparse: sparse: unknown escape sequence: '\/'"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Yunsheng Lin <linyunsheng@huawei.com>
-CC: Leon Romanovsky <leonro@nvidia.com>
-CC: Simon Horman <simon.horman@corigine.com>
+In-Reply-To: <20230921105129.e76b17c18447.I5e112e423a69704fa05db74a05a6ebaad45d4f6e@changeid>
+References: <20230921105129.e76b17c18447.I5e112e423a69704fa05db74a05a6ebaad45d4f6e@changeid>
+TO: Johannes Berg <johannes@sipsolutions.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9f3ebbef746f89f860a90ced99a359202ea86fde
-commit: b51f4113ebb02011f0ca86abc3134b28d2071b6a net: introduce and use skb_frag_fill_page_desc()
-date:   5 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-161-20230930 (https://download.01.org/0day-ci/archive/20230930/202309302057.MA60uL2G-lkp@intel.com/config)
+Hi Johannes,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mcgrof/modules-next]
+[also build test WARNING on arnd-asm-generic/master net/main net-next/main linus/master v6.6-rc3 next-20230929]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/tracing-add-__print_sym-to-replace-__print_symbolic/20230922-013527
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git modules-next
+patch link:    https://lore.kernel.org/r/20230921105129.e76b17c18447.I5e112e423a69704fa05db74a05a6ebaad45d4f6e%40changeid
+patch subject: [RFC PATCH 4/4] tracing/timer: use __print_sym()
+:::::: branch date: 9 days ago
+:::::: commit date: 9 days ago
+config: i386-randconfig-061-20230930 (https://download.01.org/0day-ci/archive/20231001/202310010306.v3XTbHaU-lkp@intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230930/202309302057.MA60uL2G-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231001/202310010306.v3XTbHaU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202309302057.MA60uL2G-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310010306.v3XTbHaU-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/emulex/benet/be_main.c:2460 be_rx_compl_process_gro() error: buffer overflow '((skb_end_pointer(skb)))->frags' 17 <= u16max
+sparse warnings: (new ones prefixed by >>)
+   kernel/time/timer.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/timer.h):
+   include/trace/stages/init.h:30:9: sparse: sparse: preprocessor token TRACE_DEFINE_SYM_FNS redefined
+   kernel/time/timer.c: note: in included file (through include/trace/syscall.h, include/linux/syscalls.h):
+   include/linux/tracepoint.h:130:9: sparse: this was the original definition
+   kernel/time/timer.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/timer.h):
+   include/trace/stages/init.h:54:9: sparse: sparse: preprocessor token TRACE_DEFINE_SYM_LIST redefined
+   kernel/time/timer.c: note: in included file (through include/trace/syscall.h, include/linux/syscalls.h):
+   include/linux/tracepoint.h:131:9: sparse: this was the original definition
+   kernel/time/timer.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/timer.h):
+>> include/trace/events/timer.h:398:1: sparse: sparse: unknown escape sequence: '/'
+>> include/trace/events/timer.h:398:1: sparse: sparse: unknown escape sequence: '/'
 
-vim +2460 drivers/net/ethernet/emulex/benet/be_main.c
+vim +398 include/trace/events/timer.h
 
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2426  
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2427  /* Process the RX completion indicated by rxcp when GRO is enabled */
-4188e7df44bf31 drivers/net/ethernet/emulex/benet/be_main.c Jingoo Han      2013-08-05  2428  static void be_rx_compl_process_gro(struct be_rx_obj *rxo,
-4188e7df44bf31 drivers/net/ethernet/emulex/benet/be_main.c Jingoo Han      2013-08-05  2429  				    struct napi_struct *napi,
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2430  				    struct be_rx_compl_info *rxcp)
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2431  {
-10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2432  	struct be_adapter *adapter = rxo->adapter;
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2433  	struct be_rx_page_info *page_info;
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2434  	struct sk_buff *skb = NULL;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2435  	u16 remaining, curr_frag_len;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2436  	u16 i, j;
-3968fa1e588961 drivers/net/benet/be_main.c                 Ajit Khaparde   2011-02-20  2437  
-10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2438  	skb = napi_get_frags(napi);
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2439  	if (!skb) {
-10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2440  		be_rx_compl_discard(rxo, rxcp);
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2441  		return;
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2442  	}
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2443  
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2444  	remaining = rxcp->pkt_size;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2445  	for (i = 0, j = -1; i < rxcp->num_rcvd; i++) {
-0b0ef1d027008f drivers/net/ethernet/emulex/benet/be_main.c Suresh Reddy    2014-01-15  2446  		page_info = get_rx_page_info(rxo);
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2447  
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2448  		curr_frag_len = min(remaining, rx_frag_size);
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2449  
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2450  		/* Coalesce all frags from the same physical page in one slot */
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2451  		if (i == 0 || page_info->page_offset == 0) {
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2452  			/* First frag or Fresh page */
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2453  			j++;
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2454  			skb_frag_fill_page_desc(&skb_shinfo(skb)->frags[j],
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2455  						page_info->page,
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2456  						page_info->page_offset,
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2457  						curr_frag_len);
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2458  		} else {
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2459  			put_page(page_info->page);
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11 @2460  			skb_frag_size_add(&skb_shinfo(skb)->frags[j],
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2461  					  curr_frag_len);
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2462  		}
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2463  
-bdb28a97f46b53 drivers/net/ethernet/emulex/benet/be_main.c Eric Dumazet    2011-10-13  2464  		skb->truesize += rx_frag_size;
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2465  		remaining -= curr_frag_len;
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2466  		memset(page_info, 0, sizeof(*page_info));
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2467  	}
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2468  	BUG_ON(j > MAX_SKB_FRAGS);
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2469  
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2470  	skb_shinfo(skb)->nr_frags = j + 1;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2471  	skb->len = rxcp->pkt_size;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2472  	skb->data_len = rxcp->pkt_size;
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2473  	skb->ip_summed = CHECKSUM_UNNECESSARY;
-aaa6daec586cd3 drivers/net/ethernet/emulex/benet/be_main.c Somnath Kotur   2012-05-02  2474  	skb_record_rx_queue(skb, rxo - &adapter->rx_obj[0]);
-4b97291429bf59 drivers/net/benet/be_main.c                 Ajit Khaparde   2011-04-06  2475  	if (adapter->netdev->features & NETIF_F_RXHASH)
-d2464c8c547333 drivers/net/ethernet/emulex/benet/be_main.c Tom Herbert     2013-12-17  2476  		skb_set_hash(skb, rxcp->rss_hash, PKT_HASH_TYPE_L3);
-c9c47142f6bf46 drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2014-03-27  2477  
-b6c0e89dd3a1b2 drivers/net/ethernet/emulex/benet/be_main.c Tom Herbert     2014-08-27  2478  	skb->csum_level = rxcp->tunneled;
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2479  
-343e43c02850a3 drivers/net/ethernet/emulex/benet/be_main.c Jiri Pirko      2011-08-25  2480  	if (rxcp->vlanf)
-86a9bad3ab6b6f drivers/net/ethernet/emulex/benet/be_main.c Patrick McHardy 2013-04-19  2481  		__vlan_hwaccel_put_tag(skb, htons(ETH_P_8021Q), rxcp->vlan_tag);
-4c5102f94c175d drivers/net/benet/be_main.c                 Ajit Khaparde   2011-07-12  2482  
-10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2483  	napi_gro_frags(napi);
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2484  }
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2485  
+e6e6cc22e067a6 Frederic Weisbecker 2015-12-11  394  
+e6e6cc22e067a6 Frederic Weisbecker 2015-12-11  395  #define show_tick_dep_name(val)				\
+1a5ceabe01e333 Johannes Berg       2023-09-21  396  	__print_sym(val, tick_dep_names)
+e6e6cc22e067a6 Frederic Weisbecker 2015-12-11  397  
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20 @398  TRACE_EVENT(tick_stop,
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20  399  
+e6e6cc22e067a6 Frederic Weisbecker 2015-12-11  400  	TP_PROTO(int success, int dependency),
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20  401  
+e6e6cc22e067a6 Frederic Weisbecker 2015-12-11  402  	TP_ARGS(success, dependency),
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20  403  
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20  404  	TP_STRUCT__entry(
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20  405  		__field( int ,		success	)
+e6e6cc22e067a6 Frederic Weisbecker 2015-12-11  406  		__field( int ,		dependency )
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20  407  	),
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20  408  
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20  409  	TP_fast_assign(
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20  410  		__entry->success	= success;
+e6e6cc22e067a6 Frederic Weisbecker 2015-12-11  411  		__entry->dependency	= dependency;
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20  412  	),
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20  413  
+e6e6cc22e067a6 Frederic Weisbecker 2015-12-11  414  	TP_printk("success=%d dependency=%s",  __entry->success, \
+e6e6cc22e067a6 Frederic Weisbecker 2015-12-11  415  			show_tick_dep_name(__entry->dependency))
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20  416  );
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20  417  #endif
+cb41a29076e9f9 Frederic Weisbecker 2013-04-20  418  
 
 -- 
 0-DAY CI Kernel Test Service
