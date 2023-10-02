@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159A2390
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Oct 2023 20:46:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C9239E
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Oct 2023 02:20:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696193193; x=1727729193;
+  t=1696213215; x=1727749215;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MTUNvOAvhDGYm1fzYD68eJLTTJYz+SmqYpuViPTr39Y=;
-  b=a0ifeK5UFK6bD6xhaoTc1WRNKeSAE13KN5SnJOtOOtjt0Y4176t/LuxQ
-   tQ1rUcB6jFyB33HKot2wddsGojjHaIcJNTjdxv4qnC7Hq6QQdGFXHe6hP
-   7VNRcolf9ohI7DT8rHxx9ueTxnGvaToUKtg6yb9ZuVuJ20nMfdfUD1Xe3
-   +FvAi2rEChIkW7Vr+51jmaoKHWFY5FVkUQrvp39g9KrPw0TKoVnQzTW/8
-   u2+QhffjwrzIFpLWkBFb6uV0rY9+45Dhs2ymkisyeGP5XiWfGQMtvoMI6
-   k0MnpmkS+Lc6da0pDUqfRMI6Jfos1v/+WtDpoRI6CzMP+H3CrQPryICl/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="367612279"
-X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="367612279"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 13:46:32 -0700
+  bh=TZ6seNwI6OY8qSxEge+2LGL9+nBwH0t2mGBFxb9Gnz0=;
+  b=nJ15JxR43o5Tf1re2ntX3mCBWDlpRx+trzeUm8FtHT1138zqVAIrAzaa
+   QwfdXkFTCoVXuuMrpKF6z4GxtI7ttG4FvTTHHdwgE7th/UKEUlAg7BLv8
+   Q2XmWSMrVQgfKOMGZgUo4nndVbgFdTcngP43DG9QlN3IcJJ0vrT8kk3Me
+   qrSDMK8E/vJ7xWqB8Lj+uOx9fCw/fztN/6jp4Bkxg+VAXIs4qzg7+ED2o
+   2Ewa1Er8+FZechJfZP7pQH9uUGYcRCCGX9KgDtJF56VHaTyW876YLeXLK
+   thqW3cb4gpPuaSupVdjZbvCNLVMr2Ke2MYmBeMKQvGViMDdiL5fBCLIxn
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="446724590"
+X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
+   d="scan'208";a="446724590"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 19:20:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="753880842"
-X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
-   d="scan'208";a="753880842"
+X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="1081512308"
+X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
+   d="scan'208";a="1081512308"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 01 Oct 2023 13:46:30 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 01 Oct 2023 19:20:13 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qn3Ke-0005OP-2I;
-	Sun, 01 Oct 2023 20:46:28 +0000
-Date: Mon, 2 Oct 2023 04:45:36 +0800
+	id 1qn8Xb-0005gf-0m;
+	Mon, 02 Oct 2023 02:20:11 +0000
+Date: Mon, 2 Oct 2023 10:19:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/emulex/benet/be_main.c:2460
- be_rx_compl_process_gro() error: buffer overflow
- '((skb_end_pointer(skb)))->frags' 17 <= u16max
-Message-ID: <202310020436.9ag5ravL-lkp@intel.com>
+Subject: sound/firewire/amdtp-stream.c:1099 process_rx_packets() error:
+ uninitialized symbol 'curr_cycle_time'.
+Message-ID: <202310021052.RZVObYPU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,91 +49,108 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Yunsheng Lin <linyunsheng@huawei.com>
-CC: Leon Romanovsky <leonro@nvidia.com>
-CC: Simon Horman <simon.horman@corigine.com>
+TO: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+CC: Takashi Iwai <tiwai@suse.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ec8c298121e3616f8013d3cf1db9c7169c9b0b2d
-commit: b51f4113ebb02011f0ca86abc3134b28d2071b6a net: introduce and use skb_frag_fill_page_desc()
-date:   5 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-161-20230930 (https://download.01.org/0day-ci/archive/20231002/202310020436.9ag5ravL-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231002/202310020436.9ag5ravL-lkp@intel.com/reproduce)
+head:   e81a2dabc3f3faa0d96808708a8dc2025f2bdde3
+commit: fef4e61b0b765b6d22badcd5b6575b159e7d510a ALSA: firewire-lib: extend tracepoints event including CYCLE_TIME of 1394 OHCI
+date:   9 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-161-20230924 (https://download.01.org/0day-ci/archive/20231002/202310021052.RZVObYPU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231002/202310021052.RZVObYPU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202310020436.9ag5ravL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310021052.RZVObYPU-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/emulex/benet/be_main.c:2460 be_rx_compl_process_gro() error: buffer overflow '((skb_end_pointer(skb)))->frags' 17 <= u16max
+New smatch warnings:
+sound/firewire/amdtp-stream.c:1099 process_rx_packets() error: uninitialized symbol 'curr_cycle_time'.
 
-vim +2460 drivers/net/ethernet/emulex/benet/be_main.c
+Old smatch warnings:
+sound/firewire/amdtp-stream.c:944 generate_tx_packet_descs() error: uninitialized symbol 'curr_cycle_time'.
 
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2426  
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2427  /* Process the RX completion indicated by rxcp when GRO is enabled */
-4188e7df44bf31 drivers/net/ethernet/emulex/benet/be_main.c Jingoo Han      2013-08-05  2428  static void be_rx_compl_process_gro(struct be_rx_obj *rxo,
-4188e7df44bf31 drivers/net/ethernet/emulex/benet/be_main.c Jingoo Han      2013-08-05  2429  				    struct napi_struct *napi,
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2430  				    struct be_rx_compl_info *rxcp)
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2431  {
-10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2432  	struct be_adapter *adapter = rxo->adapter;
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2433  	struct be_rx_page_info *page_info;
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2434  	struct sk_buff *skb = NULL;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2435  	u16 remaining, curr_frag_len;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2436  	u16 i, j;
-3968fa1e588961 drivers/net/benet/be_main.c                 Ajit Khaparde   2011-02-20  2437  
-10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2438  	skb = napi_get_frags(napi);
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2439  	if (!skb) {
-10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2440  		be_rx_compl_discard(rxo, rxcp);
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2441  		return;
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2442  	}
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2443  
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2444  	remaining = rxcp->pkt_size;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2445  	for (i = 0, j = -1; i < rxcp->num_rcvd; i++) {
-0b0ef1d027008f drivers/net/ethernet/emulex/benet/be_main.c Suresh Reddy    2014-01-15  2446  		page_info = get_rx_page_info(rxo);
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2447  
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2448  		curr_frag_len = min(remaining, rx_frag_size);
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2449  
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2450  		/* Coalesce all frags from the same physical page in one slot */
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2451  		if (i == 0 || page_info->page_offset == 0) {
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2452  			/* First frag or Fresh page */
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2453  			j++;
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2454  			skb_frag_fill_page_desc(&skb_shinfo(skb)->frags[j],
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2455  						page_info->page,
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2456  						page_info->page_offset,
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2457  						curr_frag_len);
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2458  		} else {
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2459  			put_page(page_info->page);
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11 @2460  			skb_frag_size_add(&skb_shinfo(skb)->frags[j],
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2461  					  curr_frag_len);
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2462  		}
-b51f4113ebb020 drivers/net/ethernet/emulex/benet/be_main.c Yunsheng Lin    2023-05-11  2463  
-bdb28a97f46b53 drivers/net/ethernet/emulex/benet/be_main.c Eric Dumazet    2011-10-13  2464  		skb->truesize += rx_frag_size;
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2465  		remaining -= curr_frag_len;
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2466  		memset(page_info, 0, sizeof(*page_info));
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2467  	}
-bd46cb6cf11867 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-06-26  2468  	BUG_ON(j > MAX_SKB_FRAGS);
-6b7c5b947c671a drivers/net/benet/be_main.c                 Sathya Perla    2009-03-11  2469  
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2470  	skb_shinfo(skb)->nr_frags = j + 1;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2471  	skb->len = rxcp->pkt_size;
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2472  	skb->data_len = rxcp->pkt_size;
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2473  	skb->ip_summed = CHECKSUM_UNNECESSARY;
-aaa6daec586cd3 drivers/net/ethernet/emulex/benet/be_main.c Somnath Kotur   2012-05-02  2474  	skb_record_rx_queue(skb, rxo - &adapter->rx_obj[0]);
-4b97291429bf59 drivers/net/benet/be_main.c                 Ajit Khaparde   2011-04-06  2475  	if (adapter->netdev->features & NETIF_F_RXHASH)
-d2464c8c547333 drivers/net/ethernet/emulex/benet/be_main.c Tom Herbert     2013-12-17  2476  		skb_set_hash(skb, rxcp->rss_hash, PKT_HASH_TYPE_L3);
-c9c47142f6bf46 drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2014-03-27  2477  
-b6c0e89dd3a1b2 drivers/net/ethernet/emulex/benet/be_main.c Tom Herbert     2014-08-27  2478  	skb->csum_level = rxcp->tunneled;
-5be93b9a865344 drivers/net/benet/be_main.c                 Ajit Khaparde   2009-07-21  2479  
-343e43c02850a3 drivers/net/ethernet/emulex/benet/be_main.c Jiri Pirko      2011-08-25  2480  	if (rxcp->vlanf)
-86a9bad3ab6b6f drivers/net/ethernet/emulex/benet/be_main.c Patrick McHardy 2013-04-19  2481  		__vlan_hwaccel_put_tag(skb, htons(ETH_P_8021Q), rxcp->vlan_tag);
-4c5102f94c175d drivers/net/benet/be_main.c                 Ajit Khaparde   2011-07-12  2482  
-10ef9ab4329edd drivers/net/ethernet/emulex/benet/be_main.c Sathya Perla    2012-02-09  2483  	napi_gro_frags(napi);
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2484  }
-2e588f84f254cc drivers/net/benet/be_main.c                 Sathya Perla    2011-03-11  2485  
+vim +/curr_cycle_time +1099 sound/firewire/amdtp-stream.c
+
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1046  
+9b1fcd9bf80206 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1047  static void process_rx_packets(struct fw_iso_context *context, u32 tstamp, size_t header_length,
+9b1fcd9bf80206 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1048  			       void *header, void *private_data)
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1049  {
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1050  	struct amdtp_stream *s = private_data;
+69efd5c4bd4c0e sound/firewire/amdtp-stream.c Takashi Sakamoto 2020-05-08  1051  	const struct amdtp_domain *d = s->domain;
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1052  	const __be32 *ctx_header = header;
+9b1fcd9bf80206 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1053  	const unsigned int events_per_period = d->events_per_period;
+60dd49298ec580 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1054  	unsigned int event_count = s->ctx_data.rx.event_count;
+f0117128879be6 sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1055  	struct pkt_desc *desc = s->packet_descs_cursor;
+233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1056  	unsigned int pkt_header_length;
+a0e023317e2d55 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1057  	unsigned int packets;
+fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10  1058  	u32 curr_cycle_time;
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1059  	bool need_hw_irq;
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1060  	int i;
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1061  
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1062  	if (s->packet_index < 0)
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1063  		return;
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1064  
+a0e023317e2d55 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1065  	// Calculate the number of packets in buffer and check XRUN.
+a0e023317e2d55 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1066  	packets = header_length / sizeof(*ctx_header);
+a0e023317e2d55 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1067  
+cec371ff1ab18d sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1068  	generate_rx_packet_descs(s, desc, ctx_header, packets);
+0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1069  
+cec371ff1ab18d sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1070  	process_ctx_payloads(s, desc, packets);
+5e2ece0fdceb02 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1071  
+233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1072  	if (!(s->flags & CIP_NO_HEADER))
+233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1073  		pkt_header_length = IT_PKT_HEADER_SIZE_CIP;
+233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1074  	else
+233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1075  		pkt_header_length = 0;
+233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1076  
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1077  	if (s == d->irq_target) {
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1078  		// At NO_PERIOD_WAKEUP mode, the packets for all IT/IR contexts are processed by
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1079  		// the tasks of user process operating ALSA PCM character device by calling ioctl(2)
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1080  		// with some requests, instead of scheduled hardware IRQ of an IT context.
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1081  		struct snd_pcm_substream *pcm = READ_ONCE(s->pcm);
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1082  		need_hw_irq = !pcm || !pcm->runtime->no_period_wakeup;
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1083  	} else {
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1084  		need_hw_irq = false;
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1085  	}
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1086  
+fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10  1087  	if (trace_amdtp_packet_enabled())
+fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10  1088  		(void)fw_card_read_cycle_time(fw_parent_device(s->unit)->card, &curr_cycle_time);
+fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10  1089  
+5e2ece0fdceb02 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1090  	for (i = 0; i < packets; ++i) {
+6bc1a2699b79d7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-24  1091  		struct {
+6bc1a2699b79d7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-24  1092  			struct fw_iso_packet params;
+67d92ee7a50b00 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1093  			__be32 header[CIP_HEADER_QUADLETS];
+6bc1a2699b79d7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-24  1094  		} template = { {0}, {0} };
+e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1095  		bool sched_irq = false;
+6bc1a2699b79d7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-24  1096  
+233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1097  		build_it_pkt_header(s, desc->cycle, &template.params, pkt_header_length,
+f4f6ae7b7c1fdb sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1098  				    desc->data_blocks, desc->data_block_counter,
+fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10 @1099  				    desc->syt, i, curr_cycle_time);
+31ef9134eb5263 sound/firewire/amdtp.c        Clemens Ladisch  2011-03-15  1100  
+2472cfb3232caf sound/firewire/amdtp-stream.c Takashi Sakamoto 2020-05-08  1101  		if (s == s->domain->irq_target) {
+e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1102  			event_count += desc->data_blocks;
+e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1103  			if (event_count >= events_per_period) {
+e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1104  				event_count -= events_per_period;
+d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1105  				sched_irq = need_hw_irq;
+e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1106  			}
+60dd49298ec580 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1107  		}
+e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1108  
+e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1109  		if (queue_out_packet(s, &template.params, sched_irq) < 0) {
+fce9b013fee94d sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-21  1110  			cancel_stream(s);
+a4103bd7fdd595 sound/firewire/amdtp.c        Takashi Sakamoto 2015-05-22  1111  			return;
+ccccad8646fad5 sound/firewire/amdtp.c        Takashi Sakamoto 2014-04-25  1112  		}
+cec371ff1ab18d sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1113  
+cec371ff1ab18d sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1114  		desc = amdtp_stream_next_packet_desc(s, desc);
+a4103bd7fdd595 sound/firewire/amdtp.c        Takashi Sakamoto 2015-05-22  1115  	}
+a4103bd7fdd595 sound/firewire/amdtp.c        Takashi Sakamoto 2015-05-22  1116  
+60dd49298ec580 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1117  	s->ctx_data.rx.event_count = event_count;
+f0117128879be6 sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1118  	s->packet_descs_cursor = desc;
+31ef9134eb5263 sound/firewire/amdtp.c        Clemens Ladisch  2011-03-15  1119  }
+31ef9134eb5263 sound/firewire/amdtp.c        Clemens Ladisch  2011-03-15  1120  
 
 -- 
 0-DAY CI Kernel Test Service
