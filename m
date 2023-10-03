@@ -1,52 +1,43 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1EBDDAA
-	for <oe-kbuild@lists.linux.dev>; Tue,  3 Oct 2023 08:54:18 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-405417465aaso6687985e9.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 03 Oct 2023 01:54:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696323256; x=1696928056; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DMBF6CYv/Ij0N24iNy1D3Ro9xhDGvt8mVDekKClPklY=;
-        b=c3iPSB4fi4pANILFQEBznvTL4vuJ01pBpqAKxLbcQ6+rMfzTTWutdyLgv2wNIp1eM4
-         2aunu7C8VX/szPiGSG53HXVac4u0VVCqKVxcj2ocnNVx9kqNR84OeANeWji6601WQQog
-         gMXKvjz3R/dvuto37rKcDBTZIHI6oOUZqdunAvl4og+EL5eOwkn2lz8bEFOF1ltje5pk
-         dlkFDhwmN/zWaJ7FJIMc5y8VMQqKrwhhaWLRRMFJIk6RE8M1z8CqVFAPLLP0E7NFBy2X
-         Im34OWlqOyiTA1tZ0AQpgeE7cn/XQ39r35q6iGFLVzVidsa1OgpxrNDE8laNdqgHBUvu
-         ECjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696323256; x=1696928056;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DMBF6CYv/Ij0N24iNy1D3Ro9xhDGvt8mVDekKClPklY=;
-        b=jvya6NEO1SG60JS0MzEw9rjig9ZIoKmvJBqTmN39VPM+6/S5fHU8rkv4GQ6vX6GnRi
-         gEgpgjMUdgY5nHBJ4YQv8V+4XxKZHX1W/CvjuFJBZsDW9VfzZ6mTq2kBn5kaSVK66C9o
-         WYB2L+SayPePZpWZl1x5aAwMRWCJsL9OSABJtDwIx/tOYv0MlD0/sMRXzyUuqAkr32Tz
-         iVg0kULoNrwyBSqSFgA+nCARYv2YrhnK6huI59xv+VsxRg9jdQ74QHhOwmjsS7Pxpo/z
-         JbgsG8GIkRlVX6vM3QkWR4AqCIgTNcDhM8CUUb87tn7czH+o599uhGYPDyxcsNaRAha7
-         ewkg==
-X-Gm-Message-State: AOJu0Yyw3nR6rFRa3HAO33OKbeYDt6CdUqEYUTO64qnThEuauvBon3KY
-	aZnBMczK/LX6rXbpXr6nPOmZE2uh/8tR0gcj1K4=
-X-Google-Smtp-Source: AGHT+IFhwd3cGvrHeY4f/x4a+od0nlW+pzGUHUlr30eX3ZoH56Y2bkm3f8dsAUKIPk6FTODm19vusg==
-X-Received: by 2002:a7b:c3c1:0:b0:404:7670:90b8 with SMTP id t1-20020a7bc3c1000000b00404767090b8mr12175904wmj.27.1696323256592;
-        Tue, 03 Oct 2023 01:54:16 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id x23-20020a05600c21d700b004051f8d6207sm767778wmj.6.2023.10.03.01.54.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Oct 2023 01:54:15 -0700 (PDT)
-Date: Tue, 3 Oct 2023 11:54:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
-Subject: drivers/block/drbd/drbd_worker.c:588 make_resync_request() warn:
- variable dereferenced before check 'peer_device' (see line 587)
-Message-ID: <ace247b3-1a4f-43bb-a0ca-49665a1bb410@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FDCD278
+	for <oe-kbuild@lists.linux.dev>; Tue,  3 Oct 2023 10:20:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696328419; x=1727864419;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Tj9JGr2ePFr8JQky2rNmhi5OzFSwAAqcfiN05kUlI7Q=;
+  b=HmPxMcyfu+nUEcYBil1dYev8x+2Ldl3wSbvP92whPos2MwJrP/rR2+2U
+   qkns9OgMbt40ZjiXjmInu7iFGjOGQhG+erP5c3pBT2CgH4xoCZs51Ggmx
+   J1BLSINqt1tXdSbZo2GuD+HUyJAsyvI1h0xKA6i/QEEvzh0pWGNpr9Lyo
+   zZ4u76a7mCWBVvIR8IxmPK2s6BzVW6swl1TqODsO0PCq0VRmEY01wokqw
+   gP0xc7DIGSCexhkHABFk1GOWwNynNQegkcy8KTbEwCUGZt8+CT9O2/DVi
+   5J5+pldLoGUjZf/fjgQYCzbWfQEU7MDTk7NQr040MPRCdo5zBRnSS2VPS
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="381721408"
+X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
+   d="scan'208";a="381721408"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 03:20:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="821196269"
+X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
+   d="scan'208";a="821196269"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 03 Oct 2023 03:20:15 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qncVi-00071w-0E;
+	Tue, 03 Oct 2023 10:20:14 +0000
+Date: Tue, 3 Oct 2023 18:19:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v3 26/27] staging: iio: resolver: ad2s1210: implement
+ fault events
+Message-ID: <202310031839.tKR53HoP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,50 +48,109 @@ Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ce36c8b149873b50f2a4b9818eb3dcdd74ddd5a3
-commit: 0d11f3cf279c5ad20a41f29242f170ba3c02f2da drbd: Pass a peer device to the resync and online verify functions
-config: x86_64-randconfig-161-20231003 (https://download.01.org/0day-ci/archive/20231003/202310030935.6F0FaCJy-lkp@intel.com/config)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230929-ad2s1210-mainline-v3-26-fa4364281745@baylibre.com>
+References: <20230929-ad2s1210-mainline-v3-26-fa4364281745@baylibre.com>
+TO: David Lechner <dlechner@baylibre.com>
+TO: linux-iio@vger.kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-staging@lists.linux.dev
+CC: David Lechner <david@lechnology.com>
+CC: Jonathan Cameron <jic23@kernel.org>
+CC: Rob Herring <robh+dt@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: Michael Hennerich <Michael.Hennerich@analog.com>
+CC: "Nuno Sá" <nuno.sa@analog.com>
+CC: Axel Haslam <ahaslam@baylibre.com>
+CC: Philip Molloy <pmolloy@baylibre.com>
+CC: linux-kernel@vger.kernel.org
+
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 5e99f692d4e32e3250ab18d511894ca797407aec]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/dt-bindings-iio-resolver-add-devicetree-bindings-for-ad2s1210/20230930-014031
+base:   5e99f692d4e32e3250ab18d511894ca797407aec
+patch link:    https://lore.kernel.org/r/20230929-ad2s1210-mainline-v3-26-fa4364281745%40baylibre.com
+patch subject: [PATCH v3 26/27] staging: iio: resolver: ad2s1210: implement fault events
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: x86_64-randconfig-161-20231002 (https://download.01.org/0day-ci/archive/20231003/202310031839.tKR53HoP-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231003/202310030935.6F0FaCJy-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231003/202310031839.tKR53HoP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310030935.6F0FaCJy-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202310031839.tKR53HoP-lkp@intel.com/
 
 smatch warnings:
-drivers/block/drbd/drbd_worker.c:588 make_resync_request() warn: variable dereferenced before check 'peer_device' (see line 587)
+drivers/staging/iio/resolver/ad2s1210.c:436 ad2s1210_single_conversion() error: buffer overflow 'st->rx' 2 <= 2
 
-vim +/peer_device +588 drivers/block/drbd/drbd_worker.c
+vim +436 drivers/staging/iio/resolver/ad2s1210.c
 
-0d11f3cf279c5a Christoph Böhmwalder 2023-03-30  585  static int make_resync_request(struct drbd_peer_device *const peer_device, int cancel)
-b411b3637fa71f Philipp Reisner      2009-09-25  586  {
-0d11f3cf279c5a Christoph Böhmwalder 2023-03-30 @587  	struct drbd_device *const device = peer_device->device;
-                                                                                           ^^^^^^^^^^^^^^^^^^^^
-Dereference
-
-44a4d551846b8c Lars Ellenberg       2013-11-22 @588  	struct drbd_connection *const connection = peer_device ? peer_device->connection : NULL;
-                                                                                                   ^^^^^^^^^^^
-Checked too late.  The zero day bot sent this warning earlier and I try
-not to resend warnings but no one responded to the first one.  The
-peer_device pointer comes from a list_first_entry_or_null() so that
-suggests it can be NULL.
-
-b411b3637fa71f Philipp Reisner      2009-09-25  589  	unsigned long bit;
-b411b3637fa71f Philipp Reisner      2009-09-25  590  	sector_t sector;
-155bd9d1abd604 Christoph Hellwig    2020-09-25  591  	const sector_t capacity = get_capacity(device->vdisk);
-1816a2b47afae8 Lars Ellenberg       2010-11-11  592  	int max_bio_size;
-e65f440d474d7d Lars Ellenberg       2010-11-05  593  	int number, rollback_i, size;
-506afb6248af57 Lars Ellenberg       2014-01-31  594  	int align, requeue = 0;
-0f0601f4ea2f53 Lars Ellenberg       2010-08-11  595  	int i = 0;
-92d94ae66aebda Philipp Reisner      2016-06-14  596  	int discard_granularity = 0;
-b411b3637fa71f Philipp Reisner      2009-09-25  597  
-b411b3637fa71f Philipp Reisner      2009-09-25  598  	if (unlikely(cancel))
-99920dc5c5fe52 Andreas Gruenbacher  2011-03-16  599  		return 0;
+ecf16f4922f691 David Lechner    2023-09-29  390  
+ecf16f4922f691 David Lechner    2023-09-29  391  static int ad2s1210_single_conversion(struct iio_dev *indio_dev,
+29148543c52146 Jonathan Cameron 2011-10-05  392  				      struct iio_chan_spec const *chan,
+e9336a85ceb885 David Lechner    2023-09-29  393  				      int *val)
+817e5c65c511d4 Graf Yang        2010-10-27  394  {
+ecf16f4922f691 David Lechner    2023-09-29  395  	struct ad2s1210_state *st = iio_priv(indio_dev);
+ecf16f4922f691 David Lechner    2023-09-29  396  	s64 timestamp;
+69cc7fbdcdf2e3 David Lechner    2023-09-29  397  	int ret;
+817e5c65c511d4 Graf Yang        2010-10-27  398  
+817e5c65c511d4 Graf Yang        2010-10-27  399  	mutex_lock(&st->lock);
+69cc7fbdcdf2e3 David Lechner    2023-09-29  400  	gpiod_set_value(st->sample_gpio, 1);
+ecf16f4922f691 David Lechner    2023-09-29  401  	timestamp = iio_get_time_ns(indio_dev);
+817e5c65c511d4 Graf Yang        2010-10-27  402  	/* delay (6 * tck + 20) nano seconds */
+817e5c65c511d4 Graf Yang        2010-10-27  403  	udelay(1);
+817e5c65c511d4 Graf Yang        2010-10-27  404  
+29148543c52146 Jonathan Cameron 2011-10-05  405  	switch (chan->type) {
+29148543c52146 Jonathan Cameron 2011-10-05  406  	case IIO_ANGL:
+69cc7fbdcdf2e3 David Lechner    2023-09-29  407  		ret = ad2s1210_set_mode(st, MOD_POS);
+29148543c52146 Jonathan Cameron 2011-10-05  408  		break;
+29148543c52146 Jonathan Cameron 2011-10-05  409  	case IIO_ANGL_VEL:
+69cc7fbdcdf2e3 David Lechner    2023-09-29  410  		ret = ad2s1210_set_mode(st, MOD_VEL);
+29148543c52146 Jonathan Cameron 2011-10-05  411  		break;
+29148543c52146 Jonathan Cameron 2011-10-05  412  	default:
+29148543c52146 Jonathan Cameron 2011-10-05  413  		ret = -EINVAL;
+29148543c52146 Jonathan Cameron 2011-10-05  414  		break;
+29148543c52146 Jonathan Cameron 2011-10-05  415  	}
+29148543c52146 Jonathan Cameron 2011-10-05  416  	if (ret < 0)
+29148543c52146 Jonathan Cameron 2011-10-05  417  		goto error_ret;
+ecf16f4922f691 David Lechner    2023-09-29  418  	ret = spi_read(st->sdev, &st->sample, 3);
+29148543c52146 Jonathan Cameron 2011-10-05  419  	if (ret < 0)
+817e5c65c511d4 Graf Yang        2010-10-27  420  		goto error_ret;
+29148543c52146 Jonathan Cameron 2011-10-05  421  
+29148543c52146 Jonathan Cameron 2011-10-05  422  	switch (chan->type) {
+29148543c52146 Jonathan Cameron 2011-10-05  423  	case IIO_ANGL:
+ecf16f4922f691 David Lechner    2023-09-29  424  		*val = be16_to_cpu(st->sample.raw);
+29148543c52146 Jonathan Cameron 2011-10-05  425  		ret = IIO_VAL_INT;
+29148543c52146 Jonathan Cameron 2011-10-05  426  		break;
+29148543c52146 Jonathan Cameron 2011-10-05  427  	case IIO_ANGL_VEL:
+ecf16f4922f691 David Lechner    2023-09-29  428  		*val = (s16)be16_to_cpu(st->sample.raw);
+29148543c52146 Jonathan Cameron 2011-10-05  429  		ret = IIO_VAL_INT;
+29148543c52146 Jonathan Cameron 2011-10-05  430  		break;
+29148543c52146 Jonathan Cameron 2011-10-05  431  	default:
+5e99f692d4e32e David Lechner    2023-09-21  432  		ret = -EINVAL;
+5e99f692d4e32e David Lechner    2023-09-21  433  		break;
+29148543c52146 Jonathan Cameron 2011-10-05  434  	}
+29148543c52146 Jonathan Cameron 2011-10-05  435  
+ecf16f4922f691 David Lechner    2023-09-29 @436  	ad2s1210_push_events(indio_dev, st->rx[2], timestamp);
+ecf16f4922f691 David Lechner    2023-09-29  437  
+817e5c65c511d4 Graf Yang        2010-10-27  438  error_ret:
+69cc7fbdcdf2e3 David Lechner    2023-09-29  439  	gpiod_set_value(st->sample_gpio, 0);
+817e5c65c511d4 Graf Yang        2010-10-27  440  	/* delay (2 * tck + 20) nano seconds */
+817e5c65c511d4 Graf Yang        2010-10-27  441  	udelay(1);
+817e5c65c511d4 Graf Yang        2010-10-27  442  	mutex_unlock(&st->lock);
+29148543c52146 Jonathan Cameron 2011-10-05  443  	return ret;
+817e5c65c511d4 Graf Yang        2010-10-27  444  }
+817e5c65c511d4 Graf Yang        2010-10-27  445  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
