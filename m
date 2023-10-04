@@ -1,57 +1,42 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6E4101F4
-	for <oe-kbuild@lists.linux.dev>; Wed,  4 Oct 2023 08:22:48 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40651a726acso17360965e9.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 04 Oct 2023 01:22:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696407766; x=1697012566; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7lASRZKty5ExpIf8a7SkpCZKAXewoWwnd7oDE42K+tI=;
-        b=B8eHUdNEbHo8B04qsBGBrVczL1kcAD3VvgGRwiKWzGFKFrniEGtIiXUXx4rlFrO2qc
-         pP7SRZsAhSb7Ss1mH9r81xux+aNgWqK515569POMsixJ9xVmPV45kmGrimz7iATkXBXG
-         zQcD4/WLyCg2TxzT6Ebdd84Voo0QcRkK/xWLpInYPiN7x1wgqPBzbL0xBveFqjshPpiM
-         jQA1B5yYNgrIkxfPUbWhYyKe7ra4NAkEC5wkGyx1qJ4/lK33LnAYlOsKINHnEGX4TsUF
-         dbG8/CHPqY6x78LRwzZKmfd2mXLI7V7aoV72XV1bbuixA8zoaGIvZQvDuq215Qz1Sqxa
-         8PPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696407766; x=1697012566;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7lASRZKty5ExpIf8a7SkpCZKAXewoWwnd7oDE42K+tI=;
-        b=xMxNXf3Z48KHwS9IyWFEAWbNroRaujksGP8IKNmJfn3sAf42MpvISV+2oTSjCkw2nH
-         vXkO4GgU0xfVJxU2SN7f4ypBAQilfsTvr3hezAzQpTK2ZMK/Y4S+7XuhWvA8L4YluJKQ
-         VoAEb9wog5M9tOGewl+sILgdih1rXk+vzzZIUpsIXLDLjt9HLC/FmHXkyTSAHztbeJAk
-         bs9yu623L0ITMnFHOp0DdGsAp3cg7f+F+2BITGqR1xr35drSi2CzvTO96+PG1S2YfdV/
-         E4Rt6Cu+r9o6B4jrIhmaVPcJxJq0vHQgQuA50GQSGfEXR+wF+Zq199KxWrr6xvj8lDHl
-         Yqcw==
-X-Gm-Message-State: AOJu0YxPNjMPr19vTeUqeBaCYxBBxJJA/As7tiBlFdteATdSRP7Eiy2g
-	KTZrDn9iYz19C6lTFUC7pwLU98Gsk/W9g82ZIoI=
-X-Google-Smtp-Source: AGHT+IFotsPOvnw4M9o3Z4Nbt8NwHjr923dBWIoUmKFWH9Seq4US3CR732X8UO2cZe90jcCzi/nZ2w==
-X-Received: by 2002:a1c:7910:0:b0:401:c0ef:c287 with SMTP id l16-20020a1c7910000000b00401c0efc287mr1875403wme.27.1696407766324;
-        Wed, 04 Oct 2023 01:22:46 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k10-20020a7bc40a000000b003fc06169ab3sm900469wmi.20.2023.10.04.01.22.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Oct 2023 01:22:45 -0700 (PDT)
-Date: Wed, 4 Oct 2023 11:22:43 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dan Williams <dan.j.williams@intel.com>,
-	linux-coco@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Borislav Petkov <bp@alien8.de>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Dionna Glaze <dionnaglaze@google.com>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>,
-	peterz@infradead.org, linux-kernel@vger.kernel.org, x86@kernel.org,
-	dave.hansen@linux.intel.com
-Subject: Re: [PATCH v4 5/6] virt: sevguest: Add TSM_REPORTS support for
- SNP_{GET, GET_EXT}_REPORT
-Message-ID: <6cc8a021-a32a-4732-b7a0-eb3a6dbb5ee2@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47206101FB
+	for <oe-kbuild@lists.linux.dev>; Wed,  4 Oct 2023 10:48:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696416532; x=1727952532;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4f/RXHCKQvehMqrkYoJ1FYJt3tCQtpZQbhzsQrEBZjs=;
+  b=HJYMQgdShdw2HPmMht+wWBb1n2kHqRZkehm9Itx/wUMDlAd2fDHGt9M4
+   I7AMxZ5/6Oo9yE+unPCGHf5kTdz9F4P+MnTUpoQgP+3jq8fnarRi15jaV
+   nnKS50Te5195BcsUPvZo0KzSc7ZOZK8y5/FUrAnwZ56czj7wDEg/LGgot
+   Hv5GWB7HxcGOyAJRenIaduRmHcjwL+fOpdT6DIubbPai6JivuSIJceumD
+   Ak+NSFDtH+jHZeRRgd+fE4tvzfC1kNK0DkSJjPQqah5sbwi7q2PxZvn3u
+   wcqHOprZsPPDfpJlmzkeCFIlYeozwauD5qNVW7saiQtXOmiojoLs7td86
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="380408133"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
+   d="scan'208";a="380408133"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 03:48:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="727951715"
+X-IronPort-AV: E=Sophos;i="6.03,199,1694761200"; 
+   d="scan'208";a="727951715"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 04 Oct 2023 03:48:49 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qnzQt-000HVD-0S;
+	Wed, 04 Oct 2023 10:48:47 +0000
+Date: Wed, 4 Oct 2023 18:48:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 7909/9570] fs/ntfs3/bitmap.c:662 wnd_init() warn:
+ Please consider using kvcalloc instead of kvmalloc_array
+Message-ID: <202310041837.OerQ8qKC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,135 +45,67 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <169570184829.596431.15991881056638719011.stgit@dwillia2-xfh.jf.intel.com>
 
-Hi Dan,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/virt-coco-Add-a-coco-Makefile-and-coco-Kconfig/20230926-121843
-base:   6465e260f48790807eef06b583b38ca9789b6072
-patch link:    https://lore.kernel.org/r/169570184829.596431.15991881056638719011.stgit%40dwillia2-xfh.jf.intel.com
-patch subject: [PATCH v4 5/6] virt: sevguest: Add TSM_REPORTS support for SNP_{GET, GET_EXT}_REPORT
-config: x86_64-randconfig-161-20231002 (https://download.01.org/0day-ci/archive/20231003/202310030341.zaOu0ew0-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   33b64befb1a28bca3f5a9ed9807d2f87e976c63a
+commit: fc471e39e38fea6677017cbdd6d928088a59fc67 [7909/9570] fs/ntfs3: Use kvmalloc instead of kmalloc(... __GFP_NOWARN)
+:::::: branch date: 5 hours ago
+:::::: commit date: 6 days ago
+config: x86_64-randconfig-161-20231003 (https://download.01.org/0day-ci/archive/20231004/202310041837.OerQ8qKC-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231003/202310030341.zaOu0ew0-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231004/202310041837.OerQ8qKC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310030341.zaOu0ew0-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202310041837.OerQ8qKC-lkp@intel.com/
 
 smatch warnings:
-drivers/virt/coco/sev-guest/sev-guest.c:853 sev_report_new() error: uninitialized symbol 'certs_size'.
+fs/ntfs3/bitmap.c:662 wnd_init() warn: Please consider using kvcalloc instead of kvmalloc_array
 
-vim +/certs_size +853 drivers/virt/coco/sev-guest/sev-guest.c
+vim +662 fs/ntfs3/bitmap.c
 
-80013405d5b7c6 Dan Williams 2023-09-25  778  static int sev_report_new(struct tsm_report *report, void *data)
-80013405d5b7c6 Dan Williams 2023-09-25  779  {
-80013405d5b7c6 Dan Williams 2023-09-25  780  	static const struct snp_msg_cert_entry zero_ent = { 0 };
-80013405d5b7c6 Dan Williams 2023-09-25  781  	struct tsm_desc *desc = &report->desc;
-80013405d5b7c6 Dan Williams 2023-09-25  782  	struct snp_guest_dev *snp_dev = data;
-80013405d5b7c6 Dan Williams 2023-09-25  783  	struct snp_msg_report_resp_hdr hdr;
-80013405d5b7c6 Dan Williams 2023-09-25  784  	const int report_size = SZ_4K;
-80013405d5b7c6 Dan Williams 2023-09-25  785  	const int ext_size = SZ_16K;
-80013405d5b7c6 Dan Williams 2023-09-25  786  	int ret, size = report_size + ext_size;
-80013405d5b7c6 Dan Williams 2023-09-25  787  	int certs_size, cert_count, i, offset;
-80013405d5b7c6 Dan Williams 2023-09-25  788  	u8 *certs_address;
-80013405d5b7c6 Dan Williams 2023-09-25  789  
-80013405d5b7c6 Dan Williams 2023-09-25  790  	if (desc->inblob_len != 64)
-80013405d5b7c6 Dan Williams 2023-09-25  791  		return -EINVAL;
-80013405d5b7c6 Dan Williams 2023-09-25  792  
-80013405d5b7c6 Dan Williams 2023-09-25  793  	void *buf __free(kvfree) = kvzalloc(size, GFP_KERNEL);
-80013405d5b7c6 Dan Williams 2023-09-25  794  	if (!buf)
-80013405d5b7c6 Dan Williams 2023-09-25  795  		return -ENOMEM;
-80013405d5b7c6 Dan Williams 2023-09-25  796  
-80013405d5b7c6 Dan Williams 2023-09-25  797  	guard(mutex)(&snp_cmd_mutex);
-
-Hoho.  Need guard stuff and no warnings generated.  Perhaps I have added
-all the new unlock functions.  :)
-
-80013405d5b7c6 Dan Williams 2023-09-25  798  	certs_address = buf + report_size;
-80013405d5b7c6 Dan Williams 2023-09-25  799  	struct snp_ext_report_req ext_req = {
-80013405d5b7c6 Dan Williams 2023-09-25  800  		.data = { .vmpl = desc->privlevel },
-80013405d5b7c6 Dan Williams 2023-09-25  801  		.certs_address = (__u64)certs_address,
-80013405d5b7c6 Dan Williams 2023-09-25  802  		.certs_len = ext_size,
-80013405d5b7c6 Dan Williams 2023-09-25  803  	};
-80013405d5b7c6 Dan Williams 2023-09-25  804  	memcpy(&ext_req.data.user_data, desc->inblob, desc->inblob_len);
-80013405d5b7c6 Dan Williams 2023-09-25  805  
-80013405d5b7c6 Dan Williams 2023-09-25  806  	struct snp_guest_request_ioctl input = {
-80013405d5b7c6 Dan Williams 2023-09-25  807  		.msg_version = 1,
-80013405d5b7c6 Dan Williams 2023-09-25  808  		.req_data = (__u64)&ext_req,
-80013405d5b7c6 Dan Williams 2023-09-25  809  		.resp_data = (__u64)buf,
-80013405d5b7c6 Dan Williams 2023-09-25  810  	};
-80013405d5b7c6 Dan Williams 2023-09-25  811  	struct snp_req_resp io = {
-80013405d5b7c6 Dan Williams 2023-09-25  812  		.req_data = KERNEL_SOCKPTR(&ext_req),
-80013405d5b7c6 Dan Williams 2023-09-25  813  		.resp_data = KERNEL_SOCKPTR(buf),
-80013405d5b7c6 Dan Williams 2023-09-25  814  	};
-80013405d5b7c6 Dan Williams 2023-09-25  815  
-80013405d5b7c6 Dan Williams 2023-09-25  816  	ret = get_ext_report(snp_dev, &input, &io);
-80013405d5b7c6 Dan Williams 2023-09-25  817  
-80013405d5b7c6 Dan Williams 2023-09-25  818  	if (ret)
-80013405d5b7c6 Dan Williams 2023-09-25  819  		return ret;
-80013405d5b7c6 Dan Williams 2023-09-25  820  
-80013405d5b7c6 Dan Williams 2023-09-25  821  	memcpy(&hdr, buf, sizeof(hdr));
-80013405d5b7c6 Dan Williams 2023-09-25  822  	if (hdr.status == SNP_REPORT_INVALID_PARAM)
-80013405d5b7c6 Dan Williams 2023-09-25  823  		return -EINVAL;
-80013405d5b7c6 Dan Williams 2023-09-25  824  	if (hdr.status == SNP_REPORT_INVALID_KEY_SEL)
-80013405d5b7c6 Dan Williams 2023-09-25  825  		return -EINVAL;
-80013405d5b7c6 Dan Williams 2023-09-25  826  	if (hdr.status)
-80013405d5b7c6 Dan Williams 2023-09-25  827  		return -ENXIO;
-80013405d5b7c6 Dan Williams 2023-09-25  828  	if ((hdr.report_size + sizeof(hdr)) > report_size)
-80013405d5b7c6 Dan Williams 2023-09-25  829  		return -ENOMEM;
-80013405d5b7c6 Dan Williams 2023-09-25  830  
-80013405d5b7c6 Dan Williams 2023-09-25  831  	void *rbuf __free(kvfree) = kvzalloc(hdr.report_size, GFP_KERNEL);
-80013405d5b7c6 Dan Williams 2023-09-25  832  	if (!rbuf)
-80013405d5b7c6 Dan Williams 2023-09-25  833  		return -ENOMEM;
-80013405d5b7c6 Dan Williams 2023-09-25  834  
-80013405d5b7c6 Dan Williams 2023-09-25  835  	memcpy(rbuf, buf + sizeof(hdr), hdr.report_size);
-80013405d5b7c6 Dan Williams 2023-09-25  836  	report->outblob = no_free_ptr(rbuf);
-80013405d5b7c6 Dan Williams 2023-09-25  837  	report->outblob_len = hdr.report_size;
-80013405d5b7c6 Dan Williams 2023-09-25  838  
-80013405d5b7c6 Dan Williams 2023-09-25  839  	for (i = 0; i < ext_size / sizeof(struct snp_msg_cert_entry); i++) {
-80013405d5b7c6 Dan Williams 2023-09-25  840  		struct snp_msg_cert_entry *certs = buf + report_size;
-80013405d5b7c6 Dan Williams 2023-09-25  841  
-80013405d5b7c6 Dan Williams 2023-09-25  842  		if (memcmp(&certs[i], &zero_ent, sizeof(zero_ent)) == 0)
-80013405d5b7c6 Dan Williams 2023-09-25  843  			break;
-80013405d5b7c6 Dan Williams 2023-09-25  844  		certs_size += certs[i].length;
-
-certs_size needs to be initialized to zero.
-
-80013405d5b7c6 Dan Williams 2023-09-25  845  	}
-80013405d5b7c6 Dan Williams 2023-09-25  846  	cert_count = i;
-80013405d5b7c6 Dan Williams 2023-09-25  847  
-80013405d5b7c6 Dan Williams 2023-09-25  848  	/* No certs to report */
-80013405d5b7c6 Dan Williams 2023-09-25  849  	if (cert_count == 0)
-80013405d5b7c6 Dan Williams 2023-09-25  850  		return 0;
-80013405d5b7c6 Dan Williams 2023-09-25  851  
-80013405d5b7c6 Dan Williams 2023-09-25  852  	/* sanity check that the entire certs table with metadata fits */
-80013405d5b7c6 Dan Williams 2023-09-25 @853  	if ((cert_count + 1) * sizeof(zero_ent) + certs_size > ext_size)
-80013405d5b7c6 Dan Williams 2023-09-25  854  		return -ENXIO;
-80013405d5b7c6 Dan Williams 2023-09-25  855  
-80013405d5b7c6 Dan Williams 2023-09-25  856  	void *cbuf __free(kvfree) = kvzalloc(certs_size, GFP_KERNEL);
-80013405d5b7c6 Dan Williams 2023-09-25  857  	if (!cbuf)
-80013405d5b7c6 Dan Williams 2023-09-25  858  		return -ENOMEM;
-80013405d5b7c6 Dan Williams 2023-09-25  859  
-80013405d5b7c6 Dan Williams 2023-09-25  860  	/* Concatenate returned certs */
-80013405d5b7c6 Dan Williams 2023-09-25  861  	for (i = 0, offset = 0; i < cert_count; i++) {
-80013405d5b7c6 Dan Williams 2023-09-25  862  		struct snp_msg_cert_entry *certs = buf + report_size;
-80013405d5b7c6 Dan Williams 2023-09-25  863  
-80013405d5b7c6 Dan Williams 2023-09-25  864  		memcpy(cbuf + offset, certs_address + certs[i].offset, certs[i].length);
-80013405d5b7c6 Dan Williams 2023-09-25  865  		offset += certs[i].length;
-80013405d5b7c6 Dan Williams 2023-09-25  866  	}
-80013405d5b7c6 Dan Williams 2023-09-25  867  
-80013405d5b7c6 Dan Williams 2023-09-25  868  	report->certs = no_free_ptr(cbuf);
-80013405d5b7c6 Dan Williams 2023-09-25  869  	report->certs_len = certs_size;
-80013405d5b7c6 Dan Williams 2023-09-25  870  
-80013405d5b7c6 Dan Williams 2023-09-25  871  	return 0;
-80013405d5b7c6 Dan Williams 2023-09-25  872  }
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  642  
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  643  int wnd_init(struct wnd_bitmap *wnd, struct super_block *sb, size_t nbits)
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  644  {
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  645  	int err;
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  646  	u32 blocksize = sb->s_blocksize;
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  647  	u32 wbits = blocksize * 8;
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  648  
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  649  	init_rwsem(&wnd->rw_lock);
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  650  
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  651  	wnd->sb = sb;
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  652  	wnd->nbits = nbits;
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  653  	wnd->total_zeroes = nbits;
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  654  	wnd->extent_max = MINUS_ONE_T;
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  655  	wnd->zone_bit = wnd->zone_end = 0;
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  656  	wnd->nwnd = bytes_to_block(sb, bitmap_size(nbits));
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  657  	wnd->bits_last = nbits & (wbits - 1);
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  658  	if (!wnd->bits_last)
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  659  		wnd->bits_last = wbits;
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  660  
+6827d50b2c430c Konstantin Komarov 2022-12-30  661  	wnd->free_bits =
+fc471e39e38fea Konstantin Komarov 2023-06-30 @662  		kvmalloc_array(wnd->nwnd, sizeof(u16), GFP_KERNEL | __GFP_ZERO);
+fc471e39e38fea Konstantin Komarov 2023-06-30  663  
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  664  	if (!wnd->free_bits)
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  665  		return -ENOMEM;
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  666  
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  667  	err = wnd_rescan(wnd);
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  668  	if (err)
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  669  		return err;
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  670  
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  671  	wnd->inited = true;
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  672  
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  673  	return 0;
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  674  }
+3f3b442b5ad245 Konstantin Komarov 2021-08-13  675  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
