@@ -1,50 +1,57 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A1F101F0
-	for <oe-kbuild@lists.linux.dev>; Wed,  4 Oct 2023 08:20:09 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3231d67aff2so1812328f8f.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 04 Oct 2023 01:20:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6E4101F4
+	for <oe-kbuild@lists.linux.dev>; Wed,  4 Oct 2023 08:22:48 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40651a726acso17360965e9.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 04 Oct 2023 01:22:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696407608; x=1697012408; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Z1FE66/eW+DC2Mgz/WgZHuGsRc1n/oZs4CygM2JDRZk=;
-        b=gW3lDnC9n6iQN0by20SzTE/bsABxfv7FedMt49kxuSRfCt6pkm5vr0uRPoadLwGVYk
-         QqsQHtjNNwsy0y42Q6fNSr/v+Q9Du6Ohupa044Ghc4fYCkF0O4OxSceSkm994dhsInfI
-         5GE6wO5EAkI9pCdHOfbsMaKPFEaX9jY0oEC8WODP6qntwjaEueW3kD45jLIUdbE5bbm7
-         vWD0+cJK/3knAMUMWTJeGn2/yFH1e/wJj5tl/cXvNc4KP4mk+5kgSgaDfW2Y+5eHDKTH
-         ByD9mNpsAXc+1G9hIvpExzSYmY50a2ND2Y4lkZrGlkSgwqkC3y6vaJNADifonYtsIxMQ
-         ycUA==
+        d=linaro.org; s=google; t=1696407766; x=1697012566; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7lASRZKty5ExpIf8a7SkpCZKAXewoWwnd7oDE42K+tI=;
+        b=B8eHUdNEbHo8B04qsBGBrVczL1kcAD3VvgGRwiKWzGFKFrniEGtIiXUXx4rlFrO2qc
+         pP7SRZsAhSb7Ss1mH9r81xux+aNgWqK515569POMsixJ9xVmPV45kmGrimz7iATkXBXG
+         zQcD4/WLyCg2TxzT6Ebdd84Voo0QcRkK/xWLpInYPiN7x1wgqPBzbL0xBveFqjshPpiM
+         jQA1B5yYNgrIkxfPUbWhYyKe7ra4NAkEC5wkGyx1qJ4/lK33LnAYlOsKINHnEGX4TsUF
+         dbG8/CHPqY6x78LRwzZKmfd2mXLI7V7aoV72XV1bbuixA8zoaGIvZQvDuq215Qz1Sqxa
+         8PPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696407608; x=1697012408;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z1FE66/eW+DC2Mgz/WgZHuGsRc1n/oZs4CygM2JDRZk=;
-        b=cBT7yMd3kJ9MZpgXjiIySwO8mdRXaPP2BTDnLp8NM+nJTRNiInSGgW0hgICd1Rv4Ht
-         5m7+LTd31ZTezjxAwRQjIFG9Hi4N+WY12QAfsyf177NxEOy4DHEjmvrbazquGMgvBbTh
-         5wB/KjZnU4ZE5kE2WWsjNvR5//j3/MhyYPZW0wd3BeSeXR6wSoUeeIKa5N2qNxaFaVnN
-         s6VgQCvA0I0YUMLNoHwuMeThNJBLnMw7MW9Ht3uyDLx/V2/ipxJhFau3fKRisZWwGvaY
-         skxzRNnyYlLUM3MIKawTjcFXRHbHZbVtdjycPmczAz4+dgUkKtfSxeuTKvwm/NaprHC6
-         yOBw==
-X-Gm-Message-State: AOJu0YwAmJLROa4aM9NUep4Hz0xdt3jyzv7p7/v7cdJ8gPrA/0d2tk0g
-	9zTESZzXbtlvoF5y2ajhQDR0yLdfrc6Arln2fXk=
-X-Google-Smtp-Source: AGHT+IFLBRPqkQWHipaGsTiCRc5ZBYE2RATtEZz+zndjucKgKUKjoymN6EAQlZfKYDbBzw8XsHkxXA==
-X-Received: by 2002:a5d:6986:0:b0:317:3d6c:5b27 with SMTP id g6-20020a5d6986000000b003173d6c5b27mr1420304wru.46.1696407607813;
-        Wed, 04 Oct 2023 01:20:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696407766; x=1697012566;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7lASRZKty5ExpIf8a7SkpCZKAXewoWwnd7oDE42K+tI=;
+        b=xMxNXf3Z48KHwS9IyWFEAWbNroRaujksGP8IKNmJfn3sAf42MpvISV+2oTSjCkw2nH
+         vXkO4GgU0xfVJxU2SN7f4ypBAQilfsTvr3hezAzQpTK2ZMK/Y4S+7XuhWvA8L4YluJKQ
+         VoAEb9wog5M9tOGewl+sILgdih1rXk+vzzZIUpsIXLDLjt9HLC/FmHXkyTSAHztbeJAk
+         bs9yu623L0ITMnFHOp0DdGsAp3cg7f+F+2BITGqR1xr35drSi2CzvTO96+PG1S2YfdV/
+         E4Rt6Cu+r9o6B4jrIhmaVPcJxJq0vHQgQuA50GQSGfEXR+wF+Zq199KxWrr6xvj8lDHl
+         Yqcw==
+X-Gm-Message-State: AOJu0YxPNjMPr19vTeUqeBaCYxBBxJJA/As7tiBlFdteATdSRP7Eiy2g
+	KTZrDn9iYz19C6lTFUC7pwLU98Gsk/W9g82ZIoI=
+X-Google-Smtp-Source: AGHT+IFotsPOvnw4M9o3Z4Nbt8NwHjr923dBWIoUmKFWH9Seq4US3CR732X8UO2cZe90jcCzi/nZ2w==
+X-Received: by 2002:a1c:7910:0:b0:401:c0ef:c287 with SMTP id l16-20020a1c7910000000b00401c0efc287mr1875403wme.27.1696407766324;
+        Wed, 04 Oct 2023 01:22:46 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id f14-20020adff44e000000b0032318649b21sm3418462wrp.31.2023.10.04.01.20.07
+        by smtp.gmail.com with ESMTPSA id k10-20020a7bc40a000000b003fc06169ab3sm900469wmi.20.2023.10.04.01.22.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Oct 2023 01:20:07 -0700 (PDT)
-Date: Wed, 4 Oct 2023 11:20:05 +0300
+        Wed, 04 Oct 2023 01:22:45 -0700 (PDT)
+Date: Wed, 4 Oct 2023 11:22:43 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, David Lechner <dlechner@baylibre.com>
+To: oe-kbuild@lists.linux.dev, Dan Williams <dan.j.williams@intel.com>,
+	linux-coco@lists.linux.dev
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [jic23-iio:testing 140/154]
- drivers/staging/iio/resolver/ad2s1210.c:560 ad2s1210_initial() warn:
- inconsistent returns '&st->lock'.
-Message-ID: <021da855-7b41-4dbc-a1ac-71df9ac86d82@kadam.mountain>
+	Borislav Petkov <bp@alien8.de>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Dionna Glaze <dionnaglaze@google.com>,
+	Brijesh Singh <brijesh.singh@amd.com>,
+	Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>,
+	peterz@infradead.org, linux-kernel@vger.kernel.org, x86@kernel.org,
+	dave.hansen@linux.intel.com
+Subject: Re: [PATCH v4 5/6] virt: sevguest: Add TSM_REPORTS support for
+ SNP_{GET, GET_EXT}_REPORT
+Message-ID: <6cc8a021-a32a-4732-b7a0-eb3a6dbb5ee2@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,56 +60,133 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <169570184829.596431.15991881056638719011.stgit@dwillia2-xfh.jf.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-head:   a533eeaef80e879b3ad1937eee7a43d1f9961c5d
-commit: 0d03d0e6584655a002c4e3aaae657b35f0900921 [140/154] staging: iio: resolver: ad2s1210: rework gpios
-config: x86_64-randconfig-161-20231002 (https://download.01.org/0day-ci/archive/20231003/202310030222.iokamE9T-lkp@intel.com/config)
+Hi Dan,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/virt-coco-Add-a-coco-Makefile-and-coco-Kconfig/20230926-121843
+base:   6465e260f48790807eef06b583b38ca9789b6072
+patch link:    https://lore.kernel.org/r/169570184829.596431.15991881056638719011.stgit%40dwillia2-xfh.jf.intel.com
+patch subject: [PATCH v4 5/6] virt: sevguest: Add TSM_REPORTS support for SNP_{GET, GET_EXT}_REPORT
+config: x86_64-randconfig-161-20231002 (https://download.01.org/0day-ci/archive/20231003/202310030341.zaOu0ew0-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231003/202310030222.iokamE9T-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231003/202310030341.zaOu0ew0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310030222.iokamE9T-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310030341.zaOu0ew0-lkp@intel.com/
 
 smatch warnings:
-drivers/staging/iio/resolver/ad2s1210.c:560 ad2s1210_initial() warn: inconsistent returns '&st->lock'.
+drivers/virt/coco/sev-guest/sev-guest.c:853 sev_report_new() error: uninitialized symbol 'certs_size'.
 
-vim +560 drivers/staging/iio/resolver/ad2s1210.c
+vim +/certs_size +853 drivers/virt/coco/sev-guest/sev-guest.c
 
-4ae1c61ff2ba4f Bill Pemberton   2012-11-19  534  static int ad2s1210_initial(struct ad2s1210_state *st)
-817e5c65c511d4 Graf Yang        2010-10-27  535  {
-817e5c65c511d4 Graf Yang        2010-10-27  536  	unsigned char data;
-817e5c65c511d4 Graf Yang        2010-10-27  537  	int ret;
-817e5c65c511d4 Graf Yang        2010-10-27  538  
-817e5c65c511d4 Graf Yang        2010-10-27  539  	mutex_lock(&st->lock);
-0d03d0e6584655 David Lechner    2023-09-29  540  	ret = ad2s1210_set_resolution_gpios(st, st->resolution);
-0d03d0e6584655 David Lechner    2023-09-29  541  	if (ret < 0)
-0d03d0e6584655 David Lechner    2023-09-29  542  		return ret;
+80013405d5b7c6 Dan Williams 2023-09-25  778  static int sev_report_new(struct tsm_report *report, void *data)
+80013405d5b7c6 Dan Williams 2023-09-25  779  {
+80013405d5b7c6 Dan Williams 2023-09-25  780  	static const struct snp_msg_cert_entry zero_ent = { 0 };
+80013405d5b7c6 Dan Williams 2023-09-25  781  	struct tsm_desc *desc = &report->desc;
+80013405d5b7c6 Dan Williams 2023-09-25  782  	struct snp_guest_dev *snp_dev = data;
+80013405d5b7c6 Dan Williams 2023-09-25  783  	struct snp_msg_report_resp_hdr hdr;
+80013405d5b7c6 Dan Williams 2023-09-25  784  	const int report_size = SZ_4K;
+80013405d5b7c6 Dan Williams 2023-09-25  785  	const int ext_size = SZ_16K;
+80013405d5b7c6 Dan Williams 2023-09-25  786  	int ret, size = report_size + ext_size;
+80013405d5b7c6 Dan Williams 2023-09-25  787  	int certs_size, cert_count, i, offset;
+80013405d5b7c6 Dan Williams 2023-09-25  788  	u8 *certs_address;
+80013405d5b7c6 Dan Williams 2023-09-25  789  
+80013405d5b7c6 Dan Williams 2023-09-25  790  	if (desc->inblob_len != 64)
+80013405d5b7c6 Dan Williams 2023-09-25  791  		return -EINVAL;
+80013405d5b7c6 Dan Williams 2023-09-25  792  
+80013405d5b7c6 Dan Williams 2023-09-25  793  	void *buf __free(kvfree) = kvzalloc(size, GFP_KERNEL);
+80013405d5b7c6 Dan Williams 2023-09-25  794  	if (!buf)
+80013405d5b7c6 Dan Williams 2023-09-25  795  		return -ENOMEM;
+80013405d5b7c6 Dan Williams 2023-09-25  796  
+80013405d5b7c6 Dan Williams 2023-09-25  797  	guard(mutex)(&snp_cmd_mutex);
 
-goto error_ret;
+Hoho.  Need guard stuff and no warnings generated.  Perhaps I have added
+all the new unlock functions.  :)
 
-b19e9ad5e2cb91 Jonathan Cameron 2011-06-27  543  
-b3689e14415a87 David Lechner    2023-09-29  544  	/* Use default config register value plus resolution from devicetree. */
-b3689e14415a87 David Lechner    2023-09-29  545  	data = FIELD_PREP(AD2S1210_PHASE_LOCK_RANGE_44, 1);
-b3689e14415a87 David Lechner    2023-09-29  546  	data |= FIELD_PREP(AD2S1210_ENABLE_HYSTERESIS, 1);
-b3689e14415a87 David Lechner    2023-09-29  547  	data |= FIELD_PREP(AD2S1210_SET_ENRES, 0x3);
-b3689e14415a87 David Lechner    2023-09-29  548  	data |= FIELD_PREP(AD2S1210_SET_RES, (st->resolution - 10) >> 1);
-817e5c65c511d4 Graf Yang        2010-10-27  549  
-b3689e14415a87 David Lechner    2023-09-29  550  	ret = regmap_write(st->regmap, AD2S1210_REG_CONTROL, data);
-b3689e14415a87 David Lechner    2023-09-29  551  	if (ret < 0)
-817e5c65c511d4 Graf Yang        2010-10-27  552  		goto error_ret;
-817e5c65c511d4 Graf Yang        2010-10-27  553  
-b19e9ad5e2cb91 Jonathan Cameron 2011-06-27  554  	ret = ad2s1210_update_frequency_control_word(st);
-b19e9ad5e2cb91 Jonathan Cameron 2011-06-27  555  	if (ret < 0)
-b19e9ad5e2cb91 Jonathan Cameron 2011-06-27  556  		goto error_ret;
-b19e9ad5e2cb91 Jonathan Cameron 2011-06-27  557  	ret = ad2s1210_soft_reset(st);
-817e5c65c511d4 Graf Yang        2010-10-27  558  error_ret:
-817e5c65c511d4 Graf Yang        2010-10-27  559  	mutex_unlock(&st->lock);
-817e5c65c511d4 Graf Yang        2010-10-27 @560  	return ret;
-817e5c65c511d4 Graf Yang        2010-10-27  561  }
+80013405d5b7c6 Dan Williams 2023-09-25  798  	certs_address = buf + report_size;
+80013405d5b7c6 Dan Williams 2023-09-25  799  	struct snp_ext_report_req ext_req = {
+80013405d5b7c6 Dan Williams 2023-09-25  800  		.data = { .vmpl = desc->privlevel },
+80013405d5b7c6 Dan Williams 2023-09-25  801  		.certs_address = (__u64)certs_address,
+80013405d5b7c6 Dan Williams 2023-09-25  802  		.certs_len = ext_size,
+80013405d5b7c6 Dan Williams 2023-09-25  803  	};
+80013405d5b7c6 Dan Williams 2023-09-25  804  	memcpy(&ext_req.data.user_data, desc->inblob, desc->inblob_len);
+80013405d5b7c6 Dan Williams 2023-09-25  805  
+80013405d5b7c6 Dan Williams 2023-09-25  806  	struct snp_guest_request_ioctl input = {
+80013405d5b7c6 Dan Williams 2023-09-25  807  		.msg_version = 1,
+80013405d5b7c6 Dan Williams 2023-09-25  808  		.req_data = (__u64)&ext_req,
+80013405d5b7c6 Dan Williams 2023-09-25  809  		.resp_data = (__u64)buf,
+80013405d5b7c6 Dan Williams 2023-09-25  810  	};
+80013405d5b7c6 Dan Williams 2023-09-25  811  	struct snp_req_resp io = {
+80013405d5b7c6 Dan Williams 2023-09-25  812  		.req_data = KERNEL_SOCKPTR(&ext_req),
+80013405d5b7c6 Dan Williams 2023-09-25  813  		.resp_data = KERNEL_SOCKPTR(buf),
+80013405d5b7c6 Dan Williams 2023-09-25  814  	};
+80013405d5b7c6 Dan Williams 2023-09-25  815  
+80013405d5b7c6 Dan Williams 2023-09-25  816  	ret = get_ext_report(snp_dev, &input, &io);
+80013405d5b7c6 Dan Williams 2023-09-25  817  
+80013405d5b7c6 Dan Williams 2023-09-25  818  	if (ret)
+80013405d5b7c6 Dan Williams 2023-09-25  819  		return ret;
+80013405d5b7c6 Dan Williams 2023-09-25  820  
+80013405d5b7c6 Dan Williams 2023-09-25  821  	memcpy(&hdr, buf, sizeof(hdr));
+80013405d5b7c6 Dan Williams 2023-09-25  822  	if (hdr.status == SNP_REPORT_INVALID_PARAM)
+80013405d5b7c6 Dan Williams 2023-09-25  823  		return -EINVAL;
+80013405d5b7c6 Dan Williams 2023-09-25  824  	if (hdr.status == SNP_REPORT_INVALID_KEY_SEL)
+80013405d5b7c6 Dan Williams 2023-09-25  825  		return -EINVAL;
+80013405d5b7c6 Dan Williams 2023-09-25  826  	if (hdr.status)
+80013405d5b7c6 Dan Williams 2023-09-25  827  		return -ENXIO;
+80013405d5b7c6 Dan Williams 2023-09-25  828  	if ((hdr.report_size + sizeof(hdr)) > report_size)
+80013405d5b7c6 Dan Williams 2023-09-25  829  		return -ENOMEM;
+80013405d5b7c6 Dan Williams 2023-09-25  830  
+80013405d5b7c6 Dan Williams 2023-09-25  831  	void *rbuf __free(kvfree) = kvzalloc(hdr.report_size, GFP_KERNEL);
+80013405d5b7c6 Dan Williams 2023-09-25  832  	if (!rbuf)
+80013405d5b7c6 Dan Williams 2023-09-25  833  		return -ENOMEM;
+80013405d5b7c6 Dan Williams 2023-09-25  834  
+80013405d5b7c6 Dan Williams 2023-09-25  835  	memcpy(rbuf, buf + sizeof(hdr), hdr.report_size);
+80013405d5b7c6 Dan Williams 2023-09-25  836  	report->outblob = no_free_ptr(rbuf);
+80013405d5b7c6 Dan Williams 2023-09-25  837  	report->outblob_len = hdr.report_size;
+80013405d5b7c6 Dan Williams 2023-09-25  838  
+80013405d5b7c6 Dan Williams 2023-09-25  839  	for (i = 0; i < ext_size / sizeof(struct snp_msg_cert_entry); i++) {
+80013405d5b7c6 Dan Williams 2023-09-25  840  		struct snp_msg_cert_entry *certs = buf + report_size;
+80013405d5b7c6 Dan Williams 2023-09-25  841  
+80013405d5b7c6 Dan Williams 2023-09-25  842  		if (memcmp(&certs[i], &zero_ent, sizeof(zero_ent)) == 0)
+80013405d5b7c6 Dan Williams 2023-09-25  843  			break;
+80013405d5b7c6 Dan Williams 2023-09-25  844  		certs_size += certs[i].length;
+
+certs_size needs to be initialized to zero.
+
+80013405d5b7c6 Dan Williams 2023-09-25  845  	}
+80013405d5b7c6 Dan Williams 2023-09-25  846  	cert_count = i;
+80013405d5b7c6 Dan Williams 2023-09-25  847  
+80013405d5b7c6 Dan Williams 2023-09-25  848  	/* No certs to report */
+80013405d5b7c6 Dan Williams 2023-09-25  849  	if (cert_count == 0)
+80013405d5b7c6 Dan Williams 2023-09-25  850  		return 0;
+80013405d5b7c6 Dan Williams 2023-09-25  851  
+80013405d5b7c6 Dan Williams 2023-09-25  852  	/* sanity check that the entire certs table with metadata fits */
+80013405d5b7c6 Dan Williams 2023-09-25 @853  	if ((cert_count + 1) * sizeof(zero_ent) + certs_size > ext_size)
+80013405d5b7c6 Dan Williams 2023-09-25  854  		return -ENXIO;
+80013405d5b7c6 Dan Williams 2023-09-25  855  
+80013405d5b7c6 Dan Williams 2023-09-25  856  	void *cbuf __free(kvfree) = kvzalloc(certs_size, GFP_KERNEL);
+80013405d5b7c6 Dan Williams 2023-09-25  857  	if (!cbuf)
+80013405d5b7c6 Dan Williams 2023-09-25  858  		return -ENOMEM;
+80013405d5b7c6 Dan Williams 2023-09-25  859  
+80013405d5b7c6 Dan Williams 2023-09-25  860  	/* Concatenate returned certs */
+80013405d5b7c6 Dan Williams 2023-09-25  861  	for (i = 0, offset = 0; i < cert_count; i++) {
+80013405d5b7c6 Dan Williams 2023-09-25  862  		struct snp_msg_cert_entry *certs = buf + report_size;
+80013405d5b7c6 Dan Williams 2023-09-25  863  
+80013405d5b7c6 Dan Williams 2023-09-25  864  		memcpy(cbuf + offset, certs_address + certs[i].offset, certs[i].length);
+80013405d5b7c6 Dan Williams 2023-09-25  865  		offset += certs[i].length;
+80013405d5b7c6 Dan Williams 2023-09-25  866  	}
+80013405d5b7c6 Dan Williams 2023-09-25  867  
+80013405d5b7c6 Dan Williams 2023-09-25  868  	report->certs = no_free_ptr(cbuf);
+80013405d5b7c6 Dan Williams 2023-09-25  869  	report->certs_len = certs_size;
+80013405d5b7c6 Dan Williams 2023-09-25  870  
+80013405d5b7c6 Dan Williams 2023-09-25  871  	return 0;
+80013405d5b7c6 Dan Williams 2023-09-25  872  }
 
 -- 
 0-DAY CI Kernel Test Service
