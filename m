@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6731B7F
-	for <oe-kbuild@lists.linux.dev>; Thu,  5 Oct 2023 07:52:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C256A63D1
+	for <oe-kbuild@lists.linux.dev>; Thu,  5 Oct 2023 08:25:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c+9z3/UO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WsaLELpt"
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696492349; x=1728028349;
+  t=1696494338; x=1728030338;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yyVKRiC9vuwsORdJS+0bEnhKmKaoCkDXQollOJGGXDw=;
-  b=c+9z3/UONqxHu/+uE/YvSnrLHpNUS3WAvfRoEsyCDZd32iWKFI1ORyU0
-   4vOskBoYPMVfmAmyCd07TEgYvQs1clJ0gpJhZwNkXRO2t6NX2umdoEsdl
-   p75jiZryhQQkPYzwOFKHtrRFo8C9TJl0kfcNzj/A6FMZPUjRXIbJPRkpo
-   H9Gt8UGTI0imLuxailwZwqKdbwPr2URdW/H6VXIqcjJK+Vh05ilfcrhZt
-   bggl9qNpqrAxxkxP9pRJJLImrSE6IcUY0t5fTQQQkiCXkPFHMaRmzmkdB
-   Ce2rokjMCs4+uloej80/6lfq72heyGa0gR2bjX8o+Qnwb/dotM9UKJ2v6
+  bh=4gSJaQfck9Wh7Fq9WxM3qIVwavIEBEb96IdtrbLz3DY=;
+  b=WsaLELptjsSNtXoVQYENYzewEjxfhE29NV5gdNjXPwbp1SIU3HNtfZSa
+   rkXvedzR/eYl1+NE//jl83hOvF3ZXnLXi6RiIo8l3yC8ABc5CsREXhDuS
+   pNlXl+I3RPMoAtdYkdB8UBdkCLm5Tf/vetFzq0AeRSO3W+UO98iVVNXeK
+   gID0y065wizBE8hgfZGau5lpNiYXM8vzPXIheYpzlF7XgyEv0ghxO3K7A
+   lFZ7ky517YRJbzLZTWJm00Q1uHBiCJuDkDS97ASG/ihy9JGq2qXcWqMF4
+   duDmNkHUYJJqiuGLfH6WAE4BHR2mpo8pugi2himCj6LPUk1JuRwMAj/2z
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="447612995"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="383342452"
 X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="447612995"
+   d="scan'208";a="383342452"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 00:52:28 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 01:25:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="786855438"
+X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="786874183"
 X-IronPort-AV: E=Sophos;i="6.03,202,1694761200"; 
-   d="scan'208";a="786855438"
+   d="scan'208";a="786874183"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 05 Oct 2023 00:52:26 -0700
+  by orsmga001.jf.intel.com with ESMTP; 05 Oct 2023 01:25:35 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qoJ9k-000LBC-1F;
-	Thu, 05 Oct 2023 07:52:24 +0000
-Date: Thu, 5 Oct 2023 15:51:35 +0800
+	id 1qoJfp-000LCE-0X;
+	Thu, 05 Oct 2023 08:25:33 +0000
+Date: Thu, 5 Oct 2023 16:24:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [dhowells-fs:cifs-netfs 35/44] fs/netfs/direct_write.c:54
- netfs_alloc_buffer() error: uninitialized symbol 'ret'.
-Message-ID: <202310051502.Xl4aqWU3-lkp@intel.com>
+Subject: drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1047
+ isst_if_get_base_freq_info() warn: potential spectre issue
+ 'power_domain_info->perf_levels' [r] (local cap)
+Message-ID: <202310051627.I2ejkr3s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,61 +53,109 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: David Howells <dhowells@redhat.com>
+CC: linux-kernel@vger.kernel.org
+TO: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+CC: Hans de Goede <hdegoede@redhat.com>
+CC: Zhang Rui <rui.zhang@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git cifs-netfs
-head:   c535f8e2b3fd3f2da2d9e75c71e216c4c9ff72db
-commit: aa24264b7eba3e3adf3b47b3dedeb3730d5ccc42 [35/44] netfs: Implement unbuffered/DIO write support
-:::::: branch date: 9 hours ago
-:::::: commit date: 11 hours ago
-config: x86_64-randconfig-161-20231005 (https://download.01.org/0day-ci/archive/20231005/202310051502.Xl4aqWU3-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3006adf3be79cde4d14b1800b963b82b6e5572e0
+commit: 06a61df83209ac7f376616f83f3485217c703d50 platform/x86: ISST: Add SST-BF support via TPMI
+date:   7 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 months ago
+config: x86_64-randconfig-161-20231005 (https://download.01.org/0day-ci/archive/20231005/202310051627.I2ejkr3s-lkp@intel.com/config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231005/202310051502.Xl4aqWU3-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231005/202310051627.I2ejkr3s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202310051502.Xl4aqWU3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310051627.I2ejkr3s-lkp@intel.com/
 
-smatch warnings:
-fs/netfs/direct_write.c:54 netfs_alloc_buffer() error: uninitialized symbol 'ret'.
-fs/netfs/io.c:893 netfs_rmw_read() error: uninitialized symbol 'ret'.
+New smatch warnings:
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1047 isst_if_get_base_freq_info() warn: potential spectre issue 'power_domain_info->perf_levels' [r] (local cap)
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1083 isst_if_get_base_freq_mask() warn: potential spectre issue 'power_domain_info->perf_levels' [r]
 
-vim +/ret +54 fs/netfs/direct_write.c
+Old smatch warnings:
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:585 isst_if_clos_assoc() warn: potential spectre issue 'isst_common.sst_inst' [r]
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:587 isst_if_clos_assoc() warn: possible spectre second half.  'sst_inst'
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:590 isst_if_clos_assoc() warn: potential spectre issue 'sst_inst->power_domain_info' [r]
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:900 isst_if_get_perf_level_info() warn: potential spectre issue 'power_domain_info->perf_levels' [r] (local cap)
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1002 isst_if_get_perf_level_mask() warn: potential spectre issue 'power_domain_info->perf_levels' [r]
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1110 isst_if_get_tpmi_instance_count() warn: potential spectre issue 'isst_common.sst_inst' [r] (local cap)
+drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c:1114 isst_if_get_tpmi_instance_count() warn: possible spectre second half.  'sst_inst'
 
-ed609c947059ee David Howells 2022-02-21  25  
-aa24264b7eba3e David Howells 2022-02-21  26  /*
-aa24264b7eba3e David Howells 2022-02-21  27   * Allocate a bunch of pages and add them into the xarray buffer starting at
-aa24264b7eba3e David Howells 2022-02-21  28   * the given index.
-aa24264b7eba3e David Howells 2022-02-21  29   */
-aa24264b7eba3e David Howells 2022-02-21  30  static int netfs_alloc_buffer(struct xarray *xa, pgoff_t index, unsigned int nr_pages)
-aa24264b7eba3e David Howells 2022-02-21  31  {
-aa24264b7eba3e David Howells 2022-02-21  32  	struct page *page;
-aa24264b7eba3e David Howells 2022-02-21  33  	unsigned int n;
-aa24264b7eba3e David Howells 2022-02-21  34  	int ret;
-aa24264b7eba3e David Howells 2022-02-21  35  	LIST_HEAD(list);
-aa24264b7eba3e David Howells 2022-02-21  36  
-aa24264b7eba3e David Howells 2022-02-21  37  	n = alloc_pages_bulk_list(GFP_NOIO, nr_pages, &list);
-aa24264b7eba3e David Howells 2022-02-21  38  	if (n < nr_pages) {
-aa24264b7eba3e David Howells 2022-02-21  39  		ret = -ENOMEM;
-aa24264b7eba3e David Howells 2022-02-21  40  	}
-aa24264b7eba3e David Howells 2022-02-21  41  
-aa24264b7eba3e David Howells 2022-02-21  42  	while ((page = list_first_entry_or_null(&list, struct page, lru))) {
-aa24264b7eba3e David Howells 2022-02-21  43  		list_del(&page->lru);
-aa24264b7eba3e David Howells 2022-02-21  44  		page->index = index;
-aa24264b7eba3e David Howells 2022-02-21  45  		ret = xa_insert(xa, index++, page, GFP_NOIO);
-aa24264b7eba3e David Howells 2022-02-21  46  		if (ret < 0)
-aa24264b7eba3e David Howells 2022-02-21  47  			break;
-aa24264b7eba3e David Howells 2022-02-21  48  	}
-aa24264b7eba3e David Howells 2022-02-21  49  
-aa24264b7eba3e David Howells 2022-02-21  50  	while ((page = list_first_entry_or_null(&list, struct page, lru))) {
-aa24264b7eba3e David Howells 2022-02-21  51  		list_del(&page->lru);
-aa24264b7eba3e David Howells 2022-02-21  52  		__free_page(page);
-aa24264b7eba3e David Howells 2022-02-21  53  	}
-aa24264b7eba3e David Howells 2022-02-21 @54  	return ret;
-aa24264b7eba3e David Howells 2022-02-21  55  }
-aa24264b7eba3e David Howells 2022-02-21  56  
+vim +1047 drivers/platform/x86/intel/speed_select_if/isst_tpmi_core.c
+
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1031  
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1032  static int isst_if_get_base_freq_info(void __user *argp)
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1033  {
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1034  	static struct isst_base_freq_info base_freq;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1035  	struct tpmi_per_power_domain_info *power_domain_info;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1036  
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1037  	if (copy_from_user(&base_freq, argp, sizeof(base_freq)))
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1038  		return -EFAULT;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1039  
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1040  	power_domain_info = get_instance(base_freq.socket_id, base_freq.power_domain_id);
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1041  	if (!power_domain_info)
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1042  		return -EINVAL;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1043  
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1044  	if (base_freq.level > power_domain_info->max_level)
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1045  		return -EINVAL;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1046  
+06a61df83209ac Srinivas Pandruvada 2023-03-07 @1047  	_read_bf_level_info("p1_high", base_freq.high_base_freq_mhz, base_freq.level,
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1048  			    SST_BF_INFO_0_OFFSET, SST_BF_P1_HIGH_START, SST_BF_P1_HIGH_WIDTH,
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1049  			    SST_MUL_FACTOR_FREQ)
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1050  	_read_bf_level_info("p1_low", base_freq.low_base_freq_mhz, base_freq.level,
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1051  			    SST_BF_INFO_0_OFFSET, SST_BF_P1_LOW_START, SST_BF_P1_LOW_WIDTH,
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1052  			    SST_MUL_FACTOR_FREQ)
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1053  	_read_bf_level_info("BF-TJ", base_freq.tjunction_max_c, base_freq.level,
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1054  			    SST_BF_INFO_0_OFFSET, SST_BF_T_PROHOT_START, SST_BF_T_PROHOT_WIDTH,
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1055  			    SST_MUL_FACTOR_NONE)
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1056  	_read_bf_level_info("BF-tdp", base_freq.thermal_design_power_w, base_freq.level,
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1057  			    SST_BF_INFO_0_OFFSET, SST_BF_TDP_START, SST_BF_TDP_WIDTH,
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1058  			    SST_MUL_FACTOR_NONE)
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1059  	base_freq.thermal_design_power_w /= 8; /*unit = 1/8th watt*/
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1060  
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1061  	if (copy_to_user(argp, &base_freq, sizeof(base_freq)))
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1062  		return -EFAULT;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1063  
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1064  	return 0;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1065  }
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1066  
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1067  #define P1_HI_CORE_MASK_START	0
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1068  #define P1_HI_CORE_MASK_WIDTH	64
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1069  
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1070  static int isst_if_get_base_freq_mask(void __user *argp)
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1071  {
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1072  	static struct isst_perf_level_cpu_mask cpumask;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1073  	struct tpmi_per_power_domain_info *power_domain_info;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1074  	u64 mask;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1075  
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1076  	if (copy_from_user(&cpumask, argp, sizeof(cpumask)))
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1077  		return -EFAULT;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1078  
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1079  	power_domain_info = get_instance(cpumask.socket_id, cpumask.power_domain_id);
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1080  	if (!power_domain_info)
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1081  		return -EINVAL;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1082  
+06a61df83209ac Srinivas Pandruvada 2023-03-07 @1083  	_read_bf_level_info("BF-cpumask", mask, cpumask.level, SST_BF_INFO_1_OFFSET,
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1084  			    P1_HI_CORE_MASK_START, P1_HI_CORE_MASK_WIDTH,
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1085  			    SST_MUL_FACTOR_NONE)
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1086  
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1087  	cpumask.mask = mask;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1088  
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1089  	if (!cpumask.punit_cpu_map)
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1090  		return -EOPNOTSUPP;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1091  
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1092  	if (copy_to_user(argp, &cpumask, sizeof(cpumask)))
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1093  		return -EFAULT;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1094  
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1095  	return 0;
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1096  }
+06a61df83209ac Srinivas Pandruvada 2023-03-07  1097  
 
 -- 
 0-DAY CI Kernel Test Service
