@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F2D41E3A
-	for <oe-kbuild@lists.linux.dev>; Thu,  5 Oct 2023 20:24:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2884A42BFA
+	for <oe-kbuild@lists.linux.dev>; Thu,  5 Oct 2023 23:00:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HCuQRX6b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NS/JLHMs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696537472; x=1728073472;
+  t=1696546840; x=1728082840;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RyOlvdj0JZoYDFOzmUpqos+PA+6DyvwOhNTaIRrhhfs=;
-  b=HCuQRX6baT7LIetxsJ01XGH8yZRDVF3dLc+T0N8qXPnPAiuw/NVotlqu
-   t1Q4GlkjEVmpXKaE47OLnk6epHSEGqGbnvQWfdxEIXtP6thEfB5YAA+8X
-   yxnr08Z2yCwP862/d585XIWcf3+u674mL1xggjk48uAhyIHVijImmis3d
-   B+8h576zo7JkEB+nIPU0y+emQCym8baRG2lsH7lsTWCXdgLWDWnVdeu74
-   FsuudJ6mSzY9EakKcLSt8lsHM6SAnmtTrxrkqIAp+X4OjzwXYAIZMcv0I
-   48A1x3tarPwrrNQas37pAFhlHbdwaxX1cVXjzGm93Fl84DJj3bR2oUsuk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="387483777"
+  bh=z21hd0VvavKQn/sJNKTsdNoGhC9J8wSSIgzMFmA5pUY=;
+  b=NS/JLHMsnfj6Hs+KkX4zX7q9tWTHOW5caAxYMvezsp/O/lRLBof8Kfzx
+   gnpWAU0UXTv8qWC4vtgPoZuklKPLeN5KcL2GV2vNPG/yAI0gOBxwoar5z
+   TV0xish5jZc75DW7xRzWwyyDH5jleYZi54GrUvJBkDUykhETxDVpZPeib
+   4iIAwuZDhNy09GshhoZCHcsnI05QxOyCO300T33tbwqIhhPauI0K6ZX/m
+   YOIrLl0basd7wTzqX2t6cvN0jTurdnR+bynIqEprDmEXvS+wVxkfm4ULM
+   Ht8C4ShfXodANCbFkxz/KMfC6k1wqQPm1S1tL6ZRj1ZjpXbE/pn9kjoA5
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="380921033"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="387483777"
+   d="scan'208";a="380921033"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 13:24:26 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 16:00:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="751908581"
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="751974040"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="751908581"
+   d="scan'208";a="751974040"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 05 Oct 2023 13:24:25 -0700
+  by orsmga002.jf.intel.com with ESMTP; 05 Oct 2023 16:00:36 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qoUtS-000LsG-2b;
-	Thu, 05 Oct 2023 20:24:22 +0000
-Date: Fri, 6 Oct 2023 04:23:30 +0800
+	id 1qoXKc-000M0D-02;
+	Thu, 05 Oct 2023 23:00:34 +0000
+Date: Fri, 6 Oct 2023 07:00:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [dwmw2:kvmclock 3/4] arch/x86/kvm/x86.c:3290
- kvm_get_wall_clock_epoch() warn: if statement not indented
-Message-ID: <202310060457.z7SFSOEM-lkp@intel.com>
+Subject: drivers/scsi/storvsc_drv.c:1857 storvsc_queuecommand() warn:
+ possible memory leak of 'payload'
+Message-ID: <202310060648.8zlpchNA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,94 +52,200 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: David Woodhouse <dwmw@amazon.co.uk>
+CC: linux-kernel@vger.kernel.org
+TO: Michael Kelley <mikelley@microsoft.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
 
-tree:   git://git.infradead.org/users/dwmw2/linux kvmclock
-head:   517b16173e1d8471583d17588096fe8ed3bbbbeb
-commit: ccc5926d03f10f017a4bcceec6b4ed4277af3388 [3/4] timer hack to show kvmclock drift
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20231005 (https://download.01.org/0day-ci/archive/20231006/202310060457.z7SFSOEM-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231006/202310060457.z7SFSOEM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f291209eca5eba0b4704fa0832af57b12dbc1a02
+commit: 4e81a6cba517cb33584308a331f14f5e3fec369b scsi: storvsc: Don't pass unused PFNs to Hyper-V host
+date:   5 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-161-20231004 (https://download.01.org/0day-ci/archive/20231006/202310060648.8zlpchNA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231006/202310060648.8zlpchNA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202310060457.z7SFSOEM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310060648.8zlpchNA-lkp@intel.com/
 
 New smatch warnings:
-arch/x86/kvm/x86.c:3290 kvm_get_wall_clock_epoch() warn: if statement not indented
+drivers/scsi/storvsc_drv.c:1857 storvsc_queuecommand() warn: possible memory leak of 'payload'
 
 Old smatch warnings:
-arch/x86/kvm/x86.c:5590 kvm_arch_tsc_set_attr() warn: check for integer overflow 'offset'
-arch/x86/kvm/x86.c:5631 kvm_vcpu_ioctl_device_attr() error: uninitialized symbol 'r'.
-arch/x86/kvm/x86.c:7782 emulator_read_write() warn: missing error code? 'rc'
-arch/x86/include/asm/kvm-x86-ops.h:17 kvm_ops_update() warn: inconsistent indenting
+drivers/scsi/storvsc_drv.c:827 storvsc_execute_vstor_op() warn: missing error code? 'ret'
 
-vim +3290 arch/x86/kvm/x86.c
+vim +/payload +1857 drivers/scsi/storvsc_drv.c
 
-c807660407a695 Gerd Hoffmann   2009-02-04  3238  
-b71c616ce3d939 David Woodhouse 2023-10-01  3239  uint64_t kvm_get_wall_clock_epoch(struct kvm *kvm)
-b71c616ce3d939 David Woodhouse 2023-10-01  3240  {
-b71c616ce3d939 David Woodhouse 2023-10-01  3241  	/*
-b71c616ce3d939 David Woodhouse 2023-10-01  3242  	 * The guest calculates current wall clock time by adding
-b71c616ce3d939 David Woodhouse 2023-10-01  3243  	 * system time (updated by kvm_guest_time_update below) to the
-b71c616ce3d939 David Woodhouse 2023-10-01  3244  	 * wall clock specified here.  We do the reverse here.
-b71c616ce3d939 David Woodhouse 2023-10-01  3245  	 */
-b71c616ce3d939 David Woodhouse 2023-10-01  3246  #ifdef CONFIG_X86_64
-b71c616ce3d939 David Woodhouse 2023-10-01  3247  	struct pvclock_vcpu_time_info hv_clock;
-b71c616ce3d939 David Woodhouse 2023-10-01  3248  	struct kvm_arch *ka = &kvm->arch;
-b71c616ce3d939 David Woodhouse 2023-10-01  3249  	unsigned long seq, local_tsc_khz = 0;
-b71c616ce3d939 David Woodhouse 2023-10-01  3250  	struct timespec64 ts;
-b71c616ce3d939 David Woodhouse 2023-10-01  3251  	uint64_t host_tsc;
-b71c616ce3d939 David Woodhouse 2023-10-01  3252  
-b71c616ce3d939 David Woodhouse 2023-10-01  3253  	do {
-b71c616ce3d939 David Woodhouse 2023-10-01  3254  		seq = read_seqcount_begin(&ka->pvclock_sc);
-b71c616ce3d939 David Woodhouse 2023-10-01  3255  
-b71c616ce3d939 David Woodhouse 2023-10-01  3256  		if (!ka->use_master_clock)
-b71c616ce3d939 David Woodhouse 2023-10-01  3257  			break;
-b71c616ce3d939 David Woodhouse 2023-10-01  3258  
-b71c616ce3d939 David Woodhouse 2023-10-01  3259  		/* It all has to happen on the same CPU */
-b71c616ce3d939 David Woodhouse 2023-10-01  3260  		get_cpu();
-b71c616ce3d939 David Woodhouse 2023-10-01  3261  
-b71c616ce3d939 David Woodhouse 2023-10-01  3262  		local_tsc_khz = get_cpu_tsc_khz();
-b71c616ce3d939 David Woodhouse 2023-10-01  3263  
-b71c616ce3d939 David Woodhouse 2023-10-01  3264  		if (local_tsc_khz &&
-ccc5926d03f10f David Woodhouse 2023-10-02  3265  		    !kvm_get_time_and_clockread(&ts.tv_sec, &host_tsc))
-b71c616ce3d939 David Woodhouse 2023-10-01  3266  			local_tsc_khz = 0; /* Fall back to old method */
-b71c616ce3d939 David Woodhouse 2023-10-01  3267  
-b71c616ce3d939 David Woodhouse 2023-10-01  3268  		hv_clock.tsc_timestamp = ka->master_cycle_now;
-b71c616ce3d939 David Woodhouse 2023-10-01  3269  		hv_clock.system_time = ka->master_kernel_ns + ka->kvmclock_offset;
-b71c616ce3d939 David Woodhouse 2023-10-01  3270  
-b71c616ce3d939 David Woodhouse 2023-10-01  3271  		put_cpu();
-b71c616ce3d939 David Woodhouse 2023-10-01  3272  	} while (read_seqcount_retry(&ka->pvclock_sc, seq));
-b71c616ce3d939 David Woodhouse 2023-10-01  3273  
-b71c616ce3d939 David Woodhouse 2023-10-01  3274  	/*
-b71c616ce3d939 David Woodhouse 2023-10-01  3275  	 * If the conditions were right, and obtaining the wallclock+TSC was
-b71c616ce3d939 David Woodhouse 2023-10-01  3276  	 * successful, calculate the KVM clock at the corresponding time and
-b71c616ce3d939 David Woodhouse 2023-10-01  3277  	 * subtract one from the other to get the epoch in nanoseconds.
-b71c616ce3d939 David Woodhouse 2023-10-01  3278  	 */
-b71c616ce3d939 David Woodhouse 2023-10-01  3279  	if (local_tsc_khz) {
-b71c616ce3d939 David Woodhouse 2023-10-01  3280  		kvm_get_time_scale(NSEC_PER_SEC, local_tsc_khz * 1000LL,
-b71c616ce3d939 David Woodhouse 2023-10-01  3281  				   &hv_clock.tsc_shift,
-b71c616ce3d939 David Woodhouse 2023-10-01  3282  				   &hv_clock.tsc_to_system_mul);
-ccc5926d03f10f David Woodhouse 2023-10-02  3283  
-ccc5926d03f10f David Woodhouse 2023-10-02  3284  		uint64_t res = __pvclock_read_cycles(&hv_clock, host_tsc);
-ccc5926d03f10f David Woodhouse 2023-10-02  3285  		uint64_t d2 = ts.tv_sec + ka->kvmclock_offset;
-ccc5926d03f10f David Woodhouse 2023-10-02  3286  		printk("Calculated %lld (%lld/%lld delta %lld, ns %lld o %lld)\n",
-ccc5926d03f10f David Woodhouse 2023-10-02  3287  		       res,
-ccc5926d03f10f David Woodhouse 2023-10-02  3288  		       ts.tv_sec, d2, d2-res,
-ccc5926d03f10f David Woodhouse 2023-10-02  3289  		       ka->master_kernel_ns, ka->kvmclock_offset);
-ccc5926d03f10f David Woodhouse 2023-10-02 @3290  		if (0)
-b71c616ce3d939 David Woodhouse 2023-10-01  3291  		return ts.tv_nsec + NSEC_PER_SEC * ts.tv_sec -
-b71c616ce3d939 David Woodhouse 2023-10-01  3292  			__pvclock_read_cycles(&hv_clock, host_tsc);
-b71c616ce3d939 David Woodhouse 2023-10-01  3293  	}
-b71c616ce3d939 David Woodhouse 2023-10-01  3294  #endif
-b71c616ce3d939 David Woodhouse 2023-10-01  3295  	return ktime_get_real_ns() - get_kvmclock_ns(kvm);
-b71c616ce3d939 David Woodhouse 2023-10-01  3296  }
-b71c616ce3d939 David Woodhouse 2023-10-01  3297  
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1700  
+bab445e12b451532 drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-11-08  1701  static int storvsc_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *scmnd)
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1702  {
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1703  	int ret;
+bab445e12b451532 drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-11-08  1704  	struct hv_host_device *host_dev = shost_priv(host);
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1705  	struct hv_device *dev = host_dev->dev;
+ead3700d893654d4 drivers/scsi/storvsc_drv.c       Christoph Hellwig 2014-12-29  1706  	struct storvsc_cmd_request *cmd_request = scsi_cmd_priv(scmnd);
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1707  	struct scatterlist *sgl;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1708  	struct vmscsi_request *vm_srb;
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1709  	struct vmbus_packet_mpb_array  *payload;
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1710  	u32 payload_sz;
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1711  	u32 length;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1712  
+2492fd7a60270b81 drivers/scsi/storvsc_drv.c       Keith Mange       2015-08-13  1713  	if (vmstor_proto_version <= VMSTOR_PROTO_VERSION_WIN8) {
+8caf92d80526f3d7 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1714  		/*
+8caf92d80526f3d7 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1715  		 * On legacy hosts filter unimplemented commands.
+8caf92d80526f3d7 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1716  		 * Future hosts are expected to correctly handle
+8caf92d80526f3d7 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1717  		 * unsupported commands. Furthermore, it is
+8caf92d80526f3d7 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1718  		 * possible that some of the currently
+8caf92d80526f3d7 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1719  		 * unsupported commands maybe supported in
+8caf92d80526f3d7 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1720  		 * future versions of the host.
+8caf92d80526f3d7 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1721  		 */
+c77b63b639f52b2e drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2012-01-12  1722  		if (!storvsc_scsi_cmd_ok(scmnd)) {
+0c31fa0e66195bc2 drivers/scsi/storvsc_drv.c       Bart Van Assche   2021-10-07  1723  			scsi_done(scmnd);
+92ae4ebdaa6d6d08 drivers/staging/hv/storvsc_drv.c Olaf Hering       2011-10-10  1724  			return 0;
+92ae4ebdaa6d6d08 drivers/staging/hv/storvsc_drv.c Olaf Hering       2011-10-10  1725  		}
+8caf92d80526f3d7 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2014-07-12  1726  	}
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1727  
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1728  	/* Setup the cmd request */
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1729  	cmd_request->cmd = scmnd;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1730  
+0a76566595bfb242 drivers/scsi/storvsc_drv.c       Andres Beltran    2020-07-06  1731  	memset(&cmd_request->vstor_packet, 0, sizeof(struct vstor_packet));
+61eaffc91d375e02 drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2012-01-12  1732  	vm_srb = &cmd_request->vstor_packet.vm_srb;
+86c8fb4d228ed8db drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1733  	vm_srb->time_out_value = 60;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1734  
+86c8fb4d228ed8db drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1735  	vm_srb->srb_flags |=
+8cf308e1225f5f93 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-08-31  1736  		SRB_FLAGS_DISABLE_SYNCH_TRANSFER;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1737  
+3cd6d3d9b1abab8d drivers/scsi/storvsc_drv.c       Long Li           2016-12-14  1738  	if (scmnd->device->tagged_supported) {
+86c8fb4d228ed8db drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1739  		vm_srb->srb_flags |=
+3cd6d3d9b1abab8d drivers/scsi/storvsc_drv.c       Long Li           2016-12-14  1740  		(SRB_FLAGS_QUEUE_ACTION_ENABLE | SRB_FLAGS_NO_QUEUE_FREEZE);
+86c8fb4d228ed8db drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1741  		vm_srb->queue_tag = SP_UNTAGGED;
+86c8fb4d228ed8db drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1742  		vm_srb->queue_action = SRB_SIMPLE_TAG_REQUEST;
+3cd6d3d9b1abab8d drivers/scsi/storvsc_drv.c       Long Li           2016-12-14  1743  	}
+3cd6d3d9b1abab8d drivers/scsi/storvsc_drv.c       Long Li           2016-12-14  1744  
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1745  	/* Build the SRB */
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1746  	switch (scmnd->sc_data_direction) {
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1747  	case DMA_TO_DEVICE:
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1748  		vm_srb->data_in = WRITE_TYPE;
+86c8fb4d228ed8db drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1749  		vm_srb->srb_flags |= SRB_FLAGS_DATA_OUT;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1750  		break;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1751  	case DMA_FROM_DEVICE:
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1752  		vm_srb->data_in = READ_TYPE;
+86c8fb4d228ed8db drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1753  		vm_srb->srb_flags |= SRB_FLAGS_DATA_IN;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1754  		break;
+cb1cf0804fe582f8 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1755  	case DMA_NONE:
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1756  		vm_srb->data_in = UNKNOWN_TYPE;
+86c8fb4d228ed8db drivers/scsi/storvsc_drv.c       Saurabh Sengar    2022-05-25  1757  		vm_srb->srb_flags |= SRB_FLAGS_NO_DATA_TRANSFER;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1758  		break;
+cb1cf0804fe582f8 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1759  	default:
+cb1cf0804fe582f8 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1760  		/*
+cb1cf0804fe582f8 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1761  		 * This is DMA_BIDIRECTIONAL or something else we are never
+cb1cf0804fe582f8 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1762  		 * supposed to see here.
+cb1cf0804fe582f8 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1763  		 */
+cb1cf0804fe582f8 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1764  		WARN(1, "Unexpected data direction: %d\n",
+cb1cf0804fe582f8 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1765  		     scmnd->sc_data_direction);
+cb1cf0804fe582f8 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-06-25  1766  		return -EINVAL;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1767  	}
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1768  
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1769  
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1770  	vm_srb->port_number = host_dev->port;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1771  	vm_srb->path_id = scmnd->device->channel;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1772  	vm_srb->target_id = scmnd->device->id;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1773  	vm_srb->lun = scmnd->device->lun;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1774  
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1775  	vm_srb->cdb_length = scmnd->cmd_len;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1776  
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1777  	memcpy(vm_srb->cdb, scmnd->cmnd, vm_srb->cdb_length);
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1778  
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1779  	sgl = (struct scatterlist *)scsi_sglist(scmnd);
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1780  
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1781  	length = scsi_bufflen(scmnd);
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1782  	payload = (struct vmbus_packet_mpb_array *)&cmd_request->mpb;
+4e81a6cba517cb33 drivers/scsi/storvsc_drv.c       Michael Kelley    2023-05-15  1783  	payload_sz = 0;
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1784  
+0bd2fbee9d0b7f80 drivers/scsi/storvsc_drv.c       YueHaibing        2021-12-27  1785  	if (scsi_sg_count(scmnd)) {
+3d9c3dcc58e96840 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1786  		unsigned long offset_in_hvpg = offset_in_hvpage(sgl->offset);
+8f43710543ef3059 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1787  		unsigned int hvpg_count = HVPFN_UP(offset_in_hvpg + length);
+743b237c3a7b0f5b drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1788  		struct scatterlist *sg;
+743b237c3a7b0f5b drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1789  		unsigned long hvpfn, hvpfns_to_add;
+0bd2fbee9d0b7f80 drivers/scsi/storvsc_drv.c       YueHaibing        2021-12-27  1790  		int j, i = 0, sg_count;
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1791  
+8f43710543ef3059 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1792  		payload_sz = (hvpg_count * sizeof(u64) +
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1793  			      sizeof(struct vmbus_packet_mpb_array));
+4e81a6cba517cb33 drivers/scsi/storvsc_drv.c       Michael Kelley    2023-05-15  1794  
+4e81a6cba517cb33 drivers/scsi/storvsc_drv.c       Michael Kelley    2023-05-15  1795  		if (hvpg_count > MAX_PAGE_BUFFER_COUNT) {
+b0120d9906253570 drivers/scsi/storvsc_drv.c       Cathy Avery       2016-11-23  1796  			payload = kzalloc(payload_sz, GFP_ATOMIC);
+81988a0e6b031bc8 drivers/scsi/storvsc_drv.c       Vitaly Kuznetsov  2015-10-01  1797  			if (!payload)
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1798  				return SCSI_MLQUEUE_DEVICE_BUSY;
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1799  		}
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1800  
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1801  		payload->range.len = length;
+8f43710543ef3059 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1802  		payload->range.offset = offset_in_hvpg;
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1803  
+743b237c3a7b0f5b drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1804  		sg_count = scsi_dma_map(scmnd);
+4eea5332d67d8ae6 drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1805  		if (sg_count < 0) {
+4eea5332d67d8ae6 drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1806  			ret = SCSI_MLQUEUE_DEVICE_BUSY;
+4eea5332d67d8ae6 drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1807  			goto err_free_payload;
+4eea5332d67d8ae6 drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1808  		}
+3d9c3dcc58e96840 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1809  
+743b237c3a7b0f5b drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1810  		for_each_sg(sgl, sg, sg_count, j) {
+8f43710543ef3059 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1811  			/*
+743b237c3a7b0f5b drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1812  			 * Init values for the current sgl entry. hvpfns_to_add
+743b237c3a7b0f5b drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1813  			 * is in units of Hyper-V size pages. Handling the
+743b237c3a7b0f5b drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1814  			 * PAGE_SIZE != HV_HYP_PAGE_SIZE case also handles
+743b237c3a7b0f5b drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1815  			 * values of sgl->offset that are larger than PAGE_SIZE.
+743b237c3a7b0f5b drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1816  			 * Such offsets are handled even on other than the first
+743b237c3a7b0f5b drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1817  			 * sgl entry, provided they are a multiple of PAGE_SIZE.
+8f43710543ef3059 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1818  			 */
+743b237c3a7b0f5b drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1819  			hvpfn = HVPFN_DOWN(sg_dma_address(sg));
+743b237c3a7b0f5b drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1820  			hvpfns_to_add = HVPFN_UP(sg_dma_address(sg) +
+743b237c3a7b0f5b drivers/scsi/storvsc_drv.c       Tianyu Lan        2021-12-13  1821  						 sg_dma_len(sg)) - hvpfn;
+8f43710543ef3059 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1822  
+8f43710543ef3059 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1823  			/*
+3d9c3dcc58e96840 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1824  			 * Fill the next portion of the PFN array with
+3d9c3dcc58e96840 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1825  			 * sequential Hyper-V PFNs for the continguous physical
+3d9c3dcc58e96840 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1826  			 * memory described by the sgl entry. The end of the
+3d9c3dcc58e96840 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1827  			 * last sgl should be reached at the same time that
+3d9c3dcc58e96840 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1828  			 * the PFN array is filled.
+8f43710543ef3059 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1829  			 */
+3d9c3dcc58e96840 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1830  			while (hvpfns_to_add--)
+3d9c3dcc58e96840 drivers/scsi/storvsc_drv.c       Michael Kelley    2021-02-23  1831  				payload->range.pfn_array[i++] = hvpfn++;
+8f43710543ef3059 drivers/scsi/storvsc_drv.c       Boqun Feng        2020-09-16  1832  		}
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1833  	}
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1834  
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1835  	cmd_request->payload = payload;
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1836  	cmd_request->payload_sz = payload_sz;
+be0cf6ca301c6145 drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2015-03-27  1837  
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1838  	/* Invokes the vsc to start an IO */
+d86adf482b843b3a drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2016-12-14  1839  	ret = storvsc_do_io(dev, cmd_request, get_cpu());
+d86adf482b843b3a drivers/scsi/storvsc_drv.c       K. Y. Srinivasan  2016-12-14  1840  	put_cpu();
+636f0fd14ca29b29 drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1841  
+67ff3d0a49f3d445 drivers/scsi/storvsc_drv.c       Michael Kelley    2022-12-04  1842  	if (ret)
+67ff3d0a49f3d445 drivers/scsi/storvsc_drv.c       Michael Kelley    2022-12-04  1843  		scsi_dma_unmap(scmnd);
+67ff3d0a49f3d445 drivers/scsi/storvsc_drv.c       Michael Kelley    2022-12-04  1844  
+d2598f017f02bbc3 drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-08-25  1845  	if (ret == -EAGAIN) {
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1846  		/* no more space */
+4eea5332d67d8ae6 drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1847  		ret = SCSI_MLQUEUE_DEVICE_BUSY;
+4eea5332d67d8ae6 drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1848  		goto err_free_payload;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1849  	}
+c77b63b639f52b2e drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2012-01-12  1850  
+c77b63b639f52b2e drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2012-01-12  1851  	return 0;
+4eea5332d67d8ae6 drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1852  
+4eea5332d67d8ae6 drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1853  err_free_payload:
+4eea5332d67d8ae6 drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1854  	if (payload_sz > sizeof(cmd_request->mpb))
+4eea5332d67d8ae6 drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1855  		kfree(payload);
+4eea5332d67d8ae6 drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08  1856  
+4eea5332d67d8ae6 drivers/scsi/storvsc_drv.c       Juan Vazquez      2022-01-08 @1857  	return ret;
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1858  }
+c5b463ae24244aef drivers/staging/hv/storvsc_drv.c K. Y. Srinivasan  2011-05-10  1859  
+
+:::::: The code at line 1857 was first introduced by commit
+:::::: 4eea5332d67d8ae6ba5717ec0f4e671fdbd222e7 scsi: storvsc: Fix storvsc_queuecommand() memory leak
+
+:::::: TO: Juan Vazquez <juvazq@linux.microsoft.com>
+:::::: CC: Wei Liu <wei.liu@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
