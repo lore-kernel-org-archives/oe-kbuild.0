@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED544EAC9
-	for <oe-kbuild@lists.linux.dev>; Sun,  8 Oct 2023 21:12:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A47210B
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Oct 2023 10:46:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lzJ3TNPn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BRQ7GapJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696799539; x=1728335539;
+  t=1696848368; x=1728384368;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4OBF4lNZDoKCLjBXEKWnMTjiKJILYcUfve8wli0SI5k=;
-  b=lzJ3TNPn3hmyHdDltK2W54HxvKYAKvBCbjWXqlIuWnDZtjaet+z90TjQ
-   rthQS2H63wIsg/sHJHY/kz+78zyszkLCTtR7O2SNEySwTK/jUjwn5WFLY
-   7Wnkp+vB5K1ec1SdSWR7RlGBHJVGjjip15JUi2H4inRDqR096dUQmJTME
-   npD1cZs3SKqH3KsIM5kI+TwawZkcb2GkR86PglsFGnJnodhBJw4CL1le5
-   wr3fkDC6joRgg9DZqlg9xKkzRluoBiKUHPqh4IvWzgfcbsG8xKREUnQ6X
-   qXJkELpEKvpSz9VKyFH61GKtoboF55OrZycBtKP9H9ogotHCs6YgijQD8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="448228768"
-X-IronPort-AV: E=Sophos;i="6.03,207,1694761200"; 
-   d="scan'208";a="448228768"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2023 14:12:18 -0700
+  bh=EdKEYttle4FwXynUT+re16k+tCwWYht+hMenOJa3BRc=;
+  b=BRQ7GapJOo6ZnB27Zh2IOsmwDSLeq0VfUGff81YJ+jO6YAwV0NnDwrP8
+   nhebXozRs7V2P675Bb1KHYMU9mQDJiaNGVslux3I+MxuTEX2fi41vVROA
+   3PTwbtxRRCPQWUdRRZt9k8ry06LXu3+1mM11Rp9nAWH8NDx8v5WCpfz6S
+   S2b4MCqpdFFxHEwlnPb9CMay34v/WZSoNEE5vFHAfSBV50IOHIaBGIMIl
+   jAXWyQtkySa4WSVu/jZt49adjM2+rMzbfRcyEz/k7YYHUvdoB684KC2b4
+   Qdd4I9zqClu9kUpo9t4NJelAuwRi1WnI3nHSJBru0HCK3vDPA8513LDXd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="382990312"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
+   d="scan'208";a="382990312"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 03:46:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="756496408"
-X-IronPort-AV: E=Sophos;i="6.03,207,1694761200"; 
-   d="scan'208";a="756496408"
-Received: from lkp-server01.sh.intel.com (HELO 8a3a91ad4240) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 08 Oct 2023 14:12:15 -0700
-Received: from kbuild by 8a3a91ad4240 with local (Exim 4.96)
+X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="788119778"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
+   d="scan'208";a="788119778"
+Received: from lkp-server02.sh.intel.com (HELO 4ed589823ba4) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 09 Oct 2023 03:46:05 -0700
+Received: from kbuild by 4ed589823ba4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qpb4Q-0005ld-38;
-	Sun, 08 Oct 2023 21:12:14 +0000
-Date: Mon, 9 Oct 2023 05:12:06 +0800
+	id 1qpnly-00007g-2y;
+	Mon, 09 Oct 2023 10:46:02 +0000
+Date: Mon, 9 Oct 2023 18:45:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: drivers/scsi/advansys.c:4263:9: sparse: sparse: incorrect type in
  argument 1 (different base types)
-Message-ID: <202310090517.06QyNLI8-lkp@intel.com>
+Message-ID: <202310091808.7Pgmcosa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,19 +61,19 @@ TO: Linus Walleij <linus.walleij@linaro.org>
 CC: Arnd Bergmann <arnd@arndb.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   37faf07bf90ace7c8e34c6b825dcfbb587d2e701
+head:   94f6f0550c625fab1f373bb86a6669b45e9748b3
 commit: 437b6b35362b206fdf881fe6dea76720eedb6d25 parisc: Use the generic IO helpers
 date:   1 year, 1 month ago
-:::::: branch date: 4 hours ago
+:::::: branch date: 14 hours ago
 :::::: commit date: 1 year, 1 month ago
-config: parisc-randconfig-r113-20230920 (https://download.01.org/0day-ci/archive/20231009/202310090517.06QyNLI8-lkp@intel.com/config)
+config: parisc-randconfig-r113-20230920 (https://download.01.org/0day-ci/archive/20231009/202310091808.7Pgmcosa-lkp@intel.com/config)
 compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231009/202310090517.06QyNLI8-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231009/202310091808.7Pgmcosa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202310090517.06QyNLI8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310091808.7Pgmcosa-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
    drivers/scsi/advansys.c:4263:9: sparse: sparse: restricted __le32 degrades to integer
