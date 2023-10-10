@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B387F0
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Oct 2023 05:04:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354F919464
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Oct 2023 12:21:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aKTglmR8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="agxtWfQr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696914255; x=1728450255;
+  t=1696940491; x=1728476491;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2h5MbJvu6uJjgmfqa7arDVmuj54AHHCQvuYe/KwDxzc=;
-  b=aKTglmR8DKd4Y2acIsYQMJIjdyCX4ikwDbhxYhxWzkb7AiEHtLSrmcNT
-   GIQmbbL8bc+nXNkxPcCM1ZeDN9tWFLOQ8m3kQm7gVNZsvdj14MMvtd3Gj
-   dsVYgxYNvBzDT+KprviC2nevEia1VH6nWuzLHPJrFiifBdD82VPD2egi1
-   Iy35N/SVxZiTse2/3ucyH0h6HCdtWKHsdFQlwwNqEi7d66r2fsunloaEh
-   rSaqxUNw1JJv1m4MoSTH5y1k/zpyXA51OWYZ3+ZiGxnvsB4pYi3EOYW2M
-   UIdJMoaGyrwejoTB/MH7ewOPPBlQP4DK7m96/XVPdtdaPEcd0xocRAcnn
+  bh=6+5l2IPvo2d8nhp6muOmasYQSIuWdmNGjEki7mrmtmU=;
+  b=agxtWfQrJM9eRtkn5I2ZgBM8lknFJ89he/+ASxbKAokwxI3Dfiab0q/W
+   k4/UQ1f+Osxuk16dVDcjJmfqeQtu+vUYS38D1vKmaWmBRM2pxQu69t72w
+   BRsFGf2tc6PEY+llVQoUG8q6MfOAFJvsySMV9Br8bwFbV9wkm4MSGtjIV
+   VW1wnF1iw8C4zPrvBYriMo3QcCu5Uc5kJUr88p0sLT7+olNSi/xkifj8W
+   62McbFUQPzjEplmF5iUDcDDG8l7LwIOH/E5FBbUQ0zpYBPlUvdZ3R171j
+   nVQxCD46MZB0aL6eLBOeAWalp1dkxYHBsxZlKcvR2MmFjYqWvzz/6Z//u
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="387148117"
-X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
-   d="scan'208";a="387148117"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 22:04:14 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="364674776"
+X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
+   d="scan'208";a="364674776"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 05:21:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="788436023"
-X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
-   d="scan'208";a="788436023"
-Received: from lkp-server02.sh.intel.com (HELO 4ed589823ba4) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 09 Oct 2023 22:04:13 -0700
-Received: from kbuild by 4ed589823ba4 with local (Exim 4.96)
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="747056964"
+X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
+   d="scan'208";a="747056964"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 10 Oct 2023 05:21:04 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qq4uh-00018i-0l;
-	Tue, 10 Oct 2023 05:04:11 +0000
-Date: Tue, 10 Oct 2023 13:03:55 +0800
+	id 1qqBjS-0000O8-1C;
+	Tue, 10 Oct 2023 12:21:02 +0000
+Date: Tue, 10 Oct 2023 20:20:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [norov:unload-bitmap 6/8] include/linux/bitmap.h:667:37: sparse:
- sparse: shift too big (32) for type unsigned long
-Message-ID: <202310101203.Hgvebl8Z-lkp@intel.com>
+Subject: [tip:x86/percpu 11/13] include/linux/interrupt.h:612:16: sparse:
+ sparse: too many errors
+Message-ID: <202310102016.EJycBoUF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,71 +51,1168 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: include/linux/bitmap.h:667:37: sparse: sparse: shift too big (32) for type unsigned long"
+:::::: Manual check reason: "low confidence static check first_new_problem: include/linux/interrupt.h:612:16: sparse: sparse: too many errors"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Yury Norov <yury.norov@gmail.com>
+CC: linux-kernel@vger.kernel.org
+CC: x86@kernel.org
+TO: Nadav Amit <namit@vmware.com>
+CC: Ingo Molnar <mingo@kernel.org>
+CC: Uros Bizjak <ubizjak@gmail.com>
 
-tree:   https://github.com/norov/linux unload-bitmap
-head:   d12b2cd2f2cace0c68638a2c474e4d0a32b533e5
-commit: fe8066a1c1d802a28b2a805e80e908daea9a6ffe [6/8] lib/bitmap: add bitmap_{read,write}()
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-061-20231010 (https://download.01.org/0day-ci/archive/20231010/202310101203.Hgvebl8Z-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310101203.Hgvebl8Z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/percpu
+head:   a3c7a64f9b764e200338130253dfe4488db03f4f
+commit: 9a462b9eafa6dda16ea8429b151edb1fb535d744 [11/13] x86/percpu: Use compiler segment prefix qualifier
+:::::: branch date: 20 hours ago
+:::::: commit date: 5 days ago
+config: x86_64-randconfig-122-20231010 (https://download.01.org/0day-ci/archive/20231010/202310102016.EJycBoUF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310102016.EJycBoUF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202310101203.Hgvebl8Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310102016.EJycBoUF-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   lib/test_bitmap.c: note: in included file:
->> include/linux/bitmap.h:667:37: sparse: sparse: shift too big (32) for type unsigned long
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/time.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/debugobjects.h, ...):
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/time.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/time.c: note: in included file (through include/linux/xarray.h, include/linux/radix-tree.h, include/linux/idr.h, ...):
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   arch/x86/kernel/time.c: note: in included file (through include/linux/idr.h, include/linux/kernfs.h, include/linux/sysfs.h, ...):
+   include/linux/radix-tree.h:260:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/radix-tree.h:260:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/time.c: note: in included file (through include/linux/kernfs.h, include/linux/sysfs.h, include/linux/kobject.h, ...):
+   include/linux/idr.h:174:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/idr.h:174:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/time.c: note: in included file (through include/linux/hardirq.h, include/linux/interrupt.h):
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/time.c: note: in included file:
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+>> include/linux/interrupt.h:612:16: sparse: sparse: too many errors
+--
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/x86_init.c: note: in included file (through include/linux/preempt.h, include/linux/smp.h, include/linux/lockdep.h, ...):
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/x86_init.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/x86_init.c: note: in included file (through include/linux/xarray.h, include/linux/radix-tree.h, include/linux/idr.h, ...):
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   arch/x86/kernel/x86_init.c: note: in included file (through include/linux/idr.h, include/linux/kernfs.h, include/linux/sysfs.h, ...):
+   include/linux/radix-tree.h:260:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/radix-tree.h:260:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/x86_init.c: note: in included file (through include/linux/kernfs.h, include/linux/sysfs.h, include/linux/kobject.h, ...):
+   include/linux/idr.h:174:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/idr.h:174:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/x86_init.c: note: in included file (through include/linux/hardirq.h, include/linux/interrupt.h, include/linux/pci.h):
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/x86_init.c: note: in included file (through include/linux/pci.h):
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+>> include/linux/interrupt.h:612:16: sparse: sparse: too many errors
+--
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/quirks.c: note: in included file (through include/linux/preempt.h, include/linux/smp.h, include/linux/lockdep.h, ...):
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/quirks.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/quirks.c: note: in included file (through include/linux/xarray.h, include/linux/radix-tree.h, include/linux/idr.h, ...):
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   arch/x86/kernel/quirks.c: note: in included file (through include/linux/idr.h, include/linux/kernfs.h, include/linux/sysfs.h, ...):
+   include/linux/radix-tree.h:260:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/radix-tree.h:260:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/quirks.c: note: in included file (through include/linux/kernfs.h, include/linux/sysfs.h, include/linux/kobject.h, ...):
+   include/linux/idr.h:174:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/idr.h:174:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/quirks.c: note: in included file (through include/linux/hardirq.h, include/linux/interrupt.h, include/linux/pci.h):
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/quirks.c: note: in included file (through include/linux/pci.h):
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+>> include/linux/interrupt.h:612:16: sparse: sparse: too many errors
+--
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/rtc.c: note: in included file (through include/linux/preempt.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/rtc.c: note: in included file (through include/linux/hrtimer.h, include/linux/sched.h, include/linux/ratelimit.h, ...):
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/rtc.c: note: in included file (through include/linux/xarray.h, include/linux/radix-tree.h, include/linux/idr.h, ...):
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   arch/x86/kernel/rtc.c: note: in included file (through include/linux/idr.h, include/linux/kernfs.h, include/linux/sysfs.h, ...):
+   include/linux/radix-tree.h:260:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/radix-tree.h:260:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/rtc.c: note: in included file (through include/linux/kernfs.h, include/linux/sysfs.h, include/linux/kobject.h, ...):
+   include/linux/idr.h:174:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/idr.h:174:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/rtc.c: note: in included file (through include/linux/hardirq.h, include/linux/interrupt.h, include/linux/rtc.h, ...):
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/rtc.c: note: in included file (through include/linux/rtc.h, include/linux/mc146818rtc.h):
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+>> include/linux/interrupt.h:612:16: sparse: sparse: too many errors
+--
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/early-quirks.c: note: in included file (through include/linux/preempt.h, include/linux/smp.h, include/linux/lockdep.h, ...):
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/early-quirks.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/early-quirks.c: note: in included file (through include/linux/xarray.h, include/linux/radix-tree.h, include/linux/idr.h, ...):
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   arch/x86/kernel/early-quirks.c: note: in included file (through include/linux/idr.h, include/linux/kernfs.h, include/linux/sysfs.h, ...):
+   include/linux/radix-tree.h:260:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/radix-tree.h:260:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/early-quirks.c: note: in included file (through include/linux/kernfs.h, include/linux/sysfs.h, include/linux/kobject.h, ...):
+   include/linux/idr.h:174:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/idr.h:174:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/early-quirks.c: note: in included file (through include/linux/hardirq.h, include/linux/interrupt.h, include/linux/pci.h):
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/early-quirks.c: note: in included file (through include/linux/pci.h):
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+>> include/linux/interrupt.h:612:16: sparse: sparse: too many errors
+--
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/irq.c: note: in included file (through include/linux/preempt.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/irq.c: note: in included file (through include/linux/hrtimer.h, include/linux/sched.h, include/linux/ratelimit.h, ...):
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/irq.c: note: in included file (through include/linux/xarray.h, include/linux/radix-tree.h, include/linux/idr.h, ...):
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   arch/x86/kernel/irq.c: note: in included file (through include/linux/idr.h, include/linux/kernfs.h, include/linux/sysfs.h, ...):
+   include/linux/radix-tree.h:260:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/radix-tree.h:260:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/irq.c: note: in included file (through include/linux/kernfs.h, include/linux/sysfs.h, include/linux/kobject.h, ...):
+   include/linux/idr.h:174:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/idr.h:174:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/irq.c: note: in included file (through include/linux/hardirq.h, include/linux/interrupt.h):
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/irq.c: note: in included file:
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+>> include/linux/interrupt.h:612:16: sparse: sparse: too many errors
+--
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/hpet.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/debugobjects.h, ...):
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/hpet.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/hpet.c: note: in included file (through include/linux/xarray.h, include/linux/radix-tree.h, include/linux/idr.h, ...):
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   arch/x86/kernel/hpet.c: note: in included file (through include/linux/idr.h, include/linux/kernfs.h, include/linux/sysfs.h, ...):
+   include/linux/radix-tree.h:260:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/radix-tree.h:260:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/hpet.c: note: in included file (through include/linux/kernfs.h, include/linux/sysfs.h, include/linux/kobject.h, ...):
+   include/linux/idr.h:174:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/idr.h:174:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/hpet.c: note: in included file (through include/linux/hardirq.h, include/linux/interrupt.h):
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/hpet.c: note: in included file:
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+>> include/linux/interrupt.h:612:16: sparse: sparse: too many errors
+--
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/kvmclock.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/debugobjects.h, ...):
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/kvmclock.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/kvmclock.c: note: in included file (through include/linux/xarray.h, include/linux/radix-tree.h, include/linux/idr.h, ...):
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   arch/x86/kernel/kvmclock.c: note: in included file (through include/linux/idr.h, include/linux/kernfs.h, include/linux/sysfs.h, ...):
+   include/linux/radix-tree.h:260:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/radix-tree.h:260:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/kvmclock.c: note: in included file (through include/linux/kernfs.h, include/linux/sysfs.h, include/linux/kobject.h, ...):
+   include/linux/idr.h:174:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/idr.h:174:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/kvmclock.c: note: in included file (through include/linux/hardirq.h, include/linux/interrupt.h, arch/x86/include/asm/kvm_para.h, ...):
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/kvmclock.c: note: in included file (through arch/x86/include/asm/kvm_para.h, include/uapi/linux/kvm_para.h, include/linux/kvm_para.h):
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+>> include/linux/interrupt.h:612:16: sparse: sparse: too many errors
+--
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/vmware.c: note: in included file (through include/linux/preempt.h, include/linux/smp.h, include/linux/lockdep.h, ...):
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/vmware.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/vmware.c: note: in included file (through include/linux/xarray.h, include/linux/radix-tree.h, include/linux/idr.h, ...):
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/vmware.c: note: in included file (through include/linux/idr.h, include/linux/kernfs.h, include/linux/sysfs.h, ...):
+   include/linux/radix-tree.h:260:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/radix-tree.h:260:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/vmware.c: note: in included file (through include/linux/kernfs.h, include/linux/sysfs.h, include/linux/kobject.h, ...):
+   include/linux/idr.h:174:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/idr.h:174:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/vmware.c: note: in included file (through include/linux/hardirq.h, include/linux/interrupt.h, arch/x86/include/asm/kvm_para.h, ...):
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/vmware.c: note: in included file (through arch/x86/include/asm/kvm_para.h, arch/x86/include/asm/hypervisor.h):
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+>> include/linux/interrupt.h:612:16: sparse: sparse: too many errors
+--
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/mtrr/mtrr.c: note: in included file (through include/linux/preempt.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/mtrr/mtrr.c: note: in included file (through include/linux/hrtimer.h, include/linux/sched.h, include/linux/ratelimit.h, ...):
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/mtrr/mtrr.c: note: in included file (through include/linux/xarray.h, include/linux/radix-tree.h, include/linux/idr.h, ...):
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/mtrr/mtrr.c: note: in included file (through include/linux/idr.h, include/linux/kernfs.h, include/linux/sysfs.h, ...):
+   include/linux/radix-tree.h:260:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/radix-tree.h:260:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/mtrr/mtrr.c: note: in included file (through include/linux/kernfs.h, include/linux/sysfs.h, include/linux/kobject.h, ...):
+   include/linux/idr.h:174:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/idr.h:174:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/mtrr/mtrr.c: note: in included file (through include/linux/hardirq.h, include/linux/interrupt.h, arch/x86/include/asm/kvm_para.h, ...):
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/mtrr/mtrr.c: note: in included file (through arch/x86/include/asm/kvm_para.h, include/uapi/linux/kvm_para.h, include/linux/kvm_para.h):
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+>> include/linux/interrupt.h:612:16: sparse: sparse: too many errors
+--
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/processor.h:504:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/mtrr/cleanup.c: note: in included file (through include/linux/preempt.h, include/linux/smp.h, include/linux/lockdep.h, ...):
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:34:15: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:38:19: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:61:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:66:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:71:18: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:80:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:85:9: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:95:16: sparse: sparse: got __seg_gs
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: Expected ) at end of cast operator
+   arch/x86/include/asm/preempt.h:104:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/mtrr/cleanup.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   include/linux/seqlock.h:269:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/seqlock.h:269:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/mtrr/cleanup.c: note: in included file (through include/linux/xarray.h, include/linux/radix-tree.h, include/linux/idr.h, ...):
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:415:23: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:415:23: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   include/linux/sched/mm.h:416:17: sparse: sparse: Expected ) at end of cast operator
+   include/linux/sched/mm.h:416:17: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/mtrr/cleanup.c: note: in included file (through include/linux/idr.h, include/linux/kernfs.h, include/linux/sysfs.h, ...):
+   include/linux/radix-tree.h:260:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/radix-tree.h:260:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/mtrr/cleanup.c: note: in included file (through include/linux/kernfs.h, include/linux/sysfs.h, include/linux/kobject.h, ...):
+   include/linux/idr.h:174:9: sparse: sparse: Expected ) at end of cast operator
+   include/linux/idr.h:174:9: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/mtrr/cleanup.c: note: in included file (through include/linux/hardirq.h, include/linux/interrupt.h, include/linux/pci.h):
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:61:28: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:80:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/context_tracking_state.h:92:16: sparse: sparse: got __seg_gs
+   arch/x86/kernel/cpu/mtrr/cleanup.c: note: in included file (through include/linux/pci.h):
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+   include/linux/interrupt.h:612:16: sparse: sparse: got __seg_gs
+   include/linux/interrupt.h:612:16: sparse: sparse: Expected ) at end of cast operator
+>> include/linux/interrupt.h:612:16: sparse: sparse: too many errors
 
-vim +667 include/linux/bitmap.h
+vim +612 include/linux/interrupt.h
 
-169c474fb22d8a William Breathitt Gray 2019-12-04  632  
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  633  /**
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  634   * bitmap_write - write n-bit value within a memory region
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  635   * @map: address to the bitmap memory region
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  636   * @value: value to write, clamped to nbits
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  637   * @start: bit offset of the n-bit value
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  638   * @nbits: size of value in bits, nonzero, up to BITS_PER_LONG.
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  639   *
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  640   * bitmap_write() behaves similarly to @nbits calls of assign_bit(), i.e. bits
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  641   * beyond @nbits are ignored:
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  642   *
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  643   *   for (bit = 0; bit < nbits; bit++)
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  644   *           assign_bit(start + bit, bitmap, val & BIT(bit));
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  645   */
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  646  static inline void bitmap_write(unsigned long *map,
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  647  				unsigned long value,
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  648  				unsigned long start, unsigned long nbits)
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  649  {
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  650  	size_t index = BIT_WORD(start);
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  651  	unsigned long offset = start % BITS_PER_LONG;
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  652  	unsigned long space = BITS_PER_LONG - offset;
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  653  	unsigned long mask;
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  654  
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  655  	if (unlikely(!nbits))
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  656  		return;
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  657  	mask = BITMAP_LAST_WORD_MASK(nbits);
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  658  	value &= mask;
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  659  	if (space >= nbits) {
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  660  		map[index] &= ~(mask << offset);
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  661  		map[index] |= value << offset;
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  662  		return;
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  663  	}
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  664  	map[index] &= ~BITMAP_FIRST_WORD_MASK(start);
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  665  	map[index] |= value << offset;
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  666  	map[index + 1] &= ~BITMAP_LAST_WORD_MASK(start + nbits);
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06 @667  	map[index + 1] |= (value >> space);
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  668  }
-fe8066a1c1d802 Syed Nayyar Waris      2023-10-06  669  
+4dd53d891ca46d Venkatesh Pallipadi 2010-12-21  609  
+4dd53d891ca46d Venkatesh Pallipadi 2010-12-21  610  static inline struct task_struct *this_cpu_ksoftirqd(void)
+4dd53d891ca46d Venkatesh Pallipadi 2010-12-21  611  {
+4dd53d891ca46d Venkatesh Pallipadi 2010-12-21 @612  	return this_cpu_read(ksoftirqd);
+4dd53d891ca46d Venkatesh Pallipadi 2010-12-21  613  }
+4dd53d891ca46d Venkatesh Pallipadi 2010-12-21  614  
+
+:::::: The code at line 612 was first introduced by commit
+:::::: 4dd53d891ca46dcc1fde0376a33540d3fd83cb9a softirqs: Free up pf flag PF_KSOFTIRQD
+
+:::::: TO: Venkatesh Pallipadi <venki@google.com>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
