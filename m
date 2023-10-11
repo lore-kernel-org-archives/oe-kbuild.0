@@ -1,257 +1,194 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E0D208A5
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 15:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E6730F88
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 16:25:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fskqKR79"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BTXvJPXt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697038107; x=1728574107;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=demE+WaftIgEGFX5ZVSgtASwG56VwpzHxxexWT5DMdA=;
-  b=fskqKR79SKsGkymHsn6BQ6E94TSVQ7d+jf9ZZGb08xVy9/+jKqwS/LTq
-   tZe3j3FOBysF/PRuGXwvmPSid/D9L3RonmjW78NCcT/IsTboH2h/CnD5A
-   dAWbYURi+RgJBMkq0p1MQ04xdqBoj25dg0pBJ2s1w2y0Qj+vm12H56dCW
-   9+nDPZq/LCtyjVCM32fuI0fT7PqewQmCrkU/w4nTgyIqsbETCMZv+4IfG
-   yMKKw/v61EYO0iWe6DVyQhvWiYdJTOi87SKufz3GDcbo+s4CTCz4Aj9cg
-   vgp2xv0+pjd0i0+6OY36z6Zi+Aan3Phb+e/8JSZcJXrr64JtgmnGEnPAr
+  t=1697041546; x=1728577546;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YeO6YmkyNntLtszzNcI2QO5l4kmyjBr4Al0DfrBJp8A=;
+  b=BTXvJPXt2SMgVFqu88Wtxgcac8Rz8fObXFtr2J/c10NmP40xbReWp/yd
+   sby7qlZgrQKwic409NVBlffz3bUe1GhyC5fi4wVRzwKa/n4Igwq6L6Uwf
+   gUI3AO9vEEuN/9pGwOpNsXT9PClFUQWqB2aRCglY5XgcuzVLwV1cggwK7
+   5u+4Faco89Xnb3htT68IHOYm1MmM0eHg3IHXUYMcwkDXLT22nmGhAaVVM
+   7cT7LyA3nLbHgiL3qzYSVXB1LqYRaj1T8uxxdSh8wAHaGhX5bWgT4n33x
+   jLBI4u9DDGsbaIgaNsQMtI1GlMMecZlWRNZMo0zbT2QFALqKnyJBeHsbO
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="451185806"
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="375053381"
 X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="451185806"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 08:28:26 -0700
+   d="scan'208";a="375053381"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 09:25:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="730539669"
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="1085290912"
 X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="730539669"
+   d="scan'208";a="1085290912"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 11 Oct 2023 08:28:25 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 11 Oct 2023 09:25:44 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqb8I-0002Mr-2B;
-	Wed, 11 Oct 2023 15:28:22 +0000
-Date: Wed, 11 Oct 2023 23:27:41 +0800
+	id 1qqc1m-0002Qr-0G;
+	Wed, 11 Oct 2023 16:25:42 +0000
+Date: Thu, 12 Oct 2023 00:24:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 9436/10238] arch/x86/xen/setup.c:809:23: sparse:
- sparse: too long token expansion
-Message-ID: <202310112356.W3hnbklO-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 10943/11428] net/bluetooth/hci_event.c:3276
+ hci_conn_request_evt() warn: variable dereferenced before check 'hdev' (see
+ line 3266)
+Message-ID: <202310120031.J3PSRP8D-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: arch/x86/xen/setup.c:809:23: sparse: sparse: too long token expansion"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: David Laight <David.Laight@ACULAB.COM>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Arnd Bergmann <arnd@arndb.de>
+CC: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+CC: Kees Cook <keescook@chromium.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   2933a1156742d8c47550493a77af8e2d81cf3c84
-commit: 0d9fe8574b37ed797fd5fb33ec51fc1d7aad4365 [9436/10238] minmax: allow min()/max()/clamp() if the arguments have the same signedness.
-:::::: branch date: 9 hours ago
-:::::: commit date: 7 days ago
-config: x86_64-randconfig-122-20231011 (https://download.01.org/0day-ci/archive/20231011/202310112356.W3hnbklO-lkp@intel.com/config)
+commit: b8ba8e65e84b99d58e278900b4261ef17a20eb27 [10943/11428] Bluetooth: avoid memcmp() out of bounds warning
+:::::: branch date: 10 hours ago
+:::::: commit date: 22 hours ago
+config: i386-randconfig-141-20231011 (https://download.01.org/0day-ci/archive/20231012/202310120031.J3PSRP8D-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310112356.W3hnbklO-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231012/202310120031.J3PSRP8D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202310112356.W3hnbklO-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202310120031.J3PSRP8D-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/xen/setup.c:809:23: sparse: sparse: too long token expansion
->> arch/x86/xen/setup.c:809:23: sparse: sparse: too long token expansion
+smatch warnings:
+net/bluetooth/hci_event.c:3276 hci_conn_request_evt() warn: variable dereferenced before check 'hdev' (see line 3266)
 
-vim +809 arch/x86/xen/setup.c
+vim +/hdev +3276 net/bluetooth/hci_event.c
 
-1d988ed46543ca arch/x86/xen/setup.c  Juergen Gross         2019-02-14  752  
-9e9a5fcb04e3af arch/x86/xen/setup.c  Ian Campbell          2010-09-02  753  	op = xen_initial_domain() ?
-9e9a5fcb04e3af arch/x86/xen/setup.c  Ian Campbell          2010-09-02  754  		XENMEM_machine_memory_map :
-9e9a5fcb04e3af arch/x86/xen/setup.c  Ian Campbell          2010-09-02  755  		XENMEM_memory_map;
-9e9a5fcb04e3af arch/x86/xen/setup.c  Ian Campbell          2010-09-02  756  	rc = HYPERVISOR_memory_op(op, &memmap);
-35ae11fd146384 arch/x86/xen/setup.c  Ian Campbell          2009-02-06  757  	if (rc == -ENOSYS) {
-9ec23a7f6d2537 arch/x86/xen/setup.c  Ian Campbell          2010-10-28  758  		BUG_ON(xen_initial_domain());
-35ae11fd146384 arch/x86/xen/setup.c  Ian Campbell          2009-02-06  759  		memmap.nr_entries = 1;
-e7dbf7ad4172ef arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  760  		xen_e820_table.entries[0].addr = 0ULL;
-e7dbf7ad4172ef arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  761  		xen_e820_table.entries[0].size = mem_end;
-35ae11fd146384 arch/x86/xen/setup.c  Ian Campbell          2009-02-06  762  		/* 8MB slack (to balance backend allocations). */
-e7dbf7ad4172ef arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  763  		xen_e820_table.entries[0].size += 8ULL << 20;
-e7dbf7ad4172ef arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  764  		xen_e820_table.entries[0].type = E820_TYPE_RAM;
-35ae11fd146384 arch/x86/xen/setup.c  Ian Campbell          2009-02-06  765  		rc = 0;
-35ae11fd146384 arch/x86/xen/setup.c  Ian Campbell          2009-02-06  766  	}
-35ae11fd146384 arch/x86/xen/setup.c  Ian Campbell          2009-02-06  767  	BUG_ON(rc);
-1ea644c8f93f34 arch/x86/xen/setup.c  Martin Kelly          2014-10-16  768  	BUG_ON(memmap.nr_entries == 0);
-e7dbf7ad4172ef arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  769  	xen_e820_table.nr_entries = memmap.nr_entries;
-8006ec3e911f93 arch/x86/xen/setup.c  Jeremy Fitzhardinge   2008-05-26  770  
-9338c2233b97f9 arch/x86/xen/setup.c  Ross Lagerwall        2023-06-05  771  	if (xen_initial_domain()) {
-3bc38cbceb8588 arch/x86/xen/setup.c  David Vrabel          2013-08-16  772  		/*
-3bc38cbceb8588 arch/x86/xen/setup.c  David Vrabel          2013-08-16  773  		 * Xen won't allow a 1:1 mapping to be created to UNUSABLE
-3bc38cbceb8588 arch/x86/xen/setup.c  David Vrabel          2013-08-16  774  		 * regions, so if we're using the machine memory map leave the
-3bc38cbceb8588 arch/x86/xen/setup.c  David Vrabel          2013-08-16  775  		 * region as RAM as it is in the pseudo-physical map.
-3bc38cbceb8588 arch/x86/xen/setup.c  David Vrabel          2013-08-16  776  		 *
-3bc38cbceb8588 arch/x86/xen/setup.c  David Vrabel          2013-08-16  777  		 * UNUSABLE regions in domUs are not handled and will need
-3bc38cbceb8588 arch/x86/xen/setup.c  David Vrabel          2013-08-16  778  		 * a patch in the future.
-3bc38cbceb8588 arch/x86/xen/setup.c  David Vrabel          2013-08-16  779  		 */
-69632ecfcd03b1 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  780  		xen_ignore_unusable();
-3bc38cbceb8588 arch/x86/xen/setup.c  David Vrabel          2013-08-16  781  
-9338c2233b97f9 arch/x86/xen/setup.c  Ross Lagerwall        2023-06-05  782  #ifdef CONFIG_ISCSI_IBFT_FIND
-9338c2233b97f9 arch/x86/xen/setup.c  Ross Lagerwall        2023-06-05  783  		/* Reserve 0.5 MiB to 1 MiB region so iBFT can be found */
-9338c2233b97f9 arch/x86/xen/setup.c  Ross Lagerwall        2023-06-05  784  		xen_e820_table.entries[xen_e820_table.nr_entries].addr = IBFT_START;
-9338c2233b97f9 arch/x86/xen/setup.c  Ross Lagerwall        2023-06-05  785  		xen_e820_table.entries[xen_e820_table.nr_entries].size = IBFT_END - IBFT_START;
-9338c2233b97f9 arch/x86/xen/setup.c  Ross Lagerwall        2023-06-05  786  		xen_e820_table.entries[xen_e820_table.nr_entries].type = E820_TYPE_RESERVED;
-9338c2233b97f9 arch/x86/xen/setup.c  Ross Lagerwall        2023-06-05  787  		xen_e820_table.nr_entries++;
-9338c2233b97f9 arch/x86/xen/setup.c  Ross Lagerwall        2023-06-05  788  #endif
-9338c2233b97f9 arch/x86/xen/setup.c  Ross Lagerwall        2023-06-05  789  	}
-9338c2233b97f9 arch/x86/xen/setup.c  Ross Lagerwall        2023-06-05  790  
-dc91c728fddc29 arch/x86/xen/setup.c  David Vrabel          2011-09-29  791  	/* Make sure the Xen-supplied memory map is well-ordered. */
-f9748fa0458510 arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  792  	e820__update_table(&xen_e820_table);
-b5b43ced7a6e79 arch/x86/xen/setup.c  Jeremy Fitzhardinge   2010-09-02  793  
-dc91c728fddc29 arch/x86/xen/setup.c  David Vrabel          2011-09-29  794  	max_pages = xen_get_max_pages();
-7cb31b752c71e0 arch/x86/xen/setup.c  Stefano Stabellini    2011-01-27  795  
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  796  	/* How many extra pages do we need due to remapping? */
-dd14be92fbf5bc arch/x86/xen/setup.c  Juergen Gross         2016-05-18  797  	max_pages += xen_foreach_remap_area(max_pfn, xen_count_remap_pages);
-eafd72e016c69d arch/x86/xen/setup.c  Juergen Gross         2015-08-19  798  
-eafd72e016c69d arch/x86/xen/setup.c  Juergen Gross         2015-08-19  799  	if (max_pages > max_pfn)
-eafd72e016c69d arch/x86/xen/setup.c  Juergen Gross         2015-08-19  800  		extra_pages += max_pages - max_pfn;
-2e2fb75475c2fc arch/x86/xen/setup.c  Konrad Rzeszutek Wilk 2012-04-06  801  
-2f14ddc3a7146e arch/x86/xen/setup.c  Zhang, Fengzhe        2011-02-16  802  	/*
-af44a387e743ab arch/x86/xen/setup.c  Roger Pau Monne       2021-03-24  803  	 * Clamp the amount of extra memory to a EXTRA_MEM_RATIO
-882213990d32fd arch/x86/xen/setup.c  Juergen Gross         2021-02-24  804  	 * factor the base size.
-dc91c728fddc29 arch/x86/xen/setup.c  David Vrabel          2011-09-29  805  	 *
-c70727a5bc18a5 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  806  	 * Make sure we have no memory above max_pages, as this area
-c70727a5bc18a5 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  807  	 * isn't handled by the p2m management.
-2f14ddc3a7146e arch/x86/xen/setup.c  Zhang, Fengzhe        2011-02-16  808  	 */
-af44a387e743ab arch/x86/xen/setup.c  Roger Pau Monne       2021-03-24 @809  	extra_pages = min3(EXTRA_MEM_RATIO * min(max_pfn, PFN_DOWN(MAXMEM)),
-c70727a5bc18a5 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  810  			   extra_pages, max_pages - max_pfn);
-dc91c728fddc29 arch/x86/xen/setup.c  David Vrabel          2011-09-29  811  	i = 0;
-e7dbf7ad4172ef arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  812  	addr = xen_e820_table.entries[0].addr;
-e7dbf7ad4172ef arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  813  	size = xen_e820_table.entries[0].size;
-e7dbf7ad4172ef arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  814  	while (i < xen_e820_table.nr_entries) {
-123664101aa215 arch/x86/xen/setup.c  Igor Druzhinin        2018-11-27  815  		bool discard = false;
-f5775e0b6116b7 arch/x86/xen/setup.c  David Vrabel          2015-01-19  816  
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  817  		chunk_size = size;
-e7dbf7ad4172ef arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  818  		type = xen_e820_table.entries[i].type;
-dc91c728fddc29 arch/x86/xen/setup.c  David Vrabel          2011-09-29  819  
-358cd9afd06999 arch/x86/xen/setup.c  Juergen Gross         2023-06-12  820  		if (type == E820_TYPE_RESERVED)
-358cd9afd06999 arch/x86/xen/setup.c  Juergen Gross         2023-06-12  821  			xen_pv_pci_possible = true;
-358cd9afd06999 arch/x86/xen/setup.c  Juergen Gross         2023-06-12  822  
-09821ff1d50a1e arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  823  		if (type == E820_TYPE_RAM) {
-dc91c728fddc29 arch/x86/xen/setup.c  David Vrabel          2011-09-29  824  			if (addr < mem_end) {
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  825  				chunk_size = min(size, mem_end - addr);
-dc91c728fddc29 arch/x86/xen/setup.c  David Vrabel          2011-09-29  826  			} else if (extra_pages) {
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  827  				chunk_size = min(size, PFN_PHYS(extra_pages));
-626d7508664c4b arch/x86/xen/setup.c  Juergen Gross         2015-09-04  828  				pfn_s = PFN_UP(addr);
-626d7508664c4b arch/x86/xen/setup.c  Juergen Gross         2015-09-04  829  				n_pfns = PFN_DOWN(addr + chunk_size) - pfn_s;
-626d7508664c4b arch/x86/xen/setup.c  Juergen Gross         2015-09-04  830  				extra_pages -= n_pfns;
-626d7508664c4b arch/x86/xen/setup.c  Juergen Gross         2015-09-04  831  				xen_add_extra_mem(pfn_s, n_pfns);
-626d7508664c4b arch/x86/xen/setup.c  Juergen Gross         2015-09-04  832  				xen_max_p2m_pfn = pfn_s + n_pfns;
-dc91c728fddc29 arch/x86/xen/setup.c  David Vrabel          2011-09-29  833  			} else
-123664101aa215 arch/x86/xen/setup.c  Igor Druzhinin        2018-11-27  834  				discard = true;
-35ae11fd146384 arch/x86/xen/setup.c  Ian Campbell          2009-02-06  835  		}
-be5bf9fa1c327f arch/x86/xen/setup.c  Jeremy Fitzhardinge   2008-06-16  836  
-123664101aa215 arch/x86/xen/setup.c  Igor Druzhinin        2018-11-27  837  		if (!discard)
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  838  			xen_align_and_add_e820_region(addr, chunk_size, type);
-b5b43ced7a6e79 arch/x86/xen/setup.c  Jeremy Fitzhardinge   2010-09-02  839  
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  840  		addr += chunk_size;
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  841  		size -= chunk_size;
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  842  		if (size == 0) {
-dc91c728fddc29 arch/x86/xen/setup.c  David Vrabel          2011-09-29  843  			i++;
-e7dbf7ad4172ef arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  844  			if (i < xen_e820_table.nr_entries) {
-e7dbf7ad4172ef arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  845  				addr = xen_e820_table.entries[i].addr;
-e7dbf7ad4172ef arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  846  				size = xen_e820_table.entries[i].size;
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  847  			}
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  848  		}
-35ae11fd146384 arch/x86/xen/setup.c  Ian Campbell          2009-02-06  849  	}
-b792c755907cff arch/x86/xen/setup.c  Jeremy Fitzhardinge   2008-06-16  850  
-25b884a83d487f arch/x86/xen/setup.c  David Vrabel          2014-01-03  851  	/*
-25b884a83d487f arch/x86/xen/setup.c  David Vrabel          2014-01-03  852  	 * Set the rest as identity mapped, in case PCI BARs are
-25b884a83d487f arch/x86/xen/setup.c  David Vrabel          2014-01-03  853  	 * located here.
-25b884a83d487f arch/x86/xen/setup.c  David Vrabel          2014-01-03  854  	 */
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  855  	set_phys_range_identity(addr / PAGE_SIZE, ~0ul);
-25b884a83d487f arch/x86/xen/setup.c  David Vrabel          2014-01-03  856  
-b792c755907cff arch/x86/xen/setup.c  Jeremy Fitzhardinge   2008-06-16  857  	/*
-9ec23a7f6d2537 arch/x86/xen/setup.c  Ian Campbell          2010-10-28  858  	 * In domU, the ISA region is normal, usable memory, but we
-9ec23a7f6d2537 arch/x86/xen/setup.c  Ian Campbell          2010-10-28  859  	 * reserve ISA memory anyway because too many things poke
-b792c755907cff arch/x86/xen/setup.c  Jeremy Fitzhardinge   2008-06-16  860  	 * about in there.
-b792c755907cff arch/x86/xen/setup.c  Jeremy Fitzhardinge   2008-06-16  861  	 */
-f9748fa0458510 arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  862  	e820__range_add(ISA_START_ADDRESS, ISA_END_ADDRESS - ISA_START_ADDRESS, E820_TYPE_RESERVED);
-5ead97c84fa7d6 arch/i386/xen/setup.c Jeremy Fitzhardinge   2007-07-17  863  
-f9748fa0458510 arch/x86/xen/setup.c  Ingo Molnar           2017-01-28  864  	e820__update_table(e820_table);
-be5bf9fa1c327f arch/x86/xen/setup.c  Jeremy Fitzhardinge   2008-06-16  865  
-808fdb71936c41 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  866  	/*
-808fdb71936c41 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  867  	 * Check whether the kernel itself conflicts with the target E820 map.
-808fdb71936c41 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  868  	 * Failing now is better than running into weird problems later due
-808fdb71936c41 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  869  	 * to relocating (and even reusing) pages with kernel text or data.
-808fdb71936c41 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  870  	 */
-808fdb71936c41 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  871  	if (xen_is_e820_reserved(__pa_symbol(_text),
-808fdb71936c41 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  872  			__pa_symbol(__bss_stop) - __pa_symbol(_text))) {
-808fdb71936c41 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  873  		xen_raw_console_write("Xen hypervisor allocated kernel memory conflicts with E820 map\n");
-808fdb71936c41 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  874  		BUG();
-808fdb71936c41 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  875  	}
-808fdb71936c41 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  876  
-04414baab5ba86 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  877  	/*
-04414baab5ba86 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  878  	 * Check for a conflict of the hypervisor supplied page tables with
-04414baab5ba86 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  879  	 * the target E820 map.
-04414baab5ba86 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  880  	 */
-04414baab5ba86 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  881  	xen_pt_check_e820();
-04414baab5ba86 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  882  
-8f5b0c63987207 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  883  	xen_reserve_xen_mfnlist();
-8f5b0c63987207 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  884  
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  885  	/* Check for a conflict of the initrd with the target E820 map. */
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  886  	if (xen_is_e820_reserved(boot_params.hdr.ramdisk_image,
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  887  				 boot_params.hdr.ramdisk_size)) {
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  888  		phys_addr_t new_area, start, size;
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  889  
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  890  		new_area = xen_find_free_area(boot_params.hdr.ramdisk_size);
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  891  		if (!new_area) {
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  892  			xen_raw_console_write("Can't find new memory area for initrd needed due to E820 map conflict\n");
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  893  			BUG();
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  894  		}
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  895  
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  896  		start = boot_params.hdr.ramdisk_image;
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  897  		size = boot_params.hdr.ramdisk_size;
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  898  		xen_phys_memcpy(new_area, start, size);
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  899  		pr_info("initrd moved from [mem %#010llx-%#010llx] to [mem %#010llx-%#010llx]\n",
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  900  			start, start + size, new_area, new_area + size);
-3ecc68349bbab6 arch/x86/xen/setup.c  Mike Rapoport         2021-11-05  901  		memblock_phys_free(start, size);
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  902  		boot_params.hdr.ramdisk_image = new_area;
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  903  		boot_params.ext_ramdisk_image = new_area >> 32;
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  904  	}
-4b9c15377f96e2 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  905  
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  906  	/*
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  907  	 * Set identity map on non-RAM pages and prepare remapping the
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  908  	 * underlying RAM.
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  909  	 */
-dd14be92fbf5bc arch/x86/xen/setup.c  Juergen Gross         2016-05-18  910  	xen_foreach_remap_area(max_pfn, xen_set_identity_and_remap_chunk);
-dd14be92fbf5bc arch/x86/xen/setup.c  Juergen Gross         2016-05-18  911  
-dd14be92fbf5bc arch/x86/xen/setup.c  Juergen Gross         2016-05-18  912  	pr_info("Released %ld page(s)\n", xen_released_pages);
-5097cdf6cef154 arch/x86/xen/setup.c  Juergen Gross         2015-07-17  913  
-5ead97c84fa7d6 arch/i386/xen/setup.c Jeremy Fitzhardinge   2007-07-17  914  	return "Xen";
-5ead97c84fa7d6 arch/i386/xen/setup.c Jeremy Fitzhardinge   2007-07-17  915  }
-5ead97c84fa7d6 arch/i386/xen/setup.c Jeremy Fitzhardinge   2007-07-17  916  
-
-:::::: The code at line 809 was first introduced by commit
-:::::: af44a387e743ab7aa39d3fb5e29c0a973cf91bdc Revert "xen: fix p2m size in dom0 for disabled memory hotplug case"
-
-:::::: TO: Roger Pau Monne <roger.pau@citrix.com>
-:::::: CC: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+70c464256310e1 Johan Hedberg          2014-07-09  3261  
+3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  3262  static void hci_conn_request_evt(struct hci_dev *hdev, void *data,
+3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  3263  				 struct sk_buff *skb)
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3264  {
+3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  3265  	struct hci_ev_conn_request *ev = data;
+a9de9248064bfc Marcel Holtmann        2007-10-20 @3266  	int mask = hdev->link_mode;
+70c464256310e1 Johan Hedberg          2014-07-09  3267  	struct inquiry_entry *ie;
+70c464256310e1 Johan Hedberg          2014-07-09  3268  	struct hci_conn *conn;
+20714bfef84d3e Frédéric Dalleau       2012-11-21  3269  	__u8 flags = 0;
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3270  
+3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  3271  	bt_dev_dbg(hdev, "bdaddr %pMR type 0x%x", &ev->bdaddr, ev->link_type);
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3272  
+d70e44fef8621a Lee, Chun-Yi           2023-10-01  3273  	/* Reject incoming connection from device with same BD ADDR against
+d70e44fef8621a Lee, Chun-Yi           2023-10-01  3274  	 * CVE-2020-26555
+d70e44fef8621a Lee, Chun-Yi           2023-10-01  3275  	 */
+b8ba8e65e84b99 Arnd Bergmann          2023-10-09 @3276  	if (hdev && !bacmp(&hdev->bdaddr, &ev->bdaddr)) {
+d70e44fef8621a Lee, Chun-Yi           2023-10-01  3277  		bt_dev_dbg(hdev, "Reject connection with same BD_ADDR %pMR\n",
+d70e44fef8621a Lee, Chun-Yi           2023-10-01  3278  			   &ev->bdaddr);
+d70e44fef8621a Lee, Chun-Yi           2023-10-01  3279  		hci_reject_conn(hdev, &ev->bdaddr);
+d70e44fef8621a Lee, Chun-Yi           2023-10-01  3280  		return;
+d70e44fef8621a Lee, Chun-Yi           2023-10-01  3281  	}
+d70e44fef8621a Lee, Chun-Yi           2023-10-01  3282  
+20714bfef84d3e Frédéric Dalleau       2012-11-21  3283  	mask |= hci_proto_connect_ind(hdev, &ev->bdaddr, ev->link_type,
+20714bfef84d3e Frédéric Dalleau       2012-11-21  3284  				      &flags);
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3285  
+70c464256310e1 Johan Hedberg          2014-07-09  3286  	if (!(mask & HCI_LM_ACCEPT)) {
+70c464256310e1 Johan Hedberg          2014-07-09  3287  		hci_reject_conn(hdev, &ev->bdaddr);
+70c464256310e1 Johan Hedberg          2014-07-09  3288  		return;
+70c464256310e1 Johan Hedberg          2014-07-09  3289  	}
+70c464256310e1 Johan Hedberg          2014-07-09  3290  
+fb048cae51bacd Niels Dossche          2022-04-05  3291  	hci_dev_lock(hdev);
+fb048cae51bacd Niels Dossche          2022-04-05  3292  
+3d4f9c00492b4e Archie Pusaka          2021-06-04  3293  	if (hci_bdaddr_list_lookup(&hdev->reject_list, &ev->bdaddr,
+dcc36c16c2f1c9 Johan Hedberg          2014-07-09  3294  				   BDADDR_BREDR)) {
+70c464256310e1 Johan Hedberg          2014-07-09  3295  		hci_reject_conn(hdev, &ev->bdaddr);
+fb048cae51bacd Niels Dossche          2022-04-05  3296  		goto unlock;
+70c464256310e1 Johan Hedberg          2014-07-09  3297  	}
+46c4c941a41726 Johan Hedberg          2014-07-16  3298  
+3d4f9c00492b4e Archie Pusaka          2021-06-04  3299  	/* Require HCI_CONNECTABLE or an accept list entry to accept the
+6a8fc95c87110a Johan Hedberg          2014-12-24  3300  	 * connection. These features are only touched through mgmt so
+6a8fc95c87110a Johan Hedberg          2014-12-24  3301  	 * only do the checks if HCI_MGMT is set.
+6a8fc95c87110a Johan Hedberg          2014-12-24  3302  	 */
+d7a5a11d7fa80b Marcel Holtmann        2015-03-13  3303  	if (hci_dev_test_flag(hdev, HCI_MGMT) &&
+d7a5a11d7fa80b Marcel Holtmann        2015-03-13  3304  	    !hci_dev_test_flag(hdev, HCI_CONNECTABLE) &&
+3d4f9c00492b4e Archie Pusaka          2021-06-04  3305  	    !hci_bdaddr_list_lookup_with_flags(&hdev->accept_list, &ev->bdaddr,
+a55bd29d522729 Johan Hedberg          2014-07-09  3306  					       BDADDR_BREDR)) {
+a55bd29d522729 Johan Hedberg          2014-07-09  3307  		hci_reject_conn(hdev, &ev->bdaddr);
+fb048cae51bacd Niels Dossche          2022-04-05  3308  		goto unlock;
+a55bd29d522729 Johan Hedberg          2014-07-09  3309  	}
+70c464256310e1 Johan Hedberg          2014-07-09  3310  
+a9de9248064bfc Marcel Holtmann        2007-10-20  3311  	/* Connection accepted */
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3312  
+cc11b9c14da4ca Andrei Emeltchenko     2010-11-22  3313  	ie = hci_inquiry_cache_lookup(hdev, &ev->bdaddr);
+cc11b9c14da4ca Andrei Emeltchenko     2010-11-22  3314  	if (ie)
+c7bdd5026d28d1 Marcel Holtmann        2008-07-14  3315  		memcpy(ie->data.dev_class, ev->dev_class, 3);
+c7bdd5026d28d1 Marcel Holtmann        2008-07-14  3316  
+8fc9ced3988247 Gustavo Padovan        2012-05-23  3317  	conn = hci_conn_hash_lookup_ba(hdev, ev->link_type,
+8fc9ced3988247 Gustavo Padovan        2012-05-23  3318  			&ev->bdaddr);
+a9de9248064bfc Marcel Holtmann        2007-10-20  3319  	if (!conn) {
+a5c4e309b9f23b Johan Hedberg          2014-07-16  3320  		conn = hci_conn_add(hdev, ev->link_type, &ev->bdaddr,
+a5c4e309b9f23b Johan Hedberg          2014-07-16  3321  				    HCI_ROLE_SLAVE);
+cc11b9c14da4ca Andrei Emeltchenko     2010-11-22  3322  		if (!conn) {
+2064ee332e4c1b Marcel Holtmann        2017-10-30  3323  			bt_dev_err(hdev, "no memory for new connection");
+fb048cae51bacd Niels Dossche          2022-04-05  3324  			goto unlock;
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3325  		}
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3326  	}
+b6a0dc822497e1 Marcel Holtmann        2007-10-20  3327  
+a9de9248064bfc Marcel Holtmann        2007-10-20  3328  	memcpy(conn->dev_class, ev->dev_class, 3);
+b6a0dc822497e1 Marcel Holtmann        2007-10-20  3329  
+a9de9248064bfc Marcel Holtmann        2007-10-20  3330  	hci_dev_unlock(hdev);
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3331  
+20714bfef84d3e Frédéric Dalleau       2012-11-21  3332  	if (ev->link_type == ACL_LINK ||
+20714bfef84d3e Frédéric Dalleau       2012-11-21  3333  	    (!(flags & HCI_PROTO_DEFER) && !lmp_esco_capable(hdev))) {
+b6a0dc822497e1 Marcel Holtmann        2007-10-20  3334  		struct hci_cp_accept_conn_req cp;
+20714bfef84d3e Frédéric Dalleau       2012-11-21  3335  		conn->state = BT_CONNECT;
+b6a0dc822497e1 Marcel Holtmann        2007-10-20  3336  
+a9de9248064bfc Marcel Holtmann        2007-10-20  3337  		bacpy(&cp.bdaddr, &ev->bdaddr);
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3338  
+a9de9248064bfc Marcel Holtmann        2007-10-20  3339  		if (lmp_rswitch_capable(hdev) && (mask & HCI_LM_MASTER))
+74be523ce6bed0 Archie Pusaka          2021-06-04  3340  			cp.role = 0x00; /* Become central */
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3341  		else
+74be523ce6bed0 Archie Pusaka          2021-06-04  3342  			cp.role = 0x01; /* Remain peripheral */
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3343  
+70c464256310e1 Johan Hedberg          2014-07-09  3344  		hci_send_cmd(hdev, HCI_OP_ACCEPT_CONN_REQ, sizeof(cp), &cp);
+20714bfef84d3e Frédéric Dalleau       2012-11-21  3345  	} else if (!(flags & HCI_PROTO_DEFER)) {
+b6a0dc822497e1 Marcel Holtmann        2007-10-20  3346  		struct hci_cp_accept_sync_conn_req cp;
+20714bfef84d3e Frédéric Dalleau       2012-11-21  3347  		conn->state = BT_CONNECT;
+b6a0dc822497e1 Marcel Holtmann        2007-10-20  3348  
+b6a0dc822497e1 Marcel Holtmann        2007-10-20  3349  		bacpy(&cp.bdaddr, &ev->bdaddr);
+a8746417e864da Marcel Holtmann        2008-07-14  3350  		cp.pkt_type = cpu_to_le16(conn->pkt_type);
+b6a0dc822497e1 Marcel Holtmann        2007-10-20  3351  
+dcf4adbfdc7ad1 Joe Perches            2014-03-12  3352  		cp.tx_bandwidth   = cpu_to_le32(0x00001f40);
+dcf4adbfdc7ad1 Joe Perches            2014-03-12  3353  		cp.rx_bandwidth   = cpu_to_le32(0x00001f40);
+dcf4adbfdc7ad1 Joe Perches            2014-03-12  3354  		cp.max_latency    = cpu_to_le16(0xffff);
+b6a0dc822497e1 Marcel Holtmann        2007-10-20  3355  		cp.content_format = cpu_to_le16(hdev->voice_setting);
+b6a0dc822497e1 Marcel Holtmann        2007-10-20  3356  		cp.retrans_effort = 0xff;
+b6a0dc822497e1 Marcel Holtmann        2007-10-20  3357  
+70c464256310e1 Johan Hedberg          2014-07-09  3358  		hci_send_cmd(hdev, HCI_OP_ACCEPT_SYNC_CONN_REQ, sizeof(cp),
+70c464256310e1 Johan Hedberg          2014-07-09  3359  			     &cp);
+20714bfef84d3e Frédéric Dalleau       2012-11-21  3360  	} else {
+20714bfef84d3e Frédéric Dalleau       2012-11-21  3361  		conn->state = BT_CONNECT2;
+539c496d88f7f9 Johan Hedberg          2015-02-18  3362  		hci_connect_cfm(conn, 0);
+b6a0dc822497e1 Marcel Holtmann        2007-10-20  3363  	}
+fb048cae51bacd Niels Dossche          2022-04-05  3364  
+fb048cae51bacd Niels Dossche          2022-04-05  3365  	return;
+fb048cae51bacd Niels Dossche          2022-04-05  3366  unlock:
+fb048cae51bacd Niels Dossche          2022-04-05  3367  	hci_dev_unlock(hdev);
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3368  }
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3369  
 
 -- 
 0-DAY CI Kernel Test Service
