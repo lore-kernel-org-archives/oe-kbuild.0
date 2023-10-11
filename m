@@ -1,192 +1,100 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9FE18C1B
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 07:19:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2641D199A9
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 07:21:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DCBzjo/t"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5033918c09eso8228477e87.2
-        for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 00:19:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AqmTfJ3l"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4066692ad35so60949475e9.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 00:21:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697008774; x=1697613574; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9XCbt7AJhoTITBZG4cbkFQYUSlwUGs9oveivlxnvifE=;
-        b=DCBzjo/t99E2cLx49AzzeXTjB9JCZMN0xqN51Sk9Xjq2+cKU9omKWNbFfLhYY+quHU
-         IFN+Pk2lvYoGAmAxBhqtKmntecV5JaCBq3NJMlpvQH3rtLEh/TQ74AwlxDGm3qwdk3yN
-         DHC1FXGcybKJnwcB8wh521/dLs4u0FImPC5EewhErRmyS6k2FqD2Yp7VxT/CDTX/Ktqw
-         RJIy5HX4EgOHgs8NC2YjAT813hcBr5vYxNmX9uu7bu2o8BHSjgYeTbF/9XdmhwlevzC0
-         GvuQ6IdIzkA1DBGpEG4cIf2wizoGurZ3uBIJBqqTZCfXQil2NoTQZjCTxH49bJmld/BE
-         uUJw==
+        d=linaro.org; s=google; t=1697008902; x=1697613702; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6onyuTNL+RmJpgqn0wTHaZliIp2waNtNht1K7VeUBDc=;
+        b=AqmTfJ3l93VduI4eLQI1eKj/6iLv7PbdMlykrjC+VJ55PLL5dZ0qNch/eV0OvJku8I
+         lohCLjcxcnty3+aGh5ldGV+m8fpH+aEgCPHxSDs+ZrE6rXVlSTwsJ6Qak2slg1E+7qpN
+         Ne/gDdYmeTL5S+S/O27k8xiywAhO+mioEC95HsaIN6thHAzO9/S7JdwBwmlLxl5bOoLj
+         jJq3UasCiYrqIwdAqxe4XchczOgymDylbc3B39BlC8QI18u3Cu5r0AO5A5pd3mJSPP7/
+         YaXvK0Gy3vSiahzAMXINJI7a5BjePKYki2hYpcsbsUGb/YB9qyWZ4yvxwF6fEdrSwlJU
+         yPRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697008774; x=1697613574;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9XCbt7AJhoTITBZG4cbkFQYUSlwUGs9oveivlxnvifE=;
-        b=jWKuKVr5j8KzToTagn5uYxECjKxKJWanH8WY6MbLeCISNJw34sgYDBzLnb0O1QSEow
-         sGv/gmpn2rB66uACTFQEHA1wm2glPkz+FYyYyL7I8LsZO7awW/yLlhxMtSthTpa7FA6Y
-         NxJ2Lq5xo4O4T+zHXJvWF4wzwUmsTpbjZ5Ivr4BKM5orH0JkBS+VOmVZ+ASvVrsnQ+YW
-         +f+njM/KE0LOrq63JAMIKE46a9WXJs/n6f9gyRFqovNdBnFZrpqEH0+72oKpdVqr8Eg9
-         1Ph+aRPx6os5TWHwNqHCZIv1CRJg9sW84ZH0qqfvm5cIYVCXIr9fngyyzKQv9H/vscje
-         LP1g==
-X-Gm-Message-State: AOJu0YyNi+wtFfFZiMfRSys4VD1y8GxHJvKIscxxVBvJTEow48H3I3Wy
-	RFHkvugZym1V8odVczREMctVpu8jD2lHGmitT9k=
-X-Google-Smtp-Source: AGHT+IFC9W5Tc/9vhf2kNKusIKo6qn5clErVPjmbQl6u47DKrrfXdgHo+5vcPc0ztZvb88iWnFv3rA==
-X-Received: by 2002:ac2:5b4b:0:b0:503:c45:a6e1 with SMTP id i11-20020ac25b4b000000b005030c45a6e1mr14413339lfp.46.1697008774055;
-        Wed, 11 Oct 2023 00:19:34 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697008902; x=1697613702;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6onyuTNL+RmJpgqn0wTHaZliIp2waNtNht1K7VeUBDc=;
+        b=Q+zkEf2Jc2NPYo+JkJGO/B29IInIMXW5EGG3LWiGAGkVNkSnA7LDsA8toAWAq95Vpe
+         QJNOBmP/yc09w6OUgCImZ2gPTUTG962aPpjZHjIiyL1wQhdw/UC1UY4x9utjUPtZocZa
+         IzCtj3QB5i+J0Gkwl6wh9wpynTJGOVqh6A9TS1glBV2BdmApl7w8qe45+vlm5+G3EHa1
+         mreUuk1MGqCwV2pvfg7j1ucE/WHRxgxWSkXYCL+4ZLl5fBb/E6UKdOmUTKrRPzanQi9q
+         ZQwV1hKzoO5zuTAtkig2Mpr/jT0luHtm3m77JqAeXsowmy8TEdtTddSgzPdHlL+/s9sJ
+         M/Wg==
+X-Gm-Message-State: AOJu0YwL8tLGAf9xSHHdEeowarON4LkD9G9sTLqJ30d+OOxmXCplUisa
+	k9Ln3DLcn9LzS5m9VfXlnmlafP/NPE3j77oIOwo=
+X-Google-Smtp-Source: AGHT+IFi0HEIhpJot2aVjlAGP6vgnDPZnWhdXDPHCNl3BwzmCQdWMI2BF5LqMTM581Ttl410ZQHQjw==
+X-Received: by 2002:a05:600c:22ce:b0:405:34e4:14e3 with SMTP id 14-20020a05600c22ce00b0040534e414e3mr16991755wmg.3.1697008902152;
+        Wed, 11 Oct 2023 00:21:42 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id a12-20020adff7cc000000b0031423a8f4f7sm14607237wrq.56.2023.10.11.00.19.33
+        by smtp.gmail.com with ESMTPSA id 11-20020a05600c230b00b004053a6b8c41sm15869740wmo.12.2023.10.11.00.21.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 00:19:33 -0700 (PDT)
-Date: Wed, 11 Oct 2023 10:19:31 +0300
+        Wed, 11 Oct 2023 00:21:41 -0700 (PDT)
+Date: Wed, 11 Oct 2023 10:21:39 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Herbert Xu <herbert@gondor.apana.org.au>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 5422/11192] crypto/lskcipher.c:639
- lskcipher_alloc_instance_simple() warn: passing zero to 'ERR_PTR'
-Message-ID: <f9ae1fe1-5a78-442f-a3fb-3c01e6273d3f@kadam.mountain>
+To: oe-kbuild@lists.linux.dev,
+	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
+Subject: drivers/block/drbd/drbd_worker.c:588 make_resync_request() warn:
+ variable dereferenced before check 'peer_device' (see line 587)
+Message-ID: <fa10fbf8-d852-45bb-a631-d8dcb6697e16@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   c0a6edb636cba9c0d1db966a54d910a02e52e4be
-commit: 8aee5d4ebd113319f6882b2cd0475d270fdc0d41 [5422/11192] crypto: lskcipher - Add compatibility wrapper around ECB
-config: i386-randconfig-141-20230921 (https://download.01.org/0day-ci/archive/20231011/202310111323.ZjK7bzjw-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231011/202310111323.ZjK7bzjw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1c8b86a3799f7e5be903c3f49fcdaee29fd385b5
+commit: 0d11f3cf279c5ad20a41f29242f170ba3c02f2da drbd: Pass a peer device to the resync and online verify functions
+config: x86_64-randconfig-161-20231003 (https://download.01.org/0day-ci/archive/20231011/202310111418.3EglIsGN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231011/202310111418.3EglIsGN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310111323.ZjK7bzjw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310111418.3EglIsGN-lkp@intel.com/
 
 smatch warnings:
-crypto/lskcipher.c:639 lskcipher_alloc_instance_simple() warn: passing zero to 'ERR_PTR'
+drivers/block/drbd/drbd_worker.c:588 make_resync_request() warn: variable dereferenced before check 'peer_device' (see line 587)
 
-vim +/ERR_PTR +639 crypto/lskcipher.c
+vim +/peer_device +588 drivers/block/drbd/drbd_worker.c
 
-31865c4c4db2b7 Herbert Xu 2023-09-14  533  struct lskcipher_instance *lskcipher_alloc_instance_simple(
-31865c4c4db2b7 Herbert Xu 2023-09-14  534  	struct crypto_template *tmpl, struct rtattr **tb)
-31865c4c4db2b7 Herbert Xu 2023-09-14  535  {
-31865c4c4db2b7 Herbert Xu 2023-09-14  536  	u32 mask;
-31865c4c4db2b7 Herbert Xu 2023-09-14  537  	struct lskcipher_instance *inst;
-31865c4c4db2b7 Herbert Xu 2023-09-14  538  	struct crypto_lskcipher_spawn *spawn;
-8aee5d4ebd1133 Herbert Xu 2023-09-14  539  	char ecb_name[CRYPTO_MAX_ALG_NAME];
-31865c4c4db2b7 Herbert Xu 2023-09-14  540  	struct lskcipher_alg *cipher_alg;
-8aee5d4ebd1133 Herbert Xu 2023-09-14  541  	const char *cipher_name;
-31865c4c4db2b7 Herbert Xu 2023-09-14  542  	int err;
-31865c4c4db2b7 Herbert Xu 2023-09-14  543  
-31865c4c4db2b7 Herbert Xu 2023-09-14  544  	err = crypto_check_attr_type(tb, CRYPTO_ALG_TYPE_LSKCIPHER, &mask);
-31865c4c4db2b7 Herbert Xu 2023-09-14  545  	if (err)
-31865c4c4db2b7 Herbert Xu 2023-09-14  546  		return ERR_PTR(err);
-31865c4c4db2b7 Herbert Xu 2023-09-14  547  
-8aee5d4ebd1133 Herbert Xu 2023-09-14  548  	cipher_name = crypto_attr_alg_name(tb[1]);
-8aee5d4ebd1133 Herbert Xu 2023-09-14  549  	if (IS_ERR(cipher_name))
-8aee5d4ebd1133 Herbert Xu 2023-09-14  550  		return ERR_CAST(cipher_name);
-8aee5d4ebd1133 Herbert Xu 2023-09-14  551  
-31865c4c4db2b7 Herbert Xu 2023-09-14  552  	inst = kzalloc(sizeof(*inst) + sizeof(*spawn), GFP_KERNEL);
-31865c4c4db2b7 Herbert Xu 2023-09-14  553  	if (!inst)
-31865c4c4db2b7 Herbert Xu 2023-09-14  554  		return ERR_PTR(-ENOMEM);
-31865c4c4db2b7 Herbert Xu 2023-09-14  555  
-31865c4c4db2b7 Herbert Xu 2023-09-14  556  	spawn = lskcipher_instance_ctx(inst);
-31865c4c4db2b7 Herbert Xu 2023-09-14  557  	err = crypto_grab_lskcipher(spawn,
-31865c4c4db2b7 Herbert Xu 2023-09-14  558  				    lskcipher_crypto_instance(inst),
-8aee5d4ebd1133 Herbert Xu 2023-09-14  559  				    cipher_name, 0, mask);
-8aee5d4ebd1133 Herbert Xu 2023-09-14  560  
-8aee5d4ebd1133 Herbert Xu 2023-09-14  561  	ecb_name[0] = 0;
-8aee5d4ebd1133 Herbert Xu 2023-09-14  562  	if (err == -ENOENT && !!memcmp(tmpl->name, "ecb", 4)) {
-8aee5d4ebd1133 Herbert Xu 2023-09-14  563  		err = -ENAMETOOLONG;
-8aee5d4ebd1133 Herbert Xu 2023-09-14  564  		if (snprintf(ecb_name, CRYPTO_MAX_ALG_NAME, "ecb(%s)",
-8aee5d4ebd1133 Herbert Xu 2023-09-14  565  			     cipher_name) >= CRYPTO_MAX_ALG_NAME)
-8aee5d4ebd1133 Herbert Xu 2023-09-14  566  			goto err_free_inst;
-8aee5d4ebd1133 Herbert Xu 2023-09-14  567  
-8aee5d4ebd1133 Herbert Xu 2023-09-14  568  		err = crypto_grab_lskcipher(spawn,
-8aee5d4ebd1133 Herbert Xu 2023-09-14  569  					    lskcipher_crypto_instance(inst),
-8aee5d4ebd1133 Herbert Xu 2023-09-14  570  					    ecb_name, 0, mask);
-8aee5d4ebd1133 Herbert Xu 2023-09-14  571  	}
-8aee5d4ebd1133 Herbert Xu 2023-09-14  572  
-31865c4c4db2b7 Herbert Xu 2023-09-14  573  	if (err)
-31865c4c4db2b7 Herbert Xu 2023-09-14  574  		goto err_free_inst;
-8aee5d4ebd1133 Herbert Xu 2023-09-14  575  
-31865c4c4db2b7 Herbert Xu 2023-09-14  576  	cipher_alg = crypto_lskcipher_spawn_alg(spawn);
-31865c4c4db2b7 Herbert Xu 2023-09-14  577  
-31865c4c4db2b7 Herbert Xu 2023-09-14  578  	err = crypto_inst_setname(lskcipher_crypto_instance(inst), tmpl->name,
-31865c4c4db2b7 Herbert Xu 2023-09-14  579  				  &cipher_alg->co.base);
-31865c4c4db2b7 Herbert Xu 2023-09-14  580  	if (err)
-31865c4c4db2b7 Herbert Xu 2023-09-14  581  		goto err_free_inst;
-31865c4c4db2b7 Herbert Xu 2023-09-14  582  
-8aee5d4ebd1133 Herbert Xu 2023-09-14  583  	if (ecb_name[0]) {
-8aee5d4ebd1133 Herbert Xu 2023-09-14  584  		int len;
-8aee5d4ebd1133 Herbert Xu 2023-09-14  585  
-8aee5d4ebd1133 Herbert Xu 2023-09-14  586  		len = strscpy(ecb_name, &cipher_alg->co.base.cra_name[4],
-8aee5d4ebd1133 Herbert Xu 2023-09-14  587  			      sizeof(ecb_name));
-8aee5d4ebd1133 Herbert Xu 2023-09-14  588  		if (len < 2)
-8aee5d4ebd1133 Herbert Xu 2023-09-14  589  			goto err_free_inst;
+0d11f3cf279c5a Christoph Böhmwalder 2023-03-30  585  static int make_resync_request(struct drbd_peer_device *const peer_device, int cancel)
+b411b3637fa71f Philipp Reisner      2009-09-25  586  {
+0d11f3cf279c5a Christoph Böhmwalder 2023-03-30 @587  	struct drbd_device *const device = peer_device->device;
+                                                                                           ^^^^^^^^^^^^^^^^^^^^
+Dereference
 
-Error not set on this error path
+44a4d551846b8c Lars Ellenberg       2013-11-22 @588  	struct drbd_connection *const connection = peer_device ? peer_device->connection : NULL;
+                                                                                                   ^^^^^^^^^^^
+Previously we assumed this could be NULL
 
-8aee5d4ebd1133 Herbert Xu 2023-09-14  590  
-8aee5d4ebd1133 Herbert Xu 2023-09-14  591  		if (ecb_name[len - 1] != ')')
-8aee5d4ebd1133 Herbert Xu 2023-09-14  592  			goto err_free_inst;
-
-And here
-
-8aee5d4ebd1133 Herbert Xu 2023-09-14  593  
-8aee5d4ebd1133 Herbert Xu 2023-09-14  594  		ecb_name[len - 1] = 0;
-8aee5d4ebd1133 Herbert Xu 2023-09-14  595  
-8aee5d4ebd1133 Herbert Xu 2023-09-14  596  		err = -ENAMETOOLONG;
-8aee5d4ebd1133 Herbert Xu 2023-09-14  597  		if (snprintf(inst->alg.co.base.cra_name, CRYPTO_MAX_ALG_NAME,
-8aee5d4ebd1133 Herbert Xu 2023-09-14  598  			     "%s(%s)", tmpl->name, ecb_name) >=
-8aee5d4ebd1133 Herbert Xu 2023-09-14  599  		    CRYPTO_MAX_ALG_NAME)
-8aee5d4ebd1133 Herbert Xu 2023-09-14  600  			goto err_free_inst;
-8aee5d4ebd1133 Herbert Xu 2023-09-14  601  
-8aee5d4ebd1133 Herbert Xu 2023-09-14  602  		if (strcmp(ecb_name, cipher_name) &&
-8aee5d4ebd1133 Herbert Xu 2023-09-14  603  		    snprintf(inst->alg.co.base.cra_driver_name,
-8aee5d4ebd1133 Herbert Xu 2023-09-14  604  			     CRYPTO_MAX_ALG_NAME,
-8aee5d4ebd1133 Herbert Xu 2023-09-14  605  			     "%s(%s)", tmpl->name, cipher_name) >=
-8aee5d4ebd1133 Herbert Xu 2023-09-14  606  		    CRYPTO_MAX_ALG_NAME)
-8aee5d4ebd1133 Herbert Xu 2023-09-14  607  			goto err_free_inst;
-8aee5d4ebd1133 Herbert Xu 2023-09-14  608  	} else {
-31865c4c4db2b7 Herbert Xu 2023-09-14  609  		/* Don't allow nesting. */
-31865c4c4db2b7 Herbert Xu 2023-09-14  610  		err = -ELOOP;
-31865c4c4db2b7 Herbert Xu 2023-09-14  611  		if ((cipher_alg->co.base.cra_flags & CRYPTO_ALG_INSTANCE))
-31865c4c4db2b7 Herbert Xu 2023-09-14  612  			goto err_free_inst;
-8aee5d4ebd1133 Herbert Xu 2023-09-14  613  	}
-31865c4c4db2b7 Herbert Xu 2023-09-14  614  
-31865c4c4db2b7 Herbert Xu 2023-09-14  615  	err = -EINVAL;
-31865c4c4db2b7 Herbert Xu 2023-09-14  616  	if (cipher_alg->co.ivsize)
-31865c4c4db2b7 Herbert Xu 2023-09-14  617  		goto err_free_inst;
-31865c4c4db2b7 Herbert Xu 2023-09-14  618  
-31865c4c4db2b7 Herbert Xu 2023-09-14  619  	inst->free = lskcipher_free_instance_simple;
-31865c4c4db2b7 Herbert Xu 2023-09-14  620  
-31865c4c4db2b7 Herbert Xu 2023-09-14  621  	/* Default algorithm properties, can be overridden */
-31865c4c4db2b7 Herbert Xu 2023-09-14  622  	inst->alg.co.base.cra_blocksize = cipher_alg->co.base.cra_blocksize;
-31865c4c4db2b7 Herbert Xu 2023-09-14  623  	inst->alg.co.base.cra_alignmask = cipher_alg->co.base.cra_alignmask;
-31865c4c4db2b7 Herbert Xu 2023-09-14  624  	inst->alg.co.base.cra_priority = cipher_alg->co.base.cra_priority;
-31865c4c4db2b7 Herbert Xu 2023-09-14  625  	inst->alg.co.min_keysize = cipher_alg->co.min_keysize;
-31865c4c4db2b7 Herbert Xu 2023-09-14  626  	inst->alg.co.max_keysize = cipher_alg->co.max_keysize;
-31865c4c4db2b7 Herbert Xu 2023-09-14  627  	inst->alg.co.ivsize = cipher_alg->co.base.cra_blocksize;
-31865c4c4db2b7 Herbert Xu 2023-09-14  628  
-31865c4c4db2b7 Herbert Xu 2023-09-14  629  	/* Use struct crypto_lskcipher * by default, can be overridden */
-31865c4c4db2b7 Herbert Xu 2023-09-14  630  	inst->alg.co.base.cra_ctxsize = sizeof(struct crypto_lskcipher *);
-31865c4c4db2b7 Herbert Xu 2023-09-14  631  	inst->alg.setkey = lskcipher_setkey_simple;
-31865c4c4db2b7 Herbert Xu 2023-09-14  632  	inst->alg.init = lskcipher_init_tfm_simple;
-31865c4c4db2b7 Herbert Xu 2023-09-14  633  	inst->alg.exit = lskcipher_exit_tfm_simple;
-31865c4c4db2b7 Herbert Xu 2023-09-14  634  
-31865c4c4db2b7 Herbert Xu 2023-09-14  635  	return inst;
-31865c4c4db2b7 Herbert Xu 2023-09-14  636  
-31865c4c4db2b7 Herbert Xu 2023-09-14  637  err_free_inst:
-31865c4c4db2b7 Herbert Xu 2023-09-14  638  	lskcipher_free_instance_simple(inst);
-31865c4c4db2b7 Herbert Xu 2023-09-14 @639  	return ERR_PTR(err);
+b411b3637fa71f Philipp Reisner      2009-09-25  589  	unsigned long bit;
+b411b3637fa71f Philipp Reisner      2009-09-25  590  	sector_t sector;
+155bd9d1abd604 Christoph Hellwig    2020-09-25  591  	const sector_t capacity = get_capacity(device->vdisk);
+1816a2b47afae8 Lars Ellenberg       2010-11-11  592  	int max_bio_size;
+e65f440d474d7d Lars Ellenberg       2010-11-05  593  	int number, rollback_i, size;
+506afb6248af57 Lars Ellenberg       2014-01-31  594  	int align, requeue = 0;
 
 -- 
 0-DAY CI Kernel Test Service
