@@ -1,176 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A366101CF
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 06:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEE21798A
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 07:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KODgWJVG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697004792; x=1728540792;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=F0EPQ34LS4w1GF+X8yLN/2K4QNoDUbVcdqWSyWANxXE=;
-  b=KODgWJVGsnZgNGYNhczG5rcTpdDI0/nlnMLLeeJtLXpDXZTNFS2q/Iub
-   n0r3O9zs6hLXcNklZaEAzZ4zvx4p2zmLwyw/tbbK/l+ZTvjA5xhFl7c76
-   Fh/IfkzMfUYcrezjGyak5sgxSmEcx8W+C2oAhWOO+dXCJ+W8XccPBaWg2
-   TyRgjERZiT1jFkrAOtIeOsh2aZDcyrVX/hyApN99qtkTVG+kMsxRZfRoA
-   1oMcM8UL0iwozGgSGY7GuMygeh8MyNclXmsG7Qv8zlMrA5ozTRYsjshhB
-   sKJV/47u2IwBIbi1CXvYkyv1I2YZd/3iil8rM6eNxeFYLgs8wmtCeQkwg
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="388459168"
-X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="388459168"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 23:13:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="819566824"
-X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="819566824"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 10 Oct 2023 23:13:07 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qqSSv-0001ol-0R;
-	Wed, 11 Oct 2023 06:13:05 +0000
-Date: Wed, 11 Oct 2023 14:12:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/block/drbd/drbd_worker.c:588 make_resync_request() warn:
- variable dereferenced before check 'peer_device' (see line 587)
-Message-ID: <202310111418.3EglIsGN-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PaeOEU2s"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40566f8a093so59916305e9.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 00:13:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697008425; x=1697613225; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ScPYujJrd0RiqEz8o3BO9MuSWljJLNx95KbRlurhiFs=;
+        b=PaeOEU2szRY4i+SuwL5y2TOwIk0rqheX9JSMcKeKIuw5IL3GJlGmbyoOdD1L9KWUbi
+         80J6kmWotA0C9+REPpz6W+uHeO5qT5oJLwAg7o7UCgW7qLrevIbqG70sUn+ymr41qKH8
+         D5BHTlvSSmZ/YUAfjpLbCHtelJpl95aMYsnHq/EvGrtj2HCRjced2E9GWy0tPy4VPkRg
+         9hUPVgqIl0XE0poGSXjtDVvOixo8AkVk0wpoF/cbiOTKmTX/9AIN7mbO6Im8kxGmXjwm
+         WXMtpsxe9xvHk5XsxdyUNsK4IkBCEUC4GystOYrVFiMdsJstygL4kEwC62wmevpyfF/W
+         1ZWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697008425; x=1697613225;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ScPYujJrd0RiqEz8o3BO9MuSWljJLNx95KbRlurhiFs=;
+        b=i6g28rdJijOJXwrcyPvTtWD+O6VKL+q8LappNyQ2YnoeIXaXU5uHtOy4uv43qwVNZ/
+         OS2kRfhSQq4Zzn58CdIdhGdA6qSJu4QaqQ4noA3C6/4Jf4y7vi+j3aSIY+LQ6s/M0Q+m
+         ZvLC9BUDM25YjJTwOJ7qTQoohnSUD/HBupvHuaQcdrrCrBePgL3xAwUKgbhlBSJKO4UV
+         jS8K9lOffcBwARQ5Feq1Ngy04etQB4F4exTdgt+KhSCI5o5cqe2bHoJzGx1YuZN6wRoa
+         nSQBRR/GnxuYg5YtQ6MZlfNOsmBt/5quOTG557pTWC+mun4Wh7VxFAOhXtdhxPtWRnrp
+         QCtQ==
+X-Gm-Message-State: AOJu0YxTspd6ZVmeLqy2+Gn8EIG8ICn0Vj2SLKwaeXiHv5P11NLxZeyA
+	20n3UBmjGmQKbJvuKB4kemb5zxU642tATmkTaYo=
+X-Google-Smtp-Source: AGHT+IFF2ajkFXhMQg81VHg+VGGJDbFYh5KOKS2gwpGR4LKkFmbji3L54USmvFLuJWWvx5KV2b3Qbw==
+X-Received: by 2002:a7b:c40a:0:b0:401:23fc:1f92 with SMTP id k10-20020a7bc40a000000b0040123fc1f92mr18425710wmi.25.1697008425403;
+        Wed, 11 Oct 2023 00:13:45 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p4-20020a05600c204400b00403b63e87f2sm15840040wmg.32.2023.10.11.00.13.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Oct 2023 00:13:44 -0700 (PDT)
+Date: Wed, 11 Oct 2023 10:13:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Bernd Schubert <bschubert@ddn.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v9 3/7] [RFC] Allow atomic_open() on positive dentry
+Message-ID: <1931d96b-c5ad-4d6f-8c01-3b1acb309bff@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230920173445.3943581-4-bschubert@ddn.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Christoph Böhmwalder" <christoph.boehmwalder@linbit.com>
-CC: Jens Axboe <axboe@kernel.dk>
+Hi Bernd,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1c8b86a3799f7e5be903c3f49fcdaee29fd385b5
-commit: 0d11f3cf279c5ad20a41f29242f170ba3c02f2da drbd: Pass a peer device to the resync and online verify functions
-date:   6 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 6 months ago
-config: x86_64-randconfig-161-20231003 (https://download.01.org/0day-ci/archive/20231011/202310111418.3EglIsGN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231011/202310111418.3EglIsGN-lkp@intel.com/reproduce)
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-rename-fuse_create_open/20230921-013805
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/idmapping.git for-next
+patch link:    https://lore.kernel.org/r/20230920173445.3943581-4-bschubert%40ddn.com
+patch subject: [PATCH v9 3/7] [RFC] Allow atomic_open() on positive dentry
+config: i386-randconfig-141-20230927 (https://download.01.org/0day-ci/archive/20231011/202310111158.c6Ja8z2x-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20231011/202310111158.c6Ja8z2x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202310111418.3EglIsGN-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202310111158.c6Ja8z2x-lkp@intel.com/
 
-smatch warnings:
-drivers/block/drbd/drbd_worker.c:588 make_resync_request() warn: variable dereferenced before check 'peer_device' (see line 587)
+New smatch warnings:
+fs/namei.c:3442 lookup_open() error: uninitialized symbol 'error'.
 
-vim +/peer_device +588 drivers/block/drbd/drbd_worker.c
+vim +/error +3442 fs/namei.c
 
-e65f440d474d7d Lars Ellenberg       2010-11-05  584  
-0d11f3cf279c5a Christoph Böhmwalder 2023-03-30  585  static int make_resync_request(struct drbd_peer_device *const peer_device, int cancel)
-b411b3637fa71f Philipp Reisner      2009-09-25  586  {
-0d11f3cf279c5a Christoph Böhmwalder 2023-03-30 @587  	struct drbd_device *const device = peer_device->device;
-44a4d551846b8c Lars Ellenberg       2013-11-22 @588  	struct drbd_connection *const connection = peer_device ? peer_device->connection : NULL;
-b411b3637fa71f Philipp Reisner      2009-09-25  589  	unsigned long bit;
-b411b3637fa71f Philipp Reisner      2009-09-25  590  	sector_t sector;
-155bd9d1abd604 Christoph Hellwig    2020-09-25  591  	const sector_t capacity = get_capacity(device->vdisk);
-1816a2b47afae8 Lars Ellenberg       2010-11-11  592  	int max_bio_size;
-e65f440d474d7d Lars Ellenberg       2010-11-05  593  	int number, rollback_i, size;
-506afb6248af57 Lars Ellenberg       2014-01-31  594  	int align, requeue = 0;
-0f0601f4ea2f53 Lars Ellenberg       2010-08-11  595  	int i = 0;
-92d94ae66aebda Philipp Reisner      2016-06-14  596  	int discard_granularity = 0;
-b411b3637fa71f Philipp Reisner      2009-09-25  597  
-b411b3637fa71f Philipp Reisner      2009-09-25  598  	if (unlikely(cancel))
-99920dc5c5fe52 Andreas Gruenbacher  2011-03-16  599  		return 0;
-b411b3637fa71f Philipp Reisner      2009-09-25  600  
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  601  	if (device->rs_total == 0) {
-af85e8e83d160f Lars Ellenberg       2010-10-07  602  		/* empty resync? */
-0d11f3cf279c5a Christoph Böhmwalder 2023-03-30  603  		drbd_resync_finished(peer_device);
-99920dc5c5fe52 Andreas Gruenbacher  2011-03-16  604  		return 0;
-af85e8e83d160f Lars Ellenberg       2010-10-07  605  	}
-af85e8e83d160f Lars Ellenberg       2010-10-07  606  
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  607  	if (!get_ldev(device)) {
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  608  		/* Since we only need to access device->rsync a
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  609  		   get_ldev_if_state(device,D_FAILED) would be sufficient, but
-b411b3637fa71f Philipp Reisner      2009-09-25  610  		   to continue resync with a broken disk makes no sense at
-b411b3637fa71f Philipp Reisner      2009-09-25  611  		   all */
-d01801710265cf Andreas Gruenbacher  2011-07-03  612  		drbd_err(device, "Disk broke down during resync!\n");
-99920dc5c5fe52 Andreas Gruenbacher  2011-03-16  613  		return 0;
-b411b3637fa71f Philipp Reisner      2009-09-25  614  	}
-b411b3637fa71f Philipp Reisner      2009-09-25  615  
-9104d31a759fba Lars Ellenberg       2016-06-14  616  	if (connection->agreed_features & DRBD_FF_THIN_RESYNC) {
-92d94ae66aebda Philipp Reisner      2016-06-14  617  		rcu_read_lock();
-92d94ae66aebda Philipp Reisner      2016-06-14  618  		discard_granularity = rcu_dereference(device->ldev->disk_conf)->rs_discard_granularity;
-92d94ae66aebda Philipp Reisner      2016-06-14  619  		rcu_read_unlock();
-92d94ae66aebda Philipp Reisner      2016-06-14  620  	}
-92d94ae66aebda Philipp Reisner      2016-06-14  621  
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  622  	max_bio_size = queue_max_hw_sectors(device->rq_queue) << 9;
-0d11f3cf279c5a Christoph Böhmwalder 2023-03-30  623  	number = drbd_rs_number_requests(peer_device);
-0e49d7b014c5d5 Lars Ellenberg       2014-04-28  624  	if (number <= 0)
-0f0601f4ea2f53 Lars Ellenberg       2010-08-11  625  		goto requeue;
-b411b3637fa71f Philipp Reisner      2009-09-25  626  
-b411b3637fa71f Philipp Reisner      2009-09-25  627  	for (i = 0; i < number; i++) {
-506afb6248af57 Lars Ellenberg       2014-01-31  628  		/* Stop generating RS requests when half of the send buffer is filled,
-506afb6248af57 Lars Ellenberg       2014-01-31  629  		 * but notify TCP that we'd like to have more space. */
-44a4d551846b8c Lars Ellenberg       2013-11-22  630  		mutex_lock(&connection->data.mutex);
-44a4d551846b8c Lars Ellenberg       2013-11-22  631  		if (connection->data.socket) {
-506afb6248af57 Lars Ellenberg       2014-01-31  632  			struct sock *sk = connection->data.socket->sk;
-506afb6248af57 Lars Ellenberg       2014-01-31  633  			int queued = sk->sk_wmem_queued;
-506afb6248af57 Lars Ellenberg       2014-01-31  634  			int sndbuf = sk->sk_sndbuf;
-506afb6248af57 Lars Ellenberg       2014-01-31  635  			if (queued > sndbuf / 2) {
-506afb6248af57 Lars Ellenberg       2014-01-31  636  				requeue = 1;
-506afb6248af57 Lars Ellenberg       2014-01-31  637  				if (sk->sk_socket)
-506afb6248af57 Lars Ellenberg       2014-01-31  638  					set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-b411b3637fa71f Philipp Reisner      2009-09-25  639  			}
-506afb6248af57 Lars Ellenberg       2014-01-31  640  		} else
-506afb6248af57 Lars Ellenberg       2014-01-31  641  			requeue = 1;
-44a4d551846b8c Lars Ellenberg       2013-11-22  642  		mutex_unlock(&connection->data.mutex);
-506afb6248af57 Lars Ellenberg       2014-01-31  643  		if (requeue)
-b411b3637fa71f Philipp Reisner      2009-09-25  644  			goto requeue;
-b411b3637fa71f Philipp Reisner      2009-09-25  645  
-b411b3637fa71f Philipp Reisner      2009-09-25  646  next_sector:
-b411b3637fa71f Philipp Reisner      2009-09-25  647  		size = BM_BLOCK_SIZE;
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  648  		bit  = drbd_bm_find_next(device, device->bm_resync_fo);
-b411b3637fa71f Philipp Reisner      2009-09-25  649  
-4b0715f09655e7 Lars Ellenberg       2010-12-14  650  		if (bit == DRBD_END_OF_BITMAP) {
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  651  			device->bm_resync_fo = drbd_bm_bits(device);
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  652  			put_ldev(device);
-99920dc5c5fe52 Andreas Gruenbacher  2011-03-16  653  			return 0;
-b411b3637fa71f Philipp Reisner      2009-09-25  654  		}
-b411b3637fa71f Philipp Reisner      2009-09-25  655  
-b411b3637fa71f Philipp Reisner      2009-09-25  656  		sector = BM_BIT_TO_SECT(bit);
-b411b3637fa71f Philipp Reisner      2009-09-25  657  
-0d11f3cf279c5a Christoph Böhmwalder 2023-03-30  658  		if (drbd_try_rs_begin_io(peer_device, sector)) {
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  659  			device->bm_resync_fo = bit;
-b411b3637fa71f Philipp Reisner      2009-09-25  660  			goto requeue;
-b411b3637fa71f Philipp Reisner      2009-09-25  661  		}
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  662  		device->bm_resync_fo = bit + 1;
-b411b3637fa71f Philipp Reisner      2009-09-25  663  
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  664  		if (unlikely(drbd_bm_test_bit(device, bit) == 0)) {
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  665  			drbd_rs_complete_io(device, sector);
-b411b3637fa71f Philipp Reisner      2009-09-25  666  			goto next_sector;
-b411b3637fa71f Philipp Reisner      2009-09-25  667  		}
-b411b3637fa71f Philipp Reisner      2009-09-25  668  
+da5ebf5aa676c4 Al Viro           2020-01-09  3406  static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+d58ffd35c1e595 Miklos Szeredi    2012-06-05  3407  				  const struct open_flags *op,
+3ec2eef116e900 Al Viro           2018-06-08  3408  				  bool got_write)
+d58ffd35c1e595 Miklos Szeredi    2012-06-05  3409  {
+6c960e68aaed33 Christian Brauner 2023-01-13  3410  	struct mnt_idmap *idmap;
+d58ffd35c1e595 Miklos Szeredi    2012-06-05  3411  	struct dentry *dir = nd->path.dentry;
+54ef487241e863 Miklos Szeredi    2012-06-05  3412  	struct inode *dir_inode = dir->d_inode;
+1643b43fbd0524 Al Viro           2016-04-27  3413  	int open_flag = op->open_flag;
+d58ffd35c1e595 Miklos Szeredi    2012-06-05  3414  	struct dentry *dentry;
+1643b43fbd0524 Al Viro           2016-04-27  3415  	int error, create_error = 0;
+1643b43fbd0524 Al Viro           2016-04-27  3416  	umode_t mode = op->mode;
+6fbd07146d9923 Al Viro           2016-04-28  3417  	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
+d58ffd35c1e595 Miklos Szeredi    2012-06-05  3418  
+ce8644fcadc52d Al Viro           2016-04-26  3419  	if (unlikely(IS_DEADDIR(dir_inode)))
+da5ebf5aa676c4 Al Viro           2020-01-09  3420  		return ERR_PTR(-ENOENT);
+d58ffd35c1e595 Miklos Szeredi    2012-06-05  3421  
+73a09dd94377e4 Al Viro           2018-06-08  3422  	file->f_mode &= ~FMODE_CREATED;
+6fbd07146d9923 Al Viro           2016-04-28  3423  	dentry = d_lookup(dir, &nd->last);
+6fbd07146d9923 Al Viro           2016-04-28  3424  	for (;;) {
+6fbd07146d9923 Al Viro           2016-04-28  3425  		if (!dentry) {
+6fbd07146d9923 Al Viro           2016-04-28  3426  			dentry = d_alloc_parallel(dir, &nd->last, &wq);
+54ef487241e863 Miklos Szeredi    2012-06-05  3427  			if (IS_ERR(dentry))
+da5ebf5aa676c4 Al Viro           2020-01-09  3428  				return dentry;
+6fbd07146d9923 Al Viro           2016-04-28  3429  		}
+6fbd07146d9923 Al Viro           2016-04-28  3430  		if (d_in_lookup(dentry))
+6fbd07146d9923 Al Viro           2016-04-28  3431  			break;
 
-:::::: The code at line 588 was first introduced by commit
-:::::: 44a4d551846b8c61aa430b9432c1fcdf88444708 drbd: refactor use of first_peer_device()
+error is not initialized if we hit this break on the first iteration
+through the loop
 
-:::::: TO: Lars Ellenberg <lars.ellenberg@linbit.com>
-:::::: CC: Philipp Reisner <philipp.reisner@linbit.com>
+54ef487241e863 Miklos Szeredi    2012-06-05  3432  
+6fbd07146d9923 Al Viro           2016-04-28  3433  		error = d_revalidate(dentry, nd->flags);
+6fbd07146d9923 Al Viro           2016-04-28  3434  		if (likely(error > 0))
+6fbd07146d9923 Al Viro           2016-04-28  3435  			break;
+6fbd07146d9923 Al Viro           2016-04-28  3436  		if (error)
+6fbd07146d9923 Al Viro           2016-04-28  3437  			goto out_dput;
+6fbd07146d9923 Al Viro           2016-04-28  3438  		d_invalidate(dentry);
+6fbd07146d9923 Al Viro           2016-04-28  3439  		dput(dentry);
+6fbd07146d9923 Al Viro           2016-04-28  3440  		dentry = NULL;
+6fbd07146d9923 Al Viro           2016-04-28  3441  	}
+0032f53f8fce4f Miklos Szeredi    2023-09-20 @3442  	if (dentry->d_inode && error != D_REVALIDATE_ATOMIC) {
+                                                                               ^^^^^
+Warning triggered here
+
+d18e9008c377dc Miklos Szeredi    2012-06-05  3443  		/* Cached positive dentry: will open in f_op->open */
+da5ebf5aa676c4 Al Viro           2020-01-09  3444  		return dentry;
+6c51e513a3aa49 Al Viro           2016-03-05  3445  	}
+d18e9008c377dc Miklos Szeredi    2012-06-05  3446  
+1643b43fbd0524 Al Viro           2016-04-27  3447  	/*
+1643b43fbd0524 Al Viro           2016-04-27  3448  	 * Checking write permission is tricky, bacuse we don't know if we are
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
