@@ -1,57 +1,52 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8463182CF
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 07:17:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9FE18C1B
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 07:19:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f/IpqvHu"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-405497850dbso60142075e9.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 00:17:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DCBzjo/t"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5033918c09eso8228477e87.2
+        for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 00:19:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697008643; x=1697613443; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ayhK5ZZITA9PWclc67B5lQjGuI1Rti5S1fpJxVmbBRY=;
-        b=f/IpqvHuiSWfC+bXLKvmnp4we5lF9Ns8NQH55oKGgEWp7ula72XYn5inxJKkg3NoYP
-         Wp+ftVRUjDw9iAqBcqpPqmyOsj/8TO0o+MZFY4PHpsKKixfHa96XvHIlz9k6M9wKTEBH
-         n69zv2esufy7Cl1QcVhfo/tHwuFYYcoFvFFVj/WxMcTPYVkxOzn24RNc+XwpmitpH9yA
-         pSjur/kiioYyzCaapcil/h267eboy+loaRmhuW+DhZCQsDFiSJvcEpqjVmTL6hQSXjMs
-         L1/anBmfmNNIVa5aUW3j1uOfex3G/4F0aHVwlqEbsQAKRqQD0EmR24LGrWviofyx2gQy
-         0M5A==
+        d=linaro.org; s=google; t=1697008774; x=1697613574; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9XCbt7AJhoTITBZG4cbkFQYUSlwUGs9oveivlxnvifE=;
+        b=DCBzjo/t99E2cLx49AzzeXTjB9JCZMN0xqN51Sk9Xjq2+cKU9omKWNbFfLhYY+quHU
+         IFN+Pk2lvYoGAmAxBhqtKmntecV5JaCBq3NJMlpvQH3rtLEh/TQ74AwlxDGm3qwdk3yN
+         DHC1FXGcybKJnwcB8wh521/dLs4u0FImPC5EewhErRmyS6k2FqD2Yp7VxT/CDTX/Ktqw
+         RJIy5HX4EgOHgs8NC2YjAT813hcBr5vYxNmX9uu7bu2o8BHSjgYeTbF/9XdmhwlevzC0
+         GvuQ6IdIzkA1DBGpEG4cIf2wizoGurZ3uBIJBqqTZCfXQil2NoTQZjCTxH49bJmld/BE
+         uUJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697008643; x=1697613443;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ayhK5ZZITA9PWclc67B5lQjGuI1Rti5S1fpJxVmbBRY=;
-        b=rwRhs1XI1knDX+Sjz7YeZ30LC0F+fdABB5AuBxqnqtx21dveCzaPae5rR1WcyymvzA
-         1FIV6aEA7VeaMA6Pgp33rCbGPQukADBCD1fknLg73eQS3z4qCp67hbDHdf/AXSZf7JCF
-         H1CnMBXedvvYRgCB4kMnR15uKxV+gDGSr6SHr8VnuZDC4YjxE3I/FJ7UuUl6IPWEGv58
-         uAeYcoAl/0KjyPY6EzfOqP2JJsTg31kselv73onIj2sgcTg80HISMaD7ijCCKJR9x1Mu
-         5GRc6McUWKBwrci5M6iOqRZdT3Db8lvL3HQ9toiALiq62hcfmU/ELa2O8JwoDiZMABki
-         8Azw==
-X-Gm-Message-State: AOJu0Yy5KnsdbJGI/h3TeicOqN9Y7qLscdPkjOee0T0tnWBG3uIH1sMw
-	O4XfxN6i1LLfiN+hC7+/eAxauEuNxV0PexLdAQE=
-X-Google-Smtp-Source: AGHT+IGSgMuPNZcSb/qoRef2LT95GhuxlKDkCfgKDCNsPI99qj2VC19cSkJtgFiebD0cnCw5aDp8BA==
-X-Received: by 2002:adf:ef91:0:b0:31f:f1f4:ca8b with SMTP id d17-20020adfef91000000b0031ff1f4ca8bmr16220473wro.40.1697008643069;
-        Wed, 11 Oct 2023 00:17:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697008774; x=1697613574;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9XCbt7AJhoTITBZG4cbkFQYUSlwUGs9oveivlxnvifE=;
+        b=jWKuKVr5j8KzToTagn5uYxECjKxKJWanH8WY6MbLeCISNJw34sgYDBzLnb0O1QSEow
+         sGv/gmpn2rB66uACTFQEHA1wm2glPkz+FYyYyL7I8LsZO7awW/yLlhxMtSthTpa7FA6Y
+         NxJ2Lq5xo4O4T+zHXJvWF4wzwUmsTpbjZ5Ivr4BKM5orH0JkBS+VOmVZ+ASvVrsnQ+YW
+         +f+njM/KE0LOrq63JAMIKE46a9WXJs/n6f9gyRFqovNdBnFZrpqEH0+72oKpdVqr8Eg9
+         1Ph+aRPx6os5TWHwNqHCZIv1CRJg9sW84ZH0qqfvm5cIYVCXIr9fngyyzKQv9H/vscje
+         LP1g==
+X-Gm-Message-State: AOJu0YyNi+wtFfFZiMfRSys4VD1y8GxHJvKIscxxVBvJTEow48H3I3Wy
+	RFHkvugZym1V8odVczREMctVpu8jD2lHGmitT9k=
+X-Google-Smtp-Source: AGHT+IFC9W5Tc/9vhf2kNKusIKo6qn5clErVPjmbQl6u47DKrrfXdgHo+5vcPc0ztZvb88iWnFv3rA==
+X-Received: by 2002:ac2:5b4b:0:b0:503:c45:a6e1 with SMTP id i11-20020ac25b4b000000b005030c45a6e1mr14413339lfp.46.1697008774055;
+        Wed, 11 Oct 2023 00:19:34 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id v26-20020a5d591a000000b0030ada01ca78sm14562733wrd.10.2023.10.11.00.17.22
+        by smtp.gmail.com with ESMTPSA id a12-20020adff7cc000000b0031423a8f4f7sm14607237wrq.56.2023.10.11.00.19.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 00:17:22 -0700 (PDT)
-Date: Wed, 11 Oct 2023 10:17:20 +0300
+        Wed, 11 Oct 2023 00:19:33 -0700 (PDT)
+Date: Wed, 11 Oct 2023 10:19:31 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Bernd Schubert <bschubert@ddn.com>,
-	linux-fsdevel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	bernd.schubert@fastmail.fm, miklos@szeredi.hu, dsingh@ddn.com,
-	Bernd Schubert <bschubert@ddn.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH v9 4/7] vfs: Optimize atomic_open() on positive dentry
-Message-ID: <f1b371ce-9fa7-4d1c-bcad-968d1706ac99@kadam.mountain>
+To: oe-kbuild@lists.linux.dev, Herbert Xu <herbert@gondor.apana.org.au>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 5422/11192] crypto/lskcipher.c:639
+ lskcipher_alloc_instance_simple() warn: passing zero to 'ERR_PTR'
+Message-ID: <f9ae1fe1-5a78-442f-a3fb-3c01e6273d3f@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,82 +55,138 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230920173445.3943581-5-bschubert@ddn.com>
 
-Hi Bernd,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-rename-fuse_create_open/20230921-013805
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/idmapping.git for-next
-patch link:    https://lore.kernel.org/r/20230920173445.3943581-5-bschubert%40ddn.com
-patch subject: [PATCH v9 4/7] vfs: Optimize atomic_open() on positive dentry
-config: i386-randconfig-141-20230927 (https://download.01.org/0day-ci/archive/20231011/202310111259.WGjXat6p-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231011/202310111259.WGjXat6p-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c0a6edb636cba9c0d1db966a54d910a02e52e4be
+commit: 8aee5d4ebd113319f6882b2cd0475d270fdc0d41 [5422/11192] crypto: lskcipher - Add compatibility wrapper around ECB
+config: i386-randconfig-141-20230921 (https://download.01.org/0day-ci/archive/20231011/202310111323.ZjK7bzjw-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231011/202310111323.ZjK7bzjw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310111259.WGjXat6p-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310111323.ZjK7bzjw-lkp@intel.com/
 
-New smatch warnings:
-fs/namei.c:3418 atomic_revalidate_open() warn: variable dereferenced before check 'got_write' (see line 3414)
+smatch warnings:
+crypto/lskcipher.c:639 lskcipher_alloc_instance_simple() warn: passing zero to 'ERR_PTR'
 
-Old smatch warnings:
-fs/namei.c:1573 lookup_dcache() warn: passing zero to 'ERR_PTR'
-fs/namei.c:1658 lookup_fast() warn: passing zero to 'ERR_PTR'
-fs/namei.c:2189 hash_name() error: uninitialized symbol 'bdata'.
-fs/namei.c:2600 __kern_path_locked() warn: inconsistent returns '&path->dentry->d_inode->i_rwsem'.
-fs/namei.c:3480 lookup_open() error: uninitialized symbol 'error'.
+vim +/ERR_PTR +639 crypto/lskcipher.c
 
-vim +/got_write +3418 fs/namei.c
+31865c4c4db2b7 Herbert Xu 2023-09-14  533  struct lskcipher_instance *lskcipher_alloc_instance_simple(
+31865c4c4db2b7 Herbert Xu 2023-09-14  534  	struct crypto_template *tmpl, struct rtattr **tb)
+31865c4c4db2b7 Herbert Xu 2023-09-14  535  {
+31865c4c4db2b7 Herbert Xu 2023-09-14  536  	u32 mask;
+31865c4c4db2b7 Herbert Xu 2023-09-14  537  	struct lskcipher_instance *inst;
+31865c4c4db2b7 Herbert Xu 2023-09-14  538  	struct crypto_lskcipher_spawn *spawn;
+8aee5d4ebd1133 Herbert Xu 2023-09-14  539  	char ecb_name[CRYPTO_MAX_ALG_NAME];
+31865c4c4db2b7 Herbert Xu 2023-09-14  540  	struct lskcipher_alg *cipher_alg;
+8aee5d4ebd1133 Herbert Xu 2023-09-14  541  	const char *cipher_name;
+31865c4c4db2b7 Herbert Xu 2023-09-14  542  	int err;
+31865c4c4db2b7 Herbert Xu 2023-09-14  543  
+31865c4c4db2b7 Herbert Xu 2023-09-14  544  	err = crypto_check_attr_type(tb, CRYPTO_ALG_TYPE_LSKCIPHER, &mask);
+31865c4c4db2b7 Herbert Xu 2023-09-14  545  	if (err)
+31865c4c4db2b7 Herbert Xu 2023-09-14  546  		return ERR_PTR(err);
+31865c4c4db2b7 Herbert Xu 2023-09-14  547  
+8aee5d4ebd1133 Herbert Xu 2023-09-14  548  	cipher_name = crypto_attr_alg_name(tb[1]);
+8aee5d4ebd1133 Herbert Xu 2023-09-14  549  	if (IS_ERR(cipher_name))
+8aee5d4ebd1133 Herbert Xu 2023-09-14  550  		return ERR_CAST(cipher_name);
+8aee5d4ebd1133 Herbert Xu 2023-09-14  551  
+31865c4c4db2b7 Herbert Xu 2023-09-14  552  	inst = kzalloc(sizeof(*inst) + sizeof(*spawn), GFP_KERNEL);
+31865c4c4db2b7 Herbert Xu 2023-09-14  553  	if (!inst)
+31865c4c4db2b7 Herbert Xu 2023-09-14  554  		return ERR_PTR(-ENOMEM);
+31865c4c4db2b7 Herbert Xu 2023-09-14  555  
+31865c4c4db2b7 Herbert Xu 2023-09-14  556  	spawn = lskcipher_instance_ctx(inst);
+31865c4c4db2b7 Herbert Xu 2023-09-14  557  	err = crypto_grab_lskcipher(spawn,
+31865c4c4db2b7 Herbert Xu 2023-09-14  558  				    lskcipher_crypto_instance(inst),
+8aee5d4ebd1133 Herbert Xu 2023-09-14  559  				    cipher_name, 0, mask);
+8aee5d4ebd1133 Herbert Xu 2023-09-14  560  
+8aee5d4ebd1133 Herbert Xu 2023-09-14  561  	ecb_name[0] = 0;
+8aee5d4ebd1133 Herbert Xu 2023-09-14  562  	if (err == -ENOENT && !!memcmp(tmpl->name, "ecb", 4)) {
+8aee5d4ebd1133 Herbert Xu 2023-09-14  563  		err = -ENAMETOOLONG;
+8aee5d4ebd1133 Herbert Xu 2023-09-14  564  		if (snprintf(ecb_name, CRYPTO_MAX_ALG_NAME, "ecb(%s)",
+8aee5d4ebd1133 Herbert Xu 2023-09-14  565  			     cipher_name) >= CRYPTO_MAX_ALG_NAME)
+8aee5d4ebd1133 Herbert Xu 2023-09-14  566  			goto err_free_inst;
+8aee5d4ebd1133 Herbert Xu 2023-09-14  567  
+8aee5d4ebd1133 Herbert Xu 2023-09-14  568  		err = crypto_grab_lskcipher(spawn,
+8aee5d4ebd1133 Herbert Xu 2023-09-14  569  					    lskcipher_crypto_instance(inst),
+8aee5d4ebd1133 Herbert Xu 2023-09-14  570  					    ecb_name, 0, mask);
+8aee5d4ebd1133 Herbert Xu 2023-09-14  571  	}
+8aee5d4ebd1133 Herbert Xu 2023-09-14  572  
+31865c4c4db2b7 Herbert Xu 2023-09-14  573  	if (err)
+31865c4c4db2b7 Herbert Xu 2023-09-14  574  		goto err_free_inst;
+8aee5d4ebd1133 Herbert Xu 2023-09-14  575  
+31865c4c4db2b7 Herbert Xu 2023-09-14  576  	cipher_alg = crypto_lskcipher_spawn_alg(spawn);
+31865c4c4db2b7 Herbert Xu 2023-09-14  577  
+31865c4c4db2b7 Herbert Xu 2023-09-14  578  	err = crypto_inst_setname(lskcipher_crypto_instance(inst), tmpl->name,
+31865c4c4db2b7 Herbert Xu 2023-09-14  579  				  &cipher_alg->co.base);
+31865c4c4db2b7 Herbert Xu 2023-09-14  580  	if (err)
+31865c4c4db2b7 Herbert Xu 2023-09-14  581  		goto err_free_inst;
+31865c4c4db2b7 Herbert Xu 2023-09-14  582  
+8aee5d4ebd1133 Herbert Xu 2023-09-14  583  	if (ecb_name[0]) {
+8aee5d4ebd1133 Herbert Xu 2023-09-14  584  		int len;
+8aee5d4ebd1133 Herbert Xu 2023-09-14  585  
+8aee5d4ebd1133 Herbert Xu 2023-09-14  586  		len = strscpy(ecb_name, &cipher_alg->co.base.cra_name[4],
+8aee5d4ebd1133 Herbert Xu 2023-09-14  587  			      sizeof(ecb_name));
+8aee5d4ebd1133 Herbert Xu 2023-09-14  588  		if (len < 2)
+8aee5d4ebd1133 Herbert Xu 2023-09-14  589  			goto err_free_inst;
 
-0bb53ce89df211 Bernd Schubert 2023-09-20  3391  static struct dentry *atomic_revalidate_open(struct dentry *dentry,
-0bb53ce89df211 Bernd Schubert 2023-09-20  3392  					     struct nameidata *nd,
-0bb53ce89df211 Bernd Schubert 2023-09-20  3393  					     struct file *file,
-0bb53ce89df211 Bernd Schubert 2023-09-20  3394  					     const struct open_flags *op,
-0bb53ce89df211 Bernd Schubert 2023-09-20  3395  					     bool *got_write)
-0bb53ce89df211 Bernd Schubert 2023-09-20  3396  {
-0bb53ce89df211 Bernd Schubert 2023-09-20  3397  	struct mnt_idmap *idmap;
-0bb53ce89df211 Bernd Schubert 2023-09-20  3398  	struct dentry *dir = nd->path.dentry;
-0bb53ce89df211 Bernd Schubert 2023-09-20  3399  	struct inode *dir_inode = dir->d_inode;
-0bb53ce89df211 Bernd Schubert 2023-09-20  3400  	int open_flag = op->open_flag;
-0bb53ce89df211 Bernd Schubert 2023-09-20  3401  	umode_t mode = op->mode;
-0bb53ce89df211 Bernd Schubert 2023-09-20  3402  
-0bb53ce89df211 Bernd Schubert 2023-09-20  3403  	if (unlikely(IS_DEADDIR(dir_inode)))
-0bb53ce89df211 Bernd Schubert 2023-09-20  3404  		return ERR_PTR(-ENOENT);
-0bb53ce89df211 Bernd Schubert 2023-09-20  3405  
-0bb53ce89df211 Bernd Schubert 2023-09-20  3406  	file->f_mode &= ~FMODE_CREATED;
-0bb53ce89df211 Bernd Schubert 2023-09-20  3407  
-0bb53ce89df211 Bernd Schubert 2023-09-20  3408  	if (unlikely(open_flag & O_CREAT)) {
-0bb53ce89df211 Bernd Schubert 2023-09-20  3409  		WARN_ON(1);
-0bb53ce89df211 Bernd Schubert 2023-09-20  3410  		return ERR_PTR(-EINVAL);
-0bb53ce89df211 Bernd Schubert 2023-09-20  3411  	}
-0bb53ce89df211 Bernd Schubert 2023-09-20  3412  
-0bb53ce89df211 Bernd Schubert 2023-09-20  3413  	if (open_flag & (O_TRUNC | O_WRONLY | O_RDWR))
-0bb53ce89df211 Bernd Schubert 2023-09-20 @3414  		*got_write = !mnt_want_write(nd->path.mnt);
+Error not set on this error path
 
-Dereferenced
+8aee5d4ebd1133 Herbert Xu 2023-09-14  590  
+8aee5d4ebd1133 Herbert Xu 2023-09-14  591  		if (ecb_name[len - 1] != ')')
+8aee5d4ebd1133 Herbert Xu 2023-09-14  592  			goto err_free_inst;
 
-0bb53ce89df211 Bernd Schubert 2023-09-20  3415  	else
-0bb53ce89df211 Bernd Schubert 2023-09-20  3416  		*got_write = false;
+And here
 
-Here too.
-
-0bb53ce89df211 Bernd Schubert 2023-09-20  3417  
-0bb53ce89df211 Bernd Schubert 2023-09-20 @3418  	if (!got_write)
-
-Checked too late.  But I think maybe it was supposed to check
-if (!*got_write)?
-
-0bb53ce89df211 Bernd Schubert 2023-09-20  3419  		open_flag &= ~O_TRUNC;
-0bb53ce89df211 Bernd Schubert 2023-09-20  3420  
-0bb53ce89df211 Bernd Schubert 2023-09-20  3421  	inode_lock_shared(dir->d_inode);
-0bb53ce89df211 Bernd Schubert 2023-09-20  3422  	dentry = atomic_open(nd, dentry, file, open_flag, mode);
+8aee5d4ebd1133 Herbert Xu 2023-09-14  593  
+8aee5d4ebd1133 Herbert Xu 2023-09-14  594  		ecb_name[len - 1] = 0;
+8aee5d4ebd1133 Herbert Xu 2023-09-14  595  
+8aee5d4ebd1133 Herbert Xu 2023-09-14  596  		err = -ENAMETOOLONG;
+8aee5d4ebd1133 Herbert Xu 2023-09-14  597  		if (snprintf(inst->alg.co.base.cra_name, CRYPTO_MAX_ALG_NAME,
+8aee5d4ebd1133 Herbert Xu 2023-09-14  598  			     "%s(%s)", tmpl->name, ecb_name) >=
+8aee5d4ebd1133 Herbert Xu 2023-09-14  599  		    CRYPTO_MAX_ALG_NAME)
+8aee5d4ebd1133 Herbert Xu 2023-09-14  600  			goto err_free_inst;
+8aee5d4ebd1133 Herbert Xu 2023-09-14  601  
+8aee5d4ebd1133 Herbert Xu 2023-09-14  602  		if (strcmp(ecb_name, cipher_name) &&
+8aee5d4ebd1133 Herbert Xu 2023-09-14  603  		    snprintf(inst->alg.co.base.cra_driver_name,
+8aee5d4ebd1133 Herbert Xu 2023-09-14  604  			     CRYPTO_MAX_ALG_NAME,
+8aee5d4ebd1133 Herbert Xu 2023-09-14  605  			     "%s(%s)", tmpl->name, cipher_name) >=
+8aee5d4ebd1133 Herbert Xu 2023-09-14  606  		    CRYPTO_MAX_ALG_NAME)
+8aee5d4ebd1133 Herbert Xu 2023-09-14  607  			goto err_free_inst;
+8aee5d4ebd1133 Herbert Xu 2023-09-14  608  	} else {
+31865c4c4db2b7 Herbert Xu 2023-09-14  609  		/* Don't allow nesting. */
+31865c4c4db2b7 Herbert Xu 2023-09-14  610  		err = -ELOOP;
+31865c4c4db2b7 Herbert Xu 2023-09-14  611  		if ((cipher_alg->co.base.cra_flags & CRYPTO_ALG_INSTANCE))
+31865c4c4db2b7 Herbert Xu 2023-09-14  612  			goto err_free_inst;
+8aee5d4ebd1133 Herbert Xu 2023-09-14  613  	}
+31865c4c4db2b7 Herbert Xu 2023-09-14  614  
+31865c4c4db2b7 Herbert Xu 2023-09-14  615  	err = -EINVAL;
+31865c4c4db2b7 Herbert Xu 2023-09-14  616  	if (cipher_alg->co.ivsize)
+31865c4c4db2b7 Herbert Xu 2023-09-14  617  		goto err_free_inst;
+31865c4c4db2b7 Herbert Xu 2023-09-14  618  
+31865c4c4db2b7 Herbert Xu 2023-09-14  619  	inst->free = lskcipher_free_instance_simple;
+31865c4c4db2b7 Herbert Xu 2023-09-14  620  
+31865c4c4db2b7 Herbert Xu 2023-09-14  621  	/* Default algorithm properties, can be overridden */
+31865c4c4db2b7 Herbert Xu 2023-09-14  622  	inst->alg.co.base.cra_blocksize = cipher_alg->co.base.cra_blocksize;
+31865c4c4db2b7 Herbert Xu 2023-09-14  623  	inst->alg.co.base.cra_alignmask = cipher_alg->co.base.cra_alignmask;
+31865c4c4db2b7 Herbert Xu 2023-09-14  624  	inst->alg.co.base.cra_priority = cipher_alg->co.base.cra_priority;
+31865c4c4db2b7 Herbert Xu 2023-09-14  625  	inst->alg.co.min_keysize = cipher_alg->co.min_keysize;
+31865c4c4db2b7 Herbert Xu 2023-09-14  626  	inst->alg.co.max_keysize = cipher_alg->co.max_keysize;
+31865c4c4db2b7 Herbert Xu 2023-09-14  627  	inst->alg.co.ivsize = cipher_alg->co.base.cra_blocksize;
+31865c4c4db2b7 Herbert Xu 2023-09-14  628  
+31865c4c4db2b7 Herbert Xu 2023-09-14  629  	/* Use struct crypto_lskcipher * by default, can be overridden */
+31865c4c4db2b7 Herbert Xu 2023-09-14  630  	inst->alg.co.base.cra_ctxsize = sizeof(struct crypto_lskcipher *);
+31865c4c4db2b7 Herbert Xu 2023-09-14  631  	inst->alg.setkey = lskcipher_setkey_simple;
+31865c4c4db2b7 Herbert Xu 2023-09-14  632  	inst->alg.init = lskcipher_init_tfm_simple;
+31865c4c4db2b7 Herbert Xu 2023-09-14  633  	inst->alg.exit = lskcipher_exit_tfm_simple;
+31865c4c4db2b7 Herbert Xu 2023-09-14  634  
+31865c4c4db2b7 Herbert Xu 2023-09-14  635  	return inst;
+31865c4c4db2b7 Herbert Xu 2023-09-14  636  
+31865c4c4db2b7 Herbert Xu 2023-09-14  637  err_free_inst:
+31865c4c4db2b7 Herbert Xu 2023-09-14  638  	lskcipher_free_instance_simple(inst);
+31865c4c4db2b7 Herbert Xu 2023-09-14 @639  	return ERR_PTR(err);
 
 -- 
 0-DAY CI Kernel Test Service
