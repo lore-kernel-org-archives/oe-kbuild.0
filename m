@@ -1,53 +1,57 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7934179BE
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 07:15:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8463182CF
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 07:17:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XbXpI4vG"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-503f39d3236so7828457e87.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 00:15:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f/IpqvHu"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-405497850dbso60142075e9.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 00:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697008539; x=1697613339; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7z9KLR0xuq/1ZC7Hf1voQfsB0dArsVBPmdduY9bNHqw=;
-        b=XbXpI4vGAPIwj8S8ZgyzKIyTsmUENhsipvyI6a56HXs+E3qA1kb2wPpmNIwniJ3c/d
-         SSonvIUd5OF+809TYdbGLjpIztGqxDEgSdg5WpkjEeDcPEd18EwJrIB471D679dFOUdx
-         XFF61Rw9uh2olAsf7sccPIHCz+QOUjMtt8lp/gF1VQPFVcgLuX7OS992ip4uKg0uWf0p
-         wqcpsge7OgOHdJr6VG0Mr4Jelki6jHb7cAbiBGtYRM8f9XASuHZ6qZw1qgV+Ir3Z/72e
-         ceSK5kA3VUXO2rqhosMjaJjuZMuGVVRY1U2gfYcQi0fgJIJQIzBz0DacxSTaEeZuvA9o
-         ScxA==
+        d=linaro.org; s=google; t=1697008643; x=1697613443; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ayhK5ZZITA9PWclc67B5lQjGuI1Rti5S1fpJxVmbBRY=;
+        b=f/IpqvHuiSWfC+bXLKvmnp4we5lF9Ns8NQH55oKGgEWp7ula72XYn5inxJKkg3NoYP
+         Wp+ftVRUjDw9iAqBcqpPqmyOsj/8TO0o+MZFY4PHpsKKixfHa96XvHIlz9k6M9wKTEBH
+         n69zv2esufy7Cl1QcVhfo/tHwuFYYcoFvFFVj/WxMcTPYVkxOzn24RNc+XwpmitpH9yA
+         pSjur/kiioYyzCaapcil/h267eboy+loaRmhuW+DhZCQsDFiSJvcEpqjVmTL6hQSXjMs
+         L1/anBmfmNNIVa5aUW3j1uOfex3G/4F0aHVwlqEbsQAKRqQD0EmR24LGrWviofyx2gQy
+         0M5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697008539; x=1697613339;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7z9KLR0xuq/1ZC7Hf1voQfsB0dArsVBPmdduY9bNHqw=;
-        b=LER8v4EfwssN/f3iw1lrNsKEwQkpYQ3wgRGRVzbyn7mtd8xiyW+PSkWi85N3C3jRUE
-         TlIh+Rdp1MI1+j4LWB4uSGq9UhaOnSCAV0JMN3olSfLxbqJoKbhs3iDbKWDHgUWOdzHw
-         +kHPUtQL10PtHwIGQ9yUabjizids6M6i2LCpf4xcu9U1f655vCtYZJ/BXj5XKHi9Bd0+
-         Vu9xK7BlNUm6Sa5ncw7rgmUeQs7hryR8xURklYjXHkjldv7EDICqvgTs8+vYdeG5gDxI
-         81lFgavsWMhHBy5AkdmNl28eK8WfeUzIDshVQEfWri9AlT2wTckzlQdM+hVEJbdlfXRk
-         YA/w==
-X-Gm-Message-State: AOJu0YwFDnxCQmk2M/CJwbkbz1LZ8Ft8orBok8A0vtZjsARMRX/795hL
-	7Ru/tb5DDDyiufoGS+HUpiXt+aWDei/aXjegz2s=
-X-Google-Smtp-Source: AGHT+IHCUyCYWUDhYINLZ0fvhP+DLvI0NF5T6HW+PjVvCQlqvJjfs+jNqYvC6D1NYmm7PN4JvpNC2w==
-X-Received: by 2002:a19:771d:0:b0:505:6ede:20b0 with SMTP id s29-20020a19771d000000b005056ede20b0mr15469018lfc.58.1697008538536;
-        Wed, 11 Oct 2023 00:15:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697008643; x=1697613443;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ayhK5ZZITA9PWclc67B5lQjGuI1Rti5S1fpJxVmbBRY=;
+        b=rwRhs1XI1knDX+Sjz7YeZ30LC0F+fdABB5AuBxqnqtx21dveCzaPae5rR1WcyymvzA
+         1FIV6aEA7VeaMA6Pgp33rCbGPQukADBCD1fknLg73eQS3z4qCp67hbDHdf/AXSZf7JCF
+         H1CnMBXedvvYRgCB4kMnR15uKxV+gDGSr6SHr8VnuZDC4YjxE3I/FJ7UuUl6IPWEGv58
+         uAeYcoAl/0KjyPY6EzfOqP2JJsTg31kselv73onIj2sgcTg80HISMaD7ijCCKJR9x1Mu
+         5GRc6McUWKBwrci5M6iOqRZdT3Db8lvL3HQ9toiALiq62hcfmU/ELa2O8JwoDiZMABki
+         8Azw==
+X-Gm-Message-State: AOJu0Yy5KnsdbJGI/h3TeicOqN9Y7qLscdPkjOee0T0tnWBG3uIH1sMw
+	O4XfxN6i1LLfiN+hC7+/eAxauEuNxV0PexLdAQE=
+X-Google-Smtp-Source: AGHT+IGSgMuPNZcSb/qoRef2LT95GhuxlKDkCfgKDCNsPI99qj2VC19cSkJtgFiebD0cnCw5aDp8BA==
+X-Received: by 2002:adf:ef91:0:b0:31f:f1f4:ca8b with SMTP id d17-20020adfef91000000b0031ff1f4ca8bmr16220473wro.40.1697008643069;
+        Wed, 11 Oct 2023 00:17:23 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c12-20020a05600c0acc00b00402f713c56esm15976765wmr.2.2023.10.11.00.15.37
+        by smtp.gmail.com with ESMTPSA id v26-20020a5d591a000000b0030ada01ca78sm14562733wrd.10.2023.10.11.00.17.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 00:15:38 -0700 (PDT)
-Date: Wed, 11 Oct 2023 10:15:35 +0300
+        Wed, 11 Oct 2023 00:17:22 -0700 (PDT)
+Date: Wed, 11 Oct 2023 10:17:20 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Namjae Jeon <linkinjeon@kernel.org>
+To: oe-kbuild@lists.linux.dev, Bernd Schubert <bschubert@ddn.com>,
+	linux-fsdevel@vger.kernel.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Steve French <stfrench@microsoft.com>
-Subject: fs/smb/server/smb2pdu.c:6131 smb2_read_pipe() error: double free of
- 'rpc_resp'
-Message-ID: <2fd570a5-ceaf-4d9b-8aa2-16e8bd16dbd8@kadam.mountain>
+	bernd.schubert@fastmail.fm, miklos@szeredi.hu, dsingh@ddn.com,
+	Bernd Schubert <bschubert@ddn.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH v9 4/7] vfs: Optimize atomic_open() on positive dentry
+Message-ID: <f1b371ce-9fa7-4d1c-bcad-968d1706ac99@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,92 +60,82 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230920173445.3943581-5-bschubert@ddn.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1c8b86a3799f7e5be903c3f49fcdaee29fd385b5
-commit: e2b76ab8b5c9327ab2dae6da05d0752eb2f4771d ksmbd: add support for read compound
-config: i386-randconfig-141-20231010 (https://download.01.org/0day-ci/archive/20231011/202310111236.IXH2OKfq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231011/202310111236.IXH2OKfq-lkp@intel.com/reproduce)
+Hi Bernd,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-rename-fuse_create_open/20230921-013805
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/idmapping.git for-next
+patch link:    https://lore.kernel.org/r/20230920173445.3943581-5-bschubert%40ddn.com
+patch subject: [PATCH v9 4/7] vfs: Optimize atomic_open() on positive dentry
+config: i386-randconfig-141-20230927 (https://download.01.org/0day-ci/archive/20231011/202310111259.WGjXat6p-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20231011/202310111259.WGjXat6p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310111236.IXH2OKfq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310111259.WGjXat6p-lkp@intel.com/
 
 New smatch warnings:
-fs/smb/server/smb2pdu.c:6131 smb2_read_pipe() error: double free of 'rpc_resp'
+fs/namei.c:3418 atomic_revalidate_open() warn: variable dereferenced before check 'got_write' (see line 3414)
 
-vim +/rpc_resp +6131 fs/smb/server/smb2pdu.c
+Old smatch warnings:
+fs/namei.c:1573 lookup_dcache() warn: passing zero to 'ERR_PTR'
+fs/namei.c:1658 lookup_fast() warn: passing zero to 'ERR_PTR'
+fs/namei.c:2189 hash_name() error: uninitialized symbol 'bdata'.
+fs/namei.c:2600 __kern_path_locked() warn: inconsistent returns '&path->dentry->d_inode->i_rwsem'.
+fs/namei.c:3480 lookup_open() error: uninitialized symbol 'error'.
 
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6076  static noinline int smb2_read_pipe(struct ksmbd_work *work)
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6077  {
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6078  	int nbytes = 0, err;
-64b39f4a2fd293cf fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-30  6079  	u64 id;
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6080  	struct ksmbd_rpc_command *rpc_resp;
-7b7d709ef7cf2853 fs/smb/server/smb2pdu.c Namjae Jeon     2023-06-24  6081  	struct smb2_read_req *req;
-7b7d709ef7cf2853 fs/smb/server/smb2pdu.c Namjae Jeon     2023-06-24  6082  	struct smb2_read_rsp *rsp;
-7b7d709ef7cf2853 fs/smb/server/smb2pdu.c Namjae Jeon     2023-06-24  6083  
-7b7d709ef7cf2853 fs/smb/server/smb2pdu.c Namjae Jeon     2023-06-24  6084  	WORK_BUFFERS(work, req, rsp);
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6085  
-2d004c6cae567e33 fs/ksmbd/smb2pdu.c      Paulo Alcantara 2022-03-21  6086  	id = req->VolatileFileId;
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6087  
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6088  	rpc_resp = ksmbd_rpc_read(work->sess, id);
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6089  	if (rpc_resp) {
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6090  		void *aux_payload_buf;
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6091  
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6092  		if (rpc_resp->flags != KSMBD_RPC_OK) {
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6093  			err = -EINVAL;
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6094  			goto out;
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6095  		}
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6096  
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6097  		aux_payload_buf =
-81a94b27847f7d2e fs/smb/server/smb2pdu.c Namjae Jeon     2023-05-31  6098  			kvmalloc(rpc_resp->payload_sz, GFP_KERNEL);
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6099  		if (!aux_payload_buf) {
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6100  			err = -ENOMEM;
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6101  			goto out;
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6102  		}
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6103  
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6104  		memcpy(aux_payload_buf, rpc_resp->payload, rpc_resp->payload_sz);
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6105  
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6106  		nbytes = rpc_resp->payload_sz;
-79f6b11a104f3a32 fs/cifsd/smb2pdu.c      Namjae Jeon     2021-04-02  6107  		kvfree(rpc_resp);
+vim +/got_write +3418 fs/namei.c
 
-Freed
+0bb53ce89df211 Bernd Schubert 2023-09-20  3391  static struct dentry *atomic_revalidate_open(struct dentry *dentry,
+0bb53ce89df211 Bernd Schubert 2023-09-20  3392  					     struct nameidata *nd,
+0bb53ce89df211 Bernd Schubert 2023-09-20  3393  					     struct file *file,
+0bb53ce89df211 Bernd Schubert 2023-09-20  3394  					     const struct open_flags *op,
+0bb53ce89df211 Bernd Schubert 2023-09-20  3395  					     bool *got_write)
+0bb53ce89df211 Bernd Schubert 2023-09-20  3396  {
+0bb53ce89df211 Bernd Schubert 2023-09-20  3397  	struct mnt_idmap *idmap;
+0bb53ce89df211 Bernd Schubert 2023-09-20  3398  	struct dentry *dir = nd->path.dentry;
+0bb53ce89df211 Bernd Schubert 2023-09-20  3399  	struct inode *dir_inode = dir->d_inode;
+0bb53ce89df211 Bernd Schubert 2023-09-20  3400  	int open_flag = op->open_flag;
+0bb53ce89df211 Bernd Schubert 2023-09-20  3401  	umode_t mode = op->mode;
+0bb53ce89df211 Bernd Schubert 2023-09-20  3402  
+0bb53ce89df211 Bernd Schubert 2023-09-20  3403  	if (unlikely(IS_DEADDIR(dir_inode)))
+0bb53ce89df211 Bernd Schubert 2023-09-20  3404  		return ERR_PTR(-ENOENT);
+0bb53ce89df211 Bernd Schubert 2023-09-20  3405  
+0bb53ce89df211 Bernd Schubert 2023-09-20  3406  	file->f_mode &= ~FMODE_CREATED;
+0bb53ce89df211 Bernd Schubert 2023-09-20  3407  
+0bb53ce89df211 Bernd Schubert 2023-09-20  3408  	if (unlikely(open_flag & O_CREAT)) {
+0bb53ce89df211 Bernd Schubert 2023-09-20  3409  		WARN_ON(1);
+0bb53ce89df211 Bernd Schubert 2023-09-20  3410  		return ERR_PTR(-EINVAL);
+0bb53ce89df211 Bernd Schubert 2023-09-20  3411  	}
+0bb53ce89df211 Bernd Schubert 2023-09-20  3412  
+0bb53ce89df211 Bernd Schubert 2023-09-20  3413  	if (open_flag & (O_TRUNC | O_WRONLY | O_RDWR))
+0bb53ce89df211 Bernd Schubert 2023-09-20 @3414  		*got_write = !mnt_want_write(nd->path.mnt);
 
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6108  		err = ksmbd_iov_pin_rsp_read(work, (void *)rsp,
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6109  					     offsetof(struct smb2_read_rsp, Buffer),
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6110  					     aux_payload_buf, nbytes);
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6111  		if (err)
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6112  			goto out;
+Dereferenced
 
-Goto out
+0bb53ce89df211 Bernd Schubert 2023-09-20  3415  	else
+0bb53ce89df211 Bernd Schubert 2023-09-20  3416  		*got_write = false;
 
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6113  	} else {
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6114  		err = ksmbd_iov_pin_rsp(work, (void *)rsp,
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6115  					offsetof(struct smb2_read_rsp, Buffer));
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6116  		if (err)
-e2b76ab8b5c9327a fs/smb/server/smb2pdu.c Namjae Jeon     2023-08-29  6117  			goto out;
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6118  	}
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6119  
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6120  	rsp->StructureSize = cpu_to_le16(17);
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6121  	rsp->DataOffset = 80;
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6122  	rsp->Reserved = 0;
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6123  	rsp->DataLength = cpu_to_le32(nbytes);
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6124  	rsp->DataRemaining = 0;
-699230f31bf55abc fs/ksmbd/smb2pdu.c      Ronnie Sahlberg 2021-09-09  6125  	rsp->Flags = 0;
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6126  	return 0;
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6127  
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6128  out:
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6129  	rsp->hdr.Status = STATUS_UNEXPECTED_IO_ERROR;
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6130  	smb2_set_err_rsp(work);
-79f6b11a104f3a32 fs/cifsd/smb2pdu.c      Namjae Jeon     2021-04-02 @6131  	kvfree(rpc_resp);
+Here too.
 
-Double freed
+0bb53ce89df211 Bernd Schubert 2023-09-20  3417  
+0bb53ce89df211 Bernd Schubert 2023-09-20 @3418  	if (!got_write)
 
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6132  	return err;
-e2f34481b24db2fd fs/cifsd/smb2pdu.c      Namjae Jeon     2021-03-16  6133  }
+Checked too late.  But I think maybe it was supposed to check
+if (!*got_write)?
+
+0bb53ce89df211 Bernd Schubert 2023-09-20  3419  		open_flag &= ~O_TRUNC;
+0bb53ce89df211 Bernd Schubert 2023-09-20  3420  
+0bb53ce89df211 Bernd Schubert 2023-09-20  3421  	inode_lock_shared(dir->d_inode);
+0bb53ce89df211 Bernd Schubert 2023-09-20  3422  	dentry = atomic_open(nd, dentry, file, open_flag, mode);
 
 -- 
 0-DAY CI Kernel Test Service
