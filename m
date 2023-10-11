@@ -1,45 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA2C63B5
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 03:21:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146A379E5
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Oct 2023 03:31:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NpX5PUHO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CvLQnuFF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696994481; x=1728530481;
+  t=1696995082; x=1728531082;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y1cnRwVGK1AqCiPYsg/uPRAhUIJX4AjhHE+u2Vylv7c=;
-  b=NpX5PUHOjV5JUcDwNaeZMoyoDOAhFkNO86HVpTkL9cdgxAD+dgr2S7Y4
-   kTdbBUiH2gUaqq1dQlE1vBRoN3Gy49kfPG/7dZfYnAEwxlr+da7GRuntU
-   GzV2f6XYRsZSsGc53YMkW6dPhtixFUQfm03boXaeeN3Z6MJkGs3pPR0Lz
-   88EzU1CNBg9B9nny1wG8fh7DqoNltW7pijnZMu5Fw1kaG0solXIL+Lqsu
-   /74EwM9P8Xwin95Nu9OUdtcDiIZz0c6cW9YcDfkmVcQPvNKaMsFz5KFW6
-   dFhPyuSckNw6hskcBip5MkonVAdQ415XM1n2CGs+l0P55cwAkhTSOP1JW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="374910618"
+  bh=zQ/LnusAW5eSbmUn814rlcR+NL6VRlFxzR20MKa/1uA=;
+  b=CvLQnuFFdGOFjLouHVzEu85cjXM0nD4CnVfevuC7z5NZbXjPZA3bvZZi
+   k8oZqYHeK8eREZhOquwpdStq6OPqdXlmhCoexvPkgK1wacA0qzf9DEkiS
+   u4TfGmJb7e8E1tiFLdoEiT6ihPv7UP0tn8plr0XLiCgBS+7WcYHWcgcgM
+   4BukvgDJq6SE4LsVXX92ADNjOULNCRa/BtfsFvB/kwrO8BTng3Hdj4hZv
+   82WtsTKoEPCeLdoGbWCdn1XOI6UcYDsqrRb1eJ2tzUsOftMBvl8w3ibmd
+   H/tjMWlwxRYnC+36HjYNjzQ9z96QvR6TWrUAoWaPcXL0i+fQzZhh1F8Iy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="363928842"
 X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="374910618"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 20:21:20 -0700
+   d="scan'208";a="363928842"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 20:31:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="844399163"
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="897472995"
 X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="844399163"
+   d="scan'208";a="897472995"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 10 Oct 2023 20:21:19 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 10 Oct 2023 20:29:35 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qqPmf-0001db-0d;
-	Wed, 11 Oct 2023 03:21:17 +0000
-Date: Wed, 11 Oct 2023 11:20:17 +0800
+	id 1qqPwL-0001e5-1T;
+	Wed, 11 Oct 2023 03:31:17 +0000
+Date: Wed, 11 Oct 2023 11:31:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v9 3/7] [RFC] Allow atomic_open() on positive dentry
-Message-ID: <202310111158.c6Ja8z2x-lkp@intel.com>
+Subject: [android-common:android14-6.1 61/120] mm/mmap.c:685 __vma_adjust()
+ error: we previously assumed 'next_next' could be null (see line 681)
+Message-ID: <202310111136.THR1huKC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,175 +52,308 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230920173445.3943581-4-bschubert@ddn.com>
-References: <20230920173445.3943581-4-bschubert@ddn.com>
-TO: Bernd Schubert <bschubert@ddn.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-Hi Bernd,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on vfs-idmapping/for-next]
-[cannot apply to mszeredi-fuse/for-next brauner-vfs/vfs.all linus/master viro-vfs/for-next v6.6-rc5 next-20231010]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-rename-fuse_create_open/20230921-013805
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/idmapping.git for-next
-patch link:    https://lore.kernel.org/r/20230920173445.3943581-4-bschubert%40ddn.com
-patch subject: [PATCH v9 3/7] [RFC] Allow atomic_open() on positive dentry
-:::::: branch date: 3 weeks ago
-:::::: commit date: 3 weeks ago
-config: i386-randconfig-141-20230927 (https://download.01.org/0day-ci/archive/20231011/202310111158.c6Ja8z2x-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231011/202310111158.c6Ja8z2x-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   368b752997c762727adf7b15720b5c4ffadcb155
+commit: 57b3f8a5ab282f7d9fe6564a310e02675faeba89 [61/120] FROMLIST: mm/mmap: write-lock VMAs in vma_adjust
+:::::: branch date: 15 hours ago
+:::::: commit date: 4 months ago
+config: x86_64-randconfig-161-20230917 (https://download.01.org/0day-ci/archive/20231011/202310111136.THR1huKC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231011/202310111136.THR1huKC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202310111158.c6Ja8z2x-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310111136.THR1huKC-lkp@intel.com/
 
-New smatch warnings:
-fs/namei.c:3442 lookup_open() error: uninitialized symbol 'error'.
+smatch warnings:
+mm/mmap.c:685 __vma_adjust() error: we previously assumed 'next_next' could be null (see line 681)
 
-Old smatch warnings:
-fs/namei.c:1573 lookup_dcache() warn: passing zero to 'ERR_PTR'
-fs/namei.c:1658 lookup_fast() warn: passing zero to 'ERR_PTR'
-fs/namei.c:2189 hash_name() error: uninitialized symbol 'bdata'.
-fs/namei.c:2600 __kern_path_locked() warn: inconsistent returns '&path->dentry->d_inode->i_rwsem'.
+vim +/next_next +685 mm/mmap.c
 
-vim +/error +3442 fs/namei.c
+4dd1b84140c1b8 Liam R. Howlett       2022-09-06  614  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  615  /*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  616   * We cannot adjust vm_start, vm_end, vm_pgoff fields of a vma that
+^1da177e4c3f41 Linus Torvalds        2005-04-16  617   * is already present in an i_mmap tree without adjusting the tree.
+^1da177e4c3f41 Linus Torvalds        2005-04-16  618   * The following helper function should be used when such adjustments
+^1da177e4c3f41 Linus Torvalds        2005-04-16  619   * are necessary.  The "insert" vma (if any) is to be inserted
+^1da177e4c3f41 Linus Torvalds        2005-04-16  620   * before we drop the necessary locks.
+57b3f8a5ab282f Suren Baghdasaryan    2023-01-09  621   * 'expand' vma is always locked before it's passed to __vma_adjust()
+57b3f8a5ab282f Suren Baghdasaryan    2023-01-09  622   * from vma_merge() because vma should not change from the moment
+57b3f8a5ab282f Suren Baghdasaryan    2023-01-09  623   * can_vma_merge_{before|after} decision is made.
+57b3f8a5ab282f Suren Baghdasaryan    2023-01-09  624   * 'insert' vma is used only by __split_vma() and it's always a brand
+57b3f8a5ab282f Suren Baghdasaryan    2023-01-09  625   * new vma which is not yet added into mm's vma tree, therefore no need
+57b3f8a5ab282f Suren Baghdasaryan    2023-01-09  626   * to lock it.
+^1da177e4c3f41 Linus Torvalds        2005-04-16  627   */
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  628  int __vma_adjust(struct vm_area_struct *vma, unsigned long start,
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  629  	unsigned long end, pgoff_t pgoff, struct vm_area_struct *insert,
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  630  	struct vm_area_struct *expand)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  631  {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  632  	struct mm_struct *mm = vma->vm_mm;
+1cd916d0340d0f Andrew Morton         2022-10-18  633  	struct vm_area_struct *next_next = NULL;	/* uninit var warning */
+1cd916d0340d0f Andrew Morton         2022-10-18  634  	struct vm_area_struct *next = find_vma(mm, vma->vm_end);
+524e00b36e8c54 Liam R. Howlett       2022-09-06  635  	struct vm_area_struct *orig_vma = vma;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  636  	struct address_space *mapping = NULL;
+f808c13fd37389 Davidlohr Bueso       2017-09-08  637  	struct rb_root_cached *root = NULL;
+012f18004da33b Rik van Riel          2010-08-09  638  	struct anon_vma *anon_vma = NULL;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  639  	struct file *file = vma->vm_file;
+524e00b36e8c54 Liam R. Howlett       2022-09-06  640  	bool vma_changed = false;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  641  	long adjust_next = 0;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  642  	int remove_next = 0;
+b802573f44901b Liam R. Howlett       2023-05-01  643  	MA_STATE(mas, &mm->mm_mt, start, end - 1);
+734537c9cb725f Kirill A. Shutemov    2016-07-28  644  	struct vm_area_struct *exporter = NULL, *importer = NULL;
+287d97ac032136 Linus Torvalds        2010-04-10  645  
+57b3f8a5ab282f Suren Baghdasaryan    2023-01-09  646  	vma_start_write(vma);
+57b3f8a5ab282f Suren Baghdasaryan    2023-01-09  647  	if (next)
+57b3f8a5ab282f Suren Baghdasaryan    2023-01-09  648  		vma_start_write(next);
+57b3f8a5ab282f Suren Baghdasaryan    2023-01-09  649  
+d4af56c5c7c678 Liam R. Howlett       2022-09-06  650  	if (next && !insert) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  651  		if (end >= next->vm_end) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  652  			/*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  653  			 * vma expands, overlapping all the next, and
+^1da177e4c3f41 Linus Torvalds        2005-04-16  654  			 * perhaps the one after too (mprotect case 6).
+86d12e471d9f15 Andrea Arcangeli      2016-10-07  655  			 * The only other cases that gets here are
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  656  			 * case 1, case 7 and case 8.
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  657  			 */
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  658  			if (next == expand) {
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  659  				/*
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  660  				 * The only case where we don't expand "vma"
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  661  				 * and we expand "next" instead is case 8.
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  662  				 */
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  663  				VM_WARN_ON(end != next->vm_end);
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  664  				/*
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  665  				 * remove_next == 3 means we're
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  666  				 * removing "vma" and that to do so we
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  667  				 * swapped "vma" and "next".
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  668  				 */
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  669  				remove_next = 3;
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  670  				VM_WARN_ON(file != next->vm_file);
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  671  				swap(vma, next);
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  672  			} else {
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  673  				VM_WARN_ON(expand != vma);
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  674  				/*
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  675  				 * case 1, 6, 7, remove_next == 2 is case 6,
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  676  				 * remove_next == 1 is case 1 or 7.
+^1da177e4c3f41 Linus Torvalds        2005-04-16  677  				 */
+734537c9cb725f Kirill A. Shutemov    2016-07-28  678  				remove_next = 1 + (end > next->vm_end);
+57b3f8a5ab282f Suren Baghdasaryan    2023-01-09  679  				if (remove_next == 2) {
+d4af56c5c7c678 Liam R. Howlett       2022-09-06  680  					next_next = find_vma(mm, next->vm_end);
+57b3f8a5ab282f Suren Baghdasaryan    2023-01-09 @681  					if (next_next)
+57b3f8a5ab282f Suren Baghdasaryan    2023-01-09  682  						vma_start_write(next_next);
+57b3f8a5ab282f Suren Baghdasaryan    2023-01-09  683  				}
+d4af56c5c7c678 Liam R. Howlett       2022-09-06  684  
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07 @685  				VM_WARN_ON(remove_next == 2 &&
+763ecb035029f5 Liam R. Howlett       2022-09-06  686  					   end != next_next->vm_end);
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  687  			}
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  688  
+287d97ac032136 Linus Torvalds        2010-04-10  689  			exporter = next;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  690  			importer = vma;
+734537c9cb725f Kirill A. Shutemov    2016-07-28  691  
+734537c9cb725f Kirill A. Shutemov    2016-07-28  692  			/*
+734537c9cb725f Kirill A. Shutemov    2016-07-28  693  			 * If next doesn't have anon_vma, import from vma after
+734537c9cb725f Kirill A. Shutemov    2016-07-28  694  			 * next, if the vma overlaps with it.
+734537c9cb725f Kirill A. Shutemov    2016-07-28  695  			 */
+97a42cd4398162 Andrea Arcangeli      2016-10-07  696  			if (remove_next == 2 && !next->anon_vma)
+763ecb035029f5 Liam R. Howlett       2022-09-06  697  				exporter = next_next;
+734537c9cb725f Kirill A. Shutemov    2016-07-28  698  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  699  		} else if (end > next->vm_start) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  700  			/*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  701  			 * vma expands, overlapping part of the next:
+^1da177e4c3f41 Linus Torvalds        2005-04-16  702  			 * mprotect case 5 shifting the boundary up.
+^1da177e4c3f41 Linus Torvalds        2005-04-16  703  			 */
+f9d86a60572295 Wei Yang              2020-10-13  704  			adjust_next = (end - next->vm_start);
+287d97ac032136 Linus Torvalds        2010-04-10  705  			exporter = next;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  706  			importer = vma;
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  707  			VM_WARN_ON(expand != importer);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  708  		} else if (end < vma->vm_end) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  709  			/*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  710  			 * vma shrinks, and !insert tells it's not
+^1da177e4c3f41 Linus Torvalds        2005-04-16  711  			 * split_vma inserting another: so it must be
+^1da177e4c3f41 Linus Torvalds        2005-04-16  712  			 * mprotect case 4 shifting the boundary down.
+^1da177e4c3f41 Linus Torvalds        2005-04-16  713  			 */
+f9d86a60572295 Wei Yang              2020-10-13  714  			adjust_next = -(vma->vm_end - end);
+287d97ac032136 Linus Torvalds        2010-04-10  715  			exporter = vma;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  716  			importer = next;
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  717  			VM_WARN_ON(expand != importer);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  718  		}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  719  
+5beb49305251e5 Rik van Riel          2010-03-05  720  		/*
+5beb49305251e5 Rik van Riel          2010-03-05  721  		 * Easily overlooked: when mprotect shifts the boundary,
+5beb49305251e5 Rik van Riel          2010-03-05  722  		 * make sure the expanding vma has anon_vma set if the
+5beb49305251e5 Rik van Riel          2010-03-05  723  		 * shrinking vma had, to cover any anon pages imported.
+5beb49305251e5 Rik van Riel          2010-03-05  724  		 */
+287d97ac032136 Linus Torvalds        2010-04-10  725  		if (exporter && exporter->anon_vma && !importer->anon_vma) {
+c4ea95d7cd08d9 Daniel Forrest        2014-12-02  726  			int error;
+c4ea95d7cd08d9 Daniel Forrest        2014-12-02  727  
+b800c91a051707 Konstantin Khlebnikov 2015-01-11  728  			importer->anon_vma = exporter->anon_vma;
+c4ea95d7cd08d9 Daniel Forrest        2014-12-02  729  			error = anon_vma_clone(importer, exporter);
+3fe89b3e2a7bbf Leon Yu               2015-03-25  730  			if (error)
+c4ea95d7cd08d9 Daniel Forrest        2014-12-02  731  				return error;
+b800c91a051707 Konstantin Khlebnikov 2015-01-11  732  		}
+5beb49305251e5 Rik van Riel          2010-03-05  733  	}
+37f9f5595c26d3 Kirill A. Shutemov    2016-07-26  734  
+aede79b81ecd09 Liam R. Howlett       2023-05-01  735  	if (adjust_next < 0)
+aede79b81ecd09 Liam R. Howlett       2023-05-01  736  		mas_set_range(&mas, next->vm_start + adjust_next,
+aede79b81ecd09 Liam R. Howlett       2023-05-01  737  			      next->vm_end - 1);
+aede79b81ecd09 Liam R. Howlett       2023-05-01  738  	else if (insert)
+aede79b81ecd09 Liam R. Howlett       2023-05-01  739  		mas_set_range(&mas, insert->vm_start, insert->vm_end - 1);
+aede79b81ecd09 Liam R. Howlett       2023-05-01  740  
+aede79b81ecd09 Liam R. Howlett       2023-05-01  741  
+d4af56c5c7c678 Liam R. Howlett       2022-09-06  742  	if (mas_preallocate(&mas, vma, GFP_KERNEL))
+d4af56c5c7c678 Liam R. Howlett       2022-09-06  743  		return -ENOMEM;
+d4af56c5c7c678 Liam R. Howlett       2022-09-06  744  
+d4af56c5c7c678 Liam R. Howlett       2022-09-06  745  	vma_adjust_trans_huge(orig_vma, start, end, adjust_next);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  746  	if (file) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  747  		mapping = file->f_mapping;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  748  		root = &mapping->i_mmap;
+cbc91f71b51b83 Srikar Dronamraju     2012-04-11  749  		uprobe_munmap(vma, vma->vm_start, vma->vm_end);
+682968e0c425c6 Srikar Dronamraju     2012-03-30  750  
+682968e0c425c6 Srikar Dronamraju     2012-03-30  751  		if (adjust_next)
+27ba0644ea9dfe Kirill A. Shutemov    2015-02-10  752  			uprobe_munmap(next, next->vm_start, next->vm_end);
+682968e0c425c6 Srikar Dronamraju     2012-03-30  753  
+83cde9e8ba95d1 Davidlohr Bueso       2014-12-12  754  		i_mmap_lock_write(mapping);
+c154124fe925a4 Liam R. Howlett       2022-09-06  755  		if (insert && insert->vm_file) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  756  			/*
+6b2dbba8b6ac4d Michel Lespinasse     2012-10-08  757  			 * Put into interval tree now, so instantiated pages
+^1da177e4c3f41 Linus Torvalds        2005-04-16  758  			 * are visible to arm/parisc __flush_dcache_page
+^1da177e4c3f41 Linus Torvalds        2005-04-16  759  			 * throughout; but we cannot insert into address
+^1da177e4c3f41 Linus Torvalds        2005-04-16  760  			 * space until vma start or end is updated.
+^1da177e4c3f41 Linus Torvalds        2005-04-16  761  			 */
+c154124fe925a4 Liam R. Howlett       2022-09-06  762  			__vma_link_file(insert, insert->vm_file->f_mapping);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  763  		}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  764  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  765  
+012f18004da33b Rik van Riel          2010-08-09  766  	anon_vma = vma->anon_vma;
+bf181b9f9d8dfb Michel Lespinasse     2012-10-08  767  	if (!anon_vma && adjust_next)
+bf181b9f9d8dfb Michel Lespinasse     2012-10-08  768  		anon_vma = next->anon_vma;
+bf181b9f9d8dfb Michel Lespinasse     2012-10-08  769  	if (anon_vma) {
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  770  		VM_WARN_ON(adjust_next && next->anon_vma &&
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  771  			   anon_vma != next->anon_vma);
+4fc3f1d66b1ef0 Ingo Molnar           2012-12-02  772  		anon_vma_lock_write(anon_vma);
+bf181b9f9d8dfb Michel Lespinasse     2012-10-08  773  		anon_vma_interval_tree_pre_update_vma(vma);
+bf181b9f9d8dfb Michel Lespinasse     2012-10-08  774  		if (adjust_next)
+bf181b9f9d8dfb Michel Lespinasse     2012-10-08  775  			anon_vma_interval_tree_pre_update_vma(next);
+bf181b9f9d8dfb Michel Lespinasse     2012-10-08  776  	}
+012f18004da33b Rik van Riel          2010-08-09  777  
+0fc48a6e213ab8 Wei Yang              2020-10-13  778  	if (file) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  779  		flush_dcache_mmap_lock(mapping);
+6b2dbba8b6ac4d Michel Lespinasse     2012-10-08  780  		vma_interval_tree_remove(vma, root);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  781  		if (adjust_next)
+6b2dbba8b6ac4d Michel Lespinasse     2012-10-08  782  			vma_interval_tree_remove(next, root);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  783  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  784  
+d37371870ceb1d Michel Lespinasse     2012-12-11  785  	if (start != vma->vm_start) {
+aede79b81ecd09 Liam R. Howlett       2023-05-01  786  		if ((vma->vm_start < start) && !insert) {
+524e00b36e8c54 Liam R. Howlett       2022-09-06  787  			vma_mas_szero(&mas, vma->vm_start, start);
+3b0e81a1cdc9af Liam R. Howlett       2022-09-06  788  			VM_WARN_ON(insert && insert->vm_start > vma->vm_start);
+aede79b81ecd09 Liam R. Howlett       2023-05-01  789  		} else if (!insert) {
+524e00b36e8c54 Liam R. Howlett       2022-09-06  790  			vma_changed = true;
+3b0e81a1cdc9af Liam R. Howlett       2022-09-06  791  		}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  792  		vma->vm_start = start;
+d37371870ceb1d Michel Lespinasse     2012-12-11  793  	}
+d37371870ceb1d Michel Lespinasse     2012-12-11  794  	if (end != vma->vm_end) {
+3b0e81a1cdc9af Liam R. Howlett       2022-09-06  795  		if (vma->vm_end > end) {
+aede79b81ecd09 Liam R. Howlett       2023-05-01  796  			if (adjust_next >= 0 && !insert) {
+524e00b36e8c54 Liam R. Howlett       2022-09-06  797  				vma_mas_szero(&mas, end, vma->vm_end);
+763ecb035029f5 Liam R. Howlett       2022-09-06  798  				mas_reset(&mas);
+3b0e81a1cdc9af Liam R. Howlett       2022-09-06  799  				VM_WARN_ON(insert &&
+3b0e81a1cdc9af Liam R. Howlett       2022-09-06  800  					   insert->vm_end < vma->vm_end);
+3b0e81a1cdc9af Liam R. Howlett       2022-09-06  801  			}
+aede79b81ecd09 Liam R. Howlett       2023-05-01  802  		} else if (!insert) {
+524e00b36e8c54 Liam R. Howlett       2022-09-06  803  			vma_changed = true;
+3b0e81a1cdc9af Liam R. Howlett       2022-09-06  804  		}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  805  		vma->vm_end = end;
+d37371870ceb1d Michel Lespinasse     2012-12-11  806  	}
+d4af56c5c7c678 Liam R. Howlett       2022-09-06  807  
+524e00b36e8c54 Liam R. Howlett       2022-09-06  808  	if (vma_changed)
+d4af56c5c7c678 Liam R. Howlett       2022-09-06  809  		vma_mas_store(vma, &mas);
+d4af56c5c7c678 Liam R. Howlett       2022-09-06  810  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  811  	vma->vm_pgoff = pgoff;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  812  	if (adjust_next) {
+f9d86a60572295 Wei Yang              2020-10-13  813  		next->vm_start += adjust_next;
+f9d86a60572295 Wei Yang              2020-10-13  814  		next->vm_pgoff += adjust_next >> PAGE_SHIFT;
+d4af56c5c7c678 Liam R. Howlett       2022-09-06  815  		vma_mas_store(next, &mas);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  816  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  817  
+0fc48a6e213ab8 Wei Yang              2020-10-13  818  	if (file) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  819  		if (adjust_next)
+6b2dbba8b6ac4d Michel Lespinasse     2012-10-08  820  			vma_interval_tree_insert(next, root);
+6b2dbba8b6ac4d Michel Lespinasse     2012-10-08  821  		vma_interval_tree_insert(vma, root);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  822  		flush_dcache_mmap_unlock(mapping);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  823  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  824  
+763ecb035029f5 Liam R. Howlett       2022-09-06  825  	if (remove_next && file) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  826  		__remove_shared_vm_struct(next, file, mapping);
+d4af56c5c7c678 Liam R. Howlett       2022-09-06  827  		if (remove_next == 2)
+d4af56c5c7c678 Liam R. Howlett       2022-09-06  828  			__remove_shared_vm_struct(next_next, file, mapping);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  829  	} else if (insert) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  830  		/*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  831  		 * split_vma has split insert from vma, and needs
+^1da177e4c3f41 Linus Torvalds        2005-04-16  832  		 * us to insert it before dropping the locks
+^1da177e4c3f41 Linus Torvalds        2005-04-16  833  		 * (it may either follow vma or precede it).
+^1da177e4c3f41 Linus Torvalds        2005-04-16  834  		 */
+763ecb035029f5 Liam R. Howlett       2022-09-06  835  		mas_reset(&mas);
+763ecb035029f5 Liam R. Howlett       2022-09-06  836  		vma_mas_store(insert, &mas);
+763ecb035029f5 Liam R. Howlett       2022-09-06  837  		mm->map_count++;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  838  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  839  
+bf181b9f9d8dfb Michel Lespinasse     2012-10-08  840  	if (anon_vma) {
+bf181b9f9d8dfb Michel Lespinasse     2012-10-08  841  		anon_vma_interval_tree_post_update_vma(vma);
+bf181b9f9d8dfb Michel Lespinasse     2012-10-08  842  		if (adjust_next)
+bf181b9f9d8dfb Michel Lespinasse     2012-10-08  843  			anon_vma_interval_tree_post_update_vma(next);
+08b52706d50565 Konstantin Khlebnikov 2013-02-22  844  		anon_vma_unlock_write(anon_vma);
+bf181b9f9d8dfb Michel Lespinasse     2012-10-08  845  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  846  
+0fc48a6e213ab8 Wei Yang              2020-10-13  847  	if (file) {
+808fbdbea05f1e Wei Yang              2020-10-13  848  		i_mmap_unlock_write(mapping);
+7b2d81d48a2d8e Ingo Molnar           2012-02-17  849  		uprobe_mmap(vma);
+2b144498350860 Srikar Dronamraju     2012-02-09  850  
+2b144498350860 Srikar Dronamraju     2012-02-09  851  		if (adjust_next)
+7b2d81d48a2d8e Ingo Molnar           2012-02-17  852  			uprobe_mmap(next);
+2b144498350860 Srikar Dronamraju     2012-02-09  853  	}
+2b144498350860 Srikar Dronamraju     2012-02-09  854  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  855  	if (remove_next) {
+d4af56c5c7c678 Liam R. Howlett       2022-09-06  856  again:
+925d1c401fa6cf Matt Helsley          2008-04-29  857  		if (file) {
+cbc91f71b51b83 Srikar Dronamraju     2012-04-11  858  			uprobe_munmap(next, next->vm_start, next->vm_end);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  859  			fput(file);
+925d1c401fa6cf Matt Helsley          2008-04-29  860  		}
+5beb49305251e5 Rik van Riel          2010-03-05  861  		if (next->anon_vma)
+5beb49305251e5 Rik van Riel          2010-03-05  862  			anon_vma_merge(vma, next);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  863  		mm->map_count--;
+3964acd0dbec12 Oleg Nesterov         2013-07-31  864  		mpol_put(vma_policy(next));
+524e00b36e8c54 Liam R. Howlett       2022-09-06  865  		if (remove_next != 2)
+524e00b36e8c54 Liam R. Howlett       2022-09-06  866  			BUG_ON(vma->vm_end < next->vm_end);
+3928d4f5ee37cd Linus Torvalds        2018-07-21  867  		vm_area_free(next);
+524e00b36e8c54 Liam R. Howlett       2022-09-06  868  
+^1da177e4c3f41 Linus Torvalds        2005-04-16  869  		/*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  870  		 * In mprotect's case 6 (see comments on vma_merge),
+763ecb035029f5 Liam R. Howlett       2022-09-06  871  		 * we must remove next_next too.
+e86f15ee64d8ee Andrea Arcangeli      2016-10-07  872  		 */
+734537c9cb725f Kirill A. Shutemov    2016-07-28  873  		if (remove_next == 2) {
+734537c9cb725f Kirill A. Shutemov    2016-07-28  874  			remove_next = 1;
+763ecb035029f5 Liam R. Howlett       2022-09-06  875  			next = next_next;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  876  			goto again;
+fb8c41e9ad1f35 Andrea Arcangeli      2016-10-07  877  		}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  878  	}
+2b144498350860 Srikar Dronamraju     2012-02-09  879  	if (insert && file)
+7b2d81d48a2d8e Ingo Molnar           2012-02-17  880  		uprobe_mmap(insert);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  881  
+3b0e81a1cdc9af Liam R. Howlett       2022-09-06  882  	mas_destroy(&mas);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  883  	validate_mm(mm);
+763ecb035029f5 Liam R. Howlett       2022-09-06  884  
+5beb49305251e5 Rik van Riel          2010-03-05  885  	return 0;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  886  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16  887  
 
-d18e9008c377dc Miklos Szeredi    2012-06-05  3390  
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3391  /*
-1acf0af9b98102 David Howells     2012-06-14  3392   * Look up and maybe create and open the last component.
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3393   *
-00a07c1591a3fb Al Viro           2018-07-09  3394   * Must be called with parent locked (exclusive in O_CREAT case).
-1acf0af9b98102 David Howells     2012-06-14  3395   *
-00a07c1591a3fb Al Viro           2018-07-09  3396   * Returns 0 on success, that is, if
-00a07c1591a3fb Al Viro           2018-07-09  3397   *  the file was successfully atomically created (if necessary) and opened, or
-00a07c1591a3fb Al Viro           2018-07-09  3398   *  the file was not completely opened at this time, though lookups and
-00a07c1591a3fb Al Viro           2018-07-09  3399   *  creations were performed.
-00a07c1591a3fb Al Viro           2018-07-09  3400   * These case are distinguished by presence of FMODE_OPENED on file->f_mode.
-00a07c1591a3fb Al Viro           2018-07-09  3401   * In the latter case dentry returned in @path might be negative if O_CREAT
-00a07c1591a3fb Al Viro           2018-07-09  3402   * hadn't been specified.
-1acf0af9b98102 David Howells     2012-06-14  3403   *
-00a07c1591a3fb Al Viro           2018-07-09  3404   * An error code is returned on failure.
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3405   */
-da5ebf5aa676c4 Al Viro           2020-01-09  3406  static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3407  				  const struct open_flags *op,
-3ec2eef116e900 Al Viro           2018-06-08  3408  				  bool got_write)
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3409  {
-6c960e68aaed33 Christian Brauner 2023-01-13  3410  	struct mnt_idmap *idmap;
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3411  	struct dentry *dir = nd->path.dentry;
-54ef487241e863 Miklos Szeredi    2012-06-05  3412  	struct inode *dir_inode = dir->d_inode;
-1643b43fbd0524 Al Viro           2016-04-27  3413  	int open_flag = op->open_flag;
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3414  	struct dentry *dentry;
-1643b43fbd0524 Al Viro           2016-04-27  3415  	int error, create_error = 0;
-1643b43fbd0524 Al Viro           2016-04-27  3416  	umode_t mode = op->mode;
-6fbd07146d9923 Al Viro           2016-04-28  3417  	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3418  
-ce8644fcadc52d Al Viro           2016-04-26  3419  	if (unlikely(IS_DEADDIR(dir_inode)))
-da5ebf5aa676c4 Al Viro           2020-01-09  3420  		return ERR_PTR(-ENOENT);
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3421  
-73a09dd94377e4 Al Viro           2018-06-08  3422  	file->f_mode &= ~FMODE_CREATED;
-6fbd07146d9923 Al Viro           2016-04-28  3423  	dentry = d_lookup(dir, &nd->last);
-6fbd07146d9923 Al Viro           2016-04-28  3424  	for (;;) {
-6fbd07146d9923 Al Viro           2016-04-28  3425  		if (!dentry) {
-6fbd07146d9923 Al Viro           2016-04-28  3426  			dentry = d_alloc_parallel(dir, &nd->last, &wq);
-54ef487241e863 Miklos Szeredi    2012-06-05  3427  			if (IS_ERR(dentry))
-da5ebf5aa676c4 Al Viro           2020-01-09  3428  				return dentry;
-6fbd07146d9923 Al Viro           2016-04-28  3429  		}
-6fbd07146d9923 Al Viro           2016-04-28  3430  		if (d_in_lookup(dentry))
-6fbd07146d9923 Al Viro           2016-04-28  3431  			break;
-54ef487241e863 Miklos Szeredi    2012-06-05  3432  
-6fbd07146d9923 Al Viro           2016-04-28  3433  		error = d_revalidate(dentry, nd->flags);
-6fbd07146d9923 Al Viro           2016-04-28  3434  		if (likely(error > 0))
-6fbd07146d9923 Al Viro           2016-04-28  3435  			break;
-6fbd07146d9923 Al Viro           2016-04-28  3436  		if (error)
-6fbd07146d9923 Al Viro           2016-04-28  3437  			goto out_dput;
-6fbd07146d9923 Al Viro           2016-04-28  3438  		d_invalidate(dentry);
-6fbd07146d9923 Al Viro           2016-04-28  3439  		dput(dentry);
-6fbd07146d9923 Al Viro           2016-04-28  3440  		dentry = NULL;
-6fbd07146d9923 Al Viro           2016-04-28  3441  	}
-0032f53f8fce4f Miklos Szeredi    2023-09-20 @3442  	if (dentry->d_inode && error != D_REVALIDATE_ATOMIC) {
-d18e9008c377dc Miklos Szeredi    2012-06-05  3443  		/* Cached positive dentry: will open in f_op->open */
-da5ebf5aa676c4 Al Viro           2020-01-09  3444  		return dentry;
-6c51e513a3aa49 Al Viro           2016-03-05  3445  	}
-d18e9008c377dc Miklos Szeredi    2012-06-05  3446  
-1643b43fbd0524 Al Viro           2016-04-27  3447  	/*
-1643b43fbd0524 Al Viro           2016-04-27  3448  	 * Checking write permission is tricky, bacuse we don't know if we are
-1643b43fbd0524 Al Viro           2016-04-27  3449  	 * going to actually need it: O_CREAT opens should work as long as the
-1643b43fbd0524 Al Viro           2016-04-27  3450  	 * file exists.  But checking existence breaks atomicity.  The trick is
-1643b43fbd0524 Al Viro           2016-04-27  3451  	 * to check access and if not granted clear O_CREAT from the flags.
-1643b43fbd0524 Al Viro           2016-04-27  3452  	 *
-1643b43fbd0524 Al Viro           2016-04-27  3453  	 * Another problem is returing the "right" error value (e.g. for an
-1643b43fbd0524 Al Viro           2016-04-27  3454  	 * O_EXCL open we want to return EEXIST not EROFS).
-1643b43fbd0524 Al Viro           2016-04-27  3455  	 */
-99a4a90c8e9337 Al Viro           2020-03-12  3456  	if (unlikely(!got_write))
-99a4a90c8e9337 Al Viro           2020-03-12  3457  		open_flag &= ~O_TRUNC;
-6c960e68aaed33 Christian Brauner 2023-01-13  3458  	idmap = mnt_idmap(nd->path.mnt);
-1643b43fbd0524 Al Viro           2016-04-27  3459  	if (open_flag & O_CREAT) {
-99a4a90c8e9337 Al Viro           2020-03-12  3460  		if (open_flag & O_EXCL)
-99a4a90c8e9337 Al Viro           2020-03-12  3461  			open_flag &= ~O_TRUNC;
-9452e93e6dae86 Christian Brauner 2023-01-13  3462  		mode = vfs_prepare_mode(idmap, dir->d_inode, mode, mode, mode);
-99a4a90c8e9337 Al Viro           2020-03-12  3463  		if (likely(got_write))
-4609e1f18e19c3 Christian Brauner 2023-01-13  3464  			create_error = may_o_create(idmap, &nd->path,
-ba73d98745be1c Christian Brauner 2021-01-21  3465  						    dentry, mode);
-99a4a90c8e9337 Al Viro           2020-03-12  3466  		else
-99a4a90c8e9337 Al Viro           2020-03-12  3467  			create_error = -EROFS;
-d18e9008c377dc Miklos Szeredi    2012-06-05  3468  	}
-99a4a90c8e9337 Al Viro           2020-03-12  3469  	if (create_error)
-99a4a90c8e9337 Al Viro           2020-03-12  3470  		open_flag &= ~O_CREAT;
-6ac087099edf09 Al Viro           2016-04-26  3471  	if (dir_inode->i_op->atomic_open) {
-d489cf9a3e88aa Al Viro           2020-03-11  3472  		dentry = atomic_open(nd, dentry, file, open_flag, mode);
-da5ebf5aa676c4 Al Viro           2020-01-09  3473  		if (unlikely(create_error) && dentry == ERR_PTR(-ENOENT))
-da5ebf5aa676c4 Al Viro           2020-01-09  3474  			dentry = ERR_PTR(create_error);
-da5ebf5aa676c4 Al Viro           2020-01-09  3475  		return dentry;
-239eb983383b1b Al Viro           2020-01-09  3476  	}
-54ef487241e863 Miklos Szeredi    2012-06-05  3477  
-6fbd07146d9923 Al Viro           2016-04-28  3478  	if (d_in_lookup(dentry)) {
-12fa5e24041923 Al Viro           2016-04-28  3479  		struct dentry *res = dir_inode->i_op->lookup(dir_inode, dentry,
-12fa5e24041923 Al Viro           2016-04-28  3480  							     nd->flags);
-6fbd07146d9923 Al Viro           2016-04-28  3481  		d_lookup_done(dentry);
-12fa5e24041923 Al Viro           2016-04-28  3482  		if (unlikely(res)) {
-12fa5e24041923 Al Viro           2016-04-28  3483  			if (IS_ERR(res)) {
-12fa5e24041923 Al Viro           2016-04-28  3484  				error = PTR_ERR(res);
-12fa5e24041923 Al Viro           2016-04-28  3485  				goto out_dput;
-12fa5e24041923 Al Viro           2016-04-28  3486  			}
-12fa5e24041923 Al Viro           2016-04-28  3487  			dput(dentry);
-12fa5e24041923 Al Viro           2016-04-28  3488  			dentry = res;
-12fa5e24041923 Al Viro           2016-04-28  3489  		}
-54ef487241e863 Miklos Szeredi    2012-06-05  3490  	}
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3491  
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3492  	/* Negative dentry, just create the file */
-1643b43fbd0524 Al Viro           2016-04-27  3493  	if (!dentry->d_inode && (open_flag & O_CREAT)) {
-73a09dd94377e4 Al Viro           2018-06-08  3494  		file->f_mode |= FMODE_CREATED;
-ce8644fcadc52d Al Viro           2016-04-26  3495  		audit_inode_child(dir_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
-ce8644fcadc52d Al Viro           2016-04-26  3496  		if (!dir_inode->i_op->create) {
-ce8644fcadc52d Al Viro           2016-04-26  3497  			error = -EACCES;
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3498  			goto out_dput;
-64894cf843278c Al Viro           2012-07-31  3499  		}
-549c7297717c32 Christian Brauner 2021-01-21  3500  
-6c960e68aaed33 Christian Brauner 2023-01-13  3501  		error = dir_inode->i_op->create(idmap, dir_inode, dentry,
-549c7297717c32 Christian Brauner 2021-01-21  3502  						mode, open_flag & O_EXCL);
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3503  		if (error)
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3504  			goto out_dput;
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3505  	}
-1643b43fbd0524 Al Viro           2016-04-27  3506  	if (unlikely(create_error) && !dentry->d_inode) {
-1643b43fbd0524 Al Viro           2016-04-27  3507  		error = create_error;
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3508  		goto out_dput;
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3509  	}
-da5ebf5aa676c4 Al Viro           2020-01-09  3510  	return dentry;
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3511  
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3512  out_dput:
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3513  	dput(dentry);
-da5ebf5aa676c4 Al Viro           2020-01-09  3514  	return ERR_PTR(error);
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3515  }
-d58ffd35c1e595 Miklos Szeredi    2012-06-05  3516  
+:::::: The code at line 685 was first introduced by commit
+:::::: e86f15ee64d8ee46255d964d55f74f5ba9af8c36 mm: vma_merge: fix vm_page_prot SMP race condition against rmap_walk
+
+:::::: TO: Andrea Arcangeli <aarcange@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
