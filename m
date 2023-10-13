@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F300BA2A
-	for <oe-kbuild@lists.linux.dev>; Fri, 13 Oct 2023 01:48:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CCEDA40
+	for <oe-kbuild@lists.linux.dev>; Fri, 13 Oct 2023 02:20:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="itjzwhiS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hE31ceLT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697161730; x=1728697730;
+  t=1697163648; x=1728699648;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ab8ygUhF36fvaF+6tjEK/B0I6FWDCrnhMAiE/USjg/E=;
-  b=itjzwhiSnkxG4q0qgJ5oP8XdKLiKDd8ktn0dACCXmIv6+XyBrFrBs6Ax
-   J+6/uAm3XdkfBkwHiPRZbLZRG4k76Ocw9uRvmjRmkM9GYKkIqynAOWT2f
-   sQsyPTkp4+pp4rdEGGLrLOeN0A6Y1j+Ofou8AKB7F277BpYUzom+xxkB7
-   IM2iYDpRsIk/WcbWIDL1KbWEiDxWWk9t5NRP9Pf7n2hSWsof7fOPVDFDt
-   AXPkmFJKgUaQBrvUDpBADHgrQ74sBF2FPcXSUIDS7bP1jmFHQ8Ky1D8xZ
-   Nt3DigSPt4ni+EW9qGgvSM1ksl/h3Qh90QDLMoHKx+XF86HqziR9AhcdE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="365339912"
+  bh=fqWtnuRCfp7LzDxiiKem6e70N47vOot2uCaXyOURd94=;
+  b=hE31ceLT4+hnivyJ2acug4I1CHdNZvshuoR8kNIBZSOsvIiu0DRzTahr
+   qhbHWfLgxAtWOVh/ndbZ8FbpfUBSH2QW15pWssICF2yHUTLyvI3fNLVHd
+   n1w+y6PfB/HPDyCoJ08QKiwrNhWyRMRZDkS35wY9yEiNw+uT0cPCCl/+2
+   vdtBq5HDXURyzAPOXwkn3ncoJUOGQ8SWKtM/HjAls7H7NmWkMjjhGjerX
+   dRPMUKg4SWgZ/kqivnxC0CZbF1ETMAcgFWUcvKjD7+aAhGdVEcEDyE9og
+   NJvx/3JswzNXlWkFXcPQ6Pjuwqo5Xr4PCZrYDVTtN2Mzdz9Dc4lB69PFc
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="364452806"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="365339912"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 18:48:46 -0700
+   d="scan'208";a="364452806"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 19:20:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="845225118"
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="783958992"
 X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="845225118"
+   d="scan'208";a="783958992"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 12 Oct 2023 18:48:45 -0700
+  by orsmga008.jf.intel.com with ESMTP; 12 Oct 2023 19:20:46 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qr7IA-0004Cl-2o;
-	Fri, 13 Oct 2023 01:48:42 +0000
-Date: Fri, 13 Oct 2023 09:48:35 +0800
+	id 1qr7n9-0004EJ-2e;
+	Fri, 13 Oct 2023 02:20:43 +0000
+Date: Fri, 13 Oct 2023 10:20:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [yiliu1765-iommufd:wip/iommufd_pasid-0829 3/95]
- drivers/iommu/iommufd/main.c:259 iommufd_get_hw_info() warn: maybe return
- -EFAULT instead of the bytes remaining?
-Message-ID: <202310130916.94838ZMF-lkp@intel.com>
+Subject: Re: [PATCH] Input: bcm5974 - check endpoint type before starting
+ traffic
+Message-ID: <202310131031.GV0qckPe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,72 +52,172 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Yi Liu <yi.l.liu@intel.com>
-TO: Kevin Tian <kevin.tian@intel.com>
+In-Reply-To: <20231007-topic-bcm5974_bulk-v1-1-355be9f8ad80@gmail.com>
+References: <20231007-topic-bcm5974_bulk-v1-1-355be9f8ad80@gmail.com>
+TO: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+TO: John Horan <knasher@gmail.com>
+TO: Henrik Rydberg <rydberg@bitmath.org>
+TO: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: linux-input@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+CC: syzbot+348331f63b034f89b622@syzkaller.appspotmail.com
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid-0829
-head:   39409b7fc57036afdb9ea1b641c827951ffbd32e
-commit: 69055cc0284095e68fd61f1705ef518ad731d120 [3/95] iommufd: Add IOMMU_GET_HW_INFO
-:::::: branch date: 6 weeks ago
-:::::: commit date: 9 weeks ago
-config: x86_64-randconfig-161-20230826 (https://download.01.org/0day-ci/archive/20231013/202310130916.94838ZMF-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231013/202310130916.94838ZMF-lkp@intel.com/reproduce)
+Hi Javier,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on b9ddbb0cde2adcedda26045cc58f31316a492215]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Carrasco/Input-bcm5974-check-endpoint-type-before-starting-traffic/20231009-031809
+base:   b9ddbb0cde2adcedda26045cc58f31316a492215
+patch link:    https://lore.kernel.org/r/20231007-topic-bcm5974_bulk-v1-1-355be9f8ad80%40gmail.com
+patch subject: [PATCH] Input: bcm5974 - check endpoint type before starting traffic
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: x86_64-randconfig-161-20231011 (https://download.01.org/0day-ci/archive/20231013/202310131031.GV0qckPe-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231013/202310131031.GV0qckPe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202310130916.94838ZMF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310131031.GV0qckPe-lkp@intel.com/
 
 smatch warnings:
-drivers/iommu/iommufd/main.c:259 iommufd_get_hw_info() warn: maybe return -EFAULT instead of the bytes remaining?
+drivers/input/mouse/bcm5974.c:978 bcm5974_probe() warn: missing error code 'error'
 
-vim +259 drivers/iommu/iommufd/main.c
+vim +/error +978 drivers/input/mouse/bcm5974.c
 
-69055cc0284095 Yi Liu 2023-01-12  219  
-69055cc0284095 Yi Liu 2023-01-12  220  static int iommufd_get_hw_info(struct iommufd_ucmd *ucmd)
-69055cc0284095 Yi Liu 2023-01-12  221  {
-69055cc0284095 Yi Liu 2023-01-12  222  	struct iommu_hw_info *cmd = ucmd->cmd;
-69055cc0284095 Yi Liu 2023-01-12  223  	unsigned int length = cmd->data_len;
-69055cc0284095 Yi Liu 2023-01-12  224  	struct iommufd_device *idev;
-69055cc0284095 Yi Liu 2023-01-12  225  	void __user *user_ptr;
-69055cc0284095 Yi Liu 2023-01-12  226  	u32 hw_info_type;
-69055cc0284095 Yi Liu 2023-01-12  227  	int rc = 0;
-69055cc0284095 Yi Liu 2023-01-12  228  
-69055cc0284095 Yi Liu 2023-01-12  229  	if (cmd->flags || cmd->__reserved || !cmd->data_len)
-69055cc0284095 Yi Liu 2023-01-12  230  		return -EOPNOTSUPP;
-69055cc0284095 Yi Liu 2023-01-12  231  
-69055cc0284095 Yi Liu 2023-01-12  232  	idev = iommufd_get_device(ucmd, cmd->dev_id);
-69055cc0284095 Yi Liu 2023-01-12  233  	if (IS_ERR(idev))
-69055cc0284095 Yi Liu 2023-01-12  234  		return PTR_ERR(idev);
-69055cc0284095 Yi Liu 2023-01-12  235  
-69055cc0284095 Yi Liu 2023-01-12  236  	user_ptr = u64_to_user_ptr(cmd->data_ptr);
-69055cc0284095 Yi Liu 2023-01-12  237  
-69055cc0284095 Yi Liu 2023-01-12  238  	rc = iommufd_fill_hw_info(idev->dev, user_ptr,
-69055cc0284095 Yi Liu 2023-01-12  239  				  &length, &hw_info_type);
-69055cc0284095 Yi Liu 2023-01-12  240  	if (rc)
-69055cc0284095 Yi Liu 2023-01-12  241  		goto err_put;
-69055cc0284095 Yi Liu 2023-01-12  242  
-69055cc0284095 Yi Liu 2023-01-12  243  	/*
-69055cc0284095 Yi Liu 2023-01-12  244  	 * Zero the trailing bytes if the user buffer is bigger than the
-69055cc0284095 Yi Liu 2023-01-12  245  	 * data size kernel actually has.
-69055cc0284095 Yi Liu 2023-01-12  246  	 */
-69055cc0284095 Yi Liu 2023-01-12  247  	if (length < cmd->data_len) {
-69055cc0284095 Yi Liu 2023-01-12  248  		rc = clear_user(user_ptr + length, cmd->data_len - length);
-69055cc0284095 Yi Liu 2023-01-12  249  		if (rc)
-69055cc0284095 Yi Liu 2023-01-12  250  			goto err_put;
-69055cc0284095 Yi Liu 2023-01-12  251  	}
-69055cc0284095 Yi Liu 2023-01-12  252  
-69055cc0284095 Yi Liu 2023-01-12  253  	cmd->data_len = length;
-69055cc0284095 Yi Liu 2023-01-12  254  	cmd->out_data_type = hw_info_type;
-69055cc0284095 Yi Liu 2023-01-12  255  	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
-69055cc0284095 Yi Liu 2023-01-12  256  
-69055cc0284095 Yi Liu 2023-01-12  257  err_put:
-69055cc0284095 Yi Liu 2023-01-12  258  	iommufd_put_object(&idev->obj);
-69055cc0284095 Yi Liu 2023-01-12 @259  	return rc;
-69055cc0284095 Yi Liu 2023-01-12  260  }
-69055cc0284095 Yi Liu 2023-01-12  261  
+49b3150e7755c3 Javier Carrasco    2023-10-08   913  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   914  static int bcm5974_probe(struct usb_interface *iface,
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   915  			 const struct usb_device_id *id)
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   916  {
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   917  	struct usb_device *udev = interface_to_usbdev(iface);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   918  	const struct bcm5974_config *cfg;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   919  	struct bcm5974 *dev;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   920  	struct input_dev *input_dev;
+49b3150e7755c3 Javier Carrasco    2023-10-08   921  	int error;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   922  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   923  	/* find the product index */
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   924  	cfg = bcm5974_get_config(udev);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   925  
+49b3150e7755c3 Javier Carrasco    2023-10-08   926  	if (cfg->tp_type == TYPE1) {
+49b3150e7755c3 Javier Carrasco    2023-10-08   927  		error = bcm5974_int_in_endpoint(iface->cur_altsetting, cfg->bt_ep);
+49b3150e7755c3 Javier Carrasco    2023-10-08   928  		if (error) {
+49b3150e7755c3 Javier Carrasco    2023-10-08   929  			dev_err(&iface->dev, "No int-in endpoint for the button\n");
+49b3150e7755c3 Javier Carrasco    2023-10-08   930  			return error;
+49b3150e7755c3 Javier Carrasco    2023-10-08   931  		}
+49b3150e7755c3 Javier Carrasco    2023-10-08   932  	}
+49b3150e7755c3 Javier Carrasco    2023-10-08   933  
+49b3150e7755c3 Javier Carrasco    2023-10-08   934  	error = bcm5974_int_in_endpoint(iface->cur_altsetting, cfg->tp_ep);
+49b3150e7755c3 Javier Carrasco    2023-10-08   935  	if (error) {
+49b3150e7755c3 Javier Carrasco    2023-10-08   936  		dev_err(&iface->dev, "No int-in endpoint for the trackpad\n");
+49b3150e7755c3 Javier Carrasco    2023-10-08   937  		return error;
+49b3150e7755c3 Javier Carrasco    2023-10-08   938  	}
+49b3150e7755c3 Javier Carrasco    2023-10-08   939  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   940  	/* allocate memory for our device state and initialize it */
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   941  	dev = kzalloc(sizeof(struct bcm5974), GFP_KERNEL);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   942  	input_dev = input_allocate_device();
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   943  	if (!dev || !input_dev) {
+6c1d1b246199c7 Greg Kroah-Hartman 2012-04-25   944  		dev_err(&iface->dev, "out of memory\n");
+49b3150e7755c3 Javier Carrasco    2023-10-08   945  		error = -ENOMEM;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   946  		goto err_free_devs;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   947  	}
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   948  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   949  	dev->udev = udev;
+88da765f4d5f59 Dmitry Torokhov    2008-08-08   950  	dev->intf = iface;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   951  	dev->input = input_dev;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   952  	dev->cfg = *cfg;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   953  	mutex_init(&dev->pm_mutex);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   954  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   955  	/* setup urbs */
+43f482b48d0322 Henrik Rydberg     2012-08-13   956  	if (cfg->tp_type == TYPE1) {
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   957  		dev->bt_urb = usb_alloc_urb(0, GFP_KERNEL);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   958  		if (!dev->bt_urb)
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   959  			goto err_free_devs;
+43f482b48d0322 Henrik Rydberg     2012-08-13   960  	}
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   961  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   962  	dev->tp_urb = usb_alloc_urb(0, GFP_KERNEL);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   963  	if (!dev->tp_urb)
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   964  		goto err_free_bt_urb;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   965  
+43f482b48d0322 Henrik Rydberg     2012-08-13   966  	if (dev->bt_urb) {
+997ea58eb92f99 Daniel Mack        2010-04-12   967  		dev->bt_data = usb_alloc_coherent(dev->udev,
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   968  					  dev->cfg.bt_datalen, GFP_KERNEL,
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   969  					  &dev->bt_urb->transfer_dma);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   970  		if (!dev->bt_data)
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   971  			goto err_free_urb;
+43f482b48d0322 Henrik Rydberg     2012-08-13   972  	}
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   973  
+997ea58eb92f99 Daniel Mack        2010-04-12   974  	dev->tp_data = usb_alloc_coherent(dev->udev,
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   975  					  dev->cfg.tp_datalen, GFP_KERNEL,
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   976  					  &dev->tp_urb->transfer_dma);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   977  	if (!dev->tp_data)
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  @978  		goto err_free_bt_buffer;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   979  
+c42e65664390be Mathias Nyman      2022-06-07   980  	if (dev->bt_urb) {
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   981  		usb_fill_int_urb(dev->bt_urb, udev,
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   982  				 usb_rcvintpipe(udev, cfg->bt_ep),
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   983  				 dev->bt_data, dev->cfg.bt_datalen,
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   984  				 bcm5974_irq_button, dev, 1);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   985  
+c42e65664390be Mathias Nyman      2022-06-07   986  		dev->bt_urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
+c42e65664390be Mathias Nyman      2022-06-07   987  	}
+c42e65664390be Mathias Nyman      2022-06-07   988  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   989  	usb_fill_int_urb(dev->tp_urb, udev,
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   990  			 usb_rcvintpipe(udev, cfg->tp_ep),
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   991  			 dev->tp_data, dev->cfg.tp_datalen,
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   992  			 bcm5974_irq_trackpad, dev, 1);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   993  
+c42e65664390be Mathias Nyman      2022-06-07   994  	dev->tp_urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
+c42e65664390be Mathias Nyman      2022-06-07   995  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   996  	/* create bcm5974 device */
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   997  	usb_make_path(udev, dev->phys, sizeof(dev->phys));
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   998  	strlcat(dev->phys, "/input0", sizeof(dev->phys));
+f89bd95c5c9467 Henrik Rydberg     2008-08-08   999  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1000  	input_dev->name = "bcm5974";
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1001  	input_dev->phys = dev->phys;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1002  	usb_to_input_id(dev->udev, &input_dev->id);
+158e928741e58e Henrik Rydberg     2009-04-28  1003  	/* report driver capabilities via the version field */
+158e928741e58e Henrik Rydberg     2009-04-28  1004  	input_dev->id.version = cfg->caps;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1005  	input_dev->dev.parent = &iface->dev;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1006  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1007  	input_set_drvdata(input_dev, dev);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1008  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1009  	input_dev->open = bcm5974_open;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1010  	input_dev->close = bcm5974_close;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1011  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1012  	setup_events_to_report(input_dev, cfg);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1013  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1014  	error = input_register_device(dev->input);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1015  	if (error)
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1016  		goto err_free_buffer;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1017  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1018  	/* save our data pointer in this interface device */
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1019  	usb_set_intfdata(iface, dev);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1020  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1021  	return 0;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1022  
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1023  err_free_buffer:
+997ea58eb92f99 Daniel Mack        2010-04-12  1024  	usb_free_coherent(dev->udev, dev->cfg.tp_datalen,
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1025  		dev->tp_data, dev->tp_urb->transfer_dma);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1026  err_free_bt_buffer:
+43f482b48d0322 Henrik Rydberg     2012-08-13  1027  	if (dev->bt_urb)
+997ea58eb92f99 Daniel Mack        2010-04-12  1028  		usb_free_coherent(dev->udev, dev->cfg.bt_datalen,
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1029  				  dev->bt_data, dev->bt_urb->transfer_dma);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1030  err_free_urb:
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1031  	usb_free_urb(dev->tp_urb);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1032  err_free_bt_urb:
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1033  	usb_free_urb(dev->bt_urb);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1034  err_free_devs:
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1035  	usb_set_intfdata(iface, NULL);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1036  	input_free_device(input_dev);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1037  	kfree(dev);
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1038  	return error;
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1039  }
+f89bd95c5c9467 Henrik Rydberg     2008-08-08  1040  
 
 -- 
 0-DAY CI Kernel Test Service
