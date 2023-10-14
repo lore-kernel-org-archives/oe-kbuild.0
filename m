@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3502E442E
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Oct 2023 06:05:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D23215B8
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Oct 2023 12:15:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MpjyZjfc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kr/IMRAn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697263503; x=1728799503;
+  t=1697285731; x=1728821731;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n9atFlal8Z4c7ZU0hgiyhx4YetejKeEpkTOWR+tjeYg=;
-  b=MpjyZjfcVtwowgKxS2vO28rRVcmbPmfMd/RD85bElYkmOzt1trBkkAMr
-   hElC1lpkPcKtvpSTwDxCfMw1baIIelQsOPKN+zPg7QWr13w9ljS4IvbmJ
-   UVLtiIwHswC+FZ+ik4/aXP/QArzFY9LUsWxUYIyrY/CPncCS9TspRrdhw
-   Zo/RVCPughdBxOavRiOYcMKIbBKI4l12bQqnc5/VXW1k2CTC17rw7Bbfu
-   hjCZfjOrtdczFFbI7i77i0DENwNYhlJVP20RWH7kLV8PPZHXqQRx6h1jI
-   /hK6w/ESkToNQgb8gJ1b4sezAfg3A7SBmZC3EJp4Wbfh+AXP7yIcQOKXT
+  bh=JEAERKMW0931byfATmMD+akH2bwp38u+5DNg1x7Uqgg=;
+  b=kr/IMRAnWhRzLImCUJyqrJgAT3/gi4Vs7mVSxAo6WZSWTtoBHczMYbIU
+   Y6SV4h0P1fi8g+KVa5hmpbzi3qlIOpxjv1hWe2pMgSrBeHqVQ6ujSCDJe
+   xWluClYOUZ+Z6DjpOQWGomrUBJbRFD0JpXJPgXPB3ioDFrPwyGcv7xhX3
+   5Jr+spv7T3RY3aziCd6U5uxMI4VRaq5Yih7Rt5Sj5syLxA7HXNEMaM08u
+   tmakIsXn4DViKOynkeTtNllWr3UcN0VJZP9J6ba67JQkIdBE9CW+O46Kc
+   eYVYtgQGjDj2xznBZVKoA94fkKSTg5zKeqQMgoOFOxknnumLeATvkFvX9
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="384176441"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="384191583"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="384176441"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 23:04:59 -0700
+   d="scan'208";a="384191583"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 05:15:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="790104823"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="758787411"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="790104823"
+   d="scan'208";a="758787411"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 13 Oct 2023 23:04:57 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 14 Oct 2023 05:15:26 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qrXlf-0005kx-1D;
-	Sat, 14 Oct 2023 06:04:55 +0000
-Date: Sat, 14 Oct 2023 14:04:09 +0800
+	id 1qrdYB-00069T-2K;
+	Sat, 14 Oct 2023 12:15:23 +0000
+Date: Sat, 14 Oct 2023 20:14:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/staging/vme_user/vme_tsi148.c:748 tsi148_alloc_resource()
- warn: passing freed memory 'image->bus_resource.name'
-Message-ID: <202310141358.KfQilTUL-lkp@intel.com>
+Subject: include/net/scm.h:132 scm_pidfd_recv() warn: bitwise AND condition
+ is false here
+Message-ID: <202310142022.sDCmJt0y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,117 +53,72 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Marco Elver <elver@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Andrey Konovalov <andreyknvl@gmail.com>
+TO: Kuniyuki Iwashima <kuniyu@amazon.com>
+CC: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
+CC: Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8cb1f10d8c4b716c88b87ae4402a3305d96e5db2
-commit: 4ec4190be4cf9cc3e0ccaf5f155a5f9066d18950 kasan, x86: don't rename memintrinsics in uninstrumented files
-date:   8 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 8 months ago
-config: x86_64-randconfig-161-20230928 (https://download.01.org/0day-ci/archive/20231014/202310141358.KfQilTUL-lkp@intel.com/config)
+head:   727fb83765049981e342db4c5a8b51aca72201d8
+commit: 718e6b51298e0f254baca0d40ab52a00e004e014 af_unix: Fix msg_controllen test in scm_pidfd_recv() for MSG_CMSG_COMPAT.
+date:   6 weeks ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 weeks ago
+config: i386-randconfig-141-20230905 (https://download.01.org/0day-ci/archive/20231014/202310142022.sDCmJt0y-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231014/202310141358.KfQilTUL-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231014/202310142022.sDCmJt0y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202310141358.KfQilTUL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310142022.sDCmJt0y-lkp@intel.com/
 
-smatch warnings:
-drivers/staging/vme_user/vme_tsi148.c:748 tsi148_alloc_resource() warn: passing freed memory 'image->bus_resource.name'
+New smatch warnings:
+include/net/scm.h:132 scm_pidfd_recv() warn: bitwise AND condition is false here
 
-vim +748 drivers/staging/vme_user/vme_tsi148.c
+Old smatch warnings:
+net/unix/af_unix.c:1659 unix_stream_connect() warn: variable dereferenced before check 'other' (see line 1542)
+net/unix/af_unix.c:3417 bpf_iter_unix_batch() warn: sleeping in atomic context
 
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  704  
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  705  /*
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  706   * Allocate and map PCI Resource
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  707   */
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  708  static int tsi148_alloc_resource(struct vme_master_resource *image,
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  709  	unsigned long long size)
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  710  {
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  711  	unsigned long long existing_size;
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  712  	int retval = 0;
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  713  	struct pci_dev *pdev;
-29848ac9f3b33b drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-02-18  714  	struct vme_bridge *tsi148_bridge;
-29848ac9f3b33b drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-02-18  715  
-29848ac9f3b33b drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-02-18  716  	tsi148_bridge = image->parent;
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  717  
-177581faf2a5aa drivers/vme/bridges/vme_tsi148.c         Aaron Sierra      2014-04-03  718  	pdev = to_pci_dev(tsi148_bridge->parent);
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  719  
-8fafb47638012d drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-02-18  720  	existing_size = (unsigned long long)(image->bus_resource.end -
-8fafb47638012d drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-02-18  721  		image->bus_resource.start);
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  722  
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  723  	/* If the existing size is OK, return */
-59c2290428dd93 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-10-29  724  	if ((size != 0) && (existing_size == (size - 1)))
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  725  		return 0;
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  726  
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  727  	if (existing_size != 0) {
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  728  		iounmap(image->kern_base);
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  729  		image->kern_base = NULL;
-8fafb47638012d drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-02-18  730  		kfree(image->bus_resource.name);
-886953e9b70bcb drivers/staging/vme/bridges/vme_tsi148.c Emilio G. Cota    2010-11-12  731  		release_resource(&image->bus_resource);
-6d011dd876cb82 drivers/vme/bridges/vme_tsi148.c         Markus Elfring    2017-08-25  732  		memset(&image->bus_resource, 0, sizeof(image->bus_resource));
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  733  	}
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  734  
-59c2290428dd93 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-10-29  735  	/* Exit here if size is zero */
-7946328faf1dca drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-03-22  736  	if (size == 0)
-59c2290428dd93 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-10-29  737  		return 0;
-59c2290428dd93 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-10-29  738  
-a75dc630086a6b drivers/vme/bridges/vme_tsi148.c         Markus Elfring    2017-08-25  739  	if (!image->bus_resource.name) {
-0aa3f139cd5123 drivers/staging/vme/bridges/vme_tsi148.c Julia Lawall      2010-05-30  740  		image->bus_resource.name = kmalloc(VMENAMSIZ+3, GFP_ATOMIC);
-a75dc630086a6b drivers/vme/bridges/vme_tsi148.c         Markus Elfring    2017-08-25  741  		if (!image->bus_resource.name) {
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  742  			retval = -ENOMEM;
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  743  			goto err_name;
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  744  		}
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  745  	}
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  746  
-8fafb47638012d drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-02-18  747  	sprintf((char *)image->bus_resource.name, "%s.%d", tsi148_bridge->name,
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31 @748  		image->number);
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  749  
-8fafb47638012d drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-02-18  750  	image->bus_resource.start = 0;
-8fafb47638012d drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-02-18  751  	image->bus_resource.end = (unsigned long)size;
-8fafb47638012d drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-02-18  752  	image->bus_resource.flags = IORESOURCE_MEM;
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  753  
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  754  	retval = pci_bus_alloc_resource(pdev->bus,
-da5ae8a991d35d drivers/vme/bridges/vme_tsi148.c         Dmitry Kalinkin   2015-07-08  755  		&image->bus_resource, size, 0x10000, PCIBIOS_MIN_MEM,
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  756  		0, NULL, NULL);
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  757  	if (retval) {
-f13bd29c1ae1c2 drivers/staging/vme_user/vme_tsi148.c    Mingyi Kang       2022-07-30  758  		dev_err(tsi148_bridge->parent, "Failed to allocate mem resource for window %d size 0x%lx start 0x%lx\n",
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  759  			image->number, (unsigned long)size,
-8fafb47638012d drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-02-18  760  			(unsigned long)image->bus_resource.start);
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  761  		goto err_resource;
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  762  	}
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  763  
-4bdc0d676a6431 drivers/vme/bridges/vme_tsi148.c         Christoph Hellwig 2020-01-06  764  	image->kern_base = ioremap(
-8fafb47638012d drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-02-18  765  		image->bus_resource.start, size);
-a75dc630086a6b drivers/vme/bridges/vme_tsi148.c         Markus Elfring    2017-08-25  766  	if (!image->kern_base) {
-48d9356e7750d3 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-03-22  767  		dev_err(tsi148_bridge->parent, "Failed to remap resource\n");
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  768  		retval = -ENOMEM;
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  769  		goto err_remap;
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  770  	}
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  771  
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  772  	return 0;
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  773  
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  774  err_remap:
-886953e9b70bcb drivers/staging/vme/bridges/vme_tsi148.c Emilio G. Cota    2010-11-12  775  	release_resource(&image->bus_resource);
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  776  err_resource:
-8fafb47638012d drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2010-02-18  777  	kfree(image->bus_resource.name);
-6d011dd876cb82 drivers/vme/bridges/vme_tsi148.c         Markus Elfring    2017-08-25  778  	memset(&image->bus_resource, 0, sizeof(image->bus_resource));
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  779  err_name:
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  780  	return retval;
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  781  }
-d22b8ed9a3b0a1 drivers/staging/vme/bridges/vme_tsi148.c Martyn Welch      2009-07-31  782  
+vim +132 include/net/scm.h
 
-:::::: The code at line 748 was first introduced by commit
-:::::: d22b8ed9a3b0a157b732580258ec16b729265953 Staging: vme: add Tundra TSI148 VME-PCI Bridge driver
-
-:::::: TO: Martyn Welch <martyn.welch@gefanuc.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
+877ce7c1b3afd69 Catherine Zhang       2006-06-29  123  
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  124  static __inline__ void scm_pidfd_recv(struct msghdr *msg, struct scm_cookie *scm)
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  125  {
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  126  	struct file *pidfd_file = NULL;
+718e6b51298e0f2 Kuniyuki Iwashima     2023-09-01  127  	int len, pidfd;
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  128  
+718e6b51298e0f2 Kuniyuki Iwashima     2023-09-01  129  	/* put_cmsg() doesn't return an error if CMSG is truncated,
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  130  	 * that's why we need to opencode these checks here.
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  131  	 */
+718e6b51298e0f2 Kuniyuki Iwashima     2023-09-01 @132  	if (msg->msg_flags & MSG_CMSG_COMPAT)
+718e6b51298e0f2 Kuniyuki Iwashima     2023-09-01  133  		len = sizeof(struct compat_cmsghdr) + sizeof(int);
+718e6b51298e0f2 Kuniyuki Iwashima     2023-09-01  134  	else
+718e6b51298e0f2 Kuniyuki Iwashima     2023-09-01  135  		len = sizeof(struct cmsghdr) + sizeof(int);
+718e6b51298e0f2 Kuniyuki Iwashima     2023-09-01  136  
+718e6b51298e0f2 Kuniyuki Iwashima     2023-09-01  137  	if (msg->msg_controllen < len) {
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  138  		msg->msg_flags |= MSG_CTRUNC;
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  139  		return;
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  140  	}
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  141  
+603fc57ab70c306 Kuniyuki Iwashima     2023-06-27  142  	if (!scm->pid)
+603fc57ab70c306 Kuniyuki Iwashima     2023-06-27  143  		return;
+603fc57ab70c306 Kuniyuki Iwashima     2023-06-27  144  
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  145  	pidfd = pidfd_prepare(scm->pid, 0, &pidfd_file);
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  146  
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  147  	if (put_cmsg(msg, SOL_SOCKET, SCM_PIDFD, sizeof(int), &pidfd)) {
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  148  		if (pidfd_file) {
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  149  			put_unused_fd(pidfd);
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  150  			fput(pidfd_file);
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  151  		}
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  152  
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  153  		return;
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  154  	}
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  155  
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  156  	if (pidfd_file)
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  157  		fd_install(pidfd, pidfd_file);
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  158  }
+5e2ff6704a275be Alexander Mikhalitsyn 2023-06-08  159  
 
 -- 
 0-DAY CI Kernel Test Service
