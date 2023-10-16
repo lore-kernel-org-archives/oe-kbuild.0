@@ -1,148 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C68A2D
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Oct 2023 00:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DC13D72
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Oct 2023 04:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RCxEs0LE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697416941; x=1728952941;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4tUPlIvdtXnIs/+IAd8mE9M4px45XbFnL4kYzW0MA0A=;
-  b=RCxEs0LELwDsW2KV0V4kdC2izEplm+meGqDFwO/QhIdjrueFV0VFN+eA
-   JaVKDj5FSS+uU0udnjk/GYdk5VwJSxHTrzqfQAtxqAHusBWekXEaacnWr
-   L5at8NvMENFwa4BUvfyWn+dr6bPzXGhBDIM7M/YfNtVG9E2jPbHAWNnQ0
-   sMPmf7yDJ1tLc1lcSpkeUFQdo1RlMBnSuGH+2rYrgy8/PTtf7n7Ntsys7
-   14DmTsImmzuLcGkzLiIALpZ2S0YfyGrOkfYwtp9TbpzoUr0F096qjgTp2
-   Yn49d3hGCahgvEEjWqJCDwUNqe2bp991cjvADmD1aUTuZfWe1mxRR2qEl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="451909918"
-X-IronPort-AV: E=Sophos;i="6.03,228,1694761200"; 
-   d="scan'208";a="451909918"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2023 17:42:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="846197695"
-X-IronPort-AV: E=Sophos;i="6.03,228,1694761200"; 
-   d="scan'208";a="846197695"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 15 Oct 2023 17:42:19 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qsBgX-0007yc-1J;
-	Mon, 16 Oct 2023 00:42:17 +0000
-Date: Mon, 16 Oct 2023 08:41:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [vireshk-pm:opp/required-opps 19/19] drivers/opp/of.c:183
- _opp_table_alloc_required_tables() warn: double check that we're allocating
- correct size: 8 vs 16
-Message-ID: <202310160808.mQP87W9A-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dMh8AMTc"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-31fa15f4cc6so3729015f8f.2
+        for <oe-kbuild@lists.linux.dev>; Sun, 15 Oct 2023 21:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697431437; x=1698036237; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bQKcm8RUoHLjFRbdRVvB/qN2XCWrFhAS4ste4e8YIFY=;
+        b=dMh8AMTc+vMoLpyn3fpUez8kDlkhhCCiaRklsx9n8Y6/UDm5uwBX+zn3sbsYvXK6qR
+         KYqlw6W8S1uiaSKGNNipigMAG37jZNd6eeSPg+7iBfDuTQd6nMKCmufvx19L+D017Oa7
+         MU9BH/ILNm8aHQiSWWSbKHW/Ic6IVhmBe0IwRa1GMzpqdbCf57Qg7LD29ix9u342EIQR
+         XBaqEv+TJlWxHaCthrrayjoZpcFX6MNCK7C8CoQJQtPWuuJKdUudBcYI4E1WZSvtccUC
+         Sng9ycqe4idszYqqe2oXYKmt7IR+6/kWwoPJgmd8QLxmCqIscBK6uAZgisS/NobrdsCR
+         t5Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697431437; x=1698036237;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bQKcm8RUoHLjFRbdRVvB/qN2XCWrFhAS4ste4e8YIFY=;
+        b=AceaxnUZxgjFGW+8CgXUg805NpCpdxMIA+H+UhAkDBiNos065T7iw+1j9Z0Cm7DDgz
+         zLrQ1RVz79cVQb35ztB5nepuY1u2iCL846M/870enFAHAK8W4DDjG8Zhh4Lf6EcMJSqc
+         y0BuzN2m2LNMngeeaZa7ysyXlL8HUokqrCOlv9aWXZbhCrm9yEjObm2/jpz5fRkwY3R3
+         dox0fMRi6GGzFnLUcuEGtx07ITu36nvkq7QrK5HlYrWymx+XsT0eVZzQV8B3VIYTlPyj
+         lkw+d183fBdoQH12TbFYoFPZrZrdvA++SJwYjLnB2LCuG+ZWZV0+wkA4ft5viHV8ANwk
+         hQYw==
+X-Gm-Message-State: AOJu0YyiKNdmcO+7CtkzIfhCcI69dk0u/q5X84jt6Wu5efL3ESP6cIYN
+	HQcSe2kSLt0FabarUJNSLz8Ymzz5KB2rnwroU7I=
+X-Google-Smtp-Source: AGHT+IGdV/EfRhHpnv4sMDLX/wxIyVItLcCNBRpKeeQHjlACu+BTRV1nRmdktnf5Iy9mNVlPPit93A==
+X-Received: by 2002:a5d:5947:0:b0:32d:b194:706 with SMTP id e7-20020a5d5947000000b0032db1940706mr1647398wri.16.1697431437192;
+        Sun, 15 Oct 2023 21:43:57 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p10-20020a05600c1d8a00b003fe23b10fdfsm6050001wms.36.2023.10.15.21.43.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Oct 2023 21:43:56 -0700 (PDT)
+Date: Mon, 16 Oct 2023 07:43:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/070-audio 17/37] sound/soc/soc-dapm.c:2260
+ dapm_graph_read_file() error: testing array offset 'num_wdone' after use.
+Message-ID: <e9198858-f4a0-42ff-9f74-2ded2ff298e3@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Viresh Kumar <viresh.kumar@linaro.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git opp/required-opps
-head:   3799a6551d89a14a1057127dff1e92cbfb073984
-commit: 3799a6551d89a14a1057127dff1e92cbfb073984 [19/19] OPP: Call dev_pm_opp_set_opp() for required OPPs
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-161-20231015 (https://download.01.org/0day-ci/archive/20231016/202310160808.mQP87W9A-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   84126be72ac9e0b38c992e806417952deb3cd540
+commit: f664a1ed8e4e6cae5697db372d62cac0fafde939 [17/37] ASoC: dapm: Export new 'graph.dot' file in debugfs
+config: i386-randconfig-141-20230825 (https://download.01.org/0day-ci/archive/20231014/202310140049.EtXqBptb-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231016/202310160808.mQP87W9A-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231014/202310140049.EtXqBptb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202310160808.mQP87W9A-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202310140049.EtXqBptb-lkp@intel.com/
 
 smatch warnings:
-drivers/opp/of.c:183 _opp_table_alloc_required_tables() warn: double check that we're allocating correct size: 8 vs 16
-drivers/opp/core.c:2587 dev_pm_opp_set_config() error: uninitialized symbol 'ret'.
+sound/soc/soc-dapm.c:2260 dapm_graph_read_file() error: testing array offset 'num_wdone' after use.
 
-vim +183 drivers/opp/of.c
+vim +/num_wdone +2260 sound/soc/soc-dapm.c
 
-5d6d106fa45501 Viresh Kumar       2018-06-07  156  
-5d6d106fa45501 Viresh Kumar       2018-06-07  157  /*
-5d6d106fa45501 Viresh Kumar       2018-06-07  158   * Populate all devices and opp tables which are part of "required-opps" list.
-5d6d106fa45501 Viresh Kumar       2018-06-07  159   * Checking only the first OPP node should be enough.
-5d6d106fa45501 Viresh Kumar       2018-06-07  160   */
-5d6d106fa45501 Viresh Kumar       2018-06-07  161  static void _opp_table_alloc_required_tables(struct opp_table *opp_table,
-5d6d106fa45501 Viresh Kumar       2018-06-07  162  					     struct device *dev,
-5d6d106fa45501 Viresh Kumar       2018-06-07  163  					     struct device_node *opp_np)
-5d6d106fa45501 Viresh Kumar       2018-06-07  164  {
-5d6d106fa45501 Viresh Kumar       2018-06-07  165  	struct opp_table **required_opp_tables;
-5d6d106fa45501 Viresh Kumar       2018-06-07  166  	struct device_node *required_np, *np;
-7eba0c7641b000 Viresh Kumar       2019-11-25  167  	bool lazy = false;
-3799a6551d89a1 Viresh Kumar       2023-10-13  168  	int count, i, size;
-5d6d106fa45501 Viresh Kumar       2018-06-07  169  
-5d6d106fa45501 Viresh Kumar       2018-06-07  170  	/* Traversing the first OPP node is all we need */
-5d6d106fa45501 Viresh Kumar       2018-06-07  171  	np = of_get_next_available_child(opp_np, NULL);
-5d6d106fa45501 Viresh Kumar       2018-06-07  172  	if (!np) {
-6ee70e8c34e37a Nicola Mazzucato   2020-12-08  173  		dev_warn(dev, "Empty OPP table\n");
-6ee70e8c34e37a Nicola Mazzucato   2020-12-08  174  
-5d6d106fa45501 Viresh Kumar       2018-06-07  175  		return;
-5d6d106fa45501 Viresh Kumar       2018-06-07  176  	}
-5d6d106fa45501 Viresh Kumar       2018-06-07  177  
-5d6d106fa45501 Viresh Kumar       2018-06-07  178  	count = of_count_phandle_with_args(np, "required-opps", NULL);
-8b7912f4cb6c29 Pavankumar Kondeti 2021-09-30  179  	if (count <= 0)
-5d6d106fa45501 Viresh Kumar       2018-06-07  180  		goto put_np;
-5d6d106fa45501 Viresh Kumar       2018-06-07  181  
-3799a6551d89a1 Viresh Kumar       2023-10-13  182  	size = sizeof(*required_opp_tables) + sizeof(*opp_table->required_devs);
-3799a6551d89a1 Viresh Kumar       2023-10-13 @183  	required_opp_tables = kcalloc(count, size, GFP_KERNEL);
-c0ab9e0812da8e Viresh Kumar       2019-05-08  184  	if (!required_opp_tables)
-5d6d106fa45501 Viresh Kumar       2018-06-07  185  		goto put_np;
-5d6d106fa45501 Viresh Kumar       2018-06-07  186  
-5d6d106fa45501 Viresh Kumar       2018-06-07  187  	opp_table->required_opp_tables = required_opp_tables;
-3799a6551d89a1 Viresh Kumar       2023-10-13  188  	opp_table->required_devs = (void *)(required_opp_tables + count);
-5d6d106fa45501 Viresh Kumar       2018-06-07  189  	opp_table->required_opp_count = count;
-5d6d106fa45501 Viresh Kumar       2018-06-07  190  
-5d6d106fa45501 Viresh Kumar       2018-06-07  191  	for (i = 0; i < count; i++) {
-5d6d106fa45501 Viresh Kumar       2018-06-07  192  		required_np = of_parse_required_opp(np, i);
-5d6d106fa45501 Viresh Kumar       2018-06-07  193  		if (!required_np)
-5d6d106fa45501 Viresh Kumar       2018-06-07  194  			goto free_required_tables;
-5d6d106fa45501 Viresh Kumar       2018-06-07  195  
-5d6d106fa45501 Viresh Kumar       2018-06-07  196  		required_opp_tables[i] = _find_table_of_opp_np(required_np);
-5d6d106fa45501 Viresh Kumar       2018-06-07  197  		of_node_put(required_np);
-5d6d106fa45501 Viresh Kumar       2018-06-07  198  
-4fa82a87ba55f5 Hsin-Yi Wang       2021-06-16  199  		if (IS_ERR(required_opp_tables[i]))
-7eba0c7641b000 Viresh Kumar       2019-11-25  200  			lazy = true;
-5d6d106fa45501 Viresh Kumar       2018-06-07  201  	}
-5d6d106fa45501 Viresh Kumar       2018-06-07  202  
-7eba0c7641b000 Viresh Kumar       2019-11-25  203  	/* Let's do the linking later on */
-64aaeb708245ac Viresh Kumar       2023-06-08  204  	if (lazy) {
-64aaeb708245ac Viresh Kumar       2023-06-08  205  		/*
-64aaeb708245ac Viresh Kumar       2023-06-08  206  		 * The OPP table is not held while allocating the table, take it
-64aaeb708245ac Viresh Kumar       2023-06-08  207  		 * now to avoid corruption to the lazy_opp_tables list.
-64aaeb708245ac Viresh Kumar       2023-06-08  208  		 */
-64aaeb708245ac Viresh Kumar       2023-06-08  209  		mutex_lock(&opp_table_lock);
-7eba0c7641b000 Viresh Kumar       2019-11-25  210  		list_add(&opp_table->lazy, &lazy_opp_tables);
-64aaeb708245ac Viresh Kumar       2023-06-08  211  		mutex_unlock(&opp_table_lock);
-58b984a1144b0d Viresh Kumar       2023-10-12  212  	}
-7eba0c7641b000 Viresh Kumar       2019-11-25  213  
-5d6d106fa45501 Viresh Kumar       2018-06-07  214  	goto put_np;
-5d6d106fa45501 Viresh Kumar       2018-06-07  215  
-5d6d106fa45501 Viresh Kumar       2018-06-07  216  free_required_tables:
-5d6d106fa45501 Viresh Kumar       2018-06-07  217  	_opp_table_free_required_tables(opp_table);
-5d6d106fa45501 Viresh Kumar       2018-06-07  218  put_np:
-5d6d106fa45501 Viresh Kumar       2018-06-07  219  	of_node_put(np);
-5d6d106fa45501 Viresh Kumar       2018-06-07  220  }
-5d6d106fa45501 Viresh Kumar       2018-06-07  221  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2196  static ssize_t dapm_graph_read_file(struct file *file, char __user *user_buf,
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2197  				    size_t count, loff_t *ppos)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2198  {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2199  	struct snd_soc_card *card = file->private_data;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2200  	struct snd_soc_dapm_context *dapm;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2201  	struct snd_soc_dapm_path *p;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2202  	struct snd_soc_dapm_widget *w;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2203  	struct snd_soc_pcm_runtime *rtd;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2204  	struct snd_soc_dapm_widget *wdone[16];
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2205  	struct snd_soc_dai *dai;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2206  	int i, num_wdone = 0, cluster = 0;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2207  	char *buf;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2208  	ssize_t bufsize;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2209  	ssize_t ret = 0;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2210  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2211  	bufsize = 1024 * card->num_dapm_widgets;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2212  	buf = kmalloc(bufsize, GFP_KERNEL);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2213  	if (!buf)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2214  		return -ENOMEM;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2215  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2216  	mutex_lock(&card->dapm_mutex);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2217  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2218  #define bufprintf(...) \
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2219  		ret += scnprintf(buf + ret, bufsize - ret, __VA_ARGS__)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2220  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2221  	bufprintf("digraph dapm {\n");
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2222  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2223  	/*
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2224  	 * Print the user-visible devices of the card.
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2225  	 */
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2226  	bufprintf("subgraph cluster_%d {\n", cluster++);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2227  	bufprintf("label=\"Devices\";style=filled;fillcolor=gray;\n");
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2228  	for_each_card_rtds(card, rtd) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2229  		if (rtd->dai_link->no_pcm)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2230  			continue;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2231  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2232  		bufprintf("w%pK [label=\"%d: %s\"];\n", rtd,
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2233  			  rtd->pcm->device, rtd->dai_link->name);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2234  	}
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2235  	bufprintf("};\n");
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2236  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2237  	/*
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2238  	 * Print the playback/capture widgets of DAIs just next to
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2239  	 * the user-visible devices. Keep the list of already printed
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2240  	 * widgets in 'wdone', so they will be skipped later.
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2241  	 */
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2242  	for_each_card_rtds(card, rtd) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2243  		for_each_rtd_cpu_dais(rtd, i, dai) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2244  			if (dai->stream[SNDRV_PCM_STREAM_PLAYBACK].widget) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2245  				w = dai->stream[SNDRV_PCM_STREAM_PLAYBACK].widget;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2246  				bufprintf("w%pK [label=\"%s\"];\n", w, w->name);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2247  				if (!rtd->dai_link->no_pcm)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2248  					bufprintf("w%pK -> w%pK;\n", rtd, w);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2249  				wdone[num_wdone] = w;
+                                                                                ^^^^^^^^^^^^^^^^^^^^^
+Set's memory
+
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2250  				if (num_wdone < ARRAY_SIZE(wdone))
+
+Checks if the assignment was out of bounds.  Maybe this should
+be:
+
+	if ((num_wdone + 1 < ARRAY_SIZE(wdone))
+
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2251  					num_wdone++;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2252  			}
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2253  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2254  			if (dai->stream[SNDRV_PCM_STREAM_CAPTURE].widget) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2255  				w = dai->stream[SNDRV_PCM_STREAM_CAPTURE].widget;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2256  				bufprintf("w%pK [label=\"%s\"];\n", w, w->name);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2257  				if (!rtd->dai_link->no_pcm)
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2258  					bufprintf("w%pK -> w%pK;\n", w, rtd);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2259  				wdone[num_wdone] = w;
+f664a1ed8e4e6c Martin Povišer 2022-08-21 @2260  				if (num_wdone < ARRAY_SIZE(wdone))
+
+Same
+
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2261  					num_wdone++;
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2262  			}
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2263  		}
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2264  	}
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2265  
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2266  	for_each_card_dapms(card, dapm) {
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2267  		const char *prefix = soc_dapm_prefix(dapm);
+f664a1ed8e4e6c Martin Povišer 2022-08-21  2268  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
