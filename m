@@ -1,117 +1,102 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF43A1C14
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Oct 2023 04:49:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03628480
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Oct 2023 05:35:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CqK46nZL"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-31f71b25a99so3868747f8f.2
-        for <oe-kbuild@lists.linux.dev>; Sun, 15 Oct 2023 21:49:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ISotFGLM"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-32d81864e3fso3371242f8f.2
+        for <oe-kbuild@lists.linux.dev>; Sun, 15 Oct 2023 22:35:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697431781; x=1698036581; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qJc90FRFU3fOsiAP8JukZC8xlwxkOrVqaLNoVS0Lq4M=;
-        b=CqK46nZLzHUAby+OmYxtq44GKZptT67y51+6LiqZqyM1q2WPe4deeG28J34fX0llNm
-         3n/USaDZMVk5Lm8gJOv03zjPBpd4B3d2E5KQ9GASWWOqb+MgUyS4ThiMNYHHuAftxCJ+
-         DneTAz6Dar4FG3GEHeGBXda9CTuKpo9CGvqy/0EM5KV/19D7a8hwLRxxWyFNe/JMj9fZ
-         kpMYBL9ieueM7SQaiwBDZIKPQO1R/qQKePwF92g1XHq3lJkWKdwK4wsIIFjgdTupwsxe
-         +aA1K/mmz4byJbCc2x8/lmUfPSzOp7+xLBsHxaH3Jef/hZ7jyYGNGh4wbpk6cLkJ1xKx
-         HxrQ==
+        d=linaro.org; s=google; t=1697434556; x=1698039356; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kE63YcVyoiTF0pqB4vYi6Iwnwu4bq4BVz2G6qBjc2ik=;
+        b=ISotFGLMZpXcK4IYmkiFULy/gtS0fltLHmP6aATzTHV/q0hx/rSF+XakgQ908LDeTY
+         FThCFt02akrFwIuO01Dvh4kl9NBENpeyQfilSNMHIdhDMm62W7OBf7RaLPDGTTBBebUc
+         aiqnPwvB7CyJSdK8rEivmzaRU+OQpeU1/jK6mH4dncRAyOluYGzRqnZ3b6OvUS1MK4uZ
+         1ZVY1tQ332jbPqgutcttd6T7yWx7tbx/qWE0Smd2Paezv7ySQ+wO53Arpjp7Tnxh88qq
+         8zEIUY9cmfpzF4BYiOYG/ID6meyRG608uKeOfsE9sxa07wRXTYpTU3XcLJHdlu3orKJX
+         oVXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697431781; x=1698036581;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qJc90FRFU3fOsiAP8JukZC8xlwxkOrVqaLNoVS0Lq4M=;
-        b=JbwX0rCLdT0Ayse9HlSkJ7Ck6BmoOpjTNv2Cx8opgq02nxm+2Ky6fz4xtbetOvb85R
-         dZvI+OyHrUADSu8GPn3mRr3kPsgu2Chm5zkenMN1FXnfdoKO01RZLvy8Z8vUKdJHHbz2
-         2Vtr++2zU0OIg6sYFKjPayxvWtoBJEKLWjRT2gVLrAWntdXycdrgZQu4IKvt9fWVreZy
-         7qs80YYwbX8hoks4GtbwIAX4uH9LVg52+SDLoaI6DQwFybEQWu2X+CLef3VRfi110NC6
-         83tW+mFFgxGP1LNQEQUbRGeYGZO4hsMKXpxSkqC0LPYqi2IQua8TwXPJUpnCnrqc7FZB
-         fUiA==
-X-Gm-Message-State: AOJu0YzwJvXcZKUGvrHY7D7NtC1WYOcELYCKFXSM5cKp37ZQLAaUU2IL
-	Q0vp+CVlkGA+MxmAHN6tXxYZEle2HXpxIlsPuhM=
-X-Google-Smtp-Source: AGHT+IGINi4RbUZA551UH4M/OGEIgiB22bM6ASrHKDQ1dD2i12AWj6YGtV7XQ76MxhpCgN4zCuhxbQ==
-X-Received: by 2002:a5d:5258:0:b0:32d:9701:90e5 with SMTP id k24-20020a5d5258000000b0032d970190e5mr7772173wrc.34.1697431781686;
-        Sun, 15 Oct 2023 21:49:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697434556; x=1698039356;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kE63YcVyoiTF0pqB4vYi6Iwnwu4bq4BVz2G6qBjc2ik=;
+        b=hcQ0AaBHFyjaMSj6lydSk1PKEYUEDnHHTyjJga7kF5IpkS31mxXj10vrRPYAxqJ2pG
+         Pg2f/+pnKmga6fMfpQyjVYR3lE7hdMZ6LEg3SVjcMur5JM/66A7Av+vzxkrvTi6T8mCI
+         0uLxR14IF1Df3xkY6Pq7F7MaU0XsNKJfvxGxG9hj3GrQp7C3a/YPyYlAYVSR5ERmud/x
+         hwlxNrIjSfX9CR4DIBcNqEu8XmT8iwKOgIBCysRVTwLJ0TL90eLN8mBaMkdnI8NQ4aGL
+         bPzZNKfo5OjappLTzONxrXxzFpA33YeYFK3zy/DW2oh5oAUld52NREWQUzisG3QmG3D+
+         VORA==
+X-Gm-Message-State: AOJu0YxLVmMEGmfdmUaLuzuRsz1QbWv3H98JuHJZAjKM33krCW9a4sa9
+	Og69a+sKpYkusWWOdtGMO3c3sD4yztpFlj/MUxg=
+X-Google-Smtp-Source: AGHT+IG+gfj7ziURHjAtkeG9LVfEFA01Y8RlWsKUArIc/ZSAOpI+GWqoXcIKybUrK0Y6yCVrrOCWkw==
+X-Received: by 2002:a05:6000:1e17:b0:32d:a98c:aa24 with SMTP id bj23-20020a0560001e1700b0032da98caa24mr3932028wrb.3.1697434555805;
+        Sun, 15 Oct 2023 22:35:55 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id n6-20020adffe06000000b003140f47224csm26227635wrr.15.2023.10.15.21.49.40
+        by smtp.gmail.com with ESMTPSA id bq1-20020a5d5a01000000b0031ad5fb5a0fsm633882wrb.58.2023.10.15.22.35.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Oct 2023 21:49:41 -0700 (PDT)
-Date: Mon, 16 Oct 2023 07:49:38 +0300
+        Sun, 15 Oct 2023 22:35:55 -0700 (PDT)
+Date: Mon, 16 Oct 2023 08:35:52 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Daniel Berlin <dberlin@dberlin.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:pr/208 1/1]
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:7455
- brcmf_get_bwcap() warn: ignoring unreachable code.
-Message-ID: <80aba4c9-6677-485e-aa7f-8bc5cd672ede@kadam.mountain>
+To: oe-kbuild@lists.linux.dev, Melanie Lobo <melanie.lobo@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	juha-pekka.heikkila@intel.com
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Support FP16 compressed formats on
+ MTL
+Message-ID: <04067fb6-64ab-41c5-b063-f3912e880f44@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231011102356.22014-1-melanie.lobo@intel.com>
 
-tree:   https://github.com/AsahiLinux/linux pr/208
-head:   f82c1849a64ad37b55d74b1cc4681e819c068b93
-commit: f82c1849a64ad37b55d74b1cc4681e819c068b93 [1/1] Fix invalid frequency issues and issues with HE supporting/only AP's
-config: x86_64-randconfig-161-20231013 (https://download.01.org/0day-ci/archive/20231014/202310140627.FEmReRFq-lkp@intel.com/config)
+Hi Melanie,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Melanie-Lobo/drm-i915-Support-FP16-compressed-formats-on-MTL/20231011-181214
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20231011102356.22014-1-melanie.lobo%40intel.com
+patch subject: [Intel-gfx] [PATCH] drm/i915: Support FP16 compressed formats on MTL
+config: x86_64-randconfig-161-20231015 (https://download.01.org/0day-ci/archive/20231015/202310150454.S9QF86bl-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231014/202310140627.FEmReRFq-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231015/202310150454.S9QF86bl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310140627.FEmReRFq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310150454.S9QF86bl-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:7455 brcmf_get_bwcap() warn: ignoring unreachable code.
+smatch warnings:
+drivers/gpu/drm/i915/display/skl_universal_plane.c:2126 gen12_plane_format_mod_supported() warn: ignoring unreachable code.
 
-vim +7455 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+vim +2126 drivers/gpu/drm/i915/display/skl_universal_plane.c
 
-f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7440  static void brcmf_get_bwcap(struct brcmf_if *ifp, u32 bw_cap[], bool has_6g)
-2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7441  {
-16e64676839633 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Rafał Miłecki       2019-02-15  7442  	struct brcmf_pub *drvr = ifp->drvr;
-2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7443  	u32 band, mimo_bwcap;
-2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7444  	int err;
-2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7445  
-2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7446  	band = WLC_BAND_2G;
-2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7447  	err = brcmf_fil_iovar_int_get(ifp, "bw_cap", &band);
-2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7448  	if (!err) {
-57fbcce37be7c1 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Johannes Berg       2016-04-12  7449  		bw_cap[NL80211_BAND_2GHZ] = band;
-2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7450  		band = WLC_BAND_5G;
-2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7451  		err = brcmf_fil_iovar_int_get(ifp, "bw_cap", &band);
-2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7452  		if (!err) {
-57fbcce37be7c1 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Johannes Berg       2016-04-12  7453  			bw_cap[NL80211_BAND_5GHZ] = band;
-2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7454  			return;
-                                                                                                                                        ^^^^^^^
-Ancient return statement
+46d12f911821f7 Dave Airlie           2021-02-05  2120  	case DRM_FORMAT_Y210:
+46d12f911821f7 Dave Airlie           2021-02-05  2121  	case DRM_FORMAT_Y212:
+46d12f911821f7 Dave Airlie           2021-02-05  2122  	case DRM_FORMAT_Y216:
+46d12f911821f7 Dave Airlie           2021-02-05  2123  	case DRM_FORMAT_XVYU12_16161616:
+46d12f911821f7 Dave Airlie           2021-02-05  2124  	case DRM_FORMAT_XVYU16161616:
+46d12f911821f7 Dave Airlie           2021-02-05  2125  		return true;
+46d12f911821f7 Dave Airlie           2021-02-05 @2126  		fallthrough;
 
-f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08 @7455  			if (!has_6g)
+This fallthrough annotation is incorrect.
 
-Unreachable new code
-
-f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7456  				return;
-f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7457  			band = WLC_BAND_6G;
-f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7458  			err = brcmf_fil_iovar_int_get(ifp, "bw_cap", &band);
-f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7459  			if (!err) {
-f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7460  				bw_cap[NL80211_BAND_6GHZ] = band;
-f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7461  				return;
-2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7462  			}
-f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7463  			return;
-f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7464  		}
-f82c1849a64ad3 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Daniel Berlin       2023-10-08  7465  
-2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7466  		WARN_ON(1);
-2375d9701bb2f5 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel    2014-01-06  7467  		return;
+46d12f911821f7 Dave Airlie           2021-02-05  2127  	default:
+46d12f911821f7 Dave Airlie           2021-02-05  2128  		return false;
+46d12f911821f7 Dave Airlie           2021-02-05  2129  	}
+46d12f911821f7 Dave Airlie           2021-02-05  2130  }
 
 -- 
 0-DAY CI Kernel Test Service
