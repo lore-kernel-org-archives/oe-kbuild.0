@@ -1,55 +1,46 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03628480
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Oct 2023 05:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D7F19A
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Oct 2023 00:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ISotFGLM"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-32d81864e3fso3371242f8f.2
-        for <oe-kbuild@lists.linux.dev>; Sun, 15 Oct 2023 22:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697434556; x=1698039356; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kE63YcVyoiTF0pqB4vYi6Iwnwu4bq4BVz2G6qBjc2ik=;
-        b=ISotFGLMZpXcK4IYmkiFULy/gtS0fltLHmP6aATzTHV/q0hx/rSF+XakgQ908LDeTY
-         FThCFt02akrFwIuO01Dvh4kl9NBENpeyQfilSNMHIdhDMm62W7OBf7RaLPDGTTBBebUc
-         aiqnPwvB7CyJSdK8rEivmzaRU+OQpeU1/jK6mH4dncRAyOluYGzRqnZ3b6OvUS1MK4uZ
-         1ZVY1tQ332jbPqgutcttd6T7yWx7tbx/qWE0Smd2Paezv7ySQ+wO53Arpjp7Tnxh88qq
-         8zEIUY9cmfpzF4BYiOYG/ID6meyRG608uKeOfsE9sxa07wRXTYpTU3XcLJHdlu3orKJX
-         oVXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697434556; x=1698039356;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kE63YcVyoiTF0pqB4vYi6Iwnwu4bq4BVz2G6qBjc2ik=;
-        b=hcQ0AaBHFyjaMSj6lydSk1PKEYUEDnHHTyjJga7kF5IpkS31mxXj10vrRPYAxqJ2pG
-         Pg2f/+pnKmga6fMfpQyjVYR3lE7hdMZ6LEg3SVjcMur5JM/66A7Av+vzxkrvTi6T8mCI
-         0uLxR14IF1Df3xkY6Pq7F7MaU0XsNKJfvxGxG9hj3GrQp7C3a/YPyYlAYVSR5ERmud/x
-         hwlxNrIjSfX9CR4DIBcNqEu8XmT8iwKOgIBCysRVTwLJ0TL90eLN8mBaMkdnI8NQ4aGL
-         bPzZNKfo5OjappLTzONxrXxzFpA33YeYFK3zy/DW2oh5oAUld52NREWQUzisG3QmG3D+
-         VORA==
-X-Gm-Message-State: AOJu0YxLVmMEGmfdmUaLuzuRsz1QbWv3H98JuHJZAjKM33krCW9a4sa9
-	Og69a+sKpYkusWWOdtGMO3c3sD4yztpFlj/MUxg=
-X-Google-Smtp-Source: AGHT+IG+gfj7ziURHjAtkeG9LVfEFA01Y8RlWsKUArIc/ZSAOpI+GWqoXcIKybUrK0Y6yCVrrOCWkw==
-X-Received: by 2002:a05:6000:1e17:b0:32d:a98c:aa24 with SMTP id bj23-20020a0560001e1700b0032da98caa24mr3932028wrb.3.1697434555805;
-        Sun, 15 Oct 2023 22:35:55 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id bq1-20020a5d5a01000000b0031ad5fb5a0fsm633882wrb.58.2023.10.15.22.35.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Oct 2023 22:35:55 -0700 (PDT)
-Date: Mon, 16 Oct 2023 08:35:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Melanie Lobo <melanie.lobo@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	juha-pekka.heikkila@intel.com
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Support FP16 compressed formats on
- MTL
-Message-ID: <04067fb6-64ab-41c5-b063-f3912e880f44@kadam.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LyGs4SWY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697502427; x=1729038427;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xRZFx5dr1gvYh8aCrlXFPP7UoiI//IpTbSoTp9v7bDo=;
+  b=LyGs4SWYxdLH31dkgul700ZgknbG+JeIB7/iTVS7kGb9Mfx4nZ0h2kz3
+   /xb5V1c4nEm9CKp92vGzxcuU0HI7Yk3/JtMCXDFIBrMYv6ghQeWU/o9gP
+   VO6h1eES5Inr8u+VDU/k3HsO+9lmRcbQueDEgnx9CQzyLK9cYyScHroTl
+   e/lBtIcDd+wPpLjABx+HiFEmWMCGI+vH0G3FofmJJTsXAgOfnfvcw79DG
+   ESOOjs2+dQclTK8iOGLxBob/CdHK7L3aHkLdjNccRpDvN2aS3/Pq7mk4b
+   LnweDMR/Vmo6LCyX0+Sz+CTi7+Lw8jkFFkfy0/QWOSV6k7VJu27a2ddoe
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="471888705"
+X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; 
+   d="scan'208";a="471888705"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 17:27:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="749464085"
+X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; 
+   d="scan'208";a="749464085"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 16 Oct 2023 17:27:05 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qsXvK-0008m7-2M;
+	Tue, 17 Oct 2023 00:27:02 +0000
+Date: Tue, 17 Oct 2023 08:26:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [linux-next:master 10929/12451] dtbs_check:
+ Documentation/devicetree/bindings/mfd/qcom,tcsr.yaml:
+Message-ID: <202310170810.1a8KESbb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,47 +49,38 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231011102356.22014-1-melanie.lobo@intel.com>
 
-Hi Melanie,
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: Documentation/devicetree/bindings/mfd/qcom,tcsr.yaml:"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Devi Priya <quic_devipriy@quicinc.com>
+CC: Lee Jones <lee@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: linux-doc@vger.kernel.org
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Melanie-Lobo/drm-i915-Support-FP16-compressed-formats-on-MTL/20231011-181214
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20231011102356.22014-1-melanie.lobo%40intel.com
-patch subject: [Intel-gfx] [PATCH] drm/i915: Support FP16 compressed formats on MTL
-config: x86_64-randconfig-161-20231015 (https://download.01.org/0day-ci/archive/20231015/202310150454.S9QF86bl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231015/202310150454.S9QF86bl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4d0515b235dec789578d135a5db586b25c5870cb
+commit: b4a32d218d424b81a58fbd419e1114b1c1f76168 [10929/12451] dt-bindings: mfd: qcom,tcsr: Add simple-mfd support for IPQ6018
+:::::: branch date: 19 hours ago
+:::::: commit date: 5 days ago
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231017/202310170810.1a8KESbb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310150454.S9QF86bl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310170810.1a8KESbb-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/i915/display/skl_universal_plane.c:2126 gen12_plane_format_mod_supported() warn: ignoring unreachable code.
-
-vim +2126 drivers/gpu/drm/i915/display/skl_universal_plane.c
-
-46d12f911821f7 Dave Airlie           2021-02-05  2120  	case DRM_FORMAT_Y210:
-46d12f911821f7 Dave Airlie           2021-02-05  2121  	case DRM_FORMAT_Y212:
-46d12f911821f7 Dave Airlie           2021-02-05  2122  	case DRM_FORMAT_Y216:
-46d12f911821f7 Dave Airlie           2021-02-05  2123  	case DRM_FORMAT_XVYU12_16161616:
-46d12f911821f7 Dave Airlie           2021-02-05  2124  	case DRM_FORMAT_XVYU16161616:
-46d12f911821f7 Dave Airlie           2021-02-05  2125  		return true;
-46d12f911821f7 Dave Airlie           2021-02-05 @2126  		fallthrough;
-
-This fallthrough annotation is incorrect.
-
-46d12f911821f7 Dave Airlie           2021-02-05  2127  	default:
-46d12f911821f7 Dave Airlie           2021-02-05  2128  		return false;
-46d12f911821f7 Dave Airlie           2021-02-05  2129  	}
-46d12f911821f7 Dave Airlie           2021-02-05  2130  }
+dtcheck warnings: (new ones prefixed by >>)
+   Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml:
+   Error in referenced schema matching $id: http://devicetree.org/schemas/input/qcom,pm8921-keypad.yaml
+>> Documentation/devicetree/bindings/mfd/qcom,tcsr.yaml:
+   Error in referenced schema matching $id: http://devicetree.org/schemas/pwm/qcom,ipq6018-pwm.yaml
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
