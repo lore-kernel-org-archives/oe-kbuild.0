@@ -1,45 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC303D3A2
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Oct 2023 08:33:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9AEBE69
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Oct 2023 10:58:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HB7kNXvz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lf38Wn8x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697531627; x=1729067627;
+  t=1697540305; x=1729076305;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U1z+iCQ5SbbCMxuEph0+UC0HK3ggzWVxpoVMkBZitQw=;
-  b=HB7kNXvzX42UVeab0Xfx/Mbpq1p2fro9pjPws8JVvNR8rHtkZMLYDB77
-   2RcLbRPNSnDy3PpO4e7L0yo/VdsdBFkjXPWOdi+l4D5fyWTjWVZga0szP
-   YuVzBYOe20UVsDPf5f5lvzwhm6MROEo9K3kmFpObFVayswsYiUukGJ0nB
-   O2LVHFe9DML1nvpshCMohgrvdPxBnGr9tQ2SOzzWgqTUMqlk987dPngEx
-   a6Rr+rqRSLxhi9APv1Ug6rz/q9N7RjAIzkkeK8U1tcq2QjTmGywONWb+J
-   OtIHXUSyQ6iAD8shF6TWO6aqv3b8gloQGw60310msVNNIhP/l5MnMasEO
+  bh=rVx2poS3fMPVhHsM7U6qtsdPivQRspUFp+0WTr1tK6I=;
+  b=lf38Wn8x9HkfMIWhJtP8Uvrm6Xo7ffiv4bn1wCgCAuKRWz0HTdl70v2m
+   BnH9rdCKVwd/inyGKX1W/ARFC7CZPFPkgKLNzoIlzdOOhwbuuscMi8z9w
+   QNu9k/tACGNCFPvp6qZ/2ZBDxlihxZlxp7czWGQ2RkoztsP0CkLqjqrK/
+   GuHvirv8yTEzHGXvAh6yjJ8B/faXd0yRBQzIdEd3sTwNRv8ZEcYo+7q5L
+   +82GCkFQB14c/Y3GWtY1EJXM46okqR5JbY6O8jmB5PtAuga5gjWKONRg1
+   Z5Q/tuHEZkot4beMngPfCpm/DVy7q+gqws7P6kr4NJngsDUPOSEJm4CLh
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="7291682"
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="452232045"
 X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="7291682"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 01:33:46 -0700
+   d="scan'208";a="452232045"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 03:58:24 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="899880360"
 X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="3995138"
+   d="scan'208";a="899880360"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Oct 2023 01:33:50 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 17 Oct 2023 03:56:21 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qsfWI-0009MF-0K;
-	Tue, 17 Oct 2023 08:33:42 +0000
-Date: Tue, 17 Oct 2023 16:32:49 +0800
+	id 1qshmG-0009Tz-0j;
+	Tue, 17 Oct 2023 10:58:20 +0000
+Date: Tue, 17 Oct 2023 18:57:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm'
- could be null (see line 3667)
-Message-ID: <202310171600.WCrsOwFj-lkp@intel.com>
+Subject: mm/page_vma_mapped.c:300 page_vma_mapped_walk() error: uninitialized
+ symbol 'ptl'.
+Message-ID: <202310171811.LCQqdJ3J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,156 +53,199 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Lorenzo Stoakes <lstoakes@gmail.com>
+TO: Hugh Dickins <hughd@google.com>
 CC: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Baoquan He <bhe@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
-commit: 4c91c07c93bbbdd7f2d9de2beb7ee5c2a48ad8e7 mm: vmalloc: convert vread() to vread_iter()
-date:   6 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 6 months ago
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231017/202310171600.WCrsOwFj-lkp@intel.com/config)
+commit: 2798bbe75b9c2752b46d292e5c2a49f49da36418 mm/page_vma_mapped: pte_offset_map_nolock() not pte_lockptr()
+date:   4 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 4 months ago
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231017/202310171811.LCQqdJ3J-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231017/202310171600.WCrsOwFj-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231017/202310171811.LCQqdJ3J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202310171600.WCrsOwFj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310171811.LCQqdJ3J-lkp@intel.com/
 
 smatch warnings:
-mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
+mm/page_vma_mapped.c:300 page_vma_mapped_walk() error: uninitialized symbol 'ptl'.
 
-vim +/vm +3689 mm/vmalloc.c
+vim +/ptl +300 mm/page_vma_mapped.c
 
-06c8994626d1b7 Baoquan He              2023-02-06  3594  
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3595  /**
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3596   * vread_iter() - read vmalloc area in a safe way to an iterator.
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3597   * @iter:         the iterator to which data should be written.
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3598   * @addr:         vm address.
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3599   * @count:        number of bytes to be read.
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3600   *
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3601   * This function checks that addr is a valid vmalloc'ed area, and
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3602   * copy data from that area to a given buffer. If the given memory range
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3603   * of [addr...addr+count) includes some valid address, data is copied to
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3604   * proper area of @buf. If there are memory holes, they'll be zero-filled.
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3605   * IOREMAP area is treated as memory hole and no copy is done.
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3606   *
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3607   * If [addr...addr+count) doesn't includes any intersects with alive
-a8e5202d09c1ba Cong Wang               2012-06-23  3608   * vm_struct area, returns 0. @buf should be kernel's buffer.
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3609   *
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3610   * Note: In usual ops, vread() is never necessary because the caller
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3611   * should know vmalloc() area is valid and can use memcpy().
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3612   * This is for routines which have to access vmalloc area without
-bbcd53c9607135 David Hildenbrand       2021-05-06  3613   * any information, as /proc/kcore.
-a862f68a8b3600 Mike Rapoport           2019-03-05  3614   *
-a862f68a8b3600 Mike Rapoport           2019-03-05  3615   * Return: number of bytes for which addr and buf should be increased
-a862f68a8b3600 Mike Rapoport           2019-03-05  3616   * (same number as @count) or %0 if [addr...addr+count) doesn't
-a862f68a8b3600 Mike Rapoport           2019-03-05  3617   * include any intersection with valid vmalloc area
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3618   */
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3619  long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3620  {
-e81ce85f960c2e Joonsoo Kim             2013-04-29  3621  	struct vmap_area *va;
-e81ce85f960c2e Joonsoo Kim             2013-04-29  3622  	struct vm_struct *vm;
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3623  	char *vaddr;
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3624  	size_t n, size, flags, remains;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3625  
-4aff1dc4fb3a5a Andrey Konovalov        2022-03-24  3626  	addr = kasan_reset_tag(addr);
-4aff1dc4fb3a5a Andrey Konovalov        2022-03-24  3627  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3628  	/* Don't allow overflow */
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3629  	if ((unsigned long) addr + count < count)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3630  		count = -(unsigned long) addr;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3631  
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3632  	remains = count;
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3633  
-e81ce85f960c2e Joonsoo Kim             2013-04-29  3634  	spin_lock(&vmap_area_lock);
-f181234a5a21fd Chen Wandun             2021-09-02  3635  	va = find_vmap_area_exceed_addr((unsigned long)addr);
-f608788cd2d6ca Serapheim Dimitropoulos 2021-04-29  3636  	if (!va)
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3637  		goto finished_zero;
-f181234a5a21fd Chen Wandun             2021-09-02  3638  
-f181234a5a21fd Chen Wandun             2021-09-02  3639  	/* no intersects with alive vmap_area */
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3640  	if ((unsigned long)addr + remains <= va->va_start)
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3641  		goto finished_zero;
-f181234a5a21fd Chen Wandun             2021-09-02  3642  
-f608788cd2d6ca Serapheim Dimitropoulos 2021-04-29  3643  	list_for_each_entry_from(va, &vmap_area_list, list) {
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3644  		size_t copied;
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3645  
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3646  		if (remains == 0)
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3647  			goto finished;
-e81ce85f960c2e Joonsoo Kim             2013-04-29  3648  
-06c8994626d1b7 Baoquan He              2023-02-06  3649  		vm = va->vm;
-06c8994626d1b7 Baoquan He              2023-02-06  3650  		flags = va->flags & VMAP_FLAGS_MASK;
-06c8994626d1b7 Baoquan He              2023-02-06  3651  		/*
-06c8994626d1b7 Baoquan He              2023-02-06  3652  		 * VMAP_BLOCK indicates a sub-type of vm_map_ram area, need
-06c8994626d1b7 Baoquan He              2023-02-06  3653  		 * be set together with VMAP_RAM.
-06c8994626d1b7 Baoquan He              2023-02-06  3654  		 */
-06c8994626d1b7 Baoquan He              2023-02-06  3655  		WARN_ON(flags == VMAP_BLOCK);
-06c8994626d1b7 Baoquan He              2023-02-06  3656  
-06c8994626d1b7 Baoquan He              2023-02-06  3657  		if (!vm && !flags)
-e81ce85f960c2e Joonsoo Kim             2013-04-29  3658  			continue;
-e81ce85f960c2e Joonsoo Kim             2013-04-29  3659  
-30a7a9b17c4b03 Baoquan He              2023-02-06  3660  		if (vm && (vm->flags & VM_UNINITIALIZED))
-30a7a9b17c4b03 Baoquan He              2023-02-06  3661  			continue;
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3662  
-30a7a9b17c4b03 Baoquan He              2023-02-06  3663  		/* Pair with smp_wmb() in clear_vm_uninitialized_flag() */
-30a7a9b17c4b03 Baoquan He              2023-02-06  3664  		smp_rmb();
-30a7a9b17c4b03 Baoquan He              2023-02-06  3665  
-06c8994626d1b7 Baoquan He              2023-02-06  3666  		vaddr = (char *) va->va_start;
-06c8994626d1b7 Baoquan He              2023-02-06 @3667  		size = vm ? get_vm_area_size(vm) : va_size(va);
-06c8994626d1b7 Baoquan He              2023-02-06  3668  
-06c8994626d1b7 Baoquan He              2023-02-06  3669  		if (addr >= vaddr + size)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3670  			continue;
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3671  
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3672  		if (addr < vaddr) {
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3673  			size_t to_zero = min_t(size_t, vaddr - addr, remains);
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3674  			size_t zeroed = zero_iter(iter, to_zero);
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3675  
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3676  			addr += zeroed;
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3677  			remains -= zeroed;
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3678  
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3679  			if (remains == 0 || zeroed != to_zero)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3680  				goto finished;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3681  		}
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3682  
-06c8994626d1b7 Baoquan He              2023-02-06  3683  		n = vaddr + size - addr;
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3684  		if (n > remains)
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3685  			n = remains;
-06c8994626d1b7 Baoquan He              2023-02-06  3686  
-06c8994626d1b7 Baoquan He              2023-02-06  3687  		if (flags & VMAP_RAM)
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3688  			copied = vmap_ram_vread_iter(iter, addr, n, flags);
-06c8994626d1b7 Baoquan He              2023-02-06 @3689  		else if (!(vm->flags & VM_IOREMAP))
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3690  			copied = aligned_vread_iter(iter, addr, n);
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3691  		else /* IOREMAP area is treated as memory hole */
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3692  			copied = zero_iter(iter, n);
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3693  
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3694  		addr += copied;
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3695  		remains -= copied;
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3696  
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3697  		if (copied != n)
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3698  			goto finished;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3699  	}
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3700  
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3701  finished_zero:
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3702  	spin_unlock(&vmap_area_lock);
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3703  	/* zero-fill memory holes */
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3704  	return count - remains + zero_iter(iter, remains);
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3705  finished:
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3706  	/* Nothing remains, or We couldn't copy/zero everything. */
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3707  	spin_unlock(&vmap_area_lock);
-d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3708  
-4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3709  	return count - remains;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3710  }
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3711  
-
-:::::: The code at line 3689 was first introduced by commit
-:::::: 06c8994626d1b7d8c26dfd06992d67703a274054 mm/vmalloc.c: allow vread() to read out vm_map_ram areas
-
-:::::: TO: Baoquan He <bhe@redhat.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  141  
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  142  /**
+2aff7a4755bed2 Matthew Wilcox (Oracle  2022-02-03  143)  * page_vma_mapped_walk - check if @pvmw->pfn is mapped in @pvmw->vma at
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  144   * @pvmw->address
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  145   * @pvmw: pointer to struct page_vma_mapped_walk. page, vma, address and flags
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  146   * must be set. pmd, pte and ptl must be NULL.
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  147   *
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  148   * Returns true if the page is mapped in the vma. @pvmw->pmd and @pvmw->pte point
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  149   * to relevant page table entries. @pvmw->ptl is locked. @pvmw->address is
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  150   * adjusted if needed (for PTE-mapped THPs).
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  151   *
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  152   * If @pvmw->pmd is set but @pvmw->pte is not, you have found PMD-mapped page
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  153   * (usually THP). For PTE-mapped THP, you should run page_vma_mapped_walk() in
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  154   * a loop to find all PTEs that map the THP.
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  155   *
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  156   * For HugeTLB pages, @pvmw->pte is set to the relevant page table entry
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  157   * regardless of which page table level the page is mapped at. @pvmw->pmd is
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  158   * NULL.
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  159   *
+baf2f90ba416cd Lu Jialin               2021-05-06  160   * Returns false if there are no more page table entries for the page in
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  161   * the vma. @pvmw->ptl is unlocked and @pvmw->pte is unmapped.
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  162   *
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  163   * If you need to stop the walk before page_vma_mapped_walk() returned false,
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  164   * use page_vma_mapped_walk_done(). It will do the housekeeping.
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  165   */
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  166  bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  167  {
+2aff7a4755bed2 Matthew Wilcox (Oracle  2022-02-03  168) 	struct vm_area_struct *vma = pvmw->vma;
+2aff7a4755bed2 Matthew Wilcox (Oracle  2022-02-03  169) 	struct mm_struct *mm = vma->vm_mm;
+474466301dfd8b Hugh Dickins            2021-06-24  170  	unsigned long end;
+2798bbe75b9c27 Hugh Dickins            2023-06-08  171  	spinlock_t *ptl;
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  172  	pgd_t *pgd;
+c2febafc67734a Kirill A. Shutemov      2017-03-09  173  	p4d_t *p4d;
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  174  	pud_t *pud;
+a7b100953aa33a Will Deacon             2017-10-13  175  	pmd_t pmde;
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  176  
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  177  	/* The only possible pmd mapping has been handled on last iteration */
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  178  	if (pvmw->pmd && !pvmw->pte)
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  179  		return not_found(pvmw);
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  180  
+2aff7a4755bed2 Matthew Wilcox (Oracle  2022-02-03  181) 	if (unlikely(is_vm_hugetlb_page(vma))) {
+98ea02597b9967 zhenwei pi              2022-04-07  182  		struct hstate *hstate = hstate_vma(vma);
+98ea02597b9967 zhenwei pi              2022-04-07  183  		unsigned long size = huge_page_size(hstate);
+6d0fd5987657cb Hugh Dickins            2021-06-24  184  		/* The only possible mapping was handled on last iteration */
+d75450ff40df01 Hugh Dickins            2017-04-07  185  		if (pvmw->pte)
+6d0fd5987657cb Hugh Dickins            2021-06-24  186  			return not_found(pvmw);
+9c67a20704e763 Peter Xu                2022-12-16  187  		/*
+9c67a20704e763 Peter Xu                2022-12-16  188  		 * All callers that get here will already hold the
+9c67a20704e763 Peter Xu                2022-12-16  189  		 * i_mmap_rwsem.  Therefore, no additional locks need to be
+9c67a20704e763 Peter Xu                2022-12-16  190  		 * taken before calling hugetlb_walk().
+9c67a20704e763 Peter Xu                2022-12-16  191  		 */
+9c67a20704e763 Peter Xu                2022-12-16  192  		pvmw->pte = hugetlb_walk(vma, pvmw->address, size);
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  193  		if (!pvmw->pte)
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  194  			return false;
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  195  
+8f0b747d7dde47 Miaohe Lin              2022-07-09  196  		pvmw->ptl = huge_pte_lock(hstate, mm, pvmw->pte);
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  197  		if (!check_pte(pvmw))
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  198  			return not_found(pvmw);
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  199  		return true;
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  200  	}
+6d0fd5987657cb Hugh Dickins            2021-06-24  201  
+2aff7a4755bed2 Matthew Wilcox (Oracle  2022-02-03  202) 	end = vma_address_end(pvmw);
+6d0fd5987657cb Hugh Dickins            2021-06-24  203  	if (pvmw->pte)
+6d0fd5987657cb Hugh Dickins            2021-06-24  204  		goto next_pte;
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  205  restart:
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  206  	do {
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  207  		pgd = pgd_offset(mm, pvmw->address);
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  208  		if (!pgd_present(*pgd)) {
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  209  			step_forward(pvmw, PGDIR_SIZE);
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  210  			continue;
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  211  		}
+c2febafc67734a Kirill A. Shutemov      2017-03-09  212  		p4d = p4d_offset(pgd, pvmw->address);
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  213  		if (!p4d_present(*p4d)) {
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  214  			step_forward(pvmw, P4D_SIZE);
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  215  			continue;
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  216  		}
+c2febafc67734a Kirill A. Shutemov      2017-03-09  217  		pud = pud_offset(p4d, pvmw->address);
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  218  		if (!pud_present(*pud)) {
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  219  			step_forward(pvmw, PUD_SIZE);
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  220  			continue;
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  221  		}
+b3807a91aca7d2 Hugh Dickins            2021-06-24  222  
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  223  		pvmw->pmd = pmd_offset(pud, pvmw->address);
+a7b100953aa33a Will Deacon             2017-10-13  224  		/*
+a7b100953aa33a Will Deacon             2017-10-13  225  		 * Make sure the pmd value isn't cached in a register by the
+a7b100953aa33a Will Deacon             2017-10-13  226  		 * compiler and used as a stale value after we've observed a
+a7b100953aa33a Will Deacon             2017-10-13  227  		 * subsequent update.
+a7b100953aa33a Will Deacon             2017-10-13  228  		 */
+26e1a0c3277d7f Hugh Dickins            2023-06-08  229  		pmde = pmdp_get_lockless(pvmw->pmd);
+b3807a91aca7d2 Hugh Dickins            2021-06-24  230  
+6472f6d2f7d90c Muchun Song             2022-04-28  231  		if (pmd_trans_huge(pmde) || is_pmd_migration_entry(pmde) ||
+6472f6d2f7d90c Muchun Song             2022-04-28  232  		    (pmd_present(pmde) && pmd_devmap(pmde))) {
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  233  			pvmw->ptl = pmd_lock(mm, pvmw->pmd);
+3306d3119ceacc Hugh Dickins            2021-06-24  234  			pmde = *pvmw->pmd;
+e2e1d4076c77b3 Hugh Dickins            2021-06-24  235  			if (!pmd_present(pmde)) {
+e2e1d4076c77b3 Hugh Dickins            2021-06-24  236  				swp_entry_t entry;
+616b8371539a6c Zi Yan                  2017-09-08  237  
+e2e1d4076c77b3 Hugh Dickins            2021-06-24  238  				if (!thp_migration_supported() ||
+e2e1d4076c77b3 Hugh Dickins            2021-06-24  239  				    !(pvmw->flags & PVMW_MIGRATION))
+e2e1d4076c77b3 Hugh Dickins            2021-06-24  240  					return not_found(pvmw);
+e2e1d4076c77b3 Hugh Dickins            2021-06-24  241  				entry = pmd_to_swp_entry(pmde);
+e2e1d4076c77b3 Hugh Dickins            2021-06-24  242  				if (!is_migration_entry(entry) ||
+0d206b5d2e0d7d Peter Xu                2022-08-11  243  				    !check_pmd(swp_offset_pfn(entry), pvmw))
+616b8371539a6c Zi Yan                  2017-09-08  244  					return not_found(pvmw);
+616b8371539a6c Zi Yan                  2017-09-08  245  				return true;
+616b8371539a6c Zi Yan                  2017-09-08  246  			}
+6472f6d2f7d90c Muchun Song             2022-04-28  247  			if (likely(pmd_trans_huge(pmde) || pmd_devmap(pmde))) {
+6472f6d2f7d90c Muchun Song             2022-04-28  248  				if (pvmw->flags & PVMW_MIGRATION)
+6472f6d2f7d90c Muchun Song             2022-04-28  249  					return not_found(pvmw);
+6472f6d2f7d90c Muchun Song             2022-04-28  250  				if (!check_pmd(pmd_pfn(pmde), pvmw))
+6472f6d2f7d90c Muchun Song             2022-04-28  251  					return not_found(pvmw);
+6472f6d2f7d90c Muchun Song             2022-04-28  252  				return true;
+6472f6d2f7d90c Muchun Song             2022-04-28  253  			}
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  254  			/* THP pmd was split under us: handle on pte level */
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  255  			spin_unlock(pvmw->ptl);
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  256  			pvmw->ptl = NULL;
+a7b100953aa33a Will Deacon             2017-10-13  257  		} else if (!pmd_present(pmde)) {
+732ed55823fc3a Hugh Dickins            2021-06-15  258  			/*
+732ed55823fc3a Hugh Dickins            2021-06-15  259  			 * If PVMW_SYNC, take and drop THP pmd lock so that we
+732ed55823fc3a Hugh Dickins            2021-06-15  260  			 * cannot return prematurely, while zap_huge_pmd() has
+732ed55823fc3a Hugh Dickins            2021-06-15  261  			 * cleared *pmd but not decremented compound_mapcount().
+732ed55823fc3a Hugh Dickins            2021-06-15  262  			 */
+b3807a91aca7d2 Hugh Dickins            2021-06-24  263  			if ((pvmw->flags & PVMW_SYNC) &&
+c453d8c7d1384d Yang Shi                2022-05-13  264  			    transhuge_vma_suitable(vma, pvmw->address) &&
+2aff7a4755bed2 Matthew Wilcox (Oracle  2022-02-03  265) 			    (pvmw->nr_pages >= HPAGE_PMD_NR)) {
+732ed55823fc3a Hugh Dickins            2021-06-15  266  				spinlock_t *ptl = pmd_lock(mm, pvmw->pmd);
+732ed55823fc3a Hugh Dickins            2021-06-15  267  
+732ed55823fc3a Hugh Dickins            2021-06-15  268  				spin_unlock(ptl);
+732ed55823fc3a Hugh Dickins            2021-06-15  269  			}
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  270  			step_forward(pvmw, PMD_SIZE);
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  271  			continue;
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  272  		}
+2798bbe75b9c27 Hugh Dickins            2023-06-08  273  		if (!map_pte(pvmw, &ptl)) {
+2798bbe75b9c27 Hugh Dickins            2023-06-08  274  			if (!pvmw->pte)
+2798bbe75b9c27 Hugh Dickins            2023-06-08  275  				goto restart;
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  276  			goto next_pte;
+2798bbe75b9c27 Hugh Dickins            2023-06-08  277  		}
+474466301dfd8b Hugh Dickins            2021-06-24  278  this_pte:
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  279  		if (check_pte(pvmw))
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  280  			return true;
+d75450ff40df01 Hugh Dickins            2017-04-07  281  next_pte:
+d75450ff40df01 Hugh Dickins            2017-04-07  282  		do {
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  283  			pvmw->address += PAGE_SIZE;
+494334e43c16d6 Hugh Dickins            2021-06-15  284  			if (pvmw->address >= end)
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  285  				return not_found(pvmw);
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  286  			/* Did we cross page table boundary? */
+448282487483d6 Hugh Dickins            2021-06-24  287  			if ((pvmw->address & (PMD_SIZE - PAGE_SIZE)) == 0) {
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  288  				if (pvmw->ptl) {
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  289  					spin_unlock(pvmw->ptl);
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  290  					pvmw->ptl = NULL;
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  291  				}
+448282487483d6 Hugh Dickins            2021-06-24  292  				pte_unmap(pvmw->pte);
+448282487483d6 Hugh Dickins            2021-06-24  293  				pvmw->pte = NULL;
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  294  				goto restart;
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  295  			}
+448282487483d6 Hugh Dickins            2021-06-24  296  			pvmw->pte++;
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  297  		} while (pte_none(*pvmw->pte));
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  298  
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  299  		if (!pvmw->ptl) {
+2798bbe75b9c27 Hugh Dickins            2023-06-08 @300  			pvmw->ptl = ptl;
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  301  			spin_lock(pvmw->ptl);
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  302  		}
+474466301dfd8b Hugh Dickins            2021-06-24  303  		goto this_pte;
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  304  	} while (pvmw->address < end);
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  305  
+a9a7504d9beaf3 Hugh Dickins            2021-06-24  306  	return false;
+ace71a19cec5eb Kirill A. Shutemov      2017-02-24  307  }
+6a328a626f98bb Kirill A. Shutemov      2017-02-24  308  
 
 -- 
 0-DAY CI Kernel Test Service
