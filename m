@@ -1,236 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from outbound-ip7b.ess.barracuda.com (outbound-ip7b.ess.barracuda.com [209.222.82.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73DE44460
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Oct 2023 14:59:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6667843AB3
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Oct 2023 15:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ddn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ddn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gmdARIvC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697554787; x=1729090787;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OKUTuX/DUovWfMNN7GgGkHPxBXuIB6//liRkduUcTgY=;
-  b=gmdARIvCTfvmqhwRMiKxrbAGuj6E2ysk/S3Wtr7SCry4vs6nnIA5Kjag
-   u92bGE6BET720DzKOyWg4sz5i3d2eGkpZeXdZuQGlfHax+WfoXHvi3NIA
-   zVca8ZWSMHsF5pq+Sd8Ag9HFMerSFnElWt4RBzgIWG5YecjntzB5rXQln
-   1BwVYvSeRVv70T79+mzL/4Ark2DSKKMMdgbvrCKxwk4ogRcgsd3mkwMQR
-   7R3jvKPEjI7v3mYggp5JKaJp8KoVgw2yFAAPFr51TJdYRbRrZLAmZk4fz
-   PnjItHD8V9ePe8OSAhQ9kSibTU8epanNczf6eLRp0FH3dcjJemOiaC3zL
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="7357335"
-X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; 
-   d="scan'208";a="7357335"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 07:59:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="1003383859"
-X-IronPort-AV: E=Sophos;i="6.03,232,1694761200"; 
-   d="scan'208";a="1003383859"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 17 Oct 2023 07:59:44 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qslXk-0009iM-1P;
-	Tue, 17 Oct 2023 14:59:38 +0000
-Date: Tue, 17 Oct 2023 22:59:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/iomap/buffered-io.c:678 iomap_write_begin() warn: bitwise AND
- condition is false here
-Message-ID: <202310172223.bVBxUtfx-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=ddn.com header.i=@ddn.com header.b="Vq8RGzQE"
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02lp2040.outbound.protection.outlook.com [104.47.51.40]) by mx-outbound20-148.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Tue, 17 Oct 2023 15:35:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e5SFn9mWBygUoc4HA6X945za/38jh2XIGV0VHGVQCVI+p6WepkpOJZ5hBFIW6hvy4DzpWezpo76IAdRISIMJnMOKhX4/jQKHjrAn/bLMJA3UlyidOaisgsxPdXWYGI/XnYXZQ8A0wauHR6mwZik//8lc0MXmju2oaoosyNKHWf844o0hlbdaN4Qb4WzjDQUR3iJPY69Dqyy2VK+1gry9MkwwKz398lW7wyuDelpurCeX9Kg+rFOsEOBnEx8V1f/wCOmnZWTFQkJUHw7lHzEZ/y50mJ5h0pHA/zbhgUDLEqPVXS/iwmwmCT9YV9sJQtWtW59uhKWjpMjIeT+v9dwEtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yd7Lw2yYN0wqDqcqVoeyIPcrMlccuHXezgBhLeON3Wg=;
+ b=BEU73XsFT9Kfs6jIGC0AznyBlHefO+YR01gySQIQY7dmolws9QmqbKLu8ipCl2e8BpIoO7hVLXsMGie4fP1+njG8n1xj0PL4HKiax5dQMygz4tFl51tfBXdJILIQAoBf/joRPhu0SNmwlNQmCiX2Pqw/CtrlujCJyx6bZvoDDhhVeueg2aBmsUCZE7spN+Ku44ou4YeNgA87SAs0Cc/QtOkQgwy2t9nXNGLY89f/rmnXRreo6zXiuwz6Pde/YOYjiHPkpxRUn7ANAv2+Kdi0KM2P5dbYaz7TxWdD22W5eHAXiIV+45WvNVH+1ORUKwKZZwJBtRS3mpU0RfHBmpYG6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ddn.com; dmarc=pass action=none header.from=ddn.com; dkim=pass
+ header.d=ddn.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ddn.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yd7Lw2yYN0wqDqcqVoeyIPcrMlccuHXezgBhLeON3Wg=;
+ b=Vq8RGzQEJwstympjSmCdVDUPyMfD7BmfIRKnygfUfh1NVrOWVsQLN/sf/Bt0Cu63tgFBcvsc7W+XyMYuYVGbpRgh/8jNpBdNu/N3WssffSdPK/WlBcnriluN50ypXot+65s7TAnwdGDwSHxiIAelnsVCY9UXKM/TuZpKwJMNSBA=
+Received: from DM5PR1901MB2037.namprd19.prod.outlook.com (2603:10b6:4:aa::29)
+ by PH7PR19MB5703.namprd19.prod.outlook.com (2603:10b6:510:1e2::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Tue, 17 Oct
+ 2023 14:25:51 +0000
+Received: from DM5PR1901MB2037.namprd19.prod.outlook.com
+ ([fe80::b051:b4e4:8a2:33a2]) by DM5PR1901MB2037.namprd19.prod.outlook.com
+ ([fe80::b051:b4e4:8a2:33a2%5]) with mapi id 15.20.6886.034; Tue, 17 Oct 2023
+ 14:25:51 +0000
+From: Bernd Schubert <bschubert@ddn.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, "oe-kbuild@lists.linux.dev"
+	<oe-kbuild@lists.linux.dev>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>
+CC: "lkp@intel.com" <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, "bernd.schubert@fastmail.fm"
+	<bernd.schubert@fastmail.fm>, "miklos@szeredi.hu" <miklos@szeredi.hu>,
+	Dharmendra Singh <dsingh@ddn.com>, Christian Brauner <brauner@kernel.org>, Al
+ Viro <viro@zeniv.linux.org.uk>, Yuan Yao <yuanyaogoog@chromium.org>
+Subject: Re: [PATCH v9 4/7] vfs: Optimize atomic_open() on positive dentry
+Thread-Topic: [PATCH v9 4/7] vfs: Optimize atomic_open() on positive dentry
+Thread-Index: AQHZ6+jFLCLoWM452USVVZ2LjlAhuLBETiAAgAnltQA=
+Date: Tue, 17 Oct 2023 14:25:51 +0000
+Message-ID: <861d182d-b257-45e5-8459-0849dab3efd8@ddn.com>
+References: <f1b371ce-9fa7-4d1c-bcad-968d1706ac99@kadam.mountain>
+In-Reply-To: <f1b371ce-9fa7-4d1c-bcad-968d1706ac99@kadam.mountain>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ddn.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM5PR1901MB2037:EE_|PH7PR19MB5703:EE_
+x-ms-office365-filtering-correlation-id: 629410a6-af60-40cb-b671-08dbcf1cf719
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ Dmaemzmzt3Nq0sKxeAJxiMEL/RnzR29LUuWN+ywkfuhTZqV6asRTpiG25D9hyYRGOEx7Jn7rKMP6VrZlkFE6Y8JW8/vvPUjjPGRoDHmjhCGQLkIF3ESd5n968EGhE/Kqet1XOU+akfhtpfUCwVljUUeb6b3wjZ5dBD2639UXYC/tSzlVBxlUQbUAkkeYOTDzNFOoomCtn1gGqwRmqpoV2JuJw4VvKSAPvPYJspKL1S7fXLwnJwet1SkRAsybLMzpqqrQ8w7knKbO/S+pNJeQ3bM1gWaUltBGceMU9JOVqF8C+YMNYFPwQO55kWKC2A3+6SufZv2hra6AhLSuq2yx4z0uZDy3+7cqiXAlMpyI6XSQpE0Um6aq5cXSYeYaJUDmq2ytWDWbCVGLtE5v0drxhe1RuNUXpUc0vFXrq7zf2iSEfbkj861RUz0BRcSqAi2fjIp6NGfCa6NNcXiL1hxbRFU1RGmSu5O5siKW4J/lrgXW3nz1p3S/qxxqRWTKGY514huTP2/0ghJpvylCs9Lbe0hCuioEHx+YJr3XKrSeNY6DaYHbXzaR6nbQwlgkF9MLMoACsxMk9O4OKZa5Z3njCMoGen7QqaoFFZ2+XnSrKGUGnvRYz8oCtS+KKnkBV9XtMPfgaIUR6ulqmCVJRYcFYl+TPwVyzZJJrLSdfWZsYFvPNOMbrARDj8+2bFOYk4zCm50Cjdyj3PLruC7tAwrdgg==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR1901MB2037.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(39850400004)(376002)(136003)(396003)(230922051799003)(186009)(451199024)(1800799009)(64100799003)(86362001)(38070700005)(31696002)(31686004)(36756003)(76116006)(6486002)(478600001)(966005)(316002)(5660300002)(54906003)(64756008)(66476007)(66946007)(66556008)(66446008)(38100700002)(122000001)(110136005)(6512007)(6506007)(53546011)(71200400001)(91956017)(2616005)(4326008)(8936002)(8676002)(83380400001)(41300700001)(7416002)(2906002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?NW56bGZ0MVdwdndFVTl4aGpidVc1TmMzR0ZrWXZaTEU1QVJXMitiTmM3WmRa?=
+ =?utf-8?B?Z0h5YXZwck11V1Y1MVFXeGVpY0pWdFlkREFvUjRmVzY2dEhENHZIeXRMVjBp?=
+ =?utf-8?B?OEhjV04vaUpvZk1sR296a1NYajlLaHdIUzJUd3RQRnVDS1FNdGh5SVpNaENq?=
+ =?utf-8?B?N1FXRm42SFVLc3BzSGhrcTMwSXZ5blRjVVVEKzZiSVVZS3M1OHRhTE9Rb0lN?=
+ =?utf-8?B?dEhENnBLL1lMRXZhbGhRSnJTNFdIQUoweElpblBjeTV2c3lpd0U1dHBjYWk5?=
+ =?utf-8?B?bEZJbzFkZ3JJWGVxcXFEYTRBNmVrcmF2ZE9lUzBYbE5oTGQyeDNNNThvNHlE?=
+ =?utf-8?B?VXpPRmVhbzFiUXBMYWJlWGFZNnNTUU12QW1pOURPK2owTExlUXp1N2pJYStQ?=
+ =?utf-8?B?THc2UlVHQ045VHdINVdOWUlrVHdONWRGYllQYlBrdzZIcy9QYzMzZ1hYT29P?=
+ =?utf-8?B?bnhKamRvRmsrWC9kZHp5SVdVLzNhM1ZWYkpUK3Y4ZkljTVdyUWpLck1rWFpw?=
+ =?utf-8?B?b2p2M1o5QXRYVEVZcUNYUXhVNjIvaEpJOENoUGxGT3FHcnc1ckdsQlV2RFEw?=
+ =?utf-8?B?MG14Q3h1SDVLL09vVkl4ZVVmUWV5REx2VnpjM28wSjVCNmxyYXhuWm5JUU95?=
+ =?utf-8?B?cnNORm9DVWdCMGdHbnh0Z1B2c2tCMFI4Y09lK3BXSWFyU25hUUljTm91dWZp?=
+ =?utf-8?B?UmZQWTJtUVVjaWNaRmFhQ0EyT0JFbTFiUnRkUkVSNEFsdG9BM3FGRG5aZ3N0?=
+ =?utf-8?B?VTEraFIvakdJZTgyUWZhYUZjVkJ0eEd4bStLMkRSVGlkK1ZuamxVcUJ6UEd6?=
+ =?utf-8?B?VFprYkhPTEx1SVIwMEJUaFlYSVhndE4yczl4Q2VsZitLQXM1Y1RKcE9DS05N?=
+ =?utf-8?B?M3dxSDdsRmZHL2x5RXRSeFNhaFRITjgwdzB1V2F0SkE1VVNkVHgxTC9kUU5h?=
+ =?utf-8?B?K1FCUWQ2eFFHOWVvcy9BYktzVGkrMDJTVVlsUXA1TE02dGxFYmo1VjhySmxG?=
+ =?utf-8?B?cmJDekN3M0x4UWFrNjdkeG4zZ0xCMkFxV1QrUUJzMXYxM2lCQmVOb1Mvbklk?=
+ =?utf-8?B?TElXMUhjSUZ4OTZkVmlYSDdIUWFHZkIvSWZFTjJHTWd5QytMZGxTWkc1OUsy?=
+ =?utf-8?B?MldzQjlsSVhDWE5tRUQwaE9zUHpRaFdGZktQeWNjbjIvR0RDTmVJSTdOQldx?=
+ =?utf-8?B?VlJFTjlKUDJaQ0hla0JvZUUwWDE1bVNUb3NBekUwWFBmazd3aWhrN2RmVDJM?=
+ =?utf-8?B?VHNwVzZWczZBVEozQUlxYmhkM01QZE4wdlYza0d2N1pKWEVuQkJIMmtvZVpV?=
+ =?utf-8?B?Q0xyVnhONldZckhUbHQvVkN6YnJ5Q0hTN3dYUjlORVF6NTFGU2lXMFl3cUZN?=
+ =?utf-8?B?UFlaeDQ2aG8yK3pXRUxsVjJFRFJQbXBudTF5YnllSVRhVU1GdXhscXp3aVNp?=
+ =?utf-8?B?SXRJaXFDRjIzZ2NYTElwYVo3Yk8zVzVtWE9aczhITTV1MVdNc3FUYmJTMXp6?=
+ =?utf-8?B?MVR5UTFtLy83cHJqRmt2MHQ5VG43ancrd3JuZXRBbEp1Wko0bWFWTG8xTlRw?=
+ =?utf-8?B?TllQc2QrbTBiRmpVYnZOdklscjBRbzRIeXFKaUVPT1NwTW5jWTRFTE5EMk4y?=
+ =?utf-8?B?YmNDeWo4T2dTVUNiZ1BXQUtkT1c3OHVMd0RBL2VweGNWdFZKU3hPekdhUytz?=
+ =?utf-8?B?ZTlmVXRLU2dSemh4TVZwaWFhQWdESkt1U0h3akZYSm1GTDczcUQ0UWJrbWlk?=
+ =?utf-8?B?aTk0aFo4WjBvdktSWlJOYnpFWkNJRTlaQ081eVdWeDIyWGpZRnFVVVVSUzZW?=
+ =?utf-8?B?NUlwV1h0YXBkRnZ1ZlhxeGxXYVRPTURpL0xlcnZMektwaDlLMjFTMUpCZzVC?=
+ =?utf-8?B?MG1WVERxb0svbExNMTdvTzhBOEZ6bW1ZaXdBSlNZeDY1Y1EvUzVqNEhKVFRI?=
+ =?utf-8?B?MFp1K04xS3plQTltVTVTZnBMZFh4czRZK2t1NmdFSDFmbklCWnJ2OGNzZTF1?=
+ =?utf-8?B?UDYwcjArVUFOR0llcjhSalRSN1QzNTZSUkpzZGJieEYwVzFIUWZZZFg3TnJQ?=
+ =?utf-8?B?MnkyTk43b3F2bVlQUWtHaGtqWXVCakREclNHcHNGSnBGNjBnVjJYNi9NSUtr?=
+ =?utf-8?B?VlFjZ0orQ1FnWFJpejcvWVBCY2dIQlUyaFNmSGdtV3pUR3BhOGhrVmNRTzFl?=
+ =?utf-8?Q?XcLtIfTXL4WnjSOyWrwj9qA=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <90F9F10C70B00B44B7694FAC346A5331@namprd19.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	=?utf-8?B?UjZxTEZ4djJtVzVyMGpET1J4RFd2dmJUd1pDOVZnNk5uMlVxaEhJak1TOTFo?=
+ =?utf-8?B?NS91d2lYR0pwbFdTOG0vd3N5aktDTDBQaHhDQWNIN051cEprNHU5Z1lPRzNB?=
+ =?utf-8?B?bzArZlQyL29NdlNBTzdtaXFja09UYThjNWdkdFpndnBVT2RseTB0QlB5NEMx?=
+ =?utf-8?B?bDhxcHRuVFFCQmFoSk1aYjM2WVoxSjZFSCtmckdUYUFVa3VjUThSRUtvUFZP?=
+ =?utf-8?B?T1FMWWFDd2tsakVleUpiWmVJYlAzSE9pYThaMEIrN2FIMlplUk5JVEl2UHBh?=
+ =?utf-8?B?eXhoWGlaRFkrVW5RRktHRFBPSFN0bW1neVVDWjFHNjBkck5IRXREMUcvNHAw?=
+ =?utf-8?B?WU94WVdabTJmZXZwS3d6WDV6ZlhkQkluU3hKWnBOWGI3dHdIMys0d1ZTZ2dj?=
+ =?utf-8?B?UXhMRGpvNXRiYlpGYWRhbW9jRUo3K2dMWEE5TGdqV2pJSUMrMDlyTzVBdm1J?=
+ =?utf-8?B?bEEyZkM0UDE1RzlhYTRqM2JYMzI2RC9RSTdzTVNROTRFbzU4U29wS3V0UUhl?=
+ =?utf-8?B?Y0d3K1pvZ1VPVEtNNnVoNmlLMytwbVN6MStqUGxhU29McFlmblloazlLNUE4?=
+ =?utf-8?B?dGhLb05vcnNpaWZRTGVkdkd0RDJyY2x3RkhXTWtReHI1SkhURDRCT1M4L083?=
+ =?utf-8?B?b05QOFJ5dCtLQy9EdEgvVW5oQ0txc1Rta1ozYjY3Q0JIUjVRN2ZvU1ZZWHp6?=
+ =?utf-8?B?TnUweEtzU2Jqa0RkcFJraE4yMjcxK2d3dGtwR2hVV1ZxQVFIaVpYdG1sSFho?=
+ =?utf-8?B?YU9kNTB5OWhOWnBNZU1CUmEvWDh0US9jaDRmbzNFSkEzc2N4NXU4SmFOYnUz?=
+ =?utf-8?B?eVp5MFhYZHMzM3hsalBXTDF1eWZZcFpiNjI4WitGWjl4ejJFSFU2RkgveHpW?=
+ =?utf-8?B?aEZDVUl2MHREeGtpczdnajFYeTd1YWphNmR4b2lialdxV25BSzVuT28xR2VG?=
+ =?utf-8?B?Zld3ZXV6dFV0dHJKakpTN1BvNUh3Sk9BTTZmd0xabHhodzJCVVVENDRBYnFt?=
+ =?utf-8?B?Qm9WaTh0VEV0Vk5xWmJYNDNROWZPWXlkWi9uV3JDd1k5SGxrQWdxNmplOXIz?=
+ =?utf-8?B?WCsrNDBUdE85bDB6SzdJZjY4ZEhMQ1plZlQvdkticVZSRXBidzQ3alFSSHM1?=
+ =?utf-8?B?Yjkxc1pHQnpiUklYeWROdVhvVjh6K1FidEVBcjh1ZWN2aDI1QXdiT1A1UW5m?=
+ =?utf-8?B?SUNnaTVjbHQ0VTRmN3Roa2puYUNmNkw4b1BubmhvcXBiRjNiMC9kaFNrS2Zo?=
+ =?utf-8?B?QUFWbCtIRmRRWDdJMVFFMjhNbXdGOUVBcGwwWFYzM3gxbHBxQWtBbkhUSFNF?=
+ =?utf-8?B?ZnBobzVuUTlESzdxSVZnT3o0NGRaQlVNNHU2bm8waTk5K3ROV0I0R1dBYU1m?=
+ =?utf-8?B?Vk5ZVm14R3FxcWdnVUdRZUxXcHU0eTBwc2QwRkEwaGtETXIyd2toQWRZSm1R?=
+ =?utf-8?Q?MoiIZcb0?=
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR1901MB2037.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 629410a6-af60-40cb-b671-08dbcf1cf719
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2023 14:25:51.4584
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 753b6e26-6fd3-43e6-8248-3f1735d59bb4
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: twFoV9aBqs90POkcjjtFTiFHoIDux99UMiEsr5P5WbQIzrnvyvif/vQKjbGt2uzChKwkBHXEprDkbi7qAsds2Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB5703
+X-OriginatorOrg: ddn.com
+X-BESS-ID: 1697556901-105268-6168-146-1
+X-BESS-VER: 2019.1_20231013.1615
+X-BESS-Apparent-Source-IP: 104.47.51.40
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVobm5kZAVgZQ0CTVItU0zdzQOD
+	HZMiUtxSDZONU4KS3Z3NI4KSXJ1DJZqTYWAAN4PCZBAAAA
+X-BESS-Outbound-Spam-Score: 0.40
+X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.251505 [from 
+	cloudscan11-87.us-east-2a.ess.aws.cudaops.com]
+	Rule breakdown below
+	 pts rule name              description
+	---- ---------------------- --------------------------------
+	0.40 BSF_SC0_SA085b         META: Custom Rule SA085b 
+	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
+X-BESS-Outbound-Spam-Status: SCORE=0.40 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_SC0_SA085b, BSF_BESS_OUTBOUND
+X-BESS-BRTS-Status:1
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Jens Axboe <axboe@kernel.dk>
-CC: Luis Chamberlain <mcgrof@kernel.org>
-CC: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
-commit: 925c86a19bacf8ce10eb666328fb3fa5aff7b951 fs: add CONFIG_BUFFER_HEAD
-date:   3 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231017/202310172223.bVBxUtfx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231017/202310172223.bVBxUtfx-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202310172223.bVBxUtfx-lkp@intel.com/
-
-smatch warnings:
-fs/iomap/buffered-io.c:678 iomap_write_begin() warn: bitwise AND condition is false here
-fs/iomap/buffered-io.c:748 iomap_write_end() warn: bitwise AND condition is false here
-fs/iomap/buffered-io.c:1251 iomap_folio_mkwrite_iter() warn: bitwise AND condition is false here
-
-vim +678 fs/iomap/buffered-io.c
-
-69f4a26c1e0c7c Gao Xiang               2021-08-03  630  
-d7b64041164ca1 Dave Chinner            2022-11-29  631  static int iomap_write_begin(struct iomap_iter *iter, loff_t pos,
-bc6123a84a71b5 Matthew Wilcox (Oracle  2021-05-02  632) 		size_t len, struct folio **foliop)
-afc51aaa22f26c Darrick J. Wong         2019-07-15  633  {
-471859f57d4253 Andreas Gruenbacher     2023-01-15  634  	const struct iomap_folio_ops *folio_ops = iter->iomap.folio_ops;
-fad0a1ab34f777 Christoph Hellwig       2021-08-10  635  	const struct iomap *srcmap = iomap_iter_srcmap(iter);
-d1bd0b4ebfe052 Matthew Wilcox (Oracle  2021-11-03  636) 	struct folio *folio;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  637  	int status = 0;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  638  
-1b5c1e36dc0e0f Christoph Hellwig       2021-08-10  639  	BUG_ON(pos + len > iter->iomap.offset + iter->iomap.length);
-1b5c1e36dc0e0f Christoph Hellwig       2021-08-10  640  	if (srcmap != &iter->iomap)
-c039b997927263 Goldwyn Rodrigues       2019-10-18  641  		BUG_ON(pos + len > srcmap->offset + srcmap->length);
-afc51aaa22f26c Darrick J. Wong         2019-07-15  642  
-afc51aaa22f26c Darrick J. Wong         2019-07-15  643  	if (fatal_signal_pending(current))
-afc51aaa22f26c Darrick J. Wong         2019-07-15  644  		return -EINTR;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  645  
-d454ab82bc7f4a Matthew Wilcox (Oracle  2021-12-09  646) 	if (!mapping_large_folio_support(iter->inode->i_mapping))
-d454ab82bc7f4a Matthew Wilcox (Oracle  2021-12-09  647) 		len = min_t(size_t, len, PAGE_SIZE - offset_in_page(pos));
-d454ab82bc7f4a Matthew Wilcox (Oracle  2021-12-09  648) 
-07c22b56685dd7 Andreas Gruenbacher     2023-01-15  649  	folio = __iomap_get_folio(iter, pos, len);
-9060bc4d3aca61 Andreas Gruenbacher     2023-01-15  650  	if (IS_ERR(folio))
-98321b5139f92a Andreas Gruenbacher     2023-01-15  651  		return PTR_ERR(folio);
-d7b64041164ca1 Dave Chinner            2022-11-29  652  
-d7b64041164ca1 Dave Chinner            2022-11-29  653  	/*
-d7b64041164ca1 Dave Chinner            2022-11-29  654  	 * Now we have a locked folio, before we do anything with it we need to
-d7b64041164ca1 Dave Chinner            2022-11-29  655  	 * check that the iomap we have cached is not stale. The inode extent
-d7b64041164ca1 Dave Chinner            2022-11-29  656  	 * mapping can change due to concurrent IO in flight (e.g.
-d7b64041164ca1 Dave Chinner            2022-11-29  657  	 * IOMAP_UNWRITTEN state can change and memory reclaim could have
-d7b64041164ca1 Dave Chinner            2022-11-29  658  	 * reclaimed a previously partially written page at this index after IO
-d7b64041164ca1 Dave Chinner            2022-11-29  659  	 * completion before this write reaches this file offset) and hence we
-d7b64041164ca1 Dave Chinner            2022-11-29  660  	 * could do the wrong thing here (zero a page range incorrectly or fail
-d7b64041164ca1 Dave Chinner            2022-11-29  661  	 * to zero) and corrupt data.
-d7b64041164ca1 Dave Chinner            2022-11-29  662  	 */
-471859f57d4253 Andreas Gruenbacher     2023-01-15  663  	if (folio_ops && folio_ops->iomap_valid) {
-471859f57d4253 Andreas Gruenbacher     2023-01-15  664  		bool iomap_valid = folio_ops->iomap_valid(iter->inode,
-d7b64041164ca1 Dave Chinner            2022-11-29  665  							 &iter->iomap);
-d7b64041164ca1 Dave Chinner            2022-11-29  666  		if (!iomap_valid) {
-d7b64041164ca1 Dave Chinner            2022-11-29  667  			iter->iomap.flags |= IOMAP_F_STALE;
-d7b64041164ca1 Dave Chinner            2022-11-29  668  			status = 0;
-d7b64041164ca1 Dave Chinner            2022-11-29  669  			goto out_unlock;
-d7b64041164ca1 Dave Chinner            2022-11-29  670  		}
-d7b64041164ca1 Dave Chinner            2022-11-29  671  	}
-d7b64041164ca1 Dave Chinner            2022-11-29  672  
-d454ab82bc7f4a Matthew Wilcox (Oracle  2021-12-09  673) 	if (pos + len > folio_pos(folio) + folio_size(folio))
-d454ab82bc7f4a Matthew Wilcox (Oracle  2021-12-09  674) 		len = folio_pos(folio) + folio_size(folio) - pos;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  675  
-c039b997927263 Goldwyn Rodrigues       2019-10-18  676  	if (srcmap->type == IOMAP_INLINE)
-bc6123a84a71b5 Matthew Wilcox (Oracle  2021-05-02  677) 		status = iomap_write_begin_inline(iter, folio);
-1b5c1e36dc0e0f Christoph Hellwig       2021-08-10 @678  	else if (srcmap->flags & IOMAP_F_BUFFER_HEAD)
-d1bd0b4ebfe052 Matthew Wilcox (Oracle  2021-11-03  679) 		status = __block_write_begin_int(folio, pos, len, NULL, srcmap);
-afc51aaa22f26c Darrick J. Wong         2019-07-15  680  	else
-bc6123a84a71b5 Matthew Wilcox (Oracle  2021-05-02  681) 		status = __iomap_write_begin(iter, pos, len, folio);
-afc51aaa22f26c Darrick J. Wong         2019-07-15  682  
-afc51aaa22f26c Darrick J. Wong         2019-07-15  683  	if (unlikely(status))
-afc51aaa22f26c Darrick J. Wong         2019-07-15  684  		goto out_unlock;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  685  
-bc6123a84a71b5 Matthew Wilcox (Oracle  2021-05-02  686) 	*foliop = folio;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  687  	return 0;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  688  
-afc51aaa22f26c Darrick J. Wong         2019-07-15  689  out_unlock:
-7a70a5085ed028 Andreas Gruenbacher     2023-01-15  690  	__iomap_put_folio(iter, pos, 0, folio);
-1b5c1e36dc0e0f Christoph Hellwig       2021-08-10  691  	iomap_write_failed(iter->inode, pos, len);
-afc51aaa22f26c Darrick J. Wong         2019-07-15  692  
-afc51aaa22f26c Darrick J. Wong         2019-07-15  693  	return status;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  694  }
-afc51aaa22f26c Darrick J. Wong         2019-07-15  695  
-e25ba8cbfd16bb Matthew Wilcox (Oracle  2020-09-21  696) static size_t __iomap_write_end(struct inode *inode, loff_t pos, size_t len,
-bc6123a84a71b5 Matthew Wilcox (Oracle  2021-05-02  697) 		size_t copied, struct folio *folio)
-afc51aaa22f26c Darrick J. Wong         2019-07-15  698  {
-cd1e5afe5503ed Matthew Wilcox (Oracle  2021-04-28  699) 	struct iomap_page *iop = to_iomap_page(folio);
-bc6123a84a71b5 Matthew Wilcox (Oracle  2021-05-02  700) 	flush_dcache_folio(folio);
-afc51aaa22f26c Darrick J. Wong         2019-07-15  701  
-afc51aaa22f26c Darrick J. Wong         2019-07-15  702  	/*
-afc51aaa22f26c Darrick J. Wong         2019-07-15  703  	 * The blocks that were entirely written will now be uptodate, so we
-7479c505b4ab5e Matthew Wilcox (Oracle  2022-04-29  704) 	 * don't have to worry about a read_folio reading them and overwriting a
-f1f264b4c134ee Andreas Gruenbacher     2021-08-02  705  	 * partial write.  However, if we've encountered a short write and only
-afc51aaa22f26c Darrick J. Wong         2019-07-15  706  	 * partially written into a block, it will not be marked uptodate, so a
-7479c505b4ab5e Matthew Wilcox (Oracle  2022-04-29  707) 	 * read_folio might come in and destroy our partial write.
-afc51aaa22f26c Darrick J. Wong         2019-07-15  708  	 *
-f1f264b4c134ee Andreas Gruenbacher     2021-08-02  709  	 * Do the simplest thing and just treat any short write to a
-f1f264b4c134ee Andreas Gruenbacher     2021-08-02  710  	 * non-uptodate page as a zero-length write, and force the caller to
-f1f264b4c134ee Andreas Gruenbacher     2021-08-02  711  	 * redo the whole thing.
-afc51aaa22f26c Darrick J. Wong         2019-07-15  712  	 */
-bc6123a84a71b5 Matthew Wilcox (Oracle  2021-05-02  713) 	if (unlikely(copied < len && !folio_test_uptodate(folio)))
-afc51aaa22f26c Darrick J. Wong         2019-07-15  714  		return 0;
-431c0566bb6078 Matthew Wilcox (Oracle  2021-04-28  715) 	iomap_set_range_uptodate(folio, iop, offset_in_folio(folio, pos), len);
-bc6123a84a71b5 Matthew Wilcox (Oracle  2021-05-02  716) 	filemap_dirty_folio(inode->i_mapping, folio);
-afc51aaa22f26c Darrick J. Wong         2019-07-15  717  	return copied;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  718  }
-afc51aaa22f26c Darrick J. Wong         2019-07-15  719  
-fad0a1ab34f777 Christoph Hellwig       2021-08-10  720  static size_t iomap_write_end_inline(const struct iomap_iter *iter,
-9c4ce08dd21145 Matthew Wilcox (Oracle  2021-05-02  721) 		struct folio *folio, loff_t pos, size_t copied)
-afc51aaa22f26c Darrick J. Wong         2019-07-15  722  {
-fad0a1ab34f777 Christoph Hellwig       2021-08-10  723  	const struct iomap *iomap = &iter->iomap;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  724  	void *addr;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  725  
-9c4ce08dd21145 Matthew Wilcox (Oracle  2021-05-02  726) 	WARN_ON_ONCE(!folio_test_uptodate(folio));
-69f4a26c1e0c7c Gao Xiang               2021-08-03  727  	BUG_ON(!iomap_inline_data_valid(iomap));
-afc51aaa22f26c Darrick J. Wong         2019-07-15  728  
-9c4ce08dd21145 Matthew Wilcox (Oracle  2021-05-02  729) 	flush_dcache_folio(folio);
-9c4ce08dd21145 Matthew Wilcox (Oracle  2021-05-02  730) 	addr = kmap_local_folio(folio, pos);
-ab069d5fdcd145 Matthew Wilcox (Oracle  2021-08-04  731) 	memcpy(iomap_inline_data(iomap, pos), addr, copied);
-ab069d5fdcd145 Matthew Wilcox (Oracle  2021-08-04  732) 	kunmap_local(addr);
-afc51aaa22f26c Darrick J. Wong         2019-07-15  733  
-1b5c1e36dc0e0f Christoph Hellwig       2021-08-10  734  	mark_inode_dirty(iter->inode);
-afc51aaa22f26c Darrick J. Wong         2019-07-15  735  	return copied;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  736  }
-afc51aaa22f26c Darrick J. Wong         2019-07-15  737  
-e25ba8cbfd16bb Matthew Wilcox (Oracle  2020-09-21  738) /* Returns the number of bytes copied.  May be 0.  Cannot be an errno. */
-1b5c1e36dc0e0f Christoph Hellwig       2021-08-10  739  static size_t iomap_write_end(struct iomap_iter *iter, loff_t pos, size_t len,
-bc6123a84a71b5 Matthew Wilcox (Oracle  2021-05-02  740) 		size_t copied, struct folio *folio)
-afc51aaa22f26c Darrick J. Wong         2019-07-15  741  {
-fad0a1ab34f777 Christoph Hellwig       2021-08-10  742  	const struct iomap *srcmap = iomap_iter_srcmap(iter);
-1b5c1e36dc0e0f Christoph Hellwig       2021-08-10  743  	loff_t old_size = iter->inode->i_size;
-e25ba8cbfd16bb Matthew Wilcox (Oracle  2020-09-21  744) 	size_t ret;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  745  
-c039b997927263 Goldwyn Rodrigues       2019-10-18  746  	if (srcmap->type == IOMAP_INLINE) {
-9c4ce08dd21145 Matthew Wilcox (Oracle  2021-05-02  747) 		ret = iomap_write_end_inline(iter, folio, pos, copied);
-c039b997927263 Goldwyn Rodrigues       2019-10-18 @748  	} else if (srcmap->flags & IOMAP_F_BUFFER_HEAD) {
-1b5c1e36dc0e0f Christoph Hellwig       2021-08-10  749  		ret = block_write_end(NULL, iter->inode->i_mapping, pos, len,
-bc6123a84a71b5 Matthew Wilcox (Oracle  2021-05-02  750) 				copied, &folio->page, NULL);
-afc51aaa22f26c Darrick J. Wong         2019-07-15  751  	} else {
-bc6123a84a71b5 Matthew Wilcox (Oracle  2021-05-02  752) 		ret = __iomap_write_end(iter->inode, pos, len, copied, folio);
-afc51aaa22f26c Darrick J. Wong         2019-07-15  753  	}
-afc51aaa22f26c Darrick J. Wong         2019-07-15  754  
-afc51aaa22f26c Darrick J. Wong         2019-07-15  755  	/*
-afc51aaa22f26c Darrick J. Wong         2019-07-15  756  	 * Update the in-memory inode size after copying the data into the page
-afc51aaa22f26c Darrick J. Wong         2019-07-15  757  	 * cache.  It's up to the file system to write the updated size to disk,
-afc51aaa22f26c Darrick J. Wong         2019-07-15  758  	 * preferably after I/O completion so that no stale data is exposed.
-afc51aaa22f26c Darrick J. Wong         2019-07-15  759  	 */
-afc51aaa22f26c Darrick J. Wong         2019-07-15  760  	if (pos + ret > old_size) {
-1b5c1e36dc0e0f Christoph Hellwig       2021-08-10  761  		i_size_write(iter->inode, pos + ret);
-1b5c1e36dc0e0f Christoph Hellwig       2021-08-10  762  		iter->iomap.flags |= IOMAP_F_SIZE_CHANGED;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  763  	}
-7a70a5085ed028 Andreas Gruenbacher     2023-01-15  764  	__iomap_put_folio(iter, pos, ret, folio);
-afc51aaa22f26c Darrick J. Wong         2019-07-15  765  
-afc51aaa22f26c Darrick J. Wong         2019-07-15  766  	if (old_size < pos)
-1b5c1e36dc0e0f Christoph Hellwig       2021-08-10  767  		pagecache_isize_extended(iter->inode, old_size, pos);
-afc51aaa22f26c Darrick J. Wong         2019-07-15  768  	if (ret < len)
-d74999c8c060df Andreas Gruenbacher     2022-05-05  769  		iomap_write_failed(iter->inode, pos + ret, len - ret);
-afc51aaa22f26c Darrick J. Wong         2019-07-15  770  	return ret;
-afc51aaa22f26c Darrick J. Wong         2019-07-15  771  }
-afc51aaa22f26c Darrick J. Wong         2019-07-15  772  
-
-:::::: The code at line 678 was first introduced by commit
-:::::: 1b5c1e36dc0e0f15de9717e81508934cbc3daf15 iomap: pass an iomap_iter to various buffered I/O helpers
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Darrick J. Wong <djwong@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+T24gMTAvMTEvMjMgMDk6MTcsIERhbiBDYXJwZW50ZXIgd3JvdGU6DQo+IEhpIEJlcm5kLA0KPiAN
+Cj4ga2VybmVsIHRlc3Qgcm9ib3Qgbm90aWNlZCB0aGUgZm9sbG93aW5nIGJ1aWxkIHdhcm5pbmdz
+Og0KPiANCj4gaHR0cHM6Ly9naXQtc2NtLmNvbS9kb2NzL2dpdC1mb3JtYXQtcGF0Y2gjX2Jhc2Vf
+dHJlZV9pbmZvcm1hdGlvbl0NCj4gDQo+IHVybDogICAgaHR0cHM6Ly9naXRodWIuY29tL2ludGVs
+LWxhYi1sa3AvbGludXgvY29tbWl0cy9CZXJuZC1TY2h1YmVydC9mdXNlLXJlbmFtZS1mdXNlX2Ny
+ZWF0ZV9vcGVuLzIwMjMwOTIxLTAxMzgwNQ0KPiBiYXNlOiAgIGh0dHBzOi8vZ2l0Lmtlcm5lbC5v
+cmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3Zmcy9pZG1hcHBpbmcuZ2l0IGZvci1uZXh0DQo+
+IHBhdGNoIGxpbms6ICAgIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyMzA5MjAxNzM0NDUu
+Mzk0MzU4MS01LWJzY2h1YmVydCU0MGRkbi5jb20NCj4gcGF0Y2ggc3ViamVjdDogW1BBVENIIHY5
+IDQvN10gdmZzOiBPcHRpbWl6ZSBhdG9taWNfb3BlbigpIG9uIHBvc2l0aXZlIGRlbnRyeQ0KPiBj
+b25maWc6IGkzODYtcmFuZGNvbmZpZy0xNDEtMjAyMzA5MjcgKGh0dHBzOi8vZG93bmxvYWQuMDEu
+b3JnLzBkYXktY2kvYXJjaGl2ZS8yMDIzMTAxMS8yMDIzMTAxMTEyNTkuV0dqWGF0NnAtbGtwQGlu
+dGVsLmNvbS9jb25maWcpDQo+IGNvbXBpbGVyOiBnY2MtNyAoVWJ1bnR1IDcuNS4wLTZ1YnVudHUy
+KSA3LjUuMA0KPiByZXByb2R1Y2U6IChodHRwczovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNpL2Fy
+Y2hpdmUvMjAyMzEwMTEvMjAyMzEwMTExMjU5LldHalhhdDZwLWxrcEBpbnRlbC5jb20vcmVwcm9k
+dWNlKQ0KPiANCj4gSWYgeW91IGZpeCB0aGUgaXNzdWUgaW4gYSBzZXBhcmF0ZSBwYXRjaC9jb21t
+aXQgKGkuZS4gbm90IGp1c3QgYSBuZXcgdmVyc2lvbiBvZg0KPiB0aGUgc2FtZSBwYXRjaC9jb21t
+aXQpLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWdzDQo+IHwgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0
+ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPg0KPiB8IFJlcG9ydGVkLWJ5OiBEYW4gQ2FycGVudGVy
+IDxkYW4uY2FycGVudGVyQGxpbmFyby5vcmc+DQo+IHwgQ2xvc2VzOiBodHRwczovL2xvcmUua2Vy
+bmVsLm9yZy9yLzIwMjMxMDExMTI1OS5XR2pYYXQ2cC1sa3BAaW50ZWwuY29tLw0KPiANCj4gTmV3
+IHNtYXRjaCB3YXJuaW5nczoNCj4gZnMvbmFtZWkuYzozNDE4IGF0b21pY19yZXZhbGlkYXRlX29w
+ZW4oKSB3YXJuOiB2YXJpYWJsZSBkZXJlZmVyZW5jZWQgYmVmb3JlIGNoZWNrICdnb3Rfd3JpdGUn
+IChzZWUgbGluZSAzNDE0KQ0KPiANCj4gT2xkIHNtYXRjaCB3YXJuaW5nczoNCj4gZnMvbmFtZWku
+YzoxNTczIGxvb2t1cF9kY2FjaGUoKSB3YXJuOiBwYXNzaW5nIHplcm8gdG8gJ0VSUl9QVFInDQo+
+IGZzL25hbWVpLmM6MTY1OCBsb29rdXBfZmFzdCgpIHdhcm46IHBhc3NpbmcgemVybyB0byAnRVJS
+X1BUUicNCj4gZnMvbmFtZWkuYzoyMTg5IGhhc2hfbmFtZSgpIGVycm9yOiB1bmluaXRpYWxpemVk
+IHN5bWJvbCAnYmRhdGEnLg0KPiBmcy9uYW1laS5jOjI2MDAgX19rZXJuX3BhdGhfbG9ja2VkKCkg
+d2FybjogaW5jb25zaXN0ZW50IHJldHVybnMgJyZwYXRoLT5kZW50cnktPmRfaW5vZGUtPmlfcndz
+ZW0nLg0KPiBmcy9uYW1laS5jOjM0ODAgbG9va3VwX29wZW4oKSBlcnJvcjogdW5pbml0aWFsaXpl
+ZCBzeW1ib2wgJ2Vycm9yJy4NCj4gDQo+IHZpbSArL2dvdF93cml0ZSArMzQxOCBmcy9uYW1laS5j
+DQoNClRoYW5rcywgZml4ZWQgaW4gbXkgdjEwIGJyYW5jaCwuDQoNCg==
