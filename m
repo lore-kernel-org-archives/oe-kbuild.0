@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D8014F76
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Oct 2023 08:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80AB14F8F
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Oct 2023 08:54:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ikd7Zppy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697616628; x=1729152628;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QPf0vke86uSMX5glewK0iTnXqGujEreqxO1hSgN8vxE=;
-  b=ikd7ZppyGcURIbASH0eu3t1MwuFJHPa6dH9C9CYmNABZdEvUFX0Gaikp
-   DfuUiRPZtemD4jWPCWrB9nGuIlXZ0BkpruvFzBMQU/OXdpfHklCuLcAOR
-   Djasm0TyZ7EoC/zzbbU0TCRvQzO2VzK8CbUzpaa+69iegu0/lkyIfte8c
-   WHSiBK89ABwLcLTo4M+ZUDJv18nf7BYAfGgnRQ25Ank4PNiHj1Zs5q549
-   P094wIPVqXy8jMnh1cWMDwm2bkW637YisVmIs0XzeN/ZnrNA8/AaJNfQw
-   gXhFanweD+qM4CasrrN0Jx9WGG2x2OcMqEdLOTXEFUi/boKIF/QtvAKI5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="388827749"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="388827749"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 01:10:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="706342195"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="706342195"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 18 Oct 2023 01:10:26 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qt1dI-00006u-0D;
-	Wed, 18 Oct 2023 08:10:24 +0000
-Date: Wed, 18 Oct 2023 16:10:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v2 4/8] clk: qcom: apss-ipq6018: ipq5332: add safe source
- switch for a53pll
-Message-ID: <202310181650.g8THtfsm-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QPZfSwgy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1697619289;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pp5sXxU1MFlNUtAtVI0C/KnM/d5Lryu4hPhDsWo2s0M=;
+	b=QPZfSwgy9Zr7hkRfuNV8k1U9p/7JPf8bpSW3BNXYz7aSkLH0hM+x5k4sIWqKr08VTrahPT
+	iLP9674R8d/9hrH/oPIMxvzTGc0PadZbKfTdnVhJ3J+5Wun+zK2vQcD9ohCxRpp4pmnvNW
+	+e+ngP8JE/IswVoZghNd7P8ykjl04Ec=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-467-qrWKnXEXPOmIyykWECAa-Q-1; Wed, 18 Oct 2023 04:54:38 -0400
+X-MC-Unique: qrWKnXEXPOmIyykWECAa-Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F6CA3826D3D;
+	Wed, 18 Oct 2023 08:54:38 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.83])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 073D7909;
+	Wed, 18 Oct 2023 08:54:36 +0000 (UTC)
+Date: Wed, 18 Oct 2023 16:54:33 +0800
+From: Baoquan He <bhe@redhat.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Lorenzo Stoakes <lstoakes@gmail.com>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm'
+ could be null (see line 3667)
+Message-ID: <ZS+dSd9Z6/2wU0Eg@MiWiFi-R3L-srv>
+References: <f82be227-bfde-439a-b339-1b4ee370d59a@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,65 +49,139 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <f82be227-bfde-439a-b339-1b4ee370d59a@kadam.mountain>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
 
-:::::: 
-:::::: Manual check reason: "git am base is a link in commit message"
-:::::: 
+Hi,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <000c61a028814f08a9fc6d1d5c446e8dad11a650.1697101543.git.quic_varada@quicinc.com>
-References: <000c61a028814f08a9fc6d1d5c446e8dad11a650.1697101543.git.quic_varada@quicinc.com>
-TO: Varadarajan Narayanan <quic_varada@quicinc.com>
-TO: agross@kernel.org
-TO: andersson@kernel.org
-TO: konrad.dybcio@linaro.org
-TO: robh+dt@kernel.org
-TO: krzysztof.kozlowski+dt@linaro.org
-TO: conor+dt@kernel.org
-TO: mturquette@baylibre.com
-TO: sboyd@kernel.org
-TO: rafael@kernel.org
-TO: viresh.kumar@linaro.org
-TO: ilia.lin@kernel.org
-TO: quic_kathirav@quicinc.com
-TO: linux-arm-msm@vger.kernel.org
-TO: devicetree@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: linux-clk@vger.kernel.org
-TO: linux-pm@vger.kernel.org
-CC: Varadarajan Narayanan <quic_varada@quicinc.com>
+On 10/17/23 at 05:26pm, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
+> commit: 4c91c07c93bbbdd7f2d9de2beb7ee5c2a48ad8e7 mm: vmalloc: convert vread() to vread_iter()
+> config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231017/202310171600.WCrsOwFj-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20231017/202310171600.WCrsOwFj-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202310171600.WCrsOwFj-lkp@intel.com/
+> 
+> smatch warnings:
+> mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
 
-Hi Varadarajan,
+I see the code deficit, while the reproduce link seems to be unavilable.
+Could you double check the link and provide a good one so that I can
+verify the code fix?
 
-kernel test robot noticed the following build errors:
+Thanks
+Baoquan
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc6 next-20231018]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> vim +/vm +3689 mm/vmalloc.c
+> 
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3619  long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
+> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3620  {
+> e81ce85f960c2e Joonsoo Kim             2013-04-29  3621  	struct vmap_area *va;
+> e81ce85f960c2e Joonsoo Kim             2013-04-29  3622  	struct vm_struct *vm;
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3623  	char *vaddr;
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3624  	size_t n, size, flags, remains;
+> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3625  
+> 4aff1dc4fb3a5a Andrey Konovalov        2022-03-24  3626  	addr = kasan_reset_tag(addr);
+> 4aff1dc4fb3a5a Andrey Konovalov        2022-03-24  3627  
+> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3628  	/* Don't allow overflow */
+> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3629  	if ((unsigned long) addr + count < count)
+> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3630  		count = -(unsigned long) addr;
+> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3631  
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3632  	remains = count;
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3633  
+> e81ce85f960c2e Joonsoo Kim             2013-04-29  3634  	spin_lock(&vmap_area_lock);
+> f181234a5a21fd Chen Wandun             2021-09-02  3635  	va = find_vmap_area_exceed_addr((unsigned long)addr);
+> f608788cd2d6ca Serapheim Dimitropoulos 2021-04-29  3636  	if (!va)
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3637  		goto finished_zero;
+> f181234a5a21fd Chen Wandun             2021-09-02  3638  
+> f181234a5a21fd Chen Wandun             2021-09-02  3639  	/* no intersects with alive vmap_area */
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3640  	if ((unsigned long)addr + remains <= va->va_start)
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3641  		goto finished_zero;
+> f181234a5a21fd Chen Wandun             2021-09-02  3642  
+> f608788cd2d6ca Serapheim Dimitropoulos 2021-04-29  3643  	list_for_each_entry_from(va, &vmap_area_list, list) {
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3644  		size_t copied;
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3645  
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3646  		if (remains == 0)
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3647  			goto finished;
+> e81ce85f960c2e Joonsoo Kim             2013-04-29  3648  
+> 06c8994626d1b7 Baoquan He              2023-02-06  3649  		vm = va->vm;
+> 06c8994626d1b7 Baoquan He              2023-02-06  3650  		flags = va->flags & VMAP_FLAGS_MASK;
+> 06c8994626d1b7 Baoquan He              2023-02-06  3651  		/*
+> 06c8994626d1b7 Baoquan He              2023-02-06  3652  		 * VMAP_BLOCK indicates a sub-type of vm_map_ram area, need
+> 06c8994626d1b7 Baoquan He              2023-02-06  3653  		 * be set together with VMAP_RAM.
+> 06c8994626d1b7 Baoquan He              2023-02-06  3654  		 */
+> 06c8994626d1b7 Baoquan He              2023-02-06  3655  		WARN_ON(flags == VMAP_BLOCK);
+> 06c8994626d1b7 Baoquan He              2023-02-06  3656  
+> 06c8994626d1b7 Baoquan He              2023-02-06  3657  		if (!vm && !flags)
+> 
+> NULL check
+> 
+> e81ce85f960c2e Joonsoo Kim             2013-04-29  3658  			continue;
+> e81ce85f960c2e Joonsoo Kim             2013-04-29  3659  
+> 30a7a9b17c4b03 Baoquan He              2023-02-06  3660  		if (vm && (vm->flags & VM_UNINITIALIZED))
+> 30a7a9b17c4b03 Baoquan He              2023-02-06  3661  			continue;
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3662  
+> 30a7a9b17c4b03 Baoquan He              2023-02-06  3663  		/* Pair with smp_wmb() in clear_vm_uninitialized_flag() */
+> 30a7a9b17c4b03 Baoquan He              2023-02-06  3664  		smp_rmb();
+> 30a7a9b17c4b03 Baoquan He              2023-02-06  3665  
+> 06c8994626d1b7 Baoquan He              2023-02-06  3666  		vaddr = (char *) va->va_start;
+> 06c8994626d1b7 Baoquan He              2023-02-06 @3667  		size = vm ? get_vm_area_size(vm) : va_size(va);
+> 06c8994626d1b7 Baoquan He              2023-02-06  3668  
+> 06c8994626d1b7 Baoquan He              2023-02-06  3669  		if (addr >= vaddr + size)
+> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3670  			continue;
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3671  
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3672  		if (addr < vaddr) {
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3673  			size_t to_zero = min_t(size_t, vaddr - addr, remains);
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3674  			size_t zeroed = zero_iter(iter, to_zero);
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3675  
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3676  			addr += zeroed;
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3677  			remains -= zeroed;
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3678  
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3679  			if (remains == 0 || zeroed != to_zero)
+> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3680  				goto finished;
+> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3681  		}
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3682  
+> 06c8994626d1b7 Baoquan He              2023-02-06  3683  		n = vaddr + size - addr;
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3684  		if (n > remains)
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3685  			n = remains;
+> 06c8994626d1b7 Baoquan He              2023-02-06  3686  
+> 06c8994626d1b7 Baoquan He              2023-02-06  3687  		if (flags & VMAP_RAM)
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3688  			copied = vmap_ram_vread_iter(iter, addr, n, flags);
+> 06c8994626d1b7 Baoquan He              2023-02-06 @3689  		else if (!(vm->flags & VM_IOREMAP))
+>                                                                                    ^^^^^^^^^
+> Unchecked dereference
+> 
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3690  			copied = aligned_vread_iter(iter, addr, n);
+> d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3691  		else /* IOREMAP area is treated as memory hole */
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3692  			copied = zero_iter(iter, n);
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3693  
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3694  		addr += copied;
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3695  		remains -= copied;
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3696  
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3697  		if (copied != n)
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3698  			goto finished;
+> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3699  	}
+> d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3700  
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3701  finished_zero:
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3702  	spin_unlock(&vmap_area_lock);
+> d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3703  	/* zero-fill memory holes */
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3704  	return count - remains + zero_iter(iter, remains);
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3705  finished:
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3706  	/* Nothing remains, or We couldn't copy/zero everything. */
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3707  	spin_unlock(&vmap_area_lock);
+> d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3708  
+> 4c91c07c93bbbd Lorenzo Stoakes         2023-03-22  3709  	return count - remains;
+> ^1da177e4c3f41 Linus Torvalds          2005-04-16  3710  }
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Varadarajan-Narayanan/clk-qcom-clk-alpha-pll-introduce-stromer-plus-ops/20231017-104355
-base:   linus/master
-patch link:    https://lore.kernel.org/r/000c61a028814f08a9fc6d1d5c446e8dad11a650.1697101543.git.quic_varada%40quicinc.com
-patch subject: [PATCH v2 4/8] clk: qcom: apss-ipq6018: ipq5332: add safe source switch for a53pll
-:::::: branch date: 29 hours ago
-:::::: commit date: 29 hours ago
-config: loongarch-randconfig-001-20231018 (https://download.01.org/0day-ci/archive/20231018/202310181650.g8THtfsm-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310181650.g8THtfsm-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202310181650.g8THtfsm-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   loongarch64-linux-ld: drivers/clk/qcom/apss-ipq6018.o: in function `apss_ipq6018_probe':
->> apss-ipq6018.c:(.text+0xd0): undefined reference to `qcom_smem_get_soc_id'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
