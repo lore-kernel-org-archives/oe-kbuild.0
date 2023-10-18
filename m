@@ -1,86 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847FE31A86;
-	Wed, 18 Oct 2023 15:52:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00653B7A3
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Oct 2023 16:57:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="DDurZJ/t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3CE7C433C8;
-	Wed, 18 Oct 2023 15:52:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1697644370;
-	bh=b8LsAR2QdX3IC2gaSa678S7SamLDd+g6f++6ZqtXOmU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DDurZJ/tH9/Dcq2NUUAnR7bwtgDl5thIrctfw+s4q4F7B9z+LCEL9V4leztRfz6Oy
-	 QN+ti9o7Lk4il2Xp2hnzjsN60DUZJkyYwxwhGWgCcp/J6tv9XrZpdoii3QHMM6q8IS
-	 FBIF1WP+glbZTrUhUIkqwPEPvI4kpzhkxsSOShA4=
-Date: Wed, 18 Oct 2023 08:52:48 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Baoquan He <bhe@redhat.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, Philip Li
- <philip.li@intel.com>, oe-kbuild@lists.linux.dev, Lorenzo Stoakes
- <lstoakes@gmail.com>, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Linux Memory Management List
- <linux-mm@kvack.org>
-Subject: Re: mm/vmalloc.c:3689 vread_iter() error: we previously assumed
- 'vm' could be null (see line 3667)
-Message-Id: <20231018085248.6f3f36101cbdfe0990c8b467@linux-foundation.org>
-In-Reply-To: <ZS/2k6DIMd0tZRgK@MiWiFi-R3L-srv>
-References: <f82be227-bfde-439a-b339-1b4ee370d59a@kadam.mountain>
-	<ZS+dSd9Z6/2wU0Eg@MiWiFi-R3L-srv>
-	<89caf59a-d3b9-409d-b1ae-9e370cb9ee7d@kadam.mountain>
-	<ZS/LrhcxcMOgiiX5@MiWiFi-R3L-srv>
-	<ZS/TVMT9ed7OdyNy@rli9-mobl>
-	<ZS/2k6DIMd0tZRgK@MiWiFi-R3L-srv>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kj9HegR6"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-31427ddd3fbso5807226f8f.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 18 Oct 2023 09:57:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697648227; x=1698253027; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HYmsSISabCHstva6nGawNe+Di4bmrOcot5BGgorDSxY=;
+        b=kj9HegR66TMZr3X8EG8QpqlxavfryCvkC/g/JBj9F0isAGQqwHHAkk1vWBjPKJB0FG
+         eBvkSeoIZzUbGyIi93n//c/llEYYqpRRuD5lKS755u2B2J1+sBtvX8XfQDDlYXhlOfLD
+         AUlPwuAcOHfqsTUgzE5HYhSMacDTDHN1D0/jFezoHybCDe2XjoocUUUW0WRF4R1CoM9y
+         nznW29Q21Aw3j9nV4bBowbjJtkBd5+euabf/XHN4e8CdTE/uKgK0w/UMJcd/QzTPDPy2
+         S+YajvYUoH5HLD/+LYD1a0sV2e3BkAfxOVjD0pDKlUhoMuG5Ijgo3M2rCtentc5AMsdM
+         v83g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697648227; x=1698253027;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HYmsSISabCHstva6nGawNe+Di4bmrOcot5BGgorDSxY=;
+        b=T0JfVhxc5QdgjIXZuyTfXdIdVomkiyVE6/HeFYTHkoub9juniAFNQOBRs+Yxn6r9Pk
+         1L4f6uMrzBBQ06ggZtKPA9KN74/ZhKm9mhT2FYDKZ4khw5meE16a/qA7UqJC0BBVvHlu
+         cCdTwkJDJQGVv6VA9vsz703LSwp6Z7MsOzVYbe/b/5/wuhHZj0059ynlTm502eHWebqF
+         Uut9V7ev+l99UxIwTCBD0ffwn8pgGlJucEyQ14mVDkcQuoFZo2iZLYZP5Qfl5L6bL/m7
+         R2pQNJTeCM5YlARJxL6vK7aGzOETEbciQcbWp0n0OYu85EL1qfHs/ufjBm4eHRIwTr+E
+         XEQQ==
+X-Gm-Message-State: AOJu0YxxO8AsR0HkpbFZCmDwMONz45wMvm5Xq1iG7ngxfN4q+7Z8d3PA
+	CRYD84HlRx052iz8wNEiCWgPrQ==
+X-Google-Smtp-Source: AGHT+IFZa2wA2CIROTWJeB6fsyTJmkUokbQ7GdV+6ursfwa9CrMwVReyAdVgxJm0LX783pQDf7YK4g==
+X-Received: by 2002:a5d:55d1:0:b0:32d:a0ab:9bae with SMTP id i17-20020a5d55d1000000b0032da0ab9baemr4486184wrw.57.1697648226822;
+        Wed, 18 Oct 2023 09:57:06 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id l16-20020adfe590000000b0032da46648dasm2521880wrm.8.2023.10.18.09.57.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Oct 2023 09:57:06 -0700 (PDT)
+Date: Wed, 18 Oct 2023 19:57:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [char-misc:char-misc-testing 21/23] drivers/parport/share.c:486
+ parport_register_port() warn: '&tmp->full_list' not removed from list
+Message-ID: <1eb66e9a-8c68-4a56-8239-82c74849cfc7@kadam.mountain>
+References: <2171426a-1784-41e9-8614-2d3a7a602831@kadam.mountain>
+ <ZS/R/H9JujiaJ0x2@smile.fi.intel.com>
+ <ZS/35oVuyZxqueBH@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZS/35oVuyZxqueBH@smile.fi.intel.com>
 
-On Wed, 18 Oct 2023 23:15:31 +0800 Baoquan He <bhe@redhat.com> wrote:
-
-> From: Baoquan He <bhe@redhat.com>
-> Date: Wed, 18 Oct 2023 22:50:14 +0800
-> Subject: [PATCH] mm/vmalloc: fix the unchecked dereference warning in vread_iter()
-> Content-type: text/plain
-> 
-> LKP reported smatch warning as below:
-> 
-> ===================
-> smatch warnings:
-> mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
-> ......
-> 06c8994626d1b7  @3667 size = vm ? get_vm_area_size(vm) : va_size(va);
-> ......
-> 06c8994626d1b7  @3689 else if (!(vm->flags & VM_IOREMAP))
->                                  ^^^^^^^^^
-> Unchecked dereference
-> =====================
-> 
-> So add checking on whether 'vm' is not null when dereferencing it in
-> vread_iter(). This mutes smatch complaint.
+On Wed, Oct 18, 2023 at 06:21:10PM +0300, Andy Shevchenko wrote:
+> On Wed, Oct 18, 2023 at 03:39:24PM +0300, Andy Shevchenko wrote:
+> > On Wed, Oct 18, 2023 at 12:57:52PM +0300, Dan Carpenter wrote:
 > 
 > ...
->
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -3813,7 +3813,7 @@ long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
->  
->  		if (flags & VMAP_RAM)
->  			copied = vmap_ram_vread_iter(iter, addr, n, flags);
-> -		else if (!(vm->flags & VM_IOREMAP))
-> +		else if (!(vm && (vm->flags & VM_IOREMAP)))
->  			copied = aligned_vread_iter(iter, addr, n);
->  		else /* IOREMAP area is treated as memory hole */
->  			copied = zero_iter(iter, n);
+> 
+> > > Old smatch warnings:
+> > > drivers/parport/share.c:826 parport_register_dev_model() warn: possible memory leak of 'par_dev'
+> > 
+> > Means this was already be in the code?
+> 
+> How is it not a false positive?
+> 
+> devmodel is false (so kfree _is_ called) until we get device_register() called.
+> After that it's done via put_device() in both possible error cases.
+> 
+> What did I miss?
 
-So is this not a real runtime bug?  We're only doing this to suppress a
-smatch warning?
+Oh, yeah.  You're right.  (I hadn't looked at the code before, I only
+see what's in the email and hit the forward button).  This check is
+normally super reliable but also useless because it missing 95% of
+leaks.
 
-If so, can we please include a description of *why* this wasn't a bug? 
-What conditions ensure that vm!=NULL at this point?
+I suspect it will be complicated to silence this false positive.
+
+regards,
+dan carpenter
+
