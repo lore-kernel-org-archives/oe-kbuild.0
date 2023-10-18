@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD48F9D5
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Oct 2023 08:09:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D8014F76
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Oct 2023 08:10:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lAQc1Vek"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ikd7Zppy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697616567; x=1729152567;
+  t=1697616628; x=1729152628;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5wNaEaCbZzgoN5UaGjU76Jy+mvxiEuNwMvhq58XEntQ=;
-  b=lAQc1VekSpmpAs/+HZalmTKTnUfyTgfKrY7oSugwpzTFOqWw4D/+fDx8
-   S0X8IogjeniYNRdr9eUIReyykBpq2S7wgvgzdnJFipwpk+gQOOaHQ0jfB
-   OAi3CDJRn5JYhVHarm+TnMW/0lLCaFbRN7f3vgA48Lxftexaeug/SogDu
-   gA58vOr6k8wYzU2uQpMAOYmbWEKLRbJGREj/IVN3KmCvtphJxaHYtMYka
-   S4GZQZmgNcP+VcBvOIGuUj86xYYrPr+nUM7ArbxqSan4qo5J70+cNVZlC
-   8mynAu+bB4da9AyF1yPznMCKX3v/XKKgenvXSVNuCiMrZgz1nuW2sYSpm
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="389839070"
+  bh=QPf0vke86uSMX5glewK0iTnXqGujEreqxO1hSgN8vxE=;
+  b=ikd7ZppyGcURIbASH0eu3t1MwuFJHPa6dH9C9CYmNABZdEvUFX0Gaikp
+   DfuUiRPZtemD4jWPCWrB9nGuIlXZ0BkpruvFzBMQU/OXdpfHklCuLcAOR
+   Djasm0TyZ7EoC/zzbbU0TCRvQzO2VzK8CbUzpaa+69iegu0/lkyIfte8c
+   WHSiBK89ABwLcLTo4M+ZUDJv18nf7BYAfGgnRQ25Ank4PNiHj1Zs5q549
+   P094wIPVqXy8jMnh1cWMDwm2bkW637YisVmIs0XzeN/ZnrNA8/AaJNfQw
+   gXhFanweD+qM4CasrrN0Jx9WGG2x2OcMqEdLOTXEFUi/boKIF/QtvAKI5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="388827749"
 X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="389839070"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 01:09:26 -0700
+   d="scan'208";a="388827749"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 01:10:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="1087829710"
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="706342195"
 X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="1087829710"
+   d="scan'208";a="706342195"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 18 Oct 2023 01:09:25 -0700
+  by orsmga003.jf.intel.com with ESMTP; 18 Oct 2023 01:10:26 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qt1cJ-00006o-0g;
-	Wed, 18 Oct 2023 08:09:23 +0000
-Date: Wed, 18 Oct 2023 16:09:13 +0800
+	id 1qt1dI-00006u-0D;
+	Wed, 18 Oct 2023 08:10:24 +0000
+Date: Wed, 18 Oct 2023 16:10:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [djwong-xfs:xfile-page-caching 83/172] fs/xfs/libxfs/xfs_rmap.c:277
- xfs_rmap_check_irec() warn: bitwise AND condition is false here
-Message-ID: <202310181555.PwT5mJU1-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 4/8] clk: qcom: apss-ipq6018: ipq5332: add safe source
+ switch for a53pll
+Message-ID: <202310181650.g8THtfsm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,69 +50,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "git am base is a link in commit message"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+In-Reply-To: <000c61a028814f08a9fc6d1d5c446e8dad11a650.1697101543.git.quic_varada@quicinc.com>
+References: <000c61a028814f08a9fc6d1d5c446e8dad11a650.1697101543.git.quic_varada@quicinc.com>
+TO: Varadarajan Narayanan <quic_varada@quicinc.com>
+TO: agross@kernel.org
+TO: andersson@kernel.org
+TO: konrad.dybcio@linaro.org
+TO: robh+dt@kernel.org
+TO: krzysztof.kozlowski+dt@linaro.org
+TO: conor+dt@kernel.org
+TO: mturquette@baylibre.com
+TO: sboyd@kernel.org
+TO: rafael@kernel.org
+TO: viresh.kumar@linaro.org
+TO: ilia.lin@kernel.org
+TO: quic_kathirav@quicinc.com
+TO: linux-arm-msm@vger.kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: linux-clk@vger.kernel.org
+TO: linux-pm@vger.kernel.org
+CC: Varadarajan Narayanan <quic_varada@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
-head:   b906f6a9d64e5a914bcc5e69a08dd27e99361afd
-commit: 2b827256b6c1c99c1833167ca6c2abbc857c7d04 [83/172] xfs: create a shadow rmap btree during rmap repair
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: i386-randconfig-141-20231017 (https://download.01.org/0day-ci/archive/20231018/202310181555.PwT5mJU1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231018/202310181555.PwT5mJU1-lkp@intel.com/reproduce)
+Hi Varadarajan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc6 next-20231018]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Varadarajan-Narayanan/clk-qcom-clk-alpha-pll-introduce-stromer-plus-ops/20231017-104355
+base:   linus/master
+patch link:    https://lore.kernel.org/r/000c61a028814f08a9fc6d1d5c446e8dad11a650.1697101543.git.quic_varada%40quicinc.com
+patch subject: [PATCH v2 4/8] clk: qcom: apss-ipq6018: ipq5332: add safe source switch for a53pll
+:::::: branch date: 29 hours ago
+:::::: commit date: 29 hours ago
+config: loongarch-randconfig-001-20231018 (https://download.01.org/0day-ci/archive/20231018/202310181650.g8THtfsm-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231018/202310181650.g8THtfsm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202310181555.PwT5mJU1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310181650.g8THtfsm-lkp@intel.com/
 
-New smatch warnings:
-fs/xfs/libxfs/xfs_rmap.c:277 xfs_rmap_check_irec() warn: bitwise AND condition is false here
-fs/xfs/libxfs/xfs_rmap.c:290 xfs_rmap_complain_bad_rec() warn: bitwise AND condition is false here
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-fs/xfs/libxfs/xfs_rmap.c:992 xfs_rmap_map() warn: always true condition '(ltrec.rm_blockcount + len + gtrec.rm_blockcount <= (~0)) => (0-u32max <= u32max)'
-
-vim +277 fs/xfs/libxfs/xfs_rmap.c
-
-c4e34172da26cb Darrick J. Wong 2023-04-11  270  
-57edac971cfd75 Darrick J. Wong 2023-03-06  271  /* Simple checks for rmap records. */
-57edac971cfd75 Darrick J. Wong 2023-03-06  272  xfs_failaddr_t
-57edac971cfd75 Darrick J. Wong 2023-03-06  273  xfs_rmap_check_irec(
-57edac971cfd75 Darrick J. Wong 2023-03-06  274  	struct xfs_btree_cur		*cur,
-57edac971cfd75 Darrick J. Wong 2023-03-06  275  	const struct xfs_rmap_irec	*irec)
-57edac971cfd75 Darrick J. Wong 2023-03-06  276  {
-2b827256b6c1c9 Darrick J. Wong 2023-03-06 @277  	if (cur->bc_flags & XFS_BTREE_IN_XFILE)
-2b827256b6c1c9 Darrick J. Wong 2023-03-06  278  		return xfs_rmap_check_perag_irec(cur->bc_mem.pag, irec);
-57edac971cfd75 Darrick J. Wong 2023-03-06  279  	return xfs_rmap_check_perag_irec(cur->bc_ag.pag, irec);
-57edac971cfd75 Darrick J. Wong 2023-03-06  280  }
-57edac971cfd75 Darrick J. Wong 2023-03-06  281  
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  282  static inline int
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  283  xfs_rmap_complain_bad_rec(
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  284  	struct xfs_btree_cur		*cur,
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  285  	xfs_failaddr_t			fa,
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  286  	const struct xfs_rmap_irec	*irec)
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  287  {
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  288  	struct xfs_mount		*mp = cur->bc_mp;
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  289  
-2b827256b6c1c9 Darrick J. Wong 2023-03-06 @290  	if (cur->bc_flags & XFS_BTREE_IN_XFILE)
-2b827256b6c1c9 Darrick J. Wong 2023-03-06  291  		xfs_warn(mp,
-2b827256b6c1c9 Darrick J. Wong 2023-03-06  292   "In-Memory Reverse Mapping BTree record corruption detected at %pS!", fa);
-2b827256b6c1c9 Darrick J. Wong 2023-03-06  293  	else
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  294  		xfs_warn(mp,
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  295   "Reverse Mapping BTree record corruption in AG %d detected at %pS!",
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  296  			cur->bc_ag.pag->pag_agno, fa);
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  297  	xfs_warn(mp,
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  298  		"Owner 0x%llx, flags 0x%x, start block 0x%x block count 0x%x",
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  299  		irec->rm_owner, irec->rm_flags, irec->rm_startblock,
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  300  		irec->rm_blockcount);
-32d6fdfa27ce50 Darrick J. Wong 2023-03-06  301  	xfs_btree_mark_sick(cur);
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  302  	return -EFSCORRUPTED;
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  303  }
-ee12eaaa435a7b Darrick J. Wong 2023-04-11  304  
+   loongarch64-linux-ld: drivers/clk/qcom/apss-ipq6018.o: in function `apss_ipq6018_probe':
+>> apss-ipq6018.c:(.text+0xd0): undefined reference to `qcom_smem_get_soc_id'
 
 -- 
 0-DAY CI Kernel Test Service
