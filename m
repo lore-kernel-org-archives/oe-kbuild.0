@@ -1,45 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39245361
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Oct 2023 00:22:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88477F0
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Oct 2023 02:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C+UjA3JV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697674958; x=1729210958;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IpsTHauhXvRegE4+NYVi0A04sA6Jo07gDDYmulc4yec=;
-  b=C+UjA3JVSEz4bcafuWhC9YMO5odx3LkbAUcsXzZejSJ/B4QYgu93VtBG
-   sDMN5ex/otooacDd780CbOUUxC6etsTvvqR/XMFIZXIy/Q5czoIJd/TO9
-   34rEDwi472m2MtSMSR4bs9QoHRayNyxRoiJOuncVXnY9cG6HSGUTD7VOe
-   ohd7I6jh94TzyorTlHEOwxuGTi2l6AlSqJ50DnZ5nrXhnlEK2WK7zBxNV
-   zGqGv8/48AySCTq2B62XRsozi+gMRD2ZBqOiCTFhWHq/i4pYqhtTEvQkb
-   yiUs7VESJToKNDtgOmI3k8BnUU2Uv5bFMK1Sw9Mt+kzuQv+iTULGQRYeu
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="376519341"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="376519341"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 17:22:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="760442117"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="760442117"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Oct 2023 17:22:36 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qtGo6-0001K8-0m;
-	Thu, 19 Oct 2023 00:22:34 +0000
-Date: Thu, 19 Oct 2023 08:21:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH v3 2/3] userfaultfd: UFFDIO_MOVE uABI
-Message-ID: <202310190825.cNyXz30F-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QwItNz3R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1697682512;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U3e/R8h8CUl6Qt8HzoNg568ab2TdGmvLJ3uBUWajvX8=;
+	b=QwItNz3RakzvaWt1AwSLGsq6K37izQx3CHpNro2xoBj/LrlAzOrI9gcShmVrfOVydKc/ff
+	CC0fQuOoroFxvLyI3MpsEyhRUsJeLM+vb9D4odKfj8A5ef+9XUSvYnR4pn0tCIPQ54nfWK
+	desrPpuAXhhi0S/Y3f5cfc8dtzkZPLc=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-544-Xqo4N_V8NMSwLG0l_9noLA-1; Wed, 18 Oct 2023 22:28:27 -0400
+X-MC-Unique: Xqo4N_V8NMSwLG0l_9noLA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7FC7D29AA383;
+	Thu, 19 Oct 2023 02:28:26 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.51])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B79DB503B;
+	Thu, 19 Oct 2023 02:28:25 +0000 (UTC)
+Date: Thu, 19 Oct 2023 10:28:21 +0800
+From: Baoquan He <bhe@redhat.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Philip Li <philip.li@intel.com>, oe-kbuild@lists.linux.dev,
+	Lorenzo Stoakes <lstoakes@gmail.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm'
+ could be null (see line 3667)
+Message-ID: <ZTCURc8ZQE+KrTvS@MiWiFi-R3L-srv>
+References: <f82be227-bfde-439a-b339-1b4ee370d59a@kadam.mountain>
+ <ZS+dSd9Z6/2wU0Eg@MiWiFi-R3L-srv>
+ <89caf59a-d3b9-409d-b1ae-9e370cb9ee7d@kadam.mountain>
+ <ZS/LrhcxcMOgiiX5@MiWiFi-R3L-srv>
+ <ZS/TVMT9ed7OdyNy@rli9-mobl>
+ <ZS/2k6DIMd0tZRgK@MiWiFi-R3L-srv>
+ <20231018085248.6f3f36101cbdfe0990c8b467@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,69 +55,131 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231018085248.6f3f36101cbdfe0990c8b467@linux-foundation.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20231009064230.2952396-3-surenb@google.com>
-References: <20231009064230.2952396-3-surenb@google.com>
-TO: Suren Baghdasaryan <surenb@google.com>
-TO: akpm@linux-foundation.org
-CC: viro@zeniv.linux.org.uk
-CC: brauner@kernel.org
-CC: shuah@kernel.org
-CC: aarcange@redhat.com
-CC: lokeshgidra@google.com
-CC: peterx@redhat.com
-CC: david@redhat.com
-CC: hughd@google.com
-CC: mhocko@suse.com
-CC: axelrasmussen@google.com
-CC: rppt@kernel.org
-CC: willy@infradead.org
-CC: Liam.Howlett@oracle.com
-CC: jannh@google.com
-CC: zhangpeng362@huawei.com
-CC: bgeffon@google.com
-CC: kaleshsingh@google.com
-CC: ngeoffray@google.com
-CC: jdduke@google.com
-CC: surenb@google.com
-CC: linux-mm@kvack.org
-CC: linux-fsdevel@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-kselftest@vger.kernel.org
-CC: kernel-team@android.com
+On 10/18/23 at 08:52am, Andrew Morton wrote:
+> On Wed, 18 Oct 2023 23:15:31 +0800 Baoquan He <bhe@redhat.com> wrote:
+> 
+> > From: Baoquan He <bhe@redhat.com>
+> > Date: Wed, 18 Oct 2023 22:50:14 +0800
+> > Subject: [PATCH] mm/vmalloc: fix the unchecked dereference warning in vread_iter()
+> > Content-type: text/plain
+> > 
+> > LKP reported smatch warning as below:
+> > 
+> > ===================
+> > smatch warnings:
+> > mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
+> > ......
+> > 06c8994626d1b7  @3667 size = vm ? get_vm_area_size(vm) : va_size(va);
+> > ......
+> > 06c8994626d1b7  @3689 else if (!(vm->flags & VM_IOREMAP))
+> >                                  ^^^^^^^^^
+> > Unchecked dereference
+> > =====================
+> > 
+> > So add checking on whether 'vm' is not null when dereferencing it in
+> > vread_iter(). This mutes smatch complaint.
+> > 
+> > ...
+> >
+> > --- a/mm/vmalloc.c
+> > +++ b/mm/vmalloc.c
+> > @@ -3813,7 +3813,7 @@ long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
+> >  
+> >  		if (flags & VMAP_RAM)
+> >  			copied = vmap_ram_vread_iter(iter, addr, n, flags);
+> > -		else if (!(vm->flags & VM_IOREMAP))
+> > +		else if (!(vm && (vm->flags & VM_IOREMAP)))
+> >  			copied = aligned_vread_iter(iter, addr, n);
+> >  		else /* IOREMAP area is treated as memory hole */
+> >  			copied = zero_iter(iter, n);
+> 
+> So is this not a real runtime bug?  We're only doing this to suppress a
+> smatch warning?
+> 
+> If so, can we please include a description of *why* this wasn't a bug? 
+> What conditions ensure that vm!=NULL at this point?
 
-Hi Suren,
+I think this is not a real runtime bug. The only chance it can hapen is
+when (flags == VMAP_BLOCK) is true. That has been warned and could never
+happen. I updated patch log and paste v2 here. 
 
-kernel test robot noticed the following build warnings:
+                /*
+                 * VMAP_BLOCK indicates a sub-type of vm_map_ram area, need
+                 * be set together with VMAP_RAM.
+                 */
+                WARN_ON(flags == VMAP_BLOCK);
+ 
+                if (!vm && !flags)
+                        continue;
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on next-20231018]
-[cannot apply to linus/master v6.6-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan/mm-rmap-support-move-to-different-root-anon_vma-in-folio_move_anon_rmap/20231009-144552
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231009064230.2952396-3-surenb%40google.com
-patch subject: [PATCH v3 2/3] userfaultfd: UFFDIO_MOVE uABI
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
-config: x86_64-randconfig-101-20231019 (https://download.01.org/0day-ci/archive/20231019/202310190825.cNyXz30F-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231019/202310190825.cNyXz30F-lkp@intel.com/reproduce)
+From 89cc02302766ab7a67cc668390c24079b4a9406b Mon Sep 17 00:00:00 2001
+From: Baoquan He <bhe@redhat.com>
+Date: Wed, 18 Oct 2023 22:50:14 +0800
+Subject: [PATCH v2] mm/vmalloc: fix the unchecked dereference warning in vread_iter()
+Content-type: text/plain
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202310190825.cNyXz30F-lkp@intel.com/
+LKP reported smatch warning as below:
 
-cocci warnings: (new ones prefixed by >>)
->> mm/userfaultfd.c:857:13-14: WARNING opportunity for swap()
+===================
+smatch warnings:
+mm/vmalloc.c:3689 vread_iter() error: we previously assumed 'vm' could be null (see line 3667)
+......
+06c8994626d1b7  @3667 size = vm ? get_vm_area_size(vm) : va_size(va);
+......
+06c8994626d1b7  @3689 else if (!(vm->flags & VM_IOREMAP))
+                                 ^^^^^^^^^
+Unchecked dereference
+=====================
 
+This is not a real-time bug because the possible null 'vm' in the pointed
+place could only happen when flags == VMAP_BLOCK. However, the case
+'flags == VMAP_BLOCK' should never happen and has been detected with WARN_ON.
+Please check vm_map_ram() implementation and the earlier checking in
+vread_iter() at below:
+
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~
+                /*
+                 * VMAP_BLOCK indicates a sub-type of vm_map_ram area, need
+                 * be set together with VMAP_RAM.
+                 */
+                WARN_ON(flags == VMAP_BLOCK);
+
+                if (!vm && !flags)
+                        continue;
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+So add checking on whether 'vm' could be null when dereferencing it in
+vread_iter(). This mutes smatch complaint.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/r/202310171600.WCrsOwFj-lkp@intel.com/
+Signed-off-by: Baoquan He <bhe@redhat.com>
+---
+v1->v2:
+- Update patch log to state that it's not a realtime bug as Andrew
+  suggested.
+
+ mm/vmalloc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index aad48ed8d86b..2cc992392db7 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -3813,7 +3813,7 @@ long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
+ 
+ 		if (flags & VMAP_RAM)
+ 			copied = vmap_ram_vread_iter(iter, addr, n, flags);
+-		else if (!(vm->flags & VM_IOREMAP))
++		else if (!(vm && (vm->flags & VM_IOREMAP)))
+ 			copied = aligned_vread_iter(iter, addr, n);
+ 		else /* IOREMAP area is treated as memory hole */
+ 			copied = zero_iter(iter, n);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.41.0
+
