@@ -1,45 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B66E199AF
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Oct 2023 11:52:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA771BDDA
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Oct 2023 13:32:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ODRDz22m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l++10reu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697802729; x=1729338729;
+  t=1697808733; x=1729344733;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n6/HdENSjoflvF6yVRhx/7iX0ywhO4Danxrml3hZnYA=;
-  b=ODRDz22mx5sqUPInUSiCwUJO6j0age9jfg6lnPGa72F5Hr0dzBAUOUes
-   lavTIq/HnHnZ3TJdNGNXHsjhJNTQWQm/bcKoHiJ0RtteqLvvTyfpb73h5
-   /8G0UZL3OZzTX9FoSyklzioM24Untj3pXGEjAOpxHYbBxXs1Gi+g4WKG7
-   +5eHi5uRtVS/od3WPBpSeAtuRlLKxoLLNSnv+jCD+1Eesjk5vPUDbUJAq
-   fj8f/qKHMdN/b3YMB6FRCI7vXSzSSqQW6jBHaTa12aY8KJ17DNayZ7VOo
-   UjHCBbhOGL3mWJx+MyfvI3fgwEs4cHFQAh0HXs8byfGiIHIpd6bbbSllF
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="385358915"
-X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="385358915"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 04:52:08 -0700
+  bh=Bqvtq6vuaRnHUaqD2f4GPVQV4fL3quevFRIm0+RV6ls=;
+  b=l++10reugzhgFLfqoDmqHXM4t8yx5Fm+cgylFz6KdAv6dVfDm5GBKSGr
+   o5S3ZKWCSVbQQbmGmdMv2VZ+Yd1O5qzqTGgE5rVO9mgtr60brctLYbDDX
+   P2nZwK6UMor1eh7oPB3pWuCDfV3g1i7IexpBBX9weDmv9BBHxbxBnQdOR
+   pQFvfFJopEV+fOrM8S8tkdJ+ZWomW8GA4W31gFZfcOzsgHGQ53szyXhG/
+   fJtQ4uc87k/+QN2dFd0Dqr3mXgig4ZAn86YaLAKcBBYOs2B8pq7l6KMhm
+   gQjeAvClq6Cei+eDiPQQ8a2Ee6tHVa4WtWAL2Yj8gZIkjGqpJ4Vx+uYat
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="385373924"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
+   d="scan'208";a="385373924"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 06:32:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="823227293"
-X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
-   d="scan'208";a="823227293"
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="873908912"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
+   d="scan'208";a="873908912"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 20 Oct 2023 04:52:07 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 20 Oct 2023 06:32:11 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qto2v-0003Ty-0S;
-	Fri, 20 Oct 2023 11:52:05 +0000
-Date: Fri, 20 Oct 2023 19:51:11 +0800
+	id 1qtpbl-0003ZN-0g;
+	Fri, 20 Oct 2023 13:32:09 +0000
+Date: Fri, 20 Oct 2023 21:31:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 3/5] i3c: slave: add svc slave controller support
-Message-ID: <202310201945.nRKjcul0-lkp@intel.com>
+Subject: kernel/workqueue.c:324:40: sparse: sparse: duplicate [noderef]
+Message-ID: <202310202107.U93CNFf4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,82 +50,83 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "git am base is a link in commit message"
+:::::: Manual check reason: "low confidence static check warning: kernel/workqueue.c:324:40: sparse: sparse: duplicate [noderef]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20231018215809.3477437-4-Frank.Li@nxp.com>
-References: <20231018215809.3477437-4-Frank.Li@nxp.com>
-TO: Frank Li <Frank.Li@nxp.com>
-TO: miquel.raynal@bootlin.com
-TO: conor.culhane@silvaco.com
-TO: alexandre.belloni@bootlin.com
-TO: robh+dt@kernel.org
-TO: krzysztof.kozlowski+dt@linaro.org
-TO: conor+dt@kernel.org
-TO: corbet@lwn.net
-TO: joe@perches.com
-TO: Frank.Li@nxp.com
-TO: linux-i3c@lists.infradead.org
-TO: devicetree@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: linux-doc@vger.kernel.org
-CC: gregkh@linuxfoundation.org
-CC: imx@lists.linux.dev
-CC: jirislaby@kernel.org
-CC: linux-serial@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+TO: Tejun Heo <tj@kernel.org>
 
-Hi Frank,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.6-rc6 next-20231020]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/i3c-add-slave-mode-support/20231019-055940
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20231018215809.3477437-4-Frank.Li%40nxp.com
-patch subject: [PATCH 3/5] i3c: slave: add svc slave controller support
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231020/202310201945.nRKjcul0-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310201945.nRKjcul0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ce55c22ec8b223a90ff3e084d842f73cfba35588
+commit: 636b927eba5bc633753f8eb80f35e1d5be806e51 workqueue: Make unbound workqueues to use per-cpu pool_workqueues
+date:   2 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 2 months ago
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231020/202310202107.U93CNFf4-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310202107.U93CNFf4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202310201945.nRKjcul0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310202107.U93CNFf4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/workqueue.c:324:40: sparse: sparse: duplicate [noderef]
+>> kernel/workqueue.c:324:40: sparse: sparse: multiple address spaces given: __percpu & __rcu
 
->> drivers/i3c/slave/svc-i3c-slave.c:211:39: warning: no previous prototype for 'svc_i3c_get_features' [-Wmissing-prototypes]
-     211 | const struct i3c_slave_ctrl_features *svc_i3c_get_features(struct i3c_slave_ctrl *ctrl)
-         |                                       ^~~~~~~~~~~~~~~~~~~~
->> drivers/i3c/slave/svc-i3c-slave.c:666:5: warning: no previous prototype for 'svc_i3c_fifo_status' [-Wmissing-prototypes]
-     666 | int svc_i3c_fifo_status(struct i3c_slave_ctrl *ctrl, bool tx)
-         |     ^~~~~~~~~~~~~~~~~~~
+vim +324 kernel/workqueue.c
 
-
-vim +/svc_i3c_get_features +211 drivers/i3c/slave/svc-i3c-slave.c
-
-10d1fc84a07d32 Frank Li 2023-10-18  210  
-10d1fc84a07d32 Frank Li 2023-10-18 @211  const struct i3c_slave_ctrl_features *svc_i3c_get_features(struct i3c_slave_ctrl *ctrl)
-10d1fc84a07d32 Frank Li 2023-10-18  212  {
-10d1fc84a07d32 Frank Li 2023-10-18  213  	struct svc_i3c_slave *svc;
-10d1fc84a07d32 Frank Li 2023-10-18  214  
-10d1fc84a07d32 Frank Li 2023-10-18  215  	svc = dev_get_drvdata(&ctrl->dev);
-10d1fc84a07d32 Frank Li 2023-10-18  216  
-10d1fc84a07d32 Frank Li 2023-10-18  217  	if (!svc)
-10d1fc84a07d32 Frank Li 2023-10-18  218  		return NULL;
-10d1fc84a07d32 Frank Li 2023-10-18  219  
-10d1fc84a07d32 Frank Li 2023-10-18  220  	return &svc->features;
-10d1fc84a07d32 Frank Li 2023-10-18  221  }
-10d1fc84a07d32 Frank Li 2023-10-18  222  
+226223ab3c4118 Tejun Heo       2013-03-12  279  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  280  /*
+c5aa87bbf4b23f Tejun Heo       2013-03-13  281   * The externally visible workqueue.  It relays the issued work items to
+c5aa87bbf4b23f Tejun Heo       2013-03-13  282   * the appropriate worker_pool through its pool_workqueues.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  283   */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  284  struct workqueue_struct {
+3c25a55daadc7e Lai Jiangshan   2013-03-25  285  	struct list_head	pwqs;		/* WR: all pwqs of this wq */
+e2dca7adff8f3f Tejun Heo       2015-03-09  286  	struct list_head	list;		/* PR: list of all workqueues */
+73f53c4aa732ec Tejun Heo       2010-06-29  287  
+3c25a55daadc7e Lai Jiangshan   2013-03-25  288  	struct mutex		mutex;		/* protects this wq */
+3c25a55daadc7e Lai Jiangshan   2013-03-25  289  	int			work_color;	/* WQ: current work color */
+3c25a55daadc7e Lai Jiangshan   2013-03-25  290  	int			flush_color;	/* WQ: current flush color */
+112202d9098aae Tejun Heo       2013-02-13  291  	atomic_t		nr_pwqs_to_flush; /* flush in progress */
+3c25a55daadc7e Lai Jiangshan   2013-03-25  292  	struct wq_flusher	*first_flusher;	/* WQ: first flusher */
+3c25a55daadc7e Lai Jiangshan   2013-03-25  293  	struct list_head	flusher_queue;	/* WQ: flush waiters */
+3c25a55daadc7e Lai Jiangshan   2013-03-25  294  	struct list_head	flusher_overflow; /* WQ: flush overflow list */
+73f53c4aa732ec Tejun Heo       2010-06-29  295  
+2e109a2855bf6c Tejun Heo       2013-03-13  296  	struct list_head	maydays;	/* MD: pwqs requesting rescue */
+30ae2fc0a75eb5 Tejun Heo       2019-09-20  297  	struct worker		*rescuer;	/* MD: rescue worker */
+e22bee782b3b00 Tejun Heo       2010-06-29  298  
+87fc741e94cf64 Lai Jiangshan   2013-03-25  299  	int			nr_drainers;	/* WQ: drain in progress */
+a357fc03262988 Lai Jiangshan   2013-03-25  300  	int			saved_max_active; /* WQ: saved pwq max_active */
+226223ab3c4118 Tejun Heo       2013-03-12  301  
+5b95e1af8d17d8 Lai Jiangshan   2015-05-12  302  	struct workqueue_attrs	*unbound_attrs;	/* PW: only for unbound wqs */
+5b95e1af8d17d8 Lai Jiangshan   2015-05-12  303  	struct pool_workqueue	*dfl_pwq;	/* PW: only for unbound wqs */
+6029a91829ad2b Tejun Heo       2013-04-01  304  
+226223ab3c4118 Tejun Heo       2013-03-12  305  #ifdef CONFIG_SYSFS
+226223ab3c4118 Tejun Heo       2013-03-12  306  	struct wq_device	*wq_dev;	/* I: for sysfs interface */
+226223ab3c4118 Tejun Heo       2013-03-12  307  #endif
+4e6045f134784f Johannes Berg   2007-10-18  308  #ifdef CONFIG_LOCKDEP
+669de8bda87b92 Bart Van Assche 2019-02-14  309  	char			*lock_name;
+669de8bda87b92 Bart Van Assche 2019-02-14  310  	struct lock_class_key	key;
+4e6045f134784f Johannes Berg   2007-10-18  311  	struct lockdep_map	lockdep_map;
+4e6045f134784f Johannes Berg   2007-10-18  312  #endif
+ecf6881ff349ad Tejun Heo       2013-04-01  313  	char			name[WQ_NAME_LEN]; /* I: workqueue name */
+2728fd2f098c3c Tejun Heo       2013-04-01  314  
+e2dca7adff8f3f Tejun Heo       2015-03-09  315  	/*
+24acfb71822566 Thomas Gleixner 2019-03-13  316  	 * Destruction of workqueue_struct is RCU protected to allow walking
+24acfb71822566 Thomas Gleixner 2019-03-13  317  	 * the workqueues list without grabbing wq_pool_mutex.
+e2dca7adff8f3f Tejun Heo       2015-03-09  318  	 * This is used to dump all workqueues from sysrq.
+e2dca7adff8f3f Tejun Heo       2015-03-09  319  	 */
+e2dca7adff8f3f Tejun Heo       2015-03-09  320  	struct rcu_head		rcu;
+e2dca7adff8f3f Tejun Heo       2015-03-09  321  
+2728fd2f098c3c Tejun Heo       2013-04-01  322  	/* hot fields used during command issue, aligned to cacheline */
+2728fd2f098c3c Tejun Heo       2013-04-01  323  	unsigned int		flags ____cacheline_aligned; /* WQ: WQ_* flags */
+636b927eba5bc6 Tejun Heo       2023-08-07 @324  	struct pool_workqueue __percpu __rcu **cpu_pwq; /* I: per-cpu pwqs */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  325  };
+^1da177e4c3f41 Linus Torvalds  2005-04-16  326  
 
 -- 
 0-DAY CI Kernel Test Service
