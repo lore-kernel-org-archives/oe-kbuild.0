@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D3B63B8
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Oct 2023 17:43:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AD7107AC
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Oct 2023 20:10:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="amaTyKjA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XgB8qx8+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697996586; x=1729532586;
+  t=1698005410; x=1729541410;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JNc+0+TZc/QBfy4nC0KAa7I7uVZulfVC/4/zHS1jrEo=;
-  b=amaTyKjAP/S4NP6e4quNGuxqzQGvt/cBVdXtE7Ttn4QIPtWKGMTMN7ub
-   dfopfBTFaYZauknKGXYJDziFg+VL12ccFov8Ri4QpJeFi6jbi/8uF1sNx
-   4L+1NJedzKEPoB9v6+UdoRmmUXOJ5sQ2eziUX/C6yJFn8K+108AzmMqzA
-   PmtxeXw6DRUWMqqRT6iDW3rroppkZAQKj1cO2yt4SHYakn7g3e9WLMqf6
-   emaL0tnDDZboaE4ul1+y84J7s2zVrv619Lqn97fQuUMACf5cP3nyO5dpf
-   mEmNljGSRJ8gB0sjfrE7SqTY8Pg3+ylw4qJe8MWVo0y5rnH63sA+BwcRB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="8283494"
+  bh=HrooETvrPBgEhmVss+cgkGPxjYTJoMyfP+ktVa/gXvc=;
+  b=XgB8qx8+xEnHNu+w3BMihhKTXrOHfAXGgu9cRClfbXKc5iOGIFB8xXBZ
+   6jILFtKAP7m+RX8lddXVrGnO4+WPAUBsh6GRAWxJiwP2tofSgqw1fT3el
+   0io0wq3OKLNwR3+qY4bnaAWo2isLDtlLGCiXjKFRZVLzyGhwyW3KJpqeN
+   h1W/L1F82AQCLion8PECbTzGYBggHq/mEvmodI1u+iKryvamRCABnTN02
+   nrIUZDNDcseNXOOnGGgycXjofSvI8NZ9mk+GN9aoVjJPOxnXe7ngwqe/u
+   uJG7GjKaX9zZNVjZLOpdiIDR6IhOgL6Vdx/YI+JAcKc3D0ZnpGeZ4w9cB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="386548789"
 X-IronPort-AV: E=Sophos;i="6.03,243,1694761200"; 
-   d="scan'208";a="8283494"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2023 10:43:05 -0700
+   d="scan'208";a="386548789"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2023 13:10:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="874457992"
+X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="787284011"
 X-IronPort-AV: E=Sophos;i="6.03,243,1694761200"; 
-   d="scan'208";a="874457992"
+   d="scan'208";a="787284011"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 22 Oct 2023 10:43:04 -0700
+  by orsmga008.jf.intel.com with ESMTP; 22 Oct 2023 13:10:08 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qucTe-0006A2-0l;
-	Sun, 22 Oct 2023 17:43:02 +0000
-Date: Mon, 23 Oct 2023 01:42:38 +0800
+	id 1quely-0006Es-1A;
+	Sun, 22 Oct 2023 20:10:06 +0000
+Date: Mon, 23 Oct 2023 04:09:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 5/9] scsi: bht: include: Add the header files related to
- Bayhub specific struct, enum and macro
-Message-ID: <202310230123.kYU8vEt2-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 7851/13906] drivers/parport/procfs.c:267:18-28:
+ WARNING use flexible-array member instead
+ (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+Message-ID: <202310230448.N902UjX1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,85 +51,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20231013083358.10313-1-liuchang_125125@163.com>
-References: <20231013083358.10313-1-liuchang_125125@163.com>
-TO: liuchang_125125@163.com
-TO: jejb@linux.ibm.com
-TO: martin.petersen@oracle.com
-TO: linux-scsi@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-CC: mark.tao@bayhubtech.com
-CC: shaper.liu@bayhubtech.com
-CC: thomas.hu@bayhubtech.com
-CC: chevron.li@bayhubtech.com
-CC: charl.liu@bayhubtech.com
-CC: Charl Liu <liuchang_125125@163.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Joel Granados <j.granados@samsung.com>
+CC: Luis Chamberlain <mcgrof@kernel.org>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 401644852d0b2a278811de38081be23f74b5bb04]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/liuchang_125125-163-com/scsi-Update-Kconfig-and-Makefile-for-supporting-Bayhub-s-SD-MMC-Card-interface-driver/20231017-123349
-base:   401644852d0b2a278811de38081be23f74b5bb04
-patch link:    https://lore.kernel.org/r/20231013083358.10313-1-liuchang_125125%40163.com
-patch subject: [PATCH 5/9] scsi: bht: include: Add the header files related to Bayhub specific struct, enum and macro
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2030579113a1b1b5bfd7ff24c0852847836d8fd1
+commit: 0829381e481ab2760086cc88090f70e761e4fcc2 [7851/13906] parport: Remove the now superfluous sentinel element from ctl_table array
+:::::: branch date: 3 days ago
+:::::: commit date: 11 days ago
+config: x86_64-randconfig-102-20231023 (https://download.01.org/0day-ci/archive/20231023/202310230448.N902UjX1-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231023/202310230123.kYU8vEt2-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231023/202310230448.N902UjX1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202310230123.kYU8vEt2-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202310230448.N902UjX1-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> drivers/scsi/bht/include/basic.h: linux/delay.h is included more than once.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/parport/procfs.c:267:18-28: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+   drivers/parport/procfs.c:364:18-28: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 
-vim +35 drivers/scsi/bht/include/basic.h
+vim +267 drivers/parport/procfs.c
 
-    24	
-    25	#include <asm/io.h>
-    26	#include <asm/uaccess.h>
-    27	#include <asm/page.h>
-    28	#include <asm/byteorder.h>
-    29	#include <linux/stddef.h>
-    30	#include <linux/string.h>
-    31	#include <linux/errno.h>
-    32	#include <linux/kernel.h>
-    33	#include <linux/ioport.h>
-    34	#include <linux/slab.h>
-  > 35	#include <linux/delay.h>
-    36	#include <linux/pci.h>
-    37	#include <linux/proc_fs.h>
-    38	#include <linux/reboot.h>
-    39	#include <linux/interrupt.h>
-    40	#include <linux/types.h>
-    41	#include <scsi/sg.h>
-    42	#include <linux/stat.h>
-    43	#include <linux/spinlock.h>
-    44	#include <linux/sched.h>
-    45	#include <linux/spinlock_types.h>
-    46	#include <linux/semaphore.h>
-    47	#include <linux/completion.h>
-  > 48	#include <linux/delay.h>
-    49	#include <linux/kdev_t.h>
-    50	#include <linux/highmem.h>
-    51	#include <linux/export.h>
-    52	#include <linux/wait.h>
-    53	#include <scsi/scsi_host.h>
-    54	#include <scsi/scsi_cmnd.h>
-    55	#include <scsi/scsi_device.h>
-    56	#include <scsi/scsi.h>
-    57	
+^1da177e4c3f41 Linus Torvalds 2005-04-16  257  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  258  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  259  struct parport_sysctl_table {
+37e9981e33e4d3 Joel Granados  2023-06-16  260  	struct ctl_table_header *port_header;
+37e9981e33e4d3 Joel Granados  2023-06-16  261  	struct ctl_table_header *devices_header;
+0829381e481ab2 Joel Granados  2023-10-02  262  #ifdef CONFIG_PARPORT_1284
+0829381e481ab2 Joel Granados  2023-10-02  263  	struct ctl_table vars[10];
+0829381e481ab2 Joel Granados  2023-10-02  264  #else
+0829381e481ab2 Joel Granados  2023-10-02  265  	struct ctl_table vars[5];
+0829381e481ab2 Joel Granados  2023-10-02  266  #endif /* IEEE 1284 support */
+0829381e481ab2 Joel Granados  2023-10-02 @267  	struct ctl_table device_dir[1];
+^1da177e4c3f41 Linus Torvalds 2005-04-16  268  };
+^1da177e4c3f41 Linus Torvalds 2005-04-16  269  
 
 -- 
 0-DAY CI Kernel Test Service
