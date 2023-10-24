@@ -1,57 +1,47 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DDC133D0
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Oct 2023 10:46:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31ABB1173A
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Oct 2023 20:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CfMJ1bln"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40790b0a224so34026475e9.0
-        for <oe-kbuild@lists.linux.dev>; Tue, 24 Oct 2023 03:46:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698144398; x=1698749198; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0SpGzt5EPQBKeC5ysJFqlAOyND1HqZsJcmX27vUekos=;
-        b=CfMJ1blnBKGMO1s2EdSvcmW62NiZitUrzZ9nEW/fjZxIsnE2UAvIv+dNr5q8HkW5GJ
-         7ZooMRa41xX95hs1Tbr36SvwaCisOJf8WXyHNvgb2uk82E68Z05p1W7LEWOt1wSGA5BZ
-         1wDn5h/S3FM/sRYocKZQc5rDi3anoWjw8h5mFiWJkoQI/qSYHBtQgmMqtjECg04SttlC
-         6AOM89SNqZHprwoJsB26lD2uUohu2UlVWBJ8FVnKeR6w6SdtfridwthqrBRhnOQMAIis
-         xFzZbpay8G+ns+oKmqC9ni1dgWVqnH1R7DqDPWq42D31Plwckr7hmS8GjYAXlqDpH+2G
-         NC6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698144398; x=1698749198;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0SpGzt5EPQBKeC5ysJFqlAOyND1HqZsJcmX27vUekos=;
-        b=ok6FBWUGx+rygaIWI7Sn4MwTU0+ETzec0kqwLkIEtZK9wqIX7EIqSZHbYvc4sQn22M
-         FLeF+wH0rmv+2T/xtmA7782Yxj8eGD5TiaQyT/0KbiiIFhKVmukgu6Fe8GhgPNBPJdEI
-         AoGrtdCAw0Wyey4aU2MdMlAxA3uUcBByb9k+4qLzKR7MVnxdxtPe6zVivb6li+YqMIe7
-         oWgjvmox3+TAY5gEIPfgZPAxeDWnqYZGxUwP22sKpv98+Vun5mlGzkDMzO57jfozf/Xf
-         NGD60JL5Dni0pDqw7kBtS5BhNsHTmRS3v4qPlylIa2L3w4fIkl43FbvBBWxNORK2WWsw
-         G8aw==
-X-Gm-Message-State: AOJu0Yz9COE11Df9B1uAd1ZPGwdEvHsWpaRtdxfdHOoj7enGzS1IFdrK
-	ZlB/YKQ8cJavJMt95aqw7i6jga4w17RK8A7+EUc=
-X-Google-Smtp-Source: AGHT+IFal9H1jvC4Q3PK0I2LyrVEO/TLp7BWA+0hdBEGG9xbWftlWywwFOwOKjSW9JtgKcK+ozdIAQ==
-X-Received: by 2002:a05:600c:19d1:b0:405:3955:5881 with SMTP id u17-20020a05600c19d100b0040539555881mr9060319wmq.36.1698144397131;
-        Tue, 24 Oct 2023 03:46:37 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id e23-20020adf9bd7000000b0032d893d8dc8sm9757680wrc.2.2023.10.24.03.46.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Oct 2023 03:46:36 -0700 (PDT)
-Date: Tue, 24 Oct 2023 13:46:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Manas Ghandat <ghandatmanas@gmail.com>,
-	dave.kleikamp@oracle.com, shaggy@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Manas Ghandat <ghandatmanas@gmail.com>,
-	Linux-kernel-mentees@lists.linuxfoundation.org,
-	jfs-discussion@lists.sourceforge.net, linux-kernel@vger.kernel.org,
-	syzbot+9924e2a08d9ba0fd4ce2@syzkaller.appspotmail.com
-Subject: Re: [PATCH] jfs: fix slab-out-of-bounds Read in dtSearch
-Message-ID: <f5a9e854-5b6c-49bd-9888-525906665966@kadam.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfqpyKXR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698180510; x=1729716510;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/zEANH8hKdwU9rhIF0z8R90ldBtCCFZAzDGa/zylGCM=;
+  b=FfqpyKXRviZ2sPbeZPD/UVlDGRhl/moqMxhsiLFqi+Mmocmq6J28eriw
+   SCZsf6HNSBG0JXViRziWiW0vN297C7coNwvH8hFl3OBYn+SYv2Xs4hrM2
+   ousupN30kePGcsrDr6GM6UjamoyRu58pTM8edKB3whbekFk2diSc/c0Qs
+   XEyicP9fiGCqtnLckxWfccpEnReKInbRuVlxXxpZQvPXfqzBpSb4icUGD
+   UsJ4zB1Z84CnWjo7Lh5luzDB3lKO/u8Grl7rsMQVaHlnsaMtfG0gXwISV
+   PqLS/2ddv0n60RgWQXnuuIuPEDD2jjz5lkQWHyHakEgWkL+V16t8i0O5T
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="366507906"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
+   d="scan'208";a="366507906"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 13:48:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="902329562"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
+   d="scan'208";a="902329562"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 24 Oct 2023 13:46:04 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qvOK7-0008Gz-14;
+	Tue, 24 Oct 2023 20:48:23 +0000
+Date: Wed, 25 Oct 2023 04:48:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [linux-next:master 11114/11428]
+ drivers/net/wireless/mediatek/mt76/mt7915/debugfs.c:1133:29: sparse: sparse:
+ too long token expansion
+Message-ID: <202310250442.t4gnr6QB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,121 +50,141 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231016171130.15952-1-ghandatmanas@gmail.com>
 
-Hi Manas,
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/net/wireless/mediatek/mt76/mt7915/debugfs.c:1133:29: sparse: sparse: too long token expansion"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: David Laight <David.Laight@ACULAB.COM>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manas-Ghandat/jfs-fix-slab-out-of-bounds-Read-in-dtSearch/20231017-152500
-base:   https://github.com/kleikamp/linux-shaggy jfs-next
-patch link:    https://lore.kernel.org/r/20231016171130.15952-1-ghandatmanas%40gmail.com
-patch subject: [PATCH] jfs: fix slab-out-of-bounds Read in dtSearch
-config: i386-randconfig-141-20231022 (https://download.01.org/0day-ci/archive/20231024/202310241724.Ed02yUz9-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f017d9a92a735ac1adc8875955621eda6ae1b3e6
+commit: b519cf868c9db4d72314c7f0f066dcffe3ecef72 [11114/11428] minmax: allow min()/max()/clamp() if the arguments have the same signedness.
+:::::: branch date: 14 hours ago
+:::::: commit date: 2 weeks ago
+config: i386-randconfig-063-20231025 (https://download.01.org/0day-ci/archive/20231025/202310250442.t4gnr6QB-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231024/202310241724.Ed02yUz9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310250442.t4gnr6QB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202310241724.Ed02yUz9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310250442.t4gnr6QB-lkp@intel.com/
 
-smatch warnings:
-fs/jfs/jfs_dtree.c:636 dtSearch() warn: impossible condition '(stbl[index] > 128) => ((-128)-127 > 128)'
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/mediatek/mt76/mt7915/debugfs.c:1133:29: sparse: sparse: too long token expansion
+>> drivers/net/wireless/mediatek/mt76/mt7915/debugfs.c:1133:29: sparse: sparse: too long token expansion
+>> drivers/net/wireless/mediatek/mt76/mt7915/debugfs.c:1133:29: sparse: sparse: too long token expansion
+>> drivers/net/wireless/mediatek/mt76/mt7915/debugfs.c:1133:29: sparse: sparse: too long token expansion
 
-vim +636 fs/jfs/jfs_dtree.c
+vim +1133 drivers/net/wireless/mediatek/mt76/mt7915/debugfs.c
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  567  int dtSearch(struct inode *ip, struct component_name * key, ino_t * data,
-^1da177e4c3f41 Linus Torvalds   2005-04-16  568  	     struct btstack * btstack, int flag)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  569  {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  570  	int rc = 0;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  571  	int cmp = 1;		/* init for empty page */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  572  	s64 bn;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  573  	struct metapage *mp;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  574  	dtpage_t *p;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  575  	s8 *stbl;
-                                                        ^^^^^^^^
+f1d962369d5687 Ryder Lee 2020-04-25  1047  
+e3296759f34752 Ryder Lee 2022-11-24  1048  static ssize_t
+e3296759f34752 Ryder Lee 2022-11-24  1049  mt7915_rate_txpower_set(struct file *file, const char __user *user_buf,
+e3296759f34752 Ryder Lee 2022-11-24  1050  			size_t count, loff_t *ppos)
+e3296759f34752 Ryder Lee 2022-11-24  1051  {
+e3296759f34752 Ryder Lee 2022-11-24  1052  	struct mt7915_phy *phy = file->private_data;
+e3296759f34752 Ryder Lee 2022-11-24  1053  	struct mt7915_dev *dev = phy->dev;
+e3296759f34752 Ryder Lee 2022-11-24  1054  	struct mt76_phy *mphy = phy->mt76;
+e3296759f34752 Ryder Lee 2022-11-24  1055  	struct mt7915_mcu_txpower_sku req = {
+e3296759f34752 Ryder Lee 2022-11-24  1056  		.format_id = TX_POWER_LIMIT_TABLE,
+3eb50cc9053437 Ryder Lee 2022-12-01  1057  		.band_idx = phy->mt76->band_idx,
+e3296759f34752 Ryder Lee 2022-11-24  1058  	};
+e3296759f34752 Ryder Lee 2022-11-24  1059  	char buf[100];
+e3296759f34752 Ryder Lee 2022-11-24  1060  	int i, ret, pwr160 = 0, pwr80 = 0, pwr40 = 0, pwr20 = 0;
+e3296759f34752 Ryder Lee 2022-11-24  1061  	enum mac80211_rx_encoding mode;
+e3296759f34752 Ryder Lee 2022-11-24  1062  	u32 offs = 0, len = 0;
+bd2404d428215e Ryder Lee 2022-11-22  1063  
+e3296759f34752 Ryder Lee 2022-11-24  1064  	if (count >= sizeof(buf))
+e3296759f34752 Ryder Lee 2022-11-24  1065  		return -EINVAL;
+bd2404d428215e Ryder Lee 2022-11-22  1066  
+e3296759f34752 Ryder Lee 2022-11-24  1067  	if (copy_from_user(buf, user_buf, count))
+e3296759f34752 Ryder Lee 2022-11-24  1068  		return -EFAULT;
+e3296759f34752 Ryder Lee 2022-11-24  1069  
+e3296759f34752 Ryder Lee 2022-11-24  1070  	if (count && buf[count - 1] == '\n')
+e3296759f34752 Ryder Lee 2022-11-24  1071  		buf[count - 1] = '\0';
+e3296759f34752 Ryder Lee 2022-11-24  1072  	else
+e3296759f34752 Ryder Lee 2022-11-24  1073  		buf[count] = '\0';
+e3296759f34752 Ryder Lee 2022-11-24  1074  
+e3296759f34752 Ryder Lee 2022-11-24  1075  	if (sscanf(buf, "%u %u %u %u %u",
+e3296759f34752 Ryder Lee 2022-11-24  1076  		   &mode, &pwr160, &pwr80, &pwr40, &pwr20) != 5) {
+e3296759f34752 Ryder Lee 2022-11-24  1077  		dev_warn(dev->mt76.dev,
+e3296759f34752 Ryder Lee 2022-11-24  1078  			 "per bandwidth power limit: Mode BW160 BW80 BW40 BW20");
+e3296759f34752 Ryder Lee 2022-11-24  1079  		return -EINVAL;
+e3296759f34752 Ryder Lee 2022-11-24  1080  	}
+e3296759f34752 Ryder Lee 2022-11-24  1081  
+e3296759f34752 Ryder Lee 2022-11-24  1082  	if (mode > RX_ENC_HE)
+e3296759f34752 Ryder Lee 2022-11-24  1083  		return -EINVAL;
+e3296759f34752 Ryder Lee 2022-11-24  1084  
+e3296759f34752 Ryder Lee 2022-11-24  1085  	if (pwr160)
+e3296759f34752 Ryder Lee 2022-11-24  1086  		pwr160 = mt7915_get_power_bound(phy, pwr160);
+e3296759f34752 Ryder Lee 2022-11-24  1087  	if (pwr80)
+e3296759f34752 Ryder Lee 2022-11-24  1088  		pwr80 = mt7915_get_power_bound(phy, pwr80);
+e3296759f34752 Ryder Lee 2022-11-24  1089  	if (pwr40)
+e3296759f34752 Ryder Lee 2022-11-24  1090  		pwr40 = mt7915_get_power_bound(phy, pwr40);
+e3296759f34752 Ryder Lee 2022-11-24  1091  	if (pwr20)
+e3296759f34752 Ryder Lee 2022-11-24  1092  		pwr20 = mt7915_get_power_bound(phy, pwr20);
+e3296759f34752 Ryder Lee 2022-11-24  1093  
+e3296759f34752 Ryder Lee 2022-11-24  1094  	if (pwr160 < 0 || pwr80 < 0 || pwr40 < 0 || pwr20 < 0)
+e3296759f34752 Ryder Lee 2022-11-24  1095  		return -EINVAL;
+e3296759f34752 Ryder Lee 2022-11-24  1096  
+e3296759f34752 Ryder Lee 2022-11-24  1097  	mutex_lock(&dev->mt76.mutex);
+e3296759f34752 Ryder Lee 2022-11-24  1098  	ret = mt7915_mcu_get_txpower_sku(phy, req.txpower_sku,
+e3296759f34752 Ryder Lee 2022-11-24  1099  					 sizeof(req.txpower_sku));
+e3296759f34752 Ryder Lee 2022-11-24  1100  	if (ret)
+e3296759f34752 Ryder Lee 2022-11-24  1101  		goto out;
+e3296759f34752 Ryder Lee 2022-11-24  1102  
+e3296759f34752 Ryder Lee 2022-11-24  1103  	mt7915_txpower_sets(SKU_CCK, pwr20, RX_ENC_LEGACY);
+e3296759f34752 Ryder Lee 2022-11-24  1104  	mt7915_txpower_sets(SKU_OFDM, pwr20, RX_ENC_LEGACY);
+e3296759f34752 Ryder Lee 2022-11-24  1105  	if (mode == RX_ENC_LEGACY)
+e3296759f34752 Ryder Lee 2022-11-24  1106  		goto skip;
+e3296759f34752 Ryder Lee 2022-11-24  1107  
+e3296759f34752 Ryder Lee 2022-11-24  1108  	mt7915_txpower_sets(SKU_HT_BW20, pwr20, RX_ENC_HT);
+e3296759f34752 Ryder Lee 2022-11-24  1109  	mt7915_txpower_sets(SKU_HT_BW40, pwr40, RX_ENC_HT);
+e3296759f34752 Ryder Lee 2022-11-24  1110  	if (mode == RX_ENC_HT)
+e3296759f34752 Ryder Lee 2022-11-24  1111  		goto skip;
+e3296759f34752 Ryder Lee 2022-11-24  1112  
+e3296759f34752 Ryder Lee 2022-11-24  1113  	mt7915_txpower_sets(SKU_VHT_BW20, pwr20, RX_ENC_VHT);
+e3296759f34752 Ryder Lee 2022-11-24  1114  	mt7915_txpower_sets(SKU_VHT_BW40, pwr40, RX_ENC_VHT);
+e3296759f34752 Ryder Lee 2022-11-24  1115  	mt7915_txpower_sets(SKU_VHT_BW80, pwr80, RX_ENC_VHT);
+e3296759f34752 Ryder Lee 2022-11-24  1116  	mt7915_txpower_sets(SKU_VHT_BW160, pwr160, RX_ENC_VHT);
+e3296759f34752 Ryder Lee 2022-11-24  1117  	if (mode == RX_ENC_VHT)
+e3296759f34752 Ryder Lee 2022-11-24  1118  		goto skip;
+e3296759f34752 Ryder Lee 2022-11-24  1119  
+e3296759f34752 Ryder Lee 2022-11-24  1120  	mt7915_txpower_sets(SKU_HE_RU26, pwr20, RX_ENC_HE + 1);
+e3296759f34752 Ryder Lee 2022-11-24  1121  	mt7915_txpower_sets(SKU_HE_RU52, pwr20, RX_ENC_HE + 1);
+e3296759f34752 Ryder Lee 2022-11-24  1122  	mt7915_txpower_sets(SKU_HE_RU106, pwr20, RX_ENC_HE + 1);
+e3296759f34752 Ryder Lee 2022-11-24  1123  	mt7915_txpower_sets(SKU_HE_RU242, pwr20, RX_ENC_HE);
+e3296759f34752 Ryder Lee 2022-11-24  1124  	mt7915_txpower_sets(SKU_HE_RU484, pwr40, RX_ENC_HE);
+e3296759f34752 Ryder Lee 2022-11-24  1125  	mt7915_txpower_sets(SKU_HE_RU996, pwr80, RX_ENC_HE);
+e3296759f34752 Ryder Lee 2022-11-24  1126  	mt7915_txpower_sets(SKU_HE_RU2x996, pwr160, RX_ENC_HE);
+e3296759f34752 Ryder Lee 2022-11-24  1127  skip:
+e3296759f34752 Ryder Lee 2022-11-24  1128  	ret = mt76_mcu_send_msg(&dev->mt76, MCU_EXT_CMD(TX_POWER_FEATURE_CTRL),
+e3296759f34752 Ryder Lee 2022-11-24  1129  				&req, sizeof(req), true);
+e3296759f34752 Ryder Lee 2022-11-24  1130  	if (ret)
+e3296759f34752 Ryder Lee 2022-11-24  1131  		goto out;
+e3296759f34752 Ryder Lee 2022-11-24  1132  
+e3296759f34752 Ryder Lee 2022-11-24 @1133  	mphy->txpower_cur = max(mphy->txpower_cur,
+e3296759f34752 Ryder Lee 2022-11-24  1134  				max(pwr160, max(pwr80, max(pwr40, pwr20))));
+e3296759f34752 Ryder Lee 2022-11-24  1135  out:
+e3296759f34752 Ryder Lee 2022-11-24  1136  	mutex_unlock(&dev->mt76.mutex);
+e3296759f34752 Ryder Lee 2022-11-24  1137  
+e3296759f34752 Ryder Lee 2022-11-24  1138  	return ret ? ret : count;
+f1d962369d5687 Ryder Lee 2020-04-25  1139  }
+f1d962369d5687 Ryder Lee 2020-04-25  1140  
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  576  	int base, index, lim;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  577  	struct btframe *btsp;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  578  	pxd_t *pxd;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  579  	int psize = 288;	/* initial in-line directory */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  580  	ino_t inumber;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  581  	struct component_name ciKey;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  582  	struct super_block *sb = ip->i_sb;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  583  
-6da2ec56059c3c Kees Cook        2018-06-12  584  	ciKey.name = kmalloc_array(JFS_NAME_MAX + 1, sizeof(wchar_t),
-6da2ec56059c3c Kees Cook        2018-06-12  585  				   GFP_NOFS);
-09aaa749f637b1 Joe Perches      2007-11-13  586  	if (!ciKey.name) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  587  		rc = -ENOMEM;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  588  		goto dtSearch_Exit2;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  589  	}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  590  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  591  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  592  	/* uppercase search key for c-i directory */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  593  	UniStrcpy(ciKey.name, key->name);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  594  	ciKey.namlen = key->namlen;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  595  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  596  	/* only uppercase if case-insensitive support is on */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  597  	if ((JFS_SBI(sb)->mntflag & JFS_OS2) == JFS_OS2) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  598  		ciToUpper(&ciKey);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  599  	}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  600  	BT_CLR(btstack);	/* reset stack */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  601  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  602  	/* init level count for max pages to split */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  603  	btstack->nsplit = 1;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  604  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  605  	/*
-^1da177e4c3f41 Linus Torvalds   2005-04-16  606  	 *	search down tree from root:
-^1da177e4c3f41 Linus Torvalds   2005-04-16  607  	 *
-^1da177e4c3f41 Linus Torvalds   2005-04-16  608  	 * between two consecutive entries of <Ki, Pi> and <Kj, Pj> of
-^1da177e4c3f41 Linus Torvalds   2005-04-16  609  	 * internal page, child page Pi contains entry with k, Ki <= K < Kj.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  610  	 *
-^1da177e4c3f41 Linus Torvalds   2005-04-16  611  	 * if entry with search key K is not found
-^1da177e4c3f41 Linus Torvalds   2005-04-16  612  	 * internal page search find the entry with largest key Ki
-^1da177e4c3f41 Linus Torvalds   2005-04-16  613  	 * less than K which point to the child page to search;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  614  	 * leaf page search find the entry with smallest key Kj
-^1da177e4c3f41 Linus Torvalds   2005-04-16  615  	 * greater than K so that the returned index is the position of
-^1da177e4c3f41 Linus Torvalds   2005-04-16  616  	 * the entry to be shifted right for insertion of new entry.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  617  	 * for empty tree, search key is greater than any key of the tree.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  618  	 *
-^1da177e4c3f41 Linus Torvalds   2005-04-16  619  	 * by convention, root bn = 0.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  620  	 */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  621  	for (bn = 0;;) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  622  		/* get/pin the page to search */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  623  		DT_GETPAGE(ip, bn, mp, psize, p, rc);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  624  		if (rc)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  625  			goto dtSearch_Exit1;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  626  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  627  		/* get sorted entry table of the page */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  628  		stbl = DT_GETSTBL(p);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  629  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  630  		/*
-^1da177e4c3f41 Linus Torvalds   2005-04-16  631  		 * binary search with search key K on the current page.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  632  		 */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  633  		for (base = 0, lim = p->header.nextindex; lim; lim >>= 1) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  634  			index = base + (lim >> 1);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  635  
-7812e358b5edde Manas Ghandat    2023-10-16 @636  			if (stbl[index] > 128 || stbl[index] < 0)
+:::::: The code at line 1133 was first introduced by commit
+:::::: e3296759f34752ea2562678706dbb5bf607af530 wifi: mt76: mt7915: enable per bandwidth power limit support
 
-If it's stbl is an s8 so it can't be > 128.
-
-7812e358b5edde Manas Ghandat    2023-10-16  637  				goto out;
-7812e358b5edde Manas Ghandat    2023-10-16  638  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  639  			if (p->header.flag & BT_LEAF) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  640  				/* uppercase leaf name to compare */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  641  				cmp =
-^1da177e4c3f41 Linus Torvalds   2005-04-16  642  				    ciCompare(&ciKey, p, stbl[index],
-^1da177e4c3f41 Linus Torvalds   2005-04-16  643  					      JFS_SBI(sb)->mntflag);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  644  			} else {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  645  				/* router key is in uppercase */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  646  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  647  				cmp = dtCompare(&ciKey, p, stbl[index]);
+:::::: TO: Ryder Lee <ryder.lee@mediatek.com>
+:::::: CC: Felix Fietkau <nbd@nbd.name>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
