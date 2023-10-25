@@ -1,45 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62C715D1
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Oct 2023 02:15:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588DF1FBF
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Oct 2023 03:10:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Egd4Xk5H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CSrHLLSQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698200144; x=1729736144;
+  t=1698203448; x=1729739448;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pBWDAxQBUgTMz2ehdRnVuBw3KBftYH83Bei6CAuj8NY=;
-  b=Egd4Xk5Hjznm3dW/kY+b1sR2pOqP2TZEXXe4lm2qYy+87QwKgVzjnEKw
-   JKvCF58qXC8cgxAVUuE9ohxLG39v34BLIante9TvM47MpJZP6NTQVIB3+
-   QgIOyhMQfTjb54EdX2WZdMv6EJEgmH9nH2cdXEEmxq4usGFFvEuQQFfTq
-   cDoL9tDT7rOvdkcWHSc7Qr6qvXVwxbfeqJECnDmrZKdL9MCBoWYgO5fs+
-   zgShRhj5aGlmo2Ame8F0IxCrMACDYk3zG+3F4N90WBKh1qISg8rcxmsYz
-   5MmEpwz0HumsYaSVNIj17pp4Owxsu3Npq03w6V0BBUGUlBI4x9i/ENlIP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="390076462"
+  bh=/nFzkh/Ted5kaRoLRVLTpbmpMepnI9+/QNKJQgEbsj4=;
+  b=CSrHLLSQc59Ver6g1H2zF3+4Kp0TAhp6XDnNBzX5KZpV5IXYT0Ws77Kk
+   EqfPljDm+X0HldP1i1XpJY+rRvOATLNyZ93MNx2eFE7V7gIH3RqOqdymH
+   7K9E3umOaoJa8jDpQyjwZn08lTJ8TBEID7LYwtsOuKDC6Jxx+jlhemXaL
+   95UNewlFZvg7Z4jWvkAhAUJn54UWTAIaH+IyQNoJHTK5Gks9bfrLPJWzT
+   /xZ2UJyZ3fXmL1qelkEoJEry/klDVUWmnADO1BXMpaoE1dDjpTSRLgEqs
+   tY4EYHhsxSPc8RENBBlKE6+i9PJzsIh4NqkREBxW9degyHJ2zqJcYCsyy
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="451451351"
 X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
-   d="scan'208";a="390076462"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 19:15:43 -0700
+   d="scan'208";a="451451351"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 20:10:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="824507617"
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="758726517"
 X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
-   d="scan'208";a="824507617"
+   d="scan'208";a="758726517"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Oct 2023 19:15:42 -0700
+  by orsmga002.jf.intel.com with ESMTP; 24 Oct 2023 20:10:44 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qvTQq-0008Wb-0k;
-	Wed, 25 Oct 2023 02:15:40 +0000
-Date: Wed, 25 Oct 2023 10:15:23 +0800
+	id 1qvUI6-0008ZB-00;
+	Wed, 25 Oct 2023 03:10:42 +0000
+Date: Wed, 25 Oct 2023 11:10:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v17 03/12] block: add copy offload support
-Message-ID: <202310251059.GiTmwLYx-lkp@intel.com>
+Subject: [yiliu1765-iommufd:wip/iommufd_nesting-10202023-yi 9/54]
+ drivers/iommu/iommufd/selftest.c:232 mock_domain_alloc_user() warn: can
+ 'mock_parent' even be NULL?
+Message-ID: <202310251111.VbtSeoru-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,187 +53,66 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20231019110147.31672-4-nj.shetty@samsung.com>
-References: <20231019110147.31672-4-nj.shetty@samsung.com>
-TO: Nitesh Shetty <nj.shetty@samsung.com>
-TO: Jens Axboe <axboe@kernel.dk>
-TO: Jonathan Corbet <corbet@lwn.net>
-TO: "Alasdair Kergon" <agk@redhat.com>
-TO: Mike Snitzer <snitzer@kernel.org>
-TO: dm-devel@lists.linux.dev
-TO: Keith Busch <kbusch@kernel.org>
-TO: Christoph Hellwig <hch@lst.de>
-TO: Sagi Grimberg <sagi@grimberg.me>
-TO: Chaitanya Kulkarni <kch@nvidia.com>
-TO: Alexander Viro <viro@zeniv.linux.org.uk>
-TO: "Christian Brauner" <brauner@kernel.org>
-CC: martin.petersen@oracle.com
-CC: linux-scsi@vger.kernel.org
-CC: nitheshshetty@gmail.com
-CC: anuj1072538@gmail.com
-CC: gost.dev@samsung.com
-CC: mcgrof@kernel.org
-CC: Nitesh Shetty <nj.shetty@samsung.com>
-CC: Hannes Reinecke <hare@suse.de>
-CC: Anuj Gupta <anuj20.g@samsung.com>
-CC: linux-block@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-doc@vger.kernel.org
-CC: linux-nvme@lists.infradead.org
-CC: linux-fsdevel@vger.kernel.org
+TO: Yi Liu <yi.l.liu@intel.com>
+TO: Kevin Tian <kevin.tian@intel.com>
 
-Hi Nitesh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 213f891525c222e8ed145ce1ce7ae1f47921cb9c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20231019-200658
-base:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
-patch link:    https://lore.kernel.org/r/20231019110147.31672-4-nj.shetty%40samsung.com
-patch subject: [PATCH v17 03/12] block: add copy offload support
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: i386-randconfig-141-20231022 (https://download.01.org/0day-ci/archive/20231025/202310251059.GiTmwLYx-lkp@intel.com/config)
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting-10202023-yi
+head:   7e413d2798f93759b4500bd7bfdc9a6186bf68ae
+commit: e8d915274cfedb8169b63ceae4cb015c63e92af8 [9/54] iommufd/selftest: Add nested domain allocation for mock domain
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: x86_64-randconfig-161-20231025 (https://download.01.org/0day-ci/archive/20231025/202310251111.VbtSeoru-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231025/202310251059.GiTmwLYx-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231025/202310251111.VbtSeoru-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202310251059.GiTmwLYx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202310251111.VbtSeoru-lkp@intel.com/
 
-New smatch warnings:
-block/blk-lib.c:248 blkdev_copy_offload() warn: use 'gfp' here instead of GFP_KERNEL?
+smatch warnings:
+drivers/iommu/iommufd/selftest.c:232 mock_domain_alloc_user() warn: can 'mock_parent' even be NULL?
 
-Old smatch warnings:
-block/blk-lib.c:264 blkdev_copy_offload() warn: use 'gfp' here instead of GFP_KERNEL?
+vim +/mock_parent +232 drivers/iommu/iommufd/selftest.c
 
-vim +/gfp +248 block/blk-lib.c
-
-391929a15e2c18 Nitesh Shetty 2023-10-19  200  
-391929a15e2c18 Nitesh Shetty 2023-10-19  201  /*
-391929a15e2c18 Nitesh Shetty 2023-10-19  202   * @bdev:	block device
-391929a15e2c18 Nitesh Shetty 2023-10-19  203   * @pos_in:	source offset
-391929a15e2c18 Nitesh Shetty 2023-10-19  204   * @pos_out:	destination offset
-391929a15e2c18 Nitesh Shetty 2023-10-19  205   * @len:	length in bytes to be copied
-391929a15e2c18 Nitesh Shetty 2023-10-19  206   * @endio:	endio function to be called on completion of copy operation,
-391929a15e2c18 Nitesh Shetty 2023-10-19  207   *		for synchronous operation this should be NULL
-391929a15e2c18 Nitesh Shetty 2023-10-19  208   * @private:	endio function will be called with this private data,
-391929a15e2c18 Nitesh Shetty 2023-10-19  209   *		for synchronous operation this should be NULL
-391929a15e2c18 Nitesh Shetty 2023-10-19  210   * @gfp_mask:	memory allocation flags (for bio_alloc)
-391929a15e2c18 Nitesh Shetty 2023-10-19  211   *
-391929a15e2c18 Nitesh Shetty 2023-10-19  212   * For synchronous operation returns the length of bytes copied or error
-391929a15e2c18 Nitesh Shetty 2023-10-19  213   * For asynchronous operation returns -EIOCBQUEUED or error
-391929a15e2c18 Nitesh Shetty 2023-10-19  214   *
-391929a15e2c18 Nitesh Shetty 2023-10-19  215   * Description:
-391929a15e2c18 Nitesh Shetty 2023-10-19  216   *	Copy source offset to destination offset within block device, using
-391929a15e2c18 Nitesh Shetty 2023-10-19  217   *	device's native copy offload feature.
-391929a15e2c18 Nitesh Shetty 2023-10-19  218   *	We perform copy operation using 2 bio's.
-391929a15e2c18 Nitesh Shetty 2023-10-19  219   *	1. We take a plug and send a REQ_OP_COPY_SRC bio along with source
-391929a15e2c18 Nitesh Shetty 2023-10-19  220   *	sector and length. Once this bio reaches request layer, we form a
-391929a15e2c18 Nitesh Shetty 2023-10-19  221   *	request and wait for dst bio to arrive.
-391929a15e2c18 Nitesh Shetty 2023-10-19  222   *	2. We issue REQ_OP_COPY_DST bio along with destination sector, length.
-391929a15e2c18 Nitesh Shetty 2023-10-19  223   *	Once this bio reaches request layer and find a request with previously
-391929a15e2c18 Nitesh Shetty 2023-10-19  224   *	sent source info we merge the destination bio and return.
-391929a15e2c18 Nitesh Shetty 2023-10-19  225   *	3. Release the plug and request is sent to driver
-391929a15e2c18 Nitesh Shetty 2023-10-19  226   *	This design works only for drivers with request queue.
-391929a15e2c18 Nitesh Shetty 2023-10-19  227   */
-391929a15e2c18 Nitesh Shetty 2023-10-19  228  ssize_t blkdev_copy_offload(struct block_device *bdev, loff_t pos_in,
-391929a15e2c18 Nitesh Shetty 2023-10-19  229  			    loff_t pos_out, size_t len,
-391929a15e2c18 Nitesh Shetty 2023-10-19  230  			    void (*endio)(void *, int, ssize_t),
-391929a15e2c18 Nitesh Shetty 2023-10-19  231  			    void *private, gfp_t gfp)
-391929a15e2c18 Nitesh Shetty 2023-10-19  232  {
-391929a15e2c18 Nitesh Shetty 2023-10-19  233  	struct blkdev_copy_io *cio;
-391929a15e2c18 Nitesh Shetty 2023-10-19  234  	struct blkdev_copy_offload_io *offload_io;
-391929a15e2c18 Nitesh Shetty 2023-10-19  235  	struct bio *src_bio, *dst_bio;
-391929a15e2c18 Nitesh Shetty 2023-10-19  236  	size_t rem, chunk;
-391929a15e2c18 Nitesh Shetty 2023-10-19  237  	size_t max_copy_bytes = bdev_max_copy_sectors(bdev) << SECTOR_SHIFT;
-391929a15e2c18 Nitesh Shetty 2023-10-19  238  	ssize_t ret;
-391929a15e2c18 Nitesh Shetty 2023-10-19  239  	struct blk_plug plug;
-391929a15e2c18 Nitesh Shetty 2023-10-19  240  
-391929a15e2c18 Nitesh Shetty 2023-10-19  241  	if (!max_copy_bytes)
-391929a15e2c18 Nitesh Shetty 2023-10-19  242  		return -EOPNOTSUPP;
-391929a15e2c18 Nitesh Shetty 2023-10-19  243  
-391929a15e2c18 Nitesh Shetty 2023-10-19  244  	ret = blkdev_copy_sanity_check(bdev, pos_in, bdev, pos_out, len);
-391929a15e2c18 Nitesh Shetty 2023-10-19  245  	if (ret)
-391929a15e2c18 Nitesh Shetty 2023-10-19  246  		return ret;
-391929a15e2c18 Nitesh Shetty 2023-10-19  247  
-391929a15e2c18 Nitesh Shetty 2023-10-19 @248  	cio = kzalloc(sizeof(*cio), GFP_KERNEL);
-391929a15e2c18 Nitesh Shetty 2023-10-19  249  	if (!cio)
-391929a15e2c18 Nitesh Shetty 2023-10-19  250  		return -ENOMEM;
-391929a15e2c18 Nitesh Shetty 2023-10-19  251  	atomic_set(&cio->refcount, 1);
-391929a15e2c18 Nitesh Shetty 2023-10-19  252  	cio->waiter = current;
-391929a15e2c18 Nitesh Shetty 2023-10-19  253  	cio->endio = endio;
-391929a15e2c18 Nitesh Shetty 2023-10-19  254  	cio->private = private;
-391929a15e2c18 Nitesh Shetty 2023-10-19  255  
-391929a15e2c18 Nitesh Shetty 2023-10-19  256  	/*
-391929a15e2c18 Nitesh Shetty 2023-10-19  257  	 * If there is a error, copied will be set to least successfully
-391929a15e2c18 Nitesh Shetty 2023-10-19  258  	 * completed copied length
-391929a15e2c18 Nitesh Shetty 2023-10-19  259  	 */
-391929a15e2c18 Nitesh Shetty 2023-10-19  260  	cio->copied = len;
-391929a15e2c18 Nitesh Shetty 2023-10-19  261  	for (rem = len; rem > 0; rem -= chunk) {
-391929a15e2c18 Nitesh Shetty 2023-10-19  262  		chunk = min(rem, max_copy_bytes);
-391929a15e2c18 Nitesh Shetty 2023-10-19  263  
-391929a15e2c18 Nitesh Shetty 2023-10-19  264  		offload_io = kzalloc(sizeof(*offload_io), GFP_KERNEL);
-391929a15e2c18 Nitesh Shetty 2023-10-19  265  		if (!offload_io)
-391929a15e2c18 Nitesh Shetty 2023-10-19  266  			goto err_free_cio;
-391929a15e2c18 Nitesh Shetty 2023-10-19  267  		offload_io->cio = cio;
-391929a15e2c18 Nitesh Shetty 2023-10-19  268  		/*
-391929a15e2c18 Nitesh Shetty 2023-10-19  269  		 * For partial completion, we use offload_io->offset to truncate
-391929a15e2c18 Nitesh Shetty 2023-10-19  270  		 * successful copy length
-391929a15e2c18 Nitesh Shetty 2023-10-19  271  		 */
-391929a15e2c18 Nitesh Shetty 2023-10-19  272  		offload_io->offset = len - rem;
-391929a15e2c18 Nitesh Shetty 2023-10-19  273  
-391929a15e2c18 Nitesh Shetty 2023-10-19  274  		src_bio = bio_alloc(bdev, 0, REQ_OP_COPY_SRC, gfp);
-391929a15e2c18 Nitesh Shetty 2023-10-19  275  		if (!src_bio)
-391929a15e2c18 Nitesh Shetty 2023-10-19  276  			goto err_free_offload_io;
-391929a15e2c18 Nitesh Shetty 2023-10-19  277  		src_bio->bi_iter.bi_size = chunk;
-391929a15e2c18 Nitesh Shetty 2023-10-19  278  		src_bio->bi_iter.bi_sector = pos_in >> SECTOR_SHIFT;
-391929a15e2c18 Nitesh Shetty 2023-10-19  279  
-391929a15e2c18 Nitesh Shetty 2023-10-19  280  		blk_start_plug(&plug);
-391929a15e2c18 Nitesh Shetty 2023-10-19  281  		dst_bio = blk_next_bio(src_bio, bdev, 0, REQ_OP_COPY_DST, gfp);
-391929a15e2c18 Nitesh Shetty 2023-10-19  282  		if (!dst_bio)
-391929a15e2c18 Nitesh Shetty 2023-10-19  283  			goto err_free_src_bio;
-391929a15e2c18 Nitesh Shetty 2023-10-19  284  		dst_bio->bi_iter.bi_size = chunk;
-391929a15e2c18 Nitesh Shetty 2023-10-19  285  		dst_bio->bi_iter.bi_sector = pos_out >> SECTOR_SHIFT;
-391929a15e2c18 Nitesh Shetty 2023-10-19  286  		dst_bio->bi_end_io = blkdev_copy_offload_dst_endio;
-391929a15e2c18 Nitesh Shetty 2023-10-19  287  		dst_bio->bi_private = offload_io;
-391929a15e2c18 Nitesh Shetty 2023-10-19  288  
-391929a15e2c18 Nitesh Shetty 2023-10-19  289  		atomic_inc(&cio->refcount);
-391929a15e2c18 Nitesh Shetty 2023-10-19  290  		submit_bio(dst_bio);
-391929a15e2c18 Nitesh Shetty 2023-10-19  291  		blk_finish_plug(&plug);
-391929a15e2c18 Nitesh Shetty 2023-10-19  292  		pos_in += chunk;
-391929a15e2c18 Nitesh Shetty 2023-10-19  293  		pos_out += chunk;
-391929a15e2c18 Nitesh Shetty 2023-10-19  294  	}
-391929a15e2c18 Nitesh Shetty 2023-10-19  295  
-391929a15e2c18 Nitesh Shetty 2023-10-19  296  	if (atomic_dec_and_test(&cio->refcount))
-391929a15e2c18 Nitesh Shetty 2023-10-19  297  		blkdev_copy_endio(cio);
-391929a15e2c18 Nitesh Shetty 2023-10-19  298  	if (endio)
-391929a15e2c18 Nitesh Shetty 2023-10-19  299  		return -EIOCBQUEUED;
-391929a15e2c18 Nitesh Shetty 2023-10-19  300  
-391929a15e2c18 Nitesh Shetty 2023-10-19  301  	return blkdev_copy_wait_for_completion_io(cio);
-391929a15e2c18 Nitesh Shetty 2023-10-19  302  
-391929a15e2c18 Nitesh Shetty 2023-10-19  303  err_free_src_bio:
-391929a15e2c18 Nitesh Shetty 2023-10-19  304  	bio_put(src_bio);
-391929a15e2c18 Nitesh Shetty 2023-10-19  305  err_free_offload_io:
-391929a15e2c18 Nitesh Shetty 2023-10-19  306  	kfree(offload_io);
-391929a15e2c18 Nitesh Shetty 2023-10-19  307  err_free_cio:
-391929a15e2c18 Nitesh Shetty 2023-10-19  308  	cio->copied = min_t(ssize_t, cio->copied, (len - rem));
-391929a15e2c18 Nitesh Shetty 2023-10-19  309  	cio->status = -ENOMEM;
-391929a15e2c18 Nitesh Shetty 2023-10-19  310  	if (rem == len) {
-391929a15e2c18 Nitesh Shetty 2023-10-19  311  		ret = cio->status;
-391929a15e2c18 Nitesh Shetty 2023-10-19  312  		kfree(cio);
-391929a15e2c18 Nitesh Shetty 2023-10-19  313  		return ret;
-391929a15e2c18 Nitesh Shetty 2023-10-19  314  	}
-391929a15e2c18 Nitesh Shetty 2023-10-19  315  	if (cio->endio)
-391929a15e2c18 Nitesh Shetty 2023-10-19  316  		return cio->status;
-391929a15e2c18 Nitesh Shetty 2023-10-19  317  
-391929a15e2c18 Nitesh Shetty 2023-10-19  318  	return blkdev_copy_wait_for_completion_io(cio);
-391929a15e2c18 Nitesh Shetty 2023-10-19  319  }
-391929a15e2c18 Nitesh Shetty 2023-10-19  320  EXPORT_SYMBOL_GPL(blkdev_copy_offload);
-391929a15e2c18 Nitesh Shetty 2023-10-19  321  
+e8d915274cfedb Nicolin Chen 2023-02-26  206  
+408663619fcfc8 Yi Liu       2023-09-28  207  static struct iommu_domain *
+530905d6710537 Yi Liu       2023-09-01  208  mock_domain_alloc_user(struct device *dev, u32 flags,
+530905d6710537 Yi Liu       2023-09-01  209  		       struct iommu_domain *parent,
+530905d6710537 Yi Liu       2023-09-01  210  		       const struct iommu_user_data *user_data)
+408663619fcfc8 Yi Liu       2023-09-28  211  {
+e8d915274cfedb Nicolin Chen 2023-02-26  212  	struct mock_iommu_domain *mock_parent;
+e8d915274cfedb Nicolin Chen 2023-02-26  213  	struct iommu_hwpt_selftest user_cfg;
+e8d915274cfedb Nicolin Chen 2023-02-26  214  	int rc;
+408663619fcfc8 Yi Liu       2023-09-28  215  
+408663619fcfc8 Yi Liu       2023-09-28  216  	if (flags & (~IOMMU_HWPT_ALLOC_NEST_PARENT))
+408663619fcfc8 Yi Liu       2023-09-28  217  		return ERR_PTR(-EOPNOTSUPP);
+408663619fcfc8 Yi Liu       2023-09-28  218  
+e8d915274cfedb Nicolin Chen 2023-02-26  219  	if (!user_data) {	/* must be mock_domain */
+e8d915274cfedb Nicolin Chen 2023-02-26  220  		if (parent)
+e8d915274cfedb Nicolin Chen 2023-02-26  221  			return ERR_PTR(-EINVAL);
+e8d915274cfedb Nicolin Chen 2023-02-26  222  		return __mock_domain_alloc_paging(IOMMU_DOMAIN_UNMANAGED);
+e8d915274cfedb Nicolin Chen 2023-02-26  223  	}
+e8d915274cfedb Nicolin Chen 2023-02-26  224  
+e8d915274cfedb Nicolin Chen 2023-02-26  225  	/* must be mock_domain_nested */
+e8d915274cfedb Nicolin Chen 2023-02-26  226  	if (user_data->type != IOMMU_HWPT_DATA_SELFTEST)
+e8d915274cfedb Nicolin Chen 2023-02-26  227  		return ERR_PTR(-EOPNOTSUPP);
+e8d915274cfedb Nicolin Chen 2023-02-26  228  	if (!parent || parent->ops != mock_ops.default_domain_ops)
+e8d915274cfedb Nicolin Chen 2023-02-26  229  		return ERR_PTR(-EINVAL);
+e8d915274cfedb Nicolin Chen 2023-02-26  230  
+e8d915274cfedb Nicolin Chen 2023-02-26  231  	mock_parent = container_of(parent, struct mock_iommu_domain, domain);
+e8d915274cfedb Nicolin Chen 2023-02-26 @232  	if (!mock_parent)
+e8d915274cfedb Nicolin Chen 2023-02-26  233  		return ERR_PTR(-EINVAL);
+e8d915274cfedb Nicolin Chen 2023-02-26  234  
+e8d915274cfedb Nicolin Chen 2023-02-26  235  	rc = iommu_copy_struct_from_user(&user_cfg, user_data,
+e8d915274cfedb Nicolin Chen 2023-02-26  236  					 IOMMU_HWPT_DATA_SELFTEST, iotlb);
+e8d915274cfedb Nicolin Chen 2023-02-26  237  	if (rc)
+e8d915274cfedb Nicolin Chen 2023-02-26  238  		return ERR_PTR(rc);
+e8d915274cfedb Nicolin Chen 2023-02-26  239  
+e8d915274cfedb Nicolin Chen 2023-02-26  240  	return __mock_domain_alloc_nested(mock_parent, &user_cfg);
+408663619fcfc8 Yi Liu       2023-09-28  241  }
+408663619fcfc8 Yi Liu       2023-09-28  242  
 
 -- 
 0-DAY CI Kernel Test Service
