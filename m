@@ -1,45 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130B9156E0
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Oct 2023 09:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3471864D
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Oct 2023 12:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="foLUhvNo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698399805; x=1729935805;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IwHqrTGRpP6XLPfasFSq2aRxvRZcX5DX7HbEYW3NqA0=;
-  b=foLUhvNoSMOxhx9I0by5EMlwRjRkAnQ6GzcSoxvyC5YdtXPEZEb4nOSr
-   XYd3elwrfualfnCSmrS2ev3SmVVTgpI7xo6uC0mkWaZx9Ei2opV9YcGxJ
-   Qw1NkF9MP6TmWNoI96M8HsQkw3Y94J5e9EEuLhKodzc3PyB5VBhf5Y3v/
-   zYjTDktKALKVv28bbf4IQ4/g/HawbwXRJR+cHU6VM7YAgJ6FhwZtje4Pn
-   UFBbg5HGgPKRBFKfhq6d5Pq6vkYm7N6QIJ8d6W13QgMZgfU/Iq0NgebRY
-   HUdXBoOsVjykjnHEmzYaDml1nhyrUWPIT0TH/zx8RcC6898EPp3joDIBc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="473983674"
-X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="473983674"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 02:43:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="736032679"
-X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="736032679"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 27 Oct 2023 02:43:22 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qwJN9-000Ahh-38;
-	Fri, 27 Oct 2023 09:43:19 +0000
-Date: Fri, 27 Oct 2023 17:42:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DvvWw7Wf"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4084e49a5e5so16223905e9.3
+        for <oe-kbuild@lists.linux.dev>; Fri, 27 Oct 2023 05:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698408004; x=1699012804; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=a9cIfPve8bX3kbsNYr25FMmZBwtdZULnf7hv7IF5bwo=;
+        b=DvvWw7WfG0DrRyTH4F9IlXBILCF5FzpfsAs7aydZaaCgrpYLp+NfMqZlwLw3QRKJxQ
+         aY4eedZ7X+Pa/5lKf8LOxmb9hxbzZTqrxfjn9W47+b+mORT9ls4EmzBkyv4ZTIFs9ycM
+         jQmZBdI+AGlFN1q4iVh4/vrGaCgDeBicF71l0PeoRr5tPGtunhP3YQVxFv4uxCGIIxAg
+         V7SiP5n/Gu5FZ72DYsZolQ4+Iil0ybQmN3TqWYyOTFpIQoW1tAgjdLd7ZacjYxs4g7id
+         7L70BqUmMw7UFzbcgu4zfH0A7OSHxAIiYBThWX8y0xret5mfWuSR/UqKxQkd8qTn6tRo
+         FlyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698408004; x=1699012804;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a9cIfPve8bX3kbsNYr25FMmZBwtdZULnf7hv7IF5bwo=;
+        b=OmppDUkLniOwxPfS+AS1xyD7DvHKEG+v0IQTi2zII4DgPGCpRBzk/BUcpHRsxPasys
+         TMaJhBhI6JFpB5qTIrQgSAdEZp5sE6dyHW6GAdgkPj2yx6ofw+n/q2NIUZGF3QeXCDgN
+         gKRWlV4vOxhyUVEWMc+fMs4bXDr/9GDsTmNOHEIBBhH4oyHartY9oLALBCZB9jPFAP+6
+         B+Dk7yGubH2c7JFWZ1KkK9/T1iSqp56buq54kZbP87X0B7KXn9F3yC6teU5gI14I1AEH
+         q7cWtvbdSpz8ynPxDnGyZCvMmk6W7sv/yqWi0yEpqt8GiF39ewPG/kSWVFJlN3GBREyr
+         H60w==
+X-Gm-Message-State: AOJu0YwQ8tHKi9E1wcnsOebNl61hTJ0e82HFXU+kQnMziW8coUUwHvfs
+	5tCmxiZK++NqeyU1JRvY8aDIlEpRSemW6uAXfFY=
+X-Google-Smtp-Source: AGHT+IHii6I8orNSOerYFraSp9Jk2OXuvfyPcTladSeEU8veRpMNThCbiQQ9asQw1PQJjTZHE7JKuA==
+X-Received: by 2002:a05:600c:4708:b0:405:40c6:2b96 with SMTP id v8-20020a05600c470800b0040540c62b96mr1988384wmo.3.1698408003855;
+        Fri, 27 Oct 2023 05:00:03 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p21-20020a05600c431500b003fe61c33df5sm4882107wme.3.2023.10.27.05.00.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Oct 2023 05:00:03 -0700 (PDT)
+Date: Fri, 27 Oct 2023 15:00:00 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Joey Jiao <quic_jiangenj@quicinc.com>,
+	linux-modules@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, quic_jiangenj@quicinc.com,
+	quic_likaid@quicinc.com, Luis Chamberlain <mcgrof@kernel.org>,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v5] module: Add CONFIG_MODULE_DISABLE_INIT_FREE option
-Message-ID: <202310271751.28pKVu4K-lkp@intel.com>
+Message-ID: <b2b20956-d80e-462c-8261-a41802996197@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,34 +58,18 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20231013062711.28852-1-quic_jiangenj@quicinc.com>
-References: <20231013062711.28852-1-quic_jiangenj@quicinc.com>
-TO: Joey Jiao <quic_jiangenj@quicinc.com>
-TO: linux-modules@vger.kernel.org
-CC: quic_jiangenj@quicinc.com
-CC: quic_likaid@quicinc.com
-CC: Luis Chamberlain <mcgrof@kernel.org>
-CC: linux-kernel@vger.kernel.org
 
 Hi Joey,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on mcgrof/modules-next]
-[also build test WARNING on linus/master v6.6-rc7 next-20231026]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Joey-Jiao/module-Add-CONFIG_MODULE_DISABLE_INIT_FREE-option/20231017-115509
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git modules-next
 patch link:    https://lore.kernel.org/r/20231013062711.28852-1-quic_jiangenj%40quicinc.com
 patch subject: [PATCH v5] module: Add CONFIG_MODULE_DISABLE_INIT_FREE option
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
 config: x86_64-randconfig-161-20231026 (https://download.01.org/0day-ci/archive/20231027/202310271751.28pKVu4K-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce: (https://download.01.org/0day-ci/archive/20231027/202310271751.28pKVu4K-lkp@intel.com/reproduce)
@@ -83,7 +77,7 @@ reproduce: (https://download.01.org/0day-ci/archive/20231027/202310271751.28pKVu
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202310271751.28pKVu4K-lkp@intel.com/
 
 smatch warnings:
@@ -172,6 +166,10 @@ cb2f55369d3a9e kernel/module.c      Paul E. McKenney 2018-11-06  2594  	 * rcu_b
 c749637909eea5 kernel/module.c      Rusty Russell    2015-01-20  2595  	 */
 36022a47582048 kernel/module/main.c Joey Jiao        2023-10-13  2596  	if (!IS_ENABLED(CONFIG_MODULE_DISABLE_INIT_FREE) &&
 36022a47582048 kernel/module/main.c Joey Jiao        2023-10-13  2597  	    llist_add(&freeinit->node, &init_free_list))
+
+Let's not allocate freeinit if CONFIG_MODULE_DISABLE_INIT_FREE is not
+enabled.
+
 1a7b7d9220819a kernel/module.c      Rick Edgecombe   2019-04-25  2598  		schedule_work(&init_free_wq);
 1a7b7d9220819a kernel/module.c      Rick Edgecombe   2019-04-25  2599  
 34e1169d996ab1 kernel/module.c      Kees Cook        2012-10-16  2600  	mutex_unlock(&module_mutex);
@@ -200,8 +198,8 @@ c749637909eea5 kernel/module.c      Rusty Russell    2015-01-20  2622  	wake_up_
 df3e764d8e5cd4 kernel/module/main.c Luis Chamberlain 2023-03-28  2623  
 c749637909eea5 kernel/module.c      Rusty Russell    2015-01-20  2624  	return ret;
 34e1169d996ab1 kernel/module.c      Kees Cook        2012-10-16  2625  }
-34e1169d996ab1 kernel/module.c      Kees Cook        2012-10-16  2626  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
