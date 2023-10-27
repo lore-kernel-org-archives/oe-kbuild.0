@@ -1,281 +1,345 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F7110F7
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Oct 2023 02:02:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286643D90
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Oct 2023 03:48:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iXkIqRGY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KloAX4/s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698372173; x=1729908173;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=7SeY1Ve4X0onRbAV4RlM5l+cGPBKW2WyRX24AAeyxIA=;
-  b=iXkIqRGYWOP1M2xQDa1xtuqzXbVjxscvqo06fw+dakaachidyfjgKFEN
-   qA9p8XR6rAbjWbfo8Th1LGFEHtEmGtelZEMhxCpTAk/DqqtwJ4+58HsHJ
-   ybk305YJ1ygEwLF/i6FsOGfT+rzIFjp8/zcTQODBQyWf1MavLxanIOVkY
-   RimT7va7ra0NG3OKbFnSbGJ6Vno5EvQ94NXOF/jbtTz6+JFkYS66xatzs
-   1jC1UacgEeYhbpUG4ZJO69n/0qEVqV5K/8dU8HJYMq41M/i2yGJTJAHDs
-   s1fJVx/+ylAqCOs2xTljHy/v6cJQBRSrAKMPEqNYY05McmdxxqoE+TVg1
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="418801722"
+  t=1698378486; x=1729914486;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EL3PYS9DCYdptscBzBVJRnH6JbFCY9+o5BHCx94u8CQ=;
+  b=KloAX4/sSywWIq7ajppqidvXpsN4y1zzhrr1LMP/dkGBO3YJe7jY918B
+   ZezdIUJBflFYsxI9lUq/rsDGqUyXUTd/ZYjtm0DaRUHi9+pKBf6WB/+zD
+   D1rf8rgSpLsyOVLYKIvsXTd4Z+Dsq4gukxFMCytFw6mGc7HpZQMx8bNMm
+   TAyRklr0HSnF0UMQeyq3oA7kp7oWVoyzoVRlZh5xhMVWfTaIC0AXKQIPh
+   0coNZVVbYFDqw1jXpoYb01KQMlwWR+67QYZjkwXXW4GTtPFw7KS8QhwZs
+   nSySWm+kI+LsdKz7MQqxNyjAJgvcNUqgt7A873/Pmq3wHUhch7+VlvoxL
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="367048210"
 X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="418801722"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 19:02:52 -0700
+   d="scan'208";a="367048210"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 20:48:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="788691385"
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="883064257"
 X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="788691385"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 26 Oct 2023 19:02:52 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 26 Oct 2023 19:02:52 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Thu, 26 Oct 2023 19:02:52 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Thu, 26 Oct 2023 19:02:51 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NNl94Tp5nABLbcWUzWquvlHhhYys0Cm0pG3GMT7m0hw/rvx3qXZ4TA0kbZ47iqLm1fVzj6nSQjb8ty5n/sw3qfYSn6rhcaHD51uqS4X8z4Vc81d12/ua8rZhJVb9n5cDElKG7dyaY5QCKXXll5TzVYu/gBwMdHGUNlqjThkRoxzkFYiVuYfLcjld9GIsYBUALQzQGrV/SFEI5MpWdYl43NHJXlybTYzM+pJJruusUjhb5GHTMMd6iCwIYSANXSFajY0kTe4geXdJ0pzb4csWZyjNJb1MIVh4aONoF/UicDRYr+xq/a2bKOb7cjddxDqrzFQ//APqo4ohyDriYbgpVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t7bu1OrJw4xeq2lKRlglOse5/Bwsmp7VJMVSbJC7wg4=;
- b=ReYFrDRn8gOk+hNhOzKQKvZm4kwxVBINoRGF3dQmlpCEL1VthmWCUVVzzYc2Ktgn8QRacZx0yWzM592+ua2FKBzgRepoJ0I1EoREMZjtf6zyFgWrasBM/sumuLkJazFW7HT1Ue1FxcuQ5IjTVyNnznCGTYabILidSTBI4SJhtyaBeKbHc+yyaRxwyQV2WA8DMS0acZNVLiq6h1V9INOVi/zaAfaey/2oap2Lsgy6RWEN6d6DAEAG65j/joWt8OXxLIHT/AYYWnISpGoZMoTVfZJ+MUB6f4RqXOL3aarjSanXJ0QUfEWafMq1/jCwkf53IFRvwLojiR95dOILEe+hhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by DS0PR11MB7927.namprd11.prod.outlook.com (2603:10b6:8:fd::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Fri, 27 Oct
- 2023 02:02:44 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.6907.032; Fri, 27 Oct 2023
- 02:02:44 +0000
-From: "Liu, Yujie" <yujie.liu@intel.com>
-To: lkp <lkp@intel.com>, "oe-kbuild@lists.linux.dev"
-	<oe-kbuild@lists.linux.dev>
-Subject: RE: arch/arm64/include/asm/memory.h: asm-generic/memory_model.h is
- included more than once.
-Thread-Topic: arch/arm64/include/asm/memory.h: asm-generic/memory_model.h is
- included more than once.
-Thread-Index: AQHaCDdMRyBQkS0+iEq1QxGxkrEjRLBc4qwg
-Date: Fri, 27 Oct 2023 02:02:44 +0000
-Message-ID: <CY5PR11MB6392394E4D33A2A6C3960D01FBDCA@CY5PR11MB6392.namprd11.prod.outlook.com>
-References: <202310270227.J7UV7HBm-lkp@intel.com>
-In-Reply-To: <202310270227.J7UV7HBm-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY5PR11MB6392:EE_|DS0PR11MB7927:EE_
-x-ms-office365-filtering-correlation-id: 511328bc-2cfe-43cc-e1de-08dbd690cf72
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: D6AkJdIT0uNo1j0uVjPAuGG8DhyR8p3RttqPqRLzzv2rQg4s9T1zkZvfhpg5xBopM+sq4/79jHN0bOtOWu07KnPn6feo2EEVxdpP0Mi5hxemfXK4lPmNbIkOhJL+jVlSxT06EHXWfWuI+8GeqSDlZBzCu/tfwWL22Z+9hFGmTxlc6rO6pAa2/j+9fBI6XMubGzpPKXE1LlW9FN99/51R00LJXJMIoqqihqCJLxZaKGAWwBqCFmg87GhKGnWxVPnoBSaKLaeyFdmAMZLf3xwxdHdTEe+9BfgCsnK73PhAKzaB8yCJ6l5RaOyrVCpNYJDEgeX7wUZdfaZ/JnosEYJjnAatQ6Q5bRQmaOlMWtdoDt140tWuE0JfYvrUeYzvjTNuPC5jztHWyNamNwfVwuNganC+6lERW5RHQSCRmouMu7TkqZXcNrGU09r4Juerfd/FyG77oGzFva5GK2M2Odk8HE9GmsXGZh/wR1Mg6cVpHTdSirzMjO+XHEzznbKIRkZQNxsq7z3M4Y8xqJHdeu9ypuAjYmNXoFn/UxcesQkGSoYyq9uCzHHAGnqboQeST1lT9YbSdTbU3QIsXfOuDB2+/IFu5FAQJm5kY42swniqCoclu+QjM6e55ZPUx3BBoq0O+FFd728xOH6CW+nJgGrwr//0XUGzfvdk7+FUpMvcV6RL+C4nxXe+qbI0FC7hshyFc0luCqacEBwPCfR5I2mDEQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(39860400002)(396003)(366004)(346002)(230173577357003)(230273577357003)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(26005)(38070700009)(38100700002)(41300700001)(86362001)(2906002)(55016003)(66476007)(52536014)(5660300002)(33656002)(8676002)(8936002)(6506007)(316002)(110136005)(71200400001)(478600001)(7696005)(66556008)(122000001)(64756008)(76116006)(66446008)(82960400001)(966005)(83380400001)(53546011)(66946007)(9686003)(41533002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?tqclrUMwRY1245EJY7+y7eSi0dCYT/wU5qJR2Mkyc4ATIMiZg1okbcPtqpd/?=
- =?us-ascii?Q?kUINNlufYGNGUtHu9WsWzHs+gzkNF7+tEqULQ3OTeErElDku7uYaDXLT1ilQ?=
- =?us-ascii?Q?23c+lCq2E804HhJ1TrWNyXJOPLVGpsd3Wz0lJfLQ/Vci3j6X4rytCmZWkq4S?=
- =?us-ascii?Q?LdbBEYtEDfPtJcWqdWV+wSc+MLz9IxeIPjhad+9hz4LwKGgtyvndNOhv8NJf?=
- =?us-ascii?Q?xz502lw4kqP8eouGXGaK9DzIjeCkwXc4wwvnegZEzoQmTG70HQmxFTeb1GsV?=
- =?us-ascii?Q?E4w+AwYPXB22hsz9oqgJCrwBQ9OlUe04je6U86OsKsfPvT0lMqWpVn+hObAx?=
- =?us-ascii?Q?/9AB0u743Rk4qrUBRZqjCDrHi37fomid2v7MfrAVqZEBajg4pjZiEniPCWq1?=
- =?us-ascii?Q?QoHgd45aPoyj2dk1PXxXhQIWbXlS24TT8Lbieebvidjgr9CyFmH99BvySMDD?=
- =?us-ascii?Q?ZGbvjgcGxOSCIVgpccz6Bh2YySUQjHkwE3sWmuBBOZlT8mBBSVaiOHN3sPsw?=
- =?us-ascii?Q?zBpWsBe8YZKmRaFEphQWXEv1CQP2StpTG4JzU83t/l0Dqq4OIU34lVTKpGdy?=
- =?us-ascii?Q?2OVyNuSLm7Av9vDNHDyzlRk7zwo7A04pzju/ZhqC4n4oGUVPMrNPWQ+0g7/s?=
- =?us-ascii?Q?6wx9O5dd5EK+chiW300LEa3jG//wV19vgGk+FDTQPs5zDnjyJqy4vmVwuLYg?=
- =?us-ascii?Q?R3xdnroNq1F6nFshx4UzpxAlrlBnhii+S+aXrGLKQ8Y0tySkrtgxk9OGqs6r?=
- =?us-ascii?Q?vRHEsHW4AKYhpwFl+tgILoAGbJRafLel9PrcvkoAzgdWbbweFskZgdKP9kG9?=
- =?us-ascii?Q?qWdsYRdph5cr3CxPrVgJxxel09Y1Mjl2NC2NCYXMKcz/tiOL04WmtQWPalhH?=
- =?us-ascii?Q?07s8NCAjTyYWv56haG6E81yDzmBCfrq/7br7FC1zwWtquuV8qxIvYBRNs/r3?=
- =?us-ascii?Q?hkC6oi8ee4aFL8QdzEXaw4OR5Mq84vKW4KHBywn5iIWZzmzDyvqbqcc4SR2Y?=
- =?us-ascii?Q?VfAx/T4NPH0Xqg4+3CvW5VK4PvTVGm52HaiHqcxH+JPERapCkPslGowkkql/?=
- =?us-ascii?Q?+v9JnJZgP0KR0CZtKc31ddsrZANUi6jRw8lESbLfljxeWw0tpZPJ4kMPldR6?=
- =?us-ascii?Q?MxQvdIjjdFobT404P2hLn9qzPidz+ImQTpuk/7OaTcTsTIMU1EzwYyQ16giG?=
- =?us-ascii?Q?P3gIpM3lqv+Y7oMHxB5MausJLdNWlGo7A1GI0ped+jUafv7vQtxdIjlCa7qE?=
- =?us-ascii?Q?iVm8GkeHKE5CY4MllqRhhur8zthafIKwHJu/P921x2rWVlHN1XFBBpqI0loS?=
- =?us-ascii?Q?3CB94QKNCAc2ei51oQg7cTVeR9DrWhWWHYCtPVA/8eaYcTYlz8xnf6cQTpSt?=
- =?us-ascii?Q?RbxCWGyXCaaGuAtOh2Hi3PO/BrCvd8iOcM7RNtxQ8LngrKSIWERPhGzToUSX?=
- =?us-ascii?Q?Z6zwlJC8O55Uoxrcs79ufSzu8MQX9+YLH1zFOFsCLY6hqTltDBEWMdzJG26P?=
- =?us-ascii?Q?83/FJ82+xf/bb6bRG5BaudIvMAf+onQ0e+Vy+402JCtom2U3QrfXWHi1YtlO?=
- =?us-ascii?Q?jyuoWypMh64/r6q44Xc=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="883064257"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 26 Oct 2023 20:48:03 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qwDpI-000APD-0d;
+	Fri, 27 Oct 2023 03:48:00 +0000
+Date: Fri, 27 Oct 2023 11:47:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] jfs: fix slab-out-of-bounds Read in dtSearch
+Message-ID: <202310271151.oY2S3sDA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 511328bc-2cfe-43cc-e1de-08dbd690cf72
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2023 02:02:44.6901
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: W0lOgMS5DjbEuQliev+nGykX/YEySGqDZHhnyMalhTQg4qHYPfR4BJRYcMuqVzJYCu37GiyG26fKfanWbbca0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7927
-X-OriginatorOrg: intel.com
-
-not_report 'intended duplicate include"
-
-The comment says:
-
-   334	/* Needed already here for resolving __phys_to_pfn() in virt_to_pfn(=
-) */
- > 335	#include <asm-generic/memory_model.h>
-
------Original Message-----
-From: lkp <lkp@intel.com>=20
-Sent: Friday, October 27, 2023 02:06
-To: oe-kbuild@lists.linux.dev
-Cc: lkp <lkp@intel.com>
-Subject: arch/arm64/include/asm/memory.h: asm-generic/memory_model.h is inc=
-luded more than once.
-
-::::::=20
-:::::: Manual check reason: "low confidence bisect report"
-::::::=20
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20231016171130.15952-1-ghandatmanas@gmail.com>
+References: <20231016171130.15952-1-ghandatmanas@gmail.com>
+TO: Manas Ghandat <ghandatmanas@gmail.com>
+TO: dave.kleikamp@oracle.com
+TO: shaggy@kernel.org
+CC: Manas Ghandat <ghandatmanas@gmail.com>
+CC: Linux-kernel-mentees@lists.linuxfoundation.org
+CC: jfs-discussion@lists.sourceforge.net
 CC: linux-kernel@vger.kernel.org
-TO: Linus Walleij <linus.walleij@linaro.org>
+CC: syzbot+9924e2a08d9ba0fd4ce2@syzkaller.appspotmail.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   611da07b89fdd53f140d7b33013f255bf0ed8f34
-commit: c94b1a012f93327a4fe16ab9455331f37e69242f arm64: memory: Make virt_t=
-o_pfn() a static inline
-date:   5 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 5 months ago
+Hi Manas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kleikamp-shaggy/jfs-next]
+[also build test WARNING on linus/master v6.6-rc7 next-20231026]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manas-Ghandat/jfs-fix-slab-out-of-bounds-Read-in-dtSearch/20231017-152500
+base:   https://github.com/kleikamp/linux-shaggy jfs-next
+patch link:    https://lore.kernel.org/r/20231016171130.15952-1-ghandatmanas%40gmail.com
+patch subject: [PATCH] jfs: fix slab-out-of-bounds Read in dtSearch
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: i386-randconfig-141-20231022 (https://download.01.org/0day-ci/archive/20231027/202310271151.oY2S3sDA-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231027/202310270227.J=
-7UV7HBm-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231027/202310271151.oY2S3sDA-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202310270227.J7UV7HBm-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202310271151.oY2S3sDA-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> arch/arm64/include/asm/memory.h: asm-generic/memory_model.h is included =
-more than once.
+smatch warnings:
+fs/jfs/jfs_dtree.c:636 dtSearch() warn: impossible condition '(stbl[index] > 128) => ((-128)-127 > 128)'
 
-vim +335 arch/arm64/include/asm/memory.h
+vim +636 fs/jfs/jfs_dtree.c
 
-   333=09
-   334	/* Needed already here for resolving __phys_to_pfn() in virt_to_pfn(=
-) */
- > 335	#include <asm-generic/memory_model.h>
-   336=09
-   337	static inline unsigned long virt_to_pfn(const void *kaddr)
-   338	{
-   339		return __phys_to_pfn(virt_to_phys(kaddr));
-   340	}
-   341=09
-   342	/*
-   343	 * Drivers should NOT use these either.
-   344	 */
-   345	#define __pa(x)			__virt_to_phys((unsigned long)(x))
-   346	#define __pa_symbol(x)		__phys_addr_symbol(RELOC_HIDE((unsigned long=
-)(x), 0))
-   347	#define __pa_nodebug(x)		__virt_to_phys_nodebug((unsigned long)(x))
-   348	#define __va(x)			((void *)__phys_to_virt((phys_addr_t)(x)))
-   349	#define pfn_to_kaddr(pfn)	__va((pfn) << PAGE_SHIFT)
-   350	#define sym_to_pfn(x)		__phys_to_pfn(__pa_symbol(x))
-   351=09
-   352	/*
-   353	 *  virt_to_page(x)	convert a _valid_ virtual address to struct page=
- *
-   354	 *  virt_addr_valid(x)	indicates whether a virtual address is valid
-   355	 */
-   356	#define ARCH_PFN_OFFSET		((unsigned long)PHYS_PFN_OFFSET)
-   357=09
-   358	#if defined(CONFIG_DEBUG_VIRTUAL)
-   359	#define page_to_virt(x)	({						\
-   360		__typeof__(x) __page =3D x;					\
-   361		void *__addr =3D __va(page_to_phys(__page));			\
-   362		(void *)__tag_set((const void *)__addr, page_kasan_tag(__page));\
-   363	})
-   364	#define virt_to_page(x)		pfn_to_page(virt_to_pfn(x))
-   365	#else
-   366	#define page_to_virt(x)	({						\
-   367		__typeof__(x) __page =3D x;					\
-   368		u64 __idx =3D ((u64)__page - VMEMMAP_START) / sizeof(struct page);\
-   369		u64 __addr =3D PAGE_OFFSET + (__idx * PAGE_SIZE);			\
-   370		(void *)__tag_set((const void *)__addr, page_kasan_tag(__page));\
-   371	})
-   372=09
-   373	#define virt_to_page(x)	({						\
-   374		u64 __idx =3D (__tag_reset((u64)x) - PAGE_OFFSET) / PAGE_SIZE;	\
-   375		u64 __addr =3D VMEMMAP_START + (__idx * sizeof(struct page));	\
-   376		(struct page *)__addr;						\
-   377	})
-   378	#endif /* CONFIG_DEBUG_VIRTUAL */
-   379=09
-   380	#define virt_addr_valid(addr)	({					\
-   381		__typeof__(addr) __addr =3D __tag_reset(addr);			\
-   382		__is_lm_address(__addr) && pfn_is_map_memory(virt_to_pfn(__addr));	=
-\
-   383	})
-   384=09
-   385	void dump_mem_limit(void);
-   386	#endif /* !ASSEMBLY */
-   387=09
-   388	/*
-   389	 * Given that the GIC architecture permits ITS implementations that =
-can only be
-   390	 * configured with a LPI table address once, GICv3 systems with many=
- CPUs may
-   391	 * end up reserving a lot of different regions after a kexec for the=
-ir LPI
-   392	 * tables (one per CPU), as we are forced to reuse the same memory a=
-fter kexec
-   393	 * (and thus reserve it persistently with EFI beforehand)
-   394	 */
-   395	#if defined(CONFIG_EFI) && defined(CONFIG_ARM_GIC_V3_ITS)
-   396	# define INIT_MEMBLOCK_RESERVED_REGIONS	(INIT_MEMBLOCK_REGIONS + NR_=
-CPUS + 1)
-   397	#endif
-   398=09
-   399	/*
-   400	 * memory regions which marked with flag MEMBLOCK_NOMAP(for example,=
- the memory
-   401	 * of the EFI_UNUSABLE_MEMORY type) may divide a continuous memory b=
-lock into
-   402	 * multiple parts. As a result, the number of memory regions is larg=
-e.
-   403	 */
-   404	#ifdef CONFIG_EFI
-   405	#define INIT_MEMBLOCK_MEMORY_REGIONS	(INIT_MEMBLOCK_REGIONS * 8)
-   406	#endif
-   407=09
- > 408	#include <asm-generic/memory_model.h>
-   409=09
+^1da177e4c3f41 Linus Torvalds   2005-04-16  555  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  556  /*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  557   *	dtSearch()
+^1da177e4c3f41 Linus Torvalds   2005-04-16  558   *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  559   * function:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  560   *	Search for the entry with specified key
+^1da177e4c3f41 Linus Torvalds   2005-04-16  561   *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  562   * parameter:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  563   *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  564   * return: 0 - search result on stack, leaf page pinned;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  565   *	   errno - I/O error
+^1da177e4c3f41 Linus Torvalds   2005-04-16  566   */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  567  int dtSearch(struct inode *ip, struct component_name * key, ino_t * data,
+^1da177e4c3f41 Linus Torvalds   2005-04-16  568  	     struct btstack * btstack, int flag)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  569  {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  570  	int rc = 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  571  	int cmp = 1;		/* init for empty page */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  572  	s64 bn;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  573  	struct metapage *mp;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  574  	dtpage_t *p;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  575  	s8 *stbl;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  576  	int base, index, lim;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  577  	struct btframe *btsp;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  578  	pxd_t *pxd;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  579  	int psize = 288;	/* initial in-line directory */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  580  	ino_t inumber;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  581  	struct component_name ciKey;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  582  	struct super_block *sb = ip->i_sb;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  583  
+6da2ec56059c3c Kees Cook        2018-06-12  584  	ciKey.name = kmalloc_array(JFS_NAME_MAX + 1, sizeof(wchar_t),
+6da2ec56059c3c Kees Cook        2018-06-12  585  				   GFP_NOFS);
+09aaa749f637b1 Joe Perches      2007-11-13  586  	if (!ciKey.name) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  587  		rc = -ENOMEM;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  588  		goto dtSearch_Exit2;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  589  	}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  590  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  591  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  592  	/* uppercase search key for c-i directory */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  593  	UniStrcpy(ciKey.name, key->name);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  594  	ciKey.namlen = key->namlen;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  595  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  596  	/* only uppercase if case-insensitive support is on */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  597  	if ((JFS_SBI(sb)->mntflag & JFS_OS2) == JFS_OS2) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  598  		ciToUpper(&ciKey);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  599  	}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  600  	BT_CLR(btstack);	/* reset stack */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  601  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  602  	/* init level count for max pages to split */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  603  	btstack->nsplit = 1;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  604  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  605  	/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  606  	 *	search down tree from root:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  607  	 *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  608  	 * between two consecutive entries of <Ki, Pi> and <Kj, Pj> of
+^1da177e4c3f41 Linus Torvalds   2005-04-16  609  	 * internal page, child page Pi contains entry with k, Ki <= K < Kj.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  610  	 *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  611  	 * if entry with search key K is not found
+^1da177e4c3f41 Linus Torvalds   2005-04-16  612  	 * internal page search find the entry with largest key Ki
+^1da177e4c3f41 Linus Torvalds   2005-04-16  613  	 * less than K which point to the child page to search;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  614  	 * leaf page search find the entry with smallest key Kj
+^1da177e4c3f41 Linus Torvalds   2005-04-16  615  	 * greater than K so that the returned index is the position of
+^1da177e4c3f41 Linus Torvalds   2005-04-16  616  	 * the entry to be shifted right for insertion of new entry.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  617  	 * for empty tree, search key is greater than any key of the tree.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  618  	 *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  619  	 * by convention, root bn = 0.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  620  	 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  621  	for (bn = 0;;) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  622  		/* get/pin the page to search */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  623  		DT_GETPAGE(ip, bn, mp, psize, p, rc);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  624  		if (rc)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  625  			goto dtSearch_Exit1;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  626  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  627  		/* get sorted entry table of the page */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  628  		stbl = DT_GETSTBL(p);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  629  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  630  		/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  631  		 * binary search with search key K on the current page.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  632  		 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  633  		for (base = 0, lim = p->header.nextindex; lim; lim >>= 1) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  634  			index = base + (lim >> 1);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  635  
+7812e358b5edde Manas Ghandat    2023-10-16 @636  			if (stbl[index] > 128 || stbl[index] < 0)
+7812e358b5edde Manas Ghandat    2023-10-16  637  				goto out;
+7812e358b5edde Manas Ghandat    2023-10-16  638  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  639  			if (p->header.flag & BT_LEAF) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  640  				/* uppercase leaf name to compare */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  641  				cmp =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  642  				    ciCompare(&ciKey, p, stbl[index],
+^1da177e4c3f41 Linus Torvalds   2005-04-16  643  					      JFS_SBI(sb)->mntflag);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  644  			} else {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  645  				/* router key is in uppercase */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  646  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  647  				cmp = dtCompare(&ciKey, p, stbl[index]);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  648  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  649  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  650  			}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  651  			if (cmp == 0) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  652  				/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  653  				 *	search hit
+^1da177e4c3f41 Linus Torvalds   2005-04-16  654  				 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  655  				/* search hit - leaf page:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  656  				 * return the entry found
+^1da177e4c3f41 Linus Torvalds   2005-04-16  657  				 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  658  				if (p->header.flag & BT_LEAF) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  659  					inumber = le32_to_cpu(
+^1da177e4c3f41 Linus Torvalds   2005-04-16  660  			((struct ldtentry *) & p->slot[stbl[index]])->inumber);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  661  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  662  					/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  663  					 * search for JFS_LOOKUP
+^1da177e4c3f41 Linus Torvalds   2005-04-16  664  					 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  665  					if (flag == JFS_LOOKUP) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  666  						*data = inumber;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  667  						rc = 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  668  						goto out;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  669  					}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  670  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  671  					/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  672  					 * search for JFS_CREATE
+^1da177e4c3f41 Linus Torvalds   2005-04-16  673  					 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  674  					if (flag == JFS_CREATE) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  675  						*data = inumber;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  676  						rc = -EEXIST;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  677  						goto out;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  678  					}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  679  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  680  					/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  681  					 * search for JFS_REMOVE or JFS_RENAME
+^1da177e4c3f41 Linus Torvalds   2005-04-16  682  					 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  683  					if ((flag == JFS_REMOVE ||
+^1da177e4c3f41 Linus Torvalds   2005-04-16  684  					     flag == JFS_RENAME) &&
+^1da177e4c3f41 Linus Torvalds   2005-04-16  685  					    *data != inumber) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  686  						rc = -ESTALE;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  687  						goto out;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  688  					}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  689  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  690  					/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  691  					 * JFS_REMOVE|JFS_FINDDIR|JFS_RENAME
+^1da177e4c3f41 Linus Torvalds   2005-04-16  692  					 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  693  					/* save search result */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  694  					*data = inumber;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  695  					btsp = btstack->top;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  696  					btsp->bn = bn;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  697  					btsp->index = index;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  698  					btsp->mp = mp;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  699  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  700  					rc = 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  701  					goto dtSearch_Exit1;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  702  				}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  703  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  704  				/* search hit - internal page:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  705  				 * descend/search its child page
+^1da177e4c3f41 Linus Torvalds   2005-04-16  706  				 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  707  				goto getChild;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  708  			}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  709  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  710  			if (cmp > 0) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  711  				base = index + 1;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  712  				--lim;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  713  			}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  714  		}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  715  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  716  		/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  717  		 *	search miss
+^1da177e4c3f41 Linus Torvalds   2005-04-16  718  		 *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  719  		 * base is the smallest index with key (Kj) greater than
+^1da177e4c3f41 Linus Torvalds   2005-04-16  720  		 * search key (K) and may be zero or (maxindex + 1) index.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  721  		 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  722  		/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  723  		 * search miss - leaf page
+^1da177e4c3f41 Linus Torvalds   2005-04-16  724  		 *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  725  		 * return location of entry (base) where new entry with
+^1da177e4c3f41 Linus Torvalds   2005-04-16  726  		 * search key K is to be inserted.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  727  		 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  728  		if (p->header.flag & BT_LEAF) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  729  			/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  730  			 * search for JFS_LOOKUP, JFS_REMOVE, or JFS_RENAME
+^1da177e4c3f41 Linus Torvalds   2005-04-16  731  			 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  732  			if (flag == JFS_LOOKUP || flag == JFS_REMOVE ||
+^1da177e4c3f41 Linus Torvalds   2005-04-16  733  			    flag == JFS_RENAME) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  734  				rc = -ENOENT;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  735  				goto out;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  736  			}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  737  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  738  			/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  739  			 * search for JFS_CREATE|JFS_FINDDIR:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  740  			 *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  741  			 * save search result
+^1da177e4c3f41 Linus Torvalds   2005-04-16  742  			 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  743  			*data = 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  744  			btsp = btstack->top;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  745  			btsp->bn = bn;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  746  			btsp->index = base;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  747  			btsp->mp = mp;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  748  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  749  			rc = 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  750  			goto dtSearch_Exit1;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  751  		}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  752  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  753  		/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  754  		 * search miss - internal page
+^1da177e4c3f41 Linus Torvalds   2005-04-16  755  		 *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  756  		 * if base is non-zero, decrement base by one to get the parent
+^1da177e4c3f41 Linus Torvalds   2005-04-16  757  		 * entry of the child page to search.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  758  		 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  759  		index = base ? base - 1 : base;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  760  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  761  		/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  762  		 * go down to child page
+^1da177e4c3f41 Linus Torvalds   2005-04-16  763  		 */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  764  	      getChild:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  765  		/* update max. number of pages to split */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  766  		if (BT_STACK_FULL(btstack)) {
+3a4fa0a25da816 Robert P. J. Day 2007-10-19  767  			/* Something's corrupted, mark filesystem dirty so
+^1da177e4c3f41 Linus Torvalds   2005-04-16  768  			 * chkdsk will fix it.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  769  			 */
+eb8630d7d2fd13 Joe Perches      2013-06-04  770  			jfs_error(sb, "stack overrun!\n");
+^1da177e4c3f41 Linus Torvalds   2005-04-16  771  			BT_STACK_DUMP(btstack);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  772  			rc = -EIO;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  773  			goto out;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  774  		}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  775  		btstack->nsplit++;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  776  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  777  		/* push (bn, index) of the parent page/entry */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  778  		BT_PUSH(btstack, bn, index);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  779  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  780  		/* get the child page block number */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  781  		pxd = (pxd_t *) & p->slot[stbl[index]];
+^1da177e4c3f41 Linus Torvalds   2005-04-16  782  		bn = addressPXD(pxd);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  783  		psize = lengthPXD(pxd) << JFS_SBI(ip->i_sb)->l2bsize;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  784  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  785  		/* unpin the parent page */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  786  		DT_PUTPAGE(mp);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  787  	}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  788  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  789        out:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  790  	DT_PUTPAGE(mp);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  791  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  792        dtSearch_Exit1:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  793  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  794  	kfree(ciKey.name);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  795  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  796        dtSearch_Exit2:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  797  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  798  	return rc;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  799  }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  800  
 
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
