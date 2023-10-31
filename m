@@ -1,46 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E655DF65
-	for <oe-kbuild@lists.linux.dev>; Tue, 31 Oct 2023 14:59:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D8E20332
+	for <oe-kbuild@lists.linux.dev>; Tue, 31 Oct 2023 20:20:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OCy8dKS4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D/tys6sS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698764369; x=1730300369;
+  t=1698783625; x=1730319625;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rOnDNOOqj40kdc3dzUx8ot9QvffLyjCsSLU0RNN3tIs=;
-  b=OCy8dKS4qswP4OsggWfL1P2TP/tt4SF/tM7uSEKr0FuZQmZDHGhi/UZf
-   8cTRF9SPVhleKr18lqq1YdEkMGuIMt0nPgjtGMk8RSlitXim2k0EuSaqi
-   VX59bFWinyCop/JNHS/eVKkJwz05/Ta3zgjQhdd5HzyIhDfZj4QrgKrhL
-   xucoIk09FDltsc8ms2FJIR8/7ELSJVjfAgD5Uc35INPimK1SLnUrLmXze
-   CEijBnky5TMx55lrHwrQfc8ouPm8wIwToAMNA3LblmBXTo81EoTeFWw3U
-   7PkVJorICAgMdjXhL8ovq7AJ5oDNvzpoCDbitcgLtST4NjAY1dtr6druH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="378693123"
-X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="378693123"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 07:59:28 -0700
+  bh=uQd+JMk5/yjBMtRaKBHVBIrNMBzUjj2Rec3/2KDnLKA=;
+  b=D/tys6sSSBpjUaIirjn9aACNTB1Km6Ndf8SqeClKQii77P4STenjDaUO
+   lxBCtFfXsdwHkvFW4hE2Z1CCjpAvhrLKVP0sL00dRq9zT43UHXIkGmqd1
+   E+IonsfcW1LViF525oxFMNhyHDypSTAGO7LPtexGQeCsN/jjU+YXQggG3
+   bQ3WyLfJ6ReYimUu4dw3Ga/SdaBR0sNwHLPltvcJhWUj2GgdfE/sKYSh7
+   RbuFO0Mg9lYkwnwbcqfbjN+R2JIEWvZGBF2BJBSoGhBZOaqW1rYxdYpXi
+   nqDEZV9K8o32HyL+jXl7gHazpv5+a0kLEwLSu/nvX0AZ47UpaB1V4kPty
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="378755001"
+X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
+   d="scan'208";a="378755001"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 13:20:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="884231701"
-X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="884231701"
+X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
+   d="scan'208";a="8810331"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 31 Oct 2023 07:59:27 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 31 Oct 2023 13:20:23 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qxqDF-0000E4-0w;
-	Tue, 31 Oct 2023 14:59:25 +0000
-Date: Tue, 31 Oct 2023 22:58:31 +0800
+	id 1qxvDo-0000NT-2W;
+	Tue, 31 Oct 2023 20:20:20 +0000
+Date: Wed, 1 Nov 2023 04:19:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/spi/spi-amd.c:253 amd_set_spi_freq() error: buffer overflow
- 'amd_spi_freq' 9 <= 9 (assuming for loop doesn't break)
-Message-ID: <202310312254.YBm6LJtN-lkp@intel.com>
+Subject: [linux-next:master 15011/15964] net/ipv4/tcp_ao.c:689
+ tcp_ao_del_cmd() error: memcmp() '&key->addr' too small (4 vs 16)
+Message-ID: <202311010435.7y8Up60l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,77 +51,133 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Lucas Tanure <tanureal@opensource.cirrus.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Shreeya Patel <shreeya.patel@collabora.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Dmitry Safonov <dima@arista.com>
+CC: Francesco Ruggeri <fruggeri@arista.com>
+CC: Salam Noureddine <noureddine@arista.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5a6a09e97199d6600d31383055f9d43fbbcbe86f
-commit: 3fe26121dc3a9bf64e18fe0075cd9a92c9cd1b1a spi: amd: Configure device speed
-date:   1 year, 2 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 1 year, 2 months ago
-config: x86_64-randconfig-r024-20230822 (https://download.01.org/0day-ci/archive/20231031/202310312254.YBm6LJtN-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9c2d379d63450ae464eeab45462e0cb573cd97d0
+commit: 4954f17ddefc51d218625dcdfaf422a253dad3fa [15011/15964] net/tcp: Introduce TCP_AO setsockopt()s
+:::::: branch date: 14 hours ago
+:::::: commit date: 4 days ago
+config: x86_64-randconfig-161-20231030 (https://download.01.org/0day-ci/archive/20231101/202311010435.7y8Up60l-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231031/202310312254.YBm6LJtN-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231101/202311010435.7y8Up60l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202310312254.YBm6LJtN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311010435.7y8Up60l-lkp@intel.com/
 
-New smatch warnings:
-drivers/spi/spi-amd.c:253 amd_set_spi_freq() error: buffer overflow 'amd_spi_freq' 9 <= 9 (assuming for loop doesn't break)
+smatch warnings:
+net/ipv4/tcp_ao.c:689 tcp_ao_del_cmd() error: memcmp() '&key->addr' too small (4 vs 16)
 
-Old smatch warnings:
-drivers/spi/spi-amd.c:256 amd_set_spi_freq() error: buffer overflow 'amd_spi_freq' 9 <= 9 (assuming for loop doesn't break)
-drivers/spi/spi-amd.c:258 amd_set_spi_freq() error: buffer overflow 'amd_spi_freq' 9 <= 9 (assuming for loop doesn't break)
-drivers/spi/spi-amd.c:267 amd_set_spi_freq() error: buffer overflow 'amd_spi_freq' 9 <= 9 (assuming for loop doesn't break)
-drivers/spi/spi-amd.c:268 amd_set_spi_freq() error: buffer overflow 'amd_spi_freq' 9 <= 9 (assuming for loop doesn't break)
+vim +689 net/ipv4/tcp_ao.c
 
-vim +253 drivers/spi/spi-amd.c
-
-3fe26121dc3a9b Lucas Tanure 2022-08-25  238  
-3fe26121dc3a9b Lucas Tanure 2022-08-25  239  static int amd_set_spi_freq(struct amd_spi *amd_spi, u32 speed_hz)
-3fe26121dc3a9b Lucas Tanure 2022-08-25  240  {
-3fe26121dc3a9b Lucas Tanure 2022-08-25  241  	unsigned int i, spd7_val, alt_spd;
-3fe26121dc3a9b Lucas Tanure 2022-08-25  242  
-3fe26121dc3a9b Lucas Tanure 2022-08-25  243  	if (speed_hz == amd_spi->speed_hz)
-3fe26121dc3a9b Lucas Tanure 2022-08-25  244  		return 0;
-3fe26121dc3a9b Lucas Tanure 2022-08-25  245  
-3fe26121dc3a9b Lucas Tanure 2022-08-25  246  	if (speed_hz < AMD_SPI_MIN_HZ)
-3fe26121dc3a9b Lucas Tanure 2022-08-25  247  		return -EINVAL;
-3fe26121dc3a9b Lucas Tanure 2022-08-25  248  
-3fe26121dc3a9b Lucas Tanure 2022-08-25  249  	for (i = 0; i < ARRAY_SIZE(amd_spi_freq); i++)
-3fe26121dc3a9b Lucas Tanure 2022-08-25  250  		if (speed_hz >= amd_spi_freq[i].speed_hz)
-3fe26121dc3a9b Lucas Tanure 2022-08-25  251  			break;
-3fe26121dc3a9b Lucas Tanure 2022-08-25  252  
-3fe26121dc3a9b Lucas Tanure 2022-08-25 @253  	if (speed_hz == amd_spi_freq[i].speed_hz)
-3fe26121dc3a9b Lucas Tanure 2022-08-25  254  		return 0;
-3fe26121dc3a9b Lucas Tanure 2022-08-25  255  
-3fe26121dc3a9b Lucas Tanure 2022-08-25  256  	amd_spi->speed_hz = amd_spi_freq[i].speed_hz;
-3fe26121dc3a9b Lucas Tanure 2022-08-25  257  
-3fe26121dc3a9b Lucas Tanure 2022-08-25  258  	alt_spd = (amd_spi_freq[i].enable_val << AMD_SPI_ALT_SPD_SHIFT)
-3fe26121dc3a9b Lucas Tanure 2022-08-25  259  		   & AMD_SPI_ALT_SPD_MASK;
-3fe26121dc3a9b Lucas Tanure 2022-08-25  260  	amd_spi_setclear_reg32(amd_spi, AMD_SPI_ENA_REG, alt_spd,
-3fe26121dc3a9b Lucas Tanure 2022-08-25  261  			       AMD_SPI_ALT_SPD_MASK);
-3fe26121dc3a9b Lucas Tanure 2022-08-25  262  
-3fe26121dc3a9b Lucas Tanure 2022-08-25  263  	if (amd_spi->speed_hz == AMD_SPI_MAX_HZ)
-3fe26121dc3a9b Lucas Tanure 2022-08-25  264  		amd_spi_setclear_reg32(amd_spi, AMD_SPI_ENA_REG, 1,
-3fe26121dc3a9b Lucas Tanure 2022-08-25  265  				       AMD_SPI_SPI100_MASK);
-3fe26121dc3a9b Lucas Tanure 2022-08-25  266  
-3fe26121dc3a9b Lucas Tanure 2022-08-25  267  	if (amd_spi_freq[i].spd7_val) {
-3fe26121dc3a9b Lucas Tanure 2022-08-25  268  		spd7_val = (amd_spi_freq[i].spd7_val << AMD_SPI_SPD7_SHIFT)
-3fe26121dc3a9b Lucas Tanure 2022-08-25  269  			    & AMD_SPI_SPD7_MASK;
-3fe26121dc3a9b Lucas Tanure 2022-08-25  270  		amd_spi_setclear_reg32(amd_spi, AMD_SPI_SPEED_REG, spd7_val,
-3fe26121dc3a9b Lucas Tanure 2022-08-25  271  				       AMD_SPI_SPD7_MASK);
-3fe26121dc3a9b Lucas Tanure 2022-08-25  272  	}
-3fe26121dc3a9b Lucas Tanure 2022-08-25  273  
-3fe26121dc3a9b Lucas Tanure 2022-08-25  274  	return 0;
-3fe26121dc3a9b Lucas Tanure 2022-08-25  275  }
-3fe26121dc3a9b Lucas Tanure 2022-08-25  276  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  599  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  600  static int tcp_ao_del_cmd(struct sock *sk, unsigned short int family,
+4954f17ddefc51 Dmitry Safonov 2023-10-23  601  			  sockptr_t optval, int optlen)
+4954f17ddefc51 Dmitry Safonov 2023-10-23  602  {
+4954f17ddefc51 Dmitry Safonov 2023-10-23  603  	struct tcp_ao_key *key, *new_current = NULL, *new_rnext = NULL;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  604  	struct tcp_ao_info *ao_info;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  605  	union tcp_ao_addr *addr;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  606  	struct tcp_ao_del cmd;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  607  	int addr_len;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  608  	__u8 prefix;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  609  	u16 port;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  610  	int err;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  611  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  612  	if (optlen < sizeof(cmd))
+4954f17ddefc51 Dmitry Safonov 2023-10-23  613  		return -EINVAL;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  614  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  615  	err = copy_struct_from_sockptr(&cmd, sizeof(cmd), optval, optlen);
+4954f17ddefc51 Dmitry Safonov 2023-10-23  616  	if (err)
+4954f17ddefc51 Dmitry Safonov 2023-10-23  617  		return err;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  618  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  619  	if (cmd.reserved != 0 || cmd.reserved2 != 0)
+4954f17ddefc51 Dmitry Safonov 2023-10-23  620  		return -EINVAL;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  621  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  622  	if (cmd.set_current || cmd.set_rnext) {
+4954f17ddefc51 Dmitry Safonov 2023-10-23  623  		if (!tcp_ao_can_set_current_rnext(sk))
+4954f17ddefc51 Dmitry Safonov 2023-10-23  624  			return -EINVAL;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  625  	}
+4954f17ddefc51 Dmitry Safonov 2023-10-23  626  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  627  	ao_info = setsockopt_ao_info(sk);
+4954f17ddefc51 Dmitry Safonov 2023-10-23  628  	if (IS_ERR(ao_info))
+4954f17ddefc51 Dmitry Safonov 2023-10-23  629  		return PTR_ERR(ao_info);
+4954f17ddefc51 Dmitry Safonov 2023-10-23  630  	if (!ao_info)
+4954f17ddefc51 Dmitry Safonov 2023-10-23  631  		return -ENOENT;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  632  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  633  	/* For sockets in TCP_CLOSED it's possible set keys that aren't
+4954f17ddefc51 Dmitry Safonov 2023-10-23  634  	 * matching the future peer (address/VRF/etc),
+4954f17ddefc51 Dmitry Safonov 2023-10-23  635  	 * tcp_ao_connect_init() will choose a correct matching MKT
+4954f17ddefc51 Dmitry Safonov 2023-10-23  636  	 * if there's any.
+4954f17ddefc51 Dmitry Safonov 2023-10-23  637  	 */
+4954f17ddefc51 Dmitry Safonov 2023-10-23  638  	if (cmd.set_current) {
+4954f17ddefc51 Dmitry Safonov 2023-10-23  639  		new_current = tcp_ao_established_key(ao_info, cmd.current_key, -1);
+4954f17ddefc51 Dmitry Safonov 2023-10-23  640  		if (!new_current)
+4954f17ddefc51 Dmitry Safonov 2023-10-23  641  			return -ENOENT;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  642  	}
+4954f17ddefc51 Dmitry Safonov 2023-10-23  643  	if (cmd.set_rnext) {
+4954f17ddefc51 Dmitry Safonov 2023-10-23  644  		new_rnext = tcp_ao_established_key(ao_info, -1, cmd.rnext);
+4954f17ddefc51 Dmitry Safonov 2023-10-23  645  		if (!new_rnext)
+4954f17ddefc51 Dmitry Safonov 2023-10-23  646  			return -ENOENT;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  647  	}
+4954f17ddefc51 Dmitry Safonov 2023-10-23  648  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  649  	if (family == AF_INET) {
+4954f17ddefc51 Dmitry Safonov 2023-10-23  650  		struct sockaddr_in *sin = (struct sockaddr_in *)&cmd.addr;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  651  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  652  		addr = (union tcp_ao_addr *)&sin->sin_addr;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  653  		addr_len = sizeof(struct in_addr);
+4954f17ddefc51 Dmitry Safonov 2023-10-23  654  		port = ntohs(sin->sin_port);
+4954f17ddefc51 Dmitry Safonov 2023-10-23  655  	} else {
+4954f17ddefc51 Dmitry Safonov 2023-10-23  656  		struct sockaddr_in6 *sin6 = (struct sockaddr_in6 *)&cmd.addr;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  657  		struct in6_addr *addr6 = &sin6->sin6_addr;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  658  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  659  		if (ipv6_addr_v4mapped(addr6)) {
+4954f17ddefc51 Dmitry Safonov 2023-10-23  660  			addr = (union tcp_ao_addr *)&addr6->s6_addr32[3];
+4954f17ddefc51 Dmitry Safonov 2023-10-23  661  			addr_len = sizeof(struct in_addr);
+4954f17ddefc51 Dmitry Safonov 2023-10-23  662  			family = AF_INET;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  663  		} else {
+4954f17ddefc51 Dmitry Safonov 2023-10-23  664  			addr = (union tcp_ao_addr *)addr6;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  665  			addr_len = sizeof(struct in6_addr);
+4954f17ddefc51 Dmitry Safonov 2023-10-23  666  		}
+4954f17ddefc51 Dmitry Safonov 2023-10-23  667  		port = ntohs(sin6->sin6_port);
+4954f17ddefc51 Dmitry Safonov 2023-10-23  668  	}
+4954f17ddefc51 Dmitry Safonov 2023-10-23  669  	prefix = cmd.prefix;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  670  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  671  	/* Currently matching is not performed on port (or port ranges) */
+4954f17ddefc51 Dmitry Safonov 2023-10-23  672  	if (port != 0)
+4954f17ddefc51 Dmitry Safonov 2023-10-23  673  		return -EINVAL;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  674  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  675  	/* We could choose random present key here for current/rnext
+4954f17ddefc51 Dmitry Safonov 2023-10-23  676  	 * but that's less predictable. Let's be strict and don't
+4954f17ddefc51 Dmitry Safonov 2023-10-23  677  	 * allow removing a key that's in use. RFC5925 doesn't
+4954f17ddefc51 Dmitry Safonov 2023-10-23  678  	 * specify how-to coordinate key removal, but says:
+4954f17ddefc51 Dmitry Safonov 2023-10-23  679  	 * "It is presumed that an MKT affecting a particular
+4954f17ddefc51 Dmitry Safonov 2023-10-23  680  	 * connection cannot be destroyed during an active connection"
+4954f17ddefc51 Dmitry Safonov 2023-10-23  681  	 */
+4954f17ddefc51 Dmitry Safonov 2023-10-23  682  	hlist_for_each_entry_rcu(key, &ao_info->head, node) {
+4954f17ddefc51 Dmitry Safonov 2023-10-23  683  		if (cmd.sndid != key->sndid ||
+4954f17ddefc51 Dmitry Safonov 2023-10-23  684  		    cmd.rcvid != key->rcvid)
+4954f17ddefc51 Dmitry Safonov 2023-10-23  685  			continue;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  686  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  687  		if (family != key->family ||
+4954f17ddefc51 Dmitry Safonov 2023-10-23  688  		    prefix != key->prefixlen ||
+4954f17ddefc51 Dmitry Safonov 2023-10-23 @689  		    memcmp(addr, &key->addr, addr_len))
+4954f17ddefc51 Dmitry Safonov 2023-10-23  690  			continue;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  691  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  692  		if (key == new_current || key == new_rnext)
+4954f17ddefc51 Dmitry Safonov 2023-10-23  693  			continue;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  694  
+4954f17ddefc51 Dmitry Safonov 2023-10-23  695  		return tcp_ao_delete_key(sk, ao_info, key,
+4954f17ddefc51 Dmitry Safonov 2023-10-23  696  					  new_current, new_rnext);
+4954f17ddefc51 Dmitry Safonov 2023-10-23  697  	}
+4954f17ddefc51 Dmitry Safonov 2023-10-23  698  	return -ENOENT;
+4954f17ddefc51 Dmitry Safonov 2023-10-23  699  }
+4954f17ddefc51 Dmitry Safonov 2023-10-23  700  
 
 -- 
 0-DAY CI Kernel Test Service
