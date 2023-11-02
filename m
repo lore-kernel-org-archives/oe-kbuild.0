@@ -1,46 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED64E2137B
-	for <oe-kbuild@lists.linux.dev>; Thu,  2 Nov 2023 19:48:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30870219FA
+	for <oe-kbuild@lists.linux.dev>; Thu,  2 Nov 2023 21:34:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cbub3l46"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kMkGBACZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698954528; x=1730490528;
+  t=1698960885; x=1730496885;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aexQy03y0ZIhAsx970UgWEOJgE/hHGRJ68H33bIctBs=;
-  b=Cbub3l462Ob1pgfP4kGD6P9k2vSZ/RuXfujA76xDkoRXhZTSAf2PTdSg
-   KFoD/wyTlbCCHrmff9jUQME0tfCsGRbC1DVkZNLVz/8OXeZ28BNOExN8Z
-   V0LM5kvJwUKwdBDOXPfhSZlImguDG3B9ey7V3HTHJBiXdE85Kdl4j2R+z
-   F6xGTc+GNDOipl2eRIYkzolZ6Xxu72X41uUb+M4iEigDbOTby+4dG8RXf
-   msyU9ki8en3Imy9XjqoI6jUl064sdFzzmrlI1EOZm93aT9N+2spuDG7ra
-   QcLgm1nvOVkKv5ONIfi/0nGpZC7MYeldVDUd4zH62GQA2IlTmAqHH5Rbj
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="388617052"
+  bh=PR0r8jaTh3oV/MQK2PsWUk500xnRizGnXaa/BwKFXZk=;
+  b=kMkGBACZ3dvaIC6zfiMF4Z+4iH2QFRksNAgwhjPNPkyX/qi7eZRxPxuA
+   z9sa7am4NsC3IwqEBFG098Xo+u6kVlrwFFjNUI/hQG/I/3zXAo3u60pFM
+   7u73hjPJeL3eDNI+su8fptFwLwR+E5XfU+29TA5ANW832mfK5UHYjbQu9
+   fFjKz6GFGik2YIQ2TX+tWDFczWruuE4GVqqSYzBH6EcmIKRdx0ZFMnkuG
+   EKzReh7fEo42dSEVu3++5vcACYf9HIoEtRN64hbOOG6LtOPjJTdKLM/ie
+   jjLqjBZ2ykjMnVIdnFhXRe++/6o2UvyrHhirJ8n43zZfJMNhU8tJbhqy+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="388646488"
 X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
-   d="scan'208";a="388617052"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 12:48:47 -0700
+   d="scan'208";a="388646488"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 14:34:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="905110293"
 X-IronPort-AV: E=Sophos;i="6.03,272,1694761200"; 
-   d="scan'208";a="905110293"
+   d="scan'208";a="2586576"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Nov 2023 12:48:45 -0700
+  by orviesa002.jf.intel.com with ESMTP; 02 Nov 2023 14:34:43 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qydgJ-0001pM-33;
-	Thu, 02 Nov 2023 19:48:43 +0000
-Date: Fri, 3 Nov 2023 03:47:43 +0800
+	id 1qyfKp-0001sZ-2p;
+	Thu, 02 Nov 2023 21:34:39 +0000
+Date: Fri, 3 Nov 2023 05:34:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/bcachefs/compress.c:34 __bounce_alloc() warn: possible memory
- leak of 'b'
-Message-ID: <202311030327.BKmUFSdb-lkp@intel.com>
+Subject: kernel/sched/fair.c:7531 find_energy_efficient_cpu() error:
+ uninitialized symbol 'best_energy_cpu'.
+Message-ID: <202311030525.xgQHjZcy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,57 +52,266 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Kent Overstreet <kmo@daterainc.com>
+TO: Vincent Guittot <vincent.guittot@linaro.org>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: Dietmar Eggemann <dietmar.eggemann@arm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   4652b8e4f3ffa48c706ec334f048c217a7d9750d
-commit: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
-date:   11 days ago
-:::::: branch date: 75 minutes ago
-:::::: commit date: 11 days ago
-config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231103/202311030327.BKmUFSdb-lkp@intel.com/config)
+commit: e5ed0550c04c5469ecdc1634d8aa18c8609590f0 sched/fair: unlink misfit task from cpu overutilized
+date:   9 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 9 months ago
+config: i386-randconfig-141-20231102 (https://download.01.org/0day-ci/archive/20231103/202311030525.xgQHjZcy-lkp@intel.com/config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231103/202311030327.BKmUFSdb-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231103/202311030525.xgQHjZcy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311030327.BKmUFSdb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311030525.xgQHjZcy-lkp@intel.com/
 
 smatch warnings:
-fs/bcachefs/compress.c:34 __bounce_alloc() warn: possible memory leak of 'b'
+kernel/sched/fair.c:7531 find_energy_efficient_cpu() error: uninitialized symbol 'best_energy_cpu'.
 
-vim +/b +34 fs/bcachefs/compress.c
+vim +/best_energy_cpu +7531 kernel/sched/fair.c
 
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  25  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  26  static struct bbuf __bounce_alloc(struct bch_fs *c, unsigned size, int rw)
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  27  {
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  28  	void *b;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  29  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  30  	BUG_ON(size > c->sb.encoded_extent_max << 9);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  31  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  32  	b = kmalloc(size, GFP_NOIO|__GFP_NOWARN);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  33  	if (b)
-1c6fdbd8f2465d Kent Overstreet 2017-03-16 @34  		return (struct bbuf) { .b = b, .type = BB_KMALLOC, .rw = rw };
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  35  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  36  	b = mempool_alloc(&c->compression_bounce[rw], GFP_NOWAIT);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  37  	b = b ? page_address(b) : NULL;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  38  	if (b)
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  39  		return (struct bbuf) { .b = b, .type = BB_MEMPOOL, .rw = rw };
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  40  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  41  	b = vmalloc(size);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  42  	if (b)
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  43  		return (struct bbuf) { .b = b, .type = BB_VMALLOC, .rw = rw };
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  44  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  45  	b = mempool_alloc(&c->compression_bounce[rw], GFP_NOIO);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  46  	b = b ? page_address(b) : NULL;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  47  	if (b)
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  48  		return (struct bbuf) { .b = b, .type = BB_MEMPOOL, .rw = rw };
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  49  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  50  	BUG();
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  51  }
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  52  
+390031e4c309c9 Quentin Perret            2018-12-03  7312  
+732cd75b8c920d Quentin Perret            2018-12-03  7313  /*
+732cd75b8c920d Quentin Perret            2018-12-03  7314   * find_energy_efficient_cpu(): Find most energy-efficient target CPU for the
+732cd75b8c920d Quentin Perret            2018-12-03  7315   * waking task. find_energy_efficient_cpu() looks for the CPU with maximum
+732cd75b8c920d Quentin Perret            2018-12-03  7316   * spare capacity in each performance domain and uses it as a potential
+732cd75b8c920d Quentin Perret            2018-12-03  7317   * candidate to execute the task. Then, it uses the Energy Model to figure
+732cd75b8c920d Quentin Perret            2018-12-03  7318   * out which of the CPU candidates is the most energy-efficient.
+732cd75b8c920d Quentin Perret            2018-12-03  7319   *
+732cd75b8c920d Quentin Perret            2018-12-03  7320   * The rationale for this heuristic is as follows. In a performance domain,
+732cd75b8c920d Quentin Perret            2018-12-03  7321   * all the most energy efficient CPU candidates (according to the Energy
+732cd75b8c920d Quentin Perret            2018-12-03  7322   * Model) are those for which we'll request a low frequency. When there are
+732cd75b8c920d Quentin Perret            2018-12-03  7323   * several CPUs for which the frequency request will be the same, we don't
+732cd75b8c920d Quentin Perret            2018-12-03  7324   * have enough data to break the tie between them, because the Energy Model
+732cd75b8c920d Quentin Perret            2018-12-03  7325   * only includes active power costs. With this model, if we assume that
+732cd75b8c920d Quentin Perret            2018-12-03  7326   * frequency requests follow utilization (e.g. using schedutil), the CPU with
+732cd75b8c920d Quentin Perret            2018-12-03  7327   * the maximum spare capacity in a performance domain is guaranteed to be among
+732cd75b8c920d Quentin Perret            2018-12-03  7328   * the best candidates of the performance domain.
+732cd75b8c920d Quentin Perret            2018-12-03  7329   *
+732cd75b8c920d Quentin Perret            2018-12-03  7330   * In practice, it could be preferable from an energy standpoint to pack
+732cd75b8c920d Quentin Perret            2018-12-03  7331   * small tasks on a CPU in order to let other CPUs go in deeper idle states,
+732cd75b8c920d Quentin Perret            2018-12-03  7332   * but that could also hurt our chances to go cluster idle, and we have no
+732cd75b8c920d Quentin Perret            2018-12-03  7333   * ways to tell with the current Energy Model if this is actually a good
+732cd75b8c920d Quentin Perret            2018-12-03  7334   * idea or not. So, find_energy_efficient_cpu() basically favors
+732cd75b8c920d Quentin Perret            2018-12-03  7335   * cluster-packing, and spreading inside a cluster. That should at least be
+732cd75b8c920d Quentin Perret            2018-12-03  7336   * a good thing for latency, and this is consistent with the idea that most
+732cd75b8c920d Quentin Perret            2018-12-03  7337   * of the energy savings of EAS come from the asymmetry of the system, and
+732cd75b8c920d Quentin Perret            2018-12-03  7338   * not so much from breaking the tie between identical CPUs. That's also the
+732cd75b8c920d Quentin Perret            2018-12-03  7339   * reason why EAS is enabled in the topology code only for systems where
+732cd75b8c920d Quentin Perret            2018-12-03  7340   * SD_ASYM_CPUCAPACITY is set.
+732cd75b8c920d Quentin Perret            2018-12-03  7341   *
+732cd75b8c920d Quentin Perret            2018-12-03  7342   * NOTE: Forkees are not accepted in the energy-aware wake-up path because
+732cd75b8c920d Quentin Perret            2018-12-03  7343   * they don't have any useful utilization data yet and it's not possible to
+732cd75b8c920d Quentin Perret            2018-12-03  7344   * forecast their impact on energy consumption. Consequently, they will be
+732cd75b8c920d Quentin Perret            2018-12-03  7345   * placed by find_idlest_cpu() on the least loaded CPU, which might turn out
+732cd75b8c920d Quentin Perret            2018-12-03  7346   * to be energy-inefficient in some use-cases. The alternative would be to
+732cd75b8c920d Quentin Perret            2018-12-03  7347   * bias new tasks towards specific types of CPUs first, or to try to infer
+732cd75b8c920d Quentin Perret            2018-12-03  7348   * their util_avg from the parent task, but those heuristics could hurt
+732cd75b8c920d Quentin Perret            2018-12-03  7349   * other use-cases too. So, until someone finds a better way to solve this,
+732cd75b8c920d Quentin Perret            2018-12-03  7350   * let's keep things simple by re-using the existing slow path.
+732cd75b8c920d Quentin Perret            2018-12-03  7351   */
+732cd75b8c920d Quentin Perret            2018-12-03  7352  static int find_energy_efficient_cpu(struct task_struct *p, int prev_cpu)
+732cd75b8c920d Quentin Perret            2018-12-03  7353  {
+9b340131a4bcf6 Dietmar Eggemann          2022-06-21  7354  	struct cpumask *cpus = this_cpu_cpumask_var_ptr(select_rq_mask);
+eb92692b2544d3 Quentin Perret            2019-09-12  7355  	unsigned long prev_delta = ULONG_MAX, best_delta = ULONG_MAX;
+244226035a1f9b Qais Yousef               2022-08-04  7356  	unsigned long p_util_min = uclamp_is_used() ? uclamp_eff_value(p, UCLAMP_MIN) : 0;
+244226035a1f9b Qais Yousef               2022-08-04  7357  	unsigned long p_util_max = uclamp_is_used() ? uclamp_eff_value(p, UCLAMP_MAX) : 1024;
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7358  	struct root_domain *rd = this_rq()->rd;
+b812fc9768e004 Vincent Donnefort         2022-06-21  7359  	int cpu, best_energy_cpu, target = -1;
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7360  	int prev_fits = -1, best_fits = -1;
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7361  	unsigned long best_thermal_cap = 0;
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7362  	unsigned long prev_thermal_cap = 0;
+732cd75b8c920d Quentin Perret            2018-12-03  7363  	struct sched_domain *sd;
+eb92692b2544d3 Quentin Perret            2019-09-12  7364  	struct perf_domain *pd;
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7365  	struct energy_env eenv;
+732cd75b8c920d Quentin Perret            2018-12-03  7366  
+732cd75b8c920d Quentin Perret            2018-12-03  7367  	rcu_read_lock();
+732cd75b8c920d Quentin Perret            2018-12-03  7368  	pd = rcu_dereference(rd->pd);
+732cd75b8c920d Quentin Perret            2018-12-03  7369  	if (!pd || READ_ONCE(rd->overutilized))
+619e090c8e409e Pierre Gondois            2021-05-04  7370  		goto unlock;
+732cd75b8c920d Quentin Perret            2018-12-03  7371  
+732cd75b8c920d Quentin Perret            2018-12-03  7372  	/*
+732cd75b8c920d Quentin Perret            2018-12-03  7373  	 * Energy-aware wake-up happens on the lowest sched_domain starting
+732cd75b8c920d Quentin Perret            2018-12-03  7374  	 * from sd_asym_cpucapacity spanning over this_cpu and prev_cpu.
+732cd75b8c920d Quentin Perret            2018-12-03  7375  	 */
+732cd75b8c920d Quentin Perret            2018-12-03  7376  	sd = rcu_dereference(*this_cpu_ptr(&sd_asym_cpucapacity));
+732cd75b8c920d Quentin Perret            2018-12-03  7377  	while (sd && !cpumask_test_cpu(prev_cpu, sched_domain_span(sd)))
+732cd75b8c920d Quentin Perret            2018-12-03  7378  		sd = sd->parent;
+732cd75b8c920d Quentin Perret            2018-12-03  7379  	if (!sd)
+619e090c8e409e Pierre Gondois            2021-05-04  7380  		goto unlock;
+619e090c8e409e Pierre Gondois            2021-05-04  7381  
+619e090c8e409e Pierre Gondois            2021-05-04  7382  	target = prev_cpu;
+732cd75b8c920d Quentin Perret            2018-12-03  7383  
+732cd75b8c920d Quentin Perret            2018-12-03  7384  	sync_entity_load_avg(&p->se);
+d81304bc619355 Qais Yousef               2022-08-04  7385  	if (!uclamp_task_util(p, p_util_min, p_util_max))
+732cd75b8c920d Quentin Perret            2018-12-03  7386  		goto unlock;
+732cd75b8c920d Quentin Perret            2018-12-03  7387  
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7388  	eenv_task_busy_time(&eenv, p, prev_cpu);
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7389  
+732cd75b8c920d Quentin Perret            2018-12-03  7390  	for (; pd; pd = pd->next) {
+e26fd28db82899 Qais Yousef               2023-01-12  7391  		unsigned long util_min = p_util_min, util_max = p_util_max;
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7392  		unsigned long cpu_cap, cpu_thermal_cap, util;
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7393  		unsigned long cur_delta, max_spare_cap = 0;
+244226035a1f9b Qais Yousef               2022-08-04  7394  		unsigned long rq_util_min, rq_util_max;
+ad841e569f5c88 Pierre Gondois            2022-10-06  7395  		unsigned long prev_spare_cap = 0;
+732cd75b8c920d Quentin Perret            2018-12-03  7396  		int max_spare_cap_cpu = -1;
+b812fc9768e004 Vincent Donnefort         2022-06-21  7397  		unsigned long base_energy;
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7398  		int fits, max_fits = -1;
+732cd75b8c920d Quentin Perret            2018-12-03  7399  
+9b340131a4bcf6 Dietmar Eggemann          2022-06-21  7400  		cpumask_and(cpus, perf_domain_span(pd), cpu_online_mask);
+9b340131a4bcf6 Dietmar Eggemann          2022-06-21  7401  
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7402  		if (cpumask_empty(cpus))
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7403  			continue;
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7404  
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7405  		/* Account thermal pressure for the energy estimation */
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7406  		cpu = cpumask_first(cpus);
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7407  		cpu_thermal_cap = arch_scale_cpu_capacity(cpu);
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7408  		cpu_thermal_cap -= arch_scale_thermal_pressure(cpu);
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7409  
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7410  		eenv.cpu_cap = cpu_thermal_cap;
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7411  		eenv.pd_cap = 0;
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7412  
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7413  		for_each_cpu(cpu, cpus) {
+e26fd28db82899 Qais Yousef               2023-01-12  7414  			struct rq *rq = cpu_rq(cpu);
+e26fd28db82899 Qais Yousef               2023-01-12  7415  
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7416  			eenv.pd_cap += cpu_thermal_cap;
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7417  
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7418  			if (!cpumask_test_cpu(cpu, sched_domain_span(sd)))
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7419  				continue;
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7420  
+3bd3706251ee8a Sebastian Andrzej Siewior 2019-04-23  7421  			if (!cpumask_test_cpu(cpu, p->cpus_ptr))
+732cd75b8c920d Quentin Perret            2018-12-03  7422  				continue;
+732cd75b8c920d Quentin Perret            2018-12-03  7423  
+732cd75b8c920d Quentin Perret            2018-12-03  7424  			util = cpu_util_next(cpu, p, cpu);
+732cd75b8c920d Quentin Perret            2018-12-03  7425  			cpu_cap = capacity_of(cpu);
+1d42509e475cdc Valentin Schneider        2019-12-11  7426  
+1d42509e475cdc Valentin Schneider        2019-12-11  7427  			/*
+1d42509e475cdc Valentin Schneider        2019-12-11  7428  			 * Skip CPUs that cannot satisfy the capacity request.
+1d42509e475cdc Valentin Schneider        2019-12-11  7429  			 * IOW, placing the task there would make the CPU
+1d42509e475cdc Valentin Schneider        2019-12-11  7430  			 * overutilized. Take uclamp into account to see how
+1d42509e475cdc Valentin Schneider        2019-12-11  7431  			 * much capacity we can get out of the CPU; this is
+a5418be9dffe70 Viresh Kumar              2020-12-08  7432  			 * aligned with sched_cpu_util().
+1d42509e475cdc Valentin Schneider        2019-12-11  7433  			 */
+e26fd28db82899 Qais Yousef               2023-01-12  7434  			if (uclamp_is_used() && !uclamp_rq_is_idle(rq)) {
+244226035a1f9b Qais Yousef               2022-08-04  7435  				/*
+244226035a1f9b Qais Yousef               2022-08-04  7436  				 * Open code uclamp_rq_util_with() except for
+244226035a1f9b Qais Yousef               2022-08-04  7437  				 * the clamp() part. Ie: apply max aggregation
+244226035a1f9b Qais Yousef               2022-08-04  7438  				 * only. util_fits_cpu() logic requires to
+244226035a1f9b Qais Yousef               2022-08-04  7439  				 * operate on non clamped util but must use the
+244226035a1f9b Qais Yousef               2022-08-04  7440  				 * max-aggregated uclamp_{min, max}.
+244226035a1f9b Qais Yousef               2022-08-04  7441  				 */
+e26fd28db82899 Qais Yousef               2023-01-12  7442  				rq_util_min = uclamp_rq_get(rq, UCLAMP_MIN);
+e26fd28db82899 Qais Yousef               2023-01-12  7443  				rq_util_max = uclamp_rq_get(rq, UCLAMP_MAX);
+244226035a1f9b Qais Yousef               2022-08-04  7444  
+244226035a1f9b Qais Yousef               2022-08-04  7445  				util_min = max(rq_util_min, p_util_min);
+244226035a1f9b Qais Yousef               2022-08-04  7446  				util_max = max(rq_util_max, p_util_max);
+244226035a1f9b Qais Yousef               2022-08-04  7447  			}
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7448  
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7449  			fits = util_fits_cpu(util, util_min, util_max, cpu);
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7450  			if (!fits)
+732cd75b8c920d Quentin Perret            2018-12-03  7451  				continue;
+732cd75b8c920d Quentin Perret            2018-12-03  7452  
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7453  			lsub_positive(&cpu_cap, util);
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7454  
+732cd75b8c920d Quentin Perret            2018-12-03  7455  			if (cpu == prev_cpu) {
+8d4c97c105ca07 Pierre Gondois            2021-05-04  7456  				/* Always use prev_cpu as a candidate. */
+ad841e569f5c88 Pierre Gondois            2022-10-06  7457  				prev_spare_cap = cpu_cap;
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7458  				prev_fits = fits;
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7459  			} else if ((fits > max_fits) ||
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7460  				   ((fits == max_fits) && (cpu_cap > max_spare_cap))) {
+732cd75b8c920d Quentin Perret            2018-12-03  7461  				/*
+8d4c97c105ca07 Pierre Gondois            2021-05-04  7462  				 * Find the CPU with the maximum spare capacity
+ad841e569f5c88 Pierre Gondois            2022-10-06  7463  				 * among the remaining CPUs in the performance
+ad841e569f5c88 Pierre Gondois            2022-10-06  7464  				 * domain.
+732cd75b8c920d Quentin Perret            2018-12-03  7465  				 */
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7466  				max_spare_cap = cpu_cap;
+732cd75b8c920d Quentin Perret            2018-12-03  7467  				max_spare_cap_cpu = cpu;
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7468  				max_fits = fits;
+732cd75b8c920d Quentin Perret            2018-12-03  7469  			}
+732cd75b8c920d Quentin Perret            2018-12-03  7470  		}
+732cd75b8c920d Quentin Perret            2018-12-03  7471  
+ad841e569f5c88 Pierre Gondois            2022-10-06  7472  		if (max_spare_cap_cpu < 0 && prev_spare_cap == 0)
+8d4c97c105ca07 Pierre Gondois            2021-05-04  7473  			continue;
+8d4c97c105ca07 Pierre Gondois            2021-05-04  7474  
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7475  		eenv_pd_busy_time(&eenv, cpus, p);
+8d4c97c105ca07 Pierre Gondois            2021-05-04  7476  		/* Compute the 'base' energy of the pd, without @p */
+b812fc9768e004 Vincent Donnefort         2022-06-21  7477  		base_energy = compute_energy(&eenv, pd, cpus, p, -1);
+8d4c97c105ca07 Pierre Gondois            2021-05-04  7478  
+8d4c97c105ca07 Pierre Gondois            2021-05-04  7479  		/* Evaluate the energy impact of using prev_cpu. */
+ad841e569f5c88 Pierre Gondois            2022-10-06  7480  		if (prev_spare_cap > 0) {
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7481  			prev_delta = compute_energy(&eenv, pd, cpus, p,
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7482  						    prev_cpu);
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7483  			/* CPU utilization has changed */
+b812fc9768e004 Vincent Donnefort         2022-06-21  7484  			if (prev_delta < base_energy)
+619e090c8e409e Pierre Gondois            2021-05-04  7485  				goto unlock;
+b812fc9768e004 Vincent Donnefort         2022-06-21  7486  			prev_delta -= base_energy;
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7487  			prev_thermal_cap = cpu_thermal_cap;
+8d4c97c105ca07 Pierre Gondois            2021-05-04  7488  			best_delta = min(best_delta, prev_delta);
+8d4c97c105ca07 Pierre Gondois            2021-05-04  7489  		}
+8d4c97c105ca07 Pierre Gondois            2021-05-04  7490  
+8d4c97c105ca07 Pierre Gondois            2021-05-04  7491  		/* Evaluate the energy impact of using max_spare_cap_cpu. */
+ad841e569f5c88 Pierre Gondois            2022-10-06  7492  		if (max_spare_cap_cpu >= 0 && max_spare_cap > prev_spare_cap) {
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7493  			/* Current best energy cpu fits better */
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7494  			if (max_fits < best_fits)
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7495  				continue;
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7496  
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7497  			/*
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7498  			 * Both don't fit performance hint (i.e. uclamp_min)
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7499  			 * but best energy cpu has better capacity.
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7500  			 */
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7501  			if ((max_fits < 0) &&
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7502  			    (cpu_thermal_cap <= best_thermal_cap))
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7503  				continue;
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7504  
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7505  			cur_delta = compute_energy(&eenv, pd, cpus, p,
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7506  						   max_spare_cap_cpu);
+3e8c6c9aac42ce Vincent Donnefort         2022-06-21  7507  			/* CPU utilization has changed */
+b812fc9768e004 Vincent Donnefort         2022-06-21  7508  			if (cur_delta < base_energy)
+619e090c8e409e Pierre Gondois            2021-05-04  7509  				goto unlock;
+b812fc9768e004 Vincent Donnefort         2022-06-21  7510  			cur_delta -= base_energy;
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7511  
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7512  			/*
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7513  			 * Both fit for the task but best energy cpu has lower
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7514  			 * energy impact.
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7515  			 */
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7516  			if ((max_fits > 0) && (best_fits > 0) &&
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7517  			    (cur_delta >= best_delta))
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7518  				continue;
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7519  
+eb92692b2544d3 Quentin Perret            2019-09-12  7520  			best_delta = cur_delta;
+732cd75b8c920d Quentin Perret            2018-12-03  7521  			best_energy_cpu = max_spare_cap_cpu;
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7522  			best_fits = max_fits;
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7523  			best_thermal_cap = cpu_thermal_cap;
+732cd75b8c920d Quentin Perret            2018-12-03  7524  		}
+732cd75b8c920d Quentin Perret            2018-12-03  7525  	}
+732cd75b8c920d Quentin Perret            2018-12-03  7526  	rcu_read_unlock();
+732cd75b8c920d Quentin Perret            2018-12-03  7527  
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7528  	if ((best_fits > prev_fits) ||
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7529  	    ((best_fits > 0) && (best_delta < prev_delta)) ||
+e5ed0550c04c54 Vincent Guittot           2023-02-01  7530  	    ((best_fits < 0) && (best_thermal_cap > prev_thermal_cap)))
+619e090c8e409e Pierre Gondois            2021-05-04 @7531  		target = best_energy_cpu;
+732cd75b8c920d Quentin Perret            2018-12-03  7532  
+619e090c8e409e Pierre Gondois            2021-05-04  7533  	return target;
+732cd75b8c920d Quentin Perret            2018-12-03  7534  
+619e090c8e409e Pierre Gondois            2021-05-04  7535  unlock:
+732cd75b8c920d Quentin Perret            2018-12-03  7536  	rcu_read_unlock();
+732cd75b8c920d Quentin Perret            2018-12-03  7537  
+619e090c8e409e Pierre Gondois            2021-05-04  7538  	return target;
+732cd75b8c920d Quentin Perret            2018-12-03  7539  }
+732cd75b8c920d Quentin Perret            2018-12-03  7540  
+
+:::::: The code at line 7531 was first introduced by commit
+:::::: 619e090c8e409e09bd3e8edcd5a73d83f689890c sched/fair: Fix negative energy delta in find_energy_efficient_cpu()
+
+:::::: TO: Pierre Gondois <Pierre.Gondois@arm.com>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 -- 
 0-DAY CI Kernel Test Service
