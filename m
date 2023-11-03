@@ -1,46 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFDD2D627
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Nov 2023 05:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8EA17EA
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Nov 2023 06:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MxWCXOm5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698987931; x=1730523931;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UYbxz/TF/4rFNgtOZAeP8nBJ5jjGw/Z/p0j6BPUAroY=;
-  b=MxWCXOm5u/dEa/VF16BcxH5qG8PEkGG0vFcX1NcfBzEpHoOdFlWUhE8N
-   Hg09P4/l3S0wC7rD2VETCBKUaX/h9uICk1DAtcWDhIKI8dWauEkuyOUGF
-   6S8r3M7t5Nw37ZmOTlZoEjcYa0PGZlNlkL0A6hdWurfMCWCq0vKUXkrvn
-   tp3mJiyR0AJXzVIFIFCVRpT8UEWkBv6PEGMDnsdDwjZgqYDoKH2b+uiKN
-   kidPgHdcJcD4Wh0k5tiBPBMVdgJ19ERs1vQ4z2TSrd5hR6671G3hLHawd
-   9P/RQ9Bh2lEezuhr9pwC2iavTyTjYU4mDn+knFHlc00glu/X8ynf6xDwz
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="7517870"
-X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="7517870"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 22:05:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="831925525"
-X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="831925525"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 02 Nov 2023 22:05:26 -0700
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qymN3-0002Ee-37;
-	Fri, 03 Nov 2023 05:05:25 +0000
-Date: Fri, 3 Nov 2023 13:04:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: kernel/bpf/memalloc.c:344 bpf_mem_alloc_destroy() error: potentially
- dereferencing uninitialized 'c'.
-Message-ID: <202311031223.J9ZRhOzu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wfNgEoln"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-9dd3f4a0f5aso8842666b.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 02 Nov 2023 23:00:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698991202; x=1699596002; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZxDSdMzVCpjHsvR+qZrln4myCmxkfc2LuMbC+pvU/84=;
+        b=wfNgEolnW0CYw9ZrdZTOij40WFkmfp3gzWZzzmDIVs5WpAcwLO8QUawB0636PA+LFQ
+         9uenmbSRiho/j5BUe/cNA8wmBtbHCxIwje23pHYRd8uLiOhcKO1/Ye9UsG9XYZZYMpWS
+         5o9xvn4Dc7csEoTKnoPYmz+xRZ8G09iFIk+OP8Z7ud5oQgp9Ko+s1xU2S9ONyXNJWhgt
+         Bwc5Egf8j20OxSO/gbCweh3ArKhPuPHc7uNuNZhO+Y+yg0Pl4I3bl+FS+ZNqm4do1pRY
+         0/3zDJnfS521UGg7kEmBY4wzhgr9MQ9jnAmZCEHflvYITCWZ//aSfSVw1WbBz2SRdLhZ
+         Bc0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698991202; x=1699596002;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZxDSdMzVCpjHsvR+qZrln4myCmxkfc2LuMbC+pvU/84=;
+        b=PIuuikAEFoAe7Qyh0srf9tS7PgCGmb8JDzTUA4UY+yZjDMAAsxI1e2TyXXS4mUmIKq
+         bCjHqlndoQfM1EkMmxuQHwLIMuOaJ//DxuwpBfPrJyjH4x3xjNFJd8m6BDPZBACN3ntw
+         oFZWwJzmKhFvX15rkjp1GWpV85vNG8BlxFMuZFElduwLCA0FDGmDGm7cs0C8VzXemBe4
+         Q4QOVuBJYuOZCxbcRxpghgTnec6urdvcZFolyv0zjGAUk8sZVNikRD6DkCr/gFU0Mryy
+         7tWR1zZdSb6e5lnwPM+XfBGBuIn0DN7n2q0OIYpLS+mal0QpY+eDGvK0JmfHRU3sNdUq
+         WziQ==
+X-Gm-Message-State: AOJu0YxG2w624hMLLGlLrDwR1IVHQ58IbH86SkVmUOhqm84mD4LPWhAt
+	FGAVPToTPaZ5Bqm+OqGPX5kSPsZkQqe3LF+0+Vw=
+X-Google-Smtp-Source: AGHT+IETB8T1GhUXYuMPcptvFaualbInBCIx8AiSdFPyi1Gp2XP3C8B1h6EpdqwUNTo2KtbGkxL/uA==
+X-Received: by 2002:a17:906:478b:b0:9c7:4e5d:12bc with SMTP id cw11-20020a170906478b00b009c74e5d12bcmr6141917ejc.51.1698991201698;
+        Thu, 02 Nov 2023 23:00:01 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id t9-20020a1709060c4900b00997c1d125fasm507494ejf.170.2023.11.02.23.00.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Nov 2023 23:00:01 -0700 (PDT)
+Date: Fri, 3 Nov 2023 08:59:58 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Kent Overstreet <kmo@daterainc.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: fs/bcachefs/chardev.c:391 bch2_ioctl_fs_usage() warn: check for
+ integer overflow 'replica_entries_bytes'
+Message-ID: <84d54213-e093-4c6e-a126-4df1253ca73d@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,68 +57,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Alexei Starovoitov <ast@kernel.org>
-CC: Daniel Borkmann <daniel@iogearbox.net>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   431f1051884e38d2a5751e4731d69b2ff289ee56
-commit: 7c8199e24fa09d2344ae0204527d55d7803e8409 bpf: Introduce any context BPF specific memory allocator.
-date:   1 year, 2 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 1 year, 2 months ago
-config: i386-randconfig-141-20231102 (https://download.01.org/0day-ci/archive/20231103/202311031223.J9ZRhOzu-lkp@intel.com/config)
+head:   4652b8e4f3ffa48c706ec334f048c217a7d9750d
+commit: 22502ac23a2eaa3714b77d4a9242df352a9cd0c0 bcachefs: Redo filesystem usage ioctls
+config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231103/202311030618.5bKFt0YI-lkp@intel.com/config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231103/202311031223.J9ZRhOzu-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231103/202311030618.5bKFt0YI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311031223.J9ZRhOzu-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202311030618.5bKFt0YI-lkp@intel.com/
 
-smatch warnings:
-kernel/bpf/memalloc.c:344 bpf_mem_alloc_destroy() error: potentially dereferencing uninitialized 'c'.
+New smatch warnings:
+fs/bcachefs/chardev.c:391 bch2_ioctl_fs_usage() warn: check for integer overflow 'replica_entries_bytes'
 
-vim +/c +344 kernel/bpf/memalloc.c
+Old smatch warnings:
+fs/bcachefs/chardev.c:444 bch2_ioctl_fs_usage() warn: maybe return -EFAULT instead of the bytes remaining?
+fs/bcachefs/chardev.c:524 bch2_ioctl_read_super() warn: maybe return -EFAULT instead of the bytes remaining?
 
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  331  
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  332  void bpf_mem_alloc_destroy(struct bpf_mem_alloc *ma)
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  333  {
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  334  	struct bpf_mem_caches *cc;
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  335  	struct bpf_mem_cache *c;
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  336  	int cpu, i;
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  337  
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  338  	if (ma->cache) {
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  339  		for_each_possible_cpu(cpu) {
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  340  			c = per_cpu_ptr(ma->cache, cpu);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  341  			drain_mem_cache(c);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  342  		}
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  343  		/* kmem_cache and memcg are the same across cpus */
-7c8199e24fa09d Alexei Starovoitov 2022-09-02 @344  		kmem_cache_destroy(c->kmem_cache);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  345  		if (c->objcg)
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  346  			obj_cgroup_put(c->objcg);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  347  		free_percpu(ma->cache);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  348  		ma->cache = NULL;
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  349  	}
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  350  	if (ma->caches) {
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  351  		for_each_possible_cpu(cpu) {
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  352  			cc = per_cpu_ptr(ma->caches, cpu);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  353  			for (i = 0; i < NUM_CACHES; i++) {
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  354  				c = &cc->cache[i];
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  355  				drain_mem_cache(c);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  356  			}
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  357  		}
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  358  		if (c->objcg)
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  359  			obj_cgroup_put(c->objcg);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  360  		free_percpu(ma->caches);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  361  		ma->caches = NULL;
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  362  	}
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  363  }
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  364  
+vim +/replica_entries_bytes +391 fs/bcachefs/chardev.c
+
+22502ac23a2eaa Kent Overstreet 2019-12-16  375  static long bch2_ioctl_fs_usage(struct bch_fs *c,
+22502ac23a2eaa Kent Overstreet 2019-12-16  376  				struct bch_ioctl_fs_usage __user *user_arg)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  377  {
+22502ac23a2eaa Kent Overstreet 2019-12-16  378  	struct bch_ioctl_fs_usage *arg = NULL;
+22502ac23a2eaa Kent Overstreet 2019-12-16  379  	struct bch_replicas_usage *dst_e, *dst_end;
+22502ac23a2eaa Kent Overstreet 2019-12-16  380  	struct bch_fs_usage_online *src;
+22502ac23a2eaa Kent Overstreet 2019-12-16  381  	u32 replica_entries_bytes;
+22502ac23a2eaa Kent Overstreet 2019-12-16  382  	unsigned i;
+22502ac23a2eaa Kent Overstreet 2019-12-16  383  	int ret = 0;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  384  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  385  	if (!test_bit(BCH_FS_STARTED, &c->flags))
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  386  		return -EINVAL;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  387  
+22502ac23a2eaa Kent Overstreet 2019-12-16  388  	if (get_user(replica_entries_bytes, &user_arg->replica_entries_bytes))
+
+This comes from the user.
+
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  389  		return -EFAULT;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  390  
+22502ac23a2eaa Kent Overstreet 2019-12-16 @391  	arg = kzalloc(sizeof(*arg) + replica_entries_bytes, GFP_KERNEL);
+
+This can lead to an integer overflow on 32 bit systems.
+
+This API is a bit problematice because we don't ensure that sizeof()
+bytes is divisible by sizeof(struct bch_replicas_usage).  Use
+struct_size() or size_add() to fix the integer overflow.
+
+22502ac23a2eaa Kent Overstreet 2019-12-16  392  	if (!arg)
+22502ac23a2eaa Kent Overstreet 2019-12-16  393  		return -ENOMEM;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  394  
+22502ac23a2eaa Kent Overstreet 2019-12-16  395  	src = bch2_fs_usage_read(c);
+22502ac23a2eaa Kent Overstreet 2019-12-16  396  	if (!src) {
+22502ac23a2eaa Kent Overstreet 2019-12-16  397  		ret = -ENOMEM;
+22502ac23a2eaa Kent Overstreet 2019-12-16  398  		goto err;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  399  	}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  400  
+22502ac23a2eaa Kent Overstreet 2019-12-16  401  	arg->capacity		= c->capacity;
+22502ac23a2eaa Kent Overstreet 2019-12-16  402  	arg->used		= bch2_fs_sectors_used(c, src);
+22502ac23a2eaa Kent Overstreet 2019-12-16  403  	arg->online_reserved	= src->online_reserved;
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
