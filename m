@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111F66AA2
-	for <oe-kbuild@lists.linux.dev>; Sat,  4 Nov 2023 05:10:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD1A15A0
+	for <oe-kbuild@lists.linux.dev>; Sat,  4 Nov 2023 05:11:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hTGNh/1L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCmbYAXC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699074636; x=1730610636;
+  t=1699074694; x=1730610694;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NsF1IZSOYcntvXleOd6pWveWHkN1JgXmWVwyZ68HdY0=;
-  b=hTGNh/1Lz5Th/2L48qwU8Q+28ZI26C7t72nWMV0Tgj19AIhTon/FVi1S
-   DbsanNUxGkAm5LBj8G/G4cfTwtA8d3ZdH7LcZapIoQHfDkh4F94NCRfuf
-   +v1hoelv1ROzgv5hZuDD5hTGzQZnoHF1l3CofyfUEMg/HAkQRdP8AcZ04
-   cZ++d/z7RbiFnVdL8xJP8zzzUxDAvtfea7Q5TYMGWcAPprYqHJ1SqgjCy
-   5k1kKIdLxeJ+GqFm2+kr8Sj6nfy+fxmzdGQxL/z5jOHYEbW0ts1Uiz416
-   pcfoVh0N4koNZJoTUKCjIhfd9/TcQndl31qqRxW+v6Docpca7a6eJaeDl
+  bh=QT6V6czCQi0k90LxHTJjWsPKtK7w1rx/J3FPraHxhYc=;
+  b=QCmbYAXCqKw0WznqcylUXlVuPE79ESWqc/AoI4REtZolomWz67Vt+YID
+   O3pA0MCLOqBcdMse1BBam0BTBVCH6PhvhqOA6Quv0CD+DYdzuYF7Dk3sN
+   E+6ABW0veUrPQe9BvY/IXaPrgLBZ7AXBcjii8MptdxzBPJEdcMXPOrII8
+   pKH63zkGSPO3Z0TlYvOz6eqsVb93k7bm+R5IE38anp3fiEOoXl4WFo38R
+   gwbMtSJIDiCLbd7+7dLXHI2qD6Wy+B7/uQSmwuV4TVJgYQSmQJFa0HwWr
+   yZbJoEi56LR/3J/+KXcK2Cet2QTWz4taZd6KhhyKQO31j+whFBqdVlXxb
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="369268739"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="369268786"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="369268739"
+   d="scan'208";a="369268786"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 22:10:33 -0700
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 22:11:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="935305581"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="935305629"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="935305581"
+   d="scan'208";a="935305629"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 03 Nov 2023 22:10:31 -0700
+  by orsmga005.jf.intel.com with ESMTP; 03 Nov 2023 22:11:31 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qz8vV-0003Se-0w;
-	Sat, 04 Nov 2023 05:10:29 +0000
-Date: Sat, 4 Nov 2023 13:10:00 +0800
+	id 1qz8wT-0003So-1r;
+	Sat, 04 Nov 2023 05:11:29 +0000
+Date: Sat, 4 Nov 2023 13:10:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/bcachefs/ec.c:1269 bch2_ec_stripe_head_get() error: we previously
- assumed 'h->s' could be null (see line 1264)
-Message-ID: <202311041258.16QpGBvc-lkp@intel.com>
+Subject: mm/shmem_quota.c:253 shmem_is_empty_dquot() error: uninitialized
+ symbol 'bhardlimit'.
+Message-ID: <202311041355.PwqmvfFM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,78 +53,116 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Kent Overstreet <kmo@daterainc.com>
+TO: Lukas Czerner <lczerner@redhat.com>
+CC: Christian Brauner <brauner@kernel.org>
+CC: Carlos Maiolino <cmaiolino@redhat.com>
+CC: Jan Kara <jack@suse.cz>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   2c40c1c6adab90ee4660caf03722b3a3ec67767b
-commit: f6b94a3baa956ff10a52a545a9ad60f35e88e683 bcachefs: Refactor stripe creation
-date:   12 days ago
+commit: de4c0e7ca8b526a82ff7e5ee5533787bb6d01724 shmem: Add default quota limit mount options
+date:   3 months ago
 :::::: branch date: 3 hours ago
-:::::: commit date: 12 days ago
-config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231104/202311041258.16QpGBvc-lkp@intel.com/config)
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231104/202311041355.PwqmvfFM-lkp@intel.com/config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231104/202311041258.16QpGBvc-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231104/202311041355.PwqmvfFM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311041258.16QpGBvc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311041355.PwqmvfFM-lkp@intel.com/
 
 smatch warnings:
-fs/bcachefs/ec.c:1269 bch2_ec_stripe_head_get() error: we previously assumed 'h->s' could be null (see line 1264)
+mm/shmem_quota.c:253 shmem_is_empty_dquot() error: uninitialized symbol 'bhardlimit'.
+mm/shmem_quota.c:254 shmem_is_empty_dquot() error: uninitialized symbol 'ihardlimit'.
 
-vim +1269 fs/bcachefs/ec.c
+vim +/bhardlimit +253 mm/shmem_quota.c
 
-f6b94a3baa956f Kent Overstreet 2020-07-06  1247  
-f6b94a3baa956f Kent Overstreet 2020-07-06  1248  struct ec_stripe_head *bch2_ec_stripe_head_get(struct bch_fs *c,
-f6b94a3baa956f Kent Overstreet 2020-07-06  1249  					       unsigned target,
-f6b94a3baa956f Kent Overstreet 2020-07-06  1250  					       unsigned algo,
-f6b94a3baa956f Kent Overstreet 2020-07-06  1251  					       unsigned redundancy)
-f6b94a3baa956f Kent Overstreet 2020-07-06  1252  {
-f6b94a3baa956f Kent Overstreet 2020-07-06  1253  	struct closure cl;
-f6b94a3baa956f Kent Overstreet 2020-07-06  1254  	struct ec_stripe_head *h;
-f6b94a3baa956f Kent Overstreet 2020-07-06  1255  	struct open_bucket *ob;
-f6b94a3baa956f Kent Overstreet 2020-07-06  1256  	unsigned i, data_idx = 0;
-f6b94a3baa956f Kent Overstreet 2020-07-06  1257  
-f6b94a3baa956f Kent Overstreet 2020-07-06  1258  	closure_init_stack(&cl);
-f6b94a3baa956f Kent Overstreet 2020-07-06  1259  
-f6b94a3baa956f Kent Overstreet 2020-07-06  1260  	h = __bch2_ec_stripe_head_get(c, target, algo, redundancy);
-f6b94a3baa956f Kent Overstreet 2020-07-06  1261  	if (!h)
-f6b94a3baa956f Kent Overstreet 2020-07-06  1262  		return NULL;
-f6b94a3baa956f Kent Overstreet 2020-07-06  1263  
-f6b94a3baa956f Kent Overstreet 2020-07-06 @1264  	if (!h->s && ec_new_stripe_alloc(c, h)) {
-f6b94a3baa956f Kent Overstreet 2020-07-06  1265  		bch2_ec_stripe_head_put(c, h);
-f6b94a3baa956f Kent Overstreet 2020-07-06  1266  		return NULL;
-f6b94a3baa956f Kent Overstreet 2020-07-06  1267  	}
-f6b94a3baa956f Kent Overstreet 2020-07-06  1268  
-f6b94a3baa956f Kent Overstreet 2020-07-06 @1269  	if (!h->s->allocated) {
-f6b94a3baa956f Kent Overstreet 2020-07-06  1270  		if (new_stripe_alloc_buckets(c, h)) {
-f6b94a3baa956f Kent Overstreet 2020-07-06  1271  			bch2_ec_stripe_head_put(c, h);
-f6b94a3baa956f Kent Overstreet 2020-07-06  1272  			h = NULL;
-f6b94a3baa956f Kent Overstreet 2020-07-06  1273  			goto out;
-f6b94a3baa956f Kent Overstreet 2020-07-06  1274  		}
-f6b94a3baa956f Kent Overstreet 2020-07-06  1275  
-f6b94a3baa956f Kent Overstreet 2020-07-06  1276  		open_bucket_for_each(c, &h->s->blocks, ob, i) {
-f6b94a3baa956f Kent Overstreet 2020-07-06  1277  			data_idx = find_next_zero_bit(h->s->blocks_allocated,
-f6b94a3baa956f Kent Overstreet 2020-07-06  1278  						      h->s->nr_data, data_idx);
-f6b94a3baa956f Kent Overstreet 2020-07-06  1279  			BUG_ON(data_idx >= h->s->nr_data);
-f6b94a3baa956f Kent Overstreet 2020-07-06  1280  
-f6b94a3baa956f Kent Overstreet 2020-07-06  1281  			h->s->stripe.key.v.ptrs[data_idx] = ob->ptr;
-f6b94a3baa956f Kent Overstreet 2020-07-06  1282  			h->s->data_block_idx[i] = data_idx;
-f6b94a3baa956f Kent Overstreet 2020-07-06  1283  			data_idx++;
-f6b94a3baa956f Kent Overstreet 2020-07-06  1284  		}
-f6b94a3baa956f Kent Overstreet 2020-07-06  1285  
-f6b94a3baa956f Kent Overstreet 2020-07-06  1286  		open_bucket_for_each(c, &h->s->parity, ob, i)
-f6b94a3baa956f Kent Overstreet 2020-07-06  1287  			h->s->stripe.key.v.ptrs[h->s->nr_data + i] = ob->ptr;
-f6b94a3baa956f Kent Overstreet 2020-07-06  1288  
-f6b94a3baa956f Kent Overstreet 2020-07-06  1289  		h->s->allocated = true;
-f6b94a3baa956f Kent Overstreet 2020-07-06  1290  	}
-f6b94a3baa956f Kent Overstreet 2020-07-06  1291  out:
-f6b94a3baa956f Kent Overstreet 2020-07-06  1292  	closure_sync(&cl);
-f6b94a3baa956f Kent Overstreet 2020-07-06  1293  	return h;
-f6b94a3baa956f Kent Overstreet 2020-07-06  1294  }
-f6b94a3baa956f Kent Overstreet 2020-07-06  1295  
+eafc474e202978 Carlos Maiolino 2023-07-25  235  
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  236  static bool shmem_is_empty_dquot(struct dquot *dquot)
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  237  {
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  238  	struct shmem_sb_info *sbinfo = dquot->dq_sb->s_fs_info;
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  239  	qsize_t bhardlimit;
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  240  	qsize_t ihardlimit;
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  241  
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  242  	if (dquot->dq_id.type == USRQUOTA) {
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  243  		bhardlimit = sbinfo->qlimits.usrquota_bhardlimit;
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  244  		ihardlimit = sbinfo->qlimits.usrquota_ihardlimit;
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  245  	} else if (dquot->dq_id.type == GRPQUOTA) {
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  246  		bhardlimit = sbinfo->qlimits.grpquota_bhardlimit;
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  247  		ihardlimit = sbinfo->qlimits.grpquota_ihardlimit;
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  248  	}
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  249  
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  250  	if (test_bit(DQ_FAKE_B, &dquot->dq_flags) ||
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  251  		(dquot->dq_dqb.dqb_curspace == 0 &&
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  252  		 dquot->dq_dqb.dqb_curinodes == 0 &&
+de4c0e7ca8b526 Lukas Czerner   2023-07-25 @253  		 dquot->dq_dqb.dqb_bhardlimit == bhardlimit &&
+de4c0e7ca8b526 Lukas Czerner   2023-07-25 @254  		 dquot->dq_dqb.dqb_ihardlimit == ihardlimit))
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  255  		return true;
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  256  
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  257  	return false;
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  258  }
+eafc474e202978 Carlos Maiolino 2023-07-25  259  /*
+eafc474e202978 Carlos Maiolino 2023-07-25  260   * Store limits from dquot in the tree unless it's fake. If it is fake
+eafc474e202978 Carlos Maiolino 2023-07-25  261   * remove the id from the tree since there is no useful information in
+eafc474e202978 Carlos Maiolino 2023-07-25  262   * there.
+eafc474e202978 Carlos Maiolino 2023-07-25  263   */
+eafc474e202978 Carlos Maiolino 2023-07-25  264  static int shmem_release_dquot(struct dquot *dquot)
+eafc474e202978 Carlos Maiolino 2023-07-25  265  {
+eafc474e202978 Carlos Maiolino 2023-07-25  266  	struct mem_dqinfo *info = sb_dqinfo(dquot->dq_sb, dquot->dq_id.type);
+eafc474e202978 Carlos Maiolino 2023-07-25  267  	struct rb_node *node = ((struct rb_root *)info->dqi_priv)->rb_node;
+eafc474e202978 Carlos Maiolino 2023-07-25  268  	qid_t id = from_kqid(&init_user_ns, dquot->dq_id);
+eafc474e202978 Carlos Maiolino 2023-07-25  269  	struct quota_info *dqopt = sb_dqopt(dquot->dq_sb);
+eafc474e202978 Carlos Maiolino 2023-07-25  270  	struct quota_id *entry = NULL;
+eafc474e202978 Carlos Maiolino 2023-07-25  271  
+eafc474e202978 Carlos Maiolino 2023-07-25  272  	mutex_lock(&dquot->dq_lock);
+eafc474e202978 Carlos Maiolino 2023-07-25  273  	/* Check whether we are not racing with some other dqget() */
+eafc474e202978 Carlos Maiolino 2023-07-25  274  	if (dquot_is_busy(dquot))
+eafc474e202978 Carlos Maiolino 2023-07-25  275  		goto out_dqlock;
+eafc474e202978 Carlos Maiolino 2023-07-25  276  
+eafc474e202978 Carlos Maiolino 2023-07-25  277  	down_write(&dqopt->dqio_sem);
+eafc474e202978 Carlos Maiolino 2023-07-25  278  	while (node) {
+eafc474e202978 Carlos Maiolino 2023-07-25  279  		entry = rb_entry(node, struct quota_id, node);
+eafc474e202978 Carlos Maiolino 2023-07-25  280  
+eafc474e202978 Carlos Maiolino 2023-07-25  281  		if (id < entry->id)
+eafc474e202978 Carlos Maiolino 2023-07-25  282  			node = node->rb_left;
+eafc474e202978 Carlos Maiolino 2023-07-25  283  		else if (id > entry->id)
+eafc474e202978 Carlos Maiolino 2023-07-25  284  			node = node->rb_right;
+eafc474e202978 Carlos Maiolino 2023-07-25  285  		else
+eafc474e202978 Carlos Maiolino 2023-07-25  286  			goto found;
+eafc474e202978 Carlos Maiolino 2023-07-25  287  	}
+eafc474e202978 Carlos Maiolino 2023-07-25  288  
+eafc474e202978 Carlos Maiolino 2023-07-25  289  	/* We should always find the entry in the rb tree */
+eafc474e202978 Carlos Maiolino 2023-07-25  290  	WARN_ONCE(1, "quota id %u from dquot %p, not in rb tree!\n", id, dquot);
+eafc474e202978 Carlos Maiolino 2023-07-25  291  	up_write(&dqopt->dqio_sem);
+eafc474e202978 Carlos Maiolino 2023-07-25  292  	mutex_unlock(&dquot->dq_lock);
+eafc474e202978 Carlos Maiolino 2023-07-25  293  	return -ENOENT;
+eafc474e202978 Carlos Maiolino 2023-07-25  294  
+eafc474e202978 Carlos Maiolino 2023-07-25  295  found:
+de4c0e7ca8b526 Lukas Czerner   2023-07-25  296  	if (shmem_is_empty_dquot(dquot)) {
+eafc474e202978 Carlos Maiolino 2023-07-25  297  		/* Remove entry from the tree */
+eafc474e202978 Carlos Maiolino 2023-07-25  298  		rb_erase(&entry->node, info->dqi_priv);
+eafc474e202978 Carlos Maiolino 2023-07-25  299  		kfree(entry);
+eafc474e202978 Carlos Maiolino 2023-07-25  300  	} else {
+eafc474e202978 Carlos Maiolino 2023-07-25  301  		/* Store the limits in the tree */
+eafc474e202978 Carlos Maiolino 2023-07-25  302  		spin_lock(&dquot->dq_dqb_lock);
+eafc474e202978 Carlos Maiolino 2023-07-25  303  		entry->bhardlimit = dquot->dq_dqb.dqb_bhardlimit;
+eafc474e202978 Carlos Maiolino 2023-07-25  304  		entry->bsoftlimit = dquot->dq_dqb.dqb_bsoftlimit;
+eafc474e202978 Carlos Maiolino 2023-07-25  305  		entry->ihardlimit = dquot->dq_dqb.dqb_ihardlimit;
+eafc474e202978 Carlos Maiolino 2023-07-25  306  		entry->isoftlimit = dquot->dq_dqb.dqb_isoftlimit;
+eafc474e202978 Carlos Maiolino 2023-07-25  307  		spin_unlock(&dquot->dq_dqb_lock);
+eafc474e202978 Carlos Maiolino 2023-07-25  308  	}
+eafc474e202978 Carlos Maiolino 2023-07-25  309  
+eafc474e202978 Carlos Maiolino 2023-07-25  310  	clear_bit(DQ_ACTIVE_B, &dquot->dq_flags);
+eafc474e202978 Carlos Maiolino 2023-07-25  311  	up_write(&dqopt->dqio_sem);
+eafc474e202978 Carlos Maiolino 2023-07-25  312  
+eafc474e202978 Carlos Maiolino 2023-07-25  313  out_dqlock:
+eafc474e202978 Carlos Maiolino 2023-07-25  314  	mutex_unlock(&dquot->dq_lock);
+eafc474e202978 Carlos Maiolino 2023-07-25  315  	return 0;
+eafc474e202978 Carlos Maiolino 2023-07-25  316  }
+eafc474e202978 Carlos Maiolino 2023-07-25  317  
 
 -- 
 0-DAY CI Kernel Test Service
