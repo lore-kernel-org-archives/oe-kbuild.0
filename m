@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4629F9EC
-	for <oe-kbuild@lists.linux.dev>; Sat,  4 Nov 2023 10:21:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092E22D616
+	for <oe-kbuild@lists.linux.dev>; Sat,  4 Nov 2023 10:34:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZFXUay8O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eyvh/X8D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699093314; x=1730629314;
+  t=1699094077; x=1730630077;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VBgqMkOY/4w5lPBE56y15mgMUkSHR2Z0S1Av3D5iATU=;
-  b=ZFXUay8O9Q59X+CNk26ZnkWqpYwFQsBw4sLxf+rfxfGL9B2T9OVpNssX
-   lHE/wFJ5MRq6DUU+eobl/aah1s7hXesKbPURRZOa2l0xgIRswoy7yujZW
-   simh93yaKO73dBQ0j2LjIR+gB94E0hLWjaKSRtMn5XsBXfnogOW5jrjFp
-   ZVv2bmbZUQY1dDTviRSlx6Bka7MEDmglbTyVU4k+dE/F4iAcqXnYhoLf6
-   OwU6jOHiUhc/6wH0DJh980y1UlXzig65ygmuEQq9nhXR58tq26DhxH/CW
-   w1+QvDP5Q1Z75m0ZgnTUAe/z3wiUplnuM6QbMj/tQTpqNlAzUYY6z3zbe
+  bh=ULXAiO19c3wkmIHU2fdNufohGg8th/sXcf3vi0OE9nU=;
+  b=Eyvh/X8DRBrFJGBq4mW2G5JiUveDApZ0tot2UheAw8wNg88AokThCgIG
+   kHkzL6dDrf2ioadZVgQHoza/xJKBVAZPUo3PA5SduXE+wI0iItAYriQWH
+   rrScD8pxdH+JQxIGB1DEc8tgqInKWPNHwJy8NBDYUzvPNkMc87YCPad1Q
+   O0na3frpipyjtR2g2qbVSgEWaInKwAN2DjbsuhUnmserzy6tYIl0cZp9Y
+   QkBTzzrlRDT3NMSxKDGGgaIJxCNPo+EY7bqAOtXyew/kKLZh5lkPBUtjZ
+   nnIuu4O6CyjKU9ZOdSFNILzKMFJMEVJ0y/i6r/oj1p2+XKIUbNWUptZCt
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="386250273"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="386250877"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="386250273"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 03:21:53 -0700
+   d="scan'208";a="386250877"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 03:34:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="711759872"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="738348776"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="711759872"
+   d="scan'208";a="738348776"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 04 Nov 2023 03:21:50 -0700
+  by orsmga006.jf.intel.com with ESMTP; 04 Nov 2023 03:34:34 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzDmm-0003m8-0H;
-	Sat, 04 Nov 2023 10:21:48 +0000
-Date: Sat, 4 Nov 2023 18:21:17 +0800
+	id 1qzDz5-0003n2-35;
+	Sat, 04 Nov 2023 10:34:31 +0000
+Date: Sat, 4 Nov 2023 18:34:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/iio/industrialio-gts-helper.c:246 gain_to_scaletables()
- warn: double check that we're allocating correct size: 4 vs 8
-Message-ID: <202311041802.qiuZAE2e-lkp@intel.com>
+Subject: lib/zstd/compress/zstd_lazy.c:1605 ZSTD_compressBlock_lazy_generic()
+ warn: Function too hairy.  No more merges.
+Message-ID: <202311041804.Bo4P7mXL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,198 +53,282 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Matti Vaittinen <mazziesaccount@gmail.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+TO: Nick Terrell <terrelln@fb.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   90b0c2b2edd1adff742c621e246562fbefa11b70
-commit: e52afbd61039e2c5a4e611e23b4aa963d34a4aef iio: light: ROHM BU27034 Ambient Light Sensor
-date:   7 months ago
+commit: 2aa14b1ab2c41a4fe41efae80d58bb77da91f19f zstd: import usptream v1.5.2
+date:   1 year ago
 :::::: branch date: 5 hours ago
-:::::: commit date: 7 months ago
-config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231104/202311041802.qiuZAE2e-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231104/202311041802.qiuZAE2e-lkp@intel.com/reproduce)
+:::::: commit date: 1 year ago
+config: x86_64-randconfig-161-20231101 (https://download.01.org/0day-ci/archive/20231104/202311041804.Bo4P7mXL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231104/202311041804.Bo4P7mXL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311041802.qiuZAE2e-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311041804.Bo4P7mXL-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/industrialio-gts-helper.c:246 gain_to_scaletables() warn: double check that we're allocating correct size: 4 vs 8
-drivers/iio/industrialio-gts-helper.c:269 gain_to_scaletables() error: uninitialized symbol 'ret'.
-drivers/iio/industrialio-gts-helper.c:302 iio_gts_build_avail_scale_table() warn: double check that we're allocating correct size: 4 vs 8
+New smatch warnings:
+lib/zstd/compress/zstd_lazy.c:1605 ZSTD_compressBlock_lazy_generic() warn: Function too hairy.  No more merges.
 
-vim +246 drivers/iio/industrialio-gts-helper.c
+Old smatch warnings:
+lib/zstd/compress/zstd_lazy.c:1577 ZSTD_compressBlock_lazy_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:1915 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:1937 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:1947 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:1979 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:2026 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
 
-38416c28e16890 Matti Vaittinen 2023-03-31  180  
-38416c28e16890 Matti Vaittinen 2023-03-31  181  static int gain_to_scaletables(struct iio_gts *gts, int **gains, int **scales)
-38416c28e16890 Matti Vaittinen 2023-03-31  182  {
-38416c28e16890 Matti Vaittinen 2023-03-31  183  	int ret, i, j, new_idx, time_idx;
-38416c28e16890 Matti Vaittinen 2023-03-31  184  	int *all_gains;
-38416c28e16890 Matti Vaittinen 2023-03-31  185  	size_t gain_bytes;
-38416c28e16890 Matti Vaittinen 2023-03-31  186  
-38416c28e16890 Matti Vaittinen 2023-03-31  187  	for (i = 0; i < gts->num_itime; i++) {
-38416c28e16890 Matti Vaittinen 2023-03-31  188  		/*
-38416c28e16890 Matti Vaittinen 2023-03-31  189  		 * Sort the tables for nice output and for easier finding of
-38416c28e16890 Matti Vaittinen 2023-03-31  190  		 * unique values.
-38416c28e16890 Matti Vaittinen 2023-03-31  191  		 */
-38416c28e16890 Matti Vaittinen 2023-03-31  192  		sort(gains[i], gts->num_hwgain, sizeof(int), iio_gts_gain_cmp,
-38416c28e16890 Matti Vaittinen 2023-03-31  193  		     NULL);
-38416c28e16890 Matti Vaittinen 2023-03-31  194  
-38416c28e16890 Matti Vaittinen 2023-03-31  195  		/* Convert gains to scales */
-38416c28e16890 Matti Vaittinen 2023-03-31  196  		for (j = 0; j < gts->num_hwgain; j++) {
-38416c28e16890 Matti Vaittinen 2023-03-31  197  			ret = iio_gts_total_gain_to_scale(gts, gains[i][j],
-38416c28e16890 Matti Vaittinen 2023-03-31  198  							  &scales[i][2 * j],
-38416c28e16890 Matti Vaittinen 2023-03-31  199  							  &scales[i][2 * j + 1]);
-38416c28e16890 Matti Vaittinen 2023-03-31  200  			if (ret)
-38416c28e16890 Matti Vaittinen 2023-03-31  201  				return ret;
-38416c28e16890 Matti Vaittinen 2023-03-31  202  		}
-38416c28e16890 Matti Vaittinen 2023-03-31  203  	}
-38416c28e16890 Matti Vaittinen 2023-03-31  204  
-38416c28e16890 Matti Vaittinen 2023-03-31  205  	gain_bytes = array_size(gts->num_hwgain, sizeof(int));
-38416c28e16890 Matti Vaittinen 2023-03-31  206  	all_gains = kcalloc(gts->num_itime, gain_bytes, GFP_KERNEL);
-38416c28e16890 Matti Vaittinen 2023-03-31  207  	if (!all_gains)
-38416c28e16890 Matti Vaittinen 2023-03-31  208  		return -ENOMEM;
-38416c28e16890 Matti Vaittinen 2023-03-31  209  
-38416c28e16890 Matti Vaittinen 2023-03-31  210  	/*
-38416c28e16890 Matti Vaittinen 2023-03-31  211  	 * We assume all the gains for same integration time were unique.
-38416c28e16890 Matti Vaittinen 2023-03-31  212  	 * It is likely the first time table had greatest time multiplier as
-38416c28e16890 Matti Vaittinen 2023-03-31  213  	 * the times are in the order of preference and greater times are
-38416c28e16890 Matti Vaittinen 2023-03-31  214  	 * usually preferred. Hence we start from the last table which is likely
-38416c28e16890 Matti Vaittinen 2023-03-31  215  	 * to have the smallest total gains.
-38416c28e16890 Matti Vaittinen 2023-03-31  216  	 */
-38416c28e16890 Matti Vaittinen 2023-03-31  217  	time_idx = gts->num_itime - 1;
-38416c28e16890 Matti Vaittinen 2023-03-31  218  	memcpy(all_gains, gains[time_idx], gain_bytes);
-38416c28e16890 Matti Vaittinen 2023-03-31  219  	new_idx = gts->num_hwgain;
-38416c28e16890 Matti Vaittinen 2023-03-31  220  
-38416c28e16890 Matti Vaittinen 2023-03-31  221  	while (time_idx--) {
-38416c28e16890 Matti Vaittinen 2023-03-31  222  		for (j = 0; j < gts->num_hwgain; j++) {
-38416c28e16890 Matti Vaittinen 2023-03-31  223  			int candidate = gains[time_idx][j];
-38416c28e16890 Matti Vaittinen 2023-03-31  224  			int chk;
-38416c28e16890 Matti Vaittinen 2023-03-31  225  
-38416c28e16890 Matti Vaittinen 2023-03-31  226  			if (candidate > all_gains[new_idx - 1]) {
-38416c28e16890 Matti Vaittinen 2023-03-31  227  				all_gains[new_idx] = candidate;
-38416c28e16890 Matti Vaittinen 2023-03-31  228  				new_idx++;
-38416c28e16890 Matti Vaittinen 2023-03-31  229  
-38416c28e16890 Matti Vaittinen 2023-03-31  230  				continue;
-38416c28e16890 Matti Vaittinen 2023-03-31  231  			}
-38416c28e16890 Matti Vaittinen 2023-03-31  232  			for (chk = 0; chk < new_idx; chk++)
-38416c28e16890 Matti Vaittinen 2023-03-31  233  				if (candidate <= all_gains[chk])
-38416c28e16890 Matti Vaittinen 2023-03-31  234  					break;
-38416c28e16890 Matti Vaittinen 2023-03-31  235  
-38416c28e16890 Matti Vaittinen 2023-03-31  236  			if (candidate == all_gains[chk])
-38416c28e16890 Matti Vaittinen 2023-03-31  237  				continue;
-38416c28e16890 Matti Vaittinen 2023-03-31  238  
-38416c28e16890 Matti Vaittinen 2023-03-31  239  			memmove(&all_gains[chk + 1], &all_gains[chk],
-38416c28e16890 Matti Vaittinen 2023-03-31  240  				(new_idx - chk) * sizeof(int));
-38416c28e16890 Matti Vaittinen 2023-03-31  241  			all_gains[chk] = candidate;
-38416c28e16890 Matti Vaittinen 2023-03-31  242  			new_idx++;
-38416c28e16890 Matti Vaittinen 2023-03-31  243  		}
-38416c28e16890 Matti Vaittinen 2023-03-31  244  	}
-38416c28e16890 Matti Vaittinen 2023-03-31  245  
-38416c28e16890 Matti Vaittinen 2023-03-31 @246  	gts->avail_all_scales_table = kcalloc(new_idx, 2 * sizeof(int),
-38416c28e16890 Matti Vaittinen 2023-03-31  247  					      GFP_KERNEL);
-38416c28e16890 Matti Vaittinen 2023-03-31  248  	if (!gts->avail_all_scales_table) {
-38416c28e16890 Matti Vaittinen 2023-03-31  249  		ret = -ENOMEM;
-38416c28e16890 Matti Vaittinen 2023-03-31  250  		goto free_out;
-38416c28e16890 Matti Vaittinen 2023-03-31  251  	}
-38416c28e16890 Matti Vaittinen 2023-03-31  252  	gts->num_avail_all_scales = new_idx;
-38416c28e16890 Matti Vaittinen 2023-03-31  253  
-38416c28e16890 Matti Vaittinen 2023-03-31  254  	for (i = 0; i < gts->num_avail_all_scales; i++) {
-38416c28e16890 Matti Vaittinen 2023-03-31  255  		ret = iio_gts_total_gain_to_scale(gts, all_gains[i],
-38416c28e16890 Matti Vaittinen 2023-03-31  256  					&gts->avail_all_scales_table[i * 2],
-38416c28e16890 Matti Vaittinen 2023-03-31  257  					&gts->avail_all_scales_table[i * 2 + 1]);
-38416c28e16890 Matti Vaittinen 2023-03-31  258  
-38416c28e16890 Matti Vaittinen 2023-03-31  259  		if (ret) {
-38416c28e16890 Matti Vaittinen 2023-03-31  260  			kfree(gts->avail_all_scales_table);
-38416c28e16890 Matti Vaittinen 2023-03-31  261  			gts->num_avail_all_scales = 0;
-38416c28e16890 Matti Vaittinen 2023-03-31  262  			goto free_out;
-38416c28e16890 Matti Vaittinen 2023-03-31  263  		}
-38416c28e16890 Matti Vaittinen 2023-03-31  264  	}
-38416c28e16890 Matti Vaittinen 2023-03-31  265  
-38416c28e16890 Matti Vaittinen 2023-03-31  266  free_out:
-38416c28e16890 Matti Vaittinen 2023-03-31  267  	kfree(all_gains);
-38416c28e16890 Matti Vaittinen 2023-03-31  268  
-38416c28e16890 Matti Vaittinen 2023-03-31 @269  	return ret;
-38416c28e16890 Matti Vaittinen 2023-03-31  270  }
-38416c28e16890 Matti Vaittinen 2023-03-31  271  
-38416c28e16890 Matti Vaittinen 2023-03-31  272  /**
-38416c28e16890 Matti Vaittinen 2023-03-31  273   * iio_gts_build_avail_scale_table - create tables of available scales
-38416c28e16890 Matti Vaittinen 2023-03-31  274   * @gts:	Gain time scale descriptor
-38416c28e16890 Matti Vaittinen 2023-03-31  275   *
-38416c28e16890 Matti Vaittinen 2023-03-31  276   * Build the tables which can represent the available scales based on the
-38416c28e16890 Matti Vaittinen 2023-03-31  277   * originally given gain and time tables. When both time and gain tables are
-38416c28e16890 Matti Vaittinen 2023-03-31  278   * given this results:
-38416c28e16890 Matti Vaittinen 2023-03-31  279   * 1. A set of tables representing available scales for each supported
-38416c28e16890 Matti Vaittinen 2023-03-31  280   *    integration time.
-38416c28e16890 Matti Vaittinen 2023-03-31  281   * 2. A single table listing all the unique scales that any combination of
-38416c28e16890 Matti Vaittinen 2023-03-31  282   *    supported gains and times can provide.
-38416c28e16890 Matti Vaittinen 2023-03-31  283   *
-38416c28e16890 Matti Vaittinen 2023-03-31  284   * NOTE: Space allocated for the tables must be freed using
-38416c28e16890 Matti Vaittinen 2023-03-31  285   * iio_gts_purge_avail_scale_table() when the tables are no longer needed.
-38416c28e16890 Matti Vaittinen 2023-03-31  286   *
-38416c28e16890 Matti Vaittinen 2023-03-31  287   * Return: 0 on success.
-38416c28e16890 Matti Vaittinen 2023-03-31  288   */
-38416c28e16890 Matti Vaittinen 2023-03-31  289  static int iio_gts_build_avail_scale_table(struct iio_gts *gts)
-38416c28e16890 Matti Vaittinen 2023-03-31  290  {
-38416c28e16890 Matti Vaittinen 2023-03-31  291  	int **per_time_gains, **per_time_scales, i, j, ret = -ENOMEM;
-38416c28e16890 Matti Vaittinen 2023-03-31  292  
-38416c28e16890 Matti Vaittinen 2023-03-31  293  	per_time_gains = kcalloc(gts->num_itime, sizeof(*per_time_gains), GFP_KERNEL);
-38416c28e16890 Matti Vaittinen 2023-03-31  294  	if (!per_time_gains)
-38416c28e16890 Matti Vaittinen 2023-03-31  295  		return ret;
-38416c28e16890 Matti Vaittinen 2023-03-31  296  
-38416c28e16890 Matti Vaittinen 2023-03-31  297  	per_time_scales = kcalloc(gts->num_itime, sizeof(*per_time_scales), GFP_KERNEL);
-38416c28e16890 Matti Vaittinen 2023-03-31  298  	if (!per_time_scales)
-38416c28e16890 Matti Vaittinen 2023-03-31  299  		goto free_gains;
-38416c28e16890 Matti Vaittinen 2023-03-31  300  
-38416c28e16890 Matti Vaittinen 2023-03-31  301  	for (i = 0; i < gts->num_itime; i++) {
-38416c28e16890 Matti Vaittinen 2023-03-31 @302  		per_time_scales[i] = kcalloc(gts->num_hwgain, 2 * sizeof(int),
-38416c28e16890 Matti Vaittinen 2023-03-31  303  					     GFP_KERNEL);
-38416c28e16890 Matti Vaittinen 2023-03-31  304  		if (!per_time_scales[i])
-38416c28e16890 Matti Vaittinen 2023-03-31  305  			goto err_free_out;
-38416c28e16890 Matti Vaittinen 2023-03-31  306  
-38416c28e16890 Matti Vaittinen 2023-03-31  307  		per_time_gains[i] = kcalloc(gts->num_hwgain, sizeof(int),
-38416c28e16890 Matti Vaittinen 2023-03-31  308  					    GFP_KERNEL);
-38416c28e16890 Matti Vaittinen 2023-03-31  309  		if (!per_time_gains[i]) {
-38416c28e16890 Matti Vaittinen 2023-03-31  310  			kfree(per_time_scales[i]);
-38416c28e16890 Matti Vaittinen 2023-03-31  311  			goto err_free_out;
-38416c28e16890 Matti Vaittinen 2023-03-31  312  		}
-38416c28e16890 Matti Vaittinen 2023-03-31  313  
-38416c28e16890 Matti Vaittinen 2023-03-31  314  		for (j = 0; j < gts->num_hwgain; j++)
-38416c28e16890 Matti Vaittinen 2023-03-31  315  			per_time_gains[i][j] = gts->hwgain_table[j].gain *
-38416c28e16890 Matti Vaittinen 2023-03-31  316  					       gts->itime_table[i].mul;
-38416c28e16890 Matti Vaittinen 2023-03-31  317  	}
-38416c28e16890 Matti Vaittinen 2023-03-31  318  
-38416c28e16890 Matti Vaittinen 2023-03-31  319  	ret = gain_to_scaletables(gts, per_time_gains, per_time_scales);
-38416c28e16890 Matti Vaittinen 2023-03-31  320  	if (ret)
-38416c28e16890 Matti Vaittinen 2023-03-31  321  		goto err_free_out;
-38416c28e16890 Matti Vaittinen 2023-03-31  322  
-38416c28e16890 Matti Vaittinen 2023-03-31  323  	kfree(per_time_gains);
-38416c28e16890 Matti Vaittinen 2023-03-31  324  	gts->per_time_avail_scale_tables = per_time_scales;
-38416c28e16890 Matti Vaittinen 2023-03-31  325  
-38416c28e16890 Matti Vaittinen 2023-03-31  326  	return 0;
-38416c28e16890 Matti Vaittinen 2023-03-31  327  
-38416c28e16890 Matti Vaittinen 2023-03-31  328  err_free_out:
-38416c28e16890 Matti Vaittinen 2023-03-31  329  	for (i--; i; i--) {
-38416c28e16890 Matti Vaittinen 2023-03-31  330  		kfree(per_time_scales[i]);
-38416c28e16890 Matti Vaittinen 2023-03-31  331  		kfree(per_time_gains[i]);
-38416c28e16890 Matti Vaittinen 2023-03-31  332  	}
-38416c28e16890 Matti Vaittinen 2023-03-31  333  	kfree(per_time_scales);
-38416c28e16890 Matti Vaittinen 2023-03-31  334  free_gains:
-38416c28e16890 Matti Vaittinen 2023-03-31  335  	kfree(per_time_gains);
-38416c28e16890 Matti Vaittinen 2023-03-31  336  
-38416c28e16890 Matti Vaittinen 2023-03-31  337  	return ret;
-38416c28e16890 Matti Vaittinen 2023-03-31  338  }
-38416c28e16890 Matti Vaittinen 2023-03-31  339  
+vim +1605 lib/zstd/compress/zstd_lazy.c
 
-:::::: The code at line 246 was first introduced by commit
-:::::: 38416c28e16890b52fdd5eb73479299ec3f062f3 iio: light: Add gain-time-scale helpers
-
-:::::: TO: Matti Vaittinen <mazziesaccount@gmail.com>
-:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+e0c1b49f5b674c Nick Terrell 2020-09-11  1474  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1475  FORCE_INLINE_TEMPLATE size_t
+e0c1b49f5b674c Nick Terrell 2020-09-11  1476  ZSTD_compressBlock_lazy_generic(
+e0c1b49f5b674c Nick Terrell 2020-09-11  1477                          ZSTD_matchState_t* ms, seqStore_t* seqStore,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1478                          U32 rep[ZSTD_REP_NUM],
+e0c1b49f5b674c Nick Terrell 2020-09-11  1479                          const void* src, size_t srcSize,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1480                          const searchMethod_e searchMethod, const U32 depth,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1481                          ZSTD_dictMode_e const dictMode)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1482  {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1483      const BYTE* const istart = (const BYTE*)src;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1484      const BYTE* ip = istart;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1485      const BYTE* anchor = istart;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1486      const BYTE* const iend = istart + srcSize;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1487      const BYTE* const ilimit = (searchMethod == search_rowHash) ? iend - 8 - ZSTD_ROW_HASH_CACHE_SIZE : iend - 8;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1488      const BYTE* const base = ms->window.base;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1489      const U32 prefixLowestIndex = ms->window.dictLimit;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1490      const BYTE* const prefixLowest = base + prefixLowestIndex;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1491      const U32 mls = BOUNDED(4, ms->cParams.minMatch, 6);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1492      const U32 rowLog = BOUNDED(4, ms->cParams.searchLog, 6);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1493  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1494      U32 offset_1 = rep[0], offset_2 = rep[1], savedOffset=0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1495  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1496      const int isDMS = dictMode == ZSTD_dictMatchState;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1497      const int isDDS = dictMode == ZSTD_dedicatedDictSearch;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1498      const int isDxS = isDMS || isDDS;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1499      const ZSTD_matchState_t* const dms = ms->dictMatchState;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1500      const U32 dictLowestIndex      = isDxS ? dms->window.dictLimit : 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1501      const BYTE* const dictBase     = isDxS ? dms->window.base : NULL;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1502      const BYTE* const dictLowest   = isDxS ? dictBase + dictLowestIndex : NULL;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1503      const BYTE* const dictEnd      = isDxS ? dms->window.nextSrc : NULL;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1504      const U32 dictIndexDelta       = isDxS ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1505                                       prefixLowestIndex - (U32)(dictEnd - dictBase) :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1506                                       0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1507      const U32 dictAndPrefixLength = (U32)((ip - prefixLowest) + (dictEnd - dictLowest));
+e0c1b49f5b674c Nick Terrell 2020-09-11  1508  
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1509      DEBUGLOG(5, "ZSTD_compressBlock_lazy_generic (dictMode=%u) (searchFunc=%u)", (U32)dictMode, (U32)searchMethod);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1510      ip += (dictAndPrefixLength == 0);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1511      if (dictMode == ZSTD_noDict) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1512          U32 const curr = (U32)(ip - base);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1513          U32 const windowLow = ZSTD_getLowestPrefixIndex(ms, curr, ms->cParams.windowLog);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1514          U32 const maxRep = curr - windowLow;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1515          if (offset_2 > maxRep) savedOffset = offset_2, offset_2 = 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1516          if (offset_1 > maxRep) savedOffset = offset_1, offset_1 = 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1517      }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1518      if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1519          /* dictMatchState repCode checks don't currently handle repCode == 0
+e0c1b49f5b674c Nick Terrell 2020-09-11  1520           * disabling. */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1521          assert(offset_1 <= dictAndPrefixLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1522          assert(offset_2 <= dictAndPrefixLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1523      }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1524  
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1525      if (searchMethod == search_rowHash) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1526          ZSTD_row_fillHashCache(ms, base, rowLog,
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1527                              MIN(ms->cParams.minMatch, 6 /* mls caps out at 6 */),
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1528                              ms->nextToUpdate, ilimit);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1529      }
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1530  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1531      /* Match Loop */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1532  #if defined(__x86_64__)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1533      /* I've measured random a 5% speed loss on levels 5 & 6 (greedy) when the
+e0c1b49f5b674c Nick Terrell 2020-09-11  1534       * code alignment is perturbed. To fix the instability align the loop on 32-bytes.
+e0c1b49f5b674c Nick Terrell 2020-09-11  1535       */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1536      __asm__(".p2align 5");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1537  #endif
+e0c1b49f5b674c Nick Terrell 2020-09-11  1538      while (ip < ilimit) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1539          size_t matchLength=0;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1540          size_t offcode=STORE_REPCODE_1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1541          const BYTE* start=ip+1;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1542          DEBUGLOG(7, "search baseline (depth 0)");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1543  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1544          /* check repCode */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1545          if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1546              const U32 repIndex = (U32)(ip - base) + 1 - offset_1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1547              const BYTE* repMatch = ((dictMode == ZSTD_dictMatchState || dictMode == ZSTD_dedicatedDictSearch)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1548                                  && repIndex < prefixLowestIndex) ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1549                                     dictBase + (repIndex - dictIndexDelta) :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1550                                     base + repIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1551              if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1552                  && (MEM_read32(repMatch) == MEM_read32(ip+1)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1553                  const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1554                  matchLength = ZSTD_count_2segments(ip+1+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1555                  if (depth==0) goto _storeSequence;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1556              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1557          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1558          if ( dictMode == ZSTD_noDict
+e0c1b49f5b674c Nick Terrell 2020-09-11  1559            && ((offset_1 > 0) & (MEM_read32(ip+1-offset_1) == MEM_read32(ip+1)))) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1560              matchLength = ZSTD_count(ip+1+4, ip+1+4-offset_1, iend) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1561              if (depth==0) goto _storeSequence;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1562          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1563  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1564          /* first search (depth 0) */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1565          {   size_t offsetFound = 999999999;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1566              size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offsetFound, mls, rowLog, searchMethod, dictMode);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1567              if (ml2 > matchLength)
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1568                  matchLength = ml2, start = ip, offcode=offsetFound;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1569          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1570  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1571          if (matchLength < 4) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1572              ip += ((ip-anchor) >> kSearchStrength) + 1;   /* jump faster over incompressible sections */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1573              continue;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1574          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1575  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1576          /* let's try to find a better solution */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1577          if (depth>=1)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1578          while (ip<ilimit) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1579              DEBUGLOG(7, "search depth 1");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1580              ip ++;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1581              if ( (dictMode == ZSTD_noDict)
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1582                && (offcode) && ((offset_1>0) & (MEM_read32(ip) == MEM_read32(ip - offset_1)))) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1583                  size_t const mlRep = ZSTD_count(ip+4, ip+4-offset_1, iend) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1584                  int const gain2 = (int)(mlRep * 3);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1585                  int const gain1 = (int)(matchLength*3 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1586                  if ((mlRep >= 4) && (gain2 > gain1))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1587                      matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1588              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1589              if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1590                  const U32 repIndex = (U32)(ip - base) - offset_1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1591                  const BYTE* repMatch = repIndex < prefixLowestIndex ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1592                                 dictBase + (repIndex - dictIndexDelta) :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1593                                 base + repIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1594                  if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1595                      && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1596                      const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1597                      size_t const mlRep = ZSTD_count_2segments(ip+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1598                      int const gain2 = (int)(mlRep * 3);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1599                      int const gain1 = (int)(matchLength*3 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1600                      if ((mlRep >= 4) && (gain2 > gain1))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1601                          matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1602                  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1603              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1604              {   size_t offset2=999999999;
+2aa14b1ab2c41a Nick Terrell 2022-10-17 @1605                  size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offset2, mls, rowLog, searchMethod, dictMode);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1606                  int const gain2 = (int)(ml2*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offset2)));   /* raw approx */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1607                  int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 4);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1608                  if ((ml2 >= 4) && (gain2 > gain1)) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1609                      matchLength = ml2, offcode = offset2, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1610                      continue;   /* search a better one */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1611              }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1612  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1613              /* let's find an even better one */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1614              if ((depth==2) && (ip<ilimit)) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1615                  DEBUGLOG(7, "search depth 2");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1616                  ip ++;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1617                  if ( (dictMode == ZSTD_noDict)
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1618                    && (offcode) && ((offset_1>0) & (MEM_read32(ip) == MEM_read32(ip - offset_1)))) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1619                      size_t const mlRep = ZSTD_count(ip+4, ip+4-offset_1, iend) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1620                      int const gain2 = (int)(mlRep * 4);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1621                      int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1622                      if ((mlRep >= 4) && (gain2 > gain1))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1623                          matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1624                  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1625                  if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1626                      const U32 repIndex = (U32)(ip - base) - offset_1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1627                      const BYTE* repMatch = repIndex < prefixLowestIndex ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1628                                     dictBase + (repIndex - dictIndexDelta) :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1629                                     base + repIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1630                      if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1631                          && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1632                          const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1633                          size_t const mlRep = ZSTD_count_2segments(ip+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1634                          int const gain2 = (int)(mlRep * 4);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1635                          int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1636                          if ((mlRep >= 4) && (gain2 > gain1))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1637                              matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1638                      }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1639                  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1640                  {   size_t offset2=999999999;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1641                      size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offset2, mls, rowLog, searchMethod, dictMode);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1642                      int const gain2 = (int)(ml2*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offset2)));   /* raw approx */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1643                      int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 7);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1644                      if ((ml2 >= 4) && (gain2 > gain1)) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1645                          matchLength = ml2, offcode = offset2, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1646                          continue;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1647              }   }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1648              break;  /* nothing found : store previous solution */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1649          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1650  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1651          /* NOTE:
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1652           * Pay attention that `start[-value]` can lead to strange undefined behavior
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1653           * notably if `value` is unsigned, resulting in a large positive `-value`.
+e0c1b49f5b674c Nick Terrell 2020-09-11  1654           */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1655          /* catch up */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1656          if (STORED_IS_OFFSET(offcode)) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1657              if (dictMode == ZSTD_noDict) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1658                  while ( ((start > anchor) & (start - STORED_OFFSET(offcode) > prefixLowest))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1659                       && (start[-1] == (start-STORED_OFFSET(offcode))[-1]) )  /* only search for offset within prefix */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1660                      { start--; matchLength++; }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1661              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1662              if (isDxS) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1663                  U32 const matchIndex = (U32)((size_t)(start-base) - STORED_OFFSET(offcode));
+e0c1b49f5b674c Nick Terrell 2020-09-11  1664                  const BYTE* match = (matchIndex < prefixLowestIndex) ? dictBase + matchIndex - dictIndexDelta : base + matchIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1665                  const BYTE* const mStart = (matchIndex < prefixLowestIndex) ? dictLowest : prefixLowest;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1666                  while ((start>anchor) && (match>mStart) && (start[-1] == match[-1])) { start--; match--; matchLength++; }  /* catch up */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1667              }
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1668              offset_2 = offset_1; offset_1 = (U32)STORED_OFFSET(offcode);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1669          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1670          /* store sequence */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1671  _storeSequence:
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1672          {   size_t const litLength = (size_t)(start - anchor);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1673              ZSTD_storeSeq(seqStore, litLength, anchor, iend, (U32)offcode, matchLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1674              anchor = ip = start + matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1675          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1676  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1677          /* check immediate repcode */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1678          if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1679              while (ip <= ilimit) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1680                  U32 const current2 = (U32)(ip-base);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1681                  U32 const repIndex = current2 - offset_2;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1682                  const BYTE* repMatch = repIndex < prefixLowestIndex ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1683                          dictBase - dictIndexDelta + repIndex :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1684                          base + repIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1685                  if ( ((U32)((prefixLowestIndex-1) - (U32)repIndex) >= 3 /* intentional overflow */)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1686                     && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1687                      const BYTE* const repEnd2 = repIndex < prefixLowestIndex ? dictEnd : iend;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1688                      matchLength = ZSTD_count_2segments(ip+4, repMatch+4, iend, repEnd2, prefixLowest) + 4;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1689                      offcode = offset_2; offset_2 = offset_1; offset_1 = (U32)offcode;   /* swap offset_2 <=> offset_1 */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1690                      ZSTD_storeSeq(seqStore, 0, anchor, iend, STORE_REPCODE_1, matchLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1691                      ip += matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1692                      anchor = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1693                      continue;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1694                  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1695                  break;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1696              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1697          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1698  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1699          if (dictMode == ZSTD_noDict) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1700              while ( ((ip <= ilimit) & (offset_2>0))
+e0c1b49f5b674c Nick Terrell 2020-09-11  1701                   && (MEM_read32(ip) == MEM_read32(ip - offset_2)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1702                  /* store sequence */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1703                  matchLength = ZSTD_count(ip+4, ip+4-offset_2, iend) + 4;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1704                  offcode = offset_2; offset_2 = offset_1; offset_1 = (U32)offcode; /* swap repcodes */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1705                  ZSTD_storeSeq(seqStore, 0, anchor, iend, STORE_REPCODE_1, matchLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1706                  ip += matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1707                  anchor = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1708                  continue;   /* faster when present ... (?) */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1709      }   }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1710  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1711      /* Save reps for next block */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1712      rep[0] = offset_1 ? offset_1 : savedOffset;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1713      rep[1] = offset_2 ? offset_2 : savedOffset;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1714  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1715      /* Return the last literals size */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1716      return (size_t)(iend - anchor);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1717  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1718  
 
 -- 
 0-DAY CI Kernel Test Service
