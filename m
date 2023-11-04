@@ -1,45 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBAF4BA25
-	for <oe-kbuild@lists.linux.dev>; Sat,  4 Nov 2023 10:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8B7134D2
+	for <oe-kbuild@lists.linux.dev>; Sat,  4 Nov 2023 11:12:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dWi21FKb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oy3e5Q2B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699095551; x=1730631551;
+  t=1699096335; x=1730632335;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0pNgocXEFX3JwsphGkSIdF+9tUUoSGiqD7eWQUGsCas=;
-  b=dWi21FKb99aZcI9zKGnrQThhYHdiiPoe50lURKq33MIZrEnWTOtmWhLM
-   3YKLVnPOz7HgEvgaIIWRZDEO3J0PZ1EAV4kgsxymRvs4Hc2lZRVJMSGXn
-   GTEWefLFtcqwe3WfXhfU+GP/G5ZfndX+U7M9F4aI/OUskloiZoHhcHzqm
-   lwzGNkiEfZhx2tpvbhJjtfPHdzFYnUSlTLAVmVur6hJ6cbfJR6TIC1dxP
-   GaJI0glK/AST2UbTNlXydEP45h3JAU7STMVjfC+yZp/6SDBmrLhUUumjV
-   SarXTdA6yjnMMVOMOKWhWLAw9kWd1sYdSJE89YOA/gX3Lia2HH6WTI+O4
+  bh=0fuSn9qRcb9br+DEynEmxehqV0vHiinNsimbeXYanvc=;
+  b=Oy3e5Q2BrqW/Hy/gvC1V6CVWAx9YNXB0cd0Va1Esb2QxPGOiM7VSMrOe
+   E7xDbfXtOyFDzDLobVwBC9pNcp3GcBOi8mvYrMyzAKh2LruTFzW1Jd5ep
+   geEfNsSZNkwPfxu8qC7fAFVVqB9f2a4vg/XzFAREtdzQqDBSQDrFeFM9A
+   6f3CbKjsdwJwu9cu+ZjRiCwUD5+ZVeFQBmea4CBdxmai4JYP07L7b+QdV
+   Z6/yRcmXlqgMqTTTIGIuOcLGTAA8PIdjB+Ja7EuaCYK3IB7RIqS/S2SKX
+   YbKT5I8XzQZRqZyZyY9D3Vh2lt6mNjQz0hXGs3adrj9WaO65cwisiPLeD
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="388903148"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="420194815"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="388903148"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 03:59:08 -0700
+   d="scan'208";a="420194815"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 04:12:15 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="738352997"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="9637976"
+   d="scan'208";a="738352997"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 04 Nov 2023 03:59:07 -0700
+  by orsmga006.jf.intel.com with ESMTP; 04 Nov 2023 04:12:13 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzEMq-0003sI-2R;
-	Sat, 04 Nov 2023 10:59:04 +0000
-Date: Sat, 4 Nov 2023 18:58:04 +0800
+	id 1qzEZW-0003x2-35;
+	Sat, 04 Nov 2023 11:12:10 +0000
+Date: Sat, 4 Nov 2023 19:11:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/bcachefs/reflink.c:56 bch2_reflink_p_merge() warn: ignoring
- unreachable code.
-Message-ID: <202311041843.dCBwsDqC-lkp@intel.com>
+Subject: drivers/cxl/core/port.c:331 cxl_root_decoder_visible() error: we
+ previously assumed 'a' could be null (see line 327)
+Message-ID: <202311041918.ehKsgRV7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,48 +53,62 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Kent Overstreet <kmo@daterainc.com>
+TO: Dan Williams <dan.j.williams@intel.com>
+CC: Vishal Verma <vishal.l.verma@intel.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Dave Jiang <dave.jiang@intel.com>
+CC: Gregory Price <gregory.price@memverge.com>
+
+Hi Dan,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   90b0c2b2edd1adff742c621e246562fbefa11b70
-commit: 59ba21d99fc7a19d32fc4c2cb21509b8876d8e01 bcachefs: Clean up key merging
-date:   13 days ago
+commit: 45d235c56b2bc51749af9cc8fe6ace18aa8b81be cxl/region: Enable CONFIG_CXL_REGION to be toggled
+date:   9 months ago
 :::::: branch date: 6 hours ago
-:::::: commit date: 13 days ago
-config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231104/202311041843.dCBwsDqC-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231104/202311041843.dCBwsDqC-lkp@intel.com/reproduce)
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-161-20231104 (https://download.01.org/0day-ci/archive/20231104/202311041918.ehKsgRV7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231104/202311041918.ehKsgRV7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311041843.dCBwsDqC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311041918.ehKsgRV7-lkp@intel.com/
 
 smatch warnings:
-fs/bcachefs/reflink.c:56 bch2_reflink_p_merge() warn: ignoring unreachable code.
+drivers/cxl/core/port.c:331 cxl_root_decoder_visible() error: we previously assumed 'a' could be null (see line 327)
 
-vim +56 fs/bcachefs/reflink.c
+vim +/a +331 drivers/cxl/core/port.c
 
-76426098e419c17 Kent Overstreet 2019-08-16  44  
-59ba21d99fc7a19 Kent Overstreet 2021-04-28  45  bool bch2_reflink_p_merge(struct bch_fs *c, struct bkey_s _l, struct bkey_s_c _r)
-76426098e419c17 Kent Overstreet 2019-08-16  46  {
-76426098e419c17 Kent Overstreet 2019-08-16  47  	struct bkey_s_reflink_p l = bkey_s_to_reflink_p(_l);
-59ba21d99fc7a19 Kent Overstreet 2021-04-28  48  	struct bkey_s_c_reflink_p r = bkey_s_c_to_reflink_p(_r);
-76426098e419c17 Kent Overstreet 2019-08-16  49  
-59ba21d99fc7a19 Kent Overstreet 2021-04-28  50  	/*
-59ba21d99fc7a19 Kent Overstreet 2021-04-28  51  	 * Disabled for now, the triggers code needs to be reworked for merging
-59ba21d99fc7a19 Kent Overstreet 2021-04-28  52  	 * of reflink pointers to work:
-59ba21d99fc7a19 Kent Overstreet 2021-04-28  53  	 */
-59ba21d99fc7a19 Kent Overstreet 2021-04-28  54  	return false;
-76426098e419c17 Kent Overstreet 2019-08-16  55  
-59ba21d99fc7a19 Kent Overstreet 2021-04-28 @56  	if (le64_to_cpu(l.v->idx) + l.k->size != le64_to_cpu(r.v->idx))
-59ba21d99fc7a19 Kent Overstreet 2021-04-28  57  		return false;
-76426098e419c17 Kent Overstreet 2019-08-16  58  
-76426098e419c17 Kent Overstreet 2019-08-16  59  	bch2_key_resize(l.k, l.k->size + r.k->size);
-59ba21d99fc7a19 Kent Overstreet 2021-04-28  60  	return true;
-76426098e419c17 Kent Overstreet 2019-08-16  61  }
-76426098e419c17 Kent Overstreet 2019-08-16  62  
+6e099264185d05 Dan Williams 2023-02-10  315  
+779dd20cfb56c5 Ben Widawsky 2021-06-08  316  static umode_t cxl_root_decoder_visible(struct kobject *kobj, struct attribute *a, int n)
+779dd20cfb56c5 Ben Widawsky 2021-06-08  317  {
+779dd20cfb56c5 Ben Widawsky 2021-06-08  318  	struct device *dev = kobj_to_dev(kobj);
+779dd20cfb56c5 Ben Widawsky 2021-06-08  319  	struct cxl_root_decoder *cxlrd = to_cxl_root_decoder(dev);
+779dd20cfb56c5 Ben Widawsky 2021-06-08  320  
+779dd20cfb56c5 Ben Widawsky 2021-06-08  321  	if (a == CXL_REGION_ATTR(create_pmem_region) && !can_create_pmem(cxlrd))
+779dd20cfb56c5 Ben Widawsky 2021-06-08  322  		return 0;
+779dd20cfb56c5 Ben Widawsky 2021-06-08  323  
+6e099264185d05 Dan Williams 2023-02-10  324  	if (a == CXL_REGION_ATTR(create_ram_region) && !can_create_ram(cxlrd))
+6e099264185d05 Dan Williams 2023-02-10  325  		return 0;
+6e099264185d05 Dan Williams 2023-02-10  326  
+6e099264185d05 Dan Williams 2023-02-10 @327  	if (a == CXL_REGION_ATTR(delete_region) &&
+6e099264185d05 Dan Williams 2023-02-10  328  	    !(can_create_pmem(cxlrd) || can_create_ram(cxlrd)))
+779dd20cfb56c5 Ben Widawsky 2021-06-08  329  		return 0;
+779dd20cfb56c5 Ben Widawsky 2021-06-08  330  
+779dd20cfb56c5 Ben Widawsky 2021-06-08 @331  	return a->mode;
+779dd20cfb56c5 Ben Widawsky 2021-06-08  332  }
+779dd20cfb56c5 Ben Widawsky 2021-06-08  333  
+
+:::::: The code at line 331 was first introduced by commit
+:::::: 779dd20cfb56c510f89877cca45529fa9f8bc450 cxl/region: Add region creation support
+
+:::::: TO: Ben Widawsky <bwidawsk@kernel.org>
+:::::: CC: Dan Williams <dan.j.williams@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
