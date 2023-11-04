@@ -1,46 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF668826
-	for <oe-kbuild@lists.linux.dev>; Sat,  4 Nov 2023 06:45:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD988F70
+	for <oe-kbuild@lists.linux.dev>; Sat,  4 Nov 2023 07:55:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GZlF+hxv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ehn9aCrL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699080357; x=1730616357;
+  t=1699084558; x=1730620558;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tQ8grSSRYm2L7EzAM0+YCT+Joo5DVRUn/X8Mf2l87fE=;
-  b=GZlF+hxvC4jxxB3qVisA5STVxkBMRTXW1zP+qxunuCP39rUKzKwrEBey
-   R+bUZCWlJn9GFYHX+y5C/d7lWOX8T6np9oGGz4FzJORABVQHXoO1M0Ulj
-   JOZA3n+xETuaS/KNYmqYC2g/bZFLOCAqwA1wkSS0HmgqtUMrpPAjQUilr
-   CUGBZA1JVltD9Ynqy8ZqDIvnVCl5oExCJWTdWxx7LbiTwakY2YXc71knp
-   PUghNRPWitfugcXAXRuAt1wYkCMgjVYu8s+8mXdBlIF6ARVqDB0P3u02j
-   RP0PhG3/0v1/UnvJSu/WYBpgg+Vdr2vAt4QinvC6bVq9IUwI630eXyGVf
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="388890174"
+  bh=0naVsFjKIiil0i21zlikkBfISCdFi/xKqqK60ChatZs=;
+  b=Ehn9aCrLtDf1aORvowNKQzPvRWpIa3TRUuKkdiFlTLAJBDgEcPQlxhMF
+   WdUnGJfDGfHpaX/r58hcN1seHAShDRkkwmy9Hldz22hzCF7oLfJY/78iV
+   FGlucAHhT3nvhBFADZ1VJfriO4/JcjZkzKEPrf0OOGynGZDnomgE7DCeA
+   zMxPH9rL1oYxsg8/w1vxQWN1/NAjbDO+u8A4LKKGuz6iCXgpjZcb4M7by
+   WtEDkWjT8833HiiHbVEzF7Lyu/dkB0fJ3lmxusELhB8JqKqITFgjeHVOu
+   sxAqVrQEUXYOKJHvL2AKrQ92Z6gE1+rY+oas3V2cElMt0wiPa2Gd8te3N
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="475303322"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="388890174"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 23:45:57 -0700
+   d="scan'208";a="475303322"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 00:55:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="761826611"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="761826611"
+   d="scan'208";a="9967934"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 03 Nov 2023 23:45:55 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 04 Nov 2023 00:55:56 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzAPp-0003Zg-1o;
-	Sat, 04 Nov 2023 06:45:53 +0000
-Date: Sat, 4 Nov 2023 14:44:42 +0800
+	id 1qzBVa-0003ej-15;
+	Sat, 04 Nov 2023 07:55:54 +0000
+Date: Sat, 4 Nov 2023 15:53:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/firmware/efi/earlycon.c:178 efi_earlycon_write() error:
- potentially dereferencing uninitialized 's'.
-Message-ID: <202311041422.GVJSFjzN-lkp@intel.com>
+Subject: fs/bcachefs/buckets.c:1412 bch2_trans_fs_usage_apply() error: we
+ previously assumed 'trans->disk_res' could be null (see line 1369)
+Message-ID: <202311041504.WnYKbZ4C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,104 +52,93 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Ard Biesheuvel <ardb@kernel.org>
+TO: Kent Overstreet <kmo@daterainc.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   90b0c2b2edd1adff742c621e246562fbefa11b70
-commit: b7a1cd243839cc1459fbc83a7a62e3b57f29f497 efi/earlycon: Replace open coded strnchrnul()
-date:   10 months ago
-:::::: branch date: 82 minutes ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231104/202311041422.GVJSFjzN-lkp@intel.com/config)
+commit: 35d5aff263629caf98305d12c02d8b64d6981625 bcachefs: Kill bch2_fs_usage_scratch_get()
+date:   12 days ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 12 days ago
+config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231104/202311041504.WnYKbZ4C-lkp@intel.com/config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231104/202311041422.GVJSFjzN-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231104/202311041504.WnYKbZ4C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311041422.GVJSFjzN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311041504.WnYKbZ4C-lkp@intel.com/
 
-smatch warnings:
-drivers/firmware/efi/earlycon.c:178 efi_earlycon_write() error: potentially dereferencing uninitialized 's'.
+New smatch warnings:
+fs/bcachefs/buckets.c:1412 bch2_trans_fs_usage_apply() error: we previously assumed 'trans->disk_res' could be null (see line 1369)
 
-vim +/s +178 drivers/firmware/efi/earlycon.c
+Old smatch warnings:
+fs/bcachefs/buckets.c:1121 bch2_mark_stripe() error: we previously assumed 'new_s' could be null (see line 1082)
+fs/bcachefs/buckets.c:2093 bch2_trans_mark_metadata_sectors() error: uninitialized symbol 'ret'.
 
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  134  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  135  static void
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  136  efi_earlycon_write(struct console *con, const char *str, unsigned int num)
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  137  {
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  138  	struct screen_info *si;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  139  	unsigned int len;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  140  	const char *s;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  141  	void *dst;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  142  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  143  	si = &screen_info;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  144  	len = si->lfb_linelength;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  145  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  146  	while (num) {
-b7a1cd243839cc Andy Shevchenko 2022-12-09  147  		unsigned int linemax = (si->lfb_width - efi_x) / font->width;
-b7a1cd243839cc Andy Shevchenko 2022-12-09  148  		unsigned int h, count;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  149  
-b7a1cd243839cc Andy Shevchenko 2022-12-09  150  		count = strnchrnul(str, num, '\n') - str;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  151  		if (count > linemax)
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  152  			count = linemax;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  153  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  154  		for (h = 0; h < font->height; h++) {
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  155  			unsigned int n, x;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  156  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  157  			dst = efi_earlycon_map((efi_y + h) * len, len);
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  158  			if (!dst)
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  159  				return;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  160  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  161  			s = str;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  162  			n = count;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  163  			x = efi_x;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  164  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  165  			while (n-- > 0) {
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  166  				efi_earlycon_write_char(dst + x*4, *s, h);
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  167  				x += font->width;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  168  				s++;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  169  			}
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  170  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  171  			efi_earlycon_unmap(dst, len);
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  172  		}
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  173  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  174  		num -= count;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  175  		efi_x += count * font->width;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  176  		str += count;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  177  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02 @178  		if (num > 0 && *s == '\n') {
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  179  			efi_x = 0;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  180  			efi_y += font->height;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  181  			str++;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  182  			num--;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  183  		}
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  184  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  185  		if (efi_x + font->width > si->lfb_width) {
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  186  			efi_x = 0;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  187  			efi_y += font->height;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  188  		}
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  189  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  190  		if (efi_y + font->height > si->lfb_height) {
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  191  			u32 i;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  192  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  193  			efi_y -= font->height;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  194  			efi_earlycon_scroll_up();
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  195  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  196  			for (i = 0; i < font->height; i++)
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  197  				efi_earlycon_clear_scanline(efi_y + i);
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  198  		}
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  199  	}
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  200  }
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  201  
+vim +1412 fs/bcachefs/buckets.c
 
-:::::: The code at line 178 was first introduced by commit
-:::::: 69c1f396f25b805aeff08f06d2e992c315ee5b1e efi/x86: Convert x86 EFI earlyprintk into generic earlycon implementation
-
-:::::: TO: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+b35b1925832e63 Kent Overstreet 2018-11-05  1362  
+35d5aff263629c Kent Overstreet 2021-04-03  1363  void bch2_trans_fs_usage_apply(struct btree_trans *trans,
+35d5aff263629c Kent Overstreet 2021-04-03  1364  			       struct replicas_delta_list *deltas)
+35d5aff263629c Kent Overstreet 2021-04-03  1365  {
+35d5aff263629c Kent Overstreet 2021-04-03  1366  	struct bch_fs *c = trans->c;
+35d5aff263629c Kent Overstreet 2021-04-03  1367  	static int warned_disk_usage = 0;
+35d5aff263629c Kent Overstreet 2021-04-03  1368  	bool warn = false;
+35d5aff263629c Kent Overstreet 2021-04-03 @1369  	unsigned disk_res_sectors = trans->disk_res ? trans->disk_res->sectors : 0;
+35d5aff263629c Kent Overstreet 2021-04-03  1370  	struct replicas_delta *d = deltas->d;
+35d5aff263629c Kent Overstreet 2021-04-03  1371  	struct replicas_delta *top = (void *) deltas->d + deltas->used;
+35d5aff263629c Kent Overstreet 2021-04-03  1372  	struct bch_fs_usage *dst;
+35d5aff263629c Kent Overstreet 2021-04-03  1373  	s64 added = 0, should_not_have_added;
+35d5aff263629c Kent Overstreet 2021-04-03  1374  	unsigned i;
+35d5aff263629c Kent Overstreet 2021-04-03  1375  
+35d5aff263629c Kent Overstreet 2021-04-03  1376  	percpu_rwsem_assert_held(&c->mark_lock);
+35d5aff263629c Kent Overstreet 2021-04-03  1377  
+35d5aff263629c Kent Overstreet 2021-04-03  1378  	preempt_disable();
+35d5aff263629c Kent Overstreet 2021-04-03  1379  	dst = fs_usage_ptr(c, trans->journal_res.seq, false);
+35d5aff263629c Kent Overstreet 2021-04-03  1380  
+35d5aff263629c Kent Overstreet 2021-04-03  1381  	for (d = deltas->d; d != top; d = replicas_delta_next(d)) {
+35d5aff263629c Kent Overstreet 2021-04-03  1382  		switch (d->r.data_type) {
+35d5aff263629c Kent Overstreet 2021-04-03  1383  		case BCH_DATA_btree:
+35d5aff263629c Kent Overstreet 2021-04-03  1384  		case BCH_DATA_user:
+35d5aff263629c Kent Overstreet 2021-04-03  1385  		case BCH_DATA_parity:
+35d5aff263629c Kent Overstreet 2021-04-03  1386  			added += d->delta;
+35d5aff263629c Kent Overstreet 2021-04-03  1387  		}
+35d5aff263629c Kent Overstreet 2021-04-03  1388  
+35d5aff263629c Kent Overstreet 2021-04-03  1389  		update_replicas(c, dst, &d->r, d->delta);
+35d5aff263629c Kent Overstreet 2021-04-03  1390  	}
+35d5aff263629c Kent Overstreet 2021-04-03  1391  
+35d5aff263629c Kent Overstreet 2021-04-03  1392  	dst->nr_inodes += deltas->nr_inodes;
+35d5aff263629c Kent Overstreet 2021-04-03  1393  
+35d5aff263629c Kent Overstreet 2021-04-03  1394  	for (i = 0; i < BCH_REPLICAS_MAX; i++) {
+35d5aff263629c Kent Overstreet 2021-04-03  1395  		added				+= deltas->persistent_reserved[i];
+35d5aff263629c Kent Overstreet 2021-04-03  1396  		dst->reserved			+= deltas->persistent_reserved[i];
+35d5aff263629c Kent Overstreet 2021-04-03  1397  		dst->persistent_reserved[i]	+= deltas->persistent_reserved[i];
+35d5aff263629c Kent Overstreet 2021-04-03  1398  	}
+35d5aff263629c Kent Overstreet 2021-04-03  1399  
+35d5aff263629c Kent Overstreet 2021-04-03  1400  	/*
+35d5aff263629c Kent Overstreet 2021-04-03  1401  	 * Not allowed to reduce sectors_available except by getting a
+35d5aff263629c Kent Overstreet 2021-04-03  1402  	 * reservation:
+35d5aff263629c Kent Overstreet 2021-04-03  1403  	 */
+35d5aff263629c Kent Overstreet 2021-04-03  1404  	should_not_have_added = added - (s64) disk_res_sectors;
+35d5aff263629c Kent Overstreet 2021-04-03  1405  	if (unlikely(should_not_have_added > 0)) {
+35d5aff263629c Kent Overstreet 2021-04-03  1406  		atomic64_sub(should_not_have_added, &c->sectors_available);
+35d5aff263629c Kent Overstreet 2021-04-03  1407  		added -= should_not_have_added;
+35d5aff263629c Kent Overstreet 2021-04-03  1408  		warn = true;
+35d5aff263629c Kent Overstreet 2021-04-03  1409  	}
+35d5aff263629c Kent Overstreet 2021-04-03  1410  
+35d5aff263629c Kent Overstreet 2021-04-03  1411  	if (added > 0) {
+35d5aff263629c Kent Overstreet 2021-04-03 @1412  		trans->disk_res->sectors -= added;
+35d5aff263629c Kent Overstreet 2021-04-03  1413  		this_cpu_sub(*c->online_reserved, added);
+35d5aff263629c Kent Overstreet 2021-04-03  1414  	}
+35d5aff263629c Kent Overstreet 2021-04-03  1415  
+35d5aff263629c Kent Overstreet 2021-04-03  1416  	preempt_enable();
+35d5aff263629c Kent Overstreet 2021-04-03  1417  
+35d5aff263629c Kent Overstreet 2021-04-03  1418  	if (unlikely(warn) && !xchg(&warned_disk_usage, 1))
+35d5aff263629c Kent Overstreet 2021-04-03  1419  		fs_usage_apply_warn(trans, disk_res_sectors);
+35d5aff263629c Kent Overstreet 2021-04-03  1420  }
+35d5aff263629c Kent Overstreet 2021-04-03  1421  
 
 -- 
 0-DAY CI Kernel Test Service
