@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3925C846B
-	for <oe-kbuild@lists.linux.dev>; Sat,  4 Nov 2023 08:54:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4629F9EC
+	for <oe-kbuild@lists.linux.dev>; Sat,  4 Nov 2023 10:21:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NN/9dZwL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZFXUay8O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699088047; x=1730624047;
+  t=1699093314; x=1730629314;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pVk6Js2LCYyUd1ZnAVl6RxhlE1vsIzbIJrocLTEZi/E=;
-  b=NN/9dZwLQnnNoD8X7/Y2Zu6kZNQCTvCvbHa8NBQFo68dzbH3jY1rT4aK
-   iCbIWAZu+J/xNlJTErfe+YoBuX3hVj7YuXgBL5jL1cXAWhJLALLE+hjjc
-   xevwFPXzCkXcSiVdOAd3nGkgE5ic9GoEhLlnkkgfCbMX9kRW7GSUwSsR+
-   tc2DvHwzaHlVrdZFHsB8YHKr2865haaslWPNGYDbTy5HB12dxB3/tHtq8
-   xFsng7B6aMo8i6bepxXJW7PkF1I/LSWykS6yHNitkgHDB9m79z6yDnJTY
-   9Dk6dJYPquTSZld/gKe+7L0QpoDSqYCZU6KLKz1DJvLRXGrdCtLQZe1Kw
+  bh=VBgqMkOY/4w5lPBE56y15mgMUkSHR2Z0S1Av3D5iATU=;
+  b=ZFXUay8O9Q59X+CNk26ZnkWqpYwFQsBw4sLxf+rfxfGL9B2T9OVpNssX
+   lHE/wFJ5MRq6DUU+eobl/aah1s7hXesKbPURRZOa2l0xgIRswoy7yujZW
+   simh93yaKO73dBQ0j2LjIR+gB94E0hLWjaKSRtMn5XsBXfnogOW5jrjFp
+   ZVv2bmbZUQY1dDTviRSlx6Bka7MEDmglbTyVU4k+dE/F4iAcqXnYhoLf6
+   OwU6jOHiUhc/6wH0DJh980y1UlXzig65ygmuEQq9nhXR58tq26DhxH/CW
+   w1+QvDP5Q1Z75m0ZgnTUAe/z3wiUplnuM6QbMj/tQTpqNlAzUYY6z3zbe
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="386245859"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="386250273"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="386245859"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 01:54:06 -0700
+   d="scan'208";a="386250273"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 03:21:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="738320132"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="711759872"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="738320132"
+   d="scan'208";a="711759872"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 04 Nov 2023 01:54:04 -0700
+  by orsmga003.jf.intel.com with ESMTP; 04 Nov 2023 03:21:50 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzCPq-0003hg-1L;
-	Sat, 04 Nov 2023 08:54:02 +0000
-Date: Sat, 4 Nov 2023 16:52:56 +0800
+	id 1qzDmm-0003m8-0H;
+	Sat, 04 Nov 2023 10:21:48 +0000
+Date: Sat, 4 Nov 2023 18:21:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: kernel/bpf/memalloc.c:344 bpf_mem_alloc_destroy() error: potentially
- dereferencing uninitialized 'c'.
-Message-ID: <202311041609.Om2EEvjo-lkp@intel.com>
+Subject: drivers/iio/industrialio-gts-helper.c:246 gain_to_scaletables()
+ warn: double check that we're allocating correct size: 4 vs 8
+Message-ID: <202311041802.qiuZAE2e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,64 +53,198 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Alexei Starovoitov <ast@kernel.org>
-CC: Daniel Borkmann <daniel@iogearbox.net>
+TO: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Matti Vaittinen <mazziesaccount@gmail.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2c40c1c6adab90ee4660caf03722b3a3ec67767b
-commit: 7c8199e24fa09d2344ae0204527d55d7803e8409 bpf: Introduce any context BPF specific memory allocator.
-date:   1 year, 2 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 1 year, 2 months ago
-config: i386-randconfig-141-20231102 (https://download.01.org/0day-ci/archive/20231104/202311041609.Om2EEvjo-lkp@intel.com/config)
+head:   90b0c2b2edd1adff742c621e246562fbefa11b70
+commit: e52afbd61039e2c5a4e611e23b4aa963d34a4aef iio: light: ROHM BU27034 Ambient Light Sensor
+date:   7 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 7 months ago
+config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231104/202311041802.qiuZAE2e-lkp@intel.com/config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231104/202311041609.Om2EEvjo-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231104/202311041802.qiuZAE2e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311041609.Om2EEvjo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311041802.qiuZAE2e-lkp@intel.com/
 
 smatch warnings:
-kernel/bpf/memalloc.c:344 bpf_mem_alloc_destroy() error: potentially dereferencing uninitialized 'c'.
+drivers/iio/industrialio-gts-helper.c:246 gain_to_scaletables() warn: double check that we're allocating correct size: 4 vs 8
+drivers/iio/industrialio-gts-helper.c:269 gain_to_scaletables() error: uninitialized symbol 'ret'.
+drivers/iio/industrialio-gts-helper.c:302 iio_gts_build_avail_scale_table() warn: double check that we're allocating correct size: 4 vs 8
 
-vim +/c +344 kernel/bpf/memalloc.c
+vim +246 drivers/iio/industrialio-gts-helper.c
 
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  331  
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  332  void bpf_mem_alloc_destroy(struct bpf_mem_alloc *ma)
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  333  {
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  334  	struct bpf_mem_caches *cc;
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  335  	struct bpf_mem_cache *c;
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  336  	int cpu, i;
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  337  
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  338  	if (ma->cache) {
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  339  		for_each_possible_cpu(cpu) {
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  340  			c = per_cpu_ptr(ma->cache, cpu);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  341  			drain_mem_cache(c);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  342  		}
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  343  		/* kmem_cache and memcg are the same across cpus */
-7c8199e24fa09d Alexei Starovoitov 2022-09-02 @344  		kmem_cache_destroy(c->kmem_cache);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  345  		if (c->objcg)
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  346  			obj_cgroup_put(c->objcg);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  347  		free_percpu(ma->cache);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  348  		ma->cache = NULL;
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  349  	}
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  350  	if (ma->caches) {
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  351  		for_each_possible_cpu(cpu) {
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  352  			cc = per_cpu_ptr(ma->caches, cpu);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  353  			for (i = 0; i < NUM_CACHES; i++) {
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  354  				c = &cc->cache[i];
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  355  				drain_mem_cache(c);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  356  			}
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  357  		}
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  358  		if (c->objcg)
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  359  			obj_cgroup_put(c->objcg);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  360  		free_percpu(ma->caches);
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  361  		ma->caches = NULL;
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  362  	}
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  363  }
-7c8199e24fa09d Alexei Starovoitov 2022-09-02  364  
+38416c28e16890 Matti Vaittinen 2023-03-31  180  
+38416c28e16890 Matti Vaittinen 2023-03-31  181  static int gain_to_scaletables(struct iio_gts *gts, int **gains, int **scales)
+38416c28e16890 Matti Vaittinen 2023-03-31  182  {
+38416c28e16890 Matti Vaittinen 2023-03-31  183  	int ret, i, j, new_idx, time_idx;
+38416c28e16890 Matti Vaittinen 2023-03-31  184  	int *all_gains;
+38416c28e16890 Matti Vaittinen 2023-03-31  185  	size_t gain_bytes;
+38416c28e16890 Matti Vaittinen 2023-03-31  186  
+38416c28e16890 Matti Vaittinen 2023-03-31  187  	for (i = 0; i < gts->num_itime; i++) {
+38416c28e16890 Matti Vaittinen 2023-03-31  188  		/*
+38416c28e16890 Matti Vaittinen 2023-03-31  189  		 * Sort the tables for nice output and for easier finding of
+38416c28e16890 Matti Vaittinen 2023-03-31  190  		 * unique values.
+38416c28e16890 Matti Vaittinen 2023-03-31  191  		 */
+38416c28e16890 Matti Vaittinen 2023-03-31  192  		sort(gains[i], gts->num_hwgain, sizeof(int), iio_gts_gain_cmp,
+38416c28e16890 Matti Vaittinen 2023-03-31  193  		     NULL);
+38416c28e16890 Matti Vaittinen 2023-03-31  194  
+38416c28e16890 Matti Vaittinen 2023-03-31  195  		/* Convert gains to scales */
+38416c28e16890 Matti Vaittinen 2023-03-31  196  		for (j = 0; j < gts->num_hwgain; j++) {
+38416c28e16890 Matti Vaittinen 2023-03-31  197  			ret = iio_gts_total_gain_to_scale(gts, gains[i][j],
+38416c28e16890 Matti Vaittinen 2023-03-31  198  							  &scales[i][2 * j],
+38416c28e16890 Matti Vaittinen 2023-03-31  199  							  &scales[i][2 * j + 1]);
+38416c28e16890 Matti Vaittinen 2023-03-31  200  			if (ret)
+38416c28e16890 Matti Vaittinen 2023-03-31  201  				return ret;
+38416c28e16890 Matti Vaittinen 2023-03-31  202  		}
+38416c28e16890 Matti Vaittinen 2023-03-31  203  	}
+38416c28e16890 Matti Vaittinen 2023-03-31  204  
+38416c28e16890 Matti Vaittinen 2023-03-31  205  	gain_bytes = array_size(gts->num_hwgain, sizeof(int));
+38416c28e16890 Matti Vaittinen 2023-03-31  206  	all_gains = kcalloc(gts->num_itime, gain_bytes, GFP_KERNEL);
+38416c28e16890 Matti Vaittinen 2023-03-31  207  	if (!all_gains)
+38416c28e16890 Matti Vaittinen 2023-03-31  208  		return -ENOMEM;
+38416c28e16890 Matti Vaittinen 2023-03-31  209  
+38416c28e16890 Matti Vaittinen 2023-03-31  210  	/*
+38416c28e16890 Matti Vaittinen 2023-03-31  211  	 * We assume all the gains for same integration time were unique.
+38416c28e16890 Matti Vaittinen 2023-03-31  212  	 * It is likely the first time table had greatest time multiplier as
+38416c28e16890 Matti Vaittinen 2023-03-31  213  	 * the times are in the order of preference and greater times are
+38416c28e16890 Matti Vaittinen 2023-03-31  214  	 * usually preferred. Hence we start from the last table which is likely
+38416c28e16890 Matti Vaittinen 2023-03-31  215  	 * to have the smallest total gains.
+38416c28e16890 Matti Vaittinen 2023-03-31  216  	 */
+38416c28e16890 Matti Vaittinen 2023-03-31  217  	time_idx = gts->num_itime - 1;
+38416c28e16890 Matti Vaittinen 2023-03-31  218  	memcpy(all_gains, gains[time_idx], gain_bytes);
+38416c28e16890 Matti Vaittinen 2023-03-31  219  	new_idx = gts->num_hwgain;
+38416c28e16890 Matti Vaittinen 2023-03-31  220  
+38416c28e16890 Matti Vaittinen 2023-03-31  221  	while (time_idx--) {
+38416c28e16890 Matti Vaittinen 2023-03-31  222  		for (j = 0; j < gts->num_hwgain; j++) {
+38416c28e16890 Matti Vaittinen 2023-03-31  223  			int candidate = gains[time_idx][j];
+38416c28e16890 Matti Vaittinen 2023-03-31  224  			int chk;
+38416c28e16890 Matti Vaittinen 2023-03-31  225  
+38416c28e16890 Matti Vaittinen 2023-03-31  226  			if (candidate > all_gains[new_idx - 1]) {
+38416c28e16890 Matti Vaittinen 2023-03-31  227  				all_gains[new_idx] = candidate;
+38416c28e16890 Matti Vaittinen 2023-03-31  228  				new_idx++;
+38416c28e16890 Matti Vaittinen 2023-03-31  229  
+38416c28e16890 Matti Vaittinen 2023-03-31  230  				continue;
+38416c28e16890 Matti Vaittinen 2023-03-31  231  			}
+38416c28e16890 Matti Vaittinen 2023-03-31  232  			for (chk = 0; chk < new_idx; chk++)
+38416c28e16890 Matti Vaittinen 2023-03-31  233  				if (candidate <= all_gains[chk])
+38416c28e16890 Matti Vaittinen 2023-03-31  234  					break;
+38416c28e16890 Matti Vaittinen 2023-03-31  235  
+38416c28e16890 Matti Vaittinen 2023-03-31  236  			if (candidate == all_gains[chk])
+38416c28e16890 Matti Vaittinen 2023-03-31  237  				continue;
+38416c28e16890 Matti Vaittinen 2023-03-31  238  
+38416c28e16890 Matti Vaittinen 2023-03-31  239  			memmove(&all_gains[chk + 1], &all_gains[chk],
+38416c28e16890 Matti Vaittinen 2023-03-31  240  				(new_idx - chk) * sizeof(int));
+38416c28e16890 Matti Vaittinen 2023-03-31  241  			all_gains[chk] = candidate;
+38416c28e16890 Matti Vaittinen 2023-03-31  242  			new_idx++;
+38416c28e16890 Matti Vaittinen 2023-03-31  243  		}
+38416c28e16890 Matti Vaittinen 2023-03-31  244  	}
+38416c28e16890 Matti Vaittinen 2023-03-31  245  
+38416c28e16890 Matti Vaittinen 2023-03-31 @246  	gts->avail_all_scales_table = kcalloc(new_idx, 2 * sizeof(int),
+38416c28e16890 Matti Vaittinen 2023-03-31  247  					      GFP_KERNEL);
+38416c28e16890 Matti Vaittinen 2023-03-31  248  	if (!gts->avail_all_scales_table) {
+38416c28e16890 Matti Vaittinen 2023-03-31  249  		ret = -ENOMEM;
+38416c28e16890 Matti Vaittinen 2023-03-31  250  		goto free_out;
+38416c28e16890 Matti Vaittinen 2023-03-31  251  	}
+38416c28e16890 Matti Vaittinen 2023-03-31  252  	gts->num_avail_all_scales = new_idx;
+38416c28e16890 Matti Vaittinen 2023-03-31  253  
+38416c28e16890 Matti Vaittinen 2023-03-31  254  	for (i = 0; i < gts->num_avail_all_scales; i++) {
+38416c28e16890 Matti Vaittinen 2023-03-31  255  		ret = iio_gts_total_gain_to_scale(gts, all_gains[i],
+38416c28e16890 Matti Vaittinen 2023-03-31  256  					&gts->avail_all_scales_table[i * 2],
+38416c28e16890 Matti Vaittinen 2023-03-31  257  					&gts->avail_all_scales_table[i * 2 + 1]);
+38416c28e16890 Matti Vaittinen 2023-03-31  258  
+38416c28e16890 Matti Vaittinen 2023-03-31  259  		if (ret) {
+38416c28e16890 Matti Vaittinen 2023-03-31  260  			kfree(gts->avail_all_scales_table);
+38416c28e16890 Matti Vaittinen 2023-03-31  261  			gts->num_avail_all_scales = 0;
+38416c28e16890 Matti Vaittinen 2023-03-31  262  			goto free_out;
+38416c28e16890 Matti Vaittinen 2023-03-31  263  		}
+38416c28e16890 Matti Vaittinen 2023-03-31  264  	}
+38416c28e16890 Matti Vaittinen 2023-03-31  265  
+38416c28e16890 Matti Vaittinen 2023-03-31  266  free_out:
+38416c28e16890 Matti Vaittinen 2023-03-31  267  	kfree(all_gains);
+38416c28e16890 Matti Vaittinen 2023-03-31  268  
+38416c28e16890 Matti Vaittinen 2023-03-31 @269  	return ret;
+38416c28e16890 Matti Vaittinen 2023-03-31  270  }
+38416c28e16890 Matti Vaittinen 2023-03-31  271  
+38416c28e16890 Matti Vaittinen 2023-03-31  272  /**
+38416c28e16890 Matti Vaittinen 2023-03-31  273   * iio_gts_build_avail_scale_table - create tables of available scales
+38416c28e16890 Matti Vaittinen 2023-03-31  274   * @gts:	Gain time scale descriptor
+38416c28e16890 Matti Vaittinen 2023-03-31  275   *
+38416c28e16890 Matti Vaittinen 2023-03-31  276   * Build the tables which can represent the available scales based on the
+38416c28e16890 Matti Vaittinen 2023-03-31  277   * originally given gain and time tables. When both time and gain tables are
+38416c28e16890 Matti Vaittinen 2023-03-31  278   * given this results:
+38416c28e16890 Matti Vaittinen 2023-03-31  279   * 1. A set of tables representing available scales for each supported
+38416c28e16890 Matti Vaittinen 2023-03-31  280   *    integration time.
+38416c28e16890 Matti Vaittinen 2023-03-31  281   * 2. A single table listing all the unique scales that any combination of
+38416c28e16890 Matti Vaittinen 2023-03-31  282   *    supported gains and times can provide.
+38416c28e16890 Matti Vaittinen 2023-03-31  283   *
+38416c28e16890 Matti Vaittinen 2023-03-31  284   * NOTE: Space allocated for the tables must be freed using
+38416c28e16890 Matti Vaittinen 2023-03-31  285   * iio_gts_purge_avail_scale_table() when the tables are no longer needed.
+38416c28e16890 Matti Vaittinen 2023-03-31  286   *
+38416c28e16890 Matti Vaittinen 2023-03-31  287   * Return: 0 on success.
+38416c28e16890 Matti Vaittinen 2023-03-31  288   */
+38416c28e16890 Matti Vaittinen 2023-03-31  289  static int iio_gts_build_avail_scale_table(struct iio_gts *gts)
+38416c28e16890 Matti Vaittinen 2023-03-31  290  {
+38416c28e16890 Matti Vaittinen 2023-03-31  291  	int **per_time_gains, **per_time_scales, i, j, ret = -ENOMEM;
+38416c28e16890 Matti Vaittinen 2023-03-31  292  
+38416c28e16890 Matti Vaittinen 2023-03-31  293  	per_time_gains = kcalloc(gts->num_itime, sizeof(*per_time_gains), GFP_KERNEL);
+38416c28e16890 Matti Vaittinen 2023-03-31  294  	if (!per_time_gains)
+38416c28e16890 Matti Vaittinen 2023-03-31  295  		return ret;
+38416c28e16890 Matti Vaittinen 2023-03-31  296  
+38416c28e16890 Matti Vaittinen 2023-03-31  297  	per_time_scales = kcalloc(gts->num_itime, sizeof(*per_time_scales), GFP_KERNEL);
+38416c28e16890 Matti Vaittinen 2023-03-31  298  	if (!per_time_scales)
+38416c28e16890 Matti Vaittinen 2023-03-31  299  		goto free_gains;
+38416c28e16890 Matti Vaittinen 2023-03-31  300  
+38416c28e16890 Matti Vaittinen 2023-03-31  301  	for (i = 0; i < gts->num_itime; i++) {
+38416c28e16890 Matti Vaittinen 2023-03-31 @302  		per_time_scales[i] = kcalloc(gts->num_hwgain, 2 * sizeof(int),
+38416c28e16890 Matti Vaittinen 2023-03-31  303  					     GFP_KERNEL);
+38416c28e16890 Matti Vaittinen 2023-03-31  304  		if (!per_time_scales[i])
+38416c28e16890 Matti Vaittinen 2023-03-31  305  			goto err_free_out;
+38416c28e16890 Matti Vaittinen 2023-03-31  306  
+38416c28e16890 Matti Vaittinen 2023-03-31  307  		per_time_gains[i] = kcalloc(gts->num_hwgain, sizeof(int),
+38416c28e16890 Matti Vaittinen 2023-03-31  308  					    GFP_KERNEL);
+38416c28e16890 Matti Vaittinen 2023-03-31  309  		if (!per_time_gains[i]) {
+38416c28e16890 Matti Vaittinen 2023-03-31  310  			kfree(per_time_scales[i]);
+38416c28e16890 Matti Vaittinen 2023-03-31  311  			goto err_free_out;
+38416c28e16890 Matti Vaittinen 2023-03-31  312  		}
+38416c28e16890 Matti Vaittinen 2023-03-31  313  
+38416c28e16890 Matti Vaittinen 2023-03-31  314  		for (j = 0; j < gts->num_hwgain; j++)
+38416c28e16890 Matti Vaittinen 2023-03-31  315  			per_time_gains[i][j] = gts->hwgain_table[j].gain *
+38416c28e16890 Matti Vaittinen 2023-03-31  316  					       gts->itime_table[i].mul;
+38416c28e16890 Matti Vaittinen 2023-03-31  317  	}
+38416c28e16890 Matti Vaittinen 2023-03-31  318  
+38416c28e16890 Matti Vaittinen 2023-03-31  319  	ret = gain_to_scaletables(gts, per_time_gains, per_time_scales);
+38416c28e16890 Matti Vaittinen 2023-03-31  320  	if (ret)
+38416c28e16890 Matti Vaittinen 2023-03-31  321  		goto err_free_out;
+38416c28e16890 Matti Vaittinen 2023-03-31  322  
+38416c28e16890 Matti Vaittinen 2023-03-31  323  	kfree(per_time_gains);
+38416c28e16890 Matti Vaittinen 2023-03-31  324  	gts->per_time_avail_scale_tables = per_time_scales;
+38416c28e16890 Matti Vaittinen 2023-03-31  325  
+38416c28e16890 Matti Vaittinen 2023-03-31  326  	return 0;
+38416c28e16890 Matti Vaittinen 2023-03-31  327  
+38416c28e16890 Matti Vaittinen 2023-03-31  328  err_free_out:
+38416c28e16890 Matti Vaittinen 2023-03-31  329  	for (i--; i; i--) {
+38416c28e16890 Matti Vaittinen 2023-03-31  330  		kfree(per_time_scales[i]);
+38416c28e16890 Matti Vaittinen 2023-03-31  331  		kfree(per_time_gains[i]);
+38416c28e16890 Matti Vaittinen 2023-03-31  332  	}
+38416c28e16890 Matti Vaittinen 2023-03-31  333  	kfree(per_time_scales);
+38416c28e16890 Matti Vaittinen 2023-03-31  334  free_gains:
+38416c28e16890 Matti Vaittinen 2023-03-31  335  	kfree(per_time_gains);
+38416c28e16890 Matti Vaittinen 2023-03-31  336  
+38416c28e16890 Matti Vaittinen 2023-03-31  337  	return ret;
+38416c28e16890 Matti Vaittinen 2023-03-31  338  }
+38416c28e16890 Matti Vaittinen 2023-03-31  339  
+
+:::::: The code at line 246 was first introduced by commit
+:::::: 38416c28e16890b52fdd5eb73479299ec3f062f3 iio: light: Add gain-time-scale helpers
+
+:::::: TO: Matti Vaittinen <mazziesaccount@gmail.com>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
