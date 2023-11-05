@@ -1,45 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C266EAE7
-	for <oe-kbuild@lists.linux.dev>; Sun,  5 Nov 2023 21:42:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1CD168BB
+	for <oe-kbuild@lists.linux.dev>; Sun,  5 Nov 2023 22:03:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F0vS8G7/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LShg2BH2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699220572; x=1730756572;
+  t=1699221789; x=1730757789;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OhjovxoLauogHb70w7uwHvSiBb3Q8dvcU8USB85ktFg=;
-  b=F0vS8G7/ZsGZV5WF5RoL5dJhgN7oULHWtwonmft4p4oW2mJ7ts/4Y1hq
-   YeIwNil0eSa0cdmTHbBdHtzmLW3qA1rDsiIshaTZ7yJqUuwPlCmEfhuKw
-   k2hCMizbPUN/h+m5gHN+2QJEAErGyhGvitu6LEWt56Qi5OARdhMhhnnAM
-   l6CaOtSa4hZT5rUcqQ63uU+1iJ/ZdrDlAT/pIP38S6rlfUxl7UlthLYfp
-   x52Y1p1inJLrKZHGPpPyi8QJerl5iHGje+DpS2b6yXOG6rfk3XIH4Qg2Q
-   wkh6e46CqT4jR24It3xFu+YRborRa1vFy4Cle3ttU/FLOUUip+lOxj++0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="379572212"
+  bh=/fevj8PB5Z5jdA75Ks4M7DKlAGx0UFcmOq4mULFe8W8=;
+  b=LShg2BH2LYvJ0PtC67t5ru1bSQfJzy7ff9pvK3cDAcgtYSFq7FbwlyaX
+   jihg7drE1m4Y3Re5j9PFRIGPKd3pOJjYfjeHWSu9MP4+VZSq6hN2VwhPX
+   YdUhJbahJPPCfgGG+covTmctY3skmL98YNs69rNF+45upogEww+2PcuMs
+   NHrc9d2YcKQDykaywGoainT3VTX4iWjHuNLzugZZtcF+9VGzf9ypzmagy
+   EvGrLMU3fiFdQ3GSPDPIJOhhujJxwIfwkSTcKXcNNSNpYHl58yUymLyxb
+   Wpbp+tXTBZIPULv3h14NNhC3NHwFpoUh7yNNkXvH2NKBAwJAg+ux9ZwBa
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="2088347"
 X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="379572212"
+   d="scan'208";a="2088347"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 13:42:51 -0800
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 14:03:08 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="10276314"
+   d="scan'208";a="10277596"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Nov 2023 13:42:50 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 05 Nov 2023 14:03:06 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzktL-0005oe-2A;
-	Sun, 05 Nov 2023 21:42:47 +0000
-Date: Mon, 6 Nov 2023 05:42:11 +0800
+	id 1qzlCy-0005pP-34;
+	Sun, 05 Nov 2023 22:03:04 +0000
+Date: Mon, 6 Nov 2023 06:02:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: lib/kunit/executor_test.c:39 parse_filter_test() error: double free
- of 'filter.suite_glob'
-Message-ID: <202311060553.9KUDbtVR-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: kernel/rcu/tasks.h:1254:15: sparse: sparse: cast to non-scalar
+Message-ID: <202311060535.IC0y0MeO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,62 +48,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: kernel/rcu/tasks.h:1254:15: sparse: sparse: cast to non-scalar"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Jinjie Ruan <ruanjinjie@huawei.com>
-CC: Shuah Khan <skhan@linuxfoundation.org>
-CC: Rae Moar <rmoar@google.com>
-CC: David Gow <davidgow@google.com>
+TO: "Paul E. McKenney" <paulmck@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1cfb751165ef685b80635218beff38d6afbce4e2
-commit: 2b56a4b79b7b3086e842d39611db4e19b19dbe2a kunit: Fix possible null-ptr-deref in kunit_parse_glob_filter()
-date:   9 weeks ago
+head:   77fa2fbe87fc605c4bfa87dff87be9bfded0e9a3
+commit: 0bcb386857376224b5fd3f38b6e3173ec74d8d36 rcu-tasks: Untrack blocked RCU Tasks Trace at reader end
+date:   1 year, 5 months ago
 :::::: branch date: 3 hours ago
-:::::: commit date: 9 weeks ago
-config: x86_64-randconfig-161-20231104 (https://download.01.org/0day-ci/archive/20231106/202311060553.9KUDbtVR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231106/202311060553.9KUDbtVR-lkp@intel.com/reproduce)
+:::::: commit date: 1 year, 5 months ago
+config: x86_64-randconfig-121-20231101 (https://download.01.org/0day-ci/archive/20231106/202311060535.IC0y0MeO-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060535.IC0y0MeO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311060553.9KUDbtVR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311060535.IC0y0MeO-lkp@intel.com/
 
-New smatch warnings:
-lib/kunit/executor_test.c:39 parse_filter_test() error: double free of 'filter.suite_glob'
+sparse warnings: (new ones prefixed by >>)
+   kernel/rcu/update.c: note: in included file:
+>> kernel/rcu/tasks.h:1254:15: sparse: sparse: cast to non-scalar
+>> kernel/rcu/tasks.h:1254:15: sparse: sparse: cast from non-scalar
 
-Old smatch warnings:
-lib/kunit/executor_test.c:40 parse_filter_test() error: double free of 'filter.test_glob'
+vim +1254 kernel/rcu/tasks.h
 
-vim +39 lib/kunit/executor_test.c
-
-a127b154a8f231 Daniel Latypov 2021-09-14  25  
-a127b154a8f231 Daniel Latypov 2021-09-14  26  static void parse_filter_test(struct kunit *test)
-a127b154a8f231 Daniel Latypov 2021-09-14  27  {
-529534e8cba3e6 Rae Moar       2023-07-25  28  	struct kunit_glob_filter filter = {NULL, NULL};
-a127b154a8f231 Daniel Latypov 2021-09-14  29  
-529534e8cba3e6 Rae Moar       2023-07-25  30  	kunit_parse_glob_filter(&filter, "suite");
-a127b154a8f231 Daniel Latypov 2021-09-14  31  	KUNIT_EXPECT_STREQ(test, filter.suite_glob, "suite");
-a127b154a8f231 Daniel Latypov 2021-09-14  32  	KUNIT_EXPECT_FALSE(test, filter.test_glob);
-a127b154a8f231 Daniel Latypov 2021-09-14  33  	kfree(filter.suite_glob);
-a127b154a8f231 Daniel Latypov 2021-09-14  34  	kfree(filter.test_glob);
-a127b154a8f231 Daniel Latypov 2021-09-14  35  
-529534e8cba3e6 Rae Moar       2023-07-25  36  	kunit_parse_glob_filter(&filter, "suite.test");
-a127b154a8f231 Daniel Latypov 2021-09-14  37  	KUNIT_EXPECT_STREQ(test, filter.suite_glob, "suite");
-a127b154a8f231 Daniel Latypov 2021-09-14  38  	KUNIT_EXPECT_STREQ(test, filter.test_glob, "test");
-a127b154a8f231 Daniel Latypov 2021-09-14 @39  	kfree(filter.suite_glob);
-a127b154a8f231 Daniel Latypov 2021-09-14  40  	kfree(filter.test_glob);
-a127b154a8f231 Daniel Latypov 2021-09-14  41  }
-1d71307a6f94df Daniel Latypov 2021-04-20  42  
-
-:::::: The code at line 39 was first introduced by commit
-:::::: a127b154a8f231709754b5d56a501163dd837459 kunit: tool: allow filtering test cases via glob
-
-:::::: TO: Daniel Latypov <dlatypov@google.com>
-:::::: CC: Shuah Khan <skhan@linuxfoundation.org>
+3847b64570b175 Paul E. McKenney 2022-05-23  1244  
+d5f177d35c2442 Paul E. McKenney 2020-03-09  1245  /* If we are the last reader, wake up the grace-period kthread. */
+a5c071ccfa1728 Paul E. McKenney 2021-07-28  1246  void rcu_read_unlock_trace_special(struct task_struct *t)
+d5f177d35c2442 Paul E. McKenney 2020-03-09  1247  {
+0bcb3868573762 Paul E. McKenney 2022-05-17  1248  	unsigned long flags;
+0bcb3868573762 Paul E. McKenney 2022-05-17  1249  	struct rcu_tasks_percpu *rtpcp;
+0bcb3868573762 Paul E. McKenney 2022-05-17  1250  	union rcu_special trs;
+0bcb3868573762 Paul E. McKenney 2022-05-17  1251  
+0bcb3868573762 Paul E. McKenney 2022-05-17  1252  	// Open-coded full-word version of rcu_ld_need_qs().
+0bcb3868573762 Paul E. McKenney 2022-05-17  1253  	smp_mb(); // Enforce full grace-period ordering.
+0bcb3868573762 Paul E. McKenney 2022-05-17 @1254  	trs = smp_load_acquire(&t->trc_reader_special);
+276c410448dbca Paul E. McKenney 2020-03-17  1255  
+3847b64570b175 Paul E. McKenney 2022-05-23  1256  	if (IS_ENABLED(CONFIG_TASKS_TRACE_RCU_READ_MB) && t->trc_reader_special.b.need_mb)
+276c410448dbca Paul E. McKenney 2020-03-17  1257  		smp_mb(); // Pairs with update-side barriers.
+276c410448dbca Paul E. McKenney 2020-03-17  1258  	// Update .need_qs before ->trc_reader_nesting for irq/NMI handlers.
+0bcb3868573762 Paul E. McKenney 2022-05-17  1259  	if (trs.b.need_qs == (TRC_NEED_QS_CHECKED | TRC_NEED_QS)) {
+3847b64570b175 Paul E. McKenney 2022-05-23  1260  		u8 result = rcu_trc_cmpxchg_need_qs(t, TRC_NEED_QS_CHECKED | TRC_NEED_QS,
+3847b64570b175 Paul E. McKenney 2022-05-23  1261  						       TRC_NEED_QS_CHECKED);
+3847b64570b175 Paul E. McKenney 2022-05-23  1262  
+0bcb3868573762 Paul E. McKenney 2022-05-17  1263  		WARN_ONCE(result != trs.b.need_qs, "%s: result = %d", __func__, result);
+0bcb3868573762 Paul E. McKenney 2022-05-17  1264  	}
+0bcb3868573762 Paul E. McKenney 2022-05-17  1265  	if (trs.b.blocked) {
+0bcb3868573762 Paul E. McKenney 2022-05-17  1266  		rtpcp = per_cpu_ptr(rcu_tasks_trace.rtpcpu, t->trc_blkd_cpu);
+0bcb3868573762 Paul E. McKenney 2022-05-17  1267  		raw_spin_lock_irqsave_rcu_node(rtpcp, flags);
+0bcb3868573762 Paul E. McKenney 2022-05-17  1268  		list_del_init(&t->trc_blkd_node);
+0bcb3868573762 Paul E. McKenney 2022-05-17  1269  		WRITE_ONCE(t->trc_reader_special.b.blocked, false);
+0bcb3868573762 Paul E. McKenney 2022-05-17  1270  		raw_spin_unlock_irqrestore_rcu_node(rtpcp, flags);
+3847b64570b175 Paul E. McKenney 2022-05-23  1271  	}
+a5c071ccfa1728 Paul E. McKenney 2021-07-28  1272  	WRITE_ONCE(t->trc_reader_nesting, 0);
+d5f177d35c2442 Paul E. McKenney 2020-03-09  1273  }
+d5f177d35c2442 Paul E. McKenney 2020-03-09  1274  EXPORT_SYMBOL_GPL(rcu_read_unlock_trace_special);
+d5f177d35c2442 Paul E. McKenney 2020-03-09  1275  
 
 -- 
 0-DAY CI Kernel Test Service
