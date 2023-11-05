@@ -1,45 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714C01FAF
-	for <oe-kbuild@lists.linux.dev>; Sun,  5 Nov 2023 06:03:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD10679DD
+	for <oe-kbuild@lists.linux.dev>; Sun,  5 Nov 2023 08:23:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SsaVH2X6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N+HGH+pI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699164218; x=1730700218;
+  t=1699172619; x=1730708619;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8UGWJUSrxhiW8+bAT+sAjUeeWUaUH2RpAQftF9m8ITQ=;
-  b=SsaVH2X6dJSGV6geAwH1Te3xd277i96j08Em39NGT3tIfvH6P3fRKdWK
-   RWj51wXxOyqJK5QJyTzuUm7NXF7CyMmiWPuTgwkvgVfjttylGeW77blkp
-   RSWt6+4VShNb7xDdkpihWXv1JD9UuNF18UBxcI4ayyppBER3g/n9PxPPJ
-   iW88KMe8vURdcrFB+JT3ft4FyrtH/V+Yw6DK3C4hoA9INgzsM7uZv6Rvy
-   /KFUaU8XInIOgrQf3+ga1dqYoBFO+KBBI64mfzaPNCnAt1tWHogJdEMKN
-   kzOCKWttQderfo3IVGbMF8hvp/7SQaIcRlBUv4vhXXGzskjxeNMPDsGrJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="2100586"
+  bh=np0tN4NL5ZVIbZ8x234392iTAYfCiZOJhRS2EXTnaDo=;
+  b=N+HGH+pIBOwNz96W7o6pXnr02Qbm8zg/TC2te6OylGDA0JF9WmIFfY2W
+   TQrgB9RK4lEiGm7fTosCo/aYwx/CUw78wXD8Nd89S/IcDUDuhrYDP5UU/
+   GlcscZytodxWkSKEn3cR4Y4xyjBKhmTW52N+11AhT+JJ8UDondIHIZOE4
+   DCK+ZNLEP5rva4eTa7va1YLVoQ+uyN+2jyIs6vOfvbpJEciXjysP7eZYj
+   xKzH4ZXZPKAcNrzgOUqUIONQFSH/symXP3BddPopZ7ROhdLY13DoB8Dfz
+   0M011SxGz5YceQEGTY0FYDFA2nWtMRa0hOEaS4mzs9PK2NyDTJBvSqhsn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="2106521"
 X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
-   d="scan'208";a="2100586"
+   d="scan'208";a="2106521"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 23:03:37 -0700
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 01:23:39 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
-   d="scan'208";a="9782474"
+   d="scan'208";a="9802294"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 04 Nov 2023 23:03:35 -0700
+  by orviesa001.jf.intel.com with ESMTP; 05 Nov 2023 01:23:38 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzWEP-00056C-09;
-	Sun, 05 Nov 2023 06:03:33 +0000
-Date: Sun, 5 Nov 2023 14:02:17 +0800
+	id 1qzYPv-0005Bv-1i;
+	Sun, 05 Nov 2023 08:23:35 +0000
+Date: Sun, 5 Nov 2023 16:22:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/bcachefs/chardev.c:391 bch2_ioctl_fs_usage() warn: check for
- integer overflow 'replica_entries_bytes'
-Message-ID: <202311051312.Dimm9txJ-lkp@intel.com>
+Subject: drivers/net/virtio_net.c:1012 virtnet_build_xdp_buff_mrg() error:
+ uninitialized symbol 'shinfo'.
+Message-ID: <202311051650.kK7U3Izi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,106 +52,121 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Kent Overstreet <kmo@daterainc.com>
+TO: Heng Qi <hengqi@linux.alibaba.com>
+CC: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   aea6bf908d730b01bd264a8821159db9463c111c
-commit: 22502ac23a2eaa3714b77d4a9242df352a9cd0c0 bcachefs: Redo filesystem usage ioctls
-date:   13 days ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 13 days ago
-config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231105/202311051312.Dimm9txJ-lkp@intel.com/config)
+commit: ef75cb51f13941cf7633227ade43c4d86ecbc336 virtio-net: build xdp_buff with multi buffers
+date:   10 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231105/202311051650.kK7U3Izi-lkp@intel.com/config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231105/202311051312.Dimm9txJ-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231105/202311051650.kK7U3Izi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311051312.Dimm9txJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311051650.kK7U3Izi-lkp@intel.com/
 
 New smatch warnings:
-fs/bcachefs/chardev.c:391 bch2_ioctl_fs_usage() warn: check for integer overflow 'replica_entries_bytes'
+drivers/net/virtio_net.c:1012 virtnet_build_xdp_buff_mrg() error: uninitialized symbol 'shinfo'.
 
 Old smatch warnings:
-fs/bcachefs/chardev.c:444 bch2_ioctl_fs_usage() warn: maybe return -EFAULT instead of the bytes remaining?
-fs/bcachefs/chardev.c:524 bch2_ioctl_read_super() warn: maybe return -EFAULT instead of the bytes remaining?
+drivers/net/virtio_net.c:2974 virtnet_update_settings() error: uninitialized symbol 'virtio_cread_v'.
+drivers/net/virtio_net.c:3391 virtnet_config_changed_work() error: uninitialized symbol 'virtio_cread_v'.
+drivers/net/virtio_net.c:3395 virtnet_config_changed_work() error: uninitialized symbol 'v'.
 
-vim +/replica_entries_bytes +391 fs/bcachefs/chardev.c
+vim +/shinfo +1012 drivers/net/virtio_net.c
 
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  374  
-22502ac23a2eaa Kent Overstreet 2019-12-16  375  static long bch2_ioctl_fs_usage(struct bch_fs *c,
-22502ac23a2eaa Kent Overstreet 2019-12-16  376  				struct bch_ioctl_fs_usage __user *user_arg)
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  377  {
-22502ac23a2eaa Kent Overstreet 2019-12-16  378  	struct bch_ioctl_fs_usage *arg = NULL;
-22502ac23a2eaa Kent Overstreet 2019-12-16  379  	struct bch_replicas_usage *dst_e, *dst_end;
-22502ac23a2eaa Kent Overstreet 2019-12-16  380  	struct bch_fs_usage_online *src;
-22502ac23a2eaa Kent Overstreet 2019-12-16  381  	u32 replica_entries_bytes;
-22502ac23a2eaa Kent Overstreet 2019-12-16  382  	unsigned i;
-22502ac23a2eaa Kent Overstreet 2019-12-16  383  	int ret = 0;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  384  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  385  	if (!test_bit(BCH_FS_STARTED, &c->flags))
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  386  		return -EINVAL;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  387  
-22502ac23a2eaa Kent Overstreet 2019-12-16  388  	if (get_user(replica_entries_bytes, &user_arg->replica_entries_bytes))
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  389  		return -EFAULT;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  390  
-22502ac23a2eaa Kent Overstreet 2019-12-16 @391  	arg = kzalloc(sizeof(*arg) + replica_entries_bytes, GFP_KERNEL);
-22502ac23a2eaa Kent Overstreet 2019-12-16  392  	if (!arg)
-22502ac23a2eaa Kent Overstreet 2019-12-16  393  		return -ENOMEM;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  394  
-22502ac23a2eaa Kent Overstreet 2019-12-16  395  	src = bch2_fs_usage_read(c);
-22502ac23a2eaa Kent Overstreet 2019-12-16  396  	if (!src) {
-22502ac23a2eaa Kent Overstreet 2019-12-16  397  		ret = -ENOMEM;
-22502ac23a2eaa Kent Overstreet 2019-12-16  398  		goto err;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  399  	}
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  400  
-22502ac23a2eaa Kent Overstreet 2019-12-16  401  	arg->capacity		= c->capacity;
-22502ac23a2eaa Kent Overstreet 2019-12-16  402  	arg->used		= bch2_fs_sectors_used(c, src);
-22502ac23a2eaa Kent Overstreet 2019-12-16  403  	arg->online_reserved	= src->online_reserved;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  404  
-22502ac23a2eaa Kent Overstreet 2019-12-16  405  	for (i = 0; i < BCH_REPLICAS_MAX; i++)
-22502ac23a2eaa Kent Overstreet 2019-12-16  406  		arg->persistent_reserved[i] = src->u.persistent_reserved[i];
-7ef2a73a588132 Kent Overstreet 2019-01-21  407  
-22502ac23a2eaa Kent Overstreet 2019-12-16  408  	dst_e	= arg->replicas;
-22502ac23a2eaa Kent Overstreet 2019-12-16  409  	dst_end = (void *) arg->replicas + replica_entries_bytes;
-7ef2a73a588132 Kent Overstreet 2019-01-21  410  
-22502ac23a2eaa Kent Overstreet 2019-12-16  411  	for (i = 0; i < c->replicas.nr; i++) {
-22502ac23a2eaa Kent Overstreet 2019-12-16  412  		struct bch_replicas_entry *src_e =
-22502ac23a2eaa Kent Overstreet 2019-12-16  413  			cpu_replicas_entry(&c->replicas, i);
-7ef2a73a588132 Kent Overstreet 2019-01-21  414  
-22502ac23a2eaa Kent Overstreet 2019-12-16  415  		if (replicas_usage_next(dst_e) > dst_end) {
-22502ac23a2eaa Kent Overstreet 2019-12-16  416  			ret = -ERANGE;
-22502ac23a2eaa Kent Overstreet 2019-12-16  417  			break;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  418  		}
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  419  
-22502ac23a2eaa Kent Overstreet 2019-12-16  420  		dst_e->sectors		= src->u.replicas[i];
-22502ac23a2eaa Kent Overstreet 2019-12-16  421  		dst_e->r		= *src_e;
-7ef2a73a588132 Kent Overstreet 2019-01-21  422  
-22502ac23a2eaa Kent Overstreet 2019-12-16  423  		/* recheck after setting nr_devs: */
-22502ac23a2eaa Kent Overstreet 2019-12-16  424  		if (replicas_usage_next(dst_e) > dst_end) {
-22502ac23a2eaa Kent Overstreet 2019-12-16  425  			ret = -ERANGE;
-22502ac23a2eaa Kent Overstreet 2019-12-16  426  			break;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  427  		}
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  428  
-22502ac23a2eaa Kent Overstreet 2019-12-16  429  		memcpy(dst_e->r.devs, src_e->devs, src_e->nr_devs);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  430  
-22502ac23a2eaa Kent Overstreet 2019-12-16  431  		dst_e = replicas_usage_next(dst_e);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  432  	}
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  433  
-22502ac23a2eaa Kent Overstreet 2019-12-16  434  	arg->replica_entries_bytes = (void *) dst_e - (void *) arg->replicas;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  435  
-22502ac23a2eaa Kent Overstreet 2019-12-16  436  	percpu_up_read(&c->mark_lock);
-22502ac23a2eaa Kent Overstreet 2019-12-16  437  	kfree(src);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  438  
-22502ac23a2eaa Kent Overstreet 2019-12-16  439  	if (!ret)
-22502ac23a2eaa Kent Overstreet 2019-12-16  440  		ret = copy_to_user(user_arg, arg,
-22502ac23a2eaa Kent Overstreet 2019-12-16  441  			sizeof(*arg) + arg->replica_entries_bytes);
-22502ac23a2eaa Kent Overstreet 2019-12-16  442  err:
-22502ac23a2eaa Kent Overstreet 2019-12-16  443  	kfree(arg);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  444  	return ret;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  445  }
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  446  
+f121159d72091f Michael S. Tsirkin 2013-11-28   940  
+ef75cb51f13941 Heng Qi            2023-01-14   941  /* TODO: build xdp in big mode */
+ef75cb51f13941 Heng Qi            2023-01-14   942  static int virtnet_build_xdp_buff_mrg(struct net_device *dev,
+ef75cb51f13941 Heng Qi            2023-01-14   943  				      struct virtnet_info *vi,
+ef75cb51f13941 Heng Qi            2023-01-14   944  				      struct receive_queue *rq,
+ef75cb51f13941 Heng Qi            2023-01-14   945  				      struct xdp_buff *xdp,
+ef75cb51f13941 Heng Qi            2023-01-14   946  				      void *buf,
+ef75cb51f13941 Heng Qi            2023-01-14   947  				      unsigned int len,
+ef75cb51f13941 Heng Qi            2023-01-14   948  				      unsigned int frame_sz,
+ef75cb51f13941 Heng Qi            2023-01-14   949  				      u16 *num_buf,
+ef75cb51f13941 Heng Qi            2023-01-14   950  				      unsigned int *xdp_frags_truesize,
+ef75cb51f13941 Heng Qi            2023-01-14   951  				      struct virtnet_rq_stats *stats)
+ef75cb51f13941 Heng Qi            2023-01-14   952  {
+ef75cb51f13941 Heng Qi            2023-01-14   953  	struct virtio_net_hdr_mrg_rxbuf *hdr = buf;
+ef75cb51f13941 Heng Qi            2023-01-14   954  	unsigned int headroom, tailroom, room;
+ef75cb51f13941 Heng Qi            2023-01-14   955  	unsigned int truesize, cur_frag_size;
+ef75cb51f13941 Heng Qi            2023-01-14   956  	struct skb_shared_info *shinfo;
+ef75cb51f13941 Heng Qi            2023-01-14   957  	unsigned int xdp_frags_truesz = 0;
+ef75cb51f13941 Heng Qi            2023-01-14   958  	struct page *page;
+ef75cb51f13941 Heng Qi            2023-01-14   959  	skb_frag_t *frag;
+ef75cb51f13941 Heng Qi            2023-01-14   960  	int offset;
+ef75cb51f13941 Heng Qi            2023-01-14   961  	void *ctx;
+ef75cb51f13941 Heng Qi            2023-01-14   962  
+ef75cb51f13941 Heng Qi            2023-01-14   963  	xdp_init_buff(xdp, frame_sz, &rq->xdp_rxq);
+ef75cb51f13941 Heng Qi            2023-01-14   964  	xdp_prepare_buff(xdp, buf - VIRTIO_XDP_HEADROOM,
+ef75cb51f13941 Heng Qi            2023-01-14   965  			 VIRTIO_XDP_HEADROOM + vi->hdr_len, len - vi->hdr_len, true);
+ef75cb51f13941 Heng Qi            2023-01-14   966  
+ef75cb51f13941 Heng Qi            2023-01-14   967  	if (*num_buf > 1) {
+ef75cb51f13941 Heng Qi            2023-01-14   968  		/* If we want to build multi-buffer xdp, we need
+ef75cb51f13941 Heng Qi            2023-01-14   969  		 * to specify that the flags of xdp_buff have the
+ef75cb51f13941 Heng Qi            2023-01-14   970  		 * XDP_FLAGS_HAS_FRAG bit.
+ef75cb51f13941 Heng Qi            2023-01-14   971  		 */
+ef75cb51f13941 Heng Qi            2023-01-14   972  		if (!xdp_buff_has_frags(xdp))
+ef75cb51f13941 Heng Qi            2023-01-14   973  			xdp_buff_set_frags_flag(xdp);
+ef75cb51f13941 Heng Qi            2023-01-14   974  
+ef75cb51f13941 Heng Qi            2023-01-14   975  		shinfo = xdp_get_shared_info_from_buff(xdp);
+ef75cb51f13941 Heng Qi            2023-01-14   976  		shinfo->nr_frags = 0;
+ef75cb51f13941 Heng Qi            2023-01-14   977  		shinfo->xdp_frags_size = 0;
+ef75cb51f13941 Heng Qi            2023-01-14   978  	}
+ef75cb51f13941 Heng Qi            2023-01-14   979  
+ef75cb51f13941 Heng Qi            2023-01-14   980  	if ((*num_buf - 1) > MAX_SKB_FRAGS)
+ef75cb51f13941 Heng Qi            2023-01-14   981  		return -EINVAL;
+ef75cb51f13941 Heng Qi            2023-01-14   982  
+ef75cb51f13941 Heng Qi            2023-01-14   983  	while ((--*num_buf) >= 1) {
+ef75cb51f13941 Heng Qi            2023-01-14   984  		buf = virtqueue_get_buf_ctx(rq->vq, &len, &ctx);
+ef75cb51f13941 Heng Qi            2023-01-14   985  		if (unlikely(!buf)) {
+ef75cb51f13941 Heng Qi            2023-01-14   986  			pr_debug("%s: rx error: %d buffers out of %d missing\n",
+ef75cb51f13941 Heng Qi            2023-01-14   987  				 dev->name, *num_buf,
+ef75cb51f13941 Heng Qi            2023-01-14   988  				 virtio16_to_cpu(vi->vdev, hdr->num_buffers));
+ef75cb51f13941 Heng Qi            2023-01-14   989  			dev->stats.rx_length_errors++;
+ef75cb51f13941 Heng Qi            2023-01-14   990  			return -EINVAL;
+ef75cb51f13941 Heng Qi            2023-01-14   991  		}
+ef75cb51f13941 Heng Qi            2023-01-14   992  
+ef75cb51f13941 Heng Qi            2023-01-14   993  		stats->bytes += len;
+ef75cb51f13941 Heng Qi            2023-01-14   994  		page = virt_to_head_page(buf);
+ef75cb51f13941 Heng Qi            2023-01-14   995  		offset = buf - page_address(page);
+ef75cb51f13941 Heng Qi            2023-01-14   996  
+ef75cb51f13941 Heng Qi            2023-01-14   997  		truesize = mergeable_ctx_to_truesize(ctx);
+ef75cb51f13941 Heng Qi            2023-01-14   998  		headroom = mergeable_ctx_to_headroom(ctx);
+ef75cb51f13941 Heng Qi            2023-01-14   999  		tailroom = headroom ? sizeof(struct skb_shared_info) : 0;
+ef75cb51f13941 Heng Qi            2023-01-14  1000  		room = SKB_DATA_ALIGN(headroom + tailroom);
+ef75cb51f13941 Heng Qi            2023-01-14  1001  
+ef75cb51f13941 Heng Qi            2023-01-14  1002  		cur_frag_size = truesize;
+ef75cb51f13941 Heng Qi            2023-01-14  1003  		xdp_frags_truesz += cur_frag_size;
+ef75cb51f13941 Heng Qi            2023-01-14  1004  		if (unlikely(len > truesize - room || cur_frag_size > PAGE_SIZE)) {
+ef75cb51f13941 Heng Qi            2023-01-14  1005  			put_page(page);
+ef75cb51f13941 Heng Qi            2023-01-14  1006  			pr_debug("%s: rx error: len %u exceeds truesize %lu\n",
+ef75cb51f13941 Heng Qi            2023-01-14  1007  				 dev->name, len, (unsigned long)(truesize - room));
+ef75cb51f13941 Heng Qi            2023-01-14  1008  			dev->stats.rx_length_errors++;
+ef75cb51f13941 Heng Qi            2023-01-14  1009  			return -EINVAL;
+ef75cb51f13941 Heng Qi            2023-01-14  1010  		}
+ef75cb51f13941 Heng Qi            2023-01-14  1011  
+ef75cb51f13941 Heng Qi            2023-01-14 @1012  		frag = &shinfo->frags[shinfo->nr_frags++];
+ef75cb51f13941 Heng Qi            2023-01-14  1013  		__skb_frag_set_page(frag, page);
+ef75cb51f13941 Heng Qi            2023-01-14  1014  		skb_frag_off_set(frag, offset);
+ef75cb51f13941 Heng Qi            2023-01-14  1015  		skb_frag_size_set(frag, len);
+ef75cb51f13941 Heng Qi            2023-01-14  1016  		if (page_is_pfmemalloc(page))
+ef75cb51f13941 Heng Qi            2023-01-14  1017  			xdp_buff_set_frag_pfmemalloc(xdp);
+ef75cb51f13941 Heng Qi            2023-01-14  1018  
+ef75cb51f13941 Heng Qi            2023-01-14  1019  		shinfo->xdp_frags_size += len;
+ef75cb51f13941 Heng Qi            2023-01-14  1020  	}
+ef75cb51f13941 Heng Qi            2023-01-14  1021  
+ef75cb51f13941 Heng Qi            2023-01-14  1022  	*xdp_frags_truesize = xdp_frags_truesz;
+ef75cb51f13941 Heng Qi            2023-01-14  1023  	return 0;
+ef75cb51f13941 Heng Qi            2023-01-14  1024  }
+ef75cb51f13941 Heng Qi            2023-01-14  1025  
 
 -- 
 0-DAY CI Kernel Test Service
