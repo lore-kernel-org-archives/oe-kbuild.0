@@ -1,44 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18DD18F41
-	for <oe-kbuild@lists.linux.dev>; Sun,  5 Nov 2023 08:35:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6E51C26
+	for <oe-kbuild@lists.linux.dev>; Sun,  5 Nov 2023 08:49:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SOV33rRa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YAiWcM7F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699173341; x=1730709341;
+  t=1699174152; x=1730710152;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VG/HBjDkF+FMtO21nJli1TDqVvXRfTIFGHlaxlobMOY=;
-  b=SOV33rRauvlL16Rs1ikYyJzdbSXn8FrzHp0vQrj8zDnQS8Gz0QXCNpBh
-   Up36bqeI3maiej4BDyh5fS8hXD0wL5tc72WcqJrzxRDXdFY5Nb+PIlr1A
-   cbfxWVTf3CqrbkR5Anul+ksODUapHhXHT9fLgOOx+xyYk2USHZEkyky/V
-   ZZIJ7OZiYFQ+FFR3IhzbC2FCT5U+BVDOJ374RBgpJSlQ9D72VDOb7g8sW
-   ZuRdFaWHjolQpeiZ+yIIAtBadCkzlTpPM8SxpQhgG3ehduVzyoTHTwBGB
-   Gp+3IdYBfJ5tigl3cr4ST93H7W5x7mGkWhuNOs6IKbZO/KgujAhjSB8MA
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="379525506"
+  bh=lQd1QD3l1NcHr9YWm4fxirI1fSs+uFslschhhgNG+Z8=;
+  b=YAiWcM7FQ3FcJNqO64WdNwQnIsVdeGEnLs71b6xcLxPWea8kNAbsa59B
+   9fmZ3ahDegIlupNekZvDDND7yDy5NKBIgfvW7Q556hx+E/e67gxaXtvOa
+   6iSu/mmzE1xtmYkNIUFBBRdYvVj24JRw1rrCN9ADY2e1yX+w55uVcHdJF
+   WMIbvjwCWwll2Nlh0snyXJHQ3AyGf9YhagGBfAeNVJhyf23fKorz9JBhF
+   CcsYWedCwCP3H970BFjM+nUoN6JqZTCWBtOvYywIuIt6DxZ9WUwhW7mpG
+   ZfPnhadhvJNvjLnaAwkY29kgyUCll8WvPK/3Fl6HpwwVqBmoFSUoFEHb2
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="386309493"
 X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
-   d="scan'208";a="379525506"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 01:35:40 -0700
+   d="scan'208";a="386309493"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 01:49:11 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="1009243972"
 X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
-   d="scan'208";a="3346410"
+   d="scan'208";a="1009243972"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Nov 2023 01:35:39 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 05 Nov 2023 01:49:10 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzYbY-0005Cs-2H;
-	Sun, 05 Nov 2023 08:35:36 +0000
-Date: Sun, 5 Nov 2023 16:35:21 +0800
+	id 1qzYod-0005Dc-2c;
+	Sun, 05 Nov 2023 08:49:07 +0000
+Date: Sun, 5 Nov 2023 16:48:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/exfat/dir.c:874 exfat_get_dentry_set() warn: missing unwind goto?
-Message-ID: <202311051636.4EVHtc18-lkp@intel.com>
+Subject: fs/bcachefs/bkey_methods.c:292 __bch2_bkey_compat() warn: for
+ statement not indented
+Message-ID: <202311051622.t2cWUM0B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,147 +53,46 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Yuezhang Mo <Yuezhang.Mo@sony.com>
-CC: Namjae Jeon <linkinjeon@kernel.org>
-CC: Andy Wu <Andy.Wu@sony.com>
-CC: Aoyama Wataru <wataru.aoyama@sony.com>
-CC: Sungjong Seo <sj1557.seo@samsung.com>
+TO: Kent Overstreet <kmo@daterainc.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   aea6bf908d730b01bd264a8821159db9463c111c
-commit: 20914ff6dd56dd6b548bf5dd90bff09ef89999e4 exfat: move exfat_entry_set_cache from heap to stack
-date:   11 months ago
+commit: 41697f382cffc0e396dd832d19c78e69cdd10aa3 bcachefs: Fix for the bkey compat path
+date:   13 days ago
 :::::: branch date: 13 hours ago
-:::::: commit date: 11 months ago
-config: i386-randconfig-141-20231103 (https://download.01.org/0day-ci/archive/20231105/202311051636.4EVHtc18-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231105/202311051636.4EVHtc18-lkp@intel.com/reproduce)
+:::::: commit date: 13 days ago
+config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231105/202311051622.t2cWUM0B-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20231105/202311051622.t2cWUM0B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311051636.4EVHtc18-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311051622.t2cWUM0B-lkp@intel.com/
 
-New smatch warnings:
-fs/exfat/dir.c:874 exfat_get_dentry_set() warn: missing unwind goto?
+smatch warnings:
+fs/bcachefs/bkey_methods.c:292 __bch2_bkey_compat() warn: for statement not indented
 
-Old smatch warnings:
-fs/exfat/dir.c:163 exfat_readdir() warn: passing freed memory 'bh'
-fs/exfat/dir.c:484 exfat_init_dir_entry() warn: passing freed memory 'bh'
-fs/exfat/dir.c:549 exfat_init_ext_entry() warn: passing freed memory 'bh'
-fs/exfat/dir.c:558 exfat_init_ext_entry() warn: passing freed memory 'bh'
+vim +292 fs/bcachefs/bkey_methods.c
 
-vim +874 fs/exfat/dir.c
-
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  802  
-ca06197382bde0 Namjae Jeon           2020-03-02  803  /*
-ca06197382bde0 Namjae Jeon           2020-03-02  804   * Returns a set of dentries for a file or dir.
-ca06197382bde0 Namjae Jeon           2020-03-02  805   *
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  806   * Note It provides a direct pointer to bh->data via exfat_get_dentry_cached().
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  807   * User should call exfat_get_dentry_set() after setting 'modified' to apply
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  808   * changes made in this entry set to the real device.
-ca06197382bde0 Namjae Jeon           2020-03-02  809   *
-ca06197382bde0 Namjae Jeon           2020-03-02  810   * in:
-ca06197382bde0 Namjae Jeon           2020-03-02  811   *   sb+p_dir+entry: indicates a file/dir
-ca06197382bde0 Namjae Jeon           2020-03-02  812   *   type:  specifies how many dentries should be included.
-ca06197382bde0 Namjae Jeon           2020-03-02  813   * return:
-ca06197382bde0 Namjae Jeon           2020-03-02  814   *   pointer of entry set on success,
-ca06197382bde0 Namjae Jeon           2020-03-02  815   *   NULL on failure.
-ca06197382bde0 Namjae Jeon           2020-03-02  816   */
-20914ff6dd56dd Yuezhang Mo           2022-11-17  817  int exfat_get_dentry_set(struct exfat_entry_set_cache *es,
-20914ff6dd56dd Yuezhang Mo           2022-11-17  818  		struct super_block *sb, struct exfat_chain *p_dir, int entry,
-20914ff6dd56dd Yuezhang Mo           2022-11-17  819  		unsigned int type)
-ca06197382bde0 Namjae Jeon           2020-03-02  820  {
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  821  	int ret, i, num_bh;
-ca06197382bde0 Namjae Jeon           2020-03-02  822  	unsigned int off, byte_offset, clu = 0;
-ca06197382bde0 Namjae Jeon           2020-03-02  823  	sector_t sec;
-ca06197382bde0 Namjae Jeon           2020-03-02  824  	struct exfat_sb_info *sbi = EXFAT_SB(sb);
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  825  	struct exfat_dentry *ep;
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  826  	int num_entries;
-ca06197382bde0 Namjae Jeon           2020-03-02  827  	enum exfat_validate_dentry_mode mode = ES_MODE_STARTED;
-ca06197382bde0 Namjae Jeon           2020-03-02  828  	struct buffer_head *bh;
-ca06197382bde0 Namjae Jeon           2020-03-02  829  
-ca06197382bde0 Namjae Jeon           2020-03-02  830  	if (p_dir->dir == DIR_DELETED) {
-d1727d55c0327e Joe Perches           2020-04-24  831  		exfat_err(sb, "access to deleted dentry");
-20914ff6dd56dd Yuezhang Mo           2022-11-17  832  		return -EIO;
-ca06197382bde0 Namjae Jeon           2020-03-02  833  	}
-ca06197382bde0 Namjae Jeon           2020-03-02  834  
-ca06197382bde0 Namjae Jeon           2020-03-02  835  	byte_offset = EXFAT_DEN_TO_B(entry);
-ca06197382bde0 Namjae Jeon           2020-03-02  836  	ret = exfat_walk_fat_chain(sb, p_dir, byte_offset, &clu);
-ca06197382bde0 Namjae Jeon           2020-03-02  837  	if (ret)
-20914ff6dd56dd Yuezhang Mo           2022-11-17  838  		return ret;
-ca06197382bde0 Namjae Jeon           2020-03-02  839  
-20914ff6dd56dd Yuezhang Mo           2022-11-17  840  	memset(es, 0, sizeof(*es));
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  841  	es->sb = sb;
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  842  	es->modified = false;
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  843  
-ca06197382bde0 Namjae Jeon           2020-03-02  844  	/* byte offset in cluster */
-ca06197382bde0 Namjae Jeon           2020-03-02  845  	byte_offset = EXFAT_CLU_OFFSET(byte_offset, sbi);
-ca06197382bde0 Namjae Jeon           2020-03-02  846  
-ca06197382bde0 Namjae Jeon           2020-03-02  847  	/* byte offset in sector */
-ca06197382bde0 Namjae Jeon           2020-03-02  848  	off = EXFAT_BLK_OFFSET(byte_offset, sb);
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  849  	es->start_off = off;
-a3ff29a95fde16 Yuezhang Mo           2022-11-09  850  	es->bh = es->__bh;
-ca06197382bde0 Namjae Jeon           2020-03-02  851  
-ca06197382bde0 Namjae Jeon           2020-03-02  852  	/* sector offset in cluster */
-ca06197382bde0 Namjae Jeon           2020-03-02  853  	sec = EXFAT_B_TO_BLK(byte_offset, sb);
-ca06197382bde0 Namjae Jeon           2020-03-02  854  	sec += exfat_cluster_to_sector(sbi, clu);
-ca06197382bde0 Namjae Jeon           2020-03-02  855  
-ca06197382bde0 Namjae Jeon           2020-03-02  856  	bh = sb_bread(sb, sec);
-ca06197382bde0 Namjae Jeon           2020-03-02  857  	if (!bh)
-20914ff6dd56dd Yuezhang Mo           2022-11-17  858  		return -EIO;
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  859  	es->bh[es->num_bh++] = bh;
-ca06197382bde0 Namjae Jeon           2020-03-02  860  
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  861  	ep = exfat_get_dentry_cached(es, 0);
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  862  	if (!exfat_validate_entry(exfat_get_entry_type(ep), &mode))
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  863  		goto free_es;
-ca06197382bde0 Namjae Jeon           2020-03-02  864  
-ca06197382bde0 Namjae Jeon           2020-03-02  865  	num_entries = type == ES_ALL_ENTRIES ?
-ca06197382bde0 Namjae Jeon           2020-03-02  866  		ep->dentry.file.num_ext + 1 : type;
-ca06197382bde0 Namjae Jeon           2020-03-02  867  	es->num_entries = num_entries;
-ca06197382bde0 Namjae Jeon           2020-03-02  868  
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  869  	num_bh = EXFAT_B_TO_BLK_ROUND_UP(off + num_entries * DENTRY_SIZE, sb);
-a3ff29a95fde16 Yuezhang Mo           2022-11-09  870  	if (num_bh > ARRAY_SIZE(es->__bh)) {
-a3ff29a95fde16 Yuezhang Mo           2022-11-09  871  		es->bh = kmalloc_array(num_bh, sizeof(*es->bh), GFP_KERNEL);
-a3ff29a95fde16 Yuezhang Mo           2022-11-09  872  		if (!es->bh) {
-a3ff29a95fde16 Yuezhang Mo           2022-11-09  873  			brelse(bh);
-20914ff6dd56dd Yuezhang Mo           2022-11-17 @874  			return -ENOMEM;
-a3ff29a95fde16 Yuezhang Mo           2022-11-09  875  		}
-a3ff29a95fde16 Yuezhang Mo           2022-11-09  876  		es->bh[0] = bh;
-a3ff29a95fde16 Yuezhang Mo           2022-11-09  877  	}
-a3ff29a95fde16 Yuezhang Mo           2022-11-09  878  
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  879  	for (i = 1; i < num_bh; i++) {
-ca06197382bde0 Namjae Jeon           2020-03-02  880  		/* get the next sector */
-ca06197382bde0 Namjae Jeon           2020-03-02  881  		if (exfat_is_last_sector_in_cluster(sbi, sec)) {
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  882  			if (p_dir->flags == ALLOC_NO_FAT_CHAIN)
-ca06197382bde0 Namjae Jeon           2020-03-02  883  				clu++;
-ca06197382bde0 Namjae Jeon           2020-03-02  884  			else if (exfat_get_next_cluster(sb, &clu))
-ca06197382bde0 Namjae Jeon           2020-03-02  885  				goto free_es;
-ca06197382bde0 Namjae Jeon           2020-03-02  886  			sec = exfat_cluster_to_sector(sbi, clu);
-ca06197382bde0 Namjae Jeon           2020-03-02  887  		} else {
-ca06197382bde0 Namjae Jeon           2020-03-02  888  			sec++;
-ca06197382bde0 Namjae Jeon           2020-03-02  889  		}
-ca06197382bde0 Namjae Jeon           2020-03-02  890  
-ca06197382bde0 Namjae Jeon           2020-03-02  891  		bh = sb_bread(sb, sec);
-ca06197382bde0 Namjae Jeon           2020-03-02  892  		if (!bh)
-ca06197382bde0 Namjae Jeon           2020-03-02  893  			goto free_es;
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  894  		es->bh[es->num_bh++] = bh;
-ca06197382bde0 Namjae Jeon           2020-03-02  895  	}
-ca06197382bde0 Namjae Jeon           2020-03-02  896  
-6fa96cd5ad7a0c Christophe Vu-Brugier 2021-11-02  897  	/* validate cached dentries */
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  898  	for (i = 1; i < num_entries; i++) {
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  899  		ep = exfat_get_dentry_cached(es, i);
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  900  		if (!exfat_validate_entry(exfat_get_entry_type(ep), &mode))
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  901  			goto free_es;
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  902  	}
-20914ff6dd56dd Yuezhang Mo           2022-11-17  903  	return 0;
-ca06197382bde0 Namjae Jeon           2020-03-02  904  
-ca06197382bde0 Namjae Jeon           2020-03-02  905  free_es:
-943af1fdacfebe Tetsuhiro Kohada      2020-05-20  906  	exfat_free_dentry_set(es, false);
-20914ff6dd56dd Yuezhang Mo           2022-11-17  907  	return -EIO;
-ca06197382bde0 Namjae Jeon           2020-03-02  908  }
-ca06197382bde0 Namjae Jeon           2020-03-02  909  
+39fb2983c58629 Kent Overstreet 2020-01-07  276  
+39fb2983c58629 Kent Overstreet 2020-01-07  277  void __bch2_bkey_compat(unsigned level, enum btree_id btree_id,
+39fb2983c58629 Kent Overstreet 2020-01-07  278  			unsigned version, unsigned big_endian,
+39fb2983c58629 Kent Overstreet 2020-01-07  279  			int write,
+39fb2983c58629 Kent Overstreet 2020-01-07  280  			struct bkey_format *f,
+39fb2983c58629 Kent Overstreet 2020-01-07  281  			struct bkey_packed *k)
+39fb2983c58629 Kent Overstreet 2020-01-07  282  {
+39fb2983c58629 Kent Overstreet 2020-01-07  283  	const struct bkey_ops *ops;
+39fb2983c58629 Kent Overstreet 2020-01-07  284  	struct bkey uk;
+39fb2983c58629 Kent Overstreet 2020-01-07  285  	struct bkey_s u;
+41697f382cffc0 Kent Overstreet 2020-04-24  286  	int i;
+39fb2983c58629 Kent Overstreet 2020-01-07  287  
+41697f382cffc0 Kent Overstreet 2020-04-24  288  	/*
+41697f382cffc0 Kent Overstreet 2020-04-24  289  	 * Do these operations in reverse order in the write path:
+41697f382cffc0 Kent Overstreet 2020-04-24  290  	 */
+41697f382cffc0 Kent Overstreet 2020-04-24  291  
+41697f382cffc0 Kent Overstreet 2020-04-24 @292  	for (i = 0; i < 4; i++)
 
 -- 
 0-DAY CI Kernel Test Service
