@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97462E3EB
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Nov 2023 20:24:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDC42E62C
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Nov 2023 20:24:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="joAJUOF2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jZd7WUs8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699302261; x=1730838261;
+  t=1699302263; x=1730838263;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g2sZDXuTAqYnvXA3hEfbME6zc2Qi5G+dFQYIUQAjpzc=;
-  b=joAJUOF2+i0QPic8JyeZGnqHDh6fiCy++p8OTX1l3yltiS6idSSB3Yf5
-   q2BtsM4PjMOm1gLoNqwBpCE/Vscmv4NIYMPGqtP923ohhz6mcoMNJ0Vnr
-   A9oEXTnHFLUOTfNSqsMdTaNlkHWYbR5wpw52VMrU9omCtJSARluk1NA2t
-   sc1Y/BlCggrlCGez62A1M1SEIdU8A3OFZISNGG1nE0Iey5zEiDoqYYxKo
-   UOyIZPc1j+b4JNPIZA/thzG1ea6bPH0COkxXLm4RP8fhd2Jh8LAMI27Z5
-   hsCBB+QgygMDBL/OZuAxG4Feo8WOq5ngKcQ0waqht7l2jHyatsOyFXJFB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="475601491"
+  bh=Tg0dpKKnW7cydaXpJmWwPZ43RLaJ3tZaE9J6Ku4XtFs=;
+  b=jZd7WUs8Mhhnrtu2HsvAyaiHCYPM+TorVILNoF6gJqrvNv+qg3XdWFx8
+   O3xVgCBeYY7S24/eIS77L1BFK6v/AdxrSTbBZ55INMJBVSyDNvO4Afnyd
+   FO7hUySR9GABZD0IFBE1bXSlRgDfCu+py1gZS/N6zwnyGmjfGPzbQ2szn
+   udtW/gT2RLgsQI3B3Nq+/jyKjdtGucyAYGVbdm7kesr3347rMkQy5srWi
+   AK5Odv4e4EITqSWZLOe4QtTE3npC857Gk3O8LmRYdqtkOZvFE3pitNvLd
+   FhD/bd45WrrX5vkgpnhphGEOZojt+JzUrPOQKZl612vRq6A36IZUyMkhk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="475601493"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="475601491"
+   d="scan'208";a="475601493"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 12:24:20 -0800
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 12:24:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="712316207"
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="712316212"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="712316207"
+   d="scan'208";a="712316212"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 06 Nov 2023 12:24:19 -0800
+  by orsmga003.jf.intel.com with ESMTP; 06 Nov 2023 12:24:20 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r068v-0006i8-23;
-	Mon, 06 Nov 2023 20:24:17 +0000
-Date: Tue, 7 Nov 2023 04:23:41 +0800
+	id 1r068w-0006iB-0F;
+	Mon, 06 Nov 2023 20:24:18 +0000
+Date: Tue, 7 Nov 2023 04:23:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/bcachefs/btree_update.c:471 bch2_trans_update_by_path() error:
- uninitialized symbol 'cmp'.
-Message-ID: <202311070406.V3eDhAWo-lkp@intel.com>
+Subject: Re: [PATCH] fuse: Track process write operations in both direct and
+ writethrough modes
+Message-ID: <202311070338.uJNMq6Sh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,87 +52,106 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20231028065912.6084-1-zhoujifeng@kylinos.com.cn>
+References: <20231028065912.6084-1-zhoujifeng@kylinos.com.cn>
+TO: Zhou Jifeng <zhoujifeng@kylinos.com.cn>
+TO: miklos@szeredi.hu
+CC: linux-fsdevel@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Kent Overstreet <kmo@daterainc.com>
+CC: Zhou Jifeng <zhoujifeng@kylinos.com.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d2f51b3516dade79269ff45eae2a7668ae711b25
-commit: 8079aab085f2203960b352a153f07245d0507bf8 bcachefs: Split up btree_update_leaf.c
-date:   2 weeks ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 2 weeks ago
-config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231107/202311070406.V3eDhAWo-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231107/202311070406.V3eDhAWo-lkp@intel.com/reproduce)
+Hi Zhou,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mszeredi-fuse/for-next]
+[also build test WARNING on linus/master v6.6 next-20231106]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhou-Jifeng/fuse-Track-process-write-operations-in-both-direct-and-writethrough-modes/20231028-150119
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
+patch link:    https://lore.kernel.org/r/20231028065912.6084-1-zhoujifeng%40kylinos.com.cn
+patch subject: [PATCH] fuse: Track process write operations in both direct and writethrough modes
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: x86_64-randconfig-161-20231103 (https://download.01.org/0day-ci/archive/20231107/202311070338.uJNMq6Sh-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231107/202311070338.uJNMq6Sh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311070406.V3eDhAWo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311070338.uJNMq6Sh-lkp@intel.com/
 
-New smatch warnings:
-fs/bcachefs/btree_update.c:471 bch2_trans_update_by_path() error: uninitialized symbol 'cmp'.
+smatch warnings:
+fs/fuse/file.c:1359 fuse_cache_write_iter() error: uninitialized symbol 'err'.
 
-Old smatch warnings:
-fs/bcachefs/btree_update.c:222 __bch2_insert_snapshot_whiteouts() error: uninitialized symbol 'ret'.
+vim +/err +1359 fs/fuse/file.c
 
-vim +/cmp +471 fs/bcachefs/btree_update.c
-
-8079aab085f2203 Kent Overstreet 2023-08-05  460  
-8079aab085f2203 Kent Overstreet 2023-08-05  461  	/*
-8079aab085f2203 Kent Overstreet 2023-08-05  462  	 * Pending updates are kept sorted: first, find position of new update,
-8079aab085f2203 Kent Overstreet 2023-08-05  463  	 * then delete/trim any updates the new update overwrites:
-8079aab085f2203 Kent Overstreet 2023-08-05  464  	 */
-8079aab085f2203 Kent Overstreet 2023-08-05  465  	trans_for_each_update(trans, i) {
-8079aab085f2203 Kent Overstreet 2023-08-05  466  		cmp = btree_insert_entry_cmp(&n, i);
-8079aab085f2203 Kent Overstreet 2023-08-05  467  		if (cmp <= 0)
-8079aab085f2203 Kent Overstreet 2023-08-05  468  			break;
-8079aab085f2203 Kent Overstreet 2023-08-05  469  	}
-8079aab085f2203 Kent Overstreet 2023-08-05  470  
-8079aab085f2203 Kent Overstreet 2023-08-05 @471  	if (!cmp && i < trans->updates + trans->nr_updates) {
-8079aab085f2203 Kent Overstreet 2023-08-05  472  		EBUG_ON(i->insert_trigger_run || i->overwrite_trigger_run);
-8079aab085f2203 Kent Overstreet 2023-08-05  473  
-8079aab085f2203 Kent Overstreet 2023-08-05  474  		bch2_path_put(trans, i->path, true);
-8079aab085f2203 Kent Overstreet 2023-08-05  475  		i->flags	= n.flags;
-8079aab085f2203 Kent Overstreet 2023-08-05  476  		i->cached	= n.cached;
-8079aab085f2203 Kent Overstreet 2023-08-05  477  		i->k		= n.k;
-8079aab085f2203 Kent Overstreet 2023-08-05  478  		i->path		= n.path;
-8079aab085f2203 Kent Overstreet 2023-08-05  479  		i->seq		= n.seq;
-8079aab085f2203 Kent Overstreet 2023-08-05  480  		i->ip_allocated	= n.ip_allocated;
-8079aab085f2203 Kent Overstreet 2023-08-05  481  	} else {
-8079aab085f2203 Kent Overstreet 2023-08-05  482  		array_insert_item(trans->updates, trans->nr_updates,
-8079aab085f2203 Kent Overstreet 2023-08-05  483  				  i - trans->updates, n);
-8079aab085f2203 Kent Overstreet 2023-08-05  484  
-8079aab085f2203 Kent Overstreet 2023-08-05  485  		i->old_v = bch2_btree_path_peek_slot_exact(path, &i->old_k).v;
-8079aab085f2203 Kent Overstreet 2023-08-05  486  		i->old_btree_u64s = !bkey_deleted(&i->old_k) ? i->old_k.u64s : 0;
-8079aab085f2203 Kent Overstreet 2023-08-05  487  
-8079aab085f2203 Kent Overstreet 2023-08-05  488  		if (unlikely(trans->journal_replay_not_finished)) {
-8079aab085f2203 Kent Overstreet 2023-08-05  489  			struct bkey_i *j_k =
-8079aab085f2203 Kent Overstreet 2023-08-05  490  				bch2_journal_keys_peek_slot(c, n.btree_id, n.level, k->k.p);
-8079aab085f2203 Kent Overstreet 2023-08-05  491  
-8079aab085f2203 Kent Overstreet 2023-08-05  492  			if (j_k) {
-8079aab085f2203 Kent Overstreet 2023-08-05  493  				i->old_k = j_k->k;
-8079aab085f2203 Kent Overstreet 2023-08-05  494  				i->old_v = &j_k->v;
-8079aab085f2203 Kent Overstreet 2023-08-05  495  			}
-8079aab085f2203 Kent Overstreet 2023-08-05  496  		}
-8079aab085f2203 Kent Overstreet 2023-08-05  497  	}
-8079aab085f2203 Kent Overstreet 2023-08-05  498  
-8079aab085f2203 Kent Overstreet 2023-08-05  499  	__btree_path_get(i->path, true);
-8079aab085f2203 Kent Overstreet 2023-08-05  500  
-8079aab085f2203 Kent Overstreet 2023-08-05  501  	/*
-8079aab085f2203 Kent Overstreet 2023-08-05  502  	 * If a key is present in the key cache, it must also exist in the
-8079aab085f2203 Kent Overstreet 2023-08-05  503  	 * btree - this is necessary for cache coherency. When iterating over
-8079aab085f2203 Kent Overstreet 2023-08-05  504  	 * a btree that's cached in the key cache, the btree iter code checks
-8079aab085f2203 Kent Overstreet 2023-08-05  505  	 * the key cache - but the key has to exist in the btree for that to
-8079aab085f2203 Kent Overstreet 2023-08-05  506  	 * work:
-8079aab085f2203 Kent Overstreet 2023-08-05  507  	 */
-8079aab085f2203 Kent Overstreet 2023-08-05  508  	if (path->cached && bkey_deleted(&i->old_k))
-8079aab085f2203 Kent Overstreet 2023-08-05  509  		return flush_new_cached_update(trans, path, i, flags, ip);
-8079aab085f2203 Kent Overstreet 2023-08-05  510  
-8079aab085f2203 Kent Overstreet 2023-08-05  511  	return 0;
-8079aab085f2203 Kent Overstreet 2023-08-05  512  }
-8079aab085f2203 Kent Overstreet 2023-08-05  513  
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1301  
+55752a3aba1387 Miklos Szeredi    2019-01-24  1302  static ssize_t fuse_cache_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1303  {
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1304  	struct file *file = iocb->ki_filp;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1305  	struct address_space *mapping = file->f_mapping;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1306  	ssize_t written = 0;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1307  	struct inode *inode = mapping->host;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1308  	ssize_t err;
+56597c4ddc107c Zhou Jifeng       2023-10-28  1309  	ssize_t count;
+8981bdfda7445a Vivek Goyal       2020-10-09  1310  	struct fuse_conn *fc = get_fuse_conn(inode);
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1311  
+8981bdfda7445a Vivek Goyal       2020-10-09  1312  	if (fc->writeback_cache) {
+4d99ff8f12eb20 Pavel Emelyanov   2013-10-10  1313  		/* Update size (EOF optimization) and mode (SUID clearing) */
+c6c745b81033a4 Miklos Szeredi    2021-10-22  1314  		err = fuse_update_attributes(mapping->host, file,
+c6c745b81033a4 Miklos Szeredi    2021-10-22  1315  					     STATX_SIZE | STATX_MODE);
+4d99ff8f12eb20 Pavel Emelyanov   2013-10-10  1316  		if (err)
+4d99ff8f12eb20 Pavel Emelyanov   2013-10-10  1317  			return err;
+4d99ff8f12eb20 Pavel Emelyanov   2013-10-10  1318  
+8981bdfda7445a Vivek Goyal       2020-10-09  1319  		if (fc->handle_killpriv_v2 &&
+9452e93e6dae86 Christian Brauner 2023-01-13  1320  		    setattr_should_drop_suidgid(&nop_mnt_idmap,
+9452e93e6dae86 Christian Brauner 2023-01-13  1321  						file_inode(file))) {
+8981bdfda7445a Vivek Goyal       2020-10-09  1322  			goto writethrough;
+8981bdfda7445a Vivek Goyal       2020-10-09  1323  		}
+8981bdfda7445a Vivek Goyal       2020-10-09  1324  
+84c3d55cc474f9 Al Viro           2014-04-03  1325  		return generic_file_write_iter(iocb, from);
+4d99ff8f12eb20 Pavel Emelyanov   2013-10-10  1326  	}
+4d99ff8f12eb20 Pavel Emelyanov   2013-10-10  1327  
+8981bdfda7445a Vivek Goyal       2020-10-09  1328  writethrough:
+5955102c9984fa Al Viro           2016-01-22  1329  	inode_lock(inode);
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1330  
+56597c4ddc107c Zhou Jifeng       2023-10-28  1331  	count = generic_write_checks(iocb, from);
+56597c4ddc107c Zhou Jifeng       2023-10-28  1332  	if (count <= 0)
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1333  		goto out;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1334  
+56597c4ddc107c Zhou Jifeng       2023-10-28  1335  	task_io_account_write(count);
+56597c4ddc107c Zhou Jifeng       2023-10-28  1336  
+5fa8e0a1c6a762 Jan Kara          2015-05-21  1337  	err = file_remove_privs(file);
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1338  	if (err)
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1339  		goto out;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1340  
+c3b2da31483449 Josef Bacik       2012-03-26  1341  	err = file_update_time(file);
+c3b2da31483449 Josef Bacik       2012-03-26  1342  	if (err)
+c3b2da31483449 Josef Bacik       2012-03-26  1343  		goto out;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1344  
+2ba48ce513c4e5 Al Viro           2015-04-09  1345  	if (iocb->ki_flags & IOCB_DIRECT) {
+1af5bb491fbb41 Christoph Hellwig 2016-04-07  1346  		written = generic_file_direct_write(iocb, from);
+84c3d55cc474f9 Al Viro           2014-04-03  1347  		if (written < 0 || !iov_iter_count(from))
+4273b793ec6875 Anand Avati       2012-02-17  1348  			goto out;
+64d1b4dd826d88 Christoph Hellwig 2023-06-01  1349  		written = direct_write_fallback(iocb, from, written,
+64d1b4dd826d88 Christoph Hellwig 2023-06-01  1350  				fuse_perform_write(iocb, from));
+4273b793ec6875 Anand Avati       2012-02-17  1351  	} else {
+596df33d673d9d Christoph Hellwig 2023-06-01  1352  		written = fuse_perform_write(iocb, from);
+4273b793ec6875 Anand Avati       2012-02-17  1353  	}
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1354  out:
+5955102c9984fa Al Viro           2016-01-22  1355  	inode_unlock(inode);
+e1c0eecba1a415 Miklos Szeredi    2017-09-12  1356  	if (written > 0)
+e1c0eecba1a415 Miklos Szeredi    2017-09-12  1357  		written = generic_write_sync(iocb, written);
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1358  
+ea9b9907b82a09 Nicholas Piggin   2008-04-30 @1359  	return written ? written : err;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1360  }
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1361  
 
 -- 
 0-DAY CI Kernel Test Service
