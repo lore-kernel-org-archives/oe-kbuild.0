@@ -1,95 +1,196 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11875210FF
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Nov 2023 13:23:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1E71A71D;
+	Mon,  6 Nov 2023 13:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KgWCwMRy"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9d8d3b65a67so651078266b.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 06 Nov 2023 05:23:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699276989; x=1699881789; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=XwXLKUnSQoOSHcRnwFxVfJzRv08qTvkOz1tbOyXxUaE=;
-        b=KgWCwMRyaA2HTRsjJQ4UfNmE0hgBrx0rN20ifCetKziQq17siToUPp+BXJ1eOfljUX
-         wBn85zwfjx7dV3uqEWBuMES+F3e0lItNKQw/9OS18UPPFAUltxt+ZB1cI/idNhoyZ3Zt
-         me7CkEVTQOfVY9v8Xkk1cg0HkELsByISCGLwR/oZn4lIMkZ/4ayHb/HsxggHnPc2h7yg
-         3eiaKxbdZEIUKMboQDRVrRW+QqMLBD06xuglkCf/oL3SDLJz3uN6djyN3+bmTg/bDeqN
-         VzzwVqLxmrmAKj7+Uq9a7FONVlc8h/8yq2Ahzghh9AVBeOdPsHbDENk79n6dvnm7x89x
-         GJ6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699276989; x=1699881789;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XwXLKUnSQoOSHcRnwFxVfJzRv08qTvkOz1tbOyXxUaE=;
-        b=DvWVrbu9mJvXyjIzqhcOuADbhZlEAWCDUyyeWa4IZz8Y45iqORTt9aGDU+gu4s5nVF
-         i8eQet52YXyi1EvCakbqG5djVsilPFpbyPjy1n4eWDnnJK6MfAcpSzkFTKritf2wtfsb
-         7eMhLvRJQhBZ1lgovK1Ka02QzyVhRJdI2mkI+v7OXu1WmMvgrXSgc7CqzYRyOqEb3oe0
-         yh4ajeFN1jcsXKB+SPp63LE0YplDtB+zE/HV9Du/BfTZ0dfk6i57Si37hyFrCZrPRabc
-         p9mpPpqbO91TfXdC+oj1JCOt1R7MW1VN1GHOD/8v4Mn+PjT8yEUyrAS4ex3WXl+Rdouw
-         AIvw==
-X-Gm-Message-State: AOJu0Yw+TzGq5JbzORoZSCwszPQ5beKJzQ7PPYdEYqAewugHrnXw3AZi
-	tFMLVpVTsgUZWjmeQxBa04yBBQ==
-X-Google-Smtp-Source: AGHT+IF1dzOC5fZqYqU3K9DGhgL5aQurnaWyR9/b8VENhom7SzEjWH4DabdsoEgcx3+sABuWxQJDag==
-X-Received: by 2002:a17:907:c084:b0:9de:dc3d:3b2 with SMTP id st4-20020a170907c08400b009dedc3d03b2mr4878805ejc.16.1699276989297;
-        Mon, 06 Nov 2023 05:23:09 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id zu5-20020a17090708c500b009ddcf5b07b8sm3240548ejb.148.2023.11.06.05.23.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 05:23:08 -0800 (PST)
-Date: Mon, 6 Nov 2023 16:23:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: oe-kbuild@lists.linux.dev,
-	Alexander Lobakin <aleksander.lobakin@intel.com>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DmUYlBJN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699278129; x=1730814129;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=nZSbw9SwhD0oHTHCXkR4p5rUFrx9HSKvvBm/8vGjXQ8=;
+  b=DmUYlBJNvL7qNMIBaae8kYU+KVJbNuU/55wpSIkOtduM3aFHCY8ZoGH1
+   C97c9Jg759+4re+xB3QnOvbBfJJlfQMh4Xv3TFxooqu5YtgfOuY6kmtnj
+   r1V8wpux46+6kiBCF5VrzRDRoaiqFiscNCmUORvhAwLmEcrvNOCbe+bY8
+   f8mjZcjVBUT2OvQAmvGVcFDIRNhIbXd2AERvrm8Pd0Rifw8uqJmuZdfJX
+   6Wym6txOMf59qy/mtN2/u4fn1F7wSjnIvSMpm2vOCXY9T6AnFsxQGz1vo
+   DllwUMWP+59Ru5q35Va6AwOgcaYG3usAAOxypcqkmxdFA6NkGzWC37l+n
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="420387474"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
+   d="scan'208";a="420387474"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 05:42:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="832718209"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
+   d="scan'208";a="832718209"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmsmga004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Nov 2023 05:42:07 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Mon, 6 Nov 2023 05:42:06 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Mon, 6 Nov 2023 05:42:06 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Mon, 6 Nov 2023 05:42:06 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Mon, 6 Nov 2023 05:42:06 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T2xZPL0NwgYS+FfdTcqOXBp4leVL+6VknLFChd1IIQvkey8wi+HZdZW5wtIOxKdoLURsJCTAjuAJvSjUqqCIa82xpwasWrw7wwk5nq5Y3QMnsvrvOhXGgxW8ICNW7nSOA8Y0NAL5GUPzceiUfHCEGLv6AgSyxvI23a/ogZWxvd22lX0Cqi7+6tM5XIwBjKKNUSIgFy8uLAzW4Z/Rb6s6vr/JQoouL9J52N5LT8Go9J1eQjut2tbJChTyDap8p7zZ9rrOC3DgXuSWvFV2piajDMmeEgYTQmYiDBNyEKlEzSJjQNNJwdxfjuWwnaktzR2OlYu6uP/pniLTNcfR1Fd5vA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tuaviLG0AjPf3lKIfSHhs9ptH/e2LFPYgfU93oKyRYA=;
+ b=cCFnwFvsQ+vIF/NuqdGUvhOHrhG71eCm0I1JwgKOwmpETVjAkLDv4s6OAKlIJWExJnfhtf5SztXDwi2wh1ushPlXb1H0DZTOAn/guceox1evut9GxyV7+ZXlkCQNvOMakDnlsMiWoT/+KqYjZNH0jLQcU9aHfA7oUiFrCZTYv2GTVwkL/RbprLTlP8zNHD5jFWAWZbt3N3ah0y8H1+a1BrMdARqM22WmV5+RZyDdcZ0acV2iFEkRnSLG5sakyqMJZneXwaVQWIsT8XpYpYD++NYk+5iqmdwzVzY1/0dhJXX2mdVbjPbkUJIHfeoCa3hh1S0xwWiOjioluJCiNnm6wQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com (2603:10b6:5:13a::21)
+ by DM4PR11MB6067.namprd11.prod.outlook.com (2603:10b6:8:63::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Mon, 6 Nov
+ 2023 13:42:04 +0000
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::36be:aaee:c5fe:2b80]) by DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::36be:aaee:c5fe:2b80%7]) with mapi id 15.20.6954.027; Mon, 6 Nov 2023
+ 13:42:03 +0000
+Message-ID: <41eff9b4-3041-4a1e-ba28-b16d866cd894@intel.com>
+Date: Mon, 6 Nov 2023 14:39:48 +0100
+User-Agent: Mozilla Thunderbird
 Subject: Re: [alobakin:pfcp 5/20] drivers/iio/imu/adis16475.c:363
  adis16475_set_freq() warn: set_bit() takes a bit number
-Message-ID: <f5e2eb52-ef0f-4fc2-8a1a-db7623e64baf@kadam.mountain>
+Content-Language: en-US
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>, Nuno Sa
+	<nuno.sa@analog.com>
+CC: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
+	<lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Przemek Kitszel
+	<przemyslaw.kitszel@intel.com>, <linux-iio@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
 References: <ff4ef031-774e-4e4d-a009-31f242bf6aee@kadam.mountain>
- <d5bce6084013fd8066e9b5c23e0ce708ab4b2dea.camel@gmail.com>
+ <5b0f8705-71cb-4c4c-a70c-d9d3a15886cb@intel.com>
+ <f040255ef1b3be87050b8255c947b4b375e75a02.camel@gmail.com>
+ <bf2b6899-fad0-4ac7-a906-e8d361e5a46d@intel.com>
+ <e29dc510c78205d87b573e0fe185dc7c7d509310.camel@gmail.com>
+From: Alexander Lobakin <aleksander.lobakin@intel.com>
+In-Reply-To: <e29dc510c78205d87b573e0fe185dc7c7d509310.camel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: WA0P291CA0021.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1::25) To DM6PR11MB3625.namprd11.prod.outlook.com
+ (2603:10b6:5:13a::21)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d5bce6084013fd8066e9b5c23e0ce708ab4b2dea.camel@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3625:EE_|DM4PR11MB6067:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5560e23f-f5ad-4e32-babf-08dbdece28b4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: isoBIuXrLWNA9HjUiWzyxKRYmJQbxFYDowKAHDLpH0VERtEaaeDuGa2vcBFptlxKuy62HrfCnJH+63XooS6OYgF4XQWa5bFTTuTZPhFJFJiBSW2ZS5VXnUv9JvzxkMZ7OVP0B5wZQmdb3qkDGJsM099Leet63dHWmjXpoukHIgHEVKN0Qw2AiI7I+vsLclc+BLWjaGW8YTueWVSNLNVQrKkKLvS4HF/HvIyK27baZ1Qk47S04mFSIpnvhLliXlOHtRMco5znRV1KpmiHci65H3oJxsvohYnRalOInvQeFlDIjQiacHRIQ4DdET2HgENcy+FHKYOM9UUkoVEOKu3FCPKuwfXwtS4vEVVD+ba0HgTp3nxs1UQS1AFLe95cdAsgig74KwmSvcjmyWDtIsELEzyDI8MUEhdk60yZtgvFFHGes68cI7kFXpOdV8nAboYd+mhM3+U8v05m734psylSG+At3kH/JLLE7qjWzhWZNoFvAWnHVB5RExSaIfn17HBa2e1w0b+zXikHJD2PKLj0sfP60k1feTl06f82hLpUsUCyop3H+3xDaRjpjAzF/m0Yb9NkcPZZPj1S25KRSQpFRQjX1oSQkwjil/y4VPjcveW9DqFNPug93QyDM+gqSC5pCslD1V2sLsOOsAWdPD8SKQxi8gxq1ssi3ObzmbNn/oBH5QpQudeLPkDoUw1MRUhm
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3625.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(366004)(136003)(346002)(376002)(230922051799003)(230273577357003)(230173577357003)(186009)(1800799009)(64100799003)(451199024)(83380400001)(316002)(38100700002)(82960400001)(110136005)(478600001)(6486002)(6666004)(6506007)(54906003)(26005)(66556008)(66476007)(6512007)(66946007)(2616005)(5660300002)(2906002)(8676002)(36756003)(4326008)(31696002)(41300700001)(86362001)(8936002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cHFvZXE2M0Z4RDJrN2RVNUZCL09ZQTdNTi81R1V6VEt4aUNqZE1GK1F4Tlkr?=
+ =?utf-8?B?UzBpZExzR3BaU1pUYit4VkNhVTNZZHJlTDhxOSt0bHVUNzhCL2d0WlhFS3h1?=
+ =?utf-8?B?alRSSFVYV2VET09MUlREaldneFRCclVPREc1M3dtMlNyK09oWHQwc3F2cmNh?=
+ =?utf-8?B?WmVNTTJTcFRhellMMk13STllNDZ5bVJhY1p4OU5uTDZEK2Nta05LVGdBUnc4?=
+ =?utf-8?B?MGdSM2JHRmR2QjlkMDBLUXlZWFplVjk3YzVYd2c0V1JpVlFlTmF0RDlEVENv?=
+ =?utf-8?B?cjVHWGpRYXpQY2orN0xLaG1SRkNLRWM5ZEJJRk9rditTenNtZmRld3pNand5?=
+ =?utf-8?B?c1NWVnZvejBCdDVHMlRZRUxPRmdJZTlqOVEzMGppUHBxZ3FRc25NMWp1MUpn?=
+ =?utf-8?B?K0Y5U1RjUmdmeHdJSWxlTjVycGhLVGRCVFU1SlVKQ00yTXhvWnFFRjRJQU5q?=
+ =?utf-8?B?Y1BRdDNDM2Q4SmRld2FwZTZoM2MraGVleGNFQldKemlzb083M01Ld3EzK0VX?=
+ =?utf-8?B?YXZhdWJUVWZ1MmJVS3IrK0lYMnlSdVBpb2Z1SkFBU3VoUGZrc3Y0WW5yT0pM?=
+ =?utf-8?B?MGZ1V2thRFJEYlo0QnBLZGpXQjh1Y04xTmJsQzZCTVZDT05uR1QwekZhV0ZE?=
+ =?utf-8?B?QkZ2UkJKa2JteDg5R09XRE5SNXBtaXZOV2VFWmlQRXR0cVc0S1FhWXI0N3hX?=
+ =?utf-8?B?THZ0YWxObFowZkpZcHY4V2lpaWkzTGdzSWxSSWJsZERuckVZUFR4MUdwRVJy?=
+ =?utf-8?B?WUE2bFlETjFuUkRKRVpEaWtuUEthdWNLUUg4YVo3V0I0MjlpVTBjVGxqTFh3?=
+ =?utf-8?B?UDR1VmdWSHZXK1Q1MG9wSXpxVnRJVTBnZTR3QnQyMy9OQ1NyN0VObWFkYXQx?=
+ =?utf-8?B?RXFPWGFsa2d6NjJ4NSsyQnBXSkN0TndPVEdDV2Fra0l2Nm93ek5Oblk0cFVs?=
+ =?utf-8?B?T1NzMHZnUEtsYUhTSlFhTGN2Ylgxc2dsQXJlN0g4SkR0Mng2N2VjMmZDVzVU?=
+ =?utf-8?B?UmxXdlZxSEplRk9VNittdmh3eDBzQ0FsMWJMdVFoOStYdVp0MHBGMEdUeGNl?=
+ =?utf-8?B?WXI5WE1pU20rRlpzZVdKQXFuSjE2M2tLZkp3NFhFTVFMNmU0VUVEZHB0OHh2?=
+ =?utf-8?B?c1dhejhMMTFxVGxPMUNGRStBRlF5T3hJeXhseVFwQ1JhbGx6QnZoeklrM1Nq?=
+ =?utf-8?B?dXhTa09jTlArK0JFQ3R2aWlnb2Z6cXBpYTloYUFHRlQvTEhlRnk1bWNUV2pp?=
+ =?utf-8?B?M2ozVGRXd01mZERDRlZZaE9rOG9USVhMaFNEZ2QxRTN3RG5WbFZMdE5UeHZP?=
+ =?utf-8?B?cDRKUjUwL3loeHRvYURwQnVCZTJqeDhmZ0FlS1ZtNGkrMWJBQWgvdjZ3bFNu?=
+ =?utf-8?B?YVBkQWN6bG1hUDFPV3FlblZRaHNqSHkwRmo0YWQrK3B3VkFUaVRBSlIrTEUx?=
+ =?utf-8?B?VElQNnh1blBLbFJCT05LdzU0MHdLTHZ1dkt1SU9zQk1wVW1XTDJaL0x4U1lx?=
+ =?utf-8?B?R3BTU2xvVVVrMHJISVVCT3dYamF2QUxmTjBaRGhMMklubVVmdnBQOUYvTVR3?=
+ =?utf-8?B?R0MvYk4xajk1OG9ESEd1NTRBNzVBVGtGZ2hrcGdCRGVrNlcyN0kyYTlDZWJl?=
+ =?utf-8?B?VzBKNFJtMnJ3T1JoUDdOK1pqWHFBMzdDL2Jyb3ZWMDQweHIyNk05ejZJUG83?=
+ =?utf-8?B?QTlLQkpnaTBrb1lHMnhyL3ZRWVFxQ3VwN3U3U0lZVWFkdmtxVSt2TUlSTVZF?=
+ =?utf-8?B?d2pRRmhDb09RYTV6dXBDbi9yNy96M0VpWVQvd3pZZlNZMlYwdGlwS1hkYlFr?=
+ =?utf-8?B?dGljTUxZbTNldWMvQ2UyUW4zY2NLbXF4YTRZWGtNd2d4YWdza1lySEYxV2tx?=
+ =?utf-8?B?VGF3QTFyVVlQeDJyb2wzNHNUMUxQWnUzS2NEL1dqUmF5RTJXQjRhajJsWW9I?=
+ =?utf-8?B?NWo2NmJEUE9TdGg3NkU0L0svT3ZQeDZWMElpMGZiUGFnSEY4S0ZQR0cwd2VP?=
+ =?utf-8?B?NjEvejFldWJpakh6YkJMdDVxS3I3NkZNRkFTbmNFbk9VWmJFaHY3ci9pWVVl?=
+ =?utf-8?B?emJDOERBVFd1empYb1F2Yy96d2VYanlxdGt6R0R0b1cxczFjdVc0QmFnZm5V?=
+ =?utf-8?B?ZEhIYmx5TnFXVDZ5NlY3SFpPY3RYRWdwcnFvK0VFaW83SUQzVW85TnBQMzhq?=
+ =?utf-8?B?Vmc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5560e23f-f5ad-4e32-babf-08dbdece28b4
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3625.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 13:42:03.7196
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6lJ9Tm4ZFEK+zQWsZYtgzLLJFOrofj8QVU1jo0pxy7A6vqAhOQc0QrOV+OPbNfnlRHBSrwn9t1c+tH/1rJRj0FSrPiYYSMwD9Tom+eRRCFc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6067
+X-OriginatorOrg: intel.com
 
-On Mon, Nov 06, 2023 at 11:01:19AM +0100, Nuno Sá wrote:
-> > fff7352bf7a3ce Nuno Sá 2020-04-13  357  
-> > 9da1b86865ab43 Nuno Sá 2021-09-20  358          adis_dev_unlock(&st->adis);
-> > fff7352bf7a3ce Nuno Sá 2020-04-13  359          /*
-> > fff7352bf7a3ce Nuno Sá 2020-04-13  360           * If decimation is used, then gyro
-> > and accel data will have meaningful
-> > fff7352bf7a3ce Nuno Sá 2020-04-13  361           * bits on the LSB registers. This
-> > info is used on the trigger handler.
-> > fff7352bf7a3ce Nuno Sá 2020-04-13  362           */
-> > fff7352bf7a3ce Nuno Sá 2020-04-13 @363          assign_bit(ADIS16475_LSB_DEC_MASK,
-> > &st->lsb_flag, dec);
-> > 
-> > assign_bit() takes a bit number like 0.  But this is passing BIT(0) so
-> > it's like BIT(BIT(0)).  Which is fine until you get to 5.
-> > 
+From: Nuno SÃ¡ <noname.nuno@gmail.com>
+Date: Mon, 06 Nov 2023 13:02:58 +0100
+
+> On Mon, 2023-11-06 at 12:18 +0100, Alexander Lobakin wrote:
+>> From: Nuno SÃ¡ <noname.nuno@gmail.com>
+>> Date: Mon, 06 Nov 2023 11:07:16 +0100
+
+[...]
+
+>> assign_bit() does not take a bitmask as a first argument, but a bit number.
+>>
+>> I.e. if you want to switch BIT(0), you call it like assign_bit(0, ...),
+>> not assign_bit(BIT(0), ...). Same for the bit nr 1.
+>>
 > 
-> Yeah, on 32bit arch that would not be funny...
+> Yes, I know... if you look at my reply to Dan you can see I realized that already :) 
 
-Indeed.  Btw, a lot of people don't realize that what actually happens
-is not shift wrapping but a buffer overflow.  The test_bit() functions
-are designed to handle large bit masks so they can basically set or
-clear a bit anywhere in your RAM.  This isn't so much an issue with
-this type of double shift bugs, but you need to be careful passing 
-unvalidated user data to test_bit().
+Oh okay :)
 
-regards,
-dan carpenter
+> 
+> I guess by the time I first sent this time I didn't knew or maybe just a dumb
+> mistake...
+> 
+> I'll send a patch later today removing the BIT() from the #define, thx!
 
+Nice! Don't forget the tags the build bot asked for :p
+
+BTW, I believe the reason why this warning triggered after my commit is
+that before it, assign_bit() is a static inline, but becomes a macro
+then. smatch becomes able to see through it that it indeed is a wrapper
+around set_bit()/clear_bit() and realizes the first argument is invalid.
+
+> 
+> - Nuno SÃ¡
+> 
+
+Thanks,
+Olek
