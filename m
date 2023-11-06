@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E422118AEB
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Nov 2023 14:37:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9489F7465
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Nov 2023 14:54:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MoPfiyHQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C86i9Uj5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699281466; x=1730817466;
+  t=1699282494; x=1730818494;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PsuUIHPcWM1tuSCf4Ti0nmU+gHSLc9ajeXFeLOkDMuc=;
-  b=MoPfiyHQTfylrAuEqUhIIy2D2OckD9bOx/0Zfi9YAnu+jagwiZdfOmC2
-   Y3wlR7TPmhWw7kQ9L+EZ9UL7qAw6pHtfKuUOzSFIl22o/9oWZUcTuqngw
-   fUsKmY/syoZSuyKaUS+j7DM2HHDRBK2yWUcPlAs1HcCVYceInFLQXaLx0
-   07IwqsOawrdZUtYiM9nw4ALkBvYnASqEw0wsC0Vs3EWdl7nttd8zhD6dZ
-   Nl6IQtVR9KbF222Ti3fWBYPZZMKjP4cotsF118Zgyajmk5IqGsk/DBZME
-   poE44d5nwAjrs4b2ZOPtDIpUyVP0BaxbzGG38mC2ISth8c6tGn6MmOLow
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="374319897"
+  bh=mVdEreQ7v/AVzPf/nu5yH569S51WuZKQla5nDgAoBiI=;
+  b=C86i9Uj5ExDfxkZpUEutbUtyS+70OjrV9xsxCcpDMUITOaIoXGxNFMO1
+   ki1Ys1jFQDXahpePbUFbjEG3BAKaACg5LX9zA+UAEHjIk/u1PFRB/f0BA
+   N0xj4jFn3pz1VV/Q3IRP52wmKYM+XafHjj2CIESkIFWKTkzFfvdki0bii
+   Y1CcXDbEIbsQtD7u45m5nSmNS2ktR7kRoxQEftgOdFGApqkCvAenwGm41
+   PYqebeT5cDvL/bvHRbvv70eIUENWU4E5+Ebv9B3mOAtLrzilWzbeZdCHB
+   C8VXIdBCzlWQNG5Kiaf57CrNvlvHGX9NdZ8zs1Vo3EjdWMszMuRWXHnXq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="379680552"
 X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
-   d="scan'208";a="374319897"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 06:26:30 -0800
+   d="scan'208";a="379680552"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 06:54:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="762330172"
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="828239883"
 X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
-   d="scan'208";a="762330172"
+   d="scan'208";a="828239883"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 06 Nov 2023 06:26:28 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 06 Nov 2023 06:54:52 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r00Yc-0006TI-1u;
-	Mon, 06 Nov 2023 14:26:26 +0000
-Date: Mon, 6 Nov 2023 22:25:41 +0800
+	id 1r0106-0006UK-16;
+	Mon, 06 Nov 2023 14:54:50 +0000
+Date: Mon, 6 Nov 2023 22:53:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [pinchartl:mtk/v6.6/thp7312/fixups 5/5]
- drivers/media/i2c/thp7312.c:1049 thp7312_set_focus() error: uninitialized
- symbol 'new_state'.
-Message-ID: <202311062245.5hdXGBzd-lkp@intel.com>
+Subject: fs/bcachefs/six.c:283 __do_six_trylock() error: uninitialized symbol
+ 'old'.
+Message-ID: <202311062227.0GUulHgD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,158 +52,141 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC: linux-kernel@vger.kernel.org
+TO: Kent Overstreet <kmo@daterainc.com>
 
-Hi Laurent,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git mtk/v6.6/thp7312/fixups
-head:   e16a701c1ccadbb92d46e6b9004d83f2ba14f3be
-commit: e16a701c1ccadbb92d46e6b9004d83f2ba14f3be [5/5] fixup! media: i2c: Add driver for THine THP7312
-:::::: branch date: 4 weeks ago
-:::::: commit date: 4 weeks ago
-config: i386-randconfig-141-20231016 (https://download.01.org/0day-ci/archive/20231106/202311062245.5hdXGBzd-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231106/202311062245.5hdXGBzd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d2f51b3516dade79269ff45eae2a7668ae711b25
+commit: b60c8e9e7b082abac290ebdb9166b806e7d83fb7 six locks: lock->state.seq no longer used for write lock held
+date:   2 weeks ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 2 weeks ago
+config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231106/202311062227.0GUulHgD-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20231106/202311062227.0GUulHgD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311062245.5hdXGBzd-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311062227.0GUulHgD-lkp@intel.com/
 
-smatch warnings:
-drivers/media/i2c/thp7312.c:1049 thp7312_set_focus() error: uninitialized symbol 'new_state'.
+New smatch warnings:
+fs/bcachefs/six.c:283 __do_six_trylock() error: uninitialized symbol 'old'.
 
-vim +/new_state +1049 drivers/media/i2c/thp7312.c
+Old smatch warnings:
+fs/bcachefs/six.c:617 six_lock_slowpath() error: uninitialized symbol 'old'.
 
-75997e37fcd3e0 Paul Elder 2023-06-20   989  
-75997e37fcd3e0 Paul Elder 2023-06-20   990  static int thp7312_set_focus(struct thp7312_device *thp7312)
-75997e37fcd3e0 Paul Elder 2023-06-20   991  {
-75997e37fcd3e0 Paul Elder 2023-06-20   992  	enum thp7312_focus_state new_state;
-75997e37fcd3e0 Paul Elder 2023-06-20   993  	bool continuous;
-75997e37fcd3e0 Paul Elder 2023-06-20   994  	u8 af_control;
-75997e37fcd3e0 Paul Elder 2023-06-20   995  	u8 af_setting;
-75997e37fcd3e0 Paul Elder 2023-06-20   996  	int ret = 0;
-75997e37fcd3e0 Paul Elder 2023-06-20   997  
-75997e37fcd3e0 Paul Elder 2023-06-20   998  	/* Start by programming the manual focus position if it has changed. */
-75997e37fcd3e0 Paul Elder 2023-06-20   999  	if (thp7312->focus_absolute->is_new) {
-75997e37fcd3e0 Paul Elder 2023-06-20  1000  		unsigned int value;
-75997e37fcd3e0 Paul Elder 2023-06-20  1001  
-75997e37fcd3e0 Paul Elder 2023-06-20  1002  		value = thp7312_focus_values[thp7312->focus_absolute->val];
-75997e37fcd3e0 Paul Elder 2023-06-20  1003  
-75997e37fcd3e0 Paul Elder 2023-06-20  1004  		ret = cci_write(thp7312->regmap,
-75997e37fcd3e0 Paul Elder 2023-06-20  1005  				THP7312_REG_MANUAL_FOCUS_POSITION, value, NULL);
-75997e37fcd3e0 Paul Elder 2023-06-20  1006  		if (ret)
-75997e37fcd3e0 Paul Elder 2023-06-20  1007  			return ret;
-75997e37fcd3e0 Paul Elder 2023-06-20  1008  	}
-75997e37fcd3e0 Paul Elder 2023-06-20  1009  
-75997e37fcd3e0 Paul Elder 2023-06-20  1010  	/* Calculate the new focus state. */
-75997e37fcd3e0 Paul Elder 2023-06-20  1011  	switch (thp7312->focus_state) {
-75997e37fcd3e0 Paul Elder 2023-06-20  1012  	case THP7312_FOCUS_STATE_MANUAL:
-75997e37fcd3e0 Paul Elder 2023-06-20  1013  	default:
-75997e37fcd3e0 Paul Elder 2023-06-20  1014  		if (thp7312->focus_auto->val)
-75997e37fcd3e0 Paul Elder 2023-06-20  1015  			new_state = THP7312_FOCUS_STATE_AUTO;
-75997e37fcd3e0 Paul Elder 2023-06-20  1016  		else if (thp7312->focus_start->is_new)
-75997e37fcd3e0 Paul Elder 2023-06-20  1017  			new_state = THP7312_FOCUS_STATE_ONESHOT;
-75997e37fcd3e0 Paul Elder 2023-06-20  1018  		break;
-75997e37fcd3e0 Paul Elder 2023-06-20  1019  
-75997e37fcd3e0 Paul Elder 2023-06-20  1020  	case THP7312_FOCUS_STATE_AUTO:
-75997e37fcd3e0 Paul Elder 2023-06-20  1021  		if (!thp7312->focus_auto->val)
-75997e37fcd3e0 Paul Elder 2023-06-20  1022  			new_state = THP7312_FOCUS_STATE_LOCKED;
-75997e37fcd3e0 Paul Elder 2023-06-20  1023  		break;
-75997e37fcd3e0 Paul Elder 2023-06-20  1024  
-75997e37fcd3e0 Paul Elder 2023-06-20  1025  	case THP7312_FOCUS_STATE_LOCKED:
-75997e37fcd3e0 Paul Elder 2023-06-20  1026  		if (thp7312->focus_auto->val)
-75997e37fcd3e0 Paul Elder 2023-06-20  1027  			new_state = THP7312_FOCUS_STATE_AUTO;
-75997e37fcd3e0 Paul Elder 2023-06-20  1028  		else if (thp7312->focus_start->is_new)
-75997e37fcd3e0 Paul Elder 2023-06-20  1029  			new_state = THP7312_FOCUS_STATE_ONESHOT;
-75997e37fcd3e0 Paul Elder 2023-06-20  1030  		else if (thp7312->focus_absolute->is_new)
-75997e37fcd3e0 Paul Elder 2023-06-20  1031  			new_state = THP7312_FOCUS_STATE_MANUAL;
-75997e37fcd3e0 Paul Elder 2023-06-20  1032  		break;
-75997e37fcd3e0 Paul Elder 2023-06-20  1033  
-75997e37fcd3e0 Paul Elder 2023-06-20  1034  	case THP7312_FOCUS_STATE_ONESHOT:
-75997e37fcd3e0 Paul Elder 2023-06-20  1035  		if (thp7312->focus_auto->val)
-75997e37fcd3e0 Paul Elder 2023-06-20  1036  			new_state = THP7312_FOCUS_STATE_AUTO;
-75997e37fcd3e0 Paul Elder 2023-06-20  1037  		else if (thp7312->focus_start->is_new)
-75997e37fcd3e0 Paul Elder 2023-06-20  1038  			new_state = THP7312_FOCUS_STATE_ONESHOT;
-75997e37fcd3e0 Paul Elder 2023-06-20  1039  		else if (thp7312->focus_absolute->is_new)
-75997e37fcd3e0 Paul Elder 2023-06-20  1040  			new_state = THP7312_FOCUS_STATE_MANUAL;
-75997e37fcd3e0 Paul Elder 2023-06-20  1041  		break;
-75997e37fcd3e0 Paul Elder 2023-06-20  1042  	}
-75997e37fcd3e0 Paul Elder 2023-06-20  1043  
-75997e37fcd3e0 Paul Elder 2023-06-20  1044  	/*
-75997e37fcd3e0 Paul Elder 2023-06-20  1045  	 * If neither the state nor the focus method has changed, and no new
-75997e37fcd3e0 Paul Elder 2023-06-20  1046  	 * one-shot focus is requested, there's nothing new to program to the
-75997e37fcd3e0 Paul Elder 2023-06-20  1047  	 * hardware.
-75997e37fcd3e0 Paul Elder 2023-06-20  1048  	 */
-75997e37fcd3e0 Paul Elder 2023-06-20 @1049  	if (thp7312->focus_state == new_state &&
-75997e37fcd3e0 Paul Elder 2023-06-20  1050  	    !thp7312->focus_method->is_new && !thp7312->focus_start->is_new)
-75997e37fcd3e0 Paul Elder 2023-06-20  1051  		return 0;
-75997e37fcd3e0 Paul Elder 2023-06-20  1052  
-75997e37fcd3e0 Paul Elder 2023-06-20  1053  	continuous = new_state == THP7312_FOCUS_STATE_MANUAL ||
-75997e37fcd3e0 Paul Elder 2023-06-20  1054  		     new_state == THP7312_FOCUS_STATE_ONESHOT;
-75997e37fcd3e0 Paul Elder 2023-06-20  1055  
-75997e37fcd3e0 Paul Elder 2023-06-20  1056  	switch (thp7312->focus_method->val) {
-75997e37fcd3e0 Paul Elder 2023-06-20  1057  	case THP7312_FOCUS_METHOD_CONTRAST:
-75997e37fcd3e0 Paul Elder 2023-06-20  1058  	default:
-75997e37fcd3e0 Paul Elder 2023-06-20  1059  		af_setting = continuous
-75997e37fcd3e0 Paul Elder 2023-06-20  1060  			   ? THP7312_REG_AF_SETTING_CONTINUOUS_CONTRAST
-75997e37fcd3e0 Paul Elder 2023-06-20  1061  			   : THP7312_REG_AF_SETTING_ONESHOT_CONTRAST;
-75997e37fcd3e0 Paul Elder 2023-06-20  1062  		break;
-75997e37fcd3e0 Paul Elder 2023-06-20  1063  	case THP7312_FOCUS_METHOD_PDAF:
-75997e37fcd3e0 Paul Elder 2023-06-20  1064  		af_setting = continuous
-75997e37fcd3e0 Paul Elder 2023-06-20  1065  			   ? THP7312_REG_AF_SETTING_CONTINUOUS_PDAF
-75997e37fcd3e0 Paul Elder 2023-06-20  1066  			   : THP7312_REG_AF_SETTING_ONESHOT_PDAF;
-75997e37fcd3e0 Paul Elder 2023-06-20  1067  		break;
-75997e37fcd3e0 Paul Elder 2023-06-20  1068  	case THP7312_FOCUS_METHOD_HYBRID:
-75997e37fcd3e0 Paul Elder 2023-06-20  1069  		af_setting = continuous
-75997e37fcd3e0 Paul Elder 2023-06-20  1070  			   ? THP7312_REG_AF_SETTING_CONTINUOUS_HYBRID
-75997e37fcd3e0 Paul Elder 2023-06-20  1071  			   : THP7312_REG_AF_SETTING_ONESHOT_HYBRID;
-75997e37fcd3e0 Paul Elder 2023-06-20  1072  		break;
-75997e37fcd3e0 Paul Elder 2023-06-20  1073  	}
-75997e37fcd3e0 Paul Elder 2023-06-20  1074  
-75997e37fcd3e0 Paul Elder 2023-06-20  1075  	switch (new_state) {
-75997e37fcd3e0 Paul Elder 2023-06-20  1076  	case THP7312_FOCUS_STATE_MANUAL:
-75997e37fcd3e0 Paul Elder 2023-06-20  1077  	default:
-75997e37fcd3e0 Paul Elder 2023-06-20  1078  		af_control = THP7312_REG_AF_CONTROL_MANUAL;
-75997e37fcd3e0 Paul Elder 2023-06-20  1079  		break;
-75997e37fcd3e0 Paul Elder 2023-06-20  1080  	case THP7312_FOCUS_STATE_AUTO:
-75997e37fcd3e0 Paul Elder 2023-06-20  1081  	case THP7312_FOCUS_STATE_ONESHOT:
-75997e37fcd3e0 Paul Elder 2023-06-20  1082  		af_control = THP7312_REG_AF_CONTROL_AF;
-75997e37fcd3e0 Paul Elder 2023-06-20  1083  		break;
-75997e37fcd3e0 Paul Elder 2023-06-20  1084  	case THP7312_FOCUS_STATE_LOCKED:
-75997e37fcd3e0 Paul Elder 2023-06-20  1085  		af_control = THP7312_REG_AF_CONTROL_LOCK;
-75997e37fcd3e0 Paul Elder 2023-06-20  1086  		break;
-75997e37fcd3e0 Paul Elder 2023-06-20  1087  	}
-75997e37fcd3e0 Paul Elder 2023-06-20  1088  
-75997e37fcd3e0 Paul Elder 2023-06-20  1089  	cci_write(thp7312->regmap, THP7312_REG_AF_SETTING, af_setting, &ret);
-75997e37fcd3e0 Paul Elder 2023-06-20  1090  
-75997e37fcd3e0 Paul Elder 2023-06-20  1091  	if (new_state == THP7312_FOCUS_STATE_MANUAL &&
-75997e37fcd3e0 Paul Elder 2023-06-20  1092  	    (thp7312->focus_state == THP7312_FOCUS_STATE_AUTO ||
-75997e37fcd3e0 Paul Elder 2023-06-20  1093  	     thp7312->focus_state == THP7312_FOCUS_STATE_ONESHOT)) {
-75997e37fcd3e0 Paul Elder 2023-06-20  1094  		/* When switching to manual state, lock AF first. */
-75997e37fcd3e0 Paul Elder 2023-06-20  1095  		cci_write(thp7312->regmap, THP7312_REG_AF_CONTROL,
-75997e37fcd3e0 Paul Elder 2023-06-20  1096  			  THP7312_REG_AF_CONTROL_LOCK, &ret);
-75997e37fcd3e0 Paul Elder 2023-06-20  1097  	}
-75997e37fcd3e0 Paul Elder 2023-06-20  1098  
-75997e37fcd3e0 Paul Elder 2023-06-20  1099  	cci_write(thp7312->regmap, THP7312_REG_AF_CONTROL, af_control, &ret);
-75997e37fcd3e0 Paul Elder 2023-06-20  1100  
-75997e37fcd3e0 Paul Elder 2023-06-20  1101  	if (ret)
-75997e37fcd3e0 Paul Elder 2023-06-20  1102  		return ret;
-75997e37fcd3e0 Paul Elder 2023-06-20  1103  
-75997e37fcd3e0 Paul Elder 2023-06-20  1104  	thp7312->focus_state = new_state;
-75997e37fcd3e0 Paul Elder 2023-06-20  1105  
-75997e37fcd3e0 Paul Elder 2023-06-20  1106  	return 0;
-75997e37fcd3e0 Paul Elder 2023-06-20  1107  }
-75997e37fcd3e0 Paul Elder 2023-06-20  1108  
+vim +/old +283 fs/bcachefs/six.c
 
-:::::: The code at line 1049 was first introduced by commit
-:::::: 75997e37fcd3e03d0b4cd663baf147b3712e9c2a media: i2c: Add driver for THine THP7312
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  189  
+37f612bea5bd92 Kent Overstreet 2023-05-21  190  /*
+37f612bea5bd92 Kent Overstreet 2023-05-21  191   * __do_six_trylock() - main trylock routine
+37f612bea5bd92 Kent Overstreet 2023-05-21  192   *
+37f612bea5bd92 Kent Overstreet 2023-05-21  193   * Returns 1 on success, 0 on failure
+37f612bea5bd92 Kent Overstreet 2023-05-21  194   *
+37f612bea5bd92 Kent Overstreet 2023-05-21  195   * In percpu reader mode, a failed trylock may cause a spurious trylock failure
+37f612bea5bd92 Kent Overstreet 2023-05-21  196   * for anoter thread taking the competing lock type, and we may havve to do a
+37f612bea5bd92 Kent Overstreet 2023-05-21  197   * wakeup: when a wakeup is required, we return -1 - wakeup_type.
+37f612bea5bd92 Kent Overstreet 2023-05-21  198   */
+91d16f16d0fd4b Kent Overstreet 2023-05-21  199  static int __do_six_trylock(struct six_lock *lock, enum six_lock_type type,
+91d16f16d0fd4b Kent Overstreet 2023-05-21  200  			    struct task_struct *task, bool try)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  201  {
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  202  	const struct six_lock_vals l[] = LOCK_VALS;
+84a37cbf62e044 Kent Overstreet 2022-08-26  203  	int ret;
+1fb4fe63178881 Kent Overstreet 2023-05-20  204  	u64 old, new, v;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  205  
+84a37cbf62e044 Kent Overstreet 2022-08-26  206  	EBUG_ON(type == SIX_LOCK_write && lock->owner != task);
+1fb4fe63178881 Kent Overstreet 2023-05-20  207  	EBUG_ON(type == SIX_LOCK_write &&
+b60c8e9e7b082a Kent Overstreet 2023-06-16  208  		(try != !(atomic64_read(&lock->state) & SIX_LOCK_HELD_write)));
+1fb4fe63178881 Kent Overstreet 2023-05-20  209  	EBUG_ON(type == SIX_LOCK_write &&
+b60c8e9e7b082a Kent Overstreet 2023-06-16  210  		(try != !(atomic64_read(&lock->state) & SIX_STATE_WRITE_LOCK)));
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  211  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  212  	/*
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  213  	 * Percpu reader mode:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  214  	 *
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  215  	 * The basic idea behind this algorithm is that you can implement a lock
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  216  	 * between two threads without any atomics, just memory barriers:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  217  	 *
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  218  	 * For two threads you'll need two variables, one variable for "thread a
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  219  	 * has the lock" and another for "thread b has the lock".
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  220  	 *
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  221  	 * To take the lock, a thread sets its variable indicating that it holds
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  222  	 * the lock, then issues a full memory barrier, then reads from the
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  223  	 * other thread's variable to check if the other thread thinks it has
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  224  	 * the lock. If we raced, we backoff and retry/sleep.
+37f612bea5bd92 Kent Overstreet 2023-05-21  225  	 *
+37f612bea5bd92 Kent Overstreet 2023-05-21  226  	 * Failure to take the lock may cause a spurious trylock failure in
+37f612bea5bd92 Kent Overstreet 2023-05-21  227  	 * another thread, because we temporarily set the lock to indicate that
+37f612bea5bd92 Kent Overstreet 2023-05-21  228  	 * we held it. This would be a problem for a thread in six_lock(), when
+37f612bea5bd92 Kent Overstreet 2023-05-21  229  	 * they are calling trylock after adding themself to the waitlist and
+37f612bea5bd92 Kent Overstreet 2023-05-21  230  	 * prior to sleeping.
+37f612bea5bd92 Kent Overstreet 2023-05-21  231  	 *
+37f612bea5bd92 Kent Overstreet 2023-05-21  232  	 * Therefore, if we fail to get the lock, and there were waiters of the
+37f612bea5bd92 Kent Overstreet 2023-05-21  233  	 * type we conflict with, we will have to issue a wakeup.
+37f612bea5bd92 Kent Overstreet 2023-05-21  234  	 *
+37f612bea5bd92 Kent Overstreet 2023-05-21  235  	 * Since we may be called under wait_lock (and by the wakeup code
+37f612bea5bd92 Kent Overstreet 2023-05-21  236  	 * itself), we return that the wakeup has to be done instead of doing it
+37f612bea5bd92 Kent Overstreet 2023-05-21  237  	 * here.
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  238  	 */
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  239  	if (type == SIX_LOCK_read && lock->readers) {
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  240  		preempt_disable();
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  241  		this_cpu_inc(*lock->readers); /* signal that we own lock */
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  242  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  243  		smp_mb();
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  244  
+1fb4fe63178881 Kent Overstreet 2023-05-20  245  		old = atomic64_read(&lock->state);
+1fb4fe63178881 Kent Overstreet 2023-05-20  246  		ret = !(old & l[type].lock_fail);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  247  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  248  		this_cpu_sub(*lock->readers, !ret);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  249  		preempt_enable();
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  250  
+37f612bea5bd92 Kent Overstreet 2023-05-21  251  		if (!ret && (old & SIX_STATE_WAITING_WRITE))
+84a37cbf62e044 Kent Overstreet 2022-08-26  252  			ret = -1 - SIX_LOCK_write;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  253  	} else if (type == SIX_LOCK_write && lock->readers) {
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  254  		if (try) {
+b60c8e9e7b082a Kent Overstreet 2023-06-16  255  			atomic64_add(SIX_STATE_WRITE_LOCK, &lock->state);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  256  			smp_mb__after_atomic();
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  257  		}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  258  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  259  		ret = !pcpu_read_count(lock);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  260  
+b60c8e9e7b082a Kent Overstreet 2023-06-16  261  		if (try && !ret) {
+b60c8e9e7b082a Kent Overstreet 2023-06-16  262  			old = atomic64_sub_return(SIX_STATE_WRITE_LOCK, &lock->state);
+b60c8e9e7b082a Kent Overstreet 2023-06-16  263  			if (old & SIX_STATE_WAITING_READ)
+84a37cbf62e044 Kent Overstreet 2022-08-26  264  				ret = -1 - SIX_LOCK_read;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  265  		}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  266  	} else {
+1fb4fe63178881 Kent Overstreet 2023-05-20  267  		v = atomic64_read(&lock->state);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  268  		do {
+1fb4fe63178881 Kent Overstreet 2023-05-20  269  			new = old = v;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  270  
+b60c8e9e7b082a Kent Overstreet 2023-06-16  271  			ret = !(old & l[type].lock_fail);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  272  
+b60c8e9e7b082a Kent Overstreet 2023-06-16  273  			if (!ret || (type == SIX_LOCK_write && !try))
+d2c86b77de5894 Kent Overstreet 2023-05-20  274  				break;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  275  
+b60c8e9e7b082a Kent Overstreet 2023-06-16  276  			new += l[type].lock_val;
+b60c8e9e7b082a Kent Overstreet 2023-06-16  277  		} while ((v = atomic64_cmpxchg_acquire(&lock->state, old, new)) != old);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  278  
+1fb4fe63178881 Kent Overstreet 2023-05-20  279  		EBUG_ON(ret && !(atomic64_read(&lock->state) & l[type].held_mask));
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  280  	}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  281  
+84a37cbf62e044 Kent Overstreet 2022-08-26  282  	if (ret > 0)
+84a37cbf62e044 Kent Overstreet 2022-08-26 @283  		six_set_owner(lock, type, old, task);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  284  
+b60c8e9e7b082a Kent Overstreet 2023-06-16  285  	EBUG_ON(type == SIX_LOCK_write && try && ret <= 0 &&
+b60c8e9e7b082a Kent Overstreet 2023-06-16  286  		(atomic64_read(&lock->state) & SIX_STATE_WRITE_LOCK));
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  287  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  288  	return ret;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  289  }
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  290  
 
-:::::: TO: Paul Elder <paul.elder@ideasonboard.com>
-:::::: CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+:::::: The code at line 283 was first introduced by commit
+:::::: 84a37cbf62e04480607ddd1940e3d8ce65b3828d six locks: Wakeup now takes lock on behalf of waiter
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
