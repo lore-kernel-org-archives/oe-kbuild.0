@@ -1,46 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CF1FBF3
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Nov 2023 08:16:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1298AFC15
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Nov 2023 08:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LcTzSNQ4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699258575; x=1730794575;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aVfOE4dZInrvWAn1iXhahGStkze/RbUNjqSmc1AfeuA=;
-  b=LcTzSNQ4Jf/fErCSbRIanomH257ls52q16AvfMhXBQY+uPm+jF2BP04f
-   TneChShL5pTAtmMjU4FVTASb6Az0eDiBPd+CVrykg+Qv/TtQtsEILcja2
-   6G7x/qkyoCoTdZk72+xkQ80FBVZuTrKWcubXubO0kW/tSTGc0H9u3AhM8
-   7oZ36BQNZoE/83+5CMn+BJUke7iniWiA2bo/8yTELPWhyoMQ/GGowDDxE
-   yLiNmSSAog0enEJN1UllBWQm3d1NtKfqMlUJf2EYYyk4lKxKjD5TmoJC4
-   dwQOJcQSqR/QtEx67E+gp61/PNjVLQP5DP0qbMwXWwVyX6gINusTrwwrO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="10766267"
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="10766267"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 00:16:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="738737797"
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="738737797"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 06 Nov 2023 00:16:12 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qzumH-0006Fk-2k;
-	Mon, 06 Nov 2023 08:16:09 +0000
-Date: Mon, 6 Nov 2023 16:14:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: kernel/rcu/tree.c:2149 rcu_do_batch() error: uninitialized symbol
- 'jlimit'.
-Message-ID: <202311061532.19vHQQMl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qZ49E9jm"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-991c786369cso606184066b.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 06 Nov 2023 00:22:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699258932; x=1699863732; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YVp503bE1ru4IFxCLeuc6godEKHcqzF2XGlSQXQ8Upo=;
+        b=qZ49E9jm9J64jDDlpsb4FqZhPB8Eo+WEvDr6GIyqIOOFCmRYqjbvgPwCRA68lUGqT5
+         HJ6eo55nAvBDTxNlsVSLpzQsIPoQvGP1eGYRSsZQhWGWKpy6uq2ioqA+4UomoeXZHgBM
+         +qjcluQ5v/y1FKDi/SXIgO5VkzHG+m5DPZ+VKFmg4NkZNvjMMUl3TXznMoLaSlcIBKpV
+         YsjnRmhHqc6++QMTyNVWftzPAzADIViPV9fj+weGtXyAnRkMc/1eaL9W4mCnXiDo+lUI
+         lOdsEy/IlW1R9hImKOO2GDhW3Hk24jE3ZdgAzc1wIFRR7ZvOz8SC3+AkO2KFAHpqyrzf
+         Y5Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699258932; x=1699863732;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YVp503bE1ru4IFxCLeuc6godEKHcqzF2XGlSQXQ8Upo=;
+        b=ZgcoCf41R1C8s/GDUqbsX+k6tKYTEigtisHara5Pno1cWHh+BdxgfLXn72k3WUPWit
+         BZ9JHUIfjGNiaCvi3gdO8quUlzSVsxVIpcYsT89dOLLaCi0RubacLizaFCSQpQrHXtil
+         j1/kx5k4uJu9Vzn+XO/Ckom66BoKeQcvWzZIc7mMcajDBzG/+Hkn3NUGnVBbXl4LhYq0
+         Sg71eZ9npzSnsLuHuibWmwJgJh+OdfDuJUI/XqexRc056pf+40VFE3Ve1l86zmohr3il
+         yzdqqSdbud4NKBVjNoMjUkRqeoQv5vDs7LNMSgBj6+HH2m/g/F8qXsAW44lOmLcbQomp
+         syiQ==
+X-Gm-Message-State: AOJu0Yw0U4wu7lAPKDXzPCriAl76+UHQhdL+9h8bXgyu/xPqa3HId1Jx
+	cjtfHHBYsGAgVM+a2QF5dg8D3XU7zNdwtYVAZvU=
+X-Google-Smtp-Source: AGHT+IHYFBWYigEohSXMoPCbFpHMyX9vKMbrZF15MfZxETJjjg08YOa343fiHuknpDiWHy7Znuw1Gg==
+X-Received: by 2002:a17:907:318e:b0:9dd:7536:2b0 with SMTP id xe14-20020a170907318e00b009dd753602b0mr6406091ejb.50.1699258931783;
+        Mon, 06 Nov 2023 00:22:11 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id s19-20020a170906455300b009a1b857e3a5sm3883824ejq.54.2023.11.06.00.22.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Nov 2023 00:22:11 -0800 (PST)
+Date: Mon, 6 Nov 2023 11:22:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 33/84] drivers/ufs/core/ufshcd.c:2294
+ ufshcd_hba_capabilities() warn: missing error code? 'err'
+Message-ID: <d37eb167-926f-41e5-b52d-0e05c3c82518@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,179 +56,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Paul E. McKenney" <paulmck@kernel.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d2f51b3516dade79269ff45eae2a7668ae711b25
-commit: f51164a808b5bf1d81fc37eb53ab1eae59c79f2d rcu: Employ jiffies-based backstop to callback time limit
-date:   6 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 6 months ago
-config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231106/202311061532.19vHQQMl-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231106/202311061532.19vHQQMl-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   7bec8a8180669a95c44a767fa76f2a3dd3c46220
+commit: 996bbaea824f317c30977c4967f84b10feb3cf40 [33/84] FROMGIT: scsi: ufs: core: Introduce multi-circular queue capability
+config: i386-randconfig-141-20231104 (https://download.01.org/0day-ci/archive/20231104/202311041439.bhMvaFNy-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231104/202311041439.bhMvaFNy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311061532.19vHQQMl-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202311041439.bhMvaFNy-lkp@intel.com/
 
-smatch warnings:
-kernel/rcu/tree.c:2149 rcu_do_batch() error: uninitialized symbol 'jlimit'.
+New smatch warnings:
+drivers/ufs/core/ufshcd.c:2294 ufshcd_hba_capabilities() warn: missing error code? 'err'
 
-vim +/jlimit +2149 kernel/rcu/tree.c
+Old smatch warnings:
+drivers/ufs/core/ufshcd.c:5356 ufshcd_uic_cmd_compl() error: we previously assumed 'hba->active_uic_cmd' could be null (see line 5344)
+drivers/ufs/core/ufshcd.c:8783 ufshcd_setup_clocks() warn: 'clki->clk' from clk_prepare_enable() not released on lines: 8763.
 
-fea1c1f0101783 kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2060  
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2061  /*
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2062   * Invoke any RCU callbacks that have made it to the end of their grace
-a616aec9aa140e kernel/rcu/tree.c Ingo Molnar             2021-03-22  2063   * period.  Throttle as specified by rdp->blimit.
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2064   */
-5bb5d09cc4f868 kernel/rcu/tree.c Paul E. McKenney        2018-07-03  2065  static void rcu_do_batch(struct rcu_data *rdp)
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2066  {
-f51164a808b5bf kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2067  	long bl;
-f51164a808b5bf kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2068  	long count = 0;
-b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2069  	int div;
-b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2070) 	bool __maybe_unused empty;
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2071  	unsigned long flags;
-f51164a808b5bf kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2072  	unsigned long jlimit;
-f51164a808b5bf kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2073  	bool jlimit_check = false;
-f51164a808b5bf kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2074  	long pending;
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2075  	struct rcu_cblist rcl = RCU_CBLIST_INITIALIZER(rcl);
-f51164a808b5bf kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2076  	struct rcu_head *rhp;
-f51164a808b5bf kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2077  	long tlimit = 0;
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2078  
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2079  	/* If no callbacks are ready, just return. */
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2080  	if (!rcu_segcblist_ready_cbs(&rdp->cblist)) {
-3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2081  		trace_rcu_batch_start(rcu_state.name,
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2082  				      rcu_segcblist_n_cbs(&rdp->cblist), 0);
-3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2083  		trace_rcu_batch_end(rcu_state.name, 0,
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2084  				    !rcu_segcblist_empty(&rdp->cblist),
-4968c300e1fa53 kernel/rcutree.c  Paul E. McKenney        2011-12-07  2085  				    need_resched(), is_idle_task(current),
-5103850654fdc6 kernel/rcu/tree.c Zqiang                  2022-04-29  2086  				    rcu_is_callbacks_kthread(rdp));
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2087  		return;
-29c00b4a1d9e27 kernel/rcutree.c  Paul E. McKenney        2011-06-17  2088  	}
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2089  
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2090  	/*
-7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2091  	 * Extract the list of ready callbacks, disabling IRQs to prevent
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2092  	 * races with call_rcu() from interrupt handlers.  Leave the
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2093  	 * callback counts, as rcu_barrier() needs to be conservative.
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2094  	 */
-7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2095  	rcu_nocb_lock_irqsave(rdp, flags);
-8146c4e2e2c197 kernel/rcutree.c  Paul E. McKenney        2012-01-10  2096  	WARN_ON_ONCE(cpu_is_offline(smp_processor_id()));
-253cbbff621407 kernel/rcu/tree.c Paul E. McKenney        2022-11-14  2097  	pending = rcu_segcblist_get_seglen(&rdp->cblist, RCU_DONE_TAIL);
-b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2098  	div = READ_ONCE(rcu_divisor);
-b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2099  	div = div < 0 ? 7 : div > sizeof(long) * 8 - 2 ? sizeof(long) * 8 - 2 : div;
-b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2100  	bl = max(rdp->blimit, pending >> div);
-fea1c1f0101783 kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2101  	if ((in_serving_softirq() || rdp->rcu_cpu_kthread_status == RCU_KTHREAD_RUNNING) &&
-f51164a808b5bf kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2102  	    (IS_ENABLED(CONFIG_RCU_DOUBLE_CHECK_CB_TIME) || unlikely(bl > 100))) {
-f51164a808b5bf kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2103  		const long npj = NSEC_PER_SEC / HZ;
-a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2104  		long rrn = READ_ONCE(rcu_resched_ns);
-a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2105  
-a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2106  		rrn = rrn < NSEC_PER_MSEC ? NSEC_PER_MSEC : rrn > NSEC_PER_SEC ? NSEC_PER_SEC : rrn;
-a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2107  		tlimit = local_clock() + rrn;
-f51164a808b5bf kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2108  		jlimit = jiffies + (rrn + npj + 1) / npj;
-f51164a808b5bf kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2109  		jlimit_check = true;
-a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2110  	}
-3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2111  	trace_rcu_batch_start(rcu_state.name,
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2112  			      rcu_segcblist_n_cbs(&rdp->cblist), bl);
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2113  	rcu_segcblist_extract_done_cbs(&rdp->cblist, &rcl);
-344e219d7d2b28 kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2114  	if (rcu_rdp_is_offloaded(rdp))
-7f36ef82e5cf0b kernel/rcu/tree.c Paul E. McKenney        2019-05-28  2115  		rdp->qlen_last_fqs_check = rcu_segcblist_n_cbs(&rdp->cblist);
-3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2116) 
-3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2117) 	trace_rcu_segcb_stats(&rdp->cblist, TPS("SegCbDequeued"));
-5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2118  	rcu_nocb_unlock_irqrestore(rdp, flags);
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2119  
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2120  	/* Invoke callbacks. */
-6a949b7af82db7 kernel/rcu/tree.c Paul E. McKenney        2019-07-28  2121  	tick_dep_set_task(current, TICK_DEP_BIT_RCU);
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2122  	rhp = rcu_cblist_dequeue(&rcl);
-3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2123) 
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2124  	for (; rhp; rhp = rcu_cblist_dequeue(&rcl)) {
-77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2125) 		rcu_callback_t f;
-77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2126) 
-6bc335828056f3 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-03  2127) 		count++;
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2128  		debug_rcu_head_unqueue(rhp);
-77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2129) 
-77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2130) 		rcu_lock_acquire(&rcu_callback_map);
-77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2131) 		trace_rcu_invoke_callback(rcu_state.name, rhp);
-77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2132) 
-77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2133) 		f = rhp->func;
-77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2134) 		WRITE_ONCE(rhp->func, (rcu_callback_t)0L);
-77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2135) 		f(rhp);
-77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2136) 
-77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2137) 		rcu_lock_release(&rcu_callback_map);
-77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2138) 
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2139  		/*
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2140  		 * Stop only if limit reached and CPU has something to do.
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2141  		 */
-3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2142  		if (in_serving_softirq()) {
-3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2143  			if (count >= bl && (need_resched() || !is_idle_task(current)))
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2144  				break;
-3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2145  			/*
-3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2146  			 * Make sure we don't spend too much time here and deprive other
-3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2147  			 * softirq vectors of CPU cycles.
-3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2148  			 */
-f51164a808b5bf kernel/rcu/tree.c Paul E. McKenney        2023-03-31 @2149  			if (rcu_do_batch_check_time(count, tlimit, jlimit_check, jlimit))
-cfcdef5e30469f kernel/rcu/tree.c Eric Dumazet            2019-07-24  2150  				break;
-a554ba288845fd kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2151  		} else {
-fea1c1f0101783 kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2152  			// In rcuc/rcuoc context, so no worries about
-fea1c1f0101783 kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2153  			// depriving other softirq vectors of CPU cycles.
-5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2154  			local_bh_enable();
-5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2155  			lockdep_assert_irqs_enabled();
-5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2156  			cond_resched_tasks_rcu_qs();
-5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2157  			lockdep_assert_irqs_enabled();
-5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2158  			local_bh_disable();
-fea1c1f0101783 kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2159  			// But rcuc kthreads can delay quiescent-state
-fea1c1f0101783 kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2160  			// reporting, so check time limits for them.
-fea1c1f0101783 kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2161  			if (rdp->rcu_cpu_kthread_status == RCU_KTHREAD_RUNNING &&
-f51164a808b5bf kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2162  			    rcu_do_batch_check_time(count, tlimit, jlimit_check, jlimit)) {
-fea1c1f0101783 kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2163  				rdp->rcu_cpu_has_work = 1;
-fea1c1f0101783 kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2164  				break;
-fea1c1f0101783 kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2165  			}
-5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2166  		}
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2167  	}
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2168  
-7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2169  	rcu_nocb_lock_irqsave(rdp, flags);
-e816d56fad57ba kernel/rcu/tree.c Paul E. McKenney        2020-05-01  2170  	rdp->n_cbs_invoked += count;
-3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2171  	trace_rcu_batch_end(rcu_state.name, count, !!rcl.head, need_resched(),
-5103850654fdc6 kernel/rcu/tree.c Zqiang                  2022-04-29  2172  			    is_idle_task(current), rcu_is_callbacks_kthread(rdp));
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2173  
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2174  	/* Update counts and requeue any remaining callbacks. */
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2175  	rcu_segcblist_insert_done_cbs(&rdp->cblist, &rcl);
-6bc335828056f3 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-03  2176) 	rcu_segcblist_add_len(&rdp->cblist, -count);
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2177  
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2178  	/* Reinstate batch limit if we have worked down the excess. */
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2179  	count = rcu_segcblist_n_cbs(&rdp->cblist);
-d5a9a8c3bc8068 kernel/rcu/tree.c Paul E. McKenney        2019-04-10  2180  	if (rdp->blimit >= DEFAULT_MAX_RCU_BLIMIT && count <= qlowmark)
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2181  		rdp->blimit = blimit;
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2182  
-37c72e56f6b234 kernel/rcutree.c  Paul E. McKenney        2009-10-14  2183  	/* Reset ->qlen_last_fqs_check trigger if enough CBs have drained. */
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2184  	if (count == 0 && rdp->qlen_last_fqs_check != 0) {
-37c72e56f6b234 kernel/rcutree.c  Paul E. McKenney        2009-10-14  2185  		rdp->qlen_last_fqs_check = 0;
-2431774f04d105 kernel/rcu/tree.c Paul E. McKenney        2021-07-20  2186  		rdp->n_force_qs_snap = READ_ONCE(rcu_state.n_force_qs);
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2187  	} else if (count < rdp->qlen_last_fqs_check - qhimark)
-15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2188  		rdp->qlen_last_fqs_check = count;
-efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2189  
-efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2190  	/*
-efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2191  	 * The following usually indicates a double call_rcu().  To track
-efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2192  	 * this down, try building with CONFIG_DEBUG_OBJECTS_RCU_HEAD=y.
-efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2193  	 */
-b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2194) 	empty = rcu_segcblist_empty(&rdp->cblist);
-b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2195) 	WARN_ON_ONCE(count == 0 && !empty);
-d1b222c6be1f8b kernel/rcu/tree.c Paul E. McKenney        2019-07-02  2196  	WARN_ON_ONCE(!IS_ENABLED(CONFIG_RCU_NOCB_CPU) &&
-b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2197) 		     count != 0 && empty);
-b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2198) 	WARN_ON_ONCE(count == 0 && rcu_segcblist_n_segment_cbs(&rdp->cblist) != 0);
-b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2199) 	WARN_ON_ONCE(!empty && rcu_segcblist_n_segment_cbs(&rdp->cblist) == 0);
-37c72e56f6b234 kernel/rcutree.c  Paul E. McKenney        2009-10-14  2200  
-5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2201  	rcu_nocb_unlock_irqrestore(rdp, flags);
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2202  
-6a949b7af82db7 kernel/rcu/tree.c Paul E. McKenney        2019-07-28  2203  	tick_dep_clear_task(current, TICK_DEP_BIT_RCU);
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2204  }
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2205  
+vim +/err +2294 drivers/ufs/core/ufshcd.c
+
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2273  static inline int ufshcd_hba_capabilities(struct ufs_hba *hba)
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2274  {
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2275  	int err;
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2276  
+b873a27538dff5 drivers/scsi/ufs/ufshcd.c Seungwon Jeon      2013-06-26  2277  	hba->capabilities = ufshcd_readl(hba, REG_CONTROLLER_CAPABILITIES);
+6554400d6f66b9 drivers/ufs/core/ufshcd.c Yoshihiro Shimoda  2022-06-03  2278  	if (hba->quirks & UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS)
+6554400d6f66b9 drivers/ufs/core/ufshcd.c Yoshihiro Shimoda  2022-06-03  2279  		hba->capabilities &= ~MASK_64_ADDRESSING_SUPPORT;
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2280  
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2281  	/* nutrs and nutmrs are 0 based values */
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2282  	hba->nutrs = (hba->capabilities & MASK_TRANSFER_REQUESTS_SLOTS) + 1;
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2283  	hba->nutmrs =
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2284  	((hba->capabilities & MASK_TASK_MANAGEMENT_REQUEST_SLOTS) >> 16) + 1;
+945c3cca05d783 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  2285  	hba->reserved_slot = hba->nutrs - 1;
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2286  
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2287  	/* Read crypto capabilities */
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2288  	err = ufshcd_hba_init_crypto_capabilities(hba);
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2289  	if (err)
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2290  		dev_err(hba->dev, "crypto setup failed\n");
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2291  
+996bbaea824f31 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2292  	hba->mcq_sup = FIELD_GET(MASK_MCQ_SUPPORT, hba->capabilities);
+996bbaea824f31 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2293  	if (!hba->mcq_sup)
+996bbaea824f31 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13 @2294  		return err;
+
+"err" is zero here.  Presumably it should have been an error code.
+
+996bbaea824f31 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2295  
+2be21deeeb950c drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2296  	hba->mcq_capabilities = ufshcd_readl(hba, REG_MCQCAP);
+2be21deeeb950c drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2297  	hba->ext_iid_sup = FIELD_GET(MASK_EXT_IID_SUPPORT,
+2be21deeeb950c drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2298  				     hba->mcq_capabilities);
+2be21deeeb950c drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2299  
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2300  	return err;
+
+"err" is zero here as well.  Better to return 0;  More readable.
+
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2301  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
