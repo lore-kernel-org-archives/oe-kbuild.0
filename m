@@ -1,105 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB63228DBB
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Nov 2023 15:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AD11F95A;
+	Mon,  6 Nov 2023 15:16:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k275aNy8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699283152; x=1730819152;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=brWD7CuQlM1ImEEMItgpAPmB203SJTsKyXuUHkMFAqY=;
-  b=k275aNy8GeR7ADS7BkUlbHGhUD5p7NRPA87UdjN/8dWH8xMbVKpT/c3M
-   unYdrLvXV0XmOBsO/91wvXdHQRl78HU7rcmR/fHQdYbTZfDfhMtW8c4nd
-   /YWyCvqHxuZ/vm8O50nlpEvSFlvuewAMfhRzt3FcCUpE91yoxUXFw9RWG
-   ZxVCt5C/s2Cakr+WGN64EO7maBFuy1k4sUOqrD5ik1VzA/ArCyOaQOIDX
-   1MSbDcWhwvJaW+L3acNKr+Go8yoi+PLP3coVBQ6oATPJlKpN9gD2b3Xxx
-   YAjirIjEQ+KAsdhv65nP/UCXwiMHdxPMk70yzR0KlRz3SmCaB67NUSXGf
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="7923730"
-X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
-   d="scan'208";a="7923730"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 07:05:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
-   d="scan'208";a="3468175"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Nov 2023 07:05:50 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r01Ah-0006Ue-2P;
-	Mon, 06 Nov 2023 15:05:47 +0000
-Date: Mon, 6 Nov 2023 23:05:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/iio/light/rohm-bu27008.c:646
- bu27008_try_find_new_time_gain() error: uninitialized symbol 'new_time_sel'.
-Message-ID: <202311062303.3scVBcKu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RfQdQ2Pu"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40790b0a224so34743615e9.0;
+        Mon, 06 Nov 2023 07:16:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699283772; x=1699888572; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=3v3nCG3TlJu5hJkh/EcwD9eIuQG7bBphrhJ6+6K0+LU=;
+        b=RfQdQ2PuH/JHbGvOiFhFQYMbHhPedxCRm2KwOjPPa7H307lZxuSt37iUrrJY4ruAOh
+         J5qY32UIlg07Ua8acXzg3UiDx2D8mVrtT+0CHw/38BZo5QKvHidaJTXdu6WmDAyakUlT
+         N/eclfyZzEPzCznWJIFLTo7D+LBBv8eBBTwn/FxvInto/3ZJaewwnKgNnGk3FTE2Y+hr
+         yYn0tXjgcxMcmr75zn/W8aNq1u6DNUqODbhYtutdx2qZ7P8F39CGSPtYmB/ayIRmICbm
+         QP8fpgmT/IL5Cwbzu3SMIl63XVAd59twE4RlE4tNDYc6CdibYKJq3I0Pz7anXV2abF1t
+         pGiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699283772; x=1699888572;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3v3nCG3TlJu5hJkh/EcwD9eIuQG7bBphrhJ6+6K0+LU=;
+        b=HC0sxag5RB1srg/fz5rU0W5ppwV3hH84ul6hW6gIgEsWLxMeyhW/bY3wxeB2N2c+g5
+         DOis4niDXY5X4YBofkFY7RNR7pBU0hyvxVJ+oVDhqplRy9eYa3B96mO68xQG0GhysCkK
+         FgcqJ67akmO1hqeoiD3CIVYRxgCkaMCAlkqr4CDtBzYtqbFbckFr0aBdeb9Jbt+4uEfd
+         317uqWCOFcz1oAq+g/YPWSSlx2T73GQy5rWs/dlvTgV7y/HxtpJyD9bHNct3QMpEHJjw
+         IC0H1Ox+0bjepBcUiIGlh93iFfEAVbVyA7mXlwTUQN+D+L1AdCRfgFvEMZSTNx2czQHO
+         k7Sw==
+X-Gm-Message-State: AOJu0YxawG+9PfogXAHO/3NA26S9znsbkygUqfgWP67mflpcKaPb3Qdn
+	fWQ7jxneasQQutikgbSxsYs=
+X-Google-Smtp-Source: AGHT+IEqXBr/fsfrXexxWha/Icxv2t4d1e39DSTutU3sK2NePYGtnET5E7xVnOVFsm5AQTqYZz1vag==
+X-Received: by 2002:a05:600c:1394:b0:409:7aa9:a8fd with SMTP id u20-20020a05600c139400b004097aa9a8fdmr4928544wmf.22.1699283771396;
+        Mon, 06 Nov 2023 07:16:11 -0800 (PST)
+Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
+        by smtp.gmail.com with ESMTPSA id b5-20020a05600c4e0500b00407b93d8085sm12688608wmq.27.2023.11.06.07.16.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Nov 2023 07:16:10 -0800 (PST)
+Message-ID: <8371368263aea64bc0f635f723cb6ca9d0176dea.camel@gmail.com>
+Subject: Re: [alobakin:pfcp 5/20] drivers/iio/imu/adis16475.c:363
+ adis16475_set_freq() warn: set_bit() takes a bit number
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>, Nuno Sa
+	 <nuno.sa@analog.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, 
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev, Przemek Kitszel
+	 <przemyslaw.kitszel@intel.com>, linux-iio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 06 Nov 2023 16:16:09 +0100
+In-Reply-To: <41eff9b4-3041-4a1e-ba28-b16d866cd894@intel.com>
+References: <ff4ef031-774e-4e4d-a009-31f242bf6aee@kadam.mountain>
+	 <5b0f8705-71cb-4c4c-a70c-d9d3a15886cb@intel.com>
+	 <f040255ef1b3be87050b8255c947b4b375e75a02.camel@gmail.com>
+	 <bf2b6899-fad0-4ac7-a906-e8d361e5a46d@intel.com>
+	 <e29dc510c78205d87b573e0fe185dc7c7d509310.camel@gmail.com>
+	 <41eff9b4-3041-4a1e-ba28-b16d866cd894@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Matti Vaittinen <mazziesaccount@gmail.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+On Mon, 2023-11-06 at 14:39 +0100, Alexander Lobakin wrote:
+> From: Nuno S=C3=A1 <noname.nuno@gmail.com>
+> Date: Mon, 06 Nov 2023 13:02:58 +0100
+>=20
+> > On Mon, 2023-11-06 at 12:18 +0100, Alexander Lobakin wrote:
+> > > From: Nuno S=C3=A1 <noname.nuno@gmail.com>
+> > > Date: Mon, 06 Nov 2023 11:07:16 +0100
+>=20
+> [...]
+>=20
+> > > assign_bit() does not take a bitmask as a first argument, but a bit n=
+umber.
+> > >=20
+> > > I.e. if you want to switch BIT(0), you call it like assign_bit(0, ...=
+),
+> > > not assign_bit(BIT(0), ...). Same for the bit nr 1.
+> > >=20
+> >=20
+> > Yes, I know... if you look at my reply to Dan you can see I realized th=
+at already
+> > :)=20
+>=20
+> Oh okay :)
+>=20
+> >=20
+> > I guess by the time I first sent this time I didn't knew or maybe just =
+a dumb
+> > mistake...
+> >=20
+> > I'll send a patch later today removing the BIT() from the #define, thx!
+>=20
+> Nice! Don't forget the tags the build bot asked for :p
+>=20
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d2f51b3516dade79269ff45eae2a7668ae711b25
-commit: 41ff93d14f784695b5019bc1451dfd4eb2b30d9d iio: light: ROHM BU27008 color sensor
-date:   6 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 6 months ago
-config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231106/202311062303.3scVBcKu-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231106/202311062303.3scVBcKu-lkp@intel.com/reproduce)
+Just sent it... Hopefully no tags were forgotten! I was not sure about the =
+Fixes tag
+but added it anyways as this is indeed fixing something (even though the bu=
+g was
+never triggered).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311062303.3scVBcKu-lkp@intel.com/
+- Nuno S=C3=A1
 
-smatch warnings:
-drivers/iio/light/rohm-bu27008.c:646 bu27008_try_find_new_time_gain() error: uninitialized symbol 'new_time_sel'.
-
-vim +/new_time_sel +646 drivers/iio/light/rohm-bu27008.c
-
-41ff93d14f7846 Matti Vaittinen 2023-05-08  626  
-41ff93d14f7846 Matti Vaittinen 2023-05-08  627  /* Called if the new scale could not be supported with existing int-time */
-41ff93d14f7846 Matti Vaittinen 2023-05-08  628  static int bu27008_try_find_new_time_gain(struct bu27008_data *data, int val,
-41ff93d14f7846 Matti Vaittinen 2023-05-08  629  					  int val2, int *gain_sel)
-41ff93d14f7846 Matti Vaittinen 2023-05-08  630  {
-41ff93d14f7846 Matti Vaittinen 2023-05-08  631  	int i, ret, new_time_sel;
-41ff93d14f7846 Matti Vaittinen 2023-05-08  632  
-41ff93d14f7846 Matti Vaittinen 2023-05-08  633  	for (i = 0; i < data->gts.num_itime; i++) {
-41ff93d14f7846 Matti Vaittinen 2023-05-08  634  		new_time_sel = data->gts.itime_table[i].sel;
-41ff93d14f7846 Matti Vaittinen 2023-05-08  635  		ret = iio_gts_find_gain_sel_for_scale_using_time(&data->gts,
-41ff93d14f7846 Matti Vaittinen 2023-05-08  636  					new_time_sel, val, val2 * 1000, gain_sel);
-41ff93d14f7846 Matti Vaittinen 2023-05-08  637  		if (!ret)
-41ff93d14f7846 Matti Vaittinen 2023-05-08  638  			break;
-41ff93d14f7846 Matti Vaittinen 2023-05-08  639  	}
-41ff93d14f7846 Matti Vaittinen 2023-05-08  640  	if (i == data->gts.num_itime) {
-41ff93d14f7846 Matti Vaittinen 2023-05-08  641  		dev_err(data->dev, "Can't support scale %u %u\n", val, val2);
-41ff93d14f7846 Matti Vaittinen 2023-05-08  642  
-41ff93d14f7846 Matti Vaittinen 2023-05-08  643  		return -EINVAL;
-41ff93d14f7846 Matti Vaittinen 2023-05-08  644  	}
-41ff93d14f7846 Matti Vaittinen 2023-05-08  645  
-41ff93d14f7846 Matti Vaittinen 2023-05-08 @646  	return bu27008_set_int_time_sel(data, new_time_sel);
-41ff93d14f7846 Matti Vaittinen 2023-05-08  647  }
-41ff93d14f7846 Matti Vaittinen 2023-05-08  648  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
