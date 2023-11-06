@@ -1,151 +1,163 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F6EF9C8;
-	Mon,  6 Nov 2023 10:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3577A1798F
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Nov 2023 10:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IjMbgVSr"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-32d81864e3fso2464189f8f.2;
-        Mon, 06 Nov 2023 02:07:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699265238; x=1699870038; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=yXaH60OXLA944yqNjhnmnFs2o9Uym/cHZ9fIZjVIilg=;
-        b=IjMbgVSr3GeYnJkaFDvngs23qIPmBamPOxwL6pXo3Qv1qnUTc8KS+mZMrli/n3RxT9
-         yNwaD8OQnSUQZpn133bXE8qF6yzKeF4EELvA+DGKk3ZWSZKosZcfD8xqNAKg+/uP6g6F
-         p9/ol477s96NF+wKHEdY4LGj3W8yw3WAoyVl3PBp6f+pSalqWIJ4OK6FNZlzES+iFNJR
-         gMvCmpYjOHdVP5jDxVSu1kGr5cgJks1Mun9v3eQHn4zxq1NTZ0lb365ZGtxpmelytF9B
-         jqfWC9NqFlJ9lOFl6sLHdMM2ut5YX3fVQUYU85qE5xzD74BSCE8Rr51Wuvuc42iy00No
-         iXgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699265238; x=1699870038;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yXaH60OXLA944yqNjhnmnFs2o9Uym/cHZ9fIZjVIilg=;
-        b=it5RYKnzyK/afZFh20o5jJJnyOpNMzAp3eW645biL413F/LEEXK2bkYbwkhIWG4uSM
-         DZiU6x434uPWFNTaLA6JDHXHiNyEIU96xscXmDC1QYMEPYA72VOWuhBgpwbmgCXKvcIz
-         P347qBggfdcwwYBfoNMsoLkATfUn7b+03QnTCqY20KYLKh+Nqh9kg7ft/4gvv0IytG/l
-         T2MqIsN7w8IxVLbpFkoQ+KuSQVBCQM84JaDq2saPyMlZHEQ0idJvutEg4j55Ej/Q4y6M
-         BK6iMndFavHwUV1EB1aIZq9WFVDDkj9W79opN3hsV8ACs13xZrBnPVlK9UL3HyCNnA8l
-         bvyg==
-X-Gm-Message-State: AOJu0YwgaeJf4qlBu2/qSKNRIn/KAfgmd+us8cKSqA9BiBygcbBTYW84
-	1JHjoFgUSXPxafh2o99yC+o=
-X-Google-Smtp-Source: AGHT+IFJeY3VYgc4qugk09KMU8myylq6CYIxrFpb9Lz5TnPJnxxG3RL3CSmXBkxz8lIfciDav5gB1A==
-X-Received: by 2002:a05:6000:1f07:b0:319:68ce:2c53 with SMTP id bv7-20020a0560001f0700b0031968ce2c53mr25520550wrb.25.1699265237765;
-        Mon, 06 Nov 2023 02:07:17 -0800 (PST)
-Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
-        by smtp.gmail.com with ESMTPSA id j5-20020adfe505000000b0031fd849e797sm8606006wrm.105.2023.11.06.02.07.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 02:07:17 -0800 (PST)
-Message-ID: <f040255ef1b3be87050b8255c947b4b375e75a02.camel@gmail.com>
-Subject: Re: [alobakin:pfcp 5/20] drivers/iio/imu/adis16475.c:363
- adis16475_set_freq() warn: set_bit() takes a bit number
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>, Nuno Sa
-	 <nuno.sa@analog.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, 
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev, Przemek Kitszel
-	 <przemyslaw.kitszel@intel.com>, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Mon, 06 Nov 2023 11:07:16 +0100
-In-Reply-To: <5b0f8705-71cb-4c4c-a70c-d9d3a15886cb@intel.com>
-References: <ff4ef031-774e-4e4d-a009-31f242bf6aee@kadam.mountain>
-	 <5b0f8705-71cb-4c4c-a70c-d9d3a15886cb@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bVsZek+L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699267331; x=1730803331;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=H0yAGOfAB94YAoeuWBRwkviNdhBXDZFDC7uUs2I7Tpw=;
+  b=bVsZek+L6hRhuLLZnvI7VTOIsjYUbX/+E+pkmfMRRI2UkAHGXkrnPixr
+   PH4BNIFylhYq5pRJr8grHLFqgElK7wpy90JdUuaUgxeaImYU9QjIFU0NE
+   ufjNidZvb0XkVrDQeQysTGuMU8ts8ugTNGEWIlCBswvp7R3wNSLkmDBr5
+   k4lW8kdbJyQSQYEcc61iaZZf5NSTmbOaUNSl4illlyswYhyz7oXtRdjN4
+   8ZifNlXV5tTJJmxd+pzImUUdPOK/mqmmxEkLJf5yABveJk94PCe73FMGO
+   b9ZYE9KkehHG/Vo0JbVVWnwD/MSolE5tGSoIcvKkLEKUlzxhbja0BKx4n
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="369456186"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
+   d="scan'208";a="369456186"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 02:42:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="797266444"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
+   d="scan'208";a="797266444"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 06 Nov 2023 02:42:06 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qzx3T-0006LE-37;
+	Mon, 06 Nov 2023 10:42:03 +0000
+Date: Mon, 6 Nov 2023 18:41:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android12-5.10 870/30000] fs/ext4/namei.c:3245
+ ext4_rmdir() error: uninitialized symbol 'lblk'.
+Message-ID: <202311061816.2qkXzfnp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Olek,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
 
-On Mon, 2023-11-06 at 10:31 +0100, Alexander Lobakin wrote:
-> From: Dan Carpenter <dan.carpenter@linaro.org>
-> Date: Mon, 6 Nov 2023 11:50:03 +0300
->=20
-> Hi,
->=20
-> > tree:=C2=A0=C2=A0 https://github.com/alobakin/linux=C2=A0pfcp
-> > head:=C2=A0=C2=A0 89565e300e3d4033b8bb568774804fdc09d4f3cc
-> > commit: 945a0d6e86d97bf60f2fae88ee557ed3eae18b94 [5/20] bitops: let the=
- compiler
-> > optimize {__,}assign_bit()
-> > config: i386-randconfig-141-20231105
-> > (https://download.01.org/0day-ci/archive/20231106/202311060647.i9XyO4ej=
--lkp@intel
-> > .com/config)
-> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > reproduce:
-> > (https://download.01.org/0day-ci/archive/20231106/202311060647.i9XyO4ej=
--lkp@intel
-> > .com/reproduce)
-> >=20
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > > Closes: https://lore.kernel.org/r/202311060647.i9XyO4ej-lkp@intel.com=
-/
-> >=20
-> > smatch warnings:
-> > drivers/iio/imu/adis16475.c:363 adis16475_set_freq() warn: set_bit() ta=
-kes a bit
-> > number
-> > drivers/iio/imu/adis16475.c:363 adis16475_set_freq() warn: clear_bit() =
-takes a
-> > bit number
-> > drivers/iio/imu/adis16475.c:416 adis16475_set_filter() warn: set_bit() =
-takes a
-> > bit number
-> > drivers/iio/imu/adis16475.c:416 adis16475_set_filter() warn: clear_bit(=
-) takes a
-> > bit number
-> >=20
-> > vim +363 drivers/iio/imu/adis16475.c
-> >=20
-> > fff7352bf7a3ce Nuno S=C3=A1 2020-04-13=C2=A0 357=C2=A0=20
-> > 9da1b86865ab43 Nuno S=C3=A1 2021-09-20=C2=A0 358=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0adis_dev_unlock(&st->adis);
-> > fff7352bf7a3ce Nuno S=C3=A1 2020-04-13=C2=A0 359=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/*
-> > fff7352bf7a3ce Nuno S=C3=A1 2020-04-13=C2=A0 360=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * If decimation is used, then
-> > gyro and accel data will have meaningful
-> > fff7352bf7a3ce Nuno S=C3=A1 2020-04-13=C2=A0 361=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * bits on the LSB registers.
-> > This info is used on the trigger handler.
-> > fff7352bf7a3ce Nuno S=C3=A1 2020-04-13=C2=A0 362=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > fff7352bf7a3ce Nuno S=C3=A1 2020-04-13
-> > @363=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0assign_=
-bit(ADIS16475_LSB_DEC_MASK, &st->lsb_flag, dec);
-> >=20
-> > assign_bit() takes a bit number like 0.=C2=A0 But this is passing BIT(0=
-) so
-> > it's like BIT(BIT(0)).=C2=A0 Which is fine until you get to 5.
->=20
-> Is this intended? There are 2 places where you pass
-> %ADIS16475_LSB_DEC_MASK and %ADIS16475_LSB_FIR_MASK, which is `BIT(0)`
-> and `BIT(1)` respectively, to assign_bit(), which takes 0, 1 etc.
->=20
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   f40707abde2eb5cd21cf8848f33aefb7e394ad1a
+commit: 705a3e5b1852b2724218f3775696b13ef10d910d [870/30000] ANDROID: ext4: Handle casefolding with encryption
+:::::: branch date: 3 days ago
+:::::: commit date: 3 years, 4 months ago
+config: x86_64-randconfig-161-20231106 (https://download.01.org/0day-ci/archive/20231106/202311061816.2qkXzfnp-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231106/202311061816.2qkXzfnp-lkp@intel.com/reproduce)
 
-Sorry, I'm missing the point in here... This should be a simple mask as=C2=
-=A0
-GENMASK(1, 0) setting/clearing the bits when appropriate. Obviously,=20
-ADIS16475_LSB_DEC_MASK and ADIS16475_LSB_FIR_MASK are not properly defined
-:sweat_smile:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311061816.2qkXzfnp-lkp@intel.com/
 
-- Nuno S=C3=A1
->=20
-> >=20
+New smatch warnings:
+fs/ext4/namei.c:3245 ext4_rmdir() error: uninitialized symbol 'lblk'.
+fs/ext4/namei.c:3689 ext4_find_delete_entry() error: uninitialized symbol 'lblk'.
 
+Old smatch warnings:
+fs/ext4/namei.c:1772 ext4_lookup() error: potentially dereferencing uninitialized 'de'.
+fs/ext4/namei.c:1827 ext4_get_parent() error: potentially dereferencing uninitialized 'de'.
+fs/ext4/namei.c:3227 ext4_rmdir() error: potentially dereferencing uninitialized 'de'.
+fs/ext4/namei.c:3318 ext4_unlink() error: potentially dereferencing uninitialized 'de'.
+fs/ext4/namei.c:3332 ext4_unlink() error: uninitialized symbol 'lblk'.
+fs/ext4/namei.c:3689 ext4_find_delete_entry() error: uninitialized symbol 'de'.
+
+vim +/lblk +3245 fs/ext4/namei.c
+
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3194  
+617ba13b31fbf5 Mingming Cao       2006-10-11  3195  static int ext4_rmdir(struct inode *dir, struct dentry *dentry)
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3196  {
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3197  	int retval;
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3198  	struct inode *inode;
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3199  	struct buffer_head *bh;
+617ba13b31fbf5 Mingming Cao       2006-10-11  3200  	struct ext4_dir_entry_2 *de;
+8dcfaad244cdfa Theodore Ts'o      2013-02-09  3201  	handle_t *handle = NULL;
+705a3e5b1852b2 Daniel Rosenberg   2019-10-07  3202  	ext4_lblk_t lblk;
+705a3e5b1852b2 Daniel Rosenberg   2019-10-07  3203  
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3204  
+0db1ff222d40f1 Theodore Ts'o      2017-02-05  3205  	if (unlikely(ext4_forced_shutdown(EXT4_SB(dir->i_sb))))
+0db1ff222d40f1 Theodore Ts'o      2017-02-05  3206  		return -EIO;
+0db1ff222d40f1 Theodore Ts'o      2017-02-05  3207  
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3208  	/* Initialize quotas before so that eventual writes go in
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3209  	 * separate transaction */
+a7cdadee0e8948 Jan Kara           2015-06-29  3210  	retval = dquot_initialize(dir);
+a7cdadee0e8948 Jan Kara           2015-06-29  3211  	if (retval)
+a7cdadee0e8948 Jan Kara           2015-06-29  3212  		return retval;
+a7cdadee0e8948 Jan Kara           2015-06-29  3213  	retval = dquot_initialize(d_inode(dentry));
+a7cdadee0e8948 Jan Kara           2015-06-29  3214  	if (retval)
+a7cdadee0e8948 Jan Kara           2015-06-29  3215  		return retval;
+907f4554e2521c Christoph Hellwig  2010-03-03  3216  
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3217  	retval = -ENOENT;
+705a3e5b1852b2 Daniel Rosenberg   2019-10-07  3218  	bh = ext4_find_entry(dir, &dentry->d_name, &de, NULL, &lblk);
+36de928641ee48 Theodore Ts'o      2014-08-23  3219  	if (IS_ERR(bh))
+36de928641ee48 Theodore Ts'o      2014-08-23  3220  		return PTR_ERR(bh);
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3221  	if (!bh)
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3222  		goto end_rmdir;
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3223  
+2b0143b5c986be David Howells      2015-03-17  3224  	inode = d_inode(dentry);
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3225  
+6a797d27378389 Darrick J. Wong    2015-10-17  3226  	retval = -EFSCORRUPTED;
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3227  	if (le32_to_cpu(de->inode) != inode->i_ino)
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3228  		goto end_rmdir;
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3229  
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3230  	retval = -ENOTEMPTY;
+e875a2ddba06ff Michael Halcrow    2015-04-11  3231  	if (!ext4_empty_dir(inode))
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3232  		goto end_rmdir;
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3233  
+8dcfaad244cdfa Theodore Ts'o      2013-02-09  3234  	handle = ext4_journal_start(dir, EXT4_HT_DIR,
+64044abf05d084 Theodore Ts'o      2013-02-09  3235  				    EXT4_DATA_TRANS_BLOCKS(dir->i_sb));
+8dcfaad244cdfa Theodore Ts'o      2013-02-09  3236  	if (IS_ERR(handle)) {
+8dcfaad244cdfa Theodore Ts'o      2013-02-09  3237  		retval = PTR_ERR(handle);
+8dcfaad244cdfa Theodore Ts'o      2013-02-09  3238  		handle = NULL;
+8dcfaad244cdfa Theodore Ts'o      2013-02-09  3239  		goto end_rmdir;
+8dcfaad244cdfa Theodore Ts'o      2013-02-09  3240  	}
+8dcfaad244cdfa Theodore Ts'o      2013-02-09  3241  
+8dcfaad244cdfa Theodore Ts'o      2013-02-09  3242  	if (IS_DIRSYNC(dir))
+8dcfaad244cdfa Theodore Ts'o      2013-02-09  3243  		ext4_handle_sync(handle);
+8dcfaad244cdfa Theodore Ts'o      2013-02-09  3244  
+705a3e5b1852b2 Daniel Rosenberg   2019-10-07 @3245  	retval = ext4_delete_entry(handle, dir, de, lblk, bh);
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3246  	if (retval)
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3247  		goto end_rmdir;
+f8628a14a27eb4 Andreas Dilger     2007-07-18  3248  	if (!EXT4_DIR_LINK_EMPTY(inode))
+b03a2f7eb21cc0 Andreas Dilger     2015-06-15  3249  		ext4_warning_inode(inode,
+b03a2f7eb21cc0 Andreas Dilger     2015-06-15  3250  			     "empty directory '%.*s' has too many links (%u)",
+b03a2f7eb21cc0 Andreas Dilger     2015-06-15  3251  			     dentry->d_name.len, dentry->d_name.name,
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3252  			     inode->i_nlink);
+ee73f9a52a3437 Jeff Layton        2018-01-09  3253  	inode_inc_iversion(inode);
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3254  	clear_nlink(inode);
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3255  	/* There's no need to set i_disksize: the fact that i_nlink is
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3256  	 * zero will ensure that the right thing happens during any
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3257  	 * recovery. */
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3258  	inode->i_size = 0;
+617ba13b31fbf5 Mingming Cao       2006-10-11  3259  	ext4_orphan_add(handle, inode);
+eeca7ea1baa939 Deepa Dinamani     2016-11-14  3260  	inode->i_ctime = dir->i_ctime = dir->i_mtime = current_time(inode);
+4209ae12b12265 Harshad Shirwadkar 2020-04-26  3261  	retval = ext4_mark_inode_dirty(handle, inode);
+4209ae12b12265 Harshad Shirwadkar 2020-04-26  3262  	if (retval)
+4209ae12b12265 Harshad Shirwadkar 2020-04-26  3263  		goto end_rmdir;
+f8628a14a27eb4 Andreas Dilger     2007-07-18  3264  	ext4_dec_count(handle, dir);
+617ba13b31fbf5 Mingming Cao       2006-10-11  3265  	ext4_update_dx_flag(dir);
+4209ae12b12265 Harshad Shirwadkar 2020-04-26  3266  	retval = ext4_mark_inode_dirty(handle, dir);
+ac27a0ec112a08 Dave Kleikamp      2006-10-11  3267  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
