@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1D69444
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Nov 2023 05:14:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03DD89463
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Nov 2023 05:39:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HTJR83Ih"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dNaPnHWt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699247700; x=1730783700;
+  t=1699249171; x=1730785171;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KFw7CbUIBmME5dC0HwRojjaRlMnezaZqTcGHsqwHZGw=;
-  b=HTJR83IhfUxEH/H9iRB1MACXAvcgi4Mw5jkm3Y2DPRy/yfpQ4i/0mxL7
-   IvRBI693P58ZdeWFxIOiP8gPS5XnLEVBVjYUhNarJbTtbmIiysgZ2jB8C
-   k3sk5A8reb61ih44YSyXTG1dpzXdAbgf/wGYu2tlCj2/traQAJGn4tWUs
-   QMwe01Xe1v7gi87AFOBAXGRRI94QPIzR5tvk1EcAAqawmvhvwRRq9xTcH
-   Hty4NhZsfgi84q5TGeYnq2RWZW7XIJzhf45OFVSJ7c/LjQWIwcFojZ2Rg
-   APycnaLXs13YXjb0GW/2wqgC1NnRGPfS55+BMnmuw8VvI2ixmFU8YkO8U
+  bh=p4hHksG89GdD+p0MRATnmFjDsTCH/P+VEvVfkM4m2XQ=;
+  b=dNaPnHWt20ByI39H3ti1p8HR2q/VUbqlbPLwfXxAET/LwFhgz/PbkBqE
+   sq/4IXB0mDTjE3s5R12pW+yGZ7mCY2SWvX1qLA0a0v+uFFKEQqdGqsKy+
+   QXQUPFSCG7p5q+FtSnYWBA6vxc+R5taHgKHMKxnfeU88NvrcKtDmUQVw4
+   72e/HSnGClhJ/qzecbOeXBZp6/HB1Ai3xm7dnOpH6vlbfBbB4VPmC6Y4P
+   1wNK9hz9FWL6g3dWVn/6lhh5KNwwFad/FRdOAhYSKVcpFDJmF5KHtL5DZ
+   CZFdu8stUgMm6YeAWVgzWqk1sSVLpTyCeAfm/7TQDMRGX8rtIMdHh7PIZ
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="455692087"
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="7846138"
 X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="455692087"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 21:14:59 -0800
+   d="scan'208";a="7846138"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 21:39:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="712094291"
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="885790485"
 X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="712094291"
+   d="scan'208";a="885790485"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 05 Nov 2023 21:14:58 -0800
+  by orsmga004.jf.intel.com with ESMTP; 05 Nov 2023 21:39:29 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzrwu-00068B-08;
-	Mon, 06 Nov 2023 05:14:56 +0000
-Date: Mon, 6 Nov 2023 13:13:31 +0800
+	id 1qzsKc-00069Q-1D;
+	Mon, 06 Nov 2023 05:39:26 +0000
+Date: Mon, 6 Nov 2023 13:37:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/bcachefs/super.c:396 __bch2_fs_read_write() warn: missing unwind
- goto?
-Message-ID: <202311061320.PGYyDFEl-lkp@intel.com>
+Subject: [ebiggers:wip-crypto 14/14] drivers/md/dm-verity-target.c:509
+ verity_compute_hash() warn: missing unwind goto?
+Message-ID: <202311061342.RJVm8z01-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,95 +52,89 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Kent Overstreet <kmo@daterainc.com>
+TO: Eric Biggers <ebiggers@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d2f51b3516dade79269ff45eae2a7668ae711b25
-commit: 5f5c74661713327309f124e247de61db6729bc3d bcachefs: Start copygc when first going read-write
-date:   2 weeks ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 weeks ago
-config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231106/202311061320.PGYyDFEl-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231106/202311061320.PGYyDFEl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-crypto
+head:   656794a48aa8a5d6f411db4ec4279c7c6c80d3e9
+commit: 656794a48aa8a5d6f411db4ec4279c7c6c80d3e9 [14/14] dm-verity: hash blocks with shash import+finup when possible
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: i386-randconfig-141-20231103 (https://download.01.org/0day-ci/archive/20231106/202311061342.RJVm8z01-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231106/202311061342.RJVm8z01-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311061320.PGYyDFEl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311061342.RJVm8z01-lkp@intel.com/
 
-New smatch warnings:
-fs/bcachefs/super.c:396 __bch2_fs_read_write() warn: missing unwind goto?
+smatch warnings:
+drivers/md/dm-verity-target.c:509 verity_compute_hash() warn: missing unwind goto?
 
-Old smatch warnings:
-fs/bcachefs/super.c:1923 bch2_fs_open() warn: variable dereferenced before IS_ERR check 'c' (see line 1914)
+vim +509 drivers/md/dm-verity-target.c
 
-vim +396 fs/bcachefs/super.c
-
-134915f3d38d83 Kent Overstreet 2019-03-21  343  
-e731d466d2ba02 Kent Overstreet 2019-12-26  344  static int __bch2_fs_read_write(struct bch_fs *c, bool early)
-134915f3d38d83 Kent Overstreet 2019-03-21  345  {
-134915f3d38d83 Kent Overstreet 2019-03-21  346  	struct bch_dev *ca;
-134915f3d38d83 Kent Overstreet 2019-03-21  347  	unsigned i;
-134915f3d38d83 Kent Overstreet 2019-03-21  348  	int ret;
-134915f3d38d83 Kent Overstreet 2019-03-21  349  
-aae15aafcd43ec Kent Overstreet 2021-04-24  350  	if (test_bit(BCH_FS_INITIAL_GC_UNFIXED, &c->flags)) {
-aae15aafcd43ec Kent Overstreet 2021-04-24  351  		bch_err(c, "cannot go rw, unfixed btree errors");
-aae15aafcd43ec Kent Overstreet 2021-04-24  352  		return -EROFS;
-aae15aafcd43ec Kent Overstreet 2021-04-24  353  	}
-aae15aafcd43ec Kent Overstreet 2021-04-24  354  
-134915f3d38d83 Kent Overstreet 2019-03-21  355  	if (test_bit(BCH_FS_RW, &c->flags))
-134915f3d38d83 Kent Overstreet 2019-03-21  356  		return 0;
-134915f3d38d83 Kent Overstreet 2019-03-21  357  
-619f5bee86b558 Kent Overstreet 2019-04-17  358  	/*
-619f5bee86b558 Kent Overstreet 2019-04-17  359  	 * nochanges is used for fsck -n mode - we have to allow going rw
-619f5bee86b558 Kent Overstreet 2019-04-17  360  	 * during recovery for that to work:
-619f5bee86b558 Kent Overstreet 2019-04-17  361  	 */
-619f5bee86b558 Kent Overstreet 2019-04-17  362  	if (c->opts.norecovery ||
-619f5bee86b558 Kent Overstreet 2019-04-17  363  	    (c->opts.nochanges &&
-619f5bee86b558 Kent Overstreet 2019-04-17  364  	     (!early || c->opts.read_only)))
-619f5bee86b558 Kent Overstreet 2019-04-17  365  		return -EROFS;
-330581f16f3041 Kent Overstreet 2019-04-05  366  
-2c944fa12dc731 Kent Overstreet 2021-03-19  367  	bch_info(c, "going read-write");
-2c944fa12dc731 Kent Overstreet 2021-03-19  368  
-134915f3d38d83 Kent Overstreet 2019-03-21  369  	ret = bch2_fs_mark_dirty(c);
-134915f3d38d83 Kent Overstreet 2019-03-21  370  	if (ret)
-134915f3d38d83 Kent Overstreet 2019-03-21  371  		goto err;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  372  
-c0960603e2d42d Kent Overstreet 2022-04-17  373  	clear_bit(BCH_FS_CLEAN_SHUTDOWN, &c->flags);
-2340fd9d27c480 Kent Overstreet 2020-05-24  374  
-b9004e8576b1c2 Kent Overstreet 2022-12-02  375  	/*
-b9004e8576b1c2 Kent Overstreet 2022-12-02  376  	 * First journal write must be a flush write: after a clean shutdown we
-b9004e8576b1c2 Kent Overstreet 2022-12-02  377  	 * don't read the journal, so the first journal write may end up
-b9004e8576b1c2 Kent Overstreet 2022-12-02  378  	 * overwriting whatever was there previously, and there must always be
-b9004e8576b1c2 Kent Overstreet 2022-12-02  379  	 * at least one non-flush write in the journal or recovery will fail:
-b9004e8576b1c2 Kent Overstreet 2022-12-02  380  	 */
-b9004e8576b1c2 Kent Overstreet 2022-12-02  381  	set_bit(JOURNAL_NEED_FLUSH_WRITE, &c->journal.flags);
-b9004e8576b1c2 Kent Overstreet 2022-12-02  382  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  383  	for_each_rw_member(ca, c, i)
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  384  		bch2_dev_allocator_add(c, ca);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  385  	bch2_recalc_capacity(c);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  386  
-5f5c7466171332 Kent Overstreet 2022-10-17  387  	ret = bch2_gc_thread_start(c);
-5f5c7466171332 Kent Overstreet 2022-10-17  388  	if (ret) {
-5f5c7466171332 Kent Overstreet 2022-10-17  389  		bch_err(c, "error starting gc thread");
-5f5c7466171332 Kent Overstreet 2022-10-17  390  		return ret;
-5f5c7466171332 Kent Overstreet 2022-10-17  391  	}
-5f5c7466171332 Kent Overstreet 2022-10-17  392  
-5f5c7466171332 Kent Overstreet 2022-10-17  393  	ret = bch2_copygc_start(c);
-5f5c7466171332 Kent Overstreet 2022-10-17  394  	if (ret) {
-5f5c7466171332 Kent Overstreet 2022-10-17  395  		bch_err(c, "error starting copygc thread");
-5f5c7466171332 Kent Overstreet 2022-10-17 @396  		return ret;
-5f5c7466171332 Kent Overstreet 2022-10-17  397  	}
-5f5c7466171332 Kent Overstreet 2022-10-17  398  
-134915f3d38d83 Kent Overstreet 2019-03-21  399  	if (!early) {
-134915f3d38d83 Kent Overstreet 2019-03-21  400  		ret = bch2_fs_read_write_late(c);
-134915f3d38d83 Kent Overstreet 2019-03-21  401  		if (ret)
-134915f3d38d83 Kent Overstreet 2019-03-21  402  			goto err;
-134915f3d38d83 Kent Overstreet 2019-03-21  403  	}
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  404  
+d1ac3ff008fb9a Gilad Ben-Yossef 2017-02-19  471  
+656794a48aa8a5 Eric Biggers     2023-10-29  472  static int verity_compute_hash(struct dm_verity *v, struct dm_verity_io *io,
+656794a48aa8a5 Eric Biggers     2023-10-29  473  			       struct bvec_iter *iter, u8 *digest)
+656794a48aa8a5 Eric Biggers     2023-10-29  474  {
+656794a48aa8a5 Eric Biggers     2023-10-29  475  	int r;
+656794a48aa8a5 Eric Biggers     2023-10-29  476  
+656794a48aa8a5 Eric Biggers     2023-10-29  477  	if (static_branch_unlikely(&ahash_enabled) && !v->shash_tfm) {
+656794a48aa8a5 Eric Biggers     2023-10-29  478  		struct ahash_request *req = verity_io_hash_req(v, io);
+656794a48aa8a5 Eric Biggers     2023-10-29  479  		struct crypto_wait wait;
+656794a48aa8a5 Eric Biggers     2023-10-29  480  
+656794a48aa8a5 Eric Biggers     2023-10-29  481  		r = verity_ahash_init(v, req, &wait);
+656794a48aa8a5 Eric Biggers     2023-10-29  482  		if (unlikely(r))
+656794a48aa8a5 Eric Biggers     2023-10-29  483  			goto error;
+656794a48aa8a5 Eric Biggers     2023-10-29  484  
+656794a48aa8a5 Eric Biggers     2023-10-29  485  		r = verity_ahash_update_block(v, io, iter, &wait);
+656794a48aa8a5 Eric Biggers     2023-10-29  486  		if (unlikely(r))
+656794a48aa8a5 Eric Biggers     2023-10-29  487  			goto error;
+656794a48aa8a5 Eric Biggers     2023-10-29  488  
+656794a48aa8a5 Eric Biggers     2023-10-29  489  		r = verity_ahash_final(v, req, digest, &wait);
+656794a48aa8a5 Eric Biggers     2023-10-29  490  		if (unlikely(r))
+656794a48aa8a5 Eric Biggers     2023-10-29  491  			goto error;
+656794a48aa8a5 Eric Biggers     2023-10-29  492  	} else {
+656794a48aa8a5 Eric Biggers     2023-10-29  493  		struct shash_desc *desc = verity_io_hash_req(v, io);
+656794a48aa8a5 Eric Biggers     2023-10-29  494  		struct bio *bio =
+656794a48aa8a5 Eric Biggers     2023-10-29  495  			dm_bio_from_per_bio_data(io, v->ti->per_io_data_size);
+656794a48aa8a5 Eric Biggers     2023-10-29  496  		struct bio_vec bv = bio_iter_iovec(bio, *iter);
+656794a48aa8a5 Eric Biggers     2023-10-29  497  		const unsigned int len = 1 << v->data_dev_block_bits;
+656794a48aa8a5 Eric Biggers     2023-10-29  498  		const void *virt;
+656794a48aa8a5 Eric Biggers     2023-10-29  499  
+656794a48aa8a5 Eric Biggers     2023-10-29  500  		if (unlikely(len > bv.bv_len)) {
+656794a48aa8a5 Eric Biggers     2023-10-29  501  			/*
+656794a48aa8a5 Eric Biggers     2023-10-29  502  			 * Data block spans pages.  This should not happen,
+656794a48aa8a5 Eric Biggers     2023-10-29  503  			 * since this code path is not used if the data block
+656794a48aa8a5 Eric Biggers     2023-10-29  504  			 * size is greater than the page size, and all I/O
+656794a48aa8a5 Eric Biggers     2023-10-29  505  			 * should be data block aligned because dm-verity sets
+656794a48aa8a5 Eric Biggers     2023-10-29  506  			 * logical_block_size to the data block size.
+656794a48aa8a5 Eric Biggers     2023-10-29  507  			 */
+656794a48aa8a5 Eric Biggers     2023-10-29  508  			DMERR_LIMIT("unaligned io (data block spans pages)");
+656794a48aa8a5 Eric Biggers     2023-10-29 @509  			return -EIO;
+656794a48aa8a5 Eric Biggers     2023-10-29  510  		}
+656794a48aa8a5 Eric Biggers     2023-10-29  511  
+656794a48aa8a5 Eric Biggers     2023-10-29  512  		desc->tfm = v->shash_tfm;
+656794a48aa8a5 Eric Biggers     2023-10-29  513  		r = crypto_shash_import(desc, v->initial_hashstate);
+656794a48aa8a5 Eric Biggers     2023-10-29  514  		if (unlikely(r))
+656794a48aa8a5 Eric Biggers     2023-10-29  515  			goto error;
+656794a48aa8a5 Eric Biggers     2023-10-29  516  
+656794a48aa8a5 Eric Biggers     2023-10-29  517  		virt = bvec_kmap_local(&bv);
+656794a48aa8a5 Eric Biggers     2023-10-29  518  		r = crypto_shash_finup(desc, virt, len, digest);
+656794a48aa8a5 Eric Biggers     2023-10-29  519  		kunmap_local(virt);
+656794a48aa8a5 Eric Biggers     2023-10-29  520  		if (unlikely(r))
+656794a48aa8a5 Eric Biggers     2023-10-29  521  			goto error;
+656794a48aa8a5 Eric Biggers     2023-10-29  522  
+656794a48aa8a5 Eric Biggers     2023-10-29  523  		bio_advance_iter(bio, iter, len);
+656794a48aa8a5 Eric Biggers     2023-10-29  524  	}
+656794a48aa8a5 Eric Biggers     2023-10-29  525  	return 0;
+656794a48aa8a5 Eric Biggers     2023-10-29  526  
+656794a48aa8a5 Eric Biggers     2023-10-29  527  error:
+656794a48aa8a5 Eric Biggers     2023-10-29  528  	DMERR("Error hashing block from bio iter: %d", r);
+656794a48aa8a5 Eric Biggers     2023-10-29  529  	return r;
+656794a48aa8a5 Eric Biggers     2023-10-29  530  }
+656794a48aa8a5 Eric Biggers     2023-10-29  531  
 
 -- 
 0-DAY CI Kernel Test Service
