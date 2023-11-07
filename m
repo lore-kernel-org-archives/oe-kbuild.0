@@ -1,53 +1,56 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4778879F2
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Nov 2023 04:13:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2846A8F6A
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Nov 2023 04:27:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BA/Pm1U9"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-9db6cf8309cso752429266b.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 06 Nov 2023 20:13:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UAW1uwF0"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-507975d34e8so7530367e87.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 06 Nov 2023 20:27:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699330379; x=1699935179; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BeE66KaENA4L5aP9jLk1oNB7zVNeskbpx3MnAnk/aFQ=;
-        b=BA/Pm1U9MOYihJrpd9OjwIW6XCn59PeKjpoR28X5vLhcJOXIZl844OTZLv2TP+WbGZ
-         TAgl3qCBlncuz2GcN1M1R7/jVBGCP4gjAEN2YCtHr+IUy4MnPTFxzCb4g7KMpBV4EpD7
-         Gi1gHwLYAqdOOfwcb9j8B/iAdj+m4U3vTEfQiBUNA9Drx3du5hCcQ/EDiQYjf1UBcbJx
-         R5w5EvspuK1pm9P0Ii1ANgy1nz18Wq2LGq+CMW77e4EqHyBbTXvOoqYA5tjILyRkaJgR
-         Ad7xLUPdzLpVAwW/PrO4dKVEWH016UxrDppO07mLJdnAhpgjcmwcMaHX7uxHSHE0D6yp
-         SZJA==
+        d=linaro.org; s=google; t=1699331270; x=1699936070; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bz4ibFEani6ikAiwKtvYQFIOOBnNzX2wLnv6rOwCCMs=;
+        b=UAW1uwF0J7eepPY1DQKPG97J4KHnYVwdQr+cpK7Q4LFn0mGn6/bYikOh0sP7qi7XZC
+         tLrt4217tQU92Xcu0qQckdHfbwGAuGk+reXnZv5gMuHySqdXGMHB8CE4lJP1U0+wf/W3
+         brmSc7ex3Abg0CMXdioEeFIFIwuCQp16SNNPWy1EXhMPNYl+B7C4UXGzFJXgr/XEnP+0
+         zwzZUIPl4sCTvWC5yTM8JgUHXmNR9GjeA1dI4jY9pp2NOlK8v3U88q/rYhyWAFeJhoB1
+         +MHexxXrVkqc1j7JPge2aqFvArKRAD+JhNdf68p69G6P1o9MrbS/k2pWEBobgz9WnuTG
+         laew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699330379; x=1699935179;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BeE66KaENA4L5aP9jLk1oNB7zVNeskbpx3MnAnk/aFQ=;
-        b=KpvpVwwNeM8WB6huerE5c7Fhvb96gMAy2U8FC7ZvziIToYL5qje8U3ikyCiBvfEXC+
-         oJCcJJvwgj1NygDqRSUJ51ojklQjMAnbI7Yd/hcehkywR9hWwinydshcKBwXXGhwiC71
-         k1yRv2cT/QOKHTKoU8GC6rSKkAIVU+VS2T1r+Ay4yLvcZXs6a4Wx2dAToxU/rCfTlWWW
-         z7QEFjVBxDXuXSybBh10T2zq/w8LzkypMMXuA9+mPqrTiTx0+kwZNC+zbhYGNS7fCLeU
-         wkS0zEWR722F48A0I3FT8pNw1veoM56CXSC4kWfkdaKiGsJYO46UppLWNretg+Ked3yr
-         WvEw==
-X-Gm-Message-State: AOJu0YxYWD+R1T7WXvuD35yE64X7u+BJJLF+TgB7vhJC8wDkgBFh8ncV
-	t6gRVJqSgPys/R3tM3B7QHk8IcUQxu216IARTl8=
-X-Google-Smtp-Source: AGHT+IHz/cQgmYb+/jcOoaJNIHYKNiETegjHqBZhBvzCYxqsvvt9qI6Qn9IXF/o3RTjqUvGLuczBhw==
-X-Received: by 2002:a17:907:36c5:b0:9d2:bf19:88aa with SMTP id bj5-20020a17090736c500b009d2bf1988aamr15395586ejc.59.1699330378771;
-        Mon, 06 Nov 2023 20:12:58 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699331270; x=1699936070;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Bz4ibFEani6ikAiwKtvYQFIOOBnNzX2wLnv6rOwCCMs=;
+        b=CYQOqy5xjPy/B2Ve7LH7o8o+UHYmeX4aqQibZ+5OSA0blu2CpJe3/rPW6PPOksEqqb
+         IOO6Bn1z9Ikoa3VXzPmtMiDLQDRhRqkn6zw9NSMtgW3+9IOR9D9mYx4Qe34F5Qt+6mIS
+         CW4obz9PcdOrMdbLZJEsUw4s+hIX5eQ/AoY7Jl7+w3URc8Xj1ZlkJXKKjpfgoDOdRbO0
+         Wo/wEP7pkyogNNMX08iaTFnXcoYtSFBhDoCIdlEpvh5zVnG1c7rOhCogGT0tBrmFqYTX
+         HK/Va0lsfpJz5mBovEcrLSvvnl/H35udIEbIMGULsUr3OH4cF00Ko49x73gnRE7D3ln5
+         6oig==
+X-Gm-Message-State: AOJu0Yy2HinPPN3kgk7YQMbikNu9wbNcjfPRe9uap5OZGeeoNaJ9N0gN
+	GE7C0m9wn9ugcgmtEBXNG03aXxmX/+I5Ku6cC7A=
+X-Google-Smtp-Source: AGHT+IFk9UPUznehgtsFa3wG1YIBTyBLMwYw8zTr1jNMtB7C1OcB8sHn4sRwgOB6wi5Zu5GGegmbOw==
+X-Received: by 2002:ac2:4850:0:b0:507:a089:caf4 with SMTP id 16-20020ac24850000000b00507a089caf4mr23066306lfy.60.1699331270333;
+        Mon, 06 Nov 2023 20:27:50 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id ox11-20020a170907100b00b009dd949b75c7sm551938ejb.151.2023.11.06.20.12.57
+        by smtp.gmail.com with ESMTPSA id d26-20020a50cd5a000000b0053dab756073sm5148167edj.84.2023.11.06.20.27.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 20:12:58 -0800 (PST)
-Date: Tue, 7 Nov 2023 07:12:55 +0300
+        Mon, 06 Nov 2023 20:27:50 -0800 (PST)
+Date: Tue, 7 Nov 2023 07:27:47 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Kent Overstreet <kmo@daterainc.com>
+To: oe-kbuild@lists.linux.dev, Zhou Jifeng <zhoujifeng@kylinos.com.cn>,
+	miklos@szeredi.hu
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: fs/bcachefs/six.c:283 __do_six_trylock() error: uninitialized symbol
- 'old'.
-Message-ID: <6dda193d-53e3-44e3-8d3c-734ab8b50869@kadam.mountain>
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Zhou Jifeng <zhoujifeng@kylinos.com.cn>
+Subject: Re: [PATCH] fuse: Track process write operations in both direct and
+ writethrough modes
+Message-ID: <70dde24c-5aee-4752-a14e-74ffdc6f7359@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,124 +59,95 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231028065912.6084-1-zhoujifeng@kylinos.com.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d2f51b3516dade79269ff45eae2a7668ae711b25
-commit: b60c8e9e7b082abac290ebdb9166b806e7d83fb7 six locks: lock->state.seq no longer used for write lock held
-config: x86_64-randconfig-161-20231102 (https://download.01.org/0day-ci/archive/20231106/202311062227.0GUulHgD-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231106/202311062227.0GUulHgD-lkp@intel.com/reproduce)
+Hi Zhou,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhou-Jifeng/fuse-Track-process-write-operations-in-both-direct-and-writethrough-modes/20231028-150119
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
+patch link:    https://lore.kernel.org/r/20231028065912.6084-1-zhoujifeng%40kylinos.com.cn
+patch subject: [PATCH] fuse: Track process write operations in both direct and writethrough modes
+config: x86_64-randconfig-161-20231103 (https://download.01.org/0day-ci/archive/20231107/202311070338.uJNMq6Sh-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231107/202311070338.uJNMq6Sh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202311062227.0GUulHgD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311070338.uJNMq6Sh-lkp@intel.com/
 
-New smatch warnings:
-fs/bcachefs/six.c:283 __do_six_trylock() error: uninitialized symbol 'old'.
+smatch warnings:
+fs/fuse/file.c:1359 fuse_cache_write_iter() error: uninitialized symbol 'err'.
 
-vim +/old +283 fs/bcachefs/six.c
+vim +/err +1359 fs/fuse/file.c
 
-91d16f16d0fd4b Kent Overstreet 2023-05-21  199  static int __do_six_trylock(struct six_lock *lock, enum six_lock_type type,
-91d16f16d0fd4b Kent Overstreet 2023-05-21  200  			    struct task_struct *task, bool try)
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  201  {
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  202  	const struct six_lock_vals l[] = LOCK_VALS;
-84a37cbf62e044 Kent Overstreet 2022-08-26  203  	int ret;
-1fb4fe63178881 Kent Overstreet 2023-05-20  204  	u64 old, new, v;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  205  
-84a37cbf62e044 Kent Overstreet 2022-08-26  206  	EBUG_ON(type == SIX_LOCK_write && lock->owner != task);
-1fb4fe63178881 Kent Overstreet 2023-05-20  207  	EBUG_ON(type == SIX_LOCK_write &&
-b60c8e9e7b082a Kent Overstreet 2023-06-16  208  		(try != !(atomic64_read(&lock->state) & SIX_LOCK_HELD_write)));
-1fb4fe63178881 Kent Overstreet 2023-05-20  209  	EBUG_ON(type == SIX_LOCK_write &&
-b60c8e9e7b082a Kent Overstreet 2023-06-16  210  		(try != !(atomic64_read(&lock->state) & SIX_STATE_WRITE_LOCK)));
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  211  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  212  	/*
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  213  	 * Percpu reader mode:
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  214  	 *
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  215  	 * The basic idea behind this algorithm is that you can implement a lock
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  216  	 * between two threads without any atomics, just memory barriers:
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  217  	 *
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  218  	 * For two threads you'll need two variables, one variable for "thread a
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  219  	 * has the lock" and another for "thread b has the lock".
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  220  	 *
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  221  	 * To take the lock, a thread sets its variable indicating that it holds
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  222  	 * the lock, then issues a full memory barrier, then reads from the
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  223  	 * other thread's variable to check if the other thread thinks it has
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  224  	 * the lock. If we raced, we backoff and retry/sleep.
-37f612bea5bd92 Kent Overstreet 2023-05-21  225  	 *
-37f612bea5bd92 Kent Overstreet 2023-05-21  226  	 * Failure to take the lock may cause a spurious trylock failure in
-37f612bea5bd92 Kent Overstreet 2023-05-21  227  	 * another thread, because we temporarily set the lock to indicate that
-37f612bea5bd92 Kent Overstreet 2023-05-21  228  	 * we held it. This would be a problem for a thread in six_lock(), when
-37f612bea5bd92 Kent Overstreet 2023-05-21  229  	 * they are calling trylock after adding themself to the waitlist and
-37f612bea5bd92 Kent Overstreet 2023-05-21  230  	 * prior to sleeping.
-37f612bea5bd92 Kent Overstreet 2023-05-21  231  	 *
-37f612bea5bd92 Kent Overstreet 2023-05-21  232  	 * Therefore, if we fail to get the lock, and there were waiters of the
-37f612bea5bd92 Kent Overstreet 2023-05-21  233  	 * type we conflict with, we will have to issue a wakeup.
-37f612bea5bd92 Kent Overstreet 2023-05-21  234  	 *
-37f612bea5bd92 Kent Overstreet 2023-05-21  235  	 * Since we may be called under wait_lock (and by the wakeup code
-37f612bea5bd92 Kent Overstreet 2023-05-21  236  	 * itself), we return that the wakeup has to be done instead of doing it
-37f612bea5bd92 Kent Overstreet 2023-05-21  237  	 * here.
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  238  	 */
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  239  	if (type == SIX_LOCK_read && lock->readers) {
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  240  		preempt_disable();
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  241  		this_cpu_inc(*lock->readers); /* signal that we own lock */
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  242  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  243  		smp_mb();
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  244  
-1fb4fe63178881 Kent Overstreet 2023-05-20  245  		old = atomic64_read(&lock->state);
-1fb4fe63178881 Kent Overstreet 2023-05-20  246  		ret = !(old & l[type].lock_fail);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  247  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  248  		this_cpu_sub(*lock->readers, !ret);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  249  		preempt_enable();
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  250  
-37f612bea5bd92 Kent Overstreet 2023-05-21  251  		if (!ret && (old & SIX_STATE_WAITING_WRITE))
-84a37cbf62e044 Kent Overstreet 2022-08-26  252  			ret = -1 - SIX_LOCK_write;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  253  	} else if (type == SIX_LOCK_write && lock->readers) {
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  254  		if (try) {
-b60c8e9e7b082a Kent Overstreet 2023-06-16  255  			atomic64_add(SIX_STATE_WRITE_LOCK, &lock->state);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  256  			smp_mb__after_atomic();
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  257  		}
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  258  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  259  		ret = !pcpu_read_count(lock);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  260  
-b60c8e9e7b082a Kent Overstreet 2023-06-16  261  		if (try && !ret) {
-b60c8e9e7b082a Kent Overstreet 2023-06-16  262  			old = atomic64_sub_return(SIX_STATE_WRITE_LOCK, &lock->state);
+55752a3aba1387 Miklos Szeredi    2019-01-24  1302  static ssize_t fuse_cache_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1303  {
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1304  	struct file *file = iocb->ki_filp;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1305  	struct address_space *mapping = file->f_mapping;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1306  	ssize_t written = 0;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1307  	struct inode *inode = mapping->host;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1308  	ssize_t err;
+56597c4ddc107c Zhou Jifeng       2023-10-28  1309  	ssize_t count;
+8981bdfda7445a Vivek Goyal       2020-10-09  1310  	struct fuse_conn *fc = get_fuse_conn(inode);
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1311  
+8981bdfda7445a Vivek Goyal       2020-10-09  1312  	if (fc->writeback_cache) {
+4d99ff8f12eb20 Pavel Emelyanov   2013-10-10  1313  		/* Update size (EOF optimization) and mode (SUID clearing) */
+c6c745b81033a4 Miklos Szeredi    2021-10-22  1314  		err = fuse_update_attributes(mapping->host, file,
+c6c745b81033a4 Miklos Szeredi    2021-10-22  1315  					     STATX_SIZE | STATX_MODE);
+4d99ff8f12eb20 Pavel Emelyanov   2013-10-10  1316  		if (err)
+4d99ff8f12eb20 Pavel Emelyanov   2013-10-10  1317  			return err;
+4d99ff8f12eb20 Pavel Emelyanov   2013-10-10  1318  
+8981bdfda7445a Vivek Goyal       2020-10-09  1319  		if (fc->handle_killpriv_v2 &&
+9452e93e6dae86 Christian Brauner 2023-01-13  1320  		    setattr_should_drop_suidgid(&nop_mnt_idmap,
+9452e93e6dae86 Christian Brauner 2023-01-13  1321  						file_inode(file))) {
+8981bdfda7445a Vivek Goyal       2020-10-09  1322  			goto writethrough;
+8981bdfda7445a Vivek Goyal       2020-10-09  1323  		}
+8981bdfda7445a Vivek Goyal       2020-10-09  1324  
+84c3d55cc474f9 Al Viro           2014-04-03  1325  		return generic_file_write_iter(iocb, from);
+4d99ff8f12eb20 Pavel Emelyanov   2013-10-10  1326  	}
+4d99ff8f12eb20 Pavel Emelyanov   2013-10-10  1327  
+8981bdfda7445a Vivek Goyal       2020-10-09  1328  writethrough:
+5955102c9984fa Al Viro           2016-01-22  1329  	inode_lock(inode);
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1330  
+56597c4ddc107c Zhou Jifeng       2023-10-28  1331  	count = generic_write_checks(iocb, from);
+56597c4ddc107c Zhou Jifeng       2023-10-28  1332  	if (count <= 0)
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1333  		goto out;
 
-old only set when ret is zero
+Missing error code?
 
-b60c8e9e7b082a Kent Overstreet 2023-06-16  263  			if (old & SIX_STATE_WAITING_READ)
-84a37cbf62e044 Kent Overstreet 2022-08-26  264  				ret = -1 - SIX_LOCK_read;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  265  		}
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  266  	} else {
-1fb4fe63178881 Kent Overstreet 2023-05-20  267  		v = atomic64_read(&lock->state);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  268  		do {
-1fb4fe63178881 Kent Overstreet 2023-05-20  269  			new = old = v;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  270  
-b60c8e9e7b082a Kent Overstreet 2023-06-16  271  			ret = !(old & l[type].lock_fail);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  272  
-b60c8e9e7b082a Kent Overstreet 2023-06-16  273  			if (!ret || (type == SIX_LOCK_write && !try))
-d2c86b77de5894 Kent Overstreet 2023-05-20  274  				break;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  275  
-b60c8e9e7b082a Kent Overstreet 2023-06-16  276  			new += l[type].lock_val;
-b60c8e9e7b082a Kent Overstreet 2023-06-16  277  		} while ((v = atomic64_cmpxchg_acquire(&lock->state, old, new)) != old);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  278  
-1fb4fe63178881 Kent Overstreet 2023-05-20  279  		EBUG_ON(ret && !(atomic64_read(&lock->state) & l[type].held_mask));
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  280  	}
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  281  
-84a37cbf62e044 Kent Overstreet 2022-08-26  282  	if (ret > 0)
-84a37cbf62e044 Kent Overstreet 2022-08-26 @283  		six_set_owner(lock, type, old, task);
-                                                                                          ^^^
-We're allowed to pass uninitialized data here because it's not used and
-it's an inline function.  But the compiler is going to zero it anyway.
-Just zero it and make the checker happy.
-
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  284  
-b60c8e9e7b082a Kent Overstreet 2023-06-16  285  	EBUG_ON(type == SIX_LOCK_write && try && ret <= 0 &&
-b60c8e9e7b082a Kent Overstreet 2023-06-16  286  		(atomic64_read(&lock->state) & SIX_STATE_WRITE_LOCK));
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  287  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  288  	return ret;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  289  }
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1334  
+56597c4ddc107c Zhou Jifeng       2023-10-28  1335  	task_io_account_write(count);
+56597c4ddc107c Zhou Jifeng       2023-10-28  1336  
+5fa8e0a1c6a762 Jan Kara          2015-05-21  1337  	err = file_remove_privs(file);
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1338  	if (err)
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1339  		goto out;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1340  
+c3b2da31483449 Josef Bacik       2012-03-26  1341  	err = file_update_time(file);
+c3b2da31483449 Josef Bacik       2012-03-26  1342  	if (err)
+c3b2da31483449 Josef Bacik       2012-03-26  1343  		goto out;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1344  
+2ba48ce513c4e5 Al Viro           2015-04-09  1345  	if (iocb->ki_flags & IOCB_DIRECT) {
+1af5bb491fbb41 Christoph Hellwig 2016-04-07  1346  		written = generic_file_direct_write(iocb, from);
+84c3d55cc474f9 Al Viro           2014-04-03  1347  		if (written < 0 || !iov_iter_count(from))
+4273b793ec6875 Anand Avati       2012-02-17  1348  			goto out;
+64d1b4dd826d88 Christoph Hellwig 2023-06-01  1349  		written = direct_write_fallback(iocb, from, written,
+64d1b4dd826d88 Christoph Hellwig 2023-06-01  1350  				fuse_perform_write(iocb, from));
+4273b793ec6875 Anand Avati       2012-02-17  1351  	} else {
+596df33d673d9d Christoph Hellwig 2023-06-01  1352  		written = fuse_perform_write(iocb, from);
+4273b793ec6875 Anand Avati       2012-02-17  1353  	}
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1354  out:
+5955102c9984fa Al Viro           2016-01-22  1355  	inode_unlock(inode);
+e1c0eecba1a415 Miklos Szeredi    2017-09-12  1356  	if (written > 0)
+e1c0eecba1a415 Miklos Szeredi    2017-09-12  1357  		written = generic_write_sync(iocb, written);
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1358  
+ea9b9907b82a09 Nicholas Piggin   2008-04-30 @1359  	return written ? written : err;
+ea9b9907b82a09 Nicholas Piggin   2008-04-30  1360  }
 
 -- 
 0-DAY CI Kernel Test Service
