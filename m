@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228D7210B
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Nov 2023 23:09:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9517F30667
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Nov 2023 23:09:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eL45uQGk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WGWkYGAs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699398577; x=1730934577;
+  t=1699398578; x=1730934578;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y/ICuBLXz0LsXtfcVJgmcrPpDM+55QNgoBIfuyihpa4=;
-  b=eL45uQGkIdzRXKToEZKgj9cA9wdrjE+jDIwudX5joJGf97xzH3h/PXcc
-   cqa54C2cvG62QiePhyQXZN/xLRJKhOD5jhisbZeQZDdbg2UeEd81H1ySB
-   uUDAKqJXU3RR5qHWU33qPFzq++j4RL9G0WiKtb715cZKhiGu/K6BNP6vz
-   7jZEq+RIBByqv1rqPMsMxuiPYu4ZlcAbvIvo5gH0gpCNtumZIhYSDl06Q
-   4lj550/R8vBPVfdjozHCw/7apdJfyCFwyPSwrmihaWRq80IwQjbCDmFel
-   XPX1YuDMwecMEUr8rEMc/vHrXCgM+9PmyYiN95lWBg9SNeGENuHAmYGt2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="388503399"
+  bh=ZNEMU6J80Up9KCiY7KL6yT1f1Mm3XVQOkbfQ3PbJTNQ=;
+  b=WGWkYGAsahLJgiO4MUgHARPnHyz3fUrDM6eT6Jz4eT79iI/dtepC1Yia
+   Zod37NM4zqG+AvbeJ9RVLCPcZsuK9rYPBFopFbv1rACoUQfedSkCrc+ov
+   ZAdqhx2w77tc4K2CT5kmofDEh71+7mywTAHCXV8HYNv1vea73NsNOIAaJ
+   oUsNHlulvjfXUbNiATQsJbSolZ5mjDV0r8iYxVoEGDhxcSLG6evzgpfu9
+   8n+RsrFRB3h25dXM6TB1NrVaMPO2+VFjdcVO0C2iaAeY6PQrAEKMFrl+K
+   UPrAchIgcunRt5SoqhaQvyByNZ/PTfovReOw2q1oioh4W0P0SgNXCBIw2
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="368978838"
 X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="388503399"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 15:09:36 -0800
+   d="scan'208";a="368978838"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 15:09:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="886465344"
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="762870727"
 X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="886465344"
+   d="scan'208";a="762870727"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 07 Nov 2023 15:09:35 -0800
+  by orsmga002.jf.intel.com with ESMTP; 07 Nov 2023 15:09:36 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0VCP-0007Te-02;
-	Tue, 07 Nov 2023 23:09:33 +0000
-Date: Wed, 8 Nov 2023 07:08:26 +0800
+	id 1r0VCQ-0007Ti-01;
+	Tue, 07 Nov 2023 23:09:34 +0000
+Date: Wed, 8 Nov 2023 07:08:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android12-5.10 2/3] mm/page_alloc.c:5037
- __alloc_pages_slowpath() error: uninitialized symbol 'vh_record'.
-Message-ID: <202311080650.LQ5nKBo6-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/mips/kernel/smp-cps.c:165:37: sparse: sparse: cast removes
+ address space '__iomem' of expression
+Message-ID: <202311080604.eRPO1voN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,294 +50,235 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: linux-kernel@vger.kernel.org
+TO: Jiaxun Yang <jiaxun.yang@flygoat.com>
+CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   ba88bbf1bb7e22d7b18ad233afd948c4e98923be
-commit: 4536de1b708cd4cccf9d47ba8e368b2df67ba10c [2/3] ANDROID: vendor_hooks: add hooks in __alloc_pages_slowpath
-:::::: branch date: 2 days ago
-:::::: commit date: 1 year, 3 months ago
-config: x86_64-randconfig-161-20231106 (https://download.01.org/0day-ci/archive/20231108/202311080650.LQ5nKBo6-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231108/202311080650.LQ5nKBo6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   13d88ac54ddd1011b6e94443958e798aa06eb835
+commit: fea8826d5fdc4ff5c93e883a738597129614039c MIPS: smp-cps: Don't rely on CP0_CMGCRBASE
+date:   8 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 8 months ago
+config: mips-randconfig-r122-20231108 (https://download.01.org/0day-ci/archive/20231108/202311080604.eRPO1voN-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231108/202311080604.eRPO1voN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311080650.LQ5nKBo6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311080604.eRPO1voN-lkp@intel.com/
 
-smatch warnings:
-mm/page_alloc.c:5037 __alloc_pages_slowpath() error: uninitialized symbol 'vh_record'.
+sparse warnings: (new ones prefixed by >>)
+>> arch/mips/kernel/smp-cps.c:165:37: sparse: sparse: cast removes address space '__iomem' of expression
+   arch/mips/kernel/smp-cps.c: note: in included file (through arch/mips/include/asm/mips-cps.h, arch/mips/include/asm/smp-ops.h, arch/mips/include/asm/smp.h, ...):
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void [noderef] __iomem *
+   arch/mips/kernel/smp-cps.c: note: in included file (through arch/mips/include/asm/mips-cps.h, arch/mips/include/asm/smp-ops.h, arch/mips/include/asm/smp.h, ...):
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void *
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void *
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void *
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void *
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void [noderef] __iomem *
+   arch/mips/kernel/smp-cps.c: note: in included file (through arch/mips/include/asm/mips-cps.h, arch/mips/include/asm/smp-ops.h, arch/mips/include/asm/smp.h, ...):
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:131:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
 
-vim +/vh_record +5037 mm/page_alloc.c
+vim +/__iomem +165 arch/mips/kernel/smp-cps.c
 
-902b62810a57ba Vlastimil Babka    2017-07-06  4777  
-11e33f6a55ed78 Mel Gorman         2009-06-16  4778  static inline struct page *
-11e33f6a55ed78 Mel Gorman         2009-06-16  4779  __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
-a9263751e11a07 Vlastimil Babka    2015-02-11  4780  						struct alloc_context *ac)
-11e33f6a55ed78 Mel Gorman         2009-06-16  4781  {
-d0164adc89f6bb Mel Gorman         2015-11-06  4782  	bool can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
-282722b0d258ec Vlastimil Babka    2017-05-08  4783  	const bool costly_order = order > PAGE_ALLOC_COSTLY_ORDER;
-11e33f6a55ed78 Mel Gorman         2009-06-16  4784  	struct page *page = NULL;
-c603844bdcb523 Mel Gorman         2016-05-19  4785  	unsigned int alloc_flags;
-11e33f6a55ed78 Mel Gorman         2009-06-16  4786  	unsigned long did_some_progress;
-5ce9bfef1d2794 Vlastimil Babka    2017-01-24  4787  	enum compact_priority compact_priority;
-c5d01d0d18e2ab Michal Hocko       2016-05-20  4788  	enum compact_result compact_result;
-5ce9bfef1d2794 Vlastimil Babka    2017-01-24  4789  	int compaction_retries;
-5ce9bfef1d2794 Vlastimil Babka    2017-01-24  4790  	int no_progress_loops;
-5ce9bfef1d2794 Vlastimil Babka    2017-01-24  4791  	unsigned int cpuset_mems_cookie;
-cd04ae1e2dc8e3 Michal Hocko       2017-09-06  4792  	int reserve_flags;
-4536de1b708cd4 liuhailong         2022-07-21  4793  	unsigned long vh_record;
-e09000ee1915ee Greg Kroah-Hartman 2021-10-22  4794  
-4536de1b708cd4 liuhailong         2022-07-21  4795  	trace_android_vh_alloc_pages_slowpath_begin(gfp_mask, order, &vh_record);
-d0164adc89f6bb Mel Gorman         2015-11-06  4796  	/*
-d0164adc89f6bb Mel Gorman         2015-11-06  4797  	 * We also sanity check to catch abuse of atomic reserves being used by
-d0164adc89f6bb Mel Gorman         2015-11-06  4798  	 * callers that are not in atomic context.
-d0164adc89f6bb Mel Gorman         2015-11-06  4799  	 */
-d0164adc89f6bb Mel Gorman         2015-11-06  4800  	if (WARN_ON_ONCE((gfp_mask & (__GFP_ATOMIC|__GFP_DIRECT_RECLAIM)) ==
-d0164adc89f6bb Mel Gorman         2015-11-06  4801  				(__GFP_ATOMIC|__GFP_DIRECT_RECLAIM)))
-d0164adc89f6bb Mel Gorman         2015-11-06  4802  		gfp_mask &= ~__GFP_ATOMIC;
-d0164adc89f6bb Mel Gorman         2015-11-06  4803  
-5ce9bfef1d2794 Vlastimil Babka    2017-01-24  4804  retry_cpuset:
-5ce9bfef1d2794 Vlastimil Babka    2017-01-24  4805  	compaction_retries = 0;
-5ce9bfef1d2794 Vlastimil Babka    2017-01-24  4806  	no_progress_loops = 0;
-5ce9bfef1d2794 Vlastimil Babka    2017-01-24  4807  	compact_priority = DEF_COMPACT_PRIORITY;
-5ce9bfef1d2794 Vlastimil Babka    2017-01-24  4808  	cpuset_mems_cookie = read_mems_allowed_begin();
-9a67f6488eca92 Michal Hocko       2017-02-22  4809  
-9a67f6488eca92 Michal Hocko       2017-02-22  4810  	/*
-9a67f6488eca92 Michal Hocko       2017-02-22  4811  	 * The fast path uses conservative alloc_flags to succeed only until
-9a67f6488eca92 Michal Hocko       2017-02-22  4812  	 * kswapd needs to be woken up, and to avoid the cost of setting up
-9a67f6488eca92 Michal Hocko       2017-02-22  4813  	 * alloc_flags precisely. So we do that now.
-9a67f6488eca92 Michal Hocko       2017-02-22  4814  	 */
-9a67f6488eca92 Michal Hocko       2017-02-22  4815  	alloc_flags = gfp_to_alloc_flags(gfp_mask);
-9a67f6488eca92 Michal Hocko       2017-02-22  4816  
-e47483bca2cc59 Vlastimil Babka    2017-01-24  4817  	/*
-e47483bca2cc59 Vlastimil Babka    2017-01-24  4818  	 * We need to recalculate the starting point for the zonelist iterator
-e47483bca2cc59 Vlastimil Babka    2017-01-24  4819  	 * because we might have used different nodemask in the fast path, or
-e47483bca2cc59 Vlastimil Babka    2017-01-24  4820  	 * there was a cpuset modification and we are retrying - otherwise we
-e47483bca2cc59 Vlastimil Babka    2017-01-24  4821  	 * could end up iterating over non-eligible zones endlessly.
-e47483bca2cc59 Vlastimil Babka    2017-01-24  4822  	 */
-e47483bca2cc59 Vlastimil Babka    2017-01-24  4823  	ac->preferred_zoneref = first_zones_zonelist(ac->zonelist,
-97a225e69a1f88 Joonsoo Kim        2020-06-03  4824  					ac->highest_zoneidx, ac->nodemask);
-e47483bca2cc59 Vlastimil Babka    2017-01-24  4825  	if (!ac->preferred_zoneref->zone)
-e47483bca2cc59 Vlastimil Babka    2017-01-24  4826  		goto nopage;
-e47483bca2cc59 Vlastimil Babka    2017-01-24  4827  
-0a79cdad5eb213 Mel Gorman         2018-12-28  4828  	if (alloc_flags & ALLOC_KSWAPD)
-5ecd9d403ad081 David Rientjes     2018-04-05  4829  		wake_all_kswapds(order, gfp_mask, ac);
-23771235bb569c Vlastimil Babka    2016-07-28  4830  
-23771235bb569c Vlastimil Babka    2016-07-28  4831  	/*
-23771235bb569c Vlastimil Babka    2016-07-28  4832  	 * The adjusted alloc_flags might result in immediate success, so try
-23771235bb569c Vlastimil Babka    2016-07-28  4833  	 * that first
-23771235bb569c Vlastimil Babka    2016-07-28  4834  	 */
-23771235bb569c Vlastimil Babka    2016-07-28  4835  	page = get_page_from_freelist(gfp_mask, order, alloc_flags, ac);
-23771235bb569c Vlastimil Babka    2016-07-28  4836  	if (page)
-23771235bb569c Vlastimil Babka    2016-07-28  4837  		goto got_pg;
-23771235bb569c Vlastimil Babka    2016-07-28  4838  
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4839  	/*
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4840  	 * For costly allocations, try direct compaction first, as it's likely
-282722b0d258ec Vlastimil Babka    2017-05-08  4841  	 * that we have enough base pages and don't need to reclaim. For non-
-282722b0d258ec Vlastimil Babka    2017-05-08  4842  	 * movable high-order allocations, do that as well, as compaction will
-282722b0d258ec Vlastimil Babka    2017-05-08  4843  	 * try prevent permanent fragmentation by migrating from blocks of the
-282722b0d258ec Vlastimil Babka    2017-05-08  4844  	 * same migratetype.
-282722b0d258ec Vlastimil Babka    2017-05-08  4845  	 * Don't try this for allocations that are allowed to ignore
-282722b0d258ec Vlastimil Babka    2017-05-08  4846  	 * watermarks, as the ALLOC_NO_WATERMARKS attempt didn't yet happen.
-282722b0d258ec Vlastimil Babka    2017-05-08  4847  	 */
-282722b0d258ec Vlastimil Babka    2017-05-08  4848  	if (can_direct_reclaim &&
-282722b0d258ec Vlastimil Babka    2017-05-08  4849  			(costly_order ||
-282722b0d258ec Vlastimil Babka    2017-05-08  4850  			   (order > 0 && ac->migratetype != MIGRATE_MOVABLE))
-282722b0d258ec Vlastimil Babka    2017-05-08  4851  			&& !gfp_pfmemalloc_allowed(gfp_mask)) {
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4852  		page = __alloc_pages_direct_compact(gfp_mask, order,
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4853  						alloc_flags, ac,
-a5508cd83f10f6 Vlastimil Babka    2016-07-28  4854  						INIT_COMPACT_PRIORITY,
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4855  						&compact_result);
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4856  		if (page)
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4857  			goto got_pg;
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4858  
-cc638f329ef605 Vlastimil Babka    2020-01-13  4859  		/*
-cc638f329ef605 Vlastimil Babka    2020-01-13  4860  		 * Checks for costly allocations with __GFP_NORETRY, which
-cc638f329ef605 Vlastimil Babka    2020-01-13  4861  		 * includes some THP page fault allocations
-cc638f329ef605 Vlastimil Babka    2020-01-13  4862  		 */
-cc638f329ef605 Vlastimil Babka    2020-01-13  4863  		if (costly_order && (gfp_mask & __GFP_NORETRY)) {
-b39d0ee2632d2f David Rientjes     2019-09-04  4864  			/*
-b39d0ee2632d2f David Rientjes     2019-09-04  4865  			 * If allocating entire pageblock(s) and compaction
-b39d0ee2632d2f David Rientjes     2019-09-04  4866  			 * failed because all zones are below low watermarks
-b39d0ee2632d2f David Rientjes     2019-09-04  4867  			 * or is prohibited because it recently failed at this
-3f36d866945760 David Rientjes     2019-10-14  4868  			 * order, fail immediately unless the allocator has
-3f36d866945760 David Rientjes     2019-10-14  4869  			 * requested compaction and reclaim retry.
-b39d0ee2632d2f David Rientjes     2019-09-04  4870  			 *
-b39d0ee2632d2f David Rientjes     2019-09-04  4871  			 * Reclaim is
-b39d0ee2632d2f David Rientjes     2019-09-04  4872  			 *  - potentially very expensive because zones are far
-b39d0ee2632d2f David Rientjes     2019-09-04  4873  			 *    below their low watermarks or this is part of very
-b39d0ee2632d2f David Rientjes     2019-09-04  4874  			 *    bursty high order allocations,
-b39d0ee2632d2f David Rientjes     2019-09-04  4875  			 *  - not guaranteed to help because isolate_freepages()
-b39d0ee2632d2f David Rientjes     2019-09-04  4876  			 *    may not iterate over freed pages as part of its
-b39d0ee2632d2f David Rientjes     2019-09-04  4877  			 *    linear scan, and
-b39d0ee2632d2f David Rientjes     2019-09-04  4878  			 *  - unlikely to make entire pageblocks free on its
-b39d0ee2632d2f David Rientjes     2019-09-04  4879  			 *    own.
-b39d0ee2632d2f David Rientjes     2019-09-04  4880  			 */
-b39d0ee2632d2f David Rientjes     2019-09-04  4881  			if (compact_result == COMPACT_SKIPPED ||
-b39d0ee2632d2f David Rientjes     2019-09-04  4882  			    compact_result == COMPACT_DEFERRED)
-b39d0ee2632d2f David Rientjes     2019-09-04  4883  				goto nopage;
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4884  
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4885  			/*
-3eb2771b06d8e2 Vlastimil Babka    2016-07-28  4886  			 * Looks like reclaim/compaction is worth trying, but
-3eb2771b06d8e2 Vlastimil Babka    2016-07-28  4887  			 * sync compaction could be very expensive, so keep
-2516035499b955 Vlastimil Babka    2016-07-28  4888  			 * using async compaction.
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4889  			 */
-a5508cd83f10f6 Vlastimil Babka    2016-07-28  4890  			compact_priority = INIT_COMPACT_PRIORITY;
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4891  		}
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4892  	}
-23771235bb569c Vlastimil Babka    2016-07-28  4893  
-31a6c1909f51db Vlastimil Babka    2016-07-28  4894  retry:
-23771235bb569c Vlastimil Babka    2016-07-28  4895  	/* Ensure kswapd doesn't accidentally go to sleep as long as we loop */
-0a79cdad5eb213 Mel Gorman         2018-12-28  4896  	if (alloc_flags & ALLOC_KSWAPD)
-5ecd9d403ad081 David Rientjes     2018-04-05  4897  		wake_all_kswapds(order, gfp_mask, ac);
-31a6c1909f51db Vlastimil Babka    2016-07-28  4898  
-cd04ae1e2dc8e3 Michal Hocko       2017-09-06  4899  	reserve_flags = __gfp_pfmemalloc_flags(gfp_mask);
-cd04ae1e2dc8e3 Michal Hocko       2017-09-06  4900  	if (reserve_flags)
-8510e69c8efef8 Joonsoo Kim        2020-08-06  4901  		alloc_flags = current_alloc_flags(gfp_mask, reserve_flags);
-23771235bb569c Vlastimil Babka    2016-07-28  4902  
-e46e7b77c9096e Mel Gorman         2016-06-03  4903  	/*
-d6a24df00638a0 Vlastimil Babka    2018-08-17  4904  	 * Reset the nodemask and zonelist iterators if memory policies can be
-d6a24df00638a0 Vlastimil Babka    2018-08-17  4905  	 * ignored. These allocations are high priority and system rather than
-d6a24df00638a0 Vlastimil Babka    2018-08-17  4906  	 * user oriented.
-e46e7b77c9096e Mel Gorman         2016-06-03  4907  	 */
-cd04ae1e2dc8e3 Michal Hocko       2017-09-06  4908  	if (!(alloc_flags & ALLOC_CPUSET) || reserve_flags) {
-d6a24df00638a0 Vlastimil Babka    2018-08-17  4909  		ac->nodemask = NULL;
-e46e7b77c9096e Mel Gorman         2016-06-03  4910  		ac->preferred_zoneref = first_zones_zonelist(ac->zonelist,
-97a225e69a1f88 Joonsoo Kim        2020-06-03  4911  					ac->highest_zoneidx, ac->nodemask);
-e46e7b77c9096e Mel Gorman         2016-06-03  4912  	}
-e46e7b77c9096e Mel Gorman         2016-06-03  4913  
-23771235bb569c Vlastimil Babka    2016-07-28  4914  	/* Attempt with potentially adjusted zonelist and alloc_flags */
-31a6c1909f51db Vlastimil Babka    2016-07-28  4915  	page = get_page_from_freelist(gfp_mask, order, alloc_flags, ac);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  4916  	if (page)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  4917  		goto got_pg;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  4918  
-d0164adc89f6bb Mel Gorman         2015-11-06  4919  	/* Caller is not willing to reclaim, we can't balance anything */
-9a67f6488eca92 Michal Hocko       2017-02-22  4920  	if (!can_direct_reclaim)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  4921  		goto nopage;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  4922  
-9a67f6488eca92 Michal Hocko       2017-02-22  4923  	/* Avoid recursion of direct reclaim */
-9a67f6488eca92 Michal Hocko       2017-02-22  4924  	if (current->flags & PF_MEMALLOC)
-6583bb64fc3708 David Rientjes     2009-07-29  4925  		goto nopage;
-6583bb64fc3708 David Rientjes     2009-07-29  4926  
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4927  	/* Try direct reclaim and then allocating */
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4928  	page = __alloc_pages_direct_reclaim(gfp_mask, order, alloc_flags, ac,
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4929  							&did_some_progress);
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4930  	if (page)
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4931  		goto got_pg;
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4932  
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4933  	/* Try direct compaction and then allocating */
-a9263751e11a07 Vlastimil Babka    2015-02-11  4934  	page = __alloc_pages_direct_compact(gfp_mask, order, alloc_flags, ac,
-a5508cd83f10f6 Vlastimil Babka    2016-07-28  4935  					compact_priority, &compact_result);
-56de7263fcf3eb Mel Gorman         2010-05-24  4936  	if (page)
-56de7263fcf3eb Mel Gorman         2010-05-24  4937  		goto got_pg;
-75f30861a12a6b David Rientjes     2014-06-04  4938  
-9083905a2a13de Johannes Weiner    2015-06-24  4939  	/* Do not loop if specifically requested */
-9083905a2a13de Johannes Weiner    2015-06-24  4940  	if (gfp_mask & __GFP_NORETRY)
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4941  		goto nopage;
-9083905a2a13de Johannes Weiner    2015-06-24  4942  
-0a0337e0d1d134 Michal Hocko       2016-05-20  4943  	/*
-0a0337e0d1d134 Michal Hocko       2016-05-20  4944  	 * Do not retry costly high order allocations unless they are
-dcda9b04713c3f Michal Hocko       2017-07-12  4945  	 * __GFP_RETRY_MAYFAIL
-0a0337e0d1d134 Michal Hocko       2016-05-20  4946  	 */
-dcda9b04713c3f Michal Hocko       2017-07-12  4947  	if (costly_order && !(gfp_mask & __GFP_RETRY_MAYFAIL))
-a8161d1ed60985 Vlastimil Babka    2016-07-28  4948  		goto nopage;
-0a0337e0d1d134 Michal Hocko       2016-05-20  4949  
-0a0337e0d1d134 Michal Hocko       2016-05-20  4950  	if (should_reclaim_retry(gfp_mask, order, ac, alloc_flags,
-423b452e1553e3 Vlastimil Babka    2016-10-07  4951  				 did_some_progress > 0, &no_progress_loops))
-0a0337e0d1d134 Michal Hocko       2016-05-20  4952  		goto retry;
-0a0337e0d1d134 Michal Hocko       2016-05-20  4953  
-33c2d21438daea Michal Hocko       2016-05-20  4954  	/*
-33c2d21438daea Michal Hocko       2016-05-20  4955  	 * It doesn't make any sense to retry for the compaction if the order-0
-33c2d21438daea Michal Hocko       2016-05-20  4956  	 * reclaim is not able to make any progress because the current
-33c2d21438daea Michal Hocko       2016-05-20  4957  	 * implementation of the compaction depends on the sufficient amount
-33c2d21438daea Michal Hocko       2016-05-20  4958  	 * of free memory (see __compaction_suitable)
-33c2d21438daea Michal Hocko       2016-05-20  4959  	 */
-33c2d21438daea Michal Hocko       2016-05-20  4960  	if (did_some_progress > 0 &&
-86a294a81f93d6 Michal Hocko       2016-05-20  4961  			should_compact_retry(ac, order, alloc_flags,
-a5508cd83f10f6 Vlastimil Babka    2016-07-28  4962  				compact_result, &compact_priority,
-d943649831aba0 Vlastimil Babka    2016-10-07  4963  				&compaction_retries))
-33c2d21438daea Michal Hocko       2016-05-20  4964  		goto retry;
-33c2d21438daea Michal Hocko       2016-05-20  4965  
-902b62810a57ba Vlastimil Babka    2017-07-06  4966  
-902b62810a57ba Vlastimil Babka    2017-07-06  4967  	/* Deal with possible cpuset update races before we start OOM killing */
-902b62810a57ba Vlastimil Babka    2017-07-06  4968  	if (check_retry_cpuset(cpuset_mems_cookie, ac))
-e47483bca2cc59 Vlastimil Babka    2017-01-24  4969  		goto retry_cpuset;
-e47483bca2cc59 Vlastimil Babka    2017-01-24  4970  
-9083905a2a13de Johannes Weiner    2015-06-24  4971  	/* Reclaim has failed us, start killing things */
-9083905a2a13de Johannes Weiner    2015-06-24  4972  	page = __alloc_pages_may_oom(gfp_mask, order, ac, &did_some_progress);
-9083905a2a13de Johannes Weiner    2015-06-24  4973  	if (page)
-9083905a2a13de Johannes Weiner    2015-06-24  4974  		goto got_pg;
-9083905a2a13de Johannes Weiner    2015-06-24  4975  
-9a67f6488eca92 Michal Hocko       2017-02-22  4976  	/* Avoid allocations with no watermarks from looping endlessly */
-cd04ae1e2dc8e3 Michal Hocko       2017-09-06  4977  	if (tsk_is_oom_victim(current) &&
-8510e69c8efef8 Joonsoo Kim        2020-08-06  4978  	    (alloc_flags & ALLOC_OOM ||
-c288983dddf714 Tetsuo Handa       2017-06-02  4979  	     (gfp_mask & __GFP_NOMEMALLOC)))
-9a67f6488eca92 Michal Hocko       2017-02-22  4980  		goto nopage;
-9a67f6488eca92 Michal Hocko       2017-02-22  4981  
-9083905a2a13de Johannes Weiner    2015-06-24  4982  	/* Retry as long as the OOM killer is making progress */
-0a0337e0d1d134 Michal Hocko       2016-05-20  4983  	if (did_some_progress) {
-0a0337e0d1d134 Michal Hocko       2016-05-20  4984  		no_progress_loops = 0;
-9083905a2a13de Johannes Weiner    2015-06-24  4985  		goto retry;
-0a0337e0d1d134 Michal Hocko       2016-05-20  4986  	}
-9083905a2a13de Johannes Weiner    2015-06-24  4987  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  4988  nopage:
-902b62810a57ba Vlastimil Babka    2017-07-06  4989  	/* Deal with possible cpuset update races before we fail */
-902b62810a57ba Vlastimil Babka    2017-07-06  4990  	if (check_retry_cpuset(cpuset_mems_cookie, ac))
-5ce9bfef1d2794 Vlastimil Babka    2017-01-24  4991  		goto retry_cpuset;
-5ce9bfef1d2794 Vlastimil Babka    2017-01-24  4992  
-9a67f6488eca92 Michal Hocko       2017-02-22  4993  	/*
-9a67f6488eca92 Michal Hocko       2017-02-22  4994  	 * Make sure that __GFP_NOFAIL request doesn't leak out and make sure
-9a67f6488eca92 Michal Hocko       2017-02-22  4995  	 * we always retry
-9a67f6488eca92 Michal Hocko       2017-02-22  4996  	 */
-9a67f6488eca92 Michal Hocko       2017-02-22  4997  	if (gfp_mask & __GFP_NOFAIL) {
-9a67f6488eca92 Michal Hocko       2017-02-22  4998  		/*
-9a67f6488eca92 Michal Hocko       2017-02-22  4999  		 * All existing users of the __GFP_NOFAIL are blockable, so warn
-9a67f6488eca92 Michal Hocko       2017-02-22  5000  		 * of any new users that actually require GFP_NOWAIT
-9a67f6488eca92 Michal Hocko       2017-02-22  5001  		 */
-9a67f6488eca92 Michal Hocko       2017-02-22  5002  		if (WARN_ON_ONCE(!can_direct_reclaim))
-9a67f6488eca92 Michal Hocko       2017-02-22  5003  			goto fail;
-9a67f6488eca92 Michal Hocko       2017-02-22  5004  
-9a67f6488eca92 Michal Hocko       2017-02-22  5005  		/*
-9a67f6488eca92 Michal Hocko       2017-02-22  5006  		 * PF_MEMALLOC request from this context is rather bizarre
-9a67f6488eca92 Michal Hocko       2017-02-22  5007  		 * because we cannot reclaim anything and only can loop waiting
-9a67f6488eca92 Michal Hocko       2017-02-22  5008  		 * for somebody to do a work for us
-9a67f6488eca92 Michal Hocko       2017-02-22  5009  		 */
-9a67f6488eca92 Michal Hocko       2017-02-22  5010  		WARN_ON_ONCE(current->flags & PF_MEMALLOC);
-9a67f6488eca92 Michal Hocko       2017-02-22  5011  
-9a67f6488eca92 Michal Hocko       2017-02-22  5012  		/*
-9a67f6488eca92 Michal Hocko       2017-02-22  5013  		 * non failing costly orders are a hard requirement which we
-9a67f6488eca92 Michal Hocko       2017-02-22  5014  		 * are not prepared for much so let's warn about these users
-9a67f6488eca92 Michal Hocko       2017-02-22  5015  		 * so that we can identify them and convert them to something
-9a67f6488eca92 Michal Hocko       2017-02-22  5016  		 * else.
-9a67f6488eca92 Michal Hocko       2017-02-22  5017  		 */
-9a67f6488eca92 Michal Hocko       2017-02-22  5018  		WARN_ON_ONCE(order > PAGE_ALLOC_COSTLY_ORDER);
-9a67f6488eca92 Michal Hocko       2017-02-22  5019  
-6c18ba7a18997d Michal Hocko       2017-02-22  5020  		/*
-6c18ba7a18997d Michal Hocko       2017-02-22  5021  		 * Help non-failing allocations by giving them access to memory
-6c18ba7a18997d Michal Hocko       2017-02-22  5022  		 * reserves but do not use ALLOC_NO_WATERMARKS because this
-6c18ba7a18997d Michal Hocko       2017-02-22  5023  		 * could deplete whole memory reserves which would just make
-6c18ba7a18997d Michal Hocko       2017-02-22  5024  		 * the situation worse
-6c18ba7a18997d Michal Hocko       2017-02-22  5025  		 */
-6c18ba7a18997d Michal Hocko       2017-02-22  5026  		page = __alloc_pages_cpuset_fallback(gfp_mask, order, ALLOC_HARDER, ac);
-6c18ba7a18997d Michal Hocko       2017-02-22  5027  		if (page)
-6c18ba7a18997d Michal Hocko       2017-02-22  5028  			goto got_pg;
-6c18ba7a18997d Michal Hocko       2017-02-22  5029  
-9a67f6488eca92 Michal Hocko       2017-02-22  5030  		cond_resched();
-9a67f6488eca92 Michal Hocko       2017-02-22  5031  		goto retry;
-9a67f6488eca92 Michal Hocko       2017-02-22  5032  	}
-9a67f6488eca92 Michal Hocko       2017-02-22  5033  fail:
-a8e99259e7e32b Michal Hocko       2017-02-22  5034  	warn_alloc(gfp_mask, ac->nodemask,
-7877cdcc3893c1 Michal Hocko       2016-10-07  5035  			"page allocation failure: order:%u", order);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  5036  got_pg:
-4536de1b708cd4 liuhailong         2022-07-21 @5037  	trace_android_vh_alloc_pages_slowpath_end(gfp_mask, order, vh_record);
-072bb0aa5e0629 Mel Gorman         2012-07-31  5038  	return page;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  5039  }
-11e33f6a55ed78 Mel Gorman         2009-06-16  5040  
+0ee958e102b62b4 Paul Burton 2014-01-15  118  
+0ee958e102b62b4 Paul Burton 2014-01-15  119  static void __init cps_prepare_cpus(unsigned int max_cpus)
+0ee958e102b62b4 Paul Burton 2014-01-15  120  {
+5c399f6eb2c3911 Paul Burton 2014-04-14  121  	unsigned ncores, core_vpes, c, cca;
+1ec9dd80bedc208 Paul Burton 2017-08-12  122  	bool cca_unsuitable, cores_limited;
+0f4d3d1155d9a5e Paul Burton 2014-04-14  123  	u32 *entry_code;
+245a7868d2f2e54 Paul Burton 2014-04-14  124  
+0ee958e102b62b4 Paul Burton 2014-01-15  125  	mips_mt_set_cpuoptions();
+245a7868d2f2e54 Paul Burton 2014-04-14  126  
+5c399f6eb2c3911 Paul Burton 2014-04-14  127  	/* Detect whether the CCA is unsuited to multi-core SMP */
+5c399f6eb2c3911 Paul Burton 2014-04-14  128  	cca = read_c0_config() & CONF_CM_CMASK;
+5c399f6eb2c3911 Paul Burton 2014-04-14  129  	switch (cca) {
+5c399f6eb2c3911 Paul Burton 2014-04-14  130  	case 0x4: /* CWBE */
+5c399f6eb2c3911 Paul Burton 2014-04-14  131  	case 0x5: /* CWB */
+5c399f6eb2c3911 Paul Burton 2014-04-14  132  		/* The CCA is coherent, multi-core is fine */
+5c399f6eb2c3911 Paul Burton 2014-04-14  133  		cca_unsuitable = false;
+5c399f6eb2c3911 Paul Burton 2014-04-14  134  		break;
+5c399f6eb2c3911 Paul Burton 2014-04-14  135  
+5c399f6eb2c3911 Paul Burton 2014-04-14  136  	default:
+5c399f6eb2c3911 Paul Burton 2014-04-14  137  		/* CCA is not coherent, multi-core is not usable */
+5c399f6eb2c3911 Paul Burton 2014-04-14  138  		cca_unsuitable = true;
+5c399f6eb2c3911 Paul Burton 2014-04-14  139  	}
+5c399f6eb2c3911 Paul Burton 2014-04-14  140  
+5c399f6eb2c3911 Paul Burton 2014-04-14  141  	/* Warn the user if the CCA prevents multi-core */
+1ec9dd80bedc208 Paul Burton 2017-08-12  142  	cores_limited = false;
+1ec9dd80bedc208 Paul Burton 2017-08-12  143  	if (cca_unsuitable || cpu_has_dc_aliases) {
+5c399f6eb2c3911 Paul Burton 2014-04-14  144  		for_each_present_cpu(c) {
+1ec9dd80bedc208 Paul Burton 2017-08-12  145  			if (cpus_are_siblings(smp_processor_id(), c))
+1ec9dd80bedc208 Paul Burton 2017-08-12  146  				continue;
+1ec9dd80bedc208 Paul Burton 2017-08-12  147  
+5c399f6eb2c3911 Paul Burton 2014-04-14  148  			set_cpu_present(c, false);
+1ec9dd80bedc208 Paul Burton 2017-08-12  149  			cores_limited = true;
+5c399f6eb2c3911 Paul Burton 2014-04-14  150  		}
+5c399f6eb2c3911 Paul Burton 2014-04-14  151  	}
+1ec9dd80bedc208 Paul Burton 2017-08-12  152  	if (cores_limited)
+1ec9dd80bedc208 Paul Burton 2017-08-12  153  		pr_warn("Using only one core due to %s%s%s\n",
+1ec9dd80bedc208 Paul Burton 2017-08-12  154  			cca_unsuitable ? "unsuitable CCA" : "",
+1ec9dd80bedc208 Paul Burton 2017-08-12  155  			(cca_unsuitable && cpu_has_dc_aliases) ? " & " : "",
+1ec9dd80bedc208 Paul Burton 2017-08-12  156  			cpu_has_dc_aliases ? "dcache aliasing" : "");
+5c399f6eb2c3911 Paul Burton 2014-04-14  157  
+0155a06529d4c84 Paul Burton 2014-04-16  158  	/*
+0155a06529d4c84 Paul Burton 2014-04-16  159  	 * Patch the start of mips_cps_core_entry to provide:
+0155a06529d4c84 Paul Burton 2014-04-16  160  	 *
+0155a06529d4c84 Paul Burton 2014-04-16  161  	 * s0 = kseg0 CCA
+0155a06529d4c84 Paul Burton 2014-04-16  162  	 */
+0f4d3d1155d9a5e Paul Burton 2014-04-14  163  	entry_code = (u32 *)&mips_cps_core_entry;
+0155a06529d4c84 Paul Burton 2014-04-16  164  	uasm_i_addiu(&entry_code, 16, 0, cca);
+fea8826d5fdc4ff Jiaxun Yang 2023-02-27 @165  	UASM_i_LA(&entry_code, 17, (long)mips_gcr_base);
+fea8826d5fdc4ff Jiaxun Yang 2023-02-27  166  	BUG_ON((void *)entry_code > (void *)&mips_cps_core_entry_patch_end);
+0fc0708a8a2e6ff Paul Burton 2014-07-09  167  	blast_dcache_range((unsigned long)&mips_cps_core_entry,
+0fc0708a8a2e6ff Paul Burton 2014-07-09  168  			   (unsigned long)entry_code);
+0fc0708a8a2e6ff Paul Burton 2014-07-09  169  	bc_wback_inv((unsigned long)&mips_cps_core_entry,
+0f4d3d1155d9a5e Paul Burton 2014-04-14  170  		     (void *)entry_code - (void *)&mips_cps_core_entry);
+0fc0708a8a2e6ff Paul Burton 2014-07-09  171  	__sync();
+0f4d3d1155d9a5e Paul Burton 2014-04-14  172  
+245a7868d2f2e54 Paul Burton 2014-04-14  173  	/* Allocate core boot configuration structs */
+1ec9dd80bedc208 Paul Burton 2017-08-12  174  	ncores = mips_cps_numcores(0);
+245a7868d2f2e54 Paul Burton 2014-04-14  175  	mips_cps_core_bootcfg = kcalloc(ncores, sizeof(*mips_cps_core_bootcfg),
+245a7868d2f2e54 Paul Burton 2014-04-14  176  					GFP_KERNEL);
+245a7868d2f2e54 Paul Burton 2014-04-14  177  	if (!mips_cps_core_bootcfg) {
+245a7868d2f2e54 Paul Burton 2014-04-14  178  		pr_err("Failed to allocate boot config for %u cores\n", ncores);
+245a7868d2f2e54 Paul Burton 2014-04-14  179  		goto err_out;
+0ee958e102b62b4 Paul Burton 2014-01-15  180  	}
+0ee958e102b62b4 Paul Burton 2014-01-15  181  
+245a7868d2f2e54 Paul Burton 2014-04-14  182  	/* Allocate VPE boot configuration structs */
+245a7868d2f2e54 Paul Burton 2014-04-14  183  	for (c = 0; c < ncores; c++) {
+1ec9dd80bedc208 Paul Burton 2017-08-12  184  		core_vpes = core_vpe_count(0, c);
+245a7868d2f2e54 Paul Burton 2014-04-14  185  		mips_cps_core_bootcfg[c].vpe_config = kcalloc(core_vpes,
+245a7868d2f2e54 Paul Burton 2014-04-14  186  				sizeof(*mips_cps_core_bootcfg[c].vpe_config),
+245a7868d2f2e54 Paul Burton 2014-04-14  187  				GFP_KERNEL);
+245a7868d2f2e54 Paul Burton 2014-04-14  188  		if (!mips_cps_core_bootcfg[c].vpe_config) {
+245a7868d2f2e54 Paul Burton 2014-04-14  189  			pr_err("Failed to allocate %u VPE boot configs\n",
+245a7868d2f2e54 Paul Burton 2014-04-14  190  			       core_vpes);
+245a7868d2f2e54 Paul Burton 2014-04-14  191  			goto err_out;
+245a7868d2f2e54 Paul Burton 2014-04-14  192  		}
+0ee958e102b62b4 Paul Burton 2014-01-15  193  	}
+0ee958e102b62b4 Paul Burton 2014-01-15  194  
+245a7868d2f2e54 Paul Burton 2014-04-14  195  	/* Mark this CPU as booted */
+f875a832d202852 Paul Burton 2017-08-12  196  	atomic_set(&mips_cps_core_bootcfg[cpu_core(&current_cpu_data)].vpe_mask,
+245a7868d2f2e54 Paul Burton 2014-04-14  197  		   1 << cpu_vpe_id(&current_cpu_data));
+245a7868d2f2e54 Paul Burton 2014-04-14  198  
+245a7868d2f2e54 Paul Burton 2014-04-14  199  	return;
+245a7868d2f2e54 Paul Burton 2014-04-14  200  err_out:
+245a7868d2f2e54 Paul Burton 2014-04-14  201  	/* Clean up allocations */
+245a7868d2f2e54 Paul Burton 2014-04-14  202  	if (mips_cps_core_bootcfg) {
+245a7868d2f2e54 Paul Burton 2014-04-14  203  		for (c = 0; c < ncores; c++)
+245a7868d2f2e54 Paul Burton 2014-04-14  204  			kfree(mips_cps_core_bootcfg[c].vpe_config);
+245a7868d2f2e54 Paul Burton 2014-04-14  205  		kfree(mips_cps_core_bootcfg);
+245a7868d2f2e54 Paul Burton 2014-04-14  206  		mips_cps_core_bootcfg = NULL;
+245a7868d2f2e54 Paul Burton 2014-04-14  207  	}
+245a7868d2f2e54 Paul Burton 2014-04-14  208  
+245a7868d2f2e54 Paul Burton 2014-04-14  209  	/* Effectively disable SMP by declaring CPUs not present */
+245a7868d2f2e54 Paul Burton 2014-04-14  210  	for_each_possible_cpu(c) {
+245a7868d2f2e54 Paul Burton 2014-04-14  211  		if (c == 0)
+245a7868d2f2e54 Paul Burton 2014-04-14  212  			continue;
+245a7868d2f2e54 Paul Burton 2014-04-14  213  		set_cpu_present(c, false);
+245a7868d2f2e54 Paul Burton 2014-04-14  214  	}
+245a7868d2f2e54 Paul Burton 2014-04-14  215  }
+245a7868d2f2e54 Paul Burton 2014-04-14  216  
 
 -- 
 0-DAY CI Kernel Test Service
