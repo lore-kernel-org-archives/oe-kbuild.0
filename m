@@ -1,46 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40B410A25
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Nov 2023 14:16:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F862FE02
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Nov 2023 14:49:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lom5mtmE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YHp8AbNF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699366575; x=1730902575;
+  t=1699368587; x=1730904587;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pElzQy0vP2DvcTrlHQmUrU9WWpa3h0E+BCi5VGt4t6k=;
-  b=lom5mtmE2Q+lOEUAkLhlVoLgz3BmPd7PSo9SCH0S/CLL52Nda9fwZcHe
-   kI6JSRepyGFrpYXXndOIvBJvNkoWYXO/FBDtNsZladCSsXU3AC1xz+ifg
-   jRoNNeB1x6FZiQi4CoAsOxS0yzRjuckGilpqPM/bRQSCdUOu2qEn7CijK
-   5TIRD1Mll9lavnSy8IrB/pRxS6+rwV/GwlBB3ZKliaChxrZW41qlBTze/
-   5Sw6OrXgdhrNmbyyzV2I8eIBxuTZuEioTl3R+874bUEaQVSfY4sM7JuRC
-   TWvqXOWZk10/iVhYFiaF4FrIOZdlt2FwU2Jk42spUPAMeqzr+oI5qSSc3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="369710302"
-X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; 
-   d="scan'208";a="369710302"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 06:16:15 -0800
+  bh=+yzOMVj0JmLnsEOd24zSc4LIgcsmcrB4bpqvig85W/Y=;
+  b=YHp8AbNFvEfhx2mzmovq3LtgUKgI6yC/NhckDyz+hjvVPYKzi1NhsSAm
+   8RxPS27rSj1lNbkzm5GGGMUjTheaznC3jxTp6RzuWUtfvay+RrZjzzhTg
+   xD9o2QnDIWeXSt0pS/PmbeT5jsCxu5LGi24ykoZ2L9izQAczOZgD6EbQg
+   URyrOmRehifFHhQ9toZ5lTJ1+3FMS1WwussPGyU+fZxkA7YAU4JnYUuXG
+   HYgQeBydluZR8Pfq0Nw8sBThU5PqY2rIsvmjXaMDnQI3DkAe5GHEmMr0t
+   uUkChk9HdIqxBAr0lXCY/+fsGiqj/Gp+hPltoSHUEdguFU+tt8VelRGlP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="2460272"
+X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
+   d="scan'208";a="2460272"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 06:49:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="833111475"
-X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; 
-   d="scan'208";a="833111475"
+X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
+   d="scan'208";a="10847016"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Nov 2023 06:16:13 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 07 Nov 2023 06:49:44 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0MsF-00078d-1k;
-	Tue, 07 Nov 2023 14:16:11 +0000
-Date: Tue, 7 Nov 2023 22:15:07 +0800
+	id 1r0NOf-0007Ae-27;
+	Tue, 07 Nov 2023 14:49:41 +0000
+Date: Tue, 7 Nov 2023 22:49:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/soc/fsl/qe/tsa.c:663:22: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202311072110.oUvmIGCH-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/bcachefs/btree_update_interior.c:1582 btree_split() warn:
+ variable dereferenced before check 'path1' (see line 1483)
+Message-ID: <202311072233.KsJQSI13-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,405 +49,177 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Christophe Leroy <christophe.leroy@csgroup.eu>
-CC: Michael Ellerman <mpe@ellerman.id.au>
-
-Hi Christophe,
-
-First bad commit (maybe != root cause):
+TO: Kent Overstreet <kmo@daterainc.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   be3ca57cfb777ad820c6659d52e60bbdd36bf5ff
-commit: eb5aa2137275da82052586f9bd405a1358b48139 powerpc/82xx: Remove CONFIG_8260 and CONFIG_8272
-date:   3 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 3 months ago
-config: powerpc-randconfig-r121-20231107 (https://download.01.org/0day-ci/archive/20231107/202311072110.oUvmIGCH-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231107/202311072110.oUvmIGCH-lkp@intel.com/reproduce)
+commit: e4215d0fec777e6516306f5f1b69a45a4205dce0 bcachefs: All held locks must be in a btree path
+date:   2 weeks ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 2 weeks ago
+config: x86_64-randconfig-161-20231107 (https://download.01.org/0day-ci/archive/20231107/202311072233.KsJQSI13-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231107/202311072233.KsJQSI13-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311072110.oUvmIGCH-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311072233.KsJQSI13-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/soc/fsl/qe/tsa.c:663:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] si_regs @@     got void [noderef] __iomem * @@
-   drivers/soc/fsl/qe/tsa.c:663:22: sparse:     expected void *[noderef] si_regs
-   drivers/soc/fsl/qe/tsa.c:663:22: sparse:     got void [noderef] __iomem *
->> drivers/soc/fsl/qe/tsa.c:673:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] si_ram @@     got void [noderef] __iomem * @@
-   drivers/soc/fsl/qe/tsa.c:673:21: sparse:     expected void *[noderef] si_ram
-   drivers/soc/fsl/qe/tsa.c:673:21: sparse:     got void [noderef] __iomem *
->> drivers/soc/fsl/qe/tsa.c:189:26: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:189:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:160:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     expected void const [noderef] __iomem *addr
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void [noderef] __iomem *addr
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:160:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:218:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:218:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:160:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     expected void const [noderef] __iomem *addr
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void [noderef] __iomem *addr
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:160:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:245:25: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:245:47: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:246:25: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:246:46: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:247:25: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:250:25: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:250:47: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:251:25: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:251:46: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:252:25: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:259:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:259:55: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:260:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:260:54: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:261:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:264:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:264:55: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:265:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:265:54: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:266:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:271:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:271:55: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:272:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:272:54: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:273:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:276:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:276:55: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:277:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:277:54: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:278:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:322:9: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:322:16: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:322:35: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:322:58: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:325:14: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:325:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:330:13: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:332:31: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:332:31: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:155:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:155:38: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     expected void const [noderef] __iomem *addr
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:155:38: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void [noderef] __iomem *addr
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:155:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:155:38: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:344:25: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:344:44: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:348:29: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void [noderef] __iomem *addr
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:348:29: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:349:17: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:640:29: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void [noderef] __iomem *addr
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:640:29: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:664:20: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:664:20: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:665:32: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:665:32: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:674:20: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:674:20: sparse: sparse: too many warnings
---
->> drivers/soc/fsl/qe/qmc.c:334:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *txbd_free @@
-   drivers/soc/fsl/qe/qmc.c:334:12: sparse:     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd
-   drivers/soc/fsl/qe/qmc.c:334:12: sparse:     got struct cpm_buf_desc [noderef] [usertype] __iomem *txbd_free
->> drivers/soc/fsl/qe/qmc.c:346:39: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/soc/fsl/qe/qmc.c:389:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *txbd_done @@
-   drivers/soc/fsl/qe/qmc.c:389:12: sparse:     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd
-   drivers/soc/fsl/qe/qmc.c:389:12: sparse:     got struct cpm_buf_desc [noderef] [usertype] __iomem *txbd_done
-   drivers/soc/fsl/qe/qmc.c:396:47: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/soc/fsl/qe/qmc.c:441:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *rxbd_free @@
-   drivers/soc/fsl/qe/qmc.c:453:39: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/soc/fsl/qe/qmc.c:505:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *rxbd_done @@
-   drivers/soc/fsl/qe/qmc.c:505:12: sparse:     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd
-   drivers/soc/fsl/qe/qmc.c:505:12: sparse:     got struct cpm_buf_desc [noderef] [usertype] __iomem *rxbd_done
-   drivers/soc/fsl/qe/qmc.c:512:47: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/soc/fsl/qe/qmc.c:670:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *rxbds @@
-   drivers/soc/fsl/qe/qmc.c:675:47: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/soc/fsl/qe/qmc.c:705:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *txbds @@
-   drivers/soc/fsl/qe/qmc.c:705:12: sparse:     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd
-   drivers/soc/fsl/qe/qmc.c:705:12: sparse:     got struct cpm_buf_desc [noderef] [usertype] __iomem *txbds
-   drivers/soc/fsl/qe/qmc.c:710:47: sparse: sparse: subtraction of different types can't work (different address spaces)
->> drivers/soc/fsl/qe/qmc.c:1108:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] __iomem * @@
-   drivers/soc/fsl/qe/qmc.c:1108:30: sparse:     expected void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:1108:30: sparse:     got unsigned short [noderef] __iomem *
-   drivers/soc/fsl/qe/qmc.c:1111:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] __iomem * @@
-   drivers/soc/fsl/qe/qmc.c:1111:22: sparse:     expected void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:1111:22: sparse:     got unsigned short [noderef] __iomem *
-   drivers/soc/fsl/qe/qmc.c:1120:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] __iomem * @@
-   drivers/soc/fsl/qe/qmc.c:1120:30: sparse:     expected void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:1120:30: sparse:     got unsigned short [noderef] __iomem *
-   drivers/soc/fsl/qe/qmc.c:1123:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] __iomem * @@
-   drivers/soc/fsl/qe/qmc.c:1123:22: sparse:     expected void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:1123:22: sparse:     got unsigned short [noderef] __iomem *
->> drivers/soc/fsl/qe/qmc.c:1176:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] [usertype] __iomem * @@
-   drivers/soc/fsl/qe/qmc.c:1176:44: sparse:     expected void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:1176:44: sparse:     got unsigned short [noderef] [usertype] __iomem *
->> drivers/soc/fsl/qe/qmc.c:1181:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] [usertype] __iomem *[assigned] last @@
-   drivers/soc/fsl/qe/qmc.c:1181:29: sparse:     expected void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:1181:29: sparse:     got unsigned short [noderef] [usertype] __iomem *[assigned] last
->> drivers/soc/fsl/qe/qmc.c:1194:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] [usertype] __iomem *int_curr @@
-   drivers/soc/fsl/qe/qmc.c:1194:35: sparse:     expected void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:1194:35: sparse:     got unsigned short [noderef] [usertype] __iomem *int_curr
-   drivers/soc/fsl/qe/qmc.c:1197:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] [usertype] __iomem *int_curr @@
-   drivers/soc/fsl/qe/qmc.c:1197:32: sparse:     expected void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:1197:32: sparse:     got unsigned short [noderef] [usertype] __iomem *int_curr
-   drivers/soc/fsl/qe/qmc.c:1242:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] [usertype] __iomem *int_curr @@
-   drivers/soc/fsl/qe/qmc.c:1242:43: sparse:     expected void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:1242:43: sparse:     got unsigned short [noderef] [usertype] __iomem *int_curr
->> drivers/soc/fsl/qe/qmc.c:1286:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] scc_regs @@     got void [noderef] __iomem * @@
-   drivers/soc/fsl/qe/qmc.c:1286:23: sparse:     expected void *[noderef] scc_regs
-   drivers/soc/fsl/qe/qmc.c:1286:23: sparse:     got void [noderef] __iomem *
->> drivers/soc/fsl/qe/qmc.c:1295:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] scc_pram @@     got void [noderef] __iomem * @@
-   drivers/soc/fsl/qe/qmc.c:1295:23: sparse:     expected void *[noderef] scc_pram
-   drivers/soc/fsl/qe/qmc.c:1295:23: sparse:     got void [noderef] __iomem *
->> drivers/soc/fsl/qe/qmc.c:1299:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] dpram @@     got void [noderef] __iomem * @@
-   drivers/soc/fsl/qe/qmc.c:1299:21: sparse:     expected void *[noderef] dpram
-   drivers/soc/fsl/qe/qmc.c:1299:21: sparse:     got void [noderef] __iomem *
->> drivers/soc/fsl/qe/qmc.c:1335:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [noderef] [usertype] __iomem *bd_table @@     got void * @@
-   drivers/soc/fsl/qe/qmc.c:1335:23: sparse:     expected struct cpm_buf_desc [noderef] [usertype] __iomem *bd_table
-   drivers/soc/fsl/qe/qmc.c:1335:23: sparse:     got void *
->> drivers/soc/fsl/qe/qmc.c:1342:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *bd_table @@
-   drivers/soc/fsl/qe/qmc.c:1342:19: sparse:     expected void *
-   drivers/soc/fsl/qe/qmc.c:1342:19: sparse:     got struct cpm_buf_desc [noderef] [usertype] __iomem *bd_table
->> drivers/soc/fsl/qe/qmc.c:1348:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned short [noderef] [usertype] __iomem *int_table @@     got void * @@
-   drivers/soc/fsl/qe/qmc.c:1348:24: sparse:     expected unsigned short [noderef] [usertype] __iomem *int_table
-   drivers/soc/fsl/qe/qmc.c:1348:24: sparse:     got void *
->> drivers/soc/fsl/qe/qmc.c:1355:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got unsigned short [noderef] [usertype] __iomem *int_table @@
-   drivers/soc/fsl/qe/qmc.c:1355:19: sparse:     expected void *
-   drivers/soc/fsl/qe/qmc.c:1355:19: sparse:     got unsigned short [noderef] [usertype] __iomem *int_table
->> drivers/soc/fsl/qe/qmc.c:290:33: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
->> drivers/soc/fsl/qe/qmc.c:290:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:292:29: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:292:29: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:295:39: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:295:39: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:233:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:233:38: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     expected void const [noderef] __iomem *addr
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:233:38: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:233:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:233:38: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:298:39: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:298:39: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:238:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:238:38: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     expected void const [noderef] __iomem *addr
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:238:38: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:238:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:238:38: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:304:29: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:304:29: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:336:28: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     expected void const [noderef] __iomem *addr
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:336:28: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:343:22: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:343:22: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:344:22: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:243:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/qmc.c:243:26: sparse:     expected void [noderef] __iomem *addr
-   drivers/soc/fsl/qe/qmc.c:243:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:344:22: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:243:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:243:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:346:36: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:353:22: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:353:22: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:356:31: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:356:31: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:233:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:233:38: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     expected void const [noderef] __iomem *addr
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:233:38: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/qmc.c:233:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:233:38: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: too many warnings
+smatch warnings:
+fs/bcachefs/btree_update_interior.c:1582 btree_split() warn: variable dereferenced before check 'path1' (see line 1483)
 
-vim +663 drivers/soc/fsl/qe/tsa.c
+vim +/path1 +1582 fs/bcachefs/btree_update_interior.c
 
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  642  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  643  static int tsa_probe(struct platform_device *pdev)
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  644  {
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  645  	struct device_node *np = pdev->dev.of_node;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  646  	struct resource *res;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  647  	struct tsa *tsa;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  648  	unsigned int i;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  649  	u32 val;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  650  	int ret;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  651  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  652  	tsa = devm_kzalloc(&pdev->dev, sizeof(*tsa), GFP_KERNEL);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  653  	if (!tsa)
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  654  		return -ENOMEM;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  655  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  656  	tsa->dev = &pdev->dev;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  657  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  658  	for (i = 0; i < ARRAY_SIZE(tsa->serials); i++)
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  659  		tsa->serials[i].id = i;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  660  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  661  	spin_lock_init(&tsa->lock);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  662  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17 @663  	tsa->si_regs = devm_platform_ioremap_resource_byname(pdev, "si_regs");
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  664  	if (IS_ERR(tsa->si_regs))
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  665  		return PTR_ERR(tsa->si_regs);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  666  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  667  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "si_ram");
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  668  	if (!res) {
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  669  		dev_err(tsa->dev, "si_ram resource missing\n");
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  670  		return -EINVAL;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  671  	}
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  672  	tsa->si_ram_sz = resource_size(res);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17 @673  	tsa->si_ram = devm_ioremap_resource(&pdev->dev, res);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  674  	if (IS_ERR(tsa->si_ram))
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  675  		return PTR_ERR(tsa->si_ram);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  676  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  677  	tsa_init_si_ram(tsa);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  678  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  679  	ret = tsa_of_parse_tdms(tsa, np);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  680  	if (ret)
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  681  		return ret;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  682  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  683  	/* Set SIMODE */
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  684  	val = 0;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  685  	if (tsa->tdm[0].is_enable)
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  686  		val |= TSA_SIMODE_TDMA(tsa->tdm[0].simode_tdm);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  687  	if (tsa->tdm[1].is_enable)
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  688  		val |= TSA_SIMODE_TDMB(tsa->tdm[1].simode_tdm);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  689  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  690  	tsa_clrsetbits32(tsa->si_regs + TSA_SIMODE,
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  691  			 TSA_SIMODE_TDMA(TSA_SIMODE_TDM_MASK) |
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  692  			 TSA_SIMODE_TDMB(TSA_SIMODE_TDM_MASK),
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  693  			 val);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  694  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  695  	/* Set SIGMR */
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  696  	val = (tsa->tdms == BIT(TSA_TDMA)) ?
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  697  		TSA_SIGMR_RDM_STATIC_TDMA : TSA_SIGMR_RDM_STATIC_TDMAB;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  698  	if (tsa->tdms & BIT(TSA_TDMA))
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  699  		val |= TSA_SIGMR_ENA;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  700  	if (tsa->tdms & BIT(TSA_TDMB))
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  701  		val |= TSA_SIGMR_ENB;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  702  	tsa_write8(tsa->si_regs + TSA_SIGMR, val);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  703  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  704  	platform_set_drvdata(pdev, tsa);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  705  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  706  	return 0;
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  707  }
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  708  
-
-:::::: The code at line 663 was first introduced by commit
-:::::: 1d4ba0b81c1cf2bfc0c55658f53809846ae9de52 soc: fsl: cpm1: Add support for TSA
-
-:::::: TO: Herve Codina <herve.codina@bootlin.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1450  
+67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1451  static void btree_split(struct btree_update *as, struct btree_trans *trans,
+67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1452  			struct btree_path *path, struct btree *b,
+67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1453  			struct keylist *keys, unsigned flags)
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1454  {
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1455  	struct bch_fs *c = as->c;
+67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1456  	struct btree *parent = btree_node_parent(path, b);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1457  	struct btree *n1, *n2 = NULL, *n3 = NULL;
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1458  	struct btree_path *path1 = NULL, *path2 = NULL;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1459  	u64 start_time = local_clock();
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1460  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1461  	BUG_ON(!parent && (b != btree_node_root(c, b)));
+67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1462  	BUG_ON(!btree_node_intent_locked(path, btree_node_root(c, b)->c.level));
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1463  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1464  	bch2_btree_interior_update_will_free_node(as, b);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1465  
+ca7d8fcabf29fae Kent Overstreet 2022-08-21  1466  	n1 = bch2_btree_node_alloc_replacement(as, trans, b);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1467  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1468  	if (keys)
+67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1469  		btree_split_insert_keys(as, trans, path, n1, keys);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1470  
+5525f632dc123ed Kent Overstreet 2020-01-15  1471  	if (bset_u64s(&n1->set[0]) > BTREE_SPLIT_THRESHOLD(c)) {
+674cfc26240b780 Kent Overstreet 2022-08-27  1472  		trace_and_count(c, btree_node_split, c, b);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1473  
+ca7d8fcabf29fae Kent Overstreet 2022-08-21  1474  		n2 = __btree_split_node(as, trans, n1);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1475  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1476  		bch2_btree_build_aux_trees(n2);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1477  		bch2_btree_build_aux_trees(n1);
+c43a6ef9a0747ef Kent Overstreet 2020-06-06  1478  		six_unlock_write(&n2->c.lock);
+c43a6ef9a0747ef Kent Overstreet 2020-06-06  1479  		six_unlock_write(&n1->c.lock);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1480  
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1481  		path1 = get_unlocked_mut_path(trans, path->btree_id, n1->c.level, n1->key.k.p);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1482  		six_lock_increment(&n1->c.lock, SIX_LOCK_intent);
+e4215d0fec777e6 Kent Overstreet 2022-09-16 @1483  		mark_btree_node_locked(trans, path1, n1->c.level, SIX_LOCK_intent);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1484  		bch2_btree_path_level_init(trans, path1, n1);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1485  
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1486  		path2 = get_unlocked_mut_path(trans, path->btree_id, n2->c.level, n2->key.k.p);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1487  		six_lock_increment(&n2->c.lock, SIX_LOCK_intent);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1488  		mark_btree_node_locked(trans, path2, n2->c.level, SIX_LOCK_intent);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1489  		bch2_btree_path_level_init(trans, path2, n2);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1490  
+7419646b254a599 Kent Overstreet 2022-04-14  1491  		bch2_btree_update_add_new_node(as, n1);
+7419646b254a599 Kent Overstreet 2022-04-14  1492  
+82732ef510b8455 Kent Overstreet 2022-02-26  1493  		bch2_btree_node_write(c, n1, SIX_LOCK_intent, 0);
+82732ef510b8455 Kent Overstreet 2022-02-26  1494  		bch2_btree_node_write(c, n2, SIX_LOCK_intent, 0);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1495  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1496  		/*
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1497  		 * Note that on recursive parent_keys == keys, so we
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1498  		 * can't start adding new keys to parent_keys before emptying it
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1499  		 * out (which we did with btree_split_insert_keys() above)
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1500  		 */
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1501  		bch2_keylist_add(&as->parent_keys, &n1->key);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1502  		bch2_keylist_add(&as->parent_keys, &n2->key);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1503  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1504  		if (!parent) {
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1505  			/* Depth increases, make a new root */
+ca7d8fcabf29fae Kent Overstreet 2022-08-21  1506  			n3 = __btree_root_alloc(as, trans, b->c.level + 1);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1507  
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1508  			path2->locks_want++;
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1509  			BUG_ON(btree_node_locked(path2, n3->c.level));
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1510  			six_lock_increment(&n3->c.lock, SIX_LOCK_intent);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1511  			mark_btree_node_locked(trans, path2, n3->c.level, SIX_LOCK_intent);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1512  			bch2_btree_path_level_init(trans, path2, n3);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1513  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1514  			n3->sib_u64s[0] = U16_MAX;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1515  			n3->sib_u64s[1] = U16_MAX;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1516  
+67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1517  			btree_split_insert_keys(as, trans, path, n3, &as->parent_keys);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1518  
+82732ef510b8455 Kent Overstreet 2022-02-26  1519  			bch2_btree_node_write(c, n3, SIX_LOCK_intent, 0);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1520  		}
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1521  	} else {
+674cfc26240b780 Kent Overstreet 2022-08-27  1522  		trace_and_count(c, btree_node_compact, c, b);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1523  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1524  		bch2_btree_build_aux_trees(n1);
+c43a6ef9a0747ef Kent Overstreet 2020-06-06  1525  		six_unlock_write(&n1->c.lock);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1526  
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1527  		path1 = get_unlocked_mut_path(trans, path->btree_id, n1->c.level, n1->key.k.p);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1528  		six_lock_increment(&n1->c.lock, SIX_LOCK_intent);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1529  		mark_btree_node_locked(trans, path1, n1->c.level, SIX_LOCK_intent);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1530  		bch2_btree_path_level_init(trans, path1, n1);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1531  
+7419646b254a599 Kent Overstreet 2022-04-14  1532  		bch2_btree_update_add_new_node(as, n1);
+7419646b254a599 Kent Overstreet 2022-04-14  1533  
+82732ef510b8455 Kent Overstreet 2022-02-26  1534  		bch2_btree_node_write(c, n1, SIX_LOCK_intent, 0);
+9f1833cadda7bb4 Kent Overstreet 2021-07-10  1535  
+6357d6071fccb5c Kent Overstreet 2020-02-08  1536  		if (parent)
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1537  			bch2_keylist_add(&as->parent_keys, &n1->key);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1538  	}
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1539  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1540  	/* New nodes all written, now make them visible: */
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1541  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1542  	if (parent) {
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1543  		/* Split a non root node */
+67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1544  		bch2_btree_insert_node(as, trans, path, parent, &as->parent_keys, flags);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1545  	} else if (n3) {
+67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1546  		bch2_btree_set_root(as, trans, path, n3);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1547  	} else {
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1548  		/* Root filled up but didn't need to be split */
+67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1549  		bch2_btree_set_root(as, trans, path, n1);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1550  	}
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1551  
+00b8ccf7074fddb Kent Overstreet 2020-05-25  1552  	bch2_btree_update_get_open_buckets(as, n1);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1553  	if (n2)
+00b8ccf7074fddb Kent Overstreet 2020-05-25  1554  		bch2_btree_update_get_open_buckets(as, n2);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1555  	if (n3)
+00b8ccf7074fddb Kent Overstreet 2020-05-25  1556  		bch2_btree_update_get_open_buckets(as, n3);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1557  
+ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1558  	/*
+ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1559  	 * The old node must be freed (in memory) _before_ unlocking the new
+ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1560  	 * nodes - else another thread could re-acquire a read lock on the old
+ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1561  	 * node after another thread has locked and updated the new node, thus
+ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1562  	 * seeing stale data:
+ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1563  	 */
+38474c264252475 Kent Overstreet 2022-09-02  1564  	bch2_btree_node_free_inmem(trans, path, b);
+38474c264252475 Kent Overstreet 2022-09-02  1565  
+38474c264252475 Kent Overstreet 2022-09-02  1566  	if (n3)
+38474c264252475 Kent Overstreet 2022-09-02  1567  		bch2_trans_node_add(trans, n3);
+38474c264252475 Kent Overstreet 2022-09-02  1568  	if (n2)
+38474c264252475 Kent Overstreet 2022-09-02  1569  		bch2_trans_node_add(trans, n2);
+38474c264252475 Kent Overstreet 2022-09-02  1570  	bch2_trans_node_add(trans, n1);
+ad7ae8d63fa82e5 Kent Overstreet 2018-11-23  1571  
+ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1572  	if (n3)
+ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1573  		six_unlock_intent(&n3->c.lock);
+ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1574  	if (n2)
+ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1575  		six_unlock_intent(&n2->c.lock);
+ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1576  	six_unlock_intent(&n1->c.lock);
+ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1577  
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1578  	if (path2) {
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1579  		__bch2_btree_path_unlock(trans, path2);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1580  		bch2_path_put(trans, path2, true);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1581  	}
+e4215d0fec777e6 Kent Overstreet 2022-09-16 @1582  	if (path1) {
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1583  		__bch2_btree_path_unlock(trans, path1);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1584  		bch2_path_put(trans, path1, true);
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1585  	}
+e4215d0fec777e6 Kent Overstreet 2022-09-16  1586  
+a0a568794d09a20 Kent Overstreet 2021-08-30  1587  	bch2_trans_verify_locks(trans);
+ad7ae8d63fa82e5 Kent Overstreet 2018-11-23  1588  
+991ba0211290884 Kent Overstreet 2021-12-10  1589  	bch2_time_stats_update(&c->times[n2
+991ba0211290884 Kent Overstreet 2021-12-10  1590  			       ? BCH_TIME_btree_node_split
+991ba0211290884 Kent Overstreet 2021-12-10  1591  			       : BCH_TIME_btree_node_compact],
+dc3b63dc33e1b65 Kent Overstreet 2019-03-21  1592  			       start_time);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1593  }
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1594  
 
 -- 
 0-DAY CI Kernel Test Service
