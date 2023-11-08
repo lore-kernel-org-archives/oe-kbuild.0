@@ -1,46 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976F1D267
-	for <oe-kbuild@lists.linux.dev>; Wed,  8 Nov 2023 06:48:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3D7440C
+	for <oe-kbuild@lists.linux.dev>; Wed,  8 Nov 2023 06:48:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EM5f1IhY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699426084; x=1730962084;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R0GxPXH+yAn3siaywnEEUJXhzoDZau22HPrxsObznZ4=;
-  b=EM5f1IhY8cJ/eQsMOQtwIrLjp9RwNGywBpkjNex9quqms66G+hiErjta
-   oGWGjKNXu+ovlspGS5Ay5SumHp/bg9e0BR8nZIaB1azbUEkN81F5xt8TZ
-   HACHb20dCYfzwkpj7PuZeezcgplS9zI6Hlv3aqEObS0RG9aV3+EHikZ2+
-   uPfY+fr9OxdTrxWjOe/RXcKys7/zMUAAF7KrFKRtjYaxBTTq+K2a+VaGK
-   uvpHiT1CJd71MOWL+24g987EqiquSLKA902F1i7DqUfTJeh2KV+hRAMyr
-   qfAeThozBVoOU67/821M+q2YTRP4vQyD8wNuCqq7Nh0zK13B0MBN+WKMi
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="456198763"
-X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
-   d="scan'208";a="456198763"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 22:48:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="1010171462"
-X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
-   d="scan'208";a="1010171462"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 07 Nov 2023 22:48:02 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r0cM4-0007k8-0Q;
-	Wed, 08 Nov 2023 06:48:00 +0000
-Date: Wed, 8 Nov 2023 14:46:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/codecs/aw88399.c:963 aw_dev_check_sram() error:
- uninitialized symbol 'reg_val'.
-Message-ID: <202311081422.RH1UPwXx-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dZCG4Yid"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-543c3756521so10830517a12.2
+        for <oe-kbuild@lists.linux.dev>; Tue, 07 Nov 2023 22:48:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699426124; x=1700030924; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jb2O/lBBk955CKNe/gEpV8g9kuAg3iF6vieIJ3Ps/0o=;
+        b=dZCG4YidihAP0+FQC5k1x1tjXDFOAzoBKsEO/XH3FdhM7fgyU2YI1IVHI8U6+ay7Pj
+         ZvYZ65AMNdanX78uhHnDA7766f10rxbJE2Wzf5lwSV+1xbxY7sEi+1yHnobIGKOYDkDk
+         y6zEKmk2I8edv7F24T2eWu8WlSwOz3YTlfJ9OjZ0yk0HCGUcS9gIG4juzwH0PMXjviEi
+         UJcNbeXf8zhYpNScwRibmKA2b5GTwmv2DyRDwsZxcsY9kPTvNtlbRmSTFK/2441ieAQt
+         fWzreuABRYiKvE/41rY5f+DTQzie5ywPokdLHwcUe3bX5w2WlhJDEEmhRg6VkAjW+cnV
+         J5lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699426124; x=1700030924;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Jb2O/lBBk955CKNe/gEpV8g9kuAg3iF6vieIJ3Ps/0o=;
+        b=Y4XebD6KAGzT8oCck40NATgF7aK1/NXZrwKVFCw0Y2ZTxkq84zdf8FB7L6hY+3W8wP
+         a4e2O1LFNfWL+nxN/lnrFI4I4OD2UuMpZcl6tNCqYFkaj9UWJSAB5l4rrlIob89215rU
+         z9NnZw0yhxH+rglFnFT/JC6tDCeTO5xsvoccGTTk1l6qMdG86Tb3fyIkzqf8nFoYak2Z
+         qtnxYLxAzPcrvmiwgXkHwqeFDTgdel6DHf+sD7oFq2bDbk/qU6ZpyA1/hqpFJ4Rcmqw5
+         1W1GGCdGxIU/dqcPGdmv6sOkt/zqj2DQo8NMTSZBbpBvvW/jxFd332htDUr6IeM86iig
+         eZUg==
+X-Gm-Message-State: AOJu0YyyvGqNh8oToAj3B84leQ/1DIRRnRIkmLahdvQOE+JBNunGHxOH
+	xApcS79nOWW7BDZ4CeMJN6zSMsvneF9ZnciKranjoe5K
+X-Google-Smtp-Source: AGHT+IHaXbdMnQkxeSuF6krmzXyFXkV0AOojjJ7bqHnUMTGc1KreBH+zRVv3VtilSbX9ZkVZYkTbNQ==
+X-Received: by 2002:a50:c352:0:b0:53e:782f:cfa6 with SMTP id q18-20020a50c352000000b0053e782fcfa6mr575642edb.37.1699426124137;
+        Tue, 07 Nov 2023 22:48:44 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id v19-20020a50d093000000b005434095b179sm6326163edd.92.2023.11.07.22.48.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Nov 2023 22:48:43 -0800 (PST)
+Date: Wed, 8 Nov 2023 09:48:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Qiang Yu <quic_qianyu@quicinc.com>,
+	mani@kernel.org, quic_jhugo@quicinc.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_cang@quicinc.com, quic_mrana@quicinc.com,
+	Qiang Yu <quic_qianyu@quicinc.com>
+Subject: Re: [PATCH v3 3/4] bus: mhi: host: Avoid processing buffer and event
+ of a disable channel
+Message-ID: <12ceff53-bbd0-4e12-9597-f6a4bfd0f87f@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,68 +60,94 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1699341365-47737-4-git-send-email-quic_qianyu@quicinc.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Weidong Wang <wangweidong.a@awinic.com>
-CC: Mark Brown <broonie@kernel.org>
+Hi Qiang,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   305230142ae0637213bf6e04f6d9f10bbcb74af8
-commit: 8ade6cc7e26175529474690fdbc1965901ec2024 ASoC: codecs: Add aw88399 amplifier driver
-date:   2 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 2 weeks ago
-config: i386-randconfig-141-20231108 (https://download.01.org/0day-ci/archive/20231108/202311081422.RH1UPwXx-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231108/202311081422.RH1UPwXx-lkp@intel.com/reproduce)
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qiang-Yu/bus-mhi-host-Add-spinlock-to-protect-WP-access-when-queueing-TREs/20231107-151918
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
+patch link:    https://lore.kernel.org/r/1699341365-47737-4-git-send-email-quic_qianyu%40quicinc.com
+patch subject: [PATCH v3 3/4] bus: mhi: host: Avoid processing buffer and event of a disable channel
+config: x86_64-randconfig-161-20231107 (https://download.01.org/0day-ci/archive/20231108/202311080155.MiyREgoQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231108/202311080155.MiyREgoQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311081422.RH1UPwXx-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202311080155.MiyREgoQ-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/codecs/aw88399.c:963 aw_dev_check_sram() error: uninitialized symbol 'reg_val'.
+smatch warnings:
+drivers/bus/mhi/host/main.c:1257 mhi_gen_tre() warn: inconsistent returns '&mhi_chan->lock'.
 
-Old smatch warnings:
-sound/soc/codecs/aw88399.c:441 aw_dev_set_vcalb() error: uninitialized symbol 'vsense_select'.
+vim +1257 drivers/bus/mhi/host/main.c
 
-vim +/reg_val +963 sound/soc/codecs/aw88399.c
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1204  int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1205  			struct mhi_buf_info *info, enum mhi_flags flags)
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1206  {
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1207  	struct mhi_ring *buf_ring, *tre_ring;
+84f5f31f110e5e drivers/bus/mhi/host/main.c Manivannan Sadhasivam 2022-03-01  1208  	struct mhi_ring_element *mhi_tre;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1209  	struct mhi_buf_info *buf_info;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1210  	int eot, eob, chain, bei;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1211  	int ret;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1212  
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1213  	/* Protect accesses for reading and incrementing WP */
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1214  	write_lock_bh(&mhi_chan->lock);
+6025cde6ecb13c drivers/bus/mhi/host/main.c Qiang Yu              2023-11-07  1215  	if (mhi_chan->ch_state != MHI_CH_STATE_ENABLED)
+6025cde6ecb13c drivers/bus/mhi/host/main.c Qiang Yu              2023-11-07  1216  		return -EINVAL;
 
-8ade6cc7e26175 Weidong Wang 2023-10-25  955  
-8ade6cc7e26175 Weidong Wang 2023-10-25  956  static int aw_dev_check_sram(struct aw_device *aw_dev)
-8ade6cc7e26175 Weidong Wang 2023-10-25  957  {
-8ade6cc7e26175 Weidong Wang 2023-10-25  958  	unsigned int reg_val;
-8ade6cc7e26175 Weidong Wang 2023-10-25  959  
-8ade6cc7e26175 Weidong Wang 2023-10-25  960  	mutex_lock(&aw_dev->dsp_lock);
-8ade6cc7e26175 Weidong Wang 2023-10-25  961  	/* read dsp_rom_check_reg */
-8ade6cc7e26175 Weidong Wang 2023-10-25  962  	aw_dev_dsp_read_16bit(aw_dev, AW88399_DSP_ROM_CHECK_ADDR, &reg_val);
-8ade6cc7e26175 Weidong Wang 2023-10-25 @963  	if (reg_val != AW88399_DSP_ROM_CHECK_DATA) {
-8ade6cc7e26175 Weidong Wang 2023-10-25  964  		dev_err(aw_dev->dev, "check dsp rom failed, read[0x%x] != check[0x%x]",
-8ade6cc7e26175 Weidong Wang 2023-10-25  965  						reg_val, AW88399_DSP_ROM_CHECK_DATA);
-8ade6cc7e26175 Weidong Wang 2023-10-25  966  		goto error;
-8ade6cc7e26175 Weidong Wang 2023-10-25  967  	}
-8ade6cc7e26175 Weidong Wang 2023-10-25  968  
-8ade6cc7e26175 Weidong Wang 2023-10-25  969  	/* check dsp_cfg_base_addr */
-8ade6cc7e26175 Weidong Wang 2023-10-25  970  	aw_dev_dsp_write_16bit(aw_dev, AW88399_DSP_CFG_ADDR, AW88399_DSP_ODD_NUM_BIT_TEST);
-8ade6cc7e26175 Weidong Wang 2023-10-25  971  	aw_dev_dsp_read_16bit(aw_dev, AW88399_DSP_CFG_ADDR, &reg_val);
-8ade6cc7e26175 Weidong Wang 2023-10-25  972  	if (reg_val != AW88399_DSP_ODD_NUM_BIT_TEST) {
-8ade6cc7e26175 Weidong Wang 2023-10-25  973  		dev_err(aw_dev->dev, "check dsp cfg failed, read[0x%x] != write[0x%x]",
-8ade6cc7e26175 Weidong Wang 2023-10-25  974  						reg_val, AW88399_DSP_ODD_NUM_BIT_TEST);
-8ade6cc7e26175 Weidong Wang 2023-10-25  975  		goto error;
-8ade6cc7e26175 Weidong Wang 2023-10-25  976  	}
-8ade6cc7e26175 Weidong Wang 2023-10-25  977  	mutex_unlock(&aw_dev->dsp_lock);
-8ade6cc7e26175 Weidong Wang 2023-10-25  978  
-8ade6cc7e26175 Weidong Wang 2023-10-25  979  	return 0;
-8ade6cc7e26175 Weidong Wang 2023-10-25  980  error:
-8ade6cc7e26175 Weidong Wang 2023-10-25  981  	mutex_unlock(&aw_dev->dsp_lock);
-8ade6cc7e26175 Weidong Wang 2023-10-25  982  	return -EPERM;
-8ade6cc7e26175 Weidong Wang 2023-10-25  983  }
-8ade6cc7e26175 Weidong Wang 2023-10-25  984  
+This looks like two people submitted patches on the same day?
+We should unlock before returning?
+
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1217  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1218  	buf_ring = &mhi_chan->buf_ring;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1219  	tre_ring = &mhi_chan->tre_ring;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1220  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1221  	buf_info = buf_ring->wp;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1222  	WARN_ON(buf_info->used);
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1223  	buf_info->pre_mapped = info->pre_mapped;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1224  	if (info->pre_mapped)
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1225  		buf_info->p_addr = info->p_addr;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1226  	else
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1227  		buf_info->v_addr = info->v_addr;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1228  	buf_info->cb_buf = info->cb_buf;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1229  	buf_info->wp = tre_ring->wp;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1230  	buf_info->dir = mhi_chan->dir;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1231  	buf_info->len = info->len;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1232  
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1233  	if (!info->pre_mapped) {
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1234  		ret = mhi_cntrl->map_single(mhi_cntrl, buf_info);
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1235  		if (ret) {
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1236  			write_unlock_bh(&mhi_chan->lock);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1237  			return ret;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1238  		}
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1239  	}
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1240  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1241  	eob = !!(flags & MHI_EOB);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1242  	eot = !!(flags & MHI_EOT);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1243  	chain = !!(flags & MHI_CHAIN);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1244  	bei = !!(mhi_chan->intmod);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1245  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1246  	mhi_tre = tre_ring->wp;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1247  	mhi_tre->ptr = MHI_TRE_DATA_PTR(buf_info->p_addr);
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1248  	mhi_tre->dword[0] = MHI_TRE_DATA_DWORD0(info->len);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1249  	mhi_tre->dword[1] = MHI_TRE_DATA_DWORD1(bei, eot, eob, chain);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1250  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1251  	/* increment WP */
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1252  	mhi_add_ring_element(mhi_cntrl, tre_ring);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1253  	mhi_add_ring_element(mhi_cntrl, buf_ring);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1254  
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1255  	write_unlock_bh(&mhi_chan->lock);
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1256  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20 @1257  	return 0;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1258  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
