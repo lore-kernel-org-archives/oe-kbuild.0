@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6C234567
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Nov 2023 23:55:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B5D10E8
+	for <oe-kbuild@lists.linux.dev>; Wed,  8 Nov 2023 01:10:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDpXeRAY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VArTVLKQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699401337; x=1730937337;
+  t=1699405840; x=1730941840;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BcIiV1f36jNlOZohKtRpB7X5WhE13RCBEWnPLTl46Vw=;
-  b=oDpXeRAYhtamdpLADvX6W4+D9Z3qgk0/8PfjB37rhjYQTFr/B2INHgBY
-   l7ke4g+ETuTNKQ3Fqv6O/FYhc09broKO//w1U+wCbppSNxGftwMzYzF4d
-   61KMPkF6oJVFL7CW5um+E8G8lXLeA6RFsfSmLty8+qLHdB8oQqJDHf3u+
-   sUqMdmdaXxxYP6yIF5ceuFtrXyQ3kOCL01v/JZFuCV5dH8tjomJOuBbGh
-   Z/WZ/dal6EheXzzL8eyK5BpOwNhPBUc++r2enBmBuakWuUjMEJ5p5Davv
-   aSGRfkRx8jEzho1Zsuo0AzYKcjYNu8F1+utjEZJOea4VramSnRm59HMki
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="374691570"
+  bh=4m0N8/m1mpJcnQ7kESa2idk3KKCmprz9IZ3Vgyaffk4=;
+  b=VArTVLKQhdcoG7akm4xyNAANCFe0FW3Dp0UK7xGvL5CIZNsruW+D3MS7
+   hUuox5yCz8lRwHYO3Xpef9QYHkyj6UwS+t5MEJf6RmsrbaHaIigTB3miX
+   PK4NZn0wnkEbPBy9zmV2bGDmZpCZUOC7Ih+l7Ov9XbMxYRulVFMlEtYyO
+   155XDLZ4k2lXTwSwjzi7o/cJGi5Z/F7m3kXKWlLzbtBDGEaS+QIDn138A
+   a/iy0aGjV8IRNGknF6134/f8Gfyjrf52FXe86d5CxBls8uz245buWErmJ
+   vEANZ3H30K5fBdePny4vnzLa/KCXP+eRVGeLNxKm1okQUpF00l7Keqftf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="389470787"
 X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
-   d="scan'208";a="374691570"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 15:55:22 -0800
+   d="scan'208";a="389470787"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 17:10:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="880009493"
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="762895216"
 X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
-   d="scan'208";a="880009493"
+   d="scan'208";a="762895216"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 07 Nov 2023 15:55:21 -0800
+  by orsmga002.jf.intel.com with ESMTP; 07 Nov 2023 17:10:38 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0Vuh-0007V2-1A;
-	Tue, 07 Nov 2023 23:55:19 +0000
-Date: Wed, 8 Nov 2023 07:54:50 +0800
+	id 1r0X5Y-0007XT-0q;
+	Wed, 08 Nov 2023 01:10:36 +0000
+Date: Wed, 8 Nov 2023 09:09:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/scsi/scsi_debug.c:1148 sdebug_target_alloc() error:
- uninitialized symbol 'dentry'.
-Message-ID: <202311080710.O86r0PYt-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: fs/bcachefs/ec.c:726:35: sparse: sparse: invalid access past the end
+ of '<noident>' (4 8)
+Message-ID: <202311080824.8kHAz2T0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,63 +50,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: fs/bcachefs/ec.c:726:35: sparse: sparse: invalid access past the end of '<noident>' (4 8)"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Wenchao Hao <haowenchao2@huawei.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+TO: Kent Overstreet <kmo@daterainc.com>
+
+Hi Kent,
+
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   13d88ac54ddd1011b6e94443958e798aa06eb835
-commit: f084fe52c640775de51056670f568ec7104b922a scsi: scsi_debug: Add debugfs interface to fail target reset
-date:   3 weeks ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 weeks ago
-config: x86_64-randconfig-161-20231107 (https://download.01.org/0day-ci/archive/20231108/202311080710.O86r0PYt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231108/202311080710.O86r0PYt-lkp@intel.com/reproduce)
+commit: 0564b16782b39d6f59e06f427f32826db69e75a2 bcachefs: convert bch2_btree_insert_at() usage to bch2_trans_commit()
+date:   2 weeks ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 2 weeks ago
+config: powerpc-randconfig-r113-20231106 (https://download.01.org/0day-ci/archive/20231108/202311080824.8kHAz2T0-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231108/202311080824.8kHAz2T0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311080710.O86r0PYt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311080824.8kHAz2T0-lkp@intel.com/
 
-New smatch warnings:
-drivers/scsi/scsi_debug.c:1148 sdebug_target_alloc() error: uninitialized symbol 'dentry'.
+sparse warnings: (new ones prefixed by >>)
+   fs/bcachefs/ec.c: note: in included file (through fs/bcachefs/bcachefs.h):
+   fs/bcachefs/bcachefs_format.h:1046:45: sparse: sparse: array of flexible structures
+   fs/bcachefs/bcachefs_format.h:1058:42: sparse: sparse: array of flexible structures
+   fs/bcachefs/ec.c:369:26: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted blk_opf_t [usertype] opf @@     got unsigned int rw @@
+   fs/bcachefs/ec.c:369:26: sparse:     expected restricted blk_opf_t [usertype] opf
+   fs/bcachefs/ec.c:369:26: sparse:     got unsigned int rw
+   fs/bcachefs/ec.c: note: in included file:
+   fs/bcachefs/bcachefs.h:712:9: sparse: sparse: array of flexible structures
+   fs/bcachefs/ec.c:369:26: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted blk_opf_t [usertype] opf @@     got unsigned int rw @@
+   fs/bcachefs/ec.c:369:26: sparse:     expected restricted blk_opf_t [usertype] opf
+   fs/bcachefs/ec.c:369:26: sparse:     got unsigned int rw
+   fs/bcachefs/ec.c:369:26: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted blk_opf_t [usertype] opf @@     got unsigned int rw @@
+   fs/bcachefs/ec.c:369:26: sparse:     expected restricted blk_opf_t [usertype] opf
+   fs/bcachefs/ec.c:369:26: sparse:     got unsigned int rw
+   fs/bcachefs/ec.c:475:37: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int rw @@     got restricted blk_opf_t @@
+   fs/bcachefs/ec.c:475:37: sparse:     expected unsigned int rw
+   fs/bcachefs/ec.c:475:37: sparse:     got restricted blk_opf_t
+   fs/bcachefs/ec.c:823:44: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int rw @@     got restricted blk_opf_t @@
+   fs/bcachefs/ec.c:823:44: sparse:     expected unsigned int rw
+   fs/bcachefs/ec.c:823:44: sparse:     got restricted blk_opf_t
+>> fs/bcachefs/ec.c:726:35: sparse: sparse: invalid access past the end of '<noident>' (4 8)
 
-Old smatch warnings:
-drivers/scsi/scsi_debug.c:8112 scsi_debug_queuecommand() warn: missing error code? 'ret'
+vim +726 fs/bcachefs/ec.c
 
-vim +/dentry +1148 drivers/scsi/scsi_debug.c
+cd575ddf57af00 Kent Overstreet 2018-11-01  712  
+cd575ddf57af00 Kent Overstreet 2018-11-01  713  static void extent_stripe_ptr_add(struct bkey_s_extent e,
+cd575ddf57af00 Kent Overstreet 2018-11-01  714  				  struct ec_stripe_buf *s,
+cd575ddf57af00 Kent Overstreet 2018-11-01  715  				  struct bch_extent_ptr *ptr,
+cd575ddf57af00 Kent Overstreet 2018-11-01  716  				  unsigned block)
+cd575ddf57af00 Kent Overstreet 2018-11-01  717  {
+cd575ddf57af00 Kent Overstreet 2018-11-01  718  	struct bch_extent_stripe_ptr *dst = (void *) ptr;
+cd575ddf57af00 Kent Overstreet 2018-11-01  719  	union bch_extent_entry *end = extent_entry_last(e);
+cd575ddf57af00 Kent Overstreet 2018-11-01  720  
+cd575ddf57af00 Kent Overstreet 2018-11-01  721  	memmove_u64s_up(dst + 1, dst, (u64 *) end - (u64 *) dst);
+cd575ddf57af00 Kent Overstreet 2018-11-01  722  	e.k->u64s += sizeof(*dst) / sizeof(u64);
+cd575ddf57af00 Kent Overstreet 2018-11-01  723  
+cd575ddf57af00 Kent Overstreet 2018-11-01  724  	*dst = (struct bch_extent_stripe_ptr) {
+cd575ddf57af00 Kent Overstreet 2018-11-01  725  		.type = 1 << BCH_EXTENT_ENTRY_stripe_ptr,
+cd575ddf57af00 Kent Overstreet 2018-11-01 @726  		.block		= block,
+cd575ddf57af00 Kent Overstreet 2018-11-01  727  		.idx		= s->key.k.p.offset,
+cd575ddf57af00 Kent Overstreet 2018-11-01  728  	};
+cd575ddf57af00 Kent Overstreet 2018-11-01  729  }
+cd575ddf57af00 Kent Overstreet 2018-11-01  730  
 
-f084fe52c640775 Wenchao Hao 2023-10-10  1130  
-f084fe52c640775 Wenchao Hao 2023-10-10  1131  static int sdebug_target_alloc(struct scsi_target *starget)
-f084fe52c640775 Wenchao Hao 2023-10-10  1132  {
-f084fe52c640775 Wenchao Hao 2023-10-10  1133  	struct sdebug_target_info *targetip;
-f084fe52c640775 Wenchao Hao 2023-10-10  1134  	struct dentry *dentry;
-f084fe52c640775 Wenchao Hao 2023-10-10  1135  
-f084fe52c640775 Wenchao Hao 2023-10-10  1136  	targetip = kzalloc(sizeof(struct sdebug_target_info), GFP_KERNEL);
-f084fe52c640775 Wenchao Hao 2023-10-10  1137  	if (!targetip)
-f084fe52c640775 Wenchao Hao 2023-10-10  1138  		return -ENOMEM;
-f084fe52c640775 Wenchao Hao 2023-10-10  1139  
-f084fe52c640775 Wenchao Hao 2023-10-10  1140  	targetip->debugfs_entry = debugfs_create_dir(dev_name(&starget->dev),
-f084fe52c640775 Wenchao Hao 2023-10-10  1141  				sdebug_debugfs_root);
-f084fe52c640775 Wenchao Hao 2023-10-10  1142  	if (IS_ERR_OR_NULL(targetip->debugfs_entry))
-f084fe52c640775 Wenchao Hao 2023-10-10  1143  		pr_info("%s: failed to create debugfs directory for target %s\n",
-f084fe52c640775 Wenchao Hao 2023-10-10  1144  			__func__, dev_name(&starget->dev));
-f084fe52c640775 Wenchao Hao 2023-10-10  1145  
-f084fe52c640775 Wenchao Hao 2023-10-10  1146  	debugfs_create_file("fail_reset", 0600, targetip->debugfs_entry, starget,
-f084fe52c640775 Wenchao Hao 2023-10-10  1147  				&sdebug_target_reset_fail_fops);
-f084fe52c640775 Wenchao Hao 2023-10-10 @1148  	if (IS_ERR_OR_NULL(dentry))
-f084fe52c640775 Wenchao Hao 2023-10-10  1149  		pr_info("%s: failed to create fail_reset file for target %s\n",
-f084fe52c640775 Wenchao Hao 2023-10-10  1150  			__func__, dev_name(&starget->dev));
-f084fe52c640775 Wenchao Hao 2023-10-10  1151  
-f084fe52c640775 Wenchao Hao 2023-10-10  1152  	starget->hostdata = targetip;
-f084fe52c640775 Wenchao Hao 2023-10-10  1153  
-f084fe52c640775 Wenchao Hao 2023-10-10  1154  	return 0;
-f084fe52c640775 Wenchao Hao 2023-10-10  1155  }
-f084fe52c640775 Wenchao Hao 2023-10-10  1156  
+:::::: The code at line 726 was first introduced by commit
+:::::: cd575ddf57af004913ff5a994aa5f3203216fa68 bcachefs: Erasure coding
+
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
