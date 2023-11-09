@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15FA9200DD
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 Nov 2023 19:08:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B2F347B0
+	for <oe-kbuild@lists.linux.dev>; Thu,  9 Nov 2023 19:31:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O5+78+cc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cd7gFBhb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699556888; x=1731092888;
+  t=1699558284; x=1731094284;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3KdZ9abY5IXqHBO3UohTQAOwOcW55+bOGsTS2dG2ad0=;
-  b=O5+78+ccSN6UcNJAM+hI9bdees6j2InZ/hmxqXHkZlrRsHUnIzokWoci
-   UB8DNi5T+s+0WS7XeLwn1LHDbYZ25XB7KzGLPp87ukj8SzBozK+JqB3j6
-   s4MAI8uAE6HD5t+oRyKeqa7F6d12ti0WULLLQ1kaajrs3CI/Yg/cGs/nT
-   Vd7gZtRDB8UcO0e/03ZXvwIvC/Q/M98xFJ6qf4b1NBVy8gq5FLDeg7+Nu
-   RjRa64cqU9et3UQzZXocZ5BrOfmqPZsRdXrGJkwTssBRynuoWlxkCZoqV
-   98dNwisMsGydzv7dvAKR9U5af9h1nrOJ4lQPNysD5Cebl7xpShkr2ClU7
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="8710185"
+  bh=Jb37dePhdFRqt3fiIz5kcMTqGKWaYJ1bAu3lLoMwFyg=;
+  b=Cd7gFBhb4biNZGuonbbMpDEbJDoHP3fxxk/+DgCBqWlLtKkHtBXu+kIa
+   3W749P5zmqvrRv6dOQOTFZWwTadd/tDWhhoRpLi4FpBnGvcyMV+0HT9LA
+   b+dz4tQQuuRw21w1Kr+cwxgPl5MgcDcsAfODJfs5mH0204VYfS/a01Ip0
+   I1MG+cA8dVtczvp4nPkQAm1bjz0xoybW4VIC4KjUBOKU8kg+xdVwwO8wb
+   9l+ba6aclod5lI007n7NoZImFfp0pDPgO7gSfXLoVz24Kro9ObM+Kr7ok
+   BAvXdReaB8yJgiA7aDiYGAb12G4/3a8HquO3VZXR0eVZkTDPNzZC0iv4V
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="392935568"
 X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
-   d="scan'208";a="8710185"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 11:08:07 -0800
+   d="scan'208";a="392935568"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 11:31:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="713415343"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="887122283"
 X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
-   d="scan'208";a="713415343"
+   d="scan'208";a="887122283"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 09 Nov 2023 11:08:05 -0800
+  by orsmga004.jf.intel.com with ESMTP; 09 Nov 2023 11:31:21 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1ANn-00094m-0I;
-	Thu, 09 Nov 2023 19:08:03 +0000
-Date: Fri, 10 Nov 2023 03:07:41 +0800
+	id 1r1AkJ-00095Y-2L;
+	Thu, 09 Nov 2023 19:31:19 +0000
+Date: Fri, 10 Nov 2023 03:30:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 2/2] KVM: X86: Add a capability to configure bus
- frequency for APIC timer
-Message-ID: <202311100209.zIaZqZhg-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: sound/soc/codecs/aw88399.c:1700 aw88399_request_firmware_file()
+ warn: '&cont' from request_firmware() not released on lines: 1681,1690,1700.
+Message-ID: <202311100355.TAxEyTmH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,54 +50,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "git am base is a link in commit message"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <70c2a2277f57b804c715c5b4b4aa0b3561ed6a4f.1699383993.git.isaku.yamahata@intel.com>
-References: <70c2a2277f57b804c715c5b4b4aa0b3561ed6a4f.1699383993.git.isaku.yamahata@intel.com>
-TO: isaku.yamahata@intel.com
-TO: kvm@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-CC: isaku.yamahata@intel.com
-CC: isaku.yamahata@gmail.com
-CC: Paolo Bonzini <pbonzini@redhat.com>
-CC: erdemaktas@google.com
-CC: Sean Christopherson <seanjc@google.com>
-CC: Vishal Annapurve <vannapurve@google.com>
+CC: linux-kernel@vger.kernel.org
+TO: Weidong Wang <wangweidong.a@awinic.com>
+CC: Mark Brown <broonie@kernel.org>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on linus/master next-20231109]
-[cannot apply to mst-vhost/linux-next kvm/linux-next v6.6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/isaku-yamahata-intel-com/KVM-x86-Make-the-hardcoded-APIC-bus-frequency-vm-variable/20231108-032736
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/70c2a2277f57b804c715c5b4b4aa0b3561ed6a4f.1699383993.git.isaku.yamahata%40intel.com
-patch subject: [PATCH 2/2] KVM: X86: Add a capability to configure bus frequency for APIC timer
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-buildonly-randconfig-002-20231109 (https://download.01.org/0day-ci/archive/20231110/202311100209.zIaZqZhg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100209.zIaZqZhg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6bc986ab839c844e78a2333a02e55f02c9e57935
+commit: 8ade6cc7e26175529474690fdbc1965901ec2024 ASoC: codecs: Add aw88399 amplifier driver
+date:   2 weeks ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 2 weeks ago
+config: i386-randconfig-141-20231108 (https://download.01.org/0day-ci/archive/20231110/202311100355.TAxEyTmH-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231110/202311100355.TAxEyTmH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311100209.zIaZqZhg-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311100355.TAxEyTmH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+sound/soc/codecs/aw88399.c:1700 aw88399_request_firmware_file() warn: '&cont' from request_firmware() not released on lines: 1681,1690,1700.
 
-   ld: arch/x86/kvm/x86.o: in function `kvm_vm_ioctl_enable_cap':
->> x86.c:(.text+0x1265b): undefined reference to `__udivdi3'
+Old smatch warnings:
+sound/soc/codecs/aw88399.c:441 aw_dev_set_vcalb() error: uninitialized symbol 'vsense_select'.
+sound/soc/codecs/aw88399.c:963 aw_dev_check_sram() error: uninitialized symbol 'reg_val'.
+
+vim +1700 sound/soc/codecs/aw88399.c
+
+8ade6cc7e26175 Weidong Wang 2023-10-25  1660  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1661  static int aw88399_request_firmware_file(struct aw88399 *aw88399)
+8ade6cc7e26175 Weidong Wang 2023-10-25  1662  {
+8ade6cc7e26175 Weidong Wang 2023-10-25  1663  	const struct firmware *cont = NULL;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1664  	int ret;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1665  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1666  	aw88399->aw_pa->fw_status = AW88399_DEV_FW_FAILED;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1667  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1668  	ret = request_firmware(&cont, AW88399_ACF_FILE, aw88399->aw_pa->dev);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1669  	if (ret) {
+8ade6cc7e26175 Weidong Wang 2023-10-25  1670  		dev_err(aw88399->aw_pa->dev, "request [%s] failed!", AW88399_ACF_FILE);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1671  		return ret;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1672  	}
+8ade6cc7e26175 Weidong Wang 2023-10-25  1673  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1674  	dev_dbg(aw88399->aw_pa->dev, "loaded %s - size: %zu\n",
+8ade6cc7e26175 Weidong Wang 2023-10-25  1675  			AW88399_ACF_FILE, cont ? cont->size : 0);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1676  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1677  	aw88399->aw_cfg = devm_kzalloc(aw88399->aw_pa->dev,
+8ade6cc7e26175 Weidong Wang 2023-10-25  1678  			struct_size(aw88399->aw_cfg, data, cont->size), GFP_KERNEL);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1679  	if (!aw88399->aw_cfg) {
+8ade6cc7e26175 Weidong Wang 2023-10-25  1680  		release_firmware(cont);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1681  		return -ENOMEM;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1682  	}
+8ade6cc7e26175 Weidong Wang 2023-10-25  1683  	aw88399->aw_cfg->len = (int)cont->size;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1684  	memcpy(aw88399->aw_cfg->data, cont->data, cont->size);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1685  	release_firmware(cont);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1686  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1687  	ret = aw88395_dev_load_acf_check(aw88399->aw_pa, aw88399->aw_cfg);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1688  	if (ret) {
+8ade6cc7e26175 Weidong Wang 2023-10-25  1689  		dev_err(aw88399->aw_pa->dev, "load [%s] failed!", AW88399_ACF_FILE);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1690  		return ret;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1691  	}
+8ade6cc7e26175 Weidong Wang 2023-10-25  1692  
+8ade6cc7e26175 Weidong Wang 2023-10-25  1693  	mutex_lock(&aw88399->lock);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1694  	/* aw device init */
+8ade6cc7e26175 Weidong Wang 2023-10-25  1695  	ret = aw88399_dev_init(aw88399, aw88399->aw_cfg);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1696  	if (ret)
+8ade6cc7e26175 Weidong Wang 2023-10-25  1697  		dev_err(aw88399->aw_pa->dev, "dev init failed");
+8ade6cc7e26175 Weidong Wang 2023-10-25  1698  	mutex_unlock(&aw88399->lock);
+8ade6cc7e26175 Weidong Wang 2023-10-25  1699  
+8ade6cc7e26175 Weidong Wang 2023-10-25 @1700  	return ret;
+8ade6cc7e26175 Weidong Wang 2023-10-25  1701  }
+8ade6cc7e26175 Weidong Wang 2023-10-25  1702  
 
 -- 
 0-DAY CI Kernel Test Service
