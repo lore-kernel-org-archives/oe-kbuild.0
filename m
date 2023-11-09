@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B2F347B0
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 Nov 2023 19:31:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2B2374C0
+	for <oe-kbuild@lists.linux.dev>; Thu,  9 Nov 2023 20:10:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cd7gFBhb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jSFirx6l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699558284; x=1731094284;
+  t=1699560631; x=1731096631;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jb37dePhdFRqt3fiIz5kcMTqGKWaYJ1bAu3lLoMwFyg=;
-  b=Cd7gFBhb4biNZGuonbbMpDEbJDoHP3fxxk/+DgCBqWlLtKkHtBXu+kIa
-   3W749P5zmqvrRv6dOQOTFZWwTadd/tDWhhoRpLi4FpBnGvcyMV+0HT9LA
-   b+dz4tQQuuRw21w1Kr+cwxgPl5MgcDcsAfODJfs5mH0204VYfS/a01Ip0
-   I1MG+cA8dVtczvp4nPkQAm1bjz0xoybW4VIC4KjUBOKU8kg+xdVwwO8wb
-   9l+ba6aclod5lI007n7NoZImFfp0pDPgO7gSfXLoVz24Kro9ObM+Kr7ok
-   BAvXdReaB8yJgiA7aDiYGAb12G4/3a8HquO3VZXR0eVZkTDPNzZC0iv4V
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="392935568"
+  bh=HO7ZL+aGSlnS6zr1DT90/8FYAe510YE5ejbtPDkSQfU=;
+  b=jSFirx6lAiVkasFDSzMN7/RyTfHgXGpWHcqFISlq8hAmDJGMpxs3wjjy
+   EEd4kF4kgDX8si8asVfHeWl1LgO17bq4rz93m0nyJcnUvxQ8+fVFCZIor
+   vsz+k70OrXfq85K2BriRrYTQECWfe5h2l6XV3T5u7tu3g+82cXSLIi3Xx
+   4wOSJHdnXfHJaVmNwJxfa4BJjNoDZ/euHb19Tmx9/bqZko83IHMhtdoZ4
+   +TEsy9VWw+vV8cShoNT77PPLY4o8/aCb9IpjxpoRUr52o5rX+6+iJk/W2
+   t3RtAFf6/SVvMlvVvAzgg36qT8zhdPannG//imaMqy7/z4jNkRCIp42Ri
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="3102832"
 X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
-   d="scan'208";a="392935568"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 11:31:23 -0800
+   d="scan'208";a="3102832"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 12:10:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="887122283"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="756997575"
 X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
-   d="scan'208";a="887122283"
+   d="scan'208";a="756997575"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 09 Nov 2023 11:31:21 -0800
+  by orsmga007.jf.intel.com with ESMTP; 09 Nov 2023 12:10:28 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1AkJ-00095Y-2L;
-	Thu, 09 Nov 2023 19:31:19 +0000
-Date: Fri, 10 Nov 2023 03:30:37 +0800
+	id 1r1BMA-00096Q-05;
+	Thu, 09 Nov 2023 20:10:26 +0000
+Date: Fri, 10 Nov 2023 04:09:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/codecs/aw88399.c:1700 aw88399_request_firmware_file()
- warn: '&cont' from request_firmware() not released on lines: 1681,1690,1700.
-Message-ID: <202311100355.TAxEyTmH-lkp@intel.com>
+Subject: drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c:42
+ nvkm_uoutp_mthd_infoframe() error: we previously assumed 'ior->func->hdmi'
+ could be null (see line 40)
+Message-ID: <202311100301.jsS3edHQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,77 +54,56 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Weidong Wang <wangweidong.a@awinic.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Ben Skeggs <bskeggs@redhat.com>
+CC: Lyude Paul <lyude@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   6bc986ab839c844e78a2333a02e55f02c9e57935
-commit: 8ade6cc7e26175529474690fdbc1965901ec2024 ASoC: codecs: Add aw88399 amplifier driver
-date:   2 weeks ago
+commit: f530bc60a30bee47ff51b7fb71511fdd058b774a drm/nouveau/disp: move HDMI config into acquire + infoframe methods
+date:   1 year ago
 :::::: branch date: 22 hours ago
-:::::: commit date: 2 weeks ago
-config: i386-randconfig-141-20231108 (https://download.01.org/0day-ci/archive/20231110/202311100355.TAxEyTmH-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231110/202311100355.TAxEyTmH-lkp@intel.com/reproduce)
+:::::: commit date: 1 year ago
+config: i386-randconfig-141-20231105 (https://download.01.org/0day-ci/archive/20231110/202311100301.jsS3edHQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231110/202311100301.jsS3edHQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311100355.TAxEyTmH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311100301.jsS3edHQ-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/codecs/aw88399.c:1700 aw88399_request_firmware_file() warn: '&cont' from request_firmware() not released on lines: 1681,1690,1700.
+smatch warnings:
+drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c:42 nvkm_uoutp_mthd_infoframe() error: we previously assumed 'ior->func->hdmi' could be null (see line 40)
 
-Old smatch warnings:
-sound/soc/codecs/aw88399.c:441 aw_dev_set_vcalb() error: uninitialized symbol 'vsense_select'.
-sound/soc/codecs/aw88399.c:963 aw_dev_check_sram() error: uninitialized symbol 'reg_val'.
+vim +42 drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
 
-vim +1700 sound/soc/codecs/aw88399.c
-
-8ade6cc7e26175 Weidong Wang 2023-10-25  1660  
-8ade6cc7e26175 Weidong Wang 2023-10-25  1661  static int aw88399_request_firmware_file(struct aw88399 *aw88399)
-8ade6cc7e26175 Weidong Wang 2023-10-25  1662  {
-8ade6cc7e26175 Weidong Wang 2023-10-25  1663  	const struct firmware *cont = NULL;
-8ade6cc7e26175 Weidong Wang 2023-10-25  1664  	int ret;
-8ade6cc7e26175 Weidong Wang 2023-10-25  1665  
-8ade6cc7e26175 Weidong Wang 2023-10-25  1666  	aw88399->aw_pa->fw_status = AW88399_DEV_FW_FAILED;
-8ade6cc7e26175 Weidong Wang 2023-10-25  1667  
-8ade6cc7e26175 Weidong Wang 2023-10-25  1668  	ret = request_firmware(&cont, AW88399_ACF_FILE, aw88399->aw_pa->dev);
-8ade6cc7e26175 Weidong Wang 2023-10-25  1669  	if (ret) {
-8ade6cc7e26175 Weidong Wang 2023-10-25  1670  		dev_err(aw88399->aw_pa->dev, "request [%s] failed!", AW88399_ACF_FILE);
-8ade6cc7e26175 Weidong Wang 2023-10-25  1671  		return ret;
-8ade6cc7e26175 Weidong Wang 2023-10-25  1672  	}
-8ade6cc7e26175 Weidong Wang 2023-10-25  1673  
-8ade6cc7e26175 Weidong Wang 2023-10-25  1674  	dev_dbg(aw88399->aw_pa->dev, "loaded %s - size: %zu\n",
-8ade6cc7e26175 Weidong Wang 2023-10-25  1675  			AW88399_ACF_FILE, cont ? cont->size : 0);
-8ade6cc7e26175 Weidong Wang 2023-10-25  1676  
-8ade6cc7e26175 Weidong Wang 2023-10-25  1677  	aw88399->aw_cfg = devm_kzalloc(aw88399->aw_pa->dev,
-8ade6cc7e26175 Weidong Wang 2023-10-25  1678  			struct_size(aw88399->aw_cfg, data, cont->size), GFP_KERNEL);
-8ade6cc7e26175 Weidong Wang 2023-10-25  1679  	if (!aw88399->aw_cfg) {
-8ade6cc7e26175 Weidong Wang 2023-10-25  1680  		release_firmware(cont);
-8ade6cc7e26175 Weidong Wang 2023-10-25  1681  		return -ENOMEM;
-8ade6cc7e26175 Weidong Wang 2023-10-25  1682  	}
-8ade6cc7e26175 Weidong Wang 2023-10-25  1683  	aw88399->aw_cfg->len = (int)cont->size;
-8ade6cc7e26175 Weidong Wang 2023-10-25  1684  	memcpy(aw88399->aw_cfg->data, cont->data, cont->size);
-8ade6cc7e26175 Weidong Wang 2023-10-25  1685  	release_firmware(cont);
-8ade6cc7e26175 Weidong Wang 2023-10-25  1686  
-8ade6cc7e26175 Weidong Wang 2023-10-25  1687  	ret = aw88395_dev_load_acf_check(aw88399->aw_pa, aw88399->aw_cfg);
-8ade6cc7e26175 Weidong Wang 2023-10-25  1688  	if (ret) {
-8ade6cc7e26175 Weidong Wang 2023-10-25  1689  		dev_err(aw88399->aw_pa->dev, "load [%s] failed!", AW88399_ACF_FILE);
-8ade6cc7e26175 Weidong Wang 2023-10-25  1690  		return ret;
-8ade6cc7e26175 Weidong Wang 2023-10-25  1691  	}
-8ade6cc7e26175 Weidong Wang 2023-10-25  1692  
-8ade6cc7e26175 Weidong Wang 2023-10-25  1693  	mutex_lock(&aw88399->lock);
-8ade6cc7e26175 Weidong Wang 2023-10-25  1694  	/* aw device init */
-8ade6cc7e26175 Weidong Wang 2023-10-25  1695  	ret = aw88399_dev_init(aw88399, aw88399->aw_cfg);
-8ade6cc7e26175 Weidong Wang 2023-10-25  1696  	if (ret)
-8ade6cc7e26175 Weidong Wang 2023-10-25  1697  		dev_err(aw88399->aw_pa->dev, "dev init failed");
-8ade6cc7e26175 Weidong Wang 2023-10-25  1698  	mutex_unlock(&aw88399->lock);
-8ade6cc7e26175 Weidong Wang 2023-10-25  1699  
-8ade6cc7e26175 Weidong Wang 2023-10-25 @1700  	return ret;
-8ade6cc7e26175 Weidong Wang 2023-10-25  1701  }
-8ade6cc7e26175 Weidong Wang 2023-10-25  1702  
+1b255f1ccc88325 Ben Skeggs 2022-06-01  28  
+f530bc60a30bee4 Ben Skeggs 2022-06-01  29  static int
+f530bc60a30bee4 Ben Skeggs 2022-06-01  30  nvkm_uoutp_mthd_infoframe(struct nvkm_outp *outp, void *argv, u32 argc)
+f530bc60a30bee4 Ben Skeggs 2022-06-01  31  {
+f530bc60a30bee4 Ben Skeggs 2022-06-01  32  	struct nvkm_ior *ior = outp->ior;
+f530bc60a30bee4 Ben Skeggs 2022-06-01  33  	union nvif_outp_infoframe_args *args = argv;
+f530bc60a30bee4 Ben Skeggs 2022-06-01  34  
+f530bc60a30bee4 Ben Skeggs 2022-06-01  35  	if (argc < sizeof(args->v0) || args->v0.version != 0)
+f530bc60a30bee4 Ben Skeggs 2022-06-01  36  		return -ENOSYS;
+f530bc60a30bee4 Ben Skeggs 2022-06-01  37  	if (!nvkm_head_find(outp->disp, args->v0.head))
+f530bc60a30bee4 Ben Skeggs 2022-06-01  38  		return -EINVAL;
+f530bc60a30bee4 Ben Skeggs 2022-06-01  39  
+f530bc60a30bee4 Ben Skeggs 2022-06-01 @40  	switch (ior->func->hdmi ? args->v0.type : 0xff) {
+f530bc60a30bee4 Ben Skeggs 2022-06-01  41  	case NVIF_OUTP_INFOFRAME_V0_AVI:
+f530bc60a30bee4 Ben Skeggs 2022-06-01 @42  		ior->func->hdmi->infoframe_avi(ior, args->v0.head, argv, argc);
+f530bc60a30bee4 Ben Skeggs 2022-06-01  43  		return 0;
+f530bc60a30bee4 Ben Skeggs 2022-06-01  44  	case NVIF_OUTP_INFOFRAME_V0_VSI:
+f530bc60a30bee4 Ben Skeggs 2022-06-01  45  		ior->func->hdmi->infoframe_vsi(ior, args->v0.head, argv, argc);
+f530bc60a30bee4 Ben Skeggs 2022-06-01  46  		return 0;
+f530bc60a30bee4 Ben Skeggs 2022-06-01  47  	default:
+f530bc60a30bee4 Ben Skeggs 2022-06-01  48  		break;
+f530bc60a30bee4 Ben Skeggs 2022-06-01  49  	}
+f530bc60a30bee4 Ben Skeggs 2022-06-01  50  
+f530bc60a30bee4 Ben Skeggs 2022-06-01  51  	return -EINVAL;
+f530bc60a30bee4 Ben Skeggs 2022-06-01  52  }
+f530bc60a30bee4 Ben Skeggs 2022-06-01  53  
 
 -- 
 0-DAY CI Kernel Test Service
