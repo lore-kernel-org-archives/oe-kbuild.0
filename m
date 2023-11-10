@@ -1,47 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2B2374C0
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 Nov 2023 20:10:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A255628
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Nov 2023 00:49:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jSFirx6l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aIkIUV1R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699560631; x=1731096631;
+  t=1699577367; x=1731113367;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HO7ZL+aGSlnS6zr1DT90/8FYAe510YE5ejbtPDkSQfU=;
-  b=jSFirx6lAiVkasFDSzMN7/RyTfHgXGpWHcqFISlq8hAmDJGMpxs3wjjy
-   EEd4kF4kgDX8si8asVfHeWl1LgO17bq4rz93m0nyJcnUvxQ8+fVFCZIor
-   vsz+k70OrXfq85K2BriRrYTQECWfe5h2l6XV3T5u7tu3g+82cXSLIi3Xx
-   4wOSJHdnXfHJaVmNwJxfa4BJjNoDZ/euHb19Tmx9/bqZko83IHMhtdoZ4
-   +TEsy9VWw+vV8cShoNT77PPLY4o8/aCb9IpjxpoRUr52o5rX+6+iJk/W2
-   t3RtAFf6/SVvMlvVvAzgg36qT8zhdPannG//imaMqy7/z4jNkRCIp42Ri
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="3102832"
+  bh=B85pbGRLqRXKa913Rb0TlRJ5Pow23K5E6tLr/J4dhks=;
+  b=aIkIUV1Rh+JO92yV7ne+xerl7+SsYic7XnU0Mkv4TFx1Q2XUNIfTyVcd
+   9BrYHZ6CNE14uMba/wkSGhPXM9tpKSzuDzylKjwibeZcHawG9/NkvvsfZ
+   IUHFg7ziPJUGuAlDGx10W9+hpwZzl/6c3u63fnIqVRgNMkSntSzvoeIt9
+   4Cu1x0UfF/ebP5DQQhYZPs8m9YdbqKhqnSQjLA8NhPnQUNduZoz9IWqbd
+   7jCLNPisoS3ZoyuKnGHo4SsDNNEaPc7keDjbsBHoLKZzxEjUcMq/3WSPe
+   5w7/P2zQZG3bRUqzbCUSd8j4Czd16/mgektRLJJVX6oyZErPIt8CuzLyH
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="380497777"
 X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
-   d="scan'208";a="3102832"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 12:10:30 -0800
+   d="scan'208";a="380497777"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 16:49:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="756997575"
 X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
-   d="scan'208";a="756997575"
+   d="scan'208";a="11319551"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 09 Nov 2023 12:10:28 -0800
+  by orviesa001.jf.intel.com with ESMTP; 09 Nov 2023 16:49:26 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1BMA-00096Q-05;
-	Thu, 09 Nov 2023 20:10:26 +0000
-Date: Fri, 10 Nov 2023 04:09:56 +0800
+	id 1r1Fi7-0009JG-2J;
+	Fri, 10 Nov 2023 00:49:23 +0000
+Date: Fri, 10 Nov 2023 08:49:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c:42
- nvkm_uoutp_mthd_infoframe() error: we previously assumed 'ior->func->hdmi'
- could be null (see line 40)
-Message-ID: <202311100301.jsS3edHQ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/greybus/gb-beagleplay.c:173: undefined reference to
+ `crc_ccitt'
+Message-ID: <202311100836.JBsBIf8t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,59 +49,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "Committer is Greg Kroah-Hartman, remote is linus!"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Ben Skeggs <bskeggs@redhat.com>
-CC: Lyude Paul <lyude@redhat.com>
+TO: Ayush Singh <ayushdevel1325@gmail.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6bc986ab839c844e78a2333a02e55f02c9e57935
-commit: f530bc60a30bee47ff51b7fb71511fdd058b774a drm/nouveau/disp: move HDMI config into acquire + infoframe methods
-date:   1 year ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 1 year ago
-config: i386-randconfig-141-20231105 (https://download.01.org/0day-ci/archive/20231110/202311100301.jsS3edHQ-lkp@intel.com/config)
+head:   a12deb44f9734dc25970c266249b272e44d3d1b5
+commit: ec558bbfea671ac020a6dc6be8bf8f0ee556cce0 greybus: Add BeaglePlay Linux Driver
+date:   2 weeks ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 weeks ago
+config: x86_64-randconfig-011-20231110 (https://download.01.org/0day-ci/archive/20231110/202311100836.JBsBIf8t-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231110/202311100301.jsS3edHQ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100836.JBsBIf8t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311100301.jsS3edHQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311100836.JBsBIf8t-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c:42 nvkm_uoutp_mthd_infoframe() error: we previously assumed 'ior->func->hdmi' could be null (see line 40)
+All errors (new ones prefixed by >>):
 
-vim +42 drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
+   ld: vmlinux.o: in function `hdlc_append_tx_u8':
+>> drivers/greybus/gb-beagleplay.c:173: undefined reference to `crc_ccitt'
+>> ld: drivers/greybus/gb-beagleplay.c:173: undefined reference to `crc_ccitt'
+>> ld: drivers/greybus/gb-beagleplay.c:173: undefined reference to `crc_ccitt'
+   ld: vmlinux.o: in function `hdlc_rx_frame':
+   drivers/greybus/gb-beagleplay.c:234: undefined reference to `crc_ccitt'
 
-1b255f1ccc88325 Ben Skeggs 2022-06-01  28  
-f530bc60a30bee4 Ben Skeggs 2022-06-01  29  static int
-f530bc60a30bee4 Ben Skeggs 2022-06-01  30  nvkm_uoutp_mthd_infoframe(struct nvkm_outp *outp, void *argv, u32 argc)
-f530bc60a30bee4 Ben Skeggs 2022-06-01  31  {
-f530bc60a30bee4 Ben Skeggs 2022-06-01  32  	struct nvkm_ior *ior = outp->ior;
-f530bc60a30bee4 Ben Skeggs 2022-06-01  33  	union nvif_outp_infoframe_args *args = argv;
-f530bc60a30bee4 Ben Skeggs 2022-06-01  34  
-f530bc60a30bee4 Ben Skeggs 2022-06-01  35  	if (argc < sizeof(args->v0) || args->v0.version != 0)
-f530bc60a30bee4 Ben Skeggs 2022-06-01  36  		return -ENOSYS;
-f530bc60a30bee4 Ben Skeggs 2022-06-01  37  	if (!nvkm_head_find(outp->disp, args->v0.head))
-f530bc60a30bee4 Ben Skeggs 2022-06-01  38  		return -EINVAL;
-f530bc60a30bee4 Ben Skeggs 2022-06-01  39  
-f530bc60a30bee4 Ben Skeggs 2022-06-01 @40  	switch (ior->func->hdmi ? args->v0.type : 0xff) {
-f530bc60a30bee4 Ben Skeggs 2022-06-01  41  	case NVIF_OUTP_INFOFRAME_V0_AVI:
-f530bc60a30bee4 Ben Skeggs 2022-06-01 @42  		ior->func->hdmi->infoframe_avi(ior, args->v0.head, argv, argc);
-f530bc60a30bee4 Ben Skeggs 2022-06-01  43  		return 0;
-f530bc60a30bee4 Ben Skeggs 2022-06-01  44  	case NVIF_OUTP_INFOFRAME_V0_VSI:
-f530bc60a30bee4 Ben Skeggs 2022-06-01  45  		ior->func->hdmi->infoframe_vsi(ior, args->v0.head, argv, argc);
-f530bc60a30bee4 Ben Skeggs 2022-06-01  46  		return 0;
-f530bc60a30bee4 Ben Skeggs 2022-06-01  47  	default:
-f530bc60a30bee4 Ben Skeggs 2022-06-01  48  		break;
-f530bc60a30bee4 Ben Skeggs 2022-06-01  49  	}
-f530bc60a30bee4 Ben Skeggs 2022-06-01  50  
-f530bc60a30bee4 Ben Skeggs 2022-06-01  51  	return -EINVAL;
-f530bc60a30bee4 Ben Skeggs 2022-06-01  52  }
-f530bc60a30bee4 Ben Skeggs 2022-06-01  53  
+
+vim +173 drivers/greybus/gb-beagleplay.c
+
+ec558bbfea671a Ayush Singh 2023-10-17  170  
+ec558bbfea671a Ayush Singh 2023-10-17  171  static void hdlc_append_tx_u8(struct gb_beagleplay *bg, u8 value)
+ec558bbfea671a Ayush Singh 2023-10-17  172  {
+ec558bbfea671a Ayush Singh 2023-10-17 @173  	bg->tx_crc = crc_ccitt(bg->tx_crc, &value, 1);
+ec558bbfea671a Ayush Singh 2023-10-17  174  	hdlc_append_escaped(bg, value);
+ec558bbfea671a Ayush Singh 2023-10-17  175  }
+ec558bbfea671a Ayush Singh 2023-10-17  176  
 
 -- 
 0-DAY CI Kernel Test Service
