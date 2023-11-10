@@ -1,160 +1,257 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DDD17E8;
-	Fri, 10 Nov 2023 03:40:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3331B1B28E
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Nov 2023 12:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="k56nCrzq"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AA2RCQp011798;
-	Fri, 10 Nov 2023 03:40:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=H3TWk7+4y1gJTkIKtnz7CfGBX9WDO7ArE0fYsNIipiE=;
- b=k56nCrzqGU55hzTgCmwnbTPpFNAiXIdYEi7fLqqWq6AWGAmtlaRfap9ux3J3WFsyrC08
- FGMdawhdfwYNAtJ5f7jY25K0HHxzuEeoncf6cDLe0sa2t89Y9779Osrb/RnRL1LbqkKt
- HXLn6mwgRun42otXTrJHPlJHNH2x8/JclZ6GIaN1ihy4v2wzTRKEylZnQ0dy4FrhcFtd
- d9pM/cNxO7svEbz1MG9wMBvijJeKC3/NloFN4afb4CkzWk4ZPO3v6E+acMlJJDfdWgSI
- ve2mfx8/ZFmyqLaQDWUjCA9qlYNOwPhXyAYfOSLeCOXHtNET1YIpz7fJr2NJdoJ+1Wun IA== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u93qy92x9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Nov 2023 03:40:09 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AA3e9bO007047
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Nov 2023 03:40:09 GMT
-Received: from [10.253.38.123] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Thu, 9 Nov
- 2023 19:40:06 -0800
-Message-ID: <fa1fa85a-0ef4-4e77-876e-c4c3e54fbb1f@quicinc.com>
-Date: Fri, 10 Nov 2023 11:40:06 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eRDJtSQH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699619478; x=1731155478;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KOcTCD9mY7Z3qMSpsrhd2LQBx9i/Pg1qiyfERWcDsvs=;
+  b=eRDJtSQH0eUDyWyGgOnu+wq2lhdeLnUy/8bw6OaScDz1Ayq9jCYfXUHg
+   nD56wy80/HRRv7UuUYrkAZGtXAu+XB9iwUtBmGPmX9/w6h+hwVGf5taMY
+   DEw6+gVoJSG/JWyd89CyCnwJhBqlVakV51mbyBMgCYDAZQiCuUR2SfO6M
+   xrxzdTCxPrhSGqXESPKu1q4Ns8tfiKNl6Aii5ARmV/lwtqg864zYSsITH
+   x+1K6yELmMr1FTx4DNWIi7Prk1rBy6jj0KfKgSzdABCW0yjsPaeoAtw3G
+   8YRzPx016VRv/FdilSqfM+aVapTCYAcfunEOv8qCJHFBqq9zntXYpWpFu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="369509812"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="369509812"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 04:31:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="4839537"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 10 Nov 2023 04:31:16 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r1QfJ-0009b8-1Q;
+	Fri, 10 Nov 2023 12:31:13 +0000
+Date: Fri, 10 Nov 2023 20:30:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: security/commoncap.c:984:41: sparse: sparse: dubious: !x | y
+Message-ID: <202311102038.338ZUQVV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] bus: mhi: host: Avoid processing buffer and event
- of a disable channel
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
-        <mani@kernel.org>, <quic_jhugo@quicinc.com>
-CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, <mhi@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_cang@quicinc.com>, <quic_mrana@quicinc.com>
-References: <12ceff53-bbd0-4e12-9597-f6a4bfd0f87f@kadam.mountain>
-From: Qiang Yu <quic_qianyu@quicinc.com>
-In-Reply-To: <12ceff53-bbd0-4e12-9597-f6a4bfd0f87f@kadam.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: t1_0Fnd_Ogvb2yQpD1OjtjC5RS77qzv0
-X-Proofpoint-GUID: t1_0Fnd_Ogvb2yQpD1OjtjC5RS77qzv0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-09_17,2023-11-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
- spamscore=0 clxscore=1011 malwarescore=0 priorityscore=1501 suspectscore=0
- mlxscore=0 lowpriorityscore=0 mlxlogscore=907 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
- definitions=main-2311100030
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: security/commoncap.c:984:41: sparse: sparse: dubious: !x | y"
+:::::: 
 
-On 11/8/2023 2:48 PM, Dan Carpenter wrote:
-> Hi Qiang,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Qiang-Yu/bus-mhi-host-Add-spinlock-to-protect-WP-access-when-queueing-TREs/20231107-151918
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-> patch link:    https://lore.kernel.org/r/1699341365-47737-4-git-send-email-quic_qianyu%40quicinc.com
-> patch subject: [PATCH v3 3/4] bus: mhi: host: Avoid processing buffer and event of a disable channel
-> config: x86_64-randconfig-161-20231107 (https://download.01.org/0day-ci/archive/20231108/202311080155.MiyREgoQ-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231108/202311080155.MiyREgoQ-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202311080155.MiyREgoQ-lkp@intel.com/
->
-> smatch warnings:
-> drivers/bus/mhi/host/main.c:1257 mhi_gen_tre() warn: inconsistent returns '&mhi_chan->lock'.
->
-> vim +1257 drivers/bus/mhi/host/main.c
->
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1204  int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
-> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1205  			struct mhi_buf_info *info, enum mhi_flags flags)
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1206  {
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1207  	struct mhi_ring *buf_ring, *tre_ring;
-> 84f5f31f110e5e drivers/bus/mhi/host/main.c Manivannan Sadhasivam 2022-03-01  1208  	struct mhi_ring_element *mhi_tre;
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1209  	struct mhi_buf_info *buf_info;
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1210  	int eot, eob, chain, bei;
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1211  	int ret;
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1212
-> da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1213  	/* Protect accesses for reading and incrementing WP */
-> da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1214  	write_lock_bh(&mhi_chan->lock);
-> 6025cde6ecb13c drivers/bus/mhi/host/main.c Qiang Yu              2023-11-07  1215  	if (mhi_chan->ch_state != MHI_CH_STATE_ENABLED)
-> 6025cde6ecb13c drivers/bus/mhi/host/main.c Qiang Yu              2023-11-07  1216  		return -EINVAL;
->
-> This looks like two people submitted patches on the same day?
-> We should unlock before returning?
-Yes, we should unlock before return, will change in next version patch. 
-Thank you.
->
-> da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1217
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1218  	buf_ring = &mhi_chan->buf_ring;
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1219  	tre_ring = &mhi_chan->tre_ring;
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1220
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1221  	buf_info = buf_ring->wp;
-> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1222  	WARN_ON(buf_info->used);
-> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1223  	buf_info->pre_mapped = info->pre_mapped;
-> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1224  	if (info->pre_mapped)
-> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1225  		buf_info->p_addr = info->p_addr;
-> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1226  	else
-> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1227  		buf_info->v_addr = info->v_addr;
-> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1228  	buf_info->cb_buf = info->cb_buf;
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1229  	buf_info->wp = tre_ring->wp;
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1230  	buf_info->dir = mhi_chan->dir;
-> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1231  	buf_info->len = info->len;
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1232
-> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1233  	if (!info->pre_mapped) {
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1234  		ret = mhi_cntrl->map_single(mhi_cntrl, buf_info);
-> da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1235  		if (ret) {
-> da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1236  			write_unlock_bh(&mhi_chan->lock);
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1237  			return ret;
-> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1238  		}
-> da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1239  	}
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1240
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1241  	eob = !!(flags & MHI_EOB);
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1242  	eot = !!(flags & MHI_EOT);
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1243  	chain = !!(flags & MHI_CHAIN);
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1244  	bei = !!(mhi_chan->intmod);
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1245
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1246  	mhi_tre = tre_ring->wp;
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1247  	mhi_tre->ptr = MHI_TRE_DATA_PTR(buf_info->p_addr);
-> cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1248  	mhi_tre->dword[0] = MHI_TRE_DATA_DWORD0(info->len);
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1249  	mhi_tre->dword[1] = MHI_TRE_DATA_DWORD1(bei, eot, eob, chain);
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1250
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1251  	/* increment WP */
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1252  	mhi_add_ring_element(mhi_cntrl, tre_ring);
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1253  	mhi_add_ring_element(mhi_cntrl, buf_ring);
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1254
-> da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1255  	write_unlock_bh(&mhi_chan->lock);
-> da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1256
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20 @1257  	return 0;
-> 189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1258  }
->
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Andy Lutomirski <luto@kernel.org>
+CC: Christoph Lameter <cl@linux-foundation.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   89cdf9d556016a54ff6ddd62324aa5ec790c05cc
+commit: 58319057b7847667f0c9585b9de0e8932b0fdb08 capabilities: ambient capabilities
+date:   8 years ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 8 years ago
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231110/202311102038.338ZUQVV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311102038.338ZUQVV-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202311102038.338ZUQVV-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> security/commoncap.c:984:41: sparse: sparse: dubious: !x | y
+   In file included from include/linux/kobject.h:21,
+                    from include/linux/module.h:17,
+                    from security/commoncap.c:12:
+   include/linux/sysfs.h: In function 'sysfs_get_dirent':
+   include/linux/sysfs.h:496:44: warning: pointer targets in passing argument 2 of 'kernfs_find_and_get' differ in signedness [-Wpointer-sign]
+     496 |         return kernfs_find_and_get(parent, name);
+         |                                            ^~~~
+         |                                            |
+         |                                            const unsigned char *
+   In file included from include/linux/sysfs.h:15:
+   include/linux/kernfs.h:424:57: note: expected 'const char *' but argument is of type 'const unsigned char *'
+     424 | kernfs_find_and_get(struct kernfs_node *kn, const char *name)
+         |                                             ~~~~~~~~~~~~^~~~
+   In file included from include/linux/capability.h:15,
+                    from security/commoncap.c:10:
+   security/commoncap.c: In function 'cap_prctl_drop':
+   include/uapi/linux/capability.h:357:27: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
+     357 | #define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
+         |                           ^~
+   security/commoncap.c:870:14: note: in expansion of macro 'cap_valid'
+     870 |         if (!cap_valid(cap))
+         |              ^~~~~~~~~
+   security/commoncap.c: In function 'cap_task_prctl':
+   include/uapi/linux/capability.h:357:27: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
+     357 | #define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
+         |                           ^~
+   security/commoncap.c:900:22: note: in expansion of macro 'cap_valid'
+     900 |                 if (!cap_valid(arg2))
+         |                      ^~~~~~~~~
+   include/uapi/linux/capability.h:357:27: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
+     357 | #define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
+         |                           ^~
+   security/commoncap.c:984:24: note: in expansion of macro 'cap_valid'
+     984 |                 if (((!cap_valid(arg3)) | arg4 | arg5))
+         |                        ^~~~~~~~~
+
+vim +984 security/commoncap.c
+
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   879  
+1d045980e1eff4 David Howells     2008-11-14   880  /**
+1d045980e1eff4 David Howells     2008-11-14   881   * cap_task_prctl - Implement process control functions for this security module
+1d045980e1eff4 David Howells     2008-11-14   882   * @option: The process control function requested
+1d045980e1eff4 David Howells     2008-11-14   883   * @arg2, @arg3, @arg4, @arg5: The argument data for this function
+1d045980e1eff4 David Howells     2008-11-14   884   *
+1d045980e1eff4 David Howells     2008-11-14   885   * Allow process control functions (sys_prctl()) to alter capabilities; may
+1d045980e1eff4 David Howells     2008-11-14   886   * also deny access to other functions not otherwise implemented here.
+1d045980e1eff4 David Howells     2008-11-14   887   *
+1d045980e1eff4 David Howells     2008-11-14   888   * Returns 0 or +ve on success, -ENOSYS if this function is not implemented
+1d045980e1eff4 David Howells     2008-11-14   889   * here, other -ve on error.  If -ENOSYS is returned, sys_prctl() and other LSM
+1d045980e1eff4 David Howells     2008-11-14   890   * modules will consider performing the function.
+1d045980e1eff4 David Howells     2008-11-14   891   */
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   892  int cap_task_prctl(int option, unsigned long arg2, unsigned long arg3,
+d84f4f992cbd76 David Howells     2008-11-14   893  		   unsigned long arg4, unsigned long arg5)
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   894  {
+6d6f3328422a3b Tetsuo Handa      2014-07-22   895  	const struct cred *old = current_cred();
+d84f4f992cbd76 David Howells     2008-11-14   896  	struct cred *new;
+d84f4f992cbd76 David Howells     2008-11-14   897  
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   898  	switch (option) {
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   899  	case PR_CAPBSET_READ:
+d84f4f992cbd76 David Howells     2008-11-14   900  		if (!cap_valid(arg2))
+6d6f3328422a3b Tetsuo Handa      2014-07-22   901  			return -EINVAL;
+6d6f3328422a3b Tetsuo Handa      2014-07-22   902  		return !!cap_raised(old->cap_bset, arg2);
+d84f4f992cbd76 David Howells     2008-11-14   903  
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   904  	case PR_CAPBSET_DROP:
+6d6f3328422a3b Tetsuo Handa      2014-07-22   905  		return cap_prctl_drop(arg2);
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   906  
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   907  	/*
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   908  	 * The next four prctl's remain to assist with transitioning a
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   909  	 * system from legacy UID=0 based privilege (when filesystem
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   910  	 * capabilities are not in use) to a system using filesystem
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   911  	 * capabilities only - as the POSIX.1e draft intended.
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   912  	 *
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   913  	 * Note:
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   914  	 *
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   915  	 *  PR_SET_SECUREBITS =
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   916  	 *      issecure_mask(SECURE_KEEP_CAPS_LOCKED)
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   917  	 *    | issecure_mask(SECURE_NOROOT)
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   918  	 *    | issecure_mask(SECURE_NOROOT_LOCKED)
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   919  	 *    | issecure_mask(SECURE_NO_SETUID_FIXUP)
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   920  	 *    | issecure_mask(SECURE_NO_SETUID_FIXUP_LOCKED)
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   921  	 *
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   922  	 * will ensure that the current process and all of its
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   923  	 * children will be locked into a pure
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   924  	 * capability-based-privilege environment.
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   925  	 */
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   926  	case PR_SET_SECUREBITS:
+6d6f3328422a3b Tetsuo Handa      2014-07-22   927  		if ((((old->securebits & SECURE_ALL_LOCKS) >> 1)
+6d6f3328422a3b Tetsuo Handa      2014-07-22   928  		     & (old->securebits ^ arg2))			/*[1]*/
+6d6f3328422a3b Tetsuo Handa      2014-07-22   929  		    || ((old->securebits & SECURE_ALL_LOCKS & ~arg2))	/*[2]*/
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   930  		    || (arg2 & ~(SECURE_ALL_LOCKS | SECURE_ALL_BITS))	/*[3]*/
+6a9de49115d5ff Eric Paris        2012-01-03   931  		    || (cap_capable(current_cred(),
+c4a4d603796c72 Eric W. Biederman 2011-11-16   932  				    current_cred()->user_ns, CAP_SETPCAP,
+3699c53c485bf0 David Howells     2009-01-06   933  				    SECURITY_CAP_AUDIT) != 0)		/*[4]*/
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   934  			/*
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   935  			 * [1] no changing of bits that are locked
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   936  			 * [2] no unlocking of locks
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   937  			 * [3] no setting of unsupported bits
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   938  			 * [4] doing anything requires privilege (go read about
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   939  			 *     the "sendmail capabilities bug")
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   940  			 */
+d84f4f992cbd76 David Howells     2008-11-14   941  		    )
+d84f4f992cbd76 David Howells     2008-11-14   942  			/* cannot change a locked bit */
+6d6f3328422a3b Tetsuo Handa      2014-07-22   943  			return -EPERM;
+6d6f3328422a3b Tetsuo Handa      2014-07-22   944  
+6d6f3328422a3b Tetsuo Handa      2014-07-22   945  		new = prepare_creds();
+6d6f3328422a3b Tetsuo Handa      2014-07-22   946  		if (!new)
+6d6f3328422a3b Tetsuo Handa      2014-07-22   947  			return -ENOMEM;
+d84f4f992cbd76 David Howells     2008-11-14   948  		new->securebits = arg2;
+6d6f3328422a3b Tetsuo Handa      2014-07-22   949  		return commit_creds(new);
+d84f4f992cbd76 David Howells     2008-11-14   950  
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   951  	case PR_GET_SECUREBITS:
+6d6f3328422a3b Tetsuo Handa      2014-07-22   952  		return old->securebits;
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   953  
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   954  	case PR_GET_KEEPCAPS:
+6d6f3328422a3b Tetsuo Handa      2014-07-22   955  		return !!issecure(SECURE_KEEP_CAPS);
+d84f4f992cbd76 David Howells     2008-11-14   956  
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   957  	case PR_SET_KEEPCAPS:
+d84f4f992cbd76 David Howells     2008-11-14   958  		if (arg2 > 1) /* Note, we rely on arg2 being unsigned here */
+6d6f3328422a3b Tetsuo Handa      2014-07-22   959  			return -EINVAL;
+d84f4f992cbd76 David Howells     2008-11-14   960  		if (issecure(SECURE_KEEP_CAPS_LOCKED))
+6d6f3328422a3b Tetsuo Handa      2014-07-22   961  			return -EPERM;
+6d6f3328422a3b Tetsuo Handa      2014-07-22   962  
+6d6f3328422a3b Tetsuo Handa      2014-07-22   963  		new = prepare_creds();
+6d6f3328422a3b Tetsuo Handa      2014-07-22   964  		if (!new)
+6d6f3328422a3b Tetsuo Handa      2014-07-22   965  			return -ENOMEM;
+d84f4f992cbd76 David Howells     2008-11-14   966  		if (arg2)
+d84f4f992cbd76 David Howells     2008-11-14   967  			new->securebits |= issecure_mask(SECURE_KEEP_CAPS);
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   968  		else
+d84f4f992cbd76 David Howells     2008-11-14   969  			new->securebits &= ~issecure_mask(SECURE_KEEP_CAPS);
+6d6f3328422a3b Tetsuo Handa      2014-07-22   970  		return commit_creds(new);
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28   971  
+58319057b78476 Andy Lutomirski   2015-09-04   972  	case PR_CAP_AMBIENT:
+58319057b78476 Andy Lutomirski   2015-09-04   973  		if (arg2 == PR_CAP_AMBIENT_CLEAR_ALL) {
+58319057b78476 Andy Lutomirski   2015-09-04   974  			if (arg3 | arg4 | arg5)
+58319057b78476 Andy Lutomirski   2015-09-04   975  				return -EINVAL;
+58319057b78476 Andy Lutomirski   2015-09-04   976  
+58319057b78476 Andy Lutomirski   2015-09-04   977  			new = prepare_creds();
+58319057b78476 Andy Lutomirski   2015-09-04   978  			if (!new)
+58319057b78476 Andy Lutomirski   2015-09-04   979  				return -ENOMEM;
+58319057b78476 Andy Lutomirski   2015-09-04   980  			cap_clear(new->cap_ambient);
+58319057b78476 Andy Lutomirski   2015-09-04   981  			return commit_creds(new);
+58319057b78476 Andy Lutomirski   2015-09-04   982  		}
+58319057b78476 Andy Lutomirski   2015-09-04   983  
+58319057b78476 Andy Lutomirski   2015-09-04  @984  		if (((!cap_valid(arg3)) | arg4 | arg5))
+58319057b78476 Andy Lutomirski   2015-09-04   985  			return -EINVAL;
+58319057b78476 Andy Lutomirski   2015-09-04   986  
+58319057b78476 Andy Lutomirski   2015-09-04   987  		if (arg2 == PR_CAP_AMBIENT_IS_SET) {
+58319057b78476 Andy Lutomirski   2015-09-04   988  			return !!cap_raised(current_cred()->cap_ambient, arg3);
+58319057b78476 Andy Lutomirski   2015-09-04   989  		} else if (arg2 != PR_CAP_AMBIENT_RAISE &&
+58319057b78476 Andy Lutomirski   2015-09-04   990  			   arg2 != PR_CAP_AMBIENT_LOWER) {
+58319057b78476 Andy Lutomirski   2015-09-04   991  			return -EINVAL;
+58319057b78476 Andy Lutomirski   2015-09-04   992  		} else {
+58319057b78476 Andy Lutomirski   2015-09-04   993  			if (arg2 == PR_CAP_AMBIENT_RAISE &&
+58319057b78476 Andy Lutomirski   2015-09-04   994  			    (!cap_raised(current_cred()->cap_permitted, arg3) ||
+58319057b78476 Andy Lutomirski   2015-09-04   995  			     !cap_raised(current_cred()->cap_inheritable,
+58319057b78476 Andy Lutomirski   2015-09-04   996  					 arg3)))
+58319057b78476 Andy Lutomirski   2015-09-04   997  				return -EPERM;
+58319057b78476 Andy Lutomirski   2015-09-04   998  
+58319057b78476 Andy Lutomirski   2015-09-04   999  			new = prepare_creds();
+58319057b78476 Andy Lutomirski   2015-09-04  1000  			if (!new)
+58319057b78476 Andy Lutomirski   2015-09-04  1001  				return -ENOMEM;
+58319057b78476 Andy Lutomirski   2015-09-04  1002  			if (arg2 == PR_CAP_AMBIENT_RAISE)
+58319057b78476 Andy Lutomirski   2015-09-04  1003  				cap_raise(new->cap_ambient, arg3);
+58319057b78476 Andy Lutomirski   2015-09-04  1004  			else
+58319057b78476 Andy Lutomirski   2015-09-04  1005  				cap_lower(new->cap_ambient, arg3);
+58319057b78476 Andy Lutomirski   2015-09-04  1006  			return commit_creds(new);
+58319057b78476 Andy Lutomirski   2015-09-04  1007  		}
+58319057b78476 Andy Lutomirski   2015-09-04  1008  
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28  1009  	default:
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28  1010  		/* No functionality available - continue with default */
+6d6f3328422a3b Tetsuo Handa      2014-07-22  1011  		return -ENOSYS;
+3898b1b4ebff8d Andrew G. Morgan  2008-04-28  1012  	}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1013  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1014  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
