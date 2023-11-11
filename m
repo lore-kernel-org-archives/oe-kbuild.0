@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BFEE3C082
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 Nov 2023 23:51:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6060372
+	for <oe-kbuild@lists.linux.dev>; Sat, 11 Nov 2023 00:03:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jgKgsVow"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KGG5Yv97"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699660273; x=1731196273;
+  t=1699660996; x=1731196996;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VChKAxo2i64F+/Lc2I1CCfxzACKUCz4x9mPgqbJJ1mI=;
-  b=jgKgsVowM/pAmI42daeNGMjGCqqtew4czRh8/s1qLY217MddPejwCrsZ
-   Swjw62qIGtAHfNTE9i1v2KzPMZXibgCEM4hb3O/6uKirEBubQ1q52aU9d
-   G14WpmODPdIteag4QcIVKBBl3z1mEUlC0YmsOPnjOF9gi5zisbrqfLWNz
-   /x1r1Sep5hQrWWiav/jz2NqwbhtqmbMhtaSz1PudWqOdCZ+72/Dl0V4hP
-   h7sXNxgruXLqGOtp+9lQfTGWacyCk1GShluERnRURPomJw6DBPk/eCzHg
-   OpdwpOw1WtgstYC4PjX06J/xrOS8IsqhkTdWqsWcoeNTNNkIAXgWn+p/r
+  bh=Cu2WcdKgCTboclSTd2ZLzM0n6OQLeI8zO6+djsY/1kM=;
+  b=KGG5Yv97t/YhfiVVoUoYRDh8wVEZyeiko0D4og2uh6fBqYyNSdxStjuq
+   EUZnG2H62LxFAY78C2EsrL4oQd+im1d1wDC+bcwQjW0r+3EqM5qitE5xo
+   WIYcxZjiibGZ0/BT5G4SJa5gB/m7vTg5Fht0vRbEl/1VYBCNiakLWJElK
+   oNls1H4KjeWJ1o8cK+jsyX+jB3WjLQQa1LWCNMWA9NbNFrEtkPhK70mR8
+   cMQ8nUYcKRrIPCsWZgY77qWCWmEZJZc/vD6/fnUWISDg7VKmbBgUVPCXT
+   Ht9d1k+6c4UqXzGSf93suhQxKaGYBh2oOSXJqkSvHjLeSmY5D9HFm+8hz
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="370446832"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="421339236"
 X-IronPort-AV: E=Sophos;i="6.03,293,1694761200"; 
-   d="scan'208";a="370446832"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 15:51:12 -0800
+   d="scan'208";a="421339236"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 16:03:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="1095287183"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="937281579"
 X-IronPort-AV: E=Sophos;i="6.03,293,1694761200"; 
-   d="scan'208";a="1095287183"
+   d="scan'208";a="937281579"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 10 Nov 2023 15:51:11 -0800
+  by orsmga005.jf.intel.com with ESMTP; 10 Nov 2023 16:03:12 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1bHI-000A3C-2l;
-	Fri, 10 Nov 2023 23:51:08 +0000
-Date: Sat, 11 Nov 2023 07:50:10 +0800
+	id 1r1bSw-000A42-0g;
+	Sat, 11 Nov 2023 00:03:10 +0000
+Date: Sat, 11 Nov 2023 08:02:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: kernel/locking/lockdep_proc.c:420:17: sparse:    struct
- lockdep_subclass_key const *
-Message-ID: <202311110706.p9nPSewY-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v8 3/3] media: i2c: Introduce a driver for the Techwell
+ TW9900 decoder
+Message-ID: <202311110759.PJpNGc2N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,161 +50,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: kernel/locking/lockdep_proc.c:420:17: sparse:    struct lockdep_subclass_key const *"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <93354996c95926970684498f08061b60a52bb84c.1699449537.git.mehdi.djait@bootlin.com>
+References: <93354996c95926970684498f08061b60a52bb84c.1699449537.git.mehdi.djait@bootlin.com>
+TO: Mehdi Djait <mehdi.djait@bootlin.com>
+TO: mchehab@kernel.org
+TO: heiko@sntech.de
+TO: hverkuil-cisco@xs4all.nl
+TO: laurent.pinchart@ideasonboard.com
+TO: krzysztof.kozlowski+dt@linaro.org
+TO: robh+dt@kernel.org
+TO: conor+dt@kernel.org
+CC: linux-media@vger.kernel.org
+CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Bart Van Assche <bvanassche@acm.org>
-CC: Ingo Molnar <mingo@kernel.org>
-CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+CC: thomas.petazzoni@bootlin.com
+CC: alexandre.belloni@bootlin.com
+CC: maxime.chevallier@bootlin.com
+CC: paul.kocialkowski@bootlin.com
+CC: Mehdi Djait <mehdi.djait@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ac347a0655dbc7d885e217c89dddd16e2800bd58
-commit: 364f6afc4f5537b79cf454eb35cae92920676075 locking/lockdep: Make it clear that what lock_class::key points at is not modified
-date:   4 years, 4 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 4 years, 4 months ago
-config: i386-randconfig-062-20230912 (https://download.01.org/0day-ci/archive/20231111/202311110706.p9nPSewY-lkp@intel.com/config)
+Hi Mehdi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on robh/for-next linuxtv-media-stage/master linus/master v6.6 next-20231110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mehdi-Djait/dt-bindings-vendor-prefixes-Add-techwell-vendor-prefix/20231109-042139
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/93354996c95926970684498f08061b60a52bb84c.1699449537.git.mehdi.djait%40bootlin.com
+patch subject: [PATCH v8 3/3] media: i2c: Introduce a driver for the Techwell TW9900 decoder
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20231111 (https://download.01.org/0day-ci/archive/20231111/202311110759.PJpNGc2N-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110706.p9nPSewY-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231111/202311110759.PJpNGc2N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311110706.p9nPSewY-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311110759.PJpNGc2N-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/locking/lockdep_proc.c:419:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/locking/lockdep_proc.c:419:17: sparse:    char const [noderef] <asn:4> *
-   kernel/locking/lockdep_proc.c:419:17: sparse:    char const *
-   kernel/locking/lockdep_proc.c:420:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/locking/lockdep_proc.c:420:17: sparse:    struct lockdep_subclass_key const [noderef] <asn:4> *
->> kernel/locking/lockdep_proc.c:420:17: sparse:    struct lockdep_subclass_key const *
+smatch warnings:
+drivers/media/i2c/tw9900.c:398 tw9900_s_std() error: uninitialized symbol 'mode'.
 
-vim +420 kernel/locking/lockdep_proc.c
+vim +/mode +398 drivers/media/i2c/tw9900.c
 
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  399  
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  400  static void seq_stats(struct seq_file *m, struct lock_stat_data *data)
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  401  {
-364f6afc4f5537 kernel/locking/lockdep_proc.c Bart Van Assche 2019-07-22  402  	const struct lockdep_subclass_key *ckey;
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  403  	struct lock_class_stats *stats;
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02  404  	struct lock_class *class;
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02  405  	const char *cname;
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  406  	int i, namelen;
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02  407  	char name[39];
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  408  
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  409  	class = data->class;
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  410  	stats = &data->stats;
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  411  
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  412  	namelen = 38;
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  413  	if (class->name_version > 1)
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  414  		namelen -= 2; /* XXX truncates versions > 9 */
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  415  	if (class->subclass)
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  416  		namelen -= 2;
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  417  
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02  418  	rcu_read_lock_sched();
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02 @419  	cname = rcu_dereference_sched(class->name);
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02 @420  	ckey  = rcu_dereference_sched(class->key);
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02  421  
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02  422  	if (!cname && !ckey) {
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02  423  		rcu_read_unlock_sched();
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02  424  		return;
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02  425  
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02  426  	} else if (!cname) {
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  427  		char str[KSYM_NAME_LEN];
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  428  		const char *key_name;
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  429  
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02  430  		key_name = __get_key_name(ckey, str);
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  431  		snprintf(name, namelen, "%s", key_name);
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  432  	} else {
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02  433  		snprintf(name, namelen, "%s", cname);
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  434  	}
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02  435  	rcu_read_unlock_sched();
-cee34d88cabd1b kernel/locking/lockdep_proc.c Peter Zijlstra  2015-06-02  436  
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  437  	namelen = strlen(name);
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  438  	if (class->name_version > 1) {
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  439  		snprintf(name+namelen, 3, "#%d", class->name_version);
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  440  		namelen += 2;
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  441  	}
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  442  	if (class->subclass) {
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  443  		snprintf(name+namelen, 3, "/%d", class->subclass);
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  444  		namelen += 2;
-d38e1d5aaee384 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  445  	}
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  446  
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  447  	if (stats->write_holdtime.nr) {
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  448  		if (stats->read_holdtime.nr)
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  449  			seq_printf(m, "%38s-W:", name);
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  450  		else
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  451  			seq_printf(m, "%40s:", name);
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  452  
-96645678cd726e kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  453  		seq_printf(m, "%14lu ", stats->bounces[bounce_contended_write]);
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  454  		seq_lock_time(m, &stats->write_waittime);
-96645678cd726e kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  455  		seq_printf(m, " %14lu ", stats->bounces[bounce_acquired_write]);
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  456  		seq_lock_time(m, &stats->write_holdtime);
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  457  		seq_puts(m, "\n");
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  458  	}
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  459  
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  460  	if (stats->read_holdtime.nr) {
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  461  		seq_printf(m, "%38s-R:", name);
-96645678cd726e kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  462  		seq_printf(m, "%14lu ", stats->bounces[bounce_contended_read]);
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  463  		seq_lock_time(m, &stats->read_waittime);
-96645678cd726e kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  464  		seq_printf(m, " %14lu ", stats->bounces[bounce_acquired_read]);
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  465  		seq_lock_time(m, &stats->read_holdtime);
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  466  		seq_puts(m, "\n");
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  467  	}
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  468  
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  469  	if (stats->read_waittime.nr + stats->write_waittime.nr == 0)
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  470  		return;
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  471  
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  472  	if (stats->read_holdtime.nr)
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  473  		namelen += 2;
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  474  
-c7e78cff6b7518 kernel/lockdep_proc.c         Peter Zijlstra  2008-10-16  475  	for (i = 0; i < LOCKSTAT_POINTS; i++) {
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  476  		char ip[32];
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  477  
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  478  		if (class->contention_point[i] == 0)
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  479  			break;
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  480  
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  481  		if (!i)
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  482  			seq_line(m, '-', 40-namelen, namelen);
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  483  
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  484  		snprintf(ip, sizeof(ip), "[<%p>]",
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  485  				(void *)class->contention_point[i]);
-3cf9b85b474e65 kernel/lockdep_proc.c         Joe Perches     2010-11-05  486  		seq_printf(m, "%40s %14lu %29s %pS\n",
-3cf9b85b474e65 kernel/lockdep_proc.c         Joe Perches     2010-11-05  487  			   name, stats->contention_point[i],
-3cf9b85b474e65 kernel/lockdep_proc.c         Joe Perches     2010-11-05  488  			   ip, (void *)class->contention_point[i]);
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  489  	}
-c7e78cff6b7518 kernel/lockdep_proc.c         Peter Zijlstra  2008-10-16  490  	for (i = 0; i < LOCKSTAT_POINTS; i++) {
-c7e78cff6b7518 kernel/lockdep_proc.c         Peter Zijlstra  2008-10-16  491  		char ip[32];
-c7e78cff6b7518 kernel/lockdep_proc.c         Peter Zijlstra  2008-10-16  492  
-c7e78cff6b7518 kernel/lockdep_proc.c         Peter Zijlstra  2008-10-16  493  		if (class->contending_point[i] == 0)
-c7e78cff6b7518 kernel/lockdep_proc.c         Peter Zijlstra  2008-10-16  494  			break;
-c7e78cff6b7518 kernel/lockdep_proc.c         Peter Zijlstra  2008-10-16  495  
-c7e78cff6b7518 kernel/lockdep_proc.c         Peter Zijlstra  2008-10-16  496  		if (!i)
-c7e78cff6b7518 kernel/lockdep_proc.c         Peter Zijlstra  2008-10-16  497  			seq_line(m, '-', 40-namelen, namelen);
-c7e78cff6b7518 kernel/lockdep_proc.c         Peter Zijlstra  2008-10-16  498  
-c7e78cff6b7518 kernel/lockdep_proc.c         Peter Zijlstra  2008-10-16  499  		snprintf(ip, sizeof(ip), "[<%p>]",
-c7e78cff6b7518 kernel/lockdep_proc.c         Peter Zijlstra  2008-10-16  500  				(void *)class->contending_point[i]);
-3cf9b85b474e65 kernel/lockdep_proc.c         Joe Perches     2010-11-05  501  		seq_printf(m, "%40s %14lu %29s %pS\n",
-3cf9b85b474e65 kernel/lockdep_proc.c         Joe Perches     2010-11-05  502  			   name, stats->contending_point[i],
-3cf9b85b474e65 kernel/lockdep_proc.c         Joe Perches     2010-11-05  503  			   ip, (void *)class->contending_point[i]);
-c7e78cff6b7518 kernel/lockdep_proc.c         Peter Zijlstra  2008-10-16  504  	}
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  505  	if (i) {
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  506  		seq_puts(m, "\n");
-1232e3807f5977 kernel/lockdep_proc.c         Davidlohr Bueso 2013-10-08  507  		seq_line(m, '.', 0, 40 + 1 + 12 * (14 + 1));
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  508  		seq_puts(m, "\n");
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  509  	}
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  510  }
-c46261de0d9837 kernel/lockdep_proc.c         Peter Zijlstra  2007-07-19  511  
-
-:::::: The code at line 420 was first introduced by commit
-:::::: cee34d88cabd1ba5fc93e09b5b12232bc9338c7c lockdep: Fix a race between /proc/lock_stat and module unload
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+4fa88742527a9a Mehdi Djait 2023-11-08  383  
+4fa88742527a9a Mehdi Djait 2023-11-08  384  static int tw9900_s_std(struct v4l2_subdev *sd, v4l2_std_id std)
+4fa88742527a9a Mehdi Djait 2023-11-08  385  {
+4fa88742527a9a Mehdi Djait 2023-11-08  386  	struct tw9900 *tw9900 = to_tw9900(sd);
+4fa88742527a9a Mehdi Djait 2023-11-08  387  	const struct tw9900_mode *mode;
+4fa88742527a9a Mehdi Djait 2023-11-08  388  	int i, ret = 0;
+4fa88742527a9a Mehdi Djait 2023-11-08  389  
+4fa88742527a9a Mehdi Djait 2023-11-08  390  	if (!(std & (V4L2_STD_NTSC | V4L2_STD_PAL)))
+4fa88742527a9a Mehdi Djait 2023-11-08  391  		return -EINVAL;
+4fa88742527a9a Mehdi Djait 2023-11-08  392  
+4fa88742527a9a Mehdi Djait 2023-11-08  393  	mutex_lock(&tw9900->mutex);
+4fa88742527a9a Mehdi Djait 2023-11-08  394  
+4fa88742527a9a Mehdi Djait 2023-11-08  395  	for (i = 0; i < ARRAY_SIZE(supported_modes); i++)
+4fa88742527a9a Mehdi Djait 2023-11-08  396  		if (supported_modes[i].std & std)
+4fa88742527a9a Mehdi Djait 2023-11-08  397  			mode = &supported_modes[i];
+4fa88742527a9a Mehdi Djait 2023-11-08 @398  	if (!mode) {
+4fa88742527a9a Mehdi Djait 2023-11-08  399  		ret = -EINVAL;
+4fa88742527a9a Mehdi Djait 2023-11-08  400  		goto out_unlock;
+4fa88742527a9a Mehdi Djait 2023-11-08  401  	}
+4fa88742527a9a Mehdi Djait 2023-11-08  402  
+4fa88742527a9a Mehdi Djait 2023-11-08  403  	tw9900->cur_mode = mode;
+4fa88742527a9a Mehdi Djait 2023-11-08  404  
+4fa88742527a9a Mehdi Djait 2023-11-08  405  out_unlock:
+4fa88742527a9a Mehdi Djait 2023-11-08  406  	mutex_unlock(&tw9900->mutex);
+4fa88742527a9a Mehdi Djait 2023-11-08  407  
+4fa88742527a9a Mehdi Djait 2023-11-08  408  	return ret;
+4fa88742527a9a Mehdi Djait 2023-11-08  409  }
+4fa88742527a9a Mehdi Djait 2023-11-08  410  
 
 -- 
 0-DAY CI Kernel Test Service
