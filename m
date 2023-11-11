@@ -1,258 +1,277 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB021B27D
-	for <oe-kbuild@lists.linux.dev>; Sat, 11 Nov 2023 19:20:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35D71D523
+	for <oe-kbuild@lists.linux.dev>; Sat, 11 Nov 2023 19:53:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="elSZ/Swe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TlLsNQWB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699730450; x=1731266450;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RUuwu25EMq4rge8JXtm8/19c70OGHvb20k8MRDEQP7I=;
-  b=elSZ/Swef//HfbWZlz8i/53addQIUwl6FS9okr9eu4Ubmm1JqjqQ1Hks
-   iPQOuPW0n3ojZJ4A32N7MvxIQGBvHQK3haOZd/uWbMIpXdaeVKrhOAZW5
-   C63reIRcgOG8/p2C1xnApwp5kf7askvMtnrLJfsYcVX6J7Pi+Jle8DFj/
-   o5dECseFzGizvkF2/W0Ub9GaDa6nmibDu3T3Dx6drTkfysgZo1PiqUBkE
-   yJ6anIFRkTcG1cwVPTsKtksmiJRX03ezqQR8KjTHd5/4spnevbaekm2Ti
-   Om3kY60fxwReGOEg8K0t5uui06l/NDxPP6A9sG6FAUenzpQafSBdBwlib
+  t=1699732410; x=1731268410;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ll0n/aNbEHLbddlAUeFqugJF3zwTcHFHzG9hpiBRKg0=;
+  b=TlLsNQWBocRFbtVFvNjjYumFqTyRpGvVUAtTo7wmNia4x6pHRmucIJUD
+   7+lP77DpYykzM9WIJWUMHcm2eyl0DHoHtDxBIIuVL/cawk7nmeUXp5o3E
+   51NNbqHs6pyphPtMeXB8tIWyVH7H8xFc95QOG2LzvY8NHok0dZc2JFbhO
+   lgDP2nnnQR3n+bBZSkmYde0B2+1zq0DwlJ9iYDC4OnVxOu6cYDPOfE5Ja
+   Fkzat9WIhMD+wh521fKznOTxl2oA+rP/QTwNDJxCYLTSc3NrsvUFj86ey
+   BkXNAxagZrQsQVOrgzsszV4KOHKO+cfvI9YPgMFFahLQ9cxUVoRMAh0xB
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="8938686"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="389162978"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="8938686"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 11:20:48 -0800
+   d="scan'208";a="389162978"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 11:53:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="798839141"
-X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="798839141"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="907702382"
+X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
+   d="scan'208";a="907702382"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 11 Nov 2023 11:20:47 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 11 Nov 2023 11:53:28 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1tXA-000Ahi-2e;
-	Sat, 11 Nov 2023 19:20:44 +0000
-Date: Sun, 12 Nov 2023 03:20:09 +0800
+	id 1r1u2o-000AiU-0t;
+	Sat, 11 Nov 2023 19:53:26 +0000
+Date: Sun, 12 Nov 2023 03:52:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: security/commoncap.c:984:41: sparse: sparse: dubious: !x | y
-Message-ID: <202311120345.OsfhC45Z-lkp@intel.com>
+Subject: drivers/crypto/inside-secure/safexcel.c:1103:30: warning: '%d'
+ directive output may be truncated writing between 1 and 10 bytes into a
+ region of size 2
+Message-ID: <202311120319.2ZVpDvrs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: security/commoncap.c:984:41: sparse: sparse: dubious: !x | y"
+:::::: Manual check reason: "only kconfig file changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Andy Lutomirski <luto@kernel.org>
-CC: Christoph Lameter <cl@linux-foundation.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Pascal van Leeuwen <pvanleeuwen@insidesecure.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
+
+Hi Pascal,
+
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   3ca112b71f35dd5d99fc4571a56b5fc6f0c15814
-commit: 58319057b7847667f0c9585b9de0e8932b0fdb08 capabilities: ambient capabilities
-date:   8 years ago
+commit: 0f6e5c8234778f7dadf5789ce85ac1e062ebed9f crypto: inside-secure - make driver selectable for non-Marvell hardware
+date:   4 years, 2 months ago
 :::::: branch date: 19 hours ago
-:::::: commit date: 8 years ago
-config: x86_64-randconfig-r031-20230909 (https://download.01.org/0day-ci/archive/20231112/202311120345.OsfhC45Z-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120345.OsfhC45Z-lkp@intel.com/reproduce)
+:::::: commit date: 4 years, 2 months ago
+config: x86_64-randconfig-r011-20230829 (https://download.01.org/0day-ci/archive/20231112/202311120319.2ZVpDvrs-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120319.2ZVpDvrs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311120345.OsfhC45Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311120319.2ZVpDvrs-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> security/commoncap.c:984:41: sparse: sparse: dubious: !x | y
-   security/commoncap.c:1064:27: sparse: sparse: symbol 'capability_hooks' was not declared. Should it be static?
-   In file included from include/linux/kobject.h:21,
-                    from include/linux/module.h:17,
-                    from security/commoncap.c:12:
-   include/linux/sysfs.h: In function 'sysfs_get_dirent':
-   include/linux/sysfs.h:496:44: warning: pointer targets in passing argument 2 of 'kernfs_find_and_get' differ in signedness [-Wpointer-sign]
-     496 |         return kernfs_find_and_get(parent, name);
-         |                                            ^~~~
-         |                                            |
-         |                                            const unsigned char *
-   In file included from include/linux/sysfs.h:15:
-   include/linux/kernfs.h:424:57: note: expected 'const char *' but argument is of type 'const unsigned char *'
-     424 | kernfs_find_and_get(struct kernfs_node *kn, const char *name)
-         |                                             ~~~~~~~~~~~~^~~~
-   In file included from include/linux/capability.h:15,
-                    from security/commoncap.c:10:
-   security/commoncap.c: In function 'cap_prctl_drop':
-   include/uapi/linux/capability.h:357:27: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
-     357 | #define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
-         |                           ^~
-   security/commoncap.c:870:14: note: in expansion of macro 'cap_valid'
-     870 |         if (!cap_valid(cap))
-         |              ^~~~~~~~~
-   security/commoncap.c: In function 'cap_task_prctl':
-   include/uapi/linux/capability.h:357:27: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
-     357 | #define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
-         |                           ^~
-   security/commoncap.c:900:22: note: in expansion of macro 'cap_valid'
-     900 |                 if (!cap_valid(arg2))
-         |                      ^~~~~~~~~
-   include/uapi/linux/capability.h:357:27: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
-     357 | #define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
-         |                           ^~
-   security/commoncap.c:984:24: note: in expansion of macro 'cap_valid'
-     984 |                 if (((!cap_valid(arg3)) | arg4 | arg5))
-         |                        ^~~~~~~~~
+All warnings (new ones prefixed by >>):
 
-vim +984 security/commoncap.c
+   drivers/crypto/inside-secure/safexcel.c: In function 'safexcel_probe':
+>> drivers/crypto/inside-secure/safexcel.c:1103:30: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
+      snprintf(irq_name, 6, "ring%d", i);
+                                 ^~
+   drivers/crypto/inside-secure/safexcel.c:1103:25: note: directive argument in the range [0, 2147483647]
+      snprintf(irq_name, 6, "ring%d", i);
+                            ^~~~~~~~
+   drivers/crypto/inside-secure/safexcel.c:1103:3: note: 'snprintf' output between 6 and 15 bytes into a destination of size 6
+      snprintf(irq_name, 6, "ring%d", i);
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/inside-secure/safexcel.c:1116:32: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
+      snprintf(wq_name, 9, "wq_ring%d", i);
+                                   ^~
+   drivers/crypto/inside-secure/safexcel.c:1116:24: note: directive argument in the range [0, 2147483647]
+      snprintf(wq_name, 9, "wq_ring%d", i);
+                           ^~~~~~~~~~~
+   drivers/crypto/inside-secure/safexcel.c:1116:3: note: 'snprintf' output between 9 and 18 bytes into a destination of size 9
+      snprintf(wq_name, 9, "wq_ring%d", i);
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   879  
-1d045980e1eff4 David Howells     2008-11-14   880  /**
-1d045980e1eff4 David Howells     2008-11-14   881   * cap_task_prctl - Implement process control functions for this security module
-1d045980e1eff4 David Howells     2008-11-14   882   * @option: The process control function requested
-1d045980e1eff4 David Howells     2008-11-14   883   * @arg2, @arg3, @arg4, @arg5: The argument data for this function
-1d045980e1eff4 David Howells     2008-11-14   884   *
-1d045980e1eff4 David Howells     2008-11-14   885   * Allow process control functions (sys_prctl()) to alter capabilities; may
-1d045980e1eff4 David Howells     2008-11-14   886   * also deny access to other functions not otherwise implemented here.
-1d045980e1eff4 David Howells     2008-11-14   887   *
-1d045980e1eff4 David Howells     2008-11-14   888   * Returns 0 or +ve on success, -ENOSYS if this function is not implemented
-1d045980e1eff4 David Howells     2008-11-14   889   * here, other -ve on error.  If -ENOSYS is returned, sys_prctl() and other LSM
-1d045980e1eff4 David Howells     2008-11-14   890   * modules will consider performing the function.
-1d045980e1eff4 David Howells     2008-11-14   891   */
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   892  int cap_task_prctl(int option, unsigned long arg2, unsigned long arg3,
-d84f4f992cbd76 David Howells     2008-11-14   893  		   unsigned long arg4, unsigned long arg5)
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   894  {
-6d6f3328422a3b Tetsuo Handa      2014-07-22   895  	const struct cred *old = current_cred();
-d84f4f992cbd76 David Howells     2008-11-14   896  	struct cred *new;
-d84f4f992cbd76 David Howells     2008-11-14   897  
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   898  	switch (option) {
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   899  	case PR_CAPBSET_READ:
-d84f4f992cbd76 David Howells     2008-11-14   900  		if (!cap_valid(arg2))
-6d6f3328422a3b Tetsuo Handa      2014-07-22   901  			return -EINVAL;
-6d6f3328422a3b Tetsuo Handa      2014-07-22   902  		return !!cap_raised(old->cap_bset, arg2);
-d84f4f992cbd76 David Howells     2008-11-14   903  
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   904  	case PR_CAPBSET_DROP:
-6d6f3328422a3b Tetsuo Handa      2014-07-22   905  		return cap_prctl_drop(arg2);
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   906  
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   907  	/*
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   908  	 * The next four prctl's remain to assist with transitioning a
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   909  	 * system from legacy UID=0 based privilege (when filesystem
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   910  	 * capabilities are not in use) to a system using filesystem
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   911  	 * capabilities only - as the POSIX.1e draft intended.
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   912  	 *
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   913  	 * Note:
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   914  	 *
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   915  	 *  PR_SET_SECUREBITS =
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   916  	 *      issecure_mask(SECURE_KEEP_CAPS_LOCKED)
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   917  	 *    | issecure_mask(SECURE_NOROOT)
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   918  	 *    | issecure_mask(SECURE_NOROOT_LOCKED)
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   919  	 *    | issecure_mask(SECURE_NO_SETUID_FIXUP)
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   920  	 *    | issecure_mask(SECURE_NO_SETUID_FIXUP_LOCKED)
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   921  	 *
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   922  	 * will ensure that the current process and all of its
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   923  	 * children will be locked into a pure
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   924  	 * capability-based-privilege environment.
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   925  	 */
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   926  	case PR_SET_SECUREBITS:
-6d6f3328422a3b Tetsuo Handa      2014-07-22   927  		if ((((old->securebits & SECURE_ALL_LOCKS) >> 1)
-6d6f3328422a3b Tetsuo Handa      2014-07-22   928  		     & (old->securebits ^ arg2))			/*[1]*/
-6d6f3328422a3b Tetsuo Handa      2014-07-22   929  		    || ((old->securebits & SECURE_ALL_LOCKS & ~arg2))	/*[2]*/
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   930  		    || (arg2 & ~(SECURE_ALL_LOCKS | SECURE_ALL_BITS))	/*[3]*/
-6a9de49115d5ff Eric Paris        2012-01-03   931  		    || (cap_capable(current_cred(),
-c4a4d603796c72 Eric W. Biederman 2011-11-16   932  				    current_cred()->user_ns, CAP_SETPCAP,
-3699c53c485bf0 David Howells     2009-01-06   933  				    SECURITY_CAP_AUDIT) != 0)		/*[4]*/
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   934  			/*
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   935  			 * [1] no changing of bits that are locked
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   936  			 * [2] no unlocking of locks
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   937  			 * [3] no setting of unsupported bits
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   938  			 * [4] doing anything requires privilege (go read about
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   939  			 *     the "sendmail capabilities bug")
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   940  			 */
-d84f4f992cbd76 David Howells     2008-11-14   941  		    )
-d84f4f992cbd76 David Howells     2008-11-14   942  			/* cannot change a locked bit */
-6d6f3328422a3b Tetsuo Handa      2014-07-22   943  			return -EPERM;
-6d6f3328422a3b Tetsuo Handa      2014-07-22   944  
-6d6f3328422a3b Tetsuo Handa      2014-07-22   945  		new = prepare_creds();
-6d6f3328422a3b Tetsuo Handa      2014-07-22   946  		if (!new)
-6d6f3328422a3b Tetsuo Handa      2014-07-22   947  			return -ENOMEM;
-d84f4f992cbd76 David Howells     2008-11-14   948  		new->securebits = arg2;
-6d6f3328422a3b Tetsuo Handa      2014-07-22   949  		return commit_creds(new);
-d84f4f992cbd76 David Howells     2008-11-14   950  
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   951  	case PR_GET_SECUREBITS:
-6d6f3328422a3b Tetsuo Handa      2014-07-22   952  		return old->securebits;
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   953  
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   954  	case PR_GET_KEEPCAPS:
-6d6f3328422a3b Tetsuo Handa      2014-07-22   955  		return !!issecure(SECURE_KEEP_CAPS);
-d84f4f992cbd76 David Howells     2008-11-14   956  
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   957  	case PR_SET_KEEPCAPS:
-d84f4f992cbd76 David Howells     2008-11-14   958  		if (arg2 > 1) /* Note, we rely on arg2 being unsigned here */
-6d6f3328422a3b Tetsuo Handa      2014-07-22   959  			return -EINVAL;
-d84f4f992cbd76 David Howells     2008-11-14   960  		if (issecure(SECURE_KEEP_CAPS_LOCKED))
-6d6f3328422a3b Tetsuo Handa      2014-07-22   961  			return -EPERM;
-6d6f3328422a3b Tetsuo Handa      2014-07-22   962  
-6d6f3328422a3b Tetsuo Handa      2014-07-22   963  		new = prepare_creds();
-6d6f3328422a3b Tetsuo Handa      2014-07-22   964  		if (!new)
-6d6f3328422a3b Tetsuo Handa      2014-07-22   965  			return -ENOMEM;
-d84f4f992cbd76 David Howells     2008-11-14   966  		if (arg2)
-d84f4f992cbd76 David Howells     2008-11-14   967  			new->securebits |= issecure_mask(SECURE_KEEP_CAPS);
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   968  		else
-d84f4f992cbd76 David Howells     2008-11-14   969  			new->securebits &= ~issecure_mask(SECURE_KEEP_CAPS);
-6d6f3328422a3b Tetsuo Handa      2014-07-22   970  		return commit_creds(new);
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28   971  
-58319057b78476 Andy Lutomirski   2015-09-04   972  	case PR_CAP_AMBIENT:
-58319057b78476 Andy Lutomirski   2015-09-04   973  		if (arg2 == PR_CAP_AMBIENT_CLEAR_ALL) {
-58319057b78476 Andy Lutomirski   2015-09-04   974  			if (arg3 | arg4 | arg5)
-58319057b78476 Andy Lutomirski   2015-09-04   975  				return -EINVAL;
-58319057b78476 Andy Lutomirski   2015-09-04   976  
-58319057b78476 Andy Lutomirski   2015-09-04   977  			new = prepare_creds();
-58319057b78476 Andy Lutomirski   2015-09-04   978  			if (!new)
-58319057b78476 Andy Lutomirski   2015-09-04   979  				return -ENOMEM;
-58319057b78476 Andy Lutomirski   2015-09-04   980  			cap_clear(new->cap_ambient);
-58319057b78476 Andy Lutomirski   2015-09-04   981  			return commit_creds(new);
-58319057b78476 Andy Lutomirski   2015-09-04   982  		}
-58319057b78476 Andy Lutomirski   2015-09-04   983  
-58319057b78476 Andy Lutomirski   2015-09-04  @984  		if (((!cap_valid(arg3)) | arg4 | arg5))
-58319057b78476 Andy Lutomirski   2015-09-04   985  			return -EINVAL;
-58319057b78476 Andy Lutomirski   2015-09-04   986  
-58319057b78476 Andy Lutomirski   2015-09-04   987  		if (arg2 == PR_CAP_AMBIENT_IS_SET) {
-58319057b78476 Andy Lutomirski   2015-09-04   988  			return !!cap_raised(current_cred()->cap_ambient, arg3);
-58319057b78476 Andy Lutomirski   2015-09-04   989  		} else if (arg2 != PR_CAP_AMBIENT_RAISE &&
-58319057b78476 Andy Lutomirski   2015-09-04   990  			   arg2 != PR_CAP_AMBIENT_LOWER) {
-58319057b78476 Andy Lutomirski   2015-09-04   991  			return -EINVAL;
-58319057b78476 Andy Lutomirski   2015-09-04   992  		} else {
-58319057b78476 Andy Lutomirski   2015-09-04   993  			if (arg2 == PR_CAP_AMBIENT_RAISE &&
-58319057b78476 Andy Lutomirski   2015-09-04   994  			    (!cap_raised(current_cred()->cap_permitted, arg3) ||
-58319057b78476 Andy Lutomirski   2015-09-04   995  			     !cap_raised(current_cred()->cap_inheritable,
-58319057b78476 Andy Lutomirski   2015-09-04   996  					 arg3)))
-58319057b78476 Andy Lutomirski   2015-09-04   997  				return -EPERM;
-58319057b78476 Andy Lutomirski   2015-09-04   998  
-58319057b78476 Andy Lutomirski   2015-09-04   999  			new = prepare_creds();
-58319057b78476 Andy Lutomirski   2015-09-04  1000  			if (!new)
-58319057b78476 Andy Lutomirski   2015-09-04  1001  				return -ENOMEM;
-58319057b78476 Andy Lutomirski   2015-09-04  1002  			if (arg2 == PR_CAP_AMBIENT_RAISE)
-58319057b78476 Andy Lutomirski   2015-09-04  1003  				cap_raise(new->cap_ambient, arg3);
-58319057b78476 Andy Lutomirski   2015-09-04  1004  			else
-58319057b78476 Andy Lutomirski   2015-09-04  1005  				cap_lower(new->cap_ambient, arg3);
-58319057b78476 Andy Lutomirski   2015-09-04  1006  			return commit_creds(new);
-58319057b78476 Andy Lutomirski   2015-09-04  1007  		}
-58319057b78476 Andy Lutomirski   2015-09-04  1008  
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28  1009  	default:
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28  1010  		/* No functionality available - continue with default */
-6d6f3328422a3b Tetsuo Handa      2014-07-22  1011  		return -ENOSYS;
-3898b1b4ebff8d Andrew G. Morgan  2008-04-28  1012  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1013  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1014  
+
+vim +1103 drivers/crypto/inside-secure/safexcel.c
+
+871df319bd48ac Antoine Tenart     2017-12-14   998  
+1b44c5a60c137e Antoine Tenart     2017-05-24   999  static int safexcel_probe(struct platform_device *pdev)
+1b44c5a60c137e Antoine Tenart     2017-05-24  1000  {
+1b44c5a60c137e Antoine Tenart     2017-05-24  1001  	struct device *dev = &pdev->dev;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1002  	struct safexcel_crypto_priv *priv;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1003  	int i, ret;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1004  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1005  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1006  	if (!priv)
+1b44c5a60c137e Antoine Tenart     2017-05-24  1007  		return -ENOMEM;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1008  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1009  	priv->dev = dev;
+871df319bd48ac Antoine Tenart     2017-12-14  1010  	priv->version = (enum safexcel_eip_version)of_device_get_match_data(dev);
+871df319bd48ac Antoine Tenart     2017-12-14  1011  
+5eb0911894b17e Antoine Tenart     2018-06-28  1012  	if (priv->version == EIP197B || priv->version == EIP197D)
+53c83e915ce8b2 Antoine Tenart     2018-06-28  1013  		priv->flags |= EIP197_TRC_CACHE;
+53c83e915ce8b2 Antoine Tenart     2018-06-28  1014  
+871df319bd48ac Antoine Tenart     2017-12-14  1015  	safexcel_init_register_offsets(priv);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1016  
+f8dab5575b76ea YueHaibing         2019-08-02  1017  	priv->base = devm_platform_ioremap_resource(pdev, 0);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1018  	if (IS_ERR(priv->base)) {
+1b44c5a60c137e Antoine Tenart     2017-05-24  1019  		dev_err(dev, "failed to get resource\n");
+1b44c5a60c137e Antoine Tenart     2017-05-24  1020  		return PTR_ERR(priv->base);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1021  	}
+1b44c5a60c137e Antoine Tenart     2017-05-24  1022  
+f962eb46e7a9b9 Gregory CLEMENT    2018-03-13  1023  	priv->clk = devm_clk_get(&pdev->dev, NULL);
+5b37689653cbe7 Gregory CLEMENT    2018-03-13  1024  	ret = PTR_ERR_OR_ZERO(priv->clk);
+5b37689653cbe7 Gregory CLEMENT    2018-03-13  1025  	/* The clock isn't mandatory */
+5b37689653cbe7 Gregory CLEMENT    2018-03-13  1026  	if  (ret != -ENOENT) {
+5b37689653cbe7 Gregory CLEMENT    2018-03-13  1027  		if (ret)
+5b37689653cbe7 Gregory CLEMENT    2018-03-13  1028  			return ret;
+5b37689653cbe7 Gregory CLEMENT    2018-03-13  1029  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1030  		ret = clk_prepare_enable(priv->clk);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1031  		if (ret) {
+1b44c5a60c137e Antoine Tenart     2017-05-24  1032  			dev_err(dev, "unable to enable clk (%d)\n", ret);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1033  			return ret;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1034  		}
+1b44c5a60c137e Antoine Tenart     2017-05-24  1035  	}
+1b44c5a60c137e Antoine Tenart     2017-05-24  1036  
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1037  	priv->reg_clk = devm_clk_get(&pdev->dev, "reg");
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1038  	ret = PTR_ERR_OR_ZERO(priv->reg_clk);
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1039  	/* The clock isn't mandatory */
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1040  	if  (ret != -ENOENT) {
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1041  		if (ret)
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1042  			goto err_core_clk;
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1043  
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1044  		ret = clk_prepare_enable(priv->reg_clk);
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1045  		if (ret) {
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1046  			dev_err(dev, "unable to enable reg clk (%d)\n", ret);
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1047  			goto err_core_clk;
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1048  		}
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1049  	}
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1050  
+a2069aacbe58a8 Antoine Tenart     2017-06-23  1051  	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
+1b44c5a60c137e Antoine Tenart     2017-05-24  1052  	if (ret)
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1053  		goto err_reg_clk;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1054  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1055  	priv->context_pool = dmam_pool_create("safexcel-context", dev,
+1b44c5a60c137e Antoine Tenart     2017-05-24  1056  					      sizeof(struct safexcel_context_record),
+1b44c5a60c137e Antoine Tenart     2017-05-24  1057  					      1, 0);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1058  	if (!priv->context_pool) {
+1b44c5a60c137e Antoine Tenart     2017-05-24  1059  		ret = -ENOMEM;
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1060  		goto err_reg_clk;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1061  	}
+1b44c5a60c137e Antoine Tenart     2017-05-24  1062  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1063  	safexcel_configure(priv);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1064  
+329e09893909d4 Kees Cook          2018-10-05  1065  	priv->ring = devm_kcalloc(dev, priv->config.rings,
+329e09893909d4 Kees Cook          2018-10-05  1066  				  sizeof(*priv->ring),
+18e0e95b82e444 Ofer Heifetz       2018-06-28  1067  				  GFP_KERNEL);
+18e0e95b82e444 Ofer Heifetz       2018-06-28  1068  	if (!priv->ring) {
+18e0e95b82e444 Ofer Heifetz       2018-06-28  1069  		ret = -ENOMEM;
+18e0e95b82e444 Ofer Heifetz       2018-06-28  1070  		goto err_reg_clk;
+18e0e95b82e444 Ofer Heifetz       2018-06-28  1071  	}
+18e0e95b82e444 Ofer Heifetz       2018-06-28  1072  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1073  	for (i = 0; i < priv->config.rings; i++) {
+1b44c5a60c137e Antoine Tenart     2017-05-24  1074  		char irq_name[6] = {0}; /* "ringX\0" */
+1b44c5a60c137e Antoine Tenart     2017-05-24  1075  		char wq_name[9] = {0}; /* "wq_ringX\0" */
+1b44c5a60c137e Antoine Tenart     2017-05-24  1076  		int irq;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1077  		struct safexcel_ring_irq_data *ring_irq;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1078  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1079  		ret = safexcel_init_ring_descriptors(priv,
+1b44c5a60c137e Antoine Tenart     2017-05-24  1080  						     &priv->ring[i].cdr,
+1b44c5a60c137e Antoine Tenart     2017-05-24  1081  						     &priv->ring[i].rdr);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1082  		if (ret)
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1083  			goto err_reg_clk;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1084  
+329e09893909d4 Kees Cook          2018-10-05  1085  		priv->ring[i].rdr_req = devm_kcalloc(dev,
+329e09893909d4 Kees Cook          2018-10-05  1086  			EIP197_DEFAULT_RING_SIZE,
+329e09893909d4 Kees Cook          2018-10-05  1087  			sizeof(priv->ring[i].rdr_req),
+9744fec95f0674 Ofer Heifetz       2018-06-28  1088  			GFP_KERNEL);
+9744fec95f0674 Ofer Heifetz       2018-06-28  1089  		if (!priv->ring[i].rdr_req) {
+9744fec95f0674 Ofer Heifetz       2018-06-28  1090  			ret = -ENOMEM;
+9744fec95f0674 Ofer Heifetz       2018-06-28  1091  			goto err_reg_clk;
+9744fec95f0674 Ofer Heifetz       2018-06-28  1092  		}
+9744fec95f0674 Ofer Heifetz       2018-06-28  1093  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1094  		ring_irq = devm_kzalloc(dev, sizeof(*ring_irq), GFP_KERNEL);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1095  		if (!ring_irq) {
+1b44c5a60c137e Antoine Tenart     2017-05-24  1096  			ret = -ENOMEM;
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1097  			goto err_reg_clk;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1098  		}
+1b44c5a60c137e Antoine Tenart     2017-05-24  1099  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1100  		ring_irq->priv = priv;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1101  		ring_irq->ring = i;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1102  
+1b44c5a60c137e Antoine Tenart     2017-05-24 @1103  		snprintf(irq_name, 6, "ring%d", i);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1104  		irq = safexcel_request_ring_irq(pdev, irq_name, safexcel_irq_ring,
+69ee4dd5ea8ce0 Antoine Tenart     2017-12-14  1105  						safexcel_irq_ring_thread,
+1b44c5a60c137e Antoine Tenart     2017-05-24  1106  						ring_irq);
+b7d65fe18129e2 Christophe Jaillet 2017-08-15  1107  		if (irq < 0) {
+b7d65fe18129e2 Christophe Jaillet 2017-08-15  1108  			ret = irq;
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1109  			goto err_reg_clk;
+b7d65fe18129e2 Christophe Jaillet 2017-08-15  1110  		}
+1b44c5a60c137e Antoine Tenart     2017-05-24  1111  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1112  		priv->ring[i].work_data.priv = priv;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1113  		priv->ring[i].work_data.ring = i;
+8472e778108cc6 Antoine Tenart     2017-12-14  1114  		INIT_WORK(&priv->ring[i].work_data.work, safexcel_dequeue_work);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1115  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1116  		snprintf(wq_name, 9, "wq_ring%d", i);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1117  		priv->ring[i].workqueue = create_singlethread_workqueue(wq_name);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1118  		if (!priv->ring[i].workqueue) {
+1b44c5a60c137e Antoine Tenart     2017-05-24  1119  			ret = -ENOMEM;
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1120  			goto err_reg_clk;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1121  		}
+1b44c5a60c137e Antoine Tenart     2017-05-24  1122  
+f7268c538b3d84 Antoine Tenart     2018-02-13  1123  		priv->ring[i].requests = 0;
+dc7e28a3286ed4 Antoine Tenart     2017-12-14  1124  		priv->ring[i].busy = false;
+dc7e28a3286ed4 Antoine Tenart     2017-12-14  1125  
+86671abbbbfc95 Antoine Tenart     2017-06-15  1126  		crypto_init_queue(&priv->ring[i].queue,
+86671abbbbfc95 Antoine Tenart     2017-06-15  1127  				  EIP197_DEFAULT_RING_SIZE);
+86671abbbbfc95 Antoine Tenart     2017-06-15  1128  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1129  		spin_lock_init(&priv->ring[i].lock);
+86671abbbbfc95 Antoine Tenart     2017-06-15  1130  		spin_lock_init(&priv->ring[i].queue_lock);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1131  	}
+1b44c5a60c137e Antoine Tenart     2017-05-24  1132  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1133  	platform_set_drvdata(pdev, priv);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1134  	atomic_set(&priv->ring_used, 0);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1135  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1136  	ret = safexcel_hw_init(priv);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1137  	if (ret) {
+1b44c5a60c137e Antoine Tenart     2017-05-24  1138  		dev_err(dev, "EIP h/w init failed (%d)\n", ret);
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1139  		goto err_reg_clk;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1140  	}
+1b44c5a60c137e Antoine Tenart     2017-05-24  1141  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1142  	ret = safexcel_register_algorithms(priv);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1143  	if (ret) {
+1b44c5a60c137e Antoine Tenart     2017-05-24  1144  		dev_err(dev, "Failed to register algorithms (%d)\n", ret);
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1145  		goto err_reg_clk;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1146  	}
+1b44c5a60c137e Antoine Tenart     2017-05-24  1147  
+1b44c5a60c137e Antoine Tenart     2017-05-24  1148  	return 0;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1149  
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1150  err_reg_clk:
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1151  	clk_disable_unprepare(priv->reg_clk);
+1d17cbfbb55cd8 Gregory CLEMENT    2018-03-13  1152  err_core_clk:
+1b44c5a60c137e Antoine Tenart     2017-05-24  1153  	clk_disable_unprepare(priv->clk);
+1b44c5a60c137e Antoine Tenart     2017-05-24  1154  	return ret;
+1b44c5a60c137e Antoine Tenart     2017-05-24  1155  }
+1b44c5a60c137e Antoine Tenart     2017-05-24  1156  
+
+:::::: The code at line 1103 was first introduced by commit
+:::::: 1b44c5a60c137e5fd0c2c8b86e58fdbc9cd181ce crypto: inside-secure - add SafeXcel EIP197 crypto engine driver
+
+:::::: TO: Antoine Ténart <antoine.tenart@free-electrons.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
