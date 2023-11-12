@@ -1,45 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74C7749D
-	for <oe-kbuild@lists.linux.dev>; Sun, 12 Nov 2023 18:55:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1481A171D0
+	for <oe-kbuild@lists.linux.dev>; Sun, 12 Nov 2023 20:01:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N2VEgfDR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dzCWIPEx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699815341; x=1731351341;
+  t=1699819274; x=1731355274;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YaB6jRhTty9wZYUPCSQsdckQu3n8hrgxhppTbjtL3JM=;
-  b=N2VEgfDRZE+yayqffRm55vJcy6cTVgOUiY0rbtASYGCs6TZgRW4BCWcL
-   nfj5DfNSL39YbASuXCuF9jQ9iQ1dAe9eDEQRd9ZZp8fmRWAoxQMbrKCMX
-   890E9dumaxLvDqcsseTP5cF3bfybLUHG0oZD2UZ3TATed05QN6xZp9T8n
-   ICKX1GbdUQh3oqP3HRGsEiahbNy8hP88XXxegxbfnUGOmrm5EVLwETIbV
-   gXAyOrUk6OpwKtUWswccn+Gk3DZgz7hX4P+2w4zpE4uzAoSmn/1BUwuAS
-   FULfDvBUizwwPS9D2paogIUeJGQL4ESg++8DADK79RuN7ap/ArSeB2L39
+  bh=O/o3229Di1c6u0K0PjAzaICfQeCECl0GQuOo1N6mIGs=;
+  b=dzCWIPExxZNsEKJY/SFKJx0LjiXh7F+i57ZL916bZ+HfxLIUDb8jDT63
+   gAj+u8EZq+AXloOnyeVmJWNCD1XOJZ8BBWxGBonRMkJLHKVgrnBlQpEuU
+   9GGlzMicvdc4ylB81tRDycCzoEPkC+fLvmwnvQ7RmtQYBjcF9KXJ0hrez
+   7380pw+xAt5d1r2j6tu+WFx0Xu9ECtYChU72vDzqH3mWABgMb7dEepWVL
+   Wk1F5l1j57h5ykzGkvdc5tkbAj1sjDQSGePrY5eqIZqIjsND3Y36IZswr
+   ADj7aiTM98TeEuOGgwaeSXX3s7/6RMMt3bAr9aqASqioQJne1QO4l/Mtq
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="421445916"
-X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="421445916"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 10:55:40 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="476573227"
+X-IronPort-AV: E=Sophos;i="6.03,298,1694761200"; 
+   d="scan'208";a="476573227"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 12:01:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="881470105"
-X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="881470105"
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="937585391"
+X-IronPort-AV: E=Sophos;i="6.03,298,1694761200"; 
+   d="scan'208";a="937585391"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 12 Nov 2023 10:55:39 -0800
+  by orsmga005.jf.intel.com with ESMTP; 12 Nov 2023 12:01:10 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r2FcP-000BRK-0W;
-	Sun, 12 Nov 2023 18:55:37 +0000
-Date: Mon, 13 Nov 2023 02:55:14 +0800
+	id 1r2Gdn-000BTm-2t;
+	Sun, 12 Nov 2023 20:01:07 +0000
+Date: Mon, 13 Nov 2023 04:00:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-Message-ID: <202311130219.YBiF8Xu3-lkp@intel.com>
+Subject: arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1651
+ kvm_commit_memory_region() error: we previously assumed 'old' could be null
+ (see line 1644)
+Message-ID: <202311130316.zARUSwAV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,75 +53,94 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20231110151905.1659873-3-nuno.sa@analog.com>
-References: <20231110151905.1659873-3-nuno.sa@analog.com>
-TO: Nuno Sa <nuno.sa@analog.com>
-TO: linux-hwmon@vger.kernel.org
-TO: linux-doc@vger.kernel.org
-TO: devicetree@vger.kernel.org
-CC: Bartosz Golaszewski <brgl@bgdev.pl>
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Linus Walleij <linus.walleij@linaro.org>
-CC: Guenter Roeck <linux@roeck-us.net>
-CC: Nuno Sa <nuno.sa@analog.com>
-CC: Rob Herring <robh+dt@kernel.org>
-CC: Andy Shevchenko <andy@kernel.org>
-CC: Jean Delvare <jdelvare@suse.com>
-CC: Conor Dooley <conor+dt@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Paolo Bonzini <pbonzini@redhat.com>
 
-Hi Nuno,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.6 next-20231110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Sa/dt-bindings-hwmon-Add-LTC4282-bindings/20231110-232017
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20231110151905.1659873-3-nuno.sa%40analog.com
-patch subject: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20231112 (https://download.01.org/0day-ci/archive/20231113/202311130219.YBiF8Xu3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231113/202311130219.YBiF8Xu3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1b907d0507354b74a4f2c286380cd6059af79248
+commit: 6c7b2202e4d11572ab23a89aeec49005b94bb966 KVM: x86: avoid memslot check in NX hugepage recovery if it cannot succeed
+date:   12 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 12 months ago
+config: riscv-randconfig-r071-20231112 (https://download.01.org/0day-ci/archive/20231113/202311130316.zARUSwAV-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231113/202311130316.zARUSwAV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311130219.YBiF8Xu3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311130316.zARUSwAV-lkp@intel.com/
 
-smatch warnings:
-drivers/hwmon/ltc4282.c:859 ltc4282_is_visible() warn: signedness bug returning '(-524)'
-drivers/hwmon/ltc4282.c:1143 ltc4282_gpio_setup() warn: passing zero to 'dev_err_probe'
+New smatch warnings:
+arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1651 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1644)
+arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1653 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1645)
 
-vim +859 drivers/hwmon/ltc4282.c
+Old smatch warnings:
+arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: inconsistent indenting
 
-31ea069ddf481b Nuno Sa 2023-11-10  843  
-31ea069ddf481b Nuno Sa 2023-11-10  844  static umode_t ltc4282_is_visible(const void *data,
-31ea069ddf481b Nuno Sa 2023-11-10  845  				  enum hwmon_sensor_types type,
-31ea069ddf481b Nuno Sa 2023-11-10  846  				  u32 attr, int channel)
-31ea069ddf481b Nuno Sa 2023-11-10  847  {
-31ea069ddf481b Nuno Sa 2023-11-10  848  	switch (type) {
-31ea069ddf481b Nuno Sa 2023-11-10  849  	case hwmon_in:
-31ea069ddf481b Nuno Sa 2023-11-10  850  		return ltc4282_in_is_visible(data, attr);
-31ea069ddf481b Nuno Sa 2023-11-10  851  	case hwmon_curr:
-31ea069ddf481b Nuno Sa 2023-11-10  852  		return ltc4282_curr_is_visible(attr);
-31ea069ddf481b Nuno Sa 2023-11-10  853  	case hwmon_power:
-31ea069ddf481b Nuno Sa 2023-11-10  854  		return ltc4282_power_is_visible(attr);
-31ea069ddf481b Nuno Sa 2023-11-10  855  	case hwmon_energy:
-31ea069ddf481b Nuno Sa 2023-11-10  856  		/* hwmon_energy_enable */
-31ea069ddf481b Nuno Sa 2023-11-10  857  		return 0644;
-31ea069ddf481b Nuno Sa 2023-11-10  858  	default:
-31ea069ddf481b Nuno Sa 2023-11-10 @859  		return -ENOTSUPP;
-31ea069ddf481b Nuno Sa 2023-11-10  860  	}
-31ea069ddf481b Nuno Sa 2023-11-10  861  }
-31ea069ddf481b Nuno Sa 2023-11-10  862  
+vim +/old +1651 arch/riscv/kvm/../../../virt/kvm/kvm_main.c
+
+36947254e5f981 Sean Christopherson 2020-02-18  1638  
+07921665a65191 Sean Christopherson 2021-12-06  1639  static void kvm_commit_memory_region(struct kvm *kvm,
+07921665a65191 Sean Christopherson 2021-12-06  1640  				     struct kvm_memory_slot *old,
+07921665a65191 Sean Christopherson 2021-12-06  1641  				     const struct kvm_memory_slot *new,
+cf47f50b5c2e24 Sean Christopherson 2020-02-18  1642  				     enum kvm_mr_change change)
+cf47f50b5c2e24 Sean Christopherson 2020-02-18  1643  {
+6c7b2202e4d115 Paolo Bonzini       2022-11-17 @1644  	int old_flags = old ? old->flags : 0;
+6c7b2202e4d115 Paolo Bonzini       2022-11-17 @1645  	int new_flags = new ? new->flags : 0;
+07921665a65191 Sean Christopherson 2021-12-06  1646  	/*
+07921665a65191 Sean Christopherson 2021-12-06  1647  	 * Update the total number of memslot pages before calling the arch
+07921665a65191 Sean Christopherson 2021-12-06  1648  	 * hook so that architectures can consume the result directly.
+07921665a65191 Sean Christopherson 2021-12-06  1649  	 */
+07921665a65191 Sean Christopherson 2021-12-06  1650  	if (change == KVM_MR_DELETE)
+07921665a65191 Sean Christopherson 2021-12-06 @1651  		kvm->nr_memslot_pages -= old->npages;
+07921665a65191 Sean Christopherson 2021-12-06  1652  	else if (change == KVM_MR_CREATE)
+07921665a65191 Sean Christopherson 2021-12-06 @1653  		kvm->nr_memslot_pages += new->npages;
+cf47f50b5c2e24 Sean Christopherson 2020-02-18  1654  
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1655  	if ((old_flags ^ new_flags) & KVM_MEM_LOG_DIRTY_PAGES) {
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1656  		int change = (new_flags & KVM_MEM_LOG_DIRTY_PAGES) ? 1 : -1;
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1657  		atomic_set(&kvm->nr_memslots_dirty_logging,
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1658  			   atomic_read(&kvm->nr_memslots_dirty_logging) + change);
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1659  	}
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1660  
+07921665a65191 Sean Christopherson 2021-12-06  1661  	kvm_arch_commit_memory_region(kvm, old, new, change);
+07921665a65191 Sean Christopherson 2021-12-06  1662  
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1663  	switch (change) {
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1664  	case KVM_MR_CREATE:
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1665  		/* Nothing more to do. */
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1666  		break;
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1667  	case KVM_MR_DELETE:
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1668  		/* Free the old memslot and all its metadata. */
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1669  		kvm_free_memslot(kvm, old);
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1670  		break;
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1671  	case KVM_MR_MOVE:
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1672  	case KVM_MR_FLAGS_ONLY:
+b10a038e84d188 Ben Gardon          2021-05-18  1673  		/*
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1674  		 * Free the dirty bitmap as needed; the below check encompasses
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1675  		 * both the flags and whether a ring buffer is being used)
+07921665a65191 Sean Christopherson 2021-12-06  1676  		 */
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1677  		if (old->dirty_bitmap && !new->dirty_bitmap)
+07921665a65191 Sean Christopherson 2021-12-06  1678  			kvm_destroy_dirty_bitmap(old);
+07921665a65191 Sean Christopherson 2021-12-06  1679  
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1680  		/*
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1681  		 * The final quirk.  Free the detached, old slot, but only its
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1682  		 * memory, not any metadata.  Metadata, including arch specific
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1683  		 * data, may be reused by @new.
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1684  		 */
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1685  		kfree(old);
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1686  		break;
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1687  	default:
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1688  		BUG();
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1689  	}
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1690  }
+cf47f50b5c2e24 Sean Christopherson 2020-02-18  1691  
+
+:::::: The code at line 1651 was first introduced by commit
+:::::: 07921665a651918350bc6653d4ca8a516a867b4b KVM: Use prepare/commit hooks to handle generic memslot metadata updates
+
+:::::: TO: Sean Christopherson <seanjc@google.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
