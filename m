@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377E615D1
-	for <oe-kbuild@lists.linux.dev>; Sun, 12 Nov 2023 13:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BAA810
+	for <oe-kbuild@lists.linux.dev>; Sun, 12 Nov 2023 14:42:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DHhQ6o/h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bBpQlsL9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699796423; x=1731332423;
+  t=1699800151; x=1731336151;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nWcHa1m5hd6olpyQVFMjBVwaZI2cFClygT4rRXsaSAU=;
-  b=DHhQ6o/hmVIDUVgATeGzPKHRnUzib6r6fi2j4nLmQNI3QgqtFeD0trPa
-   8xZxUuf5nOXMBr8wb3GeUNrCveWDaJch+zEKvOpQ11ntQFmgj0CupABFV
-   4m5Zh8qwBidzETuuglaWLZUbimOdxp8AFWr8io/a2EbB57rXPM3fgQitS
-   cT3+csJ9/A2ACjkY7MBy1CLt+8k3qH56qWRV0wTa3Nb++Mm7e+OR3OwW3
-   l1aGMzENUiqZO3IacyvH/zDQ/uYvOQAZkudHsR14aelif3QquHEoLHqg1
-   vVDx5mvrOmo37if/LhWa6Z7mLFSy93FvAElCGOvS6QUCzj9J5yfHAf2dX
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="476555135"
+  bh=mSGoUtHvlpEl4qVZd5y5CwA5ENenkzPq4w9ieuRG1hg=;
+  b=bBpQlsL9Ixn5PQIkneYsXkS6gjGFESBK4GHPKhRJegUoL/RJf+LuGO2h
+   vFJq+IAtfJaeCIMssX2XGPxB47PTVyM83pIdE5hlY0GT2Txv+icqIkoMh
+   HS+9G9O2YmOaVAdLJeY7E1HPL2kN+uK+NyJLxnHc6FPgPTsTOauav15Dj
+   iuC63F0mlY80WF1MWkuGRfomRfaGKEOHb7SjD+gstFYlrwB+zMCAoa1K7
+   RwUf99hjsw2mAEUzNr9q7qRey+td3WvZAE2XOJ4IqV/xiYLSPgdtnC3gg
+   5wB5iRK8vh1v2GEMRnjZDdHLKqkdiXVIw6Ly01/VzfHdrGZ0PM4OpGOzE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="369660511"
 X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="476555135"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 05:40:22 -0800
+   d="scan'208";a="369660511"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 06:42:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="767689997"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="740562045"
 X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="767689997"
+   d="scan'208";a="740562045"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 12 Nov 2023 05:40:20 -0800
+  by orsmga006.jf.intel.com with ESMTP; 12 Nov 2023 06:42:29 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r2AhG-000BBS-2k;
-	Sun, 12 Nov 2023 13:40:18 +0000
-Date: Sun, 12 Nov 2023 21:39:27 +0800
+	id 1r2BfO-000BCw-2g;
+	Sun, 12 Nov 2023 14:42:26 +0000
+Date: Sun, 12 Nov 2023 22:41:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linyunsheng:devmem 2/6] drivers/bluetooth/btmtkuart.c:944
- btmtkuart_probe() warn: 'bdev->osc' from clk_prepare_enable() not released
- on lines: 944.
-Message-ID: <202311122143.T9TCPCAh-lkp@intel.com>
+Subject: drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c:1410 bnxt_tc_add_flow()
+ warn: missing unwind goto?
+Message-ID: <202311122248.ySRmMHRM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,154 +52,130 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jakub Kicinski <kuba@kernel.org>
-CC: Yunsheng Lin <linyunsheng@huawei.com>
-CC: Mina Almasry <almasrymina@google.com>
+CC: linux-kernel@vger.kernel.org
+TO: Somnath Kotur <somnath.kotur@broadcom.com>
+CC: Michael Chan <michael.chan@broadcom.com>
 
-tree:   https://github.com/gestionlin/linux.git devmem
-head:   7a7ba800a9e8fb07001a3e478b385f86011a5fdc
-commit: 1f7327b09abea7e8a7ef2f95b584ad4d48f785dc [2/6] net: page_pool: create hooks for custom page providers
-:::::: branch date: 24 hours ago
-:::::: commit date: 24 hours ago
-config: i386-randconfig-141-20231112 (https://download.01.org/0day-ci/archive/20231112/202311122143.T9TCPCAh-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1b907d0507354b74a4f2c286380cd6059af79248
+commit: 08f8280e8788202a67a359952cd436707f8789bd bnxt: Avoid logging an unnecessary message when a flow can't be offloaded
+date:   4 years ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 4 years ago
+config: i386-randconfig-141-20230912 (https://download.01.org/0day-ci/archive/20231112/202311122248.ySRmMHRM-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231112/202311122143.T9TCPCAh-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231112/202311122248.ySRmMHRM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311122143.T9TCPCAh-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311122248.ySRmMHRM-lkp@intel.com/
 
 smatch warnings:
-drivers/bluetooth/btmtkuart.c:944 btmtkuart_probe() warn: 'bdev->osc' from clk_prepare_enable() not released on lines: 944.
-net/core/page_pool.c:302 page_pool_page_in_pref_node() warn: inconsistent indenting
+drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c:1410 bnxt_tc_add_flow() warn: missing unwind goto?
 
-vim +944 drivers/bluetooth/btmtkuart.c
+vim +1410 drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c
 
-22eaf6c9946ae2 Sean Wang    2019-03-03  830  
-7237c4c9ec92e1 Sean Wang    2018-08-08  831  static int btmtkuart_probe(struct serdev_device *serdev)
-7237c4c9ec92e1 Sean Wang    2018-08-08  832  {
-7237c4c9ec92e1 Sean Wang    2018-08-08  833  	struct btmtkuart_dev *bdev;
-7237c4c9ec92e1 Sean Wang    2018-08-08  834  	struct hci_dev *hdev;
-22eaf6c9946ae2 Sean Wang    2019-03-03  835  	int err;
-7237c4c9ec92e1 Sean Wang    2018-08-08  836  
-7237c4c9ec92e1 Sean Wang    2018-08-08  837  	bdev = devm_kzalloc(&serdev->dev, sizeof(*bdev), GFP_KERNEL);
-7237c4c9ec92e1 Sean Wang    2018-08-08  838  	if (!bdev)
-7237c4c9ec92e1 Sean Wang    2018-08-08  839  		return -ENOMEM;
-7237c4c9ec92e1 Sean Wang    2018-08-08  840  
-22eaf6c9946ae2 Sean Wang    2019-03-03  841  	bdev->data = of_device_get_match_data(&serdev->dev);
-22eaf6c9946ae2 Sean Wang    2019-03-03  842  	if (!bdev->data)
-22eaf6c9946ae2 Sean Wang    2019-03-03  843  		return -ENODEV;
-7237c4c9ec92e1 Sean Wang    2018-08-08  844  
-7237c4c9ec92e1 Sean Wang    2018-08-08  845  	bdev->serdev = serdev;
-7237c4c9ec92e1 Sean Wang    2018-08-08  846  	serdev_device_set_drvdata(serdev, bdev);
-7237c4c9ec92e1 Sean Wang    2018-08-08  847  
-7237c4c9ec92e1 Sean Wang    2018-08-08  848  	serdev_device_set_client_ops(serdev, &btmtkuart_client_ops);
-7237c4c9ec92e1 Sean Wang    2018-08-08  849  
-22eaf6c9946ae2 Sean Wang    2019-03-03  850  	err = btmtkuart_parse_dt(serdev);
-22eaf6c9946ae2 Sean Wang    2019-03-03  851  	if (err < 0)
-22eaf6c9946ae2 Sean Wang    2019-03-03  852  		return err;
-22eaf6c9946ae2 Sean Wang    2019-03-03  853  
-7237c4c9ec92e1 Sean Wang    2018-08-08  854  	INIT_WORK(&bdev->tx_work, btmtkuart_tx_work);
-7237c4c9ec92e1 Sean Wang    2018-08-08  855  	skb_queue_head_init(&bdev->txq);
-7237c4c9ec92e1 Sean Wang    2018-08-08  856  
-7237c4c9ec92e1 Sean Wang    2018-08-08  857  	/* Initialize and register HCI device */
-7237c4c9ec92e1 Sean Wang    2018-08-08  858  	hdev = hci_alloc_dev();
-7237c4c9ec92e1 Sean Wang    2018-08-08  859  	if (!hdev) {
-7237c4c9ec92e1 Sean Wang    2018-08-08  860  		dev_err(&serdev->dev, "Can't allocate HCI device\n");
-7237c4c9ec92e1 Sean Wang    2018-08-08  861  		return -ENOMEM;
-7237c4c9ec92e1 Sean Wang    2018-08-08  862  	}
-7237c4c9ec92e1 Sean Wang    2018-08-08  863  
-7237c4c9ec92e1 Sean Wang    2018-08-08  864  	bdev->hdev = hdev;
-7237c4c9ec92e1 Sean Wang    2018-08-08  865  
-7237c4c9ec92e1 Sean Wang    2018-08-08  866  	hdev->bus = HCI_UART;
-7237c4c9ec92e1 Sean Wang    2018-08-08  867  	hci_set_drvdata(hdev, bdev);
-7237c4c9ec92e1 Sean Wang    2018-08-08  868  
-7237c4c9ec92e1 Sean Wang    2018-08-08  869  	hdev->open     = btmtkuart_open;
-7237c4c9ec92e1 Sean Wang    2018-08-08  870  	hdev->close    = btmtkuart_close;
-7237c4c9ec92e1 Sean Wang    2018-08-08  871  	hdev->flush    = btmtkuart_flush;
-7237c4c9ec92e1 Sean Wang    2018-08-08  872  	hdev->setup    = btmtkuart_setup;
-7237c4c9ec92e1 Sean Wang    2018-08-08  873  	hdev->shutdown = btmtkuart_shutdown;
-7237c4c9ec92e1 Sean Wang    2018-08-08  874  	hdev->send     = btmtkuart_send_frame;
-3640e7f4cb3535 Sean Wang    2022-03-09  875  	hdev->set_bdaddr = btmtk_set_bdaddr;
-7237c4c9ec92e1 Sean Wang    2018-08-08  876  	SET_HCIDEV_DEV(hdev, &serdev->dev);
-7237c4c9ec92e1 Sean Wang    2018-08-08  877  
-7237c4c9ec92e1 Sean Wang    2018-08-08  878  	hdev->manufacturer = 70;
-7237c4c9ec92e1 Sean Wang    2018-08-08  879  	set_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks);
-7237c4c9ec92e1 Sean Wang    2018-08-08  880  
-22eaf6c9946ae2 Sean Wang    2019-03-03  881  	if (btmtkuart_is_standalone(bdev)) {
-055825614c6b4d Sean Wang    2019-06-02  882  		err = clk_prepare_enable(bdev->osc);
-055825614c6b4d Sean Wang    2019-06-02  883  		if (err < 0)
-4803c54ca24923 Chuhong Yuan 2020-05-29  884  			goto err_hci_free_dev;
-055825614c6b4d Sean Wang    2019-06-02  885  
-a3cb6d602a7a94 Sean Wang    2019-06-02  886  		if (bdev->boot) {
-a3cb6d602a7a94 Sean Wang    2019-06-02  887  			gpiod_set_value_cansleep(bdev->boot, 1);
-a3cb6d602a7a94 Sean Wang    2019-06-02  888  		} else {
-a3cb6d602a7a94 Sean Wang    2019-06-02  889  			/* Switch to the specific pin state for the booting
-a3cb6d602a7a94 Sean Wang    2019-06-02  890  			 * requires.
-a3cb6d602a7a94 Sean Wang    2019-06-02  891  			 */
-22eaf6c9946ae2 Sean Wang    2019-03-03  892  			pinctrl_select_state(bdev->pinctrl, bdev->pins_boot);
-a3cb6d602a7a94 Sean Wang    2019-06-02  893  		}
-22eaf6c9946ae2 Sean Wang    2019-03-03  894  
-22eaf6c9946ae2 Sean Wang    2019-03-03  895  		/* Power on */
-22eaf6c9946ae2 Sean Wang    2019-03-03  896  		err = regulator_enable(bdev->vcc);
-4803c54ca24923 Chuhong Yuan 2020-05-29  897  		if (err < 0)
-4803c54ca24923 Chuhong Yuan 2020-05-29  898  			goto err_clk_disable_unprepare;
-22eaf6c9946ae2 Sean Wang    2019-03-03  899  
-22eaf6c9946ae2 Sean Wang    2019-03-03  900  		/* Reset if the reset-gpios is available otherwise the board
-22eaf6c9946ae2 Sean Wang    2019-03-03  901  		 * -level design should be guaranteed.
-22eaf6c9946ae2 Sean Wang    2019-03-03  902  		 */
-22eaf6c9946ae2 Sean Wang    2019-03-03  903  		if (bdev->reset) {
-22eaf6c9946ae2 Sean Wang    2019-03-03  904  			gpiod_set_value_cansleep(bdev->reset, 1);
-22eaf6c9946ae2 Sean Wang    2019-03-03  905  			usleep_range(1000, 2000);
-22eaf6c9946ae2 Sean Wang    2019-03-03  906  			gpiod_set_value_cansleep(bdev->reset, 0);
-22eaf6c9946ae2 Sean Wang    2019-03-03  907  		}
-22eaf6c9946ae2 Sean Wang    2019-03-03  908  
-22eaf6c9946ae2 Sean Wang    2019-03-03  909  		/* Wait some time until device got ready and switch to the pin
-22eaf6c9946ae2 Sean Wang    2019-03-03  910  		 * mode the device requires for UART transfers.
-22eaf6c9946ae2 Sean Wang    2019-03-03  911  		 */
-22eaf6c9946ae2 Sean Wang    2019-03-03  912  		msleep(50);
-a3cb6d602a7a94 Sean Wang    2019-06-02  913  
-a3cb6d602a7a94 Sean Wang    2019-06-02  914  		if (bdev->boot)
-a3cb6d602a7a94 Sean Wang    2019-06-02  915  			devm_gpiod_put(&serdev->dev, bdev->boot);
-a3cb6d602a7a94 Sean Wang    2019-06-02  916  
-22eaf6c9946ae2 Sean Wang    2019-03-03  917  		pinctrl_select_state(bdev->pinctrl, bdev->pins_runtime);
-22eaf6c9946ae2 Sean Wang    2019-03-03  918  
-22eaf6c9946ae2 Sean Wang    2019-03-03  919  		/* A standalone device doesn't depends on power domain on SoC,
-22eaf6c9946ae2 Sean Wang    2019-03-03  920  		 * so mark it as no callbacks.
-22eaf6c9946ae2 Sean Wang    2019-03-03  921  		 */
-22eaf6c9946ae2 Sean Wang    2019-03-03  922  		pm_runtime_no_callbacks(&serdev->dev);
-22eaf6c9946ae2 Sean Wang    2019-03-03  923  
-22eaf6c9946ae2 Sean Wang    2019-03-03  924  		set_bit(BTMTKUART_REQUIRED_WAKEUP, &bdev->tx_state);
-22eaf6c9946ae2 Sean Wang    2019-03-03  925  	}
-22eaf6c9946ae2 Sean Wang    2019-03-03  926  
-22eaf6c9946ae2 Sean Wang    2019-03-03  927  	err = hci_register_dev(hdev);
-22eaf6c9946ae2 Sean Wang    2019-03-03  928  	if (err < 0) {
-7237c4c9ec92e1 Sean Wang    2018-08-08  929  		dev_err(&serdev->dev, "Can't register HCI device\n");
-22eaf6c9946ae2 Sean Wang    2019-03-03  930  		goto err_regulator_disable;
-7237c4c9ec92e1 Sean Wang    2018-08-08  931  	}
-7237c4c9ec92e1 Sean Wang    2018-08-08  932  
-7237c4c9ec92e1 Sean Wang    2018-08-08  933  	return 0;
-22eaf6c9946ae2 Sean Wang    2019-03-03  934  
-22eaf6c9946ae2 Sean Wang    2019-03-03  935  err_regulator_disable:
-a3cb6d602a7a94 Sean Wang    2019-06-02  936  	if (btmtkuart_is_standalone(bdev))
-22eaf6c9946ae2 Sean Wang    2019-03-03  937  		regulator_disable(bdev->vcc);
-4803c54ca24923 Chuhong Yuan 2020-05-29  938  err_clk_disable_unprepare:
-4803c54ca24923 Chuhong Yuan 2020-05-29  939  	if (btmtkuart_is_standalone(bdev))
-4803c54ca24923 Chuhong Yuan 2020-05-29  940  		clk_disable_unprepare(bdev->osc);
-4803c54ca24923 Chuhong Yuan 2020-05-29  941  err_hci_free_dev:
-4803c54ca24923 Chuhong Yuan 2020-05-29  942  	hci_free_dev(hdev);
-22eaf6c9946ae2 Sean Wang    2019-03-03  943  
-22eaf6c9946ae2 Sean Wang    2019-03-03 @944  	return err;
-7237c4c9ec92e1 Sean Wang    2018-08-08  945  }
-7237c4c9ec92e1 Sean Wang    2018-08-08  946  
-
-:::::: The code at line 944 was first introduced by commit
-:::::: 22eaf6c9946ae269061d95bb9ceee02524166474 Bluetooth: mediatek: add support for MediaTek MT7663U and MT7668U UART devices
-
-:::::: TO: Sean Wang <sean.wang@mediatek.com>
-:::::: CC: Marcel Holtmann <marcel@holtmann.org>
+e9ecc731a87912d2 Sathya Perla          2017-12-01  1367  
+2ae7408fedfee979 Sathya Perla          2017-08-28  1368  /* Add a new flow or replace an existing flow.
+2ae7408fedfee979 Sathya Perla          2017-08-28  1369   * Notes on locking:
+2ae7408fedfee979 Sathya Perla          2017-08-28  1370   * There are essentially two critical sections here.
+2ae7408fedfee979 Sathya Perla          2017-08-28  1371   * 1. while adding a new flow
+2ae7408fedfee979 Sathya Perla          2017-08-28  1372   *    a) lookup l2-key
+2ae7408fedfee979 Sathya Perla          2017-08-28  1373   *    b) issue HWRM cmd and get flow_handle
+2ae7408fedfee979 Sathya Perla          2017-08-28  1374   *    c) link l2-key with flow
+2ae7408fedfee979 Sathya Perla          2017-08-28  1375   * 2. while deleting a flow
+2ae7408fedfee979 Sathya Perla          2017-08-28  1376   *    a) unlinking l2-key from flow
+2ae7408fedfee979 Sathya Perla          2017-08-28  1377   * A lock is needed to protect these two critical sections.
+2ae7408fedfee979 Sathya Perla          2017-08-28  1378   *
+2ae7408fedfee979 Sathya Perla          2017-08-28  1379   * The hash-tables are already protected by the rhashtable API.
+2ae7408fedfee979 Sathya Perla          2017-08-28  1380   */
+2ae7408fedfee979 Sathya Perla          2017-08-28  1381  static int bnxt_tc_add_flow(struct bnxt *bp, u16 src_fid,
+f9e30088d20016a2 Pablo Neira Ayuso     2019-07-09  1382  			    struct flow_cls_offload *tc_flow_cmd)
+2ae7408fedfee979 Sathya Perla          2017-08-28  1383  {
+2ae7408fedfee979 Sathya Perla          2017-08-28  1384  	struct bnxt_tc_flow_node *new_node, *old_node;
+cd66358e52f74585 Sathya Perla          2017-10-26  1385  	struct bnxt_tc_info *tc_info = bp->tc_info;
+2ae7408fedfee979 Sathya Perla          2017-08-28  1386  	struct bnxt_tc_flow *flow;
+8c95f773b4a367f7 Sathya Perla          2017-10-26  1387  	__le32 tunnel_handle = 0;
+2ae7408fedfee979 Sathya Perla          2017-08-28  1388  	__le16 ref_flow_handle;
+2ae7408fedfee979 Sathya Perla          2017-08-28  1389  	int rc;
+2ae7408fedfee979 Sathya Perla          2017-08-28  1390  
+2ae7408fedfee979 Sathya Perla          2017-08-28  1391  	/* allocate memory for the new flow and it's node */
+2ae7408fedfee979 Sathya Perla          2017-08-28  1392  	new_node = kzalloc(sizeof(*new_node), GFP_KERNEL);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1393  	if (!new_node) {
+2ae7408fedfee979 Sathya Perla          2017-08-28  1394  		rc = -ENOMEM;
+2ae7408fedfee979 Sathya Perla          2017-08-28  1395  		goto done;
+2ae7408fedfee979 Sathya Perla          2017-08-28  1396  	}
+2ae7408fedfee979 Sathya Perla          2017-08-28  1397  	new_node->cookie = tc_flow_cmd->cookie;
+2ae7408fedfee979 Sathya Perla          2017-08-28  1398  	flow = &new_node->flow;
+2ae7408fedfee979 Sathya Perla          2017-08-28  1399  
+2ae7408fedfee979 Sathya Perla          2017-08-28  1400  	rc = bnxt_tc_parse_flow(bp, tc_flow_cmd, flow);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1401  	if (rc)
+2ae7408fedfee979 Sathya Perla          2017-08-28  1402  		goto free_node;
+e9ecc731a87912d2 Sathya Perla          2017-12-01  1403  
+e9ecc731a87912d2 Sathya Perla          2017-12-01  1404  	bnxt_tc_set_src_fid(bp, flow, src_fid);
+685ec6a81bb0d47f Venkat Duvvuru        2019-08-17  1405  	bnxt_tc_set_flow_dir(bp, flow, flow->src_fid);
+abd43a13525db709 Venkat Duvvuru        2018-12-20  1406  
+2ae7408fedfee979 Sathya Perla          2017-08-28  1407  	if (!bnxt_tc_can_offload(bp, flow)) {
+b2d69122fd627aa3 Sriharsha Basavapatna 2019-02-19  1408  		rc = -EOPNOTSUPP;
+08f8280e8788202a Somnath Kotur         2019-10-31  1409  		kfree_rcu(new_node, rcu);
+08f8280e8788202a Somnath Kotur         2019-10-31 @1410  		return rc;
+2ae7408fedfee979 Sathya Perla          2017-08-28  1411  	}
+2ae7408fedfee979 Sathya Perla          2017-08-28  1412  
+2ae7408fedfee979 Sathya Perla          2017-08-28  1413  	/* If a flow exists with the same cookie, delete it */
+2ae7408fedfee979 Sathya Perla          2017-08-28  1414  	old_node = rhashtable_lookup_fast(&tc_info->flow_table,
+2ae7408fedfee979 Sathya Perla          2017-08-28  1415  					  &tc_flow_cmd->cookie,
+2ae7408fedfee979 Sathya Perla          2017-08-28  1416  					  tc_info->flow_ht_params);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1417  	if (old_node)
+2ae7408fedfee979 Sathya Perla          2017-08-28  1418  		__bnxt_tc_del_flow(bp, old_node);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1419  
+2ae7408fedfee979 Sathya Perla          2017-08-28  1420  	/* Check if the L2 part of the flow has been offloaded already.
+2ae7408fedfee979 Sathya Perla          2017-08-28  1421  	 * If so, bump up it's refcnt and get it's reference handle.
+2ae7408fedfee979 Sathya Perla          2017-08-28  1422  	 */
+2ae7408fedfee979 Sathya Perla          2017-08-28  1423  	mutex_lock(&tc_info->lock);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1424  	rc = bnxt_tc_get_ref_flow_handle(bp, flow, new_node, &ref_flow_handle);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1425  	if (rc)
+2ae7408fedfee979 Sathya Perla          2017-08-28  1426  		goto unlock;
+2ae7408fedfee979 Sathya Perla          2017-08-28  1427  
+8c95f773b4a367f7 Sathya Perla          2017-10-26  1428  	/* If the flow involves tunnel encap/decap, get tunnel_handle */
+8c95f773b4a367f7 Sathya Perla          2017-10-26  1429  	rc = bnxt_tc_get_tunnel_handle(bp, flow, new_node, &tunnel_handle);
+8c95f773b4a367f7 Sathya Perla          2017-10-26  1430  	if (rc)
+8c95f773b4a367f7 Sathya Perla          2017-10-26  1431  		goto put_l2;
+8c95f773b4a367f7 Sathya Perla          2017-10-26  1432  
+2ae7408fedfee979 Sathya Perla          2017-08-28  1433  	/* send HWRM cmd to alloc the flow */
+2ae7408fedfee979 Sathya Perla          2017-08-28  1434  	rc = bnxt_hwrm_cfa_flow_alloc(bp, flow, ref_flow_handle,
+abd43a13525db709 Venkat Duvvuru        2018-12-20  1435  				      tunnel_handle, new_node);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1436  	if (rc)
+8c95f773b4a367f7 Sathya Perla          2017-10-26  1437  		goto put_tunnel;
+2ae7408fedfee979 Sathya Perla          2017-08-28  1438  
+5a84acbebb22f93d Sathya Perla          2017-10-26  1439  	flow->lastused = jiffies;
+5a84acbebb22f93d Sathya Perla          2017-10-26  1440  	spin_lock_init(&flow->stats_lock);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1441  	/* add new flow to flow-table */
+2ae7408fedfee979 Sathya Perla          2017-08-28  1442  	rc = rhashtable_insert_fast(&tc_info->flow_table, &new_node->node,
+2ae7408fedfee979 Sathya Perla          2017-08-28  1443  				    tc_info->flow_ht_params);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1444  	if (rc)
+2ae7408fedfee979 Sathya Perla          2017-08-28  1445  		goto hwrm_flow_free;
+2ae7408fedfee979 Sathya Perla          2017-08-28  1446  
+2ae7408fedfee979 Sathya Perla          2017-08-28  1447  	mutex_unlock(&tc_info->lock);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1448  	return 0;
+2ae7408fedfee979 Sathya Perla          2017-08-28  1449  
+2ae7408fedfee979 Sathya Perla          2017-08-28  1450  hwrm_flow_free:
+abd43a13525db709 Venkat Duvvuru        2018-12-20  1451  	bnxt_hwrm_cfa_flow_free(bp, new_node);
+8c95f773b4a367f7 Sathya Perla          2017-10-26  1452  put_tunnel:
+8c95f773b4a367f7 Sathya Perla          2017-10-26  1453  	bnxt_tc_put_tunnel_handle(bp, flow, new_node);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1454  put_l2:
+2ae7408fedfee979 Sathya Perla          2017-08-28  1455  	bnxt_tc_put_l2_node(bp, new_node);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1456  unlock:
+2ae7408fedfee979 Sathya Perla          2017-08-28  1457  	mutex_unlock(&tc_info->lock);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1458  free_node:
+8c95f773b4a367f7 Sathya Perla          2017-10-26  1459  	kfree_rcu(new_node, rcu);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1460  done:
+2ae7408fedfee979 Sathya Perla          2017-08-28  1461  	netdev_err(bp->dev, "Error: %s: cookie=0x%lx error=%d",
+2ae7408fedfee979 Sathya Perla          2017-08-28  1462  		   __func__, tc_flow_cmd->cookie, rc);
+2ae7408fedfee979 Sathya Perla          2017-08-28  1463  	return rc;
+2ae7408fedfee979 Sathya Perla          2017-08-28  1464  }
+2ae7408fedfee979 Sathya Perla          2017-08-28  1465  
 
 -- 
 0-DAY CI Kernel Test Service
