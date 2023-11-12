@@ -1,44 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6D179CD
-	for <oe-kbuild@lists.linux.dev>; Sun, 12 Nov 2023 10:03:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377E615D1
+	for <oe-kbuild@lists.linux.dev>; Sun, 12 Nov 2023 13:40:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NetPIUoV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DHhQ6o/h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699783400; x=1731319400;
+  t=1699796423; x=1731332423;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U/SWlWM6AloodYIRMtX5tD/k15WEa+5GbViISA2cSj0=;
-  b=NetPIUoVaOldVCZY1ha+SXfh3uQX3ihia/8zZBjtpY/+wE0aUGmnwG7j
-   XyMH9KuP93lhfIbras+Ywz/kYjUi0XNzA0I27ckHp+uuycc0hAsIMEy+S
-   sPVTR7zTiZpH2OY96YhmL5a3Ri+dggKfcUWwKqCwMdK1flyxfMA50Lhuq
-   xgVEK3V+PZxf0xtzbsrj4IwiaUobH/8+9k8dlTxS3jXwo94WQGB0epJ9p
-   8JbXErdMgTLHdmiQvYYtps1umYO+KSNiA9algcxD3SdLoJgnC4ACQqCib
-   oBBnO2dXoYLcxepq2uioAyw+TitJQwrLXIy24rqZ5N5D+YH7dwFOX2LhR
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="476544409"
+  bh=nWcHa1m5hd6olpyQVFMjBVwaZI2cFClygT4rRXsaSAU=;
+  b=DHhQ6o/hmVIDUVgATeGzPKHRnUzib6r6fi2j4nLmQNI3QgqtFeD0trPa
+   8xZxUuf5nOXMBr8wb3GeUNrCveWDaJch+zEKvOpQ11ntQFmgj0CupABFV
+   4m5Zh8qwBidzETuuglaWLZUbimOdxp8AFWr8io/a2EbB57rXPM3fgQitS
+   cT3+csJ9/A2ACjkY7MBy1CLt+8k3qH56qWRV0wTa3Nb++Mm7e+OR3OwW3
+   l1aGMzENUiqZO3IacyvH/zDQ/uYvOQAZkudHsR14aelif3QquHEoLHqg1
+   vVDx5mvrOmo37if/LhWa6Z7mLFSy93FvAElCGOvS6QUCzj9J5yfHAf2dX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="476555135"
 X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="476544409"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 02:03:19 -0800
+   d="scan'208";a="476555135"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 05:40:22 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="767689997"
 X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="11821894"
+   d="scan'208";a="767689997"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 12 Nov 2023 02:03:17 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 12 Nov 2023 05:40:20 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r27JD-000B3W-1a;
-	Sun, 12 Nov 2023 10:03:15 +0000
-Date: Sun, 12 Nov 2023 18:02:31 +0800
+	id 1r2AhG-000BBS-2k;
+	Sun, 12 Nov 2023 13:40:18 +0000
+Date: Sun, 12 Nov 2023 21:39:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: kernel/events/core.c:5596:9: sparse:    struct perf_buffer *
-Message-ID: <202311121752.iWNx9yRK-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linyunsheng:devmem 2/6] drivers/bluetooth/btmtkuart.c:944
+ btmtkuart_probe() warn: 'bdev->osc' from clk_prepare_enable() not released
+ on lines: 944.
+Message-ID: <202311122143.T9TCPCAh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,215 +51,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: kernel/events/core.c:5596:9: sparse:    struct perf_buffer *"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
+TO: Jakub Kicinski <kuba@kernel.org>
+CC: Yunsheng Lin <linyunsheng@huawei.com>
+CC: Mina Almasry <almasrymina@google.com>
 
-Hi Steven,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1b907d0507354b74a4f2c286380cd6059af79248
-commit: 56de4e8f9146680bcd048a29888f7438d5e58c55 perf: Make struct ring_buffer less ambiguous
-date:   3 years, 10 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 3 years, 10 months ago
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231112/202311121752.iWNx9yRK-lkp@intel.com/config)
+tree:   https://github.com/gestionlin/linux.git devmem
+head:   7a7ba800a9e8fb07001a3e478b385f86011a5fdc
+commit: 1f7327b09abea7e8a7ef2f95b584ad4d48f785dc [2/6] net: page_pool: create hooks for custom page providers
+:::::: branch date: 24 hours ago
+:::::: commit date: 24 hours ago
+config: i386-randconfig-141-20231112 (https://download.01.org/0day-ci/archive/20231112/202311122143.T9TCPCAh-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311121752.iWNx9yRK-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231112/202311122143.T9TCPCAh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311121752.iWNx9yRK-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311122143.T9TCPCAh-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/events/core.c:571:26: sparse: sparse: function 'perf_pmu_name' with external linkage has definition
-   kernel/events/core.c:1384:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:1384:15: sparse:    struct perf_event_context [noderef] <asn:4> *
-   kernel/events/core.c:1384:15: sparse:    struct perf_event_context *
-   kernel/events/core.c:1397:28: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:1397:28: sparse:    struct perf_event_context [noderef] <asn:4> *
-   kernel/events/core.c:1397:28: sparse:    struct perf_event_context *
-   kernel/events/core.c:3221:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:3221:18: sparse:    struct perf_event_context [noderef] <asn:4> *
-   kernel/events/core.c:3221:18: sparse:    struct perf_event_context *
-   kernel/events/core.c:3222:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:3222:23: sparse:    struct perf_event_context [noderef] <asn:4> *
-   kernel/events/core.c:3222:23: sparse:    struct perf_event_context *
-   kernel/events/core.c:3264:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:3264:25: sparse:    struct perf_event_context [noderef] <asn:4> *
-   kernel/events/core.c:3264:25: sparse:    struct perf_event_context *
-   kernel/events/core.c:3265:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:3265:25: sparse:    struct perf_event_context [noderef] <asn:4> *
-   kernel/events/core.c:3265:25: sparse:    struct perf_event_context *
-   kernel/events/core.c:4340:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:4340:25: sparse:    struct perf_event_context [noderef] <asn:4> *
-   kernel/events/core.c:4340:25: sparse:    struct perf_event_context *
-   kernel/events/core.c:5596:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:5596:9: sparse:    struct perf_buffer [noderef] <asn:4> *
->> kernel/events/core.c:5596:9: sparse:    struct perf_buffer *
-   kernel/events/core.c:5072:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __poll_t [usertype] events @@     got int @@
-   kernel/events/core.c:5072:24: sparse:     expected restricted __poll_t [usertype] events
-   kernel/events/core.c:5072:24: sparse:     got int
-   kernel/events/core.c:5302:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:5302:22: sparse:    struct perf_buffer [noderef] <asn:4> *
-   kernel/events/core.c:5302:22: sparse:    struct perf_buffer *
-   kernel/events/core.c:5438:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:5438:14: sparse:    struct perf_buffer [noderef] <asn:4> *
-   kernel/events/core.c:5438:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:5471:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:5471:14: sparse:    struct perf_buffer [noderef] <asn:4> *
-   kernel/events/core.c:5471:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:5528:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:5528:14: sparse:    struct perf_buffer [noderef] <asn:4> *
-   kernel/events/core.c:5528:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:5614:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:5614:14: sparse:    struct perf_buffer [noderef] <asn:4> *
-   kernel/events/core.c:5614:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:5627:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:5627:14: sparse:    struct perf_buffer [noderef] <asn:4> *
-   kernel/events/core.c:5627:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:6302:6: sparse: sparse: symbol 'perf_pmu_snapshot_aux' was not declared. Should it be static?
-   kernel/events/core.c:7091:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:7091:23: sparse:    struct perf_event_context [noderef] <asn:4> *
-   kernel/events/core.c:7091:23: sparse:    struct perf_event_context *
-   kernel/events/core.c:7182:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:7182:13: sparse:    struct perf_buffer [noderef] <asn:4> *
-   kernel/events/core.c:7182:13: sparse:    struct perf_buffer *
-   kernel/events/core.c:7870:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:7870:23: sparse:    struct perf_event_context [noderef] <asn:4> *
-   kernel/events/core.c:7870:23: sparse:    struct perf_event_context *
-   kernel/events/core.c:8751:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:8751:9: sparse:    struct swevent_hlist [noderef] <asn:4> *
-   kernel/events/core.c:8751:9: sparse:    struct swevent_hlist *
-   kernel/events/core.c:8790:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:8790:17: sparse:    struct swevent_hlist [noderef] <asn:4> *
-   kernel/events/core.c:8790:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:10142:1: sparse: sparse: symbol 'dev_attr_nr_addr_filters' was not declared. Should it be static?
-   kernel/events/core.c:11863:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:11863:9: sparse:    struct perf_event_context [noderef] <asn:4> *
-   kernel/events/core.c:11863:9: sparse:    struct perf_event_context *
-   kernel/events/core.c:11973:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:11973:17: sparse:    struct perf_event_context [noderef] <asn:4> *
-   kernel/events/core.c:11973:17: sparse:    struct perf_event_context *
-   kernel/events/core.c:12397:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:12397:17: sparse:    struct swevent_hlist [noderef] <asn:4> *
-   kernel/events/core.c:12397:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:155:9: sparse: sparse: context imbalance in 'perf_ctx_lock' - wrong count at exit
-   kernel/events/core.c:163:17: sparse: sparse: context imbalance in 'perf_ctx_unlock' - unexpected unlock
-   kernel/events/core.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h):
-   include/linux/rcupdate.h:669:9: sparse: sparse: context imbalance in 'perf_lock_task_context' - different lock contexts for basic block
-   kernel/events/core.c:1431:17: sparse: sparse: context imbalance in 'perf_pin_task_context' - unexpected unlock
-   kernel/events/core.c:2651:9: sparse: sparse: context imbalance in '__perf_install_in_context' - wrong count at exit
-   kernel/events/core.c:4312:17: sparse: sparse: context imbalance in 'find_get_context' - unexpected unlock
-   kernel/events/core.c: note: in included file:
-   kernel/events/internal.h:204:1: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] <asn:1> *from @@     got void const *buf @@
-   kernel/events/internal.h:204:1: sparse:     expected void const [noderef] <asn:1> *from
-   kernel/events/internal.h:204:1: sparse:     got void const *buf
-   kernel/events/core.c:8600:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:8600:17: sparse:    struct swevent_hlist [noderef] <asn:4> *
-   kernel/events/core.c:8600:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:8620:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:8620:17: sparse:    struct swevent_hlist [noderef] <asn:4> *
-   kernel/events/core.c:8620:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:8740:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:8740:16: sparse:    struct swevent_hlist [noderef] <asn:4> *
-   kernel/events/core.c:8740:16: sparse:    struct swevent_hlist *
-   kernel/events/core.c:8740:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:8740:16: sparse:    struct swevent_hlist [noderef] <asn:4> *
-   kernel/events/core.c:8740:16: sparse:    struct swevent_hlist *
-   kernel/events/core.c:8740:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/core.c:8740:16: sparse:    struct swevent_hlist [noderef] <asn:4> *
-   kernel/events/core.c:8740:16: sparse:    struct swevent_hlist *
---
-   kernel/events/ring_buffer.c:22:39: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int i @@     got restricted __poll_t [usertype] @@
-   kernel/events/ring_buffer.c:22:39: sparse:     expected int i
-   kernel/events/ring_buffer.c:22:39: sparse:     got restricted __poll_t [usertype]
-   kernel/events/ring_buffer.c:169:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/ring_buffer.c:169:14: sparse:    struct perf_buffer [noderef] <asn:4> *
->> kernel/events/ring_buffer.c:169:14: sparse:    struct perf_buffer *
-   kernel/events/ring_buffer.c:169:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/ring_buffer.c:169:14: sparse:    struct perf_buffer [noderef] <asn:4> *
->> kernel/events/ring_buffer.c:169:14: sparse:    struct perf_buffer *
-   kernel/events/ring_buffer.c:169:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/ring_buffer.c:169:14: sparse:    struct perf_buffer [noderef] <asn:4> *
->> kernel/events/ring_buffer.c:169:14: sparse:    struct perf_buffer *
+smatch warnings:
+drivers/bluetooth/btmtkuart.c:944 btmtkuart_probe() warn: 'bdev->osc' from clk_prepare_enable() not released on lines: 944.
+net/core/page_pool.c:302 page_pool_page_in_pref_node() warn: inconsistent indenting
 
-vim +5596 kernel/events/core.c
+vim +944 drivers/bluetooth/btmtkuart.c
 
-906010b2134e14 kernel/perf_event.c  Peter Zijlstra          2009-09-21  5549  
-10c6db110d0eb4 kernel/events/core.c Peter Zijlstra          2011-11-26  5550  static void ring_buffer_attach(struct perf_event *event,
-56de4e8f914668 kernel/events/core.c Steven Rostedt (VMware  2019-12-13  5551) 			       struct perf_buffer *rb)
-10c6db110d0eb4 kernel/events/core.c Peter Zijlstra          2011-11-26  5552  {
-56de4e8f914668 kernel/events/core.c Steven Rostedt (VMware  2019-12-13  5553) 	struct perf_buffer *old_rb = NULL;
-10c6db110d0eb4 kernel/events/core.c Peter Zijlstra          2011-11-26  5554  	unsigned long flags;
-10c6db110d0eb4 kernel/events/core.c Peter Zijlstra          2011-11-26  5555  
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5556  	if (event->rb) {
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5557  		/*
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5558  		 * Should be impossible, we set this when removing
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5559  		 * event->rb_entry and wait/clear when adding event->rb_entry.
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5560  		 */
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5561  		WARN_ON_ONCE(event->rcu_pending);
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5562  
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5563  		old_rb = event->rb;
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5564  		spin_lock_irqsave(&old_rb->event_lock, flags);
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5565  		list_del_rcu(&event->rb_entry);
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5566  		spin_unlock_irqrestore(&old_rb->event_lock, flags);
-2f993cf093643b kernel/events/core.c Oleg Nesterov           2015-05-30  5567  
-2f993cf093643b kernel/events/core.c Oleg Nesterov           2015-05-30  5568  		event->rcu_batches = get_state_synchronize_rcu();
-2f993cf093643b kernel/events/core.c Oleg Nesterov           2015-05-30  5569  		event->rcu_pending = 1;
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5570  	}
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5571  
-2f993cf093643b kernel/events/core.c Oleg Nesterov           2015-05-30  5572  	if (rb) {
-2f993cf093643b kernel/events/core.c Oleg Nesterov           2015-05-30  5573  		if (event->rcu_pending) {
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5574  			cond_synchronize_rcu(event->rcu_batches);
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5575  			event->rcu_pending = 0;
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5576  		}
-10c6db110d0eb4 kernel/events/core.c Peter Zijlstra          2011-11-26  5577  
-10c6db110d0eb4 kernel/events/core.c Peter Zijlstra          2011-11-26  5578  		spin_lock_irqsave(&rb->event_lock, flags);
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5579  		list_add_rcu(&event->rb_entry, &rb->event_list);
-10c6db110d0eb4 kernel/events/core.c Peter Zijlstra          2011-11-26  5580  		spin_unlock_irqrestore(&rb->event_lock, flags);
-10c6db110d0eb4 kernel/events/core.c Peter Zijlstra          2011-11-26  5581  	}
-10c6db110d0eb4 kernel/events/core.c Peter Zijlstra          2011-11-26  5582  
-767ae08678c2c7 kernel/events/core.c Alexander Shishkin      2016-09-06  5583  	/*
-767ae08678c2c7 kernel/events/core.c Alexander Shishkin      2016-09-06  5584  	 * Avoid racing with perf_mmap_close(AUX): stop the event
-767ae08678c2c7 kernel/events/core.c Alexander Shishkin      2016-09-06  5585  	 * before swizzling the event::rb pointer; if it's getting
-767ae08678c2c7 kernel/events/core.c Alexander Shishkin      2016-09-06  5586  	 * unmapped, its aux_mmap_count will be 0 and it won't
-767ae08678c2c7 kernel/events/core.c Alexander Shishkin      2016-09-06  5587  	 * restart. See the comment in __perf_pmu_output_stop().
-767ae08678c2c7 kernel/events/core.c Alexander Shishkin      2016-09-06  5588  	 *
-767ae08678c2c7 kernel/events/core.c Alexander Shishkin      2016-09-06  5589  	 * Data will inevitably be lost when set_output is done in
-767ae08678c2c7 kernel/events/core.c Alexander Shishkin      2016-09-06  5590  	 * mid-air, but then again, whoever does it like this is
-767ae08678c2c7 kernel/events/core.c Alexander Shishkin      2016-09-06  5591  	 * not in for the data anyway.
-767ae08678c2c7 kernel/events/core.c Alexander Shishkin      2016-09-06  5592  	 */
-767ae08678c2c7 kernel/events/core.c Alexander Shishkin      2016-09-06  5593  	if (has_aux(event))
-767ae08678c2c7 kernel/events/core.c Alexander Shishkin      2016-09-06  5594  		perf_event_stop(event, 0);
-767ae08678c2c7 kernel/events/core.c Alexander Shishkin      2016-09-06  5595  
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14 @5596  	rcu_assign_pointer(event->rb, rb);
-10c6db110d0eb4 kernel/events/core.c Peter Zijlstra          2011-11-26  5597  
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5598  	if (old_rb) {
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5599  		ring_buffer_put(old_rb);
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5600  		/*
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5601  		 * Since we detached before setting the new rb, so that we
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5602  		 * could attach the new rb, we could have missed a wakeup.
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5603  		 * Provide it now.
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5604  		 */
-10c6db110d0eb4 kernel/events/core.c Peter Zijlstra          2011-11-26  5605  		wake_up_all(&event->waitq);
-b69cf53640da2b kernel/events/core.c Peter Zijlstra          2014-03-14  5606  	}
-10c6db110d0eb4 kernel/events/core.c Peter Zijlstra          2011-11-26  5607  }
-10c6db110d0eb4 kernel/events/core.c Peter Zijlstra          2011-11-26  5608  
+22eaf6c9946ae2 Sean Wang    2019-03-03  830  
+7237c4c9ec92e1 Sean Wang    2018-08-08  831  static int btmtkuart_probe(struct serdev_device *serdev)
+7237c4c9ec92e1 Sean Wang    2018-08-08  832  {
+7237c4c9ec92e1 Sean Wang    2018-08-08  833  	struct btmtkuart_dev *bdev;
+7237c4c9ec92e1 Sean Wang    2018-08-08  834  	struct hci_dev *hdev;
+22eaf6c9946ae2 Sean Wang    2019-03-03  835  	int err;
+7237c4c9ec92e1 Sean Wang    2018-08-08  836  
+7237c4c9ec92e1 Sean Wang    2018-08-08  837  	bdev = devm_kzalloc(&serdev->dev, sizeof(*bdev), GFP_KERNEL);
+7237c4c9ec92e1 Sean Wang    2018-08-08  838  	if (!bdev)
+7237c4c9ec92e1 Sean Wang    2018-08-08  839  		return -ENOMEM;
+7237c4c9ec92e1 Sean Wang    2018-08-08  840  
+22eaf6c9946ae2 Sean Wang    2019-03-03  841  	bdev->data = of_device_get_match_data(&serdev->dev);
+22eaf6c9946ae2 Sean Wang    2019-03-03  842  	if (!bdev->data)
+22eaf6c9946ae2 Sean Wang    2019-03-03  843  		return -ENODEV;
+7237c4c9ec92e1 Sean Wang    2018-08-08  844  
+7237c4c9ec92e1 Sean Wang    2018-08-08  845  	bdev->serdev = serdev;
+7237c4c9ec92e1 Sean Wang    2018-08-08  846  	serdev_device_set_drvdata(serdev, bdev);
+7237c4c9ec92e1 Sean Wang    2018-08-08  847  
+7237c4c9ec92e1 Sean Wang    2018-08-08  848  	serdev_device_set_client_ops(serdev, &btmtkuart_client_ops);
+7237c4c9ec92e1 Sean Wang    2018-08-08  849  
+22eaf6c9946ae2 Sean Wang    2019-03-03  850  	err = btmtkuart_parse_dt(serdev);
+22eaf6c9946ae2 Sean Wang    2019-03-03  851  	if (err < 0)
+22eaf6c9946ae2 Sean Wang    2019-03-03  852  		return err;
+22eaf6c9946ae2 Sean Wang    2019-03-03  853  
+7237c4c9ec92e1 Sean Wang    2018-08-08  854  	INIT_WORK(&bdev->tx_work, btmtkuart_tx_work);
+7237c4c9ec92e1 Sean Wang    2018-08-08  855  	skb_queue_head_init(&bdev->txq);
+7237c4c9ec92e1 Sean Wang    2018-08-08  856  
+7237c4c9ec92e1 Sean Wang    2018-08-08  857  	/* Initialize and register HCI device */
+7237c4c9ec92e1 Sean Wang    2018-08-08  858  	hdev = hci_alloc_dev();
+7237c4c9ec92e1 Sean Wang    2018-08-08  859  	if (!hdev) {
+7237c4c9ec92e1 Sean Wang    2018-08-08  860  		dev_err(&serdev->dev, "Can't allocate HCI device\n");
+7237c4c9ec92e1 Sean Wang    2018-08-08  861  		return -ENOMEM;
+7237c4c9ec92e1 Sean Wang    2018-08-08  862  	}
+7237c4c9ec92e1 Sean Wang    2018-08-08  863  
+7237c4c9ec92e1 Sean Wang    2018-08-08  864  	bdev->hdev = hdev;
+7237c4c9ec92e1 Sean Wang    2018-08-08  865  
+7237c4c9ec92e1 Sean Wang    2018-08-08  866  	hdev->bus = HCI_UART;
+7237c4c9ec92e1 Sean Wang    2018-08-08  867  	hci_set_drvdata(hdev, bdev);
+7237c4c9ec92e1 Sean Wang    2018-08-08  868  
+7237c4c9ec92e1 Sean Wang    2018-08-08  869  	hdev->open     = btmtkuart_open;
+7237c4c9ec92e1 Sean Wang    2018-08-08  870  	hdev->close    = btmtkuart_close;
+7237c4c9ec92e1 Sean Wang    2018-08-08  871  	hdev->flush    = btmtkuart_flush;
+7237c4c9ec92e1 Sean Wang    2018-08-08  872  	hdev->setup    = btmtkuart_setup;
+7237c4c9ec92e1 Sean Wang    2018-08-08  873  	hdev->shutdown = btmtkuart_shutdown;
+7237c4c9ec92e1 Sean Wang    2018-08-08  874  	hdev->send     = btmtkuart_send_frame;
+3640e7f4cb3535 Sean Wang    2022-03-09  875  	hdev->set_bdaddr = btmtk_set_bdaddr;
+7237c4c9ec92e1 Sean Wang    2018-08-08  876  	SET_HCIDEV_DEV(hdev, &serdev->dev);
+7237c4c9ec92e1 Sean Wang    2018-08-08  877  
+7237c4c9ec92e1 Sean Wang    2018-08-08  878  	hdev->manufacturer = 70;
+7237c4c9ec92e1 Sean Wang    2018-08-08  879  	set_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks);
+7237c4c9ec92e1 Sean Wang    2018-08-08  880  
+22eaf6c9946ae2 Sean Wang    2019-03-03  881  	if (btmtkuart_is_standalone(bdev)) {
+055825614c6b4d Sean Wang    2019-06-02  882  		err = clk_prepare_enable(bdev->osc);
+055825614c6b4d Sean Wang    2019-06-02  883  		if (err < 0)
+4803c54ca24923 Chuhong Yuan 2020-05-29  884  			goto err_hci_free_dev;
+055825614c6b4d Sean Wang    2019-06-02  885  
+a3cb6d602a7a94 Sean Wang    2019-06-02  886  		if (bdev->boot) {
+a3cb6d602a7a94 Sean Wang    2019-06-02  887  			gpiod_set_value_cansleep(bdev->boot, 1);
+a3cb6d602a7a94 Sean Wang    2019-06-02  888  		} else {
+a3cb6d602a7a94 Sean Wang    2019-06-02  889  			/* Switch to the specific pin state for the booting
+a3cb6d602a7a94 Sean Wang    2019-06-02  890  			 * requires.
+a3cb6d602a7a94 Sean Wang    2019-06-02  891  			 */
+22eaf6c9946ae2 Sean Wang    2019-03-03  892  			pinctrl_select_state(bdev->pinctrl, bdev->pins_boot);
+a3cb6d602a7a94 Sean Wang    2019-06-02  893  		}
+22eaf6c9946ae2 Sean Wang    2019-03-03  894  
+22eaf6c9946ae2 Sean Wang    2019-03-03  895  		/* Power on */
+22eaf6c9946ae2 Sean Wang    2019-03-03  896  		err = regulator_enable(bdev->vcc);
+4803c54ca24923 Chuhong Yuan 2020-05-29  897  		if (err < 0)
+4803c54ca24923 Chuhong Yuan 2020-05-29  898  			goto err_clk_disable_unprepare;
+22eaf6c9946ae2 Sean Wang    2019-03-03  899  
+22eaf6c9946ae2 Sean Wang    2019-03-03  900  		/* Reset if the reset-gpios is available otherwise the board
+22eaf6c9946ae2 Sean Wang    2019-03-03  901  		 * -level design should be guaranteed.
+22eaf6c9946ae2 Sean Wang    2019-03-03  902  		 */
+22eaf6c9946ae2 Sean Wang    2019-03-03  903  		if (bdev->reset) {
+22eaf6c9946ae2 Sean Wang    2019-03-03  904  			gpiod_set_value_cansleep(bdev->reset, 1);
+22eaf6c9946ae2 Sean Wang    2019-03-03  905  			usleep_range(1000, 2000);
+22eaf6c9946ae2 Sean Wang    2019-03-03  906  			gpiod_set_value_cansleep(bdev->reset, 0);
+22eaf6c9946ae2 Sean Wang    2019-03-03  907  		}
+22eaf6c9946ae2 Sean Wang    2019-03-03  908  
+22eaf6c9946ae2 Sean Wang    2019-03-03  909  		/* Wait some time until device got ready and switch to the pin
+22eaf6c9946ae2 Sean Wang    2019-03-03  910  		 * mode the device requires for UART transfers.
+22eaf6c9946ae2 Sean Wang    2019-03-03  911  		 */
+22eaf6c9946ae2 Sean Wang    2019-03-03  912  		msleep(50);
+a3cb6d602a7a94 Sean Wang    2019-06-02  913  
+a3cb6d602a7a94 Sean Wang    2019-06-02  914  		if (bdev->boot)
+a3cb6d602a7a94 Sean Wang    2019-06-02  915  			devm_gpiod_put(&serdev->dev, bdev->boot);
+a3cb6d602a7a94 Sean Wang    2019-06-02  916  
+22eaf6c9946ae2 Sean Wang    2019-03-03  917  		pinctrl_select_state(bdev->pinctrl, bdev->pins_runtime);
+22eaf6c9946ae2 Sean Wang    2019-03-03  918  
+22eaf6c9946ae2 Sean Wang    2019-03-03  919  		/* A standalone device doesn't depends on power domain on SoC,
+22eaf6c9946ae2 Sean Wang    2019-03-03  920  		 * so mark it as no callbacks.
+22eaf6c9946ae2 Sean Wang    2019-03-03  921  		 */
+22eaf6c9946ae2 Sean Wang    2019-03-03  922  		pm_runtime_no_callbacks(&serdev->dev);
+22eaf6c9946ae2 Sean Wang    2019-03-03  923  
+22eaf6c9946ae2 Sean Wang    2019-03-03  924  		set_bit(BTMTKUART_REQUIRED_WAKEUP, &bdev->tx_state);
+22eaf6c9946ae2 Sean Wang    2019-03-03  925  	}
+22eaf6c9946ae2 Sean Wang    2019-03-03  926  
+22eaf6c9946ae2 Sean Wang    2019-03-03  927  	err = hci_register_dev(hdev);
+22eaf6c9946ae2 Sean Wang    2019-03-03  928  	if (err < 0) {
+7237c4c9ec92e1 Sean Wang    2018-08-08  929  		dev_err(&serdev->dev, "Can't register HCI device\n");
+22eaf6c9946ae2 Sean Wang    2019-03-03  930  		goto err_regulator_disable;
+7237c4c9ec92e1 Sean Wang    2018-08-08  931  	}
+7237c4c9ec92e1 Sean Wang    2018-08-08  932  
+7237c4c9ec92e1 Sean Wang    2018-08-08  933  	return 0;
+22eaf6c9946ae2 Sean Wang    2019-03-03  934  
+22eaf6c9946ae2 Sean Wang    2019-03-03  935  err_regulator_disable:
+a3cb6d602a7a94 Sean Wang    2019-06-02  936  	if (btmtkuart_is_standalone(bdev))
+22eaf6c9946ae2 Sean Wang    2019-03-03  937  		regulator_disable(bdev->vcc);
+4803c54ca24923 Chuhong Yuan 2020-05-29  938  err_clk_disable_unprepare:
+4803c54ca24923 Chuhong Yuan 2020-05-29  939  	if (btmtkuart_is_standalone(bdev))
+4803c54ca24923 Chuhong Yuan 2020-05-29  940  		clk_disable_unprepare(bdev->osc);
+4803c54ca24923 Chuhong Yuan 2020-05-29  941  err_hci_free_dev:
+4803c54ca24923 Chuhong Yuan 2020-05-29  942  	hci_free_dev(hdev);
+22eaf6c9946ae2 Sean Wang    2019-03-03  943  
+22eaf6c9946ae2 Sean Wang    2019-03-03 @944  	return err;
+7237c4c9ec92e1 Sean Wang    2018-08-08  945  }
+7237c4c9ec92e1 Sean Wang    2018-08-08  946  
 
-:::::: The code at line 5596 was first introduced by commit
-:::::: b69cf53640da2b86439596118cfa95233154ee76 perf: Fix a race between ring_buffer_detach() and ring_buffer_attach()
+:::::: The code at line 944 was first introduced by commit
+:::::: 22eaf6c9946ae269061d95bb9ceee02524166474 Bluetooth: mediatek: add support for MediaTek MT7663U and MT7668U UART devices
 
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+:::::: TO: Sean Wang <sean.wang@mediatek.com>
+:::::: CC: Marcel Holtmann <marcel@holtmann.org>
 
 -- 
 0-DAY CI Kernel Test Service
