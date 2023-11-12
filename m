@@ -1,176 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243D61C28D
-	for <oe-kbuild@lists.linux.dev>; Sun, 12 Nov 2023 22:09:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CA415ACA
+	for <oe-kbuild@lists.linux.dev>; Sun, 12 Nov 2023 23:15:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QjXdFfPV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W6lqmQnO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699826986; x=1731362986;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=rpzYg2eMx97U0CQ0vLwysOiEl0Yq7oktA553OjxhA5M=;
-  b=QjXdFfPVCLgrHQOICOGbIHl2o9afXkAcJBhrIR6iTAS6eCBzWw4yjEjC
-   4dy1egq02rFj0Qf2VxWkin+up3y+b87O+6VRS3NgqOPji8+6Ztl68On/G
-   co2yUzwoXFXESaKlJqu4yh81MmRS+tmrY86xCkkLUwA1PDBYzHAfj3kzo
-   hrvg+xtctSqwPosECeSS5IebYZSPRjhMGO73AYz1lGb5A9YGfdj5F0lfS
-   VII8+x6GeAlqDEX3G5xXtd4IC1Q1Q0B51kBlCSG2zXSP13ysWatkbhonB
-   Asv5oKVsE8ksmZIAWDFSQK2Dv9xoVZhFA93oxmrz8GItg7MITH8wkguGO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="369683186"
+  t=1699830931; x=1731366931;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Htdh7hQoRKpKLTvUvJbk7kxymX8oBtGqdwzVJDExsxA=;
+  b=W6lqmQnOPJ03L/OxzG5HRSzM4vBL2wkBxTC2p127DLdnC+9HJLjhvH58
+   OB3k4di/kF+Vag+6c6QnYleCRdlewKbomn5uxwiMXZKBTnggQa1268eL+
+   FenbV6QeLEKrSpbAxRvNbwnlZD4uAShxOJEsjpPo5Gdg7IIUbanHtKLwu
+   9fE2HnjQYmnOiUfusZl1MqJvIbkuzbSmBaMjbXpBZRkdcWbmKUuHwRqSK
+   WB3y22j9tTVgkYkcFmPwuw0i5LA9hnrANRc3kucoRJTanRKAOSbUboC6R
+   Y96/WQbhrjiY1DZmB5Yih6e3nM6h4KL8ikhcgsKdU+HqogJD5tdFDoMEv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="380746916"
 X-IronPort-AV: E=Sophos;i="6.03,298,1694761200"; 
-   d="scan'208";a="369683186"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 14:09:45 -0800
+   d="scan'208";a="380746916"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 15:15:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="881492496"
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="937605825"
 X-IronPort-AV: E=Sophos;i="6.03,298,1694761200"; 
-   d="scan'208";a="881492496"
+   d="scan'208";a="937605825"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 12 Nov 2023 14:09:44 -0800
+  by orsmga005.jf.intel.com with ESMTP; 12 Nov 2023 15:15:30 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r2IeE-000BZ6-0S;
-	Sun, 12 Nov 2023 22:09:42 +0000
-Date: Mon, 13 Nov 2023 06:09:01 +0800
+	id 1r2Jfs-000Bbj-0H;
+	Sun, 12 Nov 2023 23:15:28 +0000
+Date: Mon, 13 Nov 2023 07:14:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] input: touchscreen: imagis: Add touch key support
-Message-ID: <202311130533.EStBdAmT-lkp@intel.com>
+Subject: Re: [PATCH] riscv: Avoid code duplication with generic bitops
+ implementation
+Message-ID: <202311130605.zjOBT0zH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "git am base is a link in commit message"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20231112194124.24916-1-duje.mihanovic@skole.hr>
-References: <20231112194124.24916-1-duje.mihanovic@skole.hr>
-TO: "Duje Mihanović" <duje.mihanovic@skole.hr>
-TO: Markuss Broks <markuss.broks@gmail.com>
-TO: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC: ~postmarketos/upstreaming@lists.sr.ht
-CC: phone-devel@vger.kernel.org
-CC: Karel Balej <balejk@matfyz.cz>
-CC: "Duje Mihanović" <duje.mihanovic@skole.hr>
-CC: linux-input@vger.kernel.org
+In-Reply-To: <20231112094421.4014931-1-xiao.w.wang@intel.com>
+References: <20231112094421.4014931-1-xiao.w.wang@intel.com>
+TO: Xiao Wang <xiao.w.wang@intel.com>
+TO: paul.walmsley@sifive.com
+TO: palmer@dabbelt.com
+TO: aou@eecs.berkeley.edu
+TO: arnd@arndb.de
+CC: geert@linux-m68k.org
+CC: haicheng.li@intel.com
+CC: linux-arch@vger.kernel.org
+CC: linux-riscv@lists.infradead.org
 CC: linux-kernel@vger.kernel.org
+CC: Xiao Wang <xiao.w.wang@intel.com>
 
-Hi Duje,
+Hi Xiao,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on dtor-input/next]
-[also build test ERROR on dtor-input/for-linus linus/master v6.6 next-20231110]
+[auto build test WARNING on linus/master]
+[also build test WARNING on next-20231110]
+[cannot apply to arnd-asm-generic/master v6.6]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Duje-Mihanovi/input-touchscreen-imagis-Add-touch-key-support/20231113-034453
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20231112194124.24916-1-duje.mihanovic%40skole.hr
-patch subject: [PATCH] input: touchscreen: imagis: Add touch key support
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 hours ago
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20231113/202311130533.EStBdAmT-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231113/202311130533.EStBdAmT-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiao-Wang/riscv-Avoid-code-duplication-with-generic-bitops-implementation/20231112-173655
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231112094421.4014931-1-xiao.w.wang%40intel.com
+patch subject: [PATCH] riscv: Avoid code duplication with generic bitops implementation
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231113/202311130605.zjOBT0zH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311130533.EStBdAmT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311130605.zjOBT0zH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+>> arch/riscv/include/asm/bitops.h: asm-generic/bitops/fls.h is included more than once.
+>> arch/riscv/include/asm/bitops.h: asm-generic/bitops/__fls.h is included more than once.
+>> arch/riscv/include/asm/bitops.h: asm-generic/bitops/__ffs.h is included more than once.
+>> arch/riscv/include/asm/bitops.h: asm-generic/bitops/ffs.h is included more than once.
 
-   drivers/input/touchscreen/imagis.c: In function 'imagis_interrupt':
->> drivers/input/touchscreen/imagis.c:149:23: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-     149 |         key_pressed = FIELD_GET(IST3032C_KEY_STATUS_MASK, intr_message);
-         |                       ^~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +22 arch/riscv/include/asm/bitops.h
 
-
-vim +/FIELD_GET +149 drivers/input/touchscreen/imagis.c
-
-a23ba3c043db9a Markuss Broks  2022-03-14   95  
-a23ba3c043db9a Markuss Broks  2022-03-14   96  static irqreturn_t imagis_interrupt(int irq, void *dev_id)
-a23ba3c043db9a Markuss Broks  2022-03-14   97  {
-a23ba3c043db9a Markuss Broks  2022-03-14   98  	struct imagis_ts *ts = dev_id;
-a23ba3c043db9a Markuss Broks  2022-03-14   99  	u32 intr_message, finger_status;
-7371770ece2db7 Duje Mihanović 2023-11-12  100  	unsigned int finger_count, finger_pressed, key_pressed;
-a23ba3c043db9a Markuss Broks  2022-03-14  101  	int i;
-a23ba3c043db9a Markuss Broks  2022-03-14  102  	int error;
-a23ba3c043db9a Markuss Broks  2022-03-14  103  
-8eb834ae8a9b34 Markuss Broks  2023-10-03  104  	error = imagis_i2c_read_reg(ts, ts->tdata->interrupt_msg_cmd, &intr_message);
-a23ba3c043db9a Markuss Broks  2022-03-14  105  	if (error) {
-a23ba3c043db9a Markuss Broks  2022-03-14  106  		dev_err(&ts->client->dev,
-a23ba3c043db9a Markuss Broks  2022-03-14  107  			"failed to read the interrupt message: %d\n", error);
-a23ba3c043db9a Markuss Broks  2022-03-14  108  		goto out;
-a23ba3c043db9a Markuss Broks  2022-03-14  109  	}
-a23ba3c043db9a Markuss Broks  2022-03-14  110  
-a23ba3c043db9a Markuss Broks  2022-03-14  111  	finger_count = (intr_message & IST3038C_FINGER_COUNT_MASK) >>
-a23ba3c043db9a Markuss Broks  2022-03-14  112  				IST3038C_FINGER_COUNT_SHIFT;
-a23ba3c043db9a Markuss Broks  2022-03-14  113  	if (finger_count > IST3038C_MAX_FINGER_NUM) {
-a23ba3c043db9a Markuss Broks  2022-03-14  114  		dev_err(&ts->client->dev,
-a23ba3c043db9a Markuss Broks  2022-03-14  115  			"finger count %d is more than maximum supported\n",
-a23ba3c043db9a Markuss Broks  2022-03-14  116  			finger_count);
-a23ba3c043db9a Markuss Broks  2022-03-14  117  		goto out;
-a23ba3c043db9a Markuss Broks  2022-03-14  118  	}
-a23ba3c043db9a Markuss Broks  2022-03-14  119  
-a23ba3c043db9a Markuss Broks  2022-03-14  120  	finger_pressed = intr_message & IST3038C_FINGER_STATUS_MASK;
-a23ba3c043db9a Markuss Broks  2022-03-14  121  
-a23ba3c043db9a Markuss Broks  2022-03-14  122  	for (i = 0; i < finger_count; i++) {
-8eb834ae8a9b34 Markuss Broks  2023-10-03  123  		if (ts->tdata->protocol_b)
-a23ba3c043db9a Markuss Broks  2022-03-14  124  			error = imagis_i2c_read_reg(ts,
-8eb834ae8a9b34 Markuss Broks  2023-10-03  125  						    ts->tdata->touch_coord_cmd, &finger_status);
-8eb834ae8a9b34 Markuss Broks  2023-10-03  126  		else
-8eb834ae8a9b34 Markuss Broks  2023-10-03  127  			error = imagis_i2c_read_reg(ts,
-8eb834ae8a9b34 Markuss Broks  2023-10-03  128  						    ts->tdata->touch_coord_cmd + (i * 4),
-a23ba3c043db9a Markuss Broks  2022-03-14  129  						    &finger_status);
-a23ba3c043db9a Markuss Broks  2022-03-14  130  		if (error) {
-a23ba3c043db9a Markuss Broks  2022-03-14  131  			dev_err(&ts->client->dev,
-a23ba3c043db9a Markuss Broks  2022-03-14  132  				"failed to read coordinates for finger %d: %d\n",
-a23ba3c043db9a Markuss Broks  2022-03-14  133  				i, error);
-a23ba3c043db9a Markuss Broks  2022-03-14  134  			goto out;
-a23ba3c043db9a Markuss Broks  2022-03-14  135  		}
-a23ba3c043db9a Markuss Broks  2022-03-14  136  
-a23ba3c043db9a Markuss Broks  2022-03-14  137  		input_mt_slot(ts->input_dev, i);
-a23ba3c043db9a Markuss Broks  2022-03-14  138  		input_mt_report_slot_state(ts->input_dev, MT_TOOL_FINGER,
-a23ba3c043db9a Markuss Broks  2022-03-14  139  					   finger_pressed & BIT(i));
-a23ba3c043db9a Markuss Broks  2022-03-14  140  		touchscreen_report_pos(ts->input_dev, &ts->prop,
-a23ba3c043db9a Markuss Broks  2022-03-14  141  				       (finger_status & IST3038C_X_MASK) >>
-a23ba3c043db9a Markuss Broks  2022-03-14  142  						IST3038C_X_SHIFT,
-a23ba3c043db9a Markuss Broks  2022-03-14  143  				       finger_status & IST3038C_Y_MASK, 1);
-a23ba3c043db9a Markuss Broks  2022-03-14  144  		input_report_abs(ts->input_dev, ABS_MT_TOUCH_MAJOR,
-a23ba3c043db9a Markuss Broks  2022-03-14  145  				 (finger_status & IST3038C_AREA_MASK) >>
-a23ba3c043db9a Markuss Broks  2022-03-14  146  					IST3038C_AREA_SHIFT);
-a23ba3c043db9a Markuss Broks  2022-03-14  147  	}
-a23ba3c043db9a Markuss Broks  2022-03-14  148  
-7371770ece2db7 Duje Mihanović 2023-11-12 @149  	key_pressed = FIELD_GET(IST3032C_KEY_STATUS_MASK, intr_message);
-7371770ece2db7 Duje Mihanović 2023-11-12  150  
-7371770ece2db7 Duje Mihanović 2023-11-12  151  	input_report_key(ts->input_dev, KEY_APPSELECT, (key_pressed & BIT(0)));
-7371770ece2db7 Duje Mihanović 2023-11-12  152  	input_report_key(ts->input_dev, KEY_BACK, (key_pressed & BIT(1)));
-7371770ece2db7 Duje Mihanović 2023-11-12  153  
-a23ba3c043db9a Markuss Broks  2022-03-14  154  	input_mt_sync_frame(ts->input_dev);
-a23ba3c043db9a Markuss Broks  2022-03-14  155  	input_sync(ts->input_dev);
-a23ba3c043db9a Markuss Broks  2022-03-14  156  
-a23ba3c043db9a Markuss Broks  2022-03-14  157  out:
-a23ba3c043db9a Markuss Broks  2022-03-14  158  	return IRQ_HANDLED;
-a23ba3c043db9a Markuss Broks  2022-03-14  159  }
-a23ba3c043db9a Markuss Broks  2022-03-14  160  
+    17	
+    18	#if !defined(CONFIG_RISCV_ISA_ZBB) || defined(NO_ALTERNATIVE)
+    19	#include <asm-generic/bitops/__ffs.h>
+    20	#include <asm-generic/bitops/__fls.h>
+    21	#include <asm-generic/bitops/ffs.h>
+  > 22	#include <asm-generic/bitops/fls.h>
+    23	
+    24	#else
+    25	#define __HAVE_ARCH___FFS
+    26	#define __HAVE_ARCH___FLS
+    27	#define __HAVE_ARCH_FFS
+    28	#define __HAVE_ARCH_FLS
+    29	
+    30	#include <asm-generic/bitops/__ffs.h>
+    31	#include <asm-generic/bitops/__fls.h>
+    32	#include <asm-generic/bitops/ffs.h>
+  > 33	#include <asm-generic/bitops/fls.h>
+    34	
 
 -- 
 0-DAY CI Kernel Test Service
