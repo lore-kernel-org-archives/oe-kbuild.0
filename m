@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3FE11700
-	for <oe-kbuild@lists.linux.dev>; Mon, 13 Nov 2023 05:19:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D5B154B0
+	for <oe-kbuild@lists.linux.dev>; Mon, 13 Nov 2023 07:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qj23sh+D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LEVlHhkU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699852761; x=1731388761;
+  t=1699861392; x=1731397392;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=Qe+jqgcCscmSXM6yc/Sj6fjj9iN/qoo+xwdQmgsOkzQ=;
-  b=Qj23sh+DJXxgiO3kK9VgeAdKZSAbMXwIeS6JNM4zdiHHvm6gLwCFm21r
-   ylCgrZ6qOeFHfg9cGHFkiVy7KxgWr8wh61aA0uWF0tt8p7i86WYP2eHuo
-   W2X45BuZnuJNt2EOZfKoZ0CadBKZxZWWphTTNS0/C4Q21VCXUjU7i4aG9
-   E+7uBbrpQFKwx3c2PDN5WEVpaQTL/BT/N1oZundZ60i+RmFd7krdAGfhp
-   mBi7pQZcNEBLosIo+10RMyFISqRgE8cB7Snc4qP9CPG0r/B+p/3t/03bE
-   Vblj2jakZ+NqCYpjPql6t39OsOMB7w4QOh1YqFheeL62WWEWthLF3oUWI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="389245601"
+  bh=67ZqT4nXvUTCpoKQU2TMpAhFuZ1InlvaO6jBI5PWFkQ=;
+  b=LEVlHhkUP/Mgg/IPdvLlgpLp1EnjqPxI8hPveXMlCqjtP55Zva+JyVX2
+   ma9Pg0ZQGZBJlf6/kycfGO+73jaqr68ADNBBZzcrzA2JZEPofMw/Ps6Nv
+   hvOusralHZRCwmaUQDRCYnZejmtYa8IjAvQQT7KugXxy1FLC2+ot+A9du
+   HqxGBLt/dzrTZ6WsRgpg71KXfFZOshOvSVvu3E9ZjTlx849XkgEWFohoI
+   m19yz+jrZxgiVEZA2T25YCC1FveH3dw7czCrGEd7K1auVS9VHsW6xApvn
+   LlZwQ5Jak49iEB6rLLZ0AZpX4U56/7tSNNWu2mIG8qHThHb+2pJKgzFGE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="370591048"
 X-IronPort-AV: E=Sophos;i="6.03,298,1694761200"; 
-   d="scan'208";a="389245601"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 21:19:17 -0800
+   d="scan'208";a="370591048"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 23:43:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="881563024"
 X-IronPort-AV: E=Sophos;i="6.03,298,1694761200"; 
-   d="scan'208";a="881563024"
+   d="scan'208";a="12024018"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 12 Nov 2023 21:19:16 -0800
+  by orviesa001.jf.intel.com with ESMTP; 12 Nov 2023 23:43:11 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r2PLu-000Bq2-1D;
-	Mon, 13 Nov 2023 05:19:14 +0000
-Date: Mon, 13 Nov 2023 13:18:42 +0800
+	id 1r2RbA-000Bvy-2A;
+	Mon, 13 Nov 2023 07:43:08 +0000
+Date: Mon, 13 Nov 2023 15:42:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: xskxceiver.c:841:81: error: format '%d' expects argument of type
- 'int', but argument 4 has type '__u64' {aka 'long long unsigned int'}
-Message-ID: <202311131351.7mFKVwOr-lkp@intel.com>
+Subject: Re: [RFC PATCH v2 10/19] KVM: x86: Implement per-guest-page
+ permissions
+Message-ID: <202311131527.nBtS1Ewn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,102 +52,98 @@ Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "fbc e677181e18929a5506e046fcb60f660060216505 and parent dd628ea6472ca6fefaaa3d84baab96270832e7e8 have different kconfig"
+:::::: Manual check reason: "has kconfig file changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Maciej Wieczor-Retman" <maciej.wieczor-retman@intel.com>
-CC: Shuah Khan <skhan@linuxfoundation.org>
-CC: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
-CC: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <20231113022326.24388-11-mic@digikod.net>
+References: <20231113022326.24388-11-mic@digikod.net>
+TO: "Mickaël Salaün" <mic@digikod.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b85ea95d086471afb4ad062012a4d73cd328fa86
-commit: e33a02ed6a4fbadfa7813831f1f52874c991d324 selftests: Add printf attribute to kselftest prints
-date:   4 weeks ago
+Hi Mickaël,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 881375a408c0f4ea451ff14545b59216d2923881]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Micka-l-Sala-n/virt-Introduce-Hypervisor-Enforced-Kernel-Integrity-Heki/20231113-102847
+base:   881375a408c0f4ea451ff14545b59216d2923881
+patch link:    https://lore.kernel.org/r/20231113022326.24388-11-mic%40digikod.net
+patch subject: [RFC PATCH v2 10/19] KVM: x86: Implement per-guest-page permissions
 :::::: branch date: 5 hours ago
-:::::: commit date: 4 weeks ago
+:::::: commit date: 5 hours ago
+config: i386-randconfig-002-20231113 (https://download.01.org/0day-ci/archive/20231113/202311131527.nBtS1Ewn-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231113/202311131351.7mFKVwOr-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231113/202311131527.nBtS1Ewn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311131351.7mFKVwOr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311131527.nBtS1Ewn-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   xskxceiver.c: In function 'is_metadata_correct':
->> xskxceiver.c:841:81: error: format '%d' expects argument of type 'int', but argument 4 has type '__u64' {aka 'long long unsigned int'} [-Werror=format=]
-     841 |                 ksft_print_msg("[%s] expected meta_count [%d], got meta_count [%d]\n",
-         |                                                                                ~^
-         |                                                                                 |
-         |                                                                                 int
-         |                                                                                %lld
-     842 |                                __func__, pkt->pkt_nb, meta->count);
-         |                                                       ~~~~~~~~~~~                
-         |                                                           |
-         |                                                           __u64 {aka long long unsigned int}
-   xskxceiver.c: In function 'is_frag_valid':
->> xskxceiver.c:859:55: error: format '%llx' expects argument of type 'long long unsigned int', but argument 2 has type 'u64' {aka 'long unsigned int'} [-Werror=format=]
-     859 |                 ksft_print_msg("Frag invalid addr: %llx len: %u\n", addr, len);
-         |                                                    ~~~^             ~~~~
-         |                                                       |             |
-         |                                                       |             u64 {aka long unsigned int}
-         |                                                       long long unsigned int
-         |                                                    %lx
-   xskxceiver.c:863:70: error: format '%llx' expects argument of type 'long long unsigned int', but argument 2 has type 'u64' {aka 'long unsigned int'} [-Werror=format=]
-     863 |                 ksft_print_msg("Frag crosses frame boundary addr: %llx len: %u\n", addr, len);
-         |                                                                   ~~~^             ~~~~
-         |                                                                      |             |
-         |                                                                      |             u64 {aka long unsigned int}
-         |                                                                      long long unsigned int
-         |                                                                   %lx
-   xskxceiver.c: In function 'complete_pkts':
-   xskxceiver.c:956:69: error: format '%llx' expects argument of type 'long long unsigned int', but argument 2 has type 'u64' {aka 'long unsigned int'} [-Werror=format=]
-     956 |                         ksft_print_msg("Last completion address: %llx\n", addr);
-         |                                                                  ~~~^     ~~~~
-         |                                                                     |     |
-         |                                                                     |     u64 {aka long unsigned int}
-         |                                                                     long long unsigned int
-         |                                                                  %lx
-   xskxceiver.c: In function 'validate_tx_invalid_descs':
->> xskxceiver.c:1343:72: error: format '%u' expects argument of type 'unsigned int', but argument 3 has type '__u64' {aka 'long long unsigned int'} [-Werror=format=]
-    1343 |                 ksft_print_msg("[%s] tx_invalid_descs incorrect. Got [%u] expected [%u]\n",
-         |                                                                       ~^
-         |                                                                        |
-         |                                                                        unsigned int
-         |                                                                       %llu
-    1344 |                                __func__, stats.tx_invalid_descs, ifobject->pkt_stream->nb_pkts);
-         |                                          ~~~~~~~~~~~~~~~~~~~~~~         
-         |                                               |
-         |                                               __u64 {aka long long unsigned int}
-   cc1: all warnings being treated as errors
---
-   In file included from x86_64/nx_huge_pages_test.c:17:
-   x86_64/nx_huge_pages_test.c: In function 'main':
->> include/test_util.h:40:32: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-      40 |                 ksft_exit_skip("- " fmt "\n", ##__VA_ARGS__);   \
-         |                                ^~~~
-   x86_64/nx_huge_pages_test.c:261:9: note: in expansion of macro '__TEST_REQUIRE'
-     261 |         __TEST_REQUIRE(token == MAGIC_TOKEN,
-         |         ^~~~~~~~~~~~~~
-   At top level:
-   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
---
-   mremap_test.c: In function 'remap_region':
->> mremap_test.c:341:83: warning: format '%d' expects argument of type 'int', but argument 2 has type 'long long unsigned int' [-Wformat=]
-     341 |                         ksft_print_msg("Data after remap doesn't match at offset %d\n",
-         |                                                                                  ~^
-         |                                                                                   |
-         |                                                                                   int
-         |                                                                                  %lld
-     342 |                                        i);
-         |                                        ~                                           
-         |                                        |
-         |                                        long long unsigned int
+   WARNING: unmet direct dependencies detected for SPARSEMEM
+   Depends on [n]: !SELECT_MEMORY_MODEL [=y] && ARCH_SPARSEMEM_ENABLE [=y] || SPARSEMEM_MANUAL [=n]
+   Selected by [y]:
+   - KVM [=y] && VIRTUALIZATION [=y] && HAVE_KVM [=y] && HIGH_RES_TIMERS [=y] && X86_LOCAL_APIC [=y]
+   In file included from arch/x86/include/asm/page.h:85,
+   from arch/x86/include/asm/thread_info.h:12,
+   from include/linux/thread_info.h:60,
+   from arch/x86/include/asm/preempt.h:9,
+   from include/linux/preempt.h:79,
+   from include/linux/spinlock.h:56,
+   from include/linux/swait.h:7,
+   from include/linux/completion.h:12,
+   from include/linux/crypto.h:15,
+   from arch/x86/kernel/asm-offsets.c:9:
+>> include/asm-generic/memory_model.h:31:19: error: redefinition of 'pfn_valid'
+   31 | #define pfn_valid pfn_valid
+   |                   ^~~~~~~~~
+   include/linux/mmzone.h:1987:19: note: in expansion of macro 'pfn_valid'
+   1987 | static inline int pfn_valid(unsigned long pfn)
+   |                   ^~~~~~~~~
+   include/asm-generic/memory_model.h:23:19: note: previous definition of 'pfn_valid' with type 'int(long unsigned int)'
+   23 | static inline int pfn_valid(unsigned long pfn)
+   |                   ^~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:116: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=912718013
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1202: prepare0] Error 2 shuffle=912718013
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=912718013
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2 shuffle=912718013
+   make: Target 'prepare' not remade because of errors.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SPARSEMEM
+   Depends on [n]: !SELECT_MEMORY_MODEL [=y] && ARCH_SPARSEMEM_ENABLE [=y] || SPARSEMEM_MANUAL [=n]
+   Selected by [y]:
+   - KVM [=y] && VIRTUALIZATION [=y] && HAVE_KVM [=y] && HIGH_RES_TIMERS [=y] && X86_LOCAL_APIC [=y]
+
+
+vim +/pfn_valid +31 include/asm-generic/memory_model.h
+
+a117e66ed45ac0 KAMEZAWA Hiroyuki   2006-03-27  17  
+67de648211fa04 Andy Whitcroft      2006-06-23  18  #define __pfn_to_page(pfn)	(mem_map + ((pfn) - ARCH_PFN_OFFSET))
+67de648211fa04 Andy Whitcroft      2006-06-23  19  #define __page_to_pfn(page)	((unsigned long)((page) - mem_map) + \
+a117e66ed45ac0 KAMEZAWA Hiroyuki   2006-03-27  20  				 ARCH_PFN_OFFSET)
+a117e66ed45ac0 KAMEZAWA Hiroyuki   2006-03-27  21  
+e5080a9677854b Mike Rapoport (IBM  2023-01-29  22) #ifndef pfn_valid
+e5080a9677854b Mike Rapoport (IBM  2023-01-29  23) static inline int pfn_valid(unsigned long pfn)
+e5080a9677854b Mike Rapoport (IBM  2023-01-29  24) {
+e5080a9677854b Mike Rapoport (IBM  2023-01-29  25) 	/* avoid <linux/mm.h> include hell */
+e5080a9677854b Mike Rapoport (IBM  2023-01-29  26) 	extern unsigned long max_mapnr;
+e5080a9677854b Mike Rapoport (IBM  2023-01-29  27) 	unsigned long pfn_offset = ARCH_PFN_OFFSET;
+e5080a9677854b Mike Rapoport (IBM  2023-01-29  28) 
+e5080a9677854b Mike Rapoport (IBM  2023-01-29  29) 	return pfn >= pfn_offset && (pfn - pfn_offset) < max_mapnr;
+e5080a9677854b Mike Rapoport (IBM  2023-01-29  30) }
+e5080a9677854b Mike Rapoport (IBM  2023-01-29 @31) #define pfn_valid pfn_valid
+e5080a9677854b Mike Rapoport (IBM  2023-01-29  32) #endif
+e5080a9677854b Mike Rapoport (IBM  2023-01-29  33) 
 
 -- 
 0-DAY CI Kernel Test Service
