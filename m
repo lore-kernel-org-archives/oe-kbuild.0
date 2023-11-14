@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5FB405C0
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Nov 2023 13:55:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658972C197
+	for <oe-kbuild@lists.linux.dev>; Tue, 14 Nov 2023 20:56:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VbR0UnTF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="imAVC9CZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699970117; x=1731506117;
+  t=1699995415; x=1731531415;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZsPLqLfVvO+Mi0HMPd6e1aUbzOB/80TXs6ihvQaNvTU=;
-  b=VbR0UnTFM0ugoY4RQv9EfEe40rpQg/JzOVxTsIoHyp5Y2zLkPxHkAm8c
-   Y0XWwW0D9JrSfRk8XXE3QXCED2v00e9+oVMmi9b+rsdTeZk/036odxOri
-   65JEAE5Qz4Ga++IEU5sr/75sDP3a0asOolWccO/WNja+gsCIASzjsHoBF
-   UGd9Ta4EVR87ytfxZRSdoal+8SMX2BSQNkEkMT7P9P/vYq6/zqv+BcGld
-   L6yqJTxrd+lR1H63LFzylkCnR9osXlOyEKvw5FoRmTcHriiYeXaqTr1vK
-   0A7Fw8HJsa7Zt+/K8EzThNQN8WW25c6NFpptjBt7z8o1DqZ5hZJYrt+LX
+  bh=0fSIWo9sxGDOkbF0zQ0354jgUcZjM5Qky+OcvCtrKjc=;
+  b=imAVC9CZwpnw2HR0wQB+kLGbrlYOpxBDC+qWDCatLKFWqfu1mk5UVNGc
+   9zVmtA7P/fpKJDCLCZWeV5W9T7zUCcpOzOBfUm1PY4IioXXDzkMKmvJrk
+   gpeigoigXB3ryMRjyxIP9kU1ylmC3jTdcvy2EPR+EK3AUImIaloIb1UV9
+   8EbmFMq6ULuPky1fnjR/i8AQit40EUZaJnUwb2qtxQ7PLG53N0J8YUJYA
+   eF/tJkqtWe95dYQAzhTdRnxetElbwKkp41zgonH2/jOQegij04NM/8/gG
+   L2dUf9ngp6lcs+jCpbaa7A3bdVyz3ZtIUlII5LBVFZFMsCStANzrM0cdI
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="387819663"
-X-IronPort-AV: E=Sophos;i="6.03,302,1694761200"; 
-   d="scan'208";a="387819663"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 05:55:16 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="387909251"
+X-IronPort-AV: E=Sophos;i="6.03,303,1694761200"; 
+   d="scan'208";a="387909251"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 12:56:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="855282728"
-X-IronPort-AV: E=Sophos;i="6.03,302,1694761200"; 
-   d="scan'208";a="855282728"
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="835161833"
+X-IronPort-AV: E=Sophos;i="6.03,303,1694761200"; 
+   d="scan'208";a="835161833"
 Received: from lkp-server02.sh.intel.com (HELO 83346ef18697) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Nov 2023 05:55:15 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 14 Nov 2023 12:56:53 -0800
 Received: from kbuild by 83346ef18697 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r2tsn-0000Hr-1n;
-	Tue, 14 Nov 2023 13:55:13 +0000
-Date: Tue, 14 Nov 2023 21:54:43 +0800
+	id 1r30Sp-0000fA-1O;
+	Tue, 14 Nov 2023 20:56:51 +0000
+Date: Wed, 15 Nov 2023 04:56:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: include/linux/list.h:83:21: sparse: sparse: self-comparison always
- evaluates to true
-Message-ID: <202311142104.yI5FYjWk-lkp@intel.com>
+Subject: drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202311150438.8fBUln6F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,162 +51,83 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "fbc aa9f10d57056cea51d41283d3785bccbbb9f459e and parent aebc7b0d8d91bbc69e976909963046bc48bca4fd have different kconfig"
-:::::: Manual check reason: "only kconfig file changed"
-:::::: Manual check reason: "has kconfig file changed"
-:::::: Manual check reason: "low confidence static check first_new_problem: include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true"
+:::::: Manual check reason: "has Makefile file changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Marco Elver <elver@google.com>
-CC: Kees Cook <keescook@chromium.org>
+TO: Huacai Chen <chenhuacai@loongson.cn>
+CC: Jun Yi <yijun@loongson.cn>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9bacdd8996c77c42ca004440be610692275ff9d0
-commit: aa9f10d57056cea51d41283d3785bccbbb9f459e hardening: Move BUG_ON_DATA_CORRUPTION to hardening options
-date:   3 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-061-20231114 (https://download.01.org/0day-ci/archive/20231114/202311142104.yI5FYjWk-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231114/202311142104.yI5FYjWk-lkp@intel.com/reproduce)
+commit: a275a82dcd4024c75337db15d59ed039c31e21da LoongArch: Use alternative to optimize libraries
+date:   11 months ago
+:::::: branch date: 27 hours ago
+:::::: commit date: 11 months ago
+config: loongarch-randconfig-r133-20231107 (https://download.01.org/0day-ci/archive/20231115/202311150438.8fBUln6F-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231115/202311150438.8fBUln6F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311142104.yI5FYjWk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311150438.8fBUln6F-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   lib/plist.c: note: in included file (through include/linux/plist.h):
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
-   lib/klist.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/klist.h):
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
-   lib/bug.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   lib/bug.c: note: in included file:
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
-   lib/kobject.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   lib/kobject.c: note: in included file (through include/linux/kobject.h):
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
-   lib/logic_pio.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   lib/logic_pio.c: note: in included file (through include/linux/kobject.h, include/linux/of.h):
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
-   lib/kobject_uevent.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   lib/kobject_uevent.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h):
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
-   lib/rhashtable.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   lib/rhashtable.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h):
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
-   lib/genalloc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   lib/genalloc.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
-   lib/percpu_counter.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   lib/percpu_counter.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/percpu_counter.h):
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
-   lib/error-inject.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   lib/error-inject.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h, ...):
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
-   lib/irq_poll.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   lib/irq_poll.c: note: in included file (through include/linux/module.h):
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
-   lib/dynamic_debug.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   lib/dynamic_debug.c: note: in included file (through include/linux/module.h):
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
-   lib/kunit/resource.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   lib/kunit/resource.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/kref.h, ...):
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
-   lib/kunit/string-stream.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   lib/kunit/string-stream.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/kref.h, ...):
->> include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got void * @@
+   drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse:     expected char [noderef] __iomem *screen_base
+   drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse:     got void *
+>> drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *__s @@     got char [noderef] __iomem *screen_base @@
+   drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse:     expected void *__s
+   drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse:     got char [noderef] __iomem *screen_base
+   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got char [noderef] __iomem *screen_base @@
+   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     expected void *cpu_addr
+   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     got char [noderef] __iomem *screen_base
+   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got char [noderef] __iomem *screen_base @@
+   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     expected void *cpu_addr
+   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     got char [noderef] __iomem *screen_base
 
-vim +83 include/linux/list.h
+vim +362 drivers/video/fbdev/atmel_lcdfb.c
 
-aebc7b0d8d91bb Marco Elver 2023-08-11  48  
-b16c42c8fde808 Marco Elver 2023-08-11  49  /*
-b16c42c8fde808 Marco Elver 2023-08-11  50   * Performs the full set of list corruption checks before __list_add().
-b16c42c8fde808 Marco Elver 2023-08-11  51   * On list corruption reports a warning, and returns false.
-b16c42c8fde808 Marco Elver 2023-08-11  52   */
-aebc7b0d8d91bb Marco Elver 2023-08-11  53  extern bool __list_valid_slowpath __list_add_valid_or_report(struct list_head *new,
-d7c816733d501b Kees Cook   2016-08-17  54  							     struct list_head *prev,
-d7c816733d501b Kees Cook   2016-08-17  55  							     struct list_head *next);
-b16c42c8fde808 Marco Elver 2023-08-11  56  
-b16c42c8fde808 Marco Elver 2023-08-11  57  /*
-b16c42c8fde808 Marco Elver 2023-08-11  58   * Performs list corruption checks before __list_add(). Returns false if a
-b16c42c8fde808 Marco Elver 2023-08-11  59   * corruption is detected, true otherwise.
-aebc7b0d8d91bb Marco Elver 2023-08-11  60   *
-aebc7b0d8d91bb Marco Elver 2023-08-11  61   * With CONFIG_LIST_HARDENED only, performs minimal list integrity checking
-aebc7b0d8d91bb Marco Elver 2023-08-11  62   * inline to catch non-faulting corruptions, and only if a corruption is
-aebc7b0d8d91bb Marco Elver 2023-08-11  63   * detected calls the reporting function __list_add_valid_or_report().
-b16c42c8fde808 Marco Elver 2023-08-11  64   */
-b16c42c8fde808 Marco Elver 2023-08-11  65  static __always_inline bool __list_add_valid(struct list_head *new,
-b16c42c8fde808 Marco Elver 2023-08-11  66  					     struct list_head *prev,
-b16c42c8fde808 Marco Elver 2023-08-11  67  					     struct list_head *next)
-b16c42c8fde808 Marco Elver 2023-08-11  68  {
-aebc7b0d8d91bb Marco Elver 2023-08-11  69  	bool ret = true;
-aebc7b0d8d91bb Marco Elver 2023-08-11  70  
-aebc7b0d8d91bb Marco Elver 2023-08-11  71  	if (!IS_ENABLED(CONFIG_DEBUG_LIST)) {
-aebc7b0d8d91bb Marco Elver 2023-08-11  72  		/*
-aebc7b0d8d91bb Marco Elver 2023-08-11  73  		 * With the hardening version, elide checking if next and prev
-aebc7b0d8d91bb Marco Elver 2023-08-11  74  		 * are NULL, since the immediate dereference of them below would
-aebc7b0d8d91bb Marco Elver 2023-08-11  75  		 * result in a fault if NULL.
-aebc7b0d8d91bb Marco Elver 2023-08-11  76  		 *
-aebc7b0d8d91bb Marco Elver 2023-08-11  77  		 * With the reduced set of checks, we can afford to inline the
-aebc7b0d8d91bb Marco Elver 2023-08-11  78  		 * checks, which also gives the compiler a chance to elide some
-aebc7b0d8d91bb Marco Elver 2023-08-11  79  		 * of them completely if they can be proven at compile-time. If
-aebc7b0d8d91bb Marco Elver 2023-08-11  80  		 * one of the pre-conditions does not hold, the slow-path will
-aebc7b0d8d91bb Marco Elver 2023-08-11  81  		 * show a report which pre-condition failed.
-aebc7b0d8d91bb Marco Elver 2023-08-11  82  		 */
-aebc7b0d8d91bb Marco Elver 2023-08-11 @83  		if (likely(next->prev == prev && prev->next == next && new != prev && new != next))
-aebc7b0d8d91bb Marco Elver 2023-08-11  84  			return true;
-aebc7b0d8d91bb Marco Elver 2023-08-11  85  		ret = false;
-aebc7b0d8d91bb Marco Elver 2023-08-11  86  	}
-aebc7b0d8d91bb Marco Elver 2023-08-11  87  
-aebc7b0d8d91bb Marco Elver 2023-08-11  88  	ret &= __list_add_valid_or_report(new, prev, next);
-aebc7b0d8d91bb Marco Elver 2023-08-11  89  	return ret;
-b16c42c8fde808 Marco Elver 2023-08-11  90  }
-b16c42c8fde808 Marco Elver 2023-08-11  91  
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  336  
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  337  /**
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  338   *	atmel_lcdfb_alloc_video_memory - Allocate framebuffer memory
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  339   *	@sinfo: the frame buffer to allocate memory for
+1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  340   * 	
+1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  341   * 	This function is called only from the atmel_lcdfb_probe()
+1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  342   * 	so no locking by fb_info->mm_lock around smem_len setting is needed.
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  343   */
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  344  static int atmel_lcdfb_alloc_video_memory(struct atmel_lcdfb_info *sinfo)
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  345  {
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  346  	struct fb_info *info = sinfo->info;
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  347  	struct fb_var_screeninfo *var = &info->var;
+ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  348  	unsigned int smem_len;
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  349  
+ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  350  	smem_len = (var->xres_virtual * var->yres_virtual
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  351  		    * ((var->bits_per_pixel + 7) / 8));
+ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  352  	info->fix.smem_len = max(smem_len, sinfo->smem_len);
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  353  
+f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  354  	info->screen_base = dma_alloc_wc(info->device, info->fix.smem_len,
+f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  355  					 (dma_addr_t *)&info->fix.smem_start,
+f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  356  					 GFP_KERNEL);
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  357  
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  358  	if (!info->screen_base) {
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  359  		return -ENOMEM;
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  360  	}
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  361  
+01d3a5e7fab773 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-04-28 @362  	memset(info->screen_base, 0, info->fix.smem_len);
+01d3a5e7fab773 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-04-28  363  
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  364  	return 0;
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  365  }
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  366  
 
-:::::: The code at line 83 was first introduced by commit
-:::::: aebc7b0d8d91bbc69e976909963046bc48bca4fd list: Introduce CONFIG_LIST_HARDENED
+:::::: The code at line 362 was first introduced by commit
+:::::: 01d3a5e7fab7732cfc5d5d4533e9378ea435295a atmel_lcdfb: don't initialize a pre-allocated framebuffer
 
-:::::: TO: Marco Elver <elver@google.com>
-:::::: CC: Kees Cook <keescook@chromium.org>
+:::::: TO: Haavard Skinnemoen <hskinnemoen@atmel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
