@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF1D1864D
-	for <oe-kbuild@lists.linux.dev>; Wed, 15 Nov 2023 13:03:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACE82D044
+	for <oe-kbuild@lists.linux.dev>; Wed, 15 Nov 2023 14:27:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lC0eTrXb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="htSwQzaG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700053386; x=1731589386;
+  t=1700058440; x=1731594440;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iTIQ5TiLopj9JRjoUhPoUeUMmgYcVBNznIsgH3hffXs=;
-  b=lC0eTrXb9Y88O8fC/EWTA74p133l6NPDv7DcLY/EqQUhDB962709oT9l
-   yLDEOLcmYeCDsbfwVeqd6AAWmLEaYkWcC7SZoBYbUL++gexgwJgNMtMZk
-   cCISyWyq8Zv5bBbpFwaIIM+FiRNo2tdTwEuF2euoSIfhedSzGqIPnz3jL
-   xUZ3WqGtBZIokyKlq6VcxzyxAc9qkNdF+FHYwHiayPiDdM547n4R0Ui+9
-   rhJ3Vm3qkJCt6KlGU5W1J00ctgH/SxMthg6OCb+RpHxu5r+A8UdEAOabc
-   PBk8pGKFVGPXq8CYVMqyX5MMf1CNVEVugIRMKqF5pkHwXM2tuJK6uHPNU
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="393727954"
+  bh=EKtNuOECS2hZW0lTvFlTuPjq79LFYAh4msxiAK0DsdI=;
+  b=htSwQzaGcCII9Bg+IXfcNmyi+R4wqdBuAYEyu8jKFTrRWBevexlyPkCM
+   TsB2hNB19iA3juR0a8ZHnILCqcNa06bSZc66LhrC8iLi4Y5qFkP0C7V9x
+   DsuHQYZN4MStua1brzYe1swtD9vXYUol7w2WVJOyvvl0+X17sIoUOMUgV
+   cHiJZbnNLoLKaYAcO+QT5sPjkZa4kXEIdQbeJvqZK0iAEndSvffrLtfIN
+   6sqxPTJbVHQV6L6h1HWzjC1KUbE5lIdrGuakJLh9giSOQFgmTeitJEyAi
+   6gaRVQ06MFaCLI6IFjk2oxWLomQA8dMPbkxNCnwdP9RnHuUy7YcIOILFP
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="3999090"
 X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="393727954"
+   d="scan'208";a="3999090"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 05:03:06 -0800
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 06:27:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="938480433"
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="938491011"
 X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="938480433"
+   d="scan'208";a="938491011"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 15 Nov 2023 05:03:03 -0800
+  by orsmga005.jf.intel.com with ESMTP; 15 Nov 2023 06:27:17 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3FXp-0000L2-0H;
-	Wed, 15 Nov 2023 13:03:01 +0000
-Date: Wed, 15 Nov 2023 21:02:55 +0800
+	id 1r3GrK-0000P0-19;
+	Wed, 15 Nov 2023 14:27:14 +0000
+Date: Wed, 15 Nov 2023 22:26:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: mm/khugepaged.c:1802:28: sparse: sparse: self-comparison always
+Subject: [android-common:android14-6.1 714/14885]
+ drivers/md/dm-default-key.c:205:32: sparse: sparse: self-comparison always
  evaluates to false
-Message-ID: <202311152040.felTdxoR-lkp@intel.com>
+Message-ID: <202311152251.7sjIXycT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,137 +52,154 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: mm/khugepaged.c:1802:28: sparse: sparse: self-comparison always evaluates to false"
+:::::: Manual check reason: "low confidence static check warning: drivers/md/dm-default-key.c:205:32: sparse: sparse: self-comparison always evaluates to false"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Hugh Dickins <hughd@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
-commit: 1d65b771bc08cd054cf6d3766a72e113dc46d62f mm/khugepaged: retract_page_tables() without mmap or vma lock
-date:   3 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-061-20231115 (https://download.01.org/0day-ci/archive/20231115/202311152040.felTdxoR-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   c47043d65f0a1063f6c651e558aeb80621046eb2
+commit: cb39ec0c1040e89d14ae0852454f8fd64a704118 [714/14885] ANDROID: dm: add dm-default-key target for metadata encryption
+:::::: branch date: 15 hours ago
+:::::: commit date: 3 years, 10 months ago
+config: i386-randconfig-061-20231115 (https://download.01.org/0day-ci/archive/20231115/202311152251.7sjIXycT-lkp@intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311152040.felTdxoR-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311152251.7sjIXycT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311152040.felTdxoR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311152251.7sjIXycT-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   mm/khugepaged.c:834:25: sparse: sparse: symbol 'khugepaged_collapse_control' was not declared. Should it be static?
-   mm/khugepaged.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   mm/khugepaged.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in '__collapse_huge_page_swapin' - unexpected unlock
-   include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in 'collapse_huge_page' - unexpected unlock
-   include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in 'hpage_collapse_scan_pmd' - unexpected unlock
-   mm/khugepaged.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   mm/khugepaged.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in 'collapse_pte_mapped_thp' - unexpected unlock
->> mm/khugepaged.c:1802:28: sparse: sparse: self-comparison always evaluates to false
-   mm/khugepaged.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+>> drivers/md/dm-default-key.c:205:32: sparse: sparse: self-comparison always evaluates to false
 
-vim +1802 mm/khugepaged.c
+vim +205 drivers/md/dm-default-key.c
 
-27e1f8273113ad Song Liu           2019-09-23  1751  
-1d65b771bc08cd Hugh Dickins       2023-07-11  1752  static void retract_page_tables(struct address_space *mapping, pgoff_t pgoff)
-f3f0e1d2150b2b Kirill A. Shutemov 2016-07-26  1753  {
-f3f0e1d2150b2b Kirill A. Shutemov 2016-07-26  1754  	struct vm_area_struct *vma;
-f3f0e1d2150b2b Kirill A. Shutemov 2016-07-26  1755  
-1d65b771bc08cd Hugh Dickins       2023-07-11  1756  	i_mmap_lock_read(mapping);
-f3f0e1d2150b2b Kirill A. Shutemov 2016-07-26  1757  	vma_interval_tree_foreach(vma, &mapping->i_mmap, pgoff, pgoff) {
-1d65b771bc08cd Hugh Dickins       2023-07-11  1758  		struct mmu_notifier_range range;
-1d65b771bc08cd Hugh Dickins       2023-07-11  1759  		struct mm_struct *mm;
-1d65b771bc08cd Hugh Dickins       2023-07-11  1760  		unsigned long addr;
-1d65b771bc08cd Hugh Dickins       2023-07-11  1761  		pmd_t *pmd, pgt_pmd;
-1d65b771bc08cd Hugh Dickins       2023-07-11  1762  		spinlock_t *pml;
-1d65b771bc08cd Hugh Dickins       2023-07-11  1763  		spinlock_t *ptl;
-1d65b771bc08cd Hugh Dickins       2023-07-11  1764  		bool skipped_uffd = false;
-34488399fa08fa Zach O'Keefe       2022-09-22  1765  
-27e1f8273113ad Song Liu           2019-09-23  1766  		/*
-27e1f8273113ad Song Liu           2019-09-23  1767  		 * Check vma->anon_vma to exclude MAP_PRIVATE mappings that
-1d65b771bc08cd Hugh Dickins       2023-07-11  1768  		 * got written to. These VMAs are likely not worth removing
-1d65b771bc08cd Hugh Dickins       2023-07-11  1769  		 * page tables from, as PMD-mapping is likely to be split later.
-27e1f8273113ad Song Liu           2019-09-23  1770  		 */
-1d65b771bc08cd Hugh Dickins       2023-07-11  1771  		if (READ_ONCE(vma->anon_vma))
-1d65b771bc08cd Hugh Dickins       2023-07-11  1772  			continue;
-1d65b771bc08cd Hugh Dickins       2023-07-11  1773  
-f3f0e1d2150b2b Kirill A. Shutemov 2016-07-26  1774  		addr = vma->vm_start + ((pgoff - vma->vm_pgoff) << PAGE_SHIFT);
-34488399fa08fa Zach O'Keefe       2022-09-22  1775  		if (addr & ~HPAGE_PMD_MASK ||
-1d65b771bc08cd Hugh Dickins       2023-07-11  1776  		    vma->vm_end < addr + HPAGE_PMD_SIZE)
-1d65b771bc08cd Hugh Dickins       2023-07-11  1777  			continue;
-1d65b771bc08cd Hugh Dickins       2023-07-11  1778  
-18e77600f7a1ed Hugh Dickins       2020-08-06  1779  		mm = vma->vm_mm;
-1d65b771bc08cd Hugh Dickins       2023-07-11  1780  		if (find_pmd_or_thp_or_none(mm, addr, &pmd) != SCAN_SUCCEED)
-1d65b771bc08cd Hugh Dickins       2023-07-11  1781  			continue;
-55fd6fccad3172 Suren Baghdasaryan 2023-02-27  1782  
-1d65b771bc08cd Hugh Dickins       2023-07-11  1783  		if (hpage_collapse_test_exit(mm))
-1d65b771bc08cd Hugh Dickins       2023-07-11  1784  			continue;
-023f47a8250c6b Jann Horn          2023-01-11  1785  		/*
-1d65b771bc08cd Hugh Dickins       2023-07-11  1786  		 * When a vma is registered with uffd-wp, we cannot recycle
-1d65b771bc08cd Hugh Dickins       2023-07-11  1787  		 * the page table because there may be pte markers installed.
-1d65b771bc08cd Hugh Dickins       2023-07-11  1788  		 * Other vmas can still have the same file mapped hugely, but
-1d65b771bc08cd Hugh Dickins       2023-07-11  1789  		 * skip this one: it will always be mapped in small page size
-1d65b771bc08cd Hugh Dickins       2023-07-11  1790  		 * for uffd-wp registered ranges.
-023f47a8250c6b Jann Horn          2023-01-11  1791  		 */
-1d65b771bc08cd Hugh Dickins       2023-07-11  1792  		if (userfaultfd_wp(vma))
-1d65b771bc08cd Hugh Dickins       2023-07-11  1793  			continue;
-1d65b771bc08cd Hugh Dickins       2023-07-11  1794  
-1d65b771bc08cd Hugh Dickins       2023-07-11  1795  		/* PTEs were notified when unmapped; but now for the PMD? */
-1d65b771bc08cd Hugh Dickins       2023-07-11  1796  		mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm,
-1d65b771bc08cd Hugh Dickins       2023-07-11  1797  					addr, addr + HPAGE_PMD_SIZE);
-1d65b771bc08cd Hugh Dickins       2023-07-11  1798  		mmu_notifier_invalidate_range_start(&range);
-1d65b771bc08cd Hugh Dickins       2023-07-11  1799  
-1d65b771bc08cd Hugh Dickins       2023-07-11  1800  		pml = pmd_lock(mm, pmd);
-1d65b771bc08cd Hugh Dickins       2023-07-11  1801  		ptl = pte_lockptr(mm, pmd);
-1d65b771bc08cd Hugh Dickins       2023-07-11 @1802  		if (ptl != pml)
-1d65b771bc08cd Hugh Dickins       2023-07-11  1803  			spin_lock_nested(ptl, SINGLE_DEPTH_NESTING);
-1d65b771bc08cd Hugh Dickins       2023-07-11  1804  
-deb4c93a987108 Peter Xu           2022-05-12  1805  		/*
-1d65b771bc08cd Hugh Dickins       2023-07-11  1806  		 * Huge page lock is still held, so normally the page table
-1d65b771bc08cd Hugh Dickins       2023-07-11  1807  		 * must remain empty; and we have already skipped anon_vma
-1d65b771bc08cd Hugh Dickins       2023-07-11  1808  		 * and userfaultfd_wp() vmas.  But since the mmap_lock is not
-1d65b771bc08cd Hugh Dickins       2023-07-11  1809  		 * held, it is still possible for a racing userfaultfd_ioctl()
-1d65b771bc08cd Hugh Dickins       2023-07-11  1810  		 * to have inserted ptes or markers.  Now that we hold ptlock,
-1d65b771bc08cd Hugh Dickins       2023-07-11  1811  		 * repeating the anon_vma check protects from one category,
-1d65b771bc08cd Hugh Dickins       2023-07-11  1812  		 * and repeating the userfaultfd_wp() check from another.
-deb4c93a987108 Peter Xu           2022-05-12  1813  		 */
-1d65b771bc08cd Hugh Dickins       2023-07-11  1814  		if (unlikely(vma->anon_vma || userfaultfd_wp(vma))) {
-1d65b771bc08cd Hugh Dickins       2023-07-11  1815  			skipped_uffd = true;
-1d65b771bc08cd Hugh Dickins       2023-07-11  1816  		} else {
-1d65b771bc08cd Hugh Dickins       2023-07-11  1817  			pgt_pmd = pmdp_collapse_flush(vma, addr, pmd);
-1d65b771bc08cd Hugh Dickins       2023-07-11  1818  			pmdp_get_lockless_sync();
-34488399fa08fa Zach O'Keefe       2022-09-22  1819  		}
-34488399fa08fa Zach O'Keefe       2022-09-22  1820  
-1d65b771bc08cd Hugh Dickins       2023-07-11  1821  		if (ptl != pml)
-1d65b771bc08cd Hugh Dickins       2023-07-11  1822  			spin_unlock(ptl);
-1d65b771bc08cd Hugh Dickins       2023-07-11  1823  		spin_unlock(pml);
-1d65b771bc08cd Hugh Dickins       2023-07-11  1824  
-1d65b771bc08cd Hugh Dickins       2023-07-11  1825  		mmu_notifier_invalidate_range_end(&range);
-1d65b771bc08cd Hugh Dickins       2023-07-11  1826  
-1d65b771bc08cd Hugh Dickins       2023-07-11  1827  		if (!skipped_uffd) {
-1d65b771bc08cd Hugh Dickins       2023-07-11  1828  			mm_dec_nr_ptes(mm);
-1d65b771bc08cd Hugh Dickins       2023-07-11  1829  			page_table_check_pte_clear_range(mm, addr, pgt_pmd);
-1d65b771bc08cd Hugh Dickins       2023-07-11  1830  			pte_free_defer(mm, pmd_pgtable(pgt_pmd));
-f3f0e1d2150b2b Kirill A. Shutemov 2016-07-26  1831  		}
-f3f0e1d2150b2b Kirill A. Shutemov 2016-07-26  1832  	}
-1d65b771bc08cd Hugh Dickins       2023-07-11  1833  	i_mmap_unlock_read(mapping);
-f3f0e1d2150b2b Kirill A. Shutemov 2016-07-26  1834  }
-f3f0e1d2150b2b Kirill A. Shutemov 2016-07-26  1835  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  132  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  133  /*
+cb39ec0c1040e8 Eric Biggers 2020-01-21  134   * Construct a default-key mapping:
+cb39ec0c1040e8 Eric Biggers 2020-01-21  135   * <cipher> <key> <iv_offset> <dev_path> <start>
+cb39ec0c1040e8 Eric Biggers 2020-01-21  136   *
+cb39ec0c1040e8 Eric Biggers 2020-01-21  137   * This syntax matches dm-crypt's, but lots of unneeded functionality has been
+cb39ec0c1040e8 Eric Biggers 2020-01-21  138   * removed.  Also, dm-default-key requires that the "iv_large_sectors" option be
+cb39ec0c1040e8 Eric Biggers 2020-01-21  139   * given whenever a non-default sector size is used.
+cb39ec0c1040e8 Eric Biggers 2020-01-21  140   */
+cb39ec0c1040e8 Eric Biggers 2020-01-21  141  static int default_key_ctr(struct dm_target *ti, unsigned int argc, char **argv)
+cb39ec0c1040e8 Eric Biggers 2020-01-21  142  {
+cb39ec0c1040e8 Eric Biggers 2020-01-21  143  	struct default_key_c *dkc;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  144  	const struct dm_default_key_cipher *cipher;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  145  	u8 raw_key[DM_DEFAULT_KEY_MAX_KEY_SIZE];
+cb39ec0c1040e8 Eric Biggers 2020-01-21  146  	unsigned long long tmpll;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  147  	char dummy;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  148  	int err;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  149  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  150  	if (argc < 5) {
+cb39ec0c1040e8 Eric Biggers 2020-01-21  151  		ti->error = "Not enough arguments";
+cb39ec0c1040e8 Eric Biggers 2020-01-21  152  		return -EINVAL;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  153  	}
+cb39ec0c1040e8 Eric Biggers 2020-01-21  154  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  155  	dkc = kzalloc(sizeof(*dkc), GFP_KERNEL);
+cb39ec0c1040e8 Eric Biggers 2020-01-21  156  	if (!dkc) {
+cb39ec0c1040e8 Eric Biggers 2020-01-21  157  		ti->error = "Out of memory";
+cb39ec0c1040e8 Eric Biggers 2020-01-21  158  		return -ENOMEM;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  159  	}
+cb39ec0c1040e8 Eric Biggers 2020-01-21  160  	ti->private = dkc;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  161  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  162  	/* <cipher> */
+cb39ec0c1040e8 Eric Biggers 2020-01-21  163  	dkc->cipher_string = kstrdup(argv[0], GFP_KERNEL);
+cb39ec0c1040e8 Eric Biggers 2020-01-21  164  	if (!dkc->cipher_string) {
+cb39ec0c1040e8 Eric Biggers 2020-01-21  165  		ti->error = "Out of memory";
+cb39ec0c1040e8 Eric Biggers 2020-01-21  166  		err = -ENOMEM;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  167  		goto bad;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  168  	}
+cb39ec0c1040e8 Eric Biggers 2020-01-21  169  	cipher = lookup_cipher(dkc->cipher_string);
+cb39ec0c1040e8 Eric Biggers 2020-01-21  170  	if (!cipher) {
+cb39ec0c1040e8 Eric Biggers 2020-01-21  171  		ti->error = "Unsupported cipher";
+cb39ec0c1040e8 Eric Biggers 2020-01-21  172  		err = -EINVAL;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  173  		goto bad;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  174  	}
+cb39ec0c1040e8 Eric Biggers 2020-01-21  175  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  176  	/* <key> */
+cb39ec0c1040e8 Eric Biggers 2020-01-21  177  	if (strlen(argv[1]) != 2 * cipher->key_size) {
+cb39ec0c1040e8 Eric Biggers 2020-01-21  178  		ti->error = "Incorrect key size for cipher";
+cb39ec0c1040e8 Eric Biggers 2020-01-21  179  		err = -EINVAL;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  180  		goto bad;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  181  	}
+cb39ec0c1040e8 Eric Biggers 2020-01-21  182  	if (hex2bin(raw_key, argv[1], cipher->key_size) != 0) {
+cb39ec0c1040e8 Eric Biggers 2020-01-21  183  		ti->error = "Malformed key string";
+cb39ec0c1040e8 Eric Biggers 2020-01-21  184  		err = -EINVAL;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  185  		goto bad;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  186  	}
+cb39ec0c1040e8 Eric Biggers 2020-01-21  187  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  188  	/* <iv_offset> */
+cb39ec0c1040e8 Eric Biggers 2020-01-21  189  	if (sscanf(argv[2], "%llu%c", &dkc->iv_offset, &dummy) != 1) {
+cb39ec0c1040e8 Eric Biggers 2020-01-21  190  		ti->error = "Invalid iv_offset sector";
+cb39ec0c1040e8 Eric Biggers 2020-01-21  191  		err = -EINVAL;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  192  		goto bad;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  193  	}
+cb39ec0c1040e8 Eric Biggers 2020-01-21  194  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  195  	/* <dev_path> */
+cb39ec0c1040e8 Eric Biggers 2020-01-21  196  	err = dm_get_device(ti, argv[3], dm_table_get_mode(ti->table),
+cb39ec0c1040e8 Eric Biggers 2020-01-21  197  			    &dkc->dev);
+cb39ec0c1040e8 Eric Biggers 2020-01-21  198  	if (err) {
+cb39ec0c1040e8 Eric Biggers 2020-01-21  199  		ti->error = "Device lookup failed";
+cb39ec0c1040e8 Eric Biggers 2020-01-21  200  		goto bad;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  201  	}
+cb39ec0c1040e8 Eric Biggers 2020-01-21  202  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  203  	/* <start> */
+cb39ec0c1040e8 Eric Biggers 2020-01-21  204  	if (sscanf(argv[4], "%llu%c", &tmpll, &dummy) != 1 ||
+cb39ec0c1040e8 Eric Biggers 2020-01-21 @205  	    tmpll != (sector_t)tmpll) {
+cb39ec0c1040e8 Eric Biggers 2020-01-21  206  		ti->error = "Invalid start sector";
+cb39ec0c1040e8 Eric Biggers 2020-01-21  207  		err = -EINVAL;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  208  		goto bad;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  209  	}
+cb39ec0c1040e8 Eric Biggers 2020-01-21  210  	dkc->start = tmpll;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  211  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  212  	/* optional arguments */
+cb39ec0c1040e8 Eric Biggers 2020-01-21  213  	dkc->sector_size = SECTOR_SIZE;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  214  	if (argc > 5) {
+cb39ec0c1040e8 Eric Biggers 2020-01-21  215  		err = default_key_ctr_optional(ti, argc - 5, &argv[5]);
+cb39ec0c1040e8 Eric Biggers 2020-01-21  216  		if (err)
+cb39ec0c1040e8 Eric Biggers 2020-01-21  217  			goto bad;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  218  	}
+cb39ec0c1040e8 Eric Biggers 2020-01-21  219  	dkc->sector_bits = ilog2(dkc->sector_size);
+cb39ec0c1040e8 Eric Biggers 2020-01-21  220  	if (ti->len & ((dkc->sector_size >> SECTOR_SHIFT) - 1)) {
+cb39ec0c1040e8 Eric Biggers 2020-01-21  221  		ti->error = "Device size is not a multiple of sector_size";
+cb39ec0c1040e8 Eric Biggers 2020-01-21  222  		err = -EINVAL;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  223  		goto bad;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  224  	}
+cb39ec0c1040e8 Eric Biggers 2020-01-21  225  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  226  	err = blk_crypto_init_key(&dkc->key, raw_key, cipher->key_size,
+cb39ec0c1040e8 Eric Biggers 2020-01-21  227  				  cipher->mode_num, dkc->sector_size);
+cb39ec0c1040e8 Eric Biggers 2020-01-21  228  	if (err) {
+cb39ec0c1040e8 Eric Biggers 2020-01-21  229  		ti->error = "Error initializing blk-crypto key";
+cb39ec0c1040e8 Eric Biggers 2020-01-21  230  		goto bad;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  231  	}
+cb39ec0c1040e8 Eric Biggers 2020-01-21  232  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  233  	err = blk_crypto_start_using_mode(cipher->mode_num, dkc->sector_size,
+cb39ec0c1040e8 Eric Biggers 2020-01-21  234  					  dkc->dev->bdev->bd_queue);
+cb39ec0c1040e8 Eric Biggers 2020-01-21  235  	if (err) {
+cb39ec0c1040e8 Eric Biggers 2020-01-21  236  		ti->error = "Error starting to use blk-crypto";
+cb39ec0c1040e8 Eric Biggers 2020-01-21  237  		goto bad;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  238  	}
+cb39ec0c1040e8 Eric Biggers 2020-01-21  239  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  240  	ti->num_flush_bios = 1;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  241  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  242  	ti->may_passthrough_inline_crypto = true;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  243  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  244  	err = 0;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  245  	goto out;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  246  
+cb39ec0c1040e8 Eric Biggers 2020-01-21  247  bad:
+cb39ec0c1040e8 Eric Biggers 2020-01-21  248  	default_key_dtr(ti);
+cb39ec0c1040e8 Eric Biggers 2020-01-21  249  out:
+cb39ec0c1040e8 Eric Biggers 2020-01-21  250  	memzero_explicit(raw_key, sizeof(raw_key));
+cb39ec0c1040e8 Eric Biggers 2020-01-21  251  	return err;
+cb39ec0c1040e8 Eric Biggers 2020-01-21  252  }
+cb39ec0c1040e8 Eric Biggers 2020-01-21  253  
 
 -- 
 0-DAY CI Kernel Test Service
