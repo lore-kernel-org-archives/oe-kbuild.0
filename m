@@ -1,146 +1,265 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9EC39B
-	for <oe-kbuild@lists.linux.dev>; Wed, 15 Nov 2023 01:42:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE61630
+	for <oe-kbuild@lists.linux.dev>; Wed, 15 Nov 2023 01:42:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z2R6aZIp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HSeYbkpf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700012571; x=1731548571;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=i5kr+DFNVJ0WAJT+89wNu1taDsOitAGU85CYC5YBQZo=;
-  b=Z2R6aZIp5uxNgo07n5RIPTqEPYjlrBOGqGZsC/oIbOKWNfSZK2rEfTCf
-   JEHf+dVO/JpuL7W3PHMCzJlUuakcO+Jsyuna7VtmHzS2nXE9kJb++VUHQ
-   OgZOiep7mCcenR1JRp97YLdr1IQ/beII9GCCs7IQrGvn3yEboTRP24jJS
-   VesXvFBOld1bXZYLlmFFDKJpo4MsyF624aL0irSfF08ZD3TcSubT+eSte
-   FWxFCHg+kiN2VsLE6IcpeIHVDSeOo5Khe29bPBm9NSyzpeDzwR7y3y+uY
-   0b2YPl68zKAo/QUYJyOmPIu5rp5t/Gj3BgwWA/QsBlWd6hom6B3H458CQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="370138413"
+  t=1700012573; x=1731548573;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=r9vBfYqXw/Rj9EAd2t61EQJu/4sZDG9Gw50rNmp2sK0=;
+  b=HSeYbkpf/YnjmijejPVkj4HsyxqQAbkinWY0Fe7kGiWrlF/LH3FtFKBt
+   wFVkvBW/zrQKsTNdHCjGCAz2OZaZJ/bp+ptkjSkpizJQAd4QVLTSQT6+f
+   1j/T5U9yJz2hQ/jqbJaQdS+wiTfDo7LwWmwGQmttkDl7vtQbaaKjwGs6F
+   MlU+5X0C8zNxz91O5rDp4VQghRNaHiVM2L6rSKi712xRb8hpfEkaOIWlA
+   Bj++qQlKP/2BmH0bj6et20ip+3LyPjwLK228sd9Kzqgi2Hcd2jrnz/KH9
+   oShhdVl1+bSo9TtkJabB2LqJoUsFVTcGCpsb7yY1sruFX09i95WbLbpKZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="421887544"
 X-IronPort-AV: E=Sophos;i="6.03,303,1694761200"; 
-   d="scan'208";a="370138413"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 17:42:51 -0800
+   d="scan'208";a="421887544"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 17:42:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="768444724"
 X-IronPort-AV: E=Sophos;i="6.03,303,1694761200"; 
-   d="scan'208";a="768444724"
+   d="scan'208";a="13006208"
 Received: from lkp-server02.sh.intel.com (HELO 83346ef18697) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Nov 2023 17:42:50 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 14 Nov 2023 17:42:51 -0800
 Received: from kbuild by 83346ef18697 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r34vX-0000tI-1e;
-	Wed, 15 Nov 2023 01:42:47 +0000
-Date: Wed, 15 Nov 2023 09:41:53 +0800
+	id 1r34vY-0000tL-27;
+	Wed, 15 Nov 2023 01:42:48 +0000
+Date: Wed, 15 Nov 2023 09:41:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [kabel:realtek-sfp-work 8/20] drivers/net/phy/mdio_debugfs.c:53:5:
- warning: no previous prototype for 'mdiobus_register_debugfs'
-Message-ID: <202311150909.QLgwVtTa-lkp@intel.com>
+Subject: include/uapi/asm-generic/signal-defs.h:19:29: sparse: sparse:
+ multiple address spaces given
+Message-ID: <202311150911.TjjQRuZU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "has kconfig file changed"
-:::::: Manual check reason: "has Makefile file changed"
+:::::: Manual check reason: "low confidence static check first_new_problem: include/uapi/asm-generic/signal-defs.h:19:29: sparse: sparse: multiple address spaces given"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Marek Behún" <kabel@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+CC: Christian Brauner <christian.brauner@ubuntu.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kabel/linux.git realtek-sfp-work
-head:   a7931b1e7b8bdade3975606bc26446fdccc6a40e
-commit: 1b9d6e195efad14934464c6d5285a3949ed0d898 [8/20] net: mdiobus: add support to access PHY registers via debugfs
-:::::: branch date: 34 hours ago
-:::::: commit date: 5 days ago
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20231115/202311150909.QLgwVtTa-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311150909.QLgwVtTa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9bacdd8996c77c42ca004440be610692275ff9d0
+commit: 913292c97d750fe4188b4f5aa770e5e0ca1e5a91 sched.h: Annotate sighand_struct with __rcu
+date:   3 years, 10 months ago
+:::::: branch date: 32 hours ago
+:::::: commit date: 3 years, 10 months ago
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231115/202311150911.TjjQRuZU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311150911.TjjQRuZU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311150909.QLgwVtTa-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311150911.TjjQRuZU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/signal.c: note: in included file (through arch/x86/include/uapi/asm/signal.h, arch/x86/include/asm/signal.h, include/uapi/linux/signal.h, ...):
+>> include/uapi/asm-generic/signal-defs.h:19:29: sparse: sparse: multiple address spaces given
+   kernel/signal.c:196:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:196:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:196:31: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:199:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:199:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:199:33: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:474:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:474:9: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:474:9: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:478:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:478:34: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:478:34: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:511:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:511:9: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:511:9: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:514:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:514:36: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:514:36: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:536:53: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct k_sigaction *ka @@     got struct k_sigaction [noderef] <asn:4> * @@
+   kernel/signal.c:536:53: sparse:     expected struct k_sigaction *ka
+   kernel/signal.c:536:53: sparse:     got struct k_sigaction [noderef] <asn:4> *
+>> include/uapi/asm-generic/signal-defs.h:19:29: sparse: sparse: multiple address spaces given
+   kernel/signal.c:689:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:689:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:689:33: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:691:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:691:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:691:31: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:1311:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:1311:9: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:1311:9: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:1312:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct k_sigaction *action @@     got struct k_sigaction [noderef] <asn:4> * @@
+   kernel/signal.c:1312:16: sparse:     expected struct k_sigaction *action
+   kernel/signal.c:1312:16: sparse:     got struct k_sigaction [noderef] <asn:4> *
+   kernel/signal.c:1329:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:1329:34: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:1329:34: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:1644:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:1644:17: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:1644:17: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:1646:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:1646:42: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:1646:42: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:1819:36: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:1819:36: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:1819:36: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:1948:65: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] <asn:4> *parent @@
+   kernel/signal.c:1948:65: sparse:     expected struct task_struct *tsk
+   kernel/signal.c:1948:65: sparse:     got struct task_struct [noderef] <asn:4> *parent
+   kernel/signal.c:1949:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *p @@     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> * @@
+   kernel/signal.c:1949:40: sparse:     expected void const volatile *p
+   kernel/signal.c:1949:40: sparse:     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> *
+   kernel/signal.c:1949:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *p @@     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> * @@
+   kernel/signal.c:1949:40: sparse:     expected void const volatile *p
+   kernel/signal.c:1949:40: sparse:     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> *
+   kernel/signal.c:1967:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sighand_struct *psig @@     got struct sighand_struct [noderef] <asn:4> *[noderef] <asn:4> sighand @@
+   kernel/signal.c:1967:14: sparse:     expected struct sighand_struct *psig
+   kernel/signal.c:1967:14: sparse:     got struct sighand_struct [noderef] <asn:4> *[noderef] <asn:4> sighand
+   kernel/signal.c:1992:54: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] <asn:4> *parent @@
+   kernel/signal.c:1992:54: sparse:     expected struct task_struct *p
+   kernel/signal.c:1992:54: sparse:     got struct task_struct [noderef] <asn:4> *parent
+   kernel/signal.c:1993:34: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] <asn:4> *parent @@
+   kernel/signal.c:1993:34: sparse:     expected struct task_struct *parent
+   kernel/signal.c:1993:34: sparse:     got struct task_struct [noderef] <asn:4> *parent
+   kernel/signal.c:2022:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] <asn:4> *parent @@
+   kernel/signal.c:2022:24: sparse:     expected struct task_struct *parent
+   kernel/signal.c:2022:24: sparse:     got struct task_struct [noderef] <asn:4> *parent
+   kernel/signal.c:2025:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] <asn:4> *real_parent @@
+   kernel/signal.c:2025:24: sparse:     expected struct task_struct *parent
+   kernel/signal.c:2025:24: sparse:     got struct task_struct [noderef] <asn:4> *real_parent
+   kernel/signal.c:2058:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sighand_struct *sighand @@     got struct sighand_struct [noderef] <asn:4> *sighand @@
+   kernel/signal.c:2058:17: sparse:     expected struct sighand_struct *sighand
+   kernel/signal.c:2058:17: sparse:     got struct sighand_struct [noderef] <asn:4> *sighand
+   kernel/signal.c:2133:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:2133:41: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2133:41: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:2135:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:2135:39: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2135:39: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:2183:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:2183:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2183:33: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:2238:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:2238:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2238:31: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:2272:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:2272:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2272:31: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:2274:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:2274:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2274:33: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:2371:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:2371:41: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2371:41: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:2456:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:2456:41: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2456:41: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:2468:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:2468:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2468:33: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:2506:52: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] <asn:4> *parent @@
+   kernel/signal.c:2506:52: sparse:     expected struct task_struct *tsk
+   kernel/signal.c:2506:52: sparse:     got struct task_struct [noderef] <asn:4> *parent
+   kernel/signal.c:2508:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *p @@     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> * @@
+   kernel/signal.c:2508:49: sparse:     expected void const volatile *p
+   kernel/signal.c:2508:49: sparse:     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> *
+   kernel/signal.c:2508:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *p @@     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> * @@
+   kernel/signal.c:2508:49: sparse:     expected void const volatile *p
+   kernel/signal.c:2508:49: sparse:     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> *
+   kernel/signal.c:2523:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sighand_struct *sighand @@     got struct sighand_struct [noderef] <asn:4> *sighand @@
+   kernel/signal.c:2523:49: sparse:     expected struct sighand_struct *sighand
+   kernel/signal.c:2523:49: sparse:     got struct sighand_struct [noderef] <asn:4> *sighand
+   kernel/signal.c:2827:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:2827:27: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2827:27: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:2847:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:2847:29: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2847:29: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:2914:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   kernel/signal.c:2914:27: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2914:27: sparse:     got struct spinlock [noderef] <asn:4> *
+   kernel/signal.c:2916:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+--
+   drivers/tty/tty_jobctrl.c:77:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:77:9: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:77:9: sparse:     got struct spinlock [noderef] <asn:4> *
+   drivers/tty/tty_jobctrl.c:80:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:80:34: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:80:34: sparse:     got struct spinlock [noderef] <asn:4> *
+   drivers/tty/tty_jobctrl.c:120:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:120:31: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:120:31: sparse:     got struct spinlock [noderef] <asn:4> *
+   drivers/tty/tty_jobctrl.c:122:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:122:33: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:122:33: sparse:     got struct spinlock [noderef] <asn:4> *
+   drivers/tty/tty_jobctrl.c:131:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:131:31: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:131:31: sparse:     got struct spinlock [noderef] <asn:4> *
+   drivers/tty/tty_jobctrl.c:152:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:152:33: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:152:33: sparse:     got struct spinlock [noderef] <asn:4> *
+   drivers/tty/tty_jobctrl.c:161:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:161:9: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:161:9: sparse:     got struct spinlock [noderef] <asn:4> *
+   drivers/tty/tty_jobctrl.c:163:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:163:40: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:163:40: sparse:     got struct spinlock [noderef] <asn:4> *
+   drivers/tty/tty_jobctrl.c:200:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:200:41: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:200:41: sparse:     got struct spinlock [noderef] <asn:4> *
+   drivers/tty/tty_jobctrl.c:208:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:208:51: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:208:51: sparse:     got struct spinlock [noderef] <asn:4> *
+   drivers/tty/tty_jobctrl.c:219:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:219:43: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:219:43: sparse:     got struct spinlock [noderef] <asn:4> *
+   drivers/tty/tty_jobctrl.c:281:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:281:39: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:281:39: sparse:     got struct spinlock [noderef] <asn:4> *
+   drivers/tty/tty_jobctrl.c:284:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:284:41: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:284:41: sparse:     got struct spinlock [noderef] <asn:4> *
+   drivers/tty/tty_jobctrl.c:293:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:293:31: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:293:31: sparse:     got struct spinlock [noderef] <asn:4> *
+   drivers/tty/tty_jobctrl.c:309:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] <asn:4> * @@
+   drivers/tty/tty_jobctrl.c:309:33: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:309:33: sparse:     got struct spinlock [noderef] <asn:4> *
+>> drivers/tty/tty_jobctrl.c:18:41: sparse: sparse: dereference of noderef expression
 
->> drivers/net/phy/mdio_debugfs.c:53:5: warning: no previous prototype for 'mdiobus_register_debugfs' [-Wmissing-prototypes]
-      53 | int mdiobus_register_debugfs(struct mii_bus *bus)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/phy/mdio_debugfs.c:75:6: warning: no previous prototype for 'mdiobus_unregister_debugfs' [-Wmissing-prototypes]
-      75 | void mdiobus_unregister_debugfs(struct mii_bus *bus)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/phy/mdio_debugfs.c:86:5: warning: no previous prototype for 'mdiobus_debugfs_init' [-Wmissing-prototypes]
-      86 | int mdiobus_debugfs_init(void)
-         |     ^~~~~~~~~~~~~~~~~~~~
->> drivers/net/phy/mdio_debugfs.c:99:6: warning: no previous prototype for 'mdiobus_debugfs_exit' [-Wmissing-prototypes]
-      99 | void mdiobus_debugfs_exit(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
+vim +19 include/uapi/asm-generic/signal-defs.h
 
+b1ecb4c3a9e33cc include/asm-generic/signal.h Al Viro 2005-05-04  16  
+b1ecb4c3a9e33cc include/asm-generic/signal.h Al Viro 2005-05-04  17  #ifndef __ASSEMBLY__
+b1ecb4c3a9e33cc include/asm-generic/signal.h Al Viro 2005-05-04  18  typedef void __signalfn_t(int);
+b1ecb4c3a9e33cc include/asm-generic/signal.h Al Viro 2005-05-04 @19  typedef __signalfn_t __user *__sighandler_t;
+b1ecb4c3a9e33cc include/asm-generic/signal.h Al Viro 2005-05-04  20  
 
-vim +/mdiobus_register_debugfs +53 drivers/net/phy/mdio_debugfs.c
+:::::: The code at line 19 was first introduced by commit
+:::::: b1ecb4c3a9e33cc8b93ac9cb046b535b72a15f68 [PATCH] asm/signal.h unification
 
-1b9d6e195efad1 Marek Behún 2021-05-31  52  
-1b9d6e195efad1 Marek Behún 2021-05-31 @53  int mdiobus_register_debugfs(struct mii_bus *bus)
-1b9d6e195efad1 Marek Behún 2021-05-31  54  {
-1b9d6e195efad1 Marek Behún 2021-05-31  55  	struct dentry *dir, *entry;
-1b9d6e195efad1 Marek Behún 2021-05-31  56  
-1b9d6e195efad1 Marek Behún 2021-05-31  57  	dir = debugfs_create_dir(dev_name(&bus->dev), mdiobus_dentry);
-1b9d6e195efad1 Marek Behún 2021-05-31  58  	if (IS_ERR(dir))
-1b9d6e195efad1 Marek Behún 2021-05-31  59  		return PTR_ERR(dir);
-1b9d6e195efad1 Marek Behún 2021-05-31  60  
-1b9d6e195efad1 Marek Behún 2021-05-31  61  	debugfs_create_u32("addr", 0600, dir, &bus->debug_addr);
-1b9d6e195efad1 Marek Behún 2021-05-31  62  	debugfs_create_u32("reg", 0600, dir, &bus->debug_reg);
-1b9d6e195efad1 Marek Behún 2021-05-31  63  
-1b9d6e195efad1 Marek Behún 2021-05-31  64  	entry = debugfs_create_file_unsafe("val", 0600, dir, bus, &val_fops);
-1b9d6e195efad1 Marek Behún 2021-05-31  65  	if (IS_ERR(entry))
-1b9d6e195efad1 Marek Behún 2021-05-31  66  		goto fail;
-1b9d6e195efad1 Marek Behún 2021-05-31  67  
-1b9d6e195efad1 Marek Behún 2021-05-31  68  	return 0;
-1b9d6e195efad1 Marek Behún 2021-05-31  69  
-1b9d6e195efad1 Marek Behún 2021-05-31  70  fail:
-1b9d6e195efad1 Marek Behún 2021-05-31  71  	debugfs_remove_recursive(dir);
-1b9d6e195efad1 Marek Behún 2021-05-31  72  	return PTR_ERR(entry);
-1b9d6e195efad1 Marek Behún 2021-05-31  73  }
-1b9d6e195efad1 Marek Behún 2021-05-31  74  
-1b9d6e195efad1 Marek Behún 2021-05-31 @75  void mdiobus_unregister_debugfs(struct mii_bus *bus)
-1b9d6e195efad1 Marek Behún 2021-05-31  76  {
-1b9d6e195efad1 Marek Behún 2021-05-31  77  	struct dentry *dir;
-1b9d6e195efad1 Marek Behún 2021-05-31  78  
-1b9d6e195efad1 Marek Behún 2021-05-31  79  	dir = debugfs_lookup(dev_name(&bus->dev), mdiobus_dentry);
-1b9d6e195efad1 Marek Behún 2021-05-31  80  	if (!dir)
-1b9d6e195efad1 Marek Behún 2021-05-31  81  		return;
-1b9d6e195efad1 Marek Behún 2021-05-31  82  
-1b9d6e195efad1 Marek Behún 2021-05-31  83  	debugfs_remove_recursive(dir);
-1b9d6e195efad1 Marek Behún 2021-05-31  84  }
-1b9d6e195efad1 Marek Behún 2021-05-31  85  
-1b9d6e195efad1 Marek Behún 2021-05-31 @86  int mdiobus_debugfs_init(void)
-1b9d6e195efad1 Marek Behún 2021-05-31  87  {
-1b9d6e195efad1 Marek Behún 2021-05-31  88  	struct dentry *dentry;
-1b9d6e195efad1 Marek Behún 2021-05-31  89  
-1b9d6e195efad1 Marek Behún 2021-05-31  90  	dentry = debugfs_create_dir("mdio_bus", NULL);
-1b9d6e195efad1 Marek Behún 2021-05-31  91  	if (IS_ERR(dentry))
-1b9d6e195efad1 Marek Behún 2021-05-31  92  		return PTR_ERR(dentry);
-1b9d6e195efad1 Marek Behún 2021-05-31  93  
-1b9d6e195efad1 Marek Behún 2021-05-31  94  	mdiobus_dentry = dentry;
-1b9d6e195efad1 Marek Behún 2021-05-31  95  
-1b9d6e195efad1 Marek Behún 2021-05-31  96  	return 0;
-1b9d6e195efad1 Marek Behún 2021-05-31  97  }
-1b9d6e195efad1 Marek Behún 2021-05-31  98  
-1b9d6e195efad1 Marek Behún 2021-05-31 @99  void mdiobus_debugfs_exit(void)
+:::::: TO: Al Viro <viro@www.linux.org.uk>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
