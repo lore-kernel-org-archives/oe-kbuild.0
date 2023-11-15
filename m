@@ -1,158 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0A32FC2D
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Nov 2023 23:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9EC39B
+	for <oe-kbuild@lists.linux.dev>; Wed, 15 Nov 2023 01:42:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="de8wxdOL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z2R6aZIp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700006243; x=1731542243;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QkQ5+NIZXiJGqSWACD9xPE39IvRBL6jOB+TSAVTDX8w=;
-  b=de8wxdOLrgqVWMFZsvvIgn7a/V0MQ5wrG8ORcIc4VuIuBAW1nB7Cl2Ai
-   MKyPg4995tNGFBaZQ+o1X2oiWCYouH0AS0wJT0wkxJk4LuWW4b79cAA66
-   X7LM4eL0IhTibwcOhcyNh0J9ZDPu9RxV3MteDJnmQOe3aNDoILNevGuGH
-   Oymtlecw9NE+m9HBvKQiPwv2DLYkYshokdC8+PNOljHoQmYR8OAraevXc
-   M2QGuK0k9aQrz4VKEQY/imn3ZjQGZEBg9ha51T6jOqSffPrlNRMQuMd7J
-   dXgwVuoXZ2YrEXrmt+4AEUDRLhRNDQHQ03+desElcjuKJybAkpMSYw40U
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="457269244"
+  t=1700012571; x=1731548571;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=i5kr+DFNVJ0WAJT+89wNu1taDsOitAGU85CYC5YBQZo=;
+  b=Z2R6aZIp5uxNgo07n5RIPTqEPYjlrBOGqGZsC/oIbOKWNfSZK2rEfTCf
+   JEHf+dVO/JpuL7W3PHMCzJlUuakcO+Jsyuna7VtmHzS2nXE9kJb++VUHQ
+   OgZOiep7mCcenR1JRp97YLdr1IQ/beII9GCCs7IQrGvn3yEboTRP24jJS
+   VesXvFBOld1bXZYLlmFFDKJpo4MsyF624aL0irSfF08ZD3TcSubT+eSte
+   FWxFCHg+kiN2VsLE6IcpeIHVDSeOo5Khe29bPBm9NSyzpeDzwR7y3y+uY
+   0b2YPl68zKAo/QUYJyOmPIu5rp5t/Gj3BgwWA/QsBlWd6hom6B3H458CQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="370138413"
 X-IronPort-AV: E=Sophos;i="6.03,303,1694761200"; 
-   d="scan'208";a="457269244"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 15:57:22 -0800
+   d="scan'208";a="370138413"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 17:42:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="764818475"
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="768444724"
 X-IronPort-AV: E=Sophos;i="6.03,303,1694761200"; 
-   d="scan'208";a="764818475"
+   d="scan'208";a="768444724"
 Received: from lkp-server02.sh.intel.com (HELO 83346ef18697) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 14 Nov 2023 15:57:21 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 14 Nov 2023 17:42:50 -0800
 Received: from kbuild by 83346ef18697 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r33HS-0000nw-1J;
-	Tue, 14 Nov 2023 23:57:18 +0000
-Date: Wed, 15 Nov 2023 07:56:33 +0800
+	id 1r34vX-0000tI-1e;
+	Wed, 15 Nov 2023 01:42:47 +0000
+Date: Wed, 15 Nov 2023 09:41:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/x86/kernel/cpu/mtrr/mtrr.c:650:33: sparse: sparse:
- self-comparison always evaluates to true
-Message-ID: <202311150717.3wStmMmM-lkp@intel.com>
+Subject: [kabel:realtek-sfp-work 8/20] drivers/net/phy/mdio_debugfs.c:53:5:
+ warning: no previous prototype for 'mdiobus_register_debugfs'
+Message-ID: <202311150909.QLgwVtTa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: arch/x86/kernel/cpu/mtrr/mtrr.c:650:33: sparse: sparse: self-comparison always evaluates to true"
+:::::: Manual check reason: "has kconfig file changed"
+:::::: Manual check reason: "has Makefile file changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Juergen Gross <jgross@suse.com>
-CC: "Borislav Petkov (AMD)" <bp@alien8.de>
+TO: "Marek Behún" <kabel@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9bacdd8996c77c42ca004440be610692275ff9d0
-commit: 03409069520974361ffb510c725305239b78b39f x86/mtrr: Replace vendor tests in MTRR code
-date:   6 months ago
-:::::: branch date: 31 hours ago
-:::::: commit date: 6 months ago
-config: x86_64-randconfig-121-20231114 (https://download.01.org/0day-ci/archive/20231115/202311150717.3wStmMmM-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311150717.3wStmMmM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kabel/linux.git realtek-sfp-work
+head:   a7931b1e7b8bdade3975606bc26446fdccc6a40e
+commit: 1b9d6e195efad14934464c6d5285a3949ed0d898 [8/20] net: mdiobus: add support to access PHY registers via debugfs
+:::::: branch date: 34 hours ago
+:::::: commit date: 5 days ago
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20231115/202311150909.QLgwVtTa-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311150909.QLgwVtTa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311150717.3wStmMmM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311150909.QLgwVtTa-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/cpu/mtrr/mtrr.c:650:33: sparse: sparse: self-comparison always evaluates to true
+All warnings (new ones prefixed by >>):
 
-vim +650 arch/x86/kernel/cpu/mtrr/mtrr.c
+>> drivers/net/phy/mdio_debugfs.c:53:5: warning: no previous prototype for 'mdiobus_register_debugfs' [-Wmissing-prototypes]
+      53 | int mdiobus_register_debugfs(struct mii_bus *bus)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/phy/mdio_debugfs.c:75:6: warning: no previous prototype for 'mdiobus_unregister_debugfs' [-Wmissing-prototypes]
+      75 | void mdiobus_unregister_debugfs(struct mii_bus *bus)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/phy/mdio_debugfs.c:86:5: warning: no previous prototype for 'mdiobus_debugfs_init' [-Wmissing-prototypes]
+      86 | int mdiobus_debugfs_init(void)
+         |     ^~~~~~~~~~~~~~~~~~~~
+>> drivers/net/phy/mdio_debugfs.c:99:6: warning: no previous prototype for 'mdiobus_debugfs_exit' [-Wmissing-prototypes]
+      99 | void mdiobus_debugfs_exit(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
 
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  600  
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  601  /**
-f6b980646b93a8 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  602   * mtrr_bp_init - initialize MTRRs on the boot CPU
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  603   *
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  604   * This needs to be called early; before any of the other CPUs are
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  605   * initialized (i.e. before smp_init()).
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  606   */
-9ef231a436fddb arch/i386/kernel/cpu/mtrr/main.c Sam Ravnborg           2007-07-21  607  void __init mtrr_bp_init(void)
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  608  {
-29055dc7428746 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  609  	bool generic_mtrrs = cpu_feature_enabled(X86_FEATURE_MTRR);
-7882b69eb6cdf6 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2022-12-05  610  	const char *why = "(not available)";
-03409069520974 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  611  	unsigned long config, dummy;
-dbd51be026eaf8 arch/x86/kernel/cpu/mtrr/main.c  Jaswinder Singh Rajput 2009-07-04  612  
-d053b481a5f16d arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  613  	phys_hi_rsvd = GENMASK(31, boot_cpu_data.x86_phys_bits - 32);
-95ffa2438d0e9c arch/x86/kernel/cpu/mtrr/main.c  Yinghai Lu             2008-04-29  614  
-29055dc7428746 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  615  	if (!generic_mtrrs && mtrr_state.enabled) {
-29055dc7428746 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  616  		/*
-29055dc7428746 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  617  		 * Software overwrite of MTRR state, only for generic case.
-29055dc7428746 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  618  		 * Note that X86_FEATURE_MTRR has been reset in this case.
-29055dc7428746 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  619  		 */
-29055dc7428746 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  620  		init_table();
-29055dc7428746 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  621  		pr_info("MTRRs set to read-only\n");
-29055dc7428746 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  622  
-29055dc7428746 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  623  		return;
-29055dc7428746 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  624  	}
-29055dc7428746 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  625  
-29055dc7428746 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  626  	if (generic_mtrrs) {
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  627  		mtrr_if = &generic_mtrr_ops;
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  628  	} else {
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  629  		switch (boot_cpu_data.x86_vendor) {
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  630  		case X86_VENDOR_AMD:
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  631  			/* Pre-Athlon (K6) AMD CPU MTRRs */
-f6b980646b93a8 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  632  			if (cpu_feature_enabled(X86_FEATURE_K6_MTRR))
-f8bd9f25c98151 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2022-11-02  633  				mtrr_if = &amd_mtrr_ops;
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  634  			break;
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  635  		case X86_VENDOR_CENTAUR:
-f6b980646b93a8 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  636  			if (cpu_feature_enabled(X86_FEATURE_CENTAUR_MCR))
-f8bd9f25c98151 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2022-11-02  637  				mtrr_if = &centaur_mtrr_ops;
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  638  			break;
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  639  		case X86_VENDOR_CYRIX:
-f6b980646b93a8 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  640  			if (cpu_feature_enabled(X86_FEATURE_CYRIX_ARR))
-f8bd9f25c98151 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2022-11-02  641  				mtrr_if = &cyrix_mtrr_ops;
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  642  			break;
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  643  		default:
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  644  			break;
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  645  		}
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  646  	}
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  647  
-2c15679e8687d5 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2022-11-02  648  	if (mtrr_enabled()) {
-03409069520974 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  649  		/* Get the number of variable MTRR ranges. */
-03409069520974 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02 @650  		if (mtrr_if == &generic_mtrr_ops)
-03409069520974 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  651  			rdmsr(MSR_MTRRcap, config, dummy);
-03409069520974 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  652  		else
-03409069520974 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  653  			config = mtrr_if->var_regs;
-03409069520974 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  654  		num_var_ranges = config & MTRR_CAP_VCNT;
-03409069520974 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  655  
-^1da177e4c3f41 arch/i386/kernel/cpu/mtrr/main.c Linus Torvalds         2005-04-16  656  		init_table();
-45fa71f19a2d73 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2022-11-02  657  		if (mtrr_if == &generic_mtrr_ops) {
-f9626104a5b681 arch/x86/kernel/cpu/mtrr/main.c  Luis R. Rodriguez      2015-05-26  658  			/* BIOS may override */
-2c15679e8687d5 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2022-11-02  659  			if (get_mtrr_state()) {
-adfe7512e1d0b2 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2022-11-02  660  				memory_caching_control |= CACHE_MTRR;
-f6b980646b93a8 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2023-05-02  661  				changed_by_mtrr_cleanup = mtrr_cleanup();
-2c15679e8687d5 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2022-11-02  662  			} else {
-2c15679e8687d5 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2022-11-02  663  				mtrr_if = NULL;
-7882b69eb6cdf6 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2022-12-05  664  				why = "by BIOS";
-12031a624af781 arch/x86/kernel/cpu/mtrr/main.c  Yinghai Lu             2008-05-02  665  			}
-95ffa2438d0e9c arch/x86/kernel/cpu/mtrr/main.c  Yinghai Lu             2008-04-29  666  		}
-3b520b238e018e arch/i386/kernel/cpu/mtrr/main.c Shaohua Li             2005-07-07  667  	}
-f9626104a5b681 arch/x86/kernel/cpu/mtrr/main.c  Luis R. Rodriguez      2015-05-26  668  
-adfe7512e1d0b2 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2022-11-02  669  	if (!mtrr_enabled())
-7882b69eb6cdf6 arch/x86/kernel/cpu/mtrr/mtrr.c  Juergen Gross          2022-12-05  670  		pr_info("MTRRs disabled %s\n", why);
-3b520b238e018e arch/i386/kernel/cpu/mtrr/main.c Shaohua Li             2005-07-07  671  }
-3b520b238e018e arch/i386/kernel/cpu/mtrr/main.c Shaohua Li             2005-07-07  672  
+
+vim +/mdiobus_register_debugfs +53 drivers/net/phy/mdio_debugfs.c
+
+1b9d6e195efad1 Marek Behún 2021-05-31  52  
+1b9d6e195efad1 Marek Behún 2021-05-31 @53  int mdiobus_register_debugfs(struct mii_bus *bus)
+1b9d6e195efad1 Marek Behún 2021-05-31  54  {
+1b9d6e195efad1 Marek Behún 2021-05-31  55  	struct dentry *dir, *entry;
+1b9d6e195efad1 Marek Behún 2021-05-31  56  
+1b9d6e195efad1 Marek Behún 2021-05-31  57  	dir = debugfs_create_dir(dev_name(&bus->dev), mdiobus_dentry);
+1b9d6e195efad1 Marek Behún 2021-05-31  58  	if (IS_ERR(dir))
+1b9d6e195efad1 Marek Behún 2021-05-31  59  		return PTR_ERR(dir);
+1b9d6e195efad1 Marek Behún 2021-05-31  60  
+1b9d6e195efad1 Marek Behún 2021-05-31  61  	debugfs_create_u32("addr", 0600, dir, &bus->debug_addr);
+1b9d6e195efad1 Marek Behún 2021-05-31  62  	debugfs_create_u32("reg", 0600, dir, &bus->debug_reg);
+1b9d6e195efad1 Marek Behún 2021-05-31  63  
+1b9d6e195efad1 Marek Behún 2021-05-31  64  	entry = debugfs_create_file_unsafe("val", 0600, dir, bus, &val_fops);
+1b9d6e195efad1 Marek Behún 2021-05-31  65  	if (IS_ERR(entry))
+1b9d6e195efad1 Marek Behún 2021-05-31  66  		goto fail;
+1b9d6e195efad1 Marek Behún 2021-05-31  67  
+1b9d6e195efad1 Marek Behún 2021-05-31  68  	return 0;
+1b9d6e195efad1 Marek Behún 2021-05-31  69  
+1b9d6e195efad1 Marek Behún 2021-05-31  70  fail:
+1b9d6e195efad1 Marek Behún 2021-05-31  71  	debugfs_remove_recursive(dir);
+1b9d6e195efad1 Marek Behún 2021-05-31  72  	return PTR_ERR(entry);
+1b9d6e195efad1 Marek Behún 2021-05-31  73  }
+1b9d6e195efad1 Marek Behún 2021-05-31  74  
+1b9d6e195efad1 Marek Behún 2021-05-31 @75  void mdiobus_unregister_debugfs(struct mii_bus *bus)
+1b9d6e195efad1 Marek Behún 2021-05-31  76  {
+1b9d6e195efad1 Marek Behún 2021-05-31  77  	struct dentry *dir;
+1b9d6e195efad1 Marek Behún 2021-05-31  78  
+1b9d6e195efad1 Marek Behún 2021-05-31  79  	dir = debugfs_lookup(dev_name(&bus->dev), mdiobus_dentry);
+1b9d6e195efad1 Marek Behún 2021-05-31  80  	if (!dir)
+1b9d6e195efad1 Marek Behún 2021-05-31  81  		return;
+1b9d6e195efad1 Marek Behún 2021-05-31  82  
+1b9d6e195efad1 Marek Behún 2021-05-31  83  	debugfs_remove_recursive(dir);
+1b9d6e195efad1 Marek Behún 2021-05-31  84  }
+1b9d6e195efad1 Marek Behún 2021-05-31  85  
+1b9d6e195efad1 Marek Behún 2021-05-31 @86  int mdiobus_debugfs_init(void)
+1b9d6e195efad1 Marek Behún 2021-05-31  87  {
+1b9d6e195efad1 Marek Behún 2021-05-31  88  	struct dentry *dentry;
+1b9d6e195efad1 Marek Behún 2021-05-31  89  
+1b9d6e195efad1 Marek Behún 2021-05-31  90  	dentry = debugfs_create_dir("mdio_bus", NULL);
+1b9d6e195efad1 Marek Behún 2021-05-31  91  	if (IS_ERR(dentry))
+1b9d6e195efad1 Marek Behún 2021-05-31  92  		return PTR_ERR(dentry);
+1b9d6e195efad1 Marek Behún 2021-05-31  93  
+1b9d6e195efad1 Marek Behún 2021-05-31  94  	mdiobus_dentry = dentry;
+1b9d6e195efad1 Marek Behún 2021-05-31  95  
+1b9d6e195efad1 Marek Behún 2021-05-31  96  	return 0;
+1b9d6e195efad1 Marek Behún 2021-05-31  97  }
+1b9d6e195efad1 Marek Behún 2021-05-31  98  
+1b9d6e195efad1 Marek Behún 2021-05-31 @99  void mdiobus_debugfs_exit(void)
 
 -- 
 0-DAY CI Kernel Test Service
