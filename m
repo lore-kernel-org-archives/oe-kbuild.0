@@ -1,77 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A101C7E
-	for <oe-kbuild@lists.linux.dev>; Thu, 16 Nov 2023 01:34:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD04F7E
+	for <oe-kbuild@lists.linux.dev>; Thu, 16 Nov 2023 01:54:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZIBlaYjw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C7ieQd4s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700098487; x=1731634487;
+  t=1700099669; x=1731635669;
   h=from:to:subject:date:message-id:references:in-reply-to:
    content-transfer-encoding:mime-version;
-  bh=1XsfO2onIaJ5FAa91g3CesjTQKPQTU6xjTAkQqWXQ3w=;
-  b=ZIBlaYjwPSlbNcBr4EWDAx6kSAvMpMmKmaugSGBAwgLoAwDbdhLFhi79
-   QQh/LKQCIZoBdx+bpYQyP9R+Ortzbxv2EbwWIDS4w2f0yNAnmuzhYAHei
-   DR27byfoWSKfFphsefXGo6Lq0Z4Iy+khAXidAYI/LbmbtT9UI6dZ8bgtx
-   DE3FwjAPZ/rYDd1IOLOgYa4BRcq54/h3U0+wJ0fI2MELMZ1gcyqwxnw+A
-   wPeMsNGLRqmrJ8u27fXA8+aIcM4XQXbw/RDoFAL3ysRvQBaBybXWElVZN
-   tYFMq4Q3REYgk4JjgZT3MO+A1va+tK8paX+b3GrbLbsnXmQPv2Nc1jdXH
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="393841478"
+  bh=N83VZ/IhtChWxVXqOD/GhKICbhb1t8cnsUEqzkmMTCI=;
+  b=C7ieQd4sDYAAcjRBOpof1bSOymOhM6zIVp5vZ/Zffb9e8CyLr1k3P/Uy
+   kBjfqOjhDuAj7tHqoqe5HTXqDJHxCDdtuftvjgDB2FTBMWj82fZFIzKyb
+   a3Jrgpy81IaB157jEZdFd99Md7aYHhXZKj51kptAjt6M2Sa+C2dVaj8KU
+   pvd0L7ji1OYeTdWPbyb8D807mIdVGN6GhMD7Eucc0lL1TDBQlPnUgJcrK
+   1pfs4PXymWsNyVv7bYELmdxnLRMZR5QqtAH6r4vmjtQ9ZT+g/FgaXSPCp
+   WHH9EvNu4Atq9fp0gI9g5+eplq3FhwGzV3aOG0gUlG3dF2xMf26eSvXey
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="4119379"
 X-IronPort-AV: E=Sophos;i="6.03,306,1694761200"; 
-   d="scan'208";a="393841478"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 17:34:46 -0800
+   d="scan'208";a="4119379"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 17:54:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="1012450566"
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="835584928"
 X-IronPort-AV: E=Sophos;i="6.03,306,1694761200"; 
-   d="scan'208";a="1012450566"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Nov 2023 17:34:46 -0800
+   d="scan'208";a="835584928"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmsmga004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Nov 2023 17:54:27 -0800
 Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Wed, 15 Nov 2023 17:34:45 -0800
+ 15.1.2507.34; Wed, 15 Nov 2023 17:54:27 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Wed, 15 Nov 2023 17:54:26 -0800
 Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
  fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Wed, 15 Nov 2023 17:34:45 -0800
+ 15.1.2507.34 via Frontend Transport; Wed, 15 Nov 2023 17:54:26 -0800
 Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
  by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Wed, 15 Nov 2023 17:34:27 -0800
+ 15.1.2507.34; Wed, 15 Nov 2023 17:54:25 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mXxYNTHDCcP4pUUba3b1cujdH2chYJqSOdTAcGyw/0nHZWIqBMGQY27HoRFW+ZSOUg5X6gpYCUK0P30Sv2vjUL7PR/w9kO3ONoj0/UBXYwH8Zs270PRh+MkhlADDRHeVWREfACSHsBbhtiNQ3R1SCKwz7qLTyK1jbV3QPJPWsiSd2bNHZpR3T87nOkPExAL2JSTW3/Yg+4fIj5xmjiPBmuHZzbiob0Ja9HFSyp9JZsfHufeyH6itRhPIWeSopv9cFNU0CevZJKxxMB1mXtjtGzv8pYOOXY8iQU3hROkiCiHrDaFTHo1C/fv1F6VDIA2C41ygbczG0PHoFdt5FUJrsg==
+ b=Sot95YISG+UbsZ8bmJXBIbWsNVvExOyt5bNkSQHpl5x/uZ3lbHolsoes1SBXZvJuYlnIWRUnUqjxO5cY9HI1t/3IyJTN4Mpfyc0ifR9sYHAb3Pt/CO5Q8foOKZwM5e5V+Fc91auH4gVSEG4SAt/kesOhtO/aUd80P4DqRdASjdGus1mjBq9Knu9AMyjjh5OKdpYc42fXcbqelGGXRYOH3u4BuoEKs46JP1nhNDFU/8sc7+JuyHG6HhgoQg+bWg2c5P2PTgS4rNl60cl6V87pS7X+rrOg2dAcTjkLDlGS6caPaG7P2NUMLI+9ByQDLI2j30bdirFCqCeokNqlBIJl4A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HVDIT4qINEKy7Hz8vOC+6aV63UPRQjeys9XFt4hcgmE=;
- b=iWYlPJ0ADDJSk2fuoY7quG3GIaeS4z1+nQIN2JIhGYa51/fZA2Ybyj6pTeaZsRoIbT+DsiQ8GbEtjSzZD2L7NQZlURXjcxTiUwKjs+lfwFPCY0wQelK3Vzks8ynVlaFMqQyjHugHT8roJr0aEiw/uxncasS5fUGCeiItjTQ+jZSk5gYZpe06zwMPiNk2aq49X0Ttcn6cf7E2qWpJfccXoteS2Ia8gy0jnPWraEcwbqh9FWvSrvoV0I4kFMduA1KDfBqFx/3ROUuutrIP01BcploKoHBNaZzO7Os0deeM5IgIgWd1FBjgcacdMPzHYDXNSU35QA6irr1tB+qknZfdNA==
+ bh=V46HfqwtSRkqELSFrfwvvmQYyNTesgnq8SvedDKV78w=;
+ b=ZvL3wjLs6GYwAfxW6VAW9LzCfYCCLiYyBothRR5u9npWEFJ15f2S91e1XCvd1CCdAia8A1Ozn1ARqpNWEGesr2K9wyZH8/YAUGISydDZ16qdMIkr7+mYOKe1nWq2W2fL0VmziJb4pjwL0jZyXSCFlDIu9fMtKX/k7LZRsE93Nf6MPzZdfF6rLcMzbQuJ4gLl2aA9zluBgxdKptSBCkuv3H+jzX4tjs4zkOd8tL0aR5Iwq9fuWy0ULwZFTbs7BAX2DsXQX1v/Jsg1y036widPcyaboDbK82DC7Zl9kDrsuvOFVWZFzSOygYSM2UcVe1SKn6CAy4NMGqRb8O+GdnRvrQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by CY8PR11MB7012.namprd11.prod.outlook.com (2603:10b6:930:54::6) with
+ by IA1PR11MB7318.namprd11.prod.outlook.com (2603:10b6:208:426::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.20; Thu, 16 Nov
- 2023 01:34:21 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.17; Thu, 16 Nov
+ 2023 01:54:18 +0000
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7002.019; Thu, 16 Nov 2023
- 01:34:20 +0000
+ 01:54:18 +0000
 From: "Liu, Yujie" <yujie.liu@intel.com>
 To: lkp <lkp@intel.com>, "oe-kbuild@lists.linux.dev"
 	<oe-kbuild@lists.linux.dev>
-Subject: RE: [PATCH 1/1] tty/serial: RISC-V SBI earlycon via DBCN extension
-Thread-Topic: [PATCH 1/1] tty/serial: RISC-V SBI earlycon via DBCN extension
-Thread-Index: AQHaF/M+f62Kf/xklk2ikEIasfx2ebB8KeEQ
-Date: Thu, 16 Nov 2023 01:34:20 +0000
-Message-ID: <CY5PR11MB6392DA9BCB0A56B8B85C2255FBB0A@CY5PR11MB6392.namprd11.prod.outlook.com>
-References: <202311160224.50mmKrMV-lkp@intel.com>
-In-Reply-To: <202311160224.50mmKrMV-lkp@intel.com>
+Subject: RE: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast
+ truncates bits from constant value (aa01a0 becomes a0)
+Thread-Topic: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast
+ truncates bits from constant value (aa01a0 becomes a0)
+Thread-Index: AQHaF+sTQHC9z4JGSUqolAZoBY3YlbB8LK6A
+Date: Thu, 16 Nov 2023 01:54:18 +0000
+Message-ID: <CY5PR11MB63925EB7BA61AADCF0F58482FBB0A@CY5PR11MB6392.namprd11.prod.outlook.com>
+References: <202311160124.gAKUkd4c-lkp@intel.com>
+In-Reply-To: <202311160124.gAKUkd4c-lkp@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -79,41 +85,41 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY5PR11MB6392:EE_|CY8PR11MB7012:EE_
-x-ms-office365-filtering-correlation-id: 7dfaf8e3-c818-4a4c-fe53-08dbe6442801
+x-ms-traffictypediagnostic: CY5PR11MB6392:EE_|IA1PR11MB7318:EE_
+x-ms-office365-filtering-correlation-id: eb7b3795-e110-40d2-3525-08dbe646f1ca
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: FZuLY+GjL3j9K1/HLRRr461VFBbGwfb1ofr0l6v/cUo9Pagy85wphwx1cm5ynV4PBb83Ehe6APaMtPvzFIGpxNGaxd1LX21peURBpZ4fMCgafoM+5AQIK7QfXCCubgGk6bY/CLIED1YL1MRIXepGDa8GgHui0NyzDuMRuD0IdbzQbQ0R1qhOHQkNsU0T6u4JUYs7zufx5ESGBf1gZRu0eD/yb7Mn/Dx018HR4BsniUmhw4Zo76eBJ8LonYzObVYioq3xGjqksTlelMnrTiRn0zsq+UJj9/v3NbydWmfzKv3RBHOO+jSFTqpd+3YJ2sMZtPJacBJxoQ5uLMGDqihYLrngtlv9iyTyNN2BUzNWUIHitO5xWK4U7LHIAHj0s7lx0kB4tgP+tmmGD1yMAh7CFpTha8LDE/pUqwpdNk23u/swWTMMt78PBgKGKnarBUP7JVE4DAwiFgXYP0jBU+MQshsGsgoSU5Arg/VPWPEVN849Hfg5f9u6mOwTt1VNPA9UXWZCoGkVcTyKcNsiR91zeuyJlWhTX/VNMcjDzL0yqqBR9oIDlWbMQdtHpe/YzvcnjLpi9EDTQIdCv2Jr5CxvaHCrApRWoU4IIrbO+5PtI957GnzMFX3F+JiG1wMVKOXQkmqhrUAqiXdM/VbkWqPd3w==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(346002)(376002)(136003)(39860400002)(230922051799003)(64100799003)(186009)(451199024)(1800799009)(6506007)(316002)(7696005)(52536014)(5660300002)(53546011)(38100700002)(478600001)(71200400001)(86362001)(83380400001)(966005)(2906002)(76116006)(9686003)(66476007)(33656002)(66946007)(66446008)(110136005)(66556008)(64756008)(55016003)(8676002)(8936002)(26005)(4001150100001)(82960400001)(122000001)(41300700001)(38070700009);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: ZHNeGJpXf4TUgLx9pr4Y5B9NsV97LrkXCAp/yC4r/oSa9N2mpblXoQDl8RCP6k9GcX0ExkbcUKx/Pgj/hB43AxuMQ4IZwN9lmVIJIY2bQ8O72pS4y1VJdbYH52jp4XxPkPNsH4f3dBA07WdiJCZnXvM2VgxVDdaLq7TX5afg0m+/ApPVezmIsuCdNYSWufASTTipxqYZ1HYDlSx8/j5+miKsr+h88tXC8LfjYhUBRejxsK7nBkv0jlPk4QrfO3/78NlOUGS5l/eDScOGLA8uQO9wTtREgBgLYwgmDLXKYDrkITf1vIK4Ed63yMSupwmqkkutP5DKgtCuPwSlmN2Ujgbthj+mTYbIcEAlt4flCistw2g97CGiepMrmSrvrLMleu+Bh8payLxP8pjLIMIEwGaUQH3mJEy4X54bDblnBRWnF7+Valtuxb0rKEjFBsvVawpfe+hxeNPixrbPiSIFbgWURcmCzMUAFB42dwprOfIomf0z+J6irKjGQB33t7anQBBjVozBtYixHEV9In7fvqejgq3V4m64W4YabHiElL11Yv26TqfEgaD6wdAK6psrvoa4ofj6HgZi2NdhxAx0xY4TdiH+qh7MN5mGCvqeHYgoYP23Yd/6n24HX4hIzfMzoRPluP/7B3d25QPVZ1/6bCG0m6LpcE00QW9P0hU9zwROiIND95MXLpPtt35jOZEgBuSMUqrAotT3dqDZXvMTUw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(376002)(396003)(136003)(366004)(230173577357003)(230922051799003)(230273577357003)(451199024)(1800799009)(64100799003)(186009)(33656002)(2906002)(8676002)(52536014)(66946007)(66446008)(8936002)(66476007)(76116006)(66556008)(86362001)(5660300002)(316002)(38070700009)(110136005)(41300700001)(64756008)(6506007)(83380400001)(966005)(478600001)(122000001)(9686003)(71200400001)(53546011)(26005)(38100700002)(55016003)(82960400001)(7696005)(41533002);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?QxrvxFix9/uCYxnXPXqv9XwPIueMts97zztxVN3GwSAb99G8hIUvbFXtaPyy?=
- =?us-ascii?Q?ApuAGAWuThbeS36vQ+8IMoGDFhZOrRIdxCm8+L89pDnzpsZzFxtMLenjV7cU?=
- =?us-ascii?Q?gSZyrpBwEG/2AMPMTVfvrLXxEFJ/0jywoUNMXC0xE/Xl19rlu4dUuYJlMEYg?=
- =?us-ascii?Q?tJcQGGQifSpCXCBn4tznDRT2pezqOS/IwzINyXEwx+KXMAzc1J/47b/j7BnC?=
- =?us-ascii?Q?cc+YTT3JEweZtG+VgSRyOFMiQafQTI8vBD13olWcyl7x8XaHXSLpbPjkKOnt?=
- =?us-ascii?Q?r7seMWhkyg2rfD2ygffA+f/+d3rXllHIOl6H239OoYtJ4rri0+8RKYvCT8qf?=
- =?us-ascii?Q?snNAEU544AJLWXmpVcG3zzPkIhJmVFQcd7HLUcKzztZptqD/6G1u9PDdH/bq?=
- =?us-ascii?Q?8Y4S++614zzfH4mQWCdRfCqnLetFg3v2p7xOnK8EqRuw2imca9kZHsCXx6b2?=
- =?us-ascii?Q?kRas7NHUg1NLhNKZhQDtSB+eg5sUb8iImPshvJrr576fIX8prT65XmG4oscQ?=
- =?us-ascii?Q?1rSSZLjSTHxmlfFTly3mGuY9aKuEK1R4m5OS3JTvfcktmItpVOJQvWgavGIT?=
- =?us-ascii?Q?lIIVioQAaOm/ZjvAO4/EN4uQfCTXtCA+ap7Y8LcWJkLiujVMew/nvmZT8vw2?=
- =?us-ascii?Q?bvFyMI8RQijIY0NuYGvZlcHZhPkkFzKMYt1Pzb3BtDOi0Eqk+uNyG/uAUe5Y?=
- =?us-ascii?Q?djR2z+pzezHAxWN/SXaZeUsfQx7xq6aCLCNM19Uou+NOeN9axsu/EqWMwcSd?=
- =?us-ascii?Q?6XbfyfFmxwlYHVIzAjlHrY2UoUx2U0nbETipY57/FPZTVzfEKvY6MHKijgcI?=
- =?us-ascii?Q?p7gdH8J0xsGiQWAYzFTrJzrndRcG2PIdXykE0TRdcWgOAxdeqI8QkPYHdFDx?=
- =?us-ascii?Q?R878KtNsSY+NJ9NFF0K7m7c3FeCeyiG0mgr0XJ9GEh3QSiowq9JFttXdLyP9?=
- =?us-ascii?Q?1CEa+nevNrnbpLhBTtFsVIGp44jrCMEpKN+ZZpSldIV/AJKGTcpchzXXElLH?=
- =?us-ascii?Q?HJrm9d/JyKTA2Xpa3ReB1Pil61nnmk4oPXh8LNjan6TC3Oc6uyWCcGCA7S9m?=
- =?us-ascii?Q?S395SKkFZpTYNVrbg5Lef8C44Fx8v4GJjx6BF85i9asOf4a+Mr1J4xl1ZWF0?=
- =?us-ascii?Q?LyuiByFiNHu38KGLMzggf3hIfmdqilg7dQyN1xlcX9gxShCKLek/ewQ8zORI?=
- =?us-ascii?Q?tcU8rVcmKxxu32TqL+869EXJaBQNGwH839cU4fgLU+A5FPffOhTBdC/S5RZ2?=
- =?us-ascii?Q?I35lbIcoYQVzoRGM1rMNRzfixBX8srb86swZcbTTdlaIop4Qhh/km+oVJlve?=
- =?us-ascii?Q?U318MYhvUo7AdeXNsVghhPGGoEnfk7i2Rop/wrGk+gGyUyOpz5q/j54nsE6u?=
- =?us-ascii?Q?5QZ6M4aoOmAwl2QETyeqm6Zze3qbQakXEA7SvPWFHDf65UMHxHcT+TUaoSIv?=
- =?us-ascii?Q?V1JfzQBmYihYpqKplKTDBOyWXSQOulvgeBAEF9tM3bus4/bm/f2P0C3YPou8?=
- =?us-ascii?Q?kDBlEZPMW/Vp1sa68uaiCTbUpjKM4tcRN4lWGpB6WObkSHZyXHBLa4t/0wMW?=
- =?us-ascii?Q?/VhmogTEybuX6uoKsZBh8SHLsS821rPqz/wW+4gb?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ApSgBURMglMAb8jcpBJmepSplvYxYIRDLlTHIyJhBwxFdwxuKrFBkZN5lqjq?=
+ =?us-ascii?Q?LgY5tgnWjhfBRr8ZBVtky1MPnKfO534c4SdfjPDqIRROtugugJfgy577HCUl?=
+ =?us-ascii?Q?r7MXiolova6tUQU8Apmg0mM3RqNH3sVOUQV3wOm4AsjKrhfV2lB2U4uEbZIJ?=
+ =?us-ascii?Q?+EUMFvWEwf+bcMzC1aamQIOgvcXll1oBlJU4EDY+7gNMiyoR5uyQSatTwaJi?=
+ =?us-ascii?Q?Cus30UgYJ3hV2spZovTSKt/HaGlaE57Tu+Wwq7aoRNFbVt5MqwwI24+6LSO6?=
+ =?us-ascii?Q?jM8wV0eJMHYDZDYa7NrjwGLkIjL5lkN2ETqnluk3hMXNKG4h+Q4wxEV/gdME?=
+ =?us-ascii?Q?L3GVLVpyIHeV21iw/QlFKsEYNj4cy792STmmk/ERt0a48KwUcM5MtJ248da8?=
+ =?us-ascii?Q?ngXCweeOuWgTPxAs/Uk+3UwvtD2VJI9zZPvZnzA/uh4Av8nresOi6e42Iwot?=
+ =?us-ascii?Q?++O+U7Ljfm31HJG1JTP/J+FiszDlNMhm+8Ynwe6z5lxclzuQMEgKCf54LSLT?=
+ =?us-ascii?Q?tfvf/W9Kl7EK+ytngGRoMdOxw+/HUh0RroKTGqZY1uvWxfvIq5tI6qrgzRAt?=
+ =?us-ascii?Q?eVT+LyN/9MsMltxwi2p7fJwYnobXt1YcuAl9Ky4N6+o0n+MFpXxk3Fn96dj2?=
+ =?us-ascii?Q?fv6rCrNxhM9MiKVtMl23UxtbnYqtPCNUuDokG7Nd4NKeBdYUKso8iUfiEKl9?=
+ =?us-ascii?Q?T08ujxcXseMa9jYrpb62cfHnM0Km8kNmloF5vyey3GKIjCBwebewDOnVBYBt?=
+ =?us-ascii?Q?3RY556X19aKdlFc/gexpBNlpQ4a3bRyfKVFjwdbLGaPUy91lvN1/cI3f0tkP?=
+ =?us-ascii?Q?QwdHbrOK+R1NSa+Ags9bwqw9R5e6+LMb2heCrJnV30ksGE78MJzs/duQz39i?=
+ =?us-ascii?Q?lOpLXGMHNwUIj34DCJ9ExT90drQS3iBkt0GRcI8Y5v7Xz5/RMCHy+By+1J9K?=
+ =?us-ascii?Q?U764ZlFTlr9P43FkeEdXQ36y3NFOOtQ71kHMuVERfw7RbPv6o9ZFaND89TI5?=
+ =?us-ascii?Q?OLOg8FR+53HCfO5g/lcaGsvD1Z+Y1mdhXAUDwhI2YHCX9FpKOBZQvOAASd17?=
+ =?us-ascii?Q?BxaarFb4exHtq5mdvBe1JXoo3xtG3WbWls4Fm2DWnnYuFd2fwwh1zUlWcjO4?=
+ =?us-ascii?Q?9EhgN0shUZcl6sA+zsamwkY3vC10v35X812N2XBHPI3+e9xXaDxGujW2hXl5?=
+ =?us-ascii?Q?58Q7OX+FONH678u85YIvcSYUbVJJJS4dc0DdM7kuSNJfryO037un5ls2tBJn?=
+ =?us-ascii?Q?QcrFQ4qnzWLpxgtYtdsT9ahwh2Hl9LyvkosJa292N8R6b2wKbKxH16jf32VK?=
+ =?us-ascii?Q?ao7/wyJsGc7Ix2+v1vXHrzVf9+lGBPcdlsdvdz9DTTgUAanoHSRqUCXj5+yN?=
+ =?us-ascii?Q?nH0WeeB/x+SGZv/ZjNCI+Wx8buF2OuuqsS9NKezlA1QskuqWHItDEkRQT5pC?=
+ =?us-ascii?Q?2cNJau9alA7XvG6D5qDnVEun+azMuDNAFe+LSXczMhIXykUP5Oc7dJVgSuUe?=
+ =?us-ascii?Q?Iz2OiPEnJPQ/t0ZScWKZL2UNHZCyTS9vmk0P5zFDu2RfzJrpzYfannhoaIJW?=
+ =?us-ascii?Q?d022yS2zYpcLDCK0lQ5YQTi9Au2Pi8uGCddIhKL/?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -124,111 +130,93 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7dfaf8e3-c818-4a4c-fe53-08dbe6442801
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2023 01:34:20.5936
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb7b3795-e110-40d2-3525-08dbe646f1ca
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2023 01:54:18.1444
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cFm3ISMnZYk1Y5kww+PydbF2WgOFWv+YsXOW62ps3/gVDg507NYEQ8prSPWSiDgXM09XeA+II5k4Uh5L+lXPlw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7012
+X-MS-Exchange-CrossTenant-userprincipalname: Bff3I51GYBe1Ih374QsSBjIS2juMvSOaSHpqIsIxT5VnC5sc5bQAdBMSvQ/QAFuw/VEzXGyuqSdp1zBY1Kr5cw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7318
 X-OriginatorOrg: intel.com
 
 not_report
 
-In this randconfig build, parent commit doesn't set SERIAL_EARLYCON_RISCV_S=
-BI, so drivers/tty/serial/earlycon-riscv-sbi.c is not compiled on parent.
+Looks like this is a case that sparse cannot handle very well. The sparse w=
+arnings exactly show the function works well.
 
-$ diff -u b85ea95d086471afb4ad062012a4d73cd328fa86/.config 18de17edb09f3b79=
-853cda40d1a659832e8040ee/.config
---- b85ea95d086471afb4ad062012a4d73cd328fa86/.config    2023-11-16 01:46:46=
-.193157134 +0800
-+++ 18de17edb09f3b79853cda40d1a659832e8040ee/.config    2023-11-16 01:51:01=
-.996525364 +0800
-@@ -4340,6 +4340,7 @@
- # Non-8250 serial port support
- #
- CONFIG_SERIAL_AMBA_PL010=3Dm
-+CONFIG_SERIAL_EARLYCON_RISCV_SBI=3Dy
- CONFIG_SERIAL_ATMEL=3Dy
- CONFIG_SERIAL_ATMEL_CONSOLE=3Dy
- CONFIG_SERIAL_ATMEL_PDC=3Dy
+The function wishes to put a const into a 3 bytes low endian room, so it is=
+ expected to truncate the bits in each step of assignment.
 
 -----Original Message-----
 From: lkp <lkp@intel.com>=20
-Sent: Thursday, November 16, 2023 02:39
+Sent: Thursday, November 16, 2023 01:41
 To: oe-kbuild@lists.linux.dev
 Cc: lkp <lkp@intel.com>
-Subject: Re: [PATCH 1/1] tty/serial: RISC-V SBI earlycon via DBCN extension
+Subject: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast trunc=
+ates bits from constant value (aa01a0 becomes a0)
 
 ::::::=20
-:::::: Manual check reason: "fbc 18de17edb09f3b79853cda40d1a659832e8040ee a=
-nd parent b85ea95d086471afb4ad062012a4d73cd328fa86 have different kconfig"
+:::::: Manual check reason: "fbc 66603243f5283f7f28c795f09e7c2167233df0bd a=
+nd parent 86a7d13c9afaa6a223a0ef3234a75e4135e1f0bf have different kconfig"
 ::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20231115133127.107575-1-heinrich.schuchardt@canonical.com>
-References: <20231115133127.107575-1-heinrich.schuchardt@canonical.com>
-TO: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
-TO: Paul Walmsley <paul.walmsley@sifive.com>
-TO: Palmer Dabbelt <palmer@dabbelt.com>
-CC: Albert Ou <aou@eecs.berkeley.edu>
-CC: Anup Patel <apatel@ventanamicro.com>
-CC: Andrew Jones <ajones@ventanamicro.com>
-CC: Mayuresh Chitale <mchitale@ventanamicro.com>
-CC: Samuel Holland <samuel.holland@sifive.com>
-CC: Alexandre Ghiti <alexghiti@rivosinc.com>
-CC: linux-riscv@lists.infradead.org
 CC: linux-kernel@vger.kernel.org
-CC: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+TO: Chris Morgan <macromorgan@hotmail.com>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Hi Heinrich,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus linus/master v6.7-rc1 =
-next-20231115]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heinrich-Schuchardt/=
-tty-serial-RISC-V-SBI-earlycon-via-DBCN-extension/20231115-213355
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-=
-testing
-patch link:    https://lore.kernel.org/r/20231115133127.107575-1-heinrich.s=
-chuchardt%40canonical.com
-patch subject: [PATCH 1/1] tty/serial: RISC-V SBI earlycon via DBCN extensi=
-on
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20231116/=
-202311160224.50mmKrMV-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
+commit: 66603243f5283f7f28c795f09e7c2167233df0bd Input: add driver for Hyni=
+tron cstxxx touchscreens
+date:   1 year, 1 month ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: x86_64-randconfig-x001-20230717 (https://download.01.org/0day-ci/ar=
+chive/20231116/202311160124.gAKUkd4c-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20231116/202311160224.50mmKrMV-lkp@intel.com/reproduce)
+/20231116/202311160124.gAKUkd4c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311160224.50mmKrMV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311160124.gAKUkd4c-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/input/touchscreen/hynitron_cstxxx.c: note: in included file (thr=
+ough arch/x86/include/generated/asm/unaligned.h):
+>> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates b=
+its from constant value (aa01a0 becomes a0)
+   include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates b=
+its from constant value (aa01 becomes 1)
+>> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates b=
+its from constant value (ab00d0 becomes d0)
+   include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates b=
+its from constant value (ab00 becomes 0)
 
->> drivers/tty/serial/earlycon-riscv-sbi.c:11:10: fatal error: asm/sbi.h: N=
-o such file or directory
-      11 | #include <asm/sbi.h>
-         |          ^~~~~~~~~~~
-   compilation terminated.
+vim +119 include/asm-generic/unaligned.h
 
+803f4e1eab7a89 Arnd Bergmann 2021-05-08  116 =20
+803f4e1eab7a89 Arnd Bergmann 2021-05-08  117  static inline void __put_unal=
+igned_le24(const u32 val, u8 *p)
+803f4e1eab7a89 Arnd Bergmann 2021-05-08  118  {
+803f4e1eab7a89 Arnd Bergmann 2021-05-08 @119  	*p++ =3D val;
+803f4e1eab7a89 Arnd Bergmann 2021-05-08  120  	*p++ =3D val >> 8;
+803f4e1eab7a89 Arnd Bergmann 2021-05-08  121  	*p++ =3D val >> 16;
+803f4e1eab7a89 Arnd Bergmann 2021-05-08  122  }
+803f4e1eab7a89 Arnd Bergmann 2021-05-08  123 =20
 
-vim +11 drivers/tty/serial/earlycon-riscv-sbi.c
+:::::: The code at line 119 was first introduced by commit
+:::::: 803f4e1eab7a8938ba3a3c30dd4eb5e9eeef5e63 asm-generic: simplify asm/u=
+naligned.h
 
-27de1f541f1f91 Anup Patel 2018-12-04 @11  #include <asm/sbi.h>
-27de1f541f1f91 Anup Patel 2018-12-04  12 =20
+:::::: TO: Arnd Bergmann <arnd@arndb.de>
+:::::: CC: Arnd Bergmann <arnd@arndb.de>
 
 --=20
 0-DAY CI Kernel Test Service
