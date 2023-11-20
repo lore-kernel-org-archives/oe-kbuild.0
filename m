@@ -1,53 +1,46 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FFC156DB
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 11:37:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBFC18E2E
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 12:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hvL1rShS"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2c876e44157so20194961fa.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 03:37:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700480260; x=1701085060; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MZIed20myqRdbcMeT3thn6ww1DDx5LCF3uR7K7QRtfc=;
-        b=hvL1rShSbeLThwCwKdvdW8E2UZ5zgfziDDUdn2Wlaa1z4jtGImwwCjNRV4cIJQAWbn
-         SQ0abwi51h7lUoqgDl8pTr8rC2m5koIO9bs+xJ242fbd5UHgQoGwX/stylYOp7CGOW1T
-         E2OLbFcSJtn3NWAzblR20lEkFW2liiChoDyj7yqhbjKoxM8Uziy5/j4UflPe6wrQaTcr
-         XVzdclwD/koJ9ACbtLzndROE7ofb5KEQuqGsIRWTYqW6T2cr1bH1W8/sgFnDoJKly6oj
-         hEjuXcMweC/HQ2SvwlwvniwjQDbc9B/yKarNtvTJRU9prqwCLRxqJkPqCEiqXZ5+jVLV
-         gGGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700480260; x=1701085060;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MZIed20myqRdbcMeT3thn6ww1DDx5LCF3uR7K7QRtfc=;
-        b=vndvHDaf/ZMDGK/vwxy3XgAFAkjKl8neYdXxX9ohkCjwMkDhqibrCTyJIrR3ukVJ3d
-         S9bVEoiuTbO4uTWro/KWfdFplMVvJHCiBpPWkkzrXBNEdtpa7U+lHFOWRWBRqRCYxQyR
-         7pNsf2QSwZb+COV9rA4v3nRKM5d0CEgogrZJRbftjjUGAq6R+2Rzr5goDRMTGSUaCm5D
-         DujA/bfFmne4a7MXz/WDryPL566D0TcUGCD7rdBNllb9JkFIRTPD83nXY1w+nWrEVNkY
-         hXcZjvDLkfCHvyGdKWybKWF2u3uaXkLhL+J/L/zHcYQH5O8qGKSJ5vPZQ6bBB+QwN9gO
-         WusQ==
-X-Gm-Message-State: AOJu0YwdhGcnhT9ctU/F++IUbxrskMmcOtG2w0+zocnYg6TC4N2w6Rfr
-	uPp9r9M2Qo6YZAPMhjVu5M3NkXQCPrXg6W69YGE=
-X-Google-Smtp-Source: AGHT+IGGTItXrf3sK7N75TOeyUnjHHjJo7LIflALIyE6dnLWdAqSo24P8hznKdL1CMQlTjJjofNQsA==
-X-Received: by 2002:a2e:9101:0:b0:2c5:32b:28fa with SMTP id m1-20020a2e9101000000b002c5032b28famr6236910ljg.30.1700480260583;
-        Mon, 20 Nov 2023 03:37:40 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m7-20020a7bcb87000000b004063d8b43e7sm17026277wmi.48.2023.11.20.03.37.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 03:37:40 -0800 (PST)
-From: Dan Carpenter <dan.carpenter@linaro.org>
-X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Mon, 20 Nov 2023 06:37:37 -0500
-To: oe-kbuild@lists.linux.dev, Amir Goldstein <amir73il@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [amir73il:sb_write_barrier 22/27] fs/super.c:432
- activate_sb_write_barrier() warn: sleeping in atomic context
-Message-ID: <3bdea3f2-83d6-4aca-967c-534b81dd2c62@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HKu0Y0GH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700482139; x=1732018139;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/X2CgZ4JKFcVQo4O7stZiNh+r16PAngQ4EpqUH+snek=;
+  b=HKu0Y0GHYe0hhzrIQSgJvtXpnffS9ocwAhGweskOyyP+fDw5/VNymz7Q
+   7Yc4Ev2z+i/C5xtBn6m0jh/LZadZD3xAGIwEvh5k8jTA1ijf2BDMIV5TH
+   9R/v7fwviSZ7XdDKMMGinK+A0dYoTLdmhfDjrXp7YiI3cldQ93VWlfHwe
+   Dxk7jK7GxfkZIxZg15xiWhqfpyaKIJJUNRbw8e2NFhbZ4gO26IpkNR9t2
+   CYpvvDCQLG8McwxHsopqXcVaEy/p2cO4CZ18TRbQ5hPQQiF0Ve4Hx/xhB
+   vZ1MSFycuPTggKCfMlgCTo2JleE55wTsFIhgf2qmyhf3Sx3fnqZOa0brE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="388744425"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
+   d="scan'208";a="388744425"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 04:08:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="836722364"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
+   d="scan'208";a="836722364"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 20 Nov 2023 04:08:57 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r535C-0006Q9-2m;
+	Mon, 20 Nov 2023 12:08:54 +0000
+Date: Mon, 20 Nov 2023 20:08:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 3/6] irqchip: Introduce RTD1319 support using the
+ Realtek common interrupt controller driver
+Message-ID: <202311201929.2FpvMRlg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,61 +50,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/amir73il/linux sb_write_barrier
-head:   cd86c0c62d0c78b5d3d58e234474d52c3d264ec0
-commit: 42ddf79eeaed36d5d2cdcc608e1056b2fc28faf6 [22/27] fs: implement 'vfs write barriers'
-config: i386-randconfig-141-20231111 (https://download.01.org/0day-ci/archive/20231111/202311111958.Lz6WWFnX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231111/202311111958.Lz6WWFnX-lkp@intel.com/reproduce)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20231117162709.1096585-4-james.tai@realtek.com>
+References: <20231117162709.1096585-4-james.tai@realtek.com>
+TO: James Tai <james.tai@realtek.com>
+TO: Thomas Gleixner <tglx@linutronix.de>
+TO: Marc Zyngier <maz@kernel.org>
+TO: Rob Herring <robh+dt@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: James Tai <james.tai@realtek.com>
+CC: linux-kernel@vger.kernel.org
+CC: devicetree@vger.kernel.org
+
+Hi James,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/irq/core]
+[also build test WARNING on robh/for-next linus/master v6.7-rc2 next-20231120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Tai/dt-bindings-interrupt-controller-Add-support-for-Realtek-DHC-SoCs/20231118-003036
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20231117162709.1096585-4-james.tai%40realtek.com
+patch subject: [PATCH v2 3/6] irqchip: Introduce RTD1319 support using the Realtek common interrupt controller driver
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: nios2-randconfig-r081-20231120 (https://download.01.org/0day-ci/archive/20231120/202311201929.2FpvMRlg-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231120/202311201929.2FpvMRlg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311111958.Lz6WWFnX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311201929.2FpvMRlg-lkp@intel.com/
 
 smatch warnings:
-fs/super.c:432 activate_sb_write_barrier() warn: sleeping in atomic context
+drivers/irqchip/irq-realtek-intc-common.c:179 realtek_intc_probe() warn: ignoring unreachable code.
+drivers/irqchip/irq-realtek-intc-common.c:187 realtek_intc_probe() warn: 'data->base' from of_iomap() not released on lines: 176,182.
 
-vim +432 fs/super.c
+vim +179 drivers/irqchip/irq-realtek-intc-common.c
 
-42ddf79eeaed36d Amir Goldstein 2022-11-20  421  int activate_sb_write_barrier(struct super_block *s)
-42ddf79eeaed36d Amir Goldstein 2022-11-20  422  {
-42ddf79eeaed36d Amir Goldstein 2022-11-20  423  	struct srcu_struct *write_srcu = sb_write_srcu(s);
-42ddf79eeaed36d Amir Goldstein 2022-11-20  424  
-42ddf79eeaed36d Amir Goldstein 2022-11-20  425  	/* Already activated? */
-42ddf79eeaed36d Amir Goldstein 2022-11-20  426  	if (sb_write_srcu(s))
-42ddf79eeaed36d Amir Goldstein 2022-11-20  427  		return 0;
-42ddf79eeaed36d Amir Goldstein 2022-11-20  428  
-42ddf79eeaed36d Amir Goldstein 2022-11-20  429  	spin_lock(&sb_lock);
-                                                        ^^^^^^^^^
-spin lock
-
-42ddf79eeaed36d Amir Goldstein 2022-11-20  430  	write_srcu = sb_write_srcu(s);
-42ddf79eeaed36d Amir Goldstein 2022-11-20  431  	if (!write_srcu) {
-42ddf79eeaed36d Amir Goldstein 2022-11-20 @432  		write_srcu = kzalloc(sizeof(struct srcu_struct),  GFP_USER);
-                                                                                                                  ^^^^^^^^
-Sleeping allocation.
-
-42ddf79eeaed36d Amir Goldstein 2022-11-20  433  		if (write_srcu) {
-42ddf79eeaed36d Amir Goldstein 2022-11-20  434  			init_srcu_struct(write_srcu);
-42ddf79eeaed36d Amir Goldstein 2022-11-20  435  			/*
-42ddf79eeaed36d Amir Goldstein 2022-11-20  436  			 * cmpxchg() provides the barrier so that callers of
-42ddf79eeaed36d Amir Goldstein 2022-11-20  437  			 * sb_write_srcu() can see only initialized structure.
-42ddf79eeaed36d Amir Goldstein 2022-11-20  438  			 */
-42ddf79eeaed36d Amir Goldstein 2022-11-20  439  			if (cmpxchg(&s->s_write_srcu, NULL, write_srcu)) {
-42ddf79eeaed36d Amir Goldstein 2022-11-20  440  				WARN_ON_ONCE(1);
-42ddf79eeaed36d Amir Goldstein 2022-11-20  441  				cleanup_srcu_struct(write_srcu);
-42ddf79eeaed36d Amir Goldstein 2022-11-20  442  				kfree(write_srcu);
-42ddf79eeaed36d Amir Goldstein 2022-11-20  443  			}
-42ddf79eeaed36d Amir Goldstein 2022-11-20  444  		}
-42ddf79eeaed36d Amir Goldstein 2022-11-20  445  	}
-42ddf79eeaed36d Amir Goldstein 2022-11-20  446  	spin_unlock(&sb_lock);
-42ddf79eeaed36d Amir Goldstein 2022-11-20  447  
-42ddf79eeaed36d Amir Goldstein 2022-11-20  448  	return write_srcu ? 0 : -ENOMEM;
-42ddf79eeaed36d Amir Goldstein 2022-11-20  449  }
+40e5ff4eaef72b James Tai 2023-11-18  154  
+40e5ff4eaef72b James Tai 2023-11-18  155  int realtek_intc_probe(struct platform_device *pdev, const struct realtek_intc_info *info)
+40e5ff4eaef72b James Tai 2023-11-18  156  {
+40e5ff4eaef72b James Tai 2023-11-18  157  	struct realtek_intc_data *data;
+40e5ff4eaef72b James Tai 2023-11-18  158  	struct device *dev = &pdev->dev;
+40e5ff4eaef72b James Tai 2023-11-18  159  	struct device_node *node = dev->of_node;
+40e5ff4eaef72b James Tai 2023-11-18  160  	int ret, i;
+40e5ff4eaef72b James Tai 2023-11-18  161  
+40e5ff4eaef72b James Tai 2023-11-18  162  	data = devm_kzalloc(dev, struct_size(data, subset_data, info->cfg_num), GFP_KERNEL);
+40e5ff4eaef72b James Tai 2023-11-18  163  	if (!data)
+40e5ff4eaef72b James Tai 2023-11-18  164  		return -ENOMEM;
+40e5ff4eaef72b James Tai 2023-11-18  165  
+40e5ff4eaef72b James Tai 2023-11-18  166  	data->base = of_iomap(node, 0);
+40e5ff4eaef72b James Tai 2023-11-18  167  	if (!data->base)
+40e5ff4eaef72b James Tai 2023-11-18  168  		return -ENOMEM;
+40e5ff4eaef72b James Tai 2023-11-18  169  
+40e5ff4eaef72b James Tai 2023-11-18  170  	data->info = info;
+40e5ff4eaef72b James Tai 2023-11-18  171  
+40e5ff4eaef72b James Tai 2023-11-18  172  	raw_spin_lock_init(&data->lock);
+40e5ff4eaef72b James Tai 2023-11-18  173  
+40e5ff4eaef72b James Tai 2023-11-18  174  	data->domain = irq_domain_add_linear(node, 32, &realtek_intc_domain_ops, data);
+40e5ff4eaef72b James Tai 2023-11-18  175  	if (!data->domain)
+40e5ff4eaef72b James Tai 2023-11-18  176  		return -ENOMEM;
+40e5ff4eaef72b James Tai 2023-11-18  177  
+40e5ff4eaef72b James Tai 2023-11-18  178  	data->subset_data_num = info->cfg_num;
+40e5ff4eaef72b James Tai 2023-11-18 @179  	for (i = 0; i < info->cfg_num; i++) {
+40e5ff4eaef72b James Tai 2023-11-18  180  		ret = realtek_intc_subset(node, data, i);
+40e5ff4eaef72b James Tai 2023-11-18  181  		WARN(ret, "failed to init subset %d: %d", i, ret);
+40e5ff4eaef72b James Tai 2023-11-18  182  		return -ENOMEM;
+40e5ff4eaef72b James Tai 2023-11-18  183  	}
+40e5ff4eaef72b James Tai 2023-11-18  184  
+40e5ff4eaef72b James Tai 2023-11-18  185  	platform_set_drvdata(pdev, data);
+40e5ff4eaef72b James Tai 2023-11-18  186  
+40e5ff4eaef72b James Tai 2023-11-18 @187  	return 0;
+40e5ff4eaef72b James Tai 2023-11-18  188  }
+40e5ff4eaef72b James Tai 2023-11-18  189  EXPORT_SYMBOL(realtek_intc_probe);
+40e5ff4eaef72b James Tai 2023-11-18  190  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
