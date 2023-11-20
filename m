@@ -1,290 +1,237 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EEF1A732
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 13:41:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5843D1B28C
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 13:52:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QYdmJxyB"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-332c09c0b0bso1099556f8f.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 05:41:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aZeLns4I"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40907b82ab9so10151005e9.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 05:52:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700487674; x=1701092474; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:date:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=XjBkr21Oh+8TyMSbYH6S/sYU1/zxB0sEswwi1F3bVOk=;
-        b=QYdmJxyB4MkK2pxQBFtKvfY8t0ZhXv3mpNRRtPBtTATJlr7C3XuhfBve45k91+6qcD
-         7hD/hkqkhu9sTWZ9YTGwN8p62dZ21Vo/Y1JnGdyrDYWzVTg05bhGf5fRnPAzzue9IlMD
-         CYMq7BzUofeXsYtQ3yivFQRAE8RLeqNvTUYE8favUdPBU1EEh8o+dZ5l9BpsXumExj/b
-         lgGnABTlzDvlMRpkdsCTA7kp/DAY44MnNFkDvuaewDHW710oekC9Hc5yQv5nJFRlmTP9
-         cw5R+js+pXqsFA++mj8v9bk76AKur/ENL8I/yv6prkcydy2li9064OpU6uqOEG8pHiYT
-         bh4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700487674; x=1701092474;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:date:from:x-gm-message-state
+        d=linaro.org; s=google; t=1700488326; x=1701093126; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=XjBkr21Oh+8TyMSbYH6S/sYU1/zxB0sEswwi1F3bVOk=;
-        b=PDnftq4flPjxx+XCdsCRNvzwMvuhWh68v5MkNaXGOjt0+5chdJKIATfLvQqLaqhdCx
-         rhscoob84E1GDxoO6iyGBuuHz0PaWapEQ0m4ayW9Vikt9jjJ+doc3bEk7vdYA0Cu4ILx
-         vCnvP2taxC/etR8nWHYrFoRh8C0CMtTlauiKba/qYmIgriXGIvR/ApTKN4KwDXGRlKz9
-         SCb0Fr4f/rTfdcHqaDEHUDVW63es4sjsbZT+wx3gRsHlSnovS+dyDpeEpBJxGPt3soDT
-         mVLpwJDJwX0165tvJabrjROn6x3btuQTbci+Cp3lYvYyHLTYhNZ2T/jTe7dhp4UgAOim
-         SmbA==
-X-Gm-Message-State: AOJu0YzNR65wLqJLTwcrHk7L8tT8/njDGQj0ugyYUPZtb2mzsvjd9hf7
-	RTb4ZE+kLxo9gA27EU4c1XlbaQy1asPgL9PTAfs=
-X-Google-Smtp-Source: AGHT+IFkG+nq+uSb/rp8gDsM+ky0iDyq3HSCnoc332AgQohqOf/1kFe6nt/3O4RgQ/lwfXeGvQ0ryg==
-X-Received: by 2002:a5d:64af:0:b0:331:3c88:6fcd with SMTP id m15-20020a5d64af000000b003313c886fcdmr5856385wrp.53.1700487673499;
-        Mon, 20 Nov 2023 05:41:13 -0800 (PST)
+        bh=bULnLIE2eDMfxcHiHhS5j+oGOLRe3aK0Qz+32l5e634=;
+        b=aZeLns4IW9bIsw1IafySg3ajM9HyzPiB0hQJ7oDBYrT4t5rMk8MFf0vMzDBewqgfGd
+         iVu3ZGHhRA01uCkJtZyt+enysdy5OXkwFdY/TC2lwQpcw3kKasQAXqOA36J/Qwci++rx
+         KgiCSHY+F5cxWq07Z/A9waicpeZKCLd5dJotldJh/If7L9ptPYUjaInWwrEQhg13NugW
+         1dNSERAX5QwfR9lgJ4b8YHjag4pLomU6jDNNxf/GUi1cgWlRx755oM/pnrdsGzyY85Kt
+         zsIQ7Qf1jzx67wBfcUpedq9S6TktYAt3A8eAtjXwjy4Z5Zma+LgkmyeRIj3l/AJsjcqo
+         B2DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700488326; x=1701093126;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bULnLIE2eDMfxcHiHhS5j+oGOLRe3aK0Qz+32l5e634=;
+        b=Kv4VY8e/Z0GjCWoFcF1pHPvfzn2jWoY6qH5CiKKCIAGux+tj4A+U5KC0ExSDPYYdTt
+         cC4s5CLGPmmPPJ/r1M5Th6Rb3uqmVxnp3EC1WzD5kEL0cFPruoIptc/9Id9SsWhgcJkV
+         FqubisL1bx6l1JqvfNYfdQ7I5qpKnSia/h7HpKZzj6x1i7EbmzIZC5H6hIAgPdKUinwU
+         Xbvs2xi3XVxHLZ3t+O7v06hZElBt45YzEi3iMtPh+RvmhimPdNfZZk5snXqICyVxb+gH
+         kBxnMTCGI1YjYOdCGoSyZrGH8dDdXwgTv1Pa+63LTVyu7rdTAf2G4+qGsIfsBFakgz2c
+         8AZQ==
+X-Gm-Message-State: AOJu0Yzux7gx04+217Ea6wl9nJx9mA4J1ozTK1EMSXVlGbpV8dSvKdxz
+	/fVlemABQYUB0HZDVs6Imd9zgjPGTLMgQtSX/DU=
+X-Google-Smtp-Source: AGHT+IH2yEh07EdzWqsuK4qg2AB7rLyys/z0uuKef1YCL8GQoowN9H/h8EVsRIwPFSpLvfK5FE+Cqw==
+X-Received: by 2002:a05:6000:18ae:b0:32f:dd2f:9b93 with SMTP id b14-20020a05600018ae00b0032fdd2f9b93mr13482199wri.9.1700488325633;
+        Mon, 20 Nov 2023 05:52:05 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id i11-20020a5d55cb000000b003143867d2ebsm11229521wrw.63.2023.11.20.05.41.12
+        by smtp.gmail.com with ESMTPSA id m3-20020adffa03000000b00323293bd023sm11295420wrr.6.2023.11.20.05.52.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 05:41:13 -0800 (PST)
+        Mon, 20 Nov 2023 05:52:05 -0800 (PST)
 From: Dan Carpenter <dan.carpenter@linaro.org>
 X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Mon, 20 Nov 2023 08:41:10 -0500
-To: oe-kbuild@lists.linux.dev, Dmitrii Dolgov <9erthalion6@gmail.com>
+Date: Mon, 20 Nov 2023 08:52:02 -0500
+To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH bpf-next] bpf: Relax tracing prog recursive attach
- rules
-Message-ID: <f03d7ce6-e603-4ead-8a67-8d424a4420d6@suswa.mountain>
+Subject: [hch-xfs:xfs-zoned 21/62] mm/page-writeback.c:2511
+ write_cache_folios() error: uninitialized symbol 'nr'.
+Message-ID: <1c4f7d84-7158-43ac-aed3-13237c63ad3a@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231114084118.11095-1-9erthalion6@gmail.com>
 
-Hi Dmitrii,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitrii-Dolgov/bpf-Relax-tracing-prog-recursive-attach-rules/20231114-164631
-base:   100888fb6d8a185866b1520031ee7e3182b173de
-patch link:    https://lore.kernel.org/r/20231114084118.11095-1-9erthalion6%40gmail.com
-patch subject: [RFC PATCH bpf-next] bpf: Relax tracing prog recursive attach rules
-config: i386-randconfig-141-20231119 (https://download.01.org/0day-ci/archive/20231119/202311191719.Pa8d0Ly9-lkp@intel.com/config)
+tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
+head:   6ec42a9924d444c5fa6db0af13383a7009f550b6
+commit: 7fe1517b3ffc7ba7c550c79c029c4a6400140f5d [21/62] writeback: optionally submit pending data when blocking in write_cache_pages
+config: i386-randconfig-141-20231119 (https://download.01.org/0day-ci/archive/20231119/202311192253.GU1i7dEt-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231119/202311191719.Pa8d0Ly9-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231119/202311192253.GU1i7dEt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311191719.Pa8d0Ly9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311192253.GU1i7dEt-lkp@intel.com/
 
-smatch warnings:
-kernel/bpf/syscall.c:3241 bpf_tracing_prog_attach() error: we previously assumed 'tgt_prog' could be null (see line 3186)
+New smatch warnings:
+mm/page-writeback.c:2511 write_cache_folios() error: uninitialized symbol 'nr'.
 
-vim +/tgt_prog +3241 kernel/bpf/syscall.c
+vim +/nr +2511 mm/page-writeback.c
 
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3096  static int bpf_tracing_prog_attach(struct bpf_prog *prog,
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3097  				   int tgt_prog_fd,
-2fcc82411e74e5 Kui-Feng Lee           2022-05-10  3098  				   u32 btf_id,
-2fcc82411e74e5 Kui-Feng Lee           2022-05-10  3099  				   u64 bpf_cookie)
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3100  {
-a3b80e1078943d Andrii Nakryiko        2020-04-28  3101  	struct bpf_link_primer link_primer;
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3102  	struct bpf_prog *tgt_prog = NULL;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3103  	struct bpf_trampoline *tr = NULL;
-70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3104  	struct bpf_tracing_link *link;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3105  	u64 key = 0;
-a3b80e1078943d Andrii Nakryiko        2020-04-28  3106  	int err;
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3107  
-9e4e01dfd3254c KP Singh               2020-03-29  3108  	switch (prog->type) {
-9e4e01dfd3254c KP Singh               2020-03-29  3109  	case BPF_PROG_TYPE_TRACING:
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3110  		if (prog->expected_attach_type != BPF_TRACE_FENTRY &&
-be8704ff07d237 Alexei Starovoitov     2020-01-20  3111  		    prog->expected_attach_type != BPF_TRACE_FEXIT &&
-9e4e01dfd3254c KP Singh               2020-03-29  3112  		    prog->expected_attach_type != BPF_MODIFY_RETURN) {
-9e4e01dfd3254c KP Singh               2020-03-29  3113  			err = -EINVAL;
-9e4e01dfd3254c KP Singh               2020-03-29  3114  			goto out_put_prog;
-9e4e01dfd3254c KP Singh               2020-03-29  3115  		}
-9e4e01dfd3254c KP Singh               2020-03-29  3116  		break;
-9e4e01dfd3254c KP Singh               2020-03-29  3117  	case BPF_PROG_TYPE_EXT:
-9e4e01dfd3254c KP Singh               2020-03-29  3118  		if (prog->expected_attach_type != 0) {
-9e4e01dfd3254c KP Singh               2020-03-29  3119  			err = -EINVAL;
-9e4e01dfd3254c KP Singh               2020-03-29  3120  			goto out_put_prog;
-9e4e01dfd3254c KP Singh               2020-03-29  3121  		}
-9e4e01dfd3254c KP Singh               2020-03-29  3122  		break;
-9e4e01dfd3254c KP Singh               2020-03-29  3123  	case BPF_PROG_TYPE_LSM:
-9e4e01dfd3254c KP Singh               2020-03-29  3124  		if (prog->expected_attach_type != BPF_LSM_MAC) {
-9e4e01dfd3254c KP Singh               2020-03-29  3125  			err = -EINVAL;
-9e4e01dfd3254c KP Singh               2020-03-29  3126  			goto out_put_prog;
-9e4e01dfd3254c KP Singh               2020-03-29  3127  		}
-9e4e01dfd3254c KP Singh               2020-03-29  3128  		break;
-9e4e01dfd3254c KP Singh               2020-03-29  3129  	default:
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3130  		err = -EINVAL;
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3131  		goto out_put_prog;
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3132  	}
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3133  
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3134  	if (!!tgt_prog_fd != !!btf_id) {
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3135  		err = -EINVAL;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3136  		goto out_put_prog;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3137  	}
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3138  
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3139  	if (tgt_prog_fd) {
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3140  		/* For now we only allow new targets for BPF_PROG_TYPE_EXT */
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3141  		if (prog->type != BPF_PROG_TYPE_EXT) {
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3142  			err = -EINVAL;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3143  			goto out_put_prog;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3144  		}
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3145  
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3146  		tgt_prog = bpf_prog_get(tgt_prog_fd);
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3147  		if (IS_ERR(tgt_prog)) {
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3148  			err = PTR_ERR(tgt_prog);
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3149  			tgt_prog = NULL;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3150  			goto out_put_prog;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3151  		}
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3152  
-22dc4a0f5ed11b Andrii Nakryiko        2020-12-03  3153  		key = bpf_trampoline_compute_key(tgt_prog, NULL, btf_id);
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3154  	}
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3155  
-70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3156  	link = kzalloc(sizeof(*link), GFP_USER);
-70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3157  	if (!link) {
-70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3158  		err = -ENOMEM;
-70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3159  		goto out_put_prog;
-70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3160  	}
-f7e0beaf39d386 Kui-Feng Lee           2022-05-10  3161  	bpf_link_init(&link->link.link, BPF_LINK_TYPE_TRACING,
-f2e10bff16a0fd Andrii Nakryiko        2020-04-28  3162  		      &bpf_tracing_link_lops, prog);
-f2e10bff16a0fd Andrii Nakryiko        2020-04-28  3163  	link->attach_type = prog->expected_attach_type;
-2fcc82411e74e5 Kui-Feng Lee           2022-05-10  3164  	link->link.cookie = bpf_cookie;
-70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3165  
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3166  	mutex_lock(&prog->aux->dst_mutex);
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3167  
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3168  	/* There are a few possible cases here:
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3169  	 *
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3170  	 * - if prog->aux->dst_trampoline is set, the program was just loaded
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3171  	 *   and not yet attached to anything, so we can use the values stored
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3172  	 *   in prog->aux
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3173  	 *
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3174  	 * - if prog->aux->dst_trampoline is NULL, the program has already been
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3175           *   attached to a target and its initial target was cleared (below)
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3176  	 *
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3177  	 * - if tgt_prog != NULL, the caller specified tgt_prog_fd +
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3178  	 *   target_btf_id using the link_create API.
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3179  	 *
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3180  	 * - if tgt_prog == NULL when this function was called using the old
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3181  	 *   raw_tracepoint_open API, and we need a target from prog->aux
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3182  	 *
-f3a95075549e0e Jiri Olsa              2021-04-14  3183  	 * - if prog->aux->dst_trampoline and tgt_prog is NULL, the program
-f3a95075549e0e Jiri Olsa              2021-04-14  3184  	 *   was detached and is going for re-attachment.
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2397  int write_cache_folios(struct address_space *mapping,
+0ea97180162518 Miklos Szeredi             2007-05-10  2398  		struct writeback_control *wbc, writepage_t writepage,
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2399  		wp_submit_t submit, void *data)
+811d736f9e8013 David Howells              2006-08-29  2400  {
+811d736f9e8013 David Howells              2006-08-29  2401  	int ret = 0;
+811d736f9e8013 David Howells              2006-08-29  2402  	int done = 0;
+3fa750dcf29e86 Brian Foster               2018-12-28  2403  	int error;
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2404) 	struct folio_batch fbatch;
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2405) 	int nr_folios;
+811d736f9e8013 David Howells              2006-08-29  2406  	pgoff_t index;
+811d736f9e8013 David Howells              2006-08-29  2407  	pgoff_t end;		/* Inclusive */
+bd19e012f6fd3b Nicholas Piggin            2009-01-06  2408  	pgoff_t done_index;
+811d736f9e8013 David Howells              2006-08-29  2409  	int range_whole = 0;
+ff9c745b81ff1e Matthew Wilcox             2017-11-22  2410  	xa_mark_t tag;
+811d736f9e8013 David Howells              2006-08-29  2411  
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2412) 	folio_batch_init(&fbatch);
+811d736f9e8013 David Howells              2006-08-29  2413  	if (wbc->range_cyclic) {
+28659cc8cc8766 Chao Yu                    2020-06-01  2414  		index = mapping->writeback_index; /* prev offset */
+811d736f9e8013 David Howells              2006-08-29  2415  		end = -1;
+811d736f9e8013 David Howells              2006-08-29  2416  	} else {
+09cbfeaf1a5a67 Kirill A. Shutemov         2016-04-01  2417  		index = wbc->range_start >> PAGE_SHIFT;
+09cbfeaf1a5a67 Kirill A. Shutemov         2016-04-01  2418  		end = wbc->range_end >> PAGE_SHIFT;
+811d736f9e8013 David Howells              2006-08-29  2419  		if (wbc->range_start == 0 && wbc->range_end == LLONG_MAX)
+811d736f9e8013 David Howells              2006-08-29  2420  			range_whole = 1;
+811d736f9e8013 David Howells              2006-08-29  2421  	}
+cc7b8f6245f004 Mauricio Faria de Oliveira 2020-04-01  2422  	if (wbc->sync_mode == WB_SYNC_ALL || wbc->tagged_writepages) {
+cc7b8f6245f004 Mauricio Faria de Oliveira 2020-04-01  2423  		tag_pages_for_writeback(mapping, index, end);
+f446daaea9d4a4 Jan Kara                   2010-08-09  2424  		tag = PAGECACHE_TAG_TOWRITE;
+cc7b8f6245f004 Mauricio Faria de Oliveira 2020-04-01  2425  	} else {
+f446daaea9d4a4 Jan Kara                   2010-08-09  2426  		tag = PAGECACHE_TAG_DIRTY;
+cc7b8f6245f004 Mauricio Faria de Oliveira 2020-04-01  2427  	}
+bd19e012f6fd3b Nicholas Piggin            2009-01-06  2428  	done_index = index;
+5a3d5c9813db56 Nicholas Piggin            2009-01-06  2429  	while (!done && (index <= end)) {
+5a3d5c9813db56 Nicholas Piggin            2009-01-06  2430  		int i;
+5a3d5c9813db56 Nicholas Piggin            2009-01-06  2431  
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2432) 		nr_folios = filemap_get_folios_tag(mapping, &index, end,
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2433) 				tag, &fbatch);
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2434) 
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2435) 		if (nr_folios == 0)
+5a3d5c9813db56 Nicholas Piggin            2009-01-06  2436  			break;
+811d736f9e8013 David Howells              2006-08-29  2437  
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2438) 		for (i = 0; i < nr_folios; i++) {
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2439) 			struct folio *folio = fbatch.folios[i];
+8344a3d44be3d1 Matthew Wilcox (Oracle     2023-06-28  2440) 			unsigned long nr;
+811d736f9e8013 David Howells              2006-08-29  2441  
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2442) 			done_index = folio->index;
+d5482cdf8a0aac Nicholas Piggin            2009-01-06  2443  
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2444  			if (submit) {
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2445  				if (!folio_trylock(folio)) {
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2446  					error = submit(mapping, wbc, data);
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2447  					if (error)
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2448  						goto handle_error;
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2449  					folio_lock(folio);
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2450  				}
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2451  			} else {
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2452) 				folio_lock(folio);
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2453  			}
+811d736f9e8013 David Howells              2006-08-29  2454  
+5a3d5c9813db56 Nicholas Piggin            2009-01-06  2455  			/*
+5a3d5c9813db56 Nicholas Piggin            2009-01-06  2456  			 * Page truncated or invalidated. We can freely skip it
+5a3d5c9813db56 Nicholas Piggin            2009-01-06  2457  			 * then, even for data integrity operations: the page
+5a3d5c9813db56 Nicholas Piggin            2009-01-06  2458  			 * has disappeared concurrently, so there could be no
+f0953a1bbaca71 Ingo Molnar                2021-05-06  2459  			 * real expectation of this data integrity operation
+5a3d5c9813db56 Nicholas Piggin            2009-01-06  2460  			 * even if there is now a new, dirty page at the same
+5a3d5c9813db56 Nicholas Piggin            2009-01-06  2461  			 * pagecache address.
+5a3d5c9813db56 Nicholas Piggin            2009-01-06  2462  			 */
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2463) 			if (unlikely(folio->mapping != mapping)) {
+5a3d5c9813db56 Nicholas Piggin            2009-01-06  2464  continue_unlock:
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2465) 				folio_unlock(folio);
+811d736f9e8013 David Howells              2006-08-29  2466  				continue;
+811d736f9e8013 David Howells              2006-08-29  2467  			}
+811d736f9e8013 David Howells              2006-08-29  2468  
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2469) 			if (!folio_test_dirty(folio)) {
+515f4a037fb9ab Nicholas Piggin            2009-01-06  2470  				/* someone wrote it for us */
+515f4a037fb9ab Nicholas Piggin            2009-01-06  2471  				goto continue_unlock;
+515f4a037fb9ab Nicholas Piggin            2009-01-06  2472  			}
+515f4a037fb9ab Nicholas Piggin            2009-01-06  2473  
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2474) 			if (folio_test_writeback(folio)) {
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2475  				if (wbc->sync_mode == WB_SYNC_NONE)
+515f4a037fb9ab Nicholas Piggin            2009-01-06  2476  					goto continue_unlock;
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2477  				if (submit) {
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2478  					error = submit(mapping, wbc, data);
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2479  					if (error)
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2480  						goto handle_error;
 
-There is a giant comment here explaining how tgt_prog can be NULL.
-I read it but I lack some context.
+"nr" is uninitialized on this path.
 
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3185  	 */
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29 @3186  	if (!prog->aux->dst_trampoline && !tgt_prog) {
-                                                                                                  ^^^^^^^^^
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2481  				}
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2482  				folio_wait_writeback(folio);
+515f4a037fb9ab Nicholas Piggin            2009-01-06  2483  			}
+811d736f9e8013 David Howells              2006-08-29  2484  
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2485) 			BUG_ON(folio_test_writeback(folio));
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2486) 			if (!folio_clear_dirty_for_io(folio))
+5a3d5c9813db56 Nicholas Piggin            2009-01-06  2487  				goto continue_unlock;
+811d736f9e8013 David Howells              2006-08-29  2488  
+de1414a654e66b Christoph Hellwig          2015-01-14  2489  			trace_wbc_writepage(wbc, inode_to_bdi(mapping->host));
+d585bdbeb79aa1 Matthew Wilcox (Oracle     2023-01-26  2490) 			error = writepage(folio, wbc, data);
+8344a3d44be3d1 Matthew Wilcox (Oracle     2023-06-28  2491) 			nr = folio_nr_pages(folio);
+3fa750dcf29e86 Brian Foster               2018-12-28  2492  			if (unlikely(error)) {
+7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2493  handle_error:
+3fa750dcf29e86 Brian Foster               2018-12-28  2494  				/*
+3fa750dcf29e86 Brian Foster               2018-12-28  2495  				 * Handle errors according to the type of
+3fa750dcf29e86 Brian Foster               2018-12-28  2496  				 * writeback. There's no need to continue for
+3fa750dcf29e86 Brian Foster               2018-12-28  2497  				 * background writeback. Just push done_index
+3fa750dcf29e86 Brian Foster               2018-12-28  2498  				 * past this page so media errors won't choke
+3fa750dcf29e86 Brian Foster               2018-12-28  2499  				 * writeout for the entire file. For integrity
+3fa750dcf29e86 Brian Foster               2018-12-28  2500  				 * writeback, we must process the entire dirty
+3fa750dcf29e86 Brian Foster               2018-12-28  2501  				 * set regardless of errors because the fs may
+3fa750dcf29e86 Brian Foster               2018-12-28  2502  				 * still have state to clear for each page. In
+3fa750dcf29e86 Brian Foster               2018-12-28  2503  				 * that case we continue processing and return
+3fa750dcf29e86 Brian Foster               2018-12-28  2504  				 * the first error.
+3fa750dcf29e86 Brian Foster               2018-12-28  2505  				 */
+3fa750dcf29e86 Brian Foster               2018-12-28  2506  				if (error == AOP_WRITEPAGE_ACTIVATE) {
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2507) 					folio_unlock(folio);
+3fa750dcf29e86 Brian Foster               2018-12-28  2508  					error = 0;
+3fa750dcf29e86 Brian Foster               2018-12-28  2509  				} else if (wbc->sync_mode != WB_SYNC_ALL) {
+3fa750dcf29e86 Brian Foster               2018-12-28  2510  					ret = error;
+8344a3d44be3d1 Matthew Wilcox (Oracle     2023-06-28 @2511) 					done_index = folio->index + nr;
 
-f3a95075549e0e Jiri Olsa              2021-04-14  3187  		/*
-f3a95075549e0e Jiri Olsa              2021-04-14  3188  		 * Allow re-attach for TRACING and LSM programs. If it's
-f3a95075549e0e Jiri Olsa              2021-04-14  3189  		 * currently linked, bpf_trampoline_link_prog will fail.
-f3a95075549e0e Jiri Olsa              2021-04-14  3190  		 * EXT programs need to specify tgt_prog_fd, so they
-f3a95075549e0e Jiri Olsa              2021-04-14  3191  		 * re-attach in separate code path.
-f3a95075549e0e Jiri Olsa              2021-04-14  3192  		 */
-f3a95075549e0e Jiri Olsa              2021-04-14  3193  		if (prog->type != BPF_PROG_TYPE_TRACING &&
-f3a95075549e0e Jiri Olsa              2021-04-14  3194  		    prog->type != BPF_PROG_TYPE_LSM) {
-f3a95075549e0e Jiri Olsa              2021-04-14  3195  			err = -EINVAL;
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3196  			goto out_unlock;
-babf3164095b06 Andrii Nakryiko        2020-03-09  3197  		}
-f3a95075549e0e Jiri Olsa              2021-04-14  3198  		btf_id = prog->aux->attach_btf_id;
-f3a95075549e0e Jiri Olsa              2021-04-14  3199  		key = bpf_trampoline_compute_key(NULL, prog->aux->attach_btf, btf_id);
-f3a95075549e0e Jiri Olsa              2021-04-14  3200  	}
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3201  
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3202  	if (!prog->aux->dst_trampoline ||
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3203  	    (key && key != prog->aux->dst_trampoline->key)) {
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3204  		/* If there is no saved target, or the specified target is
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3205  		 * different from the destination specified at load time, we
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3206  		 * need a new trampoline and a check for compatibility
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3207  		 */
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3208  		struct bpf_attach_target_info tgt_info = {};
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3209  
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3210  		err = bpf_check_attach_target(NULL, prog, tgt_prog, btf_id,
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3211  					      &tgt_info);
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3212  		if (err)
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3213  			goto out_unlock;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3214  
-31bf1dbccfb0a9 Viktor Malik           2023-03-10  3215  		if (tgt_info.tgt_mod) {
-31bf1dbccfb0a9 Viktor Malik           2023-03-10  3216  			module_put(prog->aux->mod);
-31bf1dbccfb0a9 Viktor Malik           2023-03-10  3217  			prog->aux->mod = tgt_info.tgt_mod;
-31bf1dbccfb0a9 Viktor Malik           2023-03-10  3218  		}
-31bf1dbccfb0a9 Viktor Malik           2023-03-10  3219  
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3220  		tr = bpf_trampoline_get(key, &tgt_info);
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3221  		if (!tr) {
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3222  			err = -ENOMEM;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3223  			goto out_unlock;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3224  		}
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3225  	} else {
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3226  		/* The caller didn't specify a target, or the target was the
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3227  		 * same as the destination supplied during program load. This
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3228  		 * means we can reuse the trampoline and reference from program
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3229  		 * load time, and there is no need to allocate a new one. This
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3230  		 * can only happen once for any program, as the saved values in
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3231  		 * prog->aux are cleared below.
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3232  		 */
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3233  		tr = prog->aux->dst_trampoline;
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3234  		tgt_prog = prog->aux->dst_prog;
+Potentially uninitialized depending on what submit() returns.
 
-tgt_prog is re-assigned here.  Maybe the this covers all the NULL
-cases.
-
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3235  	}
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3236  
-f7e0beaf39d386 Kui-Feng Lee           2022-05-10  3237  	err = bpf_link_prime(&link->link.link, &link_primer);
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3238  	if (err)
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3239  		goto out_unlock;
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3240  
-26a0833438cdde Dmitrii Dolgov         2023-11-14 @3241  	tgt_prog->aux->followed = true;
-                                                                ^^^^^^^^^^^^^^^^^^^^^^^
-Unchecked dereference
-
-26a0833438cdde Dmitrii Dolgov         2023-11-14  3242  	prog->aux->attach_depth = tgt_prog->aux->attach_depth + 1;
-
-Second unchecked dereference here
-
-f7e0beaf39d386 Kui-Feng Lee           2022-05-10  3243  	err = bpf_trampoline_link_prog(&link->link, tr);
-babf3164095b06 Andrii Nakryiko        2020-03-09  3244  	if (err) {
-a3b80e1078943d Andrii Nakryiko        2020-04-28  3245  		bpf_link_cleanup(&link_primer);
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3246  		link = NULL;
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3247  		goto out_unlock;
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3248  	}
-babf3164095b06 Andrii Nakryiko        2020-03-09  3249  
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3250  	link->tgt_prog = tgt_prog;
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3251  	link->trampoline = tr;
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3252  
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3253  	/* Always clear the trampoline and target prog from prog->aux to make
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3254  	 * sure the original attach destination is not kept alive after a
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3255  	 * program is (re-)attached to another target.
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3256  	 */
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3257  	if (prog->aux->dst_prog &&
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3258  	    (tgt_prog_fd || tr != prog->aux->dst_trampoline))
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3259  		/* got extra prog ref from syscall, or attaching to different prog */
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3260  		bpf_prog_put(prog->aux->dst_prog);
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3261  	if (prog->aux->dst_trampoline && tr != prog->aux->dst_trampoline)
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3262  		/* we allocated a new trampoline, so free the old one */
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3263  		bpf_trampoline_put(prog->aux->dst_trampoline);
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3264  
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3265  	prog->aux->dst_prog = NULL;
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3266  	prog->aux->dst_trampoline = NULL;
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3267  	mutex_unlock(&prog->aux->dst_mutex);
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3268  
-a3b80e1078943d Andrii Nakryiko        2020-04-28  3269  	return bpf_link_settle(&link_primer);
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3270  out_unlock:
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3271  	if (tr && tr != prog->aux->dst_trampoline)
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3272  		bpf_trampoline_put(tr);
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3273  	mutex_unlock(&prog->aux->dst_mutex);
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3274  	kfree(link);
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3275  out_put_prog:
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3276  	if (tgt_prog_fd && tgt_prog)
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3277  		bpf_prog_put(tgt_prog);
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3278  	return err;
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3279  }
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3280  
+00266770b8b3a6 Nicholas Piggin            2009-01-06  2512  					done = 1;
+00266770b8b3a6 Nicholas Piggin            2009-01-06  2513  					break;
+e423003028183d Andrew Morton              2007-10-16  2514  				}
+3fa750dcf29e86 Brian Foster               2018-12-28  2515  				if (!ret)
+3fa750dcf29e86 Brian Foster               2018-12-28  2516  					ret = error;
+00266770b8b3a6 Nicholas Piggin            2009-01-06  2517  			}
+00266770b8b3a6 Nicholas Piggin            2009-01-06  2518  
+dcf6a79dda5cc2 Artem Bityutskiy           2009-02-02  2519  			/*
+546a1924224078 Dave Chinner               2010-08-24  2520  			 * We stop writing back only if we are not doing
+546a1924224078 Dave Chinner               2010-08-24  2521  			 * integrity sync. In case of integrity sync we have to
+546a1924224078 Dave Chinner               2010-08-24  2522  			 * keep going until we have written all the pages
+546a1924224078 Dave Chinner               2010-08-24  2523  			 * we tagged for writeback prior to entering this loop.
+dcf6a79dda5cc2 Artem Bityutskiy           2009-02-02  2524  			 */
+8344a3d44be3d1 Matthew Wilcox (Oracle     2023-06-28  2525) 			wbc->nr_to_write -= nr;
+8344a3d44be3d1 Matthew Wilcox (Oracle     2023-06-28  2526) 			if (wbc->nr_to_write <= 0 &&
+546a1924224078 Dave Chinner               2010-08-24  2527  			    wbc->sync_mode == WB_SYNC_NONE) {
+811d736f9e8013 David Howells              2006-08-29  2528  				done = 1;
+82fd1a9a8ced96 Andrew Morton              2009-01-06  2529  				break;
+82fd1a9a8ced96 Andrew Morton              2009-01-06  2530  			}
+89e1219004b365 Federico Cuello            2009-02-11  2531  		}
+0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2532) 		folio_batch_release(&fbatch);
+811d736f9e8013 David Howells              2006-08-29  2533  		cond_resched();
+811d736f9e8013 David Howells              2006-08-29  2534  	}
+64081362e8ff45 Dave Chinner               2018-10-26  2535  
+811d736f9e8013 David Howells              2006-08-29  2536  	/*
+64081362e8ff45 Dave Chinner               2018-10-26  2537  	 * If we hit the last page and there is more work to be done: wrap
+64081362e8ff45 Dave Chinner               2018-10-26  2538  	 * back the index back to the start of the file for the next
+64081362e8ff45 Dave Chinner               2018-10-26  2539  	 * time we are called.
+811d736f9e8013 David Howells              2006-08-29  2540  	 */
+64081362e8ff45 Dave Chinner               2018-10-26  2541  	if (wbc->range_cyclic && !done)
+64081362e8ff45 Dave Chinner               2018-10-26  2542  		done_index = 0;
+0b5649278e39a0 Dave Chinner               2010-06-09  2543  	if (wbc->range_cyclic || (range_whole && wbc->nr_to_write > 0))
+bd19e012f6fd3b Nicholas Piggin            2009-01-06  2544  		mapping->writeback_index = done_index;
+06d6cf6959d220 Aneesh Kumar K.V           2008-07-11  2545  
+811d736f9e8013 David Howells              2006-08-29  2546  	return ret;
+811d736f9e8013 David Howells              2006-08-29  2547  }
 
 -- 
 0-DAY CI Kernel Test Service
