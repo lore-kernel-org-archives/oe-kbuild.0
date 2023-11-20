@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EAC511CB2
-	for <oe-kbuild@lists.linux.dev>; Sun, 19 Nov 2023 19:30:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F82161
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 00:07:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CAztS9O6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EnR8P6hm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700422213; x=1731958213;
+  t=1700438847; x=1731974847;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lV3BjN0ZL9uAepWUH067bkqr0rFgjrrssqDHOj/Ejbc=;
-  b=CAztS9O6nuKJkLsVLAEgEq+8Hkb+Klk+YGA4+Pa+YeIgBRzNaCL2GIz4
-   deYUNINpivz8r86f4brEDVSUJah1maRC+50Uf/3q+vvAnCuTu3eu3uG/b
-   dCJvkObUh66RvR0tNORXekNFoDDYjx84pKsby/VBPauxh488bsDc9+4G5
-   jdpI/mhgD77lYxvuDJlkW3kPSMgDkG3WOprPce/xQwqsZq7VMBnAnxnjF
-   VSXhC+t27OfAsenZyDof90paJaTHRDDTNzsrKnQqeZ0pCsUROv4FnDF2f
-   ZVzmVM+eUIbe+BBv1D4KNLNQPJukzp1Da4Rixt8p+OWQrX8r+Uyi1HcZC
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="10182781"
+  bh=a4c3U9xkGcVKEA81sB0nw/EJHfxSrgfB3f6rjN98cpg=;
+  b=EnR8P6hmgUlcQ9OLY9Pn6UUEBxjHEE3bxmxS7Yy6VUpNl8f+lcpX2WQz
+   LuDbmc8wHZ3372LFbSoxfUUU+V1tY6YQ91GilrahgrLd5n6Hg2Tvzuw2b
+   hJ+WyVwVlgLIsCtN1f7+khnIPNuRtmk+dNhpouCJ1BKzbKdlAYBRu93/3
+   yP5lz/oH9kCUqL1xshj5vEQGz+aeHcd6p7uFyhrMZsp77d4xLV9XeDlOr
+   PPOVAbeW0v6p9CEh0ixHAuTA90bHs3LIptwjWiS7ZsXjdjRIUHcZPBkuM
+   AcqUdTNBxrdAFJWgJZ1E783c8a3tc46wxlTJLktU4fsdowZ/jPZlftIYK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="4640842"
 X-IronPort-AV: E=Sophos;i="6.04,212,1695711600"; 
-   d="scan'208";a="10182781"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2023 11:30:11 -0800
+   d="scan'208";a="4640842"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2023 16:07:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="1097567139"
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="856837202"
 X-IronPort-AV: E=Sophos;i="6.04,212,1695711600"; 
-   d="scan'208";a="1097567139"
+   d="scan'208";a="856837202"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 19 Nov 2023 11:30:09 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Nov 2023 16:07:25 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4nUd-0005Th-2a;
-	Sun, 19 Nov 2023 19:30:07 +0000
-Date: Mon, 20 Nov 2023 03:29:42 +0800
+	id 1r4row-0005jU-2y;
+	Mon, 20 Nov 2023 00:07:22 +0000
+Date: Mon, 20 Nov 2023 08:06:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [ti:ti-linux-6.1.y-wip 83/90] drivers/bus/ti-sysc.c:3127:19:
- warning: cast to smaller integer type 'enum sysc_soc' from 'const void *'
-Message-ID: <202311200340.grMKjVXZ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: net/sunrpc/auth_gss/svcauth_gss.c:1165 gss_read_proxy_verf() warn:
+ potential spectre issue 'in_token->pages' [w]
+Message-ID: <202311200706.4sVxyTyl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,141 +50,110 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only kconfig file changed"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: vigneshr@ti.com
-CC: nm@ti.com
-CC: Praneeth Bajjuri <praneeth@ti.com>
-CC: Dhruva Gole <d-gole@ti.com>
+CC: linux-kernel@vger.kernel.org
+TO: Chuck Lever <chuck.lever@oracle.com>
+CC: Jeff Layton <jlayton@kernel.org>
 
-Hi Tony,
-
-First bad commit (maybe != root cause):
-
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.1.y-wip
-head:   da9bbd5b8e9256096f5e068401df1bd53cc2e897
-commit: ed53d4c9725f817d6ae0a2eba92a92a2a39d7f28 [83/90] bus: ti-sysc: Build driver for TI K3 SoCs
-:::::: branch date: 3 days ago
-:::::: commit date: 5 days ago
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231120/202311200340.grMKjVXZ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311200340.grMKjVXZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   eb3479bc23fafbc408558cd8450b35f07fad2a63
+commit: c020fa695af64093acf689beaa39d9e956a55f23 SUNRPC: Convert server-side GSS upcall helpers to use xdr_stream
+date:   9 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 9 months ago
+config: i386-randconfig-141-20231120 (https://download.01.org/0day-ci/archive/20231120/202311200706.4sVxyTyl-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20231120/202311200706.4sVxyTyl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311200340.grMKjVXZ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311200706.4sVxyTyl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+net/sunrpc/auth_gss/svcauth_gss.c:1165 gss_read_proxy_verf() warn: potential spectre issue 'in_token->pages' [w]
 
->> drivers/bus/ti-sysc.c:3127:19: warning: cast to smaller integer type 'enum sysc_soc' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-    3127 |                 sysc_soc->soc = (enum sysc_soc)match->data;
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+vim +1165 net/sunrpc/auth_gss/svcauth_gss.c
 
+5866efa8cbfbad Chuck Lever     2019-10-24  1109  
+5866efa8cbfbad Chuck Lever     2019-10-24  1110  static int gss_read_proxy_verf(struct svc_rqst *rqstp,
+438623a06bacd6 Chuck Lever     2021-07-15  1111  			       struct rpc_gss_wire_cred *gc,
+030d794bf49855 Simo Sorce      2012-05-25  1112  			       struct xdr_netobj *in_handle,
+030d794bf49855 Simo Sorce      2012-05-25  1113  			       struct gssp_in_token *in_token)
+030d794bf49855 Simo Sorce      2012-05-25  1114  {
+c020fa695af640 Chuck Lever     2023-01-02  1115  	struct xdr_stream *xdr = &rqstp->rq_arg_stream;
+d48c8124749c9a Martijn de Gouw 2020-10-19  1116  	unsigned int length, pgto_offs, pgfrom_offs;
+4d51366deeb4e2 Chuck Lever     2023-01-02  1117  	int pages, i, pgto, pgfrom;
+c020fa695af640 Chuck Lever     2023-01-02  1118  	size_t to_offs, from_offs;
+c020fa695af640 Chuck Lever     2023-01-02  1119  	u32 inlen;
+030d794bf49855 Simo Sorce      2012-05-25  1120  
+4d51366deeb4e2 Chuck Lever     2023-01-02  1121  	if (dup_netobj(in_handle, &gc->gc_ctx))
+4d51366deeb4e2 Chuck Lever     2023-01-02  1122  		return SVC_CLOSE;
+030d794bf49855 Simo Sorce      2012-05-25  1123  
+c020fa695af640 Chuck Lever     2023-01-02  1124  	/*
+c020fa695af640 Chuck Lever     2023-01-02  1125  	 *  RFC 2203 Section 5.2.2
+c020fa695af640 Chuck Lever     2023-01-02  1126  	 *
+c020fa695af640 Chuck Lever     2023-01-02  1127  	 *	struct rpc_gss_init_arg {
+c020fa695af640 Chuck Lever     2023-01-02  1128  	 *		opaque gss_token<>;
+c020fa695af640 Chuck Lever     2023-01-02  1129  	 *	};
+c020fa695af640 Chuck Lever     2023-01-02  1130  	 */
+c020fa695af640 Chuck Lever     2023-01-02  1131  	if (xdr_stream_decode_u32(xdr, &inlen) < 0)
+c020fa695af640 Chuck Lever     2023-01-02  1132  		goto out_denied_free;
+c020fa695af640 Chuck Lever     2023-01-02  1133  	if (inlen > xdr_stream_remaining(xdr))
+c020fa695af640 Chuck Lever     2023-01-02  1134  		goto out_denied_free;
+030d794bf49855 Simo Sorce      2012-05-25  1135  
+5866efa8cbfbad Chuck Lever     2019-10-24  1136  	pages = DIV_ROUND_UP(inlen, PAGE_SIZE);
+5866efa8cbfbad Chuck Lever     2019-10-24  1137  	in_token->pages = kcalloc(pages, sizeof(struct page *), GFP_KERNEL);
+c020fa695af640 Chuck Lever     2023-01-02  1138  	if (!in_token->pages)
+c020fa695af640 Chuck Lever     2023-01-02  1139  		goto out_denied_free;
+5866efa8cbfbad Chuck Lever     2019-10-24  1140  	in_token->page_base = 0;
+030d794bf49855 Simo Sorce      2012-05-25  1141  	in_token->page_len = inlen;
+5866efa8cbfbad Chuck Lever     2019-10-24  1142  	for (i = 0; i < pages; i++) {
+5866efa8cbfbad Chuck Lever     2019-10-24  1143  		in_token->pages[i] = alloc_page(GFP_KERNEL);
+5866efa8cbfbad Chuck Lever     2019-10-24  1144  		if (!in_token->pages[i]) {
+5866efa8cbfbad Chuck Lever     2019-10-24  1145  			gss_free_in_token_pages(in_token);
+c020fa695af640 Chuck Lever     2023-01-02  1146  			goto out_denied_free;
+5866efa8cbfbad Chuck Lever     2019-10-24  1147  		}
+5866efa8cbfbad Chuck Lever     2019-10-24  1148  	}
+5866efa8cbfbad Chuck Lever     2019-10-24  1149  
+c020fa695af640 Chuck Lever     2023-01-02  1150  	length = min_t(unsigned int, inlen, (char *)xdr->end - (char *)xdr->p);
+c020fa695af640 Chuck Lever     2023-01-02  1151  	memcpy(page_address(in_token->pages[0]), xdr->p, length);
+5866efa8cbfbad Chuck Lever     2019-10-24  1152  	inlen -= length;
+5866efa8cbfbad Chuck Lever     2019-10-24  1153  
+d48c8124749c9a Martijn de Gouw 2020-10-19  1154  	to_offs = length;
+d48c8124749c9a Martijn de Gouw 2020-10-19  1155  	from_offs = rqstp->rq_arg.page_base;
+5866efa8cbfbad Chuck Lever     2019-10-24  1156  	while (inlen) {
+d48c8124749c9a Martijn de Gouw 2020-10-19  1157  		pgto = to_offs >> PAGE_SHIFT;
+d48c8124749c9a Martijn de Gouw 2020-10-19  1158  		pgfrom = from_offs >> PAGE_SHIFT;
+d48c8124749c9a Martijn de Gouw 2020-10-19  1159  		pgto_offs = to_offs & ~PAGE_MASK;
+d48c8124749c9a Martijn de Gouw 2020-10-19  1160  		pgfrom_offs = from_offs & ~PAGE_MASK;
+d48c8124749c9a Martijn de Gouw 2020-10-19  1161  
+d48c8124749c9a Martijn de Gouw 2020-10-19  1162  		length = min_t(unsigned int, inlen,
+d48c8124749c9a Martijn de Gouw 2020-10-19  1163  			 min_t(unsigned int, PAGE_SIZE - pgto_offs,
+d48c8124749c9a Martijn de Gouw 2020-10-19  1164  			       PAGE_SIZE - pgfrom_offs));
+d48c8124749c9a Martijn de Gouw 2020-10-19 @1165  		memcpy(page_address(in_token->pages[pgto]) + pgto_offs,
+d48c8124749c9a Martijn de Gouw 2020-10-19  1166  		       page_address(rqstp->rq_arg.pages[pgfrom]) + pgfrom_offs,
+5866efa8cbfbad Chuck Lever     2019-10-24  1167  		       length);
+030d794bf49855 Simo Sorce      2012-05-25  1168  
+d48c8124749c9a Martijn de Gouw 2020-10-19  1169  		to_offs += length;
+d48c8124749c9a Martijn de Gouw 2020-10-19  1170  		from_offs += length;
+5866efa8cbfbad Chuck Lever     2019-10-24  1171  		inlen -= length;
+5866efa8cbfbad Chuck Lever     2019-10-24  1172  	}
+030d794bf49855 Simo Sorce      2012-05-25  1173  	return 0;
+c020fa695af640 Chuck Lever     2023-01-02  1174  
+c020fa695af640 Chuck Lever     2023-01-02  1175  out_denied_free:
+c020fa695af640 Chuck Lever     2023-01-02  1176  	kfree(in_handle->data);
+c020fa695af640 Chuck Lever     2023-01-02  1177  	return SVC_DENIED;
+030d794bf49855 Simo Sorce      2012-05-25  1178  }
+030d794bf49855 Simo Sorce      2012-05-25  1179  
 
-vim +3127 drivers/bus/ti-sysc.c
+:::::: The code at line 1165 was first introduced by commit
+:::::: d48c8124749c9a5081fe68680f83605e272c984b SUNRPC: fix copying of multiple pages in gss_read_proxy_verf()
 
-feaa8baee82abab Tony Lindgren     2020-02-24  3093  
-feaa8baee82abab Tony Lindgren     2020-02-24  3094  /*
-9d881361206ebcf Tony Lindgren     2021-09-21  3095   * One time init to detect the booted SoC, disable unavailable features
-9d881361206ebcf Tony Lindgren     2021-09-21  3096   * and initialize list for optional cpu_pm notifier.
-9d881361206ebcf Tony Lindgren     2021-09-21  3097   *
-feaa8baee82abab Tony Lindgren     2020-02-24  3098   * Note that we initialize static data shared across all ti-sysc instances
-feaa8baee82abab Tony Lindgren     2020-02-24  3099   * so ddata is only used for SoC type. This can be called from module_init
-feaa8baee82abab Tony Lindgren     2020-02-24  3100   * once we no longer need to rely on platform data.
-feaa8baee82abab Tony Lindgren     2020-02-24  3101   */
-9d881361206ebcf Tony Lindgren     2021-09-21  3102  static int sysc_init_static_data(struct sysc *ddata)
-feaa8baee82abab Tony Lindgren     2020-02-24  3103  {
-feaa8baee82abab Tony Lindgren     2020-02-24  3104  	const struct soc_device_attribute *match;
-feaa8baee82abab Tony Lindgren     2020-02-24  3105  	struct ti_sysc_platform_data *pdata;
-feaa8baee82abab Tony Lindgren     2020-02-24  3106  	unsigned long features = 0;
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3107  	struct device_node *np;
-feaa8baee82abab Tony Lindgren     2020-02-24  3108  
-feaa8baee82abab Tony Lindgren     2020-02-24  3109  	if (sysc_soc)
-feaa8baee82abab Tony Lindgren     2020-02-24  3110  		return 0;
-feaa8baee82abab Tony Lindgren     2020-02-24  3111  
-feaa8baee82abab Tony Lindgren     2020-02-24  3112  	sysc_soc = kzalloc(sizeof(*sysc_soc), GFP_KERNEL);
-feaa8baee82abab Tony Lindgren     2020-02-24  3113  	if (!sysc_soc)
-feaa8baee82abab Tony Lindgren     2020-02-24  3114  		return -ENOMEM;
-feaa8baee82abab Tony Lindgren     2020-02-24  3115  
-feaa8baee82abab Tony Lindgren     2020-02-24  3116  	mutex_init(&sysc_soc->list_lock);
-feaa8baee82abab Tony Lindgren     2020-02-24  3117  	INIT_LIST_HEAD(&sysc_soc->disabled_modules);
-9d881361206ebcf Tony Lindgren     2021-09-21  3118  	INIT_LIST_HEAD(&sysc_soc->restored_modules);
-feaa8baee82abab Tony Lindgren     2020-02-24  3119  	sysc_soc->general_purpose = true;
-feaa8baee82abab Tony Lindgren     2020-02-24  3120  
-feaa8baee82abab Tony Lindgren     2020-02-24  3121  	pdata = dev_get_platdata(ddata->dev);
-feaa8baee82abab Tony Lindgren     2020-02-24  3122  	if (pdata && pdata->soc_type_gp)
-feaa8baee82abab Tony Lindgren     2020-02-24  3123  		sysc_soc->general_purpose = pdata->soc_type_gp();
-feaa8baee82abab Tony Lindgren     2020-02-24  3124  
-feaa8baee82abab Tony Lindgren     2020-02-24  3125  	match = soc_device_match(sysc_soc_match);
-feaa8baee82abab Tony Lindgren     2020-02-24  3126  	if (match && match->data)
-e59829853456e23 Tony Lindgren     2023-11-14 @3127  		sysc_soc->soc = (enum sysc_soc)match->data;
-feaa8baee82abab Tony Lindgren     2020-02-24  3128  
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3129  	/*
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3130  	 * Check and warn about possible old incomplete dtb. We now want to see
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3131  	 * simple-pm-bus instead of simple-bus in the dtb for genpd using SoCs.
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3132  	 */
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3133  	switch (sysc_soc->soc) {
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3134  	case SOC_AM3:
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3135  	case SOC_AM4:
-4adcf4c28f6dc19 Tony Lindgren     2021-03-12  3136  	case SOC_4430 ... SOC_4470:
-4adcf4c28f6dc19 Tony Lindgren     2021-03-12  3137  	case SOC_5430:
-4adcf4c28f6dc19 Tony Lindgren     2021-03-12  3138  	case SOC_DRA7:
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3139  		np = of_find_node_by_path("/ocp");
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3140  		WARN_ONCE(np && of_device_is_compatible(np, "simple-bus"),
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3141  			  "ti-sysc: Incomplete old dtb, please update\n");
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3142  		break;
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3143  	default:
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3144  		break;
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3145  	}
-5f7259a578e9c67 Tony Lindgren     2021-03-08  3146  
-4bba9bf08ff41d7 Tony Lindgren     2020-05-07  3147  	/* Ignore devices that are not available on HS and EMU SoCs */
-4bba9bf08ff41d7 Tony Lindgren     2020-05-07  3148  	if (!sysc_soc->general_purpose) {
-4bba9bf08ff41d7 Tony Lindgren     2020-05-07  3149  		switch (sysc_soc->soc) {
-4bba9bf08ff41d7 Tony Lindgren     2020-05-07  3150  		case SOC_3430 ... SOC_3630:
-4bba9bf08ff41d7 Tony Lindgren     2020-05-07  3151  			sysc_add_disabled(0x48304000);	/* timer12 */
-4bba9bf08ff41d7 Tony Lindgren     2020-05-07  3152  			break;
-a6d90e9f22328f0 Kevin Hilman      2021-07-20  3153  		case SOC_AM3:
-a6d90e9f22328f0 Kevin Hilman      2021-07-20  3154  			sysc_add_disabled(0x48310000);  /* rng */
-e879f855e590b40 Nathan Chancellor 2021-08-15  3155  			break;
-4bba9bf08ff41d7 Tony Lindgren     2020-05-07  3156  		default:
-4bba9bf08ff41d7 Tony Lindgren     2020-05-07  3157  			break;
-52fbb5aabb5cf62 Yang Li           2021-02-02  3158  		}
-4bba9bf08ff41d7 Tony Lindgren     2020-05-07  3159  	}
-4bba9bf08ff41d7 Tony Lindgren     2020-05-07  3160  
-feaa8baee82abab Tony Lindgren     2020-02-24  3161  	match = soc_device_match(sysc_soc_feat_match);
-feaa8baee82abab Tony Lindgren     2020-02-24  3162  	if (!match)
-feaa8baee82abab Tony Lindgren     2020-02-24  3163  		return 0;
-feaa8baee82abab Tony Lindgren     2020-02-24  3164  
-feaa8baee82abab Tony Lindgren     2020-02-24  3165  	if (match->data)
-feaa8baee82abab Tony Lindgren     2020-02-24  3166  		features = (unsigned long)match->data;
-feaa8baee82abab Tony Lindgren     2020-02-24  3167  
-feaa8baee82abab Tony Lindgren     2020-02-24  3168  	/*
-feaa8baee82abab Tony Lindgren     2020-02-24  3169  	 * Add disabled devices to the list based on the module base.
-feaa8baee82abab Tony Lindgren     2020-02-24  3170  	 * Note that this must be done before we attempt to access the
-feaa8baee82abab Tony Lindgren     2020-02-24  3171  	 * device and have module revision checks working.
-feaa8baee82abab Tony Lindgren     2020-02-24  3172  	 */
-feaa8baee82abab Tony Lindgren     2020-02-24  3173  	if (features & DIS_ISP)
-feaa8baee82abab Tony Lindgren     2020-02-24  3174  		sysc_add_disabled(0x480bd400);
-feaa8baee82abab Tony Lindgren     2020-02-24  3175  	if (features & DIS_IVA)
-feaa8baee82abab Tony Lindgren     2020-02-24  3176  		sysc_add_disabled(0x5d000000);
-feaa8baee82abab Tony Lindgren     2020-02-24  3177  	if (features & DIS_SGX)
-feaa8baee82abab Tony Lindgren     2020-02-24  3178  		sysc_add_disabled(0x50000000);
-feaa8baee82abab Tony Lindgren     2020-02-24  3179  
-feaa8baee82abab Tony Lindgren     2020-02-24  3180  	return 0;
-feaa8baee82abab Tony Lindgren     2020-02-24  3181  }
-feaa8baee82abab Tony Lindgren     2020-02-24  3182  
-
-:::::: The code at line 3127 was first introduced by commit
-:::::: e59829853456e23c433d2182233dd00d04577f0d bus: ti-sysc: Fix build warning for 64-bit build
-
-:::::: TO: Tony Lindgren <tony@atomide.com>
-:::::: CC: Praneeth Bajjuri <praneeth@ti.com>
+:::::: TO: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
+:::::: CC: J. Bruce Fields <bfields@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
