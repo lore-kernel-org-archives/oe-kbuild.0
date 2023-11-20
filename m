@@ -1,57 +1,53 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 071276FD1
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 10:55:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE6F14A99
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 11:31:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D81Bw407"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40a4d04af5cso12128445e9.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 02:55:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dpC0WWZ3"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40790b0a224so13527215e9.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 03:31:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700477700; x=1701082500; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1700479882; x=1701084682; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S7yigsWpqo5NnEMD9rs1RxI3LcZvc/Yo1+fclqVDtR0=;
-        b=D81Bw407iEAE1TKeLkPOcAshtNDd2mgJ5JbPTNJ4LfnmQH6zHjsbzKrxyMn7YDX7/U
-         NtMjbAqXN/9IdO2+DHaBiAKFOvVbmKuS/nJ7XIs7huzN8OfDT3Eic5WPT0N13MR33hrr
-         gsUCHBYI2WBzn20kvrrGDGWisgmTFUFqZ+ndpVjX3RWQFcmUAT0OMkL/G0k4dA8ndVJd
-         OxqjNPPU8Xb1mHN4RIPn9lkVXW90BFphfEGINDWvYHFIUviaJpuKZkcg6LdYrgNj/2WE
-         8Xefz5Brb5y8L4HrN3NtsjYJJ0pUo40hPbb0Xtr09KxXoTLUn1CraXLB9p9PIIACSxHr
-         6yqw==
+        bh=4KNEt5I1ZtkPToMD8d2NEwITwgnPqvD6+p6NguzcVqQ=;
+        b=dpC0WWZ3dA1PBJJ5YBrZW24/qGk04MVgvDe5ZEH+8XQ3x7bJ9pFy4RyyRXqNuL03no
+         9sSmpn6VdZspiqbugJ8VzlAsF+skiWWR/1TNE7+1LE2gEeqDqEhlvleBFqIBl4g3QNrv
+         OIE3FRdhUa5lQVQDdy8Rp/ss3AYH2V9FcaSHKS78AqQl5HnEEEWwMd0vluf/eNFR9xh9
+         BKDGh+elE793MljduiDnQhNiNT6xdYT99xysou4eDPBHfEUZ7RjF3W4jG5uGCBd5h+Qi
+         IOklPc20o4SAZc7EXE/633pRGVx57qPFtMJ7Vkr7TAefGfEYuRQRYNFuLPv+Es61LBs5
+         4QvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700477700; x=1701082500;
+        d=1e100.net; s=20230601; t=1700479882; x=1701084682;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=S7yigsWpqo5NnEMD9rs1RxI3LcZvc/Yo1+fclqVDtR0=;
-        b=UP7mavIaMDKxvWSQlV1VffH0EB/4Fefmnegsmx4x7E4h/++8DqrOciVMYEj0ItuJDO
-         vJHjU19GN+Bcz0+ShGZ/q8gzCArMdhhIgeeWegAb/SD87gX1ReJmxgdkP6jssyMt3MqF
-         51Yg8IjmyLTLb6kQeURvITzAP8cn3r2ITvL45Dfxbtru+Dt7vsvCthaythFDBQJDkxZw
-         zatDZyi3ZPrSHmfoPhNO1JNYdF0c5v1pBdjZk9cI/ZPRFkEit7bR0SVIRlDl2eeFw748
-         qawq8H990VbmFngg9qiDFsq1tnehhL7zW9n+mXMq/yYdLeofDTD1fYpHzzHPvJTQm+BL
-         p2PA==
-X-Gm-Message-State: AOJu0YyNWjebiHI87jNx4dOu3EAGV2FpsEbEkk6XR+8bHY4JbkXf5sPx
-	pb8/gFK4QaFlnvfpmLRCLu+vTwTqTB2J180GovU=
-X-Google-Smtp-Source: AGHT+IETDFg3+zhHdqRS0r+kKYhNfXKDAirf7sGch5NG5N8rbdEccC65Ia69iOIzuyn3kUAe49YETw==
-X-Received: by 2002:a05:600c:4e92:b0:405:4daa:6e3d with SMTP id f18-20020a05600c4e9200b004054daa6e3dmr5790050wmq.39.1700477700200;
-        Mon, 20 Nov 2023 02:55:00 -0800 (PST)
+        bh=4KNEt5I1ZtkPToMD8d2NEwITwgnPqvD6+p6NguzcVqQ=;
+        b=As1m09xisviQbXTUa2y3ioO8WVagGBbAA5fir5WQGFjGYdi71tKeLfeHJZ54Pm/ssF
+         zVnRxh8ZeeEsFKFvcBPdT7FBeWXy5Zt6uNxI/g51ojm+mWHx6++HDtNvXDaLUzIbeWci
+         lP+ojIOZ6+K2kFQx7vRdBjHcCElkc/OEGUVcvB2+zXKw5oJHjXk5KFIpNHsGvtGqUzMC
+         WTFGRbe3wlEM089ZmwGJKUrYjR+Cy1YDHeRX/gq42TDts7gDFuRlOXH5lOa/FhRfFR2r
+         ZMwZUnUygjEpEg3pZvRO9BaYruT5fOxIppY27xxFeQIx1GlZiwbOPpNpspTPL6UahVEy
+         5X5w==
+X-Gm-Message-State: AOJu0Yz6sD4Sw+UhlVdLPukEcUc5PV2XnZL4AC6NXpcvJED8xz9rdrFH
+	fPffe7wyiMKUV0id/9/ahDGkK6glC7fhuw79n9g=
+X-Google-Smtp-Source: AGHT+IGV9nwmrpO82YyxRsAgO5AMe/MOgSLUJJqDmB+XqcoiDICMqgHg2MbPcYkt4WTCYdAoOCqRSA==
+X-Received: by 2002:a05:600c:4587:b0:40a:437e:30fe with SMTP id r7-20020a05600c458700b0040a437e30femr6074667wmo.24.1700479881994;
+        Mon, 20 Nov 2023 03:31:21 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id fb11-20020a05600c520b00b004076f522058sm17346948wmb.0.2023.11.20.02.54.59
+        by smtp.gmail.com with ESMTPSA id h20-20020a05600c30d400b004060f0a0fdbsm17178337wmn.41.2023.11.20.03.31.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 02:54:59 -0800 (PST)
+        Mon, 20 Nov 2023 03:31:21 -0800 (PST)
 From: Dan Carpenter <dan.carpenter@linaro.org>
 X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Mon, 20 Nov 2023 05:54:56 -0500
-To: oe-kbuild@lists.linux.dev, Min Li <lnimi@hotmail.com>,
-	richardcochran@gmail.com, lee@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Min Li <min.li.xe@renesas.com>
-Subject: Re: [PATCH net-next v2 1/1] ptp: clockmatrix: support 32-bit address
- space
-Message-ID: <03e74acd-bb49-472a-b200-e84e11ae2865@suswa.mountain>
+Date: Mon, 20 Nov 2023 06:31:18 -0500
+To: oe-kbuild@lists.linux.dev, Johannes Berg <johannes@sipsolutions.net>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 1/6] debugfs: fix automount d_fsdata usage
+Message-ID: <5c59da09-c04a-4727-9265-58976ac13a45@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,111 +56,79 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <MW5PR03MB6932A4AAD4F612B45E9F6856A0AFA@MW5PR03MB6932.namprd03.prod.outlook.com>
+In-Reply-To: <20231109222251.9e54cb55c700.I64fe5615568e87f9ae2d7fb2ac4e5fa96924cb50@changeid>
 
-Hi Min,
+Hi Johannes,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Min-Li/ptp-clockmatrix-support-32-bit-address-space/20231110-044554
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/MW5PR03MB6932A4AAD4F612B45E9F6856A0AFA%40MW5PR03MB6932.namprd03.prod.outlook.com
-patch subject: [PATCH net-next v2 1/1] ptp: clockmatrix: support 32-bit address space
-config: i386-randconfig-141-20231111 (https://download.01.org/0day-ci/archive/20231111/202311110542.BjfgVNxz-lkp@intel.com/config)
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/debugfs-fix-automount-d_fsdata-usage/20231110-054024
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20231109222251.9e54cb55c700.I64fe5615568e87f9ae2d7fb2ac4e5fa96924cb50%40changeid
+patch subject: [RFC PATCH 1/6] debugfs: fix automount d_fsdata usage
+config: i386-randconfig-141-20231111 (https://download.01.org/0day-ci/archive/20231111/202311110653.cItFLCy6-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231111/202311110542.BjfgVNxz-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231111/202311110653.cItFLCy6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311110542.BjfgVNxz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311110653.cItFLCy6-lkp@intel.com/
 
 New smatch warnings:
-drivers/ptp/ptp_clockmatrix.c:1257 idtcm_load_firmware() warn: '(537972560)' 537972560 can't fit into 65535 'scratch'
+fs/debugfs/inode.c:655 debugfs_create_automount() warn: possible memory leak of 'fsd'
 
-vim +1257 drivers/ptp/ptp_clockmatrix.c
+vim +/fsd +655 fs/debugfs/inode.c
 
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1254  static int idtcm_load_firmware(struct idtcm *idtcm,
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1255  			       struct device *dev)
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1256  {
-794c3dffacc166 Min Li        2021-09-13 @1257  	u16 scratch = IDTCM_FW_REG(idtcm->fw_ver, V520, SCRATCH);
+77b3da6e3232d3 Al Viro            2015-01-25  633  struct dentry *debugfs_create_automount(const char *name,
+77b3da6e3232d3 Al Viro            2015-01-25  634  					struct dentry *parent,
+93faccbbfa958a Eric W. Biederman  2017-02-01  635  					debugfs_automount_t f,
+77b3da6e3232d3 Al Viro            2015-01-25  636  					void *data)
+77b3da6e3232d3 Al Viro            2015-01-25  637  {
+77b3da6e3232d3 Al Viro            2015-01-25  638  	struct dentry *dentry = start_creating(name, parent);
+3e1dead436f419 Johannes Berg      2023-11-09  639  	struct debugfs_fsdata *fsd;
+77b3da6e3232d3 Al Viro            2015-01-25  640  	struct inode *inode;
+77b3da6e3232d3 Al Viro            2015-01-25  641  
+77b3da6e3232d3 Al Viro            2015-01-25  642  	if (IS_ERR(dentry))
+ff9fb72bc07705 Greg Kroah-Hartman 2019-01-23  643  		return dentry;
+77b3da6e3232d3 Al Viro            2015-01-25  644  
+3e1dead436f419 Johannes Berg      2023-11-09  645  	fsd = kzalloc(sizeof(*fsd), GFP_KERNEL);
+3e1dead436f419 Johannes Berg      2023-11-09  646  	if (!fsd) {
+3e1dead436f419 Johannes Berg      2023-11-09  647  		failed_creating(dentry);
+3e1dead436f419 Johannes Berg      2023-11-09  648  		return ERR_PTR(-ENOMEM);
+3e1dead436f419 Johannes Berg      2023-11-09  649  	}
+3e1dead436f419 Johannes Berg      2023-11-09  650  
+3e1dead436f419 Johannes Berg      2023-11-09  651  	fsd->automount = f;
+3e1dead436f419 Johannes Berg      2023-11-09  652  
+a24c6f7bc923d5 Peter Enderborg    2020-07-16  653  	if (!(debugfs_allow & DEBUGFS_ALLOW_API)) {
+a24c6f7bc923d5 Peter Enderborg    2020-07-16  654  		failed_creating(dentry);
+a24c6f7bc923d5 Peter Enderborg    2020-07-16 @655  		return ERR_PTR(-EPERM);
 
--#define SCRATCH_V520                      0xcf4c
-+#define SCRATCH_V520                      0x2010cf4c
+kfree(fsd);
 
-This doesn't fit into a u16 any more.  I'm not sure this a bug, but it's
-a bit ugly.
-
-7ea5fda2b1325e Min Li        2020-07-28  1258  	char fname[128] = FW_FILENAME;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1259  	const struct firmware *fw;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1260  	struct idtcm_fwrc *rec;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1261  	u32 regaddr;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1262  	int err;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1263  	s32 len;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1264  	u8 val;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1265  	u8 loaddr;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1266  
-7ea5fda2b1325e Min Li        2020-07-28  1267  	if (firmware) /* module parameter */
-7ea5fda2b1325e Min Li        2020-07-28  1268  		snprintf(fname, sizeof(fname), "%s", firmware);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1269  
-930dfa56315517 Min Li        2021-09-24  1270  	dev_info(idtcm->dev, "requesting firmware '%s'", fname);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1271  
-7ea5fda2b1325e Min Li        2020-07-28  1272  	err = request_firmware(&fw, fname, dev);
-7ea5fda2b1325e Min Li        2020-07-28  1273  	if (err) {
-930dfa56315517 Min Li        2021-09-24  1274  		dev_err(idtcm->dev,
-1c49d3e947783b Vincent Cheng 2021-02-17  1275  			"Failed at line %d in %s!", __LINE__, __func__);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1276  		return err;
-7ea5fda2b1325e Min Li        2020-07-28  1277  	}
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1278  
-930dfa56315517 Min Li        2021-09-24  1279  	dev_dbg(idtcm->dev, "firmware size %zu bytes", fw->size);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1280  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1281  	rec = (struct idtcm_fwrc *) fw->data;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1282  
-794c3dffacc166 Min Li        2021-09-13  1283  	if (contains_full_configuration(idtcm, fw))
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1284  		idtcm_state_machine_reset(idtcm);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1285  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1286  	for (len = fw->size; len > 0; len -= sizeof(*rec)) {
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1287  		if (rec->reserved) {
-930dfa56315517 Min Li        2021-09-24  1288  			dev_err(idtcm->dev,
-1c49d3e947783b Vincent Cheng 2021-02-17  1289  				"bad firmware, reserved field non-zero");
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1290  			err = -EINVAL;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1291  		} else {
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1292  			regaddr = rec->hiaddr << 8;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1293  			regaddr |= rec->loaddr;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1294  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1295  			val = rec->value;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1296  			loaddr = rec->loaddr;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1297  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1298  			rec++;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1299  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1300  			err = check_and_set_masks(idtcm, regaddr, val);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1301  		}
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1302  
-7ea5fda2b1325e Min Li        2020-07-28  1303  		if (err != -EINVAL) {
-7ea5fda2b1325e Min Li        2020-07-28  1304  			err = 0;
-7ea5fda2b1325e Min Li        2020-07-28  1305  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1306  			/* Top (status registers) and bottom are read-only */
-9fe9b9792d7236 Min Li        2023-11-09  1307  			if (regaddr < SCSR_ADDR(GPIO_USER_CONTROL) || regaddr >= scratch)
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1308  				continue;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1309  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1310  			/* Page size 128, last 4 bytes of page skipped */
-77fdb168a3e2a6 Vincent Cheng 2021-02-17  1311  			if ((loaddr > 0x7b && loaddr <= 0x7f) || loaddr > 0xfb)
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1312  				continue;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1313  
-9fe9b9792d7236 Min Li        2023-11-09  1314  			err = idtcm_write(idtcm, SCSR_BASE, regaddr, &val, sizeof(val));
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1315  		}
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1316  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1317  		if (err)
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1318  			goto out;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1319  	}
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1320  
-7ea5fda2b1325e Min Li        2020-07-28  1321  	display_pll_and_masks(idtcm);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1322  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1323  out:
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1324  	release_firmware(fw);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1325  	return err;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1326  }
+a24c6f7bc923d5 Peter Enderborg    2020-07-16  656  	}
+a24c6f7bc923d5 Peter Enderborg    2020-07-16  657  
+77b3da6e3232d3 Al Viro            2015-01-25  658  	inode = debugfs_get_inode(dentry->d_sb);
+43e23b6c0b0151 Greg Kroah-Hartman 2019-07-03  659  	if (unlikely(!inode)) {
+43e23b6c0b0151 Greg Kroah-Hartman 2019-07-03  660  		pr_err("out of free dentries, can not create automount '%s'\n",
+43e23b6c0b0151 Greg Kroah-Hartman 2019-07-03  661  		       name);
+77b3da6e3232d3 Al Viro            2015-01-25  662  		return failed_creating(dentry);
+43e23b6c0b0151 Greg Kroah-Hartman 2019-07-03  663  	}
+77b3da6e3232d3 Al Viro            2015-01-25  664  
+87243deb88671f Seth Forshee       2016-03-09  665  	make_empty_dir_inode(inode);
+77b3da6e3232d3 Al Viro            2015-01-25  666  	inode->i_flags |= S_AUTOMOUNT;
+77b3da6e3232d3 Al Viro            2015-01-25  667  	inode->i_private = data;
+3e1dead436f419 Johannes Berg      2023-11-09  668  	dentry->d_fsdata = fsd;
+a8f324a46fbe54 Roman Pen          2016-02-09  669  	/* directory inodes start off with i_nlink == 2 (for "." entry) */
+a8f324a46fbe54 Roman Pen          2016-02-09  670  	inc_nlink(inode);
+77b3da6e3232d3 Al Viro            2015-01-25  671  	d_instantiate(dentry, inode);
+a8f324a46fbe54 Roman Pen          2016-02-09  672  	inc_nlink(d_inode(dentry->d_parent));
+a8f324a46fbe54 Roman Pen          2016-02-09  673  	fsnotify_mkdir(d_inode(dentry->d_parent), dentry);
+77b3da6e3232d3 Al Viro            2015-01-25  674  	return end_creating(dentry);
+77b3da6e3232d3 Al Viro            2015-01-25  675  }
 
 -- 
 0-DAY CI Kernel Test Service
