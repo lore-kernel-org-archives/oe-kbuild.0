@@ -1,63 +1,56 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192DE14AAF
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 11:32:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02306DDD0
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 11:33:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HkjTERo2"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40806e4106dso9706965e9.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 03:32:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KjlXGpPf"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-408425c7c10so15096965e9.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 03:33:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700479949; x=1701084749; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+        d=linaro.org; s=google; t=1700480021; x=1701084821; darn=lists.linux.dev;
+        h=delivered-to:content-disposition:mime-version:message-id:subject:cc
          :to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XXVT32YSTkc9p0bui0nEPJJcsWC+EUsD0PehXkWpJF8=;
-        b=HkjTERo2BN4wqtA2402dZzwo8H3rwuZ0XNjxwSJ8PjtdkGBJPUDgn2hyvwkGHpNyXf
-         jncuPvpuURULY4eqUJaYRLLoQXY6YaA7MuEoCAuLTpDZNDayOlSKJayf0lxYxSGLFBX9
-         juzvZq6s9ZR5Hat94iY7u5aaBbos8xVG0xGi65Ox7mgg+LD102mDuQ3LvCSqSruApyBQ
-         SoIM4UaAkRuRKczadZCsbpooHpM7xuUjzoC1PBk9pw1pYZdXvfXCDoWse8H7sl716+6i
-         0pagGZL2ZDDdAFNzQ1Tsm8xOJzSyMZGg58IVynLSD7C4QoU83ywgYLXOjy894T6B7fVy
-         Qr1A==
+        bh=Fs61Zyqtl8RiwGd/Qwpq0Eq8JZ08z+qR/ljCWMxQk9c=;
+        b=KjlXGpPfMP7THmMGjdx7NvIIKM6M5G+9F8yVR7bovbWlNlQrQccbKlO9Dxl27OpoVm
+         +cjY8YVaoAl0LEcqMZt6U5AlzjdHqwIy8nGOfOU8XM/MPtoTD8/LLiSyykL51s20Jqwj
+         y9qFHqNnkZQ2+CwG9GXrC4Z3RszxnR8XIDiyq7Q8VHbD0i8HQVVMoZOcSEwuJHCQY83A
+         saPJiOF4n92ru1YTJ+yBnaaGtCmU75js/xvh61KIfWR92QhMDq77F6BbvR6uPOjpKbr6
+         5pCk0dZftitYJ1WsLGMu5Q/Dc6s0KXbfEjU0+LOmKzHnctYZlvqIk7JagmTsGtvCXaGd
+         xAgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700479949; x=1701084749;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+        d=1e100.net; s=20230601; t=1700480021; x=1701084821;
+        h=delivered-to:content-disposition:mime-version:message-id:subject:cc
          :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XXVT32YSTkc9p0bui0nEPJJcsWC+EUsD0PehXkWpJF8=;
-        b=GlfMky6SIoKjw+QVdfYBDZ0CQmyzaJHig7DSxtSJL24YlhkTI0U78GhFGCfx9fXEOb
-         GHR8nV8fDsl8WfFqfcD+c0wWMY26TA80oV5tFcrXUd+FwH0/p9TeGsz/u80vSvnQJVRQ
-         WsSLKjwVxsHx4mThYcBe4yy13sGnIA6idkS4gwTGdNWaE4a5A/ir7cKZCmr4DzUMswCY
-         5bVVK+zk2M+pytsYmGWKe5KHtko3g15IKgTo1B86ku1dYMGzaKjro01/R+42dgzo7vB6
-         11aSpcfhiuRziz/fj2O5keJq4OyzVAw0CpuJUH73bnF8MFIm3yn1UEoF8RWZVlXBn30V
-         sDZA==
-X-Gm-Message-State: AOJu0YzCoGycFcTmkpFxmmL7YAEHHcnk/MEFAFo16RkHzjfQyDHccuQs
-	Jv6oBsz6ipyzqcoTHAJf6O70dma5aGDLhpyssK0=
-X-Google-Smtp-Source: AGHT+IHE/r6wa4i0tM4JzmYm5czcbg+D4FtuHA+dE7ZuRPxMuI8ADXhGUe6YuFQfgszzzuXosNOoMw==
-X-Received: by 2002:a05:600c:4e42:b0:407:5de2:ea4d with SMTP id e2-20020a05600c4e4200b004075de2ea4dmr11044499wmq.13.1700479948775;
-        Mon, 20 Nov 2023 03:32:28 -0800 (PST)
+        bh=Fs61Zyqtl8RiwGd/Qwpq0Eq8JZ08z+qR/ljCWMxQk9c=;
+        b=l01lf5vg4vmePxe7yALT5erUjYYQJ7kwlISKS/f2OejC/GNrhc6xQPUe2LkHR4DHJb
+         f5emK5ikqX0ZCdX4YY6J2jzF6K6fJxRE7jVVVxnSWTtr2PzpHdikeSQrBwaj3TRXpzqH
+         yKTHWJUWBZqtFerCdDMK8wy1PHrJRaKLAks0BLqndhR0HTbqjwjTsf0f1ActcC4HxpfY
+         K+u/bO9uYZ8VxEor1M767YrY6nfhNBoJMzf6JzlVooCrEcrq9wBxS6H3QUsgxBtvjYHz
+         FmfysveR1QX/55bzC0lu39s746qy/UxtyW4pCnHsOxVqbPrWRpym6/BJK13CZvHzaZZF
+         0diQ==
+X-Gm-Message-State: AOJu0Yz/jAvslB7LWMBSeqFMDIt01/ARv9kzlEP2vswJkWIN15LGD0qk
+	mxc/pNE++oMW/cagaqrCVxcGOi1vR//1ByjHEzM=
+X-Google-Smtp-Source: AGHT+IHvJRlSE9rLXuTs8KamcZydWqt0EnB34IkJRlIRX76ozZnhif74wiG08n7mVNlW6EcEL6wbKA==
+X-Received: by 2002:a7b:c8d6:0:b0:409:7900:f3d0 with SMTP id f22-20020a7bc8d6000000b004097900f3d0mr5798594wml.34.1700480021452;
+        Mon, 20 Nov 2023 03:33:41 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m10-20020a7bce0a000000b004083a105f27sm17200901wmc.26.2023.11.20.03.32.27
+        by smtp.gmail.com with ESMTPSA id w8-20020a05600c474800b0040836519dd9sm13320664wmo.25.2023.11.20.03.33.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 03:32:28 -0800 (PST)
+        Mon, 20 Nov 2023 03:33:41 -0800 (PST)
 From: Dan Carpenter <dan.carpenter@linaro.org>
 X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Mon, 20 Nov 2023 06:32:25 -0500
-To: oe-kbuild@lists.linux.dev, Mehdi Djait <mehdi.djait@bootlin.com>,
-	mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-	laurent.pinchart@ideasonboard.com,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-	conor+dt@kernel.org
+Date: Mon, 20 Nov 2023 06:33:38 -0500
+To: oe-kbuild@lists.linux.dev, Shyam Prasad N <sprasad@microsoft.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
-	alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
-	paul.kocialkowski@bootlin.com,
-	Mehdi Djait <mehdi.djait@bootlin.com>
-Subject: Re: [PATCH v8 3/3] media: i2c: Introduce a driver for the Techwell
- TW9900 decoder
-Message-ID: <675bc18e-4a9c-4e3c-8ae5-bdb8a2d2cfbe@suswa.mountain>
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+	Steve French <stfrench@microsoft.com>
+Subject: [cifs:for-next 8/13] fs/smb/client/sess.c:323
+ cifs_disable_secondary_channels() error: dereferencing freed memory 'iface'
+Message-ID: <539918b1-f4bb-4637-8bb4-057e5f1290f8@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,65 +59,61 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <93354996c95926970684498f08061b60a52bb84c.1699449537.git.mehdi.djait@bootlin.com>
 
-Hi Mehdi,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mehdi-Djait/dt-bindings-vendor-prefixes-Add-techwell-vendor-prefix/20231109-042139
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/93354996c95926970684498f08061b60a52bb84c.1699449537.git.mehdi.djait%40bootlin.com
-patch subject: [PATCH v8 3/3] media: i2c: Introduce a driver for the Techwell TW9900 decoder
-config: i386-randconfig-141-20231111 (https://download.01.org/0day-ci/archive/20231111/202311110759.PJpNGc2N-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231111/202311110759.PJpNGc2N-lkp@intel.com/reproduce)
+tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next
+head:   fd2bd7c0539e28f267a84da8d68f9378511b50a7
+commit: aa52cd09620b0ebd34ccae0e7f9f5b773497a499 [8/13] cifs: handle when server stops supporting multichannel
+config: i386-randconfig-141-20231108 (https://download.01.org/0day-ci/archive/20231111/202311110815.UJaeU3Tt-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231111/202311110815.UJaeU3Tt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311110759.PJpNGc2N-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311110815.UJaeU3Tt-lkp@intel.com/
 
 smatch warnings:
-drivers/media/i2c/tw9900.c:398 tw9900_s_std() error: uninitialized symbol 'mode'.
+fs/smb/client/sess.c:323 cifs_disable_secondary_channels() error: dereferencing freed memory 'iface'
 
-vim +/mode +398 drivers/media/i2c/tw9900.c
+vim +/iface +323 fs/smb/client/sess.c
 
-4fa88742527a9a Mehdi Djait 2023-11-08  384  static int tw9900_s_std(struct v4l2_subdev *sd, v4l2_std_id std)
-4fa88742527a9a Mehdi Djait 2023-11-08  385  {
-4fa88742527a9a Mehdi Djait 2023-11-08  386  	struct tw9900 *tw9900 = to_tw9900(sd);
-4fa88742527a9a Mehdi Djait 2023-11-08  387  	const struct tw9900_mode *mode;
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  298  void
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  299  cifs_disable_secondary_channels(struct cifs_ses *ses)
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  300  {
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  301  	int i, chan_count;
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  302  	struct TCP_Server_Info *server;
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  303  	struct cifs_server_iface *iface;
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  304  
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  305  	spin_lock(&ses->chan_lock);
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  306  	chan_count = ses->chan_count;
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  307  	if (chan_count == 1)
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  308  		goto done;
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  309  
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  310  	ses->chan_count = 1;
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  311  
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  312  	/* for all secondary channels reset the need reconnect bit */
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  313  	ses->chans_need_reconnect &= 1;
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  314  
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  315  	for (i = 1; i < chan_count; i++) {
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  316  		iface = ses->chans[i].iface;
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  317  		server = ses->chans[i].server;
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  318  
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  319  		if (iface) {
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  320  			spin_lock(&ses->iface_lock);
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  321  			kref_put(&iface->refcount, release_iface);
+                                                                                                                   ^^^^^^^^^^^^^
+Freed if last reference.
 
-This should be "const struct tw9900_mode *mode = NULL;"
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  322  			ses->chans[i].iface = NULL;
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13 @323  			iface->num_channels--;
+                                                                                        ^^^^^
+Dereference after free.
 
-4fa88742527a9a Mehdi Djait 2023-11-08  388  	int i, ret = 0;
-4fa88742527a9a Mehdi Djait 2023-11-08  389  
-4fa88742527a9a Mehdi Djait 2023-11-08  390  	if (!(std & (V4L2_STD_NTSC | V4L2_STD_PAL)))
-4fa88742527a9a Mehdi Djait 2023-11-08  391  		return -EINVAL;
-4fa88742527a9a Mehdi Djait 2023-11-08  392  
-4fa88742527a9a Mehdi Djait 2023-11-08  393  	mutex_lock(&tw9900->mutex);
-4fa88742527a9a Mehdi Djait 2023-11-08  394  
-4fa88742527a9a Mehdi Djait 2023-11-08  395  	for (i = 0; i < ARRAY_SIZE(supported_modes); i++)
-4fa88742527a9a Mehdi Djait 2023-11-08  396  		if (supported_modes[i].std & std)
-4fa88742527a9a Mehdi Djait 2023-11-08  397  			mode = &supported_modes[i];
-4fa88742527a9a Mehdi Djait 2023-11-08 @398  	if (!mode) {
-                                                     ^^^^
-Either valid or uninitialized.
-
-4fa88742527a9a Mehdi Djait 2023-11-08  399  		ret = -EINVAL;
-4fa88742527a9a Mehdi Djait 2023-11-08  400  		goto out_unlock;
-4fa88742527a9a Mehdi Djait 2023-11-08  401  	}
-4fa88742527a9a Mehdi Djait 2023-11-08  402  
-4fa88742527a9a Mehdi Djait 2023-11-08  403  	tw9900->cur_mode = mode;
-4fa88742527a9a Mehdi Djait 2023-11-08  404  
-4fa88742527a9a Mehdi Djait 2023-11-08  405  out_unlock:
-4fa88742527a9a Mehdi Djait 2023-11-08  406  	mutex_unlock(&tw9900->mutex);
-4fa88742527a9a Mehdi Djait 2023-11-08  407  
-4fa88742527a9a Mehdi Djait 2023-11-08  408  	return ret;
-4fa88742527a9a Mehdi Djait 2023-11-08  409  }
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  324  			if (iface->weight_fulfilled)
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  325  				iface->weight_fulfilled--;
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  326  			spin_unlock(&ses->iface_lock);
+aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  327  		}
 
 -- 
 0-DAY CI Kernel Test Service
