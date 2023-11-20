@@ -1,46 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBFC18E2E
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 12:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFC018E2E
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 12:10:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HKu0Y0GH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700482139; x=1732018139;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/X2CgZ4JKFcVQo4O7stZiNh+r16PAngQ4EpqUH+snek=;
-  b=HKu0Y0GHYe0hhzrIQSgJvtXpnffS9ocwAhGweskOyyP+fDw5/VNymz7Q
-   7Yc4Ev2z+i/C5xtBn6m0jh/LZadZD3xAGIwEvh5k8jTA1ijf2BDMIV5TH
-   9R/v7fwviSZ7XdDKMMGinK+A0dYoTLdmhfDjrXp7YiI3cldQ93VWlfHwe
-   Dxk7jK7GxfkZIxZg15xiWhqfpyaKIJJUNRbw8e2NFhbZ4gO26IpkNR9t2
-   CYpvvDCQLG8McwxHsopqXcVaEy/p2cO4CZ18TRbQ5hPQQiF0Ve4Hx/xhB
-   vZ1MSFycuPTggKCfMlgCTo2JleE55wTsFIhgf2qmyhf3Sx3fnqZOa0brE
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="388744425"
-X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="388744425"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 04:08:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="836722364"
-X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="836722364"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 20 Nov 2023 04:08:57 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r535C-0006Q9-2m;
-	Mon, 20 Nov 2023 12:08:54 +0000
-Date: Mon, 20 Nov 2023 20:08:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 3/6] irqchip: Introduce RTD1319 support using the
- Realtek common interrupt controller driver
-Message-ID: <202311201929.2FpvMRlg-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IHvj6o5B"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3316bb1303bso1776556f8f.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 04:10:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700482213; x=1701087013; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QS36oLotij0tVUHAFPCkN5+chgBCtn4SQxZS9m139l0=;
+        b=IHvj6o5Bj3Sp1UIrT2AyETFzhznP1xPkOtKPdIeH8oKjbap7Ji6OzSvGrlMNAYUmgI
+         dKJR+t/O8HOqYsriclnaFECqGuvIOqNmUtTXXOp+q6KOLdY8Uk8t9NGNLVZo1dh0sgtE
+         22xBnmzN2U8VZAEeEFU6vP6j2HSoIGjR+OvbuM75DTQUAKC8EsOtCI6jwQ+IFDQIyfep
+         Qj2rsXccP+lBrfTqHhuOXEeQrUJHSktibM51dBc3hwtAAGufsralDVio/8H42m62eaY9
+         cYiSrJG8B/TulBuYzuq2MqqCmj8sVvXAy7xpELEI1zDmPOjc0mz5Ak6dGT3t+JWh04qS
+         5DKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700482213; x=1701087013;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QS36oLotij0tVUHAFPCkN5+chgBCtn4SQxZS9m139l0=;
+        b=p9mtqM4fpnuU4QrRN02DDjHXA4yRFY2yhdIyo9Qn6S/fYS8InVt4w0tNMqrDQt2BCX
+         +6cg2fsVgawe5tsKO6AIGy6MhYowQ/QgHMJvVHD6kv6sOp/0mDal0mf461WxYq2fYgpp
+         k/Triz/fd9Dnco8rh2HZbtjBv5Tg5RxESplpOjaD1NSUHmkBoe+mdt1TYOkZKSYRcOqT
+         Cy8ElLxCLIu4UVwfVEiDJC8miFnMQ5WMqAIML/lfex6KjGJB/rg7w4tgHL8wilisWPT8
+         3A3vguLcGt7PCFyxqHQZWdONrSRLQmsBR6W/Y4IpbldYsQmtYMyQvt///o78ntqfI6eY
+         eXtA==
+X-Gm-Message-State: AOJu0YwumZ2Jhb9XnTaUykfc8JaJcwD2+Pww6sDiNJSLiA40zg2MVCdc
+	x7i5Lij0xnDxLQoR0lPqE0YcpFHnAqZbibdrmFw=
+X-Google-Smtp-Source: AGHT+IEAc+7DnU+zQRiFX6lokbetp4JWQwWelJ6KkGXdipUCH1OQi/JBnWUP/lNPhPgciIgsW0sYsg==
+X-Received: by 2002:a5d:47ce:0:b0:332:c31b:249e with SMTP id o14-20020a5d47ce000000b00332c31b249emr2904421wrc.55.1700482212756;
+        Mon, 20 Nov 2023 04:10:12 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o13-20020a5d4a8d000000b00332cbd59f8bsm393192wrq.25.2023.11.20.04.10.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 04:10:12 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Mon, 20 Nov 2023 07:10:09 -0500
+To: oe-kbuild@lists.linux.dev, Nuno Sa <nuno.sa@analog.com>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Guenter Roeck <linux@roeck-us.net>, Nuno Sa <nuno.sa@analog.com>,
+	Rob Herring <robh+dt@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+Message-ID: <63effee3-359b-48a5-b5a4-36b0478f6045@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,91 +66,58 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231110151905.1659873-3-nuno.sa@analog.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20231117162709.1096585-4-james.tai@realtek.com>
-References: <20231117162709.1096585-4-james.tai@realtek.com>
-TO: James Tai <james.tai@realtek.com>
-TO: Thomas Gleixner <tglx@linutronix.de>
-TO: Marc Zyngier <maz@kernel.org>
-TO: Rob Herring <robh+dt@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: James Tai <james.tai@realtek.com>
-CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
-
-Hi James,
+Hi Nuno,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tip/irq/core]
-[also build test WARNING on robh/for-next linus/master v6.7-rc2 next-20231120]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Tai/dt-bindings-interrupt-controller-Add-support-for-Realtek-DHC-SoCs/20231118-003036
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20231117162709.1096585-4-james.tai%40realtek.com
-patch subject: [PATCH v2 3/6] irqchip: Introduce RTD1319 support using the Realtek common interrupt controller driver
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: nios2-randconfig-r081-20231120 (https://download.01.org/0day-ci/archive/20231120/202311201929.2FpvMRlg-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231120/202311201929.2FpvMRlg-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Sa/dt-bindings-hwmon-Add-LTC4282-bindings/20231110-232017
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20231110151905.1659873-3-nuno.sa%40analog.com
+patch subject: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+config: i386-randconfig-141-20231112 (https://download.01.org/0day-ci/archive/20231113/202311130219.YBiF8Xu3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231113/202311130219.YBiF8Xu3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311201929.2FpvMRlg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311130219.YBiF8Xu3-lkp@intel.com/
 
 smatch warnings:
-drivers/irqchip/irq-realtek-intc-common.c:179 realtek_intc_probe() warn: ignoring unreachable code.
-drivers/irqchip/irq-realtek-intc-common.c:187 realtek_intc_probe() warn: 'data->base' from of_iomap() not released on lines: 176,182.
+drivers/hwmon/ltc4282.c:859 ltc4282_is_visible() warn: signedness bug returning '(-524)'
+drivers/hwmon/ltc4282.c:1143 ltc4282_gpio_setup() warn: passing zero to 'dev_err_probe'
 
-vim +179 drivers/irqchip/irq-realtek-intc-common.c
+vim +859 drivers/hwmon/ltc4282.c
 
-40e5ff4eaef72b James Tai 2023-11-18  154  
-40e5ff4eaef72b James Tai 2023-11-18  155  int realtek_intc_probe(struct platform_device *pdev, const struct realtek_intc_info *info)
-40e5ff4eaef72b James Tai 2023-11-18  156  {
-40e5ff4eaef72b James Tai 2023-11-18  157  	struct realtek_intc_data *data;
-40e5ff4eaef72b James Tai 2023-11-18  158  	struct device *dev = &pdev->dev;
-40e5ff4eaef72b James Tai 2023-11-18  159  	struct device_node *node = dev->of_node;
-40e5ff4eaef72b James Tai 2023-11-18  160  	int ret, i;
-40e5ff4eaef72b James Tai 2023-11-18  161  
-40e5ff4eaef72b James Tai 2023-11-18  162  	data = devm_kzalloc(dev, struct_size(data, subset_data, info->cfg_num), GFP_KERNEL);
-40e5ff4eaef72b James Tai 2023-11-18  163  	if (!data)
-40e5ff4eaef72b James Tai 2023-11-18  164  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  165  
-40e5ff4eaef72b James Tai 2023-11-18  166  	data->base = of_iomap(node, 0);
-40e5ff4eaef72b James Tai 2023-11-18  167  	if (!data->base)
-40e5ff4eaef72b James Tai 2023-11-18  168  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  169  
-40e5ff4eaef72b James Tai 2023-11-18  170  	data->info = info;
-40e5ff4eaef72b James Tai 2023-11-18  171  
-40e5ff4eaef72b James Tai 2023-11-18  172  	raw_spin_lock_init(&data->lock);
-40e5ff4eaef72b James Tai 2023-11-18  173  
-40e5ff4eaef72b James Tai 2023-11-18  174  	data->domain = irq_domain_add_linear(node, 32, &realtek_intc_domain_ops, data);
-40e5ff4eaef72b James Tai 2023-11-18  175  	if (!data->domain)
-40e5ff4eaef72b James Tai 2023-11-18  176  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  177  
-40e5ff4eaef72b James Tai 2023-11-18  178  	data->subset_data_num = info->cfg_num;
-40e5ff4eaef72b James Tai 2023-11-18 @179  	for (i = 0; i < info->cfg_num; i++) {
-40e5ff4eaef72b James Tai 2023-11-18  180  		ret = realtek_intc_subset(node, data, i);
-40e5ff4eaef72b James Tai 2023-11-18  181  		WARN(ret, "failed to init subset %d: %d", i, ret);
-40e5ff4eaef72b James Tai 2023-11-18  182  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  183  	}
-40e5ff4eaef72b James Tai 2023-11-18  184  
-40e5ff4eaef72b James Tai 2023-11-18  185  	platform_set_drvdata(pdev, data);
-40e5ff4eaef72b James Tai 2023-11-18  186  
-40e5ff4eaef72b James Tai 2023-11-18 @187  	return 0;
-40e5ff4eaef72b James Tai 2023-11-18  188  }
-40e5ff4eaef72b James Tai 2023-11-18  189  EXPORT_SYMBOL(realtek_intc_probe);
-40e5ff4eaef72b James Tai 2023-11-18  190  
+31ea069ddf481b Nuno Sa 2023-11-10  844  static umode_t ltc4282_is_visible(const void *data,
+31ea069ddf481b Nuno Sa 2023-11-10  845  				  enum hwmon_sensor_types type,
+31ea069ddf481b Nuno Sa 2023-11-10  846  				  u32 attr, int channel)
+31ea069ddf481b Nuno Sa 2023-11-10  847  {
+31ea069ddf481b Nuno Sa 2023-11-10  848  	switch (type) {
+31ea069ddf481b Nuno Sa 2023-11-10  849  	case hwmon_in:
+31ea069ddf481b Nuno Sa 2023-11-10  850  		return ltc4282_in_is_visible(data, attr);
+31ea069ddf481b Nuno Sa 2023-11-10  851  	case hwmon_curr:
+31ea069ddf481b Nuno Sa 2023-11-10  852  		return ltc4282_curr_is_visible(attr);
+31ea069ddf481b Nuno Sa 2023-11-10  853  	case hwmon_power:
+31ea069ddf481b Nuno Sa 2023-11-10  854  		return ltc4282_power_is_visible(attr);
+31ea069ddf481b Nuno Sa 2023-11-10  855  	case hwmon_energy:
+31ea069ddf481b Nuno Sa 2023-11-10  856  		/* hwmon_energy_enable */
+31ea069ddf481b Nuno Sa 2023-11-10  857  		return 0644;
+31ea069ddf481b Nuno Sa 2023-11-10  858  	default:
+31ea069ddf481b Nuno Sa 2023-11-10 @859  		return -ENOTSUPP;
+
+This function returns umode_t (which must be unsigned and smaller than
+int for this warning to trigger).
+
+31ea069ddf481b Nuno Sa 2023-11-10  860  	}
+31ea069ddf481b Nuno Sa 2023-11-10  861  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
