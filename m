@@ -1,104 +1,158 @@
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFCD1CA80;
-	Mon, 20 Nov 2023 15:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-	by ex01.ufhost.com (Postfix) with ESMTP id 0CD5C24E23C;
-	Mon, 20 Nov 2023 23:02:14 +0800 (CST)
-Received: from EXMBX168.cuchost.com (172.16.6.78) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 20 Nov
- 2023 23:02:14 +0800
-Received: from [192.168.100.10] (161.142.156.101) by EXMBX168.cuchost.com
- (172.16.6.78) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 20 Nov
- 2023 23:02:09 +0800
-Message-ID: <3665caf1-d36a-40c8-9995-89d4064ac467@starfivetech.com>
-Date: Mon, 20 Nov 2023 23:02:04 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6681DDD1
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 16:13:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HMidxqq2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700496800; x=1732032800;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lWldyZKqZGK2j/qIYw4OxB7k7GsHyDbhlVwKDsAV0L8=;
+  b=HMidxqq2/Qwv0iwXEfTS7VMvo4zUIAwqRfn/2yTCYQBYKnp97J2rJPUI
+   hkfDDgyIcGWqvffaW6mD+fQmvzKBKZPRRTQxvFUg/pu+EEPk6Skl4wHRj
+   /yeSrI7+APsGoh8gmF6zwAn8JsaXLT3Iqx3AFFv3IcaHimgGWfvGJfAk/
+   TEFB6ckoUOb5eK+LaNCKHeP9nBWLiV4ISZOw69oKy/q6yBQHFJ9fbbKLy
+   0DsdIAnoI6OPG0tWaAVuKq53HQrzFvrGeI9uIEFVxI4OBhLQDkEZjTBi6
+   1KqJ6XbtextoadFmAs9cxID5yTV+KltEs0b6PZy9bJ9hXz+6C7CTXXsYZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="477853659"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
+   d="scan'208";a="477853659"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 08:13:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="769947532"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
+   d="scan'208";a="769947532"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 20 Nov 2023 08:13:18 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r56tb-0006dR-1a;
+	Mon, 20 Nov 2023 16:13:13 +0000
+Date: Tue, 21 Nov 2023 00:09:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2] Kunit to check the longest symbol length
+Message-ID: <202311202346.WKlRyA4y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drivers/char/hw_random/jh7110-trng.c:303 starfive_trng_probe()
- warn: passing zero to 'dev_err_probe'
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>
-CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>
-References: <e9e60d3b-77db-4b5d-ae63-b5454f61a59f@suswa.mountain>
-From: Jia Jie Ho <jiajie.ho@starfivetech.com>
-In-Reply-To: <e9e60d3b-77db-4b5d-ae63-b5454f61a59f@suswa.mountain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [161.142.156.101]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX168.cuchost.com
- (172.16.6.78)
-X-YovoleRuleAgent: yovoleflag
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 20/11/2023 10:22 pm, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
-> commit: c388f458bc34eb3a5728b67f6614f9375cd99087 hwrng: starfive - Add TRNG driver for StarFive SoC
-> config: riscv-randconfig-r071-20231112 (https://download.01.org/0day-ci/archive/20231116/202311160649.3GhKCfhd-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231116/202311160649.3GhKCfhd-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202311160649.3GhKCfhd-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/char/hw_random/jh7110-trng.c:303 starfive_trng_probe() warn: passing zero to 'dev_err_probe'
-> 
-> vim +/dev_err_probe +303 drivers/char/hw_random/jh7110-trng.c
-> 
-> c388f458bc34eb Jia Jie Ho 2023-01-17  274  static int starfive_trng_probe(struct platform_device *pdev)
-> c388f458bc34eb Jia Jie Ho 2023-01-17  275  {
-> c388f458bc34eb Jia Jie Ho 2023-01-17  276  	int ret;
-> c388f458bc34eb Jia Jie Ho 2023-01-17  277  	int irq;
-> c388f458bc34eb Jia Jie Ho 2023-01-17  278  	struct starfive_trng *trng;
-> c388f458bc34eb Jia Jie Ho 2023-01-17  279  
-> c388f458bc34eb Jia Jie Ho 2023-01-17  280  	trng = devm_kzalloc(&pdev->dev, sizeof(*trng), GFP_KERNEL);
-> c388f458bc34eb Jia Jie Ho 2023-01-17  281  	if (!trng)
-> c388f458bc34eb Jia Jie Ho 2023-01-17  282  		return -ENOMEM;
-> c388f458bc34eb Jia Jie Ho 2023-01-17  283  
-> c388f458bc34eb Jia Jie Ho 2023-01-17  284  	platform_set_drvdata(pdev, trng);
-> c388f458bc34eb Jia Jie Ho 2023-01-17  285  	trng->dev = &pdev->dev;
-> c388f458bc34eb Jia Jie Ho 2023-01-17  286  
-> c388f458bc34eb Jia Jie Ho 2023-01-17  287  	trng->base = devm_platform_ioremap_resource(pdev, 0);
-> c388f458bc34eb Jia Jie Ho 2023-01-17  288  	if (IS_ERR(trng->base))
-> c388f458bc34eb Jia Jie Ho 2023-01-17  289  		return dev_err_probe(&pdev->dev, PTR_ERR(trng->base),
-> c388f458bc34eb Jia Jie Ho 2023-01-17  290  				     "Error remapping memory for platform device.\n");
-> c388f458bc34eb Jia Jie Ho 2023-01-17  291  
-> c388f458bc34eb Jia Jie Ho 2023-01-17  292  	irq = platform_get_irq(pdev, 0);
-> c388f458bc34eb Jia Jie Ho 2023-01-17  293  	if (irq < 0)
-> c388f458bc34eb Jia Jie Ho 2023-01-17  294  		return irq;
-> c388f458bc34eb Jia Jie Ho 2023-01-17  295  
-> c388f458bc34eb Jia Jie Ho 2023-01-17  296  	init_completion(&trng->random_done);
-> c388f458bc34eb Jia Jie Ho 2023-01-17  297  	init_completion(&trng->reseed_done);
-> c388f458bc34eb Jia Jie Ho 2023-01-17  298  	spin_lock_init(&trng->write_lock);
-> c388f458bc34eb Jia Jie Ho 2023-01-17  299  
-> c388f458bc34eb Jia Jie Ho 2023-01-17  300  	ret = devm_request_irq(&pdev->dev, irq, starfive_trng_irq, 0, pdev->name,
-> c388f458bc34eb Jia Jie Ho 2023-01-17  301  			       (void *)trng);
-> c388f458bc34eb Jia Jie Ho 2023-01-17  302  	if (ret)
-> c388f458bc34eb Jia Jie Ho 2023-01-17 @303  		return dev_err_probe(&pdev->dev, irq,
->                                                                                          ^^^
-> Should be "ret".  Weird how we're getting this warning in November when
-> the code is from Jan...  Looks like the bug is still their in linux-next
-> though.
-> 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: lib/longest_symbol_kunit.c:33:14: sparse: sparse: '##' failed: concatenation is not a valid token"
+:::::: 
 
-I'll submit a patch for this.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20231119180145.157455-1-sergio.collado@gmail.com>
+References: <20231119180145.157455-1-sergio.collado@gmail.com>
+TO: "Sergio González Collado" <sergio.collado@gmail.com>
+TO: Miguel Ojeda <ojeda@kernel.org>
+TO: Alex Gaynor <alex.gaynor@gmail.com>
+TO: Wedson Almeida Filho <wedsonaf@gmail.com>
+TO: Brendan Higgins <brendan.higgins@linux.dev>
+TO: David Gow <davidgow@google.com>
+TO: linux-kselftest@vger.kernel.org
+TO: kunit-dev@googlegroups.com
+TO: sergio.collado@gmail.com
+CC: Boqun Feng <boqun.feng@gmail.com>
+CC: Gary Guo <gary@garyguo.net>
+CC: "Björn Roy Baron" <bjorn3_gh@protonmail.com>
+CC: Benno Lossin <benno.lossin@proton.me>
+CC: Andreas Hindborg <a.hindborg@samsung.com>
+CC: Alice Ryhl <aliceryhl@google.com>
+CC: David Rheinsberg <david@readahead.eu>
+CC: rust-for-linux@vger.kernel.org
+CC: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
 
-Thanks,
-Jia Jie
+Hi Sergio,
 
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 037266a5f7239ead1530266f7d7af153d2a867fa]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sergio-Gonz-lez-Collado/Kunit-to-check-the-longest-symbol-length/20231120-020401
+base:   037266a5f7239ead1530266f7d7af153d2a867fa
+patch link:    https://lore.kernel.org/r/20231119180145.157455-1-sergio.collado%40gmail.com
+patch subject: [PATCH v2] Kunit to check the longest symbol length
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: x86_64-randconfig-r111-20231120 (https://download.01.org/0day-ci/archive/20231120/202311202346.WKlRyA4y-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311202346.WKlRyA4y-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202311202346.WKlRyA4y-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> lib/longest_symbol_kunit.c:33:14: sparse: sparse: '##' failed: concatenation is not a valid token
+>> lib/longest_symbol_kunit.c:33:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:34:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:34:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:39:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:39:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:39:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:40:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:40:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:40:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:45:23: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:45:23: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:48:1: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:48:1: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:52:9: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:52:9: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:75:43: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:75:43: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:81:9: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:81:9: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:81:9: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:104:43: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:104:43: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:104:43: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:33:14: sparse: sparse: Expected ; at end of declaration
+   lib/longest_symbol_kunit.c:33:14: sparse: sparse: got nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7n
+   lib/longest_symbol_kunit.c:34:14: sparse: sparse: Expected ; at end of declaration
+   lib/longest_symbol_kunit.c:34:14: sparse: sparse: got nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7n
+   lib/longest_symbol_kunit.c:37:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/longest_symbol_kunit.c:37:1: sparse: sparse: got }
+   lib/longest_symbol_kunit.c:40:14: sparse: sparse: Expected ; at end of declaration
+   lib/longest_symbol_kunit.c:40:14: sparse: sparse: got nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7n
+   lib/longest_symbol_kunit.c:43:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/longest_symbol_kunit.c:43:1: sparse: sparse: got }
+   lib/longest_symbol_kunit.c:52:9: sparse: sparse: Expected ) after typeof
+   lib/longest_symbol_kunit.c:52:9: sparse: sparse: got nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7n
+   lib/longest_symbol_kunit.c:81:9: sparse: sparse: Expected ) after typeof
+   lib/longest_symbol_kunit.c:81:9: sparse: sparse: got nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7n
+   lib/longest_symbol_kunit.c:52:9: sparse: sparse: undefined identifier '__right'
+   lib/longest_symbol_kunit.c:52:9: sparse: sparse: undefined identifier '__right'
+   lib/longest_symbol_kunit.c:81:9: sparse: sparse: undefined identifier '__right'
+   lib/longest_symbol_kunit.c:81:9: sparse: sparse: undefined identifier '__right'
+
+vim +33 lib/longest_symbol_kunit.c
+
+ccf8b63c82d23d Sergio González Collado 2023-11-19  32  
+ccf8b63c82d23d Sergio González Collado 2023-11-19 @33  noinline int LONGEST_SYM_NAME(void);
+ccf8b63c82d23d Sergio González Collado 2023-11-19  34  noinline int LONGEST_SYM_NAME(void)
+ccf8b63c82d23d Sergio González Collado 2023-11-19  35  {
+ccf8b63c82d23d Sergio González Collado 2023-11-19  36  	return RETURN_LONGEST_SYM;
+ccf8b63c82d23d Sergio González Collado 2023-11-19  37  }
+ccf8b63c82d23d Sergio González Collado 2023-11-19  38  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
