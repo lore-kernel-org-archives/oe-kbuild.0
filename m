@@ -1,201 +1,168 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBB21C694
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 14:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D49118E0D;
+	Mon, 20 Nov 2023 14:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eNLl6aOX"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40859c464daso16498305e9.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 06:26:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kW3ZCt0F"
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-da041ffef81so4491345276.0;
+        Mon, 20 Nov 2023 06:52:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700490382; x=1701095182; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NomKBH3ad1krxRctVgfTOQc0+gcqtboycO+iHQgiTPg=;
-        b=eNLl6aOXGQ8ANrq6Ux21TukQQMkOHvkO/VP654woFc5PQYuI3RHjmBLCbHoUhcZAia
-         XAmYve46jU/39MoUF+Hah1qKsFKLKUKE1jOyngd7+Uk+UOt15BppJa/BWwX/9kRfplW1
-         BB/jEZPMgFXthIYdQGEWVn0s1Mrpg7OBZr+TCJOo9XbvH/rWBuKycT+1XtEy3tyFJkBr
-         Aw/Us2bI1ivWf8oErDkyZX3LtsT6UQKR9yMyiVdQC07Fxmyx/5lCyY1LdTkDvkLFYLt7
-         L9o0zxzqeHUiXXlpWypEt7aotEUI9Hg0qHUuF30aMdS9juaA/7BQtXwR2VEtJK2sNOmU
-         RctQ==
+        d=gmail.com; s=20230601; t=1700491972; x=1701096772; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=3qHPMK/nPQeJpHqpbeb3m3W/Zwv9dUdlHR5D9mZqK24=;
+        b=kW3ZCt0FudYNAeMA8aZ153UtcMPdQkdbV892yOar2ca9gV/N/kelzbsJqaGsElwP0K
+         uKqCnHZSH/WpDXEtCf6jy2mLsMBjsIB0Qq6wz9yEdDNTjkC+t+dHbgNtWSx6ZDUAdzms
+         7pPL16n1Ldu4FsyIqatssDK10/RSuaF0PP+lH5X+PlqL2A8ITy0mBkinNc4vrOjRT0DC
+         3s2pthPMsaiQCKSqdMzPdtHgr9ccbYZdvF/7kjJGm89JLBuhPNyVFb+uPFtgletuPFBT
+         NPaibw47x9FFuGytjNd/iCydDJXnESFWpNSD9FV4BZQLiiqwtpvFhp51fDjk5r5Kgsbz
+         9EcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700490382; x=1701095182;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1700491972; x=1701096772;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NomKBH3ad1krxRctVgfTOQc0+gcqtboycO+iHQgiTPg=;
-        b=vBu65U1y2/1P1dsXliLWFqFNY0STHsPXzfH53nOHJEJktaGuLLx7jalVky0B8JIgzU
-         BuyuyfCXHlWteEloGHk4vJ8sL38WcIKEo33h3DX/mlrCcfSSZZPXavddiN+Nr8oXJqr5
-         xGZIKwl7n9LL7M/m5bzbYTVho2O7z60XzexYrJz85YIYO5FmohXliAmu9R9TzOTjj7KZ
-         d88ZhYEYVPoMZUJh0cDiYiaqZBdFFFDjG7xKYC92dhTRhYLcjKANJ+TgO+O21ecUuDSR
-         FinDAn9CD7NDqpITMCudc4/8RtMz9no4o6p9Mi461iENl7LBvvF6kGjQzSOcqpmVfW59
-         ZTVw==
-X-Gm-Message-State: AOJu0YyKfr8Xn1qswDmqjHaTEBaHmUZAJoxoMWorJ5qmm03hTxRpeWyM
-	n4tLYl+AqyGQSEOAZ4PyCCG0+SajoeKhyaasr4w=
-X-Google-Smtp-Source: AGHT+IGB99nwec+VXB9rjDH20Q4RTidyNZGyt6kb7Y5dXyW4S5iB60YWmNWJnZvLTgWjKWw2NsBtgw==
-X-Received: by 2002:a5d:47a1:0:b0:332:c514:640e with SMTP id 1-20020a5d47a1000000b00332c514640emr3133700wrb.69.1700490382419;
-        Mon, 20 Nov 2023 06:26:22 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id f12-20020adff44c000000b003313e4dddecsm11286289wrp.108.2023.11.20.06.26.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 06:26:22 -0800 (PST)
-From: Dan Carpenter <dan.carpenter@linaro.org>
-X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Mon, 20 Nov 2023 09:26:19 -0500
-To: oe-kbuild@lists.linux.dev, Xiaobing Li <xiaobing.li@samsung.com>,
-	axboe@kernel.dk, asml.silence@gmail.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
-	kun.dou@samsung.com, peiwei.li@samsung.com, joshi.k@samsung.com,
-	kundan.kumar@samsung.com, wenwen.chen@samsung.com,
-	ruyi.zhang@samsung.com, cliang01.li@samsung.com,
-	xue01.he@samsung.com, Xiaobing Li <xiaobing.li@samsung.com>
-Subject: Re: [PATCH v3] io_uring: Statistics of the true utilization of sq
- threads.
-Message-ID: <50ec567f-6b79-42ea-bf2c-2c9b2ecb427d@suswa.mountain>
+        bh=3qHPMK/nPQeJpHqpbeb3m3W/Zwv9dUdlHR5D9mZqK24=;
+        b=KEJ7TAAmPNSloIXwy7v8A5jSuRzpaeANzsZBT9kS/gia4vYu7eEtPHxS7iV1mTRSrL
+         w2PTj9ZypSZ8zzPm3+b36NFnbOwIX2YFLvN/1rJ0558aLM479GTu6WyshU+jbzsVoYVv
+         Ke4PyeRB4mbdJolO63v8PajiFeuzuROKE54jtkjL56W4VPaxudodJGdZaK1qkczy+y9o
+         L74JfCN6R4hio/HBoEatdTxv4K2dN6p46pruM2w8tmvFCFBnuShupUIxYb8gznAprnPs
+         1PiXpEusI8Mf/rQrK2duPH4bzZT13LVgoO5dyTNksjdNeOS+7KVDAysHmlOaW5D6sKt3
+         iuiA==
+X-Gm-Message-State: AOJu0YyywTd09yfIVIuWgzkZmpVLAqwtH+vWuyl3l5N/V5IO1rsJfdVO
+	a0TUqBAi+06tT+SOSxGrYBo=
+X-Google-Smtp-Source: AGHT+IHPesf2IPH8qMkl34QrA2uEejr5dZvuu/lgS1+54IpfxxJID15h0vUj+alIvs2WwwKIdNI6Dg==
+X-Received: by 2002:a25:3452:0:b0:d9c:7d7d:1ac9 with SMTP id b79-20020a253452000000b00d9c7d7d1ac9mr6775451yba.14.1700491972419;
+        Mon, 20 Nov 2023 06:52:52 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 2-20020a251802000000b00d9c7bf8f32fsm48622yby.42.2023.11.20.06.52.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Nov 2023 06:52:52 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <7ceb1104-ace0-47a7-93ed-64a03c149f63@roeck-us.net>
+Date: Mon, 20 Nov 2023 06:52:49 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231115121839.12556-1-xiaobing.li@samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ Nuno Sa <nuno.sa@analog.com>, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Corbet <corbet@lwn.net>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Andy Shevchenko <andy@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <63effee3-359b-48a5-b5a4-36b0478f6045@suswa.mountain>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <63effee3-359b-48a5-b5a4-36b0478f6045@suswa.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Xiaobing,
+On 11/20/23 04:10, Dan Carpenter wrote:
+> Hi Nuno,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Sa/dt-bindings-hwmon-Add-LTC4282-bindings/20231110-232017
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+> patch link:    https://lore.kernel.org/r/20231110151905.1659873-3-nuno.sa%40analog.com
+> patch subject: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+> config: i386-randconfig-141-20231112 (https://download.01.org/0day-ci/archive/20231113/202311130219.YBiF8Xu3-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20231113/202311130219.YBiF8Xu3-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202311130219.YBiF8Xu3-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/hwmon/ltc4282.c:859 ltc4282_is_visible() warn: signedness bug returning '(-524)'
+> drivers/hwmon/ltc4282.c:1143 ltc4282_gpio_setup() warn: passing zero to 'dev_err_probe'
+> 
+> vim +859 drivers/hwmon/ltc4282.c
+> 
+> 31ea069ddf481b Nuno Sa 2023-11-10  844  static umode_t ltc4282_is_visible(const void *data,
+> 31ea069ddf481b Nuno Sa 2023-11-10  845  				  enum hwmon_sensor_types type,
+> 31ea069ddf481b Nuno Sa 2023-11-10  846  				  u32 attr, int channel)
+> 31ea069ddf481b Nuno Sa 2023-11-10  847  {
+> 31ea069ddf481b Nuno Sa 2023-11-10  848  	switch (type) {
+> 31ea069ddf481b Nuno Sa 2023-11-10  849  	case hwmon_in:
+> 31ea069ddf481b Nuno Sa 2023-11-10  850  		return ltc4282_in_is_visible(data, attr);
+> 31ea069ddf481b Nuno Sa 2023-11-10  851  	case hwmon_curr:
+> 31ea069ddf481b Nuno Sa 2023-11-10  852  		return ltc4282_curr_is_visible(attr);
+> 31ea069ddf481b Nuno Sa 2023-11-10  853  	case hwmon_power:
+> 31ea069ddf481b Nuno Sa 2023-11-10  854  		return ltc4282_power_is_visible(attr);
+> 31ea069ddf481b Nuno Sa 2023-11-10  855  	case hwmon_energy:
+> 31ea069ddf481b Nuno Sa 2023-11-10  856  		/* hwmon_energy_enable */
+> 31ea069ddf481b Nuno Sa 2023-11-10  857  		return 0644;
+> 31ea069ddf481b Nuno Sa 2023-11-10  858  	default:
+> 31ea069ddf481b Nuno Sa 2023-11-10 @859  		return -ENOTSUPP;
+> 
+> This function returns umode_t (which must be unsigned and smaller than
+> int for this warning to trigger).
+> 
 
-kernel test robot noticed the following build warnings:
+Yes, this is an is_visible() function which should return 0 if the attribute
+isn't visible.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiaobing-Li/io_uring-Statistics-of-the-true-utilization-of-sq-threads/20231115-211954
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231115121839.12556-1-xiaobing.li%40samsung.com
-patch subject: [PATCH v3] io_uring: Statistics of the true utilization of sq threads.
-config: x86_64-randconfig-161-20231115 (https://download.01.org/0day-ci/archive/20231116/202311160629.h4GrebJh-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231116/202311160629.h4GrebJh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311160629.h4GrebJh-lkp@intel.com/
-
-smatch warnings:
-io_uring/fdinfo.c:138 io_uring_show_fdinfo() warn: variable dereferenced before check 'ctx' (see line 57)
-io_uring/fdinfo.c:144 io_uring_show_fdinfo() error: we previously assumed 'sq' could be null (see line 141)
-
-vim +/ctx +138 io_uring/fdinfo.c
-
-3aaf22b62a9270 Jens Axboe     2023-07-10   53  __cold void io_uring_show_fdinfo(struct seq_file *m, struct file *f)
-a4ad4f748ea962 Jens Axboe     2022-05-25   54  {
-3aaf22b62a9270 Jens Axboe     2023-07-10   55  	struct io_ring_ctx *ctx = f->private_data;
-a4ad4f748ea962 Jens Axboe     2022-05-25   56  	struct io_overflow_cqe *ocqe;
-a4ad4f748ea962 Jens Axboe     2022-05-25  @57  	struct io_rings *r = ctx->rings;
-                                                                     ^^^^^^^^^^
-Tons of unchecked dereferences so ctx can't be NULL.
-
-a4ad4f748ea962 Jens Axboe     2022-05-25   58  	unsigned int sq_mask = ctx->sq_entries - 1, cq_mask = ctx->cq_entries - 1;
-a4ad4f748ea962 Jens Axboe     2022-05-25   59  	unsigned int sq_head = READ_ONCE(r->sq.head);
-a4ad4f748ea962 Jens Axboe     2022-05-25   60  	unsigned int sq_tail = READ_ONCE(r->sq.tail);
-a4ad4f748ea962 Jens Axboe     2022-05-25   61  	unsigned int cq_head = READ_ONCE(r->cq.head);
-a4ad4f748ea962 Jens Axboe     2022-05-25   62  	unsigned int cq_tail = READ_ONCE(r->cq.tail);
-a4ad4f748ea962 Jens Axboe     2022-05-25   63  	unsigned int cq_shift = 0;
-3b8fdd1dc35e39 Jens Axboe     2022-09-11   64  	unsigned int sq_shift = 0;
-a4ad4f748ea962 Jens Axboe     2022-05-25   65  	unsigned int sq_entries, cq_entries;
-7644b1a1c9a7ae Jens Axboe     2023-10-21   66  	int sq_pid = -1, sq_cpu = -1;
-5b1b61674371b7 Xiaobing Li    2023-11-15   67  	int sq_busy = 0;
-a4ad4f748ea962 Jens Axboe     2022-05-25   68  	bool has_lock;
-a4ad4f748ea962 Jens Axboe     2022-05-25   69  	unsigned int i;
-a4ad4f748ea962 Jens Axboe     2022-05-25   70  
-4f731705cc1f15 Jens Axboe     2022-09-11   71  	if (ctx->flags & IORING_SETUP_CQE32)
-a4ad4f748ea962 Jens Axboe     2022-05-25   72  		cq_shift = 1;
-3b8fdd1dc35e39 Jens Axboe     2022-09-11   73  	if (ctx->flags & IORING_SETUP_SQE128)
-3b8fdd1dc35e39 Jens Axboe     2022-09-11   74  		sq_shift = 1;
-a4ad4f748ea962 Jens Axboe     2022-05-25   75  
-a4ad4f748ea962 Jens Axboe     2022-05-25   76  	/*
-a4ad4f748ea962 Jens Axboe     2022-05-25   77  	 * we may get imprecise sqe and cqe info if uring is actively running
-a4ad4f748ea962 Jens Axboe     2022-05-25   78  	 * since we get cached_sq_head and cached_cq_tail without uring_lock
-a4ad4f748ea962 Jens Axboe     2022-05-25   79  	 * and sq_tail and cq_head are changed by userspace. But it's ok since
-a4ad4f748ea962 Jens Axboe     2022-05-25   80  	 * we usually use these info when it is stuck.
-a4ad4f748ea962 Jens Axboe     2022-05-25   81  	 */
-a4ad4f748ea962 Jens Axboe     2022-05-25   82  	seq_printf(m, "SqMask:\t0x%x\n", sq_mask);
-a4ad4f748ea962 Jens Axboe     2022-05-25   83  	seq_printf(m, "SqHead:\t%u\n", sq_head);
-a4ad4f748ea962 Jens Axboe     2022-05-25   84  	seq_printf(m, "SqTail:\t%u\n", sq_tail);
-a4ad4f748ea962 Jens Axboe     2022-05-25   85  	seq_printf(m, "CachedSqHead:\t%u\n", ctx->cached_sq_head);
-a4ad4f748ea962 Jens Axboe     2022-05-25   86  	seq_printf(m, "CqMask:\t0x%x\n", cq_mask);
-a4ad4f748ea962 Jens Axboe     2022-05-25   87  	seq_printf(m, "CqHead:\t%u\n", cq_head);
-a4ad4f748ea962 Jens Axboe     2022-05-25   88  	seq_printf(m, "CqTail:\t%u\n", cq_tail);
-a4ad4f748ea962 Jens Axboe     2022-05-25   89  	seq_printf(m, "CachedCqTail:\t%u\n", ctx->cached_cq_tail);
-3b8fdd1dc35e39 Jens Axboe     2022-09-11   90  	seq_printf(m, "SQEs:\t%u\n", sq_tail - sq_head);
-a4ad4f748ea962 Jens Axboe     2022-05-25   91  	sq_entries = min(sq_tail - sq_head, ctx->sq_entries);
-a4ad4f748ea962 Jens Axboe     2022-05-25   92  	for (i = 0; i < sq_entries; i++) {
-a4ad4f748ea962 Jens Axboe     2022-05-25   93  		unsigned int entry = i + sq_head;
-a4ad4f748ea962 Jens Axboe     2022-05-25   94  		struct io_uring_sqe *sqe;
-3b8fdd1dc35e39 Jens Axboe     2022-09-11   95  		unsigned int sq_idx;
-a4ad4f748ea962 Jens Axboe     2022-05-25   96  
-32f5dea040ee6e Jens Axboe     2023-09-01   97  		if (ctx->flags & IORING_SETUP_NO_SQARRAY)
-32f5dea040ee6e Jens Axboe     2023-09-01   98  			break;
-3b8fdd1dc35e39 Jens Axboe     2022-09-11   99  		sq_idx = READ_ONCE(ctx->sq_array[entry & sq_mask]);
-a4ad4f748ea962 Jens Axboe     2022-05-25  100  		if (sq_idx > sq_mask)
-a4ad4f748ea962 Jens Axboe     2022-05-25  101  			continue;
-00927931cb630b Pavel Begunkov 2022-10-11  102  		sqe = &ctx->sq_sqes[sq_idx << sq_shift];
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  103  		seq_printf(m, "%5u: opcode:%s, fd:%d, flags:%x, off:%llu, "
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  104  			      "addr:0x%llx, rw_flags:0x%x, buf_index:%d "
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  105  			      "user_data:%llu",
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  106  			   sq_idx, io_uring_get_opcode(sqe->opcode), sqe->fd,
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  107  			   sqe->flags, (unsigned long long) sqe->off,
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  108  			   (unsigned long long) sqe->addr, sqe->rw_flags,
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  109  			   sqe->buf_index, sqe->user_data);
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  110  		if (sq_shift) {
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  111  			u64 *sqeb = (void *) (sqe + 1);
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  112  			int size = sizeof(struct io_uring_sqe) / sizeof(u64);
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  113  			int j;
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  114  
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  115  			for (j = 0; j < size; j++) {
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  116  				seq_printf(m, ", e%d:0x%llx", j,
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  117  						(unsigned long long) *sqeb);
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  118  				sqeb++;
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  119  			}
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  120  		}
-3b8fdd1dc35e39 Jens Axboe     2022-09-11  121  		seq_printf(m, "\n");
-a4ad4f748ea962 Jens Axboe     2022-05-25  122  	}
-a4ad4f748ea962 Jens Axboe     2022-05-25  123  	seq_printf(m, "CQEs:\t%u\n", cq_tail - cq_head);
-a4ad4f748ea962 Jens Axboe     2022-05-25  124  	cq_entries = min(cq_tail - cq_head, ctx->cq_entries);
-a4ad4f748ea962 Jens Axboe     2022-05-25  125  	for (i = 0; i < cq_entries; i++) {
-a4ad4f748ea962 Jens Axboe     2022-05-25  126  		unsigned int entry = i + cq_head;
-a4ad4f748ea962 Jens Axboe     2022-05-25  127  		struct io_uring_cqe *cqe = &r->cqes[(entry & cq_mask) << cq_shift];
-a4ad4f748ea962 Jens Axboe     2022-05-25  128  
-4f731705cc1f15 Jens Axboe     2022-09-11  129  		seq_printf(m, "%5u: user_data:%llu, res:%d, flag:%x",
-a4ad4f748ea962 Jens Axboe     2022-05-25  130  			   entry & cq_mask, cqe->user_data, cqe->res,
-a4ad4f748ea962 Jens Axboe     2022-05-25  131  			   cqe->flags);
-4f731705cc1f15 Jens Axboe     2022-09-11  132  		if (cq_shift)
-4f731705cc1f15 Jens Axboe     2022-09-11  133  			seq_printf(m, ", extra1:%llu, extra2:%llu\n",
-4f731705cc1f15 Jens Axboe     2022-09-11  134  					cqe->big_cqe[0], cqe->big_cqe[1]);
-4f731705cc1f15 Jens Axboe     2022-09-11  135  		seq_printf(m, "\n");
-a4ad4f748ea962 Jens Axboe     2022-05-25  136  	}
-a4ad4f748ea962 Jens Axboe     2022-05-25  137  
-5b1b61674371b7 Xiaobing Li    2023-11-15 @138  	if (ctx && (ctx->flags & IORING_SETUP_SQPOLL)) {
-                                                    ^^^
-Delete this check.
-
-5b1b61674371b7 Xiaobing Li    2023-11-15  139  		struct io_sq_data *sq = ctx->sq_data;
-5b1b61674371b7 Xiaobing Li    2023-11-15  140  
-5b1b61674371b7 Xiaobing Li    2023-11-15 @141  		if (sq && sq->total_time != 0)
-                                                            ^^
-sq can be NULL?
-
-5b1b61674371b7 Xiaobing Li    2023-11-15  142  			sq_busy = (int)(sq->work_time * 100 / sq->total_time);
-5b1b61674371b7 Xiaobing Li    2023-11-15  143  
-5b1b61674371b7 Xiaobing Li    2023-11-15 @144  		sq_pid = sq->task_pid;
-                                                                 ^^^^
-Unchecked dereference.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Guenter
 
