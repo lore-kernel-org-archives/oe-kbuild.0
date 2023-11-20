@@ -1,168 +1,151 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D49118E0D;
-	Mon, 20 Nov 2023 14:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978601B279
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 14:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kW3ZCt0F"
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-da041ffef81so4491345276.0;
-        Mon, 20 Nov 2023 06:52:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="a3qsQMSB"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-32f7bd27c2aso3363835f8f.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 06:55:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700491972; x=1701096772; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=3qHPMK/nPQeJpHqpbeb3m3W/Zwv9dUdlHR5D9mZqK24=;
-        b=kW3ZCt0FudYNAeMA8aZ153UtcMPdQkdbV892yOar2ca9gV/N/kelzbsJqaGsElwP0K
-         uKqCnHZSH/WpDXEtCf6jy2mLsMBjsIB0Qq6wz9yEdDNTjkC+t+dHbgNtWSx6ZDUAdzms
-         7pPL16n1Ldu4FsyIqatssDK10/RSuaF0PP+lH5X+PlqL2A8ITy0mBkinNc4vrOjRT0DC
-         3s2pthPMsaiQCKSqdMzPdtHgr9ccbYZdvF/7kjJGm89JLBuhPNyVFb+uPFtgletuPFBT
-         NPaibw47x9FFuGytjNd/iCydDJXnESFWpNSD9FV4BZQLiiqwtpvFhp51fDjk5r5Kgsbz
-         9EcQ==
+        d=linaro.org; s=google; t=1700492143; x=1701096943; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kGFXkVothP8GzTo2jzsCD/SdXLlf2F5wZiQpSoYT7RM=;
+        b=a3qsQMSBvb5G/I2K7aKjVEkQU16t0x71j6lzOaxhumcR9uNOWppAq3NoyT+ZB7Nhc0
+         j1/Geoy2Jqn7XqHNdG61n4ph0aKgY+Xq4Q9YzYK2q0/hthLigLb7TJJbkBGG+R8M8deG
+         AUNi6tHFlgiEmKTCfaect+eTGnnn+9ZErm430hKD6xAxkH4HfqB6bbJoCsShRPZ39jyU
+         kvCt70tGk7YH5lTK2TwKjmXTOjShRQ4cL5k7YsrtzfbFdEyMyhZGaAyVpVMq3GAzFZNz
+         Mb32lTiL/pktoZA/Uyrdv5RTXsit+hM9uxlpDnkYKez4wmIpoKK6yUwG72X6srxZpYy1
+         6WOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700491972; x=1701096772;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1700492143; x=1701096943;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3qHPMK/nPQeJpHqpbeb3m3W/Zwv9dUdlHR5D9mZqK24=;
-        b=KEJ7TAAmPNSloIXwy7v8A5jSuRzpaeANzsZBT9kS/gia4vYu7eEtPHxS7iV1mTRSrL
-         w2PTj9ZypSZ8zzPm3+b36NFnbOwIX2YFLvN/1rJ0558aLM479GTu6WyshU+jbzsVoYVv
-         Ke4PyeRB4mbdJolO63v8PajiFeuzuROKE54jtkjL56W4VPaxudodJGdZaK1qkczy+y9o
-         L74JfCN6R4hio/HBoEatdTxv4K2dN6p46pruM2w8tmvFCFBnuShupUIxYb8gznAprnPs
-         1PiXpEusI8Mf/rQrK2duPH4bzZT13LVgoO5dyTNksjdNeOS+7KVDAysHmlOaW5D6sKt3
-         iuiA==
-X-Gm-Message-State: AOJu0YyywTd09yfIVIuWgzkZmpVLAqwtH+vWuyl3l5N/V5IO1rsJfdVO
-	a0TUqBAi+06tT+SOSxGrYBo=
-X-Google-Smtp-Source: AGHT+IHPesf2IPH8qMkl34QrA2uEejr5dZvuu/lgS1+54IpfxxJID15h0vUj+alIvs2WwwKIdNI6Dg==
-X-Received: by 2002:a25:3452:0:b0:d9c:7d7d:1ac9 with SMTP id b79-20020a253452000000b00d9c7d7d1ac9mr6775451yba.14.1700491972419;
-        Mon, 20 Nov 2023 06:52:52 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 2-20020a251802000000b00d9c7bf8f32fsm48622yby.42.2023.11.20.06.52.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Nov 2023 06:52:52 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <7ceb1104-ace0-47a7-93ed-64a03c149f63@roeck-us.net>
-Date: Mon, 20 Nov 2023 06:52:49 -0800
+        bh=kGFXkVothP8GzTo2jzsCD/SdXLlf2F5wZiQpSoYT7RM=;
+        b=pcB8XL5SQEGKGJpvMf2N+nFJSC8PdXokcfyvtrN4VWrX54xWYJm5ULPvgzSFKlf7C2
+         Mx0lz+fUPiw04XjQl2llKwAFVEY3JT1QAut8mpgowELqd4q3YjBMq25f6iiT+vvRZR/9
+         PMxtnJlPj3lq+1NmmiS/pfeGcAwc/ym9hy8NL0h4Bv1v/7GI3DZ0xoLfftr8g+wfGYVr
+         1wkmfcTn5R+bZYCf8jtT3tXi7LoCm1oYaU8Y3/oI10ML22XOFtjki5HU5sDrvI0+eUE8
+         y7OxnHQHnBLWhMph+Nmc/FSwu1nEM+OvayCNeXa13ca5ra+29mzsA5EHerLu3RquVDPB
+         C6sw==
+X-Gm-Message-State: AOJu0Yx2bx/5zIQxZYUsLooxxYJTum0gnlxe+4QWsQRzu58HJwR0rlLM
+	dXZRE5ntcrgwGqsL5QnFnq+Np3tl0SEySJFy5Rs=
+X-Google-Smtp-Source: AGHT+IFdemXx/VBd55p8WW6PTbADwdmABtmyFhPv5LoMpcPkl7d+s0athPBnib8Bo4DNxgkN7RrcTQ==
+X-Received: by 2002:a05:6000:1845:b0:32f:9ad3:860f with SMTP id c5-20020a056000184500b0032f9ad3860fmr5696667wri.52.1700492143135;
+        Mon, 20 Nov 2023 06:55:43 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id c15-20020adfe70f000000b0032da8fb0d05sm11408245wrm.110.2023.11.20.06.55.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 06:55:42 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Mon, 20 Nov 2023 09:55:40 -0500
+To: oe-kbuild@lists.linux.dev, Kairui Song <ryncsn@gmail.com>,
+	linux-mm@kvack.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Huang, Ying" <ying.huang@intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	Hugh Dickins <hughd@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Michal Hocko <mhocko@suse.com>, linux-kernel@vger.kernel.org,
+	Kairui Song <kasong@tencent.com>
+Subject: Re: [PATCH 03/24] mm/swap: move no readahead swapin code to a stand
+ alone helper
+Message-ID: <918235dd-44d0-470e-aad2-5001ac947cb8@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Nuno Sa <nuno.sa@analog.com>, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Corbet <corbet@lwn.net>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Andy Shevchenko <andy@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Conor Dooley <conor+dt@kernel.org>
-References: <63effee3-359b-48a5-b5a4-36b0478f6045@suswa.mountain>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <63effee3-359b-48a5-b5a4-36b0478f6045@suswa.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231119194740.94101-4-ryncsn@gmail.com>
 
-On 11/20/23 04:10, Dan Carpenter wrote:
-> Hi Nuno,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Sa/dt-bindings-hwmon-Add-LTC4282-bindings/20231110-232017
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-> patch link:    https://lore.kernel.org/r/20231110151905.1659873-3-nuno.sa%40analog.com
-> patch subject: [PATCH 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-> config: i386-randconfig-141-20231112 (https://download.01.org/0day-ci/archive/20231113/202311130219.YBiF8Xu3-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231113/202311130219.YBiF8Xu3-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202311130219.YBiF8Xu3-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/hwmon/ltc4282.c:859 ltc4282_is_visible() warn: signedness bug returning '(-524)'
-> drivers/hwmon/ltc4282.c:1143 ltc4282_gpio_setup() warn: passing zero to 'dev_err_probe'
-> 
-> vim +859 drivers/hwmon/ltc4282.c
-> 
-> 31ea069ddf481b Nuno Sa 2023-11-10  844  static umode_t ltc4282_is_visible(const void *data,
-> 31ea069ddf481b Nuno Sa 2023-11-10  845  				  enum hwmon_sensor_types type,
-> 31ea069ddf481b Nuno Sa 2023-11-10  846  				  u32 attr, int channel)
-> 31ea069ddf481b Nuno Sa 2023-11-10  847  {
-> 31ea069ddf481b Nuno Sa 2023-11-10  848  	switch (type) {
-> 31ea069ddf481b Nuno Sa 2023-11-10  849  	case hwmon_in:
-> 31ea069ddf481b Nuno Sa 2023-11-10  850  		return ltc4282_in_is_visible(data, attr);
-> 31ea069ddf481b Nuno Sa 2023-11-10  851  	case hwmon_curr:
-> 31ea069ddf481b Nuno Sa 2023-11-10  852  		return ltc4282_curr_is_visible(attr);
-> 31ea069ddf481b Nuno Sa 2023-11-10  853  	case hwmon_power:
-> 31ea069ddf481b Nuno Sa 2023-11-10  854  		return ltc4282_power_is_visible(attr);
-> 31ea069ddf481b Nuno Sa 2023-11-10  855  	case hwmon_energy:
-> 31ea069ddf481b Nuno Sa 2023-11-10  856  		/* hwmon_energy_enable */
-> 31ea069ddf481b Nuno Sa 2023-11-10  857  		return 0644;
-> 31ea069ddf481b Nuno Sa 2023-11-10  858  	default:
-> 31ea069ddf481b Nuno Sa 2023-11-10 @859  		return -ENOTSUPP;
-> 
-> This function returns umode_t (which must be unsigned and smaller than
-> int for this warning to trigger).
-> 
+Hi Kairui,
 
-Yes, this is an is_visible() function which should return 0 if the attribute
-isn't visible.
+kernel test robot noticed the following build warnings:
 
-Guenter
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/mm-swap-fix-a-potential-undefined-behavior-issue/20231120-035926
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231119194740.94101-4-ryncsn%40gmail.com
+patch subject: [PATCH 03/24] mm/swap: move no readahead swapin code to a stand alone helper
+config: um-randconfig-r081-20231120 (https://download.01.org/0day-ci/archive/20231120/202311201135.iG2KLShW-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20231120/202311201135.iG2KLShW-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311201135.iG2KLShW-lkp@intel.com/
+
+smatch warnings:
+mm/swap_state.c:881 swapin_no_readahead() warn: use 'gfp_mask' here instead of GFP_KERNEL?
+
+vim +/gfp_mask +881 mm/swap_state.c
+
+19f582d2684e47 Kairui Song 2023-11-20  856  /**
+19f582d2684e47 Kairui Song 2023-11-20  857   * swapin_no_readahead - swap in pages skipping swap cache and readahead
+19f582d2684e47 Kairui Song 2023-11-20  858   * @entry: swap entry of this memory
+19f582d2684e47 Kairui Song 2023-11-20  859   * @gfp_mask: memory allocation flags
+19f582d2684e47 Kairui Song 2023-11-20  860   * @vmf: fault information
+19f582d2684e47 Kairui Song 2023-11-20  861   *
+19f582d2684e47 Kairui Song 2023-11-20  862   * Returns the struct page for entry and addr after the swap entry is read
+19f582d2684e47 Kairui Song 2023-11-20  863   * in.
+19f582d2684e47 Kairui Song 2023-11-20  864   */
+19f582d2684e47 Kairui Song 2023-11-20  865  struct page *swapin_no_readahead(swp_entry_t entry, gfp_t gfp_mask,
+19f582d2684e47 Kairui Song 2023-11-20  866  				 struct vm_fault *vmf)
+19f582d2684e47 Kairui Song 2023-11-20  867  {
+19f582d2684e47 Kairui Song 2023-11-20  868  	struct vm_area_struct *vma = vmf->vma;
+19f582d2684e47 Kairui Song 2023-11-20  869  	struct page *page = NULL;
+19f582d2684e47 Kairui Song 2023-11-20  870  	struct folio *folio;
+19f582d2684e47 Kairui Song 2023-11-20  871  	void *shadow = NULL;
+19f582d2684e47 Kairui Song 2023-11-20  872  
+19f582d2684e47 Kairui Song 2023-11-20  873  	folio = vma_alloc_folio(GFP_HIGHUSER_MOVABLE, 0,
+19f582d2684e47 Kairui Song 2023-11-20  874  				vma, vmf->address, false);
+19f582d2684e47 Kairui Song 2023-11-20  875  	if (folio) {
+19f582d2684e47 Kairui Song 2023-11-20  876  		__folio_set_locked(folio);
+19f582d2684e47 Kairui Song 2023-11-20  877  		__folio_set_swapbacked(folio);
+19f582d2684e47 Kairui Song 2023-11-20  878  
+19f582d2684e47 Kairui Song 2023-11-20  879  		if (mem_cgroup_swapin_charge_folio(folio,
+19f582d2684e47 Kairui Song 2023-11-20  880  					vma->vm_mm, GFP_KERNEL,
+
+s/GFP_KERNEL/gfp_mask/?
+
+19f582d2684e47 Kairui Song 2023-11-20 @881  					entry)) {
+19f582d2684e47 Kairui Song 2023-11-20  882  			folio_unlock(folio);
+19f582d2684e47 Kairui Song 2023-11-20  883  			folio_put(folio);
+19f582d2684e47 Kairui Song 2023-11-20  884  			return NULL;
+19f582d2684e47 Kairui Song 2023-11-20  885  		}
+19f582d2684e47 Kairui Song 2023-11-20  886  		mem_cgroup_swapin_uncharge_swap(entry);
+19f582d2684e47 Kairui Song 2023-11-20  887  
+19f582d2684e47 Kairui Song 2023-11-20  888  		shadow = get_shadow_from_swap_cache(entry);
+19f582d2684e47 Kairui Song 2023-11-20  889  		if (shadow)
+19f582d2684e47 Kairui Song 2023-11-20  890  			workingset_refault(folio, shadow);
+19f582d2684e47 Kairui Song 2023-11-20  891  
+19f582d2684e47 Kairui Song 2023-11-20  892  		folio_add_lru(folio);
+19f582d2684e47 Kairui Song 2023-11-20  893  
+19f582d2684e47 Kairui Song 2023-11-20  894  		/* To provide entry to swap_readpage() */
+19f582d2684e47 Kairui Song 2023-11-20  895  		folio->swap = entry;
+19f582d2684e47 Kairui Song 2023-11-20  896  		page = &folio->page;
+19f582d2684e47 Kairui Song 2023-11-20  897  		swap_readpage(page, true, NULL);
+19f582d2684e47 Kairui Song 2023-11-20  898  		folio->private = NULL;
+19f582d2684e47 Kairui Song 2023-11-20  899  	}
+19f582d2684e47 Kairui Song 2023-11-20  900  
+19f582d2684e47 Kairui Song 2023-11-20  901  	return page;
+19f582d2684e47 Kairui Song 2023-11-20  902  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
