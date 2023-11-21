@@ -1,184 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08ECD30FA5
-	for <oe-kbuild@lists.linux.dev>; Tue, 21 Nov 2023 09:17:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5B1347A2
+	for <oe-kbuild@lists.linux.dev>; Tue, 21 Nov 2023 10:38:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tm/SxBh0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CHOSVe/4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700558249; x=1732094249;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=bVe7NzaBj0C1W14TAYLwFhmsr0phXw5eRrri1J/cA40=;
-  b=Tm/SxBh0LtCXMtNDssQx8tF0r1hmwcrE8y4ZI7GBhkaaCD6Gl09DbwWb
-   k/lz5ogtRACcsDNgSKw1ddK6FORUSQG7QWDSXyrQ9QWtpMFhVqaaBChnm
-   2GmW+d52j89ooX3D/ytD6TbG2HdQSJ8zNRM+tNI4u9cAinc0Oi3AiLmXL
-   vwHdw385ovvarPPXwUMyVtFRyqyPJ8f5mcMtM8DHfO1wmm+z9dZgMOQAL
-   XSsw/7CM8i1gWLQvqWcn9nrVuExlnF9BiwAlpwVH59EwbdJw+a864BUuT
-   /L1+z2r8KRUJYQ8DhRsW+Dg98uX1pCHf+0oUsWL67lyuHQgMIdF46RnvX
+  t=1700563134; x=1732099134;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/MxblS7I93WUK15pPY5V0p5YTlM8atWhrpI6HXL8vkc=;
+  b=CHOSVe/4BBqfSB2IyN62Jmp8ek39jsS3elqQAaMk2yvz8aHSsO2rpNqg
+   cWDEeHaIrRoFSGbCvqHAoOkd+SOVxJ2hvAELrKJLAUXSYSEhPQLgGrlEU
+   wTDhCK8MToTl7qEyYN1HW8Jl+5z7FQcTN1XMNhMrsHwn5N3X0WpMGk8Mg
+   sG5bhPcY8xMHFBtUpEiwY6S14dsFkhnZDtuB2j4svA79XWOr5qyYyLd3d
+   a8AazTfSutnorMPrV457QM2Dj8AXHJTCjONXjNfwrLCcY7tVplLE3yfeT
+   bTvPsvPSGxZQ4ly80F91VfPXWsf03OowCiV/s3n08xgRobjVxObxrTdrm
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="4927575"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="391589766"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="4927575"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 01:17:19 -0800
+   d="scan'208";a="391589766"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 02:38:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="1098003790"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="743002907"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="1098003790"
+   d="scan'208";a="743002907"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 21 Nov 2023 01:17:17 -0800
+  by orsmga006.jf.intel.com with ESMTP; 21 Nov 2023 02:38:35 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5MsT-0007dx-1G;
-	Tue, 21 Nov 2023 09:17:07 +0000
-Date: Tue, 21 Nov 2023 17:15:44 +0800
+	id 1r5O9F-0007h4-1T;
+	Tue, 21 Nov 2023 10:38:31 +0000
+Date: Tue, 21 Nov 2023 18:37:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/2] serial: core: implement support for rs485-mux-gpios
-Message-ID: <202311211751.MgZLovko-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH net-next v2 09/15] net: page_pool: implement GET in the
+ netlink API
+Message-ID: <202311211802.zhmXaacc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: net/core/netdev-genl-gen.c:16:19: sparse: sparse: decimal constant 4294967295 is between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers are very likely to produce unsigned long (and a warning) here"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20231120151056.148450-3-linux@rasmusvillemoes.dk>
-References: <20231120151056.148450-3-linux@rasmusvillemoes.dk>
-TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-TO: Jiri Slaby <jirislaby@kernel.org>
-CC: devicetree@vger.kernel.org
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Lukas Wunner <lukas@wunner.de>
-CC: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-CC: linux-kernel@vger.kernel.org
-CC: linux-serial@vger.kernel.org
+In-Reply-To: <20231121000048.789613-10-kuba@kernel.org>
+References: <20231121000048.789613-10-kuba@kernel.org>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: davem@davemloft.net
+CC: netdev@vger.kernel.org
+CC: edumazet@google.com
+CC: pabeni@redhat.com
+CC: almasrymina@google.com
+CC: hawk@kernel.org
+CC: ilias.apalodimas@linaro.org
+CC: dsahern@gmail.com
+CC: dtatulea@nvidia.com
+CC: Jakub Kicinski <kuba@kernel.org>
 
-Hi Rasmus,
+Hi Jakub,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on v6.7-rc2]
-[also build test WARNING on linus/master next-20231121]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rasmus-Villemoes/dt-bindings-serial-rs485-add-rs485-mux-gpios-binding/20231120-231551
-base:   v6.7-rc2
-patch link:    https://lore.kernel.org/r/20231120151056.148450-3-linux%40rasmusvillemoes.dk
-patch subject: [PATCH 2/2] serial: core: implement support for rs485-mux-gpios
-:::::: branch date: 18 hours ago
-:::::: commit date: 18 hours ago
-config: hexagon-randconfig-r071-20231121 (https://download.01.org/0day-ci/archive/20231121/202311211751.MgZLovko-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20231121/202311211751.MgZLovko-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Kicinski/net-page_pool-split-the-page_pool_params-into-fast-and-slow/20231121-092240
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231121000048.789613-10-kuba%40kernel.org
+patch subject: [PATCH net-next v2 09/15] net: page_pool: implement GET in the netlink API
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: i386-randconfig-061-20231121 (https://download.01.org/0day-ci/archive/20231121/202311211802.zhmXaacc-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211802.zhmXaacc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311211751.MgZLovko-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311211802.zhmXaacc-lkp@intel.com/
 
-New smatch warnings:
-drivers/tty/serial/serial_core.c:3651 uart_get_rs485_mode() warn: passing zero to 'PTR_ERR'
+sparse warnings: (new ones prefixed by >>)
+>> net/core/netdev-genl-gen.c:16:19: sparse: sparse: decimal constant 4294967295 is between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers are very likely to produce unsigned long (and a warning) here
 
-Old smatch warnings:
-drivers/tty/serial/serial_core.c:392 uart_shutdown() error: uninitialized symbol 'flags'.
-drivers/tty/serial/serial_core.c:2996 iomem_base_show() warn: argument 3 to %lX specifier is cast from pointer
+vim +16 net/core/netdev-genl-gen.c
 
-vim +/PTR_ERR +3651 drivers/tty/serial/serial_core.c
-
-68af43173d3fce Dmitry Safonov        2020-03-02  3580  
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3581  /**
-743f93f822be1b Lukas Wunner          2017-11-24  3582   * uart_get_rs485_mode() - retrieve rs485 properties for given uart
-a71725619ff63c Randy Dunlap          2020-06-15  3583   * @port: uart device's target port
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3584   *
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3585   * This function implements the device tree binding described in
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3586   * Documentation/devicetree/bindings/serial/rs485.txt.
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3587   */
-c150c0f362c1e5 Lukas Wunner          2020-05-12  3588  int uart_get_rs485_mode(struct uart_port *port)
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3589  {
-c150c0f362c1e5 Lukas Wunner          2020-05-12  3590  	struct serial_rs485 *rs485conf = &port->rs485;
-c150c0f362c1e5 Lukas Wunner          2020-05-12  3591  	struct device *dev = port->dev;
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3592  	enum gpiod_flags dflags;
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3593  	struct gpio_desc *desc;
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3594  	u32 rs485_delay[2];
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3595  	int ret;
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3596  
-743f93f822be1b Lukas Wunner          2017-11-24  3597  	ret = device_property_read_u32_array(dev, "rs485-rts-delay",
-743f93f822be1b Lukas Wunner          2017-11-24  3598  					     rs485_delay, 2);
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3599  	if (!ret) {
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3600  		rs485conf->delay_rts_before_send = rs485_delay[0];
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3601  		rs485conf->delay_rts_after_send = rs485_delay[1];
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3602  	} else {
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3603  		rs485conf->delay_rts_before_send = 0;
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3604  		rs485conf->delay_rts_after_send = 0;
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3605  	}
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3606  
-4dfd10351e49a7 Lino Sanfilippo       2022-07-10  3607  	uart_sanitize_serial_rs485_delays(port, rs485conf);
-4dfd10351e49a7 Lino Sanfilippo       2022-07-10  3608  
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3609  	/*
-f1e5b618c1c26c Lukas Wunner          2017-11-24  3610  	 * Clear full-duplex and enabled flags, set RTS polarity to active high
-f1e5b618c1c26c Lukas Wunner          2017-11-24  3611  	 * to get to a defined state with the following properties:
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3612  	 */
-f1e5b618c1c26c Lukas Wunner          2017-11-24  3613  	rs485conf->flags &= ~(SER_RS485_RX_DURING_TX | SER_RS485_ENABLED |
-d58a2df3d8877b Lukas Wunner          2020-05-18  3614  			      SER_RS485_TERMINATE_BUS |
-f1e5b618c1c26c Lukas Wunner          2017-11-24  3615  			      SER_RS485_RTS_AFTER_SEND);
-f1e5b618c1c26c Lukas Wunner          2017-11-24  3616  	rs485conf->flags |= SER_RS485_RTS_ON_SEND;
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3617  
-743f93f822be1b Lukas Wunner          2017-11-24  3618  	if (device_property_read_bool(dev, "rs485-rx-during-tx"))
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3619  		rs485conf->flags |= SER_RS485_RX_DURING_TX;
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3620  
-743f93f822be1b Lukas Wunner          2017-11-24  3621  	if (device_property_read_bool(dev, "linux,rs485-enabled-at-boot-time"))
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3622  		rs485conf->flags |= SER_RS485_ENABLED;
-f1e5b618c1c26c Lukas Wunner          2017-11-24  3623  
-f1e5b618c1c26c Lukas Wunner          2017-11-24  3624  	if (device_property_read_bool(dev, "rs485-rts-active-low")) {
-f1e5b618c1c26c Lukas Wunner          2017-11-24  3625  		rs485conf->flags &= ~SER_RS485_RTS_ON_SEND;
-f1e5b618c1c26c Lukas Wunner          2017-11-24  3626  		rs485conf->flags |= SER_RS485_RTS_AFTER_SEND;
-f1e5b618c1c26c Lukas Wunner          2017-11-24  3627  	}
-c150c0f362c1e5 Lukas Wunner          2020-05-12  3628  
-d58a2df3d8877b Lukas Wunner          2020-05-18  3629  	/*
-d58a2df3d8877b Lukas Wunner          2020-05-18  3630  	 * Disabling termination by default is the safe choice:  Else if many
-d58a2df3d8877b Lukas Wunner          2020-05-18  3631  	 * bus participants enable it, no communication is possible at all.
-d58a2df3d8877b Lukas Wunner          2020-05-18  3632  	 * Works fine for short cables and users may enable for longer cables.
-d58a2df3d8877b Lukas Wunner          2020-05-18  3633  	 */
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3634  	desc = devm_gpiod_get_optional(dev, "rs485-term", GPIOD_OUT_LOW);
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3635  	if (IS_ERR(desc))
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3636  		return dev_err_probe(dev, PTR_ERR(desc), "Cannot get rs485-term-gpios\n");
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3637  	port->rs485_term_gpio = desc;
-8bec874f84d826 Ilpo Järvinen         2022-07-04  3638  	if (port->rs485_term_gpio)
-8bec874f84d826 Ilpo Järvinen         2022-07-04  3639  		port->rs485_supported.flags |= SER_RS485_TERMINATE_BUS;
-d58a2df3d8877b Lukas Wunner          2020-05-18  3640  
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3641  	dflags = (rs485conf->flags & SER_RS485_RX_DURING_TX) ?
-163f080eb717d2 Christoph Niedermaier 2022-12-02  3642  		 GPIOD_OUT_HIGH : GPIOD_OUT_LOW;
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3643  	desc = devm_gpiod_get_optional(dev, "rs485-rx-during-tx", dflags);
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3644  	if (IS_ERR(desc))
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3645  		return dev_err_probe(dev, PTR_ERR(desc), "Cannot get rs485-rx-during-tx-gpios\n");
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3646  	port->rs485_rx_during_tx_gpio = desc;
-163f080eb717d2 Christoph Niedermaier 2022-12-02  3647  
-da0ccd117da1e4 Rasmus Villemoes      2023-11-20  3648  	dflags = (rs485conf->flags & SER_RS485_ENABLED) ? GPIOD_OUT_HIGH : GPIOD_OUT_LOW;
-da0ccd117da1e4 Rasmus Villemoes      2023-11-20  3649  	desc = devm_gpiod_get_optional(dev, "rs485-mux", dflags);
-da0ccd117da1e4 Rasmus Villemoes      2023-11-20  3650  	if (IS_ERR(desc))
-da0ccd117da1e4 Rasmus Villemoes      2023-11-20 @3651  		return dev_err_probe(dev, PTR_ERR(port->rs485_mux_gpio),
-da0ccd117da1e4 Rasmus Villemoes      2023-11-20  3652  				     "Cannot get rs485-mux-gpios\n");
-da0ccd117da1e4 Rasmus Villemoes      2023-11-20  3653  	port->rs485_mux_gpio = desc;
-da0ccd117da1e4 Rasmus Villemoes      2023-11-20  3654  
-c150c0f362c1e5 Lukas Wunner          2020-05-12  3655  	return 0;
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3656  }
-743f93f822be1b Lukas Wunner          2017-11-24  3657  EXPORT_SYMBOL_GPL(uart_get_rs485_mode);
-ef838a81dd4de1 Uwe Kleine-König      2017-09-13  3658  
+d3d854fd6a1d97 Jakub Kicinski 2023-02-01  12  
+d4fc6a14e941e3 Jakub Kicinski 2023-11-20  13  /* Integer value ranges */
+d4fc6a14e941e3 Jakub Kicinski 2023-11-20  14  static const struct netlink_range_validation netdev_a_page_pool_id_range = {
+d4fc6a14e941e3 Jakub Kicinski 2023-11-20  15  	.min	= 1,
+d4fc6a14e941e3 Jakub Kicinski 2023-11-20 @16  	.max	= 4294967295,
+d4fc6a14e941e3 Jakub Kicinski 2023-11-20  17  };
+d4fc6a14e941e3 Jakub Kicinski 2023-11-20  18  
 
 -- 
 0-DAY CI Kernel Test Service
