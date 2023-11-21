@@ -1,108 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FACE4777A
-	for <oe-kbuild@lists.linux.dev>; Tue, 21 Nov 2023 14:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF62C495EF;
+	Tue, 21 Nov 2023 15:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPmmelzE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700577568; x=1732113568;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=86PjV8QzMTya0mFUrbLDN+AOWuhjOJm+p3Gs+LPKL3A=;
-  b=NPmmelzEA3k9FtJ8IPuxj3DuIo/Ga5QJShgY2PMQPnTt5WHmlX4AhDWZ
-   Fl/PICvp2K7PsQ47cgIbAp/Qyzxpzvg4MZGeMxGgGhalcBD9yrXIexFuG
-   mOCm9DSN/aCaagkThlKfI6Gw3iT2gwwYGV1o8kFDSlWdWVTp9HLfb2nIx
-   dTL84IpH+OsTzadiNo4sF6iaUd/mRQB41PW2DIwlqcc7xdWgjy8ZnSfsi
-   tB1HETaYZU34r418qKvSCrKzD2hkcDy9/237p5KmTtHYnTfLZT2RAFAIG
-   XLJ4CEToF9f7dO4f0ojiUt93CjHVyQnPrr+zYPywUVeKIBsVEz6FzKKWk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="388999762"
-X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="388999762"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 06:39:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="910472640"
-X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="910472640"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Nov 2023 06:39:04 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r5Ru1-0007vU-2S;
-	Tue, 21 Nov 2023 14:39:01 +0000
-Date: Tue, 21 Nov 2023 22:38:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [yiliu1765-iommufd:wip/iommufd_nesting+pasid-11142023-yi 7/20]
- iommufd.c:2266:44: error: 'IOMMU_HWPT_ALLOC_DATA_SELFTEST' undeclared; did
- you mean 'IOMMU_HWPT_DATA_SELFTEST'?
-Message-ID: <202311212250.lTDgKUwk-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="AE8EXQSg";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rBx7RlY2"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1700579849;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=amG8dsb0Xi5CtDBhMAipVmfkMv2qVhstklyGL0NmvUc=;
+	b=AE8EXQSgyYEbENLUIvGZTC6aH2sOYQgml+6/ceS1hSJiCJhSFVf/EpZ57LIitTkCwu9fOf
+	AhPI5iwhnBp/ykrN+ZuTEQTGzwJ0LuJRANCcukjude86DTlbTCzLg+3egDwYzl0ZlYcALb
+	kM2eM2lt1mFSxRVPuDmkBu5kE5Y+5owjvybBYmotqRz9wokCl2EUtteeOlJs3z7oj3besp
+	5Bk2ESeJBhARSnhaTxZz3yBgrn8nKZ+DNt6l0Jw6BRJdR86Ej/vFP+ihBz189wTEGdWyJY
+	cuj0JFDKu1MeMBNpPn/a3xqbi/D6usIpBuxjWzTewGbd+8rRU+5PfmzZesU+Gg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1700579849;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=amG8dsb0Xi5CtDBhMAipVmfkMv2qVhstklyGL0NmvUc=;
+	b=rBx7RlY2MyayD0JZkpgpdomjyHpcDcDhykjvQxFLPNHOGCiJHeESJ5shUwFaI93dOfG0ln
+	ockmbZh9WNhBaFAw==
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [tglx-devel:queue/core 1/1] lib/debugobjects.c:730
+ debug_object_activate() error: 'obj' dereferencing possible ERR_PTR()
+In-Reply-To: <2999d03c-4002-474f-9654-e9eded9af8c3@suswa.mountain>
+References: <2999d03c-4002-474f-9654-e9eded9af8c3@suswa.mountain>
+Date: Tue, 21 Nov 2023 16:17:29 +0100
+Message-ID: <87pm0316gm.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
+On Mon, Nov 20 2023 at 03:55, Dan Carpenter wrote:
+> smatch warnings:
+> lib/debugobjects.c:730 debug_object_activate() error: 'obj' dereferencing possible ERR_PTR()
+>
+> vim +/obj +730 lib/debugobjects.c
+>
+> aedcade6f4fa9a Stephen Boyd     2020-08-14  694  int debug_object_activate(void *addr, const struct debug_obj_descr *descr)
+> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  695  {
+> 63a759694eed61 Thomas Gleixner  2023-04-12  696  	struct debug_obj o = { .object = addr, .state = ODEBUG_STATE_NOTAVAILABLE, .descr = descr };
+> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  697  	struct debug_bucket *db;
+> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  698  	struct debug_obj *obj;
+> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  699  	unsigned long flags;
+> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  700  
+> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  701  	if (!debug_objects_enabled)
+> b778ae25366e6f Paul E. McKenney 2013-04-23  702  		return 0;
+> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  703  
+> 0af462f19e635a Thomas Gleixner  2023-05-01  704  	debug_objects_fill_pool();
+> 0af462f19e635a Thomas Gleixner  2023-05-01  705  
+> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  706  	db = get_bucket((unsigned long) addr);
+> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  707  
+> aef9cb05247df3 Thomas Gleixner  2009-11-17  708  	raw_spin_lock_irqsave(&db->lock, flags);
+> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  709  
+> 63a759694eed61 Thomas Gleixner  2023-04-12  710  	obj = lookup_object_or_alloc(addr, db, descr, false, true);
+> 265c43c4e983ed Andrzej Hajda    2023-10-25  711  	if (unlikely(!obj)) {
+> 265c43c4e983ed Andrzej Hajda    2023-10-25  712  		raw_spin_unlock_irqrestore(&db->lock, flags);
+> 265c43c4e983ed Andrzej Hajda    2023-10-25  713  		debug_objects_oom();
+> 265c43c4e983ed Andrzej Hajda    2023-10-25  714  		return 0;
+> 265c43c4e983ed Andrzej Hajda    2023-10-25  715  	} else if (likely(!IS_ERR(obj))) {
+>                                                                           ^^^^^^^^^^^^
+> obj is an error pointer
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Yi Liu <yi.l.liu@intel.com>
-TO: Kevin Tian <kevin.tian@intel.com>
+Ah. Right that's silly. lookup_object_or_alloc() either returns a valid
+pointer or NULL. Let me amend that before I move it over to tip.
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting+pasid-11142023-yi
-head:   92f313909ee3753f73c9b3341a34aa28116edb62
-commit: 731261dcd9270387e7ed95813ad05a02c01006d8 [7/20] iommufd/selftest: Add coverage for iommufd pasid attach/detach
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311212250.lTDgKUwk-lkp@intel.com/reproduce)
+Thanks,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311212250.lTDgKUwk-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from iommufd_utils.h:13,
-                    from iommufd.c:10:
-   iommufd.c: In function 'iommufd_device_pasid_pasid_attach':
->> iommufd.c:2266:44: error: 'IOMMU_HWPT_ALLOC_DATA_SELFTEST' undeclared (first use in this function); did you mean 'IOMMU_HWPT_DATA_SELFTEST'?
-    2266 |                                            IOMMU_HWPT_ALLOC_DATA_SELFTEST,
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ../kselftest_harness.h:707:20: note: in definition of macro '__EXPECT'
-     707 |         __typeof__(_seen) __seen = (_seen); \
-         |                    ^~~~~
-   iommufd_utils.h:190:9: note: in expansion of macro 'ASSERT_EQ'
-     190 |         ASSERT_EQ(0, _test_cmd_hwpt_alloc(self->fd, device_id, pt_id, flags, \
-         |         ^~~~~~~~~
-   iommufd.c:2264:17: note: in expansion of macro 'test_cmd_hwpt_alloc_nested'
-    2264 |                 test_cmd_hwpt_alloc_nested(self->device_id, parent_hwpt_id, 0,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   iommufd.c:2266:44: note: each undeclared identifier is reported only once for each function it appears in
-    2266 |                                            IOMMU_HWPT_ALLOC_DATA_SELFTEST,
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ../kselftest_harness.h:707:20: note: in definition of macro '__EXPECT'
-     707 |         __typeof__(_seen) __seen = (_seen); \
-         |                    ^~~~~
-   iommufd_utils.h:190:9: note: in expansion of macro 'ASSERT_EQ'
-     190 |         ASSERT_EQ(0, _test_cmd_hwpt_alloc(self->fd, device_id, pt_id, flags, \
-         |         ^~~~~~~~~
-   iommufd.c:2264:17: note: in expansion of macro 'test_cmd_hwpt_alloc_nested'
-    2264 |                 test_cmd_hwpt_alloc_nested(self->device_id, parent_hwpt_id, 0,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+        tglx
