@@ -1,46 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0D63B2B2
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Nov 2023 23:41:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7191A180
+	for <oe-kbuild@lists.linux.dev>; Tue, 21 Nov 2023 00:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wiatw7pI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="idYtuUo3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700523666; x=1732059666;
+  t=1700525018; x=1732061018;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hZxSBJwmmTvaI4L2b3Kl1PjJI/Uwgg3bNhUNQ2eppKE=;
-  b=Wiatw7pIUXzrXo6VphOaNZEqA8GW0+PFxkUP1VNJPsQQC0QWh5O/MMih
-   C/ERqziVgCvfaDOJxBO7rcdpCjLxLDN6CfOsAHsURMYSTbY1oRrMoeRGV
-   wpD5tO+0YFWFnTeVsjstLQtM4KPXQPy1AN/HdWg05zPulB026kL569H9a
-   reApjaocIYfoMUbjS8oZal5+PlvFBf9xpwJ4vnhRMbinY4/jmHkYa8rzY
-   UVhQrTjNoBE1bCf8AFedWAH5ibHcI+KVD3C/Tspj1o8z/VLZVIX7Y3SMA
-   3eBltdaWVeWIZLWl4AamdtFPwX4+39dNckD1pXsexonLLMxe0NSkzEgBq
+  bh=6ufgGB4IjlJPas6VkvphxWftNARJaRs1Fgvq12jxDzk=;
+  b=idYtuUo3fon5t0KXO38Q5CIlUaf4w/A22yv35PRZdWYhp9hEdVbLFNkR
+   JtH5TEuRXL1ySwGulcGqYbA6F64wZwumO2c85t+qLgzHWmKWD4qKsGHjG
+   pWA7Tde1ZvQ4XocOhVvbM/2enXoz7oH60duH9BsktYjoUUdD+cLr6dVvr
+   NOmALFUrCNKgkrkCEpYFlsoPzQ94JkcmqGbNwyFxLh43HD0+bdWVmyxqz
+   euKDwonEtZfsxg8Olo7UOZIiBqO/L3A+qPHx79N/e71/AtQVX3yXBXIb5
+   IasoMbrB2K54cVBymsIIegLv6BigiJxrBmIoJj92kD4CWKXP1y3c9zZMZ
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="371067950"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="382125028"
 X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="371067950"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 15:41:01 -0800
+   d="scan'208";a="382125028"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 16:03:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="910280044"
 X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="910280044"
+   d="scan'208";a="14317461"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Nov 2023 15:41:00 -0800
+  by orviesa001.jf.intel.com with ESMTP; 20 Nov 2023 16:03:17 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5Dsw-00074O-04;
-	Mon, 20 Nov 2023 23:40:58 +0000
-Date: Tue, 21 Nov 2023 07:39:55 +0800
+	id 1r5EEU-00075F-1j;
+	Tue, 21 Nov 2023 00:03:14 +0000
+Date: Tue, 21 Nov 2023 08:02:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 3/6] irqchip: Introduce RTD1319 support using the
- Realtek common interrupt controller driver
-Message-ID: <202311210740.O1tgMogo-lkp@intel.com>
+Subject: [linux-next:master 802/2011] mm/slub.c:2562 __put_partials() error:
+ calling 'spin_unlock_irqrestore()' with bogus flags
+Message-ID: <202311210702.qw2Sc9qM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,87 +51,79 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20231117162709.1096585-4-james.tai@realtek.com>
-References: <20231117162709.1096585-4-james.tai@realtek.com>
-TO: James Tai <james.tai@realtek.com>
-TO: Thomas Gleixner <tglx@linutronix.de>
-TO: Marc Zyngier <maz@kernel.org>
-TO: Rob Herring <robh+dt@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: James Tai <james.tai@realtek.com>
-CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Chengming Zhou <zhouchengming@bytedance.com>
+CC: Vlastimil Babka <vbabka@suse.cz>
 
-Hi James,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/irq/core]
-[also build test WARNING on robh/for-next linus/master v6.7-rc2 next-20231120]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Tai/dt-bindings-interrupt-controller-Add-support-for-Realtek-DHC-SoCs/20231118-003036
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20231117162709.1096585-4-james.tai%40realtek.com
-patch subject: [PATCH v2 3/6] irqchip: Introduce RTD1319 support using the Realtek common interrupt controller driver
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: nios2-randconfig-r081-20231120 (https://download.01.org/0day-ci/archive/20231121/202311210740.O1tgMogo-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231121/202311210740.O1tgMogo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   5a82d69d48c82e89aef44483d2a129f869f3506a
+commit: 4b436491294e5091de82c86deaeae0dbaa9b479e [802/2011] slub: Rename all *unfreeze_partials* functions to *put_partials*
+:::::: branch date: 18 hours ago
+:::::: commit date: 8 days ago
+config: i386-randconfig-141-20231121 (https://download.01.org/0day-ci/archive/20231121/202311210702.qw2Sc9qM-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231121/202311210702.qw2Sc9qM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311210740.O1tgMogo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311210702.qw2Sc9qM-lkp@intel.com/
 
 smatch warnings:
-drivers/irqchip/irq-realtek-intc-common.c:179 realtek_intc_probe() warn: ignoring unreachable code.
-drivers/irqchip/irq-realtek-intc-common.c:187 realtek_intc_probe() warn: 'data->base' from of_iomap() not released on lines: 176,182.
+mm/slub.c:2562 __put_partials() error: calling 'spin_unlock_irqrestore()' with bogus flags
 
-vim +179 drivers/irqchip/irq-realtek-intc-common.c
+vim +2562 mm/slub.c
 
-40e5ff4eaef72b James Tai 2023-11-18  154  
-40e5ff4eaef72b James Tai 2023-11-18  155  int realtek_intc_probe(struct platform_device *pdev, const struct realtek_intc_info *info)
-40e5ff4eaef72b James Tai 2023-11-18  156  {
-40e5ff4eaef72b James Tai 2023-11-18  157  	struct realtek_intc_data *data;
-40e5ff4eaef72b James Tai 2023-11-18  158  	struct device *dev = &pdev->dev;
-40e5ff4eaef72b James Tai 2023-11-18  159  	struct device_node *node = dev->of_node;
-40e5ff4eaef72b James Tai 2023-11-18  160  	int ret, i;
-40e5ff4eaef72b James Tai 2023-11-18  161  
-40e5ff4eaef72b James Tai 2023-11-18  162  	data = devm_kzalloc(dev, struct_size(data, subset_data, info->cfg_num), GFP_KERNEL);
-40e5ff4eaef72b James Tai 2023-11-18  163  	if (!data)
-40e5ff4eaef72b James Tai 2023-11-18  164  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  165  
-40e5ff4eaef72b James Tai 2023-11-18  166  	data->base = of_iomap(node, 0);
-40e5ff4eaef72b James Tai 2023-11-18  167  	if (!data->base)
-40e5ff4eaef72b James Tai 2023-11-18  168  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  169  
-40e5ff4eaef72b James Tai 2023-11-18  170  	data->info = info;
-40e5ff4eaef72b James Tai 2023-11-18  171  
-40e5ff4eaef72b James Tai 2023-11-18  172  	raw_spin_lock_init(&data->lock);
-40e5ff4eaef72b James Tai 2023-11-18  173  
-40e5ff4eaef72b James Tai 2023-11-18  174  	data->domain = irq_domain_add_linear(node, 32, &realtek_intc_domain_ops, data);
-40e5ff4eaef72b James Tai 2023-11-18  175  	if (!data->domain)
-40e5ff4eaef72b James Tai 2023-11-18  176  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  177  
-40e5ff4eaef72b James Tai 2023-11-18  178  	data->subset_data_num = info->cfg_num;
-40e5ff4eaef72b James Tai 2023-11-18 @179  	for (i = 0; i < info->cfg_num; i++) {
-40e5ff4eaef72b James Tai 2023-11-18  180  		ret = realtek_intc_subset(node, data, i);
-40e5ff4eaef72b James Tai 2023-11-18  181  		WARN(ret, "failed to init subset %d: %d", i, ret);
-40e5ff4eaef72b James Tai 2023-11-18  182  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  183  	}
-40e5ff4eaef72b James Tai 2023-11-18  184  
-40e5ff4eaef72b James Tai 2023-11-18  185  	platform_set_drvdata(pdev, data);
-40e5ff4eaef72b James Tai 2023-11-18  186  
-40e5ff4eaef72b James Tai 2023-11-18 @187  	return 0;
-40e5ff4eaef72b James Tai 2023-11-18  188  }
-40e5ff4eaef72b James Tai 2023-11-18  189  EXPORT_SYMBOL(realtek_intc_probe);
-40e5ff4eaef72b James Tai 2023-11-18  190  
+81819f0fc8285a Christoph Lameter 2007-05-06  2547  
+345c905d13a4ec Joonsoo Kim       2013-06-19  2548  #ifdef CONFIG_SLUB_CPU_PARTIAL
+4b436491294e50 Chengming Zhou    2023-11-02  2549  static void __put_partials(struct kmem_cache *s, struct slab *partial_slab)
+fc1455f4e023b2 Vlastimil Babka   2021-05-20  2550  {
+43d77867a4f333 Joonsoo Kim       2012-06-09  2551  	struct kmem_cache_node *n = NULL, *n2 = NULL;
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2552  	struct slab *slab, *slab_to_discard = NULL;
+7cf9f3ba2f0221 Vlastimil Babka   2021-05-21  2553  	unsigned long flags = 0;
+49e2258586b423 Christoph Lameter 2011-08-09  2554  
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2555  	while (partial_slab) {
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2556  		slab = partial_slab;
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2557  		partial_slab = slab->next;
+43d77867a4f333 Joonsoo Kim       2012-06-09  2558  
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2559  		n2 = get_node(s, slab_nid(slab));
+43d77867a4f333 Joonsoo Kim       2012-06-09  2560  		if (n != n2) {
+43d77867a4f333 Joonsoo Kim       2012-06-09  2561  			if (n)
+7cf9f3ba2f0221 Vlastimil Babka   2021-05-21 @2562  				spin_unlock_irqrestore(&n->list_lock, flags);
+43d77867a4f333 Joonsoo Kim       2012-06-09  2563  
+43d77867a4f333 Joonsoo Kim       2012-06-09  2564  			n = n2;
+7cf9f3ba2f0221 Vlastimil Babka   2021-05-21  2565  			spin_lock_irqsave(&n->list_lock, flags);
+43d77867a4f333 Joonsoo Kim       2012-06-09  2566  		}
+49e2258586b423 Christoph Lameter 2011-08-09  2567  
+c8d312e039030e Chengming Zhou    2023-11-02  2568  		if (unlikely(!slab->inuse && n->nr_partial >= s->min_partial)) {
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2569  			slab->next = slab_to_discard;
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2570  			slab_to_discard = slab;
+43d77867a4f333 Joonsoo Kim       2012-06-09  2571  		} else {
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2572  			add_partial(n, slab, DEACTIVATE_TO_TAIL);
+43d77867a4f333 Joonsoo Kim       2012-06-09  2573  			stat(s, FREE_ADD_PARTIAL);
+49e2258586b423 Christoph Lameter 2011-08-09  2574  		}
+49e2258586b423 Christoph Lameter 2011-08-09  2575  	}
+49e2258586b423 Christoph Lameter 2011-08-09  2576  
+49e2258586b423 Christoph Lameter 2011-08-09  2577  	if (n)
+7cf9f3ba2f0221 Vlastimil Babka   2021-05-21  2578  		spin_unlock_irqrestore(&n->list_lock, flags);
+8de06a6f48f206 Vlastimil Babka   2021-05-20  2579  
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2580  	while (slab_to_discard) {
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2581  		slab = slab_to_discard;
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2582  		slab_to_discard = slab_to_discard->next;
+9ada19342b2441 Shaohua Li        2011-11-14  2583  
+9ada19342b2441 Shaohua Li        2011-11-14  2584  		stat(s, DEACTIVATE_EMPTY);
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2585  		discard_slab(s, slab);
+9ada19342b2441 Shaohua Li        2011-11-14  2586  		stat(s, FREE_SLAB);
+9ada19342b2441 Shaohua Li        2011-11-14  2587  	}
+fc1455f4e023b2 Vlastimil Babka   2021-05-20  2588  }
+f3ab8b6b922817 Vlastimil Babka   2021-05-20  2589  
+
+:::::: The code at line 2562 was first introduced by commit
+:::::: 7cf9f3ba2f02216b2303e648c0c5439f00191008 mm, slub: only disable irq with spin_lock in __unfreeze_partials()
+
+:::::: TO: Vlastimil Babka <vbabka@suse.cz>
+:::::: CC: Vlastimil Babka <vbabka@suse.cz>
 
 -- 
 0-DAY CI Kernel Test Service
