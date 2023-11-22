@@ -1,103 +1,58 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5A11CF82
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Nov 2023 09:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6684F1A5B5;
+	Wed, 22 Nov 2023 09:21:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pXGUpf/O"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2c871d566cfso54075331fa.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 22 Nov 2023 01:13:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700644422; x=1701249222; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=czz0nsZXAuzO0t2l90LkLuXKQKsXZcy5T0aEg09grO8=;
-        b=pXGUpf/OvxTJAmz2zUDj7e0YDWfSgebtuhD/9Rk9+VX5hDpqq/qO+sTt+WnqFO5iKm
-         4eCliX07u+1QAhvilO0KlcCQgBvENtHwFgYxY+aY94UakdiCocweDKVdOeJTeemwdm+/
-         ts8oq+jmdo5eLROSnhLH8gKRh7R/dO5P5zeW2jJShLKQftWM+aDL1ozHKYGcLfrUgh7h
-         mUzc4dIm1vsWbAeS2/NHc4yOyfP5lBIINhcL5jwLc7KM0pAOXL+vLGK10LFYyIKq1ZY1
-         96pPDQ9I6fuasc0mHgKRDcnx+t6SZ1ChnmGTlkzU0IURjzS9ZyTlx4ZyWOPxTDgTedkt
-         4gSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700644422; x=1701249222;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=czz0nsZXAuzO0t2l90LkLuXKQKsXZcy5T0aEg09grO8=;
-        b=oF2D0SRoKl57+aCuv6rHP4LcPXSF78YOAiwSVIvMc7iOe345BC8LMCWqxhxfXHkLH5
-         DKngLWkU0FGBeDLKZP9uu5J91B8VXtJNgn2KjFcFFYTI21zXk/Lw9HH8IdXM7bAn2Gz9
-         E6GbN0j7exXWs8qC9RPm7dKv2q65B5FcX+pdalWMmTfqGYHEpur3XoYpE5ruVdkR7WLB
-         elvPqHsZoITQ4rqplZB+jta37L+guPt65VZe0ksk3Sr6DgOTD66/VvgpZXGItwQEspch
-         WFz2sk4zzBiKCZpgnhzmOr7m3djLl2FVduvykEwqeRnz03YCKjIPZyRPr5tykMyvZ3yr
-         7lgQ==
-X-Gm-Message-State: AOJu0YxkXBjiuuX/VLlgRKOiKvn18nd738ptoRJPU9BMpuatoVcUbv0v
-	XiNUPA0WxPRPKMppCXWC2ofaYg==
-X-Google-Smtp-Source: AGHT+IGtrjMlWRjUgICA9jh1noy1De6jMjESZr78bJoGyz59ZE78MZYTI3HId5TPi+4kH9qPm0K+UA==
-X-Received: by 2002:a05:651c:a0e:b0:2c8:71b4:f8b5 with SMTP id k14-20020a05651c0a0e00b002c871b4f8b5mr1394219ljq.48.1700644422503;
-        Wed, 22 Nov 2023 01:13:42 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id s3-20020a05600c384300b004077219aed5sm1551237wmr.6.2023.11.22.01.13.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 01:13:42 -0800 (PST)
-Date: Wed, 22 Nov 2023 04:13:36 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	damon@lists.linux.dev
-Subject: Re: [sj:damon/next 32/42] mm/damon/core.c:1150
- damos_set_effective_quota() error: uninitialized symbol 'esz'.
-Message-ID: <aa9343f1-b0f9-4452-82e9-d63192ecbcd7@suswa.mountain>
-References: <473b4c2e-863d-42ec-860a-bf8ec4385240@suswa.mountain>
- <20231121173602.62313-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="v6CvPxfJ";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="B4Bgtlf8"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1700644871;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lB2NLdBcb9xAkWEgD6EILecguP/al1SLoHeC1PeJ7hM=;
+	b=v6CvPxfJHd6Gphi4okPTeYUoJtB4omPyyFmp0E7YLBi7k35f8+4YvVBcyu0WgvVrqWhvI1
+	G86Z98IKJnanMKIwZqTE7K+Y42zlXRB1gPqgKk1Hi9ZS7y+bs1fgJ/qQRPLxF2yiBDv57Z
+	PpZDX9tEGqkfTe7HYOgpugomTOnQSx6+xoo+KYnnkZgRmwu4u22UaOy2xus439cUU3Sqk2
+	qz5XGw481KXF10/sIFO0zJGO3rFPGgyOZMCX2Ut8Ra9CEp11yYsDdJgzECRxmYL0E0FWWq
+	4FzjMjy2iQ1r8GDcvn3vbJcOtfG48xU+TTNyv/9yol0DjgSEfAA07Kk3IVj2TA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1700644871;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lB2NLdBcb9xAkWEgD6EILecguP/al1SLoHeC1PeJ7hM=;
+	b=B4Bgtlf8KF7nqLG5rYDbaDkU3T5n24zoGg279QbU8GRO95OA2bXn55yGQKKy20FmqbtZaE
+	fGvlo6epjB01McAw==
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [tglx-devel:queue/core 1/1] lib/debugobjects.c:730
+ debug_object_activate() error: 'obj' dereferencing possible ERR_PTR()
+In-Reply-To: <87pm0316gm.ffs@tglx>
+References: <2999d03c-4002-474f-9654-e9eded9af8c3@suswa.mountain>
+ <87pm0316gm.ffs@tglx>
+Date: Wed, 22 Nov 2023 10:21:11 +0100
+Message-ID: <87edgi16uw.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231121173602.62313-1-sj@kernel.org>
+Content-Type: text/plain
 
-On Tue, Nov 21, 2023 at 05:36:02PM +0000, SeongJae Park wrote:
-> Hi Dan,
-> 
-> On Tue, 21 Nov 2023 02:37:12 -0500 Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> > head:   54ffd8ae08121d8cbce1874fe46970cce643a2c7
-> > commit: 28cef0e565adbb4175f12ffffce9d0680979de60 [32/42] mm/damon/core: implement goal-oriented feedback-driven quota auto-tuning
-> > config: x86_64-randconfig-161-20231121 (https://download.01.org/0day-ci/archive/20231121/202311210420.URG3QSAS-lkp@intel.com/config)
-> > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20231121/202311210420.URG3QSAS-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > | Closes: https://lore.kernel.org/r/202311210420.URG3QSAS-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > mm/damon/core.c:1150 damos_set_effective_quota() error: uninitialized symbol 'esz'.
-> 
-> Thank you for this nice report!
-> 
-> However, damos_set_effective_quota() is called from damos_adjust_quota(), which
-> ensures at least one among quota->{ms,sz,get_score} is nonzero.  And
-> damos_set_effective_quota() ensures quota->{ms,get_score} is non-zero at the
-> beginning of the function.  Then the function sets esz anyway, for non-zero
-> quota->ms and quota->get_score.
+On Tue, Nov 21 2023 at 16:17, Thomas Gleixner wrote:
+> On Mon, Nov 20 2023 at 03:55, Dan Carpenter wrote:
+>> 265c43c4e983ed Andrzej Hajda    2023-10-25  715  	} else if (likely(!IS_ERR(obj))) {
+>>                                                                           ^^^^^^^^^^^^
+>> obj is an error pointer
+>
+> Ah. Right that's silly. lookup_object_or_alloc() either returns a valid
+> pointer or NULL. Let me amend that before I move it over to tip.
 
-The problem is in the "non-zero quota->ms" situation.  It uses an
-uninitialized value of esz to initialize esz.
-
-28cef0e565adbb SeongJae Park 2023-10-27 @1150           esz = min(throughput * quota->ms, esz);
-                                                        ^^^                               ^^^
-This is the uninitialized variable.
-
-regards,
-dan carpenter
-
-
+Bah it does return an error pointer. Let me stare more.
