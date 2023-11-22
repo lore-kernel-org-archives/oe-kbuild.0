@@ -1,123 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4703FB1B
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Nov 2023 17:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790D14E61C;
+	Wed, 22 Nov 2023 18:50:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VKUlaOJi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700674490; x=1732210490;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2oj7ZFrDBUTU9fdGEn6KwB41+jmFnqwbp/nlKLEShkQ=;
-  b=VKUlaOJi1cQ2Dz5W07D3ac/QCOurSjEyh6LZNsUvjaHR5VFRN/TK5nkW
-   9c+KEmuvX+UoOIQJ7AHwvl95ILM+m2G7cYrwOMYJ4b4VMUlwglbX9JwmE
-   T4a/uzOvcDrrqDnKfPeVzJj0RRZ2X945idtoXglAbOe/ArlgVNDt5RhnX
-   YrRLfgWCtEq8Bba60EnZ1ICs6nz0DJCgg3P7fCVK6TW6Y9hVeS0GZuy6z
-   kEY4PMf8PciYXJLNPwibydx8lQ/e4tI30wJEsNzO3DYvsiuIAhaCuWCT6
-   t8IZg92oZkwhiM8qe+YW4aD+/YXalMkhduUixGsMVUYgTlSFH9mmO+eB5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="390966888"
-X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
-   d="scan'208";a="390966888"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 09:34:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="910906606"
-X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
-   d="scan'208";a="910906606"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 22 Nov 2023 09:34:46 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r5r7c-0000jL-0S;
-	Wed, 22 Nov 2023 17:34:44 +0000
-Date: Thu, 23 Nov 2023 01:34:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v3 bpf-next 11/11] selftest: bpf: Test
- bpf_sk_assign_tcp_reqsk().
-Message-ID: <202311222353.3MM8wxm0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BCrX36+o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BCB0C433C8;
+	Wed, 22 Nov 2023 18:50:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700679052;
+	bh=Aef3Nc8tBndl7jMTaRxytqDcQd1lyM7XV+tBkvsy5Gs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=BCrX36+o2bNWDKv/uOYN/dOlFDd3Ps7g0faIiNY2BAtI/6gOBULDCZb7tswMpjG5X
+	 xVsr/2dTgj1TSZwhBth6IePCvSJRk7RwMYdPz/NK6wn+zgfbxCM/VS7H30d1rryrp/
+	 JVARuJWkh8c4In+mqqFpXl017T97qgtuS+UlqP2ZfR0WLmOPKh2QAOXJwoEy/upGka
+	 DggcuD5X7tUk2l9zhbo7h+ehk91ArBDtRSk+81RjRgkVNIl7cEo/jv4s1TiWuolW6C
+	 3b7upywJe8UmyVxdbmUELgPEdwWNMaGFeseEKJSGiqbqg08c5iYw7K0iye0oSKNi/1
+	 oh40DOwammhmA==
+From: SeongJae Park <sj@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	oe-kbuild@lists.linux.dev,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	damon@lists.linux.dev
+Subject: Re: [sj:damon/next 32/42] mm/damon/core.c:1150 damos_set_effective_quota() error: uninitialized symbol 'esz'.
+Date: Wed, 22 Nov 2023 18:50:49 +0000
+Message-Id: <20231122185049.102436-1-sj@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <aa9343f1-b0f9-4452-82e9-d63192ecbcd7@suswa.mountain>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
+On Wed, 22 Nov 2023 04:13:36 -0500 Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20231121190134.73447-1-kuniyu@amazon.com>
-References: <20231121190134.73447-1-kuniyu@amazon.com>
-TO: Kuniyuki Iwashima <kuniyu@amazon.com>
-TO: kuniyu@amazon.com
-CC: andrii@kernel.org
-CC: ast@kernel.org
-CC: bpf@vger.kernel.org
-CC: daniel@iogearbox.net
-CC: davem@davemloft.net
-CC: dsahern@kernel.org
-CC: edumazet@google.com
-CC: haoluo@google.com
-CC: john.fastabend@gmail.com
-CC: jolsa@kernel.org
-CC: kpsingh@kernel.org
-CC: kuba@kernel.org
-CC: kuni1840@gmail.com
-CC: martin.lau@linux.dev
-CC: mykolal@fb.com
-CC: netdev@vger.kernel.org
-CC: pabeni@redhat.com
-CC: sdf@google.com
-CC: song@kernel.org
-CC: yonghong.song@linux.dev
+> On Tue, Nov 21, 2023 at 05:36:02PM +0000, SeongJae Park wrote:
+> > Hi Dan,
+> > 
+> > On Tue, 21 Nov 2023 02:37:12 -0500 Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> > 
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> > > head:   54ffd8ae08121d8cbce1874fe46970cce643a2c7
+> > > commit: 28cef0e565adbb4175f12ffffce9d0680979de60 [32/42] mm/damon/core: implement goal-oriented feedback-driven quota auto-tuning
+> > > config: x86_64-randconfig-161-20231121 (https://download.01.org/0day-ci/archive/20231121/202311210420.URG3QSAS-lkp@intel.com/config)
+> > > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> > > reproduce: (https://download.01.org/0day-ci/archive/20231121/202311210420.URG3QSAS-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > > | Closes: https://lore.kernel.org/r/202311210420.URG3QSAS-lkp@intel.com/
+> > > 
+> > > smatch warnings:
+> > > mm/damon/core.c:1150 damos_set_effective_quota() error: uninitialized symbol 'esz'.
+> > 
+> > Thank you for this nice report!
+> > 
+> > However, damos_set_effective_quota() is called from damos_adjust_quota(), which
+> > ensures at least one among quota->{ms,sz,get_score} is nonzero.  And
+> > damos_set_effective_quota() ensures quota->{ms,get_score} is non-zero at the
+> > beginning of the function.  Then the function sets esz anyway, for non-zero
+> > quota->ms and quota->get_score.
+> 
+> The problem is in the "non-zero quota->ms" situation.  It uses an
+> uninitialized value of esz to initialize esz.
+> 
+> 28cef0e565adbb SeongJae Park 2023-10-27 @1150           esz = min(throughput * quota->ms, esz);
+>                                                         ^^^                               ^^^
+> This is the uninitialized variable.
 
-Hi Kuniyuki,
+Ah, you're correct.  I was out of mind.  Thank you for this kind explanation.
+I will squash below fix to the broken commit.
 
-kernel test robot noticed the following build errors:
+    --- a/mm/damon/core.c
+    +++ b/mm/damon/core.c
+    @@ -1147,7 +1147,10 @@ static void damos_set_effective_quota(struct damos_quota *quota)
+                                    quota->total_charged_ns;
+                    else
+                            throughput = PAGE_SIZE * 1024;
+    -               esz = min(throughput * quota->ms, esz);
+    +               if (quota->get_score)
+    +                       esz = min(throughput * quota->ms, esz);
+    +               else
+    +                       esz = throughput * quota->ms;
+            }
+    
+            if (quota->sz && quota->sz < esz)
 
-[auto build test ERROR on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/tcp-Clean-up-reverse-xmas-tree-in-cookie_v-46-_check/20231122-030405
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231121190134.73447-1-kuniyu%40amazon.com
-patch subject: [PATCH v3 bpf-next 11/11] selftest: bpf: Test bpf_sk_assign_tcp_reqsk().
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311222353.3MM8wxm0-lkp@intel.com/reproduce)
+Thanks,
+SJ
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311222353.3MM8wxm0-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> progs/test_tcp_custom_syncookie.c:63:31: error: field has incomplete type 'struct tcp_cookie_attributes'
-      63 |         struct tcp_cookie_attributes attr;
-         |                                      ^
-   tools/testing/selftests/bpf/bpf_kfuncs.h:60:8: note: forward declaration of 'struct tcp_cookie_attributes'
-      60 | struct tcp_cookie_attributes;
-         |        ^
->> progs/test_tcp_custom_syncookie.c:514:57: error: use of undeclared identifier 'BPF_F_CURRENT_NETNS'; did you mean 'BPF_F_CURRENT_CPU'?
-     514 |         skc = bpf_skc_lookup_tcp(ctx->skb, &tuple, tuple_size, BPF_F_CURRENT_NETNS, 0);
-         |                                                                ^~~~~~~~~~~~~~~~~~~
-         |                                                                BPF_F_CURRENT_CPU
-   /tools/include/vmlinux.h:104429:2: note: 'BPF_F_CURRENT_CPU' declared here
-    104429 |         BPF_F_CURRENT_CPU = 4294967295ULL,
-           |         ^
-   2 errors generated.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> regards,
+> dan carpenter
+> 
