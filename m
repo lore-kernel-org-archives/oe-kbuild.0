@@ -1,63 +1,45 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5925B1F1
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Nov 2023 10:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B581056B83
+	for <oe-kbuild@lists.linux.dev>; Wed, 22 Nov 2023 15:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aYy66gPo"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3316a4bc37dso3448245f8f.2
-        for <oe-kbuild@lists.linux.dev>; Wed, 22 Nov 2023 02:43:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700649820; x=1701254620; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RxvYEiAdK16hEUnfnJJGpW9bKts3DPTjhH3GkFHM2Cc=;
-        b=aYy66gPoyghHi3LB6nUxcIjoeMSJlE8TRMIKqj3D2c8V7IO0YlmW5DAJ01S6DtiASD
-         z1Z+ZqQKKmJnWveC44tpSR+fH/rVIDeOznLnSNr2BmH8fpDAk6SimT8kC3/QU7MJf+8H
-         hyufzBkfbP7b4FFr6OEfnG7UKS4CR0rHc/f7D8f97wjxeZdYKgEttrI39izF6LXLwHKy
-         nTJ2kpwhWjLZyMKuvTksravsKn4qAHpEuc5AgLBPVxxGayt/zTFv0sRhf1Zh6Pg5LvzS
-         ZE+XTuG/bUx0xiOHcePC/1+pyqYyaz7SVrom/7Aj2bttrwtlQmivbUvi22MkTkzP9lXy
-         l89g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700649820; x=1701254620;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RxvYEiAdK16hEUnfnJJGpW9bKts3DPTjhH3GkFHM2Cc=;
-        b=FNdzCUrMEUvnmD2Xx3gTilvrbDn0Z2b5tsTbCgqcKgZekEHS8AObaGvnlZFkKTi+Ke
-         /W/VHCInNfGkMm0E9H+CbU/sHckbRo6gMN3VYIg1LKxLe/fTiP5z67jeyB8YuzJMbUEm
-         Su+m+X7KBlSfrkNGV59dBb1S0TIIH0wLiPI4FKsgye8C81NrHetZZZ2nK7vmbsyKAMqd
-         UEgYnjwttYXO5CeuUzWPiabgbbyuetc9stMwh0FlVHhkjyT0IEYFW4RG7q3OVmD+IYJR
-         Wx4dbvzIE2Kpbrv0D85hre/54hBtNgK52YLZMtz4DUy63PZ7XMZ9noWrsHgygUzHGEOW
-         jAlA==
-X-Gm-Message-State: AOJu0Yxupl0GFA15wFS1qN4BBoakgjI7Al7MDUgRKx4cwfxy6AN62whk
-	ctISv4ydCXLj1avn1uDjh6RAXVBio2rVG86awYM=
-X-Google-Smtp-Source: AGHT+IEDZxTP8EA5UdKKS6Vae+fmnJaRF9SBb9RgsfEGdz5fZObyG7C0joEJetvcV0BPBtBITg6AdA==
-X-Received: by 2002:a5d:6d8c:0:b0:332:c5f8:a082 with SMTP id l12-20020a5d6d8c000000b00332c5f8a082mr1469372wrs.13.1700649820030;
-        Wed, 22 Nov 2023 02:43:40 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id t16-20020adff610000000b0032da4c98ab2sm16796346wrp.35.2023.11.22.02.43.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 02:43:39 -0800 (PST)
-From: Dan Carpenter <dan.carpenter@linaro.org>
-X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Wed, 22 Nov 2023 05:43:37 -0500
-To: oe-kbuild@lists.linux.dev, Mehdi Djait <mehdi.djait@bootlin.com>,
-	mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-	laurent.pinchart@ideasonboard.com,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
-	alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
-	paul.kocialkowski@bootlin.com,
-	Mehdi Djait <mehdi.djait@bootlin.com>
-Subject: Re: [PATCH v9 3/3] media: i2c: Introduce a driver for the Techwell
- TW9900 decoder
-Message-ID: <f39cdd12-4be4-4a9b-9ec6-3704c84e12da@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f8nFMTvF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700667988; x=1732203988;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IDCaCm9ewtc8fFwVSS1AbOBsPMYvHV5Mrx+jiY5XMLU=;
+  b=f8nFMTvFJcW9s4Zpak/++WIoo1+XcrUp4W6Pm2Z1LstsEdfrmNXcnQTs
+   mZoFY2z8JgEicW19uqTZbdjKtlbhb5f4OOeZe2BlRs+jktszkDlM7Nx2r
+   XIjW8AHazlkPeH3RwvGYjJtzcRXhlC3gDGBZX+yY7kSxOjnVUFZGdWFGj
+   LJg0+bu3ebB45DYEXgg7XJkhxjebXHIfst9C3258DnEt4W4/WyVmQUN0s
+   hk3vM0a6md46/ZVif2wMi7KWsi4uzfVYzX9kid3kcfSL86bDmh1P6gqiF
+   xxZ7K6uqFagJ6U6K3a7uSxedlOMVOBue71ruOtE5Jj1D6R4yJLsuocZGh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="13623156"
+X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
+   d="scan'208";a="13623156"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 07:46:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
+   d="scan'208";a="8510499"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2023 07:46:23 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r5pQj-0000dN-1w;
+	Wed, 22 Nov 2023 15:46:21 +0000
+Date: Wed, 22 Nov 2023 23:45:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/memory/omap-gpmc.c:1073 gpmc_alloc_waitpin() warn: passing
+ zero to 'PTR_ERR'
+Message-ID: <202311222138.Ufxo6jiP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,74 +48,81 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dc65a89e7803782a75bf663158e031356ef7cb1a.1700235276.git.mehdi.djait@bootlin.com>
 
-Hi Mehdi,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Benedikt Niedermayr <benedikt.niedermayr@siemens.com>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Roger Quadros <rogerq@kernel.org>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mehdi-Djait/dt-bindings-vendor-prefixes-Add-techwell-vendor-prefix/20231117-234411
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/dc65a89e7803782a75bf663158e031356ef7cb1a.1700235276.git.mehdi.djait%40bootlin.com
-patch subject: [PATCH v9 3/3] media: i2c: Introduce a driver for the Techwell TW9900 decoder
-config: powerpc-randconfig-r071-20231122 (https://download.01.org/0day-ci/archive/20231122/202311221134.0i9KavRs-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231122/202311221134.0i9KavRs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c2d5304e6c648ebcf653bace7e51e0e6742e46c8
+commit: 89aed3cd5cb951113b766cddd9c2df43cfbdafd5 memory: omap-gpmc: wait pin additions
+date:   1 year, 1 month ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: mips-randconfig-r081-20231121 (https://download.01.org/0day-ci/archive/20231122/202311222138.Ufxo6jiP-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231122/202311222138.Ufxo6jiP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311221134.0i9KavRs-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311222138.Ufxo6jiP-lkp@intel.com/
 
-New smatch warnings:
-drivers/media/i2c/tw9900.c:628 tw9900_runtime_resume() warn: inconsistent returns '&tw9900->mutex'.
+smatch warnings:
+drivers/memory/omap-gpmc.c:1073 gpmc_alloc_waitpin() warn: passing zero to 'PTR_ERR'
 
-Old smatch warnings:
-drivers/media/i2c/tw9900.c:348 tw9900_s_std() error: uninitialized symbol 'mode'.
+vim +/PTR_ERR +1073 drivers/memory/omap-gpmc.c
 
-vim +628 drivers/media/i2c/tw9900.c
-
-cf24af11e0a74c Mehdi Djait 2023-11-17  597  static int tw9900_runtime_resume(struct device *dev)
-cf24af11e0a74c Mehdi Djait 2023-11-17  598  {
-cf24af11e0a74c Mehdi Djait 2023-11-17  599  	struct i2c_client *client = to_i2c_client(dev);
-cf24af11e0a74c Mehdi Djait 2023-11-17  600  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-cf24af11e0a74c Mehdi Djait 2023-11-17  601  	struct tw9900 *tw9900 = to_tw9900(sd);
-cf24af11e0a74c Mehdi Djait 2023-11-17  602  	int ret;
-cf24af11e0a74c Mehdi Djait 2023-11-17  603  
-cf24af11e0a74c Mehdi Djait 2023-11-17  604  	mutex_lock(&tw9900->mutex);
-cf24af11e0a74c Mehdi Djait 2023-11-17  605  
-cf24af11e0a74c Mehdi Djait 2023-11-17  606  	if (tw9900->reset_gpio)
-cf24af11e0a74c Mehdi Djait 2023-11-17  607  		gpiod_set_value_cansleep(tw9900->reset_gpio, 1);
-cf24af11e0a74c Mehdi Djait 2023-11-17  608  
-cf24af11e0a74c Mehdi Djait 2023-11-17  609  	ret = regulator_enable(tw9900->regulator);
-cf24af11e0a74c Mehdi Djait 2023-11-17  610  	if (ret < 0)
-cf24af11e0a74c Mehdi Djait 2023-11-17  611  		return ret;
-
-mutex_unlock(&tw9900->mutex) before returning.
-
-cf24af11e0a74c Mehdi Djait 2023-11-17  612  
-cf24af11e0a74c Mehdi Djait 2023-11-17  613  	usleep_range(50000, 52000);
-cf24af11e0a74c Mehdi Djait 2023-11-17  614  
-cf24af11e0a74c Mehdi Djait 2023-11-17  615  	if (tw9900->reset_gpio)
-cf24af11e0a74c Mehdi Djait 2023-11-17  616  		gpiod_set_value_cansleep(tw9900->reset_gpio, 0);
-cf24af11e0a74c Mehdi Djait 2023-11-17  617  
-cf24af11e0a74c Mehdi Djait 2023-11-17  618  	usleep_range(1000, 2000);
-cf24af11e0a74c Mehdi Djait 2023-11-17  619  
-cf24af11e0a74c Mehdi Djait 2023-11-17  620  	ret = tw9900_write_array(tw9900->client, tw9900_init_regs,
-cf24af11e0a74c Mehdi Djait 2023-11-17  621  				 ARRAY_SIZE(tw9900_init_regs));
-cf24af11e0a74c Mehdi Djait 2023-11-17  622  
-cf24af11e0a74c Mehdi Djait 2023-11-17  623  	mutex_unlock(&tw9900->mutex);
-cf24af11e0a74c Mehdi Djait 2023-11-17  624  
-cf24af11e0a74c Mehdi Djait 2023-11-17  625  	/* This sleep is needed for the Horizontal Sync PLL to lock. */
-cf24af11e0a74c Mehdi Djait 2023-11-17  626  	msleep(300);
-cf24af11e0a74c Mehdi Djait 2023-11-17  627  
-cf24af11e0a74c Mehdi Djait 2023-11-17 @628  	return ret;
-cf24af11e0a74c Mehdi Djait 2023-11-17  629  }
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1050  
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1051  static int gpmc_alloc_waitpin(struct gpmc_device *gpmc,
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1052  			      struct gpmc_settings *p)
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1053  {
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1054  	int ret;
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1055  	struct gpmc_waitpin *waitpin;
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1056  	struct gpio_desc *waitpin_desc;
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1057  
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1058  	if (!gpmc_is_valid_waitpin(p->wait_pin))
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1059  		return -EINVAL;
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1060  
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1061  	waitpin = &gpmc->waitpins[p->wait_pin];
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1062  
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1063  	if (!waitpin->desc) {
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1064  		/* Reserve the GPIO for wait pin usage.
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1065  		 * GPIO polarity doesn't matter here. Wait pin polarity
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1066  		 * is set in GPMC_CONFIG register.
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1067  		 */
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1068  		waitpin_desc = gpiochip_request_own_desc(&gpmc->gpio_chip,
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1069  							 p->wait_pin, "WAITPIN",
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1070  							 GPIO_ACTIVE_HIGH,
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1071  							 GPIOD_IN);
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1072  
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02 @1073  		ret = PTR_ERR(waitpin_desc);
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1074  		if (IS_ERR(waitpin_desc) && ret != -EBUSY)
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1075  			return ret;
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1076  
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1077  		/* New wait pin */
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1078  		waitpin->desc = waitpin_desc;
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1079  		waitpin->pin = p->wait_pin;
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1080  		waitpin->polarity = p->wait_pin_polarity;
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1081  	} else {
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1082  		/* Shared wait pin */
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1083  		if (p->wait_pin_polarity != waitpin->polarity ||
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1084  		    p->wait_pin != waitpin->pin) {
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1085  			dev_err(gpmc->dev,
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1086  				"shared-wait-pin: invalid configuration\n");
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1087  			return -EINVAL;
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1088  		}
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1089  		dev_info(gpmc->dev, "shared wait-pin: %d\n", waitpin->pin);
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1090  	}
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1091  
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1092  	return 0;
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1093  }
+89aed3cd5cb951 Benedikt Niedermayr 2022-11-02  1094  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
