@@ -1,117 +1,103 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C195620B2D;
-	Wed, 22 Nov 2023 08:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 3AM8dGP612151468, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 3AM8dGP612151468
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 22 Nov 2023 16:39:16 +0800
-Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.32; Wed, 22 Nov 2023 16:39:16 +0800
-Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
- RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 22 Nov 2023 16:39:16 +0800
-Received: from RTEXMBS03.realtek.com.tw ([fe80::5510:ad08:5390:1ed3]) by
- RTEXMBS03.realtek.com.tw ([fe80::5510:ad08:5390:1ed3%2]) with mapi id
- 15.01.2375.007; Wed, 22 Nov 2023 16:39:16 +0800
-From: =?big5?B?SmFtZXMgVGFpIFvAuafTrnBd?= <james.tai@realtek.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>,
-        "oe-kbuild@lists.linux.dev"
-	<oe-kbuild@lists.linux.dev>,
-        Thomas Gleixner <tglx@linutronix.de>, "Marc
- Zyngier" <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof
- Kozlowski" <krzk@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>
-CC: "lkp@intel.com" <lkp@intel.com>,
-        "oe-kbuild-all@lists.linux.dev"
-	<oe-kbuild-all@lists.linux.dev>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>
-Subject: RE: [PATCH v2 3/6] irqchip: Introduce RTD1319 support using the Realtek common interrupt controller driver
-Thread-Topic: [PATCH v2 3/6] irqchip: Introduce RTD1319 support using the
- Realtek common interrupt controller driver
-Thread-Index: AQHaGXMRAc9+C1rDtE6lI5Jgwdoqg7CC4VmAgAMpvDA=
-Date: Wed, 22 Nov 2023 08:39:16 +0000
-Message-ID: <e27e80181691451eba58ece50ea4de5e@realtek.com>
-References: <20231117162709.1096585-4-james.tai@realtek.com>
- <a045008a-5a97-4903-b5e4-a761f7e4c20a@suswa.mountain>
-In-Reply-To: <a045008a-5a97-4903-b5e4-a761f7e4c20a@suswa.mountain>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5A11CF82
+	for <oe-kbuild@lists.linux.dev>; Wed, 22 Nov 2023 09:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pXGUpf/O"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2c871d566cfso54075331fa.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 22 Nov 2023 01:13:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700644422; x=1701249222; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=czz0nsZXAuzO0t2l90LkLuXKQKsXZcy5T0aEg09grO8=;
+        b=pXGUpf/OvxTJAmz2zUDj7e0YDWfSgebtuhD/9Rk9+VX5hDpqq/qO+sTt+WnqFO5iKm
+         4eCliX07u+1QAhvilO0KlcCQgBvENtHwFgYxY+aY94UakdiCocweDKVdOeJTeemwdm+/
+         ts8oq+jmdo5eLROSnhLH8gKRh7R/dO5P5zeW2jJShLKQftWM+aDL1ozHKYGcLfrUgh7h
+         mUzc4dIm1vsWbAeS2/NHc4yOyfP5lBIINhcL5jwLc7KM0pAOXL+vLGK10LFYyIKq1ZY1
+         96pPDQ9I6fuasc0mHgKRDcnx+t6SZ1ChnmGTlkzU0IURjzS9ZyTlx4ZyWOPxTDgTedkt
+         4gSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700644422; x=1701249222;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=czz0nsZXAuzO0t2l90LkLuXKQKsXZcy5T0aEg09grO8=;
+        b=oF2D0SRoKl57+aCuv6rHP4LcPXSF78YOAiwSVIvMc7iOe345BC8LMCWqxhxfXHkLH5
+         DKngLWkU0FGBeDLKZP9uu5J91B8VXtJNgn2KjFcFFYTI21zXk/Lw9HH8IdXM7bAn2Gz9
+         E6GbN0j7exXWs8qC9RPm7dKv2q65B5FcX+pdalWMmTfqGYHEpur3XoYpE5ruVdkR7WLB
+         elvPqHsZoITQ4rqplZB+jta37L+guPt65VZe0ksk3Sr6DgOTD66/VvgpZXGItwQEspch
+         WFz2sk4zzBiKCZpgnhzmOr7m3djLl2FVduvykEwqeRnz03YCKjIPZyRPr5tykMyvZ3yr
+         7lgQ==
+X-Gm-Message-State: AOJu0YxkXBjiuuX/VLlgRKOiKvn18nd738ptoRJPU9BMpuatoVcUbv0v
+	XiNUPA0WxPRPKMppCXWC2ofaYg==
+X-Google-Smtp-Source: AGHT+IGtrjMlWRjUgICA9jh1noy1De6jMjESZr78bJoGyz59ZE78MZYTI3HId5TPi+4kH9qPm0K+UA==
+X-Received: by 2002:a05:651c:a0e:b0:2c8:71b4:f8b5 with SMTP id k14-20020a05651c0a0e00b002c871b4f8b5mr1394219ljq.48.1700644422503;
+        Wed, 22 Nov 2023 01:13:42 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id s3-20020a05600c384300b004077219aed5sm1551237wmr.6.2023.11.22.01.13.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Nov 2023 01:13:42 -0800 (PST)
+Date: Wed, 22 Nov 2023 04:13:36 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: SeongJae Park <sj@kernel.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	damon@lists.linux.dev
+Subject: Re: [sj:damon/next 32/42] mm/damon/core.c:1150
+ damos_set_effective_quota() error: uninitialized symbol 'esz'.
+Message-ID: <aa9343f1-b0f9-4452-82e9-d63192ecbcd7@suswa.mountain>
+References: <473b4c2e-863d-42ec-860a-bf8ec4385240@suswa.mountain>
+ <20231121173602.62313-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231121173602.62313-1-sj@kernel.org>
 
-SGkgRGFuLA0KDQo+c21hdGNoIHdhcm5pbmdzOg0KPmRyaXZlcnMvaXJxY2hpcC9pcnEtcmVhbHRl
-ay1pbnRjLWNvbW1vbi5jOjE3OSByZWFsdGVrX2ludGNfcHJvYmUoKSB3YXJuOg0KPmlnbm9yaW5n
-IHVucmVhY2hhYmxlIGNvZGUuDQo+ZHJpdmVycy9pcnFjaGlwL2lycS1yZWFsdGVrLWludGMtY29t
-bW9uLmM6MTg3IHJlYWx0ZWtfaW50Y19wcm9iZSgpIHdhcm46DQo+J2RhdGEtPmJhc2UnIGZyb20g
-b2ZfaW9tYXAoKSBub3QgcmVsZWFzZWQgb24gbGluZXM6IDE3NiwxODIuDQo+DQo+dmltICsxNzkg
-ZHJpdmVycy9pcnFjaGlwL2lycS1yZWFsdGVrLWludGMtY29tbW9uLmMNCj4NCj40MGU1ZmY0ZWFl
-ZjcyYiBKYW1lcyBUYWkgMjAyMy0xMS0xOCAgMTU1ICBpbnQgcmVhbHRla19pbnRjX3Byb2JlKHN0
-cnVjdA0KPnBsYXRmb3JtX2RldmljZSAqcGRldiwgY29uc3Qgc3RydWN0IHJlYWx0ZWtfaW50Y19p
-bmZvICppbmZvKSA0MGU1ZmY0ZWFlZjcyYg0KPkphbWVzIFRhaSAyMDIzLTExLTE4ICAxNTYgIHsN
-Cj40MGU1ZmY0ZWFlZjcyYiBKYW1lcyBUYWkgMjAyMy0xMS0xOCAgMTU3ICAgICAgICBzdHJ1Y3Qg
-cmVhbHRla19pbnRjX2RhdGENCj4qZGF0YTsNCj40MGU1ZmY0ZWFlZjcyYiBKYW1lcyBUYWkgMjAy
-My0xMS0xOCAgMTU4ICAgICAgICBzdHJ1Y3QgZGV2aWNlICpkZXYgPQ0KPiZwZGV2LT5kZXY7DQo+
-NDBlNWZmNGVhZWY3MmIgSmFtZXMgVGFpIDIwMjMtMTEtMTggIDE1OSAgICAgICAgc3RydWN0IGRl
-dmljZV9ub2RlICpub2RlDQo+PSBkZXYtPm9mX25vZGU7DQo+NDBlNWZmNGVhZWY3MmIgSmFtZXMg
-VGFpIDIwMjMtMTEtMTggIDE2MCAgICAgICAgaW50IHJldCwgaTsNCj40MGU1ZmY0ZWFlZjcyYiBK
-YW1lcyBUYWkgMjAyMy0xMS0xOCAgMTYxDQo+NDBlNWZmNGVhZWY3MmIgSmFtZXMgVGFpIDIwMjMt
-MTEtMTggIDE2MiAgICAgICAgZGF0YSA9IGRldm1fa3phbGxvYyhkZXYsDQo+c3RydWN0X3NpemUo
-ZGF0YSwgc3Vic2V0X2RhdGEsIGluZm8tPmNmZ19udW0pLCBHRlBfS0VSTkVMKTsNCj40MGU1ZmY0
-ZWFlZjcyYiBKYW1lcyBUYWkgMjAyMy0xMS0xOCAgMTYzICAgICAgICBpZiAoIWRhdGEpDQo+NDBl
-NWZmNGVhZWY3MmIgSmFtZXMgVGFpIDIwMjMtMTEtMTggIDE2NCAgICAgICAgICAgICAgICByZXR1
-cm4NCj4tRU5PTUVNOw0KPjQwZTVmZjRlYWVmNzJiIEphbWVzIFRhaSAyMDIzLTExLTE4ICAxNjUN
-Cj40MGU1ZmY0ZWFlZjcyYiBKYW1lcyBUYWkgMjAyMy0xMS0xOCAgMTY2ICAgICAgICBkYXRhLT5i
-YXNlID0NCj5vZl9pb21hcChub2RlLCAwKTsNCj40MGU1ZmY0ZWFlZjcyYiBKYW1lcyBUYWkgMjAy
-My0xMS0xOCAgMTY3ICAgICAgICBpZiAoIWRhdGEtPmJhc2UpDQo+NDBlNWZmNGVhZWY3MmIgSmFt
-ZXMgVGFpIDIwMjMtMTEtMTggIDE2OCAgICAgICAgICAgICAgICByZXR1cm4NCj4tRU5PTUVNOw0K
-PjQwZTVmZjRlYWVmNzJiIEphbWVzIFRhaSAyMDIzLTExLTE4ICAxNjkNCj40MGU1ZmY0ZWFlZjcy
-YiBKYW1lcyBUYWkgMjAyMy0xMS0xOCAgMTcwICAgICAgICBkYXRhLT5pbmZvID0gaW5mbzsNCj40
-MGU1ZmY0ZWFlZjcyYiBKYW1lcyBUYWkgMjAyMy0xMS0xOCAgMTcxDQo+NDBlNWZmNGVhZWY3MmIg
-SmFtZXMgVGFpIDIwMjMtMTEtMTggIDE3Mg0KPnJhd19zcGluX2xvY2tfaW5pdCgmZGF0YS0+bG9j
-ayk7DQo+NDBlNWZmNGVhZWY3MmIgSmFtZXMgVGFpIDIwMjMtMTEtMTggIDE3Mw0KPjQwZTVmZjRl
-YWVmNzJiIEphbWVzIFRhaSAyMDIzLTExLTE4ICAxNzQgICAgICAgIGRhdGEtPmRvbWFpbiA9DQo+
-aXJxX2RvbWFpbl9hZGRfbGluZWFyKG5vZGUsIDMyLCAmcmVhbHRla19pbnRjX2RvbWFpbl9vcHMs
-IGRhdGEpOw0KPjQwZTVmZjRlYWVmNzJiIEphbWVzIFRhaSAyMDIzLTExLTE4ICAxNzUgICAgICAg
-IGlmICghZGF0YS0+ZG9tYWluKQ0KPjQwZTVmZjRlYWVmNzJiIEphbWVzIFRhaSAyMDIzLTExLTE4
-ICAxNzYgICAgICAgICAgICAgICAgcmV0dXJuDQo+LUVOT01FTTsNCj40MGU1ZmY0ZWFlZjcyYiBK
-YW1lcyBUYWkgMjAyMy0xMS0xOCAgMTc3DQo+NDBlNWZmNGVhZWY3MmIgSmFtZXMgVGFpIDIwMjMt
-MTEtMTggIDE3OCAgICAgICAgZGF0YS0+c3Vic2V0X2RhdGFfbnVtDQo+PSBpbmZvLT5jZmdfbnVt
-Ow0KPjQwZTVmZjRlYWVmNzJiIEphbWVzIFRhaSAyMDIzLTExLTE4IEAxNzkgICAgICAgIGZvciAo
-aSA9IDA7IGkgPA0KPmluZm8tPmNmZ19udW07IGkrKykgew0KPjQwZTVmZjRlYWVmNzJiIEphbWVz
-IFRhaSAyMDIzLTExLTE4ICAxODAgICAgICAgICAgICAgICAgcmV0ID0NCj5yZWFsdGVrX2ludGNf
-c3Vic2V0KG5vZGUsIGRhdGEsIGkpOw0KPjQwZTVmZjRlYWVmNzJiIEphbWVzIFRhaSAyMDIzLTEx
-LTE4ICAxODEgICAgICAgICAgICAgICAgV0FSTihyZXQsDQo+ImZhaWxlZCB0byBpbml0IHN1YnNl
-dCAlZDogJWQiLCBpLCByZXQpOw0KPjQwZTVmZjRlYWVmNzJiIEphbWVzIFRhaSAyMDIzLTExLTE4
-ICAxODIgICAgICAgICAgICAgICAgcmV0dXJuDQo+LUVOT01FTTsNCj4NCj5UaGlzIGxvb3AganVz
-dCByZXR1cm5zIC1FTk9NRU0uICBNaXNzaW5nIGlmIHN0YXRlbWVudD8NCj5ObyBjbGVhbiB1cCBl
-aXRoZXIuICBOZWVkcyB0byByZWxlYXNlIHJlc291cmNlcyBiZWZvcmUgcmV0dXJuaW5nLg0KDQpJ
-IHdpbGwgZml4IGl0IGluIG5leHQgcGF0Y2hlcy4NCg0KVGhhbmsgeW91IGZvciB5b3VyIGZlZWRi
-YWNrLg0KDQpSZWdhcmRzLA0KSmFtZXMNCg0KDQo=
+On Tue, Nov 21, 2023 at 05:36:02PM +0000, SeongJae Park wrote:
+> Hi Dan,
+> 
+> On Tue, 21 Nov 2023 02:37:12 -0500 Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> > head:   54ffd8ae08121d8cbce1874fe46970cce643a2c7
+> > commit: 28cef0e565adbb4175f12ffffce9d0680979de60 [32/42] mm/damon/core: implement goal-oriented feedback-driven quota auto-tuning
+> > config: x86_64-randconfig-161-20231121 (https://download.01.org/0day-ci/archive/20231121/202311210420.URG3QSAS-lkp@intel.com/config)
+> > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> > reproduce: (https://download.01.org/0day-ci/archive/20231121/202311210420.URG3QSAS-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > | Closes: https://lore.kernel.org/r/202311210420.URG3QSAS-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > mm/damon/core.c:1150 damos_set_effective_quota() error: uninitialized symbol 'esz'.
+> 
+> Thank you for this nice report!
+> 
+> However, damos_set_effective_quota() is called from damos_adjust_quota(), which
+> ensures at least one among quota->{ms,sz,get_score} is nonzero.  And
+> damos_set_effective_quota() ensures quota->{ms,get_score} is non-zero at the
+> beginning of the function.  Then the function sets esz anyway, for non-zero
+> quota->ms and quota->get_score.
+
+The problem is in the "non-zero quota->ms" situation.  It uses an
+uninitialized value of esz to initialize esz.
+
+28cef0e565adbb SeongJae Park 2023-10-27 @1150           esz = min(throughput * quota->ms, esz);
+                                                        ^^^                               ^^^
+This is the uninitialized variable.
+
+regards,
+dan carpenter
+
+
