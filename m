@@ -1,45 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E037493
-	for <oe-kbuild@lists.linux.dev>; Thu, 23 Nov 2023 03:12:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CCCA612D
+	for <oe-kbuild@lists.linux.dev>; Thu, 23 Nov 2023 03:12:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mX313gyI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WQzPQ++7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1700709136; x=1732245136;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X3PqZLs932+9FZZ3W2P4HuD3YVPRquq+eaYu1btSqww=;
-  b=mX313gyIYwnlt3s+j7+j80QWYwwonaUVqnLdmDGX8mSuL/YV91VfVn5M
-   8zn9DRtU6yMLH0ydpGFS0OpQk5aBBFywwl5tojJ73TqfcMwVXL21de6hl
-   6mwnTw/Lqp61lEzIzmsyn0Yf5gcIflH9yZ5QDnbv+ZxlOYscAWI4f3Xdl
-   bHixUgRnlZq6PpoN+camuHt26Br10/WWpP2RkFypeUFAi5CubNF2gyvjC
-   dBmjXmR8CJqH16CWpqeS/vlJSREUmEwz00N7qx41MPVQLdX+q/Br0zr5j
-   37TuQMA7EL0HQhwlIjGrI2NCMUV8yqdFs2v2QUlyGHCngHSpi7HnA/48B
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="13744885"
+  bh=5gDtHWLc/4BuYl1ocqK6mIR0tZAuzJc/cINPJNHw4O8=;
+  b=WQzPQ++7g3BKuKn7AEVvxjonx2l443OHSECP4D1Tf0gw7Sx+yxDdDe0c
+   0pTF2pJTkkajlTZuCybFSV+lRl5B4+IQDBB3oIPDLe8Evnug2tv6fkFaO
+   xbyf75bF5kPrfgMdyQVe9bp6BLuN+u4fhcjsoe+OvWEj70pRmkfKXRaY9
+   lM/A+3Y+lxWjPwhLCRlWQOC9unM95VlTnitaqdcHcea6VpT4CSb4WdNr1
+   /gsU2RQ2McuqaFMXKVKQjefkafNgRKKA2CG3gh8aFeXMAsL6RiP5mtbyg
+   D8ZxL2KzLgDHjbziQHs1TCcICEtZtxKdbYUTyM1tPdc5mJ7+E/qcgB7XX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="13744886"
 X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; 
-   d="scan'208";a="13744885"
+   d="scan'208";a="13744886"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 19:12:13 -0800
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 19:12:14 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; 
-   d="scan'208";a="8712759"
+   d="scan'208";a="8712761"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2023 19:12:12 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r608Q-0001A3-0L;
+	id 1r608Q-0001AI-1Y;
 	Thu, 23 Nov 2023 03:12:10 +0000
-Date: Thu, 23 Nov 2023 11:11:19 +0800
+Date: Thu, 23 Nov 2023 11:11:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:507
- vchiq_ioc_await_completion() warn: inconsistent indenting
-Message-ID: <202311230705.w4DPJjm0-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/net/ethernet/3com/3c589_cs.c:581:2: warning: performing
+ pointer arithmetic on a null pointer has undefined behavior
+Message-ID: <202311230749.rddGc0Js-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,184 +49,313 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/net/ethernet/3com/3c589_cs.c:581:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Umang Jain <umang.jain@ideasonboard.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: "Maciej W. Rozycki" <macro@orcam.me.uk>
+CC: Palmer Dabbelt <palmer@rivosinc.com>
+CC: Arnd Bergmann <arnd@arndb.de>
+
+Hi Maciej,
+
+FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9b6de136b5f0158c60844f85286a593cb70fb364
-commit: 1d8915cf889932e085880f4bdbf7ae0f3d8605e5 staging: vc04: Convert vchiq_log_error() to use dynamic debug
-date:   4 weeks ago
+commit: 9cc205e3c17d5716da7ebb7fa0c985555e95d009 RISC-V: Make port I/O string accessors actually work
+date:   1 year, 1 month ago
 :::::: branch date: 5 hours ago
-:::::: commit date: 4 weeks ago
-config: mips-randconfig-r081-20231121 (https://download.01.org/0day-ci/archive/20231123/202311230705.w4DPJjm0-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231123/202311230705.w4DPJjm0-lkp@intel.com/reproduce)
+:::::: commit date: 1 year, 1 month ago
+config: riscv-randconfig-r133-20231123 (https://download.01.org/0day-ci/archive/20231123/202311230749.rddGc0Js-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20231123/202311230749.rddGc0Js-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311230705.w4DPJjm0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311230749.rddGc0Js-lkp@intel.com/
 
-smatch warnings:
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:507 vchiq_ioc_await_completion() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +507 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     743 |         insb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c589_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     751 |         insw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c589_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     759 |         insl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c589_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     768 |         outsb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c589_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     777 |         outsw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c589_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     786 |         outsl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c589_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1134 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/net/ethernet/3com/3c589_cs.c:581:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     581 |         outsl(ioaddr + TX_FIFO, skb->data, (skb->len + 3) >> 2);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   drivers/net/ethernet/3com/3c589_cs.c:861:5: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     861 |                                 insl(ioaddr+RX_FIFO, skb_put(skb, pkt_len),
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     862 |                         (pkt_len+3)>>2);
+         |                         ~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   15 warnings generated.
+--
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     743 |         insb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c574_cs.c:79:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     751 |         insw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c574_cs.c:79:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     759 |         insl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c574_cs.c:79:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     768 |         outsb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c574_cs.c:79:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     777 |         outsw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c574_cs.c:79:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     786 |         outsl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c574_cs.c:79:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1134 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/net/ethernet/3com/3c574_cs.c:748:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     748 |         outsl(ioaddr + TX_FIFO, skb->data, (skb->len+3)>>2);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   drivers/net/ethernet/3com/3c574_cs.c:1015:5: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1015 |                                 insl(ioaddr+RX_FIFO, skb_put(skb, pkt_len),
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1016 |                                                 ((pkt_len+3)>>2));
+         |                                                 ~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   15 warnings generated.
 
-f05916281fd75db Ojaswin Mujoo   2021-07-21  431  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  432  static int vchiq_ioc_await_completion(struct vchiq_instance *instance,
-f05916281fd75db Ojaswin Mujoo   2021-07-21  433  				      struct vchiq_await_completion *args,
-f05916281fd75db Ojaswin Mujoo   2021-07-21  434  				      int __user *msgbufcountp)
-f05916281fd75db Ojaswin Mujoo   2021-07-21  435  {
-f05916281fd75db Ojaswin Mujoo   2021-07-21  436  	int msgbufcount;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  437  	int remove;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  438  	int ret;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  439  
-8dd56723240e431 Gaston Gonzalez 2021-10-24  440  	DEBUG_INITIALISE(g_state.local);
-f05916281fd75db Ojaswin Mujoo   2021-07-21  441  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  442  	DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-cfb24b67bfd6b7c Gaston Gonzalez 2021-09-12  443  	if (!instance->connected)
-f05916281fd75db Ojaswin Mujoo   2021-07-21  444  		return -ENOTCONN;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  445  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  446  	mutex_lock(&instance->completion_mutex);
-f05916281fd75db Ojaswin Mujoo   2021-07-21  447  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  448  	DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-8757f705d936ad9 Gaston Gonzalez 2021-09-12  449  	while ((instance->completion_remove == instance->completion_insert) && !instance->closing) {
-f05916281fd75db Ojaswin Mujoo   2021-07-21  450  		int rc;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  451  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  452  		DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-f05916281fd75db Ojaswin Mujoo   2021-07-21  453  		mutex_unlock(&instance->completion_mutex);
-8757f705d936ad9 Gaston Gonzalez 2021-09-12  454  		rc = wait_for_completion_interruptible(&instance->insert_event);
-f05916281fd75db Ojaswin Mujoo   2021-07-21  455  		mutex_lock(&instance->completion_mutex);
-f05916281fd75db Ojaswin Mujoo   2021-07-21  456  		if (rc) {
-f05916281fd75db Ojaswin Mujoo   2021-07-21  457  			DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-f05916281fd75db Ojaswin Mujoo   2021-07-21  458  			vchiq_log_info(vchiq_arm_log_level,
-f05916281fd75db Ojaswin Mujoo   2021-07-21  459  				       "AWAIT_COMPLETION interrupted");
-f05916281fd75db Ojaswin Mujoo   2021-07-21  460  			ret = -EINTR;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  461  			goto out;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  462  		}
-f05916281fd75db Ojaswin Mujoo   2021-07-21  463  	}
-f05916281fd75db Ojaswin Mujoo   2021-07-21  464  	DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-f05916281fd75db Ojaswin Mujoo   2021-07-21  465  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  466  	msgbufcount = args->msgbufcount;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  467  	remove = instance->completion_remove;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  468  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  469  	for (ret = 0; ret < args->count; ret++) {
-f05916281fd75db Ojaswin Mujoo   2021-07-21  470  		struct vchiq_completion_data_kernel *completion;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  471  		struct vchiq_completion_data user_completion;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  472  		struct vchiq_service *service;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  473  		struct user_service *user_service;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  474  		struct vchiq_header *header;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  475  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  476  		if (remove == instance->completion_insert)
-f05916281fd75db Ojaswin Mujoo   2021-07-21  477  			break;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  478  
-8757f705d936ad9 Gaston Gonzalez 2021-09-12  479  		completion = &instance->completions[remove & (MAX_COMPLETIONS - 1)];
-f05916281fd75db Ojaswin Mujoo   2021-07-21  480  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  481  		/*
-f05916281fd75db Ojaswin Mujoo   2021-07-21  482  		 * A read memory barrier is needed to stop
-f05916281fd75db Ojaswin Mujoo   2021-07-21  483  		 * prefetch of a stale completion record
-f05916281fd75db Ojaswin Mujoo   2021-07-21  484  		 */
-f05916281fd75db Ojaswin Mujoo   2021-07-21  485  		rmb();
-f05916281fd75db Ojaswin Mujoo   2021-07-21  486  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  487  		service = completion->service_userdata;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  488  		user_service = service->base.userdata;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  489  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  490  		memset(&user_completion, 0, sizeof(user_completion));
-f05916281fd75db Ojaswin Mujoo   2021-07-21  491  		user_completion = (struct vchiq_completion_data) {
-f05916281fd75db Ojaswin Mujoo   2021-07-21  492  			.reason = completion->reason,
-f05916281fd75db Ojaswin Mujoo   2021-07-21  493  			.service_userdata = user_service->userdata,
-f05916281fd75db Ojaswin Mujoo   2021-07-21  494  		};
-f05916281fd75db Ojaswin Mujoo   2021-07-21  495  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  496  		header = completion->header;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  497  		if (header) {
-f05916281fd75db Ojaswin Mujoo   2021-07-21  498  			void __user *msgbuf;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  499  			int msglen;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  500  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  501  			msglen = header->size + sizeof(struct vchiq_header);
-f05916281fd75db Ojaswin Mujoo   2021-07-21  502  			/* This must be a VCHIQ-style service */
-f05916281fd75db Ojaswin Mujoo   2021-07-21  503  			if (args->msgbufsize < msglen) {
-1d8915cf889932e Umang Jain      2023-10-24  504  				vchiq_log_error(service->state->dev, VCHIQ_ARM,
-f05916281fd75db Ojaswin Mujoo   2021-07-21  505  						"header %pK: msgbufsize %x < msglen %x",
-f05916281fd75db Ojaswin Mujoo   2021-07-21  506  						header, args->msgbufsize, msglen);
-f05916281fd75db Ojaswin Mujoo   2021-07-21 @507  						WARN(1, "invalid message size\n");
-f05916281fd75db Ojaswin Mujoo   2021-07-21  508  				if (ret == 0)
-f05916281fd75db Ojaswin Mujoo   2021-07-21  509  					ret = -EMSGSIZE;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  510  				break;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  511  			}
-f05916281fd75db Ojaswin Mujoo   2021-07-21  512  			if (msgbufcount <= 0)
-f05916281fd75db Ojaswin Mujoo   2021-07-21  513  				/* Stall here for lack of a buffer for the message. */
-f05916281fd75db Ojaswin Mujoo   2021-07-21  514  				break;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  515  			/* Get the pointer from user space */
-f05916281fd75db Ojaswin Mujoo   2021-07-21  516  			msgbufcount--;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  517  			if (vchiq_get_user_ptr(&msgbuf, args->msgbufs,
-f05916281fd75db Ojaswin Mujoo   2021-07-21  518  					       msgbufcount)) {
-f05916281fd75db Ojaswin Mujoo   2021-07-21  519  				if (ret == 0)
-f05916281fd75db Ojaswin Mujoo   2021-07-21  520  					ret = -EFAULT;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  521  				break;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  522  			}
-f05916281fd75db Ojaswin Mujoo   2021-07-21  523  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  524  			/* Copy the message to user space */
-f05916281fd75db Ojaswin Mujoo   2021-07-21  525  			if (copy_to_user(msgbuf, header, msglen)) {
-f05916281fd75db Ojaswin Mujoo   2021-07-21  526  				if (ret == 0)
-f05916281fd75db Ojaswin Mujoo   2021-07-21  527  					ret = -EFAULT;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  528  				break;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  529  			}
-f05916281fd75db Ojaswin Mujoo   2021-07-21  530  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  531  			/* Now it has been copied, the message can be released. */
-14780bb174266e1 Adrien Thierry  2022-05-18  532  			vchiq_release_message(instance, service->handle, header);
-f05916281fd75db Ojaswin Mujoo   2021-07-21  533  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  534  			/* The completion must point to the msgbuf. */
-f05916281fd75db Ojaswin Mujoo   2021-07-21  535  			user_completion.header = msgbuf;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  536  		}
-f05916281fd75db Ojaswin Mujoo   2021-07-21  537  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  538  		if ((completion->reason == VCHIQ_SERVICE_CLOSED) &&
-f05916281fd75db Ojaswin Mujoo   2021-07-21  539  		    !instance->use_close_delivered)
-f05916281fd75db Ojaswin Mujoo   2021-07-21  540  			vchiq_service_put(service);
-f05916281fd75db Ojaswin Mujoo   2021-07-21  541  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  542  		/*
-f05916281fd75db Ojaswin Mujoo   2021-07-21  543  		 * FIXME: address space mismatch, does bulk_userdata
-f05916281fd75db Ojaswin Mujoo   2021-07-21  544  		 * actually point to user or kernel memory?
-f05916281fd75db Ojaswin Mujoo   2021-07-21  545  		 */
-f05916281fd75db Ojaswin Mujoo   2021-07-21  546  		user_completion.bulk_userdata = completion->bulk_userdata;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  547  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  548  		if (vchiq_put_completion(args->buf, &user_completion, ret)) {
-f05916281fd75db Ojaswin Mujoo   2021-07-21  549  			if (ret == 0)
-f05916281fd75db Ojaswin Mujoo   2021-07-21  550  				ret = -EFAULT;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  551  			break;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  552  		}
-f05916281fd75db Ojaswin Mujoo   2021-07-21  553  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  554  		/*
-f05916281fd75db Ojaswin Mujoo   2021-07-21  555  		 * Ensure that the above copy has completed
-f05916281fd75db Ojaswin Mujoo   2021-07-21  556  		 * before advancing the remove pointer.
-f05916281fd75db Ojaswin Mujoo   2021-07-21  557  		 */
-f05916281fd75db Ojaswin Mujoo   2021-07-21  558  		mb();
-f05916281fd75db Ojaswin Mujoo   2021-07-21  559  		remove++;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  560  		instance->completion_remove = remove;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  561  	}
-f05916281fd75db Ojaswin Mujoo   2021-07-21  562  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  563  	if (msgbufcount != args->msgbufcount) {
-f05916281fd75db Ojaswin Mujoo   2021-07-21  564  		if (put_user(msgbufcount, msgbufcountp))
-f05916281fd75db Ojaswin Mujoo   2021-07-21  565  			ret = -EFAULT;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  566  	}
-f05916281fd75db Ojaswin Mujoo   2021-07-21  567  out:
-f05916281fd75db Ojaswin Mujoo   2021-07-21  568  	if (ret)
-f05916281fd75db Ojaswin Mujoo   2021-07-21  569  		complete(&instance->remove_event);
-f05916281fd75db Ojaswin Mujoo   2021-07-21  570  	mutex_unlock(&instance->completion_mutex);
-f05916281fd75db Ojaswin Mujoo   2021-07-21  571  	DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-f05916281fd75db Ojaswin Mujoo   2021-07-21  572  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  573  	return ret;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  574  }
-f05916281fd75db Ojaswin Mujoo   2021-07-21  575  
 
-:::::: The code at line 507 was first introduced by commit
-:::::: f05916281fd75db2fe32294e26c04d666c762370 staging: vchiq: Move vchiq char driver to its own file
+vim +581 drivers/net/ethernet/3com/3c589_cs.c
 
-:::::: TO: Ojaswin Mujoo <ojaswin98@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  562  
+dbf02fae406daf4 drivers/net/pcmcia/3c589_cs.c Stephen Hemminger 2009-08-31  563  static netdev_tx_t el3_start_xmit(struct sk_buff *skb,
+dbf02fae406daf4 drivers/net/pcmcia/3c589_cs.c Stephen Hemminger 2009-08-31  564  					struct net_device *dev)
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  565  {
+906da809c5be30b drivers/net/pcmcia/3c589_cs.c Olof Johansson    2008-02-04  566  	unsigned int ioaddr = dev->base_addr;
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  567  	struct el3_private *priv = netdev_priv(dev);
+d08d283974f96cb drivers/net/pcmcia/3c589_cs.c Komuro            2006-12-02  568  	unsigned long flags;
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  569  
+f64e96973a1fa88 drivers/net/pcmcia/3c589_cs.c Alexander Kurz    2010-03-31  570  	netdev_dbg(dev, "el3_start_xmit(length = %ld) called, status %4.4x.\n",
+f64e96973a1fa88 drivers/net/pcmcia/3c589_cs.c Alexander Kurz    2010-03-31  571  	       (long)skb->len, inw(ioaddr + EL3_STATUS));
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  572  
+d08d283974f96cb drivers/net/pcmcia/3c589_cs.c Komuro            2006-12-02  573  	spin_lock_irqsave(&priv->lock, flags);
+d08d283974f96cb drivers/net/pcmcia/3c589_cs.c Komuro            2006-12-02  574  
+cd65284f6ec4826 drivers/net/pcmcia/3c589_cs.c Paulius Zaleckas  2008-04-30  575  	dev->stats.tx_bytes += skb->len;
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  576  
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  577  	/* Put out the doubleword header... */
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  578  	outw(skb->len, ioaddr + TX_FIFO);
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  579  	outw(0x00, ioaddr + TX_FIFO);
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  580  	/* ... and the packet rounded to a doubleword. */
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16 @581  	outsl(ioaddr + TX_FIFO, skb->data, (skb->len + 3) >> 2);
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  582  
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  583  	if (inw(ioaddr + TX_FREE) <= 1536) {
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  584  		netif_stop_queue(dev);
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  585  		/* Interrupt us when the FIFO has room for max-sized packet. */
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  586  		outw(SetTxThreshold + 1536, ioaddr + EL3_CMD);
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  587  	}
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  588  
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  589  	pop_tx_status(dev);
+d08d283974f96cb drivers/net/pcmcia/3c589_cs.c Komuro            2006-12-02  590  	spin_unlock_irqrestore(&priv->lock, flags);
+63ac9b915924d12 drivers/net/pcmcia/3c589_cs.c Patrick McHardy   2007-07-02  591  	dev_kfree_skb(skb);
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  592  
+6ed106549d17474 drivers/net/pcmcia/3c589_cs.c Patrick McHardy   2009-06-23  593  	return NETDEV_TX_OK;
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  594  }
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  595  
+
+:::::: The code at line 581 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
