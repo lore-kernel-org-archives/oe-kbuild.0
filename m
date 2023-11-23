@@ -1,55 +1,54 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F2EF9E1
-	for <oe-kbuild@lists.linux.dev>; Thu, 23 Nov 2023 06:10:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637CDD290
+	for <oe-kbuild@lists.linux.dev>; Thu, 23 Nov 2023 06:20:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bg8lLr0m"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-332e42469f0so63294f8f.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 22 Nov 2023 22:10:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hsF1M3Zy"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2c50305c5c4so6903301fa.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 22 Nov 2023 22:20:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700719829; x=1701324629; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1700720421; x=1701325221; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:date:from
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=EhvG/cBSfaRPoasqLeuPzQWIXK6FL28oMwCUuCagJt0=;
-        b=bg8lLr0mbSQGKn4lQElHiV+QLWN6p1iubqaauWUrF6D0PDuDoy/etO2RUDoNhtN+3w
-         zjo4eg//NeF0O7y3dqotRiFJx7VFMWFZ8XFgKTIHY7yo+5I7b1EXpwT4iHPPXTSd8z59
-         ddhwk805ECVoj4HRMNrab8snw+Lr67xbTSkTxf52AOefr677T9u6L0kAtG1l9DJhsDME
-         pPKwfvrO8Fl4YSNHDKtHZgP3C4fJZCsQbUfD5y/x1PZ67jI0SaWkwv6ttAk/08s6mXrU
-         OUDehe8DOyAayTIZp2npYeYVw5wqKiADjiijv1YV6so8kjtaus0eyEoaiDLwJaghcV9B
-         fvpA==
+        bh=VwUvpjNk0CtfVuSdyEhnK0DWsT+ztLd6kwKcaRcM+ik=;
+        b=hsF1M3ZyWuZy6Mk3rBatm0+HpTLIVuF7FLVndGb6rQzePPjhVhW+WyUAvNRSuLlhi8
+         OowLVKbtw0hWgJthF4xhxkmRcmjIF03WPWiK+3Xh5vlSuZsWTMcHBz5CVgFXT8Njdmgu
+         7Gf4qOIFtmTY6Ly7YWWDctzj1HAYd1Pr2I6i3VqLWCWk004d0mPFRr0tEKzDeDeYsRRb
+         JzuvdUjTH5WepJrQtt8s70Oo+UhueOhsaQ7bi85mlOZm/LdBEzIldQhm7Vqi2v7t58Ft
+         p+n3nxYxODYIp3yg6g9xNjs5V1qTPGNkctCSlNSnQVfqGPeoNxqc49raUbNqVxunxdrs
+         US5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700719829; x=1701324629;
+        d=1e100.net; s=20230601; t=1700720421; x=1701325221;
         h=content-disposition:mime-version:message-id:subject:cc:to:date:from
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EhvG/cBSfaRPoasqLeuPzQWIXK6FL28oMwCUuCagJt0=;
-        b=kJOYw4sCkGNiU170+sR+cQ6QW4NfljCqhSyv5XCtm/a6w8dQJR71fKhoSoDQqbHKYP
-         qdA/AQQI1uR0GcdkcxKY8SpqnDeTU5PyXwMshrZo+SkvtKI/fBSQwO6MaWzulkhgx1lT
-         e5wiH2P1Q7eYmbg03uXDdG91f21W02gJJkpCE/u0TAP3h8kVOddGAHGk39cy398Z76td
-         EsjHt+FpueO/coMcnG44bCG0liH/ajwOcUS9Z+et1WsdBiJWh8Im4iuUNORE+QeYgYXh
-         lOtRtJf55fkjE8bwtz94g6SKRAKubGqNsxqyJThSMK402O6Ki2FNMzskZCozWIyM+NUH
-         clcg==
-X-Gm-Message-State: AOJu0YzArfto5G6LA+z/F2Pk3gt4KwSwqL8sHPim+yJgYxTtcF+8lt8u
-	azxMmtuSkCmUNri3y0Cw1fu1pfA+55fHr3ZagvyX59eW
-X-Google-Smtp-Source: AGHT+IG5E0J+F3kI7IYUeGWwGwjyH+HM0RRgSN6O6Q9IxonmzR/N7zH+77peiECJsn59NOfrikGrWA==
-X-Received: by 2002:a5d:5987:0:b0:332:c585:400d with SMTP id n7-20020a5d5987000000b00332c585400dmr2890916wri.10.1700719828609;
-        Wed, 22 Nov 2023 22:10:28 -0800 (PST)
+        bh=VwUvpjNk0CtfVuSdyEhnK0DWsT+ztLd6kwKcaRcM+ik=;
+        b=OZHT7UpFB+QF7vFwBqP1jlbZufc7139DuL5D3mkvBplNLrCFThAcAEGp44nA+8p27D
+         OBOQYgMsoDRh/E5L6hqfYRTsg1/GfRk5JObVoBan3VPxEenAXsUG77hx+NF9/4tmxLGn
+         Iw90B8VmZrDHIuDz8BlAOs+jFDooTOcJ0c3mW6VjwYeam8Gj1g6Yw5eEvoX9eo+n63u2
+         r3ulF01VwgAdIxkou8e63ytvLYug51LM73MOXOPfcvWdpocbPdP/X7Hb3DuVQIGwytpk
+         TxeZmqgtqV/iLS+rfwmdICG9sgCkmofwihnE5KwH+6TvcK7A4MkEzCdabQn8IvwsNLP5
+         u4hA==
+X-Gm-Message-State: AOJu0YzQFKHmgNeZJUYT9PuK1rSViW9ysiI2eiT3punn7a/h6JfOrWIB
+	1RjTSZcP6SnHr4+7z5cwOxGb4VgKL546CIxg1ykS2QiQ
+X-Google-Smtp-Source: AGHT+IHnb388etFI99Sz6uHwWwc+yTRZfQ/JmHXrwIlv5eoYENzbt3NxOuNzwXotrQar5c1fFU+OqA==
+X-Received: by 2002:a2e:a7d2:0:b0:2c7:b9b3:4ec1 with SMTP id x18-20020a2ea7d2000000b002c7b9b34ec1mr3757741ljp.17.1700720421125;
+        Wed, 22 Nov 2023 22:20:21 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id x12-20020adff64c000000b0032dcb08bf94sm602993wrp.60.2023.11.22.22.10.27
+        by smtp.gmail.com with ESMTPSA id l24-20020a05600c1d1800b0040b3566e541sm1196240wms.36.2023.11.22.22.20.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 22:10:28 -0800 (PST)
+        Wed, 22 Nov 2023 22:20:20 -0800 (PST)
 From: Dan Carpenter <dan.carpenter@linaro.org>
 X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Thu, 23 Nov 2023 09:10:25 +0300
-To: oe-kbuild@lists.linux.dev, Umang Jain <umang.jain@ideasonboard.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:507
- vchiq_ioc_await_completion() warn: inconsistent indenting
-Message-ID: <a4901693-b034-4a63-b97d-a6c2d9ddcb29@suswa.mountain>
+Date: Thu, 23 Nov 2023 09:20:17 +0300
+To: oe-kbuild@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/090-spi-hid 14/21]
+ drivers/soc/apple/dockchannel.c:240 dockchannel_init() warn: passing zero to
+ 'dev_err_probe'
+Message-ID: <2d91fd6c-db89-4590-ba87-5591d9efbbd9@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,45 +58,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9b6de136b5f0158c60844f85286a593cb70fb364
-commit: 1d8915cf889932e085880f4bdbf7ae0f3d8605e5 staging: vc04: Convert vchiq_log_error() to use dynamic debug
-config: mips-randconfig-r081-20231121 (https://download.01.org/0day-ci/archive/20231123/202311230705.w4DPJjm0-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
+head:   16871bb3228eaf55cbdb1dfb81c1cecec4ee0d52
+commit: 7c1543b965b465df17e43246abe9ef43c4bd8358 [14/21] soc: apple: Add DockChannel driver
+config: mips-randconfig-r081-20231121 (https://download.01.org/0day-ci/archive/20231123/202311231037.4kh3kwIP-lkp@intel.com/config)
 compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231123/202311230705.w4DPJjm0-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231123/202311231037.4kh3kwIP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311230705.w4DPJjm0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311231037.4kh3kwIP-lkp@intel.com/
 
-smatch warnings:
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:507 vchiq_ioc_await_completion() warn: inconsistent indenting
+New smatch warnings:
+drivers/soc/apple/dockchannel.c:240 dockchannel_init() warn: passing zero to 'dev_err_probe'
+drivers/soc/apple/dockchannel.c:358 dockchannel_probe() warn: passing zero to 'dev_err_probe'
 
-vim +507 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+Old smatch warnings:
+drivers/soc/apple/dockchannel.c:246 dockchannel_init() warn: passing zero to 'dev_err_probe'
 
-f05916281fd75db Ojaswin Mujoo   2021-07-21  496  		header = completion->header;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  497  		if (header) {
-f05916281fd75db Ojaswin Mujoo   2021-07-21  498  			void __user *msgbuf;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  499  			int msglen;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  500  
-f05916281fd75db Ojaswin Mujoo   2021-07-21  501  			msglen = header->size + sizeof(struct vchiq_header);
-f05916281fd75db Ojaswin Mujoo   2021-07-21  502  			/* This must be a VCHIQ-style service */
-f05916281fd75db Ojaswin Mujoo   2021-07-21  503  			if (args->msgbufsize < msglen) {
-1d8915cf889932e Umang Jain      2023-10-24  504  				vchiq_log_error(service->state->dev, VCHIQ_ARM,
-f05916281fd75db Ojaswin Mujoo   2021-07-21  505  						"header %pK: msgbufsize %x < msglen %x",
-f05916281fd75db Ojaswin Mujoo   2021-07-21  506  						header, args->msgbufsize, msglen);
-f05916281fd75db Ojaswin Mujoo   2021-07-21 @507  						WARN(1, "invalid message size\n");
+vim +/dev_err_probe +240 drivers/soc/apple/dockchannel.c
 
-WARN() is indented too far.
+7c1543b965b465 Hector Martin 2022-07-08  212  struct dockchannel *dockchannel_init(struct platform_device *pdev)
+7c1543b965b465 Hector Martin 2022-07-08  213  {
+7c1543b965b465 Hector Martin 2022-07-08  214  	struct device *dev = &pdev->dev;
+7c1543b965b465 Hector Martin 2022-07-08  215  	struct dockchannel *dockchannel;
+7c1543b965b465 Hector Martin 2022-07-08  216  	int ret;
+7c1543b965b465 Hector Martin 2022-07-08  217  
+7c1543b965b465 Hector Martin 2022-07-08  218  	dockchannel = devm_kzalloc(dev, sizeof(*dockchannel), GFP_KERNEL);
+7c1543b965b465 Hector Martin 2022-07-08  219  	if (!dockchannel)
+7c1543b965b465 Hector Martin 2022-07-08  220  		return ERR_PTR(-ENOMEM);
+7c1543b965b465 Hector Martin 2022-07-08  221  
+7c1543b965b465 Hector Martin 2022-07-08  222  	dockchannel->dev = dev;
+7c1543b965b465 Hector Martin 2022-07-08  223  	dockchannel->config_base = devm_platform_ioremap_resource_byname(pdev, "config");
+7c1543b965b465 Hector Martin 2022-07-08  224  	if (IS_ERR(dockchannel->config_base))
+7c1543b965b465 Hector Martin 2022-07-08  225  		return (__force void *)dockchannel->config_base;
+7c1543b965b465 Hector Martin 2022-07-08  226  
+7c1543b965b465 Hector Martin 2022-07-08  227  	dockchannel->data_base = devm_platform_ioremap_resource_byname(pdev, "data");
+7c1543b965b465 Hector Martin 2022-07-08  228  	if (IS_ERR(dockchannel->data_base))
+7c1543b965b465 Hector Martin 2022-07-08  229  		return (__force void *)dockchannel->data_base;
+7c1543b965b465 Hector Martin 2022-07-08  230  
+7c1543b965b465 Hector Martin 2022-07-08  231  	ret = of_property_read_u32(dev->of_node, "apple,fifo-size", &dockchannel->fifo_size);
+7c1543b965b465 Hector Martin 2022-07-08  232  	if (ret)
+7c1543b965b465 Hector Martin 2022-07-08  233  		return ERR_PTR(dev_err_probe(dev, ret, "Missing apple,fifo-size property"));
+7c1543b965b465 Hector Martin 2022-07-08  234  
+7c1543b965b465 Hector Martin 2022-07-08  235  	init_completion(&dockchannel->tx_comp);
+7c1543b965b465 Hector Martin 2022-07-08  236  	init_completion(&dockchannel->rx_comp);
+7c1543b965b465 Hector Martin 2022-07-08  237  
+7c1543b965b465 Hector Martin 2022-07-08  238  	dockchannel->tx_irq = platform_get_irq_byname(pdev, "tx");
+7c1543b965b465 Hector Martin 2022-07-08  239  	if (dockchannel->tx_irq <= 0) {
 
-f05916281fd75db Ojaswin Mujoo   2021-07-21  508  				if (ret == 0)
-f05916281fd75db Ojaswin Mujoo   2021-07-21  509  					ret = -EMSGSIZE;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  510  				break;
-f05916281fd75db Ojaswin Mujoo   2021-07-21  511  			}
-f05916281fd75db Ojaswin Mujoo   2021-07-21  512  			if (msgbufcount <= 0)
-f05916281fd75db Ojaswin Mujoo   2021-07-21  513  				/* Stall here for lack of a buffer for the message. */
+Change this to < 0.  platform_get_irq_byname() can never return zero.
+
+7c1543b965b465 Hector Martin 2022-07-08 @240  		return ERR_PTR(dev_err_probe(dev, dockchannel->tx_irq,
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning.
+
+7c1543b965b465 Hector Martin 2022-07-08  241  				     "Failed to get TX IRQ"));
+7c1543b965b465 Hector Martin 2022-07-08  242  	}
+7c1543b965b465 Hector Martin 2022-07-08  243  
+7c1543b965b465 Hector Martin 2022-07-08  244  	dockchannel->rx_irq = platform_get_irq_byname(pdev, "rx");
+7c1543b965b465 Hector Martin 2022-07-08  245  	if (dockchannel->rx_irq <= 0) {
+7c1543b965b465 Hector Martin 2022-07-08  246  		return ERR_PTR(dev_err_probe(dev, dockchannel->rx_irq,
+7c1543b965b465 Hector Martin 2022-07-08  247  				     "Failed to get RX IRQ"));
+
+[ snip ]
+
+7c1543b965b465 Hector Martin 2022-07-08  344  	dcc->irq_base = devm_platform_ioremap_resource_byname(pdev, "irq");
+7c1543b965b465 Hector Martin 2022-07-08  345  	if (IS_ERR(dcc->irq_base))
+7c1543b965b465 Hector Martin 2022-07-08  346  		return PTR_ERR(dcc->irq_base);
+7c1543b965b465 Hector Martin 2022-07-08  347  
+7c1543b965b465 Hector Martin 2022-07-08  348  	writel_relaxed(0, dcc->irq_base + IRQ_MASK);
+7c1543b965b465 Hector Martin 2022-07-08  349  	writel_relaxed(~0, dcc->irq_base + IRQ_FLAG);
+7c1543b965b465 Hector Martin 2022-07-08  350  
+7c1543b965b465 Hector Martin 2022-07-08  351  	dcc->domain = irq_domain_add_linear(dev->of_node, DOCKCHANNEL_MAX_IRQ,
+7c1543b965b465 Hector Martin 2022-07-08  352  					    &dockchannel_irq_domain_ops, dcc);
+7c1543b965b465 Hector Martin 2022-07-08  353  	if (!dcc->domain)
+7c1543b965b465 Hector Martin 2022-07-08  354  		return -ENOMEM;
+7c1543b965b465 Hector Martin 2022-07-08  355  
+7c1543b965b465 Hector Martin 2022-07-08  356  	dcc->irq = platform_get_irq(pdev, 0);
+7c1543b965b465 Hector Martin 2022-07-08  357  	if (dcc->irq <= 0)
+7c1543b965b465 Hector Martin 2022-07-08 @358  		return dev_err_probe(dev, dcc->irq, "Failed to get IRQ");
+
+Same thing.  platform_get_irq() can't return zero.
+
+Prior to 2006 these did used to return zero and unfortunately, there
+are some legacy get_irq() functions which still do return zero.  I think
+the trend is to slowly update them.  Read my blog for more details:
+https://staticthinking.wordpress.com/2023/08/07/writing-a-check-for-zero-irq-error-codes/
+
+7c1543b965b465 Hector Martin 2022-07-08  359  
+7c1543b965b465 Hector Martin 2022-07-08  360  	irq_set_handler_data(dcc->irq, dcc);
+7c1543b965b465 Hector Martin 2022-07-08  361  	irq_set_chained_handler(dcc->irq, dockchannel_irq);
+7c1543b965b465 Hector Martin 2022-07-08  362  
+7c1543b965b465 Hector Martin 2022-07-08  363  	for_each_child_of_node(dev->of_node, child)
+7c1543b965b465 Hector Martin 2022-07-08  364  		of_platform_device_create(child, NULL, dev);
+7c1543b965b465 Hector Martin 2022-07-08  365  
+7c1543b965b465 Hector Martin 2022-07-08  366  	return 0;
+7c1543b965b465 Hector Martin 2022-07-08  367  }
 
 -- 
 0-DAY CI Kernel Test Service
