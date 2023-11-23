@@ -1,54 +1,59 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637CDD290
-	for <oe-kbuild@lists.linux.dev>; Thu, 23 Nov 2023 06:20:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C472B11C85
+	for <oe-kbuild@lists.linux.dev>; Thu, 23 Nov 2023 06:30:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hsF1M3Zy"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2c50305c5c4so6903301fa.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 22 Nov 2023 22:20:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gcT+gjU1"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-332c46d5988so324393f8f.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 22 Nov 2023 22:30:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700720421; x=1701325221; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VwUvpjNk0CtfVuSdyEhnK0DWsT+ztLd6kwKcaRcM+ik=;
-        b=hsF1M3ZyWuZy6Mk3rBatm0+HpTLIVuF7FLVndGb6rQzePPjhVhW+WyUAvNRSuLlhi8
-         OowLVKbtw0hWgJthF4xhxkmRcmjIF03WPWiK+3Xh5vlSuZsWTMcHBz5CVgFXT8Njdmgu
-         7Gf4qOIFtmTY6Ly7YWWDctzj1HAYd1Pr2I6i3VqLWCWk004d0mPFRr0tEKzDeDeYsRRb
-         JzuvdUjTH5WepJrQtt8s70Oo+UhueOhsaQ7bi85mlOZm/LdBEzIldQhm7Vqi2v7t58Ft
-         p+n3nxYxODYIp3yg6g9xNjs5V1qTPGNkctCSlNSnQVfqGPeoNxqc49raUbNqVxunxdrs
-         US5g==
+        d=linaro.org; s=google; t=1700721005; x=1701325805; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=X7PLG5qku9qQV0uDNGnepcBPSOxctgjb510bjUV05bA=;
+        b=gcT+gjU1PdRXtpZSds5Zv0q1P+WGeaq9SiCxANBIcx98aWmOIIl73D3HRS3QLITP25
+         W0OnI9Yk73L5t4cxMsAyq1FLbHGi7M5W+1Gt5kvq0debWzjPvsOJKrN28dMngtLtKc4y
+         DDmRson3vWfjUQtRD7dqji244+EPjNl77tXhI7Qd8PT0aEkX0ue/atqGnGV8h8aQpUzr
+         f0yQyqNSNqK6b1Rl9yEsn5UkAWhMCgNCHmKnb187XapBKJL4SGA5daUTRhHyZyNrT1X8
+         ShbdFUJhKMP8zqfOOReTGGkbtmyPBtUCef91u9rXMuK4ycs3DE/cCgoNUI8vh1TQ3RL4
+         vlpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700720421; x=1701325221;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VwUvpjNk0CtfVuSdyEhnK0DWsT+ztLd6kwKcaRcM+ik=;
-        b=OZHT7UpFB+QF7vFwBqP1jlbZufc7139DuL5D3mkvBplNLrCFThAcAEGp44nA+8p27D
-         OBOQYgMsoDRh/E5L6hqfYRTsg1/GfRk5JObVoBan3VPxEenAXsUG77hx+NF9/4tmxLGn
-         Iw90B8VmZrDHIuDz8BlAOs+jFDooTOcJ0c3mW6VjwYeam8Gj1g6Yw5eEvoX9eo+n63u2
-         r3ulF01VwgAdIxkou8e63ytvLYug51LM73MOXOPfcvWdpocbPdP/X7Hb3DuVQIGwytpk
-         TxeZmqgtqV/iLS+rfwmdICG9sgCkmofwihnE5KwH+6TvcK7A4MkEzCdabQn8IvwsNLP5
-         u4hA==
-X-Gm-Message-State: AOJu0YzQFKHmgNeZJUYT9PuK1rSViW9ysiI2eiT3punn7a/h6JfOrWIB
-	1RjTSZcP6SnHr4+7z5cwOxGb4VgKL546CIxg1ykS2QiQ
-X-Google-Smtp-Source: AGHT+IHnb388etFI99Sz6uHwWwc+yTRZfQ/JmHXrwIlv5eoYENzbt3NxOuNzwXotrQar5c1fFU+OqA==
-X-Received: by 2002:a2e:a7d2:0:b0:2c7:b9b3:4ec1 with SMTP id x18-20020a2ea7d2000000b002c7b9b34ec1mr3757741ljp.17.1700720421125;
-        Wed, 22 Nov 2023 22:20:21 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700721005; x=1701325805;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X7PLG5qku9qQV0uDNGnepcBPSOxctgjb510bjUV05bA=;
+        b=plBSbNWNZ6hjUrwKgB2TsJlSiilucyje9bvjYCmuKWIdluhljYu5QrhF3Jj2+tjSmG
+         cZG0Kef5BZVW0n/O+3s0AVbDTNW07zAPS1EtjiLsahWKrhkFCMPQODIXsG6ULmnPrcXj
+         sjIbTT9uw8FiFqDFJ83Tsj/uaEHrh5vbR7KSC7t0lXPJQto3BSs291ZVuoo+Npx3C9Zg
+         Ms1DDaYhduodEJTczPOn4jhC8U7ruzxUoWSN475f0lKRAvJ3yAAesD+Z2pxEAJvm4NrV
+         PDWIkmphkoht0SlQ3OWRZgHz4IPAxcdoX/XvbN22yro/ft7vyHMROTI9BjXwU+Hq2GUN
+         gukw==
+X-Gm-Message-State: AOJu0YwhB4tRm8/7L3jTVLtrR1s/2VSK3Dsl5OD7dCf/yjRgRZk54vny
+	X5zxLjNYPrLmtftRkS6o5XrbhQeq989FkZK0BOvf1KWe
+X-Google-Smtp-Source: AGHT+IEOQKjIO/ymr99oSKi2CVqhWw7ZkjrjTukMENMkvxDS5SVrbC3/TD7uSFL+KrdRU/SU+HcdmA==
+X-Received: by 2002:a5d:4dc3:0:b0:31f:ef77:67e4 with SMTP id f3-20020a5d4dc3000000b0031fef7767e4mr2984362wru.37.1700721004867;
+        Wed, 22 Nov 2023 22:30:04 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l24-20020a05600c1d1800b0040b3566e541sm1196240wms.36.2023.11.22.22.20.20
+        by smtp.gmail.com with ESMTPSA id f12-20020a5d664c000000b003316be2df7fsm653784wrw.17.2023.11.22.22.30.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 22:20:20 -0800 (PST)
+        Wed, 22 Nov 2023 22:30:04 -0800 (PST)
 From: Dan Carpenter <dan.carpenter@linaro.org>
 X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Thu, 23 Nov 2023 09:20:17 +0300
-To: oe-kbuild@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/090-spi-hid 14/21]
- drivers/soc/apple/dockchannel.c:240 dockchannel_init() warn: passing zero to
- 'dev_err_probe'
-Message-ID: <2d91fd6c-db89-4590-ba87-5591d9efbbd9@suswa.mountain>
+Date: Thu, 23 Nov 2023 09:30:01 +0300
+To: oe-kbuild@lists.linux.dev,
+	"marcelo.schmitt@analog.com" <marcelo.schmitt@analog.com>,
+	beniamin.bia@analog.com, paul.cercueil@analog.com,
+	Michael.Hennerich@analog.com, lars@metafoo.de, jic23@kernel.org,
+	marcelo.schmitt1@gmail.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/7] iio: adc: Add support for AD7091R-8
+Message-ID: <bde42756-5153-42fa-b9d6-769a2978c337@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,106 +62,74 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <514295a9b760b44a710425803a41decddd3e8df8.1700595310.git.marcelo.schmitt1@gmail.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
-head:   16871bb3228eaf55cbdb1dfb81c1cecec4ee0d52
-commit: 7c1543b965b465df17e43246abe9ef43c4bd8358 [14/21] soc: apple: Add DockChannel driver
-config: mips-randconfig-r081-20231121 (https://download.01.org/0day-ci/archive/20231123/202311231037.4kh3kwIP-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231123/202311231037.4kh3kwIP-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/marcelo-schmitt-analog-com/MAINTAINERS-Add-MAINTAINERS-entry-for-AD7091R/20231122-093706
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/514295a9b760b44a710425803a41decddd3e8df8.1700595310.git.marcelo.schmitt1%40gmail.com
+patch subject: [PATCH 6/7] iio: adc: Add support for AD7091R-8
+config: x86_64-randconfig-161-20231122 (https://download.01.org/0day-ci/archive/20231123/202311230719.KwwC9NyC-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20231123/202311230719.KwwC9NyC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311231037.4kh3kwIP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311230719.KwwC9NyC-lkp@intel.com/
 
-New smatch warnings:
-drivers/soc/apple/dockchannel.c:240 dockchannel_init() warn: passing zero to 'dev_err_probe'
-drivers/soc/apple/dockchannel.c:358 dockchannel_probe() warn: passing zero to 'dev_err_probe'
+smatch warnings:
+drivers/iio/adc/ad7091r-base.c:53 ad7091r_set_mode() warn: ignoring unreachable code.
 
-Old smatch warnings:
-drivers/soc/apple/dockchannel.c:246 dockchannel_init() warn: passing zero to 'dev_err_probe'
+vim +53 drivers/iio/adc/ad7091r-base.c
 
-vim +/dev_err_probe +240 drivers/soc/apple/dockchannel.c
+ca69300173b642 Paul Cercueil   2019-11-15  32  static int ad7091r_set_mode(struct ad7091r_state *st, enum ad7091r_mode mode)
+ca69300173b642 Paul Cercueil   2019-11-15  33  {
+ca69300173b642 Paul Cercueil   2019-11-15  34  	int ret, conf;
+ca69300173b642 Paul Cercueil   2019-11-15  35  
+ca69300173b642 Paul Cercueil   2019-11-15  36  	switch (mode) {
+ca69300173b642 Paul Cercueil   2019-11-15  37  	case AD7091R_MODE_SAMPLE:
+ca69300173b642 Paul Cercueil   2019-11-15  38  		conf = 0;
+ca69300173b642 Paul Cercueil   2019-11-15  39  		break;
+ca69300173b642 Paul Cercueil   2019-11-15  40  	case AD7091R_MODE_COMMAND:
+ca69300173b642 Paul Cercueil   2019-11-15  41  		conf = AD7091R_REG_CONF_CMD;
+ca69300173b642 Paul Cercueil   2019-11-15  42  		break;
+ca69300173b642 Paul Cercueil   2019-11-15  43  	case AD7091R_MODE_AUTOCYCLE:
+ca69300173b642 Paul Cercueil   2019-11-15  44  		conf = AD7091R_REG_CONF_AUTO;
+ca69300173b642 Paul Cercueil   2019-11-15  45  		break;
+ca69300173b642 Paul Cercueil   2019-11-15  46  	default:
+ca69300173b642 Paul Cercueil   2019-11-15  47  		return -EINVAL;
+ca69300173b642 Paul Cercueil   2019-11-15  48  	}
+ca69300173b642 Paul Cercueil   2019-11-15  49  
+fccb9cf346d38a Marcelo Schmitt 2023-11-21  50  	/* AD7091R-2/4/8 don't set normal, command, autocycle modes in conf reg */
+fccb9cf346d38a Marcelo Schmitt 2023-11-21  51  	if (st->chip_info->type == AD7091R5) {
+fccb9cf346d38a Marcelo Schmitt 2023-11-21  52  		return 0;
 
-7c1543b965b465 Hector Martin 2022-07-08  212  struct dockchannel *dockchannel_init(struct platform_device *pdev)
-7c1543b965b465 Hector Martin 2022-07-08  213  {
-7c1543b965b465 Hector Martin 2022-07-08  214  	struct device *dev = &pdev->dev;
-7c1543b965b465 Hector Martin 2022-07-08  215  	struct dockchannel *dockchannel;
-7c1543b965b465 Hector Martin 2022-07-08  216  	int ret;
-7c1543b965b465 Hector Martin 2022-07-08  217  
-7c1543b965b465 Hector Martin 2022-07-08  218  	dockchannel = devm_kzalloc(dev, sizeof(*dockchannel), GFP_KERNEL);
-7c1543b965b465 Hector Martin 2022-07-08  219  	if (!dockchannel)
-7c1543b965b465 Hector Martin 2022-07-08  220  		return ERR_PTR(-ENOMEM);
-7c1543b965b465 Hector Martin 2022-07-08  221  
-7c1543b965b465 Hector Martin 2022-07-08  222  	dockchannel->dev = dev;
-7c1543b965b465 Hector Martin 2022-07-08  223  	dockchannel->config_base = devm_platform_ioremap_resource_byname(pdev, "config");
-7c1543b965b465 Hector Martin 2022-07-08  224  	if (IS_ERR(dockchannel->config_base))
-7c1543b965b465 Hector Martin 2022-07-08  225  		return (__force void *)dockchannel->config_base;
-7c1543b965b465 Hector Martin 2022-07-08  226  
-7c1543b965b465 Hector Martin 2022-07-08  227  	dockchannel->data_base = devm_platform_ioremap_resource_byname(pdev, "data");
-7c1543b965b465 Hector Martin 2022-07-08  228  	if (IS_ERR(dockchannel->data_base))
-7c1543b965b465 Hector Martin 2022-07-08  229  		return (__force void *)dockchannel->data_base;
-7c1543b965b465 Hector Martin 2022-07-08  230  
-7c1543b965b465 Hector Martin 2022-07-08  231  	ret = of_property_read_u32(dev->of_node, "apple,fifo-size", &dockchannel->fifo_size);
-7c1543b965b465 Hector Martin 2022-07-08  232  	if (ret)
-7c1543b965b465 Hector Martin 2022-07-08  233  		return ERR_PTR(dev_err_probe(dev, ret, "Missing apple,fifo-size property"));
-7c1543b965b465 Hector Martin 2022-07-08  234  
-7c1543b965b465 Hector Martin 2022-07-08  235  	init_completion(&dockchannel->tx_comp);
-7c1543b965b465 Hector Martin 2022-07-08  236  	init_completion(&dockchannel->rx_comp);
-7c1543b965b465 Hector Martin 2022-07-08  237  
-7c1543b965b465 Hector Martin 2022-07-08  238  	dockchannel->tx_irq = platform_get_irq_byname(pdev, "tx");
-7c1543b965b465 Hector Martin 2022-07-08  239  	if (dockchannel->tx_irq <= 0) {
+I normally ignore when people add a return 0 to stub out code because
+it's obviously deliberate.  But this is a patch to add support for new
+hardware and it's stubbing out the existing:
 
-Change this to < 0.  platform_get_irq_byname() can never return zero.
+	ret = regmap_update_bits()
 
-7c1543b965b465 Hector Martin 2022-07-08 @240  		return ERR_PTR(dev_err_probe(dev, dockchannel->tx_irq,
-                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Warning.
+For existing users...  It feels like if that's necessary then it should
+be done in a separate commit.
 
-7c1543b965b465 Hector Martin 2022-07-08  241  				     "Failed to get TX IRQ"));
-7c1543b965b465 Hector Martin 2022-07-08  242  	}
-7c1543b965b465 Hector Martin 2022-07-08  243  
-7c1543b965b465 Hector Martin 2022-07-08  244  	dockchannel->rx_irq = platform_get_irq_byname(pdev, "rx");
-7c1543b965b465 Hector Martin 2022-07-08  245  	if (dockchannel->rx_irq <= 0) {
-7c1543b965b465 Hector Martin 2022-07-08  246  		return ERR_PTR(dev_err_probe(dev, dockchannel->rx_irq,
-7c1543b965b465 Hector Martin 2022-07-08  247  				     "Failed to get RX IRQ"));
-
-[ snip ]
-
-7c1543b965b465 Hector Martin 2022-07-08  344  	dcc->irq_base = devm_platform_ioremap_resource_byname(pdev, "irq");
-7c1543b965b465 Hector Martin 2022-07-08  345  	if (IS_ERR(dcc->irq_base))
-7c1543b965b465 Hector Martin 2022-07-08  346  		return PTR_ERR(dcc->irq_base);
-7c1543b965b465 Hector Martin 2022-07-08  347  
-7c1543b965b465 Hector Martin 2022-07-08  348  	writel_relaxed(0, dcc->irq_base + IRQ_MASK);
-7c1543b965b465 Hector Martin 2022-07-08  349  	writel_relaxed(~0, dcc->irq_base + IRQ_FLAG);
-7c1543b965b465 Hector Martin 2022-07-08  350  
-7c1543b965b465 Hector Martin 2022-07-08  351  	dcc->domain = irq_domain_add_linear(dev->of_node, DOCKCHANNEL_MAX_IRQ,
-7c1543b965b465 Hector Martin 2022-07-08  352  					    &dockchannel_irq_domain_ops, dcc);
-7c1543b965b465 Hector Martin 2022-07-08  353  	if (!dcc->domain)
-7c1543b965b465 Hector Martin 2022-07-08  354  		return -ENOMEM;
-7c1543b965b465 Hector Martin 2022-07-08  355  
-7c1543b965b465 Hector Martin 2022-07-08  356  	dcc->irq = platform_get_irq(pdev, 0);
-7c1543b965b465 Hector Martin 2022-07-08  357  	if (dcc->irq <= 0)
-7c1543b965b465 Hector Martin 2022-07-08 @358  		return dev_err_probe(dev, dcc->irq, "Failed to get IRQ");
-
-Same thing.  platform_get_irq() can't return zero.
-
-Prior to 2006 these did used to return zero and unfortunately, there
-are some legacy get_irq() functions which still do return zero.  I think
-the trend is to slowly update them.  Read my blog for more details:
-https://staticthinking.wordpress.com/2023/08/07/writing-a-check-for-zero-irq-error-codes/
-
-7c1543b965b465 Hector Martin 2022-07-08  359  
-7c1543b965b465 Hector Martin 2022-07-08  360  	irq_set_handler_data(dcc->irq, dcc);
-7c1543b965b465 Hector Martin 2022-07-08  361  	irq_set_chained_handler(dcc->irq, dockchannel_irq);
-7c1543b965b465 Hector Martin 2022-07-08  362  
-7c1543b965b465 Hector Martin 2022-07-08  363  	for_each_child_of_node(dev->of_node, child)
-7c1543b965b465 Hector Martin 2022-07-08  364  		of_platform_device_create(child, NULL, dev);
-7c1543b965b465 Hector Martin 2022-07-08  365  
-7c1543b965b465 Hector Martin 2022-07-08  366  	return 0;
-7c1543b965b465 Hector Martin 2022-07-08  367  }
+ca69300173b642 Paul Cercueil   2019-11-15 @53  		ret = regmap_update_bits(st->map, AD7091R_REG_CONF,
+ca69300173b642 Paul Cercueil   2019-11-15  54  					 AD7091R_REG_CONF_MODE_MASK, conf);
+ca69300173b642 Paul Cercueil   2019-11-15  55  		if (ret)
+ca69300173b642 Paul Cercueil   2019-11-15  56  			return ret;
+fccb9cf346d38a Marcelo Schmitt 2023-11-21  57  	}
+ca69300173b642 Paul Cercueil   2019-11-15  58  
+ca69300173b642 Paul Cercueil   2019-11-15  59  	st->mode = mode;
+ca69300173b642 Paul Cercueil   2019-11-15  60  
+ca69300173b642 Paul Cercueil   2019-11-15  61  	return 0;
+ca69300173b642 Paul Cercueil   2019-11-15  62  }
 
 -- 
 0-DAY CI Kernel Test Service
