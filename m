@@ -1,47 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA3E3065F
-	for <oe-kbuild@lists.linux.dev>; Fri, 24 Nov 2023 15:42:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B633065F
+	for <oe-kbuild@lists.linux.dev>; Fri, 24 Nov 2023 15:42:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zew4lqNr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EVfU/0pM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700840546; x=1732376546;
+  t=1700840550; x=1732376550;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cC40hU/cKSv1S7VC1Dp899/QY/0y1BhLmSUXUsHMXM8=;
-  b=Zew4lqNr1tKbn8PZiQip7yvh1Xf5rAMH9MRULrsT54rns7NEmjgrRBLn
-   bKzzrZdrRJ4enHggPa+g2HToIZIx5KC8C/oYoKld6/lXr2LLMNJWVTl2a
-   4AYEchznXsJSPMdFRTHX35h18lHa3qAeCrxsc3Fh7+6y6a7j/DSqqIK4u
-   Sy4grumPGBCfiD1qOGP/RG7PG822cSWX8515RS3UdDtRptwhUSbItEqi6
-   CsV0CIjY25QbE4ZHb4TRMo6ghLH8iI6afKR0v+C46yygEj0iIwzdhb3P9
-   /HhUJiqIZNbAZkHpWA2VW+wCyUD8LjI0C4Ei4GkNAS4CD8uOo4+1FDmmo
+  bh=ldEdOXwn3SBfa5L55F5TknfYPSUwHN3ExcG6vJXweNY=;
+  b=EVfU/0pMfJaRXXIwwfdN2pNoRv1NJRINR0HYlxuwlswMMSoB1wfkCa13
+   6oFtDhmMQ7lOBfu22rzWs651IFGSrT5Q4G8eM7SSsLKRebV8Ub9EhWrpE
+   SBR3v3VAiTpdsUwAzQNUlfpKB/OQxO3uyzFdDzYzy0xpnEqx0JfpqH/OO
+   2TpWCG0DNrQvGiPSYr6t2uCYSDqT7rH+UJjUPJLnYXNuhZB/6yZn9qQca
+   rCyqii7SpjZAGlfYB9RDTo15y7CAlnE2zZQBgudFo2ZQo0MdIj8Mx8Q72
+   wUNp1IoRy36G/4j17waG20kTK425jb/p/Cu/M/6yWJAFOzf4DLxxHjlzL
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="423577206"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="423577213"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="423577206"
+   d="scan'208";a="423577213"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:42:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="911474559"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="911474561"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="911474559"
+   d="scan'208";a="911474561"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
   by fmsmga001.fm.intel.com with ESMTP; 24 Nov 2023 07:42:24 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6YJx-0002yK-32;
-	Fri, 24 Nov 2023 15:42:21 +0000
-Date: Fri, 24 Nov 2023 23:42:04 +0800
+	id 1r6YJy-0002yQ-0N;
+	Fri, 24 Nov 2023 15:42:22 +0000
+Date: Fri, 24 Nov 2023 23:42:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1971
- idpf_send_map_unmap_queue_vector_msg() warn: potentially one past the end of
- array 'vqv[k]'
-Message-ID: <202311241905.MjUfYV7m-lkp@intel.com>
+Subject: Re: [PATCH v11 4/5] drivers/perf: add DesignWare PCIe PMU driver
+Message-ID: <202311241906.0ymlLjyo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,200 +51,270 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20231121013400.18367-5-xueshuai@linux.alibaba.com>
+References: <20231121013400.18367-5-xueshuai@linux.alibaba.com>
+TO: Shuai Xue <xueshuai@linux.alibaba.com>
+TO: ilkka@os.amperecomputing.com
+TO: kaishen@linux.alibaba.com
+TO: helgaas@kernel.org
+TO: yangyicong@huawei.com
+TO: will@kernel.org
+TO: Jonathan.Cameron@huawei.com
+TO: baolin.wang@linux.alibaba.com
+TO: robin.murphy@arm.com
+CC: chengyou@linux.alibaba.com
 CC: linux-kernel@vger.kernel.org
-TO: Joshua Hay <joshua.a.hay@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: Alan Brady <alan.brady@intel.com>
-CC: Madhu Chittim <madhu.chittim@intel.com>
-CC: Phani Burra <phani.r.burra@intel.com>
-CC: Sridhar Samudrala <sridhar.samudrala@intel.com>
-CC: Willem de Bruijn <willemb@google.com>
-CC: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-pci@vger.kernel.org
+CC: rdunlap@infradead.org
+CC: mark.rutland@arm.com
+CC: zhuo.song@linux.alibaba.com
+CC: xueshuai@linux.alibaba.com
+CC: renyu.zj@linux.alibaba.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f1a09972a45ae63efbd1587337c4be13b1893330
-commit: a251eee62133774cf35ff829041377e721ef9c8c idpf: add SRIOV support and other ndo_ops
-date:   2 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 2 months ago
-config: csky-randconfig-r081-20231124 (https://download.01.org/0day-ci/archive/20231124/202311241905.MjUfYV7m-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231124/202311241905.MjUfYV7m-lkp@intel.com/reproduce)
+Hi Shuai,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.7-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shuai-Xue/docs-perf-Add-description-for-Synopsys-DesignWare-PCIe-PMU-driver/20231121-093713
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20231121013400.18367-5-xueshuai%40linux.alibaba.com
+patch subject: [PATCH v11 4/5] drivers/perf: add DesignWare PCIe PMU driver
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-r071-20231123 (https://download.01.org/0day-ci/archive/20231124/202311241906.0ymlLjyo-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20231124/202311241906.0ymlLjyo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311241905.MjUfYV7m-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311241906.0ymlLjyo-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1971 idpf_send_map_unmap_queue_vector_msg() warn: potentially one past the end of array 'vqv[k]'
-drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1971 idpf_send_map_unmap_queue_vector_msg() warn: potentially one past the end of array 'vqv[k]'
+smatch warnings:
+drivers/perf/dwc_pcie_pmu.c:352 dwc_pcie_pmu_event_update() error: uninitialized symbol 'now'.
+drivers/perf/dwc_pcie_pmu.c:536 dwc_pcie_match_des_cap() error: uninitialized symbol 'vsec'.
 
-Old smatch warnings:
-drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1972 idpf_send_map_unmap_queue_vector_msg() warn: potentially one past the end of array 'vqv[k]'
-drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1972 idpf_send_map_unmap_queue_vector_msg() warn: potentially one past the end of array 'vqv[k]'
-drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1973 idpf_send_map_unmap_queue_vector_msg() warn: potentially one past the end of array 'vqv[k]'
-drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1973 idpf_send_map_unmap_queue_vector_msg() warn: potentially one past the end of array 'vqv[k]'
-drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1974 idpf_send_map_unmap_queue_vector_msg() warn: potentially one past the end of array 'vqv[k]'
-drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1974 idpf_send_map_unmap_queue_vector_msg() warn: potentially one past the end of array 'vqv[k]'
+vim +/now +352 drivers/perf/dwc_pcie_pmu.c
 
-vim +1971 drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
-
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1902  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1903  /**
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1904   * idpf_send_map_unmap_queue_vector_msg - Send virtchnl map or unmap queue
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1905   * vector message
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1906   * @vport: virtual port data structure
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1907   * @map: true for map and false for unmap
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1908   *
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1909   * Send map or unmap queue vector virtchnl message.  Returns 0 on success,
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1910   * negative on failure.
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1911   */
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1912  int idpf_send_map_unmap_queue_vector_msg(struct idpf_vport *vport, bool map)
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1913  {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1914  	struct idpf_adapter *adapter = vport->adapter;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1915  	struct virtchnl2_queue_vector_maps *vqvm;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1916  	struct virtchnl2_queue_vector *vqv;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1917  	u32 config_sz, chunk_sz, buf_sz;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1918  	u32 num_msgs, num_chunks, num_q;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1919  	int i, j, k = 0, err = 0;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1920  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1921  	num_q = vport->num_txq + vport->num_rxq;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1922  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1923  	buf_sz = sizeof(struct virtchnl2_queue_vector) * num_q;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1924  	vqv = kzalloc(buf_sz, GFP_KERNEL);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1925  	if (!vqv)
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1926  		return -ENOMEM;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1927  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1928  	for (i = 0; i < vport->num_txq_grp; i++) {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1929  		struct idpf_txq_group *tx_qgrp = &vport->txq_grps[i];
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1930  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1931  		for (j = 0; j < tx_qgrp->num_txq; j++, k++) {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1932  			vqv[k].queue_type = cpu_to_le32(tx_qgrp->txqs[j]->q_type);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1933  			vqv[k].queue_id = cpu_to_le32(tx_qgrp->txqs[j]->q_id);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1934  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1935  			if (idpf_is_queue_model_split(vport->txq_model)) {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1936  				vqv[k].vector_id =
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1937  				cpu_to_le16(tx_qgrp->complq->q_vector->v_idx);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1938  				vqv[k].itr_idx =
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1939  				cpu_to_le32(tx_qgrp->complq->q_vector->tx_itr_idx);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1940  			} else {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1941  				vqv[k].vector_id =
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1942  				cpu_to_le16(tx_qgrp->txqs[j]->q_vector->v_idx);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1943  				vqv[k].itr_idx =
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1944  				cpu_to_le32(tx_qgrp->txqs[j]->q_vector->tx_itr_idx);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1945  			}
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1946  		}
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1947  	}
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1948  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1949  	if (vport->num_txq != k) {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1950  		err = -EINVAL;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1951  		goto error;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1952  	}
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1953  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1954  	for (i = 0; i < vport->num_rxq_grp; i++) {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1955  		struct idpf_rxq_group *rx_qgrp = &vport->rxq_grps[i];
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1956  		u16 num_rxq;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1957  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1958  		if (idpf_is_queue_model_split(vport->rxq_model))
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1959  			num_rxq = rx_qgrp->splitq.num_rxq_sets;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1960  		else
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1961  			num_rxq = rx_qgrp->singleq.num_rxq;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1962  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1963  		for (j = 0; j < num_rxq; j++, k++) {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1964  			struct idpf_queue *rxq;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1965  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1966  			if (idpf_is_queue_model_split(vport->rxq_model))
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1967  				rxq = &rx_qgrp->splitq.rxq_sets[j]->rxq;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1968  			else
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1969  				rxq = rx_qgrp->singleq.rxqs[j];
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1970  
-d4d5587182664b Pavan Kumar Linga 2023-08-07 @1971  			vqv[k].queue_type = cpu_to_le32(rxq->q_type);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1972  			vqv[k].queue_id = cpu_to_le32(rxq->q_id);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1973  			vqv[k].vector_id = cpu_to_le16(rxq->q_vector->v_idx);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1974  			vqv[k].itr_idx = cpu_to_le32(rxq->q_vector->rx_itr_idx);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1975  		}
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1976  	}
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1977  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1978  	if (idpf_is_queue_model_split(vport->txq_model)) {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1979  		if (vport->num_rxq != k - vport->num_complq) {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1980  			err = -EINVAL;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1981  			goto error;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1982  		}
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1983  	} else {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1984  		if (vport->num_rxq != k - vport->num_txq) {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1985  			err = -EINVAL;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1986  			goto error;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1987  		}
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1988  	}
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1989  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1990  	/* Chunk up the vector info into multiple messages */
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1991  	config_sz = sizeof(struct virtchnl2_queue_vector_maps);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1992  	chunk_sz = sizeof(struct virtchnl2_queue_vector);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1993  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1994  	num_chunks = min_t(u32, IDPF_NUM_CHUNKS_PER_MSG(config_sz, chunk_sz),
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1995  			   num_q);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1996  	num_msgs = DIV_ROUND_UP(num_q, num_chunks);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1997  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1998  	buf_sz = struct_size(vqvm, qv_maps, num_chunks);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  1999  	vqvm = kzalloc(buf_sz, GFP_KERNEL);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2000  	if (!vqvm) {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2001  		err = -ENOMEM;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2002  		goto error;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2003  	}
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2004  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2005  	mutex_lock(&vport->vc_buf_lock);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2006  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2007  	for (i = 0, k = 0; i < num_msgs; i++) {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2008  		memset(vqvm, 0, buf_sz);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2009  		vqvm->vport_id = cpu_to_le32(vport->vport_id);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2010  		vqvm->num_qv_maps = cpu_to_le16(num_chunks);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2011  		memcpy(vqvm->qv_maps, &vqv[k], chunk_sz * num_chunks);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2012  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2013  		if (map) {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2014  			err = idpf_send_mb_msg(adapter,
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2015  					       VIRTCHNL2_OP_MAP_QUEUE_VECTOR,
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2016  					       buf_sz, (u8 *)vqvm);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2017  			if (!err)
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2018  				err = idpf_wait_for_event(adapter, vport,
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2019  							  IDPF_VC_MAP_IRQ,
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2020  							  IDPF_VC_MAP_IRQ_ERR);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2021  		} else {
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2022  			err = idpf_send_mb_msg(adapter,
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2023  					       VIRTCHNL2_OP_UNMAP_QUEUE_VECTOR,
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2024  					       buf_sz, (u8 *)vqvm);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2025  			if (!err)
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2026  				err =
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2027  				idpf_min_wait_for_event(adapter, vport,
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2028  							IDPF_VC_UNMAP_IRQ,
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2029  							IDPF_VC_UNMAP_IRQ_ERR);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2030  		}
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2031  		if (err)
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2032  			goto mbx_error;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2033  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2034  		k += num_chunks;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2035  		num_q -= num_chunks;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2036  		num_chunks = min(num_chunks, num_q);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2037  		/* Recalculate buffer size */
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2038  		buf_sz = struct_size(vqvm, qv_maps, num_chunks);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2039  	}
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2040  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2041  mbx_error:
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2042  	mutex_unlock(&vport->vc_buf_lock);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2043  	kfree(vqvm);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2044  error:
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2045  	kfree(vqv);
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2046  
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2047  	return err;
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2048  }
-d4d5587182664b Pavan Kumar Linga 2023-08-07  2049  
-
-:::::: The code at line 1971 was first introduced by commit
-:::::: d4d5587182664b0c4ab6d3556ce881cb975507c2 idpf: initialize interrupts and enable vport
-
-:::::: TO: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-:::::: CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+3481798a4ec51d1 Shuai Xue 2023-11-21  337  
+3481798a4ec51d1 Shuai Xue 2023-11-21  338  static void dwc_pcie_pmu_event_update(struct perf_event *event)
+3481798a4ec51d1 Shuai Xue 2023-11-21  339  {
+3481798a4ec51d1 Shuai Xue 2023-11-21  340  	struct hw_perf_event *hwc = &event->hw;
+3481798a4ec51d1 Shuai Xue 2023-11-21  341  	enum dwc_pcie_event_type type = DWC_PCIE_EVENT_TYPE(event);
+3481798a4ec51d1 Shuai Xue 2023-11-21  342  	u64 delta, prev, now;
+3481798a4ec51d1 Shuai Xue 2023-11-21  343  
+3481798a4ec51d1 Shuai Xue 2023-11-21  344  	do {
+3481798a4ec51d1 Shuai Xue 2023-11-21  345  		prev = local64_read(&hwc->prev_count);
+3481798a4ec51d1 Shuai Xue 2023-11-21  346  
+3481798a4ec51d1 Shuai Xue 2023-11-21  347  		if (type == DWC_PCIE_LANE_EVENT)
+3481798a4ec51d1 Shuai Xue 2023-11-21  348  			now = dwc_pcie_pmu_read_lane_event_counter(event);
+3481798a4ec51d1 Shuai Xue 2023-11-21  349  		else if (type == DWC_PCIE_TIME_BASE_EVENT)
+3481798a4ec51d1 Shuai Xue 2023-11-21  350  			now = dwc_pcie_pmu_read_time_based_counter(event);
+3481798a4ec51d1 Shuai Xue 2023-11-21  351  
+3481798a4ec51d1 Shuai Xue 2023-11-21 @352  	} while (local64_cmpxchg(&hwc->prev_count, prev, now) != prev);
+3481798a4ec51d1 Shuai Xue 2023-11-21  353  
+3481798a4ec51d1 Shuai Xue 2023-11-21  354  	delta = (now - prev) & DWC_PCIE_MAX_PERIOD;
+3481798a4ec51d1 Shuai Xue 2023-11-21  355  	/* 32-bit counter for Lane Event Counting */
+3481798a4ec51d1 Shuai Xue 2023-11-21  356  	if (type == DWC_PCIE_LANE_EVENT)
+3481798a4ec51d1 Shuai Xue 2023-11-21  357  		delta &= DWC_PCIE_LANE_EVENT_MAX_PERIOD;
+3481798a4ec51d1 Shuai Xue 2023-11-21  358  
+3481798a4ec51d1 Shuai Xue 2023-11-21  359  	local64_add(delta, &event->count);
+3481798a4ec51d1 Shuai Xue 2023-11-21  360  }
+3481798a4ec51d1 Shuai Xue 2023-11-21  361  
+3481798a4ec51d1 Shuai Xue 2023-11-21  362  static int dwc_pcie_pmu_event_init(struct perf_event *event)
+3481798a4ec51d1 Shuai Xue 2023-11-21  363  {
+3481798a4ec51d1 Shuai Xue 2023-11-21  364  	struct dwc_pcie_pmu *pcie_pmu = to_dwc_pcie_pmu(event->pmu);
+3481798a4ec51d1 Shuai Xue 2023-11-21  365  	enum dwc_pcie_event_type type = DWC_PCIE_EVENT_TYPE(event);
+3481798a4ec51d1 Shuai Xue 2023-11-21  366  	struct perf_event *sibling;
+3481798a4ec51d1 Shuai Xue 2023-11-21  367  	u32 lane;
+3481798a4ec51d1 Shuai Xue 2023-11-21  368  
+3481798a4ec51d1 Shuai Xue 2023-11-21  369  	if (event->attr.type != event->pmu->type)
+3481798a4ec51d1 Shuai Xue 2023-11-21  370  		return -ENOENT;
+3481798a4ec51d1 Shuai Xue 2023-11-21  371  
+3481798a4ec51d1 Shuai Xue 2023-11-21  372  	/* We don't support sampling */
+3481798a4ec51d1 Shuai Xue 2023-11-21  373  	if (is_sampling_event(event))
+3481798a4ec51d1 Shuai Xue 2023-11-21  374  		return -EINVAL;
+3481798a4ec51d1 Shuai Xue 2023-11-21  375  
+3481798a4ec51d1 Shuai Xue 2023-11-21  376  	/* We cannot support task bound events */
+3481798a4ec51d1 Shuai Xue 2023-11-21  377  	if (event->cpu < 0 || event->attach_state & PERF_ATTACH_TASK)
+3481798a4ec51d1 Shuai Xue 2023-11-21  378  		return -EINVAL;
+3481798a4ec51d1 Shuai Xue 2023-11-21  379  
+3481798a4ec51d1 Shuai Xue 2023-11-21  380  	if (event->group_leader != event &&
+3481798a4ec51d1 Shuai Xue 2023-11-21  381  	    !is_software_event(event->group_leader))
+3481798a4ec51d1 Shuai Xue 2023-11-21  382  		return -EINVAL;
+3481798a4ec51d1 Shuai Xue 2023-11-21  383  
+3481798a4ec51d1 Shuai Xue 2023-11-21  384  	for_each_sibling_event(sibling, event->group_leader) {
+3481798a4ec51d1 Shuai Xue 2023-11-21  385  		if (sibling->pmu != event->pmu && !is_software_event(sibling))
+3481798a4ec51d1 Shuai Xue 2023-11-21  386  			return -EINVAL;
+3481798a4ec51d1 Shuai Xue 2023-11-21  387  	}
+3481798a4ec51d1 Shuai Xue 2023-11-21  388  
+3481798a4ec51d1 Shuai Xue 2023-11-21  389  	if (type < 0 || type >= DWC_PCIE_EVENT_TYPE_MAX)
+3481798a4ec51d1 Shuai Xue 2023-11-21  390  		return -EINVAL;
+3481798a4ec51d1 Shuai Xue 2023-11-21  391  
+3481798a4ec51d1 Shuai Xue 2023-11-21  392  	if (type == DWC_PCIE_LANE_EVENT) {
+3481798a4ec51d1 Shuai Xue 2023-11-21  393  		lane = DWC_PCIE_EVENT_LANE(event);
+3481798a4ec51d1 Shuai Xue 2023-11-21  394  		if (lane < 0 || lane >= pcie_pmu->nr_lanes)
+3481798a4ec51d1 Shuai Xue 2023-11-21  395  			return -EINVAL;
+3481798a4ec51d1 Shuai Xue 2023-11-21  396  	}
+3481798a4ec51d1 Shuai Xue 2023-11-21  397  
+3481798a4ec51d1 Shuai Xue 2023-11-21  398  	event->cpu = pcie_pmu->on_cpu;
+3481798a4ec51d1 Shuai Xue 2023-11-21  399  
+3481798a4ec51d1 Shuai Xue 2023-11-21  400  	return 0;
+3481798a4ec51d1 Shuai Xue 2023-11-21  401  }
+3481798a4ec51d1 Shuai Xue 2023-11-21  402  
+3481798a4ec51d1 Shuai Xue 2023-11-21  403  static void dwc_pcie_pmu_event_start(struct perf_event *event, int flags)
+3481798a4ec51d1 Shuai Xue 2023-11-21  404  {
+3481798a4ec51d1 Shuai Xue 2023-11-21  405  	struct hw_perf_event *hwc = &event->hw;
+3481798a4ec51d1 Shuai Xue 2023-11-21  406  	struct dwc_pcie_pmu *pcie_pmu = to_dwc_pcie_pmu(event->pmu);
+3481798a4ec51d1 Shuai Xue 2023-11-21  407  	enum dwc_pcie_event_type type = DWC_PCIE_EVENT_TYPE(event);
+3481798a4ec51d1 Shuai Xue 2023-11-21  408  
+3481798a4ec51d1 Shuai Xue 2023-11-21  409  	hwc->state = 0;
+3481798a4ec51d1 Shuai Xue 2023-11-21  410  	local64_set(&hwc->prev_count, 0);
+3481798a4ec51d1 Shuai Xue 2023-11-21  411  
+3481798a4ec51d1 Shuai Xue 2023-11-21  412  	if (type == DWC_PCIE_LANE_EVENT)
+3481798a4ec51d1 Shuai Xue 2023-11-21  413  		dwc_pcie_pmu_lane_event_enable(pcie_pmu, true);
+3481798a4ec51d1 Shuai Xue 2023-11-21  414  	else if (type == DWC_PCIE_TIME_BASE_EVENT)
+3481798a4ec51d1 Shuai Xue 2023-11-21  415  		dwc_pcie_pmu_time_based_event_enable(pcie_pmu, true);
+3481798a4ec51d1 Shuai Xue 2023-11-21  416  }
+3481798a4ec51d1 Shuai Xue 2023-11-21  417  
+3481798a4ec51d1 Shuai Xue 2023-11-21  418  static void dwc_pcie_pmu_event_stop(struct perf_event *event, int flags)
+3481798a4ec51d1 Shuai Xue 2023-11-21  419  {
+3481798a4ec51d1 Shuai Xue 2023-11-21  420  	struct dwc_pcie_pmu *pcie_pmu = to_dwc_pcie_pmu(event->pmu);
+3481798a4ec51d1 Shuai Xue 2023-11-21  421  	enum dwc_pcie_event_type type = DWC_PCIE_EVENT_TYPE(event);
+3481798a4ec51d1 Shuai Xue 2023-11-21  422  	struct hw_perf_event *hwc = &event->hw;
+3481798a4ec51d1 Shuai Xue 2023-11-21  423  
+3481798a4ec51d1 Shuai Xue 2023-11-21  424  	if (event->hw.state & PERF_HES_STOPPED)
+3481798a4ec51d1 Shuai Xue 2023-11-21  425  		return;
+3481798a4ec51d1 Shuai Xue 2023-11-21  426  
+3481798a4ec51d1 Shuai Xue 2023-11-21  427  	if (type == DWC_PCIE_LANE_EVENT)
+3481798a4ec51d1 Shuai Xue 2023-11-21  428  		dwc_pcie_pmu_lane_event_enable(pcie_pmu, false);
+3481798a4ec51d1 Shuai Xue 2023-11-21  429  	else if (type == DWC_PCIE_TIME_BASE_EVENT)
+3481798a4ec51d1 Shuai Xue 2023-11-21  430  		dwc_pcie_pmu_time_based_event_enable(pcie_pmu, false);
+3481798a4ec51d1 Shuai Xue 2023-11-21  431  
+3481798a4ec51d1 Shuai Xue 2023-11-21  432  	dwc_pcie_pmu_event_update(event);
+3481798a4ec51d1 Shuai Xue 2023-11-21  433  	hwc->state |= PERF_HES_STOPPED | PERF_HES_UPTODATE;
+3481798a4ec51d1 Shuai Xue 2023-11-21  434  }
+3481798a4ec51d1 Shuai Xue 2023-11-21  435  
+3481798a4ec51d1 Shuai Xue 2023-11-21  436  static int dwc_pcie_pmu_event_add(struct perf_event *event, int flags)
+3481798a4ec51d1 Shuai Xue 2023-11-21  437  {
+3481798a4ec51d1 Shuai Xue 2023-11-21  438  	struct dwc_pcie_pmu *pcie_pmu = to_dwc_pcie_pmu(event->pmu);
+3481798a4ec51d1 Shuai Xue 2023-11-21  439  	struct pci_dev *pdev = pcie_pmu->pdev;
+3481798a4ec51d1 Shuai Xue 2023-11-21  440  	struct hw_perf_event *hwc = &event->hw;
+3481798a4ec51d1 Shuai Xue 2023-11-21  441  	enum dwc_pcie_event_type type = DWC_PCIE_EVENT_TYPE(event);
+3481798a4ec51d1 Shuai Xue 2023-11-21  442  	int event_id = DWC_PCIE_EVENT_ID(event);
+3481798a4ec51d1 Shuai Xue 2023-11-21  443  	int lane = DWC_PCIE_EVENT_LANE(event);
+3481798a4ec51d1 Shuai Xue 2023-11-21  444  	u16 ras_des_offset = pcie_pmu->ras_des_offset;
+3481798a4ec51d1 Shuai Xue 2023-11-21  445  	u32 ctrl;
+3481798a4ec51d1 Shuai Xue 2023-11-21  446  
+3481798a4ec51d1 Shuai Xue 2023-11-21  447  	/* one counter for each type and it is in use */
+3481798a4ec51d1 Shuai Xue 2023-11-21  448  	if (pcie_pmu->event[type])
+3481798a4ec51d1 Shuai Xue 2023-11-21  449  		return -ENOSPC;
+3481798a4ec51d1 Shuai Xue 2023-11-21  450  
+3481798a4ec51d1 Shuai Xue 2023-11-21  451  	pcie_pmu->event[type] = event;
+3481798a4ec51d1 Shuai Xue 2023-11-21  452  	hwc->state = PERF_HES_STOPPED | PERF_HES_UPTODATE;
+3481798a4ec51d1 Shuai Xue 2023-11-21  453  
+3481798a4ec51d1 Shuai Xue 2023-11-21  454  	if (type == DWC_PCIE_LANE_EVENT) {
+3481798a4ec51d1 Shuai Xue 2023-11-21  455  		/* EVENT_COUNTER_DATA_REG needs clear manually */
+3481798a4ec51d1 Shuai Xue 2023-11-21  456  		ctrl = FIELD_PREP(DWC_PCIE_CNT_EVENT_SEL, event_id) |
+3481798a4ec51d1 Shuai Xue 2023-11-21  457  			FIELD_PREP(DWC_PCIE_CNT_LANE_SEL, lane) |
+3481798a4ec51d1 Shuai Xue 2023-11-21  458  			FIELD_PREP(DWC_PCIE_CNT_ENABLE, DWC_PCIE_PER_EVENT_OFF) |
+3481798a4ec51d1 Shuai Xue 2023-11-21  459  			FIELD_PREP(DWC_PCIE_EVENT_CLEAR, DWC_PCIE_EVENT_PER_CLEAR);
+3481798a4ec51d1 Shuai Xue 2023-11-21  460  		pci_write_config_dword(pdev, ras_des_offset + DWC_PCIE_EVENT_CNT_CTL,
+3481798a4ec51d1 Shuai Xue 2023-11-21  461  				       ctrl);
+3481798a4ec51d1 Shuai Xue 2023-11-21  462  	} else if (type == DWC_PCIE_TIME_BASE_EVENT) {
+3481798a4ec51d1 Shuai Xue 2023-11-21  463  		/*
+3481798a4ec51d1 Shuai Xue 2023-11-21  464  		 * TIME_BASED_ANAL_DATA_REG is a 64 bit register, we can safely
+3481798a4ec51d1 Shuai Xue 2023-11-21  465  		 * use it with any manually controlled duration. And it is
+3481798a4ec51d1 Shuai Xue 2023-11-21  466  		 * cleared when next measurement starts.
+3481798a4ec51d1 Shuai Xue 2023-11-21  467  		 */
+3481798a4ec51d1 Shuai Xue 2023-11-21  468  		ctrl = FIELD_PREP(DWC_PCIE_TIME_BASED_REPORT_SEL, event_id) |
+3481798a4ec51d1 Shuai Xue 2023-11-21  469  			FIELD_PREP(DWC_PCIE_TIME_BASED_DURATION_SEL,
+3481798a4ec51d1 Shuai Xue 2023-11-21  470  				   DWC_PCIE_DURATION_MANUAL_CTL) |
+3481798a4ec51d1 Shuai Xue 2023-11-21  471  			DWC_PCIE_TIME_BASED_CNT_ENABLE;
+3481798a4ec51d1 Shuai Xue 2023-11-21  472  		pci_write_config_dword(
+3481798a4ec51d1 Shuai Xue 2023-11-21  473  			pdev, ras_des_offset + DWC_PCIE_TIME_BASED_ANAL_CTL, ctrl);
+3481798a4ec51d1 Shuai Xue 2023-11-21  474  	}
+3481798a4ec51d1 Shuai Xue 2023-11-21  475  
+3481798a4ec51d1 Shuai Xue 2023-11-21  476  	if (flags & PERF_EF_START)
+3481798a4ec51d1 Shuai Xue 2023-11-21  477  		dwc_pcie_pmu_event_start(event, PERF_EF_RELOAD);
+3481798a4ec51d1 Shuai Xue 2023-11-21  478  
+3481798a4ec51d1 Shuai Xue 2023-11-21  479  	perf_event_update_userpage(event);
+3481798a4ec51d1 Shuai Xue 2023-11-21  480  
+3481798a4ec51d1 Shuai Xue 2023-11-21  481  	return 0;
+3481798a4ec51d1 Shuai Xue 2023-11-21  482  }
+3481798a4ec51d1 Shuai Xue 2023-11-21  483  
+3481798a4ec51d1 Shuai Xue 2023-11-21  484  static void dwc_pcie_pmu_event_del(struct perf_event *event, int flags)
+3481798a4ec51d1 Shuai Xue 2023-11-21  485  {
+3481798a4ec51d1 Shuai Xue 2023-11-21  486  	struct dwc_pcie_pmu *pcie_pmu = to_dwc_pcie_pmu(event->pmu);
+3481798a4ec51d1 Shuai Xue 2023-11-21  487  	enum dwc_pcie_event_type type = DWC_PCIE_EVENT_TYPE(event);
+3481798a4ec51d1 Shuai Xue 2023-11-21  488  
+3481798a4ec51d1 Shuai Xue 2023-11-21  489  	dwc_pcie_pmu_event_stop(event, flags | PERF_EF_UPDATE);
+3481798a4ec51d1 Shuai Xue 2023-11-21  490  	perf_event_update_userpage(event);
+3481798a4ec51d1 Shuai Xue 2023-11-21  491  	pcie_pmu->event[type] = NULL;
+3481798a4ec51d1 Shuai Xue 2023-11-21  492  }
+3481798a4ec51d1 Shuai Xue 2023-11-21  493  
+3481798a4ec51d1 Shuai Xue 2023-11-21  494  static void dwc_pcie_pmu_remove_cpuhp_instance(void *hotplug_node)
+3481798a4ec51d1 Shuai Xue 2023-11-21  495  {
+3481798a4ec51d1 Shuai Xue 2023-11-21  496  	cpuhp_state_remove_instance_nocalls(dwc_pcie_pmu_hp_state, hotplug_node);
+3481798a4ec51d1 Shuai Xue 2023-11-21  497  }
+3481798a4ec51d1 Shuai Xue 2023-11-21  498  
+3481798a4ec51d1 Shuai Xue 2023-11-21  499  /*
+3481798a4ec51d1 Shuai Xue 2023-11-21  500   * Find the binded DES capability device info of a PCI device.
+3481798a4ec51d1 Shuai Xue 2023-11-21  501   * @pdev: The PCI device.
+3481798a4ec51d1 Shuai Xue 2023-11-21  502   */
+3481798a4ec51d1 Shuai Xue 2023-11-21  503  static struct dwc_pcie_dev_info *dwc_pcie_find_dev_info(struct pci_dev *pdev)
+3481798a4ec51d1 Shuai Xue 2023-11-21  504  {
+3481798a4ec51d1 Shuai Xue 2023-11-21  505  	struct dwc_pcie_dev_info *dev_info;
+3481798a4ec51d1 Shuai Xue 2023-11-21  506  
+3481798a4ec51d1 Shuai Xue 2023-11-21  507  	list_for_each_entry(dev_info, &dwc_pcie_dev_info_head, dev_node)
+3481798a4ec51d1 Shuai Xue 2023-11-21  508  		if (dev_info->pdev == pdev)
+3481798a4ec51d1 Shuai Xue 2023-11-21  509  			return dev_info;
+3481798a4ec51d1 Shuai Xue 2023-11-21  510  
+3481798a4ec51d1 Shuai Xue 2023-11-21  511  	return NULL;
+3481798a4ec51d1 Shuai Xue 2023-11-21  512  }
+3481798a4ec51d1 Shuai Xue 2023-11-21  513  
+3481798a4ec51d1 Shuai Xue 2023-11-21  514  static void dwc_pcie_unregister_pmu(void *data)
+3481798a4ec51d1 Shuai Xue 2023-11-21  515  {
+3481798a4ec51d1 Shuai Xue 2023-11-21  516  	struct dwc_pcie_pmu *pcie_pmu = data;
+3481798a4ec51d1 Shuai Xue 2023-11-21  517  
+3481798a4ec51d1 Shuai Xue 2023-11-21  518  	perf_pmu_unregister(&pcie_pmu->pmu);
+3481798a4ec51d1 Shuai Xue 2023-11-21  519  }
+3481798a4ec51d1 Shuai Xue 2023-11-21  520  
+3481798a4ec51d1 Shuai Xue 2023-11-21  521  static bool dwc_pcie_match_des_cap(struct pci_dev *pdev)
+3481798a4ec51d1 Shuai Xue 2023-11-21  522  {
+3481798a4ec51d1 Shuai Xue 2023-11-21  523  	const struct dwc_pcie_vendor_id *vid;
+3481798a4ec51d1 Shuai Xue 2023-11-21  524  	u16 vsec;
+3481798a4ec51d1 Shuai Xue 2023-11-21  525  	u32 val;
+3481798a4ec51d1 Shuai Xue 2023-11-21  526  
+3481798a4ec51d1 Shuai Xue 2023-11-21  527  	if (!pci_is_pcie(pdev) || !(pci_pcie_type(pdev) == PCI_EXP_TYPE_ROOT_PORT))
+3481798a4ec51d1 Shuai Xue 2023-11-21  528  		return false;
+3481798a4ec51d1 Shuai Xue 2023-11-21  529  
+3481798a4ec51d1 Shuai Xue 2023-11-21  530  	for (vid = dwc_pcie_vendor_ids; vid->vendor_id; vid++) {
+3481798a4ec51d1 Shuai Xue 2023-11-21  531  		vsec = pci_find_vsec_capability(pdev, vid->vendor_id,
+3481798a4ec51d1 Shuai Xue 2023-11-21  532  						DWC_PCIE_VSEC_RAS_DES_ID);
+3481798a4ec51d1 Shuai Xue 2023-11-21  533  		if (vsec)
+3481798a4ec51d1 Shuai Xue 2023-11-21  534  			break;
+3481798a4ec51d1 Shuai Xue 2023-11-21  535  	}
+3481798a4ec51d1 Shuai Xue 2023-11-21 @536  	if (!vsec)
+3481798a4ec51d1 Shuai Xue 2023-11-21  537  		return false;
+3481798a4ec51d1 Shuai Xue 2023-11-21  538  
+3481798a4ec51d1 Shuai Xue 2023-11-21  539  	pci_read_config_dword(pdev, vsec + PCI_VNDR_HEADER, &val);
+3481798a4ec51d1 Shuai Xue 2023-11-21  540  	if (PCI_VNDR_HEADER_REV(val) != 0x04)
+3481798a4ec51d1 Shuai Xue 2023-11-21  541  		return false;
+3481798a4ec51d1 Shuai Xue 2023-11-21  542  
+3481798a4ec51d1 Shuai Xue 2023-11-21  543  	pci_dbg(pdev,
+3481798a4ec51d1 Shuai Xue 2023-11-21  544  		"Detected PCIe Vendor-Specific Extended Capability RAS DES\n");
+3481798a4ec51d1 Shuai Xue 2023-11-21  545  	return true;
+3481798a4ec51d1 Shuai Xue 2023-11-21  546  }
+3481798a4ec51d1 Shuai Xue 2023-11-21  547  
 
 -- 
 0-DAY CI Kernel Test Service
