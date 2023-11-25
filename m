@@ -1,45 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D0910EA
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 Nov 2023 02:17:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6641D15A4
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 Nov 2023 03:12:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A0HK5R83"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UM6encdn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700878651; x=1732414651;
+  t=1700881976; x=1732417976;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fqVSfzvUe+/ZNQyKOZJaB6MvdzGQNoXVcKlc1RR95qI=;
-  b=A0HK5R83otlfPm3F6sQQZW7CQxM6L2P6NQRuPKwqDYrrl9sjjHIGm6pP
-   Ad+NSZwUyt4fOJCcQm7/1k0wqNA+2XG04ePT8peHNikqzPffZcNPOZy/2
-   ekQoKaVM0w877bjObjq5rFAxDI3BzcApPpYRfLaFahLKIraQip9koJWy7
-   rTgGe+3SN2dOyqd8cZPnJKwjRP7b0xbbICXL/mNZYVlDXvLL8zJavMVo5
-   Mt1Flm6MxK18nFM8MnEjSy5PjxzQXsw6VQBJ/iKLBarHQ89xUhTA1R+/7
-   0pDcXxY7P9HlclQ/AlA4uZP3vyz9swBhTkJ7tGOmMTOHXdSUJwPhDElna
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="478693297"
+  bh=CNaKXMPHISd9p9GkzDfkj17otF8TCuQAh0juthLu8/8=;
+  b=UM6encdn0sDPJTpOPkYsrnHTcmOLFoP9mZQyfg+4d609tEzUXYUdjw53
+   vFWDXZCqZuHJO7L6E099MbUCVl0m4HFNsN+jmPx25p8EtB3mNyErAh7p9
+   ZuBee1xoMtVXHb4eZGyM4Fz5lue25STm59VbAzIoiKf3RyjHi8QPP/Xgy
+   IfqQm5iGc3qHVA6/Nrkv2v2dTDCtxFCn6hXDt8xY8JsAlFg9yJV+HvS2j
+   tn1S74Cl9Q5bNhGTivqyiVGxDnccDTpnlJEoiJURrrKoZimAtcGt+LREa
+   7XUAIs+1EIn/BN1GeUbmkckrSVGLMdlkMWv/h3UKlaY6C40fghXWLZrh3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="5716331"
 X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="478693297"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 18:17:24 -0800
+   d="scan'208";a="5716331"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 19:12:55 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="744025374"
 X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="16094871"
+   d="scan'208";a="744025374"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 24 Nov 2023 18:17:23 -0800
+  by orsmga006.jf.intel.com with ESMTP; 24 Nov 2023 19:12:53 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6iES-0003Xj-2e;
-	Sat, 25 Nov 2023 02:17:20 +0000
-Date: Sat, 25 Nov 2023 10:16:21 +0800
+	id 1r6j6A-0003Zo-2d;
+	Sat, 25 Nov 2023 03:12:50 +0000
+Date: Sat, 25 Nov 2023 11:11:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:507
- vchiq_ioc_await_completion() warn: inconsistent indenting
-Message-ID: <202311250741.z1Kusblt-lkp@intel.com>
+Subject: [asahilinux:bits/090-spi-hid 14/21]
+ drivers/soc/apple/dockchannel.c:240 dockchannel_init() warn: passing zero to
+ 'dev_err_probe'
+Message-ID: <202311250933.YsLePo4M-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,182 +53,190 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Umang Jain <umang.jain@ideasonboard.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: Hector Martin <marcan@marcan.st>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0f5cc96c367f2e780eb492cc9cab84e3b2ca88da
-commit: 1d8915cf889932e085880f4bdbf7ae0f3d8605e5 staging: vc04: Convert vchiq_log_error() to use dynamic debug
-date:   4 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 weeks ago
-config: mips-randconfig-r081-20231121 (https://download.01.org/0day-ci/archive/20231125/202311250741.z1Kusblt-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
+head:   16871bb3228eaf55cbdb1dfb81c1cecec4ee0d52
+commit: 7c1543b965b465df17e43246abe9ef43c4bd8358 [14/21] soc: apple: Add DockChannel driver
+:::::: branch date: 6 days ago
+:::::: commit date: 9 weeks ago
+config: mips-randconfig-r081-20231121 (https://download.01.org/0day-ci/archive/20231125/202311250933.YsLePo4M-lkp@intel.com/config)
 compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231125/202311250741.z1Kusblt-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231125/202311250933.YsLePo4M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311250741.z1Kusblt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311250933.YsLePo4M-lkp@intel.com/
 
-smatch warnings:
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:507 vchiq_ioc_await_completion() warn: inconsistent indenting
+New smatch warnings:
+drivers/soc/apple/dockchannel.c:240 dockchannel_init() warn: passing zero to 'dev_err_probe'
+drivers/soc/apple/dockchannel.c:358 dockchannel_probe() warn: passing zero to 'dev_err_probe'
 
-vim +507 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+Old smatch warnings:
+drivers/soc/apple/dockchannel.c:246 dockchannel_init() warn: passing zero to 'dev_err_probe'
 
-f05916281fd75d Ojaswin Mujoo   2021-07-21  431  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  432  static int vchiq_ioc_await_completion(struct vchiq_instance *instance,
-f05916281fd75d Ojaswin Mujoo   2021-07-21  433  				      struct vchiq_await_completion *args,
-f05916281fd75d Ojaswin Mujoo   2021-07-21  434  				      int __user *msgbufcountp)
-f05916281fd75d Ojaswin Mujoo   2021-07-21  435  {
-f05916281fd75d Ojaswin Mujoo   2021-07-21  436  	int msgbufcount;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  437  	int remove;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  438  	int ret;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  439  
-8dd56723240e43 Gaston Gonzalez 2021-10-24  440  	DEBUG_INITIALISE(g_state.local);
-f05916281fd75d Ojaswin Mujoo   2021-07-21  441  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  442  	DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-cfb24b67bfd6b7 Gaston Gonzalez 2021-09-12  443  	if (!instance->connected)
-f05916281fd75d Ojaswin Mujoo   2021-07-21  444  		return -ENOTCONN;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  445  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  446  	mutex_lock(&instance->completion_mutex);
-f05916281fd75d Ojaswin Mujoo   2021-07-21  447  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  448  	DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-8757f705d936ad Gaston Gonzalez 2021-09-12  449  	while ((instance->completion_remove == instance->completion_insert) && !instance->closing) {
-f05916281fd75d Ojaswin Mujoo   2021-07-21  450  		int rc;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  451  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  452  		DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-f05916281fd75d Ojaswin Mujoo   2021-07-21  453  		mutex_unlock(&instance->completion_mutex);
-8757f705d936ad Gaston Gonzalez 2021-09-12  454  		rc = wait_for_completion_interruptible(&instance->insert_event);
-f05916281fd75d Ojaswin Mujoo   2021-07-21  455  		mutex_lock(&instance->completion_mutex);
-f05916281fd75d Ojaswin Mujoo   2021-07-21  456  		if (rc) {
-f05916281fd75d Ojaswin Mujoo   2021-07-21  457  			DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-f05916281fd75d Ojaswin Mujoo   2021-07-21  458  			vchiq_log_info(vchiq_arm_log_level,
-f05916281fd75d Ojaswin Mujoo   2021-07-21  459  				       "AWAIT_COMPLETION interrupted");
-f05916281fd75d Ojaswin Mujoo   2021-07-21  460  			ret = -EINTR;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  461  			goto out;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  462  		}
-f05916281fd75d Ojaswin Mujoo   2021-07-21  463  	}
-f05916281fd75d Ojaswin Mujoo   2021-07-21  464  	DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-f05916281fd75d Ojaswin Mujoo   2021-07-21  465  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  466  	msgbufcount = args->msgbufcount;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  467  	remove = instance->completion_remove;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  468  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  469  	for (ret = 0; ret < args->count; ret++) {
-f05916281fd75d Ojaswin Mujoo   2021-07-21  470  		struct vchiq_completion_data_kernel *completion;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  471  		struct vchiq_completion_data user_completion;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  472  		struct vchiq_service *service;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  473  		struct user_service *user_service;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  474  		struct vchiq_header *header;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  475  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  476  		if (remove == instance->completion_insert)
-f05916281fd75d Ojaswin Mujoo   2021-07-21  477  			break;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  478  
-8757f705d936ad Gaston Gonzalez 2021-09-12  479  		completion = &instance->completions[remove & (MAX_COMPLETIONS - 1)];
-f05916281fd75d Ojaswin Mujoo   2021-07-21  480  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  481  		/*
-f05916281fd75d Ojaswin Mujoo   2021-07-21  482  		 * A read memory barrier is needed to stop
-f05916281fd75d Ojaswin Mujoo   2021-07-21  483  		 * prefetch of a stale completion record
-f05916281fd75d Ojaswin Mujoo   2021-07-21  484  		 */
-f05916281fd75d Ojaswin Mujoo   2021-07-21  485  		rmb();
-f05916281fd75d Ojaswin Mujoo   2021-07-21  486  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  487  		service = completion->service_userdata;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  488  		user_service = service->base.userdata;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  489  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  490  		memset(&user_completion, 0, sizeof(user_completion));
-f05916281fd75d Ojaswin Mujoo   2021-07-21  491  		user_completion = (struct vchiq_completion_data) {
-f05916281fd75d Ojaswin Mujoo   2021-07-21  492  			.reason = completion->reason,
-f05916281fd75d Ojaswin Mujoo   2021-07-21  493  			.service_userdata = user_service->userdata,
-f05916281fd75d Ojaswin Mujoo   2021-07-21  494  		};
-f05916281fd75d Ojaswin Mujoo   2021-07-21  495  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  496  		header = completion->header;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  497  		if (header) {
-f05916281fd75d Ojaswin Mujoo   2021-07-21  498  			void __user *msgbuf;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  499  			int msglen;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  500  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  501  			msglen = header->size + sizeof(struct vchiq_header);
-f05916281fd75d Ojaswin Mujoo   2021-07-21  502  			/* This must be a VCHIQ-style service */
-f05916281fd75d Ojaswin Mujoo   2021-07-21  503  			if (args->msgbufsize < msglen) {
-1d8915cf889932 Umang Jain      2023-10-24  504  				vchiq_log_error(service->state->dev, VCHIQ_ARM,
-f05916281fd75d Ojaswin Mujoo   2021-07-21  505  						"header %pK: msgbufsize %x < msglen %x",
-f05916281fd75d Ojaswin Mujoo   2021-07-21  506  						header, args->msgbufsize, msglen);
-f05916281fd75d Ojaswin Mujoo   2021-07-21 @507  						WARN(1, "invalid message size\n");
-f05916281fd75d Ojaswin Mujoo   2021-07-21  508  				if (ret == 0)
-f05916281fd75d Ojaswin Mujoo   2021-07-21  509  					ret = -EMSGSIZE;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  510  				break;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  511  			}
-f05916281fd75d Ojaswin Mujoo   2021-07-21  512  			if (msgbufcount <= 0)
-f05916281fd75d Ojaswin Mujoo   2021-07-21  513  				/* Stall here for lack of a buffer for the message. */
-f05916281fd75d Ojaswin Mujoo   2021-07-21  514  				break;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  515  			/* Get the pointer from user space */
-f05916281fd75d Ojaswin Mujoo   2021-07-21  516  			msgbufcount--;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  517  			if (vchiq_get_user_ptr(&msgbuf, args->msgbufs,
-f05916281fd75d Ojaswin Mujoo   2021-07-21  518  					       msgbufcount)) {
-f05916281fd75d Ojaswin Mujoo   2021-07-21  519  				if (ret == 0)
-f05916281fd75d Ojaswin Mujoo   2021-07-21  520  					ret = -EFAULT;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  521  				break;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  522  			}
-f05916281fd75d Ojaswin Mujoo   2021-07-21  523  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  524  			/* Copy the message to user space */
-f05916281fd75d Ojaswin Mujoo   2021-07-21  525  			if (copy_to_user(msgbuf, header, msglen)) {
-f05916281fd75d Ojaswin Mujoo   2021-07-21  526  				if (ret == 0)
-f05916281fd75d Ojaswin Mujoo   2021-07-21  527  					ret = -EFAULT;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  528  				break;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  529  			}
-f05916281fd75d Ojaswin Mujoo   2021-07-21  530  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  531  			/* Now it has been copied, the message can be released. */
-14780bb174266e Adrien Thierry  2022-05-18  532  			vchiq_release_message(instance, service->handle, header);
-f05916281fd75d Ojaswin Mujoo   2021-07-21  533  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  534  			/* The completion must point to the msgbuf. */
-f05916281fd75d Ojaswin Mujoo   2021-07-21  535  			user_completion.header = msgbuf;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  536  		}
-f05916281fd75d Ojaswin Mujoo   2021-07-21  537  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  538  		if ((completion->reason == VCHIQ_SERVICE_CLOSED) &&
-f05916281fd75d Ojaswin Mujoo   2021-07-21  539  		    !instance->use_close_delivered)
-f05916281fd75d Ojaswin Mujoo   2021-07-21  540  			vchiq_service_put(service);
-f05916281fd75d Ojaswin Mujoo   2021-07-21  541  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  542  		/*
-f05916281fd75d Ojaswin Mujoo   2021-07-21  543  		 * FIXME: address space mismatch, does bulk_userdata
-f05916281fd75d Ojaswin Mujoo   2021-07-21  544  		 * actually point to user or kernel memory?
-f05916281fd75d Ojaswin Mujoo   2021-07-21  545  		 */
-f05916281fd75d Ojaswin Mujoo   2021-07-21  546  		user_completion.bulk_userdata = completion->bulk_userdata;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  547  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  548  		if (vchiq_put_completion(args->buf, &user_completion, ret)) {
-f05916281fd75d Ojaswin Mujoo   2021-07-21  549  			if (ret == 0)
-f05916281fd75d Ojaswin Mujoo   2021-07-21  550  				ret = -EFAULT;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  551  			break;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  552  		}
-f05916281fd75d Ojaswin Mujoo   2021-07-21  553  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  554  		/*
-f05916281fd75d Ojaswin Mujoo   2021-07-21  555  		 * Ensure that the above copy has completed
-f05916281fd75d Ojaswin Mujoo   2021-07-21  556  		 * before advancing the remove pointer.
-f05916281fd75d Ojaswin Mujoo   2021-07-21  557  		 */
-f05916281fd75d Ojaswin Mujoo   2021-07-21  558  		mb();
-f05916281fd75d Ojaswin Mujoo   2021-07-21  559  		remove++;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  560  		instance->completion_remove = remove;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  561  	}
-f05916281fd75d Ojaswin Mujoo   2021-07-21  562  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  563  	if (msgbufcount != args->msgbufcount) {
-f05916281fd75d Ojaswin Mujoo   2021-07-21  564  		if (put_user(msgbufcount, msgbufcountp))
-f05916281fd75d Ojaswin Mujoo   2021-07-21  565  			ret = -EFAULT;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  566  	}
-f05916281fd75d Ojaswin Mujoo   2021-07-21  567  out:
-f05916281fd75d Ojaswin Mujoo   2021-07-21  568  	if (ret)
-f05916281fd75d Ojaswin Mujoo   2021-07-21  569  		complete(&instance->remove_event);
-f05916281fd75d Ojaswin Mujoo   2021-07-21  570  	mutex_unlock(&instance->completion_mutex);
-f05916281fd75d Ojaswin Mujoo   2021-07-21  571  	DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-f05916281fd75d Ojaswin Mujoo   2021-07-21  572  
-f05916281fd75d Ojaswin Mujoo   2021-07-21  573  	return ret;
-f05916281fd75d Ojaswin Mujoo   2021-07-21  574  }
-f05916281fd75d Ojaswin Mujoo   2021-07-21  575  
+vim +/dev_err_probe +240 drivers/soc/apple/dockchannel.c
 
-:::::: The code at line 507 was first introduced by commit
-:::::: f05916281fd75db2fe32294e26c04d666c762370 staging: vchiq: Move vchiq char driver to its own file
-
-:::::: TO: Ojaswin Mujoo <ojaswin98@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+7c1543b965b465 Hector Martin 2022-07-08  211  
+7c1543b965b465 Hector Martin 2022-07-08  212  struct dockchannel *dockchannel_init(struct platform_device *pdev)
+7c1543b965b465 Hector Martin 2022-07-08  213  {
+7c1543b965b465 Hector Martin 2022-07-08  214  	struct device *dev = &pdev->dev;
+7c1543b965b465 Hector Martin 2022-07-08  215  	struct dockchannel *dockchannel;
+7c1543b965b465 Hector Martin 2022-07-08  216  	int ret;
+7c1543b965b465 Hector Martin 2022-07-08  217  
+7c1543b965b465 Hector Martin 2022-07-08  218  	dockchannel = devm_kzalloc(dev, sizeof(*dockchannel), GFP_KERNEL);
+7c1543b965b465 Hector Martin 2022-07-08  219  	if (!dockchannel)
+7c1543b965b465 Hector Martin 2022-07-08  220  		return ERR_PTR(-ENOMEM);
+7c1543b965b465 Hector Martin 2022-07-08  221  
+7c1543b965b465 Hector Martin 2022-07-08  222  	dockchannel->dev = dev;
+7c1543b965b465 Hector Martin 2022-07-08  223  	dockchannel->config_base = devm_platform_ioremap_resource_byname(pdev, "config");
+7c1543b965b465 Hector Martin 2022-07-08  224  	if (IS_ERR(dockchannel->config_base))
+7c1543b965b465 Hector Martin 2022-07-08  225  		return (__force void *)dockchannel->config_base;
+7c1543b965b465 Hector Martin 2022-07-08  226  
+7c1543b965b465 Hector Martin 2022-07-08  227  	dockchannel->data_base = devm_platform_ioremap_resource_byname(pdev, "data");
+7c1543b965b465 Hector Martin 2022-07-08  228  	if (IS_ERR(dockchannel->data_base))
+7c1543b965b465 Hector Martin 2022-07-08  229  		return (__force void *)dockchannel->data_base;
+7c1543b965b465 Hector Martin 2022-07-08  230  
+7c1543b965b465 Hector Martin 2022-07-08  231  	ret = of_property_read_u32(dev->of_node, "apple,fifo-size", &dockchannel->fifo_size);
+7c1543b965b465 Hector Martin 2022-07-08  232  	if (ret)
+7c1543b965b465 Hector Martin 2022-07-08  233  		return ERR_PTR(dev_err_probe(dev, ret, "Missing apple,fifo-size property"));
+7c1543b965b465 Hector Martin 2022-07-08  234  
+7c1543b965b465 Hector Martin 2022-07-08  235  	init_completion(&dockchannel->tx_comp);
+7c1543b965b465 Hector Martin 2022-07-08  236  	init_completion(&dockchannel->rx_comp);
+7c1543b965b465 Hector Martin 2022-07-08  237  
+7c1543b965b465 Hector Martin 2022-07-08  238  	dockchannel->tx_irq = platform_get_irq_byname(pdev, "tx");
+7c1543b965b465 Hector Martin 2022-07-08  239  	if (dockchannel->tx_irq <= 0) {
+7c1543b965b465 Hector Martin 2022-07-08 @240  		return ERR_PTR(dev_err_probe(dev, dockchannel->tx_irq,
+7c1543b965b465 Hector Martin 2022-07-08  241  				     "Failed to get TX IRQ"));
+7c1543b965b465 Hector Martin 2022-07-08  242  	}
+7c1543b965b465 Hector Martin 2022-07-08  243  
+7c1543b965b465 Hector Martin 2022-07-08  244  	dockchannel->rx_irq = platform_get_irq_byname(pdev, "rx");
+7c1543b965b465 Hector Martin 2022-07-08  245  	if (dockchannel->rx_irq <= 0) {
+7c1543b965b465 Hector Martin 2022-07-08  246  		return ERR_PTR(dev_err_probe(dev, dockchannel->rx_irq,
+7c1543b965b465 Hector Martin 2022-07-08  247  				     "Failed to get RX IRQ"));
+7c1543b965b465 Hector Martin 2022-07-08  248  	}
+7c1543b965b465 Hector Martin 2022-07-08  249  
+7c1543b965b465 Hector Martin 2022-07-08  250  	ret = devm_request_irq(dev, dockchannel->tx_irq, dockchannel_tx_irq, IRQF_NO_AUTOEN,
+7c1543b965b465 Hector Martin 2022-07-08  251  			       "apple-dockchannel-tx", dockchannel);
+7c1543b965b465 Hector Martin 2022-07-08  252  	if (ret)
+7c1543b965b465 Hector Martin 2022-07-08  253  		return ERR_PTR(dev_err_probe(dev, ret, "Failed to request TX IRQ"));
+7c1543b965b465 Hector Martin 2022-07-08  254  
+7c1543b965b465 Hector Martin 2022-07-08  255  	ret = devm_request_threaded_irq(dev, dockchannel->rx_irq, dockchannel_rx_irq,
+7c1543b965b465 Hector Martin 2022-07-08  256  					dockchannel_rx_irq_thread, IRQF_NO_AUTOEN,
+7c1543b965b465 Hector Martin 2022-07-08  257  					"apple-dockchannel-rx", dockchannel);
+7c1543b965b465 Hector Martin 2022-07-08  258  	if (ret)
+7c1543b965b465 Hector Martin 2022-07-08  259  		return ERR_PTR(dev_err_probe(dev, ret, "Failed to request RX IRQ"));
+7c1543b965b465 Hector Martin 2022-07-08  260  
+7c1543b965b465 Hector Martin 2022-07-08  261  	return dockchannel;
+7c1543b965b465 Hector Martin 2022-07-08  262  }
+7c1543b965b465 Hector Martin 2022-07-08  263  EXPORT_SYMBOL(dockchannel_init);
+7c1543b965b465 Hector Martin 2022-07-08  264  
+7c1543b965b465 Hector Martin 2022-07-08  265  
+7c1543b965b465 Hector Martin 2022-07-08  266  /* Dockchannel IRQchip */
+7c1543b965b465 Hector Martin 2022-07-08  267  
+7c1543b965b465 Hector Martin 2022-07-08  268  static void dockchannel_irq(struct irq_desc *desc)
+7c1543b965b465 Hector Martin 2022-07-08  269  {
+7c1543b965b465 Hector Martin 2022-07-08  270  	unsigned int irq = irq_desc_get_irq(desc);
+7c1543b965b465 Hector Martin 2022-07-08  271  	struct irq_chip *chip = irq_desc_get_chip(desc);
+7c1543b965b465 Hector Martin 2022-07-08  272  	struct dockchannel_common *dcc = irq_get_handler_data(irq);
+7c1543b965b465 Hector Martin 2022-07-08  273  	unsigned long flags = readl_relaxed(dcc->irq_base + IRQ_FLAG);
+7c1543b965b465 Hector Martin 2022-07-08  274  	int bit;
+7c1543b965b465 Hector Martin 2022-07-08  275  
+7c1543b965b465 Hector Martin 2022-07-08  276  	chained_irq_enter(chip, desc);
+7c1543b965b465 Hector Martin 2022-07-08  277  
+7c1543b965b465 Hector Martin 2022-07-08  278  	for_each_set_bit(bit, &flags, DOCKCHANNEL_MAX_IRQ)
+7c1543b965b465 Hector Martin 2022-07-08  279  		generic_handle_domain_irq(dcc->domain, bit);
+7c1543b965b465 Hector Martin 2022-07-08  280  
+7c1543b965b465 Hector Martin 2022-07-08  281  	chained_irq_exit(chip, desc);
+7c1543b965b465 Hector Martin 2022-07-08  282  }
+7c1543b965b465 Hector Martin 2022-07-08  283  
+7c1543b965b465 Hector Martin 2022-07-08  284  static void dockchannel_irq_ack(struct irq_data *data)
+7c1543b965b465 Hector Martin 2022-07-08  285  {
+7c1543b965b465 Hector Martin 2022-07-08  286  	struct dockchannel_common *dcc = irq_data_get_irq_chip_data(data);
+7c1543b965b465 Hector Martin 2022-07-08  287  	unsigned int hwirq = data->hwirq;
+7c1543b965b465 Hector Martin 2022-07-08  288  
+7c1543b965b465 Hector Martin 2022-07-08  289  	writel_relaxed(BIT(hwirq), dcc->irq_base + IRQ_FLAG);
+7c1543b965b465 Hector Martin 2022-07-08  290  }
+7c1543b965b465 Hector Martin 2022-07-08  291  
+7c1543b965b465 Hector Martin 2022-07-08  292  static void dockchannel_irq_mask(struct irq_data *data)
+7c1543b965b465 Hector Martin 2022-07-08  293  {
+7c1543b965b465 Hector Martin 2022-07-08  294  	struct dockchannel_common *dcc = irq_data_get_irq_chip_data(data);
+7c1543b965b465 Hector Martin 2022-07-08  295  	unsigned int hwirq = data->hwirq;
+7c1543b965b465 Hector Martin 2022-07-08  296  	u32 val = readl_relaxed(dcc->irq_base + IRQ_MASK);
+7c1543b965b465 Hector Martin 2022-07-08  297  
+7c1543b965b465 Hector Martin 2022-07-08  298  	writel_relaxed(val & ~BIT(hwirq), dcc->irq_base + IRQ_MASK);
+7c1543b965b465 Hector Martin 2022-07-08  299  }
+7c1543b965b465 Hector Martin 2022-07-08  300  
+7c1543b965b465 Hector Martin 2022-07-08  301  static void dockchannel_irq_unmask(struct irq_data *data)
+7c1543b965b465 Hector Martin 2022-07-08  302  {
+7c1543b965b465 Hector Martin 2022-07-08  303  	struct dockchannel_common *dcc = irq_data_get_irq_chip_data(data);
+7c1543b965b465 Hector Martin 2022-07-08  304  	unsigned int hwirq = data->hwirq;
+7c1543b965b465 Hector Martin 2022-07-08  305  	u32 val = readl_relaxed(dcc->irq_base + IRQ_MASK);
+7c1543b965b465 Hector Martin 2022-07-08  306  
+7c1543b965b465 Hector Martin 2022-07-08  307  	writel_relaxed(val | BIT(hwirq), dcc->irq_base + IRQ_MASK);
+7c1543b965b465 Hector Martin 2022-07-08  308  }
+7c1543b965b465 Hector Martin 2022-07-08  309  
+7c1543b965b465 Hector Martin 2022-07-08  310  static const struct irq_chip dockchannel_irqchip = {
+7c1543b965b465 Hector Martin 2022-07-08  311  	.name = "dockchannel-irqc",
+7c1543b965b465 Hector Martin 2022-07-08  312  	.irq_ack = dockchannel_irq_ack,
+7c1543b965b465 Hector Martin 2022-07-08  313  	.irq_mask = dockchannel_irq_mask,
+7c1543b965b465 Hector Martin 2022-07-08  314  	.irq_unmask = dockchannel_irq_unmask,
+7c1543b965b465 Hector Martin 2022-07-08  315  };
+7c1543b965b465 Hector Martin 2022-07-08  316  
+7c1543b965b465 Hector Martin 2022-07-08  317  static int dockchannel_irq_domain_map(struct irq_domain *d, unsigned int virq,
+7c1543b965b465 Hector Martin 2022-07-08  318  				      irq_hw_number_t hw)
+7c1543b965b465 Hector Martin 2022-07-08  319  {
+7c1543b965b465 Hector Martin 2022-07-08  320  	irq_set_chip_data(virq, d->host_data);
+7c1543b965b465 Hector Martin 2022-07-08  321  	irq_set_chip_and_handler(virq, &dockchannel_irqchip, handle_level_irq);
+7c1543b965b465 Hector Martin 2022-07-08  322  
+7c1543b965b465 Hector Martin 2022-07-08  323  	return 0;
+7c1543b965b465 Hector Martin 2022-07-08  324  }
+7c1543b965b465 Hector Martin 2022-07-08  325  
+7c1543b965b465 Hector Martin 2022-07-08  326  static const struct irq_domain_ops dockchannel_irq_domain_ops = {
+7c1543b965b465 Hector Martin 2022-07-08  327  	.xlate	= irq_domain_xlate_twocell,
+7c1543b965b465 Hector Martin 2022-07-08  328  	.map	= dockchannel_irq_domain_map,
+7c1543b965b465 Hector Martin 2022-07-08  329  };
+7c1543b965b465 Hector Martin 2022-07-08  330  
+7c1543b965b465 Hector Martin 2022-07-08  331  static int dockchannel_probe(struct platform_device *pdev)
+7c1543b965b465 Hector Martin 2022-07-08  332  {
+7c1543b965b465 Hector Martin 2022-07-08  333  	struct device *dev = &pdev->dev;
+7c1543b965b465 Hector Martin 2022-07-08  334  	struct dockchannel_common *dcc;
+7c1543b965b465 Hector Martin 2022-07-08  335  	struct device_node *child;
+7c1543b965b465 Hector Martin 2022-07-08  336  
+7c1543b965b465 Hector Martin 2022-07-08  337  	dcc = devm_kzalloc(dev, sizeof(*dcc), GFP_KERNEL);
+7c1543b965b465 Hector Martin 2022-07-08  338  	if (!dcc)
+7c1543b965b465 Hector Martin 2022-07-08  339  		return -ENOMEM;
+7c1543b965b465 Hector Martin 2022-07-08  340  
+7c1543b965b465 Hector Martin 2022-07-08  341  	dcc->dev = dev;
+7c1543b965b465 Hector Martin 2022-07-08  342  	platform_set_drvdata(pdev, dcc);
+7c1543b965b465 Hector Martin 2022-07-08  343  
+7c1543b965b465 Hector Martin 2022-07-08  344  	dcc->irq_base = devm_platform_ioremap_resource_byname(pdev, "irq");
+7c1543b965b465 Hector Martin 2022-07-08  345  	if (IS_ERR(dcc->irq_base))
+7c1543b965b465 Hector Martin 2022-07-08  346  		return PTR_ERR(dcc->irq_base);
+7c1543b965b465 Hector Martin 2022-07-08  347  
+7c1543b965b465 Hector Martin 2022-07-08  348  	writel_relaxed(0, dcc->irq_base + IRQ_MASK);
+7c1543b965b465 Hector Martin 2022-07-08  349  	writel_relaxed(~0, dcc->irq_base + IRQ_FLAG);
+7c1543b965b465 Hector Martin 2022-07-08  350  
+7c1543b965b465 Hector Martin 2022-07-08  351  	dcc->domain = irq_domain_add_linear(dev->of_node, DOCKCHANNEL_MAX_IRQ,
+7c1543b965b465 Hector Martin 2022-07-08  352  					    &dockchannel_irq_domain_ops, dcc);
+7c1543b965b465 Hector Martin 2022-07-08  353  	if (!dcc->domain)
+7c1543b965b465 Hector Martin 2022-07-08  354  		return -ENOMEM;
+7c1543b965b465 Hector Martin 2022-07-08  355  
+7c1543b965b465 Hector Martin 2022-07-08  356  	dcc->irq = platform_get_irq(pdev, 0);
+7c1543b965b465 Hector Martin 2022-07-08  357  	if (dcc->irq <= 0)
+7c1543b965b465 Hector Martin 2022-07-08 @358  		return dev_err_probe(dev, dcc->irq, "Failed to get IRQ");
+7c1543b965b465 Hector Martin 2022-07-08  359  
+7c1543b965b465 Hector Martin 2022-07-08  360  	irq_set_handler_data(dcc->irq, dcc);
+7c1543b965b465 Hector Martin 2022-07-08  361  	irq_set_chained_handler(dcc->irq, dockchannel_irq);
+7c1543b965b465 Hector Martin 2022-07-08  362  
+7c1543b965b465 Hector Martin 2022-07-08  363  	for_each_child_of_node(dev->of_node, child)
+7c1543b965b465 Hector Martin 2022-07-08  364  		of_platform_device_create(child, NULL, dev);
+7c1543b965b465 Hector Martin 2022-07-08  365  
+7c1543b965b465 Hector Martin 2022-07-08  366  	return 0;
+7c1543b965b465 Hector Martin 2022-07-08  367  }
+7c1543b965b465 Hector Martin 2022-07-08  368  
 
 -- 
 0-DAY CI Kernel Test Service
