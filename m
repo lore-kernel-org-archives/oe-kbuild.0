@@ -1,109 +1,190 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2873DB8F
-	for <oe-kbuild@lists.linux.dev>; Fri, 24 Nov 2023 23:40:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF68A53
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 Nov 2023 00:19:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R/5Xk4z+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AUphJVen"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700869210; x=1732405210;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/qcOPg5aQuZtLIJgGWW6jI6AsbxZCNF1DXClgrmViXo=;
-  b=R/5Xk4z+UBQiorRbrT7Iom0yYOGcxpsGPZIb0OqIqrL27e3reTQjD74K
-   KWA/zjDMucWu6T5rYcn4wLsrUW9Txf+bk2t8tmsD/HHP3UOjKr742lrpo
-   nVvuT6ajNovPpt9cJcrGnokeVu4qD85H7iFnE0VAMiRSI7u9kvfJ5R9Dk
-   7SI+zwDzIDXkfBJ7UdJb9nlmfLwSN4f87oqgbqIvGC5+NIY9d2c3dacjU
-   g/GhxXqJVmTDK7q1CCZOLGxO7vHPZZkX8WzdfHk+6gv8m91qBhwr63BPF
-   aV/MD84K8gMNQt4uNOkUMJmKn7qaQRqNv8bh77OaxJ/R/NmUdyshQAU8j
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="377526713"
+  t=1700871588; x=1732407588;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Hbs3MBsidIbuAkQboB7fIc1WfvWmaqOmx7SJyRVCCVQ=;
+  b=AUphJVenVUrD9WkDCudNvSpS6imit97fCZ+OAHOMl86/1vE1DTkvkyx8
+   +kjcb9RPyBcracF1ndscbLWF4N2xQvxy6yY92WyCPFJprWnBCk9I20JDh
+   IYnu4mYRWn5CWxCIn0CbElPey+WQszUiAgm17ils0LHasdN5z/Vp4oAkA
+   68FoUs69iM+SbDCa3ByKJ5+uzVPBocXeGsU8MNC0nHQnK6b3SAEclAUXh
+   INrj9uc7MjU86VAlZmaUYUy5l4H3n01Be4zYj9wN+9CtrCI3iAxNvf+Qm
+   2IWV/plCwp9MPcKOMy8jiILz4pPI5vmNSleqOChATUt0Ri9/PWZ9obGdd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="391350886"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="377526713"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 15:40:09 -0800
+   d="scan'208";a="391350886"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 16:19:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="761063114"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="911558733"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="761063114"
+   d="scan'208";a="911558733"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 24 Nov 2023 15:40:08 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 24 Nov 2023 16:19:39 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6fmI-0003OT-28;
-	Fri, 24 Nov 2023 23:40:06 +0000
-Date: Sat, 25 Nov 2023 07:38:52 +0800
+	id 1r6gOW-0003Qq-38;
+	Sat, 25 Nov 2023 00:19:36 +0000
+Date: Sat, 25 Nov 2023 08:18:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [RFC KERNEL PATCH v2 3/3] xen/privcmd: Add new syscall to get
- gsi from irq
-Message-ID: <202311250440.DbUQXNLK-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: kernel/futex/waitwake.c:422 futex_wait_multiple_setup() warn:
+ bitwise AND condition is false here
+Message-ID: <202311250705.nkPnjapq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20231124103123.3263471-4-Jiqian.Chen@amd.com>
-References: <20231124103123.3263471-4-Jiqian.Chen@amd.com>
-TO: Jiqian Chen <Jiqian.Chen@amd.com>
+CC: linux-kernel@vger.kernel.org
+TO: peterz <peterz@infradead.org>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: "André Almeida" <andrealmeid@igalia.com>
 
-Hi Jiqian,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.7-rc1]
-[cannot apply to xen-tip/linux-next tip/irq/core tip/x86/core linus/master v6.7-rc2 next-20231124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiqian-Chen/xen-pci-Add-xen_reset_device_state-function/20231124-183607
-base:   v6.7-rc1
-patch link:    https://lore.kernel.org/r/20231124103123.3263471-4-Jiqian.Chen%40amd.com
-patch subject: [RFC KERNEL PATCH v2 3/3] xen/privcmd: Add new syscall to get gsi from irq
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231125/202311250440.DbUQXNLK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0f5cc96c367f2e780eb492cc9cab84e3b2ca88da
+commit: 5694289ce183bc3336407a78c8c722a0b9208f9b futex: Flag conversion
+date:   9 weeks ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 9 weeks ago
+config: arm-randconfig-r081-20231123 (https://download.01.org/0day-ci/archive/20231125/202311250705.nkPnjapq-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231125/202311250705.nkPnjapq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311250440.DbUQXNLK-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311250705.nkPnjapq-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> drivers/xen/privcmd.c: xen/events.h is included more than once.
+smatch warnings:
+kernel/futex/waitwake.c:422 futex_wait_multiple_setup() warn: bitwise AND condition is false here
 
-vim +38 drivers/xen/privcmd.c
+vim +422 kernel/futex/waitwake.c
 
-    36	
-    37	#include <xen/xen.h>
-  > 38	#include <xen/events.h>
-    39	#include <xen/privcmd.h>
-    40	#include <xen/interface/xen.h>
-    41	#include <xen/interface/memory.h>
-    42	#include <xen/interface/hvm/dm_op.h>
-    43	#include <xen/interface/hvm/ioreq.h>
-    44	#include <xen/features.h>
-    45	#include <xen/page.h>
-    46	#include <xen/xen-ops.h>
-    47	#include <xen/balloon.h>
-  > 48	#include <xen/events.h>
-    49	
+bf69bad38cf63d André Almeida        2021-09-23  382  
+bf69bad38cf63d André Almeida        2021-09-23  383  /**
+bf69bad38cf63d André Almeida        2021-09-23  384   * futex_wait_multiple_setup - Prepare to wait and enqueue multiple futexes
+bf69bad38cf63d André Almeida        2021-09-23  385   * @vs:		The futex list to wait on
+bf69bad38cf63d André Almeida        2021-09-23  386   * @count:	The size of the list
+bf69bad38cf63d André Almeida        2021-09-23  387   * @woken:	Index of the last woken futex, if any. Used to notify the
+bf69bad38cf63d André Almeida        2021-09-23  388   *		caller that it can return this index to userspace (return parameter)
+bf69bad38cf63d André Almeida        2021-09-23  389   *
+bf69bad38cf63d André Almeida        2021-09-23  390   * Prepare multiple futexes in a single step and enqueue them. This may fail if
+bf69bad38cf63d André Almeida        2021-09-23  391   * the futex list is invalid or if any futex was already awoken. On success the
+bf69bad38cf63d André Almeida        2021-09-23  392   * task is ready to interruptible sleep.
+bf69bad38cf63d André Almeida        2021-09-23  393   *
+bf69bad38cf63d André Almeida        2021-09-23  394   * Return:
+bf69bad38cf63d André Almeida        2021-09-23  395   *  -  1 - One of the futexes was woken by another thread
+bf69bad38cf63d André Almeida        2021-09-23  396   *  -  0 - Success
+bf69bad38cf63d André Almeida        2021-09-23  397   *  - <0 - -EFAULT, -EWOULDBLOCK or -EINVAL
+bf69bad38cf63d André Almeida        2021-09-23  398   */
+bf69bad38cf63d André Almeida        2021-09-23  399  static int futex_wait_multiple_setup(struct futex_vector *vs, int count, int *woken)
+bf69bad38cf63d André Almeida        2021-09-23  400  {
+bf69bad38cf63d André Almeida        2021-09-23  401  	struct futex_hash_bucket *hb;
+bf69bad38cf63d André Almeida        2021-09-23  402  	bool retry = false;
+bf69bad38cf63d André Almeida        2021-09-23  403  	int ret, i;
+bf69bad38cf63d André Almeida        2021-09-23  404  	u32 uval;
+bf69bad38cf63d André Almeida        2021-09-23  405  
+bf69bad38cf63d André Almeida        2021-09-23  406  	/*
+bf69bad38cf63d André Almeida        2021-09-23  407  	 * Enqueuing multiple futexes is tricky, because we need to enqueue
+bf69bad38cf63d André Almeida        2021-09-23  408  	 * each futex on the list before dealing with the next one to avoid
+bf69bad38cf63d André Almeida        2021-09-23  409  	 * deadlocking on the hash bucket. But, before enqueuing, we need to
+bf69bad38cf63d André Almeida        2021-09-23  410  	 * make sure that current->state is TASK_INTERRUPTIBLE, so we don't
+bf69bad38cf63d André Almeida        2021-09-23  411  	 * lose any wake events, which cannot be done before the get_futex_key
+bf69bad38cf63d André Almeida        2021-09-23  412  	 * of the next key, because it calls get_user_pages, which can sleep.
+bf69bad38cf63d André Almeida        2021-09-23  413  	 * Thus, we fetch the list of futexes keys in two steps, by first
+bf69bad38cf63d André Almeida        2021-09-23  414  	 * pinning all the memory keys in the futex key, and only then we read
+bf69bad38cf63d André Almeida        2021-09-23  415  	 * each key and queue the corresponding futex.
+bf69bad38cf63d André Almeida        2021-09-23  416  	 *
+bf69bad38cf63d André Almeida        2021-09-23  417  	 * Private futexes doesn't need to recalculate hash in retry, so skip
+bf69bad38cf63d André Almeida        2021-09-23  418  	 * get_futex_key() when retrying.
+bf69bad38cf63d André Almeida        2021-09-23  419  	 */
+bf69bad38cf63d André Almeida        2021-09-23  420  retry:
+bf69bad38cf63d André Almeida        2021-09-23  421  	for (i = 0; i < count; i++) {
+5694289ce183bc peterz@infradead.org 2023-09-21 @422  		if (!(vs[i].w.flags & FLAGS_SHARED) && retry)
+bf69bad38cf63d André Almeida        2021-09-23  423  			continue;
+bf69bad38cf63d André Almeida        2021-09-23  424  
+bf69bad38cf63d André Almeida        2021-09-23  425  		ret = get_futex_key(u64_to_user_ptr(vs[i].w.uaddr),
+5694289ce183bc peterz@infradead.org 2023-09-21  426  				    vs[i].w.flags & FLAGS_SHARED,
+bf69bad38cf63d André Almeida        2021-09-23  427  				    &vs[i].q.key, FUTEX_READ);
+bf69bad38cf63d André Almeida        2021-09-23  428  
+bf69bad38cf63d André Almeida        2021-09-23  429  		if (unlikely(ret))
+bf69bad38cf63d André Almeida        2021-09-23  430  			return ret;
+bf69bad38cf63d André Almeida        2021-09-23  431  	}
+bf69bad38cf63d André Almeida        2021-09-23  432  
+f5d39b02080914 Peter Zijlstra       2022-08-22  433  	set_current_state(TASK_INTERRUPTIBLE|TASK_FREEZABLE);
+bf69bad38cf63d André Almeida        2021-09-23  434  
+bf69bad38cf63d André Almeida        2021-09-23  435  	for (i = 0; i < count; i++) {
+bf69bad38cf63d André Almeida        2021-09-23  436  		u32 __user *uaddr = (u32 __user *)(unsigned long)vs[i].w.uaddr;
+bf69bad38cf63d André Almeida        2021-09-23  437  		struct futex_q *q = &vs[i].q;
+bf69bad38cf63d André Almeida        2021-09-23  438  		u32 val = (u32)vs[i].w.val;
+bf69bad38cf63d André Almeida        2021-09-23  439  
+bf69bad38cf63d André Almeida        2021-09-23  440  		hb = futex_q_lock(q);
+bf69bad38cf63d André Almeida        2021-09-23  441  		ret = futex_get_value_locked(&uval, uaddr);
+bf69bad38cf63d André Almeida        2021-09-23  442  
+bf69bad38cf63d André Almeida        2021-09-23  443  		if (!ret && uval == val) {
+bf69bad38cf63d André Almeida        2021-09-23  444  			/*
+bf69bad38cf63d André Almeida        2021-09-23  445  			 * The bucket lock can't be held while dealing with the
+bf69bad38cf63d André Almeida        2021-09-23  446  			 * next futex. Queue each futex at this moment so hb can
+bf69bad38cf63d André Almeida        2021-09-23  447  			 * be unlocked.
+bf69bad38cf63d André Almeida        2021-09-23  448  			 */
+bf69bad38cf63d André Almeida        2021-09-23  449  			futex_queue(q, hb);
+bf69bad38cf63d André Almeida        2021-09-23  450  			continue;
+bf69bad38cf63d André Almeida        2021-09-23  451  		}
+bf69bad38cf63d André Almeida        2021-09-23  452  
+bf69bad38cf63d André Almeida        2021-09-23  453  		futex_q_unlock(hb);
+bf69bad38cf63d André Almeida        2021-09-23  454  		__set_current_state(TASK_RUNNING);
+bf69bad38cf63d André Almeida        2021-09-23  455  
+bf69bad38cf63d André Almeida        2021-09-23  456  		/*
+bf69bad38cf63d André Almeida        2021-09-23  457  		 * Even if something went wrong, if we find out that a futex
+bf69bad38cf63d André Almeida        2021-09-23  458  		 * was woken, we don't return error and return this index to
+bf69bad38cf63d André Almeida        2021-09-23  459  		 * userspace
+bf69bad38cf63d André Almeida        2021-09-23  460  		 */
+bf69bad38cf63d André Almeida        2021-09-23  461  		*woken = unqueue_multiple(vs, i);
+bf69bad38cf63d André Almeida        2021-09-23  462  		if (*woken >= 0)
+bf69bad38cf63d André Almeida        2021-09-23  463  			return 1;
+bf69bad38cf63d André Almeida        2021-09-23  464  
+bf69bad38cf63d André Almeida        2021-09-23  465  		if (ret) {
+bf69bad38cf63d André Almeida        2021-09-23  466  			/*
+bf69bad38cf63d André Almeida        2021-09-23  467  			 * If we need to handle a page fault, we need to do so
+bf69bad38cf63d André Almeida        2021-09-23  468  			 * without any lock and any enqueued futex (otherwise
+bf69bad38cf63d André Almeida        2021-09-23  469  			 * we could lose some wakeup). So we do it here, after
+bf69bad38cf63d André Almeida        2021-09-23  470  			 * undoing all the work done so far. In success, we
+bf69bad38cf63d André Almeida        2021-09-23  471  			 * retry all the work.
+bf69bad38cf63d André Almeida        2021-09-23  472  			 */
+bf69bad38cf63d André Almeida        2021-09-23  473  			if (get_user(uval, uaddr))
+bf69bad38cf63d André Almeida        2021-09-23  474  				return -EFAULT;
+bf69bad38cf63d André Almeida        2021-09-23  475  
+bf69bad38cf63d André Almeida        2021-09-23  476  			retry = true;
+bf69bad38cf63d André Almeida        2021-09-23  477  			goto retry;
+bf69bad38cf63d André Almeida        2021-09-23  478  		}
+bf69bad38cf63d André Almeida        2021-09-23  479  
+bf69bad38cf63d André Almeida        2021-09-23  480  		if (uval != val)
+bf69bad38cf63d André Almeida        2021-09-23  481  			return -EWOULDBLOCK;
+bf69bad38cf63d André Almeida        2021-09-23  482  	}
+bf69bad38cf63d André Almeida        2021-09-23  483  
+bf69bad38cf63d André Almeida        2021-09-23  484  	return 0;
+bf69bad38cf63d André Almeida        2021-09-23  485  }
+bf69bad38cf63d André Almeida        2021-09-23  486  
 
 -- 
 0-DAY CI Kernel Test Service
