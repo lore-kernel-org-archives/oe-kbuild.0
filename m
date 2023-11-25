@@ -1,47 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6641D15A4
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 Nov 2023 03:12:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEB215A4
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 Nov 2023 03:13:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UM6encdn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jZ7foA8w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700881976; x=1732417976;
+  t=1700881987; x=1732417987;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CNaKXMPHISd9p9GkzDfkj17otF8TCuQAh0juthLu8/8=;
-  b=UM6encdn0sDPJTpOPkYsrnHTcmOLFoP9mZQyfg+4d609tEzUXYUdjw53
-   vFWDXZCqZuHJO7L6E099MbUCVl0m4HFNsN+jmPx25p8EtB3mNyErAh7p9
-   ZuBee1xoMtVXHb4eZGyM4Fz5lue25STm59VbAzIoiKf3RyjHi8QPP/Xgy
-   IfqQm5iGc3qHVA6/Nrkv2v2dTDCtxFCn6hXDt8xY8JsAlFg9yJV+HvS2j
-   tn1S74Cl9Q5bNhGTivqyiVGxDnccDTpnlJEoiJURrrKoZimAtcGt+LREa
-   7XUAIs+1EIn/BN1GeUbmkckrSVGLMdlkMWv/h3UKlaY6C40fghXWLZrh3
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="5716331"
+  bh=48OQlRGK1aA41fKsWoGSclC2wrpLaRQtiTL8v4T9JCk=;
+  b=jZ7foA8wUyQyZ/K5hlVrH/ptVX5owYd/1BM9kaGz7rJp0qS/KsGIg661
+   WtYuVNcXQTC0C+kajhXl4AOS3uv57zoJw2aJee+YZL3N8jd6GAM4dsGIu
+   vuC5GluF2zEgtBhbBmivbEGCSXeJy/LbhmXQ9I9RIJOTILUmuY8h5esU3
+   mWjghkVjjZ6EVPc736KP8i6wIJjG0uACc9UoUGfmi6SFZ7PEvZ/siiF7E
+   j2v2+1OKHxi1WAlwBfeHzWC59NkAk7wUFhQxQk3WPDFCq4+hYHmZFQW6K
+   081zSJC/Y3bUUiScxMw5DtZ6QR6qXhzp+UaAUbFlft52O1PtPmM0umK6d
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="5716336"
 X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="5716331"
+   d="scan'208";a="5716336"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 19:12:55 -0800
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 19:13:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="744025374"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="744025384"
 X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="744025374"
+   d="scan'208";a="744025384"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 24 Nov 2023 19:12:53 -0800
+  by orsmga006.jf.intel.com with ESMTP; 24 Nov 2023 19:13:04 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6j6A-0003Zo-2d;
-	Sat, 25 Nov 2023 03:12:50 +0000
-Date: Sat, 25 Nov 2023 11:11:52 +0800
+	id 1r6j6L-0003a5-10;
+	Sat, 25 Nov 2023 03:13:01 +0000
+Date: Sat, 25 Nov 2023 11:11:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [asahilinux:bits/090-spi-hid 14/21]
- drivers/soc/apple/dockchannel.c:240 dockchannel_init() warn: passing zero to
- 'dev_err_probe'
-Message-ID: <202311250933.YsLePo4M-lkp@intel.com>
+Subject: Re: [PATCH v7 5/5] misc: fastrpc: Add support to allocate shared
+ context bank
+Message-ID: <202311250922.W9tgrGT9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,190 +52,170 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20231121094844.5764-6-quic_ekangupt@quicinc.com>
+References: <20231121094844.5764-6-quic_ekangupt@quicinc.com>
+TO: Ekansh Gupta <quic_ekangupt@quicinc.com>
+TO: srinivas.kandagatla@linaro.org
+TO: linux-arm-msm@vger.kernel.org
+CC: gregkh@linuxfoundation.org
+CC: linux-kernel@vger.kernel.org
 
-tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
-head:   16871bb3228eaf55cbdb1dfb81c1cecec4ee0d52
-commit: 7c1543b965b465df17e43246abe9ef43c4bd8358 [14/21] soc: apple: Add DockChannel driver
-:::::: branch date: 6 days ago
-:::::: commit date: 9 weeks ago
-config: mips-randconfig-r081-20231121 (https://download.01.org/0day-ci/archive/20231125/202311250933.YsLePo4M-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231125/202311250933.YsLePo4M-lkp@intel.com/reproduce)
+Hi Ekansh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.7-rc2 next-20231124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ekansh-Gupta/misc-fastrpc-Add-fastrpc-multimode-invoke-request-support/20231121-175147
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231121094844.5764-6-quic_ekangupt%40quicinc.com
+patch subject: [PATCH v7 5/5] misc: fastrpc: Add support to allocate shared context bank
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm-randconfig-r081-20231123 (https://download.01.org/0day-ci/archive/20231125/202311250922.W9tgrGT9-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231125/202311250922.W9tgrGT9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311250933.YsLePo4M-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311250922.W9tgrGT9-lkp@intel.com/
 
 New smatch warnings:
-drivers/soc/apple/dockchannel.c:240 dockchannel_init() warn: passing zero to 'dev_err_probe'
-drivers/soc/apple/dockchannel.c:358 dockchannel_probe() warn: passing zero to 'dev_err_probe'
+drivers/misc/fastrpc.c:1621 fastrpc_init_create_process() warn: missing unwind goto?
 
 Old smatch warnings:
-drivers/soc/apple/dockchannel.c:246 dockchannel_init() warn: passing zero to 'dev_err_probe'
+drivers/misc/fastrpc.c:1505 fastrpc_init_create_static_process() error: we previously assumed 'fl->cctx->remote_heap' could be null (see line 1497)
 
-vim +/dev_err_probe +240 drivers/soc/apple/dockchannel.c
+vim +1621 drivers/misc/fastrpc.c
 
-7c1543b965b465 Hector Martin 2022-07-08  211  
-7c1543b965b465 Hector Martin 2022-07-08  212  struct dockchannel *dockchannel_init(struct platform_device *pdev)
-7c1543b965b465 Hector Martin 2022-07-08  213  {
-7c1543b965b465 Hector Martin 2022-07-08  214  	struct device *dev = &pdev->dev;
-7c1543b965b465 Hector Martin 2022-07-08  215  	struct dockchannel *dockchannel;
-7c1543b965b465 Hector Martin 2022-07-08  216  	int ret;
-7c1543b965b465 Hector Martin 2022-07-08  217  
-7c1543b965b465 Hector Martin 2022-07-08  218  	dockchannel = devm_kzalloc(dev, sizeof(*dockchannel), GFP_KERNEL);
-7c1543b965b465 Hector Martin 2022-07-08  219  	if (!dockchannel)
-7c1543b965b465 Hector Martin 2022-07-08  220  		return ERR_PTR(-ENOMEM);
-7c1543b965b465 Hector Martin 2022-07-08  221  
-7c1543b965b465 Hector Martin 2022-07-08  222  	dockchannel->dev = dev;
-7c1543b965b465 Hector Martin 2022-07-08  223  	dockchannel->config_base = devm_platform_ioremap_resource_byname(pdev, "config");
-7c1543b965b465 Hector Martin 2022-07-08  224  	if (IS_ERR(dockchannel->config_base))
-7c1543b965b465 Hector Martin 2022-07-08  225  		return (__force void *)dockchannel->config_base;
-7c1543b965b465 Hector Martin 2022-07-08  226  
-7c1543b965b465 Hector Martin 2022-07-08  227  	dockchannel->data_base = devm_platform_ioremap_resource_byname(pdev, "data");
-7c1543b965b465 Hector Martin 2022-07-08  228  	if (IS_ERR(dockchannel->data_base))
-7c1543b965b465 Hector Martin 2022-07-08  229  		return (__force void *)dockchannel->data_base;
-7c1543b965b465 Hector Martin 2022-07-08  230  
-7c1543b965b465 Hector Martin 2022-07-08  231  	ret = of_property_read_u32(dev->of_node, "apple,fifo-size", &dockchannel->fifo_size);
-7c1543b965b465 Hector Martin 2022-07-08  232  	if (ret)
-7c1543b965b465 Hector Martin 2022-07-08  233  		return ERR_PTR(dev_err_probe(dev, ret, "Missing apple,fifo-size property"));
-7c1543b965b465 Hector Martin 2022-07-08  234  
-7c1543b965b465 Hector Martin 2022-07-08  235  	init_completion(&dockchannel->tx_comp);
-7c1543b965b465 Hector Martin 2022-07-08  236  	init_completion(&dockchannel->rx_comp);
-7c1543b965b465 Hector Martin 2022-07-08  237  
-7c1543b965b465 Hector Martin 2022-07-08  238  	dockchannel->tx_irq = platform_get_irq_byname(pdev, "tx");
-7c1543b965b465 Hector Martin 2022-07-08  239  	if (dockchannel->tx_irq <= 0) {
-7c1543b965b465 Hector Martin 2022-07-08 @240  		return ERR_PTR(dev_err_probe(dev, dockchannel->tx_irq,
-7c1543b965b465 Hector Martin 2022-07-08  241  				     "Failed to get TX IRQ"));
-7c1543b965b465 Hector Martin 2022-07-08  242  	}
-7c1543b965b465 Hector Martin 2022-07-08  243  
-7c1543b965b465 Hector Martin 2022-07-08  244  	dockchannel->rx_irq = platform_get_irq_byname(pdev, "rx");
-7c1543b965b465 Hector Martin 2022-07-08  245  	if (dockchannel->rx_irq <= 0) {
-7c1543b965b465 Hector Martin 2022-07-08  246  		return ERR_PTR(dev_err_probe(dev, dockchannel->rx_irq,
-7c1543b965b465 Hector Martin 2022-07-08  247  				     "Failed to get RX IRQ"));
-7c1543b965b465 Hector Martin 2022-07-08  248  	}
-7c1543b965b465 Hector Martin 2022-07-08  249  
-7c1543b965b465 Hector Martin 2022-07-08  250  	ret = devm_request_irq(dev, dockchannel->tx_irq, dockchannel_tx_irq, IRQF_NO_AUTOEN,
-7c1543b965b465 Hector Martin 2022-07-08  251  			       "apple-dockchannel-tx", dockchannel);
-7c1543b965b465 Hector Martin 2022-07-08  252  	if (ret)
-7c1543b965b465 Hector Martin 2022-07-08  253  		return ERR_PTR(dev_err_probe(dev, ret, "Failed to request TX IRQ"));
-7c1543b965b465 Hector Martin 2022-07-08  254  
-7c1543b965b465 Hector Martin 2022-07-08  255  	ret = devm_request_threaded_irq(dev, dockchannel->rx_irq, dockchannel_rx_irq,
-7c1543b965b465 Hector Martin 2022-07-08  256  					dockchannel_rx_irq_thread, IRQF_NO_AUTOEN,
-7c1543b965b465 Hector Martin 2022-07-08  257  					"apple-dockchannel-rx", dockchannel);
-7c1543b965b465 Hector Martin 2022-07-08  258  	if (ret)
-7c1543b965b465 Hector Martin 2022-07-08  259  		return ERR_PTR(dev_err_probe(dev, ret, "Failed to request RX IRQ"));
-7c1543b965b465 Hector Martin 2022-07-08  260  
-7c1543b965b465 Hector Martin 2022-07-08  261  	return dockchannel;
-7c1543b965b465 Hector Martin 2022-07-08  262  }
-7c1543b965b465 Hector Martin 2022-07-08  263  EXPORT_SYMBOL(dockchannel_init);
-7c1543b965b465 Hector Martin 2022-07-08  264  
-7c1543b965b465 Hector Martin 2022-07-08  265  
-7c1543b965b465 Hector Martin 2022-07-08  266  /* Dockchannel IRQchip */
-7c1543b965b465 Hector Martin 2022-07-08  267  
-7c1543b965b465 Hector Martin 2022-07-08  268  static void dockchannel_irq(struct irq_desc *desc)
-7c1543b965b465 Hector Martin 2022-07-08  269  {
-7c1543b965b465 Hector Martin 2022-07-08  270  	unsigned int irq = irq_desc_get_irq(desc);
-7c1543b965b465 Hector Martin 2022-07-08  271  	struct irq_chip *chip = irq_desc_get_chip(desc);
-7c1543b965b465 Hector Martin 2022-07-08  272  	struct dockchannel_common *dcc = irq_get_handler_data(irq);
-7c1543b965b465 Hector Martin 2022-07-08  273  	unsigned long flags = readl_relaxed(dcc->irq_base + IRQ_FLAG);
-7c1543b965b465 Hector Martin 2022-07-08  274  	int bit;
-7c1543b965b465 Hector Martin 2022-07-08  275  
-7c1543b965b465 Hector Martin 2022-07-08  276  	chained_irq_enter(chip, desc);
-7c1543b965b465 Hector Martin 2022-07-08  277  
-7c1543b965b465 Hector Martin 2022-07-08  278  	for_each_set_bit(bit, &flags, DOCKCHANNEL_MAX_IRQ)
-7c1543b965b465 Hector Martin 2022-07-08  279  		generic_handle_domain_irq(dcc->domain, bit);
-7c1543b965b465 Hector Martin 2022-07-08  280  
-7c1543b965b465 Hector Martin 2022-07-08  281  	chained_irq_exit(chip, desc);
-7c1543b965b465 Hector Martin 2022-07-08  282  }
-7c1543b965b465 Hector Martin 2022-07-08  283  
-7c1543b965b465 Hector Martin 2022-07-08  284  static void dockchannel_irq_ack(struct irq_data *data)
-7c1543b965b465 Hector Martin 2022-07-08  285  {
-7c1543b965b465 Hector Martin 2022-07-08  286  	struct dockchannel_common *dcc = irq_data_get_irq_chip_data(data);
-7c1543b965b465 Hector Martin 2022-07-08  287  	unsigned int hwirq = data->hwirq;
-7c1543b965b465 Hector Martin 2022-07-08  288  
-7c1543b965b465 Hector Martin 2022-07-08  289  	writel_relaxed(BIT(hwirq), dcc->irq_base + IRQ_FLAG);
-7c1543b965b465 Hector Martin 2022-07-08  290  }
-7c1543b965b465 Hector Martin 2022-07-08  291  
-7c1543b965b465 Hector Martin 2022-07-08  292  static void dockchannel_irq_mask(struct irq_data *data)
-7c1543b965b465 Hector Martin 2022-07-08  293  {
-7c1543b965b465 Hector Martin 2022-07-08  294  	struct dockchannel_common *dcc = irq_data_get_irq_chip_data(data);
-7c1543b965b465 Hector Martin 2022-07-08  295  	unsigned int hwirq = data->hwirq;
-7c1543b965b465 Hector Martin 2022-07-08  296  	u32 val = readl_relaxed(dcc->irq_base + IRQ_MASK);
-7c1543b965b465 Hector Martin 2022-07-08  297  
-7c1543b965b465 Hector Martin 2022-07-08  298  	writel_relaxed(val & ~BIT(hwirq), dcc->irq_base + IRQ_MASK);
-7c1543b965b465 Hector Martin 2022-07-08  299  }
-7c1543b965b465 Hector Martin 2022-07-08  300  
-7c1543b965b465 Hector Martin 2022-07-08  301  static void dockchannel_irq_unmask(struct irq_data *data)
-7c1543b965b465 Hector Martin 2022-07-08  302  {
-7c1543b965b465 Hector Martin 2022-07-08  303  	struct dockchannel_common *dcc = irq_data_get_irq_chip_data(data);
-7c1543b965b465 Hector Martin 2022-07-08  304  	unsigned int hwirq = data->hwirq;
-7c1543b965b465 Hector Martin 2022-07-08  305  	u32 val = readl_relaxed(dcc->irq_base + IRQ_MASK);
-7c1543b965b465 Hector Martin 2022-07-08  306  
-7c1543b965b465 Hector Martin 2022-07-08  307  	writel_relaxed(val | BIT(hwirq), dcc->irq_base + IRQ_MASK);
-7c1543b965b465 Hector Martin 2022-07-08  308  }
-7c1543b965b465 Hector Martin 2022-07-08  309  
-7c1543b965b465 Hector Martin 2022-07-08  310  static const struct irq_chip dockchannel_irqchip = {
-7c1543b965b465 Hector Martin 2022-07-08  311  	.name = "dockchannel-irqc",
-7c1543b965b465 Hector Martin 2022-07-08  312  	.irq_ack = dockchannel_irq_ack,
-7c1543b965b465 Hector Martin 2022-07-08  313  	.irq_mask = dockchannel_irq_mask,
-7c1543b965b465 Hector Martin 2022-07-08  314  	.irq_unmask = dockchannel_irq_unmask,
-7c1543b965b465 Hector Martin 2022-07-08  315  };
-7c1543b965b465 Hector Martin 2022-07-08  316  
-7c1543b965b465 Hector Martin 2022-07-08  317  static int dockchannel_irq_domain_map(struct irq_domain *d, unsigned int virq,
-7c1543b965b465 Hector Martin 2022-07-08  318  				      irq_hw_number_t hw)
-7c1543b965b465 Hector Martin 2022-07-08  319  {
-7c1543b965b465 Hector Martin 2022-07-08  320  	irq_set_chip_data(virq, d->host_data);
-7c1543b965b465 Hector Martin 2022-07-08  321  	irq_set_chip_and_handler(virq, &dockchannel_irqchip, handle_level_irq);
-7c1543b965b465 Hector Martin 2022-07-08  322  
-7c1543b965b465 Hector Martin 2022-07-08  323  	return 0;
-7c1543b965b465 Hector Martin 2022-07-08  324  }
-7c1543b965b465 Hector Martin 2022-07-08  325  
-7c1543b965b465 Hector Martin 2022-07-08  326  static const struct irq_domain_ops dockchannel_irq_domain_ops = {
-7c1543b965b465 Hector Martin 2022-07-08  327  	.xlate	= irq_domain_xlate_twocell,
-7c1543b965b465 Hector Martin 2022-07-08  328  	.map	= dockchannel_irq_domain_map,
-7c1543b965b465 Hector Martin 2022-07-08  329  };
-7c1543b965b465 Hector Martin 2022-07-08  330  
-7c1543b965b465 Hector Martin 2022-07-08  331  static int dockchannel_probe(struct platform_device *pdev)
-7c1543b965b465 Hector Martin 2022-07-08  332  {
-7c1543b965b465 Hector Martin 2022-07-08  333  	struct device *dev = &pdev->dev;
-7c1543b965b465 Hector Martin 2022-07-08  334  	struct dockchannel_common *dcc;
-7c1543b965b465 Hector Martin 2022-07-08  335  	struct device_node *child;
-7c1543b965b465 Hector Martin 2022-07-08  336  
-7c1543b965b465 Hector Martin 2022-07-08  337  	dcc = devm_kzalloc(dev, sizeof(*dcc), GFP_KERNEL);
-7c1543b965b465 Hector Martin 2022-07-08  338  	if (!dcc)
-7c1543b965b465 Hector Martin 2022-07-08  339  		return -ENOMEM;
-7c1543b965b465 Hector Martin 2022-07-08  340  
-7c1543b965b465 Hector Martin 2022-07-08  341  	dcc->dev = dev;
-7c1543b965b465 Hector Martin 2022-07-08  342  	platform_set_drvdata(pdev, dcc);
-7c1543b965b465 Hector Martin 2022-07-08  343  
-7c1543b965b465 Hector Martin 2022-07-08  344  	dcc->irq_base = devm_platform_ioremap_resource_byname(pdev, "irq");
-7c1543b965b465 Hector Martin 2022-07-08  345  	if (IS_ERR(dcc->irq_base))
-7c1543b965b465 Hector Martin 2022-07-08  346  		return PTR_ERR(dcc->irq_base);
-7c1543b965b465 Hector Martin 2022-07-08  347  
-7c1543b965b465 Hector Martin 2022-07-08  348  	writel_relaxed(0, dcc->irq_base + IRQ_MASK);
-7c1543b965b465 Hector Martin 2022-07-08  349  	writel_relaxed(~0, dcc->irq_base + IRQ_FLAG);
-7c1543b965b465 Hector Martin 2022-07-08  350  
-7c1543b965b465 Hector Martin 2022-07-08  351  	dcc->domain = irq_domain_add_linear(dev->of_node, DOCKCHANNEL_MAX_IRQ,
-7c1543b965b465 Hector Martin 2022-07-08  352  					    &dockchannel_irq_domain_ops, dcc);
-7c1543b965b465 Hector Martin 2022-07-08  353  	if (!dcc->domain)
-7c1543b965b465 Hector Martin 2022-07-08  354  		return -ENOMEM;
-7c1543b965b465 Hector Martin 2022-07-08  355  
-7c1543b965b465 Hector Martin 2022-07-08  356  	dcc->irq = platform_get_irq(pdev, 0);
-7c1543b965b465 Hector Martin 2022-07-08  357  	if (dcc->irq <= 0)
-7c1543b965b465 Hector Martin 2022-07-08 @358  		return dev_err_probe(dev, dcc->irq, "Failed to get IRQ");
-7c1543b965b465 Hector Martin 2022-07-08  359  
-7c1543b965b465 Hector Martin 2022-07-08  360  	irq_set_handler_data(dcc->irq, dcc);
-7c1543b965b465 Hector Martin 2022-07-08  361  	irq_set_chained_handler(dcc->irq, dockchannel_irq);
-7c1543b965b465 Hector Martin 2022-07-08  362  
-7c1543b965b465 Hector Martin 2022-07-08  363  	for_each_child_of_node(dev->of_node, child)
-7c1543b965b465 Hector Martin 2022-07-08  364  		of_platform_device_create(child, NULL, dev);
-7c1543b965b465 Hector Martin 2022-07-08  365  
-7c1543b965b465 Hector Martin 2022-07-08  366  	return 0;
-7c1543b965b465 Hector Martin 2022-07-08  367  }
-7c1543b965b465 Hector Martin 2022-07-08  368  
+0871561055e666 Abel Vesa                2022-11-25  1575  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1576  static int fastrpc_init_create_process(struct fastrpc_user *fl,
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1577  					char __user *argp)
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1578  {
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1579  	struct fastrpc_init_create init;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1580  	struct fastrpc_invoke_args *args;
+becdceed7669e5 Ekansh Gupta             2023-11-21  1581  	struct fastrpc_enhanced_invoke ioctl;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1582  	struct fastrpc_phy_page pages[1];
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1583  	struct fastrpc_map *map = NULL;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1584  	struct fastrpc_buf *imem = NULL;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1585  	int memlen;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1586  	int err;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1587  	struct {
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1588  		int pgid;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1589  		u32 namelen;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1590  		u32 filelen;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1591  		u32 pageslen;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1592  		u32 attrs;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1593  		u32 siglen;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1594  	} inbuf;
+7f1f481263c3ce Jeya R                   2022-02-14  1595  	bool unsigned_module = false;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1596  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1597  	args = kcalloc(FASTRPC_CREATE_PROCESS_NARGS, sizeof(*args), GFP_KERNEL);
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1598  	if (!args)
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1599  		return -ENOMEM;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1600  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1601  	if (copy_from_user(&init, argp, sizeof(init))) {
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1602  		err = -EFAULT;
+b49f6d83e290f1 Thierry Escande          2019-03-07  1603  		goto err;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1604  	}
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1605  
+7f1f481263c3ce Jeya R                   2022-02-14  1606  	if (init.attrs & FASTRPC_MODE_UNSIGNED_MODULE)
+7f1f481263c3ce Jeya R                   2022-02-14  1607  		unsigned_module = true;
+7f1f481263c3ce Jeya R                   2022-02-14  1608  
+7f1f481263c3ce Jeya R                   2022-02-14  1609  	if (is_session_rejected(fl, unsigned_module)) {
+7f1f481263c3ce Jeya R                   2022-02-14  1610  		err = -ECONNREFUSED;
+7f1f481263c3ce Jeya R                   2022-02-14  1611  		goto err;
+7f1f481263c3ce Jeya R                   2022-02-14  1612  	}
+7f1f481263c3ce Jeya R                   2022-02-14  1613  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1614  	if (init.filelen > INIT_FILELEN_MAX) {
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1615  		err = -EINVAL;
+b49f6d83e290f1 Thierry Escande          2019-03-07  1616  		goto err;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1617  	}
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1618  
+92fe4bcba19c31 Ekansh Gupta             2023-11-21  1619  	fl->sctx = fastrpc_session_alloc(fl->cctx, fl->sharedcb);
+92fe4bcba19c31 Ekansh Gupta             2023-11-21  1620  	if (!fl->sctx)
+92fe4bcba19c31 Ekansh Gupta             2023-11-21 @1621  		return -EBUSY;
+92fe4bcba19c31 Ekansh Gupta             2023-11-21  1622  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1623  	inbuf.pgid = fl->tgid;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1624  	inbuf.namelen = strlen(current->comm) + 1;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1625  	inbuf.filelen = init.filelen;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1626  	inbuf.pageslen = 1;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1627  	inbuf.attrs = init.attrs;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1628  	inbuf.siglen = init.siglen;
+84195d206e1fbd Jonathan Marek           2020-09-08  1629  	fl->pd = USER_PD;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1630  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1631  	if (init.filelen && init.filefd) {
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  1632  		err = fastrpc_map_create(fl, init.filefd, init.filelen, 0, &map);
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1633  		if (err)
+b49f6d83e290f1 Thierry Escande          2019-03-07  1634  			goto err;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1635  	}
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1636  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1637  	memlen = ALIGN(max(INIT_FILELEN_MAX, (int)init.filelen * 4),
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1638  		       1024 * 1024);
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1639  	err = fastrpc_buf_alloc(fl, fl->sctx->dev, memlen,
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1640  				&imem);
+b49f6d83e290f1 Thierry Escande          2019-03-07  1641  	if (err)
+b49f6d83e290f1 Thierry Escande          2019-03-07  1642  		goto err_alloc;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1643  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1644  	fl->init_mem = imem;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1645  	args[0].ptr = (u64)(uintptr_t)&inbuf;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1646  	args[0].length = sizeof(inbuf);
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1647  	args[0].fd = -1;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1648  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1649  	args[1].ptr = (u64)(uintptr_t)current->comm;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1650  	args[1].length = inbuf.namelen;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1651  	args[1].fd = -1;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1652  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1653  	args[2].ptr = (u64) init.file;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1654  	args[2].length = inbuf.filelen;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1655  	args[2].fd = init.filefd;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1656  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1657  	pages[0].addr = imem->phys;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1658  	pages[0].size = imem->size;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1659  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1660  	args[3].ptr = (u64)(uintptr_t) pages;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1661  	args[3].length = 1 * sizeof(*pages);
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1662  	args[3].fd = -1;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1663  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1664  	args[4].ptr = (u64)(uintptr_t)&inbuf.attrs;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1665  	args[4].length = sizeof(inbuf.attrs);
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1666  	args[4].fd = -1;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1667  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1668  	args[5].ptr = (u64)(uintptr_t) &inbuf.siglen;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1669  	args[5].length = sizeof(inbuf.siglen);
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1670  	args[5].fd = -1;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1671  
+becdceed7669e5 Ekansh Gupta             2023-11-21  1672  	ioctl.inv.handle = FASTRPC_INIT_HANDLE;
+becdceed7669e5 Ekansh Gupta             2023-11-21  1673  	ioctl.inv.sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_CREATE, 4, 0);
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1674  	if (init.attrs)
+becdceed7669e5 Ekansh Gupta             2023-11-21  1675  		ioctl.inv.sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_CREATE_ATTR, 4, 0);
+e27748f5c08306 Ekansh Gupta             2023-11-21  1676  	ioctl.inv.args = (u64)args;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1677  
+becdceed7669e5 Ekansh Gupta             2023-11-21  1678  	err = fastrpc_internal_invoke(fl, true, &ioctl);
+b49f6d83e290f1 Thierry Escande          2019-03-07  1679  	if (err)
+b49f6d83e290f1 Thierry Escande          2019-03-07  1680  		goto err_invoke;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1681  
+b49f6d83e290f1 Thierry Escande          2019-03-07  1682  	kfree(args);
+b49f6d83e290f1 Thierry Escande          2019-03-07  1683  
+b49f6d83e290f1 Thierry Escande          2019-03-07  1684  	return 0;
+b49f6d83e290f1 Thierry Escande          2019-03-07  1685  
+b49f6d83e290f1 Thierry Escande          2019-03-07  1686  err_invoke:
+b49f6d83e290f1 Thierry Escande          2019-03-07  1687  	fl->init_mem = NULL;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1688  	fastrpc_buf_free(imem);
+b49f6d83e290f1 Thierry Escande          2019-03-07  1689  err_alloc:
+b49f6d83e290f1 Thierry Escande          2019-03-07  1690  	fastrpc_map_put(map);
+b49f6d83e290f1 Thierry Escande          2019-03-07  1691  err:
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1692  	kfree(args);
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1693  
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1694  	return err;
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1695  }
+d73f71c7c6ee15 Srinivas Kandagatla      2019-02-08  1696  
 
 -- 
 0-DAY CI Kernel Test Service
