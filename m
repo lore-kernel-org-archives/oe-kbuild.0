@@ -1,190 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF68A53
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 Nov 2023 00:19:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E047910EA
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 Nov 2023 02:17:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AUphJVen"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="edPhHkHe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700871588; x=1732407588;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Hbs3MBsidIbuAkQboB7fIc1WfvWmaqOmx7SJyRVCCVQ=;
-  b=AUphJVenVUrD9WkDCudNvSpS6imit97fCZ+OAHOMl86/1vE1DTkvkyx8
-   +kjcb9RPyBcracF1ndscbLWF4N2xQvxy6yY92WyCPFJprWnBCk9I20JDh
-   IYnu4mYRWn5CWxCIn0CbElPey+WQszUiAgm17ils0LHasdN5z/Vp4oAkA
-   68FoUs69iM+SbDCa3ByKJ5+uzVPBocXeGsU8MNC0nHQnK6b3SAEclAUXh
-   INrj9uc7MjU86VAlZmaUYUy5l4H3n01Be4zYj9wN+9CtrCI3iAxNvf+Qm
-   2IWV/plCwp9MPcKOMy8jiILz4pPI5vmNSleqOChATUt0Ri9/PWZ9obGdd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="391350886"
-X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="391350886"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 16:19:40 -0800
+  t=1700878645; x=1732414645;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wF+Pzki1dTl626IpB4+p1s3vklhpAGNVwIyUDQCQOiU=;
+  b=edPhHkHeoX+A0FeUfmsrfD0Vw4CWti+Jcl+WoCRjLvn559RmFBZ1wnfi
+   g7JuB7w45Zzr3qoKxXzus/QoOuP/EIfmd7ub+KQX7JwjFpu/hACh1NCaW
+   OoL0IjP8oGFiV4eq56VISLqvuyqYPaHR7jM0NPIq76nAyETCMSzwAOHn8
+   D+gKKvQdG54JY2ouva3+CNW7BgmV/9aWwbPSlmyh4sGze1bND1hY3ChEB
+   ZIDoREfFWanlqZK08X44QpSnirlB78LAgvSrydK8VCsIIyUa4dC1l9+d0
+   9ahCwUarxoJmnjY+L6OcpohYDLdC1lMj+F9mfULaA6K8Up5XYg/3PgmIN
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="5714128"
+X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
+   d="scan'208";a="5714128"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 18:17:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="911558733"
-X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="911558733"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="833811657"
+X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
+   d="scan'208";a="833811657"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 24 Nov 2023 16:19:39 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 24 Nov 2023 18:17:21 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6gOW-0003Qq-38;
-	Sat, 25 Nov 2023 00:19:36 +0000
-Date: Sat, 25 Nov 2023 08:18:42 +0800
+	id 1r6iEQ-0003Xa-23;
+	Sat, 25 Nov 2023 02:17:18 +0000
+Date: Sat, 25 Nov 2023 10:16:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: kernel/futex/waitwake.c:422 futex_wait_multiple_setup() warn:
- bitwise AND condition is false here
-Message-ID: <202311250705.nkPnjapq-lkp@intel.com>
+Subject: drivers/media/i2c/max9286.c:771 max9286_s_stream() error: buffer
+ overflow 'priv->fmt' 4 <= 32
+Message-ID: <202311250748.LFfx9w5u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: peterz <peterz@infradead.org>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: "André Almeida" <andrealmeid@igalia.com>
+TO: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
+CC: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   0f5cc96c367f2e780eb492cc9cab84e3b2ca88da
-commit: 5694289ce183bc3336407a78c8c722a0b9208f9b futex: Flag conversion
-date:   9 weeks ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 9 weeks ago
-config: arm-randconfig-r081-20231123 (https://download.01.org/0day-ci/archive/20231125/202311250705.nkPnjapq-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231125/202311250705.nkPnjapq-lkp@intel.com/reproduce)
+commit: f1403802d5117651f0b8fd1ec3ba2e0515ab17ad media: i2c: max9286: Support 12-bit raw bayer formats
+date:   10 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 10 months ago
+config: powerpc-randconfig-r071-20231124 (https://download.01.org/0day-ci/archive/20231125/202311250748.LFfx9w5u-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231125/202311250748.LFfx9w5u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311250705.nkPnjapq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311250748.LFfx9w5u-lkp@intel.com/
 
 smatch warnings:
-kernel/futex/waitwake.c:422 futex_wait_multiple_setup() warn: bitwise AND condition is false here
+drivers/media/i2c/max9286.c:771 max9286_s_stream() error: buffer overflow 'priv->fmt' 4 <= 32
 
-vim +422 kernel/futex/waitwake.c
+vim +771 drivers/media/i2c/max9286.c
 
-bf69bad38cf63d André Almeida        2021-09-23  382  
-bf69bad38cf63d André Almeida        2021-09-23  383  /**
-bf69bad38cf63d André Almeida        2021-09-23  384   * futex_wait_multiple_setup - Prepare to wait and enqueue multiple futexes
-bf69bad38cf63d André Almeida        2021-09-23  385   * @vs:		The futex list to wait on
-bf69bad38cf63d André Almeida        2021-09-23  386   * @count:	The size of the list
-bf69bad38cf63d André Almeida        2021-09-23  387   * @woken:	Index of the last woken futex, if any. Used to notify the
-bf69bad38cf63d André Almeida        2021-09-23  388   *		caller that it can return this index to userspace (return parameter)
-bf69bad38cf63d André Almeida        2021-09-23  389   *
-bf69bad38cf63d André Almeida        2021-09-23  390   * Prepare multiple futexes in a single step and enqueue them. This may fail if
-bf69bad38cf63d André Almeida        2021-09-23  391   * the futex list is invalid or if any futex was already awoken. On success the
-bf69bad38cf63d André Almeida        2021-09-23  392   * task is ready to interruptible sleep.
-bf69bad38cf63d André Almeida        2021-09-23  393   *
-bf69bad38cf63d André Almeida        2021-09-23  394   * Return:
-bf69bad38cf63d André Almeida        2021-09-23  395   *  -  1 - One of the futexes was woken by another thread
-bf69bad38cf63d André Almeida        2021-09-23  396   *  -  0 - Success
-bf69bad38cf63d André Almeida        2021-09-23  397   *  - <0 - -EFAULT, -EWOULDBLOCK or -EINVAL
-bf69bad38cf63d André Almeida        2021-09-23  398   */
-bf69bad38cf63d André Almeida        2021-09-23  399  static int futex_wait_multiple_setup(struct futex_vector *vs, int count, int *woken)
-bf69bad38cf63d André Almeida        2021-09-23  400  {
-bf69bad38cf63d André Almeida        2021-09-23  401  	struct futex_hash_bucket *hb;
-bf69bad38cf63d André Almeida        2021-09-23  402  	bool retry = false;
-bf69bad38cf63d André Almeida        2021-09-23  403  	int ret, i;
-bf69bad38cf63d André Almeida        2021-09-23  404  	u32 uval;
-bf69bad38cf63d André Almeida        2021-09-23  405  
-bf69bad38cf63d André Almeida        2021-09-23  406  	/*
-bf69bad38cf63d André Almeida        2021-09-23  407  	 * Enqueuing multiple futexes is tricky, because we need to enqueue
-bf69bad38cf63d André Almeida        2021-09-23  408  	 * each futex on the list before dealing with the next one to avoid
-bf69bad38cf63d André Almeida        2021-09-23  409  	 * deadlocking on the hash bucket. But, before enqueuing, we need to
-bf69bad38cf63d André Almeida        2021-09-23  410  	 * make sure that current->state is TASK_INTERRUPTIBLE, so we don't
-bf69bad38cf63d André Almeida        2021-09-23  411  	 * lose any wake events, which cannot be done before the get_futex_key
-bf69bad38cf63d André Almeida        2021-09-23  412  	 * of the next key, because it calls get_user_pages, which can sleep.
-bf69bad38cf63d André Almeida        2021-09-23  413  	 * Thus, we fetch the list of futexes keys in two steps, by first
-bf69bad38cf63d André Almeida        2021-09-23  414  	 * pinning all the memory keys in the futex key, and only then we read
-bf69bad38cf63d André Almeida        2021-09-23  415  	 * each key and queue the corresponding futex.
-bf69bad38cf63d André Almeida        2021-09-23  416  	 *
-bf69bad38cf63d André Almeida        2021-09-23  417  	 * Private futexes doesn't need to recalculate hash in retry, so skip
-bf69bad38cf63d André Almeida        2021-09-23  418  	 * get_futex_key() when retrying.
-bf69bad38cf63d André Almeida        2021-09-23  419  	 */
-bf69bad38cf63d André Almeida        2021-09-23  420  retry:
-bf69bad38cf63d André Almeida        2021-09-23  421  	for (i = 0; i < count; i++) {
-5694289ce183bc peterz@infradead.org 2023-09-21 @422  		if (!(vs[i].w.flags & FLAGS_SHARED) && retry)
-bf69bad38cf63d André Almeida        2021-09-23  423  			continue;
-bf69bad38cf63d André Almeida        2021-09-23  424  
-bf69bad38cf63d André Almeida        2021-09-23  425  		ret = get_futex_key(u64_to_user_ptr(vs[i].w.uaddr),
-5694289ce183bc peterz@infradead.org 2023-09-21  426  				    vs[i].w.flags & FLAGS_SHARED,
-bf69bad38cf63d André Almeida        2021-09-23  427  				    &vs[i].q.key, FUTEX_READ);
-bf69bad38cf63d André Almeida        2021-09-23  428  
-bf69bad38cf63d André Almeida        2021-09-23  429  		if (unlikely(ret))
-bf69bad38cf63d André Almeida        2021-09-23  430  			return ret;
-bf69bad38cf63d André Almeida        2021-09-23  431  	}
-bf69bad38cf63d André Almeida        2021-09-23  432  
-f5d39b02080914 Peter Zijlstra       2022-08-22  433  	set_current_state(TASK_INTERRUPTIBLE|TASK_FREEZABLE);
-bf69bad38cf63d André Almeida        2021-09-23  434  
-bf69bad38cf63d André Almeida        2021-09-23  435  	for (i = 0; i < count; i++) {
-bf69bad38cf63d André Almeida        2021-09-23  436  		u32 __user *uaddr = (u32 __user *)(unsigned long)vs[i].w.uaddr;
-bf69bad38cf63d André Almeida        2021-09-23  437  		struct futex_q *q = &vs[i].q;
-bf69bad38cf63d André Almeida        2021-09-23  438  		u32 val = (u32)vs[i].w.val;
-bf69bad38cf63d André Almeida        2021-09-23  439  
-bf69bad38cf63d André Almeida        2021-09-23  440  		hb = futex_q_lock(q);
-bf69bad38cf63d André Almeida        2021-09-23  441  		ret = futex_get_value_locked(&uval, uaddr);
-bf69bad38cf63d André Almeida        2021-09-23  442  
-bf69bad38cf63d André Almeida        2021-09-23  443  		if (!ret && uval == val) {
-bf69bad38cf63d André Almeida        2021-09-23  444  			/*
-bf69bad38cf63d André Almeida        2021-09-23  445  			 * The bucket lock can't be held while dealing with the
-bf69bad38cf63d André Almeida        2021-09-23  446  			 * next futex. Queue each futex at this moment so hb can
-bf69bad38cf63d André Almeida        2021-09-23  447  			 * be unlocked.
-bf69bad38cf63d André Almeida        2021-09-23  448  			 */
-bf69bad38cf63d André Almeida        2021-09-23  449  			futex_queue(q, hb);
-bf69bad38cf63d André Almeida        2021-09-23  450  			continue;
-bf69bad38cf63d André Almeida        2021-09-23  451  		}
-bf69bad38cf63d André Almeida        2021-09-23  452  
-bf69bad38cf63d André Almeida        2021-09-23  453  		futex_q_unlock(hb);
-bf69bad38cf63d André Almeida        2021-09-23  454  		__set_current_state(TASK_RUNNING);
-bf69bad38cf63d André Almeida        2021-09-23  455  
-bf69bad38cf63d André Almeida        2021-09-23  456  		/*
-bf69bad38cf63d André Almeida        2021-09-23  457  		 * Even if something went wrong, if we find out that a futex
-bf69bad38cf63d André Almeida        2021-09-23  458  		 * was woken, we don't return error and return this index to
-bf69bad38cf63d André Almeida        2021-09-23  459  		 * userspace
-bf69bad38cf63d André Almeida        2021-09-23  460  		 */
-bf69bad38cf63d André Almeida        2021-09-23  461  		*woken = unqueue_multiple(vs, i);
-bf69bad38cf63d André Almeida        2021-09-23  462  		if (*woken >= 0)
-bf69bad38cf63d André Almeida        2021-09-23  463  			return 1;
-bf69bad38cf63d André Almeida        2021-09-23  464  
-bf69bad38cf63d André Almeida        2021-09-23  465  		if (ret) {
-bf69bad38cf63d André Almeida        2021-09-23  466  			/*
-bf69bad38cf63d André Almeida        2021-09-23  467  			 * If we need to handle a page fault, we need to do so
-bf69bad38cf63d André Almeida        2021-09-23  468  			 * without any lock and any enqueued futex (otherwise
-bf69bad38cf63d André Almeida        2021-09-23  469  			 * we could lose some wakeup). So we do it here, after
-bf69bad38cf63d André Almeida        2021-09-23  470  			 * undoing all the work done so far. In success, we
-bf69bad38cf63d André Almeida        2021-09-23  471  			 * retry all the work.
-bf69bad38cf63d André Almeida        2021-09-23  472  			 */
-bf69bad38cf63d André Almeida        2021-09-23  473  			if (get_user(uval, uaddr))
-bf69bad38cf63d André Almeida        2021-09-23  474  				return -EFAULT;
-bf69bad38cf63d André Almeida        2021-09-23  475  
-bf69bad38cf63d André Almeida        2021-09-23  476  			retry = true;
-bf69bad38cf63d André Almeida        2021-09-23  477  			goto retry;
-bf69bad38cf63d André Almeida        2021-09-23  478  		}
-bf69bad38cf63d André Almeida        2021-09-23  479  
-bf69bad38cf63d André Almeida        2021-09-23  480  		if (uval != val)
-bf69bad38cf63d André Almeida        2021-09-23  481  			return -EWOULDBLOCK;
-bf69bad38cf63d André Almeida        2021-09-23  482  	}
-bf69bad38cf63d André Almeida        2021-09-23  483  
-bf69bad38cf63d André Almeida        2021-09-23  484  	return 0;
-bf69bad38cf63d André Almeida        2021-09-23  485  }
-bf69bad38cf63d André Almeida        2021-09-23  486  
+66d8c9d2422da21 Kieran Bingham   2020-06-12  755  
+66d8c9d2422da21 Kieran Bingham   2020-06-12  756  static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+66d8c9d2422da21 Kieran Bingham   2020-06-12  757  {
+66d8c9d2422da21 Kieran Bingham   2020-06-12  758  	struct max9286_priv *priv = sd_to_max9286(sd);
+66d8c9d2422da21 Kieran Bingham   2020-06-12  759  	struct max9286_source *source;
+66d8c9d2422da21 Kieran Bingham   2020-06-12  760  	unsigned int i;
+66d8c9d2422da21 Kieran Bingham   2020-06-12  761  	bool sync = false;
+66d8c9d2422da21 Kieran Bingham   2020-06-12  762  	int ret;
+66d8c9d2422da21 Kieran Bingham   2020-06-12  763  
+66d8c9d2422da21 Kieran Bingham   2020-06-12  764  	if (enable) {
+f1403802d511765 Laurent Pinchart 2022-01-01  765  		const struct v4l2_mbus_framefmt *format;
+f1403802d511765 Laurent Pinchart 2022-01-01  766  
+f1403802d511765 Laurent Pinchart 2022-01-01  767  		/*
+f1403802d511765 Laurent Pinchart 2022-01-01  768  		 * Get the format from the first used sink pad, as all sink
+f1403802d511765 Laurent Pinchart 2022-01-01  769  		 * formats must be identical.
+f1403802d511765 Laurent Pinchart 2022-01-01  770  		 */
+f1403802d511765 Laurent Pinchart 2022-01-01 @771  		format = &priv->fmt[__ffs(priv->bound_sources)];
+f1403802d511765 Laurent Pinchart 2022-01-01  772  
+f1403802d511765 Laurent Pinchart 2022-01-01  773  		max9286_set_video_format(priv, format);
+cffc9fb1ed6c5cd Laurent Pinchart 2022-01-01  774  		max9286_set_fsync_period(priv);
+cffc9fb1ed6c5cd Laurent Pinchart 2022-01-01  775  
+66d8c9d2422da21 Kieran Bingham   2020-06-12  776  		/*
+66d8c9d2422da21 Kieran Bingham   2020-06-12  777  		 * The frame sync between cameras is transmitted across the
+66d8c9d2422da21 Kieran Bingham   2020-06-12  778  		 * reverse channel as GPIO. We must open all channels while
+66d8c9d2422da21 Kieran Bingham   2020-06-12  779  		 * streaming to allow this synchronisation signal to be shared.
+66d8c9d2422da21 Kieran Bingham   2020-06-12  780  		 */
+66d8c9d2422da21 Kieran Bingham   2020-06-12  781  		max9286_i2c_mux_open(priv);
+66d8c9d2422da21 Kieran Bingham   2020-06-12  782  
+66d8c9d2422da21 Kieran Bingham   2020-06-12  783  		/* Start all cameras. */
+66d8c9d2422da21 Kieran Bingham   2020-06-12  784  		for_each_source(priv, source) {
+66d8c9d2422da21 Kieran Bingham   2020-06-12  785  			ret = v4l2_subdev_call(source->sd, video, s_stream, 1);
+66d8c9d2422da21 Kieran Bingham   2020-06-12  786  			if (ret)
+66d8c9d2422da21 Kieran Bingham   2020-06-12  787  				return ret;
+66d8c9d2422da21 Kieran Bingham   2020-06-12  788  		}
+66d8c9d2422da21 Kieran Bingham   2020-06-12  789  
+66d8c9d2422da21 Kieran Bingham   2020-06-12  790  		ret = max9286_check_video_links(priv);
+66d8c9d2422da21 Kieran Bingham   2020-06-12  791  		if (ret)
+66d8c9d2422da21 Kieran Bingham   2020-06-12  792  			return ret;
+66d8c9d2422da21 Kieran Bingham   2020-06-12  793  
+66d8c9d2422da21 Kieran Bingham   2020-06-12  794  		/*
+66d8c9d2422da21 Kieran Bingham   2020-06-12  795  		 * Wait until frame synchronization is locked.
+66d8c9d2422da21 Kieran Bingham   2020-06-12  796  		 *
+66d8c9d2422da21 Kieran Bingham   2020-06-12  797  		 * Manual says frame sync locking should take ~6 VTS.
+66d8c9d2422da21 Kieran Bingham   2020-06-12  798  		 * From practical experience at least 8 are required. Give
+66d8c9d2422da21 Kieran Bingham   2020-06-12  799  		 * 12 complete frames time (~400ms at 30 fps) to achieve frame
+66d8c9d2422da21 Kieran Bingham   2020-06-12  800  		 * locking before returning error.
+66d8c9d2422da21 Kieran Bingham   2020-06-12  801  		 */
+66d8c9d2422da21 Kieran Bingham   2020-06-12  802  		for (i = 0; i < 40; i++) {
+66d8c9d2422da21 Kieran Bingham   2020-06-12  803  			if (max9286_read(priv, 0x31) & MAX9286_FSYNC_LOCKED) {
+66d8c9d2422da21 Kieran Bingham   2020-06-12  804  				sync = true;
+66d8c9d2422da21 Kieran Bingham   2020-06-12  805  				break;
+66d8c9d2422da21 Kieran Bingham   2020-06-12  806  			}
+66d8c9d2422da21 Kieran Bingham   2020-06-12  807  			usleep_range(9000, 11000);
+66d8c9d2422da21 Kieran Bingham   2020-06-12  808  		}
+66d8c9d2422da21 Kieran Bingham   2020-06-12  809  
+66d8c9d2422da21 Kieran Bingham   2020-06-12  810  		if (!sync) {
+66d8c9d2422da21 Kieran Bingham   2020-06-12  811  			dev_err(&priv->client->dev,
+66d8c9d2422da21 Kieran Bingham   2020-06-12  812  				"Failed to get frame synchronization\n");
+66d8c9d2422da21 Kieran Bingham   2020-06-12  813  			return -EXDEV; /* Invalid cross-device link */
+66d8c9d2422da21 Kieran Bingham   2020-06-12  814  		}
+66d8c9d2422da21 Kieran Bingham   2020-06-12  815  
+66d8c9d2422da21 Kieran Bingham   2020-06-12  816  		/*
+66d8c9d2422da21 Kieran Bingham   2020-06-12  817  		 * Enable CSI output, VC set according to link number.
+66d8c9d2422da21 Kieran Bingham   2020-06-12  818  		 * Bit 7 must be set (chip manual says it's 0 and reserved).
+66d8c9d2422da21 Kieran Bingham   2020-06-12  819  		 */
+66d8c9d2422da21 Kieran Bingham   2020-06-12  820  		max9286_write(priv, 0x15, 0x80 | MAX9286_VCTYPE |
+66d8c9d2422da21 Kieran Bingham   2020-06-12  821  			      MAX9286_CSIOUTEN | MAX9286_0X15_RESV);
+66d8c9d2422da21 Kieran Bingham   2020-06-12  822  	} else {
+66d8c9d2422da21 Kieran Bingham   2020-06-12  823  		max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
+66d8c9d2422da21 Kieran Bingham   2020-06-12  824  
+66d8c9d2422da21 Kieran Bingham   2020-06-12  825  		/* Stop all cameras. */
+66d8c9d2422da21 Kieran Bingham   2020-06-12  826  		for_each_source(priv, source)
+66d8c9d2422da21 Kieran Bingham   2020-06-12  827  			v4l2_subdev_call(source->sd, video, s_stream, 0);
+66d8c9d2422da21 Kieran Bingham   2020-06-12  828  
+66d8c9d2422da21 Kieran Bingham   2020-06-12  829  		max9286_i2c_mux_close(priv);
+66d8c9d2422da21 Kieran Bingham   2020-06-12  830  	}
+66d8c9d2422da21 Kieran Bingham   2020-06-12  831  
+66d8c9d2422da21 Kieran Bingham   2020-06-12  832  	return 0;
+66d8c9d2422da21 Kieran Bingham   2020-06-12  833  }
+66d8c9d2422da21 Kieran Bingham   2020-06-12  834  
 
 -- 
 0-DAY CI Kernel Test Service
