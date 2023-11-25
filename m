@@ -1,46 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3566A1EB29
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 Nov 2023 20:52:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FF620E7
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 Nov 2023 21:27:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJeO+aAL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBmIrLCe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700945563; x=1732481563;
+  t=1700947626; x=1732483626;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W2aH5kMyFx9U+hXK8tI78BorBqwqWto5pSa+GrMzVEQ=;
-  b=UJeO+aALoUJfmiiQPw/sOGsQLPsDSeWRwzdo1nqZv3UPuGz3gukBcpDY
-   rywgdyitJKjPC46q77Jy/YQDwAxidPqx3TWNtDRc5e6INs5bW02gFPusV
-   mysfZaTbY7WKLU/wF3BzIGXVcTu0iQXMe4lT0HVyY7ZY0g2HUQKQmja51
-   v75L89LYBYsVSJTitdHXTcdgx4JviBjXnZEzqZ6UYQ9sT0FwgloCnynV7
-   hX7T9Y3Ioh/1niF2RoFDuxhuoVpu60pKspYnL8mE4VwVg8/YtelDa4rG5
-   fspaSTWSh1Bc+9f9WNZlfPR4HYwMD24APRwLNqXRdrsufko3MReuB7XpY
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="456865797"
+  bh=r54fkDj8FPADmoE6hjArOqddAtTqwPjFxfXO1jFeBcc=;
+  b=dBmIrLCeywSYqqoVRAZm26UH/bZ97GnhYtGv6mOG3cbNEo5orHAHQ/lw
+   y7AXh1FgM3cmO9yuWc31Nou+J2s8abrodFcT5Z8ASsQUrO5M/dZawTe0f
+   sDXpjV399bwUoKqs46wJgkzRwoiuuBeUVTJMTQ2aNvFnggJNO5uW2nkrY
+   QgTVzZce7r1VO4GVrjppbhp9xDxvDY/MbklQrzsm8s2PiYfxqYOZ3lCZa
+   loBC3cEvf5691RypBdlcQ7OiCvxBxDU2TWXOzj+UTvDPa++hUBeBB2j8+
+   u4YcScfCHQ66ca4fFZyRT/yfJ2Xbj6znsvjLIaY3cHgKlgu9t5ae7pE+t
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="459031625"
 X-IronPort-AV: E=Sophos;i="6.04,227,1695711600"; 
-   d="scan'208";a="456865797"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 12:52:42 -0800
+   d="scan'208";a="459031625"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 13:27:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="761253503"
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="1099391698"
 X-IronPort-AV: E=Sophos;i="6.04,227,1695711600"; 
-   d="scan'208";a="761253503"
+   d="scan'208";a="1099391698"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 25 Nov 2023 12:52:42 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 25 Nov 2023 13:27:04 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6zdo-0004QA-0X;
-	Sat, 25 Nov 2023 20:52:40 +0000
-Date: Sun, 26 Nov 2023 04:52:32 +0800
+	id 1r70B4-0004RN-0H;
+	Sat, 25 Nov 2023 21:27:02 +0000
+Date: Sun, 26 Nov 2023 05:26:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/spmi/spmi-pmic-arb.c:215: warning: No description found for
- parameter 'pmic_arb'
-Message-ID: <202311260405.YL0cVHtZ-lkp@intel.com>
+Subject: Re: [PATCH] prctl: Get private anonymous memory region name
+Message-ID: <202311260555.H8SrEcwc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,70 +50,104 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "Committer is Greg Kroah-Hartman, remote is linus!"
+:::::: Manual check reason: "low confidence static check warning: kernel/sys.c:2371:17: sparse: sparse: typename in expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Kiran Gunda <kgunda@codeaurora.org>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Stephen Boyd <sboyd@codeaurora.org>
+In-Reply-To: <tencent_977CBF8E8CA6234A1B740A35655D5D7EAA0A@qq.com>
+References: <tencent_977CBF8E8CA6234A1B740A35655D5D7EAA0A@qq.com>
+TO: Rong Tao <rtoax@foxmail.com>
+TO: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Catalin Marinas <catalin.marinas@arm.com>
+TO: Florent Revest <revest@chromium.org>
+TO: Kees Cook <keescook@chromium.org>
+TO: David Hildenbrand <david@redhat.com>
+TO: Stefan Roesch <shr@devkernel.io>
+TO: Andy Chiu <andy.chiu@sifive.com>
+TO: Josh Triplett <josh@joshtriplett.org>
+TO: Joey Gouly <joey.gouly@arm.com>
+TO: Oleg Nesterov <oleg@redhat.com>
+TO: Miguel Ojeda <ojeda@kernel.org>
+TO: Ondrej Mosnacek <omosnace@redhat.com>
+TO: linux-kernel@vger.kernel.org
+CC: rtoax@foxmail.com
+CC: rongtao@cestc.cn
 
-Hi Kiran,
+Hi Rong,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0f5cc96c367f2e780eb492cc9cab84e3b2ca88da
-commit: 02abec3616c1b2027efc7e08abf7fc0d2436a837 spmi: pmic-arb: rename pa_xx to pmic_arb_xx and other cleanup
-date:   6 years ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 6 years ago
-config: arm-randconfig-001-20231123 (https://download.01.org/0day-ci/archive/20231126/202311260405.YL0cVHtZ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231126/202311260405.YL0cVHtZ-lkp@intel.com/reproduce)
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.7-rc2 next-20231124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rong-Tao/prctl-Get-private-anonymous-memory-region-name/20231125-220925
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/tencent_977CBF8E8CA6234A1B740A35655D5D7EAA0A%40qq.com
+patch subject: [PATCH] prctl: Get private anonymous memory region name
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: arm64-randconfig-r133-20231126 (https://download.01.org/0day-ci/archive/20231126/202311260555.H8SrEcwc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231126/202311260555.H8SrEcwc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311260405.YL0cVHtZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311260555.H8SrEcwc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/sys.c:2371:17: sparse: sparse: typename in expression
+   kernel/sys.c:2371:23: sparse: sparse: Expected ; at end of statement
+   kernel/sys.c:2371:23: sparse: sparse: got struct
+   kernel/sys.c:2371:17: sparse: sparse: undefined identifier 'const'
+   kernel/sys.c:2377:17: sparse: sparse: undefined identifier 'anon_name'
+   kernel/sys.c:2378:22: sparse: sparse: undefined identifier 'anon_name'
+   kernel/sys.c:2384:56: sparse: sparse: undefined identifier 'anon_name'
+   kernel/sys.c:2389:35: sparse: sparse: undefined identifier 'anon_name'
 
-   drivers/spmi/spmi-pmic-arb.c: In function 'pmic_arb_write_cmd':
-   drivers/spmi/spmi-pmic-arb.c:399:15: warning: comparison is always true due to limited range of data type [-Wtype-limits]
-     else if (opc >= 0x00 && opc <= 0x0F)
-                  ^~
-   drivers/spmi/spmi-pmic-arb.c:137: warning: cannot understand function prototype: 'struct spmi_pmic_arb '
-   drivers/spmi/spmi-pmic-arb.c:179: warning: cannot understand function prototype: 'struct pmic_arb_ver_ops '
->> drivers/spmi/spmi-pmic-arb.c:215: warning: No description found for parameter 'pmic_arb'
-   drivers/spmi/spmi-pmic-arb.c:229: warning: No description found for parameter 'pmic_arb'
+vim +2371 kernel/sys.c
 
-
-vim +/pmic_arb +215 drivers/spmi/spmi-pmic-arb.c
-
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  206  
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  207  /**
-02abec3616c1b2 Kiran Gunda            2017-07-28  208   * pmic_arb_read_data: reads pmic-arb's register and copy 1..4 bytes to buf
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  209   * @bc:		byte count -1. range: 0..3
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  210   * @reg:	register's address
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  211   * @buf:	output parameter, length must be bc + 1
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  212   */
-02abec3616c1b2 Kiran Gunda            2017-07-28  213  static void
-02abec3616c1b2 Kiran Gunda            2017-07-28  214  pmic_arb_read_data(struct spmi_pmic_arb *pmic_arb, u8 *buf, u32 reg, u8 bc)
-39ae93e3a31d0c Kenneth Heitke         2014-02-12 @215  {
-02abec3616c1b2 Kiran Gunda            2017-07-28  216  	u32 data = __raw_readl(pmic_arb->rd_base + reg);
-111a10bf3e53ae Abhijeet Dharmapurikar 2017-05-10  217  
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  218  	memcpy(buf, &data, (bc & 3) + 1);
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  219  }
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  220  
-
-:::::: The code at line 215 was first introduced by commit
-:::::: 39ae93e3a31d0c9ca99e35b754a9f3c6f1db2bee spmi: Add MSM PMIC Arbiter SPMI controller
-
-:::::: TO: Kenneth Heitke <kheitke@codeaurora.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+9a10064f5625d5 Colin Cross 2022-01-14  2361  
+e5c636bb5ceadb Rong Tao    2023-11-25  2362  static int prctl_get_vma(unsigned long opt, unsigned long addr,
+e5c636bb5ceadb Rong Tao    2023-11-25  2363  			 unsigned long buf, unsigned long arg)
+e5c636bb5ceadb Rong Tao    2023-11-25  2364  {
+e5c636bb5ceadb Rong Tao    2023-11-25  2365  	struct mm_struct *mm = current->mm;
+e5c636bb5ceadb Rong Tao    2023-11-25  2366  	const char __user *u_buf;
+e5c636bb5ceadb Rong Tao    2023-11-25  2367  	int error;
+e5c636bb5ceadb Rong Tao    2023-11-25  2368  
+e5c636bb5ceadb Rong Tao    2023-11-25  2369  	switch (opt) {
+e5c636bb5ceadb Rong Tao    2023-11-25  2370  	case PR_GET_VMA_ANON_NAME:
+e5c636bb5ceadb Rong Tao    2023-11-25 @2371  		const struct anon_vma_name *anon_name = NULL;
+e5c636bb5ceadb Rong Tao    2023-11-25  2372  
+e5c636bb5ceadb Rong Tao    2023-11-25  2373  		u_buf = (const char __user *)buf;
+e5c636bb5ceadb Rong Tao    2023-11-25  2374  		error = 0;
+e5c636bb5ceadb Rong Tao    2023-11-25  2375  
+e5c636bb5ceadb Rong Tao    2023-11-25  2376  		mmap_read_lock(mm);
+e5c636bb5ceadb Rong Tao    2023-11-25  2377  		anon_name = madvise_get_anon_name(mm, addr);
+e5c636bb5ceadb Rong Tao    2023-11-25  2378  		if (!anon_name) {
+e5c636bb5ceadb Rong Tao    2023-11-25  2379  			mmap_read_unlock(mm);
+e5c636bb5ceadb Rong Tao    2023-11-25  2380  			error = -EFAULT;
+e5c636bb5ceadb Rong Tao    2023-11-25  2381  			break;
+e5c636bb5ceadb Rong Tao    2023-11-25  2382  		}
+e5c636bb5ceadb Rong Tao    2023-11-25  2383  
+e5c636bb5ceadb Rong Tao    2023-11-25  2384  		if (copy_to_user((char __user *)u_buf, anon_name->name,
+e5c636bb5ceadb Rong Tao    2023-11-25  2385  				 strlen(anon_name->name) + 1))
+e5c636bb5ceadb Rong Tao    2023-11-25  2386  			error = -EFAULT;
+e5c636bb5ceadb Rong Tao    2023-11-25  2387  
+e5c636bb5ceadb Rong Tao    2023-11-25  2388  		mmap_read_unlock(mm);
+e5c636bb5ceadb Rong Tao    2023-11-25  2389  		anon_vma_name_put(anon_name);
+e5c636bb5ceadb Rong Tao    2023-11-25  2390  		break;
+e5c636bb5ceadb Rong Tao    2023-11-25  2391  	default:
+e5c636bb5ceadb Rong Tao    2023-11-25  2392  		error = -EINVAL;
+e5c636bb5ceadb Rong Tao    2023-11-25  2393  	}
+e5c636bb5ceadb Rong Tao    2023-11-25  2394  	return error;
+e5c636bb5ceadb Rong Tao    2023-11-25  2395  }
+e5c636bb5ceadb Rong Tao    2023-11-25  2396  
 
 -- 
 0-DAY CI Kernel Test Service
