@@ -1,46 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1FC168D4
-	for <oe-kbuild@lists.linux.dev>; Mon, 27 Nov 2023 09:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096AD1A28E
+	for <oe-kbuild@lists.linux.dev>; Mon, 27 Nov 2023 11:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L/x5gW33"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701078245; x=1732614245;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rLqcuw+rdy0JwJ6x1wrPr3m8AQNQjnBpB9DuzHyKqdk=;
-  b=L/x5gW33cTJOSk9ZNDHPOqM1N9+allQ0dkN1DxpAyzUwvWT77aJ2nLqQ
-   gyPyP7ZrTgfeUzgshhGxOzqriTmpHicfUxgjk+SkBVIW36w6kvWc7BMUm
-   5oRkt92dPfWWNi0HHh1I2Uni6tZ7KOy6HWCCs6iRXmtWdVTdTBGReLttN
-   Sxon2s+eYK8vR62DSVhEn4MhdhR2wXXC9Ct9CmBx85kb6gz0o3uWB4Phq
-   jficv20zH6ZxSwIJsjY3z5FOAURN9sBykyZRHFDG65n++pSkPb+4bj91N
-   KSPwrhUM540IZUVzTZl2QyqwGgvz8xJM89dl1aaNEoI7y8iYtkd0oOQu7
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="459160448"
-X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="459160448"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 01:44:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="16236673"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 27 Nov 2023 01:44:04 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r7Y9o-00067R-2X;
-	Mon, 27 Nov 2023 09:44:00 +0000
-Date: Mon, 27 Nov 2023 17:43:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sjZOeUXO"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2c87acba73bso54076891fa.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 27 Nov 2023 03:30:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701084626; x=1701689426; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=s+MOXu27yPf3UCbViyAan00Rttoop53nJW7WCFKhbuw=;
+        b=sjZOeUXOC6b+Vg/ozE0CdsPTlekiBNvaFtMcuIpEzzjJpNdM//GRq2akSKquz8VRXU
+         1r+CxVjR0g66Qe0h01yAR4vm/ebljEo1j2rCI0PtQwdkDGznWSn13NvirLiItYf8p2vj
+         lz8AqvniDzQn9jQqI/dcJONzlRZHjm/GWIMxUfS9ekfVYHQ1pSGVEavyKBecE7TAIYV2
+         QsAVXn6sl2QHg9+93N3U4wSwMtGSz/3HohcUXGcLJ3bTfLUCYIP15fTDZTVCAarm1KTP
+         /t4R+Ehhp3XCyS1bVpYs6CCFOHgs1xwwrqDciMdpZXT/buQXIzUZWj6vxfL0NkqSYX/e
+         FLnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701084626; x=1701689426;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s+MOXu27yPf3UCbViyAan00Rttoop53nJW7WCFKhbuw=;
+        b=jgWiNkCP6OVy96m997Q5CC0ElN1qGuqwL7zmtrOdqr14kf82KNrR8ZhH0vkOc11omG
+         UDfKodaw5nl9G4BGwxUYYKkfOcAEN8Jzwas0cx2uI3R7X8WQ2XDEH3JIv6JoHWRzeH9M
+         f7n6jRW0z4NIHdX9wHqKvXiSWRR63XpL8fNzIsc8SCEmlepTuj7TdfWHSiGkatoHzOWA
+         yWy5LVAcGKv0T2C57Icavt8kgexD4jxQRL60yI7QuA2O+scMPnO9Dm7b7X5MH9pBIUzH
+         92P1SwXO157Aw/sXgvelfhKgKMJWFQifKsn8SXKMX+a/hdhGa0EfkUbqTir2fCCS6ZbI
+         9rcg==
+X-Gm-Message-State: AOJu0Yyr7H9MBjmpd0bBXo4J8twfzBIiw7PsnxfmO0mEpn2pNEFBqM4Q
+	oMvapJVgb0Ej2d1ZTTgqvlEAvlZWQxjIzj47MpY=
+X-Google-Smtp-Source: AGHT+IFpesgrucFxK9BK7DrkGXBppFhyx8Itht8iBNii1N4/k/umtQB5oNRbGEgX5WkH+SS3D5TC4g==
+X-Received: by 2002:a2e:9017:0:b0:2bd:1f83:8d4 with SMTP id h23-20020a2e9017000000b002bd1f8308d4mr4224636ljg.22.1701084625792;
+        Mon, 27 Nov 2023 03:30:25 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id c37-20020a05600c4a2500b003fee6e170f9sm13371467wmp.45.2023.11.27.03.30.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Nov 2023 03:30:25 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Mon, 27 Nov 2023 14:30:21 +0300
+To: oe-kbuild@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [asahilinux:bits/090-spi-hid 15/21]
  drivers/hid/dockchannel-hid/dockchannel-hid.c:1173 dockchannel_hid_probe()
  warn: passing zero to 'PTR_ERR'
-Message-ID: <202311271546.ImsRFnlZ-lkp@intel.com>
+Message-ID: <4656a259-a21a-4847-9850-fa362550bc44@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,15 +58,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Hector Martin <marcan@marcan.st>
-
 tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
 head:   16871bb3228eaf55cbdb1dfb81c1cecec4ee0d52
 commit: af53f3ff74f442fae36262bda9be6a94ad52925e [15/21] hid: Add Apple DockChannel HID transport driver
-:::::: branch date: 8 days ago
-:::::: commit date: 10 weeks ago
 config: parisc-randconfig-r071-20231127 (https://download.01.org/0day-ci/archive/20231127/202311271546.ImsRFnlZ-lkp@intel.com/config)
 compiler: hppa-linux-gcc (GCC) 13.2.0
 reproduce: (https://download.01.org/0day-ci/archive/20231127/202311271546.ImsRFnlZ-lkp@intel.com/reproduce)
@@ -74,7 +76,6 @@ drivers/hid/dockchannel-hid/dockchannel-hid.c:1173 dockchannel_hid_probe() warn:
 
 vim +/PTR_ERR +1173 drivers/hid/dockchannel-hid/dockchannel-hid.c
 
-af53f3ff74f442 Hector Martin 2022-07-08  1093  
 af53f3ff74f442 Hector Martin 2022-07-08  1094  static int dockchannel_hid_probe(struct platform_device *pdev)
 af53f3ff74f442 Hector Martin 2022-07-08  1095  {
 af53f3ff74f442 Hector Martin 2022-07-08  1096  	struct device *dev = &pdev->dev;
@@ -155,6 +156,17 @@ af53f3ff74f442 Hector Martin 2022-07-08  1170  	/* Now it is safe to begin initi
 af53f3ff74f442 Hector Martin 2022-07-08  1171  	dchid->dc = dockchannel_init(pdev);
 af53f3ff74f442 Hector Martin 2022-07-08  1172  	if (IS_ERR_OR_NULL(dchid->dc)) {
 af53f3ff74f442 Hector Martin 2022-07-08 @1173  		return PTR_ERR(dchid->dc);
+
+
+We are returning success if dockchannel_init() returns NULL.
+
+I only look at this email, but my guess without looking at the context
+is that the IS_ERR_OR_NULL() check should just be IS_ERR().  Otherwise
+it means that dockchannel_init() is optional.  See my blog for more
+details.
+
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+
 af53f3ff74f442 Hector Martin 2022-07-08  1174  	}
 af53f3ff74f442 Hector Martin 2022-07-08  1175  	dchid->new_iface_wq = alloc_workqueue("dchid-new", WQ_MEM_RECLAIM, 0);
 af53f3ff74f442 Hector Martin 2022-07-08  1176  	if (!dchid->new_iface_wq)
@@ -171,8 +183,8 @@ af53f3ff74f442 Hector Martin 2022-07-08  1186  	dockchannel_await(dchid->dc, dch
 af53f3ff74f442 Hector Martin 2022-07-08  1187  
 af53f3ff74f442 Hector Martin 2022-07-08  1188  	return 0;
 af53f3ff74f442 Hector Martin 2022-07-08  1189  }
-af53f3ff74f442 Hector Martin 2022-07-08  1190  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
