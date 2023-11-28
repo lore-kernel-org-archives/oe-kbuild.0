@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D1810A0A
-	for <oe-kbuild@lists.linux.dev>; Tue, 28 Nov 2023 05:56:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D233FFB
+	for <oe-kbuild@lists.linux.dev>; Tue, 28 Nov 2023 06:09:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/aH2FWW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UWJLd5Tc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701150987; x=1732686987;
+  t=1701151784; x=1732687784;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5ywrWGWzN+gIS1iaWcG2M9SCzbpiIR+Z2X+jFEVLqzo=;
-  b=a/aH2FWWKQzI9TcD4Xa7EPHbApWjYJ0ab3JJ/G6QkHh+QdmgGFoy96MH
-   ZbGsrnoOD89R/i2tj4Lhh1S1RD5ItEHbSMHdyk/bdx4ZJvP4Rc8eDarYb
-   7ZtQoo5HA2H/8HnnddbIcPASCajdA0OFqkjV5jr9OnRBmwJH5GbRyAriF
-   b0CZKQTFtdlx8vIcjvZVRt4ph9MRy4JkQYcJ0VdWxHjxDs2zzwHeCT3Px
-   XOO6+hcc9EA9H8Wg8vjVfQOvr1ZGPbWXUwnmJQmj4vfGXqUwoimVMbyJ1
-   JafiqFoL8xiiO94+3tVO07xOow9AXmNkaP5bpNEMraQXjLfQrnC5sEBl5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="383239674"
+  bh=HmCS249xrJOqR8JPWqS4Vr6bA8tlkGjG2nEWZVZ7to8=;
+  b=UWJLd5Tch3NRHpA9JmOw5CgD76Utq/xCKzwX3JBwMb66ebL6ZZrU1mKH
+   uzn14VV/1iACWYyW6pOJFHr/hWh2zvhNk1NWmbk/EnB1HZd2QbkQ2ZlYM
+   Vj9ohb+bxQhsB7S+20O1H84j5GYAq0KwV+9/jraVQgPw5y6w608CHNXGT
+   gT0e9cTSVnVtQ5l0sACJQvaXY+qYqvirMCCwCE3dMjQKvQhyjjgFgpZdC
+   e4mauGpSj3zu9Z3R6gnOAlXjGVQoijEfbaY2AlNRaDMUBzbNLJ6AtSBu6
+   NVJsgIEoOy3mBPM3eCKtw2SiLr8/42RYvndgIS9KeKWEoA0mrTYKcmS9f
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="377886154"
 X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
-   d="scan'208";a="383239674"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 21:56:26 -0800
+   d="scan'208";a="377886154"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 22:09:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="1099989742"
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="1015815289"
 X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
-   d="scan'208";a="1099989742"
+   d="scan'208";a="1015815289"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 27 Nov 2023 21:56:25 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 27 Nov 2023 22:09:42 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r7r55-00074Y-00;
-	Tue, 28 Nov 2023 05:56:23 +0000
-Date: Tue, 28 Nov 2023 13:56:04 +0800
+	id 1r7rHw-00076O-1v;
+	Tue, 28 Nov 2023 06:09:40 +0000
+Date: Tue, 28 Nov 2023 14:09:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [gustavoars:testing/next20231127-Warray-bounds 3/3]
- fs/bcachefs/chardev.c:570:44: warning: array subscript i is outside array
- bounds of 'struct bch_ioctl_dev_usage_type[0]'
-Message-ID: <202311280933.lCa4jxa0-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/powerpc/perf/hv-gpci.c:506
+ affinity_domain_via_partition_result_parse() error: uninitialized symbol
+ 'k'.
+Message-ID: <202311281221.sawRNf2T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,102 +51,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "has Makefile file changed"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-CC: LKML <linux-kernel@vger.kernel.org>
-TO: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Kajol Jain <kjain@linux.ibm.com>
+CC: Michael Ellerman <mpe@ellerman.id.au>
+CC: Athira Rajeev <atrajeev@linux.vnet.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/next20231127-Warray-bounds
-head:   cb7d8700da3e4c763ac30bfa34ee7dc143bd2758
-commit: cb7d8700da3e4c763ac30bfa34ee7dc143bd2758 [3/3] Makefile: Enable -Warray-bounds globally
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231128/202311280933.lCa4jxa0-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231128/202311280933.lCa4jxa0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2cc14f52aeb78ce3f29677c2de1f06c0e91471ab
+commit: a15e0d6a6929e737f71578ed4b05531fed5a96e8 powerpc/hv_gpci: Add sysfs file inside hv_gpci device to show affinity domain via partition information
+date:   3 months ago
+:::::: branch date: 24 hours ago
+:::::: commit date: 3 months ago
+config: powerpc64-randconfig-r081-20231128 (https://download.01.org/0day-ci/archive/20231128/202311281221.sawRNf2T-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231128/202311281221.sawRNf2T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311280933.lCa4jxa0-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311281221.sawRNf2T-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+arch/powerpc/perf/hv-gpci.c:506 affinity_domain_via_partition_result_parse() error: uninitialized symbol 'k'.
 
-   fs/bcachefs/chardev.c: In function 'bch2_ioctl_dev_usage_v2':
->> fs/bcachefs/chardev.c:570:44: warning: array subscript i is outside array bounds of 'struct bch_ioctl_dev_usage_type[0]' [-Warray-bounds=]
-     570 |                 ret = copy_to_user_errcode(&user_arg->d[i], &t, sizeof(t));
-         |                                            ^~~~~~~~~~~~~~~
-   In file included from fs/bcachefs/chardev.c:5:
-   fs/bcachefs/bcachefs_ioctl.h:316:42: note: while referencing 'd'
-     316 |         struct bch_ioctl_dev_usage_type  d[0];
-         |                                          ^
+vim +/k +506 arch/powerpc/perf/hv-gpci.c
 
-
-vim +570 fs/bcachefs/chardev.c
-
-e1dde6a5c66159 Kent Overstreet 2023-11-23  527  
-e1dde6a5c66159 Kent Overstreet 2023-11-23  528  static long bch2_ioctl_dev_usage_v2(struct bch_fs *c,
-e1dde6a5c66159 Kent Overstreet 2023-11-23  529  				 struct bch_ioctl_dev_usage_v2 __user *user_arg)
-e1dde6a5c66159 Kent Overstreet 2023-11-23  530  {
-e1dde6a5c66159 Kent Overstreet 2023-11-23  531  	struct bch_ioctl_dev_usage_v2 arg;
-e1dde6a5c66159 Kent Overstreet 2023-11-23  532  	struct bch_dev_usage src;
-e1dde6a5c66159 Kent Overstreet 2023-11-23  533  	struct bch_dev *ca;
-e1dde6a5c66159 Kent Overstreet 2023-11-23  534  	int ret = 0;
-e1dde6a5c66159 Kent Overstreet 2023-11-23  535  
-e1dde6a5c66159 Kent Overstreet 2023-11-23  536  	if (!test_bit(BCH_FS_STARTED, &c->flags))
-e1dde6a5c66159 Kent Overstreet 2023-11-23  537  		return -EINVAL;
-e1dde6a5c66159 Kent Overstreet 2023-11-23  538  
-e1dde6a5c66159 Kent Overstreet 2023-11-23  539  	if (copy_from_user(&arg, user_arg, sizeof(arg)))
-301e0237cadfc7 Dan Carpenter   2023-09-14  540  		return -EFAULT;
-301e0237cadfc7 Dan Carpenter   2023-09-14  541  
-e1dde6a5c66159 Kent Overstreet 2023-11-23  542  	if ((arg.flags & ~BCH_BY_INDEX) ||
-e1dde6a5c66159 Kent Overstreet 2023-11-23  543  	    arg.pad[0] ||
-e1dde6a5c66159 Kent Overstreet 2023-11-23  544  	    arg.pad[1] ||
-e1dde6a5c66159 Kent Overstreet 2023-11-23  545  	    arg.pad[2])
-e1dde6a5c66159 Kent Overstreet 2023-11-23  546  		return -EINVAL;
-e1dde6a5c66159 Kent Overstreet 2023-11-23  547  
-e1dde6a5c66159 Kent Overstreet 2023-11-23  548  	ca = bch2_device_lookup(c, arg.dev, arg.flags);
-e1dde6a5c66159 Kent Overstreet 2023-11-23  549  	if (IS_ERR(ca))
-e1dde6a5c66159 Kent Overstreet 2023-11-23  550  		return PTR_ERR(ca);
-e1dde6a5c66159 Kent Overstreet 2023-11-23  551  
-e1dde6a5c66159 Kent Overstreet 2023-11-23  552  	src = bch2_dev_usage_read(ca);
-e1dde6a5c66159 Kent Overstreet 2023-11-23  553  
-e1dde6a5c66159 Kent Overstreet 2023-11-23  554  	arg.state		= ca->mi.state;
-e1dde6a5c66159 Kent Overstreet 2023-11-23  555  	arg.bucket_size		= ca->mi.bucket_size;
-e1dde6a5c66159 Kent Overstreet 2023-11-23  556  	arg.nr_data_types	= min(arg.nr_data_types, BCH_DATA_NR);
-e1dde6a5c66159 Kent Overstreet 2023-11-23  557  	arg.nr_buckets		= ca->mi.nbuckets - ca->mi.first_bucket;
-e1dde6a5c66159 Kent Overstreet 2023-11-23  558  
-e1dde6a5c66159 Kent Overstreet 2023-11-23  559  	ret = copy_to_user_errcode(user_arg, &arg, sizeof(arg));
-e1dde6a5c66159 Kent Overstreet 2023-11-23  560  	if (ret)
-e1dde6a5c66159 Kent Overstreet 2023-11-23  561  		goto err;
-e1dde6a5c66159 Kent Overstreet 2023-11-23  562  
-e1dde6a5c66159 Kent Overstreet 2023-11-23  563  	for (unsigned i = 0; i < arg.nr_data_types; i++) {
-e1dde6a5c66159 Kent Overstreet 2023-11-23  564  		struct bch_ioctl_dev_usage_type t = {
-e1dde6a5c66159 Kent Overstreet 2023-11-23  565  			.buckets	= src.d[i].buckets,
-e1dde6a5c66159 Kent Overstreet 2023-11-23  566  			.sectors	= src.d[i].sectors,
-e1dde6a5c66159 Kent Overstreet 2023-11-23  567  			.fragmented	= src.d[i].fragmented,
-e1dde6a5c66159 Kent Overstreet 2023-11-23  568  		};
-e1dde6a5c66159 Kent Overstreet 2023-11-23  569  
-e1dde6a5c66159 Kent Overstreet 2023-11-23 @570  		ret = copy_to_user_errcode(&user_arg->d[i], &t, sizeof(t));
-e1dde6a5c66159 Kent Overstreet 2023-11-23  571  		if (ret)
-e1dde6a5c66159 Kent Overstreet 2023-11-23  572  			goto err;
-e1dde6a5c66159 Kent Overstreet 2023-11-23  573  	}
-e1dde6a5c66159 Kent Overstreet 2023-11-23  574  err:
-e1dde6a5c66159 Kent Overstreet 2023-11-23  575  	percpu_ref_put(&ca->ref);
-e1dde6a5c66159 Kent Overstreet 2023-11-23  576  	return ret;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  577  }
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  578  
-
-:::::: The code at line 570 was first introduced by commit
-:::::: e1dde6a5c66159611032d29c063714c0f207f2ba bcachefs: BCH_IOCTL_DEV_USAGE_V2
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+a69a57cac1ec89 Kajol Jain 2023-07-29  463  
+a15e0d6a6929e7 Kajol Jain 2023-07-29  464  static void affinity_domain_via_partition_result_parse(int returned_values,
+a15e0d6a6929e7 Kajol Jain 2023-07-29  465  			int element_size, char *buf, size_t *last_element,
+a15e0d6a6929e7 Kajol Jain 2023-07-29  466  			size_t *n, struct hv_gpci_request_buffer *arg)
+a15e0d6a6929e7 Kajol Jain 2023-07-29  467  {
+a15e0d6a6929e7 Kajol Jain 2023-07-29  468  	size_t i = 0, j = 0;
+a15e0d6a6929e7 Kajol Jain 2023-07-29  469  	size_t k, l, m;
+a15e0d6a6929e7 Kajol Jain 2023-07-29  470  	uint16_t total_affinity_domain_ele, size_of_each_affinity_domain_ele;
+a15e0d6a6929e7 Kajol Jain 2023-07-29  471  
+a15e0d6a6929e7 Kajol Jain 2023-07-29  472  	/*
+a15e0d6a6929e7 Kajol Jain 2023-07-29  473  	 * hcall H_GET_PERF_COUNTER_INFO populates the 'returned_values'
+a15e0d6a6929e7 Kajol Jain 2023-07-29  474  	 * to show the total number of counter_value array elements
+a15e0d6a6929e7 Kajol Jain 2023-07-29  475  	 * returned via hcall.
+a15e0d6a6929e7 Kajol Jain 2023-07-29  476  	 * Unlike other request types, the data structure returned by this
+a15e0d6a6929e7 Kajol Jain 2023-07-29  477  	 * request is variable-size. For this counter request type,
+a15e0d6a6929e7 Kajol Jain 2023-07-29  478  	 * hcall populates 'cv_element_size' corresponds to minimum size of
+a15e0d6a6929e7 Kajol Jain 2023-07-29  479  	 * the structure returned i.e; the size of the structure with no domain
+a15e0d6a6929e7 Kajol Jain 2023-07-29  480  	 * information. Below loop go through all counter_value array
+a15e0d6a6929e7 Kajol Jain 2023-07-29  481  	 * to determine the number and size of each domain array element and
+a15e0d6a6929e7 Kajol Jain 2023-07-29  482  	 * add it to the output buffer.
+a15e0d6a6929e7 Kajol Jain 2023-07-29  483  	 */
+a15e0d6a6929e7 Kajol Jain 2023-07-29  484  	while (i < returned_values) {
+a15e0d6a6929e7 Kajol Jain 2023-07-29  485  		k = j;
+a15e0d6a6929e7 Kajol Jain 2023-07-29  486  		for (; k < j + element_size; k++)
+a15e0d6a6929e7 Kajol Jain 2023-07-29  487  			*n += sprintf(buf + *n,  "%02x", (u8)arg->bytes[k]);
+a15e0d6a6929e7 Kajol Jain 2023-07-29  488  		*n += sprintf(buf + *n,  "\n");
+a15e0d6a6929e7 Kajol Jain 2023-07-29  489  
+a15e0d6a6929e7 Kajol Jain 2023-07-29  490  		total_affinity_domain_ele = (u8)arg->bytes[k - 2] << 8 | (u8)arg->bytes[k - 3];
+a15e0d6a6929e7 Kajol Jain 2023-07-29  491  		size_of_each_affinity_domain_ele = (u8)arg->bytes[k] << 8 | (u8)arg->bytes[k - 1];
+a15e0d6a6929e7 Kajol Jain 2023-07-29  492  
+a15e0d6a6929e7 Kajol Jain 2023-07-29  493  		for (l = 0; l < total_affinity_domain_ele; l++) {
+a15e0d6a6929e7 Kajol Jain 2023-07-29  494  			for (m = 0; m < size_of_each_affinity_domain_ele; m++) {
+a15e0d6a6929e7 Kajol Jain 2023-07-29  495  				*n += sprintf(buf + *n,  "%02x", (u8)arg->bytes[k]);
+a15e0d6a6929e7 Kajol Jain 2023-07-29  496  				k++;
+a15e0d6a6929e7 Kajol Jain 2023-07-29  497  			}
+a15e0d6a6929e7 Kajol Jain 2023-07-29  498  			*n += sprintf(buf + *n,  "\n");
+a15e0d6a6929e7 Kajol Jain 2023-07-29  499  		}
+a15e0d6a6929e7 Kajol Jain 2023-07-29  500  
+a15e0d6a6929e7 Kajol Jain 2023-07-29  501  		*n += sprintf(buf + *n,  "\n");
+a15e0d6a6929e7 Kajol Jain 2023-07-29  502  		i++;
+a15e0d6a6929e7 Kajol Jain 2023-07-29  503  		j = k;
+a15e0d6a6929e7 Kajol Jain 2023-07-29  504  	}
+a15e0d6a6929e7 Kajol Jain 2023-07-29  505  
+a15e0d6a6929e7 Kajol Jain 2023-07-29 @506  	*last_element = k;
+a15e0d6a6929e7 Kajol Jain 2023-07-29  507  }
+a15e0d6a6929e7 Kajol Jain 2023-07-29  508  
 
 -- 
 0-DAY CI Kernel Test Service
