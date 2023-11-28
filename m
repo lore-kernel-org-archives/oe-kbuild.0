@@ -1,280 +1,225 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1111D101E0
-	for <oe-kbuild@lists.linux.dev>; Tue, 28 Nov 2023 02:33:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE9C5694
+	for <oe-kbuild@lists.linux.dev>; Tue, 28 Nov 2023 03:02:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aHEEFemc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C8c+TRV7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701138822; x=1732674822;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=OMGTGiS/7cZfA8sauncbx2zTLqhsus9S+VcjjDx5Vzo=;
-  b=aHEEFemc8FOVXFAb+sA4Fvv98oN6DshryoIX7cACahjzyVR3sCFIw+DC
-   PXbB7Q8GvUGanIsO71M5fCrpUKJ0P11RT6PslxJS+JPyBucxd2z4Ce0Jb
-   5hBaVQn3ERBdZv9WxoBpe+7jqkR1OiakJf25kfeGlE6wyMvAZZFphfM1Y
-   4JNBjJ9Mir2zimhGi9jUn5NaxJikHEoFH6LHDtmkRS55u4zHqNw+6qti/
-   Uy5t6WWymThcaI2PNyoX34fS96f2m+F58tktPNB/2Wv+s75ol/X+LhtQ3
-   J4KwAKJdhuw8lhQLDBlbcURibx1iq7NevERthmR2uICYULCYDXH3pDpjA
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="372209629"
+  t=1701140532; x=1732676532;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=19usGdPJqzwpbX3YfR0Jk/y/qhWxA6QINIvSWYjWnx4=;
+  b=C8c+TRV731SEkYCVWMa4bHs7ROc4LQ1J7w1ordOknF+vVYF8sBk8YeGv
+   7VPwd9IitUbzglCNIlLY2TZjpISXLU2BRTKODWAAYkOALiTs0+BD7dP/u
+   3fRSQiTGXV6VLO30C4rzQnZ5zcqflm2vP0WBgo/eVfuQ36gPGMtUvzdcl
+   zqYj3qVGvDcynQ10RpOgLYz37soxOpNiLjr22BFY290w6Wz9hReuprV0X
+   l2W65HXgxsu1ioOpk9DpeIGv7utjqP9r8B89zvNpiGk07UbszAyf3QrOA
+   or+8eBISp8+ovoqBh44Lscta1GhD2BGaLmwqogp6lKRWXeBo8WKqnCxMe
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="457170200"
 X-IronPort-AV: E=Sophos;i="6.04,232,1695711600"; 
-   d="scan'208";a="372209629"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 18:33:41 -0800
+   d="scan'208";a="457170200"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 19:02:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="891935682"
 X-IronPort-AV: E=Sophos;i="6.04,232,1695711600"; 
-   d="scan'208";a="891935682"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 27 Nov 2023 18:33:40 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Mon, 27 Nov 2023 18:33:40 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Mon, 27 Nov 2023 18:33:39 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Mon, 27 Nov 2023 18:33:39 -0800
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.40) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Mon, 27 Nov 2023 18:33:39 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=epW6DBdCi8rUpry0xQSgJdzJSxX5CqcjGHu94116pPmV4F7z9ZsuTqWQtbaFX0OBncZTcq9eh9yc6H2ojDdekDe2Hto582wSaccbgTqZyWVElYQ5z0yb8oukKO1HM4sSm5SPQsHh4pRgKlgaSEL0yuRMGi904AdQ1x3b2+YZ9IemwFzQw30X9Y0gKkwox6k6JNF/30mQDYvcpXnnsHUaLgTQ5Lb57bEIrx7yRA8cyUXthOtUChGmn7+htV+iWVCS0t+xIrh4KZ0qxnTa+D4WvhzZB7ntVLE31p9Ii+fB5YH0CejyeuFQRN2O2RL8e076XDPz/2oRR/2Gs15pJTchGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XjAEaSCpeypIDGiZl2AjhSSLc+P1p3wmKBl4PHQUGSo=;
- b=XfoRY07wxKruCEH4NgHRjAAp3dfzQsjbQmUlSdp2In3euIU/qXbxzQWd6EG2AHrBHG3z4mhyNd28CiDODN9HIeXA8p/8dIADGmP8CPxMcXrt9d5JkmWTtnaReBgA2M/ZITWflQgg7QNJy+GRzwwqkz/yOVwBwYiF9PgQtF+UGcpuPuIVST9JP2D15agZ7CPBlOM+Raw2berAcAF62bzZ71ymQ1DsI1XLqM/ao2MGkL0JWnXu+RlRSCwBt9rJSHxGycWxxQvIPeiqH55L1sOGLBHR29ostps7oUzgGXD3u1ZlOD/62OYGRkpmq8zysTXzEPMG+7Bzov0YhClDnQTyMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by SJ0PR11MB5022.namprd11.prod.outlook.com (2603:10b6:a03:2d7::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.29; Tue, 28 Nov
- 2023 02:33:37 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7025.022; Tue, 28 Nov 2023
- 02:33:37 +0000
-From: "Liu, Yujie" <yujie.liu@intel.com>
-To: lkp <lkp@intel.com>, "oe-kbuild@lists.linux.dev"
-	<oe-kbuild@lists.linux.dev>
-Subject: RE: [ti:ti-rt-linux-6.1.y-cicd 31/69] dtbs_check:
- Documentation/devicetree/bindings/net/ti,icssg-prueth.yaml:
- ti,half-duplex-capable: missing type definition
-Thread-Topic: [ti:ti-rt-linux-6.1.y-cicd 31/69] dtbs_check:
- Documentation/devicetree/bindings/net/ti,icssg-prueth.yaml:
- ti,half-duplex-capable: missing type definition
-Thread-Index: AQHaIKWhQnnRw0heQ06SAKOPlxbrrrCPBPlw
-Date: Tue, 28 Nov 2023 02:33:37 +0000
-Message-ID: <CY5PR11MB639297C9226FA51FFFB0F134FBBCA@CY5PR11MB6392.namprd11.prod.outlook.com>
-References: <202311270213.YgvyuUG5-lkp@intel.com>
-In-Reply-To: <202311270213.YgvyuUG5-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY5PR11MB6392:EE_|SJ0PR11MB5022:EE_
-x-ms-office365-filtering-correlation-id: 35a68478-9c22-4d0f-ebe8-08dbefba6ced
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: RKjnP6PnMngTVshFk1J84jQDbFvmnMA1E4+/2/CVChXlNbKELHsZTCXf7DEAGn+XLknLPyYB3VX5j9t4YDqIF4tCKLeoW1I3dyJkQPIWwGif0gcK68P4asf8u2sIkXSLL7APe1r3+H700Sf+fJ+yIaWQw9MGsuY3y58QI8pWzSDJ7gnyAIjbkrYc6gbC9ai0wVni/KUtzC0onG952WP4iDOfgOtpDaumPh8JAYSucNrUOOTr7nSQxraqcZp+cdeF1NEBLfFAshgaE6ulHVZaDoueXnMXlKnudZwk9eJrxUOmeHaJrPtrMNsMf36h7xLrY60qr4gLKXRDZRoHFsBmXOaBfSeOFyatSBIk6ja0OX8WTKbDb9LlVjQhuQK5f5wn50eoEZgV3Mq0rYLdqxN3yMcRkiL+7O51/nt8DS2WyZTEGCRzdcSrvsJnL/QIJM5dWVlrS4I7USEcnbudyJrr90J25UyjAQysmEbdkRlojYyb6oc+VkssMB34Axnk7R6JGc7CmYO16dbDGYWPCQtmE5oO2bgTw0QtNHt6kDdvfPMsQ+N8hYsmQ6bP5S44NqOZgOSPZkfp9hchD6vbt8bg9IgP+m6196NxSDQPdWp6hFMbPfoprMYEGbjrobrgzs9yx2CzuNN1tspl1rt/C35kwJsSEYp55QtA2YlPcOKeAalAlGgqxRfV3PdjFd3PMG+f
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(366004)(39860400002)(346002)(396003)(230173577357003)(230273577357003)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(316002)(53546011)(6506007)(9686003)(7696005)(71200400001)(86362001)(26005)(110136005)(33656002)(76116006)(966005)(478600001)(82960400001)(83380400001)(38100700002)(122000001)(66476007)(66946007)(66556008)(38070700009)(66446008)(64756008)(5660300002)(2906002)(55016003)(41300700001)(8936002)(8676002)(52536014);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?QkZsMhQaL8aaKKRvqOCAYTarYoe0pYjgNCE3IRk8wTHMWUbdsK2olUy5V/K9?=
- =?us-ascii?Q?5zjHBw3rnvlyBYq/+XPlvWopbMMXbvg6Q/DMiEEcv8iRRdF5x6BMUlBDNC4U?=
- =?us-ascii?Q?vTK3T5P2TjM1JzF3TGn4BZGURAaCOx4SXwbw2+6dm35Ii4Q+wQNDIZvTZLCv?=
- =?us-ascii?Q?mfwanpDTdV/dX2TkHDXUNmkxGwAAr6dJ5+bwGyQli6Lu2JyV975cEC7cQYOy?=
- =?us-ascii?Q?Fb2b8c/J6OcO5MKN5636/1OyuR8TMW8EwA6q1wRdqiaZwnSEnYC2UsXuHTXY?=
- =?us-ascii?Q?xfFIH+8IDG7YLQNj2GzsR/bN/1EJNXAyWChga8Uhj2erNkKb06FX+Vn6xF0+?=
- =?us-ascii?Q?EVpeoK6xV5CSYpgZy+lHJXyZ5vYpjsSgoYvazNtumxRq3+YKNVq9kscqCP0B?=
- =?us-ascii?Q?qKC3YCuDwvINnFv2Lg9jDYgsOl0VPPXlaSY3NIoyYstJ1hhyB9892fdgTfvq?=
- =?us-ascii?Q?nursJ41rlqafIy5YXFrzRRnTkUqzDSJ0KYNLVFC0R7sfCSugrfcDYjACHV2Y?=
- =?us-ascii?Q?qY91k1Tg0vEMDedsR2/X7fqqy7NWmuKfkcE2/kGF8qJiItVWoUpiBP0gxNkY?=
- =?us-ascii?Q?ioS46p73F6w/L+WTAqgqmkU0Ian5c41O++IExbwa0B/RnPJT0LR24NFMtdIn?=
- =?us-ascii?Q?z+vjVua4oGNhx9PGbmF2QNuD2HDRO7wgFfrsEouWlMbLYu70E8u4DMo09JsO?=
- =?us-ascii?Q?DwbNuXOf+r+euRJPjBnTU+7crrPvWbi9ZN7g/DMjSq/epbY742g8htihcpMN?=
- =?us-ascii?Q?5LvD/LHj2glFXwweo/QzRHvNk485aywlvhkpx9LF141eyf54LmSqYCVs/K+x?=
- =?us-ascii?Q?LX/cIejZQXOlRi+4aCrhOYXiCueu4Em/t1z9ksRKMgtxSHQpBCNuwMP7jLPZ?=
- =?us-ascii?Q?8dS3gau+r2tJQWqdnjjWtGtA5FShUhPF3XqmLlcJxAEtY33GkLSRj3/UJXIn?=
- =?us-ascii?Q?heaKEBQuy/zwmx1NIivB2qio+8h/t11sIGV17SKW57kwOAOubW4hHP8s6wdM?=
- =?us-ascii?Q?tCSX2k310v+sfuKvNRcG8DF6wwxdg3VhY8rRo49VeWDYf9aCmkt9I2Yzy1SA?=
- =?us-ascii?Q?l2oZZfMWMYJQNIsTLr4piuwhGE6s4OAiAh66l5LE5mMwG+yeIgi7iHQ6QrLN?=
- =?us-ascii?Q?pFLHWRP+9iMV3oT2e2KIKmWpRm0uNIbtF5ObeLv8pnPJLyBFe8WGYaRlzmd0?=
- =?us-ascii?Q?Ghwqvvx6LHCrJeSNvMiSrDwzu2zb1rrOu/k5wDYDChDmK5I2UPouoaKz76mL?=
- =?us-ascii?Q?LRrHcS+ieB7+tnAOUxNcH31crHq4TwPXFUwXMIAUilHc/LpgTvtQzYrcY/LV?=
- =?us-ascii?Q?Mh0lHM+C6Xmz+BVxPDc4ulnX73trhxWJ5zAl0Jy/2cf5iyd8SaGVs1D9F9RQ?=
- =?us-ascii?Q?ey31gcLCrsPvbs6COYT2iTtBOOYwsfq0H4bpckGBFa44ggVmHi6OMVmW3ZNt?=
- =?us-ascii?Q?D1mOCn5vj6Y7Bkv3KjCfzaektLnIGV8rRcQH89csaoOKiToTQ6cCZxETJlY2?=
- =?us-ascii?Q?5DCYt/qR7xzd3lrJZVatkmrscEzmfLSsTxrJa7xaJ5ZSBBDs7PRRwi7gKMkv?=
- =?us-ascii?Q?ZTNf/pc8HA7uVrukZyDDR3AKfsHqtYaG+EeD2EXp?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="16482944"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 27 Nov 2023 19:02:10 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r7oMR-0006vB-2N;
+	Tue, 28 Nov 2023 03:02:07 +0000
+Date: Tue, 28 Nov 2023 11:01:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/arc/kernel/setup.c:203 arcv2_mumbojumbo() error: uninitialized
+ symbol 'release'.
+Message-ID: <202311280906.VAIwEAfT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35a68478-9c22-4d0f-ebe8-08dbefba6ced
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2023 02:33:37.2986
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: k7lSvXh9wv0qL3H8TfFe3AiaOCMGGafX+u/MmM3WLRSiJIJhL6N7x2uYyaD/bq08sLgvxo3Lg+Z5nhpcpCWIsQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5022
-X-OriginatorOrg: intel.com
-
-not_report
-
-already fixed in upstream.
-
-commit 927c568d62128f48d6646d6df801c1ae25cf139f
-Author: MD Danish Anwar <danishanwar@ti.com>
-Date:   Wed Sep 13 14:40:10 2023 +0530
-
-    dt-bindings: net: Add documentation for Half duplex support.
-
-    In order to support half-duplex operation at 10M and 100M link speeds, =
-the
-    PHY collision detection signal (COL) should be routed to ICSSG
-    GPIO pin (PRGx_PRU0/1_GPI10) so that firmware can detect collision sign=
-al
-    and apply the CSMA/CD algorithm applicable for half duplex operation. A=
- DT
-    property, "ti,half-duplex-capable" is introduced for this purpose. If
-    board has PHY COL pin conencted to PRGx_PRU1_GPIO10, this DT property c=
-an
-    be added to eth node of ICSSG, MII port to support half duplex operatio=
-n at
-    that port.
-
-    Reviewed-by: Roger Quadros <rogerq@kernel.org>
-    Signed-off-by: MD Danish Anwar <danishanwar@ti.com>
-    Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-    Acked-by: Conor Dooley <conor.dooley@microchip.com>
-    Reviewed-by: Rob Herring <robh@kernel.org>
-    Signed-off-by: David S. Miller <davem@davemloft.net>
-
-diff --git a/Documentation/devicetree/bindings/net/ti,icssg-prueth.yaml b/D=
-ocumentation/devicetree/bindings/net/ti,icssg-prueth.yaml
-index 836d2d60e87d1..229c8f32019fb 100644
---- a/Documentation/devicetree/bindings/net/ti,icssg-prueth.yaml
-+++ b/Documentation/devicetree/bindings/net/ti,icssg-prueth.yaml
-@@ -107,6 +107,13 @@ properties:
-               phandle to system controller node and register offset
-               to ICSSG control register for RGMII transmit delay
-
-+          ti,half-duplex-capable:
-+            type: boolean
-+            description:
-+              Indicates that the PHY output pin COL is routed to ICSSG GPI=
-O pin
-+              (PRGx_PRU0/1_GPIO10) as input so that the ICSSG MII port is
-+              capable of half duplex operations.
-+
-         required:
-           - reg
-     anyOf:
-
------Original Message-----
-From: lkp <lkp@intel.com>=20
-Sent: Monday, November 27, 2023 04:15
-To: oe-kbuild@lists.linux.dev
-Cc: lkp <lkp@intel.com>
-Subject: [ti:ti-rt-linux-6.1.y-cicd 31/69] dtbs_check: Documentation/device=
-tree/bindings/net/ti,icssg-prueth.yaml: ti,half-duplex-capable: missing typ=
-e definition
-
-::::::=20
-:::::: Manual check reason: "low confidence static check warning: Documenta=
-tion/devicetree/bindings/net/ti,icssg-prueth.yaml: ti,half-duplex-capable: =
-missing type definition"
-::::::=20
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: vigneshr@ti.com
-CC: nm@ti.com
-TO: MD Danish Anwar <danishanwar@ti.com>
-CC: Vignesh Raghavendra <vigneshr@ti.com>
+CC: linux-kernel@vger.kernel.org
+TO: Vineet Gupta <vgupta@kernel.org>
+CC: linux-snps-arc@lists.infradead.org
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.=
-1.y-cicd
-head:   3a4f51391fe1d39254fed39393815b2879e44d73
-commit: 656ff87b30c4741c64a47402417c22e77dc3f736 [31/69] dt-bindings: net: =
-ti: icssg-prueth: Add documentation for Half duplex support.
-:::::: branch date: 2 days ago
-:::::: commit date: 6 months ago
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231127/202311270213.Y=
-gvyuUG5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2cc14f52aeb78ce3f29677c2de1f06c0e91471ab
+commit: fad84e39f116035ae8d550c6020107b8ac113b45 ARC: boot log: eliminate struct cpuinfo_arc #4: boot log per ISA
+date:   3 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 3 months ago
+config: arc-randconfig-r071-20231128 (https://download.01.org/0day-ci/archive/20231128/202311280906.VAIwEAfT-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231128/202311280906.VAIwEAfT-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311270213.YgvyuUG5-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311280906.VAIwEAfT-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory=
-/memory-region.yaml: warning: ignoring duplicate '$id' value 'http://device=
-tree.org/schemas/reserved-memory/memory-region.yaml#'
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory=
-/reserved-memory.yaml: warning: ignoring duplicate '$id' value 'http://devi=
-cetree.org/schemas/reserved-memory/reserved-memory.yaml#'
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory=
-/shared-dma-pool.yaml: warning: ignoring duplicate '$id' value 'http://devi=
-cetree.org/schemas/reserved-memory/shared-dma-pool.yaml#'
-   Documentation/devicetree/bindings/regulator/pwm-regulator.yaml: pwm-duty=
-cycle-unit: missing type definition
-   Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml: linux-k=
-eycodes: missing type definition
-   Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml: i2c-alias=
-: missing type definition
-   Documentation/devicetree/bindings/media/renesas,vin.yaml: field-active-e=
-ven: missing type definition
-   Documentation/devicetree/bindings/mtd/ingenic,nand.yaml: ecc-engine: mis=
-sing type definition
-   Documentation/devicetree/bindings/i2c/opencores,i2c-ocores.yaml: regstep=
-: missing type definition
->> Documentation/devicetree/bindings/net/ti,icssg-prueth.yaml: ti,half-dupl=
-ex-capable: missing type definition
-   Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml: linux,=
-no-autorepeat: missing type definition
-   Documentation/devicetree/bindings/mmc/sdhci-am654.yaml: sdhci-caps-mask:=
- missing type definition
-   Documentation/devicetree/bindings/sound/audio-graph.yaml: convert-sample=
--format: missing type definition
-   Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml: slim-ifc-dev:=
- missing type definition
-   Documentation/devicetree/bindings/serial/8250_omap.yaml: rs485-rts-activ=
-e-high: missing type definition
-   Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yam=
-l: dual-lvds-odd-pixels: missing type definition
-   Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yam=
-l: dual-lvds-even-pixels: missing type definition
-   Documentation/devicetree/bindings/display/bridge/nxp,tda998x.yaml: video=
--ports: missing type definition
+New smatch warnings:
+arch/arc/kernel/setup.c:203 arcv2_mumbojumbo() error: uninitialized symbol 'release'.
 
---=20
+Old smatch warnings:
+arch/arc/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
+
+vim +/release +203 arch/arc/kernel/setup.c
+
+73e284d2572581 Vineet Gupta 2016-10-20  149  
+fad84e39f11603 Vineet Gupta 2020-06-11  150  static int arcv2_mumbojumbo(int c, struct cpuinfo_arc *info, char *buf, int len)
+fad84e39f11603 Vineet Gupta 2020-06-11  151  {
+fad84e39f11603 Vineet Gupta 2020-06-11  152  	int n = 0;
+fad84e39f11603 Vineet Gupta 2020-06-11  153  #ifdef CONFIG_ISA_ARCV2
+fad84e39f11603 Vineet Gupta 2020-06-11  154  	const char *release, *cpu_nm, *isa_nm = "ARCv2";
+fad84e39f11603 Vineet Gupta 2020-06-11  155  	int dual_issue = 0, dual_enb = 0, mpy_opt, present;
+fad84e39f11603 Vineet Gupta 2020-06-11  156  	int bpu_full, bpu_cache, bpu_pred, bpu_ret_stk;
+fad84e39f11603 Vineet Gupta 2020-06-11  157  	char mpy_nm[16], lpb_nm[32];
+fad84e39f11603 Vineet Gupta 2020-06-11  158  	struct bcr_isa_arcv2 isa;
+fad84e39f11603 Vineet Gupta 2020-06-11  159  	struct bcr_mpy mpy;
+fad84e39f11603 Vineet Gupta 2020-06-11  160  	struct bcr_fp_arcv2 fpu;
+fad84e39f11603 Vineet Gupta 2020-06-11  161  	struct bcr_bpu_arcv2 bpu;
+fad84e39f11603 Vineet Gupta 2020-06-11  162  	struct bcr_lpb lpb;
+fad84e39f11603 Vineet Gupta 2020-06-11  163  	struct bcr_iccm_arcv2 iccm;
+fad84e39f11603 Vineet Gupta 2020-06-11  164  	struct bcr_dccm_arcv2 dccm;
+fad84e39f11603 Vineet Gupta 2020-06-11  165  	struct bcr_erp erp;
+00a4ae65cc600b Vineet Gupta 2019-02-25  166  
+00a4ae65cc600b Vineet Gupta 2019-02-25  167  	/*
+97d0b5d0b5a998 Vineet Gupta 2020-06-10  168  	 * Initial HS cores bumped AUX IDENTITY.ARCVER for each release until
+97d0b5d0b5a998 Vineet Gupta 2020-06-10  169  	 * ARCVER 0x54 which introduced AUX MICRO_ARCH_BUILD and subsequent
+97d0b5d0b5a998 Vineet Gupta 2020-06-10  170  	 * releases only update it.
+00a4ae65cc600b Vineet Gupta 2019-02-25  171  	 */
+00a4ae65cc600b Vineet Gupta 2019-02-25  172  
+fad84e39f11603 Vineet Gupta 2020-06-11  173  	cpu_nm = "HS38";
+00a4ae65cc600b Vineet Gupta 2019-02-25  174  
+fad84e39f11603 Vineet Gupta 2020-06-11  175  	if (info->arcver > 0x50 && info->arcver <= 0x53) {
+fad84e39f11603 Vineet Gupta 2020-06-11  176  		release = arc_hs_rel[info->arcver - 0x51].str;
+00a4ae65cc600b Vineet Gupta 2019-02-25  177  	} else {
+fad84e39f11603 Vineet Gupta 2020-06-11  178  		const struct id_to_str *tbl;
+fad84e39f11603 Vineet Gupta 2020-06-11  179  		struct bcr_uarch_build uarch;
+fad84e39f11603 Vineet Gupta 2020-06-11  180  
+fad84e39f11603 Vineet Gupta 2020-06-11  181  		READ_BCR(ARC_REG_MICRO_ARCH_BCR, uarch);
+00a4ae65cc600b Vineet Gupta 2019-02-25  182  
+97d0b5d0b5a998 Vineet Gupta 2020-06-10  183  		for (tbl = &arc_hs_ver54_rel[0]; tbl->id != 0xFF; tbl++) {
+00a4ae65cc600b Vineet Gupta 2019-02-25  184  			if (uarch.maj == tbl->id) {
+fad84e39f11603 Vineet Gupta 2020-06-11  185  				release = tbl->str;
+d975cbc8acb6f4 Vineet Gupta 2016-10-27  186  				break;
+d975cbc8acb6f4 Vineet Gupta 2016-10-27  187  			}
+00a4ae65cc600b Vineet Gupta 2019-02-25  188  		}
+fad84e39f11603 Vineet Gupta 2020-06-11  189  		if (uarch.prod == 4) {
+fad84e39f11603 Vineet Gupta 2020-06-11  190  			unsigned int exec_ctrl;
+00a4ae65cc600b Vineet Gupta 2019-02-25  191  
+fad84e39f11603 Vineet Gupta 2020-06-11  192  			cpu_nm = "HS48";
+fad84e39f11603 Vineet Gupta 2020-06-11  193  			dual_issue = 1;
+fad84e39f11603 Vineet Gupta 2020-06-11  194  			/* if dual issue hardware, is it enabled ? */
+fad84e39f11603 Vineet Gupta 2020-06-11  195  			READ_BCR(AUX_EXEC_CTRL, exec_ctrl);
+fad84e39f11603 Vineet Gupta 2020-06-11  196  			dual_enb = !(exec_ctrl & 1);
+fad84e39f11603 Vineet Gupta 2020-06-11  197  		}
+fad84e39f11603 Vineet Gupta 2020-06-11  198  	}
+73e284d2572581 Vineet Gupta 2016-10-20  199  
+fad84e39f11603 Vineet Gupta 2020-06-11  200  	READ_BCR(ARC_REG_ISA_CFG_BCR, isa);
+b89bd1f4fbaeca Vineet Gupta 2016-01-22  201  
+fad84e39f11603 Vineet Gupta 2020-06-11  202  	n += scnprintf(buf + n, len - n, "processor [%d]\t: %s %s (%s ISA) %s%s%s\n",
+fad84e39f11603 Vineet Gupta 2020-06-11 @203  		       c, cpu_nm, release, isa_nm,
+fad84e39f11603 Vineet Gupta 2020-06-11  204  		       IS_AVAIL1(isa.be, "[Big-Endian]"),
+fad84e39f11603 Vineet Gupta 2020-06-11  205  		       IS_AVAIL3(dual_issue, dual_enb, " Dual-Issue "));
+af61742813aa9d Vineet Gupta 2013-01-18  206  
+fad84e39f11603 Vineet Gupta 2020-06-11  207  	READ_BCR(ARC_REG_MPY_BCR, mpy);
+fad84e39f11603 Vineet Gupta 2020-06-11  208  	mpy_opt = 2;	/* stock MPY/MPYH */
+fad84e39f11603 Vineet Gupta 2020-06-11  209  	if (mpy.dsp)	/* OPT 7-9 */
+fad84e39f11603 Vineet Gupta 2020-06-11  210  		mpy_opt = mpy.dsp + 6;
+af61742813aa9d Vineet Gupta 2013-01-18  211  
+fad84e39f11603 Vineet Gupta 2020-06-11  212  	scnprintf(mpy_nm, 16, "mpy[opt %d] ", mpy_opt);
+a150b085b66c87 Vineet Gupta 2016-02-16  213  
+fad84e39f11603 Vineet Gupta 2020-06-11  214  	READ_BCR(ARC_REG_FP_V2_BCR, fpu);
+56372082533afb Vineet Gupta 2014-09-25  215  
+fad84e39f11603 Vineet Gupta 2020-06-11  216  	n += scnprintf(buf + n, len - n, "ISA Extn\t: %s%s%s%s%s%s%s%s%s%s%s\n",
+fad84e39f11603 Vineet Gupta 2020-06-11  217  		       IS_AVAIL2(isa.atomic, "atomic ", CONFIG_ARC_HAS_LLSC),
+fad84e39f11603 Vineet Gupta 2020-06-11  218  		       IS_AVAIL2(isa.ldd, "ll64 ", CONFIG_ARC_HAS_LL64),
+fad84e39f11603 Vineet Gupta 2020-06-11  219  		       IS_AVAIL2(isa.unalign, "unalign ", CONFIG_ARC_USE_UNALIGNED_MEM_ACCESS),
+fad84e39f11603 Vineet Gupta 2020-06-11  220  		       IS_AVAIL1(mpy.ver, mpy_nm),
+fad84e39f11603 Vineet Gupta 2020-06-11  221  		       IS_AVAIL1(isa.div_rem, "div_rem "),
+fad84e39f11603 Vineet Gupta 2020-06-11  222  		       IS_AVAIL1((fpu.sp | fpu.dp), "  FPU:"),
+fad84e39f11603 Vineet Gupta 2020-06-11  223  		       IS_AVAIL1(fpu.sp, " sp"),
+fad84e39f11603 Vineet Gupta 2020-06-11  224  		       IS_AVAIL1(fpu.dp, " dp"));
+56372082533afb Vineet Gupta 2014-09-25  225  
+56372082533afb Vineet Gupta 2014-09-25  226  	READ_BCR(ARC_REG_BPU_BCR, bpu);
+fad84e39f11603 Vineet Gupta 2020-06-11  227  	bpu_full = bpu.ft;
+fad84e39f11603 Vineet Gupta 2020-06-11  228  	bpu_cache = 256 << bpu.bce;
+fad84e39f11603 Vineet Gupta 2020-06-11  229  	bpu_pred = 2048 << bpu.pte;
+fad84e39f11603 Vineet Gupta 2020-06-11  230  	bpu_ret_stk = 4 << bpu.rse;
+1f6ccfff631467 Vineet Gupta 2013-05-13  231  
+fad84e39f11603 Vineet Gupta 2020-06-11  232  	READ_BCR(ARC_REG_LPB_BUILD, lpb);
+fad84e39f11603 Vineet Gupta 2020-06-11  233  	if (lpb.ver) {
+fad84e39f11603 Vineet Gupta 2020-06-11  234  		unsigned int ctl;
+fad84e39f11603 Vineet Gupta 2020-06-11  235  		ctl = read_aux_reg(ARC_REG_LPB_CTRL);
+1f6ccfff631467 Vineet Gupta 2013-05-13  236  
+fad84e39f11603 Vineet Gupta 2020-06-11  237  		scnprintf(lpb_nm, sizeof(lpb_nm), " Loop Buffer:%d %s",
+fad84e39f11603 Vineet Gupta 2020-06-11  238  			  lpb.entries, IS_DISABLED_RUN(!ctl));
+fad84e39f11603 Vineet Gupta 2020-06-11  239  	}
+dea8252059a321 Vineet Gupta 2017-09-21  240  
+fad84e39f11603 Vineet Gupta 2020-06-11  241  	n += scnprintf(buf + n, len - n,
+fad84e39f11603 Vineet Gupta 2020-06-11  242  			"BPU\t\t: %s%s match, cache:%d, Predict Table:%d Return stk: %d%s\n",
+fad84e39f11603 Vineet Gupta 2020-06-11  243  			IS_AVAIL1(bpu_full, "full"),
+fad84e39f11603 Vineet Gupta 2020-06-11  244  			IS_AVAIL1(!bpu_full, "partial"),
+fad84e39f11603 Vineet Gupta 2020-06-11  245  			bpu_cache, bpu_pred, bpu_ret_stk,
+fad84e39f11603 Vineet Gupta 2020-06-11  246  			lpb_nm);
+dea8252059a321 Vineet Gupta 2017-09-21  247  
+fad84e39f11603 Vineet Gupta 2020-06-11  248  	READ_BCR(ARC_REG_ICCM_BUILD, iccm);
+fad84e39f11603 Vineet Gupta 2020-06-11  249  	if (iccm.ver) {
+fad84e39f11603 Vineet Gupta 2020-06-11  250  		unsigned long base;
+fad84e39f11603 Vineet Gupta 2020-06-11  251  		info->iccm.sz = 256 << iccm.sz00;	/* 512B to 16M */
+fad84e39f11603 Vineet Gupta 2020-06-11  252  		if (iccm.sz00 == 0xF && iccm.sz01 > 0)
+fad84e39f11603 Vineet Gupta 2020-06-11  253  			info->iccm.sz <<= iccm.sz01;
+fad84e39f11603 Vineet Gupta 2020-06-11  254  		base = read_aux_reg(ARC_REG_AUX_ICCM);
+fad84e39f11603 Vineet Gupta 2020-06-11  255  		info->iccm.base = base & 0xF0000000;
+56372082533afb Vineet Gupta 2014-09-25  256  	}
+56372082533afb Vineet Gupta 2014-09-25  257  
+fad84e39f11603 Vineet Gupta 2020-06-11  258  	READ_BCR(ARC_REG_DCCM_BUILD, dccm);
+fad84e39f11603 Vineet Gupta 2020-06-11  259  	if (dccm.ver) {
+fad84e39f11603 Vineet Gupta 2020-06-11  260  		unsigned long base;
+fad84e39f11603 Vineet Gupta 2020-06-11  261  		info->dccm.sz = 256 << dccm.sz0;
+fad84e39f11603 Vineet Gupta 2020-06-11  262  		if (dccm.sz0 == 0xF && dccm.sz1 > 0)
+fad84e39f11603 Vineet Gupta 2020-06-11  263  			info->dccm.sz <<= dccm.sz1;
+fad84e39f11603 Vineet Gupta 2020-06-11  264  		base = read_aux_reg(ARC_REG_AUX_DCCM);
+fad84e39f11603 Vineet Gupta 2020-06-11  265  		info->dccm.base = base & 0xF0000000;
+7dd380c338f1ec Vineet Gupta 2019-01-09  266  	}
+56372082533afb Vineet Gupta 2014-09-25  267  
+fad84e39f11603 Vineet Gupta 2020-06-11  268  	/* Error Protection: ECC/Parity */
+fad84e39f11603 Vineet Gupta 2020-06-11  269  	READ_BCR(ARC_REG_ERP_BUILD, erp);
+fad84e39f11603 Vineet Gupta 2020-06-11  270  	if (erp.ver) {
+fad84e39f11603 Vineet Gupta 2020-06-11  271  		struct ctl_erp ctl;
+fad84e39f11603 Vineet Gupta 2020-06-11  272  		READ_BCR(ARC_REG_ERP_CTRL, ctl);
+fad84e39f11603 Vineet Gupta 2020-06-11  273  		/* inverted bits: 0 means enabled */
+fad84e39f11603 Vineet Gupta 2020-06-11  274  		n += scnprintf(buf + n, len - n, "Extn [ECC]\t: %s%s%s%s%s%s\n",
+fad84e39f11603 Vineet Gupta 2020-06-11  275  				IS_AVAIL3(erp.ic,  !ctl.dpi, "IC "),
+fad84e39f11603 Vineet Gupta 2020-06-11  276  				IS_AVAIL3(erp.dc,  !ctl.dpd, "DC "),
+fad84e39f11603 Vineet Gupta 2020-06-11  277  				IS_AVAIL3(erp.mmu, !ctl.mpd, "MMU "));
+010a8c98884f4c Vineet Gupta 2017-09-21  278  	}
+af61742813aa9d Vineet Gupta 2013-01-18  279  
+fad84e39f11603 Vineet Gupta 2020-06-11  280  	/* ARCv2 ISA specific sanity checks */
+fad84e39f11603 Vineet Gupta 2020-06-11  281  	present = fpu.sp | fpu.dp | mpy.dsp;	/* DSP and/or FPU */
+fad84e39f11603 Vineet Gupta 2020-06-11  282  	CHK_OPT_STRICT(CONFIG_ARC_HAS_ACCL_REGS, present);
+d975cbc8acb6f4 Vineet Gupta 2016-10-27  283  
+fad84e39f11603 Vineet Gupta 2020-06-11  284  	dsp_config_check();
+fad84e39f11603 Vineet Gupta 2020-06-11  285  #endif
+fad84e39f11603 Vineet Gupta 2020-06-11  286  	return n;
+73e284d2572581 Vineet Gupta 2016-10-20  287  }
+56372082533afb Vineet Gupta 2014-09-25  288  
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
