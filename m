@@ -1,137 +1,112 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42A71D547
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Nov 2023 12:01:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329711D546
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Nov 2023 12:01:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xk40D26K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sm3er9Q/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701259315; x=1732795315;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4ZTsUUcyXHpkSsTZMY0o7oA2Ncwf/o0XaIAtbGXZvYU=;
-  b=Xk40D26Kmw2OXSDawhda1zXZ0x167wj8Z/mjLS6Su57b8saU23ij0V/e
-   3QAJL7+jEPUlg5ajnCiwyBKh2Cw0AqkOoJ9vF3gZKju7Xb/uD73cLK2zy
-   dv6RRflHFhodr4rncG4AaNgfAguADprckcAkF3MlDK6dpI80kR4NZMAJK
-   SFKYfzk81MIjZRM1u/wcZ2pHBz51xO7AzFFVOXBg0hvGGxIpeMtA0MkoF
-   1RjOs7KWGO/2T28ZVNUZ4ViZ4gkUgcGqetfVoVRI8Hc8kqEyrhNqHIRJu
-   TICUEfznnEObNbl5Fl4Zq6LVQAnzQo8dLm2+R8xV/6pwSbL0p3sRIKac5
+  t=1701259318; x=1732795318;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ShRID8RV7p4mg3ClwphasCwKbunlegAXmu864j/VI2Q=;
+  b=Sm3er9Q/YJc9hwdWAGBcemxvzsshLzi6UHuSefgP73qySTjCzWStw4KQ
+   2Rz+guXJAz+MR4osILKP20rgWuvSf5ZrzAHLsu+Gzer6R69mPgu0yOI/d
+   V36cp86bSVxYcbv6dmwec/vrefcC6tKYXx/PzowK47dYCGsmrE1F1Z9U7
+   BOFhkOHEtM5yju8rgc9r+l50yAFeGVLWo8sVjIbKtmr3d79M7Ap0mCLUf
+   DZCoQp7cRYClDmEBRvwRXAGaatNYvLAOCh1QDqCD0pGzMYL/+V2bi1rWW
+   2jR6Xhelf+UBENd94nun8SvOKgAy5qipGN5v4JteNF6ScBdElbK2K2Y94
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="372515837"
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="372515845"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="372515837"
+   d="scan'208";a="372515845"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 04:01:53 -0800
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 04:01:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="762295548"
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="762295551"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="762295548"
+   d="scan'208";a="762295551"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga007.jf.intel.com with ESMTP; 29 Nov 2023 04:01:52 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8JGH-0000C8-2M;
-	Wed, 29 Nov 2023 12:01:49 +0000
-Date: Wed, 29 Nov 2023 20:01:08 +0800
+	id 1r8JGI-0000CN-0N;
+	Wed, 29 Nov 2023 12:01:50 +0000
+Date: Wed, 29 Nov 2023 20:01:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/intel/avs/boards/max98373.c:111 avs_create_dai_link()
- warn: excess argument passed to 'devm_kasprintf'
-Message-ID: <202311291958.z9smYefo-lkp@intel.com>
+Subject: [tip:locking/core 1/3] kernel/sched/core.c:10713 cpu_uclamp_print()
+ error: uninitialized symbol 'util_clamp'.
+Message-ID: <202311291930.SXx3ynxt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
-CC: Mark Brown <broonie@kernel.org>
+CC: x86@kernel.org
+TO: Peter Zijlstra <peterz@infradead.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   18d46e76d7c2eedd8577fae67e3f1d4db25018b0
-commit: a1ec836b17f7dea35f6b4b3a7c2ad4306da804c9 ASoC: Intel: avs: max98373: Validate machine board configuration
-date:   7 weeks ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 7 weeks ago
-config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231129/202311291958.z9smYefo-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20231129/202311291958.z9smYefo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking/core
+head:   18caaedaf4c3712ab6821f292598a8f86e6d7972
+commit: e4ab322fbaaaf84b23d6cb0e3317a7f68baf36dc [1/3] cleanup: Add conditional guard support
+:::::: branch date: 2 days ago
+:::::: commit date: 2 weeks ago
+config: mips-randconfig-r081-20231129 (https://download.01.org/0day-ci/archive/20231129/202311291930.SXx3ynxt-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231129/202311291930.SXx3ynxt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311291958.z9smYefo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311291930.SXx3ynxt-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/intel/avs/boards/max98373.c:111 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
+smatch warnings:
+kernel/sched/core.c:10713 cpu_uclamp_print() error: uninitialized symbol 'util_clamp'.
+kernel/sched/core.c:10718 cpu_uclamp_print() error: potentially dereferencing uninitialized 'tg'.
 
-Old smatch warnings:
-sound/soc/intel/avs/boards/max98373.c:118 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
+vim +/util_clamp +10713 kernel/sched/core.c
 
-vim +/devm_kasprintf +111 sound/soc/intel/avs/boards/max98373.c
+2480c093130f64 Patrick Bellasi 2019-08-22  10699  
+2480c093130f64 Patrick Bellasi 2019-08-22  10700  static inline void cpu_uclamp_print(struct seq_file *sf,
+2480c093130f64 Patrick Bellasi 2019-08-22  10701  				    enum uclamp_id clamp_id)
+2480c093130f64 Patrick Bellasi 2019-08-22  10702  {
+2480c093130f64 Patrick Bellasi 2019-08-22  10703  	struct task_group *tg;
+2480c093130f64 Patrick Bellasi 2019-08-22  10704  	u64 util_clamp;
+2480c093130f64 Patrick Bellasi 2019-08-22  10705  	u64 percent;
+2480c093130f64 Patrick Bellasi 2019-08-22  10706  	u32 rem;
+2480c093130f64 Patrick Bellasi 2019-08-22  10707  
+0e34600ac9317d Peter Zijlstra  2023-06-09  10708  	scoped_guard (rcu) {
+2480c093130f64 Patrick Bellasi 2019-08-22  10709  		tg = css_tg(seq_css(sf));
+2480c093130f64 Patrick Bellasi 2019-08-22  10710  		util_clamp = tg->uclamp_req[clamp_id].value;
+0e34600ac9317d Peter Zijlstra  2023-06-09  10711  	}
+2480c093130f64 Patrick Bellasi 2019-08-22  10712  
+2480c093130f64 Patrick Bellasi 2019-08-22 @10713  	if (util_clamp == SCHED_CAPACITY_SCALE) {
+2480c093130f64 Patrick Bellasi 2019-08-22  10714  		seq_puts(sf, "max\n");
+2480c093130f64 Patrick Bellasi 2019-08-22  10715  		return;
+2480c093130f64 Patrick Bellasi 2019-08-22  10716  	}
+2480c093130f64 Patrick Bellasi 2019-08-22  10717  
+2480c093130f64 Patrick Bellasi 2019-08-22 @10718  	percent = tg->uclamp_pct[clamp_id];
+2480c093130f64 Patrick Bellasi 2019-08-22  10719  	percent = div_u64_rem(percent, POW10(UCLAMP_PERCENT_SHIFT), &rem);
+2480c093130f64 Patrick Bellasi 2019-08-22  10720  	seq_printf(sf, "%llu.%0*u\n", percent, UCLAMP_PERCENT_SHIFT, rem);
+2480c093130f64 Patrick Bellasi 2019-08-22  10721  }
+2480c093130f64 Patrick Bellasi 2019-08-22  10722  
 
-223a0a945821b9 Amadeusz Sławiński 2022-05-11   97  
-223a0a945821b9 Amadeusz Sławiński 2022-05-11   98  static int avs_create_dai_link(struct device *dev, const char *platform_name, int ssp_port,
-a1ec836b17f7de Amadeusz Sławiński 2023-10-12   99  			       int tdm_slot, struct snd_soc_dai_link **dai_link)
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  100  {
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  101  	struct snd_soc_dai_link_component *platform;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  102  	struct snd_soc_dai_link *dl;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  103  
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  104  	dl = devm_kzalloc(dev, sizeof(*dl), GFP_KERNEL);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  105  	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  106  	if (!dl || !platform)
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  107  		return -ENOMEM;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  108  
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  109  	platform->name = platform_name;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  110  
-a1ec836b17f7de Amadeusz Sławiński 2023-10-12 @111  	dl->name = devm_kasprintf(dev, GFP_KERNEL,
-a1ec836b17f7de Amadeusz Sławiński 2023-10-12  112  				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  113  	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  114  	dl->codecs = devm_kzalloc(dev, sizeof(*dl->codecs) * 2, GFP_KERNEL);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  115  	if (!dl->name || !dl->cpus || !dl->codecs)
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  116  		return -ENOMEM;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  117  
-a1ec836b17f7de Amadeusz Sławiński 2023-10-12  118  	dl->cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
-a1ec836b17f7de Amadeusz Sławiński 2023-10-12  119  					    AVS_STRING_FMT("SSP", " Pin", ssp_port, tdm_slot));
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  120  	dl->codecs[0].name = devm_kasprintf(dev, GFP_KERNEL, MAX98373_DEV0_NAME);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  121  	dl->codecs[0].dai_name = devm_kasprintf(dev, GFP_KERNEL, MAX98373_CODEC_NAME);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  122  	dl->codecs[1].name = devm_kasprintf(dev, GFP_KERNEL, MAX98373_DEV1_NAME);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  123  	dl->codecs[1].dai_name = devm_kasprintf(dev, GFP_KERNEL, MAX98373_CODEC_NAME);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  124  	if (!dl->cpus->dai_name || !dl->codecs[0].name || !dl->codecs[0].dai_name ||
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  125  	    !dl->codecs[1].name || !dl->codecs[1].dai_name)
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  126  		return -ENOMEM;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  127  
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  128  	dl->num_cpus = 1;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  129  	dl->num_codecs = 2;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  130  	dl->platforms = platform;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  131  	dl->num_platforms = 1;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  132  	dl->id = 0;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  133  	dl->dai_fmt = SND_SOC_DAIFMT_DSP_B | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_CBC_CFC;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  134  	dl->be_hw_params_fixup = avs_max98373_be_fixup;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  135  	dl->nonatomic = 1;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  136  	dl->no_pcm = 1;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  137  	dl->dpcm_capture = 1;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  138  	dl->dpcm_playback = 1;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  139  	dl->ignore_pmdown_time = 1;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  140  	dl->ops = &avs_max98373_ops;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  141  
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  142  	*dai_link = dl;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  143  
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  144  	return 0;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  145  }
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  146  
+:::::: The code at line 10713 was first introduced by commit
+:::::: 2480c093130f64ac3a410504fa8b3db1fc4b87ce sched/uclamp: Extend CPU's cgroup controller
+
+:::::: TO: Patrick Bellasi <patrick.bellasi@arm.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
