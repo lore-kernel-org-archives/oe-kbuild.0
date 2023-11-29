@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329711D546
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Nov 2023 12:01:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1931944C
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Nov 2023 13:21:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sm3er9Q/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YilgLwUn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701259318; x=1732795318;
+  t=1701264098; x=1732800098;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ShRID8RV7p4mg3ClwphasCwKbunlegAXmu864j/VI2Q=;
-  b=Sm3er9Q/YJc9hwdWAGBcemxvzsshLzi6UHuSefgP73qySTjCzWStw4KQ
-   2Rz+guXJAz+MR4osILKP20rgWuvSf5ZrzAHLsu+Gzer6R69mPgu0yOI/d
-   V36cp86bSVxYcbv6dmwec/vrefcC6tKYXx/PzowK47dYCGsmrE1F1Z9U7
-   BOFhkOHEtM5yju8rgc9r+l50yAFeGVLWo8sVjIbKtmr3d79M7Ap0mCLUf
-   DZCoQp7cRYClDmEBRvwRXAGaatNYvLAOCh1QDqCD0pGzMYL/+V2bi1rWW
-   2jR6Xhelf+UBENd94nun8SvOKgAy5qipGN5v4JteNF6ScBdElbK2K2Y94
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="372515845"
+  bh=EjXMMbhSAEQcHHpqxWWy+v/DJSBP2VYcxfvN5CF78ZU=;
+  b=YilgLwUn4Vc0StiE5lbAr+3GueALzsrofKYNqvdpXnbxihE0Tm8IgYWb
+   M1vnJUZsrEzaC8YCUXKslixmOAaFWvJMpBKj0w3/FY+z7FyYWIjMZIom1
+   WsOkbI3o1P16SApQ9Vl0klzDqnJF5JArFiMXyoZrRBivlQkezmxmDV2aj
+   X5XrYL6hB9zzMOBqnl7BQ41O+PrzrDK+8KcjSjzqTBZlcYDygjQuLE1lO
+   ADazclFg3fIzG8jcXLm9Jk/M7d2UqGT7TZJ34xjV0FEUPj0hb3qUs9nFK
+   aMYp1N0kZj8oGbmb+E/OtVzEhSxqoV3KY7cwuOSIV8qCoxOuAHWR2seyU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="424307197"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="372515845"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 04:01:54 -0800
+   d="scan'208";a="424307197"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 05:21:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="762295551"
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="859819827"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="762295551"
+   d="scan'208";a="859819827"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 29 Nov 2023 04:01:52 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 29 Nov 2023 05:21:25 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8JGI-0000CN-0N;
-	Wed, 29 Nov 2023 12:01:50 +0000
-Date: Wed, 29 Nov 2023 20:01:28 +0800
+	id 1r8KVG-0000H4-2k;
+	Wed, 29 Nov 2023 13:21:22 +0000
+Date: Wed, 29 Nov 2023 21:20:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tip:locking/core 1/3] kernel/sched/core.c:10713 cpu_uclamp_print()
- error: uninitialized symbol 'util_clamp'.
-Message-ID: <202311291930.SXx3ynxt-lkp@intel.com>
+Subject: drivers/vhost/vringh.c:1320 putu16_iotlb() warn: ignoring
+ unreachable code.
+Message-ID: <202311292117.vCAniVYB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,60 +53,68 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
+TO: Stefano Garzarella <sgarzare@redhat.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking/core
-head:   18caaedaf4c3712ab6821f292598a8f86e6d7972
-commit: e4ab322fbaaaf84b23d6cb0e3317a7f68baf36dc [1/3] cleanup: Add conditional guard support
-:::::: branch date: 2 days ago
-:::::: commit date: 2 weeks ago
-config: mips-randconfig-r081-20231129 (https://download.01.org/0day-ci/archive/20231129/202311291930.SXx3ynxt-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231129/202311291930.SXx3ynxt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   18d46e76d7c2eedd8577fae67e3f1d4db25018b0
+commit: 42823a871fd4e17b34034f43b36ae57bd2ed8a67 vringh: support VA with iotlb
+date:   7 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 7 months ago
+config: hexagon-randconfig-r071-20231124 (https://download.01.org/0day-ci/archive/20231129/202311292117.vCAniVYB-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20231129/202311292117.vCAniVYB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311291930.SXx3ynxt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311292117.vCAniVYB-lkp@intel.com/
 
 smatch warnings:
-kernel/sched/core.c:10713 cpu_uclamp_print() error: uninitialized symbol 'util_clamp'.
-kernel/sched/core.c:10718 cpu_uclamp_print() error: potentially dereferencing uninitialized 'tg'.
+drivers/vhost/vringh.c:1320 putu16_iotlb() warn: ignoring unreachable code.
 
-vim +/util_clamp +10713 kernel/sched/core.c
+vim +1320 drivers/vhost/vringh.c
 
-2480c093130f64 Patrick Bellasi 2019-08-22  10699  
-2480c093130f64 Patrick Bellasi 2019-08-22  10700  static inline void cpu_uclamp_print(struct seq_file *sf,
-2480c093130f64 Patrick Bellasi 2019-08-22  10701  				    enum uclamp_id clamp_id)
-2480c093130f64 Patrick Bellasi 2019-08-22  10702  {
-2480c093130f64 Patrick Bellasi 2019-08-22  10703  	struct task_group *tg;
-2480c093130f64 Patrick Bellasi 2019-08-22  10704  	u64 util_clamp;
-2480c093130f64 Patrick Bellasi 2019-08-22  10705  	u64 percent;
-2480c093130f64 Patrick Bellasi 2019-08-22  10706  	u32 rem;
-2480c093130f64 Patrick Bellasi 2019-08-22  10707  
-0e34600ac9317d Peter Zijlstra  2023-06-09  10708  	scoped_guard (rcu) {
-2480c093130f64 Patrick Bellasi 2019-08-22  10709  		tg = css_tg(seq_css(sf));
-2480c093130f64 Patrick Bellasi 2019-08-22  10710  		util_clamp = tg->uclamp_req[clamp_id].value;
-0e34600ac9317d Peter Zijlstra  2023-06-09  10711  	}
-2480c093130f64 Patrick Bellasi 2019-08-22  10712  
-2480c093130f64 Patrick Bellasi 2019-08-22 @10713  	if (util_clamp == SCHED_CAPACITY_SCALE) {
-2480c093130f64 Patrick Bellasi 2019-08-22  10714  		seq_puts(sf, "max\n");
-2480c093130f64 Patrick Bellasi 2019-08-22  10715  		return;
-2480c093130f64 Patrick Bellasi 2019-08-22  10716  	}
-2480c093130f64 Patrick Bellasi 2019-08-22  10717  
-2480c093130f64 Patrick Bellasi 2019-08-22 @10718  	percent = tg->uclamp_pct[clamp_id];
-2480c093130f64 Patrick Bellasi 2019-08-22  10719  	percent = div_u64_rem(percent, POW10(UCLAMP_PERCENT_SHIFT), &rem);
-2480c093130f64 Patrick Bellasi 2019-08-22  10720  	seq_printf(sf, "%llu.%0*u\n", percent, UCLAMP_PERCENT_SHIFT, rem);
-2480c093130f64 Patrick Bellasi 2019-08-22  10721  }
-2480c093130f64 Patrick Bellasi 2019-08-22  10722  
-
-:::::: The code at line 10713 was first introduced by commit
-:::::: 2480c093130f64ac3a410504fa8b3db1fc4b87ce sched/uclamp: Extend CPU's cgroup controller
-
-:::::: TO: Patrick Bellasi <patrick.bellasi@arm.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+9ad9c49cfe970b Jason Wang         2020-03-26  1295  
+9ad9c49cfe970b Jason Wang         2020-03-26  1296  static inline int putu16_iotlb(const struct vringh *vrh,
+9ad9c49cfe970b Jason Wang         2020-03-26  1297  			       __virtio16 *p, u16 val)
+9ad9c49cfe970b Jason Wang         2020-03-26  1298  {
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1299  	struct iotlb_vec ivec;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1300  	union {
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1301  		struct iovec iovec;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1302  		struct bio_vec bvec;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1303  	} iov;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1304  	__virtio16 tmp;
+9ad9c49cfe970b Jason Wang         2020-03-26  1305  	int ret;
+9ad9c49cfe970b Jason Wang         2020-03-26  1306  
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1307  	ivec.iov.iovec = &iov.iovec;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1308  	ivec.count = 1;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1309  
+9ad9c49cfe970b Jason Wang         2020-03-26  1310  	/* Atomic write is needed for putu16 */
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1311  	ret = iotlb_translate(vrh, (u64)(uintptr_t)p, sizeof(*p),
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1312  			      NULL, &ivec, VHOST_MAP_RO);
+9ad9c49cfe970b Jason Wang         2020-03-26  1313  	if (ret < 0)
+9ad9c49cfe970b Jason Wang         2020-03-26  1314  		return ret;
+9ad9c49cfe970b Jason Wang         2020-03-26  1315  
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1316  	tmp = cpu_to_vringh16(vrh, val);
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1317  
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1318  	if (vrh->use_va) {
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1319  		ret = __put_user(tmp, (__virtio16 __user *)ivec.iov.iovec[0].iov_base);
+42823a871fd4e1 Stefano Garzarella 2023-04-04 @1320  		if (ret)
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1321  			return ret;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1322  	} else {
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1323  		void *kaddr = kmap_local_page(ivec.iov.bvec[0].bv_page);
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1324  		void *to = kaddr + ivec.iov.bvec[0].bv_offset;
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1325  
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1326  		WRITE_ONCE(*(__virtio16 *)to, tmp);
+c0371782500c53 Stefano Garzarella 2023-04-04  1327  		kunmap_local(kaddr);
+42823a871fd4e1 Stefano Garzarella 2023-04-04  1328  	}
+9ad9c49cfe970b Jason Wang         2020-03-26  1329  
+9ad9c49cfe970b Jason Wang         2020-03-26  1330  	return 0;
+9ad9c49cfe970b Jason Wang         2020-03-26  1331  }
+9ad9c49cfe970b Jason Wang         2020-03-26  1332  
 
 -- 
 0-DAY CI Kernel Test Service
