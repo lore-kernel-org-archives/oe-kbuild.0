@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3DA38DEF
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Nov 2023 15:42:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C9238F87
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Nov 2023 15:43:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AoNScznV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AIrpRtaU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701272539; x=1732808539;
+  t=1701272619; x=1732808619;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=RA0dAAtOvW6GwqvD30a0HJyITEy6c13b8Pi6Yk7Rj28=;
-  b=AoNScznVU0343CHJ5MM82p3yts6363kDKzgMfukftgfW/3WnTtJ+PQ9d
-   GPIkmE3kMkeBbLPiOdreZHFvTrQqmMvccV58s8gubk+WcpeMxj7hIUzxe
-   /BzYK0FZYiXnuwiZlr6AWVFwbstmqEqeVlxtQ6hIoyP28Jwa9kAN+ioJX
-   9TUIZt4vCwiENYgUDV78T3PDC+ebNm+P7H7TS/z8kK7eBqjvYz/4zHdFg
-   ulhfSX4JbnXbdDT53Gt0evQ2Kxpx65eg2zbXint2yB7t8S7rt+HtZc2Ti
-   dCCLO2AqYBoepr61q5Y9eAaqvB0zM0vRhk8xptr8MCo9VAV0GBnZxOFTr
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="392925300"
+  bh=GMWoVPKPuWm/70KURnQRAofajbMN6v5K2753moXJxpc=;
+  b=AIrpRtaUkPZuk7ySOaiImaMZKkOXasvWnT467CfHAjNdGacs/QkDQ6VD
+   4ruTmTVq7M2RoiVCs9kSK3lFca9Z/A2S4lqs60/Vg7nAEyPGGCTbt2NHX
+   rfuZXDODH8ZGDRSp3/X271TAdRiRmtgHqRR2e39+TG+G4pO+TxB9OyvNo
+   y7F+cw0s/c3YUmuDwjD/WYZh9ZE0wYhLi5bw+YJ2Gspjn6oWDyjZI1j/o
+   epqlKNbNaARFgfLoJ+Rk/tcIoQLeeORIrxM9zLrLaPpiroIp7s1e7kWQv
+   phCbIzxNC6eA3smfxnRQ8t/MrvXMTCBotZvpJj6yM3elaDk4WkhN5fakB
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="392925483"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="392925300"
+   d="scan'208";a="392925483"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 07:42:18 -0800
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 07:43:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="772724224"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="772724592"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="772724224"
+   d="scan'208";a="772724592"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 29 Nov 2023 07:42:17 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 29 Nov 2023 07:43:37 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8MhV-0000OW-2w;
-	Wed, 29 Nov 2023 15:42:11 +0000
-Date: Wed, 29 Nov 2023 23:41:59 +0800
+	id 1r8Mit-0000Ov-0q;
+	Wed, 29 Nov 2023 15:43:35 +0000
+Date: Wed, 29 Nov 2023 23:43:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/intel/avs/boards/max98357a.c:62 avs_create_dai_link()
+Subject: sound/soc/intel/avs/boards/max98927.c:108 avs_create_dai_link()
  warn: excess argument passed to 'devm_kasprintf'
-Message-ID: <202311292154.qAkLhs3f-lkp@intel.com>
+Message-ID: <202311292330.bWRCZFXh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,72 +60,78 @@ CC: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   18d46e76d7c2eedd8577fae67e3f1d4db25018b0
-commit: 863e3f18d08bae9ffc70306e251f75bdee5e0674 ASoC: Intel: avs: max98357a: Validate machine board configuration
+commit: ef91ae9e682c85e57861234db7d5ad9d071b889b ASoC: Intel: avs: max98927: Validate machine board configuration
 date:   7 weeks ago
-:::::: branch date: 19 hours ago
+:::::: branch date: 20 hours ago
 :::::: commit date: 7 weeks ago
-config: riscv-randconfig-r071-20231129 (https://download.01.org/0day-ci/archive/20231129/202311292154.qAkLhs3f-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20231129/202311292154.qAkLhs3f-lkp@intel.com/reproduce)
+config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231129/202311292330.bWRCZFXh-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20231129/202311292330.bWRCZFXh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311292154.qAkLhs3f-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311292330.bWRCZFXh-lkp@intel.com/
 
 New smatch warnings:
-sound/soc/intel/avs/boards/max98357a.c:62 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
+sound/soc/intel/avs/boards/max98927.c:108 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
 
 Old smatch warnings:
-sound/soc/intel/avs/boards/max98357a.c:69 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
+sound/soc/intel/avs/boards/max98927.c:115 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
 
-vim +/devm_kasprintf +62 sound/soc/intel/avs/boards/max98357a.c
+vim +/devm_kasprintf +108 sound/soc/intel/avs/boards/max98927.c
 
-d16c893425d07a Amadeusz Sławiński 2023-03-03  48  
-282c8f8de72f95 Cezary Rojewski    2022-05-11  49  static int avs_create_dai_link(struct device *dev, const char *platform_name, int ssp_port,
-863e3f18d08bae Amadeusz Sławiński 2023-10-12  50  			       int tdm_slot, struct snd_soc_dai_link **dai_link)
-282c8f8de72f95 Cezary Rojewski    2022-05-11  51  {
-282c8f8de72f95 Cezary Rojewski    2022-05-11  52  	struct snd_soc_dai_link_component *platform;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  53  	struct snd_soc_dai_link *dl;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  54  
-282c8f8de72f95 Cezary Rojewski    2022-05-11  55  	dl = devm_kzalloc(dev, sizeof(*dl), GFP_KERNEL);
-282c8f8de72f95 Cezary Rojewski    2022-05-11  56  	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
-282c8f8de72f95 Cezary Rojewski    2022-05-11  57  	if (!dl || !platform)
-282c8f8de72f95 Cezary Rojewski    2022-05-11  58  		return -ENOMEM;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  59  
-282c8f8de72f95 Cezary Rojewski    2022-05-11  60  	platform->name = platform_name;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  61  
-863e3f18d08bae Amadeusz Sławiński 2023-10-12 @62  	dl->name = devm_kasprintf(dev, GFP_KERNEL,
-863e3f18d08bae Amadeusz Sławiński 2023-10-12  63  				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
-282c8f8de72f95 Cezary Rojewski    2022-05-11  64  	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
-282c8f8de72f95 Cezary Rojewski    2022-05-11  65  	dl->codecs = devm_kzalloc(dev, sizeof(*dl->codecs), GFP_KERNEL);
-282c8f8de72f95 Cezary Rojewski    2022-05-11  66  	if (!dl->name || !dl->cpus || !dl->codecs)
-282c8f8de72f95 Cezary Rojewski    2022-05-11  67  		return -ENOMEM;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  68  
-863e3f18d08bae Amadeusz Sławiński 2023-10-12  69  	dl->cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
-863e3f18d08bae Amadeusz Sławiński 2023-10-12  70  					    AVS_STRING_FMT("SSP", " Pin", ssp_port, tdm_slot));
-282c8f8de72f95 Cezary Rojewski    2022-05-11  71  	dl->codecs->name = devm_kasprintf(dev, GFP_KERNEL, "MX98357A:00");
-282c8f8de72f95 Cezary Rojewski    2022-05-11  72  	dl->codecs->dai_name = devm_kasprintf(dev, GFP_KERNEL, "HiFi");
-282c8f8de72f95 Cezary Rojewski    2022-05-11  73  	if (!dl->cpus->dai_name || !dl->codecs->name || !dl->codecs->dai_name)
-282c8f8de72f95 Cezary Rojewski    2022-05-11  74  		return -ENOMEM;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  75  
-282c8f8de72f95 Cezary Rojewski    2022-05-11  76  	dl->num_cpus = 1;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  77  	dl->num_codecs = 1;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  78  	dl->platforms = platform;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  79  	dl->num_platforms = 1;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  80  	dl->id = 0;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  81  	dl->dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_CBS_CFS;
-d16c893425d07a Amadeusz Sławiński 2023-03-03  82  	dl->be_hw_params_fixup = avs_max98357a_be_fixup;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  83  	dl->nonatomic = 1;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  84  	dl->no_pcm = 1;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  85  	dl->dpcm_playback = 1;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  86  
-282c8f8de72f95 Cezary Rojewski    2022-05-11  87  	*dai_link = dl;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  88  
-282c8f8de72f95 Cezary Rojewski    2022-05-11  89  	return 0;
-282c8f8de72f95 Cezary Rojewski    2022-05-11  90  }
-282c8f8de72f95 Cezary Rojewski    2022-05-11  91  
+1c993300ab1cec Amadeusz Sławiński 2022-09-30   94  
+1c993300ab1cec Amadeusz Sławiński 2022-09-30   95  static int avs_create_dai_link(struct device *dev, const char *platform_name, int ssp_port,
+ef91ae9e682c85 Amadeusz Sławiński 2023-10-12   96  			       int tdm_slot, struct snd_soc_dai_link **dai_link)
+1c993300ab1cec Amadeusz Sławiński 2022-09-30   97  {
+1c993300ab1cec Amadeusz Sławiński 2022-09-30   98  	struct snd_soc_dai_link_component *platform;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30   99  	struct snd_soc_dai_link *dl;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  100  
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  101  	dl = devm_kzalloc(dev, sizeof(*dl), GFP_KERNEL);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  102  	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  103  	if (!dl || !platform)
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  104  		return -ENOMEM;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  105  
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  106  	platform->name = platform_name;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  107  
+ef91ae9e682c85 Amadeusz Sławiński 2023-10-12 @108  	dl->name = devm_kasprintf(dev, GFP_KERNEL,
+ef91ae9e682c85 Amadeusz Sławiński 2023-10-12  109  				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  110  	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  111  	dl->codecs = devm_kzalloc(dev, sizeof(*dl->codecs) * 2, GFP_KERNEL);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  112  	if (!dl->name || !dl->cpus || !dl->codecs)
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  113  		return -ENOMEM;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  114  
+ef91ae9e682c85 Amadeusz Sławiński 2023-10-12  115  	dl->cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
+ef91ae9e682c85 Amadeusz Sławiński 2023-10-12  116  					    AVS_STRING_FMT("SSP", " Pin", ssp_port, tdm_slot));
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  117  	dl->codecs[0].name = devm_kasprintf(dev, GFP_KERNEL, MAX98927_DEV0_NAME);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  118  	dl->codecs[0].dai_name = devm_kasprintf(dev, GFP_KERNEL, MAX98927_CODEC_NAME);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  119  	dl->codecs[1].name = devm_kasprintf(dev, GFP_KERNEL, MAX98927_DEV1_NAME);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  120  	dl->codecs[1].dai_name = devm_kasprintf(dev, GFP_KERNEL, MAX98927_CODEC_NAME);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  121  	if (!dl->cpus->dai_name || !dl->codecs[0].name || !dl->codecs[0].dai_name ||
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  122  	    !dl->codecs[1].name || !dl->codecs[1].dai_name)
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  123  		return -ENOMEM;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  124  
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  125  	dl->num_cpus = 1;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  126  	dl->num_codecs = 2;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  127  	dl->platforms = platform;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  128  	dl->num_platforms = 1;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  129  	dl->id = 0;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  130  	dl->dai_fmt = SND_SOC_DAIFMT_DSP_B | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_CBS_CFS;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  131  	dl->be_hw_params_fixup = avs_max98927_be_fixup;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  132  	dl->nonatomic = 1;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  133  	dl->no_pcm = 1;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  134  	dl->dpcm_capture = 1;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  135  	dl->dpcm_playback = 1;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  136  	dl->ignore_pmdown_time = 1;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  137  	dl->ops = &avs_max98927_ops;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  138  
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  139  	*dai_link = dl;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  140  
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  141  	return 0;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  142  }
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  143  
 
 -- 
 0-DAY CI Kernel Test Service
