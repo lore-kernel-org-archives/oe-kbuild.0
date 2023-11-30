@@ -1,53 +1,54 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52767C8E2
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Nov 2023 07:10:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EADFC8E2
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Nov 2023 07:10:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="y0M6RJbM"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40b5155e154so4342225e9.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 29 Nov 2023 23:10:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fU8AUuxo"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3331752d2b9so418242f8f.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 29 Nov 2023 23:10:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701328217; x=1701933017; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1701328222; x=1701933022; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:date:from
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Qnji0I3JgObq/fWIwro3G9ISvDwi5sdGVqwTpUKDhEI=;
-        b=y0M6RJbMfkyQ28p6eOjagwUXvjO1KrshfssFUPsdDM79R7DOggYW3LbdUGDkAX6H5Q
-         wY68vjiPTrE8nGhUkh6h8Ds1n5cbCpSEFBvmlnfOBqyFZCelC33MlvROGrZEcaK3m0ds
-         MHQQNg5jynuyEPBcqQXbvJqS/xvdSFeQP423uUMkN6G23ieB0S8RsLcGyWDAxhDVx1EK
-         CqOV5JEn41cxYh04kpfq5dZqmTP78riE2bOXcS/CPvffwV5flRG+93ketrmUAn/nZgPs
-         VaJ9ojdicHYq6bq86r9XeHViQwRbrAqV0GZHdrq99agW6W1eLfX25yydOGFCUucfl3FZ
-         1Y4w==
+        bh=eCVB0ZCMTbdTd4dZbphWro2FuLO12tVDUAo4CJ1KyPY=;
+        b=fU8AUuxo2Xvx4PUdfmgYEhD4D/AoFnv5crs/oNti8Jcz0Tg9cosmzyDCd/oFLbGHGb
+         PuFgyaWpK0heEs3bgRYMJmJtb8zhtKxOJXQvHXwjWR2vM6tF077tNdEGfkCB19azMoOm
+         LPZbsASKN35DIgNDdKli5siSVkPHsKZihHBHdvRhKHG7XeF9GP+dXiylCsf9j7/JTa2S
+         Hq3sOY5B7EGmM6kOEXlLOdCFTgKit5HNDNXaEEiH+4MJmr29c8U1Zu49PNCcUDHa1Rk0
+         q+mzqUnh5N5YoPnFY8p5YApHUdgMuDJmihBfLzdl7qgtaJMiyfNIgTAJ4OsVEVsnkj2w
+         r9sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701328217; x=1701933017;
+        d=1e100.net; s=20230601; t=1701328222; x=1701933022;
         h=content-disposition:mime-version:message-id:subject:cc:to:date:from
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qnji0I3JgObq/fWIwro3G9ISvDwi5sdGVqwTpUKDhEI=;
-        b=onUVVHJdbbiyUNbJPX4ZjuYZ6Vki7hd85Mi5rBNslPCL0IsI/N2I/0nt3XaZjoCZqS
-         +DTeH3Hw5VlEOiN1Lf1eiFjQgFefiSAYc3Pjt8u0uBbvgdA+T+wBNNWvt1+ve3dCEf8W
-         nnDSifA9hEnK5X71NQQd6GJgB4yS5BCq4EWDvX8ruW5xgWDtpRVb/WanP8pK7ve36PM9
-         fuYPoHUOVO2dOz75Orvqnzka0Af4eUx5zbNA/MK8/JYoowcXhSrgagjoSXLjqIph80+A
-         kxn9zeWRsL9hGksVpERbjMkohyXIZ3cxPCNnjG6BoaT5/15GD21WvjKYfcqUkw4azDbk
-         znZg==
-X-Gm-Message-State: AOJu0YxNCJ4zwrrLEwjT4fWMmoIJBc5lKxirNqddADheJwBwBkag+hDl
-	fj4t1rlZyFdkBHzIrpKHHXrtmoOrYSqVFqoYn/g=
-X-Google-Smtp-Source: AGHT+IH/Jvj2OfG3Rg0ggXGKhks8Phw3XlDerxaVK/2WWK7J+c93psVfqzjj2pIu0ZF1soo3xEqrzQ==
-X-Received: by 2002:a05:600c:3b22:b0:407:5b54:bb10 with SMTP id m34-20020a05600c3b2200b004075b54bb10mr14633136wms.8.1701328217218;
-        Wed, 29 Nov 2023 23:10:17 -0800 (PST)
+        bh=eCVB0ZCMTbdTd4dZbphWro2FuLO12tVDUAo4CJ1KyPY=;
+        b=ompvnTjB4QZgYCkrgdX0rRdRW84vFK4J4U69f64zbwv7jfsvaSs4wnP3YhByH00Zl3
+         moJQGDGjmhk6+cawUToqfYHyNrDqxFachbLT/SOK6B6D0lmqOqIdtjVSIAKt/DSCAg9q
+         MLKV+2c/5cPb+WYGNdvbVowN65aeJyZiosKpEfi8Maiq3KLs5ndaTDiqOY5s6oxuLuEe
+         89lkuBdzAi1rElEQJcrknUBYsKE/r3HaVw3lRyoyct1GkGdz05K+2qQP8jw9kie9qTy7
+         jOylQB5fZKHoacFWM0LTcIrlIBZ5xXO1q4o+3PWD1koeKFgV3vOybF7zmII37otAGz48
+         7aJw==
+X-Gm-Message-State: AOJu0YxloglPU+53ZeQKTf0W8i0at5gp9RsKgX8ocn8EIWeOnHYehUOG
+	wyk+cz3kDe/4SW/y/CFN/2NR21DswJj+Cqp9E+g=
+X-Google-Smtp-Source: AGHT+IHGL0/bH4sbTml76Eu2SuYWsRZyv/8KtzfNulIsl1ejEP8lzd8d/mCWIqx7OtmCnJpDPKOZDw==
+X-Received: by 2002:a5d:5690:0:b0:332:e65a:4a07 with SMTP id f16-20020a5d5690000000b00332e65a4a07mr14481933wrv.32.1701328222032;
+        Wed, 29 Nov 2023 23:10:22 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id o18-20020a05600c4fd200b0040b45282f88sm4479058wmq.36.2023.11.29.23.10.15
+        by smtp.gmail.com with ESMTPSA id dl17-20020a0560000b9100b003316debbde4sm654550wrb.48.2023.11.29.23.10.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 23:10:16 -0800 (PST)
+        Wed, 29 Nov 2023 23:10:21 -0800 (PST)
 From: Dan Carpenter <dan.carpenter@linaro.org>
 X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Thu, 30 Nov 2023 10:08:02 +0300
-To: oe-kbuild@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/010-soc 7/16] drivers/soc/apple/mailbox.c:290
- apple_mbox_get() warn: passing zero to 'ERR_PTR'
-Message-ID: <32890a65-1144-46d0-9743-4a27221c7b64@suswa.mountain>
+Date: Thu, 30 Nov 2023 10:09:19 +0300
+To: oe-kbuild@lists.linux.dev, Sven Peter <sven@svenpeter.dev>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/170-atcphy 3/11] drivers/phy/apple/atc.c:1609
+ atcphy_usb3_power_on() warn: inconsistent returns '&atcphy->lock'.
+Message-ID: <85feb9ba-f949-4ced-b67f-46ce13516df9@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,54 +58,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/010-soc
-head:   3d3347e62feacf57f15c7f20c0309c8dac65da44
-commit: 818b34e17da79772d796cfbe9cb923f2025af007 [7/16] mailbox: apple: Delete driver
-config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231130/202311300228.1rvmJjdA-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
+head:   4931e8edc0670b6acf66c1b83702c7521722ff1c
+commit: 3b2571b8e8064a73eca2cec23cf86cfe7f7050f5 [3/11] WIP: phy: apple: Add Apple Type-C PHY
+config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231130/202311300600.AQaWLIms-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20231130/202311300228.1rvmJjdA-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231130/202311300600.AQaWLIms-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311300228.1rvmJjdA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311300600.AQaWLIms-lkp@intel.com/
 
 smatch warnings:
-drivers/soc/apple/mailbox.c:290 apple_mbox_get() warn: passing zero to 'ERR_PTR'
+drivers/phy/apple/atc.c:1609 atcphy_usb3_power_on() warn: inconsistent returns '&atcphy->lock'.
+drivers/phy/apple/atc.c:2156 atcphy_parse_new_tunable() warn: impossible condition '(offset > (~0)) => (0-u32max > u32max)'
+drivers/phy/apple/atc.c:2156 atcphy_parse_new_tunable() warn: impossible condition '(mask > (~0)) => (0-u32max > u32max)'
+drivers/phy/apple/atc.c:2157 atcphy_parse_new_tunable() warn: impossible condition '(value > (~0)) => (0-u32max > u32max)'
 
-vim +/ERR_PTR +290 drivers/soc/apple/mailbox.c
+vim +1609 drivers/phy/apple/atc.c
 
-b7bac953131b57 Hector Martin 2023-03-14  280  struct apple_mbox *apple_mbox_get(struct device *dev, int index)
-b7bac953131b57 Hector Martin 2023-03-14  281  {
-b7bac953131b57 Hector Martin 2023-03-14  282  	struct of_phandle_args args;
-b7bac953131b57 Hector Martin 2023-03-14  283  	struct platform_device *pdev;
-b7bac953131b57 Hector Martin 2023-03-14  284  	struct apple_mbox *mbox;
-b7bac953131b57 Hector Martin 2023-03-14  285  	int ret;
-b7bac953131b57 Hector Martin 2023-03-14  286  
-b7bac953131b57 Hector Martin 2023-03-14  287  	ret = of_parse_phandle_with_args(dev->of_node, "mboxes", "#mbox-cells",
-b7bac953131b57 Hector Martin 2023-03-14  288  					 index, &args);
-b7bac953131b57 Hector Martin 2023-03-14  289  	if (ret || !args.np)
-b7bac953131b57 Hector Martin 2023-03-14 @290  		return ERR_PTR(ret);
+3b2571b8e8064a Sven Peter 2022-11-30  1567  static int atcphy_usb3_power_on(struct phy *phy)
+3b2571b8e8064a Sven Peter 2022-11-30  1568  {
+3b2571b8e8064a Sven Peter 2022-11-30  1569  	struct apple_atcphy *atcphy = phy_get_drvdata(phy);
+3b2571b8e8064a Sven Peter 2022-11-30  1570  	enum atcphy_pipehandler_state state;
+3b2571b8e8064a Sven Peter 2022-11-30  1571  	int ret = 0;
+3b2571b8e8064a Sven Peter 2022-11-30  1572  
+3b2571b8e8064a Sven Peter 2022-11-30  1573  	/*
+3b2571b8e8064a Sven Peter 2022-11-30  1574  	 * Both usb role switch and mux set work will be running concurrently.
+3b2571b8e8064a Sven Peter 2022-11-30  1575  	 * Make sure atcphy_mux_set_work is done bringing up ATCPHY before
+3b2571b8e8064a Sven Peter 2022-11-30  1576  	 * trying to switch dwc3 to the correct PHY.
+3b2571b8e8064a Sven Peter 2022-11-30  1577  	 */
+3b2571b8e8064a Sven Peter 2022-11-30  1578  	mutex_lock(&atcphy->lock);
+3b2571b8e8064a Sven Peter 2022-11-30  1579  	if (atcphy->mode != atcphy->target_mode) {
+3b2571b8e8064a Sven Peter 2022-11-30  1580  		reinit_completion(&atcphy->atcphy_online_event);
+3b2571b8e8064a Sven Peter 2022-11-30  1581  		mutex_unlock(&atcphy->lock);
+3b2571b8e8064a Sven Peter 2022-11-30  1582  		wait_for_completion_timeout(&atcphy->atcphy_online_event,
+3b2571b8e8064a Sven Peter 2022-11-30  1583  					msecs_to_jiffies(1000));
+3b2571b8e8064a Sven Peter 2022-11-30  1584  		mutex_lock(&atcphy->lock);
+3b2571b8e8064a Sven Peter 2022-11-30  1585  	}
+3b2571b8e8064a Sven Peter 2022-11-30  1586  
+3b2571b8e8064a Sven Peter 2022-11-30  1587  	if (atcphy->mode != atcphy->target_mode) {
+3b2571b8e8064a Sven Peter 2022-11-30  1588  		dev_err(atcphy->dev, "ATCPHY did not come up; won't allow dwc3 to come up.\n");
+3b2571b8e8064a Sven Peter 2022-11-30  1589  		return -EINVAL;
 
-We probably want to set an error code in the !args.np case.
+Need to unlock before returning.
 
-b7bac953131b57 Hector Martin 2023-03-14  291  
-b7bac953131b57 Hector Martin 2023-03-14  292  	pdev = of_find_device_by_node(args.np);
-b7bac953131b57 Hector Martin 2023-03-14  293  	of_node_put(args.np);
-b7bac953131b57 Hector Martin 2023-03-14  294  
-b7bac953131b57 Hector Martin 2023-03-14  295  	if (!pdev)
-b7bac953131b57 Hector Martin 2023-03-14  296  		return ERR_PTR(EPROBE_DEFER);
-b7bac953131b57 Hector Martin 2023-03-14  297  
-b7bac953131b57 Hector Martin 2023-03-14  298  	mbox = platform_get_drvdata(pdev);
-b7bac953131b57 Hector Martin 2023-03-14  299  	if (!mbox)
-b7bac953131b57 Hector Martin 2023-03-14  300  		return ERR_PTR(EPROBE_DEFER);
-b7bac953131b57 Hector Martin 2023-03-14  301  
-b7bac953131b57 Hector Martin 2023-03-14  302  	if (!device_link_add(dev, &pdev->dev, DL_FLAG_AUTOREMOVE_CONSUMER))
-b7bac953131b57 Hector Martin 2023-03-14  303  		return ERR_PTR(ENODEV);
-b7bac953131b57 Hector Martin 2023-03-14  304  
-b7bac953131b57 Hector Martin 2023-03-14  305  	return mbox;
-b7bac953131b57 Hector Martin 2023-03-14  306  }
+3b2571b8e8064a Sven Peter 2022-11-30  1590  	}
+3b2571b8e8064a Sven Peter 2022-11-30  1591  
+3b2571b8e8064a Sven Peter 2022-11-30  1592  	atcphy->dwc3_online = true;
+3b2571b8e8064a Sven Peter 2022-11-30  1593  	state = atcphy_modes[atcphy->mode].pipehandler_state;
+3b2571b8e8064a Sven Peter 2022-11-30  1594  	switch (state) {
+3b2571b8e8064a Sven Peter 2022-11-30  1595  	case ATCPHY_PIPEHANDLER_STATE_USB2:
+3b2571b8e8064a Sven Peter 2022-11-30  1596  	case ATCPHY_PIPEHANDLER_STATE_USB3:
+3b2571b8e8064a Sven Peter 2022-11-30  1597  		ret = atcphy_configure_pipehandler(atcphy, state);
+3b2571b8e8064a Sven Peter 2022-11-30  1598  		break;
+3b2571b8e8064a Sven Peter 2022-11-30  1599  
+3b2571b8e8064a Sven Peter 2022-11-30  1600  	case ATCPHY_PIPEHANDLER_STATE_INVALID:
+3b2571b8e8064a Sven Peter 2022-11-30  1601  	default:
+3b2571b8e8064a Sven Peter 2022-11-30  1602  		dev_warn(atcphy->dev, "Invalid state %d in usb3_set_phy\n",
+3b2571b8e8064a Sven Peter 2022-11-30  1603  			 state);
+3b2571b8e8064a Sven Peter 2022-11-30  1604  		ret = -EINVAL;
+3b2571b8e8064a Sven Peter 2022-11-30  1605  	}
+3b2571b8e8064a Sven Peter 2022-11-30  1606  
+3b2571b8e8064a Sven Peter 2022-11-30  1607  	mutex_unlock(&atcphy->lock);
+3b2571b8e8064a Sven Peter 2022-11-30  1608  
+3b2571b8e8064a Sven Peter 2022-11-30 @1609  	return 0;
+3b2571b8e8064a Sven Peter 2022-11-30  1610  }
 
 -- 
 0-DAY CI Kernel Test Service
