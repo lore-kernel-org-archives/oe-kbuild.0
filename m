@@ -1,46 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0131D48CC8
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Nov 2023 14:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE0048CE0
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Nov 2023 14:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KX0T3yir"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701353701; x=1732889701;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tAcDm0cYWPYO8+fFZb+BxYmDtnj+tEYz6WH3d1JVdbA=;
-  b=KX0T3yirAE42wuRqiKVklJR4b9cOncgAzalvdgvQj34SRrlVP6UE5VtR
-   PRsEaOXnrttLD8Np7Qzh55Jx1SFuwOatDPRfDOQI6MLK+/hOe2FH7Tuvr
-   RDoU2cKyQbXAI2LiPw4jvbi6FLhk6gPAHeSwNXpqDUQu8zRYtFupXeA+N
-   8Nke0ge7fkTvOytUb1Pvlj2c/N+oDR9X9fXimTvmsUlTBSIMZb/NVAAXk
-   cDufK6CZamDgo8GzSqUqukDwxHaw53ZnGhJvbKNeu5xmSZb5B2pCCvI/X
-   P6BXZ6Ipk45MHpiWFf0RGwQ1oBsRfkKxaS0Ks6QUEfg4W5jh0XIuiU4Uw
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="14877281"
-X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
-   d="scan'208";a="14877281"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 06:15:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="860208241"
-X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
-   d="scan'208";a="860208241"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 30 Nov 2023 06:14:58 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r8hoe-00026F-21;
-	Thu, 30 Nov 2023 14:14:56 +0000
-Date: Thu, 30 Nov 2023 22:14:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iniU7RSn"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2c9bbb30c34so12739631fa.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 30 Nov 2023 06:22:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701354145; x=1701958945; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bcqtO67BQ7Ejh6P/8TpQ51iGSACoSyE1ViV0XdGtiv4=;
+        b=iniU7RSnqNMXqyzK8WKoorq3x5pOe1PyUGYFJIFCkPMyxK24GRQ/xgAvo96LQZvzqu
+         dvhq+Y8RcgmVT+tJ3f9Gr8T6ujzJsvKI6oqDKxyBgtMG/T0DfRcGdnWy8gTtL/6843Cu
+         62G9T+Vrc4YNb+2WZBtxLIS729P0fUUcl75IP2UFLgC2RrvK+hG69YCDO0HjcxOHP2T1
+         l3R+nPV7H1UryxKi+oun1HHo2uCZcwCZNZDoHBGxvXiVVnuox8P34ssQz3bhh3Egm5qK
+         IRbYQU/C1Ka6s2L2GGZwID1RAvJ4kl5qqrqrNo6ptVopXI034fVHyvChmtF36t1wFoIe
+         fLOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701354145; x=1701958945;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bcqtO67BQ7Ejh6P/8TpQ51iGSACoSyE1ViV0XdGtiv4=;
+        b=vGYp/cElR0Zs901VYaCMw3J9keTRe0xj9U99gUVCmciOSRIPnQZJbCo0xfUayC6gr0
+         kaA6jZv5ZBVCGW3z8FyPOscFRo41fdADtl4KKY5z8mhJ28l6od/Qj80whhK6wakGcihW
+         zRUupzRIgWZUSKEuqZNOkaXFUnNyS5PsESRr3JT6uYq+jW3bvYYuW6el40GgWJ/OtVd1
+         n8I/K8ydSdGQkM7lcnpn6KSPRl4/FMTcbNB8KlyA8kRJWS+dmh6tGO9D6IJ4feLTzzNa
+         pbhh6INZxXmd9CbFxsXpHZSpVBrrNh2wbfOd9wCzJ/ITycolGVx1XMGUmc+SFlRpN35s
+         bCIw==
+X-Gm-Message-State: AOJu0YwFIH2Kj0txDlv/dqos7CpugI+EvHzj5trZ1PJ4vpdDFvjqOu2G
+	g9r+Z7B59QO4tuNgrpWF21ASrCjjqGCcIcIrdNk=
+X-Google-Smtp-Source: AGHT+IHK7509e2Z3egW/4opgwXQcb3Zrcg7N42KnHWmFyH0mSn++oWBJd1dPqEE/drzGHSJpGBYYkw==
+X-Received: by 2002:a2e:9244:0:b0:2c9:bb10:5802 with SMTP id v4-20020a2e9244000000b002c9bb105802mr4689004ljg.19.1701354145305;
+        Thu, 30 Nov 2023 06:22:25 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id g16-20020a05600c4ed000b0040b47c53610sm2187975wmq.14.2023.11.30.06.22.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Nov 2023 06:22:24 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Thu, 30 Nov 2023 17:22:20 +0300
+To: oe-kbuild@lists.linux.dev,
+	Anjelique Melendez <quic_amelende@quicinc.com>, pavel@ucw.cz,
+	lee@kernel.org, thierry.reding@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	agross@kernel.org, andersson@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, luca.weiss@fairphone.com,
+	konrad.dybcio@linaro.org, u.kleine-koenig@pengutronix.de,
+	quic_subbaram@quicinc.com, quic_gurus@quicinc.com,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	Anjelique Melendez <quic_amelende@quicinc.com>
 Subject: Re: [PATCH v7 4/7] leds: rgb: leds-qcom-lpg: Add support for PPG
  through single SDAM
-Message-ID: <202311302200.RcTP9m0Y-lkp@intel.com>
+Message-ID: <17a8a637-3477-41fe-959f-7784cf6d6b2e@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,49 +67,18 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20231130013615.14287-5-quic_amelende@quicinc.com>
-References: <20231130013615.14287-5-quic_amelende@quicinc.com>
-TO: Anjelique Melendez <quic_amelende@quicinc.com>
-TO: pavel@ucw.cz
-TO: lee@kernel.org
-TO: thierry.reding@gmail.com
-TO: robh+dt@kernel.org
-TO: krzysztof.kozlowski+dt@linaro.org
-TO: conor+dt@kernel.org
-TO: agross@kernel.org
-TO: andersson@kernel.org
-CC: luca.weiss@fairphone.com
-CC: konrad.dybcio@linaro.org
-CC: u.kleine-koenig@pengutronix.de
-CC: quic_subbaram@quicinc.com
-CC: quic_gurus@quicinc.com
-CC: linux-leds@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-arm-msm@vger.kernel.org
-CC: linux-pwm@vger.kernel.org
-CC: Anjelique Melendez <quic_amelende@quicinc.com>
 
 Hi Anjelique,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on lee-leds/for-leds-next linus/master v6.7-rc3 next-20231130]
-[cannot apply to pavel-leds/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Anjelique-Melendez/dt-bindings-soc-qcom-Add-qcom-pbs-bindings/20231130-094701
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
 patch link:    https://lore.kernel.org/r/20231130013615.14287-5-quic_amelende%40quicinc.com
 patch subject: [PATCH v7 4/7] leds: rgb: leds-qcom-lpg: Add support for PPG through single SDAM
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
 config: csky-randconfig-r071-20231130 (https://download.01.org/0day-ci/archive/20231130/202311302200.RcTP9m0Y-lkp@intel.com/config)
 compiler: csky-linux-gcc (GCC) 13.2.0
 reproduce: (https://download.01.org/0day-ci/archive/20231130/202311302200.RcTP9m0Y-lkp@intel.com/reproduce)
@@ -108,7 +95,6 @@ drivers/leds/rgb/leds-qcom-lpg.c:1056 lpg_pattern_set() error: uninitialized sym
 
 vim +/lo_pause +1055 drivers/leds/rgb/leds-qcom-lpg.c
 
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   903  
 e98a860f65428a Bjorn Andersson    2022-05-23   904  static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *led_pattern,
 24e2d05d1b6898 Bjorn Andersson    2022-03-03   905  			   u32 len, int repeat)
 24e2d05d1b6898 Bjorn Andersson    2022-03-03   906  {
@@ -240,6 +226,9 @@ e98a860f65428a Bjorn Andersson    2022-05-23  1023  		goto out_free_pattern;
 05c1d2a258599b Anjelique Melendez 2023-11-29  1032  	} else {
 05c1d2a258599b Anjelique Melendez 2023-11-29  1033  		if (delta_t != pattern[0].delta_t || delta_t != pattern[actual_len - 1].delta_t)
 05c1d2a258599b Anjelique Melendez 2023-11-29  1034  			goto out_free_pattern;
+
+lo_pause and hi_pause are not set on this else path
+
 05c1d2a258599b Anjelique Melendez 2023-11-29  1035  	}
 05c1d2a258599b Anjelique Melendez 2023-11-29  1036  
 24e2d05d1b6898 Bjorn Andersson    2022-03-03  1037  
@@ -262,6 +251,8 @@ e98a860f65428a Bjorn Andersson    2022-05-23  1023  		goto out_free_pattern;
 24e2d05d1b6898 Bjorn Andersson    2022-03-03  1054  
 24e2d05d1b6898 Bjorn Andersson    2022-03-03 @1055  		chan->ramp_lo_pause_ms = lo_pause;
 24e2d05d1b6898 Bjorn Andersson    2022-03-03 @1056  		chan->ramp_hi_pause_ms = hi_pause;
+                                                                                         ^^^^^^^^
+
 24e2d05d1b6898 Bjorn Andersson    2022-03-03  1057  
 24e2d05d1b6898 Bjorn Andersson    2022-03-03  1058  		chan->pattern_lo_idx = lo_idx;
 24e2d05d1b6898 Bjorn Andersson    2022-03-03  1059  		chan->pattern_hi_idx = hi_idx;
@@ -274,8 +265,8 @@ e98a860f65428a Bjorn Andersson    2022-05-23  1065  	kfree(pattern);
 24e2d05d1b6898 Bjorn Andersson    2022-03-03  1066  
 24e2d05d1b6898 Bjorn Andersson    2022-03-03  1067  	return ret;
 24e2d05d1b6898 Bjorn Andersson    2022-03-03  1068  }
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1069  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
