@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035F5101EF
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Nov 2023 02:19:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A281F134B0
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Nov 2023 03:55:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aKx8Y2lq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SWiy008m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701310742; x=1732846742;
+  t=1701316503; x=1732852503;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5dS+Lt4uNJOSNFcrZqFBtzEA/bVFKzj8rKKYG3183i0=;
-  b=aKx8Y2lqHg4dwOUBkfZM9ALLxnVYkASypzdL/9tI0SUbaZEZoEceoR4B
-   s1IgPhBMVmz5gBNYmrnuFCaQgCCKkrIKfSCyHeR3Z/PHbxoYUlmaTY/IO
-   pXcZXJB+w7eBuVyRl3qbdeWE9rTP+2KADBliJwya9uFAedPHHEAxurk8C
-   rIOnIgGu0ryb+MLgCwR1tbtVArPkCskwS6GYymjkTWeda080p8QGUIXtq
-   2M9oWi21JSkQwuyXTAHE/ej4l0FMvr3kobNFxp87gROk2uU+MIzrENzyz
-   QpdGBuZ7J4Yyd7DRfDqHQppl1MOc/U4Hx51F7yFubk5/B4rihdE+ya5TZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="378281159"
+  bh=xq/+xF1h1nG9QjMYVJtbRuahqg3Ls2szmvo5cOqOsRE=;
+  b=SWiy008mC4gtczj0aMvN4116DiuUff1TMFG+KwAszKr+XCY1wjC/SQk2
+   c/KBeelFkxQ6/t3upZENL/FQvE404QGwofLDHw/wd1SADZI9gcxSmi7xx
+   8s1BGThGa/DynG+8WQny+Dui5luT09Nly/72KMRxVEtrJDTq+VB7kd4oQ
+   /m10aNeyBFRMd7cTNKgBCsoo/8chiXVd850XsQGObnfe3Fr7nArWcrcTa
+   HIoI4XF1msV58R85mzJAMQStr5wd0xisW4zXUEQooykK9UWtrt2po4AgF
+   b78ljaV0yyJcnlhJf6W8qGWIbej89dxH48zYcEQebwuaQHh72esmyWZkq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="459757279"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="378281159"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 18:19:02 -0800
+   d="scan'208";a="459757279"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 19:55:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="887069387"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="745488159"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="887069387"
+   d="scan'208";a="745488159"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2023 18:19:01 -0800
+  by orsmga006.jf.intel.com with ESMTP; 29 Nov 2023 19:55:01 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8Wdm-0001F2-2o;
-	Thu, 30 Nov 2023 02:18:58 +0000
-Date: Thu, 30 Nov 2023 10:18:55 +0800
+	id 1r8Y8g-0001JE-1f;
+	Thu, 30 Nov 2023 03:54:58 +0000
+Date: Thu, 30 Nov 2023 11:54:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [asahilinux:bits/170-atcphy 3/11] drivers/phy/apple/atc.c:1609
- atcphy_usb3_power_on() warn: inconsistent returns '&atcphy->lock'.
-Message-ID: <202311300600.AQaWLIms-lkp@intel.com>
+Subject: [pinchartl:mtk/v6.7/thp7312/next 4/4]
+ drivers/media/i2c/thp7312.c:1838 thp7312_fw_write() warn: inconsistent
+ returns '&thp7312->fw_lock'.
+Message-ID: <202311300837.i0Yl4NPb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,78 +53,74 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sven Peter <sven@svenpeter.dev>
-CC: Hector Martin <marcan@marcan.st>
+TO: Paul Elder <paul.elder@ideasonboard.com>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
-head:   4931e8edc0670b6acf66c1b83702c7521722ff1c
-commit: 3b2571b8e8064a73eca2cec23cf86cfe7f7050f5 [3/11] WIP: phy: apple: Add Apple Type-C PHY
-:::::: branch date: 7 days ago
-:::::: commit date: 2 months ago
-config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231130/202311300600.AQaWLIms-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git mtk/v6.7/thp7312/next
+head:   7a3a1ee25e6b83ebe88d64bb1038d8e141bb824f
+commit: 7a3a1ee25e6b83ebe88d64bb1038d8e141bb824f [4/4] media: i2c: Add driver for THine THP7312
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231130/202311300837.i0Yl4NPb-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20231130/202311300600.AQaWLIms-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231130/202311300837.i0Yl4NPb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311300600.AQaWLIms-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311300837.i0Yl4NPb-lkp@intel.com/
 
 smatch warnings:
-drivers/phy/apple/atc.c:1609 atcphy_usb3_power_on() warn: inconsistent returns '&atcphy->lock'.
-drivers/phy/apple/atc.c:2156 atcphy_parse_new_tunable() warn: impossible condition '(offset > (~0)) => (0-u32max > u32max)'
-drivers/phy/apple/atc.c:2156 atcphy_parse_new_tunable() warn: impossible condition '(mask > (~0)) => (0-u32max > u32max)'
-drivers/phy/apple/atc.c:2157 atcphy_parse_new_tunable() warn: impossible condition '(value > (~0)) => (0-u32max > u32max)'
+drivers/media/i2c/thp7312.c:1838 thp7312_fw_write() warn: inconsistent returns '&thp7312->fw_lock'.
 
-vim +1609 drivers/phy/apple/atc.c
+vim +1838 drivers/media/i2c/thp7312.c
 
-3b2571b8e8064a Sven Peter 2022-11-30  1566  
-3b2571b8e8064a Sven Peter 2022-11-30  1567  static int atcphy_usb3_power_on(struct phy *phy)
-3b2571b8e8064a Sven Peter 2022-11-30  1568  {
-3b2571b8e8064a Sven Peter 2022-11-30  1569  	struct apple_atcphy *atcphy = phy_get_drvdata(phy);
-3b2571b8e8064a Sven Peter 2022-11-30  1570  	enum atcphy_pipehandler_state state;
-3b2571b8e8064a Sven Peter 2022-11-30  1571  	int ret = 0;
-3b2571b8e8064a Sven Peter 2022-11-30  1572  
-3b2571b8e8064a Sven Peter 2022-11-30  1573  	/*
-3b2571b8e8064a Sven Peter 2022-11-30  1574  	 * Both usb role switch and mux set work will be running concurrently.
-3b2571b8e8064a Sven Peter 2022-11-30  1575  	 * Make sure atcphy_mux_set_work is done bringing up ATCPHY before
-3b2571b8e8064a Sven Peter 2022-11-30  1576  	 * trying to switch dwc3 to the correct PHY.
-3b2571b8e8064a Sven Peter 2022-11-30  1577  	 */
-3b2571b8e8064a Sven Peter 2022-11-30  1578  	mutex_lock(&atcphy->lock);
-3b2571b8e8064a Sven Peter 2022-11-30  1579  	if (atcphy->mode != atcphy->target_mode) {
-3b2571b8e8064a Sven Peter 2022-11-30  1580  		reinit_completion(&atcphy->atcphy_online_event);
-3b2571b8e8064a Sven Peter 2022-11-30  1581  		mutex_unlock(&atcphy->lock);
-3b2571b8e8064a Sven Peter 2022-11-30  1582  		wait_for_completion_timeout(&atcphy->atcphy_online_event,
-3b2571b8e8064a Sven Peter 2022-11-30  1583  					msecs_to_jiffies(1000));
-3b2571b8e8064a Sven Peter 2022-11-30  1584  		mutex_lock(&atcphy->lock);
-3b2571b8e8064a Sven Peter 2022-11-30  1585  	}
-3b2571b8e8064a Sven Peter 2022-11-30  1586  
-3b2571b8e8064a Sven Peter 2022-11-30  1587  	if (atcphy->mode != atcphy->target_mode) {
-3b2571b8e8064a Sven Peter 2022-11-30  1588  		dev_err(atcphy->dev, "ATCPHY did not come up; won't allow dwc3 to come up.\n");
-3b2571b8e8064a Sven Peter 2022-11-30  1589  		return -EINVAL;
-3b2571b8e8064a Sven Peter 2022-11-30  1590  	}
-3b2571b8e8064a Sven Peter 2022-11-30  1591  
-3b2571b8e8064a Sven Peter 2022-11-30  1592  	atcphy->dwc3_online = true;
-3b2571b8e8064a Sven Peter 2022-11-30  1593  	state = atcphy_modes[atcphy->mode].pipehandler_state;
-3b2571b8e8064a Sven Peter 2022-11-30  1594  	switch (state) {
-3b2571b8e8064a Sven Peter 2022-11-30  1595  	case ATCPHY_PIPEHANDLER_STATE_USB2:
-3b2571b8e8064a Sven Peter 2022-11-30  1596  	case ATCPHY_PIPEHANDLER_STATE_USB3:
-3b2571b8e8064a Sven Peter 2022-11-30  1597  		ret = atcphy_configure_pipehandler(atcphy, state);
-3b2571b8e8064a Sven Peter 2022-11-30  1598  		break;
-3b2571b8e8064a Sven Peter 2022-11-30  1599  
-3b2571b8e8064a Sven Peter 2022-11-30  1600  	case ATCPHY_PIPEHANDLER_STATE_INVALID:
-3b2571b8e8064a Sven Peter 2022-11-30  1601  	default:
-3b2571b8e8064a Sven Peter 2022-11-30  1602  		dev_warn(atcphy->dev, "Invalid state %d in usb3_set_phy\n",
-3b2571b8e8064a Sven Peter 2022-11-30  1603  			 state);
-3b2571b8e8064a Sven Peter 2022-11-30  1604  		ret = -EINVAL;
-3b2571b8e8064a Sven Peter 2022-11-30  1605  	}
-3b2571b8e8064a Sven Peter 2022-11-30  1606  
-3b2571b8e8064a Sven Peter 2022-11-30  1607  	mutex_unlock(&atcphy->lock);
-3b2571b8e8064a Sven Peter 2022-11-30  1608  
-3b2571b8e8064a Sven Peter 2022-11-30 @1609  	return 0;
-3b2571b8e8064a Sven Peter 2022-11-30  1610  }
-3b2571b8e8064a Sven Peter 2022-11-30  1611  
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1796  
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1797  static enum fw_upload_err thp7312_fw_write(struct fw_upload *fw_upload,
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1798  					   const u8 *data, u32 offset,
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1799  					   u32 size, u32 *written)
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1800  {
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1801  	struct thp7312_device *thp7312 = fw_upload->dd_handle;
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1802  	struct device *dev = thp7312->dev;
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1803  	u16 header_size = size - THP7312_FW_RAM_SIZE;
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1804  	enum fw_upload_err ret;
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1805  
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1806  	mutex_lock(&thp7312->fw_lock);
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1807  	if (thp7312->fw_cancel)
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1808  		return FW_UPLOAD_ERR_CANCELED;
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1809  	mutex_unlock(&thp7312->fw_lock);
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1810  
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1811  	ret = thp7312_flash_erase(thp7312);
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1812  	if (ret != FW_UPLOAD_ERR_NONE)
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1813  		return ret;
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1814  
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1815  	ret = thp7312_fw_load_to_ram(thp7312, data, THP7312_FW_RAM_SIZE);
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1816  	if (ret != FW_UPLOAD_ERR_NONE)
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1817  		return ret;
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1818  
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1819  	ret = thp7312_fw_write_to_flash(thp7312, 0, 0x1ffff);
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1820  	if (ret != FW_UPLOAD_ERR_NONE)
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1821  		return ret;
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1822  
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1823  	ret = thp7312_fw_load_to_ram(thp7312, data + THP7312_FW_RAM_SIZE, header_size);
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1824  	if (ret != FW_UPLOAD_ERR_NONE)
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1825  		return ret;
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1826  
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1827  	ret = thp7312_fw_write_to_flash(thp7312, 0x20000, header_size - 1);
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1828  	if (ret != FW_UPLOAD_ERR_NONE)
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1829  		return ret;
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1830  
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1831  	ret = thp7312_fw_check_crc(thp7312, data, size);
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1832  	if (ret != FW_UPLOAD_ERR_NONE)
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1833  		return ret;
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1834  
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1835  	dev_info(dev, "Successfully wrote firmware\n");
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1836  
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1837  	*written = size;
+7a3a1ee25e6b83 Paul Elder 2023-06-20 @1838  	return FW_UPLOAD_ERR_NONE;
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1839  }
+7a3a1ee25e6b83 Paul Elder 2023-06-20  1840  
 
 -- 
 0-DAY CI Kernel Test Service
