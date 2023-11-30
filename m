@@ -1,46 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE8B38DDE
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Nov 2023 12:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2420B47A7A
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Nov 2023 13:38:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ex0v++8r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZCcev3TX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701348975; x=1732884975;
+  t=1701351509; x=1732887509;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LzyuLLw4F/id+4yMZ01Pvn5YuiFK5ufjWmaI+z8Xr6A=;
-  b=Ex0v++8rLu5Ea5uXxSzDa+RpNtt//MZtEw+hOF77/Uf17b6fCPPX/BIr
-   d6cUCCMjppSErh8HtLTBfLPpKOJD8rVqYZAA2vN6IGLu34nKodbXLlc13
-   RPyWqcUzPbYaS19vbGSNRBWJy7IjtfIeq7CoORIr2CKfLWqLYogGSIvO6
-   FRuFUJciaU6RGRR9xjqO636B2H9LZMDCpxchj0Kn+/bDjk0xJDqS3zWcQ
-   gYUV5SN1sIMQGPpalwP0sCMj/IGBGEAZHANwrHXZqxyvSgQoQEsh85rIG
-   yJNRuEr3y8E9KwuRPNjc9UvlB01vCPIRxX5m0tBjehOG6/r9yFgqnyZ+G
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="219219"
+  bh=UepqnXKAgxUI6LCsqFzABM/bP2dr6LqN2rbBF71LQWE=;
+  b=ZCcev3TXA1HpnmkNYCBzND2MAF9SsljdsB5G/lnRxA2KRomuAtTHeHbr
+   zWyD9G9AKkpfWuVIW9qBt+acsW/0fm27J/8WAb5fgPhCmUpxpcnOhmOD6
+   tIyHTjgT2cz1S61lMSDQzfsEIYlEgk6zvrloYvr3JsGCdK7QsnTQXUVGB
+   +fC557P5QjjHKI0Zk2MtZPXpLTUPw0yVCJbNTtLZl8RSVnTYr9nOJ6xyn
+   Q89pn7ZKrx7tBGBWfD3GWYeQLHsuUho9JZFHDalhF6pT6tnd7+D7asJ1T
+   Q3e2xxXyKGAnWamW50m5k4gvcE/PI/bsoMZ464kn/lcVwBN0ep9dkeL5t
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="373509275"
 X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
-   d="scan'208";a="219219"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 04:56:14 -0800
+   d="scan'208";a="373509275"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 05:38:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="892799807"
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="719128188"
 X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
-   d="scan'208";a="892799807"
+   d="scan'208";a="719128188"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 30 Nov 2023 04:56:12 -0800
+  by orsmga003.jf.intel.com with ESMTP; 30 Nov 2023 05:38:25 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8gaP-0001xL-2g;
-	Thu, 30 Nov 2023 12:56:09 +0000
-Date: Thu, 30 Nov 2023 20:55:36 +0800
+	id 1r8hFH-00023K-1o;
+	Thu, 30 Nov 2023 13:38:23 +0000
+Date: Thu, 30 Nov 2023 21:38:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: include/linux/atomic/atomic-arch-fallback.h:2397:16: sparse: sparse:
- Trying to use reserved word '__typeof__' as identifier
-Message-ID: <202311302059.DvORXXAu-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: sound/soc/sof/ipc4-control.c:62:1-7: preceding lock on line 41
+Message-ID: <202311302123.VrgLKK5F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,247 +49,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: include/linux/atomic/atomic-arch-fallback.h:2397:16: sparse: sparse: Trying to use reserved word '__typeof__' as identifier"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Mark Rutland <mark.rutland@arm.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: Kees Cook <keescook@chromium.org>
+TO: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
+CC: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   3b47bc037bd44f142ac09848e8d3ecccc726be99
-commit: d12157efc8e083c77d054675fcdd594f54cc7e2b locking/atomic: make atomic*_{cmp,}xchg optional
-date:   6 months ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 6 months ago
-config: sparc64-randconfig-r112-20231130 (https://download.01.org/0day-ci/archive/20231130/202311302059.DvORXXAu-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231130/202311302059.DvORXXAu-lkp@intel.com/reproduce)
+commit: f94f3915274d22d5cd8b253e0533822b934f5f41 ASoC: SOF: Protect swidget->use_count with mutex for kcontrol access race
+date:   10 months ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 10 months ago
+config: i386-randconfig-053-20231130 (https://download.01.org/0day-ci/archive/20231130/202311302123.VrgLKK5F-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20231130/202311302123.VrgLKK5F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311302059.DvORXXAu-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202311302123.VrgLKK5F-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: Trying to use reserved word 'do' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: Expected ; at end of declaration
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: got {
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: Expected ) in function declarator
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: got !
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: Trying to use reserved word 'do' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: Expected ; at end of declaration
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: got {
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1570:17: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1571:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1571:9: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: Trying to use reserved word 'do' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: Expected ; at end of declaration
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: got {
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: Expected ) in function declarator
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: got !
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: Trying to use reserved word 'do' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: Expected ; at end of declaration
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: got {
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1573:17: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1574:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1574:9: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1752:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1752:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1768:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1768:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1777:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1777:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1786:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1786:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1795:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1795:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1849:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1849:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1858:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1858:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1867:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1867:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1876:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1876:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1923:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1923:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1939:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1939:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1948:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1948:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1957:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1957:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:1966:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:1966:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2020:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2020:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2029:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2029:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2038:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2038:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2047:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2047:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2136:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2136:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2152:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2152:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2161:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2161:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2170:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2170:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2179:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2179:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2316:16: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2316:16: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2317:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2317:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2325:16: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2325:16: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2326:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2326:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2334:16: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2334:16: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2335:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2335:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2343:16: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2343:16: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2344:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2344:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2397:16: sparse: sparse: Expected ) in function declarator
-   include/linux/atomic/atomic-arch-fallback.h:2397:16: sparse: sparse: got *
->> include/linux/atomic/atomic-arch-fallback.h:2397:16: sparse: sparse: Trying to use reserved word '__typeof__' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2397:16: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2397:16: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2398:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2398:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2406:16: sparse: sparse: Expected ) in function declarator
-   include/linux/atomic/atomic-arch-fallback.h:2406:16: sparse: sparse: got *
-   include/linux/atomic/atomic-arch-fallback.h:2406:16: sparse: sparse: Trying to use reserved word '__typeof__' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2406:16: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2406:16: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2407:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2407:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2415:16: sparse: sparse: Expected ) in function declarator
-   include/linux/atomic/atomic-arch-fallback.h:2415:16: sparse: sparse: got *
-   include/linux/atomic/atomic-arch-fallback.h:2415:16: sparse: sparse: Trying to use reserved word '__typeof__' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2415:16: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2415:16: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2416:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2416:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2424:16: sparse: sparse: Expected ) in function declarator
-   include/linux/atomic/atomic-arch-fallback.h:2424:16: sparse: sparse: got *
-   include/linux/atomic/atomic-arch-fallback.h:2424:16: sparse: sparse: Trying to use reserved word '__typeof__' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2424:16: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2424:16: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2425:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2425:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2480:13: sparse: sparse: Expected ) in function declarator
-   include/linux/atomic/atomic-arch-fallback.h:2480:13: sparse: sparse: got (
-   include/linux/atomic/atomic-arch-fallback.h:2480:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2482:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2482:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/atomic/atomic-arch-fallback.h:2482:16: sparse: sparse: got __builtin_expect
-   include/linux/atomic/atomic-arch-fallback.h:2483:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2483:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2493:13: sparse: sparse: Expected ) in function declarator
-   include/linux/atomic/atomic-arch-fallback.h:2493:13: sparse: sparse: got (
-   include/linux/atomic/atomic-arch-fallback.h:2493:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2495:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2495:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/atomic/atomic-arch-fallback.h:2495:16: sparse: sparse: got __builtin_expect
-   include/linux/atomic/atomic-arch-fallback.h:2496:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2496:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2506:13: sparse: sparse: Expected ) in function declarator
-   include/linux/atomic/atomic-arch-fallback.h:2506:13: sparse: sparse: got (
-   include/linux/atomic/atomic-arch-fallback.h:2506:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2508:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2508:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/atomic/atomic-arch-fallback.h:2508:16: sparse: sparse: got __builtin_expect
-   include/linux/atomic/atomic-arch-fallback.h:2509:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2509:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2519:13: sparse: sparse: Expected ) in function declarator
-   include/linux/atomic/atomic-arch-fallback.h:2519:13: sparse: sparse: got (
-   include/linux/atomic/atomic-arch-fallback.h:2519:9: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2521:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2521:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/atomic/atomic-arch-fallback.h:2521:16: sparse: sparse: got __builtin_expect
-   include/linux/atomic/atomic-arch-fallback.h:2522:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2522:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2569:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2569:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2578:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2578:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2587:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2587:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2603:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2603:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2612:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2612:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2621:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2621:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2630:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2630:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2676:17: sparse: sparse: Expected ) in function declarator
-   include/linux/atomic/atomic-arch-fallback.h:2676:17: sparse: sparse: got !
-   include/linux/atomic/atomic-arch-fallback.h:2676:17: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2676:17: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2676:17: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2676:17: sparse: sparse: Expected ) in nested declarator
-   include/linux/atomic/atomic-arch-fallback.h:2676:17: sparse: sparse: got volatile
-   include/linux/atomic/atomic-arch-fallback.h:2676:17: sparse: sparse: Trying to use reserved word 'const' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2676:17: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2676:17: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2678:9: sparse: sparse: Trying to use reserved word 'do' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2678:12: sparse: sparse: Expected ; at end of declaration
-   include/linux/atomic/atomic-arch-fallback.h:2678:12: sparse: sparse: got {
-   include/linux/atomic/atomic-arch-fallback.h:2681:9: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2681:9: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2683:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2683:16: sparse: sparse: Expected ; at end of declaration
-   include/linux/atomic/atomic-arch-fallback.h:2683:16: sparse: sparse: got c
-   include/linux/atomic/atomic-arch-fallback.h:2684:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2684:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2693:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2693:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2702:1: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2702:1: sparse: sparse: got }
-   include/linux/atomic/atomic-arch-fallback.h:2710:17: sparse: sparse: Expected ) in function declarator
-   include/linux/atomic/atomic-arch-fallback.h:2710:17: sparse: sparse: got !
-   include/linux/atomic/atomic-arch-fallback.h:2710:17: sparse: sparse: Trying to use reserved word 'if' as identifier
-   include/linux/atomic/atomic-arch-fallback.h:2710:17: sparse: sparse: Expected ; at the end of type declaration
-   include/linux/atomic/atomic-arch-fallback.h:2710:17: sparse: sparse: got }
+cocci warnings: (new ones prefixed by >>)
+>> sound/soc/sof/ipc4-control.c:62:1-7: preceding lock on line 41
 
-vim +/__typeof__ +2397 include/linux/atomic/atomic-arch-fallback.h
+vim +62 sound/soc/sof/ipc4-control.c
 
-d12157efc8e083 Mark Rutland 2023-06-05  2392  
-d12157efc8e083 Mark Rutland 2023-06-05  2393  #ifndef arch_atomic64_cmpxchg
-d12157efc8e083 Mark Rutland 2023-06-05  2394  static __always_inline s64
-d12157efc8e083 Mark Rutland 2023-06-05  2395  arch_atomic64_cmpxchg(atomic64_t *v, s64 old, s64 new)
-d12157efc8e083 Mark Rutland 2023-06-05  2396  {
-d12157efc8e083 Mark Rutland 2023-06-05 @2397  	return arch_cmpxchg(&v->counter, old, new);
-d12157efc8e083 Mark Rutland 2023-06-05  2398  }
-d12157efc8e083 Mark Rutland 2023-06-05  2399  #define arch_atomic64_cmpxchg arch_atomic64_cmpxchg
-d12157efc8e083 Mark Rutland 2023-06-05  2400  #endif
-d12157efc8e083 Mark Rutland 2023-06-05  2401  
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  14  
+f94f3915274d22 Peter Ujfalusi    2023-01-27  15  static int sof_ipc4_set_get_kcontrol_data(struct snd_sof_control *scontrol,
+f94f3915274d22 Peter Ujfalusi    2023-01-27  16  					  bool set, bool lock)
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  17  {
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  18  	struct sof_ipc4_control_data *cdata = scontrol->ipc_control_data;
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  19  	struct snd_soc_component *scomp = scontrol->scomp;
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  20  	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  21  	const struct sof_ipc_ops *iops = sdev->ipc->ops;
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  22  	struct sof_ipc4_msg *msg = &cdata->msg;
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  23  	struct snd_sof_widget *swidget;
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  24  	bool widget_found = false;
+f94f3915274d22 Peter Ujfalusi    2023-01-27  25  	int ret = 0;
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  26  
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  27  	/* find widget associated with the control */
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  28  	list_for_each_entry(swidget, &sdev->widget_list, list) {
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  29  		if (swidget->comp_id == scontrol->comp_id) {
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  30  			widget_found = true;
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  31  			break;
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  32  		}
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  33  	}
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  34  
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  35  	if (!widget_found) {
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  36  		dev_err(scomp->dev, "Failed to find widget for kcontrol %s\n", scontrol->name);
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  37  		return -ENOENT;
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  38  	}
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  39  
+f94f3915274d22 Peter Ujfalusi    2023-01-27  40  	if (lock)
+f94f3915274d22 Peter Ujfalusi    2023-01-27 @41  		mutex_lock(&swidget->setup_mutex);
+f94f3915274d22 Peter Ujfalusi    2023-01-27  42  	else
+f94f3915274d22 Peter Ujfalusi    2023-01-27  43  		lockdep_assert_held(&swidget->setup_mutex);
+f94f3915274d22 Peter Ujfalusi    2023-01-27  44  
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  45  	/*
+f94f3915274d22 Peter Ujfalusi    2023-01-27  46  	 * Volatile controls should always be part of static pipelines and the
+f94f3915274d22 Peter Ujfalusi    2023-01-27  47  	 * widget use_count would always be > 0 in this case. For the others,
+f94f3915274d22 Peter Ujfalusi    2023-01-27  48  	 * just return the cached value if the widget is not set up.
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  49  	 */
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  50  	if (!swidget->use_count)
+f94f3915274d22 Peter Ujfalusi    2023-01-27  51  		goto unlock;
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  52  
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  53  	msg->primary &= ~SOF_IPC4_MOD_INSTANCE_MASK;
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  54  	msg->primary |= SOF_IPC4_MOD_INSTANCE(swidget->instance_id);
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  55  
+f94f3915274d22 Peter Ujfalusi    2023-01-27  56  	ret = iops->set_get_data(sdev, msg, msg->data_size, set);
+f94f3915274d22 Peter Ujfalusi    2023-01-27  57  
+f94f3915274d22 Peter Ujfalusi    2023-01-27  58  unlock:
+f94f3915274d22 Peter Ujfalusi    2023-01-27  59  	if (lock)
+f94f3915274d22 Peter Ujfalusi    2023-01-27  60  		mutex_unlock(&swidget->setup_mutex);
+f94f3915274d22 Peter Ujfalusi    2023-01-27  61  
+f94f3915274d22 Peter Ujfalusi    2023-01-27 @62  	return ret;
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  63  }
+955e84fc0b6df6 Ranjani Sridharan 2022-06-08  64  
 
 -- 
 0-DAY CI Kernel Test Service
