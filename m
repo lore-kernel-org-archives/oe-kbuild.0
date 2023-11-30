@@ -1,45 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB9E4CB2D
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Nov 2023 05:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52767C8E2
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Nov 2023 07:10:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BdMpu5D3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701322006; x=1732858006;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qxvWVFmr7GQOuvWWMHNxBGjKfoqOlXN7orEBfdUf1EM=;
-  b=BdMpu5D3yazjWBBe7rj3ckWsf5m5owxeIaWdBFE5FQRHncZGel+GL6yn
-   jghlLmAtozqZKU3fRt9cD+Dlg0xU5rqN3nay075JUPdvvc20XexGH2Blq
-   J/aoIxCp/r4IiTHidEnwV9eBtl5GroDwMYH4H1iG1qLQbsUTw58yYcNTU
-   rWRyfnGl28DWU3OlJHUKYJIoqciya7QexwOXzxN7eQLWL12lUUPI3Az2o
-   7gIErbc07GB2ttr8oo18ePTvoePLnYRttK7TDs/uE4GXA5VeLLyrHO6Gj
-   mXOvBu5VjwlpsQiVqogY6NQy32eK9S7Uw8/ZeUBKNCzPkWFZu8zMCNopc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="257395"
-X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="257395"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 21:26:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="10634132"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 29 Nov 2023 21:26:45 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r8ZZE-0001PV-1g;
-	Thu, 30 Nov 2023 05:26:36 +0000
-Date: Thu, 30 Nov 2023 13:24:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/thunderbolt/tb_regs.h:190:32: sparse: sparse: typeof applied
- to bitfield type
-Message-ID: <202311301352.oZMsHF1B-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="y0M6RJbM"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40b5155e154so4342225e9.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 29 Nov 2023 23:10:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701328217; x=1701933017; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Qnji0I3JgObq/fWIwro3G9ISvDwi5sdGVqwTpUKDhEI=;
+        b=y0M6RJbMfkyQ28p6eOjagwUXvjO1KrshfssFUPsdDM79R7DOggYW3LbdUGDkAX6H5Q
+         wY68vjiPTrE8nGhUkh6h8Ds1n5cbCpSEFBvmlnfOBqyFZCelC33MlvROGrZEcaK3m0ds
+         MHQQNg5jynuyEPBcqQXbvJqS/xvdSFeQP423uUMkN6G23ieB0S8RsLcGyWDAxhDVx1EK
+         CqOV5JEn41cxYh04kpfq5dZqmTP78riE2bOXcS/CPvffwV5flRG+93ketrmUAn/nZgPs
+         VaJ9ojdicHYq6bq86r9XeHViQwRbrAqV0GZHdrq99agW6W1eLfX25yydOGFCUucfl3FZ
+         1Y4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701328217; x=1701933017;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qnji0I3JgObq/fWIwro3G9ISvDwi5sdGVqwTpUKDhEI=;
+        b=onUVVHJdbbiyUNbJPX4ZjuYZ6Vki7hd85Mi5rBNslPCL0IsI/N2I/0nt3XaZjoCZqS
+         +DTeH3Hw5VlEOiN1Lf1eiFjQgFefiSAYc3Pjt8u0uBbvgdA+T+wBNNWvt1+ve3dCEf8W
+         nnDSifA9hEnK5X71NQQd6GJgB4yS5BCq4EWDvX8ruW5xgWDtpRVb/WanP8pK7ve36PM9
+         fuYPoHUOVO2dOz75Orvqnzka0Af4eUx5zbNA/MK8/JYoowcXhSrgagjoSXLjqIph80+A
+         kxn9zeWRsL9hGksVpERbjMkohyXIZ3cxPCNnjG6BoaT5/15GD21WvjKYfcqUkw4azDbk
+         znZg==
+X-Gm-Message-State: AOJu0YxNCJ4zwrrLEwjT4fWMmoIJBc5lKxirNqddADheJwBwBkag+hDl
+	fj4t1rlZyFdkBHzIrpKHHXrtmoOrYSqVFqoYn/g=
+X-Google-Smtp-Source: AGHT+IH/Jvj2OfG3Rg0ggXGKhks8Phw3XlDerxaVK/2WWK7J+c93psVfqzjj2pIu0ZF1soo3xEqrzQ==
+X-Received: by 2002:a05:600c:3b22:b0:407:5b54:bb10 with SMTP id m34-20020a05600c3b2200b004075b54bb10mr14633136wms.8.1701328217218;
+        Wed, 29 Nov 2023 23:10:17 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o18-20020a05600c4fd200b0040b45282f88sm4479058wmq.36.2023.11.29.23.10.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Nov 2023 23:10:16 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Thu, 30 Nov 2023 10:08:02 +0300
+To: oe-kbuild@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/010-soc 7/16] drivers/soc/apple/mailbox.c:290
+ apple_mbox_get() warn: passing zero to 'ERR_PTR'
+Message-ID: <32890a65-1144-46d0-9743-4a27221c7b64@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,94 +57,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/thunderbolt/tb_regs.h:190:32: sparse: sparse: typeof applied to bitfield type"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Gil Fine <gil.fine@intel.com>
-CC: Mika Westerberg <mika.westerberg@linux.intel.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3b47bc037bd44f142ac09848e8d3ecccc726be99
-commit: 6e21007d0f7e6723bb67e79aa3d0081419c403e8 thunderbolt: Identify USB4 v2 routers
-date:   6 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 6 months ago
-config: loongarch-randconfig-r034-20230511 (https://download.01.org/0day-ci/archive/20231130/202311301352.oZMsHF1B-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231130/202311301352.oZMsHF1B-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/010-soc
+head:   3d3347e62feacf57f15c7f20c0309c8dac65da44
+commit: 818b34e17da79772d796cfbe9cb923f2025af007 [7/16] mailbox: apple: Delete driver
+config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231130/202311300228.1rvmJjdA-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20231130/202311300228.1rvmJjdA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202311301352.oZMsHF1B-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311300228.1rvmJjdA-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/thunderbolt/tb.c: note: in included file (through drivers/thunderbolt/tb.h):
->> drivers/thunderbolt/tb_regs.h:190:32: sparse: sparse: typeof applied to bitfield type
---
-   drivers/thunderbolt/path.c: note: in included file (through drivers/thunderbolt/tb.h):
->> drivers/thunderbolt/tb_regs.h:190:32: sparse: sparse: typeof applied to bitfield type
---
-   drivers/thunderbolt/tunnel.c: note: in included file (through drivers/thunderbolt/tb.h, drivers/thunderbolt/tunnel.h):
->> drivers/thunderbolt/tb_regs.h:190:32: sparse: sparse: typeof applied to bitfield type
---
-   drivers/thunderbolt/eeprom.c: note: in included file (through drivers/thunderbolt/tb.h):
->> drivers/thunderbolt/tb_regs.h:190:32: sparse: sparse: typeof applied to bitfield type
---
-   drivers/thunderbolt/tmu.c: note: in included file (through drivers/thunderbolt/tb.h):
->> drivers/thunderbolt/tb_regs.h:190:32: sparse: sparse: typeof applied to bitfield type
---
-   drivers/thunderbolt/usb4.c: note: in included file (through drivers/thunderbolt/tb.h):
->> drivers/thunderbolt/tb_regs.h:190:32: sparse: sparse: typeof applied to bitfield type
---
-   drivers/thunderbolt/clx.c: note: in included file (through drivers/thunderbolt/tb.h):
->> drivers/thunderbolt/tb_regs.h:190:32: sparse: sparse: typeof applied to bitfield type
---
-   drivers/thunderbolt/debugfs.c: note: in included file (through drivers/thunderbolt/tb.h):
->> drivers/thunderbolt/tb_regs.h:190:32: sparse: sparse: typeof applied to bitfield type
+smatch warnings:
+drivers/soc/apple/mailbox.c:290 apple_mbox_get() warn: passing zero to 'ERR_PTR'
 
-vim +190 drivers/thunderbolt/tb_regs.h
+vim +/ERR_PTR +290 drivers/soc/apple/mailbox.c
 
-7adf60972c692b Andreas Noever  2014-06-03  164  
-7adf60972c692b Andreas Noever  2014-06-03  165  /* Present on port 0 in TB_CFG_SWITCH at address zero. */
-7adf60972c692b Andreas Noever  2014-06-03  166  struct tb_regs_switch_header {
-7adf60972c692b Andreas Noever  2014-06-03  167  	/* DWORD 0 */
-7adf60972c692b Andreas Noever  2014-06-03  168  	u16 vendor_id;
-7adf60972c692b Andreas Noever  2014-06-03  169  	u16 device_id;
-7adf60972c692b Andreas Noever  2014-06-03  170  	/* DWORD 1 */
-7adf60972c692b Andreas Noever  2014-06-03  171  	u32 first_cap_offset:8;
-7adf60972c692b Andreas Noever  2014-06-03  172  	u32 upstream_port_number:6;
-7adf60972c692b Andreas Noever  2014-06-03  173  	u32 max_port_number:6;
-7adf60972c692b Andreas Noever  2014-06-03  174  	u32 depth:3;
-7adf60972c692b Andreas Noever  2014-06-03  175  	u32 __unknown1:1;
-7adf60972c692b Andreas Noever  2014-06-03  176  	u32 revision:8;
-7adf60972c692b Andreas Noever  2014-06-03  177  	/* DWORD 2 */
-7adf60972c692b Andreas Noever  2014-06-03  178  	u32 route_lo;
-7adf60972c692b Andreas Noever  2014-06-03  179  	/* DWORD 3 */
-7adf60972c692b Andreas Noever  2014-06-03  180  	u32 route_hi:31;
-7adf60972c692b Andreas Noever  2014-06-03  181  	bool enabled:1;
-7adf60972c692b Andreas Noever  2014-06-03  182  	/* DWORD 4 */
-7adf60972c692b Andreas Noever  2014-06-03  183  	u32 plug_events_delay:8; /*
-7adf60972c692b Andreas Noever  2014-06-03  184  				  * RW, pause between plug events in
-7adf60972c692b Andreas Noever  2014-06-03  185  				  * milliseconds. Writing 0x00 is interpreted
-7adf60972c692b Andreas Noever  2014-06-03  186  				  * as 255ms.
-7adf60972c692b Andreas Noever  2014-06-03  187  				  */
-b04079837b2094 Mika Westerberg 2019-12-17  188  	u32 cmuv:8;
-b04079837b2094 Mika Westerberg 2019-12-17  189  	u32 __unknown4:8;
-7adf60972c692b Andreas Noever  2014-06-03 @190  	u32 thunderbolt_version:8;
-7adf60972c692b Andreas Noever  2014-06-03  191  } __packed;
-7adf60972c692b Andreas Noever  2014-06-03  192  
+b7bac953131b57 Hector Martin 2023-03-14  280  struct apple_mbox *apple_mbox_get(struct device *dev, int index)
+b7bac953131b57 Hector Martin 2023-03-14  281  {
+b7bac953131b57 Hector Martin 2023-03-14  282  	struct of_phandle_args args;
+b7bac953131b57 Hector Martin 2023-03-14  283  	struct platform_device *pdev;
+b7bac953131b57 Hector Martin 2023-03-14  284  	struct apple_mbox *mbox;
+b7bac953131b57 Hector Martin 2023-03-14  285  	int ret;
+b7bac953131b57 Hector Martin 2023-03-14  286  
+b7bac953131b57 Hector Martin 2023-03-14  287  	ret = of_parse_phandle_with_args(dev->of_node, "mboxes", "#mbox-cells",
+b7bac953131b57 Hector Martin 2023-03-14  288  					 index, &args);
+b7bac953131b57 Hector Martin 2023-03-14  289  	if (ret || !args.np)
+b7bac953131b57 Hector Martin 2023-03-14 @290  		return ERR_PTR(ret);
 
-:::::: The code at line 190 was first introduced by commit
-:::::: 7adf60972c692b0b3d0958cd7322e22a67187111 thunderbolt: Add tb_regs.h
+We probably want to set an error code in the !args.np case.
 
-:::::: TO: Andreas Noever <andreas.noever@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+b7bac953131b57 Hector Martin 2023-03-14  291  
+b7bac953131b57 Hector Martin 2023-03-14  292  	pdev = of_find_device_by_node(args.np);
+b7bac953131b57 Hector Martin 2023-03-14  293  	of_node_put(args.np);
+b7bac953131b57 Hector Martin 2023-03-14  294  
+b7bac953131b57 Hector Martin 2023-03-14  295  	if (!pdev)
+b7bac953131b57 Hector Martin 2023-03-14  296  		return ERR_PTR(EPROBE_DEFER);
+b7bac953131b57 Hector Martin 2023-03-14  297  
+b7bac953131b57 Hector Martin 2023-03-14  298  	mbox = platform_get_drvdata(pdev);
+b7bac953131b57 Hector Martin 2023-03-14  299  	if (!mbox)
+b7bac953131b57 Hector Martin 2023-03-14  300  		return ERR_PTR(EPROBE_DEFER);
+b7bac953131b57 Hector Martin 2023-03-14  301  
+b7bac953131b57 Hector Martin 2023-03-14  302  	if (!device_link_add(dev, &pdev->dev, DL_FLAG_AUTOREMOVE_CONSUMER))
+b7bac953131b57 Hector Martin 2023-03-14  303  		return ERR_PTR(ENODEV);
+b7bac953131b57 Hector Martin 2023-03-14  304  
+b7bac953131b57 Hector Martin 2023-03-14  305  	return mbox;
+b7bac953131b57 Hector Martin 2023-03-14  306  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
