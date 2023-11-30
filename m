@@ -1,64 +1,47 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE0048CE0
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Nov 2023 14:22:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C228E51C2E
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Nov 2023 14:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iniU7RSn"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2c9bbb30c34so12739631fa.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 30 Nov 2023 06:22:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701354145; x=1701958945; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bcqtO67BQ7Ejh6P/8TpQ51iGSACoSyE1ViV0XdGtiv4=;
-        b=iniU7RSnqNMXqyzK8WKoorq3x5pOe1PyUGYFJIFCkPMyxK24GRQ/xgAvo96LQZvzqu
-         dvhq+Y8RcgmVT+tJ3f9Gr8T6ujzJsvKI6oqDKxyBgtMG/T0DfRcGdnWy8gTtL/6843Cu
-         62G9T+Vrc4YNb+2WZBtxLIS729P0fUUcl75IP2UFLgC2RrvK+hG69YCDO0HjcxOHP2T1
-         l3R+nPV7H1UryxKi+oun1HHo2uCZcwCZNZDoHBGxvXiVVnuox8P34ssQz3bhh3Egm5qK
-         IRbYQU/C1Ka6s2L2GGZwID1RAvJ4kl5qqrqrNo6ptVopXI034fVHyvChmtF36t1wFoIe
-         fLOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701354145; x=1701958945;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bcqtO67BQ7Ejh6P/8TpQ51iGSACoSyE1ViV0XdGtiv4=;
-        b=vGYp/cElR0Zs901VYaCMw3J9keTRe0xj9U99gUVCmciOSRIPnQZJbCo0xfUayC6gr0
-         kaA6jZv5ZBVCGW3z8FyPOscFRo41fdADtl4KKY5z8mhJ28l6od/Qj80whhK6wakGcihW
-         zRUupzRIgWZUSKEuqZNOkaXFUnNyS5PsESRr3JT6uYq+jW3bvYYuW6el40GgWJ/OtVd1
-         n8I/K8ydSdGQkM7lcnpn6KSPRl4/FMTcbNB8KlyA8kRJWS+dmh6tGO9D6IJ4feLTzzNa
-         pbhh6INZxXmd9CbFxsXpHZSpVBrrNh2wbfOd9wCzJ/ITycolGVx1XMGUmc+SFlRpN35s
-         bCIw==
-X-Gm-Message-State: AOJu0YwFIH2Kj0txDlv/dqos7CpugI+EvHzj5trZ1PJ4vpdDFvjqOu2G
-	g9r+Z7B59QO4tuNgrpWF21ASrCjjqGCcIcIrdNk=
-X-Google-Smtp-Source: AGHT+IHK7509e2Z3egW/4opgwXQcb3Zrcg7N42KnHWmFyH0mSn++oWBJd1dPqEE/drzGHSJpGBYYkw==
-X-Received: by 2002:a2e:9244:0:b0:2c9:bb10:5802 with SMTP id v4-20020a2e9244000000b002c9bb105802mr4689004ljg.19.1701354145305;
-        Thu, 30 Nov 2023 06:22:25 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id g16-20020a05600c4ed000b0040b47c53610sm2187975wmq.14.2023.11.30.06.22.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 06:22:24 -0800 (PST)
-From: Dan Carpenter <dan.carpenter@linaro.org>
-X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Thu, 30 Nov 2023 17:22:20 +0300
-To: oe-kbuild@lists.linux.dev,
-	Anjelique Melendez <quic_amelende@quicinc.com>, pavel@ucw.cz,
-	lee@kernel.org, thierry.reding@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	agross@kernel.org, andersson@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, luca.weiss@fairphone.com,
-	konrad.dybcio@linaro.org, u.kleine-koenig@pengutronix.de,
-	quic_subbaram@quicinc.com, quic_gurus@quicinc.com,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: Re: [PATCH v7 4/7] leds: rgb: leds-qcom-lpg: Add support for PPG
- through single SDAM
-Message-ID: <17a8a637-3477-41fe-959f-7784cf6d6b2e@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UaJAuMfR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701356364; x=1732892364;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UFlFsqWuiHra6yNao3Y7lDmTMnBx+3pGx+9I/uhQalY=;
+  b=UaJAuMfRMOzouy4FvuW79DZBIrNBxE5fxlfaJHmKrYUcRZnDT0UEAr10
+   4FF3ADOtL5VjxFi5Gl+YiJGEqUpY1ttf2BS27YAj8pm+V2Lc86bJ0RZ1F
+   Xk+fZ275pcKPhzih60ScE/PQ2mQWqYCvlDY3T928+ZXFGQj0YkBYOQ4wI
+   67E9GslBuFOgS2vdROrydFQSGEebLYalDxIhlZM4iANskanT2oOC4Laol
+   tGM0zApJxeWiyrHlpzeHVF6TO7A1YphBQOzzoREH+8TvCPy7hWWJZXk5A
+   Jl+Sp6mTcVASySp8aY9fNN54j3sOe0ckdzV2dZhFiobP07zA35k8iKpX5
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="393075927"
+X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
+   d="scan'208";a="393075927"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 06:59:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="769337104"
+X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
+   d="scan'208";a="769337104"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 30 Nov 2023 06:59:22 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r8iVa-000295-2T;
+	Thu, 30 Nov 2023 14:59:19 +0000
+Date: Thu, 30 Nov 2023 22:58:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [paulmck-rcu:dev.2023.10.11a 7/28]
+ kernel/locking/locktorture.c:127:23: sparse: sparse: symbol
+ 'call_rcu_chain_list' was not declared. Should it be static?
+Message-ID: <202311302248.667zLxFb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,206 +50,65 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231130013615.14287-5-quic_amelende@quicinc.com>
 
-Hi Anjelique,
+:::::: 
+:::::: Manual check reason: "commit 5fabbc8a9e4cdf1b4d747c24f8fb87917f8bcc0f was found in branch paulmck-rcu/dev.2023.10.11a, not in new branch paulmck-rcu/dev.2023.11.03a"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: "Paul E. McKenney" <paulmck@kernel.org>
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Hi Paul,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anjelique-Melendez/dt-bindings-soc-qcom-Add-qcom-pbs-bindings/20231130-094701
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20231130013615.14287-5-quic_amelende%40quicinc.com
-patch subject: [PATCH v7 4/7] leds: rgb: leds-qcom-lpg: Add support for PPG through single SDAM
-config: csky-randconfig-r071-20231130 (https://download.01.org/0day-ci/archive/20231130/202311302200.RcTP9m0Y-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231130/202311302200.RcTP9m0Y-lkp@intel.com/reproduce)
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.10.11a
+head:   e8cc1332908682b309968c50157c6b272a0cafae
+commit: 5fabbc8a9e4cdf1b4d747c24f8fb87917f8bcc0f [7/28] locktorture: Increase Hamming distance between call_rcu_chain and rcu_call_chains
+:::::: branch date: 3 weeks ago
+:::::: commit date: 7 weeks ago
+config: i386-randconfig-063-20231013 (https://download.01.org/0day-ci/archive/20231130/202311302248.667zLxFb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311302248.667zLxFb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311302200.RcTP9m0Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311302248.667zLxFb-lkp@intel.com/
 
-smatch warnings:
-drivers/leds/rgb/leds-qcom-lpg.c:1055 lpg_pattern_set() error: uninitialized symbol 'lo_pause'.
-drivers/leds/rgb/leds-qcom-lpg.c:1056 lpg_pattern_set() error: uninitialized symbol 'hi_pause'.
+sparse warnings: (new ones prefixed by >>)
+>> kernel/locking/locktorture.c:127:23: sparse: sparse: symbol 'call_rcu_chain_list' was not declared. Should it be static?
+   kernel/locking/locktorture.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   kernel/locking/locktorture.c:496:12: sparse: sparse: context imbalance in 'torture_mutex_lock' - wrong count at exit
+   kernel/locking/locktorture.c:512:13: sparse: sparse: context imbalance in 'torture_mutex_unlock' - wrong count at exit
+   kernel/locking/locktorture.c:570:12: sparse: sparse: context imbalance in 'torture_ww_mutex_lock' - wrong count at exit
+   kernel/locking/locktorture.c: note: in included file:
+   include/linux/ww_mutex.h:191:9: sparse: sparse: context imbalance in 'torture_ww_mutex_unlock' - wrong count at exit
+   kernel/locking/locktorture.c:665:12: sparse: sparse: context imbalance in 'torture_rtmutex_lock' - wrong count at exit
+   kernel/locking/locktorture.c:689:13: sparse: sparse: context imbalance in 'torture_rtmutex_unlock' - wrong count at exit
+   kernel/locking/locktorture.c:729:12: sparse: sparse: context imbalance in 'torture_rwsem_down_write' - wrong count at exit
+   kernel/locking/locktorture.c:745:13: sparse: sparse: context imbalance in 'torture_rwsem_up_write' - wrong count at exit
+   kernel/locking/locktorture.c:751:12: sparse: sparse: context imbalance in 'torture_rwsem_down_read' - wrong count at exit
+   kernel/locking/locktorture.c:769:13: sparse: sparse: context imbalance in 'torture_rwsem_up_read' - wrong count at exit
+   kernel/locking/locktorture.c:799:12: sparse: sparse: context imbalance in 'torture_percpu_rwsem_down_write' - wrong count at exit
+   kernel/locking/locktorture.c:806:13: sparse: sparse: context imbalance in 'torture_percpu_rwsem_up_write' - wrong count at exit
+   kernel/locking/locktorture.c: note: in included file:
+   include/linux/percpu-rwsem.h:70:9: sparse: sparse: context imbalance in 'torture_percpu_rwsem_down_read' - wrong count at exit
+   include/linux/percpu-rwsem.h:121:9: sparse: sparse: context imbalance in 'torture_percpu_rwsem_up_read' - wrong count at exit
 
-vim +/lo_pause +1055 drivers/leds/rgb/leds-qcom-lpg.c
+vim +/call_rcu_chain_list +127 kernel/locking/locktorture.c
 
-e98a860f65428a Bjorn Andersson    2022-05-23   904  static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *led_pattern,
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   905  			   u32 len, int repeat)
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   906  {
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   907  	struct lpg_channel *chan;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   908  	struct lpg *lpg = led->lpg;
-e98a860f65428a Bjorn Andersson    2022-05-23   909  	struct led_pattern *pattern;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   910  	unsigned int brightness_a;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   911  	unsigned int brightness_b;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   912  	unsigned int actual_len;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   913  	unsigned int hi_pause;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   914  	unsigned int lo_pause;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   915  	unsigned int delta_t;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   916  	unsigned int lo_idx;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   917  	unsigned int hi_idx;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   918  	unsigned int i;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   919  	bool ping_pong = true;
-e98a860f65428a Bjorn Andersson    2022-05-23   920  	int ret = -EINVAL;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   921  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   922  	/* Hardware only support oneshot or indefinite loops */
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   923  	if (repeat != -1 && repeat != 1)
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   924  		return -EINVAL;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   925  
-e98a860f65428a Bjorn Andersson    2022-05-23   926  	/*
-e98a860f65428a Bjorn Andersson    2022-05-23   927  	 * The standardized leds-trigger-pattern format defines that the
-e98a860f65428a Bjorn Andersson    2022-05-23   928  	 * brightness of the LED follows a linear transition from one entry
-e98a860f65428a Bjorn Andersson    2022-05-23   929  	 * in the pattern to the next, over the given delta_t time. It
-e98a860f65428a Bjorn Andersson    2022-05-23   930  	 * describes that the way to perform instant transitions a zero-length
-e98a860f65428a Bjorn Andersson    2022-05-23   931  	 * entry should be added following a pattern entry.
-e98a860f65428a Bjorn Andersson    2022-05-23   932  	 *
-e98a860f65428a Bjorn Andersson    2022-05-23   933  	 * The LPG hardware is only able to perform the latter (no linear
-e98a860f65428a Bjorn Andersson    2022-05-23   934  	 * transitions), so require each entry in the pattern to be followed by
-e98a860f65428a Bjorn Andersson    2022-05-23   935  	 * a zero-length transition.
-e98a860f65428a Bjorn Andersson    2022-05-23   936  	 */
-e98a860f65428a Bjorn Andersson    2022-05-23   937  	if (len % 2)
-e98a860f65428a Bjorn Andersson    2022-05-23   938  		return -EINVAL;
-e98a860f65428a Bjorn Andersson    2022-05-23   939  
-e98a860f65428a Bjorn Andersson    2022-05-23   940  	pattern = kcalloc(len / 2, sizeof(*pattern), GFP_KERNEL);
-e98a860f65428a Bjorn Andersson    2022-05-23   941  	if (!pattern)
-e98a860f65428a Bjorn Andersson    2022-05-23   942  		return -ENOMEM;
-e98a860f65428a Bjorn Andersson    2022-05-23   943  
-e98a860f65428a Bjorn Andersson    2022-05-23   944  	for (i = 0; i < len; i += 2) {
-e98a860f65428a Bjorn Andersson    2022-05-23   945  		if (led_pattern[i].brightness != led_pattern[i + 1].brightness)
-e98a860f65428a Bjorn Andersson    2022-05-23   946  			goto out_free_pattern;
-e98a860f65428a Bjorn Andersson    2022-05-23   947  		if (led_pattern[i + 1].delta_t != 0)
-e98a860f65428a Bjorn Andersson    2022-05-23   948  			goto out_free_pattern;
-e98a860f65428a Bjorn Andersson    2022-05-23   949  
-e98a860f65428a Bjorn Andersson    2022-05-23   950  		pattern[i / 2].brightness = led_pattern[i].brightness;
-e98a860f65428a Bjorn Andersson    2022-05-23   951  		pattern[i / 2].delta_t = led_pattern[i].delta_t;
-e98a860f65428a Bjorn Andersson    2022-05-23   952  	}
-e98a860f65428a Bjorn Andersson    2022-05-23   953  
-e98a860f65428a Bjorn Andersson    2022-05-23   954  	len /= 2;
-e98a860f65428a Bjorn Andersson    2022-05-23   955  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   956  	/*
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   957  	 * Specifying a pattern of length 1 causes the hardware to iterate
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   958  	 * through the entire LUT, so prohibit this.
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   959  	 */
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   960  	if (len < 2)
-e98a860f65428a Bjorn Andersson    2022-05-23   961  		goto out_free_pattern;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   962  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   963  	/*
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   964  	 * The LPG plays patterns with at a fixed pace, a "low pause" can be
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   965  	 * used to stretch the first delay of the pattern and a "high pause"
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   966  	 * the last one.
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   967  	 *
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   968  	 * In order to save space the pattern can be played in "ping pong"
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   969  	 * mode, in which the pattern is first played forward, then "high
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   970  	 * pause" is applied, then the pattern is played backwards and finally
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   971  	 * the "low pause" is applied.
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   972  	 *
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   973  	 * The middle elements of the pattern are used to determine delta_t and
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   974  	 * the "low pause" and "high pause" multipliers are derrived from this.
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   975  	 *
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   976  	 * The first element in the pattern is used to determine "low pause".
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   977  	 *
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   978  	 * If the specified pattern is a palindrome the ping pong mode is
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   979  	 * enabled. In this scenario the delta_t of the middle entry (i.e. the
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   980  	 * last in the programmed pattern) determines the "high pause".
-05c1d2a258599b Anjelique Melendez 2023-11-29   981  	 *
-05c1d2a258599b Anjelique Melendez 2023-11-29   982  	 * SDAM-based devices do not support "ping-pong", "low pause" or "high pause"
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   983  	 */
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   984  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   985  	/* Detect palindromes and use "ping pong" to reduce LUT usage */
-05c1d2a258599b Anjelique Melendez 2023-11-29   986  	if (lpg->lut_base) {
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   987  		for (i = 0; i < len / 2; i++) {
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   988  			brightness_a = pattern[i].brightness;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   989  			brightness_b = pattern[len - i - 1].brightness;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   990  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   991  			if (brightness_a != brightness_b) {
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   992  				ping_pong = false;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   993  				break;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   994  			}
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   995  		}
-05c1d2a258599b Anjelique Melendez 2023-11-29   996  	} else
-05c1d2a258599b Anjelique Melendez 2023-11-29   997  		ping_pong = false;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   998  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03   999  	/* The pattern length to be written to the LUT */
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1000  	if (ping_pong)
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1001  		actual_len = (len + 1) / 2;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1002  	else
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1003  		actual_len = len;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1004  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1005  	/*
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1006  	 * Validate that all delta_t in the pattern are the same, with the
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1007  	 * exception of the middle element in case of ping_pong.
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1008  	 */
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1009  	delta_t = pattern[1].delta_t;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1010  	for (i = 2; i < len; i++) {
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1011  		if (pattern[i].delta_t != delta_t) {
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1012  			/*
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1013  			 * Allow last entry in the full or shortened pattern to
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1014  			 * specify hi pause. Reject other variations.
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1015  			 */
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1016  			if (i != actual_len - 1)
-e98a860f65428a Bjorn Andersson    2022-05-23  1017  				goto out_free_pattern;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1018  		}
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1019  	}
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1020  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1021  	/* LPG_RAMP_DURATION_REG is a 9bit */
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1022  	if (delta_t >= BIT(9))
-e98a860f65428a Bjorn Andersson    2022-05-23  1023  		goto out_free_pattern;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1024  
-05c1d2a258599b Anjelique Melendez 2023-11-29  1025  	/*
-05c1d2a258599b Anjelique Melendez 2023-11-29  1026  	 * Find "low pause" and "high pause" in the pattern in the LUT case.
-05c1d2a258599b Anjelique Melendez 2023-11-29  1027  	 * SDAM-based devices require equal duration of all steps
-05c1d2a258599b Anjelique Melendez 2023-11-29  1028  	 */
-05c1d2a258599b Anjelique Melendez 2023-11-29  1029  	if (lpg->lut_base) {
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1030  		lo_pause = pattern[0].delta_t;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1031  		hi_pause = pattern[actual_len - 1].delta_t;
-05c1d2a258599b Anjelique Melendez 2023-11-29  1032  	} else {
-05c1d2a258599b Anjelique Melendez 2023-11-29  1033  		if (delta_t != pattern[0].delta_t || delta_t != pattern[actual_len - 1].delta_t)
-05c1d2a258599b Anjelique Melendez 2023-11-29  1034  			goto out_free_pattern;
-
-lo_pause and hi_pause are not set on this else path
-
-05c1d2a258599b Anjelique Melendez 2023-11-29  1035  	}
-05c1d2a258599b Anjelique Melendez 2023-11-29  1036  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1037  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1038  	mutex_lock(&lpg->lock);
-05c1d2a258599b Anjelique Melendez 2023-11-29  1039  
-05c1d2a258599b Anjelique Melendez 2023-11-29  1040  	if (lpg->lut_base)
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1041  		ret = lpg_lut_store(lpg, pattern, actual_len, &lo_idx, &hi_idx);
-05c1d2a258599b Anjelique Melendez 2023-11-29  1042  	else
-05c1d2a258599b Anjelique Melendez 2023-11-29  1043  		ret = lpg_lut_store_sdam(lpg, pattern, actual_len, &lo_idx, &hi_idx);
-05c1d2a258599b Anjelique Melendez 2023-11-29  1044  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1045  	if (ret < 0)
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1046  		goto out_unlock;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1047  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1048  	for (i = 0; i < led->num_channels; i++) {
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1049  		chan = led->channels[i];
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1050  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1051  		chan->ramp_tick_ms = delta_t;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1052  		chan->ramp_ping_pong = ping_pong;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1053  		chan->ramp_oneshot = repeat != -1;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1054  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03 @1055  		chan->ramp_lo_pause_ms = lo_pause;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03 @1056  		chan->ramp_hi_pause_ms = hi_pause;
-                                                                                         ^^^^^^^^
-
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1057  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1058  		chan->pattern_lo_idx = lo_idx;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1059  		chan->pattern_hi_idx = hi_idx;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1060  	}
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1061  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1062  out_unlock:
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1063  	mutex_unlock(&lpg->lock);
-e98a860f65428a Bjorn Andersson    2022-05-23  1064  out_free_pattern:
-e98a860f65428a Bjorn Andersson    2022-05-23  1065  	kfree(pattern);
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1066  
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1067  	return ret;
-24e2d05d1b6898 Bjorn Andersson    2022-03-03  1068  }
+0af3fe1efa534a4 Paul E. McKenney 2014-02-04  122  
+7f993623e9ebcd6 Paul E. McKenney 2023-08-21  123  struct call_rcu_chain {
+7f993623e9ebcd6 Paul E. McKenney 2023-08-21  124  	struct rcu_head crc_rh;
+7f993623e9ebcd6 Paul E. McKenney 2023-08-21  125  	bool crc_stop;
+7f993623e9ebcd6 Paul E. McKenney 2023-08-21  126  };
+5fabbc8a9e4cdf1 Paul E. McKenney 2023-10-10 @127  struct call_rcu_chain *call_rcu_chain_list;
+7f993623e9ebcd6 Paul E. McKenney 2023-08-21  128  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
