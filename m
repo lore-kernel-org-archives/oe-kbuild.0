@@ -1,167 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC73858AB1
-	for <oe-kbuild@lists.linux.dev>; Fri,  1 Dec 2023 20:41:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA521BDC7
+	for <oe-kbuild@lists.linux.dev>; Fri,  1 Dec 2023 20:51:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SBlDo4O5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eNGA6fCP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701463264; x=1732999264;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5PX638DObiz7lNHQXFtQSmxa1Ym/ezWWN85j40SZc7c=;
-  b=SBlDo4O5pdsfNOqMpCNAAIlTEuNA+6WxtRN54abP9CF4rTDb4Hrwa4/P
-   lgFv6cA0gZoS7ewm75OfVnWJgbn0a24AN8dQmeyaQdLuTnm95t71ZcAXQ
-   WgenZy9qDTpVlsIE6YecnyfawoYNvwUrMVPiNrDvjppDaMczuHvOKOKUK
-   jbGrdfZNQKJfWg/B8fmdkWfk9Ckv4xgHdRJ1WbYJ6EdSfHVUvO7c7Fg2R
-   b+y3rmQsno23ksmRBqEFV3411/yNF1TDHQhwzsKoJ+qmePN/nwInVBqyn
-   mcF0nNC6eh8ooC/c1dJ+O9kPsXvq9/FJgtbasztEpiFHwN3ubhzWWYo7K
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="396352653"
+  t=1701463864; x=1732999864;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xtfuDQUIwH5wmGkWKOGPHRrLtCwkJNI4GPKe5HeodrA=;
+  b=eNGA6fCPFC16/fxoYz2QqYFOUqMYm3Tm0Sj44TULjvAmPAqZDr1RJHgS
+   mAVPuywjY348NO4/VQDTABEsR5eRVsiEcW9p3aS8WIA9WU72oRBDqimGT
+   ik+rmYgsvvahW+NSr4HeK0yO8V01wYceTXU28nEZmSyq9sD4XXh9PlY0V
+   sfbxfk+BFUAaGvEoVHLdD9rXES9QQf0dXCKfzKPQBFehp6zXosp7+OU+6
+   hN0vGFr9Xm8CNCNOXB3jyyBNzHfi8WEpQINtqIW5DfpJkZDFywE7dCVBs
+   Jut9Z7r9r86UsBMwBQRk36gVJ8hP9KW31hu72S9SuL6XMWt5OafAC+e3p
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="460042914"
 X-IronPort-AV: E=Sophos;i="6.04,242,1695711600"; 
-   d="scan'208";a="396352653"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 12:41:03 -0800
+   d="scan'208";a="460042914"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 12:51:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="804183212"
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="840306551"
 X-IronPort-AV: E=Sophos;i="6.04,242,1695711600"; 
-   d="scan'208";a="804183212"
+   d="scan'208";a="840306551"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 01 Dec 2023 12:41:01 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 01 Dec 2023 12:51:02 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r9AJn-0004Gj-1o;
-	Fri, 01 Dec 2023 20:40:59 +0000
-Date: Sat, 2 Dec 2023 04:40:00 +0800
+	id 1r9ATT-0004HM-2u;
+	Fri, 01 Dec 2023 20:50:59 +0000
+Date: Sat, 2 Dec 2023 04:50:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/ttm/ttm_bo.c:686 ttm_mem_evict_first() warn:
- inconsistent returns '&bdev->lru_lock'.
-Message-ID: <202312020406.zMldj9Qx-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arc/plat-axs10x/axs10x.c:382:6: sparse: sparse: symbol
+ 'coware_swa_pid_offset' was not declared. Should it be static?
+Message-ID: <202312020444.TVaqgtVQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "only Makefile file changed"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Christian König" <christian.koenig@amd.com>
-CC: Colin Ian King <colin.king@canonical.com>
+TO: Masahiro Yamada <masahiroy@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   994d5c58e50e91bb02c7be4a91d5186292a895c8
-commit: 58442f0db3f89b7e77113295c72ac0672f74f92a drm/ttm: fix invalid NULL deref
-date:   2 years, 8 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 2 years, 8 months ago
-config: i386-randconfig-141-20231105 (https://download.01.org/0day-ci/archive/20231202/202312020406.zMldj9Qx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231202/202312020406.zMldj9Qx-lkp@intel.com/reproduce)
+commit: b1fbfcb4a20949df08dd995927cdc5ad220c128d kbuild: make single target builds even faster
+date:   4 years ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 4 years ago
+config: arc-randconfig-r111-20231107 (https://download.01.org/0day-ci/archive/20231202/202312020444.TVaqgtVQ-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231202/202312020444.TVaqgtVQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312020406.zMldj9Qx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312020444.TVaqgtVQ-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/ttm/ttm_bo.c:686 ttm_mem_evict_first() warn: inconsistent returns '&bdev->lru_lock'.
+sparse warnings: (new ones prefixed by >>)
+   arch/arc/plat-axs10x/axs10x.c:313:35: sparse: sparse: undefined identifier '__builtin_arc_lr'
+>> arch/arc/plat-axs10x/axs10x.c:382:6: sparse: sparse: symbol 'coware_swa_pid_offset' was not declared. Should it be static?
+>> arch/arc/plat-axs10x/axs10x.c:383:6: sparse: sparse: symbol 'coware_swa_comm_offset' was not declared. Should it be static?
+--
+>> arch/arc/plat-hsdk/platform.c:16:5: sparse: sparse: symbol 'arc_hsdk_axi_dmac_coherent' was not declared. Should it be static?
+   arch/arc/plat-hsdk/platform.c:27:17: sparse: sparse: undefined identifier '__builtin_arc_sr'
+   arch/arc/plat-hsdk/platform.c:34:17: sparse: sparse: undefined identifier '__builtin_arc_sr'
+--
+   kernel/signal.c:1245:9: sparse: sparse: no member 'ip' in struct pt_regs
+   kernel/signal.c:1251:29: sparse: sparse: no member 'ip' in struct pt_regs
+   kernel/signal.c:1251:29: sparse: sparse: cast from unknown type
+   kernel/signal.c:1251:29: sparse: sparse: no member 'ip' in struct pt_regs
+   kernel/signal.c:1251:29: sparse: sparse: cast from unknown type
+   kernel/signal.c:1251:29: sparse: sparse: cannot dereference this type
+>> kernel/signal.c:1251:29: sparse: sparse: non-scalar type in conditional:
+>> kernel/signal.c:1251:29: sparse:    void
+   kernel/signal.c:1370:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/signal.c:1370:27: sparse:    struct sighand_struct [noderef] <asn:4> *
+   kernel/signal.c:1370:27: sparse:    struct sighand_struct *
+   kernel/signal.c:1948:65: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] <asn:4> *parent @@
+   kernel/signal.c:1948:65: sparse:     expected struct task_struct *tsk
+   kernel/signal.c:1948:65: sparse:     got struct task_struct [noderef] <asn:4> *parent
+   kernel/signal.c:1949:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *p @@     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> * @@
+   kernel/signal.c:1949:40: sparse:     expected void const volatile *p
+   kernel/signal.c:1949:40: sparse:     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> *
+   kernel/signal.c:1949:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *p @@     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> * @@
+   kernel/signal.c:1949:40: sparse:     expected void const volatile *p
+   kernel/signal.c:1949:40: sparse:     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> *
+   kernel/signal.c:1992:54: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] <asn:4> *parent @@
+   kernel/signal.c:1992:54: sparse:     expected struct task_struct *p
+   kernel/signal.c:1992:54: sparse:     got struct task_struct [noderef] <asn:4> *parent
+   kernel/signal.c:1993:34: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] <asn:4> *parent @@
+   kernel/signal.c:1993:34: sparse:     expected struct task_struct *parent
+   kernel/signal.c:1993:34: sparse:     got struct task_struct [noderef] <asn:4> *parent
+   kernel/signal.c:2022:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] <asn:4> *parent @@
+   kernel/signal.c:2022:24: sparse:     expected struct task_struct *parent
+   kernel/signal.c:2022:24: sparse:     got struct task_struct [noderef] <asn:4> *parent
+   kernel/signal.c:2025:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] <asn:4> *real_parent @@
+   kernel/signal.c:2025:24: sparse:     expected struct task_struct *parent
+   kernel/signal.c:2025:24: sparse:     got struct task_struct [noderef] <asn:4> *real_parent
+   kernel/signal.c:2506:52: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] <asn:4> *parent @@
+   kernel/signal.c:2506:52: sparse:     expected struct task_struct *tsk
+   kernel/signal.c:2506:52: sparse:     got struct task_struct [noderef] <asn:4> *parent
+   kernel/signal.c:2508:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *p @@     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> * @@
+   kernel/signal.c:2508:49: sparse:     expected void const volatile *p
+   kernel/signal.c:2508:49: sparse:     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> *
+   kernel/signal.c:2508:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *p @@     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> * @@
+   kernel/signal.c:2508:49: sparse:     expected void const volatile *p
+   kernel/signal.c:2508:49: sparse:     got struct cred const [noderef] <asn:4> *[noderef] <asn:4> *
+   kernel/signal.c:3676:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct siginfo const [noderef] [usertype] <asn:1> *from @@     got struct siginfo [usertype] *info @@
+   kernel/signal.c:3676:46: sparse:     expected struct siginfo const [noderef] [usertype] <asn:1> *from
+   kernel/signal.c:3676:46: sparse:     got struct siginfo [usertype] *info
+   kernel/signal.c:1289:9: sparse: sparse: context imbalance in 'do_send_sig_info' - different lock contexts for basic block
+   kernel/signal.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:649:9: sparse: sparse: context imbalance in '__lock_task_sighand' - different lock contexts for basic block
+   include/linux/rcupdate.h:651:9: sparse: sparse: context imbalance in 'send_sigqueue' - wrong count at exit
+   kernel/signal.c:1929:47: sparse: sparse: dereference of noderef expression
+   kernel/signal.c:1949:40: sparse: sparse: dereference of noderef expression
+   kernel/signal.c:1949:40: sparse: sparse: dereference of noderef expression
+   kernel/signal.c:1949:40: sparse: sparse: dereference of noderef expression
+   kernel/signal.c:1949:40: sparse: sparse: dereference of noderef expression
+   kernel/signal.c:1967:19: sparse: sparse: dereference of noderef expression
+   kernel/signal.c:2088:13: sparse: sparse: dereference of noderef expression
+   kernel/signal.c: note: in included file (through include/uapi/asm-generic/bpf_perf_event.h, arch/arc/include/generated/uapi/asm/bpf_perf_event.h, ...):
+   include/linux/ptrace.h:99:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p1 @@     got struct task_struct [noderef] <asn:4> *real_parent @@
+   include/linux/ptrace.h:99:40: sparse:     expected struct task_struct *p1
+   include/linux/ptrace.h:99:40: sparse:     got struct task_struct [noderef] <asn:4> *real_parent
+   include/linux/ptrace.h:99:60: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p2 @@     got struct task_struct [noderef] <asn:4> *parent @@
+   include/linux/ptrace.h:99:60: sparse:     expected struct task_struct *p2
+   include/linux/ptrace.h:99:60: sparse:     got struct task_struct [noderef] <asn:4> *parent
+   kernel/signal.c:2299:13: sparse: sparse: context imbalance in 'do_signal_stop' - different lock contexts for basic block
+   kernel/signal.c:2508:49: sparse: sparse: dereference of noderef expression
+   kernel/signal.c:2508:49: sparse: sparse: dereference of noderef expression
+   kernel/signal.c:2508:49: sparse: sparse: dereference of noderef expression
+   kernel/signal.c:2508:49: sparse: sparse: dereference of noderef expression
+   include/linux/ptrace.h:99:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p1 @@     got struct task_struct [noderef] <asn:4> *real_parent @@
+   include/linux/ptrace.h:99:40: sparse:     expected struct task_struct *p1
+   include/linux/ptrace.h:99:40: sparse:     got struct task_struct [noderef] <asn:4> *real_parent
+   include/linux/ptrace.h:99:60: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p2 @@     got struct task_struct [noderef] <asn:4> *parent @@
+   include/linux/ptrace.h:99:60: sparse:     expected struct task_struct *p2
+   include/linux/ptrace.h:99:60: sparse:     got struct task_struct [noderef] <asn:4> *parent
+   kernel/signal.c:2591:69: sparse: sparse: context imbalance in 'get_signal' - unexpected unlock
+   kernel/signal.c: note: in included file (through include/linux/uaccess.h, include/linux/sched/task.h):
+   arch/arc/include/asm/uaccess.h:619:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned char *d_char @@     got void [noderef] <asn:1> *to @@
+   arch/arc/include/asm/uaccess.h:619:33: sparse:     expected unsigned char *d_char
+   arch/arc/include/asm/uaccess.h:619:33: sparse:     got void [noderef] <asn:1> *to
+   kernel/signal.c:3736:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct siginfo [usertype] *info @@     got struct siginfo [noderef] [usertype] <asn:1> *info @@
+   kernel/signal.c:3736:58: sparse:     expected struct siginfo [usertype] *info
+   kernel/signal.c:3736:58: sparse:     got struct siginfo [noderef] [usertype] <asn:1> *info
 
-Old smatch warnings:
-drivers/gpu/drm/ttm/ttm_bo.c:195 ttm_bo_handle_move_mem() warn: missing unwind goto?
-drivers/gpu/drm/ttm/ttm_bo.c:672 ttm_mem_evict_first() warn: iterator used outside loop: 'bo'
+vim +/coware_swa_pid_offset +382 arch/arc/plat-axs10x/axs10x.c
 
-vim +686 drivers/gpu/drm/ttm/ttm_bo.c
+5fa2daaa8d8223 Vineet Gupta 2015-03-09  378  
+2924cd18c434c7 Ruud Derwig  2014-12-03  379  /*
+2924cd18c434c7 Ruud Derwig  2014-12-03  380   * For the VDK OS-kit, to get the offset to pid and command fields
+2924cd18c434c7 Ruud Derwig  2014-12-03  381   */
+2924cd18c434c7 Ruud Derwig  2014-12-03 @382  char coware_swa_pid_offset[TASK_PID];
+2924cd18c434c7 Ruud Derwig  2014-12-03 @383  char coware_swa_comm_offset[TASK_COMM];
+2924cd18c434c7 Ruud Derwig  2014-12-03  384  
 
-d367bd2a5e2b12c Christian König   2019-05-22  616  
-8af8a109b34fa88 Christian König   2020-10-01  617  int ttm_mem_evict_first(struct ttm_device *bdev,
-9de59bc201496f2 Dave Airlie       2020-08-04  618  			struct ttm_resource_manager *man,
-e300180f71037fd Michel Dänzer     2014-10-09  619  			const struct ttm_place *place,
-d367bd2a5e2b12c Christian König   2019-05-22  620  			struct ttm_operation_ctx *ctx,
-d367bd2a5e2b12c Christian König   2019-05-22  621  			struct ww_acquire_ctx *ticket)
-ba4e7d973dd09b6 Thomas Hellstrom  2009-06-10  622  {
-d367bd2a5e2b12c Christian König   2019-05-22  623  	struct ttm_buffer_object *bo = NULL, *busy_bo = NULL;
-6ba435812e0d85b Christian König   2017-11-08  624  	bool locked = false;
-cf6c467d67d319e Christian König   2017-01-10  625  	unsigned i;
-6ba435812e0d85b Christian König   2017-11-08  626  	int ret;
-ba4e7d973dd09b6 Thomas Hellstrom  2009-06-10  627  
-58442f0db3f89b7 Christian König   2021-03-25  628  	spin_lock(&bdev->lru_lock);
-cf6c467d67d319e Christian König   2017-01-10  629  	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
-cf6c467d67d319e Christian König   2017-01-10  630  		list_for_each_entry(bo, &man->lru[i], lru) {
-d367bd2a5e2b12c Christian König   2019-05-22  631  			bool busy;
-d367bd2a5e2b12c Christian König   2019-05-22  632  
-d367bd2a5e2b12c Christian König   2019-05-22  633  			if (!ttm_bo_evict_swapout_allowable(bo, ctx, &locked,
-d367bd2a5e2b12c Christian König   2019-05-22  634  							    &busy)) {
-0dbd555a011c2d0 Christian König   2019-07-31  635  				if (busy && !busy_bo && ticket !=
-52791eeec1d9f4a Christian König   2019-08-11  636  				    dma_resv_locking_ctx(bo->base.resv))
-d367bd2a5e2b12c Christian König   2019-05-22  637  					busy_bo = bo;
-6ba435812e0d85b Christian König   2017-11-08  638  				continue;
-d367bd2a5e2b12c Christian König   2019-05-22  639  			}
-a2ab19fed9d1dc5 Christian König   2016-08-30  640  
-8af8a109b34fa88 Christian König   2020-10-01  641  			if (place && !bdev->funcs->eviction_valuable(bo,
-cf6c467d67d319e Christian König   2017-01-10  642  								      place)) {
-6ba435812e0d85b Christian König   2017-11-08  643  				if (locked)
-52791eeec1d9f4a Christian König   2019-08-11  644  					dma_resv_unlock(bo->base.resv);
-e300180f71037fd Michel Dänzer     2014-10-09  645  				continue;
-e300180f71037fd Michel Dänzer     2014-10-09  646  			}
-1ec39923ef24f55 Christian König   2019-11-11  647  			if (!ttm_bo_get_unless_zero(bo)) {
-1ec39923ef24f55 Christian König   2019-11-11  648  				if (locked)
-1ec39923ef24f55 Christian König   2019-11-11  649  					dma_resv_unlock(bo->base.resv);
-1ec39923ef24f55 Christian König   2019-11-11  650  				continue;
-1ec39923ef24f55 Christian König   2019-11-11  651  			}
-e7ab20197be3ee5 Maarten Lankhorst 2012-11-28  652  			break;
-e7ab20197be3ee5 Maarten Lankhorst 2012-11-28  653  		}
-e7ab20197be3ee5 Maarten Lankhorst 2012-11-28  654  
-6ba435812e0d85b Christian König   2017-11-08  655  		/* If the inner loop terminated early, we have our candidate */
-6ba435812e0d85b Christian König   2017-11-08  656  		if (&bo->lru != &man->lru[i])
-cf6c467d67d319e Christian König   2017-01-10  657  			break;
-6ba435812e0d85b Christian König   2017-11-08  658  
-6ba435812e0d85b Christian König   2017-11-08  659  		bo = NULL;
-cf6c467d67d319e Christian König   2017-01-10  660  	}
-cf6c467d67d319e Christian König   2017-01-10  661  
-6ba435812e0d85b Christian König   2017-11-08  662  	if (!bo) {
-1ec39923ef24f55 Christian König   2019-11-11  663  		if (busy_bo && !ttm_bo_get_unless_zero(busy_bo))
-1ec39923ef24f55 Christian König   2019-11-11  664  			busy_bo = NULL;
-58442f0db3f89b7 Christian König   2021-03-25  665  		spin_unlock(&bdev->lru_lock);
-d367bd2a5e2b12c Christian König   2019-05-22  666  		ret = ttm_mem_evict_wait_busy(busy_bo, ctx, ticket);
-d367bd2a5e2b12c Christian König   2019-05-22  667  		if (busy_bo)
-1ec39923ef24f55 Christian König   2019-11-11  668  			ttm_bo_put(busy_bo);
-d367bd2a5e2b12c Christian König   2019-05-22  669  		return ret;
-9c51ba1db37cab7 Thomas Hellstrom  2009-12-02  670  	}
-9c51ba1db37cab7 Thomas Hellstrom  2009-12-02  671  
-1ec39923ef24f55 Christian König   2019-11-11  672  	if (bo->deleted) {
-83876c1bed8c91e Christian König   2017-04-12  673  		ret = ttm_bo_cleanup_refs(bo, ctx->interruptible,
-83876c1bed8c91e Christian König   2017-04-12  674  					  ctx->no_wait_gpu, locked);
-1ec39923ef24f55 Christian König   2019-11-11  675  		ttm_bo_put(bo);
-ba4e7d973dd09b6 Thomas Hellstrom  2009-06-10  676  		return ret;
-9c51ba1db37cab7 Thomas Hellstrom  2009-12-02  677  	}
-9c51ba1db37cab7 Thomas Hellstrom  2009-12-02  678  
-58442f0db3f89b7 Christian König   2021-03-25  679  	spin_unlock(&bdev->lru_lock);
-9c51ba1db37cab7 Thomas Hellstrom  2009-12-02  680  
-83876c1bed8c91e Christian König   2017-04-12  681  	ret = ttm_bo_evict(bo, ctx);
-9165fb879f62a73 Christian König   2019-09-19  682  	if (locked)
-ca262a9998d4619 Jerome Glisse     2009-12-08  683  		ttm_bo_unreserve(bo);
-9c51ba1db37cab7 Thomas Hellstrom  2009-12-02  684  
-1ec39923ef24f55 Christian König   2019-11-11  685  	ttm_bo_put(bo);
-ca262a9998d4619 Jerome Glisse     2009-12-08 @686  	return ret;
-ca262a9998d4619 Jerome Glisse     2009-12-08  687  }
-ba4e7d973dd09b6 Thomas Hellstrom  2009-06-10  688  
+:::::: The code at line 382 was first introduced by commit
+:::::: 2924cd18c434c79ee777dc63616a8505045d7509 ARCv2: [vdk] dts files and defconfig for HS38 VDK
 
-:::::: The code at line 686 was first introduced by commit
-:::::: ca262a9998d46196750bb19a9dc4bd465b170ff7 drm/ttm: Rework validation & memory space allocation (V3)
-
-:::::: TO: Jerome Glisse <jglisse@redhat.com>
-:::::: CC: Dave Airlie <airlied@redhat.com>
+:::::: TO: Ruud Derwig <rderwig@synopsys.com>
+:::::: CC: Vineet Gupta <vgupta@synopsys.com>
 
 -- 
 0-DAY CI Kernel Test Service
