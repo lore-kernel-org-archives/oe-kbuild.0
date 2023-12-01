@@ -1,45 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668DB4EB57
-	for <oe-kbuild@lists.linux.dev>; Fri,  1 Dec 2023 18:16:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B9054FBB
+	for <oe-kbuild@lists.linux.dev>; Fri,  1 Dec 2023 20:10:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Smir3nM2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CjGPkBlv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701454603; x=1732990603;
+  t=1701461403; x=1732997403;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A/DxSO3BQucjAt7wwc7yDJfiUB4jStijMe6gUGtpjM0=;
-  b=Smir3nM2Ma/aLdnLTCOJ3x+RSj2qJzqqpyi/14tjH/64FTjpbbFq+n3P
-   KJRzJxZP16bmz0XtmsLdyiZumwU6j8X908Wa5VJksnHfifJFP9v8e8pAp
-   geo38716pxP7QL7I5xN0VyFxMKSr6lkspqwd1QIzoKp6H5zkyM6L2hWGQ
-   rpxcfD9WA56XR0C92me11S+Em5orBtYY/RDQOnXrbyTWfm+2/5mJWFp1h
-   Lu2mMaYVI0sWtZok57Q3AdPOeXX85DZkyoiNMc1OGYfsVKZ9LRzL8ObbV
-   xF5tNVwBGtQwHdOM9Hb1s4PThHQhzJpzFOSRsXHF7TNMObIv4iktNFGXj
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="6818502"
+  bh=KFOMRm1NMtfp+lmBetjX75w9qaRWjQ9RR00A/PZTMRA=;
+  b=CjGPkBlvEPEXv35w7PJPz9stRI1MQKiW1ff41QPVRPnQDdYR1mlgMHaI
+   xPjUtQ1HymWfwIwi7bx0tJGNviaG+vjuN9sC7LGEn0qoinEQZJHI+4vJX
+   UnTMkxjhOYd2pfeLf63Ws4LtXSt0Iu37GaQyPo+9bcId6Vz13lCg+IIkQ
+   nFeT7xlI1VocorThZtJH+6dm2LtiAKFtDO6S6VpEOvPQLNKwImoEQTfMw
+   2JD8K2/EXuU2r6IRpC1S5FuzUR0R4cLKLuOCtRRcZ8nlhnxAyUxyglzXN
+   TWG+yK76+hEew1+UZTRjs9n+cnmJnuWQfd3PDsrYJ9znJhelxAQl28agu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="397146"
 X-IronPort-AV: E=Sophos;i="6.04,242,1695711600"; 
-   d="scan'208";a="6818502"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 10:16:43 -0800
+   d="scan'208";a="397146"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 12:10:01 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="763246786"
 X-IronPort-AV: E=Sophos;i="6.04,242,1695711600"; 
-   d="scan'208";a="17844272"
+   d="scan'208";a="763246786"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 01 Dec 2023 10:16:41 -0800
+  by orsmga007.jf.intel.com with ESMTP; 01 Dec 2023 12:10:00 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r9846-00048K-0r;
-	Fri, 01 Dec 2023 18:16:38 +0000
-Date: Sat, 2 Dec 2023 02:15:43 +0800
+	id 1r99pm-0004FE-1E;
+	Fri, 01 Dec 2023 20:09:58 +0000
+Date: Sat, 2 Dec 2023 04:09:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/clocksource/arc_timer.c:171:17: sparse: sparse: cast from
- unknown type
-Message-ID: <202312020221.PC4PTB56-lkp@intel.com>
+Subject: [drm-xe:oak/drm-evictable-lru 2911/3055]
+ drivers/gpu/drm/i915/display/intel_display_power.h: linux/mutex.h is
+ included more than once.
+Message-ID: <202312020446.Ej5Bl61f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,71 +52,45 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/clocksource/arc_timer.c:171:17: sparse: sparse: cast from unknown type"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Vineet Gupta <vgupta@synopsys.com>
+CC: intel-xe@lists.freedesktop.org
+TO: Jani Nikula <jani.nikula@intel.com>
+CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   994d5c58e50e91bb02c7be4a91d5186292a895c8
-commit: c4c9a040ecb7297e011e579f5a9cc280e42d725f clocksource: import ARC timer driver
-date:   7 years ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 7 years ago
-config: arc-randconfig-r111-20231107 (https://download.01.org/0day-ci/archive/20231202/202312020221.PC4PTB56-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231202/202312020221.PC4PTB56-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git oak/drm-evictable-lru
+head:   d1f59526925ae851c6abf77af8ae6f8c3cffeebd
+commit: 304baa8c20cfad330a6c7cad47d86043e968642c [2911/3055] FIXME: drm/i915: add a lot of includes in intel_display_power.h
+:::::: branch date: 4 weeks ago
+:::::: commit date: 3 months ago
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231202/202312020446.Ej5Bl61f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312020221.PC4PTB56-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312020446.Ej5Bl61f-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/clocksource/arc_timer.c:67:13: sparse: sparse: undefined identifier '__builtin_arc_lr'
-   drivers/clocksource/arc_timer.c:70:13: sparse: sparse: undefined identifier '__builtin_arc_lr'
-   drivers/clocksource/arc_timer.c:90:9: sparse: sparse: undefined identifier '__builtin_arc_lr'
-   drivers/clocksource/arc_timer.c:120:21: sparse: sparse: undefined identifier '__builtin_arc_lr'
-   drivers/clocksource/arc_timer.c:121:21: sparse: sparse: undefined identifier '__builtin_arc_lr'
-   drivers/clocksource/arc_timer.c:122:26: sparse: sparse: undefined identifier '__builtin_arc_lr'
-   drivers/clocksource/arc_timer.c:141:9: sparse: sparse: undefined identifier '__builtin_arc_lr'
-   drivers/clocksource/arc_timer.c:157:9: sparse: sparse: undefined identifier '__builtin_arc_sr'
-   drivers/clocksource/arc_timer.c:171:26: sparse: sparse: undefined identifier '__builtin_arc_lr'
->> drivers/clocksource/arc_timer.c:171:17: sparse: sparse: cast from unknown type
-   drivers/clocksource/arc_timer.c:194:9: sparse: sparse: undefined identifier '__builtin_arc_sr'
-   drivers/clocksource/arc_timer.c:195:9: sparse: sparse: undefined identifier '__builtin_arc_sr'
-   drivers/clocksource/arc_timer.c:196:9: sparse: sparse: undefined identifier '__builtin_arc_sr'
-   drivers/clocksource/arc_timer.c:211:9: sparse: sparse: undefined identifier '__builtin_arc_sr'
-   drivers/clocksource/arc_timer.c:212:9: sparse: sparse: undefined identifier '__builtin_arc_sr'
-   drivers/clocksource/arc_timer.c:214:9: sparse: sparse: undefined identifier '__builtin_arc_sr'
-   drivers/clocksource/arc_timer.c:258:9: sparse: sparse: undefined identifier '__builtin_arc_sr'
-   drivers/clocksource/arc_timer.c:305:59: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void [noderef] <asn:3> *percpu_dev_id @@     got struct clock_event_device *evt @@
-   drivers/clocksource/arc_timer.c:305:59: sparse:     expected void [noderef] <asn:3> *percpu_dev_id
-   drivers/clocksource/arc_timer.c:305:59: sparse:     got struct clock_event_device *evt
-   drivers/clocksource/arc_timer.c: note: in included file:
-   include/soc/arc/mcip.h:88:9: sparse: sparse: undefined identifier '__builtin_arc_sr'
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/display/intel_display_power.h: linux/mutex.h is included more than once.
+>> drivers/gpu/drm/i915/display/intel_display_power.h: linux/workqueue.h is included more than once.
 
-vim +171 drivers/clocksource/arc_timer.c
+vim +9 drivers/gpu/drm/i915/display/intel_display_power.h
 
-e608b53ea863a92 arch/arc/kernel/time.c Vineet Gupta 2016-01-01  164  
-e608b53ea863a92 arch/arc/kernel/time.c Vineet Gupta 2016-01-01  165  /*
-e608b53ea863a92 arch/arc/kernel/time.c Vineet Gupta 2016-01-01  166   * 32bit TIMER1 to keep counting monotonically and wraparound
-e608b53ea863a92 arch/arc/kernel/time.c Vineet Gupta 2016-01-01  167   */
-d8005e6b95268cb arch/arc/kernel/time.c Vineet Gupta 2013-01-18  168  
-e608b53ea863a92 arch/arc/kernel/time.c Vineet Gupta 2016-01-01  169  static cycle_t arc_read_timer1(struct clocksource *cs)
-d8005e6b95268cb arch/arc/kernel/time.c Vineet Gupta 2013-01-18  170  {
-d8005e6b95268cb arch/arc/kernel/time.c Vineet Gupta 2013-01-18 @171  	return (cycle_t) read_aux_reg(ARC_REG_TIMER1_CNT);
-d8005e6b95268cb arch/arc/kernel/time.c Vineet Gupta 2013-01-18  172  }
-d8005e6b95268cb arch/arc/kernel/time.c Vineet Gupta 2013-01-18  173  
-
-:::::: The code at line 171 was first introduced by commit
-:::::: d8005e6b95268cbb50db3773d5f180c32a9434fe ARC: Timers/counters/delay management
-
-:::::: TO: Vineet Gupta <vgupta@synopsys.com>
-:::::: CC: Vineet Gupta <vgupta@synopsys.com>
+     8	
+   > 9	#include <linux/mutex.h>
+    10	#include <linux/workqueue.h>
+    11	
+    12	#include "intel_wakeref.h"
+    13	#include <linux/types.h>
+    14	#include <linux/bitops.h>
+  > 15	#include <linux/mutex.h>
+    16	#include <linux/workqueue.h>
+    17	#include "intel_runtime_pm.h"
+    18	
 
 -- 
 0-DAY CI Kernel Test Service
