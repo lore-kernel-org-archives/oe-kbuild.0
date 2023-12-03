@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4D115B7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF91EA8
 	for <oe-kbuild@lists.linux.dev>; Sun,  3 Dec 2023 06:32:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cco7JDQ6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pl6ridZ7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701585180; x=1733121180;
+  t=1701585179; x=1733121179;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XZFxUBcLopLxpXHfrSXnFPOTMj0WDulQwbu1Ag/Asa8=;
-  b=cco7JDQ6jS5bMbzyq9aRUxeyAdBYseC8RDx+bNJj1NecIIMKVKXfZx4g
-   EDCdD1YAVte5JZGFelkn4VWy+sBz/L0JM1JHl0POyN6+8apVYBU1FXhA1
-   INpT1K36H5MzMqnMK/LJBY2ZsGBoFAIpy18RXqZHrE6XBD9OkQmylHtqM
-   fzrUxiRwwIXZFpWWUQEsj05+ofIH7wNsJ4Y1sS8h6IthiU1DyI2tcDoh/
-   EMBqNTkMuTEwFE7xIpBowuDijDviDuHlO8YUQkwIgiADCfXqdKF+tMebF
-   JMjIGFVfCqYXalmFhnUDrUo7lYQ/NJpgns/jgZlTUIQYyRnevHYCNWSGR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="6906528"
+  bh=laDXN9ijJUIT1wVaTa4sWVV9ddBDXdh/b9AJ04gIPlQ=;
+  b=Pl6ridZ7eNcZrx5zvtGxvnGBLDiIAhQlmjpQEsOrX6b80EPsPgaO5csl
+   JLMlzYMKg8UiSGrwNr2x+q1grLGjweGQdexRjfYzx9hKpf5UljPd7Blq9
+   UTzwzNABp82rVX4LvfcBPiInKlVmT5Jl5m1eQ4dU6ht3GRlnS3REEWGok
+   Wbu8j6H8czrzOqRZdREUstZ2In53ilTOg4T75iOZTg8i6CUwR287Bv41L
+   TG6Af6pb2mKoP1wLoIBb9WStD25g+LmquTvMVOyUTG35cUTSgfukxjiQL
+   uI7AtaQ7dDFCj+yXLWJLjvk4nBpbGQpo6Iz8BOBYiK3DgO3zJ8pXm+l7z
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="15180429"
 X-IronPort-AV: E=Sophos;i="6.04,246,1695711600"; 
-   d="scan'208";a="6906528"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2023 22:32:49 -0800
+   d="scan'208";a="15180429"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2023 22:32:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="770191188"
+X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="914081672"
 X-IronPort-AV: E=Sophos;i="6.04,246,1695711600"; 
-   d="scan'208";a="770191188"
+   d="scan'208";a="914081672"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 02 Dec 2023 22:32:47 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 02 Dec 2023 22:32:47 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r9g20-0006Lx-2V;
-	Sun, 03 Dec 2023 06:32:44 +0000
-Date: Sun, 3 Dec 2023 14:31:45 +0800
+	id 1r9g21-0006MK-02;
+	Sun, 03 Dec 2023 06:32:45 +0000
+Date: Sun, 3 Dec 2023 14:32:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/dsa/sja1105/sja1105_main.c:155
- sja1105_init_mii_settings() warn: is 'table->entries' large enough for
- 'struct sja1105_xmii_params_entry'? 1
-Message-ID: <202312030336.LwTJiqRf-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: sound/soc/sof/sof-audio.c:309:34-40: ERROR: invalid reference to the
+ index variable of the iterator on line 297
+Message-ID: <202312031301.6ohMAu9n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,87 +53,79 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Vladimir Oltean <olteanv@gmail.com>
-CC: Georg Waibel <georg.waibel@sensor-technik.de>
+TO: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
+CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
+CC: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+CC: Daniel Baluta <daniel.baluta@nxp.com>
+CC: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   815fb87b753055df2d9e50f6cd80eb10235fe3e9
-commit: 8aa9ebccae87621d997707e4f25e53fddd7e30e4 net: dsa: Introduce driver for NXP SJA1105 5-port L2 switch
-date:   4 years, 7 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 4 years, 7 months ago
-config: i386-randconfig-141-20231030 (https://download.01.org/0day-ci/archive/20231203/202312030336.LwTJiqRf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231203/202312030336.LwTJiqRf-lkp@intel.com/reproduce)
+head:   968f35f4ab1c0966ceb39af3c89f2e24afedf878
+commit: 5fcdbb2d45df6afb654674379546996b0027aa3e ASoC: SOF: Add support for dynamic pipelines
+date:   2 years, 2 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 2 years, 2 months ago
+config: i386-randconfig-053-20231130 (https://download.01.org/0day-ci/archive/20231203/202312031301.6ohMAu9n-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20231203/202312031301.6ohMAu9n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312030336.LwTJiqRf-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202312031301.6ohMAu9n-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/dsa/sja1105/sja1105_main.c:155 sja1105_init_mii_settings() warn: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 1
+cocci warnings: (new ones prefixed by >>)
+>> sound/soc/sof/sof-audio.c:309:34-40: ERROR: invalid reference to the index variable of the iterator on line 297
 
-Old smatch warnings:
-drivers/net/dsa/sja1105/sja1105_main.c:158 sja1105_init_mii_settings() warn: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 1
-drivers/net/dsa/sja1105/sja1105_main.c:164 sja1105_init_mii_settings() warn: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 1
-drivers/net/dsa/sja1105/sja1105_main.c:633 sja1105_adjust_port_config() warn: unsigned 'speed' is never less than zero.
-drivers/net/dsa/sja1105/sja1105_main.c:633 sja1105_adjust_port_config() warn: error code type promoted to positive: 'speed'
+vim +309 sound/soc/sof/sof-audio.c
 
-vim +155 drivers/net/dsa/sja1105/sja1105_main.c
-
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  125  
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  126  static int sja1105_init_mii_settings(struct sja1105_private *priv,
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  127  				     struct sja1105_dt_port *ports)
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  128  {
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  129  	struct device *dev = &priv->spidev->dev;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  130  	struct sja1105_xmii_params_entry *mii;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  131  	struct sja1105_table *table;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  132  	int i;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  133  
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  134  	table = &priv->static_config.tables[BLK_IDX_XMII_PARAMS];
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  135  
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  136  	/* Discard previous xMII Mode Parameters Table */
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  137  	if (table->entry_count) {
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  138  		kfree(table->entries);
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  139  		table->entry_count = 0;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  140  	}
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  141  
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  142  	table->entries = kcalloc(SJA1105_MAX_XMII_PARAMS_COUNT,
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  143  				 table->ops->unpacked_entry_size, GFP_KERNEL);
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  144  	if (!table->entries)
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  145  		return -ENOMEM;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  146  
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  147  	/* Override table based on phylib DT bindings */
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  148  	table->entry_count = SJA1105_MAX_XMII_PARAMS_COUNT;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  149  
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  150  	mii = table->entries;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  151  
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  152  	for (i = 0; i < SJA1105_NUM_PORTS; i++) {
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  153  		switch (ports[i].phy_mode) {
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  154  		case PHY_INTERFACE_MODE_MII:
-8aa9ebccae8762 Vladimir Oltean 2019-05-02 @155  			mii->xmii_mode[i] = XMII_MODE_MII;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  156  			break;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  157  		case PHY_INTERFACE_MODE_RMII:
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  158  			mii->xmii_mode[i] = XMII_MODE_RMII;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  159  			break;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  160  		case PHY_INTERFACE_MODE_RGMII:
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  161  		case PHY_INTERFACE_MODE_RGMII_ID:
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  162  		case PHY_INTERFACE_MODE_RGMII_RXID:
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  163  		case PHY_INTERFACE_MODE_RGMII_TXID:
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  164  			mii->xmii_mode[i] = XMII_MODE_RGMII;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  165  			break;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  166  		default:
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  167  			dev_err(dev, "Unsupported PHY mode %s!\n",
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  168  				phy_modes(ports[i].phy_mode));
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  169  		}
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  170  
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  171  		mii->phy_mac[i] = ports[i].role;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  172  	}
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  173  	return 0;
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  174  }
-8aa9ebccae8762 Vladimir Oltean 2019-05-02  175  
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  268  
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  269  static int sof_route_setup(struct snd_sof_dev *sdev, struct snd_soc_dapm_widget *wsource,
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  270  			   struct snd_soc_dapm_widget *wsink)
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  271  {
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  272  	struct snd_sof_widget *src_widget = wsource->dobj.private;
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  273  	struct snd_sof_widget *sink_widget = wsink->dobj.private;
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  274  	struct snd_sof_route *sroute;
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  275  	bool route_found = false;
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  276  
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  277  	/* ignore routes involving virtual widgets in topology */
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  278  	switch (src_widget->id) {
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  279  	case snd_soc_dapm_out_drv:
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  280  	case snd_soc_dapm_output:
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  281  	case snd_soc_dapm_input:
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  282  		return 0;
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  283  	default:
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  284  		break;
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  285  	}
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  286  
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  287  	switch (sink_widget->id) {
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  288  	case snd_soc_dapm_out_drv:
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  289  	case snd_soc_dapm_output:
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  290  	case snd_soc_dapm_input:
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  291  		return 0;
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  292  	default:
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  293  		break;
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  294  	}
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  295  
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  296  	/* find route matching source and sink widgets */
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27 @297  	list_for_each_entry(sroute, &sdev->route_list, list)
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  298  		if (sroute->src_widget == src_widget && sroute->sink_widget == sink_widget) {
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  299  			route_found = true;
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  300  			break;
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  301  		}
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  302  
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  303  	if (!route_found) {
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  304  		dev_err(sdev->dev, "error: cannot find SOF route for source %s -> %s sink\n",
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  305  			wsource->name, wsink->name);
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  306  		return -EINVAL;
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  307  	}
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  308  
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27 @309  	return sof_route_setup_ipc(sdev, sroute);
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  310  }
+5fcdbb2d45df6a Ranjani Sridharan 2021-09-27  311  
 
 -- 
 0-DAY CI Kernel Test Service
