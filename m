@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04FBF9C4
-	for <oe-kbuild@lists.linux.dev>; Sun,  3 Dec 2023 15:48:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0025D15AC3
+	for <oe-kbuild@lists.linux.dev>; Sun,  3 Dec 2023 16:52:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bg02IvS2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZRqEur/G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701618536; x=1733154536;
+  t=1701622337; x=1733158337;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=56IRrpZYrCxMoQE9SHdkhymOx9dvBq7DHVpuJqEmQu0=;
-  b=bg02IvS2OEuuGPdG4pLF0ygpamkSuZQJv1SPupKT7pdS1Ij7+5aIJnM1
-   KJgb6R9KBfM0XZTn3VPmv02MW93k2yYZTiHECq8POu1WUbpldq2+HT1Cl
-   UrAXN6WBiFZM+9zzLlcus4vjexibSBA+cicRJf7EeXSl5xEQBQGGKRnbd
-   Riai/oVNt7XVIamLdSKw13iYfZqA/+UUGQ3j6bwmgyLiRSP/p4E1/4CN3
-   ijK9eJ/WEA9Nw0E+5EwI0mVEGUAPZTpdCRX/NzOicZY4P+LwoDWx+RYXy
-   hvcYmfh07Dk2fxsmbiNICHmun0KxDrz0zirmyqrCN7EKZZCP/WBGqb/bF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="378683557"
+  bh=sjgcHBi64SSveyAwXDh/t4Z5kOnwEPIv5/5XjXHt15g=;
+  b=ZRqEur/G3YzvHQZLwWNK2UGPolMH+evbI7UfqYIqU1xxEFDMXtruwqw+
+   ysu7Dao5022TonfEJZHtTO+qABgpCssSFIzATZS8c0MLyRdYzKD0L5sXI
+   g6XTTwmPXhGFHc2qt6Lujodg3DkSC3z4NyPDRnCGVMyuj9mJjV0e8oBz/
+   Aq1xeOPXBnYUNKs0DOxlnEf8ac5KBkJl5b4FQ0Nor9LME78HvifvDqh2w
+   AE7ftT+ytczhrj9u/GZdIoKYOaw/VVqn2kYLZXUjyGCkQmjoFbmpeg8ep
+   aHBfxGFTQxXzDW/vck1tGjOAq6iqP/GO88veemF4P91MFJd9noA/T0beJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="687167"
 X-IronPort-AV: E=Sophos;i="6.04,247,1695711600"; 
-   d="scan'208";a="378683557"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2023 07:48:53 -0800
+   d="scan'208";a="687167"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2023 08:52:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="893737744"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="720083238"
 X-IronPort-AV: E=Sophos;i="6.04,247,1695711600"; 
-   d="scan'208";a="893737744"
+   d="scan'208";a="720083238"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 03 Dec 2023 07:48:52 -0800
+  by orsmga003.jf.intel.com with ESMTP; 03 Dec 2023 08:52:14 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r9oi9-0006na-1t;
-	Sun, 03 Dec 2023 15:48:49 +0000
-Date: Sun, 3 Dec 2023 23:48:42 +0800
+	id 1r9phO-0006tS-0v;
+	Sun, 03 Dec 2023 16:52:07 +0000
+Date: Mon, 4 Dec 2023 00:51:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/x86/kernel/kvmclock.c:269 kvmclock_setup_percpu() error:
- testing array offset 'cpu' after use.
-Message-ID: <202312032306.PrSrLRqa-lkp@intel.com>
+Subject: drivers/irqchip/irq-apple-aic.c:941 aic_of_ic_init() error:
+ uninitialized symbol 'off'.
+Message-ID: <202312032327.J915WcaL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,53 +53,136 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Thomas Gleixner <tglx@linutronix.de>
-CC: Pavel Tatashin <pasha.tatashin@oracle.com>
+TO: Hector Martin <marcan@marcan.st>
+CC: Marc Zyngier <maz@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: 95a3d4454bb1cf5bfd666c27fdd2dc188e17c14d x86/kvmclock: Switch kvmclock data to a PER_CPU variable
-date:   5 years ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 years ago
-config: x86_64-randconfig-x006-20230817 (https://download.01.org/0day-ci/archive/20231203/202312032306.PrSrLRqa-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231203/202312032306.PrSrLRqa-lkp@intel.com/reproduce)
+commit: dc97fd6fec009957e81026055fc99a03877ff3b8 irqchip/apple-aic: Dynamically compute register offsets
+date:   1 year, 9 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 1 year, 9 months ago
+config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231203/202312032327.J915WcaL-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20231203/202312032327.J915WcaL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312032306.PrSrLRqa-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312032327.J915WcaL-lkp@intel.com/
 
-smatch warnings:
-arch/x86/kernel/kvmclock.c:269 kvmclock_setup_percpu() error: testing array offset 'cpu' after use.
+New smatch warnings:
+drivers/irqchip/irq-apple-aic.c:941 aic_of_ic_init() error: uninitialized symbol 'off'.
 
-vim +/cpu +269 arch/x86/kernel/kvmclock.c
+Old smatch warnings:
+drivers/irqchip/irq-apple-aic.c:920 aic_of_ic_init() warn: possible memory leak of 'irqc'
+drivers/irqchip/irq-apple-aic.c:998 aic_of_ic_init() warn: 'regs' from of_iomap() not released on lines: 914,920.
 
-e499a9b6dc488a Thomas Gleixner 2018-07-19  255  
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  256  static int kvmclock_setup_percpu(unsigned int cpu)
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  257  {
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  258  	struct pvclock_vsyscall_time_info *p = per_cpu(hv_clock_per_cpu, cpu);
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  259  
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  260  	/*
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  261  	 * The per cpu area setup replicates CPU0 data to all cpu
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  262  	 * pointers. So carefully check. CPU0 has been set up in init
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  263  	 * already.
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  264  	 */
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  265  	if (!cpu || (p && p != per_cpu(hv_clock_per_cpu, 0)))
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  266  		return 0;
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  267  
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  268  	/* Use the static page for the first CPUs, allocate otherwise */
-95a3d4454bb1cf Thomas Gleixner 2018-07-19 @269  	if (cpu < HVC_BOOT_ARRAY_SIZE)
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  270  		p = &hv_clock_boot[cpu];
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  271  	else
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  272  		p = kzalloc(sizeof(*p), GFP_KERNEL);
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  273  
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  274  	per_cpu(hv_clock_per_cpu, cpu) = p;
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  275  	return p ? 0 : -ENOMEM;
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  276  }
-95a3d4454bb1cf Thomas Gleixner 2018-07-19  277  
+vim +/off +941 drivers/irqchip/irq-apple-aic.c
+
+b6ca556c352979 Marc Zyngier  2021-02-28   899  
+76cde26394114f Hector Martin 2021-01-21   900  static int __init aic_of_ic_init(struct device_node *node, struct device_node *parent)
+76cde26394114f Hector Martin 2021-01-21   901  {
+76cde26394114f Hector Martin 2021-01-21   902  	int i;
+dc97fd6fec0099 Hector Martin 2022-03-10   903  	u32 off;
+76cde26394114f Hector Martin 2021-01-21   904  	void __iomem *regs;
+76cde26394114f Hector Martin 2021-01-21   905  	struct aic_irq_chip *irqc;
+2cf68211664acd Hector Martin 2022-03-10   906  	const struct of_device_id *match;
+76cde26394114f Hector Martin 2021-01-21   907  
+76cde26394114f Hector Martin 2021-01-21   908  	regs = of_iomap(node, 0);
+76cde26394114f Hector Martin 2021-01-21   909  	if (WARN_ON(!regs))
+76cde26394114f Hector Martin 2021-01-21   910  		return -EIO;
+76cde26394114f Hector Martin 2021-01-21   911  
+76cde26394114f Hector Martin 2021-01-21   912  	irqc = kzalloc(sizeof(*irqc), GFP_KERNEL);
+76cde26394114f Hector Martin 2021-01-21   913  	if (!irqc)
+76cde26394114f Hector Martin 2021-01-21   914  		return -ENOMEM;
+76cde26394114f Hector Martin 2021-01-21   915  
+76cde26394114f Hector Martin 2021-01-21   916  	irqc->base = regs;
+76cde26394114f Hector Martin 2021-01-21   917  
+2cf68211664acd Hector Martin 2022-03-10   918  	match = of_match_node(aic_info_match, node);
+2cf68211664acd Hector Martin 2022-03-10   919  	if (!match)
+2cf68211664acd Hector Martin 2022-03-10   920  		return -ENODEV;
+2cf68211664acd Hector Martin 2022-03-10   921  
+2cf68211664acd Hector Martin 2022-03-10   922  	irqc->info = *(struct aic_info *)match->data;
+2cf68211664acd Hector Martin 2022-03-10   923  
+2cf68211664acd Hector Martin 2022-03-10   924  	aic_irqc = irqc;
+2cf68211664acd Hector Martin 2022-03-10   925  
+dc97fd6fec0099 Hector Martin 2022-03-10   926  	switch (irqc->info.version) {
+dc97fd6fec0099 Hector Martin 2022-03-10   927  	case 1: {
+dc97fd6fec0099 Hector Martin 2022-03-10   928  		u32 info;
+dc97fd6fec0099 Hector Martin 2022-03-10   929  
+76cde26394114f Hector Martin 2021-01-21   930  		info = aic_ic_read(irqc, AIC_INFO);
+7c841f5f6fa3f9 Hector Martin 2022-03-10   931  		irqc->nr_irq = FIELD_GET(AIC_INFO_NR_IRQ, info);
+dc97fd6fec0099 Hector Martin 2022-03-10   932  		irqc->max_irq = AIC_MAX_IRQ;
+dc97fd6fec0099 Hector Martin 2022-03-10   933  
+dc97fd6fec0099 Hector Martin 2022-03-10   934  		off = irqc->info.target_cpu;
+dc97fd6fec0099 Hector Martin 2022-03-10   935  		off += sizeof(u32) * irqc->max_irq; /* TARGET_CPU */
+dc97fd6fec0099 Hector Martin 2022-03-10   936  
+dc97fd6fec0099 Hector Martin 2022-03-10   937  		break;
+dc97fd6fec0099 Hector Martin 2022-03-10   938  	}
+dc97fd6fec0099 Hector Martin 2022-03-10   939  	}
+dc97fd6fec0099 Hector Martin 2022-03-10   940  
+dc97fd6fec0099 Hector Martin 2022-03-10  @941  	irqc->info.sw_set = off;
+dc97fd6fec0099 Hector Martin 2022-03-10   942  	off += sizeof(u32) * (irqc->max_irq >> 5); /* SW_SET */
+dc97fd6fec0099 Hector Martin 2022-03-10   943  	irqc->info.sw_clr = off;
+dc97fd6fec0099 Hector Martin 2022-03-10   944  	off += sizeof(u32) * (irqc->max_irq >> 5); /* SW_CLR */
+dc97fd6fec0099 Hector Martin 2022-03-10   945  	irqc->info.mask_set = off;
+dc97fd6fec0099 Hector Martin 2022-03-10   946  	off += sizeof(u32) * (irqc->max_irq >> 5); /* MASK_SET */
+dc97fd6fec0099 Hector Martin 2022-03-10   947  	irqc->info.mask_clr = off;
+dc97fd6fec0099 Hector Martin 2022-03-10   948  	off += sizeof(u32) * (irqc->max_irq >> 5); /* MASK_CLR */
+dc97fd6fec0099 Hector Martin 2022-03-10   949  	off += sizeof(u32) * (irqc->max_irq >> 5); /* HW_STATE */
+76cde26394114f Hector Martin 2021-01-21   950  
+2cf68211664acd Hector Martin 2022-03-10   951  	if (irqc->info.fast_ipi)
+2cf68211664acd Hector Martin 2022-03-10   952  		static_branch_enable(&use_fast_ipi);
+2cf68211664acd Hector Martin 2022-03-10   953  	else
+2cf68211664acd Hector Martin 2022-03-10   954  		static_branch_disable(&use_fast_ipi);
+2cf68211664acd Hector Martin 2022-03-10   955  
+7c841f5f6fa3f9 Hector Martin 2022-03-10   956  	irqc->hw_domain = irq_domain_create_tree(of_node_to_fwnode(node),
+76cde26394114f Hector Martin 2021-01-21   957  						 &aic_irq_domain_ops, irqc);
+76cde26394114f Hector Martin 2021-01-21   958  	if (WARN_ON(!irqc->hw_domain)) {
+76cde26394114f Hector Martin 2021-01-21   959  		iounmap(irqc->base);
+76cde26394114f Hector Martin 2021-01-21   960  		kfree(irqc);
+76cde26394114f Hector Martin 2021-01-21   961  		return -ENODEV;
+76cde26394114f Hector Martin 2021-01-21   962  	}
+76cde26394114f Hector Martin 2021-01-21   963  
+76cde26394114f Hector Martin 2021-01-21   964  	irq_domain_update_bus_token(irqc->hw_domain, DOMAIN_BUS_WIRED);
+76cde26394114f Hector Martin 2021-01-21   965  
+76cde26394114f Hector Martin 2021-01-21   966  	if (aic_init_smp(irqc, node)) {
+76cde26394114f Hector Martin 2021-01-21   967  		irq_domain_remove(irqc->hw_domain);
+76cde26394114f Hector Martin 2021-01-21   968  		iounmap(irqc->base);
+76cde26394114f Hector Martin 2021-01-21   969  		kfree(irqc);
+76cde26394114f Hector Martin 2021-01-21   970  		return -ENODEV;
+76cde26394114f Hector Martin 2021-01-21   971  	}
+76cde26394114f Hector Martin 2021-01-21   972  
+76cde26394114f Hector Martin 2021-01-21   973  	set_handle_irq(aic_handle_irq);
+76cde26394114f Hector Martin 2021-01-21   974  	set_handle_fiq(aic_handle_fiq);
+76cde26394114f Hector Martin 2021-01-21   975  
+7c841f5f6fa3f9 Hector Martin 2022-03-10   976  	for (i = 0; i < BITS_TO_U32(irqc->nr_irq); i++)
+dc97fd6fec0099 Hector Martin 2022-03-10   977  		aic_ic_write(irqc, irqc->info.mask_set + i * 4, U32_MAX);
+7c841f5f6fa3f9 Hector Martin 2022-03-10   978  	for (i = 0; i < BITS_TO_U32(irqc->nr_irq); i++)
+dc97fd6fec0099 Hector Martin 2022-03-10   979  		aic_ic_write(irqc, irqc->info.sw_clr + i * 4, U32_MAX);
+7c841f5f6fa3f9 Hector Martin 2022-03-10   980  	for (i = 0; i < irqc->nr_irq; i++)
+dc97fd6fec0099 Hector Martin 2022-03-10   981  		aic_ic_write(irqc, irqc->info.target_cpu + i * 4, 1);
+76cde26394114f Hector Martin 2021-01-21   982  
+76cde26394114f Hector Martin 2021-01-21   983  	if (!is_kernel_in_hyp_mode())
+76cde26394114f Hector Martin 2021-01-21   984  		pr_info("Kernel running in EL1, mapping interrupts");
+76cde26394114f Hector Martin 2021-01-21   985  
+2cf68211664acd Hector Martin 2022-03-10   986  	if (static_branch_likely(&use_fast_ipi))
+2cf68211664acd Hector Martin 2022-03-10   987  		pr_info("Using Fast IPIs");
+2cf68211664acd Hector Martin 2022-03-10   988  
+76cde26394114f Hector Martin 2021-01-21   989  	cpuhp_setup_state(CPUHP_AP_IRQ_APPLE_AIC_STARTING,
+76cde26394114f Hector Martin 2021-01-21   990  			  "irqchip/apple-aic/ipi:starting",
+76cde26394114f Hector Martin 2021-01-21   991  			  aic_init_cpu, NULL);
+76cde26394114f Hector Martin 2021-01-21   992  
+b6ca556c352979 Marc Zyngier  2021-02-28   993  	vgic_set_kvm_info(&vgic_info);
+b6ca556c352979 Marc Zyngier  2021-02-28   994  
+dc97fd6fec0099 Hector Martin 2022-03-10   995  	pr_info("Initialized with %d/%d IRQs, %d FIQs, %d vIPIs",
+dc97fd6fec0099 Hector Martin 2022-03-10   996  		irqc->nr_irq, irqc->max_irq, AIC_NR_FIQ, AIC_NR_SWIPI);
+76cde26394114f Hector Martin 2021-01-21   997  
+76cde26394114f Hector Martin 2021-01-21   998  	return 0;
+76cde26394114f Hector Martin 2021-01-21   999  }
+76cde26394114f Hector Martin 2021-01-21  1000  
 
 -- 
 0-DAY CI Kernel Test Service
