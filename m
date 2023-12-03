@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA5F17FD
-	for <oe-kbuild@lists.linux.dev>; Sun,  3 Dec 2023 06:33:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BFE1C0F
+	for <oe-kbuild@lists.linux.dev>; Sun,  3 Dec 2023 06:33:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kRT+dvwR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nQ0Be4fp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701585180; x=1733121180;
+  t=1701585181; x=1733121181;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wsvDaAP0+LOgEHWMpchHLSY1fNOMRHbQJkxdv/IffHs=;
-  b=kRT+dvwRl18OrQekfLdy9KZxAiUpEjt2dlYTKU4tzihVfCDcEdcQZ9So
-   X3C/9hPQkOTtYumzkXRkAIPzoxphEAcFCXoQKRmMxki/0ySfDUFqTGHHL
-   lv46qcGd9l/c1AHReYVPSTiVEXyuiI2fnhNfKODI8ZOj6Lxwk3rlyeQ7t
-   TNnztgSPTWZ4oH/cKkgjHYNrzM77zfY8VVhvlEyXiBf/U1WG9lZhm3w0m
-   PRD/csAkX2C0TRuEIAT8lhtSmfgR28COOn5MuuKKvQlfBB4UQT+fZd7hF
-   FwzwZibU9q6Fua9KDd2XU6TLtnaMf/JO5lzfcDtd5hf8Vpoo0Cer9H8yi
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="6906531"
+  bh=J9itL3ab2fv59wHTZaYQmb7nePDXI0BmTMiHkXNAaqY=;
+  b=nQ0Be4fpYOky3+vvOh09MkvzGyf6jkjuwmnicbpEX3ynPA2ZgNA9T4Jo
+   b27FBCXXP4mDY80RQJPkm4Hu4FKKo0jZ2+x+kMfS3IqKPquWVPkyW6enf
+   EfxBdVXgoEjb6lWjk8s3BpHVaAfwdPFiVN6sGOFJOaBPwtFkZqML0DKsd
+   Yp9q81fNuOPBtKvQr7BJejG2t5sQ1g6R0A8ikTO3C5WI0guHGQFX4+YhR
+   QNenIttD+hunKOf/7obuCjWQa+ZViWFHrPnV3jYMgboQ74mGTZqzKkbsN
+   md72xIapq6UhIOE7sKsLBc9mXFN3BvfwxDfuHR1ufLfdI6KN/8ipKiy7s
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="6906529"
 X-IronPort-AV: E=Sophos;i="6.04,246,1695711600"; 
-   d="scan'208";a="6906531"
+   d="scan'208";a="6906529"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2023 22:32:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="770191194"
+X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="770191190"
 X-IronPort-AV: E=Sophos;i="6.04,246,1695711600"; 
-   d="scan'208";a="770191194"
+   d="scan'208";a="770191190"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga002.jf.intel.com with ESMTP; 02 Dec 2023 22:32:47 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r9g20-0006M5-2l;
+	id 1r9g20-0006MF-38;
 	Sun, 03 Dec 2023 06:32:44 +0000
-Date: Sun, 3 Dec 2023 14:31:44 +0800
+Date: Sun, 3 Dec 2023 14:31:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/video/fbdev/offb.c:373:48: sparse: sparse: incorrect type in
- initializer (different base types)
-Message-ID: <202312030347.wIrL2ww1-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 2394/2998] fs/ceph/addr.c:911 writepages_finish()
+ error: 'page' dereferencing possible ERR_PTR()
+Message-ID: <202312031143.q1L0WCIu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,116 +50,151 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only kconfig file changed"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Randy Dunlap <rdunlap@infradead.org>
-CC: Helge Deller <deller@gmx.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   815fb87b753055df2d9e50f6cd80eb10235fe3e9
-commit: 9d8b5376cc2848ca22314fdec9a7a45b1bf69189 fbdev: make offb driver tristate
-date:   11 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 11 months ago
-config: powerpc-randconfig-r121-20231107 (https://download.01.org/0day-ci/archive/20231203/202312030347.wIrL2ww1-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231203/202312030347.wIrL2ww1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   5eda217cee887e595ba2265435862d585d399769
+commit: bfc34c9cbc459c9600387ae542fd31aaf9e885fc [2394/2998] fs: convert error_remove_page to error_remove_folio
+:::::: branch date: 2 days ago
+:::::: commit date: 10 days ago
+config: hexagon-randconfig-r071-20231124 (https://download.01.org/0day-ci/archive/20231203/202312031143.q1L0WCIu-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20231203/202312031143.q1L0WCIu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312030347.wIrL2ww1-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202312031143.q1L0WCIu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/video/fbdev/offb.c:373:48: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __be32 @@     got int @@
-   drivers/video/fbdev/offb.c:373:48: sparse:     expected restricted __be32
-   drivers/video/fbdev/offb.c:373:48: sparse:     got int
->> drivers/video/fbdev/offb.c:581:42: sparse: sparse: restricted __be32 degrades to integer
->> drivers/video/fbdev/offb.c:602:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int addr_prop @@     got restricted __be32 const [usertype] @@
-   drivers/video/fbdev/offb.c:602:27: sparse:     expected unsigned int addr_prop
-   drivers/video/fbdev/offb.c:602:27: sparse:     got restricted __be32 const [usertype]
+New smatch warnings:
+fs/ceph/addr.c:911 writepages_finish() error: 'page' dereferencing possible ERR_PTR()
 
-vim +373 drivers/video/fbdev/offb.c
+Old smatch warnings:
+fs/ceph/addr.c:1171 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1171 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1175 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1175 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1176 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1176 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1182 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1182 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1189 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1189 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:2157 __ceph_pool_perm_get() error: we previously assumed 'pool_ns' could be null (see line 2146)
+include/linux/ceph/string_table.h:46 ceph_compare_string() error: we previously assumed 'cs' could be null (see line 41)
 
-^1da177e4c3f41 drivers/video/offb.c       Linus Torvalds         2005-04-16  322  
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  323  static void offb_init_palette_hacks(struct fb_info *info, struct device_node *dp,
-00257e0cc550c4 drivers/video/fbdev/offb.c Rob Herring            2019-01-11  324  				    unsigned long address)
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  325  {
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  326  	struct offb_par *par = (struct offb_par *) info->par;
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  327  
-00257e0cc550c4 drivers/video/fbdev/offb.c Rob Herring            2019-01-11  328  	if (of_node_name_prefix(dp, "ATY,Rage128")) {
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  329  		par->cmap_adr = offb_map_reg(dp, 2, 0, 0x1fff);
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  330  		if (par->cmap_adr)
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  331  			par->cmap_type = cmap_r128;
-00257e0cc550c4 drivers/video/fbdev/offb.c Rob Herring            2019-01-11  332  	} else if (of_node_name_prefix(dp, "ATY,RageM3pA") ||
-00257e0cc550c4 drivers/video/fbdev/offb.c Rob Herring            2019-01-11  333  		   of_node_name_prefix(dp, "ATY,RageM3p12A")) {
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  334  		par->cmap_adr = offb_map_reg(dp, 2, 0, 0x1fff);
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  335  		if (par->cmap_adr)
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  336  			par->cmap_type = cmap_M3A;
-00257e0cc550c4 drivers/video/fbdev/offb.c Rob Herring            2019-01-11  337  	} else if (of_node_name_prefix(dp, "ATY,RageM3pB")) {
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  338  		par->cmap_adr = offb_map_reg(dp, 2, 0, 0x1fff);
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  339  		if (par->cmap_adr)
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  340  			par->cmap_type = cmap_M3B;
-00257e0cc550c4 drivers/video/fbdev/offb.c Rob Herring            2019-01-11  341  	} else if (of_node_name_prefix(dp, "ATY,Rage6")) {
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  342  		par->cmap_adr = offb_map_reg(dp, 1, 0, 0x1fff);
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  343  		if (par->cmap_adr)
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  344  			par->cmap_type = cmap_radeon;
-00257e0cc550c4 drivers/video/fbdev/offb.c Rob Herring            2019-01-11  345  	} else if (of_node_name_prefix(dp, "ATY,")) {
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  346  		unsigned long base = address & 0xff000000UL;
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  347  		par->cmap_adr =
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  348  			ioremap(base + 0x7ff000, 0x1000) + 0xcc0;
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  349  		par->cmap_data = par->cmap_adr + 1;
-9b961ed21a7c92 drivers/video/offb.c       Benjamin Herrenschmidt 2011-12-14  350  		par->cmap_type = cmap_simple;
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  351  	} else if (dp && (of_device_is_compatible(dp, "pci1014,b7") ||
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  352  			  of_device_is_compatible(dp, "pci1014,21c"))) {
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  353  		par->cmap_adr = offb_map_reg(dp, 0, 0x6000, 0x1000);
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  354  		if (par->cmap_adr)
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  355  			par->cmap_type = cmap_gxt2000;
-00257e0cc550c4 drivers/video/fbdev/offb.c Rob Herring            2019-01-11  356  	} else if (of_node_name_prefix(dp, "vga,Display-")) {
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  357  		/* Look for AVIVO initialized by SLOF */
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  358  		struct device_node *pciparent = of_get_parent(dp);
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  359  		const u32 *vid, *did;
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  360  		vid = of_get_property(pciparent, "vendor-id", NULL);
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  361  		did = of_get_property(pciparent, "device-id", NULL);
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  362  		/* This will match most R5xx */
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  363  		if (vid && did && *vid == 0x1002 &&
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  364  		    ((*did >= 0x7100 && *did < 0x7800) ||
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  365  		     (*did >= 0x9400))) {
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  366  			par->cmap_adr = offb_map_reg(pciparent, 2, 0, 0x10000);
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  367  			if (par->cmap_adr)
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  368  				par->cmap_type = cmap_avivo;
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  369  		}
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  370  		of_node_put(pciparent);
-9b961ed21a7c92 drivers/video/offb.c       Benjamin Herrenschmidt 2011-12-14  371  	} else if (dp && of_device_is_compatible(dp, "qemu,std-vga")) {
-212c0cbd5be721 drivers/video/offb.c       Cedric Le Goater       2013-12-04  372  #ifdef __BIG_ENDIAN
-212c0cbd5be721 drivers/video/offb.c       Cedric Le Goater       2013-12-04 @373  		const __be32 io_of_addr[3] = { 0x01000000, 0x0, 0x0 };
-212c0cbd5be721 drivers/video/offb.c       Cedric Le Goater       2013-12-04  374  #else
-212c0cbd5be721 drivers/video/offb.c       Cedric Le Goater       2013-12-04  375  		const __be32 io_of_addr[3] = { 0x00000001, 0x0, 0x0 };
-212c0cbd5be721 drivers/video/offb.c       Cedric Le Goater       2013-12-04  376  #endif
-9b961ed21a7c92 drivers/video/offb.c       Benjamin Herrenschmidt 2011-12-14  377  		u64 io_addr = of_translate_address(dp, io_of_addr);
-9b961ed21a7c92 drivers/video/offb.c       Benjamin Herrenschmidt 2011-12-14  378  		if (io_addr != OF_BAD_ADDR) {
-9b961ed21a7c92 drivers/video/offb.c       Benjamin Herrenschmidt 2011-12-14  379  			par->cmap_adr = ioremap(io_addr + 0x3c8, 2);
-9b961ed21a7c92 drivers/video/offb.c       Benjamin Herrenschmidt 2011-12-14  380  			if (par->cmap_adr) {
-9b961ed21a7c92 drivers/video/offb.c       Benjamin Herrenschmidt 2011-12-14  381  				par->cmap_type = cmap_simple;
-9b961ed21a7c92 drivers/video/offb.c       Benjamin Herrenschmidt 2011-12-14  382  				par->cmap_data = par->cmap_adr + 1;
-9b961ed21a7c92 drivers/video/offb.c       Benjamin Herrenschmidt 2011-12-14  383  			}
-9b961ed21a7c92 drivers/video/offb.c       Benjamin Herrenschmidt 2011-12-14  384  		}
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  385  	}
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  386  	info->fix.visual = (par->cmap_type != cmap_unknown) ?
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  387  		FB_VISUAL_PSEUDOCOLOR : FB_VISUAL_STATIC_PSEUDOCOLOR;
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  388  }
-57a20d8fb0d2a0 drivers/video/offb.c       Benjamin Herrenschmidt 2008-07-17  389  
+vim +/page +911 fs/ceph/addr.c
 
-:::::: The code at line 373 was first introduced by commit
-:::::: 212c0cbd5be721a39ef3e2f723e0c78008f9e955 offb: Little endian fixes
-
-:::::: TO: Cedric Le Goater <clg@fr.ibm.com>
-:::::: CC: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+1d3576fd10f0d7 Sage Weil               2009-10-06  832  
+1d3576fd10f0d7 Sage Weil               2009-10-06  833  /*
+1d3576fd10f0d7 Sage Weil               2009-10-06  834   * async writeback completion handler.
+1d3576fd10f0d7 Sage Weil               2009-10-06  835   *
+1d3576fd10f0d7 Sage Weil               2009-10-06  836   * If we get an error, set the mapping error bit, but not the individual
+1d3576fd10f0d7 Sage Weil               2009-10-06  837   * page error bits.
+1d3576fd10f0d7 Sage Weil               2009-10-06  838   */
+85e084feb47349 Ilya Dryomov            2016-04-28  839  static void writepages_finish(struct ceph_osd_request *req)
+1d3576fd10f0d7 Sage Weil               2009-10-06  840  {
+1d3576fd10f0d7 Sage Weil               2009-10-06  841  	struct inode *inode = req->r_inode;
+1d3576fd10f0d7 Sage Weil               2009-10-06  842  	struct ceph_inode_info *ci = ceph_inode(inode);
+38d46409c4639a Xiubo Li                2023-06-12  843  	struct ceph_client *cl = ceph_inode_to_client(inode);
+87060c1089a94f Alex Elder              2013-04-03  844  	struct ceph_osd_data *osd_data;
+1d3576fd10f0d7 Sage Weil               2009-10-06  845  	struct page *page;
+5b64640cf65be4 Yan, Zheng              2016-01-07  846  	int num_pages, total_pages = 0;
+5b64640cf65be4 Yan, Zheng              2016-01-07  847  	int i, j;
+5b64640cf65be4 Yan, Zheng              2016-01-07  848  	int rc = req->r_result;
+1d3576fd10f0d7 Sage Weil               2009-10-06  849  	struct ceph_snap_context *snapc = req->r_snapc;
+1d3576fd10f0d7 Sage Weil               2009-10-06  850  	struct address_space *mapping = inode->i_mapping;
+5995d90d2d19f3 Xiubo Li                2023-06-12  851  	struct ceph_fs_client *fsc = ceph_inode_to_fs_client(inode);
+903f4fec78dd05 Xiubo Li                2021-05-13  852  	unsigned int len = 0;
+5b64640cf65be4 Yan, Zheng              2016-01-07  853  	bool remove_page;
+5b64640cf65be4 Yan, Zheng              2016-01-07  854  
+38d46409c4639a Xiubo Li                2023-06-12  855  	doutc(cl, "%llx.%llx rc %d\n", ceph_vinop(inode), rc);
+26544c623e741a Jeff Layton             2017-04-04  856  	if (rc < 0) {
+5b64640cf65be4 Yan, Zheng              2016-01-07  857  		mapping_set_error(mapping, rc);
+26544c623e741a Jeff Layton             2017-04-04  858  		ceph_set_error_write(ci);
+0b98acd6188309 Ilya Dryomov            2020-09-14  859  		if (rc == -EBLOCKLISTED)
+0b98acd6188309 Ilya Dryomov            2020-09-14  860  			fsc->blocklisted = true;
+26544c623e741a Jeff Layton             2017-04-04  861  	} else {
+26544c623e741a Jeff Layton             2017-04-04  862  		ceph_clear_error_write(ci);
+26544c623e741a Jeff Layton             2017-04-04  863  	}
+1d3576fd10f0d7 Sage Weil               2009-10-06  864  
+79788c698b2904 Sage Weil               2010-02-02  865  	/*
+5b64640cf65be4 Yan, Zheng              2016-01-07  866  	 * We lost the cache cap, need to truncate the page before
+5b64640cf65be4 Yan, Zheng              2016-01-07  867  	 * it is unlocked, otherwise we'd truncate it later in the
+5b64640cf65be4 Yan, Zheng              2016-01-07  868  	 * page truncation thread, possibly losing some data that
+5b64640cf65be4 Yan, Zheng              2016-01-07  869  	 * raced its way in
+79788c698b2904 Sage Weil               2010-02-02  870  	 */
+5b64640cf65be4 Yan, Zheng              2016-01-07  871  	remove_page = !(ceph_caps_issued(ci) &
+5b64640cf65be4 Yan, Zheng              2016-01-07  872  			(CEPH_CAP_FILE_CACHE|CEPH_CAP_FILE_LAZYIO));
+1d3576fd10f0d7 Sage Weil               2009-10-06  873  
+1d3576fd10f0d7 Sage Weil               2009-10-06  874  	/* clean all pages */
+5b64640cf65be4 Yan, Zheng              2016-01-07  875  	for (i = 0; i < req->r_num_ops; i++) {
+642d51fb0775a4 Xiubo Li                2022-05-05  876  		if (req->r_ops[i].op != CEPH_OSD_OP_WRITE) {
+38d46409c4639a Xiubo Li                2023-06-12  877  			pr_warn_client(cl,
+38d46409c4639a Xiubo Li                2023-06-12  878  				"%llx.%llx incorrect op %d req %p index %d tid %llu\n",
+38d46409c4639a Xiubo Li                2023-06-12  879  				ceph_vinop(inode), req->r_ops[i].op, req, i,
+38d46409c4639a Xiubo Li                2023-06-12  880  				req->r_tid);
+5b64640cf65be4 Yan, Zheng              2016-01-07  881  			break;
+642d51fb0775a4 Xiubo Li                2022-05-05  882  		}
+5b64640cf65be4 Yan, Zheng              2016-01-07  883  
+5b64640cf65be4 Yan, Zheng              2016-01-07  884  		osd_data = osd_req_op_extent_osd_data(req, i);
+5b64640cf65be4 Yan, Zheng              2016-01-07  885  		BUG_ON(osd_data->type != CEPH_OSD_DATA_TYPE_PAGES);
+903f4fec78dd05 Xiubo Li                2021-05-13  886  		len += osd_data->length;
+5b64640cf65be4 Yan, Zheng              2016-01-07  887  		num_pages = calc_pages_for((u64)osd_data->alignment,
+5b64640cf65be4 Yan, Zheng              2016-01-07  888  					   (u64)osd_data->length);
+5b64640cf65be4 Yan, Zheng              2016-01-07  889  		total_pages += num_pages;
+5b64640cf65be4 Yan, Zheng              2016-01-07  890  		for (j = 0; j < num_pages; j++) {
+5b64640cf65be4 Yan, Zheng              2016-01-07  891  			page = osd_data->pages[j];
+d55207717ded95 Jeff Layton             2022-08-25  892  			if (fscrypt_is_bounce_page(page)) {
+d55207717ded95 Jeff Layton             2022-08-25  893  				page = fscrypt_pagecache_page(page);
+d55207717ded95 Jeff Layton             2022-08-25  894  				fscrypt_free_bounce_page(osd_data->pages[j]);
+d55207717ded95 Jeff Layton             2022-08-25  895  				osd_data->pages[j] = page;
+d55207717ded95 Jeff Layton             2022-08-25  896  			}
+1d3576fd10f0d7 Sage Weil               2009-10-06  897  			BUG_ON(!page);
+1d3576fd10f0d7 Sage Weil               2009-10-06  898  			WARN_ON(!PageUptodate(page));
+1d3576fd10f0d7 Sage Weil               2009-10-06  899  
+5b64640cf65be4 Yan, Zheng              2016-01-07  900  			if (atomic_long_dec_return(&fsc->writeback_count) <
+5b64640cf65be4 Yan, Zheng              2016-01-07  901  			     CONGESTION_OFF_THRESH(
+5b64640cf65be4 Yan, Zheng              2016-01-07  902  					fsc->mount_options->congestion_kb))
+503d4fa6ee28e8 NeilBrown               2022-03-22  903  				fsc->write_congested = false;
+2baba25019ec56 Yehuda Sadeh            2009-12-18  904  
+379fc7fad0ae6e Jeff Layton             2021-03-23  905  			ceph_put_snap_context(detach_page_private(page));
+1d3576fd10f0d7 Sage Weil               2009-10-06  906  			end_page_writeback(page);
+38d46409c4639a Xiubo Li                2023-06-12  907  			doutc(cl, "unlocking %p\n", page);
+e63dc5c780ba32 Yehuda Sadeh            2010-02-19  908  
+5b64640cf65be4 Yan, Zheng              2016-01-07  909  			if (remove_page)
+bfc34c9cbc459c Matthew Wilcox (Oracle  2023-11-17  910) 				generic_error_remove_folio(inode->i_mapping,
+bfc34c9cbc459c Matthew Wilcox (Oracle  2023-11-17 @911) 							  page_folio(page));
+e63dc5c780ba32 Yehuda Sadeh            2010-02-19  912  
+1d3576fd10f0d7 Sage Weil               2009-10-06  913  			unlock_page(page);
+1d3576fd10f0d7 Sage Weil               2009-10-06  914  		}
+38d46409c4639a Xiubo Li                2023-06-12  915  		doutc(cl, "%llx.%llx wrote %llu bytes cleaned %d pages\n",
+38d46409c4639a Xiubo Li                2023-06-12  916  		      ceph_vinop(inode), osd_data->length,
+38d46409c4639a Xiubo Li                2023-06-12  917  		      rc >= 0 ? num_pages : 0);
+1d3576fd10f0d7 Sage Weil               2009-10-06  918  
+96ac9158a230e4 John Hubbard            2019-08-08  919  		release_pages(osd_data->pages, num_pages);
+5b64640cf65be4 Yan, Zheng              2016-01-07  920  	}
+5b64640cf65be4 Yan, Zheng              2016-01-07  921  
+903f4fec78dd05 Xiubo Li                2021-05-13  922  	ceph_update_write_metrics(&fsc->mdsc->metric, req->r_start_latency,
+903f4fec78dd05 Xiubo Li                2021-05-13  923  				  req->r_end_latency, len, rc);
+903f4fec78dd05 Xiubo Li                2021-05-13  924  
+5b64640cf65be4 Yan, Zheng              2016-01-07  925  	ceph_put_wrbuffer_cap_refs(ci, total_pages, snapc);
+5b64640cf65be4 Yan, Zheng              2016-01-07  926  
+5b64640cf65be4 Yan, Zheng              2016-01-07  927  	osd_data = osd_req_op_extent_osd_data(req, 0);
+87060c1089a94f Alex Elder              2013-04-03  928  	if (osd_data->pages_from_pool)
+a0102bda5bc099 Jeff Layton             2020-07-30  929  		mempool_free(osd_data->pages, ceph_wb_pagevec_pool);
+1d3576fd10f0d7 Sage Weil               2009-10-06  930  	else
+87060c1089a94f Alex Elder              2013-04-03  931  		kfree(osd_data->pages);
+1d3576fd10f0d7 Sage Weil               2009-10-06  932  	ceph_osdc_put_request(req);
+1464de9f813e35 Xiubo Li                2023-05-09  933  	ceph_dec_osd_stopping_blocker(fsc->mdsc);
+1d3576fd10f0d7 Sage Weil               2009-10-06  934  }
+1d3576fd10f0d7 Sage Weil               2009-10-06  935  
 
 -- 
 0-DAY CI Kernel Test Service
