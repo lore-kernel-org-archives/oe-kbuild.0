@@ -1,45 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A723F9C4
-	for <oe-kbuild@lists.linux.dev>; Sun,  3 Dec 2023 15:48:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04FBF9C4
+	for <oe-kbuild@lists.linux.dev>; Sun,  3 Dec 2023 15:48:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YdpbXHFz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bg02IvS2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701618533; x=1733154533;
+  t=1701618536; x=1733154536;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R4MkHy3Oo/ISTQlv70vBz8MPmSb2qBpjW/aZhxglB94=;
-  b=YdpbXHFz0jZ+yR0HuItq4BcSLkZrDPL1JlhdQDinqRKQFC6u13KDL8fy
-   RR7qhMVw7kvi2wWlV86H038qtDh3VbiEo39niWFVc8WTaHDxJBgyH+got
-   tvaSDuiBblEOGPC3n9QxmZTghE9QZRsdh/KkHUileovmKUjODlFdYf1I9
-   5Rp9AicJpnGXHf0jrMHifav0alh96PdVoL9ufBXLlSzMRLx6pdfPu3263
-   2W2lMtP8u6pKRTbBmC8Ad1CsDZgDsqDvhYDlcZFCU2vB5cAeI9tZIP9VC
-   GlS5/L7mOk45H7xdSB8DLo6PtlP5m2JDMRKdkrOBuvzy0pgfcntG3xcK4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="378683556"
+  bh=56IRrpZYrCxMoQE9SHdkhymOx9dvBq7DHVpuJqEmQu0=;
+  b=bg02IvS2OEuuGPdG4pLF0ygpamkSuZQJv1SPupKT7pdS1Ij7+5aIJnM1
+   KJgb6R9KBfM0XZTn3VPmv02MW93k2yYZTiHECq8POu1WUbpldq2+HT1Cl
+   UrAXN6WBiFZM+9zzLlcus4vjexibSBA+cicRJf7EeXSl5xEQBQGGKRnbd
+   Riai/oVNt7XVIamLdSKw13iYfZqA/+UUGQ3j6bwmgyLiRSP/p4E1/4CN3
+   ijK9eJ/WEA9Nw0E+5EwI0mVEGUAPZTpdCRX/NzOicZY4P+LwoDWx+RYXy
+   hvcYmfh07Dk2fxsmbiNICHmun0KxDrz0zirmyqrCN7EKZZCP/WBGqb/bF
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="378683557"
 X-IronPort-AV: E=Sophos;i="6.04,247,1695711600"; 
-   d="scan'208";a="378683556"
+   d="scan'208";a="378683557"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
   by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2023 07:48:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="893737741"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="893737744"
 X-IronPort-AV: E=Sophos;i="6.04,247,1695711600"; 
-   d="scan'208";a="893737741"
+   d="scan'208";a="893737744"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga004.jf.intel.com with ESMTP; 03 Dec 2023 07:48:52 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r9oi9-0006nW-1Y;
+	id 1r9oi9-0006na-1t;
 	Sun, 03 Dec 2023 15:48:49 +0000
-Date: Sun, 3 Dec 2023 23:48:44 +0800
+Date: Sun, 3 Dec 2023 23:48:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: sound/soc/sof/ipc4-control.c:62:1-7: preceding lock on line 41
-Message-ID: <202312032310.CVk6NaCj-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/x86/kernel/kvmclock.c:269 kvmclock_setup_percpu() error:
+ testing array offset 'cpu' after use.
+Message-ID: <202312032306.PrSrLRqa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,83 +53,53 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
-CC: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+TO: Thomas Gleixner <tglx@linutronix.de>
+CC: Pavel Tatashin <pasha.tatashin@oracle.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: f94f3915274d22d5cd8b253e0533822b934f5f41 ASoC: SOF: Protect swidget->use_count with mutex for kcontrol access race
-date:   10 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 10 months ago
-config: i386-randconfig-053-20231130 (https://download.01.org/0day-ci/archive/20231203/202312032310.CVk6NaCj-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231203/202312032310.CVk6NaCj-lkp@intel.com/reproduce)
+commit: 95a3d4454bb1cf5bfd666c27fdd2dc188e17c14d x86/kvmclock: Switch kvmclock data to a PER_CPU variable
+date:   5 years ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 years ago
+config: x86_64-randconfig-x006-20230817 (https://download.01.org/0day-ci/archive/20231203/202312032306.PrSrLRqa-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231203/202312032306.PrSrLRqa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312032310.CVk6NaCj-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202312032306.PrSrLRqa-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> sound/soc/sof/ipc4-control.c:62:1-7: preceding lock on line 41
+smatch warnings:
+arch/x86/kernel/kvmclock.c:269 kvmclock_setup_percpu() error: testing array offset 'cpu' after use.
 
-vim +62 sound/soc/sof/ipc4-control.c
+vim +/cpu +269 arch/x86/kernel/kvmclock.c
 
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  14  
-f94f3915274d22 Peter Ujfalusi    2023-01-27  15  static int sof_ipc4_set_get_kcontrol_data(struct snd_sof_control *scontrol,
-f94f3915274d22 Peter Ujfalusi    2023-01-27  16  					  bool set, bool lock)
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  17  {
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  18  	struct sof_ipc4_control_data *cdata = scontrol->ipc_control_data;
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  19  	struct snd_soc_component *scomp = scontrol->scomp;
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  20  	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  21  	const struct sof_ipc_ops *iops = sdev->ipc->ops;
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  22  	struct sof_ipc4_msg *msg = &cdata->msg;
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  23  	struct snd_sof_widget *swidget;
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  24  	bool widget_found = false;
-f94f3915274d22 Peter Ujfalusi    2023-01-27  25  	int ret = 0;
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  26  
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  27  	/* find widget associated with the control */
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  28  	list_for_each_entry(swidget, &sdev->widget_list, list) {
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  29  		if (swidget->comp_id == scontrol->comp_id) {
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  30  			widget_found = true;
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  31  			break;
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  32  		}
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  33  	}
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  34  
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  35  	if (!widget_found) {
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  36  		dev_err(scomp->dev, "Failed to find widget for kcontrol %s\n", scontrol->name);
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  37  		return -ENOENT;
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  38  	}
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  39  
-f94f3915274d22 Peter Ujfalusi    2023-01-27  40  	if (lock)
-f94f3915274d22 Peter Ujfalusi    2023-01-27 @41  		mutex_lock(&swidget->setup_mutex);
-f94f3915274d22 Peter Ujfalusi    2023-01-27  42  	else
-f94f3915274d22 Peter Ujfalusi    2023-01-27  43  		lockdep_assert_held(&swidget->setup_mutex);
-f94f3915274d22 Peter Ujfalusi    2023-01-27  44  
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  45  	/*
-f94f3915274d22 Peter Ujfalusi    2023-01-27  46  	 * Volatile controls should always be part of static pipelines and the
-f94f3915274d22 Peter Ujfalusi    2023-01-27  47  	 * widget use_count would always be > 0 in this case. For the others,
-f94f3915274d22 Peter Ujfalusi    2023-01-27  48  	 * just return the cached value if the widget is not set up.
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  49  	 */
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  50  	if (!swidget->use_count)
-f94f3915274d22 Peter Ujfalusi    2023-01-27  51  		goto unlock;
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  52  
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  53  	msg->primary &= ~SOF_IPC4_MOD_INSTANCE_MASK;
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  54  	msg->primary |= SOF_IPC4_MOD_INSTANCE(swidget->instance_id);
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  55  
-f94f3915274d22 Peter Ujfalusi    2023-01-27  56  	ret = iops->set_get_data(sdev, msg, msg->data_size, set);
-f94f3915274d22 Peter Ujfalusi    2023-01-27  57  
-f94f3915274d22 Peter Ujfalusi    2023-01-27  58  unlock:
-f94f3915274d22 Peter Ujfalusi    2023-01-27  59  	if (lock)
-f94f3915274d22 Peter Ujfalusi    2023-01-27  60  		mutex_unlock(&swidget->setup_mutex);
-f94f3915274d22 Peter Ujfalusi    2023-01-27  61  
-f94f3915274d22 Peter Ujfalusi    2023-01-27 @62  	return ret;
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  63  }
-955e84fc0b6df6 Ranjani Sridharan 2022-06-08  64  
+e499a9b6dc488a Thomas Gleixner 2018-07-19  255  
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  256  static int kvmclock_setup_percpu(unsigned int cpu)
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  257  {
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  258  	struct pvclock_vsyscall_time_info *p = per_cpu(hv_clock_per_cpu, cpu);
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  259  
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  260  	/*
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  261  	 * The per cpu area setup replicates CPU0 data to all cpu
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  262  	 * pointers. So carefully check. CPU0 has been set up in init
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  263  	 * already.
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  264  	 */
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  265  	if (!cpu || (p && p != per_cpu(hv_clock_per_cpu, 0)))
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  266  		return 0;
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  267  
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  268  	/* Use the static page for the first CPUs, allocate otherwise */
+95a3d4454bb1cf Thomas Gleixner 2018-07-19 @269  	if (cpu < HVC_BOOT_ARRAY_SIZE)
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  270  		p = &hv_clock_boot[cpu];
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  271  	else
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  272  		p = kzalloc(sizeof(*p), GFP_KERNEL);
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  273  
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  274  	per_cpu(hv_clock_per_cpu, cpu) = p;
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  275  	return p ? 0 : -ENOMEM;
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  276  }
+95a3d4454bb1cf Thomas Gleixner 2018-07-19  277  
 
 -- 
 0-DAY CI Kernel Test Service
