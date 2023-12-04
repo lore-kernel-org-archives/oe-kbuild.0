@@ -1,59 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E870D38A
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 Dec 2023 02:37:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F55F642
+	for <oe-kbuild@lists.linux.dev>; Mon,  4 Dec 2023 02:38:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d01dHPoi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TpJMg0HB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701657479; x=1733193479;
+  t=1701657529; x=1733193529;
   h=from:to:subject:date:message-id:references:in-reply-to:
    content-transfer-encoding:mime-version;
-  bh=GPGSNEY0eI1i2OKPVVZFKBDZNoIHjf2U+Unp0iRqwag=;
-  b=d01dHPoiEso3CNUYe/ctQH4Ku2ChpwSpbpcSPmNfef7jy4fVqcrqF4Sb
-   47PmijDpb1ryb+FkB4la61c6VKYyAN0MjOFZGpUVXxZOyK0fr5sFPS10e
-   3llPRzR2pGimmXQmT7vbrI0jwUC4Cclswl6zxKbFoF0C+qXhbyYC84F82
-   EK3dEBYJMcQd+r3RdJL7ivU9tPJlROBNpjlLQTDP6KRqJYbk2lPlBcQ62
-   EVPpdThNCJaqf/+jHLdOiadmSUdPrETmr+orWzyQ6B6IcKaWSDrIRFX1Q
-   Wzh5i1Jzct79EeaJq3tfLoJFwhePnuWAuQqQj+4tXK7B7jI4CaNu9rxfs
+  bh=KpUjy5TnQkZyXZDJm4EWmSAQd/fckevLQFP5LCdfyOc=;
+  b=TpJMg0HBDRkVjk3BUAOoKavQpmU5XL6KeHwFsp+PITJJkwxVFfbHzlGl
+   Xy98XdF2ni4P36FtCbNpYCRow01lYyLDMBj3nx7NLzWC9M9ACQVZRkUpS
+   eMHqtrKE53mPbwLsfXMb5eA6XBAQAGSH+tCfu7ywg+dhDd8uFbYT3b1mw
+   qPrPcLsV/ySepSK7n7139/qxtfVM5ez0Jfn3HmylC2afBV4JmIVW2jPD7
+   bRrSqjj0/2xKqxD8VabgAt1Vv6dnBLJfShWlPN9aFVR6sMExtbGaXPM4M
+   6IssrZkbix/OMCfGR1hrJyjmTmXC3Yz5rGdm5qyJbD9Iu/IyuqJjUINcS
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="373865077"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="373865152"
 X-IronPort-AV: E=Sophos;i="6.04,248,1695711600"; 
-   d="scan'208";a="373865077"
+   d="scan'208";a="373865152"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2023 18:37:58 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2023 18:38:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="836434037"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="836434185"
 X-IronPort-AV: E=Sophos;i="6.04,248,1695711600"; 
-   d="scan'208";a="836434037"
+   d="scan'208";a="836434185"
 Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 03 Dec 2023 18:37:58 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+  by fmsmga008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 03 Dec 2023 18:38:48 -0800
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
  ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Sun, 3 Dec 2023 18:37:58 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Sun, 3 Dec 2023 18:37:57 -0800
+ 15.1.2507.34; Sun, 3 Dec 2023 18:38:48 -0800
 Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Sun, 3 Dec 2023 18:37:57 -0800
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.40) by
+ 15.1.2507.34 via Frontend Transport; Sun, 3 Dec 2023 18:38:48 -0800
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.41) by
  edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Sun, 3 Dec 2023 18:37:57 -0800
+ 15.1.2507.34; Sun, 3 Dec 2023 18:38:47 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dklYFSFPwSCxU5FAE5bY1vW/zfrE0ik1QjNONCL+xgtAbBSLA5Fvi7kBOAd13FmYLKfhyA7qfRCc65FMwGM04O0l7aN5+mUo160BvwS8X5+zGeyDYFzw1oydpP/EtCTNofrq49LSqzIBCxTbN/Twuavk1U05V7itQn6qne6ykihiezNH+vXEx08tdrc6PwUUlpU1kL/jB+yp9BFHwcnBqESGoGiy9SDoiVbSrF2S8ClQxfeLcDe9+yYSJlrr4X8DSNGDQpgvVPzQShRyL0IEqQKxPr9Jq4xjLU9zfD4Bq1pNKplBV0ze9XXMQEZzedq4w3SQpPCdODazr0ArEtNMPg==
+ b=mUMszz1rLl4wpoUPV1tjufWuSw4fBluSSiuaNysySmr80yX0HJwdX5a2JF65gQF/L+f3Vs8BMiyqKcme4OseoaqGMothK6EmESC8LS+WuocSQzDl/6NtVxIN6OPtWm8TYLqGTyx/Suu4uIpfYReeasbBf2KE8Rw9TK1bYG/3RMdkxvTIL9Ek4P3/E5FgdJ3W6Z/VRfcXEkM6afN21rj2LSDSvUcp7wudqSCS9U1vJ5Qy+l0zqnWyV8K0P7SwJaiBrIUZCwzLdyX4rkelTA3b75JM3IRvZ1nCpCZsVLG/gFAEg1VxLuj/X0jRmfd01cTF43T6xUGaVYM9w6LxJyp9iw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QuzOj5ad72ElKhUiGyjM6bRZBeP8PiqAER8Vjs/UihE=;
- b=AdEItQNDXC9Wbay3cu+3+kq7XRGxxBRTff0SxgMwqQPo4qNN/7ipp5xdWBA6pcsHu4qKoId/Fo9PnyL4jY36t25R4Sb+mDUw+I61fXVHC3A31yoWPda8+pPn8PoVkaBjIdmHORvLlmGVj7P7UT50+25vHsHZ6Jt5kLwdZu7YtDMy6ZACz3EGF2jcV7HiWvoyJOLGlNCEimQ6BrqYaaKeB6GrxBy6mbplNyg68k9+tSqYTiA5kjRgVzdtYMeN4gewsYqmrFWR7FoVf+wAeFUgykdCmhX9+bX9EOiDC5UpaLNT70VePbBO28CjaGaKogZdNPw4rG/wPqRQL0BJwRvP+w==
+ bh=eHQLLehY3ORFU4mkSwcHr+srLypi+F9Kim8V8k5ZOew=;
+ b=WTqpM1BKeGDEOrRVO/KPI3XOJWAXRuRrS3gSGQyzV5XpBV4Sfqy09CgChyCg9KWnvWw3TCWsTHDbTKR+vpcRNcaI3K63yAJxLxRZlAcT6Ol7XNVZJBbP1OFFIUp2PS5DFGTWE0CBJ2FlGGuKcbOOCI/5yJL35eTt4A7mAPwVefQypgs4vrK1AmIqz8sDbhPVqgZymlMh1x+a26LwJ809lctK6yG55L0e1hFyZpGpG8YP5Il0dzgLDgWOeEomvpWGqaci3LC4qUlkW98eEQmSa8/KvECpk8t4W24QFP6koUrWGATvjGZS+K4CHAh13yk0ZcdJ3OYU5zlLqd2aRaLtYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -61,21 +57,25 @@ Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
  by CY5PR11MB6259.namprd11.prod.outlook.com (2603:10b6:930:24::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.33; Mon, 4 Dec
- 2023 02:37:55 +0000
+ 2023 02:38:46 +0000
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7025.022; Mon, 4 Dec 2023
- 02:37:55 +0000
+ 02:38:46 +0000
 From: "Liu, Yujie" <yujie.liu@intel.com>
 To: lkp <lkp@intel.com>, "oe-kbuild@lists.linux.dev"
 	<oe-kbuild@lists.linux.dev>
-Subject: RE: [PATCH 04/35] blk-crypto: add a process bio callback
-Thread-Topic: [PATCH 04/35] blk-crypto: add a process bio callback
-Thread-Index: AQHaJGs0G9YlG233b06Y5W7CyIQqHbCYbL+Q
-Date: Mon, 4 Dec 2023 02:37:55 +0000
-Message-ID: <CY5PR11MB6392D40BE1DB97A8518FBCE5FB86A@CY5PR11MB6392.namprd11.prod.outlook.com>
-References: <202312012352.qjTdmkYN-lkp@intel.com>
-In-Reply-To: <202312012352.qjTdmkYN-lkp@intel.com>
+Subject: RE: [sudeep-holla:v6.7/ffa_integ_test 5/5]
+ drivers/firmware/arm_ffa/test_driver.c: linux/arm_ffa.h is included more than
+ once.
+Thread-Topic: [sudeep-holla:v6.7/ffa_integ_test 5/5]
+ drivers/firmware/arm_ffa/test_driver.c: linux/arm_ffa.h is included more than
+ once.
+Thread-Index: AQHaJFfsBR/cRNabMECNszFAWuKa6bCYbUfw
+Date: Mon, 4 Dec 2023 02:38:46 +0000
+Message-ID: <CY5PR11MB6392B9B84C3288ABC8EA92B3FB86A@CY5PR11MB6392.namprd11.prod.outlook.com>
+References: <202312012151.Dq5V6dqG-lkp@intel.com>
+In-Reply-To: <202312012151.Dq5V6dqG-lkp@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -84,40 +84,40 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: CY5PR11MB6392:EE_|CY5PR11MB6259:EE_
-x-ms-office365-filtering-correlation-id: e6083506-7b72-46f2-514b-08dbf472052f
+x-ms-office365-filtering-correlation-id: edaf6224-cf3d-483e-6dc0-08dbf472237b
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Sll1gFa8ySwvoiPSNJIUad1Kd8ThoUjLBVfWTdyJG7EqME1seTsbd3ZR9OluO0NaneE8RpyBMVkrCr11tQLYhq6//WYh4vETBMvsfUtV/bKfxvg+eXmB7v5iCP8rC1p+bzuVPq0JPGwXlSrJ2DeOeF18YJv1bkFsT6hi9VRHD61Immqj4Tc5R/ilMkBebiZOHUDvEbVjzWyP0Ep7XwlCtu9luisqLzgF2+MHRmazu+6EqlXHL/I7kqGOyRljRVVimpVRvoyINjN4rrWoW/81m/DXlFlbXnLhMw37Ykm5JHlktB4l2t++bXPq2LJkDdVyXo3KIEor8Xf7YDbxQPIsLQP5jS/C2dBlnU+kx5s+muFa/nIMyg82Gf7jh3I0w7WE0EJbtxtH23K+2UkcIWTsM2r0EHI6Uy4offN2lUw+2DDtvPKUotBXaJtvsAVuhJSPy/AUOl0Wx/gcW0dKw6CbXI0ufJvhN2ZbPnBFRK4v0GXhZ7OYcDyuUeS33tJIhKzBiIN2/UueWp+Q3U5fYsPpg3HSirtvL9ig4K2UmTqmsseYyGBYYfqlVZ2QpQO0cTg4RZcmEHPW051qEPOXE1Bu515zIv/+WtFnlwxbc2JSBJS3F2mHaaLGIezQcKdt6Xoc1U7Sla7ud02clys9fXoVcmn41MKsDMryRy1aI1IACi9Iu3QALG88HCEctCm/clO9
+x-microsoft-antispam-message-info: mOTcBaOh8OyQLbKaLQQj3AynENPf4fqEiw52QTMXnSSoS3K4th6n64eE5yDGaYW/fcZhbk2jydRPDxJmJk4+Oc3vlgs6JgwzFnBYEEEPdPaH5I+YrQ1AOoycew4LQlb2DbKL8P2ZHJy02L724bUbM8op5z08zKGkEv51ypZ2LIveJ5j2btmqcJza79ev81j10ptuiIMk553JlPkan3IJu2llQeHQFJ7hJEeJB5soeCoJcv3WRhY0lJXWgYaIQZR0lDrumgBMTwtQhfDhzEr+Zz6UYRBpB9VPLNeYiWZXcpXYXG4O15MDWOuez8w8+RcmlO/XzV8qnTOlyu3BAAg/2EjlLkMpNcgh41XYIpIn3F89iyKIQ6RxuZR3CEPlIr1vlYh2Zb/2WcjnHD4eM2JMTWUKbnH3yNiyZ1yJg9SZCwibGV2MNKocTF/Ibd3BZ7tFP27XxriYL5I/gT0pH8Ks/G2HehGIh7V/3WyCUPIr7aAQUihZna9a39XOGSQw4dMUygz7LdkIimpZCEINhOF4s0cKMdPCCsYOfPHpyOSO8Q0nBSaY9hiecqttcs3igD1h/Yr2BeMPXa7A6zzcgd+Yy/F94YsqJkir3eVC7MTzvXzZBULsAaMHZqhzC233z+hwECwyfq8HbLUr8V067km9EScW2hTDIZDftrrBtCdiNwqvAFsqibY7ivO9Hev0bwcM
 x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(376002)(396003)(136003)(39860400002)(346002)(230173577357003)(230273577357003)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(66446008)(64756008)(316002)(66476007)(8936002)(86362001)(8676002)(52536014)(66556008)(966005)(478600001)(110136005)(76116006)(66946007)(41300700001)(2906002)(5660300002)(33656002)(38070700009)(122000001)(26005)(9686003)(7696005)(6506007)(71200400001)(53546011)(83380400001)(82960400001)(38100700002)(55016003);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?9HXDrur5a5XTkjkJ3fkqYHvYDwhrRIOBO8aNM3VZQEcH1jRzy/RNLEUM+zcQ?=
- =?us-ascii?Q?ghyAFWuW1sbXGg5hgAASN74l5fZeWuJbsmvxVVOh63I55A0FS/4N+awYKoxe?=
- =?us-ascii?Q?Qv6G4uTdy6S8srSaGvek+dBBA7gtNWHfECDaIJLKQIrcdTdA3dV+3jOFr8Ej?=
- =?us-ascii?Q?VUbIjL91rvIk+Ny7Et4mjllqUazD8uDC/6vjUaVMTcdqN/MwMKsyrZTjHBlv?=
- =?us-ascii?Q?BZOuiaio3yeYRqn3Ar9Knhh7dBw8sLjIuzOv2rWCyvLMzHq5/MMxS5a+HCwD?=
- =?us-ascii?Q?YLxVoS+aTXjDEXWxZkrDQplvZj4FYEBwlc33M3AVwbeghlNbiyp490su4tuG?=
- =?us-ascii?Q?r2+fIw6xC291tN8dQtxKQ2y1grUVSNR88HS9N3LyfKmiEaho+SloeD5D4JPv?=
- =?us-ascii?Q?3/KhcionlTmneKLrYQL3mQg4WpYc86kn4OFpIDe6tUAwRnyeYaFroVJlnE3e?=
- =?us-ascii?Q?dGgdDVYIdmOmXzXOL244a+QsAC+C0vam/yhP4npiCQT9aAqMhjydO6FesZGA?=
- =?us-ascii?Q?NSrorLGuv7hLz4j2zGrQmu7rofFK1aWjjEF/yJTiIuXQZ7Q5loST9pOBQGCr?=
- =?us-ascii?Q?Z16UeptF6aeuTAGIMv32uDcKYovzDaovGHjNoF8SQXLv7OheGCYXWloyBRUn?=
- =?us-ascii?Q?k8Np+E8DrnkhUngc0Il//FjZOEQByzM1PzR0scQjWC/UASSsDoEPWdxGoMgN?=
- =?us-ascii?Q?RU1Ecg27zobzFL6QxUnoAq/Ijts8mDUMJGKGojAh/tqGGcCeKBDvdyS4auzz?=
- =?us-ascii?Q?23DJUssjSgIZgKRJF7KuFc5/SDx9bdpB63qaMW+5Soj9N5CT7NTY/xHc2eXz?=
- =?us-ascii?Q?vJuJAF5tjB3lqSasREaK4yoMapVXAGhEhsvqqyf/QYKk5Wr0IHSW044fOMt2?=
- =?us-ascii?Q?qNKByNyoOoe+a7me5hGFUkPkSs7gxSZCdGNWEzuRXe7xHQLBXXTMSbZPSCHl?=
- =?us-ascii?Q?qZwRHuFPaEix+I9IFHnC2AReX4BLfi7lfx3DqhhjqvZI+s+8cAT1OJOGTRMg?=
- =?us-ascii?Q?4mb5rbNLPmhMVgmbroi39Rcxu6Oo64nRLgQRnTz84CdfoMj+1VayBk0lsFev?=
- =?us-ascii?Q?YQ2Hzw38cvR3oNCsTBIaM1N5KdD5pNRYxMU7gWogGrgMARajaV8+JcXDuZ/Y?=
- =?us-ascii?Q?aPcQ9GNhwfn9cC7YlB2MIiRzzVePNzuPJz6Wp6pZKBvthk6p4DkIi8yY1daW?=
- =?us-ascii?Q?vcHkS6ihoDmIJgXl6ouWuiKpGXoYAvF6Vb74QJsycDLKGUs1dsRuGgONy3vz?=
- =?us-ascii?Q?6ifR06zQB8ued1k0KvvGRJGSV/zf+eOcvrjQ1raEFVSI+CDARSR22OOSGsyD?=
- =?us-ascii?Q?zbLneW9lMIO2tnyEPaYTnHlWDyTs0nJYvLp4L3lvAhNySvWC7JoDXLDnJIGV?=
- =?us-ascii?Q?1rKR5t8yg1Zxn2JHPsYOIbzEOD9O9M+q/+AzhCW8zXQLMcgDArdBJ3hAe0An?=
- =?us-ascii?Q?+hvTOMsYssjcM6hu0mp71Cx4S5w515heLnZzuQfkl5dtjvHx9/6g1UFv5zFP?=
- =?us-ascii?Q?ruYAE3sYAICiRYSIxIv9tU1sXYLz5FXpr7EXzSTt3vDQBTxu0wuQdKW5N+yH?=
- =?us-ascii?Q?yhywruGtR5qVwiPqMVb29h8PQ5anJHR9/pxZ/6FZ?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?8/GfqbYlEI50welTL9JymiOquSlHvZNbwAE7AjZRNnl984K7OYflHv1RDsk4?=
+ =?us-ascii?Q?YMPNtVUX2qgmHc8qKX3T/sAh2ErVdZCj48CwtdzVLxiKiMvCWU1Cm5wfwpzj?=
+ =?us-ascii?Q?9X+nTSspgS2I4do5IBL2nkR7aPRva4FoCxAWsmo+4AiuOxNQDBcLHOiOCsLK?=
+ =?us-ascii?Q?Qo5D7+lBy/Bj4m75/7KeKoKmgSh0qZfnjE1FNNoqN3ux0WSOup1mwh2pz4h2?=
+ =?us-ascii?Q?5ldOZaBudezHFG9r/Q6phCKSPVqpHqjfoLBuUAG+u/PGS3B/W35RwjYQf1LI?=
+ =?us-ascii?Q?/oBHxxc3xdvsby6axbtdb3ff17J1XOpDlS/2XIzbHf6U6STiKXLyxJjx2MF+?=
+ =?us-ascii?Q?oBS3KwUnO2s0FRZ8yU1nWbd5CxwlTxJ0hFUqYsc6NpF21poXiId5VivWCsLs?=
+ =?us-ascii?Q?6VkGbGmIZQIlvEMYHrtUYkrmHAlArG9oIlIvGzEEjSuPPAze4tKpcptESV7C?=
+ =?us-ascii?Q?oTT5O5bggzqmedTu31IP+uS7/LHAa/hwCzJSxhbJZuvOn2c+DO90LOBuOzYK?=
+ =?us-ascii?Q?pLQJGYov0FP7g14uIPsVsNY6/7rKxvJJdIjZ8Ra+kEyY8Qwp66a9ytV6X+mL?=
+ =?us-ascii?Q?+flbKczd5ORHDoHyXHKSUcQOjX64yDYwsh7l9ANLYrLj+I3u+4gNvQ8QUmYv?=
+ =?us-ascii?Q?97XyI8u3bZtu1HxfUl6cIgCeWl0P43pRtX6ldiWYlGOvpsnSXcTZ/an3uHEV?=
+ =?us-ascii?Q?sBIovzLm2/87rYWh+j58a+n3ABTCwbJW+DT9VpADsbXptgQO6UdizEA42HLe?=
+ =?us-ascii?Q?cr7BtKnYZjSV1Cy6EnCNcp7iHhITvjd0qfzwYDsbROMYUt6lq6cUJoLewzSw?=
+ =?us-ascii?Q?1OJ/asd+MbnRdfdaI9Uda2A7ACHiV7wfWCprVhufDv8EcYBlzIWA0aWNu3md?=
+ =?us-ascii?Q?cFygHiu6f87jxuzxu4K79SjUXRgzIqAn+hYa4TvfvJhot5kLMI6bPRhUOXSH?=
+ =?us-ascii?Q?WvSvkwYgoqv43x3fwQ1QEGA1WT8WKmWIYUBMRJyCOHjLKttcSg6HN4GELb5a?=
+ =?us-ascii?Q?PX6vgIXJZXUzJPhM7JAJRspu1fI4IO1yIRdL9zKaJde7CzTwl3yjQc6lEZ+q?=
+ =?us-ascii?Q?EDXhKqNFaP23QLpju/c7piszbmaVtzKu+SgXcbJ7CGGylG3xSMjbGohE4eGs?=
+ =?us-ascii?Q?ajiU28M/FSuZ8LCBG80JGlk5k8GspC2P418Z9+pLdqi9Mhx41HHgAvcsJ1VC?=
+ =?us-ascii?Q?f5dVJAo3WSzjZaHiGlqLP6dJeua9VepQDLt0yZSch1MD1PrxHpnM5zqXmboJ?=
+ =?us-ascii?Q?2rkvIqNO0Z1+ns5BuPgCqQ2RpfCM8Cnz6ukemi+zhr8TcCfKyz8qIMxqB9Su?=
+ =?us-ascii?Q?bCFX6jk2l+tih8iRZpjGZDv9OGysnT4puQY/+Y/FUxMHHMWTRZ9AKpw+vPvm?=
+ =?us-ascii?Q?Puw5aWegKX4jfSw282gFsl2lL26h0IIzQFV16BGsFbXVNRFGi4WvwiUX6Nc+?=
+ =?us-ascii?Q?wxHo7cw6ihHphYTBwszDNA9MMpEZDkMgKvOoH/GF83E+DbxMHaQcS9jKWNGc?=
+ =?us-ascii?Q?YMeezAWkhQXGrFxeP8BL/mGFkc/gtOSh6LgrXGMVTZoAGCDUMNDvWQZ/2hi0?=
+ =?us-ascii?Q?cxJSgziZgdp4NQaTICOIy7gX5QYI7TQvJW64g9AU?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -128,28 +128,28 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6083506-7b72-46f2-514b-08dbf472052f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Dec 2023 02:37:55.2915
+X-MS-Exchange-CrossTenant-Network-Message-Id: edaf6224-cf3d-483e-6dc0-08dbf472237b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Dec 2023 02:38:46.1670
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: K3xYSlopnGl6RP3apS02h3OiFbkrjLZ8zucA80+dRlPZC+yRP6gDSeF9DX3oyQnle/oAsloYE0k87Nb15IqR5Q==
+X-MS-Exchange-CrossTenant-userprincipalname: fx9lUWor2x9S8ID3i6x49XAACYrJqVdU52YE7VHRndzRPHoNLz7rEXs2S7rFkFFx5A/rMpuxuA4yFuC5iWziQQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6259
 X-OriginatorOrg: intel.com
 
 not_report
 
-9 weeks ago patch.
-
-Date: Tue, 26 Sep 2023 14:01:30 -0400
+duplicate to https://lore.kernel.org/all/202311110545.JOGoXeHY-lkp@intel.co=
+m/
 
 -----Original Message-----
 From: lkp <lkp@intel.com>=20
-Sent: Friday, December 1, 2023 23:23
+Sent: Friday, December 1, 2023 21:09
 To: oe-kbuild@lists.linux.dev
 Cc: lkp <lkp@intel.com>
-Subject: Re: [PATCH 04/35] blk-crypto: add a process bio callback
+Subject: [sudeep-holla:v6.7/ffa_integ_test 5/5] drivers/firmware/arm_ffa/te=
+st_driver.c: linux/arm_ffa.h is included more than once.
 
 ::::::=20
 :::::: Manual check reason: "low confidence bisect report"
@@ -157,136 +157,181 @@ Subject: Re: [PATCH 04/35] blk-crypto: add a process bio callback
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <78be341377e7f0fb0ead3d5167be44ca0c87a944.1695750478.git.josef=
-@toxicpanda.com>
-References: <78be341377e7f0fb0ead3d5167be44ca0c87a944.1695750478.git.josef@=
-toxicpanda.com>
-TO: Josef Bacik <josef@toxicpanda.com>
-TO: linux-btrfs@vger.kernel.org
-TO: kernel-team@fb.com
-TO: ebiggers@kernel.org
-TO: linux-fscrypt@vger.kernel.org
-TO: ngompa13@gmail.com
+TO: Sudeep Holla <sudeep.holla@arm.com>
 
-Hi Josef,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kdave/for-next]
-[cannot apply to axboe-block/for-next linus/master v6.7-rc3 next-20231201]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Josef-Bacik/fscrypt-=
-rename-fscrypt_info-fscrypt_inode_info/20230927-020531
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for=
--next
-patch link:    https://lore.kernel.org/r/78be341377e7f0fb0ead3d5167be44ca0c=
-87a944.1695750478.git.josef%40toxicpanda.com
-patch subject: [PATCH 04/35] blk-crypto: add a process bio callback
-:::::: branch date: 9 weeks ago
-:::::: commit date: 9 weeks ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.=
+git v6.7/ffa_integ_test
+head:   0dfce5abe57576c4804fc626172b0cd80a320c1c
+commit: 0dfce5abe57576c4804fc626172b0cd80a320c1c [5/5] firmware: arm_ffa: A=
+dd test driver
+:::::: branch date: 3 weeks ago
+:::::: commit date: 3 weeks ago
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231201/202312012352.q=
-jTdmkYN-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231201/202312012151.D=
+q5V6dqG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312012352.qjTdmkYN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312012151.Dq5V6dqG-lkp@intel.com/
 
 includecheck warnings: (new ones prefixed by >>)
->> include/linux/blk-crypto.h: linux/blk_types.h is included more than once=
-.
+>> drivers/firmware/arm_ffa/test_driver.c: linux/arm_ffa.h is included more=
+ than once.
+>> drivers/firmware/arm_ffa/test_driver.c: linux/module.h is included more =
+than once.
 
-vim +9 include/linux/blk-crypto.h
+vim +6 drivers/firmware/arm_ffa/test_driver.c
 
+   > 6	#include <linux/arm_ffa.h>
+     7	#include <linux/module.h>
      8=09
-   > 9	#include <linux/blk_types.h>
-    10=09
-    11	enum blk_crypto_mode_num {
-    12		BLK_ENCRYPTION_MODE_INVALID,
-    13		BLK_ENCRYPTION_MODE_AES_256_XTS,
-    14		BLK_ENCRYPTION_MODE_AES_128_CBC_ESSIV,
-    15		BLK_ENCRYPTION_MODE_ADIANTUM,
-    16		BLK_ENCRYPTION_MODE_SM4_XTS,
-    17		BLK_ENCRYPTION_MODE_MAX,
-    18	};
+     9	#define PRIMARY_UUID \
+    10		UUID_INIT(0xb4b5671e, 0x4a90, 0x4fe1, 0xb8, 0x1f, 0xfb, 0x13, 0xda,=
+ 0xe1, 0xda, 0xcb)
+    11	#define SECONDARY_UUID \
+    12		UUID_INIT(0xd1582309, 0xf023, 0x47b9, 0x82, 0x7c, 0x44, 0x64, 0xf5,=
+ 0x57, 0x8f, 0xc8)
+    13	#define TERTIARY_UUID \
+    14		UUID_INIT(0x79b55c73, 0x1d8c, 0x44b9, 0x85, 0x93, 0x61, 0xe1, 0x77,=
+ 0x0a, 0xd8, 0xd2)
+    15	#define IVY_UUID \
+    16		UUID_INIT(0xeaba83d8, 0xbaaf, 0x4eaf, 0x81, 0x44, 0xf7, 0xfd, 0xcb,=
+ 0xe5, 0x44, 0xa7)
+    17	#define TEST_UUID(x) \
+    18		UUID_INIT(0x00000000, 0x0000, 0x0000, 0x00, 0x00, 0x00, 0x00, (x), =
+0x00, 0x00, 0x00)
     19=09
-    20	typedef blk_status_t (blk_crypto_process_bio_t)(struct bio *orig_bio=
-,
-    21							struct bio *enc_bio);
-    22=09
-    23	#define BLK_CRYPTO_MAX_KEY_SIZE		64
-    24	/**
-    25	 * struct blk_crypto_config - an inline encryption key's crypto conf=
-iguration
-    26	 * @crypto_mode: encryption algorithm this key is for
-    27	 * @data_unit_size: the data unit size for all encryption/decryption=
-s with this
-    28	 *	key.  This is the size in bytes of each individual plaintext and
-    29	 *	ciphertext.  This is always a power of 2.  It might be e.g. the
-    30	 *	filesystem block size or the disk sector size.
-    31	 * @dun_bytes: the maximum number of bytes of DUN used when using th=
-is key
-    32	 */
-    33	struct blk_crypto_config {
-    34		enum blk_crypto_mode_num crypto_mode;
-    35		unsigned int data_unit_size;
-    36		unsigned int dun_bytes;
-    37		blk_crypto_process_bio_t *process_bio;
-    38	};
+    20=09
+    21	#define SECURE_WORLD_PARTITION_MASK 0x8000
+    22	#define CACTUS_ECHO_CMD 0x6563686fUL
+    23	#define ECHO_VAL1 0xa0a0a0a0UL
+    24	#define ECHO_VAL2 0xb0b0b0b0UL
+    25	#define ECHO_VAL3 0xc0c0c0c0UL
+    26=09
+    27=09
+    28	void test_ffa_notif_cb(int notification_id, void *data)
+    29	{
+    30		pr_info("%x %p\n", notification_id, data);
+    31	}
+    32=09
+    33	static int ffa_test_driver_probe(struct ffa_device *ffa_dev)
+    34	{
+    35		int ret;
+    36		struct ffa_send_direct_data data;
+    37=09
+    38	        pr_info("FF-A test module probed for part ID 0x%x\n", ffa_de=
+v->vm_id);
     39=09
-    40	/**
-    41	 * struct blk_crypto_key - an inline encryption key
-    42	 * @crypto_cfg: the crypto configuration (like crypto_mode, key size=
-) for this
-    43	 *		key
-    44	 * @data_unit_size_bits: log2 of data_unit_size
-    45	 * @size: size of this key in bytes (determined by @crypto_cfg.crypt=
-o_mode)
-    46	 * @raw: the raw bytes of this key.  Only the first @size bytes are =
-used.
-    47	 *
-    48	 * A blk_crypto_key is immutable once created, and many bios can ref=
-erence it at
-    49	 * the same time.  It must not be freed until all bios using it have=
- completed
-    50	 * and it has been evicted from all devices on which it may have bee=
-n used.
-    51	 */
-    52	struct blk_crypto_key {
-    53		struct blk_crypto_config crypto_cfg;
-    54		unsigned int data_unit_size_bits;
-    55		unsigned int size;
-    56		u8 raw[BLK_CRYPTO_MAX_KEY_SIZE];
-    57	};
-    58=09
-    59	#define BLK_CRYPTO_MAX_IV_SIZE		32
-    60	#define BLK_CRYPTO_DUN_ARRAY_SIZE	(BLK_CRYPTO_MAX_IV_SIZE / sizeof(u=
-64))
-    61=09
-    62	/**
-    63	 * struct bio_crypt_ctx - an inline encryption context
-    64	 * @bc_key: the key, algorithm, and data unit size to use
-    65	 * @bc_dun: the data unit number (starting IV) to use
-    66	 *
-    67	 * A bio_crypt_ctx specifies that the contents of the bio will be en=
-crypted (for
-    68	 * write requests) or decrypted (for read requests) inline by the st=
-orage device
-    69	 * or controller, or by the crypto API fallback.
-    70	 */
-    71	struct bio_crypt_ctx {
-    72		const struct blk_crypto_key	*bc_key;
-    73		u64				bc_dun[BLK_CRYPTO_DUN_ARRAY_SIZE];
-    74	};
+    40		data.data0 =3D CACTUS_ECHO_CMD;
+    41		data.data1 =3D ECHO_VAL1;
+    42		data.data2 =3D ffa_dev->vm_id;
+    43		data.data3 =3D 0;
+    44		data.data4 =3D 0;
+    45=09
+    46		ret =3D ffa_dev->ops->msg_ops->sync_send_receive(ffa_dev, &data);
+    47		pr_info("Ret %d\n", ret);
+    48=09
+    49		data.data0 =3D CACTUS_ECHO_CMD;
+    50		data.data1 =3D ECHO_VAL2;
+    51		data.data2 =3D ffa_dev->vm_id;
+    52		data.data3 =3D 0;
+    53		data.data4 =3D 0;
+    54=09
+    55		ret =3D ffa_dev->ops->msg_ops->sync_send_receive(ffa_dev, &data);
+    56		pr_info("Ret %d\n", ret);
+    57=09
+    58		data.data0 =3D CACTUS_ECHO_CMD;
+    59		data.data1 =3D ECHO_VAL3;
+    60		data.data2 =3D ffa_dev->vm_id;
+    61		data.data3 =3D 0;
+    62		data.data4 =3D 0;
+    63=09
+    64		ret =3D ffa_dev->ops->msg_ops->sync_send_receive(ffa_dev, &data);
+    65		pr_info("Ret %d\n", ret);
+    66=09
+    67		data.data0 =3D 0;
+    68		data.data1 =3D 0;
+    69		data.data2 =3D 0;
+    70		data.data3 =3D 0;
+    71		data.data4 =3D 0;
+    72=09
+    73		ret =3D ffa_dev->ops->msg_ops->sync_send_receive(ffa_dev, &data);
+    74		pr_info("Ret %d\n", ret);
     75=09
-  > 76	#include <linux/blk_types.h>
-    77	#include <linux/blkdev.h>
-    78=09
+    76		data.data0 =3D 0;
+    77		data.data1 =3D 1;
+    78		data.data2 =3D 0;
+    79		data.data3 =3D 0;
+    80		data.data4 =3D 0;
+    81=09
+    82		ret =3D ffa_dev->ops->msg_ops->sync_send_receive(ffa_dev, &data);
+    83		pr_info("Ret %d\n", ret);
+    84=09
+    85		data.data0 =3D 0x736c656571;
+    86		data.data1 =3D 0xc8;
+    87		data.data2 =3D 0x8002;
+    88		data.data3 =3D 0x1;
+    89		data.data4 =3D 0;
+    90=09
+    91		ret =3D ffa_dev->ops->msg_ops->sync_send_receive(ffa_dev, &data);
+    92		pr_info("Ret %d\n", ret);
+    93=09
+    94		ret =3D ffa_dev->ops->notifier_ops->notify_request(ffa_dev, 0,
+    95					&test_ffa_notif_cb, &data, BIT(0));
+    96		pr_info("Ret %d\n", ret);
+    97=09
+    98		ret =3D ffa_dev->ops->notifier_ops->notify_request(ffa_dev, 0,
+    99					&test_ffa_notif_cb, &data, BIT(1));
+   100		pr_info("Ret %d\n", ret);
+   101=09
+   102		return 0;
+   103	}
+   104=09
+   105	static const struct ffa_device_id test_ffa_device_id[] =3D {
+   106		{ PRIMARY_UUID },
+   107	//	{ SECONDARY_UUID },
+   108	//	{ TERTIARY_UUID },
+   109	//	{ IVY_UUID },
+   110		{ TEST_UUID(0x3) },
+   111		{ TEST_UUID(0x4) },
+   112		{ TEST_UUID(0x5) },
+   113		{ TEST_UUID(0x6) },
+   114		{ TEST_UUID(0x7) },
+   115		{ TEST_UUID(0x8) },
+   116		{ TEST_UUID(0x9) },
+   117		{ TEST_UUID(0x11) },
+   118		{ TEST_UUID(0x12) },
+   119	        { }
+   120	};
+   121=09
+   122	static struct ffa_driver test_ffa_driver =3D {
+   123	        .name =3D "test_ffa",
+   124	        .probe =3D ffa_test_driver_probe,
+   125	        .id_table =3D test_ffa_device_id,
+   126	};
+   127=09
+   128	module_ffa_driver(test_ffa_driver);
+   129=09
+   130	MODULE_AUTHOR("Arm");
+   131	MODULE_DESCRIPTION("PSA-FF-A test module");
+   132	MODULE_LICENSE("GPL v2");
+   133=09
+   134	#if 0
+ > 135	#include <linux/arm_ffa.h>
+   136	#include <linux/device.h>
+   137	#include <linux/kdev_t.h>
+   138	#include <linux/of_address.h>
+   139	#include <linux/of_platform.h>
+   140	#include <linux/mm.h>
+   141	#include <linux/module.h>
+   142	#include <linux/mutex.h>
+   143	#include <linux/scatterlist.h>
+   144	#include <linux/slab.h>
+   145	#include <linux/smp.h>
+   146	#include <linux/uaccess.h>
+   147=09
 
 --=20
 0-DAY CI Kernel Test Service
