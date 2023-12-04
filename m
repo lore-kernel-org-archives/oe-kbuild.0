@@ -1,53 +1,71 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F428A31
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 Dec 2023 06:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EC61C2F
+	for <oe-kbuild@lists.linux.dev>; Mon,  4 Dec 2023 06:53:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qcovlUxP"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40b2ad4953cso31618985e9.0
-        for <oe-kbuild@lists.linux.dev>; Sun, 03 Dec 2023 22:41:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dGsoekek"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40bda47b7c1so21179915e9.1
+        for <oe-kbuild@lists.linux.dev>; Sun, 03 Dec 2023 22:53:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701672111; x=1702276911; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ApmB2pUDSXbw3GASD2VuKcH2dVbqTsGey4cd15/8X7k=;
-        b=qcovlUxPSHerXStv8/9v9JXUEtqDl0oMuXj/+4Zjj0Ft6niqQX+VRwb01ACQyZ0Hux
-         tqiDzH+Dr5Wyt3zWSO6K+u3yL7pPPui/2VA4QUNJijuw5JAWk6JB2+AV6gST2RWwHhUP
-         MfPTgwp3WHQgJFNWAHkMzyDErLmJr2C6lgRtgvNtxIZQaZY5KF6A6vlG15iVJjF+CqWp
-         G6A31eOWWgeaiWezXLpxTwzZMa8/oLPRxqPBz5IQ2W8wqSuLtVcBpSh/yIdq2MEkWDNX
-         9Zq1DF2BR0x5eMZBOHmWtgfps5StgqhWE41Nxs0UOlU2lSYPbfbaSspRhlZh9dTZu6D5
-         rLMQ==
+        d=linaro.org; s=google; t=1701672808; x=1702277608; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7HssFuAN0FmKtkeeOfUTQqNEnbKypEzyj8/UffXjzYs=;
+        b=dGsoekektCKZVrQU0GAQHjTxCOJI+rVWQNdQIcoxJ1xg1gipnTBDyd4uVWgaWeGh1s
+         m67H40UcJJJx6K2b6ZMbTwAGEi30HEZ8o1tsPIrwF/7I8K0k9SkVBgKLBS4AF3sOVMBC
+         q9JgA/7lefSbuwHqgE/0v55XkRXoW2FfGidQ9VuWFonTfDFOLJaVxyCJKxWQwXOwczha
+         MgrZItlDhrPy3R4GHdFXyTZFx7rVdejaYhBRnjLsS4kMrg7AU2A2bWPp0g2B7d7/V6OY
+         iiPzvv1jD1Q6K46J4i+Ri/XZc7VpspdQ2N875JqaF2gsp3ZzbFo7ExLrtdUZQAfsxcSk
+         p1bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701672111; x=1702276911;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ApmB2pUDSXbw3GASD2VuKcH2dVbqTsGey4cd15/8X7k=;
-        b=cMfPHLlfQVJV6RIfn5zZPm9q30m+RKH771zRyrjRt+kvf6i3uN+EcO1ZonbjE9j5vC
-         4g106cyfLAYzLCQokeTer4UEnWHkTERROBkgmU94k8vW9Wg6SGgWgA+qKmYZ8Dpzy0Dd
-         fwTlc0xzyDrynj9Z8jz3wAAdjnOprN6uScuKPxiDZrGZEbGQuZ/N87Vonwkeqk6/EJLH
-         DdixYHElbOY9vzsTVXpFTzZzFwZLIgZ0EzYKluCziiVA30x94W1odsH571ANrgfSoTkv
-         VVQaCeXQYvaBd7Ns5Ys9IZAhOpuBdl5J/BA2qoDskO1qdqWpZODp0E1XiIHU/bxBTKO7
-         fFIg==
-X-Gm-Message-State: AOJu0YyONRyK+vqROsjw86Yhvox/ZpA5TCvyZdXeT+tzfBDZhyxL9npu
-	Qkvujxhct64PFVvE/tMUxRy2Pf+rUG7Fll2DH94=
-X-Google-Smtp-Source: AGHT+IGTGf6yHFfA5ku1l5PLwahClR/h62xhyVRdgQu+YIgTbEkkykxXiu9yo5aJbxw4GsFSRqJEsQ==
-X-Received: by 2002:a05:600c:45c6:b0:40b:5e56:7b45 with SMTP id s6-20020a05600c45c600b0040b5e567b45mr2791016wmo.142.1701672110620;
-        Sun, 03 Dec 2023 22:41:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701672808; x=1702277608;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7HssFuAN0FmKtkeeOfUTQqNEnbKypEzyj8/UffXjzYs=;
+        b=Lf3zu1vyyU71rRANMCH4+Ye8iQ/FEH1/Y0XJ2I+IJODYCN57aGRFC/mqSzCeyXmLU3
+         oE6fveQpvU5Kzag6/3W42/zRGI3mg6IXLW7LT6lJlsVcZaU3Z6jWHIhH5IWIh+yWjM4N
+         BW6j12pOfD72PaYkRaqDwqmuO44Dtr8YpfZiAsiZppIuAC7Y9SmY7bXO/2Ktv/vLusQc
+         T0wbAtigUmo+MsTP3fo19gXEet+4hLmIFpvdsgp7CQbZe2pw0uiXTYVdaQ1kHMv6T5DD
+         Yn7LlXh/fvu3nduzNw2wZ0Yh8DQ527H1ChS4NxP8cMZ/L/gEm5NBWXaaoG41279SVoFh
+         XVfg==
+X-Gm-Message-State: AOJu0YxKDfEyF6NTzVpoohPEwIrDsOj/r12ghMvi1O492uH7Gj1cAgji
+	ykfkhMOHFOTwd5n/9yMIzm2rlJAYlMdFy4WUWg0=
+X-Google-Smtp-Source: AGHT+IHtHa+5n4xN3AEKMSwT6hpelKtTdR3K3TiRCO07QqooArIjEdGOaVc05secXlj0uyQfVGAD9w==
+X-Received: by 2002:a05:600c:4fcf:b0:40b:5f03:b3b7 with SMTP id o15-20020a05600c4fcf00b0040b5f03b3b7mr968898wmq.217.1701672808259;
+        Sun, 03 Dec 2023 22:53:28 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id fa23-20020a05600c519700b003fee6e170f9sm13725019wmb.45.2023.12.03.22.41.49
+        by smtp.gmail.com with ESMTPSA id q4-20020a05600000c400b003333fa3d043sm4558913wrx.12.2023.12.03.22.53.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Dec 2023 22:41:50 -0800 (PST)
-Date: Mon, 4 Dec 2023 09:41:46 +0300
+        Sun, 03 Dec 2023 22:53:28 -0800 (PST)
+Date: Mon, 4 Dec 2023 09:53:24 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Hector Martin <marcan@marcan.st>
+To: oe-kbuild@lists.linux.dev, Huan Yang <link@vivo.com>,
+	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeelb@google.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Huang Ying <ying.huang@intel.com>,
+	Yosry Ahmed <yosryahmed@google.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Peter Xu <peterx@redhat.com>,
+	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
+	Liu Shixin <liushixin2@huawei.com>, Yue Zhao <findns94@gmail.com>,
+	Hugh Dickins <hughd@google.com>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Marc Zyngier <maz@kernel.org>
-Subject: drivers/irqchip/irq-apple-aic.c:941 aic_of_ic_init() error:
- uninitialized symbol 'off'.
-Message-ID: <ec3c78c4-6d16-4e42-b9b3-a1ba709dc991@suswa.mountain>
+	Linux Memory Management List <linux-mm@kvack.org>,
+	opensource.kernel@vivo.com, Huan Yang <link@vivo.com>
+Subject: Re: [PATCH 2/4] mm: multi-gen LRU: MGLRU unbalance reclaim
+Message-ID: <43b48148-fdfb-4ea3-8d7b-d3ebce7a04da@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,132 +74,86 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231108065818.19932-3-link@vivo.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: dc97fd6fec009957e81026055fc99a03877ff3b8 irqchip/apple-aic: Dynamically compute register offsets
-config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231203/202312032327.J915WcaL-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20231203/202312032327.J915WcaL-lkp@intel.com/reproduce)
+Hi Huan,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Yang/mm-vmscan-LRU-unbalance-cgroup-reclaim/20231108-151757
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231108065818.19932-3-link%40vivo.com
+patch subject: [PATCH 2/4] mm: multi-gen LRU: MGLRU unbalance reclaim
+config: x86_64-randconfig-161-20231108 (https://download.01.org/0day-ci/archive/20231204/202312040256.guajrRNm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231204/202312040256.guajrRNm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312032327.J915WcaL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312040256.guajrRNm-lkp@intel.com/
 
-New smatch warnings:
-drivers/irqchip/irq-apple-aic.c:941 aic_of_ic_init() error: uninitialized symbol 'off'.
+smatch warnings:
+mm/vmscan.c:4518 isolate_folios() error: uninitialized symbol 'unbalance'.
 
-Old smatch warnings:
-drivers/irqchip/irq-apple-aic.c:920 aic_of_ic_init() warn: possible memory leak of 'irqc'
-drivers/irqchip/irq-apple-aic.c:998 aic_of_ic_init() warn: 'regs' from of_iomap() not released on lines: 914,920.
+vim +/unbalance +4518 mm/vmscan.c
 
-vim +/off +941 drivers/irqchip/irq-apple-aic.c
+ac35a490237446 Yu Zhao   2022-09-18  4481  static int isolate_folios(struct lruvec *lruvec, struct scan_control *sc, int swappiness,
+ac35a490237446 Yu Zhao   2022-09-18  4482  			  int *type_scanned, struct list_head *list)
+ac35a490237446 Yu Zhao   2022-09-18  4483  {
+ac35a490237446 Yu Zhao   2022-09-18  4484  	int i;
+ac35a490237446 Yu Zhao   2022-09-18  4485  	int type;
+ac35a490237446 Yu Zhao   2022-09-18  4486  	int scanned;
+ac35a490237446 Yu Zhao   2022-09-18  4487  	int tier = -1;
+9da842af0b17c7 Huan Yang 2023-11-08  4488  	bool unbalance;
 
-76cde26394114f Hector Martin 2021-01-21   900  static int __init aic_of_ic_init(struct device_node *node, struct device_node *parent)
-76cde26394114f Hector Martin 2021-01-21   901  {
-76cde26394114f Hector Martin 2021-01-21   902  	int i;
-dc97fd6fec0099 Hector Martin 2022-03-10   903  	u32 off;
-76cde26394114f Hector Martin 2021-01-21   904  	void __iomem *regs;
-76cde26394114f Hector Martin 2021-01-21   905  	struct aic_irq_chip *irqc;
-2cf68211664acd Hector Martin 2022-03-10   906  	const struct of_device_id *match;
-76cde26394114f Hector Martin 2021-01-21   907  
-76cde26394114f Hector Martin 2021-01-21   908  	regs = of_iomap(node, 0);
-76cde26394114f Hector Martin 2021-01-21   909  	if (WARN_ON(!regs))
-76cde26394114f Hector Martin 2021-01-21   910  		return -EIO;
-76cde26394114f Hector Martin 2021-01-21   911  
-76cde26394114f Hector Martin 2021-01-21   912  	irqc = kzalloc(sizeof(*irqc), GFP_KERNEL);
-76cde26394114f Hector Martin 2021-01-21   913  	if (!irqc)
-76cde26394114f Hector Martin 2021-01-21   914  		return -ENOMEM;
-76cde26394114f Hector Martin 2021-01-21   915  
-76cde26394114f Hector Martin 2021-01-21   916  	irqc->base = regs;
-76cde26394114f Hector Martin 2021-01-21   917  
-2cf68211664acd Hector Martin 2022-03-10   918  	match = of_match_node(aic_info_match, node);
-2cf68211664acd Hector Martin 2022-03-10   919  	if (!match)
-2cf68211664acd Hector Martin 2022-03-10   920  		return -ENODEV;
-2cf68211664acd Hector Martin 2022-03-10   921  
-2cf68211664acd Hector Martin 2022-03-10   922  	irqc->info = *(struct aic_info *)match->data;
-2cf68211664acd Hector Martin 2022-03-10   923  
-2cf68211664acd Hector Martin 2022-03-10   924  	aic_irqc = irqc;
-2cf68211664acd Hector Martin 2022-03-10   925  
-dc97fd6fec0099 Hector Martin 2022-03-10   926  	switch (irqc->info.version) {
-dc97fd6fec0099 Hector Martin 2022-03-10   927  	case 1: {
-dc97fd6fec0099 Hector Martin 2022-03-10   928  		u32 info;
-dc97fd6fec0099 Hector Martin 2022-03-10   929  
-76cde26394114f Hector Martin 2021-01-21   930  		info = aic_ic_read(irqc, AIC_INFO);
-7c841f5f6fa3f9 Hector Martin 2022-03-10   931  		irqc->nr_irq = FIELD_GET(AIC_INFO_NR_IRQ, info);
-dc97fd6fec0099 Hector Martin 2022-03-10   932  		irqc->max_irq = AIC_MAX_IRQ;
-dc97fd6fec0099 Hector Martin 2022-03-10   933  
-dc97fd6fec0099 Hector Martin 2022-03-10   934  		off = irqc->info.target_cpu;
-dc97fd6fec0099 Hector Martin 2022-03-10   935  		off += sizeof(u32) * irqc->max_irq; /* TARGET_CPU */
-dc97fd6fec0099 Hector Martin 2022-03-10   936  
-dc97fd6fec0099 Hector Martin 2022-03-10   937  		break;
-dc97fd6fec0099 Hector Martin 2022-03-10   938  	}
+unbalance is never set to false.  Only to true.
 
-not default statement.
+ac35a490237446 Yu Zhao   2022-09-18  4489  	DEFINE_MIN_SEQ(lruvec);
+ac35a490237446 Yu Zhao   2022-09-18  4490  
+ac35a490237446 Yu Zhao   2022-09-18  4491  	/*
+ac35a490237446 Yu Zhao   2022-09-18  4492  	 * Try to make the obvious choice first. When anon and file are both
+ac35a490237446 Yu Zhao   2022-09-18  4493  	 * available from the same generation, interpret swappiness 1 as file
+ac35a490237446 Yu Zhao   2022-09-18  4494  	 * first and 200 as anon first.
+ac35a490237446 Yu Zhao   2022-09-18  4495  	 */
+9da842af0b17c7 Huan Yang 2023-11-08  4496  	if (unlikely(unbalance_file_reclaim(sc, swappiness))) {
+9da842af0b17c7 Huan Yang 2023-11-08  4497  		unbalance = true;
+9da842af0b17c7 Huan Yang 2023-11-08  4498  		type = LRU_GEN_FILE;
+9da842af0b17c7 Huan Yang 2023-11-08  4499  	} else if (unlikely(unbalance_anon_reclaim(sc, swappiness))) {
+9da842af0b17c7 Huan Yang 2023-11-08  4500  		unbalance = true;
+9da842af0b17c7 Huan Yang 2023-11-08  4501  		type = LRU_GEN_ANON;
+9da842af0b17c7 Huan Yang 2023-11-08  4502  	} else if (!swappiness)
+ac35a490237446 Yu Zhao   2022-09-18  4503  		type = LRU_GEN_FILE;
+ac35a490237446 Yu Zhao   2022-09-18  4504  	else if (min_seq[LRU_GEN_ANON] < min_seq[LRU_GEN_FILE])
+ac35a490237446 Yu Zhao   2022-09-18  4505  		type = LRU_GEN_ANON;
+ac35a490237446 Yu Zhao   2022-09-18  4506  	else if (swappiness == 1)
+ac35a490237446 Yu Zhao   2022-09-18  4507  		type = LRU_GEN_FILE;
+ac35a490237446 Yu Zhao   2022-09-18  4508  	else if (swappiness == 200)
+ac35a490237446 Yu Zhao   2022-09-18  4509  		type = LRU_GEN_ANON;
+ac35a490237446 Yu Zhao   2022-09-18  4510  	else
+ac35a490237446 Yu Zhao   2022-09-18  4511  		type = get_type_to_scan(lruvec, swappiness, &tier);
+ac35a490237446 Yu Zhao   2022-09-18  4512  
+ac35a490237446 Yu Zhao   2022-09-18  4513  	for (i = !swappiness; i < ANON_AND_FILE; i++) {
+ac35a490237446 Yu Zhao   2022-09-18  4514  		if (tier < 0)
+ac35a490237446 Yu Zhao   2022-09-18  4515  			tier = get_tier_idx(lruvec, type);
+ac35a490237446 Yu Zhao   2022-09-18  4516  
+ac35a490237446 Yu Zhao   2022-09-18  4517  		scanned = scan_folios(lruvec, sc, type, tier, list);
+9da842af0b17c7 Huan Yang 2023-11-08 @4518  		if (scanned || unbalance)
+                                                                       ^^^^^^^^^
 
-dc97fd6fec0099 Hector Martin 2022-03-10   939  	}
-dc97fd6fec0099 Hector Martin 2022-03-10   940  
-dc97fd6fec0099 Hector Martin 2022-03-10  @941  	irqc->info.sw_set = off;
-dc97fd6fec0099 Hector Martin 2022-03-10   942  	off += sizeof(u32) * (irqc->max_irq >> 5); /* SW_SET */
-dc97fd6fec0099 Hector Martin 2022-03-10   943  	irqc->info.sw_clr = off;
-dc97fd6fec0099 Hector Martin 2022-03-10   944  	off += sizeof(u32) * (irqc->max_irq >> 5); /* SW_CLR */
-dc97fd6fec0099 Hector Martin 2022-03-10   945  	irqc->info.mask_set = off;
-dc97fd6fec0099 Hector Martin 2022-03-10   946  	off += sizeof(u32) * (irqc->max_irq >> 5); /* MASK_SET */
-dc97fd6fec0099 Hector Martin 2022-03-10   947  	irqc->info.mask_clr = off;
-dc97fd6fec0099 Hector Martin 2022-03-10   948  	off += sizeof(u32) * (irqc->max_irq >> 5); /* MASK_CLR */
-dc97fd6fec0099 Hector Martin 2022-03-10   949  	off += sizeof(u32) * (irqc->max_irq >> 5); /* HW_STATE */
-76cde26394114f Hector Martin 2021-01-21   950  
-2cf68211664acd Hector Martin 2022-03-10   951  	if (irqc->info.fast_ipi)
-2cf68211664acd Hector Martin 2022-03-10   952  		static_branch_enable(&use_fast_ipi);
-2cf68211664acd Hector Martin 2022-03-10   953  	else
-2cf68211664acd Hector Martin 2022-03-10   954  		static_branch_disable(&use_fast_ipi);
-2cf68211664acd Hector Martin 2022-03-10   955  
-7c841f5f6fa3f9 Hector Martin 2022-03-10   956  	irqc->hw_domain = irq_domain_create_tree(of_node_to_fwnode(node),
-76cde26394114f Hector Martin 2021-01-21   957  						 &aic_irq_domain_ops, irqc);
-76cde26394114f Hector Martin 2021-01-21   958  	if (WARN_ON(!irqc->hw_domain)) {
-76cde26394114f Hector Martin 2021-01-21   959  		iounmap(irqc->base);
-76cde26394114f Hector Martin 2021-01-21   960  		kfree(irqc);
-76cde26394114f Hector Martin 2021-01-21   961  		return -ENODEV;
-76cde26394114f Hector Martin 2021-01-21   962  	}
-76cde26394114f Hector Martin 2021-01-21   963  
-76cde26394114f Hector Martin 2021-01-21   964  	irq_domain_update_bus_token(irqc->hw_domain, DOMAIN_BUS_WIRED);
-76cde26394114f Hector Martin 2021-01-21   965  
-76cde26394114f Hector Martin 2021-01-21   966  	if (aic_init_smp(irqc, node)) {
-76cde26394114f Hector Martin 2021-01-21   967  		irq_domain_remove(irqc->hw_domain);
-76cde26394114f Hector Martin 2021-01-21   968  		iounmap(irqc->base);
-76cde26394114f Hector Martin 2021-01-21   969  		kfree(irqc);
-76cde26394114f Hector Martin 2021-01-21   970  		return -ENODEV;
-76cde26394114f Hector Martin 2021-01-21   971  	}
-76cde26394114f Hector Martin 2021-01-21   972  
-76cde26394114f Hector Martin 2021-01-21   973  	set_handle_irq(aic_handle_irq);
-76cde26394114f Hector Martin 2021-01-21   974  	set_handle_fiq(aic_handle_fiq);
-76cde26394114f Hector Martin 2021-01-21   975  
-7c841f5f6fa3f9 Hector Martin 2022-03-10   976  	for (i = 0; i < BITS_TO_U32(irqc->nr_irq); i++)
-dc97fd6fec0099 Hector Martin 2022-03-10   977  		aic_ic_write(irqc, irqc->info.mask_set + i * 4, U32_MAX);
-7c841f5f6fa3f9 Hector Martin 2022-03-10   978  	for (i = 0; i < BITS_TO_U32(irqc->nr_irq); i++)
-dc97fd6fec0099 Hector Martin 2022-03-10   979  		aic_ic_write(irqc, irqc->info.sw_clr + i * 4, U32_MAX);
-7c841f5f6fa3f9 Hector Martin 2022-03-10   980  	for (i = 0; i < irqc->nr_irq; i++)
-dc97fd6fec0099 Hector Martin 2022-03-10   981  		aic_ic_write(irqc, irqc->info.target_cpu + i * 4, 1);
-76cde26394114f Hector Martin 2021-01-21   982  
-76cde26394114f Hector Martin 2021-01-21   983  	if (!is_kernel_in_hyp_mode())
-76cde26394114f Hector Martin 2021-01-21   984  		pr_info("Kernel running in EL1, mapping interrupts");
-76cde26394114f Hector Martin 2021-01-21   985  
-2cf68211664acd Hector Martin 2022-03-10   986  	if (static_branch_likely(&use_fast_ipi))
-2cf68211664acd Hector Martin 2022-03-10   987  		pr_info("Using Fast IPIs");
-2cf68211664acd Hector Martin 2022-03-10   988  
-76cde26394114f Hector Martin 2021-01-21   989  	cpuhp_setup_state(CPUHP_AP_IRQ_APPLE_AIC_STARTING,
-76cde26394114f Hector Martin 2021-01-21   990  			  "irqchip/apple-aic/ipi:starting",
-76cde26394114f Hector Martin 2021-01-21   991  			  aic_init_cpu, NULL);
-76cde26394114f Hector Martin 2021-01-21   992  
-b6ca556c352979 Marc Zyngier  2021-02-28   993  	vgic_set_kvm_info(&vgic_info);
-b6ca556c352979 Marc Zyngier  2021-02-28   994  
-dc97fd6fec0099 Hector Martin 2022-03-10   995  	pr_info("Initialized with %d/%d IRQs, %d FIQs, %d vIPIs",
-dc97fd6fec0099 Hector Martin 2022-03-10   996  		irqc->nr_irq, irqc->max_irq, AIC_NR_FIQ, AIC_NR_SWIPI);
-76cde26394114f Hector Martin 2021-01-21   997  
-76cde26394114f Hector Martin 2021-01-21   998  	return 0;
-76cde26394114f Hector Martin 2021-01-21   999  }
+ac35a490237446 Yu Zhao   2022-09-18  4519  			break;
+ac35a490237446 Yu Zhao   2022-09-18  4520  
+ac35a490237446 Yu Zhao   2022-09-18  4521  		type = !type;
+ac35a490237446 Yu Zhao   2022-09-18  4522  		tier = -1;
+ac35a490237446 Yu Zhao   2022-09-18  4523  	}
+ac35a490237446 Yu Zhao   2022-09-18  4524  
+ac35a490237446 Yu Zhao   2022-09-18  4525  	*type_scanned = type;
+ac35a490237446 Yu Zhao   2022-09-18  4526  
+ac35a490237446 Yu Zhao   2022-09-18  4527  	return scanned;
+ac35a490237446 Yu Zhao   2022-09-18  4528  }
 
 -- 
 0-DAY CI Kernel Test Service
