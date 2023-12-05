@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B276EB48
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Dec 2023 22:30:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7B041220
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Dec 2023 23:46:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EfhCydOl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i6kxiL9c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701815457; x=1733351457;
+  t=1701819963; x=1733355963;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XcT5PUQIvcmlX99k7+xDX+vBPMXE3xf7OyficoE28H4=;
-  b=EfhCydOl9oQt2d/qjmvXpHjPM5hBThf00XaPNsfwsH0vcEu7upg3AoRB
-   4QZHmDIe9knhCd6XFchWzsndWaijrS828XTdHE6QTuHrkTZ4qde7yYs58
-   aCRvS1w430suRaYcKDpmJnH8EFb5zWm6nyLCNHUED3StK6SmmqlETVziR
-   V47sRy07M0+JQU/m/hw+kCPQJXbJx1f7SMozVb78jdVaRliyeTD304zf5
-   n6hco4QbSYc9ZGriZR/rUaRkSq8i17pc85TfT1Rc9ieimklMQTxVJr4Up
-   uDEWMm5eUSvxdx+OlmWoZNRlYSXD9fpxwVR7jFR8vQhKINg93XSHUUAlv
+  bh=Zfg9eQSR8Gfe+iheZJqF5DFr9CDkJDP+tfGw9RWDAws=;
+  b=i6kxiL9cESUIPqFXKnBUFqaPw2f/dXpBJ2SI8fmsn3wM03I7ILVyfhEm
+   1XpeytxZBQ+uSDoWCkhKG90nh9sj0ituYWPMdnBX5equ8QlVjIDUUa6Kc
+   5B1jRKej5a8VID4//brX45GIvc7xnSxG6dIJdSaaCg69oIKmofYw5NAq3
+   YXZqWqb0HYdKfFRfu9pR9fgwLmF2beymU7r4i1g6lo1cfmwAXwFLUXBD4
+   sWXitDnGfdxHj2o7wakwi8Jz+/bdPhjQxTcgL7+c82nUll3bQMffLXxK6
+   nowwzOBeDl31USmBEpRbBcgzRuUIW8MoDzQwopCmkiBncixQoVBIEaLHp
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="396760079"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="1034951"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="396760079"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 14:30:57 -0800
+   d="scan'208";a="1034951"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 15:46:03 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="944440421"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="19119390"
+   d="scan'208";a="944440421"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 05 Dec 2023 14:30:56 -0800
+  by orsmga005.jf.intel.com with ESMTP; 05 Dec 2023 15:46:01 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAdwL-0009oH-1I;
-	Tue, 05 Dec 2023 22:30:53 +0000
-Date: Wed, 6 Dec 2023 06:30:31 +0800
+	id 1rAf71-0009so-0c;
+	Tue, 05 Dec 2023 23:45:59 +0000
+Date: Wed, 6 Dec 2023 07:45:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/xen/privcmd.c:1118:19-24: WARNING use flexible-array member
- instead
- (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-Message-ID: <202312060639.Y4O1iOfX-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/pinctrl/renesas/core.c:77 sh_pfc_map_resources() error: we
+ previously assumed 'res' could be null (see line 43)
+Message-ID: <202312060743.IxWpeHu3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,190 +53,88 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Viresh Kumar <viresh.kumar@linaro.org>
-CC: Juergen Gross <jgross@suse.com>
+TO: Yang Yingliang <yangyingliang@huawei.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: f0d7db7b33243d2aeeff14dbdde4ccc0687ef257 xen: privcmd: Add support for ioeventfd
-date:   7 weeks ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 7 weeks ago
-config: x86_64-randconfig-103-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060639.Y4O1iOfX-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060639.Y4O1iOfX-lkp@intel.com/reproduce)
+commit: 5376e3d904532e657fd7ca1a9b1ff3d351527b90 pinctrl: renesas: core: Fix possible null-ptr-deref in sh_pfc_map_resources()
+date:   1 year, 7 months ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 1 year, 7 months ago
+config: riscv-randconfig-r071-20231112 (https://download.01.org/0day-ci/archive/20231206/202312060743.IxWpeHu3-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060743.IxWpeHu3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312060639.Y4O1iOfX-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202312060743.IxWpeHu3-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/xen/privcmd.c:1118:19-24: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
---
->> drivers/xen/privcmd.c:1227:9-16: WARNING opportunity for memdup_user
+smatch warnings:
+drivers/pinctrl/renesas/core.c:77 sh_pfc_map_resources() error: we previously assumed 'res' could be null (see line 43)
 
-vim +1118 drivers/xen/privcmd.c
+vim +/res +77 drivers/pinctrl/renesas/core.c
 
-f0d7db7b33243d Viresh Kumar 2023-10-16  1108  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1109  /* per-guest structure */
-f0d7db7b33243d Viresh Kumar 2023-10-16  1110  struct privcmd_kernel_ioreq {
-f0d7db7b33243d Viresh Kumar 2023-10-16  1111  	domid_t dom;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1112  	unsigned int vcpus;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1113  	u64 uioreq;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1114  	struct ioreq *ioreq;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1115  	spinlock_t lock; /* Protects ioeventfds list */
-f0d7db7b33243d Viresh Kumar 2023-10-16  1116  	struct list_head ioeventfds;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1117  	struct list_head list;
-f0d7db7b33243d Viresh Kumar 2023-10-16 @1118  	struct ioreq_port ports[0];
-f0d7db7b33243d Viresh Kumar 2023-10-16  1119  };
-f0d7db7b33243d Viresh Kumar 2023-10-16  1120  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1121  static irqreturn_t ioeventfd_interrupt(int irq, void *dev_id)
-f0d7db7b33243d Viresh Kumar 2023-10-16  1122  {
-f0d7db7b33243d Viresh Kumar 2023-10-16  1123  	struct ioreq_port *port = dev_id;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1124  	struct privcmd_kernel_ioreq *kioreq = port->kioreq;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1125  	struct ioreq *ioreq = &kioreq->ioreq[port->vcpu];
-f0d7db7b33243d Viresh Kumar 2023-10-16  1126  	struct privcmd_kernel_ioeventfd *kioeventfd;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1127  	unsigned int state = STATE_IOREQ_READY;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1128  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1129  	if (ioreq->state != STATE_IOREQ_READY ||
-f0d7db7b33243d Viresh Kumar 2023-10-16  1130  	    ioreq->type != IOREQ_TYPE_COPY || ioreq->dir != IOREQ_WRITE)
-f0d7db7b33243d Viresh Kumar 2023-10-16  1131  		return IRQ_NONE;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1132  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1133  	/*
-f0d7db7b33243d Viresh Kumar 2023-10-16  1134  	 * We need a barrier, smp_mb(), here to ensure reads are finished before
-f0d7db7b33243d Viresh Kumar 2023-10-16  1135  	 * `state` is updated. Since the lock implementation ensures that
-f0d7db7b33243d Viresh Kumar 2023-10-16  1136  	 * appropriate barrier will be added anyway, we can avoid adding
-f0d7db7b33243d Viresh Kumar 2023-10-16  1137  	 * explicit barrier here.
-f0d7db7b33243d Viresh Kumar 2023-10-16  1138  	 *
-f0d7db7b33243d Viresh Kumar 2023-10-16  1139  	 * Ideally we don't need to update `state` within the locks, but we do
-f0d7db7b33243d Viresh Kumar 2023-10-16  1140  	 * that here to avoid adding explicit barrier.
-f0d7db7b33243d Viresh Kumar 2023-10-16  1141  	 */
-f0d7db7b33243d Viresh Kumar 2023-10-16  1142  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1143  	spin_lock(&kioreq->lock);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1144  	ioreq->state = STATE_IOREQ_INPROCESS;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1145  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1146  	list_for_each_entry(kioeventfd, &kioreq->ioeventfds, list) {
-f0d7db7b33243d Viresh Kumar 2023-10-16  1147  		if (ioreq->addr == kioeventfd->addr + VIRTIO_MMIO_QUEUE_NOTIFY &&
-f0d7db7b33243d Viresh Kumar 2023-10-16  1148  		    ioreq->size == kioeventfd->addr_len &&
-f0d7db7b33243d Viresh Kumar 2023-10-16  1149  		    (ioreq->data & QUEUE_NOTIFY_VQ_MASK) == kioeventfd->vq) {
-f0d7db7b33243d Viresh Kumar 2023-10-16  1150  			eventfd_signal(kioeventfd->eventfd, 1);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1151  			state = STATE_IORESP_READY;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1152  			break;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1153  		}
-f0d7db7b33243d Viresh Kumar 2023-10-16  1154  	}
-f0d7db7b33243d Viresh Kumar 2023-10-16  1155  	spin_unlock(&kioreq->lock);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1156  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1157  	/*
-f0d7db7b33243d Viresh Kumar 2023-10-16  1158  	 * We need a barrier, smp_mb(), here to ensure writes are finished
-f0d7db7b33243d Viresh Kumar 2023-10-16  1159  	 * before `state` is updated. Since the lock implementation ensures that
-f0d7db7b33243d Viresh Kumar 2023-10-16  1160  	 * appropriate barrier will be added anyway, we can avoid adding
-f0d7db7b33243d Viresh Kumar 2023-10-16  1161  	 * explicit barrier here.
-f0d7db7b33243d Viresh Kumar 2023-10-16  1162  	 */
-f0d7db7b33243d Viresh Kumar 2023-10-16  1163  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1164  	ioreq->state = state;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1165  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1166  	if (state == STATE_IORESP_READY) {
-f0d7db7b33243d Viresh Kumar 2023-10-16  1167  		notify_remote_via_evtchn(port->port);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1168  		return IRQ_HANDLED;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1169  	}
-f0d7db7b33243d Viresh Kumar 2023-10-16  1170  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1171  	return IRQ_NONE;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1172  }
-f0d7db7b33243d Viresh Kumar 2023-10-16  1173  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1174  static void ioreq_free(struct privcmd_kernel_ioreq *kioreq)
-f0d7db7b33243d Viresh Kumar 2023-10-16  1175  {
-f0d7db7b33243d Viresh Kumar 2023-10-16  1176  	struct ioreq_port *ports = kioreq->ports;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1177  	int i;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1178  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1179  	lockdep_assert_held(&ioreq_lock);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1180  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1181  	list_del(&kioreq->list);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1182  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1183  	for (i = kioreq->vcpus - 1; i >= 0; i--)
-f0d7db7b33243d Viresh Kumar 2023-10-16  1184  		unbind_from_irqhandler(irq_from_evtchn(ports[i].port), &ports[i]);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1185  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1186  	kfree(kioreq);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1187  }
-f0d7db7b33243d Viresh Kumar 2023-10-16  1188  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1189  static
-f0d7db7b33243d Viresh Kumar 2023-10-16  1190  struct privcmd_kernel_ioreq *alloc_ioreq(struct privcmd_ioeventfd *ioeventfd)
-f0d7db7b33243d Viresh Kumar 2023-10-16  1191  {
-f0d7db7b33243d Viresh Kumar 2023-10-16  1192  	struct privcmd_kernel_ioreq *kioreq;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1193  	struct mm_struct *mm = current->mm;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1194  	struct vm_area_struct *vma;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1195  	struct page **pages;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1196  	unsigned int *ports;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1197  	int ret, size, i;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1198  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1199  	lockdep_assert_held(&ioreq_lock);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1200  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1201  	size = struct_size(kioreq, ports, ioeventfd->vcpus);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1202  	kioreq = kzalloc(size, GFP_KERNEL);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1203  	if (!kioreq)
-f0d7db7b33243d Viresh Kumar 2023-10-16  1204  		return ERR_PTR(-ENOMEM);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1205  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1206  	kioreq->dom = ioeventfd->dom;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1207  	kioreq->vcpus = ioeventfd->vcpus;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1208  	kioreq->uioreq = ioeventfd->ioreq;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1209  	spin_lock_init(&kioreq->lock);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1210  	INIT_LIST_HEAD(&kioreq->ioeventfds);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1211  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1212  	/* The memory for ioreq server must have been mapped earlier */
-f0d7db7b33243d Viresh Kumar 2023-10-16  1213  	mmap_write_lock(mm);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1214  	vma = find_vma(mm, (unsigned long)ioeventfd->ioreq);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1215  	if (!vma) {
-f0d7db7b33243d Viresh Kumar 2023-10-16  1216  		pr_err("Failed to find vma for ioreq page!\n");
-f0d7db7b33243d Viresh Kumar 2023-10-16  1217  		mmap_write_unlock(mm);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1218  		ret = -EFAULT;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1219  		goto error_kfree;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1220  	}
-f0d7db7b33243d Viresh Kumar 2023-10-16  1221  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1222  	pages = vma->vm_private_data;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1223  	kioreq->ioreq = (struct ioreq *)(page_to_virt(pages[0]));
-f0d7db7b33243d Viresh Kumar 2023-10-16  1224  	mmap_write_unlock(mm);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1225  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1226  	size = sizeof(*ports) * kioreq->vcpus;
-f0d7db7b33243d Viresh Kumar 2023-10-16 @1227  	ports = kzalloc(size, GFP_KERNEL);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1228  	if (!ports) {
-f0d7db7b33243d Viresh Kumar 2023-10-16  1229  		ret = -ENOMEM;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1230  		goto error_kfree;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1231  	}
-f0d7db7b33243d Viresh Kumar 2023-10-16  1232  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1233  	if (copy_from_user(ports, u64_to_user_ptr(ioeventfd->ports), size)) {
-f0d7db7b33243d Viresh Kumar 2023-10-16  1234  		ret = -EFAULT;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1235  		goto error_kfree_ports;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1236  	}
-f0d7db7b33243d Viresh Kumar 2023-10-16  1237  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1238  	for (i = 0; i < kioreq->vcpus; i++) {
-f0d7db7b33243d Viresh Kumar 2023-10-16  1239  		kioreq->ports[i].vcpu = i;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1240  		kioreq->ports[i].port = ports[i];
-f0d7db7b33243d Viresh Kumar 2023-10-16  1241  		kioreq->ports[i].kioreq = kioreq;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1242  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1243  		ret = bind_evtchn_to_irqhandler_lateeoi(ports[i],
-f0d7db7b33243d Viresh Kumar 2023-10-16  1244  				ioeventfd_interrupt, IRQF_SHARED, "ioeventfd",
-f0d7db7b33243d Viresh Kumar 2023-10-16  1245  				&kioreq->ports[i]);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1246  		if (ret < 0)
-f0d7db7b33243d Viresh Kumar 2023-10-16  1247  			goto error_unbind;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1248  	}
-f0d7db7b33243d Viresh Kumar 2023-10-16  1249  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1250  	kfree(ports);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1251  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1252  	list_add_tail(&kioreq->list, &ioreq_list);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1253  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1254  	return kioreq;
-f0d7db7b33243d Viresh Kumar 2023-10-16  1255  
-f0d7db7b33243d Viresh Kumar 2023-10-16  1256  error_unbind:
-f0d7db7b33243d Viresh Kumar 2023-10-16  1257  	while (--i >= 0)
-f0d7db7b33243d Viresh Kumar 2023-10-16  1258  		unbind_from_irqhandler(irq_from_evtchn(ports[i]), &kioreq->ports[i]);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1259  error_kfree_ports:
-f0d7db7b33243d Viresh Kumar 2023-10-16  1260  	kfree(ports);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1261  error_kfree:
-f0d7db7b33243d Viresh Kumar 2023-10-16  1262  	kfree(kioreq);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1263  	return ERR_PTR(ret);
-f0d7db7b33243d Viresh Kumar 2023-10-16  1264  }
-f0d7db7b33243d Viresh Kumar 2023-10-16  1265  
+f9165132c5ee68 drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  29  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  30  static int sh_pfc_map_resources(struct sh_pfc *pfc,
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  31  				struct platform_device *pdev)
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  32  {
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  33  	struct sh_pfc_window *windows;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  34  	unsigned int *irqs = NULL;
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  35  	unsigned int num_windows;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  36  	struct resource *res;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  37  	unsigned int i;
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  38  	int num_irqs;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  39  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  40  	/* Count the MEM and IRQ resources. */
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  41  	for (num_windows = 0;; num_windows++) {
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  42  		res = platform_get_resource(pdev, IORESOURCE_MEM, num_windows);
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25 @43  		if (!res)
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  44  			break;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  45  	}
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  46  	if (num_windows == 0)
+bee9f22ba196b0 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-02-16  47  		return -EINVAL;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  48  
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  49  	num_irqs = platform_irq_count(pdev);
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  50  	if (num_irqs < 0)
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  51  		return num_irqs;
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  52  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  53  	/* Allocate memory windows and IRQs arrays. */
+a86854d0c599b3 drivers/pinctrl/sh-pfc/core.c  Kees Cook          2018-06-12  54  	windows = devm_kcalloc(pfc->dev, num_windows, sizeof(*windows),
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  55  			       GFP_KERNEL);
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  56  	if (windows == NULL)
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  57  		return -ENOMEM;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  58  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  59  	pfc->num_windows = num_windows;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  60  	pfc->windows = windows;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  61  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  62  	if (num_irqs) {
+a86854d0c599b3 drivers/pinctrl/sh-pfc/core.c  Kees Cook          2018-06-12  63  		irqs = devm_kcalloc(pfc->dev, num_irqs, sizeof(*irqs),
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  64  				    GFP_KERNEL);
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  65  		if (irqs == NULL)
+1724acfd598bdf drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  66  			return -ENOMEM;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  67  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  68  		pfc->num_irqs = num_irqs;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  69  		pfc->irqs = irqs;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  70  	}
+973931ae0a2dad drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  71  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  72  	/* Fill them. */
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  73  	for (i = 0; i < num_windows; i++) {
+5376e3d904532e drivers/pinctrl/renesas/core.c Yang Yingliang     2022-04-29  74  		windows->virt = devm_platform_get_and_ioremap_resource(pdev, i, &res);
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  75  		if (IS_ERR(windows->virt))
+1724acfd598bdf drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  76  			return -ENOMEM;
+5376e3d904532e drivers/pinctrl/renesas/core.c Yang Yingliang     2022-04-29 @77  		windows->phys = res->start;
+5376e3d904532e drivers/pinctrl/renesas/core.c Yang Yingliang     2022-04-29  78  		windows->size = resource_size(res);
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  79  		windows++;
+1724acfd598bdf drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  80  	}
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  81  	for (i = 0; i < num_irqs; i++)
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  82  		*irqs++ = platform_get_irq(pdev, i);
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  83  
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  84  	return 0;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  85  }
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  86  
 
 -- 
 0-DAY CI Kernel Test Service
