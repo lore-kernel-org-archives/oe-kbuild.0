@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980346FCD6
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Dec 2023 21:56:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224746FCD1
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Dec 2023 21:56:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="byl4SUwd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cgC4UJS6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701813416; x=1733349416;
+  t=1701813418; x=1733349418;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8DPxz9LHHibPnAuZEYo+KeCJV+0vTamtb/ZLC4re8u4=;
-  b=byl4SUwdv9s69TT8NSk/SNJsPSGybqiYBgRnzwMWRNviB9L7nPftWSqA
-   7tMbzmdzAOZUkcS2VrKu2zpTZ6rQJsU2fSGDMNcLpxPSYDS/OTLVbNHJX
-   0VkNqsWj9tdWkOI3FV0FqIk61UC8KWhsLfKbWrU+kTt+VjkZQS9cder+3
-   iujj0Qdr4iKjFibBPB7iEfOuM2ZGRp938gV9BKVzqcOZuQT+WlNk7ZxJ6
-   ZIYrWbLUjMEKAzKYHBcLiCUggbHAJYF2fiCUyVnw30JqbO6zyWxHBPuFb
-   kIiscZVLW41mkbfDXyGYw1q8xhnxracY+qDKxW8TNu2L+tKg2ZP4xnsLm
+  bh=Y9oI4pGE95Tl+LioRQE6684vTFN5uK49yEYAdVTGIjA=;
+  b=cgC4UJS6YCsFSeQhZgOtLlhY2y08QRQk93B/r1fw+ncNEwEqt0UqaOjP
+   /R9ufrAThpf4uU2xc12FgATtHzFyEHrD6c/hojB0A00SCkirDccvkGbao
+   UiGZwlxlkIxOqH7CGFCFyvP87gVx3+ukrRMovgEgOeTFkeYAzHSV9mo48
+   27QnnnffDSk5XLS3iQrgDaLjgHYRBEwTJJJx/ypy780NuRbmp8ixZXn/G
+   xuPlxrwneE6xwNR5GTCWZ7KtE3nCODsyGJ2FY+0Vpzf6DVfHW/EdUF9BH
+   YD+fkVb2zNmXMGdju8768u/PFrWhQZkT4qNY8J07Vsszq0yjBOjoKdGRJ
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="392833550"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="393697571"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="392833550"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 13:56:55 -0800
+   d="scan'208";a="393697571"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 13:56:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="747388078"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="889087083"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="747388078"
+   d="scan'208";a="889087083"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 05 Dec 2023 13:56:54 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2023 13:56:54 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAdPP-0009mP-33;
-	Tue, 05 Dec 2023 21:56:51 +0000
-Date: Wed, 6 Dec 2023 05:56:33 +0800
+	id 1rAdPQ-0009mV-0N;
+	Tue, 05 Dec 2023 21:56:52 +0000
+Date: Wed, 6 Dec 2023 05:56:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [intel-tdx:kvm-upstream-next 196/273] arch/x86/kvm/x86.c:13890:7-8:
- ERROR: iterator variable bound on line 13885 cannot be NULL
-Message-ID: <202312060538.yM1czMk6-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v14 05/11] media: uvcvideo: Add support for compound
+ controls
+Message-ID: <202312060523.tldbovNM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,60 +52,79 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sagi Shahar <sagis@google.com>
-CC: Isaku Yamahata <isaku.yamahata@intel.com>
+In-Reply-To: <20231201071907.3080126-6-yunkec@google.com>
+References: <20231201071907.3080126-6-yunkec@google.com>
+TO: Yunke Cao <yunkec@google.com>
+TO: Hans Verkuil <hverkuil@xs4all.nl>
+TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+TO: Daniel Scally <dan.scally@ideasonboard.com>
+CC: Tomasz Figa <tfiga@chromium.org>
+CC: Sergey Senozhatsky <senozhatsky@chromium.org>
+CC: Ricardo Ribalda <ribalda@chromium.org>
+CC: linux-media@vger.kernel.org
+CC: Yunke Cao <yunkec@google.com>
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-next
-head:   90fec84219b5d2bf13e61f02777f6a44ab755bc4
-commit: bf2a53c6d4d7151ace11879b20cacf6b07bdedcb [196/273] KVM: SEV: Refactor common code out of sev_vm_move_enc_context_from
-:::::: branch date: 3 weeks ago
-:::::: commit date: 3 weeks ago
-config: x86_64-randconfig-103-20231203 (https://download.01.org/0day-ci/archive/20231206/202312060538.yM1czMk6-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060538.yM1czMk6-lkp@intel.com/reproduce)
+Hi Yunke,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linuxtv-media-stage/master linus/master v6.7-rc4 next-20231205]
+[cannot apply to media-tree/master sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yunke-Cao/media-v4l2_ctrl-Add-V4L2_CTRL_TYPE_RECT/20231201-152501
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20231201071907.3080126-6-yunkec%40google.com
+patch subject: [PATCH v14 05/11] media: uvcvideo: Add support for compound controls
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: powerpc64-randconfig-r081-20231204 (https://download.01.org/0day-ci/archive/20231206/202312060523.tldbovNM-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060523.tldbovNM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312060538.yM1czMk6-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202312060523.tldbovNM-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/x86/kvm/x86.c:13890:7-8: ERROR: iterator variable bound on line 13885 cannot be NULL
-   arch/x86/kvm/x86.c:13910:6-7: ERROR: iterator variable bound on line 13905 cannot be NULL
+smatch warnings:
+drivers/media/usb/uvc/uvc_ctrl.c:2065 __uvc_ctrl_set_compound() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +13890 arch/x86/kvm/x86.c
+vim +2065 drivers/media/usb/uvc/uvc_ctrl.c
 
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13879  
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13880  static int lock_vcpus_for_migration(struct kvm *kvm, enum migration_role role)
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13881  {
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13882  	struct kvm_vcpu *vcpu;
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13883  	unsigned long i, j;
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13884  
-bf2a53c6d4d715 Sagi Shahar 2023-04-07 @13885  	kvm_for_each_vcpu(i, vcpu, kvm) {
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13886  		if (mutex_lock_killable_nested(&vcpu->mutex, role))
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13887  			goto out_unlock;
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13888  
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13889  #ifdef CONFIG_PROVE_LOCKING
-bf2a53c6d4d715 Sagi Shahar 2023-04-07 @13890  		if (!i)
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13891  			/*
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13892  			 * Reset the role to one that avoids colliding with
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13893  			 * the role used for the first vcpu mutex.
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13894  			 */
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13895  			role = NR_MIGRATION_ROLES;
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13896  		else
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13897  			mutex_release(&vcpu->mutex.dep_map, _THIS_IP_);
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13898  #endif
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13899  	}
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13900  
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13901  	return 0;
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13902  
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13903  out_unlock:
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13904  
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13905  	kvm_for_each_vcpu(j, vcpu, kvm) {
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13906  		if (i == j)
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13907  			break;
-bf2a53c6d4d715 Sagi Shahar 2023-04-07  13908  
+17d6f925ab4779 Yunke Cao 2023-12-01  2039  
+1a1a2af88920e9 Yunke Cao 2023-12-01  2040  static int __uvc_ctrl_set_compound(struct uvc_control_mapping *mapping,
+1a1a2af88920e9 Yunke Cao 2023-12-01  2041  				   struct v4l2_ext_control *xctrl,
+1a1a2af88920e9 Yunke Cao 2023-12-01  2042  				   struct uvc_control *ctrl)
+1a1a2af88920e9 Yunke Cao 2023-12-01  2043  {
+1a1a2af88920e9 Yunke Cao 2023-12-01  2044  	u8 *data;
+1a1a2af88920e9 Yunke Cao 2023-12-01  2045  	int ret;
+1a1a2af88920e9 Yunke Cao 2023-12-01  2046  
+1a1a2af88920e9 Yunke Cao 2023-12-01  2047  	if (xctrl->size != mapping->v4l2_size / 8)
+1a1a2af88920e9 Yunke Cao 2023-12-01  2048  		return -EINVAL;
+1a1a2af88920e9 Yunke Cao 2023-12-01  2049  
+1a1a2af88920e9 Yunke Cao 2023-12-01  2050  	data = kmalloc(xctrl->size, GFP_KERNEL);
+1a1a2af88920e9 Yunke Cao 2023-12-01  2051  	if (!data)
+1a1a2af88920e9 Yunke Cao 2023-12-01  2052  		return -ENOMEM;
+1a1a2af88920e9 Yunke Cao 2023-12-01  2053  
+1a1a2af88920e9 Yunke Cao 2023-12-01  2054  	ret = copy_from_user(data, xctrl->ptr, xctrl->size);
+1a1a2af88920e9 Yunke Cao 2023-12-01  2055  	if (ret < 0)
+1a1a2af88920e9 Yunke Cao 2023-12-01  2056  		goto out;
+1a1a2af88920e9 Yunke Cao 2023-12-01  2057  
+1a1a2af88920e9 Yunke Cao 2023-12-01  2058  	ret = mapping->set_compound(mapping, data,
+1a1a2af88920e9 Yunke Cao 2023-12-01  2059  			uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
+1a1a2af88920e9 Yunke Cao 2023-12-01  2060  
+1a1a2af88920e9 Yunke Cao 2023-12-01  2061  	__uvc_ctrl_get_compound(mapping, ctrl, UVC_CTRL_DATA_CURRENT, xctrl);
+1a1a2af88920e9 Yunke Cao 2023-12-01  2062  
+1a1a2af88920e9 Yunke Cao 2023-12-01  2063  out:
+1a1a2af88920e9 Yunke Cao 2023-12-01  2064  	kfree(data);
+1a1a2af88920e9 Yunke Cao 2023-12-01 @2065  	return ret;
+1a1a2af88920e9 Yunke Cao 2023-12-01  2066  }
+1a1a2af88920e9 Yunke Cao 2023-12-01  2067  
 
 -- 
 0-DAY CI Kernel Test Service
