@@ -1,45 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4283E473
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Dec 2023 09:25:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7C43BB20
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Dec 2023 10:55:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E8ynU2d5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j3OL5037"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701768334; x=1733304334;
+  t=1701773739; x=1733309739;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=64+sSKuvgswdYKIloBTE8/h/rhRN3YJt5l8T1ZigmXA=;
-  b=E8ynU2d5SPoqh2yK2/27wZzDKrDNnG09JxMhfq/r7QJNvb4VXEY/HBDm
-   eG4YW2do0/osIuS8gRrJNCZ/LB2EzDzJOSDrhW/16urjiS/a2hJLJgAs6
-   X6p3rHrGR5Ru21QEC6+AMHg9vcc6jOK4oWhz2wH+4u0uBcMTDeKYDI4MZ
-   r+x2hZ+hNWYp5rV5dOfhJjHV2jX8oUqExYwmMHWMwhlmOs9rFvM9hetrF
-   +fCYl5nUw18xy5Yk5J+nNZeLX3cK4VlYvJCN2D6XJL1HTuHkzWPkFtfmd
-   0ON1N+PCj6tQdXfbv73yMTtncQWnroaHj158Tj479psaJGyPq+uPRigCm
+  bh=kZcA3+iGopLJ08iaZqNZ5XzaSPGBLuQ0AoeezU00S9U=;
+  b=j3OL5037deYWIG83zrgpBK53w02IVulYg44jjOj2yp5ffzCUtcikkcmF
+   u1sMI/jF5uVVj7Pbsg9n/0YX75ogb/t0Ik55Ff8FKGUpHuq7R1ZVDORal
+   ptL9NOLG5NfW24zwAduHKIEzy9GWXG/EXQPHFDEaBLATIOo7RLKP6nWOx
+   bTwNg9e5VpyIPsduk4lcgPa5eXdIgr4/CkgCZF3YECjLzU0FERvQMJdDX
+   ezNLSqDkECb+5zljl0PtkKOkMtQMXxGgyQjQd9Yitn/gIMWFDyr1707kb
+   CHfmG6bhRsV6Il96QZ2GxMkk/HrUYjBzEsXUxgtQxKZ6sy8jY+fwx9zM4
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="460356510"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="391039302"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="460356510"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 01:25:32 -0800
+   d="scan'208";a="391039302"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 02:55:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="894304932"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764289214"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="894304932"
+   d="scan'208";a="764289214"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 05 Dec 2023 01:25:31 -0800
+  by orsmga007.jf.intel.com with ESMTP; 05 Dec 2023 02:55:35 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rARgG-0008f7-2q;
-	Tue, 05 Dec 2023 09:25:28 +0000
-Date: Tue, 5 Dec 2023 17:25:20 +0800
+	id 1rAT5Q-0008op-1R;
+	Tue, 05 Dec 2023 10:55:32 +0000
+Date: Tue, 5 Dec 2023 18:54:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: io_uring/cancel.c:303:2-12: second lock on line 307
-Message-ID: <202312051726.cxBNsoJv-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [tip:x86/percpu 11/31] net/ipv4/fou_bpf.c:52:13: sparse: sparse: too
+ many arguments for function __builtin_expect
+Message-ID: <202312051820.g9UAXdhp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,108 +50,1089 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: net/ipv4/fou_bpf.c:52:13: sparse: sparse: too many arguments for function __builtin_expect"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Jens Axboe <axboe@kernel.dk>
+CC: x86@kernel.org
+TO: Nadav Amit <namit@vmware.com>
+CC: Ingo Molnar <mingo@kernel.org>
+CC: Uros Bizjak <ubizjak@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: 23fffb2f09ce1145cbd751801d45ba74acaa6542 io_uring/cancel: re-grab ctx mutex after finishing wait
-date:   12 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 12 months ago
-config: x86_64-randconfig-103-20231204 (https://download.01.org/0day-ci/archive/20231205/202312051726.cxBNsoJv-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20231205/202312051726.cxBNsoJv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/percpu
+head:   fc50065325f8b88d6986f089ae103b5db858ab96
+commit: 9a462b9eafa6dda16ea8429b151edb1fb535d744 [11/31] x86/percpu: Use compiler segment prefix qualifier
+:::::: branch date: 3 days ago
+:::::: commit date: 9 weeks ago
+config: x86_64-randconfig-r121-20231205 (https://download.01.org/0day-ci/archive/20231205/202312051820.g9UAXdhp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051820.g9UAXdhp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312051726.cxBNsoJv-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312051820.g9UAXdhp-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> io_uring/cancel.c:303:2-12: second lock on line 307
+sparse warnings: (new ones prefixed by >>)
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'else' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got if
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'else' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got do
+   include/net/udp.h:495:17: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:495:17: sparse: sparse: got 0
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'void' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got pto_tmp__
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'break' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'default' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got :
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'break' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:497:24: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:497:24: sparse: sparse: got (
+   include/net/udp.h:497:17: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/net/udp.h:498:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:498:9: sparse: sparse: got }
+   include/net/udp.h:501:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/net/udp.h:501:16: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:501:16: sparse: sparse: got segs
+   include/net/udp.h:502:1: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:502:1: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:507:9: sparse: sparse: got (
+   include/net/udp.h:507:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:507:9: sparse: sparse: got !
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:522:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:522:9: sparse: sparse: got udp_skb_cb
+   include/net/udp.h:522:9: sparse: sparse: Trying to use reserved word 'struct' as identifier
+   include/net/udp.h:523:16: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:523:16: sparse: sparse: got ->
+   include/net/udp.h:523:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:525:1: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:525:1: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pao_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pto_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pao_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pto_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:496:17: sparse: sparse: symbol 'kfree_skb' redeclared with different type (incompatible argument 1 (different base types)):
+   include/net/udp.h:496:17: sparse:    int static [signed] [toplevel] kfree_skb( ... )
+   net/ipv4/fou_bpf.c: note: in included file (through include/net/dst_metadata.h):
+   include/linux/skbuff.h:1232:20: sparse: note: previously declared as:
+   include/linux/skbuff.h:1232:20: sparse:    void static inline [gnu_inline] [toplevel] kfree_skb( ... )
+>> net/ipv4/fou_bpf.c:52:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/ipv4/fou_bpf.c:55:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/ipv4/fou_bpf.c:94:13: sparse: sparse: too many arguments for function __builtin_expect
+--
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'else' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got if
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'else' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got do
+   include/net/udp.h:495:17: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:495:17: sparse: sparse: got 0
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'void' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got pto_tmp__
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'break' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'default' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got :
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'break' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:497:24: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:497:24: sparse: sparse: got (
+   include/net/udp.h:497:17: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/net/udp.h:498:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:498:9: sparse: sparse: got }
+   include/net/udp.h:501:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/net/udp.h:501:16: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:501:16: sparse: sparse: got segs
+   include/net/udp.h:502:1: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:502:1: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:507:9: sparse: sparse: got (
+   include/net/udp.h:507:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:507:9: sparse: sparse: got !
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:522:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:522:9: sparse: sparse: got udp_skb_cb
+   include/net/udp.h:522:9: sparse: sparse: Trying to use reserved word 'struct' as identifier
+   include/net/udp.h:523:16: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:523:16: sparse: sparse: got ->
+   include/net/udp.h:523:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:525:1: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:525:1: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pao_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pto_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pao_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pto_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:496:17: sparse: sparse: symbol 'kfree_skb' redeclared with different type (incompatible argument 1 (different base types)):
+   include/net/udp.h:496:17: sparse:    int static [signed] [toplevel] kfree_skb( ... )
+   net/ipv4/esp4_offload.c: note: in included file:
+   include/linux/skbuff.h:1232:20: sparse: note: previously declared as:
+   include/linux/skbuff.h:1232:20: sparse:    void static inline [gnu_inline] [toplevel] kfree_skb( ... )
+>> net/ipv4/esp4_offload.c:130:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/ipv4/esp4_offload.c:171:13: sparse: sparse: too many arguments for function __builtin_expect
+--
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'else' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got if
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'else' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got do
+   include/net/udp.h:495:17: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:495:17: sparse: sparse: got 0
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'void' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got pto_tmp__
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'break' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'default' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got :
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'break' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:497:24: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:497:24: sparse: sparse: got (
+   include/net/udp.h:497:17: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/net/udp.h:498:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:498:9: sparse: sparse: got }
+   include/net/udp.h:501:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/net/udp.h:501:16: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:501:16: sparse: sparse: got segs
+   include/net/udp.h:502:1: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:502:1: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:507:9: sparse: sparse: got (
+   include/net/udp.h:507:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:507:9: sparse: sparse: got !
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:522:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:522:9: sparse: sparse: got udp_skb_cb
+   include/net/udp.h:522:9: sparse: sparse: Trying to use reserved word 'struct' as identifier
+   include/net/udp.h:523:16: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:523:16: sparse: sparse: got ->
+   include/net/udp.h:523:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:525:1: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:525:1: sparse: sparse: got }
+   net/ipv4/fou_core.c: note: in included file (through include/net/fou.h):
+   include/net/ip_tunnels.h:479:51: sparse: sparse: Expected ) at end of cast operator
+   include/net/ip_tunnels.h:479:51: sparse: sparse: got __seg_gs
+   net/ipv4/fou_core.c: note: in included file (through include/net/gro.h):
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pao_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pto_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pao_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pto_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:496:17: sparse: sparse: symbol 'kfree_skb' redeclared with different type (incompatible argument 1 (different base types)):
+   include/net/udp.h:496:17: sparse:    int static [signed] [toplevel] kfree_skb( ... )
+   net/ipv4/fou_core.c: note: in included file:
+   include/linux/skbuff.h:1232:20: sparse: note: previously declared as:
+   include/linux/skbuff.h:1232:20: sparse:    void static inline [gnu_inline] [toplevel] kfree_skb( ... )
+>> net/ipv4/fou_core.c:214:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/ipv4/fou_core.c:272:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/ipv4/fou_core.c:272:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/ipv4/fou_core.c:329:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/ipv4/fou_core.c:356:21: sparse: sparse: too many arguments for function __builtin_expect
+   net/ipv4/fou_core.c:360:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/ipv4/fou_core.c:436:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/ipv4/fou_core.c:436:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/ipv4/fou_core.c:480:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/ipv4/fou_core.c:480:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/ipv4/fou_core.c: note: in included file (through include/net/fou.h):
+   include/net/ip_tunnels.h:466:21: sparse: sparse: too many arguments for function __builtin_expect
+   include/net/ip_tunnels.h:466:21: sparse: sparse: too many arguments for function __builtin_expect
+   net/ipv4/fou_core.c: note: in included file:
+   include/net/gro.h:104:13: sparse: sparse: too many arguments for function __builtin_expect
+   include/net/gro.h:314:9: sparse: sparse: too many arguments for function __builtin_expect
+   include/net/gro.h:104:13: sparse: sparse: too many arguments for function __builtin_expect
+--
+   net/l2tp/trace.h:157:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:157:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:157:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:162:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:162:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:162:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:162:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:162:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:162:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:162:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:162:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:162:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:162:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:162:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:162:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:162:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:162:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:162:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:162:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:189:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:189:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:189:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:189:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:189:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:189:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:189:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:189:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:189:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:189:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:189:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:189:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:189:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:189:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:189:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:189:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:194:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:194:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:194:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:194:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:194:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:194:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:194:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:194:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:194:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:194:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:194:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:194:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:194:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:194:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:194:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:194:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:199:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:199:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:199:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:199:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:199:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:199:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:199:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:199:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:199:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:199:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:199:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:199:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:199:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:199:1: sparse: sparse: got __seg_gs
+   net/l2tp/trace.h:199:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/trace.h:199:1: sparse: sparse: got __seg_gs
+   net/l2tp/l2tp_core.c: note: in included file (through include/linux/trace_events.h, include/trace/trace_events.h, include/trace/define_trace.h, ...):
+   include/linux/perf_event.h:1436:32: sparse: sparse: Expected ) at end of cast operator
+   include/linux/perf_event.h:1436:32: sparse: sparse: got __seg_gs
+   net/l2tp/l2tp_core.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, net/l2tp/trace.h):
+   net/l2tp/./trace.h:27:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/./trace.h:27:1: sparse: sparse: got __seg_gs
+   net/l2tp/./trace.h:39:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/./trace.h:39:1: sparse: sparse: got __seg_gs
+   net/l2tp/./trace.h:51:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/./trace.h:51:1: sparse: sparse: got __seg_gs
+   net/l2tp/./trace.h:90:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/./trace.h:90:1: sparse: sparse: got __seg_gs
+   net/l2tp/./trace.h:138:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/./trace.h:138:1: sparse: sparse: got __seg_gs
+   net/l2tp/./trace.h:167:1: sparse: sparse: Expected ) at end of cast operator
+   net/l2tp/./trace.h:167:1: sparse: sparse: got __seg_gs
+   net/l2tp/l2tp_core.c: note: in included file:
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pao_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pto_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pao_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pto_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:496:17: sparse: sparse: symbol 'kfree_skb' redeclared with different type (incompatible argument 1 (different base types)):
+   include/net/udp.h:496:17: sparse:    int static [signed] [toplevel] kfree_skb( ... )
+   net/l2tp/l2tp_core.c: note: in included file (through include/net/net_namespace.h, include/linux/netdevice.h):
+   include/linux/skbuff.h:1232:20: sparse: note: previously declared as:
+   include/linux/skbuff.h:1232:20: sparse:    void static inline [gnu_inline] [toplevel] kfree_skb( ... )
+   net/l2tp/l2tp_core.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, net/l2tp/trace.h):
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, net/l2tp/trace.h):
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c: note: in included file (through include/trace/bpf_probe.h, include/trace/define_trace.h, net/l2tp/trace.h):
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/./trace.h:27:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:39:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:138:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/./trace.h:167:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/l2tp_core.c:171:21: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/l2tp_core.c:171:21: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:909:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:909:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:975:17: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:975:17: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:975:17: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:975:17: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:975:17: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1291:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1291:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1291:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1291:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1291:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1293:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1293:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1293:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1293:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1293:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1328:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1328:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1328:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1328:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1328:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1337:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1337:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1337:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1337:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1337:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1488:9: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1488:9: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1488:9: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1488:9: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1620:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1620:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1620:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1620:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1620:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1622:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1622:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1622:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1622:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1622:25: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1675:17: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c:1675:17: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, net/l2tp/trace.h):
+>> include/linux/trace_events.h:743:13: sparse: sparse: too many arguments for function __builtin_expect
+   include/linux/trace_events.h:748:13: sparse: sparse: too many arguments for function __builtin_expect
+>> include/linux/trace_events.h:743:13: sparse: sparse: too many arguments for function __builtin_expect
+   include/linux/trace_events.h:748:13: sparse: sparse: too many arguments for function __builtin_expect
+>> include/linux/trace_events.h:743:13: sparse: sparse: too many arguments for function __builtin_expect
+   include/linux/trace_events.h:748:13: sparse: sparse: too many arguments for function __builtin_expect
+>> include/linux/trace_events.h:743:13: sparse: sparse: too many arguments for function __builtin_expect
+   include/linux/trace_events.h:748:13: sparse: sparse: too many arguments for function __builtin_expect
+>> include/linux/trace_events.h:743:13: sparse: sparse: too many arguments for function __builtin_expect
+   include/linux/trace_events.h:748:13: sparse: sparse: too many arguments for function __builtin_expect
+>> include/linux/trace_events.h:743:13: sparse: sparse: too many arguments for function __builtin_expect
+   include/linux/trace_events.h:748:13: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/l2tp_core.c: note: in included file:
+>> net/l2tp/trace.h:85:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/trace.h:85:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/trace.h:85:1: sparse: sparse: too many arguments for function __builtin_expect
+>> net/l2tp/trace.h:85:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:123:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:123:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:123:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:123:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:90:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:157:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:157:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:157:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:157:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:189:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:189:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:189:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:189:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:162:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:162:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:162:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:162:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:194:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:194:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:194:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:194:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:199:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:199:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:199:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:199:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:128:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:128:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:128:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:128:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:133:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:133:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:133:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:133:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:157:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:157:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:157:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:157:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:157:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:157:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:157:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:157:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:51:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:80:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:80:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:80:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:80:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:118:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:118:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:118:1: sparse: sparse: too many arguments for function __builtin_expect
+   net/l2tp/trace.h:118:1: sparse: sparse: too many arguments for function __builtin_expect
+--
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'else' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got if
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'else' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got do
+   include/net/udp.h:495:17: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:495:17: sparse: sparse: got 0
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'void' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got pto_tmp__
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'break' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'default' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got :
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'break' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:497:24: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:497:24: sparse: sparse: got (
+   include/net/udp.h:497:17: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/net/udp.h:498:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:498:9: sparse: sparse: got }
+   include/net/udp.h:501:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/net/udp.h:501:16: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:501:16: sparse: sparse: got segs
+   include/net/udp.h:502:1: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:502:1: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:507:9: sparse: sparse: got (
+   include/net/udp.h:507:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:507:9: sparse: sparse: got !
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:522:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:522:9: sparse: sparse: got udp_skb_cb
+   include/net/udp.h:522:9: sparse: sparse: Trying to use reserved word 'struct' as identifier
+   include/net/udp.h:523:16: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:523:16: sparse: sparse: got ->
+   include/net/udp.h:523:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:525:1: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:525:1: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pao_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pto_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pao_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pto_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:496:17: sparse: sparse: symbol 'kfree_skb' redeclared with different type (incompatible argument 1 (different base types)):
+   include/net/udp.h:496:17: sparse:    int static [signed] [toplevel] kfree_skb( ... )
+   net/sched/act_nat.c: note: in included file (through include/linux/netfilter.h):
+   include/linux/skbuff.h:1232:20: sparse: note: previously declared as:
+   include/linux/skbuff.h:1232:20: sparse:    void static inline [gnu_inline] [toplevel] kfree_skb( ... )
+>> net/sched/act_nat.c:141:13: sparse: sparse: too many arguments for function __builtin_expect
+--
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'else' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got if
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'else' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got do
+   include/net/udp.h:495:17: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:495:17: sparse: sparse: got 0
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'void' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got pto_tmp__
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'break' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'default' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:495:17: sparse: sparse: got :
+   include/net/udp.h:495:17: sparse: sparse: Trying to use reserved word 'break' as identifier
+   include/net/udp.h:495:17: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:495:17: sparse: sparse: got }
+   include/net/udp.h:497:24: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:497:24: sparse: sparse: got (
+   include/net/udp.h:497:17: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/net/udp.h:498:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:498:9: sparse: sparse: got }
+   include/net/udp.h:501:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   include/net/udp.h:501:16: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:501:16: sparse: sparse: got segs
+   include/net/udp.h:502:1: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:502:1: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:507:9: sparse: sparse: got (
+   include/net/udp.h:507:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Trying to use reserved word 'do' as identifier
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at end of declaration
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:507:9: sparse: sparse: got {
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:507:9: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:507:9: sparse: sparse: got !
+   include/net/udp.h:507:9: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:507:9: sparse: sparse: got }
+   include/net/udp.h:522:9: sparse: sparse: Expected ) in nested declarator
+   include/net/udp.h:522:9: sparse: sparse: got udp_skb_cb
+   include/net/udp.h:522:9: sparse: sparse: Trying to use reserved word 'struct' as identifier
+   include/net/udp.h:523:16: sparse: sparse: Expected ) in function declarator
+   include/net/udp.h:523:16: sparse: sparse: got ->
+   include/net/udp.h:523:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   include/net/udp.h:525:1: sparse: sparse: Expected ; at the end of type declaration
+   include/net/udp.h:525:1: sparse: sparse: got }
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pao_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pto_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pao_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pto_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:496:17: sparse: sparse: symbol 'kfree_skb' redeclared with different type (incompatible argument 1 (different base types)):
+   include/net/udp.h:496:17: sparse:    int static [signed] [toplevel] kfree_skb( ... )
+   net/sched/cls_flower.c: note: in included file (through include/linux/if_ether.h):
+   include/linux/skbuff.h:1232:20: sparse: note: previously declared as:
+   include/linux/skbuff.h:1232:20: sparse:    void static inline [gnu_inline] [toplevel] kfree_skb( ... )
+>> net/sched/cls_flower.c:372:17: sparse: sparse: too many arguments for function __builtin_expect
+>> net/sched/cls_flower.c:372:17: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:1261:17: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:1261:17: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:1261:17: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:1261:17: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:1261:17: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:1998:9: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:1998:9: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:1998:9: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:1998:9: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:1998:9: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:2558:9: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:2558:9: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:2558:9: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:2558:9: sparse: sparse: too many arguments for function __builtin_expect
+   net/sched/cls_flower.c:2558:9: sparse: sparse: too many arguments for function __builtin_expect
+--
+   include/net/sch_generic.h:912:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:912:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:912:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:912:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:912:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:912:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:912:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:912:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:912:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:912:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:937:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:937:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:937:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:937:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:937:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:937:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:937:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:937:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:937:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:937:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:937:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:937:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:937:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:937:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:937:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:937:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:937:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:937:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:937:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:937:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:937:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:937:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:937:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:937:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1122:17: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1122:17: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1122:17: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1122:17: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1122:17: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1122:17: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1122:17: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1122:17: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1122:17: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1122:17: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1122:17: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1122:17: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1122:17: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1122:17: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1122:17: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1122:17: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1122:17: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1122:17: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1122:17: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1122:17: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1122:17: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1122:17: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1122:17: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1122:17: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1290:23: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1290:23: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1295:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1295:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1295:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1295:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1295:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1295:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1295:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1295:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1295:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1295:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1295:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1295:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1295:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1295:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1295:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1295:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1295:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1295:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1295:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1295:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1295:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1295:9: sparse: sparse: got __seg_gs
+   include/net/sch_generic.h:1295:9: sparse: sparse: Expected ) at end of cast operator
+   include/net/sch_generic.h:1295:9: sparse: sparse: got __seg_gs
+   drivers/infiniband/sw/rxe/rxe_net.c: note: in included file (through include/net/udp_tunnel.h):
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pao_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pto_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pao_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:495:17: sparse: sparse: undefined identifier 'segs_nr'
+   include/net/udp.h:495:17: sparse: sparse: symbol 'pto_tmp__' has multiple initializers (originally initialized at include/net/udp.h:495)
+   include/net/udp.h:496:17: sparse: sparse: symbol 'kfree_skb' redeclared with different type (incompatible argument 1 (different base types)):
+   include/net/udp.h:496:17: sparse:    int static [signed] [toplevel] kfree_skb( ... )
+   drivers/infiniband/sw/rxe/rxe_net.c: note: in included file:
+   include/linux/skbuff.h:1232:20: sparse: note: previously declared as:
+   include/linux/skbuff.h:1232:20: sparse:    void static inline [gnu_inline] [toplevel] kfree_skb( ... )
+>> drivers/infiniband/sw/rxe/rxe_net.c:33:9: sparse: sparse: too many arguments for function __builtin_expect
+>> drivers/infiniband/sw/rxe/rxe_net.c:33:9: sparse: sparse: too many arguments for function __builtin_expect
+>> drivers/infiniband/sw/rxe/rxe_net.c:33:9: sparse: sparse: too many arguments for function __builtin_expect
+>> drivers/infiniband/sw/rxe/rxe_net.c:33:9: sparse: sparse: too many arguments for function __builtin_expect
+>> drivers/infiniband/sw/rxe/rxe_net.c:33:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:34:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:34:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:34:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:34:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:34:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:57:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:57:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:57:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:57:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:57:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:58:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:58:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:58:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:58:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:58:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:69:13: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:352:13: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:382:13: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:395:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:395:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:395:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:395:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:395:9: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:402:13: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:402:13: sparse: sparse: too many arguments for function __builtin_expect
+   drivers/infiniband/sw/rxe/rxe_net.c:488:13: sparse: sparse: too many arguments for function __builtin_expect
 
-vim +303 io_uring/cancel.c
+vim +52 net/ipv4/fou_bpf.c
 
-78a861b9495920 Jens Axboe    2022-06-18  232  
-78a861b9495920 Jens Axboe    2022-06-18  233  int io_sync_cancel(struct io_ring_ctx *ctx, void __user *arg)
-78a861b9495920 Jens Axboe    2022-06-18  234  	__must_hold(&ctx->uring_lock)
-78a861b9495920 Jens Axboe    2022-06-18  235  {
-78a861b9495920 Jens Axboe    2022-06-18  236  	struct io_cancel_data cd = {
-78a861b9495920 Jens Axboe    2022-06-18  237  		.ctx	= ctx,
-78a861b9495920 Jens Axboe    2022-06-18  238  		.seq	= atomic_inc_return(&ctx->cancel_seq),
-78a861b9495920 Jens Axboe    2022-06-18  239  	};
-78a861b9495920 Jens Axboe    2022-06-18  240  	ktime_t timeout = KTIME_MAX;
-78a861b9495920 Jens Axboe    2022-06-18  241  	struct io_uring_sync_cancel_reg sc;
-78a861b9495920 Jens Axboe    2022-06-18  242  	struct fd f = { };
-78a861b9495920 Jens Axboe    2022-06-18  243  	DEFINE_WAIT(wait);
-78a861b9495920 Jens Axboe    2022-06-18  244  	int ret;
-78a861b9495920 Jens Axboe    2022-06-18  245  
-78a861b9495920 Jens Axboe    2022-06-18  246  	if (copy_from_user(&sc, arg, sizeof(sc)))
-78a861b9495920 Jens Axboe    2022-06-18  247  		return -EFAULT;
-78a861b9495920 Jens Axboe    2022-06-18  248  	if (sc.flags & ~CANCEL_FLAGS)
-78a861b9495920 Jens Axboe    2022-06-18  249  		return -EINVAL;
-78a861b9495920 Jens Axboe    2022-06-18  250  	if (sc.pad[0] || sc.pad[1] || sc.pad[2] || sc.pad[3])
-78a861b9495920 Jens Axboe    2022-06-18  251  		return -EINVAL;
-78a861b9495920 Jens Axboe    2022-06-18  252  
-78a861b9495920 Jens Axboe    2022-06-18  253  	cd.data = sc.addr;
-78a861b9495920 Jens Axboe    2022-06-18  254  	cd.flags = sc.flags;
-78a861b9495920 Jens Axboe    2022-06-18  255  
-78a861b9495920 Jens Axboe    2022-06-18  256  	/* we can grab a normal file descriptor upfront */
-78a861b9495920 Jens Axboe    2022-06-18  257  	if ((cd.flags & IORING_ASYNC_CANCEL_FD) &&
-78a861b9495920 Jens Axboe    2022-06-18  258  	   !(cd.flags & IORING_ASYNC_CANCEL_FD_FIXED)) {
-78a861b9495920 Jens Axboe    2022-06-18  259  		f = fdget(sc.fd);
-78a861b9495920 Jens Axboe    2022-06-18  260  		if (!f.file)
-78a861b9495920 Jens Axboe    2022-06-18  261  			return -EBADF;
-78a861b9495920 Jens Axboe    2022-06-18  262  		cd.file = f.file;
-78a861b9495920 Jens Axboe    2022-06-18  263  	}
-78a861b9495920 Jens Axboe    2022-06-18  264  
-78a861b9495920 Jens Axboe    2022-06-18  265  	ret = __io_sync_cancel(current->io_uring, &cd, sc.fd);
-78a861b9495920 Jens Axboe    2022-06-18  266  
-78a861b9495920 Jens Axboe    2022-06-18  267  	/* found something, done! */
-78a861b9495920 Jens Axboe    2022-06-18  268  	if (ret != -EALREADY)
-78a861b9495920 Jens Axboe    2022-06-18  269  		goto out;
-78a861b9495920 Jens Axboe    2022-06-18  270  
-78a861b9495920 Jens Axboe    2022-06-18  271  	if (sc.timeout.tv_sec != -1UL || sc.timeout.tv_nsec != -1UL) {
-78a861b9495920 Jens Axboe    2022-06-18  272  		struct timespec64 ts = {
-78a861b9495920 Jens Axboe    2022-06-18  273  			.tv_sec		= sc.timeout.tv_sec,
-78a861b9495920 Jens Axboe    2022-06-18  274  			.tv_nsec	= sc.timeout.tv_nsec
-78a861b9495920 Jens Axboe    2022-06-18  275  		};
-78a861b9495920 Jens Axboe    2022-06-18  276  
-78a861b9495920 Jens Axboe    2022-06-18  277  		timeout = ktime_add_ns(timespec64_to_ktime(ts), ktime_get_ns());
-78a861b9495920 Jens Axboe    2022-06-18  278  	}
-78a861b9495920 Jens Axboe    2022-06-18  279  
-78a861b9495920 Jens Axboe    2022-06-18  280  	/*
-78a861b9495920 Jens Axboe    2022-06-18  281  	 * Keep looking until we get -ENOENT. we'll get woken everytime
-78a861b9495920 Jens Axboe    2022-06-18  282  	 * every time a request completes and will retry the cancelation.
-78a861b9495920 Jens Axboe    2022-06-18  283  	 */
-78a861b9495920 Jens Axboe    2022-06-18  284  	do {
-78a861b9495920 Jens Axboe    2022-06-18  285  		cd.seq = atomic_inc_return(&ctx->cancel_seq);
-78a861b9495920 Jens Axboe    2022-06-18  286  
-78a861b9495920 Jens Axboe    2022-06-18  287  		prepare_to_wait(&ctx->cq_wait, &wait, TASK_INTERRUPTIBLE);
-78a861b9495920 Jens Axboe    2022-06-18  288  
-78a861b9495920 Jens Axboe    2022-06-18  289  		ret = __io_sync_cancel(current->io_uring, &cd, sc.fd);
-78a861b9495920 Jens Axboe    2022-06-18  290  
-23fffb2f09ce11 Jens Axboe    2022-12-21  291  		mutex_unlock(&ctx->uring_lock);
-78a861b9495920 Jens Axboe    2022-06-18  292  		if (ret != -EALREADY)
-78a861b9495920 Jens Axboe    2022-06-18  293  			break;
-78a861b9495920 Jens Axboe    2022-06-18  294  
-c0e0d6ba25f180 Dylan Yudaken 2022-08-30  295  		ret = io_run_task_work_sig(ctx);
-23fffb2f09ce11 Jens Axboe    2022-12-21  296  		if (ret < 0)
-78a861b9495920 Jens Axboe    2022-06-18  297  			break;
-78a861b9495920 Jens Axboe    2022-06-18  298  		ret = schedule_hrtimeout(&timeout, HRTIMER_MODE_ABS);
-78a861b9495920 Jens Axboe    2022-06-18  299  		if (!ret) {
-78a861b9495920 Jens Axboe    2022-06-18  300  			ret = -ETIME;
-78a861b9495920 Jens Axboe    2022-06-18  301  			break;
-78a861b9495920 Jens Axboe    2022-06-18  302  		}
-23fffb2f09ce11 Jens Axboe    2022-12-21 @303  		mutex_lock(&ctx->uring_lock);
-78a861b9495920 Jens Axboe    2022-06-18  304  	} while (1);
-78a861b9495920 Jens Axboe    2022-06-18  305  
-78a861b9495920 Jens Axboe    2022-06-18  306  	finish_wait(&ctx->cq_wait, &wait);
-23fffb2f09ce11 Jens Axboe    2022-12-21 @307  	mutex_lock(&ctx->uring_lock);
+c50e96099edb13 Christian Ehrig 2023-04-07  24  
+c50e96099edb13 Christian Ehrig 2023-04-07  25  __diag_push();
+c50e96099edb13 Christian Ehrig 2023-04-07  26  __diag_ignore_all("-Wmissing-prototypes",
+c50e96099edb13 Christian Ehrig 2023-04-07  27  		  "Global functions as their definitions will be in BTF");
+c50e96099edb13 Christian Ehrig 2023-04-07  28  
+c50e96099edb13 Christian Ehrig 2023-04-07  29  /* bpf_skb_set_fou_encap - Set FOU encap parameters
+c50e96099edb13 Christian Ehrig 2023-04-07  30   *
+c50e96099edb13 Christian Ehrig 2023-04-07  31   * This function allows for using GUE or FOU encapsulation together with an
+c50e96099edb13 Christian Ehrig 2023-04-07  32   * ipip device in collect-metadata mode.
+c50e96099edb13 Christian Ehrig 2023-04-07  33   *
+c50e96099edb13 Christian Ehrig 2023-04-07  34   * It is meant to be used in BPF tc-hooks and after a call to the
+c50e96099edb13 Christian Ehrig 2023-04-07  35   * bpf_skb_set_tunnel_key helper, responsible for setting IP addresses.
+c50e96099edb13 Christian Ehrig 2023-04-07  36   *
+c50e96099edb13 Christian Ehrig 2023-04-07  37   * Parameters:
+c50e96099edb13 Christian Ehrig 2023-04-07  38   * @skb_ctx	Pointer to ctx (__sk_buff) in TC program. Cannot be NULL
+c50e96099edb13 Christian Ehrig 2023-04-07  39   * @encap	Pointer to a `struct bpf_fou_encap` storing UDP src and
+c50e96099edb13 Christian Ehrig 2023-04-07  40   * 		dst ports. If sport is set to 0 the kernel will auto-assign a
+c50e96099edb13 Christian Ehrig 2023-04-07  41   * 		port. This is similar to using `encap-sport auto`.
+c50e96099edb13 Christian Ehrig 2023-04-07  42   * 		Cannot be NULL
+c50e96099edb13 Christian Ehrig 2023-04-07  43   * @type	Encapsulation type for the packet. Their definitions are
+c50e96099edb13 Christian Ehrig 2023-04-07  44   * 		specified in `enum bpf_fou_encap_type`
+c50e96099edb13 Christian Ehrig 2023-04-07  45   */
+c50e96099edb13 Christian Ehrig 2023-04-07  46  __bpf_kfunc int bpf_skb_set_fou_encap(struct __sk_buff *skb_ctx,
+c50e96099edb13 Christian Ehrig 2023-04-07  47  				      struct bpf_fou_encap *encap, int type)
+c50e96099edb13 Christian Ehrig 2023-04-07  48  {
+c50e96099edb13 Christian Ehrig 2023-04-07  49  	struct sk_buff *skb = (struct sk_buff *)skb_ctx;
+c50e96099edb13 Christian Ehrig 2023-04-07  50  	struct ip_tunnel_info *info = skb_tunnel_info(skb);
+c50e96099edb13 Christian Ehrig 2023-04-07  51  
+c50e96099edb13 Christian Ehrig 2023-04-07 @52  	if (unlikely(!encap))
+c50e96099edb13 Christian Ehrig 2023-04-07  53  		return -EINVAL;
+c50e96099edb13 Christian Ehrig 2023-04-07  54  
+c50e96099edb13 Christian Ehrig 2023-04-07  55  	if (unlikely(!info || !(info->mode & IP_TUNNEL_INFO_TX)))
+c50e96099edb13 Christian Ehrig 2023-04-07  56  		return -EINVAL;
+c50e96099edb13 Christian Ehrig 2023-04-07  57  
+c50e96099edb13 Christian Ehrig 2023-04-07  58  	switch (type) {
+c50e96099edb13 Christian Ehrig 2023-04-07  59  	case FOU_BPF_ENCAP_FOU:
+c50e96099edb13 Christian Ehrig 2023-04-07  60  		info->encap.type = TUNNEL_ENCAP_FOU;
+c50e96099edb13 Christian Ehrig 2023-04-07  61  		break;
+c50e96099edb13 Christian Ehrig 2023-04-07  62  	case FOU_BPF_ENCAP_GUE:
+c50e96099edb13 Christian Ehrig 2023-04-07  63  		info->encap.type = TUNNEL_ENCAP_GUE;
+c50e96099edb13 Christian Ehrig 2023-04-07  64  		break;
+c50e96099edb13 Christian Ehrig 2023-04-07  65  	default:
+c50e96099edb13 Christian Ehrig 2023-04-07  66  		info->encap.type = TUNNEL_ENCAP_NONE;
+c50e96099edb13 Christian Ehrig 2023-04-07  67  	}
+c50e96099edb13 Christian Ehrig 2023-04-07  68  
+c50e96099edb13 Christian Ehrig 2023-04-07  69  	if (info->key.tun_flags & TUNNEL_CSUM)
+c50e96099edb13 Christian Ehrig 2023-04-07  70  		info->encap.flags |= TUNNEL_ENCAP_FLAG_CSUM;
+c50e96099edb13 Christian Ehrig 2023-04-07  71  
+c50e96099edb13 Christian Ehrig 2023-04-07  72  	info->encap.sport = encap->sport;
+c50e96099edb13 Christian Ehrig 2023-04-07  73  	info->encap.dport = encap->dport;
+c50e96099edb13 Christian Ehrig 2023-04-07  74  
+c50e96099edb13 Christian Ehrig 2023-04-07  75  	return 0;
+c50e96099edb13 Christian Ehrig 2023-04-07  76  }
+c50e96099edb13 Christian Ehrig 2023-04-07  77  
+
+:::::: The code at line 52 was first introduced by commit
+:::::: c50e96099edb134bf107fafc02715fbc4aa2277f bpf,fou: Add bpf_skb_{set,get}_fou_encap kfuncs
+
+:::::: TO: Christian Ehrig <cehrig@cloudflare.com>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
