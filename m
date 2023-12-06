@@ -1,61 +1,45 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96F0107A5
-	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 05:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51301094D
+	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 05:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MtbW2y7x"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3333131e08dso457764f8f.2
-        for <oe-kbuild@lists.linux.dev>; Tue, 05 Dec 2023 21:56:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701842170; x=1702446970; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YX4MAqN/nDup4qMOCc0EzTmKzTOsFfxIwVqJEAFEG5A=;
-        b=MtbW2y7xJNA4ombuq/a6BsJCMleGBAnp2RSbTfUt6n5QpgqlIJxjGT1T5mTWKG4seL
-         03fXzpmf1sqFUY60lC04hXD4f7Vwmf+mtDhS9j0qoyGn6tdHDwZA64/Jz6BYpzEiAiGd
-         41XBHxogVIJmxKbwcGzzDDHUFz3hZYNuOhPjBRaG9lOuh1OOTBsZ7ORinB6xvfEjcF2I
-         xM/74YNyfDHLFS3WIKX0mJJVZ8gZKA/edk5SfD/C63bCEkf6ngEvFPLzMEUDAfjF9fPI
-         QFySXbbV+BxCdR4fW1gQpJ5k/2nKE2EYZDi79TDE3Bxe5SjCGZD3vRvb7g3e2uiNKq8O
-         9BPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701842170; x=1702446970;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YX4MAqN/nDup4qMOCc0EzTmKzTOsFfxIwVqJEAFEG5A=;
-        b=QmKBgEN6q1GNzFbLBCQvybMU+ELTuvcxbTmztI51TGd/JJkEzTlDrS2Fz87htDgrja
-         D9WcwinsCXbHXh8xPG637Kzv6GcoUmRENlj5kCLlbAh60s33U4VFXSgniKMGRb21GxiP
-         BZ+4jBAKDMlhh1TlYk3W1K+exIqnwoLlFpsVL72HXjQ4mkG2AlL6girZKEvjokx8ES4T
-         rAv6rKzpIizkiVE9R4U3CdoqQkv685xn2eA+oyJJQycXDEVMk4QsHEjmGeCehUwsX5ys
-         qE+yDzOVhVlKTQE06EVsRaKxfzN/6PafTlsnj0gRAE9mEPrIrAud7TyUalIxVt256RHz
-         2qHg==
-X-Gm-Message-State: AOJu0YxiPfKujqGvjWJ4KKiaRIq+bECDlESHVOYkFKcjWoO9VCRupVND
-	IhNldhOBc8Pt0ZW2OYLpCj48ZgLg8r1C+FM1GDI=
-X-Google-Smtp-Source: AGHT+IHFQh+8y+KuZlMbCBdzapy61giA82q8qO6dwkp1UqO1DqLHlNlScuxD+uGU1Zzj3WZhPzOYjA==
-X-Received: by 2002:a05:6000:c4:b0:333:3ead:54c3 with SMTP id q4-20020a05600000c400b003333ead54c3mr147557wrx.97.1701842170341;
-        Tue, 05 Dec 2023 21:56:10 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id e2-20020adf9bc2000000b003332fa77a0fsm13990491wrc.21.2023.12.05.21.56.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 21:56:10 -0800 (PST)
-Date: Wed, 6 Dec 2023 08:56:06 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Vadim Fedorenko <vadfed@meta.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Mykola Lysenko <mykolal@fb.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-crypto@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next v7 1/3] bpf: make common crypto API for TC/XDP
- programs
-Message-ID: <dc0e2f8e-f82b-4439-b61a-9ab0be9f4e6b@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l0WLUtd1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701842372; x=1733378372;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MyifuJchlbnrtcXs9gnNdsBm2QBX+d+pvtsYtsVL+hs=;
+  b=l0WLUtd1vOHvAYBhkrkaAXH4n+DCieUnt//6qbbJvWXaVSzRbxFRd/oU
+   kIxJGpKsiw0vEdbRO1ch2jSuC33TOTp8cl42LnvCSn5y+nSK1koNZvKqv
+   sqlFivCqp5zNQ2cwAD+4tR+upC3p4L8E7Irb4Z75krh5gbykbKm/L/xfT
+   6hevYVSwvFCcPbt024PqlwK3QqLRV0Ur/rdyTLyM6RFKjRXmmRIwIvW7f
+   HKuAyEWyIOwlD82vLKgL5zL4pQV9LK5wLJ5T+eIN2lhfV0aDcqq62GTzT
+   yBijsxbgdnozf53dX1r7Sku0mnhf2igdsm02bVye8lR0W68R3/qrQ/DUu
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="384413928"
+X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
+   d="scan'208";a="384413928"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 21:59:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
+   d="scan'208";a="19221098"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 05 Dec 2023 21:59:28 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rAkwQ-000ALj-1R;
+	Wed, 06 Dec 2023 05:59:26 +0000
+Date: Wed, 6 Dec 2023 13:59:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: fs/btrfs/volumes.c:591:7-22: ERROR: invalid reference to the index
+ variable of the iterator on line 575
+Message-ID: <202312061311.icx8tr6B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,143 +48,97 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231202010604.1877561-1-vadfed@meta.com>
 
-Hi Vadim,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Anand Jain <anand.jain@oracle.com>
+CC: David Sterba <dsterba@suse.com>
 
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bpf-crypto-add-skcipher-to-bpf-crypto/20231202-091254
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231202010604.1877561-1-vadfed%40meta.com
-patch subject: [PATCH bpf-next v7 1/3] bpf: make common crypto API for TC/XDP programs
-config: x86_64-randconfig-161-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060647.2JfAE3rk-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
+commit: a5b8a5f9f8355d27a4f8d0afa93427f16d2f3c1e btrfs: support cloned-device mount capability
+date:   8 weeks ago
+:::::: branch date: 32 hours ago
+:::::: commit date: 8 weeks ago
+config: x86_64-randconfig-102-20231202 (https://download.01.org/0day-ci/archive/20231206/202312061311.icx8tr6B-lkp@intel.com/config)
 compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060647.2JfAE3rk-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231206/202312061311.icx8tr6B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312060647.2JfAE3rk-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202312061311.icx8tr6B-lkp@intel.com/
 
-smatch warnings:
-kernel/bpf/crypto.c:192 bpf_crypto_ctx_create() error: we previously assumed 'ctx' could be null (see line 165)
-kernel/bpf/crypto.c:192 bpf_crypto_ctx_create() error: potentially dereferencing uninitialized 'ctx'.
+cocci warnings: (new ones prefixed by >>)
+>> fs/btrfs/volumes.c:591:7-22: ERROR: invalid reference to the index variable of the iterator on line 575
+   fs/btrfs/volumes.c:600:10-25: ERROR: invalid reference to the index variable of the iterator on line 575
 
-vim +/ctx +192 kernel/bpf/crypto.c
+vim +591 fs/btrfs/volumes.c
 
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  122  __bpf_kfunc struct bpf_crypto_ctx *
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  123  bpf_crypto_ctx_create(const char *type__str, const char *algo__str,
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  124  		      const struct bpf_dynptr_kern *pkey,
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  125  		      unsigned int authsize, int *err)
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  126  {
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  127  	const struct bpf_crypto_type *type = bpf_crypto_get_type(type__str);
-
-Delete this assignment.  (Duplicated).
-
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  128  	struct bpf_crypto_ctx *ctx;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  129  	const u8 *key;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  130  	u32 key_len;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  131  
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  132  	type = bpf_crypto_get_type(type__str);
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  133  	if (IS_ERR(type)) {
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  134  		*err = PTR_ERR(type);
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  135  		return NULL;
-
-Why doesn't this function just return error pointers?
-
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  136  	}
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  137  
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  138  	if (!type->has_algo(algo__str)) {
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  139  		*err = -EOPNOTSUPP;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  140  		goto err;
-
-ctx is uninitialized on this path.
-
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  141  	}
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  142  
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  143  	if (!authsize && type->setauthsize) {
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  144  		*err = -EOPNOTSUPP;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  145  		goto err;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  146  	}
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  147  
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  148  	if (authsize && !type->setauthsize) {
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  149  		*err = -EOPNOTSUPP;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  150  		goto err;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  151  	}
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  152  
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  153  	key_len = __bpf_dynptr_size(pkey);
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  154  	if (!key_len) {
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  155  		*err = -EINVAL;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  156  		goto err;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  157  	}
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  158  	key = __bpf_dynptr_data(pkey, key_len);
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  159  	if (!key) {
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  160  		*err = -EINVAL;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  161  		goto err;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  162  	}
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  163  
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  164  	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-0c47cb96ac404e Vadim Fedorenko 2023-12-01 @165  	if (!ctx) {
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  166  		*err = -ENOMEM;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  167  		goto err;
-
-ctx is NULL here.
-
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  168  	}
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  169  
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  170  	ctx->type = type;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  171  	ctx->tfm = type->alloc_tfm(algo__str);
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  172  	if (IS_ERR(ctx->tfm)) {
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  173  		*err = PTR_ERR(ctx->tfm);
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  174  		ctx->tfm = NULL;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  175  		goto err;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  176  	}
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  177  
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  178  	if (authsize) {
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  179  		*err = type->setauthsize(ctx->tfm, authsize);
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  180  		if (*err)
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  181  			goto err;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  182  	}
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  183  
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  184  	*err = type->setkey(ctx->tfm, key, key_len);
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  185  	if (*err)
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  186  		goto err;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  187  
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  188  	refcount_set(&ctx->usage, 1);
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  189  
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  190  	return ctx;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  191  err:
-0c47cb96ac404e Vadim Fedorenko 2023-12-01 @192  	if (ctx->tfm)
-                                                            ^^^^^^^^
-NULL dereference.  These two error handling bugs in three lines of code
-are canonical One Err Label type bugs.  Better to do a ladder where each
-error label frees the last thing that was allocated.  Easier to review.
-Then you could delete the "ctx->tfm = NULL;" assignment on line 174.
-
-	return ctx;
-
-err_free_tfm:
-	type->free_tfm(ctx->tfm);
-err_free_ctx:
-	kfree(ctx);
-err_module_put:
-	module_put(type->owner);
-
-	return NULL;
-
-I have written about this at length on my blog:
-https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
-
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  193  		type->free_tfm(ctx->tfm);
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  194  	kfree(ctx);
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  195  	module_put(type->owner);
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  196  
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  197  	return NULL;
-0c47cb96ac404e Vadim Fedorenko 2023-12-01  198  }
+4fde46f0cc71c7 Anand Jain 2015-06-17  555  
+69d427f34ca097 Anand Jain 2023-09-28  556  static struct btrfs_fs_devices *find_fsid_by_device(
+a5b8a5f9f8355d Anand Jain 2023-09-28  557  					struct btrfs_super_block *disk_super,
+a5b8a5f9f8355d Anand Jain 2023-09-28  558  					dev_t devt, bool *same_fsid_diff_dev)
+69d427f34ca097 Anand Jain 2023-09-28  559  {
+69d427f34ca097 Anand Jain 2023-09-28  560  	struct btrfs_fs_devices *fsid_fs_devices;
+a5b8a5f9f8355d Anand Jain 2023-09-28  561  	struct btrfs_fs_devices *devt_fs_devices;
+69d427f34ca097 Anand Jain 2023-09-28  562  	const bool has_metadata_uuid = (btrfs_super_incompat_flags(disk_super) &
+69d427f34ca097 Anand Jain 2023-09-28  563  					BTRFS_FEATURE_INCOMPAT_METADATA_UUID);
+a5b8a5f9f8355d Anand Jain 2023-09-28  564  	bool found_by_devt = false;
+69d427f34ca097 Anand Jain 2023-09-28  565  
+69d427f34ca097 Anand Jain 2023-09-28  566  	/* Find the fs_device by the usual method, if found use it. */
+69d427f34ca097 Anand Jain 2023-09-28  567  	fsid_fs_devices = find_fsid(disk_super->fsid,
+69d427f34ca097 Anand Jain 2023-09-28  568  		    has_metadata_uuid ? disk_super->metadata_uuid : NULL);
+69d427f34ca097 Anand Jain 2023-09-28  569  
+a5b8a5f9f8355d Anand Jain 2023-09-28  570  	/* The temp_fsid feature is supported only with single device filesystem. */
+a5b8a5f9f8355d Anand Jain 2023-09-28  571  	if (btrfs_super_num_devices(disk_super) != 1)
+69d427f34ca097 Anand Jain 2023-09-28  572  		return fsid_fs_devices;
+a5b8a5f9f8355d Anand Jain 2023-09-28  573  
+a5b8a5f9f8355d Anand Jain 2023-09-28  574  	/* Try to find a fs_devices by matching devt. */
+a5b8a5f9f8355d Anand Jain 2023-09-28 @575  	list_for_each_entry(devt_fs_devices, &fs_uuids, fs_list) {
+a5b8a5f9f8355d Anand Jain 2023-09-28  576  		struct btrfs_device *device;
+a5b8a5f9f8355d Anand Jain 2023-09-28  577  
+a5b8a5f9f8355d Anand Jain 2023-09-28  578  		list_for_each_entry(device, &devt_fs_devices->devices, dev_list) {
+a5b8a5f9f8355d Anand Jain 2023-09-28  579  			if (device->devt == devt) {
+a5b8a5f9f8355d Anand Jain 2023-09-28  580  				found_by_devt = true;
+a5b8a5f9f8355d Anand Jain 2023-09-28  581  				break;
+a5b8a5f9f8355d Anand Jain 2023-09-28  582  			}
+a5b8a5f9f8355d Anand Jain 2023-09-28  583  		}
+a5b8a5f9f8355d Anand Jain 2023-09-28  584  		if (found_by_devt)
+a5b8a5f9f8355d Anand Jain 2023-09-28  585  			break;
+a5b8a5f9f8355d Anand Jain 2023-09-28  586  	}
+a5b8a5f9f8355d Anand Jain 2023-09-28  587  
+a5b8a5f9f8355d Anand Jain 2023-09-28  588  	if (found_by_devt) {
+a5b8a5f9f8355d Anand Jain 2023-09-28  589  		/* Existing device. */
+a5b8a5f9f8355d Anand Jain 2023-09-28  590  		if (fsid_fs_devices == NULL) {
+a5b8a5f9f8355d Anand Jain 2023-09-28 @591  			if (devt_fs_devices->opened == 0) {
+a5b8a5f9f8355d Anand Jain 2023-09-28  592  				/* Stale device. */
+a5b8a5f9f8355d Anand Jain 2023-09-28  593  				return NULL;
+a5b8a5f9f8355d Anand Jain 2023-09-28  594  			} else {
+a5b8a5f9f8355d Anand Jain 2023-09-28  595  				/* temp_fsid is mounting a subvol. */
+a5b8a5f9f8355d Anand Jain 2023-09-28  596  				return devt_fs_devices;
+a5b8a5f9f8355d Anand Jain 2023-09-28  597  			}
+a5b8a5f9f8355d Anand Jain 2023-09-28  598  		} else {
+a5b8a5f9f8355d Anand Jain 2023-09-28  599  			/* Regular or temp_fsid device mounting a subvol. */
+a5b8a5f9f8355d Anand Jain 2023-09-28  600  			return devt_fs_devices;
+a5b8a5f9f8355d Anand Jain 2023-09-28  601  		}
+a5b8a5f9f8355d Anand Jain 2023-09-28  602  	} else {
+a5b8a5f9f8355d Anand Jain 2023-09-28  603  		/* New device. */
+a5b8a5f9f8355d Anand Jain 2023-09-28  604  		if (fsid_fs_devices == NULL) {
+a5b8a5f9f8355d Anand Jain 2023-09-28  605  			return NULL;
+a5b8a5f9f8355d Anand Jain 2023-09-28  606  		} else {
+a5b8a5f9f8355d Anand Jain 2023-09-28  607  			/* sb::fsid is already used create a new temp_fsid. */
+a5b8a5f9f8355d Anand Jain 2023-09-28  608  			*same_fsid_diff_dev = true;
+a5b8a5f9f8355d Anand Jain 2023-09-28  609  			return NULL;
+a5b8a5f9f8355d Anand Jain 2023-09-28  610  		}
+a5b8a5f9f8355d Anand Jain 2023-09-28  611  	}
+a5b8a5f9f8355d Anand Jain 2023-09-28  612  
+a5b8a5f9f8355d Anand Jain 2023-09-28  613  	/* Not reached. */
+69d427f34ca097 Anand Jain 2023-09-28  614  }
+69d427f34ca097 Anand Jain 2023-09-28  615  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
