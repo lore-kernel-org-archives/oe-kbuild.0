@@ -1,187 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A823C082
-	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 14:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4735C3FB03
+	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 15:08:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mojatatu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mUpH051/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701874608; x=1733410608;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WetHn5wvKs2GNuqRPa8+kHup3YjzApRECZJrNtjCqxU=;
-  b=mUpH051/jTa0GYz2IB35Ujmje4JXQzTZzlUfrArFvUGWzSg8+ynvuC7S
-   WVub6t1LQoufz1vtAXrUdcrOilKKaEOvcnrBw7cQw3w5ZUj+0yOSiJr6J
-   54do+TwYBhja0dNQqpclDNYZ2f1FVDaafHw5LQjkC231UpnLhm3xtJCxF
-   tiADbHsWXylzjmCKG2KCXNf+hwteRgkdIN06pM3q6ySQAPTLW7QiddTCN
-   6ZptFKbw8LLcbD1W93RdQuYeCrbHTK6HnZKt+wxWuMSmmuoghZSFjGOVy
-   7Glcrb9cE/zZiz519bTkjut7XiKl6Z4v3Hv9kAA+iMrvAlpslmvvXYVpZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="480267799"
-X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="480267799"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 06:56:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="775032055"
-X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="775032055"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 06 Dec 2023 06:56:45 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAtKI-000AxW-26;
-	Wed, 06 Dec 2023 14:56:39 +0000
-Date: Wed, 6 Dec 2023 22:56:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c:525:29-44: ERROR:
- reference preceded by free on line 524
-Message-ID: <202312062230.VRAIGrLi-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=mojatatu-com.20230601.gappssmtp.com header.i=@mojatatu-com.20230601.gappssmtp.com header.b="jXV6PV28"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5d95a3562faso30517937b3.2
+        for <oe-kbuild@lists.linux.dev>; Wed, 06 Dec 2023 07:08:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mojatatu-com.20230601.gappssmtp.com; s=20230601; t=1701875314; x=1702480114; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gI4+87OmuedWYZowFLyZTVA/u3jp6SGb1EP0gsJn5OY=;
+        b=jXV6PV28De8VyXESgxjbBCMzlwpy/KJ61GCVmQh8IN3mohoZisIC4tcqrSpqbu7Sra
+         S4Uj0uKqR6pGcJxER7X83wjQmYoiTlorZCuB6rCwXKnf2VgqF4sl22W9DrgQzHyADVIj
+         W7Ob3LfVfQCs6K184s8LorGhmSIksejVa7/5tyIXRjU4xk3PhJzl0JfHWARIataNLDRO
+         Rtrba4+X7cD7tRHKZbQiBhN09vixZQpsFdMYSOr2Lh9wyxaKKZqFX0lbazkKqovMMM2P
+         f7Kn1Rxut6/j23RquriZc4sTB1rlM+zK5p+diM6rXWfUTLaqt1m5DBIa2E2SNzIY3WUu
+         rpHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701875314; x=1702480114;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gI4+87OmuedWYZowFLyZTVA/u3jp6SGb1EP0gsJn5OY=;
+        b=d19BwODvHh1hoNG+Ts2W7aJE4WfEn7I4XwFprNI5hDu21WNwvNjZ9CxoPOBqrgI5EP
+         oJ1alX1AbXyKEkShikPAUcSwjIVXp02Jay8uKwwoGLWnlVx9qpdgRS9hz37jl4HPY6M+
+         /lGJUerK92F0H2++tcxAy4/Z1J8vr3jgP5xJtSwfuz07XlQtYRcjN5ocsowsZGLhfE3y
+         /D+LQuj+dI6iKF/c/6fdeYDe2UcniUQNtgMKIO7hfgs/zA8FzuCSHVuN5WLBskUWtz7r
+         3sDUfZ/wDm+3RWxjVpTsl7luVMGx8gYFVlFixSLr6oYa2v24ZirZNmQyH3Dp9VHsBnC+
+         W55Q==
+X-Gm-Message-State: AOJu0YwKYfJpLc6ARI9x5LXa5D/vrrxEqd3aRcbAs2rdNNNqVXbdQLHZ
+	UbGNguNHwJnWCKk5QxIkY4SzdvABQSB8mXUU3bwjUA==
+X-Google-Smtp-Source: AGHT+IHF9CzT8VrghpajIXOI4MLzZ24JXy9q27f+k6JJ8gWMSKwgFRPeOQuAl95Vk0Cb7Kg8XGZRY9Z+ZKYjtmmKU1M=
+X-Received: by 2002:a0d:e60b:0:b0:5d7:1940:f3e9 with SMTP id
+ p11-20020a0de60b000000b005d71940f3e9mr760885ywe.81.1701875313870; Wed, 06 Dec
+ 2023 07:08:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20231201182904.532825-14-jhs@mojatatu.com> <9dc10258-a370-4c8f-8099-36edf40b6f80@suswa.mountain>
+In-Reply-To: <9dc10258-a370-4c8f-8099-36edf40b6f80@suswa.mountain>
+From: Jamal Hadi Salim <jhs@mojatatu.com>
+Date: Wed, 6 Dec 2023 10:08:22 -0500
+Message-ID: <CAM0EoMnnXNxtzDqtC96rbKjy1qfebtBTPpGj7MR7j4uzqXjEWA@mail.gmail.com>
+Subject: Re: [PATCH net-next v9 13/15] p4tc: add runtime table entry create,
+ update, get, delete, flush and dump
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, netdev@vger.kernel.org, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, deb.chatterjee@intel.com, 
+	anjali.singhai@intel.com, namrata.limaye@intel.com, mleitner@redhat.com, 
+	Mahesh.Shirshyad@amd.com, tomasz.osinski@intel.com, jiri@resnulli.us, 
+	xiyou.wangcong@gmail.com, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, vladbu@nvidia.com, horms@kernel.org, 
+	khalidm@nvidia.com, toke@redhat.com, daniel@iogearbox.net, 
+	bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Alexander Lobakin <aleksander.lobakin@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: Kees Cook <keescook@chromium.org>
+Hi Dan,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: b0654e64dbaf62f565b5f2b4fbd92202e88dcba3 virtchnl: fix fake 1-elem arrays for structures allocated as `nents`
-date:   4 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 4 months ago
-config: i386-randconfig-054-20231206 (https://download.01.org/0day-ci/archive/20231206/202312062230.VRAIGrLi-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312062230.VRAIGrLi-lkp@intel.com/reproduce)
+On Wed, Dec 6, 2023 at 12:34=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> Hi Jamal,
+>
+> kernel test robot noticed the following build warnings:
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jamal-Hadi-Salim/n=
+et-sched-act_api-increase-action-kind-string-length/20231202-032940
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20231201182904.532825-14-jhs%40m=
+ojatatu.com
+> patch subject: [PATCH net-next v9 13/15] p4tc: add runtime table entry cr=
+eate, update, get, delete, flush and dump
+> config: powerpc64-randconfig-r081-20231204 (https://download.01.org/0day-=
+ci/archive/20231205/202312052121.NV57fCuG-lkp@intel.com/config)
+> compiler: powerpc64-linux-gcc (GCC) 13.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20231205/202312052121=
+.NV57fCuG-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202312052121.NV57fCuG-lkp@intel.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312062230.VRAIGrLi-lkp@intel.com/
+Thanks - Will do (it will be a new version not separate fix commit).
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c:525:29-44: ERROR: reference preceded by free on line 524
+> smatch warnings:
+> net/sched/p4tc/p4tc_tbl_entry.c:2555 p4tc_tbl_entry_dumpit() warn: can 'n=
+l_path_attrs.pname' even be NULL?
 
-vim +525 drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c
+We need to update our smatch i suppose because we didnt catch this one.
 
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  492  
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  493  /**
-2723f3b5d4ff58 Jesse Brandeburg    2022-12-16  494   * i40e_config_rdma_qvlist
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  495   * @vf: pointer to the VF info
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  496   * @qvlist_info: queue and vector list
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  497   *
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  498   * Return 0 on success or < 0 on error
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  499   **/
-2723f3b5d4ff58 Jesse Brandeburg    2022-12-16  500  static int
-2723f3b5d4ff58 Jesse Brandeburg    2022-12-16  501  i40e_config_rdma_qvlist(struct i40e_vf *vf,
-2723f3b5d4ff58 Jesse Brandeburg    2022-12-16  502  			struct virtchnl_rdma_qvlist_info *qvlist_info)
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  503  {
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  504  	struct i40e_pf *pf = vf->pf;
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  505  	struct i40e_hw *hw = &pf->hw;
-2723f3b5d4ff58 Jesse Brandeburg    2022-12-16  506  	struct virtchnl_rdma_qv_info *qv_info;
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  507  	u32 v_idx, i, reg_idx, reg;
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  508  	u32 next_q_idx, next_q_type;
-b0654e64dbaf62 Alexander Lobakin   2023-07-28  509  	size_t size;
-fae6cad17ce39b Gustavo A. R. Silva 2019-06-05  510  	u32 msix_vf;
-0b63644602cfcb Martyna Szapar      2019-04-18  511  	int ret = 0;
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  512  
-7015ca3df96537 Sergey Nemov        2019-03-29  513  	msix_vf = pf->hw.func_caps.num_msix_vectors_vf;
-7015ca3df96537 Sergey Nemov        2019-03-29  514  
-7015ca3df96537 Sergey Nemov        2019-03-29  515  	if (qvlist_info->num_vectors > msix_vf) {
-7015ca3df96537 Sergey Nemov        2019-03-29  516  		dev_warn(&pf->pdev->dev,
-7015ca3df96537 Sergey Nemov        2019-03-29  517  			 "Incorrect number of iwarp vectors %u. Maximum %u allowed.\n",
-7015ca3df96537 Sergey Nemov        2019-03-29  518  			 qvlist_info->num_vectors,
-7015ca3df96537 Sergey Nemov        2019-03-29  519  			 msix_vf);
-0b63644602cfcb Martyna Szapar      2019-04-18  520  		ret = -EINVAL;
-0b63644602cfcb Martyna Szapar      2019-04-18  521  		goto err_out;
-7015ca3df96537 Sergey Nemov        2019-03-29  522  	}
-7015ca3df96537 Sergey Nemov        2019-03-29  523  
-0b63644602cfcb Martyna Szapar      2019-04-18 @524  	kfree(vf->qvlist_info);
-b0654e64dbaf62 Alexander Lobakin   2023-07-28 @525  	size = virtchnl_struct_size(vf->qvlist_info, qv_info,
-b0654e64dbaf62 Alexander Lobakin   2023-07-28  526  				    qvlist_info->num_vectors);
-b0654e64dbaf62 Alexander Lobakin   2023-07-28  527  	vf->qvlist_info = kzalloc(size, GFP_KERNEL);
-0b63644602cfcb Martyna Szapar      2019-04-18  528  	if (!vf->qvlist_info) {
-0b63644602cfcb Martyna Szapar      2019-04-18  529  		ret = -ENOMEM;
-0b63644602cfcb Martyna Szapar      2019-04-18  530  		goto err_out;
-0b63644602cfcb Martyna Szapar      2019-04-18  531  	}
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  532  	vf->qvlist_info->num_vectors = qvlist_info->num_vectors;
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  533  
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  534  	msix_vf = pf->hw.func_caps.num_msix_vectors_vf;
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  535  	for (i = 0; i < qvlist_info->num_vectors; i++) {
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  536  		qv_info = &qvlist_info->qv_info[i];
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  537  		if (!qv_info)
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  538  			continue;
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  539  
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  540  		/* Validate vector id belongs to this vf */
-d510497b8397ec Sergey Nemov        2019-04-24  541  		if (!i40e_vc_isvalid_vector_id(vf, qv_info->v_idx)) {
-0b63644602cfcb Martyna Szapar      2019-04-18  542  			ret = -EINVAL;
-0b63644602cfcb Martyna Szapar      2019-04-18  543  			goto err_free;
-0b63644602cfcb Martyna Szapar      2019-04-18  544  		}
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  545  
-d510497b8397ec Sergey Nemov        2019-04-24  546  		v_idx = qv_info->v_idx;
-d510497b8397ec Sergey Nemov        2019-04-24  547  
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  548  		vf->qvlist_info->qv_info[i] = *qv_info;
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  549  
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  550  		reg_idx = ((msix_vf - 1) * vf->vf_id) + (v_idx - 1);
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  551  		/* We might be sharing the interrupt, so get the first queue
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  552  		 * index and type, push it down the list by adding the new
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  553  		 * queue on top. Also link it with the new queue in CEQCTL.
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  554  		 */
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  555  		reg = rd32(hw, I40E_VPINT_LNKLSTN(reg_idx));
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  556  		next_q_idx = ((reg & I40E_VPINT_LNKLSTN_FIRSTQ_INDX_MASK) >>
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  557  				I40E_VPINT_LNKLSTN_FIRSTQ_INDX_SHIFT);
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  558  		next_q_type = ((reg & I40E_VPINT_LNKLSTN_FIRSTQ_TYPE_MASK) >>
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  559  				I40E_VPINT_LNKLSTN_FIRSTQ_TYPE_SHIFT);
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  560  
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  561  		if (qv_info->ceq_idx != I40E_QUEUE_INVALID_IDX) {
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  562  			reg_idx = (msix_vf - 1) * vf->vf_id + qv_info->ceq_idx;
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  563  			reg = (I40E_VPINT_CEQCTL_CAUSE_ENA_MASK |
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  564  			(v_idx << I40E_VPINT_CEQCTL_MSIX_INDX_SHIFT) |
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  565  			(qv_info->itr_idx << I40E_VPINT_CEQCTL_ITR_INDX_SHIFT) |
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  566  			(next_q_type << I40E_VPINT_CEQCTL_NEXTQ_TYPE_SHIFT) |
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  567  			(next_q_idx << I40E_VPINT_CEQCTL_NEXTQ_INDX_SHIFT));
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  568  			wr32(hw, I40E_VPINT_CEQCTL(reg_idx), reg);
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  569  
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  570  			reg_idx = ((msix_vf - 1) * vf->vf_id) + (v_idx - 1);
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  571  			reg = (qv_info->ceq_idx &
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  572  			       I40E_VPINT_LNKLSTN_FIRSTQ_INDX_MASK) |
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  573  			       (I40E_QUEUE_TYPE_PE_CEQ <<
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  574  			       I40E_VPINT_LNKLSTN_FIRSTQ_TYPE_SHIFT);
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  575  			wr32(hw, I40E_VPINT_LNKLSTN(reg_idx), reg);
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  576  		}
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  577  
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  578  		if (qv_info->aeq_idx != I40E_QUEUE_INVALID_IDX) {
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  579  			reg = (I40E_VPINT_AEQCTL_CAUSE_ENA_MASK |
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  580  			(v_idx << I40E_VPINT_AEQCTL_MSIX_INDX_SHIFT) |
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  581  			(qv_info->itr_idx << I40E_VPINT_AEQCTL_ITR_INDX_SHIFT));
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  582  
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  583  			wr32(hw, I40E_VPINT_AEQCTL(vf->vf_id), reg);
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  584  		}
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  585  	}
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  586  
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  587  	return 0;
-0b63644602cfcb Martyna Szapar      2019-04-18  588  err_free:
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  589  	kfree(vf->qvlist_info);
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  590  	vf->qvlist_info = NULL;
-0b63644602cfcb Martyna Szapar      2019-04-18  591  err_out:
-0b63644602cfcb Martyna Szapar      2019-04-18  592  	return ret;
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  593  }
-e3219ce6a77546 Anjali Singhai Jain 2016-01-20  594  
+cheers,
+jamal
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> vim +2555 net/sched/p4tc/p4tc_tbl_entry.c
+>
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2529        pnatt =3D nla_res=
+erve(skb, P4TC_ROOT_PNAME, P4TC_PIPELINE_NAMSIZ);
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2530        if (!pnatt)
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2531                return -E=
+NOMEM;
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2532
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2533        ids[P4TC_PID_IDX]=
+ =3D t_new->pipeid;
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2534        arg_ids =3D nla_d=
+ata(tb[P4TC_PATH]);
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2535        memcpy(&ids[P4TC_=
+TBLID_IDX], arg_ids, nla_len(tb[P4TC_PATH]));
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2536        nl_path_attrs.ids=
+ =3D ids;
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2537
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2538        nl_path_attrs.pna=
+me =3D nla_data(pnatt);
+>
+> nla_data() can't be NULL
+>
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2539        if (!p_name) {
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2540                /* Filled=
+ up by the operation or forced failure */
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2541                memset(nl=
+_path_attrs.pname, 0, P4TC_PIPELINE_NAMSIZ);
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2542                nl_path_a=
+ttrs.pname_passed =3D false;
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2543        } else {
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2544                strscpy(n=
+l_path_attrs.pname, p_name, P4TC_PIPELINE_NAMSIZ);
+>
+> And we dereference it
+>
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2545                nl_path_a=
+ttrs.pname_passed =3D true;
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2546        }
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2547
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2548        root =3D nla_nest=
+_start(skb, P4TC_ROOT);
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2549        ret =3D p4tc_tabl=
+e_entry_dump(net, skb, tb[P4TC_PARAMS], &nl_path_attrs,
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2550                         =
+           cb, extack);
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2551        if (ret <=3D 0)
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2552                goto out;
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2553        nla_nest_end(skb,=
+ root);
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2554
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01 @2555        if (nl_path_attrs=
+.pname) {
+>                                                             ^^^^^^^^^^^^^=
+^^^^^^
+> This NULL check can be removed.
+>
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
