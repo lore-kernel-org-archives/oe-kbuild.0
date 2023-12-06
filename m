@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7A619F
-	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 00:20:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5E7650
+	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 00:30:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dq9ovZjA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a9Rru8T+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701822005; x=1733358005;
+  t=1701822608; x=1733358608;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VD559ENl1JO+nrGkAACMei5ux7u1PL3GVJ5KFHJ+3Rs=;
-  b=dq9ovZjAvq2NOWMF2wvqrAFBsX9+HuVz3JkQ6qRbpiq/yTYrym6q9oEa
-   IhEdyDAOrwZvNCJwiquQYURG4m2knYoN+CgXHdtRi6W4spE5puctGud0H
-   2qc0mU7/9d0YaymVOVb4qvJd6IKrYb077hXpBXrSn+o1KHF2IAypViaBn
-   O/sATpZMaj30yabxHjQgb1kduhydR7bhhuysOM6QQLTsFoZwFA+7MHGX0
-   R/UdGAHf17PaETTz9U89LNvNgRNYmxh1V3xaB7qX368RqpMcPD/MxyRu0
-   TzI8OM76EAutVKeKvoY5HdznR7GPGLx7ZYEzN+zpxPoan9fbTFdiVsVd0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="12696508"
+  bh=wSnCYFUm1Qx/S6KQNBoI/TsHGVJ9VVdlk2jmJYrBOl0=;
+  b=a9Rru8T+6oHBBE8E9o7MQ9GU2LmgFG0gztwRtFLBgFtZYt9FrnitYauk
+   Jv8cs5OtX52woH5RHI5OAvCpOsQdY7Fh4CGc8w9mzqqEkRNw8zxLXxG4F
+   pt31LpDpn56g2ERZnzcUBaA1wVBQ1eUty3Jtx9ixVSx7S8zN0YO6QTwXW
+   +na6zFO0cPwGLmiWa9VKNgZRSfnc6Q7t22l7NmE+ibu+nQmFXQOJH95kH
+   anB4Tlx2VZquucTtYzPBnWRnQ2Fp+7DUU38Drr1AI/yFqRqnsN3urrohD
+   3SQ+gm+H7FNAbXhLAvRvB1IRVvY+Zumtno/XgT1UxArFQ8uLmYiEA2qm/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="374163845"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="12696508"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 16:20:04 -0800
+   d="scan'208";a="374163845"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 16:30:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="747415875"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="771112939"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="747415875"
+   d="scan'208";a="771112939"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 05 Dec 2023 16:20:03 -0800
+  by orsmga002.jf.intel.com with ESMTP; 05 Dec 2023 16:30:04 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAfdw-0009vS-2t;
-	Wed, 06 Dec 2023 00:20:00 +0000
-Date: Wed, 6 Dec 2023 08:19:15 +0800
+	id 1rAfnd-0009xA-2I;
+	Wed, 06 Dec 2023 00:30:01 +0000
+Date: Wed, 6 Dec 2023 08:29:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/dsa/mv88e6xxx/chip.c:245 mv88e6xxx_default_mdio_bus()
- warn: can 'mdio_bus' even be NULL?
-Message-ID: <202312060828.ZdskQ7U4-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>,
+	Elena Reshetova <elena.reshetova@intel.com>
+Subject: fs/smb/server/oplock.c:169:6-25: WARNING: atomic_dec_and_test
+ variation before object free at line 172.
+Message-ID: <202312060839.4Tog6nxp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,45 +54,47 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Andrew Lunn <andrew@lunn.ch>
+TO: Steve French <stfrench@microsoft.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: a3c53be55c955b7150cda17874c3fcb4eeb97a89 net: dsa: mv88e6xxx: Support multiple MDIO busses
-date:   7 years ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 7 years ago
-config: i386-randconfig-141-20231010 (https://download.01.org/0day-ci/archive/20231206/202312060828.ZdskQ7U4-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060828.ZdskQ7U4-lkp@intel.com/reproduce)
+commit: 38c8a9a52082579090e34c033d439ed2cd1a462d smb: move client and server files to common directory fs/smb
+date:   7 months ago
+:::::: branch date: 27 hours ago
+:::::: commit date: 7 months ago
+config: um-randconfig-r061-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060839.4Tog6nxp-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060839.4Tog6nxp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312060828.ZdskQ7U4-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202312060839.4Tog6nxp-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/dsa/mv88e6xxx/chip.c:245 mv88e6xxx_default_mdio_bus() warn: can 'mdio_bus' even be NULL?
+cocci warnings: (new ones prefixed by >>)
+>> fs/smb/server/oplock.c:169:6-25: WARNING: atomic_dec_and_test variation before object free at line 172.
+--
+>> fs/smb/server/oplock.c:882:14-15: WARNING opportunity for min()
+   fs/smb/server/oplock.c:916:14-15: WARNING opportunity for min()
 
-Old smatch warnings:
-drivers/net/dsa/mv88e6xxx/chip.c:882 _mv88e6xxx_get_ethtool_stat() error: uninitialized symbol 'low'.
+vim +169 fs/smb/server/oplock.c
 
-vim +/mdio_bus +245 drivers/net/dsa/mv88e6xxx/chip.c
+e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  166  
+e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  167  void opinfo_put(struct oplock_info *opinfo)
+e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  168  {
+e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16 @169  	if (!atomic_dec_and_test(&opinfo->refcount))
+e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  170  		return;
+e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  171  
+e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16 @172  	call_rcu(&opinfo->rcu_head, opinfo_free_rcu);
+e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  173  }
+e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  174  
 
-efb3e74da2e181 Andrew Lunn 2017-01-24  238  
-a3c53be55c955b Andrew Lunn 2017-01-24  239  static struct mii_bus *mv88e6xxx_default_mdio_bus(struct mv88e6xxx_chip *chip)
-a3c53be55c955b Andrew Lunn 2017-01-24  240  {
-a3c53be55c955b Andrew Lunn 2017-01-24  241  	struct mv88e6xxx_mdio_bus *mdio_bus;
-a3c53be55c955b Andrew Lunn 2017-01-24  242  
-a3c53be55c955b Andrew Lunn 2017-01-24  243  	mdio_bus = list_first_entry(&chip->mdios, struct mv88e6xxx_mdio_bus,
-a3c53be55c955b Andrew Lunn 2017-01-24  244  				    list);
-a3c53be55c955b Andrew Lunn 2017-01-24 @245  	if (!mdio_bus)
-a3c53be55c955b Andrew Lunn 2017-01-24  246  		return NULL;
-a3c53be55c955b Andrew Lunn 2017-01-24  247  
-a3c53be55c955b Andrew Lunn 2017-01-24  248  	return mdio_bus->bus;
-a3c53be55c955b Andrew Lunn 2017-01-24  249  }
-a3c53be55c955b Andrew Lunn 2017-01-24  250  
+:::::: The code at line 169 was first introduced by commit
+:::::: e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9 cifsd: add server-side procedures for SMB3
+
+:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 -- 
 0-DAY CI Kernel Test Service
