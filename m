@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C4070969
-	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 22:26:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BBDC1A5B6
+	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 23:21:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tawydorr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Du0wrbfv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701901567; x=1733437567;
+  t=1701904874; x=1733440874;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TeYtszIQsx4X7KieNkFSHwUXFRpsBGJryIMzYRhhyAk=;
-  b=Tawydorr+/k5R0A4B2mpvxWtxnM6wjWr8XZDOwRzFwu7UmOH9xKHejCl
-   naODFcH19+3NeF8W+578q0oj2URz/CZXkU9Z740phKCJ/rdP5Xr8wLpXv
-   JmdLCIeGETc+4ko84wj6dY8WTLkfvOvCAxucriFItB69impxag/z3w+HX
-   BIvBLx3pkU0P+FB+PCkXYLWf8uYEQZd0bHGNaXQiW4rcP77+a2DYzqmSq
-   eRZwKvLbxowveUiueR4cl7QkiMx+lcQbloZxCO2OC06403mcJpNNAuYJJ
-   8SKErUZr10v8hMqUje30qHjK3ldE82yu0to4+E/ao/6BqAz37f4t+Pdfz
+  bh=FbJtUtWlIkpyZZyrwo4vmddgrkrQ96t4UuadYxaiswY=;
+  b=Du0wrbfvI84wvy8L5ahu0eDZtUdTJ3X3tGl6gwMS+N/w7/fzMEThVzM8
+   sC6S4u9kSFkxsI14zhwRcqQFgSCa5qqwCIu1Xt9i386THKoGJBUOSYmZD
+   1ARutOzzj8nQTmXNoxA0UGz/1kgrhk06+kfBZTys1qFLTKt8jK8bxhPNb
+   t6HeY0natDC2cXu1tT5Hjf83RXOTGIm1eMRCcmLRwzVEOtibtA2gEv2h8
+   JGLq6X6eGFa6z9ZjzSlNycQWYFqicixHPN7rm3JKFkquTXSDPwo8+BMvr
+   TV+64MZAP6NY+8MvPTqv+maqTR/m//lc/cS8f9xeRN+c56Y/BB2xlDWGb
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="12852024"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="1211471"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="12852024"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 14:26:07 -0800
+   d="scan'208";a="1211471"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 15:21:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="862245790"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="800516901"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="862245790"
+   d="scan'208";a="800516901"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 06 Dec 2023 14:26:05 -0800
+  by orsmga008.jf.intel.com with ESMTP; 06 Dec 2023 15:21:07 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rB0LD-000BUs-07;
-	Wed, 06 Dec 2023 22:26:03 +0000
-Date: Thu, 7 Dec 2023 06:25:09 +0800
+	id 1rB1CT-000BYM-0f;
+	Wed, 06 Dec 2023 23:21:05 +0000
+Date: Thu, 7 Dec 2023 07:20:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/edac/i10nm_base.c:712:3-9: ERROR: missing iounmap; ioremap
- on line 742 and execution via conditional on line 711
-Message-ID: <202312070628.O5O5eKkw-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/clk/uniphier/clk-uniphier-mux.c:47
+ uniphier_clk_mux_get_parent() warn: signedness bug returning '(-22)'
+Message-ID: <202312070700.rCOmRRKG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,110 +53,61 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-CC: Tony Luck <tony.luck@intel.com>
+TO: Dragos Bogdan <dragos.bogdan@analog.com>
+CC: Ley Foon Tan <ley.foon.tan@intel.com>
+CC: Beniamin Bia <beniamin.bia@analog.com>
+
+Hi Dragos,
+
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: c545f5e412250555bd4e717d062b117f20bab418 EDAC/i10nm: Skip the absent memory controllers
-date:   5 months ago
+commit: f26e433185cb2830b933df3a4d378558fe2fccd9 arch: nios2: Enable the common clk subsystem on Nios2
+date:   3 years, 8 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-103-20231207 (https://download.01.org/0day-ci/archive/20231207/202312070628.O5O5eKkw-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231207/202312070628.O5O5eKkw-lkp@intel.com/reproduce)
+:::::: commit date: 3 years, 8 months ago
+config: nios2-randconfig-r081-20231120 (https://download.01.org/0day-ci/archive/20231207/202312070700.rCOmRRKG-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231207/202312070700.rCOmRRKG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312070628.O5O5eKkw-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202312070700.rCOmRRKG-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/edac/i10nm_base.c:712:3-9: ERROR: missing iounmap; ioremap on line 742 and execution via conditional on line 711
-   drivers/edac/i10nm_base.c:718:3-9: ERROR: missing iounmap; ioremap on line 742 and execution via conditional on line 717
-   drivers/edac/i10nm_base.c:722:3-9: ERROR: missing iounmap; ioremap on line 742 and execution via conditional on line 720
-   drivers/edac/i10nm_base.c:734:4-10: ERROR: missing iounmap; ioremap on line 742 and execution via conditional on line 732
-   drivers/edac/i10nm_base.c:746:4-10: ERROR: missing iounmap; ioremap on line 742 and execution via conditional on line 743
+smatch warnings:
+drivers/clk/uniphier/clk-uniphier-mux.c:47 uniphier_clk_mux_get_parent() warn: signedness bug returning '(-22)'
 
-vim +712 drivers/edac/i10nm_base.c
+vim +47 drivers/clk/uniphier/clk-uniphier-mux.c
 
-c545f5e4122505 Qiuxu Zhuo 2023-07-10  696  
-c945088384d00e Qiuxu Zhuo 2021-06-11  697  static int i10nm_get_ddr_munits(void)
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  698  {
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  699  	struct pci_dev *mdev;
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  700  	void __iomem *mbase;
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  701  	unsigned long size;
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  702  	struct skx_dev *d;
-c545f5e4122505 Qiuxu Zhuo 2023-07-10  703  	int i, lmc, j = 0;
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  704  	u32 reg, off;
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  705  	u64 base;
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  706  
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  707  	list_for_each_entry(d, i10nm_edac_list, list) {
-dd7814b7853941 Qiuxu Zhuo 2023-01-13  708  		d->util_all = pci_get_dev_wrapper(d->seg, d->bus[res_cfg->util_all_bdf.bus],
-dd7814b7853941 Qiuxu Zhuo 2023-01-13  709  						  res_cfg->util_all_bdf.dev,
-dd7814b7853941 Qiuxu Zhuo 2023-01-13  710  						  res_cfg->util_all_bdf.fun);
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30 @711  		if (!d->util_all)
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30 @712  			return -ENODEV;
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  713  
-dd7814b7853941 Qiuxu Zhuo 2023-01-13  714  		d->uracu = pci_get_dev_wrapper(d->seg, d->bus[res_cfg->uracu_bdf.bus],
-dd7814b7853941 Qiuxu Zhuo 2023-01-13  715  					       res_cfg->uracu_bdf.dev,
-dd7814b7853941 Qiuxu Zhuo 2023-01-13  716  					       res_cfg->uracu_bdf.fun);
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  717  		if (!d->uracu)
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  718  			return -ENODEV;
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  719  
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  720  		if (I10NM_GET_SCK_BAR(d, reg)) {
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  721  			i10nm_printk(KERN_ERR, "Failed to socket bar\n");
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  722  			return -ENODEV;
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  723  		}
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  724  
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  725  		base = I10NM_GET_SCK_MMIO_BASE(reg);
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  726  		edac_dbg(2, "socket%d mmio base 0x%llx (reg 0x%x)\n",
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  727  			 j++, base, reg);
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  728  
-c545f5e4122505 Qiuxu Zhuo 2023-07-10  729  		for (lmc = 0, i = 0; i < res_cfg->ddr_imc_num; i++) {
-ba987eaaabf99b Qiuxu Zhuo 2023-01-13  730  			mdev = get_ddr_munit(d, i, &off, &size);
-ba987eaaabf99b Qiuxu Zhuo 2023-01-13  731  
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  732  			if (i == 0 && !mdev) {
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  733  				i10nm_printk(KERN_ERR, "No IMC found\n");
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  734  				return -ENODEV;
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  735  			}
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  736  			if (!mdev)
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  737  				continue;
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  738  
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  739  			edac_dbg(2, "mc%d mmio base 0x%llx size 0x%lx (reg 0x%x)\n",
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  740  				 i, base + off, size, reg);
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  741  
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30 @742  			mbase = ioremap(base + off, size);
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  743  			if (!mbase) {
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  744  				i10nm_printk(KERN_ERR, "Failed to ioremap 0x%llx\n",
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  745  					     base + off);
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  746  				return -ENODEV;
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  747  			}
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  748  
-c545f5e4122505 Qiuxu Zhuo 2023-07-10  749  			d->imc[lmc].mbase = mbase;
-c545f5e4122505 Qiuxu Zhuo 2023-07-10  750  			if (i10nm_imc_absent(&d->imc[lmc])) {
-c545f5e4122505 Qiuxu Zhuo 2023-07-10  751  				pci_dev_put(mdev);
-c545f5e4122505 Qiuxu Zhuo 2023-07-10  752  				iounmap(mbase);
-c545f5e4122505 Qiuxu Zhuo 2023-07-10  753  				d->imc[lmc].mbase = NULL;
-c545f5e4122505 Qiuxu Zhuo 2023-07-10  754  				edac_dbg(2, "Skip absent mc%d\n", i);
-c545f5e4122505 Qiuxu Zhuo 2023-07-10  755  				continue;
-c545f5e4122505 Qiuxu Zhuo 2023-07-10  756  			} else {
-c545f5e4122505 Qiuxu Zhuo 2023-07-10  757  				d->imc[lmc].mdev = mdev;
-c545f5e4122505 Qiuxu Zhuo 2023-07-10  758  				lmc++;
-c545f5e4122505 Qiuxu Zhuo 2023-07-10  759  			}
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  760  		}
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  761  	}
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  762  
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  763  	return 0;
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  764  }
-d4dc89d069aab9 Qiuxu Zhuo 2019-01-30  765  
+734d82f4a678e8 Masahiro Yamada 2016-09-16  30  
+734d82f4a678e8 Masahiro Yamada 2016-09-16  31  static u8 uniphier_clk_mux_get_parent(struct clk_hw *hw)
+734d82f4a678e8 Masahiro Yamada 2016-09-16  32  {
+734d82f4a678e8 Masahiro Yamada 2016-09-16  33  	struct uniphier_clk_mux *mux = to_uniphier_clk_mux(hw);
+734d82f4a678e8 Masahiro Yamada 2016-09-16  34  	int num_parents = clk_hw_get_num_parents(hw);
+734d82f4a678e8 Masahiro Yamada 2016-09-16  35  	int ret;
+c0ce317f0c8863 Masahiro Yamada 2016-10-17  36  	unsigned int val;
+734d82f4a678e8 Masahiro Yamada 2016-09-16  37  	u8 i;
+734d82f4a678e8 Masahiro Yamada 2016-09-16  38  
+734d82f4a678e8 Masahiro Yamada 2016-09-16  39  	ret = regmap_read(mux->regmap, mux->reg, &val);
+734d82f4a678e8 Masahiro Yamada 2016-09-16  40  	if (ret)
+734d82f4a678e8 Masahiro Yamada 2016-09-16  41  		return ret;
+734d82f4a678e8 Masahiro Yamada 2016-09-16  42  
+734d82f4a678e8 Masahiro Yamada 2016-09-16  43  	for (i = 0; i < num_parents; i++)
+734d82f4a678e8 Masahiro Yamada 2016-09-16  44  		if ((mux->masks[i] & val) == mux->vals[i])
+734d82f4a678e8 Masahiro Yamada 2016-09-16  45  			return i;
+734d82f4a678e8 Masahiro Yamada 2016-09-16  46  
+734d82f4a678e8 Masahiro Yamada 2016-09-16 @47  	return -EINVAL;
+734d82f4a678e8 Masahiro Yamada 2016-09-16  48  }
+734d82f4a678e8 Masahiro Yamada 2016-09-16  49  
 
-:::::: The code at line 712 was first introduced by commit
-:::::: d4dc89d069aab9074e2493a4c2f3969a0a0b91c1 EDAC, i10nm: Add a driver for Intel 10nm server processors
+:::::: The code at line 47 was first introduced by commit
+:::::: 734d82f4a678e897a3197b3e61313e32c9e77f46 clk: uniphier: add core support code for UniPhier clock driver
 
-:::::: TO: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-:::::: CC: Borislav Petkov <bp@suse.de>
+:::::: TO: Masahiro Yamada <yamada.masahiro@socionext.com>
+:::::: CC: Stephen Boyd <sboyd@codeaurora.org>
 
 -- 
 0-DAY CI Kernel Test Service
