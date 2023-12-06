@@ -1,353 +1,179 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6429B1775A
-	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 07:48:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4FF7492
+	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 07:59:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cSD2x7RT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a3ohxa2A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701848918; x=1733384918;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=R9Hm7a1lPjkCJUnfQ78iUGX5Sq2j75fdqN43RE9GJ28=;
-  b=cSD2x7RT7ZrNw0Hl0JyLtNgcUsk0cQ5ymKJUYQIxmRlCo+WA/t+53U55
-   5po8nHGxFOH/wQ94SZ/FQRJwjFbCAlRlwDuWDGxWXS/Gb3gm7bsb3XFa3
-   7tnODbR33dQiTVx7mpoPFAk+7UNou4YnNZplA2iE/ZPGKKpX4VxP/Zv8m
-   vALNro4r7flXDK+3xQEfPD9sp0+iaA8JyEgiqX+k8tGSdwjQH9xClzCvY
-   yI41GOPViDNxgwOo9ZUL5GWGOClpQssZhpl1iyYgcaKhW90B5ea4dqOau
-   7l69L/1Yfkxto+CESTVmchuV3T4S/sSDie/02K9LKZJ19RLHSbqt9w91n
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="1082897"
+  t=1701849542; x=1733385542;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GA2iZa0fdIb3Sgwo9R83KcfL1NnhNAgsU413ssQl6Nc=;
+  b=a3ohxa2AOg2EGlUa1vOd6abzLDDdgwDqBf3fn8+/7dZBDHbv4nMTS9az
+   aPW2Ufd4Mt1ObyWVU/lqiuudmK4VwLv11cHCRY7FCJBjYHWB7HkoHNYhM
+   b0Ag1K5gaB1DT34rbDlVS0b+xZI+b1SYuk5ZilMlPQNWXud2y9dNaFJSG
+   aIyrobHLMSOZK+1gwNkBy6rQuglzMT+9JNeVI+1z0xUrWvvLT5bSkipLd
+   trgxNuORSyiMKXeoqIWmyO2DIXat52whhUFOQre0QDGOQzYR93wD3Y6l0
+   at3PziNteA+FMX+lw3H+v8mF/gB5Z1iqa6zjnzm4H6GMgpPz7s8otIT1q
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="15572728"
 X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="1082897"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 23:48:38 -0800
+   d="scan'208";a="15572728"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 23:59:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="1102732471"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="1018482298"
 X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="1102732471"
+   d="scan'208";a="1018482298"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 05 Dec 2023 23:48:35 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 23:59:00 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAmdx-000AUE-0q;
-	Wed, 06 Dec 2023 07:48:30 +0000
-Date: Wed, 6 Dec 2023 15:48:13 +0800
+	id 1rAmo5-000AUu-2i;
+	Wed, 06 Dec 2023 07:58:57 +0000
+Date: Wed, 6 Dec 2023 15:58:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [xilinx-xlnx:lkp_test 31/42] drivers/spi/spi-xilinx.c:848
- xilinx_spi_probe() error: uninitialized symbol 'cs_num'.
-Message-ID: <202312061510.A4fPKNsG-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [dhowells-fs:netfs-lib 28/61] fs/netfs/buffered_read.c:322:12-13:
+ WARNING opportunity for min()
+Message-ID: <202312061503.OqonlTIy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: git@amd.com
-TO: Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>
-CC: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-CC: Sai Krishna Potthuri <sai.krishna.potthuri@amd.com>
-CC: Tejas Prajapati Rameshchandra <tejaspra@xilinx.com>
-CC: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
-CC: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-CC: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx lkp_test
-head:   414b0dc753ec961cf8e532b86412522e78a00169
-commit: acbef9b5f7320871aa5567de891ac454923c72b7 [31/42] spi: spi-xilinx: Updated axi-qspi controller driver
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: i386-randconfig-141-20231201 (https://download.01.org/0day-ci/archive/20231206/202312061510.A4fPKNsG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312061510.A4fPKNsG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-lib
+head:   ed72c33e807046e9a09965dba2d3524f5bc90ae9
+commit: 7dcb5e94e38179a1eca755b4e67222c4c553c34d [28/61] netfs: Make netfs_read_folio() handle streaming-write pages
+:::::: branch date: 6 days ago
+:::::: commit date: 7 days ago
+config: x86_64-randconfig-104-20231201 (https://download.01.org/0day-ci/archive/20231206/202312061503.OqonlTIy-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20231206/202312061503.OqonlTIy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312061510.A4fPKNsG-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202312061503.OqonlTIy-lkp@intel.com/
 
-smatch warnings:
-drivers/spi/spi-xilinx.c:848 xilinx_spi_probe() error: uninitialized symbol 'cs_num'.
+cocci warnings: (new ones prefixed by >>)
+>> fs/netfs/buffered_read.c:322:12-13: WARNING opportunity for min()
 
-vim +/cs_num +848 drivers/spi/spi-xilinx.c
+vim +322 fs/netfs/buffered_read.c
 
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  607  
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  608  /* This driver supports single master mode only. Hence Tx FIFO Empty
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  609   * is the only interrupt we care about.
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  610   * Receive FIFO Overrun, Transmit FIFO Underrun, Mode Fault, and Slave Mode
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  611   * Fault are not to happen.
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  612   */
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  613  static irqreturn_t xilinx_spi_irq(int irq, void *dev_id)
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  614  {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  615  	struct spi_master *master = dev_id;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  616  	struct xilinx_spi *xspi = spi_master_get_devdata(dev_id);
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  617  	u32 ipif_isr;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  618  	irqreturn_t status = IRQ_NONE;
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  619  
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  620  	/* Get the IPIF interrupts, and clear them immediately */
-86fc593599c11b drivers/spi/xilinx_spi.c Richard Röjfors        2009-11-13  621  	ipif_isr = xspi->read_fn(xspi->regs + XIPIF_V123B_IISR_OFFSET);
-86fc593599c11b drivers/spi/xilinx_spi.c Richard Röjfors        2009-11-13  622  	xspi->write_fn(ipif_isr, xspi->regs + XIPIF_V123B_IISR_OFFSET);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  623  	if (ipif_isr & XSPI_INTR_TX_EMPTY)  {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  624  		/* Transmission completed */
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  625  		xspi->rx_fifo(xspi);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  626  		if (xspi->bytes_to_transfer) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  627  			/* There is more data to send */
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  628  			xspi->tx_fifo(xspi);
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  629  		}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  630  		status = IRQ_HANDLED;
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  631  	}
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  632  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  633  	if (!xspi->bytes_to_receive && !xspi->bytes_to_transfer) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  634  		/* Disable the interrupts here. */
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  635  		xspi->write_fn(0x0, xspi->regs + XIPIF_V123B_DGIER_OFFSET);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  636  		spi_finalize_current_transfer(master);
-4c9a761402d780 drivers/spi/spi-xilinx.c Ricardo Ribalda        2015-01-28  637  	}
-4c9a761402d780 drivers/spi/spi-xilinx.c Ricardo Ribalda        2015-01-28  638  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  639  	return status;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  640  }
-7cb2abd05fe1f9 drivers/spi/spi-xilinx.c Mark Brown             2013-07-05  641  static int xilinx_spi_probe(struct platform_device *pdev)
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  642  {
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  643  	struct xilinx_spi *xspi;
-ad3fdbcaf98dc1 drivers/spi/spi-xilinx.c Michal Simek           2013-07-08  644  	struct resource *res;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  645  	int ret;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  646  	u32 num_cs = 0, bits_per_word = 8;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  647  	u32 cs_num;
-d81c0bbbf84086 drivers/spi/spi-xilinx.c Mark Brown             2013-07-03  648  	struct spi_master *master;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  649  	struct device_node *nc;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  650  	u32 tmp, rx_bus_width, fifo_size;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  651  	bool startup_block;
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  652  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  653  	if (of_property_read_u32(pdev->dev.of_node, "num-cs", &num_cs))
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  654  		dev_info(&pdev->dev,
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  655  			 "Missing num-cs optional property, assuming default as <1>\n");
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  656  	if (!num_cs)
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  657  		num_cs = 1;
-d81c0bbbf84086 drivers/spi/spi-xilinx.c Mark Brown             2013-07-03  658  
-eb25f16c6f4469 drivers/spi/spi-xilinx.c Ricardo Ribalda        2015-01-28  659  	if (num_cs > XILINX_SPI_MAX_CS) {
-eb25f16c6f4469 drivers/spi/spi-xilinx.c Ricardo Ribalda        2015-01-28  660  		dev_err(&pdev->dev, "Invalid number of spi slaves\n");
-eb25f16c6f4469 drivers/spi/spi-xilinx.c Ricardo Ribalda        2015-01-28  661  		return -EINVAL;
-eb25f16c6f4469 drivers/spi/spi-xilinx.c Ricardo Ribalda        2015-01-28  662  	}
-eb25f16c6f4469 drivers/spi/spi-xilinx.c Ricardo Ribalda        2015-01-28  663  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  664  	startup_block = of_property_read_bool(pdev->dev.of_node,
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  665  					      "xlnx,startup-block");
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  666  	master = spi_alloc_master(&pdev->dev, sizeof(struct xilinx_spi));
-d5af91a1faca68 drivers/spi/xilinx_spi.c Richard Röjfors        2009-11-13  667  	if (!master)
-d81c0bbbf84086 drivers/spi/spi-xilinx.c Mark Brown             2013-07-03  668  		return -ENODEV;
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  669  
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  670  	xspi = spi_master_get_devdata(master);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  671  	master->dev.of_node = pdev->dev.of_node;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  672  	platform_set_drvdata(pdev, master);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  673  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  674  	xspi->regs = devm_ioremap_resource(&pdev->dev, res);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  675  	if (IS_ERR(xspi->regs)) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  676  		ret = PTR_ERR(xspi->regs);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  677  		goto put_master;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  678  	}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  679  	ret = of_property_read_u32(pdev->dev.of_node, "fifo-size",
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  680  				   &fifo_size);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  681  	if (ret < 0) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  682  		dev_err(&pdev->dev,
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  683  			"Missing fifo size\n");
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  684  		return -EINVAL;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  685  	}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  686  	if (of_property_read_u32(pdev->dev.of_node, "bits-per-word",
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  687  				 &bits_per_word))
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  688  		dev_info(&pdev->dev,
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  689  			 "Missing bits-per-word optional property, assuming default as <8>\n");
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  690  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  691  	xspi->rx_bus_width = XSPI_ONE_BITS_PER_WORD;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  692  	for_each_available_child_of_node(pdev->dev.of_node, nc) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  693  		if (startup_block) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  694  			ret = of_property_read_u32(nc, "reg",
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  695  						   &cs_num);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  696  			if (ret < 0)
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  697  				return -EINVAL;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  698  		}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  699  		ret = of_property_read_u32(nc, "spi-rx-bus-width",
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  700  					   &rx_bus_width);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  701  		if (!ret) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  702  			xspi->rx_bus_width = rx_bus_width;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  703  			break;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  704  		}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  705  	}
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  706  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  707  	xspi->axi_clk = devm_clk_get(&pdev->dev, "axi_clk");
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  708  	if (IS_ERR(xspi->axi_clk)) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  709  		if (PTR_ERR(xspi->axi_clk) != -ENOENT) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  710  			ret = PTR_ERR(xspi->axi_clk);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  711  			goto put_master;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  712  		}
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  713  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  714  		/*
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  715  		 * Clock framework support is optional, continue on,
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  716  		 * anyways if we don't find a matching clock
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  717  		 */
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  718  		xspi->axi_clk = NULL;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  719  	}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  720  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  721  	ret = clk_prepare(xspi->axi_clk);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  722  	if (ret) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  723  		dev_err(&pdev->dev, "Failed to prepare AXI clock\n");
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  724  		goto put_master;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  725  	}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  726  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  727  	xspi->axi4_clk = devm_clk_get(&pdev->dev, "axi4_clk");
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  728  	if (IS_ERR(xspi->axi4_clk)) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  729  		if (PTR_ERR(xspi->axi4_clk) != -ENOENT) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  730  			ret = PTR_ERR(xspi->axi4_clk);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  731  			goto clk_unprepare_axi_clk;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  732  		}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  733  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  734  		/*
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  735  		 * Clock framework support is optional, continue on,
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  736  		 * anyways if we don't find a matching clock
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  737  		 */
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  738  		xspi->axi4_clk = NULL;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  739  	}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  740  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  741  	ret = clk_prepare(xspi->axi4_clk);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  742  	if (ret) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  743  		dev_err(&pdev->dev, "Failed to prepare AXI4 clock\n");
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  744  		goto clk_unprepare_axi_clk;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  745  	}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  746  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  747  	xspi->spi_clk = devm_clk_get(&pdev->dev, "spi_clk");
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  748  	if (IS_ERR(xspi->spi_clk)) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  749  		if (PTR_ERR(xspi->spi_clk) != -ENOENT) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  750  			ret = PTR_ERR(xspi->spi_clk);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  751  			goto clk_unprepare_axi4_clk;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  752  		}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  753  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  754  		/*
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  755  		 * Clock framework support is optional, continue on,
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  756  		 * anyways if we don't find a matching clock
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  757  		 */
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  758  		xspi->spi_clk = NULL;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  759  	}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  760  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  761  	ret = clk_prepare(xspi->spi_clk);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  762  	if (ret) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  763  		dev_err(&pdev->dev, "Failed to prepare SPI clock\n");
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  764  		goto clk_unprepare_axi4_clk;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  765  	}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  766  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  767  	pm_runtime_set_autosuspend_delay(&pdev->dev, SPI_AUTOSUSPEND_TIMEOUT);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  768  	pm_runtime_use_autosuspend(&pdev->dev);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  769  	pm_runtime_enable(&pdev->dev);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  770  	ret = pm_runtime_get_sync(&pdev->dev);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  771  	if (ret < 0)
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  772  		goto clk_unprepare_all;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  773  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  774  	xspi->dev = &pdev->dev;
-082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek           2013-06-04  775  
-082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek           2013-06-04  776  	/*
-082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek           2013-06-04  777  	 * Detect endianess on the IP via loop bit in CR. Detection
-082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek           2013-06-04  778  	 * must be done before reset is sent because incorrect reset
-082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek           2013-06-04  779  	 * value generates error interrupt.
-082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek           2013-06-04  780  	 * Setup little endian helper functions first and try to use them
-082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek           2013-06-04  781  	 * and check if bit was correctly setup or not.
-082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek           2013-06-04  782  	 */
-0635287a308d38 drivers/spi/spi-xilinx.c Mark Brown             2015-01-30  783  	xspi->read_fn = xspi_read32;
-0635287a308d38 drivers/spi/spi-xilinx.c Mark Brown             2015-01-30  784  	xspi->write_fn = xspi_write32;
-082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek           2013-06-04  785  
-082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek           2013-06-04  786  	xspi->write_fn(XSPI_CR_LOOP, xspi->regs + XSPI_CR_OFFSET);
-082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek           2013-06-04  787  	tmp = xspi->read_fn(xspi->regs + XSPI_CR_OFFSET);
-082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek           2013-06-04  788  	tmp &= XSPI_CR_LOOP;
-082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek           2013-06-04  789  	if (tmp != XSPI_CR_LOOP) {
-0635287a308d38 drivers/spi/spi-xilinx.c Mark Brown             2015-01-30  790  		xspi->read_fn = xspi_read32_be;
-0635287a308d38 drivers/spi/spi-xilinx.c Mark Brown             2015-01-30  791  		xspi->write_fn = xspi_write32_be;
-86fc593599c11b drivers/spi/xilinx_spi.c Richard Röjfors        2009-11-13  792  	}
-082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek           2013-06-04  793  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  794  	xspi->buffer_size = fifo_size;
-7b3b7432ae7848 drivers/spi/spi-xilinx.c Michal Simek           2013-07-09  795  	xspi->irq = platform_get_irq(pdev, 0);
-4db9bf548bb00d drivers/spi/spi-xilinx.c Lars-Peter Clausen     2016-07-15  796  	if (xspi->irq < 0 && xspi->irq != -ENXIO) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  797  		ret = xspi->irq;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  798  		goto clk_unprepare_all;
-4db9bf548bb00d drivers/spi/spi-xilinx.c Lars-Peter Clausen     2016-07-15  799  	} else if (xspi->irq >= 0) {
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  800  		/* Register for SPI Interrupt */
-7b3b7432ae7848 drivers/spi/spi-xilinx.c Michal Simek           2013-07-09  801  		ret = devm_request_irq(&pdev->dev, xspi->irq, xilinx_spi_irq, 0,
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  802  				       dev_name(&pdev->dev), master);
-d5af91a1faca68 drivers/spi/xilinx_spi.c Richard Röjfors        2009-11-13  803  		if (ret)
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  804  			goto clk_unprepare_all;
-5fe11cc09ce81b drivers/spi/spi-xilinx.c Ricardo Ribalda        2015-01-28  805  	}
-5fe11cc09ce81b drivers/spi/spi-xilinx.c Ricardo Ribalda        2015-01-28  806  
-5fe11cc09ce81b drivers/spi/spi-xilinx.c Ricardo Ribalda        2015-01-28  807  	/* SPI controller initializations */
-5fe11cc09ce81b drivers/spi/spi-xilinx.c Ricardo Ribalda        2015-01-28  808  	xspi_init_hw(xspi);
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  809  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  810  	pm_runtime_put(&pdev->dev);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  811  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  812  	master->bus_num = pdev->id;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  813  	master->num_chipselect = num_cs;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  814  	master->setup = xspi_setup;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  815  	master->set_cs = xspi_chipselect;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  816  	master->transfer_one = xspi_start_transfer;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  817  	master->prepare_transfer_hardware = xspi_prepare_transfer_hardware;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  818  	master->unprepare_transfer_hardware = xspi_unprepare_transfer_hardware;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  819  	master->bits_per_word_mask = SPI_BPW_MASK(bits_per_word);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  820  	master->mode_bits = SPI_CPOL | SPI_CPHA | SPI_CS_HIGH;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  821  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  822  	xspi->bytes_per_word = bits_per_word / 8;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  823  	xspi->tx_fifo = xspi_fill_tx_fifo_8;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  824  	xspi->rx_fifo = xspi_read_rx_fifo_8;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  825  	if (xspi->rx_bus_width == XSPI_RX_ONE_WIRE) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  826  		if (xspi->bytes_per_word == XSPI_TWO_BITS_PER_WORD) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  827  			xspi->tx_fifo = xspi_fill_tx_fifo_16;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  828  			xspi->rx_fifo = xspi_read_rx_fifo_16;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  829  		} else if (xspi->bytes_per_word == XSPI_FOUR_BITS_PER_WORD) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  830  			xspi->tx_fifo = xspi_fill_tx_fifo_32;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  831  			xspi->rx_fifo = xspi_read_rx_fifo_32;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  832  		}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  833  	} else if (xspi->rx_bus_width == XSPI_RX_FOUR_WIRE) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  834  		master->mode_bits |= SPI_TX_QUAD | SPI_RX_QUAD;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  835  	} else {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  836  		dev_err(&pdev->dev, "Dual Mode not supported\n");
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  837  		goto clk_unprepare_all;
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  838  	}
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  839  	xspi->cs_inactive = 0xffffffff;
-ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov       2007-07-17  840  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  841  	/*
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  842  	 * This is the work around for the startup block issue in
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  843  	 * the spi controller. SPI clock is passing through STARTUP
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  844  	 * block to FLASH. STARTUP block don't provide clock as soon
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  845  	 * as QSPI provides command. So first command fails.
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  846  	 */
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  847  	if (startup_block)
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23 @848  		xilinx_spi_startup_block(xspi, cs_num);
-8fd8821b62397f drivers/spi/xilinx_spi.c Grant Likely           2010-10-14  849  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  850  	ret = spi_register_master(master);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  851  	if (ret) {
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  852  		dev_err(&pdev->dev, "spi_register_master failed\n");
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  853  		goto clk_unprepare_all;
-eae6cb31d890e2 drivers/spi/xilinx_spi.c Grant Likely           2010-10-14  854  	}
-eae6cb31d890e2 drivers/spi/xilinx_spi.c Grant Likely           2010-10-14  855  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  856  	return ret;
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  857  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  858  clk_unprepare_all:
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  859  	pm_runtime_disable(&pdev->dev);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  860  	pm_runtime_set_suspended(&pdev->dev);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  861  	clk_unprepare(xspi->spi_clk);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  862  clk_unprepare_axi4_clk:
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  863  	clk_unprepare(xspi->axi4_clk);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  864  clk_unprepare_axi_clk:
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  865  	clk_unprepare(xspi->axi_clk);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  866  put_master:
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  867  	spi_master_put(master);
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  868  
-acbef9b5f73208 drivers/spi/spi-xilinx.c Naga Sureshkumar Relli 2023-01-23  869  	return ret;
-eae6cb31d890e2 drivers/spi/xilinx_spi.c Grant Likely           2010-10-14  870  }
-eae6cb31d890e2 drivers/spi/xilinx_spi.c Grant Likely           2010-10-14  871  
+16211268fcb366 David Howells           2022-03-01  232  
+16211268fcb366 David Howells           2022-03-01  233  /**
+6c62371b7fd776 Matthew Wilcox (Oracle  2022-04-29  234)  * netfs_read_folio - Helper to manage a read_folio request
+16211268fcb366 David Howells           2022-03-01  235   * @file: The file to read from
+6c62371b7fd776 Matthew Wilcox (Oracle  2022-04-29  236)  * @folio: The folio to read
+16211268fcb366 David Howells           2022-03-01  237   *
+6c62371b7fd776 Matthew Wilcox (Oracle  2022-04-29  238)  * Fulfil a read_folio request by drawing data from the cache if
+6c62371b7fd776 Matthew Wilcox (Oracle  2022-04-29  239)  * possible, or the netfs if not.  Space beyond the EOF is zero-filled.
+6c62371b7fd776 Matthew Wilcox (Oracle  2022-04-29  240)  * Multiple I/O requests from different sources will get munged together.
+16211268fcb366 David Howells           2022-03-01  241   *
+16211268fcb366 David Howells           2022-03-01  242   * The calling netfs must initialise a netfs context contiguous to the vfs
+16211268fcb366 David Howells           2022-03-01  243   * inode before calling this.
+16211268fcb366 David Howells           2022-03-01  244   *
+16211268fcb366 David Howells           2022-03-01  245   * This is usable whether or not caching is enabled.
+16211268fcb366 David Howells           2022-03-01  246   */
+6c62371b7fd776 Matthew Wilcox (Oracle  2022-04-29  247) int netfs_read_folio(struct file *file, struct folio *folio)
+16211268fcb366 David Howells           2022-03-01  248  {
+16211268fcb366 David Howells           2022-03-01  249  	struct address_space *mapping = folio_file_mapping(folio);
+16211268fcb366 David Howells           2022-03-01  250  	struct netfs_io_request *rreq;
+874c8ca1e60b2c David Howells           2022-06-09  251  	struct netfs_inode *ctx = netfs_inode(mapping->host);
+7dcb5e94e38179 David Howells           2023-10-02  252  	struct folio *sink = NULL;
+16211268fcb366 David Howells           2022-03-01  253  	int ret;
+16211268fcb366 David Howells           2022-03-01  254  
+16211268fcb366 David Howells           2022-03-01  255  	_enter("%lx", folio_index(folio));
+16211268fcb366 David Howells           2022-03-01  256  
+16211268fcb366 David Howells           2022-03-01  257  	rreq = netfs_alloc_request(mapping, file,
+16211268fcb366 David Howells           2022-03-01  258  				   folio_file_pos(folio), folio_size(folio),
+16211268fcb366 David Howells           2022-03-01  259  				   NETFS_READPAGE);
+16211268fcb366 David Howells           2022-03-01  260  	if (IS_ERR(rreq)) {
+16211268fcb366 David Howells           2022-03-01  261  		ret = PTR_ERR(rreq);
+16211268fcb366 David Howells           2022-03-01  262  		goto alloc_error;
+16211268fcb366 David Howells           2022-03-01  263  	}
+16211268fcb366 David Howells           2022-03-01  264  
+52a4d0d95f6ac4 David Howells           2023-11-20  265  	ret = netfs_begin_cache_read(rreq, ctx);
+16211268fcb366 David Howells           2022-03-01  266  	if (ret == -ENOMEM || ret == -EINTR || ret == -ERESTARTSYS)
+16211268fcb366 David Howells           2022-03-01  267  		goto discard;
+16211268fcb366 David Howells           2022-03-01  268  
+16211268fcb366 David Howells           2022-03-01  269  	netfs_stat(&netfs_n_rh_readpage);
+16211268fcb366 David Howells           2022-03-01  270  	trace_netfs_read(rreq, rreq->start, rreq->len, netfs_read_trace_readpage);
+79da688afcb03d David Howells           2023-09-26  271  
+79da688afcb03d David Howells           2023-09-26  272  	/* Set up the output buffer */
+7dcb5e94e38179 David Howells           2023-10-02  273  	if (folio_test_dirty(folio)) {
+7dcb5e94e38179 David Howells           2023-10-02  274  		/* Handle someone trying to read from an unflushed streaming
+7dcb5e94e38179 David Howells           2023-10-02  275  		 * write.  We fiddle the buffer so that a gap at the beginning
+7dcb5e94e38179 David Howells           2023-10-02  276  		 * and/or a gap at the end get copied to, but the middle is
+7dcb5e94e38179 David Howells           2023-10-02  277  		 * discarded.
+7dcb5e94e38179 David Howells           2023-10-02  278  		 */
+7dcb5e94e38179 David Howells           2023-10-02  279  		struct netfs_folio *finfo = netfs_folio_info(folio);
+7dcb5e94e38179 David Howells           2023-10-02  280  		struct bio_vec *bvec;
+7dcb5e94e38179 David Howells           2023-10-02  281  		unsigned int from = finfo->dirty_offset;
+7dcb5e94e38179 David Howells           2023-10-02  282  		unsigned int to = from + finfo->dirty_len;
+7dcb5e94e38179 David Howells           2023-10-02  283  		unsigned int off = 0, i = 0;
+7dcb5e94e38179 David Howells           2023-10-02  284  		size_t flen = folio_size(folio);
+7dcb5e94e38179 David Howells           2023-10-02  285  		size_t nr_bvec = flen / PAGE_SIZE + 2;
+7dcb5e94e38179 David Howells           2023-10-02  286  		size_t part;
+7dcb5e94e38179 David Howells           2023-10-02  287  
+7dcb5e94e38179 David Howells           2023-10-02  288  		ret = -ENOMEM;
+7dcb5e94e38179 David Howells           2023-10-02  289  		bvec = kmalloc_array(nr_bvec, sizeof(*bvec), GFP_KERNEL);
+7dcb5e94e38179 David Howells           2023-10-02  290  		if (!bvec)
+7dcb5e94e38179 David Howells           2023-10-02  291  			goto discard;
+7dcb5e94e38179 David Howells           2023-10-02  292  
+7dcb5e94e38179 David Howells           2023-10-02  293  		sink = folio_alloc(GFP_KERNEL, 0);
+7dcb5e94e38179 David Howells           2023-10-02  294  		if (!sink)
+7dcb5e94e38179 David Howells           2023-10-02  295  			goto discard;
+7dcb5e94e38179 David Howells           2023-10-02  296  
+7dcb5e94e38179 David Howells           2023-10-02  297  		trace_netfs_folio(folio, netfs_folio_trace_read_gaps);
+7dcb5e94e38179 David Howells           2023-10-02  298  
+7dcb5e94e38179 David Howells           2023-10-02  299  		rreq->direct_bv = bvec;
+7dcb5e94e38179 David Howells           2023-10-02  300  		rreq->direct_bv_count = nr_bvec;
+7dcb5e94e38179 David Howells           2023-10-02  301  		if (from > 0) {
+7dcb5e94e38179 David Howells           2023-10-02  302  			bvec_set_folio(&bvec[i++], folio, from, 0);
+7dcb5e94e38179 David Howells           2023-10-02  303  			off = from;
+7dcb5e94e38179 David Howells           2023-10-02  304  		}
+7dcb5e94e38179 David Howells           2023-10-02  305  		while (off < to) {
+7dcb5e94e38179 David Howells           2023-10-02  306  			part = min_t(size_t, to - off, PAGE_SIZE);
+7dcb5e94e38179 David Howells           2023-10-02  307  			bvec_set_folio(&bvec[i++], sink, part, 0);
+7dcb5e94e38179 David Howells           2023-10-02  308  			off += part;
+7dcb5e94e38179 David Howells           2023-10-02  309  		}
+7dcb5e94e38179 David Howells           2023-10-02  310  		if (to < flen)
+7dcb5e94e38179 David Howells           2023-10-02  311  			bvec_set_folio(&bvec[i++], folio, flen - to, to);
+7dcb5e94e38179 David Howells           2023-10-02  312  		iov_iter_bvec(&rreq->iter, ITER_DEST, bvec, i, rreq->len);
+7dcb5e94e38179 David Howells           2023-10-02  313  	} else {
+79da688afcb03d David Howells           2023-09-26  314  		iov_iter_xarray(&rreq->iter, ITER_DEST, &mapping->i_pages,
+79da688afcb03d David Howells           2023-09-26  315  				rreq->start, rreq->len);
+7dcb5e94e38179 David Howells           2023-10-02  316  	}
+79da688afcb03d David Howells           2023-09-26  317  
+0c292ff33a017a David Howells           2023-10-04  318  	ret = netfs_begin_read(rreq, true);
+7dcb5e94e38179 David Howells           2023-10-02  319  	if (sink)
+7dcb5e94e38179 David Howells           2023-10-02  320  		folio_put(sink);
+0c292ff33a017a David Howells           2023-10-04  321  	netfs_put_request(rreq, false, netfs_rreq_trace_put_return);
+7dcb5e94e38179 David Howells           2023-10-02 @322  	return ret < 0 ? ret : 0;
+16211268fcb366 David Howells           2022-03-01  323  
+16211268fcb366 David Howells           2022-03-01  324  discard:
+16211268fcb366 David Howells           2022-03-01  325  	netfs_put_request(rreq, false, netfs_rreq_trace_put_discard);
+16211268fcb366 David Howells           2022-03-01  326  alloc_error:
+16211268fcb366 David Howells           2022-03-01  327  	folio_unlock(folio);
+16211268fcb366 David Howells           2022-03-01  328  	return ret;
+16211268fcb366 David Howells           2022-03-01  329  }
+6c62371b7fd776 Matthew Wilcox (Oracle  2022-04-29  330) EXPORT_SYMBOL(netfs_read_folio);
+16211268fcb366 David Howells           2022-03-01  331  
 
 -- 
 0-DAY CI Kernel Test Service
