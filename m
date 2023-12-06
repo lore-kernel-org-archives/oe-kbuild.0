@@ -1,58 +1,66 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6129C8F5
-	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 05:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC82CA64
+	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 05:39:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UicEntuh"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40bda47c489so47003635e9.3
-        for <oe-kbuild@lists.linux.dev>; Tue, 05 Dec 2023 21:35:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cuQyob0T"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40bd5eaa66cso56336495e9.2
+        for <oe-kbuild@lists.linux.dev>; Tue, 05 Dec 2023 21:39:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701840955; x=1702445755; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1701841153; x=1702445953; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qzthnNL0UkewQ0fO1K+PfqxIntdCT/Ts1fLBxjOArOk=;
-        b=UicEntuhPCxhInLPQvbN5bepQ+jZRF3fqxANk1SWzCBlzZnVwPhdg8dP0m8aaS6h9D
-         0pZwQliLb8eKzEiDcEl8DAW1WzZVfqephMR3lwWRdxTipGNIZipVRY0oXkEGFPVjxIsf
-         eOndAv9kMNMW4CY/QbW/Xb1yDj8yfVZqeBIEmG4xCW8VCAQCYeqnRveK2fDQV/f5ebGY
-         KBQ1XhGHw1Q0VeJI8syoil7NWXJgcAp+il+kvFp+h2KacCxAjy74dsS+I0ALMZ9m3uRm
-         gGzHsbUglE2mEo+jlgavHBp6eobthNUpbEz7upIkZlGIVnyuV9UC+2TyUsBpZ2bqzfEo
-         U2zg==
+        bh=O4u7u9EhMLinCMKXbsJZZCgBovG/kdzoMMlzODKZOcY=;
+        b=cuQyob0TGD+XwyNyPwTdIH6AbVl4MawXujWBwfUTORuOKmEmX1dZcUydwt5527navs
+         0QDtRJWpx6KaPihNCxQ+l8VfsPsAD/20vBO/bYyd/+qb6feBruz+0/sWZS/BSszbIZDy
+         Qx0pdLo4ie7uKe614ZlzEEsYugdveroRU1+A4ig91epuRlzUiKHu3+wcDSaZMRyuqQ1u
+         Tq7oXds1p6VchPv17432dioxcctLm5FfCakPbeNg5wuHVqmn94/gsA07aEQm/sI8EJTR
+         RrIhrPwAK/1Aqj4Fbret8CnUOTtsvJQWdNJXovKk/QthTEYMP3YkSR7Iu2ijFmbCM8Nb
+         Hx1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701840955; x=1702445755;
+        d=1e100.net; s=20230601; t=1701841153; x=1702445953;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qzthnNL0UkewQ0fO1K+PfqxIntdCT/Ts1fLBxjOArOk=;
-        b=XagbnlktjNoOQ2W1QrYd1nvuiLa9cA8ZdoWudi8/N1hdqYszylekPciGxN1J+r9+oN
-         4GArFb+59QonUlQnKYUy/LPJHgCt3DjW+37+mZ+WMYXay23+9k09VYHwzuejMQzETCcJ
-         em5x5/tieA0HCHzwuj1hAnmUV9GL6PT/4ZmZ/4BP4XiBCOpOdj+mAee8GHFzrCOiYkjI
-         a3R7JBgcQ8MA+KHsL77xLwnWZOZu+887NHIWms9yEhqRrLeRNK3NPaRq/W9aqi/FonnR
-         X/zHGsnzQ+aLVDMDB0RPpb5ZskUupNkkc7aQ3VZ/vCF/EtGggy8hHjS5RBGpIi4r+NdP
-         sn1w==
-X-Gm-Message-State: AOJu0YzM7dT+eLbC2CAKEGhCWH+Qwb3EdVSiycmwSw85YyE6j5pY7MXv
-	/NyfXgGb3WD+87RosAeSOId8VN4nHzrz/2I5BVQ=
-X-Google-Smtp-Source: AGHT+IENKmGGzONbrvIGkyY6v9ZdmSl19kkWnDTVDK4IiWorUXZqx8FY4JZ07ZgvvdYSt4VRR9L23w==
-X-Received: by 2002:a05:600c:21c9:b0:40b:5e59:c555 with SMTP id x9-20020a05600c21c900b0040b5e59c555mr214951wmj.127.1701840955265;
-        Tue, 05 Dec 2023 21:35:55 -0800 (PST)
+        bh=O4u7u9EhMLinCMKXbsJZZCgBovG/kdzoMMlzODKZOcY=;
+        b=lgRqXcxzKHDXHEKUssWzxV8myabPKlEypZpItMPAwypjRYkjagImRw+2MqqviMnuqa
+         ULXaTpGOYiVbeuIErhUskySvESyPXjLnlOW4bXrQKuhc4PC2vDZ28rT2RucHxVw9onCN
+         Z8A08g92QY8BUfp7kpcDhHJH+WJTOOPuBI3N8Na1sEe3XuwlURu/qqALrsYWMj7bFzmO
+         guS4Huypp0RPv9V0BHoPjzHR7sd//1XgXNGvqD6eq7lYrMgp84CLKOvFVH4C2pVvqLfR
+         DyV5D8D7q1TdBR7atNf2d1B/DwVmiZOirbNaxqFG6NCca6XpmktcHA7kumKZhtmbQ/Ci
+         RQ8Q==
+X-Gm-Message-State: AOJu0YyvcLzRrHz7z/rktr6UGmgVF50pHDnGMf9DPcQjFXdhaden3FZs
+	N53NEAjVidobAMVqHcUosVFWnDLWFPqVeZ3Nx4A=
+X-Google-Smtp-Source: AGHT+IFAy6YDNnloe+CZg+064fYW1hphxl7Aimv9oj+A8PdlsOtVdmaSug/MC0yOqj37RYmzI49Gwg==
+X-Received: by 2002:a05:600c:4f15:b0:40c:192f:6ae8 with SMTP id l21-20020a05600c4f1500b0040c192f6ae8mr258952wmq.115.1701841153488;
+        Tue, 05 Dec 2023 21:39:13 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id x16-20020adfec10000000b003333beb564asm10410153wrn.5.2023.12.05.21.35.54
+        by smtp.gmail.com with ESMTPSA id fs16-20020a05600c3f9000b0040b48690c49sm20593171wmb.6.2023.12.05.21.39.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 21:35:54 -0800 (PST)
-Date: Wed, 6 Dec 2023 08:35:52 +0300
+        Tue, 05 Dec 2023 21:39:13 -0800 (PST)
+Date: Wed, 6 Dec 2023 08:39:10 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Haoran Liu <liuhaoran14@163.com>,
-	davem@davemloft.net
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, edumazet@google.com,
-	pabeni@redhat.com, heiko@sntech.de, netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Haoran Liu <liuhaoran14@163.com>
-Subject: Re: [PATCH] [net/ethernet] arc_emac: Add error handling in
- emac_rockchip_probe
-Message-ID: <08f04975-2abb-4c1a-8bf6-34e6653568af@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, Neil Armstrong <neil.armstrong@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2 5/5] ASoC: codecs: Add WCD939x Codec driver
+Message-ID: <1a09512c-aaff-4fb6-914e-db755ce6e667@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,195 +69,83 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231130031318.35850-1-liuhaoran14@163.com>
+In-Reply-To: <20231201-topic-sm8650-upstream-wcd939x-codec-v2-5-94ed814b25aa@linaro.org>
 
-Hi Haoran,
+Hi Neil,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Haoran-Liu/arc_emac-Add-error-handling-in-emac_rockchip_probe/20231130-112325
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20231130031318.35850-1-liuhaoran14%40163.com
-patch subject: [PATCH] [net/ethernet] arc_emac: Add error handling in emac_rockchip_probe
-config: csky-randconfig-r071-20231203 (https://download.01.org/0day-ci/archive/20231206/202312060119.eRpB9j4s-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060119.eRpB9j4s-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/ASoC-dt-bindings-document-WCD939x-Audio-Codec/20231202-000916
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20231201-topic-sm8650-upstream-wcd939x-codec-v2-5-94ed814b25aa%40linaro.org
+patch subject: [PATCH v2 5/5] ASoC: codecs: Add WCD939x Codec driver
+config: powerpc64-randconfig-r081-20231204 (https://download.01.org/0day-ci/archive/20231206/202312060127.FLhplIP3-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060127.FLhplIP3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312060119.eRpB9j4s-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312060127.FLhplIP3-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/arc/emac_rockchip.c:139 emac_rockchip_probe() warn: missing unwind goto?
-drivers/net/ethernet/arc/emac_rockchip.c:249 emac_rockchip_probe() warn: 'ndev' from alloc_etherdev_mqs() not released on lines: 139.
+New smatch warnings:
+sound/soc/codecs/wcd939x.c:3168 wcd939x_typec_mux_set() error: 'wcd939x' dereferencing possible ERR_PTR()
+sound/soc/codecs/wcd939x.c:3221 wcd939x_swap_gnd_mic() warn: signedness bug returning '(-22)'
 
-vim +139 drivers/net/ethernet/arc/emac_rockchip.c
+Old smatch warnings:
+sound/soc/codecs/wcd939x.c:3170 wcd939x_typec_mux_set() error: 'wcd939x' dereferencing possible ERR_PTR()
+sound/soc/codecs/wcd939x.c:3173 wcd939x_typec_mux_set() error: 'wcd939x' dereferencing possible ERR_PTR()
+sound/soc/codecs/wcd939x.c:3174 wcd939x_typec_mux_set() error: 'wcd939x' dereferencing possible ERR_PTR()
+sound/soc/codecs/wcd939x.c:3176 wcd939x_typec_mux_set() error: 'wcd939x' dereferencing possible ERR_PTR()
+sound/soc/codecs/wcd939x.c:3177 wcd939x_typec_mux_set() error: 'wcd939x' dereferencing possible ERR_PTR()
+sound/soc/codecs/wcd939x.c:3179 wcd939x_typec_mux_set() error: 'wcd939x' dereferencing possible ERR_PTR()
 
-6eacf31139bf96 Romain Perier      2014-09-08   93  static int emac_rockchip_probe(struct platform_device *pdev)
-6eacf31139bf96 Romain Perier      2014-09-08   94  {
-6eacf31139bf96 Romain Perier      2014-09-08   95  	struct device *dev = &pdev->dev;
-6eacf31139bf96 Romain Perier      2014-09-08   96  	struct net_device *ndev;
-6eacf31139bf96 Romain Perier      2014-09-08   97  	struct rockchip_priv_data *priv;
-6eacf31139bf96 Romain Perier      2014-09-08   98  	const struct of_device_id *match;
-0c65b2b90d13c1 Andrew Lunn        2019-11-04   99  	phy_interface_t interface;
-6eacf31139bf96 Romain Perier      2014-09-08  100  	u32 data;
-0c65b2b90d13c1 Andrew Lunn        2019-11-04  101  	int err;
-6eacf31139bf96 Romain Perier      2014-09-08  102  
-6eacf31139bf96 Romain Perier      2014-09-08  103  	if (!pdev->dev.of_node)
-6eacf31139bf96 Romain Perier      2014-09-08  104  		return -ENODEV;
-6eacf31139bf96 Romain Perier      2014-09-08  105  
-6eacf31139bf96 Romain Perier      2014-09-08  106  	ndev = alloc_etherdev(sizeof(struct rockchip_priv_data));
-6eacf31139bf96 Romain Perier      2014-09-08  107  	if (!ndev)
-6eacf31139bf96 Romain Perier      2014-09-08  108  		return -ENOMEM;
-6eacf31139bf96 Romain Perier      2014-09-08  109  	platform_set_drvdata(pdev, ndev);
-6eacf31139bf96 Romain Perier      2014-09-08  110  	SET_NETDEV_DEV(ndev, dev);
-6eacf31139bf96 Romain Perier      2014-09-08  111  
-6eacf31139bf96 Romain Perier      2014-09-08  112  	priv = netdev_priv(ndev);
-6eacf31139bf96 Romain Perier      2014-09-08  113  	priv->emac.drv_name = DRV_NAME;
-6eacf31139bf96 Romain Perier      2014-09-08  114  	priv->emac.set_mac_speed = emac_rockchip_set_mac_speed;
-6eacf31139bf96 Romain Perier      2014-09-08  115  
-0c65b2b90d13c1 Andrew Lunn        2019-11-04  116  	err = of_get_phy_mode(dev->of_node, &interface);
-0c65b2b90d13c1 Andrew Lunn        2019-11-04  117  	if (err)
-0c65b2b90d13c1 Andrew Lunn        2019-11-04  118  		goto out_netdev;
-6eacf31139bf96 Romain Perier      2014-09-08  119  
-af72261f33ee49 Xing Zheng         2016-01-08  120  	/* RK3036/RK3066/RK3188 SoCs only support RMII */
-6eacf31139bf96 Romain Perier      2014-09-08  121  	if (interface != PHY_INTERFACE_MODE_RMII) {
-6eacf31139bf96 Romain Perier      2014-09-08  122  		dev_err(dev, "unsupported phy interface mode %d\n", interface);
-6eacf31139bf96 Romain Perier      2014-09-08  123  		err = -ENOTSUPP;
-6eacf31139bf96 Romain Perier      2014-09-08  124  		goto out_netdev;
-6eacf31139bf96 Romain Perier      2014-09-08  125  	}
-6eacf31139bf96 Romain Perier      2014-09-08  126  
-663713eb477b9b Caesar Wang        2016-03-14  127  	priv->grf = syscon_regmap_lookup_by_phandle(dev->of_node,
-663713eb477b9b Caesar Wang        2016-03-14  128  						    "rockchip,grf");
-6eacf31139bf96 Romain Perier      2014-09-08  129  	if (IS_ERR(priv->grf)) {
-663713eb477b9b Caesar Wang        2016-03-14  130  		dev_err(dev, "failed to retrieve global register file (%ld)\n",
-663713eb477b9b Caesar Wang        2016-03-14  131  			PTR_ERR(priv->grf));
-6eacf31139bf96 Romain Perier      2014-09-08  132  		err = PTR_ERR(priv->grf);
-6eacf31139bf96 Romain Perier      2014-09-08  133  		goto out_netdev;
-6eacf31139bf96 Romain Perier      2014-09-08  134  	}
-6eacf31139bf96 Romain Perier      2014-09-08  135  
-6eacf31139bf96 Romain Perier      2014-09-08  136  	match = of_match_node(emac_rockchip_dt_ids, dev->of_node);
-8cb4cdab4b4030 Haoran Liu         2023-11-29  137  	if (!match) {
-8cb4cdab4b4030 Haoran Liu         2023-11-29  138  		dev_err(dev, "No matching device found\n");
-8cb4cdab4b4030 Haoran Liu         2023-11-29 @139  		return -ENODEV;
+vim +/wcd939x +3168 sound/soc/codecs/wcd939x.c
 
-goto out_netdev;
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3164  static int wcd939x_typec_mux_set(struct typec_mux_dev *mux,
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3165  				 struct typec_mux_state *state)
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3166  {
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3167  	struct wcd939x_priv *wcd939x = typec_mux_get_drvdata(mux);
+6c302e2f95b1d1 Neil Armstrong 2023-12-01 @3168  	unsigned int previous_mode = wcd939x->typec_mode;
 
-8cb4cdab4b4030 Haoran Liu         2023-11-29  140  	}
-8cb4cdab4b4030 Haoran Liu         2023-11-29  141  
-6eacf31139bf96 Romain Perier      2014-09-08  142  	priv->soc_data = match->data;
-6eacf31139bf96 Romain Perier      2014-09-08  143  
-6eacf31139bf96 Romain Perier      2014-09-08  144  	priv->emac.clk = devm_clk_get(dev, "hclk");
-6eacf31139bf96 Romain Perier      2014-09-08  145  	if (IS_ERR(priv->emac.clk)) {
-663713eb477b9b Caesar Wang        2016-03-14  146  		dev_err(dev, "failed to retrieve host clock (%ld)\n",
-663713eb477b9b Caesar Wang        2016-03-14  147  			PTR_ERR(priv->emac.clk));
-6eacf31139bf96 Romain Perier      2014-09-08  148  		err = PTR_ERR(priv->emac.clk);
-6eacf31139bf96 Romain Perier      2014-09-08  149  		goto out_netdev;
-6eacf31139bf96 Romain Perier      2014-09-08  150  	}
-6eacf31139bf96 Romain Perier      2014-09-08  151  
-6eacf31139bf96 Romain Perier      2014-09-08  152  	priv->refclk = devm_clk_get(dev, "macref");
-6eacf31139bf96 Romain Perier      2014-09-08  153  	if (IS_ERR(priv->refclk)) {
-663713eb477b9b Caesar Wang        2016-03-14  154  		dev_err(dev, "failed to retrieve reference clock (%ld)\n",
-663713eb477b9b Caesar Wang        2016-03-14  155  			PTR_ERR(priv->refclk));
-6eacf31139bf96 Romain Perier      2014-09-08  156  		err = PTR_ERR(priv->refclk);
-6eacf31139bf96 Romain Perier      2014-09-08  157  		goto out_netdev;
-6eacf31139bf96 Romain Perier      2014-09-08  158  	}
-6eacf31139bf96 Romain Perier      2014-09-08  159  
-6eacf31139bf96 Romain Perier      2014-09-08  160  	err = clk_prepare_enable(priv->refclk);
-6eacf31139bf96 Romain Perier      2014-09-08  161  	if (err) {
-6eacf31139bf96 Romain Perier      2014-09-08  162  		dev_err(dev, "failed to enable reference clock (%d)\n", err);
-6eacf31139bf96 Romain Perier      2014-09-08  163  		goto out_netdev;
-6eacf31139bf96 Romain Perier      2014-09-08  164  	}
-6eacf31139bf96 Romain Perier      2014-09-08  165  
-6eacf31139bf96 Romain Perier      2014-09-08  166  	/* Optional regulator for PHY */
-6eacf31139bf96 Romain Perier      2014-09-08  167  	priv->regulator = devm_regulator_get_optional(dev, "phy");
-6eacf31139bf96 Romain Perier      2014-09-08  168  	if (IS_ERR(priv->regulator)) {
-00777fac28ba3e Christophe JAILLET 2018-03-18  169  		if (PTR_ERR(priv->regulator) == -EPROBE_DEFER) {
-00777fac28ba3e Christophe JAILLET 2018-03-18  170  			err = -EPROBE_DEFER;
-00777fac28ba3e Christophe JAILLET 2018-03-18  171  			goto out_clk_disable;
-00777fac28ba3e Christophe JAILLET 2018-03-18  172  		}
-6eacf31139bf96 Romain Perier      2014-09-08  173  		dev_err(dev, "no regulator found\n");
-6eacf31139bf96 Romain Perier      2014-09-08  174  		priv->regulator = NULL;
-6eacf31139bf96 Romain Perier      2014-09-08  175  	}
-6eacf31139bf96 Romain Perier      2014-09-08  176  
-6eacf31139bf96 Romain Perier      2014-09-08  177  	if (priv->regulator) {
-6eacf31139bf96 Romain Perier      2014-09-08  178  		err = regulator_enable(priv->regulator);
-6eacf31139bf96 Romain Perier      2014-09-08  179  		if (err) {
-6eacf31139bf96 Romain Perier      2014-09-08  180  			dev_err(dev, "failed to enable phy-supply (%d)\n", err);
-6eacf31139bf96 Romain Perier      2014-09-08  181  			goto out_clk_disable;
-6eacf31139bf96 Romain Perier      2014-09-08  182  		}
-6eacf31139bf96 Romain Perier      2014-09-08  183  	}
-6eacf31139bf96 Romain Perier      2014-09-08  184  
-f4c9d3ee0334fd Xing Zheng         2016-01-08  185  	/* Set speed 100M */
-f4c9d3ee0334fd Xing Zheng         2016-01-08  186  	data = (1 << (priv->soc_data->grf_speed_offset + 16)) |
-f4c9d3ee0334fd Xing Zheng         2016-01-08  187  	       (1 << priv->soc_data->grf_speed_offset);
-f4c9d3ee0334fd Xing Zheng         2016-01-08  188  	/* Set RMII mode */
-f4c9d3ee0334fd Xing Zheng         2016-01-08  189  	data |= (1 << (priv->soc_data->grf_mode_offset + 16)) |
-f4c9d3ee0334fd Xing Zheng         2016-01-08  190  		(0 << priv->soc_data->grf_mode_offset);
-6eacf31139bf96 Romain Perier      2014-09-08  191  
-6eacf31139bf96 Romain Perier      2014-09-08  192  	err = regmap_write(priv->grf, priv->soc_data->grf_offset, data);
-6eacf31139bf96 Romain Perier      2014-09-08  193  	if (err) {
-663713eb477b9b Caesar Wang        2016-03-14  194  		dev_err(dev, "unable to apply initial settings to grf (%d)\n",
-663713eb477b9b Caesar Wang        2016-03-14  195  			err);
-6eacf31139bf96 Romain Perier      2014-09-08  196  		goto out_regulator_disable;
-6eacf31139bf96 Romain Perier      2014-09-08  197  	}
-6eacf31139bf96 Romain Perier      2014-09-08  198  
-6eacf31139bf96 Romain Perier      2014-09-08  199  	/* RMII interface needs always a rate of 50MHz */
-6eacf31139bf96 Romain Perier      2014-09-08  200  	err = clk_set_rate(priv->refclk, 50000000);
-2a9ee696c72a24 Branislav Radocaj  2017-12-12  201  	if (err) {
-663713eb477b9b Caesar Wang        2016-03-14  202  		dev_err(dev,
-663713eb477b9b Caesar Wang        2016-03-14  203  			"failed to change reference clock rate (%d)\n", err);
-2a9ee696c72a24 Branislav Radocaj  2017-12-12  204  		goto out_regulator_disable;
-2a9ee696c72a24 Branislav Radocaj  2017-12-12  205  	}
-c9bca2fe3ca6d6 Xing Zheng         2016-01-08  206  
-f4c9d3ee0334fd Xing Zheng         2016-01-08  207  	if (priv->soc_data->need_div_macclk) {
-f4c9d3ee0334fd Xing Zheng         2016-01-08  208  		priv->macclk = devm_clk_get(dev, "macclk");
-f4c9d3ee0334fd Xing Zheng         2016-01-08  209  		if (IS_ERR(priv->macclk)) {
-663713eb477b9b Caesar Wang        2016-03-14  210  			dev_err(dev, "failed to retrieve mac clock (%ld)\n",
-663713eb477b9b Caesar Wang        2016-03-14  211  				PTR_ERR(priv->macclk));
-f4c9d3ee0334fd Xing Zheng         2016-01-08  212  			err = PTR_ERR(priv->macclk);
-f4c9d3ee0334fd Xing Zheng         2016-01-08  213  			goto out_regulator_disable;
-f4c9d3ee0334fd Xing Zheng         2016-01-08  214  		}
-f4c9d3ee0334fd Xing Zheng         2016-01-08  215  
-f4c9d3ee0334fd Xing Zheng         2016-01-08  216  		err = clk_prepare_enable(priv->macclk);
-f4c9d3ee0334fd Xing Zheng         2016-01-08  217  		if (err) {
-f4c9d3ee0334fd Xing Zheng         2016-01-08  218  			dev_err(dev, "failed to enable mac clock (%d)\n", err);
-f4c9d3ee0334fd Xing Zheng         2016-01-08  219  			goto out_regulator_disable;
-f4c9d3ee0334fd Xing Zheng         2016-01-08  220  		}
-f4c9d3ee0334fd Xing Zheng         2016-01-08  221  
-f4c9d3ee0334fd Xing Zheng         2016-01-08  222  		/* RMII TX/RX needs always a rate of 25MHz */
-f4c9d3ee0334fd Xing Zheng         2016-01-08  223  		err = clk_set_rate(priv->macclk, 25000000);
-e46772a6946a7d Branislav Radocaj  2017-12-07  224  		if (err) {
-663713eb477b9b Caesar Wang        2016-03-14  225  			dev_err(dev,
-663713eb477b9b Caesar Wang        2016-03-14  226  				"failed to change mac clock rate (%d)\n", err);
-e46772a6946a7d Branislav Radocaj  2017-12-07  227  			goto out_clk_disable_macclk;
-e46772a6946a7d Branislav Radocaj  2017-12-07  228  		}
-f4c9d3ee0334fd Xing Zheng         2016-01-08  229  	}
-f4c9d3ee0334fd Xing Zheng         2016-01-08  230  
-c9bca2fe3ca6d6 Xing Zheng         2016-01-08  231  	err = arc_emac_probe(ndev, interface);
-c9bca2fe3ca6d6 Xing Zheng         2016-01-08  232  	if (err) {
-c9bca2fe3ca6d6 Xing Zheng         2016-01-08  233  		dev_err(dev, "failed to probe arc emac (%d)\n", err);
-2a9ee696c72a24 Branislav Radocaj  2017-12-12  234  		goto out_clk_disable_macclk;
-c9bca2fe3ca6d6 Xing Zheng         2016-01-08  235  	}
-c9bca2fe3ca6d6 Xing Zheng         2016-01-08  236  
-6eacf31139bf96 Romain Perier      2014-09-08  237  	return 0;
-2a9ee696c72a24 Branislav Radocaj  2017-12-12  238  
-e46772a6946a7d Branislav Radocaj  2017-12-07  239  out_clk_disable_macclk:
-2a9ee696c72a24 Branislav Radocaj  2017-12-12  240  	if (priv->soc_data->need_div_macclk)
-e46772a6946a7d Branislav Radocaj  2017-12-07  241  		clk_disable_unprepare(priv->macclk);
-6eacf31139bf96 Romain Perier      2014-09-08  242  out_regulator_disable:
-6eacf31139bf96 Romain Perier      2014-09-08  243  	if (priv->regulator)
-6eacf31139bf96 Romain Perier      2014-09-08  244  		regulator_disable(priv->regulator);
-6eacf31139bf96 Romain Perier      2014-09-08  245  out_clk_disable:
-6eacf31139bf96 Romain Perier      2014-09-08  246  	clk_disable_unprepare(priv->refclk);
-6eacf31139bf96 Romain Perier      2014-09-08  247  out_netdev:
-6eacf31139bf96 Romain Perier      2014-09-08  248  	free_netdev(ndev);
-6eacf31139bf96 Romain Perier      2014-09-08 @249  	return err;
-6eacf31139bf96 Romain Perier      2014-09-08  250  }
+The Kconfig should probably depend on CONFIG_TYPEC to avoid a crash here.
+
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3169  
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3170  	if (!wcd939x->wcd_mbhc)
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3171  		return -EINVAL;
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3172  
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3173  	if (wcd939x->typec_mode != state->mode) {
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3174  		wcd939x->typec_mode = state->mode;
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3175  
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3176  		if (wcd939x->typec_mode == TYPEC_MODE_AUDIO)
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3177  			return wcd_mbhc_typec_report_plug(wcd939x->wcd_mbhc);
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3178  		else if (previous_mode == TYPEC_MODE_AUDIO)
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3179  			return wcd_mbhc_typec_report_unplug(wcd939x->wcd_mbhc);
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3180  	}
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3181  
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3182  	return 0;
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3183  }
+
+[ snip ]
+
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3216  static bool wcd939x_swap_gnd_mic(struct snd_soc_component *component, bool active)
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3217  {
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3218  	struct wcd939x_priv *wcd939x = snd_soc_component_get_drvdata(component);
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3219  
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3220  	if (!wcd939x->typec_analog_mux || !wcd939x->typec_switch)
+6c302e2f95b1d1 Neil Armstrong 2023-12-01 @3221  		return -EINVAL;
+
+This is type bool.  return false?
+
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3222  
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3223  	/* Report inversion via Type Switch of USBSS */
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3224  	return typec_switch_set(wcd939x->typec_switch,
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3225  				wcd939x->typec_orientation == TYPEC_ORIENTATION_REVERSE ?
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3226  					TYPEC_ORIENTATION_NORMAL : TYPEC_ORIENTATION_REVERSE);
+6c302e2f95b1d1 Neil Armstrong 2023-12-01  3227  }
 
 -- 
 0-DAY CI Kernel Test Service
