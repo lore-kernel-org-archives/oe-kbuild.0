@@ -1,60 +1,61 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF02FC0C
-	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 05:45:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96F0107A5
+	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 05:56:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r3Lzqx8z"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40bd5eaa66cso56388235e9.2
-        for <oe-kbuild@lists.linux.dev>; Tue, 05 Dec 2023 21:45:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MtbW2y7x"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3333131e08dso457764f8f.2
+        for <oe-kbuild@lists.linux.dev>; Tue, 05 Dec 2023 21:56:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701841511; x=1702446311; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1701842170; x=1702446970; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wNOEqV+Od1Zo33WkVS9CYTBYeUbRQhrnxrhVJXGzJeA=;
-        b=r3Lzqx8zcyXg3nMchFFRTaOxuTv1ZeUqyFEkLZ2VTBpDMYsELovfXbx0/YdkIuSD3R
-         iWIrugeB7LGstp1sYmdOBfoIaZgd/h3+P9mLw/5iBXkaXG0SfPUW8p6lEwguPPR1PLcK
-         Cs+ACY4A0h5mskNNTd0NHLps0a8VkKZXEXqCdW1ymq5DAmjcw3Z4c/Pk9wCZHO0GXkUR
-         OPX7WtfTaUHF9GPmKdoRcx1F3pW0gRzwj4P2FaBKnbUq1uDriozN88LPpWQopDFgQpFT
-         NbwJJBSmrLNTCXteqsdBthQ/DnnBJuYaH1bu60MGapJjEZP0fpmimggoIcCqiq/oMsPM
-         iv4A==
+        bh=YX4MAqN/nDup4qMOCc0EzTmKzTOsFfxIwVqJEAFEG5A=;
+        b=MtbW2y7xJNA4ombuq/a6BsJCMleGBAnp2RSbTfUt6n5QpgqlIJxjGT1T5mTWKG4seL
+         03fXzpmf1sqFUY60lC04hXD4f7Vwmf+mtDhS9j0qoyGn6tdHDwZA64/Jz6BYpzEiAiGd
+         41XBHxogVIJmxKbwcGzzDDHUFz3hZYNuOhPjBRaG9lOuh1OOTBsZ7ORinB6xvfEjcF2I
+         xM/74YNyfDHLFS3WIKX0mJJVZ8gZKA/edk5SfD/C63bCEkf6ngEvFPLzMEUDAfjF9fPI
+         QFySXbbV+BxCdR4fW1gQpJ5k/2nKE2EYZDi79TDE3Bxe5SjCGZD3vRvb7g3e2uiNKq8O
+         9BPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701841511; x=1702446311;
+        d=1e100.net; s=20230601; t=1701842170; x=1702446970;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wNOEqV+Od1Zo33WkVS9CYTBYeUbRQhrnxrhVJXGzJeA=;
-        b=xMc1tVouOUZcRIAtv7WyG/bViekqdRfe1zangt2OE/mNodLPQv767VVOevPAp19F91
-         WN5EJ195JadEQuQgE65ZU/+vspUhc9bpxn9RD7Q4/B3ffUMcZbTvs3tFl/jB6CEuRbZb
-         iSK886+VDCoOoMvc/enBHbQtbwq/0RTgJG0K7bmQCWspkAfvWVn8Af/I7xiJ4b3UHLm2
-         vVme9FjtbhQqN89ZCzuQZIyjHpetsOEna3Kx2ClX/fRwI+n3TrImhYllleuvfHdYAuJM
-         MTXnHa0/WcNlY9f4pwQX+xC4OLu2+rIs+d8Me0U1G3pLtud3hMZXxw2wMbbXqK5LgZGN
-         28Ig==
-X-Gm-Message-State: AOJu0YzNXIMQHDZS9Pz3d07NTZ8EEZepi/rDpdr/1I7qOUduUtRBpgO4
-	PoKz0lZDrhaAiKdGx7IZEjXhSjByEZpY6bMQ990=
-X-Google-Smtp-Source: AGHT+IHd3hHCZXf4ZClLThmSlDFHBOEG3ugJfdJg/Y6kZwqms0T02Pp5DgAMtrB0fFvq1tDifGp8rw==
-X-Received: by 2002:adf:fa8d:0:b0:332:eaa7:56b1 with SMTP id h13-20020adffa8d000000b00332eaa756b1mr163771wrr.37.1701841511570;
-        Tue, 05 Dec 2023 21:45:11 -0800 (PST)
+        bh=YX4MAqN/nDup4qMOCc0EzTmKzTOsFfxIwVqJEAFEG5A=;
+        b=QmKBgEN6q1GNzFbLBCQvybMU+ELTuvcxbTmztI51TGd/JJkEzTlDrS2Fz87htDgrja
+         D9WcwinsCXbHXh8xPG637Kzv6GcoUmRENlj5kCLlbAh60s33U4VFXSgniKMGRb21GxiP
+         BZ+4jBAKDMlhh1TlYk3W1K+exIqnwoLlFpsVL72HXjQ4mkG2AlL6girZKEvjokx8ES4T
+         rAv6rKzpIizkiVE9R4U3CdoqQkv685xn2eA+oyJJQycXDEVMk4QsHEjmGeCehUwsX5ys
+         qE+yDzOVhVlKTQE06EVsRaKxfzN/6PafTlsnj0gRAE9mEPrIrAud7TyUalIxVt256RHz
+         2qHg==
+X-Gm-Message-State: AOJu0YxiPfKujqGvjWJ4KKiaRIq+bECDlESHVOYkFKcjWoO9VCRupVND
+	IhNldhOBc8Pt0ZW2OYLpCj48ZgLg8r1C+FM1GDI=
+X-Google-Smtp-Source: AGHT+IHFQh+8y+KuZlMbCBdzapy61giA82q8qO6dwkp1UqO1DqLHlNlScuxD+uGU1Zzj3WZhPzOYjA==
+X-Received: by 2002:a05:6000:c4:b0:333:3ead:54c3 with SMTP id q4-20020a05600000c400b003333ead54c3mr147557wrx.97.1701842170341;
+        Tue, 05 Dec 2023 21:56:10 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q3-20020adff783000000b003332febec90sm14016809wrp.7.2023.12.05.21.45.10
+        by smtp.gmail.com with ESMTPSA id e2-20020adf9bc2000000b003332fa77a0fsm13990491wrc.21.2023.12.05.21.56.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 21:45:11 -0800 (PST)
-Date: Wed, 6 Dec 2023 08:45:08 +0300
+        Tue, 05 Dec 2023 21:56:10 -0800 (PST)
+Date: Wed, 6 Dec 2023 08:56:06 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Yunke Cao <yunkec@google.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Tomasz Figa <tfiga@chromium.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
-	Yunke Cao <yunkec@google.com>
-Subject: Re: [PATCH v14 05/11] media: uvcvideo: Add support for compound
- controls
-Message-ID: <bc566008-e43c-4a74-a0c3-4ea76d599ff0@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, Vadim Fedorenko <vadfed@meta.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-crypto@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next v7 1/3] bpf: make common crypto API for TC/XDP
+ programs
+Message-ID: <dc0e2f8e-f82b-4439-b61a-9ab0be9f4e6b@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,69 +64,141 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231201071907.3080126-6-yunkec@google.com>
+In-Reply-To: <20231202010604.1877561-1-vadfed@meta.com>
 
-Hi Yunke,
+Hi Vadim,
 
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yunke-Cao/media-v4l2_ctrl-Add-V4L2_CTRL_TYPE_RECT/20231201-152501
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20231201071907.3080126-6-yunkec%40google.com
-patch subject: [PATCH v14 05/11] media: uvcvideo: Add support for compound controls
-config: powerpc64-randconfig-r081-20231204 (https://download.01.org/0day-ci/archive/20231206/202312060523.tldbovNM-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060523.tldbovNM-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bpf-crypto-add-skcipher-to-bpf-crypto/20231202-091254
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231202010604.1877561-1-vadfed%40meta.com
+patch subject: [PATCH bpf-next v7 1/3] bpf: make common crypto API for TC/XDP programs
+config: x86_64-randconfig-161-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060647.2JfAE3rk-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060647.2JfAE3rk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312060523.tldbovNM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312060647.2JfAE3rk-lkp@intel.com/
 
 smatch warnings:
-drivers/media/usb/uvc/uvc_ctrl.c:2065 __uvc_ctrl_set_compound() warn: maybe return -EFAULT instead of the bytes remaining?
+kernel/bpf/crypto.c:192 bpf_crypto_ctx_create() error: we previously assumed 'ctx' could be null (see line 165)
+kernel/bpf/crypto.c:192 bpf_crypto_ctx_create() error: potentially dereferencing uninitialized 'ctx'.
 
-vim +2065 drivers/media/usb/uvc/uvc_ctrl.c
+vim +/ctx +192 kernel/bpf/crypto.c
 
-1a1a2af88920e9 Yunke Cao 2023-12-01  2040  static int __uvc_ctrl_set_compound(struct uvc_control_mapping *mapping,
-1a1a2af88920e9 Yunke Cao 2023-12-01  2041  				   struct v4l2_ext_control *xctrl,
-1a1a2af88920e9 Yunke Cao 2023-12-01  2042  				   struct uvc_control *ctrl)
-1a1a2af88920e9 Yunke Cao 2023-12-01  2043  {
-1a1a2af88920e9 Yunke Cao 2023-12-01  2044  	u8 *data;
-1a1a2af88920e9 Yunke Cao 2023-12-01  2045  	int ret;
-1a1a2af88920e9 Yunke Cao 2023-12-01  2046  
-1a1a2af88920e9 Yunke Cao 2023-12-01  2047  	if (xctrl->size != mapping->v4l2_size / 8)
-1a1a2af88920e9 Yunke Cao 2023-12-01  2048  		return -EINVAL;
-1a1a2af88920e9 Yunke Cao 2023-12-01  2049  
-1a1a2af88920e9 Yunke Cao 2023-12-01  2050  	data = kmalloc(xctrl->size, GFP_KERNEL);
-1a1a2af88920e9 Yunke Cao 2023-12-01  2051  	if (!data)
-1a1a2af88920e9 Yunke Cao 2023-12-01  2052  		return -ENOMEM;
-1a1a2af88920e9 Yunke Cao 2023-12-01  2053  
-1a1a2af88920e9 Yunke Cao 2023-12-01  2054  	ret = copy_from_user(data, xctrl->ptr, xctrl->size);
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  122  __bpf_kfunc struct bpf_crypto_ctx *
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  123  bpf_crypto_ctx_create(const char *type__str, const char *algo__str,
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  124  		      const struct bpf_dynptr_kern *pkey,
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  125  		      unsigned int authsize, int *err)
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  126  {
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  127  	const struct bpf_crypto_type *type = bpf_crypto_get_type(type__str);
 
-copy_from_user() never returns negatives, it returns the number of bytes
-remaining to be copied.  This should be:
+Delete this assignment.  (Duplicated).
 
-	if (copy_from_user(data, xctrl->ptr, xctrl->size)) {
-		ret = -EFAULT;
-		goto out;
-	}
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  128  	struct bpf_crypto_ctx *ctx;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  129  	const u8 *key;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  130  	u32 key_len;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  131  
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  132  	type = bpf_crypto_get_type(type__str);
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  133  	if (IS_ERR(type)) {
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  134  		*err = PTR_ERR(type);
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  135  		return NULL;
 
-1a1a2af88920e9 Yunke Cao 2023-12-01  2055  	if (ret < 0)
-1a1a2af88920e9 Yunke Cao 2023-12-01  2056  		goto out;
-1a1a2af88920e9 Yunke Cao 2023-12-01  2057  
-1a1a2af88920e9 Yunke Cao 2023-12-01  2058  	ret = mapping->set_compound(mapping, data,
-1a1a2af88920e9 Yunke Cao 2023-12-01  2059  			uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-1a1a2af88920e9 Yunke Cao 2023-12-01  2060  
-1a1a2af88920e9 Yunke Cao 2023-12-01  2061  	__uvc_ctrl_get_compound(mapping, ctrl, UVC_CTRL_DATA_CURRENT, xctrl);
-1a1a2af88920e9 Yunke Cao 2023-12-01  2062  
-1a1a2af88920e9 Yunke Cao 2023-12-01  2063  out:
-1a1a2af88920e9 Yunke Cao 2023-12-01  2064  	kfree(data);
-1a1a2af88920e9 Yunke Cao 2023-12-01 @2065  	return ret;
-1a1a2af88920e9 Yunke Cao 2023-12-01  2066  }
+Why doesn't this function just return error pointers?
+
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  136  	}
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  137  
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  138  	if (!type->has_algo(algo__str)) {
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  139  		*err = -EOPNOTSUPP;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  140  		goto err;
+
+ctx is uninitialized on this path.
+
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  141  	}
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  142  
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  143  	if (!authsize && type->setauthsize) {
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  144  		*err = -EOPNOTSUPP;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  145  		goto err;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  146  	}
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  147  
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  148  	if (authsize && !type->setauthsize) {
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  149  		*err = -EOPNOTSUPP;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  150  		goto err;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  151  	}
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  152  
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  153  	key_len = __bpf_dynptr_size(pkey);
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  154  	if (!key_len) {
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  155  		*err = -EINVAL;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  156  		goto err;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  157  	}
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  158  	key = __bpf_dynptr_data(pkey, key_len);
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  159  	if (!key) {
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  160  		*err = -EINVAL;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  161  		goto err;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  162  	}
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  163  
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  164  	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+0c47cb96ac404e Vadim Fedorenko 2023-12-01 @165  	if (!ctx) {
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  166  		*err = -ENOMEM;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  167  		goto err;
+
+ctx is NULL here.
+
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  168  	}
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  169  
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  170  	ctx->type = type;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  171  	ctx->tfm = type->alloc_tfm(algo__str);
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  172  	if (IS_ERR(ctx->tfm)) {
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  173  		*err = PTR_ERR(ctx->tfm);
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  174  		ctx->tfm = NULL;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  175  		goto err;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  176  	}
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  177  
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  178  	if (authsize) {
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  179  		*err = type->setauthsize(ctx->tfm, authsize);
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  180  		if (*err)
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  181  			goto err;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  182  	}
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  183  
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  184  	*err = type->setkey(ctx->tfm, key, key_len);
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  185  	if (*err)
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  186  		goto err;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  187  
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  188  	refcount_set(&ctx->usage, 1);
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  189  
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  190  	return ctx;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  191  err:
+0c47cb96ac404e Vadim Fedorenko 2023-12-01 @192  	if (ctx->tfm)
+                                                            ^^^^^^^^
+NULL dereference.  These two error handling bugs in three lines of code
+are canonical One Err Label type bugs.  Better to do a ladder where each
+error label frees the last thing that was allocated.  Easier to review.
+Then you could delete the "ctx->tfm = NULL;" assignment on line 174.
+
+	return ctx;
+
+err_free_tfm:
+	type->free_tfm(ctx->tfm);
+err_free_ctx:
+	kfree(ctx);
+err_module_put:
+	module_put(type->owner);
+
+	return NULL;
+
+I have written about this at length on my blog:
+https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  193  		type->free_tfm(ctx->tfm);
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  194  	kfree(ctx);
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  195  	module_put(type->owner);
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  196  
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  197  	return NULL;
+0c47cb96ac404e Vadim Fedorenko 2023-12-01  198  }
 
 -- 
 0-DAY CI Kernel Test Service
