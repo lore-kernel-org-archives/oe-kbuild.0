@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4FF7492
-	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 07:59:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C4612E49
+	for <oe-kbuild@lists.linux.dev>; Wed,  6 Dec 2023 08:09:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a3ohxa2A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y5eg8hQw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701849542; x=1733385542;
+  t=1701850160; x=1733386160;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GA2iZa0fdIb3Sgwo9R83KcfL1NnhNAgsU413ssQl6Nc=;
-  b=a3ohxa2AOg2EGlUa1vOd6abzLDDdgwDqBf3fn8+/7dZBDHbv4nMTS9az
-   aPW2Ufd4Mt1ObyWVU/lqiuudmK4VwLv11cHCRY7FCJBjYHWB7HkoHNYhM
-   b0Ag1K5gaB1DT34rbDlVS0b+xZI+b1SYuk5ZilMlPQNWXud2y9dNaFJSG
-   aIyrobHLMSOZK+1gwNkBy6rQuglzMT+9JNeVI+1z0xUrWvvLT5bSkipLd
-   trgxNuORSyiMKXeoqIWmyO2DIXat52whhUFOQre0QDGOQzYR93wD3Y6l0
-   at3PziNteA+FMX+lw3H+v8mF/gB5Z1iqa6zjnzm4H6GMgpPz7s8otIT1q
+  bh=k7jV+R24M+xJLTOjR5fz+EDX/TG5DN6QBeB3n68H+vI=;
+  b=Y5eg8hQw3DsfZCGCLMI9S8YhillpWnY1KCJDpvmFNvPuUvfLiC7jDCH7
+   Y4D84cQ1fmvADRQWR/sFA880DJArT1Dbh0oE515GGGU7vhqISdAmDKtmA
+   65Z6NUVs6nJtsAc67unS5HKWCA7t7cglyRx4FtpF28l5+2T2LvNwtkK5h
+   Sjwkl7Rh49+gZn9DILAjx0Ve+9jiHzAcehVmuk+xs8hOO6Ng3KFSl44dS
+   +/2pZI0l4AQnMk/JNcZC7z2qaPBZojx7zXE5I06umyR/ifMlqUoqUgutO
+   w3+dOKXG12xVELhSKoavNrg+sXvHAGclGyrVQ9EW3n1jsQigIaE61tNgO
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="15572728"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="1085578"
 X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="15572728"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 23:59:02 -0800
+   d="scan'208";a="1085578"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 00:09:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="1018482298"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="894652116"
 X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="1018482298"
+   d="scan'208";a="894652116"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 23:59:00 -0800
+  by orsmga004.jf.intel.com with ESMTP; 06 Dec 2023 00:09:07 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAmo5-000AUu-2i;
-	Wed, 06 Dec 2023 07:58:57 +0000
-Date: Wed, 6 Dec 2023 15:58:27 +0800
+	id 1rAmxr-000AVF-2F;
+	Wed, 06 Dec 2023 08:09:04 +0000
+Date: Wed, 6 Dec 2023 16:08:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [dhowells-fs:netfs-lib 28/61] fs/netfs/buffered_read.c:322:12-13:
- WARNING opportunity for min()
-Message-ID: <202312061503.OqonlTIy-lkp@intel.com>
+Subject: Re: [PATCH] zram: Using GFP_ATOMIC instead of GFP_KERNEL to allocate
+ bitmap memory in backing_dev_store
+Message-ID: <202312061559.CDXHSGIQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,128 +52,142 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: David Howells <dhowells@redhat.com>
+In-Reply-To: <20231130152047.200169-1-dongyun.liu@transsion.com>
+References: <20231130152047.200169-1-dongyun.liu@transsion.com>
+TO: Dongyun Liu <dongyun.liu3@gmail.com>
+TO: minchan@kernel.org
+TO: senozhatsky@chromium.org
+TO: axboe@kernel.dk
+CC: linux-kernel@vger.kernel.org
+CC: linux-block@vger.kernel.org
+CC: lincheng.yang@transsion.com
+CC: jiajun.ling@transsion.com
+CC: ldys2014@foxmail.com
+CC: Dongyun Liu <dongyun.liu@transsion.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-lib
-head:   ed72c33e807046e9a09965dba2d3524f5bc90ae9
-commit: 7dcb5e94e38179a1eca755b4e67222c4c553c34d [28/61] netfs: Make netfs_read_folio() handle streaming-write pages
+Hi Dongyun,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on linus/master v6.7-rc4 next-20231206]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dongyun-Liu/zram-Using-GFP_ATOMIC-instead-of-GFP_KERNEL-to-allocate-bitmap-memory-in-backing_dev_store/20231130-233042
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20231130152047.200169-1-dongyun.liu%40transsion.com
+patch subject: [PATCH] zram: Using GFP_ATOMIC instead of GFP_KERNEL to allocate bitmap memory in backing_dev_store
 :::::: branch date: 6 days ago
-:::::: commit date: 7 days ago
-config: x86_64-randconfig-104-20231201 (https://download.01.org/0day-ci/archive/20231206/202312061503.OqonlTIy-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312061503.OqonlTIy-lkp@intel.com/reproduce)
+:::::: commit date: 6 days ago
+config: i386-randconfig-051-20231201 (https://download.01.org/0day-ci/archive/20231206/202312061559.CDXHSGIQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231206/202312061559.CDXHSGIQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312061503.OqonlTIy-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312061559.CDXHSGIQ-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> fs/netfs/buffered_read.c:322:12-13: WARNING opportunity for min()
+>> drivers/block/zram/zram_drv.c:536:14-15: WARNING kmalloc is used to allocate this memory at line 517
 
-vim +322 fs/netfs/buffered_read.c
+vim +536 drivers/block/zram/zram_drv.c
 
-16211268fcb366 David Howells           2022-03-01  232  
-16211268fcb366 David Howells           2022-03-01  233  /**
-6c62371b7fd776 Matthew Wilcox (Oracle  2022-04-29  234)  * netfs_read_folio - Helper to manage a read_folio request
-16211268fcb366 David Howells           2022-03-01  235   * @file: The file to read from
-6c62371b7fd776 Matthew Wilcox (Oracle  2022-04-29  236)  * @folio: The folio to read
-16211268fcb366 David Howells           2022-03-01  237   *
-6c62371b7fd776 Matthew Wilcox (Oracle  2022-04-29  238)  * Fulfil a read_folio request by drawing data from the cache if
-6c62371b7fd776 Matthew Wilcox (Oracle  2022-04-29  239)  * possible, or the netfs if not.  Space beyond the EOF is zero-filled.
-6c62371b7fd776 Matthew Wilcox (Oracle  2022-04-29  240)  * Multiple I/O requests from different sources will get munged together.
-16211268fcb366 David Howells           2022-03-01  241   *
-16211268fcb366 David Howells           2022-03-01  242   * The calling netfs must initialise a netfs context contiguous to the vfs
-16211268fcb366 David Howells           2022-03-01  243   * inode before calling this.
-16211268fcb366 David Howells           2022-03-01  244   *
-16211268fcb366 David Howells           2022-03-01  245   * This is usable whether or not caching is enabled.
-16211268fcb366 David Howells           2022-03-01  246   */
-6c62371b7fd776 Matthew Wilcox (Oracle  2022-04-29  247) int netfs_read_folio(struct file *file, struct folio *folio)
-16211268fcb366 David Howells           2022-03-01  248  {
-16211268fcb366 David Howells           2022-03-01  249  	struct address_space *mapping = folio_file_mapping(folio);
-16211268fcb366 David Howells           2022-03-01  250  	struct netfs_io_request *rreq;
-874c8ca1e60b2c David Howells           2022-06-09  251  	struct netfs_inode *ctx = netfs_inode(mapping->host);
-7dcb5e94e38179 David Howells           2023-10-02  252  	struct folio *sink = NULL;
-16211268fcb366 David Howells           2022-03-01  253  	int ret;
-16211268fcb366 David Howells           2022-03-01  254  
-16211268fcb366 David Howells           2022-03-01  255  	_enter("%lx", folio_index(folio));
-16211268fcb366 David Howells           2022-03-01  256  
-16211268fcb366 David Howells           2022-03-01  257  	rreq = netfs_alloc_request(mapping, file,
-16211268fcb366 David Howells           2022-03-01  258  				   folio_file_pos(folio), folio_size(folio),
-16211268fcb366 David Howells           2022-03-01  259  				   NETFS_READPAGE);
-16211268fcb366 David Howells           2022-03-01  260  	if (IS_ERR(rreq)) {
-16211268fcb366 David Howells           2022-03-01  261  		ret = PTR_ERR(rreq);
-16211268fcb366 David Howells           2022-03-01  262  		goto alloc_error;
-16211268fcb366 David Howells           2022-03-01  263  	}
-16211268fcb366 David Howells           2022-03-01  264  
-52a4d0d95f6ac4 David Howells           2023-11-20  265  	ret = netfs_begin_cache_read(rreq, ctx);
-16211268fcb366 David Howells           2022-03-01  266  	if (ret == -ENOMEM || ret == -EINTR || ret == -ERESTARTSYS)
-16211268fcb366 David Howells           2022-03-01  267  		goto discard;
-16211268fcb366 David Howells           2022-03-01  268  
-16211268fcb366 David Howells           2022-03-01  269  	netfs_stat(&netfs_n_rh_readpage);
-16211268fcb366 David Howells           2022-03-01  270  	trace_netfs_read(rreq, rreq->start, rreq->len, netfs_read_trace_readpage);
-79da688afcb03d David Howells           2023-09-26  271  
-79da688afcb03d David Howells           2023-09-26  272  	/* Set up the output buffer */
-7dcb5e94e38179 David Howells           2023-10-02  273  	if (folio_test_dirty(folio)) {
-7dcb5e94e38179 David Howells           2023-10-02  274  		/* Handle someone trying to read from an unflushed streaming
-7dcb5e94e38179 David Howells           2023-10-02  275  		 * write.  We fiddle the buffer so that a gap at the beginning
-7dcb5e94e38179 David Howells           2023-10-02  276  		 * and/or a gap at the end get copied to, but the middle is
-7dcb5e94e38179 David Howells           2023-10-02  277  		 * discarded.
-7dcb5e94e38179 David Howells           2023-10-02  278  		 */
-7dcb5e94e38179 David Howells           2023-10-02  279  		struct netfs_folio *finfo = netfs_folio_info(folio);
-7dcb5e94e38179 David Howells           2023-10-02  280  		struct bio_vec *bvec;
-7dcb5e94e38179 David Howells           2023-10-02  281  		unsigned int from = finfo->dirty_offset;
-7dcb5e94e38179 David Howells           2023-10-02  282  		unsigned int to = from + finfo->dirty_len;
-7dcb5e94e38179 David Howells           2023-10-02  283  		unsigned int off = 0, i = 0;
-7dcb5e94e38179 David Howells           2023-10-02  284  		size_t flen = folio_size(folio);
-7dcb5e94e38179 David Howells           2023-10-02  285  		size_t nr_bvec = flen / PAGE_SIZE + 2;
-7dcb5e94e38179 David Howells           2023-10-02  286  		size_t part;
-7dcb5e94e38179 David Howells           2023-10-02  287  
-7dcb5e94e38179 David Howells           2023-10-02  288  		ret = -ENOMEM;
-7dcb5e94e38179 David Howells           2023-10-02  289  		bvec = kmalloc_array(nr_bvec, sizeof(*bvec), GFP_KERNEL);
-7dcb5e94e38179 David Howells           2023-10-02  290  		if (!bvec)
-7dcb5e94e38179 David Howells           2023-10-02  291  			goto discard;
-7dcb5e94e38179 David Howells           2023-10-02  292  
-7dcb5e94e38179 David Howells           2023-10-02  293  		sink = folio_alloc(GFP_KERNEL, 0);
-7dcb5e94e38179 David Howells           2023-10-02  294  		if (!sink)
-7dcb5e94e38179 David Howells           2023-10-02  295  			goto discard;
-7dcb5e94e38179 David Howells           2023-10-02  296  
-7dcb5e94e38179 David Howells           2023-10-02  297  		trace_netfs_folio(folio, netfs_folio_trace_read_gaps);
-7dcb5e94e38179 David Howells           2023-10-02  298  
-7dcb5e94e38179 David Howells           2023-10-02  299  		rreq->direct_bv = bvec;
-7dcb5e94e38179 David Howells           2023-10-02  300  		rreq->direct_bv_count = nr_bvec;
-7dcb5e94e38179 David Howells           2023-10-02  301  		if (from > 0) {
-7dcb5e94e38179 David Howells           2023-10-02  302  			bvec_set_folio(&bvec[i++], folio, from, 0);
-7dcb5e94e38179 David Howells           2023-10-02  303  			off = from;
-7dcb5e94e38179 David Howells           2023-10-02  304  		}
-7dcb5e94e38179 David Howells           2023-10-02  305  		while (off < to) {
-7dcb5e94e38179 David Howells           2023-10-02  306  			part = min_t(size_t, to - off, PAGE_SIZE);
-7dcb5e94e38179 David Howells           2023-10-02  307  			bvec_set_folio(&bvec[i++], sink, part, 0);
-7dcb5e94e38179 David Howells           2023-10-02  308  			off += part;
-7dcb5e94e38179 David Howells           2023-10-02  309  		}
-7dcb5e94e38179 David Howells           2023-10-02  310  		if (to < flen)
-7dcb5e94e38179 David Howells           2023-10-02  311  			bvec_set_folio(&bvec[i++], folio, flen - to, to);
-7dcb5e94e38179 David Howells           2023-10-02  312  		iov_iter_bvec(&rreq->iter, ITER_DEST, bvec, i, rreq->len);
-7dcb5e94e38179 David Howells           2023-10-02  313  	} else {
-79da688afcb03d David Howells           2023-09-26  314  		iov_iter_xarray(&rreq->iter, ITER_DEST, &mapping->i_pages,
-79da688afcb03d David Howells           2023-09-26  315  				rreq->start, rreq->len);
-7dcb5e94e38179 David Howells           2023-10-02  316  	}
-79da688afcb03d David Howells           2023-09-26  317  
-0c292ff33a017a David Howells           2023-10-04  318  	ret = netfs_begin_read(rreq, true);
-7dcb5e94e38179 David Howells           2023-10-02  319  	if (sink)
-7dcb5e94e38179 David Howells           2023-10-02  320  		folio_put(sink);
-0c292ff33a017a David Howells           2023-10-04  321  	netfs_put_request(rreq, false, netfs_rreq_trace_put_return);
-7dcb5e94e38179 David Howells           2023-10-02 @322  	return ret < 0 ? ret : 0;
-16211268fcb366 David Howells           2022-03-01  323  
-16211268fcb366 David Howells           2022-03-01  324  discard:
-16211268fcb366 David Howells           2022-03-01  325  	netfs_put_request(rreq, false, netfs_rreq_trace_put_discard);
-16211268fcb366 David Howells           2022-03-01  326  alloc_error:
-16211268fcb366 David Howells           2022-03-01  327  	folio_unlock(folio);
-16211268fcb366 David Howells           2022-03-01  328  	return ret;
-16211268fcb366 David Howells           2022-03-01  329  }
-6c62371b7fd776 Matthew Wilcox (Oracle  2022-04-29  330) EXPORT_SYMBOL(netfs_read_folio);
-16211268fcb366 David Howells           2022-03-01  331  
+013bf95a83ec76 Minchan Kim       2017-09-06  459  
+013bf95a83ec76 Minchan Kim       2017-09-06  460  static ssize_t backing_dev_store(struct device *dev,
+013bf95a83ec76 Minchan Kim       2017-09-06  461  		struct device_attribute *attr, const char *buf, size_t len)
+013bf95a83ec76 Minchan Kim       2017-09-06  462  {
+013bf95a83ec76 Minchan Kim       2017-09-06  463  	char *file_name;
+c8bd134a4bddaf Peter Kalauskas   2018-08-21  464  	size_t sz;
+013bf95a83ec76 Minchan Kim       2017-09-06  465  	struct file *backing_dev = NULL;
+013bf95a83ec76 Minchan Kim       2017-09-06  466  	struct inode *inode;
+013bf95a83ec76 Minchan Kim       2017-09-06  467  	struct address_space *mapping;
+ee763e2143e79f Christoph Hellwig 2020-11-16  468  	unsigned int bitmap_sz;
+1363d4662a0d28 Minchan Kim       2017-09-06  469  	unsigned long nr_pages, *bitmap = NULL;
+eed993a0910338 Jan Kara          2023-09-27  470  	struct bdev_handle *bdev_handle = NULL;
+013bf95a83ec76 Minchan Kim       2017-09-06  471  	int err;
+013bf95a83ec76 Minchan Kim       2017-09-06  472  	struct zram *zram = dev_to_zram(dev);
+013bf95a83ec76 Minchan Kim       2017-09-06  473  
+013bf95a83ec76 Minchan Kim       2017-09-06  474  	file_name = kmalloc(PATH_MAX, GFP_KERNEL);
+013bf95a83ec76 Minchan Kim       2017-09-06  475  	if (!file_name)
+013bf95a83ec76 Minchan Kim       2017-09-06  476  		return -ENOMEM;
+013bf95a83ec76 Minchan Kim       2017-09-06  477  
+013bf95a83ec76 Minchan Kim       2017-09-06  478  	down_write(&zram->init_lock);
+013bf95a83ec76 Minchan Kim       2017-09-06  479  	if (init_done(zram)) {
+013bf95a83ec76 Minchan Kim       2017-09-06  480  		pr_info("Can't setup backing device for initialized device\n");
+013bf95a83ec76 Minchan Kim       2017-09-06  481  		err = -EBUSY;
+013bf95a83ec76 Minchan Kim       2017-09-06  482  		goto out;
+013bf95a83ec76 Minchan Kim       2017-09-06  483  	}
+013bf95a83ec76 Minchan Kim       2017-09-06  484  
+e55e1b4831563e Wolfram Sang      2022-08-18  485  	strscpy(file_name, buf, PATH_MAX);
+c8bd134a4bddaf Peter Kalauskas   2018-08-21  486  	/* ignore trailing newline */
+c8bd134a4bddaf Peter Kalauskas   2018-08-21  487  	sz = strlen(file_name);
+c8bd134a4bddaf Peter Kalauskas   2018-08-21  488  	if (sz > 0 && file_name[sz - 1] == '\n')
+c8bd134a4bddaf Peter Kalauskas   2018-08-21  489  		file_name[sz - 1] = 0x00;
+013bf95a83ec76 Minchan Kim       2017-09-06  490  
+013bf95a83ec76 Minchan Kim       2017-09-06  491  	backing_dev = filp_open(file_name, O_RDWR|O_LARGEFILE, 0);
+013bf95a83ec76 Minchan Kim       2017-09-06  492  	if (IS_ERR(backing_dev)) {
+013bf95a83ec76 Minchan Kim       2017-09-06  493  		err = PTR_ERR(backing_dev);
+013bf95a83ec76 Minchan Kim       2017-09-06  494  		backing_dev = NULL;
+013bf95a83ec76 Minchan Kim       2017-09-06  495  		goto out;
+013bf95a83ec76 Minchan Kim       2017-09-06  496  	}
+013bf95a83ec76 Minchan Kim       2017-09-06  497  
+013bf95a83ec76 Minchan Kim       2017-09-06  498  	mapping = backing_dev->f_mapping;
+013bf95a83ec76 Minchan Kim       2017-09-06  499  	inode = mapping->host;
+013bf95a83ec76 Minchan Kim       2017-09-06  500  
+013bf95a83ec76 Minchan Kim       2017-09-06  501  	/* Support only block device in this moment */
+013bf95a83ec76 Minchan Kim       2017-09-06  502  	if (!S_ISBLK(inode->i_mode)) {
+013bf95a83ec76 Minchan Kim       2017-09-06  503  		err = -ENOTBLK;
+013bf95a83ec76 Minchan Kim       2017-09-06  504  		goto out;
+013bf95a83ec76 Minchan Kim       2017-09-06  505  	}
+013bf95a83ec76 Minchan Kim       2017-09-06  506  
+eed993a0910338 Jan Kara          2023-09-27  507  	bdev_handle = bdev_open_by_dev(inode->i_rdev,
+eed993a0910338 Jan Kara          2023-09-27  508  				BLK_OPEN_READ | BLK_OPEN_WRITE, zram, NULL);
+eed993a0910338 Jan Kara          2023-09-27  509  	if (IS_ERR(bdev_handle)) {
+eed993a0910338 Jan Kara          2023-09-27  510  		err = PTR_ERR(bdev_handle);
+eed993a0910338 Jan Kara          2023-09-27  511  		bdev_handle = NULL;
+013bf95a83ec76 Minchan Kim       2017-09-06  512  		goto out;
+5547932dc67a48 Minchan Kim       2018-12-28  513  	}
+013bf95a83ec76 Minchan Kim       2017-09-06  514  
+1363d4662a0d28 Minchan Kim       2017-09-06  515  	nr_pages = i_size_read(inode) >> PAGE_SHIFT;
+1363d4662a0d28 Minchan Kim       2017-09-06  516  	bitmap_sz = BITS_TO_LONGS(nr_pages) * sizeof(long);
+e51f2361fc7fd9 Dongyun Liu       2023-11-30 @517  	bitmap = kmalloc(bitmap_sz, GFP_ATOMIC);
+1363d4662a0d28 Minchan Kim       2017-09-06  518  	if (!bitmap) {
+1363d4662a0d28 Minchan Kim       2017-09-06  519  		err = -ENOMEM;
+1363d4662a0d28 Minchan Kim       2017-09-06  520  		goto out;
+1363d4662a0d28 Minchan Kim       2017-09-06  521  	}
+1363d4662a0d28 Minchan Kim       2017-09-06  522  
+013bf95a83ec76 Minchan Kim       2017-09-06  523  	reset_bdev(zram);
+013bf95a83ec76 Minchan Kim       2017-09-06  524  
+eed993a0910338 Jan Kara          2023-09-27  525  	zram->bdev_handle = bdev_handle;
+013bf95a83ec76 Minchan Kim       2017-09-06  526  	zram->backing_dev = backing_dev;
+1363d4662a0d28 Minchan Kim       2017-09-06  527  	zram->bitmap = bitmap;
+1363d4662a0d28 Minchan Kim       2017-09-06  528  	zram->nr_pages = nr_pages;
+013bf95a83ec76 Minchan Kim       2017-09-06  529  	up_write(&zram->init_lock);
+013bf95a83ec76 Minchan Kim       2017-09-06  530  
+013bf95a83ec76 Minchan Kim       2017-09-06  531  	pr_info("setup backing device %s\n", file_name);
+013bf95a83ec76 Minchan Kim       2017-09-06  532  	kfree(file_name);
+013bf95a83ec76 Minchan Kim       2017-09-06  533  
+013bf95a83ec76 Minchan Kim       2017-09-06  534  	return len;
+013bf95a83ec76 Minchan Kim       2017-09-06  535  out:
+1363d4662a0d28 Minchan Kim       2017-09-06 @536  	kvfree(bitmap);
+1363d4662a0d28 Minchan Kim       2017-09-06  537  
+eed993a0910338 Jan Kara          2023-09-27  538  	if (bdev_handle)
+eed993a0910338 Jan Kara          2023-09-27  539  		bdev_release(bdev_handle);
+013bf95a83ec76 Minchan Kim       2017-09-06  540  
+013bf95a83ec76 Minchan Kim       2017-09-06  541  	if (backing_dev)
+013bf95a83ec76 Minchan Kim       2017-09-06  542  		filp_close(backing_dev, NULL);
+013bf95a83ec76 Minchan Kim       2017-09-06  543  
+013bf95a83ec76 Minchan Kim       2017-09-06  544  	up_write(&zram->init_lock);
+013bf95a83ec76 Minchan Kim       2017-09-06  545  
+013bf95a83ec76 Minchan Kim       2017-09-06  546  	kfree(file_name);
+013bf95a83ec76 Minchan Kim       2017-09-06  547  
+013bf95a83ec76 Minchan Kim       2017-09-06  548  	return err;
+013bf95a83ec76 Minchan Kim       2017-09-06  549  }
+013bf95a83ec76 Minchan Kim       2017-09-06  550  
 
 -- 
 0-DAY CI Kernel Test Service
