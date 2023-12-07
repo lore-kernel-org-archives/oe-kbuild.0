@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D23521A03
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Dec 2023 08:20:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFEA1118B
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Dec 2023 09:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QP8v7gQO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iqV24pI7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701937241; x=1733473241;
+  t=1701939809; x=1733475809;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ahNRoAwxUsj06aTmufeaoo0btXC4NBSjwWF0kgZlMzU=;
-  b=QP8v7gQO/j5TISqpo3ekFxNMBCS2bnZd7r7DC1YukaKF4PBBzi5AeJhA
-   a2KdWZgWYfW/eVaEM07biBYQlRjs2RVr6PViqYW4gqpnBcEgJkYGqTatm
-   WiJq/H5ajuf/z3N8/FI0xcCsM3FCVQk5Q61HMIpQjoXCEaRYiRBASlJvH
-   WOmfVprcTCOHPfOeihVb1a2pI4ZXDfjf5vbezyqLlYcHqcx7DdV/3Yi+J
-   PLpqtWeW7EUu6bUyRdII1iarKmGKHV+iSoC/+b1pXSi/zKl0akwq01kCy
-   5cS7bFhOZy8g+0J7X2sd2aBVzJpCElgBhympDqGWB226HHWBLRS/iyU/d
+  bh=7aYmSOkMdtiUPincr40NdigVJ3AwKm2LJY6OgXb5qmo=;
+  b=iqV24pI7JKbYeV5qcYdgcFQrrSYKCYWvQTtM+Azyi+m0qKlu33mD15Ak
+   qMof4Qxok9N/LHIn0wybE6AkMO0wAvExuejXG8Dl7z//jr1FHTgiUwvFa
+   QeDkFFlpPrl3Vzq1eESEsjiQzNvcAxp34kZAAkqHft/bOpJ9CeZjU6xgt
+   h0AFtkUr/2Z7JIZWe3PH/dIELPpDD30jtEz7wkf7Ty12UFiVPGd3H7gor
+   6zebhi8yYKlfXXN6KlccXVI1fD0qOVJGDbg4w9n4dJU+htzK48VDB0kCg
+   LiR/CwxmT9xYKMBxj+6PsZi9wO8FkBHHOgb0uhBEqxpylK9WvNFbhVbuN
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="7506181"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="373689123"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="7506181"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 00:20:30 -0800
+   d="scan'208";a="373689123"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 01:03:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="842131431"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="944963900"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="842131431"
+   d="scan'208";a="944963900"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Dec 2023 00:20:29 -0800
+  by orsmga005.jf.intel.com with ESMTP; 07 Dec 2023 01:03:19 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rB9cO-000ByQ-0t;
-	Thu, 07 Dec 2023 08:20:26 +0000
-Date: Thu, 7 Dec 2023 16:20:01 +0800
+	id 1rBAHt-000C0I-2F;
+	Thu, 07 Dec 2023 09:03:17 +0000
+Date: Thu, 7 Dec 2023 17:02:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:upstream-f2fs-stable-linux-5.15.y 115/609]
- fs/f2fs/data.c:996 f2fs_grab_read_bio() warn: variable dereferenced before
- check 'bio' (see line 995)
-Message-ID: <202312071658.K2fohs9s-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/net/ethernet/intel/ice/ice_ethtool.c:3736:1-7: preceding
+ lock on line 3711
+Message-ID: <202312071624.LCUQ6axJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,88 +52,138 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: linux-kernel@vger.kernel.org
+TO: Dave Ertman <david.m.ertman@intel.com>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>
 
-tree:   https://android.googlesource.com/kernel/common upstream-f2fs-stable-linux-5.15.y
-head:   f2de1a67d29d396f18aa7973b6792b29a84ed1f6
-commit: e8e3f1a12d05d0aef2c819664890b540dfb055af [115/609] f2fs: don't pass a bio to f2fs_target_device
-:::::: branch date: 7 weeks ago
-:::::: commit date: 1 year, 7 months ago
-config: i386-randconfig-141-20231207 (https://download.01.org/0day-ci/archive/20231207/202312071658.K2fohs9s-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231207/202312071658.K2fohs9s-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
+commit: a6a0974aae4209d039ba81226ded5246eea14961 ice: Prevent set_channel from changing queues while RDMA active
+date:   10 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-102-20231207 (https://download.01.org/0day-ci/archive/20231207/202312071624.LCUQ6axJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231207/202312071624.LCUQ6axJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312071658.K2fohs9s-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202312071624.LCUQ6axJ-lkp@intel.com/
 
-New smatch warnings:
-fs/f2fs/data.c:996 f2fs_grab_read_bio() warn: variable dereferenced before check 'bio' (see line 995)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/ice/ice_ethtool.c:3736:1-7: preceding lock on line 3711
 
-Old smatch warnings:
-fs/f2fs/data.c:212 f2fs_verify_and_finish_bio() warn: bitwise AND condition is false here
-fs/f2fs/data.c:263 f2fs_post_read_work() warn: bitwise AND condition is false here
-fs/f2fs/data.c:2158 f2fs_read_multi_pages() warn: missing error code 'ret'
+vim +3736 drivers/net/ethernet/intel/ice/ice_ethtool.c
 
-vim +/bio +996 fs/f2fs/data.c
-
-93dfe2ac516250 Jaegeuk Kim             2013-11-30   981  
-13ba41e346170e Jaegeuk Kim             2017-09-06   982  static struct bio *f2fs_grab_read_bio(struct inode *inode, block_t blkaddr,
-95ae251fe82838 Eric Biggers            2019-07-22   983  				      unsigned nr_pages, unsigned op_flag,
-7f59b277f79e8a Eric Biggers            2021-01-04   984  				      pgoff_t first_idx, bool for_write)
-13ba41e346170e Jaegeuk Kim             2017-09-06   985  {
-13ba41e346170e Jaegeuk Kim             2017-09-06   986  	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
-13ba41e346170e Jaegeuk Kim             2017-09-06   987  	struct bio *bio;
-a4b6817625e71d Daeho Jeong             2021-08-20   988  	struct bio_post_read_ctx *ctx = NULL;
-6dbb17961f46b2 Eric Biggers            2018-04-18   989  	unsigned int post_read_steps = 0;
-e8e3f1a12d05d0 Christoph Hellwig       2022-02-28   990  	sector_t sector;
-e8e3f1a12d05d0 Christoph Hellwig       2022-02-28   991  	struct block_device *bdev = f2fs_target_device(sbi, blkaddr, &sector);
-13ba41e346170e Jaegeuk Kim             2017-09-06   992  
-67883ade7a98a7 Christoph Hellwig       2021-01-26   993  	bio = bio_alloc_bioset(for_write ? GFP_NOIO : GFP_KERNEL,
-5f7136db829960 Matthew Wilcox (Oracle  2021-01-29   994) 			       bio_max_segs(nr_pages), &f2fs_bioset);
-e8e3f1a12d05d0 Christoph Hellwig       2022-02-28  @995  	bio_set_dev(bio, bdev);
-6dbb17961f46b2 Eric Biggers            2018-04-18  @996  	if (!bio)
-13ba41e346170e Jaegeuk Kim             2017-09-06   997  		return ERR_PTR(-ENOMEM);
-e8e3f1a12d05d0 Christoph Hellwig       2022-02-28   998  	bio->bi_iter.bi_sector = sector;
-27aacd28ea3b89 Satya Tangirala         2020-07-02   999  	f2fs_set_bio_crypt_ctx(bio, inode, first_idx, NULL, GFP_NOFS);
-13ba41e346170e Jaegeuk Kim             2017-09-06  1000  	bio->bi_end_io = f2fs_read_end_io;
-e2e59414aae2c8 Jaegeuk Kim             2018-06-21  1001  	bio_set_op_attrs(bio, REQ_OP_READ, op_flag);
-13ba41e346170e Jaegeuk Kim             2017-09-06  1002  
-27aacd28ea3b89 Satya Tangirala         2020-07-02  1003  	if (fscrypt_inode_uses_fs_layer_crypto(inode))
-7f59b277f79e8a Eric Biggers            2021-01-04  1004  		post_read_steps |= STEP_DECRYPT;
-7f59b277f79e8a Eric Biggers            2021-01-04  1005  
-7f59b277f79e8a Eric Biggers            2021-01-04  1006  	if (f2fs_need_verity(inode, first_idx))
-7f59b277f79e8a Eric Biggers            2021-01-04  1007  		post_read_steps |= STEP_VERITY;
-7f59b277f79e8a Eric Biggers            2021-01-04  1008  
-7f59b277f79e8a Eric Biggers            2021-01-04  1009  	/*
-7f59b277f79e8a Eric Biggers            2021-01-04  1010  	 * STEP_DECOMPRESS is handled specially, since a compressed file might
-7f59b277f79e8a Eric Biggers            2021-01-04  1011  	 * contain both compressed and uncompressed clusters.  We'll allocate a
-7f59b277f79e8a Eric Biggers            2021-01-04  1012  	 * bio_post_read_ctx if the file is compressed, but the caller is
-7f59b277f79e8a Eric Biggers            2021-01-04  1013  	 * responsible for enabling STEP_DECOMPRESS if it's actually needed.
-7f59b277f79e8a Eric Biggers            2021-01-04  1014  	 */
-95ae251fe82838 Eric Biggers            2019-07-22  1015  
-7f59b277f79e8a Eric Biggers            2021-01-04  1016  	if (post_read_steps || f2fs_compressed_file(inode)) {
-e8ce5749d781ec Eric Biggers            2019-12-31  1017  		/* Due to the mempool, this never fails. */
-6dbb17961f46b2 Eric Biggers            2018-04-18  1018  		ctx = mempool_alloc(bio_post_read_ctx_pool, GFP_NOFS);
-6dbb17961f46b2 Eric Biggers            2018-04-18  1019  		ctx->bio = bio;
-4c8ff7095bef64 Chao Yu                 2019-11-01  1020  		ctx->sbi = sbi;
-6dbb17961f46b2 Eric Biggers            2018-04-18  1021  		ctx->enabled_steps = post_read_steps;
-4931e0c93e1243 Daeho Jeong             2021-07-28  1022  		ctx->fs_blkaddr = blkaddr;
-6dbb17961f46b2 Eric Biggers            2018-04-18  1023  		bio->bi_private = ctx;
-6dbb17961f46b2 Eric Biggers            2018-04-18  1024  	}
-a4b6817625e71d Daeho Jeong             2021-08-20  1025  	iostat_alloc_and_bind_ctx(sbi, bio, ctx);
-6dbb17961f46b2 Eric Biggers            2018-04-18  1026  
-13ba41e346170e Jaegeuk Kim             2017-09-06  1027  	return bio;
-13ba41e346170e Jaegeuk Kim             2017-09-06  1028  }
-13ba41e346170e Jaegeuk Kim             2017-09-06  1029  
-
-:::::: The code at line 996 was first introduced by commit
-:::::: 6dbb17961f46b2eafcea2f2627aabb309553e068 f2fs: refactor read path to allow multiple postprocessing steps
-
-:::::: TO: Eric Biggers <ebiggers@google.com>
-:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
+87324e747fde76 Henry Tieman         2019-11-08  3632  
+87324e747fde76 Henry Tieman         2019-11-08  3633  /**
+87324e747fde76 Henry Tieman         2019-11-08  3634   * ice_set_channels - set the number channels
+87324e747fde76 Henry Tieman         2019-11-08  3635   * @dev: network interface device structure
+87324e747fde76 Henry Tieman         2019-11-08  3636   * @ch: ethtool channel data structure
+87324e747fde76 Henry Tieman         2019-11-08  3637   */
+87324e747fde76 Henry Tieman         2019-11-08  3638  static int ice_set_channels(struct net_device *dev, struct ethtool_channels *ch)
+87324e747fde76 Henry Tieman         2019-11-08  3639  {
+87324e747fde76 Henry Tieman         2019-11-08  3640  	struct ice_netdev_priv *np = netdev_priv(dev);
+87324e747fde76 Henry Tieman         2019-11-08  3641  	struct ice_vsi *vsi = np->vsi;
+87324e747fde76 Henry Tieman         2019-11-08  3642  	struct ice_pf *pf = vsi->back;
+87324e747fde76 Henry Tieman         2019-11-08  3643  	int new_rx = 0, new_tx = 0;
+a6a0974aae4209 Dave Ertman          2023-01-24  3644  	bool locked = false;
+87324e747fde76 Henry Tieman         2019-11-08  3645  	u32 curr_combined;
+a6a0974aae4209 Dave Ertman          2023-01-24  3646  	int ret = 0;
+87324e747fde76 Henry Tieman         2019-11-08  3647  
+87324e747fde76 Henry Tieman         2019-11-08  3648  	/* do not support changing channels in Safe Mode */
+87324e747fde76 Henry Tieman         2019-11-08  3649  	if (ice_is_safe_mode(pf)) {
+87324e747fde76 Henry Tieman         2019-11-08  3650  		netdev_err(dev, "Changing channel in Safe Mode is not supported\n");
+87324e747fde76 Henry Tieman         2019-11-08  3651  		return -EOPNOTSUPP;
+87324e747fde76 Henry Tieman         2019-11-08  3652  	}
+87324e747fde76 Henry Tieman         2019-11-08  3653  	/* do not support changing other_count */
+148beb61203125 Henry Tieman         2020-05-11  3654  	if (ch->other_count != (test_bit(ICE_FLAG_FD_ENA, pf->flags) ? 1U : 0U))
+87324e747fde76 Henry Tieman         2019-11-08  3655  		return -EINVAL;
+87324e747fde76 Henry Tieman         2019-11-08  3656  
+fbc7b27af0f9fb Kiran Patil          2021-10-15  3657  	if (ice_is_adq_active(pf)) {
+fbc7b27af0f9fb Kiran Patil          2021-10-15  3658  		netdev_err(dev, "Cannot set channels with ADQ configured.\n");
+fbc7b27af0f9fb Kiran Patil          2021-10-15  3659  		return -EOPNOTSUPP;
+fbc7b27af0f9fb Kiran Patil          2021-10-15  3660  	}
+fbc7b27af0f9fb Kiran Patil          2021-10-15  3661  
+148beb61203125 Henry Tieman         2020-05-11  3662  	if (test_bit(ICE_FLAG_FD_ENA, pf->flags) && pf->hw.fdir_active_fltr) {
+148beb61203125 Henry Tieman         2020-05-11  3663  		netdev_err(dev, "Cannot set channels when Flow Director filters are active\n");
+148beb61203125 Henry Tieman         2020-05-11  3664  		return -EOPNOTSUPP;
+148beb61203125 Henry Tieman         2020-05-11  3665  	}
+148beb61203125 Henry Tieman         2020-05-11  3666  
+87324e747fde76 Henry Tieman         2019-11-08  3667  	curr_combined = ice_get_combined_cnt(vsi);
+87324e747fde76 Henry Tieman         2019-11-08  3668  
+87324e747fde76 Henry Tieman         2019-11-08  3669  	/* these checks are for cases where user didn't specify a particular
+87324e747fde76 Henry Tieman         2019-11-08  3670  	 * value on cmd line but we get non-zero value anyway via
+87324e747fde76 Henry Tieman         2019-11-08  3671  	 * get_channels(); look at ethtool.c in ethtool repository (the user
+87324e747fde76 Henry Tieman         2019-11-08  3672  	 * space part), particularly, do_schannels() routine
+87324e747fde76 Henry Tieman         2019-11-08  3673  	 */
+87324e747fde76 Henry Tieman         2019-11-08  3674  	if (ch->rx_count == vsi->num_rxq - curr_combined)
+87324e747fde76 Henry Tieman         2019-11-08  3675  		ch->rx_count = 0;
+87324e747fde76 Henry Tieman         2019-11-08  3676  	if (ch->tx_count == vsi->num_txq - curr_combined)
+87324e747fde76 Henry Tieman         2019-11-08  3677  		ch->tx_count = 0;
+87324e747fde76 Henry Tieman         2019-11-08  3678  	if (ch->combined_count == curr_combined)
+87324e747fde76 Henry Tieman         2019-11-08  3679  		ch->combined_count = 0;
+87324e747fde76 Henry Tieman         2019-11-08  3680  
+87324e747fde76 Henry Tieman         2019-11-08  3681  	if (!(ch->combined_count || (ch->rx_count && ch->tx_count))) {
+87324e747fde76 Henry Tieman         2019-11-08  3682  		netdev_err(dev, "Please specify at least 1 Rx and 1 Tx channel\n");
+87324e747fde76 Henry Tieman         2019-11-08  3683  		return -EINVAL;
+87324e747fde76 Henry Tieman         2019-11-08  3684  	}
+87324e747fde76 Henry Tieman         2019-11-08  3685  
+87324e747fde76 Henry Tieman         2019-11-08  3686  	new_rx = ch->combined_count + ch->rx_count;
+87324e747fde76 Henry Tieman         2019-11-08  3687  	new_tx = ch->combined_count + ch->tx_count;
+87324e747fde76 Henry Tieman         2019-11-08  3688  
+a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3689  	if (new_rx < vsi->tc_cfg.numtc) {
+a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3690  		netdev_err(dev, "Cannot set less Rx channels, than Traffic Classes you have (%u)\n",
+a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3691  			   vsi->tc_cfg.numtc);
+a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3692  		return -EINVAL;
+a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3693  	}
+a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3694  	if (new_tx < vsi->tc_cfg.numtc) {
+a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3695  		netdev_err(dev, "Cannot set less Tx channels, than Traffic Classes you have (%u)\n",
+a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3696  			   vsi->tc_cfg.numtc);
+a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3697  		return -EINVAL;
+a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3698  	}
+87324e747fde76 Henry Tieman         2019-11-08  3699  	if (new_rx > ice_get_max_rxq(pf)) {
+87324e747fde76 Henry Tieman         2019-11-08  3700  		netdev_err(dev, "Maximum allowed Rx channels is %d\n",
+87324e747fde76 Henry Tieman         2019-11-08  3701  			   ice_get_max_rxq(pf));
+87324e747fde76 Henry Tieman         2019-11-08  3702  		return -EINVAL;
+87324e747fde76 Henry Tieman         2019-11-08  3703  	}
+87324e747fde76 Henry Tieman         2019-11-08  3704  	if (new_tx > ice_get_max_txq(pf)) {
+87324e747fde76 Henry Tieman         2019-11-08  3705  		netdev_err(dev, "Maximum allowed Tx channels is %d\n",
+87324e747fde76 Henry Tieman         2019-11-08  3706  			   ice_get_max_txq(pf));
+87324e747fde76 Henry Tieman         2019-11-08  3707  		return -EINVAL;
+87324e747fde76 Henry Tieman         2019-11-08  3708  	}
+87324e747fde76 Henry Tieman         2019-11-08  3709  
+a6a0974aae4209 Dave Ertman          2023-01-24  3710  	if (pf->adev) {
+a6a0974aae4209 Dave Ertman          2023-01-24 @3711  		mutex_lock(&pf->adev_mutex);
+a6a0974aae4209 Dave Ertman          2023-01-24  3712  		device_lock(&pf->adev->dev);
+a6a0974aae4209 Dave Ertman          2023-01-24  3713  		locked = true;
+a6a0974aae4209 Dave Ertman          2023-01-24  3714  		if (pf->adev->dev.driver) {
+a6a0974aae4209 Dave Ertman          2023-01-24  3715  			netdev_err(dev, "Cannot change channels when RDMA is active\n");
+a6a0974aae4209 Dave Ertman          2023-01-24  3716  			ret = -EBUSY;
+a6a0974aae4209 Dave Ertman          2023-01-24  3717  			goto adev_unlock;
+a6a0974aae4209 Dave Ertman          2023-01-24  3718  		}
+a6a0974aae4209 Dave Ertman          2023-01-24  3719  	}
+a6a0974aae4209 Dave Ertman          2023-01-24  3720  
+a6a0974aae4209 Dave Ertman          2023-01-24  3721  	ice_vsi_recfg_qs(vsi, new_rx, new_tx, locked);
+87324e747fde76 Henry Tieman         2019-11-08  3722  
+a6a0974aae4209 Dave Ertman          2023-01-24  3723  	if (!netif_is_rxfh_configured(dev)) {
+a6a0974aae4209 Dave Ertman          2023-01-24  3724  		ret = ice_vsi_set_dflt_rss_lut(vsi, new_rx);
+a6a0974aae4209 Dave Ertman          2023-01-24  3725  		goto adev_unlock;
+a6a0974aae4209 Dave Ertman          2023-01-24  3726  	}
+87324e747fde76 Henry Tieman         2019-11-08  3727  
+0393e46ac48a68 Henry Tieman         2020-12-03  3728  	/* Update rss_size due to change in Rx queues */
+0393e46ac48a68 Henry Tieman         2020-12-03  3729  	vsi->rss_size = ice_get_valid_rss_size(&pf->hw, new_rx);
+0393e46ac48a68 Henry Tieman         2020-12-03  3730  
+a6a0974aae4209 Dave Ertman          2023-01-24  3731  adev_unlock:
+a6a0974aae4209 Dave Ertman          2023-01-24  3732  	if (locked) {
+a6a0974aae4209 Dave Ertman          2023-01-24  3733  		device_unlock(&pf->adev->dev);
+a6a0974aae4209 Dave Ertman          2023-01-24  3734  		mutex_unlock(&pf->adev_mutex);
+a6a0974aae4209 Dave Ertman          2023-01-24  3735  	}
+a6a0974aae4209 Dave Ertman          2023-01-24 @3736  	return ret;
+87324e747fde76 Henry Tieman         2019-11-08  3737  }
+87324e747fde76 Henry Tieman         2019-11-08  3738  
 
 -- 
 0-DAY CI Kernel Test Service
