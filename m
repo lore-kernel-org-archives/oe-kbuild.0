@@ -1,63 +1,56 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD31107B3
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Dec 2023 05:33:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B44D10793
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Dec 2023 05:36:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pods5RY2"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40c09f4814eso8097185e9.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 06 Dec 2023 21:33:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zKjiO1+5"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3334a701cbbso575601f8f.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 06 Dec 2023 21:36:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701927214; x=1702532014; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1701927393; x=1702532193; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aDh5Ha6meMpNT5PZvdiFsf/a/63SoEjRN6VfIgk3fbs=;
-        b=pods5RY2QsZQ9Y+BXoD2I8LlABv4KAP5lLb5yjNz/Atkd6q8nti5ZD/upropCLc97e
-         W2uohe6TYi88oNWnAgLHmGH6/Bd9HIjmGGdXv1J7ndPaqp2ZmGvv+7ikLpxvCmw7jT0N
-         s/kQyn1pK0C7zoDk+84pW7HCykGMGHcHgYiBG70fKXLzHmsOut9idfhqT9Fy1ZG3FPee
-         3MeJJutWjt2vq/ESlsFCVeNP+d1Q8h73lZBdHFf9sehn10LlblcvoN6+22R+78c7I9t/
-         kyARmpbTwneB2gz9cm/yVub3xGZqWuDhJ91g1hcyd9keLud5zjNP5kXgESCdkw4Fud30
-         Y2Gg==
+        bh=pKKdA0pKK+DStB7nNq/u7uQgrp7qgpRk20DuhU/uuFw=;
+        b=zKjiO1+5J66LMTiHmBw35Oe6GeUlg+w8HkrOkLNGQ0vuKVRXmp489ydAxQEiQdH6RZ
+         6zmCs+xvDhr/q2+HESuvasOVFNkpmrVZTJsZP5+6NizcovmrMc3ou6SfXO5Xz3dc34mQ
+         pp67oJD5FAy1TTQ8xhRJOFiJpVFMmpLEEitbQr3CWJaiUMcOfZYmuUiHDbtCyeynTDuh
+         LsmllZ3Nc5tnDM1tSZYdW40vwOEGd+L/LvId+N+Nr8yICPHw1dngUDvnlwlzb8ZvE61z
+         UGz7s7889saJcgnfHj9s+zaWYNmxrqFZOGFlxJ8wsXM3hh8e16JFXQmNXnfibwxkjWKw
+         g+yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701927214; x=1702532014;
+        d=1e100.net; s=20230601; t=1701927393; x=1702532193;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aDh5Ha6meMpNT5PZvdiFsf/a/63SoEjRN6VfIgk3fbs=;
-        b=DV6+ivOJCrTKDps7xt+QvXmeYkHS5xyAY4hACbjUqLSb7LbO1/0M0wTtO05mONRueG
-         V+O0l69dWY1F9+Nc4jUybkAc16ScLGFdvSzFqtOFdBWhpiBqz3pFdPsSNsdMCeOiAOIF
-         m+ebb4awC7LU1UYLMiBv0vJ/UTAFOfg31yy0LnkSUwZgbWok/9yVyMoGWE+XulbuKM/L
-         qezboVKb3T9S8fv7KjuOq9/WeAbo4RLMy7WplUQLorzt/OVoY8odOZjKgBo9a8CL5oPj
-         OXuD22aV0Gdn5JEjb7S8qeXyYiIGhQBJ5KNI90taPoDjP9X7py0SCFq7f5iHE2pR2LcR
-         csaw==
-X-Gm-Message-State: AOJu0YwCyHwTxpqUumAKkiONT/gdI48hbcW+eQ6FlP8TXt8iJRAedPdp
-	PW5KelliA6QftPPXeFrOJTcstPVhl5b59xKk0yo=
-X-Google-Smtp-Source: AGHT+IGRMzw6ole/sY4x+aWmyT5JGTFS7U8esyxKHbhMcm0/ifnMUpQvK3RimMuKBvFeDdeF9e+gqQ==
-X-Received: by 2002:a7b:c4c9:0:b0:40b:5e21:dd2b with SMTP id g9-20020a7bc4c9000000b0040b5e21dd2bmr1280861wmk.89.1701927213762;
-        Wed, 06 Dec 2023 21:33:33 -0800 (PST)
+        bh=pKKdA0pKK+DStB7nNq/u7uQgrp7qgpRk20DuhU/uuFw=;
+        b=fs/w6//2AhHNzNaUko0HcqW5GO9q7P9HC8q39bygj9NwBWDE36H7NCDpFx5mC04eMe
+         tHP+F4bZDwakxCcYY7TMCpFLAS0gT/ZX+MMwhq5T7hOZvRDrJ6lr8PIpDdvhGk7p4h7F
+         v2SHqffzefVQFk9Md+yFIPSpTi7SoGB3xyakCVKL6nju8rieuaO8GGXHSczjWaqousiv
+         T5QvfKiPIOl3e/goCLOt8AKt+0xTUv7aRuJh4qi/g4b2yfhIduikNkkA2aV7htACDO8e
+         /FP6aLtz0qJ5GSGhbcMFfBkU8jSWjysHIaDQRrEEL8ys7GP6bYcSWY5Tv0K+TUMi3fKv
+         1b9w==
+X-Gm-Message-State: AOJu0YwiVRjfTbNmWCqhTNUswkJCjpHIjh0k8Ykw3NZU04CKSdmKhQGk
+	laE3xQBlYSrmy1hipOHWYaGZ9seIrnJfVX4RMY0=
+X-Google-Smtp-Source: AGHT+IFi4HIRN2UiPOlet45ZbrWakGrgFmno6Br4elP7b/KXXWCQQutIbrMJ218FpN9charPtkQYMQ==
+X-Received: by 2002:a05:600c:458d:b0:40a:45ff:fd69 with SMTP id r13-20020a05600c458d00b0040a45fffd69mr856572wmo.19.1701927393055;
+        Wed, 06 Dec 2023 21:36:33 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id z17-20020a5d4c91000000b003333abf3edfsm459345wrs.47.2023.12.06.21.33.32
+        by smtp.gmail.com with ESMTPSA id r8-20020a05600c458800b0040b3867a297sm617806wmo.36.2023.12.06.21.36.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 21:33:33 -0800 (PST)
-Date: Thu, 7 Dec 2023 08:33:30 +0300
+        Wed, 06 Dec 2023 21:36:32 -0800 (PST)
+Date: Thu, 7 Dec 2023 08:36:29 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Lev Pantiukhin <kndrvt@yandex-team.ru>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, mitradir@yandex-team.ru,
-	Lev Pantiukhin <kndrvt@yandex-team.ru>,
-	Simon Horman <horms@verge.net.au>, Julian Anastasov <ja@ssi.bg>,
-	David Ahern <dsahern@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Florian Westphal <fw@strlen.de>, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, lvs-devel@vger.kernel.org,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Subject: Re: [PATCH] ipvs: add a stateless type of service and a stateless
- Maglev hashing scheduler
-Message-ID: <db2f0650-6e23-457f-bc5c-f9da0047f37d@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, Daniel Wagner <dwagner@suse.de>,
+	linux-nvme@lists.infradead.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>
+Subject: Re: [PATCH v3 3/4] nvme: move ns id info to struct nvme_ns_head
+Message-ID: <9877974d-3943-42e6-b89b-cd2704cdf20d@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,177 +59,117 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231204152020.472247-1-kndrvt@yandex-team.ru>
+In-Reply-To: <20231206081244.32733-4-dwagner@suse.de>
 
-Hi Lev,
+Hi Daniel,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lev-Pantiukhin/ipvs-add-a-stateless-type-of-service-and-a-stateless-Maglev-hashing-scheduler/20231204-232344
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs-next.git master
-patch link:    https://lore.kernel.org/r/20231204152020.472247-1-kndrvt%40yandex-team.ru
-patch subject: [PATCH] ipvs: add a stateless type of service and a stateless Maglev hashing scheduler
-config: i386-randconfig-141-20231207 (https://download.01.org/0day-ci/archive/20231207/202312070849.i9gwwSH0-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/nvme-lookup-ctrl-from-request-instead-from-namespace/20231206-161455
+base:   v6.7-rc4
+patch link:    https://lore.kernel.org/r/20231206081244.32733-4-dwagner%40suse.de
+patch subject: [PATCH v3 3/4] nvme: move ns id info to struct nvme_ns_head
+config: i386-randconfig-141-20231207 (https://download.01.org/0day-ci/archive/20231207/202312071105.jkXzp8v9-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231207/202312070849.i9gwwSH0-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231207/202312071105.jkXzp8v9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312070849.i9gwwSH0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312071105.jkXzp8v9-lkp@intel.com/
 
-New smatch warnings:
-net/netfilter/ipvs/ip_vs_core.c:545 ip_vs_schedule() error: uninitialized symbol 'need_state'.
+smatch warnings:
+drivers/nvme/target/passthru.c:354 nvmet_passthru_execute_cmd() warn: variable dereferenced before check 'ns' (see line 342)
 
-vim +/need_state +545 net/netfilter/ipvs/ip_vs_core.c
+vim +/ns +354 drivers/nvme/target/passthru.c
 
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  440  struct ip_vs_conn *
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  441  ip_vs_schedule(struct ip_vs_service *svc, struct sk_buff *skb,
-d4383f04d145cc net/netfilter/ipvs/ip_vs_core.c Jesper Dangaard Brouer 2012-09-26  442  	       struct ip_vs_proto_data *pd, int *ignored,
-d4383f04d145cc net/netfilter/ipvs/ip_vs_core.c Jesper Dangaard Brouer 2012-09-26  443  	       struct ip_vs_iphdr *iph)
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  444  {
-9330419d9aa4f9 net/netfilter/ipvs/ip_vs_core.c Hans Schillstrom       2011-01-03  445  	struct ip_vs_protocol *pp = pd->pp;
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  446  	struct ip_vs_conn *cp = NULL;
-ceec4c38168184 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2013-03-22  447  	struct ip_vs_scheduler *sched;
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  448  	struct ip_vs_dest *dest;
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  449  	__be16 _ports[2], *pptr, cport, vport;
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  450  	const void *caddr, *vaddr;
-3575792e005dc9 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-09-17  451  	unsigned int flags;
-b276d504bee439 net/netfilter/ipvs/ip_vs_core.c Lev Pantiukhin         2023-12-04  452  	bool need_state;
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  453  
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  454  	*ignored = 1;
-2f74713d1436b7 net/netfilter/ipvs/ip_vs_core.c Jesper Dangaard Brouer 2012-09-26  455  	/*
-2f74713d1436b7 net/netfilter/ipvs/ip_vs_core.c Jesper Dangaard Brouer 2012-09-26  456  	 * IPv6 frags, only the first hit here.
-2f74713d1436b7 net/netfilter/ipvs/ip_vs_core.c Jesper Dangaard Brouer 2012-09-26  457  	 */
-6b3d933000cbe5 net/netfilter/ipvs/ip_vs_core.c Gao Feng               2017-11-13  458  	pptr = frag_safe_skb_hp(skb, iph->len, sizeof(_ports), _ports);
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  459  	if (pptr == NULL)
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  460  		return NULL;
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  461  
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  462  	if (likely(!ip_vs_iph_inverse(iph))) {
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  463  		cport = pptr[0];
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  464  		caddr = &iph->saddr;
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  465  		vport = pptr[1];
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  466  		vaddr = &iph->daddr;
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  467  	} else {
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  468  		cport = pptr[1];
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  469  		caddr = &iph->daddr;
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  470  		vport = pptr[0];
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  471  		vaddr = &iph->saddr;
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  472  	}
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  473  
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  474  	/*
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  475  	 * FTPDATA needs this check when using local real server.
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  476  	 * Never schedule Active FTPDATA connections from real server.
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  477  	 * For LVS-NAT they must be already created. For other methods
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  478  	 * with persistence the connection is created on SYN+ACK.
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  479  	 */
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  480  	if (cport == FTPDATA) {
-b0e010c527de74 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  481  		IP_VS_DBG_PKT(12, svc->af, pp, skb, iph->off,
-0d79641a96d612 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  482  			      "Not scheduling FTPDATA");
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  483  		return NULL;
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  484  	}
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  485  
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  486  	/*
-a5959d53d6048a net/netfilter/ipvs/ip_vs_core.c Hans Schillstrom       2010-11-19  487  	 *    Do not schedule replies from local real server.
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  488  	 */
-802c41adcf3be6 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  489  	if ((!skb->dev || skb->dev->flags & IFF_LOOPBACK)) {
-802c41adcf3be6 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  490  		iph->hdr_flags ^= IP_VS_HDR_INVERSE;
-6ecd754883daff net/netfilter/ipvs/ip_vs_core.c Matteo Croce           2019-01-19  491  		cp = INDIRECT_CALL_1(pp->conn_in_get,
-6ecd754883daff net/netfilter/ipvs/ip_vs_core.c Matteo Croce           2019-01-19  492  				     ip_vs_conn_in_get_proto, svc->ipvs,
-6ecd754883daff net/netfilter/ipvs/ip_vs_core.c Matteo Croce           2019-01-19  493  				     svc->af, skb, iph);
-802c41adcf3be6 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  494  		iph->hdr_flags ^= IP_VS_HDR_INVERSE;
-802c41adcf3be6 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  495  
-802c41adcf3be6 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  496  		if (cp) {
-b0e010c527de74 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  497  			IP_VS_DBG_PKT(12, svc->af, pp, skb, iph->off,
-802c41adcf3be6 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  498  				      "Not scheduling reply for existing"
-802c41adcf3be6 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  499  				      " connection");
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  500  			__ip_vs_conn_put(cp);
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  501  			return NULL;
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  502  		}
-802c41adcf3be6 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  503  	}
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  504  
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  505  	/*
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  506  	 *    Persistent service
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  507  	 */
-a5959d53d6048a net/netfilter/ipvs/ip_vs_core.c Hans Schillstrom       2010-11-19  508  	if (svc->flags & IP_VS_SVC_F_PERSISTENT)
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  509  		return ip_vs_sched_persist(svc, skb, cport, vport, ignored,
-d4383f04d145cc net/netfilter/ipvs/ip_vs_core.c Jesper Dangaard Brouer 2012-09-26  510  					   iph);
-a5959d53d6048a net/netfilter/ipvs/ip_vs_core.c Hans Schillstrom       2010-11-19  511  
-190ecd27cd7294 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2010-10-17  512  	*ignored = 0;
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  513  
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  514  	/*
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  515  	 *    Non-persistent service
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  516  	 */
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  517  	if (!svc->fwmark && vport != svc->port) {
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  518  		if (!svc->port)
-1e3e238e9c4bf9 net/netfilter/ipvs/ip_vs_core.c Hannes Eder            2009-08-02  519  			pr_err("Schedule: port zero only supported "
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  520  			       "in persistent services, "
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  521  			       "check your ipvs configuration\n");
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  522  		return NULL;
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  523  	}
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  524  
-ceec4c38168184 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2013-03-22  525  	sched = rcu_dereference(svc->scheduler);
-05f00505a89acd net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2015-06-29  526  	if (sched) {
-05f00505a89acd net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2015-06-29  527  		/* read svc->sched_data after svc->scheduler */
-05f00505a89acd net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2015-06-29  528  		smp_rmb();
-b276d504bee439 net/netfilter/ipvs/ip_vs_core.c Lev Pantiukhin         2023-12-04  529  		/* we use distinct handler for stateless service */
-b276d504bee439 net/netfilter/ipvs/ip_vs_core.c Lev Pantiukhin         2023-12-04  530  		if (svc->flags & IP_VS_SVC_F_STATELESS)
-b276d504bee439 net/netfilter/ipvs/ip_vs_core.c Lev Pantiukhin         2023-12-04  531  			dest = sched->schedule_sl(svc, skb, iph, &need_state);
-b276d504bee439 net/netfilter/ipvs/ip_vs_core.c Lev Pantiukhin         2023-12-04  532  		else
-bba54de5bdd107 net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2013-06-16  533  			dest = sched->schedule(svc, skb, iph);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  292  static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  293  {
+ab7a2737ac5acd Christoph Hellwig  2021-08-27  294  	struct nvme_ctrl *ctrl = nvmet_req_subsys(req)->passthru_ctrl;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  295  	struct request_queue *q = ctrl->admin_q;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  296  	struct nvme_ns *ns = NULL;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  297  	struct request *rq = NULL;
+47e9730c26a4a5 Chaitanya Kulkarni 2020-11-09  298  	unsigned int timeout;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  299  	u32 effects;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  300  	u16 status;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  301  	int ret;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  302  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  303  	if (likely(req->sq->qid != 0)) {
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  304  		u32 nsid = le32_to_cpu(req->cmd->common.nsid);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  305  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  306  		ns = nvme_find_get_ns(ctrl, nsid);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  307  		if (unlikely(!ns)) {
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  308  			pr_err("failed to get passthru ns nsid:%u\n", nsid);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  309  			status = NVME_SC_INVALID_NS | NVME_SC_DNR;
+4db69a3d7cfe31 Chaitanya Kulkarni 2020-08-06  310  			goto out;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  311  		}
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  312  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  313  		q = ns->queue;
+20c2c3bb83f26c Chaitanya Kulkarni 2021-02-09  314  		timeout = nvmet_req_subsys(req)->io_timeout;
+a2f6a2b8ce43db Chaitanya Kulkarni 2020-11-09  315  	} else {
+20c2c3bb83f26c Chaitanya Kulkarni 2021-02-09  316  		timeout = nvmet_req_subsys(req)->admin_timeout;
 
-need_state not initialized on this path
+ns is NULL here
 
-05f00505a89acd net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2015-06-29  534  	} else {
-05f00505a89acd net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2015-06-29  535  		dest = NULL;
-05f00505a89acd net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2015-06-29  536  	}
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  537  	if (dest == NULL) {
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  538  		IP_VS_DBG(1, "Schedule: no dest found.\n");
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  539  		return NULL;
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  540  	}
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  541  
-b276d504bee439 net/netfilter/ipvs/ip_vs_core.c Lev Pantiukhin         2023-12-04  542  	/* We use IP_VS_SVC_F_ONEPACKET flag to create no state */
-b276d504bee439 net/netfilter/ipvs/ip_vs_core.c Lev Pantiukhin         2023-12-04  543  	flags = ((svc->flags & IP_VS_SVC_F_ONEPACKET &&
-b276d504bee439 net/netfilter/ipvs/ip_vs_core.c Lev Pantiukhin         2023-12-04  544  		  iph->protocol == IPPROTO_UDP) ||
-b276d504bee439 net/netfilter/ipvs/ip_vs_core.c Lev Pantiukhin         2023-12-04 @545  		 (svc->flags & IP_VS_SVC_F_STATELESS && !need_state))
-                                                                                                                                         ^^^^^^^^^^
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  317  	}
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  318  
+e559398f47e090 Christoph Hellwig  2022-03-15  319  	rq = blk_mq_alloc_request(q, nvme_req_op(req->cmd), 0);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  320  	if (IS_ERR(rq)) {
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  321  		status = NVME_SC_INTERNAL;
+4db69a3d7cfe31 Chaitanya Kulkarni 2020-08-06  322  		goto out_put_ns;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  323  	}
+e559398f47e090 Christoph Hellwig  2022-03-15  324  	nvme_init_request(rq, req->cmd);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  325  
+a2f6a2b8ce43db Chaitanya Kulkarni 2020-11-09  326  	if (timeout)
+a2f6a2b8ce43db Chaitanya Kulkarni 2020-11-09  327  		rq->timeout = timeout;
+a2f6a2b8ce43db Chaitanya Kulkarni 2020-11-09  328  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  329  	if (req->sg_cnt) {
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  330  		ret = nvmet_passthru_map_sg(req, rq);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  331  		if (unlikely(ret)) {
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  332  			status = NVME_SC_INTERNAL;
+a2138fd49467d0 Chaitanya Kulkarni 2020-08-06  333  			goto out_put_req;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  334  		}
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  335  	}
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  336  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  337  	/*
+2a459f6933e1c4 Christoph Hellwig  2022-12-21  338  	 * If a command needs post-execution fixups, or there are any
+2a459f6933e1c4 Christoph Hellwig  2022-12-21  339  	 * non-trivial effects, make sure to execute the command synchronously
+2a459f6933e1c4 Christoph Hellwig  2022-12-21  340  	 * in a workqueue so that nvme_passthru_end gets called.
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  341  	 */
+a754bb00c0d393 Daniel Wagner      2023-12-06 @342  	effects = nvme_command_effects(ctrl, ns->head, req->cmd->common.opcode);
+                                                                                             ^^^^^^^^
+Unchecked dereference
 
-b276d504bee439 net/netfilter/ipvs/ip_vs_core.c Lev Pantiukhin         2023-12-04  546  		? IP_VS_CONN_F_ONE_PACKET : 0;
-26ec037f9841e4 net/netfilter/ipvs/ip_vs_core.c Nick Chalk             2010-06-22  547  
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  548  	/*
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  549  	 *    Create a connection entry.
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  550  	 */
-f11017ec2d1859 net/netfilter/ipvs/ip_vs_core.c Simon Horman           2010-08-22  551  	{
-f11017ec2d1859 net/netfilter/ipvs/ip_vs_core.c Simon Horman           2010-08-22  552  		struct ip_vs_conn_param p;
-6e67e586e7289c net/netfilter/ipvs/ip_vs_core.c Hans Schillstrom       2011-01-03  553  
-3109d2f2d1fe06 net/netfilter/ipvs/ip_vs_core.c Eric W. Biederman      2015-09-21  554  		ip_vs_conn_fill_param(svc->ipvs, svc->af, iph->protocol,
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  555  				      caddr, cport, vaddr, vport, &p);
-ba38528aae6ee2 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2014-09-09  556  		cp = ip_vs_conn_new(&p, dest->af, &dest->addr,
-ee78378f976488 net/netfilter/ipvs/ip_vs_core.c Alex Gartrell          2015-08-26  557  				    dest->port ? dest->port : vport,
-0e051e683ba4ac net/netfilter/ipvs/ip_vs_core.c Hans Schillstrom       2010-11-19  558  				    flags, dest, skb->mark);
-a5959d53d6048a net/netfilter/ipvs/ip_vs_core.c Hans Schillstrom       2010-11-19  559  		if (!cp) {
-a5959d53d6048a net/netfilter/ipvs/ip_vs_core.c Hans Schillstrom       2010-11-19  560  			*ignored = -1;
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  561  			return NULL;
-f11017ec2d1859 net/netfilter/ipvs/ip_vs_core.c Simon Horman           2010-08-22  562  		}
-a5959d53d6048a net/netfilter/ipvs/ip_vs_core.c Hans Schillstrom       2010-11-19  563  	}
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  564  
-cd17f9ed099ed2 net/ipv4/ipvs/ip_vs_core.c      Julius Volz            2008-09-02  565  	IP_VS_DBG_BUF(6, "Schedule fwd:%c c:%s:%u v:%s:%u "
-cd17f9ed099ed2 net/ipv4/ipvs/ip_vs_core.c      Julius Volz            2008-09-02  566  		      "d:%s:%u conn->flags:%X conn->refcnt:%d\n",
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  567  		      ip_vs_fwd_tag(cp),
-f18ae7206eaebf net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2014-09-09  568  		      IP_VS_DBG_ADDR(cp->af, &cp->caddr), ntohs(cp->cport),
-f18ae7206eaebf net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2014-09-09  569  		      IP_VS_DBG_ADDR(cp->af, &cp->vaddr), ntohs(cp->vport),
-f18ae7206eaebf net/netfilter/ipvs/ip_vs_core.c Julian Anastasov       2014-09-09  570  		      IP_VS_DBG_ADDR(cp->daf, &cp->daddr), ntohs(cp->dport),
-b54ab92b84b616 net/netfilter/ipvs/ip_vs_core.c Reshetova, Elena       2017-03-16  571  		      cp->flags, refcount_read(&cp->refcnt));
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  572  
-b276d504bee439 net/netfilter/ipvs/ip_vs_core.c Lev Pantiukhin         2023-12-04  573  	if (!(svc->flags & IP_VS_SVC_F_STATELESS) ||
-b276d504bee439 net/netfilter/ipvs/ip_vs_core.c Lev Pantiukhin         2023-12-04  574  	    (svc->flags & IP_VS_SVC_F_STATELESS && need_state)) {
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  575  		ip_vs_conn_stats(cp, svc);
-b276d504bee439 net/netfilter/ipvs/ip_vs_core.c Lev Pantiukhin         2023-12-04  576  	}
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  577  	return cp;
-^1da177e4c3f41 net/ipv4/ipvs/ip_vs_core.c      Linus Torvalds         2005-04-16  578  }
+2a459f6933e1c4 Christoph Hellwig  2022-12-21  343  	if (req->p.use_workqueue ||
+2a459f6933e1c4 Christoph Hellwig  2022-12-21  344  	    (effects & ~(NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC))) {
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  345  		INIT_WORK(&req->p.work, nvmet_passthru_execute_cmd_work);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  346  		req->p.rq = rq;
+8832cf922151e9 Sagi Grimberg      2022-03-21  347  		queue_work(nvmet_wq, &req->p.work);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  348  	} else {
+e2e530867245d0 Christoph Hellwig  2022-05-24  349  		rq->end_io = nvmet_passthru_req_done;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  350  		rq->end_io_data = req;
+e2e530867245d0 Christoph Hellwig  2022-05-24  351  		blk_execute_rq_nowait(rq, false);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  352  	}
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  353  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24 @354  	if (ns)
+
+The rest of the code checks
+
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  355  		nvme_put_ns(ns);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  356  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  357  	return;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  358  
+a2138fd49467d0 Chaitanya Kulkarni 2020-08-06  359  out_put_req:
+7ee51cf60a90c2 Chaitanya Kulkarni 2020-08-06  360  	blk_mq_free_request(rq);
+4db69a3d7cfe31 Chaitanya Kulkarni 2020-08-06  361  out_put_ns:
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  362  	if (ns)
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  363  		nvme_put_ns(ns);
+4db69a3d7cfe31 Chaitanya Kulkarni 2020-08-06  364  out:
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  365  	nvmet_req_complete(req, status);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  366  }
 
 -- 
 0-DAY CI Kernel Test Service
