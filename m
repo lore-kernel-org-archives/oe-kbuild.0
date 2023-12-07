@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFEA1118B
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Dec 2023 09:03:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552B139AF8
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Dec 2023 12:02:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iqV24pI7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MCg6rWFG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701939809; x=1733475809;
+  t=1701950567; x=1733486567;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7aYmSOkMdtiUPincr40NdigVJ3AwKm2LJY6OgXb5qmo=;
-  b=iqV24pI7JKbYeV5qcYdgcFQrrSYKCYWvQTtM+Azyi+m0qKlu33mD15Ak
-   qMof4Qxok9N/LHIn0wybE6AkMO0wAvExuejXG8Dl7z//jr1FHTgiUwvFa
-   QeDkFFlpPrl3Vzq1eESEsjiQzNvcAxp34kZAAkqHft/bOpJ9CeZjU6xgt
-   h0AFtkUr/2Z7JIZWe3PH/dIELPpDD30jtEz7wkf7Ty12UFiVPGd3H7gor
-   6zebhi8yYKlfXXN6KlccXVI1fD0qOVJGDbg4w9n4dJU+htzK48VDB0kCg
-   LiR/CwxmT9xYKMBxj+6PsZi9wO8FkBHHOgb0uhBEqxpylK9WvNFbhVbuN
+  bh=DRPIjpI6XQUiFpggGfxkViMUZvCVRSZQVfeNCbJTnF8=;
+  b=MCg6rWFGbzz1mnXwouGe1/m/xsiPR5lBvpcICMQ6QOCixYlQPqI16iz8
+   UtGz7FAvPk6NY+ibTS5W+VfLC+tlhKXkYZLHi930tJ1KHpgEJ7OWtiX1z
+   QmY8tSpjhUbp2GQef+R91lhf6L+nYOaUwY9Xlvd2NPG89fj4S1qSeBGKS
+   quyXFub4HyfYcKln3I1DMpAWqPn5T0f8XDwauEa4dmRNBsDnGd8Jsi+fG
+   N/IECjckJgC5huDd0ghYBpuB6NPxEYnOWJNc/0x5fdvRD9lvJWmUsHZqg
+   k1tOkF5MFlboc+2GDkA56DQQUpfNKL4AQt9JllTKJ50NDhYtxga++BfJy
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="373689123"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="12933449"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="373689123"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 01:03:21 -0800
+   d="scan'208";a="12933449"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 04:02:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="944963900"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="1103177250"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="944963900"
+   d="scan'208";a="1103177250"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 07 Dec 2023 01:03:19 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 07 Dec 2023 04:02:36 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBAHt-000C0I-2F;
-	Thu, 07 Dec 2023 09:03:17 +0000
-Date: Thu, 7 Dec 2023 17:02:58 +0800
+	id 1rBD5O-000CCQ-0D;
+	Thu, 07 Dec 2023 12:02:34 +0000
+Date: Thu, 7 Dec 2023 20:01:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/net/ethernet/intel/ice/ice_ethtool.c:3736:1-7: preceding
- lock on line 3711
-Message-ID: <202312071624.LCUQ6axJ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/clk/uniphier/clk-uniphier-mux.c:47
+ uniphier_clk_mux_get_parent() warn: signedness bug returning '(-22)'
+Message-ID: <202312071952.FwhcjVT4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,137 +53,61 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Dave Ertman <david.m.ertman@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+TO: Dragos Bogdan <dragos.bogdan@analog.com>
+CC: Ley Foon Tan <ley.foon.tan@intel.com>
+CC: Beniamin Bia <beniamin.bia@analog.com>
+
+Hi Dragos,
+
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: a6a0974aae4209d039ba81226ded5246eea14961 ice: Prevent set_channel from changing queues while RDMA active
-date:   10 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-102-20231207 (https://download.01.org/0day-ci/archive/20231207/202312071624.LCUQ6axJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231207/202312071624.LCUQ6axJ-lkp@intel.com/reproduce)
+commit: f26e433185cb2830b933df3a4d378558fe2fccd9 arch: nios2: Enable the common clk subsystem on Nios2
+date:   3 years, 8 months ago
+:::::: branch date: 3 days ago
+:::::: commit date: 3 years, 8 months ago
+config: nios2-randconfig-r081-20231120 (https://download.01.org/0day-ci/archive/20231207/202312071952.FwhcjVT4-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231207/202312071952.FwhcjVT4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312071624.LCUQ6axJ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202312071952.FwhcjVT4-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/intel/ice/ice_ethtool.c:3736:1-7: preceding lock on line 3711
+smatch warnings:
+drivers/clk/uniphier/clk-uniphier-mux.c:47 uniphier_clk_mux_get_parent() warn: signedness bug returning '(-22)'
 
-vim +3736 drivers/net/ethernet/intel/ice/ice_ethtool.c
+vim +47 drivers/clk/uniphier/clk-uniphier-mux.c
 
-87324e747fde76 Henry Tieman         2019-11-08  3632  
-87324e747fde76 Henry Tieman         2019-11-08  3633  /**
-87324e747fde76 Henry Tieman         2019-11-08  3634   * ice_set_channels - set the number channels
-87324e747fde76 Henry Tieman         2019-11-08  3635   * @dev: network interface device structure
-87324e747fde76 Henry Tieman         2019-11-08  3636   * @ch: ethtool channel data structure
-87324e747fde76 Henry Tieman         2019-11-08  3637   */
-87324e747fde76 Henry Tieman         2019-11-08  3638  static int ice_set_channels(struct net_device *dev, struct ethtool_channels *ch)
-87324e747fde76 Henry Tieman         2019-11-08  3639  {
-87324e747fde76 Henry Tieman         2019-11-08  3640  	struct ice_netdev_priv *np = netdev_priv(dev);
-87324e747fde76 Henry Tieman         2019-11-08  3641  	struct ice_vsi *vsi = np->vsi;
-87324e747fde76 Henry Tieman         2019-11-08  3642  	struct ice_pf *pf = vsi->back;
-87324e747fde76 Henry Tieman         2019-11-08  3643  	int new_rx = 0, new_tx = 0;
-a6a0974aae4209 Dave Ertman          2023-01-24  3644  	bool locked = false;
-87324e747fde76 Henry Tieman         2019-11-08  3645  	u32 curr_combined;
-a6a0974aae4209 Dave Ertman          2023-01-24  3646  	int ret = 0;
-87324e747fde76 Henry Tieman         2019-11-08  3647  
-87324e747fde76 Henry Tieman         2019-11-08  3648  	/* do not support changing channels in Safe Mode */
-87324e747fde76 Henry Tieman         2019-11-08  3649  	if (ice_is_safe_mode(pf)) {
-87324e747fde76 Henry Tieman         2019-11-08  3650  		netdev_err(dev, "Changing channel in Safe Mode is not supported\n");
-87324e747fde76 Henry Tieman         2019-11-08  3651  		return -EOPNOTSUPP;
-87324e747fde76 Henry Tieman         2019-11-08  3652  	}
-87324e747fde76 Henry Tieman         2019-11-08  3653  	/* do not support changing other_count */
-148beb61203125 Henry Tieman         2020-05-11  3654  	if (ch->other_count != (test_bit(ICE_FLAG_FD_ENA, pf->flags) ? 1U : 0U))
-87324e747fde76 Henry Tieman         2019-11-08  3655  		return -EINVAL;
-87324e747fde76 Henry Tieman         2019-11-08  3656  
-fbc7b27af0f9fb Kiran Patil          2021-10-15  3657  	if (ice_is_adq_active(pf)) {
-fbc7b27af0f9fb Kiran Patil          2021-10-15  3658  		netdev_err(dev, "Cannot set channels with ADQ configured.\n");
-fbc7b27af0f9fb Kiran Patil          2021-10-15  3659  		return -EOPNOTSUPP;
-fbc7b27af0f9fb Kiran Patil          2021-10-15  3660  	}
-fbc7b27af0f9fb Kiran Patil          2021-10-15  3661  
-148beb61203125 Henry Tieman         2020-05-11  3662  	if (test_bit(ICE_FLAG_FD_ENA, pf->flags) && pf->hw.fdir_active_fltr) {
-148beb61203125 Henry Tieman         2020-05-11  3663  		netdev_err(dev, "Cannot set channels when Flow Director filters are active\n");
-148beb61203125 Henry Tieman         2020-05-11  3664  		return -EOPNOTSUPP;
-148beb61203125 Henry Tieman         2020-05-11  3665  	}
-148beb61203125 Henry Tieman         2020-05-11  3666  
-87324e747fde76 Henry Tieman         2019-11-08  3667  	curr_combined = ice_get_combined_cnt(vsi);
-87324e747fde76 Henry Tieman         2019-11-08  3668  
-87324e747fde76 Henry Tieman         2019-11-08  3669  	/* these checks are for cases where user didn't specify a particular
-87324e747fde76 Henry Tieman         2019-11-08  3670  	 * value on cmd line but we get non-zero value anyway via
-87324e747fde76 Henry Tieman         2019-11-08  3671  	 * get_channels(); look at ethtool.c in ethtool repository (the user
-87324e747fde76 Henry Tieman         2019-11-08  3672  	 * space part), particularly, do_schannels() routine
-87324e747fde76 Henry Tieman         2019-11-08  3673  	 */
-87324e747fde76 Henry Tieman         2019-11-08  3674  	if (ch->rx_count == vsi->num_rxq - curr_combined)
-87324e747fde76 Henry Tieman         2019-11-08  3675  		ch->rx_count = 0;
-87324e747fde76 Henry Tieman         2019-11-08  3676  	if (ch->tx_count == vsi->num_txq - curr_combined)
-87324e747fde76 Henry Tieman         2019-11-08  3677  		ch->tx_count = 0;
-87324e747fde76 Henry Tieman         2019-11-08  3678  	if (ch->combined_count == curr_combined)
-87324e747fde76 Henry Tieman         2019-11-08  3679  		ch->combined_count = 0;
-87324e747fde76 Henry Tieman         2019-11-08  3680  
-87324e747fde76 Henry Tieman         2019-11-08  3681  	if (!(ch->combined_count || (ch->rx_count && ch->tx_count))) {
-87324e747fde76 Henry Tieman         2019-11-08  3682  		netdev_err(dev, "Please specify at least 1 Rx and 1 Tx channel\n");
-87324e747fde76 Henry Tieman         2019-11-08  3683  		return -EINVAL;
-87324e747fde76 Henry Tieman         2019-11-08  3684  	}
-87324e747fde76 Henry Tieman         2019-11-08  3685  
-87324e747fde76 Henry Tieman         2019-11-08  3686  	new_rx = ch->combined_count + ch->rx_count;
-87324e747fde76 Henry Tieman         2019-11-08  3687  	new_tx = ch->combined_count + ch->tx_count;
-87324e747fde76 Henry Tieman         2019-11-08  3688  
-a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3689  	if (new_rx < vsi->tc_cfg.numtc) {
-a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3690  		netdev_err(dev, "Cannot set less Rx channels, than Traffic Classes you have (%u)\n",
-a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3691  			   vsi->tc_cfg.numtc);
-a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3692  		return -EINVAL;
-a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3693  	}
-a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3694  	if (new_tx < vsi->tc_cfg.numtc) {
-a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3695  		netdev_err(dev, "Cannot set less Tx channels, than Traffic Classes you have (%u)\n",
-a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3696  			   vsi->tc_cfg.numtc);
-a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3697  		return -EINVAL;
-a632b2a4c920ce Anatolii Gerasymenko 2022-06-06  3698  	}
-87324e747fde76 Henry Tieman         2019-11-08  3699  	if (new_rx > ice_get_max_rxq(pf)) {
-87324e747fde76 Henry Tieman         2019-11-08  3700  		netdev_err(dev, "Maximum allowed Rx channels is %d\n",
-87324e747fde76 Henry Tieman         2019-11-08  3701  			   ice_get_max_rxq(pf));
-87324e747fde76 Henry Tieman         2019-11-08  3702  		return -EINVAL;
-87324e747fde76 Henry Tieman         2019-11-08  3703  	}
-87324e747fde76 Henry Tieman         2019-11-08  3704  	if (new_tx > ice_get_max_txq(pf)) {
-87324e747fde76 Henry Tieman         2019-11-08  3705  		netdev_err(dev, "Maximum allowed Tx channels is %d\n",
-87324e747fde76 Henry Tieman         2019-11-08  3706  			   ice_get_max_txq(pf));
-87324e747fde76 Henry Tieman         2019-11-08  3707  		return -EINVAL;
-87324e747fde76 Henry Tieman         2019-11-08  3708  	}
-87324e747fde76 Henry Tieman         2019-11-08  3709  
-a6a0974aae4209 Dave Ertman          2023-01-24  3710  	if (pf->adev) {
-a6a0974aae4209 Dave Ertman          2023-01-24 @3711  		mutex_lock(&pf->adev_mutex);
-a6a0974aae4209 Dave Ertman          2023-01-24  3712  		device_lock(&pf->adev->dev);
-a6a0974aae4209 Dave Ertman          2023-01-24  3713  		locked = true;
-a6a0974aae4209 Dave Ertman          2023-01-24  3714  		if (pf->adev->dev.driver) {
-a6a0974aae4209 Dave Ertman          2023-01-24  3715  			netdev_err(dev, "Cannot change channels when RDMA is active\n");
-a6a0974aae4209 Dave Ertman          2023-01-24  3716  			ret = -EBUSY;
-a6a0974aae4209 Dave Ertman          2023-01-24  3717  			goto adev_unlock;
-a6a0974aae4209 Dave Ertman          2023-01-24  3718  		}
-a6a0974aae4209 Dave Ertman          2023-01-24  3719  	}
-a6a0974aae4209 Dave Ertman          2023-01-24  3720  
-a6a0974aae4209 Dave Ertman          2023-01-24  3721  	ice_vsi_recfg_qs(vsi, new_rx, new_tx, locked);
-87324e747fde76 Henry Tieman         2019-11-08  3722  
-a6a0974aae4209 Dave Ertman          2023-01-24  3723  	if (!netif_is_rxfh_configured(dev)) {
-a6a0974aae4209 Dave Ertman          2023-01-24  3724  		ret = ice_vsi_set_dflt_rss_lut(vsi, new_rx);
-a6a0974aae4209 Dave Ertman          2023-01-24  3725  		goto adev_unlock;
-a6a0974aae4209 Dave Ertman          2023-01-24  3726  	}
-87324e747fde76 Henry Tieman         2019-11-08  3727  
-0393e46ac48a68 Henry Tieman         2020-12-03  3728  	/* Update rss_size due to change in Rx queues */
-0393e46ac48a68 Henry Tieman         2020-12-03  3729  	vsi->rss_size = ice_get_valid_rss_size(&pf->hw, new_rx);
-0393e46ac48a68 Henry Tieman         2020-12-03  3730  
-a6a0974aae4209 Dave Ertman          2023-01-24  3731  adev_unlock:
-a6a0974aae4209 Dave Ertman          2023-01-24  3732  	if (locked) {
-a6a0974aae4209 Dave Ertman          2023-01-24  3733  		device_unlock(&pf->adev->dev);
-a6a0974aae4209 Dave Ertman          2023-01-24  3734  		mutex_unlock(&pf->adev_mutex);
-a6a0974aae4209 Dave Ertman          2023-01-24  3735  	}
-a6a0974aae4209 Dave Ertman          2023-01-24 @3736  	return ret;
-87324e747fde76 Henry Tieman         2019-11-08  3737  }
-87324e747fde76 Henry Tieman         2019-11-08  3738  
+734d82f4a678e8 Masahiro Yamada 2016-09-16  30  
+734d82f4a678e8 Masahiro Yamada 2016-09-16  31  static u8 uniphier_clk_mux_get_parent(struct clk_hw *hw)
+734d82f4a678e8 Masahiro Yamada 2016-09-16  32  {
+734d82f4a678e8 Masahiro Yamada 2016-09-16  33  	struct uniphier_clk_mux *mux = to_uniphier_clk_mux(hw);
+734d82f4a678e8 Masahiro Yamada 2016-09-16  34  	int num_parents = clk_hw_get_num_parents(hw);
+734d82f4a678e8 Masahiro Yamada 2016-09-16  35  	int ret;
+c0ce317f0c8863 Masahiro Yamada 2016-10-17  36  	unsigned int val;
+734d82f4a678e8 Masahiro Yamada 2016-09-16  37  	u8 i;
+734d82f4a678e8 Masahiro Yamada 2016-09-16  38  
+734d82f4a678e8 Masahiro Yamada 2016-09-16  39  	ret = regmap_read(mux->regmap, mux->reg, &val);
+734d82f4a678e8 Masahiro Yamada 2016-09-16  40  	if (ret)
+734d82f4a678e8 Masahiro Yamada 2016-09-16  41  		return ret;
+734d82f4a678e8 Masahiro Yamada 2016-09-16  42  
+734d82f4a678e8 Masahiro Yamada 2016-09-16  43  	for (i = 0; i < num_parents; i++)
+734d82f4a678e8 Masahiro Yamada 2016-09-16  44  		if ((mux->masks[i] & val) == mux->vals[i])
+734d82f4a678e8 Masahiro Yamada 2016-09-16  45  			return i;
+734d82f4a678e8 Masahiro Yamada 2016-09-16  46  
+734d82f4a678e8 Masahiro Yamada 2016-09-16 @47  	return -EINVAL;
+734d82f4a678e8 Masahiro Yamada 2016-09-16  48  }
+734d82f4a678e8 Masahiro Yamada 2016-09-16  49  
+
+:::::: The code at line 47 was first introduced by commit
+:::::: 734d82f4a678e897a3197b3e61313e32c9e77f46 clk: uniphier: add core support code for UniPhier clock driver
+
+:::::: TO: Masahiro Yamada <yamada.masahiro@socionext.com>
+:::::: CC: Stephen Boyd <sboyd@codeaurora.org>
 
 -- 
 0-DAY CI Kernel Test Service
