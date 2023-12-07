@@ -1,46 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A44862D
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Dec 2023 02:44:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D178C1C3C
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Dec 2023 03:27:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mlfs6dR2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NFDfSR/O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701917089; x=1733453089;
+  t=1701919674; x=1733455674;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uv1IQmj84cbJj3OC58fRK2CBTio6l5TmwZxY1oGWm+Y=;
-  b=Mlfs6dR2LVY91qwb/NjTisC/6SboBghz+rDFBjGKRKxnXhBXjVvh+p+D
-   7CwBkVD5HCFny0vrvU11wqXnWNO063tv3ewQDMwnZbSo9fxz9MKke++K8
-   jYxGZd51zKW/sY0zrTenbgOUgyWgEs0hYO1hd6Pwgh9U1Nxgj10ujEkfD
-   96pF5n+zxJiASqo6S9Wb7lwY3o/34E3xj3APzxrl7L8f9YH1JaFxL8mht
-   Do9cyIw+P8gBlS9GyGU4EVjvaVW1ZFNh5KalS8ZB2f6A7+inH/+RDoK7n
-   Hu4rwdQcLmM4pV6AASStdtM27BMZmxYmuvYluCdCOpbdiAogszXTAD/F2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="393033388"
+  bh=3cPo9Mntpe9lqVBOWOODCjNEj2QolKYyW/0zWWW8d5c=;
+  b=NFDfSR/Oxo047IMW1eRYGJeilIJGP8EzmS0k+1F3NlrpvwublcYTOdZN
+   1a0VZNRG+2hHHHs1nyrdxZgMht7j6caFLhtgdn5tIw4dLVVf8xvUsLGQ/
+   IEXuVCCEwBNKLDOOr2UYRrL4tQMMZcyPqY3QxtVHTXJx/quB01U/yMJcv
+   l4R01ym75lZYOiF8aoJMm/cbCamOSwoZvE9/D/xOEv0J3Lmq3OuGrExgZ
+   37Mv8LempeQBCSsvLV9KqIkkHfDftBSfdmb3V8pLwTCIRnR1Ins2yRovf
+   q/Gxjd05jdUqc+AgINw9Me8FmmE+qZboiqVGkm6X+lFvyadSuTCwWP7vB
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="398046576"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="393033388"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 18:44:48 -0800
+   d="scan'208";a="398046576"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 19:27:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="862314788"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="915416771"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="862314788"
+   d="scan'208";a="915416771"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 06 Dec 2023 18:44:47 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 06 Dec 2023 19:27:51 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rB4NY-000BlQ-16;
-	Thu, 07 Dec 2023 02:44:44 +0000
-Date: Thu, 7 Dec 2023 10:44:09 +0800
+	id 1rB53F-000Bnq-2g;
+	Thu, 07 Dec 2023 03:27:49 +0000
+Date: Thu, 7 Dec 2023 11:27:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: kernel/irq/msi.c:801 msi_handle_pci_fail() warn: ignoring
- unreachable code.
-Message-ID: <202312071015.b1wSGwUZ-lkp@intel.com>
+Subject: Re: [PATCH v3 3/4] nvme: move ns id info to struct nvme_ns_head
+Message-ID: <202312071105.jkXzp8v9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,59 +51,125 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20231206081244.32733-4-dwagner@suse.de>
+References: <20231206081244.32733-4-dwagner@suse.de>
+TO: Daniel Wagner <dwagner@suse.de>
+TO: linux-nvme@lists.infradead.org
 CC: linux-kernel@vger.kernel.org
-TO: Frank Li <Frank.Li@nxp.com>
-CC: Marc Zyngier <maz@kernel.org>
+CC: Keith Busch <kbusch@kernel.org>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Sagi Grimberg <sagi@grimberg.me>
+CC: Hannes Reinecke <hare@suse.de>
+CC: Daniel Wagner <dwagner@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: 70afdab904d2d1e68bffe75fe08e7e48e0b0ff8e irqchip: Add IMX MU MSI controller driver
-date:   1 year, 2 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 1 year, 2 months ago
-config: nios2-randconfig-r081-20231120 (https://download.01.org/0day-ci/archive/20231207/202312071015.b1wSGwUZ-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231207/202312071015.b1wSGwUZ-lkp@intel.com/reproduce)
+Hi Daniel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.7-rc4]
+[also build test WARNING on linus/master next-20231206]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/nvme-lookup-ctrl-from-request-instead-from-namespace/20231206-161455
+base:   v6.7-rc4
+patch link:    https://lore.kernel.org/r/20231206081244.32733-4-dwagner%40suse.de
+patch subject: [PATCH v3 3/4] nvme: move ns id info to struct nvme_ns_head
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: i386-randconfig-141-20231207 (https://download.01.org/0day-ci/archive/20231207/202312071105.jkXzp8v9-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231207/202312071105.jkXzp8v9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312071015.b1wSGwUZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312071105.jkXzp8v9-lkp@intel.com/
 
 smatch warnings:
-kernel/irq/msi.c:801 msi_handle_pci_fail() warn: ignoring unreachable code.
+drivers/nvme/target/passthru.c:354 nvmet_passthru_execute_cmd() warn: variable dereferenced before check 'ns' (see line 342)
 
-vim +801 kernel/irq/msi.c
+vim +/ns +354 drivers/nvme/target/passthru.c
 
-da5dd9e854d2ed Thomas Gleixner 2017-12-29  786  
-890337624e1fa2 Thomas Gleixner 2021-12-06  787  static int msi_handle_pci_fail(struct irq_domain *domain, struct msi_desc *desc,
-890337624e1fa2 Thomas Gleixner 2021-12-06  788  			       int allocated)
-890337624e1fa2 Thomas Gleixner 2021-12-06  789  {
-890337624e1fa2 Thomas Gleixner 2021-12-06  790  	switch(domain->bus_token) {
-890337624e1fa2 Thomas Gleixner 2021-12-06  791  	case DOMAIN_BUS_PCI_MSI:
-890337624e1fa2 Thomas Gleixner 2021-12-06  792  	case DOMAIN_BUS_VMD_MSI:
-890337624e1fa2 Thomas Gleixner 2021-12-06  793  		if (IS_ENABLED(CONFIG_PCI_MSI))
-890337624e1fa2 Thomas Gleixner 2021-12-06  794  			break;
-890337624e1fa2 Thomas Gleixner 2021-12-06  795  		fallthrough;
-890337624e1fa2 Thomas Gleixner 2021-12-06  796  	default:
-890337624e1fa2 Thomas Gleixner 2021-12-06  797  		return -ENOSPC;
-890337624e1fa2 Thomas Gleixner 2021-12-06  798  	}
-890337624e1fa2 Thomas Gleixner 2021-12-06  799  
-890337624e1fa2 Thomas Gleixner 2021-12-06  800  	/* Let a failed PCI multi MSI allocation retry */
-890337624e1fa2 Thomas Gleixner 2021-12-06 @801  	if (desc->nvec_used > 1)
-890337624e1fa2 Thomas Gleixner 2021-12-06  802  		return 1;
-890337624e1fa2 Thomas Gleixner 2021-12-06  803  
-890337624e1fa2 Thomas Gleixner 2021-12-06  804  	/* If there was a successful allocation let the caller know */
-890337624e1fa2 Thomas Gleixner 2021-12-06  805  	return allocated ? allocated : -ENOSPC;
-890337624e1fa2 Thomas Gleixner 2021-12-06  806  }
-890337624e1fa2 Thomas Gleixner 2021-12-06  807  
-
-:::::: The code at line 801 was first introduced by commit
-:::::: 890337624e1fa2da079fc1c036a62d178c985280 genirq/msi: Handle PCI/MSI allocation fail in core code
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  291  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  292  static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  293  {
+ab7a2737ac5acd Christoph Hellwig  2021-08-27  294  	struct nvme_ctrl *ctrl = nvmet_req_subsys(req)->passthru_ctrl;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  295  	struct request_queue *q = ctrl->admin_q;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  296  	struct nvme_ns *ns = NULL;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  297  	struct request *rq = NULL;
+47e9730c26a4a5 Chaitanya Kulkarni 2020-11-09  298  	unsigned int timeout;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  299  	u32 effects;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  300  	u16 status;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  301  	int ret;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  302  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  303  	if (likely(req->sq->qid != 0)) {
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  304  		u32 nsid = le32_to_cpu(req->cmd->common.nsid);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  305  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  306  		ns = nvme_find_get_ns(ctrl, nsid);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  307  		if (unlikely(!ns)) {
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  308  			pr_err("failed to get passthru ns nsid:%u\n", nsid);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  309  			status = NVME_SC_INVALID_NS | NVME_SC_DNR;
+4db69a3d7cfe31 Chaitanya Kulkarni 2020-08-06  310  			goto out;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  311  		}
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  312  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  313  		q = ns->queue;
+20c2c3bb83f26c Chaitanya Kulkarni 2021-02-09  314  		timeout = nvmet_req_subsys(req)->io_timeout;
+a2f6a2b8ce43db Chaitanya Kulkarni 2020-11-09  315  	} else {
+20c2c3bb83f26c Chaitanya Kulkarni 2021-02-09  316  		timeout = nvmet_req_subsys(req)->admin_timeout;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  317  	}
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  318  
+e559398f47e090 Christoph Hellwig  2022-03-15  319  	rq = blk_mq_alloc_request(q, nvme_req_op(req->cmd), 0);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  320  	if (IS_ERR(rq)) {
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  321  		status = NVME_SC_INTERNAL;
+4db69a3d7cfe31 Chaitanya Kulkarni 2020-08-06  322  		goto out_put_ns;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  323  	}
+e559398f47e090 Christoph Hellwig  2022-03-15  324  	nvme_init_request(rq, req->cmd);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  325  
+a2f6a2b8ce43db Chaitanya Kulkarni 2020-11-09  326  	if (timeout)
+a2f6a2b8ce43db Chaitanya Kulkarni 2020-11-09  327  		rq->timeout = timeout;
+a2f6a2b8ce43db Chaitanya Kulkarni 2020-11-09  328  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  329  	if (req->sg_cnt) {
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  330  		ret = nvmet_passthru_map_sg(req, rq);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  331  		if (unlikely(ret)) {
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  332  			status = NVME_SC_INTERNAL;
+a2138fd49467d0 Chaitanya Kulkarni 2020-08-06  333  			goto out_put_req;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  334  		}
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  335  	}
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  336  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  337  	/*
+2a459f6933e1c4 Christoph Hellwig  2022-12-21  338  	 * If a command needs post-execution fixups, or there are any
+2a459f6933e1c4 Christoph Hellwig  2022-12-21  339  	 * non-trivial effects, make sure to execute the command synchronously
+2a459f6933e1c4 Christoph Hellwig  2022-12-21  340  	 * in a workqueue so that nvme_passthru_end gets called.
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  341  	 */
+a754bb00c0d393 Daniel Wagner      2023-12-06 @342  	effects = nvme_command_effects(ctrl, ns->head, req->cmd->common.opcode);
+2a459f6933e1c4 Christoph Hellwig  2022-12-21  343  	if (req->p.use_workqueue ||
+2a459f6933e1c4 Christoph Hellwig  2022-12-21  344  	    (effects & ~(NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC))) {
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  345  		INIT_WORK(&req->p.work, nvmet_passthru_execute_cmd_work);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  346  		req->p.rq = rq;
+8832cf922151e9 Sagi Grimberg      2022-03-21  347  		queue_work(nvmet_wq, &req->p.work);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  348  	} else {
+e2e530867245d0 Christoph Hellwig  2022-05-24  349  		rq->end_io = nvmet_passthru_req_done;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  350  		rq->end_io_data = req;
+e2e530867245d0 Christoph Hellwig  2022-05-24  351  		blk_execute_rq_nowait(rq, false);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  352  	}
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  353  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24 @354  	if (ns)
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  355  		nvme_put_ns(ns);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  356  
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  357  	return;
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  358  
+a2138fd49467d0 Chaitanya Kulkarni 2020-08-06  359  out_put_req:
+7ee51cf60a90c2 Chaitanya Kulkarni 2020-08-06  360  	blk_mq_free_request(rq);
+4db69a3d7cfe31 Chaitanya Kulkarni 2020-08-06  361  out_put_ns:
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  362  	if (ns)
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  363  		nvme_put_ns(ns);
+4db69a3d7cfe31 Chaitanya Kulkarni 2020-08-06  364  out:
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  365  	nvmet_req_complete(req, status);
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  366  }
+c1fef73f793b7f Logan Gunthorpe    2020-07-24  367  
 
 -- 
 0-DAY CI Kernel Test Service
