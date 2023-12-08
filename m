@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621701849
-	for <oe-kbuild@lists.linux.dev>; Fri,  8 Dec 2023 02:03:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6194A32
+	for <oe-kbuild@lists.linux.dev>; Fri,  8 Dec 2023 05:39:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EYq8RLpu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DBOWBKQU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702000996; x=1733536996;
+  t=1702013960; x=1733549960;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ahovpx//tyCh7e7i2C+54ZWL2C22mAeTg9DXPXO3mlM=;
-  b=EYq8RLpuswjvONh3zoH/PLaQwfl4Yg1JU62H2Quiz2/XId1fkCf2Yr8p
-   DPIv6UXqwO1I72HCHt0G3ljwS900IirU6dunKPb6czVNC4hdHJdPX/mlZ
-   9k/9zfgS6/7XqJDokg17K/1JW7Vt+Lxgd3iCyvDJwHloW4a9ErZzhCCFw
-   Xft6ViJiSKL3Y/y+Dpt66Jdq5JyXLfV1I6jWnchENHY4QperQz6Z5qCSp
-   +LlTCwkM+jNdEpZxEfEzaXfD9iWMx16NuMKWioTJtqHNSaZVfw1OasUwT
-   s/qf8LnOIOsEEXDo0NDrMINmC1cZobRLPCP7CPvUw8an7YrB2vADZK6WF
+  bh=W0jcGvDh9GONldLajkA88elFS0H85S4nQEz6ERFR2Q0=;
+  b=DBOWBKQUe1K2AsVMiey/Ncxgg/D+G1X3z98CDWs08XIBEwYuH2MlPybQ
+   LGWCGo0WoI0JiyEgPu1q3JDX8VARFQXWYvb+PBgC/z5qYYMF08lzu3lcY
+   YKGzLFUrBip7BpZjyRu/7xywx5rxHaHqJl/RZkkj/WFHUgfocVvjyqhBv
+   i893bwLGbNH9n6ZDIZZNvWrNPFpQ5SZHUVaxarBjJ3sLeh6yLjX6+SfUQ
+   1pZkpYzXVrvSUvTf7bdGqBK2dFc8qKqnWZ3MeYTA8PVdjxxcxnWb+yo2a
+   x/5HQbvRYntUAg9Y1ZmkWZkIXISZYPb414lrPkan60uQcd3TOxr3MyAT5
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1169735"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="13059341"
 X-IronPort-AV: E=Sophos;i="6.04,259,1695711600"; 
-   d="scan'208";a="1169735"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 18:03:15 -0800
+   d="scan'208";a="13059341"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 21:39:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="862702739"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="765372679"
 X-IronPort-AV: E=Sophos;i="6.04,259,1695711600"; 
-   d="scan'208";a="862702739"
+   d="scan'208";a="765372679"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 07 Dec 2023 18:03:13 -0800
+  by orsmga007.jf.intel.com with ESMTP; 07 Dec 2023 21:39:18 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBQCs-000D5r-2e;
-	Fri, 08 Dec 2023 02:03:10 +0000
-Date: Fri, 8 Dec 2023 10:02:27 +0800
+	id 1rBTZz-000DKR-2O;
+	Fri, 08 Dec 2023 05:39:15 +0000
+Date: Fri, 8 Dec 2023 13:38:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/irqchip/irq-apple-aic.c:980 aic_of_ic_init() error:
- uninitialized symbol 'start_off'.
-Message-ID: <202312080934.tto3FemD-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [djwong-xfs:xfile-page-caching 105/205] fs/xfs/xfs_buf.c:2066:11-12:
+ WARNING kmalloc is used to allocate this memory at line 2029
+Message-ID: <202312081359.DPZHhJ05-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,146 +52,81 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Hector Martin <marcan@marcan.st>
-CC: Marc Zyngier <maz@kernel.org>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9ace34a8e446c1a566f3b0a3e0c4c483987e39a6
-commit: a801f0ee563b8180caf186493806a145a75b4a3c irqchip/apple-aic: Support multiple dies
-date:   1 year, 9 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 1 year, 9 months ago
-config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231208/202312080934.tto3FemD-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080934.tto3FemD-lkp@intel.com/reproduce)
+Hi Darrick,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
+head:   ae5732f1c245c24e63c885992c35f723f36f79ff
+commit: 20739d9063f5efc04853e453a68816a0e1cad461 [105/205] xfs: make GFP_ usage consistent when allocating buftargs
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: x86_64-randconfig-102-20231208 (https://download.01.org/0day-ci/archive/20231208/202312081359.DPZHhJ05-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20231208/202312081359.DPZHhJ05-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312080934.tto3FemD-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202312081359.DPZHhJ05-lkp@intel.com/
 
-New smatch warnings:
-drivers/irqchip/irq-apple-aic.c:980 aic_of_ic_init() error: uninitialized symbol 'start_off'.
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/xfs_buf.c:2066:11-12: WARNING kmalloc is used to allocate this memory at line 2029
 
-Old smatch warnings:
-drivers/irqchip/irq-apple-aic.c:943 aic_of_ic_init() warn: possible memory leak of 'irqc'
-drivers/irqchip/irq-apple-aic.c:965 aic_of_ic_init() error: uninitialized symbol 'off'.
-drivers/irqchip/irq-apple-aic.c:1029 aic_of_ic_init() warn: 'regs' from of_iomap() not released on lines: 937,943.
+vim +2066 fs/xfs/xfs_buf.c
 
-vim +/start_off +980 drivers/irqchip/irq-apple-aic.c
-
-b6ca556c352979 Marc Zyngier  2021-02-28   922  
-76cde26394114f Hector Martin 2021-01-21   923  static int __init aic_of_ic_init(struct device_node *node, struct device_node *parent)
-76cde26394114f Hector Martin 2021-01-21   924  {
-a801f0ee563b81 Hector Martin 2022-03-10   925  	int i, die;
-a801f0ee563b81 Hector Martin 2022-03-10   926  	u32 off, start_off;
-76cde26394114f Hector Martin 2021-01-21   927  	void __iomem *regs;
-76cde26394114f Hector Martin 2021-01-21   928  	struct aic_irq_chip *irqc;
-2cf68211664acd Hector Martin 2022-03-10   929  	const struct of_device_id *match;
-76cde26394114f Hector Martin 2021-01-21   930  
-76cde26394114f Hector Martin 2021-01-21   931  	regs = of_iomap(node, 0);
-76cde26394114f Hector Martin 2021-01-21   932  	if (WARN_ON(!regs))
-76cde26394114f Hector Martin 2021-01-21   933  		return -EIO;
-76cde26394114f Hector Martin 2021-01-21   934  
-76cde26394114f Hector Martin 2021-01-21   935  	irqc = kzalloc(sizeof(*irqc), GFP_KERNEL);
-76cde26394114f Hector Martin 2021-01-21   936  	if (!irqc)
-76cde26394114f Hector Martin 2021-01-21   937  		return -ENOMEM;
-76cde26394114f Hector Martin 2021-01-21   938  
-76cde26394114f Hector Martin 2021-01-21   939  	irqc->base = regs;
-76cde26394114f Hector Martin 2021-01-21   940  
-2cf68211664acd Hector Martin 2022-03-10   941  	match = of_match_node(aic_info_match, node);
-2cf68211664acd Hector Martin 2022-03-10   942  	if (!match)
-2cf68211664acd Hector Martin 2022-03-10   943  		return -ENODEV;
-2cf68211664acd Hector Martin 2022-03-10   944  
-2cf68211664acd Hector Martin 2022-03-10   945  	irqc->info = *(struct aic_info *)match->data;
-2cf68211664acd Hector Martin 2022-03-10   946  
-2cf68211664acd Hector Martin 2022-03-10   947  	aic_irqc = irqc;
-2cf68211664acd Hector Martin 2022-03-10   948  
-dc97fd6fec0099 Hector Martin 2022-03-10   949  	switch (irqc->info.version) {
-dc97fd6fec0099 Hector Martin 2022-03-10   950  	case 1: {
-dc97fd6fec0099 Hector Martin 2022-03-10   951  		u32 info;
-dc97fd6fec0099 Hector Martin 2022-03-10   952  
-76cde26394114f Hector Martin 2021-01-21   953  		info = aic_ic_read(irqc, AIC_INFO);
-7c841f5f6fa3f9 Hector Martin 2022-03-10   954  		irqc->nr_irq = FIELD_GET(AIC_INFO_NR_IRQ, info);
-dc97fd6fec0099 Hector Martin 2022-03-10   955  		irqc->max_irq = AIC_MAX_IRQ;
-a801f0ee563b81 Hector Martin 2022-03-10   956  		irqc->nr_die = irqc->max_die = 1;
-dc97fd6fec0099 Hector Martin 2022-03-10   957  
-a801f0ee563b81 Hector Martin 2022-03-10   958  		off = start_off = irqc->info.target_cpu;
-dc97fd6fec0099 Hector Martin 2022-03-10   959  		off += sizeof(u32) * irqc->max_irq; /* TARGET_CPU */
-dc97fd6fec0099 Hector Martin 2022-03-10   960  
-dc97fd6fec0099 Hector Martin 2022-03-10   961  		break;
-dc97fd6fec0099 Hector Martin 2022-03-10   962  	}
-dc97fd6fec0099 Hector Martin 2022-03-10   963  	}
-dc97fd6fec0099 Hector Martin 2022-03-10   964  
-dc97fd6fec0099 Hector Martin 2022-03-10   965  	irqc->info.sw_set = off;
-dc97fd6fec0099 Hector Martin 2022-03-10   966  	off += sizeof(u32) * (irqc->max_irq >> 5); /* SW_SET */
-dc97fd6fec0099 Hector Martin 2022-03-10   967  	irqc->info.sw_clr = off;
-dc97fd6fec0099 Hector Martin 2022-03-10   968  	off += sizeof(u32) * (irqc->max_irq >> 5); /* SW_CLR */
-dc97fd6fec0099 Hector Martin 2022-03-10   969  	irqc->info.mask_set = off;
-dc97fd6fec0099 Hector Martin 2022-03-10   970  	off += sizeof(u32) * (irqc->max_irq >> 5); /* MASK_SET */
-dc97fd6fec0099 Hector Martin 2022-03-10   971  	irqc->info.mask_clr = off;
-dc97fd6fec0099 Hector Martin 2022-03-10   972  	off += sizeof(u32) * (irqc->max_irq >> 5); /* MASK_CLR */
-dc97fd6fec0099 Hector Martin 2022-03-10   973  	off += sizeof(u32) * (irqc->max_irq >> 5); /* HW_STATE */
-76cde26394114f Hector Martin 2021-01-21   974  
-2cf68211664acd Hector Martin 2022-03-10   975  	if (irqc->info.fast_ipi)
-2cf68211664acd Hector Martin 2022-03-10   976  		static_branch_enable(&use_fast_ipi);
-2cf68211664acd Hector Martin 2022-03-10   977  	else
-2cf68211664acd Hector Martin 2022-03-10   978  		static_branch_disable(&use_fast_ipi);
-2cf68211664acd Hector Martin 2022-03-10   979  
-a801f0ee563b81 Hector Martin 2022-03-10  @980  	irqc->info.die_stride = off - start_off;
-a801f0ee563b81 Hector Martin 2022-03-10   981  
-7c841f5f6fa3f9 Hector Martin 2022-03-10   982  	irqc->hw_domain = irq_domain_create_tree(of_node_to_fwnode(node),
-76cde26394114f Hector Martin 2021-01-21   983  						 &aic_irq_domain_ops, irqc);
-76cde26394114f Hector Martin 2021-01-21   984  	if (WARN_ON(!irqc->hw_domain)) {
-76cde26394114f Hector Martin 2021-01-21   985  		iounmap(irqc->base);
-76cde26394114f Hector Martin 2021-01-21   986  		kfree(irqc);
-76cde26394114f Hector Martin 2021-01-21   987  		return -ENODEV;
-76cde26394114f Hector Martin 2021-01-21   988  	}
-76cde26394114f Hector Martin 2021-01-21   989  
-76cde26394114f Hector Martin 2021-01-21   990  	irq_domain_update_bus_token(irqc->hw_domain, DOMAIN_BUS_WIRED);
-76cde26394114f Hector Martin 2021-01-21   991  
-76cde26394114f Hector Martin 2021-01-21   992  	if (aic_init_smp(irqc, node)) {
-76cde26394114f Hector Martin 2021-01-21   993  		irq_domain_remove(irqc->hw_domain);
-76cde26394114f Hector Martin 2021-01-21   994  		iounmap(irqc->base);
-76cde26394114f Hector Martin 2021-01-21   995  		kfree(irqc);
-76cde26394114f Hector Martin 2021-01-21   996  		return -ENODEV;
-76cde26394114f Hector Martin 2021-01-21   997  	}
-76cde26394114f Hector Martin 2021-01-21   998  
-76cde26394114f Hector Martin 2021-01-21   999  	set_handle_irq(aic_handle_irq);
-76cde26394114f Hector Martin 2021-01-21  1000  	set_handle_fiq(aic_handle_fiq);
-76cde26394114f Hector Martin 2021-01-21  1001  
-a801f0ee563b81 Hector Martin 2022-03-10  1002  	off = 0;
-a801f0ee563b81 Hector Martin 2022-03-10  1003  	for (die = 0; die < irqc->nr_die; die++) {
-7c841f5f6fa3f9 Hector Martin 2022-03-10  1004  		for (i = 0; i < BITS_TO_U32(irqc->nr_irq); i++)
-a801f0ee563b81 Hector Martin 2022-03-10  1005  			aic_ic_write(irqc, irqc->info.mask_set + off + i * 4, U32_MAX);
-7c841f5f6fa3f9 Hector Martin 2022-03-10  1006  		for (i = 0; i < BITS_TO_U32(irqc->nr_irq); i++)
-a801f0ee563b81 Hector Martin 2022-03-10  1007  			aic_ic_write(irqc, irqc->info.sw_clr + off + i * 4, U32_MAX);
-a801f0ee563b81 Hector Martin 2022-03-10  1008  		if (irqc->info.target_cpu)
-7c841f5f6fa3f9 Hector Martin 2022-03-10  1009  			for (i = 0; i < irqc->nr_irq; i++)
-a801f0ee563b81 Hector Martin 2022-03-10  1010  				aic_ic_write(irqc, irqc->info.target_cpu + off + i * 4, 1);
-a801f0ee563b81 Hector Martin 2022-03-10  1011  		off += irqc->info.die_stride;
-a801f0ee563b81 Hector Martin 2022-03-10  1012  	}
-76cde26394114f Hector Martin 2021-01-21  1013  
-76cde26394114f Hector Martin 2021-01-21  1014  	if (!is_kernel_in_hyp_mode())
-76cde26394114f Hector Martin 2021-01-21  1015  		pr_info("Kernel running in EL1, mapping interrupts");
-76cde26394114f Hector Martin 2021-01-21  1016  
-2cf68211664acd Hector Martin 2022-03-10  1017  	if (static_branch_likely(&use_fast_ipi))
-2cf68211664acd Hector Martin 2022-03-10  1018  		pr_info("Using Fast IPIs");
-2cf68211664acd Hector Martin 2022-03-10  1019  
-76cde26394114f Hector Martin 2021-01-21  1020  	cpuhp_setup_state(CPUHP_AP_IRQ_APPLE_AIC_STARTING,
-76cde26394114f Hector Martin 2021-01-21  1021  			  "irqchip/apple-aic/ipi:starting",
-76cde26394114f Hector Martin 2021-01-21  1022  			  aic_init_cpu, NULL);
-76cde26394114f Hector Martin 2021-01-21  1023  
-b6ca556c352979 Marc Zyngier  2021-02-28  1024  	vgic_set_kvm_info(&vgic_info);
-b6ca556c352979 Marc Zyngier  2021-02-28  1025  
-a801f0ee563b81 Hector Martin 2022-03-10  1026  	pr_info("Initialized with %d/%d IRQs * %d/%d die(s), %d FIQs, %d vIPIs",
-a801f0ee563b81 Hector Martin 2022-03-10  1027  		irqc->nr_irq, irqc->max_irq, irqc->nr_die, irqc->max_die, AIC_NR_FIQ, AIC_NR_SWIPI);
-76cde26394114f Hector Martin 2021-01-21  1028  
-76cde26394114f Hector Martin 2021-01-21  1029  	return 0;
-76cde26394114f Hector Martin 2021-01-21  1030  }
-76cde26394114f Hector Martin 2021-01-21  1031  
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2021  
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2022  static struct xfs_buftarg *
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2023  xfs_alloc_buftarg_common(
+ebad861b5702c3 fs/xfs/linux-2.6/xfs_buf.c Dave Chinner    2010-09-22  2024  	struct xfs_mount	*mp,
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2025  	const char		*descr)
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2026  {
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2027  	struct xfs_buftarg	*btp;
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2028  
+20739d9063f5ef fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-10 @2029  	btp = kzalloc(sizeof(*btp), GFP_NOFS);
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2030  	if (!btp)
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2031  		return NULL;
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2032  
+ebad861b5702c3 fs/xfs/linux-2.6/xfs_buf.c Dave Chinner    2010-09-22  2033  	btp->bt_mount = mp;
+0e6e847ffe3743 fs/xfs/linux-2.6/xfs_buf.c Dave Chinner    2011-03-26  2034  
+f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2035  	/*
+f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2036  	 * Buffer IO error rate limiting. Limit it to no more than 10 messages
+f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2037  	 * per 30 seconds so as to not spam logs too much on repeated errors.
+f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2038  	 */
+f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2039  	ratelimit_state_init(&btp->bt_ioerror_rl, 30 * HZ,
+f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2040  			     DEFAULT_RATELIMIT_BURST);
+f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2041  
+5ca302c8e502ca fs/xfs/xfs_buf.c           Glauber Costa   2013-08-28  2042  	if (list_lru_init(&btp->bt_lru))
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2043  		goto error_free;
+5ca302c8e502ca fs/xfs/xfs_buf.c           Glauber Costa   2013-08-28  2044  
+20739d9063f5ef fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-10  2045  	if (percpu_counter_init(&btp->bt_io_count, 0, GFP_NOFS))
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2046  		goto error_lru;
+9c7504aa72b6e2 fs/xfs/xfs_buf.c           Brian Foster    2016-07-20  2047  
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2048  	btp->bt_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE, "xfs-%s:%s",
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2049  			descr, mp->m_super->s_id);
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2050  	if (!btp->bt_shrinker)
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2051  		goto error_pcpu;
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2052  
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2053  	btp->bt_shrinker->count_objects = xfs_buftarg_shrink_count;
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2054  	btp->bt_shrinker->scan_objects = xfs_buftarg_shrink_scan;
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2055  	btp->bt_shrinker->private_data = btp;
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2056  
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2057  	shrinker_register(btp->bt_shrinker);
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2058  
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2059  	return btp;
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2060  
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2061  error_pcpu:
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2062  	percpu_counter_destroy(&btp->bt_io_count);
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2063  error_lru:
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2064  	list_lru_destroy(&btp->bt_lru);
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2065  error_free:
+20739d9063f5ef fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-10 @2066  	kvfree(btp);
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2067  	return NULL;
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2068  }
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2069  
 
 -- 
 0-DAY CI Kernel Test Service
