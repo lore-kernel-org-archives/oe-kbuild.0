@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6194A32
-	for <oe-kbuild@lists.linux.dev>; Fri,  8 Dec 2023 05:39:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E65A63AF
+	for <oe-kbuild@lists.linux.dev>; Fri,  8 Dec 2023 07:54:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DBOWBKQU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YK60hZeC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702013960; x=1733549960;
+  t=1702022097; x=1733558097;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W0jcGvDh9GONldLajkA88elFS0H85S4nQEz6ERFR2Q0=;
-  b=DBOWBKQUe1K2AsVMiey/Ncxgg/D+G1X3z98CDWs08XIBEwYuH2MlPybQ
-   LGWCGo0WoI0JiyEgPu1q3JDX8VARFQXWYvb+PBgC/z5qYYMF08lzu3lcY
-   YKGzLFUrBip7BpZjyRu/7xywx5rxHaHqJl/RZkkj/WFHUgfocVvjyqhBv
-   i893bwLGbNH9n6ZDIZZNvWrNPFpQ5SZHUVaxarBjJ3sLeh6yLjX6+SfUQ
-   1pZkpYzXVrvSUvTf7bdGqBK2dFc8qKqnWZ3MeYTA8PVdjxxcxnWb+yo2a
-   x/5HQbvRYntUAg9Y1ZmkWZkIXISZYPb414lrPkan60uQcd3TOxr3MyAT5
+  bh=EAbu/J2845jw85RsYfJ8i7kIZga2RRXLo3xVxycWzcY=;
+  b=YK60hZeChOZTAin7aQzMq+/cfo4X3qbioxPnTTeuuPdid8xJInQjYrEF
+   iz7vZ5dm8l6Ami7pt/7w9z3k0vIJ4vCMCFH+P9rRlHtzna8vil+rR4t20
+   Xx9k0zpAmFFqhAekyUWu5HDXVogIjJ2vPqnObnEMKiHdLbI0iJFQ/ZseT
+   WmebPw5EW8Je/GPHBREH3QspUcIOJIDcT5O4y+WBpiPpfSTR1uUSSk6W7
+   nL7nQBP7SqvRYptQXsjrXBqLqb/VUbRGZU2HYUtYklVhU4sxATv15h0PY
+   gfIZxFmGwRrF4JCqlERGC3R0dPhIZFL6Pe+iHBulk4lgNni9GBRCOwNO6
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="13059341"
-X-IronPort-AV: E=Sophos;i="6.04,259,1695711600"; 
-   d="scan'208";a="13059341"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 21:39:19 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="394112955"
+X-IronPort-AV: E=Sophos;i="6.04,260,1695711600"; 
+   d="scan'208";a="394112955"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 23:54:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="765372679"
-X-IronPort-AV: E=Sophos;i="6.04,259,1695711600"; 
-   d="scan'208";a="765372679"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="721787888"
+X-IronPort-AV: E=Sophos;i="6.04,260,1695711600"; 
+   d="scan'208";a="721787888"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 07 Dec 2023 21:39:18 -0800
+  by orsmga003.jf.intel.com with ESMTP; 07 Dec 2023 23:54:39 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBTZz-000DKR-2O;
-	Fri, 08 Dec 2023 05:39:15 +0000
-Date: Fri, 8 Dec 2023 13:38:35 +0800
+	id 1rBVgz-000DRv-2C;
+	Fri, 08 Dec 2023 07:54:37 +0000
+Date: Fri, 8 Dec 2023 15:54:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [djwong-xfs:xfile-page-caching 105/205] fs/xfs/xfs_buf.c:2066:11-12:
- WARNING kmalloc is used to allocate this memory at line 2029
-Message-ID: <202312081359.DPZHhJ05-lkp@intel.com>
+Subject: drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:3757:1-7: preceding
+ lock on line 3705
+Message-ID: <202312081506.4F2ju0iH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,81 +52,189 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+CC: linux-kernel@vger.kernel.org
+TO: Joshua Hay <joshua.a.hay@intel.com>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+CC: Alan Brady <alan.brady@intel.com>
+CC: Madhu Chittim <madhu.chittim@intel.com>
+CC: Phani Burra <phani.r.burra@intel.com>
+CC: Sridhar Samudrala <sridhar.samudrala@intel.com>
+CC: Willem de Bruijn <willemb@google.com>
+CC: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
 
-Hi Darrick,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
-head:   ae5732f1c245c24e63c885992c35f723f36f79ff
-commit: 20739d9063f5efc04853e453a68816a0e1cad461 [105/205] xfs: make GFP_ usage consistent when allocating buftargs
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
-config: x86_64-randconfig-102-20231208 (https://download.01.org/0day-ci/archive/20231208/202312081359.DPZHhJ05-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5e3f5b81de80c98338bcb47c233aebefee5a4801
+commit: a251eee62133774cf35ff829041377e721ef9c8c idpf: add SRIOV support and other ndo_ops
+date:   3 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 months ago
+config: i386-randconfig-r053-20231208 (https://download.01.org/0day-ci/archive/20231208/202312081506.4F2ju0iH-lkp@intel.com/config)
 compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20231208/202312081359.DPZHhJ05-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231208/202312081506.4F2ju0iH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312081359.DPZHhJ05-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312081506.4F2ju0iH-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_buf.c:2066:11-12: WARNING kmalloc is used to allocate this memory at line 2029
+>> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:3757:1-7: preceding lock on line 3705
 
-vim +2066 fs/xfs/xfs_buf.c
+vim +3757 drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
 
-^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2021  
-3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2022  static struct xfs_buftarg *
-3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2023  xfs_alloc_buftarg_common(
-ebad861b5702c3 fs/xfs/linux-2.6/xfs_buf.c Dave Chinner    2010-09-22  2024  	struct xfs_mount	*mp,
-3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2025  	const char		*descr)
-^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2026  {
-3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2027  	struct xfs_buftarg	*btp;
-^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2028  
-20739d9063f5ef fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-10 @2029  	btp = kzalloc(sizeof(*btp), GFP_NOFS);
-3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2030  	if (!btp)
-3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2031  		return NULL;
-^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2032  
-ebad861b5702c3 fs/xfs/linux-2.6/xfs_buf.c Dave Chinner    2010-09-22  2033  	btp->bt_mount = mp;
-0e6e847ffe3743 fs/xfs/linux-2.6/xfs_buf.c Dave Chinner    2011-03-26  2034  
-f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2035  	/*
-f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2036  	 * Buffer IO error rate limiting. Limit it to no more than 10 messages
-f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2037  	 * per 30 seconds so as to not spam logs too much on repeated errors.
-f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2038  	 */
-f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2039  	ratelimit_state_init(&btp->bt_ioerror_rl, 30 * HZ,
-f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2040  			     DEFAULT_RATELIMIT_BURST);
-f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2041  
-5ca302c8e502ca fs/xfs/xfs_buf.c           Glauber Costa   2013-08-28  2042  	if (list_lru_init(&btp->bt_lru))
-d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2043  		goto error_free;
-5ca302c8e502ca fs/xfs/xfs_buf.c           Glauber Costa   2013-08-28  2044  
-20739d9063f5ef fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-10  2045  	if (percpu_counter_init(&btp->bt_io_count, 0, GFP_NOFS))
-d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2046  		goto error_lru;
-9c7504aa72b6e2 fs/xfs/xfs_buf.c           Brian Foster    2016-07-20  2047  
-3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2048  	btp->bt_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE, "xfs-%s:%s",
-3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2049  			descr, mp->m_super->s_id);
-17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2050  	if (!btp->bt_shrinker)
-d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2051  		goto error_pcpu;
-17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2052  
-17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2053  	btp->bt_shrinker->count_objects = xfs_buftarg_shrink_count;
-17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2054  	btp->bt_shrinker->scan_objects = xfs_buftarg_shrink_scan;
-17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2055  	btp->bt_shrinker->private_data = btp;
-17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2056  
-17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2057  	shrinker_register(btp->bt_shrinker);
-17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2058  
-^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2059  	return btp;
-^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2060  
-d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2061  error_pcpu:
-d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2062  	percpu_counter_destroy(&btp->bt_io_count);
-d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2063  error_lru:
-d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2064  	list_lru_destroy(&btp->bt_lru);
-d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2065  error_free:
-20739d9063f5ef fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-10 @2066  	kvfree(btp);
-^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2067  	return NULL;
-^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2068  }
-^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2069  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3614  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3615  /**
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3616   * idpf_add_del_mac_filters - Add/del mac filters
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3617   * @vport: Virtual port data structure
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3618   * @np: Netdev private structure
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3619   * @add: Add or delete flag
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3620   * @async: Don't wait for return message
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3621   *
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3622   * Returns 0 on success, error on failure.
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3623   **/
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3624  int idpf_add_del_mac_filters(struct idpf_vport *vport,
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3625  			     struct idpf_netdev_priv *np,
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3626  			     bool add, bool async)
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3627  {
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3628  	struct virtchnl2_mac_addr_list *ma_list = NULL;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3629  	struct idpf_adapter *adapter = np->adapter;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3630  	struct idpf_vport_config *vport_config;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3631  	enum idpf_vport_config_flags mac_flag;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3632  	struct pci_dev *pdev = adapter->pdev;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3633  	enum idpf_vport_vc_state vc, vc_err;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3634  	struct virtchnl2_mac_addr *mac_addr;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3635  	struct idpf_mac_filter *f, *tmp;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3636  	u32 num_msgs, total_filters = 0;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3637  	int i = 0, k, err = 0;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3638  	u32 vop;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3639  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3640  	vport_config = adapter->vport_config[np->vport_idx];
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3641  	spin_lock_bh(&vport_config->mac_filter_list_lock);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3642  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3643  	/* Find the number of newly added filters */
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3644  	list_for_each_entry(f, &vport_config->user_config.mac_filter_list,
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3645  			    list) {
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3646  		if (add && f->add)
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3647  			total_filters++;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3648  		else if (!add && f->remove)
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3649  			total_filters++;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3650  	}
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3651  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3652  	if (!total_filters) {
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3653  		spin_unlock_bh(&vport_config->mac_filter_list_lock);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3654  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3655  		return 0;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3656  	}
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3657  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3658  	/* Fill all the new filters into virtchannel message */
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3659  	mac_addr = kcalloc(total_filters, sizeof(struct virtchnl2_mac_addr),
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3660  			   GFP_ATOMIC);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3661  	if (!mac_addr) {
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3662  		err = -ENOMEM;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3663  		spin_unlock_bh(&vport_config->mac_filter_list_lock);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3664  		goto error;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3665  	}
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3666  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3667  	list_for_each_entry_safe(f, tmp, &vport_config->user_config.mac_filter_list,
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3668  				 list) {
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3669  		if (add && f->add) {
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3670  			ether_addr_copy(mac_addr[i].addr, f->macaddr);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3671  			i++;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3672  			f->add = false;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3673  			if (i == total_filters)
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3674  				break;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3675  		}
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3676  		if (!add && f->remove) {
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3677  			ether_addr_copy(mac_addr[i].addr, f->macaddr);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3678  			i++;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3679  			f->remove = false;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3680  			if (i == total_filters)
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3681  				break;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3682  		}
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3683  	}
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3684  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3685  	spin_unlock_bh(&vport_config->mac_filter_list_lock);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3686  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3687  	if (add) {
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3688  		vop = VIRTCHNL2_OP_ADD_MAC_ADDR;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3689  		vc = IDPF_VC_ADD_MAC_ADDR;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3690  		vc_err = IDPF_VC_ADD_MAC_ADDR_ERR;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3691  		mac_flag = IDPF_VPORT_ADD_MAC_REQ;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3692  	} else {
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3693  		vop = VIRTCHNL2_OP_DEL_MAC_ADDR;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3694  		vc = IDPF_VC_DEL_MAC_ADDR;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3695  		vc_err = IDPF_VC_DEL_MAC_ADDR_ERR;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3696  		mac_flag = IDPF_VPORT_DEL_MAC_REQ;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3697  	}
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3698  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3699  	/* Chunk up the filters into multiple messages to avoid
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3700  	 * sending a control queue message buffer that is too large
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3701  	 */
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3702  	num_msgs = DIV_ROUND_UP(total_filters, IDPF_NUM_FILTERS_PER_MSG);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3703  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3704  	if (!async)
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07 @3705  		mutex_lock(&vport->vc_buf_lock);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3706  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3707  	for (i = 0, k = 0; i < num_msgs; i++) {
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3708  		u32 entries_size, buf_size, num_entries;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3709  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3710  		num_entries = min_t(u32, total_filters,
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3711  				    IDPF_NUM_FILTERS_PER_MSG);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3712  		entries_size = sizeof(struct virtchnl2_mac_addr) * num_entries;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3713  		buf_size = struct_size(ma_list, mac_addr_list, num_entries);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3714  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3715  		if (!ma_list || num_entries != IDPF_NUM_FILTERS_PER_MSG) {
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3716  			kfree(ma_list);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3717  			ma_list = kzalloc(buf_size, GFP_ATOMIC);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3718  			if (!ma_list) {
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3719  				err = -ENOMEM;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3720  				goto list_prep_error;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3721  			}
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3722  		} else {
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3723  			memset(ma_list, 0, buf_size);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3724  		}
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3725  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3726  		ma_list->vport_id = cpu_to_le32(np->vport_id);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3727  		ma_list->num_mac_addr = cpu_to_le16(num_entries);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3728  		memcpy(ma_list->mac_addr_list, &mac_addr[k], entries_size);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3729  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3730  		if (async)
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3731  			set_bit(mac_flag, vport_config->flags);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3732  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3733  		err = idpf_send_mb_msg(adapter, vop, buf_size, (u8 *)ma_list);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3734  		if (err)
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3735  			goto mbx_error;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3736  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3737  		if (!async) {
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3738  			err = idpf_wait_for_event(adapter, vport, vc, vc_err);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3739  			if (err)
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3740  				goto mbx_error;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3741  		}
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3742  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3743  		k += num_entries;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3744  		total_filters -= num_entries;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3745  	}
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3746  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3747  mbx_error:
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3748  	if (!async)
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3749  		mutex_unlock(&vport->vc_buf_lock);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3750  	kfree(ma_list);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3751  list_prep_error:
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3752  	kfree(mac_addr);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3753  error:
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3754  	if (err)
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3755  		dev_err(&pdev->dev, "Failed to add or del mac filters %d", err);
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3756  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07 @3757  	return err;
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  3758  }
+a251eee6213377 Joshua Hay        2023-08-07  3759  
+
+:::::: The code at line 3757 was first introduced by commit
+:::::: ce1b75d0635ce6daf7c1c3c75ea2f0da61e065b0 idpf: add ptypes and MAC filter support
+
+:::::: TO: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+:::::: CC: Tony Nguyen <anthony.l.nguyen@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
