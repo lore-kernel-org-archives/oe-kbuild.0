@@ -1,46 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D0330659
-	for <oe-kbuild@lists.linux.dev>; Fri,  8 Dec 2023 18:47:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1648847A70
+	for <oe-kbuild@lists.linux.dev>; Fri,  8 Dec 2023 19:52:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z7dxrEFi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GYYnAJL+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702061242; x=1733597242;
+  t=1702065155; x=1733601155;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PFEdqcxOQBfoJwMzfVsGtBHGYrKGok2rwllzOSi7a5w=;
-  b=Z7dxrEFiSk0ahGo4XzlJOGBMfdcywR880RQZBJCjpVchBxYBYbR4rcWi
-   UqugAoKpnN3f2+R2gc+yvun7lfCnjbmhAHeu/WRm6/6LUTCk71JNCgcCF
-   ayW6/mIOrNTcuk5RfjkNpWmBhlmFEJT+HISs2OshjM4x2BYsAK1EG71OX
-   /Vq/4ad8q8NNfF6lEMu3ZC1/QISqD8dZ0qvkQsa0VBCQW5C9cvvX9tkTd
-   oHUGwcExXq8MyswrYnBkx7gaqOjStB/2CVHJCp77XmRqXErqWt1gqmJwO
-   vU/YZhCW+ZAv47SLtXXbLAoVwG1lhoF9vXOj1Q/sB4MlN9/LIrLsLJscB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1533250"
+  bh=JZiTDlyBsNzynOtMuNyGZkqyUe6ToI+NhZWMU/AeThw=;
+  b=GYYnAJL+dD7srUy9AQfft+l0rUuIvvJXrMZ8WWHMR0frlrV6kyLrGGM3
+   /jZZpwJyduhbtkpZwB5UGf6fQLfmf/NB6vMi5n8DWQulCAuRWgTg53PWR
+   +tI+kDLeh2ZzaXBnfeisR8Kz2CoK1XaWyDiUPs7bLZcLc3zqZ/93z/08r
+   aQv1RCwsWLQj029yJVk/Dmymtyj8hzToXDph3bnF2U09ZhgghDjYdHZB9
+   I3f0ZZQgsIy8cZmZi62Ey+Eu41RYStZxa0hYfnjHS2sy48ItHGIZnjM8L
+   6Quh9wOPt5b+huokZuyFf3YV4nw7ORbjXbd1Orqu9IqBoB85gqeDX46hq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="393321363"
 X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="1533250"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 10:47:19 -0800
+   d="scan'208";a="393321363"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 11:52:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="806492493"
 X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="806492493"
+   d="scan'208";a="13588282"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 08 Dec 2023 10:47:17 -0800
+  by orviesa002.jf.intel.com with ESMTP; 08 Dec 2023 11:52:20 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBfsY-000ECV-2c;
-	Fri, 08 Dec 2023 18:47:14 +0000
-Date: Sat, 9 Dec 2023 02:46:37 +0800
+	id 1rBgtW-000EI3-2E;
+	Fri, 08 Dec 2023 19:52:18 +0000
+Date: Sat, 9 Dec 2023 03:51:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/ntfs3/bitmap.c:662 wnd_init() warn: Please consider using
- kvcalloc instead of kvmalloc_array
-Message-ID: <202312090212.D7ei9V2v-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: fs/seq_file.c:938:9: sparse:    struct list_head [noderef] __rcu *
+Message-ID: <202312090332.zHaDRvAI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,66 +48,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: fs/seq_file.c:938:9: sparse:    struct list_head [noderef] __rcu *"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+TO: David Howells <dhowells@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5e3f5b81de80c98338bcb47c233aebefee5a4801
-commit: fc471e39e38fea6677017cbdd6d928088a59fc67 fs/ntfs3: Use kvmalloc instead of kmalloc(... __GFP_NOWARN)
-date:   2 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 2 months ago
-config: x86_64-randconfig-161-20231003 (https://download.01.org/0day-ci/archive/20231209/202312090212.D7ei9V2v-lkp@intel.com/config)
+head:   4df7c5fde316820286dfa6d203a1005d7fbe007d
+commit: ad25f5cb39872ca14bcbe00816ae65c22fe04b89 rxrpc: Fix locking issue
+date:   1 year, 7 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 1 year, 7 months ago
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231209/202312090332.zHaDRvAI-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231209/202312090212.D7ei9V2v-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312090332.zHaDRvAI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312090212.D7ei9V2v-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312090332.zHaDRvAI-lkp@intel.com/
 
-smatch warnings:
-fs/ntfs3/bitmap.c:662 wnd_init() warn: Please consider using kvcalloc instead of kvmalloc_array
+sparse warnings: (new ones prefixed by >>)
+   fs/seq_file.c:938:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+>> fs/seq_file.c:938:9: sparse:    struct list_head [noderef] __rcu *
+>> fs/seq_file.c:938:9: sparse:    struct list_head *
+   fs/seq_file.c:938:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+>> fs/seq_file.c:938:9: sparse:    struct list_head [noderef] __rcu *
+>> fs/seq_file.c:938:9: sparse:    struct list_head *
+>> fs/seq_file.c:960:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct list_head *lh @@     got struct list_head [noderef] __rcu * @@
+   fs/seq_file.c:960:12: sparse:     expected struct list_head *lh
+   fs/seq_file.c:960:12: sparse:     got struct list_head [noderef] __rcu *
+   fs/seq_file.c:1087:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/seq_file.c:1087:24: sparse:    struct hlist_node [noderef] __rcu *
+   fs/seq_file.c:1087:24: sparse:    struct hlist_node *
+   fs/seq_file.c:1089:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/seq_file.c:1089:24: sparse:    struct hlist_node [noderef] __rcu *
+   fs/seq_file.c:1089:24: sparse:    struct hlist_node *
 
-vim +662 fs/ntfs3/bitmap.c
+vim +938 fs/seq_file.c
 
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  642  
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  643  int wnd_init(struct wnd_bitmap *wnd, struct super_block *sb, size_t nbits)
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  644  {
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  645  	int err;
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  646  	u32 blocksize = sb->s_blocksize;
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  647  	u32 wbits = blocksize * 8;
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  648  
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  649  	init_rwsem(&wnd->rw_lock);
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  650  
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  651  	wnd->sb = sb;
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  652  	wnd->nbits = nbits;
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  653  	wnd->total_zeroes = nbits;
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  654  	wnd->extent_max = MINUS_ONE_T;
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  655  	wnd->zone_bit = wnd->zone_end = 0;
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  656  	wnd->nwnd = bytes_to_block(sb, bitmap_size(nbits));
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  657  	wnd->bits_last = nbits & (wbits - 1);
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  658  	if (!wnd->bits_last)
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  659  		wnd->bits_last = wbits;
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  660  
-6827d50b2c430c Konstantin Komarov 2022-12-30  661  	wnd->free_bits =
-fc471e39e38fea Konstantin Komarov 2023-06-30 @662  		kvmalloc_array(wnd->nwnd, sizeof(u16), GFP_KERNEL | __GFP_ZERO);
-fc471e39e38fea Konstantin Komarov 2023-06-30  663  
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  664  	if (!wnd->free_bits)
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  665  		return -ENOMEM;
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  666  
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  667  	err = wnd_rescan(wnd);
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  668  	if (err)
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  669  		return err;
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  670  
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  671  	wnd->inited = true;
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  672  
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  673  	return 0;
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  674  }
-3f3b442b5ad245 Konstantin Komarov 2021-08-13  675  
+66655de6d132b7 Li Zefan      2010-02-08  933  
+ad25f5cb39872c David Howells 2022-05-21  934  struct list_head *seq_list_start_rcu(struct list_head *head, loff_t pos)
+ad25f5cb39872c David Howells 2022-05-21  935  {
+ad25f5cb39872c David Howells 2022-05-21  936  	struct list_head *lh;
+ad25f5cb39872c David Howells 2022-05-21  937  
+ad25f5cb39872c David Howells 2022-05-21 @938  	list_for_each_rcu(lh, head)
+ad25f5cb39872c David Howells 2022-05-21  939  		if (pos-- == 0)
+ad25f5cb39872c David Howells 2022-05-21  940  			return lh;
+ad25f5cb39872c David Howells 2022-05-21  941  
+ad25f5cb39872c David Howells 2022-05-21  942  	return NULL;
+ad25f5cb39872c David Howells 2022-05-21  943  }
+ad25f5cb39872c David Howells 2022-05-21  944  EXPORT_SYMBOL(seq_list_start_rcu);
+ad25f5cb39872c David Howells 2022-05-21  945  
+ad25f5cb39872c David Howells 2022-05-21  946  struct list_head *seq_list_start_head_rcu(struct list_head *head, loff_t pos)
+ad25f5cb39872c David Howells 2022-05-21  947  {
+ad25f5cb39872c David Howells 2022-05-21  948  	if (!pos)
+ad25f5cb39872c David Howells 2022-05-21  949  		return head;
+ad25f5cb39872c David Howells 2022-05-21  950  
+ad25f5cb39872c David Howells 2022-05-21  951  	return seq_list_start_rcu(head, pos - 1);
+ad25f5cb39872c David Howells 2022-05-21  952  }
+ad25f5cb39872c David Howells 2022-05-21  953  EXPORT_SYMBOL(seq_list_start_head_rcu);
+ad25f5cb39872c David Howells 2022-05-21  954  
+ad25f5cb39872c David Howells 2022-05-21  955  struct list_head *seq_list_next_rcu(void *v, struct list_head *head,
+ad25f5cb39872c David Howells 2022-05-21  956  				    loff_t *ppos)
+ad25f5cb39872c David Howells 2022-05-21  957  {
+ad25f5cb39872c David Howells 2022-05-21  958  	struct list_head *lh;
+ad25f5cb39872c David Howells 2022-05-21  959  
+ad25f5cb39872c David Howells 2022-05-21 @960  	lh = list_next_rcu((struct list_head *)v);
+ad25f5cb39872c David Howells 2022-05-21  961  	++*ppos;
+ad25f5cb39872c David Howells 2022-05-21  962  	return lh == head ? NULL : lh;
+ad25f5cb39872c David Howells 2022-05-21  963  }
+ad25f5cb39872c David Howells 2022-05-21  964  EXPORT_SYMBOL(seq_list_next_rcu);
+ad25f5cb39872c David Howells 2022-05-21  965  
 
 -- 
 0-DAY CI Kernel Test Service
