@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE1063A
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 12:52:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2387C2C1
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 13:45:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XtKUNdsB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bLSVv0J0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702212728; x=1733748728;
+  t=1702215940; x=1733751940;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AonU4sUJlIh+YwPs6/zj+9CCuVObJFc9JdUFl5PTLrE=;
-  b=XtKUNdsBOOO1FDvdpPgVsczQgw/LfSsgi2f7Vd8Q/mJxvpkL5EZDOtG4
-   C0Z1FlXaasnsc8gh2U5TbTQkbUfBfQQa8iXuA9d6Fzcs2/I/TyuTc1SLE
-   PV9ZJEvnTV7EPF/J+UU1WAvzH0tmj0fJMDTpYz50GHSSQ7m6ljVttQJ7z
-   tpOXHvSvccvXVedfkVP59XWe8FlCIC7o30qGz5gnZEvmdYMcpfMylVPQH
-   6P1ClCpfmFws88xMnSjfxggqI0+6FieCtZcex2domw0/ouDKCSLm2tKkd
-   xmA8sM7e2Zdd/LfxI9TIB9wK64WzQ9Nj+rmfbMOZABRr4tfP/i4CG+gFN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="398412137"
+  bh=eLhcQCuQBOq8tLLBRPgDCMCwAnHaXfwGvnbHUL0ncac=;
+  b=bLSVv0J09kiWUoLZAiwvfbRvi8yMJEgARiHabJOXkHW9yIG5qcdWjNsO
+   SwZoon/jRCl7YWPwWLV2lE5DRsNq1V3Y2sjQuvpSOhxg588A8RXvq6/Am
+   YtbEjG1oRhFr01kStabEvFJEWOd86kvAV8Awr+1vZQ+hp9N8tl1H9VR9T
+   YDHap2zuzzdBclVWv0wnJzMWADwSfZocn74uTXyhqxq17zKCGCtClJ8W5
+   BiRux8Jh5PyIj764Djcvr/orjkyDCiO+uqUPbmnjbWawScgm3ZrmzpZc3
+   kSeKsdQRZwhl5zXkQfXpHi/x0grLpuqemZTE4OkgqMVhnuoyITxqRB3bm
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="394290872"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="398412137"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 04:52:07 -0800
+   d="scan'208";a="394290872"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 05:45:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="843173269"
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="890766880"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="843173269"
+   d="scan'208";a="890766880"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 10 Dec 2023 04:52:05 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 10 Dec 2023 05:45:38 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCJHv-000Gq8-1k;
-	Sun, 10 Dec 2023 12:52:03 +0000
-Date: Sun, 10 Dec 2023 20:51:33 +0800
+	id 1rCK7k-000GtW-1S;
+	Sun, 10 Dec 2023 13:45:36 +0000
+Date: Sun, 10 Dec 2023 21:44:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/mellanox/mlxsw/spectrum_switchdev.c:1157
- mlxsw_sp_bridge_port_vlan_add() error: uninitialized symbol 'proto'.
-Message-ID: <202312102006.YxunZ5rf-lkp@intel.com>
+Subject: arch/s390/kernel/perf_cpum_cf.c:306 cpum_cf_alloc() error:
+ uninitialized symbol 'rc'.
+Message-ID: <202312102155.RbBlpK49-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,88 +53,67 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Amit Cohen <amcohen@nvidia.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Petr Machata <petrm@nvidia.com>
-CC: Ido Schimmel <idosch@nvidia.com>
+TO: Thomas Richter <tmricht@linux.ibm.com>
+CC: Alexander Gordeev <agordeev@linux.ibm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c527f5606aa545233a4d2c6d5c636ed82b8633ef
-commit: 3ae7a65b6424154cb5d606ccae27ffd0ac76ed56 mlxsw: Make EtherType configurable when pushing VLAN at ingress
-date:   3 years ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 3 years ago
-config: i386-randconfig-141-20230929 (https://download.01.org/0day-ci/archive/20231210/202312102006.YxunZ5rf-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231210/202312102006.YxunZ5rf-lkp@intel.com/reproduce)
+commit: 9b9cf3c77e7e090b30657b3d2c288deb58dfb4f2 s390/cpum_cf: rework PER_CPU_DEFINE of struct cpu_cf_events
+date:   6 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 6 months ago
+config: s390-randconfig-r071-20231115 (https://download.01.org/0day-ci/archive/20231210/202312102155.RbBlpK49-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231210/202312102155.RbBlpK49-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312102006.YxunZ5rf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312102155.RbBlpK49-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/mellanox/mlxsw/spectrum_switchdev.c:1157 mlxsw_sp_bridge_port_vlan_add() error: uninitialized symbol 'proto'.
-drivers/net/ethernet/mellanox/mlxsw/spectrum_switchdev.c:1834 mlxsw_sp_bridge_port_vlan_del() error: uninitialized symbol 'proto'.
+New smatch warnings:
+arch/s390/kernel/perf_cpum_cf.c:306 cpum_cf_alloc() error: uninitialized symbol 'rc'.
 
-vim +/proto +1157 drivers/net/ethernet/mellanox/mlxsw/spectrum_switchdev.c
+Old smatch warnings:
+arch/s390/kernel/perf_cpum_cf.c:1505 cfset_all_copy() warn: ignoring unreachable code.
 
-c57529e1d5d882 Ido Schimmel 2017-05-26  1122  
-c57529e1d5d882 Ido Schimmel 2017-05-26  1123  static int
-c57529e1d5d882 Ido Schimmel 2017-05-26  1124  mlxsw_sp_bridge_port_vlan_add(struct mlxsw_sp_port *mlxsw_sp_port,
-c57529e1d5d882 Ido Schimmel 2017-05-26  1125  			      struct mlxsw_sp_bridge_port *bridge_port,
-7357eb3d4b3e33 Petr Machata 2018-12-12  1126  			      u16 vid, bool is_untagged, bool is_pvid,
-457e20d659247a Ido Schimmel 2019-01-08  1127  			      struct netlink_ext_ack *extack)
-c57529e1d5d882 Ido Schimmel 2017-05-26  1128  {
-c57529e1d5d882 Ido Schimmel 2017-05-26  1129  	u16 pvid = mlxsw_sp_port_pvid_determine(mlxsw_sp_port, vid, is_pvid);
-c57529e1d5d882 Ido Schimmel 2017-05-26  1130  	struct mlxsw_sp_port_vlan *mlxsw_sp_port_vlan;
-c57529e1d5d882 Ido Schimmel 2017-05-26  1131  	u16 old_pvid = mlxsw_sp_port->pvid;
-3ae7a65b642415 Amit Cohen   2020-11-29  1132  	u16 proto;
-c57529e1d5d882 Ido Schimmel 2017-05-26  1133  	int err;
-c57529e1d5d882 Ido Schimmel 2017-05-26  1134  
-635c8c8bba670d Ido Schimmel 2018-12-19  1135  	/* The only valid scenario in which a port-vlan already exists, is if
-635c8c8bba670d Ido Schimmel 2018-12-19  1136  	 * the VLAN flags were changed and the port-vlan is associated with the
-635c8c8bba670d Ido Schimmel 2018-12-19  1137  	 * correct bridge port
-635c8c8bba670d Ido Schimmel 2018-12-19  1138  	 */
-635c8c8bba670d Ido Schimmel 2018-12-19  1139  	mlxsw_sp_port_vlan = mlxsw_sp_port_vlan_find_by_vid(mlxsw_sp_port, vid);
-635c8c8bba670d Ido Schimmel 2018-12-19  1140  	if (mlxsw_sp_port_vlan &&
-635c8c8bba670d Ido Schimmel 2018-12-19  1141  	    mlxsw_sp_port_vlan->bridge_port != bridge_port)
-635c8c8bba670d Ido Schimmel 2018-12-19  1142  		return -EEXIST;
-635c8c8bba670d Ido Schimmel 2018-12-19  1143  
-635c8c8bba670d Ido Schimmel 2018-12-19  1144  	if (!mlxsw_sp_port_vlan) {
-635c8c8bba670d Ido Schimmel 2018-12-19  1145  		mlxsw_sp_port_vlan = mlxsw_sp_port_vlan_create(mlxsw_sp_port,
-635c8c8bba670d Ido Schimmel 2018-12-19  1146  							       vid);
-c57529e1d5d882 Ido Schimmel 2017-05-26  1147  		if (IS_ERR(mlxsw_sp_port_vlan))
-c57529e1d5d882 Ido Schimmel 2017-05-26  1148  			return PTR_ERR(mlxsw_sp_port_vlan);
-635c8c8bba670d Ido Schimmel 2018-12-19  1149  	}
-c57529e1d5d882 Ido Schimmel 2017-05-26  1150  
-c57529e1d5d882 Ido Schimmel 2017-05-26  1151  	err = mlxsw_sp_port_vlan_set(mlxsw_sp_port, vid, vid, true,
-c57529e1d5d882 Ido Schimmel 2017-05-26  1152  				     is_untagged);
-c57529e1d5d882 Ido Schimmel 2017-05-26  1153  	if (err)
-c57529e1d5d882 Ido Schimmel 2017-05-26  1154  		goto err_port_vlan_set;
-c57529e1d5d882 Ido Schimmel 2017-05-26  1155  
-3ae7a65b642415 Amit Cohen   2020-11-29  1156  	br_vlan_get_proto(bridge_port->bridge_device->dev, &proto);
-3ae7a65b642415 Amit Cohen   2020-11-29 @1157  	err = mlxsw_sp_port_pvid_set(mlxsw_sp_port, pvid, proto);
-c57529e1d5d882 Ido Schimmel 2017-05-26  1158  	if (err)
-c57529e1d5d882 Ido Schimmel 2017-05-26  1159  		goto err_port_pvid_set;
-c57529e1d5d882 Ido Schimmel 2017-05-26  1160  
-7357eb3d4b3e33 Petr Machata 2018-12-12  1161  	err = mlxsw_sp_port_vlan_bridge_join(mlxsw_sp_port_vlan, bridge_port,
-7357eb3d4b3e33 Petr Machata 2018-12-12  1162  					     extack);
-c57529e1d5d882 Ido Schimmel 2017-05-26  1163  	if (err)
-c57529e1d5d882 Ido Schimmel 2017-05-26  1164  		goto err_port_vlan_bridge_join;
-c57529e1d5d882 Ido Schimmel 2017-05-26  1165  
-c57529e1d5d882 Ido Schimmel 2017-05-26  1166  	return 0;
-c57529e1d5d882 Ido Schimmel 2017-05-26  1167  
-c57529e1d5d882 Ido Schimmel 2017-05-26  1168  err_port_vlan_bridge_join:
-3ae7a65b642415 Amit Cohen   2020-11-29  1169  	mlxsw_sp_port_pvid_set(mlxsw_sp_port, old_pvid, proto);
-b07a966c700761 Ido Schimmel 2015-11-19  1170  err_port_pvid_set:
-fe9ccc785de5f8 Ido Schimmel 2017-05-16  1171  	mlxsw_sp_port_vlan_set(mlxsw_sp_port, vid, vid, false, false);
-fe9ccc785de5f8 Ido Schimmel 2017-05-16  1172  err_port_vlan_set:
-635c8c8bba670d Ido Schimmel 2018-12-19  1173  	mlxsw_sp_port_vlan_destroy(mlxsw_sp_port_vlan);
-b07a966c700761 Ido Schimmel 2015-11-19  1174  	return err;
-56ade8fe3fe1e1 Jiri Pirko   2015-10-16  1175  }
-56ade8fe3fe1e1 Jiri Pirko   2015-10-16  1176  
+vim +/rc +306 arch/s390/kernel/perf_cpum_cf.c
+
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  275  
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  276  /*
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  277   * Create/delete per CPU data structures for /dev/hwctr interface and events
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  278   * created by perf_event_open().
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  279   * If cpu is -1, track task on all available CPUs. This requires
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  280   * allocation of hardware data structures for all CPUs. This setup handles
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  281   * perf_event_open() with task context and /dev/hwctr interface.
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  282   * If cpu is non-zero install event on this CPU only. This setup handles
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  283   * perf_event_open() with CPU context.
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  284   */
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  285  static int cpum_cf_alloc(int cpu)
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  286  {
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  287  	cpumask_var_t mask;
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  288  	int rc;
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  289  
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  290  	if (cpu == -1) {
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  291  		if (!zalloc_cpumask_var(&mask, GFP_KERNEL))
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  292  			return -ENOMEM;
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  293  		for_each_online_cpu(cpu) {
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  294  			rc = cpum_cf_alloc_cpu(cpu);
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  295  			if (rc) {
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  296  				for_each_cpu(cpu, mask)
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  297  					cpum_cf_free_cpu(cpu);
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  298  				break;
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  299  			}
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  300  			cpumask_set_cpu(cpu, mask);
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  301  		}
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  302  		free_cpumask_var(mask);
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  303  	} else {
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  304  		rc = cpum_cf_alloc_cpu(cpu);
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  305  	}
+9b9cf3c77e7e09 Thomas Richter 2023-06-15 @306  	return rc;
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  307  }
+9b9cf3c77e7e09 Thomas Richter 2023-06-15  308  
 
 -- 
 0-DAY CI Kernel Test Service
