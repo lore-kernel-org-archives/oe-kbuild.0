@@ -1,189 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F981FB6
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 07:53:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40448210A
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 08:35:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UBPmKCge"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WwNd0rk+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702194817; x=1733730817;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LKT0pz0up2v5xsUk9VEvaM1lerwy4iOVS13t6mPr9tU=;
-  b=UBPmKCgeRd98bncch2njcV+Uau16JT4duNu8ZAUB49KGck0lgl/ZMYa6
-   3EFthscEYB8zt7c74yQeLBXuxqKPpLpLJOyYenjY2Wl7VKnGnxlBaP/67
-   In0e8gtDULEO8EbbJgty1SLUxVEVWaRktI0DBYP3+M+aYt7kyQG4sbGSi
-   K0gv2d4G1ylwyGB780w+kFMb0579hQR4Y5LuLe9Eal2y7bFMcUSXgH5lD
-   k1TsI3OswEX5AH2+ZxYLn/uOnB1aFYWEiKNdlYyUfZ8+hjKCSxOgy7hWj
-   JLuqUBuST+zmb/mo8bhZiEmFA5qT8q3xpzEVbBZGFDZcfLnMzyElJJxW3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="458855574"
+  t=1702197339; x=1733733339;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OGJSHQapaqVhDLU/0qtwn6Ck4ZseHVoQpiIqVTlUKCA=;
+  b=WwNd0rk+kbQckDKM7ii8yEf+A0cQRKmIwDWbbUYnwDZ/em8vPh8j12xc
+   vCR9v3vGJ/F7nun+Wxq9Lz7V1HIgk7QkI2lpLIXuyQ5VRLufP4y7NONg6
+   nRcIAVFnaYzc+aR8TrX6Jqd4+dbsAJxewi86XggsD5TOACmvaM+2LbVeX
+   EbVGM+1fKgadqxaIyTUUmtQFk0NDf3FW09aMdpIWVuX69wEhx9HIDERtq
+   +s1lSVnI+k3wQ3FcD+qK78fAZ2rfqMnEwXccG+QKsChmdh+OR+wFAfBoM
+   DirdnVyf43pzd3/avqkJqOv3ZtWUDRNBPTyd0fjcmmlSWUfygjnP98cFr
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="391714127"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="458855574"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 23:53:36 -0800
+   d="scan'208";a="391714127"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 00:35:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="863369862"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="806885945"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="863369862"
+   d="scan'208";a="806885945"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 09 Dec 2023 23:53:35 -0800
+  by orsmga001.jf.intel.com with ESMTP; 10 Dec 2023 00:35:36 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCEd3-000GZr-0j;
-	Sun, 10 Dec 2023 07:53:33 +0000
-Date: Sun, 10 Dec 2023 15:52:54 +0800
+	id 1rCFHi-000GcQ-1p;
+	Sun, 10 Dec 2023 08:35:34 +0000
+Date: Sun, 10 Dec 2023 16:35:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/nfsd/nfs4xdr.c:2425 nfsd4_decode_compound() warn: potential
- spectre issue 'nfsd4_dec_ops' [r]
-Message-ID: <202312101533.xcM9QWrr-lkp@intel.com>
+Subject: sound/soc/intel/avs/boards/rt5682.c:219 avs_create_dai_link() warn:
+ excess argument passed to 'devm_kasprintf'
+Message-ID: <202312101652.6krC3ZJW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Chuck Lever <chuck.lever@oracle.com>
+TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
+CC: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c527f5606aa545233a4d2c6d5c636ed82b8633ef
-commit: 3a237b4af5b7b0e77588e120554077cab3341943 NFSD: Make nfsd4_ops::opnum a u32
-date:   3 years ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 3 years ago
-config: i386-randconfig-141-20231010 (https://download.01.org/0day-ci/archive/20231210/202312101533.xcM9QWrr-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231210/202312101533.xcM9QWrr-lkp@intel.com/reproduce)
+commit: 2172c5b90d80aedc7cbe571e353ae45040e03a3b ASoC: Intel: avs: rt5682: Validate machine board configuration
+date:   8 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 8 weeks ago
+config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231210/202312101652.6krC3ZJW-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20231210/202312101652.6krC3ZJW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312101533.xcM9QWrr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312101652.6krC3ZJW-lkp@intel.com/
 
 New smatch warnings:
-fs/nfsd/nfs4xdr.c:2425 nfsd4_decode_compound() warn: potential spectre issue 'nfsd4_dec_ops' [r]
+sound/soc/intel/avs/boards/rt5682.c:219 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
 
 Old smatch warnings:
-fs/nfsd/nfs4xdr.c:4863 nfsd4_encode_read_plus_hole() warn: inconsistent indenting
+sound/soc/intel/avs/boards/rt5682.c:226 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
 
-vim +/nfsd4_dec_ops +2425 fs/nfsd/nfs4xdr.c
+vim +/devm_kasprintf +219 sound/soc/intel/avs/boards/rt5682.c
 
-f2feb96bc3d18e Benny Halevy    2008-07-02  2374  
-b37ad28bcaa7c4 Al Viro         2006-10-19  2375  static __be32
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2376  nfsd4_decode_compound(struct nfsd4_compoundargs *argp)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2377  {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2378  	DECODE_HEAD;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2379  	struct nfsd4_op *op;
-1091006c5eb15c J. Bruce Fields 2011-01-24  2380  	bool cachethis = false;
-a5cddc885b9945 J. Bruce Fields 2014-05-12  2381  	int auth_slack= argp->rqstp->rq_auth_slack;
-a5cddc885b9945 J. Bruce Fields 2014-05-12  2382  	int max_reply = auth_slack + 8; /* opcnt, status */
-b0e35fda827e72 J. Bruce Fields 2014-02-04  2383  	int readcount = 0;
-b0e35fda827e72 J. Bruce Fields 2014-02-04  2384  	int readbytes = 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2385  	int i;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2386  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2387  	READ_BUF(4);
-06553991e7757c J. Bruce Fields 2014-06-02  2388  	argp->taglen = be32_to_cpup(p++);
-4aed9c46afb801 J. Bruce Fields 2016-02-29  2389  	READ_BUF(argp->taglen);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2390  	SAVEMEM(argp->tag, argp->taglen);
-4aed9c46afb801 J. Bruce Fields 2016-02-29  2391  	READ_BUF(8);
-06553991e7757c J. Bruce Fields 2014-06-02  2392  	argp->minorversion = be32_to_cpup(p++);
-06553991e7757c J. Bruce Fields 2014-06-02  2393  	argp->opcnt = be32_to_cpup(p++);
-4f0cefbf389c28 J. Bruce Fields 2014-03-11  2394  	max_reply += 4 + (XDR_QUADLEN(argp->taglen) << 2);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2395  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2396  	if (argp->taglen > NFSD4_MAX_TAGLEN)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2397  		goto xdr_error;
-0078117c6d9160 J. Bruce Fields 2017-11-15  2398  	/*
-0078117c6d9160 J. Bruce Fields 2017-11-15  2399  	 * NFS4ERR_RESOURCE is a more helpful error than GARBAGE_ARGS
-0078117c6d9160 J. Bruce Fields 2017-11-15  2400  	 * here, so we return success at the xdr level so that
-0078117c6d9160 J. Bruce Fields 2017-11-15  2401  	 * nfsd4_proc can handle this is an NFS-level error.
-0078117c6d9160 J. Bruce Fields 2017-11-15  2402  	 */
-0078117c6d9160 J. Bruce Fields 2017-11-15  2403  	if (argp->opcnt > NFSD_MAX_OPS_PER_COMPOUND)
-0078117c6d9160 J. Bruce Fields 2017-11-15  2404  		return 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2405  
-e8c96f8c29d89a Tobias Klauser  2006-03-24  2406  	if (argp->opcnt > ARRAY_SIZE(argp->iops)) {
-5d6031ca742f9f J. Bruce Fields 2014-07-17  2407  		argp->ops = kzalloc(argp->opcnt * sizeof(*argp->ops), GFP_KERNEL);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2408  		if (!argp->ops) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2409  			argp->ops = argp->iops;
-817cb9d43d4c33 Chuck Lever     2007-09-11  2410  			dprintk("nfsd: couldn't allocate room for COMPOUND\n");
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2411  			goto xdr_error;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2412  		}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2413  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2414  
-e1a90ebd8b2349 Anna Schumaker  2013-10-30  2415  	if (argp->minorversion > NFSD_SUPPORTED_MINOR_VERSION)
-30cff1ffff3981 Benny Halevy    2008-07-02  2416  		argp->opcnt = 0;
-30cff1ffff3981 Benny Halevy    2008-07-02  2417  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2418  	for (i = 0; i < argp->opcnt; i++) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2419  		op = &argp->ops[i];
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2420  		op->replay = NULL;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2421  
-3a237b4af5b7b0 Chuck Lever     2020-11-22  2422  		if (xdr_stream_decode_u32(argp->xdr, &op->opnum) < 0)
-3a237b4af5b7b0 Chuck Lever     2020-11-22  2423  			return nfserr_bad_xdr;
-08281341be8ebc Chuck Lever     2020-11-21  2424  		if (nfsd4_opnum_in_range(argp, op)) {
-e1a90ebd8b2349 Anna Schumaker  2013-10-30 @2425  			op->status = nfsd4_dec_ops[op->opnum](argp, &op->u);
-08281341be8ebc Chuck Lever     2020-11-21  2426  			if (op->status != nfs_ok)
-08281341be8ebc Chuck Lever     2020-11-21  2427  				trace_nfsd_compound_decode_err(argp->rqstp,
-08281341be8ebc Chuck Lever     2020-11-21  2428  							       argp->opcnt, i,
-08281341be8ebc Chuck Lever     2020-11-21  2429  							       op->opnum,
-08281341be8ebc Chuck Lever     2020-11-21  2430  							       op->status);
-08281341be8ebc Chuck Lever     2020-11-21  2431  		} else {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2432  			op->opnum = OP_ILLEGAL;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2433  			op->status = nfserr_op_illegal;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2434  		}
-f4f9ef4a1b0a1c J. Bruce Fields 2017-07-06  2435  		op->opdesc = OPDESC(op);
-1091006c5eb15c J. Bruce Fields 2011-01-24  2436  		/*
-1091006c5eb15c J. Bruce Fields 2011-01-24  2437  		 * We'll try to cache the result in the DRC if any one
-1091006c5eb15c J. Bruce Fields 2011-01-24  2438  		 * op in the compound wants to be cached:
-1091006c5eb15c J. Bruce Fields 2011-01-24  2439  		 */
-1091006c5eb15c J. Bruce Fields 2011-01-24  2440  		cachethis |= nfsd4_cache_this_op(op);
-6ff40decff0ef3 J. Bruce Fields 2013-11-05  2441  
-528b84934eb904 Anna Schumaker  2020-09-28  2442  		if (op->opnum == OP_READ || op->opnum == OP_READ_PLUS) {
-b0e35fda827e72 J. Bruce Fields 2014-02-04  2443  			readcount++;
-b0e35fda827e72 J. Bruce Fields 2014-02-04  2444  			readbytes += nfsd4_max_reply(argp->rqstp, op);
-b0e35fda827e72 J. Bruce Fields 2014-02-04  2445  		} else
-4f0cefbf389c28 J. Bruce Fields 2014-03-11  2446  			max_reply += nfsd4_max_reply(argp->rqstp, op);
-f7b43d0c992c3e J. Bruce Fields 2014-08-12  2447  		/*
-7323f0d2881bbd Kinglong Mee    2017-02-03  2448  		 * OP_LOCK and OP_LOCKT may return a conflicting lock.
-7323f0d2881bbd Kinglong Mee    2017-02-03  2449  		 * (Special case because it will just skip encoding this
-7323f0d2881bbd Kinglong Mee    2017-02-03  2450  		 * if it runs out of xdr buffer space, and it is the only
-7323f0d2881bbd Kinglong Mee    2017-02-03  2451  		 * operation that behaves this way.)
-f7b43d0c992c3e J. Bruce Fields 2014-08-12  2452  		 */
-7323f0d2881bbd Kinglong Mee    2017-02-03  2453  		if (op->opnum == OP_LOCK || op->opnum == OP_LOCKT)
-f7b43d0c992c3e J. Bruce Fields 2014-08-12  2454  			max_reply += NFS4_OPAQUE_LIMIT;
-e372ba60def1af J. Bruce Fields 2014-05-19  2455  
-e372ba60def1af J. Bruce Fields 2014-05-19  2456  		if (op->status) {
-e372ba60def1af J. Bruce Fields 2014-05-19  2457  			argp->opcnt = i+1;
-e372ba60def1af J. Bruce Fields 2014-05-19  2458  			break;
-e372ba60def1af J. Bruce Fields 2014-05-19  2459  		}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2460  	}
-1091006c5eb15c J. Bruce Fields 2011-01-24  2461  	/* Sessions make the DRC unnecessary: */
-1091006c5eb15c J. Bruce Fields 2011-01-24  2462  	if (argp->minorversion)
-1091006c5eb15c J. Bruce Fields 2011-01-24  2463  		cachethis = false;
-b0e35fda827e72 J. Bruce Fields 2014-02-04  2464  	svc_reserve(argp->rqstp, max_reply + readbytes);
-1091006c5eb15c J. Bruce Fields 2011-01-24  2465  	argp->rqstp->rq_cachetype = cachethis ? RC_REPLBUFF : RC_NOCACHE;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2466  
-a5cddc885b9945 J. Bruce Fields 2014-05-12  2467  	if (readcount > 1 || max_reply > PAGE_SIZE - auth_slack)
-779fb0f3af3089 Jeff Layton     2014-11-19  2468  		clear_bit(RQ_SPLICE_OK, &argp->rqstp->rq_flags);
-b0e35fda827e72 J. Bruce Fields 2014-02-04  2469  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2470  	DECODE_TAIL;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2471  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2472  
-
-:::::: The code at line 2425 was first introduced by commit
-:::::: e1a90ebd8b2349eb00ec22f0b8bf6ab8bbd06cc8 NFSD: Combine decode operations for v4 and v4.1
-
-:::::: TO: Anna Schumaker <bjschuma@netapp.com>
-:::::: CC: J. Bruce Fields <bfields@redhat.com>
+d24dbc865c2bd5 Amadeusz Sławiński 2023-03-03  205  
+748102786b3ce0 Cezary Rojewski    2022-05-11  206  static int avs_create_dai_link(struct device *dev, const char *platform_name, int ssp_port,
+2172c5b90d80ae Amadeusz Sławiński 2023-10-12  207  			       int tdm_slot, struct snd_soc_dai_link **dai_link)
+748102786b3ce0 Cezary Rojewski    2022-05-11  208  {
+748102786b3ce0 Cezary Rojewski    2022-05-11  209  	struct snd_soc_dai_link_component *platform;
+748102786b3ce0 Cezary Rojewski    2022-05-11  210  	struct snd_soc_dai_link *dl;
+748102786b3ce0 Cezary Rojewski    2022-05-11  211  
+748102786b3ce0 Cezary Rojewski    2022-05-11  212  	dl = devm_kzalloc(dev, sizeof(*dl), GFP_KERNEL);
+748102786b3ce0 Cezary Rojewski    2022-05-11  213  	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
+748102786b3ce0 Cezary Rojewski    2022-05-11  214  	if (!dl || !platform)
+748102786b3ce0 Cezary Rojewski    2022-05-11  215  		return -ENOMEM;
+748102786b3ce0 Cezary Rojewski    2022-05-11  216  
+748102786b3ce0 Cezary Rojewski    2022-05-11  217  	platform->name = platform_name;
+748102786b3ce0 Cezary Rojewski    2022-05-11  218  
+2172c5b90d80ae Amadeusz Sławiński 2023-10-12 @219  	dl->name = devm_kasprintf(dev, GFP_KERNEL,
+2172c5b90d80ae Amadeusz Sławiński 2023-10-12  220  				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
+748102786b3ce0 Cezary Rojewski    2022-05-11  221  	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
+748102786b3ce0 Cezary Rojewski    2022-05-11  222  	dl->codecs = devm_kzalloc(dev, sizeof(*dl->codecs), GFP_KERNEL);
+748102786b3ce0 Cezary Rojewski    2022-05-11  223  	if (!dl->name || !dl->cpus || !dl->codecs)
+748102786b3ce0 Cezary Rojewski    2022-05-11  224  		return -ENOMEM;
+748102786b3ce0 Cezary Rojewski    2022-05-11  225  
+2172c5b90d80ae Amadeusz Sławiński 2023-10-12  226  	dl->cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
+2172c5b90d80ae Amadeusz Sławiński 2023-10-12  227  					    AVS_STRING_FMT("SSP", " Pin", ssp_port, tdm_slot));
+748102786b3ce0 Cezary Rojewski    2022-05-11  228  	dl->codecs->name = devm_kasprintf(dev, GFP_KERNEL, "i2c-10EC5682:00");
+19bb7c3053ee54 Amadeusz Sławiński 2022-11-29  229  	dl->codecs->dai_name = devm_kasprintf(dev, GFP_KERNEL, AVS_RT5682_CODEC_DAI_NAME);
+748102786b3ce0 Cezary Rojewski    2022-05-11  230  	if (!dl->cpus->dai_name || !dl->codecs->name || !dl->codecs->dai_name)
+748102786b3ce0 Cezary Rojewski    2022-05-11  231  		return -ENOMEM;
+748102786b3ce0 Cezary Rojewski    2022-05-11  232  
+748102786b3ce0 Cezary Rojewski    2022-05-11  233  	dl->num_cpus = 1;
+748102786b3ce0 Cezary Rojewski    2022-05-11  234  	dl->num_codecs = 1;
+748102786b3ce0 Cezary Rojewski    2022-05-11  235  	dl->platforms = platform;
+748102786b3ce0 Cezary Rojewski    2022-05-11  236  	dl->num_platforms = 1;
+748102786b3ce0 Cezary Rojewski    2022-05-11  237  	dl->id = 0;
+27cd41698de49c Cezary Rojewski    2023-06-29  238  	dl->dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_CBC_CFC;
+748102786b3ce0 Cezary Rojewski    2022-05-11  239  	dl->init = avs_rt5682_codec_init;
+a9d8723c72eada Amadeusz Sławiński 2022-11-29  240  	dl->exit = avs_rt5682_codec_exit;
+d24dbc865c2bd5 Amadeusz Sławiński 2023-03-03  241  	dl->be_hw_params_fixup = avs_rt5682_be_fixup;
+748102786b3ce0 Cezary Rojewski    2022-05-11  242  	dl->ops = &avs_rt5682_ops;
+748102786b3ce0 Cezary Rojewski    2022-05-11  243  	dl->nonatomic = 1;
+748102786b3ce0 Cezary Rojewski    2022-05-11  244  	dl->no_pcm = 1;
+748102786b3ce0 Cezary Rojewski    2022-05-11  245  	dl->dpcm_capture = 1;
+748102786b3ce0 Cezary Rojewski    2022-05-11  246  	dl->dpcm_playback = 1;
+748102786b3ce0 Cezary Rojewski    2022-05-11  247  
+748102786b3ce0 Cezary Rojewski    2022-05-11  248  	*dai_link = dl;
+748102786b3ce0 Cezary Rojewski    2022-05-11  249  
+748102786b3ce0 Cezary Rojewski    2022-05-11  250  	return 0;
+748102786b3ce0 Cezary Rojewski    2022-05-11  251  }
+748102786b3ce0 Cezary Rojewski    2022-05-11  252  
 
 -- 
 0-DAY CI Kernel Test Service
