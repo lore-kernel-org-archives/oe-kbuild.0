@@ -1,137 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B755C13F
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 12:30:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754C863A
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 12:40:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JvFd//CB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I5EwetJb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702211407; x=1733747407;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=UGg/4p52Jt0YHP0cFYwGVoy8wgJxjdxLTjdSACLf304=;
-  b=JvFd//CBvg1+jz70qlpNoOKtMzTj8MkSV01cWN8rzdnCr/RT0SG37K5e
-   XZYS7y9s/c38R8N8KasdlJfwAqcQVgqajYtLWliMYsxbTnqzpqxSowHhJ
-   E5mHbyQjnoR6P+bX4EnH9/kbwZ/Aoh8c1NQ1pdosLpMEDOX/86NvVqw22
-   tEU3FxL8ifDjk+KczjgzodjH+Vqw8pYhTHpXWC08uT7kcmmDwLGYDEiFB
-   Nm7NbYQqn+u/awqrtGOQfnTu+PTDAyZCHgvMgPpFOq9iEWilsFMS8ArWf
-   rvT0pzMxtTn7QVcb1iEyzMVl0gFR2sEoV6C6K5FWH93qYQbv13NGinQju
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="7910824"
+  t=1702212008; x=1733748008;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7A255d+haUu+TPptJ+tHZNcu/ncZuX0jYHJ0M1jdrLM=;
+  b=I5EwetJbVji7lIV4MkqBEtx0Qd2aNQnNCirhsRIEKkUjU2W/1EhG97Ob
+   BJjHr5UKJiSeXgagDooPgMd9RHY18m6aqDBhEEigPKMZLYRqPmeaeRAJQ
+   KTnvcG1cGx4IdHKLcm3FZDL5swIWoQ6WpKiCTkSbtA/uBRj9vrNV0cSWp
+   wnAUdeVPmG06XP2tLWpgvEvCYQyVSpokfURpxTRU49qdD0ZZi0hs18d5p
+   ZyfAa/9hsbO810Dy7QMeJIBaXDXfRuxIqfVxUBD1HOKVYMzw5X0KsKdQy
+   qoA9UCcdQx5PUoLKXvXt2Ld2zj5LhuWx2stg8yGggCrDFo2YWJO4JNfvE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="16101937"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="7910824"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 04:30:06 -0800
+   d="scan'208";a="16101937"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 04:40:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1104116245"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="863428335"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="1104116245"
+   d="scan'208";a="863428335"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 10 Dec 2023 04:30:05 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 10 Dec 2023 04:40:05 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCIwd-000GpA-0K;
-	Sun, 10 Dec 2023 12:30:03 +0000
-Date: Sun, 10 Dec 2023 20:29:24 +0800
+	id 1rCJ6J-000GpW-0q;
+	Sun, 10 Dec 2023 12:40:03 +0000
+Date: Sun, 10 Dec 2023 20:39:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/intel/avs/boards/max98373.c:111 avs_create_dai_link()
- warn: excess argument passed to 'devm_kasprintf'
-Message-ID: <202312102036.Lzg0mcTk-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: hcd.c:(.text+0x355a): relocation truncated to fit:
+ R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+Message-ID: <202312102024.BAUcqiJU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "only kconfig file changed"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Anthony Iliopoulos <ailiop@suse.com>
+CC: Chandan Babu R <chandanbabu@kernel.org>
+CC: Dave Chinner <dchinner@redhat.com>
+CC: "Darrick J. Wong" <djwong@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c527f5606aa545233a4d2c6d5c636ed82b8633ef
-commit: a1ec836b17f7dea35f6b4b3a7c2ad4306da804c9 ASoC: Intel: avs: max98373: Validate machine board configuration
-date:   8 weeks ago
+commit: a2e4388adfa44684c7c428a5a5980efe0d75e13e xfs: fix again select in kconfig XFS_ONLINE_SCRUB_STATS
+date:   4 weeks ago
 :::::: branch date: 9 hours ago
-:::::: commit date: 8 weeks ago
-config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231210/202312102036.Lzg0mcTk-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20231210/202312102036.Lzg0mcTk-lkp@intel.com/reproduce)
+:::::: commit date: 4 weeks ago
+config: csky-randconfig-r011-20230302 (https://download.01.org/0day-ci/archive/20231210/202312102024.BAUcqiJU-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312102024.BAUcqiJU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312102036.Lzg0mcTk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312102024.BAUcqiJU-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/intel/avs/boards/max98373.c:111 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-sound/soc/intel/avs/boards/max98373.c:118 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
-
-vim +/devm_kasprintf +111 sound/soc/intel/avs/boards/max98373.c
-
-223a0a945821b9 Amadeusz Sławiński 2022-05-11   97  
-223a0a945821b9 Amadeusz Sławiński 2022-05-11   98  static int avs_create_dai_link(struct device *dev, const char *platform_name, int ssp_port,
-a1ec836b17f7de Amadeusz Sławiński 2023-10-12   99  			       int tdm_slot, struct snd_soc_dai_link **dai_link)
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  100  {
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  101  	struct snd_soc_dai_link_component *platform;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  102  	struct snd_soc_dai_link *dl;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  103  
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  104  	dl = devm_kzalloc(dev, sizeof(*dl), GFP_KERNEL);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  105  	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  106  	if (!dl || !platform)
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  107  		return -ENOMEM;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  108  
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  109  	platform->name = platform_name;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  110  
-a1ec836b17f7de Amadeusz Sławiński 2023-10-12 @111  	dl->name = devm_kasprintf(dev, GFP_KERNEL,
-a1ec836b17f7de Amadeusz Sławiński 2023-10-12  112  				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  113  	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  114  	dl->codecs = devm_kzalloc(dev, sizeof(*dl->codecs) * 2, GFP_KERNEL);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  115  	if (!dl->name || !dl->cpus || !dl->codecs)
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  116  		return -ENOMEM;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  117  
-a1ec836b17f7de Amadeusz Sławiński 2023-10-12  118  	dl->cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
-a1ec836b17f7de Amadeusz Sławiński 2023-10-12  119  					    AVS_STRING_FMT("SSP", " Pin", ssp_port, tdm_slot));
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  120  	dl->codecs[0].name = devm_kasprintf(dev, GFP_KERNEL, MAX98373_DEV0_NAME);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  121  	dl->codecs[0].dai_name = devm_kasprintf(dev, GFP_KERNEL, MAX98373_CODEC_NAME);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  122  	dl->codecs[1].name = devm_kasprintf(dev, GFP_KERNEL, MAX98373_DEV1_NAME);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  123  	dl->codecs[1].dai_name = devm_kasprintf(dev, GFP_KERNEL, MAX98373_CODEC_NAME);
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  124  	if (!dl->cpus->dai_name || !dl->codecs[0].name || !dl->codecs[0].dai_name ||
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  125  	    !dl->codecs[1].name || !dl->codecs[1].dai_name)
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  126  		return -ENOMEM;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  127  
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  128  	dl->num_cpus = 1;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  129  	dl->num_codecs = 2;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  130  	dl->platforms = platform;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  131  	dl->num_platforms = 1;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  132  	dl->id = 0;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  133  	dl->dai_fmt = SND_SOC_DAIFMT_DSP_B | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_CBC_CFC;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  134  	dl->be_hw_params_fixup = avs_max98373_be_fixup;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  135  	dl->nonatomic = 1;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  136  	dl->no_pcm = 1;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  137  	dl->dpcm_capture = 1;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  138  	dl->dpcm_playback = 1;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  139  	dl->ignore_pmdown_time = 1;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  140  	dl->ops = &avs_max98373_ops;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  141  
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  142  	*dai_link = dl;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  143  
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  144  	return 0;
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  145  }
-223a0a945821b9 Amadeusz Sławiński 2022-05-11  146  
+   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen3.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen3.o
+   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen3.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen3.o
+   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen3.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen3.o
+   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen3.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen3.o
+   `.exit.text' referenced in section `__jump_table' of drivers/video/fbdev/s3fb.o: defined in discarded section `.exit.text' of drivers/video/fbdev/s3fb.o
+   `.exit.text' referenced in section `__jump_table' of drivers/video/fbdev/s3fb.o: defined in discarded section `.exit.text' of drivers/video/fbdev/s3fb.o
+   `.exit.text' referenced in section `__jump_table' of drivers/video/fbdev/arkfb.o: defined in discarded section `.exit.text' of drivers/video/fbdev/arkfb.o
+   `.exit.text' referenced in section `__jump_table' of drivers/video/fbdev/arkfb.o: defined in discarded section `.exit.text' of drivers/video/fbdev/arkfb.o
+   `.exit.text' referenced in section `__jump_table' of drivers/misc/phantom.o: defined in discarded section `.exit.text' of drivers/misc/phantom.o
+   `.exit.text' referenced in section `__jump_table' of drivers/misc/phantom.o: defined in discarded section `.exit.text' of drivers/misc/phantom.o
+   `.exit.text' referenced in section `__jump_table' of drivers/target/target_core_configfs.o: defined in discarded section `.exit.text' of drivers/target/target_core_configfs.o
+   `.exit.text' referenced in section `__jump_table' of drivers/target/target_core_configfs.o: defined in discarded section `.exit.text' of drivers/target/target_core_configfs.o
+   drivers/usb/dwc2/hcd.o: in function `dwc2_hcd_dump_state':
+>> hcd.c:(.text+0x355a): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   hcd.c:(.text+0x356c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   hcd.c:(.text+0x357e): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   hcd.c:(.text+0x3594): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   hcd.c:(.text+0x35b8): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   hcd.c:(.text+0x35e0): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   hcd.c:(.text+0x35f8): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   hcd.c:(.text+0x3610): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   hcd.c:(.text+0x3628): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   hcd.c:(.text+0x3640): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   hcd.c:(.text+0x3658): additional relocation overflows omitted from the output
 
 -- 
 0-DAY CI Kernel Test Service
