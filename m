@@ -1,266 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73066A42
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 04:39:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7977EC
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 06:36:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LWZS0C6Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F7Zju5SG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702183165; x=1733719165;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=l9gUORQD+GeZzoPD+EPdMkyArUAov4Bz1xjrqsda0Zc=;
-  b=LWZS0C6ZKkEvtoXzoM8KmL7SF4qUUaIeBghseSYssfvmN6++1EOCT+x0
-   eEKTWZ8k3gxPddbsMaSzCGBCmMMFC6j1GiURifYplvzzHTe0jWDYI1wLO
-   Y52NO0BI18TW/cQZM6I2IGV6Kl7g+KmyeS6POZ5fTi3FAZK9c2jOZd10S
-   YhUXRKU6MXQeZeUFGIXe9gnL0U3HTp3OvCb85nQ0SFHBwIrCC6nwS3hFv
-   T+gqYMLEwJsw3sV1MWIPAP52Eit54NhQMCIL0RLUcnl4/sbdPQRn6YyFY
-   xC/vRl6y3SZZMt/7SKZ+OL1XtxkNl/H4PXywHRJ2ffR0qefgM8yptSg16
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="397331327"
+  t=1702190193; x=1733726193;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2NZGjOJ1lcAt5Ke57c0gaXdblVxsVECPdrWwD7mWLYA=;
+  b=F7Zju5SGax2eQqGnFVSzxfsZKc+yQtpEfBjqxktdl9YJ2b4PDI6CZ1MR
+   SZyIgzsICyCcqAl0G8hYorSZqvFXPdy4IUWq2Gm2zWdc4K3DyCNhqATWn
+   mdNbNh36LcrDtAe/f7xmu8SGsaoQ9yAap/Z6FeqLhV5+uLIIZiuuY/IKG
+   a7HTG3ZsEZUR6OpWXUaKXCMQDj2w1PKhLT5T8qhm5PHL+6JPAEijhn3Nh
+   GlUI4rjFi7OJILO7yzsgQjIp3ADr1d4YLBj1OS6SvxseKtQdZvHjNYua0
+   a4NCAEq1l6kvTSmtKIJ71IkPgxGQNiiF/lGzroVGy6bhM7gGzegrZtkOV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="384950346"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="397331327"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 20:39:23 -0800
+   d="scan'208";a="384950346"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 22:36:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="916404355"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="722333178"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="916404355"
+   d="scan'208";a="722333178"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 09 Dec 2023 20:39:21 -0800
+  by orsmga003.jf.intel.com with ESMTP; 09 Dec 2023 22:36:31 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCBb4-000GOP-3D;
-	Sun, 10 Dec 2023 04:39:19 +0000
-Date: Sun, 10 Dec 2023 12:38:52 +0800
+	id 1rCDQS-000GTt-38;
+	Sun, 10 Dec 2023 06:36:28 +0000
+Date: Sun, 10 Dec 2023 14:35:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/intel/avs/boards/i2s_test.c:30 avs_create_dai_link() warn:
- excess argument passed to 'devm_kasprintf'
-Message-ID: <202312101254.63dBCgZf-lkp@intel.com>
+Subject: drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2176
+ mt7996_mcu_beacon_mbss() warn: potential spectre issue 'sub_elem->data' [r]
+ (local cap)
+Message-ID: <202312101453.DvHw4Loc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Chank Chen <chank.chen@mediatek.com>
+CC: Felix Fietkau <nbd@nbd.name>
+CC: Shayne Chen <shayne.chen@mediatek.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c527f5606aa545233a4d2c6d5c636ed82b8633ef
-commit: d3decc196afdce9456442e2bdc9033fd5d2d00b3 ASoC: Intel: avs: i2s_test: Validate machine board configuration
-date:   8 weeks ago
-:::::: branch date: 61 minutes ago
-:::::: commit date: 8 weeks ago
-config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231210/202312101254.63dBCgZf-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20231210/202312101254.63dBCgZf-lkp@intel.com/reproduce)
+commit: e35f43aa34d36e6cb1de00705c08026b023ef5ed wifi: mt76: connac: add MBSSID support for mt7996
+date:   2 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 2 months ago
+config: powerpc-randconfig-r071-20231126 (https://download.01.org/0day-ci/archive/20231210/202312101453.DvHw4Loc-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231210/202312101453.DvHw4Loc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312101254.63dBCgZf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312101453.DvHw4Loc-lkp@intel.com/
 
 New smatch warnings:
-sound/soc/intel/avs/boards/i2s_test.c:30 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
-sound/soc/intel/avs/boards/i2s_test.c:67 avs_create_dapm_routes() warn: excess argument passed to 'devm_kasprintf'
-sound/soc/intel/avs/boards/i2s_test.c:99 avs_create_dapm_widgets() warn: excess argument passed to 'devm_kasprintf'
-sound/soc/intel/avs/boards/i2s_test.c:148 avs_i2s_test_probe() warn: excess argument passed to 'devm_kasprintf'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2176 mt7996_mcu_beacon_mbss() warn: potential spectre issue 'sub_elem->data' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2168 mt7996_mcu_beacon_mbss() warn: potential spectre issue 'elem->data' [r] (local cap)
 
 Old smatch warnings:
-sound/soc/intel/avs/boards/i2s_test.c:36 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
-sound/soc/intel/avs/boards/i2s_test.c:69 avs_create_dapm_routes() warn: excess argument passed to 'devm_kasprintf'
-sound/soc/intel/avs/boards/i2s_test.c:74 avs_create_dapm_routes() warn: excess argument passed to 'devm_kasprintf'
-sound/soc/intel/avs/boards/i2s_test.c:76 avs_create_dapm_routes() warn: excess argument passed to 'devm_kasprintf'
-sound/soc/intel/avs/boards/i2s_test.c:106 avs_create_dapm_widgets() warn: excess argument passed to 'devm_kasprintf'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:345 mt7996_mcu_rx_radar_detected() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:347 mt7996_mcu_rx_radar_detected() warn: possible spectre second half.  'mphy'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:427 mt7996_mcu_ie_countdown() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:434 mt7996_mcu_ie_countdown() warn: possible spectre second half.  'mphy'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:439 mt7996_mcu_ie_countdown() warn: possible spectre second half.  'mphy'
 
-vim +/devm_kasprintf +30 sound/soc/intel/avs/boards/i2s_test.c
+vim +2176 drivers/net/wireless/mediatek/mt76/mt7996/mcu.c
 
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   16  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   17  static int avs_create_dai_link(struct device *dev, const char *platform_name, int ssp_port,
-d3decc196afdce Amadeusz Sławiński 2023-10-12   18  			       int tdm_slot, struct snd_soc_dai_link **dai_link)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   19  {
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   20  	struct snd_soc_dai_link_component *platform;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   21  	struct snd_soc_dai_link *dl;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   22  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   23  	dl = devm_kzalloc(dev, sizeof(*dl), GFP_KERNEL);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   24  	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   25  	if (!dl || !platform)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   26  		return -ENOMEM;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   27  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   28  	platform->name = platform_name;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   29  
-d3decc196afdce Amadeusz Sławiński 2023-10-12  @30  	dl->name = devm_kasprintf(dev, GFP_KERNEL,
-d3decc196afdce Amadeusz Sławiński 2023-10-12   31  				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   32  	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
-82528f31e6633a Kuninori Morimoto  2023-04-24   33  	if (!dl->name || !dl->cpus)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   34  		return -ENOMEM;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   35  
-d3decc196afdce Amadeusz Sławiński 2023-10-12   36  	dl->cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
-d3decc196afdce Amadeusz Sławiński 2023-10-12   37  					    AVS_STRING_FMT("SSP", " Pin", ssp_port, tdm_slot));
-5d2d1a48a2f773 Kuninori Morimoto  2023-09-11   38  	dl->codecs = &snd_soc_dummy_dlc;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   39  	if (!dl->cpus->dai_name || !dl->codecs->name || !dl->codecs->dai_name)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   40  		return -ENOMEM;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   41  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   42  	dl->num_cpus = 1;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   43  	dl->num_codecs = 1;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   44  	dl->platforms = platform;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   45  	dl->num_platforms = 1;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   46  	dl->id = 0;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   47  	dl->nonatomic = 1;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   48  	dl->no_pcm = 1;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   49  	dl->dpcm_capture = 1;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   50  	dl->dpcm_playback = 1;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   51  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   52  	*dai_link = dl;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   53  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   54  	return 0;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   55  }
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   56  
-d3decc196afdce Amadeusz Sławiński 2023-10-12   57  static int avs_create_dapm_routes(struct device *dev, int ssp_port, int tdm_slot,
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   58  				  struct snd_soc_dapm_route **routes, int *num_routes)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   59  {
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   60  	struct snd_soc_dapm_route *dr;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   61  	const int num_dr = 2;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   62  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   63  	dr = devm_kcalloc(dev, num_dr, sizeof(*dr), GFP_KERNEL);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   64  	if (!dr)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   65  		return -ENOMEM;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   66  
-d3decc196afdce Amadeusz Sławiński 2023-10-12  @67  	dr[0].sink = devm_kasprintf(dev, GFP_KERNEL,
-d3decc196afdce Amadeusz Sławiński 2023-10-12   68  				    AVS_STRING_FMT("ssp", "pb", ssp_port, tdm_slot));
-d3decc196afdce Amadeusz Sławiński 2023-10-12   69  	dr[0].source = devm_kasprintf(dev, GFP_KERNEL,
-d3decc196afdce Amadeusz Sławiński 2023-10-12   70  				      AVS_STRING_FMT("ssp", " Tx", ssp_port, tdm_slot));
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   71  	if (!dr[0].sink || !dr[0].source)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   72  		return -ENOMEM;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   73  
-d3decc196afdce Amadeusz Sławiński 2023-10-12   74  	dr[1].sink = devm_kasprintf(dev, GFP_KERNEL,
-d3decc196afdce Amadeusz Sławiński 2023-10-12   75  				    AVS_STRING_FMT("ssp", " Rx", ssp_port, tdm_slot));
-d3decc196afdce Amadeusz Sławiński 2023-10-12   76  	dr[1].source = devm_kasprintf(dev, GFP_KERNEL,
-d3decc196afdce Amadeusz Sławiński 2023-10-12   77  				      AVS_STRING_FMT("ssp", "cp", ssp_port, tdm_slot));
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   78  	if (!dr[1].sink || !dr[1].source)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   79  		return -ENOMEM;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   80  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   81  	*routes = dr;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   82  	*num_routes = num_dr;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   83  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   84  	return 0;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   85  }
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   86  
-d3decc196afdce Amadeusz Sławiński 2023-10-12   87  static int avs_create_dapm_widgets(struct device *dev, int ssp_port, int tdm_slot,
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   88  				   struct snd_soc_dapm_widget **widgets, int *num_widgets)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   89  {
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   90  	struct snd_soc_dapm_widget *dw;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   91  	const int num_dw = 2;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   92  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   93  	dw = devm_kcalloc(dev, num_dw, sizeof(*dw), GFP_KERNEL);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   94  	if (!dw)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   95  		return -ENOMEM;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   96  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   97  	dw[0].id = snd_soc_dapm_hp;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11   98  	dw[0].reg = SND_SOC_NOPM;
-d3decc196afdce Amadeusz Sławiński 2023-10-12  @99  	dw[0].name = devm_kasprintf(dev, GFP_KERNEL,
-d3decc196afdce Amadeusz Sławiński 2023-10-12  100  				    AVS_STRING_FMT("ssp", "pb", ssp_port, tdm_slot));
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  101  	if (!dw[0].name)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  102  		return -ENOMEM;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  103  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  104  	dw[1].id = snd_soc_dapm_mic;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  105  	dw[1].reg = SND_SOC_NOPM;
-d3decc196afdce Amadeusz Sławiński 2023-10-12  106  	dw[1].name = devm_kasprintf(dev, GFP_KERNEL,
-d3decc196afdce Amadeusz Sławiński 2023-10-12  107  				    AVS_STRING_FMT("ssp", "cp", ssp_port, tdm_slot));
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  108  	if (!dw[1].name)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  109  		return -ENOMEM;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  110  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  111  	*widgets = dw;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  112  	*num_widgets = num_dw;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  113  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  114  	return 0;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  115  }
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  116  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  117  static int avs_i2s_test_probe(struct platform_device *pdev)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  118  {
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  119  	struct snd_soc_dapm_widget *widgets;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  120  	struct snd_soc_dapm_route *routes;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  121  	struct snd_soc_dai_link *dai_link;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  122  	struct snd_soc_acpi_mach *mach;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  123  	struct snd_soc_card *card;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  124  	struct device *dev = &pdev->dev;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  125  	const char *pname;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  126  	int num_routes, num_widgets;
-d3decc196afdce Amadeusz Sławiński 2023-10-12  127  	int ssp_port, tdm_slot, ret;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  128  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  129  	mach = dev_get_platdata(dev);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  130  	pname = mach->mach_params.platform;
-d3decc196afdce Amadeusz Sławiński 2023-10-12  131  
-d3decc196afdce Amadeusz Sławiński 2023-10-12  132  	if (!avs_mach_singular_ssp(mach)) {
-d3decc196afdce Amadeusz Sławiński 2023-10-12  133  		dev_err(dev, "Invalid SSP configuration\n");
-d3decc196afdce Amadeusz Sławiński 2023-10-12  134  		return -EINVAL;
-d3decc196afdce Amadeusz Sławiński 2023-10-12  135  	}
-d3decc196afdce Amadeusz Sławiński 2023-10-12  136  	ssp_port = avs_mach_ssp_port(mach);
-d3decc196afdce Amadeusz Sławiński 2023-10-12  137  
-d3decc196afdce Amadeusz Sławiński 2023-10-12  138  	if (!avs_mach_singular_tdm(mach, ssp_port)) {
-d3decc196afdce Amadeusz Sławiński 2023-10-12  139  		dev_err(dev, "Invalid TDM configuration\n");
-d3decc196afdce Amadeusz Sławiński 2023-10-12  140  		return -EINVAL;
-d3decc196afdce Amadeusz Sławiński 2023-10-12  141  	}
-d3decc196afdce Amadeusz Sławiński 2023-10-12  142  	tdm_slot = avs_mach_ssp_tdm(mach, ssp_port);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  143  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  144  	card = devm_kzalloc(dev, sizeof(*card), GFP_KERNEL);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  145  	if (!card)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  146  		return -ENOMEM;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  147  
-d3decc196afdce Amadeusz Sławiński 2023-10-12 @148  	card->name = devm_kasprintf(dev, GFP_KERNEL,
-d3decc196afdce Amadeusz Sławiński 2023-10-12  149  				    AVS_STRING_FMT("ssp", "-loopback", ssp_port, tdm_slot));
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  150  	if (!card->name)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  151  		return -ENOMEM;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  152  
-d3decc196afdce Amadeusz Sławiński 2023-10-12  153  	ret = avs_create_dai_link(dev, pname, ssp_port, tdm_slot, &dai_link);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  154  	if (ret) {
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  155  		dev_err(dev, "Failed to create dai link: %d\n", ret);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  156  		return ret;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  157  	}
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  158  
-d3decc196afdce Amadeusz Sławiński 2023-10-12  159  	ret = avs_create_dapm_routes(dev, ssp_port, tdm_slot, &routes, &num_routes);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  160  	if (ret) {
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  161  		dev_err(dev, "Failed to create dapm routes: %d\n", ret);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  162  		return ret;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  163  	}
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  164  
-d3decc196afdce Amadeusz Sławiński 2023-10-12  165  	ret = avs_create_dapm_widgets(dev, ssp_port, tdm_slot, &widgets, &num_widgets);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  166  	if (ret) {
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  167  		dev_err(dev, "Failed to create dapm widgets: %d\n", ret);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  168  		return ret;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  169  	}
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  170  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  171  	card->dev = dev;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  172  	card->owner = THIS_MODULE;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  173  	card->dai_link = dai_link;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  174  	card->num_links = 1;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  175  	card->dapm_routes = routes;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  176  	card->num_dapm_routes = num_routes;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  177  	card->dapm_widgets = widgets;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  178  	card->num_dapm_widgets = num_widgets;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  179  	card->fully_routed = true;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  180  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  181  	ret = snd_soc_fixup_dai_links_platform_name(card, pname);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  182  	if (ret)
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  183  		return ret;
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  184  
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  185  	return devm_snd_soc_register_card(dev, card);
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  186  }
-e39acc4cfd9250 Cezary Rojewski    2022-05-11  187  
+98686cd21624c7 Shayne Chen 2022-11-22  2149  
+e35f43aa34d36e Chank Chen  2023-08-31  2150  static void
+e35f43aa34d36e Chank Chen  2023-08-31  2151  mt7996_mcu_beacon_mbss(struct sk_buff *rskb, struct sk_buff *skb,
+e35f43aa34d36e Chank Chen  2023-08-31  2152  		       struct ieee80211_vif *vif, struct bss_bcn_content_tlv *bcn,
+e35f43aa34d36e Chank Chen  2023-08-31  2153  		       struct ieee80211_mutable_offsets *offs)
+e35f43aa34d36e Chank Chen  2023-08-31  2154  {
+e35f43aa34d36e Chank Chen  2023-08-31  2155  	struct bss_bcn_mbss_tlv *mbss;
+e35f43aa34d36e Chank Chen  2023-08-31  2156  	const struct element *elem;
+e35f43aa34d36e Chank Chen  2023-08-31  2157  	struct tlv *tlv;
+e35f43aa34d36e Chank Chen  2023-08-31  2158  
+e35f43aa34d36e Chank Chen  2023-08-31  2159  	if (!vif->bss_conf.bssid_indicator)
+e35f43aa34d36e Chank Chen  2023-08-31  2160  		return;
+e35f43aa34d36e Chank Chen  2023-08-31  2161  
+e35f43aa34d36e Chank Chen  2023-08-31  2162  	tlv = mt7996_mcu_add_uni_tlv(rskb, UNI_BSS_INFO_BCN_MBSSID, sizeof(*mbss));
+e35f43aa34d36e Chank Chen  2023-08-31  2163  
+e35f43aa34d36e Chank Chen  2023-08-31  2164  	mbss = (struct bss_bcn_mbss_tlv *)tlv;
+e35f43aa34d36e Chank Chen  2023-08-31  2165  	mbss->offset[0] = cpu_to_le16(offs->tim_offset);
+e35f43aa34d36e Chank Chen  2023-08-31  2166  	mbss->bitmap = cpu_to_le32(1);
+e35f43aa34d36e Chank Chen  2023-08-31  2167  
+e35f43aa34d36e Chank Chen  2023-08-31 @2168  	for_each_element_id(elem, WLAN_EID_MULTIPLE_BSSID,
+e35f43aa34d36e Chank Chen  2023-08-31  2169  			    &skb->data[offs->mbssid_off],
+e35f43aa34d36e Chank Chen  2023-08-31  2170  			    skb->len - offs->mbssid_off) {
+e35f43aa34d36e Chank Chen  2023-08-31  2171  		const struct element *sub_elem;
+e35f43aa34d36e Chank Chen  2023-08-31  2172  
+e35f43aa34d36e Chank Chen  2023-08-31  2173  		if (elem->datalen < 2)
+e35f43aa34d36e Chank Chen  2023-08-31  2174  			continue;
+e35f43aa34d36e Chank Chen  2023-08-31  2175  
+e35f43aa34d36e Chank Chen  2023-08-31 @2176  		for_each_element(sub_elem, elem->data + 1, elem->datalen - 1) {
+e35f43aa34d36e Chank Chen  2023-08-31  2177  			const struct ieee80211_bssid_index *idx;
+e35f43aa34d36e Chank Chen  2023-08-31  2178  			const u8 *idx_ie;
+e35f43aa34d36e Chank Chen  2023-08-31  2179  
+e35f43aa34d36e Chank Chen  2023-08-31  2180  			/* not a valid BSS profile */
+e35f43aa34d36e Chank Chen  2023-08-31  2181  			if (sub_elem->id || sub_elem->datalen < 4)
+e35f43aa34d36e Chank Chen  2023-08-31  2182  				continue;
+e35f43aa34d36e Chank Chen  2023-08-31  2183  
+e35f43aa34d36e Chank Chen  2023-08-31  2184  			/* Find WLAN_EID_MULTI_BSSID_IDX
+e35f43aa34d36e Chank Chen  2023-08-31  2185  			 * in the merged nontransmitted profile
+e35f43aa34d36e Chank Chen  2023-08-31  2186  			 */
+e35f43aa34d36e Chank Chen  2023-08-31  2187  			idx_ie = cfg80211_find_ie(WLAN_EID_MULTI_BSSID_IDX,
+e35f43aa34d36e Chank Chen  2023-08-31  2188  						  sub_elem->data, sub_elem->datalen);
+e35f43aa34d36e Chank Chen  2023-08-31  2189  			if (!idx_ie || idx_ie[1] < sizeof(*idx))
+e35f43aa34d36e Chank Chen  2023-08-31  2190  				continue;
+e35f43aa34d36e Chank Chen  2023-08-31  2191  
+e35f43aa34d36e Chank Chen  2023-08-31  2192  			idx = (void *)(idx_ie + 2);
+e35f43aa34d36e Chank Chen  2023-08-31  2193  			if (!idx->bssid_index || idx->bssid_index > 31)
+e35f43aa34d36e Chank Chen  2023-08-31  2194  				continue;
+e35f43aa34d36e Chank Chen  2023-08-31  2195  
+e35f43aa34d36e Chank Chen  2023-08-31  2196  			mbss->offset[idx->bssid_index] = cpu_to_le16(idx_ie -
+e35f43aa34d36e Chank Chen  2023-08-31  2197  								     skb->data);
+e35f43aa34d36e Chank Chen  2023-08-31  2198  			mbss->bitmap |= cpu_to_le32(BIT(idx->bssid_index));
+e35f43aa34d36e Chank Chen  2023-08-31  2199  		}
+e35f43aa34d36e Chank Chen  2023-08-31  2200  	}
+e35f43aa34d36e Chank Chen  2023-08-31  2201  }
+e35f43aa34d36e Chank Chen  2023-08-31  2202  
 
 -- 
 0-DAY CI Kernel Test Service
