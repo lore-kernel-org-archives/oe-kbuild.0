@@ -1,45 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082AABE79
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 14:39:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE8D154B2
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 15:12:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AGBrxz49"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LYXvHWfY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702219175; x=1733755175;
+  t=1702221156; x=1733757156;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9oDod8MjhgEjfCxBvGNvd0gY/a5o8NoBI6Y34RtDR7s=;
-  b=AGBrxz49MLFLvs2999Qurw8eM2UNs3GQ6fJGyCZtsauAzDKd/VykACes
-   iOOmMlPLMYLsVEqLFl/uECaMQrIdYnnhiCqD3wvbjV7JvmsGmJCbitidT
-   B78PYhJgfn0ZeMmlRmWfSggr/WYZPUC58emwv0zhJoOGFX5vlX+vQfDpO
-   HniC/jeivK7zmdWdQwZ+85CwFlBgvNOHaSQpL3+HKRcqNKnFULWOLFCbz
-   GmrKVTqf9wZ2nhFYdIjWtIup8wNpr7fLsdyGzlbaMyd4mTd9NP5Dc/yf+
-   Ic5hYA7Yo2KD7URBIq8DTSMw0FPCHdrGu8UrIFfX6VaHcDFtO+xfUG+Bt
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="1655694"
-X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="1655694"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 06:39:34 -0800
+  bh=ESRkRsGcDU4+iIMNaQRtTkfnRf6lw8G4TbUUd97gVbI=;
+  b=LYXvHWfYrVRCQXUXp6adjD60BqBbNLY8yKnr4Aj1io1Ehe6IQJ2hXsdF
+   o7cSvB6zaKnDU6fRRBsHxJn3DOxK+v0siTgqxzOf1d4Cy45oSyGNK7O3o
+   hpdEiw8bU4Mm4sSb+vNluL/mQIPqfYmIJSzj6FXTeDH+cESuALWIGH1cC
+   PaoAkFOystckNxfRVNfDx5ZbYCLcjsliJ2L3VyyXtEDAnuDy87qQ7Er8X
+   t5DNfTaraQmdDpCP40FIXFK5SH3IVwp4kvJDygSz/MqasauIJnMox2H7v
+   TBNCaTEqSUK2WSdn8uGaLNWnFNCs8FQdb9jjCoIEoviXbPUurkOi3EB8Z
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="393423990"
+X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
+   d="scan'208";a="393423990"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 07:12:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="14087940"
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="772712596"
+X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
+   d="scan'208";a="772712596"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 10 Dec 2023 06:39:33 -0800
+  by orsmga002.jf.intel.com with ESMTP; 10 Dec 2023 07:12:34 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCKxu-000Gvw-1f;
-	Sun, 10 Dec 2023 14:39:30 +0000
-Date: Sun, 10 Dec 2023 22:39:24 +0800
+	id 1rCLTr-000Gxi-2n;
+	Sun, 10 Dec 2023 15:12:31 +0000
+Date: Sun, 10 Dec 2023 23:12:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/nfsd/nfs3proc.c:338 nfsd3_create_file() warn: 'child' is an error
- pointer or valid
-Message-ID: <202312102247.1hd6dKNT-lkp@intel.com>
+Subject: drivers/pinctrl/renesas/core.c:77 sh_pfc_map_resources() error: we
+ previously assumed 'res' could be null (see line 43)
+Message-ID: <202312102325.44Tk7VDw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,151 +53,88 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Chuck Lever <chuck.lever@oracle.com>
+TO: Yang Yingliang <yangyingliang@huawei.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c527f5606aa545233a4d2c6d5c636ed82b8633ef
-commit: df9606abddfb01090d5ece7dcc2441d848f690f0 NFSD: Refactor NFSv3 CREATE
+commit: 5376e3d904532e657fd7ca1a9b1ff3d351527b90 pinctrl: renesas: core: Fix possible null-ptr-deref in sh_pfc_map_resources()
 date:   1 year, 7 months ago
-:::::: branch date: 11 hours ago
+:::::: branch date: 12 hours ago
 :::::: commit date: 1 year, 7 months ago
-config: i386-randconfig-141-20231010 (https://download.01.org/0day-ci/archive/20231210/202312102247.1hd6dKNT-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231210/202312102247.1hd6dKNT-lkp@intel.com/reproduce)
+config: riscv-randconfig-r071-20231112 (https://download.01.org/0day-ci/archive/20231210/202312102325.44Tk7VDw-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231210/202312102325.44Tk7VDw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312102247.1hd6dKNT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312102325.44Tk7VDw-lkp@intel.com/
 
 smatch warnings:
-fs/nfsd/nfs3proc.c:338 nfsd3_create_file() warn: 'child' is an error pointer or valid
+drivers/pinctrl/renesas/core.c:77 sh_pfc_map_resources() error: we previously assumed 'res' could be null (see line 43)
 
-vim +/child +338 fs/nfsd/nfs3proc.c
+vim +/res +77 drivers/pinctrl/renesas/core.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  222  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  223  /*
-df9606abddfb01 Chuck Lever    2022-03-28  224   * Implement NFSv3's unchecked, guarded, and exclusive CREATE
-df9606abddfb01 Chuck Lever    2022-03-28  225   * semantics for regular files. Except for the created file,
-df9606abddfb01 Chuck Lever    2022-03-28  226   * this operation is stateless on the server.
-df9606abddfb01 Chuck Lever    2022-03-28  227   *
-df9606abddfb01 Chuck Lever    2022-03-28  228   * Upon return, caller must release @fhp and @resfhp.
-df9606abddfb01 Chuck Lever    2022-03-28  229   */
-df9606abddfb01 Chuck Lever    2022-03-28  230  static __be32
-df9606abddfb01 Chuck Lever    2022-03-28  231  nfsd3_create_file(struct svc_rqst *rqstp, struct svc_fh *fhp,
-df9606abddfb01 Chuck Lever    2022-03-28  232  		  struct svc_fh *resfhp, struct nfsd3_createargs *argp)
-df9606abddfb01 Chuck Lever    2022-03-28  233  {
-df9606abddfb01 Chuck Lever    2022-03-28  234  	struct iattr *iap = &argp->attrs;
-df9606abddfb01 Chuck Lever    2022-03-28  235  	struct dentry *parent, *child;
-df9606abddfb01 Chuck Lever    2022-03-28  236  	__u32 v_mtime, v_atime;
-df9606abddfb01 Chuck Lever    2022-03-28  237  	struct inode *inode;
-df9606abddfb01 Chuck Lever    2022-03-28  238  	__be32 status;
-df9606abddfb01 Chuck Lever    2022-03-28  239  	int host_err;
-df9606abddfb01 Chuck Lever    2022-03-28  240  
-df9606abddfb01 Chuck Lever    2022-03-28  241  	if (isdotent(argp->name, argp->len))
-df9606abddfb01 Chuck Lever    2022-03-28  242  		return nfserr_exist;
-df9606abddfb01 Chuck Lever    2022-03-28  243  	if (!(iap->ia_valid & ATTR_MODE))
-df9606abddfb01 Chuck Lever    2022-03-28  244  		iap->ia_mode = 0;
-df9606abddfb01 Chuck Lever    2022-03-28  245  
-df9606abddfb01 Chuck Lever    2022-03-28  246  	status = fh_verify(rqstp, fhp, S_IFDIR, NFSD_MAY_EXEC);
-df9606abddfb01 Chuck Lever    2022-03-28  247  	if (status != nfs_ok)
-df9606abddfb01 Chuck Lever    2022-03-28  248  		return status;
-df9606abddfb01 Chuck Lever    2022-03-28  249  
-df9606abddfb01 Chuck Lever    2022-03-28  250  	parent = fhp->fh_dentry;
-df9606abddfb01 Chuck Lever    2022-03-28  251  	inode = d_inode(parent);
-df9606abddfb01 Chuck Lever    2022-03-28  252  
-df9606abddfb01 Chuck Lever    2022-03-28  253  	host_err = fh_want_write(fhp);
-df9606abddfb01 Chuck Lever    2022-03-28  254  	if (host_err)
-df9606abddfb01 Chuck Lever    2022-03-28  255  		return nfserrno(host_err);
-df9606abddfb01 Chuck Lever    2022-03-28  256  
-df9606abddfb01 Chuck Lever    2022-03-28  257  	fh_lock_nested(fhp, I_MUTEX_PARENT);
-df9606abddfb01 Chuck Lever    2022-03-28  258  
-df9606abddfb01 Chuck Lever    2022-03-28  259  	child = lookup_one_len(argp->name, parent, argp->len);
-df9606abddfb01 Chuck Lever    2022-03-28  260  	if (IS_ERR(child)) {
-df9606abddfb01 Chuck Lever    2022-03-28  261  		status = nfserrno(PTR_ERR(child));
-df9606abddfb01 Chuck Lever    2022-03-28  262  		goto out;
-df9606abddfb01 Chuck Lever    2022-03-28  263  	}
-df9606abddfb01 Chuck Lever    2022-03-28  264  
-df9606abddfb01 Chuck Lever    2022-03-28  265  	if (d_really_is_negative(child)) {
-df9606abddfb01 Chuck Lever    2022-03-28  266  		status = fh_verify(rqstp, fhp, S_IFDIR, NFSD_MAY_CREATE);
-df9606abddfb01 Chuck Lever    2022-03-28  267  		if (status != nfs_ok)
-df9606abddfb01 Chuck Lever    2022-03-28  268  			goto out;
-df9606abddfb01 Chuck Lever    2022-03-28  269  	}
-df9606abddfb01 Chuck Lever    2022-03-28  270  
-df9606abddfb01 Chuck Lever    2022-03-28  271  	status = fh_compose(resfhp, fhp->fh_export, child, fhp);
-df9606abddfb01 Chuck Lever    2022-03-28  272  	if (status != nfs_ok)
-df9606abddfb01 Chuck Lever    2022-03-28  273  		goto out;
-df9606abddfb01 Chuck Lever    2022-03-28  274  
-df9606abddfb01 Chuck Lever    2022-03-28  275  	v_mtime = 0;
-df9606abddfb01 Chuck Lever    2022-03-28  276  	v_atime = 0;
-df9606abddfb01 Chuck Lever    2022-03-28  277  	if (argp->createmode == NFS3_CREATE_EXCLUSIVE) {
-df9606abddfb01 Chuck Lever    2022-03-28  278  		u32 *verifier = (u32 *)argp->verf;
-df9606abddfb01 Chuck Lever    2022-03-28  279  
-df9606abddfb01 Chuck Lever    2022-03-28  280  		/*
-df9606abddfb01 Chuck Lever    2022-03-28  281  		 * Solaris 7 gets confused (bugid 4218508) if these have
-df9606abddfb01 Chuck Lever    2022-03-28  282  		 * the high bit set, as do xfs filesystems without the
-df9606abddfb01 Chuck Lever    2022-03-28  283  		 * "bigtime" feature. So just clear the high bits.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  284  		 */
-df9606abddfb01 Chuck Lever    2022-03-28  285  		v_mtime = verifier[0] & 0x7fffffff;
-df9606abddfb01 Chuck Lever    2022-03-28  286  		v_atime = verifier[1] & 0x7fffffff;
-df9606abddfb01 Chuck Lever    2022-03-28  287  	}
-df9606abddfb01 Chuck Lever    2022-03-28  288  
-df9606abddfb01 Chuck Lever    2022-03-28  289  	if (d_really_is_positive(child)) {
-df9606abddfb01 Chuck Lever    2022-03-28  290  		status = nfs_ok;
-df9606abddfb01 Chuck Lever    2022-03-28  291  
-df9606abddfb01 Chuck Lever    2022-03-28  292  		switch (argp->createmode) {
-df9606abddfb01 Chuck Lever    2022-03-28  293  		case NFS3_CREATE_UNCHECKED:
-df9606abddfb01 Chuck Lever    2022-03-28  294  			if (!d_is_reg(child))
-df9606abddfb01 Chuck Lever    2022-03-28  295  				break;
-df9606abddfb01 Chuck Lever    2022-03-28  296  			iap->ia_valid &= ATTR_SIZE;
-df9606abddfb01 Chuck Lever    2022-03-28  297  			goto set_attr;
-df9606abddfb01 Chuck Lever    2022-03-28  298  		case NFS3_CREATE_GUARDED:
-df9606abddfb01 Chuck Lever    2022-03-28  299  			status = nfserr_exist;
-df9606abddfb01 Chuck Lever    2022-03-28  300  			break;
-df9606abddfb01 Chuck Lever    2022-03-28  301  		case NFS3_CREATE_EXCLUSIVE:
-df9606abddfb01 Chuck Lever    2022-03-28  302  			if (d_inode(child)->i_mtime.tv_sec == v_mtime &&
-df9606abddfb01 Chuck Lever    2022-03-28  303  			    d_inode(child)->i_atime.tv_sec == v_atime &&
-df9606abddfb01 Chuck Lever    2022-03-28  304  			    d_inode(child)->i_size == 0) {
-df9606abddfb01 Chuck Lever    2022-03-28  305  				break;
-df9606abddfb01 Chuck Lever    2022-03-28  306  			}
-df9606abddfb01 Chuck Lever    2022-03-28  307  			status = nfserr_exist;
-df9606abddfb01 Chuck Lever    2022-03-28  308  		}
-df9606abddfb01 Chuck Lever    2022-03-28  309  		goto out;
-df9606abddfb01 Chuck Lever    2022-03-28  310  	}
-df9606abddfb01 Chuck Lever    2022-03-28  311  
-df9606abddfb01 Chuck Lever    2022-03-28  312  	if (!IS_POSIXACL(inode))
-df9606abddfb01 Chuck Lever    2022-03-28  313  		iap->ia_mode &= ~current_umask();
-df9606abddfb01 Chuck Lever    2022-03-28  314  
-df9606abddfb01 Chuck Lever    2022-03-28  315  	host_err = vfs_create(&init_user_ns, inode, child, iap->ia_mode, true);
-df9606abddfb01 Chuck Lever    2022-03-28  316  	if (host_err < 0) {
-df9606abddfb01 Chuck Lever    2022-03-28  317  		status = nfserrno(host_err);
-df9606abddfb01 Chuck Lever    2022-03-28  318  		goto out;
-df9606abddfb01 Chuck Lever    2022-03-28  319  	}
-df9606abddfb01 Chuck Lever    2022-03-28  320  
-df9606abddfb01 Chuck Lever    2022-03-28  321  	/* A newly created file already has a file size of zero. */
-df9606abddfb01 Chuck Lever    2022-03-28  322  	if ((iap->ia_valid & ATTR_SIZE) && (iap->ia_size == 0))
-df9606abddfb01 Chuck Lever    2022-03-28  323  		iap->ia_valid &= ~ATTR_SIZE;
-df9606abddfb01 Chuck Lever    2022-03-28  324  	if (argp->createmode == NFS3_CREATE_EXCLUSIVE) {
-df9606abddfb01 Chuck Lever    2022-03-28  325  		iap->ia_valid = ATTR_MTIME | ATTR_ATIME |
-df9606abddfb01 Chuck Lever    2022-03-28  326  				ATTR_MTIME_SET | ATTR_ATIME_SET;
-df9606abddfb01 Chuck Lever    2022-03-28  327  		iap->ia_mtime.tv_sec = v_mtime;
-df9606abddfb01 Chuck Lever    2022-03-28  328  		iap->ia_atime.tv_sec = v_atime;
-df9606abddfb01 Chuck Lever    2022-03-28  329  		iap->ia_mtime.tv_nsec = 0;
-df9606abddfb01 Chuck Lever    2022-03-28  330  		iap->ia_atime.tv_nsec = 0;
-df9606abddfb01 Chuck Lever    2022-03-28  331  	}
-df9606abddfb01 Chuck Lever    2022-03-28  332  
-df9606abddfb01 Chuck Lever    2022-03-28  333  set_attr:
-df9606abddfb01 Chuck Lever    2022-03-28  334  	status = nfsd_create_setattr(rqstp, fhp, resfhp, iap);
-df9606abddfb01 Chuck Lever    2022-03-28  335  
-df9606abddfb01 Chuck Lever    2022-03-28  336  out:
-df9606abddfb01 Chuck Lever    2022-03-28  337  	fh_unlock(fhp);
-df9606abddfb01 Chuck Lever    2022-03-28 @338  	if (child && !IS_ERR(child))
-df9606abddfb01 Chuck Lever    2022-03-28  339  		dput(child);
-df9606abddfb01 Chuck Lever    2022-03-28  340  	fh_drop_write(fhp);
-df9606abddfb01 Chuck Lever    2022-03-28  341  	return status;
-df9606abddfb01 Chuck Lever    2022-03-28  342  }
-df9606abddfb01 Chuck Lever    2022-03-28  343  
+f9165132c5ee68 drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  29  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  30  static int sh_pfc_map_resources(struct sh_pfc *pfc,
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  31  				struct platform_device *pdev)
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  32  {
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  33  	struct sh_pfc_window *windows;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  34  	unsigned int *irqs = NULL;
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  35  	unsigned int num_windows;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  36  	struct resource *res;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  37  	unsigned int i;
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  38  	int num_irqs;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  39  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  40  	/* Count the MEM and IRQ resources. */
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  41  	for (num_windows = 0;; num_windows++) {
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  42  		res = platform_get_resource(pdev, IORESOURCE_MEM, num_windows);
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25 @43  		if (!res)
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  44  			break;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  45  	}
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  46  	if (num_windows == 0)
+bee9f22ba196b0 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-02-16  47  		return -EINVAL;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  48  
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  49  	num_irqs = platform_irq_count(pdev);
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  50  	if (num_irqs < 0)
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  51  		return num_irqs;
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  52  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  53  	/* Allocate memory windows and IRQs arrays. */
+a86854d0c599b3 drivers/pinctrl/sh-pfc/core.c  Kees Cook          2018-06-12  54  	windows = devm_kcalloc(pfc->dev, num_windows, sizeof(*windows),
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  55  			       GFP_KERNEL);
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  56  	if (windows == NULL)
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  57  		return -ENOMEM;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  58  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  59  	pfc->num_windows = num_windows;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  60  	pfc->windows = windows;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  61  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  62  	if (num_irqs) {
+a86854d0c599b3 drivers/pinctrl/sh-pfc/core.c  Kees Cook          2018-06-12  63  		irqs = devm_kcalloc(pfc->dev, num_irqs, sizeof(*irqs),
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  64  				    GFP_KERNEL);
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  65  		if (irqs == NULL)
+1724acfd598bdf drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  66  			return -ENOMEM;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  67  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  68  		pfc->num_irqs = num_irqs;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  69  		pfc->irqs = irqs;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  70  	}
+973931ae0a2dad drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  71  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  72  	/* Fill them. */
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  73  	for (i = 0; i < num_windows; i++) {
+5376e3d904532e drivers/pinctrl/renesas/core.c Yang Yingliang     2022-04-29  74  		windows->virt = devm_platform_get_and_ioremap_resource(pdev, i, &res);
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  75  		if (IS_ERR(windows->virt))
+1724acfd598bdf drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  76  			return -ENOMEM;
+5376e3d904532e drivers/pinctrl/renesas/core.c Yang Yingliang     2022-04-29 @77  		windows->phys = res->start;
+5376e3d904532e drivers/pinctrl/renesas/core.c Yang Yingliang     2022-04-29  78  		windows->size = resource_size(res);
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  79  		windows++;
+1724acfd598bdf drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  80  	}
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  81  	for (i = 0; i < num_irqs; i++)
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  82  		*irqs++ = platform_get_irq(pdev, i);
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  83  
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  84  	return 0;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  85  }
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  86  
 
 -- 
 0-DAY CI Kernel Test Service
