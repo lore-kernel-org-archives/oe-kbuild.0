@@ -1,187 +1,266 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193017F
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 02:35:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73066A42
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 04:39:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jsxok/gX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LWZS0C6Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702175718; x=1733711718;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d7g4kIXQtOV9fFmne7HKih1FcNbDrfbILUWP7N6iPZg=;
-  b=jsxok/gX6VUo3sLDzC7MsQKy1bwHRJQ0WL9fvonkPnyOwTgoHcil/a31
-   6xwRPvw613An4+FEQR2u/BOOppXQdtalJpeylyj61cZ1qKao0026WReNr
-   dj1p53Q0Rq1EdL++79cn0ZqUcfDukbSJ4P/R81uNe+olfY86LtgUCFsoG
-   rOhawY7SfL40KjUu8QR3WWrIC0ZGsR1GjuwYB0+RQWKchvzkJ2qIRe3Aw
-   03XSYL2CKCAOfQMcAqKwrVza3GdxDGzxasipg4pJIxD89PPD7TaSAKk5x
-   O7ErvI+Y/H7T4eGoggAx8MXAQi5AhbxwDqe58E/QY/MEG1eKib/D0ZrfT
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1604382"
-X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="1604382"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 18:35:17 -0800
+  t=1702183165; x=1733719165;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=l9gUORQD+GeZzoPD+EPdMkyArUAov4Bz1xjrqsda0Zc=;
+  b=LWZS0C6ZKkEvtoXzoM8KmL7SF4qUUaIeBghseSYssfvmN6++1EOCT+x0
+   eEKTWZ8k3gxPddbsMaSzCGBCmMMFC6j1GiURifYplvzzHTe0jWDYI1wLO
+   Y52NO0BI18TW/cQZM6I2IGV6Kl7g+KmyeS6POZ5fTi3FAZK9c2jOZd10S
+   YhUXRKU6MXQeZeUFGIXe9gnL0U3HTp3OvCb85nQ0SFHBwIrCC6nwS3hFv
+   T+gqYMLEwJsw3sV1MWIPAP52Eit54NhQMCIL0RLUcnl4/sbdPQRn6YyFY
+   xC/vRl6y3SZZMt/7SKZ+OL1XtxkNl/H4PXywHRJ2ffR0qefgM8yptSg16
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="397331327"
+X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
+   d="scan'208";a="397331327"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 20:39:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="895955409"
-X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="895955409"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="916404355"
+X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
+   d="scan'208";a="916404355"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 09 Dec 2023 18:35:16 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 09 Dec 2023 20:39:21 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rC9ez-000GHx-3B;
-	Sun, 10 Dec 2023 02:35:13 +0000
-Date: Sun, 10 Dec 2023 10:34:21 +0800
+	id 1rCBb4-000GOP-3D;
+	Sun, 10 Dec 2023 04:39:19 +0000
+Date: Sun, 10 Dec 2023 12:38:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: kernel/kexec_file.c:320:1: sparse: sparse: Using plain integer as
- NULL pointer
-Message-ID: <202312101050.6FqHvugR-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: sound/soc/intel/avs/boards/i2s_test.c:30 avs_create_dai_link() warn:
+ excess argument passed to 'devm_kasprintf'
+Message-ID: <202312101254.63dBCgZf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "only kconfig file changed"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Jason A. Donenfeld" <zx2c4@kernel.org>
-CC: Jakub Kicinski <kuba@kernel.org>
+TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
+CC: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   21b73ffcc62ab772bc06e3e90bd87eff5e9e8ed4
-commit: b7133757da4c4c17d625970f6da3d76af12a8867 crypto: s390 - do not depend on CRYPTO_HW for SIMD implementations
-date:   1 year, 5 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 1 year, 5 months ago
-config: s390-randconfig-r113-20231115 (https://download.01.org/0day-ci/archive/20231210/202312101050.6FqHvugR-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231210/202312101050.6FqHvugR-lkp@intel.com/reproduce)
+head:   c527f5606aa545233a4d2c6d5c636ed82b8633ef
+commit: d3decc196afdce9456442e2bdc9033fd5d2d00b3 ASoC: Intel: avs: i2s_test: Validate machine board configuration
+date:   8 weeks ago
+:::::: branch date: 61 minutes ago
+:::::: commit date: 8 weeks ago
+config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231210/202312101254.63dBCgZf-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20231210/202312101254.63dBCgZf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312101050.6FqHvugR-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202312101254.63dBCgZf-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/kexec_file.c:320:1: sparse: sparse: Using plain integer as NULL pointer
->> kernel/kexec_file.c:320:1: sparse: sparse: Using plain integer as NULL pointer
+New smatch warnings:
+sound/soc/intel/avs/boards/i2s_test.c:30 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
+sound/soc/intel/avs/boards/i2s_test.c:67 avs_create_dapm_routes() warn: excess argument passed to 'devm_kasprintf'
+sound/soc/intel/avs/boards/i2s_test.c:99 avs_create_dapm_widgets() warn: excess argument passed to 'devm_kasprintf'
+sound/soc/intel/avs/boards/i2s_test.c:148 avs_i2s_test_probe() warn: excess argument passed to 'devm_kasprintf'
 
-vim +320 kernel/kexec_file.c
+Old smatch warnings:
+sound/soc/intel/avs/boards/i2s_test.c:36 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
+sound/soc/intel/avs/boards/i2s_test.c:69 avs_create_dapm_routes() warn: excess argument passed to 'devm_kasprintf'
+sound/soc/intel/avs/boards/i2s_test.c:74 avs_create_dapm_routes() warn: excess argument passed to 'devm_kasprintf'
+sound/soc/intel/avs/boards/i2s_test.c:76 avs_create_dapm_routes() warn: excess argument passed to 'devm_kasprintf'
+sound/soc/intel/avs/boards/i2s_test.c:106 avs_create_dapm_widgets() warn: excess argument passed to 'devm_kasprintf'
 
-a43cac0d9dc207 Dave Young     2015-09-09  319  
-a43cac0d9dc207 Dave Young     2015-09-09 @320  SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
-a43cac0d9dc207 Dave Young     2015-09-09  321  		unsigned long, cmdline_len, const char __user *, cmdline_ptr,
-a43cac0d9dc207 Dave Young     2015-09-09  322  		unsigned long, flags)
-a43cac0d9dc207 Dave Young     2015-09-09  323  {
-a43cac0d9dc207 Dave Young     2015-09-09  324  	int ret = 0, i;
-a43cac0d9dc207 Dave Young     2015-09-09  325  	struct kimage **dest_image, *image;
-a43cac0d9dc207 Dave Young     2015-09-09  326  
-a43cac0d9dc207 Dave Young     2015-09-09  327  	/* We only trust the superuser with rebooting the system. */
-a43cac0d9dc207 Dave Young     2015-09-09  328  	if (!capable(CAP_SYS_BOOT) || kexec_load_disabled)
-a43cac0d9dc207 Dave Young     2015-09-09  329  		return -EPERM;
-a43cac0d9dc207 Dave Young     2015-09-09  330  
-a43cac0d9dc207 Dave Young     2015-09-09  331  	/* Make sure we have a legal set of flags */
-a43cac0d9dc207 Dave Young     2015-09-09  332  	if (flags != (flags & KEXEC_FILE_FLAGS))
-a43cac0d9dc207 Dave Young     2015-09-09  333  		return -EINVAL;
-a43cac0d9dc207 Dave Young     2015-09-09  334  
-a43cac0d9dc207 Dave Young     2015-09-09  335  	image = NULL;
-a43cac0d9dc207 Dave Young     2015-09-09  336  
-a43cac0d9dc207 Dave Young     2015-09-09  337  	if (!mutex_trylock(&kexec_mutex))
-a43cac0d9dc207 Dave Young     2015-09-09  338  		return -EBUSY;
-a43cac0d9dc207 Dave Young     2015-09-09  339  
-a43cac0d9dc207 Dave Young     2015-09-09  340  	dest_image = &kexec_image;
-9b492cf58077a0 Xunlei Pang    2016-05-23  341  	if (flags & KEXEC_FILE_ON_CRASH) {
-a43cac0d9dc207 Dave Young     2015-09-09  342  		dest_image = &kexec_crash_image;
-9b492cf58077a0 Xunlei Pang    2016-05-23  343  		if (kexec_crash_image)
-9b492cf58077a0 Xunlei Pang    2016-05-23  344  			arch_kexec_unprotect_crashkres();
-9b492cf58077a0 Xunlei Pang    2016-05-23  345  	}
-a43cac0d9dc207 Dave Young     2015-09-09  346  
-a43cac0d9dc207 Dave Young     2015-09-09  347  	if (flags & KEXEC_FILE_UNLOAD)
-a43cac0d9dc207 Dave Young     2015-09-09  348  		goto exchange;
-a43cac0d9dc207 Dave Young     2015-09-09  349  
-a43cac0d9dc207 Dave Young     2015-09-09  350  	/*
-a43cac0d9dc207 Dave Young     2015-09-09  351  	 * In case of crash, new kernel gets loaded in reserved region. It is
-a43cac0d9dc207 Dave Young     2015-09-09  352  	 * same memory where old crash kernel might be loaded. Free any
-a43cac0d9dc207 Dave Young     2015-09-09  353  	 * current crash dump kernel before we corrupt it.
-a43cac0d9dc207 Dave Young     2015-09-09  354  	 */
-a43cac0d9dc207 Dave Young     2015-09-09  355  	if (flags & KEXEC_FILE_ON_CRASH)
-a43cac0d9dc207 Dave Young     2015-09-09  356  		kimage_free(xchg(&kexec_crash_image, NULL));
-a43cac0d9dc207 Dave Young     2015-09-09  357  
-a43cac0d9dc207 Dave Young     2015-09-09  358  	ret = kimage_file_alloc_init(&image, kernel_fd, initrd_fd, cmdline_ptr,
-a43cac0d9dc207 Dave Young     2015-09-09  359  				     cmdline_len, flags);
-a43cac0d9dc207 Dave Young     2015-09-09  360  	if (ret)
-a43cac0d9dc207 Dave Young     2015-09-09  361  		goto out;
-a43cac0d9dc207 Dave Young     2015-09-09  362  
-a43cac0d9dc207 Dave Young     2015-09-09  363  	ret = machine_kexec_prepare(image);
-a43cac0d9dc207 Dave Young     2015-09-09  364  	if (ret)
-a43cac0d9dc207 Dave Young     2015-09-09  365  		goto out;
-a43cac0d9dc207 Dave Young     2015-09-09  366  
-1229384f5b856d Xunlei Pang    2017-07-12  367  	/*
-1229384f5b856d Xunlei Pang    2017-07-12  368  	 * Some architecture(like S390) may touch the crash memory before
-1229384f5b856d Xunlei Pang    2017-07-12  369  	 * machine_kexec_prepare(), we must copy vmcoreinfo data after it.
-1229384f5b856d Xunlei Pang    2017-07-12  370  	 */
-1229384f5b856d Xunlei Pang    2017-07-12  371  	ret = kimage_crash_copy_vmcoreinfo(image);
-1229384f5b856d Xunlei Pang    2017-07-12  372  	if (ret)
-1229384f5b856d Xunlei Pang    2017-07-12  373  		goto out;
-1229384f5b856d Xunlei Pang    2017-07-12  374  
-a43cac0d9dc207 Dave Young     2015-09-09  375  	ret = kexec_calculate_store_digests(image);
-a43cac0d9dc207 Dave Young     2015-09-09  376  	if (ret)
-a43cac0d9dc207 Dave Young     2015-09-09  377  		goto out;
-a43cac0d9dc207 Dave Young     2015-09-09  378  
-a43cac0d9dc207 Dave Young     2015-09-09  379  	for (i = 0; i < image->nr_segments; i++) {
-a43cac0d9dc207 Dave Young     2015-09-09  380  		struct kexec_segment *ksegment;
-a43cac0d9dc207 Dave Young     2015-09-09  381  
-a43cac0d9dc207 Dave Young     2015-09-09  382  		ksegment = &image->segment[i];
-a43cac0d9dc207 Dave Young     2015-09-09  383  		pr_debug("Loading segment %d: buf=0x%p bufsz=0x%zx mem=0x%lx memsz=0x%zx\n",
-a43cac0d9dc207 Dave Young     2015-09-09  384  			 i, ksegment->buf, ksegment->bufsz, ksegment->mem,
-a43cac0d9dc207 Dave Young     2015-09-09  385  			 ksegment->memsz);
-a43cac0d9dc207 Dave Young     2015-09-09  386  
-a43cac0d9dc207 Dave Young     2015-09-09  387  		ret = kimage_load_segment(image, &image->segment[i]);
-a43cac0d9dc207 Dave Young     2015-09-09  388  		if (ret)
-a43cac0d9dc207 Dave Young     2015-09-09  389  			goto out;
-a43cac0d9dc207 Dave Young     2015-09-09  390  	}
-a43cac0d9dc207 Dave Young     2015-09-09  391  
-a43cac0d9dc207 Dave Young     2015-09-09  392  	kimage_terminate(image);
-a43cac0d9dc207 Dave Young     2015-09-09  393  
-de68e4daea9084 Pavel Tatashin 2019-12-04  394  	ret = machine_kexec_post_load(image);
-de68e4daea9084 Pavel Tatashin 2019-12-04  395  	if (ret)
-de68e4daea9084 Pavel Tatashin 2019-12-04  396  		goto out;
-de68e4daea9084 Pavel Tatashin 2019-12-04  397  
-a43cac0d9dc207 Dave Young     2015-09-09  398  	/*
-a43cac0d9dc207 Dave Young     2015-09-09  399  	 * Free up any temporary buffers allocated which are not needed
-a43cac0d9dc207 Dave Young     2015-09-09  400  	 * after image has been loaded
-a43cac0d9dc207 Dave Young     2015-09-09  401  	 */
-a43cac0d9dc207 Dave Young     2015-09-09  402  	kimage_file_post_load_cleanup(image);
-a43cac0d9dc207 Dave Young     2015-09-09  403  exchange:
-a43cac0d9dc207 Dave Young     2015-09-09  404  	image = xchg(dest_image, image);
-a43cac0d9dc207 Dave Young     2015-09-09  405  out:
-9b492cf58077a0 Xunlei Pang    2016-05-23  406  	if ((flags & KEXEC_FILE_ON_CRASH) && kexec_crash_image)
-9b492cf58077a0 Xunlei Pang    2016-05-23  407  		arch_kexec_protect_crashkres();
-9b492cf58077a0 Xunlei Pang    2016-05-23  408  
-a43cac0d9dc207 Dave Young     2015-09-09  409  	mutex_unlock(&kexec_mutex);
-a43cac0d9dc207 Dave Young     2015-09-09  410  	kimage_free(image);
-a43cac0d9dc207 Dave Young     2015-09-09  411  	return ret;
-a43cac0d9dc207 Dave Young     2015-09-09  412  }
-a43cac0d9dc207 Dave Young     2015-09-09  413  
+vim +/devm_kasprintf +30 sound/soc/intel/avs/boards/i2s_test.c
 
-:::::: The code at line 320 was first introduced by commit
-:::::: a43cac0d9dc2073ff2245a171429ddbe1accece7 kexec: split kexec_file syscall code to kexec_file.c
-
-:::::: TO: Dave Young <dyoung@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   16  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   17  static int avs_create_dai_link(struct device *dev, const char *platform_name, int ssp_port,
+d3decc196afdce Amadeusz Sławiński 2023-10-12   18  			       int tdm_slot, struct snd_soc_dai_link **dai_link)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   19  {
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   20  	struct snd_soc_dai_link_component *platform;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   21  	struct snd_soc_dai_link *dl;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   22  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   23  	dl = devm_kzalloc(dev, sizeof(*dl), GFP_KERNEL);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   24  	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   25  	if (!dl || !platform)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   26  		return -ENOMEM;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   27  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   28  	platform->name = platform_name;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   29  
+d3decc196afdce Amadeusz Sławiński 2023-10-12  @30  	dl->name = devm_kasprintf(dev, GFP_KERNEL,
+d3decc196afdce Amadeusz Sławiński 2023-10-12   31  				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   32  	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
+82528f31e6633a Kuninori Morimoto  2023-04-24   33  	if (!dl->name || !dl->cpus)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   34  		return -ENOMEM;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   35  
+d3decc196afdce Amadeusz Sławiński 2023-10-12   36  	dl->cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
+d3decc196afdce Amadeusz Sławiński 2023-10-12   37  					    AVS_STRING_FMT("SSP", " Pin", ssp_port, tdm_slot));
+5d2d1a48a2f773 Kuninori Morimoto  2023-09-11   38  	dl->codecs = &snd_soc_dummy_dlc;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   39  	if (!dl->cpus->dai_name || !dl->codecs->name || !dl->codecs->dai_name)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   40  		return -ENOMEM;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   41  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   42  	dl->num_cpus = 1;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   43  	dl->num_codecs = 1;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   44  	dl->platforms = platform;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   45  	dl->num_platforms = 1;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   46  	dl->id = 0;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   47  	dl->nonatomic = 1;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   48  	dl->no_pcm = 1;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   49  	dl->dpcm_capture = 1;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   50  	dl->dpcm_playback = 1;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   51  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   52  	*dai_link = dl;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   53  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   54  	return 0;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   55  }
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   56  
+d3decc196afdce Amadeusz Sławiński 2023-10-12   57  static int avs_create_dapm_routes(struct device *dev, int ssp_port, int tdm_slot,
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   58  				  struct snd_soc_dapm_route **routes, int *num_routes)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   59  {
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   60  	struct snd_soc_dapm_route *dr;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   61  	const int num_dr = 2;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   62  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   63  	dr = devm_kcalloc(dev, num_dr, sizeof(*dr), GFP_KERNEL);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   64  	if (!dr)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   65  		return -ENOMEM;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   66  
+d3decc196afdce Amadeusz Sławiński 2023-10-12  @67  	dr[0].sink = devm_kasprintf(dev, GFP_KERNEL,
+d3decc196afdce Amadeusz Sławiński 2023-10-12   68  				    AVS_STRING_FMT("ssp", "pb", ssp_port, tdm_slot));
+d3decc196afdce Amadeusz Sławiński 2023-10-12   69  	dr[0].source = devm_kasprintf(dev, GFP_KERNEL,
+d3decc196afdce Amadeusz Sławiński 2023-10-12   70  				      AVS_STRING_FMT("ssp", " Tx", ssp_port, tdm_slot));
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   71  	if (!dr[0].sink || !dr[0].source)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   72  		return -ENOMEM;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   73  
+d3decc196afdce Amadeusz Sławiński 2023-10-12   74  	dr[1].sink = devm_kasprintf(dev, GFP_KERNEL,
+d3decc196afdce Amadeusz Sławiński 2023-10-12   75  				    AVS_STRING_FMT("ssp", " Rx", ssp_port, tdm_slot));
+d3decc196afdce Amadeusz Sławiński 2023-10-12   76  	dr[1].source = devm_kasprintf(dev, GFP_KERNEL,
+d3decc196afdce Amadeusz Sławiński 2023-10-12   77  				      AVS_STRING_FMT("ssp", "cp", ssp_port, tdm_slot));
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   78  	if (!dr[1].sink || !dr[1].source)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   79  		return -ENOMEM;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   80  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   81  	*routes = dr;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   82  	*num_routes = num_dr;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   83  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   84  	return 0;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   85  }
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   86  
+d3decc196afdce Amadeusz Sławiński 2023-10-12   87  static int avs_create_dapm_widgets(struct device *dev, int ssp_port, int tdm_slot,
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   88  				   struct snd_soc_dapm_widget **widgets, int *num_widgets)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   89  {
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   90  	struct snd_soc_dapm_widget *dw;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   91  	const int num_dw = 2;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   92  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   93  	dw = devm_kcalloc(dev, num_dw, sizeof(*dw), GFP_KERNEL);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   94  	if (!dw)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   95  		return -ENOMEM;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   96  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   97  	dw[0].id = snd_soc_dapm_hp;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11   98  	dw[0].reg = SND_SOC_NOPM;
+d3decc196afdce Amadeusz Sławiński 2023-10-12  @99  	dw[0].name = devm_kasprintf(dev, GFP_KERNEL,
+d3decc196afdce Amadeusz Sławiński 2023-10-12  100  				    AVS_STRING_FMT("ssp", "pb", ssp_port, tdm_slot));
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  101  	if (!dw[0].name)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  102  		return -ENOMEM;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  103  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  104  	dw[1].id = snd_soc_dapm_mic;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  105  	dw[1].reg = SND_SOC_NOPM;
+d3decc196afdce Amadeusz Sławiński 2023-10-12  106  	dw[1].name = devm_kasprintf(dev, GFP_KERNEL,
+d3decc196afdce Amadeusz Sławiński 2023-10-12  107  				    AVS_STRING_FMT("ssp", "cp", ssp_port, tdm_slot));
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  108  	if (!dw[1].name)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  109  		return -ENOMEM;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  110  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  111  	*widgets = dw;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  112  	*num_widgets = num_dw;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  113  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  114  	return 0;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  115  }
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  116  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  117  static int avs_i2s_test_probe(struct platform_device *pdev)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  118  {
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  119  	struct snd_soc_dapm_widget *widgets;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  120  	struct snd_soc_dapm_route *routes;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  121  	struct snd_soc_dai_link *dai_link;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  122  	struct snd_soc_acpi_mach *mach;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  123  	struct snd_soc_card *card;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  124  	struct device *dev = &pdev->dev;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  125  	const char *pname;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  126  	int num_routes, num_widgets;
+d3decc196afdce Amadeusz Sławiński 2023-10-12  127  	int ssp_port, tdm_slot, ret;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  128  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  129  	mach = dev_get_platdata(dev);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  130  	pname = mach->mach_params.platform;
+d3decc196afdce Amadeusz Sławiński 2023-10-12  131  
+d3decc196afdce Amadeusz Sławiński 2023-10-12  132  	if (!avs_mach_singular_ssp(mach)) {
+d3decc196afdce Amadeusz Sławiński 2023-10-12  133  		dev_err(dev, "Invalid SSP configuration\n");
+d3decc196afdce Amadeusz Sławiński 2023-10-12  134  		return -EINVAL;
+d3decc196afdce Amadeusz Sławiński 2023-10-12  135  	}
+d3decc196afdce Amadeusz Sławiński 2023-10-12  136  	ssp_port = avs_mach_ssp_port(mach);
+d3decc196afdce Amadeusz Sławiński 2023-10-12  137  
+d3decc196afdce Amadeusz Sławiński 2023-10-12  138  	if (!avs_mach_singular_tdm(mach, ssp_port)) {
+d3decc196afdce Amadeusz Sławiński 2023-10-12  139  		dev_err(dev, "Invalid TDM configuration\n");
+d3decc196afdce Amadeusz Sławiński 2023-10-12  140  		return -EINVAL;
+d3decc196afdce Amadeusz Sławiński 2023-10-12  141  	}
+d3decc196afdce Amadeusz Sławiński 2023-10-12  142  	tdm_slot = avs_mach_ssp_tdm(mach, ssp_port);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  143  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  144  	card = devm_kzalloc(dev, sizeof(*card), GFP_KERNEL);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  145  	if (!card)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  146  		return -ENOMEM;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  147  
+d3decc196afdce Amadeusz Sławiński 2023-10-12 @148  	card->name = devm_kasprintf(dev, GFP_KERNEL,
+d3decc196afdce Amadeusz Sławiński 2023-10-12  149  				    AVS_STRING_FMT("ssp", "-loopback", ssp_port, tdm_slot));
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  150  	if (!card->name)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  151  		return -ENOMEM;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  152  
+d3decc196afdce Amadeusz Sławiński 2023-10-12  153  	ret = avs_create_dai_link(dev, pname, ssp_port, tdm_slot, &dai_link);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  154  	if (ret) {
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  155  		dev_err(dev, "Failed to create dai link: %d\n", ret);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  156  		return ret;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  157  	}
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  158  
+d3decc196afdce Amadeusz Sławiński 2023-10-12  159  	ret = avs_create_dapm_routes(dev, ssp_port, tdm_slot, &routes, &num_routes);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  160  	if (ret) {
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  161  		dev_err(dev, "Failed to create dapm routes: %d\n", ret);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  162  		return ret;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  163  	}
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  164  
+d3decc196afdce Amadeusz Sławiński 2023-10-12  165  	ret = avs_create_dapm_widgets(dev, ssp_port, tdm_slot, &widgets, &num_widgets);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  166  	if (ret) {
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  167  		dev_err(dev, "Failed to create dapm widgets: %d\n", ret);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  168  		return ret;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  169  	}
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  170  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  171  	card->dev = dev;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  172  	card->owner = THIS_MODULE;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  173  	card->dai_link = dai_link;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  174  	card->num_links = 1;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  175  	card->dapm_routes = routes;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  176  	card->num_dapm_routes = num_routes;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  177  	card->dapm_widgets = widgets;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  178  	card->num_dapm_widgets = num_widgets;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  179  	card->fully_routed = true;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  180  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  181  	ret = snd_soc_fixup_dai_links_platform_name(card, pname);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  182  	if (ret)
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  183  		return ret;
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  184  
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  185  	return devm_snd_soc_register_card(dev, card);
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  186  }
+e39acc4cfd9250 Cezary Rojewski    2022-05-11  187  
 
 -- 
 0-DAY CI Kernel Test Service
