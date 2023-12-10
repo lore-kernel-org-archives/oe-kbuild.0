@@ -1,120 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5960C8494
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 16:07:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8201F11702
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 16:17:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k3LBA2eG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nOdx7V0r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702224460; x=1733760460;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EOw5OqWxQ81JxH2ZM2a2+1YAdIJHnr2uyyyxYVp4Xck=;
-  b=k3LBA2eGjUhnKcXU5CWawzUCr0diINgqSEs9nrrWnBB8tmcRizHJ0ena
-   gzIdncJF/AR9oeV2ov6s3fsLXJrydudtj/1j3fRf3rPVZGERbiM8BpAAJ
-   A+ScbJK3GVZ1P20KAOJnHM//twd+zi8NEGl9gBxMBE4k2zRXzHnQa+FF9
-   OLr1qnUJ8/CAQEqxn4DXV98RQiHaZ0LmRmxJAr2c+Ur056Q9bUjEhkIC/
-   8bGyp/7oAYFHUPJ4XVmgpP80HZ8nVguVQc7VC5FeFl+xnSvvMqHzynV7+
-   I5J6qZ0BoreHe1jUtIgfM45LdBu3jIJXIqx6AKW7MnkZp8I+HIol5NzJJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="397353368"
+  t=1702225061; x=1733761061;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=o46FtIU0n5+Wt6e+hTHeCvgA8nOEWwjF9kIs0iktWaA=;
+  b=nOdx7V0rGqDIfEy5zcrixS1swq2HAO8io/XBNxG1jgjgS4oBTvFtbBuy
+   kw2nwDUX49JCT9Aw99r6dVCsYd5+WgUE1ytKqYUJxnBsR6+QZJtbaQhdR
+   zXuwNaFPsoU+86YXq4crcTTu9kwC2/1yYrw/7xWfbsJS10y8hh0EA0qoX
+   IEVCf4jcoFPbqGAdygbojq69m9xzyxQcjTYCCk0bEo/JK+EQR+jwTWwvC
+   E0a306krr6Esw1lYCYoVZ9KfESbROCH/3R85dKrUSwwJq2Z9AC88DFczn
+   n1qd+2mbKjF7coE3o+axbSsFhifFoEXVHMxuVgYLamTruO7Lne/1v73On
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="7920691"
 X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="397353368"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 08:07:36 -0800
+   d="scan'208";a="7920691"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 08:17:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="843209428"
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="890800351"
 X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="843209428"
+   d="scan'208";a="890800351"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 10 Dec 2023 08:07:35 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 10 Dec 2023 08:17:36 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCML7-000H0W-1H;
-	Sun, 10 Dec 2023 16:07:33 +0000
-Date: Mon, 11 Dec 2023 00:06:40 +0800
+	id 1rCMUn-000H1H-2k;
+	Sun, 10 Dec 2023 16:17:33 +0000
+Date: Mon, 11 Dec 2023 00:17:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: include/linux/pgtable.h:257:16: sparse: sparse: cast to non-scalar
-Message-ID: <202312102353.hCqM6KBN-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: sound/soc/intel/avs/boards/max98927.c:108 avs_create_dai_link()
+ warn: excess argument passed to 'devm_kasprintf'
+Message-ID: <202312110052.RqA3sfZc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: include/linux/pgtable.h:257:16: sparse: sparse: cast to non-scalar"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Huang Ying <ying.huang@intel.com>
-CC: Mel Gorman <mgorman@suse.de>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
+CC: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c527f5606aa545233a4d2c6d5c636ed82b8633ef
-commit: b99a342d4f11a5455d999b12f5fee42ab6acaf8c NUMA balancing: reduce TLB flush via delaying mapping on hint page fault
-date:   2 years, 7 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 2 years, 7 months ago
-config: alpha-randconfig-r131-20231116 (https://download.01.org/0day-ci/archive/20231210/202312102353.hCqM6KBN-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231210/202312102353.hCqM6KBN-lkp@intel.com/reproduce)
+commit: ef91ae9e682c85e57861234db7d5ad9d071b889b ASoC: Intel: avs: max98927: Validate machine board configuration
+date:   8 weeks ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 8 weeks ago
+config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231211/202312110052.RqA3sfZc-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20231211/202312110052.RqA3sfZc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312102353.hCqM6KBN-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202312110052.RqA3sfZc-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/memory.c:285:46: sparse: sparse: self-comparison always evaluates to false
-   mm/memory.c:319:46: sparse: sparse: self-comparison always evaluates to false
-   mm/memory.c:949:17: sparse: sparse: context imbalance in 'copy_pte_range' - different lock contexts for basic block
-   mm/memory.c:1104:61: sparse: sparse: self-comparison always evaluates to false
-   mm/memory.c:1128:61: sparse: sparse: self-comparison always evaluates to false
-   mm/memory.c:1629:16: sparse: sparse: context imbalance in '__get_locked_pte' - different lock contexts for basic block
-   mm/memory.c:1678:9: sparse: sparse: context imbalance in 'insert_page' - different lock contexts for basic block
-   mm/memory.c:2180:17: sparse: sparse: context imbalance in 'remap_pte_range' - different lock contexts for basic block
-   mm/memory.c:2237:46: sparse: sparse: self-comparison always evaluates to false
-   mm/memory.c:2259:46: sparse: sparse: self-comparison always evaluates to false
-   mm/memory.c:2436:17: sparse: sparse: context imbalance in 'apply_to_pte_range' - unexpected unlock
-   mm/memory.c:2494:46: sparse: sparse: self-comparison always evaluates to false
-   mm/memory.c:2522:46: sparse: sparse: self-comparison always evaluates to false
-   mm/memory.c:2692:17: sparse: sparse: context imbalance in 'wp_page_copy' - unexpected unlock
-   mm/memory.c:3038:17: sparse: sparse: context imbalance in 'wp_pfn_shared' - unexpected unlock
-   mm/memory.c:3101:19: sparse: sparse: context imbalance in 'do_wp_page' - different lock contexts for basic block
-   mm/memory.c: note: in included file (through include/linux/mm.h, arch/alpha/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
->> include/linux/pgtable.h:257:16: sparse: sparse: cast to non-scalar
->> include/linux/pgtable.h:257:16: sparse: sparse: cast from non-scalar
-   mm/memory.c:4660:5: sparse: sparse: context imbalance in 'follow_invalidate_pte' - different lock contexts for basic block
-   mm/memory.c:4781:9: sparse: sparse: context imbalance in 'follow_pfn' - unexpected unlock
+New smatch warnings:
+sound/soc/intel/avs/boards/max98927.c:108 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
 
-vim +257 include/linux/pgtable.h
+Old smatch warnings:
+sound/soc/intel/avs/boards/max98927.c:115 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
 
-e2cda322648122d include/asm-generic/pgtable.h Andrea Arcangeli 2011-01-13  253  
-481e980a7c199c5 include/linux/pgtable.h       Christophe Leroy 2020-06-15  254  #ifndef __HAVE_ARCH_PTEP_GET
-481e980a7c199c5 include/linux/pgtable.h       Christophe Leroy 2020-06-15  255  static inline pte_t ptep_get(pte_t *ptep)
-481e980a7c199c5 include/linux/pgtable.h       Christophe Leroy 2020-06-15  256  {
-481e980a7c199c5 include/linux/pgtable.h       Christophe Leroy 2020-06-15 @257  	return READ_ONCE(*ptep);
-481e980a7c199c5 include/linux/pgtable.h       Christophe Leroy 2020-06-15  258  }
-481e980a7c199c5 include/linux/pgtable.h       Christophe Leroy 2020-06-15  259  #endif
-481e980a7c199c5 include/linux/pgtable.h       Christophe Leroy 2020-06-15  260  
+vim +/devm_kasprintf +108 sound/soc/intel/avs/boards/max98927.c
 
-:::::: The code at line 257 was first introduced by commit
-:::::: 481e980a7c199c5a4634fd7ea308067dd4ba75fa mm: Allow arches to provide ptep_get()
-
-:::::: TO: Christophe Leroy <christophe.leroy@csgroup.eu>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+1c993300ab1cec Amadeusz Sławiński 2022-09-30   94  
+1c993300ab1cec Amadeusz Sławiński 2022-09-30   95  static int avs_create_dai_link(struct device *dev, const char *platform_name, int ssp_port,
+ef91ae9e682c85 Amadeusz Sławiński 2023-10-12   96  			       int tdm_slot, struct snd_soc_dai_link **dai_link)
+1c993300ab1cec Amadeusz Sławiński 2022-09-30   97  {
+1c993300ab1cec Amadeusz Sławiński 2022-09-30   98  	struct snd_soc_dai_link_component *platform;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30   99  	struct snd_soc_dai_link *dl;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  100  
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  101  	dl = devm_kzalloc(dev, sizeof(*dl), GFP_KERNEL);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  102  	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  103  	if (!dl || !platform)
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  104  		return -ENOMEM;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  105  
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  106  	platform->name = platform_name;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  107  
+ef91ae9e682c85 Amadeusz Sławiński 2023-10-12 @108  	dl->name = devm_kasprintf(dev, GFP_KERNEL,
+ef91ae9e682c85 Amadeusz Sławiński 2023-10-12  109  				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  110  	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  111  	dl->codecs = devm_kzalloc(dev, sizeof(*dl->codecs) * 2, GFP_KERNEL);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  112  	if (!dl->name || !dl->cpus || !dl->codecs)
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  113  		return -ENOMEM;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  114  
+ef91ae9e682c85 Amadeusz Sławiński 2023-10-12  115  	dl->cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
+ef91ae9e682c85 Amadeusz Sławiński 2023-10-12  116  					    AVS_STRING_FMT("SSP", " Pin", ssp_port, tdm_slot));
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  117  	dl->codecs[0].name = devm_kasprintf(dev, GFP_KERNEL, MAX98927_DEV0_NAME);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  118  	dl->codecs[0].dai_name = devm_kasprintf(dev, GFP_KERNEL, MAX98927_CODEC_NAME);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  119  	dl->codecs[1].name = devm_kasprintf(dev, GFP_KERNEL, MAX98927_DEV1_NAME);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  120  	dl->codecs[1].dai_name = devm_kasprintf(dev, GFP_KERNEL, MAX98927_CODEC_NAME);
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  121  	if (!dl->cpus->dai_name || !dl->codecs[0].name || !dl->codecs[0].dai_name ||
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  122  	    !dl->codecs[1].name || !dl->codecs[1].dai_name)
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  123  		return -ENOMEM;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  124  
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  125  	dl->num_cpus = 1;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  126  	dl->num_codecs = 2;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  127  	dl->platforms = platform;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  128  	dl->num_platforms = 1;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  129  	dl->id = 0;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  130  	dl->dai_fmt = SND_SOC_DAIFMT_DSP_B | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_CBS_CFS;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  131  	dl->be_hw_params_fixup = avs_max98927_be_fixup;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  132  	dl->nonatomic = 1;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  133  	dl->no_pcm = 1;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  134  	dl->dpcm_capture = 1;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  135  	dl->dpcm_playback = 1;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  136  	dl->ignore_pmdown_time = 1;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  137  	dl->ops = &avs_max98927_ops;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  138  
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  139  	*dai_link = dl;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  140  
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  141  	return 0;
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  142  }
+1c993300ab1cec Amadeusz Sławiński 2022-09-30  143  
 
 -- 
 0-DAY CI Kernel Test Service
