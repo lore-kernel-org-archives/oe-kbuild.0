@@ -1,114 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043FD6ABC
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 11:06:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B755C13F
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Dec 2023 12:30:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TUAT6KGx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JvFd//CB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702206365; x=1733742365;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E3R3H5+JuxRIaYXJNA3PZfRKSFqEOtmMNecxr/D9WV0=;
-  b=TUAT6KGxFl7eCneK78ocysZLx8m9/OW3Td5OffIgv6n2QAvzpxQU+zRd
-   uHa8DsLLkKJNYuwKK6QVZjEP4zqnExxWvzGshp6nRiPfmBTsIMAZ6Ki+f
-   j5GHB9lcckRupvOHY4IuJAYw7fXP3LYVfnsj48h7DXnE6OUqhSY/NEELu
-   sfAgbqOZLQ4fDt1a2kQo/ArIbKk8Asuo8UZ1Cud5ejZJ8JlObjPAkbGvT
-   IEUn4xrafaZW7luhCzNeGMOtOkjY5JSFuVTBv76N5ZBMgipUSzbMSkKr2
-   XQbKp1qmiCvkgkrV0WVxOCloxV18Kqa/j/1rmOEBOA5T4nvVjkB8uIKYk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="398408531"
+  t=1702211407; x=1733747407;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=UGg/4p52Jt0YHP0cFYwGVoy8wgJxjdxLTjdSACLf304=;
+  b=JvFd//CBvg1+jz70qlpNoOKtMzTj8MkSV01cWN8rzdnCr/RT0SG37K5e
+   XZYS7y9s/c38R8N8KasdlJfwAqcQVgqajYtLWliMYsxbTnqzpqxSowHhJ
+   E5mHbyQjnoR6P+bX4EnH9/kbwZ/Aoh8c1NQ1pdosLpMEDOX/86NvVqw22
+   tEU3FxL8ifDjk+KczjgzodjH+Vqw8pYhTHpXWC08uT7kcmmDwLGYDEiFB
+   Nm7NbYQqn+u/awqrtGOQfnTu+PTDAyZCHgvMgPpFOq9iEWilsFMS8ArWf
+   rvT0pzMxtTn7QVcb1iEyzMVl0gFR2sEoV6C6K5FWH93qYQbv13NGinQju
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="7910824"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="398408531"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 03:06:04 -0800
+   d="scan'208";a="7910824"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 04:30:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="916473409"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1104116245"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="916473409"
+   d="scan'208";a="1104116245"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 10 Dec 2023 03:06:02 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 10 Dec 2023 04:30:05 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCHdI-000Gke-2O;
-	Sun, 10 Dec 2023 11:06:00 +0000
-Date: Sun, 10 Dec 2023 19:05:10 +0800
+	id 1rCIwd-000GpA-0K;
+	Sun, 10 Dec 2023 12:30:03 +0000
+Date: Sun, 10 Dec 2023 20:29:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/s390/kernel/perf_cpum_cf.c:975 cfset_all_copy() warn: ignoring
- unreachable code.
-Message-ID: <202312101819.GVv9G82J-lkp@intel.com>
+Subject: sound/soc/intel/avs/boards/max98373.c:111 avs_create_dai_link()
+ warn: excess argument passed to 'devm_kasprintf'
+Message-ID: <202312102036.Lzg0mcTk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Thomas Richter <tmricht@linux.ibm.com>
-CC: Vasily Gorbik <gor@linux.ibm.com>
-CC: Sumanth Korikkar <sumanthk@linux.ibm.com>
+TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
+CC: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c527f5606aa545233a4d2c6d5c636ed82b8633ef
-commit: a029a4eab39e4bf542907a3263773fce3d48c983 s390/cpumf: Allow concurrent access for CPU Measurement Counter Facility
-date:   2 years, 5 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 2 years, 5 months ago
-config: s390-randconfig-r071-20231115 (https://download.01.org/0day-ci/archive/20231210/202312101819.GVv9G82J-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231210/202312101819.GVv9G82J-lkp@intel.com/reproduce)
+commit: a1ec836b17f7dea35f6b4b3a7c2ad4306da804c9 ASoC: Intel: avs: max98373: Validate machine board configuration
+date:   8 weeks ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 8 weeks ago
+config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231210/202312102036.Lzg0mcTk-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20231210/202312102036.Lzg0mcTk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312101819.GVv9G82J-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312102036.Lzg0mcTk-lkp@intel.com/
 
-smatch warnings:
-arch/s390/kernel/perf_cpum_cf.c:975 cfset_all_copy() warn: ignoring unreachable code.
+New smatch warnings:
+sound/soc/intel/avs/boards/max98373.c:111 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
 
-vim +975 arch/s390/kernel/perf_cpum_cf.c
+Old smatch warnings:
+sound/soc/intel/avs/boards/max98373.c:118 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
 
-a029a4eab39e4b Thomas Richter 2021-06-25  960  
-a029a4eab39e4b Thomas Richter 2021-06-25  961  static int cfset_all_copy(unsigned long arg, cpumask_t *mask)
-a029a4eab39e4b Thomas Richter 2021-06-25  962  {
-a029a4eab39e4b Thomas Richter 2021-06-25  963  	struct s390_ctrset_read __user *ctrset_read;
-a029a4eab39e4b Thomas Richter 2021-06-25  964  	unsigned int cpu, cpus, rc;
-a029a4eab39e4b Thomas Richter 2021-06-25  965  	void __user *uptr;
-a029a4eab39e4b Thomas Richter 2021-06-25  966  
-a029a4eab39e4b Thomas Richter 2021-06-25  967  	ctrset_read = (struct s390_ctrset_read __user *)arg;
-a029a4eab39e4b Thomas Richter 2021-06-25  968  	uptr = ctrset_read->data;
-a029a4eab39e4b Thomas Richter 2021-06-25  969  	for_each_cpu(cpu, mask) {
-a029a4eab39e4b Thomas Richter 2021-06-25  970  		struct cpu_cf_events *cpuhw = per_cpu_ptr(&cpu_cf_events, cpu);
-a029a4eab39e4b Thomas Richter 2021-06-25  971  		struct s390_ctrset_cpudata __user *ctrset_cpudata;
-a029a4eab39e4b Thomas Richter 2021-06-25  972  
-a029a4eab39e4b Thomas Richter 2021-06-25  973  		ctrset_cpudata = uptr;
-a029a4eab39e4b Thomas Richter 2021-06-25  974  		rc  = put_user(cpu, &ctrset_cpudata->cpu_nr);
-a029a4eab39e4b Thomas Richter 2021-06-25 @975  		rc |= put_user(cpuhw->sets, &ctrset_cpudata->no_sets);
-a029a4eab39e4b Thomas Richter 2021-06-25  976  		rc |= copy_to_user(ctrset_cpudata->data, cpuhw->data,
-a029a4eab39e4b Thomas Richter 2021-06-25  977  				   cpuhw->used);
-a029a4eab39e4b Thomas Richter 2021-06-25  978  		if (rc)
-a029a4eab39e4b Thomas Richter 2021-06-25  979  			return -EFAULT;
-a029a4eab39e4b Thomas Richter 2021-06-25  980  		uptr += sizeof(struct s390_ctrset_cpudata) + cpuhw->used;
-a029a4eab39e4b Thomas Richter 2021-06-25  981  		cond_resched();
-a029a4eab39e4b Thomas Richter 2021-06-25  982  	}
-a029a4eab39e4b Thomas Richter 2021-06-25  983  	cpus = cpumask_weight(mask);
-a029a4eab39e4b Thomas Richter 2021-06-25  984  	if (put_user(cpus, &ctrset_read->no_cpus))
-a029a4eab39e4b Thomas Richter 2021-06-25  985  		return -EFAULT;
-a029a4eab39e4b Thomas Richter 2021-06-25  986  	debug_sprintf_event(cf_dbg, 4, "%s copied %ld\n", __func__,
-a029a4eab39e4b Thomas Richter 2021-06-25  987  			    uptr - (void __user *)ctrset_read->data);
-a029a4eab39e4b Thomas Richter 2021-06-25  988  	return 0;
-a029a4eab39e4b Thomas Richter 2021-06-25  989  }
-a029a4eab39e4b Thomas Richter 2021-06-25  990  
+vim +/devm_kasprintf +111 sound/soc/intel/avs/boards/max98373.c
+
+223a0a945821b9 Amadeusz Sławiński 2022-05-11   97  
+223a0a945821b9 Amadeusz Sławiński 2022-05-11   98  static int avs_create_dai_link(struct device *dev, const char *platform_name, int ssp_port,
+a1ec836b17f7de Amadeusz Sławiński 2023-10-12   99  			       int tdm_slot, struct snd_soc_dai_link **dai_link)
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  100  {
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  101  	struct snd_soc_dai_link_component *platform;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  102  	struct snd_soc_dai_link *dl;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  103  
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  104  	dl = devm_kzalloc(dev, sizeof(*dl), GFP_KERNEL);
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  105  	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  106  	if (!dl || !platform)
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  107  		return -ENOMEM;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  108  
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  109  	platform->name = platform_name;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  110  
+a1ec836b17f7de Amadeusz Sławiński 2023-10-12 @111  	dl->name = devm_kasprintf(dev, GFP_KERNEL,
+a1ec836b17f7de Amadeusz Sławiński 2023-10-12  112  				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  113  	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  114  	dl->codecs = devm_kzalloc(dev, sizeof(*dl->codecs) * 2, GFP_KERNEL);
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  115  	if (!dl->name || !dl->cpus || !dl->codecs)
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  116  		return -ENOMEM;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  117  
+a1ec836b17f7de Amadeusz Sławiński 2023-10-12  118  	dl->cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
+a1ec836b17f7de Amadeusz Sławiński 2023-10-12  119  					    AVS_STRING_FMT("SSP", " Pin", ssp_port, tdm_slot));
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  120  	dl->codecs[0].name = devm_kasprintf(dev, GFP_KERNEL, MAX98373_DEV0_NAME);
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  121  	dl->codecs[0].dai_name = devm_kasprintf(dev, GFP_KERNEL, MAX98373_CODEC_NAME);
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  122  	dl->codecs[1].name = devm_kasprintf(dev, GFP_KERNEL, MAX98373_DEV1_NAME);
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  123  	dl->codecs[1].dai_name = devm_kasprintf(dev, GFP_KERNEL, MAX98373_CODEC_NAME);
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  124  	if (!dl->cpus->dai_name || !dl->codecs[0].name || !dl->codecs[0].dai_name ||
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  125  	    !dl->codecs[1].name || !dl->codecs[1].dai_name)
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  126  		return -ENOMEM;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  127  
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  128  	dl->num_cpus = 1;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  129  	dl->num_codecs = 2;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  130  	dl->platforms = platform;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  131  	dl->num_platforms = 1;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  132  	dl->id = 0;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  133  	dl->dai_fmt = SND_SOC_DAIFMT_DSP_B | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_CBC_CFC;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  134  	dl->be_hw_params_fixup = avs_max98373_be_fixup;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  135  	dl->nonatomic = 1;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  136  	dl->no_pcm = 1;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  137  	dl->dpcm_capture = 1;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  138  	dl->dpcm_playback = 1;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  139  	dl->ignore_pmdown_time = 1;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  140  	dl->ops = &avs_max98373_ops;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  141  
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  142  	*dai_link = dl;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  143  
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  144  	return 0;
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  145  }
+223a0a945821b9 Amadeusz Sławiński 2022-05-11  146  
 
 -- 
 0-DAY CI Kernel Test Service
