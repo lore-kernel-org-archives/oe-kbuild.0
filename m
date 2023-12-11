@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72513529C
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 Dec 2023 11:17:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA24547A7B
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 Dec 2023 14:24:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AOTbfEtk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QPHUmU1s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702293426; x=1733829426;
+  t=1702304668; x=1733840668;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mlWf8unzCygrlCrExyiB2xDJ8k0gk9dsU2PLT1+bAXE=;
-  b=AOTbfEtkqt9kHgPNXZXLdoJBI7hPdVEOIgnwVl3XPC/RlouU067xinDB
-   kNtNIiNuHRP91YdgRdopWHEzrOMQab2+GeMpewdYOBoJupu661PdtG9/8
-   /GlzxZ2AFbORfoA+uvOQ91Y0CQyfQkxJmSN/z1jTB64p8t6SBmaq4TWOC
-   BE337p/182bQAlfXxJW39bG7TE69k/iCOnQJLUZkUXY1vPrjDFDB78U6y
-   jXy89Xxep/kuwoeHTn7N4tJEg6HRzA2we65pQGBDKLzwCb98/X5fJb3oH
-   fJh8v0OlA+9P6KtBRQB7K/zPKKbFFIYOpX6Rrpg8jcSsHDXbjZjWD3vm7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="7981931"
-X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
-   d="scan'208";a="7981931"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 03:17:03 -0800
+  bh=idr4ckjLbpzBFCFZCSuReP4s3JrOYvvRrJkNSUOog2g=;
+  b=QPHUmU1s/ZugPDntq3Vq4TZ1b8DCCkifOHXGZaHXRcsXuZhRxkQYbMNa
+   TgS600tObTyeimoddKUFzKSWQkVOuVITpZwG13ta3cCDXsSASuz8LYGsM
+   3+YQsHs69GMvdxB7usaJRdp8+HPAsKe2s5Twklm9pAVOtECtYP9EoktCA
+   pePFCoFUg1cGlyENBdxJs9tohRKw+sLI58KhG69kplDUBc7W2rM7ktqJF
+   VGOc4cNNG97ZMqApDP9MSmWMwfcI7WX16678uL/NFxdQvPVg52k5Ac89H
+   hwCVwA1ttzU94tAehuGEGFfiKjBy/ZiGBTgt/3oFqjSVxpblIUK3oLqcz
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="379648585"
+X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
+   d="scan'208";a="379648585"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 06:24:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="916800605"
-X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
-   d="scan'208";a="916800605"
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="722820639"
+X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
+   d="scan'208";a="722820639"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Dec 2023 03:17:02 -0800
+  by orsmga003.jf.intel.com with ESMTP; 11 Dec 2023 06:24:26 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCeHU-000Hyk-15;
-	Mon, 11 Dec 2023 11:17:00 +0000
-Date: Mon, 11 Dec 2023 19:16:47 +0800
+	id 1rChCq-000I5k-20;
+	Mon, 11 Dec 2023 14:24:24 +0000
+Date: Mon, 11 Dec 2023 22:23:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [nbd168-wireless:mt76 58/62]
- drivers/net/wireless/mediatek/mt76/mt7996/mac.c:946:27: sparse: sparse:
- shift too big (32) for type unsigned int
-Message-ID: <202312111933.s5JIwHEo-lkp@intel.com>
+Subject: drivers/soc/qcom/smsm.c:152:22: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202312112210.PJrAQM8A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,108 +51,179 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/net/wireless/mediatek/mt76/mt7996/mac.c:946:27: sparse: sparse: shift too big (32) for type unsigned int"
+:::::: Manual check reason: "only include/linux/compiler_types.h file changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sujuan Chen <sujuan.chen@mediatek.com>
-CC: Felix Fietkau <nbd@nbd.name>
-CC: Rex Lu <rex.lu@mediatek.com>
-CC: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/nbd168/wireless mt76
-head:   0318b308805ea665679297c3f24b243c1b39b292
-commit: 6a871112fab64e1ef3e8eb6487cf53167d9f962f [58/62] wifi: mt76: mt7996: set DMA mask to 36 bits for boards with more than 4GB of RAM
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: csky-randconfig-r113-20231211 (https://download.01.org/0day-ci/archive/20231211/202312111933.s5JIwHEo-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231211/202312111933.s5JIwHEo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
+commit: 25fd529c34d063d1bef23742f2e8f8341c639dc3 sparse: group the defines by functionality
+date:   3 years, 4 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 3 years, 4 months ago
+config: sh-randconfig-r111-20231116 (https://download.01.org/0day-ci/archive/20231211/202312112210.PJrAQM8A-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231211/202312112210.PJrAQM8A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312111933.s5JIwHEo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312112210.PJrAQM8A-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/mediatek/mt76/mt7996/mac.c:946:27: sparse: sparse: shift too big (32) for type unsigned int
+>> drivers/soc/qcom/smsm.c:152:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] *local_state @@
+   drivers/soc/qcom/smsm.c:152:22: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/soc/qcom/smsm.c:152:22: sparse:     got unsigned int [usertype] *local_state
+   drivers/soc/qcom/smsm.c:164:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] *local_state @@
+   drivers/soc/qcom/smsm.c:164:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/soc/qcom/smsm.c:164:9: sparse:     got unsigned int [usertype] *local_state
+>> drivers/soc/qcom/smsm.c:174:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] * @@
+   drivers/soc/qcom/smsm.c:174:23: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/soc/qcom/smsm.c:174:23: sparse:     got unsigned int [usertype] *
+>> drivers/soc/qcom/smsm.c:206:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] *remote_state @@
+   drivers/soc/qcom/smsm.c:206:15: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/soc/qcom/smsm.c:206:15: sparse:     got unsigned int [usertype] *remote_state
+   drivers/soc/qcom/smsm.c:245:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] * @@
+   drivers/soc/qcom/smsm.c:245:23: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/soc/qcom/smsm.c:245:23: sparse:     got unsigned int [usertype] *
+   drivers/soc/qcom/smsm.c:247:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] * @@
+   drivers/soc/qcom/smsm.c:247:17: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/soc/qcom/smsm.c:247:17: sparse:     got unsigned int [usertype] *
+   drivers/soc/qcom/smsm.c:272:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] * @@
+   drivers/soc/qcom/smsm.c:272:23: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/soc/qcom/smsm.c:272:23: sparse:     got unsigned int [usertype] *
+   drivers/soc/qcom/smsm.c:274:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] * @@
+   drivers/soc/qcom/smsm.c:274:17: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/soc/qcom/smsm.c:274:17: sparse:     got unsigned int [usertype] *
+   drivers/soc/qcom/smsm.c:569:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] * @@
+   drivers/soc/qcom/smsm.c:569:17: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/soc/qcom/smsm.c:569:17: sparse:     got unsigned int [usertype] *
+--
+>> drivers/soc/qcom/smp2p.c:218:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] *value @@
+   drivers/soc/qcom/smp2p.c:218:23: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/soc/qcom/smp2p.c:218:23: sparse:     got unsigned int [usertype] *value
+   drivers/soc/qcom/smp2p.c:325:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] *value @@
+   drivers/soc/qcom/smp2p.c:325:22: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/soc/qcom/smp2p.c:325:22: sparse:     got unsigned int [usertype] *value
+   drivers/soc/qcom/smp2p.c:328:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] *value @@
+   drivers/soc/qcom/smp2p.c:328:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/soc/qcom/smp2p.c:328:9: sparse:     got unsigned int [usertype] *value
 
-vim +946 drivers/net/wireless/mediatek/mt76/mt7996/mac.c
+vim +152 drivers/soc/qcom/smsm.c
 
-98686cd21624c75 Shayne Chen      2022-11-22  909  
-98686cd21624c75 Shayne Chen      2022-11-22  910  int mt7996_tx_prepare_skb(struct mt76_dev *mdev, void *txwi_ptr,
-98686cd21624c75 Shayne Chen      2022-11-22  911  			  enum mt76_txq_id qid, struct mt76_wcid *wcid,
-98686cd21624c75 Shayne Chen      2022-11-22  912  			  struct ieee80211_sta *sta,
-98686cd21624c75 Shayne Chen      2022-11-22  913  			  struct mt76_tx_info *tx_info)
-98686cd21624c75 Shayne Chen      2022-11-22  914  {
-98686cd21624c75 Shayne Chen      2022-11-22  915  	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)tx_info->skb->data;
-98686cd21624c75 Shayne Chen      2022-11-22  916  	struct mt7996_dev *dev = container_of(mdev, struct mt7996_dev, mt76);
-98686cd21624c75 Shayne Chen      2022-11-22  917  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(tx_info->skb);
-98686cd21624c75 Shayne Chen      2022-11-22  918  	struct ieee80211_key_conf *key = info->control.hw_key;
-98686cd21624c75 Shayne Chen      2022-11-22  919  	struct ieee80211_vif *vif = info->control.vif;
-3c38dfc1702d812 Lorenzo Bianconi 2023-01-18  920  	struct mt76_connac_txp_common *txp;
-98686cd21624c75 Shayne Chen      2022-11-22  921  	struct mt76_txwi_cache *t;
-98686cd21624c75 Shayne Chen      2022-11-22  922  	int id, i, pid, nbuf = tx_info->nbuf - 1;
-98686cd21624c75 Shayne Chen      2022-11-22  923  	bool is_8023 = info->flags & IEEE80211_TX_CTL_HW_80211_ENCAP;
-98686cd21624c75 Shayne Chen      2022-11-22  924  	u8 *txwi = (u8 *)txwi_ptr;
-98686cd21624c75 Shayne Chen      2022-11-22  925  
-98686cd21624c75 Shayne Chen      2022-11-22  926  	if (unlikely(tx_info->skb->len <= ETH_HLEN))
-98686cd21624c75 Shayne Chen      2022-11-22  927  		return -EINVAL;
-98686cd21624c75 Shayne Chen      2022-11-22  928  
-98686cd21624c75 Shayne Chen      2022-11-22  929  	if (!wcid)
-98686cd21624c75 Shayne Chen      2022-11-22  930  		wcid = &dev->mt76.global_wcid;
-98686cd21624c75 Shayne Chen      2022-11-22  931  
-98686cd21624c75 Shayne Chen      2022-11-22  932  	t = (struct mt76_txwi_cache *)(txwi + mdev->drv->txwi_size);
-98686cd21624c75 Shayne Chen      2022-11-22  933  	t->skb = tx_info->skb;
-98686cd21624c75 Shayne Chen      2022-11-22  934  
-98686cd21624c75 Shayne Chen      2022-11-22  935  	id = mt76_token_consume(mdev, &t);
-98686cd21624c75 Shayne Chen      2022-11-22  936  	if (id < 0)
-98686cd21624c75 Shayne Chen      2022-11-22  937  		return id;
-98686cd21624c75 Shayne Chen      2022-11-22  938  
-98686cd21624c75 Shayne Chen      2022-11-22  939  	pid = mt76_tx_status_skb_add(mdev, wcid, tx_info->skb);
-d0b6f86fdbefa62 Shayne Chen      2023-03-03  940  	mt7996_mac_write_txwi(dev, txwi_ptr, tx_info->skb, wcid, key,
-d0b6f86fdbefa62 Shayne Chen      2023-03-03  941  			      pid, qid, 0);
-98686cd21624c75 Shayne Chen      2022-11-22  942  
-3c38dfc1702d812 Lorenzo Bianconi 2023-01-18  943  	txp = (struct mt76_connac_txp_common *)(txwi + MT_TXD_SIZE);
-98686cd21624c75 Shayne Chen      2022-11-22  944  	for (i = 0; i < nbuf; i++) {
-6a871112fab64e1 Sujuan Chen      2023-11-17  945  		u16 len = FIELD_PREP(MT_TXP_BUF_LEN, tx_info->buf[i + 1].len) |
-6a871112fab64e1 Sujuan Chen      2023-11-17 @946  			  FIELD_PREP(MT_TXP_DMA_ADDR_H,
-6a871112fab64e1 Sujuan Chen      2023-11-17  947  				     tx_info->buf[i + 1].addr >> 32);
-6a871112fab64e1 Sujuan Chen      2023-11-17  948  
-3c38dfc1702d812 Lorenzo Bianconi 2023-01-18  949  		txp->fw.buf[i] = cpu_to_le32(tx_info->buf[i + 1].addr);
-6a871112fab64e1 Sujuan Chen      2023-11-17  950  		txp->fw.len[i] = cpu_to_le16(len);
-98686cd21624c75 Shayne Chen      2022-11-22  951  	}
-3c38dfc1702d812 Lorenzo Bianconi 2023-01-18  952  	txp->fw.nbuf = nbuf;
-98686cd21624c75 Shayne Chen      2022-11-22  953  
-3b522cadedfe6e9 Ryder Lee        2023-04-19  954  	txp->fw.flags =
-3b522cadedfe6e9 Ryder Lee        2023-04-19  955  		cpu_to_le16(MT_CT_INFO_FROM_HOST | MT_CT_INFO_APPLY_TXD);
-98686cd21624c75 Shayne Chen      2022-11-22  956  
-98686cd21624c75 Shayne Chen      2022-11-22  957  	if (!key)
-3c38dfc1702d812 Lorenzo Bianconi 2023-01-18  958  		txp->fw.flags |= cpu_to_le16(MT_CT_INFO_NONE_CIPHER_FRAME);
-98686cd21624c75 Shayne Chen      2022-11-22  959  
-98686cd21624c75 Shayne Chen      2022-11-22  960  	if (!is_8023 && ieee80211_is_mgmt(hdr->frame_control))
-3c38dfc1702d812 Lorenzo Bianconi 2023-01-18  961  		txp->fw.flags |= cpu_to_le16(MT_CT_INFO_MGMT_FRAME);
-98686cd21624c75 Shayne Chen      2022-11-22  962  
-98686cd21624c75 Shayne Chen      2022-11-22  963  	if (vif) {
-98686cd21624c75 Shayne Chen      2022-11-22  964  		struct mt7996_vif *mvif = (struct mt7996_vif *)vif->drv_priv;
-98686cd21624c75 Shayne Chen      2022-11-22  965  
-3c38dfc1702d812 Lorenzo Bianconi 2023-01-18  966  		txp->fw.bss_idx = mvif->mt76.idx;
-98686cd21624c75 Shayne Chen      2022-11-22  967  	}
-98686cd21624c75 Shayne Chen      2022-11-22  968  
-3c38dfc1702d812 Lorenzo Bianconi 2023-01-18  969  	txp->fw.token = cpu_to_le16(id);
-bde2e77f76266fb Peter Chiu       2023-08-17  970  	txp->fw.rept_wds_wcid = cpu_to_le16(sta ? wcid->idx : 0xfff);
-bde2e77f76266fb Peter Chiu       2023-08-17  971  
-832f42699791e7a Felix Fietkau    2023-09-11  972  	tx_info->skb = NULL;
-98686cd21624c75 Shayne Chen      2022-11-22  973  
-98686cd21624c75 Shayne Chen      2022-11-22  974  	/* pass partial skb header to fw */
-98686cd21624c75 Shayne Chen      2022-11-22  975  	tx_info->buf[1].len = MT_CT_PARSE_LEN;
-98686cd21624c75 Shayne Chen      2022-11-22  976  	tx_info->buf[1].skip_unmap = true;
-98686cd21624c75 Shayne Chen      2022-11-22  977  	tx_info->nbuf = MT_CT_DMA_BUF_NUM;
-98686cd21624c75 Shayne Chen      2022-11-22  978  
-98686cd21624c75 Shayne Chen      2022-11-22  979  	return 0;
-98686cd21624c75 Shayne Chen      2022-11-22  980  }
-98686cd21624c75 Shayne Chen      2022-11-22  981  
+c97c4090ff7229 Bjorn Andersson 2015-09-24  129  
+c97c4090ff7229 Bjorn Andersson 2015-09-24  130  /**
+c97c4090ff7229 Bjorn Andersson 2015-09-24  131   * smsm_update_bits() - change bit in outgoing entry and inform subscribers
+c97c4090ff7229 Bjorn Andersson 2015-09-24  132   * @data:	smsm context pointer
+c97c4090ff7229 Bjorn Andersson 2015-09-24  133   * @offset:	bit in the entry
+c97c4090ff7229 Bjorn Andersson 2015-09-24  134   * @value:	new value
+c97c4090ff7229 Bjorn Andersson 2015-09-24  135   *
+c97c4090ff7229 Bjorn Andersson 2015-09-24  136   * Used to set and clear the bits in the outgoing/local entry and inform
+c97c4090ff7229 Bjorn Andersson 2015-09-24  137   * subscribers about the change.
+c97c4090ff7229 Bjorn Andersson 2015-09-24  138   */
+c97c4090ff7229 Bjorn Andersson 2015-09-24  139  static int smsm_update_bits(void *data, u32 mask, u32 value)
+c97c4090ff7229 Bjorn Andersson 2015-09-24  140  {
+c97c4090ff7229 Bjorn Andersson 2015-09-24  141  	struct qcom_smsm *smsm = data;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  142  	struct smsm_host *hostp;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  143  	unsigned long flags;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  144  	u32 changes;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  145  	u32 host;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  146  	u32 orig;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  147  	u32 val;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  148  
+c97c4090ff7229 Bjorn Andersson 2015-09-24  149  	spin_lock_irqsave(&smsm->lock, flags);
+c97c4090ff7229 Bjorn Andersson 2015-09-24  150  
+c97c4090ff7229 Bjorn Andersson 2015-09-24  151  	/* Update the entry */
+c97c4090ff7229 Bjorn Andersson 2015-09-24 @152  	val = orig = readl(smsm->local_state);
+c97c4090ff7229 Bjorn Andersson 2015-09-24  153  	val &= ~mask;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  154  	val |= value;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  155  
+c97c4090ff7229 Bjorn Andersson 2015-09-24  156  	/* Don't signal if we didn't change the value */
+c97c4090ff7229 Bjorn Andersson 2015-09-24  157  	changes = val ^ orig;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  158  	if (!changes) {
+c97c4090ff7229 Bjorn Andersson 2015-09-24  159  		spin_unlock_irqrestore(&smsm->lock, flags);
+c97c4090ff7229 Bjorn Andersson 2015-09-24  160  		goto done;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  161  	}
+c97c4090ff7229 Bjorn Andersson 2015-09-24  162  
+c97c4090ff7229 Bjorn Andersson 2015-09-24  163  	/* Write out the new value */
+c97c4090ff7229 Bjorn Andersson 2015-09-24  164  	writel(val, smsm->local_state);
+c97c4090ff7229 Bjorn Andersson 2015-09-24  165  	spin_unlock_irqrestore(&smsm->lock, flags);
+c97c4090ff7229 Bjorn Andersson 2015-09-24  166  
+c97c4090ff7229 Bjorn Andersson 2015-09-24  167  	/* Make sure the value update is ordered before any kicks */
+c97c4090ff7229 Bjorn Andersson 2015-09-24  168  	wmb();
+c97c4090ff7229 Bjorn Andersson 2015-09-24  169  
+c97c4090ff7229 Bjorn Andersson 2015-09-24  170  	/* Iterate over all hosts to check whom wants a kick */
+c97c4090ff7229 Bjorn Andersson 2015-09-24  171  	for (host = 0; host < smsm->num_hosts; host++) {
+c97c4090ff7229 Bjorn Andersson 2015-09-24  172  		hostp = &smsm->hosts[host];
+c97c4090ff7229 Bjorn Andersson 2015-09-24  173  
+c97c4090ff7229 Bjorn Andersson 2015-09-24 @174  		val = readl(smsm->subscription + host);
+c97c4090ff7229 Bjorn Andersson 2015-09-24  175  		if (val & changes && hostp->ipc_regmap) {
+c97c4090ff7229 Bjorn Andersson 2015-09-24  176  			regmap_write(hostp->ipc_regmap,
+c97c4090ff7229 Bjorn Andersson 2015-09-24  177  				     hostp->ipc_offset,
+c97c4090ff7229 Bjorn Andersson 2015-09-24  178  				     BIT(hostp->ipc_bit));
+c97c4090ff7229 Bjorn Andersson 2015-09-24  179  		}
+c97c4090ff7229 Bjorn Andersson 2015-09-24  180  	}
+c97c4090ff7229 Bjorn Andersson 2015-09-24  181  
+c97c4090ff7229 Bjorn Andersson 2015-09-24  182  done:
+c97c4090ff7229 Bjorn Andersson 2015-09-24  183  	return 0;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  184  }
+c97c4090ff7229 Bjorn Andersson 2015-09-24  185  
+c97c4090ff7229 Bjorn Andersson 2015-09-24  186  static const struct qcom_smem_state_ops smsm_state_ops = {
+c97c4090ff7229 Bjorn Andersson 2015-09-24  187  	.update_bits = smsm_update_bits,
+c97c4090ff7229 Bjorn Andersson 2015-09-24  188  };
+c97c4090ff7229 Bjorn Andersson 2015-09-24  189  
+c97c4090ff7229 Bjorn Andersson 2015-09-24  190  /**
+c97c4090ff7229 Bjorn Andersson 2015-09-24  191   * smsm_intr() - cascading IRQ handler for SMSM
+c97c4090ff7229 Bjorn Andersson 2015-09-24  192   * @irq:	unused
+c97c4090ff7229 Bjorn Andersson 2015-09-24  193   * @data:	entry related to this IRQ
+c97c4090ff7229 Bjorn Andersson 2015-09-24  194   *
+c97c4090ff7229 Bjorn Andersson 2015-09-24  195   * This function cascades an incoming interrupt from a remote system, based on
+c97c4090ff7229 Bjorn Andersson 2015-09-24  196   * the state bits and configuration.
+c97c4090ff7229 Bjorn Andersson 2015-09-24  197   */
+c97c4090ff7229 Bjorn Andersson 2015-09-24  198  static irqreturn_t smsm_intr(int irq, void *data)
+c97c4090ff7229 Bjorn Andersson 2015-09-24  199  {
+c97c4090ff7229 Bjorn Andersson 2015-09-24  200  	struct smsm_entry *entry = data;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  201  	unsigned i;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  202  	int irq_pin;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  203  	u32 changed;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  204  	u32 val;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  205  
+c97c4090ff7229 Bjorn Andersson 2015-09-24 @206  	val = readl(entry->remote_state);
+c97c4090ff7229 Bjorn Andersson 2015-09-24  207  	changed = val ^ entry->last_value;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  208  	entry->last_value = val;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  209  
+c97c4090ff7229 Bjorn Andersson 2015-09-24  210  	for_each_set_bit(i, entry->irq_enabled, 32) {
+c97c4090ff7229 Bjorn Andersson 2015-09-24  211  		if (!(changed & BIT(i)))
+c97c4090ff7229 Bjorn Andersson 2015-09-24  212  			continue;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  213  
+c97c4090ff7229 Bjorn Andersson 2015-09-24  214  		if (val & BIT(i)) {
+c97c4090ff7229 Bjorn Andersson 2015-09-24  215  			if (test_bit(i, entry->irq_rising)) {
+c97c4090ff7229 Bjorn Andersson 2015-09-24  216  				irq_pin = irq_find_mapping(entry->domain, i);
+c97c4090ff7229 Bjorn Andersson 2015-09-24  217  				handle_nested_irq(irq_pin);
+c97c4090ff7229 Bjorn Andersson 2015-09-24  218  			}
+c97c4090ff7229 Bjorn Andersson 2015-09-24  219  		} else {
+c97c4090ff7229 Bjorn Andersson 2015-09-24  220  			if (test_bit(i, entry->irq_falling)) {
+c97c4090ff7229 Bjorn Andersson 2015-09-24  221  				irq_pin = irq_find_mapping(entry->domain, i);
+c97c4090ff7229 Bjorn Andersson 2015-09-24  222  				handle_nested_irq(irq_pin);
+c97c4090ff7229 Bjorn Andersson 2015-09-24  223  			}
+c97c4090ff7229 Bjorn Andersson 2015-09-24  224  		}
+c97c4090ff7229 Bjorn Andersson 2015-09-24  225  	}
+c97c4090ff7229 Bjorn Andersson 2015-09-24  226  
+c97c4090ff7229 Bjorn Andersson 2015-09-24  227  	return IRQ_HANDLED;
+c97c4090ff7229 Bjorn Andersson 2015-09-24  228  }
+c97c4090ff7229 Bjorn Andersson 2015-09-24  229  
+
+:::::: The code at line 152 was first introduced by commit
+:::::: c97c4090ff72297a878a37715bd301624b71c885 soc: qcom: smsm: Add driver for Qualcomm SMSM
+
+:::::: TO: Bjorn Andersson <bjorn.andersson@sonymobile.com>
+:::::: CC: Andy Gross <agross@codeaurora.org>
 
 -- 
 0-DAY CI Kernel Test Service
