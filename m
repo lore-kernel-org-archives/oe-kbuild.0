@@ -1,59 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6770B15A3
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 Dec 2023 00:50:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C50F613E
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 Dec 2023 00:55:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PIU89z3S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6hTBaf7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702255843; x=1733791843;
+  t=1702256122; x=1733792122;
   h=from:to:subject:date:message-id:references:in-reply-to:
    content-transfer-encoding:mime-version;
-  bh=K+ipVFDvwf6hAAu3H2ZPW95rkWEPycBPHET9SS8bru4=;
-  b=PIU89z3Ske8QJePwcMp9OGkP2qLt7+awVDbYq+cF5fKGv4mpP7XtsTlq
-   OCen3FC78EcA+SWc0LV/DNOX6lboesLqbdiL8ZH+NID53+AKcU66egET9
-   d+kaKdFvwEvcYEXFaNky0aIXJGdjnWCBjhCduhXOiAL17Gq1aIiRwAai/
-   IfhGOViqN2BJe+G+By9fXClR/DbSw03o/iJzCT9k1L9BYhaw62Ea0dCAt
-   JkuSrxbHfkNBCcKdzAvEVZQu1XVbQNuGFdDSxE1/P6HqlKM2VnHvhYWvu
-   UyHMnFPqVKlahP2MMIgcVpabTD8XoLumAlDaFvC1P5GQR5GPzXmv0EJrp
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="1449269"
+  bh=EZxsNYPluBeK8enT3mq7dwCuYLNesv23zikLhDyob2A=;
+  b=U6hTBaf7qWmqdNnLPrE1H/oibiCwxgnFG8/J4HxrkG7ZQ+DnG2T6haIH
+   rzmHgFJGsVhgWWEZ7OSEyNEZfAF0GcMa5F9DOm/ywJnjVhnV7k9igtr33
+   hI/k/PSpprqSglptWcOAQSm0k71sXsCxdJ5IU3na1VT2W3+bIJto+5SDz
+   rgjG33SPL8bF8oHBgIWI3vpM1H1BbowdezhYJOZzUIZritmkpF7u1GfyN
+   Lg4VcTlQ1bzFyWGr6R2z8Drwvq5rG/9LtxtbyO8bfmOJ+F/xlWncsDd17
+   M5454b71XCVnBCRLCRRCgWTzmpZ91+Z6D8G+6L1FJZX2RUaiVALe+2feo
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="379576009"
 X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="1449269"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 16:50:42 -0800
+   d="scan'208";a="379576009"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 16:55:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="749075884"
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="890899572"
 X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="749075884"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orsmga006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Dec 2023 16:50:41 -0800
+   d="scan'208";a="890899572"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Dec 2023 16:55:21 -0800
 Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 10 Dec 2023 16:50:41 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ 15.1.2507.35; Sun, 10 Dec 2023 16:55:20 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 10 Dec 2023 16:50:40 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Sun, 10 Dec 2023 16:50:40 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.1.2507.35 via Frontend Transport; Sun, 10 Dec 2023 16:55:20 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Sun, 10 Dec 2023 16:50:40 -0800
+ 15.1.2507.35; Sun, 10 Dec 2023 16:55:17 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fv+XVjVZ1UWtnVG0wc492YRv5MqGPpI/hysqAv5A5OHqWCk+b5RyyEb/JEEhJP20lhlRCBWCdpfrnCbPgI2eqVDd4gBJCisOT6G2AMAs6oJ850t85hHK0mdZDtWcYM05PxRVpibv4zg0rwO6fyhhGUjotg2EwS/+yQfKyYtazLiYS9UbV+k2WIqlYRO22y1R6XRk17dH6V7Sw63nAE7bUqrWGH4p79sw9lRB96PR6aJVEhjgNB25LsCkQGzxN39UCzplTQZoZGzPs4QwEeADemq/Salu0Uh8kf4+d5zaC/ADEUwSOVAf/oMtkC1yMP5hIjIs3j2AvVnqMRCZaE1MaQ==
+ b=ByZ1tVxP7feuZwB6JYdg7qkOTZITBmNhu5SClH7JEj35+4Flba+pZsl43QnXmHJyF+2rus3CaIQMGZpP985pHVK/rMMA9n2JAM9/W79nnlU8R1mZZjDtS+6x3dRY7/RFHZar9+7vfsgamm4cuD8ymsARupGCA/KpGJVdbemyM+gx87Z/wcUTGy5RNTJH6GZ8CysW41wST25GKkglfgeCS+kyW+IITuDynY5hrhz/gz0LtoWGqgFqq17WMouLMoWLIRNzTxknbFGG0RXvA1ABvKiDYi+LzDl6jpUhPbsLXTqpCUAO5pJ/mcWMey30N1c1+MjxaiviEYup+Bg9H8S9nA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4AFv4QIE+8lJL3DErn8KKcPCa6wNgQAjxKq+dMHrC2c=;
- b=eTDSGsd/YTOitGQceInVEJdGMZ3MoTmIUWBqMSZbRObPYvpOWSiRwqn2mlKXqe7bJDUowK5oW6ZxLR5I9b0W2zGnTv465bwvDd5Fz4lfMdV6nhEjn07zxW+Rx2ifM32seEUYO8ddSuThiUkRT34xLcOHzevN0/NcDdGefDbKuidKaeyDEg4b65/egP9n6qLfF6U9J2zVoplLXJbrnAh6OvRAeC0RVqIWyD1iV61gOYK4tjuHuf9osUthjxddo7JJbK74YyMMdlceeN9mRs+hijz/uVp+2k9/buC4iQCztMlLgPRwUXqv27aPhVDmdeT9t+YmfSuFJN3B3dJHzU13HA==
+ bh=4cE5FmT/m7rStWMx138LZlgI2CaqovdWNyp5GtWhW3k=;
+ b=dNdHNQBWWMzc219CNoT87IWTGiomVYnxNtDYSvGVc0Y6GeGx2b9s+hGDZLkBrvmoCv5VyPbO17CAipr/pqNO7QX7MwWm4UZYkC3Ljqs6DimjVnm3c2H7nnPeGzLoCNYd6nPzpYrLh2t4xOUCJ+HK/sNTjuRwDSwOk7xz/FnR8N4vzHLbSt07FJ06lC2rIOscYWFY8wd/M43HMsEX3HM56nNIFPJ0cJNHDBnpxo0+1jTDsCVKAorXV3hKIWRvYOpBae8Ei6icIdH6mJSmVkOWHzZKIUSRE4UnIIwYTZxH81BIofy02TuN8oBZoqf7M9qC56wc97S2K2+38Cq77uW6NA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -61,23 +57,23 @@ Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
  by SJ0PR11MB4879.namprd11.prod.outlook.com (2603:10b6:a03:2da::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.32; Mon, 11 Dec
- 2023 00:50:39 +0000
+ 2023 00:55:10 +0000
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7068.031; Mon, 11 Dec 2023
- 00:50:39 +0000
+ 00:55:10 +0000
 From: "Liu, Yujie" <yujie.liu@intel.com>
 To: lkp <lkp@intel.com>, "oe-kbuild@lists.linux.dev"
 	<oe-kbuild@lists.linux.dev>
-Subject: RE: hcd.c:(.text+0x355a): relocation truncated to fit:
- R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-Thread-Topic: hcd.c:(.text+0x355a): relocation truncated to fit:
- R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-Thread-Index: AQHaK2ZDXiQ4ZipqwECxwZvP81mYPrCjQPzQ
-Date: Mon, 11 Dec 2023 00:50:38 +0000
-Message-ID: <CY5PR11MB6392E82A2810748139195ADFFB8FA@CY5PR11MB6392.namprd11.prod.outlook.com>
-References: <202312102024.BAUcqiJU-lkp@intel.com>
-In-Reply-To: <202312102024.BAUcqiJU-lkp@intel.com>
+Subject: RE: kernel/kexec_file.c:320:1: sparse: sparse: Using plain integer as
+ NULL pointer
+Thread-Topic: kernel/kexec_file.c:320:1: sparse: sparse: Using plain integer
+ as NULL pointer
+Thread-Index: AQHaKxHABfq/DkVzLEWS1u+EojVjprCjQwtg
+Date: Mon, 11 Dec 2023 00:55:10 +0000
+Message-ID: <CY5PR11MB639239C76FF2EE56EFF38576FB8FA@CY5PR11MB6392.namprd11.prod.outlook.com>
+References: <202312101050.6FqHvugR-lkp@intel.com>
+In-Reply-To: <202312101050.6FqHvugR-lkp@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -86,40 +82,40 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: CY5PR11MB6392:EE_|SJ0PR11MB4879:EE_
-x-ms-office365-filtering-correlation-id: 5b847067-7758-4642-8bd5-08dbf9e3319f
+x-ms-office365-filtering-correlation-id: 9a15ebd2-966d-4605-055a-08dbf9e3d389
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: X0F2lCg5lQidjhNPjpPD75pprlDGBq2UQGnsOfNt6Ph5W8kkQlUy5FdkN8RpUfQk4B/gv62U9U8x6/ybMRr6nK/Hg+cikLPRmtLBwv5dGq15uK5Ix++0XubTK2dyf1nmP5IhfkONxelJwQCZxe3bKTWq/a798D4Vbp4JT65/FN6OCKLerOHTznfRWFpSUSGJl7jF424Hv6q2nof6i0cxXW7xTtgKZnNcVXRDCIL4h/Wk1ffJKjOQLiSpHaWNP/hpT/Z6FOSgLz+qzcl85/uxNSoFEw8k9eRvpibiv+7FULEUEP+jOST5HBFhngiuCude4d0F81UAzL0+q+6qs6dctcI9Kfd2on+G6y/Fw+gJKNYUk2UMrh9YD9UUljW7IPxSN14oY55MfbCKjgWde7dwuI5MrtWoVUU+SLDrx+Q/pwNGVb343s0NehfjBUBizzkRejNc1yOGDkRDjd4vMXez7c3N0wdqn4CV5wYtETsV356/Sv0LA2BJ6jAXEefmg8yXVzJNo4vZBjbcD5WRpsKJBGwidM0H0B71pfuDETs9yP7TRYXuU55MLlpfXsV3jPpam1zMQgOgFRilJsRYapSVEuRaVP0bUTtBS7dYB/l4uVTElBBGB9jB1nXOpuFzqrBUraT34TqQGvyS/xjWCHPm2w==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(396003)(136003)(376002)(346002)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(9686003)(52536014)(6506007)(53546011)(5660300002)(26005)(33656002)(55016003)(38070700009)(76116006)(66446008)(66476007)(66556008)(66946007)(64756008)(966005)(2906002)(83380400001)(82960400001)(41300700001)(478600001)(7696005)(86362001)(8676002)(8936002)(122000001)(110136005)(316002)(38100700002)(71200400001);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: 85R4Bmmu4WGTV5pn6jRWYIK4pnkydfJYm/p1IFKUMrxtrx4fA27NJH+HvOsE7zFF2UWER5yxkinFEus468b/wMNd119ecq2GGksNESx5obGEBEk9XmjbYo7Qdr00phzFfcvp+nsk63ld7VuUMJNv/RQfMzQhMQX2LRyxYF6oF9EHoYP19YfToynk4bsZ11sgamjlR4Uqeo7mlj7k3Bdqx5jPt9k0LN4hkKpdzL9T5HkX5Z5TB5sdMCnA2FC0ZNlsyAtxAC3SiIR1kq7sMlfM5H3qcubfH7W61lvgG90q93k798cQHQLcHZcvGIE2PGCttAlSbNQ+P1cMRVC88mQ/0SCBLKhSqB8n6z//I5kCwXGNLIV4aK9Ydoj7N+SyYfvGwxAowhSP6+2wfLHY1cBpEYsN6ysU8lEVfo1QyaFtJsejetNk9p+QG0f08miayMuYYGxocuqqu1uLqlfwX/wI5k9Bf6Wj2Gz9f9e7H41ut/19aolHF/bFkASzyvlnPmLBJafRAtN2ASJrzRkcP4GYn+JptSEA0yTeN8pZXDjehqAJDEHLDNuXkv5AE9P8g+mVEgAhrKFE16uMhsp/sA2Ss4wX8e8sy5xmP970iS5JpSSiUsbaqJYLc15YiLPKhrUC34b4lvAGY9Nt3+pkqqqvu2DIk24relRFhWdD9ZtMunAx0/O8Fo1MGjJ5yhTpImt/
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(396003)(136003)(376002)(346002)(230273577357003)(230922051799003)(230173577357003)(451199024)(64100799003)(1800799012)(186009)(9686003)(52536014)(6506007)(53546011)(5660300002)(26005)(33656002)(55016003)(38070700009)(76116006)(66446008)(66476007)(66556008)(66946007)(64756008)(966005)(2906002)(83380400001)(82960400001)(41300700001)(478600001)(7696005)(86362001)(8676002)(8936002)(122000001)(110136005)(316002)(38100700002)(71200400001);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?iYwpjVwzwtCerJ3yn8GpAVVrd7jfGsv0vZzv6c/0/lHEcjIZEc0yYL+5HnzV?=
- =?us-ascii?Q?TR1rslMX6qJwSb/9rh/hgoaf9gUI7j5oj547sPEwFoJxe3SWm/83JqBPq8X2?=
- =?us-ascii?Q?e7hfvAunfq1s/sjKqugRJimk+lpPrtVxFQjRI7Y8y8oJxkGgRFSbH0/aHaIo?=
- =?us-ascii?Q?mRYT3RkfKGocZVeoR4sxntJyLGhLTRs0nkMeIVlWypNd55rjtHk6Ji5BFytt?=
- =?us-ascii?Q?cSx1lxzSU4zp5pVR2fpuLI5le1i6SFYPirSqBAWCJcyOFU/fH52CqHPyWv5K?=
- =?us-ascii?Q?2Qgs9Rdmxt8QR4UK4Sj1KA5BADbaVtzREPzNDSJCwoitJZUZVsR+3fRt8mTi?=
- =?us-ascii?Q?ICGK6koARkPUZIRI8HzBludCZhBBnnwpRZtCnwB8dvE44FcIf3fVdqfXK+cT?=
- =?us-ascii?Q?B53/jqyB2Nd/SRJmlb7Bq6fezZqWiBvLupQl4kl/Z6gr9+UugaZItAJu6OS6?=
- =?us-ascii?Q?K8Xfn/AYcCihq5hCPgEWBTK+zGwVeFCwEZ6OFIUMxUGxm6ICRKhUqHA90oJG?=
- =?us-ascii?Q?lthvdmHqAQK6d+PTtIAELeBQmF9wx5j2CMWJ9AKs1Xv5G7LaibrbGvDfZb5S?=
- =?us-ascii?Q?0um4MBwI+QtV3XmZAm7SvAwnfrj7cUIqYuWgGCcCs7vJLlkexxZfV2EV6biN?=
- =?us-ascii?Q?EhlHEdbkcpgO0RlCBz5ZzG5s/vd1xxqp9MTh34NlGl0RDMb3aawWSpfWohgU?=
- =?us-ascii?Q?PlKzuRJ29E1X0CcmwralraNQb/YiC6wgu7c3V5n9haJMSU4dToZ34x7GEJ3J?=
- =?us-ascii?Q?R8ENEqPTVO2JDoa6J1135Mu78aUXOH7raX8XBMddjOfwFfJkd0Zj+K7OQHYv?=
- =?us-ascii?Q?3B7BMivwyBXkGh1k/lVZ95QeR0uffwCyTyRR0UH0v6BG3681aUF/TzQx7jB5?=
- =?us-ascii?Q?VwRC+CWdtV4EEU9STG2uS4n3hWZ6UkORbnzItYMUDDF/Xw0FRGn9IxQNMbU2?=
- =?us-ascii?Q?o826Zb22Oiezv28HpgGu17fNsZZ9MAKbMDCo89Erpj+bz9GzFAGl385f+GeZ?=
- =?us-ascii?Q?VV448paATANWr0YB2JJeh54eerDvCXn092a/NjGcA91hvKt0vl6lyYg5/rbS?=
- =?us-ascii?Q?2qUTNKFAsrPPbO4OWJpPtGGQIinRnv59Bn/WyCbaltQTM1wJAVXdsTemeV9J?=
- =?us-ascii?Q?L3lgeMUcNvZzCzoc26AlDkLD5OxN+rhe036HEEZh6hWbAxPP+FlgOr3NSzjA?=
- =?us-ascii?Q?zGJq6xPB78hWvYJPncl7s/eV81N66q1F1BWknpsl7pA0zhFjCAdCTxDWVkx8?=
- =?us-ascii?Q?JfB/63lQXGflBafxy72ql4QlRMVIfq+u/XMGofc5TDzFXasDtYF7Zk7A0/+4?=
- =?us-ascii?Q?LMmkt6CwlQadjrf8INFDGdYamSM3kXQ9xF2dte5ImoYiYXA4k/QYVS8qN0CH?=
- =?us-ascii?Q?gSD1NIUlRbr1BtUwmZlmXG53FNNKxwACOU4yFFU6fSZAkqBHxFSYxuDoJuGZ?=
- =?us-ascii?Q?o/C9lIYcYTgBMu1vkVXh1eVHnrhOSXBWOSGs+yKPpVKOw0zt7IW4udfvZxJZ?=
- =?us-ascii?Q?/Yj/HbFO5rivlBOyJttBVW7iCZk8ZYw7YMY14vW+Q5ZOI/pcaK1/+HwHreZ1?=
- =?us-ascii?Q?a4CzFMrtzKdVjY7poBFalHbsxbJdsSYsS3hPEow8?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?mSZ0C+R0bxo6qNUz/Lbyed+27yx1C2I73M6MPbbUGct1nzh2pWTGtWrv+Nqe?=
+ =?us-ascii?Q?MkbZDqrrTs+l10ht6B2HxCamNy1GXurJJa+wVmcYmVfjEOjuArSXNS6zryh7?=
+ =?us-ascii?Q?M2QNkQZVsuRO8Rfff6scyx8lvMErLmJoN2Eksdnp5q8Wsz1V4uSZRr7moPoi?=
+ =?us-ascii?Q?92diOLvXfP6BviHKcJ10/KW9lQ4VviVno3iC65vQJBOB1JyUSP1uR0qmhesX?=
+ =?us-ascii?Q?J4gny15gl6nivvVo8RmI7RAnRfEXIH0bq9S4DYUtzVWVLNBbuhhzhyQYNMTL?=
+ =?us-ascii?Q?fZmT7MUX6LciAEUTW+9Ex2aMSKDAdbFmCORyR5F02WP9hMuOANX2akb5HTQD?=
+ =?us-ascii?Q?N+eUzH9Ga9yV9kdnsIBWw/5iaLdxPdteHI0JwOglQIzQMLzzr3x6gl+3wud6?=
+ =?us-ascii?Q?vbJY+prdPqJFcYp+685z4FVvXmxThG1txcKamnLR6SaEh0+Pk3AzbDTdQi6l?=
+ =?us-ascii?Q?BgEB8SRcybRAriy0bzL8lm7ovq6w3YhNF/CPRGEfZ46BrWxlu9Krv5FPXJWc?=
+ =?us-ascii?Q?cqpFRO9OKOr/wuO/6OY/pTXw9zCo3f+yste8YfQQc/DOVM+cfyMH41K9iu+G?=
+ =?us-ascii?Q?o31m/cfJxGXFckcAmrXloRm5JIGIwqXvg/k30WjB6IIYvXbb+I/zEHHWcvF0?=
+ =?us-ascii?Q?2DZOTKCdYuKPrDrPmLTKJwEl3xqI30/Eso79/3yUgeoyw3gQN+/9+csD0VoM?=
+ =?us-ascii?Q?6M0g4m5bPVScf56JY3U0YwG8CxUFqA9JNE7HchPpVL1JsbV6qTr6NbQIrwBq?=
+ =?us-ascii?Q?fxxn480k3kcYVsk/nBpRuxNhJDjL41s4KxH/qxNUeHSXkA0sFSNv5FsHRDjx?=
+ =?us-ascii?Q?X+gKbdsl3yrGf+9jVDTRiPHBZG9ecPB2voq1Pfyq1NoZ+8W5OYyz4Ifp6B6H?=
+ =?us-ascii?Q?LJD7rEnCzJQh6asvLwrZ3nTjyHEumzoFcBOy8LCQld+VJX7oap298PyboNEB?=
+ =?us-ascii?Q?aNOWXyVywNLM1kGfRv7SaEEe7OU0yT8AIa+XLO70CZJjW0DK7KcaQ3T9mvU2?=
+ =?us-ascii?Q?yyoTplCot/XIeqm/EK8CSASgDhDIrfMHlV4Upx1f4/urV2KJTpZMCltAXM/6?=
+ =?us-ascii?Q?V0kCAt8L0zVGE45MnZW3DUBQyyFHE241Xw1fPCqxGTaWGLT8VX30KcChJdPw?=
+ =?us-ascii?Q?L95ADld6rKN28PLLPVn3vSfcxGhA9Cs7+KQFjHmy2P/ZKYbsUu5qUfSUFUmG?=
+ =?us-ascii?Q?ldgIiAa+r//0Jt2d72qX3A/CP/Y0s/c5Fg5kEou053ccf2mKgWwOW+dveb49?=
+ =?us-ascii?Q?etNcanqr/2Z2qQgiCfM9AzOQupUuyS5OMOou8n6djn6rl+TrEToxS8EVQjiq?=
+ =?us-ascii?Q?i4c8km05bAfmNbQQXSyGnDOnqbD+TbhsenybnIKkqZBawAdoNsWaIHgkkfn/?=
+ =?us-ascii?Q?LMcGFz5kgpBvRIazLZRSWN+/F701rgOSQM3CVBhqz3dJdSd9OdJrhfSuDZLQ?=
+ =?us-ascii?Q?HZgTI0nfoJiH7mqIUYVp/AgJc/TfW59yQFlGpHCpe7YidHaZiU/t1+wh4x43?=
+ =?us-ascii?Q?joYVVX/6WXM+c22wIOHVhr8g2q43wUjZ3i8bjIPWCRLCnwNsu1bCh3Cb0SEn?=
+ =?us-ascii?Q?YgS6TVQbzKy6QaeB9wkoclS3QIo62JaD9A/nrM/J?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -130,13 +126,13 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b847067-7758-4642-8bd5-08dbf9e3319f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2023 00:50:38.8088
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a15ebd2-966d-4605-055a-08dbf9e3d389
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2023 00:55:10.4325
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: arVl1NW84nveXZaw6X+s/9YV2qbQdB+n6db8qc3vuhicmpmVbF8EftmN9Ze5wolN07FmjxD6NfGp3bCLj/V5pA==
+X-MS-Exchange-CrossTenant-userprincipalname: hOYPQauH2BlKNZyw8clvAKWHfoqhTBW+VLhOBaBdgc7dSs817QotAkk6FPA6h1XNxe2sMUaZu5TST/alw0duuQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4879
 X-OriginatorOrg: intel.com
 
@@ -144,16 +140,19 @@ not_report
 
 only kconfig change:
 
-fs/xfs/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+crypto/Kconfig         | 114 ++++++++++++++++++++++++++++++++++++++++++++++=
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/crypto/Kconfig | 115 ---------------------------------------------=
+----------------------------------------------------------------------
+ 2 files changed, 114 insertions(+), 115 deletions(-)
 
 -----Original Message-----
 From: lkp <lkp@intel.com>=20
-Sent: Sunday, December 10, 2023 20:40
+Sent: Sunday, December 10, 2023 10:34
 To: oe-kbuild@lists.linux.dev
 Cc: lkp <lkp@intel.com>
-Subject: hcd.c:(.text+0x355a): relocation truncated to fit: R_CKCORE_PCREL_=
-IMM16BY4 against `__jump_table'
+Subject: kernel/kexec_file.c:320:1: sparse: sparse: Using plain integer as =
+NULL pointer
 
 ::::::=20
 :::::: Manual check reason: "only kconfig file changed"
@@ -162,90 +161,177 @@ IMM16BY4 against `__jump_table'
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Anthony Iliopoulos <ailiop@suse.com>
-CC: Chandan Babu R <chandanbabu@kernel.org>
-CC: Dave Chinner <dchinner@redhat.com>
-CC: "Darrick J. Wong" <djwong@kernel.org>
+TO: "Jason A. Donenfeld" <zx2c4@kernel.org>
+CC: Jakub Kicinski <kuba@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   c527f5606aa545233a4d2c6d5c636ed82b8633ef
-commit: a2e4388adfa44684c7c428a5a5980efe0d75e13e xfs: fix again select in k=
-config XFS_ONLINE_SCRUB_STATS
-date:   4 weeks ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 4 weeks ago
-config: csky-randconfig-r011-20230302 (https://download.01.org/0day-ci/arch=
-ive/20231210/202312102024.BAUcqiJU-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20231210/202312102024.BAUcqiJU-lkp@intel.com/reproduce)
+head:   21b73ffcc62ab772bc06e3e90bd87eff5e9e8ed4
+commit: b7133757da4c4c17d625970f6da3d76af12a8867 crypto: s390 - do not depe=
+nd on CRYPTO_HW for SIMD implementations
+date:   1 year, 5 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 1 year, 5 months ago
+config: s390-randconfig-r113-20231115 (https://download.01.org/0day-ci/arch=
+ive/20231210/202312101050.6FqHvugR-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231210/202312101050.6=
+FqHvugR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312102024.BAUcqiJU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312101050.6FqHvugR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/kexec_file.c:320:1: sparse: sparse: Using plain integer as NULL p=
+ointer
+>> kernel/kexec_file.c:320:1: sparse: sparse: Using plain integer as NULL p=
+ointer
 
-   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/swi=
-tches/idt_gen3.o: defined in discarded section `.exit.text' of drivers/rapi=
-dio/switches/idt_gen3.o
-   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/swi=
-tches/idt_gen3.o: defined in discarded section `.exit.text' of drivers/rapi=
-dio/switches/idt_gen3.o
-   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/swi=
-tches/idt_gen3.o: defined in discarded section `.exit.text' of drivers/rapi=
-dio/switches/idt_gen3.o
-   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/swi=
-tches/idt_gen3.o: defined in discarded section `.exit.text' of drivers/rapi=
-dio/switches/idt_gen3.o
-   `.exit.text' referenced in section `__jump_table' of drivers/video/fbdev=
-/s3fb.o: defined in discarded section `.exit.text' of drivers/video/fbdev/s=
-3fb.o
-   `.exit.text' referenced in section `__jump_table' of drivers/video/fbdev=
-/s3fb.o: defined in discarded section `.exit.text' of drivers/video/fbdev/s=
-3fb.o
-   `.exit.text' referenced in section `__jump_table' of drivers/video/fbdev=
-/arkfb.o: defined in discarded section `.exit.text' of drivers/video/fbdev/=
-arkfb.o
-   `.exit.text' referenced in section `__jump_table' of drivers/video/fbdev=
-/arkfb.o: defined in discarded section `.exit.text' of drivers/video/fbdev/=
-arkfb.o
-   `.exit.text' referenced in section `__jump_table' of drivers/misc/phanto=
-m.o: defined in discarded section `.exit.text' of drivers/misc/phantom.o
-   `.exit.text' referenced in section `__jump_table' of drivers/misc/phanto=
-m.o: defined in discarded section `.exit.text' of drivers/misc/phantom.o
-   `.exit.text' referenced in section `__jump_table' of drivers/target/targ=
-et_core_configfs.o: defined in discarded section `.exit.text' of drivers/ta=
-rget/target_core_configfs.o
-   `.exit.text' referenced in section `__jump_table' of drivers/target/targ=
-et_core_configfs.o: defined in discarded section `.exit.text' of drivers/ta=
-rget/target_core_configfs.o
-   drivers/usb/dwc2/hcd.o: in function `dwc2_hcd_dump_state':
->> hcd.c:(.text+0x355a): relocation truncated to fit: R_CKCORE_PCREL_IMM16B=
-Y4 against `__jump_table'
-   hcd.c:(.text+0x356c): relocation truncated to fit: R_CKCORE_PCREL_IMM16B=
-Y4 against `__jump_table'
-   hcd.c:(.text+0x357e): relocation truncated to fit: R_CKCORE_PCREL_IMM16B=
-Y4 against `__jump_table'
-   hcd.c:(.text+0x3594): relocation truncated to fit: R_CKCORE_PCREL_IMM16B=
-Y4 against `__jump_table'
-   hcd.c:(.text+0x35b8): relocation truncated to fit: R_CKCORE_PCREL_IMM16B=
-Y4 against `__jump_table'
-   hcd.c:(.text+0x35e0): relocation truncated to fit: R_CKCORE_PCREL_IMM16B=
-Y4 against `__jump_table'
-   hcd.c:(.text+0x35f8): relocation truncated to fit: R_CKCORE_PCREL_IMM16B=
-Y4 against `__jump_table'
-   hcd.c:(.text+0x3610): relocation truncated to fit: R_CKCORE_PCREL_IMM16B=
-Y4 against `__jump_table'
-   hcd.c:(.text+0x3628): relocation truncated to fit: R_CKCORE_PCREL_IMM16B=
-Y4 against `__jump_table'
-   hcd.c:(.text+0x3640): relocation truncated to fit: R_CKCORE_PCREL_IMM16B=
-Y4 against `__jump_table'
-   hcd.c:(.text+0x3658): additional relocation overflows omitted from the o=
-utput
+vim +320 kernel/kexec_file.c
+
+a43cac0d9dc207 Dave Young     2015-09-09  319 =20
+a43cac0d9dc207 Dave Young     2015-09-09 @320  SYSCALL_DEFINE5(kexec_file_l=
+oad, int, kernel_fd, int, initrd_fd,
+a43cac0d9dc207 Dave Young     2015-09-09  321  		unsigned long, cmdline_len=
+, const char __user *, cmdline_ptr,
+a43cac0d9dc207 Dave Young     2015-09-09  322  		unsigned long, flags)
+a43cac0d9dc207 Dave Young     2015-09-09  323  {
+a43cac0d9dc207 Dave Young     2015-09-09  324  	int ret =3D 0, i;
+a43cac0d9dc207 Dave Young     2015-09-09  325  	struct kimage **dest_image,=
+ *image;
+a43cac0d9dc207 Dave Young     2015-09-09  326 =20
+a43cac0d9dc207 Dave Young     2015-09-09  327  	/* We only trust the superu=
+ser with rebooting the system. */
+a43cac0d9dc207 Dave Young     2015-09-09  328  	if (!capable(CAP_SYS_BOOT) =
+|| kexec_load_disabled)
+a43cac0d9dc207 Dave Young     2015-09-09  329  		return -EPERM;
+a43cac0d9dc207 Dave Young     2015-09-09  330 =20
+a43cac0d9dc207 Dave Young     2015-09-09  331  	/* Make sure we have a lega=
+l set of flags */
+a43cac0d9dc207 Dave Young     2015-09-09  332  	if (flags !=3D (flags & KEX=
+EC_FILE_FLAGS))
+a43cac0d9dc207 Dave Young     2015-09-09  333  		return -EINVAL;
+a43cac0d9dc207 Dave Young     2015-09-09  334 =20
+a43cac0d9dc207 Dave Young     2015-09-09  335  	image =3D NULL;
+a43cac0d9dc207 Dave Young     2015-09-09  336 =20
+a43cac0d9dc207 Dave Young     2015-09-09  337  	if (!mutex_trylock(&kexec_m=
+utex))
+a43cac0d9dc207 Dave Young     2015-09-09  338  		return -EBUSY;
+a43cac0d9dc207 Dave Young     2015-09-09  339 =20
+a43cac0d9dc207 Dave Young     2015-09-09  340  	dest_image =3D &kexec_image=
+;
+9b492cf58077a0 Xunlei Pang    2016-05-23  341  	if (flags & KEXEC_FILE_ON_C=
+RASH) {
+a43cac0d9dc207 Dave Young     2015-09-09  342  		dest_image =3D &kexec_cras=
+h_image;
+9b492cf58077a0 Xunlei Pang    2016-05-23  343  		if (kexec_crash_image)
+9b492cf58077a0 Xunlei Pang    2016-05-23  344  			arch_kexec_unprotect_cras=
+hkres();
+9b492cf58077a0 Xunlei Pang    2016-05-23  345  	}
+a43cac0d9dc207 Dave Young     2015-09-09  346 =20
+a43cac0d9dc207 Dave Young     2015-09-09  347  	if (flags & KEXEC_FILE_UNLO=
+AD)
+a43cac0d9dc207 Dave Young     2015-09-09  348  		goto exchange;
+a43cac0d9dc207 Dave Young     2015-09-09  349 =20
+a43cac0d9dc207 Dave Young     2015-09-09  350  	/*
+a43cac0d9dc207 Dave Young     2015-09-09  351  	 * In case of crash, new ke=
+rnel gets loaded in reserved region. It is
+a43cac0d9dc207 Dave Young     2015-09-09  352  	 * same memory where old cr=
+ash kernel might be loaded. Free any
+a43cac0d9dc207 Dave Young     2015-09-09  353  	 * current crash dump kerne=
+l before we corrupt it.
+a43cac0d9dc207 Dave Young     2015-09-09  354  	 */
+a43cac0d9dc207 Dave Young     2015-09-09  355  	if (flags & KEXEC_FILE_ON_C=
+RASH)
+a43cac0d9dc207 Dave Young     2015-09-09  356  		kimage_free(xchg(&kexec_cr=
+ash_image, NULL));
+a43cac0d9dc207 Dave Young     2015-09-09  357 =20
+a43cac0d9dc207 Dave Young     2015-09-09  358  	ret =3D kimage_file_alloc_i=
+nit(&image, kernel_fd, initrd_fd, cmdline_ptr,
+a43cac0d9dc207 Dave Young     2015-09-09  359  				     cmdline_len, flags)=
+;
+a43cac0d9dc207 Dave Young     2015-09-09  360  	if (ret)
+a43cac0d9dc207 Dave Young     2015-09-09  361  		goto out;
+a43cac0d9dc207 Dave Young     2015-09-09  362 =20
+a43cac0d9dc207 Dave Young     2015-09-09  363  	ret =3D machine_kexec_prepa=
+re(image);
+a43cac0d9dc207 Dave Young     2015-09-09  364  	if (ret)
+a43cac0d9dc207 Dave Young     2015-09-09  365  		goto out;
+a43cac0d9dc207 Dave Young     2015-09-09  366 =20
+1229384f5b856d Xunlei Pang    2017-07-12  367  	/*
+1229384f5b856d Xunlei Pang    2017-07-12  368  	 * Some architecture(like S=
+390) may touch the crash memory before
+1229384f5b856d Xunlei Pang    2017-07-12  369  	 * machine_kexec_prepare(),=
+ we must copy vmcoreinfo data after it.
+1229384f5b856d Xunlei Pang    2017-07-12  370  	 */
+1229384f5b856d Xunlei Pang    2017-07-12  371  	ret =3D kimage_crash_copy_v=
+mcoreinfo(image);
+1229384f5b856d Xunlei Pang    2017-07-12  372  	if (ret)
+1229384f5b856d Xunlei Pang    2017-07-12  373  		goto out;
+1229384f5b856d Xunlei Pang    2017-07-12  374 =20
+a43cac0d9dc207 Dave Young     2015-09-09  375  	ret =3D kexec_calculate_sto=
+re_digests(image);
+a43cac0d9dc207 Dave Young     2015-09-09  376  	if (ret)
+a43cac0d9dc207 Dave Young     2015-09-09  377  		goto out;
+a43cac0d9dc207 Dave Young     2015-09-09  378 =20
+a43cac0d9dc207 Dave Young     2015-09-09  379  	for (i =3D 0; i < image->nr=
+_segments; i++) {
+a43cac0d9dc207 Dave Young     2015-09-09  380  		struct kexec_segment *kseg=
+ment;
+a43cac0d9dc207 Dave Young     2015-09-09  381 =20
+a43cac0d9dc207 Dave Young     2015-09-09  382  		ksegment =3D &image->segme=
+nt[i];
+a43cac0d9dc207 Dave Young     2015-09-09  383  		pr_debug("Loading segment =
+%d: buf=3D0x%p bufsz=3D0x%zx mem=3D0x%lx memsz=3D0x%zx\n",
+a43cac0d9dc207 Dave Young     2015-09-09  384  			 i, ksegment->buf, ksegme=
+nt->bufsz, ksegment->mem,
+a43cac0d9dc207 Dave Young     2015-09-09  385  			 ksegment->memsz);
+a43cac0d9dc207 Dave Young     2015-09-09  386 =20
+a43cac0d9dc207 Dave Young     2015-09-09  387  		ret =3D kimage_load_segmen=
+t(image, &image->segment[i]);
+a43cac0d9dc207 Dave Young     2015-09-09  388  		if (ret)
+a43cac0d9dc207 Dave Young     2015-09-09  389  			goto out;
+a43cac0d9dc207 Dave Young     2015-09-09  390  	}
+a43cac0d9dc207 Dave Young     2015-09-09  391 =20
+a43cac0d9dc207 Dave Young     2015-09-09  392  	kimage_terminate(image);
+a43cac0d9dc207 Dave Young     2015-09-09  393 =20
+de68e4daea9084 Pavel Tatashin 2019-12-04  394  	ret =3D machine_kexec_post_=
+load(image);
+de68e4daea9084 Pavel Tatashin 2019-12-04  395  	if (ret)
+de68e4daea9084 Pavel Tatashin 2019-12-04  396  		goto out;
+de68e4daea9084 Pavel Tatashin 2019-12-04  397 =20
+a43cac0d9dc207 Dave Young     2015-09-09  398  	/*
+a43cac0d9dc207 Dave Young     2015-09-09  399  	 * Free up any temporary bu=
+ffers allocated which are not needed
+a43cac0d9dc207 Dave Young     2015-09-09  400  	 * after image has been loa=
+ded
+a43cac0d9dc207 Dave Young     2015-09-09  401  	 */
+a43cac0d9dc207 Dave Young     2015-09-09  402  	kimage_file_post_load_clean=
+up(image);
+a43cac0d9dc207 Dave Young     2015-09-09  403  exchange:
+a43cac0d9dc207 Dave Young     2015-09-09  404  	image =3D xchg(dest_image, =
+image);
+a43cac0d9dc207 Dave Young     2015-09-09  405  out:
+9b492cf58077a0 Xunlei Pang    2016-05-23  406  	if ((flags & KEXEC_FILE_ON_=
+CRASH) && kexec_crash_image)
+9b492cf58077a0 Xunlei Pang    2016-05-23  407  		arch_kexec_protect_crashkr=
+es();
+9b492cf58077a0 Xunlei Pang    2016-05-23  408 =20
+a43cac0d9dc207 Dave Young     2015-09-09  409  	mutex_unlock(&kexec_mutex);
+a43cac0d9dc207 Dave Young     2015-09-09  410  	kimage_free(image);
+a43cac0d9dc207 Dave Young     2015-09-09  411  	return ret;
+a43cac0d9dc207 Dave Young     2015-09-09  412  }
+a43cac0d9dc207 Dave Young     2015-09-09  413 =20
+
+:::::: The code at line 320 was first introduced by commit
+:::::: a43cac0d9dc2073ff2245a171429ddbe1accece7 kexec: split kexec_file sys=
+call code to kexec_file.c
+
+:::::: TO: Dave Young <dyoung@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 --=20
 0-DAY CI Kernel Test Service
