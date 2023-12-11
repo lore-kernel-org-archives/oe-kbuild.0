@@ -1,47 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4F913FE4
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 Dec 2023 07:18:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E1B208C3
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 Dec 2023 07:38:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N1aTeK6k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gKy99poh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702279085; x=1733815085;
+  t=1702280287; x=1733816287;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2INrW7NXE6v0R7m4nGoI0UAoi6JL9d/gMreZosezSrY=;
-  b=N1aTeK6kHaHrUp8RkYxLnQvbbVffS6+a+K4cKqoex6J6yXDi5Vrv/IFx
-   9mJxzWBo6LFQw20iuEcROacJUnp8zv4R9ysxe3LkaO4v9SMOVsAVASPrJ
-   gj4caffvQqoh/y7jbBecgbAm7yzFw4/akdOwD5Wifmj2Pc6/jsQvtkJou
-   cq/SYJNBB/b4DvfYqYAH46L0t9ykEQgHbc5R2S1ye8bq4JDEnKq9ljZRw
-   miEqepTxDHgKBolyusPM2H54jl3UjsbSTqfHUzClC3YhvZxKHjVLBNySm
-   YJMwFL6IMBZaDox2o1VnNNqiPB+3JJ43SdDoegGOlBquVlWVTCj4sidI9
+  bh=Nsbci1u+BxBm4Mel1d5WIZoTg7yMJOaQelewDp+MFdw=;
+  b=gKy99pohuY6nNaISN+FVM5Chinr2sbx0M2c7oFfNJKI8dLnfcw652RtT
+   fWgszjeysG9Fy22ST52srOuO9O9J0b2Vf/HwmCGxYsCo0nkb3dEiNaj2w
+   vqtyQ+1ZhAiqfmO5ThVFflxSeOtCYqaA/h+8d3RmVGMtnR1b0eXgOEN+4
+   3zfaYDuHoop72gOtlXsiQpzvKxxhIvbhcW/D09JsqrkFKCtJDDjJyx5Do
+   yxTc9jaMdswqJEQLPRuIJg3fT4I/SFoKLUHZQeHTzbb7Agxu9h0t7oUFK
+   xcrE7OI/Zgr84oIcYC1djGtoIFBCpISWcx6ob2cdoh0eZ5yLZHdg10gfu
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="1473359"
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="461085339"
 X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
-   d="scan'208";a="1473359"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 23:18:04 -0800
+   d="scan'208";a="461085339"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 23:38:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="772938318"
 X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
-   d="scan'208";a="772938318"
+   d="scan'208";a="20980885"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 10 Dec 2023 23:18:02 -0800
+  by orviesa001.jf.intel.com with ESMTP; 10 Dec 2023 23:38:03 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCaYB-000HlM-37;
-	Mon, 11 Dec 2023 07:17:59 +0000
-Date: Mon, 11 Dec 2023 15:17:10 +0800
+	id 1rCarY-000Hma-27;
+	Mon, 11 Dec 2023 07:38:00 +0000
+Date: Mon, 11 Dec 2023 15:37:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [nbd168-wireless:mt76 58/62]
- drivers/net/wireless/mediatek/mt76/mt7996/mac.c:946:27: sparse: sparse:
- shift too big (32) for type unsigned int
-Message-ID: <202312111531.VQrAb015-lkp@intel.com>
+Subject: fs/bcachefs/extents.c:273:28: sparse: sparse: invalid access past
+ the end of 'lp' (60 64)
+Message-ID: <202312111518.qliINogN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,108 +50,327 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/net/wireless/mediatek/mt76/mt7996/mac.c:946:27: sparse: sparse: shift too big (32) for type unsigned int"
+:::::: Manual check reason: "low confidence static check warning: fs/bcachefs/extents.c:273:28: sparse: sparse: invalid access past the end of 'lp' (60 64)"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sujuan Chen <sujuan.chen@mediatek.com>
-CC: Felix Fietkau <nbd@nbd.name>
-CC: Rex Lu <rex.lu@mediatek.com>
-CC: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Kent Overstreet <kmo@daterainc.com>
 
-tree:   https://github.com/nbd168/wireless mt76
-head:   0318b308805ea665679297c3f24b243c1b39b292
-commit: 6a871112fab64e1ef3e8eb6487cf53167d9f962f [58/62] wifi: mt76: mt7996: set DMA mask to 36 bits for boards with more than 4GB of RAM
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: csky-randconfig-r113-20231211 (https://download.01.org/0day-ci/archive/20231211/202312111531.VQrAb015-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231211/202312111531.VQrAb015-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
+commit: c2177e4da332df6fb91b08b874a79051f13897bc bcachefs: Improved extent merging
+date:   7 weeks ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 7 weeks ago
+config: powerpc-randconfig-r113-20231106 (https://download.01.org/0day-ci/archive/20231211/202312111518.qliINogN-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231211/202312111518.qliINogN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312111531.VQrAb015-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312111518.qliINogN-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/mediatek/mt76/mt7996/mac.c:946:27: sparse: sparse: shift too big (32) for type unsigned int
+   fs/bcachefs/extents.c: note: in included file (through fs/bcachefs/bcachefs.h):
+   fs/bcachefs/bcachefs_format.h:1101:45: sparse: sparse: array of flexible structures
+   fs/bcachefs/bcachefs_format.h:1116:42: sparse: sparse: array of flexible structures
+   fs/bcachefs/extents.c:502:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] csum @@     got restricted __le32 [usertype] @@
+   fs/bcachefs/extents.c:502:34: sparse:     expected unsigned int [usertype] csum
+   fs/bcachefs/extents.c:502:34: sparse:     got restricted __le32 [usertype]
+   fs/bcachefs/extents.c:507:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] csum_lo @@     got restricted __le64 [addressable] [usertype] lo @@
+   fs/bcachefs/extents.c:507:41: sparse:     expected unsigned long long [usertype] csum_lo
+   fs/bcachefs/extents.c:507:41: sparse:     got restricted __le64 [addressable] [usertype] lo
+   fs/bcachefs/extents.c:508:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] csum_hi:16 @@     got restricted __le16 [usertype] @@
+   fs/bcachefs/extents.c:508:41: sparse:     expected unsigned long long [usertype] csum_hi:16
+   fs/bcachefs/extents.c:508:41: sparse:     got restricted __le16 [usertype]
+   fs/bcachefs/extents.c: note: in included file:
+   fs/bcachefs/bcachefs.h:795:9: sparse: sparse: array of flexible structures
+   fs/bcachefs/extents.c:212:40: sparse: sparse: mixing different enum types:
+   fs/bcachefs/extents.c:212:40: sparse:    unsigned int enum btree_id
+   fs/bcachefs/extents.c:212:40: sparse:    unsigned int enum btree_node_type
+   fs/bcachefs/extents.c: note: in included file (through fs/bcachefs/super-io.h, fs/bcachefs/checksum.h, fs/bcachefs/btree_io.h):
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+>> fs/bcachefs/extents.c:273:28: sparse: sparse: invalid access past the end of 'lp' (60 64)
+>> fs/bcachefs/extents.c:273:57: sparse: sparse: invalid access past the end of 'rp' (60 64)
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.c:652:41: sparse: sparse: invalid access past the end of 'p' (60 64)
+   fs/bcachefs/extents.c:676:35: sparse: sparse: invalid access past the end of 'p' (60 64)
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
+   fs/bcachefs/extents.h:145:44: sparse:     got unsigned int const [usertype] csum
+   fs/bcachefs/extents.h:159:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got unsigned long long const [usertype] csum_hi:16 @@
+   fs/bcachefs/extents.h:159:44: sparse:     expected restricted __le16 [usertype]
+   fs/bcachefs/extents.h:159:44: sparse:     got unsigned long long const [usertype] csum_hi:16
+   fs/bcachefs/extents.h:145:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int const [usertype] csum @@
+   fs/bcachefs/extents.h:145:44: sparse:     expected restricted __le32 [usertype]
 
-vim +946 drivers/net/wireless/mediatek/mt76/mt7996/mac.c
+vim +/lp +273 fs/bcachefs/extents.c
 
-98686cd21624c7 Shayne Chen      2022-11-22  909  
-98686cd21624c7 Shayne Chen      2022-11-22  910  int mt7996_tx_prepare_skb(struct mt76_dev *mdev, void *txwi_ptr,
-98686cd21624c7 Shayne Chen      2022-11-22  911  			  enum mt76_txq_id qid, struct mt76_wcid *wcid,
-98686cd21624c7 Shayne Chen      2022-11-22  912  			  struct ieee80211_sta *sta,
-98686cd21624c7 Shayne Chen      2022-11-22  913  			  struct mt76_tx_info *tx_info)
-98686cd21624c7 Shayne Chen      2022-11-22  914  {
-98686cd21624c7 Shayne Chen      2022-11-22  915  	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)tx_info->skb->data;
-98686cd21624c7 Shayne Chen      2022-11-22  916  	struct mt7996_dev *dev = container_of(mdev, struct mt7996_dev, mt76);
-98686cd21624c7 Shayne Chen      2022-11-22  917  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(tx_info->skb);
-98686cd21624c7 Shayne Chen      2022-11-22  918  	struct ieee80211_key_conf *key = info->control.hw_key;
-98686cd21624c7 Shayne Chen      2022-11-22  919  	struct ieee80211_vif *vif = info->control.vif;
-3c38dfc1702d81 Lorenzo Bianconi 2023-01-18  920  	struct mt76_connac_txp_common *txp;
-98686cd21624c7 Shayne Chen      2022-11-22  921  	struct mt76_txwi_cache *t;
-98686cd21624c7 Shayne Chen      2022-11-22  922  	int id, i, pid, nbuf = tx_info->nbuf - 1;
-98686cd21624c7 Shayne Chen      2022-11-22  923  	bool is_8023 = info->flags & IEEE80211_TX_CTL_HW_80211_ENCAP;
-98686cd21624c7 Shayne Chen      2022-11-22  924  	u8 *txwi = (u8 *)txwi_ptr;
-98686cd21624c7 Shayne Chen      2022-11-22  925  
-98686cd21624c7 Shayne Chen      2022-11-22  926  	if (unlikely(tx_info->skb->len <= ETH_HLEN))
-98686cd21624c7 Shayne Chen      2022-11-22  927  		return -EINVAL;
-98686cd21624c7 Shayne Chen      2022-11-22  928  
-98686cd21624c7 Shayne Chen      2022-11-22  929  	if (!wcid)
-98686cd21624c7 Shayne Chen      2022-11-22  930  		wcid = &dev->mt76.global_wcid;
-98686cd21624c7 Shayne Chen      2022-11-22  931  
-98686cd21624c7 Shayne Chen      2022-11-22  932  	t = (struct mt76_txwi_cache *)(txwi + mdev->drv->txwi_size);
-98686cd21624c7 Shayne Chen      2022-11-22  933  	t->skb = tx_info->skb;
-98686cd21624c7 Shayne Chen      2022-11-22  934  
-98686cd21624c7 Shayne Chen      2022-11-22  935  	id = mt76_token_consume(mdev, &t);
-98686cd21624c7 Shayne Chen      2022-11-22  936  	if (id < 0)
-98686cd21624c7 Shayne Chen      2022-11-22  937  		return id;
-98686cd21624c7 Shayne Chen      2022-11-22  938  
-98686cd21624c7 Shayne Chen      2022-11-22  939  	pid = mt76_tx_status_skb_add(mdev, wcid, tx_info->skb);
-d0b6f86fdbefa6 Shayne Chen      2023-03-03  940  	mt7996_mac_write_txwi(dev, txwi_ptr, tx_info->skb, wcid, key,
-d0b6f86fdbefa6 Shayne Chen      2023-03-03  941  			      pid, qid, 0);
-98686cd21624c7 Shayne Chen      2022-11-22  942  
-3c38dfc1702d81 Lorenzo Bianconi 2023-01-18  943  	txp = (struct mt76_connac_txp_common *)(txwi + MT_TXD_SIZE);
-98686cd21624c7 Shayne Chen      2022-11-22  944  	for (i = 0; i < nbuf; i++) {
-6a871112fab64e Sujuan Chen      2023-11-17  945  		u16 len = FIELD_PREP(MT_TXP_BUF_LEN, tx_info->buf[i + 1].len) |
-6a871112fab64e Sujuan Chen      2023-11-17 @946  			  FIELD_PREP(MT_TXP_DMA_ADDR_H,
-6a871112fab64e Sujuan Chen      2023-11-17  947  				     tx_info->buf[i + 1].addr >> 32);
-6a871112fab64e Sujuan Chen      2023-11-17  948  
-3c38dfc1702d81 Lorenzo Bianconi 2023-01-18  949  		txp->fw.buf[i] = cpu_to_le32(tx_info->buf[i + 1].addr);
-6a871112fab64e Sujuan Chen      2023-11-17  950  		txp->fw.len[i] = cpu_to_le16(len);
-98686cd21624c7 Shayne Chen      2022-11-22  951  	}
-3c38dfc1702d81 Lorenzo Bianconi 2023-01-18  952  	txp->fw.nbuf = nbuf;
-98686cd21624c7 Shayne Chen      2022-11-22  953  
-3b522cadedfe6e Ryder Lee        2023-04-19  954  	txp->fw.flags =
-3b522cadedfe6e Ryder Lee        2023-04-19  955  		cpu_to_le16(MT_CT_INFO_FROM_HOST | MT_CT_INFO_APPLY_TXD);
-98686cd21624c7 Shayne Chen      2022-11-22  956  
-98686cd21624c7 Shayne Chen      2022-11-22  957  	if (!key)
-3c38dfc1702d81 Lorenzo Bianconi 2023-01-18  958  		txp->fw.flags |= cpu_to_le16(MT_CT_INFO_NONE_CIPHER_FRAME);
-98686cd21624c7 Shayne Chen      2022-11-22  959  
-98686cd21624c7 Shayne Chen      2022-11-22  960  	if (!is_8023 && ieee80211_is_mgmt(hdr->frame_control))
-3c38dfc1702d81 Lorenzo Bianconi 2023-01-18  961  		txp->fw.flags |= cpu_to_le16(MT_CT_INFO_MGMT_FRAME);
-98686cd21624c7 Shayne Chen      2022-11-22  962  
-98686cd21624c7 Shayne Chen      2022-11-22  963  	if (vif) {
-98686cd21624c7 Shayne Chen      2022-11-22  964  		struct mt7996_vif *mvif = (struct mt7996_vif *)vif->drv_priv;
-98686cd21624c7 Shayne Chen      2022-11-22  965  
-3c38dfc1702d81 Lorenzo Bianconi 2023-01-18  966  		txp->fw.bss_idx = mvif->mt76.idx;
-98686cd21624c7 Shayne Chen      2022-11-22  967  	}
-98686cd21624c7 Shayne Chen      2022-11-22  968  
-3c38dfc1702d81 Lorenzo Bianconi 2023-01-18  969  	txp->fw.token = cpu_to_le16(id);
-bde2e77f76266f Peter Chiu       2023-08-17  970  	txp->fw.rept_wds_wcid = cpu_to_le16(sta ? wcid->idx : 0xfff);
-bde2e77f76266f Peter Chiu       2023-08-17  971  
-832f42699791e7 Felix Fietkau    2023-09-11  972  	tx_info->skb = NULL;
-98686cd21624c7 Shayne Chen      2022-11-22  973  
-98686cd21624c7 Shayne Chen      2022-11-22  974  	/* pass partial skb header to fw */
-98686cd21624c7 Shayne Chen      2022-11-22  975  	tx_info->buf[1].len = MT_CT_PARSE_LEN;
-98686cd21624c7 Shayne Chen      2022-11-22  976  	tx_info->buf[1].skip_unmap = true;
-98686cd21624c7 Shayne Chen      2022-11-22  977  	tx_info->nbuf = MT_CT_DMA_BUF_NUM;
-98686cd21624c7 Shayne Chen      2022-11-22  978  
-98686cd21624c7 Shayne Chen      2022-11-22  979  	return 0;
-98686cd21624c7 Shayne Chen      2022-11-22  980  }
-98686cd21624c7 Shayne Chen      2022-11-22  981  
+cd575ddf57af00 Kent Overstreet 2018-11-01  231  
+59ba21d99fc7a1 Kent Overstreet 2021-04-28  232  bool bch2_extent_merge(struct bch_fs *c, struct bkey_s _l, struct bkey_s_c _r)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  233  {
+4de774952b1296 Kent Overstreet 2019-11-16  234  	struct bkey_s_extent l = bkey_s_to_extent(_l);
+59ba21d99fc7a1 Kent Overstreet 2021-04-28  235  	struct bkey_s_c_extent r = bkey_s_c_to_extent(_r);
+c2177e4da332df Kent Overstreet 2021-05-15  236  	union bch_extent_entry *en_l;
+c2177e4da332df Kent Overstreet 2021-05-15  237  	const union bch_extent_entry *en_r;
+c2177e4da332df Kent Overstreet 2021-05-15  238  	struct extent_ptr_decoded lp, rp;
+c2177e4da332df Kent Overstreet 2021-05-15  239  	bool use_right_ptr;
+c2177e4da332df Kent Overstreet 2021-05-15  240  	struct bch_dev *ca;
+a2753581f6c5c0 Kent Overstreet 2018-09-30  241  
+4de774952b1296 Kent Overstreet 2019-11-16  242  	if (bkey_val_u64s(l.k) != bkey_val_u64s(r.k))
+59ba21d99fc7a1 Kent Overstreet 2021-04-28  243  		return false;
+a2753581f6c5c0 Kent Overstreet 2018-09-30  244  
+4de774952b1296 Kent Overstreet 2019-11-16  245  	extent_for_each_entry(l, en_l) {
+4de774952b1296 Kent Overstreet 2019-11-16  246  		en_r = vstruct_idx(r.v, (u64 *) en_l - l.v->_data);
+4de774952b1296 Kent Overstreet 2019-11-16  247  
+4de774952b1296 Kent Overstreet 2019-11-16  248  		if (extent_entry_type(en_l) != extent_entry_type(en_r))
+59ba21d99fc7a1 Kent Overstreet 2021-04-28  249  			return false;
+c2177e4da332df Kent Overstreet 2021-05-15  250  	}
+4de774952b1296 Kent Overstreet 2019-11-16  251  
+c2177e4da332df Kent Overstreet 2021-05-15  252  	en_l = l.v->start;
+c2177e4da332df Kent Overstreet 2021-05-15  253  	en_r = r.v->start;
+c2177e4da332df Kent Overstreet 2021-05-15  254  	lp.crc = bch2_extent_crc_unpack(l.k, NULL);
+c2177e4da332df Kent Overstreet 2021-05-15  255  	rp.crc = bch2_extent_crc_unpack(r.k, NULL);
+c2177e4da332df Kent Overstreet 2021-05-15  256  
+c2177e4da332df Kent Overstreet 2021-05-15  257  	while (__bkey_ptr_next_decode(l.k, extent_entry_last(l), lp, en_l) &&
+c2177e4da332df Kent Overstreet 2021-05-15  258  	       __bkey_ptr_next_decode(r.k, extent_entry_last(r), rp, en_r)) {
+c2177e4da332df Kent Overstreet 2021-05-15  259  		if (lp.ptr.offset + lp.crc.offset + lp.crc.live_size !=
+c2177e4da332df Kent Overstreet 2021-05-15  260  		    rp.ptr.offset + rp.crc.offset ||
+c2177e4da332df Kent Overstreet 2021-05-15  261  		    lp.ptr.dev			!= rp.ptr.dev ||
+c2177e4da332df Kent Overstreet 2021-05-15  262  		    lp.ptr.gen			!= rp.ptr.gen ||
+c2177e4da332df Kent Overstreet 2021-05-15  263  		    lp.has_ec			!= rp.has_ec)
+59ba21d99fc7a1 Kent Overstreet 2021-04-28  264  			return false;
+4de774952b1296 Kent Overstreet 2019-11-16  265  
+c2177e4da332df Kent Overstreet 2021-05-15  266  		/* Extents may not straddle buckets: */
+c2177e4da332df Kent Overstreet 2021-05-15  267  		ca = bch_dev_bkey_exists(c, lp.ptr.dev);
+c2177e4da332df Kent Overstreet 2021-05-15  268  		if (PTR_BUCKET_NR(ca, &lp.ptr) != PTR_BUCKET_NR(ca, &rp.ptr))
+59ba21d99fc7a1 Kent Overstreet 2021-04-28  269  			return false;
+4de774952b1296 Kent Overstreet 2019-11-16  270  
+c2177e4da332df Kent Overstreet 2021-05-15  271  		if (lp.has_ec			!= rp.has_ec ||
+c2177e4da332df Kent Overstreet 2021-05-15  272  		    (lp.has_ec &&
+c2177e4da332df Kent Overstreet 2021-05-15 @273  		     (lp.ec.block		!= rp.ec.block ||
+c2177e4da332df Kent Overstreet 2021-05-15  274  		      lp.ec.redundancy		!= rp.ec.redundancy ||
+c2177e4da332df Kent Overstreet 2021-05-15  275  		      lp.ec.idx			!= rp.ec.idx)))
+59ba21d99fc7a1 Kent Overstreet 2021-04-28  276  			return false;
+4de774952b1296 Kent Overstreet 2019-11-16  277  
+c2177e4da332df Kent Overstreet 2021-05-15  278  		if (lp.crc.compression_type	!= rp.crc.compression_type ||
+c2177e4da332df Kent Overstreet 2021-05-15  279  		    lp.crc.nonce		!= rp.crc.nonce)
+59ba21d99fc7a1 Kent Overstreet 2021-04-28  280  			return false;
+4de774952b1296 Kent Overstreet 2019-11-16  281  
+c2177e4da332df Kent Overstreet 2021-05-15  282  		if (lp.crc.offset + lp.crc.live_size + rp.crc.live_size <=
+c2177e4da332df Kent Overstreet 2021-05-15  283  		    lp.crc.uncompressed_size) {
+c2177e4da332df Kent Overstreet 2021-05-15  284  			/* can use left extent's crc entry */
+c2177e4da332df Kent Overstreet 2021-05-15  285  		} else if (lp.crc.live_size <= rp.crc.offset ) {
+c2177e4da332df Kent Overstreet 2021-05-15  286  			/* can use right extent's crc entry */
+c2177e4da332df Kent Overstreet 2021-05-15  287  		} else {
+c2177e4da332df Kent Overstreet 2021-05-15  288  			/* check if checksums can be merged: */
+c2177e4da332df Kent Overstreet 2021-05-15  289  			if (lp.crc.csum_type		!= rp.crc.csum_type ||
+c2177e4da332df Kent Overstreet 2021-05-15  290  			    lp.crc.nonce		!= rp.crc.nonce ||
+c2177e4da332df Kent Overstreet 2021-05-15  291  			    crc_is_compressed(lp.crc) ||
+c2177e4da332df Kent Overstreet 2021-05-15  292  			    !bch2_checksum_mergeable(lp.crc.csum_type))
+59ba21d99fc7a1 Kent Overstreet 2021-04-28  293  				return false;
+4de774952b1296 Kent Overstreet 2019-11-16  294  
+c2177e4da332df Kent Overstreet 2021-05-15  295  			if (lp.crc.offset + lp.crc.live_size != lp.crc.compressed_size ||
+c2177e4da332df Kent Overstreet 2021-05-15  296  			    rp.crc.offset)
+59ba21d99fc7a1 Kent Overstreet 2021-04-28  297  				return false;
+4de774952b1296 Kent Overstreet 2019-11-16  298  
+c2177e4da332df Kent Overstreet 2021-05-15  299  			if (lp.crc.csum_type &&
+c2177e4da332df Kent Overstreet 2021-05-15  300  			    lp.crc.uncompressed_size +
+c2177e4da332df Kent Overstreet 2021-05-15  301  			    rp.crc.uncompressed_size > c->sb.encoded_extent_max)
+59ba21d99fc7a1 Kent Overstreet 2021-04-28  302  				return false;
+4de774952b1296 Kent Overstreet 2019-11-16  303  
+c2177e4da332df Kent Overstreet 2021-05-15  304  			if (lp.crc.uncompressed_size + rp.crc.uncompressed_size >
+4de774952b1296 Kent Overstreet 2019-11-16  305  			    bch2_crc_field_size_max[extent_entry_type(en_l)])
+59ba21d99fc7a1 Kent Overstreet 2021-04-28  306  				return false;
+4de774952b1296 Kent Overstreet 2019-11-16  307  		}
+c2177e4da332df Kent Overstreet 2021-05-15  308  
+c2177e4da332df Kent Overstreet 2021-05-15  309  		en_l = extent_entry_next(en_l);
+c2177e4da332df Kent Overstreet 2021-05-15  310  		en_r = extent_entry_next(en_r);
+a2753581f6c5c0 Kent Overstreet 2018-09-30  311  	}
+cd575ddf57af00 Kent Overstreet 2018-11-01  312  
+c2177e4da332df Kent Overstreet 2021-05-15  313  	use_right_ptr = false;
+4de774952b1296 Kent Overstreet 2019-11-16  314  	extent_for_each_entry(l, en_l) {
+4de774952b1296 Kent Overstreet 2019-11-16  315  		struct bch_extent_crc_unpacked crc_l, crc_r;
+4de774952b1296 Kent Overstreet 2019-11-16  316  
+4de774952b1296 Kent Overstreet 2019-11-16  317  		en_r = vstruct_idx(r.v, (u64 *) en_l - l.v->_data);
+4de774952b1296 Kent Overstreet 2019-11-16  318  
+c2177e4da332df Kent Overstreet 2021-05-15  319  		if (extent_entry_type(en_l) == BCH_EXTENT_ENTRY_ptr &&
+c2177e4da332df Kent Overstreet 2021-05-15  320  		    use_right_ptr)
+c2177e4da332df Kent Overstreet 2021-05-15  321  			en_l->ptr = en_r->ptr;
+c2177e4da332df Kent Overstreet 2021-05-15  322  
+4de774952b1296 Kent Overstreet 2019-11-16  323  		if (!extent_entry_is_crc(en_l))
+4de774952b1296 Kent Overstreet 2019-11-16  324  			continue;
+4de774952b1296 Kent Overstreet 2019-11-16  325  
+c2177e4da332df Kent Overstreet 2021-05-15  326  		use_right_ptr = false;
+c2177e4da332df Kent Overstreet 2021-05-15  327  
+4de774952b1296 Kent Overstreet 2019-11-16  328  		crc_l = bch2_extent_crc_unpack(l.k, entry_to_crc(en_l));
+4de774952b1296 Kent Overstreet 2019-11-16  329  		crc_r = bch2_extent_crc_unpack(r.k, entry_to_crc(en_r));
+4de774952b1296 Kent Overstreet 2019-11-16  330  
+c2177e4da332df Kent Overstreet 2021-05-15  331  		if (crc_l.offset + crc_l.live_size + crc_r.live_size <=
+c2177e4da332df Kent Overstreet 2021-05-15  332  		    crc_l.uncompressed_size) {
+c2177e4da332df Kent Overstreet 2021-05-15  333  			/* can use left extent's crc entry */
+c2177e4da332df Kent Overstreet 2021-05-15  334  		} else if (crc_l.live_size <= crc_r.offset ) {
+c2177e4da332df Kent Overstreet 2021-05-15  335  			/* can use right extent's crc entry */
+c2177e4da332df Kent Overstreet 2021-05-15  336  			crc_r.offset -= crc_l.live_size;
+c2177e4da332df Kent Overstreet 2021-05-15  337  			bch2_extent_crc_pack(entry_to_crc(en_l), crc_r,
+c2177e4da332df Kent Overstreet 2021-05-15  338  					     extent_entry_type(en_l));
+c2177e4da332df Kent Overstreet 2021-05-15  339  			use_right_ptr = true;
+c2177e4da332df Kent Overstreet 2021-05-15  340  		} else {
+4de774952b1296 Kent Overstreet 2019-11-16  341  			crc_l.csum = bch2_checksum_merge(crc_l.csum_type,
+4de774952b1296 Kent Overstreet 2019-11-16  342  							 crc_l.csum,
+4de774952b1296 Kent Overstreet 2019-11-16  343  							 crc_r.csum,
+4de774952b1296 Kent Overstreet 2019-11-16  344  							 crc_r.uncompressed_size << 9);
+4de774952b1296 Kent Overstreet 2019-11-16  345  
+4de774952b1296 Kent Overstreet 2019-11-16  346  			crc_l.uncompressed_size	+= crc_r.uncompressed_size;
+4de774952b1296 Kent Overstreet 2019-11-16  347  			crc_l.compressed_size	+= crc_r.compressed_size;
+4de774952b1296 Kent Overstreet 2019-11-16  348  			bch2_extent_crc_pack(entry_to_crc(en_l), crc_l,
+4de774952b1296 Kent Overstreet 2019-11-16  349  					     extent_entry_type(en_l));
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  350  		}
+c2177e4da332df Kent Overstreet 2021-05-15  351  	}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  352  
+4de774952b1296 Kent Overstreet 2019-11-16  353  	bch2_key_resize(l.k, l.k->size + r.k->size);
+59ba21d99fc7a1 Kent Overstreet 2021-04-28  354  	return true;
+4de774952b1296 Kent Overstreet 2019-11-16  355  }
+4de774952b1296 Kent Overstreet 2019-11-16  356  
 
 -- 
 0-DAY CI Kernel Test Service
