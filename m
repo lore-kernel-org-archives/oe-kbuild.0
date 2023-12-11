@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178907493
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 Dec 2023 02:58:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC27171C0
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 Dec 2023 03:58:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m1opqfDU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KyrNH4fv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702263510; x=1733799510;
+  t=1702267132; x=1733803132;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6gXIJ3lQr7H/8xNcMNJMjAQBKNbYrisrMtCN581WOQY=;
-  b=m1opqfDUkWx+1K7FwcBfnnHD6YHY/ud7LpCa666qD++c1jljp+SyCbG9
-   7SFAcxV7yndXuj4gXJqLOACePMs3qR3b+USgyxowWSUhIHuWJD5grnc1e
-   BcxX8Jm7J0Uk4Mo5jFUFgIFK+P4+KvpXhC8QKZEylaKZSN2GeiMmIY9wK
-   feayJjbgcUevdIAAZ67PrbxBYf1mtZKkzDJZj4s1bIwVUIEp296dZhV4E
-   P0w6QIv8z61vVUqsUuPtVpIwDcl1o33Yxl9IViN6/w3sqN3KOUpqDyfKD
-   P+XYt1RggJRXsPHYyl5YC2GYkGVVlOutQpg9a8ZqE7GC0p2Im1pK+bcE4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="379583320"
-X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="379583320"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 18:58:29 -0800
+  bh=wq7CL2Vy0ud4KbxiDhiHN9GrpU9iTnFmD1NYInhlVLk=;
+  b=KyrNH4fvH2Jyb/eWzEUGKHZtbmVfvj8nSTrut0E6+GtDEADgW1oUTyBj
+   VZA5r9rqAgCXnX8jyqBrapcLxiw/mwjdSeLHgJ1WE0YvKbMlB6Fn3FjGg
+   l92wqkRSPrtjQ6GbNEgwTGaVfV/6xUP2kl5oRp8lG4FEErBOSSELcLrsT
+   k34ENPGe73kqIliFRrlB4/HIQDCC7NuFYp5bf+UW+dEXT6QNEvlj31Z9s
+   tIusCfdd8IwOfhUPea32REx1ZF0RZmJ/O9uc4RddbzvMCGuKBHj+QZQ7X
+   p/H7xNmyVo1qaoay50QlPElK0uapHKMGwnTV2BN1COHXrP7b7k/B4y1c6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="458900859"
+X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
+   d="scan'208";a="458900859"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 19:58:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="772871285"
-X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="772871285"
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="843341036"
+X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
+   d="scan'208";a="843341036"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 10 Dec 2023 18:58:27 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 10 Dec 2023 19:58:48 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCWUz-000HZg-1f;
-	Mon, 11 Dec 2023 02:58:25 +0000
-Date: Mon, 11 Dec 2023 10:57:35 +0800
+	id 1rCXRO-000HcN-25;
+	Mon, 11 Dec 2023 03:58:46 +0000
+Date: Mon, 11 Dec 2023 11:58:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [djwong-xfs:xfile-page-caching 61/205] fs/xfs/scrub/rtsummary.c:288
- xchk_rtsum_compare() warn: missing error code? 'error'
-Message-ID: <202312111046.AVIXqABS-lkp@intel.com>
+Subject: drivers/firmware/efi/libstub/file.c:147 efi_open_device_path()
+ error: we previously assumed 'text_to_dp' could be null (see line 140)
+Message-ID: <202312111112.Tnr7f5fO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,107 +52,80 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+CC: linux-kernel@vger.kernel.org
+TO: Ard Biesheuvel <ardb@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
-head:   ae5732f1c245c24e63c885992c35f723f36f79ff
-commit: 47301ab5762a101097a4c924722ffdb4f36776a2 [61/205] xfs: check rt summary file geometry more thoroughly
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: x86_64-randconfig-161-20231211 (https://download.01.org/0day-ci/archive/20231211/202312111046.AVIXqABS-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20231211/202312111046.AVIXqABS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
+commit: 70912985545adc81716164271401c9ffb0acdd0f efi: libstub: Implement devicepath support for initrd commandline loader
+date:   1 year, 1 month ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: i386-randconfig-141-20231010 (https://download.01.org/0day-ci/archive/20231211/202312111112.Tnr7f5fO-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231211/202312111112.Tnr7f5fO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312111046.AVIXqABS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312111112.Tnr7f5fO-lkp@intel.com/
 
 smatch warnings:
-fs/xfs/scrub/rtsummary.c:288 xchk_rtsum_compare() warn: missing error code? 'error'
+drivers/firmware/efi/libstub/file.c:147 efi_open_device_path() error: we previously assumed 'text_to_dp' could be null (see line 140)
 
-vim +/error +288 fs/xfs/scrub/rtsummary.c
+vim +/text_to_dp +147 drivers/firmware/efi/libstub/file.c
 
-526aab5f5790e2 Darrick J. Wong 2023-08-10  219  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  220  /* Compare the rtsummary file against the one we computed. */
-526aab5f5790e2 Darrick J. Wong 2023-08-10  221  STATIC int
-526aab5f5790e2 Darrick J. Wong 2023-08-10  222  xchk_rtsum_compare(
-526aab5f5790e2 Darrick J. Wong 2023-08-10  223  	struct xfs_scrub	*sc)
-526aab5f5790e2 Darrick J. Wong 2023-08-10  224  {
-526aab5f5790e2 Darrick J. Wong 2023-08-10  225  	struct xfs_bmbt_irec	map;
-47301ab5762a10 Darrick J. Wong 2023-10-13  226  	struct xfs_iext_cursor	icur;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  227  
-47301ab5762a10 Darrick J. Wong 2023-10-13  228  	struct xfs_mount	*mp = sc->mp;
-47301ab5762a10 Darrick J. Wong 2023-10-13  229  	struct xfs_inode	*ip = sc->ip;
-47301ab5762a10 Darrick J. Wong 2023-10-13  230  	struct xchk_rtsummary	*rts = sc->buf;
-47301ab5762a10 Darrick J. Wong 2023-10-13  231  	xfs_fileoff_t		off = 0;
-47301ab5762a10 Darrick J. Wong 2023-10-13  232  	xfs_fileoff_t		endoff;
-47301ab5762a10 Darrick J. Wong 2023-10-13  233  	xfs_rtsumoff_t		sumoff = 0;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  234  	int			error = 0;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  235  
-47301ab5762a10 Darrick J. Wong 2023-10-13  236  	rts->args.mp = sc->mp;
-47301ab5762a10 Darrick J. Wong 2023-10-13  237  	rts->args.tp = sc->tp;
-47301ab5762a10 Darrick J. Wong 2023-10-13  238  
-47301ab5762a10 Darrick J. Wong 2023-10-13  239  	/* Mappings may not cross or lie beyond EOF. */
-47301ab5762a10 Darrick J. Wong 2023-10-13  240  	endoff = XFS_B_TO_FSB(mp, ip->i_disk_size);
-47301ab5762a10 Darrick J. Wong 2023-10-13  241  	if (xfs_iext_lookup_extent(ip, &ip->i_df, endoff, &icur, &map)) {
-47301ab5762a10 Darrick J. Wong 2023-10-13  242  		xchk_fblock_set_corrupt(sc, XFS_DATA_FORK, endoff);
-47301ab5762a10 Darrick J. Wong 2023-10-13  243  		return 0;
-47301ab5762a10 Darrick J. Wong 2023-10-13  244  	}
-47301ab5762a10 Darrick J. Wong 2023-10-13  245  
-47301ab5762a10 Darrick J. Wong 2023-10-13  246  	while (off < endoff) {
-47301ab5762a10 Darrick J. Wong 2023-10-13  247  		int		nmap = 1;
-47301ab5762a10 Darrick J. Wong 2023-10-13  248  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  249  		if (xchk_should_terminate(sc, &error))
-526aab5f5790e2 Darrick J. Wong 2023-08-10  250  			return error;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  251  		if (sc->sm->sm_flags & XFS_SCRUB_OFLAG_CORRUPT)
-526aab5f5790e2 Darrick J. Wong 2023-08-10  252  			return 0;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  253  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  254  		/* Make sure we have a written extent. */
-47301ab5762a10 Darrick J. Wong 2023-10-13  255  		error = xfs_bmapi_read(ip, off, endoff - off, &map, &nmap,
-526aab5f5790e2 Darrick J. Wong 2023-08-10  256  				XFS_DATA_FORK);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  257  		if (!xchk_fblock_process_error(sc, XFS_DATA_FORK, off, &error))
-526aab5f5790e2 Darrick J. Wong 2023-08-10  258  			return error;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  259  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  260  		if (nmap != 1 || !xfs_bmap_is_written_extent(&map)) {
-526aab5f5790e2 Darrick J. Wong 2023-08-10  261  			xchk_fblock_set_corrupt(sc, XFS_DATA_FORK, off);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  262  			return 0;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  263  		}
-526aab5f5790e2 Darrick J. Wong 2023-08-10  264  
-47301ab5762a10 Darrick J. Wong 2023-10-13  265  		off += map.br_blockcount;
-47301ab5762a10 Darrick J. Wong 2023-10-13  266  	}
-47301ab5762a10 Darrick J. Wong 2023-10-13  267  
-47301ab5762a10 Darrick J. Wong 2023-10-13  268  	for (off = 0; off < endoff; off++) {
-47301ab5762a10 Darrick J. Wong 2023-10-13  269  		union xfs_suminfo_raw	*ondisk_info;
-47301ab5762a10 Darrick J. Wong 2023-10-13  270  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  271  		/* Read a block's worth of ondisk rtsummary file. */
-47301ab5762a10 Darrick J. Wong 2023-10-13  272  		error = xfs_rtsummary_read_buf(&rts->args, off);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  273  		if (!xchk_fblock_process_error(sc, XFS_DATA_FORK, off, &error))
-526aab5f5790e2 Darrick J. Wong 2023-08-10  274  			return error;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  275  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  276  		/* Read a block's worth of computed rtsummary file. */
-47301ab5762a10 Darrick J. Wong 2023-10-13  277  		error = xfsum_copyout(sc, sumoff, rts->words, mp->m_blockwsize);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  278  		if (error) {
-47301ab5762a10 Darrick J. Wong 2023-10-13  279  			xfs_rtbuf_cache_relse(&rts->args);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  280  			return error;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  281  		}
-526aab5f5790e2 Darrick J. Wong 2023-08-10  282  
-47301ab5762a10 Darrick J. Wong 2023-10-13  283  		ondisk_info = xfs_rsumblock_infoptr(&rts->args, 0);
-47301ab5762a10 Darrick J. Wong 2023-10-13  284  		if (memcmp(ondisk_info, rts->words,
-47301ab5762a10 Darrick J. Wong 2023-10-13  285  					mp->m_blockwsize << XFS_WORDLOG) != 0) {
-526aab5f5790e2 Darrick J. Wong 2023-08-10  286  			xchk_fblock_set_corrupt(sc, XFS_DATA_FORK, off);
-47301ab5762a10 Darrick J. Wong 2023-10-13  287  			xfs_rtbuf_cache_relse(&rts->args);
-47301ab5762a10 Darrick J. Wong 2023-10-13 @288  			return error;
-47301ab5762a10 Darrick J. Wong 2023-10-13  289  		}
-526aab5f5790e2 Darrick J. Wong 2023-08-10  290  
-47301ab5762a10 Darrick J. Wong 2023-10-13  291  		xfs_rtbuf_cache_relse(&rts->args);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  292  		sumoff += mp->m_blockwsize;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  293  	}
-526aab5f5790e2 Darrick J. Wong 2023-08-10  294  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  295  	return 0;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  296  }
-526aab5f5790e2 Darrick J. Wong 2023-08-10  297  
+9302c1bb8e4758 Ard Biesheuvel 2020-02-10  126  
+70912985545adc Ard Biesheuvel 2022-09-26  127  static efi_status_t efi_open_device_path(efi_file_protocol_t **volume,
+70912985545adc Ard Biesheuvel 2022-09-26  128  					 struct finfo *fi)
+70912985545adc Ard Biesheuvel 2022-09-26  129  {
+70912985545adc Ard Biesheuvel 2022-09-26  130  	efi_guid_t text_to_dp_guid = EFI_DEVICE_PATH_FROM_TEXT_PROTOCOL_GUID;
+70912985545adc Ard Biesheuvel 2022-09-26  131  	static efi_device_path_from_text_protocol_t *text_to_dp = NULL;
+70912985545adc Ard Biesheuvel 2022-09-26  132  	efi_guid_t fs_proto = EFI_FILE_SYSTEM_GUID;
+70912985545adc Ard Biesheuvel 2022-09-26  133  	efi_device_path_protocol_t *initrd_dp;
+70912985545adc Ard Biesheuvel 2022-09-26  134  	efi_simple_file_system_protocol_t *io;
+70912985545adc Ard Biesheuvel 2022-09-26  135  	struct efi_file_path_dev_path *fpath;
+70912985545adc Ard Biesheuvel 2022-09-26  136  	efi_handle_t handle;
+70912985545adc Ard Biesheuvel 2022-09-26  137  	efi_status_t status;
+70912985545adc Ard Biesheuvel 2022-09-26  138  
+70912985545adc Ard Biesheuvel 2022-09-26  139  	/* See if the text to device path protocol exists */
+70912985545adc Ard Biesheuvel 2022-09-26 @140  	if (!text_to_dp &&
+70912985545adc Ard Biesheuvel 2022-09-26  141  	    efi_bs_call(locate_protocol, &text_to_dp_guid, NULL,
+70912985545adc Ard Biesheuvel 2022-09-26  142  			(void **)&text_to_dp) != EFI_SUCCESS)
+70912985545adc Ard Biesheuvel 2022-09-26  143  		return EFI_UNSUPPORTED;
+70912985545adc Ard Biesheuvel 2022-09-26  144  
+70912985545adc Ard Biesheuvel 2022-09-26  145  
+70912985545adc Ard Biesheuvel 2022-09-26  146  	/* Convert the filename wide string into a device path */
+70912985545adc Ard Biesheuvel 2022-09-26 @147  	initrd_dp = text_to_dp->convert_text_to_device_path(fi->filename);
+70912985545adc Ard Biesheuvel 2022-09-26  148  
+70912985545adc Ard Biesheuvel 2022-09-26  149  	/* Check whether the device path in question implements simple FS */
+70912985545adc Ard Biesheuvel 2022-09-26  150  	if ((efi_bs_call(locate_device_path, &fs_proto, &initrd_dp, &handle) ?:
+70912985545adc Ard Biesheuvel 2022-09-26  151  	     efi_bs_call(handle_protocol, handle, &fs_proto, (void **)&io))
+70912985545adc Ard Biesheuvel 2022-09-26  152  	    != EFI_SUCCESS)
+70912985545adc Ard Biesheuvel 2022-09-26  153  		return EFI_NOT_FOUND;
+70912985545adc Ard Biesheuvel 2022-09-26  154  
+70912985545adc Ard Biesheuvel 2022-09-26  155  	/* Check whether the remaining device path is a file device path */
+70912985545adc Ard Biesheuvel 2022-09-26  156  	if (initrd_dp->type != EFI_DEV_MEDIA ||
+70912985545adc Ard Biesheuvel 2022-09-26  157  	    initrd_dp->sub_type != EFI_DEV_MEDIA_FILE) {
+70912985545adc Ard Biesheuvel 2022-09-26  158  		efi_warn("Unexpected device path node type: (%x, %x)\n",
+70912985545adc Ard Biesheuvel 2022-09-26  159  			 initrd_dp->type, initrd_dp->sub_type);
+70912985545adc Ard Biesheuvel 2022-09-26  160  		return EFI_LOAD_ERROR;
+70912985545adc Ard Biesheuvel 2022-09-26  161  	}
+70912985545adc Ard Biesheuvel 2022-09-26  162  
+70912985545adc Ard Biesheuvel 2022-09-26  163  	/* Copy the remaining file path into the fi structure */
+70912985545adc Ard Biesheuvel 2022-09-26  164  	fpath = (struct efi_file_path_dev_path *)initrd_dp;
+70912985545adc Ard Biesheuvel 2022-09-26  165  	memcpy(fi->filename, fpath->filename,
+70912985545adc Ard Biesheuvel 2022-09-26  166  	       min(sizeof(fi->filename),
+70912985545adc Ard Biesheuvel 2022-09-26  167  		   fpath->header.length - sizeof(fpath->header)));
+70912985545adc Ard Biesheuvel 2022-09-26  168  
+70912985545adc Ard Biesheuvel 2022-09-26  169  	status = io->open_volume(io, volume);
+70912985545adc Ard Biesheuvel 2022-09-26  170  	if (status != EFI_SUCCESS)
+70912985545adc Ard Biesheuvel 2022-09-26  171  		efi_err("Failed to open volume\n");
+70912985545adc Ard Biesheuvel 2022-09-26  172  
+70912985545adc Ard Biesheuvel 2022-09-26  173  	return status;
+70912985545adc Ard Biesheuvel 2022-09-26  174  }
+70912985545adc Ard Biesheuvel 2022-09-26  175  
 
 -- 
 0-DAY CI Kernel Test Service
