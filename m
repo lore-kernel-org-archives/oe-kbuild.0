@@ -1,146 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4C065A76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125C865A84
 	for <oe-kbuild@lists.linux.dev>; Tue, 12 Dec 2023 21:16:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MXPyYgmM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cBlGUjvu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1702415768; x=1733951768;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=TTs6vor+FgCfXx8thtTFiEaIfI4cbvUdLQ6pNQMUmqA=;
-  b=MXPyYgmMaPOUESIY63CpHXAnraCAOFE8MmEvBbP/CAz30KH3ADFMMxQF
-   TANrdgiLp4cSTSJeqpmf9O+m73BNxeOsL93OXxBlWBEZkB0KdxO+zgVVF
-   u14ttINoszzAlV/KnDeinkd7uuzCeVLzU0pOO6ILXkpDp+gRKE6K4P/ae
-   YidokHlGLpQDnm5qfMTfn5BCIkOVrp3cAMhnlPwUQNgVaot0Aw4fVQzNh
-   ym1hkVkjZJrG4a/XYFLJepSPTKvPeKHplO9tRc6CFNbao5VgJO9v6fZab
-   /493JYOcyUUCEfWlCRRIAKERWxUFd+3WYM27iBG3GxGbe0WWFwuCHltwT
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=d6QmHvNSiYBZbtKN9cB/tx91dlMw8CuZcRvhDWbpAI4=;
+  b=cBlGUjvuEZTPvJSWdxZX1OspA3WUX5s+H2CtSymoa45BQuDyz0gr+u2o
+   R94ryy212AKxSYcmwjJKgxNlusPNJfjbE0JCVgPkSAs1oPZsgIAn7tflB
+   N4mvLx3Djp0074ErGkZbpq0JifmLGtPnhuXw8+Bz5/5gn5k4VQQQllJwJ
+   2QqyDATlg8MVSoL6gjMQESew07+nP1YTrASwon5boNxVjgJy8AJpnwm/K
+   N60vTHVz1cMfUoqye26RX54TMAJFvODYB7YiRdusVToXbNbBTsh0AcNqi
+   e4Ke6M5BUlZCKkwySTqI7J+LTIT43Sa0xvqj/N6UTnxsQ9TtzCQcLhOrX
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="481069102"
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="375024823"
 X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="481069102"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 13:16:07 -0800
+   d="scan'208";a="375024823"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 13:16:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="802620879"
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="917421050"
 X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="802620879"
+   d="scan'208";a="917421050"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 12 Dec 2023 13:16:05 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 12 Dec 2023 13:16:05 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDA6l-000Jjv-0x;
+	id 1rDA6l-000Jjx-14;
 	Tue, 12 Dec 2023 21:16:03 +0000
-Date: Wed, 13 Dec 2023 05:15:54 +0800
+Date: Wed, 13 Dec 2023 05:15:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/pci/controller/pcie-xilinx-dma-pl.c:638
- xilinx_pl_dma_pcie_setup_irq() error: uninitialized symbol 'irq'.
-Message-ID: <202312130522.lsamDIka-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>,
+	Elena Reshetova <elena.reshetova@intel.com>
+Subject: [djwong-xfs:xfile-page-caching 153/205]
+ fs/xfs/xfs_swapext_item.c:61:5-24: WARNING: atomic_dec_and_test variation
+ before object free at line 62.
+Message-ID: <202312130510.ynNaaxfS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Thippeswamy Havalige <thippeswamy.havalige@amd.com>
-CC: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-CC: Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   eaadbbaaff74ac9a7f84f412fbaac221a04896c1
-commit: 8d786149d78c7784144c7179e25134b6530b714b PCI: xilinx-xdma: Add Xilinx XDMA Root Port driver
-date:   7 weeks ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 7 weeks ago
-config: riscv-randconfig-r071-20231211 (https://download.01.org/0day-ci/archive/20231213/202312130522.lsamDIka-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231213/202312130522.lsamDIka-lkp@intel.com/reproduce)
+Hi Darrick,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
+head:   ae5732f1c245c24e63c885992c35f723f36f79ff
+commit: a562ed8cb6973bf07f2ddf4e49f1386ef4e7a5ce [153/205] xfs: create deferred log items for extent swapping
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: x86_64-randconfig-102-20231212 (https://download.01.org/0day-ci/archive/20231213/202312130510.ynNaaxfS-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231213/202312130510.ynNaaxfS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312130522.lsamDIka-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202312130510.ynNaaxfS-lkp@intel.com/
 
-New smatch warnings:
-drivers/pci/controller/pcie-xilinx-dma-pl.c:638 xilinx_pl_dma_pcie_setup_irq() error: uninitialized symbol 'irq'.
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/xfs_swapext_item.c:61:5-24: WARNING: atomic_dec_and_test variation before object free at line 62.
 
-Old smatch warnings:
-drivers/pci/controller/pcie-xilinx-dma-pl.c:579 xilinx_pl_dma_pcie_init_irq_domain() warn: passing zero to 'PTR_ERR'
-drivers/pci/controller/pcie-xilinx-dma-pl.c:645 xilinx_pl_dma_pcie_setup_irq() error: uninitialized symbol 'irq'.
+vim +61 fs/xfs/xfs_swapext_item.c
 
-vim +/irq +638 drivers/pci/controller/pcie-xilinx-dma-pl.c
+2db151f2e053ec Darrick J. Wong 2023-03-06  48  
+2db151f2e053ec Darrick J. Wong 2023-03-06  49  /*
+2db151f2e053ec Darrick J. Wong 2023-03-06  50   * Freeing the SXI requires that we remove it from the AIL if it has already
+2db151f2e053ec Darrick J. Wong 2023-03-06  51   * been placed there. However, the SXI may not yet have been placed in the AIL
+2db151f2e053ec Darrick J. Wong 2023-03-06  52   * when called by xfs_sxi_release() from SXD processing due to the ordering of
+2db151f2e053ec Darrick J. Wong 2023-03-06  53   * committed vs unpin operations in bulk insert operations. Hence the reference
+2db151f2e053ec Darrick J. Wong 2023-03-06  54   * count to ensure only the last caller frees the SXI.
+2db151f2e053ec Darrick J. Wong 2023-03-06  55   */
+2db151f2e053ec Darrick J. Wong 2023-03-06  56  STATIC void
+2db151f2e053ec Darrick J. Wong 2023-03-06  57  xfs_sxi_release(
+2db151f2e053ec Darrick J. Wong 2023-03-06  58  	struct xfs_sxi_log_item	*sxi_lip)
+2db151f2e053ec Darrick J. Wong 2023-03-06  59  {
+2db151f2e053ec Darrick J. Wong 2023-03-06  60  	ASSERT(atomic_read(&sxi_lip->sxi_refcount) > 0);
+2db151f2e053ec Darrick J. Wong 2023-03-06 @61  	if (atomic_dec_and_test(&sxi_lip->sxi_refcount)) {
+2db151f2e053ec Darrick J. Wong 2023-03-06 @62  		xfs_trans_ail_delete(&sxi_lip->sxi_item, 0);
+2db151f2e053ec Darrick J. Wong 2023-03-06  63  		xfs_sxi_item_free(sxi_lip);
+2db151f2e053ec Darrick J. Wong 2023-03-06  64  	}
+2db151f2e053ec Darrick J. Wong 2023-03-06  65  }
+2db151f2e053ec Darrick J. Wong 2023-03-06  66  
 
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  595  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  596  static int xilinx_pl_dma_pcie_setup_irq(struct pl_dma_pcie *port)
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  597  {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  598  	struct device *dev = port->dev;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  599  	struct platform_device *pdev = to_platform_device(dev);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  600  	int i, irq, err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  601  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  602  	port->irq = platform_get_irq(pdev, 0);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  603  	if (port->irq < 0)
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  604  		return port->irq;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  605  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  606  	for (i = 0; i < ARRAY_SIZE(intr_cause); i++) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  607  		int err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  608  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  609  		if (!intr_cause[i].str)
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  610  			continue;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  611  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  612  		irq = irq_create_mapping(port->pldma_domain, i);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  613  		if (!irq) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  614  			dev_err(dev, "Failed to map interrupt\n");
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  615  			return -ENXIO;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  616  		}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  617  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  618  		err = devm_request_irq(dev, irq,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  619  				       xilinx_pl_dma_pcie_intr_handler,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  620  				       IRQF_SHARED | IRQF_NO_THREAD,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  621  				       intr_cause[i].sym, port);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  622  		if (err) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  623  			dev_err(dev, "Failed to request IRQ %d\n", irq);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  624  			return err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  625  		}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  626  	}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  627  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  628  	port->intx_irq = irq_create_mapping(port->pldma_domain,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  629  					    XILINX_PCIE_INTR_INTX);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  630  	if (!port->intx_irq) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  631  		dev_err(dev, "Failed to map INTx interrupt\n");
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  632  		return -ENXIO;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  633  	}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  634  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  635  	err = devm_request_irq(dev, port->intx_irq, xilinx_pl_dma_pcie_intx_flow,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  636  			       IRQF_SHARED | IRQF_NO_THREAD, NULL, port);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  637  	if (err) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03 @638  		dev_err(dev, "Failed to request INTx IRQ %d\n", irq);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  639  		return err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  640  	}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  641  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  642  	err = devm_request_irq(dev, port->irq, xilinx_pl_dma_pcie_event_flow,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  643  			       IRQF_SHARED | IRQF_NO_THREAD, NULL, port);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  644  	if (err) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  645  		dev_err(dev, "Failed to request event IRQ %d\n", irq);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  646  		return err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  647  	}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  648  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  649  	return 0;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  650  }
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  651  
+:::::: The code at line 61 was first introduced by commit
+:::::: 2db151f2e053ec58ea6f4a37325eec5aff35d5f5 xfs: introduce a swap-extent log intent item
+
+:::::: TO: Darrick J. Wong <djwong@kernel.org>
+:::::: CC: Darrick J. Wong <djwong@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
