@@ -1,212 +1,359 @@
-Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01olkn2040.outbound.protection.outlook.com [40.92.102.40])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6CE2F32;
-	Tue, 12 Dec 2023 00:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB19F181
+	for <oe-kbuild@lists.linux.dev>; Tue, 12 Dec 2023 00:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="axDryxlZ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XgLtPsIeTjGTdyKVpP8umzLWwLXi0c1AH1hWVaeiQJiPDTbveGD3iiGu6y1CS0A+G29jEDxGPBpLjwZCW06oJSd7fmKSS1p5kVUPvgV/5rJ3cf4oCp0MA6WoHbqG9dJ7NVNjBsZWr05zQBplkEBQlyarKhg1RfMKwZwfBmootow2PUX6HZ3vbYPWQ1UwbhHeJA/inVB1cCTbbCXH5hYSECpN5blnlN+Itwip3sURa9NbFfaupi7SMpyZ52FXwQKcoGAAr9VrBBlINTsevfONvlwY9iR4LUIZ3+Z2v6Z7UarkLM3Q4pzSNKkLBBO/bPf5Uy0D3xBFbHmUNNy7fqPTmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qwfZoU4rKG+O2DDRH0pULZuKZ9xSueVisdie4Qy9ztw=;
- b=DpK8sud9zCyQaA5Za/SV5l/RAfRrRkVCfmH/G5IdRDdhObgVS2qciQJPP/oUfvVAac6lXaajL/FG0RViPfItP9Lo4SSHHnqvjP4vnRjBwgKM6W4ejKUXFieTljEJfXkuY7M283Vrat3Ue2is0CzGHsdfOFLRPRdT6zU72K050ThaqQlvO+UvvwDH5WMsqftoZ1oJlB+PVMnPWQNq5+w/QfXYSbwtC8B4/6EVVq5RUArvqqMAvP9bd7XGrSXreqUy+Vj7okB76z1YDcgMTFTXmksbQf/IwUHc+6BKzg+ofRYFNpPHBT4/neXg2ZUvojUtunm0gOmoYB7P4nsX44PqMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qwfZoU4rKG+O2DDRH0pULZuKZ9xSueVisdie4Qy9ztw=;
- b=axDryxlZ7/mqQgBSYkdoEMUvagploqaNaQI6tbUBCH/a5BZf8OvFKC7qcCOS9NiPdLBz8OjXnWuhOxsWxf6tRhjrkBT+HiOqzHnGwXa85LsnJvxFBqT+lu4GhRtknjQacA6SOd166yaJj1kjfIQ8DDe5/l4f2Z3qbiE3Ec9Imd1iq8nYBVrmkF9MrLPBOSXdR8PLr4A1AdFw/bsF1yiCI2mymG87+jjY9prTrx/JS1hMUo6J0smvpYVUhq5pEDlAkwmU0te81xFoqiNt4V3EZFhJ9q+cru017K6VASmjCWBmbG3tuRxOedHKKs6bqwulI8rCqCc71ydB8gRXm33ijQ==
-Received: from MA0P287MB0332.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:ab::5) by
- PN2P287MB0908.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:134::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7068.33; Tue, 12 Dec 2023 00:05:42 +0000
-Received: from MA0P287MB0332.INDP287.PROD.OUTLOOK.COM
- ([fe80::b1a7:eee7:e903:9ef3]) by MA0P287MB0332.INDP287.PROD.OUTLOOK.COM
- ([fe80::b1a7:eee7:e903:9ef3%7]) with mapi id 15.20.7068.033; Tue, 12 Dec 2023
- 00:05:42 +0000
-Message-ID:
- <MA0P287MB03321C6BF0556663B129A0E1FE8EA@MA0P287MB0332.INDP287.PROD.OUTLOOK.COM>
-Date: Tue, 12 Dec 2023 08:05:32 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/4] clk: sophgo: Add SG2042 clock generator driver
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Chen Wang <unicornxw@gmail.com>, aou@eecs.berkeley.edu, chao.wei@sophgo.com,
- conor@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- mturquette@baylibre.com, palmer@dabbelt.com, paul.walmsley@sifive.com,
- richardcochran@gmail.com, robh+dt@kernel.org, sboyd@kernel.org,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- haijiao.liu@sophgo.com, xiaoguang.xing@sophgo.com, guoren@kernel.org,
- jszhang@kernel.org, inochiama@outlook.com, samuel.holland@sifive.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <1a6e3fad-cbe2-461d-940c-601ab5197213@suswa.mountain>
-From: Chen Wang <unicorn_wang@outlook.com>
-In-Reply-To: <1a6e3fad-cbe2-461d-940c-601ab5197213@suswa.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TMN: [RNVkoVAqVWEupqnPK/J/FeKjzEJw05EU]
-X-ClientProxiedBy: SI1PR02CA0060.apcprd02.prod.outlook.com
- (2603:1096:4:1f5::17) To MA0P287MB0332.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:ab::5)
-X-Microsoft-Original-Message-ID:
- <434edec6-4766-4944-9d0f-7067a5548d16@outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oIKiqu47"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702340308; x=1733876308;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4dxKasTPXdh4IrnoFkl5sdOK2iAOz9t5JOyM1epTC9s=;
+  b=oIKiqu47wfLDt4R3Whfd27Ty6a7NFEmDLjBWjE1+6OqxtxVTyXHGA2fG
+   Ff3Lfii5e9P9dtb0t0ovv4UocvmSAylcUMLJ1sh2Ksa4Sfx9qm9KI5Z4j
+   NYx6ppdhXBsypUjp8VwF4ObXYSSgs1a+bjwIauTYUc7872ViVM71wfTMC
+   L8cBIdEl/i7LYDjf90uvWRnf40TYNbWtGnMdNeIbrPE8bx3YjViWfKPT7
+   zkcvN6JN31jaz3nHUuY24s6szGdyGHZtTr+/I69kntad27Q+jON9gIv/a
+   xCxbQy/vVfTdtpuUYnEzVFmsBxzOUrxIMyx+GcHsUWqA2vJXTgL7UXd5P
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="13423287"
+X-IronPort-AV: E=Sophos;i="6.04,269,1695711600"; 
+   d="scan'208";a="13423287"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 16:18:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="749495203"
+X-IronPort-AV: E=Sophos;i="6.04,269,1695711600"; 
+   d="scan'208";a="749495203"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 11 Dec 2023 16:18:24 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rCqTe-000IbJ-2T;
+	Tue, 12 Dec 2023 00:18:22 +0000
+Date: Tue, 12 Dec 2023 08:17:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/hamradio/scc.c:1748 scc_net_siocdevprivate() warn:
+ potential spectre issue 'Ivec' [w]
+Message-ID: <202312120826.wrConx3j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MA0P287MB0332:EE_|PN2P287MB0908:EE_
-X-MS-Office365-Filtering-Correlation-Id: d4c86a93-261d-4349-7e89-08dbfaa61306
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VU4zL0Z3Z09zN3FMM29rYlcyYnppRk9YR3dFV3Iya3o0dGZYY3owTE1DV3F3?=
- =?utf-8?B?blo1Nkxlc0pzZmxIVXRnOTdRWDIxMC82ajlxd09FYXNLYk9OSytMejBRc2pX?=
- =?utf-8?B?b1lMRERKT3BIWFQ2NDdKSGEvL3FEUU1lb0JEaHBnMFV0MVFJQnFFTWtKOGht?=
- =?utf-8?B?SzV2V1FaVnh1d3hHQUNrUG5zYXdwK09oMFk3dUsvaVVYOWlWU0ROZU5oNFNC?=
- =?utf-8?B?bEk4bXFyS2diUUNTdzEyNmpNYTZ6cHhtbVVpYTFEcFV6ZlhBbjA5TlBNdXd5?=
- =?utf-8?B?RnowdXhmOFdnOTN4Qm9pU0dQSmVZbnFGZm9iZzJrQW91bGxGVVQrWTNwZWV2?=
- =?utf-8?B?dGdZSXBuZllPczE5bUVMRzZ0eVB0R3V3cTVhbDFvVWxPUCt3YkpRS01YMWU3?=
- =?utf-8?B?a1haaTNCd3ltZ255Zi82azBtUENvMXN3bGVpWktpeWdvQ1VJRGYyL3czNiti?=
- =?utf-8?B?czluSWYzL01UdEtqVkUzUkdpVXQzNEVRQ2dlNkg5b0wxWEtFamhtRzNMbms0?=
- =?utf-8?B?ZkZuK1dQYm1YY3lmZTRtR2NWRmlqN0IzS0FlUjVlNUNBLzB1Y1FoYlk3T2sz?=
- =?utf-8?B?dEdFTmZnaEVoQUU3akwvTHVMbWFFN1hQVmRVUzUzRUZpTGd6TFFFU2tjZkNU?=
- =?utf-8?B?QTQ4QUoreXErK0JxVWN0Q2x4TDdKYjJ6dVN1L2ZYL3RyZE5pMXRualJXZVdn?=
- =?utf-8?B?TWgxd1ZRQkJENEU5RzZDZE1qRU5aeXJTSTFyeWJVa01pY0Q0eG9VZzFzNFc5?=
- =?utf-8?B?WHRVbEhLejdvM3Y3SlRQYVhNa2F1dHBkbmJFQzJPKzh5cmVMYjh3Ym9xQzE4?=
- =?utf-8?B?TkcxZTV5Wm1IV0Y3ajFTaldmWHFRUUpSU2FwdVlBc0pTamtUVXlyWWFrUnpI?=
- =?utf-8?B?Z2JkWDRCTkJoNGRQaGhxejAyajQ0emZiUExKN095dHZ2UllaVHBIcTNhbjRs?=
- =?utf-8?B?RnhpQUxwaS8zN1l5WGRpaFlKWmFwcWhiQ3oycUgwRUo3NkthczZxWUpHRXZ5?=
- =?utf-8?B?SDVHNitMWE42ZjhwQzFremRMSjVmZm5tanZzTnAzUFh5Mnp5Mm9HYzRmM2Q5?=
- =?utf-8?B?dmJCSmNXelBCUFJ3MTJRVnNDMG5tYzM4dmNVWkt0eHdRZjBGcFF0UW9HNWYv?=
- =?utf-8?B?ZEg5allWTFpCcE8rY0VQTDhZTmxWbS9KRE5mSGZzTUFQZFBwRHVSVjVxSjd3?=
- =?utf-8?B?OWwwYzlPa1NVVnNlTExqbVNJaWhIUndBVzZsZ3FWek45U0ladDZHTnRlNnIv?=
- =?utf-8?B?eHg1UzR4RHgrSmFPNWpUc0ZIcXFxSElDaVo1SENMVHREVStsSVkxUWVPUnVF?=
- =?utf-8?B?VmdicW1LQmJKQUVncEVFNzRFV2Y4TkcxVzlERmpTL3RpcTUvcURaS3lCL0hu?=
- =?utf-8?B?K3JlU0tmdTBRWmplNmhNL0N4TnJ4ZDFQRGpPMFVZRkNsVEtNT3VMRDFJWm9n?=
- =?utf-8?B?YUxkSXFCeW9sN0FtdGVuNW40Tnl6dkZ2cHJOYjBDeU9xNndTNnF6aDBNMVRS?=
- =?utf-8?Q?ztT7AQ=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZmtkeGg5V1ViQmJ4azEwR2pHUm1yNWY0a3VEWU05UVVWWUdmK21OL1NlTXpD?=
- =?utf-8?B?R2srWTN1VFhwUFdBZlFyTklsVTdnWXNOUnQyN2tUMktidk9mU2VYRS82VDdt?=
- =?utf-8?B?K044MHViWVFxV0pjN1VPdnFWajNZRHNmdXFiY0xvcWJ6NTkxSDQwVkk0M2Fu?=
- =?utf-8?B?ODcrMzIwcU13ZGRjbWNYUllhU1lBanVKMUpFcjJDVEJLZzMzOVBDV25JeFpI?=
- =?utf-8?B?TzFxcHhKQ0N6Y21KZ255d09oQ0J0dE9USEcyM2tGb3J3UGlhU3A1anY4dElV?=
- =?utf-8?B?bWQzZFV1ZVg0MEJUeTZtcCt6c09oaThuM2hHN3FQeVlycTl0T08xYW5vbFNy?=
- =?utf-8?B?ZnlEenlTcUYyQStONDRneTNqeHUxNWNyam81eDB4T203b2R2QXBRNmxmNlBK?=
- =?utf-8?B?WkNDcEx0VEtMT1V5Ti9sK2FKTU84bkdsbHNsKzdvZzlkTjlHT2g2V1AzbnBJ?=
- =?utf-8?B?Nkg4cnRFY1lsRnNqU3ZTQ005Uzk1eUhHWVlPTzV0UnhhNTRuQy94Tll3b1Np?=
- =?utf-8?B?VmhLVVdZTW02Tmp0T05CUHJWeGdnUWw1S2RzOUcyN25xQ2V3dGJMbWdXRzQ1?=
- =?utf-8?B?dVF2cmxNS3ArRmZIMnp0SktMRElsOW9hVE5iL1YzVGRTWGdQb0ZpbUZJTWxP?=
- =?utf-8?B?YlQyZytNZWpKbWNjSG9Jdjg1aG9Pd2Q0VWI2eU9JSnI4a25xQ0NZRVFhVW5T?=
- =?utf-8?B?NUU4M1JLRU9zOXJEVW9SRDBpakd5NVp2enlaTnNOdTNySE1Zbk1TWkRlR0dL?=
- =?utf-8?B?RHZMMFdIUHI2dGRiSXFKdCtoNS9tQW5sd01Td3JyMmZwUXFFLzU1NVVya1RO?=
- =?utf-8?B?U1JUcHVLVTY2amRkSDhTR0o5T3B1MXRFUE1VNHZGRW5sTDkyZnc0ajR4eTFZ?=
- =?utf-8?B?UUMyamlBSjd4TDBTMnp6N2RWeFFYV2xMVjluVlhuYkRrdkQwajVDL2hmVmlP?=
- =?utf-8?B?OWR2SUpobjVDRGtkUHc4Q1ZzeDVSbHBUYWI5M0FDd2lrakZ4RzY1S0c0Z3h2?=
- =?utf-8?B?RE5HR01iWHB2SnVWV0gyNDhCZnVrUzM5UU5CMWtoRWF4L3Y2cnVaV3g4bzhH?=
- =?utf-8?B?a0N5K0lFbktFTUFYL0ZSWlFzVE80emxxWmwxNnR6dGdvTGczYlZDWTRqTDds?=
- =?utf-8?B?TGE4ejlyUjgyNTV6c0tKVEk1c0tvYlNOWWxwZWs5c0NNbFlVQzA1bTJ3MEpi?=
- =?utf-8?B?QkpxNVY1cUJCVlpKb0c0eFh3VzlHTnBLRTkyNmZGVG81V0NEbXAvNkJwTmFy?=
- =?utf-8?B?bnQra2x0VHErT1dndjhuT042b2VGSk5MaFdVcE5RUlZoTko0c3o5U3dYLzNw?=
- =?utf-8?B?Q245VG5RVU83c05HdFJQT2FKeFhQZDRNQTRQV2lsekZxMXlIWDRDUzdaSmln?=
- =?utf-8?B?REhJMytFcm1Yd2JKQVpvUEJ4N3poWXhPWnpoQzZmdGFjcUlOODZtV2NsREZi?=
- =?utf-8?B?YmdLWFdwczFnZHhTOGxsa1J2UjRRQzdqTDgvb2tzL2xDUUVsTDBOWWppOElO?=
- =?utf-8?B?SVp6M09UVGVKTE0yeDZuK1BMTVFmcnQzYVFxK2R6RXFYTHlCRytuWC92WjBu?=
- =?utf-8?B?b1ZrRVJycitoTEozTTlFTkxnWkNLa2NCWk1LM1VTMjdNS1MwTTVoNnRmcWZz?=
- =?utf-8?Q?EhGOfM+FkI38RlKDf4ouhc8WiP0JLJYl6Dd13P5j99Tw=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4c86a93-261d-4349-7e89-08dbfaa61306
-X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0332.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 00:05:41.1112
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB0908
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Arnd Bergmann <arnd@arndb.de>
 
-On 2023/12/9 14:22, Dan Carpenter wrote:
-> Hi Chen,
->
-> kernel test robot noticed the following build warnings:
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Wang/dt-bindings-soc-sophgo-Add-Sophgo-system-control-module/20231208-091702
-> base:   b85ea95d086471afb4ad062012a4d73cd328fa86
-> patch link:    https://lore.kernel.org/r/d1aa4f76f360ebd7b790a4786641f1b0188dbba8.1701997033.git.unicorn_wang%40outlook.com
-> patch subject: [PATCH v6 3/4] clk: sophgo: Add SG2042 clock generator driver
-> config: xtensa-randconfig-r071-20231208 (https://download.01.org/0day-ci/archive/20231208/202312081933.MUdHNASt-lkp@intel.com/config)
-> compiler: xtensa-linux-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231208/202312081933.MUdHNASt-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202312081933.MUdHNASt-lkp@intel.com/
->
-> smatch warnings:
-> drivers/clk/sophgo/clk-sophgo-sg2042.c:1282 sg2042_clk_init_clk_data() warn: passing zero to 'PTR_ERR'
-Thank you, Dan. I will try to remove this warning in next revision.
->
-> vim +/PTR_ERR +1282 drivers/clk/sophgo/clk-sophgo-sg2042.c
->
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1258  static int __init sg2042_clk_init_clk_data(
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1259  	struct device_node *node,
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1260  	int num_clks,
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1261  	struct sg2042_clk_data **pp_clk_data)
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1262  {
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1263  	int ret = 0;
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1264  	struct sg2042_clk_data *clk_data = NULL;
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1265  	struct device_node *np_syscon;
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1266
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1267  	np_syscon = of_parse_phandle(node, "sophgo,system-ctrl", 0);
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1268  	if (!np_syscon) {
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1269  		pr_err("failed to get system-ctrl node\n");
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1270  		ret = -EINVAL;
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1271  		goto error_out;
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1272  	}
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1273
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1274  	clk_data = kzalloc(struct_size(clk_data, onecell_data.hws, num_clks), GFP_KERNEL);
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1275  	if (!clk_data) {
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1276  		ret = -ENOMEM;
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1277  		goto error_out;
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1278  	}
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1279
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1280  	clk_data->regmap_syscon = device_node_to_regmap(np_syscon);
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1281  	if (IS_ERR_OR_NULL(clk_data->regmap_syscon)) {
-> 7c68ebea1041f9 Chen Wang 2023-12-08 @1282  		pr_err("cannot get regmap_syscon %ld\n", PTR_ERR(clk_data->regmap_syscon));
->
-> I don't think device_node_to_regmap() can return NULL, but if it could
-> then it shouldn't be handled like this:
->
-> https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
->
->
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1283  		ret = -ENODEV;
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1284  		goto cleanup;
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1285  	}
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1286  	clk_data->iobase_syscon = of_iomap(np_syscon, 0);
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1287  	clk_data->iobase = of_iomap(node, 0);
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1288  	clk_data->onecell_data.num = num_clks;
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1289
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1290  	*pp_clk_data = clk_data;
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1291  	return ret;
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1292
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1293  cleanup:
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1294  	kfree(clk_data);
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1295
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1296  error_out:
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1297  	return ret;
-> 7c68ebea1041f9 Chen Wang 2023-12-08  1298  }
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
+commit: 25ec92fbdd23a0a2bfd2bdf489e60ea4f0ae46d1 hamradio: use ndo_siocdevprivate
+date:   2 years, 5 months ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 2 years, 5 months ago
+config: i386-randconfig-141-20231111 (https://download.01.org/0day-ci/archive/20231212/202312120826.wrConx3j-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120826.wrConx3j-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202312120826.wrConx3j-lkp@intel.com/
+
+New smatch warnings:
+drivers/net/hamradio/scc.c:1748 scc_net_siocdevprivate() warn: potential spectre issue 'Ivec' [w]
+drivers/net/hamradio/scc.c:1783 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1946 scc_net_siocdevprivate() warn: 'hwcfg.vector_latch' from __request_region() not released on lines: 1827.
+
+Old smatch warnings:
+drivers/net/hamradio/scc.c:1784 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1785 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1786 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1787 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1788 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1800 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1801 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1802 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1803 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1804 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1822 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1823 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1826 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+
+vim +/Ivec +1748 drivers/net/hamradio/scc.c
+
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1695  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1696  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1697   * SIOCSCCCFG		- configure driver	arg: (struct scc_hw_config *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1698   * SIOCSCCINI		- initialize driver	arg: ---
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1699   * SIOCSCCCHANINI	- initialize channel	arg: (struct scc_modem *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1700   * SIOCSCCSMEM		- set memory		arg: (struct scc_mem_config *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1701   * SIOCSCCGKISS		- get level 1 parameter	arg: (struct scc_kiss_cmd *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1702   * SIOCSCCSKISS		- set level 1 parameter arg: (struct scc_kiss_cmd *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1703   * SIOCSCCGSTAT		- get driver status	arg: (struct scc_stat *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1704   * SIOCSCCCAL		- send calib. pattern	arg: (struct scc_calibrate *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1705   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1706  
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1707  static int scc_net_siocdevprivate(struct net_device *dev,
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1708  				  struct ifreq *ifr, void __user *arg, int cmd)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1709  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1710  	struct scc_kiss_cmd kiss_cmd;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1711  	struct scc_mem_config memcfg;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1712  	struct scc_hw_config hwcfg;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1713  	struct scc_calibrate cal;
+f4bdd264b43cc6 Wang Chen          2008-11-20  1714  	struct scc_channel *scc = (struct scc_channel *) dev->ml_priv;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1715  	int chan;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1716  	unsigned char device_name[IFNAMSIZ];
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1717  	
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1718  	if (!Driver_Initialized)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1719  	{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1720  		if (cmd == SIOCSCCCFG)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1721  		{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1722  			int found = 1;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1723  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1724  			if (!capable(CAP_SYS_RAWIO)) return -EPERM;
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1725  			if (in_compat_syscall())
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1726  				return -EOPNOTSUPP;
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1727  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1728  			if (!arg) return -EFAULT;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1729  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1730  			if (Nchips >= SCC_MAXCHIPS) 
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1731  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1732  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1733  			if (copy_from_user(&hwcfg, arg, sizeof(hwcfg)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1734  				return -EFAULT;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1735  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1736  			if (hwcfg.irq == 2) hwcfg.irq = 9;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1737  
+60e4ad7a72fd7c Yinghai Lu         2008-08-19  1738  			if (hwcfg.irq < 0 || hwcfg.irq >= nr_irqs)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1739  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1740  				
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1741  			if (!Ivec[hwcfg.irq].used && hwcfg.irq)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1742  			{
+1b36efe07f83ec Jeff Garzik        2007-10-29  1743  				if (request_irq(hwcfg.irq, scc_isr,
+9714481e677562 Michael Opdenacker 2013-10-05  1744  						0, "AX.25 SCC",
+1b36efe07f83ec Jeff Garzik        2007-10-29  1745  						(void *)(long) hwcfg.irq))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1746  					printk(KERN_WARNING "z8530drv: warning, cannot get IRQ %d\n", hwcfg.irq);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1747  				else
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @1748  					Ivec[hwcfg.irq].used = 1;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1749  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1750  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1751  			if (hwcfg.vector_latch && !Vector_Latch) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1752  				if (!request_region(hwcfg.vector_latch, 1, "scc vector latch"))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1753  					printk(KERN_WARNING "z8530drv: warning, cannot reserve vector latch port 0x%lx\n, disabled.", hwcfg.vector_latch);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1754  				else
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1755  					Vector_Latch = hwcfg.vector_latch;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1756  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1757  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1758  			if (hwcfg.clock == 0)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1759  				hwcfg.clock = SCC_DEFAULT_CLOCK;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1760  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1761  #ifndef SCC_DONT_CHECK
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1762  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1763  			if(request_region(hwcfg.ctrl_a, 1, "scc-probe"))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1764  			{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1765  				disable_irq(hwcfg.irq);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1766  				Outb(hwcfg.ctrl_a, 0);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1767  				OutReg(hwcfg.ctrl_a, R9, FHWRES);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1768  				udelay(100);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1769  				OutReg(hwcfg.ctrl_a,R13,0x55);		/* is this chip really there? */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1770  				udelay(5);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1771  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1772  				if (InReg(hwcfg.ctrl_a,R13) != 0x55)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1773  					found = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1774  				enable_irq(hwcfg.irq);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1775  				release_region(hwcfg.ctrl_a, 1);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1776  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1777  			else
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1778  				found = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1779  #endif
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1780  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1781  			if (found)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1782  			{
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @1783  				SCC_Info[2*Nchips  ].ctrl = hwcfg.ctrl_a;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1784  				SCC_Info[2*Nchips  ].data = hwcfg.data_a;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1785  				SCC_Info[2*Nchips  ].irq  = hwcfg.irq;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1786  				SCC_Info[2*Nchips+1].ctrl = hwcfg.ctrl_b;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1787  				SCC_Info[2*Nchips+1].data = hwcfg.data_b;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1788  				SCC_Info[2*Nchips+1].irq  = hwcfg.irq;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1789  			
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1790  				SCC_ctrl[Nchips].chan_A = hwcfg.ctrl_a;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1791  				SCC_ctrl[Nchips].chan_B = hwcfg.ctrl_b;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1792  				SCC_ctrl[Nchips].irq    = hwcfg.irq;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1793  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1794  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1795  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1796  			for (chan = 0; chan < 2; chan++)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1797  			{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1798  				sprintf(device_name, "%s%i", SCC_DriverName, 2*Nchips+chan);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1799  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1800  				SCC_Info[2*Nchips+chan].special = hwcfg.special;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1801  				SCC_Info[2*Nchips+chan].clock = hwcfg.clock;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1802  				SCC_Info[2*Nchips+chan].brand = hwcfg.brand;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1803  				SCC_Info[2*Nchips+chan].option = hwcfg.option;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1804  				SCC_Info[2*Nchips+chan].enhanced = hwcfg.escc;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1805  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1806  #ifdef SCC_DONT_CHECK
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1807  				printk(KERN_INFO "%s: data port = 0x%3.3x  control port = 0x%3.3x\n",
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1808  					device_name, 
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1809  					SCC_Info[2*Nchips+chan].data, 
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1810  					SCC_Info[2*Nchips+chan].ctrl);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1811  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1812  #else
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1813  				printk(KERN_INFO "%s: data port = 0x%3.3lx  control port = 0x%3.3lx -- %s\n",
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1814  					device_name,
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1815  					chan? hwcfg.data_b : hwcfg.data_a, 
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1816  					chan? hwcfg.ctrl_b : hwcfg.ctrl_a,
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1817  					found? "found" : "missing");
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1818  #endif
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1819  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1820  				if (found)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1821  				{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1822  					request_region(SCC_Info[2*Nchips+chan].ctrl, 1, "scc ctrl");
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1823  					request_region(SCC_Info[2*Nchips+chan].data, 1, "scc data");
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1824  					if (Nchips+chan != 0 &&
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1825  					    scc_net_alloc(device_name, 
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1826  							  &SCC_Info[2*Nchips+chan]))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1827  					    return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1828  				}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1829  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1830  			
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1831  			if (found) Nchips++;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1832  			
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1833  			return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1834  		}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1835  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1836  		if (cmd == SIOCSCCINI)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1837  		{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1838  			if (!capable(CAP_SYS_RAWIO))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1839  				return -EPERM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1840  				
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1841  			if (Nchips == 0)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1842  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1843  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1844  			z8530_init();
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1845  			return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1846  		}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1847  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1848  		return -EINVAL;	/* confuse the user */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1849  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1850  	
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1851  	if (!scc->init)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1852  	{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1853  		if (cmd == SIOCSCCCHANINI)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1854  		{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1855  			if (!capable(CAP_NET_ADMIN)) return -EPERM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1856  			if (!arg) return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1857  			
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1858  			scc->stat.bufsize   = SCC_BUFSIZE;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1859  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1860  			if (copy_from_user(&scc->modem, arg, sizeof(struct scc_modem)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1861  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1862  			
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1863  			/* default KISS Params */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1864  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1865  			if (scc->modem.speed < 4800)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1866  			{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1867  				scc->kiss.txdelay = 36;		/* 360 ms */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1868  				scc->kiss.persist = 42;		/* 25% persistence */			/* was 25 */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1869  				scc->kiss.slottime = 16;	/* 160 ms */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1870  				scc->kiss.tailtime = 4;		/* minimal reasonable value */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1871  				scc->kiss.fulldup = 0;		/* CSMA */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1872  				scc->kiss.waittime = 50;	/* 500 ms */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1873  				scc->kiss.maxkeyup = 10;	/* 10 s */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1874  				scc->kiss.mintime = 3;		/* 3 s */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1875  				scc->kiss.idletime = 30;	/* 30 s */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1876  				scc->kiss.maxdefer = 120;	/* 2 min */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1877  				scc->kiss.softdcd = 0;		/* hardware dcd */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1878  			} else {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1879  				scc->kiss.txdelay = 10;		/* 100 ms */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1880  				scc->kiss.persist = 64;		/* 25% persistence */			/* was 25 */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1881  				scc->kiss.slottime = 8;		/* 160 ms */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1882  				scc->kiss.tailtime = 1;		/* minimal reasonable value */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1883  				scc->kiss.fulldup = 0;		/* CSMA */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1884  				scc->kiss.waittime = 50;	/* 500 ms */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1885  				scc->kiss.maxkeyup = 7;		/* 7 s */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1886  				scc->kiss.mintime = 3;		/* 3 s */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1887  				scc->kiss.idletime = 30;	/* 30 s */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1888  				scc->kiss.maxdefer = 120;	/* 2 min */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1889  				scc->kiss.softdcd = 0;		/* hardware dcd */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1890  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1891  			
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1892  			scc->tx_buff = NULL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1893  			skb_queue_head_init(&scc->tx_queue);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1894  			scc->init = 1;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1895  			
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1896  			return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1897  		}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1898  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1899  		return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1900  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1901  	
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1902  	switch(cmd)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1903  	{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1904  		case SIOCSCCRESERVED:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1905  			return -ENOIOCTLCMD;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1906  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1907  		case SIOCSCCSMEM:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1908  			if (!capable(CAP_SYS_RAWIO)) return -EPERM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1909  			if (!arg || copy_from_user(&memcfg, arg, sizeof(memcfg)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1910  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1911  			scc->stat.bufsize   = memcfg.bufsize;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1912  			return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1913  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1914  		case SIOCSCCGSTAT:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1915  			if (!arg || copy_to_user(arg, &scc->stat, sizeof(scc->stat)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1916  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1917  			return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1918  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1919  		case SIOCSCCGKISS:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1920  			if (!arg || copy_from_user(&kiss_cmd, arg, sizeof(kiss_cmd)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1921  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1922  			kiss_cmd.param = scc_get_param(scc, kiss_cmd.command);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1923  			if (copy_to_user(arg, &kiss_cmd, sizeof(kiss_cmd)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1924  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1925  			return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1926  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1927  		case SIOCSCCSKISS:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1928  			if (!capable(CAP_NET_ADMIN)) return -EPERM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1929  			if (!arg || copy_from_user(&kiss_cmd, arg, sizeof(kiss_cmd)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1930  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1931  			return scc_set_param(scc, kiss_cmd.command, kiss_cmd.param);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1932  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1933  		case SIOCSCCCAL:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1934  			if (!capable(CAP_SYS_RAWIO)) return -EPERM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1935  			if (!arg || copy_from_user(&cal, arg, sizeof(cal)) || cal.time == 0)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1936  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1937  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1938  			scc_start_calibrate(scc, cal.time, cal.pattern);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1939  			return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1940  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1941  		default:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1942  			return -ENOIOCTLCMD;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1943  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1944  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1945  	
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @1946  	return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1947  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1948  
+
+:::::: The code at line 1748 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
