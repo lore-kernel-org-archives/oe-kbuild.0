@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03447A936
-	for <oe-kbuild@lists.linux.dev>; Tue, 12 Dec 2023 13:22:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43F510F5
+	for <oe-kbuild@lists.linux.dev>; Tue, 12 Dec 2023 18:43:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DQY0F41Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MfkoYmJB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702387322; x=1733923322;
+  t=1702406629; x=1733942629;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k1CZyAZ83lOnmrOyK7LXWDgddMDXphGgIlHpMrCbrLc=;
-  b=DQY0F41QMN1HmurGRIUytQR2Esw7JhxAYWKJEQOab1OyGRCjuyp711lR
-   YSAbpYSOlwEIaF96aEAicGu+KEIrxIbZJRTmAWTvguW0FyRxShHxOt1Hd
-   SoA+0cfxJGB4xfBASRj2oZkaHUtblGl8KMPUXUaVyPCgOAKymOwUc2q0C
-   aQhkR5nxi0VvMu0p3F1kgA1CI5g12Dlo7RNIgZQyyECGY1XgN8Xq28yb0
-   ym68Fx4sBx+2ikw8liEntdgXjXRKididfpXkliJdKX3SzPTDUjsfsyi0i
-   oOYHlbPLMccpRZuYAMCwUau8YfYbbYLhnmgBE4Rc2jTqjgWty3pkTNUBt
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1624015"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="1624015"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 05:22:00 -0800
+  bh=M1UPLVNUGf08+n2uIbXgp5IpH2OpUToomspxRkqo2s0=;
+  b=MfkoYmJBcApYMw7ymPSZ4LYU1O0GAO1BOZL7VH7bNl6eeGL+5DJFb81Y
+   EHfGokCqlaYWnLZZem064Zjy42bj84SigXdJZ2znq2xO/LQc8Yit7nQeT
+   UU1lwZMrpwpdnqzulfcaU0VnF8LoYTV/G+kGNwFRv0L2yowgP4LwINzOS
+   XxBhV4ecdRY+ZqKxZ69gocY42AWRHaN8DfF5iCX5U3mWU6dMHz3XcdGli
+   7joVrgHtBk4lu0DyrmXpO/j6kwHqkHF6q7u0n35gaLc0JCWe7T5SgaiT3
+   t8EpS6yzuh2q1k436OLV2YJ/+I+Pg158nI1LHXU3+3MVsHMWtpDIujG9m
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="459170514"
+X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
+   d="scan'208";a="459170514"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 10:43:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1104906552"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="1104906552"
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="844008964"
+X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
+   d="scan'208";a="844008964"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 12 Dec 2023 05:21:59 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 12 Dec 2023 10:43:47 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rD2hx-000JD5-1Y;
-	Tue, 12 Dec 2023 13:21:57 +0000
-Date: Tue, 12 Dec 2023 21:21:01 +0800
+	id 1rD7jN-000JZX-0N;
+	Tue, 12 Dec 2023 18:43:45 +0000
+Date: Wed, 13 Dec 2023 02:43:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/pinctrl/renesas/core.c:77 sh_pfc_map_resources() error: we
- previously assumed 'res' could be null (see line 43)
-Message-ID: <202312122151.4L2hFzks-lkp@intel.com>
+Subject: drivers/net/hamradio/scc.c:1748 scc_net_siocdevprivate() warn:
+ potential spectre issue 'Ivec' [w]
+Message-ID: <202312130248.uy0tleLI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,88 +53,306 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Yang Yingliang <yangyingliang@huawei.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
+TO: Arnd Bergmann <arnd@arndb.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   26aff849438cebcd05f1a647390c4aa700d5c0f1
-commit: 5376e3d904532e657fd7ca1a9b1ff3d351527b90 pinctrl: renesas: core: Fix possible null-ptr-deref in sh_pfc_map_resources()
-date:   1 year, 7 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 1 year, 7 months ago
-config: riscv-randconfig-r071-20231112 (https://download.01.org/0day-ci/archive/20231212/202312122151.4L2hFzks-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231212/202312122151.4L2hFzks-lkp@intel.com/reproduce)
+commit: 25ec92fbdd23a0a2bfd2bdf489e60ea4f0ae46d1 hamradio: use ndo_siocdevprivate
+date:   2 years, 5 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 2 years, 5 months ago
+config: i386-randconfig-141-20231111 (https://download.01.org/0day-ci/archive/20231213/202312130248.uy0tleLI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231213/202312130248.uy0tleLI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312122151.4L2hFzks-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312130248.uy0tleLI-lkp@intel.com/
 
-smatch warnings:
-drivers/pinctrl/renesas/core.c:77 sh_pfc_map_resources() error: we previously assumed 'res' could be null (see line 43)
+New smatch warnings:
+drivers/net/hamradio/scc.c:1748 scc_net_siocdevprivate() warn: potential spectre issue 'Ivec' [w]
+drivers/net/hamradio/scc.c:1783 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1946 scc_net_siocdevprivate() warn: 'hwcfg.vector_latch' from __request_region() not released on lines: 1827.
 
-vim +/res +77 drivers/pinctrl/renesas/core.c
+Old smatch warnings:
+drivers/net/hamradio/scc.c:1784 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1785 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1786 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1787 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1788 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1800 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1801 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1802 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1803 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1804 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1822 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1823 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+drivers/net/hamradio/scc.c:1826 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
 
-f9165132c5ee68 drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  29  
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  30  static int sh_pfc_map_resources(struct sh_pfc *pfc,
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  31  				struct platform_device *pdev)
-b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  32  {
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  33  	struct sh_pfc_window *windows;
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  34  	unsigned int *irqs = NULL;
-ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  35  	unsigned int num_windows;
-b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  36  	struct resource *res;
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  37  	unsigned int i;
-ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  38  	int num_irqs;
-b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  39  
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  40  	/* Count the MEM and IRQ resources. */
-c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  41  	for (num_windows = 0;; num_windows++) {
-c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  42  		res = platform_get_resource(pdev, IORESOURCE_MEM, num_windows);
-c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25 @43  		if (!res)
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  44  			break;
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  45  	}
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  46  	if (num_windows == 0)
-bee9f22ba196b0 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-02-16  47  		return -EINVAL;
-b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  48  
-ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  49  	num_irqs = platform_irq_count(pdev);
-ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  50  	if (num_irqs < 0)
-ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  51  		return num_irqs;
-ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  52  
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  53  	/* Allocate memory windows and IRQs arrays. */
-a86854d0c599b3 drivers/pinctrl/sh-pfc/core.c  Kees Cook          2018-06-12  54  	windows = devm_kcalloc(pfc->dev, num_windows, sizeof(*windows),
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  55  			       GFP_KERNEL);
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  56  	if (windows == NULL)
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  57  		return -ENOMEM;
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  58  
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  59  	pfc->num_windows = num_windows;
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  60  	pfc->windows = windows;
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  61  
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  62  	if (num_irqs) {
-a86854d0c599b3 drivers/pinctrl/sh-pfc/core.c  Kees Cook          2018-06-12  63  		irqs = devm_kcalloc(pfc->dev, num_irqs, sizeof(*irqs),
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  64  				    GFP_KERNEL);
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  65  		if (irqs == NULL)
-1724acfd598bdf drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  66  			return -ENOMEM;
-b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  67  
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  68  		pfc->num_irqs = num_irqs;
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  69  		pfc->irqs = irqs;
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  70  	}
-973931ae0a2dad drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  71  
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  72  	/* Fill them. */
-c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  73  	for (i = 0; i < num_windows; i++) {
-5376e3d904532e drivers/pinctrl/renesas/core.c Yang Yingliang     2022-04-29  74  		windows->virt = devm_platform_get_and_ioremap_resource(pdev, i, &res);
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  75  		if (IS_ERR(windows->virt))
-1724acfd598bdf drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  76  			return -ENOMEM;
-5376e3d904532e drivers/pinctrl/renesas/core.c Yang Yingliang     2022-04-29 @77  		windows->phys = res->start;
-5376e3d904532e drivers/pinctrl/renesas/core.c Yang Yingliang     2022-04-29  78  		windows->size = resource_size(res);
-70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  79  		windows++;
-1724acfd598bdf drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  80  	}
-c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  81  	for (i = 0; i < num_irqs; i++)
-c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  82  		*irqs++ = platform_get_irq(pdev, i);
-b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  83  
-b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  84  	return 0;
-b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  85  }
-b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  86  
+vim +/Ivec +1748 drivers/net/hamradio/scc.c
+
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1695  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1696  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1697   * SIOCSCCCFG		- configure driver	arg: (struct scc_hw_config *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1698   * SIOCSCCINI		- initialize driver	arg: ---
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1699   * SIOCSCCCHANINI	- initialize channel	arg: (struct scc_modem *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1700   * SIOCSCCSMEM		- set memory		arg: (struct scc_mem_config *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1701   * SIOCSCCGKISS		- get level 1 parameter	arg: (struct scc_kiss_cmd *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1702   * SIOCSCCSKISS		- set level 1 parameter arg: (struct scc_kiss_cmd *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1703   * SIOCSCCGSTAT		- get driver status	arg: (struct scc_stat *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1704   * SIOCSCCCAL		- send calib. pattern	arg: (struct scc_calibrate *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1705   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1706  
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1707  static int scc_net_siocdevprivate(struct net_device *dev,
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1708  				  struct ifreq *ifr, void __user *arg, int cmd)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1709  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1710  	struct scc_kiss_cmd kiss_cmd;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1711  	struct scc_mem_config memcfg;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1712  	struct scc_hw_config hwcfg;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1713  	struct scc_calibrate cal;
+f4bdd264b43cc6 Wang Chen          2008-11-20  1714  	struct scc_channel *scc = (struct scc_channel *) dev->ml_priv;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1715  	int chan;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1716  	unsigned char device_name[IFNAMSIZ];
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1717  	
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1718  	if (!Driver_Initialized)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1719  	{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1720  		if (cmd == SIOCSCCCFG)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1721  		{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1722  			int found = 1;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1723  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1724  			if (!capable(CAP_SYS_RAWIO)) return -EPERM;
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1725  			if (in_compat_syscall())
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1726  				return -EOPNOTSUPP;
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1727  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1728  			if (!arg) return -EFAULT;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1729  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1730  			if (Nchips >= SCC_MAXCHIPS) 
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1731  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1732  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1733  			if (copy_from_user(&hwcfg, arg, sizeof(hwcfg)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1734  				return -EFAULT;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1735  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1736  			if (hwcfg.irq == 2) hwcfg.irq = 9;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1737  
+60e4ad7a72fd7c Yinghai Lu         2008-08-19  1738  			if (hwcfg.irq < 0 || hwcfg.irq >= nr_irqs)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1739  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1740  				
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1741  			if (!Ivec[hwcfg.irq].used && hwcfg.irq)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1742  			{
+1b36efe07f83ec Jeff Garzik        2007-10-29  1743  				if (request_irq(hwcfg.irq, scc_isr,
+9714481e677562 Michael Opdenacker 2013-10-05  1744  						0, "AX.25 SCC",
+1b36efe07f83ec Jeff Garzik        2007-10-29  1745  						(void *)(long) hwcfg.irq))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1746  					printk(KERN_WARNING "z8530drv: warning, cannot get IRQ %d\n", hwcfg.irq);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1747  				else
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @1748  					Ivec[hwcfg.irq].used = 1;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1749  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1750  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1751  			if (hwcfg.vector_latch && !Vector_Latch) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1752  				if (!request_region(hwcfg.vector_latch, 1, "scc vector latch"))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1753  					printk(KERN_WARNING "z8530drv: warning, cannot reserve vector latch port 0x%lx\n, disabled.", hwcfg.vector_latch);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1754  				else
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1755  					Vector_Latch = hwcfg.vector_latch;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1756  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1757  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1758  			if (hwcfg.clock == 0)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1759  				hwcfg.clock = SCC_DEFAULT_CLOCK;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1760  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1761  #ifndef SCC_DONT_CHECK
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1762  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1763  			if(request_region(hwcfg.ctrl_a, 1, "scc-probe"))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1764  			{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1765  				disable_irq(hwcfg.irq);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1766  				Outb(hwcfg.ctrl_a, 0);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1767  				OutReg(hwcfg.ctrl_a, R9, FHWRES);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1768  				udelay(100);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1769  				OutReg(hwcfg.ctrl_a,R13,0x55);		/* is this chip really there? */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1770  				udelay(5);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1771  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1772  				if (InReg(hwcfg.ctrl_a,R13) != 0x55)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1773  					found = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1774  				enable_irq(hwcfg.irq);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1775  				release_region(hwcfg.ctrl_a, 1);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1776  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1777  			else
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1778  				found = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1779  #endif
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1780  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1781  			if (found)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1782  			{
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @1783  				SCC_Info[2*Nchips  ].ctrl = hwcfg.ctrl_a;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1784  				SCC_Info[2*Nchips  ].data = hwcfg.data_a;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1785  				SCC_Info[2*Nchips  ].irq  = hwcfg.irq;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1786  				SCC_Info[2*Nchips+1].ctrl = hwcfg.ctrl_b;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1787  				SCC_Info[2*Nchips+1].data = hwcfg.data_b;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1788  				SCC_Info[2*Nchips+1].irq  = hwcfg.irq;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1789  			
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1790  				SCC_ctrl[Nchips].chan_A = hwcfg.ctrl_a;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1791  				SCC_ctrl[Nchips].chan_B = hwcfg.ctrl_b;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1792  				SCC_ctrl[Nchips].irq    = hwcfg.irq;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1793  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1794  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1795  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1796  			for (chan = 0; chan < 2; chan++)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1797  			{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1798  				sprintf(device_name, "%s%i", SCC_DriverName, 2*Nchips+chan);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1799  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1800  				SCC_Info[2*Nchips+chan].special = hwcfg.special;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1801  				SCC_Info[2*Nchips+chan].clock = hwcfg.clock;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1802  				SCC_Info[2*Nchips+chan].brand = hwcfg.brand;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1803  				SCC_Info[2*Nchips+chan].option = hwcfg.option;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1804  				SCC_Info[2*Nchips+chan].enhanced = hwcfg.escc;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1805  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1806  #ifdef SCC_DONT_CHECK
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1807  				printk(KERN_INFO "%s: data port = 0x%3.3x  control port = 0x%3.3x\n",
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1808  					device_name, 
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1809  					SCC_Info[2*Nchips+chan].data, 
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1810  					SCC_Info[2*Nchips+chan].ctrl);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1811  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1812  #else
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1813  				printk(KERN_INFO "%s: data port = 0x%3.3lx  control port = 0x%3.3lx -- %s\n",
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1814  					device_name,
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1815  					chan? hwcfg.data_b : hwcfg.data_a, 
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1816  					chan? hwcfg.ctrl_b : hwcfg.ctrl_a,
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1817  					found? "found" : "missing");
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1818  #endif
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1819  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1820  				if (found)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1821  				{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1822  					request_region(SCC_Info[2*Nchips+chan].ctrl, 1, "scc ctrl");
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1823  					request_region(SCC_Info[2*Nchips+chan].data, 1, "scc data");
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1824  					if (Nchips+chan != 0 &&
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1825  					    scc_net_alloc(device_name, 
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1826  							  &SCC_Info[2*Nchips+chan]))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1827  					    return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1828  				}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1829  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1830  			
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1831  			if (found) Nchips++;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1832  			
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1833  			return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1834  		}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1835  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1836  		if (cmd == SIOCSCCINI)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1837  		{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1838  			if (!capable(CAP_SYS_RAWIO))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1839  				return -EPERM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1840  				
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1841  			if (Nchips == 0)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1842  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1843  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1844  			z8530_init();
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1845  			return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1846  		}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1847  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1848  		return -EINVAL;	/* confuse the user */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1849  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1850  	
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1851  	if (!scc->init)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1852  	{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1853  		if (cmd == SIOCSCCCHANINI)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1854  		{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1855  			if (!capable(CAP_NET_ADMIN)) return -EPERM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1856  			if (!arg) return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1857  			
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1858  			scc->stat.bufsize   = SCC_BUFSIZE;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1859  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1860  			if (copy_from_user(&scc->modem, arg, sizeof(struct scc_modem)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1861  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1862  			
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1863  			/* default KISS Params */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1864  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1865  			if (scc->modem.speed < 4800)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1866  			{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1867  				scc->kiss.txdelay = 36;		/* 360 ms */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1868  				scc->kiss.persist = 42;		/* 25% persistence */			/* was 25 */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1869  				scc->kiss.slottime = 16;	/* 160 ms */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1870  				scc->kiss.tailtime = 4;		/* minimal reasonable value */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1871  				scc->kiss.fulldup = 0;		/* CSMA */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1872  				scc->kiss.waittime = 50;	/* 500 ms */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1873  				scc->kiss.maxkeyup = 10;	/* 10 s */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1874  				scc->kiss.mintime = 3;		/* 3 s */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1875  				scc->kiss.idletime = 30;	/* 30 s */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1876  				scc->kiss.maxdefer = 120;	/* 2 min */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1877  				scc->kiss.softdcd = 0;		/* hardware dcd */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1878  			} else {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1879  				scc->kiss.txdelay = 10;		/* 100 ms */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1880  				scc->kiss.persist = 64;		/* 25% persistence */			/* was 25 */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1881  				scc->kiss.slottime = 8;		/* 160 ms */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1882  				scc->kiss.tailtime = 1;		/* minimal reasonable value */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1883  				scc->kiss.fulldup = 0;		/* CSMA */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1884  				scc->kiss.waittime = 50;	/* 500 ms */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1885  				scc->kiss.maxkeyup = 7;		/* 7 s */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1886  				scc->kiss.mintime = 3;		/* 3 s */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1887  				scc->kiss.idletime = 30;	/* 30 s */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1888  				scc->kiss.maxdefer = 120;	/* 2 min */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1889  				scc->kiss.softdcd = 0;		/* hardware dcd */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1890  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1891  			
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1892  			scc->tx_buff = NULL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1893  			skb_queue_head_init(&scc->tx_queue);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1894  			scc->init = 1;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1895  			
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1896  			return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1897  		}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1898  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1899  		return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1900  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1901  	
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1902  	switch(cmd)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1903  	{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1904  		case SIOCSCCRESERVED:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1905  			return -ENOIOCTLCMD;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1906  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1907  		case SIOCSCCSMEM:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1908  			if (!capable(CAP_SYS_RAWIO)) return -EPERM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1909  			if (!arg || copy_from_user(&memcfg, arg, sizeof(memcfg)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1910  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1911  			scc->stat.bufsize   = memcfg.bufsize;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1912  			return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1913  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1914  		case SIOCSCCGSTAT:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1915  			if (!arg || copy_to_user(arg, &scc->stat, sizeof(scc->stat)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1916  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1917  			return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1918  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1919  		case SIOCSCCGKISS:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1920  			if (!arg || copy_from_user(&kiss_cmd, arg, sizeof(kiss_cmd)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1921  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1922  			kiss_cmd.param = scc_get_param(scc, kiss_cmd.command);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1923  			if (copy_to_user(arg, &kiss_cmd, sizeof(kiss_cmd)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1924  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1925  			return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1926  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1927  		case SIOCSCCSKISS:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1928  			if (!capable(CAP_NET_ADMIN)) return -EPERM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1929  			if (!arg || copy_from_user(&kiss_cmd, arg, sizeof(kiss_cmd)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1930  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1931  			return scc_set_param(scc, kiss_cmd.command, kiss_cmd.param);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1932  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1933  		case SIOCSCCCAL:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1934  			if (!capable(CAP_SYS_RAWIO)) return -EPERM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1935  			if (!arg || copy_from_user(&cal, arg, sizeof(cal)) || cal.time == 0)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1936  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1937  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1938  			scc_start_calibrate(scc, cal.time, cal.pattern);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1939  			return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1940  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1941  		default:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1942  			return -ENOIOCTLCMD;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1943  		
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1944  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1945  	
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @1946  	return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1947  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1948  
+
+:::::: The code at line 1748 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
