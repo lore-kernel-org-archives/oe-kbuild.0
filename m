@@ -1,146 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0CB5E0A8
-	for <oe-kbuild@lists.linux.dev>; Tue, 12 Dec 2023 12:20:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03447A936
+	for <oe-kbuild@lists.linux.dev>; Tue, 12 Dec 2023 13:22:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bIEMzLkY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DQY0F41Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702383646; x=1733919646;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=RoJLpLK86IXSY857NEk/Ux8HAJlhGmhDbT10CjNkSLw=;
-  b=bIEMzLkYOSwAI21Ljl/fesVjHx/gjHxuxiYUKIHIwvZVJquAGSdYmmQL
-   M0DL4vuutwRf3lYDmptrF0OBpkrmhuQzQKgxd+UyD7YHhfAkhh0COFQBq
-   vxbQWLQ9zmEYeSwrWgVCfSjk4s1ulOnh1kD22gMCoB8S2YApDkc9/xd8k
-   DiDjcP0Z8wtVWr4wEGLk+jUBJu1SMVSsaWlf0PuDngxEHzT98+6+QqPXk
-   tjLzZ2E+uniph/Mi5RbEYj9GJSHRnKk8bm4oqN38F09chWK0ekRhqcXNW
-   50ub9KovRThdbym7K+vX7GR6o3T/5eXltiUh3DgNCbxflxsZY8patYaRm
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="8166189"
+  t=1702387322; x=1733923322;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=k1CZyAZ83lOnmrOyK7LXWDgddMDXphGgIlHpMrCbrLc=;
+  b=DQY0F41QMN1HmurGRIUytQR2Esw7JhxAYWKJEQOab1OyGRCjuyp711lR
+   YSAbpYSOlwEIaF96aEAicGu+KEIrxIbZJRTmAWTvguW0FyRxShHxOt1Hd
+   SoA+0cfxJGB4xfBASRj2oZkaHUtblGl8KMPUXUaVyPCgOAKymOwUc2q0C
+   aQhkR5nxi0VvMu0p3F1kgA1CI5g12Dlo7RNIgZQyyECGY1XgN8Xq28yb0
+   ym68Fx4sBx+2ikw8liEntdgXjXRKididfpXkliJdKX3SzPTDUjsfsyi0i
+   oOYHlbPLMccpRZuYAMCwUau8YfYbbYLhnmgBE4Rc2jTqjgWty3pkTNUBt
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1624015"
 X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="8166189"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 04:20:45 -0800
+   d="scan'208";a="1624015"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 05:22:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="807743719"
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1104906552"
 X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="807743719"
+   d="scan'208";a="1104906552"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 12 Dec 2023 04:20:43 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 12 Dec 2023 05:21:59 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rD1kb-000J97-1V;
-	Tue, 12 Dec 2023 12:20:38 +0000
-Date: Tue, 12 Dec 2023 20:19:43 +0800
+	id 1rD2hx-000JD5-1Y;
+	Tue, 12 Dec 2023 13:21:57 +0000
+Date: Tue, 12 Dec 2023 21:21:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/pci/controller/pcie-xilinx-dma-pl.c:638
- xilinx_pl_dma_pcie_setup_irq() error: uninitialized symbol 'irq'.
-Message-ID: <202312122037.G1yxXee2-lkp@intel.com>
+Subject: drivers/pinctrl/renesas/core.c:77 sh_pfc_map_resources() error: we
+ previously assumed 'res' could be null (see line 43)
+Message-ID: <202312122151.4L2hFzks-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Thippeswamy Havalige <thippeswamy.havalige@amd.com>
-CC: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-CC: Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>
+TO: Yang Yingliang <yangyingliang@huawei.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   26aff849438cebcd05f1a647390c4aa700d5c0f1
-commit: 8d786149d78c7784144c7179e25134b6530b714b PCI: xilinx-xdma: Add Xilinx XDMA Root Port driver
-date:   7 weeks ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 7 weeks ago
-config: riscv-randconfig-r071-20231211 (https://download.01.org/0day-ci/archive/20231212/202312122037.G1yxXee2-lkp@intel.com/config)
+commit: 5376e3d904532e657fd7ca1a9b1ff3d351527b90 pinctrl: renesas: core: Fix possible null-ptr-deref in sh_pfc_map_resources()
+date:   1 year, 7 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 1 year, 7 months ago
+config: riscv-randconfig-r071-20231112 (https://download.01.org/0day-ci/archive/20231212/202312122151.4L2hFzks-lkp@intel.com/config)
 compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231212/202312122037.G1yxXee2-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231212/202312122151.4L2hFzks-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312122037.G1yxXee2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312122151.4L2hFzks-lkp@intel.com/
 
-New smatch warnings:
-drivers/pci/controller/pcie-xilinx-dma-pl.c:638 xilinx_pl_dma_pcie_setup_irq() error: uninitialized symbol 'irq'.
+smatch warnings:
+drivers/pinctrl/renesas/core.c:77 sh_pfc_map_resources() error: we previously assumed 'res' could be null (see line 43)
 
-Old smatch warnings:
-drivers/pci/controller/pcie-xilinx-dma-pl.c:579 xilinx_pl_dma_pcie_init_irq_domain() warn: passing zero to 'PTR_ERR'
-drivers/pci/controller/pcie-xilinx-dma-pl.c:645 xilinx_pl_dma_pcie_setup_irq() error: uninitialized symbol 'irq'.
+vim +/res +77 drivers/pinctrl/renesas/core.c
 
-vim +/irq +638 drivers/pci/controller/pcie-xilinx-dma-pl.c
-
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  595  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  596  static int xilinx_pl_dma_pcie_setup_irq(struct pl_dma_pcie *port)
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  597  {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  598  	struct device *dev = port->dev;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  599  	struct platform_device *pdev = to_platform_device(dev);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  600  	int i, irq, err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  601  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  602  	port->irq = platform_get_irq(pdev, 0);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  603  	if (port->irq < 0)
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  604  		return port->irq;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  605  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  606  	for (i = 0; i < ARRAY_SIZE(intr_cause); i++) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  607  		int err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  608  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  609  		if (!intr_cause[i].str)
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  610  			continue;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  611  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  612  		irq = irq_create_mapping(port->pldma_domain, i);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  613  		if (!irq) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  614  			dev_err(dev, "Failed to map interrupt\n");
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  615  			return -ENXIO;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  616  		}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  617  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  618  		err = devm_request_irq(dev, irq,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  619  				       xilinx_pl_dma_pcie_intr_handler,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  620  				       IRQF_SHARED | IRQF_NO_THREAD,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  621  				       intr_cause[i].sym, port);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  622  		if (err) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  623  			dev_err(dev, "Failed to request IRQ %d\n", irq);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  624  			return err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  625  		}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  626  	}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  627  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  628  	port->intx_irq = irq_create_mapping(port->pldma_domain,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  629  					    XILINX_PCIE_INTR_INTX);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  630  	if (!port->intx_irq) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  631  		dev_err(dev, "Failed to map INTx interrupt\n");
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  632  		return -ENXIO;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  633  	}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  634  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  635  	err = devm_request_irq(dev, port->intx_irq, xilinx_pl_dma_pcie_intx_flow,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  636  			       IRQF_SHARED | IRQF_NO_THREAD, NULL, port);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  637  	if (err) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03 @638  		dev_err(dev, "Failed to request INTx IRQ %d\n", irq);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  639  		return err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  640  	}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  641  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  642  	err = devm_request_irq(dev, port->irq, xilinx_pl_dma_pcie_event_flow,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  643  			       IRQF_SHARED | IRQF_NO_THREAD, NULL, port);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  644  	if (err) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  645  		dev_err(dev, "Failed to request event IRQ %d\n", irq);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  646  		return err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  647  	}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  648  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  649  	return 0;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  650  }
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  651  
+f9165132c5ee68 drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  29  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  30  static int sh_pfc_map_resources(struct sh_pfc *pfc,
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  31  				struct platform_device *pdev)
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  32  {
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  33  	struct sh_pfc_window *windows;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  34  	unsigned int *irqs = NULL;
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  35  	unsigned int num_windows;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  36  	struct resource *res;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  37  	unsigned int i;
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  38  	int num_irqs;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  39  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  40  	/* Count the MEM and IRQ resources. */
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  41  	for (num_windows = 0;; num_windows++) {
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  42  		res = platform_get_resource(pdev, IORESOURCE_MEM, num_windows);
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25 @43  		if (!res)
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  44  			break;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  45  	}
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  46  	if (num_windows == 0)
+bee9f22ba196b0 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-02-16  47  		return -EINVAL;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  48  
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  49  	num_irqs = platform_irq_count(pdev);
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  50  	if (num_irqs < 0)
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  51  		return num_irqs;
+ad7fe1a1a35994 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2019-10-16  52  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  53  	/* Allocate memory windows and IRQs arrays. */
+a86854d0c599b3 drivers/pinctrl/sh-pfc/core.c  Kees Cook          2018-06-12  54  	windows = devm_kcalloc(pfc->dev, num_windows, sizeof(*windows),
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  55  			       GFP_KERNEL);
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  56  	if (windows == NULL)
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  57  		return -ENOMEM;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  58  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  59  	pfc->num_windows = num_windows;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  60  	pfc->windows = windows;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  61  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  62  	if (num_irqs) {
+a86854d0c599b3 drivers/pinctrl/sh-pfc/core.c  Kees Cook          2018-06-12  63  		irqs = devm_kcalloc(pfc->dev, num_irqs, sizeof(*irqs),
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  64  				    GFP_KERNEL);
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  65  		if (irqs == NULL)
+1724acfd598bdf drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  66  			return -ENOMEM;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  67  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  68  		pfc->num_irqs = num_irqs;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  69  		pfc->irqs = irqs;
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  70  	}
+973931ae0a2dad drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  71  
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  72  	/* Fill them. */
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  73  	for (i = 0; i < num_windows; i++) {
+5376e3d904532e drivers/pinctrl/renesas/core.c Yang Yingliang     2022-04-29  74  		windows->virt = devm_platform_get_and_ioremap_resource(pdev, i, &res);
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  75  		if (IS_ERR(windows->virt))
+1724acfd598bdf drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  76  			return -ENOMEM;
+5376e3d904532e drivers/pinctrl/renesas/core.c Yang Yingliang     2022-04-29 @77  		windows->phys = res->start;
+5376e3d904532e drivers/pinctrl/renesas/core.c Yang Yingliang     2022-04-29  78  		windows->size = resource_size(res);
+70c8f01a357ac7 drivers/pinctrl/sh-pfc/core.c  Laurent Pinchart   2013-12-11  79  		windows++;
+1724acfd598bdf drivers/sh/pfc/core.c          Laurent Pinchart   2012-12-15  80  	}
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  81  	for (i = 0; i < num_irqs; i++)
+c7977ec4a33633 drivers/pinctrl/sh-pfc/core.c  Geert Uytterhoeven 2015-06-25  82  		*irqs++ = platform_get_irq(pdev, i);
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  83  
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  84  	return 0;
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  85  }
+b0e10211cba162 drivers/sh/pfc.c               Magnus Damm        2011-12-09  86  
 
 -- 
 0-DAY CI Kernel Test Service
