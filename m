@@ -1,56 +1,46 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC5F59163
-	for <oe-kbuild@lists.linux.dev>; Tue, 12 Dec 2023 09:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BD75D481
+	for <oe-kbuild@lists.linux.dev>; Tue, 12 Dec 2023 11:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lPPDw87X"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a1f5cb80a91so570926766b.3
-        for <oe-kbuild@lists.linux.dev>; Tue, 12 Dec 2023 01:54:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702374882; x=1702979682; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tjR8BKwSgpek9GG0wHa5XZwZECW6M2QMMuJp4oAEKcE=;
-        b=lPPDw87XZv+BOJphkohTXTAL/oiL5vGB4NR6i4K1t2ucEiY5zeZLb3m1jN+AVYEPJy
-         gOc025xK9jMqTrartH77D3Ipu+T7PfhR65FDxZJKP97tk0pPjFwTG4SsmkVNhLdg07Ys
-         bnVah8PnaZwM52mxVhLC0q23thH77p6rxZpT6u2jr/iEyc4oJmeMx2anOL4bVaRLxaHp
-         8E6WgTOPTWut1iPkfgn+HKPA80Ny4VD9MKwBCZ/2QGYDWjvBeKfjK1gDR9ru2fo2WSb5
-         zyKg2vEfDVgtMJNFgNR0x2yyqJxTR5q5dKVpvWAKqLuv+0OhiyJEw0krgvfxeFLfOkSu
-         Nsig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702374882; x=1702979682;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tjR8BKwSgpek9GG0wHa5XZwZECW6M2QMMuJp4oAEKcE=;
-        b=cSDayLfyVag7PkAWP8obX8ENSYO3rKowpcPieLtb3xo/WL+U8+xHw0HZPpb0OEvyHm
-         oERU94i6MjWixvs2JhOqivxnB4cOl0iK8SimqL1jF72mnmfDOJECPjzAr44IQW183i5L
-         PHrkdfDhTGbLV5C9NM1CaQEY5hOz0zT+2P5u2bQckBjpmKKZsKGstfyM0U3Mv2BX0OcV
-         BduYDlrJrWDNTZQ61+1OmLno50smhwEbAdgwrfaIfQx/hXb+R7wFJCBQOwvVrnNxZmKB
-         Q6cQeNqWssa2nKaYW0fUOSGqQuT2mwcu9qib7cfwaNxEcVpj8fmjN9cM8prjmm5R12mp
-         YkJw==
-X-Gm-Message-State: AOJu0YyrVRnEWoGmBr1ZbOn5lN9C1ktuSjpAGQF1kfz1TyN403vTqgH4
-	3ky7s1CCHJztmPufcBOxKWJJrRp4C8H5Q4uaswP5nQ==
-X-Google-Smtp-Source: AGHT+IGVrUPvYxOqLCfziqXrWtlmHZgVgkiHcyuyjLZ3ekgLNOCxP0p3aUMy133AXGHUctxY5NWBIg==
-X-Received: by 2002:a17:906:f0cd:b0:a19:a19b:4210 with SMTP id dk13-20020a170906f0cd00b00a19a19b4210mr1825378ejb.123.1702374882002;
-        Tue, 12 Dec 2023 01:54:42 -0800 (PST)
-Received: from localhost (h1f2c.n1.ips.mtn.co.ug. [41.210.159.44])
-        by smtp.gmail.com with ESMTPSA id hu18-20020a170907a09200b00a1e081369a9sm5953570ejc.23.2023.12.12.01.54.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 01:54:41 -0800 (PST)
-Date: Tue, 12 Dec 2023 12:54:38 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Thippeswamy Havalige <thippeswamy.havalige@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>
-Subject: drivers/pci/controller/pcie-xilinx-dma-pl.c:638
- xilinx_pl_dma_pcie_setup_irq() error: uninitialized symbol 'irq'.
-Message-ID: <efd94697-ef3c-4554-82f0-df6f7b74134a@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VaLWKEzL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702380630; x=1733916630;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lL/8bJukNYklp3FDWGRheiu+ONiGn6BB92fqh/xg1AI=;
+  b=VaLWKEzLJQu2YjsXWo21k903gFxiTysC5JpemM7FGa7+8pWpghclbB/0
+   TcR46+1rH2pJ6prqebdFt/1M7NkQ/2S9G6MV4TNh+bFk4H+t2hd3tCg8q
+   fLE1rrpK5cTdeRMN9Cro2IoCzod9W2HS1IOE/lCUtS+Vf/uWXVLMklXQj
+   jTPE4IB0dB2H6QKuGUxEY9lKK3/8Tv0hpgWDgfvXsq2r7E/3mns5VhNNH
+   99ssWz8JgYsR4CIuLTi0am2LPGWBCYi5JpYIflCsLHPE20h929qG6+C7h
+   UixcJyP/DCO0GFXpeBWBw/aBb3+nITBZJqlc6dRA1KX6MDqpK0611bj2T
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1632155"
+X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
+   d="scan'208";a="1632155"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 03:30:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="896889083"
+X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
+   d="scan'208";a="896889083"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 12 Dec 2023 03:30:28 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rD0y1-000J6d-2q;
+	Tue, 12 Dec 2023 11:30:25 +0000
+Date: Tue, 12 Dec 2023 19:28:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [groeck-staging:hwmon-next 36/50] drivers/hwmon/max31827.c:394:16:
+ sparse: sparse: dubious: x & !y
+Message-ID: <202312121916.hewzIGp5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,87 +50,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
-commit: 8d786149d78c7784144c7179e25134b6530b714b PCI: xilinx-xdma: Add Xilinx XDMA Root Port driver
-config: riscv-randconfig-r071-20231211 (https://download.01.org/0day-ci/archive/20231212/202312120248.5DblxkBp-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120248.5DblxkBp-lkp@intel.com/reproduce)
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/hwmon/max31827.c:394:16: sparse: sparse: dubious: x & !y"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-hwmon@vger.kernel.org
+TO: Daniel Matyas <daniel.matyas@analog.com>
+CC: Guenter Roeck <linux@roeck-us.net>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+head:   62a991b3fcc9529c1a905ee42a4d860c31ca606a
+commit: 88548710d2aed71677f7594a78219bf081d4297f [36/50] hwmon: (max31827) Handle new properties from the devicetree
+:::::: branch date: 6 hours ago
+:::::: commit date: 21 hours ago
+config: arc-randconfig-r131-20231212 (https://download.01.org/0day-ci/archive/20231212/202312121916.hewzIGp5-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231212/202312121916.hewzIGp5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312120248.5DblxkBp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312121916.hewzIGp5-lkp@intel.com/
 
-New smatch warnings:
-drivers/pci/controller/pcie-xilinx-dma-pl.c:638 xilinx_pl_dma_pcie_setup_irq() error: uninitialized symbol 'irq'.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hwmon/max31827.c:394:16: sparse: sparse: dubious: x & !y
+   drivers/hwmon/max31827.c:401:24: sparse: sparse: dubious: x & !y
 
-vim +/irq +638 drivers/pci/controller/pcie-xilinx-dma-pl.c
+vim +394 drivers/hwmon/max31827.c
 
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  596  static int xilinx_pl_dma_pcie_setup_irq(struct pl_dma_pcie *port)
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  597  {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  598  	struct device *dev = port->dev;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  599  	struct platform_device *pdev = to_platform_device(dev);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  600  	int i, irq, err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  601  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  602  	port->irq = platform_get_irq(pdev, 0);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  603  	if (port->irq < 0)
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  604  		return port->irq;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  605  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  606  	for (i = 0; i < ARRAY_SIZE(intr_cause); i++) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  607  		int err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  608  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  609  		if (!intr_cause[i].str)
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  610  			continue;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  611  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  612  		irq = irq_create_mapping(port->pldma_domain, i);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  613  		if (!irq) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  614  			dev_err(dev, "Failed to map interrupt\n");
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  615  			return -ENXIO;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  616  		}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  617  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  618  		err = devm_request_irq(dev, irq,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  619  				       xilinx_pl_dma_pcie_intr_handler,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  620  				       IRQF_SHARED | IRQF_NO_THREAD,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  621  				       intr_cause[i].sym, port);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  622  		if (err) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  623  			dev_err(dev, "Failed to request IRQ %d\n", irq);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  624  			return err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  625  		}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  626  	}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  627  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  628  	port->intx_irq = irq_create_mapping(port->pldma_domain,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  629  					    XILINX_PCIE_INTR_INTX);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  630  	if (!port->intx_irq) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  631  		dev_err(dev, "Failed to map INTx interrupt\n");
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  632  		return -ENXIO;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  633  	}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  634  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  635  	err = devm_request_irq(dev, port->intx_irq, xilinx_pl_dma_pcie_intx_flow,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  636  			       IRQF_SHARED | IRQF_NO_THREAD, NULL, port);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  637  	if (err) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03 @638  		dev_err(dev, "Failed to request INTx IRQ %d\n", irq);
-                                                                                                                ^^^
-s/irq/port->intx_irq/
-
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  639  		return err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  640  	}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  641  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  642  	err = devm_request_irq(dev, port->irq, xilinx_pl_dma_pcie_event_flow,
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  643  			       IRQF_SHARED | IRQF_NO_THREAD, NULL, port);
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  644  	if (err) {
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  645  		dev_err(dev, "Failed to request event IRQ %d\n", irq);
-                                                                                                                 ^^^
-s/irq/port->irq/
-
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  646  		return err;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  647  	}
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  648  
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  649  	return 0;
-8d786149d78c77 Thippeswamy Havalige 2023-10-03  650  }
+16d60ba8fdc4c6 Daniel Matyas 2023-05-24  373  
+88548710d2aed7 Daniel Matyas 2023-10-31  374  static int max31827_init_client(struct max31827_state *st,
+88548710d2aed7 Daniel Matyas 2023-10-31  375  				struct device *dev)
+16d60ba8fdc4c6 Daniel Matyas 2023-05-24  376  {
+88548710d2aed7 Daniel Matyas 2023-10-31  377  	struct fwnode_handle *fwnode;
+88548710d2aed7 Daniel Matyas 2023-10-31  378  	unsigned int res = 0;
+88548710d2aed7 Daniel Matyas 2023-10-31  379  	u32 data, lsb_idx;
+88548710d2aed7 Daniel Matyas 2023-10-31  380  	bool prop;
+88548710d2aed7 Daniel Matyas 2023-10-31  381  	int ret;
+88548710d2aed7 Daniel Matyas 2023-10-31  382  
+88548710d2aed7 Daniel Matyas 2023-10-31  383  	fwnode = dev_fwnode(dev);
+88548710d2aed7 Daniel Matyas 2023-10-31  384  
+16d60ba8fdc4c6 Daniel Matyas 2023-05-24  385  	st->enable = true;
+88548710d2aed7 Daniel Matyas 2023-10-31  386  	res |= MAX31827_DEVICE_ENABLE(1);
+16d60ba8fdc4c6 Daniel Matyas 2023-05-24  387  
+88548710d2aed7 Daniel Matyas 2023-10-31  388  	res |= MAX31827_CONFIGURATION_RESOLUTION_MASK;
+88548710d2aed7 Daniel Matyas 2023-10-31  389  
+88548710d2aed7 Daniel Matyas 2023-10-31  390  	prop = fwnode_property_read_bool(fwnode, "adi,comp-int");
+88548710d2aed7 Daniel Matyas 2023-10-31  391  	res |= FIELD_PREP(MAX31827_CONFIGURATION_COMP_INT_MASK, prop);
+88548710d2aed7 Daniel Matyas 2023-10-31  392  
+88548710d2aed7 Daniel Matyas 2023-10-31  393  	prop = fwnode_property_read_bool(fwnode, "adi,timeout-enable");
+88548710d2aed7 Daniel Matyas 2023-10-31 @394  	res |= FIELD_PREP(MAX31827_CONFIGURATION_TIMEOUT_MASK, !prop);
+88548710d2aed7 Daniel Matyas 2023-10-31  395  
+88548710d2aed7 Daniel Matyas 2023-10-31  396  	if (fwnode_property_present(fwnode, "adi,alarm-pol")) {
+88548710d2aed7 Daniel Matyas 2023-10-31  397  		ret = fwnode_property_read_u32(fwnode, "adi,alarm-pol", &data);
+88548710d2aed7 Daniel Matyas 2023-10-31  398  		if (ret)
+88548710d2aed7 Daniel Matyas 2023-10-31  399  			return ret;
+88548710d2aed7 Daniel Matyas 2023-10-31  400  
+88548710d2aed7 Daniel Matyas 2023-10-31  401  		res |= FIELD_PREP(MAX31827_CONFIGURATION_ALRM_POL_MASK, !!data);
+88548710d2aed7 Daniel Matyas 2023-10-31  402  	} else {
+88548710d2aed7 Daniel Matyas 2023-10-31  403  		/*
+88548710d2aed7 Daniel Matyas 2023-10-31  404  		 * Set default value.
+88548710d2aed7 Daniel Matyas 2023-10-31  405  		 */
+88548710d2aed7 Daniel Matyas 2023-10-31  406  		res |= FIELD_PREP(MAX31827_CONFIGURATION_ALRM_POL_MASK,
+88548710d2aed7 Daniel Matyas 2023-10-31  407  				  MAX31827_ALRM_POL_LOW);
+88548710d2aed7 Daniel Matyas 2023-10-31  408  	}
+88548710d2aed7 Daniel Matyas 2023-10-31  409  
+88548710d2aed7 Daniel Matyas 2023-10-31  410  	if (fwnode_property_present(fwnode, "adi,fault-q")) {
+88548710d2aed7 Daniel Matyas 2023-10-31  411  		ret = fwnode_property_read_u32(fwnode, "adi,fault-q", &data);
+88548710d2aed7 Daniel Matyas 2023-10-31  412  		if (ret)
+88548710d2aed7 Daniel Matyas 2023-10-31  413  			return ret;
+88548710d2aed7 Daniel Matyas 2023-10-31  414  
+88548710d2aed7 Daniel Matyas 2023-10-31  415  		/*
+88548710d2aed7 Daniel Matyas 2023-10-31  416  		 * Convert the desired fault queue into register bits.
+88548710d2aed7 Daniel Matyas 2023-10-31  417  		 */
+88548710d2aed7 Daniel Matyas 2023-10-31  418  		if (data != 0)
+88548710d2aed7 Daniel Matyas 2023-10-31  419  			lsb_idx = __ffs(data);
+88548710d2aed7 Daniel Matyas 2023-10-31  420  
+88548710d2aed7 Daniel Matyas 2023-10-31  421  		if (hweight32(data) != 1 || lsb_idx > 4) {
+88548710d2aed7 Daniel Matyas 2023-10-31  422  			dev_err(dev, "Invalid data in adi,fault-q\n");
+88548710d2aed7 Daniel Matyas 2023-10-31  423  			return -EINVAL;
+88548710d2aed7 Daniel Matyas 2023-10-31  424  		}
+88548710d2aed7 Daniel Matyas 2023-10-31  425  
+88548710d2aed7 Daniel Matyas 2023-10-31  426  		res |= FIELD_PREP(MAX31827_CONFIGURATION_FLT_Q_MASK, lsb_idx);
+88548710d2aed7 Daniel Matyas 2023-10-31  427  	} else {
+88548710d2aed7 Daniel Matyas 2023-10-31  428  		/*
+88548710d2aed7 Daniel Matyas 2023-10-31  429  		 * Set default value.
+88548710d2aed7 Daniel Matyas 2023-10-31  430  		 */
+88548710d2aed7 Daniel Matyas 2023-10-31  431  		res |= FIELD_PREP(MAX31827_CONFIGURATION_FLT_Q_MASK,
+88548710d2aed7 Daniel Matyas 2023-10-31  432  				  MAX31827_FLT_Q_1);
+88548710d2aed7 Daniel Matyas 2023-10-31  433  	}
+88548710d2aed7 Daniel Matyas 2023-10-31  434  
+88548710d2aed7 Daniel Matyas 2023-10-31  435  	return regmap_write(st->regmap, MAX31827_CONFIGURATION_REG, res);
+16d60ba8fdc4c6 Daniel Matyas 2023-05-24  436  }
+16d60ba8fdc4c6 Daniel Matyas 2023-05-24  437  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
