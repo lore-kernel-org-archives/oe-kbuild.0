@@ -1,79 +1,81 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C79C14C
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 Dec 2023 06:31:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A2DFC00
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 Dec 2023 06:48:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oEji3gup"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jy1TZmZi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702449068; x=1733985068;
+  t=1702450080; x=1733986080;
   h=from:to:subject:date:message-id:references:in-reply-to:
    content-transfer-encoding:mime-version;
-  bh=3Ez3TDbWbmV9bkN55bxUMGX0RiXwslEJtBxSFs1ObJo=;
-  b=oEji3gupkx4R/8+3LZ6FYBA1ZrjLy2E+rzL+Eul4My2FZHe5YCIKX3xL
-   5dzFDdv8TvSCc6yerWSBiLQd4uU8LUeIpesqqXfgQ/xibuSD5hgszYPcx
-   Ev8ooWJjpanDUOOS2tFbrCqBrGrVAqLFl8vlmmRAD5W5g5W25TjoEvQdj
-   LoK2llwyNgi0szgw2tmeXl82oYBg1czsTLps/kEoO5f2ud8X6CowAUO4t
-   ILl2vJve0DPVtrdIPQWacEM7zNMq+L7AXoRKfuMrGJ/s23jIaG9i+RC33
-   KmuQdVmCklLk0kXf/vcF0B0Fy/kbmsl8qsKAdS6lEym/h2z8xy+cYQgqZ
+  bh=x/fM4I5blp6Uwr8yDjBn8tqzjjSaXQfbL8w4fdSiSY0=;
+  b=Jy1TZmZiVzVB4O+oaILjgEX0R8l9pG3WafM5fTnJw1xAiOD1nLzkOTua
+   7s1G+BdWhtnA+t9IvyhRDKNyzbkzaxVYYrOB01RUpOxrOJ8SKzk5DjNr0
+   s/qSkusm9JKi90f54AvQN0pYoJo9c4NwmM+6VooHDFM8zsFnptmbDfont
+   LrUsaSSp7XitERxzQXjCeuWXeMK5SvOEmwtY6oga5KaaqYX2ElFqUb14C
+   c4m/aqijhmgGaK/4vPy8OY9I0q4XeHV1euf8mGxwd9a1Q9Rg3SS5cnVyh
+   Nb3v/ZMJSkrCTQEEtSoPZ0ZuFB6zohl6njAMcExrVrFkEI6FrI0Rjuata
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="374425687"
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="374427387"
 X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="374425687"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 22:31:06 -0800
+   d="scan'208";a="374427387"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 22:47:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="808050706"
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="864505344"
 X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="808050706"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Dec 2023 22:31:05 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+   d="scan'208";a="864505344"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Dec 2023 22:47:59 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 12 Dec 2023 22:31:05 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.35; Tue, 12 Dec 2023 22:47:53 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 12 Dec 2023 22:31:05 -0800
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.169)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ 15.1.2507.35 via Frontend Transport; Tue, 12 Dec 2023 22:47:53 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 12 Dec 2023 22:31:03 -0800
+ 15.1.2507.35; Tue, 12 Dec 2023 22:47:53 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H5qHZ0amPqVdEuC5yWUqZ7Ja0+Ho4UsTTTgNgWYAS+n9mSBVOTm4Y+Um/1quSMusxPu2lDqRfBhtA40k1dNlAMpWAhzjCWVN8anpoaY3WxNNHO30C13wOT9EI2QOrfXYyfzuUnO80MvNmtIShP+LhILJRB+zAAn45rgcNhiRPLeAahkLj5xz1+770x91Ii3r2GX7h5zxgeKpSFZlfaKoOrRcy2+WY8fMrEXxkAwrkEnlMEhrO6aUCmSlhWIdMF2iD/KCB/e6fwa7vKOoebIch582t7AtlrLo2Lf9/5paNBa5gkqIbv6CZQjH3iMzoOcrexYMhgRi6r7kb68GboBuZA==
+ b=hUz3FJr+agAgLs1zKCsdDuK7lcSDCNT6f2P6FVxcZXDRcEmYRAS58XfQS6E3GygBXNyzvu9Y/cbAPYaIp5J2t2zvaGC+OGI/+RpsGR4ycRh91d/GWcK8uYkoDlGLAEvWwmwbErSKhaleVUiUuroBpx93yTVbIqsQcSqhrXr47WmUeG4XGkSW2YmsKdYFToA4ODAVx+akdnOxdhrRT6XayV7i5qDY5YvsZBbzv66oRsF/wmsR66O+TCgW2gfkkTbdFrsCEXHFEwp80wqvFEZm4Gni4KHSI7R/qbnaGsVjvuVNMhrT7kiuxcVrXib6GA4qr5diZ9XTcLe9hmmfF/wI9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JaDhqriL1PuOaINxIRTVDLe619J6y6AGrx8Lq+WqS64=;
- b=d5/oJeKoF4uNFccL85C8lgTp+81MwBaR8I6e6vTqqHUKSusjgoSa7sPl8opM+lDrVpnByHK32qlzBxv4DEAfvIYDFsWeGDBvMBXxnylC6g5z+8gM3A1garhhkI5wwnHXdbnmnwIPZenKyJwZQ9U4X+uzrnb3FcpmkGkNzEzVW1UHKRdl8T3lqjirSmXR/m6+nkiNxY/iw6boBOtq0cC8dtVJk0tqUI/XKgmscmDaVQ7OPqm1MUIUvOjn1ySwdTOAf/H0uTvUUXGvEeSF37QHTYO/K24NcIWyJHc82Qc1O3+UVnPbeMZZzVKmkGGTgr6qPGmKEt3+VwYBBKkZ2jyDoQ==
+ bh=irpUQMK3psLlIsWVaKx5Ocv4ZyBJ7woYFOF+klzKhB0=;
+ b=H4xB9uX+KnaXMvX5BT4hEVKcLzEX9Gpl6xbIj9LUjf7/VbfYXMU/FYMd+4H8jQcSynhtMO3kiUAzFE11revaji/htYV2uhjwl28QfxAwpi0OosNssblVBIFnapgmc0pC/tch9OQ2Uoaqkp0RhAp7tNn5q9x+vm5ilmMGOWc8jJq0hRjhlErNGJK/xNaxr8wZe7hQWulr3sh0TBtpMiP+ucezjIPY+ki7n7Do9Ix64baYrNjQkOsd6G7ijkN5CSC8RuVKDwuBRzcyAdgNJl7Ma4Mbbin5tslSrE28PNbJblvKYe4pOliRNyZuYg6YT14CwoHljD8JQoMdwy/lo10XZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by DM4PR11MB6429.namprd11.prod.outlook.com (2603:10b6:8:b5::10) with
+ by CH0PR11MB5249.namprd11.prod.outlook.com (2603:10b6:610:e0::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33; Wed, 13 Dec
- 2023 06:31:01 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26; Wed, 13 Dec
+ 2023 06:47:51 +0000
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7068.033; Wed, 13 Dec 2023
- 06:31:01 +0000
+ 06:47:50 +0000
 From: "Liu, Yujie" <yujie.liu@intel.com>
 To: lkp <lkp@intel.com>, "oe-kbuild@lists.linux.dev"
 	<oe-kbuild@lists.linux.dev>
-Subject: RE: drivers/watchdog/ath79_wdt.c:161:37: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Thread-Topic: drivers/watchdog/ath79_wdt.c:161:37: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Thread-Index: AQHaKo+muIxNhWOQ3ES7iMVuaJVEBrCmxnLQ
-Date: Wed, 13 Dec 2023 06:31:01 +0000
-Message-ID: <CY5PR11MB639260B09E151FF49ED7C419FB8DA@CY5PR11MB6392.namprd11.prod.outlook.com>
-References: <202312091851.OVvu4Nax-lkp@intel.com>
-In-Reply-To: <202312091851.OVvu4Nax-lkp@intel.com>
+Subject: RE: [akpm-mm:mm-unstable 28/195] /tmp/ccgKfL8Q.s:158: Error: selected
+ processor does not support requested special purpose register -- `mrs
+ r2,cpsr'
+Thread-Topic: [akpm-mm:mm-unstable 28/195] /tmp/ccgKfL8Q.s:158: Error:
+ selected processor does not support requested special purpose register --
+ `mrs r2,cpsr'
+Thread-Index: AQHaI6eAFmt9rmnXL0iBckbrovJWS7Cm2MiA
+Date: Wed, 13 Dec 2023 06:47:49 +0000
+Message-ID: <CY5PR11MB6392F0A22168F3B8831C7667FB8DA@CY5PR11MB6392.namprd11.prod.outlook.com>
+References: <202311302356.M2DUyJ6D-lkp@intel.com>
+In-Reply-To: <202311302356.M2DUyJ6D-lkp@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -81,41 +83,41 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY5PR11MB6392:EE_|DM4PR11MB6429:EE_
-x-ms-office365-filtering-correlation-id: 2d84723f-bdf9-4982-b1a7-08dbfba51380
+x-ms-traffictypediagnostic: CY5PR11MB6392:EE_|CH0PR11MB5249:EE_
+x-ms-office365-filtering-correlation-id: e498c7d6-787f-4d1e-aa4e-08dbfba76c65
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Fum9wHywkCRJVmIXVEhSpuEnCJdgPkdPtc3gCqn+9fPuyfim7ar5tSHHjYwcY95dFO45OZDnk0/ZXIob+Ac+/ae0Cf+kP5bCSMIbKRsMYHn5ldGr7u/3G2QYjcRVHvHu8iMvyWhbKZ2UhET6NgAMwK7U6/GuEVLF6gbNePybJzDvAVhT2JMBqbnx7BWNfdg6vabqaY24VPaqBZ288ZRY8VSzmr/AOoqJ/9xTXHX1QKS7YT9J+7AqL4OiF78Ibg3ua5IORaLdD5GnIUDn8nkXVbQo9fVi8vmALE+xme7a0WEaQ+B/D7H4Idi516G43fS0CwLyr1VDuEuVL2GDUMPfrh7jSj59+SjKAeGayt28AWcm6Slxi9GoKMJD39mjGUuso70VyI+uFaJyHHIUt2S25LjoN2fUiG25mFqT2Cz7Mwl3VQhymMN/bILtaaZEHPrKJtfAmkabGGTiL/ypRKLcKkeTZ3z6hhA/iRLk9cADEtFEL3fgZxNkj5Gra6aFVSWxVV8SRTMtnPFwnO/0LOS+PfTsUpSgrlPC3K9FicO47SxvrUcBAWBxAs8oeqy96dbrANeKpJWcrworwReFQTTyKVVkaYjDbq0rVVAK5Jt3/I3mAXf3rp8o+k7l2vvZ88U1sCXyxGQjkZiuS/pCr6GLbbcZUsSFIMeJb2nOOvdWCdGCZo4KlzxrvHSTlry5/JCd
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39860400002)(366004)(136003)(396003)(376002)(230922051799003)(230273577357003)(230173577357003)(451199024)(186009)(64100799003)(1800799012)(71200400001)(8936002)(8676002)(86362001)(478600001)(38100700002)(316002)(122000001)(41300700001)(966005)(82960400001)(83380400001)(38070700009)(5660300002)(53546011)(26005)(7696005)(6506007)(2906002)(110136005)(66446008)(66476007)(66946007)(64756008)(66556008)(76116006)(9686003)(55016003)(52536014)(33656002);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: 3PCKMXxuaQXBtXjPJhSU2Bq8nCZjYnAl0sIo/pk7hB3OJCLhom9XYxIwnmbK6s/xvHdx8ttmZDamZ41d80kwqGlRudcwSoOxoiK7BtsqurY7ONNTZQtueczvhumpclUMHDC08TCOAr8IzIsXmMJzx+RuyDcNtITDaSsFv9AP31iUJbE9C4bgS54ficADhYsJl4mW36cHtLSJ/R2KR4wjk9m+CaUl6G0mALxDLpeKOWidNsUsfcDtG3WoTT7PZ8uWiem+yJXA7Qi6S8JPv1U/Z6WvFcyjROSz2ZblJmVYQIza9wxP01TuLS7oNjTQdKQlV0N8RWtOy/1LJmP/ta12yfG5U4nII3GBqQW5G3TlgPOiuhi3WIyzOpD3veGsr2GZCaL64kNVRHP03NtriNPflQP5j1a23HimHYdrRWmzkVD6An/y9UIyXQeJ79aXCDMtoUjCwyXLbDk+nb2puFD/r0uT069dzrkia38tQn/xaQybFPt+AibhSGka2TAJviLGcPDpHfogTFXF4rGKM+McaWDjL9JCm2uL+eHonzAkYFpRDeYeFAThLt9Balt+Kq5xh+FJwDNLXWCJmL5d/zMjIsMntncR7gs8BNptLKZ5N9KapGwT5QzsBeXzqVidmc8CJiq+jgdbAZeezhfqBLJcRgO2PBvaE44jjt0y298lVho=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(6029001)(346002)(366004)(376002)(396003)(39860400002)(136003)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(26005)(71200400001)(6506007)(7696005)(9686003)(53546011)(122000001)(83380400001)(5660300002)(52536014)(8936002)(8676002)(41300700001)(2906002)(966005)(478600001)(316002)(76116006)(66946007)(110136005)(66556008)(64756008)(66446008)(66476007)(33656002)(86362001)(82960400001)(38100700002)(38070700009)(55016003)(81973001);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?pgoHGcV5uj7+lt/1lCbPk4fePX/rtW9q3Y5yUvjNRBDEzojKlLoFa5dzv+9M?=
- =?us-ascii?Q?FYL1goG36KwltBDM9XYI2gE9wJDSWnSwcmnI3OHdjXE8pAWQUMl4R0ipCcAS?=
- =?us-ascii?Q?muwqlEA0mRueG234mD6jXYA3q8nEauafcYqj2TF8+Zk/ssTEXyWNz7nLgG/c?=
- =?us-ascii?Q?LbFcU/jP2tIlnoVBx+nfCjnNO+BzLcHfWrBUIKQNnu5kYYcLKHXezwuMVrwG?=
- =?us-ascii?Q?KPQ4bqQxVPGMfu7uDe3wIBZoIgzzMENa4s4aXsmnnicZokdvzrn8mM6Jrsxh?=
- =?us-ascii?Q?OxuFIdwYUIz2H3DU4suMWfjBb9bv2IRh5iDxbeZn6sdtQNdRON6DgOfKPSph?=
- =?us-ascii?Q?YxrsxPQS1jd+Z7LLGu1qW/SEovc2wwi5UbiuBtiRkNQ7UN2a/Q6ylaY1Zl/u?=
- =?us-ascii?Q?bjJ6/o+hPp7su5njMzpgGNIZ0/9T0LNsz75nV9v7f0ChJBg0F7mr6Ha0G7wb?=
- =?us-ascii?Q?5uWaM9Q8hi4CNUyt+Yl4X7xXgk138ywp0iK6h4+0389JVJU9ZLYr6IhCntWJ?=
- =?us-ascii?Q?dQJCMQnwzAhsaHtWr8DTzd1gBAby2/RNkh1xLF05TR3GPEEksT16tKX7zFdX?=
- =?us-ascii?Q?1Y8/qlwlcDGmIVxxdIcaQS00EgUplb7lgoCN/0J2soWd7yy+KcAhBotEKatE?=
- =?us-ascii?Q?3K72PdEDqHDfOCW0gnUSwu6wCnSakaNCWlT9wia/eLf5IsRXY+Ixz7/21xDa?=
- =?us-ascii?Q?kgggFn0WJ6eW1pPLNLIWc/ztZDUENgsE9ggg3BU9eLstRsJxeOxFwIXK/V7T?=
- =?us-ascii?Q?PsHcvVGtn6T8czpPpfE0v3/NMCuPm/4Yd0Gbj33dwU2roiFmB+gr5sL9YK12?=
- =?us-ascii?Q?Y+UZD82IHtCmL4gsdk/RKzJD8IBL7/vj9cwmM5FiMvGNcXupdJ4HfRZoYe/5?=
- =?us-ascii?Q?cULJVmPLrZwCYMVQNUhoVdfP3BTITs7vS0+n+hQTxloaNAsYFBNkaHAfI+Jh?=
- =?us-ascii?Q?WH1OLEpfw7UJZQ42/Wg8AqDRL366H0qwgWSt9v6q5+yNtaGDb8EJl0YS3Vd6?=
- =?us-ascii?Q?SCXp+aJFhC+YuJZ1UDJsY0pT+xuAbqhYL5n0QCSGJyzg370NaCJtfKj3IS/1?=
- =?us-ascii?Q?m5Zsdrm0SPuaD8g7NSxXCCBrxDq09qCWUQbQSFG7xc/YkDVgdEa1xfIIdtxq?=
- =?us-ascii?Q?lSmnP60sldOScK5UtYKwBCiJXRV0Xq1s0+BqZKw61OhMd9X6VZ2Y2D7prNII?=
- =?us-ascii?Q?UYveH+EK7r4T6S5yZ2KxdaBTcy+fnJbknHkXDG9lPhVLQoyGYlHFP8zSW+DT?=
- =?us-ascii?Q?20/wecEpRrctn7s0LQdeFkzOxtCMDGdhFxurE8CaJWztc6Xug7kLhe14zHkf?=
- =?us-ascii?Q?y77QW3FgWfDJpCA0QYLaaxeezT5C5kf7z4o5seDLpaFS/mt592Ighj5CrGNv?=
- =?us-ascii?Q?vcslXkoOgxJIzYkjRVNAnXDu5VgO3bik5EOTOeEntjXKf4Q0ZnwZzzW3eiWy?=
- =?us-ascii?Q?Q3raZWbjN5eGQga6swiIXlvJk1VqYYmfO+YijXKMsgYwRp5+5jHHKZWh4v6U?=
- =?us-ascii?Q?Vm5FJm+F7s4qjQCOlOebjN7sKd5qbblYpGPEgudPv+heIdvqzVtZ5hQovvVF?=
- =?us-ascii?Q?YPN8rTHqibf/N/5I/wcoakOiZhIL/BELW8xusOQV?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?g1leWtFMagHpAV4PiNU6qniFhvYQQttYgn/ELuygfY1QbYjgZLrS1VLErRMn?=
+ =?us-ascii?Q?Br1VbFcl9f8Plb10PHmnHE/j4FBEjPOnnoKqeuKxSRH/cabbpSwJXK9Rpgry?=
+ =?us-ascii?Q?lZ6cRyWn7EPaERNF1D+sBwOXudKHLxRlZEFdLRMfNsRSvckII8nad4eGmdRF?=
+ =?us-ascii?Q?RTZeiBdA5PXL98iNZXp/KFCJMdrNtAlEsmmQuqZhgzp7Acxxs2fk/DaVmgzG?=
+ =?us-ascii?Q?qb3Jht/iiTmuR3VOaJZAo1ATied7HUJHyq1FDSHuApcHlybhIQAxX967S3go?=
+ =?us-ascii?Q?WUDNCl4vD8a9eREX2Rc476SsudSVG80hZoVIUkkVqVzhQgcnIqlgOrmgusbW?=
+ =?us-ascii?Q?kDszA6dvu9pDJEPSkYw2Ip6+k044IFaAsQjNUsIxzq6J6SIDMh8zaXmeBjaH?=
+ =?us-ascii?Q?awYB5/nYCuBtgFn2dB4xUdVHoDV6h4qq+0jOb55O0rRxPCMnKK6rmshduv1e?=
+ =?us-ascii?Q?F4Ixjdt9VQLfND2/r6F1ysOzO9svk4urtZH62hoiHL5omdMHfanLZWO9qEke?=
+ =?us-ascii?Q?7jz93BJI14hTdUApLOd6M8gvfrdAKCyds8TGId1uen91Safo66eaSfYXWT6W?=
+ =?us-ascii?Q?MLjqFVjKj4UDulSdF/g+IV42Qsec3hRJQ8LvDbAfzLo3bc5N1x5p4/vzBQ25?=
+ =?us-ascii?Q?BIOYle6vTcFnRNt+JmDYlJrC7hYBpJ6tXNiHQoOqgnztPianC9z6jSkGprJf?=
+ =?us-ascii?Q?ek/hRuzhmZeW0SxiS3M92LMmls9oiDY0D177EJitdzUG83SuXcYdF1LfHnta?=
+ =?us-ascii?Q?Npx3xAOmG9grqMSyNMyAIsZD2piqQEsNw/AqDrpLSm+wy2QFnVPc/U6HSoQe?=
+ =?us-ascii?Q?oJehArnOOmb5189Gz0JjytOqRjPXZseSLySpnqPd3cyCxtNL5uWUOI1UloSm?=
+ =?us-ascii?Q?Anixh1ClqjoPOhpcCDmbO+WAdOsffCzEGWRqQcBHlnePOxUJ7RAUY4MC3KSi?=
+ =?us-ascii?Q?NG5H25DIToey7lOVWK14XYnk4kr/9SysY0cJQWNnNuurCNsD/UTScv/qW8xd?=
+ =?us-ascii?Q?Sx2Ry6l49lvZZwE/KoncUj1PyM9XycnbvF5Yc3T4OyWL5gWUA4j0pKCeoqUK?=
+ =?us-ascii?Q?lHNRZVPg8j6ygVMNPW39fcoJtnA4k6SFfSq1Zf9rtd03MhpzgIRats/y+lkv?=
+ =?us-ascii?Q?TtGqeYwXx8yuTeBKOdBidMEBeP5s0t+UqMH2aRJqHcJIut1ftc0JZ2ffEhmL?=
+ =?us-ascii?Q?ZFzEvS2DcWbXHbabdbdXLLBj5/T1b71fggIZif+oAmh4/RB7LqFPeoRj0Lkm?=
+ =?us-ascii?Q?JPBRU4IJr6eJfBme+Nzrr6d/oTnuifKZkmcR8odwo3CJUf8rns+PK1t81dg2?=
+ =?us-ascii?Q?ztny46FJqIL9uidpP8ZrFUAACx0ra4TK5bxTviD7mUXu3B5eeQ3Q4plHmwWt?=
+ =?us-ascii?Q?jq1xcFyb3mn7NTkG9gW5t44jCYURGgkhWQ23JrRAvq4wDDm4vI7EMWsSF3xV?=
+ =?us-ascii?Q?nyNACQ+VjHT9JHdJol2dXpOQ+ToM750rWwzqYOjgDWxT68ow12xCPnXSTsrM?=
+ =?us-ascii?Q?B7svBsTiyWTOTO4iRHxKaaiMM31gS2C0BzVCjJxbBow3Io54jlJ1ljA+FQl9?=
+ =?us-ascii?Q?NBfnuiOOOpPkgxFSEqXcJyf1WUl8m8wBOL0fjWCx?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -126,116 +128,71 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d84723f-bdf9-4982-b1a7-08dbfba51380
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2023 06:31:01.8159
+X-MS-Exchange-CrossTenant-Network-Message-Id: e498c7d6-787f-4d1e-aa4e-08dbfba76c65
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2023 06:47:49.9503
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IL1vlkXiHPE++/GTkcY7/WruLmfEZkTPPsR58uvjtjqOfhjPaQAVsr5k+KvaI4y6pW85zK32i+X1y7uWNH2cBA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6429
+X-MS-Exchange-CrossTenant-userprincipalname: UqVcACI9pnE3Eu4XuZrwRjprDlXi/UZyateuLwl6mqIN0geYOpMxu4cKLq2lQxlZ/VjJHPiIGAAsZTPqpYMeVA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5249
 X-OriginatorOrg: intel.com
 
 not_report
 
-This is a sparse patch, not the root cause of the warning in watchdog drive=
-r.
+Don't quite understand the error message produced by assembler.
+But anyway, this commit only has one line change of Kconfig, so ignore this=
+ report.
+
+kernel/Kconfig.kexec | 1 -
+ 1 file changed, 1 deletion(-)
 
 -----Original Message-----
 From: lkp <lkp@intel.com>=20
-Sent: Saturday, December 9, 2023 19:03
+Sent: Friday, December 1, 2023 00:05
 To: oe-kbuild@lists.linux.dev
 Cc: lkp <lkp@intel.com>
-Subject: drivers/watchdog/ath79_wdt.c:161:37: sparse: sparse: incorrect typ=
-e in argument 1 (different address spaces)
+Subject: [akpm-mm:mm-unstable 28/195] /tmp/ccgKfL8Q.s:158: Error: selected =
+processor does not support requested special purpose register -- `mrs r2,cp=
+sr'
 
 ::::::=20
-:::::: Manual check reason: "only include/linux/compiler_types.h file chang=
-ed"
+:::::: Manual check reason: "only kconfig file changed"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ /tmp/ccgKfL8Q.s:158: Error: selected processor does not support requested =
+special purpose register -- `mrs r2,cpsr'"
 ::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+TO: Ignat Korchagin <ignat@cloudflare.com>
 CC: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   f2e8a57ee9036c7d5443382b6c3c09b51a92ec7e
-commit: 25fd529c34d063d1bef23742f2e8f8341c639dc3 sparse: group the defines =
-by functionality
-date:   3 years, 4 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 3 years, 4 months ago
-config: arm-randconfig-r123-20231107 (https://download.01.org/0day-ci/archi=
-ve/20231209/202312091851.OVvu4Nax-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unst=
+able
+head:   213725670d54f6e780039eb2c911430adb036b1b
+commit: 16ebda3b629b084cc40b09ad5fa36d99966a1e9a [28/195] kexec: drop depen=
+dency on ARCH_SUPPORTS_KEXEC from CRASH_DUMP
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: arm-randconfig-r131-20231130 (https://download.01.org/0day-ci/archi=
+ve/20231130/202311302356.M2DUyJ6D-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231209/202312091851.O=
-Vvu4Nax-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231130/202311302356.M=
+2DUyJ6D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312091851.OVvu4Nax-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311302356.M2DUyJ6D-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/watchdog/ath79_wdt.c:161:37: sparse: sparse: incorrect type in a=
-rgument 1 (different address spaces) @@     expected void const volatile [n=
-oderef] __user *ptr @@     got char const * @@
-   drivers/watchdog/ath79_wdt.c:161:37: sparse:     expected void const vol=
-atile [noderef] __user *ptr
-   drivers/watchdog/ath79_wdt.c:161:37: sparse:     got char const *
-   drivers/watchdog/ath79_wdt.c:235:27: sparse: sparse: incorrect type in i=
-nitializer (incompatible argument 2 (different address spaces)) @@     expe=
-cted int ( *write )( ... ) @@     got int ( * )( ... ) @@
-   drivers/watchdog/ath79_wdt.c:235:27: sparse:     expected int ( *write )=
-( ... )
-   drivers/watchdog/ath79_wdt.c:235:27: sparse:     got int ( * )( ... )
+All errors (new ones prefixed by >>):
 
-vim +161 drivers/watchdog/ath79_wdt.c
-
-f8394f61c66f48 Gabor Juhos 2011-01-04  148 =20
-f8394f61c66f48 Gabor Juhos 2011-01-04  149  static ssize_t ath79_wdt_write(=
-struct file *file, const char *data,
-f8394f61c66f48 Gabor Juhos 2011-01-04  150  				size_t len, loff_t *ppos)
-f8394f61c66f48 Gabor Juhos 2011-01-04  151  {
-f8394f61c66f48 Gabor Juhos 2011-01-04  152  	if (len) {
-f8394f61c66f48 Gabor Juhos 2011-01-04  153  		if (!nowayout) {
-f8394f61c66f48 Gabor Juhos 2011-01-04  154  			size_t i;
-f8394f61c66f48 Gabor Juhos 2011-01-04  155 =20
-f8394f61c66f48 Gabor Juhos 2011-01-04  156  			clear_bit(WDT_FLAGS_EXPECT_C=
-LOSE, &wdt_flags);
-f8394f61c66f48 Gabor Juhos 2011-01-04  157 =20
-f8394f61c66f48 Gabor Juhos 2011-01-04  158  			for (i =3D 0; i !=3D len; i+=
-+) {
-f8394f61c66f48 Gabor Juhos 2011-01-04  159  				char c;
-f8394f61c66f48 Gabor Juhos 2011-01-04  160 =20
-f8394f61c66f48 Gabor Juhos 2011-01-04 @161  				if (get_user(c, data + i))
-f8394f61c66f48 Gabor Juhos 2011-01-04  162  					return -EFAULT;
-f8394f61c66f48 Gabor Juhos 2011-01-04  163 =20
-f8394f61c66f48 Gabor Juhos 2011-01-04  164  				if (c =3D=3D 'V')
-f8394f61c66f48 Gabor Juhos 2011-01-04  165  					set_bit(WDT_FLAGS_EXPECT_C=
-LOSE,
-f8394f61c66f48 Gabor Juhos 2011-01-04  166  						&wdt_flags);
-f8394f61c66f48 Gabor Juhos 2011-01-04  167  			}
-f8394f61c66f48 Gabor Juhos 2011-01-04  168  		}
-f8394f61c66f48 Gabor Juhos 2011-01-04  169 =20
-f8394f61c66f48 Gabor Juhos 2011-01-04  170  		ath79_wdt_keepalive();
-f8394f61c66f48 Gabor Juhos 2011-01-04  171  	}
-f8394f61c66f48 Gabor Juhos 2011-01-04  172 =20
-f8394f61c66f48 Gabor Juhos 2011-01-04  173  	return len;
-f8394f61c66f48 Gabor Juhos 2011-01-04  174  }
-f8394f61c66f48 Gabor Juhos 2011-01-04  175 =20
-
-:::::: The code at line 161 was first introduced by commit
-:::::: f8394f61c66f48b1fe9d6964ddce492d7f9a4cd9 watchdog: add driver for th=
-e Atheros AR71XX/AR724X/AR913X SoCs
-
-:::::: TO: Gabor Juhos <juhosg@openwrt.org>
-:::::: CC: Wim Van Sebroeck <wim@iguana.be>
+   /tmp/ccgKfL8Q.s: Assembler messages:
+>> /tmp/ccgKfL8Q.s:158: Error: selected processor does not support requeste=
+d special purpose register -- `mrs r2,cpsr'
 
 --=20
 0-DAY CI Kernel Test Service
