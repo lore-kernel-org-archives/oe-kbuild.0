@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDB89468
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 Dec 2023 15:16:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9945B59B46
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 Dec 2023 17:54:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WxpfoBLP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ExDxNl/J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702480593; x=1734016593;
+  t=1702490097; x=1734026097;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kVunku8OqNun5JcN2m/dmEVeOI590ur42Dyp4mpge/k=;
-  b=WxpfoBLPAFDXk3uZjzp+T1haUk2K0rDmygtRVmuksxlyD6p1Ocy/vCrN
-   8tTzBxvAkyFowhVRnD0kn01Qb5VTfAYuimhcWRxwdck+iFWrS5jbwxX6N
-   7cq/BE8oNgKhBqWW1El6SytIen8wCDIeN7A7uM+tsmr/h6ieBllmjlbFv
-   iq/ym4/+rA8PZy+yRuGnacHuazX+05IA426c8r+tbpoOkDjIicQJMwvEt
-   9wBYg5hEPX27/jzGJOt+iSfI5iesBJyh3ba8QVUus+OAeL/rnLAgsUE1o
-   B4f7ktO2QdQS6AZEfwNmv7vzNpeSJrKUytV5eMpCYYqAGbDqb1KemBOJY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="8339886"
+  bh=hbkJMJtl2hsuPOnWR1FGPJRc7dV3o0FuFncvtyQT01A=;
+  b=ExDxNl/J6xQci+5R+BV6ttd4c0IAaQFkfGQdiyXSQHZ1HUefwcano0ko
+   Z/5brOjKiGkAl6+56pQqcXuvj6ndHOLPtqSjbkZ5Zn9iUs127YzEZ0mVf
+   5KCfu5pwbkbtkUqHorpJe7m6EBrqaaCm7COV9MA+fZ5pB9QEb1OMXil24
+   pq+ceR+1c2cqo5PlgXinNzWvnMyuHi0zWidYT0tHHJoNFHSe4sRexvYLI
+   q8pVT2LmdtxC8glZ9OcYLPvrmgRcuwerIpARSDJ2a6LGRA6rsbQ/ZD7yR
+   /rBj9q1HLQkavpv1FqLukTPsr5aCs2W5yLIdftV0ZvTrjUABWuf4P4x4F
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="459319158"
 X-IronPort-AV: E=Sophos;i="6.04,273,1695711600"; 
-   d="scan'208";a="8339886"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 07:16:31 -0800
+   d="scan'208";a="459319158"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 09:54:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="802908495"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="844403009"
 X-IronPort-AV: E=Sophos;i="6.04,273,1695711600"; 
-   d="scan'208";a="802908495"
+   d="scan'208";a="844403009"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 13 Dec 2023 07:16:28 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 13 Dec 2023 09:54:52 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDQyH-000Kjb-2m;
-	Wed, 13 Dec 2023 15:16:25 +0000
-Date: Wed, 13 Dec 2023 23:16:13 +0800
+	id 1rDTRa-000KyW-1W;
+	Wed, 13 Dec 2023 17:54:50 +0000
+Date: Thu, 14 Dec 2023 01:54:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/hamradio/scc.c:1748 scc_net_siocdevprivate() warn:
- potential spectre issue 'Ivec' [w]
-Message-ID: <202312132304.F7hG3JIH-lkp@intel.com>
+Subject: [dhowells-fs:netfs-lib 69/80] fs/netfs/direct_read.c:189
+ netfs_unbuffered_read_iter_locked() error: uninitialized symbol 'min_bsize'.
+Message-ID: <202312140149.21EL6QeG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,307 +52,139 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   88035e5694a86a7167d490bb95e9df97a9bb162b
-commit: 25ec92fbdd23a0a2bfd2bdf489e60ea4f0ae46d1 hamradio: use ndo_siocdevprivate
-date:   2 years, 5 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 2 years, 5 months ago
-config: i386-randconfig-141-20231111 (https://download.01.org/0day-ci/archive/20231213/202312132304.F7hG3JIH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231213/202312132304.F7hG3JIH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-lib
+head:   0e2ac5291cc1c3c45e5ee784357b3f51b611195f
+commit: 9afdab285a8996a3f87b696670fe80fb531c8ad5 [69/80] netfs: Implement support for unbuffered/DIO read
+:::::: branch date: 3 hours ago
+:::::: commit date: 20 hours ago
+config: x86_64-randconfig-161-20231213 (https://download.01.org/0day-ci/archive/20231214/202312140149.21EL6QeG-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20231214/202312140149.21EL6QeG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312132304.F7hG3JIH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312140149.21EL6QeG-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/hamradio/scc.c:1748 scc_net_siocdevprivate() warn: potential spectre issue 'Ivec' [w]
-drivers/net/hamradio/scc.c:1783 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
-drivers/net/hamradio/scc.c:1946 scc_net_siocdevprivate() warn: 'hwcfg.vector_latch' from __request_region() not released on lines: 1827.
+smatch warnings:
+fs/netfs/direct_read.c:189 netfs_unbuffered_read_iter_locked() error: uninitialized symbol 'min_bsize'.
 
-Old smatch warnings:
-drivers/net/hamradio/scc.c:1784 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
-drivers/net/hamradio/scc.c:1785 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
-drivers/net/hamradio/scc.c:1786 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
-drivers/net/hamradio/scc.c:1787 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
-drivers/net/hamradio/scc.c:1788 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
-drivers/net/hamradio/scc.c:1800 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
-drivers/net/hamradio/scc.c:1801 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
-drivers/net/hamradio/scc.c:1802 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
-drivers/net/hamradio/scc.c:1803 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
-drivers/net/hamradio/scc.c:1804 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
-drivers/net/hamradio/scc.c:1822 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
-drivers/net/hamradio/scc.c:1823 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
-drivers/net/hamradio/scc.c:1826 scc_net_siocdevprivate() error: buffer overflow 'SCC_Info' 8 <= s32max
+vim +/min_bsize +189 fs/netfs/direct_read.c
 
-vim +/Ivec +1748 drivers/net/hamradio/scc.c
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1695  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1696  /*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1697   * SIOCSCCCFG		- configure driver	arg: (struct scc_hw_config *) arg
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1698   * SIOCSCCINI		- initialize driver	arg: ---
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1699   * SIOCSCCCHANINI	- initialize channel	arg: (struct scc_modem *) arg
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1700   * SIOCSCCSMEM		- set memory		arg: (struct scc_mem_config *) arg
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1701   * SIOCSCCGKISS		- get level 1 parameter	arg: (struct scc_kiss_cmd *) arg
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1702   * SIOCSCCSKISS		- set level 1 parameter arg: (struct scc_kiss_cmd *) arg
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1703   * SIOCSCCGSTAT		- get driver status	arg: (struct scc_stat *) arg
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1704   * SIOCSCCCAL		- send calib. pattern	arg: (struct scc_calibrate *) arg
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1705   */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1706  
-25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1707  static int scc_net_siocdevprivate(struct net_device *dev,
-25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1708  				  struct ifreq *ifr, void __user *arg, int cmd)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1709  {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1710  	struct scc_kiss_cmd kiss_cmd;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1711  	struct scc_mem_config memcfg;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1712  	struct scc_hw_config hwcfg;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1713  	struct scc_calibrate cal;
-f4bdd264b43cc6 Wang Chen          2008-11-20  1714  	struct scc_channel *scc = (struct scc_channel *) dev->ml_priv;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1715  	int chan;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1716  	unsigned char device_name[IFNAMSIZ];
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1717  	
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1718  	if (!Driver_Initialized)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1719  	{
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1720  		if (cmd == SIOCSCCCFG)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1721  		{
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1722  			int found = 1;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1723  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1724  			if (!capable(CAP_SYS_RAWIO)) return -EPERM;
-25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1725  			if (in_compat_syscall())
-25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1726  				return -EOPNOTSUPP;
-25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1727  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1728  			if (!arg) return -EFAULT;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1729  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1730  			if (Nchips >= SCC_MAXCHIPS) 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1731  				return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1732  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1733  			if (copy_from_user(&hwcfg, arg, sizeof(hwcfg)))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1734  				return -EFAULT;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1735  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1736  			if (hwcfg.irq == 2) hwcfg.irq = 9;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1737  
-60e4ad7a72fd7c Yinghai Lu         2008-08-19  1738  			if (hwcfg.irq < 0 || hwcfg.irq >= nr_irqs)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1739  				return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1740  				
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1741  			if (!Ivec[hwcfg.irq].used && hwcfg.irq)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1742  			{
-1b36efe07f83ec Jeff Garzik        2007-10-29  1743  				if (request_irq(hwcfg.irq, scc_isr,
-9714481e677562 Michael Opdenacker 2013-10-05  1744  						0, "AX.25 SCC",
-1b36efe07f83ec Jeff Garzik        2007-10-29  1745  						(void *)(long) hwcfg.irq))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1746  					printk(KERN_WARNING "z8530drv: warning, cannot get IRQ %d\n", hwcfg.irq);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1747  				else
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @1748  					Ivec[hwcfg.irq].used = 1;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1749  			}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1750  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1751  			if (hwcfg.vector_latch && !Vector_Latch) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1752  				if (!request_region(hwcfg.vector_latch, 1, "scc vector latch"))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1753  					printk(KERN_WARNING "z8530drv: warning, cannot reserve vector latch port 0x%lx\n, disabled.", hwcfg.vector_latch);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1754  				else
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1755  					Vector_Latch = hwcfg.vector_latch;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1756  			}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1757  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1758  			if (hwcfg.clock == 0)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1759  				hwcfg.clock = SCC_DEFAULT_CLOCK;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1760  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1761  #ifndef SCC_DONT_CHECK
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1762  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1763  			if(request_region(hwcfg.ctrl_a, 1, "scc-probe"))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1764  			{
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1765  				disable_irq(hwcfg.irq);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1766  				Outb(hwcfg.ctrl_a, 0);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1767  				OutReg(hwcfg.ctrl_a, R9, FHWRES);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1768  				udelay(100);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1769  				OutReg(hwcfg.ctrl_a,R13,0x55);		/* is this chip really there? */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1770  				udelay(5);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1771  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1772  				if (InReg(hwcfg.ctrl_a,R13) != 0x55)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1773  					found = 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1774  				enable_irq(hwcfg.irq);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1775  				release_region(hwcfg.ctrl_a, 1);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1776  			}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1777  			else
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1778  				found = 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1779  #endif
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1780  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1781  			if (found)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1782  			{
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @1783  				SCC_Info[2*Nchips  ].ctrl = hwcfg.ctrl_a;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1784  				SCC_Info[2*Nchips  ].data = hwcfg.data_a;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1785  				SCC_Info[2*Nchips  ].irq  = hwcfg.irq;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1786  				SCC_Info[2*Nchips+1].ctrl = hwcfg.ctrl_b;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1787  				SCC_Info[2*Nchips+1].data = hwcfg.data_b;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1788  				SCC_Info[2*Nchips+1].irq  = hwcfg.irq;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1789  			
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1790  				SCC_ctrl[Nchips].chan_A = hwcfg.ctrl_a;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1791  				SCC_ctrl[Nchips].chan_B = hwcfg.ctrl_b;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1792  				SCC_ctrl[Nchips].irq    = hwcfg.irq;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1793  			}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1794  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1795  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1796  			for (chan = 0; chan < 2; chan++)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1797  			{
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1798  				sprintf(device_name, "%s%i", SCC_DriverName, 2*Nchips+chan);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1799  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1800  				SCC_Info[2*Nchips+chan].special = hwcfg.special;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1801  				SCC_Info[2*Nchips+chan].clock = hwcfg.clock;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1802  				SCC_Info[2*Nchips+chan].brand = hwcfg.brand;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1803  				SCC_Info[2*Nchips+chan].option = hwcfg.option;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1804  				SCC_Info[2*Nchips+chan].enhanced = hwcfg.escc;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1805  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1806  #ifdef SCC_DONT_CHECK
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1807  				printk(KERN_INFO "%s: data port = 0x%3.3x  control port = 0x%3.3x\n",
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1808  					device_name, 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1809  					SCC_Info[2*Nchips+chan].data, 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1810  					SCC_Info[2*Nchips+chan].ctrl);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1811  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1812  #else
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1813  				printk(KERN_INFO "%s: data port = 0x%3.3lx  control port = 0x%3.3lx -- %s\n",
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1814  					device_name,
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1815  					chan? hwcfg.data_b : hwcfg.data_a, 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1816  					chan? hwcfg.ctrl_b : hwcfg.ctrl_a,
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1817  					found? "found" : "missing");
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1818  #endif
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1819  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1820  				if (found)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1821  				{
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1822  					request_region(SCC_Info[2*Nchips+chan].ctrl, 1, "scc ctrl");
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1823  					request_region(SCC_Info[2*Nchips+chan].data, 1, "scc data");
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1824  					if (Nchips+chan != 0 &&
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1825  					    scc_net_alloc(device_name, 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1826  							  &SCC_Info[2*Nchips+chan]))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1827  					    return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1828  				}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1829  			}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1830  			
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1831  			if (found) Nchips++;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1832  			
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1833  			return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1834  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1835  		
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1836  		if (cmd == SIOCSCCINI)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1837  		{
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1838  			if (!capable(CAP_SYS_RAWIO))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1839  				return -EPERM;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1840  				
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1841  			if (Nchips == 0)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1842  				return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1843  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1844  			z8530_init();
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1845  			return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1846  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1847  		
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1848  		return -EINVAL;	/* confuse the user */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1849  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1850  	
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1851  	if (!scc->init)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1852  	{
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1853  		if (cmd == SIOCSCCCHANINI)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1854  		{
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1855  			if (!capable(CAP_NET_ADMIN)) return -EPERM;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1856  			if (!arg) return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1857  			
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1858  			scc->stat.bufsize   = SCC_BUFSIZE;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1859  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1860  			if (copy_from_user(&scc->modem, arg, sizeof(struct scc_modem)))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1861  				return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1862  			
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1863  			/* default KISS Params */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1864  		
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1865  			if (scc->modem.speed < 4800)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1866  			{
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1867  				scc->kiss.txdelay = 36;		/* 360 ms */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1868  				scc->kiss.persist = 42;		/* 25% persistence */			/* was 25 */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1869  				scc->kiss.slottime = 16;	/* 160 ms */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1870  				scc->kiss.tailtime = 4;		/* minimal reasonable value */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1871  				scc->kiss.fulldup = 0;		/* CSMA */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1872  				scc->kiss.waittime = 50;	/* 500 ms */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1873  				scc->kiss.maxkeyup = 10;	/* 10 s */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1874  				scc->kiss.mintime = 3;		/* 3 s */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1875  				scc->kiss.idletime = 30;	/* 30 s */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1876  				scc->kiss.maxdefer = 120;	/* 2 min */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1877  				scc->kiss.softdcd = 0;		/* hardware dcd */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1878  			} else {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1879  				scc->kiss.txdelay = 10;		/* 100 ms */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1880  				scc->kiss.persist = 64;		/* 25% persistence */			/* was 25 */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1881  				scc->kiss.slottime = 8;		/* 160 ms */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1882  				scc->kiss.tailtime = 1;		/* minimal reasonable value */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1883  				scc->kiss.fulldup = 0;		/* CSMA */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1884  				scc->kiss.waittime = 50;	/* 500 ms */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1885  				scc->kiss.maxkeyup = 7;		/* 7 s */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1886  				scc->kiss.mintime = 3;		/* 3 s */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1887  				scc->kiss.idletime = 30;	/* 30 s */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1888  				scc->kiss.maxdefer = 120;	/* 2 min */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1889  				scc->kiss.softdcd = 0;		/* hardware dcd */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1890  			}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1891  			
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1892  			scc->tx_buff = NULL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1893  			skb_queue_head_init(&scc->tx_queue);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1894  			scc->init = 1;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1895  			
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1896  			return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1897  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1898  		
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1899  		return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1900  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1901  	
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1902  	switch(cmd)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1903  	{
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1904  		case SIOCSCCRESERVED:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1905  			return -ENOIOCTLCMD;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1906  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1907  		case SIOCSCCSMEM:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1908  			if (!capable(CAP_SYS_RAWIO)) return -EPERM;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1909  			if (!arg || copy_from_user(&memcfg, arg, sizeof(memcfg)))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1910  				return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1911  			scc->stat.bufsize   = memcfg.bufsize;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1912  			return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1913  		
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1914  		case SIOCSCCGSTAT:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1915  			if (!arg || copy_to_user(arg, &scc->stat, sizeof(scc->stat)))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1916  				return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1917  			return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1918  		
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1919  		case SIOCSCCGKISS:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1920  			if (!arg || copy_from_user(&kiss_cmd, arg, sizeof(kiss_cmd)))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1921  				return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1922  			kiss_cmd.param = scc_get_param(scc, kiss_cmd.command);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1923  			if (copy_to_user(arg, &kiss_cmd, sizeof(kiss_cmd)))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1924  				return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1925  			return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1926  		
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1927  		case SIOCSCCSKISS:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1928  			if (!capable(CAP_NET_ADMIN)) return -EPERM;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1929  			if (!arg || copy_from_user(&kiss_cmd, arg, sizeof(kiss_cmd)))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1930  				return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1931  			return scc_set_param(scc, kiss_cmd.command, kiss_cmd.param);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1932  		
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1933  		case SIOCSCCCAL:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1934  			if (!capable(CAP_SYS_RAWIO)) return -EPERM;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1935  			if (!arg || copy_from_user(&cal, arg, sizeof(cal)) || cal.time == 0)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1936  				return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1937  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1938  			scc_start_calibrate(scc, cal.time, cal.pattern);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1939  			return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1940  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1941  		default:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1942  			return -ENOIOCTLCMD;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1943  		
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1944  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1945  	
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @1946  	return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1947  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1948  
-
-:::::: The code at line 1748 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+9afdab285a8996 David Howells 2022-01-14  118  
+9afdab285a8996 David Howells 2022-01-14  119  /**
+9afdab285a8996 David Howells 2022-01-14  120   * netfs_unbuffered_read_iter_locked - Perform an unbuffered or direct I/O read
+9afdab285a8996 David Howells 2022-01-14  121   * @iocb: The I/O control descriptor describing the read
+9afdab285a8996 David Howells 2022-01-14  122   * @iter: The output buffer (also specifies read length)
+9afdab285a8996 David Howells 2022-01-14  123   *
+9afdab285a8996 David Howells 2022-01-14  124   * Perform an unbuffered I/O or direct I/O from the file in @iocb to the
+9afdab285a8996 David Howells 2022-01-14  125   * output buffer.  No use is made of the pagecache.
+9afdab285a8996 David Howells 2022-01-14  126   *
+9afdab285a8996 David Howells 2022-01-14  127   * The caller must hold any appropriate locks.
+9afdab285a8996 David Howells 2022-01-14  128   */
+9afdab285a8996 David Howells 2022-01-14  129  static ssize_t netfs_unbuffered_read_iter_locked(struct kiocb *iocb, struct iov_iter *iter)
+9afdab285a8996 David Howells 2022-01-14  130  {
+9afdab285a8996 David Howells 2022-01-14  131  	struct netfs_io_request *rreq;
+9afdab285a8996 David Howells 2022-01-14  132  	struct netfs_inode *ctx;
+9afdab285a8996 David Howells 2022-01-14  133  	unsigned long long start, end;
+9afdab285a8996 David Howells 2022-01-14  134  	unsigned int min_bsize;
+9afdab285a8996 David Howells 2022-01-14  135  	pgoff_t first, last;
+9afdab285a8996 David Howells 2022-01-14  136  	ssize_t ret;
+9afdab285a8996 David Howells 2022-01-14  137  	size_t orig_count = iov_iter_count(iter);
+9afdab285a8996 David Howells 2022-01-14  138  	bool async = !is_sync_kiocb(iocb);
+9afdab285a8996 David Howells 2022-01-14  139  
+9afdab285a8996 David Howells 2022-01-14  140  	_enter("");
+9afdab285a8996 David Howells 2022-01-14  141  
+9afdab285a8996 David Howells 2022-01-14  142  	if (!orig_count)
+9afdab285a8996 David Howells 2022-01-14  143  		return 0; /* Don't update atime */
+9afdab285a8996 David Howells 2022-01-14  144  
+9afdab285a8996 David Howells 2022-01-14  145  	ret = kiocb_write_and_wait(iocb, orig_count);
+9afdab285a8996 David Howells 2022-01-14  146  	if (ret < 0)
+9afdab285a8996 David Howells 2022-01-14  147  		return ret;
+9afdab285a8996 David Howells 2022-01-14  148  	file_accessed(iocb->ki_filp);
+9afdab285a8996 David Howells 2022-01-14  149  
+9afdab285a8996 David Howells 2022-01-14  150  	rreq = netfs_alloc_request(iocb->ki_filp->f_mapping, iocb->ki_filp,
+9afdab285a8996 David Howells 2022-01-14  151  				   iocb->ki_pos, orig_count,
+9afdab285a8996 David Howells 2022-01-14  152  				   NETFS_DIO_READ);
+9afdab285a8996 David Howells 2022-01-14  153  	if (IS_ERR(rreq))
+9afdab285a8996 David Howells 2022-01-14  154  		return PTR_ERR(rreq);
+9afdab285a8996 David Howells 2022-01-14  155  
+9afdab285a8996 David Howells 2022-01-14  156  	ctx = netfs_inode(rreq->inode);
+9afdab285a8996 David Howells 2022-01-14  157  	netfs_stat(&netfs_n_rh_dio_read);
+9afdab285a8996 David Howells 2022-01-14  158  	trace_netfs_read(rreq, rreq->start, rreq->len, netfs_read_trace_dio_read);
+9afdab285a8996 David Howells 2022-01-14  159  
+9afdab285a8996 David Howells 2022-01-14  160  	/* If this is an async op, we have to keep track of the destination
+9afdab285a8996 David Howells 2022-01-14  161  	 * buffer for ourselves as the caller's iterator will be trashed when
+9afdab285a8996 David Howells 2022-01-14  162  	 * we return.
+9afdab285a8996 David Howells 2022-01-14  163  	 *
+9afdab285a8996 David Howells 2022-01-14  164  	 * In such a case, extract an iterator to represent as much of the the
+9afdab285a8996 David Howells 2022-01-14  165  	 * output buffer as we can manage.  Note that the extraction might not
+9afdab285a8996 David Howells 2022-01-14  166  	 * be able to allocate a sufficiently large bvec array and may shorten
+9afdab285a8996 David Howells 2022-01-14  167  	 * the request.
+9afdab285a8996 David Howells 2022-01-14  168  	 */
+9afdab285a8996 David Howells 2022-01-14  169  	if (user_backed_iter(iter)) {
+9afdab285a8996 David Howells 2022-01-14  170  		ret = netfs_extract_user_iter(iter, rreq->len, &rreq->iter, 0);
+9afdab285a8996 David Howells 2022-01-14  171  		if (ret < 0)
+9afdab285a8996 David Howells 2022-01-14  172  			goto out;
+9afdab285a8996 David Howells 2022-01-14  173  		rreq->direct_bv = (struct bio_vec *)rreq->iter.bvec;
+9afdab285a8996 David Howells 2022-01-14  174  		rreq->direct_bv_count = ret;
+9afdab285a8996 David Howells 2022-01-14  175  		rreq->direct_bv_unpin = iov_iter_extract_will_pin(iter);
+9afdab285a8996 David Howells 2022-01-14  176  		rreq->len = iov_iter_count(&rreq->iter);
+9afdab285a8996 David Howells 2022-01-14  177  	} else {
+9afdab285a8996 David Howells 2022-01-14  178  		rreq->iter = *iter;
+9afdab285a8996 David Howells 2022-01-14  179  		rreq->len = orig_count;
+9afdab285a8996 David Howells 2022-01-14  180  		rreq->direct_bv_unpin = false;
+9afdab285a8996 David Howells 2022-01-14  181  		iov_iter_advance(iter, orig_count);
+9afdab285a8996 David Howells 2022-01-14  182  	}
+9afdab285a8996 David Howells 2022-01-14  183  
+9afdab285a8996 David Howells 2022-01-14  184  	/* If we're going to use a bounce buffer, we need to set it up.  We
+9afdab285a8996 David Howells 2022-01-14  185  	 * will then need to pad the request out to the minimum block size.
+9afdab285a8996 David Howells 2022-01-14  186  	 */
+9afdab285a8996 David Howells 2022-01-14  187  	if (test_bit(NETFS_RREQ_USE_BOUNCE_BUFFER, &rreq->flags)) {
+9afdab285a8996 David Howells 2022-01-14  188  		start = rreq->start;
+9afdab285a8996 David Howells 2022-01-14 @189  		end = min_t(unsigned long long,
+9afdab285a8996 David Howells 2022-01-14  190  			    round_up(rreq->start + rreq->len, min_bsize),
+9afdab285a8996 David Howells 2022-01-14  191  			    ctx->remote_i_size);
+9afdab285a8996 David Howells 2022-01-14  192  
+9afdab285a8996 David Howells 2022-01-14  193  		rreq->start = start;
+9afdab285a8996 David Howells 2022-01-14  194  		rreq->len   = end - start;
+9afdab285a8996 David Howells 2022-01-14  195  		first = start / PAGE_SIZE;
+9afdab285a8996 David Howells 2022-01-14  196  		last  = (end - 1) / PAGE_SIZE;
+9afdab285a8996 David Howells 2022-01-14  197  		_debug("bounce %llx-%llx %lx-%lx",
+9afdab285a8996 David Howells 2022-01-14  198  		       rreq->start, end, first, last);
+9afdab285a8996 David Howells 2022-01-14  199  
+9afdab285a8996 David Howells 2022-01-14  200  		ret = netfs_add_folios_to_buffer(&rreq->bounce, rreq->mapping,
+9afdab285a8996 David Howells 2022-01-14  201  						 first, last, GFP_KERNEL);
+9afdab285a8996 David Howells 2022-01-14  202  		if (ret < 0)
+9afdab285a8996 David Howells 2022-01-14  203  			goto out;
+9afdab285a8996 David Howells 2022-01-14  204  	}
+9afdab285a8996 David Howells 2022-01-14  205  
+9afdab285a8996 David Howells 2022-01-14  206  	if (async)
+9afdab285a8996 David Howells 2022-01-14  207  		rreq->iocb = iocb;
+9afdab285a8996 David Howells 2022-01-14  208  
+9afdab285a8996 David Howells 2022-01-14  209  	ret = netfs_begin_read(rreq, is_sync_kiocb(iocb));
+9afdab285a8996 David Howells 2022-01-14  210  	if (ret < 0)
+9afdab285a8996 David Howells 2022-01-14  211  		goto out; /* May be -EIOCBQUEUED */
+9afdab285a8996 David Howells 2022-01-14  212  	if (!async) {
+9afdab285a8996 David Howells 2022-01-14  213  		ret = netfs_dio_copy_bounce_to_dest(rreq);
+9afdab285a8996 David Howells 2022-01-14  214  		if (ret == 0) {
+9afdab285a8996 David Howells 2022-01-14  215  			iocb->ki_pos += rreq->transferred;
+9afdab285a8996 David Howells 2022-01-14  216  			ret = rreq->transferred;
+9afdab285a8996 David Howells 2022-01-14  217  		}
+9afdab285a8996 David Howells 2022-01-14  218  	}
+9afdab285a8996 David Howells 2022-01-14  219  
+9afdab285a8996 David Howells 2022-01-14  220  out:
+9afdab285a8996 David Howells 2022-01-14  221  	netfs_put_request(rreq, false, netfs_rreq_trace_put_return);
+9afdab285a8996 David Howells 2022-01-14  222  	if (ret > 0)
+9afdab285a8996 David Howells 2022-01-14  223  		orig_count -= ret;
+9afdab285a8996 David Howells 2022-01-14  224  	if (ret != -EIOCBQUEUED)
+9afdab285a8996 David Howells 2022-01-14  225  		iov_iter_revert(iter, orig_count - iov_iter_count(iter));
+9afdab285a8996 David Howells 2022-01-14  226  	return ret;
+9afdab285a8996 David Howells 2022-01-14  227  }
+9afdab285a8996 David Howells 2022-01-14  228  
 
 -- 
 0-DAY CI Kernel Test Service
