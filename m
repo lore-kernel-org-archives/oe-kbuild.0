@@ -1,55 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54231C8CF
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 Dec 2023 05:40:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5486BE6D
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 Dec 2023 05:41:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AzT0TA/+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ihs9QYC5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702446001; x=1733982001;
+  t=1702446097; x=1733982097;
   h=from:to:subject:date:message-id:references:in-reply-to:
    content-transfer-encoding:mime-version;
-  bh=7xNWLJRGMg5oLSvWFk+zN8L+KxdQD+uC7CAnjZAVqxk=;
-  b=AzT0TA/+BIxaEzZIFY5FrF5eLVW06gpsv2WztAxLSRwAWuM2XNt+y39o
-   p58K//3ZRLnOzpkGpi402EbWd4Xek1HVk9jhun7s8pcTz3c3/UPFV2YV3
-   YY8ak5Q6k4D4SutSd6Vd7hy2K2QG0agwslxBaAaUbmhx8NN/IMqAJLvDA
-   HydX+1ag7o3y3gpeO2PvoiKIhPqq07nMygCXIXIzoNqCCckRYHGLFS06w
-   TlKJigGpraDU5MafiY+LR9Xa6VcdcwYN7PwJyFWEJR7YBoHp5euqW0jUL
-   llBxfPLuOd5gykV61uMXn3CWjQq5B8jJSnzksVVoTR2HAzoqe2K66h0OT
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="1773170"
+  bh=BL+A5vlpL2TT9u4HkAmA5BxXMag/4jXcP7A4lWcAvA4=;
+  b=Ihs9QYC5xus2NyQwtyrDzGgGpOW4qY3RE5YFvO70NLPiDFc8F5/9InBM
+   EbixRAXomWY3VeT+DYmPNKVwoFNAVaWeGrxKlQfQDvPEI8JaixDLnfG5t
+   0RgwgWX0oMU0+9qisSvMKXQHaiGOAt/ZmVWNyVT4OxAPRIIW+0GBlcDTK
+   QfLO9u/rQ1q7r+8U3kpzDdnsSDcq2e0u7kGMGLzYCfL27HyI7GZVeC96P
+   FSe91j4aDzhKpAZqCizZVLOsk/yvb8+jFdia4Tz4u7tlWXz2CipFvWJJj
+   ueiZW4XfTgfuRrw3gQpWUZS/sn7qSJHCUa7jcz/WUN+ewuxtaX3bGm6bU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="481117237"
 X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="1773170"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 21:39:50 -0800
+   d="scan'208";a="481117237"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 21:41:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="723510441"
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="802760633"
 X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="723510441"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orsmga003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Dec 2023 21:39:49 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+   d="scan'208";a="802760633"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Dec 2023 21:41:36 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 12 Dec 2023 21:39:49 -0800
+ 15.1.2507.35; Tue, 12 Dec 2023 21:41:36 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 12 Dec 2023 21:41:35 -0800
 Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 12 Dec 2023 21:39:49 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2507.35 via Frontend Transport; Tue, 12 Dec 2023 21:41:35 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 12 Dec 2023 21:39:48 -0800
+ 15.1.2507.35; Tue, 12 Dec 2023 21:41:35 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S1/0a9Jxarmp8EXBEAZBeHLflg5j+S0FF2Q4BygfDobjkAIY9Bxy067S9xEW1P+Q5P6jLhD0CGEqaaBWb//9eE0mGI0+oE3ENGbugV/mSqIwqj5/9H7mriZnqPqZlBMm/L/xKqjgvRQQkYaGlTupL8VrMbyDkzRTR6y4G7XaxSra+P1bh3LWnMCHTjPwZ+9xpOSvuGqUb/32DKbtuAkfCV9Ec/WH0UG+fFqAxPOQ8y6azXmZUF+dRJJEsZx1H5j0elLqaYHydx5mHE5oOSzr0xH63B9vITG3c3AE2B109CtibqcbVkrurVF/9t9CFpjdwBXGRzVbMPdbRYh7bE9iIw==
+ b=MsmvXsEo++QPppaNlLFrT923IvJaLvQsxK4J+pOM7e9QcAkMJcdoq4+bDgapgzFPw2dITj2RGnMDHMlV1UThLCA65piSamFeEKHteA0EOwSnXWo3qDYsLioz152t7jw5MsAcsiJqYF8KnnXdFX1Xgcz8YPz1B4CjcmFJn3gRUiVnRZraFjJzA3COIFhGG3TY+0XFAFntX9jvx48LsleAKzLfrtZOFw0PTezLtFpZjcDfBqN8qs6tG8hmaDBrfoAk4YyOD/cBTWnjW0HYlYa73oeknx0PsL/oGeltXlbmAYfl/L1VhDjMkGecAy5Ft/CmgEI/LID7I4BuDLe5dxHmiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4qyVpDccljN2B/Gtc2MXF5HUGvxDdcW+XEs1l8E3bKc=;
- b=R9e+N6Yu9Dh/JBhm5er8xJnCbJ+COlVlGzOB0n4XTQnYjIQyQ2YC4aVkumwMShKDDEN5rjiEjWkTuU5669VTLKR9/Xb9P1bHAvUrN1fy9d6GSXdazoYOU0r3AOTeMm6riN40eH8mxFnmsnr/C1wxMaFQOTZD6s0XqE4cE99ZrgihbsfmRk3STd5Twjfkv9yPo5FlA2EKzEsKLRaBhYWCTz1g1n8OtHUWJIc0BMIW5UjBBJJ3bvCEKVvgw4JYHNkb43qNh8jYgQxV78c1z/cxgjCp1uAG9L+sKMkvQbOZ1AgE+uV+vtuutF03WHUK8oT2dk3P7Xe7AvGY9gEzeLsDqQ==
+ bh=eWf4ScauSRYO7EJyEIjVT+Q2wjgIIIOGyTrEa3xoFDQ=;
+ b=mihKCeRc9gS3QDnCNZeNn6zTlsgU7XN1TDVLYuOXf9JXlNFlgFl2Unb2ilMpQKya0tNtK6Cgxy4dKHL39rRb0bIl8k/1V2ikNbpjsB5FKb0/N2DmPtK9UbVqKyZRbX3v5LxubS4Oo08RdjN0dyna705ARSzQS9LUGlvcr2I5JAaubp2v3vhH6nNzdAoyLEv5KCo5mdM+Ul2tqjCukyFdvxI2/Y/QM1AqIAEb6Odn+yTJaDIe1matEk8Yh2j1PbqIMABFwcQRHs5Igf5X9BedHeuRqwvW+95POEit6dZfz2rY+sdXcSWwAl3vZMuWL6Yx+Q+heSeFOe68De1voHweFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -57,23 +61,23 @@ Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
  by CH3PR11MB7916.namprd11.prod.outlook.com (2603:10b6:610:131::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33; Wed, 13 Dec
- 2023 05:39:46 +0000
+ 2023 05:41:33 +0000
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7068.033; Wed, 13 Dec 2023
- 05:39:46 +0000
+ 05:41:32 +0000
 From: "Liu, Yujie" <yujie.liu@intel.com>
 To: lkp <lkp@intel.com>, "oe-kbuild@lists.linux.dev"
 	<oe-kbuild@lists.linux.dev>
-Subject: RE: drivers/soc/qcom/smsm.c:152:22: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Thread-Topic: drivers/soc/qcom/smsm.c:152:22: sparse: sparse: incorrect type
- in argument 1 (different address spaces)
-Thread-Index: AQHaLD3pZyclXjq/jUO16oraiokRSrCmtOxQ
-Date: Wed, 13 Dec 2023 05:39:46 +0000
-Message-ID: <CY5PR11MB6392CABD2F0F362FEDC032F0FB8DA@CY5PR11MB6392.namprd11.prod.outlook.com>
-References: <202312112210.PJrAQM8A-lkp@intel.com>
-In-Reply-To: <202312112210.PJrAQM8A-lkp@intel.com>
+Subject: RE: drivers/pci/controller/pcie-mt7621.c:241:49: warning: 'snprintf'
+ output may be truncated before the last format character
+Thread-Topic: drivers/pci/controller/pcie-mt7621.c:241:49: warning: 'snprintf'
+ output may be truncated before the last format character
+Thread-Index: AQHaK/ZzlNgfunS0dkGaH0pEyOW5pLCmte3w
+Date: Wed, 13 Dec 2023 05:41:32 +0000
+Message-ID: <CY5PR11MB63924E3E862331D0417B5AC3FB8DA@CY5PR11MB6392.namprd11.prod.outlook.com>
+References: <202312111344.ghnJwbSD-lkp@intel.com>
+In-Reply-To: <202312111344.ghnJwbSD-lkp@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -82,40 +86,40 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: CY5PR11MB6392:EE_|CH3PR11MB7916:EE_
-x-ms-office365-filtering-correlation-id: 966665de-1820-4000-16ef-08dbfb9dea74
+x-ms-office365-filtering-correlation-id: b0f090f5-4ab2-4eb6-bde7-08dbfb9e29e7
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7uJdvg03XivMsa3jkJNNWmKCF/EZ07965j5+m1+mKsQC+3KeSP8VmpZq0ilRQVed5Je/IuhNxjKLYY3eLrTK3W9viIoAeeueIreAF8J11yVSJAO3bZz1n+2F/lFqaG63RfyeZeQg2kee2BC0APLp94f9mg6p92xxVlxSY0LF1/coZf4EOYmQcc/2l++C571tf3MOPOLUbfN8FbQlEHoQY58qUtEZa/9OngW4NPiCu+L66aiG51x55T9IXV02btdzhfwYPZ3Ebl1+X0CiHsIn3Kqd6AUYnjNAwzu6n8TylGn+5mr2bqGiqn0l1y1X/dTYtxaBtRNx5hIZZQNnjbZKF4eiiJqle6zGr/XILVuhGbrurXpsZc2wETZXqbLY3D7GcGKidrCXMpDPviEKZK6z3TuZVEbW395hlTDR83AydmGGorV/2JNZQg8msYibMg6vP2Oyudz7cj8jmxpNIOT/rFtXpfHN4kqipS/HMMTXFb366GS+CUs8BAtP60plwk7MxBWuMFag1vkEJcgzcdLLvPpzSAISWSXrFXCSgWjqkzsVb/aQOnnx9k+skzhayCvIDhIgV9wIdUBsy3XJEaP4qptk2MWrcjnvLR04gZL7u0XZddZRIXiYJs/b1CD6LBPiq9JAntMFFZkZnLUH6u71lT3+jlysjNrY3WRhlpE3O7K4ubDKWzbjIa8PJRQeGg9P
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(376002)(366004)(39860400002)(136003)(230922051799003)(230173577357003)(230273577357003)(64100799003)(451199024)(1800799012)(186009)(53546011)(6506007)(9686003)(71200400001)(7696005)(64756008)(478600001)(966005)(110136005)(66556008)(316002)(76116006)(66946007)(66476007)(8676002)(66446008)(86362001)(52536014)(82960400001)(38100700002)(33656002)(55016003)(122000001)(8936002)(83380400001)(26005)(30864003)(38070700009)(5660300002)(41300700001)(2906002);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: 1kNc8l+1FwiIRkGRLL6+LPh0NG8EZv4OKoVU3ESMcAyLfN6+LrYVrqZ7Uud80HrXy7W0/5CAbC+31uIE1zOwd0E/LFC1XFeBipBl/xZagImu3MZdpWD7Q4vcCPKO2YI3oOXZC/9a1C/xjR4eMpP0x4zE5+R6hlQ+KdE3VSPZsZCUV4U25WYJfBTflSFR6azUzCC6awbLYVniellLf7pSV4atyjEcNm7Nau705VvbEc7DKK841saO8fYsb9Rh+KzhWKEinkYDRGjDR4yABTxlzq4fonDOVhkzhVtoqgvon59Nz80kqeq3i8P7Hcql9M4fT5Otj9w8CKXJddw+xS8bozpOXRXaMoyxwIk1OrkzIQBixb2Wy9eGvwN5HJG3U2rCUUqry/P8rOpomV7AP0NIWEA055b5OMJr2YLomNzJrX6AXPOyYq0ijxMDdCF4fJEsm/S56nOg/yPalgO0efz/MQla+KDAcnWiM48rzlzVzGRnkhl3C6vvZHrJk+D/2jDD2TCmQSzCnb8AkON+b5af46D2zJ58f+z2j6ht+L54IWKEjHWMryWK/4OFhun1xg1nTxTXLlwtT3EkhmolCHaXNrdHRO7zQfA/6dvTGQEJdR9SDqmJRVeMkShc7MEHYrQGrdYoPivm4vPxsTceN3rTGVKuRM7T8f5KSIEe+Hb84c5CiH8bgfojJdBci/byM09r
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(376002)(366004)(39860400002)(136003)(230922051799003)(230173577357003)(230273577357003)(64100799003)(451199024)(1800799012)(186009)(53546011)(6506007)(9686003)(71200400001)(7696005)(64756008)(478600001)(966005)(110136005)(66556008)(316002)(76116006)(66946007)(66476007)(8676002)(66446008)(86362001)(52536014)(82960400001)(38100700002)(33656002)(55016003)(122000001)(8936002)(83380400001)(26005)(38070700009)(5660300002)(41300700001)(2906002)(4001150100001);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?maKugTqatgZEUZVl4BKz3dAfMLd8dXRBZhUzZ2KFrW/nkBgy/jGSGfgHiAM1?=
- =?us-ascii?Q?cV0pLxB6KvE3zYC9qR9a5Q4b5DqqF7ce6fgsiqp51R4uU/jDgQsoTe2oWPQn?=
- =?us-ascii?Q?VZias74psVNlpeaT2E7cpqb3jyenMlRphJ1cAsEQyCJCOHVGW/jTmwEeDklD?=
- =?us-ascii?Q?DyTnMzpFh0kZjcOOq1HTjRzXkG8Ya6jr3wgpWqm37PhGiZgRI0b/oWFXdxft?=
- =?us-ascii?Q?aWCASht56KlrgSlztH0/8HADcv2UHfxVueH64ojM60FLD69wTpWzFrMV6sBv?=
- =?us-ascii?Q?Nr2Rioi/4fjhCxuWdRpTdH3g7IOEcqIqBImMV3u26DA3UwBPDQy21gbMteXu?=
- =?us-ascii?Q?vg8F0eRn4mRCRoQRcl9VBPRj1yKoLYvg+WtryLD3BHbjsJH88VrQRz9bFj1O?=
- =?us-ascii?Q?317eOyKoLm3tGdd9oypuGrCcYe5T5bpcsAWE+wE0Fw+vXH5gPi9U+881YjZn?=
- =?us-ascii?Q?DCUTdQoaSGYzW9xc7HJxMRO3y1aFb3k/N9bpBa84RLZGiQcbvgvAM5v77tgt?=
- =?us-ascii?Q?INMzr36nocs/uiF8vDiDqWSQbSJpFntJzPegjUR2jdoC7/EL05gIhjTQ2MFD?=
- =?us-ascii?Q?xC5JOQD9jiVe6ohfQBMK9AMHV2tCY+RjpQlxJzjIoT2l3caIk510A/N2yp4I?=
- =?us-ascii?Q?UYMJVXgrI9SQ4kzFabsGrbx2wAHnVB9oUJv+QkZYTqZd27v+wj2yyCYR6oyE?=
- =?us-ascii?Q?qMQFAgwZGIUl3cebac0Z209nwaqHGwtQXsRBOH8VgOC8BaKZrpv/MBxoQJCL?=
- =?us-ascii?Q?qqot40clrR2fgO9GfQGNw5d5b8rAIZR1jTXS+3hGhS8tmTlDYIHvk1JQGA1n?=
- =?us-ascii?Q?DN8lOVGDqK9DIOz+EQEjAyiNETt3AiqIk/9ojLo1by0LDE54z/YWiWgF0UXS?=
- =?us-ascii?Q?JBVw9+ksjlZAPPJgAxuvRSU6OdaAH7QGCv1ZquIHG1BQ6F1I0AI/CG5VOT7R?=
- =?us-ascii?Q?T7riOJBVHeQOMVi71OIxLIc8YbmrFKmOxoIGY3ARAFuz4tnj0CpmGetvaVAh?=
- =?us-ascii?Q?VdV2Sg/6ZVq7C+owoVxLuPbLSPwJ37K5HsQB6qJRqmSo3NaX1a3c9nqeEupV?=
- =?us-ascii?Q?HkTynyRtjvwx5BPxiOdFts/wFI97NWwdULO8kY4DZhodu6yYtSLPPsjHhZC3?=
- =?us-ascii?Q?EioYqjjpz4VefluFP89DS7jyl9Rkan6kYIXC+S57Ji9lwDCRc+IQz4n3CTij?=
- =?us-ascii?Q?ozvsfUnVB18LvhYJOhHbdwjz/gHD+tIc/fXP1uo6mkhJ2HZzjgY1pRspl5uv?=
- =?us-ascii?Q?XFVrMHnNny0qGpCaZ6O1DwUQgKZG7t+JVBfITjRo3UOvmi1i3I2W31PZZzC4?=
- =?us-ascii?Q?o4Noda0JeexVBKLcjK0bTcf/ASmvDCKLFGilKdIw7C9RF5Ya/SLQME3wWFjW?=
- =?us-ascii?Q?A/sXbnVHogjEmwjd8HbK7Qa4VRwN7GJrHXMQstPZ42pNE/QyPOc1bVoI1acJ?=
- =?us-ascii?Q?UucrDyvUahO75h7hcNJRpu97WxYio+w2IE6X97QPAHLzLCrsIsEAP0r8oaMA?=
- =?us-ascii?Q?l1BDYNI0nZnb/XlbzoIzMSyS6TPTA2cAYA5CiHGBcKJTRFV8NpOyZ8eb+wtt?=
- =?us-ascii?Q?YNLxVkWSrsESuW2/CFgIz64C5ICBBlxlEklaZqHJ?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?r+vaMfwgcGjDeZwrEPZtvdP+fti3+AstMKKXs/NeAYacNbXZPhGKlfbaowYB?=
+ =?us-ascii?Q?bneWjljtYSXOh3OgMplGwNWcJhO/u5Zvoc1buwf8SilSh79zV78vYsaJ14iu?=
+ =?us-ascii?Q?VAZKiEah1srPMyAcQlIE+1WjgHKW0Ewoe3VCfc4W4uiXQiCFp4cVdudmnM0i?=
+ =?us-ascii?Q?jxIkXXjqa5WULL9qMQd3mi5OMRH3HcjWmjXj/Z7XUzm+bOD3fU0Lfn3YlC8i?=
+ =?us-ascii?Q?OjbEH++g12PqQg9+9QQiWabCcoodFVY1WGL5IaJ2p/TunyqUdPRhqEPULjUC?=
+ =?us-ascii?Q?8HaeIC3YRZP+rq3IzOg13m23kmKMhl+9lVkyjNPpaWJkURo6DTjAHXWYMsE6?=
+ =?us-ascii?Q?2VeKRW4ToITW2/NOqQeawQ3M5ymxKcnrSvq4TcvEI8qLvCreq7sZi9wEHo3t?=
+ =?us-ascii?Q?QQjormw3HJoaKQPSlIb4Un0KG2yv3vQcrOs9U6wy2cxPQxaywyTq3lpx0GA3?=
+ =?us-ascii?Q?zHAAoLqlJDpENg8aKmFnZB3QTPapQC3g7Pe1RAZtBYiGPwt6gBycX74QrUlW?=
+ =?us-ascii?Q?aWRoeOmdI0YTlPIz/1nRLKGOf5SfBvNWOL1Q68fy+2EOyPoGZDKeyG3+8+NO?=
+ =?us-ascii?Q?pjYJGj+IDt4GhjULZDEsb+Yqdsmwb5pnjKdowx6ZeePIGkeq182yUb3r1oZB?=
+ =?us-ascii?Q?U5A0SWH5BBsaL2roJQfmQGKchpvRylnHaPO7AYe54A1AhiotXfPfo7yqmpHI?=
+ =?us-ascii?Q?e4OeFXtmWgAHDTmmlB9QyrKtCs+3RLhwvn1EujgUJNLpx7teegv5XVVb+BSK?=
+ =?us-ascii?Q?gt65uRLukPlfhfbUN7/mFc3x6Ah/kOCPhAp1s409sp6lyd1cuq/roaNXztZS?=
+ =?us-ascii?Q?ff3sNK2TMC9ymdY8QxeqTQUDkrOiT+sc3XxMej8b7qEidhPgeHOaR2bT9UaD?=
+ =?us-ascii?Q?HvZ1Q1XlF9x1kLEt6Xp1yG3qQpAx/YHBj7+Olz4Jr6ewi2SJUhThIPPqmWXO?=
+ =?us-ascii?Q?tLQcaHg0ccNn8nEAe0sEnxip2Nqmw70GufBTNjEnt04TW/+CwHr+9LGzDU0o?=
+ =?us-ascii?Q?uNG3ukXJOkvzVGrkWv3bzdky5ZsaSzkZe3BmYw+tQ5mVnlsGUDj4/eeI8B4D?=
+ =?us-ascii?Q?CXRXbAtpuvZnB0XJNkd6jIcqfvXdgmDVRarEmBFORAVFCauDuNQ1fImMA0sR?=
+ =?us-ascii?Q?Vx3AebD2tMGckgQthh3N5MkFmiuvNXgY4oKMiViJnGr+rUiP5DRyXA0bAEf/?=
+ =?us-ascii?Q?EH0xcc9Yqh7YsQfiB7NJqNuLQpgKI9KTRtaAXIdaQGwR28W6w7QurYmQt/hH?=
+ =?us-ascii?Q?KqQE+3H4Ln5/fDst1p0MkTdfgmutAbDROGH/jZPFLB55Esed+udLbTrERhKK?=
+ =?us-ascii?Q?lueszu98FD1pkv5vnMgeqzTSAY7tRxoB+2iK7sThq/3aY7DduntNIMbZc82o?=
+ =?us-ascii?Q?D2TTkpSHpk5y3dOiN6ao4fLYu4LyH1w3ql6g8nJJurGMTbokWs9nKyTw8e6A?=
+ =?us-ascii?Q?dCcuvmR4Fya5gr3/EPOgmy1ua3tHwwvC72LeEctG+AWjV7xs8qTeDmoB40GV?=
+ =?us-ascii?Q?Po9bR+NgMrfaLec935NZcDx7iO8DY+dXBC44f2ckEGU03x6ypBxh0g7aAxds?=
+ =?us-ascii?Q?1Seem3W5z+LxRBY3zLb4mJNegQ7UsRCHsb6H4ywV?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -126,297 +130,211 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 966665de-1820-4000-16ef-08dbfb9dea74
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2023 05:39:46.4550
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0f090f5-4ab2-4eb6-bde7-08dbfb9e29e7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2023 05:41:32.8981
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xFKPSDqlnZVF0cKAn7uswIHvFjWA5BZgScjHVcS5r8CfN9J5fDANmM2O/rH4Dy5A6PIF1IN1WA1wlTvFpmagMA==
+X-MS-Exchange-CrossTenant-userprincipalname: qG6hfLY1GPgkBliKIAMwv4s6lt3dV75W9BY5TCzOrjTmEvTe8eXcUfOL9E3v+LtMGWzRBuv0VGinerF5ISjS3w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7916
 X-OriginatorOrg: intel.com
 
 not_report
 
-This is a sparse patch, not the root cause of the warning in soc qcom drive=
-r.
+only kconfig change to allow COMPILE_TEST:
+
+PCI: mt7621: Allow COMPILE_TEST for all arches
 
 -----Original Message-----
 From: lkp <lkp@intel.com>=20
-Sent: Monday, December 11, 2023 22:23
+Sent: Monday, December 11, 2023 13:52
 To: oe-kbuild@lists.linux.dev
 Cc: lkp <lkp@intel.com>
-Subject: drivers/soc/qcom/smsm.c:152:22: sparse: sparse: incorrect type in =
-argument 1 (different address spaces)
+Subject: drivers/pci/controller/pcie-mt7621.c:241:49: warning: 'snprintf' o=
+utput may be truncated before the last format character
 
 ::::::=20
-:::::: Manual check reason: "only include/linux/compiler_types.h file chang=
-ed"
+:::::: Manual check reason: "only kconfig file changed"
 ::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+CC: Bjorn Helgaas <helgaas@kernel.org>
+
+Hi Sergio,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
-commit: 25fd529c34d063d1bef23742f2e8f8341c639dc3 sparse: group the defines =
-by functionality
-date:   3 years, 4 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 3 years, 4 months ago
-config: sh-randconfig-r111-20231116 (https://download.01.org/0day-ci/archiv=
-e/20231211/202312112210.PJrAQM8A-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231211/202312112210.P=
-JrAQM8A-lkp@intel.com/reproduce)
+commit: 44ddb791f8f41f5f9f2ab4280a27c179ca7a8aed PCI: mt7621: Allow COMPILE=
+_TEST for all arches
+date:   1 year, 11 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 1 year, 11 months ago
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/2023121=
+1/202312111344.ghnJwbSD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20231211/202312111344.ghnJwbSD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312112210.PJrAQM8A-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312111344.ghnJwbSD-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/soc/qcom/smsm.c:152:22: sparse: sparse: incorrect type in argume=
-nt 1 (different address spaces) @@     expected void const volatile [nodere=
-f] __iomem *ptr @@     got unsigned int [usertype] *local_state @@
-   drivers/soc/qcom/smsm.c:152:22: sparse:     expected void const volatile=
- [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:152:22: sparse:     got unsigned int [usertype] =
-*local_state
-   drivers/soc/qcom/smsm.c:164:9: sparse: sparse: incorrect type in argumen=
-t 1 (different address spaces) @@     expected void const volatile [noderef=
-] __iomem *ptr @@     got unsigned int [usertype] *local_state @@
-   drivers/soc/qcom/smsm.c:164:9: sparse:     expected void const volatile =
-[noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:164:9: sparse:     got unsigned int [usertype] *=
-local_state
->> drivers/soc/qcom/smsm.c:174:23: sparse: sparse: incorrect type in argume=
-nt 1 (different address spaces) @@     expected void const volatile [nodere=
-f] __iomem *ptr @@     got unsigned int [usertype] * @@
-   drivers/soc/qcom/smsm.c:174:23: sparse:     expected void const volatile=
- [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:174:23: sparse:     got unsigned int [usertype] =
-*
->> drivers/soc/qcom/smsm.c:206:15: sparse: sparse: incorrect type in argume=
-nt 1 (different address spaces) @@     expected void const volatile [nodere=
-f] __iomem *ptr @@     got unsigned int [usertype] *remote_state @@
-   drivers/soc/qcom/smsm.c:206:15: sparse:     expected void const volatile=
- [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:206:15: sparse:     got unsigned int [usertype] =
-*remote_state
-   drivers/soc/qcom/smsm.c:245:23: sparse: sparse: incorrect type in argume=
-nt 1 (different address spaces) @@     expected void const volatile [nodere=
-f] __iomem *ptr @@     got unsigned int [usertype] * @@
-   drivers/soc/qcom/smsm.c:245:23: sparse:     expected void const volatile=
- [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:245:23: sparse:     got unsigned int [usertype] =
-*
-   drivers/soc/qcom/smsm.c:247:17: sparse: sparse: incorrect type in argume=
-nt 1 (different address spaces) @@     expected void const volatile [nodere=
-f] __iomem *ptr @@     got unsigned int [usertype] * @@
-   drivers/soc/qcom/smsm.c:247:17: sparse:     expected void const volatile=
- [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:247:17: sparse:     got unsigned int [usertype] =
-*
-   drivers/soc/qcom/smsm.c:272:23: sparse: sparse: incorrect type in argume=
-nt 1 (different address spaces) @@     expected void const volatile [nodere=
-f] __iomem *ptr @@     got unsigned int [usertype] * @@
-   drivers/soc/qcom/smsm.c:272:23: sparse:     expected void const volatile=
- [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:272:23: sparse:     got unsigned int [usertype] =
-*
-   drivers/soc/qcom/smsm.c:274:17: sparse: sparse: incorrect type in argume=
-nt 1 (different address spaces) @@     expected void const volatile [nodere=
-f] __iomem *ptr @@     got unsigned int [usertype] * @@
-   drivers/soc/qcom/smsm.c:274:17: sparse:     expected void const volatile=
- [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:274:17: sparse:     got unsigned int [usertype] =
-*
-   drivers/soc/qcom/smsm.c:569:17: sparse: sparse: incorrect type in argume=
-nt 1 (different address spaces) @@     expected void const volatile [nodere=
-f] __iomem *ptr @@     got unsigned int [usertype] * @@
-   drivers/soc/qcom/smsm.c:569:17: sparse:     expected void const volatile=
- [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:569:17: sparse:     got unsigned int [usertype] =
-*
---
->> drivers/soc/qcom/smp2p.c:218:23: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const volatile [noder=
-ef] __iomem *ptr @@     got unsigned int [usertype] *value @@
-   drivers/soc/qcom/smp2p.c:218:23: sparse:     expected void const volatil=
-e [noderef] __iomem *ptr
-   drivers/soc/qcom/smp2p.c:218:23: sparse:     got unsigned int [usertype]=
- *value
-   drivers/soc/qcom/smp2p.c:325:22: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const volatile [noder=
-ef] __iomem *ptr @@     got unsigned int [usertype] *value @@
-   drivers/soc/qcom/smp2p.c:325:22: sparse:     expected void const volatil=
-e [noderef] __iomem *ptr
-   drivers/soc/qcom/smp2p.c:325:22: sparse:     got unsigned int [usertype]=
- *value
-   drivers/soc/qcom/smp2p.c:328:9: sparse: sparse: incorrect type in argume=
-nt 1 (different address spaces) @@     expected void const volatile [nodere=
-f] __iomem *ptr @@     got unsigned int [usertype] *value @@
-   drivers/soc/qcom/smp2p.c:328:9: sparse:     expected void const volatile=
- [noderef] __iomem *ptr
-   drivers/soc/qcom/smp2p.c:328:9: sparse:     got unsigned int [usertype] =
-*value
+All warnings (new ones prefixed by >>):
 
-vim +152 drivers/soc/qcom/smsm.c
+   drivers/pci/controller/pcie-mt7621.c: In function 'mt7621_pcie_parse_por=
+t':
+>> drivers/pci/controller/pcie-mt7621.c:241:49: warning: 'snprintf' output =
+may be truncated before the last format character [-Wformat-truncation=3D]
+     241 |         snprintf(name, sizeof(name), "pcie-phy%d", slot);
+         |                                                 ^
+   drivers/pci/controller/pcie-mt7621.c:241:9: note: 'snprintf' output betw=
+een 10 and 11 bytes into a destination of size 10
+     241 |         snprintf(name, sizeof(name), "pcie-phy%d", slot);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-c97c4090ff7229 Bjorn Andersson 2015-09-24  129 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24  130  /**
-c97c4090ff7229 Bjorn Andersson 2015-09-24  131   * smsm_update_bits() - cha=
-nge bit in outgoing entry and inform subscribers
-c97c4090ff7229 Bjorn Andersson 2015-09-24  132   * @data:	smsm context poin=
-ter
-c97c4090ff7229 Bjorn Andersson 2015-09-24  133   * @offset:	bit in the entr=
-y
-c97c4090ff7229 Bjorn Andersson 2015-09-24  134   * @value:	new value
-c97c4090ff7229 Bjorn Andersson 2015-09-24  135   *
-c97c4090ff7229 Bjorn Andersson 2015-09-24  136   * Used to set and clear th=
-e bits in the outgoing/local entry and inform
-c97c4090ff7229 Bjorn Andersson 2015-09-24  137   * subscribers about the ch=
-ange.
-c97c4090ff7229 Bjorn Andersson 2015-09-24  138   */
-c97c4090ff7229 Bjorn Andersson 2015-09-24  139  static int smsm_update_bits=
-(void *data, u32 mask, u32 value)
-c97c4090ff7229 Bjorn Andersson 2015-09-24  140  {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  141  	struct qcom_smsm *smsm =3D=
- data;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  142  	struct smsm_host *hostp;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  143  	unsigned long flags;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  144  	u32 changes;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  145  	u32 host;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  146  	u32 orig;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  147  	u32 val;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  148 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24  149  	spin_lock_irqsave(&smsm->l=
-ock, flags);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  150 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24  151  	/* Update the entry */
-c97c4090ff7229 Bjorn Andersson 2015-09-24 @152  	val =3D orig =3D readl(sms=
-m->local_state);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  153  	val &=3D ~mask;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  154  	val |=3D value;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  155 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24  156  	/* Don't signal if we didn=
-'t change the value */
-c97c4090ff7229 Bjorn Andersson 2015-09-24  157  	changes =3D val ^ orig;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  158  	if (!changes) {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  159  		spin_unlock_irqrestore(&s=
-msm->lock, flags);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  160  		goto done;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  161  	}
-c97c4090ff7229 Bjorn Andersson 2015-09-24  162 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24  163  	/* Write out the new value=
- */
-c97c4090ff7229 Bjorn Andersson 2015-09-24  164  	writel(val, smsm->local_st=
-ate);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  165  	spin_unlock_irqrestore(&sm=
-sm->lock, flags);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  166 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24  167  	/* Make sure the value upd=
-ate is ordered before any kicks */
-c97c4090ff7229 Bjorn Andersson 2015-09-24  168  	wmb();
-c97c4090ff7229 Bjorn Andersson 2015-09-24  169 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24  170  	/* Iterate over all hosts =
-to check whom wants a kick */
-c97c4090ff7229 Bjorn Andersson 2015-09-24  171  	for (host =3D 0; host < sm=
-sm->num_hosts; host++) {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  172  		hostp =3D &smsm->hosts[ho=
-st];
-c97c4090ff7229 Bjorn Andersson 2015-09-24  173 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24 @174  		val =3D readl(smsm->subsc=
-ription + host);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  175  		if (val & changes && host=
-p->ipc_regmap) {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  176  			regmap_write(hostp->ipc_=
-regmap,
-c97c4090ff7229 Bjorn Andersson 2015-09-24  177  				     hostp->ipc_offset,
-c97c4090ff7229 Bjorn Andersson 2015-09-24  178  				     BIT(hostp->ipc_bit=
-));
-c97c4090ff7229 Bjorn Andersson 2015-09-24  179  		}
-c97c4090ff7229 Bjorn Andersson 2015-09-24  180  	}
-c97c4090ff7229 Bjorn Andersson 2015-09-24  181 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24  182  done:
-c97c4090ff7229 Bjorn Andersson 2015-09-24  183  	return 0;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  184  }
-c97c4090ff7229 Bjorn Andersson 2015-09-24  185 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24  186  static const struct qcom_sm=
-em_state_ops smsm_state_ops =3D {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  187  	.update_bits =3D smsm_upda=
-te_bits,
-c97c4090ff7229 Bjorn Andersson 2015-09-24  188  };
-c97c4090ff7229 Bjorn Andersson 2015-09-24  189 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24  190  /**
-c97c4090ff7229 Bjorn Andersson 2015-09-24  191   * smsm_intr() - cascading =
-IRQ handler for SMSM
-c97c4090ff7229 Bjorn Andersson 2015-09-24  192   * @irq:	unused
-c97c4090ff7229 Bjorn Andersson 2015-09-24  193   * @data:	entry related to =
-this IRQ
-c97c4090ff7229 Bjorn Andersson 2015-09-24  194   *
-c97c4090ff7229 Bjorn Andersson 2015-09-24  195   * This function cascades a=
-n incoming interrupt from a remote system, based on
-c97c4090ff7229 Bjorn Andersson 2015-09-24  196   * the state bits and confi=
-guration.
-c97c4090ff7229 Bjorn Andersson 2015-09-24  197   */
-c97c4090ff7229 Bjorn Andersson 2015-09-24  198  static irqreturn_t smsm_int=
-r(int irq, void *data)
-c97c4090ff7229 Bjorn Andersson 2015-09-24  199  {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  200  	struct smsm_entry *entry =
-=3D data;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  201  	unsigned i;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  202  	int irq_pin;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  203  	u32 changed;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  204  	u32 val;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  205 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24 @206  	val =3D readl(entry->remot=
-e_state);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  207  	changed =3D val ^ entry->l=
-ast_value;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  208  	entry->last_value =3D val;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  209 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24  210  	for_each_set_bit(i, entry-=
->irq_enabled, 32) {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  211  		if (!(changed & BIT(i)))
-c97c4090ff7229 Bjorn Andersson 2015-09-24  212  			continue;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  213 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24  214  		if (val & BIT(i)) {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  215  			if (test_bit(i, entry->i=
-rq_rising)) {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  216  				irq_pin =3D irq_find_ma=
-pping(entry->domain, i);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  217  				handle_nested_irq(irq_p=
-in);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  218  			}
-c97c4090ff7229 Bjorn Andersson 2015-09-24  219  		} else {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  220  			if (test_bit(i, entry->i=
-rq_falling)) {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  221  				irq_pin =3D irq_find_ma=
-pping(entry->domain, i);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  222  				handle_nested_irq(irq_p=
-in);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  223  			}
-c97c4090ff7229 Bjorn Andersson 2015-09-24  224  		}
-c97c4090ff7229 Bjorn Andersson 2015-09-24  225  	}
-c97c4090ff7229 Bjorn Andersson 2015-09-24  226 =20
-c97c4090ff7229 Bjorn Andersson 2015-09-24  227  	return IRQ_HANDLED;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  228  }
-c97c4090ff7229 Bjorn Andersson 2015-09-24  229 =20
 
-:::::: The code at line 152 was first introduced by commit
-:::::: c97c4090ff72297a878a37715bd301624b71c885 soc: qcom: smsm: Add driver=
- for Qualcomm SMSM
+vim +/snprintf +241 drivers/pci/controller/pcie-mt7621.c
 
-:::::: TO: Bjorn Andersson <bjorn.andersson@sonymobile.com>
-:::::: CC: Andy Gross <agross@codeaurora.org>
+e51844bf825169 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-24  210 =20
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  211  static int mt7621_pcie_parse_port(struct mt7621_pcie *pcie,
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  212  				  struct device_node *node,
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  213  				  int slot)
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  214  {
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  215  	struct mt7621_pcie_port *port;
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  216  	struct device *dev =3D pcie->dev;
+fab6710e4c51f4 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+020-04-13  217  	struct platform_device *pdev =3D to_platform_device(dev);
+61f9bde6ea578f drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+019-01-04  218  	char name[10];
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  219  	int err;
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  220 =20
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  221  	port =3D devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  222  	if (!port)
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  223  		return -ENOMEM;
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  224 =20
+108b2f2a972454 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+020-11-23  225  	port->base =3D devm_platform_ioremap_resource(pdev, slot +=
+ 1);
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  226  	if (IS_ERR(port->base))
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  227  		return PTR_ERR(port->base);
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  228 =20
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  229  	port->clk =3D devm_get_clk_from_child(dev, node, NULL);
+cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-05-05  230  	if (IS_ERR(port->clk)) {
+cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-05-05  231  		dev_err(dev, "failed to get pcie%d clock\n", slot);
+cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-05-05  232  		return PTR_ERR(port->clk);
+cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-05-05  233  	}
+cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-05-05  234 =20
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  235  	port->pcie_rst =3D of_reset_control_get_exclusive(node, NU=
+LL);
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  236  	if (PTR_ERR(port->pcie_rst) =3D=3D -EPROBE_DEFER) {
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  237  		dev_err(dev, "failed to get pcie%d reset control\n", slot=
+);
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  238  		return PTR_ERR(port->pcie_rst);
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  239  	}
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  240 =20
+61f9bde6ea578f drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+019-01-04 @241  	snprintf(name, sizeof(name), "pcie-phy%d", slot);
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  242  	port->phy =3D devm_of_phy_get(dev, node, name);
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  243  	if (IS_ERR(port->phy)) {
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  244  		dev_err(dev, "failed to get pcie-phy%d\n", slot);
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  245  		err =3D PTR_ERR(port->phy);
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  246  		goto remove_reset;
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  247  	}
+61f9bde6ea578f drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+019-01-04  248 =20
+b27e35f91c75cf drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+020-03-13  249  	port->gpio_rst =3D devm_gpiod_get_index_optional(dev, "res=
+et", slot,
+b27e35f91c75cf drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+020-03-13  250  						       GPIOD_OUT_LOW);
+825c6f470c62da drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+020-03-20  251  	if (IS_ERR(port->gpio_rst)) {
+2bdd5238e756aa drivers/pci/controller/pcie-mt7621.c    Sergio Paracuellos 2=
+021-09-22  252  		dev_err(dev, "failed to get GPIO for PCIe%d\n", slot);
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  253  		err =3D PTR_ERR(port->gpio_rst);
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  254  		goto remove_reset;
+825c6f470c62da drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+020-03-20  255  	}
+b27e35f91c75cf drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+020-03-13  256 =20
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  257  	port->slot =3D slot;
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  258  	port->pcie =3D pcie;
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  259 =20
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  260  	INIT_LIST_HEAD(&port->list);
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  261  	list_add_tail(&port->list, &pcie->ports);
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  262 =20
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  263  	return 0;
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  264 =20
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  265  remove_reset:
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  266  	reset_control_put(port->pcie_rst);
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+021-06-07  267  	return err;
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  268  }
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2=
+018-11-04  269 =20
+
+:::::: The code at line 241 was first introduced by commit
+:::::: 61f9bde6ea578f5baa1662c97365f7b36fc790fa staging: mt7621-pci: handle=
+ phy using new generic phy 'pci-mt7621-phy' driver
+
+:::::: TO: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --=20
 0-DAY CI Kernel Test Service
