@@ -1,46 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09EC65EC9
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 Dec 2023 17:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3881692BE
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 Dec 2023 19:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lOCZ33Qw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702574717; x=1734110717;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i6Jp6YvanICUm4ZdN+PVD7WfOk3tdCfFbatL7u+cQrk=;
-  b=lOCZ33QwEocOEcY0hdCy5mVgomgNFm/Vrrw8pewthO6YFN2Hj9A/LJ+Y
-   AiWNThWhuSik86W/PRiO9kGcfcJ0eFjc4PVbZT26fiDpQh1L954pa3f+U
-   hBNGJfSSDqXqbg+EyTaKeHFBF4HRnM8D/ubQCfcmwuvFQGpNoMmG6pLua
-   RqezL0V61m+rIarC8MMSSw/FfPjO2ZHXLBSiB/62f8PTvCocHZglvJB8/
-   RX4r9RqR9BDouyVe6dngEaTHOEqqTyCT7WxYiWbIp5wwoTtM7aagIiz8T
-   oKH8b47p/Lx5T7aJ3CDnoIhFQHjpj7aECHkJn9pQKdsXCoeRhk29gng3h
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="375309213"
-X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="375309213"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 09:25:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="767672909"
-X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="767672909"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 14 Dec 2023 09:25:14 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDpSB-000MO4-1p;
-	Thu, 14 Dec 2023 17:25:01 +0000
-Date: Fri, 15 Dec 2023 01:23:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [vincent-guittot:sched/system-pressure 5/11]
- drivers/acpi/cppc_acpi.c:1783:13-14: WARNING opportunity for max()
-Message-ID: <202312150148.V2p83vod-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Mztdq8e6"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1d08a924fcfso80594655ad.2
+        for <oe-kbuild@lists.linux.dev>; Thu, 14 Dec 2023 11:26:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1702582004; x=1703186804; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WGe+uUYlDw+uG476SCRJ8n5xCAk3qfvXoM3VQJW7/IQ=;
+        b=Mztdq8e65IAWSsJBvpiqpZ2U6g7merb2ca2u56vGn7Taa4lg19e6/DCrhN7sHw1xhT
+         +iaOrRZliXDVnooPb9eUv8hSg1A15teTKoZ9s+8iPwcpytZhj27EZ1X4KORQ/gHRgVWL
+         RxPdfixQSh0u07sKx6EVtxCinMj/hKFlzmF+ISQxeYE+MCb9PguA/ZognwUg/nJqAPG5
+         mJ8oiPvP7YhGVatp/PH0+4FrzSrVpMB4XMyllHbiSWOUNUrKtnVwdZ65+Pii5Rx+CxQk
+         /2Wk4sno2r1AbHl0n0kBKZVKndwFFFu48aZtjuX5AXQCe4Sqp0ZAY0eMcDwUrH2p6KWQ
+         5Eug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702582004; x=1703186804;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WGe+uUYlDw+uG476SCRJ8n5xCAk3qfvXoM3VQJW7/IQ=;
+        b=JZT9ecnUDFPMtrS5VC/WEK4L1nkLnTNoOWZkYcS1U4uK/JpaCk3l8x09MiqrS/2Xos
+         yu6Zyd3PF8OGMIVIgWFhn8TmVU2HuLCBECnZC30bTt0dLM5+oK2L1BfwAMOg8jJYKVMQ
+         G5NViswqd36IER7qjBbl8ini6ZhWDGfWoNq77tlRF9tTA3z5MZyaBeehmnrBqgB/qTbM
+         4H8W4OuyoI3wpoTsT7g/qX+Tj4BRPxD0Pg1hD7jTyI/aV0mI/HgNYtJ3jbWkuHHLJbtf
+         Fkclu88SOe9vzJeRk6K1XlETbOCwOfNAAZYoYWMJILAqo0ktk3hWPfkttyin/XmkFmbZ
+         6bow==
+X-Gm-Message-State: AOJu0YxyTQiDIUZ4x4NlVU2gsOLSm34MslrtmXfCbutB6tE18LrEacKL
+	zSqn5Bc+YrbR9OvJdGSEMnQtBGFxexR7Y7rYWPI=
+X-Google-Smtp-Source: AGHT+IEGBbmy7QSIym83oljmFI1tPJjJEUP52og7dAI+4/8CMcuOzUA25xCsZbu3ULE4qkw5fTN+hw==
+X-Received: by 2002:a17:903:496:b0:1d3:752a:f4ab with SMTP id jj22-20020a170903049600b001d3752af4abmr877729plb.79.1702582004021;
+        Thu, 14 Dec 2023 11:26:44 -0800 (PST)
+Received: from ghost ([12.44.203.122])
+        by smtp.gmail.com with ESMTPSA id ja6-20020a170902efc600b001d1c96a0c66sm2564197plb.130.2023.12.14.11.26.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Dec 2023 11:26:43 -0800 (PST)
+Date: Thu, 14 Dec 2023 11:26:40 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
+Subject: Re: arch/riscv/kernel/module.c:639 process_accumulated_relocations()
+ error: uninitialized symbol 'curr_type'.
+Message-ID: <ZXtW8IjL1Kf/2B1B@ghost>
+References: <d0897fb3-1af8-430b-aa8b-9aa829bad1d7@suswa.mountain>
+ <ZXoFhu2TPXgrsInY@ghost>
+ <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,51 +60,31 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Vincent Guittot <vincent.guittot@linaro.org>
+On Thu, Dec 14, 2023 at 11:00:46AM +0300, Dan Carpenter wrote:
+> On Wed, Dec 13, 2023 at 11:27:02AM -0800, Charlie Jenkins wrote:
+> > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01  638  			}
+> > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01 @639  			reloc_handlers[curr_type].accumulate_handler(
+> > >                                                                                        ^^^^^^^^^
+> > > Can the list be empty?  Uninitialized in that case.
+> > 
+> > That's a tricky one, the list cannot be empty. Each bucket in the
+> > bucket_iter is guarunteed to have at least one rel_entry. I can probably
+> > resolve this by extracting this for loop into a do-while loop.
+> 
+> You can just ignore false positives.  It's not really a fix to change it
+> to a do-while loop.  I reviewed the do while code before reading this
+> email and I still wondered about empty lists, but just to hear that it's
+> not going to be empty is enough.  Just the email was sufficient.
+> 
+> regards,
+> dan carpenter
+> 
 
-Hi Vincent,
+The freeing was actually broken so that needed to be fixed and I figured
+that it was worthwhile to include the do-while in the same patch to get
+rid of the warning.
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+- Charlie
 
-tree:   https://git.linaro.org/people/vincent.guittot/kernel.git sched/system-pressure
-head:   5844548bc216fd4d47bc8b20f0ff22ac4b14d48d
-commit: 3c697464bdc4ede5507ebb0f43112b31cb07a3d9 [5/11] cpufreq/cppc: Move and rename cppc_cpufreq_{perf_to_khz|khz_to_perf}
-:::::: branch date: 2 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-102-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150148.V2p83vod-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231215/202312150148.V2p83vod-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312150148.V2p83vod-lkp@intel.com/
-
-cocci warnings: (new ones prefixed by >>)
->> drivers/acpi/cppc_acpi.c:1783:13-14: WARNING opportunity for max()
-
-vim +1783 drivers/acpi/cppc_acpi.c
-
-3c697464bdc4ed Vincent Guittot 2023-09-18  1772  
-3c697464bdc4ed Vincent Guittot 2023-09-18  1773  /* Callback function used to retrieve the max frequency from DMI */
-3c697464bdc4ed Vincent Guittot 2023-09-18  1774  static void cppc_find_dmi_mhz(const struct dmi_header *dm, void *private)
-3c697464bdc4ed Vincent Guittot 2023-09-18  1775  {
-3c697464bdc4ed Vincent Guittot 2023-09-18  1776  	const u8 *dmi_data = (const u8 *)dm;
-3c697464bdc4ed Vincent Guittot 2023-09-18  1777  	u16 *mhz = (u16 *)private;
-3c697464bdc4ed Vincent Guittot 2023-09-18  1778  
-3c697464bdc4ed Vincent Guittot 2023-09-18  1779  	if (dm->type == DMI_ENTRY_PROCESSOR &&
-3c697464bdc4ed Vincent Guittot 2023-09-18  1780  	    dm->length >= DMI_ENTRY_PROCESSOR_MIN_LENGTH) {
-3c697464bdc4ed Vincent Guittot 2023-09-18  1781  		u16 val = (u16)get_unaligned((const u16 *)
-3c697464bdc4ed Vincent Guittot 2023-09-18  1782  				(dmi_data + DMI_PROCESSOR_MAX_SPEED));
-3c697464bdc4ed Vincent Guittot 2023-09-18 @1783  		*mhz = val > *mhz ? val : *mhz;
-3c697464bdc4ed Vincent Guittot 2023-09-18  1784  	}
-3c697464bdc4ed Vincent Guittot 2023-09-18  1785  }
-3c697464bdc4ed Vincent Guittot 2023-09-18  1786  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
