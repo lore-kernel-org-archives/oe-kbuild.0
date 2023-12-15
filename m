@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73280A38
-	for <oe-kbuild@lists.linux.dev>; Fri, 15 Dec 2023 01:41:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E68CA70
+	for <oe-kbuild@lists.linux.dev>; Fri, 15 Dec 2023 03:08:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S7gSgk3O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HDVqqLJM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702604518; x=1734140518;
+  t=1702609708; x=1734145708;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wL4Eoyse4tVBYo71qWXhYf0FrlyGLbF97OodMGxwqD0=;
-  b=S7gSgk3OeOvq29hAHEHnbkz3iN9p7vZi2PUEU5188qSNzpv3ShorhYBq
-   nwqNwrR2FIGd1+ngY0wptksQF3syjHe3sLWe4tYti64ykXvYuRi1uuSOv
-   k+izvwifq8maCs+vB62JKpwTP9Zh8HTDqz7sdYldy8k3b2cWR2je2NEqG
-   MgkRCBk0lX2CT+9ZXFmn4LBXsGGZr49Ypl/17+UrXZp/3a7oYRgib7Jo9
-   f9iORSjeyQqJpy036gpUUY2yElIIppJAj2L+Rg0GWS/e2Z2T8G3swrIFe
-   nbHUo7QYbRO83brVpM4joe7lF2dHMRoAyWh1sxpGY42LfEUqk/e2iGW3v
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="398004223"
+  bh=TlSMl5up+iWfRhAZkdyxNv4g5foOdlns7QR1xyQ8/Jg=;
+  b=HDVqqLJMoWmlpPFDPLJujyE817LehIdBSxfYg2/6XVCvfNrYtjkI2Xb6
+   x7xkmyEl+hXxERBobEglHRawvivGw1Vd/svK07FwbUgTdKnXEQoATlQVU
+   I+6Q+7CBQTBUmcABL6JYnQCzUxQSSyiLhjfVwtLWxct8P/4YBsd/+nfqp
+   CI/sCqLcaqlluij16iiGzeJ2+DXSrtzInhivVnhG2KIWRVEEvNVm9DRgj
+   h08owe/PqIUkaze6M/VE/6vMbImRIYNXwgOOyxjNNf3Rl5coTNnTF6tBq
+   P46L5Cyc7aHbFLqDPIn656D10T6W9xLVOilaTXgr9DAvl1s11BrqXAte5
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="461686439"
 X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="398004223"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 17:41:57 -0800
+   d="scan'208";a="461686439"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 19:08:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="724271068"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="897989751"
 X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="724271068"
+   d="scan'208";a="897989751"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 14 Dec 2023 17:41:50 -0800
+  by orsmga004.jf.intel.com with ESMTP; 14 Dec 2023 19:08:27 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDxD2-000MxV-0o;
-	Fri, 15 Dec 2023 01:41:48 +0000
-Date: Fri, 15 Dec 2023 09:41:39 +0800
+	id 1rDyYr-000N1h-05;
+	Fri, 15 Dec 2023 03:08:25 +0000
+Date: Fri, 15 Dec 2023 11:08:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: kernel/seccomp.c:1405:1: sparse: sparse: Using plain integer as NULL
- pointer
-Message-ID: <202312150951.Boq5rGVZ-lkp@intel.com>
+Subject: drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:230:23:
+ sparse: sparse: cast to restricted __be32
+Message-ID: <202312151110.d3oaWWnG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,112 +51,97 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only Makefile file changed"
+:::::: Manual check reason: "only kconfig file changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
-
-Hi Masahiro,
-
-First bad commit (maybe != root cause):
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c7402612e2e61b76177f22e6e7f705adcbecc6fe
-commit: b1fbfcb4a20949df08dd995927cdc5ad220c128d kbuild: make single target builds even faster
-date:   4 years, 1 month ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 years, 1 month ago
-config: s390-randconfig-r111-20231116 (https://download.01.org/0day-ci/archive/20231215/202312150951.Boq5rGVZ-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231215/202312150951.Boq5rGVZ-lkp@intel.com/reproduce)
+head:   976600c6da56c488776c9ee2a5733ae9736e2a75
+commit: 7378f1149884b183631c6c16c0f1c62bcd7d759d media: omap2: omapfb: allow building it with COMPILE_TEST
+date:   6 years ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 6 years ago
+config: sparc-randconfig-r113-20231112 (https://download.01.org/0day-ci/archive/20231215/202312151110.d3oaWWnG-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231215/202312151110.d3oaWWnG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312150951.Boq5rGVZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312151110.d3oaWWnG-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> kernel/seccomp.c:1405:1: sparse: sparse: Using plain integer as NULL pointer
->> kernel/seccomp.c:1405:1: sparse: sparse: Using plain integer as NULL pointer
---
->> ipc/msg.c:612:1: sparse: sparse: Using plain integer as NULL pointer
->> ipc/msg.c:612:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/msg.c:625:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/msg.c:625:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/msg.c:746:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/msg.c:746:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/msg.c:759:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/msg.c:759:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/msg.c:939:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/msg.c:939:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/msg.c:1230:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/msg.c:1230:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/msg.c:170:26: sparse: sparse: context imbalance in 'newque' - unexpected unlock
-   ipc/msg.c:253:13: sparse: sparse: context imbalance in 'freeque' - unexpected unlock
-   ipc/msg.c:451:9: sparse: sparse: context imbalance in 'msgctl_down' - different lock contexts for basic block
---
->> ipc/sem.c:2231:1: sparse: sparse: Using plain integer as NULL pointer
->> ipc/sem.c:2231:1: sparse: sparse: Using plain integer as NULL pointer
->> ipc/sem.c:2231:1: sparse: sparse: Using plain integer as NULL pointer
->> ipc/sem.c:2231:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/sem.c:2251:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/sem.c:2251:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/sem.c:2251:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/sem.c:2251:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/sem.c:2259:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/sem.c:2259:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/sem.c:557:9: sparse: sparse: context imbalance in 'newary' - unexpected unlock
-   ipc/sem.c:1167:17: sparse: sparse: context imbalance in 'freeary' - unexpected unlock
-   ipc/sem.c:1629:9: sparse: sparse: context imbalance in 'semctl_down' - different lock contexts for basic block
-   ipc/sem.c:1888:24: sparse: sparse: context imbalance in 'find_alloc_undo' - wrong count at exit
-   ipc/sem.c: note: in included file (through include/linux/workqueue.h, include/linux/rhashtable-types.h, include/linux/ipc.h, ...):
-   include/linux/rcupdate.h:651:9: sparse: sparse: context imbalance in 'do_semtimedop' - unexpected unlock
---
->> ipc/shm.c:1194:1: sparse: sparse: Using plain integer as NULL pointer
->> ipc/shm.c:1194:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/shm.c:1207:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/shm.c:1207:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/shm.c:1335:6: sparse: sparse: symbol 'compat_ksys_shmctl' was not declared. Should it be static?
-   ipc/shm.c:1391:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/shm.c:1391:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/shm.c:1404:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/shm.c:1404:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/shm.c:1591:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/shm.c:1591:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/shm.c:1733:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/shm.c:1733:1: sparse: sparse: Using plain integer as NULL pointer
-   ipc/shm.c:120:17: sparse: sparse: context imbalance in 'do_shm_rmid' - unexpected unlock
-   ipc/shm.c:248:17: sparse: sparse: context imbalance in '__shm_open' - unexpected unlock
-   ipc/shm.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
-   include/linux/list.h:139:25: sparse: sparse: context imbalance in 'shm_destroy' - unexpected unlock
-   ipc/shm.c:346:17: sparse: sparse: context imbalance in 'shm_close' - unexpected unlock
-   ipc/shm.c:352:12: sparse: sparse: context imbalance in 'shm_try_destroy_orphaned' - different lock contexts for basic block
-   ipc/shm.c:415:9: sparse: sparse: context imbalance in 'exit_shm' - different lock contexts for basic block
-   ipc/shm.c:683:17: sparse: sparse: context imbalance in 'newseg' - unexpected unlock
-   ipc/shm.c:937:9: sparse: sparse: context imbalance in 'shmctl_down' - different lock contexts for basic block
-   ipc/shm.c:1581:17: sparse: sparse: context imbalance in 'do_shmat' - unexpected unlock
---
->> ipc/syscall.c:110:1: sparse: sparse: Using plain integer as NULL pointer
->> ipc/syscall.c:110:1: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:230:23: sparse: sparse: cast to restricted __be32
+   In file included from drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:24:
+   include/linux/module.h:138:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'acx565akm_driver_exit': 'cold' [-Wmissing-attributes]
+     138 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
+         |              ^~~~~~~~~~~~~~
+   include/linux/device.h:1545:1: note: in expansion of macro 'module_exit'
+    1545 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/spi/spi.h:293:9: note: in expansion of macro 'module_driver'
+     293 |         module_driver(__spi_driver, spi_register_driver, 11-      |         ^~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:913:1: note: in expansion of macro 'module_spi_driver'
+     913 | module_spi_driver(acx565akm_driver);
+         | ^~~~~~~~~~~~~~~~~
+   In file included from include/linux/platform_device.h:14,
+                    from drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:25:
+   drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:913:19: note: 'cleanup_module' target declared here
+     913 | module_spi_driver(acx565akm_driver);
+         |                   ^~~~~~~~~~~~~~~~
+   include/linux/device.h:1541:20: note: in definition of macro 'module_driver'
+    1541 | static void __exit __driver##_exit(void) 22-      |                    ^~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:913:1: note: in expansion of macro 'module_spi_driver'
+     913 | module_spi_driver(acx565akm_driver);
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/module.h:132:13: warning: 'init_module' specifies less restrictive attribute than its target 'acx565akm_driver_init': 'cold' [-Wmissing-attributes]
+     132 |         int init_module(void) __attribute__((alias(#initfn)));
+         |             ^~~~~~~~~~~
+   include/linux/device.h:1540:1: note: in expansion of macro 'module_init'
+    1540 | module_init(__driver##_init); 31-      | ^~~~~~~~~~~
+   include/linux/spi/spi.h:293:9: note: in expansion of macro 'module_driver'
+     293 |         module_driver(__spi_driver, spi_register_driver, 34-      |         ^~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:913:1: note: in expansion of macro 'module_spi_driver'
+     913 | module_spi_driver(acx565akm_driver);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:913:19: note: 'init_module' target declared here
+     913 | module_spi_driver(acx565akm_driver);
+         |                   ^~~~~~~~~~~~~~~~
+   include/linux/device.h:1536:19: note: in definition of macro 'module_driver'
+    1536 | static int __init __driver##_init(void) 43-      |                   ^~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:913:1: note: in expansion of macro 'module_spi_driver'
+     913 | module_spi_driver(acx565akm_driver);
+         | ^~~~~~~~~~~~~~~~~
 
-vim +1405 kernel/seccomp.c
+vim +230 drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
 
-48dc92b9fc3926 Kees Cook      2014-06-25  1404  
-48dc92b9fc3926 Kees Cook      2014-06-25 @1405  SYSCALL_DEFINE3(seccomp, unsigned int, op, unsigned int, flags,
-a5662e4d81c4d4 Tycho Andersen 2018-12-09  1406  			 void __user *, uargs)
-48dc92b9fc3926 Kees Cook      2014-06-25  1407  {
-48dc92b9fc3926 Kees Cook      2014-06-25  1408  	return do_seccomp(op, flags, uargs);
-48dc92b9fc3926 Kees Cook      2014-06-25  1409  }
-48dc92b9fc3926 Kees Cook      2014-06-25  1410  
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  222  
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  223  static int panel_enabled(struct panel_drv_data *ddata)
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  224  {
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  225  	u32 disp_status;
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  226  	int enabled;
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  227  
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  228  	acx565akm_read(ddata, MIPID_CMD_READ_DISP_STATUS,
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  229  			(u8 *)&disp_status, 4);
+f76ee892a99e68 Tomi Valkeinen 2015-12-09 @230  	disp_status = __be32_to_cpu(disp_status);
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  231  	enabled = (disp_status & (1 << 17)) && (disp_status & (1 << 10));
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  232  	dev_dbg(&ddata->spi->dev,
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  233  		"LCD panel %senabled by bootloader (status 0x%04x)\n",
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  234  		enabled ? "" : "not ", disp_status);
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  235  	return enabled;
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  236  }
+f76ee892a99e68 Tomi Valkeinen 2015-12-09  237  
 
-:::::: The code at line 1405 was first introduced by commit
-:::::: 48dc92b9fc3926844257316e75ba11eb5c742b2c seccomp: add "seccomp" syscall
+:::::: The code at line 230 was first introduced by commit
+:::::: f76ee892a99e68b55402b8d4b8aeffcae2aff34d omapfb: copy omapdss & displays for omapfb
 
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Kees Cook <keescook@chromium.org>
+:::::: TO: Tomi Valkeinen <tomi.valkeinen@ti.com>
+:::::: CC: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
