@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E68CA70
-	for <oe-kbuild@lists.linux.dev>; Fri, 15 Dec 2023 03:08:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975AE1A5B0
+	for <oe-kbuild@lists.linux.dev>; Fri, 15 Dec 2023 10:38:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HDVqqLJM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iCLzEdPs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702609708; x=1734145708;
+  t=1702636725; x=1734172725;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TlSMl5up+iWfRhAZkdyxNv4g5foOdlns7QR1xyQ8/Jg=;
-  b=HDVqqLJMoWmlpPFDPLJujyE817LehIdBSxfYg2/6XVCvfNrYtjkI2Xb6
-   x7xkmyEl+hXxERBobEglHRawvivGw1Vd/svK07FwbUgTdKnXEQoATlQVU
-   I+6Q+7CBQTBUmcABL6JYnQCzUxQSSyiLhjfVwtLWxct8P/4YBsd/+nfqp
-   CI/sCqLcaqlluij16iiGzeJ2+DXSrtzInhivVnhG2KIWRVEEvNVm9DRgj
-   h08owe/PqIUkaze6M/VE/6vMbImRIYNXwgOOyxjNNf3Rl5coTNnTF6tBq
-   P46L5Cyc7aHbFLqDPIn656D10T6W9xLVOilaTXgr9DAvl1s11BrqXAte5
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="461686439"
-X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="461686439"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 19:08:28 -0800
+  bh=8V5/KWT0qHfAVoNiHU53PQIMZ4REGSvq5XJmVk53N9k=;
+  b=iCLzEdPsUV5544hi7AC0bN66p6eETeC9uLRX3j7z222/J5z3TS77L9sO
+   js2zPvxNVYsXeoLDSVT5Ls4ZgatALkantkPlaW0zq2Ozwl3U9h9Jr9ZqT
+   WEwIxRzaEO6OFszSeJNlX0lXADVltF9DY3CA0hcTk3M4GlAoRsDqwso5s
+   pqkdSiSkt82eaARoIFI42160lopdCLO+awu/aDVqMXAgqTUNEWkAv75Wc
+   okENTC16LV+TaRHxJt0v71K7VHS7w70k/Z842er1E8AG0z/BqBA21orSz
+   s3vJuKXHMuVH2Z9bUQqD1n5mZ94gKPrH201mvJFRw9+ViQSMEWm2LqkgK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="385676813"
+X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; 
+   d="scan'208";a="385676813"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 02:38:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="897989751"
-X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="897989751"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="778222961"
+X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; 
+   d="scan'208";a="778222961"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 14 Dec 2023 19:08:27 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 15 Dec 2023 02:38:43 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDyYr-000N1h-05;
-	Fri, 15 Dec 2023 03:08:25 +0000
-Date: Fri, 15 Dec 2023 11:08:01 +0800
+	id 1rE5ab-000NOq-0m;
+	Fri, 15 Dec 2023 10:38:41 +0000
+Date: Fri, 15 Dec 2023 18:36:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:230:23:
- sparse: sparse: cast to restricted __be32
-Message-ID: <202312151110.d3oaWWnG-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [esmil:jh7110 36/43] drivers/gpu/drm/verisilicon/vs_dc.c:731:15-16:
+ WARNING opportunity for swap()
+Message-ID: <202312151854.SXMjpEOs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,98 +50,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only kconfig file changed"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
+TO: Keith Zhao <keith.zhao@starfivetech.com>
+CC: Emil Renner Berthing <emil.renner.berthing@canonical.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   976600c6da56c488776c9ee2a5733ae9736e2a75
-commit: 7378f1149884b183631c6c16c0f1c62bcd7d759d media: omap2: omapfb: allow building it with COMPILE_TEST
-date:   6 years ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 6 years ago
-config: sparc-randconfig-r113-20231112 (https://download.01.org/0day-ci/archive/20231215/202312151110.d3oaWWnG-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231215/202312151110.d3oaWWnG-lkp@intel.com/reproduce)
+tree:   https://github.com/esmil/linux jh7110
+head:   bebe83d360486029c861b78d6f751aa6d857adf9
+commit: 5ef253a52e2113e8685c7222ca98fa1d9362445e [36/43] drm/vs: Add KMS crtc&plane
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: riscv-randconfig-r061-20231215 (https://download.01.org/0day-ci/archive/20231215/202312151854.SXMjpEOs-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312151110.d3oaWWnG-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202312151854.SXMjpEOs-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:230:23: sparse: sparse: cast to restricted __be32
-   In file included from drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:24:
-   include/linux/module.h:138:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'acx565akm_driver_exit': 'cold' [-Wmissing-attributes]
-     138 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
-         |              ^~~~~~~~~~~~~~
-   include/linux/device.h:1545:1: note: in expansion of macro 'module_exit'
-    1545 | module_exit(__driver##_exit);
-         | ^~~~~~~~~~~
-   include/linux/spi/spi.h:293:9: note: in expansion of macro 'module_driver'
-     293 |         module_driver(__spi_driver, spi_register_driver, 11-      |         ^~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:913:1: note: in expansion of macro 'module_spi_driver'
-     913 | module_spi_driver(acx565akm_driver);
-         | ^~~~~~~~~~~~~~~~~
-   In file included from include/linux/platform_device.h:14,
-                    from drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:25:
-   drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:913:19: note: 'cleanup_module' target declared here
-     913 | module_spi_driver(acx565akm_driver);
-         |                   ^~~~~~~~~~~~~~~~
-   include/linux/device.h:1541:20: note: in definition of macro 'module_driver'
-    1541 | static void __exit __driver##_exit(void) 22-      |                    ^~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:913:1: note: in expansion of macro 'module_spi_driver'
-     913 | module_spi_driver(acx565akm_driver);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/module.h:132:13: warning: 'init_module' specifies less restrictive attribute than its target 'acx565akm_driver_init': 'cold' [-Wmissing-attributes]
-     132 |         int init_module(void) __attribute__((alias(#initfn)));
-         |             ^~~~~~~~~~~
-   include/linux/device.h:1540:1: note: in expansion of macro 'module_init'
-    1540 | module_init(__driver##_init); 31-      | ^~~~~~~~~~~
-   include/linux/spi/spi.h:293:9: note: in expansion of macro 'module_driver'
-     293 |         module_driver(__spi_driver, spi_register_driver, 34-      |         ^~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:913:1: note: in expansion of macro 'module_spi_driver'
-     913 | module_spi_driver(acx565akm_driver);
-         | ^~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:913:19: note: 'init_module' target declared here
-     913 | module_spi_driver(acx565akm_driver);
-         |                   ^~~~~~~~~~~~~~~~
-   include/linux/device.h:1536:19: note: in definition of macro 'module_driver'
-    1536 | static int __init __driver##_init(void) 43-      |                   ^~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c:913:1: note: in expansion of macro 'module_spi_driver'
-     913 | module_spi_driver(acx565akm_driver);
-         | ^~~~~~~~~~~~~~~~~
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/verisilicon/vs_dc.c:731:15-16: WARNING opportunity for swap()
 
-vim +230 drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.c
+vim +731 drivers/gpu/drm/verisilicon/vs_dc.c
 
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  222  
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  223  static int panel_enabled(struct panel_drv_data *ddata)
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  224  {
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  225  	u32 disp_status;
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  226  	int enabled;
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  227  
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  228  	acx565akm_read(ddata, MIPID_CMD_READ_DISP_STATUS,
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  229  			(u8 *)&disp_status, 4);
-f76ee892a99e68 Tomi Valkeinen 2015-12-09 @230  	disp_status = __be32_to_cpu(disp_status);
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  231  	enabled = (disp_status & (1 << 17)) && (disp_status & (1 << 10));
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  232  	dev_dbg(&ddata->spi->dev,
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  233  		"LCD panel %senabled by bootloader (status 0x%04x)\n",
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  234  		enabled ? "" : "not ", disp_status);
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  235  	return enabled;
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  236  }
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  237  
-
-:::::: The code at line 230 was first introduced by commit
-:::::: f76ee892a99e68b55402b8d4b8aeffcae2aff34d omapfb: copy omapdss & displays for omapfb
-
-:::::: TO: Tomi Valkeinen <tomi.valkeinen@ti.com>
-:::::: CC: Tomi Valkeinen <tomi.valkeinen@ti.com>
+5ef253a52e2113 Keith Zhao 2023-12-04  711  
+5ef253a52e2113 Keith Zhao 2023-12-04  712  static void update_scale(struct drm_plane_state *state, struct dc_hw_roi *roi,
+5ef253a52e2113 Keith Zhao 2023-12-04  713  			 struct dc_hw_scale *scale)
+5ef253a52e2113 Keith Zhao 2023-12-04  714  {
+5ef253a52e2113 Keith Zhao 2023-12-04  715  	int dst_w = drm_rect_width(&state->dst);
+5ef253a52e2113 Keith Zhao 2023-12-04  716  	int dst_h = drm_rect_height(&state->dst);
+5ef253a52e2113 Keith Zhao 2023-12-04  717  	int src_w, src_h, temp;
+5ef253a52e2113 Keith Zhao 2023-12-04  718  
+5ef253a52e2113 Keith Zhao 2023-12-04  719  	scale->enable = false;
+5ef253a52e2113 Keith Zhao 2023-12-04  720  
+5ef253a52e2113 Keith Zhao 2023-12-04  721  	if (roi->enable) {
+5ef253a52e2113 Keith Zhao 2023-12-04  722  		src_w = roi->width;
+5ef253a52e2113 Keith Zhao 2023-12-04  723  		src_h = roi->height;
+5ef253a52e2113 Keith Zhao 2023-12-04  724  	} else {
+5ef253a52e2113 Keith Zhao 2023-12-04  725  		src_w = drm_rect_width(&state->src) >> 16;
+5ef253a52e2113 Keith Zhao 2023-12-04  726  		src_h = drm_rect_height(&state->src) >> 16;
+5ef253a52e2113 Keith Zhao 2023-12-04  727  	}
+5ef253a52e2113 Keith Zhao 2023-12-04  728  
+5ef253a52e2113 Keith Zhao 2023-12-04  729  	if (drm_rotation_90_or_270(state->rotation)) {
+5ef253a52e2113 Keith Zhao 2023-12-04  730  		temp = src_w;
+5ef253a52e2113 Keith Zhao 2023-12-04 @731  		src_w = src_h;
+5ef253a52e2113 Keith Zhao 2023-12-04  732  		src_h = temp;
+5ef253a52e2113 Keith Zhao 2023-12-04  733  	}
+5ef253a52e2113 Keith Zhao 2023-12-04  734  
+5ef253a52e2113 Keith Zhao 2023-12-04  735  	if (src_w != dst_w) {
+5ef253a52e2113 Keith Zhao 2023-12-04  736  		scale->scale_factor_x = calc_factor(src_w, dst_w);
+5ef253a52e2113 Keith Zhao 2023-12-04  737  		scale->enable = true;
+5ef253a52e2113 Keith Zhao 2023-12-04  738  	} else {
+5ef253a52e2113 Keith Zhao 2023-12-04  739  		scale->scale_factor_x = 1 << 16;
+5ef253a52e2113 Keith Zhao 2023-12-04  740  	}
+5ef253a52e2113 Keith Zhao 2023-12-04  741  	if (src_h != dst_h) {
+5ef253a52e2113 Keith Zhao 2023-12-04  742  		scale->scale_factor_y = calc_factor(src_h, dst_h);
+5ef253a52e2113 Keith Zhao 2023-12-04  743  		scale->enable = true;
+5ef253a52e2113 Keith Zhao 2023-12-04  744  	} else {
+5ef253a52e2113 Keith Zhao 2023-12-04  745  		scale->scale_factor_y = 1 << 16;
+5ef253a52e2113 Keith Zhao 2023-12-04  746  	}
+5ef253a52e2113 Keith Zhao 2023-12-04  747  }
+5ef253a52e2113 Keith Zhao 2023-12-04  748  
 
 -- 
 0-DAY CI Kernel Test Service
