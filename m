@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E03913AD2
-	for <oe-kbuild@lists.linux.dev>; Sat, 16 Dec 2023 08:24:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FBD156EE
+	for <oe-kbuild@lists.linux.dev>; Sat, 16 Dec 2023 10:55:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hu/1qAey"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T80r6hTk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702715088; x=1734251088;
+  t=1702724136; x=1734260136;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3JSnmcwZwkotPx0OKpeCG5NS+xzqxUR9g0KsRlEX66Q=;
-  b=hu/1qAeyzh8nXCCvDjeqhuM4oQgz27N0SvWqIGTBiFxm57cAh72ApUOv
-   s+yc1HnaNcr6emfrRF/9HX4pK41Ey2ujr/FX8JD7VDIs2btUGB6rtTm1d
-   mFZzEc8pDGHAglDBInACrghuozC030b2vhhQy5UNzIAaXjmNxCxX+GrEW
-   EkLbvGs5Zf8hwpqznRVwypsLgMHL408Xtk7PXT22pFBalYdqNgBnjNkdA
-   QijvC7s/NTGUfqhlYgKXjc/QmagujWkgkr1TUWkbq70US/HtQw7wIf8Ff
-   Y3LPgOVMDX0EEAtM3vszQHYYziswUG0hq/Uk8+2zlL7utKtMNC0L9R329
+  bh=gez30dKaXE+cK6dndDRmIByI9+LSfmuFQiPLr3eStm4=;
+  b=T80r6hTkOguZ7+IuMrI36PofDVUvUkdSR6/fJZSSEZgjWtj4x6MbJZMc
+   GWX2l7daU0oFcn+yNfCCYmo/OeCIIf7d5ohOBJhVqaulM6Z1BA2W9J+53
+   y4eUiEV2rA6BckkttR37L20wWhQ8HAME1B/dR52IAH4mR6kNf++PDyTKZ
+   tiwzYs1RxAYRgtPLYaGw4cZGbMRNEOoXIAsvni3KO/xpoTU4BbOchynqy
+   Ofm+kpT1zrvcU8cpcgM9xGmK+sAV4lleaV+RT+Ygxpp9alVBS0r/SZDv1
+   zZ+4iEjHn5DFF1+Ktk+D7U6lPnCaFfi8AvVRhGNL08sqKl+otjBel9ojL
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="2452100"
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="2546001"
 X-IronPort-AV: E=Sophos;i="6.04,281,1695711600"; 
-   d="scan'208";a="2452100"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 00:24:48 -0800
+   d="scan'208";a="2546001"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 02:55:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="1022200039"
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="893209692"
 X-IronPort-AV: E=Sophos;i="6.04,281,1695711600"; 
-   d="scan'208";a="1022200039"
+   d="scan'208";a="893209692"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 16 Dec 2023 00:24:45 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 16 Dec 2023 02:55:33 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEPyV-0001KM-1M;
-	Sat, 16 Dec 2023 08:24:43 +0000
-Date: Sat, 16 Dec 2023 16:24:26 +0800
+	id 1rESKR-0001UO-28;
+	Sat, 16 Dec 2023 10:55:31 +0000
+Date: Sat, 16 Dec 2023 18:54:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [hch-xfs:xfs-zoned 62/62] fs/xfs/xfs_zone_alloc.c:1270:44-47: ERROR:
- invalid reference to the index variable of the iterator on line 1267
-Message-ID: <202312161644.7zpSiIDG-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: softirq.c:(.text+0xf34): relocation truncated to fit:
+ R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+Message-ID: <202312161826.SoW2EI0R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,61 +50,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "csky general problem: relocation truncated to fit"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
+CC: linux-kernel@vger.kernel.org
+TO: Finn Thain <fthain@linux-m68k.org>
+CC: Ingo Molnar <mingo@kernel.org>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
-head:   60b5c8af1e240372d2e077071f06662efdccec3a
-commit: 60b5c8af1e240372d2e077071f06662efdccec3a [62/62] xfs: support zoned RT devices
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: x86_64-randconfig-103-20231216 (https://download.01.org/0day-ci/archive/20231216/202312161644.7zpSiIDG-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c8e97fc6b4c057a350a9e9a1ad625e10cc9c39ee
+commit: 87c3a5893e865739ce78aa7192d36011022e0af7 sched/core: Optimize in_task() and in_interrupt() a bit
+date:   3 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 months ago
+config: csky-randconfig-r012-20230603 (https://download.01.org/0day-ci/archive/20231216/202312161826.SoW2EI0R-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312161826.SoW2EI0R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312161644.7zpSiIDG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312161826.SoW2EI0R-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_zone_alloc.c:1270:44-47: ERROR: invalid reference to the index variable of the iterator on line 1267
+All errors (new ones prefixed by >>):
 
-vim +1270 fs/xfs/xfs_zone_alloc.c
-
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1239  
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1240  void
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1241  xfs_zoned_show_stats(
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1242  	struct seq_file		*m,
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1243  	struct xfs_mount	*mp)
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1244  {
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1245  	unsigned long		index = 0;
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1246  	unsigned		count = 0;
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1247  	struct xfs_rtgroup	*rtg;
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1248  
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1249  	seq_puts(m, "\n");
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1250  
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1251  	seq_printf(m, "\ttotal free blocks: %lld\n",
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1252  		xfs_estimate_freecounter(mp, FREE_RTEXTENTS));
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1253  	seq_printf(m, "\treserved free blocks: %lld\n",
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1254  			mp->m_resblks[FREE_RTEXTENTS].avail);
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1255  	seq_printf(m, "\treclaimable blocks: %lld\n",
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1256  			 percpu_counter_sum(&mp->m_zone_reclaimable));
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1257  
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1258  	spin_lock(&mp->m_zone_list_lock);
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1259  	seq_puts(m, "\topen zones:\n");
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1260  	list_for_each_entry(rtg, &mp->m_open_zones, rtg_entry)
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1261  		xfs_show_zone(m, rtg);
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1262  	if (mp->m_open_gc_zone) {
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1263  		seq_puts(m, "\topen gc zone:\n");
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1264  		xfs_show_zone(m, mp->m_open_gc_zone);
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1265  	}
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1266  	seq_puts(m, "\tgc zones:\n");
-60b5c8af1e2403 Christoph Hellwig 2023-12-07 @1267  	list_for_each_entry(rtg, &mp->m_gc_zones, rtg_entry)
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1268  		xfs_show_zone(m, rtg);
-60b5c8af1e2403 Christoph Hellwig 2023-12-07  1269  	seq_puts(m, "\treclaimable zones:\n");
-60b5c8af1e2403 Christoph Hellwig 2023-12-07 @1270  	xa_for_each_marked(&mp->m_rtgroups, index, rtg, XFS_RTG_RECLAIMABLE) {
+   kernel/softirq.o: in function `irq_enter':
+>> softirq.c:(.text+0xf34): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   softirq.c:(.text+0xf38): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   kernel/softirq.o: in function `irq_exit':
+   softirq.c:(.text+0xf44): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   softirq.c:(.text+0xfb4): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   softirq.c:(.text+0xfc0): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   kernel/softirq.o: in function `irq_exit_rcu':
+   softirq.c:(.text+0xfdc): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   softirq.c:(.text+0xfe0): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   kernel/softirq.o: in function `__raise_softirq_irqoff':
+   softirq.c:(.text+0xfec): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   softirq.c:(.text+0x1028): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   softirq.c:(.text+0x104e): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   softirq.c:(.text+0x1084): additional relocation overflows omitted from the output
 
 -- 
 0-DAY CI Kernel Test Service
