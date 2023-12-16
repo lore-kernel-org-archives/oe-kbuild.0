@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CAB4681
-	for <oe-kbuild@lists.linux.dev>; Sat, 16 Dec 2023 03:40:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547CB10A00
+	for <oe-kbuild@lists.linux.dev>; Sat, 16 Dec 2023 04:13:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ICjJf1Y8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GM2Avkej"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702698002; x=1734234002;
+  t=1702699982; x=1734235982;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ddvR341JP2V5oeKx9nWrzmlcX+ZgRAyX0NG+4wQ/8r8=;
-  b=ICjJf1Y8C83qiOCoXDvBTOkQIejYQpP08A+HExWgB9RQKw0Jaq4r1kwI
-   D6AJweR7Fe0C2ERfuT4HDLLPOyEY4UC+htBcwENQfAYIj34om4SH/X53o
-   TFGLJ3XM8VXjMgSc3goQzdWFrCjxQ8Au3dB9blzHUpnbKBj0JMhalnGJs
-   qJ2kEaW1Zns1+NtqAk54U+fuJYfiO0ZSNc7Tj2om4mIBNw0Zrc8NX+t+Y
-   ut41ZDIGMgY+9/k7j8FqyeVuNiFcUTHoPETeerXI6VGNqDcOw6W7uDy9a
-   ErZcrNf0v6oa5xrDKbYcYoPXW0J2+qCRMlR6y4rNWtVvtCOHvcN83+n1q
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="394230229"
+  bh=UtbuNGCg1Yd7sBnDHLo/GePSbPdArRwoqqCOomcMKcs=;
+  b=GM2AvkejhlumN2WNCMbOlGh8JjZo++70gb2H0ZiwLfV/yvzX0zdZLrgH
+   XI3YkIOxcbcGsnPz6tEYyMnR5rqZu3WGns4DpaX9tH7bycs3g2zAS8A7T
+   aGnh4h0PgCbOV27ZRDb6M5QMt02Xv5dwr3H0GsjFjbJW/ABN9Uy1SSIe8
+   7Z3kBwOtDMGtRzIMuF0kgig9FaubrwvSny1OYaO8w8RoKZUjYMgTnuh01
+   +Ud9rsc/ONLAKXfyZCsq/yIpa31za5z88kwYKYmczjQ9ianZACTxcVXS6
+   2I/JytHAxOD5bw8EMd0FPypOxOSGerDRsBHsl6y8KKdxLe4tebpANTJyY
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="459683116"
 X-IronPort-AV: E=Sophos;i="6.04,280,1695711600"; 
-   d="scan'208";a="394230229"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 19:40:00 -0800
+   d="scan'208";a="459683116"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 20:13:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="893128269"
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="774976635"
 X-IronPort-AV: E=Sophos;i="6.04,280,1695711600"; 
-   d="scan'208";a="893128269"
+   d="scan'208";a="774976635"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Dec 2023 19:39:59 -0800
+  by orsmga002.jf.intel.com with ESMTP; 15 Dec 2023 20:13:00 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rELWv-00016Y-0J;
-	Sat, 16 Dec 2023 03:39:57 +0000
-Date: Sat, 16 Dec 2023 11:39:30 +0800
+	id 1rEM2s-00019C-1Z;
+	Sat, 16 Dec 2023 04:12:58 +0000
+Date: Sat, 16 Dec 2023 12:12:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c:79:2-8: WARNING: NULL
- check before some freeing functions is not needed.
-Message-ID: <202312161128.iU0wiTeg-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [hch-xfs:xfs-zoned 62/62] fs/xfs/libxfs/xfs_sb.c: xfs_rtbitmap.h is
+ included more than once.
+Message-ID: <202312161220.XGWw0Crc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,62 +50,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Lucas Stach <l.stach@pengutronix.de>
+TO: Christoph Hellwig <hch@lst.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3bd7d748816927202268cb335921f7f68b3ca723
-commit: fd4b77e8deea9cced6c1eca8bd64d2f03fc7cc94 drm/etnaviv: don't restrict to certain architectures
-date:   4 years, 11 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 4 years, 11 months ago
-config: i386-randconfig-053-20231216 (https://download.01.org/0day-ci/archive/20231216/202312161128.iU0wiTeg-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
+head:   60b5c8af1e240372d2e077071f06662efdccec3a
+commit: 60b5c8af1e240372d2e077071f06662efdccec3a [62/62] xfs: support zoned RT devices
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312161128.iU0wiTeg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312161220.XGWw0Crc-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c:79:2-8: WARNING: NULL check before some freeing functions is not needed.
---
->> drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:588:2-8: WARNING: NULL check before some freeing functions is not needed.
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:590:2-8: WARNING: NULL check before some freeing functions is not needed.
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:592:2-8: WARNING: NULL check before some freeing functions is not needed.
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:594:2-8: WARNING: NULL check before some freeing functions is not needed.
---
->> drivers/gpu/drm/etnaviv/etnaviv_gem.c:335:8-15: ERROR: reference preceded by free on line 323
---
->> drivers/gpu/drm/etnaviv/etnaviv_gpu.c:1736:2-9: line 1736 is redundant because platform_get_irq() already prints an error
+includecheck warnings: (new ones prefixed by >>)
+>> fs/xfs/libxfs/xfs_sb.c: xfs_rtbitmap.h is included more than once.
 
-vim +79 drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+vim +28 fs/xfs/libxfs/xfs_sb.c
 
-a8c21a5451d831e The etnaviv authors 2015-12-03  68  
-a8c21a5451d831e The etnaviv authors 2015-12-03  69  static void etnaviv_gem_prime_release(struct etnaviv_gem_object *etnaviv_obj)
-a8c21a5451d831e The etnaviv authors 2015-12-03  70  {
-a8c21a5451d831e The etnaviv authors 2015-12-03  71  	if (etnaviv_obj->vaddr)
-a8c21a5451d831e The etnaviv authors 2015-12-03  72  		dma_buf_vunmap(etnaviv_obj->base.import_attach->dmabuf,
-a8c21a5451d831e The etnaviv authors 2015-12-03  73  			       etnaviv_obj->vaddr);
-a8c21a5451d831e The etnaviv authors 2015-12-03  74  
-a8c21a5451d831e The etnaviv authors 2015-12-03  75  	/* Don't drop the pages for imported dmabuf, as they are not
-a8c21a5451d831e The etnaviv authors 2015-12-03  76  	 * ours, just free the array we allocated:
-a8c21a5451d831e The etnaviv authors 2015-12-03  77  	 */
-a8c21a5451d831e The etnaviv authors 2015-12-03  78  	if (etnaviv_obj->pages)
-2098105ec65cb36 Michal Hocko        2017-05-17 @79  		kvfree(etnaviv_obj->pages);
-a8c21a5451d831e The etnaviv authors 2015-12-03  80  
-a8c21a5451d831e The etnaviv authors 2015-12-03  81  	drm_prime_gem_destroy(&etnaviv_obj->base, etnaviv_obj->sgt);
-a8c21a5451d831e The etnaviv authors 2015-12-03  82  }
-a8c21a5451d831e The etnaviv authors 2015-12-03  83  
-
-:::::: The code at line 79 was first introduced by commit
-:::::: 2098105ec65cb364f3d77baa446b2ad5ba6bc7b9 drm: drop drm_[cm]alloc* helpers
-
-:::::: TO: Michal Hocko <mhocko@kernel.org>
-:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+  > 28	#include "xfs_rtbitmap.h"
+    29	#include "xfs_swapext.h"
+    30	#include "xfs_rtgroup.h"
+    31	#include "xfs_rtrmap_btree.h"
+    32	#include "xfs_rtrefcount_btree.h"
+  > 33	#include "xfs_rtbitmap.h"
+    34	
 
 -- 
 0-DAY CI Kernel Test Service
