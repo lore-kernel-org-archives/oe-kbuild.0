@@ -1,98 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from out203-205-251-84.mail.qq.com (unknown [203.205.251.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FBD156EE
-	for <oe-kbuild@lists.linux.dev>; Sat, 16 Dec 2023 10:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FAC2E3E1
+	for <oe-kbuild@lists.linux.dev>; Sat, 16 Dec 2023 12:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T80r6hTk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702724136; x=1734260136;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gez30dKaXE+cK6dndDRmIByI9+LSfmuFQiPLr3eStm4=;
-  b=T80r6hTkOguZ7+IuMrI36PofDVUvUkdSR6/fJZSSEZgjWtj4x6MbJZMc
-   GWX2l7daU0oFcn+yNfCCYmo/OeCIIf7d5ohOBJhVqaulM6Z1BA2W9J+53
-   y4eUiEV2rA6BckkttR37L20wWhQ8HAME1B/dR52IAH4mR6kNf++PDyTKZ
-   tiwzYs1RxAYRgtPLYaGw4cZGbMRNEOoXIAsvni3KO/xpoTU4BbOchynqy
-   Ofm+kpT1zrvcU8cpcgM9xGmK+sAV4lleaV+RT+Ygxpp9alVBS0r/SZDv1
-   zZ+4iEjHn5DFF1+Ktk+D7U6lPnCaFfi8AvVRhGNL08sqKl+otjBel9ojL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="2546001"
-X-IronPort-AV: E=Sophos;i="6.04,281,1695711600"; 
-   d="scan'208";a="2546001"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 02:55:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="893209692"
-X-IronPort-AV: E=Sophos;i="6.04,281,1695711600"; 
-   d="scan'208";a="893209692"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 16 Dec 2023 02:55:33 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rESKR-0001UO-28;
-	Sat, 16 Dec 2023 10:55:31 +0000
-Date: Sat, 16 Dec 2023 18:54:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: softirq.c:(.text+0xf34): relocation truncated to fit:
- R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-Message-ID: <202312161826.SoW2EI0R-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="T+G8uu6d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1702730819; bh=KkmgHGEm2UsLq3TeXNZiiAlrO5hWvTj5k/H52eiv40Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=T+G8uu6drpO0AzvO9Twxr2FhHNJxE125qxOC5sHD1wCNwrqJfaPz5c/9TlmY0Un8J
+	 42HPFmyoJfOAfb26A/KjghtkNmxCXfKWHAkM2uwv+LqltGf/kqP3hArFfBXzNqE6lQ
+	 9oIiJelypfZik4B7Aoz5Gz7WRNIXigMExGdC+dy8=
+Received: from pek-lxu-l1.wrs.com ([111.198.225.215])
+	by newxmesmtplogicsvrszc5-1.qq.com (NewEsmtp) with SMTP
+	id A318A4EE; Sat, 16 Dec 2023 20:40:49 +0800
+X-QQ-mid: xmsmtpt1702730449tyn0hcw6v
+Message-ID: <tencent_7D76CF818DC6A5DE0D8D1232DDFBDDEC1907@qq.com>
+X-QQ-XMAILINFO: MvM61XSVXCtD1aoAANvcck73crN01yFuAD6OqTuYfTzKZXaypNqIwvEykzsaRG
+	 pG0mYUeQyIWIxjPCVhD485OHLEcxg/Wd/As8/sD4COTcN/ZkD6LL0BtBRa6ZgL4N2Dvg1G/lDVoP
+	 XNTg0R/Hzr5Gp6+U49JynfmMdyKJasy/prlQvag2agfe2D81FOrOEfXfi4XogfUIBEs+RWPNEjc4
+	 2IzOiJCd05w6dx4k4jo4OdVP6giryyoiPtaXiN7wUqVSwhjJwDLjeaXypk/48qCJoaDWn+E23jA3
+	 jPl710bPao4QXwRq0ALwy9NLPuP2oiAHkgbgfiKBGHsPdYkc5D3DYiSIz69uIC+NWWusYMDt+A5a
+	 7eF4KidifFd1P94hAhMojpW3l2oj7/Askcxwv4VWshapFLezdN+UMYSYBLYlrD/2zh0iCUIECsyL
+	 I98S+WE9XPYXHxSB+dYGKxIg9vh7m5rEEXmkseZDPjMzZKX9XxFufch8uWykH44BJRu2LIfvRixj
+	 f6hEodHz6PKRu52g7klFxQ8r7Yz4j6sVd96YOVzO9KN2/fhWbEIC2UzbwvAoTBROW7dXWIwhS5M/
+	 NeHFY50svY2pqurexIX8KETiVScU5a/HXfGerviDqtAdittwuyis0qVrSNgNn7kglkKvK4UMgDpb
+	 5TWLxUnRU1/2BFjWzM1RnfKit+eqVILF0tzbKf/S+7Cv9OMxu9Q1+kMon+oRO9priEfizlFoG85n
+	 4oOhmSgBVjAEgA/T+++QJj1IHSfthUhZ1mqrokKjSO00sWkyHqure89xdMD8yhPIt3QE8vDMq908
+	 fwYkuBBU6hoOdXGKJ4ysR4qi8JLNC7khZ6PZkKq/ne+gPQDLYca2I3URbdZYPI+GHVPB5utvnlj/
+	 pKbHks9ZAL0nHAGp1O8/njK2TXpePWTAlGQlINhcC/rgULv0nfRgsVCWyM2CO1ow==
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+From: Edward Adam Davis <eadavis@qq.com>
+To: lkp@intel.com
+Cc: error27@gmail.com,
+	oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH] jfs: fix array-index-out-of-bounds in diNewExt
+Date: Sat, 16 Dec 2023 20:40:50 +0800
+X-OQ-MSGID: <20231216124049.3387656-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <202312142348.6HRZtXTB-lkp@intel.com>
+References: <202312142348.6HRZtXTB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-:::::: 
-:::::: Manual check reason: "csky general problem: relocation truncated to fit"
-:::::: 
+On Thu, 14 Dec 2023 23:45:45 +0800, kernel test robot <lkp@intel.com> wrote:
+> kernel test robot noticed the following build warnings:
+> 
+> New smatch warnings:
+> fs/jfs/jfs_imap.c:2213 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
+Please ignore this build warning as it will not introduce any issues.
+> 
+> Old smatch warnings:
+> fs/jfs/jfs_imap.c:2229 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
+> fs/jfs/jfs_imap.c:2304 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
+> fs/jfs/jfs_imap.c:2318 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Finn Thain <fthain@linux-m68k.org>
-CC: Ingo Molnar <mingo@kernel.org>
+BR,
+edward
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c8e97fc6b4c057a350a9e9a1ad625e10cc9c39ee
-commit: 87c3a5893e865739ce78aa7192d36011022e0af7 sched/core: Optimize in_task() and in_interrupt() a bit
-date:   3 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 3 months ago
-config: csky-randconfig-r012-20230603 (https://download.01.org/0day-ci/archive/20231216/202312161826.SoW2EI0R-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312161826.SoW2EI0R-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312161826.SoW2EI0R-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   kernel/softirq.o: in function `irq_enter':
->> softirq.c:(.text+0xf34): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   softirq.c:(.text+0xf38): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   kernel/softirq.o: in function `irq_exit':
-   softirq.c:(.text+0xf44): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   softirq.c:(.text+0xfb4): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   softirq.c:(.text+0xfc0): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   kernel/softirq.o: in function `irq_exit_rcu':
-   softirq.c:(.text+0xfdc): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   softirq.c:(.text+0xfe0): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   kernel/softirq.o: in function `__raise_softirq_irqoff':
-   softirq.c:(.text+0xfec): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   softirq.c:(.text+0x1028): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   softirq.c:(.text+0x104e): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   softirq.c:(.text+0x1084): additional relocation overflows omitted from the output
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
