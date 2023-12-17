@@ -1,46 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1663E36AE6
-	for <oe-kbuild@lists.linux.dev>; Sun, 17 Dec 2023 12:22:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8418944C8F
+	for <oe-kbuild@lists.linux.dev>; Sun, 17 Dec 2023 15:33:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BmI4w+zh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KRFfzufD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702815731; x=1734351731;
+  t=1702827203; x=1734363203;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0xCZ5YsjxEbabTTFjOtDr2jvq4X+DYjwf1tmSoZG0U8=;
-  b=BmI4w+zhYgMdGPS12jhTAnC40lprdqV06W1VkebMAm1JSNzDJaQkvh2k
-   6T/PDm+IyK7FL2uTsh2Q13sl5eDF4w9O7+FcMRAdltqjyxzfP3Hvvgj5N
-   eUGmascXqHIhw6MWqIfsuDvkyQCoIKbwhL4pWV6Tv5CnJxW+WwECyMaee
-   6lZqg+N/sLU7rOiKI1NPyxKXs6CUSLWiWZFNBZNomDsfPnlE7nCtztH1I
-   o2akH9r7DmUbTLVYrfqqlIc2MsW3BRBzH9evgaPpMIxltFIq0hWJfbneK
-   ET0wrA+Kr307o2S5NWCMYBk13Gz1D3JQqgkksLkVoQRaxprgj4G2QfyVL
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="2239070"
+  bh=owcyJCX53XI01KIAPs3YR+U70yF5ayMf94PJGhrT1Kg=;
+  b=KRFfzufDzulRmSgLS6fH4uYiaryaA97W8F5zzV/4mFc3hmyz2EGfs/cG
+   lwCb0BvyP7TcDCH62MKleSLXwF/R6zgwc0WvNsDhrSU4V4ayCwY6PS9m/
+   PNpoIjNdPrjXyRsgzt7aGvDfiJZi7Y8mT3RZK63Nb8vk46h1G6zBokp0X
+   +Uc+AdaXP747/njV3tsQo7yBW1nlZtiq6Lj3bZ6LqeerkQXSNGs6TCE1V
+   PPDO+KJN1/YPX/hnZr7Lp4m2k69JkFuTILTy/OYDapVuB3gS8VPXVQ90O
+   TgTbirqqAwzU9NlUooCctq9RWjXhmvXBtowT6/inPKdx3/nuNGLJddS2T
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="2511839"
 X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="2239070"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 04:22:10 -0800
+   d="scan'208";a="2511839"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 07:33:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="768539609"
 X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="768539609"
+   d="scan'208";a="23446880"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 17 Dec 2023 04:22:08 -0800
+  by orviesa001.jf.intel.com with ESMTP; 17 Dec 2023 07:33:22 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEq9m-00031m-1M;
-	Sun, 17 Dec 2023 12:22:06 +0000
-Date: Sun, 17 Dec 2023 20:21:49 +0800
+	id 1rEt8p-0003AC-1B;
+	Sun, 17 Dec 2023 15:33:19 +0000
+Date: Sun, 17 Dec 2023 23:32:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 3/6] irqchip: Introduce RTD1319 support using the
- Realtek common interrupt controller driver
-Message-ID: <202312172011.8iKGuYB9-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [bcachefs:bcachefs-testing 155/174] fs/bcachefs/btree_iter.c:1545:9:
+ sparse:    unsigned long [noderef] __rcu *
+Message-ID: <202312172310.4AyvwEjU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,88 +49,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: fs/bcachefs/btree_iter.c:1545:9: sparse:    unsigned long [noderef] __rcu *"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20231117162709.1096585-4-james.tai@realtek.com>
-References: <20231117162709.1096585-4-james.tai@realtek.com>
-TO: James Tai <james.tai@realtek.com>
-TO: Thomas Gleixner <tglx@linutronix.de>
-TO: Marc Zyngier <maz@kernel.org>
-TO: Rob Herring <robh+dt@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: James Tai <james.tai@realtek.com>
-CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
+CC: Kent Overstreet <kmo@daterainc.com>
+TO: Kent Overstreet <kmo@daterainc.com>
 
-Hi James,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/irq/core]
-[also build test WARNING on robh/for-next linus/master v6.7-rc5 next-20231215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Tai/dt-bindings-interrupt-controller-Add-support-for-Realtek-DHC-SoCs/20231118-003036
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20231117162709.1096585-4-james.tai%40realtek.com
-patch subject: [PATCH v2 3/6] irqchip: Introduce RTD1319 support using the Realtek common interrupt controller driver
-:::::: branch date: 4 weeks ago
-:::::: commit date: 4 weeks ago
-config: nios2-randconfig-r081-20231120 (https://download.01.org/0day-ci/archive/20231217/202312172011.8iKGuYB9-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   16609653d3eeb730d5a4b5d19266d52f9e7b8ea3
+commit: e29e7a77e4132dc68611fe1d5c120c992295b4f6 [155/174] bcachefs: growable btree_paths
+:::::: branch date: 5 hours ago
+:::::: commit date: 16 hours ago
+config: x86_64-randconfig-123-20231217 (https://download.01.org/0day-ci/archive/20231217/202312172310.4AyvwEjU-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312172310.4AyvwEjU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312172011.8iKGuYB9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312172310.4AyvwEjU-lkp@intel.com/
 
-smatch warnings:
-drivers/irqchip/irq-realtek-intc-common.c:179 realtek_intc_probe() warn: ignoring unreachable code.
-drivers/irqchip/irq-realtek-intc-common.c:187 realtek_intc_probe() warn: 'data->base' from of_iomap() not released on lines: 176,182.
+sparse warnings: (new ones prefixed by >>)
+   fs/bcachefs/btree_iter.c: note: in included file:
+   fs/bcachefs/bcachefs.h:1007:9: sparse: sparse: array of flexible structures
+   fs/bcachefs/btree_iter.c:1545:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+>> fs/bcachefs/btree_iter.c:1545:9: sparse:    unsigned long [noderef] __rcu *
+>> fs/bcachefs/btree_iter.c:1545:9: sparse:    unsigned long *
+   fs/bcachefs/btree_iter.c:1546:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+>> fs/bcachefs/btree_iter.c:1546:9: sparse:    unsigned char [noderef] __rcu *
+>> fs/bcachefs/btree_iter.c:1546:9: sparse:    unsigned char [usertype] *
+   fs/bcachefs/btree_iter.c:1547:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/btree_iter.c:1547:9: sparse:    struct btree_path [noderef] __rcu *
+   fs/bcachefs/btree_iter.c:1547:9: sparse:    struct btree_path *
+   fs/bcachefs/btree_iter.c:1548:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+>> fs/bcachefs/btree_iter.c:1548:9: sparse:    struct btree_insert_entry [noderef] __rcu *
+>> fs/bcachefs/btree_iter.c:1548:9: sparse:    struct btree_insert_entry *
+   fs/bcachefs/btree_iter.c: note: in included file (through fs/bcachefs/btree_types.h, fs/bcachefs/bcachefs.h):
+   fs/bcachefs/replicas_types.h:24:34: sparse: sparse: array of flexible structures
+   fs/bcachefs/btree_iter.c:3118:36: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/btree_iter.c:3118:36: sparse:    struct btree_path [noderef] __rcu *
+   fs/bcachefs/btree_iter.c:3118:36: sparse:    struct btree_path *
+   fs/bcachefs/btree_iter.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
+   include/linux/srcu.h:285:9: sparse: sparse: context imbalance in 'bch2_trans_srcu_unlock' - unexpected unlock
+   fs/bcachefs/btree_iter.c:2816:9: sparse: sparse: context imbalance in 'bch2_trans_srcu_lock' - different lock contexts for basic block
+   fs/bcachefs/btree_iter.c:3035:9: sparse: sparse: context imbalance in 'bch2_trans_put' - different lock contexts for basic block
 
-vim +179 drivers/irqchip/irq-realtek-intc-common.c
+vim +1545 fs/bcachefs/btree_iter.c
 
-40e5ff4eaef72b James Tai 2023-11-18  154  
-40e5ff4eaef72b James Tai 2023-11-18  155  int realtek_intc_probe(struct platform_device *pdev, const struct realtek_intc_info *info)
-40e5ff4eaef72b James Tai 2023-11-18  156  {
-40e5ff4eaef72b James Tai 2023-11-18  157  	struct realtek_intc_data *data;
-40e5ff4eaef72b James Tai 2023-11-18  158  	struct device *dev = &pdev->dev;
-40e5ff4eaef72b James Tai 2023-11-18  159  	struct device_node *node = dev->of_node;
-40e5ff4eaef72b James Tai 2023-11-18  160  	int ret, i;
-40e5ff4eaef72b James Tai 2023-11-18  161  
-40e5ff4eaef72b James Tai 2023-11-18  162  	data = devm_kzalloc(dev, struct_size(data, subset_data, info->cfg_num), GFP_KERNEL);
-40e5ff4eaef72b James Tai 2023-11-18  163  	if (!data)
-40e5ff4eaef72b James Tai 2023-11-18  164  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  165  
-40e5ff4eaef72b James Tai 2023-11-18  166  	data->base = of_iomap(node, 0);
-40e5ff4eaef72b James Tai 2023-11-18  167  	if (!data->base)
-40e5ff4eaef72b James Tai 2023-11-18  168  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  169  
-40e5ff4eaef72b James Tai 2023-11-18  170  	data->info = info;
-40e5ff4eaef72b James Tai 2023-11-18  171  
-40e5ff4eaef72b James Tai 2023-11-18  172  	raw_spin_lock_init(&data->lock);
-40e5ff4eaef72b James Tai 2023-11-18  173  
-40e5ff4eaef72b James Tai 2023-11-18  174  	data->domain = irq_domain_add_linear(node, 32, &realtek_intc_domain_ops, data);
-40e5ff4eaef72b James Tai 2023-11-18  175  	if (!data->domain)
-40e5ff4eaef72b James Tai 2023-11-18  176  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  177  
-40e5ff4eaef72b James Tai 2023-11-18  178  	data->subset_data_num = info->cfg_num;
-40e5ff4eaef72b James Tai 2023-11-18 @179  	for (i = 0; i < info->cfg_num; i++) {
-40e5ff4eaef72b James Tai 2023-11-18  180  		ret = realtek_intc_subset(node, data, i);
-40e5ff4eaef72b James Tai 2023-11-18  181  		WARN(ret, "failed to init subset %d: %d", i, ret);
-40e5ff4eaef72b James Tai 2023-11-18  182  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  183  	}
-40e5ff4eaef72b James Tai 2023-11-18  184  
-40e5ff4eaef72b James Tai 2023-11-18  185  	platform_set_drvdata(pdev, data);
-40e5ff4eaef72b James Tai 2023-11-18  186  
-40e5ff4eaef72b James Tai 2023-11-18 @187  	return 0;
-40e5ff4eaef72b James Tai 2023-11-18  188  }
-40e5ff4eaef72b James Tai 2023-11-18  189  EXPORT_SYMBOL(realtek_intc_probe);
-40e5ff4eaef72b James Tai 2023-11-18  190  
+69f0f3eda7236a Kent Overstreet 2023-11-26  1517  
+e29e7a77e4132d Kent Overstreet 2023-12-10  1518  static noinline void btree_paths_realloc(struct btree_trans *trans)
+3f3bc66ef0601e Kent Overstreet 2022-09-26  1519  {
+e29e7a77e4132d Kent Overstreet 2023-12-10  1520  	unsigned nr = trans->nr_paths * 2;
+e29e7a77e4132d Kent Overstreet 2023-12-10  1521  
+e29e7a77e4132d Kent Overstreet 2023-12-10  1522  	void *p = kzalloc(BITS_TO_LONGS(nr) * sizeof(unsigned long) +
+e29e7a77e4132d Kent Overstreet 2023-12-10  1523  			  nr + 8 +
+e29e7a77e4132d Kent Overstreet 2023-12-10  1524  			  sizeof(struct btree_trans_paths) +
+e29e7a77e4132d Kent Overstreet 2023-12-10  1525  			  nr * sizeof(struct btree_path) +
+e29e7a77e4132d Kent Overstreet 2023-12-10  1526  			  nr * sizeof(struct btree_insert_entry), GFP_KERNEL|__GFP_NOFAIL);
+e29e7a77e4132d Kent Overstreet 2023-12-10  1527  
+e29e7a77e4132d Kent Overstreet 2023-12-10  1528  	unsigned long *paths_allocated = p;
+e29e7a77e4132d Kent Overstreet 2023-12-10  1529  	p += BITS_TO_LONGS(nr) * sizeof(unsigned long);
+e29e7a77e4132d Kent Overstreet 2023-12-10  1530  	struct btree_path *paths = p;
+e29e7a77e4132d Kent Overstreet 2023-12-10  1531  	p += nr * sizeof(struct btree_path);
+e29e7a77e4132d Kent Overstreet 2023-12-10  1532  	u8 *sorted = p;
+e29e7a77e4132d Kent Overstreet 2023-12-10  1533  	p += nr + 8;
+e29e7a77e4132d Kent Overstreet 2023-12-10  1534  	struct btree_insert_entry *updates = p;
+e29e7a77e4132d Kent Overstreet 2023-12-10  1535  
+e29e7a77e4132d Kent Overstreet 2023-12-10  1536  	*trans_paths_nr(paths) = nr;
+e29e7a77e4132d Kent Overstreet 2023-12-10  1537  
+e29e7a77e4132d Kent Overstreet 2023-12-10  1538  	memcpy(paths_allocated, trans->paths_allocated, BITS_TO_LONGS(trans->nr_paths) * sizeof(unsigned long));
+e29e7a77e4132d Kent Overstreet 2023-12-10  1539  	memcpy(sorted, trans->sorted, trans->nr_sorted);
+e29e7a77e4132d Kent Overstreet 2023-12-10  1540  	memcpy(paths, trans->paths, trans->nr_paths * sizeof(struct btree_path));
+e29e7a77e4132d Kent Overstreet 2023-12-10  1541  	memcpy(updates, trans->updates, trans->nr_paths * sizeof(struct btree_path));
+e29e7a77e4132d Kent Overstreet 2023-12-10  1542  
+e29e7a77e4132d Kent Overstreet 2023-12-10  1543  	unsigned long *old = trans->paths_allocated;
+e29e7a77e4132d Kent Overstreet 2023-12-10  1544  
+e29e7a77e4132d Kent Overstreet 2023-12-10 @1545  	rcu_assign_pointer(trans->paths_allocated,	paths_allocated);
+e29e7a77e4132d Kent Overstreet 2023-12-10 @1546  	rcu_assign_pointer(trans->sorted,		sorted);
+e29e7a77e4132d Kent Overstreet 2023-12-10  1547  	rcu_assign_pointer(trans->paths,		paths);
+e29e7a77e4132d Kent Overstreet 2023-12-10 @1548  	rcu_assign_pointer(trans->updates,		updates);
+e29e7a77e4132d Kent Overstreet 2023-12-10  1549  
+e29e7a77e4132d Kent Overstreet 2023-12-10  1550  	trans->nr_paths		= nr;
+e29e7a77e4132d Kent Overstreet 2023-12-10  1551  
+e29e7a77e4132d Kent Overstreet 2023-12-10  1552  	if (old != trans->_paths_allocated)
+e29e7a77e4132d Kent Overstreet 2023-12-10  1553  		kfree_rcu_mightsleep(trans->paths_allocated);
+3f3bc66ef0601e Kent Overstreet 2022-09-26  1554  }
+3f3bc66ef0601e Kent Overstreet 2022-09-26  1555  
 
 -- 
 0-DAY CI Kernel Test Service
