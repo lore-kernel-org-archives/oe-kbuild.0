@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F76487A1
-	for <oe-kbuild@lists.linux.dev>; Sun, 17 Dec 2023 20:47:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB33481CC
+	for <oe-kbuild@lists.linux.dev>; Sun, 17 Dec 2023 20:59:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PmxpWIhk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LHmrO745"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702846069; x=1734382069;
+  t=1702846789; x=1734382789;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SNKqiXI94rOb7HXQRxhLA5rqrQT9zitcysuprpWljX8=;
-  b=PmxpWIhkosYnqNRxs/glPV3qTV813y42WJWsVEGdEIa8rNMWIKMBLfqn
-   FOU1niH9DRgW10qC/O45XXxb7YntxSxQKCfzinpjCnY7SvwKdMsobSW6m
-   vZJ7F/06PxZV+baVGOohNcWivAxm55xXGwr7MuIDHGYUQToqvrFmJrl59
-   sXDDfoVmnAmVGh0nlVDRQWirynsGm63Ps1qSwsFKcO7HcDyJM2PKzaHrp
-   wKEPLss7jXlEz20EmJzbab8fK2XIx6lpLa+xmz35pE4VGImbcCDYgfs8f
-   SeMF4xH+SMIe5Sn3NUGd/MNkY1cIBJGkVUK3UkhV0MHrKDidg5ln3MkuY
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="2283678"
+  bh=rp52pU5HpybFK7AJLV+vINR4n3ozTryyb5M2+SyPGv4=;
+  b=LHmrO745Er3P0AEvczxia0Vn5+YQahX76IQYcxV3ID5IwFRRJhOm/gS9
+   4ieSLZhVbpVBFlxgg4uBKLC3oRzE8zgrqC8KsEvTN8K0DdK+WhA304xGh
+   j7o8oOVh5TVoBkh3KuLz/sHcyFPXhZoLo7m8tk6O2AdW7P7F7gq7Jr2nX
+   UwF5DUyiCTCHayGqESLAbVe+r7Es52Mi0Dw1EG1dVpZOVRHKzXtV8kdDf
+   UmU7iNOXnCoxqV/MVeM4fZw8uUTNt5dT10aam2jB9wEXOOhbsjBl8nU8P
+   6G4596OozxOztdACR64rMWLWoo8HoJW1KyJLigfRv4KZsGGcTl++ytDF+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="8872580"
 X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="2283678"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 12:47:48 -0800
+   d="scan'208";a="8872580"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 12:59:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="898748135"
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="778872558"
 X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="898748135"
+   d="scan'208";a="778872558"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 17 Dec 2023 12:47:46 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 17 Dec 2023 12:59:47 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEy36-0003PY-1s;
-	Sun, 17 Dec 2023 20:47:44 +0000
-Date: Mon, 18 Dec 2023 04:47:32 +0800
+	id 1rEyEi-0003Po-2D;
+	Sun, 17 Dec 2023 20:59:44 +0000
+Date: Mon, 18 Dec 2023 04:59:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: htmldocs: ./include/net/cfg80211.h:1191: warning: Excess struct
- member 'elem' description in 'cfg80211_mbssid_elems'
-Message-ID: <202312180406.vIuKNmyu-lkp@intel.com>
+Subject: drivers/soc/qcom/smem.c:289: warning: Excess struct member 'regions'
+ description in 'qcom_smem'
+Message-ID: <202312180450.xUbRrCF5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -55,56 +55,69 @@ Content-Disposition: inline
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
 TO: Kees Cook <keescook@chromium.org>
-CC: Johannes Berg <johannes.berg@intel.com>
+CC: Bjorn Andersson <andersson@kernel.org>
 CC: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-CC: Jeff Johnson <quic_jjohnson@quicinc.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   0e389834672c723435a44818ed2cabc4dad24429
-commit: c14679d7005a4d26289eadb4f5fe499aca78ef7c wifi: cfg80211: Annotate struct cfg80211_mbssid_elems with __counted_by
-date:   4 months ago
+commit: 433ce46a97116f431ee114b4607143860aad4054 soc: qcom: smem: Annotate struct qcom_smem with __counted_by
+date:   3 months ago
 :::::: branch date: 3 hours ago
-:::::: commit date: 4 months ago
-reproduce: (https://download.01.org/0day-ci/archive/20231218/202312180406.vIuKNmyu-lkp@intel.com/reproduce)
+:::::: commit date: 3 months ago
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231218/202312180450.xUbRrCF5-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312180450.xUbRrCF5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312180406.vIuKNmyu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312180450.xUbRrCF5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> ./include/net/cfg80211.h:1191: warning: Excess struct member 'elem' description in 'cfg80211_mbssid_elems'
+>> drivers/soc/qcom/smem.c:289: warning: Excess struct member 'regions' description in 'qcom_smem'
 
-vim +1191 ./include/net/cfg80211.h
 
-dc1e3cb8da8b41 John Crispin 2021-09-15  1175  
-dc1e3cb8da8b41 John Crispin 2021-09-15  1176  /**
-dc1e3cb8da8b41 John Crispin 2021-09-15  1177   * struct cfg80211_mbssid_elems - Multiple BSSID elements
-dc1e3cb8da8b41 John Crispin 2021-09-15  1178   *
-dc1e3cb8da8b41 John Crispin 2021-09-15  1179   * @cnt: Number of elements in array %elems.
-dc1e3cb8da8b41 John Crispin 2021-09-15  1180   *
-dc1e3cb8da8b41 John Crispin 2021-09-15  1181   * @elem: Array of multiple BSSID element(s) to be added into Beacon frames.
-dc1e3cb8da8b41 John Crispin 2021-09-15  1182   * @elem.data: Data for multiple BSSID elements.
-dc1e3cb8da8b41 John Crispin 2021-09-15  1183   * @elem.len: Length of data.
-dc1e3cb8da8b41 John Crispin 2021-09-15  1184   */
-dc1e3cb8da8b41 John Crispin 2021-09-15  1185  struct cfg80211_mbssid_elems {
-dc1e3cb8da8b41 John Crispin 2021-09-15  1186  	u8 cnt;
-dc1e3cb8da8b41 John Crispin 2021-09-15  1187  	struct {
-dc1e3cb8da8b41 John Crispin 2021-09-15  1188  		const u8 *data;
-dc1e3cb8da8b41 John Crispin 2021-09-15  1189  		size_t len;
-c14679d7005a4d Kees Cook    2023-08-17  1190  	} elem[] __counted_by(cnt);
-dc1e3cb8da8b41 John Crispin 2021-09-15 @1191  };
-dc1e3cb8da8b41 John Crispin 2021-09-15  1192  
+vim +289 drivers/soc/qcom/smem.c
 
-:::::: The code at line 1191 was first introduced by commit
-:::::: dc1e3cb8da8b414b37208b2fb6755fef8122504b nl80211: MBSSID and EMA support in AP mode
+4b638df4c9d556 Bjorn Andersson    2015-06-26  263  
+4b638df4c9d556 Bjorn Andersson    2015-06-26  264  /**
+4b638df4c9d556 Bjorn Andersson    2015-06-26  265   * struct qcom_smem - device data for the smem device
+4b638df4c9d556 Bjorn Andersson    2015-06-26  266   * @dev:	device pointer
+4b638df4c9d556 Bjorn Andersson    2015-06-26  267   * @hwlock:	reference to a hwspinlock
+20bb6c9de1b7e1 Deepak Kumar Singh 2022-03-01  268   * @ptable: virtual base of partition table
+20bb6c9de1b7e1 Deepak Kumar Singh 2022-03-01  269   * @global_partition: describes for global partition when in use
+20bb6c9de1b7e1 Deepak Kumar Singh 2022-03-01  270   * @partitions: list of partitions of current processor/host
+5b3940676107dd Chris Lew          2017-10-11  271   * @item_count: max accepted item number
+fc3699c69857ab Lee Jones          2020-11-03  272   * @socinfo:	platform device pointer
+4b638df4c9d556 Bjorn Andersson    2015-06-26  273   * @num_regions: number of @regions
+4b638df4c9d556 Bjorn Andersson    2015-06-26  274   * @regions:	list of the memory regions defining the shared memory
+4b638df4c9d556 Bjorn Andersson    2015-06-26  275   */
+4b638df4c9d556 Bjorn Andersson    2015-06-26  276  struct qcom_smem {
+4b638df4c9d556 Bjorn Andersson    2015-06-26  277  	struct device *dev;
+4b638df4c9d556 Bjorn Andersson    2015-06-26  278  
+4b638df4c9d556 Bjorn Andersson    2015-06-26  279  	struct hwspinlock *hwlock;
+4b638df4c9d556 Bjorn Andersson    2015-06-26  280  
+5b3940676107dd Chris Lew          2017-10-11  281  	u32 item_count;
+efb448d0a3fca0 Imran Khan         2019-07-24  282  	struct platform_device *socinfo;
+20bb6c9de1b7e1 Deepak Kumar Singh 2022-03-01  283  	struct smem_ptable *ptable;
+20bb6c9de1b7e1 Deepak Kumar Singh 2022-03-01  284  	struct smem_partition global_partition;
+20bb6c9de1b7e1 Deepak Kumar Singh 2022-03-01  285  	struct smem_partition partitions[SMEM_HOST_COUNT];
+4b638df4c9d556 Bjorn Andersson    2015-06-26  286  
+4b638df4c9d556 Bjorn Andersson    2015-06-26  287  	unsigned num_regions;
+433ce46a97116f Kees Cook          2023-09-22  288  	struct smem_region regions[] __counted_by(num_regions);
+4b638df4c9d556 Bjorn Andersson    2015-06-26 @289  };
+4b638df4c9d556 Bjorn Andersson    2015-06-26  290  
 
-:::::: TO: John Crispin <john@phrozen.org>
-:::::: CC: Johannes Berg <johannes.berg@intel.com>
+:::::: The code at line 289 was first introduced by commit
+:::::: 4b638df4c9d556a6d947d6dbac364bee37b68b8e soc: qcom: Add Shared Memory Manager driver
+
+:::::: TO: Bjorn Andersson <bjorn.andersson@sonymobile.com>
+:::::: CC: Andy Gross <agross@codeaurora.org>
 
 -- 
 0-DAY CI Kernel Test Service
