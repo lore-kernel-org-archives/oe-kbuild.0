@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495AF47A60
-	for <oe-kbuild@lists.linux.dev>; Sun, 17 Dec 2023 17:58:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F76487A1
+	for <oe-kbuild@lists.linux.dev>; Sun, 17 Dec 2023 20:47:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gP1G2LZE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PmxpWIhk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702835925; x=1734371925;
+  t=1702846069; x=1734382069;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9K3PU68jrJ6xIT2gwAWHBk5VeBdUfrXX5eAXXtorYdk=;
-  b=gP1G2LZEvaDKYqxIOO3WzZB3yLjaGxI4FzLLdEaHow6VJPgc/gf4XwsQ
-   QbQFR10me5RZQiBbvhBpHLKc/kjJB3BaARaPMCHv83ndngi8jE/GoYryR
-   fd1C1AGsv2en5KUTKtSKVMzZdLjJjv53VBxAjeFArZOiSl+dDk4I+7aIi
-   7GTKFxm+f5vrwc5pcp3yLHSRj5VXIz3xwQkk85dZ3ZQTI4ZV4C1a1bPmd
-   N8WC7APRz5RvMkHomiHaQDymMztNTmpsqsb1Mpkb4N1VofpdnSgNnVqrX
-   ldzvzv/Kr0QXIcHb43e+FaXZmRMmdM+RWUmIdTZSn37q9CetfrgrQnR48
+  bh=SNKqiXI94rOb7HXQRxhLA5rqrQT9zitcysuprpWljX8=;
+  b=PmxpWIhkosYnqNRxs/glPV3qTV813y42WJWsVEGdEIa8rNMWIKMBLfqn
+   FOU1niH9DRgW10qC/O45XXxb7YntxSxQKCfzinpjCnY7SvwKdMsobSW6m
+   vZJ7F/06PxZV+baVGOohNcWivAxm55xXGwr7MuIDHGYUQToqvrFmJrl59
+   sXDDfoVmnAmVGh0nlVDRQWirynsGm63Ps1qSwsFKcO7HcDyJM2PKzaHrp
+   wKEPLss7jXlEz20EmJzbab8fK2XIx6lpLa+xmz35pE4VGImbcCDYgfs8f
+   SeMF4xH+SMIe5Sn3NUGd/MNkY1cIBJGkVUK3UkhV0MHrKDidg5ln3MkuY
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="8783781"
-X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="8783781"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 09:58:44 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="2283678"
+X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
+   d="scan'208";a="2283678"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 12:47:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="1022523144"
-X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="1022523144"
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="898748135"
+X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
+   d="scan'208";a="898748135"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 17 Dec 2023 09:58:42 -0800
+  by orsmga004.jf.intel.com with ESMTP; 17 Dec 2023 12:47:46 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEvPT-0003IW-34;
-	Sun, 17 Dec 2023 17:58:39 +0000
-Date: Mon, 18 Dec 2023 01:58:28 +0800
+	id 1rEy36-0003PY-1s;
+	Sun, 17 Dec 2023 20:47:44 +0000
+Date: Mon, 18 Dec 2023 04:47:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/vhost/vhost.c:1654 vhost_vring_ioctl() error: uninitialized
- symbol 'vq'.
-Message-ID: <202312180154.R2WlPXDw-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: htmldocs: ./include/net/cfg80211.h:1191: warning: Excess struct
+ member 'elem' description in 'cfg80211_mbssid_elems'
+Message-ID: <202312180406.vIuKNmyu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,208 +50,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "kernel-doc warning due to __counted_by"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Mike Christie <michael.christie@oracle.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>
+TO: Kees Cook <keescook@chromium.org>
+CC: Johannes Berg <johannes.berg@intel.com>
+CC: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+CC: Jeff Johnson <quic_jjohnson@quicinc.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3b8a9b2e6809d281890dd0a1102dc14d2cd11caf
-commit: cef25866f41c45a01a933adb032b0dcfb25b847a vhost: add helper to parse userspace vring state/file
-date:   6 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 6 months ago
-config: riscv-randconfig-r081-20231216 (https://download.01.org/0day-ci/archive/20231218/202312180154.R2WlPXDw-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+head:   0e389834672c723435a44818ed2cabc4dad24429
+commit: c14679d7005a4d26289eadb4f5fe499aca78ef7c wifi: cfg80211: Annotate struct cfg80211_mbssid_elems with __counted_by
+date:   4 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 4 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20231218/202312180406.vIuKNmyu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202312180154.R2WlPXDw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312180406.vIuKNmyu-lkp@intel.com/
 
-New smatch warnings:
-drivers/vhost/vhost.c:1654 vhost_vring_ioctl() error: uninitialized symbol 'vq'.
-drivers/vhost/vhost.c:1685 vhost_vring_ioctl() error: uninitialized symbol 'idx'.
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/vhost/vhost.c:1657 vhost_vring_ioctl() error: uninitialized symbol 'vq'.
-drivers/vhost/vhost.c:1738 vhost_vring_ioctl() error: uninitialized symbol 'idx'.
-drivers/vhost/vhost.c:1748 vhost_vring_ioctl() error: uninitialized symbol 'idx'.
+>> ./include/net/cfg80211.h:1191: warning: Excess struct member 'elem' description in 'cfg80211_mbssid_elems'
 
-vim +/vq +1654 drivers/vhost/vhost.c
+vim +1191 ./include/net/cfg80211.h
 
-feebcaeac79ad8 Jason Wang         2019-05-24  1612  
-feebcaeac79ad8 Jason Wang         2019-05-24  1613  static long vhost_vring_set_num_addr(struct vhost_dev *d,
-feebcaeac79ad8 Jason Wang         2019-05-24  1614  				     struct vhost_virtqueue *vq,
-feebcaeac79ad8 Jason Wang         2019-05-24  1615  				     unsigned int ioctl,
-feebcaeac79ad8 Jason Wang         2019-05-24  1616  				     void __user *argp)
-feebcaeac79ad8 Jason Wang         2019-05-24  1617  {
-feebcaeac79ad8 Jason Wang         2019-05-24  1618  	long r;
-feebcaeac79ad8 Jason Wang         2019-05-24  1619  
-feebcaeac79ad8 Jason Wang         2019-05-24  1620  	mutex_lock(&vq->mutex);
-feebcaeac79ad8 Jason Wang         2019-05-24  1621  
-feebcaeac79ad8 Jason Wang         2019-05-24  1622  	switch (ioctl) {
-feebcaeac79ad8 Jason Wang         2019-05-24  1623  	case VHOST_SET_VRING_NUM:
-feebcaeac79ad8 Jason Wang         2019-05-24  1624  		r = vhost_vring_set_num(d, vq, argp);
-feebcaeac79ad8 Jason Wang         2019-05-24  1625  		break;
-feebcaeac79ad8 Jason Wang         2019-05-24  1626  	case VHOST_SET_VRING_ADDR:
-feebcaeac79ad8 Jason Wang         2019-05-24  1627  		r = vhost_vring_set_addr(d, vq, argp);
-feebcaeac79ad8 Jason Wang         2019-05-24  1628  		break;
-feebcaeac79ad8 Jason Wang         2019-05-24  1629  	default:
-feebcaeac79ad8 Jason Wang         2019-05-24  1630  		BUG();
-feebcaeac79ad8 Jason Wang         2019-05-24  1631  	}
-feebcaeac79ad8 Jason Wang         2019-05-24  1632  
-feebcaeac79ad8 Jason Wang         2019-05-24  1633  	mutex_unlock(&vq->mutex);
-feebcaeac79ad8 Jason Wang         2019-05-24  1634  
-feebcaeac79ad8 Jason Wang         2019-05-24  1635  	return r;
-feebcaeac79ad8 Jason Wang         2019-05-24  1636  }
-26b36604523f4a Sonny Rao          2018-03-14  1637  long vhost_vring_ioctl(struct vhost_dev *d, unsigned int ioctl, void __user *argp)
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1638  {
-cecb46f194460d Al Viro            2012-08-27  1639  	struct file *eventfp, *filep = NULL;
-cecb46f194460d Al Viro            2012-08-27  1640  	bool pollstart = false, pollstop = false;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1641  	struct eventfd_ctx *ctx = NULL;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1642  	struct vhost_virtqueue *vq;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1643  	struct vhost_vring_state s;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1644  	struct vhost_vring_file f;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1645  	u32 idx;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1646  	long r;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1647  
-cef25866f41c45 Mike Christie      2023-06-26  1648  	r = vhost_get_vq_from_user(d, argp, &vq, &idx);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1649  	if (r < 0)
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1650  		return r;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1651  
-feebcaeac79ad8 Jason Wang         2019-05-24  1652  	if (ioctl == VHOST_SET_VRING_NUM ||
-feebcaeac79ad8 Jason Wang         2019-05-24  1653  	    ioctl == VHOST_SET_VRING_ADDR) {
-feebcaeac79ad8 Jason Wang         2019-05-24 @1654  		return vhost_vring_set_num_addr(d, vq, ioctl, argp);
-feebcaeac79ad8 Jason Wang         2019-05-24  1655  	}
-feebcaeac79ad8 Jason Wang         2019-05-24  1656  
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1657  	mutex_lock(&vq->mutex);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1658  
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1659  	switch (ioctl) {
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1660  	case VHOST_SET_VRING_BASE:
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1661  		/* Moving base with an active backend?
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1662  		 * You don't want to do that. */
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1663  		if (vq->private_data) {
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1664  			r = -EBUSY;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1665  			break;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1666  		}
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1667  		if (copy_from_user(&s, argp, sizeof s)) {
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1668  			r = -EFAULT;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1669  			break;
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1670  		}
-55d8122f5cd62d Shannon Nelson     2023-04-24  1671  		if (vhost_has_feature(vq, VIRTIO_F_RING_PACKED)) {
-55d8122f5cd62d Shannon Nelson     2023-04-24  1672  			vq->last_avail_idx = s.num & 0xffff;
-55d8122f5cd62d Shannon Nelson     2023-04-24  1673  			vq->last_used_idx = (s.num >> 16) & 0xffff;
-55d8122f5cd62d Shannon Nelson     2023-04-24  1674  		} else {
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1675  			if (s.num > 0xffff) {
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1676  				r = -EINVAL;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1677  				break;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1678  			}
-8d65843c44269c Jason Wang         2017-07-27  1679  			vq->last_avail_idx = s.num;
-55d8122f5cd62d Shannon Nelson     2023-04-24  1680  		}
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1681  		/* Forget the cached index value. */
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1682  		vq->avail_idx = vq->last_avail_idx;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1683  		break;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1684  	case VHOST_GET_VRING_BASE:
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14 @1685  		s.index = idx;
-55d8122f5cd62d Shannon Nelson     2023-04-24  1686  		if (vhost_has_feature(vq, VIRTIO_F_RING_PACKED))
-55d8122f5cd62d Shannon Nelson     2023-04-24  1687  			s.num = (u32)vq->last_avail_idx | ((u32)vq->last_used_idx << 16);
-55d8122f5cd62d Shannon Nelson     2023-04-24  1688  		else
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1689  			s.num = vq->last_avail_idx;
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1690  		if (copy_to_user(argp, &s, sizeof s))
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1691  			r = -EFAULT;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1692  		break;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1693  	case VHOST_SET_VRING_KICK:
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1694  		if (copy_from_user(&f, argp, sizeof f)) {
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1695  			r = -EFAULT;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1696  			break;
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1697  		}
-e0136c16fae95d Zhu Lingshan       2020-06-05  1698  		eventfp = f.fd == VHOST_FILE_UNBIND ? NULL : eventfd_fget(f.fd);
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1699  		if (IS_ERR(eventfp)) {
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1700  			r = PTR_ERR(eventfp);
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1701  			break;
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1702  		}
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1703  		if (eventfp != vq->kick) {
-cecb46f194460d Al Viro            2012-08-27  1704  			pollstop = (filep = vq->kick) != NULL;
-cecb46f194460d Al Viro            2012-08-27  1705  			pollstart = (vq->kick = eventfp) != NULL;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1706  		} else
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1707  			filep = eventfp;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1708  		break;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1709  	case VHOST_SET_VRING_CALL:
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1710  		if (copy_from_user(&f, argp, sizeof f)) {
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1711  			r = -EFAULT;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1712  			break;
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1713  		}
-e0136c16fae95d Zhu Lingshan       2020-06-05  1714  		ctx = f.fd == VHOST_FILE_UNBIND ? NULL : eventfd_ctx_fdget(f.fd);
-e050c7d93f4adb Eric Biggers       2018-01-06  1715  		if (IS_ERR(ctx)) {
-e050c7d93f4adb Eric Biggers       2018-01-06  1716  			r = PTR_ERR(ctx);
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1717  			break;
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1718  		}
-265a0ad8731dc0 Zhu Lingshan       2020-07-31  1719  
-265a0ad8731dc0 Zhu Lingshan       2020-07-31  1720  		swap(ctx, vq->call_ctx.ctx);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1721  		break;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1722  	case VHOST_SET_VRING_ERR:
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1723  		if (copy_from_user(&f, argp, sizeof f)) {
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1724  			r = -EFAULT;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1725  			break;
-7ad9c9d2704854 Takuya Yoshikawa   2010-05-27  1726  		}
-e0136c16fae95d Zhu Lingshan       2020-06-05  1727  		ctx = f.fd == VHOST_FILE_UNBIND ? NULL : eventfd_ctx_fdget(f.fd);
-09f332a589232f Eric Biggers       2018-01-06  1728  		if (IS_ERR(ctx)) {
-09f332a589232f Eric Biggers       2018-01-06  1729  			r = PTR_ERR(ctx);
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1730  			break;
-535297a6ae4c3b Michael S. Tsirkin 2010-03-17  1731  		}
-09f332a589232f Eric Biggers       2018-01-06  1732  		swap(ctx, vq->error_ctx);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1733  		break;
-2751c9882b9472 Greg Kurz          2015-04-24  1734  	case VHOST_SET_VRING_ENDIAN:
-2751c9882b9472 Greg Kurz          2015-04-24  1735  		r = vhost_set_vring_endian(vq, argp);
-2751c9882b9472 Greg Kurz          2015-04-24  1736  		break;
-2751c9882b9472 Greg Kurz          2015-04-24  1737  	case VHOST_GET_VRING_ENDIAN:
-2751c9882b9472 Greg Kurz          2015-04-24  1738  		r = vhost_get_vring_endian(vq, idx, argp);
-2751c9882b9472 Greg Kurz          2015-04-24  1739  		break;
-03088137246065 Jason Wang         2016-03-04  1740  	case VHOST_SET_VRING_BUSYLOOP_TIMEOUT:
-03088137246065 Jason Wang         2016-03-04  1741  		if (copy_from_user(&s, argp, sizeof(s))) {
-03088137246065 Jason Wang         2016-03-04  1742  			r = -EFAULT;
-03088137246065 Jason Wang         2016-03-04  1743  			break;
-03088137246065 Jason Wang         2016-03-04  1744  		}
-03088137246065 Jason Wang         2016-03-04  1745  		vq->busyloop_timeout = s.num;
-03088137246065 Jason Wang         2016-03-04  1746  		break;
-03088137246065 Jason Wang         2016-03-04  1747  	case VHOST_GET_VRING_BUSYLOOP_TIMEOUT:
-03088137246065 Jason Wang         2016-03-04  1748  		s.index = idx;
-03088137246065 Jason Wang         2016-03-04  1749  		s.num = vq->busyloop_timeout;
-03088137246065 Jason Wang         2016-03-04  1750  		if (copy_to_user(argp, &s, sizeof(s)))
-03088137246065 Jason Wang         2016-03-04  1751  			r = -EFAULT;
-03088137246065 Jason Wang         2016-03-04  1752  		break;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1753  	default:
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1754  		r = -ENOIOCTLCMD;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1755  	}
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1756  
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1757  	if (pollstop && vq->handle_kick)
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1758  		vhost_poll_stop(&vq->poll);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1759  
-e050c7d93f4adb Eric Biggers       2018-01-06  1760  	if (!IS_ERR_OR_NULL(ctx))
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1761  		eventfd_ctx_put(ctx);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1762  	if (filep)
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1763  		fput(filep);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1764  
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1765  	if (pollstart && vq->handle_kick)
-2b8b328b61c799 Jason Wang         2013-01-28  1766  		r = vhost_poll_start(&vq->poll, vq->kick);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1767  
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1768  	mutex_unlock(&vq->mutex);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1769  
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1770  	if (pollstop && vq->handle_kick)
-b2ffa407ed5dd9 Mike Christie      2022-05-17  1771  		vhost_dev_flush(vq->poll.dev);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1772  	return r;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1773  }
-6ac1afbf6132df Asias He           2013-05-06  1774  EXPORT_SYMBOL_GPL(vhost_vring_ioctl);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  1775  
+dc1e3cb8da8b41 John Crispin 2021-09-15  1175  
+dc1e3cb8da8b41 John Crispin 2021-09-15  1176  /**
+dc1e3cb8da8b41 John Crispin 2021-09-15  1177   * struct cfg80211_mbssid_elems - Multiple BSSID elements
+dc1e3cb8da8b41 John Crispin 2021-09-15  1178   *
+dc1e3cb8da8b41 John Crispin 2021-09-15  1179   * @cnt: Number of elements in array %elems.
+dc1e3cb8da8b41 John Crispin 2021-09-15  1180   *
+dc1e3cb8da8b41 John Crispin 2021-09-15  1181   * @elem: Array of multiple BSSID element(s) to be added into Beacon frames.
+dc1e3cb8da8b41 John Crispin 2021-09-15  1182   * @elem.data: Data for multiple BSSID elements.
+dc1e3cb8da8b41 John Crispin 2021-09-15  1183   * @elem.len: Length of data.
+dc1e3cb8da8b41 John Crispin 2021-09-15  1184   */
+dc1e3cb8da8b41 John Crispin 2021-09-15  1185  struct cfg80211_mbssid_elems {
+dc1e3cb8da8b41 John Crispin 2021-09-15  1186  	u8 cnt;
+dc1e3cb8da8b41 John Crispin 2021-09-15  1187  	struct {
+dc1e3cb8da8b41 John Crispin 2021-09-15  1188  		const u8 *data;
+dc1e3cb8da8b41 John Crispin 2021-09-15  1189  		size_t len;
+c14679d7005a4d Kees Cook    2023-08-17  1190  	} elem[] __counted_by(cnt);
+dc1e3cb8da8b41 John Crispin 2021-09-15 @1191  };
+dc1e3cb8da8b41 John Crispin 2021-09-15  1192  
 
-:::::: The code at line 1654 was first introduced by commit
-:::::: feebcaeac79ad86fb289ef55fa92f4a97ab8314e vhost: factor out setting vring addr and num
+:::::: The code at line 1191 was first introduced by commit
+:::::: dc1e3cb8da8b414b37208b2fb6755fef8122504b nl80211: MBSSID and EMA support in AP mode
 
-:::::: TO: Jason Wang <jasowang@redhat.com>
-:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+:::::: TO: John Crispin <john@phrozen.org>
+:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
