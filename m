@@ -1,46 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214DEFBF4
-	for <oe-kbuild@lists.linux.dev>; Mon, 18 Dec 2023 08:22:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156C615485
+	for <oe-kbuild@lists.linux.dev>; Mon, 18 Dec 2023 15:26:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VUSB/bHe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8ZpWl+Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702887762; x=1734423762;
+  t=1702913191; x=1734449191;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ei1YCkAS5gzYdWSkuGnfEeRY3KZcxPP+4s8PdrjGl38=;
-  b=VUSB/bHeXX1R4Wa5W9i6R/jFhCZUkjGgJFj2dBC+i9AoY7mollv/P+2G
-   R5O/VWSUS1LUCpXTSPHpdw8ZQVfI4iTTwlo9/MCkA+dz0BduKLJEwFhqJ
-   nzLfnCoFxDeR5EhlBpVSsC+ss3Emg5KCnV5WhYZ2T7zKuvsp+sX6rE+u4
-   BotWi74842RIAHpv1JP6p4hV7CbzSaAJH8NrrSY6zDP778dys2DSuw6dP
-   h00FVOFZQM3gRXY6gwZve2bpGdPuAZb2umb//9+ufSRWfsQZiVxfCeWyE
-   aoZDw9TpTwF6l9PGHmknQoSfiIYRQrhzgYK8quFgG10vQl3rVNuwol/6P
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="2325153"
-X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="2325153"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 00:22:41 -0800
+  bh=uYwnZJDpakFaDcz0pHa+8f2cKgoAUwpEqWFj2aMYUog=;
+  b=O8ZpWl+YIryDbS8w2ubpmeK1/nIzgNvlpZzuCVGhtZiDz+vPLJkZqqdh
+   GuxLbMqUcpITliw+6DXhuNS3qfjQ7B0IruldWawmbPEZdkzFtrQ99xQJP
+   mFEoxhLo0Mll15gOUREq6uUX1QgRJD3pghBMYQEe+RLCM+885ob8oQ6gL
+   OjMtopINyxzw0EneiPgCvVK1SxbwBDUMNe5AZVXh/eqjbwVVaLrS/SSZn
+   1iUaTfrYUqmhriOVHo5qrVmvtR+B7a2s2CnD5ISX/cH1eXLR5On/+dTzs
+   COMqHLM7+TC8jaBLz9X1ZsnxyF6bxEM9RTaSEy4NPNuGC3+OMwsFcozHg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="8891123"
+X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
+   d="scan'208";a="8891123"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 07:26:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="919175598"
-X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="919175598"
+X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
+   d="scan'208";a="17218521"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Dec 2023 00:22:40 -0800
+  by orviesa002.jf.intel.com with ESMTP; 18 Dec 2023 07:26:29 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rF8ta-0003uj-05;
-	Mon, 18 Dec 2023 08:22:38 +0000
-Date: Mon, 18 Dec 2023 16:21:44 +0800
+	id 1rFFVi-0004El-2Y;
+	Mon, 18 Dec 2023 15:26:26 +0000
+Date: Mon, 18 Dec 2023 23:25:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: pci.c:(.text+0x704): relocation truncated to fit:
- R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-Message-ID: <202312181644.XpjZQzVi-lkp@intel.com>
+Subject: sound/ac97/bus.c:192: warning: Function parameter or struct member
+ 'drv' not described in 'snd_ac97_codec_driver_register'
+Message-ID: <202312182354.kv5HR97T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,45 +50,245 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "csky general problem: relocation truncated to fit"
+:::::: Manual check reason: "only kconfig file changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Dan Williams <dan.j.williams@intel.com>
+TO: Arnd Bergmann <arnd@arndb.de>
+CC: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ceb6a6f023fd3e8b07761ed900352ef574010bcb
-commit: 7f946e6d830fbdf411cd0641314edf11831efc88 Merge branch 'for-6.7/cxl-rch-eh' into cxl/next
-date:   7 weeks ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 7 weeks ago
-config: csky-randconfig-s031-20220213 (https://download.01.org/0day-ci/archive/20231218/202312181644.XpjZQzVi-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312181644.XpjZQzVi-lkp@intel.com/reproduce)
+commit: 5eab9265759e2fb042aa452931c3d06ab7ab8dae ASoC: PXA: make SND_PXA2XX_SOC_AC97 user-selectable
+date:   11 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 11 months ago
+config: m68k-randconfig-s033-20220721 (https://download.01.org/0day-ci/archive/20231218/202312182354.kv5HR97T-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312182354.kv5HR97T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312181644.XpjZQzVi-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312182354.kv5HR97T-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   `.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o: defined in discarded section `.exit.text' of fs/fuse/inode.o
-   `.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o: defined in discarded section `.exit.text' of fs/fuse/inode.o
-   drivers/cxl/pci.o: in function `cxl_pci_probe':
->> pci.c:(.text+0x704): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   pci.c:(.text+0x70c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   pci.c:(.text+0x71c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   pci.c:(.text+0x722): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   pci.c:(.text+0x74e): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   pci.c:(.text+0x762): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   pci.c:(.text+0x772): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   pci.c:(.text+0x77c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   pci.c:(.text+0x788): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   pci.c:(.text+0x798): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   pci.c:(.text+0x7ac): additional relocation overflows omitted from the output
+>> sound/ac97/bus.c:192: warning: Function parameter or struct member 'drv' not described in 'snd_ac97_codec_driver_register'
+   sound/ac97/bus.c:192: warning: Excess function parameter 'dev' description in 'snd_ac97_codec_driver_register'
+>> sound/ac97/bus.c:205: warning: Function parameter or struct member 'drv' not described in 'snd_ac97_codec_driver_unregister'
+   sound/ac97/bus.c:205: warning: Excess function parameter 'dev' description in 'snd_ac97_codec_driver_unregister'
+>> sound/ac97/bus.c:351: warning: Function parameter or struct member 'codecs_pdata' not described in 'snd_ac97_controller_register'
+
+
+vim +192 sound/ac97/bus.c
+
+74426fbff66eea8 Robert Jarzmik   2017-09-02  181  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  182  /**
+74426fbff66eea8 Robert Jarzmik   2017-09-02  183   * snd_ac97_codec_driver_register - register an AC97 codec driver
+74426fbff66eea8 Robert Jarzmik   2017-09-02  184   * @dev: AC97 driver codec to register
+74426fbff66eea8 Robert Jarzmik   2017-09-02  185   *
+74426fbff66eea8 Robert Jarzmik   2017-09-02  186   * Register an AC97 codec driver to the ac97 bus driver, aka. the AC97 digital
+74426fbff66eea8 Robert Jarzmik   2017-09-02  187   * controller.
+74426fbff66eea8 Robert Jarzmik   2017-09-02  188   *
+74426fbff66eea8 Robert Jarzmik   2017-09-02  189   * Returns 0 on success or error code
+74426fbff66eea8 Robert Jarzmik   2017-09-02  190   */
+74426fbff66eea8 Robert Jarzmik   2017-09-02  191  int snd_ac97_codec_driver_register(struct ac97_codec_driver *drv)
+74426fbff66eea8 Robert Jarzmik   2017-09-02 @192  {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  193  	drv->driver.bus = &ac97_bus_type;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  194  	return driver_register(&drv->driver);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  195  }
+74426fbff66eea8 Robert Jarzmik   2017-09-02  196  EXPORT_SYMBOL_GPL(snd_ac97_codec_driver_register);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  197  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  198  /**
+74426fbff66eea8 Robert Jarzmik   2017-09-02  199   * snd_ac97_codec_driver_unregister - unregister an AC97 codec driver
+74426fbff66eea8 Robert Jarzmik   2017-09-02  200   * @dev: AC97 codec driver to unregister
+74426fbff66eea8 Robert Jarzmik   2017-09-02  201   *
+74426fbff66eea8 Robert Jarzmik   2017-09-02  202   * Unregister a previously registered ac97 codec driver.
+74426fbff66eea8 Robert Jarzmik   2017-09-02  203   */
+74426fbff66eea8 Robert Jarzmik   2017-09-02  204  void snd_ac97_codec_driver_unregister(struct ac97_codec_driver *drv)
+74426fbff66eea8 Robert Jarzmik   2017-09-02 @205  {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  206  	driver_unregister(&drv->driver);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  207  }
+74426fbff66eea8 Robert Jarzmik   2017-09-02  208  EXPORT_SYMBOL_GPL(snd_ac97_codec_driver_unregister);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  209  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  210  /**
+74426fbff66eea8 Robert Jarzmik   2017-09-02  211   * snd_ac97_codec_get_platdata - get platform_data
+74426fbff66eea8 Robert Jarzmik   2017-09-02  212   * @adev: the ac97 codec device
+74426fbff66eea8 Robert Jarzmik   2017-09-02  213   *
+74426fbff66eea8 Robert Jarzmik   2017-09-02  214   * For legacy platforms, in order to have platform_data in codec drivers
+74426fbff66eea8 Robert Jarzmik   2017-09-02  215   * available, while ac97 device are auto-created upon probe, this retrieves the
+74426fbff66eea8 Robert Jarzmik   2017-09-02  216   * platdata which was setup on ac97 controller registration.
+74426fbff66eea8 Robert Jarzmik   2017-09-02  217   *
+74426fbff66eea8 Robert Jarzmik   2017-09-02  218   * Returns the platform data pointer
+74426fbff66eea8 Robert Jarzmik   2017-09-02  219   */
+74426fbff66eea8 Robert Jarzmik   2017-09-02  220  void *snd_ac97_codec_get_platdata(const struct ac97_codec_device *adev)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  221  {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  222  	struct ac97_controller *ac97_ctrl = adev->ac97_ctrl;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  223  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  224  	return ac97_ctrl->codecs_pdata[adev->num];
+74426fbff66eea8 Robert Jarzmik   2017-09-02  225  }
+74426fbff66eea8 Robert Jarzmik   2017-09-02  226  EXPORT_SYMBOL_GPL(snd_ac97_codec_get_platdata);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  227  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  228  static void ac97_ctrl_codecs_unregister(struct ac97_controller *ac97_ctrl)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  229  {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  230  	int i;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  231  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  232  	for (i = 0; i < AC97_BUS_MAX_CODECS; i++)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  233  		if (ac97_ctrl->codecs[i]) {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  234  			ac97_ctrl->codecs[i]->ac97_ctrl = &ac97_unbound_ctrl;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  235  			device_unregister(&ac97_ctrl->codecs[i]->dev);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  236  		}
+74426fbff66eea8 Robert Jarzmik   2017-09-02  237  }
+74426fbff66eea8 Robert Jarzmik   2017-09-02  238  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  239  static ssize_t cold_reset_store(struct device *dev,
+74426fbff66eea8 Robert Jarzmik   2017-09-02  240  				struct device_attribute *attr, const char *buf,
+74426fbff66eea8 Robert Jarzmik   2017-09-02  241  				size_t len)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  242  {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  243  	struct ac97_controller *ac97_ctrl;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  244  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  245  	mutex_lock(&ac97_controllers_mutex);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  246  	ac97_ctrl = to_ac97_controller(dev);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  247  	ac97_ctrl->ops->reset(ac97_ctrl);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  248  	mutex_unlock(&ac97_controllers_mutex);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  249  	return len;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  250  }
+74426fbff66eea8 Robert Jarzmik   2017-09-02  251  static DEVICE_ATTR_WO(cold_reset);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  252  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  253  static ssize_t warm_reset_store(struct device *dev,
+74426fbff66eea8 Robert Jarzmik   2017-09-02  254  				struct device_attribute *attr, const char *buf,
+74426fbff66eea8 Robert Jarzmik   2017-09-02  255  				size_t len)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  256  {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  257  	struct ac97_controller *ac97_ctrl;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  258  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  259  	if (!dev)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  260  		return -ENODEV;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  261  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  262  	mutex_lock(&ac97_controllers_mutex);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  263  	ac97_ctrl = to_ac97_controller(dev);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  264  	ac97_ctrl->ops->warm_reset(ac97_ctrl);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  265  	mutex_unlock(&ac97_controllers_mutex);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  266  	return len;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  267  }
+74426fbff66eea8 Robert Jarzmik   2017-09-02  268  static DEVICE_ATTR_WO(warm_reset);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  269  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  270  static struct attribute *ac97_controller_device_attrs[] = {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  271  	&dev_attr_cold_reset.attr,
+74426fbff66eea8 Robert Jarzmik   2017-09-02  272  	&dev_attr_warm_reset.attr,
+74426fbff66eea8 Robert Jarzmik   2017-09-02  273  	NULL
+74426fbff66eea8 Robert Jarzmik   2017-09-02  274  };
+74426fbff66eea8 Robert Jarzmik   2017-09-02  275  
+fa2e5a647ed2ed2 Rikard Falkeborn 2021-01-31  276  static const struct attribute_group ac97_adapter_attr_group = {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  277  	.name	= "ac97_operations",
+74426fbff66eea8 Robert Jarzmik   2017-09-02  278  	.attrs	= ac97_controller_device_attrs,
+74426fbff66eea8 Robert Jarzmik   2017-09-02  279  };
+74426fbff66eea8 Robert Jarzmik   2017-09-02  280  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  281  static const struct attribute_group *ac97_adapter_groups[] = {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  282  	&ac97_adapter_attr_group,
+74426fbff66eea8 Robert Jarzmik   2017-09-02  283  	NULL,
+74426fbff66eea8 Robert Jarzmik   2017-09-02  284  };
+74426fbff66eea8 Robert Jarzmik   2017-09-02  285  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  286  static void ac97_del_adapter(struct ac97_controller *ac97_ctrl)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  287  {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  288  	mutex_lock(&ac97_controllers_mutex);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  289  	ac97_ctrl_codecs_unregister(ac97_ctrl);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  290  	list_del(&ac97_ctrl->controllers);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  291  	mutex_unlock(&ac97_controllers_mutex);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  292  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  293  	device_unregister(&ac97_ctrl->adap);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  294  }
+74426fbff66eea8 Robert Jarzmik   2017-09-02  295  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  296  static void ac97_adapter_release(struct device *dev)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  297  {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  298  	struct ac97_controller *ac97_ctrl;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  299  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  300  	ac97_ctrl = to_ac97_controller(dev);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  301  	idr_remove(&ac97_adapter_idr, ac97_ctrl->nr);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  302  	dev_dbg(&ac97_ctrl->adap, "adapter unregistered by %s\n",
+74426fbff66eea8 Robert Jarzmik   2017-09-02  303  		dev_name(ac97_ctrl->parent));
+74426fbff66eea8 Robert Jarzmik   2017-09-02  304  }
+74426fbff66eea8 Robert Jarzmik   2017-09-02  305  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  306  static const struct device_type ac97_adapter_type = {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  307  	.groups		= ac97_adapter_groups,
+74426fbff66eea8 Robert Jarzmik   2017-09-02  308  	.release	= ac97_adapter_release,
+74426fbff66eea8 Robert Jarzmik   2017-09-02  309  };
+74426fbff66eea8 Robert Jarzmik   2017-09-02  310  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  311  static int ac97_add_adapter(struct ac97_controller *ac97_ctrl)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  312  {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  313  	int ret;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  314  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  315  	mutex_lock(&ac97_controllers_mutex);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  316  	ret = idr_alloc(&ac97_adapter_idr, ac97_ctrl, 0, 0, GFP_KERNEL);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  317  	ac97_ctrl->nr = ret;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  318  	if (ret >= 0) {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  319  		dev_set_name(&ac97_ctrl->adap, "ac97-%d", ret);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  320  		ac97_ctrl->adap.type = &ac97_adapter_type;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  321  		ac97_ctrl->adap.parent = ac97_ctrl->parent;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  322  		ret = device_register(&ac97_ctrl->adap);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  323  		if (ret)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  324  			put_device(&ac97_ctrl->adap);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  325  	}
+74426fbff66eea8 Robert Jarzmik   2017-09-02  326  	if (!ret)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  327  		list_add(&ac97_ctrl->controllers, &ac97_controllers);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  328  	mutex_unlock(&ac97_controllers_mutex);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  329  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  330  	if (!ret)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  331  		dev_dbg(&ac97_ctrl->adap, "adapter registered by %s\n",
+74426fbff66eea8 Robert Jarzmik   2017-09-02  332  			dev_name(ac97_ctrl->parent));
+74426fbff66eea8 Robert Jarzmik   2017-09-02  333  	return ret;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  334  }
+74426fbff66eea8 Robert Jarzmik   2017-09-02  335  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  336  /**
+74426fbff66eea8 Robert Jarzmik   2017-09-02  337   * snd_ac97_controller_register - register an ac97 controller
+74426fbff66eea8 Robert Jarzmik   2017-09-02  338   * @ops: the ac97 bus operations
+74426fbff66eea8 Robert Jarzmik   2017-09-02  339   * @dev: the device providing the ac97 DC function
+74426fbff66eea8 Robert Jarzmik   2017-09-02  340   * @slots_available: mask of the ac97 codecs that can be scanned and probed
+74426fbff66eea8 Robert Jarzmik   2017-09-02  341   *                   bit0 => codec 0, bit1 => codec 1 ... bit 3 => codec 3
+74426fbff66eea8 Robert Jarzmik   2017-09-02  342   *
+74426fbff66eea8 Robert Jarzmik   2017-09-02  343   * Register a digital controller which can control up to 4 ac97 codecs. This is
+74426fbff66eea8 Robert Jarzmik   2017-09-02  344   * the controller side of the AC97 AC-link, while the slave side are the codecs.
+74426fbff66eea8 Robert Jarzmik   2017-09-02  345   *
+74426fbff66eea8 Robert Jarzmik   2017-09-02  346   * Returns a valid controller upon success, negative pointer value upon error
+74426fbff66eea8 Robert Jarzmik   2017-09-02  347   */
+74426fbff66eea8 Robert Jarzmik   2017-09-02  348  struct ac97_controller *snd_ac97_controller_register(
+74426fbff66eea8 Robert Jarzmik   2017-09-02  349  	const struct ac97_controller_ops *ops, struct device *dev,
+74426fbff66eea8 Robert Jarzmik   2017-09-02  350  	unsigned short slots_available, void **codecs_pdata)
+74426fbff66eea8 Robert Jarzmik   2017-09-02 @351  {
+74426fbff66eea8 Robert Jarzmik   2017-09-02  352  	struct ac97_controller *ac97_ctrl;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  353  	int ret, i;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  354  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  355  	ac97_ctrl = kzalloc(sizeof(*ac97_ctrl), GFP_KERNEL);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  356  	if (!ac97_ctrl)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  357  		return ERR_PTR(-ENOMEM);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  358  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  359  	for (i = 0; i < AC97_BUS_MAX_CODECS && codecs_pdata; i++)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  360  		ac97_ctrl->codecs_pdata[i] = codecs_pdata[i];
+74426fbff66eea8 Robert Jarzmik   2017-09-02  361  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  362  	ac97_ctrl->ops = ops;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  363  	ac97_ctrl->slots_available = slots_available;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  364  	ac97_ctrl->parent = dev;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  365  	ret = ac97_add_adapter(ac97_ctrl);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  366  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  367  	if (ret)
+74426fbff66eea8 Robert Jarzmik   2017-09-02  368  		goto err;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  369  	ac97_bus_reset(ac97_ctrl);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  370  	ac97_bus_scan(ac97_ctrl);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  371  
+74426fbff66eea8 Robert Jarzmik   2017-09-02  372  	return ac97_ctrl;
+74426fbff66eea8 Robert Jarzmik   2017-09-02  373  err:
+74426fbff66eea8 Robert Jarzmik   2017-09-02  374  	kfree(ac97_ctrl);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  375  	return ERR_PTR(ret);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  376  }
+74426fbff66eea8 Robert Jarzmik   2017-09-02  377  EXPORT_SYMBOL_GPL(snd_ac97_controller_register);
+74426fbff66eea8 Robert Jarzmik   2017-09-02  378  
+
+:::::: The code at line 192 was first introduced by commit
+:::::: 74426fbff66eea8e8d1f42c8238c268d1e63a832 ALSA: ac97: add an ac97 bus
+
+:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
