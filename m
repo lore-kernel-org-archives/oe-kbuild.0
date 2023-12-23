@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C305A6FAF
-	for <oe-kbuild@lists.linux.dev>; Sat, 23 Dec 2023 07:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE6DCA53
+	for <oe-kbuild@lists.linux.dev>; Sat, 23 Dec 2023 11:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NbnuMx94"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X6ayZY3y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703316415; x=1734852415;
+  t=1703330124; x=1734866124;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=48TWc7nBXBNniDgDoosz2jSCNGNpmGUPfwe6DHkQuxo=;
-  b=NbnuMx94oORsZbpqTnbvjpB/M6J4YM0PsBr+QQcxJjT7GE8DTYUNR6ZQ
-   Zb+866pzyZBJYS0UeqzbkDZ225Wy+Hxcn8Rf2fXhmR2lilrJaQeyawq7V
-   O1zRvyM1U5Lk6HQEMPuPyo/6UdXmMSjgPQUsREa1BymLENTDxDbtGvEXB
-   JH7Y4BKNmKLSBjmilIPiR9pjbhpcfBd+il1eZaBp7XKwR+Ar17HfHWtnW
-   gjtYDrRvhcHdqVkEXkxg96KenIojrQdxvSJuQkK3dwtyz4/eNT1i20wTm
-   j+enhkWNICtjKeXJmFqT6qeInHVU4x5j6v04EKxnutMGyTzZVCjzhJZI2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="9678840"
-X-IronPort-AV: E=Sophos;i="6.04,298,1695711600"; 
-   d="scan'208";a="9678840"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 23:26:54 -0800
+  bh=fYYwx7D/lfn4WP+8kVFHzl4EgXBiXxxyaAL1P3XAe9o=;
+  b=X6ayZY3yMYyVI0GoYohe+E0m+4C14+0mPjLfwX6YRBmTbiab/5Dog0Kv
+   M9S/Jidrfa2085eAS0qtLsQbOBgoTN051SOQcqoFnE952iMppGFUwFlae
+   swL1/eOYZWhYzJMPB7feKSTKZLNgslXgZkP7Nvy47yHAKVfcKOupACR8x
+   y5DDSWZHwHVJxNGpzwhgWGrXikJltWjY84d7VcEEPhFAPkQB2VGquZKve
+   /Rsg3JY1htEQxWuwGw/U7nFhaX7qNfq5C/d56ndisVAWaGXHqzpG7oG+f
+   G7jUHkCa4xc3BSgORjiagBiW1whq/rJ6wVI5Rv1hCE9xX6ERU6ZyaNerI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="386627295"
+X-IronPort-AV: E=Sophos;i="6.04,299,1695711600"; 
+   d="scan'208";a="386627295"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2023 03:15:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="1024468143"
-X-IronPort-AV: E=Sophos;i="6.04,298,1695711600"; 
-   d="scan'208";a="1024468143"
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="811609699"
+X-IronPort-AV: E=Sophos;i="6.04,299,1695711600"; 
+   d="scan'208";a="811609699"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 22 Dec 2023 23:26:52 -0800
+  by orsmga001.jf.intel.com with ESMTP; 23 Dec 2023 03:15:23 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rGwPI-000APv-3A;
-	Sat, 23 Dec 2023 07:26:49 +0000
-Date: Sat, 23 Dec 2023 15:26:21 +0800
+	id 1rGzyF-000As5-2X;
+	Sat, 23 Dec 2023 11:15:20 +0000
+Date: Sat, 23 Dec 2023 19:12:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c:258:2-8: preceding
- lock on line 251
-Message-ID: <202312231545.MYQ4fN4i-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/comedi/drivers/das1800.c:354:24: sparse: sparse: cast to
+ restricted __le16
+Message-ID: <202312231955.VmI3OhWr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,77 +50,225 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "only kconfig file changed"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Ben Skeggs <bskeggs@redhat.com>
-CC: Lyude Paul <lyude@redhat.com>
+TO: Ian Abbott <abbotti@mev.co.uk>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   5254c0cbc92d2a08e75443bdb914f1c4839cdf5a
-commit: f48dd2936138882d7755cbbc5d9984015c75980c drm/nouveau/fifo: add new engine context tracking
-date:   1 year, 1 month ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: loongarch-randconfig-r062-20231222 (https://download.01.org/0day-ci/archive/20231223/202312231545.MYQ4fN4i-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
+commit: 98a15816636044f25be4644db2a3e09fad68aaf7 Revert "comedi: add HAS_IOPORT dependencies"
+date:   3 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 3 months ago
+config: m68k-randconfig-r132-20231223 (https://download.01.org/0day-ci/archive/20231223/202312231955.VmI3OhWr-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231223/202312231955.VmI3OhWr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312231545.MYQ4fN4i-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312231955.VmI3OhWr-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c:258:2-8: preceding lock on line 251
+sparse warnings: (new ones prefixed by >>)
+>> drivers/comedi/drivers/das1800.c:354:24: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/das1800.c:354:24: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/das1800.c:354:24: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/das1800.c:354:24: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das1800.c:972:24: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das1800.c:972:24: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das1800.c:972:24: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das1800.c:972:24: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das1800.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   drivers/comedi/drivers/das1800.c: note: in included file (through arch/m68k/include/asm/io_mm.h, arch/m68k/include/asm/io.h, include/linux/io.h, ...):
+   arch/m68k/include/asm/raw_io.h:457:26: sparse: sparse: cast to restricted __le16
+   arch/m68k/include/asm/raw_io.h:457:26: sparse: sparse: cast to restricted __le16
+   arch/m68k/include/asm/raw_io.h:457:26: sparse: sparse: cast to restricted __le16
+   arch/m68k/include/asm/raw_io.h:457:26: sparse: sparse: cast to restricted __le16
+--
+>> drivers/comedi/drivers/das6402.c:166:15: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/das6402.c:166:15: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/das6402.c:166:15: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/das6402.c:166:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das6402.c:485:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das6402.c:485:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das6402.c:485:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das6402.c:485:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das6402.c:543:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das6402.c:543:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das6402.c:543:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das6402.c:543:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das6402.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+--
+>> drivers/comedi/drivers/aio_aio12_8.c:142:23: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/aio_aio12_8.c:142:23: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/aio_aio12_8.c:142:23: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/aio_aio12_8.c:142:23: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/aio_aio12_8.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+--
+>> drivers/comedi/drivers/ni_at_ao.c:159:19: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/ni_at_ao.c:159:19: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/ni_at_ao.c:159:19: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/ni_at_ao.c:159:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_at_ao.c:282:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_at_ao.c:282:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_at_ao.c:282:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_at_ao.c:282:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_at_ao.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+--
+>> drivers/comedi/drivers/s526.c:189:15: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/s526.c:189:15: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/s526.c:189:15: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/s526.c:189:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:190:17: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:190:17: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:190:17: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:190:17: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:388:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:388:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:388:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:388:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:423:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:423:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:423:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:423:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:465:23: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:465:23: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:465:23: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:465:23: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:509:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:509:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:509:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c:509:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/s526.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+--
+>> drivers/comedi/drivers/das16m1.c:343:23: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/das16m1.c:343:23: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/das16m1.c:343:23: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/das16m1.c:343:23: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/das16m1.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   drivers/comedi/drivers/das16m1.c: note: in included file (through arch/m68k/include/asm/io_mm.h, arch/m68k/include/asm/io.h, include/linux/io.h, ...):
+   arch/m68k/include/asm/raw_io.h:457:26: sparse: sparse: cast to restricted __le16
+   arch/m68k/include/asm/raw_io.h:457:26: sparse: sparse: cast to restricted __le16
+   arch/m68k/include/asm/raw_io.h:457:26: sparse: sparse: cast to restricted __le16
+   arch/m68k/include/asm/raw_io.h:457:26: sparse: sparse: cast to restricted __le16
+--
+>> drivers/comedi/drivers/dt282x.c:506:17: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/dt282x.c:506:17: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/dt282x.c:506:17: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/dt282x.c:506:17: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:507:17: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:507:17: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:507:17: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:507:17: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:508:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:508:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:508:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:508:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:563:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:563:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:563:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:563:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:617:23: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:617:23: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:617:23: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:617:23: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:939:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:939:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:939:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:939:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1043:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1043:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1043:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1043:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1049:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1049:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1049:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1049:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1050:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1050:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1050:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1050:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1051:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1051:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1051:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1051:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1052:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1052:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1052:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1052:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1053:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1053:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1053:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c:1053:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/dt282x.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+--
+>> drivers/comedi/drivers/multiq3.c:87:18: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/multiq3.c:87:18: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/multiq3.c:87:18: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/multiq3.c:87:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/multiq3.c:155:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/multiq3.c:155:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/multiq3.c:155:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/multiq3.c:155:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/multiq3.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+--
+>> drivers/comedi/drivers/ni_atmio16d.c:226:15: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/ni_atmio16d.c:226:15: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/ni_atmio16d.c:226:15: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/ni_atmio16d.c:226:15: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_atmio16d.c:447:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_atmio16d.c:447:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_atmio16d.c:447:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_atmio16d.c:447:18: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_atmio16d.c:488:27: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_atmio16d.c:488:27: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_atmio16d.c:488:27: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_atmio16d.c:488:27: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_atmio16d.c:535:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_atmio16d.c:535:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_atmio16d.c:535:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_atmio16d.c:535:19: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_atmio16d.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-vim +258 drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c
+vim +354 drivers/comedi/drivers/das1800.c
 
-f48dd293613888 Ben Skeggs 2022-06-01  240  
-f48dd293613888 Ben Skeggs 2022-06-01  241  int
-f48dd293613888 Ben Skeggs 2022-06-01  242  nvkm_chan_cctx_get(struct nvkm_chan *chan, struct nvkm_engn *engn, struct nvkm_cctx **pcctx,
-f48dd293613888 Ben Skeggs 2022-06-01  243  		   struct nvkm_client *client)
-f48dd293613888 Ben Skeggs 2022-06-01  244  {
-f48dd293613888 Ben Skeggs 2022-06-01  245  	struct nvkm_cgrp *cgrp = chan->cgrp;
-f48dd293613888 Ben Skeggs 2022-06-01  246  	struct nvkm_vctx *vctx;
-f48dd293613888 Ben Skeggs 2022-06-01  247  	struct nvkm_cctx *cctx;
-f48dd293613888 Ben Skeggs 2022-06-01  248  	int ret;
-f48dd293613888 Ben Skeggs 2022-06-01  249  
-f48dd293613888 Ben Skeggs 2022-06-01  250  	/* Look for an existing channel context for this engine+VEID. */
-f48dd293613888 Ben Skeggs 2022-06-01 @251  	mutex_lock(&cgrp->mutex);
-f48dd293613888 Ben Skeggs 2022-06-01  252  	cctx = nvkm_list_find(cctx, &chan->cctxs, head,
-f48dd293613888 Ben Skeggs 2022-06-01  253  			      cctx->vctx->ectx->engn == engn && cctx->vctx->vmm == chan->vmm);
-f48dd293613888 Ben Skeggs 2022-06-01  254  	if (cctx) {
-f48dd293613888 Ben Skeggs 2022-06-01  255  		refcount_inc(&cctx->refs);
-f48dd293613888 Ben Skeggs 2022-06-01  256  		*pcctx = cctx;
-f48dd293613888 Ben Skeggs 2022-06-01  257  		mutex_unlock(&chan->cgrp->mutex);
-f48dd293613888 Ben Skeggs 2022-06-01 @258  		return 0;
-f48dd293613888 Ben Skeggs 2022-06-01  259  	}
-f48dd293613888 Ben Skeggs 2022-06-01  260  
-f48dd293613888 Ben Skeggs 2022-06-01  261  	/* Nope - create a fresh one.  But, sub-context first. */
-f48dd293613888 Ben Skeggs 2022-06-01  262  	ret = nvkm_cgrp_vctx_get(cgrp, engn, chan, &vctx, client);
-f48dd293613888 Ben Skeggs 2022-06-01  263  	if (ret) {
-f48dd293613888 Ben Skeggs 2022-06-01  264  		CHAN_ERROR(chan, "vctx %d[%s]: %d", engn->id, engn->engine->subdev.name, ret);
-f48dd293613888 Ben Skeggs 2022-06-01  265  		goto done;
-f48dd293613888 Ben Skeggs 2022-06-01  266  	}
-f48dd293613888 Ben Skeggs 2022-06-01  267  
-f48dd293613888 Ben Skeggs 2022-06-01  268  	/* Now, create the channel context - to track engine binding. */
-f48dd293613888 Ben Skeggs 2022-06-01  269  	CHAN_TRACE(chan, "ctor cctx %d[%s]", engn->id, engn->engine->subdev.name);
-f48dd293613888 Ben Skeggs 2022-06-01  270  	if (!(cctx = *pcctx = kzalloc(sizeof(*cctx), GFP_KERNEL))) {
-f48dd293613888 Ben Skeggs 2022-06-01  271  		nvkm_cgrp_vctx_put(cgrp, &vctx);
-f48dd293613888 Ben Skeggs 2022-06-01  272  		ret = -ENOMEM;
-f48dd293613888 Ben Skeggs 2022-06-01  273  		goto done;
-f48dd293613888 Ben Skeggs 2022-06-01  274  	}
-f48dd293613888 Ben Skeggs 2022-06-01  275  
-f48dd293613888 Ben Skeggs 2022-06-01  276  	cctx->vctx = vctx;
-f48dd293613888 Ben Skeggs 2022-06-01  277  	refcount_set(&cctx->refs, 1);
-f48dd293613888 Ben Skeggs 2022-06-01  278  	refcount_set(&cctx->uses, 0);
-f48dd293613888 Ben Skeggs 2022-06-01  279  	list_add_tail(&cctx->head, &chan->cctxs);
-f48dd293613888 Ben Skeggs 2022-06-01  280  done:
-f48dd293613888 Ben Skeggs 2022-06-01  281  	mutex_unlock(&cgrp->mutex);
-f48dd293613888 Ben Skeggs 2022-06-01  282  	return ret;
-f48dd293613888 Ben Skeggs 2022-06-01  283  }
-f48dd293613888 Ben Skeggs 2022-06-01  284  
+a69cc3a9fae82f drivers/staging/comedi/drivers/das1800.c Frank Mori Hess   2009-02-19  346  
+73e183c347242c drivers/staging/comedi/drivers/das1800.c H Hartley Sweeten 2012-05-23  347  static void das1800_handle_fifo_not_empty(struct comedi_device *dev,
+73e183c347242c drivers/staging/comedi/drivers/das1800.c H Hartley Sweeten 2012-05-23  348  					  struct comedi_subdevice *s)
+73e183c347242c drivers/staging/comedi/drivers/das1800.c H Hartley Sweeten 2012-05-23  349  {
+605d76f6eb007a drivers/staging/comedi/drivers/das1800.c H Hartley Sweeten 2014-11-05  350  	struct comedi_cmd *cmd = &s->async->cmd;
+65a62aaec2e888 drivers/staging/comedi/drivers/das1800.c Ian Abbott        2013-10-16  351  	unsigned short dpnt;
+a69cc3a9fae82f drivers/staging/comedi/drivers/das1800.c Frank Mori Hess   2009-02-19  352  
+73e183c347242c drivers/staging/comedi/drivers/das1800.c H Hartley Sweeten 2012-05-23  353  	while (inb(dev->iobase + DAS1800_STATUS) & FNE) {
+73e183c347242c drivers/staging/comedi/drivers/das1800.c H Hartley Sweeten 2012-05-23 @354  		dpnt = inw(dev->iobase + DAS1800_FIFO);
+880f582068ab8d drivers/staging/comedi/drivers/das1800.c H Hartley Sweeten 2014-10-22  355  		comedi_buf_write_samples(s, &dpnt, 1);
+605d76f6eb007a drivers/staging/comedi/drivers/das1800.c H Hartley Sweeten 2014-11-05  356  
+605d76f6eb007a drivers/staging/comedi/drivers/das1800.c H Hartley Sweeten 2014-11-05  357  		if (cmd->stop_src == TRIG_COUNT &&
+605d76f6eb007a drivers/staging/comedi/drivers/das1800.c H Hartley Sweeten 2014-11-05  358  		    s->async->scans_done >= cmd->stop_arg)
+605d76f6eb007a drivers/staging/comedi/drivers/das1800.c H Hartley Sweeten 2014-11-05  359  			break;
+a69cc3a9fae82f drivers/staging/comedi/drivers/das1800.c Frank Mori Hess   2009-02-19  360  	}
+a69cc3a9fae82f drivers/staging/comedi/drivers/das1800.c Frank Mori Hess   2009-02-19  361  }
+a69cc3a9fae82f drivers/staging/comedi/drivers/das1800.c Frank Mori Hess   2009-02-19  362  
+
+:::::: The code at line 354 was first introduced by commit
+:::::: 73e183c347242c90524f8913f1af5fc481ad5370 staging: comedi: das1800: complete the refactor to remove all forward declarations
+
+:::::: TO: H Hartley Sweeten <hartleys@visionengravers.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
