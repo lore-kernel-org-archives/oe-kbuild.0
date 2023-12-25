@@ -1,46 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0697F3
-	for <oe-kbuild@lists.linux.dev>; Mon, 25 Dec 2023 16:31:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DAE537E2
+	for <oe-kbuild@lists.linux.dev>; Mon, 25 Dec 2023 18:38:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EumkW449"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nEXqGRyA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703521874; x=1735057874;
+  t=1703529480; x=1735065480;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wbwpgxyq3jN1NF/bdKlcy6xxoNiDHeC4vOPAK6L5UfU=;
-  b=EumkW4490+GL+qQj5bdalYyYdUKFSGydczG7hT4jtC/hL+crovsSW3LG
-   u7FdfeAvCpIOlwt9sO//FlQZfoaQ0gNz9aFvUyeWLnBpI+h/2NymOntyp
-   01j4bvxWGAO6w1U63CZlk/NZC8AISjg7eBywmQGd7emc+07rb7OHj/5fH
-   2Voyn+VvrNf+jJr0x3CXegtqwlitLA0L5ITCn3gDtAIXhj8z2Kr+PzwoK
-   x5EJbg4WbrZXRQzauDJG9MQBvfrORBT5uGCBZAfWjOhDGPSgwLBsBClV9
-   lhkhj89yldTOwYSrb2lNkePFfyaT1ndP+1+OpmbIGPHDah5akZQF/Or8g
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="393454964"
+  bh=2oSnORFY0ICSVM0JOSBjgrluLDy3RoqGjoKlBENFJxU=;
+  b=nEXqGRyAIfPTc/ksdhP0sRDgSNH8hJeBIqseCGkFtIW6Xd0oWPKujAkQ
+   S337HzkaIp5ST2wcLk15PmuVDGsXhb+tDaQ8ereBZpD2XNBBoWoJg9LKY
+   R6b7m6zqA93lwSfDLmthHIToA1hqyC1f/44QccooqwimvK6adPNNcsY0v
+   eWpIomliFUlH+6Sb5zcsUsbOXt6uRpXW3u+F/gjJItZ6T/3fwqz7P/mbF
+   2wfet8nAikKlF+CSHQkaEngG2/OSq7HDEkUlG/GxDG5ec1GSxwPyHWLjb
+   qZt5255OGHiDQB12d3KRnZn7LuZ7Iokgj+60azYZRURDIMq44oox7DORM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="381275090"
 X-IronPort-AV: E=Sophos;i="6.04,303,1695711600"; 
-   d="scan'208";a="393454964"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 08:31:13 -0800
+   d="scan'208";a="381275090"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 10:38:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="843690427"
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="901235956"
 X-IronPort-AV: E=Sophos;i="6.04,303,1695711600"; 
-   d="scan'208";a="843690427"
+   d="scan'208";a="901235956"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 25 Dec 2023 08:31:12 -0800
+  by orsmga004.jf.intel.com with ESMTP; 25 Dec 2023 10:37:59 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHnrC-000DTn-10;
-	Mon, 25 Dec 2023 16:31:10 +0000
-Date: Tue, 26 Dec 2023 00:30:41 +0800
+	id 1rHpmw-000DbN-04;
+	Mon, 25 Dec 2023 18:35:40 +0000
+Date: Tue, 26 Dec 2023 02:34:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/amd/display/dc/link/protocols/link_ddc.c:220:21-22:
- WARNING opportunity for max()
-Message-ID: <202312260025.3KcJ7K0e-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: WARN: resolve_btfids: unresolved symbol bpf_task_under_cgroup
+Message-ID: <202312260231.ijLVIfnN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,76 +49,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "resolve_btfids: unresolved symbol"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Wenjing Liu <wenjing.liu@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: George Shen <George.Shen@amd.com>
-CC: Jun Lei <Jun.Lei@amd.com>
+TO: Feng Zhou <zhoufeng.zf@bytedance.com>
+CC: Alexei Starovoitov <ast@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   861deac3b092f37b2c5e6871732f3e11486f7082
-commit: bc33f5e5f05ba44e48909e2cfc5a97475ec69a4d drm/amd/display: create accessories, hwss and protocols sub folders in link
-date:   11 months ago
+commit: b5ad4cdc46c7d6e7f8d2c9e24b6c9a1edec95154 bpf: Add bpf_task_under_cgroup() kfunc
+date:   8 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 11 months ago
-config: loongarch-randconfig-r062-20231222 (https://download.01.org/0day-ci/archive/20231226/202312260025.3KcJ7K0e-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
+:::::: commit date: 8 months ago
+config: powerpc-randconfig-r002-20220613 (https://download.01.org/0day-ci/archive/20231226/202312260231.ijLVIfnN-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260231.ijLVIfnN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312260025.3KcJ7K0e-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312260231.ijLVIfnN-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/display/dc/link/protocols/link_ddc.c:220:21-22: WARNING opportunity for max()
-   drivers/gpu/drm/amd/display/dc/link/protocols/link_ddc.c:227:21-22: WARNING opportunity for max()
+All warnings (new ones prefixed by >>):
 
-vim +220 drivers/gpu/drm/amd/display/dc/link/protocols/link_ddc.c
-
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  204  
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  205  static uint32_t defer_delay_converter_wa(
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  206  	struct ddc_service *ddc,
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  207  	uint32_t defer_delay)
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  208  {
-d0778ebfd58f56 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-07-22  209  	struct dc_link *link = ddc->link;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  210  
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  211  	if (link->dpcd_caps.dongle_type == DISPLAY_DONGLE_DP_VGA_CONVERTER &&
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  212  		link->dpcd_caps.branch_dev_id == DP_BRANCH_DEVICE_ID_0080E1 &&
-10a9accd4842e6 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Ilya           2022-02-10  213  		(link->dpcd_caps.branch_fw_revision[0] < 0x01 ||
-10a9accd4842e6 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Ilya           2022-02-10  214  				(link->dpcd_caps.branch_fw_revision[0] == 0x01 &&
-10a9accd4842e6 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Ilya           2022-02-10  215  				link->dpcd_caps.branch_fw_revision[1] < 0x40)) &&
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  216  		!memcmp(link->dpcd_caps.branch_dev_name,
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  217  		    DP_VGA_DONGLE_BRANCH_DEV_NAME,
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  218  			sizeof(link->dpcd_caps.branch_dev_name)))
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  219  
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15 @220  		return defer_delay > DPVGA_DONGLE_AUX_DEFER_WA_DELAY ?
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  221  			defer_delay : DPVGA_DONGLE_AUX_DEFER_WA_DELAY;
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  222  
-df3b7e32ed459a drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Qingqing Zhuo  2019-07-31  223  	if (link->dpcd_caps.branch_dev_id == DP_BRANCH_DEVICE_ID_0080E1 &&
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  224  	    !memcmp(link->dpcd_caps.branch_dev_name,
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  225  		    DP_DVI_CONVERTER_ID_4,
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  226  		    sizeof(link->dpcd_caps.branch_dev_name)))
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  227  		return defer_delay > I2C_OVER_AUX_DEFER_WA_DELAY ?
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  228  			defer_delay : I2C_OVER_AUX_DEFER_WA_DELAY;
-7154a51b534707 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c jinlong zhang  2020-09-25  229  	if (link->dpcd_caps.branch_dev_id == DP_BRANCH_DEVICE_ID_006037 &&
-7154a51b534707 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c jinlong zhang  2020-09-25  230  	    !memcmp(link->dpcd_caps.branch_dev_name,
-7154a51b534707 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c jinlong zhang  2020-09-25  231  		    DP_DVI_CONVERTER_ID_5,
-7154a51b534707 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c jinlong zhang  2020-09-25  232  		    sizeof(link->dpcd_caps.branch_dev_name)))
-7154a51b534707 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c jinlong zhang  2020-09-25  233  		return defer_delay > I2C_OVER_AUX_DEFER_WA_DELAY_1MS ?
-7154a51b534707 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c jinlong zhang  2020-09-25  234  			I2C_OVER_AUX_DEFER_WA_DELAY_1MS : defer_delay;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  235  
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  236  	return defer_delay;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  237  }
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  238  
-
-:::::: The code at line 220 was first introduced by commit
-:::::: fd952d436446cffdf97a61bf456a0987011e42e0 drm/amd/display: Workaround for some legacy DP-VGA dongles
-
-:::::: TO: Taimur Hassan <syed.hassan@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+   WARN: resolve_btfids: unresolved symbol prog_test_ref_kfunc
+   WARN: resolve_btfids: unresolved symbol bpf_cpumask
+>> WARN: resolve_btfids: unresolved symbol bpf_task_under_cgroup
+   WARN: resolve_btfids: unresolved symbol bpf_task_release
+   WARN: resolve_btfids: unresolved symbol bpf_task_from_pid
+   WARN: resolve_btfids: unresolved symbol bpf_task_acquire
+   WARN: resolve_btfids: unresolved symbol bpf_refcount_acquire_impl
+   WARN: resolve_btfids: unresolved symbol bpf_rdonly_cast
+   WARN: resolve_btfids: unresolved symbol bpf_rcu_read_unlock
+   WARN: resolve_btfids: unresolved symbol bpf_rcu_read_lock
+   WARN: resolve_btfids: unresolved symbol bpf_rbtree_remove
+   WARN: resolve_btfids: unresolved symbol bpf_rbtree_first
+   WARN: resolve_btfids: unresolved symbol bpf_rbtree_add_impl
+   WARN: resolve_btfids: unresolved symbol bpf_obj_new_impl
+   WARN: resolve_btfids: unresolved symbol bpf_obj_drop_impl
+   WARN: resolve_btfids: unresolved symbol bpf_list_push_front_impl
+   WARN: resolve_btfids: unresolved symbol bpf_list_push_back_impl
+   WARN: resolve_btfids: unresolved symbol bpf_list_pop_front
+   WARN: resolve_btfids: unresolved symbol bpf_list_pop_back
+   WARN: resolve_btfids: unresolved symbol bpf_iter_num_next
+   WARN: resolve_btfids: unresolved symbol bpf_iter_num_new
+   WARN: resolve_btfids: unresolved symbol bpf_iter_num_destroy
+   WARN: resolve_btfids: unresolved symbol bpf_dynptr_slice_rdwr
+   WARN: resolve_btfids: unresolved symbol bpf_dynptr_slice
+   WARN: resolve_btfids: unresolved symbol bpf_dynptr_size
+   WARN: resolve_btfids: unresolved symbol bpf_dynptr_is_rdonly
+   WARN: resolve_btfids: unresolved symbol bpf_dynptr_is_null
+   WARN: resolve_btfids: unresolved symbol bpf_dynptr_from_xdp
+   WARN: resolve_btfids: unresolved symbol bpf_dynptr_from_skb
+   WARN: resolve_btfids: unresolved symbol bpf_dynptr_clone
+   WARN: resolve_btfids: unresolved symbol bpf_dynptr_adjust
+   WARN: resolve_btfids: unresolved symbol bpf_cgroup_release
+   WARN: resolve_btfids: unresolved symbol bpf_cgroup_from_id
+   WARN: resolve_btfids: unresolved symbol bpf_cgroup_ancestor
+   WARN: resolve_btfids: unresolved symbol bpf_cgroup_acquire
+   WARN: resolve_btfids: unresolved symbol bpf_cast_to_kern_ctx
 
 -- 
 0-DAY CI Kernel Test Service
