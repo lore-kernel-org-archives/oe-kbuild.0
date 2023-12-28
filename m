@@ -1,57 +1,45 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC5164E
-	for <oe-kbuild@lists.linux.dev>; Thu, 28 Dec 2023 00:59:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9595464D
+	for <oe-kbuild@lists.linux.dev>; Thu, 28 Dec 2023 01:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="159X9B2x"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6d9bd63ec7fso857793b3a.2
-        for <oe-kbuild@lists.linux.dev>; Wed, 27 Dec 2023 16:59:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1703725168; x=1704329968; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=elVgyyaKQHa7CChhGztKeZdMb8vyhIwMcGn1pS44Q0s=;
-        b=159X9B2xRTJvCoNOs7qpA8rbCM9OxHX1Icg/6tgVTXmqbc/zHogRSoJWrd1/PlFBUf
-         Uy+XtvxnPKWlaqHQsSqcWA0fXKyPSYyHP+2ivi69xMeiLPewYq3vGXtx0plR9awIW9hv
-         zl1NYjDIY/JxeUE5qmyv0u7420zl+zf3vuLn1YVe/1Jm12hfqzm9n8tY3e7/b42wMM6c
-         PEPHNIv1v969yc1mb4iE/x0zzguyiZGmPYTPHcpUy3QjS76yfIlrcCg2rH+hH6IV7CGn
-         dQlOsc64ta/UJlzXI1oHMXMznAN+Ua/Kf6rXfc5L91njsjpZ4NAHUoKYlz/WOMqHI6px
-         aarw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703725168; x=1704329968;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=elVgyyaKQHa7CChhGztKeZdMb8vyhIwMcGn1pS44Q0s=;
-        b=i7y3sqQ+oVoAjuMLn9atzhv/qm/a0ed+azrOprwnSAGh+kqqlfxffKVOl8x+TgsPax
-         vMXxKyYhZwD+BZWJygsbL23+3v6WeIHE1ycRdDC/nCPtIKGzmJQeI99bDOO9nSB2Eedd
-         MxFbYNwQqYsV9SosWDLoDFqwlPwMplHKJFJEURwMmGEZnxFbGqATv4HJ8sokbjc2ujW8
-         kxZc0zTTMDINX7grMYo8pNPriwWbwuSQRfn1XMh+glSBbHpSgNcKZU9smyXhdEdpjlb8
-         WZO1VGIETwe7tN49HiNVVJsIrzPG54uCGc65keYF3IlXiLNctZQbmn2BbUExNp7rRRzd
-         DjIA==
-X-Gm-Message-State: AOJu0Yxoe5gd/b0fMxz7Jdo4RUlvpZDkKufzCknAxfFQqO5ye/tjn8NS
-	CT4x89F5VQWZ510xIlAR32Nw+MZULCJwZA==
-X-Google-Smtp-Source: AGHT+IFyHLd+rhmzrLa2GEEDyTbBm+WUcrcXFuc0p3vpjTEYuZNglA+fazKRXFRfzHbdPhiCdIaCUg==
-X-Received: by 2002:a05:6a00:1241:b0:6d9:af0b:2af7 with SMTP id u1-20020a056a00124100b006d9af0b2af7mr2321541pfi.65.1703725167911;
-        Wed, 27 Dec 2023 16:59:27 -0800 (PST)
-Received: from ghost (070-095-050-247.res.spectrum.com. [70.95.50.247])
-        by smtp.gmail.com with ESMTPSA id r19-20020aa78b93000000b006d9b5b3ea1fsm6614432pfd.22.2023.12.27.16.59.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Dec 2023 16:59:27 -0800 (PST)
-Date: Wed, 27 Dec 2023 16:59:25 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: Re: arch/riscv/kernel/module.c:639 process_accumulated_relocations()
- error: uninitialized symbol 'curr_type'.
-Message-ID: <ZYzIbVfge6I8Ptw0@ghost>
-References: <d0897fb3-1af8-430b-aa8b-9aa829bad1d7@suswa.mountain>
- <ZXoFhu2TPXgrsInY@ghost>
- <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nfjUcb+l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703725377; x=1735261377;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mRT02HF770rBiZ+MQkzlIMiUYQFppC9jZiPAGMbkKw0=;
+  b=nfjUcb+lVUVhPIRoBL3R6z8mkIaZ9OSGnrEfqtq4+N8EeB16pPX9OX8v
+   Ec/jYp7oQ7dvvpQ8SpJB/uWZsUSTG7aYtxfFNojUgT4HO/M/kRVzWR8f/
+   uBQkLOAuPDm006Kl+Wyih4Ws7Vqs8gkP4MNe94yP0H3tjDTArDipRiB4k
+   +S021FA0dpH0vTGtImCIHNsmm1vqBRzlwKtF+X8vQxWcf00hGEYgaAqzT
+   KiYbqxo4ZCtBZ7qtq3GdYmwIIKCnYfnakiDQqTHdFD7CgzxkE7QexcuR7
+   WHUJfDAO5ivQ4tFKKaNmHfxFzKtMJT0lK6rbxxYwzidh1ERvbPJCG74bc
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="396223121"
+X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
+   d="scan'208";a="396223121"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 17:02:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="1025528432"
+X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
+   d="scan'208";a="1025528432"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 27 Dec 2023 17:02:55 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rIenV-000Fun-20;
+	Thu, 28 Dec 2023 01:02:53 +0000
+Date: Thu, 28 Dec 2023 09:01:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3 1/2] dt-bindings: input: Add Himax HX83102J touchscreen
+Message-ID: <202312280837.b2PFmd9W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,35 +48,58 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
 
-On Thu, Dec 14, 2023 at 11:00:46AM +0300, Dan Carpenter wrote:
-> On Wed, Dec 13, 2023 at 11:27:02AM -0800, Charlie Jenkins wrote:
-> > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01  638  			}
-> > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01 @639  			reloc_handlers[curr_type].accumulate_handler(
-> > >                                                                                        ^^^^^^^^^
-> > > Can the list be empty?  Uninitialized in that case.
-> > 
-> > That's a tricky one, the list cannot be empty. Each bucket in the
-> > bucket_iter is guarunteed to have at least one rel_entry. I can probably
-> > resolve this by extracting this for loop into a do-while loop.
-> 
-> You can just ignore false positives.  It's not really a fix to change it
-> to a do-while loop.  I reviewed the do while code before reading this
-> email and I still wondered about empty lists, but just to hear that it's
-> not going to be empty is enough.  Just the email was sufficient.
-> 
-> regards,
-> dan carpenter
-> 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: Documentation/devicetree/bindings/input/himax,hx83102j.yaml:1:58: [error] wrong new line character: expected \n (new-lines)"
+:::::: 
 
-The fix isn't the do-while loop but rather the use after free, the
-incorrect sizeof, and incorrect error handling when
-initialize_relocation_hashtable fails. I decided to include the do-while
-code because I was already touching the surrounding code. Can you review
-[1]? If you would prefer that the do-while is reverted, I can do that,
-but it is important that the rest of the fixes are merged before 6.7 is
-released.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <SEZPR06MB56080820EE51CBAE9C6B6B3E9E9FA@SEZPR06MB5608.apcprd06.prod.outlook.com>
+References: <SEZPR06MB56080820EE51CBAE9C6B6B3E9E9FA@SEZPR06MB5608.apcprd06.prod.outlook.com>
+TO: "Allen_Lin" <allencl_lin@hotmail.com>
+TO: dmitry.torokhov@gmail.com
+TO: robh+dt@kernel.org
+TO: krzysztof.kozlowski+dt@linaro.org
+TO: conor+dt@kernel.org
+TO: jikos@kernel.org
+TO: benjamin.tissoires@redhat.com
+TO: linux-input@vger.kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: "Allen_Lin" <allencl_lin@hotmail.com>
 
-[1] https://lore.kernel.org/all/20231213-module_loading_fix-v1-1-da9b7c92ade5@rivosinc.com/
+Hi Allen_Lin,
 
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on dtor-input/next dtor-input/for-linus robh/for-next linus/master v6.7-rc7 next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Allen_Lin/Input-Add-Himax-HX83102J-touchscreen-driver/20231227-133817
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/SEZPR06MB56080820EE51CBAE9C6B6B3E9E9FA%40SEZPR06MB5608.apcprd06.prod.outlook.com
+patch subject: [PATCH v3 1/2] dt-bindings: input: Add Himax HX83102J touchscreen
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231228/202312280837.b2PFmd9W-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202312280837.b2PFmd9W-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/input/himax,hx83102j.yaml:1:58: [error] wrong new line character: expected \n (new-lines)
+
+vim +1 Documentation/devicetree/bindings/input/himax,hx83102j.yaml
+
+b6f7a8833439cc Allen_Lin 2023-12-27 @1  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
