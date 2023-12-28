@@ -1,45 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61D6188
-	for <oe-kbuild@lists.linux.dev>; Thu, 28 Dec 2023 00:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC5164E
+	for <oe-kbuild@lists.linux.dev>; Thu, 28 Dec 2023 00:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GQREpiSq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703722920; x=1735258920;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cEkr4eVs/vUsuHXI/ccEikgGyb/0sU+pjSWlK4e7/LM=;
-  b=GQREpiSqOslk2xK4qKxEJUmK6LKS1LFfBXuMPPqO6966NFsbTtsFFyuq
-   PrLbChsUpyl2yaW6zToWyAQrJnXtiH+3XOvhY8ByavhNmhxxkE58GdqOn
-   Q1zM81iRANuZPEvJ/reOplu4W0QP2gSo5FPuLI7jgQL0tlme2hAg1JWFG
-   SysjP4fRw8iGymfyLkmkRw1VmCdNU2Is5q66IQmm+LNPM528RzCLjrsNC
-   EGXKvBEKy537rjedWHimr+Dqky7fzD5RGxVmUs6ol8pwsz3x8JUUdgQLD
-   A7QdXxEN/HRS1eMlQL4+o3dOUrsvqrmiG+YhxNwnVonvN2i1X4UrNcjrk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="393647113"
-X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="393647113"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 16:21:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="26702270"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 27 Dec 2023 16:21:53 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rIe9n-000FrJ-0E;
-	Thu, 28 Dec 2023 00:21:51 +0000
-Date: Thu, 28 Dec 2023 08:21:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 3586/10295] WARN: resolve_btfids: unresolved
- symbol bpf_get_fsverity_digest
-Message-ID: <202312280834.YdP3rO8O-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="159X9B2x"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6d9bd63ec7fso857793b3a.2
+        for <oe-kbuild@lists.linux.dev>; Wed, 27 Dec 2023 16:59:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1703725168; x=1704329968; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=elVgyyaKQHa7CChhGztKeZdMb8vyhIwMcGn1pS44Q0s=;
+        b=159X9B2xRTJvCoNOs7qpA8rbCM9OxHX1Icg/6tgVTXmqbc/zHogRSoJWrd1/PlFBUf
+         Uy+XtvxnPKWlaqHQsSqcWA0fXKyPSYyHP+2ivi69xMeiLPewYq3vGXtx0plR9awIW9hv
+         zl1NYjDIY/JxeUE5qmyv0u7420zl+zf3vuLn1YVe/1Jm12hfqzm9n8tY3e7/b42wMM6c
+         PEPHNIv1v969yc1mb4iE/x0zzguyiZGmPYTPHcpUy3QjS76yfIlrcCg2rH+hH6IV7CGn
+         dQlOsc64ta/UJlzXI1oHMXMznAN+Ua/Kf6rXfc5L91njsjpZ4NAHUoKYlz/WOMqHI6px
+         aarw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703725168; x=1704329968;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=elVgyyaKQHa7CChhGztKeZdMb8vyhIwMcGn1pS44Q0s=;
+        b=i7y3sqQ+oVoAjuMLn9atzhv/qm/a0ed+azrOprwnSAGh+kqqlfxffKVOl8x+TgsPax
+         vMXxKyYhZwD+BZWJygsbL23+3v6WeIHE1ycRdDC/nCPtIKGzmJQeI99bDOO9nSB2Eedd
+         MxFbYNwQqYsV9SosWDLoDFqwlPwMplHKJFJEURwMmGEZnxFbGqATv4HJ8sokbjc2ujW8
+         kxZc0zTTMDINX7grMYo8pNPriwWbwuSQRfn1XMh+glSBbHpSgNcKZU9smyXhdEdpjlb8
+         WZO1VGIETwe7tN49HiNVVJsIrzPG54uCGc65keYF3IlXiLNctZQbmn2BbUExNp7rRRzd
+         DjIA==
+X-Gm-Message-State: AOJu0Yxoe5gd/b0fMxz7Jdo4RUlvpZDkKufzCknAxfFQqO5ye/tjn8NS
+	CT4x89F5VQWZ510xIlAR32Nw+MZULCJwZA==
+X-Google-Smtp-Source: AGHT+IFyHLd+rhmzrLa2GEEDyTbBm+WUcrcXFuc0p3vpjTEYuZNglA+fazKRXFRfzHbdPhiCdIaCUg==
+X-Received: by 2002:a05:6a00:1241:b0:6d9:af0b:2af7 with SMTP id u1-20020a056a00124100b006d9af0b2af7mr2321541pfi.65.1703725167911;
+        Wed, 27 Dec 2023 16:59:27 -0800 (PST)
+Received: from ghost (070-095-050-247.res.spectrum.com. [70.95.50.247])
+        by smtp.gmail.com with ESMTPSA id r19-20020aa78b93000000b006d9b5b3ea1fsm6614432pfd.22.2023.12.27.16.59.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Dec 2023 16:59:27 -0800 (PST)
+Date: Wed, 27 Dec 2023 16:59:25 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
+Subject: Re: arch/riscv/kernel/module.c:639 process_accumulated_relocations()
+ error: uninitialized symbol 'curr_type'.
+Message-ID: <ZYzIbVfge6I8Ptw0@ghost>
+References: <d0897fb3-1af8-430b-aa8b-9aa829bad1d7@suswa.mountain>
+ <ZXoFhu2TPXgrsInY@ghost>
+ <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,108 +60,35 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
 
-:::::: 
-:::::: Manual check reason: "resolve_btfids: unresolved symbol"
-:::::: 
+On Thu, Dec 14, 2023 at 11:00:46AM +0300, Dan Carpenter wrote:
+> On Wed, Dec 13, 2023 at 11:27:02AM -0800, Charlie Jenkins wrote:
+> > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01  638  			}
+> > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01 @639  			reloc_handlers[curr_type].accumulate_handler(
+> > >                                                                                        ^^^^^^^^^
+> > > Can the list be empty?  Uninitialized in that case.
+> > 
+> > That's a tricky one, the list cannot be empty. Each bucket in the
+> > bucket_iter is guarunteed to have at least one rel_entry. I can probably
+> > resolve this by extracting this for loop into a do-while loop.
+> 
+> You can just ignore false positives.  It's not really a fix to change it
+> to a do-while loop.  I reviewed the do while code before reading this
+> email and I still wondered about empty lists, but just to hear that it's
+> not going to be empty is enough.  Just the email was sufficient.
+> 
+> regards,
+> dan carpenter
+> 
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Song Liu <song@kernel.org>
-CC: Alexei Starovoitov <ast@kernel.org>
+The fix isn't the do-while loop but rather the use after free, the
+incorrect sizeof, and incorrect error handling when
+initialize_relocation_hashtable fails. I decided to include the do-while
+code because I was already touching the surrounding code. Can you review
+[1]? If you would prefer that the do-while is reverted, I can do that,
+but it is important that the rest of the fixes are merged before 6.7 is
+released.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   39676dfe52331dba909c617f213fdb21015c8d10
-commit: 67814c00de3161181cddd06c77aeaf86ac4cc584 [3586/10295] bpf, fsverity: Add kfunc bpf_get_fsverity_digest
-:::::: branch date: 6 days ago
-:::::: commit date: 4 weeks ago
-config: mips-randconfig-r001-20230703 (https://download.01.org/0day-ci/archive/20231228/202312280834.YdP3rO8O-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312280834.YdP3rO8O-lkp@intel.com/reproduce)
+[1] https://lore.kernel.org/all/20231213-module_loading_fix-v1-1-da9b7c92ade5@rivosinc.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312280834.YdP3rO8O-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   WARN: resolve_btfids: unresolved symbol unix_sock
-   WARN: resolve_btfids: unresolved symbol bpf_cpumask
-   WARN: resolve_btfids: unresolved symbol bpf_xdp_metadata_rx_timestamp
-   WARN: resolve_btfids: unresolved symbol bpf_xdp_metadata_rx_hash
-   WARN: resolve_btfids: unresolved symbol bpf_xdp_ct_lookup
-   WARN: resolve_btfids: unresolved symbol bpf_xdp_ct_alloc
-   WARN: resolve_btfids: unresolved symbol bpf_throw
-   WARN: resolve_btfids: unresolved symbol bpf_task_under_cgroup
-   WARN: resolve_btfids: unresolved symbol bpf_task_release
-   WARN: resolve_btfids: unresolved symbol bpf_task_get_cgroup1
-   WARN: resolve_btfids: unresolved symbol bpf_task_from_pid
-   WARN: resolve_btfids: unresolved symbol bpf_task_acquire
-   WARN: resolve_btfids: unresolved symbol bpf_sock_destroy
-   WARN: resolve_btfids: unresolved symbol bpf_sock_addr_set_sun_path
-   WARN: resolve_btfids: unresolved symbol bpf_skb_set_fou_encap
-   WARN: resolve_btfids: unresolved symbol bpf_skb_get_fou_encap
-   WARN: resolve_btfids: unresolved symbol bpf_skb_ct_lookup
-   WARN: resolve_btfids: unresolved symbol bpf_skb_ct_alloc
-   WARN: resolve_btfids: unresolved symbol bpf_refcount_acquire_impl
-   WARN: resolve_btfids: unresolved symbol bpf_rdonly_cast
-   WARN: resolve_btfids: unresolved symbol bpf_rcu_read_unlock
-   WARN: resolve_btfids: unresolved symbol bpf_rcu_read_lock
-   WARN: resolve_btfids: unresolved symbol bpf_rbtree_remove
-   WARN: resolve_btfids: unresolved symbol bpf_rbtree_first
-   WARN: resolve_btfids: unresolved symbol bpf_rbtree_add_impl
-   WARN: resolve_btfids: unresolved symbol bpf_percpu_obj_new_impl
-   WARN: resolve_btfids: unresolved symbol bpf_percpu_obj_drop_impl
-   WARN: resolve_btfids: unresolved symbol bpf_obj_new_impl
-   WARN: resolve_btfids: unresolved symbol bpf_obj_drop_impl
-   WARN: resolve_btfids: unresolved symbol bpf_modify_return_test2
-   WARN: resolve_btfids: unresolved symbol bpf_modify_return_test
-   WARN: resolve_btfids: unresolved symbol bpf_map_sum_elem_count
-   WARN: resolve_btfids: unresolved symbol bpf_list_push_front_impl
-   WARN: resolve_btfids: unresolved symbol bpf_list_push_back_impl
-   WARN: resolve_btfids: unresolved symbol bpf_list_pop_front
-   WARN: resolve_btfids: unresolved symbol bpf_list_pop_back
-   WARN: resolve_btfids: unresolved symbol bpf_kfunc_call_test_release
-   WARN: resolve_btfids: unresolved symbol bpf_kfunc_call_memb_release
-   WARN: resolve_btfids: unresolved symbol bpf_iter_task_vma_next
-   WARN: resolve_btfids: unresolved symbol bpf_iter_task_vma_new
-   WARN: resolve_btfids: unresolved symbol bpf_iter_task_vma_destroy
-   WARN: resolve_btfids: unresolved symbol bpf_iter_task_next
-   WARN: resolve_btfids: unresolved symbol bpf_iter_task_new
-   WARN: resolve_btfids: unresolved symbol bpf_iter_task_destroy
-   WARN: resolve_btfids: unresolved symbol bpf_iter_num_next
-   WARN: resolve_btfids: unresolved symbol bpf_iter_num_new
-   WARN: resolve_btfids: unresolved symbol bpf_iter_num_destroy
-   WARN: resolve_btfids: unresolved symbol bpf_iter_css_task_next
-   WARN: resolve_btfids: unresolved symbol bpf_iter_css_task_new
-   WARN: resolve_btfids: unresolved symbol bpf_iter_css_task_destroy
-   WARN: resolve_btfids: unresolved symbol bpf_iter_css_next
-   WARN: resolve_btfids: unresolved symbol bpf_iter_css_new
-   WARN: resolve_btfids: unresolved symbol bpf_iter_css_destroy
->> WARN: resolve_btfids: unresolved symbol bpf_get_fsverity_digest
-   WARN: resolve_btfids: unresolved symbol bpf_dynptr_slice_rdwr
-   WARN: resolve_btfids: unresolved symbol bpf_dynptr_slice
-   WARN: resolve_btfids: unresolved symbol bpf_dynptr_size
-   WARN: resolve_btfids: unresolved symbol bpf_dynptr_is_rdonly
-   WARN: resolve_btfids: unresolved symbol bpf_dynptr_is_null
-   WARN: resolve_btfids: unresolved symbol bpf_dynptr_from_xdp
-   WARN: resolve_btfids: unresolved symbol bpf_dynptr_clone
-   WARN: resolve_btfids: unresolved symbol bpf_dynptr_adjust
-   WARN: resolve_btfids: unresolved symbol bpf_ct_set_timeout
-   WARN: resolve_btfids: unresolved symbol bpf_ct_set_status
-   WARN: resolve_btfids: unresolved symbol bpf_ct_set_nat_info
-   WARN: resolve_btfids: unresolved symbol bpf_ct_release
-   WARN: resolve_btfids: unresolved symbol bpf_ct_insert_entry
-   WARN: resolve_btfids: unresolved symbol bpf_ct_change_timeout
-   WARN: resolve_btfids: unresolved symbol bpf_ct_change_status
-   WARN: resolve_btfids: unresolved symbol bpf_cgroup_release
-   WARN: resolve_btfids: unresolved symbol bpf_cgroup_from_id
-   WARN: resolve_btfids: unresolved symbol bpf_cgroup_ancestor
-   WARN: resolve_btfids: unresolved symbol bpf_cgroup_acquire
-   WARN: resolve_btfids: unresolved symbol bpf_cast_to_kern_ctx
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
