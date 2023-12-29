@@ -1,145 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C5F20FC
-	for <oe-kbuild@lists.linux.dev>; Fri, 29 Dec 2023 06:20:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8EA512B80
+	for <oe-kbuild@lists.linux.dev>; Fri, 29 Dec 2023 17:48:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Duv04MqM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HwDSypgi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703830829; x=1735366829;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=k9zHSIxPPKaT3SEKUB5bmFgw/x6SUwtUmQoK5BFxg4Y=;
-  b=Duv04MqMaacYgdeCQWwCAcepDYAyqctkry/gJcqpHYTfBVmrEpCMriRc
-   FN8lHmbLj8TleYoXGm8A42aLH3GpnXXmSzJigRsffIJpmMrEbAnEb2Yu0
-   XtM1Gnmi0q0dA2FCOm1/uGesu924fx0W5iQIqnKaQj7KpNhZ+zxNXz9Fg
-   Djz6WehK1PeEV2SQCw1Ie8zoJplKzYXt2vGqGPNrSrvBhfrUtGJOyEqNy
-   ZhFynklf2vwyOGoQCm5biy+Agnz6aoh78RU+bz7075K/RRw9fYc/5pL+P
-   8RFUvg2iV7WEyz5ZYSJTJYhucJsrFKc6XvvGPstSTMX5M3cTv6CRu2dvw
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="427790851"
-X-IronPort-AV: E=Sophos;i="6.04,314,1695711600"; 
-   d="scan'208";a="427790851"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2023 22:20:20 -0800
+  t=1703872132; x=1735408132;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oIdS3fSeraFDLR02Q+k4bnNOYurIhriGf2LV+DBhQKg=;
+  b=HwDSypgiwgTxjmQa6Ufw59UxXVNMfY0f39iehuQXTyvkSsatdR88TQlq
+   HIvRpMNHntvUxdIM7LvFCgZhSGIzEiqMBhv8rSsvocNZXE/vcgNBWouod
+   xa+EoLDJRp+XiEcolzsDd23zXGReLNstFnYUGxU+hdYy+rVIDOLkQelQS
+   f4TYIzuOA1ofCQokSshXDQ4Gm+oETkxUnTB1DjImoE+yo3CTurZHvA2rX
+   NVaTUEvKNPjNZ1xk8iLjsewCg9+aGBveomS6sBpFzIVYwHvFDj2CqQEf3
+   yMJBY0Qp+0gD6Ati9zqoWqrvLU6bSKmL7vVTWJjMOLA8KWKRReDevX55q
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="463076493"
+X-IronPort-AV: E=Sophos;i="6.04,315,1695711600"; 
+   d="scan'208";a="463076493"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2023 09:48:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="771892108"
-X-IronPort-AV: E=Sophos;i="6.04,314,1695711600"; 
-   d="scan'208";a="771892108"
+X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="782364137"
+X-IronPort-AV: E=Sophos;i="6.04,315,1695711600"; 
+   d="scan'208";a="782364137"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 28 Dec 2023 22:20:18 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 29 Dec 2023 09:48:50 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rJ6EC-000H8v-1C;
-	Fri, 29 Dec 2023 06:20:16 +0000
-Date: Fri, 29 Dec 2023 14:19:34 +0800
+	id 1rJGyW-000He7-0Z;
+	Fri, 29 Dec 2023 17:48:48 +0000
+Date: Sat, 30 Dec 2023 01:47:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/mtd/mtdcore.c:577:1-23: WARNING: Function
- "for_each_child_of_node" should have of_node_put() before break around line
- 594.
-Message-ID: <202312291448.6KecWcxf-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH] [v2] SUNRPC: fix some memleaks in gssx_dec_option_array
+Message-ID: <202312300134.FYS1z14n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: net/sunrpc/auth_gss/gss_rpc_xdr.c:301:1: sparse: sparse: unused label 'err'"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20231226072021.3550114-1-alexious@zju.edu.cn>
+References: <20231226072021.3550114-1-alexious@zju.edu.cn>
+TO: Zhipeng Lu <alexious@zju.edu.cn>
+TO: alexious@zju.edu.cn
+CC: Chuck Lever <chuck.lever@oracle.com>
+CC: Jeff Layton <jlayton@kernel.org>
+CC: Neil Brown <neilb@suse.de>
+CC: Olga Kornievskaia <kolga@netapp.com>
+CC: Dai Ngo <Dai.Ngo@oracle.com>
+CC: Tom Talpey <tom@talpey.com>
+CC: Trond Myklebust <trond.myklebust@hammerspace.com>
+CC: Anna Schumaker <anna@kernel.org>
+CC: Eric Dumazet <edumazet@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Paolo Abeni <pabeni@redhat.com>
+CC: "J. Bruce Fields" <bfields@fieldses.org>
+CC: Simo Sorce <simo@redhat.com>
+CC: linux-nfs@vger.kernel.org
+CC: netdev@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: "Rafał Miłecki" <rafal@milecki.pl>
-CC: Miquel Raynal <miquel.raynal@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8735c7c84d1bc5c3e481c02b6b6163bdefe4132f
-commit: 2df11f00100d7278185a9dbefa20ba3f5d32401d mtd: core: try to find OF node for every MTD partition
-date:   1 year, 2 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 1 year, 2 months ago
-config: loongarch-randconfig-r062-20231222 (https://download.01.org/0day-ci/archive/20231229/202312291448.6KecWcxf-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
+Hi Zhipeng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on trondmy-nfs/linux-next]
+[also build test WARNING on linus/master v6.7-rc7 next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhipeng-Lu/SUNRPC-fix-some-memleaks-in-gssx_dec_option_array/20231226-152422
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20231226072021.3550114-1-alexious%40zju.edu.cn
+patch subject: [PATCH] [v2] SUNRPC: fix some memleaks in gssx_dec_option_array
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-061-20231229 (https://download.01.org/0day-ci/archive/20231230/202312300134.FYS1z14n-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231230/202312300134.FYS1z14n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312291448.6KecWcxf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312300134.FYS1z14n-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/mtd/mtdcore.c:577:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before break around line 594.
+sparse warnings: (new ones prefixed by >>)
+>> net/sunrpc/auth_gss/gss_rpc_xdr.c:301:1: sparse: sparse: unused label 'err'
 
-vim +/for_each_child_of_node +577 drivers/mtd/mtdcore.c
+vim +/err +301 net/sunrpc/auth_gss/gss_rpc_xdr.c
 
-c4dfa25ab307a2 Alban Bedel       2018-11-13  548  
-ad9b10d1eaada1 Christian Marangi 2022-06-22  549  static void mtd_check_of_node(struct mtd_info *mtd)
-ad9b10d1eaada1 Christian Marangi 2022-06-22  550  {
-ad9b10d1eaada1 Christian Marangi 2022-06-22  551  	struct device_node *partitions, *parent_dn, *mtd_dn = NULL;
-ad9b10d1eaada1 Christian Marangi 2022-06-22  552  	const char *pname, *prefix = "partition-";
-ad9b10d1eaada1 Christian Marangi 2022-06-22  553  	int plen, mtd_name_len, offset, prefix_len;
-ad9b10d1eaada1 Christian Marangi 2022-06-22  554  
-ad9b10d1eaada1 Christian Marangi 2022-06-22  555  	/* Check if MTD already has a device node */
-c5f5d0cd40e3bc Rafał Miłecki     2022-10-04  556  	if (mtd_get_of_node(mtd))
-ad9b10d1eaada1 Christian Marangi 2022-06-22  557  		return;
-ad9b10d1eaada1 Christian Marangi 2022-06-22  558  
-7ec4cdb321738d Tetsuo Handa      2022-07-25  559  	if (!mtd_is_partition(mtd))
-7ec4cdb321738d Tetsuo Handa      2022-07-25  560  		return;
-c5f5d0cd40e3bc Rafał Miłecki     2022-10-04  561  
-c5f5d0cd40e3bc Rafał Miłecki     2022-10-04  562  	parent_dn = of_node_get(mtd_get_of_node(mtd->parent));
-ad9b10d1eaada1 Christian Marangi 2022-06-22  563  	if (!parent_dn)
-ad9b10d1eaada1 Christian Marangi 2022-06-22  564  		return;
-ad9b10d1eaada1 Christian Marangi 2022-06-22  565  
-2df11f00100d72 Rafał Miłecki     2022-10-04  566  	if (mtd_is_partition(mtd->parent))
-2df11f00100d72 Rafał Miłecki     2022-10-04  567  		partitions = of_node_get(parent_dn);
-2df11f00100d72 Rafał Miłecki     2022-10-04  568  	else
-ad9b10d1eaada1 Christian Marangi 2022-06-22  569  		partitions = of_get_child_by_name(parent_dn, "partitions");
-ad9b10d1eaada1 Christian Marangi 2022-06-22  570  	if (!partitions)
-ad9b10d1eaada1 Christian Marangi 2022-06-22  571  		goto exit_parent;
-ad9b10d1eaada1 Christian Marangi 2022-06-22  572  
-ad9b10d1eaada1 Christian Marangi 2022-06-22  573  	prefix_len = strlen(prefix);
-ad9b10d1eaada1 Christian Marangi 2022-06-22  574  	mtd_name_len = strlen(mtd->name);
-ad9b10d1eaada1 Christian Marangi 2022-06-22  575  
-ad9b10d1eaada1 Christian Marangi 2022-06-22  576  	/* Search if a partition is defined with the same name */
-ad9b10d1eaada1 Christian Marangi 2022-06-22 @577  	for_each_child_of_node(partitions, mtd_dn) {
-ad9b10d1eaada1 Christian Marangi 2022-06-22  578  		/* Skip partition with no/wrong prefix */
-c5f5d0cd40e3bc Rafał Miłecki     2022-10-04  579  		if (!of_node_name_prefix(mtd_dn, prefix))
-ad9b10d1eaada1 Christian Marangi 2022-06-22  580  			continue;
-ad9b10d1eaada1 Christian Marangi 2022-06-22  581  
-ad9b10d1eaada1 Christian Marangi 2022-06-22  582  		/* Label have priority. Check that first */
-c5f5d0cd40e3bc Rafał Miłecki     2022-10-04  583  		if (!of_property_read_string(mtd_dn, "label", &pname)) {
-c5f5d0cd40e3bc Rafał Miłecki     2022-10-04  584  			offset = 0;
-c5f5d0cd40e3bc Rafał Miłecki     2022-10-04  585  		} else {
-c5f5d0cd40e3bc Rafał Miłecki     2022-10-04  586  			pname = mtd_dn->name;
-ad9b10d1eaada1 Christian Marangi 2022-06-22  587  			offset = prefix_len;
-ad9b10d1eaada1 Christian Marangi 2022-06-22  588  		}
-ad9b10d1eaada1 Christian Marangi 2022-06-22  589  
-ad9b10d1eaada1 Christian Marangi 2022-06-22  590  		plen = strlen(pname) - offset;
-ad9b10d1eaada1 Christian Marangi 2022-06-22  591  		if (plen == mtd_name_len &&
-ad9b10d1eaada1 Christian Marangi 2022-06-22  592  		    !strncmp(mtd->name, pname + offset, plen)) {
-2df11f00100d72 Rafał Miłecki     2022-10-04  593  			mtd_set_of_node(mtd, mtd_dn);
-ad9b10d1eaada1 Christian Marangi 2022-06-22 @594  			break;
-ad9b10d1eaada1 Christian Marangi 2022-06-22  595  		}
-ad9b10d1eaada1 Christian Marangi 2022-06-22  596  	}
-ad9b10d1eaada1 Christian Marangi 2022-06-22  597  
-ad9b10d1eaada1 Christian Marangi 2022-06-22  598  	of_node_put(partitions);
-ad9b10d1eaada1 Christian Marangi 2022-06-22  599  exit_parent:
-ad9b10d1eaada1 Christian Marangi 2022-06-22  600  	of_node_put(parent_dn);
-ad9b10d1eaada1 Christian Marangi 2022-06-22  601  }
-ad9b10d1eaada1 Christian Marangi 2022-06-22  602  
-
-:::::: The code at line 577 was first introduced by commit
-:::::: ad9b10d1eaada169bd764abcab58f08538877e26 mtd: core: introduce of support for dynamic partitions
-
-:::::: TO: Christian Marangi <ansuelsmth@gmail.com>
-:::::: CC: Miquel Raynal <miquel.raynal@bootlin.com>
+1d658336b05f86 Simo Sorce         2012-05-25  228  
+1d658336b05f86 Simo Sorce         2012-05-25  229  static int gssx_dec_option_array(struct xdr_stream *xdr,
+1d658336b05f86 Simo Sorce         2012-05-25  230  				 struct gssx_option_array *oa)
+1d658336b05f86 Simo Sorce         2012-05-25  231  {
+1d658336b05f86 Simo Sorce         2012-05-25  232  	struct svc_cred *creds;
+1d658336b05f86 Simo Sorce         2012-05-25  233  	u32 count, i;
+1d658336b05f86 Simo Sorce         2012-05-25  234  	__be32 *p;
+1d658336b05f86 Simo Sorce         2012-05-25  235  	int err;
+1d658336b05f86 Simo Sorce         2012-05-25  236  
+1d658336b05f86 Simo Sorce         2012-05-25  237  	p = xdr_inline_decode(xdr, 4);
+1d658336b05f86 Simo Sorce         2012-05-25  238  	if (unlikely(p == NULL))
+1d658336b05f86 Simo Sorce         2012-05-25  239  		return -ENOSPC;
+1d658336b05f86 Simo Sorce         2012-05-25  240  	count = be32_to_cpup(p++);
+9fd40c5a66be0b Geert Uytterhoeven 2013-05-06  241  	if (!count)
+9fd40c5a66be0b Geert Uytterhoeven 2013-05-06  242  		return 0;
+9fd40c5a66be0b Geert Uytterhoeven 2013-05-06  243  
+1d658336b05f86 Simo Sorce         2012-05-25  244  	/* we recognize only 1 currently: CREDS_VALUE */
+1d658336b05f86 Simo Sorce         2012-05-25  245  	oa->count = 1;
+1d658336b05f86 Simo Sorce         2012-05-25  246  
+1d658336b05f86 Simo Sorce         2012-05-25  247  	oa->data = kmalloc(sizeof(struct gssx_option), GFP_KERNEL);
+1d658336b05f86 Simo Sorce         2012-05-25  248  	if (!oa->data)
+1d658336b05f86 Simo Sorce         2012-05-25  249  		return -ENOMEM;
+1d658336b05f86 Simo Sorce         2012-05-25  250  
+034dd34ff4916e J. Bruce Fields    2017-01-31  251  	creds = kzalloc(sizeof(struct svc_cred), GFP_KERNEL);
+1d658336b05f86 Simo Sorce         2012-05-25  252  	if (!creds) {
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  253  		err = -ENOMEM;
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  254  		goto free_oa;
+1d658336b05f86 Simo Sorce         2012-05-25  255  	}
+1d658336b05f86 Simo Sorce         2012-05-25  256  
+1d658336b05f86 Simo Sorce         2012-05-25  257  	oa->data[0].option.data = CREDS_VALUE;
+1d658336b05f86 Simo Sorce         2012-05-25  258  	oa->data[0].option.len = sizeof(CREDS_VALUE);
+1d658336b05f86 Simo Sorce         2012-05-25  259  	oa->data[0].value.data = (void *)creds;
+1d658336b05f86 Simo Sorce         2012-05-25  260  	oa->data[0].value.len = 0;
+9fd40c5a66be0b Geert Uytterhoeven 2013-05-06  261  
+1d658336b05f86 Simo Sorce         2012-05-25  262  	for (i = 0; i < count; i++) {
+1d658336b05f86 Simo Sorce         2012-05-25  263  		gssx_buffer dummy = { 0, NULL };
+1d658336b05f86 Simo Sorce         2012-05-25  264  		u32 length;
+1d658336b05f86 Simo Sorce         2012-05-25  265  
+1d658336b05f86 Simo Sorce         2012-05-25  266  		/* option buffer */
+1d658336b05f86 Simo Sorce         2012-05-25  267  		p = xdr_inline_decode(xdr, 4);
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  268  		if (unlikely(p == NULL)) {
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  269  			err = -ENOSPC;
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  270  			goto free_creds;
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  271  		}
+1d658336b05f86 Simo Sorce         2012-05-25  272  
+1d658336b05f86 Simo Sorce         2012-05-25  273  		length = be32_to_cpup(p);
+1d658336b05f86 Simo Sorce         2012-05-25  274  		p = xdr_inline_decode(xdr, length);
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  275  		if (unlikely(p == NULL)) {
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  276  			err = -ENOSPC;
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  277  			goto free_creds;
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  278  		}
+1d658336b05f86 Simo Sorce         2012-05-25  279  
+1d658336b05f86 Simo Sorce         2012-05-25  280  		if (length == sizeof(CREDS_VALUE) &&
+1d658336b05f86 Simo Sorce         2012-05-25  281  		    memcmp(p, CREDS_VALUE, sizeof(CREDS_VALUE)) == 0) {
+1d658336b05f86 Simo Sorce         2012-05-25  282  			/* We have creds here. parse them */
+1d658336b05f86 Simo Sorce         2012-05-25  283  			err = gssx_dec_linux_creds(xdr, creds);
+1d658336b05f86 Simo Sorce         2012-05-25  284  			if (err)
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  285  				goto free_creds;
+1d658336b05f86 Simo Sorce         2012-05-25  286  			oa->data[0].value.len = 1; /* presence */
+1d658336b05f86 Simo Sorce         2012-05-25  287  		} else {
+1d658336b05f86 Simo Sorce         2012-05-25  288  			/* consume uninteresting buffer */
+1d658336b05f86 Simo Sorce         2012-05-25  289  			err = gssx_dec_buffer(xdr, &dummy);
+1d658336b05f86 Simo Sorce         2012-05-25  290  			if (err)
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  291  				goto free_creds;
+1d658336b05f86 Simo Sorce         2012-05-25  292  		}
+1d658336b05f86 Simo Sorce         2012-05-25  293  	}
+1d658336b05f86 Simo Sorce         2012-05-25  294  	return 0;
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  295  
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  296  free_creds:
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  297  	kfree(creds);
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  298  free_oa:
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  299  	kfree(oa->data);
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  300  	oa->data = NULL;
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26 @301  err:
+e7a7aba2f1f9ce Zhipeng Lu         2023-12-26  302  	return err;
+1d658336b05f86 Simo Sorce         2012-05-25  303  }
+1d658336b05f86 Simo Sorce         2012-05-25  304  
 
 -- 
 0-DAY CI Kernel Test Service
