@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9592569
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Dec 2023 09:57:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726C1DDBB
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Dec 2023 23:52:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aBDs+Sqr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m789KZQu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703930265; x=1735466265;
+  t=1703980362; x=1735516362;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LA8DNDwgQ4xyqdyweKXZpZc9nlBWgV96BMziaIMV1Mw=;
-  b=aBDs+SqrdZ/awTWv0R/Nkz+0+4eDAA30NyamrogXY5z1WHjaHB2101Hk
-   1NWdfqFD/yMC1SdKEvTs3I2h5jpRgYr6GqGYbAhFftm+YieeS3sif7VRb
-   S/sufhVksJjS0vW+qOZPFqlXu6FcN7I+8ambsq7wsLMrgzi0gIDy2HCsk
-   4CngBWH3J/YX1jXf9dZJXyZhsZQkuxZEKFAByi+8Yc1D53Fhj96ZuqUh/
-   0FQ9OLifjIEenYMQTSMNfeFB1fN0gVk1UsT2uqWDr5E3NuUSNyYhGQIoF
-   Aj5Q+gdqOwOGzW4NMVrrb1vWjut+x25e7gceeuZFRjbbsAzB9c30VwXPR
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="3484449"
-X-IronPort-AV: E=Sophos;i="6.04,317,1695711600"; 
-   d="scan'208";a="3484449"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2023 01:57:32 -0800
+  bh=PdSCfMM8eHyUv+wuwKGrOumnS1UZAj8WlDwPkpsnKK4=;
+  b=m789KZQuJjVgMGmn+kLRkXAqH57bboRwTd4TRuHA+R1L0I1ptuggSAs1
+   8N2kbGiDzO7TnrL2siL8HPp7LUI7qi9Fs3GZVe6dknry8ID1igxeJhYSy
+   7mP7MZ4DCxRnN1Owum34Bx7GLNX/4BS4BmeG1U3cmtGjWAZJBr0QHlf8e
+   Kzmr6No13owEQZc4jml1szIcdEDeeM3t+90n26n8XZYF32byqpVGPkmKk
+   a7AfYQKRcYyyGIsmAO4DZQfaBHXkgZLetPqay3zJb/esQoEtkBOUXH6fD
+   X7pBQLG8AlJkRxar0vu+Zvsx37qoc9nUBv+jodgbS3XcMr7BlmKo0CMJS
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="463135462"
+X-IronPort-AV: E=Sophos;i="6.04,319,1695711600"; 
+   d="scan'208";a="463135462"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2023 15:52:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="844893011"
-X-IronPort-AV: E=Sophos;i="6.04,317,1695711600"; 
-   d="scan'208";a="844893011"
+X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="728910290"
+X-IronPort-AV: E=Sophos;i="6.04,319,1695711600"; 
+   d="scan'208";a="728910290"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Dec 2023 01:57:30 -0800
+  by orsmga003.jf.intel.com with ESMTP; 30 Dec 2023 15:52:24 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rJW5i-000IL3-0h;
-	Sat, 30 Dec 2023 09:57:27 +0000
-Date: Sat, 30 Dec 2023 17:56:27 +0800
+	id 1rJj7u-000Ipx-0C;
+	Sat, 30 Dec 2023 23:52:22 +0000
+Date: Sun, 31 Dec 2023 07:52:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 5/8] dt-bindings: nt35510: add compatible for FRIDA
- FRD400B25025-A-CTK
-Message-ID: <202312301748.2BRGs7Xs-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/nvme/host/pr.c:268:23-26: ERROR: reference preceded by free
+ on line 278
+Message-ID: <202312310709.vrV1gsVK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,105 +50,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml:21:7: [error] duplication of key "items" in mapping (key-duplicates)"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20231229135154.675946-6-dario.binacchi@amarulasolutions.com>
-References: <20231229135154.675946-6-dario.binacchi@amarulasolutions.com>
-TO: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-TO: linux-kernel@vger.kernel.org
-CC: dri-devel@lists.freedesktop.org
-CC: Neil Armstrong <neil.armstrong@linaro.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Sam Ravnborg <sam@ravnborg.org>
-CC: devicetree@vger.kernel.org
-CC: linux-amarula@amarulasolutions.com
-CC: Alexandre Torgue <alexandre.torgue@foss.st.com>
-CC: Maxime Ripard <mripard@kernel.org>
-CC: Rob Herring <robh+dt@kernel.org>
-CC: Thomas Zimmermann <tzimmermann@suse.de>
-CC: Jessica Zhang <quic_jesszhan@quicinc.com>
-CC: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-CC: David Airlie <airlied@gmail.com>
+CC: linux-kernel@vger.kernel.org
+TO: Mike Christie <michael.christie@oracle.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Chaitanya Kulkarni <kch@nvidia.com>
+CC: Christoph Hellwig <hch@lst.de>
 
-Hi Dario,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on atorgue-stm32/stm32-next]
-[also build test WARNING on drm-misc/drm-misc-next lee-mfd/for-mfd-next robh/for-next linus/master v6.7-rc7 next-20231222]
-[cannot apply to lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dario-Binacchi/dt-bindings-mfd-stm32f7-Add-binding-definition-for-DSI/20231229-215601
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-patch link:    https://lore.kernel.org/r/20231229135154.675946-6-dario.binacchi%40amarulasolutions.com
-patch subject: [PATCH 5/8] dt-bindings: nt35510: add compatible for FRIDA FRD400B25025-A-CTK
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231230/202312301748.2BRGs7Xs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   453f5db0619e2ad64076aab16ff5a00e0f7c53a2
+commit: 28c97ba38ff9c00bc177887c2d8568b7115a44e0 nvme: Add pr_ops read_reservation support
+date:   9 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 9 months ago
+config: hexagon-randconfig-r052-20231228 (https://download.01.org/0day-ci/archive/20231231/202312310709.vrV1gsVK-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312301748.2BRGs7Xs-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202312310709.vrV1gsVK-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml:21:7: [error] duplication of key "items" in mapping (key-duplicates)
---
->> Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml:21:7: found duplicate key "items" with value "[]" (original value: "[]")
-   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmin-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmax-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
---
->> Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml: ignoring, error parsing file
-   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
+cocci warnings: (new ones prefixed by >>)
+>> drivers/nvme/host/pr.c:268:23-26: ERROR: reference preceded by free on line 278
 
-vim +/items +21 Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+vim +268 drivers/nvme/host/pr.c
 
-5ce96fe032f43e Linus Walleij  2020-02-23   8  
-5ce96fe032f43e Linus Walleij  2020-02-23   9  maintainers:
-5ce96fe032f43e Linus Walleij  2020-02-23  10    - Linus Walleij <linus.walleij@linaro.org>
-5ce96fe032f43e Linus Walleij  2020-02-23  11  
-5ce96fe032f43e Linus Walleij  2020-02-23  12  allOf:
-5ce96fe032f43e Linus Walleij  2020-02-23  13    - $ref: panel-common.yaml#
-5ce96fe032f43e Linus Walleij  2020-02-23  14  
-5ce96fe032f43e Linus Walleij  2020-02-23  15  properties:
-5ce96fe032f43e Linus Walleij  2020-02-23  16    compatible:
-859f1d9e26606c Dario Binacchi 2023-12-29  17      oneOf:
-5ce96fe032f43e Linus Walleij  2020-02-23  18        items:
-5ce96fe032f43e Linus Walleij  2020-02-23  19          - const: hydis,hva40wv1
-5ce96fe032f43e Linus Walleij  2020-02-23  20          - const: novatek,nt35510
-859f1d9e26606c Dario Binacchi 2023-12-29 @21        items:
-859f1d9e26606c Dario Binacchi 2023-12-29  22          - const: frida,frd400b25025
-859f1d9e26606c Dario Binacchi 2023-12-29  23          - const: novatek,nt35510
-5ce96fe032f43e Linus Walleij  2020-02-23  24        description: This indicates the panel manufacturer of the panel
-5ce96fe032f43e Linus Walleij  2020-02-23  25          that is in turn using the NT35510 panel driver. The compatible
-5ce96fe032f43e Linus Walleij  2020-02-23  26          string determines how the NT35510 panel driver shall be configured
-5ce96fe032f43e Linus Walleij  2020-02-23  27          to work with the indicated panel. The novatek,nt35510 compatible shall
-5ce96fe032f43e Linus Walleij  2020-02-23  28          always be provided as a fallback.
-5ce96fe032f43e Linus Walleij  2020-02-23  29    reg: true
-5ce96fe032f43e Linus Walleij  2020-02-23  30    reset-gpios: true
-5ce96fe032f43e Linus Walleij  2020-02-23  31    vdd-supply:
-5ce96fe032f43e Linus Walleij  2020-02-23  32      description: regulator that supplies the vdd voltage
-5ce96fe032f43e Linus Walleij  2020-02-23  33    vddi-supply:
-5ce96fe032f43e Linus Walleij  2020-02-23  34      description: regulator that supplies the vddi voltage
-5ce96fe032f43e Linus Walleij  2020-02-23  35    backlight: true
-5ce96fe032f43e Linus Walleij  2020-02-23  36  
-5ce96fe032f43e Linus Walleij  2020-02-23  37  required:
-5ce96fe032f43e Linus Walleij  2020-02-23  38    - compatible
-5ce96fe032f43e Linus Walleij  2020-02-23  39    - reg
-5ce96fe032f43e Linus Walleij  2020-02-23  40  
+5fd96a4e15de84 Mike Christie 2023-04-07  244  
+28c97ba38ff9c0 Mike Christie 2023-04-07  245  static int nvme_pr_read_reservation(struct block_device *bdev,
+28c97ba38ff9c0 Mike Christie 2023-04-07  246  		struct pr_held_reservation *resv)
+28c97ba38ff9c0 Mike Christie 2023-04-07  247  {
+28c97ba38ff9c0 Mike Christie 2023-04-07  248  	struct nvme_reservation_status_ext tmp_rse, *rse;
+28c97ba38ff9c0 Mike Christie 2023-04-07  249  	int ret, i, num_regs;
+28c97ba38ff9c0 Mike Christie 2023-04-07  250  	u32 rse_len;
+28c97ba38ff9c0 Mike Christie 2023-04-07  251  	bool eds;
+28c97ba38ff9c0 Mike Christie 2023-04-07  252  
+28c97ba38ff9c0 Mike Christie 2023-04-07  253  get_num_regs:
+28c97ba38ff9c0 Mike Christie 2023-04-07  254  	/*
+28c97ba38ff9c0 Mike Christie 2023-04-07  255  	 * Get the number of registrations so we know how big to allocate
+28c97ba38ff9c0 Mike Christie 2023-04-07  256  	 * the response buffer.
+28c97ba38ff9c0 Mike Christie 2023-04-07  257  	 */
+28c97ba38ff9c0 Mike Christie 2023-04-07  258  	ret = nvme_pr_resv_report(bdev, &tmp_rse, sizeof(tmp_rse), &eds);
+28c97ba38ff9c0 Mike Christie 2023-04-07  259  	if (ret)
+28c97ba38ff9c0 Mike Christie 2023-04-07  260  		return ret;
+28c97ba38ff9c0 Mike Christie 2023-04-07  261  
+28c97ba38ff9c0 Mike Christie 2023-04-07  262  	num_regs = get_unaligned_le16(&tmp_rse.regctl);
+28c97ba38ff9c0 Mike Christie 2023-04-07  263  	if (!num_regs) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  264  		resv->generation = le32_to_cpu(tmp_rse.gen);
+28c97ba38ff9c0 Mike Christie 2023-04-07  265  		return 0;
+28c97ba38ff9c0 Mike Christie 2023-04-07  266  	}
+28c97ba38ff9c0 Mike Christie 2023-04-07  267  
+28c97ba38ff9c0 Mike Christie 2023-04-07 @268  	rse_len = struct_size(rse, regctl_eds, num_regs);
+28c97ba38ff9c0 Mike Christie 2023-04-07  269  	rse = kzalloc(rse_len, GFP_KERNEL);
+28c97ba38ff9c0 Mike Christie 2023-04-07  270  	if (!rse)
+28c97ba38ff9c0 Mike Christie 2023-04-07  271  		return -ENOMEM;
+28c97ba38ff9c0 Mike Christie 2023-04-07  272  
+28c97ba38ff9c0 Mike Christie 2023-04-07  273  	ret = nvme_pr_resv_report(bdev, rse, rse_len, &eds);
+28c97ba38ff9c0 Mike Christie 2023-04-07  274  	if (ret)
+28c97ba38ff9c0 Mike Christie 2023-04-07  275  		goto free_rse;
+28c97ba38ff9c0 Mike Christie 2023-04-07  276  
+28c97ba38ff9c0 Mike Christie 2023-04-07  277  	if (num_regs != get_unaligned_le16(&rse->regctl)) {
+28c97ba38ff9c0 Mike Christie 2023-04-07 @278  		kfree(rse);
+28c97ba38ff9c0 Mike Christie 2023-04-07  279  		goto get_num_regs;
+28c97ba38ff9c0 Mike Christie 2023-04-07  280  	}
+28c97ba38ff9c0 Mike Christie 2023-04-07  281  
+28c97ba38ff9c0 Mike Christie 2023-04-07  282  	resv->generation = le32_to_cpu(rse->gen);
+28c97ba38ff9c0 Mike Christie 2023-04-07  283  	resv->type = block_pr_type_from_nvme(rse->rtype);
+28c97ba38ff9c0 Mike Christie 2023-04-07  284  
+28c97ba38ff9c0 Mike Christie 2023-04-07  285  	for (i = 0; i < num_regs; i++) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  286  		if (eds) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  287  			if (rse->regctl_eds[i].rcsts) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  288  				resv->key = le64_to_cpu(rse->regctl_eds[i].rkey);
+28c97ba38ff9c0 Mike Christie 2023-04-07  289  				break;
+28c97ba38ff9c0 Mike Christie 2023-04-07  290  			}
+28c97ba38ff9c0 Mike Christie 2023-04-07  291  		} else {
+28c97ba38ff9c0 Mike Christie 2023-04-07  292  			struct nvme_reservation_status *rs;
+28c97ba38ff9c0 Mike Christie 2023-04-07  293  
+28c97ba38ff9c0 Mike Christie 2023-04-07  294  			rs = (struct nvme_reservation_status *)rse;
+28c97ba38ff9c0 Mike Christie 2023-04-07  295  			if (rs->regctl_ds[i].rcsts) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  296  				resv->key = le64_to_cpu(rs->regctl_ds[i].rkey);
+28c97ba38ff9c0 Mike Christie 2023-04-07  297  				break;
+28c97ba38ff9c0 Mike Christie 2023-04-07  298  			}
+28c97ba38ff9c0 Mike Christie 2023-04-07  299  		}
+28c97ba38ff9c0 Mike Christie 2023-04-07  300  	}
+28c97ba38ff9c0 Mike Christie 2023-04-07  301  
+28c97ba38ff9c0 Mike Christie 2023-04-07  302  free_rse:
+28c97ba38ff9c0 Mike Christie 2023-04-07  303  	kfree(rse);
+28c97ba38ff9c0 Mike Christie 2023-04-07  304  	return ret;
+28c97ba38ff9c0 Mike Christie 2023-04-07  305  }
+28c97ba38ff9c0 Mike Christie 2023-04-07  306  
 
 -- 
 0-DAY CI Kernel Test Service
