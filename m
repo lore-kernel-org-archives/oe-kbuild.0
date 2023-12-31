@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6130E8F42
-	for <oe-kbuild@lists.linux.dev>; Sun, 31 Dec 2023 17:39:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF30B645
+	for <oe-kbuild@lists.linux.dev>; Sun, 31 Dec 2023 19:31:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l7d7xjxJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aleZHN8m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704044370; x=1735580370;
+  t=1704051102; x=1735587102;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7uk18riHTRzJauL3UUxSfgs7A5M9LCp8A2fQJtWTgCE=;
-  b=l7d7xjxJ8J2yuPX1yGTfynip1VuuDbqwp3dnsALQPgB5wQzQV/7Xk2iP
-   CQH1CFrkp0UqL429NsgzG20mtIvoFbVEyor6RYJLSaEnZkoT1pLp1cgQV
-   6GzTQxdGXV9N+gUdXxCRhXql2J/vndulfe5qmsR6HHH8RBd9rS11smFgV
-   YYL4tp/Fo0ktHBOsAGa2NSVVupnfwCVz20YW1NoTEcRXChdxxIZfQnJ9s
-   QQsW49lIpBcg76BO/eqOOeGwUCirOx7ASRIaWa05eG3EDNUY7CxViAsND
-   Vd2Uq6/Ysj3WbUPsTstcHKdj5gdACVg5hzKNlnF8UaNEgRisEPCw7sgsv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="461067481"
+  bh=Hk16m7H/nEI6lnqWVgFpQ1yiKjWXx9EaKzn9/FUyR4c=;
+  b=aleZHN8mmpMR9Q8kR+EIVtBSy+gC7cWo9g2wwoV2OqxUZPsWTVNKi1o5
+   nysCu9sWfz1ctxAWufuUecRT1HK+iLaEo+L6p+HpOoafiAqchvB1WHQrd
+   ahC2VR/6kR46jXhhUBc8i+3W1pn5CM4tK6Q1IML3IkT9kZ2ys5XMmLxyN
+   XYEAn/ua75CIoqtWbXlHcyzcAMXOF6Cs4fdLtiW7YMJ6xe07hUFXWR3F3
+   kHnYCOhk0a0ljoVF1XbKdQpv+DwYuMYyacGYQ1DWGq8qaw5zug6pXEBww
+   0IPZsqrotu1XLkNnUArGE/hv5BaoL+hICr7B9660YjECefeZnJBIQvd5O
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="381723506"
 X-IronPort-AV: E=Sophos;i="6.04,320,1695711600"; 
-   d="scan'208";a="461067481"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2023 09:39:29 -0800
+   d="scan'208";a="381723506"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2023 11:31:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="808120336"
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="902716260"
 X-IronPort-AV: E=Sophos;i="6.04,320,1695711600"; 
-   d="scan'208";a="808120336"
+   d="scan'208";a="902716260"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 31 Dec 2023 09:39:28 -0800
+  by orsmga004.jf.intel.com with ESMTP; 31 Dec 2023 11:31:40 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rJzmX-000Jdk-1j;
-	Sun, 31 Dec 2023 17:39:25 +0000
-Date: Mon, 1 Jan 2024 01:38:49 +0800
+	id 1rK1X5-000Jha-2g;
+	Sun, 31 Dec 2023 19:31:36 +0000
+Date: Mon, 1 Jan 2024 03:31:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c:258:2-8: preceding
- lock on line 251
-Message-ID: <202401010106.PpWI94te-lkp@intel.com>
+Subject: [linux-next:master 3789/10295]
+ drivers/media/i2c/st-mipid02.c:396:1-7: WARNING: do_div() does a 64-by-32
+ division, please consider using div64_s64 instead.
+Message-ID: <202401010329.u5sLmCCj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,75 +53,63 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Ben Skeggs <bskeggs@redhat.com>
-CC: Lyude Paul <lyude@redhat.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Alain Volmat <alain.volmat@foss.st.com>
+CC: Hans Verkuil <hverkuil@xs4all.nl>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   453f5db0619e2ad64076aab16ff5a00e0f7c53a2
-commit: f48dd2936138882d7755cbbc5d9984015c75980c drm/nouveau/fifo: add new engine context tracking
-date:   1 year, 2 months ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 1 year, 2 months ago
-config: loongarch-randconfig-r062-20231222 (https://download.01.org/0day-ci/archive/20240101/202401010106.PpWI94te-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   39676dfe52331dba909c617f213fdb21015c8d10
+commit: 046ee0e2a4d602268a49be0d77df8c85559015e3 [3789/10295] media: i2c: st-mipid02: add usage of v4l2_get_link_freq
+:::::: branch date: 10 days ago
+:::::: commit date: 4 weeks ago
+config: hexagon-randconfig-r052-20231228 (https://download.01.org/0day-ci/archive/20240101/202401010329.u5sLmCCj-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401010106.PpWI94te-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401010329.u5sLmCCj-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c:258:2-8: preceding lock on line 251
+>> drivers/media/i2c/st-mipid02.c:396:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_s64 instead.
 
-vim +258 drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c
+vim +396 drivers/media/i2c/st-mipid02.c
 
-f48dd293613888 Ben Skeggs 2022-06-01  240  
-f48dd293613888 Ben Skeggs 2022-06-01  241  int
-f48dd293613888 Ben Skeggs 2022-06-01  242  nvkm_chan_cctx_get(struct nvkm_chan *chan, struct nvkm_engn *engn, struct nvkm_cctx **pcctx,
-f48dd293613888 Ben Skeggs 2022-06-01  243  		   struct nvkm_client *client)
-f48dd293613888 Ben Skeggs 2022-06-01  244  {
-f48dd293613888 Ben Skeggs 2022-06-01  245  	struct nvkm_cgrp *cgrp = chan->cgrp;
-f48dd293613888 Ben Skeggs 2022-06-01  246  	struct nvkm_vctx *vctx;
-f48dd293613888 Ben Skeggs 2022-06-01  247  	struct nvkm_cctx *cctx;
-f48dd293613888 Ben Skeggs 2022-06-01  248  	int ret;
-f48dd293613888 Ben Skeggs 2022-06-01  249  
-f48dd293613888 Ben Skeggs 2022-06-01  250  	/* Look for an existing channel context for this engine+VEID. */
-f48dd293613888 Ben Skeggs 2022-06-01 @251  	mutex_lock(&cgrp->mutex);
-f48dd293613888 Ben Skeggs 2022-06-01  252  	cctx = nvkm_list_find(cctx, &chan->cctxs, head,
-f48dd293613888 Ben Skeggs 2022-06-01  253  			      cctx->vctx->ectx->engn == engn && cctx->vctx->vmm == chan->vmm);
-f48dd293613888 Ben Skeggs 2022-06-01  254  	if (cctx) {
-f48dd293613888 Ben Skeggs 2022-06-01  255  		refcount_inc(&cctx->refs);
-f48dd293613888 Ben Skeggs 2022-06-01  256  		*pcctx = cctx;
-f48dd293613888 Ben Skeggs 2022-06-01  257  		mutex_unlock(&chan->cgrp->mutex);
-f48dd293613888 Ben Skeggs 2022-06-01 @258  		return 0;
-f48dd293613888 Ben Skeggs 2022-06-01  259  	}
-f48dd293613888 Ben Skeggs 2022-06-01  260  
-f48dd293613888 Ben Skeggs 2022-06-01  261  	/* Nope - create a fresh one.  But, sub-context first. */
-f48dd293613888 Ben Skeggs 2022-06-01  262  	ret = nvkm_cgrp_vctx_get(cgrp, engn, chan, &vctx, client);
-f48dd293613888 Ben Skeggs 2022-06-01  263  	if (ret) {
-f48dd293613888 Ben Skeggs 2022-06-01  264  		CHAN_ERROR(chan, "vctx %d[%s]: %d", engn->id, engn->engine->subdev.name, ret);
-f48dd293613888 Ben Skeggs 2022-06-01  265  		goto done;
-f48dd293613888 Ben Skeggs 2022-06-01  266  	}
-f48dd293613888 Ben Skeggs 2022-06-01  267  
-f48dd293613888 Ben Skeggs 2022-06-01  268  	/* Now, create the channel context - to track engine binding. */
-f48dd293613888 Ben Skeggs 2022-06-01  269  	CHAN_TRACE(chan, "ctor cctx %d[%s]", engn->id, engn->engine->subdev.name);
-f48dd293613888 Ben Skeggs 2022-06-01  270  	if (!(cctx = *pcctx = kzalloc(sizeof(*cctx), GFP_KERNEL))) {
-f48dd293613888 Ben Skeggs 2022-06-01  271  		nvkm_cgrp_vctx_put(cgrp, &vctx);
-f48dd293613888 Ben Skeggs 2022-06-01  272  		ret = -ENOMEM;
-f48dd293613888 Ben Skeggs 2022-06-01  273  		goto done;
-f48dd293613888 Ben Skeggs 2022-06-01  274  	}
-f48dd293613888 Ben Skeggs 2022-06-01  275  
-f48dd293613888 Ben Skeggs 2022-06-01  276  	cctx->vctx = vctx;
-f48dd293613888 Ben Skeggs 2022-06-01  277  	refcount_set(&cctx->refs, 1);
-f48dd293613888 Ben Skeggs 2022-06-01  278  	refcount_set(&cctx->uses, 0);
-f48dd293613888 Ben Skeggs 2022-06-01  279  	list_add_tail(&cctx->head, &chan->cctxs);
-f48dd293613888 Ben Skeggs 2022-06-01  280  done:
-f48dd293613888 Ben Skeggs 2022-06-01  281  	mutex_unlock(&cgrp->mutex);
-f48dd293613888 Ben Skeggs 2022-06-01  282  	return ret;
-f48dd293613888 Ben Skeggs 2022-06-01  283  }
-f48dd293613888 Ben Skeggs 2022-06-01  284  
+642bb5e88fed89 Mickael Guene  2019-04-09  369  
+642bb5e88fed89 Mickael Guene  2019-04-09  370  /*
+642bb5e88fed89 Mickael Guene  2019-04-09  371   * We need to know link frequency to setup clk_lane_reg1 timings. Link frequency
+046ee0e2a4d602 Alain Volmat   2023-11-25  372   * will be retrieve from connected device via v4l2_get_link_freq, bit per pixel
+642bb5e88fed89 Mickael Guene  2019-04-09  373   * and number of lanes.
+642bb5e88fed89 Mickael Guene  2019-04-09  374   */
+642bb5e88fed89 Mickael Guene  2019-04-09  375  static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge)
+642bb5e88fed89 Mickael Guene  2019-04-09  376  {
+642bb5e88fed89 Mickael Guene  2019-04-09  377  	struct i2c_client *client = bridge->i2c_client;
+642bb5e88fed89 Mickael Guene  2019-04-09  378  	struct v4l2_subdev *subdev = bridge->s_subdev;
+046ee0e2a4d602 Alain Volmat   2023-11-25  379  	struct v4l2_fwnode_endpoint *ep = &bridge->rx;
+046ee0e2a4d602 Alain Volmat   2023-11-25  380  	u32 bpp = bpp_from_code(bridge->fmt.code);
+046ee0e2a4d602 Alain Volmat   2023-11-25  381  	/*
+046ee0e2a4d602 Alain Volmat   2023-11-25  382  	 * clk_lane_reg1 requires 4 times the unit interval time, and bitrate
+046ee0e2a4d602 Alain Volmat   2023-11-25  383  	 * is twice the link frequency, hence ui_4 = 1000000000 * 4 / 2
+046ee0e2a4d602 Alain Volmat   2023-11-25  384  	 */
+046ee0e2a4d602 Alain Volmat   2023-11-25  385  	u64 ui_4 = 2000000000;
+046ee0e2a4d602 Alain Volmat   2023-11-25  386  	s64 link_freq;
+642bb5e88fed89 Mickael Guene  2019-04-09  387  
+046ee0e2a4d602 Alain Volmat   2023-11-25  388  	link_freq = v4l2_get_link_freq(subdev->ctrl_handler, bpp,
+046ee0e2a4d602 Alain Volmat   2023-11-25  389  				       2 * ep->bus.mipi_csi2.num_data_lanes);
+046ee0e2a4d602 Alain Volmat   2023-11-25  390  	if (link_freq < 0) {
+6a381d1072f174 Hugues Fruchet 2019-06-17  391  		dev_err(&client->dev, "Failed to get link frequency");
+642bb5e88fed89 Mickael Guene  2019-04-09  392  		return -EINVAL;
+642bb5e88fed89 Mickael Guene  2019-04-09  393  	}
+642bb5e88fed89 Mickael Guene  2019-04-09  394  
+046ee0e2a4d602 Alain Volmat   2023-11-25  395  	dev_dbg(&client->dev, "detect link_freq = %lld Hz", link_freq);
+046ee0e2a4d602 Alain Volmat   2023-11-25 @396  	do_div(ui_4, link_freq);
+046ee0e2a4d602 Alain Volmat   2023-11-25  397  	bridge->r.clk_lane_reg1 |= ui_4 << 2;
+642bb5e88fed89 Mickael Guene  2019-04-09  398  
+642bb5e88fed89 Mickael Guene  2019-04-09  399  	return 0;
+642bb5e88fed89 Mickael Guene  2019-04-09  400  }
+642bb5e88fed89 Mickael Guene  2019-04-09  401  
 
 -- 
 0-DAY CI Kernel Test Service
