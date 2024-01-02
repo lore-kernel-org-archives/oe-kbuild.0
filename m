@@ -1,46 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C318715CA
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jan 2024 06:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0EC7492
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jan 2024 08:19:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dh6nEU6i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GorWVNZ9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704177363; x=1735713363;
+  t=1704183569; x=1735719569;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1cJ1VmIN6IdqKvC7qYDkeNy8nFDm5xRvZjcw017PJUQ=;
-  b=dh6nEU6ixAHRA0qAPibIlx6MfB4exWRLhp46x04p2kMPgM3ra58GrZIp
-   tH/8Q3kzOCL8KFrkdZJuxtbuinXePgebVylXIBgGt9J2vrpWyK/cnBjOO
-   KMj9UHqdffLkhbchS1Gv2pjxTOiHVNJzOcFdOVyvpboA6ON1HlBYGUs8t
-   ET5CQBpUb60RSMfQg9sv7StbOja3wx+kliTFdF3TPXQuBXPi0Fg8Iq9sn
-   SoUQr/JqULyZ2loNy0uLKr0zTQq2KAtNTYxxXFsZOce6EGWxRv0en+Wnn
-   m0MkA0l4lYQ41aHWoT3ivFdmsN+a2Y+/mwbbRhy3GxjFxE3nWgqezkgW4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="399613245"
+  bh=IDBLDL9LtNs8WmY9fiu0uUxbT4WvynBlPvTmKLJwczc=;
+  b=GorWVNZ95TslmAbwnKdgfQnpKsS46SmJeJfMQ8tAIFftJ/gIJVeGHn1b
+   ATPG4svMlMpoYvt3zDcGqJQhqj7RqGFs38SBlcjfoWGDHzStt94sXSuf0
+   qqPknrsu+hkm9ve/zUg/KtCFoR3HfpRyetfq/ruYRX0TvuWCM3SvnYrNi
+   L6bg2Ve84/ew5Iq5DeMllxcGWffj3nr6I4jrgHEHp6FIner8KS3zG0uoW
+   g3fMe+EINqxzRFBi9rtlbWiSIm/k+o7phcOJUSeSu0OgcxyCDW/OlDWc5
+   gJWrCma4t2kHXYQUBWprdfNVM4VTYLCVGZOPHR0/db0hzR9kznX1rXWrK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="396582059"
 X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
-   d="scan'208";a="399613245"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2024 22:36:03 -0800
+   d="scan'208";a="396582059"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 00:19:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="808434853"
 X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
-   d="scan'208";a="808434853"
+   d="scan'208";a="28011878"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 01 Jan 2024 22:36:01 -0800
+  by orviesa001.jf.intel.com with ESMTP; 02 Jan 2024 00:19:21 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rKYNb-000L0S-25;
-	Tue, 02 Jan 2024 06:35:59 +0000
-Date: Tue, 2 Jan 2024 14:35:08 +0800
+	id 1rKZzb-000L3M-07;
+	Tue, 02 Jan 2024 08:19:19 +0000
+Date: Tue, 2 Jan 2024 16:18:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/video/fbdev/core/fb_logo.c:67:41-42: WARNING opportunity for
- min()
-Message-ID: <202401021459.EaXADy0r-lkp@intel.com>
+Subject: fs/bcachefs/extent_update.c:139:12-13: WARNING opportunity for min()
+Message-ID: <202401021645.hVoDkmhg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,67 +51,81 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-
-Hi Thomas,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   610a9b8f49fbcf1100716370d3b5f6f884a2835a
-commit: 8887086ef2e0047ec321103a15e7d766be3a3874 fbdev/core: Move logo functions into separate source file
-date:   4 months ago
-:::::: branch date: 34 hours ago
-:::::: commit date: 4 months ago
-config: hexagon-randconfig-r052-20231228 (https://download.01.org/0day-ci/archive/20240102/202401021459.EaXADy0r-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
+commit: 08c07fea7b437f0a841f85cc9b670b60dacd85cf bcachefs: Split out extent_update.c
+date:   2 months ago
+:::::: branch date: 35 hours ago
+:::::: commit date: 2 months ago
+config: x86_64-randconfig-r064-20231231 (https://download.01.org/0day-ci/archive/20240102/202401021645.hVoDkmhg-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401021459.EaXADy0r-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401021645.hVoDkmhg-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/video/fbdev/core/fb_logo.c:67:41-42: WARNING opportunity for min()
-   drivers/video/fbdev/core/fb_logo.c:68:41-42: WARNING opportunity for min()
-   drivers/video/fbdev/core/fb_logo.c:69:41-42: WARNING opportunity for min()
+>> fs/bcachefs/extent_update.c:139:12-13: WARNING opportunity for min()
 
-vim +67 drivers/video/fbdev/core/fb_logo.c
+vim +139 fs/bcachefs/extent_update.c
 
-8887086ef2e004 Thomas Zimmermann 2023-09-07  49  
-8887086ef2e004 Thomas Zimmermann 2023-09-07  50  static void  fb_set_logo_truepalette(struct fb_info *info,
-8887086ef2e004 Thomas Zimmermann 2023-09-07  51  					    const struct linux_logo *logo,
-8887086ef2e004 Thomas Zimmermann 2023-09-07  52  					    u32 *palette)
-8887086ef2e004 Thomas Zimmermann 2023-09-07  53  {
-8887086ef2e004 Thomas Zimmermann 2023-09-07  54  	static const unsigned char mask[] = {
-8887086ef2e004 Thomas Zimmermann 2023-09-07  55  		0, 0x80, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc, 0xfe, 0xff
-8887086ef2e004 Thomas Zimmermann 2023-09-07  56  	};
-8887086ef2e004 Thomas Zimmermann 2023-09-07  57  	unsigned char redmask, greenmask, bluemask;
-8887086ef2e004 Thomas Zimmermann 2023-09-07  58  	int redshift, greenshift, blueshift;
-8887086ef2e004 Thomas Zimmermann 2023-09-07  59  	int i;
-8887086ef2e004 Thomas Zimmermann 2023-09-07  60  	const unsigned char *clut = logo->clut;
-8887086ef2e004 Thomas Zimmermann 2023-09-07  61  
-8887086ef2e004 Thomas Zimmermann 2023-09-07  62  	/*
-8887086ef2e004 Thomas Zimmermann 2023-09-07  63  	 * We have to create a temporary palette since console palette is only
-8887086ef2e004 Thomas Zimmermann 2023-09-07  64  	 * 16 colors long.
-8887086ef2e004 Thomas Zimmermann 2023-09-07  65  	 */
-8887086ef2e004 Thomas Zimmermann 2023-09-07  66  	/* Bug: Doesn't obey msb_right ... (who needs that?) */
-8887086ef2e004 Thomas Zimmermann 2023-09-07 @67  	redmask   = mask[info->var.red.length   < 8 ? info->var.red.length   : 8];
-8887086ef2e004 Thomas Zimmermann 2023-09-07  68  	greenmask = mask[info->var.green.length < 8 ? info->var.green.length : 8];
-8887086ef2e004 Thomas Zimmermann 2023-09-07  69  	bluemask  = mask[info->var.blue.length  < 8 ? info->var.blue.length  : 8];
-8887086ef2e004 Thomas Zimmermann 2023-09-07  70  	redshift   = info->var.red.offset   - (8 - info->var.red.length);
-8887086ef2e004 Thomas Zimmermann 2023-09-07  71  	greenshift = info->var.green.offset - (8 - info->var.green.length);
-8887086ef2e004 Thomas Zimmermann 2023-09-07  72  	blueshift  = info->var.blue.offset  - (8 - info->var.blue.length);
-8887086ef2e004 Thomas Zimmermann 2023-09-07  73  
-8887086ef2e004 Thomas Zimmermann 2023-09-07  74  	for (i = 0; i < logo->clutsize; i++) {
-8887086ef2e004 Thomas Zimmermann 2023-09-07  75  		palette[i+32] = (safe_shift((clut[0] & redmask), redshift) |
-8887086ef2e004 Thomas Zimmermann 2023-09-07  76  				 safe_shift((clut[1] & greenmask), greenshift) |
-8887086ef2e004 Thomas Zimmermann 2023-09-07  77  				 safe_shift((clut[2] & bluemask), blueshift));
-8887086ef2e004 Thomas Zimmermann 2023-09-07  78  		clut += 3;
-8887086ef2e004 Thomas Zimmermann 2023-09-07  79  	}
-8887086ef2e004 Thomas Zimmermann 2023-09-07  80  }
-8887086ef2e004 Thomas Zimmermann 2023-09-07  81  
+08c07fea7b437f Kent Overstreet 2019-11-15   89  
+08c07fea7b437f Kent Overstreet 2019-11-15   90  int bch2_extent_atomic_end(struct btree_iter *iter,
+08c07fea7b437f Kent Overstreet 2019-11-15   91  			   struct bkey_i *insert,
+08c07fea7b437f Kent Overstreet 2019-11-15   92  			   struct bpos *end)
+08c07fea7b437f Kent Overstreet 2019-11-15   93  {
+08c07fea7b437f Kent Overstreet 2019-11-15   94  	struct btree_trans *trans = iter->trans;
+08c07fea7b437f Kent Overstreet 2019-11-15   95  	struct btree *b;
+08c07fea7b437f Kent Overstreet 2019-11-15   96  	struct btree_node_iter	node_iter;
+08c07fea7b437f Kent Overstreet 2019-11-15   97  	struct bkey_packed	*_k;
+08c07fea7b437f Kent Overstreet 2019-11-15   98  	unsigned		nr_iters = 0;
+08c07fea7b437f Kent Overstreet 2019-11-15   99  	int ret;
+08c07fea7b437f Kent Overstreet 2019-11-15  100  
+08c07fea7b437f Kent Overstreet 2019-11-15  101  	ret = bch2_btree_iter_traverse(iter);
+08c07fea7b437f Kent Overstreet 2019-11-15  102  	if (ret)
+08c07fea7b437f Kent Overstreet 2019-11-15  103  		return ret;
+08c07fea7b437f Kent Overstreet 2019-11-15  104  
+08c07fea7b437f Kent Overstreet 2019-11-15  105  	b = iter->l[0].b;
+08c07fea7b437f Kent Overstreet 2019-11-15  106  	node_iter = iter->l[0].iter;
+08c07fea7b437f Kent Overstreet 2019-11-15  107  
+08c07fea7b437f Kent Overstreet 2019-11-15  108  	BUG_ON(bkey_cmp(bkey_start_pos(&insert->k), b->data->min_key) < 0);
+08c07fea7b437f Kent Overstreet 2019-11-15  109  
+08c07fea7b437f Kent Overstreet 2019-11-15  110  	*end = bpos_min(insert->k.p, b->key.k.p);
+08c07fea7b437f Kent Overstreet 2019-11-15  111  
+08c07fea7b437f Kent Overstreet 2019-11-15  112  	ret = count_iters_for_insert(trans, bkey_i_to_s_c(insert), 0, end,
+08c07fea7b437f Kent Overstreet 2019-11-15  113  				     &nr_iters, EXTENT_ITERS_MAX / 2, false);
+08c07fea7b437f Kent Overstreet 2019-11-15  114  	if (ret < 0)
+08c07fea7b437f Kent Overstreet 2019-11-15  115  		return ret;
+08c07fea7b437f Kent Overstreet 2019-11-15  116  
+08c07fea7b437f Kent Overstreet 2019-11-15  117  	while ((_k = bch2_btree_node_iter_peek_filter(&node_iter, b,
+08c07fea7b437f Kent Overstreet 2019-11-15  118  						      KEY_TYPE_discard))) {
+08c07fea7b437f Kent Overstreet 2019-11-15  119  		struct bkey	unpacked;
+08c07fea7b437f Kent Overstreet 2019-11-15  120  		struct bkey_s_c	k = bkey_disassemble(b, _k, &unpacked);
+08c07fea7b437f Kent Overstreet 2019-11-15  121  		unsigned offset = 0;
+08c07fea7b437f Kent Overstreet 2019-11-15  122  
+08c07fea7b437f Kent Overstreet 2019-11-15  123  		if (bkey_cmp(bkey_start_pos(k.k), *end) >= 0)
+08c07fea7b437f Kent Overstreet 2019-11-15  124  			break;
+08c07fea7b437f Kent Overstreet 2019-11-15  125  
+08c07fea7b437f Kent Overstreet 2019-11-15  126  		if (bkey_cmp(bkey_start_pos(&insert->k),
+08c07fea7b437f Kent Overstreet 2019-11-15  127  			     bkey_start_pos(k.k)) > 0)
+08c07fea7b437f Kent Overstreet 2019-11-15  128  			offset = bkey_start_offset(&insert->k) -
+08c07fea7b437f Kent Overstreet 2019-11-15  129  				bkey_start_offset(k.k);
+08c07fea7b437f Kent Overstreet 2019-11-15  130  
+08c07fea7b437f Kent Overstreet 2019-11-15  131  		ret = count_iters_for_insert(trans, k, offset, end,
+08c07fea7b437f Kent Overstreet 2019-11-15  132  					&nr_iters, EXTENT_ITERS_MAX, true);
+08c07fea7b437f Kent Overstreet 2019-11-15  133  		if (ret)
+08c07fea7b437f Kent Overstreet 2019-11-15  134  			break;
+08c07fea7b437f Kent Overstreet 2019-11-15  135  
+08c07fea7b437f Kent Overstreet 2019-11-15  136  		bch2_btree_node_iter_advance(&node_iter, b);
+08c07fea7b437f Kent Overstreet 2019-11-15  137  	}
+08c07fea7b437f Kent Overstreet 2019-11-15  138  
+08c07fea7b437f Kent Overstreet 2019-11-15 @139  	return ret < 0 ? ret : 0;
+08c07fea7b437f Kent Overstreet 2019-11-15  140  }
+08c07fea7b437f Kent Overstreet 2019-11-15  141  
 
 -- 
 0-DAY CI Kernel Test Service
