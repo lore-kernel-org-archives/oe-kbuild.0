@@ -1,58 +1,58 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8FB11718
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jan 2024 14:02:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94EC12E53
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jan 2024 14:03:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RHEcj3qW"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-33679c49fe5so8205418f8f.3
-        for <oe-kbuild@lists.linux.dev>; Tue, 02 Jan 2024 06:02:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RceF8iDp"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40d8909a6feso13867035e9.2
+        for <oe-kbuild@lists.linux.dev>; Tue, 02 Jan 2024 06:03:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704204160; x=1704808960; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gr8xoz17s/BB7TieecZUfYiPuxeYJ5dbt5GBG9TEZsY=;
-        b=RHEcj3qW+qE3xVJ/K6YRUSrIrgawats6roX6omsm44ZCmI3TnoxZHFeqaZih7ic21U
-         +KQJ8HnPWSQXp73Ab3q154nGJBal18x4ewVMRsYdNNC8EoIexeu9SZLhl5Ig8Jdi1nuf
-         9hntGWylRaAa5jZFAqMK43SpqOOhNwuQnhvtCqIr0JjCR3Cz1QCAQMo9rmlVgORBKMD9
-         mR3rGi9CFENMoWjLYH0ZMELWMYLXNnwfbQ5b8NwKc4F7mKLKJXa6z3lswUua7jST3FL2
-         WaGegIRJuKa8h78bRbE2YCMgv4mrK7uJv+r3Wb9bTgGBNkNkioiRoPoblY+8exzz74pT
-         XaeA==
+        d=linaro.org; s=google; t=1704204193; x=1704808993; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=euPFm6DrMI0+wW/k92PU5TU57T+pTbdKKdKloQ0vt4M=;
+        b=RceF8iDpHj/3nfu3AfbmdzLrySbv//lZc0Po330AGuqe+pf3wN47H9XnM2czYDKpyJ
+         NccUogfPeuFUvyJvNnUSmsCHf5ic6o0ufRZ1PzmieE1oKjA4Ey92X+306aXHRt4PQ/y1
+         D4m432tka0TUyVLV25fBAJcPgXj33J4++/PRFKeHZOIGwhz83djFZlKtT46ieSiYVu5h
+         N/V++n6AIPP7/maL0a6r+uKir0ZFabnP1xohIAkylV7YH34fs8iSqPq2rxIWI9a0ykj0
+         K2hPhMEx7kby2fajf9sSAhjB08ONdjd8JbCeKM5RtzPlA6706xf9kzSmW4gmr6XKNzNQ
+         DZ8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704204160; x=1704808960;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gr8xoz17s/BB7TieecZUfYiPuxeYJ5dbt5GBG9TEZsY=;
-        b=rd+Sz4vvMMS3rmPr5Wq9iT8U1FwMwIcxMVYTZNvQWm/2jOYvEGxo4kfYWvQ4pZxlwz
-         uBXjCPzIPeWN6Rib8Az+t/JDaDlonS/YzUd5bM8AxUCB32z8I57BT1ltwau8VuzraTLw
-         a2y+ULqjNDAqQa5huOfhdLN7VBIWZTRNc1oz0GVX2mHV20NrU0jJJfTZF0VIdnOhmO+q
-         YgoIU2D3vBuEbn5+l5hew83QfSaonQ8j2nxqW0VmQinX6aI+1Wtsgdiz20MklI/Px2Bi
-         cDGeaIOIxZ2eJIo0hzPZfmPRqmZIj3Sm53aU8A37wScJ6O9qNRaP53X7lsdqhY6OYxTE
-         D6bQ==
-X-Gm-Message-State: AOJu0YxaEWUg3kk4XlTni+CWwNoYdbvW5gWQkqIZ8TqSryklHezmgUQt
-	o54OaKrK7mliytoTubcIE5bDBRQ0dafEbVqqdimULzSgTw4=
-X-Google-Smtp-Source: AGHT+IFtpOEIbKNXlmkc2tSjGwdHUZnL6Caf7NVCepLhF55Ox65Xqs4fDODl+NB3TOWE3iTyA6rJ8g==
-X-Received: by 2002:a5d:5286:0:b0:336:c963:2741 with SMTP id c6-20020a5d5286000000b00336c9632741mr5386059wrv.11.1704204159887;
-        Tue, 02 Jan 2024 06:02:39 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704204193; x=1704808993;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=euPFm6DrMI0+wW/k92PU5TU57T+pTbdKKdKloQ0vt4M=;
+        b=QcLxMSjYfTr1BorYcztgAAmwfNqrnaF7vXALUKTVK4zgyjFvx26uR54PGcXHYSbgyZ
+         aL+cbVs6qwntnwhmO+3x8mQnQGvwwZdJM+vOBI34OJ6DguN2TEiq4wZjuNyp1jqLxTck
+         MSfRvJdHf28KK6QGLaZEr6GgX1GuBWmy347BakMVm9b84pTHk7r3RoROa3TarFFiEa6M
+         fr6cjMD1WA6HM7NgdX+T/KusNKUj3oSF6HkDPo+vQ29kH6uDH41VysyqY+x91meT+5YX
+         wEbIWi54NiWUj+rKOuuwbvHRdzvd7RlF9I7Hb1kY+gXqAcYWYbcmQOzH6BGiyuJcJhPN
+         KCXQ==
+X-Gm-Message-State: AOJu0YyIreZwyoVy1eokBn6EpRVoXbhb3UaKTlkpMwfvpxvPCRENdATn
+	hMw7W+qvNMDFit/GKqQy73/6a4PayKh9bA==
+X-Google-Smtp-Source: AGHT+IExbck5usnFUfBjH1gPXmE5ErcKMgjEsukLhzziZv7BvexAfj4jA2oeb+j+WPaWR5rgjiPNvA==
+X-Received: by 2002:a05:600c:4f54:b0:40d:8580:4f1a with SMTP id m20-20020a05600c4f5400b0040d85804f1amr1443638wmq.171.1704204193127;
+        Tue, 02 Jan 2024 06:03:13 -0800 (PST)
 Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id e14-20020a5d6d0e000000b00336cbbf2e0fsm19026505wrq.27.2024.01.02.06.02.38
+        by smtp.gmail.com with ESMTPSA id c18-20020a05600c0a5200b0040c6d559490sm45398508wmq.3.2024.01.02.06.03.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jan 2024 06:02:39 -0800 (PST)
-Date: Tue, 2 Jan 2024 17:02:33 +0300
+        Tue, 02 Jan 2024 06:03:12 -0800 (PST)
+Date: Tue, 2 Jan 2024 15:37:34 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, RD Babiera <rdbabiera@google.com>,
-	heikki.krogerus@linux.intel.com, linux@roeck-us.net,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, badhri@google.com,
-	bryan.odonoghue@linaro.org, agross@kernel.org, andersson@kernel.org,
-	konrad.dybcio@linaro.org
-Subject: Re: [PATCH v2 12/12] usb: typec: altmodes/displayport: add SOP'
- support
-Message-ID: <c1e59ca9-d2f5-4a9c-a653-f533ff5772c1@suswa.mountain>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
+Subject: Re: arch/riscv/kernel/module.c:639 process_accumulated_relocations()
+ error: uninitialized symbol 'curr_type'.
+Message-ID: <c11513b4-6e60-44b5-ba12-83fbb9b7e2c3@suswa.mountain>
+References: <d0897fb3-1af8-430b-aa8b-9aa829bad1d7@suswa.mountain>
+ <ZXoFhu2TPXgrsInY@ghost>
+ <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
+ <ZYzIbVfge6I8Ptw0@ghost>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,116 +61,43 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231214230850.379863-26-rdbabiera@google.com>
+In-Reply-To: <ZYzIbVfge6I8Ptw0@ghost>
 
-Hi RD,
+On Wed, Dec 27, 2023 at 04:59:25PM -0800, Charlie Jenkins wrote:
+> On Thu, Dec 14, 2023 at 11:00:46AM +0300, Dan Carpenter wrote:
+> > On Wed, Dec 13, 2023 at 11:27:02AM -0800, Charlie Jenkins wrote:
+> > > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01  638  			}
+> > > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01 @639  			reloc_handlers[curr_type].accumulate_handler(
+> > > >                                                                                        ^^^^^^^^^
+> > > > Can the list be empty?  Uninitialized in that case.
+> > > 
+> > > That's a tricky one, the list cannot be empty. Each bucket in the
+> > > bucket_iter is guarunteed to have at least one rel_entry. I can probably
+> > > resolve this by extracting this for loop into a do-while loop.
+> > 
+> > You can just ignore false positives.  It's not really a fix to change it
+> > to a do-while loop.  I reviewed the do while code before reading this
+> > email and I still wondered about empty lists, but just to hear that it's
+> > not going to be empty is enough.  Just the email was sufficient.
+> > 
+> > regards,
+> > dan carpenter
+> > 
+> 
+> The fix isn't the do-while loop but rather the use after free, the
+> incorrect sizeof, and incorrect error handling when
+> initialize_relocation_hashtable fails. I decided to include the do-while
+> code because I was already touching the surrounding code. Can you review
+> [1]? If you would prefer that the do-while is reverted, I can do that,
+> but it is important that the rest of the fixes are merged before 6.7 is
+> released.
+> 
+> [1] https://lore.kernel.org/all/20231213-module_loading_fix-v1-1-da9b7c92ade5@rivosinc.com/
 
-kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Most subsystems wouldn't merge a patch like this which does so many
+things at the same time...
 
-url:    https://github.com/intel-lab-lkp/linux/commits/RD-Babiera/usb-typec-altmodes-add-typec_cable_ops-to-typec_altmode/20231215-071339
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20231214230850.379863-26-rdbabiera%40google.com
-patch subject: [PATCH v2 12/12] usb: typec: altmodes/displayport: add SOP' support
-config: riscv-randconfig-r081-20231216 (https://download.01.org/0day-ci/archive/20231216/202312161205.sNH5M6Pz-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312161205.sNH5M6Pz-lkp@intel.com/
-
-smatch warnings:
-drivers/usb/typec/altmodes/displayport.c:317 dp_altmode_work() warn: inconsistent returns '&dp->lock'.
-
-vim +317 drivers/usb/typec/altmodes/displayport.c
-
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  240  static void dp_altmode_work(struct work_struct *work)
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  241  {
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  242  	struct dp_altmode *dp = container_of(work, struct dp_altmode, work);
-4c93cad8cc78bd Kyle Tso        2021-02-05  243  	int svdm_version;
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  244  	u32 header;
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  245  	u32 vdo;
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  246  	int ret;
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  247  
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  248  	mutex_lock(&dp->lock);
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  249  
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  250  	switch (dp->state) {
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  251  	case DP_STATE_ENTER:
-8face9aa57c833 Heikki Krogerus 2019-12-30  252  		ret = typec_altmode_enter(dp->alt, NULL);
-5789051fc57bb6 Heikki Krogerus 2020-09-28  253  		if (ret && ret != -EBUSY)
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  254  			dev_err(&dp->alt->dev, "failed to enter mode\n");
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  255  		break;
-92483f2f3092f0 RD Babiera      2023-12-14  256  	case DP_STATE_ENTER_PRIME:
-92483f2f3092f0 RD Babiera      2023-12-14  257  		ret = typec_cable_altmode_enter(dp->alt, TYPEC_PLUG_SOP_P, NULL);
-92483f2f3092f0 RD Babiera      2023-12-14  258  		/*
-92483f2f3092f0 RD Babiera      2023-12-14  259  		 * If we fail to enter Alt Mode on SOP', then we should drop the
-92483f2f3092f0 RD Babiera      2023-12-14  260  		 * plug from the driver and attempt to run the driver without
-92483f2f3092f0 RD Babiera      2023-12-14  261  		 * it.
-92483f2f3092f0 RD Babiera      2023-12-14  262  		 */
-92483f2f3092f0 RD Babiera      2023-12-14  263  		if (ret && ret != -EBUSY) {
-92483f2f3092f0 RD Babiera      2023-12-14  264  			dev_err(&dp->alt->dev, "plug failed to enter mode\n");
-92483f2f3092f0 RD Babiera      2023-12-14  265  			dp->state = DP_STATE_ENTER;
-92483f2f3092f0 RD Babiera      2023-12-14  266  			goto disable_prime;
-92483f2f3092f0 RD Babiera      2023-12-14  267  		}
-92483f2f3092f0 RD Babiera      2023-12-14  268  		break;
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  269  	case DP_STATE_UPDATE:
-4c93cad8cc78bd Kyle Tso        2021-02-05  270  		svdm_version = typec_altmode_get_svdm_version(dp->alt);
-4c93cad8cc78bd Kyle Tso        2021-02-05  271  		if (svdm_version < 0)
-4c93cad8cc78bd Kyle Tso        2021-02-05  272  			break;
-4c93cad8cc78bd Kyle Tso        2021-02-05  273  		header = DP_HEADER(dp, svdm_version, DP_CMD_STATUS_UPDATE);
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  274  		vdo = 1;
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  275  		ret = typec_altmode_vdm(dp->alt, header, &vdo, 2);
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  276  		if (ret)
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  277  			dev_err(&dp->alt->dev,
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  278  				"unable to send Status Update command (%d)\n",
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  279  				ret);
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  280  		break;
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  281  	case DP_STATE_CONFIGURE:
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  282  		ret = dp_altmode_configure_vdm(dp, dp->data.conf);
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  283  		if (ret)
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  284  			dev_err(&dp->alt->dev,
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  285  				"unable to send Configure command (%d)\n", ret);
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  286  		break;
-92483f2f3092f0 RD Babiera      2023-12-14  287  	case DP_STATE_CONFIGURE_PRIME:
-92483f2f3092f0 RD Babiera      2023-12-14  288  		ret = dp_altmode_configure_vdm_cable(dp, dp->data_prime.conf);
-92483f2f3092f0 RD Babiera      2023-12-14  289  		if (ret) {
-92483f2f3092f0 RD Babiera      2023-12-14  290  			dev_err(&dp->plug_prime->dev,
-92483f2f3092f0 RD Babiera      2023-12-14  291  				"unable to send Configure command (%d)\n",
-92483f2f3092f0 RD Babiera      2023-12-14  292  				ret);
-92483f2f3092f0 RD Babiera      2023-12-14  293  			dp->state = DP_STATE_CONFIGURE;
-92483f2f3092f0 RD Babiera      2023-12-14  294  			goto disable_prime;
-92483f2f3092f0 RD Babiera      2023-12-14  295  		}
-92483f2f3092f0 RD Babiera      2023-12-14  296  		break;
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  297  	case DP_STATE_EXIT:
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  298  		if (typec_altmode_exit(dp->alt))
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  299  			dev_err(&dp->alt->dev, "Exit Mode Failed!\n");
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  300  		break;
-92483f2f3092f0 RD Babiera      2023-12-14  301  	case DP_STATE_EXIT_PRIME:
-92483f2f3092f0 RD Babiera      2023-12-14  302  		if (typec_cable_altmode_exit(dp->plug_prime, TYPEC_PLUG_SOP_P))
-92483f2f3092f0 RD Babiera      2023-12-14  303  			dev_err(&dp->plug_prime->dev, "Exit Mode Failed!\n");
-92483f2f3092f0 RD Babiera      2023-12-14  304  		break;
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  305  	default:
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  306  		break;
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  307  	}
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  308  
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  309  	dp->state = DP_STATE_IDLE;
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  310  
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  311  	mutex_unlock(&dp->lock);
-92483f2f3092f0 RD Babiera      2023-12-14  312  	return;
-92483f2f3092f0 RD Babiera      2023-12-14  313  
-92483f2f3092f0 RD Babiera      2023-12-14  314  disable_prime:
-92483f2f3092f0 RD Babiera      2023-12-14  315  	typec_altmode_put_plug(dp->plug_prime);
-92483f2f3092f0 RD Babiera      2023-12-14  316  	dp->plug_prime = NULL;
-
-We need a mutex_unlock(&dp->lock); somewhere here.
-
-92483f2f3092f0 RD Babiera      2023-12-14 @317  	schedule_work(&dp->work);
-0e3bb7d6894d9b Heikki Krogerus 2018-06-27  318  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+regards,
+dan carpenter
 
