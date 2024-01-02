@@ -1,56 +1,57 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E156B156DF
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jan 2024 14:03:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A4614F98
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jan 2024 14:03:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E4NUQA+O"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3374117c79eso1325976f8f.0
-        for <oe-kbuild@lists.linux.dev>; Tue, 02 Jan 2024 06:03:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hCujMEGP"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40d3c4bfe45so100365405e9.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 02 Jan 2024 06:03:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704204227; x=1704809027; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GeJuJizoWeAs29loa6MRIjI0gunccegFhfT3lI/DWIs=;
-        b=E4NUQA+Oq6SQjl2aQz8J9QRyzxCM5fjba7N86t6XAuIKmIeot9Tao1LrLxlTS47oV6
-         tqHyVkAfk8l0wD67/WIAnvxDzRJDXbg2ylO+d2q8LIC8HxzP5omRg+pQK4NdascT7bx8
-         T3cXufJL6B4Vsrg+z/HmfEOBzTVd9qjseT6j3AsWvAzWpWoysQHmCWKFxefIWTWRB1XA
-         0nk7z55p2TPXzInwjRtcb6TOmjYkj+m2saCNi8Co5Ck/hpV6fswImVfTGkGkL0HtKCLZ
-         zmFhfQITu5v80UFUbf7pJyh9bp6UsiTqjhvCnWe+KXadIt1Q5cCIlcZ2uXPaEgdGPIAr
-         SXUA==
+        d=linaro.org; s=google; t=1704204230; x=1704809030; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mn8Nmeay0/jGyeSq5GijpA2IQ6OcRPPMm0Y4xiMdIGo=;
+        b=hCujMEGPKvRSwyk1buogNWYw8gLwtV//xzc0wk0FWmmjRGJ2fJ7VdzVjkuxP+atMR+
+         0Ho1bXbVV75qAT5uWuuh+hYixd6jWMNcl0a1wCV7YdOwcNO0Z6WEGm0HG0q+BgFAlCc1
+         GwmpB+2DLsVy7p4LGPHlU/98kYa6Ogi4sFgEvazwr/Uo0KVZI6zwwRNQjqeP+eUMs/F6
+         h3RErLThWKFwO5RY7j3JbRUMBD0JRRYUWqd9Edg3MeZbXWnwpxuYGbEvF2rs4v8K76aq
+         HzF1T0VLK9aS2950l0DqL4rUclCmJKYjv5sfpR5bLR9UL7M+4++PivyVYalZgry/6QF2
+         HBSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704204227; x=1704809027;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GeJuJizoWeAs29loa6MRIjI0gunccegFhfT3lI/DWIs=;
-        b=osho+52BFuZ2D6EVevy0FBi240OOxwU7opqkDd4eeJSTBqT5j8GAODEN/EifhBed7s
-         m0Gv/+FR8YM4nqGeLjIgCdqWYZECz12M9iGPNFFdE4ea7DtcmTo+pH3OHBE6jpVfGpvy
-         /Ak5+mOstJvJZ0FEABOe1kEJZs1gBYSDh9Ffc59DFokLCx2AyArP7l3iDXgBY7qin1wK
-         E3rfl++UTiNUDP1lgnxLPtZ7pzTnvnGYoRplZBNrNLv7c0cHog42JTxq2gUtwlXdkiI+
-         bzwirehkMNwUo1yKXHNUeyIvympE8BHyXRtmCY/BuujnLmu11TmEggsPS7Jrr+qU7dZT
-         QYpQ==
-X-Gm-Message-State: AOJu0YxmC2Xcvs6uddCvFyNQyDDbUa1SFJwC6vSjhZmKxD5X1LelReV/
-	a90hK+4F9O/moQMvz+uRExydBgvXYiIN216/phSOKg1FD1E=
-X-Google-Smtp-Source: AGHT+IE/lxBI2psr/eyrLZFMSVyOi8+3ecJpLXDxAYrw3nUMQDDIqSUNcdGH6FQb1H0HxA0PUgdCHw==
-X-Received: by 2002:a5d:5145:0:b0:336:7f03:4af with SMTP id u5-20020a5d5145000000b003367f0304afmr10379008wrt.123.1704204226988;
-        Tue, 02 Jan 2024 06:03:46 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704204230; x=1704809030;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mn8Nmeay0/jGyeSq5GijpA2IQ6OcRPPMm0Y4xiMdIGo=;
+        b=ZHp2WIuIvRs/pTno6mlCifF9EOhSQ/HawDIzweRb4tSt3FPl/5++aZQykjeteHG2Fz
+         AKwyMHkmer8K8myUC6kkmVFtaHXOj76i/d9PXbbGo3XeikHJBdcMZIqbW0dUQl2FQksh
+         Zql9gbznrvA4klGNTQ+x4f9J37L0lJbwNr2RfOWH8HdE9s+8GTG5W4Eo9UU1M4p3k3od
+         /S1NzUhAUsMnvg0dwUZjly/W8VlWn4md6uIQOiheyJ0HP8Fej9dYZtGUiohQjVDznqIk
+         PVNxh+q9FEuMSY1vJkdxw81EhyUzYC8UQnv5w7yTRMHXfDqoZaS/sMYLRpexy4v9PRva
+         gXQw==
+X-Gm-Message-State: AOJu0YwilaJlg0ZxDNdMR/I88rTpOLHNarLa7l2IdfJuDcjqn2T3Nl63
+	Ti1UfKpW1G4ikEcx66itaNhu/PRFZyQk06Nf7ZxB24XPEDc=
+X-Google-Smtp-Source: AGHT+IGBU0HymLDGU6oQjodCQvSQHSTYHJjjoieFLsXS2/qf7fhxN+rfZ391sZJ/PVpM2aHLTqoE1A==
+X-Received: by 2002:a7b:cbd9:0:b0:40d:5c45:5379 with SMTP id n25-20020a7bcbd9000000b0040d5c455379mr2851104wmi.97.1704204229993;
+        Tue, 02 Jan 2024 06:03:49 -0800 (PST)
 Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id q17-20020adfcd91000000b003362d0eefd3sm28380018wrj.20.2024.01.02.06.03.45
+        by smtp.gmail.com with ESMTPSA id dr15-20020a5d5f8f000000b003373ece28efsm6089374wrb.29.2024.01.02.06.03.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jan 2024 06:03:46 -0800 (PST)
-Date: Tue, 2 Jan 2024 16:29:12 +0300
+        Tue, 02 Jan 2024 06:03:49 -0800 (PST)
+Date: Tue, 2 Jan 2024 16:56:49 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Edward Adam Davis <eadavis@qq.com>,
-	syzbot+553d90297e6d2f50dbc7@syzkaller.appspotmail.com
+To: oe-kbuild@lists.linux.dev,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	jfs-discussion@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, shaggy@kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] jfs: fix array-index-out-of-bounds in diNewExt
-Message-ID: <828db1e9-9b98-4797-bd23-08fbae1260d3@suswa.mountain>
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Guo Ren <guoren@kernel.org>
+Subject: drivers/phy/renesas/phy-rcar-gen3-usb2.c:747
+ rcar_gen3_phy_usb2_probe() warn: missing error code 'ret'
+Message-ID: <8b1bc7f4-f83f-413d-9fa9-3ee68577750d@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,119 +60,138 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_B86ECD2ECECC92A7ED86EF92D0064A499206@qq.com>
 
-Hi Edward,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Edward-Adam-Davis/jfs-fix-array-index-out-of-bounds-in-diNewExt/20231212-095530
-base:   https://github.com/kleikamp/linux-shaggy jfs-next
-patch link:    https://lore.kernel.org/r/tencent_B86ECD2ECECC92A7ED86EF92D0064A499206%40qq.com
-patch subject: [PATCH] jfs: fix array-index-out-of-bounds in diNewExt
-config: i386-randconfig-141-20231212 (https://download.01.org/0day-ci/archive/20231214/202312142348.6HRZtXTB-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20231214/202312142348.6HRZtXTB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3bd7d748816927202268cb335921f7f68b3ca723
+commit: 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1 riscv: Kconfig.socs: Add ARCH_RENESAS kconfig option
+config: riscv-randconfig-r081-20231216 (https://download.01.org/0day-ci/archive/20231216/202312161021.gOLDl48K-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312142348.6HRZtXTB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312161021.gOLDl48K-lkp@intel.com/
 
-New smatch warnings:
-fs/jfs/jfs_imap.c:2213 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
+smatch warnings:
+drivers/phy/renesas/phy-rcar-gen3-usb2.c:747 rcar_gen3_phy_usb2_probe() warn: missing error code 'ret'
 
-Old smatch warnings:
-fs/jfs/jfs_imap.c:2229 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
-fs/jfs/jfs_imap.c:2304 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
-fs/jfs/jfs_imap.c:2318 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
-fs/jfs/jfs_imap.c:2330 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
-fs/jfs/jfs_imap.c:2332 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
-fs/jfs/jfs_imap.c:2363 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
-fs/jfs/jfs_imap.c:2364 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
+vim +/ret +747 drivers/phy/renesas/phy-rcar-gen3-usb2.c
 
-vim +2213 fs/jfs/jfs_imap.c
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  652  static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  653  {
+b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  654  	const struct rcar_gen3_phy_drv_data *phy_data;
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  655  	struct device *dev = &pdev->dev;
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  656  	struct rcar_gen3_chan *channel;
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  657  	struct phy_provider *provider;
+08b0ad375ca661 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2020-07-17  658  	int ret = 0, i;
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  659  
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  660  	if (!dev->of_node) {
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  661  		dev_err(dev, "This driver needs device tree\n");
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  662  		return -EINVAL;
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  663  	}
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  664  
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  665  	channel = devm_kzalloc(dev, sizeof(*channel), GFP_KERNEL);
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  666  	if (!channel)
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  667  		return -ENOMEM;
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  668  
+0b5604affbec02 drivers/phy/renesas/phy-rcar-gen3-usb2.c Chunfeng Yun      2020-11-06  669  	channel->base = devm_platform_ioremap_resource(pdev, 0);
+801a69c787812f drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-03-03  670  	if (IS_ERR(channel->base))
+801a69c787812f drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-03-03  671  		return PTR_ERR(channel->base);
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  672  
+b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  673  	channel->obint_enable_bits = USB2_OBINT_BITS;
+08b0ad375ca661 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2020-07-17  674  	/* get irq number here and request_irq for OTG in phy_init */
+08b0ad375ca661 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2020-07-17  675  	channel->irq = platform_get_irq_optional(pdev, 0);
+549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  676  	channel->dr_mode = rcar_gen3_get_dr_mode(dev->of_node);
+73801b90a38ff1 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2018-09-21  677  	if (channel->dr_mode != USB_DR_MODE_UNKNOWN) {
+7e0540f41332cb drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2017-10-12  678  		int ret;
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2152  static int diNewExt(struct inomap * imap, struct iag * iagp, int extno)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2153  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2154  	int agno, iagno, fwd, back, freei = 0, sword, rc;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2155  	struct iag *aiagp = NULL, *biagp = NULL, *ciagp = NULL;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2156  	struct metapage *amp, *bmp, *cmp, *dmp;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2157  	struct inode *ipimap;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2158  	s64 blkno, hint;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2159  	int i, j;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2160  	u32 mask;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2161  	ino_t ino;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2162  	struct dinode *dp;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2163  	struct jfs_sb_info *sbi;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2164  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2165  	/* better have free extents.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2166  	 */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2167  	if (!iagp->nfreeexts) {
-eb8630d7d2fd13 Joe Perches       2013-06-04  2168  		jfs_error(imap->im_ipimap->i_sb, "no free extents\n");
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2169  		return -EIO;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2170  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2171  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2172  	/* get the inode map inode.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2173  	 */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2174  	ipimap = imap->im_ipimap;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2175  	sbi = JFS_SBI(ipimap->i_sb);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2176  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2177  	amp = bmp = cmp = NULL;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2178  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2179  	/* get the ag and iag numbers for this iag.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2180  	 */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2181  	agno = BLKTOAG(le64_to_cpu(iagp->agstart), sbi);
-f93b91b82fcf16 Edward Adam Davis 2023-12-12  2182  	if (agno > MAXAG || agno < 0)
+I would delete this "ret" declaration.
 
-The commit introduces this agno > MAXAG comparison.  But Smatch says
-that it should be agno >= MAXAG.
+7e0540f41332cb drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2017-10-12  679  
+979b519c7a1bff drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2018-09-21  680  		channel->is_otg_channel = true;
+8dde0008ffc9e2 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2018-09-21  681  		channel->uses_otg_pins = !of_property_read_bool(dev->of_node,
+8dde0008ffc9e2 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2018-09-21  682  							"renesas,no-otg-pins");
+2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  683  		channel->extcon = devm_extcon_dev_allocate(dev,
+2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  684  							rcar_gen3_phy_cable);
+2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  685  		if (IS_ERR(channel->extcon))
+2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  686  			return PTR_ERR(channel->extcon);
+2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  687  
+2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  688  		ret = devm_extcon_dev_register(dev, channel->extcon);
+2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  689  		if (ret < 0) {
+2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  690  			dev_err(dev, "Failed to register extcon\n");
+2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  691  			return ret;
+2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-04-29  692  		}
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  693  	}
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  694  
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  695  	/*
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  696  	 * devm_phy_create() will call pm_runtime_enable(&phy->dev);
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  697  	 * And then, phy-core will manage runtime pm for this device.
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  698  	 */
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  699  	pm_runtime_enable(dev);
+b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  700  
+b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  701  	phy_data = of_device_get_match_data(dev);
+b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  702  	if (!phy_data) {
+51e339deab1e51 drivers/phy/renesas/phy-rcar-gen3-usb2.c Wang Li           2020-11-26  703  		ret = -EINVAL;
+51e339deab1e51 drivers/phy/renesas/phy-rcar-gen3-usb2.c Wang Li           2020-11-26  704  		goto error;
+51e339deab1e51 drivers/phy/renesas/phy-rcar-gen3-usb2.c Wang Li           2020-11-26  705  	}
+5d8042e95fd471 drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2019-04-10  706  
+b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  707  	channel->soc_no_adp_ctrl = phy_data->no_adp_ctrl;
+b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  708  	if (phy_data->no_adp_ctrl)
+b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  709  		channel->obint_enable_bits = USB2_OBINT_IDCHG_EN;
+b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  710  
+5c9dc6379f539c drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-06-10  711  	mutex_init(&channel->lock);
+549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  712  	for (i = 0; i < NUM_OF_PHYS; i++) {
+549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  713  		channel->rphys[i].phy = devm_phy_create(dev, NULL,
+b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das          2021-07-27  714  							phy_data->phy_usb2_ops);
+549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  715  		if (IS_ERR(channel->rphys[i].phy)) {
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  716  			dev_err(dev, "Failed to create USB2 PHY\n");
+549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  717  			ret = PTR_ERR(channel->rphys[i].phy);
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  718  			goto error;
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  719  		}
+549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  720  		channel->rphys[i].ch = channel;
+549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  721  		channel->rphys[i].int_enable_bits = rcar_gen3_int_enable[i];
+549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  722  		phy_set_drvdata(channel->rphys[i].phy, &channel->rphys[i]);
+549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  723  	}
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  724  
+6dcfd7c300bf35 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-03-03  725  	channel->vbus = devm_regulator_get_optional(dev, "vbus");
+6dcfd7c300bf35 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-03-03  726  	if (IS_ERR(channel->vbus)) {
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  727  		if (PTR_ERR(channel->vbus) == -EPROBE_DEFER) {
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  728  			ret = PTR_ERR(channel->vbus);
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  729  			goto error;
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  730  		}
+6dcfd7c300bf35 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-03-03  731  		channel->vbus = NULL;
+6dcfd7c300bf35 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-03-03  732  	}
+6dcfd7c300bf35 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-03-03  733  
+9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  734  	platform_set_drvdata(pdev, channel);
+92fec1c27caa7b drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  735  	channel->dev = dev;
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  736  
+549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2019-04-11  737  	provider = devm_of_phy_provider_register(dev, rcar_gen3_phy_usb2_xlate);
+9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  738  	if (IS_ERR(provider)) {
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  739  		dev_err(dev, "Failed to register PHY provider\n");
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  740  		ret = PTR_ERR(provider);
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  741  		goto error;
+979b519c7a1bff drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda 2018-09-21  742  	} else if (channel->is_otg_channel) {
+9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  743  		int ret;
 
-f93b91b82fcf16 Edward Adam Davis 2023-12-12  2183  		return -EIO;
-f93b91b82fcf16 Edward Adam Davis 2023-12-12  2184  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2185  	iagno = le32_to_cpu(iagp->iagnum);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2186  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2187  	/* check if this is the last free extent within the
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2188  	 * iag.  if so, the iag must be removed from the ag
-25985edcedea63 Lucas De Marchi   2011-03-30  2189  	 * free extent list, so get the iags preceding and
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2190  	 * following the iag on this list.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2191  	 */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2192  	if (iagp->nfreeexts == cpu_to_le32(1)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2193  		if ((fwd = le32_to_cpu(iagp->extfreefwd)) >= 0) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2194  			if ((rc = diIAGRead(imap, fwd, &amp)))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2195  				return (rc);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2196  			aiagp = (struct iag *) amp->data;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2197  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2198  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2199  		if ((back = le32_to_cpu(iagp->extfreeback)) >= 0) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2200  			if ((rc = diIAGRead(imap, back, &bmp)))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2201  				goto error_out;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2202  			biagp = (struct iag *) bmp->data;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2203  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2204  	} else {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2205  		/* the iag has free extents.  if all extents are free
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2206  		 * (as is the case for a newly allocated iag), the iag
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2207  		 * must be added to the ag free extent list, so get
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2208  		 * the iag at the head of the list in preparation for
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2209  		 * adding this iag to this list.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2210  		 */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2211  		fwd = back = -1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2212  		if (iagp->nfreeexts == cpu_to_le32(EXTSPERIAG)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @2213  			if ((fwd = imap->im_agctl[agno].extfree) >= 0) {
+Shadow ret declaration.
 
-If agno == MAXAG then we're out of bounds here.
+9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  744  
+9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  745  		ret = device_create_file(dev, &dev_attr_role);
+9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  746  		if (ret < 0)
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2214  				if ((rc = diIAGRead(imap, fwd, &amp)))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2215  					goto error_out;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2216  				aiagp = (struct iag *) amp->data;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2217  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2218  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2219  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2220  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2221  	/* check if the iag has no free inodes.  if so, the iag
+The "ret" here is the shadow ret so we end up returning success.
+
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14 @747  			goto error;
+9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2016-11-09  748  	}
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  749  
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  750  	return 0;
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  751  
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  752  error:
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  753  	pm_runtime_disable(dev);
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  754  
+441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2017-03-14  755  	return ret;
+f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda 2015-11-30  756  }
 
 -- 
 0-DAY CI Kernel Test Service
