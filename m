@@ -1,58 +1,56 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94EC12E53
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jan 2024 14:03:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E156B156DF
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jan 2024 14:03:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RceF8iDp"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40d8909a6feso13867035e9.2
-        for <oe-kbuild@lists.linux.dev>; Tue, 02 Jan 2024 06:03:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E4NUQA+O"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3374117c79eso1325976f8f.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 02 Jan 2024 06:03:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704204193; x=1704808993; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=euPFm6DrMI0+wW/k92PU5TU57T+pTbdKKdKloQ0vt4M=;
-        b=RceF8iDpHj/3nfu3AfbmdzLrySbv//lZc0Po330AGuqe+pf3wN47H9XnM2czYDKpyJ
-         NccUogfPeuFUvyJvNnUSmsCHf5ic6o0ufRZ1PzmieE1oKjA4Ey92X+306aXHRt4PQ/y1
-         D4m432tka0TUyVLV25fBAJcPgXj33J4++/PRFKeHZOIGwhz83djFZlKtT46ieSiYVu5h
-         N/V++n6AIPP7/maL0a6r+uKir0ZFabnP1xohIAkylV7YH34fs8iSqPq2rxIWI9a0ykj0
-         K2hPhMEx7kby2fajf9sSAhjB08ONdjd8JbCeKM5RtzPlA6706xf9kzSmW4gmr6XKNzNQ
-         DZ8A==
+        d=linaro.org; s=google; t=1704204227; x=1704809027; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GeJuJizoWeAs29loa6MRIjI0gunccegFhfT3lI/DWIs=;
+        b=E4NUQA+Oq6SQjl2aQz8J9QRyzxCM5fjba7N86t6XAuIKmIeot9Tao1LrLxlTS47oV6
+         tqHyVkAfk8l0wD67/WIAnvxDzRJDXbg2ylO+d2q8LIC8HxzP5omRg+pQK4NdascT7bx8
+         T3cXufJL6B4Vsrg+z/HmfEOBzTVd9qjseT6j3AsWvAzWpWoysQHmCWKFxefIWTWRB1XA
+         0nk7z55p2TPXzInwjRtcb6TOmjYkj+m2saCNi8Co5Ck/hpV6fswImVfTGkGkL0HtKCLZ
+         zmFhfQITu5v80UFUbf7pJyh9bp6UsiTqjhvCnWe+KXadIt1Q5cCIlcZ2uXPaEgdGPIAr
+         SXUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704204193; x=1704808993;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=euPFm6DrMI0+wW/k92PU5TU57T+pTbdKKdKloQ0vt4M=;
-        b=QcLxMSjYfTr1BorYcztgAAmwfNqrnaF7vXALUKTVK4zgyjFvx26uR54PGcXHYSbgyZ
-         aL+cbVs6qwntnwhmO+3x8mQnQGvwwZdJM+vOBI34OJ6DguN2TEiq4wZjuNyp1jqLxTck
-         MSfRvJdHf28KK6QGLaZEr6GgX1GuBWmy347BakMVm9b84pTHk7r3RoROa3TarFFiEa6M
-         fr6cjMD1WA6HM7NgdX+T/KusNKUj3oSF6HkDPo+vQ29kH6uDH41VysyqY+x91meT+5YX
-         wEbIWi54NiWUj+rKOuuwbvHRdzvd7RlF9I7Hb1kY+gXqAcYWYbcmQOzH6BGiyuJcJhPN
-         KCXQ==
-X-Gm-Message-State: AOJu0YyIreZwyoVy1eokBn6EpRVoXbhb3UaKTlkpMwfvpxvPCRENdATn
-	hMw7W+qvNMDFit/GKqQy73/6a4PayKh9bA==
-X-Google-Smtp-Source: AGHT+IExbck5usnFUfBjH1gPXmE5ErcKMgjEsukLhzziZv7BvexAfj4jA2oeb+j+WPaWR5rgjiPNvA==
-X-Received: by 2002:a05:600c:4f54:b0:40d:8580:4f1a with SMTP id m20-20020a05600c4f5400b0040d85804f1amr1443638wmq.171.1704204193127;
-        Tue, 02 Jan 2024 06:03:13 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704204227; x=1704809027;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GeJuJizoWeAs29loa6MRIjI0gunccegFhfT3lI/DWIs=;
+        b=osho+52BFuZ2D6EVevy0FBi240OOxwU7opqkDd4eeJSTBqT5j8GAODEN/EifhBed7s
+         m0Gv/+FR8YM4nqGeLjIgCdqWYZECz12M9iGPNFFdE4ea7DtcmTo+pH3OHBE6jpVfGpvy
+         /Ak5+mOstJvJZ0FEABOe1kEJZs1gBYSDh9Ffc59DFokLCx2AyArP7l3iDXgBY7qin1wK
+         E3rfl++UTiNUDP1lgnxLPtZ7pzTnvnGYoRplZBNrNLv7c0cHog42JTxq2gUtwlXdkiI+
+         bzwirehkMNwUo1yKXHNUeyIvympE8BHyXRtmCY/BuujnLmu11TmEggsPS7Jrr+qU7dZT
+         QYpQ==
+X-Gm-Message-State: AOJu0YxmC2Xcvs6uddCvFyNQyDDbUa1SFJwC6vSjhZmKxD5X1LelReV/
+	a90hK+4F9O/moQMvz+uRExydBgvXYiIN216/phSOKg1FD1E=
+X-Google-Smtp-Source: AGHT+IE/lxBI2psr/eyrLZFMSVyOi8+3ecJpLXDxAYrw3nUMQDDIqSUNcdGH6FQb1H0HxA0PUgdCHw==
+X-Received: by 2002:a5d:5145:0:b0:336:7f03:4af with SMTP id u5-20020a5d5145000000b003367f0304afmr10379008wrt.123.1704204226988;
+        Tue, 02 Jan 2024 06:03:46 -0800 (PST)
 Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id c18-20020a05600c0a5200b0040c6d559490sm45398508wmq.3.2024.01.02.06.03.10
+        by smtp.gmail.com with ESMTPSA id q17-20020adfcd91000000b003362d0eefd3sm28380018wrj.20.2024.01.02.06.03.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jan 2024 06:03:12 -0800 (PST)
-Date: Tue, 2 Jan 2024 15:37:34 +0300
+        Tue, 02 Jan 2024 06:03:46 -0800 (PST)
+Date: Tue, 2 Jan 2024 16:29:12 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: Re: arch/riscv/kernel/module.c:639 process_accumulated_relocations()
- error: uninitialized symbol 'curr_type'.
-Message-ID: <c11513b4-6e60-44b5-ba12-83fbb9b7e2c3@suswa.mountain>
-References: <d0897fb3-1af8-430b-aa8b-9aa829bad1d7@suswa.mountain>
- <ZXoFhu2TPXgrsInY@ghost>
- <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
- <ZYzIbVfge6I8Ptw0@ghost>
+To: oe-kbuild@lists.linux.dev, Edward Adam Davis <eadavis@qq.com>,
+	syzbot+553d90297e6d2f50dbc7@syzkaller.appspotmail.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	jfs-discussion@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, shaggy@kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] jfs: fix array-index-out-of-bounds in diNewExt
+Message-ID: <828db1e9-9b98-4797-bd23-08fbae1260d3@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,43 +59,121 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZYzIbVfge6I8Ptw0@ghost>
+In-Reply-To: <tencent_B86ECD2ECECC92A7ED86EF92D0064A499206@qq.com>
 
-On Wed, Dec 27, 2023 at 04:59:25PM -0800, Charlie Jenkins wrote:
-> On Thu, Dec 14, 2023 at 11:00:46AM +0300, Dan Carpenter wrote:
-> > On Wed, Dec 13, 2023 at 11:27:02AM -0800, Charlie Jenkins wrote:
-> > > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01  638  			}
-> > > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01 @639  			reloc_handlers[curr_type].accumulate_handler(
-> > > >                                                                                        ^^^^^^^^^
-> > > > Can the list be empty?  Uninitialized in that case.
-> > > 
-> > > That's a tricky one, the list cannot be empty. Each bucket in the
-> > > bucket_iter is guarunteed to have at least one rel_entry. I can probably
-> > > resolve this by extracting this for loop into a do-while loop.
-> > 
-> > You can just ignore false positives.  It's not really a fix to change it
-> > to a do-while loop.  I reviewed the do while code before reading this
-> > email and I still wondered about empty lists, but just to hear that it's
-> > not going to be empty is enough.  Just the email was sufficient.
-> > 
-> > regards,
-> > dan carpenter
-> > 
-> 
-> The fix isn't the do-while loop but rather the use after free, the
-> incorrect sizeof, and incorrect error handling when
-> initialize_relocation_hashtable fails. I decided to include the do-while
-> code because I was already touching the surrounding code. Can you review
-> [1]? If you would prefer that the do-while is reverted, I can do that,
-> but it is important that the rest of the fixes are merged before 6.7 is
-> released.
-> 
-> [1] https://lore.kernel.org/all/20231213-module_loading_fix-v1-1-da9b7c92ade5@rivosinc.com/
+Hi Edward,
 
+kernel test robot noticed the following build warnings:
 
-Most subsystems wouldn't merge a patch like this which does so many
-things at the same time...
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-regards,
-dan carpenter
+url:    https://github.com/intel-lab-lkp/linux/commits/Edward-Adam-Davis/jfs-fix-array-index-out-of-bounds-in-diNewExt/20231212-095530
+base:   https://github.com/kleikamp/linux-shaggy jfs-next
+patch link:    https://lore.kernel.org/r/tencent_B86ECD2ECECC92A7ED86EF92D0064A499206%40qq.com
+patch subject: [PATCH] jfs: fix array-index-out-of-bounds in diNewExt
+config: i386-randconfig-141-20231212 (https://download.01.org/0day-ci/archive/20231214/202312142348.6HRZtXTB-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20231214/202312142348.6HRZtXTB-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202312142348.6HRZtXTB-lkp@intel.com/
+
+New smatch warnings:
+fs/jfs/jfs_imap.c:2213 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
+
+Old smatch warnings:
+fs/jfs/jfs_imap.c:2229 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
+fs/jfs/jfs_imap.c:2304 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
+fs/jfs/jfs_imap.c:2318 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
+fs/jfs/jfs_imap.c:2330 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
+fs/jfs/jfs_imap.c:2332 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
+fs/jfs/jfs_imap.c:2363 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
+fs/jfs/jfs_imap.c:2364 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
+
+vim +2213 fs/jfs/jfs_imap.c
+
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2152  static int diNewExt(struct inomap * imap, struct iag * iagp, int extno)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2153  {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2154  	int agno, iagno, fwd, back, freei = 0, sword, rc;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2155  	struct iag *aiagp = NULL, *biagp = NULL, *ciagp = NULL;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2156  	struct metapage *amp, *bmp, *cmp, *dmp;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2157  	struct inode *ipimap;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2158  	s64 blkno, hint;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2159  	int i, j;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2160  	u32 mask;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2161  	ino_t ino;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2162  	struct dinode *dp;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2163  	struct jfs_sb_info *sbi;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2164  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2165  	/* better have free extents.
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2166  	 */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2167  	if (!iagp->nfreeexts) {
+eb8630d7d2fd13 Joe Perches       2013-06-04  2168  		jfs_error(imap->im_ipimap->i_sb, "no free extents\n");
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2169  		return -EIO;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2170  	}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2171  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2172  	/* get the inode map inode.
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2173  	 */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2174  	ipimap = imap->im_ipimap;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2175  	sbi = JFS_SBI(ipimap->i_sb);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2176  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2177  	amp = bmp = cmp = NULL;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2178  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2179  	/* get the ag and iag numbers for this iag.
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2180  	 */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2181  	agno = BLKTOAG(le64_to_cpu(iagp->agstart), sbi);
+f93b91b82fcf16 Edward Adam Davis 2023-12-12  2182  	if (agno > MAXAG || agno < 0)
+
+The commit introduces this agno > MAXAG comparison.  But Smatch says
+that it should be agno >= MAXAG.
+
+f93b91b82fcf16 Edward Adam Davis 2023-12-12  2183  		return -EIO;
+f93b91b82fcf16 Edward Adam Davis 2023-12-12  2184  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2185  	iagno = le32_to_cpu(iagp->iagnum);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2186  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2187  	/* check if this is the last free extent within the
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2188  	 * iag.  if so, the iag must be removed from the ag
+25985edcedea63 Lucas De Marchi   2011-03-30  2189  	 * free extent list, so get the iags preceding and
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2190  	 * following the iag on this list.
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2191  	 */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2192  	if (iagp->nfreeexts == cpu_to_le32(1)) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2193  		if ((fwd = le32_to_cpu(iagp->extfreefwd)) >= 0) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2194  			if ((rc = diIAGRead(imap, fwd, &amp)))
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2195  				return (rc);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2196  			aiagp = (struct iag *) amp->data;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2197  		}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2198  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2199  		if ((back = le32_to_cpu(iagp->extfreeback)) >= 0) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2200  			if ((rc = diIAGRead(imap, back, &bmp)))
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2201  				goto error_out;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2202  			biagp = (struct iag *) bmp->data;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2203  		}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2204  	} else {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2205  		/* the iag has free extents.  if all extents are free
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2206  		 * (as is the case for a newly allocated iag), the iag
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2207  		 * must be added to the ag free extent list, so get
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2208  		 * the iag at the head of the list in preparation for
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2209  		 * adding this iag to this list.
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2210  		 */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2211  		fwd = back = -1;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2212  		if (iagp->nfreeexts == cpu_to_le32(EXTSPERIAG)) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16 @2213  			if ((fwd = imap->im_agctl[agno].extfree) >= 0) {
+
+If agno == MAXAG then we're out of bounds here.
+
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2214  				if ((rc = diIAGRead(imap, fwd, &amp)))
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2215  					goto error_out;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2216  				aiagp = (struct iag *) amp->data;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2217  			}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2218  		}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2219  	}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2220  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2221  	/* check if the iag has no free inodes.  if so, the iag
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
