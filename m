@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51278DDC9
-	for <oe-kbuild@lists.linux.dev>; Mon,  1 Jan 2024 20:27:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C318715CA
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jan 2024 06:36:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K01W7kuc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dh6nEU6i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704140863; x=1735676863;
+  t=1704177363; x=1735713363;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2NwMEq3plsWfLxyxy5qbd/7EAzuoY7Mu0GdAB7x5fhQ=;
-  b=K01W7kucv1IEyTgw9BVIBOEoMyxwf1zHox6W4VyF9pXrk3s4KN6LGlJj
-   W2TEt5X//6YNObJSZ1iMqYstZ/54PonxcvvdWXBbd62NOoNT+EoEiRqQt
-   Z9KgwMLWFiPS9MJjEk+4mm+x0Kdfjv/5WykBO5UK7hz7523+r8+Fs9Kh9
-   7tQOYLnkYsJ2fWLSZmxMFrBZUzoksTmHf3lZCVLpDqowiPhSd6AzUvnbO
-   Wfmhs+XPzxKkuyBFZC5Xwb85ob03SyO7u34pc32S3G5Kob08qv03UoLdO
-   /fLgkEuy0N+pX8er44ir/QtpCNOdOmHhFIf4I0Qt9eqipYski1t9AoqVS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="18357728"
-X-IronPort-AV: E=Sophos;i="6.04,323,1695711600"; 
-   d="scan'208";a="18357728"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2024 12:27:42 -0800
+  bh=1cJ1VmIN6IdqKvC7qYDkeNy8nFDm5xRvZjcw017PJUQ=;
+  b=dh6nEU6ixAHRA0qAPibIlx6MfB4exWRLhp46x04p2kMPgM3ra58GrZIp
+   tH/8Q3kzOCL8KFrkdZJuxtbuinXePgebVylXIBgGt9J2vrpWyK/cnBjOO
+   KMj9UHqdffLkhbchS1Gv2pjxTOiHVNJzOcFdOVyvpboA6ON1HlBYGUs8t
+   ET5CQBpUb60RSMfQg9sv7StbOja3wx+kliTFdF3TPXQuBXPi0Fg8Iq9sn
+   SoUQr/JqULyZ2loNy0uLKr0zTQq2KAtNTYxxXFsZOce6EGWxRv0en+Wnn
+   m0MkA0l4lYQ41aHWoT3ivFdmsN+a2Y+/mwbbRhy3GxjFxE3nWgqezkgW4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="399613245"
+X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
+   d="scan'208";a="399613245"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2024 22:36:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="845387669"
-X-IronPort-AV: E=Sophos;i="6.04,323,1695711600"; 
-   d="scan'208";a="845387669"
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="808434853"
+X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
+   d="scan'208";a="808434853"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 01 Jan 2024 12:27:41 -0800
+  by orsmga008.jf.intel.com with ESMTP; 01 Jan 2024 22:36:01 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rKOss-000KW0-2v;
-	Mon, 01 Jan 2024 20:27:38 +0000
-Date: Tue, 2 Jan 2024 04:27:22 +0800
+	id 1rKYNb-000L0S-25;
+	Tue, 02 Jan 2024 06:35:59 +0000
+Date: Tue, 2 Jan 2024 14:35:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/nvme/host/pr.c:268:23-26: ERROR: reference preceded by free
- on line 278
-Message-ID: <202401020453.zNhOWCxA-lkp@intel.com>
+Subject: drivers/video/fbdev/core/fb_logo.c:67:41-42: WARNING opportunity for
+ min()
+Message-ID: <202401021459.EaXADy0r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,94 +53,67 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Mike Christie <michael.christie@oracle.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Chaitanya Kulkarni <kch@nvidia.com>
-CC: Christoph Hellwig <hch@lst.de>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+
+Hi Thomas,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   610a9b8f49fbcf1100716370d3b5f6f884a2835a
-commit: 28c97ba38ff9c00bc177887c2d8568b7115a44e0 nvme: Add pr_ops read_reservation support
-date:   9 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 9 months ago
-config: hexagon-randconfig-r052-20231228 (https://download.01.org/0day-ci/archive/20240102/202401020453.zNhOWCxA-lkp@intel.com/config)
+commit: 8887086ef2e0047ec321103a15e7d766be3a3874 fbdev/core: Move logo functions into separate source file
+date:   4 months ago
+:::::: branch date: 34 hours ago
+:::::: commit date: 4 months ago
+config: hexagon-randconfig-r052-20231228 (https://download.01.org/0day-ci/archive/20240102/202401021459.EaXADy0r-lkp@intel.com/config)
 compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401020453.zNhOWCxA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401021459.EaXADy0r-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/nvme/host/pr.c:268:23-26: ERROR: reference preceded by free on line 278
+>> drivers/video/fbdev/core/fb_logo.c:67:41-42: WARNING opportunity for min()
+   drivers/video/fbdev/core/fb_logo.c:68:41-42: WARNING opportunity for min()
+   drivers/video/fbdev/core/fb_logo.c:69:41-42: WARNING opportunity for min()
 
-vim +268 drivers/nvme/host/pr.c
+vim +67 drivers/video/fbdev/core/fb_logo.c
 
-5fd96a4e15de84 Mike Christie 2023-04-07  244  
-28c97ba38ff9c0 Mike Christie 2023-04-07  245  static int nvme_pr_read_reservation(struct block_device *bdev,
-28c97ba38ff9c0 Mike Christie 2023-04-07  246  		struct pr_held_reservation *resv)
-28c97ba38ff9c0 Mike Christie 2023-04-07  247  {
-28c97ba38ff9c0 Mike Christie 2023-04-07  248  	struct nvme_reservation_status_ext tmp_rse, *rse;
-28c97ba38ff9c0 Mike Christie 2023-04-07  249  	int ret, i, num_regs;
-28c97ba38ff9c0 Mike Christie 2023-04-07  250  	u32 rse_len;
-28c97ba38ff9c0 Mike Christie 2023-04-07  251  	bool eds;
-28c97ba38ff9c0 Mike Christie 2023-04-07  252  
-28c97ba38ff9c0 Mike Christie 2023-04-07  253  get_num_regs:
-28c97ba38ff9c0 Mike Christie 2023-04-07  254  	/*
-28c97ba38ff9c0 Mike Christie 2023-04-07  255  	 * Get the number of registrations so we know how big to allocate
-28c97ba38ff9c0 Mike Christie 2023-04-07  256  	 * the response buffer.
-28c97ba38ff9c0 Mike Christie 2023-04-07  257  	 */
-28c97ba38ff9c0 Mike Christie 2023-04-07  258  	ret = nvme_pr_resv_report(bdev, &tmp_rse, sizeof(tmp_rse), &eds);
-28c97ba38ff9c0 Mike Christie 2023-04-07  259  	if (ret)
-28c97ba38ff9c0 Mike Christie 2023-04-07  260  		return ret;
-28c97ba38ff9c0 Mike Christie 2023-04-07  261  
-28c97ba38ff9c0 Mike Christie 2023-04-07  262  	num_regs = get_unaligned_le16(&tmp_rse.regctl);
-28c97ba38ff9c0 Mike Christie 2023-04-07  263  	if (!num_regs) {
-28c97ba38ff9c0 Mike Christie 2023-04-07  264  		resv->generation = le32_to_cpu(tmp_rse.gen);
-28c97ba38ff9c0 Mike Christie 2023-04-07  265  		return 0;
-28c97ba38ff9c0 Mike Christie 2023-04-07  266  	}
-28c97ba38ff9c0 Mike Christie 2023-04-07  267  
-28c97ba38ff9c0 Mike Christie 2023-04-07 @268  	rse_len = struct_size(rse, regctl_eds, num_regs);
-28c97ba38ff9c0 Mike Christie 2023-04-07  269  	rse = kzalloc(rse_len, GFP_KERNEL);
-28c97ba38ff9c0 Mike Christie 2023-04-07  270  	if (!rse)
-28c97ba38ff9c0 Mike Christie 2023-04-07  271  		return -ENOMEM;
-28c97ba38ff9c0 Mike Christie 2023-04-07  272  
-28c97ba38ff9c0 Mike Christie 2023-04-07  273  	ret = nvme_pr_resv_report(bdev, rse, rse_len, &eds);
-28c97ba38ff9c0 Mike Christie 2023-04-07  274  	if (ret)
-28c97ba38ff9c0 Mike Christie 2023-04-07  275  		goto free_rse;
-28c97ba38ff9c0 Mike Christie 2023-04-07  276  
-28c97ba38ff9c0 Mike Christie 2023-04-07  277  	if (num_regs != get_unaligned_le16(&rse->regctl)) {
-28c97ba38ff9c0 Mike Christie 2023-04-07 @278  		kfree(rse);
-28c97ba38ff9c0 Mike Christie 2023-04-07  279  		goto get_num_regs;
-28c97ba38ff9c0 Mike Christie 2023-04-07  280  	}
-28c97ba38ff9c0 Mike Christie 2023-04-07  281  
-28c97ba38ff9c0 Mike Christie 2023-04-07  282  	resv->generation = le32_to_cpu(rse->gen);
-28c97ba38ff9c0 Mike Christie 2023-04-07  283  	resv->type = block_pr_type_from_nvme(rse->rtype);
-28c97ba38ff9c0 Mike Christie 2023-04-07  284  
-28c97ba38ff9c0 Mike Christie 2023-04-07  285  	for (i = 0; i < num_regs; i++) {
-28c97ba38ff9c0 Mike Christie 2023-04-07  286  		if (eds) {
-28c97ba38ff9c0 Mike Christie 2023-04-07  287  			if (rse->regctl_eds[i].rcsts) {
-28c97ba38ff9c0 Mike Christie 2023-04-07  288  				resv->key = le64_to_cpu(rse->regctl_eds[i].rkey);
-28c97ba38ff9c0 Mike Christie 2023-04-07  289  				break;
-28c97ba38ff9c0 Mike Christie 2023-04-07  290  			}
-28c97ba38ff9c0 Mike Christie 2023-04-07  291  		} else {
-28c97ba38ff9c0 Mike Christie 2023-04-07  292  			struct nvme_reservation_status *rs;
-28c97ba38ff9c0 Mike Christie 2023-04-07  293  
-28c97ba38ff9c0 Mike Christie 2023-04-07  294  			rs = (struct nvme_reservation_status *)rse;
-28c97ba38ff9c0 Mike Christie 2023-04-07  295  			if (rs->regctl_ds[i].rcsts) {
-28c97ba38ff9c0 Mike Christie 2023-04-07  296  				resv->key = le64_to_cpu(rs->regctl_ds[i].rkey);
-28c97ba38ff9c0 Mike Christie 2023-04-07  297  				break;
-28c97ba38ff9c0 Mike Christie 2023-04-07  298  			}
-28c97ba38ff9c0 Mike Christie 2023-04-07  299  		}
-28c97ba38ff9c0 Mike Christie 2023-04-07  300  	}
-28c97ba38ff9c0 Mike Christie 2023-04-07  301  
-28c97ba38ff9c0 Mike Christie 2023-04-07  302  free_rse:
-28c97ba38ff9c0 Mike Christie 2023-04-07  303  	kfree(rse);
-28c97ba38ff9c0 Mike Christie 2023-04-07  304  	return ret;
-28c97ba38ff9c0 Mike Christie 2023-04-07  305  }
-28c97ba38ff9c0 Mike Christie 2023-04-07  306  
+8887086ef2e004 Thomas Zimmermann 2023-09-07  49  
+8887086ef2e004 Thomas Zimmermann 2023-09-07  50  static void  fb_set_logo_truepalette(struct fb_info *info,
+8887086ef2e004 Thomas Zimmermann 2023-09-07  51  					    const struct linux_logo *logo,
+8887086ef2e004 Thomas Zimmermann 2023-09-07  52  					    u32 *palette)
+8887086ef2e004 Thomas Zimmermann 2023-09-07  53  {
+8887086ef2e004 Thomas Zimmermann 2023-09-07  54  	static const unsigned char mask[] = {
+8887086ef2e004 Thomas Zimmermann 2023-09-07  55  		0, 0x80, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc, 0xfe, 0xff
+8887086ef2e004 Thomas Zimmermann 2023-09-07  56  	};
+8887086ef2e004 Thomas Zimmermann 2023-09-07  57  	unsigned char redmask, greenmask, bluemask;
+8887086ef2e004 Thomas Zimmermann 2023-09-07  58  	int redshift, greenshift, blueshift;
+8887086ef2e004 Thomas Zimmermann 2023-09-07  59  	int i;
+8887086ef2e004 Thomas Zimmermann 2023-09-07  60  	const unsigned char *clut = logo->clut;
+8887086ef2e004 Thomas Zimmermann 2023-09-07  61  
+8887086ef2e004 Thomas Zimmermann 2023-09-07  62  	/*
+8887086ef2e004 Thomas Zimmermann 2023-09-07  63  	 * We have to create a temporary palette since console palette is only
+8887086ef2e004 Thomas Zimmermann 2023-09-07  64  	 * 16 colors long.
+8887086ef2e004 Thomas Zimmermann 2023-09-07  65  	 */
+8887086ef2e004 Thomas Zimmermann 2023-09-07  66  	/* Bug: Doesn't obey msb_right ... (who needs that?) */
+8887086ef2e004 Thomas Zimmermann 2023-09-07 @67  	redmask   = mask[info->var.red.length   < 8 ? info->var.red.length   : 8];
+8887086ef2e004 Thomas Zimmermann 2023-09-07  68  	greenmask = mask[info->var.green.length < 8 ? info->var.green.length : 8];
+8887086ef2e004 Thomas Zimmermann 2023-09-07  69  	bluemask  = mask[info->var.blue.length  < 8 ? info->var.blue.length  : 8];
+8887086ef2e004 Thomas Zimmermann 2023-09-07  70  	redshift   = info->var.red.offset   - (8 - info->var.red.length);
+8887086ef2e004 Thomas Zimmermann 2023-09-07  71  	greenshift = info->var.green.offset - (8 - info->var.green.length);
+8887086ef2e004 Thomas Zimmermann 2023-09-07  72  	blueshift  = info->var.blue.offset  - (8 - info->var.blue.length);
+8887086ef2e004 Thomas Zimmermann 2023-09-07  73  
+8887086ef2e004 Thomas Zimmermann 2023-09-07  74  	for (i = 0; i < logo->clutsize; i++) {
+8887086ef2e004 Thomas Zimmermann 2023-09-07  75  		palette[i+32] = (safe_shift((clut[0] & redmask), redshift) |
+8887086ef2e004 Thomas Zimmermann 2023-09-07  76  				 safe_shift((clut[1] & greenmask), greenshift) |
+8887086ef2e004 Thomas Zimmermann 2023-09-07  77  				 safe_shift((clut[2] & bluemask), blueshift));
+8887086ef2e004 Thomas Zimmermann 2023-09-07  78  		clut += 3;
+8887086ef2e004 Thomas Zimmermann 2023-09-07  79  	}
+8887086ef2e004 Thomas Zimmermann 2023-09-07  80  }
+8887086ef2e004 Thomas Zimmermann 2023-09-07  81  
 
 -- 
 0-DAY CI Kernel Test Service
