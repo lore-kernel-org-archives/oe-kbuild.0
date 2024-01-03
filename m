@@ -1,58 +1,56 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0284418640
-	for <oe-kbuild@lists.linux.dev>; Wed,  3 Jan 2024 09:45:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC4F18631
+	for <oe-kbuild@lists.linux.dev>; Wed,  3 Jan 2024 09:51:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IiIt7Dv9"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a2814fa68eeso154553266b.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 03 Jan 2024 01:45:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n0mMg+dm"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5537dd673e5so8012127a12.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 03 Jan 2024 01:51:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704275138; x=1704879938; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1XFro0zDE33nuxg1ml/0DMiVoso4Wj1BQrGtGR63iVA=;
-        b=IiIt7Dv92t+FglOpvt01lI1FxsX437nlEu93ihbn+UUiZ+FSbBMX46eK8Ktrn5EMYT
-         DrM3xhphLdiqHGLqoqvOQ1PiYZRCGU/PMtjXzxbCgkiZl8l7sZnqBCk3y8COljB2uqcs
-         UwNHjDJsYcxHdxrCJjOgaT0oKZKNehZwFpr8cKcfIDEDWAgWGIeskYvs13SjxsRZadQB
-         3xXJd6Mo+3seQARtiVm0SD+bNyOKlSGnDRy6c2WJ/2wrXvrnBRf8+eIu0+Ybo7TWDcex
-         tr55jEOJRbsFeuAaO6J0FHdcW35LyVGUXOlH7UA4MHgO9hVZuVe7YymnLkdBm6WUrFS6
-         mFJQ==
+        d=linaro.org; s=google; t=1704275475; x=1704880275; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9xz96zpZamnuctw20aOBbPKcLc59nkqAsmoJMPTjuCo=;
+        b=n0mMg+dmGDmKNAZS1xQLyzGt72gTN/HrQjLhh6P6cx2NUGotJlDL+UTANQ1wohnQM5
+         erkTTpDdZPGtAQxFSbQeCTb7PLimZCUrAZCMFsyKRXLQi/EfOF1kASHww4rmN5FmjC/s
+         axk0lWS+yGxSdgA2iir2/FG0OSfna0QUlXIbllEff/yaHtYp/DE5gMuCEVjO3ufU7xWP
+         aUkzo//qPcJg3i+/Q5wZUA/dx3L6xW8+IFZrU1UyfKA09NBHgx4X1HKfhD3tuqlQLFI3
+         XUg2fKZatLp44kOCZ26AVpkaxsLYyO4+pFNlszgwOlePDlhqok/8NJ8FpMG52gwG0sv+
+         D8kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704275138; x=1704879938;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1XFro0zDE33nuxg1ml/0DMiVoso4Wj1BQrGtGR63iVA=;
-        b=CGFZezpfXNv3kzsviz+mllq3G37vst3gYCrGH0S2q3mckSVZAAn9aTnuKhNI/rNDJ7
-         gaQgPnp9zoyyd0Kugkm93QG5axMjrKKDT+OWaZXNoYNXnVoX6CvhFu7J/6KAGu36ZQNT
-         n2Rk2knTY6yIj4nihQ+4Qo3VV485a6vlmTNY36wr/Uk7dvZZMIrevvZMl9+c0Uo2YjPX
-         hFvzdxtJZK2vg9z7BsPfenWKr/OVunz8KUL8BzJPooxPJx8n+J+Hc33RF6soXy3tEYFf
-         RgZt8wq7AIp6MC14XzwOj5WWXBTNeZDMgGygTsEiDks6keNy0NiC4zJ9/twyg3UpXYpX
-         4XCQ==
-X-Gm-Message-State: AOJu0YyO/VLiNgIjJ5GT7q1s/xAUacfVLRKbbjVwtBiRFjekzowmwnci
-	Nc28TKvHEoIhCQpK5xF8UEX1wYs1tToRdenJZofok6oTBm4=
-X-Google-Smtp-Source: AGHT+IEJZtiOe8S7Hm02u5QiHa9HqT4SSVlifY1Jy9f4gxVxzrACTb8d6jybuGtZDZaFQiT2nUhP4Q==
-X-Received: by 2002:a17:907:984:b0:a27:af7:bba5 with SMTP id bf4-20020a170907098400b00a270af7bba5mr8336282ejc.22.1704275138083;
-        Wed, 03 Jan 2024 01:45:38 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704275475; x=1704880275;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9xz96zpZamnuctw20aOBbPKcLc59nkqAsmoJMPTjuCo=;
+        b=hsJmS68Q8t0rxwdV52W9cYoqhfkKsSjwbRSotOAGKeiD24WMFmIxQdlu6n8zx0ZjdY
+         BNenqhohxq3qCc/Oi93o8sC1Ud4ZNg2aceTL100etbTjr0tNqxNVTXd/attTEGdL+Ar0
+         CzufOveVRVxrruVuZ5RN3p304QZYRic5PYx+PUirv7GAAwPtekXUUXOvPk06SvwMzxRf
+         rGnCyV9/Wto2itsapXEFUvq138q97ZT58tVvU5mDxX4OV0djJLU3lbKEID1Y0y5zRrA6
+         m9fU/5CK19hBJbqwHa1flZBNeInx3zAm65KUOpq/8Jqe7X2GLRcGyipI/e6fFepGO6hG
+         bwNg==
+X-Gm-Message-State: AOJu0Yz9TzrgU6ZnYRtrn8IOfDvXzQqjXvnglXRm6KHTgZVpoXyq4sLj
+	0CzLILuAyMu2HD98tFLhJTkjGPECJvx6meRZA85SWxX6mLM=
+X-Google-Smtp-Source: AGHT+IGfKTc+Py7i8LdLGx/i1V4Wa4lS2rgURpQzd2pME/OVI7Sj7UBHlJevkQc1MVZxPtZi1HUxJg==
+X-Received: by 2002:a50:d59b:0:b0:553:2dc2:4b9b with SMTP id v27-20020a50d59b000000b005532dc24b9bmr12044606edi.14.1704275474715;
+        Wed, 03 Jan 2024 01:51:14 -0800 (PST)
 Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id t15-20020a170906178f00b00a28acfac149sm56045eje.53.2024.01.03.01.45.37
+        by smtp.gmail.com with ESMTPSA id fj25-20020a0564022b9900b00556cd818dd2sm577119edb.70.2024.01.03.01.51.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 01:45:37 -0800 (PST)
-Date: Wed, 3 Jan 2024 12:45:34 +0300
+        Wed, 03 Jan 2024 01:51:14 -0800 (PST)
+Date: Wed, 3 Jan 2024 12:51:11 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, James Tai <james.tai@realtek.com>,
-	Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
+To: oe-kbuild@lists.linux.dev, Umang Jain <umang.jain@ideasonboard.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 3/6] irqchip: Introduce RTD1319 support using the
- Realtek common interrupt controller driver
-Message-ID: <edcbb1d9-ba72-496c-90c5-57948efe23f4@moroto.mountain>
+	devel@driverdev.osuosl.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [staging:staging-testing 87/153]
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:686
+ vchiq_initialise() error: we previously assumed 'state' could be null (see
+ line 681)
+Message-ID: <7a7fd5e8-7f06-4da5-9123-c7a154c05fc2@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,70 +59,52 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231117162709.1096585-4-james.tai@realtek.com>
 
-Hi James,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Tai/dt-bindings-interrupt-controller-Add-support-for-Realtek-DHC-SoCs/20231118-003036
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20231117162709.1096585-4-james.tai%40realtek.com
-patch subject: [PATCH v2 3/6] irqchip: Introduce RTD1319 support using the Realtek common interrupt controller driver
-config: nios2-randconfig-r081-20231120 (https://download.01.org/0day-ci/archive/20231217/202312172011.8iKGuYB9-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git staging-testing
+head:   5e8cdb6f6ebe28976876ab04995a5d3779b85082
+commit: e70f17ed997cb7ee6c34089f2cdc2a9edc886503 [87/153] staging: vc04_services: Drop vchiq_log_error() in favour of dev_err
+config: csky-randconfig-r081-20231218 (https://download.01.org/0day-ci/archive/20231219/202312190038.zuEX32PB-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312172011.8iKGuYB9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312190038.zuEX32PB-lkp@intel.com/
 
 smatch warnings:
-drivers/irqchip/irq-realtek-intc-common.c:179 realtek_intc_probe() warn: ignoring unreachable code.
-drivers/irqchip/irq-realtek-intc-common.c:187 realtek_intc_probe() warn: 'data->base' from of_iomap() not released on lines: 176,182.
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:686 vchiq_initialise() error: we previously assumed 'state' could be null (see line 681)
 
-vim +179 drivers/irqchip/irq-realtek-intc-common.c
+vim +/state +686 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
 
-40e5ff4eaef72b James Tai 2023-11-18  155  int realtek_intc_probe(struct platform_device *pdev, const struct realtek_intc_info *info)
-40e5ff4eaef72b James Tai 2023-11-18  156  {
-40e5ff4eaef72b James Tai 2023-11-18  157  	struct realtek_intc_data *data;
-40e5ff4eaef72b James Tai 2023-11-18  158  	struct device *dev = &pdev->dev;
-40e5ff4eaef72b James Tai 2023-11-18  159  	struct device_node *node = dev->of_node;
-40e5ff4eaef72b James Tai 2023-11-18  160  	int ret, i;
-40e5ff4eaef72b James Tai 2023-11-18  161  
-40e5ff4eaef72b James Tai 2023-11-18  162  	data = devm_kzalloc(dev, struct_size(data, subset_data, info->cfg_num), GFP_KERNEL);
-40e5ff4eaef72b James Tai 2023-11-18  163  	if (!data)
-40e5ff4eaef72b James Tai 2023-11-18  164  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  165  
-40e5ff4eaef72b James Tai 2023-11-18  166  	data->base = of_iomap(node, 0);
-40e5ff4eaef72b James Tai 2023-11-18  167  	if (!data->base)
-40e5ff4eaef72b James Tai 2023-11-18  168  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  169  
-40e5ff4eaef72b James Tai 2023-11-18  170  	data->info = info;
-40e5ff4eaef72b James Tai 2023-11-18  171  
-40e5ff4eaef72b James Tai 2023-11-18  172  	raw_spin_lock_init(&data->lock);
-40e5ff4eaef72b James Tai 2023-11-18  173  
-40e5ff4eaef72b James Tai 2023-11-18  174  	data->domain = irq_domain_add_linear(node, 32, &realtek_intc_domain_ops, data);
-40e5ff4eaef72b James Tai 2023-11-18  175  	if (!data->domain)
-40e5ff4eaef72b James Tai 2023-11-18  176  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  177  
-40e5ff4eaef72b James Tai 2023-11-18  178  	data->subset_data_num = info->cfg_num;
-40e5ff4eaef72b James Tai 2023-11-18 @179  	for (i = 0; i < info->cfg_num; i++) {
-40e5ff4eaef72b James Tai 2023-11-18  180  		ret = realtek_intc_subset(node, data, i);
-40e5ff4eaef72b James Tai 2023-11-18  181  		WARN(ret, "failed to init subset %d: %d", i, ret);
+abf2836a381a307 Stefan Wahren        2021-04-25  668  int vchiq_initialise(struct vchiq_instance **instance_out)
+5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  669  {
+2d0a0291135fd2f Dominic Braun        2018-12-14  670  	struct vchiq_state *state;
+4ddf9a2555caf21 Jamal Shareef        2019-11-05  671  	struct vchiq_instance *instance = NULL;
+abf2836a381a307 Stefan Wahren        2021-04-25  672  	int i, ret;
+5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  673  
+3da8757576ef789 Amarjargal Gundjalam 2020-10-28  674  	/*
+3da8757576ef789 Amarjargal Gundjalam 2020-10-28  675  	 * VideoCore may not be ready due to boot up timing.
+5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  676  	 * It may never be ready if kernel and firmware are mismatched,so don't
+5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  677  	 * block forever.
+5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  678  	 */
+5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  679  	for (i = 0; i < VCHIQ_INIT_RETRIES; i++) {
+5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  680  		state = vchiq_get_state();
+5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02 @681  		if (state)
 
-if statement missing
+We exit early if state is valid
 
-40e5ff4eaef72b James Tai 2023-11-18  182  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  183  	}
-40e5ff4eaef72b James Tai 2023-11-18  184  
-40e5ff4eaef72b James Tai 2023-11-18  185  	platform_set_drvdata(pdev, data);
-40e5ff4eaef72b James Tai 2023-11-18  186  
-40e5ff4eaef72b James Tai 2023-11-18 @187  	return 0;
-40e5ff4eaef72b James Tai 2023-11-18  188  }
+5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  682  			break;
+81244ba0f03691a Stefan Wahren        2018-03-31  683  		usleep_range(500, 600);
+5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  684  	}
+5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  685  	if (i == VCHIQ_INIT_RETRIES) {
+e70f17ed997cb7e Umang Jain           2023-12-05 @686  		dev_err(state->dev, "core: %s: Videocore not initialized\n", __func__);
+                                                                        ^^^^^^^^^^
+state is NULL at this point.
+
+abf2836a381a307 Stefan Wahren        2021-04-25  687  		ret = -ENOTCONN;
+5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  688  		goto failed;
+5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  689  	} else if (i > 0) {
 
 -- 
 0-DAY CI Kernel Test Service
