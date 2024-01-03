@@ -1,56 +1,58 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC4F18631
-	for <oe-kbuild@lists.linux.dev>; Wed,  3 Jan 2024 09:51:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46BE18E07
+	for <oe-kbuild@lists.linux.dev>; Wed,  3 Jan 2024 11:14:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n0mMg+dm"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5537dd673e5so8012127a12.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 03 Jan 2024 01:51:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gDyXZdyn"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-50e7b9cca2fso7549611e87.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 03 Jan 2024 03:14:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704275475; x=1704880275; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1704280458; x=1704885258; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=9xz96zpZamnuctw20aOBbPKcLc59nkqAsmoJMPTjuCo=;
-        b=n0mMg+dmGDmKNAZS1xQLyzGt72gTN/HrQjLhh6P6cx2NUGotJlDL+UTANQ1wohnQM5
-         erkTTpDdZPGtAQxFSbQeCTb7PLimZCUrAZCMFsyKRXLQi/EfOF1kASHww4rmN5FmjC/s
-         axk0lWS+yGxSdgA2iir2/FG0OSfna0QUlXIbllEff/yaHtYp/DE5gMuCEVjO3ufU7xWP
-         aUkzo//qPcJg3i+/Q5wZUA/dx3L6xW8+IFZrU1UyfKA09NBHgx4X1HKfhD3tuqlQLFI3
-         XUg2fKZatLp44kOCZ26AVpkaxsLYyO4+pFNlszgwOlePDlhqok/8NJ8FpMG52gwG0sv+
-         D8kg==
+        bh=0rBUePNsfxj9hHc+i24NkBNGZnA/maXpINtsn5yNH/w=;
+        b=gDyXZdynsY7E/7O5JVdEU7k3kYJqSK+1euk08hyx8DOU3Wr4nb2iA5xZMZQ8tiya3S
+         A9AbDhn9hRhPLWvYP7U9Ust+vXq3epeGeBmoC3iMo7UpzSh3NkEWBR5e4x7F0S20C5v9
+         5Owyp/H7fWsoKwp1P4ifH9du6Ssk6fr0op1zNOQcaViuQQh9fBw8dV5+u8bPl6sGlcvS
+         WGG887y5muNsVlqH2GMaLKN4RoSiNPMEDuHV1x8521JQmoTp2dR0hQ+qiELqOQNrmeFU
+         paFVTPhH22bkZUCYnT1TfA6xKLSGGAlSQx9rJdN/FvHvn6eyjY3DP+9em7uwOA0k95o7
+         8MAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704275475; x=1704880275;
+        d=1e100.net; s=20230601; t=1704280458; x=1704885258;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9xz96zpZamnuctw20aOBbPKcLc59nkqAsmoJMPTjuCo=;
-        b=hsJmS68Q8t0rxwdV52W9cYoqhfkKsSjwbRSotOAGKeiD24WMFmIxQdlu6n8zx0ZjdY
-         BNenqhohxq3qCc/Oi93o8sC1Ud4ZNg2aceTL100etbTjr0tNqxNVTXd/attTEGdL+Ar0
-         CzufOveVRVxrruVuZ5RN3p304QZYRic5PYx+PUirv7GAAwPtekXUUXOvPk06SvwMzxRf
-         rGnCyV9/Wto2itsapXEFUvq138q97ZT58tVvU5mDxX4OV0djJLU3lbKEID1Y0y5zRrA6
-         m9fU/5CK19hBJbqwHa1flZBNeInx3zAm65KUOpq/8Jqe7X2GLRcGyipI/e6fFepGO6hG
-         bwNg==
-X-Gm-Message-State: AOJu0Yz9TzrgU6ZnYRtrn8IOfDvXzQqjXvnglXRm6KHTgZVpoXyq4sLj
-	0CzLILuAyMu2HD98tFLhJTkjGPECJvx6meRZA85SWxX6mLM=
-X-Google-Smtp-Source: AGHT+IGfKTc+Py7i8LdLGx/i1V4Wa4lS2rgURpQzd2pME/OVI7Sj7UBHlJevkQc1MVZxPtZi1HUxJg==
-X-Received: by 2002:a50:d59b:0:b0:553:2dc2:4b9b with SMTP id v27-20020a50d59b000000b005532dc24b9bmr12044606edi.14.1704275474715;
-        Wed, 03 Jan 2024 01:51:14 -0800 (PST)
+        bh=0rBUePNsfxj9hHc+i24NkBNGZnA/maXpINtsn5yNH/w=;
+        b=HDNs2EFll7eglEDHjQSdENgqfLBne9rkBLxl2vuxra89cIZD9lKRpfJMEPxr79IYRk
+         4FZYSkIKS4NZBP5ynDYnwpPJilRhD7B0PvUZs9SFWrUeFi4BCx7sWt+nYpOnDYJGkI5l
+         W1JCE8QLrWFlOTPGcLd2LU2CiqnO+kB8ogIMVSSi5GN7WshtgBpEslkE4tcbHaYBqr1N
+         jH3sfrGbGOKOonT3JIkOqvCas/MkekAleFNjaubTKLLXGRykIVxL9Ul9LekUQAXp77dS
+         8AVI1h+gda3V9y2Tm+ljWIKPE2VGKsk26KUksp++0QxYY4oJ2KtjEvala8SdkK/S1Tte
+         ZeUg==
+X-Gm-Message-State: AOJu0YwW5AzFf97TRhBrxG8r4Lf/EeB8bedmKJyCQJbZmTAdH5fNQgC6
+	6GIpZ9IR+x6cjVtzcHgNXnBzT8L3k8GqtwRvw7rCn7wbWHI=
+X-Google-Smtp-Source: AGHT+IGXcdzKOo4APAnwLjP9eJMs+N/JZYFhJvm8ONtjm5/eqD4RVyGdW76PjvBXx1B2fSQw05FNUQ==
+X-Received: by 2002:a19:2d07:0:b0:50e:76cd:f3f with SMTP id k7-20020a192d07000000b0050e76cd0f3fmr6035129lfj.54.1704280458645;
+        Wed, 03 Jan 2024 03:14:18 -0800 (PST)
 Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id fj25-20020a0564022b9900b00556cd818dd2sm577119edb.70.2024.01.03.01.51.14
+        by smtp.gmail.com with ESMTPSA id dg24-20020a0564021d1800b00552cf686df3sm17367232edb.52.2024.01.03.03.14.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 01:51:14 -0800 (PST)
-Date: Wed, 3 Jan 2024 12:51:11 +0300
+        Wed, 03 Jan 2024 03:14:18 -0800 (PST)
+Date: Wed, 3 Jan 2024 14:14:14 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Umang Jain <umang.jain@ideasonboard.com>
+To: oe-kbuild@lists.linux.dev, davidgow <davidgow@google.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	devel@driverdev.osuosl.org,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [staging:staging-testing 87/153]
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:686
- vchiq_initialise() error: we previously assumed 'state' could be null (see
- line 681)
-Message-ID: <7a7fd5e8-7f06-4da5-9123-c7a154c05fc2@moroto.mountain>
+Subject: [linux-next:master 8829/9096] lib/kunit/device.c:138
+ kunit_device_register_with_driver() warn: passing zero to 'ERR_CAST'
+Message-ID: <309f601b-4af1-4127-a20b-88256203ca1d@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,51 +62,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git staging-testing
-head:   5e8cdb6f6ebe28976876ab04995a5d3779b85082
-commit: e70f17ed997cb7ee6c34089f2cdc2a9edc886503 [87/153] staging: vc04_services: Drop vchiq_log_error() in favour of dev_err
-config: csky-randconfig-r081-20231218 (https://download.01.org/0day-ci/archive/20231219/202312190038.zuEX32PB-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   aa4db8324c4d0e67aa4670356df4e9fae14b4d37
+commit: d03c720e03bd9bf0b784d80b5d3ede7e2daf3b6e [8829/9096] kunit: Add APIs for managing devices
+config: x86_64-randconfig-161-20231219 (https://download.01.org/0day-ci/archive/20231220/202312200124.CkSII1FB-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312190038.zuEX32PB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312200124.CkSII1FB-lkp@intel.com/
 
 smatch warnings:
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:686 vchiq_initialise() error: we previously assumed 'state' could be null (see line 681)
+lib/kunit/device.c:138 kunit_device_register_with_driver() warn: passing zero to 'ERR_CAST'
 
-vim +/state +686 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+vim +/ERR_CAST +138 lib/kunit/device.c
 
-abf2836a381a307 Stefan Wahren        2021-04-25  668  int vchiq_initialise(struct vchiq_instance **instance_out)
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  669  {
-2d0a0291135fd2f Dominic Braun        2018-12-14  670  	struct vchiq_state *state;
-4ddf9a2555caf21 Jamal Shareef        2019-11-05  671  	struct vchiq_instance *instance = NULL;
-abf2836a381a307 Stefan Wahren        2021-04-25  672  	int i, ret;
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  673  
-3da8757576ef789 Amarjargal Gundjalam 2020-10-28  674  	/*
-3da8757576ef789 Amarjargal Gundjalam 2020-10-28  675  	 * VideoCore may not be ready due to boot up timing.
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  676  	 * It may never be ready if kernel and firmware are mismatched,so don't
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  677  	 * block forever.
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  678  	 */
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  679  	for (i = 0; i < VCHIQ_INIT_RETRIES; i++) {
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  680  		state = vchiq_get_state();
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02 @681  		if (state)
+d03c720e03bd9b davidgow@google.com 2023-12-15  131  struct device *kunit_device_register_with_driver(struct kunit *test,
+d03c720e03bd9b davidgow@google.com 2023-12-15  132  						 const char *name,
+d03c720e03bd9b davidgow@google.com 2023-12-15  133  						 const struct device_driver *drv)
+d03c720e03bd9b davidgow@google.com 2023-12-15  134  {
+d03c720e03bd9b davidgow@google.com 2023-12-15  135  	struct kunit_device *kunit_dev = kunit_device_register_internal(test, name, drv);
+d03c720e03bd9b davidgow@google.com 2023-12-15  136  
+d03c720e03bd9b davidgow@google.com 2023-12-15  137  	if (IS_ERR_OR_NULL(kunit_dev))
+d03c720e03bd9b davidgow@google.com 2023-12-15 @138  		return ERR_CAST(kunit_dev);
 
-We exit early if state is valid
+kunit_device_register_internal() doesn't return NULL.
 
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  682  			break;
-81244ba0f03691a Stefan Wahren        2018-03-31  683  		usleep_range(500, 600);
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  684  	}
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  685  	if (i == VCHIQ_INIT_RETRIES) {
-e70f17ed997cb7e Umang Jain           2023-12-05 @686  		dev_err(state->dev, "core: %s: Videocore not initialized\n", __func__);
-                                                                        ^^^^^^^^^^
-state is NULL at this point.
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
 
-abf2836a381a307 Stefan Wahren        2021-04-25  687  		ret = -ENOTCONN;
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  688  		goto failed;
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  689  	} else if (i > 0) {
+d03c720e03bd9b davidgow@google.com 2023-12-15  139  
+d03c720e03bd9b davidgow@google.com 2023-12-15  140  	return &kunit_dev->dev;
+d03c720e03bd9b davidgow@google.com 2023-12-15  141  }
 
 -- 
 0-DAY CI Kernel Test Service
