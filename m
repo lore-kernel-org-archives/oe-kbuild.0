@@ -1,275 +1,210 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF9F15495;
-	Tue,  2 Jan 2024 17:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13271108
+	for <oe-kbuild@lists.linux.dev>; Wed,  3 Jan 2024 01:36:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZY9jdDSw";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="d86QoFZf"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 4029SuS7027880;
-	Tue, 2 Jan 2024 17:10:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2023-11-20;
- bh=cu+m3YOnuPexoBHA7mEWSRcpGkL8k88MGvwslZEUHwA=;
- b=ZY9jdDSwosS06SzYUqp/cTj9/zcRd14vAJTw58PcT6cSFxum2Mis8v06Ip5v6ZlGGwcB
- xNDvIoSX5SjqC31ZYbhwl7wdDdvyzDGyLziyVFR+uRfTeF6Wz9dnxen3MnAh1Fk/bT+G
- cSU/VNapsha7Ll1I8TN3kPcrXohYkqZf0WDhmxI/Wdy2ixxMJXV+n547ETmb0PrRJb8o
- iiqSvS02xt/yFOL086hk6Dtgw6dFiLAQ/hC4isKVyPrr0CQDu+iIeaAus5JIDNs97Izk
- 6IaXjKnASkuCnEWmc46iF/vQmgdTOHKVp5bPJlgtMshUmfU+lg18v356GYKXrDm6pOwJ eA== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vaa03ueyh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 02 Jan 2024 17:10:22 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 402GRaBB013865;
-	Tue, 2 Jan 2024 17:10:21 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2168.outbound.protection.outlook.com [104.47.73.168])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3va9ndqy7b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 02 Jan 2024 17:10:21 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ogz3R1wWlsyEw8avoIop/JV2QYCkya7XZNriNgmZX89/Z/GZ7T+kvqkvLJs2++A4AaZqYnoOWTTwtaO5q+VFMu739CvxIMHnQDjnZD7IJ4nn5Bg3ZoBcVUjTo07EuEvrZ+qSyWiT/NUhXn0/JHXnJnCFGZmmRo+hquwGg1sWyD8Iwa5X7/P1o8uaH41qfScxnXORev39tir/5niX3ZGu8P+gBxO6xk1kwwU7OIIERVTyiZI6H1sFnN3TVfUCkxVYpUp1i5NFhMm3O7ZQmn6ywLuWmFaM4dmsgI0vw6suyU/voTZG/CEYE6gsHT90f4Oc5Zw5GLS7mfMAVGvjnUrT9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cu+m3YOnuPexoBHA7mEWSRcpGkL8k88MGvwslZEUHwA=;
- b=Ya9e/Y2iBJjC16KyKGLUieVuVGoj2Em4qTGRbd1Z66oW8SQz4IyGJovWorLz15Ci1IttIK2sD2jaXSFU6kckJE1VFnS3l6uPNN7gRyAalcR46m0Ny8KZd2xjo3uEp1rcmg3EVCj7J/jFbwcj5V71QbvTHtFPfACjzIAY6JMdWJ3BrtVOxxcd35BC9lUbx4lxW+LhIQSNVw+uajgr8YBQSHHgMsC4WR7bSUfSPmfZmAJj3EhQq0c38YSPv61T0qrisyOc6rasGDJwBUjxPpt7QVBKo3oHS+S7hlTaYmhoHIIqXhJvC9ygOgEEdqltdVChsmbcFso8z/qgqwvIF6Zz9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cu+m3YOnuPexoBHA7mEWSRcpGkL8k88MGvwslZEUHwA=;
- b=d86QoFZfWItJyaUanptuNwk+W2MKxrEdaJ/F2jdq6N+CvB9zsDXuBHqDkgjARultl8oBAyOMApEyL7yHgZASR960vaDdJxd+IQnTJAx8FHktxYk2bfBhg1bvu6asuSXFdO3aN8NFUQ1xL/6CPvIBNi51P2/cGeM1u0WB39O/GdA=
-Received: from MW5PR10MB5738.namprd10.prod.outlook.com (2603:10b6:303:19b::14)
- by MW4PR10MB5704.namprd10.prod.outlook.com (2603:10b6:303:18e::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.25; Tue, 2 Jan
- 2024 17:10:18 +0000
-Received: from MW5PR10MB5738.namprd10.prod.outlook.com
- ([fe80::bd88:5306:d287:afb0]) by MW5PR10MB5738.namprd10.prod.outlook.com
- ([fe80::bd88:5306:d287:afb0%6]) with mapi id 15.20.7135.023; Tue, 2 Jan 2024
- 17:10:18 +0000
-Message-ID: <50be9574-b9b6-4752-861f-3e4b4e251207@oracle.com>
-Date: Tue, 2 Jan 2024 11:10:15 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] jfs: fix array-index-out-of-bounds in diNewExt
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
-        Edward Adam Davis <eadavis@qq.com>,
-        syzbot+553d90297e6d2f50dbc7@syzkaller.appspotmail.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-        jfs-discussion@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-References: <828db1e9-9b98-4797-bd23-08fbae1260d3@suswa.mountain>
-Content-Language: en-US
-From: Dave Kleikamp <dave.kleikamp@oracle.com>
-In-Reply-To: <828db1e9-9b98-4797-bd23-08fbae1260d3@suswa.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR03CA0255.namprd03.prod.outlook.com
- (2603:10b6:610:e5::20) To MW5PR10MB5738.namprd10.prod.outlook.com
- (2603:10b6:303:19b::14)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JvmOvMqg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704245799; x=1735781799;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=aDV7jMbShTp2lJUBZIbQtYfdHIWS2Di2sO5kr68FwCI=;
+  b=JvmOvMqgEUL4ydrAjbmzSn9wHSocWCEb14WkdXanTTm/PPZjyrfg9q86
+   MieVaV/WgoYJDfQu1fuls9AleOwFn+y1fFIyEGAXtdeGfdJa3wqTvqhE7
+   +6cZGHw8Qxfc637TvIOVz6LpiKDCkmL0y7uTfLNdZ1zapRIjsTxFGrAJO
+   LJ4FJINmOYmSv84a/10LvhLvCoJXQdZghq+rBPgOQl7iln4d8RSqpyx+u
+   KB2Yib6vSFVbGAbfp5aZVw8cxa2WUpTKimsZMBSevpRNcZzH1C8AWCRS2
+   anxgEQSLOKCE1S+osG2EPpGd0tCc+NcGsGnMYX7wQKrA2i243qwDPZ4aN
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="3782775"
+X-IronPort-AV: E=Sophos;i="6.04,326,1695711600"; 
+   d="scan'208";a="3782775"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 17:36:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="953078467"
+X-IronPort-AV: E=Sophos;i="6.04,326,1695711600"; 
+   d="scan'208";a="953078467"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 02 Jan 2024 17:36:37 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rKqBN-000Lc6-3C;
+	Wed, 03 Jan 2024 01:36:34 +0000
+Date: Wed, 3 Jan 2024 09:35:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 1/4] wifi: brcmfmac: export firmware interface functions
+Message-ID: <202401030944.GxNYBoIe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW5PR10MB5738:EE_|MW4PR10MB5704:EE_
-X-MS-Office365-Filtering-Correlation-Id: f5288d17-f42d-4cdc-627c-08dc0bb5b1c7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	8yP1aXI70432/B07QdVuloSjyG+cIrOXMML11Y5xtQ8ujbHKpuYCrCAW4i4TKKv8PXxSf00Bp1mIvzSk4W89HIxFfJXGAtqWMCzp4VoiJLAKxCVr1bMkO4XMK5pF2UxoTCO3Uqtm6QkcTtBVYz0ENgGUl3wFSM5v8s/FrZvWvcWmecPcyX6GsQdWIhiBAMDZXM9USBMYT2v3pi6NgLvPx7JiPqadZ/b7DK2xsFzRf0bfe+i+uJc1QaL8bgNv1hEOXyS1MvfbV60EqcicFtMGAr/Am5I9SM79+/wgbqEPSD8XEBnFVnWmAlrP6d5KuXJOD7oV31xJM4vB3ODovhiAwPjiKSYSj+NV7bzzOIJZoXUBsz0lLqUMcxG/j7rIKguLRJ/8x7eDOLSP8HzF2NqPBIS76gKqDteowL/fLtkBlA3zGlhsBCS354CQ3tbpvNAHHwYpHBsvza4CLMrbDIj7PYkjMt8aOUqtABzlIev8UI2CPK5qpdlTrFNWJ9me5+OSzhiiV+/mlZUT4b0IsVBt7ouHMoxTI5SZVcq7X4BhJ3Ry+p0M0yjOQULCUVPJ7ZJ8pkCg0az0s/HO3nuZBEaCZ/iDeCFa5MOyMrVO4BtDmjPHJFunAwVTahgH/68FoerJSgV1D+aGP/LhFTQdybjNfLMAbdtOQgfeaEKelKvYED0oVC5tUjjUUIfU4T5rUl2/uKlbtXZZLiy9/X7cmlfXcMM89XUeOKXG2fWXW/o+y5w=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW5PR10MB5738.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(366004)(396003)(346002)(376002)(230173577357003)(230922051799003)(230273577357003)(186009)(64100799003)(1800799012)(451199024)(31686004)(41300700001)(4001150100001)(2906002)(5660300002)(7416002)(44832011)(8676002)(4326008)(316002)(66556008)(110136005)(66946007)(66476007)(36756003)(6506007)(8936002)(38100700002)(31696002)(478600001)(966005)(6486002)(86362001)(6666004)(2616005)(6512007)(26005)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?ckZYRG5xckt3bjJYV2VvcFFINm1udjJFVStneGtkVnVMcWVwbDF3eUJWbU5i?=
- =?utf-8?B?bG1tMnhQWWE3SkVGQVBQT0ltWVFKK0IrTDE5Tk11bDUwbk94a3NwT1hMV0Jo?=
- =?utf-8?B?QTFnTUFZVVFvY1hXblhGVmhyT3phOEdERTJ1dUQzZ2lyK3M0QjNzUExlRmc2?=
- =?utf-8?B?aG50NkdVQWQ5WW9hWXZtQmtsdFBNb0R2VVRnRGYrNjdLejB6NFNSVC9Rc1Ey?=
- =?utf-8?B?UVBLK0V1d01USCtyRDZWUnZtOTdFdXNmaDNZUWY4MUVTbTFhL2xBK0lWUGhC?=
- =?utf-8?B?R2E1TU56eXY5bFJaR3ZlVi9wbXREL2RiTmJBV1lMZ3Zlbll1U09LUmtMNzZj?=
- =?utf-8?B?ZkxxWFFJZlR5bTFHMW92MjFzM2tZZ05qQ084dTJaWmMwakUwSVlWbkt3S3Nj?=
- =?utf-8?B?akxseXVSZzNjYVpzcUVhbkNIVGtXYTU4REJrWWhmQTE2SFJzMjZYVEgyTkNX?=
- =?utf-8?B?alNreXdCbDBCZzZHemFhYU83a2lkWDVQa2hPaVZHQXplUmIraHBKeTR2emwx?=
- =?utf-8?B?VTBiaXNZbXFYS0dERXM1dUFmcUJEbVIrSVVtcWNTVGgyaVpkVUpkblFEcUN5?=
- =?utf-8?B?dlo1MVZCNUhtZGdFQ2VLejVWenIrcEs3U1gxUjE4Tk05cklJL1pzNVNBVEtw?=
- =?utf-8?B?dDMrWDY4a2h4WkhDREZWbU1IRXNrWVl4b1FaN0NpRVBZdDZzWnZUZXpVUlNm?=
- =?utf-8?B?RU1oMkl2UmZXRUxMRldWSXBsT244NXBocUMwcWFkM3FuNkVHUit4T1haaEUw?=
- =?utf-8?B?WiswRG9yaFluczRmTHdONFdhTDJvY2JGUXJXY1hDNnppNUt6NUR1dmJmTUsy?=
- =?utf-8?B?KzVaZkdXdTUvTFNXYkluV0pDK3hVVHhSbWNoT0M0MHdnMXZuTmRUUkVqOGF6?=
- =?utf-8?B?VTVSb1lIWkxuVXVhdVRyYmJBWFNGSU5FZ1dITm1VdVZya1dOQ29BaFZ4dDJt?=
- =?utf-8?B?aThkZlh4U1hMd3pQOEpqc2JvWlRiTG1aNkNnMWdvb2poQjFISjVTSGwxazNU?=
- =?utf-8?B?STRKMUNNZjF1U1pCYjZIdEdtV29WZVplYWJvSlJBZGNZaE1UYW5NVDcxWjha?=
- =?utf-8?B?S3BISFVZcW9zMUdwOXpPUmV4eTRnZjZUQ2lLZnBjMDNXcTFISjRaWG1KdCtR?=
- =?utf-8?B?K0hRRDVzaWpoT2NqQ0lyaktQWnJvd1NqdncxSnd3M3VXanVrVGhKbXJ4dTJu?=
- =?utf-8?B?bWt0c2xrUmRXTDJTcHBtUlJaSFBhR1c5MXlwM1lMUzNHZnN6cDV1d1Vva0J0?=
- =?utf-8?B?dnF6Uk9rak9kUDBSQU1zbEpMYUVrcUZSQXRrVmZLZURCUFY1R3ZsMFV4Yzdh?=
- =?utf-8?B?NjhyUUk2bTVHWU5ycTNmN0QxeUpHQjhzbkNZWVlxMmtjTzhRNUV2QWx3UTl2?=
- =?utf-8?B?UjZPWXUxN0J6MkVuNi9TUXFzaHFzdk01Zlk5ZkNxYWE1TjRJelRKK3pOb0JR?=
- =?utf-8?B?Tnh1VmJFVC9aR25KVlFMem5BZldMSGJ0NkZDQlJSTUhGeU5BdWlNRHZ4NTg1?=
- =?utf-8?B?cmg5Umt0NWlNTDV1OStLaUFXLyt3V0x1Y0hkWktOSDZiOFNKT1hDOGVRd3hJ?=
- =?utf-8?B?V2VyR0xrTFVSRzBwUDJNUW1IaWZ3WitTOTZheDhxQ2tBeDlSWlJWaTFwdDFQ?=
- =?utf-8?B?Mm5WSDZpSC9lUDBHR2U4MzEraDRaM0s3T0w0YXIrRVpCb2dXYmNaK2RRVmo1?=
- =?utf-8?B?YTA1Tml0b3J1TG5QV0JjemRwam5iSGFzM25kbXVmRE5Wc3lOeE9nMFJrOTh2?=
- =?utf-8?B?R2R5QjNFVjhhYWpwTTNheDhNRUhIMVdId1lNdU92NDNCS1l1RlRKNG14Y3Ru?=
- =?utf-8?B?Z1lRWUVBbG1vZVdKT2p6bmZSOVo5eW5mbVlQUEJLSmZ1SS81WDFrOUtqYkZP?=
- =?utf-8?B?Q1ByNlNiTEVrNzVpZHE1enJrcU9HVmNFYTF6TmtJUkVVU3crWldOMzlvc0JX?=
- =?utf-8?B?SFVyeExlOXR4cFBqZCtMTDZLWGNKaXBTWmJuQ056MWRMRDNEL3prM3YwRW9S?=
- =?utf-8?B?dlFSbjJ3SDc5UVJSUFJDRTVUNFN4SlVWdjNUU09jZk5RdVdKcHoyRjBDSTh3?=
- =?utf-8?B?YlRTTUR0WmlJeU9YQjJrbXB6eEVuRjJKeUQxWnBzV2NpNXNsVjh2U3hUc1Bx?=
- =?utf-8?B?R3NxVFhpTGNhSUVTZ0RJWWlXaFlsYzFhUmhVSzZhRmU0ZDlxVGN5NWlpN2FV?=
- =?utf-8?B?Z1E9PQ==?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	xoRkMDL7rfd1T1tBkgQZzO9DnYi0YVkwj868VIRZMi9L/zBqepIhPaDSygwl89VBRLuKIYw/u4uKvfyIQir9thARl2x5kM2favnvm9T+EOWcJGuEsO1G3qNA8n0jTuM55iucGeX437R+t4hWXyj8bI70NXp5h/v6XSbYzd7/awPj3OmVc/gJfbYHjBTvTSPeexeroCbL62FMcDv/H1gdO3HNjyk6RVDMOh/NdrOHnyOuqbrsKqeRXVZE8psxFvnAeBah8xAbbRzdeF8d5TTKX9vIOSnUmoLXQlxzfB0KLCZSygkCCcId21auX2AkzHooWcgQnuEM6XZaPj6AH4WfLXY0g7wpel84F4j8iIXv7xr8J9eRIADllbdG8ZUcXMOJuTsAttcVU1vi8EpIbUB+Ui6+d3a4WRTXCujUklq8caRy/+5UswF7/PUocrqIQBz1lIJTk/0UyBoxpumE4/1kE2U3UVoSG8w7oDEeDq3aoM8hppFmMKhYBVwNFCEr7EdjV8UOHwNUADTpcAGOZHiqta0PMqEy7ccvfqknl5pXQKRE5g8kMbJJmi3WM6koPayBRfyp6cJC+kBg9bdgHNlEpKHCOZpvwTgD6RpLV7k3C+s=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5288d17-f42d-4cdc-627c-08dc0bb5b1c7
-X-MS-Exchange-CrossTenant-AuthSource: MW5PR10MB5738.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jan 2024 17:10:18.1414
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2ewSOKaGMEMuDKTK0qiVap38yfTZN4iIQh0v4Px53SBj/thoUlnRVoe0Xs/z+Wcfq+hHCzl2dbx1OQuCyTXR7lvbMzkLDFPvO7Pj4ayaaDE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB5704
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-02_06,2024-01-02_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
- mlxscore=0 bulkscore=0 adultscore=0 suspectscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2401020129
-X-Proofpoint-ORIG-GUID: IHw2F50pCP-Ncijus5LD1ANDwhCmPS3n
-X-Proofpoint-GUID: IHw2F50pCP-Ncijus5LD1ANDwhCmPS3n
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 1/2/24 7:29AM, Dan Carpenter wrote:
-> Hi Edward,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Edward-Adam-Davis/jfs-fix-array-index-out-of-bounds-in-diNewExt/20231212-095530
-> base:   https://github.com/kleikamp/linux-shaggy jfs-next
-> patch link:    https://lore.kernel.org/r/tencent_B86ECD2ECECC92A7ED86EF92D0064A499206%40qq.com
-> patch subject: [PATCH] jfs: fix array-index-out-of-bounds in diNewExt
-> config: i386-randconfig-141-20231212 (https://download.01.org/0day-ci/archive/20231214/202312142348.6HRZtXTB-lkp@intel.com/config)
-> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231214/202312142348.6HRZtXTB-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202312142348.6HRZtXTB-lkp@intel.com/
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240101084430.161821-2-arend.vanspriel@broadcom.com>
+References: <20240101084430.161821-2-arend.vanspriel@broadcom.com>
+TO: Arend van Spriel <arend.vanspriel@broadcom.com>
+TO: Kalle Valo <kvalo@kernel.org>
+CC: linux-wireless@vger.kernel.org
+CC: Arend van Spriel <arend.vanspriel@broadcom.com>
 
-I modified Edward's patch in the jfs-next branch with the corrected test.
+Hi Arend,
 
-Thanks for catching this.
+kernel test robot noticed the following build warnings:
 
-Shaggy
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.7-rc8 next-20240102]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> 
-> New smatch warnings:
-> fs/jfs/jfs_imap.c:2213 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
-> 
-> Old smatch warnings:
-> fs/jfs/jfs_imap.c:2229 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
-> fs/jfs/jfs_imap.c:2304 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
-> fs/jfs/jfs_imap.c:2318 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
-> fs/jfs/jfs_imap.c:2330 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
-> fs/jfs/jfs_imap.c:2332 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
-> fs/jfs/jfs_imap.c:2363 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
-> fs/jfs/jfs_imap.c:2364 diNewExt() error: buffer overflow 'imap->im_imap.in_agctl' 128 <= 128
-> 
-> vim +2213 fs/jfs/jfs_imap.c
-> 
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2152  static int diNewExt(struct inomap * imap, struct iag * iagp, int extno)
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2153  {
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2154  	int agno, iagno, fwd, back, freei = 0, sword, rc;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2155  	struct iag *aiagp = NULL, *biagp = NULL, *ciagp = NULL;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2156  	struct metapage *amp, *bmp, *cmp, *dmp;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2157  	struct inode *ipimap;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2158  	s64 blkno, hint;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2159  	int i, j;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2160  	u32 mask;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2161  	ino_t ino;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2162  	struct dinode *dp;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2163  	struct jfs_sb_info *sbi;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2164
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2165  	/* better have free extents.
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2166  	 */
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2167  	if (!iagp->nfreeexts) {
-> eb8630d7d2fd13 Joe Perches       2013-06-04  2168  		jfs_error(imap->im_ipimap->i_sb, "no free extents\n");
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2169  		return -EIO;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2170  	}
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2171
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2172  	/* get the inode map inode.
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2173  	 */
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2174  	ipimap = imap->im_ipimap;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2175  	sbi = JFS_SBI(ipimap->i_sb);
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2176
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2177  	amp = bmp = cmp = NULL;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2178
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2179  	/* get the ag and iag numbers for this iag.
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2180  	 */
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2181  	agno = BLKTOAG(le64_to_cpu(iagp->agstart), sbi);
-> f93b91b82fcf16 Edward Adam Davis 2023-12-12  2182  	if (agno > MAXAG || agno < 0)
-> 
-> The commit introduces this agno > MAXAG comparison.  But Smatch says
-> that it should be agno >= MAXAG.
-> 
-> f93b91b82fcf16 Edward Adam Davis 2023-12-12  2183  		return -EIO;
-> f93b91b82fcf16 Edward Adam Davis 2023-12-12  2184
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2185  	iagno = le32_to_cpu(iagp->iagnum);
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2186
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2187  	/* check if this is the last free extent within the
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2188  	 * iag.  if so, the iag must be removed from the ag
-> 25985edcedea63 Lucas De Marchi   2011-03-30  2189  	 * free extent list, so get the iags preceding and
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2190  	 * following the iag on this list.
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2191  	 */
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2192  	if (iagp->nfreeexts == cpu_to_le32(1)) {
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2193  		if ((fwd = le32_to_cpu(iagp->extfreefwd)) >= 0) {
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2194  			if ((rc = diIAGRead(imap, fwd, &amp)))
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2195  				return (rc);
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2196  			aiagp = (struct iag *) amp->data;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2197  		}
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2198
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2199  		if ((back = le32_to_cpu(iagp->extfreeback)) >= 0) {
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2200  			if ((rc = diIAGRead(imap, back, &bmp)))
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2201  				goto error_out;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2202  			biagp = (struct iag *) bmp->data;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2203  		}
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2204  	} else {
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2205  		/* the iag has free extents.  if all extents are free
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2206  		 * (as is the case for a newly allocated iag), the iag
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2207  		 * must be added to the ag free extent list, so get
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2208  		 * the iag at the head of the list in preparation for
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2209  		 * adding this iag to this list.
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2210  		 */
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2211  		fwd = back = -1;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2212  		if (iagp->nfreeexts == cpu_to_le32(EXTSPERIAG)) {
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16 @2213  			if ((fwd = imap->im_agctl[agno].extfree) >= 0) {
-> 
-> If agno == MAXAG then we're out of bounds here.
-> 
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2214  				if ((rc = diIAGRead(imap, fwd, &amp)))
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2215  					goto error_out;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2216  				aiagp = (struct iag *) amp->data;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2217  			}
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2218  		}
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2219  	}
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2220
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  2221  	/* check if the iag has no free inodes.  if so, the iag
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Arend-van-Spriel/wifi-brcmfmac-export-firmware-interface-functions/20240101-164717
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20240101084430.161821-2-arend.vanspriel%40broadcom.com
+patch subject: [PATCH 1/4] wifi: brcmfmac: export firmware interface functions
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20240102 (https://download.01.org/0day-ci/archive/20240103/202401030944.GxNYBoIe-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202401030944.GxNYBoIe-lkp@intel.com/
+
+New smatch warnings:
+drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:5587 brcmf_cfg80211_mgmt_tx() error: uninitialized symbol 'freq'.
+drivers/net/wireless/broadcom/brcm80211/brcmfmac/core.c:610 brcmf_netdev_open() error: uninitialized symbol 'toe_ol'.
+
+Old smatch warnings:
+drivers/net/wireless/broadcom/brcm80211/brcmfmac/core.c:1115 brcmf_inet6addr_changed() error: buffer overflow 'table' 8 <= 8
+
+vim +/freq +5587 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5501  
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5502  
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5503  static int
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5504  brcmf_cfg80211_mgmt_tx(struct wiphy *wiphy, struct wireless_dev *wdev,
+b176e629402f41 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Andrei Otcheretianski 2013-11-18  5505  		       struct cfg80211_mgmt_tx_params *params, u64 *cookie)
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5506  {
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5507  	struct brcmf_cfg80211_info *cfg = wiphy_to_cfg(wiphy);
+b176e629402f41 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Andrei Otcheretianski 2013-11-18  5508  	struct ieee80211_channel *chan = params->chan;
+16e64676839633 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Rafał Miłecki         2019-02-15  5509  	struct brcmf_pub *drvr = cfg->pub;
+b176e629402f41 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Andrei Otcheretianski 2013-11-18  5510  	const u8 *buf = params->buf;
+b176e629402f41 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Andrei Otcheretianski 2013-11-18  5511  	size_t len = params->len;
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5512  	const struct ieee80211_mgmt *mgmt;
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5513  	struct brcmf_cfg80211_vif *vif;
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5514  	s32 err = 0;
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5515  	s32 ie_offset;
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5516  	s32 ie_len;
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5517  	struct brcmf_fil_action_frame_le *action_frame;
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5518  	struct brcmf_fil_af_params_le *af_params;
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5519  	bool ack;
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5520  	s32 chan_nr;
+c2ff8cad64233b drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Antonio Quartulli     2013-06-11  5521  	u32 freq;
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5522  
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5523  	brcmf_dbg(TRACE, "Enter\n");
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5524  
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5525  	*cookie = 0;
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5526  
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5527  	mgmt = (const struct ieee80211_mgmt *)buf;
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5528  
+a0f07959ee6e7f drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5529  	if (!ieee80211_is_mgmt(mgmt->frame_control)) {
+16e64676839633 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Rafał Miłecki         2019-02-15  5530  		bphy_err(drvr, "Driver only allows MGMT packet type\n");
+a0f07959ee6e7f drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5531  		return -EPERM;
+a0f07959ee6e7f drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5532  	}
+a0f07959ee6e7f drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5533  
+c2ff8cad64233b drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Antonio Quartulli     2013-06-11  5534  	vif = container_of(wdev, struct brcmf_cfg80211_vif, wdev);
+c2ff8cad64233b drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Antonio Quartulli     2013-06-11  5535  
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5536  	if (ieee80211_is_probe_resp(mgmt->frame_control)) {
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5537  		/* Right now the only reason to get a probe response */
+a0f07959ee6e7f drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5538  		/* is for p2p listen response or for p2p GO from     */
+a0f07959ee6e7f drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5539  		/* wpa_supplicant. Unfortunately the probe is send   */
+a0f07959ee6e7f drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5540  		/* on primary ndev, while dongle wants it on the p2p */
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5541  		/* vif. Since this is only reason for a probe        */
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5542  		/* response to be sent, the vif is taken from cfg.   */
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5543  		/* If ever desired to send proberesp for non p2p     */
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5544  		/* response then data should be checked for          */
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5545  		/* "DIRECT-". Note in future supplicant will take    */
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5546  		/* dedicated p2p wdev to do this and then this 'hack'*/
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5547  		/* is not needed anymore.                            */
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5548  		ie_offset =  DOT11_MGMT_HDR_LEN +
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5549  			     DOT11_BCN_PRB_FIXED_LEN;
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5550  		ie_len = len - ie_offset;
+a0f07959ee6e7f drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5551  		if (vif == cfg->p2p.bss_idx[P2PAPI_BSSCFG_PRIMARY].vif)
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5552  			vif = cfg->p2p.bss_idx[P2PAPI_BSSCFG_DEVICE].vif;
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5553  		err = brcmf_vif_set_mgmt_ie(vif,
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5554  					    BRCMF_VNDR_IE_PRBRSP_FLAG,
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5555  					    &buf[ie_offset],
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5556  					    ie_len);
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5557  		cfg80211_mgmt_tx_status(wdev, *cookie, buf, len, true,
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5558  					GFP_KERNEL);
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5559  	} else if (ieee80211_is_action(mgmt->frame_control)) {
+8f44c9a4138672 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Arend van Spriel      2017-07-07  5560  		if (len > BRCMF_FIL_ACTION_FRAME_SIZE + DOT11_MGMT_HDR_LEN) {
+16e64676839633 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Rafał Miłecki         2019-02-15  5561  			bphy_err(drvr, "invalid action frame length\n");
+8f44c9a4138672 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Arend van Spriel      2017-07-07  5562  			err = -EINVAL;
+8f44c9a4138672 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Arend van Spriel      2017-07-07  5563  			goto exit;
+8f44c9a4138672 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Arend van Spriel      2017-07-07  5564  		}
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5565  		af_params = kzalloc(sizeof(*af_params), GFP_KERNEL);
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5566  		if (af_params == NULL) {
+16e64676839633 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Rafał Miłecki         2019-02-15  5567  			bphy_err(drvr, "unable to allocate frame\n");
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5568  			err = -ENOMEM;
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5569  			goto exit;
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5570  		}
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5571  		action_frame = &af_params->action_frame;
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5572  		/* Add the packet Id */
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5573  		action_frame->packet_id = cpu_to_le32(*cookie);
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5574  		/* Add BSSID */
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5575  		memcpy(&action_frame->da[0], &mgmt->da[0], ETH_ALEN);
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5576  		memcpy(&af_params->bssid[0], &mgmt->bssid[0], ETH_ALEN);
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5577  		/* Add the length exepted for 802.11 header  */
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5578  		action_frame->len = cpu_to_le16(len - DOT11_MGMT_HDR_LEN);
+c2ff8cad64233b drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Antonio Quartulli     2013-06-11  5579  		/* Add the channel. Use the one specified as parameter if any or
+c2ff8cad64233b drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Antonio Quartulli     2013-06-11  5580  		 * the current one (got from the firmware) otherwise
+c2ff8cad64233b drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Antonio Quartulli     2013-06-11  5581  		 */
+c2ff8cad64233b drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Antonio Quartulli     2013-06-11  5582  		if (chan)
+c2ff8cad64233b drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Antonio Quartulli     2013-06-11  5583  			freq = chan->center_freq;
+c2ff8cad64233b drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Antonio Quartulli     2013-06-11  5584  		else
+c2ff8cad64233b drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Antonio Quartulli     2013-06-11  5585  			brcmf_fil_cmd_int_get(vif->ifp, BRCMF_C_GET_CHANNEL,
+c2ff8cad64233b drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Antonio Quartulli     2013-06-11  5586  					      &freq);
+c2ff8cad64233b drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Antonio Quartulli     2013-06-11 @5587  		chan_nr = ieee80211_frequency_to_channel(freq);
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5588  		af_params->channel = cpu_to_le32(chan_nr);
+ad96bc27032c27 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Joseph Chuang         2020-06-10  5589  		af_params->dwell_time = cpu_to_le32(params->wait);
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5590  		memcpy(action_frame->data, &buf[DOT11_MGMT_HDR_LEN],
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5591  		       le16_to_cpu(action_frame->len));
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5592  
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5593  		brcmf_dbg(TRACE, "Action frame, cookie=%lld, len=%d, freq=%d\n",
+86a9c4a28b2c1a drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Antonio Quartulli     2013-06-19  5594  			  *cookie, le16_to_cpu(action_frame->len), freq);
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5595  
+7fa2e3529c51f1 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Arend van Spriel      2013-04-05  5596  		ack = brcmf_p2p_send_action_frame(cfg, cfg_to_ndev(cfg),
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5597  						  af_params);
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5598  
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5599  		cfg80211_mgmt_tx_status(wdev, *cookie, buf, len, ack,
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5600  					GFP_KERNEL);
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5601  		kfree(af_params);
+a0f07959ee6e7f drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5602  	} else {
+a0f07959ee6e7f drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5603  		brcmf_dbg(TRACE, "Unhandled, fc=%04x!!\n", mgmt->frame_control);
+5b5e0928f742cf drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c Alexey Dobriyan       2017-02-27  5604  		brcmf_dbg_hex_dump(true, buf, len, "payload, len=%zu\n", len);
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5605  	}
+a0f07959ee6e7f drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5606  
+18e2f61db3b708 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5607  exit:
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5608  	return err;
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5609  }
+0de8aace0ff499 drivers/net/wireless/brcm80211/brcmfmac/wl_cfg80211.c       Hante Meuleman        2013-02-08  5610  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
