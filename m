@@ -1,52 +1,52 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EDD1A718
-	for <oe-kbuild@lists.linux.dev>; Wed,  3 Jan 2024 15:01:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AF11B270
+	for <oe-kbuild@lists.linux.dev>; Wed,  3 Jan 2024 15:01:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nHdLOQqm"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a2345aaeb05so1094513566b.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 03 Jan 2024 07:01:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fIDHXCS9"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-556ea884968so127899a12.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 03 Jan 2024 07:01:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704294061; x=1704898861; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1704294107; x=1704898907; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=NGjgMb+A+P+cYKpGgkK1co5ulQJkcrThHtUGUkqnxS0=;
-        b=nHdLOQqmtAvGHFrvwZWbo9SAS3WvBafFBosbYwCV7ZPlTbiFSfPaCMqdrbWlR1qhO5
-         7gqTVaWz/1VssCaEMsC7XXzFs/myExV4sk43jNIAixyJShCsDbTaFdHAyYTxXETqnTQ+
-         dcTXhmx/bjGHzp+eKIE+rkEIAbsQXT3EbuNJz/dY/+DqPDkS/O65uy6+hl0s4UWAdyRv
-         aJq2xDtCkXx3d/8aBLLkCqN16VyvTrNpNXMRLz7HJKBc6/czv89Itu7pzlfJpkCv5tV7
-         Gb4pKuFMPRx5rlmuNv2tQxxxgjMjQGaKBMxJ/SLDSK0wynS815U7i8LKh0+Fx9tbJb8u
-         lg+w==
+        bh=WEI0BbxFzSQSQxsy1ptWBnjaL7TttPuF7j0Y5q/vTXo=;
+        b=fIDHXCS99tbXA1nNydlbKqRYnEFlhv2zx5ziUkDxFiDDVpE2Yi5SXLfDenyQuW9EsS
+         4mDp5M68VTkUkuiU2hAp7pXCuSv2CA0EW1dEUK7ZesSqrXn4+wxn5kg72jF6rvpRKiu6
+         +PxniGcBRHfcm28to+DaNQ30hgu/oeBNGXcQVPOAEbYKY6AlWtkgC8Ug0Y9+r0KytIkj
+         jF4d+Hbrep73oUKIPWaxQbv7WS+XgLt3qcGTUHBs+LecVsea/y/zrB9pDyqPewmVbzFC
+         fo+yTmRQBFkinVO/AYWvf0v3B9eoN9gxciVQAvJJrQaSzsp9Cl5kJcegmmOeyLV3bKw3
+         qc9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704294061; x=1704898861;
+        d=1e100.net; s=20230601; t=1704294107; x=1704898907;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NGjgMb+A+P+cYKpGgkK1co5ulQJkcrThHtUGUkqnxS0=;
-        b=dzXd1mRAN+lVI3+BSk8ECpdjtbeteamUmpPgubBp1jN/tpFTfTLvU7JM9xz518qjyc
-         Q/MmeBVYv9NgaEAgua8GSVyppOEnglRCJ6MWNuqZlHC/IGn/Kz8WPfaVxmRd9R/5kh50
-         DMxObnGIDk76t7MYfqhyvG7ILLxkOYNV4DDrFIfAIh6qqJHCNatvk9eE2FOZsPXjtdch
-         dHh0B5cLuGrHt5qOVZ8+S/zkovXjMtYnv4/AUU56qJ9Nn04sbZ1mHvOuio1wcZ9iq4He
-         lUQm8Fsi3yeZsSkgPHyhgLqHjQYJD42TamiEHKPum0Vw/drLcTTvk5OX7Uc0zTjz9fJK
-         9ePw==
-X-Gm-Message-State: AOJu0YyQgdOeuWTdZLIAyMISaby4sR7BZHpItgoFgwyTebOx5AGGPoLs
-	zMwV/69tOZBUBOcwhT13Y42Y72vS3WYYOcMla9dgYRj0TSA=
-X-Google-Smtp-Source: AGHT+IExSQIGvVguxTUhSDoKkkAWegBcyNsK3dL11qb8yWF0m+CU2FgHvzEa70AfBmObZAqMUh3xCg==
-X-Received: by 2002:a17:907:3e9e:b0:a23:6282:528d with SMTP id hs30-20020a1709073e9e00b00a236282528dmr9822600ejc.43.1704294061320;
-        Wed, 03 Jan 2024 07:01:01 -0800 (PST)
+        bh=WEI0BbxFzSQSQxsy1ptWBnjaL7TttPuF7j0Y5q/vTXo=;
+        b=U71iDIUQNMkDWNVMg3b5nS/y8ojgv6irS0Rz2/mUhSekLofH2GN9Ei/jYFArjMUCx+
+         AwpNULFM7IIs4pqm2kdpNxwhNOyJS77Eq6QB0F6u8jQBHaz9eBIuvImkDzQpm9sG6WhS
+         aOHOyDhGEUybKr+3y0M9Riin0eJwtemh7xORcEFkM8sslgRAVX7Euu/fwZAQI/OSHZGI
+         jTlzlZrt4myjhi+RcE+KhXGbVpeyO7IMNCEAzCPY/UFruXXpwi9gd4wNpF8m9J+SvbsQ
+         an7IWTEQ49/lpVER/EpDZ3nXaNeydXHKzESGQxeeyQlmwp5mzlIE41UVnoJujZLcdxXB
+         H8lQ==
+X-Gm-Message-State: AOJu0YxgVXi7GwmRzYEhT/mjndxayBLVViEe/VeQBVKqsWnunLgm/tLM
+	M2QoUviOfd0/BFeS80x0ML0F/oyaNHdyMG2FtzwHzr54Pk8=
+X-Google-Smtp-Source: AGHT+IEkwKDk3u8O3qgr0FFvu59EBKgEvpfCaNiDHiI3OLOzA9AGHdmXtWRC3ft+yRo3sPelsTerig==
+X-Received: by 2002:a50:d01a:0:b0:556:b1ee:c844 with SMTP id j26-20020a50d01a000000b00556b1eec844mr286774edf.65.1704294107359;
+        Wed, 03 Jan 2024 07:01:47 -0800 (PST)
 Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id y2-20020a1709063da200b00a26e4986df8sm9678971ejh.58.2024.01.03.07.01.00
+        by smtp.gmail.com with ESMTPSA id cf26-20020a0564020b9a00b00554af5ec62asm13635855edb.8.2024.01.03.07.01.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 07:01:01 -0800 (PST)
-Date: Wed, 3 Jan 2024 18:00:57 +0300
+        Wed, 03 Jan 2024 07:01:47 -0800 (PST)
+Date: Wed, 3 Jan 2024 18:01:43 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev, David Howells <dhowells@redhat.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:crypto-krb5 6/21] crypto/krb5/kdf.c:116
- crypto_krb5_get_Kc() error: buffer overflow 'buf' 4 <= 4
-Message-ID: <279d5e84-02b1-45cb-9b0b-17a800723019@moroto.mountain>
+Subject: [dhowells-fs:crypto-krb5 7/21] crypto/krb5/rfc3961_simplified.c:127
+ rfc3961_calc_H() warn: use 'gfp' here instead of GFP_KERNEL?
+Message-ID: <0c5f40aa-f889-4e07-884d-a09aa12548c8@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,48 +58,68 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git crypto-krb5
 head:   ebd44e15422341724b06a3a13590ea80244ebbd6
-commit: b468b20c76d24a3eee1e29352769251daae938f9 [6/21] crypto/krb5: Provide infrastructure and key derivation
-config: powerpc-randconfig-r071-20231226 (https://download.01.org/0day-ci/archive/20231228/202312280208.kXOfvCcb-lkp@intel.com/config)
+commit: 214632aabe1103adbf7c0a3810c2afb9dcc09eee [7/21] crypto/krb5: Implement the Kerberos5 rfc3961 key derivation
+config: powerpc-randconfig-r071-20231226 (https://download.01.org/0day-ci/archive/20231228/202312281032.f339mEEs-lkp@intel.com/config)
 compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312280208.kXOfvCcb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312281032.f339mEEs-lkp@intel.com/
 
 smatch warnings:
-crypto/krb5/kdf.c:116 crypto_krb5_get_Kc() error: buffer overflow 'buf' 4 <= 4
-crypto/krb5/kdf.c:161 crypto_krb5_get_Ke() error: buffer overflow 'buf' 4 <= 4
-crypto/krb5/kdf.c:206 crypto_krb5_get_Ki() error: buffer overflow 'buf' 4 <= 4
+crypto/krb5/rfc3961_simplified.c:127 rfc3961_calc_H() warn: use 'gfp' here instead of GFP_KERNEL?
 
-vim +/buf +116 crypto/krb5/kdf.c
+vim +/gfp +127 crypto/krb5/rfc3961_simplified.c
 
-b468b20c76d24a David Howells 2020-09-03  103  int crypto_krb5_get_Kc(const struct krb5_enctype *krb5,
-b468b20c76d24a David Howells 2020-09-03  104  		       const struct krb5_buffer *TK,
-b468b20c76d24a David Howells 2020-09-03  105  		       u32 usage,
-b468b20c76d24a David Howells 2020-09-03  106  		       struct krb5_buffer *key,
-b468b20c76d24a David Howells 2020-09-03  107  		       struct crypto_shash **_shash,
-b468b20c76d24a David Howells 2020-09-03  108  		       gfp_t gfp)
-b468b20c76d24a David Howells 2020-09-03  109  {
-b468b20c76d24a David Howells 2020-09-03  110  	struct crypto_shash *shash;
-b468b20c76d24a David Howells 2020-09-03  111  	int ret;
-b468b20c76d24a David Howells 2020-09-03  112  	u8 buf[CRYPTO_MINALIGN] __aligned(CRYPTO_MINALIGN);
-b468b20c76d24a David Howells 2020-09-03  113  	struct krb5_buffer usage_constant = { .len = 5, .data = buf };
-b468b20c76d24a David Howells 2020-09-03  114  
-b468b20c76d24a David Howells 2020-09-03  115  	*(__be32 *)buf = cpu_to_be32(usage);
-b468b20c76d24a David Howells 2020-09-03 @116  	buf[4] = KEY_USAGE_SEED_CHECKSUM;
+214632aabe1103 David Howells 2020-09-03  111  static int rfc3961_calc_H(const struct krb5_enctype *krb5,
+214632aabe1103 David Howells 2020-09-03  112  			  const struct krb5_buffer *data,
+214632aabe1103 David Howells 2020-09-03  113  			  struct krb5_buffer *digest,
+214632aabe1103 David Howells 2020-09-03  114  			  gfp_t gfp)
+214632aabe1103 David Howells 2020-09-03  115  {
+214632aabe1103 David Howells 2020-09-03  116  	struct crypto_shash *tfm;
+214632aabe1103 David Howells 2020-09-03  117  	struct shash_desc *desc;
+214632aabe1103 David Howells 2020-09-03  118  	size_t desc_size;
+214632aabe1103 David Howells 2020-09-03  119  	int ret = -ENOMEM;
+214632aabe1103 David Howells 2020-09-03  120  
+214632aabe1103 David Howells 2020-09-03  121  	tfm = crypto_alloc_shash(krb5->hash_name, 0, 0);
+214632aabe1103 David Howells 2020-09-03  122  	if (IS_ERR(tfm))
+214632aabe1103 David Howells 2020-09-03  123  		return (PTR_ERR(tfm) == -ENOENT) ? -ENOPKG : PTR_ERR(tfm);
+214632aabe1103 David Howells 2020-09-03  124  
+214632aabe1103 David Howells 2020-09-03  125  	desc_size = crypto_shash_descsize(tfm) + sizeof(*desc);
+214632aabe1103 David Howells 2020-09-03  126  
+214632aabe1103 David Howells 2020-09-03 @127  	desc = kzalloc(desc_size, GFP_KERNEL);
 
-There must be a power PC config where CRYPTO_MINALIGN is 4.
+s/GFP_KERNEL/gfp/
 
-b468b20c76d24a David Howells 2020-09-03  117  
-b468b20c76d24a David Howells 2020-09-03  118  	key->len = krb5->Kc_len;
-b468b20c76d24a David Howells 2020-09-03  119  	ret = krb5->profile->calc_Kc(krb5, TK, &usage_constant, key, gfp);
-b468b20c76d24a David Howells 2020-09-03  120  	if (ret < 0)
-b468b20c76d24a David Howells 2020-09-03  121  		return ret;
-b468b20c76d24a David Howells 2020-09-03  122  
-b468b20c76d24a David Howells 2020-09-03  123  	if (_shash) {
-b468b20c76d24a David Howells 2020-09-03  124  		shash = crypto_alloc_shash(krb5->cksum_name, 0, 0);
+214632aabe1103 David Howells 2020-09-03  128  	if (!desc)
+214632aabe1103 David Howells 2020-09-03  129  		goto error_tfm;
+214632aabe1103 David Howells 2020-09-03  130  
+214632aabe1103 David Howells 2020-09-03  131  	digest->len = crypto_shash_digestsize(tfm);
+214632aabe1103 David Howells 2020-09-03  132  	digest->data = kzalloc(digest->len, gfp);
+214632aabe1103 David Howells 2020-09-03  133  	if (!digest->data)
+214632aabe1103 David Howells 2020-09-03  134  		goto error_desc;
+214632aabe1103 David Howells 2020-09-03  135  
+214632aabe1103 David Howells 2020-09-03  136  	desc->tfm = tfm;
+214632aabe1103 David Howells 2020-09-03  137  	ret = crypto_shash_init(desc);
+214632aabe1103 David Howells 2020-09-03  138  	if (ret < 0)
+214632aabe1103 David Howells 2020-09-03  139  		goto error_digest;
+214632aabe1103 David Howells 2020-09-03  140  
+214632aabe1103 David Howells 2020-09-03  141  	ret = crypto_shash_finup(desc, data->data, data->len, digest->data);
+214632aabe1103 David Howells 2020-09-03  142  	if (ret < 0)
+214632aabe1103 David Howells 2020-09-03  143  		goto error_digest;
+214632aabe1103 David Howells 2020-09-03  144  
+214632aabe1103 David Howells 2020-09-03  145  	goto error_desc;
+214632aabe1103 David Howells 2020-09-03  146  
+214632aabe1103 David Howells 2020-09-03  147  error_digest:
+214632aabe1103 David Howells 2020-09-03  148  	kfree_sensitive(digest->data);
+214632aabe1103 David Howells 2020-09-03  149  error_desc:
+214632aabe1103 David Howells 2020-09-03  150  	kfree_sensitive(desc);
+214632aabe1103 David Howells 2020-09-03  151  error_tfm:
+214632aabe1103 David Howells 2020-09-03  152  	crypto_free_shash(tfm);
+214632aabe1103 David Howells 2020-09-03  153  	return ret;
+214632aabe1103 David Howells 2020-09-03  154  }
 
 -- 
 0-DAY CI Kernel Test Service
