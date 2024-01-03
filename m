@@ -1,46 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AF11CF8A
-	for <oe-kbuild@lists.linux.dev>; Wed,  3 Jan 2024 19:48:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5841D52E
+	for <oe-kbuild@lists.linux.dev>; Wed,  3 Jan 2024 20:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PXgHRSXa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704311287; x=1735847287;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JdsJMUGLRXD1i0ihJNX5JhJiOddphJfdW3nVNy+JFRQ=;
-  b=PXgHRSXa/ymobwOYipo3XHQOb6UREEhdU94h49HrNbdwDAsy7X1T7n0G
-   +8hjesIU7ocAk/dYIVmAd0gJILDUQEdywVsVPuZb11SpHIeG8U8ROguUv
-   XCDZ9/eMaesshsAudNHmXyqGy+5W1OHw1TeqSX0xFyT6xPTm0gMZU6fTI
-   FLH4cGmL9r+r/BanoeEibu9f0zthR7rGVi3XUC8D4cnHhsseD61opTU1/
-   sl0U+zXBq2lwT8yzvl4RrHxCf4Z52MdVEHSUpT2EyjP4p82r69rEaGZel
-   xd0mZilgau2RyMJ/KnasmNWzx9u1BuyYgplOaSosv/yM9e/bcJWhVaGPu
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="463458108"
-X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
-   d="scan'208";a="463458108"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 11:48:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="850517016"
-X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
-   d="scan'208";a="850517016"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 03 Jan 2024 11:48:03 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rL7Dd-000MUW-1m;
-	Wed, 03 Jan 2024 19:48:01 +0000
-Date: Thu, 4 Jan 2024 03:47:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [djwong-xfs:xfile-page-caching 155/205]
- fs/xfs/xfs_xchgrange.c:589:11-12: WARNING opportunity for max()
-Message-ID: <202401040352.Nc2fJp6T-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="dIpVpd0s"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5ce2aada130so2188276a12.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 03 Jan 2024 12:27:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1704313638; x=1704918438; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xcsOQ9nD5GPnMMvdZNgPzZalWOKW9Ch4bNlsftdutyM=;
+        b=dIpVpd0snuwWWVghwS/GMBOMa7eGqHlLweLJ+m51hPGt5veMDDJSjtEd6cLawO5C0C
+         zmGcBTV5x7lhZpZfH04jt6G/ljRDOEuTyMLrClUK8lMYeQ6hWArvWYkNoic3Skf1BW/P
+         I3Gaa4oFclA8dGKv/JbMKtGf+tRn4f004wuQpydjX+Uj0+wNc32ici9IFvErrSWIulrp
+         p6qhqXHie1s22H3JnEbzH/LsAXzvYF7wyw3UlZDN6NUvLgD86xDhOCo0PPjr1vUVb6oR
+         oGxN0MA+EuDKg1upK4R0kDF5TmJ+1XwAyUx7t1amcx1WJaPsQlrYdUSTeu/zuocROdS1
+         tuGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704313638; x=1704918438;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xcsOQ9nD5GPnMMvdZNgPzZalWOKW9Ch4bNlsftdutyM=;
+        b=qkRadUUiN+ghsnSbUoqwPcUVWI/jrzktQ5qrCIObOH9+JMMgOfw+GJMMf/FQOQWzcM
+         1GE0COyqww/jStz2eNMx2vzn0AYI3f3rhbJLcvfLOMWyPapkRsjK1ezvYVXzQv/3wfFd
+         vyxQKKGFh3+3N8t9P5bA7Arh26CB1iPCpYDyT5aNnBuXiGWizMcyxitpIi000tv+Gr3g
+         NCgLNm5poT1AcEl+BiDO1zcUr9IA2bQV5rVQoR2jrEBAaHAQh0mdRXvFCojrC0etUhBT
+         jtAYt559pxYrQYN4+lRUQ/plV1UqXlOoaANLYK3o/y0tfjCuCI3HwxLQqR2X4iKtX80w
+         NV8w==
+X-Gm-Message-State: AOJu0YzTmMaJDu+0Op+Y8afNQ5pbBcwHd9xq+yugBE4zCFwj9i2MsuYN
+	ctFWN0ZEqwbyYDQhUk3TPrht8DfH8ZBcdg==
+X-Google-Smtp-Source: AGHT+IGfGjwL1gOAZN1cJcV3cHT0ah1Btx46k+DeH+QlmZ3yh13pe7S1KrdoMLLsu6lIidEfExM5yg==
+X-Received: by 2002:a05:6a20:938b:b0:197:58b5:3251 with SMTP id x11-20020a056a20938b00b0019758b53251mr2377252pzh.113.1704313638634;
+        Wed, 03 Jan 2024 12:27:18 -0800 (PST)
+Received: from ghost (070-095-050-247.res.spectrum.com. [70.95.50.247])
+        by smtp.gmail.com with ESMTPSA id u16-20020a056a00099000b006d9c7f2840bsm16045592pfg.57.2024.01.03.12.27.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jan 2024 12:27:18 -0800 (PST)
+Date: Wed, 3 Jan 2024 12:27:15 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
+Subject: Re: arch/riscv/kernel/module.c:639 process_accumulated_relocations()
+ error: uninitialized symbol 'curr_type'.
+Message-ID: <ZZXDI78QsaXzbfR+@ghost>
+References: <d0897fb3-1af8-430b-aa8b-9aa829bad1d7@suswa.mountain>
+ <ZXoFhu2TPXgrsInY@ghost>
+ <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
+ <ZYzIbVfge6I8Ptw0@ghost>
+ <c11513b4-6e60-44b5-ba12-83fbb9b7e2c3@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,114 +62,49 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <c11513b4-6e60-44b5-ba12-83fbb9b7e2c3@suswa.mountain>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+On Tue, Jan 02, 2024 at 03:37:34PM +0300, Dan Carpenter wrote:
+> On Wed, Dec 27, 2023 at 04:59:25PM -0800, Charlie Jenkins wrote:
+> > On Thu, Dec 14, 2023 at 11:00:46AM +0300, Dan Carpenter wrote:
+> > > On Wed, Dec 13, 2023 at 11:27:02AM -0800, Charlie Jenkins wrote:
+> > > > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01  638  			}
+> > > > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01 @639  			reloc_handlers[curr_type].accumulate_handler(
+> > > > >                                                                                        ^^^^^^^^^
+> > > > > Can the list be empty?  Uninitialized in that case.
+> > > > 
+> > > > That's a tricky one, the list cannot be empty. Each bucket in the
+> > > > bucket_iter is guarunteed to have at least one rel_entry. I can probably
+> > > > resolve this by extracting this for loop into a do-while loop.
+> > > 
+> > > You can just ignore false positives.  It's not really a fix to change it
+> > > to a do-while loop.  I reviewed the do while code before reading this
+> > > email and I still wondered about empty lists, but just to hear that it's
+> > > not going to be empty is enough.  Just the email was sufficient.
+> > > 
+> > > regards,
+> > > dan carpenter
+> > > 
+> > 
+> > The fix isn't the do-while loop but rather the use after free, the
+> > incorrect sizeof, and incorrect error handling when
+> > initialize_relocation_hashtable fails. I decided to include the do-while
+> > code because I was already touching the surrounding code. Can you review
+> > [1]? If you would prefer that the do-while is reverted, I can do that,
+> > but it is important that the rest of the fixes are merged before 6.7 is
+> > released.
+> > 
+> > [1] https://lore.kernel.org/all/20231213-module_loading_fix-v1-1-da9b7c92ade5@rivosinc.com/
+> 
+> 
+> Most subsystems wouldn't merge a patch like this which does so many
+> things at the same time...
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
-head:   b18189bccabcaf5598270916c6cd355f8486f30e
-commit: 6bcbdc56bcd1a52709a65aa1dd422f4fb9add400 [155/205] xfs: bind the xfs-specific extent swap code to the vfs-generic file exchange code
-:::::: branch date: 3 days ago
-:::::: commit date: 4 weeks ago
-config: x86_64-randconfig-102-20231212 (https://download.01.org/0day-ci/archive/20240104/202401040352.Nc2fJp6T-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+That is a good point, I split it across 4 different patches.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401040352.Nc2fJp6T-lkp@intel.com/
+https://lore.kernel.org/linux-riscv/20240103-module_loading_fix-v2-0-292b160552c9@rivosinc.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_xchgrange.c:589:11-12: WARNING opportunity for max()
-   fs/xfs/xfs_xchgrange.c:590:11-12: WARNING opportunity for max()
-
-vim +589 fs/xfs/xfs_xchgrange.c
-
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  551  
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  552  /*
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  553   * Obtain a quota reservation to make sure we don't hit EDQUOT.  We can skip
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  554   * this if quota enforcement is disabled or if both inodes' dquots are the
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  555   * same.  The qretry structure must be initialized to zeroes before the first
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  556   * call to this function.
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  557   */
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  558  STATIC int
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  559  xfs_xchg_range_reserve_quota(
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  560  	struct xfs_trans		*tp,
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  561  	const struct xfs_swapext_req	*req,
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  562  	unsigned int			*qretry)
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  563  {
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  564  	int64_t				ddelta, rdelta;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  565  	int				ip1_error = 0;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  566  	int				error;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  567  
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  568  	/*
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  569  	 * Don't bother with a quota reservation if we're not enforcing them
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  570  	 * or the two inodes have the same dquots.
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  571  	 */
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  572  	if (!XFS_IS_QUOTA_ON(tp->t_mountp) || req->ip1 == req->ip2 ||
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  573  	    (req->ip1->i_udquot == req->ip2->i_udquot &&
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  574  	     req->ip1->i_gdquot == req->ip2->i_gdquot &&
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  575  	     req->ip1->i_pdquot == req->ip2->i_pdquot))
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  576  		return 0;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  577  
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  578  	*qretry = 0;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  579  
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  580  	/*
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  581  	 * For each file, compute the net gain in the number of regular blocks
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  582  	 * that will be mapped into that file and reserve that much quota.  The
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  583  	 * quota counts must be able to absorb at least that much space.
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  584  	 */
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  585  	ddelta = req->ip2_bcount - req->ip1_bcount;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  586  	rdelta = req->ip2_rtbcount - req->ip1_rtbcount;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  587  	if (ddelta > 0 || rdelta > 0) {
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  588  		error = xfs_trans_reserve_quota_nblks(tp, req->ip1,
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06 @589  				ddelta > 0 ? ddelta : 0,
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  590  				rdelta > 0 ? rdelta : 0,
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  591  				false);
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  592  		if (error == -EDQUOT || error == -ENOSPC) {
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  593  			/*
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  594  			 * Save this error and see what happens if we try to
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  595  			 * reserve quota for ip2.  Then report both.
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  596  			 */
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  597  			*qretry |= QRETRY_IP1;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  598  			ip1_error = error;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  599  			error = 0;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  600  		}
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  601  		if (error)
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  602  			return error;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  603  	}
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  604  	if (ddelta < 0 || rdelta < 0) {
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  605  		error = xfs_trans_reserve_quota_nblks(tp, req->ip2,
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  606  				ddelta < 0 ? -ddelta : 0,
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  607  				rdelta < 0 ? -rdelta : 0,
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  608  				false);
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  609  		if (error == -EDQUOT || error == -ENOSPC)
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  610  			*qretry |= QRETRY_IP2;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  611  		if (error)
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  612  			return error;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  613  	}
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  614  	if (ip1_error)
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  615  		return ip1_error;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  616  
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  617  	/*
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  618  	 * For each file, forcibly reserve the gross gain in mapped blocks so
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  619  	 * that we don't trip over any quota block reservation assertions.
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  620  	 * We must reserve the gross gain because the quota code subtracts from
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  621  	 * bcount the number of blocks that we unmap; it does not add that
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  622  	 * quantity back to the quota block reservation.
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  623  	 */
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  624  	error = xfs_trans_reserve_quota_nblks(tp, req->ip1, req->ip1_bcount,
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  625  			req->ip1_rtbcount, true);
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  626  	if (error)
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  627  		return error;
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  628  
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  629  	return xfs_trans_reserve_quota_nblks(tp, req->ip2, req->ip2_bcount,
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  630  			req->ip2_rtbcount, true);
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  631  }
-6bcbdc56bcd1a5 Darrick J. Wong 2023-03-06  632  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> regards,
+> dan carpenter
+> 
