@@ -1,52 +1,46 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AF11B270
-	for <oe-kbuild@lists.linux.dev>; Wed,  3 Jan 2024 15:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43CB01DA23
+	for <oe-kbuild@lists.linux.dev>; Wed,  3 Jan 2024 19:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fIDHXCS9"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-556ea884968so127899a12.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 03 Jan 2024 07:01:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704294107; x=1704898907; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WEI0BbxFzSQSQxsy1ptWBnjaL7TttPuF7j0Y5q/vTXo=;
-        b=fIDHXCS99tbXA1nNydlbKqRYnEFlhv2zx5ziUkDxFiDDVpE2Yi5SXLfDenyQuW9EsS
-         4mDp5M68VTkUkuiU2hAp7pXCuSv2CA0EW1dEUK7ZesSqrXn4+wxn5kg72jF6rvpRKiu6
-         +PxniGcBRHfcm28to+DaNQ30hgu/oeBNGXcQVPOAEbYKY6AlWtkgC8Ug0Y9+r0KytIkj
-         jF4d+Hbrep73oUKIPWaxQbv7WS+XgLt3qcGTUHBs+LecVsea/y/zrB9pDyqPewmVbzFC
-         fo+yTmRQBFkinVO/AYWvf0v3B9eoN9gxciVQAvJJrQaSzsp9Cl5kJcegmmOeyLV3bKw3
-         qc9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704294107; x=1704898907;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WEI0BbxFzSQSQxsy1ptWBnjaL7TttPuF7j0Y5q/vTXo=;
-        b=U71iDIUQNMkDWNVMg3b5nS/y8ojgv6irS0Rz2/mUhSekLofH2GN9Ei/jYFArjMUCx+
-         AwpNULFM7IIs4pqm2kdpNxwhNOyJS77Eq6QB0F6u8jQBHaz9eBIuvImkDzQpm9sG6WhS
-         aOHOyDhGEUybKr+3y0M9Riin0eJwtemh7xORcEFkM8sslgRAVX7Euu/fwZAQI/OSHZGI
-         jTlzlZrt4myjhi+RcE+KhXGbVpeyO7IMNCEAzCPY/UFruXXpwi9gd4wNpF8m9J+SvbsQ
-         an7IWTEQ49/lpVER/EpDZ3nXaNeydXHKzESGQxeeyQlmwp5mzlIE41UVnoJujZLcdxXB
-         H8lQ==
-X-Gm-Message-State: AOJu0YxgVXi7GwmRzYEhT/mjndxayBLVViEe/VeQBVKqsWnunLgm/tLM
-	M2QoUviOfd0/BFeS80x0ML0F/oyaNHdyMG2FtzwHzr54Pk8=
-X-Google-Smtp-Source: AGHT+IEkwKDk3u8O3qgr0FFvu59EBKgEvpfCaNiDHiI3OLOzA9AGHdmXtWRC3ft+yRo3sPelsTerig==
-X-Received: by 2002:a50:d01a:0:b0:556:b1ee:c844 with SMTP id j26-20020a50d01a000000b00556b1eec844mr286774edf.65.1704294107359;
-        Wed, 03 Jan 2024 07:01:47 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id cf26-20020a0564020b9a00b00554af5ec62asm13635855edb.8.2024.01.03.07.01.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 07:01:47 -0800 (PST)
-Date: Wed, 3 Jan 2024 18:01:43 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, David Howells <dhowells@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:crypto-krb5 7/21] crypto/krb5/rfc3961_simplified.c:127
- rfc3961_calc_H() warn: use 'gfp' here instead of GFP_KERNEL?
-Message-ID: <0c5f40aa-f889-4e07-884d-a09aa12548c8@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kJYYql17"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704310080; x=1735846080;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MBYtrYuL3Fo/dBbN/UhATM9MMmn/9Xy8/g/ffc0UnGQ=;
+  b=kJYYql177OUG4C+XgxxEF7ulQ2jIjC1RfWNxQ+OB2PSKqLD4JN8hUnJR
+   MlK+HYOvZJlgCVuY/7K3B2HGicFkjMY5vDGvkUVssTXcEiy5gFWwtgqmP
+   B3V3TkCVfONQYQjB8oSLK2pAp+X4/VPtUeVo/KE1FCYts7Zddug+rC7p4
+   9CpGplUObUl11s7JipN8jH0rn8OXwlgqOzMIIT4PvXy+c8SiBhcpvWUxj
+   G+L0id7kmMtG/99ANt6FxXDiTVKINViduvpW2d5LDNOABTMt4QW7kLnH+
+   EFV3iJ/g3WaU3Jj+MMiMOREObacp8+kgLw/OjYAqa5AaGuvtgRNzCO5P+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="396782939"
+X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
+   d="scan'208";a="396782939"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 11:27:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="814340860"
+X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
+   d="scan'208";a="814340860"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 03 Jan 2024 11:27:57 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rL6uA-000MU4-3D;
+	Wed, 03 Jan 2024 19:27:55 +0000
+Date: Thu, 4 Jan 2024 03:27:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/nvme/host/pr.c:268:23-26: ERROR: reference preceded by free
+ on line 278
+Message-ID: <202401040321.btNQ4txH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,72 +50,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git crypto-krb5
-head:   ebd44e15422341724b06a3a13590ea80244ebbd6
-commit: 214632aabe1103adbf7c0a3810c2afb9dcc09eee [7/21] crypto/krb5: Implement the Kerberos5 rfc3961 key derivation
-config: powerpc-randconfig-r071-20231226 (https://download.01.org/0day-ci/archive/20231228/202312281032.f339mEEs-lkp@intel.com/config)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Mike Christie <michael.christie@oracle.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Chaitanya Kulkarni <kch@nvidia.com>
+CC: Christoph Hellwig <hch@lst.de>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   610a9b8f49fbcf1100716370d3b5f6f884a2835a
+commit: 28c97ba38ff9c00bc177887c2d8568b7115a44e0 nvme: Add pr_ops read_reservation support
+date:   9 months ago
+:::::: branch date: 3 days ago
+:::::: commit date: 9 months ago
+config: hexagon-randconfig-r052-20231228 (https://download.01.org/0day-ci/archive/20240104/202401040321.btNQ4txH-lkp@intel.com/config)
 compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312281032.f339mEEs-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202401040321.btNQ4txH-lkp@intel.com/
 
-smatch warnings:
-crypto/krb5/rfc3961_simplified.c:127 rfc3961_calc_H() warn: use 'gfp' here instead of GFP_KERNEL?
+cocci warnings: (new ones prefixed by >>)
+>> drivers/nvme/host/pr.c:268:23-26: ERROR: reference preceded by free on line 278
 
-vim +/gfp +127 crypto/krb5/rfc3961_simplified.c
+vim +268 drivers/nvme/host/pr.c
 
-214632aabe1103 David Howells 2020-09-03  111  static int rfc3961_calc_H(const struct krb5_enctype *krb5,
-214632aabe1103 David Howells 2020-09-03  112  			  const struct krb5_buffer *data,
-214632aabe1103 David Howells 2020-09-03  113  			  struct krb5_buffer *digest,
-214632aabe1103 David Howells 2020-09-03  114  			  gfp_t gfp)
-214632aabe1103 David Howells 2020-09-03  115  {
-214632aabe1103 David Howells 2020-09-03  116  	struct crypto_shash *tfm;
-214632aabe1103 David Howells 2020-09-03  117  	struct shash_desc *desc;
-214632aabe1103 David Howells 2020-09-03  118  	size_t desc_size;
-214632aabe1103 David Howells 2020-09-03  119  	int ret = -ENOMEM;
-214632aabe1103 David Howells 2020-09-03  120  
-214632aabe1103 David Howells 2020-09-03  121  	tfm = crypto_alloc_shash(krb5->hash_name, 0, 0);
-214632aabe1103 David Howells 2020-09-03  122  	if (IS_ERR(tfm))
-214632aabe1103 David Howells 2020-09-03  123  		return (PTR_ERR(tfm) == -ENOENT) ? -ENOPKG : PTR_ERR(tfm);
-214632aabe1103 David Howells 2020-09-03  124  
-214632aabe1103 David Howells 2020-09-03  125  	desc_size = crypto_shash_descsize(tfm) + sizeof(*desc);
-214632aabe1103 David Howells 2020-09-03  126  
-214632aabe1103 David Howells 2020-09-03 @127  	desc = kzalloc(desc_size, GFP_KERNEL);
-
-s/GFP_KERNEL/gfp/
-
-214632aabe1103 David Howells 2020-09-03  128  	if (!desc)
-214632aabe1103 David Howells 2020-09-03  129  		goto error_tfm;
-214632aabe1103 David Howells 2020-09-03  130  
-214632aabe1103 David Howells 2020-09-03  131  	digest->len = crypto_shash_digestsize(tfm);
-214632aabe1103 David Howells 2020-09-03  132  	digest->data = kzalloc(digest->len, gfp);
-214632aabe1103 David Howells 2020-09-03  133  	if (!digest->data)
-214632aabe1103 David Howells 2020-09-03  134  		goto error_desc;
-214632aabe1103 David Howells 2020-09-03  135  
-214632aabe1103 David Howells 2020-09-03  136  	desc->tfm = tfm;
-214632aabe1103 David Howells 2020-09-03  137  	ret = crypto_shash_init(desc);
-214632aabe1103 David Howells 2020-09-03  138  	if (ret < 0)
-214632aabe1103 David Howells 2020-09-03  139  		goto error_digest;
-214632aabe1103 David Howells 2020-09-03  140  
-214632aabe1103 David Howells 2020-09-03  141  	ret = crypto_shash_finup(desc, data->data, data->len, digest->data);
-214632aabe1103 David Howells 2020-09-03  142  	if (ret < 0)
-214632aabe1103 David Howells 2020-09-03  143  		goto error_digest;
-214632aabe1103 David Howells 2020-09-03  144  
-214632aabe1103 David Howells 2020-09-03  145  	goto error_desc;
-214632aabe1103 David Howells 2020-09-03  146  
-214632aabe1103 David Howells 2020-09-03  147  error_digest:
-214632aabe1103 David Howells 2020-09-03  148  	kfree_sensitive(digest->data);
-214632aabe1103 David Howells 2020-09-03  149  error_desc:
-214632aabe1103 David Howells 2020-09-03  150  	kfree_sensitive(desc);
-214632aabe1103 David Howells 2020-09-03  151  error_tfm:
-214632aabe1103 David Howells 2020-09-03  152  	crypto_free_shash(tfm);
-214632aabe1103 David Howells 2020-09-03  153  	return ret;
-214632aabe1103 David Howells 2020-09-03  154  }
+5fd96a4e15de84 Mike Christie 2023-04-07  244  
+28c97ba38ff9c0 Mike Christie 2023-04-07  245  static int nvme_pr_read_reservation(struct block_device *bdev,
+28c97ba38ff9c0 Mike Christie 2023-04-07  246  		struct pr_held_reservation *resv)
+28c97ba38ff9c0 Mike Christie 2023-04-07  247  {
+28c97ba38ff9c0 Mike Christie 2023-04-07  248  	struct nvme_reservation_status_ext tmp_rse, *rse;
+28c97ba38ff9c0 Mike Christie 2023-04-07  249  	int ret, i, num_regs;
+28c97ba38ff9c0 Mike Christie 2023-04-07  250  	u32 rse_len;
+28c97ba38ff9c0 Mike Christie 2023-04-07  251  	bool eds;
+28c97ba38ff9c0 Mike Christie 2023-04-07  252  
+28c97ba38ff9c0 Mike Christie 2023-04-07  253  get_num_regs:
+28c97ba38ff9c0 Mike Christie 2023-04-07  254  	/*
+28c97ba38ff9c0 Mike Christie 2023-04-07  255  	 * Get the number of registrations so we know how big to allocate
+28c97ba38ff9c0 Mike Christie 2023-04-07  256  	 * the response buffer.
+28c97ba38ff9c0 Mike Christie 2023-04-07  257  	 */
+28c97ba38ff9c0 Mike Christie 2023-04-07  258  	ret = nvme_pr_resv_report(bdev, &tmp_rse, sizeof(tmp_rse), &eds);
+28c97ba38ff9c0 Mike Christie 2023-04-07  259  	if (ret)
+28c97ba38ff9c0 Mike Christie 2023-04-07  260  		return ret;
+28c97ba38ff9c0 Mike Christie 2023-04-07  261  
+28c97ba38ff9c0 Mike Christie 2023-04-07  262  	num_regs = get_unaligned_le16(&tmp_rse.regctl);
+28c97ba38ff9c0 Mike Christie 2023-04-07  263  	if (!num_regs) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  264  		resv->generation = le32_to_cpu(tmp_rse.gen);
+28c97ba38ff9c0 Mike Christie 2023-04-07  265  		return 0;
+28c97ba38ff9c0 Mike Christie 2023-04-07  266  	}
+28c97ba38ff9c0 Mike Christie 2023-04-07  267  
+28c97ba38ff9c0 Mike Christie 2023-04-07 @268  	rse_len = struct_size(rse, regctl_eds, num_regs);
+28c97ba38ff9c0 Mike Christie 2023-04-07  269  	rse = kzalloc(rse_len, GFP_KERNEL);
+28c97ba38ff9c0 Mike Christie 2023-04-07  270  	if (!rse)
+28c97ba38ff9c0 Mike Christie 2023-04-07  271  		return -ENOMEM;
+28c97ba38ff9c0 Mike Christie 2023-04-07  272  
+28c97ba38ff9c0 Mike Christie 2023-04-07  273  	ret = nvme_pr_resv_report(bdev, rse, rse_len, &eds);
+28c97ba38ff9c0 Mike Christie 2023-04-07  274  	if (ret)
+28c97ba38ff9c0 Mike Christie 2023-04-07  275  		goto free_rse;
+28c97ba38ff9c0 Mike Christie 2023-04-07  276  
+28c97ba38ff9c0 Mike Christie 2023-04-07  277  	if (num_regs != get_unaligned_le16(&rse->regctl)) {
+28c97ba38ff9c0 Mike Christie 2023-04-07 @278  		kfree(rse);
+28c97ba38ff9c0 Mike Christie 2023-04-07  279  		goto get_num_regs;
+28c97ba38ff9c0 Mike Christie 2023-04-07  280  	}
+28c97ba38ff9c0 Mike Christie 2023-04-07  281  
+28c97ba38ff9c0 Mike Christie 2023-04-07  282  	resv->generation = le32_to_cpu(rse->gen);
+28c97ba38ff9c0 Mike Christie 2023-04-07  283  	resv->type = block_pr_type_from_nvme(rse->rtype);
+28c97ba38ff9c0 Mike Christie 2023-04-07  284  
+28c97ba38ff9c0 Mike Christie 2023-04-07  285  	for (i = 0; i < num_regs; i++) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  286  		if (eds) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  287  			if (rse->regctl_eds[i].rcsts) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  288  				resv->key = le64_to_cpu(rse->regctl_eds[i].rkey);
+28c97ba38ff9c0 Mike Christie 2023-04-07  289  				break;
+28c97ba38ff9c0 Mike Christie 2023-04-07  290  			}
+28c97ba38ff9c0 Mike Christie 2023-04-07  291  		} else {
+28c97ba38ff9c0 Mike Christie 2023-04-07  292  			struct nvme_reservation_status *rs;
+28c97ba38ff9c0 Mike Christie 2023-04-07  293  
+28c97ba38ff9c0 Mike Christie 2023-04-07  294  			rs = (struct nvme_reservation_status *)rse;
+28c97ba38ff9c0 Mike Christie 2023-04-07  295  			if (rs->regctl_ds[i].rcsts) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  296  				resv->key = le64_to_cpu(rs->regctl_ds[i].rkey);
+28c97ba38ff9c0 Mike Christie 2023-04-07  297  				break;
+28c97ba38ff9c0 Mike Christie 2023-04-07  298  			}
+28c97ba38ff9c0 Mike Christie 2023-04-07  299  		}
+28c97ba38ff9c0 Mike Christie 2023-04-07  300  	}
+28c97ba38ff9c0 Mike Christie 2023-04-07  301  
+28c97ba38ff9c0 Mike Christie 2023-04-07  302  free_rse:
+28c97ba38ff9c0 Mike Christie 2023-04-07  303  	kfree(rse);
+28c97ba38ff9c0 Mike Christie 2023-04-07  304  	return ret;
+28c97ba38ff9c0 Mike Christie 2023-04-07  305  }
+28c97ba38ff9c0 Mike Christie 2023-04-07  306  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
