@@ -1,110 +1,137 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5841D52E
-	for <oe-kbuild@lists.linux.dev>; Wed,  3 Jan 2024 20:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18C82564;
+	Thu,  4 Jan 2024 00:42:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="dIpVpd0s"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5ce2aada130so2188276a12.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 03 Jan 2024 12:27:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X9bYBEd+"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a28da6285c1so13002566b.0;
+        Wed, 03 Jan 2024 16:42:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1704313638; x=1704918438; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xcsOQ9nD5GPnMMvdZNgPzZalWOKW9Ch4bNlsftdutyM=;
-        b=dIpVpd0snuwWWVghwS/GMBOMa7eGqHlLweLJ+m51hPGt5veMDDJSjtEd6cLawO5C0C
-         zmGcBTV5x7lhZpZfH04jt6G/ljRDOEuTyMLrClUK8lMYeQ6hWArvWYkNoic3Skf1BW/P
-         I3Gaa4oFclA8dGKv/JbMKtGf+tRn4f004wuQpydjX+Uj0+wNc32ici9IFvErrSWIulrp
-         p6qhqXHie1s22H3JnEbzH/LsAXzvYF7wyw3UlZDN6NUvLgD86xDhOCo0PPjr1vUVb6oR
-         oGxN0MA+EuDKg1upK4R0kDF5TmJ+1XwAyUx7t1amcx1WJaPsQlrYdUSTeu/zuocROdS1
-         tuGw==
+        d=gmail.com; s=20230601; t=1704328922; x=1704933722; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uvc23dpXpHqY1dPGQelfcNuv5lz83JAZe/DEXvpEDEA=;
+        b=X9bYBEd+qjdg5nUR5S5kO/eEJ8XTQ4la0Jfhzxp6TQJJVkgJvlb3Ni2G0Fa1jzumeQ
+         yy3EXl9n3gKbspRLGYB9Ta8RN1nIJulhbfw9+WMKUoCfT2f+DnxaLPBlpbqEQVa81wfR
+         oL9+KPxEJEszwReRFw2RjICCKSPdorPzfBY4DDR6Su8sH83vjBwyFBV+ZFrKNSIhpIpS
+         N6/Rp9zalrJcx3jwgVC4YqvHvM3FIrcUxaATcagXOPyFDt4DdKl5isLxDb4/wwN4hqmH
+         bCLRrSnyuNUdHJX0KyFz5BB50vTgDhKbHwKp/8GHj6sf0w6tAbp8V/DX7Pum5XQnGh3E
+         8rPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704313638; x=1704918438;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xcsOQ9nD5GPnMMvdZNgPzZalWOKW9Ch4bNlsftdutyM=;
-        b=qkRadUUiN+ghsnSbUoqwPcUVWI/jrzktQ5qrCIObOH9+JMMgOfw+GJMMf/FQOQWzcM
-         1GE0COyqww/jStz2eNMx2vzn0AYI3f3rhbJLcvfLOMWyPapkRsjK1ezvYVXzQv/3wfFd
-         vyxQKKGFh3+3N8t9P5bA7Arh26CB1iPCpYDyT5aNnBuXiGWizMcyxitpIi000tv+Gr3g
-         NCgLNm5poT1AcEl+BiDO1zcUr9IA2bQV5rVQoR2jrEBAaHAQh0mdRXvFCojrC0etUhBT
-         jtAYt559pxYrQYN4+lRUQ/plV1UqXlOoaANLYK3o/y0tfjCuCI3HwxLQqR2X4iKtX80w
-         NV8w==
-X-Gm-Message-State: AOJu0YzTmMaJDu+0Op+Y8afNQ5pbBcwHd9xq+yugBE4zCFwj9i2MsuYN
-	ctFWN0ZEqwbyYDQhUk3TPrht8DfH8ZBcdg==
-X-Google-Smtp-Source: AGHT+IGfGjwL1gOAZN1cJcV3cHT0ah1Btx46k+DeH+QlmZ3yh13pe7S1KrdoMLLsu6lIidEfExM5yg==
-X-Received: by 2002:a05:6a20:938b:b0:197:58b5:3251 with SMTP id x11-20020a056a20938b00b0019758b53251mr2377252pzh.113.1704313638634;
-        Wed, 03 Jan 2024 12:27:18 -0800 (PST)
-Received: from ghost (070-095-050-247.res.spectrum.com. [70.95.50.247])
-        by smtp.gmail.com with ESMTPSA id u16-20020a056a00099000b006d9c7f2840bsm16045592pfg.57.2024.01.03.12.27.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 12:27:18 -0800 (PST)
-Date: Wed, 3 Jan 2024 12:27:15 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: Re: arch/riscv/kernel/module.c:639 process_accumulated_relocations()
- error: uninitialized symbol 'curr_type'.
-Message-ID: <ZZXDI78QsaXzbfR+@ghost>
-References: <d0897fb3-1af8-430b-aa8b-9aa829bad1d7@suswa.mountain>
- <ZXoFhu2TPXgrsInY@ghost>
- <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
- <ZYzIbVfge6I8Ptw0@ghost>
- <c11513b4-6e60-44b5-ba12-83fbb9b7e2c3@suswa.mountain>
+        d=1e100.net; s=20230601; t=1704328922; x=1704933722;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Uvc23dpXpHqY1dPGQelfcNuv5lz83JAZe/DEXvpEDEA=;
+        b=UszDd4mpQwh4Fx4aDun7qbHJQkWs/EzVxsuwucyMCt8SYH/qDjZSOB8xQh7NnlR8PC
+         CeOpUeOvNFwrldLJT0+V9MNtGZn29JVjU6QsRofcCEPJKLvyWUFQJnvzUWpIToFsbYKe
+         LiX5cx9l6K770Pd7s3Uf7LVfGGBD6plu2DLrV7ScP0JGDLUiMmg1eStTjlo/FkN7u/dP
+         iMP5tlBAYrbhjSyeylhbgEGlVdlpn9Bg0Iq6op6KWs8psaiAqpsi9jKxrTX2/X3Z0CRg
+         NTkN/ffpPjL3k8pH1mXtBCAY18WCVvgAgLr0d7T+0E+ZuG/UC6kg//B5m/fWOnxCcKOa
+         UEvQ==
+X-Gm-Message-State: AOJu0YxArppxR4VWnLZOzQC4NqAI6wOg0Ni9igpEtOLSJCR/+XxeS+GZ
+	7PlD1JgKHwvn5sDqnNHe6nt9VotrhRSLHNeFjb8=
+X-Google-Smtp-Source: AGHT+IFvICkj21iJ/z9l3iQ0XLjxtVI/HKqcIzua/MxUvlJc0w1EtMthq89sml2MufmrHCuneqQXLEZLIly4yBwppYw=
+X-Received: by 2002:a17:906:6bca:b0:a23:1b07:5c1b with SMTP id
+ t10-20020a1709066bca00b00a231b075c1bmr1802836ejs.10.1704328921723; Wed, 03
+ Jan 2024 16:42:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c11513b4-6e60-44b5-ba12-83fbb9b7e2c3@suswa.mountain>
+References: <20231222043308.3090089-9-airlied@gmail.com> <f8594217-59b7-431c-9fdc-15e2ef6197ab@moroto.mountain>
+In-Reply-To: <f8594217-59b7-431c-9fdc-15e2ef6197ab@moroto.mountain>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 4 Jan 2024 10:41:50 +1000
+Message-ID: <CAPM=9txv+ULnX-f-dG=Ki2iZH5L7Sge-Jcd-asyPiBpVH962=g@mail.gmail.com>
+Subject: Re: [PATCH 08/11] nouveau/gsp: don't free ctrl messages on errors
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+	nouveau@lists.freedesktop.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jan 02, 2024 at 03:37:34PM +0300, Dan Carpenter wrote:
-> On Wed, Dec 27, 2023 at 04:59:25PM -0800, Charlie Jenkins wrote:
-> > On Thu, Dec 14, 2023 at 11:00:46AM +0300, Dan Carpenter wrote:
-> > > On Wed, Dec 13, 2023 at 11:27:02AM -0800, Charlie Jenkins wrote:
-> > > > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01  638  			}
-> > > > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01 @639  			reloc_handlers[curr_type].accumulate_handler(
-> > > > >                                                                                        ^^^^^^^^^
-> > > > > Can the list be empty?  Uninitialized in that case.
-> > > > 
-> > > > That's a tricky one, the list cannot be empty. Each bucket in the
-> > > > bucket_iter is guarunteed to have at least one rel_entry. I can probably
-> > > > resolve this by extracting this for loop into a do-while loop.
-> > > 
-> > > You can just ignore false positives.  It's not really a fix to change it
-> > > to a do-while loop.  I reviewed the do while code before reading this
-> > > email and I still wondered about empty lists, but just to hear that it's
-> > > not going to be empty is enough.  Just the email was sufficient.
-> > > 
-> > > regards,
-> > > dan carpenter
-> > > 
-> > 
-> > The fix isn't the do-while loop but rather the use after free, the
-> > incorrect sizeof, and incorrect error handling when
-> > initialize_relocation_hashtable fails. I decided to include the do-while
-> > code because I was already touching the surrounding code. Can you review
-> > [1]? If you would prefer that the do-while is reverted, I can do that,
-> > but it is important that the rest of the fixes are merged before 6.7 is
-> > released.
-> > 
-> > [1] https://lore.kernel.org/all/20231213-module_loading_fix-v1-1-da9b7c92ade5@rivosinc.com/
-> 
-> 
-> Most subsystems wouldn't merge a patch like this which does so many
-> things at the same time...
+On Thu, 4 Jan 2024 at 00:47, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+>
+> Hi Dave,
+>
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/nouveau-gsp-drop-some-acpi-related-debug/20231222-180432
+> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+> patch link:    https://lore.kernel.org/r/20231222043308.3090089-9-airlied%40gmail.com
+> patch subject: [PATCH 08/11] nouveau/gsp: don't free ctrl messages on errors
+> config: powerpc-randconfig-r071-20231226 (https://download.01.org/0day-ci/archive/20231227/202312271917.55xuDMdc-lkp@intel.com/config)
+> compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202312271917.55xuDMdc-lkp@intel.com/
 
-That is a good point, I split it across 4 different patches.
+This is a false positive, I think the code is operating like I'd
+expect, we maybe could restructure it to avoid this warning?
 
-https://lore.kernel.org/linux-riscv/20240103-module_loading_fix-v2-0-292b160552c9@rivosinc.com/
+The idea is you send an rpc msg, if there's a reply you get a reply,
+if no reply you get NULL and if an error you get an error.
 
-> 
-> regards,
-> dan carpenter
-> 
+So in the case you get an error or NULL you just want to return 0 for
+the NULL as it's successful, and error otherwise.
+
+Would using PTR_ERR_OR_ZERO make smatch happy? (even if it's not
+really what we want).
+
+Dave.
+>
+> New smatch warnings:
+> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:659 r535_gsp_rpc_rm_ctrl_push() warn: passing zero to 'PTR_ERR'
+> drivers/gpu/drm/nouveau/nvkm/engine/disp/r535.c:1063 r535_dp_aux_xfer() warn: passing a valid pointer to 'PTR_ERR'
+>
+> Old smatch warnings:
+> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1887 nvkm_gsp_radix3_sg() error: uninitialized symbol 'addr'.
+>
+> vim +/PTR_ERR +659 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+>
+> af265ee961627a Dave Airlie 2023-12-22  649  static int
+> af265ee961627a Dave Airlie 2023-12-22  650  r535_gsp_rpc_rm_ctrl_push(struct nvkm_gsp_object *object, void **argv, u32 repc)
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  651  {
+> af265ee961627a Dave Airlie 2023-12-22  652      rpc_gsp_rm_control_v03_00 *rpc = container_of((*argv), typeof(*rpc), params);
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  653      struct nvkm_gsp *gsp = object->client->gsp;
+> af265ee961627a Dave Airlie 2023-12-22  654      int ret = 0;
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  655
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  656      rpc = nvkm_gsp_rpc_push(gsp, rpc, true, repc);
+> af265ee961627a Dave Airlie 2023-12-22  657      if (IS_ERR_OR_NULL(rpc)) {
+> af265ee961627a Dave Airlie 2023-12-22  658              *argv = NULL;
+> af265ee961627a Dave Airlie 2023-12-22 @659              return PTR_ERR(rpc);
+>
+> If nvkm_gsp_rpc_push() returns NULL (probably a failure) then this
+> returns PTR_ERR(NULL) which is zero/success.
+>
+> af265ee961627a Dave Airlie 2023-12-22  660      }
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  661
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  662      if (rpc->status) {
+> af265ee961627a Dave Airlie 2023-12-22  663              ret = r535_rpc_status_to_errno(rpc->status);
+> 555bb9c29a45be Dave Airlie 2023-12-22  664              if (ret != -EAGAIN)
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  665                      nvkm_error(&gsp->subdev, "cli:0x%08x obj:0x%08x ctrl cmd:0x%08x failed: 0x%08x\n",
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  666                                 object->client->object.handle, object->handle, rpc->cmd, rpc->status);
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  667      }
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  668
+> af265ee961627a Dave Airlie 2023-12-22  669      if (repc)
+> af265ee961627a Dave Airlie 2023-12-22  670              *argv = rpc->params;
+> af265ee961627a Dave Airlie 2023-12-22  671      else
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  672              nvkm_gsp_rpc_done(gsp, rpc);
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  673
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  674      return ret;
+> 4cf2c83eb3a4c4 Ben Skeggs  2023-09-19  675  }
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
