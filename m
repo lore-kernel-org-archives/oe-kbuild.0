@@ -1,45 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF0520B05
-	for <oe-kbuild@lists.linux.dev>; Thu,  4 Jan 2024 10:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB99621109
+	for <oe-kbuild@lists.linux.dev>; Thu,  4 Jan 2024 11:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kZrwZMxt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704362945; x=1735898945;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xbLl22d0g/5OFzLrjLEm1bgH7fo5MzO8V+KO1n4MV0g=;
-  b=kZrwZMxt5Nwn901PwuMLAE1/meUezvmWf5MrqRjETsb4woIr6ugyYNnX
-   0LHjPWHoAlGS0o3pGDijnBnKVDyEOz9VBDCCgkWtYAdVffPys26tBW8a6
-   1JZMQaepuOb18PEaYURKxmY6O7vGzPWT1ylIG44xlr6uMK8cnIMneUFle
-   55Oeupf+W0j2xo2w3Ro3OibKlMDHyIBq8bcyveFTweEcLfzUIOjfUmzfj
-   0EO7CHa7bf4CBSR515GdFTsEoNcFrm/3XtOUVNbAy1QnhJv7htuM32lNN
-   U09RjapMb11byap29Spz96o8Q6Hhay/9CJ5Jl2CW9xJxkahVZQG6xEK8G
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="399974970"
-X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
-   d="scan'208";a="399974970"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 02:09:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="1111680267"
-X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
-   d="scan'208";a="1111680267"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 04 Jan 2024 02:09:03 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rLKer-000N9E-0K;
-	Thu, 04 Jan 2024 10:09:01 +0000
-Date: Thu, 4 Jan 2024 18:08:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH iwl-next v1] ixgbe: Convert ret val type from s32 to int
-Message-ID: <202401041701.6QKTsZmx-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zGr7DHAQ"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a27733ae1dfso47337566b.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 04 Jan 2024 03:27:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704367648; x=1704972448; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pVTzrfr9GZA3UY//E7UWyLjKPOakT/U+oW4hijSpjQE=;
+        b=zGr7DHAQ1tHsvMm7BBU5lqUxxnznSPfdOGe6AstyAGaz5waWitTA/QKGagadLpk/2L
+         +8nsAPLQ2/khL7x3fkNO0OOpYQAumJO6C96jdXy/ln8KRYLwtg4MEfBTUOBzkwTIvK5Z
+         AuynsIuC878VDDTJYS6vm2gRNt2jAXBKCZfaHl9zmx4jrwFm/CtZs+UOOFLOoJRNhyIC
+         YXw+LFgwpJm+oCs42WFleSwM9zVb/TwGJii1BrOt8jOlqkjy+yA9DQbPMItpysgCIs9S
+         p9wcL3cTscP847ZXcR++VMQ2xONQsT411x8Kte8D+8oHu8xCyD/CizRGQPs6bq1G6kYA
+         ADXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704367648; x=1704972448;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pVTzrfr9GZA3UY//E7UWyLjKPOakT/U+oW4hijSpjQE=;
+        b=r9D1GfTxmCUuF6r8/fzyiHgAStBFVJT/IHMqDEeLbR6GZJ/p/eD3WS976D4gbki+zk
+         owPEDNSAYCwYSkaqB5k/xsuTD0+fVfUbIaAQAhfaUfJRuWVt3VfCo9LJVYVnHp4+zgCq
+         VXNS81WeRF4TU0GIARtwsuL07gkz9wmvmhfeSjYUzfDuE5fZ3k1agT8eS8cvAFfSiWZ+
+         9aOHPz74CmeZ3YYcbR7rC1HGRaCMsnpVi9RCL/2N1CBjSusOxHIGGXLgSc04z44zLM5P
+         IUcMFA7mIx+moL60yXv0cg7qSP9yujh554a+uTCBFqcunZ0h0FpLqLGiVAUDfhqRyx99
+         Uhsw==
+X-Gm-Message-State: AOJu0YxA3sXJ6m5ZyfCkgNsWVLx64o5arMBhhDje4h01CPSZJuLPneTJ
+	ZBh0NG9nE+aRTJjlVpgNEH1aE3WL+TRWCKNlAibjImkoQ3o=
+X-Google-Smtp-Source: AGHT+IFT8p6ISNDQ7jmYQiJ1bTrzoH7XIlhuJHaj2R3o92vzBUuH89axbBnfHGGum6t63s7MHZT7hA==
+X-Received: by 2002:a17:906:2518:b0:a28:a7f4:65dc with SMTP id i24-20020a170906251800b00a28a7f465dcmr110057ejb.299.1704367648507;
+        Thu, 04 Jan 2024 03:27:28 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id ka24-20020a170907921800b00a26abf393d0sm13105560ejb.138.2024.01.04.03.27.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jan 2024 03:27:28 -0800 (PST)
+Date: Thu, 4 Jan 2024 14:27:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [krzk-github:n/gpio-reset-controller-shared 18/18]
+ drivers/reset/core.c:837 __reset_gpios_args_match() warn: variable
+ dereferenced before check 'a2' (see line 834)
+Message-ID: <a220a7a3-1eef-4e87-836e-44e4eadcbea4@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,90 +57,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240103101135.386891-1-jedrzej.jagielski@intel.com>
-References: <20240103101135.386891-1-jedrzej.jagielski@intel.com>
-TO: Jedrzej Jagielski <jedrzej.jagielski@intel.com>
-TO: intel-wired-lan@lists.osuosl.org
-CC: anthony.l.nguyen@intel.com
-CC: netdev@vger.kernel.org
-CC: Jedrzej Jagielski <jedrzej.jagielski@intel.com>
-CC: Jacob Keller <jacob.e.keller@intel.com>
-
-Hi Jedrzej,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on horms-ipvs/master]
-[cannot apply to tnguy-next-queue/dev-queue tnguy-net-queue/dev-queue linus/master v6.7-rc8 next-20240104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jedrzej-Jagielski/ixgbe-Convert-ret-val-type-from-s32-to-int/20240103-182213
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
-patch link:    https://lore.kernel.org/r/20240103101135.386891-1-jedrzej.jagielski%40intel.com
-patch subject: [PATCH iwl-next v1] ixgbe: Convert ret val type from s32 to int
-:::::: branch date: 24 hours ago
-:::::: commit date: 24 hours ago
-config: i386-randconfig-141-20240104 (https://download.01.org/0day-ci/archive/20240104/202401041701.6QKTsZmx-lkp@intel.com/config)
+tree:   https://github.com/krzk/linux n/gpio-reset-controller-shared
+head:   432bf1b2293de8d4f827f6ee3e32da747ddc44a3
+commit: 432bf1b2293de8d4f827f6ee3e32da747ddc44a3 [18/18] reset core WIP
+config: i386-randconfig-141-20231231 (https://download.01.org/0day-ci/archive/20231231/202312311338.jKP1GdFw-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202401041701.6QKTsZmx-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202312311338.jKP1GdFw-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c:2884 ixgbe_get_lcd_t_x550em() warn: missing error code? 'status'
-drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c:3130 ixgbe_enter_lplu_t_x550em() warn: missing error code? 'status'
+smatch warnings:
+drivers/reset/core.c:837 __reset_gpios_args_match() warn: variable dereferenced before check 'a2' (see line 834)
 
-Old smatch warnings:
-drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c:2890 ixgbe_get_lcd_t_x550em() warn: missing error code? 'status'
+vim +/a2 +837 drivers/reset/core.c
 
-vim +/status +2884 drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c
+432bf1b2293de8 Krzysztof Kozlowski 2023-12-30  829  static bool __reset_gpios_args_match(const struct of_phandle_args *a1,
+432bf1b2293de8 Krzysztof Kozlowski 2023-12-30  830  				     const struct of_phandle_args *a2)
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  831  {
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  832  	unsigned int i;
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  833  
+2a9529168d430a Krzysztof Kozlowski 2023-12-28 @834  	pr_err("%s:%d AAA comparing %pOF == %pOF, r->of_args=%px\n",
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  835  	       __func__, __LINE__,
+432bf1b2293de8 Krzysztof Kozlowski 2023-12-30  836  	       a1->np, a2->np, a2);
+                                                                       ^^^^^^
+Dereference
 
-cb8e051446ae55 Tony Nguyen       2016-10-26  2859  
-6ac7439459606a Don Skidmore      2015-06-17  2860  /** ixgbe_get_lcd_x550em - Determine lowest common denominator
-6ac7439459606a Don Skidmore      2015-06-17  2861   *  @hw: pointer to hardware structure
-6ac7439459606a Don Skidmore      2015-06-17  2862   *  @lcd_speed: pointer to lowest common link speed
-6ac7439459606a Don Skidmore      2015-06-17  2863   *
-6ac7439459606a Don Skidmore      2015-06-17  2864   *  Determine lowest common link speed with link partner.
-6ac7439459606a Don Skidmore      2015-06-17  2865   **/
-9ea222bfe41f87 Jedrzej Jagielski 2024-01-03  2866  static int ixgbe_get_lcd_t_x550em(struct ixgbe_hw *hw,
-6ac7439459606a Don Skidmore      2015-06-17  2867  				  ixgbe_link_speed *lcd_speed)
-6ac7439459606a Don Skidmore      2015-06-17  2868  {
-6ac7439459606a Don Skidmore      2015-06-17  2869  	u16 an_lp_status;
-9ea222bfe41f87 Jedrzej Jagielski 2024-01-03  2870  	int status;
-6ac7439459606a Don Skidmore      2015-06-17  2871  	u16 word = hw->eeprom.ctrl_word_3;
-6ac7439459606a Don Skidmore      2015-06-17  2872  
-6ac7439459606a Don Skidmore      2015-06-17  2873  	*lcd_speed = IXGBE_LINK_SPEED_UNKNOWN;
-6ac7439459606a Don Skidmore      2015-06-17  2874  
-6ac7439459606a Don Skidmore      2015-06-17  2875  	status = hw->phy.ops.read_reg(hw, IXGBE_AUTO_NEG_LP_STATUS,
-4dc4000b35119f Emil Tantilov     2016-09-26  2876  				      MDIO_MMD_AN,
-6ac7439459606a Don Skidmore      2015-06-17  2877  				      &an_lp_status);
-6ac7439459606a Don Skidmore      2015-06-17  2878  	if (status)
-6ac7439459606a Don Skidmore      2015-06-17  2879  		return status;
-6ac7439459606a Don Skidmore      2015-06-17  2880  
-6ac7439459606a Don Skidmore      2015-06-17  2881  	/* If link partner advertised 1G, return 1G */
-6ac7439459606a Don Skidmore      2015-06-17  2882  	if (an_lp_status & IXGBE_AUTO_NEG_LP_1000BASE_CAP) {
-6ac7439459606a Don Skidmore      2015-06-17  2883  		*lcd_speed = IXGBE_LINK_SPEED_1GB_FULL;
-6ac7439459606a Don Skidmore      2015-06-17 @2884  		return status;
-6ac7439459606a Don Skidmore      2015-06-17  2885  	}
-6ac7439459606a Don Skidmore      2015-06-17  2886  
-6ac7439459606a Don Skidmore      2015-06-17  2887  	/* If 10G disabled for LPLU via NVM D10GMP, then return no valid LCD */
-6ac7439459606a Don Skidmore      2015-06-17  2888  	if ((hw->bus.lan_id && (word & NVM_INIT_CTRL_3_D10GMP_PORT1)) ||
-6ac7439459606a Don Skidmore      2015-06-17  2889  	    (word & NVM_INIT_CTRL_3_D10GMP_PORT0))
-6ac7439459606a Don Skidmore      2015-06-17  2890  		return status;
-6ac7439459606a Don Skidmore      2015-06-17  2891  
-6ac7439459606a Don Skidmore      2015-06-17  2892  	/* Link partner not capable of lower speeds, return 10G */
-6ac7439459606a Don Skidmore      2015-06-17  2893  	*lcd_speed = IXGBE_LINK_SPEED_10GB_FULL;
-6ac7439459606a Don Skidmore      2015-06-17  2894  	return status;
-6ac7439459606a Don Skidmore      2015-06-17  2895  }
-6ac7439459606a Don Skidmore      2015-06-17  2896  
+432bf1b2293de8 Krzysztof Kozlowski 2023-12-30 @837  	if (!a2)
+                                                            ^^^
+Checked too late
+
+
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  838  		return false;
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  839  
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  840  	pr_err("%s:%d AAA comparing %pOF == %pOF | %u == %u\n",
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  841  	       __func__, __LINE__,
+432bf1b2293de8 Krzysztof Kozlowski 2023-12-30  842  	       a1->np, a2->np,
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
