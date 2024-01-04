@@ -1,57 +1,44 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9714F21360
-	for <oe-kbuild@lists.linux.dev>; Thu,  4 Jan 2024 12:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0A122305
+	for <oe-kbuild@lists.linux.dev>; Thu,  4 Jan 2024 13:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UpbRFi0V"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a26f73732c5so47528866b.3
-        for <oe-kbuild@lists.linux.dev>; Thu, 04 Jan 2024 04:05:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704369908; x=1704974708; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z071ZOVrV7cQhPIZSpfbxn2i/ugENcMb4cwQcQkzR+I=;
-        b=UpbRFi0VgwEHVFkDneumZhRijKnZylN5ezbYPfe4ROKedGwBSgzWTZ9YyMRMUS0CIX
-         LX8Vt2n5tw2RTmktR+Lvv+sjMtG924L7iGGL1acL3FSEhxYn/uf6BkQNo6k0wzd/XfSD
-         +FNC8APbQLpb+VOk7Fc3nVOcFSCoxi0MZPGi4duBqpVa75xtuO6pnGeMLZ5741jH0v/l
-         U6PvqhGD5E51Kk7QgQDIZ2ApXfJwydgmc0aGM3hc9ArADVOxbYE8epgYFr9e3FfZP19t
-         YC5muMuqNVZCs5cACYD7Qs44++AH6iB0wSy+ALoGMQdHSUI1TM7tutuHu6hHTNS/7gSz
-         lJcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704369908; x=1704974708;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z071ZOVrV7cQhPIZSpfbxn2i/ugENcMb4cwQcQkzR+I=;
-        b=OdZHP0bFe+tj0cRRA1FOKkpic/UUVLrCcjcFMwvZn8LweRHyHF2mYjOWwUOe6+JayD
-         svKY8+RWX3JFZj1P1616xxVcf88Rsd7571hmViKT0cFrsTlKVFtaHlLn0Q6jWLr+Dbz4
-         QRp7BYn6o7g0ROVySy7novBMcyAhsUdfkB0JICA8obgI9/1AUO0pKH4yUZ7hW1b4/Wj+
-         VBVMiA6wSgGgAMJ9Xrx0oDjTHTaVg48LZFlvU7+opyLp2tTenZh/ejNreJjQN5Uvthf8
-         C6eYNitnRwekI3+96aKUzCq79R1BI9kTgynFvCS1hWQ5uJE9LJYqEc0hUh138/ctR5nX
-         ykCw==
-X-Gm-Message-State: AOJu0Yxuoqm5GI5Iw6rE89A+90pqhC0S81qxr0acZeknPqxSHkRZrdS1
-	IcLXvkUX77Is6MFCofQ0EvkNdxqaCO1qaW6/Ndvel0xp+xk=
-X-Google-Smtp-Source: AGHT+IFR64NY/NROAmz9WSpobH9bCqoNuzeYJ5wmYxSEhL49XMX06krXPHW0OI/sdYjgJj00Se8mlw==
-X-Received: by 2002:a17:906:5a51:b0:a28:e2d7:b41d with SMTP id my17-20020a1709065a5100b00a28e2d7b41dmr260021ejc.0.1704369907666;
-        Thu, 04 Jan 2024 04:05:07 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id ew18-20020a170907951200b00a1dd58874b8sm13592133ejc.119.2024.01.04.04.05.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jan 2024 04:05:07 -0800 (PST)
-Date: Thu, 4 Jan 2024 15:05:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Alex Hung <alex.hung@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Harry Wentland <harry.wentland@amd.com>
-Subject: [linux-next:master 4679/10295]
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9280
- amdgpu_dm_atomic_commit_tail() error: we previously assumed 'acrtc' could be
- null (see line 9277)
-Message-ID: <7e5c7ab1-4ee9-4221-b585-6a9aa2c6dcc3@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BnV0d1+v"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704376247; x=1735912247;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3YNFMXK7ZV5KKtl+IdWp68LGED1kp6VRhBUJu4smLu0=;
+  b=BnV0d1+vxNSaWqG1BGmrWcRCjlJ3RGQjYFAX1LROqNG9H4Fu+gexmGWX
+   xFMdE1d9sk8T6XyfHEeaioewWjV5Gq7Xg6jaimmudG40ccdSyzdLKlAoc
+   t6r2uRy3oeMmOIB0p41FAT0fjVW9AKrRj05nX1nownDPZDKDqZu1gUfPh
+   bcxNkYvZ6/VNLkLjkFYYlzj5PQ6ILvPKAYg4an8Gj5GJH5G9kI8ptP4on
+   yIg4VECK30B0TGujf5q2gtvCSX0foJGLcgsP0GCmAaC7Gl8VPo669PIb4
+   KCRXVvdwJuplpgFRMADvA2xYJnaYSyj8kW3dVV7eT9pGGPKLcBnrP0VVZ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="483418712"
+X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
+   d="scan'208";a="483418712"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 05:50:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
+   d="scan'208";a="14894741"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 04 Jan 2024 05:50:40 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rLO7J-000NMy-1s;
+	Thu, 04 Jan 2024 13:50:38 +0000
+Date: Thu, 4 Jan 2024 21:49:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: kernel/workqueue.c:324:40: sparse: sparse: duplicate [noderef]
+Message-ID: <202401042121.ceFEUatY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,61 +48,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   39676dfe52331dba909c617f213fdb21015c8d10
-commit: f872e2f5f0beabd34c03799a5c597f6ba47b51cc [4679/10295] drm/amd/display: Add writeback enable field (wb_enabled)
-config: x86_64-randconfig-161-20231228 (https://download.01.org/0day-ci/archive/20240101/202401010520.1VZfOvg0-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: kernel/workqueue.c:324:40: sparse: sparse: duplicate [noderef]"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Tejun Heo <tj@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ac865f00af293d081356bec56eea90815094a60e
+commit: 636b927eba5bc633753f8eb80f35e1d5be806e51 workqueue: Make unbound workqueues to use per-cpu pool_workqueues
+date:   5 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 5 months ago
+config: arm64-buildonly-randconfig-r004-20230608 (https://download.01.org/0day-ci/archive/20240104/202401042121.ceFEUatY-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20240104/202401042121.ceFEUatY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202401010520.1VZfOvg0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401042121.ceFEUatY-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9280 amdgpu_dm_atomic_commit_tail() error: we previously assumed 'acrtc' could be null (see line 9277)
+sparse warnings: (new ones prefixed by >>)
+>> kernel/workqueue.c:324:40: sparse: sparse: duplicate [noderef]
+   kernel/workqueue.c:324:40: sparse: sparse: multiple address spaces given: __percpu & __rcu
 
-vim +/acrtc +9280 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
+vim +324 kernel/workqueue.c
 
-e7b07ceef2a650 Harry Wentland      2017-08-10  9263  
-c81e13b929df2f Alex Hung           2023-12-01  9264  	/* Enable writeback */
-c81e13b929df2f Alex Hung           2023-12-01  9265  	for_each_new_connector_in_state(state, connector, new_con_state, i) {
-c81e13b929df2f Alex Hung           2023-12-01  9266  		struct dm_connector_state *dm_new_con_state = to_dm_connector_state(new_con_state);
-c81e13b929df2f Alex Hung           2023-12-01  9267  		struct amdgpu_crtc *acrtc = to_amdgpu_crtc(dm_new_con_state->base.crtc);
-c81e13b929df2f Alex Hung           2023-12-01  9268  
-c81e13b929df2f Alex Hung           2023-12-01  9269  		if (connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
-c81e13b929df2f Alex Hung           2023-12-01  9270  			continue;
-c81e13b929df2f Alex Hung           2023-12-01  9271  
-c81e13b929df2f Alex Hung           2023-12-01  9272  		if (!new_con_state->writeback_job)
-c81e13b929df2f Alex Hung           2023-12-01  9273  			continue;
-c81e13b929df2f Alex Hung           2023-12-01  9274  
-c81e13b929df2f Alex Hung           2023-12-01  9275  		new_crtc_state = NULL;
-c81e13b929df2f Alex Hung           2023-12-01  9276  
-c81e13b929df2f Alex Hung           2023-12-01 @9277  		if (acrtc)
-                                                                    ^^^^^
-Check for NULL
-
-c81e13b929df2f Alex Hung           2023-12-01  9278  			new_crtc_state = drm_atomic_get_new_crtc_state(state, &acrtc->base);
-c81e13b929df2f Alex Hung           2023-12-01  9279  
-f872e2f5f0beab Alex Hung           2023-12-01 @9280  		if (acrtc->wb_enabled)
-                                                                    ^^^^^^^^^^^^^^^^^
-Unchecked dereference
-
-f872e2f5f0beab Alex Hung           2023-12-01  9281  			continue;
-f872e2f5f0beab Alex Hung           2023-12-01  9282  
-c81e13b929df2f Alex Hung           2023-12-01  9283  		dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
-c81e13b929df2f Alex Hung           2023-12-01  9284  
-c81e13b929df2f Alex Hung           2023-12-01  9285  		dm_set_writeback(dm, dm_new_crtc_state, connector, new_con_state);
-f872e2f5f0beab Alex Hung           2023-12-01  9286  		acrtc->wb_enabled = true;
-c81e13b929df2f Alex Hung           2023-12-01  9287  	}
-c81e13b929df2f Alex Hung           2023-12-01  9288  
-6ce8f316673f61 Nicholas Kazlauskas 2019-07-11  9289  	/* Update audio instances for each connector. */
-6ce8f316673f61 Nicholas Kazlauskas 2019-07-11  9290  	amdgpu_dm_commit_audio(dev, state);
-6ce8f316673f61 Nicholas Kazlauskas 2019-07-11  9291  
-7230362c78d441 Alex Deucher        2020-12-10  9292  	/* restore the backlight level */
+226223ab3c4118 Tejun Heo       2013-03-12  279  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  280  /*
+c5aa87bbf4b23f Tejun Heo       2013-03-13  281   * The externally visible workqueue.  It relays the issued work items to
+c5aa87bbf4b23f Tejun Heo       2013-03-13  282   * the appropriate worker_pool through its pool_workqueues.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  283   */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  284  struct workqueue_struct {
+3c25a55daadc7e Lai Jiangshan   2013-03-25  285  	struct list_head	pwqs;		/* WR: all pwqs of this wq */
+e2dca7adff8f3f Tejun Heo       2015-03-09  286  	struct list_head	list;		/* PR: list of all workqueues */
+73f53c4aa732ec Tejun Heo       2010-06-29  287  
+3c25a55daadc7e Lai Jiangshan   2013-03-25  288  	struct mutex		mutex;		/* protects this wq */
+3c25a55daadc7e Lai Jiangshan   2013-03-25  289  	int			work_color;	/* WQ: current work color */
+3c25a55daadc7e Lai Jiangshan   2013-03-25  290  	int			flush_color;	/* WQ: current flush color */
+112202d9098aae Tejun Heo       2013-02-13  291  	atomic_t		nr_pwqs_to_flush; /* flush in progress */
+3c25a55daadc7e Lai Jiangshan   2013-03-25  292  	struct wq_flusher	*first_flusher;	/* WQ: first flusher */
+3c25a55daadc7e Lai Jiangshan   2013-03-25  293  	struct list_head	flusher_queue;	/* WQ: flush waiters */
+3c25a55daadc7e Lai Jiangshan   2013-03-25  294  	struct list_head	flusher_overflow; /* WQ: flush overflow list */
+73f53c4aa732ec Tejun Heo       2010-06-29  295  
+2e109a2855bf6c Tejun Heo       2013-03-13  296  	struct list_head	maydays;	/* MD: pwqs requesting rescue */
+30ae2fc0a75eb5 Tejun Heo       2019-09-20  297  	struct worker		*rescuer;	/* MD: rescue worker */
+e22bee782b3b00 Tejun Heo       2010-06-29  298  
+87fc741e94cf64 Lai Jiangshan   2013-03-25  299  	int			nr_drainers;	/* WQ: drain in progress */
+a357fc03262988 Lai Jiangshan   2013-03-25  300  	int			saved_max_active; /* WQ: saved pwq max_active */
+226223ab3c4118 Tejun Heo       2013-03-12  301  
+5b95e1af8d17d8 Lai Jiangshan   2015-05-12  302  	struct workqueue_attrs	*unbound_attrs;	/* PW: only for unbound wqs */
+5b95e1af8d17d8 Lai Jiangshan   2015-05-12  303  	struct pool_workqueue	*dfl_pwq;	/* PW: only for unbound wqs */
+6029a91829ad2b Tejun Heo       2013-04-01  304  
+226223ab3c4118 Tejun Heo       2013-03-12  305  #ifdef CONFIG_SYSFS
+226223ab3c4118 Tejun Heo       2013-03-12  306  	struct wq_device	*wq_dev;	/* I: for sysfs interface */
+226223ab3c4118 Tejun Heo       2013-03-12  307  #endif
+4e6045f134784f Johannes Berg   2007-10-18  308  #ifdef CONFIG_LOCKDEP
+669de8bda87b92 Bart Van Assche 2019-02-14  309  	char			*lock_name;
+669de8bda87b92 Bart Van Assche 2019-02-14  310  	struct lock_class_key	key;
+4e6045f134784f Johannes Berg   2007-10-18  311  	struct lockdep_map	lockdep_map;
+4e6045f134784f Johannes Berg   2007-10-18  312  #endif
+ecf6881ff349ad Tejun Heo       2013-04-01  313  	char			name[WQ_NAME_LEN]; /* I: workqueue name */
+2728fd2f098c3c Tejun Heo       2013-04-01  314  
+e2dca7adff8f3f Tejun Heo       2015-03-09  315  	/*
+24acfb71822566 Thomas Gleixner 2019-03-13  316  	 * Destruction of workqueue_struct is RCU protected to allow walking
+24acfb71822566 Thomas Gleixner 2019-03-13  317  	 * the workqueues list without grabbing wq_pool_mutex.
+e2dca7adff8f3f Tejun Heo       2015-03-09  318  	 * This is used to dump all workqueues from sysrq.
+e2dca7adff8f3f Tejun Heo       2015-03-09  319  	 */
+e2dca7adff8f3f Tejun Heo       2015-03-09  320  	struct rcu_head		rcu;
+e2dca7adff8f3f Tejun Heo       2015-03-09  321  
+2728fd2f098c3c Tejun Heo       2013-04-01  322  	/* hot fields used during command issue, aligned to cacheline */
+2728fd2f098c3c Tejun Heo       2013-04-01  323  	unsigned int		flags ____cacheline_aligned; /* WQ: WQ_* flags */
+636b927eba5bc6 Tejun Heo       2023-08-07 @324  	struct pool_workqueue __percpu __rcu **cpu_pwq; /* I: per-cpu pwqs */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  325  };
+^1da177e4c3f41 Linus Torvalds  2005-04-16  326  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
