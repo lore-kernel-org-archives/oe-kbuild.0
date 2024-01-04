@@ -1,57 +1,48 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A696123749
-	for <oe-kbuild@lists.linux.dev>; Thu,  4 Jan 2024 14:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6B5241EF
+	for <oe-kbuild@lists.linux.dev>; Thu,  4 Jan 2024 15:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UrZwggUj"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-50ea226bda8so597255e87.2
-        for <oe-kbuild@lists.linux.dev>; Thu, 04 Jan 2024 06:47:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704379663; x=1704984463; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gfVBwkOH/qOR6M4rih0KUy+5jfSd6PJn/IuBN+59/14=;
-        b=UrZwggUjbwJMJHGkcLMSV/b719uixHwyhQ14joQu/gp3xZtOAYVKncGscNzQPgjF+/
-         i2NLryvuzhLGQsjLmq0IT/AW62PYiA+SoFEOBq7xafqeyb7lpYIIbC5o850i3mFhRo3V
-         /f5XxWkgGYQXUirDWjYdUnhwn38nSMW9Zwn0zlcbmpAwUsUra3nDT10jvxcsnhZMSML9
-         HikC0W62OcAF3lkdjq2hKb5lW+bXLZLn+i5oneI42T+awpQmrhdZSvdncwiK8hqQDNqQ
-         Cwqj7w1+ORzyG7L/Bg85sIBX1Y02HYqtQNoKFQhz424Trn28Hff22ZWUdczxOKi7Ww+z
-         eh9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704379663; x=1704984463;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gfVBwkOH/qOR6M4rih0KUy+5jfSd6PJn/IuBN+59/14=;
-        b=hp7h70sK1ISU61UQkaMyHLFksrv9F+4/4jFKoVt1YqXpmdvJIgGkrwNk+F7IkLxpvW
-         9Sm4Scd/lr8NC+cnzFI1vpMHsDNGX7MASnT+PFa41UInzxoyYUlsXSVwsVt2XL0iA2EW
-         FmWwThcP0YMehBHWthkbvxCIxkwIj4Y4CXvymUoEGYGtVbaqmsjz9uNCGAcQScixP+P5
-         3fRyVrWRMVL+p1seLjjx3KwVmUbr6JwxLQiNHRquShSfEcYgB+fLKeNVNt9lQ2aLty1H
-         +ceCnN8uKnAn5NfNmKDUm+qC8xE9IDBG5QvbgOa9LoVpfzLZj0aByf01DWuK8VB2nwjQ
-         xYSg==
-X-Gm-Message-State: AOJu0YwXac3KiRjSThgJToR/7yA641fDowQdyvnDOQwmtjRSoTxi7X/O
-	uE+1rso15OE1zvLIRee/4Kvs6yL+sxTAOeHAt+U/tJQqgOE=
-X-Google-Smtp-Source: AGHT+IF117QXnpuvzxN4k7ZWFQU+WS2Vnv3gcLBVFPn+SbU8WR2VxRUpgBrqVdYwYz6vf0xwXjJxXQ==
-X-Received: by 2002:a05:6512:ba8:b0:50e:7be3:d325 with SMTP id b40-20020a0565120ba800b0050e7be3d325mr458204lfv.86.1704379663433;
-        Thu, 04 Jan 2024 06:47:43 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id x7-20020a50ba87000000b005527cfaa2dfsm19534526ede.49.2024.01.04.06.47.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jan 2024 06:47:42 -0800 (PST)
-Date: Thu, 4 Jan 2024 17:47:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Jedrzej Jagielski <jedrzej.jagielski@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
-	Jedrzej Jagielski <jedrzej.jagielski@intel.com>,
-	Jacob Keller <jacob.e.keller@intel.com>
-Subject: Re: [PATCH iwl-next v1] ixgbe: Convert ret val type from s32 to int
-Message-ID: <08d8b75e-af80-438b-8006-9121b8444f49@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G2z07pQb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704382035; x=1735918035;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=N3NZs7vZ9lmUsxSsk6leDRREzQjh8ATPYOwAaNW6Z54=;
+  b=G2z07pQbBv/mNX7uYzVjcsm7hfoDDAoMnrxBhm/CA38MvC3SZRclyWQb
+   4wJECBQv1M3VCAftTMEQNEfhnDP7HCirdoHCJaRyWWUzNy8i0p/IzTxSH
+   8H958Zmbe4IXc7xV6asVcQlZ5KhPgm0xNSkG61LHfJf8eQwQ3zcaMf1iT
+   Wi3U9h34BwXON9eB6XYIcgxRoW8xgDyoupKI68u/81Xwb3mw2/P02b4Vt
+   no9t2Yza2W/kfXSjfD3w/6/jCkOLdPixnNQo4NdE2O7cM6O8x0XSO1M1I
+   9c6yLeqS9AqxUnAWTnaA8lsgCOwwmdAt9EK9JGWAxJcBqIZJIKqTRBvFf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4642352"
+X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
+   d="scan'208";a="4642352"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 07:27:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="783910688"
+X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
+   d="scan'208";a="783910688"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 04 Jan 2024 07:27:03 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rLPca-000066-3B;
+	Thu, 04 Jan 2024 15:27:00 +0000
+Date: Thu, 4 Jan 2024 23:26:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 4625/12403]
+ drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9280
+ amdgpu_dm_atomic_commit_tail() error: we previously assumed 'acrtc' could be
+ null (see line 9277)
+Message-ID: <202401042305.cfkwJHya-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,72 +51,173 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240103101135.386891-1-jedrzej.jagielski@intel.com>
 
-Hi Jedrzej,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Alex Hung <alex.hung@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Harry Wentland <harry.wentland@amd.com>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jedrzej-Jagielski/ixgbe-Convert-ret-val-type-from-s32-to-int/20240103-182213
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
-patch link:    https://lore.kernel.org/r/20240103101135.386891-1-jedrzej.jagielski%40intel.com
-patch subject: [PATCH iwl-next v1] ixgbe: Convert ret val type from s32 to int
-config: i386-randconfig-141-20240104 (https://download.01.org/0day-ci/archive/20240104/202401041701.6QKTsZmx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d0b3c8aa5e37775cd7c3ac07b256218df0fd6678
+commit: f872e2f5f0beabd34c03799a5c597f6ba47b51cc [4625/12403] drm/amd/display: Add writeback enable field (wb_enabled)
+:::::: branch date: 10 hours ago
+:::::: commit date: 4 weeks ago
+config: x86_64-randconfig-161-20231228 (https://download.01.org/0day-ci/archive/20240104/202401042305.cfkwJHya-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202401041701.6QKTsZmx-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202401042305.cfkwJHya-lkp@intel.com/
 
 New smatch warnings:
-drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c:2884 ixgbe_get_lcd_t_x550em() warn: missing error code? 'status'
-drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c:3130 ixgbe_enter_lplu_t_x550em() warn: missing error code? 'status'
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9280 amdgpu_dm_atomic_commit_tail() error: we previously assumed 'acrtc' could be null (see line 9277)
 
 Old smatch warnings:
-drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c:2890 ixgbe_get_lcd_t_x550em() warn: missing error code? 'status'
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:1936 amdgpu_dm_fini() error: we previously assumed 'adev->dm.dc' could be null (see line 1920)
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6246 create_stream_for_sink() error: we previously assumed 'aconnector->dc_sink' could be null (see line 6135)
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:8862 dm_set_writeback() warn: possible memory leak of 'wb_info'
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:8868 dm_set_writeback() warn: possible memory leak of 'wb_info'
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9096 amdgpu_dm_atomic_commit_tail() error: we previously assumed 'aconnector->dc_link' could be null (see line 9077)
 
-vim +/status +2884 drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c
+vim +/acrtc +9280 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
 
-9ea222bfe41f87 Jedrzej Jagielski 2024-01-03  2866  static int ixgbe_get_lcd_t_x550em(struct ixgbe_hw *hw,
-6ac7439459606a Don Skidmore      2015-06-17  2867  				  ixgbe_link_speed *lcd_speed)
-6ac7439459606a Don Skidmore      2015-06-17  2868  {
-6ac7439459606a Don Skidmore      2015-06-17  2869  	u16 an_lp_status;
-9ea222bfe41f87 Jedrzej Jagielski 2024-01-03  2870  	int status;
-6ac7439459606a Don Skidmore      2015-06-17  2871  	u16 word = hw->eeprom.ctrl_word_3;
-6ac7439459606a Don Skidmore      2015-06-17  2872  
-6ac7439459606a Don Skidmore      2015-06-17  2873  	*lcd_speed = IXGBE_LINK_SPEED_UNKNOWN;
-6ac7439459606a Don Skidmore      2015-06-17  2874  
-6ac7439459606a Don Skidmore      2015-06-17  2875  	status = hw->phy.ops.read_reg(hw, IXGBE_AUTO_NEG_LP_STATUS,
-4dc4000b35119f Emil Tantilov     2016-09-26  2876  				      MDIO_MMD_AN,
-6ac7439459606a Don Skidmore      2015-06-17  2877  				      &an_lp_status);
-6ac7439459606a Don Skidmore      2015-06-17  2878  	if (status)
-6ac7439459606a Don Skidmore      2015-06-17  2879  		return status;
-6ac7439459606a Don Skidmore      2015-06-17  2880  
-6ac7439459606a Don Skidmore      2015-06-17  2881  	/* If link partner advertised 1G, return 1G */
-6ac7439459606a Don Skidmore      2015-06-17  2882  	if (an_lp_status & IXGBE_AUTO_NEG_LP_1000BASE_CAP) {
-6ac7439459606a Don Skidmore      2015-06-17  2883  		*lcd_speed = IXGBE_LINK_SPEED_1GB_FULL;
-6ac7439459606a Don Skidmore      2015-06-17 @2884  		return status;
-
-Smatch only warns about missing error codes when the function returns an
-int.  :P  The bug predates your patch obvoiusly.
-
-6ac7439459606a Don Skidmore      2015-06-17  2885  	}
-6ac7439459606a Don Skidmore      2015-06-17  2886  
-6ac7439459606a Don Skidmore      2015-06-17  2887  	/* If 10G disabled for LPLU via NVM D10GMP, then return no valid LCD */
-6ac7439459606a Don Skidmore      2015-06-17  2888  	if ((hw->bus.lan_id && (word & NVM_INIT_CTRL_3_D10GMP_PORT1)) ||
-6ac7439459606a Don Skidmore      2015-06-17  2889  	    (word & NVM_INIT_CTRL_3_D10GMP_PORT0))
-6ac7439459606a Don Skidmore      2015-06-17  2890  		return status;
-6ac7439459606a Don Skidmore      2015-06-17  2891  
-6ac7439459606a Don Skidmore      2015-06-17  2892  	/* Link partner not capable of lower speeds, return 10G */
-6ac7439459606a Don Skidmore      2015-06-17  2893  	*lcd_speed = IXGBE_LINK_SPEED_10GB_FULL;
-6ac7439459606a Don Skidmore      2015-06-17  2894  	return status;
-6ac7439459606a Don Skidmore      2015-06-17  2895  }
+585d450c76d1d5 Aurabindo Pillai    2020-08-12  9211  
+8fe684e97c86e3 Nicholas Kazlauskas 2020-07-13  9212  		if (new_crtc_state->active &&
+8fe684e97c86e3 Nicholas Kazlauskas 2020-07-13  9213  		    (!old_crtc_state->active ||
+8fe684e97c86e3 Nicholas Kazlauskas 2020-07-13  9214  		     drm_atomic_crtc_needs_modeset(new_crtc_state))) {
+585d450c76d1d5 Aurabindo Pillai    2020-08-12  9215  			dc_stream_retain(dm_new_crtc_state->stream);
+585d450c76d1d5 Aurabindo Pillai    2020-08-12  9216  			acrtc->dm_irq_params.stream = dm_new_crtc_state->stream;
+8fe684e97c86e3 Nicholas Kazlauskas 2020-07-13  9217  			manage_dm_interrupts(adev, acrtc, true);
+8799c0be89ebb9 Yunxiang Li         2022-09-21  9218  		}
+8799c0be89ebb9 Yunxiang Li         2022-09-21  9219  		/* Handle vrr on->off / off->on transitions */
+8799c0be89ebb9 Yunxiang Li         2022-09-21  9220  		amdgpu_dm_handle_vrr_transition(dm_old_crtc_state, dm_new_crtc_state);
+e2881d6d0a2653 Rodrigo Siqueira    2021-01-07  9221  
+24eb937416fde5 Rodrigo Siqueira    2021-01-07  9222  #ifdef CONFIG_DEBUG_FS
+8799c0be89ebb9 Yunxiang Li         2022-09-21  9223  		if (new_crtc_state->active &&
+8799c0be89ebb9 Yunxiang Li         2022-09-21  9224  		    (!old_crtc_state->active ||
+8799c0be89ebb9 Yunxiang Li         2022-09-21  9225  		     drm_atomic_crtc_needs_modeset(new_crtc_state))) {
+8fe684e97c86e3 Nicholas Kazlauskas 2020-07-13  9226  			/**
+8fe684e97c86e3 Nicholas Kazlauskas 2020-07-13  9227  			 * Frontend may have changed so reapply the CRC capture
+8fe684e97c86e3 Nicholas Kazlauskas 2020-07-13  9228  			 * settings for the stream.
+8fe684e97c86e3 Nicholas Kazlauskas 2020-07-13  9229  			 */
+8e7b6fee9b03d6 Wayne Lin           2021-02-09  9230  			if (amdgpu_dm_is_valid_crc_source(cur_crc_src)) {
+86bc221918925a Wayne Lin           2021-03-02  9231  #if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
+d98af2725d42e8 Wayne Lin           2021-04-27  9232  				if (amdgpu_dm_crc_window_is_activated(crtc)) {
+d98af2725d42e8 Wayne Lin           2021-04-27  9233  					spin_lock_irqsave(&adev_to_drm(adev)->event_lock, flags);
+c0459bddd1955d Alan Liu            2022-10-20  9234  					acrtc->dm_irq_params.window_param.update_win = true;
+1b11ff764aefc0 Alan Liu            2022-10-19  9235  
+1b11ff764aefc0 Alan Liu            2022-10-19  9236  					/**
+1b11ff764aefc0 Alan Liu            2022-10-19  9237  					 * It takes 2 frames for HW to stably generate CRC when
+1b11ff764aefc0 Alan Liu            2022-10-19  9238  					 * resuming from suspend, so we set skip_frame_cnt 2.
+1b11ff764aefc0 Alan Liu            2022-10-19  9239  					 */
+c0459bddd1955d Alan Liu            2022-10-20  9240  					acrtc->dm_irq_params.window_param.skip_frame_cnt = 2;
+d98af2725d42e8 Wayne Lin           2021-04-27  9241  					spin_unlock_irqrestore(&adev_to_drm(adev)->event_lock, flags);
+d98af2725d42e8 Wayne Lin           2021-04-27  9242  				}
+86bc221918925a Wayne Lin           2021-03-02  9243  #endif
+bbc49fc0326be4 Wayne Lin           2021-04-28  9244  				if (amdgpu_dm_crtc_configure_crc_source(
+bbc49fc0326be4 Wayne Lin           2021-04-28  9245  					crtc, dm_new_crtc_state, cur_crc_src))
+bbc49fc0326be4 Wayne Lin           2021-04-28  9246  					DRM_DEBUG_DRIVER("Failed to configure crc source");
+8799c0be89ebb9 Yunxiang Li         2022-09-21  9247  			}
+8fe684e97c86e3 Nicholas Kazlauskas 2020-07-13  9248  		}
+2130b87b227338 Nathan Chancellor   2022-10-14  9249  #endif
+8fe684e97c86e3 Nicholas Kazlauskas 2020-07-13  9250  	}
+e7b07ceef2a650 Harry Wentland      2017-08-10  9251  
+420cd472082697 David Francis       2019-03-01  9252  	for_each_new_crtc_in_state(state, crtc, new_crtc_state, j)
+4d85f45c73a22b Daniel Vetter       2019-09-03  9253  		if (new_crtc_state->async_flip)
+420cd472082697 David Francis       2019-03-01  9254  			wait_for_vblank = false;
+420cd472082697 David Francis       2019-03-01  9255  
+e7b07ceef2a650 Harry Wentland      2017-08-10  9256  	/* update planes when needed per crtc*/
+5cc6dcbd45a60b Leo (Sunpeng  Li    2017-10-12  9257) 	for_each_new_crtc_in_state(state, crtc, new_crtc_state, j) {
+54d76575246798 Leo (Sunpeng  Li    2017-10-12  9258) 		dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
+e7b07ceef2a650 Harry Wentland      2017-08-10  9259  
+54d76575246798 Leo (Sunpeng  Li    2017-10-12  9260) 		if (dm_new_crtc_state->stream)
+fff7b95a5046be Alan Liu            2023-06-27  9261  			amdgpu_dm_commit_planes(state, dev, dm, crtc, wait_for_vblank);
+e7b07ceef2a650 Harry Wentland      2017-08-10  9262  	}
+e7b07ceef2a650 Harry Wentland      2017-08-10  9263  
+c81e13b929df2f Alex Hung           2023-12-01  9264  	/* Enable writeback */
+c81e13b929df2f Alex Hung           2023-12-01  9265  	for_each_new_connector_in_state(state, connector, new_con_state, i) {
+c81e13b929df2f Alex Hung           2023-12-01  9266  		struct dm_connector_state *dm_new_con_state = to_dm_connector_state(new_con_state);
+c81e13b929df2f Alex Hung           2023-12-01  9267  		struct amdgpu_crtc *acrtc = to_amdgpu_crtc(dm_new_con_state->base.crtc);
+c81e13b929df2f Alex Hung           2023-12-01  9268  
+c81e13b929df2f Alex Hung           2023-12-01  9269  		if (connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
+c81e13b929df2f Alex Hung           2023-12-01  9270  			continue;
+c81e13b929df2f Alex Hung           2023-12-01  9271  
+c81e13b929df2f Alex Hung           2023-12-01  9272  		if (!new_con_state->writeback_job)
+c81e13b929df2f Alex Hung           2023-12-01  9273  			continue;
+c81e13b929df2f Alex Hung           2023-12-01  9274  
+c81e13b929df2f Alex Hung           2023-12-01  9275  		new_crtc_state = NULL;
+c81e13b929df2f Alex Hung           2023-12-01  9276  
+c81e13b929df2f Alex Hung           2023-12-01 @9277  		if (acrtc)
+c81e13b929df2f Alex Hung           2023-12-01  9278  			new_crtc_state = drm_atomic_get_new_crtc_state(state, &acrtc->base);
+c81e13b929df2f Alex Hung           2023-12-01  9279  
+f872e2f5f0beab Alex Hung           2023-12-01 @9280  		if (acrtc->wb_enabled)
+f872e2f5f0beab Alex Hung           2023-12-01  9281  			continue;
+f872e2f5f0beab Alex Hung           2023-12-01  9282  
+c81e13b929df2f Alex Hung           2023-12-01  9283  		dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
+c81e13b929df2f Alex Hung           2023-12-01  9284  
+c81e13b929df2f Alex Hung           2023-12-01  9285  		dm_set_writeback(dm, dm_new_crtc_state, connector, new_con_state);
+f872e2f5f0beab Alex Hung           2023-12-01  9286  		acrtc->wb_enabled = true;
+c81e13b929df2f Alex Hung           2023-12-01  9287  	}
+c81e13b929df2f Alex Hung           2023-12-01  9288  
+6ce8f316673f61 Nicholas Kazlauskas 2019-07-11  9289  	/* Update audio instances for each connector. */
+6ce8f316673f61 Nicholas Kazlauskas 2019-07-11  9290  	amdgpu_dm_commit_audio(dev, state);
+6ce8f316673f61 Nicholas Kazlauskas 2019-07-11  9291  
+7230362c78d441 Alex Deucher        2020-12-10  9292  	/* restore the backlight level */
+7fd13baeb7a3a4 Alex Deucher        2021-07-08  9293  	for (i = 0; i < dm->num_of_edps; i++) {
+7fd13baeb7a3a4 Alex Deucher        2021-07-08  9294  		if (dm->backlight_dev[i] &&
+4052287a75eb3f Shirish S           2022-03-11  9295  		    (dm->actual_brightness[i] != dm->brightness[i]))
+7fd13baeb7a3a4 Alex Deucher        2021-07-08  9296  			amdgpu_dm_backlight_set_level(dm, i, dm->brightness[i]);
+7fd13baeb7a3a4 Alex Deucher        2021-07-08  9297  	}
+83a3439ddb28e1 Hans de Goede       2022-06-20  9298  
+e7b07ceef2a650 Harry Wentland      2017-08-10  9299  	/*
+e7b07ceef2a650 Harry Wentland      2017-08-10  9300  	 * send vblank event on all events not handled in flip and
+e7b07ceef2a650 Harry Wentland      2017-08-10  9301  	 * mark consumed event for drm_atomic_helper_commit_hw_done
+e7b07ceef2a650 Harry Wentland      2017-08-10  9302  	 */
+4a580877bdcb83 Luben Tuikov        2020-08-24  9303  	spin_lock_irqsave(&adev_to_drm(adev)->event_lock, flags);
+0bc9706db3a35b Leo (Sunpeng  Li    2017-10-12  9304) 	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
+e7b07ceef2a650 Harry Wentland      2017-08-10  9305  
+0bc9706db3a35b Leo (Sunpeng  Li    2017-10-12  9306) 		if (new_crtc_state->event)
+0bc9706db3a35b Leo (Sunpeng  Li    2017-10-12  9307) 			drm_send_event_locked(dev, &new_crtc_state->event->base);
+e7b07ceef2a650 Harry Wentland      2017-08-10  9308  
+0bc9706db3a35b Leo (Sunpeng  Li    2017-10-12  9309) 		new_crtc_state->event = NULL;
+e7b07ceef2a650 Harry Wentland      2017-08-10  9310  	}
+4a580877bdcb83 Luben Tuikov        2020-08-24  9311  	spin_unlock_irqrestore(&adev_to_drm(adev)->event_lock, flags);
+e7b07ceef2a650 Harry Wentland      2017-08-10  9312  
+29c8f23425e070 Leo Li              2019-01-07  9313  	/* Signal HW programming completion */
+29c8f23425e070 Leo Li              2019-01-07  9314  	drm_atomic_helper_commit_hw_done(state);
+e7b07ceef2a650 Harry Wentland      2017-08-10  9315  
+e7b07ceef2a650 Harry Wentland      2017-08-10  9316  	if (wait_for_vblank)
+320a127437e5d3 Andrey Grodzovsky   2017-11-14  9317  		drm_atomic_helper_wait_for_flip_done(dev, state);
+e7b07ceef2a650 Harry Wentland      2017-08-10  9318  
+e7b07ceef2a650 Harry Wentland      2017-08-10  9319  	drm_atomic_helper_cleanup_planes(dev, state);
+97028037a38ae4 Lyude Paul          2018-06-04  9320  
+e6b27cf515a781 Alex Deucher        2023-06-09  9321  	/* Don't free the memory if we are hitting this as part of suspend.
+e6b27cf515a781 Alex Deucher        2023-06-09  9322  	 * This way we don't free any memory during suspend; see
+e6b27cf515a781 Alex Deucher        2023-06-09  9323  	 * amdgpu_bo_free_kernel().  The memory will be freed in the first
+e6b27cf515a781 Alex Deucher        2023-06-09  9324  	 * non-suspend modeset or when the driver is torn down.
+e6b27cf515a781 Alex Deucher        2023-06-09  9325  	 */
+e6b27cf515a781 Alex Deucher        2023-06-09  9326  	if (!adev->in_suspend) {
+5f6fab247c7f20 Alex Deucher        2020-12-04  9327  		/* return the stolen vga memory back to VRAM */
+5f6fab247c7f20 Alex Deucher        2020-12-04  9328  		if (!adev->mman.keep_stolen_vga_memory)
+5f6fab247c7f20 Alex Deucher        2020-12-04  9329  			amdgpu_bo_free_kernel(&adev->mman.stolen_vga_memory, NULL, NULL);
+5f6fab247c7f20 Alex Deucher        2020-12-04  9330  		amdgpu_bo_free_kernel(&adev->mman.stolen_extended_memory, NULL, NULL);
+e6b27cf515a781 Alex Deucher        2023-06-09  9331  	}
+5f6fab247c7f20 Alex Deucher        2020-12-04  9332  
+1f6010a96273c3 David Francis       2018-08-15  9333  	/*
+1f6010a96273c3 David Francis       2018-08-15  9334  	 * Finally, drop a runtime PM reference for each newly disabled CRTC,
+97028037a38ae4 Lyude Paul          2018-06-04  9335  	 * so we can put the GPU into runtime suspend if we're not driving any
+97028037a38ae4 Lyude Paul          2018-06-04  9336  	 * displays anymore
+97028037a38ae4 Lyude Paul          2018-06-04  9337  	 */
+fe2a19652918a5 Lyude Paul          2018-06-21  9338  	for (i = 0; i < crtc_disable_count; i++)
+97028037a38ae4 Lyude Paul          2018-06-04  9339  		pm_runtime_put_autosuspend(dev->dev);
+fe2a19652918a5 Lyude Paul          2018-06-21  9340  	pm_runtime_mark_last_busy(dev->dev);
+e7b07ceef2a650 Harry Wentland      2017-08-10  9341  }
+e7b07ceef2a650 Harry Wentland      2017-08-10  9342  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
