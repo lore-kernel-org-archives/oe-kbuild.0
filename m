@@ -1,163 +1,220 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515475392
-	for <oe-kbuild@lists.linux.dev>; Fri,  5 Jan 2024 05:15:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAC11DDD9;
+	Fri,  5 Jan 2024 07:14:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PZT28Y38"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UzmktdYC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704431715; x=1735967715;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=US+RmDJdLGTRNnLo6rW8YO/mvXxy5oZJYd0Vm5VEN/E=;
-  b=PZT28Y38sDa0XdOEx2G6noa2laGtBXy1aY2Hts/nqObEofLKG/m5kY7e
-   diasQINlc7DH+RcAHblbYOEGc23iNVY69bBYdjgik3SbEsv6BIoHHb+ZB
-   yzf1860wWAY8Ws17NOSJVWjSXnk6Pbt5J48Dd78ZNUA0159vUUStdL5To
-   9wHfzWKErX/zfV3Onvfco+qJKGjxp1R5PoO1cYG2nZKcY8q6AdAQC/bm5
-   IrFEVNs8VSgKlzmFuCgkxidjbILfci7YKFPmlJmcu8hrcugR1a4C21R2P
-   epCJH0TLFoIRnRZynIIbsJe/LCGcqR+Ul2BENt++uDClV9+73ODV+9ZrY
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4794255"
-X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
-   d="scan'208";a="4794255"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 21:15:14 -0800
+  t=1704438882; x=1735974882;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=/pXzJYb+HEOo8OnC0WvhhhLlAEzEjJklNOOxYIUcy24=;
+  b=UzmktdYCsq+B2o+It/Zp0XqgspG9DYUFdr+rMOwJKYphqtMptHzvmYFv
+   JXHm1ZgKYfAQ8ODoeCl4nqGScrtdfcSBPzBFAp68k139G5qXDGhQUEQxF
+   RG0G0/hpoZ828PfXuaIHq9rS+xdl1EYJTKr2i49/91zyrwFiVDH5JCnmb
+   bWeabOSZna9akI6BbYsOtgUdz79pYojhCYDbLc9/vREbtqapsakC1Udp1
+   0TQsNGxddohNcl1rcF/wInA3a3SWivx3PfywDP6UZVKz1caktrsErEnpV
+   bW1uUETr/E4m3/BckA6Dm2eI15WZH7o1PLEa67zHa1O+RY9rVoVqOKwmm
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="376936581"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
+   d="scan'208";a="376936581"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 23:14:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="756843021"
-X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
-   d="scan'208";a="756843021"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 04 Jan 2024 21:15:12 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rLcY1-0000oG-2U;
-	Fri, 05 Jan 2024 05:15:09 +0000
-Date: Fri, 5 Jan 2024 13:14:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [axboe-block:io_uring-min-wait 8/17] io_uring/register.c:384:1-7:
- preceding lock on line 330
-Message-ID: <202401051334.mjj45M1k-lkp@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="924156779"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
+   d="scan'208";a="924156779"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmsmga001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Jan 2024 23:14:40 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 4 Jan 2024 23:14:39 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 4 Jan 2024 23:14:39 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 4 Jan 2024 23:14:39 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CcNGLAb3MiUpCjYIhEJUwjw74hbwTk1xRcc4htrbUOV604EDE5NrSEDsNyYFwdgANdtQw/bEh5OWDJnxIazqhccNjlkY7n1QVmu3Vw2fGHYmo+Zr1Kr3h6CkayZXgkNcKU+LmVTDXQuoO+kHHwHS/s5d+yfdzoeXJ9cKeSsgasJoUzJue7DC5IzKLVtygY9E6b0Z3WJo3X1GAlttv1wxrGUvsViVcieqXcSek74YS6ZdyNwXSCAp/43KtT9I826X60Mk5zfpipoSEYZVDKGKb+nLIWh0E5yDT3OnYTh7ET3NhVOn+WjS8qDaDCHuBrhtLdWNSxrcGMwqkZx9PiRFig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nwtuZWzjj5RhwJNhMU+KlaHQoDbabLAZ8vnuqu2TvaU=;
+ b=P96KdR4dbqiQqUUNtmPlL3ChV64lH3MYgFl8abDnXyxY5JDR31Msrn9cTxpz0cL9oU3vkNK3Le9229SBI9aPJy/kJo7aDBDQ4wBG/EalrdG6hJ0dGVWuqWsQkg7isSMZJ6kuMELDAThKvUCqXzGx1ybEXMkmI+M7AIWSsvwlPXtbuOfS4ikyAUpMTuq2LcPfeV/ST8bGhvxogqy7R+qaIkhXAFCsqZjF7IiT7alsgZk/rbkgB8TjTSQ2CdLwf/v1DVxasGIq0rO7LI+yRYVbTXB/Ytfzxu5QZfuMNenaFcMnzEDAoJuWGRJ4j21o3bHBddPM+jnL8vXIfLiXa29t+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN6PR11MB8102.namprd11.prod.outlook.com (2603:10b6:208:46d::9)
+ by MW6PR11MB8339.namprd11.prod.outlook.com (2603:10b6:303:24b::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.25; Fri, 5 Jan
+ 2024 07:14:31 +0000
+Received: from MN6PR11MB8102.namprd11.prod.outlook.com
+ ([fe80::3c98:e2b:aeff:5041]) by MN6PR11MB8102.namprd11.prod.outlook.com
+ ([fe80::3c98:e2b:aeff:5041%3]) with mapi id 15.20.7159.015; Fri, 5 Jan 2024
+ 07:14:30 +0000
+Message-ID: <a89dcad5-1c99-411e-843d-baf1fc8e5fc0@intel.com>
+Date: Fri, 5 Jan 2024 08:14:22 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH iwl-next v1] ixgbe: Convert ret val type from s32 to int
+To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
+	Jedrzej Jagielski <jedrzej.jagielski@intel.com>,
+	<intel-wired-lan@lists.osuosl.org>
+CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
+	<anthony.l.nguyen@intel.com>, <netdev@vger.kernel.org>, Jacob Keller
+	<jacob.e.keller@intel.com>
+References: <08d8b75e-af80-438b-8006-9121b8444f49@moroto.mountain>
+Content-Language: en-US
+From: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+In-Reply-To: <08d8b75e-af80-438b-8006-9121b8444f49@moroto.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0070.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::9) To MN6PR11MB8102.namprd11.prod.outlook.com
+ (2603:10b6:208:46d::9)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN6PR11MB8102:EE_|MW6PR11MB8339:EE_
+X-MS-Office365-Filtering-Correlation-Id: a694f75f-3219-4a24-facd-08dc0dbdf5d6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AlJlysheTuoT0RB5Ab+nYDru6jMlaaEPnCgAQjcPDDmhMAgiSqA05wAA5DfkAOUUFzrXpYTvFIuLKNNdwtSDzmBD3S9jFsSKHwtpvsgRvGn0jvVmTNmINTM6aqEglhEp0c6i6PmcohvtmQWp5TCkEq2rUy8MXR5hOsA1Po+97Xw7+WOvQTXgxbC3VS3XM1ZOUqVjLbh6BUHhGdw8jfBcB1vZsI3nYKAUMmWdkP8UOQ8+NFx1mO3Upftt8GZzCajaqIAnvne3brr9xVjhOMmyePpWnVrZGfPSXov2ERMNSXuagBNjll9xdDpoVhA76kH9c6e84XWvnnOU1Hm+aGj79zWvq2TbkzfOeLC7xGi4V/mAxs1UsDwooTVI/30dGrWv0aJN4faL3pd5p5Sk9yOfVOxA+9rEP7UVa3ltbRH06HddnpBurPvlv+uMXJeZt9ozZklndxAGqUDO+d+ldsIJdmEwjRIGAFMs2eA3b+3he7e/vKE+GGZqNDvh5LiTokGkm7dWSF0fFQsWN/ALlbhDF8d+DNWFwwf62x31Qp/0nEQAVdBVQNvccq05+f9WhdwPJMb/V6XodhouPmosIRlSYZR+2g68hD6QHWBtA4yxKn0mth+CBWWyovdYvFNQsbjaYbF1Gsg/hG1oZ6gC2rpS7nBIXJdZgyk4+zP+xFirQs3yn+pdw5l7OqnAqHnvINdxhQtnv6vG7xcSYzZObrDndKbBboVIxTaJkeTaor02xZs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN6PR11MB8102.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(376002)(396003)(346002)(366004)(230273577357003)(230173577357003)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(6666004)(107886003)(2616005)(26005)(38100700002)(41300700001)(110136005)(8936002)(316002)(8676002)(5660300002)(478600001)(83380400001)(2906002)(966005)(4326008)(66946007)(66476007)(6506007)(6486002)(6512007)(53546011)(66556008)(31696002)(82960400001)(86362001)(36756003)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aFIzS2xNYU0vU0xZYzV2SHJycGRVdzRMM2ZPQXdEQXJ3aVFnTUhaZFRSU2Rt?=
+ =?utf-8?B?Q01EeWI4aXE4ZXBXNWlJM0RhQUY3ODFkRWkvK0Z0QVVwTTNsTzR1Ym5RRUdj?=
+ =?utf-8?B?dlQyS3FlQVJib3k5QUFIWjFCaXdITmhGaHpFenBPZkkrRGptMFdMQzQ1T3Qx?=
+ =?utf-8?B?ZFY3YVF6SE91VGMrRnB4Zzhobzk0R2phSVJXTXhremJJM2RFODU2ZHgrenc1?=
+ =?utf-8?B?REYvWjk0Ym0vK1BLNWR6MjRLNnVYQzF1Y0xMVHhCVHFoNEpQTnJjY3lic0Mw?=
+ =?utf-8?B?alAyN2dTMlNXYkZXRGhrZjJzM0hWcjRjTzhqUWdmWm8zbkJrbUZYNGx2S3Vq?=
+ =?utf-8?B?S05QVCtQSFhJNytDSGJNUUZyellLL1VVT1BxMHdBenM5VS8rNWF0UWtXOXBX?=
+ =?utf-8?B?OStZcXdKSkdIYk0xQmd6V3hpYWl0eWtGWTdaWVk5YWRLUnJmVzVtSkRLd2Nm?=
+ =?utf-8?B?WnNLWnpMUSs3MWdJSjkwUTF5Q3Y0NkZDMEtuQ0JiTkhRcWFmUjBZc2VBNUNz?=
+ =?utf-8?B?TVJYWmg3Tm5ndC9RdDZEaC9qS0Z5bWFaSCs5R0lFSGlzbnlMYjNoN21ndVQ1?=
+ =?utf-8?B?Q1VwVkh0YXMzVi96QVNWWFJiamQ5dmhocmVFckxaK2NMV3NwY0ZjSHl1REFB?=
+ =?utf-8?B?ckpNcGRRMm5BR1VCRWpYMXc2QjNHeDRiK0VCaGNoQVNKYVBPSFowK0NYNFNq?=
+ =?utf-8?B?WnVkUDNVNkloVndnbkpoWmJYZ1N4ZlhhN0t2cDllNmZkTEpwRUR3U1htZEda?=
+ =?utf-8?B?M3pQa2dyL3VNZGJ0bjU5bWNlK1FTUktNUUFiODFIWTcyMjRZNlc2aGxoTmRu?=
+ =?utf-8?B?OG5hS0Q5NTJPcWlDWXpOeXZUM2RLNWVtZmdzbS8zVTZsNjlxamJWakdPcFVa?=
+ =?utf-8?B?ZkZtVW5KYU8zMGdRK2NnWlRmOFJWSHQ3WnlnQzZUdGZWZ0FWOFBxRXpuckVx?=
+ =?utf-8?B?b1ZTYlY3WVhtUERaYk8yY3UzSDR3bTNvTXo3QUpNWXRjWU5FQzF2MHJtNlhE?=
+ =?utf-8?B?czNYVC91ajdBaFptMVNtL1U0VVNiM205QmN5S0duZmF2ZmM5bDNHenFLL1h6?=
+ =?utf-8?B?bFhjcjJMVUpRUWNZbVZDOExxUGVnTmRKSG9nZThRSWNuc1dIMkRTcVJLZ0t6?=
+ =?utf-8?B?c1RoZFlmamJEQzdvbjhmdEN1SU9WQmNZUXM1QVpMWDVSZTJYUndjeFNEbjhE?=
+ =?utf-8?B?K001Wlk2NVlPWlhPWFVVZGJyemx1OWx1WUhpenVlK2YrVU1KakJGUDhENy9P?=
+ =?utf-8?B?dkkrVnF6WmJGSFVOMHBnZTRwdTlSRmdLV3RRb2lzZ016ZVNGb0hmc3pPdlcz?=
+ =?utf-8?B?Q1Q3aDlONXVvSUc1M0dVZmp3WWRxU3FFMnR5ODBHOENWckZFN056VURFbUJE?=
+ =?utf-8?B?UTZwQXYxUnMveWpwa0dEenhrbUU0b1RIYUdaWnFwa0FhbHVGNEN1eEdWeFUz?=
+ =?utf-8?B?WTRPUlpZMXFMQVNxbEswSWk5WVg4M0hPb2V3ZDROQXNrVUFoZ2ZYb3g2bHBS?=
+ =?utf-8?B?VVpyOStIMjZ3aUF1R0l3K1o2b29CNXFlL3ZaWjFwSDZVd0ErNWJ4TzJKQ0VI?=
+ =?utf-8?B?eFcxa2tZVm9EaXV6d1c4dXZWU0wwQk14OFRqSTVRalF4OGFkU1d3RzJLYUwv?=
+ =?utf-8?B?Q3VGY0dITHl3bHBWMEN2OSttbFo1RmJOakVTZkFxYWs3QnYvVm9FTVdlb2NO?=
+ =?utf-8?B?cmF4Y3VGZk4wRFNrNWhCcG1wQ2d0dXVVbldUL3R4Ymg4VVNQUjQ1ZzdLSGlJ?=
+ =?utf-8?B?RlRPcExyS2NxdDJoSjBXTU5Nd0EvZGYrVXc1YW0yYjRzSjQ1Nzd4c0dLcHVT?=
+ =?utf-8?B?ZWRNZHo3WDYxRnByYUpJOWJCVFBlRFVyMkNBMHdJOVF2SGtPZUpDQVdFNlVG?=
+ =?utf-8?B?K2JBTVV1dlJNT054Uy96NThSN2Nqa3drWXRPTmVvZTBIUVNYYkE1OVZXd1RH?=
+ =?utf-8?B?ZnUrYlBWZTJidVZ3OUdJK05IVjdBTjN1YnlUM2RzZ2RqUGdVY085SEhkTEpa?=
+ =?utf-8?B?YUpRdXZ2NmlQU0UyNmluSDI3cE5DYmI0Uk8zSDVNNTRQaVM3S29vMk5hS1h1?=
+ =?utf-8?B?VVo0TVZKa1JXL2VFMkN5UW1zd0ZsOUlwNUxlOXA5bEo0SnFhUnUrUnNPaU40?=
+ =?utf-8?B?L0s0Z1pSUUQwQTlMak0rbHgxMXAydzlHZ0t6YVZURkw3bzZiOTNWOTBWcUFa?=
+ =?utf-8?B?QVE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a694f75f-3219-4a24-facd-08dc0dbdf5d6
+X-MS-Exchange-CrossTenant-AuthSource: MN6PR11MB8102.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2024 07:14:30.5476
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ltTx+frCfwKne4ywtl4XtvKXOnoxLncX/1lG7Ic4HJP5/Xme5V4DAXVChnQCwLRWZDagUit0k0nD070RDLNWN8a+hUQvyXVh6LsGLY176Xk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR11MB8339
+X-OriginatorOrg: intel.com
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Jens Axboe <axboe@kernel.dk>
+On 1/4/24 15:47, Dan Carpenter wrote:
+> Hi Jedrzej,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jedrzej-Jagielski/ixgbe-Convert-ret-val-type-from-s32-to-int/20240103-182213
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
+> patch link:    https://lore.kernel.org/r/20240103101135.386891-1-jedrzej.jagielski%40intel.com
+> patch subject: [PATCH iwl-next v1] ixgbe: Convert ret val type from s32 to int
+> config: i386-randconfig-141-20240104 (https://download.01.org/0day-ci/archive/20240104/202401041701.6QKTsZmx-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202401041701.6QKTsZmx-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c:2884 ixgbe_get_lcd_t_x550em() warn: missing error code? 'status'
+> drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c:3130 ixgbe_enter_lplu_t_x550em() warn: missing error code? 'status'
+> 
+> Old smatch warnings:
+> drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c:2890 ixgbe_get_lcd_t_x550em() warn: missing error code? 'status'
+> 
+> vim +/status +2884 drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c
+> 
+> 9ea222bfe41f87 Jedrzej Jagielski 2024-01-03  2866  static int ixgbe_get_lcd_t_x550em(struct ixgbe_hw *hw,
+> 6ac7439459606a Don Skidmore      2015-06-17  2867  				  ixgbe_link_speed *lcd_speed)
+> 6ac7439459606a Don Skidmore      2015-06-17  2868  {
+> 6ac7439459606a Don Skidmore      2015-06-17  2869  	u16 an_lp_status;
+> 9ea222bfe41f87 Jedrzej Jagielski 2024-01-03  2870  	int status;
+> 6ac7439459606a Don Skidmore      2015-06-17  2871  	u16 word = hw->eeprom.ctrl_word_3;
+> 6ac7439459606a Don Skidmore      2015-06-17  2872
+> 6ac7439459606a Don Skidmore      2015-06-17  2873  	*lcd_speed = IXGBE_LINK_SPEED_UNKNOWN;
+> 6ac7439459606a Don Skidmore      2015-06-17  2874
+> 6ac7439459606a Don Skidmore      2015-06-17  2875  	status = hw->phy.ops.read_reg(hw, IXGBE_AUTO_NEG_LP_STATUS,
+> 4dc4000b35119f Emil Tantilov     2016-09-26  2876  				      MDIO_MMD_AN,
+> 6ac7439459606a Don Skidmore      2015-06-17  2877  				      &an_lp_status);
+> 6ac7439459606a Don Skidmore      2015-06-17  2878  	if (status)
+> 6ac7439459606a Don Skidmore      2015-06-17  2879  		return status;
+> 6ac7439459606a Don Skidmore      2015-06-17  2880
+> 6ac7439459606a Don Skidmore      2015-06-17  2881  	/* If link partner advertised 1G, return 1G */
+> 6ac7439459606a Don Skidmore      2015-06-17  2882  	if (an_lp_status & IXGBE_AUTO_NEG_LP_1000BASE_CAP) {
+> 6ac7439459606a Don Skidmore      2015-06-17  2883  		*lcd_speed = IXGBE_LINK_SPEED_1GB_FULL;
+> 6ac7439459606a Don Skidmore      2015-06-17 @2884  		return status;
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-min-wait
-head:   6fa8adcd71b7bd0a5af368a7ca6922307ed4f8ac
-commit: c43203154d8ac579537aa0c7802b77d463b1f53a [8/17] io_uring/register: move io_uring_register(2) related code to register.c
-:::::: branch date: 5 hours ago
-:::::: commit date: 2 weeks ago
-config: hexagon-randconfig-r052-20231228 (https://download.01.org/0day-ci/archive/20240105/202401051334.mjj45M1k-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
+indeed, 'return 0' would be clearer here
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401051334.mjj45M1k-lkp@intel.com/
+> 
+> Smatch only warns about missing error codes when the function returns an
+> int.  :P  The bug predates your patch obvoiusly.
 
-cocci warnings: (new ones prefixed by >>)
->> io_uring/register.c:384:1-7: preceding lock on line 330
+:D
 
-vim +384 io_uring/register.c
+> 
+> 6ac7439459606a Don Skidmore      2015-06-17  2885  	}
+> 6ac7439459606a Don Skidmore      2015-06-17  2886
+> 6ac7439459606a Don Skidmore      2015-06-17  2887  	/* If 10G disabled for LPLU via NVM D10GMP, then return no valid LCD */
+> 6ac7439459606a Don Skidmore      2015-06-17  2888  	if ((hw->bus.lan_id && (word & NVM_INIT_CTRL_3_D10GMP_PORT1)) ||
+> 6ac7439459606a Don Skidmore      2015-06-17  2889  	    (word & NVM_INIT_CTRL_3_D10GMP_PORT0))
+> 6ac7439459606a Don Skidmore      2015-06-17  2890  		return status;
+> 6ac7439459606a Don Skidmore      2015-06-17  2891
+> 6ac7439459606a Don Skidmore      2015-06-17  2892  	/* Link partner not capable of lower speeds, return 10G */
+> 6ac7439459606a Don Skidmore      2015-06-17  2893  	*lcd_speed = IXGBE_LINK_SPEED_10GB_FULL;
+> 6ac7439459606a Don Skidmore      2015-06-17  2894  	return status;
+> 6ac7439459606a Don Skidmore      2015-06-17  2895  }
+> 
 
-c43203154d8ac5 Jens Axboe 2023-12-19  303  
-c43203154d8ac5 Jens Axboe 2023-12-19  304  static __cold int io_register_iowq_max_workers(struct io_ring_ctx *ctx,
-c43203154d8ac5 Jens Axboe 2023-12-19  305  					       void __user *arg)
-c43203154d8ac5 Jens Axboe 2023-12-19  306  	__must_hold(&ctx->uring_lock)
-c43203154d8ac5 Jens Axboe 2023-12-19  307  {
-c43203154d8ac5 Jens Axboe 2023-12-19  308  	struct io_tctx_node *node;
-c43203154d8ac5 Jens Axboe 2023-12-19  309  	struct io_uring_task *tctx = NULL;
-c43203154d8ac5 Jens Axboe 2023-12-19  310  	struct io_sq_data *sqd = NULL;
-c43203154d8ac5 Jens Axboe 2023-12-19  311  	__u32 new_count[2];
-c43203154d8ac5 Jens Axboe 2023-12-19  312  	int i, ret;
-c43203154d8ac5 Jens Axboe 2023-12-19  313  
-c43203154d8ac5 Jens Axboe 2023-12-19  314  	if (copy_from_user(new_count, arg, sizeof(new_count)))
-c43203154d8ac5 Jens Axboe 2023-12-19  315  		return -EFAULT;
-c43203154d8ac5 Jens Axboe 2023-12-19  316  	for (i = 0; i < ARRAY_SIZE(new_count); i++)
-c43203154d8ac5 Jens Axboe 2023-12-19  317  		if (new_count[i] > INT_MAX)
-c43203154d8ac5 Jens Axboe 2023-12-19  318  			return -EINVAL;
-c43203154d8ac5 Jens Axboe 2023-12-19  319  
-c43203154d8ac5 Jens Axboe 2023-12-19  320  	if (ctx->flags & IORING_SETUP_SQPOLL) {
-c43203154d8ac5 Jens Axboe 2023-12-19  321  		sqd = ctx->sq_data;
-c43203154d8ac5 Jens Axboe 2023-12-19  322  		if (sqd) {
-c43203154d8ac5 Jens Axboe 2023-12-19  323  			/*
-c43203154d8ac5 Jens Axboe 2023-12-19  324  			 * Observe the correct sqd->lock -> ctx->uring_lock
-c43203154d8ac5 Jens Axboe 2023-12-19  325  			 * ordering. Fine to drop uring_lock here, we hold
-c43203154d8ac5 Jens Axboe 2023-12-19  326  			 * a ref to the ctx.
-c43203154d8ac5 Jens Axboe 2023-12-19  327  			 */
-c43203154d8ac5 Jens Axboe 2023-12-19  328  			refcount_inc(&sqd->refs);
-c43203154d8ac5 Jens Axboe 2023-12-19  329  			mutex_unlock(&ctx->uring_lock);
-c43203154d8ac5 Jens Axboe 2023-12-19 @330  			mutex_lock(&sqd->lock);
-c43203154d8ac5 Jens Axboe 2023-12-19  331  			mutex_lock(&ctx->uring_lock);
-c43203154d8ac5 Jens Axboe 2023-12-19  332  			if (sqd->thread)
-c43203154d8ac5 Jens Axboe 2023-12-19  333  				tctx = sqd->thread->io_uring;
-c43203154d8ac5 Jens Axboe 2023-12-19  334  		}
-c43203154d8ac5 Jens Axboe 2023-12-19  335  	} else {
-c43203154d8ac5 Jens Axboe 2023-12-19  336  		tctx = current->io_uring;
-c43203154d8ac5 Jens Axboe 2023-12-19  337  	}
-c43203154d8ac5 Jens Axboe 2023-12-19  338  
-c43203154d8ac5 Jens Axboe 2023-12-19  339  	BUILD_BUG_ON(sizeof(new_count) != sizeof(ctx->iowq_limits));
-c43203154d8ac5 Jens Axboe 2023-12-19  340  
-c43203154d8ac5 Jens Axboe 2023-12-19  341  	for (i = 0; i < ARRAY_SIZE(new_count); i++)
-c43203154d8ac5 Jens Axboe 2023-12-19  342  		if (new_count[i])
-c43203154d8ac5 Jens Axboe 2023-12-19  343  			ctx->iowq_limits[i] = new_count[i];
-c43203154d8ac5 Jens Axboe 2023-12-19  344  	ctx->iowq_limits_set = true;
-c43203154d8ac5 Jens Axboe 2023-12-19  345  
-c43203154d8ac5 Jens Axboe 2023-12-19  346  	if (tctx && tctx->io_wq) {
-c43203154d8ac5 Jens Axboe 2023-12-19  347  		ret = io_wq_max_workers(tctx->io_wq, new_count);
-c43203154d8ac5 Jens Axboe 2023-12-19  348  		if (ret)
-c43203154d8ac5 Jens Axboe 2023-12-19  349  			goto err;
-c43203154d8ac5 Jens Axboe 2023-12-19  350  	} else {
-c43203154d8ac5 Jens Axboe 2023-12-19  351  		memset(new_count, 0, sizeof(new_count));
-c43203154d8ac5 Jens Axboe 2023-12-19  352  	}
-c43203154d8ac5 Jens Axboe 2023-12-19  353  
-c43203154d8ac5 Jens Axboe 2023-12-19  354  	if (sqd) {
-c43203154d8ac5 Jens Axboe 2023-12-19  355  		mutex_unlock(&sqd->lock);
-c43203154d8ac5 Jens Axboe 2023-12-19  356  		io_put_sq_data(sqd);
-c43203154d8ac5 Jens Axboe 2023-12-19  357  	}
-c43203154d8ac5 Jens Axboe 2023-12-19  358  
-c43203154d8ac5 Jens Axboe 2023-12-19  359  	if (copy_to_user(arg, new_count, sizeof(new_count)))
-c43203154d8ac5 Jens Axboe 2023-12-19  360  		return -EFAULT;
-c43203154d8ac5 Jens Axboe 2023-12-19  361  
-c43203154d8ac5 Jens Axboe 2023-12-19  362  	/* that's it for SQPOLL, only the SQPOLL task creates requests */
-c43203154d8ac5 Jens Axboe 2023-12-19  363  	if (sqd)
-c43203154d8ac5 Jens Axboe 2023-12-19  364  		return 0;
-c43203154d8ac5 Jens Axboe 2023-12-19  365  
-c43203154d8ac5 Jens Axboe 2023-12-19  366  	/* now propagate the restriction to all registered users */
-c43203154d8ac5 Jens Axboe 2023-12-19  367  	list_for_each_entry(node, &ctx->tctx_list, ctx_node) {
-c43203154d8ac5 Jens Axboe 2023-12-19  368  		struct io_uring_task *tctx = node->task->io_uring;
-c43203154d8ac5 Jens Axboe 2023-12-19  369  
-c43203154d8ac5 Jens Axboe 2023-12-19  370  		if (WARN_ON_ONCE(!tctx->io_wq))
-c43203154d8ac5 Jens Axboe 2023-12-19  371  			continue;
-c43203154d8ac5 Jens Axboe 2023-12-19  372  
-c43203154d8ac5 Jens Axboe 2023-12-19  373  		for (i = 0; i < ARRAY_SIZE(new_count); i++)
-c43203154d8ac5 Jens Axboe 2023-12-19  374  			new_count[i] = ctx->iowq_limits[i];
-c43203154d8ac5 Jens Axboe 2023-12-19  375  		/* ignore errors, it always returns zero anyway */
-c43203154d8ac5 Jens Axboe 2023-12-19  376  		(void)io_wq_max_workers(tctx->io_wq, new_count);
-c43203154d8ac5 Jens Axboe 2023-12-19  377  	}
-c43203154d8ac5 Jens Axboe 2023-12-19  378  	return 0;
-c43203154d8ac5 Jens Axboe 2023-12-19  379  err:
-c43203154d8ac5 Jens Axboe 2023-12-19  380  	if (sqd) {
-c43203154d8ac5 Jens Axboe 2023-12-19  381  		mutex_unlock(&sqd->lock);
-c43203154d8ac5 Jens Axboe 2023-12-19  382  		io_put_sq_data(sqd);
-c43203154d8ac5 Jens Axboe 2023-12-19  383  	}
-c43203154d8ac5 Jens Axboe 2023-12-19 @384  	return ret;
-c43203154d8ac5 Jens Axboe 2023-12-19  385  }
-c43203154d8ac5 Jens Axboe 2023-12-19  386  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
