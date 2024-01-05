@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0AF72374D
-	for <oe-kbuild@lists.linux.dev>; Fri,  5 Jan 2024 09:32:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2F035887
+	for <oe-kbuild@lists.linux.dev>; Fri,  5 Jan 2024 22:02:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ffs+Db97"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TaKlG9On"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704447155; x=1735983155;
+  t=1704492170; x=1736028170;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SqUysGxHHHL51ddn1Cg5NRUBqrN04S8wxcuF5U2h4h0=;
-  b=Ffs+Db97a94wgWvEgj6DuHVAjXNXrlR5uzprJ7OeFGDGtxMUvk3tUNws
-   3BNtZJCRfMXaqlhWXmk+7M4l5EUH3+AI/VFqtxsON7kgDdR2g4M7BYF8y
-   FKqjw2Ri9W2jP++KO1dmRJO/nOwnqsNz9jqlM71+KRx0jfpOLBPh2giNk
-   McDH0zC+5bgzmyS9tBY8JbPYC8yI1+AzL42u/t46e2BMrQQelQleD6rkY
-   Otk3neithOfOG1oCU4TO3ZYlsChaerU4Q9N9lK4qv1bg12593td/e+gR5
-   tVC35XBSbt8xc39O3FBxSvL3XvCZpw4ZZ0BwmQ1mnS4zBW+gOHBZRzMCH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="16091055"
-X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="16091055"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 01:32:34 -0800
+  bh=dU9tl7oEYCmbdhcRlsUiYFOygffJ3GlZynt0hSuAwLk=;
+  b=TaKlG9On+RERvTF6nxHFRvJgqKxstgoOq7UOoY0q+IhbmpO/iYF5cVO6
+   0TaOBUHSR2N6xEZJgOi324/6g2WPzy1YR3ruwEuG2mpC/Ud4SZ2YNUBe8
+   R+n/yCbSMz+9FmrzmgkGYGVtwCDWF6xv6rR8U8NloQVGTqvdWHyw56wFe
+   +MwKsT4jRNjlFAdbBbSgQFYd44hGaxLq4v4pKTlTY8Ewsi4VMja7wyfi5
+   8GwxPhmvz62U3QQycbjsWnV4cKPOt63TSmpfvCZTrhrOUQ0pf/nzZxPgf
+   xV65uwhElnqh/K1e08xF8xXZ96PTnnrzChTXXDKmP+viBmXRUIYNfwdeU
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="394771773"
+X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
+   d="scan'208";a="394771773"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 14:02:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="846529975"
-X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="846529975"
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="815063472"
+X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
+   d="scan'208";a="815063472"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 05 Jan 2024 01:32:33 -0800
+  by orsmga001.jf.intel.com with ESMTP; 05 Jan 2024 14:02:48 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLgZ3-00013K-30;
-	Fri, 05 Jan 2024 09:32:30 +0000
-Date: Fri, 5 Jan 2024 17:32:11 +0800
+	id 1rLsH8-0001jQ-1N;
+	Fri, 05 Jan 2024 22:02:46 +0000
+Date: Sat, 6 Jan 2024 06:02:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 3806/12662]
- drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c:6147:9-13: ERROR:
- invalid reference to the index variable of the iterator on line 6138
-Message-ID: <202401051712.OFEzsF3k-lkp@intel.com>
+Subject: [linux-next:master 2314/12662]
+ drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c:575:9-32: duplicated
+ argument to & or |
+Message-ID: <202401060544.YShBeAss-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,51 +54,97 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Suman Ghosh <sumang@marvell.com>
-CC: Wojciech Drewek <wojciech.drewek@intel.com>
-CC: Simon Horman <horms@kernel.org>
+TO: Geetha sowjanya <gakula@marvell.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   e2425464bc87159274879ab30f9d4fe624b9fcd2
-commit: 51b2804c19cd79e9e4ee384a37796a1d243b8f3d [3806/12662] octeontx2-af: Add new mbox to support multicast/mirror offload
-:::::: branch date: 3 hours ago
-:::::: commit date: 5 weeks ago
-config: arm64-randconfig-r053-20240104 (https://download.01.org/0day-ci/archive/20240105/202401051712.OFEzsF3k-lkp@intel.com/config)
+commit: a8d4879d5f1fac060719567d1a8e8f8e68a127fc [2314/12662] octeontx2-pf: TC flower offload support for ICMP type and code
+:::::: branch date: 15 hours ago
+:::::: commit date: 6 weeks ago
+config: arm64-randconfig-r053-20240104 (https://download.01.org/0day-ci/archive/20240106/202401060544.YShBeAss-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401051712.OFEzsF3k-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401060544.YShBeAss-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c:6147:9-13: ERROR: invalid reference to the index variable of the iterator on line 6138
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c:575:9-32: duplicated argument to & or |
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c:575:35-58: duplicated argument to & or |
 
-vim +6147 drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c
+vim +575 drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c
 
-51b2804c19cd79 Suman Ghosh 2023-11-30  6130  
-51b2804c19cd79 Suman Ghosh 2023-11-30  6131  static struct nix_mcast_grp_elem *rvu_nix_mcast_find_grp_elem(struct nix_mcast_grp *mcast_grp,
-51b2804c19cd79 Suman Ghosh 2023-11-30  6132  							      u32 mcast_grp_idx)
-51b2804c19cd79 Suman Ghosh 2023-11-30  6133  {
-51b2804c19cd79 Suman Ghosh 2023-11-30  6134  	struct nix_mcast_grp_elem *iter;
-51b2804c19cd79 Suman Ghosh 2023-11-30  6135  	bool is_found = false;
-51b2804c19cd79 Suman Ghosh 2023-11-30  6136  
-51b2804c19cd79 Suman Ghosh 2023-11-30  6137  	mutex_lock(&mcast_grp->mcast_grp_lock);
-51b2804c19cd79 Suman Ghosh 2023-11-30 @6138  	list_for_each_entry(iter, &mcast_grp->mcast_grp_head, list) {
-51b2804c19cd79 Suman Ghosh 2023-11-30  6139  		if (iter->mcast_grp_idx == mcast_grp_idx) {
-51b2804c19cd79 Suman Ghosh 2023-11-30  6140  			is_found = true;
-51b2804c19cd79 Suman Ghosh 2023-11-30  6141  			break;
-51b2804c19cd79 Suman Ghosh 2023-11-30  6142  		}
-51b2804c19cd79 Suman Ghosh 2023-11-30  6143  	}
-51b2804c19cd79 Suman Ghosh 2023-11-30  6144  	mutex_unlock(&mcast_grp->mcast_grp_lock);
-51b2804c19cd79 Suman Ghosh 2023-11-30  6145  
-51b2804c19cd79 Suman Ghosh 2023-11-30  6146  	if (is_found)
-51b2804c19cd79 Suman Ghosh 2023-11-30 @6147  		return iter;
-51b2804c19cd79 Suman Ghosh 2023-11-30  6148  
-51b2804c19cd79 Suman Ghosh 2023-11-30  6149  	return NULL;
-51b2804c19cd79 Suman Ghosh 2023-11-30  6150  }
-51b2804c19cd79 Suman Ghosh 2023-11-30  6151  
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  557  
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  558  static void npc_set_features(struct rvu *rvu, int blkaddr, u8 intf)
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  559  {
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  560  	struct npc_mcam *mcam = &rvu->hw->mcam;
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  561  	u64 *features = &mcam->rx_features;
+a8d4879d5f1fac Geetha sowjanya      2023-11-22  562  	u64 proto_flags;
+b7cf966126eb16 Naveen Mamindlapalli 2021-01-11  563  	int hdr;
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  564  
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  565  	if (is_npc_intf_tx(intf))
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  566  		features = &mcam->tx_features;
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  567  
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  568  	for (hdr = NPC_DMAC; hdr < NPC_HEADER_FIELDS_MAX; hdr++) {
+b7cf966126eb16 Naveen Mamindlapalli 2021-01-11  569  		if (npc_check_field(rvu, blkaddr, hdr, intf))
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  570  			*features |= BIT_ULL(hdr);
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  571  	}
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  572  
+a8d4879d5f1fac Geetha sowjanya      2023-11-22  573  	proto_flags = BIT_ULL(NPC_SPORT_TCP) | BIT_ULL(NPC_SPORT_UDP) |
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  574  		       BIT_ULL(NPC_DPORT_TCP) | BIT_ULL(NPC_DPORT_UDP) |
+a8d4879d5f1fac Geetha sowjanya      2023-11-22 @575  		       BIT_ULL(NPC_SPORT_SCTP) | BIT_ULL(NPC_DPORT_SCTP) |
+a8d4879d5f1fac Geetha sowjanya      2023-11-22  576  		       BIT_ULL(NPC_SPORT_SCTP) | BIT_ULL(NPC_DPORT_SCTP) |
+a8d4879d5f1fac Geetha sowjanya      2023-11-22  577  		       BIT_ULL(NPC_TYPE_ICMP) | BIT_ULL(NPC_CODE_ICMP);
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  578  
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  579  	/* for tcp/udp/sctp corresponding layer type should be in the key */
+a8d4879d5f1fac Geetha sowjanya      2023-11-22  580  	if (*features & proto_flags) {
+b7cf966126eb16 Naveen Mamindlapalli 2021-01-11  581  		if (!npc_check_field(rvu, blkaddr, NPC_LD, intf))
+a8d4879d5f1fac Geetha sowjanya      2023-11-22  582  			*features &= ~proto_flags;
+b7cf966126eb16 Naveen Mamindlapalli 2021-01-11  583  		else
+b7cf966126eb16 Naveen Mamindlapalli 2021-01-11  584  			*features |= BIT_ULL(NPC_IPPROTO_TCP) |
+b7cf966126eb16 Naveen Mamindlapalli 2021-01-11  585  				     BIT_ULL(NPC_IPPROTO_UDP) |
+a8d4879d5f1fac Geetha sowjanya      2023-11-22  586  				     BIT_ULL(NPC_IPPROTO_SCTP) |
+a8d4879d5f1fac Geetha sowjanya      2023-11-22  587  				     BIT_ULL(NPC_IPPROTO_ICMP);
+b7cf966126eb16 Naveen Mamindlapalli 2021-01-11  588  	}
+b7cf966126eb16 Naveen Mamindlapalli 2021-01-11  589  
+2b9cef66790209 Naveen Mamindlapalli 2021-03-18  590  	/* for AH/ICMP/ICMPv6/, check if corresponding layer type is present in the key */
+2b9cef66790209 Naveen Mamindlapalli 2021-03-18  591  	if (npc_check_field(rvu, blkaddr, NPC_LD, intf)) {
+b7cf966126eb16 Naveen Mamindlapalli 2021-01-11  592  		*features |= BIT_ULL(NPC_IPPROTO_AH);
+2b9cef66790209 Naveen Mamindlapalli 2021-03-18  593  		*features |= BIT_ULL(NPC_IPPROTO_ICMP);
+2b9cef66790209 Naveen Mamindlapalli 2021-03-18  594  		*features |= BIT_ULL(NPC_IPPROTO_ICMP6);
+2b9cef66790209 Naveen Mamindlapalli 2021-03-18  595  	}
+b7cf966126eb16 Naveen Mamindlapalli 2021-01-11  596  
+b7cf966126eb16 Naveen Mamindlapalli 2021-01-11  597  	/* for ESP, check if corresponding layer type is present in the key */
+b7cf966126eb16 Naveen Mamindlapalli 2021-01-11  598  	if (npc_check_field(rvu, blkaddr, NPC_LE, intf))
+b7cf966126eb16 Naveen Mamindlapalli 2021-01-11  599  		*features |= BIT_ULL(NPC_IPPROTO_ESP);
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  600  
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  601  	/* for vlan corresponding layer type should be in the key */
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  602  	if (*features & BIT_ULL(NPC_OUTER_VID))
+b7cf966126eb16 Naveen Mamindlapalli 2021-01-11  603  		if (!npc_check_field(rvu, blkaddr, NPC_LB, intf))
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  604  			*features &= ~BIT_ULL(NPC_OUTER_VID);
+dce677da57c0ed Subbaraya Sundeep    2021-08-27  605  
+12aa0a3b93f3ad Ratheesh Kannoth     2023-08-09  606  	/* Set SPI flag only if AH/ESP and IPSEC_SPI are in the key */
+12aa0a3b93f3ad Ratheesh Kannoth     2023-08-09  607  	if (npc_check_field(rvu, blkaddr, NPC_IPSEC_SPI, intf) &&
+12aa0a3b93f3ad Ratheesh Kannoth     2023-08-09  608  	    (*features & (BIT_ULL(NPC_IPPROTO_ESP) | BIT_ULL(NPC_IPPROTO_AH))))
+73b4c04e2e9af8 Ratheesh Kannoth     2023-08-01  609  		*features |= BIT_ULL(NPC_IPSEC_SPI);
+73b4c04e2e9af8 Ratheesh Kannoth     2023-08-01  610  
+dce677da57c0ed Subbaraya Sundeep    2021-08-27  611  	/* for vlan ethertypes corresponding layer type should be in the key */
+dce677da57c0ed Subbaraya Sundeep    2021-08-27  612  	if (npc_check_field(rvu, blkaddr, NPC_LB, intf))
+dce677da57c0ed Subbaraya Sundeep    2021-08-27  613  		*features |= BIT_ULL(NPC_VLAN_ETYPE_CTAG) |
+dce677da57c0ed Subbaraya Sundeep    2021-08-27  614  			     BIT_ULL(NPC_VLAN_ETYPE_STAG);
+2cee6401c4eaa5 Suman Ghosh          2022-10-31  615  
+2cee6401c4eaa5 Suman Ghosh          2022-10-31  616  	/* for L2M/L2B/L3M/L3B, check if the type is present in the key */
+2cee6401c4eaa5 Suman Ghosh          2022-10-31  617  	if (npc_check_field(rvu, blkaddr, NPC_LXMB, intf))
+2cee6401c4eaa5 Suman Ghosh          2022-10-31  618  		*features |= BIT_ULL(NPC_LXMB);
+a63df366d0915a Hariprasad Kelam     2023-09-21  619  
+a63df366d0915a Hariprasad Kelam     2023-09-21  620  	for (hdr = NPC_MPLS1_LBTCBOS; hdr <= NPC_MPLS4_TTL; hdr++) {
+a63df366d0915a Hariprasad Kelam     2023-09-21  621  		if (npc_check_field(rvu, blkaddr, hdr, intf))
+a63df366d0915a Hariprasad Kelam     2023-09-21  622  			*features |= BIT_ULL(hdr);
+a63df366d0915a Hariprasad Kelam     2023-09-21  623  	}
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  624  }
+9b179a960a96d5 Subbaraya Sundeep    2020-11-15  625  
 
 -- 
 0-DAY CI Kernel Test Service
