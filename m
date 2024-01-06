@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8104215AC
-	for <oe-kbuild@lists.linux.dev>; Sat,  6 Jan 2024 03:27:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2BF72914
+	for <oe-kbuild@lists.linux.dev>; Sat,  6 Jan 2024 07:00:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YD27TOwa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PF6kl6nz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704511628; x=1736047628;
+  t=1704524460; x=1736060460;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9+9Eze1Asv0Swl9MCkNaSWGIOTY603rbwYbMGf3UwXo=;
-  b=YD27TOway5GlksOYuflEq+H/NKheJrKPoNIezNsjaKy/4ruL3hbSXaB1
-   GSQl12AaJ8sTfSJ+P8y76k/S+iCjTa6wJcbnmqCKFeG1nOM7v5E56oHQc
-   I+OYeMTdRu6fjzwHtXdmvDq2V/amBabU0mGtamYvh+PtanNNTCGfiEL6s
-   kAu4Yu9wj+uc4+b4Jopupy98HpmFY5qPytju7nNmRgil/UaaZwGfwkz4R
-   q4WPmlNCsRlISyfYCl3JyS/4WccvNZYxHj4ow2onSuZYjQeAIwXqHhFqw
-   g/gc5ckoVSCOihnnjtN2LFgDj5d80hyrm9V1J+pmLwr+7aW6Vg5FzjTSI
+  bh=bW/t4tkZRCu7UlejDqFdo8uDd5p/sW2xR+0LszZpOoA=;
+  b=PF6kl6nzXtbroA6ZJN6w6LqDhmGG6+f+pKZdqxRlklqfuqFUkJyue/mK
+   17humreUe6/N0iUTt6cKlD4K1xANmypWTH8pspxJt3zzyzGPdea9O56zB
+   ij0bbadcVtnrhmVZEylZf6WP4ONoWGP4CBKbMcRhPrI5rSZ6p5UNVaZsR
+   Le6zwNDQQ/l9UwImu1YsWkEKIZ/xa1nl/ENPWqgWyKDgUwAUlybX8aVWP
+   MPCGHa8L8BwrpVCj752AuWJe5Jp55BJgVStWhdx2LogmXfHwrwSGXAyKv
+   hRKO4F5+FOwjrO+923JhoEBV0TiHFNlif41zCirEWmbqT6+/o7m1ll288
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="4726575"
-X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
-   d="scan'208";a="4726575"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 19:27:07 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="483822289"
+X-IronPort-AV: E=Sophos;i="6.04,336,1695711600"; 
+   d="scan'208";a="483822289"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 23:00:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="757119892"
-X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
-   d="scan'208";a="757119892"
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="846759426"
+X-IronPort-AV: E=Sophos;i="6.04,336,1695711600"; 
+   d="scan'208";a="846759426"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 05 Jan 2024 19:27:06 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 05 Jan 2024 23:00:48 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLxKy-0001yq-1O;
-	Sat, 06 Jan 2024 03:27:04 +0000
-Date: Sat, 6 Jan 2024 11:26:08 +0800
+	id 1rM0fl-000290-2N;
+	Sat, 06 Jan 2024 07:00:45 +0000
+Date: Sat, 6 Jan 2024 15:00:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 3806/12662]
- drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c:6147:9-13: ERROR:
- invalid reference to the index variable of the iterator on line 6138
-Message-ID: <202401061112.WWz64dHZ-lkp@intel.com>
+Subject: drivers/nvme/host/pr.c:268:23-26: ERROR: reference preceded by free
+ on line 278
+Message-ID: <202401061455.dGq7UcQy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,52 +52,95 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Suman Ghosh <sumang@marvell.com>
-CC: Wojciech Drewek <wojciech.drewek@intel.com>
-CC: Simon Horman <horms@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Mike Christie <michael.christie@oracle.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Chaitanya Kulkarni <kch@nvidia.com>
+CC: Christoph Hellwig <hch@lst.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e2425464bc87159274879ab30f9d4fe624b9fcd2
-commit: 51b2804c19cd79e9e4ee384a37796a1d243b8f3d [3806/12662] octeontx2-af: Add new mbox to support multicast/mirror offload
-:::::: branch date: 21 hours ago
-:::::: commit date: 5 weeks ago
-config: arm64-randconfig-r053-20240104 (https://download.01.org/0day-ci/archive/20240106/202401061112.WWz64dHZ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   95c8a35f1c017327eab3b6a2ff5c04255737c856
+commit: 28c97ba38ff9c00bc177887c2d8568b7115a44e0 nvme: Add pr_ops read_reservation support
+date:   9 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 months ago
+config: hexagon-randconfig-r052-20231228 (https://download.01.org/0day-ci/archive/20240106/202401061455.dGq7UcQy-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401061112.WWz64dHZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401061455.dGq7UcQy-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c:6147:9-13: ERROR: invalid reference to the index variable of the iterator on line 6138
+>> drivers/nvme/host/pr.c:268:23-26: ERROR: reference preceded by free on line 278
 
-vim +6147 drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c
+vim +268 drivers/nvme/host/pr.c
 
-51b2804c19cd79 Suman Ghosh 2023-11-30  6130  
-51b2804c19cd79 Suman Ghosh 2023-11-30  6131  static struct nix_mcast_grp_elem *rvu_nix_mcast_find_grp_elem(struct nix_mcast_grp *mcast_grp,
-51b2804c19cd79 Suman Ghosh 2023-11-30  6132  							      u32 mcast_grp_idx)
-51b2804c19cd79 Suman Ghosh 2023-11-30  6133  {
-51b2804c19cd79 Suman Ghosh 2023-11-30  6134  	struct nix_mcast_grp_elem *iter;
-51b2804c19cd79 Suman Ghosh 2023-11-30  6135  	bool is_found = false;
-51b2804c19cd79 Suman Ghosh 2023-11-30  6136  
-51b2804c19cd79 Suman Ghosh 2023-11-30  6137  	mutex_lock(&mcast_grp->mcast_grp_lock);
-51b2804c19cd79 Suman Ghosh 2023-11-30 @6138  	list_for_each_entry(iter, &mcast_grp->mcast_grp_head, list) {
-51b2804c19cd79 Suman Ghosh 2023-11-30  6139  		if (iter->mcast_grp_idx == mcast_grp_idx) {
-51b2804c19cd79 Suman Ghosh 2023-11-30  6140  			is_found = true;
-51b2804c19cd79 Suman Ghosh 2023-11-30  6141  			break;
-51b2804c19cd79 Suman Ghosh 2023-11-30  6142  		}
-51b2804c19cd79 Suman Ghosh 2023-11-30  6143  	}
-51b2804c19cd79 Suman Ghosh 2023-11-30  6144  	mutex_unlock(&mcast_grp->mcast_grp_lock);
-51b2804c19cd79 Suman Ghosh 2023-11-30  6145  
-51b2804c19cd79 Suman Ghosh 2023-11-30  6146  	if (is_found)
-51b2804c19cd79 Suman Ghosh 2023-11-30 @6147  		return iter;
-51b2804c19cd79 Suman Ghosh 2023-11-30  6148  
-51b2804c19cd79 Suman Ghosh 2023-11-30  6149  	return NULL;
-51b2804c19cd79 Suman Ghosh 2023-11-30  6150  }
-51b2804c19cd79 Suman Ghosh 2023-11-30  6151  
+5fd96a4e15de84 Mike Christie 2023-04-07  244  
+28c97ba38ff9c0 Mike Christie 2023-04-07  245  static int nvme_pr_read_reservation(struct block_device *bdev,
+28c97ba38ff9c0 Mike Christie 2023-04-07  246  		struct pr_held_reservation *resv)
+28c97ba38ff9c0 Mike Christie 2023-04-07  247  {
+28c97ba38ff9c0 Mike Christie 2023-04-07  248  	struct nvme_reservation_status_ext tmp_rse, *rse;
+28c97ba38ff9c0 Mike Christie 2023-04-07  249  	int ret, i, num_regs;
+28c97ba38ff9c0 Mike Christie 2023-04-07  250  	u32 rse_len;
+28c97ba38ff9c0 Mike Christie 2023-04-07  251  	bool eds;
+28c97ba38ff9c0 Mike Christie 2023-04-07  252  
+28c97ba38ff9c0 Mike Christie 2023-04-07  253  get_num_regs:
+28c97ba38ff9c0 Mike Christie 2023-04-07  254  	/*
+28c97ba38ff9c0 Mike Christie 2023-04-07  255  	 * Get the number of registrations so we know how big to allocate
+28c97ba38ff9c0 Mike Christie 2023-04-07  256  	 * the response buffer.
+28c97ba38ff9c0 Mike Christie 2023-04-07  257  	 */
+28c97ba38ff9c0 Mike Christie 2023-04-07  258  	ret = nvme_pr_resv_report(bdev, &tmp_rse, sizeof(tmp_rse), &eds);
+28c97ba38ff9c0 Mike Christie 2023-04-07  259  	if (ret)
+28c97ba38ff9c0 Mike Christie 2023-04-07  260  		return ret;
+28c97ba38ff9c0 Mike Christie 2023-04-07  261  
+28c97ba38ff9c0 Mike Christie 2023-04-07  262  	num_regs = get_unaligned_le16(&tmp_rse.regctl);
+28c97ba38ff9c0 Mike Christie 2023-04-07  263  	if (!num_regs) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  264  		resv->generation = le32_to_cpu(tmp_rse.gen);
+28c97ba38ff9c0 Mike Christie 2023-04-07  265  		return 0;
+28c97ba38ff9c0 Mike Christie 2023-04-07  266  	}
+28c97ba38ff9c0 Mike Christie 2023-04-07  267  
+28c97ba38ff9c0 Mike Christie 2023-04-07 @268  	rse_len = struct_size(rse, regctl_eds, num_regs);
+28c97ba38ff9c0 Mike Christie 2023-04-07  269  	rse = kzalloc(rse_len, GFP_KERNEL);
+28c97ba38ff9c0 Mike Christie 2023-04-07  270  	if (!rse)
+28c97ba38ff9c0 Mike Christie 2023-04-07  271  		return -ENOMEM;
+28c97ba38ff9c0 Mike Christie 2023-04-07  272  
+28c97ba38ff9c0 Mike Christie 2023-04-07  273  	ret = nvme_pr_resv_report(bdev, rse, rse_len, &eds);
+28c97ba38ff9c0 Mike Christie 2023-04-07  274  	if (ret)
+28c97ba38ff9c0 Mike Christie 2023-04-07  275  		goto free_rse;
+28c97ba38ff9c0 Mike Christie 2023-04-07  276  
+28c97ba38ff9c0 Mike Christie 2023-04-07  277  	if (num_regs != get_unaligned_le16(&rse->regctl)) {
+28c97ba38ff9c0 Mike Christie 2023-04-07 @278  		kfree(rse);
+28c97ba38ff9c0 Mike Christie 2023-04-07  279  		goto get_num_regs;
+28c97ba38ff9c0 Mike Christie 2023-04-07  280  	}
+28c97ba38ff9c0 Mike Christie 2023-04-07  281  
+28c97ba38ff9c0 Mike Christie 2023-04-07  282  	resv->generation = le32_to_cpu(rse->gen);
+28c97ba38ff9c0 Mike Christie 2023-04-07  283  	resv->type = block_pr_type_from_nvme(rse->rtype);
+28c97ba38ff9c0 Mike Christie 2023-04-07  284  
+28c97ba38ff9c0 Mike Christie 2023-04-07  285  	for (i = 0; i < num_regs; i++) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  286  		if (eds) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  287  			if (rse->regctl_eds[i].rcsts) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  288  				resv->key = le64_to_cpu(rse->regctl_eds[i].rkey);
+28c97ba38ff9c0 Mike Christie 2023-04-07  289  				break;
+28c97ba38ff9c0 Mike Christie 2023-04-07  290  			}
+28c97ba38ff9c0 Mike Christie 2023-04-07  291  		} else {
+28c97ba38ff9c0 Mike Christie 2023-04-07  292  			struct nvme_reservation_status *rs;
+28c97ba38ff9c0 Mike Christie 2023-04-07  293  
+28c97ba38ff9c0 Mike Christie 2023-04-07  294  			rs = (struct nvme_reservation_status *)rse;
+28c97ba38ff9c0 Mike Christie 2023-04-07  295  			if (rs->regctl_ds[i].rcsts) {
+28c97ba38ff9c0 Mike Christie 2023-04-07  296  				resv->key = le64_to_cpu(rs->regctl_ds[i].rkey);
+28c97ba38ff9c0 Mike Christie 2023-04-07  297  				break;
+28c97ba38ff9c0 Mike Christie 2023-04-07  298  			}
+28c97ba38ff9c0 Mike Christie 2023-04-07  299  		}
+28c97ba38ff9c0 Mike Christie 2023-04-07  300  	}
+28c97ba38ff9c0 Mike Christie 2023-04-07  301  
+28c97ba38ff9c0 Mike Christie 2023-04-07  302  free_rse:
+28c97ba38ff9c0 Mike Christie 2023-04-07  303  	kfree(rse);
+28c97ba38ff9c0 Mike Christie 2023-04-07  304  	return ret;
+28c97ba38ff9c0 Mike Christie 2023-04-07  305  }
+28c97ba38ff9c0 Mike Christie 2023-04-07  306  
 
 -- 
 0-DAY CI Kernel Test Service
