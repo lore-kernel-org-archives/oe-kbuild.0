@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2BF72914
-	for <oe-kbuild@lists.linux.dev>; Sat,  6 Jan 2024 07:00:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F782522B
+	for <oe-kbuild@lists.linux.dev>; Sat,  6 Jan 2024 08:08:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PF6kl6nz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JDSHDKCM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704524460; x=1736060460;
+  t=1704528485; x=1736064485;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bW/t4tkZRCu7UlejDqFdo8uDd5p/sW2xR+0LszZpOoA=;
-  b=PF6kl6nzXtbroA6ZJN6w6LqDhmGG6+f+pKZdqxRlklqfuqFUkJyue/mK
-   17humreUe6/N0iUTt6cKlD4K1xANmypWTH8pspxJt3zzyzGPdea9O56zB
-   ij0bbadcVtnrhmVZEylZf6WP4ONoWGP4CBKbMcRhPrI5rSZ6p5UNVaZsR
-   Le6zwNDQQ/l9UwImu1YsWkEKIZ/xa1nl/ENPWqgWyKDgUwAUlybX8aVWP
-   MPCGHa8L8BwrpVCj752AuWJe5Jp55BJgVStWhdx2LogmXfHwrwSGXAyKv
-   hRKO4F5+FOwjrO+923JhoEBV0TiHFNlif41zCirEWmbqT6+/o7m1ll288
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="483822289"
+  bh=vmcRATIdSsUFbJGLQYthW/Dwwxym7KNW2iJdk0Bhfi0=;
+  b=JDSHDKCMXgNvCZ41AZvEgSKCZp8sa2+V4NNivNgc3Qh9arnQV+wEPHVK
+   2kxbGWK6Q4lpbnxq1o0zFd5ZN60PBtUH9QhVXuXBqmac/NBvVnnGtLKO7
+   G4aYIWRHgpxeGFBPAXtiQg80K57LuBXP3z0fJ+33leW1FPbzXeTcugiNA
+   kkGM4G4bR/quQ+zqURnpKOFqulH7WWCOOuIoaLaRCxDCIcBHyYbpWNJDJ
+   lY2xWnYf71VsDoFKR+jKzTlC+YfKTn+CNP+SMNzT39GdojyLChz8WBzRT
+   9hTDwErjnBOICQsS/DZWgEFMX6E0QKBLEFimISSfMslDGNmvGJiIDt7ky
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="16251714"
 X-IronPort-AV: E=Sophos;i="6.04,336,1695711600"; 
-   d="scan'208";a="483822289"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 23:00:49 -0800
+   d="scan'208";a="16251714"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 23:54:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="846759426"
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="757154664"
 X-IronPort-AV: E=Sophos;i="6.04,336,1695711600"; 
-   d="scan'208";a="846759426"
+   d="scan'208";a="757154664"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 05 Jan 2024 23:00:48 -0800
+  by orsmga006.jf.intel.com with ESMTP; 05 Jan 2024 23:54:51 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rM0fl-000290-2N;
-	Sat, 06 Jan 2024 07:00:45 +0000
-Date: Sat, 6 Jan 2024 15:00:14 +0800
+	id 1rM1W4-0002Ce-2A;
+	Sat, 06 Jan 2024 07:54:48 +0000
+Date: Sat, 6 Jan 2024 15:53:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/nvme/host/pr.c:268:23-26: ERROR: reference preceded by free
- on line 278
-Message-ID: <202401061455.dGq7UcQy-lkp@intel.com>
+Subject: [linux-next:master 7503/12662]
+ drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c:6357:1-7: preceding lock
+ on line 6318
+Message-ID: <202401061506.oP8ZfCVq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,95 +53,95 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Mike Christie <michael.christie@oracle.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Chaitanya Kulkarni <kch@nvidia.com>
-CC: Christoph Hellwig <hch@lst.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Suman Ghosh <sumang@marvell.com>
+CC: Simon Horman <horms@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   95c8a35f1c017327eab3b6a2ff5c04255737c856
-commit: 28c97ba38ff9c00bc177887c2d8568b7115a44e0 nvme: Add pr_ops read_reservation support
-date:   9 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 months ago
-config: hexagon-randconfig-r052-20231228 (https://download.01.org/0day-ci/archive/20240106/202401061455.dGq7UcQy-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e2425464bc87159274879ab30f9d4fe624b9fcd2
+commit: 10b7572d17871b027de1d17152f08a2dc9c3aef6 [7503/12662] octeontx2-af: Fix multicast/mirror group lock/unlock issue
+:::::: branch date: 25 hours ago
+:::::: commit date: 3 weeks ago
+config: arm64-randconfig-r053-20240104 (https://download.01.org/0day-ci/archive/20240106/202401061506.oP8ZfCVq-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401061455.dGq7UcQy-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401061506.oP8ZfCVq-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/nvme/host/pr.c:268:23-26: ERROR: reference preceded by free on line 278
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c:6357:1-7: preceding lock on line 6318
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c:6494:1-7: preceding lock on line 6387
 
-vim +268 drivers/nvme/host/pr.c
+vim +6357 drivers/net/ethernet/marvell/octeontx2/af/rvu_nix.c
 
-5fd96a4e15de84 Mike Christie 2023-04-07  244  
-28c97ba38ff9c0 Mike Christie 2023-04-07  245  static int nvme_pr_read_reservation(struct block_device *bdev,
-28c97ba38ff9c0 Mike Christie 2023-04-07  246  		struct pr_held_reservation *resv)
-28c97ba38ff9c0 Mike Christie 2023-04-07  247  {
-28c97ba38ff9c0 Mike Christie 2023-04-07  248  	struct nvme_reservation_status_ext tmp_rse, *rse;
-28c97ba38ff9c0 Mike Christie 2023-04-07  249  	int ret, i, num_regs;
-28c97ba38ff9c0 Mike Christie 2023-04-07  250  	u32 rse_len;
-28c97ba38ff9c0 Mike Christie 2023-04-07  251  	bool eds;
-28c97ba38ff9c0 Mike Christie 2023-04-07  252  
-28c97ba38ff9c0 Mike Christie 2023-04-07  253  get_num_regs:
-28c97ba38ff9c0 Mike Christie 2023-04-07  254  	/*
-28c97ba38ff9c0 Mike Christie 2023-04-07  255  	 * Get the number of registrations so we know how big to allocate
-28c97ba38ff9c0 Mike Christie 2023-04-07  256  	 * the response buffer.
-28c97ba38ff9c0 Mike Christie 2023-04-07  257  	 */
-28c97ba38ff9c0 Mike Christie 2023-04-07  258  	ret = nvme_pr_resv_report(bdev, &tmp_rse, sizeof(tmp_rse), &eds);
-28c97ba38ff9c0 Mike Christie 2023-04-07  259  	if (ret)
-28c97ba38ff9c0 Mike Christie 2023-04-07  260  		return ret;
-28c97ba38ff9c0 Mike Christie 2023-04-07  261  
-28c97ba38ff9c0 Mike Christie 2023-04-07  262  	num_regs = get_unaligned_le16(&tmp_rse.regctl);
-28c97ba38ff9c0 Mike Christie 2023-04-07  263  	if (!num_regs) {
-28c97ba38ff9c0 Mike Christie 2023-04-07  264  		resv->generation = le32_to_cpu(tmp_rse.gen);
-28c97ba38ff9c0 Mike Christie 2023-04-07  265  		return 0;
-28c97ba38ff9c0 Mike Christie 2023-04-07  266  	}
-28c97ba38ff9c0 Mike Christie 2023-04-07  267  
-28c97ba38ff9c0 Mike Christie 2023-04-07 @268  	rse_len = struct_size(rse, regctl_eds, num_regs);
-28c97ba38ff9c0 Mike Christie 2023-04-07  269  	rse = kzalloc(rse_len, GFP_KERNEL);
-28c97ba38ff9c0 Mike Christie 2023-04-07  270  	if (!rse)
-28c97ba38ff9c0 Mike Christie 2023-04-07  271  		return -ENOMEM;
-28c97ba38ff9c0 Mike Christie 2023-04-07  272  
-28c97ba38ff9c0 Mike Christie 2023-04-07  273  	ret = nvme_pr_resv_report(bdev, rse, rse_len, &eds);
-28c97ba38ff9c0 Mike Christie 2023-04-07  274  	if (ret)
-28c97ba38ff9c0 Mike Christie 2023-04-07  275  		goto free_rse;
-28c97ba38ff9c0 Mike Christie 2023-04-07  276  
-28c97ba38ff9c0 Mike Christie 2023-04-07  277  	if (num_regs != get_unaligned_le16(&rse->regctl)) {
-28c97ba38ff9c0 Mike Christie 2023-04-07 @278  		kfree(rse);
-28c97ba38ff9c0 Mike Christie 2023-04-07  279  		goto get_num_regs;
-28c97ba38ff9c0 Mike Christie 2023-04-07  280  	}
-28c97ba38ff9c0 Mike Christie 2023-04-07  281  
-28c97ba38ff9c0 Mike Christie 2023-04-07  282  	resv->generation = le32_to_cpu(rse->gen);
-28c97ba38ff9c0 Mike Christie 2023-04-07  283  	resv->type = block_pr_type_from_nvme(rse->rtype);
-28c97ba38ff9c0 Mike Christie 2023-04-07  284  
-28c97ba38ff9c0 Mike Christie 2023-04-07  285  	for (i = 0; i < num_regs; i++) {
-28c97ba38ff9c0 Mike Christie 2023-04-07  286  		if (eds) {
-28c97ba38ff9c0 Mike Christie 2023-04-07  287  			if (rse->regctl_eds[i].rcsts) {
-28c97ba38ff9c0 Mike Christie 2023-04-07  288  				resv->key = le64_to_cpu(rse->regctl_eds[i].rkey);
-28c97ba38ff9c0 Mike Christie 2023-04-07  289  				break;
-28c97ba38ff9c0 Mike Christie 2023-04-07  290  			}
-28c97ba38ff9c0 Mike Christie 2023-04-07  291  		} else {
-28c97ba38ff9c0 Mike Christie 2023-04-07  292  			struct nvme_reservation_status *rs;
-28c97ba38ff9c0 Mike Christie 2023-04-07  293  
-28c97ba38ff9c0 Mike Christie 2023-04-07  294  			rs = (struct nvme_reservation_status *)rse;
-28c97ba38ff9c0 Mike Christie 2023-04-07  295  			if (rs->regctl_ds[i].rcsts) {
-28c97ba38ff9c0 Mike Christie 2023-04-07  296  				resv->key = le64_to_cpu(rs->regctl_ds[i].rkey);
-28c97ba38ff9c0 Mike Christie 2023-04-07  297  				break;
-28c97ba38ff9c0 Mike Christie 2023-04-07  298  			}
-28c97ba38ff9c0 Mike Christie 2023-04-07  299  		}
-28c97ba38ff9c0 Mike Christie 2023-04-07  300  	}
-28c97ba38ff9c0 Mike Christie 2023-04-07  301  
-28c97ba38ff9c0 Mike Christie 2023-04-07  302  free_rse:
-28c97ba38ff9c0 Mike Christie 2023-04-07  303  	kfree(rse);
-28c97ba38ff9c0 Mike Christie 2023-04-07  304  	return ret;
-28c97ba38ff9c0 Mike Christie 2023-04-07  305  }
-28c97ba38ff9c0 Mike Christie 2023-04-07  306  
+51b2804c19cd79 Suman Ghosh 2023-11-30  6295  
+51b2804c19cd79 Suman Ghosh 2023-11-30  6296  int rvu_mbox_handler_nix_mcast_grp_destroy(struct rvu *rvu,
+51b2804c19cd79 Suman Ghosh 2023-11-30  6297  					   struct nix_mcast_grp_destroy_req *req,
+51b2804c19cd79 Suman Ghosh 2023-11-30  6298  					   struct msg_rsp *rsp)
+51b2804c19cd79 Suman Ghosh 2023-11-30  6299  {
+51b2804c19cd79 Suman Ghosh 2023-11-30  6300  	struct npc_delete_flow_req uninstall_req = { 0 };
+51b2804c19cd79 Suman Ghosh 2023-11-30  6301  	struct npc_delete_flow_rsp uninstall_rsp = { 0 };
+51b2804c19cd79 Suman Ghosh 2023-11-30  6302  	struct nix_mcast_grp_elem *elem;
+51b2804c19cd79 Suman Ghosh 2023-11-30  6303  	struct nix_mcast_grp *mcast_grp;
+10b7572d17871b Suman Ghosh 2023-12-13  6304  	int blkaddr, err, ret = 0;
+51b2804c19cd79 Suman Ghosh 2023-11-30  6305  	struct nix_mcast *mcast;
+51b2804c19cd79 Suman Ghosh 2023-11-30  6306  	struct nix_hw *nix_hw;
+51b2804c19cd79 Suman Ghosh 2023-11-30  6307  
+51b2804c19cd79 Suman Ghosh 2023-11-30  6308  	err = nix_get_struct_ptrs(rvu, req->hdr.pcifunc, &nix_hw, &blkaddr);
+51b2804c19cd79 Suman Ghosh 2023-11-30  6309  	if (err)
+51b2804c19cd79 Suman Ghosh 2023-11-30  6310  		return err;
+51b2804c19cd79 Suman Ghosh 2023-11-30  6311  
+51b2804c19cd79 Suman Ghosh 2023-11-30  6312  	mcast_grp = &nix_hw->mcast_grp;
+10b7572d17871b Suman Ghosh 2023-12-13  6313  
+10b7572d17871b Suman Ghosh 2023-12-13  6314  	/* If AF is requesting for the deletion,
+10b7572d17871b Suman Ghosh 2023-12-13  6315  	 * then AF is already taking the lock
+10b7572d17871b Suman Ghosh 2023-12-13  6316  	 */
+10b7572d17871b Suman Ghosh 2023-12-13  6317  	if (!req->is_af)
+10b7572d17871b Suman Ghosh 2023-12-13 @6318  		mutex_lock(&mcast_grp->mcast_grp_lock);
+10b7572d17871b Suman Ghosh 2023-12-13  6319  
+51b2804c19cd79 Suman Ghosh 2023-11-30  6320  	elem = rvu_nix_mcast_find_grp_elem(mcast_grp, req->mcast_grp_idx);
+10b7572d17871b Suman Ghosh 2023-12-13  6321  	if (!elem) {
+10b7572d17871b Suman Ghosh 2023-12-13  6322  		ret = NIX_AF_ERR_INVALID_MCAST_GRP;
+10b7572d17871b Suman Ghosh 2023-12-13  6323  		goto unlock_grp;
+10b7572d17871b Suman Ghosh 2023-12-13  6324  	}
+51b2804c19cd79 Suman Ghosh 2023-11-30  6325  
+51b2804c19cd79 Suman Ghosh 2023-11-30  6326  	/* If no mce entries are associated with the group
+51b2804c19cd79 Suman Ghosh 2023-11-30  6327  	 * then just remove it from the global list.
+51b2804c19cd79 Suman Ghosh 2023-11-30  6328  	 */
+51b2804c19cd79 Suman Ghosh 2023-11-30  6329  	if (!elem->mcast_mce_list.count)
+51b2804c19cd79 Suman Ghosh 2023-11-30  6330  		goto delete_grp;
+51b2804c19cd79 Suman Ghosh 2023-11-30  6331  
+51b2804c19cd79 Suman Ghosh 2023-11-30  6332  	/* Delete the associated mcam entry and
+51b2804c19cd79 Suman Ghosh 2023-11-30  6333  	 * remove all mce entries from the group
+51b2804c19cd79 Suman Ghosh 2023-11-30  6334  	 */
+51b2804c19cd79 Suman Ghosh 2023-11-30  6335  	mcast = &nix_hw->mcast;
+51b2804c19cd79 Suman Ghosh 2023-11-30  6336  	mutex_lock(&mcast->mce_lock);
+51b2804c19cd79 Suman Ghosh 2023-11-30  6337  	if (elem->mcam_index != -1) {
+51b2804c19cd79 Suman Ghosh 2023-11-30  6338  		uninstall_req.hdr.pcifunc = req->hdr.pcifunc;
+51b2804c19cd79 Suman Ghosh 2023-11-30  6339  		uninstall_req.entry = elem->mcam_index;
+51b2804c19cd79 Suman Ghosh 2023-11-30  6340  		rvu_mbox_handler_npc_delete_flow(rvu, &uninstall_req, &uninstall_rsp);
+51b2804c19cd79 Suman Ghosh 2023-11-30  6341  	}
+51b2804c19cd79 Suman Ghosh 2023-11-30  6342  
+51b2804c19cd79 Suman Ghosh 2023-11-30  6343  	nix_free_mce_list(mcast, elem->mcast_mce_list.count,
+51b2804c19cd79 Suman Ghosh 2023-11-30  6344  			  elem->mce_start_index, elem->dir);
+51b2804c19cd79 Suman Ghosh 2023-11-30  6345  	nix_delete_mcast_mce_list(&elem->mcast_mce_list);
+51b2804c19cd79 Suman Ghosh 2023-11-30  6346  	mutex_unlock(&mcast->mce_lock);
+51b2804c19cd79 Suman Ghosh 2023-11-30  6347  
+51b2804c19cd79 Suman Ghosh 2023-11-30  6348  delete_grp:
+51b2804c19cd79 Suman Ghosh 2023-11-30  6349  	list_del(&elem->list);
+51b2804c19cd79 Suman Ghosh 2023-11-30  6350  	kfree(elem);
+51b2804c19cd79 Suman Ghosh 2023-11-30  6351  	mcast_grp->count--;
+10b7572d17871b Suman Ghosh 2023-12-13  6352  
+10b7572d17871b Suman Ghosh 2023-12-13  6353  unlock_grp:
+51b2804c19cd79 Suman Ghosh 2023-11-30  6354  	if (!req->is_af)
+51b2804c19cd79 Suman Ghosh 2023-11-30  6355  		mutex_unlock(&mcast_grp->mcast_grp_lock);
+51b2804c19cd79 Suman Ghosh 2023-11-30  6356  
+10b7572d17871b Suman Ghosh 2023-12-13 @6357  	return ret;
+51b2804c19cd79 Suman Ghosh 2023-11-30  6358  }
+51b2804c19cd79 Suman Ghosh 2023-11-30  6359  
 
 -- 
 0-DAY CI Kernel Test Service
