@@ -1,47 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802D210A13
-	for <oe-kbuild@lists.linux.dev>; Sun,  7 Jan 2024 03:03:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5B9125A4
+	for <oe-kbuild@lists.linux.dev>; Sun,  7 Jan 2024 05:35:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J+/6bOof"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LYgutrX0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704596629; x=1736132629;
+  t=1704605708; x=1736141708;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4sPUwntB6vI7Bh2sV/s7Hf3HAczG9buBzrkEAacpgQg=;
-  b=J+/6bOofdQS0lXSvnWHB11zDQkDLtCBT2E6lRYH+ssEW0hlgv3GKYLWf
-   FQ/+2uSC+4v/fvcQkB3JKmOABMEdLSuxTpZirMydM8QEXEuwwabdD2RU9
-   qEiwMlLw08oGbAYzvbu1sN7x8J2Rjo2UaefKhvuJheqbFcJpL551vc9Kl
-   uZ7tGLD+lr1hQBhTzwguJ8zQuFbwTQyh3HnJkhGl6lJBVBVWjGloIGjki
-   oUgU7fOEhlx2fauZnPfrfODa5F/U2K17M/nZynhRsDnJCga94Otf+V30b
-   0TrTXoqGi/eRnhFbwQsk0Ds5s21pJIlTaa+fLJ3Ug2e1Adb4wqaB7ibbx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="16298427"
+  bh=yQFNF05/QhxXkmqriRwXsm1b3ZgU5431zk77iUeiHps=;
+  b=LYgutrX09lP5W7aCY0rYnRbCv1pl7GufArET0b5fITUNbuOAYz6rqk5y
+   z4nI94WNROu3WZozXDEMsAETHdCLoPrVq+5kRf1a1so+lI95lRnunX+6z
+   ybLMt0hnJExjMYKK2n+yompWBg4DZ2CV5e7lo6/xBiLMRsOZV6USOJWUO
+   vf5at7V49PivJ0OG3N5PMkaKPA/ti0vC6T56w0WtDflFhaJCFwl9PfEkd
+   N/m/buGmln4CmVC62yAjD1GQDGjJQ3wm9akCsSap93e009yd+0+GfVGR+
+   xAIRJufeaMrgCgXO3kHcTL65nBqbZMuluwXL8Zhzsgkx7w933sQfvy/H1
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="394874923"
 X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="16298427"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 19:03:48 -0800
+   d="scan'208";a="394874923"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 21:35:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="904478414"
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="1028110600"
 X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="904478414"
+   d="scan'208";a="1028110600"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 06 Jan 2024 19:03:46 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 06 Jan 2024 21:35:01 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMJRw-0003Ii-0W;
-	Sun, 07 Jan 2024 03:03:44 +0000
-Date: Sun, 7 Jan 2024 11:03:08 +0800
+	id 1rMLoJ-0003Qe-19;
+	Sun, 07 Jan 2024 05:34:59 +0000
+Date: Sun, 7 Jan 2024 13:34:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 3769/12662]
- drivers/media/i2c/st-mipid02.c:396:1-7: WARNING: do_div() does a 64-by-32
- division, please consider using div64_s64 instead.
-Message-ID: <202401071048.PNKzg8nj-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 5/5] crash: clean up CRASH_DUMP
+Message-ID: <202401071326.52yn9Ftd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,65 +49,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "only kconfig file changed"
+:::::: Manual check reason: "low confidence static check first_new_problem: ld.lld: error: undefined symbol: crashk_res"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Alain Volmat <alain.volmat@foss.st.com>
-CC: Hans Verkuil <hverkuil@xs4all.nl>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+In-Reply-To: <20240105103305.557273-6-bhe@redhat.com>
+References: <20240105103305.557273-6-bhe@redhat.com>
+TO: Baoquan He <bhe@redhat.com>
+TO: linux-kernel@vger.kernel.org
+CC: akpm@linux-foundation.org
+CC: kexec@lists.infradead.org
+CC: hbathini@linux.ibm.com
+CC: arnd@arndb.de
+CC: ignat@cloudflare.com
+CC: eric_devolder@yahoo.com
+CC: viro@zeniv.linux.org.uk
+CC: ebiederm@xmission.com
+CC: x86@kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linuxppc-dev@lists.ozlabs.org
+CC: linux-riscv@lists.infradead.org
+CC: linux-fsdevel@vger.kernel.org
+CC: Baoquan He <bhe@redhat.com>
+CC: kernel test robot <lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e2425464bc87159274879ab30f9d4fe624b9fcd2
-commit: 046ee0e2a4d602268a49be0d77df8c85559015e3 [3769/12662] media: i2c: st-mipid02: add usage of v4l2_get_link_freq
+Hi Baoquan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.7-rc8]
+[cannot apply to powerpc/next powerpc/fixes tip/x86/core arm64/for-next/core next-20240105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/kexec_core-move-kdump-related-codes-from-crash_core-c-to-kexec_core-c/20240105-223735
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240105103305.557273-6-bhe%40redhat.com
+patch subject: [PATCH 5/5] crash: clean up CRASH_DUMP
 :::::: branch date: 2 days ago
-:::::: commit date: 5 weeks ago
-config: hexagon-randconfig-r052-20231228 (https://download.01.org/0day-ci/archive/20240107/202401071048.PNKzg8nj-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-122-20240106 (https://download.01.org/0day-ci/archive/20240107/202401071326.52yn9Ftd-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401071326.52yn9Ftd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401071048.PNKzg8nj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401071326.52yn9Ftd-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/media/i2c/st-mipid02.c:396:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_s64 instead.
+All errors (new ones prefixed by >>):
 
-vim +396 drivers/media/i2c/st-mipid02.c
-
-642bb5e88fed89 Mickael Guene  2019-04-09  369  
-642bb5e88fed89 Mickael Guene  2019-04-09  370  /*
-642bb5e88fed89 Mickael Guene  2019-04-09  371   * We need to know link frequency to setup clk_lane_reg1 timings. Link frequency
-046ee0e2a4d602 Alain Volmat   2023-11-25  372   * will be retrieve from connected device via v4l2_get_link_freq, bit per pixel
-642bb5e88fed89 Mickael Guene  2019-04-09  373   * and number of lanes.
-642bb5e88fed89 Mickael Guene  2019-04-09  374   */
-642bb5e88fed89 Mickael Guene  2019-04-09  375  static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge)
-642bb5e88fed89 Mickael Guene  2019-04-09  376  {
-642bb5e88fed89 Mickael Guene  2019-04-09  377  	struct i2c_client *client = bridge->i2c_client;
-642bb5e88fed89 Mickael Guene  2019-04-09  378  	struct v4l2_subdev *subdev = bridge->s_subdev;
-046ee0e2a4d602 Alain Volmat   2023-11-25  379  	struct v4l2_fwnode_endpoint *ep = &bridge->rx;
-046ee0e2a4d602 Alain Volmat   2023-11-25  380  	u32 bpp = bpp_from_code(bridge->fmt.code);
-046ee0e2a4d602 Alain Volmat   2023-11-25  381  	/*
-046ee0e2a4d602 Alain Volmat   2023-11-25  382  	 * clk_lane_reg1 requires 4 times the unit interval time, and bitrate
-046ee0e2a4d602 Alain Volmat   2023-11-25  383  	 * is twice the link frequency, hence ui_4 = 1000000000 * 4 / 2
-046ee0e2a4d602 Alain Volmat   2023-11-25  384  	 */
-046ee0e2a4d602 Alain Volmat   2023-11-25  385  	u64 ui_4 = 2000000000;
-046ee0e2a4d602 Alain Volmat   2023-11-25  386  	s64 link_freq;
-642bb5e88fed89 Mickael Guene  2019-04-09  387  
-046ee0e2a4d602 Alain Volmat   2023-11-25  388  	link_freq = v4l2_get_link_freq(subdev->ctrl_handler, bpp,
-046ee0e2a4d602 Alain Volmat   2023-11-25  389  				       2 * ep->bus.mipi_csi2.num_data_lanes);
-046ee0e2a4d602 Alain Volmat   2023-11-25  390  	if (link_freq < 0) {
-6a381d1072f174 Hugues Fruchet 2019-06-17  391  		dev_err(&client->dev, "Failed to get link frequency");
-642bb5e88fed89 Mickael Guene  2019-04-09  392  		return -EINVAL;
-642bb5e88fed89 Mickael Guene  2019-04-09  393  	}
-642bb5e88fed89 Mickael Guene  2019-04-09  394  
-046ee0e2a4d602 Alain Volmat   2023-11-25  395  	dev_dbg(&client->dev, "detect link_freq = %lld Hz", link_freq);
-046ee0e2a4d602 Alain Volmat   2023-11-25 @396  	do_div(ui_4, link_freq);
-046ee0e2a4d602 Alain Volmat   2023-11-25  397  	bridge->r.clk_lane_reg1 |= ui_4 << 2;
-642bb5e88fed89 Mickael Guene  2019-04-09  398  
-642bb5e88fed89 Mickael Guene  2019-04-09  399  	return 0;
-642bb5e88fed89 Mickael Guene  2019-04-09  400  }
-642bb5e88fed89 Mickael Guene  2019-04-09  401  
+>> ld.lld: error: undefined symbol: crashk_res
+   >>> referenced by initramfs.c:638 (init/initramfs.c:638)
+   >>>               init/initramfs.o:(kexec_free_initrd) in archive vmlinux.a
+   >>> referenced by initramfs.c:638 (init/initramfs.c:638)
+   >>>               init/initramfs.o:(kexec_free_initrd) in archive vmlinux.a
+   >>> referenced by initramfs.c:0 (init/initramfs.c:0)
+   >>>               init/initramfs.o:(kexec_free_initrd) in archive vmlinux.a
+   >>> referenced 77 more times
+--
+>> ld.lld: error: undefined symbol: parse_crashkernel
+   >>> referenced by setup.c:479 (arch/x86/kernel/setup.c:479)
+   >>>               arch/x86/kernel/setup.o:(arch_reserve_crashkernel) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: crashk_low_res
+   >>> referenced by machine_kexec_64.c:539 (arch/x86/kernel/machine_kexec_64.c:539)
+   >>>               arch/x86/kernel/machine_kexec_64.o:(kexec_mark_crashkres) in archive vmlinux.a
+   >>> referenced by machine_kexec_64.c:539 (arch/x86/kernel/machine_kexec_64.c:539)
+   >>>               arch/x86/kernel/machine_kexec_64.o:(kexec_mark_crashkres) in archive vmlinux.a
+   >>> referenced by machine_kexec_64.c:539 (arch/x86/kernel/machine_kexec_64.c:539)
+   >>>               arch/x86/kernel/machine_kexec_64.o:(kexec_mark_crashkres) in archive vmlinux.a
+   >>> referenced 36 more times
+--
+>> ld.lld: error: undefined symbol: crash_update_vmcoreinfo_safecopy
+   >>> referenced by kexec_core.c:522 (kernel/kexec_core.c:522)
+   >>>               kernel/kexec_core.o:(kimage_crash_copy_vmcoreinfo) in archive vmlinux.a
+   >>> referenced by kexec_core.c:610 (kernel/kexec_core.c:610)
+   >>>               kernel/kexec_core.o:(kimage_free) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: crash_save_vmcoreinfo
+   >>> referenced by kexec_core.c:1053 (kernel/kexec_core.c:1053)
+   >>>               kernel/kexec_core.o:(__crash_kexec) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: paddr_vmcoreinfo_note
+   >>> referenced by kexec_core.c:1148 (kernel/kexec_core.c:1148)
+   >>>               kernel/kexec_core.o:(crash_prepare_elf64_headers) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: append_elf_note
+   >>> referenced by kexec_core.c:1390 (kernel/kexec_core.c:1390)
+   >>>               kernel/kexec_core.o:(crash_save_cpu) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: final_note
+   >>> referenced by kexec_core.c:1392 (kernel/kexec_core.c:1392)
+   >>>               kernel/kexec_core.o:(crash_save_cpu) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
