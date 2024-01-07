@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2AD910A0A
-	for <oe-kbuild@lists.linux.dev>; Sun,  7 Jan 2024 02:41:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802D210A13
+	for <oe-kbuild@lists.linux.dev>; Sun,  7 Jan 2024 03:03:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JBm+JHkp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J+/6bOof"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704595307; x=1736131307;
+  t=1704596629; x=1736132629;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CV2S/XCAm4cds4c5XEgRajPPxnCiztgHIEQrSo/VjFM=;
-  b=JBm+JHkpoqoCg17YbFeiDa1s6QGd0mGCyyV7M1VT1SEPF0GWy9TZLzOx
-   cPOqAXItbsp3PFVT2Z1L3F86GCw3USOJDrsJJbqUQ4goxVYeDIL7qSu6i
-   v4wH8u9jzkKpeEljZu3RW7oaMHZZLqup0gYsmM3J/HwdzjTVb2mGkw7pB
-   4Q/q7QlXBRJX2h+Bn/qwkLgtcHkjqb+vr9F4wuBKHLIC0dfECah5PbO1D
-   Qlo4pQbm/XgFXHfCuQSbpyP+bwkjOSJUfgOyblnc0lFd4/SY9rcRfE05y
-   NWF6eeb3/UEARaEWj7ikCz2rt1TtvFM5gq/HMt1QRk5QSa1sJk+ChOULb
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="397421044"
+  bh=4sPUwntB6vI7Bh2sV/s7Hf3HAczG9buBzrkEAacpgQg=;
+  b=J+/6bOofdQS0lXSvnWHB11zDQkDLtCBT2E6lRYH+ssEW0hlgv3GKYLWf
+   FQ/+2uSC+4v/fvcQkB3JKmOABMEdLSuxTpZirMydM8QEXEuwwabdD2RU9
+   qEiwMlLw08oGbAYzvbu1sN7x8J2Rjo2UaefKhvuJheqbFcJpL551vc9Kl
+   uZ7tGLD+lr1hQBhTzwguJ8zQuFbwTQyh3HnJkhGl6lJBVBVWjGloIGjki
+   oUgU7fOEhlx2fauZnPfrfODa5F/U2K17M/nZynhRsDnJCga94Otf+V30b
+   0TrTXoqGi/eRnhFbwQsk0Ds5s21pJIlTaa+fLJ3Ug2e1Adb4wqaB7ibbx
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="16298427"
 X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="397421044"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 18:41:46 -0800
+   d="scan'208";a="16298427"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 19:03:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="730801001"
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="904478414"
 X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="730801001"
+   d="scan'208";a="904478414"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 06 Jan 2024 18:41:45 -0800
+  by orsmga004.jf.intel.com with ESMTP; 06 Jan 2024 19:03:46 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMJ6c-0003Hc-2T;
-	Sun, 07 Jan 2024 02:41:42 +0000
-Date: Sun, 7 Jan 2024 10:41:28 +0800
+	id 1rMJRw-0003Ii-0W;
+	Sun, 07 Jan 2024 03:03:44 +0000
+Date: Sun, 7 Jan 2024 11:03:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/gpu/drm/nouveau/dispnv50/disp.c:134:31: sparse: sparse:
- subtraction of different types can't work (different address spaces)
-Message-ID: <202401071050.UrV4A3qz-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 3769/12662]
+ drivers/media/i2c/st-mipid02.c:396:1-7: WARNING: do_div() does a 64-by-32
+ division, please consider using div64_s64 instead.
+Message-ID: <202401071048.PNKzg8nj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,66 +51,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/nouveau/dispnv50/disp.c:134:31: sparse: sparse: subtraction of different types can't work (different address spaces)"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: ruanjinjie <ruanjinjie@huawei.com>
-CC: Lyude Paul <lyude@redhat.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Alain Volmat <alain.volmat@foss.st.com>
+CC: Hans Verkuil <hverkuil@xs4all.nl>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   52b1853b080a082ec3749c3a9577f6c71b1d4a90
-commit: 9cf06d6ef7fd08adf51568b704ab7ba6007b6fe8 drm/nouveau/disp: fix cast removes address space of expression warnings
-date:   1 year, 3 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 1 year, 3 months ago
-config: i386-randconfig-062-20240106 (https://download.01.org/0day-ci/archive/20240107/202401071050.UrV4A3qz-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401071050.UrV4A3qz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e2425464bc87159274879ab30f9d4fe624b9fcd2
+commit: 046ee0e2a4d602268a49be0d77df8c85559015e3 [3769/12662] media: i2c: st-mipid02: add usage of v4l2_get_link_freq
+:::::: branch date: 2 days ago
+:::::: commit date: 5 weeks ago
+config: hexagon-randconfig-r052-20231228 (https://download.01.org/0day-ci/archive/20240107/202401071048.PNKzg8nj-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202401071050.UrV4A3qz-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202401071048.PNKzg8nj-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/nouveau/dispnv50/disp.c:134:31: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/gpu/drm/nouveau/dispnv50/disp.c:197:31: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/gpu/drm/nouveau/dispnv50/disp.c:257:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned int [usertype] *ptr @@     got void [noderef] __iomem *ptr @@
-   drivers/gpu/drm/nouveau/dispnv50/disp.c:261:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned int [usertype] *bgn @@     got void [noderef] __iomem *ptr @@
+cocci warnings: (new ones prefixed by >>)
+>> drivers/media/i2c/st-mipid02.c:396:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_s64 instead.
 
-vim +134 drivers/gpu/drm/nouveau/dispnv50/disp.c
+vim +396 drivers/media/i2c/st-mipid02.c
 
-2853ccf09255aa Ben Skeggs 2020-06-20  128  
-2853ccf09255aa Ben Skeggs 2020-06-20  129  static void
-2853ccf09255aa Ben Skeggs 2020-06-20  130  nv50_dmac_kick(struct nvif_push *push)
-2853ccf09255aa Ben Skeggs 2020-06-20  131  {
-2853ccf09255aa Ben Skeggs 2020-06-20  132  	struct nv50_dmac *dmac = container_of(push, typeof(*dmac), _push);
-0a96099691c8cd Ben Skeggs 2020-07-21  133  
-9cf06d6ef7fd08 ruanjinjie 2022-09-24 @134  	dmac->cur = push->cur - (u32 __iomem *)dmac->_push.mem.object.map.ptr;
-0a96099691c8cd Ben Skeggs 2020-07-21  135  	if (dmac->put != dmac->cur) {
-0a96099691c8cd Ben Skeggs 2020-07-21  136  		/* Push buffer fetches are not coherent with BAR1, we need to ensure
-0a96099691c8cd Ben Skeggs 2020-07-21  137  		 * writes have been flushed right through to VRAM before writing PUT.
-0a96099691c8cd Ben Skeggs 2020-07-21  138  		 */
-0a96099691c8cd Ben Skeggs 2020-07-21  139  		if (dmac->push->mem.type & NVIF_MEM_VRAM) {
-0a96099691c8cd Ben Skeggs 2020-07-21  140  			struct nvif_device *device = dmac->base.device;
-0a96099691c8cd Ben Skeggs 2020-07-21  141  			nvif_wr32(&device->object, 0x070000, 0x00000001);
-0a96099691c8cd Ben Skeggs 2020-07-21  142  			nvif_msec(device, 2000,
-0a96099691c8cd Ben Skeggs 2020-07-21  143  				if (!(nvif_rd32(&device->object, 0x070000) & 0x00000002))
-0a96099691c8cd Ben Skeggs 2020-07-21  144  					break;
-0a96099691c8cd Ben Skeggs 2020-07-21  145  			);
-0a96099691c8cd Ben Skeggs 2020-07-21  146  		}
-0a96099691c8cd Ben Skeggs 2020-07-21  147  
-0a96099691c8cd Ben Skeggs 2020-07-21  148  		NVIF_WV32(&dmac->base.user, NV507C, PUT, PTR, dmac->cur);
-0a96099691c8cd Ben Skeggs 2020-07-21  149  		dmac->put = dmac->cur;
-0a96099691c8cd Ben Skeggs 2020-07-21  150  	}
-0a96099691c8cd Ben Skeggs 2020-07-21  151  
-0a96099691c8cd Ben Skeggs 2020-07-21  152  	push->bgn = push->cur;
-0a96099691c8cd Ben Skeggs 2020-07-21  153  }
-0a96099691c8cd Ben Skeggs 2020-07-21  154  
+642bb5e88fed89 Mickael Guene  2019-04-09  369  
+642bb5e88fed89 Mickael Guene  2019-04-09  370  /*
+642bb5e88fed89 Mickael Guene  2019-04-09  371   * We need to know link frequency to setup clk_lane_reg1 timings. Link frequency
+046ee0e2a4d602 Alain Volmat   2023-11-25  372   * will be retrieve from connected device via v4l2_get_link_freq, bit per pixel
+642bb5e88fed89 Mickael Guene  2019-04-09  373   * and number of lanes.
+642bb5e88fed89 Mickael Guene  2019-04-09  374   */
+642bb5e88fed89 Mickael Guene  2019-04-09  375  static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge)
+642bb5e88fed89 Mickael Guene  2019-04-09  376  {
+642bb5e88fed89 Mickael Guene  2019-04-09  377  	struct i2c_client *client = bridge->i2c_client;
+642bb5e88fed89 Mickael Guene  2019-04-09  378  	struct v4l2_subdev *subdev = bridge->s_subdev;
+046ee0e2a4d602 Alain Volmat   2023-11-25  379  	struct v4l2_fwnode_endpoint *ep = &bridge->rx;
+046ee0e2a4d602 Alain Volmat   2023-11-25  380  	u32 bpp = bpp_from_code(bridge->fmt.code);
+046ee0e2a4d602 Alain Volmat   2023-11-25  381  	/*
+046ee0e2a4d602 Alain Volmat   2023-11-25  382  	 * clk_lane_reg1 requires 4 times the unit interval time, and bitrate
+046ee0e2a4d602 Alain Volmat   2023-11-25  383  	 * is twice the link frequency, hence ui_4 = 1000000000 * 4 / 2
+046ee0e2a4d602 Alain Volmat   2023-11-25  384  	 */
+046ee0e2a4d602 Alain Volmat   2023-11-25  385  	u64 ui_4 = 2000000000;
+046ee0e2a4d602 Alain Volmat   2023-11-25  386  	s64 link_freq;
+642bb5e88fed89 Mickael Guene  2019-04-09  387  
+046ee0e2a4d602 Alain Volmat   2023-11-25  388  	link_freq = v4l2_get_link_freq(subdev->ctrl_handler, bpp,
+046ee0e2a4d602 Alain Volmat   2023-11-25  389  				       2 * ep->bus.mipi_csi2.num_data_lanes);
+046ee0e2a4d602 Alain Volmat   2023-11-25  390  	if (link_freq < 0) {
+6a381d1072f174 Hugues Fruchet 2019-06-17  391  		dev_err(&client->dev, "Failed to get link frequency");
+642bb5e88fed89 Mickael Guene  2019-04-09  392  		return -EINVAL;
+642bb5e88fed89 Mickael Guene  2019-04-09  393  	}
+642bb5e88fed89 Mickael Guene  2019-04-09  394  
+046ee0e2a4d602 Alain Volmat   2023-11-25  395  	dev_dbg(&client->dev, "detect link_freq = %lld Hz", link_freq);
+046ee0e2a4d602 Alain Volmat   2023-11-25 @396  	do_div(ui_4, link_freq);
+046ee0e2a4d602 Alain Volmat   2023-11-25  397  	bridge->r.clk_lane_reg1 |= ui_4 << 2;
+642bb5e88fed89 Mickael Guene  2019-04-09  398  
+642bb5e88fed89 Mickael Guene  2019-04-09  399  	return 0;
+642bb5e88fed89 Mickael Guene  2019-04-09  400  }
+642bb5e88fed89 Mickael Guene  2019-04-09  401  
 
 -- 
 0-DAY CI Kernel Test Service
