@@ -1,190 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC9B45945
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 Jan 2024 13:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876A451C4E;
+	Mon,  8 Jan 2024 15:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iu0rq1sy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704720970; x=1736256970;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uVJrKhEZPwoXHvVPNSw0Ang2pZ4qhRjW4c1raIQN8hI=;
-  b=iu0rq1syrhQyMyn9e75iqRVelwqQixR85kR0UKyMKZsCInNCLgaPhPig
-   sGQNNPilo9DBI0VZJEjKdcfuL1n1yWaOPxDoSZN78W2AMZRwbArSKR13c
-   Ml2zwHBWGTXs2fss9cg1Pm2rsE+xQ5nnHcOYcX/SQDC0MFK5Plpphi/GM
-   8SRwEotPR+WB3fBTyRoX7PcEOnyteAf6aBzwNqfU+qtLSolwr+Rb13+jv
-   lvYeRaFbrbADD1i+vJ25QLR6S0gh8qettgEFmnkPzy3/VJs7A58cqEvya
-   B+UgkmfgKKeBc6/HP4dVNMHB/FHY9QdoGTLqjAfdroTGJqrII3tTWU5nr
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="4636766"
-X-IronPort-AV: E=Sophos;i="6.04,341,1695711600"; 
-   d="scan'208";a="4636766"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 05:36:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="900375038"
-X-IronPort-AV: E=Sophos;i="6.04,341,1695711600"; 
-   d="scan'208";a="900375038"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 08 Jan 2024 05:36:08 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rMpnN-0004jg-0C;
-	Mon, 08 Jan 2024 13:36:05 +0000
-Date: Mon, 8 Jan 2024 21:35:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] f2fs: fix max open zone constraints
-Message-ID: <202401082140.ax5H7boF-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="oSi+Rbc9";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="O5ByvHLf"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 408FsiYY010396;
+	Mon, 8 Jan 2024 15:58:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-11-20;
+ bh=mf1nTh5p3V7B/fMR2gabwJDqwgihcEUMAdkjlHbiTOE=;
+ b=oSi+Rbc9N/gMXLTrbf+otqHPebKeU6DMLRm/6nDrGyjYn3cCuj6ujhs/ioa7u2fdda1j
+ hj0qX0ncK8YHhNC6jMuibpvLxlJVjyzeItXhJ267mPoV8iEM+Tqj3CAF6OM1Z+TDv3PM
+ yGT0pidgYLmo4Si17NxUC2zLwntJOngxZN1m9s8+x4+NwWQD6MwiFZ1LQE74roOEQgL8
+ U1PT9WOHEdsBWi4lO209lGTgm70nYmIIPiAEDzO0lG+BJaUdEiRDACN8U+t/SwnECoWd
+ Hq145EVQuQt8Bo173EBXvEF6SSSQHfM/CjqkPNoskDDlwgnlh9i7QucsUvILOcNObLVm SQ== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vgm3qr0ht-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 08 Jan 2024 15:58:20 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 408EjiUT035261;
+	Mon, 8 Jan 2024 15:58:18 GMT
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2168.outbound.protection.outlook.com [104.47.73.168])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3vfuu338fn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 08 Jan 2024 15:58:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WJuHawTyZ2fWHT6Ps4pTvoLhXw77zZo2asY3cMBZGpzi1LVJqh9aposxC2s7V536+2SbFxUvtJTMHPVrKFQEQKoUDjn7HOkeUep3XxYuZw46I0N8KVfMz772k2pp7mGtEq8qbJH51C4Gg60ZoplWKzQ16hqgeD97PB/aArxQxM3eLAA46iOhCfylzoTlZO6eSrPRecJpQusqCxN7no8Dlo9ew2dGXPvfIvhJN/pv0oSC8iQ1JmwymxZEeeVjUuakq6yIf0aFLD9+75I1iGuBIwWy0KICoYnfTvSFofJ6XmfjpZmMIRYqHi8TsFfCGAbMCh3bB7jIdPTNlYYrTDZvnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mf1nTh5p3V7B/fMR2gabwJDqwgihcEUMAdkjlHbiTOE=;
+ b=LA9o9TzHHdw2mnWcDCrLJtBOZ2lNFKqbzLyY7ZNS4uiTq+43gaQTNUwXD92cwrcKmG3zaDhiwx0T+aagPwO3gLZACG7zyJ0z5dGSdUJL0uoVvvTgpgmCps9P7+akczyS+EHNXdBvRuqcvlT7vJKKt2JSVg+u2gx8bM9tESv0BNXeUi2k+EIsJnthRzIDf3RIJrc94BFGKukQFI1fyIbgGdHv1TJ8qzpPjLaDhBQjvH5p669wT3kWCoY0ZR8R06HuhOwHHxXHaBNkgG0YcnLT9Youh0HAImpBtX3zuRrYdzWQJJdn4AHz5enpakWvw18ySkiVab5TQEFWYhBjPJanCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mf1nTh5p3V7B/fMR2gabwJDqwgihcEUMAdkjlHbiTOE=;
+ b=O5ByvHLfCYyWEZ+7UYFKVH2g9egxxFOGu83CgV9gI63Yp3cBS9X5lovskiKnZOlEcYliAMDBu397lV3juSJs9f75CBu/kuJWEnBMBoEYLrLJilayNHRoR1AcuqPSiXplfNKCYGFxdki+xTv3u5sNRpL0mitj3Jq+jScyjc315GQ=
+Received: from PH8PR10MB6290.namprd10.prod.outlook.com (2603:10b6:510:1c1::7)
+ by BY5PR10MB4132.namprd10.prod.outlook.com (2603:10b6:a03:20b::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.21; Mon, 8 Jan
+ 2024 15:58:06 +0000
+Received: from PH8PR10MB6290.namprd10.prod.outlook.com
+ ([fe80::f41b:4111:b10e:4fa5]) by PH8PR10MB6290.namprd10.prod.outlook.com
+ ([fe80::f41b:4111:b10e:4fa5%4]) with mapi id 15.20.7159.020; Mon, 8 Jan 2024
+ 15:58:06 +0000
+Message-ID: <011c98d2-3845-43b9-99cf-bb03e7ce9b14@oracle.com>
+Date: Mon, 8 Jan 2024 21:27:57 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 9386/12908] mm/huge_memory.c:546
+ thpsize_create() warn: Calling kobject_put|get with state->initialized unset
+ from line: 533
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+References: <efeda6be-8d1d-45a4-b6cb-950cb087124d@moroto.mountain>
+From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+In-Reply-To: <efeda6be-8d1d-45a4-b6cb-950cb087124d@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR20CA0044.namprd20.prod.outlook.com
+ (2603:10b6:208:235::13) To PH8PR10MB6290.namprd10.prod.outlook.com
+ (2603:10b6:510:1c1::7)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR10MB6290:EE_|BY5PR10MB4132:EE_
+X-MS-Office365-Filtering-Correlation-Id: a70f27c7-e2ca-4dd3-928c-08dc10629a5f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	77jyU3SiUb3dZbgUSz4Fx4sz56Vy+bWtNZ6JKc/R6G/Z3/253JyVmynSQB7Q9VWrlCnGRUj7mGTJ3bzN0IdeP31igNezA9ZLCVxCg3PUZ2ac6HRD4YqsQUdaXLlygCX3/F9rbRhiIoTbRUCY9C5p3HYvOzA/ccrXL/RY1BztEeU28joUvTYfQPp2pgpGPS0mCPF+8qFcmPk9gQQ6Sa8xQJQeyvkF/jlhWDPZ5WXmsXddBBoipm7Ws6de4yBtgMeI7Ew1BxjKuG0I+tsW6dDXsuopGP5+VEl1dMzX4fUqmAqjQlw0a6x8XBLCojY+CNrHu7dVa93wpgsYeYyzJiPVbYErZJz8Ng5lR3tNVQwqJXLt0fYGUzLdK+DEYZZtLub6S78K/WL0fqjUnW8pVw66MdcxbfzR3rniTxUZoAWm/cmebDNCvS1/tNZLErIXPNRKT6LTis9u+Bn9SIW4mFbx7QlugyMDCgKlFxSmE/b7YZvBbp7MnMoQw0wa+FIMVOAyVBHzIrKxdAxUrbs3UXesd2/amXuuEiO5suvDPbjjKMXRjLAGSgEOGSYqaI0+Wk8gyycTj3FXTn8oboa65pmJzIz5Kftr7I3a2N7e3B1FVUVqAztbTnTXi2QLr5KmexiVptxkXAAUWnE8c/kp41b4L6U6PLtT9ifAgG5XfpgRm/xYjSL7VDZM1xdUyg55IdaVkhheCLdh2plLQHuJrjpDcQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR10MB6290.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(346002)(39860400002)(136003)(376002)(230922051799003)(230173577357003)(230273577357003)(64100799003)(451199024)(186009)(1800799012)(2906002)(38100700002)(5660300002)(86362001)(41300700001)(31696002)(558084003)(31686004)(316002)(36756003)(8676002)(8936002)(6512007)(2616005)(6486002)(66946007)(66556008)(26005)(66476007)(478600001)(83380400001)(6506007)(6666004)(53546011)(4326008)(14583001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?Q0wxemtocWdJTUtxRGxUTlNmTnVDZUo1ZXZwa1Y1SFg0V0lBNVgvall6VTUz?=
+ =?utf-8?B?UCtpc1JxTHFabE9SOHI4eXhJNXJWbk5BZkZQOEJZN3cxUFNHY1Fwam5uMTdY?=
+ =?utf-8?B?SkErYmxrbEsydFRjVFRZVE1qZitWSGVoM2V3QjFzOThCeFpVUWpyRjk1LzFx?=
+ =?utf-8?B?VUNSK0FrK0R1Rm11ZDM2UWNDbFY5bzdSWTJMMmxmOENBVlZKekxFZmxuM1Zs?=
+ =?utf-8?B?QlFZRnF5SDJzVXU1T0MxV0pEcnR1bnE2bzdNNEVCdVhBRGZYRmt2ZHpDVU9D?=
+ =?utf-8?B?cWZ2NGF0YzlVbzdJVjd0VXBHazNRUEE1b2NpdGNYTkRnZTE2MGxwQXJnQ2t5?=
+ =?utf-8?B?T0ZDSENjenZwdEJQZU0vZzNaTHR0NHEwMmZnNk43alRRV2hNNDJoWXo2M1VT?=
+ =?utf-8?B?a2d1UzJNZFlkMmtYRmlVQTBoS1JtdUF5ZUU2eGpMT1NRY1EvUjRjcHMrRWNr?=
+ =?utf-8?B?SGRRT09VdndMbjVnQkVvektxQjF3dVFsdWVoQVFQanBvTXhGNkprd09abXFS?=
+ =?utf-8?B?TEE1OCtiVkN4Tmkwc2l5OE9EYTJPR2tWemVYNzZ5WEMvOXUwT1ROSGdDNWM3?=
+ =?utf-8?B?bmliaFFZN3hiLzltSGNSVlp3RXNkR0Rxem5FckE3R1RzSUp6WDdoS1laa1JU?=
+ =?utf-8?B?NzRnL2JjdzZLSnlEUEhyLy8zVzBjazAwc29KOEEyY0hpbm9QK0wzaENxQ096?=
+ =?utf-8?B?WDhwYUFzbDlpbWs5b21HZnpkWkR6R1BWckNEM1RrVnB6RWFTZzlrY2JxWlZs?=
+ =?utf-8?B?T295S0U1S0hFQm5DaVh5RCtNQUk1eWNQQ1BxOXNFRzE5dENlbE5WbERGN3lS?=
+ =?utf-8?B?UXNiOGVQaWp5MjlPd1NpbW1iUk9CYnRhemNmOFN4Wk9NT1NUWXNKZTFZaHA3?=
+ =?utf-8?B?U29SZ2RoT0tVQ0REZW9EbW43R25nYkJadTJLWS9pVXVPdHY1Vi9QeWljOGFH?=
+ =?utf-8?B?UnJ5SzZiei9CNXJpVXFFQUptN3BoeEN5T3BQdjJLRlkxaE10bTlnK20xekZF?=
+ =?utf-8?B?T2gzWXl1b1lKOWxnQjlDTjVhUVF2QVY0MVR6d1ltSGJucFl6TkVOOGJ0ZzFX?=
+ =?utf-8?B?dUNYRkhoUlhmclBlWXlnNE1CdVZ5QWRkZHEwNzBpTThOZUdFSG15am13ZCtv?=
+ =?utf-8?B?WkNxR0VZSWdvT2VHMWw2aU83VVlNL3gwaGVpbm0zQjJUSkZrZWpqZGhJSTZX?=
+ =?utf-8?B?NnA5c0lGdjNXV3VGWG0zaTQ5d2wzTXFkNnhjNGtQdGk3VE5iWkRUcGI1ajQ5?=
+ =?utf-8?B?N09lbS81QmdTZ2hoY3JRZGFkbytTYUozd0FPVDdSanh0bDgwcUFQaS9MZVFz?=
+ =?utf-8?B?YmRxUnRMOUxPcWlLNnBNcFJFVmtoa3QyKzd0KzBWcS9rZzVqVVRTRDhQK2x0?=
+ =?utf-8?B?aTZTWThhandkNmNLVnp6amRNZFZkS0N0NFh1cG1Cem4ySm94RjRzdGJCN25F?=
+ =?utf-8?B?SzNBTTFGTzVoL2l2bGVUZUtFeXkxdktZSzIraFpWU0JGc2lBcFA5Y3NidmJH?=
+ =?utf-8?B?cUw0OFBYM3lxYmdHK05rcHRlRVFSOC81SzhraG8yZkd6TXFxd01BWnBnekNH?=
+ =?utf-8?B?NHdHZGh5Y25qZzNYSzNnQWU4TTVRTEpObEJjK0pDb2svN1ZTek4rTk0waGRS?=
+ =?utf-8?B?V3lNNjRwckJxbmpxT01yeFU5ekoyMThSd2dyMklMZStKK29oZWlDbVgyNUUw?=
+ =?utf-8?B?SWdubHYvMHBQOVFWME1penV6TXJ3ejVDS2IzY2N3NXQzelZydGJqNURSYVBo?=
+ =?utf-8?B?d2JGWFdmNTEvRjZlczZ1V2ViR0NyYTNOZ09sZ25KWTFiT1RsTGFodytDQWdp?=
+ =?utf-8?B?MG01aXhGTmUrNk9GOGV5bmkyeTJQZndVTm96a2RQZG1wbUFvTy9jNWkrVU13?=
+ =?utf-8?B?YXlSRjJaU2pRdzJDQ09vUjRzRjg3dnBJanA2SFlnMEtiUFlsYUhkYWpFKzY5?=
+ =?utf-8?B?Umt6dWQybkY4WHNReHNNMlFjNUdGQjFQWUs0Y2tGMmgrMVcvbUdsaGlSZHhC?=
+ =?utf-8?B?K1RsNlRmeHhtcjlsZU05Tk1OU3phT2hwWk5FYzRRbWVUNGU2VnZhWjZIVFh4?=
+ =?utf-8?B?dzExNWNPajlDSWg2cG1jR2UzRTFyc1FnbE9FQUx0N2YvR1c2NE5kUzNnNXc3?=
+ =?utf-8?B?L1kvbStYUzVKaHBPdk82aVk1NjNRWmhhZDlSMExJdlJYcFBIbzIzNHJoZ2Y0?=
+ =?utf-8?Q?5jTAMUZHO/1TA2mfYnnK6tM=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	F+yStSaLofQX4HPxnX4Nzrlj0eCCw58ykX6XL+B35lzGdvl8h2f4dKRDZnLC3e2MoRU+mh4y+838G+WkfXXu30NsgTfh78P/L4Mms0HmVyqTNMXLUh9bKRGOdP+j66SYzdvVoKpXL34764eVT/gsknzNYKRvj4ZroTjbML1gKCHUMUVkemzi97GaX6j9p0wwv5FgpJU3wVb/5I/gGho4WzSNKkxsfdgql2hhf+lpdceq2XeJhBHPJ/N4LZv0kwPTmyTKZL8Lodeb1JN6gsri2hQftm346vfw7Mo/FeK7BiAAzv8YINUETY6HqHDm/Is8jfMbBxuae3Nv1VRnIGdNqo8DY/7e7gj2+gjpu7tAd2g0IGvUMRcrMoXSLpeCpB2A5iNIbVakn/KY5GJ74fhBGssOAxE7eNYgST1J0UMcdXwdHeLNawZTLls5RMQCQ23lsV1Hq0tUBlwQeDf8BQlIl/n7qoss0nF+1Nm1SBd0CYGcqPjeWvm1GCpkI4cBY/XdA8nfNxu5bbLpdBFy1FskK9ruVlyR+rwZ5ftwmy43sl2VfZ6+TqJih6HSKTxxDmRPfG9qzDSKwpkB75KjcFUTNxKDWbuSm36CnTSSKIf1mIk=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a70f27c7-e2ca-4dd3-928c-08dc10629a5f
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR10MB6290.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2024 15:58:06.3816
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JAg23mI7I4pDo8umuLK/oZsHOgHZA7hbP+Aq7vISOztsmHsjX2XsUDNuVzXA5asTN6UAkboN1jliwB5rxuPFoadlMSPna9vdK/pJj4tx/bkeFYEV/lbZR+ngtFih2HN/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4132
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-08_06,2024-01-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 bulkscore=0
+ mlxscore=0 mlxlogscore=999 adultscore=0 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2401080137
+X-Proofpoint-GUID: Y-yg6ZCgqM0u3NTfRHIJ9WdeoYnZflM-
+X-Proofpoint-ORIG-GUID: Y-yg6ZCgqM0u3NTfRHIJ9WdeoYnZflM-
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240106123935.586-1-qwjhust@gmail.com>
-References: <20240106123935.586-1-qwjhust@gmail.com>
-TO: Wenjie <qwjhust@gmail.com>
-TO: jaegeuk@kernel.org
-TO: chao@kernel.org
-TO: linux-f2fs-devel@lists.sourceforge.net
-TO: linux-kernel@vger.kernel.org
-CC: hustqwj@hust.edu.cn
-CC: Wenjie Qi <qwjhust@gmail.com>
+Hi Dan,
 
-Hi Wenjie,
+On 08/01/24 6:02 pm, Dan Carpenter wrote:
+> Hey Harshit,
+> 
+> We get this warning when the DB isn't enabled.  I just pushed a fix for
+> it.
 
-kernel test robot noticed the following build warnings:
+Thanks for fixing it.
 
-[auto build test WARNING on jaegeuk-f2fs/dev-test]
-[also build test WARNING on jaegeuk-f2fs/dev linus/master v6.7 next-20240108]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wenjie/f2fs-fix-max-open-zone-constraints/20240106-204230
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
-patch link:    https://lore.kernel.org/r/20240106123935.586-1-qwjhust%40gmail.com
-patch subject: [PATCH] f2fs: fix max open zone constraints
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20240108 (https://download.01.org/0day-ci/archive/20240108/202401082140.ax5H7boF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202401082140.ax5H7boF-lkp@intel.com/
-
-New smatch warnings:
-fs/f2fs/data.c:1109 f2fs_submit_page_write() error: we previously assumed 'io->bio' could be null (see line 1073)
-
-Old smatch warnings:
-fs/f2fs/data.c:2294 f2fs_read_multi_pages() warn: missing error code 'ret'
-
-vim +1109 fs/f2fs/data.c
-
-e067dc3c6b9c41 Daeho Jeong       2023-05-03  1038  
-fb830fc5cfc90b Chao Yu           2017-05-19  1039  next:
-fb830fc5cfc90b Chao Yu           2017-05-19  1040  	if (fio->in_list) {
-fb830fc5cfc90b Chao Yu           2017-05-19  1041  		spin_lock(&io->io_lock);
-fb830fc5cfc90b Chao Yu           2017-05-19  1042  		if (list_empty(&io->io_list)) {
-fb830fc5cfc90b Chao Yu           2017-05-19  1043  			spin_unlock(&io->io_lock);
-fe16efe6a7952f Chao Yu           2018-05-28  1044  			goto out;
-fb830fc5cfc90b Chao Yu           2017-05-19  1045  		}
-fb830fc5cfc90b Chao Yu           2017-05-19  1046  		fio = list_first_entry(&io->io_list,
-fb830fc5cfc90b Chao Yu           2017-05-19  1047  						struct f2fs_io_info, list);
-fb830fc5cfc90b Chao Yu           2017-05-19  1048  		list_del(&fio->list);
-fb830fc5cfc90b Chao Yu           2017-05-19  1049  		spin_unlock(&io->io_lock);
-fb830fc5cfc90b Chao Yu           2017-05-19  1050  	}
-93dfe2ac516250 Jaegeuk Kim       2013-11-30  1051  
-93770ab7a6e963 Chao Yu           2019-04-15  1052  	verify_fio_blkaddr(fio);
-93dfe2ac516250 Jaegeuk Kim       2013-11-30  1053  
-4c8ff7095bef64 Chao Yu           2019-11-01  1054  	if (fio->encrypted_page)
-4c8ff7095bef64 Chao Yu           2019-11-01  1055  		bio_page = fio->encrypted_page;
-4c8ff7095bef64 Chao Yu           2019-11-01  1056  	else if (fio->compressed_page)
-4c8ff7095bef64 Chao Yu           2019-11-01  1057  		bio_page = fio->compressed_page;
-4c8ff7095bef64 Chao Yu           2019-11-01  1058  	else
-4c8ff7095bef64 Chao Yu           2019-11-01  1059  		bio_page = fio->page;
-36951b38d13ac7 Chao Yu           2016-11-16  1060  
-ebf7c522fdc2ec Thomas Meyer      2017-10-07  1061  	/* set submitted = true as a return value */
-2eae077e6e46f9 Chao Yu           2023-02-02  1062  	fio->submitted = 1;
-d68f735b3bc934 Jaegeuk Kim       2017-02-03  1063  
-36951b38d13ac7 Chao Yu           2016-11-16  1064  	inc_page_count(sbi, WB_DATA_TYPE(bio_page));
-36951b38d13ac7 Chao Yu           2016-11-16  1065  
-27aacd28ea3b89 Satya Tangirala   2020-07-02  1066  	if (io->bio &&
-27aacd28ea3b89 Satya Tangirala   2020-07-02  1067  	    (!io_is_mergeable(sbi, io->bio, io, fio, io->last_block_in_bio,
-27aacd28ea3b89 Satya Tangirala   2020-07-02  1068  			      fio->new_blkaddr) ||
-27aacd28ea3b89 Satya Tangirala   2020-07-02  1069  	     !f2fs_crypt_mergeable_bio(io->bio, fio->page->mapping->host,
-27aacd28ea3b89 Satya Tangirala   2020-07-02  1070  				       bio_page->index, fio)))
-458e6197c37de5 Jaegeuk Kim       2013-12-11  1071  		__submit_merged_bio(io);
-93dfe2ac516250 Jaegeuk Kim       2013-11-30  1072  alloc_new:
-93dfe2ac516250 Jaegeuk Kim       2013-11-30 @1073  	if (io->bio == NULL) {
-8223ecc456d079 Chao Yu           2019-08-28  1074  		if (F2FS_IO_ALIGNED(sbi) &&
-8223ecc456d079 Chao Yu           2019-08-28  1075  				(fio->type == DATA || fio->type == NODE) &&
-0a595ebaaa6b53 Jaegeuk Kim       2016-12-14  1076  				fio->new_blkaddr & F2FS_IO_SIZE_MASK(sbi)) {
-0a595ebaaa6b53 Jaegeuk Kim       2016-12-14  1077  			dec_page_count(sbi, WB_DATA_TYPE(bio_page));
-2eae077e6e46f9 Chao Yu           2023-02-02  1078  			fio->retry = 1;
-fe16efe6a7952f Chao Yu           2018-05-28  1079  			goto skip;
-0a595ebaaa6b53 Jaegeuk Kim       2016-12-14  1080  		}
-a8affc03a9b375 Christoph Hellwig 2021-03-11  1081  		io->bio = __bio_alloc(fio, BIO_MAX_VECS);
-27aacd28ea3b89 Satya Tangirala   2020-07-02  1082  		f2fs_set_bio_crypt_ctx(io->bio, fio->page->mapping->host,
-27aacd28ea3b89 Satya Tangirala   2020-07-02  1083  				       bio_page->index, fio, GFP_NOIO);
-458e6197c37de5 Jaegeuk Kim       2013-12-11  1084  		io->fio = *fio;
-93dfe2ac516250 Jaegeuk Kim       2013-11-30  1085  	}
-93dfe2ac516250 Jaegeuk Kim       2013-11-30  1086  
-a912b54d3aaa01 Jaegeuk Kim       2017-05-10  1087  	if (bio_add_page(io->bio, bio_page, PAGE_SIZE, 0) < PAGE_SIZE) {
-458e6197c37de5 Jaegeuk Kim       2013-12-11  1088  		__submit_merged_bio(io);
-93dfe2ac516250 Jaegeuk Kim       2013-11-30  1089  		goto alloc_new;
-93dfe2ac516250 Jaegeuk Kim       2013-11-30  1090  	}
-93dfe2ac516250 Jaegeuk Kim       2013-11-30  1091  
-578c647879f74c Yufen Yu          2018-01-09  1092  	if (fio->io_wbc)
-844545c51a5b2a Eric Biggers      2023-02-02  1093  		wbc_account_cgroup_owner(fio->io_wbc, fio->page, PAGE_SIZE);
-578c647879f74c Yufen Yu          2018-01-09  1094  
-7a9d75481b85d5 Chao Yu           2016-02-22  1095  	io->last_block_in_bio = fio->new_blkaddr;
-fb830fc5cfc90b Chao Yu           2017-05-19  1096  
-fb830fc5cfc90b Chao Yu           2017-05-19  1097  	trace_f2fs_submit_page_write(fio->page, fio);
-fe16efe6a7952f Chao Yu           2018-05-28  1098  skip:
-fb830fc5cfc90b Chao Yu           2017-05-19  1099  	if (fio->in_list)
-fb830fc5cfc90b Chao Yu           2017-05-19  1100  		goto next;
-fe16efe6a7952f Chao Yu           2018-05-28  1101  out:
-e067dc3c6b9c41 Daeho Jeong       2023-05-03  1102  #ifdef CONFIG_BLK_DEV_ZONED
-e067dc3c6b9c41 Daeho Jeong       2023-05-03  1103  	if (f2fs_sb_has_blkzoned(sbi) && btype < META &&
-e067dc3c6b9c41 Daeho Jeong       2023-05-03  1104  			is_end_zone_blkaddr(sbi, fio->new_blkaddr)) {
-4e0fe634a865bd Wenjie Qi         2024-01-06  1105  		spin_lock_bh(&sbi->available_active_zones_lock);
-4e0fe634a865bd Wenjie Qi         2024-01-06  1106  		if (sbi->available_active_zones > 0) {
-4e0fe634a865bd Wenjie Qi         2024-01-06  1107  			sbi->available_active_zones--;
-4e0fe634a865bd Wenjie Qi         2024-01-06  1108  			spin_unlock_bh(&sbi->available_active_zones_lock);
-4e0fe634a865bd Wenjie Qi         2024-01-06 @1109  			io->bio->bi_end_io = f2fs_zone_write_end_io_nowait;
-4e0fe634a865bd Wenjie Qi         2024-01-06  1110  		} else {
-4e0fe634a865bd Wenjie Qi         2024-01-06  1111  			spin_unlock_bh(&sbi->available_active_zones_lock);
-e067dc3c6b9c41 Daeho Jeong       2023-05-03  1112  			bio_get(io->bio);
-e067dc3c6b9c41 Daeho Jeong       2023-05-03  1113  			reinit_completion(&io->zone_wait);
-e067dc3c6b9c41 Daeho Jeong       2023-05-03  1114  			io->bi_private = io->bio->bi_private;
-e067dc3c6b9c41 Daeho Jeong       2023-05-03  1115  			io->bio->bi_private = io;
-e067dc3c6b9c41 Daeho Jeong       2023-05-03  1116  			io->bio->bi_end_io = f2fs_zone_write_end_io;
-e067dc3c6b9c41 Daeho Jeong       2023-05-03  1117  			io->zone_pending_bio = io->bio;
-4e0fe634a865bd Wenjie Qi         2024-01-06  1118  		}
-e067dc3c6b9c41 Daeho Jeong       2023-05-03  1119  		__submit_merged_bio(io);
-e067dc3c6b9c41 Daeho Jeong       2023-05-03  1120  	}
-e067dc3c6b9c41 Daeho Jeong       2023-05-03  1121  #endif
-4354994f097d06 Daniel Rosenberg  2018-08-20  1122  	if (is_sbi_flag_set(sbi, SBI_IS_SHUTDOWN) ||
-00e09c0bccc718 Chao Yu           2019-08-23  1123  				!f2fs_is_checkpoint_ready(sbi))
-5ce805869cbed9 Jaegeuk Kim       2018-09-06  1124  		__submit_merged_bio(io);
-e4544b63a7ee49 Tim Murray        2022-01-07  1125  	f2fs_up_write(&io->io_rwsem);
-93dfe2ac516250 Jaegeuk Kim       2013-11-30  1126  }
-93dfe2ac516250 Jaegeuk Kim       2013-11-30  1127  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Harshit
+> 
+> regards,
+> dan carpenter
+> 
