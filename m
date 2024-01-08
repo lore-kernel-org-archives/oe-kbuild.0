@@ -1,46 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EF853E29
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 Jan 2024 16:57:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9A846BBD
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 Jan 2024 20:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fh6Cq+pl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WpuiaZ1Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704733055; x=1736269055;
+  t=1704746670; x=1736282670;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TmiP6Gb9GEJyRaRdfnosfu7pzdZEjZW926zHiLkP7DI=;
-  b=fh6Cq+plzpdEX04E0Xo1YHa3SOB8AndYl64tZslFEDg/4mBLFXdxJRA/
-   q4sLFta2i88Z0LD80Xcu96ymsmgZZuq2yk0CMBxv2SGz4c9HwXzXaiM7C
-   0PpySX6YBqyVRGmGfkCVANGpMkEWLQzj1xiuYlE5Ccncvh3lnW0IBSwvO
-   qrBLciL9GKOORWxTrEKNKAffwZJzVkd5BoAGgkDFKfW9fxxgHzRIDdcgO
-   1XChWIHmxxYu8ib/OC5g2Erok5dunMJnMvukO1FU/mhFlLeppQZoKLMPb
-   JEQa461T0MguZZev4fS550O6QGLxApV2uX65vcvFARocCtXlEfeAi/C2z
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="5305671"
+  bh=sq2B2Lx0TuTgwqfy9T6OfFHFZje13RFDDm3hzE6jXNY=;
+  b=WpuiaZ1YV3wVL4lBBhH2EZECvG4aOk/5PWhYfus7SVMD+nQwHLFJSZcS
+   eRpAjhwt5AYJwkM0fvFe4lnqyX3/yLum8NnSib0jBKXK2tGO7W0T04asS
+   aRXe+++CZJwX8Y0CmK6ihbCkUZULj1By6oszQHqdIudsN+0RYJRZPctoQ
+   afoFZ1E3Vsj16d+ouJnQKXmJ4e3Etdf+a4/HaA0r3E2U/rEWyST4kpetO
+   N/+H8LgTz5V4DBCugQT8cUzGHwP4/CPbFqpgZrTUKblLOW5hIamAuN8EO
+   bHs4fJu4zyzXgsPg/m/nMfnybOB5UyBiqMRQVZskjnzuH56NDTK+YUatx
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="11488438"
 X-IronPort-AV: E=Sophos;i="6.04,180,1695711600"; 
-   d="scan'208";a="5305671"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 08:57:17 -0800
+   d="scan'208";a="11488438"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 12:44:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="851869022"
 X-IronPort-AV: E=Sophos;i="6.04,180,1695711600"; 
-   d="scan'208";a="851869022"
+   d="scan'208";a="23644380"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 08 Jan 2024 08:57:15 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 08 Jan 2024 12:44:24 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMsw5-0004vB-15;
-	Mon, 08 Jan 2024 16:57:13 +0000
-Date: Tue, 9 Jan 2024 00:56:51 +0800
+	id 1rMwTu-00055C-08;
+	Mon, 08 Jan 2024 20:44:22 +0000
+Date: Tue, 9 Jan 2024 04:43:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn:
- Calling kobject_put|get with state->initialized unset from line: 693
-Message-ID: <202401090033.hnpqRNzG-lkp@intel.com>
+Subject: arch/x86/boot/compressed/pgtable_64.c:145 configure_5level_paging()
+ error: __builtin_memcpy() '&trampoline_32bit_src' too small (8 vs 160)
+Message-ID: <202401090458.cAaFiDIH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,316 +52,127 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Dave Airlie <airlied@gmail.com>
+TO: Ard Biesheuvel <ardb@kernel.org>
+CC: "Borislav Petkov (AMD)" <bp@alien8.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   0dd3ee31125508cd67f7e7172247f05b7fd1753a
-commit: eacabb5462717a52fccbbbba458365a4f5e61f35 nouveau: push event block/allowing out of the fence context
-date:   4 days ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 4 days ago
-config: x86_64-randconfig-161-20240108 (https://download.01.org/0day-ci/archive/20240109/202401090033.hnpqRNzG-lkp@intel.com/config)
+commit: 64ef578b6b6866bec012544416946533444036c8 x86/decompressor: Call trampoline directly from C code
+date:   5 months ago
+:::::: branch date: 24 hours ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-161-20240106 (https://download.01.org/0day-ci/archive/20240109/202401090458.cAaFiDIH-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202401090033.hnpqRNzG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401090458.cAaFiDIH-lkp@intel.com/
 
 smatch warnings:
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/acpi/cppc_acpi.c:879 acpi_cppc_processor_probe() warn: Calling kobject_put|get with state->initialized unset from line: 693
-drivers/gpu/drm/nouveau/nouveau_fence.c:549 nouveau_fence_enable_signaling() error: uninitialized symbol 'do_work'.
+arch/x86/boot/compressed/pgtable_64.c:145 configure_5level_paging() error: __builtin_memcpy() '&trampoline_32bit_src' too small (8 vs 160)
 
-vim +879 drivers/acpi/cppc_acpi.c
+vim +145 arch/x86/boot/compressed/pgtable_64.c
 
-41ea667227bad5 Nathan Fontenot     2020-11-12  657  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  658  /**
-337aadff8e4567 Ashwin Chaugule     2015-10-02  659   * acpi_cppc_processor_probe - Search for per CPU _CPC objects.
-603fadf33604a2 Bjorn Helgaas       2019-03-25  660   * @pr: Ptr to acpi_processor containing this CPU's logical ID.
-337aadff8e4567 Ashwin Chaugule     2015-10-02  661   *
-337aadff8e4567 Ashwin Chaugule     2015-10-02  662   *	Return: 0 for success or negative value for err.
-337aadff8e4567 Ashwin Chaugule     2015-10-02  663   */
-337aadff8e4567 Ashwin Chaugule     2015-10-02  664  int acpi_cppc_processor_probe(struct acpi_processor *pr)
-337aadff8e4567 Ashwin Chaugule     2015-10-02  665  {
-337aadff8e4567 Ashwin Chaugule     2015-10-02  666  	struct acpi_buffer output = {ACPI_ALLOCATE_BUFFER, NULL};
-337aadff8e4567 Ashwin Chaugule     2015-10-02  667  	union acpi_object *out_obj, *cpc_obj;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  668  	struct cpc_desc *cpc_ptr;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  669  	struct cpc_reg *gas_t;
-158c998ea44ba3 Ashwin Chaugule     2016-08-16  670  	struct device *cpu_dev;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  671  	acpi_handle handle = pr->handle;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  672  	unsigned int num_ent, i, cpc_rev;
-85b1407bf6d2f4 George Cherian      2017-10-11  673  	int pcc_subspace_id = -1;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  674  	acpi_status status;
-f21a3509842294 Rafael J. Wysocki   2022-03-22  675  	int ret = -ENODATA;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  676  
-7feec7430edddb Mario Limonciello   2022-07-05  677  	if (!osc_sb_cppc2_support_acked) {
-7feec7430edddb Mario Limonciello   2022-07-05  678  		pr_debug("CPPC v2 _OSC not acked\n");
-8b356e536e69f3 Mario Limonciello   2022-07-05  679  		if (!cpc_supported_by_cpu())
-c42fa24b44751c Rafael J. Wysocki   2022-03-16  680  			return -ENODEV;
-7feec7430edddb Mario Limonciello   2022-07-05  681  	}
-c42fa24b44751c Rafael J. Wysocki   2022-03-16  682  
-603fadf33604a2 Bjorn Helgaas       2019-03-25  683  	/* Parse the ACPI _CPC table for this CPU. */
-337aadff8e4567 Ashwin Chaugule     2015-10-02  684  	status = acpi_evaluate_object_typed(handle, "_CPC", NULL, &output,
-337aadff8e4567 Ashwin Chaugule     2015-10-02  685  			ACPI_TYPE_PACKAGE);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  686  	if (ACPI_FAILURE(status)) {
-337aadff8e4567 Ashwin Chaugule     2015-10-02  687  		ret = -ENODEV;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  688  		goto out_buf_free;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  689  	}
-337aadff8e4567 Ashwin Chaugule     2015-10-02  690  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  691  	out_obj = (union acpi_object *) output.pointer;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  692  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  693  	cpc_ptr = kzalloc(sizeof(struct cpc_desc), GFP_KERNEL);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  694  	if (!cpc_ptr) {
-337aadff8e4567 Ashwin Chaugule     2015-10-02  695  		ret = -ENOMEM;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  696  		goto out_buf_free;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  697  	}
-337aadff8e4567 Ashwin Chaugule     2015-10-02  698  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  699  	/* First entry is NumEntries. */
-337aadff8e4567 Ashwin Chaugule     2015-10-02  700  	cpc_obj = &out_obj->package.elements[0];
-337aadff8e4567 Ashwin Chaugule     2015-10-02  701  	if (cpc_obj->type == ACPI_TYPE_INTEGER)	{
-337aadff8e4567 Ashwin Chaugule     2015-10-02  702  		num_ent = cpc_obj->integer.value;
-40d8abf364bcab Rafael J. Wysocki   2022-03-22  703  		if (num_ent <= 1) {
-40d8abf364bcab Rafael J. Wysocki   2022-03-22  704  			pr_debug("Unexpected _CPC NumEntries value (%d) for CPU:%d\n",
-40d8abf364bcab Rafael J. Wysocki   2022-03-22  705  				 num_ent, pr->id);
-40d8abf364bcab Rafael J. Wysocki   2022-03-22  706  			goto out_free;
-40d8abf364bcab Rafael J. Wysocki   2022-03-22  707  		}
-337aadff8e4567 Ashwin Chaugule     2015-10-02  708  	} else {
-f21a3509842294 Rafael J. Wysocki   2022-03-22  709  		pr_debug("Unexpected _CPC NumEntries entry type (%d) for CPU:%d\n",
-f21a3509842294 Rafael J. Wysocki   2022-03-22  710  			 cpc_obj->type, pr->id);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  711  		goto out_free;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  712  	}
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  713  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  714  	/* Second entry should be revision. */
-337aadff8e4567 Ashwin Chaugule     2015-10-02  715  	cpc_obj = &out_obj->package.elements[1];
-337aadff8e4567 Ashwin Chaugule     2015-10-02  716  	if (cpc_obj->type == ACPI_TYPE_INTEGER)	{
-337aadff8e4567 Ashwin Chaugule     2015-10-02  717  		cpc_rev = cpc_obj->integer.value;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  718  	} else {
-f21a3509842294 Rafael J. Wysocki   2022-03-22  719  		pr_debug("Unexpected _CPC Revision entry type (%d) for CPU:%d\n",
-f21a3509842294 Rafael J. Wysocki   2022-03-22  720  			 cpc_obj->type, pr->id);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  721  		goto out_free;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  722  	}
-337aadff8e4567 Ashwin Chaugule     2015-10-02  723  
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  724  	if (cpc_rev < CPPC_V2_REV) {
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  725  		pr_debug("Unsupported _CPC Revision (%d) for CPU:%d\n", cpc_rev,
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  726  			 pr->id);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  727  		goto out_free;
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  728  	}
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  729  
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  730  	/*
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  731  	 * Disregard _CPC if the number of entries in the return pachage is not
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  732  	 * as expected, but support future revisions being proper supersets of
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  733  	 * the v3 and only causing more entries to be returned by _CPC.
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  734  	 */
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  735  	if ((cpc_rev == CPPC_V2_REV && num_ent != CPPC_V2_NUM_ENT) ||
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  736  	    (cpc_rev == CPPC_V3_REV && num_ent != CPPC_V3_NUM_ENT) ||
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  737  	    (cpc_rev > CPPC_V3_REV && num_ent <= CPPC_V3_NUM_ENT)) {
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  738  		pr_debug("Unexpected number of _CPC return package entries (%d) for CPU:%d\n",
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  739  			 num_ent, pr->id);
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  740  		goto out_free;
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  741  	}
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  742  	if (cpc_rev > CPPC_V3_REV) {
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  743  		num_ent = CPPC_V3_NUM_ENT;
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  744  		cpc_rev = CPPC_V3_REV;
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  745  	}
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  746  
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  747  	cpc_ptr->num_entries = num_ent;
-4f4179fcf42087 Rafael J. Wysocki   2022-07-21  748  	cpc_ptr->version = cpc_rev;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  749  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  750  	/* Iterate through remaining entries in _CPC */
-337aadff8e4567 Ashwin Chaugule     2015-10-02  751  	for (i = 2; i < num_ent; i++) {
-337aadff8e4567 Ashwin Chaugule     2015-10-02  752  		cpc_obj = &out_obj->package.elements[i];
-337aadff8e4567 Ashwin Chaugule     2015-10-02  753  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  754  		if (cpc_obj->type == ACPI_TYPE_INTEGER)	{
-337aadff8e4567 Ashwin Chaugule     2015-10-02  755  			cpc_ptr->cpc_regs[i-2].type = ACPI_TYPE_INTEGER;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  756  			cpc_ptr->cpc_regs[i-2].cpc_entry.int_value = cpc_obj->integer.value;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  757  		} else if (cpc_obj->type == ACPI_TYPE_BUFFER) {
-337aadff8e4567 Ashwin Chaugule     2015-10-02  758  			gas_t = (struct cpc_reg *)
-337aadff8e4567 Ashwin Chaugule     2015-10-02  759  				cpc_obj->buffer.pointer;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  760  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  761  			/*
-337aadff8e4567 Ashwin Chaugule     2015-10-02  762  			 * The PCC Subspace index is encoded inside
-337aadff8e4567 Ashwin Chaugule     2015-10-02  763  			 * the CPC table entries. The same PCC index
-337aadff8e4567 Ashwin Chaugule     2015-10-02  764  			 * will be used for all the PCC entries,
-337aadff8e4567 Ashwin Chaugule     2015-10-02  765  			 * so extract it only once.
-337aadff8e4567 Ashwin Chaugule     2015-10-02  766  			 */
-337aadff8e4567 Ashwin Chaugule     2015-10-02  767  			if (gas_t->space_id == ACPI_ADR_SPACE_PLATFORM_COMM) {
-85b1407bf6d2f4 George Cherian      2017-10-11  768  				if (pcc_subspace_id < 0) {
-85b1407bf6d2f4 George Cherian      2017-10-11  769  					pcc_subspace_id = gas_t->access_width;
-85b1407bf6d2f4 George Cherian      2017-10-11  770  					if (pcc_data_alloc(pcc_subspace_id))
-85b1407bf6d2f4 George Cherian      2017-10-11  771  						goto out_free;
-85b1407bf6d2f4 George Cherian      2017-10-11  772  				} else if (pcc_subspace_id != gas_t->access_width) {
-f21a3509842294 Rafael J. Wysocki   2022-03-22  773  					pr_debug("Mismatched PCC ids in _CPC for CPU:%d\n",
-f21a3509842294 Rafael J. Wysocki   2022-03-22  774  						 pr->id);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  775  					goto out_free;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  776  				}
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  777  			} else if (gas_t->space_id == ACPI_ADR_SPACE_SYSTEM_MEMORY) {
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  778  				if (gas_t->address) {
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  779  					void __iomem *addr;
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  780  
-0651ab90e4ade1 Pierre Gondois      2022-05-18  781  					if (!osc_cpc_flexible_adr_space_confirmed) {
-0651ab90e4ade1 Pierre Gondois      2022-05-18  782  						pr_debug("Flexible address space capability not supported\n");
-09073396ea62d0 Mario Limonciello   2022-07-15  783  						if (!cpc_supported_by_cpu())
-0651ab90e4ade1 Pierre Gondois      2022-05-18  784  							goto out_free;
-0651ab90e4ade1 Pierre Gondois      2022-05-18  785  					}
-0651ab90e4ade1 Pierre Gondois      2022-05-18  786  
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  787  					addr = ioremap(gas_t->address, gas_t->bit_width/8);
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  788  					if (!addr)
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  789  						goto out_free;
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  790  					cpc_ptr->cpc_regs[i-2].sys_mem_vaddr = addr;
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  791  				}
-a2c8f92bea5f8f Steven Noonan       2021-12-24  792  			} else if (gas_t->space_id == ACPI_ADR_SPACE_SYSTEM_IO) {
-a2c8f92bea5f8f Steven Noonan       2021-12-24  793  				if (gas_t->access_width < 1 || gas_t->access_width > 3) {
-a2c8f92bea5f8f Steven Noonan       2021-12-24  794  					/*
-a2c8f92bea5f8f Steven Noonan       2021-12-24  795  					 * 1 = 8-bit, 2 = 16-bit, and 3 = 32-bit.
-a2c8f92bea5f8f Steven Noonan       2021-12-24  796  					 * SystemIO doesn't implement 64-bit
-a2c8f92bea5f8f Steven Noonan       2021-12-24  797  					 * registers.
-a2c8f92bea5f8f Steven Noonan       2021-12-24  798  					 */
-f21a3509842294 Rafael J. Wysocki   2022-03-22  799  					pr_debug("Invalid access width %d for SystemIO register in _CPC\n",
-a2c8f92bea5f8f Steven Noonan       2021-12-24  800  						 gas_t->access_width);
-a2c8f92bea5f8f Steven Noonan       2021-12-24  801  					goto out_free;
-a2c8f92bea5f8f Steven Noonan       2021-12-24  802  				}
-a2c8f92bea5f8f Steven Noonan       2021-12-24  803  				if (gas_t->address & OVER_16BTS_MASK) {
-a2c8f92bea5f8f Steven Noonan       2021-12-24  804  					/* SystemIO registers use 16-bit integer addresses */
-f21a3509842294 Rafael J. Wysocki   2022-03-22  805  					pr_debug("Invalid IO port %llu for SystemIO register in _CPC\n",
-a2c8f92bea5f8f Steven Noonan       2021-12-24  806  						 gas_t->address);
-a2c8f92bea5f8f Steven Noonan       2021-12-24  807  					goto out_free;
-a2c8f92bea5f8f Steven Noonan       2021-12-24  808  				}
-0651ab90e4ade1 Pierre Gondois      2022-05-18  809  				if (!osc_cpc_flexible_adr_space_confirmed) {
-0651ab90e4ade1 Pierre Gondois      2022-05-18  810  					pr_debug("Flexible address space capability not supported\n");
-09073396ea62d0 Mario Limonciello   2022-07-15  811  					if (!cpc_supported_by_cpu())
-0651ab90e4ade1 Pierre Gondois      2022-05-18  812  						goto out_free;
-0651ab90e4ade1 Pierre Gondois      2022-05-18  813  				}
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  814  			} else {
-a6cbcdd5ab5f24 Srinivas Pandruvada 2016-09-01  815  				if (gas_t->space_id != ACPI_ADR_SPACE_FIXED_HARDWARE || !cpc_ffh_supported()) {
-a2c8f92bea5f8f Steven Noonan       2021-12-24  816  					/* Support only PCC, SystemMemory, SystemIO, and FFH type regs. */
-f21a3509842294 Rafael J. Wysocki   2022-03-22  817  					pr_debug("Unsupported register type (%d) in _CPC\n",
-f21a3509842294 Rafael J. Wysocki   2022-03-22  818  						 gas_t->space_id);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  819  					goto out_free;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  820  				}
-a6cbcdd5ab5f24 Srinivas Pandruvada 2016-09-01  821  			}
-337aadff8e4567 Ashwin Chaugule     2015-10-02  822  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  823  			cpc_ptr->cpc_regs[i-2].type = ACPI_TYPE_BUFFER;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  824  			memcpy(&cpc_ptr->cpc_regs[i-2].cpc_entry.reg, gas_t, sizeof(*gas_t));
-337aadff8e4567 Ashwin Chaugule     2015-10-02  825  		} else {
-f21a3509842294 Rafael J. Wysocki   2022-03-22  826  			pr_debug("Invalid entry type (%d) in _CPC for CPU:%d\n",
-f21a3509842294 Rafael J. Wysocki   2022-03-22  827  				 i, pr->id);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  828  			goto out_free;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  829  		}
-337aadff8e4567 Ashwin Chaugule     2015-10-02  830  	}
-85b1407bf6d2f4 George Cherian      2017-10-11  831  	per_cpu(cpu_pcc_subspace_idx, pr->id) = pcc_subspace_id;
-4773e77cdc9b3a Prashanth Prakash   2018-04-04  832  
-4773e77cdc9b3a Prashanth Prakash   2018-04-04  833  	/*
-4773e77cdc9b3a Prashanth Prakash   2018-04-04  834  	 * Initialize the remaining cpc_regs as unsupported.
-4773e77cdc9b3a Prashanth Prakash   2018-04-04  835  	 * Example: In case FW exposes CPPC v2, the below loop will initialize
-4773e77cdc9b3a Prashanth Prakash   2018-04-04  836  	 * LOWEST_FREQ and NOMINAL_FREQ regs as unsupported
-4773e77cdc9b3a Prashanth Prakash   2018-04-04  837  	 */
-4773e77cdc9b3a Prashanth Prakash   2018-04-04  838  	for (i = num_ent - 2; i < MAX_CPC_REG_ENT; i++) {
-4773e77cdc9b3a Prashanth Prakash   2018-04-04  839  		cpc_ptr->cpc_regs[i].type = ACPI_TYPE_INTEGER;
-4773e77cdc9b3a Prashanth Prakash   2018-04-04  840  		cpc_ptr->cpc_regs[i].cpc_entry.int_value = 0;
-4773e77cdc9b3a Prashanth Prakash   2018-04-04  841  	}
-4773e77cdc9b3a Prashanth Prakash   2018-04-04  842  
-4773e77cdc9b3a Prashanth Prakash   2018-04-04  843  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  844  	/* Store CPU Logical ID */
-337aadff8e4567 Ashwin Chaugule     2015-10-02  845  	cpc_ptr->cpu_id = pr->id;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  846  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  847  	/* Parse PSD data for this CPU */
-337aadff8e4567 Ashwin Chaugule     2015-10-02  848  	ret = acpi_get_psd(cpc_ptr, handle);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  849  	if (ret)
-337aadff8e4567 Ashwin Chaugule     2015-10-02  850  		goto out_free;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  851  
-603fadf33604a2 Bjorn Helgaas       2019-03-25  852  	/* Register PCC channel once for all PCC subspace ID. */
-85b1407bf6d2f4 George Cherian      2017-10-11  853  	if (pcc_subspace_id >= 0 && !pcc_data[pcc_subspace_id]->pcc_channel_acquired) {
-85b1407bf6d2f4 George Cherian      2017-10-11  854  		ret = register_pcc_channel(pcc_subspace_id);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  855  		if (ret)
-337aadff8e4567 Ashwin Chaugule     2015-10-02  856  			goto out_free;
-8482ef8c6e684a Prakash, Prashanth  2016-08-16  857  
-85b1407bf6d2f4 George Cherian      2017-10-11  858  		init_rwsem(&pcc_data[pcc_subspace_id]->pcc_lock);
-85b1407bf6d2f4 George Cherian      2017-10-11  859  		init_waitqueue_head(&pcc_data[pcc_subspace_id]->pcc_write_wait_q);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  860  	}
-337aadff8e4567 Ashwin Chaugule     2015-10-02  861  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  862  	/* Everything looks okay */
-337aadff8e4567 Ashwin Chaugule     2015-10-02  863  	pr_debug("Parsed CPC struct for CPU: %d\n", pr->id);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  864  
-158c998ea44ba3 Ashwin Chaugule     2016-08-16  865  	/* Add per logical CPU nodes for reading its feedback counters. */
-158c998ea44ba3 Ashwin Chaugule     2016-08-16  866  	cpu_dev = get_cpu_device(pr->id);
-501634759d55a5 Dan Carpenter       2016-11-30  867  	if (!cpu_dev) {
-501634759d55a5 Dan Carpenter       2016-11-30  868  		ret = -EINVAL;
-158c998ea44ba3 Ashwin Chaugule     2016-08-16  869  		goto out_free;
-501634759d55a5 Dan Carpenter       2016-11-30  870  	}
-158c998ea44ba3 Ashwin Chaugule     2016-08-16  871  
-603fadf33604a2 Bjorn Helgaas       2019-03-25  872  	/* Plug PSD data into this CPU's CPC descriptor. */
-28076483afac9d Rafael J. Wysocki   2016-12-10  873  	per_cpu(cpc_desc_ptr, pr->id) = cpc_ptr;
-28076483afac9d Rafael J. Wysocki   2016-12-10  874  
-158c998ea44ba3 Ashwin Chaugule     2016-08-16  875  	ret = kobject_init_and_add(&cpc_ptr->kobj, &cppc_ktype, &cpu_dev->kobj,
-158c998ea44ba3 Ashwin Chaugule     2016-08-16  876  			"acpi_cppc");
-28076483afac9d Rafael J. Wysocki   2016-12-10  877  	if (ret) {
-28076483afac9d Rafael J. Wysocki   2016-12-10  878  		per_cpu(cpc_desc_ptr, pr->id) = NULL;
-4d8be4bc94f74b Qiushi Wu           2020-05-27 @879  		kobject_put(&cpc_ptr->kobj);
-158c998ea44ba3 Ashwin Chaugule     2016-08-16  880  		goto out_free;
-28076483afac9d Rafael J. Wysocki   2016-12-10  881  	}
-158c998ea44ba3 Ashwin Chaugule     2016-08-16  882  
-1132e6de11cfc3 Ionela Voinescu     2022-03-10  883  	arch_init_invariance_cppc();
-41ea667227bad5 Nathan Fontenot     2020-11-12  884  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  885  	kfree(output.pointer);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  886  	return 0;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  887  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  888  out_free:
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  889  	/* Free all the mapped sys mem areas for this CPU */
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  890  	for (i = 2; i < cpc_ptr->num_entries; i++) {
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  891  		void __iomem *addr = cpc_ptr->cpc_regs[i-2].sys_mem_vaddr;
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  892  
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  893  		if (addr)
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  894  			iounmap(addr);
-5bbb86aa4b8d84 Ashwin Chaugule     2016-08-16  895  	}
-337aadff8e4567 Ashwin Chaugule     2015-10-02  896  	kfree(cpc_ptr);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  897  
-337aadff8e4567 Ashwin Chaugule     2015-10-02  898  out_buf_free:
-337aadff8e4567 Ashwin Chaugule     2015-10-02  899  	kfree(output.pointer);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  900  	return ret;
-337aadff8e4567 Ashwin Chaugule     2015-10-02  901  }
-337aadff8e4567 Ashwin Chaugule     2015-10-02  902  EXPORT_SYMBOL_GPL(acpi_cppc_processor_probe);
-337aadff8e4567 Ashwin Chaugule     2015-10-02  903  
-
-:::::: The code at line 879 was first introduced by commit
-:::::: 4d8be4bc94f74bb7d096e1c2e44457b530d5a170 ACPI: CPPC: Fix reference count leak in acpi_cppc_processor_probe()
-
-:::::: TO: Qiushi Wu <wu000273@umn.edu>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+1b3a62643660020 Kirill A. Shutemov 2018-08-01  103  
+64ef578b6b6866b Ard Biesheuvel     2023-08-07  104  asmlinkage void configure_5level_paging(struct boot_params *bp)
+4440977be1347d4 Kirill A. Shutemov 2018-02-09  105  {
+64ef578b6b6866b Ard Biesheuvel     2023-08-07  106  	void (*toggle_la57)(void *trampoline, bool enable_5lvl);
+64ef578b6b6866b Ard Biesheuvel     2023-08-07  107  	bool l5_required = false;
+08529078d8d9adf Kirill A. Shutemov 2017-12-04  108  
+372fddf70904174 Kirill A. Shutemov 2018-05-18  109  	/* Initialize boot_params. Required for cmdline_find_option_bool(). */
+64ef578b6b6866b Ard Biesheuvel     2023-08-07  110  	boot_params = bp;
+372fddf70904174 Kirill A. Shutemov 2018-05-18  111  
+a403d798182f4f7 Kirill A. Shutemov 2018-02-26  112  	/*
+a403d798182f4f7 Kirill A. Shutemov 2018-02-26  113  	 * Check if LA57 is desired and supported.
+a403d798182f4f7 Kirill A. Shutemov 2018-02-26  114  	 *
+372fddf70904174 Kirill A. Shutemov 2018-05-18  115  	 * There are several parts to the check:
+a403d798182f4f7 Kirill A. Shutemov 2018-02-26  116  	 *   - if the kernel supports 5-level paging: CONFIG_X86_5LEVEL=y
+372fddf70904174 Kirill A. Shutemov 2018-05-18  117  	 *   - if user asked to disable 5-level paging: no5lvl in cmdline
+a403d798182f4f7 Kirill A. Shutemov 2018-02-26  118  	 *   - if the machine supports 5-level paging:
+a403d798182f4f7 Kirill A. Shutemov 2018-02-26  119  	 *     + CPUID leaf 7 is supported
+a403d798182f4f7 Kirill A. Shutemov 2018-02-26  120  	 *     + the leaf has the feature bit set
+a403d798182f4f7 Kirill A. Shutemov 2018-02-26  121  	 *
+a403d798182f4f7 Kirill A. Shutemov 2018-02-26  122  	 * That's substitute for boot_cpu_has() in early boot code.
+a403d798182f4f7 Kirill A. Shutemov 2018-02-26  123  	 */
+a403d798182f4f7 Kirill A. Shutemov 2018-02-26  124  	if (IS_ENABLED(CONFIG_X86_5LEVEL) &&
+372fddf70904174 Kirill A. Shutemov 2018-05-18  125  			!cmdline_find_option_bool("no5lvl") &&
+a403d798182f4f7 Kirill A. Shutemov 2018-02-26  126  			native_cpuid_eax(0) >= 7 &&
+a403d798182f4f7 Kirill A. Shutemov 2018-02-26  127  			(native_cpuid_ecx(7) & (1 << (X86_FEATURE_LA57 & 31)))) {
+64ef578b6b6866b Ard Biesheuvel     2023-08-07  128  		l5_required = true;
+00c6b0978ec182f Ard Biesheuvel     2023-08-07  129  
+00c6b0978ec182f Ard Biesheuvel     2023-08-07  130  		/* Initialize variables for 5-level paging */
+00c6b0978ec182f Ard Biesheuvel     2023-08-07  131  		__pgtable_l5_enabled = 1;
+00c6b0978ec182f Ard Biesheuvel     2023-08-07  132  		pgdir_shift = 48;
+00c6b0978ec182f Ard Biesheuvel     2023-08-07  133  		ptrs_per_p4d = 512;
+a403d798182f4f7 Kirill A. Shutemov 2018-02-26  134  	}
+08529078d8d9adf Kirill A. Shutemov 2017-12-04  135  
+64ef578b6b6866b Ard Biesheuvel     2023-08-07  136  	trampoline_32bit = (unsigned long *)find_trampoline_placement();
+3548e131ec6a822 Kirill A. Shutemov 2018-02-26  137  
+fb5268354d20b82 Kirill A. Shutemov 2018-02-26  138  	/* Preserve trampoline memory */
+fb5268354d20b82 Kirill A. Shutemov 2018-02-26  139  	memcpy(trampoline_save, trampoline_32bit, TRAMPOLINE_32BIT_SIZE);
+fb5268354d20b82 Kirill A. Shutemov 2018-02-26  140  
+32fcefa2bfc8961 Kirill A. Shutemov 2018-02-26  141  	/* Clear trampoline memory first */
+32fcefa2bfc8961 Kirill A. Shutemov 2018-02-26  142  	memset(trampoline_32bit, 0, TRAMPOLINE_32BIT_SIZE);
+32fcefa2bfc8961 Kirill A. Shutemov 2018-02-26  143  
+32fcefa2bfc8961 Kirill A. Shutemov 2018-02-26  144  	/* Copy trampoline code in place */
+64ef578b6b6866b Ard Biesheuvel     2023-08-07 @145  	toggle_la57 = memcpy(trampoline_32bit +
+bd328aa01ff77a4 Ard Biesheuvel     2023-08-07  146  			TRAMPOLINE_32BIT_CODE_OFFSET / sizeof(unsigned long),
+32fcefa2bfc8961 Kirill A. Shutemov 2018-02-26  147  			&trampoline_32bit_src, TRAMPOLINE_32BIT_CODE_SIZE);
+32fcefa2bfc8961 Kirill A. Shutemov 2018-02-26  148  
+bd328aa01ff77a4 Ard Biesheuvel     2023-08-07  149  	/*
+bd328aa01ff77a4 Ard Biesheuvel     2023-08-07  150  	 * Avoid the need for a stack in the 32-bit trampoline code, by using
+bd328aa01ff77a4 Ard Biesheuvel     2023-08-07  151  	 * LJMP rather than LRET to return back to long mode. LJMP takes an
+bd328aa01ff77a4 Ard Biesheuvel     2023-08-07  152  	 * immediate absolute address, which needs to be adjusted based on the
+bd328aa01ff77a4 Ard Biesheuvel     2023-08-07  153  	 * placement of the trampoline.
+bd328aa01ff77a4 Ard Biesheuvel     2023-08-07  154  	 */
+64ef578b6b6866b Ard Biesheuvel     2023-08-07  155  	*(u32 *)((u8 *)toggle_la57 + trampoline_ljmp_imm_offset) +=
+64ef578b6b6866b Ard Biesheuvel     2023-08-07  156  						(unsigned long)toggle_la57;
+bd328aa01ff77a4 Ard Biesheuvel     2023-08-07  157  
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  158  	/*
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  159  	 * The code below prepares page table in trampoline memory.
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  160  	 *
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  161  	 * The new page table will be used by trampoline code for switching
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  162  	 * from 4- to 5-level paging or vice versa.
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  163  	 *
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  164  	 * If switching is not required, the page table is unused: trampoline
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  165  	 * code wouldn't touch CR3.
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  166  	 */
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  167  
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  168  	/*
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  169  	 * We are not going to use the page table in trampoline memory if we
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  170  	 * are already in the desired paging mode.
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  171  	 */
+64ef578b6b6866b Ard Biesheuvel     2023-08-07  172  	if (l5_required == !!(native_read_cr4() & X86_CR4_LA57))
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  173  		goto out;
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  174  
+64ef578b6b6866b Ard Biesheuvel     2023-08-07  175  	if (l5_required) {
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  176  		/*
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  177  		 * For 4- to 5-level paging transition, set up current CR3 as
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  178  		 * the first and the only entry in a new top-level page table.
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  179  		 */
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  180  		trampoline_32bit[TRAMPOLINE_32BIT_PGTABLE_OFFSET] = __native_read_cr3() | _PAGE_TABLE_NOENC;
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  181  	} else {
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  182  		unsigned long src;
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  183  
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  184  		/*
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  185  		 * For 5- to 4-level paging transition, copy page table pointed
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  186  		 * by first entry in the current top-level page table as our
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  187  		 * new top-level page table.
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  188  		 *
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  189  		 * We cannot just point to the page table from trampoline as it
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  190  		 * may be above 4G.
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  191  		 */
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  192  		src = *(unsigned long *)__native_read_cr3() & PAGE_MASK;
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  193  		memcpy(trampoline_32bit + TRAMPOLINE_32BIT_PGTABLE_OFFSET / sizeof(unsigned long),
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  194  		       (void *)src, PAGE_SIZE);
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  195  	}
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  196  
+e9d0e6330eb81ca Kirill A. Shutemov 2018-02-26  197  out:
+64ef578b6b6866b Ard Biesheuvel     2023-08-07  198  	toggle_la57(trampoline_32bit, l5_required);
+08529078d8d9adf Kirill A. Shutemov 2017-12-04  199  }
+fb5268354d20b82 Kirill A. Shutemov 2018-02-26  200  
 
 -- 
 0-DAY CI Kernel Test Service
