@@ -1,125 +1,130 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A247E364C1
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 Jan 2024 09:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33C6364B4
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 Jan 2024 15:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IWw7SIN8"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40e461c1f5bso20412735e9.3
-        for <oe-kbuild@lists.linux.dev>; Tue, 09 Jan 2024 01:17:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704791869; x=1705396669; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XVkEFOHlWwhz7Duf5BVOmjNadYwqkcetos6KSo/cdnI=;
-        b=IWw7SIN8RX6sqdEzOiHZFIuX7SLCP2JIKvGmjKrArc/laiwFptzhz0qAN9juKmMr9+
-         f+Sk/0EbZs0hH0mgPeA+VhxrnIFA/c0ykkvd3oF8N9UA5abdmXVw9TEmMLqGV8wxndZg
-         Gr17jGTRANjHeE+PEBMMATzKHLBNnqlUbw/M642PmfUyBFmlvJ1bsIMm5I/tRdK5RosR
-         qKeMBqz6TapfQ8yhy2I2DxNt1n2OtiUM2Dncz6oQdCjzX9j4qyYyRMc12vIcZ0NztDF7
-         Ofu7o3KadJPWmUwvpyMfAul0DheQ6GCfLfL0CllheKzJCy7FOM6LEQA80bd40V6g5qxG
-         QiFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704791869; x=1705396669;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XVkEFOHlWwhz7Duf5BVOmjNadYwqkcetos6KSo/cdnI=;
-        b=In/vyP9Nt75Pbemc5etmUk+oK+VGRigdp/SyKcZ/C+M1Hf/fqXnBOFJFcFRtLMKpbN
-         Lvxg8YIpgBEEiJLV2jfhyB12i+uFlhZHalBDyLZguW4aMPf+O9Kv+bPvfwTq2rQtspsM
-         v+jaiPvWL3RKUvStP06OwxfVosip/atEA9Wv5QcWM+OvMjh4X2/uXaUsLT7KDyvXQk/K
-         ROh+OcPMSNSPlUwM3+XG1KbXZR6+D+80nTO8rUv4+Ikdzq/4aFXLj2dfr2Tq/b37VHOt
-         1NBbvdch1bpyhZ0vcKe7QxTIDbkFU4CI88pUTUqeZmHxPGo0aMrBMpmmYel8w3pNJX+B
-         b2cQ==
-X-Gm-Message-State: AOJu0YwFESXo1Iq+2h4rR41SjGE6ZB7aHY1L0dm7463zq0wYyjjklpuV
-	2HuAFhdppKiDK1pW7EKSzMR5bhV0VBlpFh4mfiMQLYpsM2U=
-X-Google-Smtp-Source: AGHT+IHYDtHCq2FubxD8DvGMVoVJReXJUMNuiPN38ZL3R7ASH6fd/DpawvPETlmROnrMCjzV/bj0UQ==
-X-Received: by 2002:a05:600c:470a:b0:40d:3864:a2af with SMTP id v10-20020a05600c470a00b0040d3864a2afmr2589128wmo.82.1704791869219;
-        Tue, 09 Jan 2024 01:17:49 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id h17-20020a05600c351100b0040d839e7bb3sm13920978wmq.19.2024.01.09.01.17.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 01:17:48 -0800 (PST)
-Date: Tue, 9 Jan 2024 12:17:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: fs/ntfs3/fsntfs.c:2661 ntfs_set_label() error: __builtin_memcpy()
- 'uni->name' too small (20 vs 256)
-Message-ID: <70b13673-23ce-4bb9-9842-65828650e563@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fj94ghov"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704814644; x=1736350644;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6m+Y04maT3rA2LnJB/v7+NuUxZRgDIt31qHLQwgI9vw=;
+  b=fj94ghovXU1/xepQZ/8sL+HlgmMWUv6w6zVyjKG3/nXSowocrTNjAKLo
+   n3zxixV93YfHoXkxVP67cTeBEYwEvaTDs7lfhcH5WpoNGv7pWXPtVGuo5
+   94Kev4MNf+FRuxGqPplCwodVbVFNClwWikpdMen6Nki6Sm9QaPO4RVnlb
+   q57jl7JCwBx2ue8M7OhkK5Xl3drnWtQdPq+T3s11kVgDDsBtuk+0Sgtv1
+   scZs7lA50zu0fJUfd+eexjgrCUGTzsGWZvxRV3915W5I8dJ5gk4mqHsmH
+   VIUtuvCYG5mSsbGZ9zEy5MOJjxuNevSC7czebglZtZMWxiqJBY6POssbe
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="484409871"
+X-IronPort-AV: E=Sophos;i="6.04,183,1695711600"; 
+   d="scan'208";a="484409871"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 07:35:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="758021621"
+X-IronPort-AV: E=Sophos;i="6.04,183,1695711600"; 
+   d="scan'208";a="758021621"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 09 Jan 2024 07:35:02 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rNE83-0005yw-3D;
+	Tue, 09 Jan 2024 15:35:00 +0000
+Date: Tue, 9 Jan 2024 23:34:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp()
+ 'actual_mac' too small (64 vs 448)
+Message-ID: <202401092335.ZFBXDPA1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Eric Biggers <ebiggers@google.com>
+CC: Mike Snitzer <snitzer@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9f8413c4a66f2fb776d3dc3c9ed20bf435eb305e
-commit: 7832e123490ac39f85ab5befc2ceee7b25b03acb fs/ntfs3: Add support /proc/fs/ntfs3/<dev>/volinfo and /proc/fs/ntfs3/<dev>/label
-config: i386-randconfig-141-20240107 (https://download.01.org/0day-ci/archive/20240109/202401091421.3RJ24Mn3-lkp@intel.com/config)
+commit: 070bb43ab01e891db1b742d4ddd7291c7f8d7022 dm integrity: use crypto_shash_digest() in sb_mac()
+date:   2 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 2 months ago
+config: i386-randconfig-141-20240107 (https://download.01.org/0day-ci/archive/20240109/202401092335.ZFBXDPA1-lkp@intel.com/config)
 compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202401091421.3RJ24Mn3-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202401092335.ZFBXDPA1-lkp@intel.com/
 
 New smatch warnings:
-fs/ntfs3/fsntfs.c:2661 ntfs_set_label() error: __builtin_memcpy() 'uni->name' too small (20 vs 256)
+drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp() 'actual_mac' too small (64 vs 448)
 
-vim +2661 fs/ntfs3/fsntfs.c
+Old smatch warnings:
+drivers/md/dm-integrity.c:3607 dm_integrity_alloc_page_list() warn: Please consider using kvcalloc instead of kvmalloc_array
+drivers/md/dm-integrity.c:3641 dm_integrity_alloc_journal_scatterlist() warn: Please consider using kvcalloc instead of kvmalloc_array
+drivers/md/dm-integrity.c:3910 create_journal() warn: Please consider using kvcalloc instead of kvmalloc_array
+drivers/md/dm-integrity.c:4149 dm_integrity_ctr() warn: impossible condition '(val >= (~0) * 1000 / 250) => (0-u32max >= 17179869180)'
 
-7832e123490ac3 Konstantin Komarov 2023-05-08  2627  int ntfs_set_label(struct ntfs_sb_info *sbi, u8 *label, int len)
-7832e123490ac3 Konstantin Komarov 2023-05-08  2628  {
-7832e123490ac3 Konstantin Komarov 2023-05-08  2629  	int err;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2630  	struct ATTRIB *attr;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2631  	struct ntfs_inode *ni = sbi->volume.ni;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2632  	const u8 max_ulen = 0x80; /* TODO: use attrdef to get maximum length */
-7832e123490ac3 Konstantin Komarov 2023-05-08  2633  	/* Allocate PATH_MAX bytes. */
-7832e123490ac3 Konstantin Komarov 2023-05-08  2634  	struct cpu_str *uni = __getname();
-7832e123490ac3 Konstantin Komarov 2023-05-08  2635  
-7832e123490ac3 Konstantin Komarov 2023-05-08  2636  	if (!uni)
-7832e123490ac3 Konstantin Komarov 2023-05-08  2637  		return -ENOMEM;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2638  
-7832e123490ac3 Konstantin Komarov 2023-05-08  2639  	err = ntfs_nls_to_utf16(sbi, label, len, uni, (PATH_MAX - 2) / 2,
-7832e123490ac3 Konstantin Komarov 2023-05-08  2640  				UTF16_LITTLE_ENDIAN);
-7832e123490ac3 Konstantin Komarov 2023-05-08  2641  	if (err < 0)
-7832e123490ac3 Konstantin Komarov 2023-05-08  2642  		goto out;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2643  
-7832e123490ac3 Konstantin Komarov 2023-05-08  2644  	if (uni->len > max_ulen) {
+vim +/actual_mac +521 drivers/md/dm-integrity.c
 
-uni->name is defined as 10 elements long.  So allowing PATH_MAX is
-weird.
-
-7832e123490ac3 Konstantin Komarov 2023-05-08  2645  		ntfs_warn(sbi->sb, "new label is too long");
-7832e123490ac3 Konstantin Komarov 2023-05-08  2646  		err = -EFBIG;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2647  		goto out;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2648  	}
-7832e123490ac3 Konstantin Komarov 2023-05-08  2649  
-7832e123490ac3 Konstantin Komarov 2023-05-08  2650  	ni_lock(ni);
-7832e123490ac3 Konstantin Komarov 2023-05-08  2651  
-7832e123490ac3 Konstantin Komarov 2023-05-08  2652  	/* Ignore any errors. */
-7832e123490ac3 Konstantin Komarov 2023-05-08  2653  	ni_remove_attr(ni, ATTR_LABEL, NULL, 0, false, NULL);
-7832e123490ac3 Konstantin Komarov 2023-05-08  2654  
-7832e123490ac3 Konstantin Komarov 2023-05-08  2655  	err = ni_insert_resident(ni, uni->len * sizeof(u16), ATTR_LABEL, NULL,
-7832e123490ac3 Konstantin Komarov 2023-05-08  2656  				 0, &attr, NULL, NULL);
-7832e123490ac3 Konstantin Komarov 2023-05-08  2657  	if (err < 0)
-7832e123490ac3 Konstantin Komarov 2023-05-08  2658  		goto unlock_out;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2659  
-7832e123490ac3 Konstantin Komarov 2023-05-08  2660  	/* write new label in on-disk struct. */
-7832e123490ac3 Konstantin Komarov 2023-05-08 @2661  	memcpy(resident_data(attr), uni->name, uni->len * sizeof(u16));
-                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Btw, I feel like if CONFIG_FORTIFY_SOURCE is enabled this will be a
-runtime issue but I don't know for sure.
+1f9fc0b826119f Mikulas Patocka   2018-07-03  491  
+09d85f8d8909ec Mikulas Patocka   2021-01-21  492  static int sb_mac(struct dm_integrity_c *ic, bool wr)
+09d85f8d8909ec Mikulas Patocka   2021-01-21  493  {
+09d85f8d8909ec Mikulas Patocka   2021-01-21  494  	SHASH_DESC_ON_STACK(desc, ic->journal_mac);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  495  	int r;
+070bb43ab01e89 Eric Biggers      2023-10-28  496  	unsigned int mac_size = crypto_shash_digestsize(ic->journal_mac);
+070bb43ab01e89 Eric Biggers      2023-10-28  497  	__u8 *sb = (__u8 *)ic->sb;
+070bb43ab01e89 Eric Biggers      2023-10-28  498  	__u8 *mac = sb + (1 << SECTOR_SHIFT) - mac_size;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  499  
+070bb43ab01e89 Eric Biggers      2023-10-28  500  	if (sizeof(struct superblock) + mac_size > 1 << SECTOR_SHIFT) {
+09d85f8d8909ec Mikulas Patocka   2021-01-21  501  		dm_integrity_io_error(ic, "digest is too long", -EINVAL);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  502  		return -EINVAL;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  503  	}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  504  
+09d85f8d8909ec Mikulas Patocka   2021-01-21  505  	desc->tfm = ic->journal_mac;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  506  
+09d85f8d8909ec Mikulas Patocka   2021-01-21  507  	if (likely(wr)) {
+070bb43ab01e89 Eric Biggers      2023-10-28  508  		r = crypto_shash_digest(desc, sb, mac - sb, mac);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  509  		if (unlikely(r < 0)) {
+070bb43ab01e89 Eric Biggers      2023-10-28  510  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  511  			return r;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  512  		}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  513  	} else {
+070bb43ab01e89 Eric Biggers      2023-10-28  514  		__u8 actual_mac[HASH_MAX_DIGESTSIZE];
+0ef0b4717aa684 Heinz Mauelshagen 2023-02-01  515  
+070bb43ab01e89 Eric Biggers      2023-10-28  516  		r = crypto_shash_digest(desc, sb, mac - sb, actual_mac);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  517  		if (unlikely(r < 0)) {
+070bb43ab01e89 Eric Biggers      2023-10-28  518  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  519  			return r;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  520  		}
+070bb43ab01e89 Eric Biggers      2023-10-28 @521  		if (memcmp(mac, actual_mac, mac_size)) {
+09d85f8d8909ec Mikulas Patocka   2021-01-21  522  			dm_integrity_io_error(ic, "superblock mac", -EILSEQ);
+82bb85998cc9a3 Michael Weiß      2021-09-04  523  			dm_audit_log_target(DM_MSG_PREFIX, "mac-superblock", ic->ti, 0);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  524  			return -EILSEQ;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  525  		}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  526  	}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  527  
+09d85f8d8909ec Mikulas Patocka   2021-01-21  528  	return 0;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  529  }
+09d85f8d8909ec Mikulas Patocka   2021-01-21  530  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
