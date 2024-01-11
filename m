@@ -1,150 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC5C495FB
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jan 2024 15:53:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39AD956759
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jan 2024 20:09:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CXzJ/xGI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NR8LZQaL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704988430; x=1736524430;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VWnkHcZ/p2WoHEW1DutIU4bnxtyEO5g18x9EyzZrPfQ=;
-  b=CXzJ/xGIIGBztKhhcoNGwFVxA591AHiIltUKxRSwIZTc0ylzorjpLGzA
-   1Ak/ADe6HQDX7NcQiLm0B6W+sXTI8oOld0gPPCz8ewAJiG7Pe2ne5JHJS
-   XvgvuLI0Q83eQQXYsFe43uDApg42/hP2ARnu220PUYhzP4s5MG2Mm/Rpm
-   fMODbpyKCJmkO/P15N0yRGiRohESLQgN1y+E6GROahvEQkXpRF64Y+wC1
-   WL0/xVURClt8SssOhU/urrb0ezp8TM3Cpr2+nse/Evt2x2MxmLIsINQSy
-   8zdkGLuLWG/+ozP6lzbGhHAd1pd9GT9RFwsZz+Mxa3li7fwiQd/0/jx9G
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="12373823"
-X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
-   d="scan'208";a="12373823"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 07:53:49 -0800
+  t=1705003753; x=1736539753;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=E9OnDSKv8f5BRBcKVDzesiofGkGTxZifReI/+Y8/OW8=;
+  b=NR8LZQaLppaZhyqQ0GncNYJewC35abrn9VadMdgPRHc9luwYm5PaOKZc
+   NEj63Gchaf5d5RZEF7HyMhQgxI39bU/03kJ4RF1KkqYIxDzAMMWH8ymP7
+   htTWi7d5gqobGi8XVFnee3mupYd4yL9OMc/FOs7fgXyH+outxlYcSq2bA
+   v+DPtoGw69KwjXSd+PZ/4au0PT81qPzJpaAdjjoxmKpxoVzwpp2SXaEMG
+   nw/zSo/71Bb82CKO/x3G1QiAncPtP0tQuPl7auhOuyHXgUTCTYK81ZmLm
+   QUASm06Ms8HGsaL8zPJRZWvfcENp0uubZMzd0YkjWYuXAlc1fO/KrhHCs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="430156482"
+X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
+   d="scan'208";a="430156482"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 12:09:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="732271118"
-X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
-   d="scan'208";a="732271118"
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="816836910"
+X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
+   d="scan'208";a="816836910"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 11 Jan 2024 07:53:47 -0800
+  by orsmga001.jf.intel.com with ESMTP; 11 Jan 2024 12:09:10 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rNxNI-0008QC-2u;
-	Thu, 11 Jan 2024 15:53:45 +0000
-Date: Thu, 11 Jan 2024 23:53:02 +0800
+	id 1rO1MO-0008hC-1U;
+	Thu, 11 Jan 2024 20:09:04 +0000
+Date: Fri, 12 Jan 2024 04:08:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [sailus-media-tree:metadata 34/36] drivers/media/i2c/ov2740.c:947
- ov2740_enable_streams() warn: missing unwind goto?
-Message-ID: <202401112346.2nUZ8Jyd-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/i2c/busses/i2c-mxs.c:130: warning: Function parameter or
+ member 'timing0' not described in 'mxs_i2c_dev'
+Message-ID: <202401120442.Ixwb0ytj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "only kconfig file changed"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-media@vger.kernel.org
-TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Wolfram Sang <wsa-dev@sang-engineering.com>
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   77a04fb9d17b29287728b8fe1da7a196b3364e44
-commit: 575405277b30f2459e65cd2a1e6176f34d2440b3 [34/36] media: ov2740: Switch to {enable,disable}_streams
-:::::: branch date: 6 days ago
-:::::: commit date: 3 weeks ago
-config: i386-randconfig-141-20240111 (https://download.01.org/0day-ci/archive/20240111/202401112346.2nUZ8Jyd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   de927f6c0b07d9e698416c5b287c521b07694cac
+commit: 4a2d5f663dab6614772d8e28ca190b127ba46d9d i2c: Enable compile testing for more drivers
+date:   4 years ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 4 years ago
+config: i386-buildonly-randconfig-003-20240106 (https://download.01.org/0day-ci/archive/20240112/202401120442.Ixwb0ytj-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120442.Ixwb0ytj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202401112346.2nUZ8Jyd-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401120442.Ixwb0ytj-lkp@intel.com/
 
-smatch warnings:
-drivers/media/i2c/ov2740.c:947 ov2740_enable_streams() warn: missing unwind goto?
+All warnings (new ones prefixed by >>):
 
-vim +947 drivers/media/i2c/ov2740.c
+>> drivers/i2c/busses/i2c-mxs.c:130: warning: Function parameter or member 'timing0' not described in 'mxs_i2c_dev'
+>> drivers/i2c/busses/i2c-mxs.c:130: warning: Function parameter or member 'timing1' not described in 'mxs_i2c_dev'
+>> drivers/i2c/busses/i2c-mxs.c:130: warning: Function parameter or member 'timing2' not described in 'mxs_i2c_dev'
+>> drivers/i2c/busses/i2c-mxs.c:130: warning: Function parameter or member 'dmach' not described in 'mxs_i2c_dev'
+>> drivers/i2c/busses/i2c-mxs.c:130: warning: Function parameter or member 'pio_data' not described in 'mxs_i2c_dev'
+>> drivers/i2c/busses/i2c-mxs.c:130: warning: Function parameter or member 'addr_data' not described in 'mxs_i2c_dev'
+>> drivers/i2c/busses/i2c-mxs.c:130: warning: Function parameter or member 'sg_io' not described in 'mxs_i2c_dev'
+>> drivers/i2c/busses/i2c-mxs.c:130: warning: Function parameter or member 'dma_read' not described in 'mxs_i2c_dev'
+--
+>> drivers/i2c/busses/i2c-tegra-bpmp.c:104: warning: Function parameter or member 'i2c' not described in 'tegra_bpmp_serialize_i2c_msg'
+>> drivers/i2c/busses/i2c-tegra-bpmp.c:104: warning: Function parameter or member 'request' not described in 'tegra_bpmp_serialize_i2c_msg'
+>> drivers/i2c/busses/i2c-tegra-bpmp.c:104: warning: Function parameter or member 'msgs' not described in 'tegra_bpmp_serialize_i2c_msg'
+>> drivers/i2c/busses/i2c-tegra-bpmp.c:104: warning: Function parameter or member 'num' not described in 'tegra_bpmp_serialize_i2c_msg'
+>> drivers/i2c/busses/i2c-tegra-bpmp.c:153: warning: Function parameter or member 'i2c' not described in 'tegra_bpmp_i2c_deserialize'
+>> drivers/i2c/busses/i2c-tegra-bpmp.c:153: warning: Function parameter or member 'response' not described in 'tegra_bpmp_i2c_deserialize'
+>> drivers/i2c/busses/i2c-tegra-bpmp.c:153: warning: Function parameter or member 'msgs' not described in 'tegra_bpmp_i2c_deserialize'
+>> drivers/i2c/busses/i2c-tegra-bpmp.c:153: warning: Function parameter or member 'num' not described in 'tegra_bpmp_i2c_deserialize'
+--
+>> drivers/i2c/busses/i2c-altera.c:74: warning: cannot understand function prototype: 'struct altr_i2c_dev '
+>> drivers/i2c/busses/i2c-altera.c:185: warning: Function parameter or member 'idev' not described in 'altr_i2c_transfer'
+>> drivers/i2c/busses/i2c-altera.c:185: warning: Function parameter or member 'data' not described in 'altr_i2c_transfer'
+>> drivers/i2c/busses/i2c-altera.c:198: warning: Function parameter or member 'idev' not described in 'altr_i2c_empty_rx_fifo'
+>> drivers/i2c/busses/i2c-altera.c:214: warning: Function parameter or member 'idev' not described in 'altr_i2c_fill_tx_fifo'
 
-5e6fd339b68df8 Bingbu Cao      2020-11-13  921  
-575405277b30f2 Sakari Ailus    2023-10-03  922  static int ov2740_enable_streams(struct v4l2_subdev *sd,
-575405277b30f2 Sakari Ailus    2023-10-03  923  				 struct v4l2_subdev_state *state, u32 pad,
-575405277b30f2 Sakari Ailus    2023-10-03  924  				 u64 streams_mask)
-866edc895171f1 Bingbu Cao      2020-05-11  925  {
-575405277b30f2 Sakari Ailus    2023-10-03  926  	struct i2c_client *client = v4l2_get_subdevdata(sd);
-575405277b30f2 Sakari Ailus    2023-10-03  927  	struct ov2740 *ov2740 = to_ov2740(sd);
-866edc895171f1 Bingbu Cao      2020-05-11  928  	const struct ov2740_reg_list *reg_list;
-866edc895171f1 Bingbu Cao      2020-05-11  929  	int link_freq_index;
-3b0d0f33795403 Andy Shevchenko 2022-07-26  930  	int ret;
-866edc895171f1 Bingbu Cao      2020-05-11  931  
-575405277b30f2 Sakari Ailus    2023-10-03  932  	ret = pm_runtime_resume_and_get(&client->dev);
-575405277b30f2 Sakari Ailus    2023-10-03  933  	if (ret < 0)
-575405277b30f2 Sakari Ailus    2023-10-03  934  		return ret;
-575405277b30f2 Sakari Ailus    2023-10-03  935  
-ada2c4f54d0ae9 Bingbu Cao      2021-12-15  936  	ret = ov2740_identify_module(ov2740);
-ada2c4f54d0ae9 Bingbu Cao      2021-12-15  937  	if (ret)
-575405277b30f2 Sakari Ailus    2023-10-03  938  		goto out_pm_put;
-ada2c4f54d0ae9 Bingbu Cao      2021-12-15  939  
-39cc0f20d1bc2b Andy Shevchenko 2022-07-26  940  	if (ov2740->nvm)
-39cc0f20d1bc2b Andy Shevchenko 2022-07-26  941  		ov2740_load_otp_data(ov2740->nvm);
-5e6fd339b68df8 Bingbu Cao      2020-11-13  942  
-efff0a80bc66dc Hans de Goede   2023-12-04  943  	/* Reset the sensor */
-efff0a80bc66dc Hans de Goede   2023-12-04  944  	ret = ov2740_write_reg(ov2740, 0x0103, 1, 0x01);
-efff0a80bc66dc Hans de Goede   2023-12-04  945  	if (ret) {
-efff0a80bc66dc Hans de Goede   2023-12-04  946  		dev_err(&client->dev, "failed to reset\n");
-efff0a80bc66dc Hans de Goede   2023-12-04 @947  		return ret;
-efff0a80bc66dc Hans de Goede   2023-12-04  948  	}
-efff0a80bc66dc Hans de Goede   2023-12-04  949  
-efff0a80bc66dc Hans de Goede   2023-12-04  950  	usleep_range(10000, 15000);
-efff0a80bc66dc Hans de Goede   2023-12-04  951  
-866edc895171f1 Bingbu Cao      2020-05-11  952  	link_freq_index = ov2740->cur_mode->link_freq_index;
-866edc895171f1 Bingbu Cao      2020-05-11  953  	reg_list = &link_freq_configs[link_freq_index].reg_list;
-866edc895171f1 Bingbu Cao      2020-05-11  954  	ret = ov2740_write_reg_list(ov2740, reg_list);
-866edc895171f1 Bingbu Cao      2020-05-11  955  	if (ret) {
-6919695f0616e2 Andy Shevchenko 2022-07-26  956  		dev_err(&client->dev, "failed to set plls\n");
-575405277b30f2 Sakari Ailus    2023-10-03  957  		goto out_pm_put;
-866edc895171f1 Bingbu Cao      2020-05-11  958  	}
-866edc895171f1 Bingbu Cao      2020-05-11  959  
-866edc895171f1 Bingbu Cao      2020-05-11  960  	reg_list = &ov2740->cur_mode->reg_list;
-866edc895171f1 Bingbu Cao      2020-05-11  961  	ret = ov2740_write_reg_list(ov2740, reg_list);
-866edc895171f1 Bingbu Cao      2020-05-11  962  	if (ret) {
-6919695f0616e2 Andy Shevchenko 2022-07-26  963  		dev_err(&client->dev, "failed to set mode\n");
-575405277b30f2 Sakari Ailus    2023-10-03  964  		goto out_pm_put;
-866edc895171f1 Bingbu Cao      2020-05-11  965  	}
-866edc895171f1 Bingbu Cao      2020-05-11  966  
-866edc895171f1 Bingbu Cao      2020-05-11  967  	ret = __v4l2_ctrl_handler_setup(ov2740->sd.ctrl_handler);
-866edc895171f1 Bingbu Cao      2020-05-11  968  	if (ret)
-575405277b30f2 Sakari Ailus    2023-10-03  969  		goto out_pm_put;
-866edc895171f1 Bingbu Cao      2020-05-11  970  
-866edc895171f1 Bingbu Cao      2020-05-11  971  	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
-866edc895171f1 Bingbu Cao      2020-05-11  972  			       OV2740_MODE_STREAMING);
-575405277b30f2 Sakari Ailus    2023-10-03  973  	if (ret) {
-6919695f0616e2 Andy Shevchenko 2022-07-26  974  		dev_err(&client->dev, "failed to start streaming\n");
-575405277b30f2 Sakari Ailus    2023-10-03  975  		goto out_pm_put;
-866edc895171f1 Bingbu Cao      2020-05-11  976  	}
-866edc895171f1 Bingbu Cao      2020-05-11  977  
-575405277b30f2 Sakari Ailus    2023-10-03  978  	return 0;
-575405277b30f2 Sakari Ailus    2023-10-03  979  
-575405277b30f2 Sakari Ailus    2023-10-03  980  out_pm_put:
-575405277b30f2 Sakari Ailus    2023-10-03  981  	pm_runtime_put_noidle(&client->dev);
-866edc895171f1 Bingbu Cao      2020-05-11  982  
-575405277b30f2 Sakari Ailus    2023-10-03  983  	return ret;
-866edc895171f1 Bingbu Cao      2020-05-11  984  }
-866edc895171f1 Bingbu Cao      2020-05-11  985  
 
-:::::: The code at line 947 was first introduced by commit
-:::::: efff0a80bc66dcba08e4810fc9eb91c78d5586cf media: ov2740: Add a sleep after resetting the sensor
+vim +130 drivers/i2c/busses/i2c-mxs.c
 
-:::::: TO: Hans de Goede <hdegoede@redhat.com>
-:::::: CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+616228a164d436 Juergen Beisert 2013-09-30  101  
+a8da7fecb60102 Wolfram Sang    2011-02-16  102  /**
+a8da7fecb60102 Wolfram Sang    2011-02-16  103   * struct mxs_i2c_dev - per device, private MXS-I2C data
+a8da7fecb60102 Wolfram Sang    2011-02-16  104   *
+a8da7fecb60102 Wolfram Sang    2011-02-16  105   * @dev: driver model device node
+616228a164d436 Juergen Beisert 2013-09-30  106   * @dev_type: distinguish i.MX23/i.MX28 features
+a8da7fecb60102 Wolfram Sang    2011-02-16  107   * @regs: IO registers pointer
+a8da7fecb60102 Wolfram Sang    2011-02-16  108   * @cmd_complete: completion object for transaction wait
+a8da7fecb60102 Wolfram Sang    2011-02-16  109   * @cmd_err: error code for last transaction
+a8da7fecb60102 Wolfram Sang    2011-02-16  110   * @adapter: i2c subsystem adapter node
+a8da7fecb60102 Wolfram Sang    2011-02-16  111   */
+a8da7fecb60102 Wolfram Sang    2011-02-16  112  struct mxs_i2c_dev {
+a8da7fecb60102 Wolfram Sang    2011-02-16  113  	struct device *dev;
+616228a164d436 Juergen Beisert 2013-09-30  114  	enum mxs_i2c_devtype dev_type;
+a8da7fecb60102 Wolfram Sang    2011-02-16  115  	void __iomem *regs;
+a8da7fecb60102 Wolfram Sang    2011-02-16  116  	struct completion cmd_complete;
+0f40cbc4f85e13 Fabio Estevam   2013-01-07  117  	int cmd_err;
+a8da7fecb60102 Wolfram Sang    2011-02-16  118  	struct i2c_adapter adapter;
+626f0a2ff6bc98 Marek Vasut     2012-11-30  119  
+626f0a2ff6bc98 Marek Vasut     2012-11-30  120  	uint32_t timing0;
+626f0a2ff6bc98 Marek Vasut     2012-11-30  121  	uint32_t timing1;
+869c6a3ededbb1 Lothar Waﬂmann  2013-07-05  122  	uint32_t timing2;
+62885f59a26195 Marek Vasut     2012-08-24  123  
+62885f59a26195 Marek Vasut     2012-08-24  124  	/* DMA support components */
+62885f59a26195 Marek Vasut     2012-08-24  125  	struct dma_chan			*dmach;
+62885f59a26195 Marek Vasut     2012-08-24  126  	uint32_t			pio_data[2];
+62885f59a26195 Marek Vasut     2012-08-24  127  	uint32_t			addr_data;
+62885f59a26195 Marek Vasut     2012-08-24  128  	struct scatterlist		sg_io[2];
+62885f59a26195 Marek Vasut     2012-08-24  129  	bool				dma_read;
+a8da7fecb60102 Wolfram Sang    2011-02-16 @130  };
+a8da7fecb60102 Wolfram Sang    2011-02-16  131  
+
+:::::: The code at line 130 was first introduced by commit
+:::::: a8da7fecb6010222fe495cc2b4330b99bca20c61 i2c: add driver for Freescale i.MX28
+
+:::::: TO: Wolfram Sang <w.sang@pengutronix.de>
+:::::: CC: Ben Dooks <ben-linux@fluff.org>
 
 -- 
 0-DAY CI Kernel Test Service
