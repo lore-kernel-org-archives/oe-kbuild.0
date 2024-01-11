@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051D4E544
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jan 2024 08:17:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D7F3C485
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jan 2024 14:17:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TtsWo6IU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IYg/kDlP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704961079; x=1736497079;
+  t=1704982636; x=1736518636;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9ZWzpEks75ib463rW3inixxVBIJ4e6zjZcFQPF0VEnc=;
-  b=TtsWo6IUjO5biyzphiJHtobEOyFHgu+PZN/WkV9zguuN/1my3t4UC44k
-   Q5LIOLbMRox/teAc0yW2PWmA14wwg3upIUKGSOFaEo9iXGFYi8C/yOTCH
-   YQYmnPY0T4dkEZiKek3rfZ8fxKTUWh7yUZx2opoowxY0ksU4BcIg9jGHY
-   a8XPuY1v59wZYAyR2lKqqzihx2hUejKVS/UbTmFctxl6zohnpEv1QlLE7
-   Gk7w2QdwDQRFqtSxbDgzgcS/k4QtCmPA0rH8qVrSu8412LT54bb6ipcUl
-   BpcW7oLYznosv4WDd8w6MumMgBC+i79jv2bJztJCUBdeMFFXsoXGwsQ0b
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="12263320"
-X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
-   d="scan'208";a="12263320"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 00:17:46 -0800
+  bh=OJ0TBIos7kcJnCqdbVrgfdcBN1Ckgp+F90HCaR0bTDU=;
+  b=IYg/kDlPYJwqzfFgEW5Sqshdzlrw/RlXh9kK+MmzamwXoeXT2huINn7a
+   iMYwOY4JPh4Lm0tPWiaHVLFxuOrNNTFTWZloFuppeZuMb+WNRuqiKB+SW
+   JyLkbqpQ07cK3hHgLD1PLoJ1YV8S5HufGX6mI7PUf95fgQRxY6c6huy4z
+   5CnCTFa5hhw1EbrU/Y7SHuE2agVIl18ji3NXzxDnGqCISS8KjAYZ5a6hd
+   PCELekGIRkZSZXohkYTHC5dv7pD8/Ve3s34v7rjN3cKwbMtaRbDWKdTme
+   i5KOja4qPK5XIS+gl+nzcDCJ+ZqYrZLKE9n0hbMK2j045E1Wfl/8EPB2l
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="12347704"
+X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
+   d="scan'208";a="12347704"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 06:17:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="782534042"
-X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
-   d="scan'208";a="782534042"
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="905962652"
+X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
+   d="scan'208";a="905962652"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 11 Jan 2024 00:17:43 -0800
+  by orsmga004.jf.intel.com with ESMTP; 11 Jan 2024 06:17:12 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rNqFx-0007zb-1X;
-	Thu, 11 Jan 2024 08:17:41 +0000
-Date: Thu, 11 Jan 2024 16:17:09 +0800
+	id 1rNvrq-0008LI-1M;
+	Thu, 11 Jan 2024 14:17:10 +0000
+Date: Thu, 11 Jan 2024 22:16:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: block/blk-mq.c:2992 blk_rq_prep_clone() error: uninitialized symbol
- 'bio'.
-Message-ID: <202401111612.Z2gDhcUB-lkp@intel.com>
+Subject: [linux-next:master 12996/13245] mm/vmalloc.c:4345 vmalloc_dump_obj()
+ error: uninitialized symbol 'addr'.
+Message-ID: <202401112219.sugH0jvj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,100 +52,66 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Jens Axboe <axboe@kernel.dk>
-CC: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Uladzislau Rezki (Sony)" <urezki@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Baoquan He <bhe@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   de927f6c0b07d9e698416c5b287c521b07694cac
-commit: 06c8c691e2820077936e59ad334eb806e90b69eb block: move request based cloning helpers to blk-mq.c
-date:   2 years, 1 month ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 2 years, 1 month ago
-config: i386-randconfig-141-20240107 (https://download.01.org/0day-ci/archive/20240111/202401111612.Z2gDhcUB-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9e21984d62c56a0f6d1fc6f76b646212cfd7fe88
+commit: 86817057732a9ce9cefdb6f513b6554a55ebbbbb [12996/13245] mm: vmalloc: remove global vmap_area_root rb-tree
+:::::: branch date: 10 hours ago
+:::::: commit date: 21 hours ago
+config: x86_64-randconfig-161-20240111 (https://download.01.org/0day-ci/archive/20240111/202401112219.sugH0jvj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202401111612.Z2gDhcUB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401112219.sugH0jvj-lkp@intel.com/
 
 smatch warnings:
-block/blk-mq.c:2992 blk_rq_prep_clone() error: uninitialized symbol 'bio'.
+mm/vmalloc.c:4345 vmalloc_dump_obj() error: uninitialized symbol 'addr'.
 
-vim +/bio +2992 block/blk-mq.c
+vim +/addr +4345 mm/vmalloc.c
 
-06c8c691e28200 Christoph Hellwig 2021-11-17  2931  
-06c8c691e28200 Christoph Hellwig 2021-11-17  2932  /**
-06c8c691e28200 Christoph Hellwig 2021-11-17  2933   * blk_rq_prep_clone - Helper function to setup clone request
-06c8c691e28200 Christoph Hellwig 2021-11-17  2934   * @rq: the request to be setup
-06c8c691e28200 Christoph Hellwig 2021-11-17  2935   * @rq_src: original request to be cloned
-06c8c691e28200 Christoph Hellwig 2021-11-17  2936   * @bs: bio_set that bios for clone are allocated from
-06c8c691e28200 Christoph Hellwig 2021-11-17  2937   * @gfp_mask: memory allocation mask for bio
-06c8c691e28200 Christoph Hellwig 2021-11-17  2938   * @bio_ctr: setup function to be called for each clone bio.
-06c8c691e28200 Christoph Hellwig 2021-11-17  2939   *           Returns %0 for success, non %0 for failure.
-06c8c691e28200 Christoph Hellwig 2021-11-17  2940   * @data: private data to be passed to @bio_ctr
-06c8c691e28200 Christoph Hellwig 2021-11-17  2941   *
-06c8c691e28200 Christoph Hellwig 2021-11-17  2942   * Description:
-06c8c691e28200 Christoph Hellwig 2021-11-17  2943   *     Clones bios in @rq_src to @rq, and copies attributes of @rq_src to @rq.
-06c8c691e28200 Christoph Hellwig 2021-11-17  2944   *     Also, pages which the original bios are pointing to are not copied
-06c8c691e28200 Christoph Hellwig 2021-11-17  2945   *     and the cloned bios just point same pages.
-06c8c691e28200 Christoph Hellwig 2021-11-17  2946   *     So cloned bios must be completed before original bios, which means
-06c8c691e28200 Christoph Hellwig 2021-11-17  2947   *     the caller must complete @rq before @rq_src.
-06c8c691e28200 Christoph Hellwig 2021-11-17  2948   */
-06c8c691e28200 Christoph Hellwig 2021-11-17  2949  int blk_rq_prep_clone(struct request *rq, struct request *rq_src,
-06c8c691e28200 Christoph Hellwig 2021-11-17  2950  		      struct bio_set *bs, gfp_t gfp_mask,
-06c8c691e28200 Christoph Hellwig 2021-11-17  2951  		      int (*bio_ctr)(struct bio *, struct bio *, void *),
-06c8c691e28200 Christoph Hellwig 2021-11-17  2952  		      void *data)
-06c8c691e28200 Christoph Hellwig 2021-11-17  2953  {
-06c8c691e28200 Christoph Hellwig 2021-11-17  2954  	struct bio *bio, *bio_src;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2955  
-06c8c691e28200 Christoph Hellwig 2021-11-17  2956  	if (!bs)
-06c8c691e28200 Christoph Hellwig 2021-11-17  2957  		bs = &fs_bio_set;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2958  
-06c8c691e28200 Christoph Hellwig 2021-11-17  2959  	__rq_for_each_bio(bio_src, rq_src) {
-06c8c691e28200 Christoph Hellwig 2021-11-17  2960  		bio = bio_clone_fast(bio_src, gfp_mask, bs);
-06c8c691e28200 Christoph Hellwig 2021-11-17  2961  		if (!bio)
-06c8c691e28200 Christoph Hellwig 2021-11-17  2962  			goto free_and_out;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2963  
-06c8c691e28200 Christoph Hellwig 2021-11-17  2964  		if (bio_ctr && bio_ctr(bio, bio_src, data))
-06c8c691e28200 Christoph Hellwig 2021-11-17  2965  			goto free_and_out;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2966  
-06c8c691e28200 Christoph Hellwig 2021-11-17  2967  		if (rq->bio) {
-06c8c691e28200 Christoph Hellwig 2021-11-17  2968  			rq->biotail->bi_next = bio;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2969  			rq->biotail = bio;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2970  		} else {
-06c8c691e28200 Christoph Hellwig 2021-11-17  2971  			rq->bio = rq->biotail = bio;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2972  		}
-06c8c691e28200 Christoph Hellwig 2021-11-17  2973  		bio = NULL;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2974  	}
-06c8c691e28200 Christoph Hellwig 2021-11-17  2975  
-06c8c691e28200 Christoph Hellwig 2021-11-17  2976  	/* Copy attributes of the original request to the clone request. */
-06c8c691e28200 Christoph Hellwig 2021-11-17  2977  	rq->__sector = blk_rq_pos(rq_src);
-06c8c691e28200 Christoph Hellwig 2021-11-17  2978  	rq->__data_len = blk_rq_bytes(rq_src);
-06c8c691e28200 Christoph Hellwig 2021-11-17  2979  	if (rq_src->rq_flags & RQF_SPECIAL_PAYLOAD) {
-06c8c691e28200 Christoph Hellwig 2021-11-17  2980  		rq->rq_flags |= RQF_SPECIAL_PAYLOAD;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2981  		rq->special_vec = rq_src->special_vec;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2982  	}
-06c8c691e28200 Christoph Hellwig 2021-11-17  2983  	rq->nr_phys_segments = rq_src->nr_phys_segments;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2984  	rq->ioprio = rq_src->ioprio;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2985  
-06c8c691e28200 Christoph Hellwig 2021-11-17  2986  	if (rq->bio && blk_crypto_rq_bio_prep(rq, rq->bio, gfp_mask) < 0)
-06c8c691e28200 Christoph Hellwig 2021-11-17  2987  		goto free_and_out;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2988  
-06c8c691e28200 Christoph Hellwig 2021-11-17  2989  	return 0;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2990  
-06c8c691e28200 Christoph Hellwig 2021-11-17  2991  free_and_out:
-06c8c691e28200 Christoph Hellwig 2021-11-17 @2992  	if (bio)
-06c8c691e28200 Christoph Hellwig 2021-11-17  2993  		bio_put(bio);
-06c8c691e28200 Christoph Hellwig 2021-11-17  2994  	blk_rq_unprep_clone(rq);
-06c8c691e28200 Christoph Hellwig 2021-11-17  2995  
-06c8c691e28200 Christoph Hellwig 2021-11-17  2996  	return -ENOMEM;
-06c8c691e28200 Christoph Hellwig 2021-11-17  2997  }
-06c8c691e28200 Christoph Hellwig 2021-11-17  2998  EXPORT_SYMBOL_GPL(blk_rq_prep_clone);
-06c8c691e28200 Christoph Hellwig 2021-11-17  2999  
+a10aa579878fc6 Christoph Lameter       2008-04-28  4330  
+5bb1bb353cfe34 Paul E. McKenney        2021-01-07  4331  #ifdef CONFIG_PRINTK
+98f180837a896e Paul E. McKenney        2020-12-08  4332  bool vmalloc_dump_obj(void *object)
+98f180837a896e Paul E. McKenney        2020-12-08  4333  {
+98f180837a896e Paul E. McKenney        2020-12-08  4334  	void *objp = (void *)PAGE_ALIGN((unsigned long)object);
+0818e739b5c061 Joel Fernandes (Google  2023-09-04  4335) 	const void *caller;
+0818e739b5c061 Joel Fernandes (Google  2023-09-04  4336) 	struct vmap_area *va;
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4337) 	struct vmap_node *vn;
+0818e739b5c061 Joel Fernandes (Google  2023-09-04  4338) 	unsigned long addr;
+0818e739b5c061 Joel Fernandes (Google  2023-09-04  4339) 	unsigned int nr_pages;
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4340) 	bool success = false;
+98f180837a896e Paul E. McKenney        2020-12-08  4341  
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4342) 	vn = addr_to_node((unsigned long)objp);
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4343) 
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4344) 	if (spin_trylock(&vn->busy.lock)) {
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02 @4345) 		va = __find_vmap_area(addr, &vn->busy.root);
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4346) 
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4347) 		if (va && va->vm) {
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4348) 			addr = (unsigned long)va->vm->addr;
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4349) 			caller = va->vm->caller;
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4350) 			nr_pages = va->vm->nr_pages;
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4351) 			success = true;
+0818e739b5c061 Joel Fernandes (Google  2023-09-04  4352) 		}
+0818e739b5c061 Joel Fernandes (Google  2023-09-04  4353) 
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4354) 		spin_unlock(&vn->busy.lock);
+0818e739b5c061 Joel Fernandes (Google  2023-09-04  4355) 	}
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4356) 
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4357) 	if (success)
+bd34dcd4120d7e Paul E. McKenney        2020-12-09  4358  		pr_cont(" %u-page vmalloc region starting at %#lx allocated at %pS\n",
+0818e739b5c061 Joel Fernandes (Google  2023-09-04  4359) 			nr_pages, addr, caller);
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4360) 
+86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4361) 	return success;
+98f180837a896e Paul E. McKenney        2020-12-08  4362  }
+5bb1bb353cfe34 Paul E. McKenney        2021-01-07  4363  #endif
+98f180837a896e Paul E. McKenney        2020-12-08  4364  
 
 -- 
 0-DAY CI Kernel Test Service
