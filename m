@@ -1,87 +1,120 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D228F28DA1
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Jan 2024 14:15:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4AC182
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 Jan 2024 00:24:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705587334; cv=none; b=R024MiwQ4kRMzEpMWyqHuyvYf4oj68YWYdjUqJOowUjDytc+oy9NQVkWsb8HbCkJswdQzVofZVPdGB8g83PHfNQmIAve95OqAq2nn1FulJq/NVC0/9p2BXmKzkK/FdJcuEokap/0tIu8owo17eLrfZa8P1QNbaKEIHwkTUJzaZM=
+	t=1705623869; cv=none; b=P5FTfwAE9ZggsjqprvyE3/7i5zBmjQFPK79XsCTMVZUQ9uv7pv9xDgdHBOUzYJjVdU1YXwnhkcF2lXM28Cdp1UOvwEIXaeXdOlWUg7GlfMZqCav/RHsaB2S1nerWyI1KqASuGmyyJ4Q3Bri3Q7aWXNIhDVoOV63aexein/gadrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705587334; c=relaxed/simple;
-	bh=KOoO40rOI3e24A76d6DRdCTmAY8Rh63QKHMoQ3abtGM=;
-	h=DKIM-Signature:Received:X-MC-Unique:Received:Received:
-	 Organization:From:In-Reply-To:References:To:Cc:Subject:
-	 MIME-Version:Date:Message-ID:X-Scanned-By:X-Mimecast-Spam-Score:
-	 X-Mimecast-Originator:Content-Type:Content-ID:
-	 Content-Transfer-Encoding; b=k5o3UR+4ceIxTGBaPStf4AZGvDNeAlJefXOcRAlhPmcHb/BMJiIR3r17YXXmso/YmDDQb9Mg+TNSjnu1cO9dwig2V9bXNMgnPj8Ks6WxftYGZAGOT+nVAfUkmErzUbapn7cQ+pmYE/CpUlLRFWDhplm/zCAKXAS+wPjNxI0C6FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X9zPcd3I; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1705623869; c=relaxed/simple;
+	bh=CSFlxX2LVP801APrk3HZpfvod+Oo43pcYG64ZEzt4Xc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=j5ewF4ZJRV2NEq9L0396QBvO+hxbPKGG/3xY0+0mz03sO9TqRjG5ahezDnjL/w8KB9KFK1B5HCMa48Fnc6vwnu0K2M+rTyIDxipqUq3q9S1QeO0yuPINkSLXVJGAbqX97cDA/n+X6r95ehnL8K8dZMm3TR35SUccpgL0XdjFMpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G2TgJ5Nt; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X9zPcd3I"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705587331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KOoO40rOI3e24A76d6DRdCTmAY8Rh63QKHMoQ3abtGM=;
-	b=X9zPcd3Iy1M2jF7fxFbcJnrBfps4a71ZfnUt/NMhXMfNDr7YQTIk3wft6pRGW4/QACAS6P
-	PCwIr6EPFKkrZMkFbOhrhSfnxXQXk4ZIRfeqb6ayfbYyQKquOpir4tf/FS+FiTY6BntikS
-	M5KGTs+Q/q0qdrDug9+mgmMPZ9fuDDc=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-636-L9_yXtwUO_Sc2klgOnKmvA-1; Thu,
- 18 Jan 2024 09:15:30 -0500
-X-MC-Unique: L9_yXtwUO_Sc2klgOnKmvA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B71321C07F3A;
-	Thu, 18 Jan 2024 14:15:29 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.42.28.67])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E9937111DCF0;
-	Thu, 18 Jan 2024 14:15:28 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <2b6ee4cb-cc6d-4484-bea3-f60fd9d90fae@kadam.mountain>
-References: <2b6ee4cb-cc6d-4484-bea3-f60fd9d90fae@kadam.mountain>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: dhowells@redhat.com, oe-kbuild@lists.linux.dev, lkp@intel.com,
-    oe-kbuild-all@lists.linux.dev
-Subject: Re: [dhowells-fs:crypto-krb5 4/19] crypto/krb5/kdf.c:116 crypto_krb5_get_Kc() error: buffer overflow 'buf' 4 <= 4
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G2TgJ5Nt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705623867; x=1737159867;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CSFlxX2LVP801APrk3HZpfvod+Oo43pcYG64ZEzt4Xc=;
+  b=G2TgJ5Nt2QuHwqovJ8nwuu+MtyZKsrWmzl5SZhbmqicpJgZdEkDZajop
+   PuPKWo3f5uZnCfrb8jJKpdlThbadFb9OYJeKKrxe84YUzQ34zhHB7fa4Q
+   slHIMJnjfDHhIdPCZKI93sa2jycK0dft81odvGAJTYAWEKzbmGULx8d4O
+   VYfLwZ59S6no+ujvrA1B3smaQKh7hirvObPCEqXnGleTEmNrSMesJsDKJ
+   fcBMh0x9jehTaopXHHp+5VvHixr7o7ArCwHohb2P+Bl1MTurxEkxHt6hk
+   pc/+XguFCQMLQWKAV8Wh4d4OcSuywKHCQIKBDm1uwT7uLJTQdhIRWydJC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="506458"
+X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
+   d="scan'208";a="506458"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 16:22:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="928268589"
+X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
+   d="scan'208";a="928268589"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 18 Jan 2024 16:22:37 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rQceZ-0003SS-1q;
+	Fri, 19 Jan 2024 00:22:35 +0000
+Date: Fri, 19 Jan 2024 08:22:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [arm-integrator:b4/arm32-cfi 3/6]
+ kernel/trace/fgraph.c:688:undefined reference to `ftrace_stub_graph'
+Message-ID: <202401190810.GrVv0sJj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Thu, 18 Jan 2024 14:15:28 +0000
-Message-ID: <3087097.1705587328@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <3087096.1705587328.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+:::::: 
+:::::: Manual check reason: "only kconfig file changed"
+:::::: 
 
-> smatch warnings:
-> crypto/krb5/kdf.c:116 crypto_krb5_get_Kc() error: buffer overflow 'buf' 4=
- <=3D 4
-> crypto/krb5/kdf.c:161 crypto_krb5_get_Ke() error: buffer overflow 'buf' 4=
- <=3D 4
-> crypto/krb5/kdf.c:206 crypto_krb5_get_Ki() error: buffer overflow 'buf' 4=
- <=3D 4
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Linus Walleij <linus.walleij@linaro.org>
 
-I've changed the buffer to be size 5 instead of CRYPTO_MINALIGN and left th=
-e
-alignment to the __aligned() qualifier.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/arm32-cfi
+head:   98f7bb8c9f58d28851e6bdf4365ac7674abd4963
+commit: 44079882dc3b1b966feed92c0938e0f59d970a3f [3/6] ARM: Support CLANG CFI
+:::::: branch date: 10 hours ago
+:::::: commit date: 2 days ago
+config: arm-bcm2835_defconfig (https://download.01.org/0day-ci/archive/20240119/202401190810.GrVv0sJj-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401190810.GrVv0sJj-lkp@intel.com/reproduce)
 
-David
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202401190810.GrVv0sJj-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   arm-linux-gnueabi-ld: kernel/trace/fgraph.o: in function `unregister_ftrace_graph':
+>> kernel/trace/fgraph.c:688:(.text+0x80c): undefined reference to `ftrace_stub_graph'
+>> arm-linux-gnueabi-ld: kernel/trace/fgraph.o:kernel/trace/fgraph.c:400:(.data+0xc): undefined reference to `ftrace_stub_graph'
+
+
+vim +688 kernel/trace/fgraph.c
+
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  671) 
+688f7089d8851b Steven Rostedt (VMware  2018-11-15  672) void unregister_ftrace_graph(struct fgraph_ops *gops)
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  673) {
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  674) 	mutex_lock(&ftrace_lock);
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  675) 
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  676) 	if (unlikely(!ftrace_graph_active))
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  677) 		goto out;
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  678) 
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  679) 	ftrace_graph_active--;
+46f9469247c6f4 Steven Rostedt (VMware  2019-11-18  680) 	ftrace_graph_return = ftrace_stub_graph;
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  681) 	ftrace_graph_entry = ftrace_graph_entry_stub;
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  682) 	__ftrace_graph_entry = ftrace_graph_entry_stub;
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  683) 	ftrace_shutdown(&graph_ops, FTRACE_STOP_FUNC_RET);
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  684) 	unregister_pm_notifier(&ftrace_suspend_notifier);
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  685) 	unregister_trace_sched_switch(ftrace_graph_probe_sched_switch, NULL);
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  686) 
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15  687)  out:
+e73e679f656e67 Steven Rostedt (VMware  2018-11-15 @688) 	mutex_unlock(&ftrace_lock);
+
+:::::: The code at line 688 was first introduced by commit
+:::::: e73e679f656e678b0e7f8961094201f3544f4541 fgraph: Move function graph specific code into fgraph.c
+
+:::::: TO: Steven Rostedt (VMware) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
