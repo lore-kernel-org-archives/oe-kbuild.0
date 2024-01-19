@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116445381
-	for <oe-kbuild@lists.linux.dev>; Fri, 19 Jan 2024 06:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854E28F6F
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 Jan 2024 07:23:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705644350; cv=none; b=ZSAwmr5bpKTXz1aGuTdqIglaHNShM7ZTr7EOZOaQgMMPxr9mdJrHDf3vV6Wrl7R9EuYBYEc5/ichU3n/zgLc7j2dk0gKtkdNDHUifsV4FCZjcQ3gRA4XnDdP3VS7CIBv2WsgepwSfAibHzo0ByY6AuGjH8bn9pcOKrNJtjuLrDs=
+	t=1705649038; cv=none; b=TRpDHYgJ9hEuj6zIu6jgz89nnAC2WVFsaTWOTAN8i3vT5ZQ01TNOAVpRX+f2tKNqmQcjtXecr0v2uiQG4tiOnLKM6fwpXz+Hyr2jCrnDLrrSUor7EtGlObVsv9AYDLdI+EEO9cvgVs7Gi++ccp1fL75K+RJ8bs9iiLth+Bu5gGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705644350; c=relaxed/simple;
-	bh=7bIg6m2fMAmMYCgwLc79n3TERFHvWynARiczGv9gJDk=;
+	s=arc-20240116; t=1705649038; c=relaxed/simple;
+	bh=+V+60qPpRLf5QRMy8gsIITpKPnkXaTtj5sa9oJxoM6o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NNNg3N5/BKIAwBop7zOZ5C1vVvbOSmuWWHWpXwn6iuXehaMhPayB7alI7NBBy7/MRcqsUReFgzv7xA0G53naYFQ+oX79QQ3G+XkRzyawWofbostPctwAVqZ09tI9U3mkYijGTcpfBmTtMcL4A/jBfYaMkL0G1V+bWLYCAC65Voc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PYcnXs3C; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=mEXuupA+mECykZ8kzrbEQ8k8LXkRx1usxhJae+xAWbZz+MtfDl7EhSkmIBjuSy6w5Wo5IJGBxSzqIs9gL1ltbUA8wBdPlDcPxqGyx3R08spdquaw9QSRe2YL0QhMBy6o1jiPjZL6WzeDKZNWrj/6FbEK0P+Piukb14zqCysPBN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jHV3vqjt; arc=none smtp.client-ip=192.55.52.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PYcnXs3C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jHV3vqjt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705644348; x=1737180348;
+  t=1705649036; x=1737185036;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7bIg6m2fMAmMYCgwLc79n3TERFHvWynARiczGv9gJDk=;
-  b=PYcnXs3CzKYi/gc0D4ulzTFmD0A+Gx0OUXlG/fFUTd2ECo4fwj4RdPmA
-   lE4Z7yD5iJnYfirIiettvIsjVT+Qo5hfGPYrRBVCanvLJsUGBHnpx7KEC
-   YZJwx2FoRPDWRj5tJab7pHk9q6qId2OxxoOVcid9oRBj0bdpXyPBABcGZ
-   JL5PzjHNzxnKryI4/wlgTxp/GPpdcaD2Kh9+O9WqO+/JTaismJ4+0k24m
-   Op7Kif6Sthu8wMEfaz1O0gk4K7gjeLPMCgTR1zuouVGbdzfpSPmKJUdnN
-   DgY/vM542GqKMWwZEliRdKw3vMdpQZ86DDsF58cgDNhiDQByMbtKHtep1
+  bh=+V+60qPpRLf5QRMy8gsIITpKPnkXaTtj5sa9oJxoM6o=;
+  b=jHV3vqjt5dfSAd0lyDsLGYe0nlFja5d+ZIPJdj9gZ7zrdjCZPkqXg81M
+   wztNM4aZN9Ve2c7D/im4nnjd0O1Kl+A6l2PZNmhz4X6npsD0E93gV2Pdr
+   3wXJov/Y8BLzRonRy7b+auyQ0iYNg54jeZ+/xRb/W/oZvdEOXOhD+0xzr
+   tYH5AdinY40XAOy7MifxQvTh9C5WJSntkqUqfKUnFvabkQYOCJdEx81WL
+   BjMOfoBLJXjjH8/LbbVFwwm40Bha2+2daO76PYLgalWn2BA437oCJrsed
+   XJngMDsMsfkjWW8bplzAlYX7S3rlpQ3MaUYYic2ayu07WkfcX+hqiZlWr
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7430668"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="431852765"
 X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="7430668"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 22:05:47 -0800
+   d="scan'208";a="431852765"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 23:23:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="788281363"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="785008326"
 X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="788281363"
+   d="scan'208";a="785008326"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Jan 2024 22:05:46 -0800
+  by orsmga002.jf.intel.com with ESMTP; 18 Jan 2024 23:23:50 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQi0d-0003gm-2A;
-	Fri, 19 Jan 2024 06:05:43 +0000
-Date: Fri, 19 Jan 2024 14:04:49 +0800
+	id 1rQjEB-0003kn-1i;
+	Fri, 19 Jan 2024 07:23:47 +0000
+Date: Fri, 19 Jan 2024 15:23:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/riscv/kernel/sys_hwprobe.c:42 hwprobe_arch_id() error:
- uninitialized symbol 'cpu_id'.
-Message-ID: <202401191353.uLJKwehv-lkp@intel.com>
+Subject: sound/usb/mixer_scarlett2.c:4972
+ scarlett2_ioctl_select_flash_segment() warn: potential spectre issue
+ 'private->flash_segment_nums' [r] (local cap)
+Message-ID: <202401191535.Sptdb0tv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,72 +63,70 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Andrew Jones <ajones@ventanamicro.com>
-CC: Palmer Dabbelt <palmer@rivosinc.com>
-CC: Conor Dooley <conor.dooley@microchip.com>
+TO: "Geoffrey D. Bennett" <g@b4.vu>
+CC: Takashi Iwai <tiwai@suse.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9d1694dc91ce7b80bc96d6d8eaf1a1eca668d847
-commit: 53b2b22850e1ff9e2729ce8efe2d846ed7d3bff4 RISC-V: Move the hwprobe syscall to its own file
-date:   2 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 2 weeks ago
-config: riscv-randconfig-r081-20240119 (https://download.01.org/0day-ci/archive/20240119/202401191353.uLJKwehv-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d92ce344bf641e6bb025b41b3f1a77dd25e2b3e9)
+commit: 6a7508e64ee3e8320c886020bcdcd70f7fcbff2c ALSA: scarlett2: Add ioctl commands to erase flash segments
+date:   3 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 3 weeks ago
+config: nios2-randconfig-r081-20240118 (https://download.01.org/0day-ci/archive/20240119/202401191535.Sptdb0tv-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202401191353.uLJKwehv-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401191535.Sptdb0tv-lkp@intel.com/
 
 smatch warnings:
-arch/riscv/kernel/sys_hwprobe.c:42 hwprobe_arch_id() error: uninitialized symbol 'cpu_id'.
+sound/usb/mixer_scarlett2.c:4972 scarlett2_ioctl_select_flash_segment() warn: potential spectre issue 'private->flash_segment_nums' [r] (local cap)
+sound/usb/mixer_scarlett2.c:4973 scarlett2_ioctl_select_flash_segment() warn: possible spectre second half.  'segment_num'
 
-vim +/cpu_id +42 arch/riscv/kernel/sys_hwprobe.c
+vim +4972 sound/usb/mixer_scarlett2.c
 
-53b2b22850e1ff Andrew Jones 2023-11-22  17  
-53b2b22850e1ff Andrew Jones 2023-11-22  18  
-53b2b22850e1ff Andrew Jones 2023-11-22  19  static void hwprobe_arch_id(struct riscv_hwprobe *pair,
-53b2b22850e1ff Andrew Jones 2023-11-22  20  			    const struct cpumask *cpus)
-53b2b22850e1ff Andrew Jones 2023-11-22  21  {
-53b2b22850e1ff Andrew Jones 2023-11-22  22  	u64 id = -1ULL;
-53b2b22850e1ff Andrew Jones 2023-11-22  23  	bool first = true;
-53b2b22850e1ff Andrew Jones 2023-11-22  24  	int cpu;
-53b2b22850e1ff Andrew Jones 2023-11-22  25  
-53b2b22850e1ff Andrew Jones 2023-11-22  26  	for_each_cpu(cpu, cpus) {
-53b2b22850e1ff Andrew Jones 2023-11-22  27  		u64 cpu_id;
-53b2b22850e1ff Andrew Jones 2023-11-22  28  
-53b2b22850e1ff Andrew Jones 2023-11-22  29  		switch (pair->key) {
-53b2b22850e1ff Andrew Jones 2023-11-22  30  		case RISCV_HWPROBE_KEY_MVENDORID:
-53b2b22850e1ff Andrew Jones 2023-11-22  31  			cpu_id = riscv_cached_mvendorid(cpu);
-53b2b22850e1ff Andrew Jones 2023-11-22  32  			break;
-53b2b22850e1ff Andrew Jones 2023-11-22  33  		case RISCV_HWPROBE_KEY_MIMPID:
-53b2b22850e1ff Andrew Jones 2023-11-22  34  			cpu_id = riscv_cached_mimpid(cpu);
-53b2b22850e1ff Andrew Jones 2023-11-22  35  			break;
-53b2b22850e1ff Andrew Jones 2023-11-22  36  		case RISCV_HWPROBE_KEY_MARCHID:
-53b2b22850e1ff Andrew Jones 2023-11-22  37  			cpu_id = riscv_cached_marchid(cpu);
-53b2b22850e1ff Andrew Jones 2023-11-22  38  			break;
-53b2b22850e1ff Andrew Jones 2023-11-22  39  		}
-53b2b22850e1ff Andrew Jones 2023-11-22  40  
-53b2b22850e1ff Andrew Jones 2023-11-22  41  		if (first) {
-53b2b22850e1ff Andrew Jones 2023-11-22 @42  			id = cpu_id;
-53b2b22850e1ff Andrew Jones 2023-11-22  43  			first = false;
-53b2b22850e1ff Andrew Jones 2023-11-22  44  		}
-53b2b22850e1ff Andrew Jones 2023-11-22  45  
-53b2b22850e1ff Andrew Jones 2023-11-22  46  		/*
-53b2b22850e1ff Andrew Jones 2023-11-22  47  		 * If there's a mismatch for the given set, return -1 in the
-53b2b22850e1ff Andrew Jones 2023-11-22  48  		 * value.
-53b2b22850e1ff Andrew Jones 2023-11-22  49  		 */
-53b2b22850e1ff Andrew Jones 2023-11-22  50  		if (id != cpu_id) {
-53b2b22850e1ff Andrew Jones 2023-11-22  51  			id = -1ULL;
-53b2b22850e1ff Andrew Jones 2023-11-22  52  			break;
-53b2b22850e1ff Andrew Jones 2023-11-22  53  		}
-53b2b22850e1ff Andrew Jones 2023-11-22  54  	}
-53b2b22850e1ff Andrew Jones 2023-11-22  55  
-53b2b22850e1ff Andrew Jones 2023-11-22  56  	pair->value = id;
-53b2b22850e1ff Andrew Jones 2023-11-22  57  }
-53b2b22850e1ff Andrew Jones 2023-11-22  58  
+337b2f0e778f78 Geoffrey D. Bennett 2023-12-20  4956  
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4957  /* Select a flash segment for erasing (and possibly writing to) */
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4958  static int scarlett2_ioctl_select_flash_segment(
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4959  	struct usb_mixer_interface *mixer,
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4960  	unsigned long arg)
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4961  {
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4962  	struct scarlett2_data *private = mixer->private_data;
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4963  	int segment_id, segment_num;
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4964  
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4965  	if (get_user(segment_id, (int __user *)arg))
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4966  		return -EFAULT;
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4967  
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4968  	/* Check the segment ID and segment number */
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4969  	if (segment_id < 0 || segment_id >= SCARLETT2_SEGMENT_ID_COUNT)
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4970  		return -EINVAL;
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4971  
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20 @4972  	segment_num = private->flash_segment_nums[segment_id];
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20 @4973  	if (segment_num < SCARLETT2_SEGMENT_NUM_MIN ||
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4974  	    segment_num > SCARLETT2_SEGMENT_NUM_MAX) {
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4975  		usb_audio_err(mixer->chip,
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4976  			      "%s: invalid segment number %d\n",
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4977  			      __func__, segment_id);
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4978  		return -EFAULT;
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4979  	}
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4980  
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4981  	/* If erasing, wait for it to complete */
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4982  	if (private->flash_write_state == SCARLETT2_FLASH_WRITE_STATE_ERASING) {
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4983  		int err = scarlett2_wait_for_erase(mixer);
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4984  
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4985  		if (err < 0)
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4986  			return err;
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4987  	}
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4988  
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4989  	/* Save the selected segment ID and set the state to SELECTED */
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4990  	private->selected_flash_segment_id = segment_id;
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4991  	private->flash_write_state = SCARLETT2_FLASH_WRITE_STATE_SELECTED;
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4992  
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4993  	return 0;
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4994  }
+6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4995  
 
 -- 
 0-DAY CI Kernel Test Service
