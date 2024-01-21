@@ -1,201 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD39A1368
-	for <oe-kbuild@lists.linux.dev>; Sun, 21 Jan 2024 09:28:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFEF3770F
+	for <oe-kbuild@lists.linux.dev>; Sun, 21 Jan 2024 16:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705829293; cv=none; b=RMLcnzPo4hLzM29uVqk59gatGtpp6WJMsyd/pzmoX5XR4/rI7bI605OruEppXgoIeqV487zVZaU4ciganvk9IMieUEpKL3jchI3U+dcpTkP0lUsqy9oFqXPrZxpggO0RctlTbGqiPGyxDBmM4RSjXuMd/irXiConjA5QR1L4IfY=
+	t=1705853901; cv=none; b=Ns/+cCXFv7/oNNt7NXOtdBj+sc5SAhpn/0+ho1LqrIo27vnRKfXBEiiDPU97VBObzWxxcepbmGuGVCo7gDFTsPqlgsyNEjpEhecx6shwY0FNx27bHSpkz1wJmtvtUDENGebx9KdtAx1YJKTi4TcJLxTGmGgqLNm6J0z+NvwX1oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705829293; c=relaxed/simple;
-	bh=frUt9/Q7L5eSiPmzgyZaWJVtZY1a2cfvUCgNxOcmAzQ=;
+	s=arc-20240116; t=1705853901; c=relaxed/simple;
+	bh=uK4rdLxb5uf/9HbvIqMT8eDew+J2Td0z4eHtbdh6mQI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=niwctoMytNTSWu+H+MCfe6qp8dkxUuwRYyZuwV/dn8pDoa670aDyzOSzHg3iSj8uSD8Il/HctemJRL8USWqKvoikTdInUXzfpTjYx71SDVm+dj7kP0A8ohw/eu21fTzLIBI17YX9XOV1QfsAqBDzkBwP3oSJJqh3ZA0loBT0n0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dsc7AwQq; arc=none smtp.client-ip=134.134.136.31
+	 Content-Disposition; b=GtvLX0pHbJzsSWixumOsSYnq4CsDdRcHqXvjn30b351Kdr2cvHsV9Ek29HY0531SsTCnFGDf6uwyKxR5g85fkQsOIAKMSFYXCjfULZjOytoI3U+9J49GNDnOHAmN/ej4M4SyzK6NWDQSOvhwk2sSIhIt3JgpCDv2nuZz7n5EOCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EDkfNk1m; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dsc7AwQq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EDkfNk1m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705829290; x=1737365290;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=frUt9/Q7L5eSiPmzgyZaWJVtZY1a2cfvUCgNxOcmAzQ=;
-  b=Dsc7AwQqdf/6waa6k6Hp/tBvhOLzKxWmA+7CPgFih+Ar4yKFyQ7dqP0x
-   XBLkjk6PUtvhxKpKfNETMLPwMCnoudrTcoEIP0JJGGJ+W27sg3vc61zoX
-   CCK/l9YAHefZAcdpb5CeCSOgyV03rY/yClMPSBQZdVckqEUqWsWL5PYQ7
-   slNRL6m7UG3iYo60rTDBPnMiyO/kQEbDRBACR7OOK6FQS1bzwy3zGW/51
-   99WKRRQDeAU4QNDqDTUSfZlE46SRX680Hc6Mbw8g8Uj30CJShsYiIHbkC
-   0g5SG4UiyJy8wPNlqNM9hnbJXHAn6KfF2f9ozt7oKDtNjdUgXiOAjdOOq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="465278144"
-X-IronPort-AV: E=Sophos;i="6.05,209,1701158400"; 
-   d="scan'208";a="465278144"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2024 01:28:10 -0800
+  t=1705853900; x=1737389900;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uK4rdLxb5uf/9HbvIqMT8eDew+J2Td0z4eHtbdh6mQI=;
+  b=EDkfNk1mBCt1HF6hnu5GMGw9OkLzNnvqPbTu46f7zcQijWH0gnb1gWrs
+   DO+Fs9By8/V9ejwwQ3GkimARR7a3rPMn8W2b3bk//JB4i0H9u/chPjOJf
+   tb0kYunGr7tNsXUk7s0FbF+ZTPVH3rHKvQuKQ36eoptIcJBXRebL4Ckrc
+   BxBxtURXzZ4yrQ3s4Iciyxfx3/0WXbs8B04fQKL0a+J4wKfBDr5DCh462
+   082MNf8gL/yIN4EfNobf2pEDjiT3dON7KdcONigYZeh/1NemCPSv6FD1t
+   +ONbqqPJLD2T0F8clg0k14jC9Q5qgV63h8v6miIlhmjInFI8ej/Popadb
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="7800621"
+X-IronPort-AV: E=Sophos;i="6.05,210,1701158400"; 
+   d="scan'208";a="7800621"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2024 08:18:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,209,1701158400"; 
-   d="scan'208";a="1032869"
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="785463702"
+X-IronPort-AV: E=Sophos;i="6.05,210,1701158400"; 
+   d="scan'208";a="785463702"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 21 Jan 2024 01:28:09 -0800
+  by orsmga002.jf.intel.com with ESMTP; 21 Jan 2024 08:18:15 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rRU7a-0005pK-09;
-	Sun, 21 Jan 2024 09:28:06 +0000
-Date: Sun, 21 Jan 2024 17:27:49 +0800
+	id 1rRaWT-00062b-1D;
+	Sun, 21 Jan 2024 16:18:13 +0000
+Date: Mon, 22 Jan 2024 00:17:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/iio/light/tsl2563.c:768:8-33: WARNING: Threaded IRQ with no
- primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
-Message-ID: <202401211748.v2QSqcEy-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:553
+ mt7996_mcu_wed_rro_event() warn: potential spectre issue 'dev->mt76.wcid'
+ [w] (local cap)
+Message-ID: <202401220036.tfRdgeGM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Ferry Toth <ftoth@exalondelft.nl>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+TO: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: Felix Fietkau <nbd@nbd.name>
+CC: Sujuan Chen <sujuan.chen@mediatek.com>
+CC: Bo Jiao <Bo.Jiao@mediatek.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7a396820222d6d4c02057f41658b162bdcdadd0e
-commit: 027641b52fe37b64af61025298ce160c8b9b7a73 iio: light: tsl2563: Do not hardcode interrupt trigger type
-date:   1 year, 1 month ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: arm-randconfig-r062-20240117 (https://download.01.org/0day-ci/archive/20240121/202401211748.v2QSqcEy-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
+commit: a5d028d668360db991e6da67cd48b9b4443198ed wifi: mt76: mt7996: add wed rro delete session garbage collector
+date:   6 weeks ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 6 weeks ago
+config: x86_64-randconfig-161-20240120 (https://download.01.org/0day-ci/archive/20240122/202401220036.tfRdgeGM-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401211748.v2QSqcEy-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202401220036.tfRdgeGM-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/iio/light/tsl2563.c:768:8-33: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+New smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:553 mt7996_mcu_wed_rro_event() warn: potential spectre issue 'dev->mt76.wcid' [w] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:560 mt7996_mcu_wed_rro_event() warn: potential spectre issue 'wcid->aggr' [w] (local cap)
 
-vim +768 drivers/iio/light/tsl2563.c
+Old smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:347 mt7996_mcu_rx_radar_detected() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:349 mt7996_mcu_rx_radar_detected() warn: possible spectre second half.  'mphy'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:429 mt7996_mcu_ie_countdown() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:436 mt7996_mcu_ie_countdown() warn: possible spectre second half.  'mphy'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:441 mt7996_mcu_ie_countdown() warn: possible spectre second half.  'mphy'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2300 mt7996_mcu_beacon_mbss() warn: potential spectre issue 'sub_elem->data' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2292 mt7996_mcu_beacon_mbss() warn: potential spectre issue 'elem->data' [r] (local cap)
 
-6fe8135fccd66a drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-05-18  701  
-74cd01b3f9041e drivers/iio/light/tsl2563.c         Uwe Kleine-König   2022-11-18  702  static int tsl2563_probe(struct i2c_client *client)
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  703  {
-33789dce549895 drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-04-18  704  	struct iio_dev *indio_dev;
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  705  	struct tsl2563_chip *chip;
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  706  	struct tsl2563_platform_data *pdata = client->dev.platform_data;
-027641b52fe37b drivers/iio/light/tsl2563.c         Ferry Toth         2022-12-07  707  	unsigned long irq_flags;
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  708  	int err = 0;
-deda386deb537d drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-08-12  709  	u8 id = 0;
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  710  
-bace48f44adb95 drivers/iio/light/tsl2563.c         Sachin Kamat       2013-07-30  711  	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*chip));
-33789dce549895 drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-04-18  712  	if (!indio_dev)
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  713  		return -ENOMEM;
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  714  
-33789dce549895 drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-04-18  715  	chip = iio_priv(indio_dev);
-33789dce549895 drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-04-18  716  
-70804e560b072d drivers/iio/light/tsl2563.c         Alexandru Ardelean 2020-05-22  717  	i2c_set_clientdata(client, indio_dev);
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  718  	chip->client = client;
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  719  
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  720  	err = tsl2563_detect(chip);
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  721  	if (err) {
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  722  		dev_err(&client->dev, "detect error %d\n", -err);
-bace48f44adb95 drivers/iio/light/tsl2563.c         Sachin Kamat       2013-07-30  723  		return err;
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  724  	}
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  725  
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  726  	err = tsl2563_read_id(chip, &id);
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  727  	if (err) {
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  728  		dev_err(&client->dev, "read id error %d\n", -err);
-bace48f44adb95 drivers/iio/light/tsl2563.c         Sachin Kamat       2013-07-30  729  		return err;
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  730  	}
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  731  
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  732  	mutex_init(&chip->lock);
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  733  
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  734  	/* Default values used until userspace says otherwise */
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  735  	chip->low_thres = 0x0;
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  736  	chip->high_thres = 0xffff;
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  737  	chip->gainlevel = tsl2563_gainlevel_table;
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  738  	chip->intr = TSL2563_INT_PERSIST(4);
-6fa273c1aaa0ab drivers/iio/light/tsl2563.c         Peter Meerwald     2015-04-15  739  	chip->calib0 = tsl2563_calib_from_sysfs(CALIB_BASE_SYSFS);
-6fa273c1aaa0ab drivers/iio/light/tsl2563.c         Peter Meerwald     2015-04-15  740  	chip->calib1 = tsl2563_calib_from_sysfs(CALIB_BASE_SYSFS);
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  741  
-d884da1a75489e drivers/iio/light/tsl2563.c         Vaishnav M A       2020-10-19  742  	if (pdata) {
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  743  		chip->cover_comp_gain = pdata->cover_comp_gain;
-d884da1a75489e drivers/iio/light/tsl2563.c         Vaishnav M A       2020-10-19  744  	} else {
-d884da1a75489e drivers/iio/light/tsl2563.c         Vaishnav M A       2020-10-19  745  		err = device_property_read_u32(&client->dev, "amstaos,cover-comp-gain",
-8175bff5b47eae drivers/iio/light/tsl2563.c         Sebastian Reichel  2013-10-25  746  					       &chip->cover_comp_gain);
-d884da1a75489e drivers/iio/light/tsl2563.c         Vaishnav M A       2020-10-19  747  		if (err)
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  748  			chip->cover_comp_gain = 1;
-d884da1a75489e drivers/iio/light/tsl2563.c         Vaishnav M A       2020-10-19  749  	}
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  750  
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  751  	dev_info(&client->dev, "model %d, rev. %d\n", id >> 4, id & 0x0f);
-cbcdf4dd4fb109 drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-05-18  752  	indio_dev->name = client->name;
-cbcdf4dd4fb109 drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-05-18  753  	indio_dev->channels = tsl2563_channels;
-cbcdf4dd4fb109 drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-05-18  754  	indio_dev->num_channels = ARRAY_SIZE(tsl2563_channels);
-33789dce549895 drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-04-18  755  	indio_dev->modes = INDIO_DIRECT_MODE;
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  756  
-cbcdf4dd4fb109 drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-05-18  757  	if (client->irq)
-6fe8135fccd66a drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-05-18  758  		indio_dev->info = &tsl2563_info;
-6fe8135fccd66a drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-05-18  759  	else
-6fe8135fccd66a drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-05-18  760  		indio_dev->info = &tsl2563_info_no_irq;
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  761  
-388be488395287 drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2010-06-26  762  	if (client->irq) {
-027641b52fe37b drivers/iio/light/tsl2563.c         Ferry Toth         2022-12-07  763  		irq_flags = irq_get_trigger_type(client->irq);
-027641b52fe37b drivers/iio/light/tsl2563.c         Ferry Toth         2022-12-07  764  		if (irq_flags == IRQF_TRIGGER_NONE)
-027641b52fe37b drivers/iio/light/tsl2563.c         Ferry Toth         2022-12-07  765  			irq_flags = IRQF_TRIGGER_RISING;
-027641b52fe37b drivers/iio/light/tsl2563.c         Ferry Toth         2022-12-07  766  		irq_flags |= IRQF_ONESHOT;
-027641b52fe37b drivers/iio/light/tsl2563.c         Ferry Toth         2022-12-07  767  
-bace48f44adb95 drivers/iio/light/tsl2563.c         Sachin Kamat       2013-07-30 @768  		err = devm_request_threaded_irq(&client->dev, client->irq,
-bdab1001738f4e drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-05-18  769  					   NULL,
-bdab1001738f4e drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-05-18  770  					   &tsl2563_event_handler,
-027641b52fe37b drivers/iio/light/tsl2563.c         Ferry Toth         2022-12-07  771  					   irq_flags,
-bdab1001738f4e drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-05-18  772  					   "tsl2563_event",
-bdab1001738f4e drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-05-18  773  					   indio_dev);
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  774  		if (err) {
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  775  			dev_err(&client->dev, "irq request error %d\n", -err);
-bace48f44adb95 drivers/iio/light/tsl2563.c         Sachin Kamat       2013-07-30  776  			return err;
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  777  		}
-388be488395287 drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2010-06-26  778  	}
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  779  
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  780  	err = tsl2563_configure(chip);
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  781  	if (err) {
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  782  		dev_err(&client->dev, "configure error %d\n", -err);
-bace48f44adb95 drivers/iio/light/tsl2563.c         Sachin Kamat       2013-07-30  783  		return err;
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  784  	}
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  785  
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  786  	INIT_DELAYED_WORK(&chip->poweroff_work, tsl2563_poweroff_work);
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  787  
-388be488395287 drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2010-06-26  788  	/* The interrupt cannot yet be enabled so this is fine without lock */
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  789  	schedule_delayed_work(&chip->poweroff_work, 5 * HZ);
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  790  
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  791  	err = iio_device_register(indio_dev);
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  792  	if (err) {
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  793  		dev_err(&client->dev, "iio registration error %d\n", -err);
-bace48f44adb95 drivers/iio/light/tsl2563.c         Sachin Kamat       2013-07-30  794  		goto fail;
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  795  	}
-26d25ae3f0d8ff drivers/staging/iio/light/tsl2563.c Jonathan Cameron   2011-09-02  796  
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  797  	return 0;
-dbf717fd9a0d5f drivers/staging/iio/light/tsl2563.c Grant Grundler     2012-03-05  798  
-bace48f44adb95 drivers/iio/light/tsl2563.c         Sachin Kamat       2013-07-30  799  fail:
-9e61d901155bcd drivers/iio/light/tsl2563.c         Amitoj Kaur Chawla 2016-03-17  800  	cancel_delayed_work_sync(&chip->poweroff_work);
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  801  	return err;
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  802  }
-ee1f1fa4071416 drivers/staging/iio/light/tsl2563.c Amit Kucheria      2009-11-09  803  
+vim +553 drivers/net/wireless/mediatek/mt76/mt7996/mcu.c
 
-:::::: The code at line 768 was first introduced by commit
-:::::: bace48f44adb954ad71e62779d1be52dae3f0caf iio: light: tsl2563: Use devm_* APIs
-
-:::::: TO: Sachin Kamat <sachin.kamat@linaro.org>
-:::::: CC: Jonathan Cameron <jic23@kernel.org>
+98686cd21624c75 Shayne Chen      2022-11-22  528  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  529  static void
+a5d028d668360db Lorenzo Bianconi 2023-10-20  530  mt7996_mcu_wed_rro_event(struct mt7996_dev *dev, struct sk_buff *skb)
+a5d028d668360db Lorenzo Bianconi 2023-10-20  531  {
+a5d028d668360db Lorenzo Bianconi 2023-10-20  532  	struct mt7996_mcu_wed_rro_event *event = (void *)skb->data;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  533  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  534  	if (!dev->has_rro)
+a5d028d668360db Lorenzo Bianconi 2023-10-20  535  		return;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  536  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  537  	skb_pull(skb, sizeof(struct mt7996_mcu_rxd) + 4);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  538  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  539  	switch (le16_to_cpu(event->tag)) {
+a5d028d668360db Lorenzo Bianconi 2023-10-20  540  	case UNI_WED_RRO_BA_SESSION_STATUS: {
+a5d028d668360db Lorenzo Bianconi 2023-10-20  541  		struct mt7996_mcu_wed_rro_ba_event *e;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  542  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  543  		while (skb->len >= sizeof(*e)) {
+a5d028d668360db Lorenzo Bianconi 2023-10-20  544  			struct mt76_rx_tid *tid;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  545  			struct mt76_wcid *wcid;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  546  			u16 idx;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  547  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  548  			e = (void *)skb->data;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  549  			idx = le16_to_cpu(e->wlan_id);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  550  			if (idx >= ARRAY_SIZE(dev->mt76.wcid))
+a5d028d668360db Lorenzo Bianconi 2023-10-20  551  				break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  552  
+a5d028d668360db Lorenzo Bianconi 2023-10-20 @553  			wcid = rcu_dereference(dev->mt76.wcid[idx]);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  554  			if (!wcid || !wcid->sta)
+a5d028d668360db Lorenzo Bianconi 2023-10-20  555  				break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  556  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  557  			if (e->tid >= ARRAY_SIZE(wcid->aggr))
+a5d028d668360db Lorenzo Bianconi 2023-10-20  558  				break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  559  
+a5d028d668360db Lorenzo Bianconi 2023-10-20 @560  			tid = rcu_dereference(wcid->aggr[e->tid]);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  561  			if (!tid)
+a5d028d668360db Lorenzo Bianconi 2023-10-20  562  				break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  563  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  564  			tid->id = le16_to_cpu(e->id);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  565  			skb_pull(skb, sizeof(*e));
+a5d028d668360db Lorenzo Bianconi 2023-10-20  566  		}
+a5d028d668360db Lorenzo Bianconi 2023-10-20  567  		break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  568  	}
+a5d028d668360db Lorenzo Bianconi 2023-10-20  569  	case UNI_WED_RRO_BA_SESSION_DELETE: {
+a5d028d668360db Lorenzo Bianconi 2023-10-20  570  		struct mt7996_mcu_wed_rro_ba_delete_event *e;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  571  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  572  		while (skb->len >= sizeof(*e)) {
+a5d028d668360db Lorenzo Bianconi 2023-10-20  573  			struct mt7996_wed_rro_session_id *session;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  574  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  575  			e = (void *)skb->data;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  576  			session = kzalloc(sizeof(*session), GFP_ATOMIC);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  577  			if (!session)
+a5d028d668360db Lorenzo Bianconi 2023-10-20  578  				break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  579  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  580  			session->id = le16_to_cpu(e->session_id);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  581  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  582  			spin_lock_bh(&dev->wed_rro.lock);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  583  			list_add_tail(&session->list, &dev->wed_rro.poll_list);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  584  			spin_unlock_bh(&dev->wed_rro.lock);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  585  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  586  			ieee80211_queue_work(mt76_hw(dev), &dev->wed_rro.work);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  587  			skb_pull(skb, sizeof(*e));
+a5d028d668360db Lorenzo Bianconi 2023-10-20  588  		}
+a5d028d668360db Lorenzo Bianconi 2023-10-20  589  		break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  590  	}
+a5d028d668360db Lorenzo Bianconi 2023-10-20  591  	default:
+a5d028d668360db Lorenzo Bianconi 2023-10-20  592  		break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  593  	}
+a5d028d668360db Lorenzo Bianconi 2023-10-20  594  }
+a5d028d668360db Lorenzo Bianconi 2023-10-20  595  
 
 -- 
 0-DAY CI Kernel Test Service
