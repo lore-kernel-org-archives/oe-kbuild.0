@@ -1,115 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB6C3B18A
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Jan 2024 09:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76ADC46524
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Jan 2024 11:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705916869; cv=none; b=X9oLDOU6v8SYwuzVZOZNuQb5QM/XO/2hCMPx6I/4lskw9fMD+R+21DQ7JJvVX7Rq3SjfbyP/XfGLGixOaU5vhXjvi08lxpUoaB0qfxVYMteHvIn2FBIf8n5HutGMWzxxIyOrubHLTaBLwwcbKK6CWgXwe/apfo7n/S+S2YMyphY=
+	t=1705922342; cv=none; b=eavtYsvHpClCPadU2cyvTOzdZ+CuyhSm5OmPusxyvv104rhHKH6KxMA0/7MC8wffZhXE1+trj+E/fTw60zZ064UOdBipYJPYFI41lA9QupINkG4khu5EQvdGnyxuFudrMl/sN4Kgqw9SJjI6+uRYhqnr+9iuZBl+XhojSEeAqdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705916869; c=relaxed/simple;
-	bh=mWC7pYmmMOD/J3dmo3wyZMQIN7xhFC5/y50g7YrCl9I=;
+	s=arc-20240116; t=1705922342; c=relaxed/simple;
+	bh=SpGe6KyyE0YRKkrCYaoc50mJMqNtF3fW6y7s9089nfc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JVzDahBIsBh2ui6vvnhmvg4npar768BQe4e17or2RlSTt+gH4kf7g2QdPVe+Ned3kv+yrUi8VRm+FYtB5XUpYGeX8u1iiEGBnApffz8CtEbIKfIKRjwenC4u2awMMgBJpIfvasmi+KpD9n4Nru2mJgYMSlhKhjqQuvRDc9mFtXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=He0yh88G; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=kRK3K+nu1oVv14Qbok07Xkybhvu0ZZFAUGBdW2wJ4WRx7JtOfnU52nYuYu4Ts/bAG0YEE2tmQ36eBjBTM0/EJWb67a8DjYJ1yW3UFKz8D2F3N2NUPwJnn0W8UNtREbnNiicTpnT6cO3eWFLBCzeic8EkJscuoffz4VlP5mqAfDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bBkpRXN/; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="He0yh88G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bBkpRXN/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705916868; x=1737452868;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=mWC7pYmmMOD/J3dmo3wyZMQIN7xhFC5/y50g7YrCl9I=;
-  b=He0yh88GJxd8Tctwx8da57EAL8sFUROlywVQX1c4I0wksDUYT500odPG
-   yJeuto1mOO+G/OTgCr/wzwMtOS1KZxRyPLzdwFfVJeGfFlX+ZJ72DhlcO
-   MgeSGgyKyW2YCHuVIFtFZUgriOWFknbiMBUaAlUMUxCnryvwamvQiUCwD
-   HtQKbBZ8CAOVCX924Sh0l+xPw/u/oFwd19lJx3rjRt20a6BwYdvm9V2vT
-   GTXssv+tOz0+R2FiSXSWskeDfnUl1lQqBGdAPIZatSHPvSrv4oUTUt7P0
-   B6aKz+McRRl90FU4FiYU4Pxse4+GGlgpXkp0E0tHjYilFzvQzC96BRc8+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="19722011"
+  t=1705922339; x=1737458339;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SpGe6KyyE0YRKkrCYaoc50mJMqNtF3fW6y7s9089nfc=;
+  b=bBkpRXN/KI0TJnCaVE//F6gMLkhM0SztaVK9MfaAzEqQlZiDHVRc8eLF
+   haNFB1Vv67WYR0EzdxkL/5CQzBBIFljgsdAtBemGhB/UEW5yWyfzli88J
+   9Wn3Wo/wUbkDHJmO0ngbQC6bufM+pyv0MBTv4LEdNglpkRAkw2961kAZh
+   J12mZRxPJNtT1+gyBVhBXH7jj6bxDxIIE6fb/6hlFxC1mHY1lDusVgzB5
+   Y9AE+FbF+jJJvtXXGUicVSR2VCc8MB0HXWl3nC8IwTn8wiQtuE/XDLlWq
+   +/s10e7RaxfbaQPoaHv/96ULCxJJVvwerqb8HlzUngbUGAX6meliVl/nK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="7858796"
 X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="19722011"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 01:47:47 -0800
+   d="scan'208";a="7858796"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 03:18:58 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="27299507"
+   d="scan'208";a="1145095"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 22 Jan 2024 01:47:46 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 22 Jan 2024 03:18:48 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rRqu7-0006Xs-0p;
-	Mon, 22 Jan 2024 09:47:43 +0000
-Date: Mon, 22 Jan 2024 17:46:44 +0800
+	id 1rRsKD-0006Zc-2Q;
+	Mon, 22 Jan 2024 11:18:45 +0000
+Date: Mon, 22 Jan 2024 19:18:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [vsyrjala:sel_fetch_redo_2 9/15]
- drivers/gpu/drm/i915/display/intel_psr.c:1948:1-3: WARNING: possible
- condition with no effect (if == else)
-Message-ID: <202401221744.6cgejStW-lkp@intel.com>
+Subject: [linux-next:master 139/1036]
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c:614:3-14: ERROR: probable double put.
+Message-ID: <202401221903.GjEKVu8R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Sui Jingfeng <suijingfeng@loongson.cn>
+CC: Lucas Stach <l.stach@pengutronix.de>
 
-tree:   https://github.com/vsyrjala/linux.git sel_fetch_redo_2
-head:   fca92680c3b70f0c2bf60799a185c78755fbef40
-commit: 2b3cd12bc66ff46cdd03883c8ebb9e42b9f0c14d [9/15] drm/i915/psr: Rewrite PSR2 selective fetch area calculations
-:::::: branch date: 3 days ago
-:::::: commit date: 10 weeks ago
-config: i386-randconfig-054-20240122 (https://download.01.org/0day-ci/archive/20240122/202401221744.6cgejStW-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   319fbd8fc6d339e0a1c7b067eed870c518a13a02
+commit: 56df40c804fa40712239478355abe265aeda2197 [139/1036] drm/etnaviv: Add a helper to get the first available GPU device node
+:::::: branch date: 10 hours ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-102-20240122 (https://download.01.org/0day-ci/archive/20240122/202401221903.GjEKVu8R-lkp@intel.com/config)
 compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401221744.6cgejStW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401221903.GjEKVu8R-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/display/intel_psr.c:1948:1-3: WARNING: possible condition with no effect (if == else)
+>> drivers/gpu/drm/etnaviv/etnaviv_drv.c:614:3-14: ERROR: probable double put.
 
-vim +1948 drivers/gpu/drm/i915/display/intel_psr.c
+vim +614 drivers/gpu/drm/etnaviv/etnaviv_drv.c
 
-73262db68c27ed José Roberto de Souza 2021-09-22  1928  
-c22cf04c6ab1d9 Jouni Högander        2023-01-30  1929  void intel_psr2_program_plane_sel_fetch_arm(struct intel_plane *plane,
-c22cf04c6ab1d9 Jouni Högander        2023-01-30  1930  					    const struct intel_crtc_state *crtc_state,
-c22cf04c6ab1d9 Jouni Högander        2023-01-30  1931  					    const struct intel_plane_state *plane_state)
-c22cf04c6ab1d9 Jouni Högander        2023-01-30  1932  {
-c22cf04c6ab1d9 Jouni Högander        2023-01-30  1933  	struct drm_i915_private *i915 = to_i915(plane->base.dev);
-c22cf04c6ab1d9 Jouni Högander        2023-01-30  1934  	enum pipe pipe = plane->pipe;
-2b3cd12bc66ff4 Ville Syrjälä         2023-11-15  1935  	u32 ctl = 0;
-c22cf04c6ab1d9 Jouni Högander        2023-01-30  1936  
-2b3cd12bc66ff4 Ville Syrjälä         2023-11-15  1937  	if (!HAS_PSR2_SEL_FETCH(i915))
-c22cf04c6ab1d9 Jouni Högander        2023-01-30  1938  		return;
-c22cf04c6ab1d9 Jouni Högander        2023-01-30  1939  
-2b3cd12bc66ff4 Ville Syrjälä         2023-11-15  1940  	if (crtc_state->enable_psr2_sel_fetch &&
-2b3cd12bc66ff4 Ville Syrjälä         2023-11-15  1941  	    drm_rect_visible(&plane_state->sel_fetch.dst)) {
-c22cf04c6ab1d9 Jouni Högander        2023-01-30  1942  		if (plane->id == PLANE_CURSOR)
-2b3cd12bc66ff4 Ville Syrjälä         2023-11-15  1943  			ctl = plane_state->ctl;
-c22cf04c6ab1d9 Jouni Högander        2023-01-30  1944  		else
-2b3cd12bc66ff4 Ville Syrjälä         2023-11-15  1945  			ctl = PLANE_SEL_FETCH_CTL_ENABLE;
-2b3cd12bc66ff4 Ville Syrjälä         2023-11-15  1946  	}
-2b3cd12bc66ff4 Ville Syrjälä         2023-11-15  1947  
-2b3cd12bc66ff4 Ville Syrjälä         2023-11-15 @1948  	if (plane->id == PLANE_CURSOR)
-2b3cd12bc66ff4 Ville Syrjälä         2023-11-15  1949  		intel_de_write_fw(i915, PLANE_SEL_FETCH_CTL(pipe, plane->id), ctl);
-2b3cd12bc66ff4 Ville Syrjälä         2023-11-15  1950  	else
-2b3cd12bc66ff4 Ville Syrjälä         2023-11-15  1951  		intel_de_write_fw(i915, PLANE_SEL_FETCH_CTL(pipe, plane->id), ctl);
-c22cf04c6ab1d9 Jouni Högander        2023-01-30  1952  }
-c22cf04c6ab1d9 Jouni Högander        2023-01-30  1953  
+a8c21a5451d831 The etnaviv authors 2015-12-03  597  
+a8c21a5451d831 The etnaviv authors 2015-12-03  598  static int etnaviv_pdev_probe(struct platform_device *pdev)
+a8c21a5451d831 The etnaviv authors 2015-12-03  599  {
+a8c21a5451d831 The etnaviv authors 2015-12-03  600  	struct device *dev = &pdev->dev;
+0ea057a9cb2be4 Michael Walle       2021-09-07  601  	struct device_node *first_node = NULL;
+a8c21a5451d831 The etnaviv authors 2015-12-03  602  	struct component_match *match = NULL;
+a8c21a5451d831 The etnaviv authors 2015-12-03  603  
+246774d17fc05a Lucas Stach         2018-01-24  604  	if (!dev->platform_data) {
+a8c21a5451d831 The etnaviv authors 2015-12-03  605  		struct device_node *core_node;
+a8c21a5451d831 The etnaviv authors 2015-12-03  606  
+246774d17fc05a Lucas Stach         2018-01-24  607  		for_each_compatible_node(core_node, NULL, "vivante,gc") {
+246774d17fc05a Lucas Stach         2018-01-24  608  			if (!of_device_is_available(core_node))
+246774d17fc05a Lucas Stach         2018-01-24  609  				continue;
+a8c21a5451d831 The etnaviv authors 2015-12-03  610  
+97ac0e47aed5f6 Russell King        2016-10-19  611  			drm_of_component_match_add(&pdev->dev, &match,
+0a522394202f1f Yong Wu             2022-02-14  612  						   component_compare_of, core_node);
+56df40c804fa40 Sui Jingfeng        2023-10-02  613  
+56df40c804fa40 Sui Jingfeng        2023-10-02 @614  			of_node_put(core_node);
+a8c21a5451d831 The etnaviv authors 2015-12-03  615  		}
+246774d17fc05a Lucas Stach         2018-01-24  616  	} else {
+a8c21a5451d831 The etnaviv authors 2015-12-03  617  		char **names = dev->platform_data;
+a8c21a5451d831 The etnaviv authors 2015-12-03  618  		unsigned i;
+a8c21a5451d831 The etnaviv authors 2015-12-03  619  
+a8c21a5451d831 The etnaviv authors 2015-12-03  620  		for (i = 0; names[i]; i++)
+0a522394202f1f Yong Wu             2022-02-14  621  			component_match_add(dev, &match, component_compare_dev_name, names[i]);
+a8c21a5451d831 The etnaviv authors 2015-12-03  622  	}
+a8c21a5451d831 The etnaviv authors 2015-12-03  623  
+f5be833dc86f49 Michael Walle       2021-09-07  624  	/*
+f5be833dc86f49 Michael Walle       2021-09-07  625  	 * PTA and MTLB can have 40 bit base addresses, but
+f5be833dc86f49 Michael Walle       2021-09-07  626  	 * unfortunately, an entry in the MTLB can only point to a
+f5be833dc86f49 Michael Walle       2021-09-07  627  	 * 32 bit base address of a STLB. Moreover, to initialize the
+f5be833dc86f49 Michael Walle       2021-09-07  628  	 * MMU we need a command buffer with a 32 bit address because
+f5be833dc86f49 Michael Walle       2021-09-07  629  	 * without an MMU there is only an indentity mapping between
+f5be833dc86f49 Michael Walle       2021-09-07  630  	 * the internal 32 bit addresses and the bus addresses.
+f5be833dc86f49 Michael Walle       2021-09-07  631  	 *
+f5be833dc86f49 Michael Walle       2021-09-07  632  	 * To make things easy, we set the dma_coherent_mask to 32
+f5be833dc86f49 Michael Walle       2021-09-07  633  	 * bit to make sure we are allocating the command buffers and
+f5be833dc86f49 Michael Walle       2021-09-07  634  	 * TLBs in the lower 4 GiB address space.
+f5be833dc86f49 Michael Walle       2021-09-07  635  	 */
+f5be833dc86f49 Michael Walle       2021-09-07  636  	if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(40)) ||
+f5be833dc86f49 Michael Walle       2021-09-07  637  	    dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32))) {
+f5be833dc86f49 Michael Walle       2021-09-07  638  		dev_dbg(&pdev->dev, "No suitable DMA available\n");
+f5be833dc86f49 Michael Walle       2021-09-07  639  		return -ENODEV;
+f5be833dc86f49 Michael Walle       2021-09-07  640  	}
+f5be833dc86f49 Michael Walle       2021-09-07  641  
+0ea057a9cb2be4 Michael Walle       2021-09-07  642  	/*
+0ea057a9cb2be4 Michael Walle       2021-09-07  643  	 * Apply the same DMA configuration to the virtual etnaviv
+0ea057a9cb2be4 Michael Walle       2021-09-07  644  	 * device as the GPU we found. This assumes that all Vivante
+0ea057a9cb2be4 Michael Walle       2021-09-07  645  	 * GPUs in the system share the same DMA constraints.
+0ea057a9cb2be4 Michael Walle       2021-09-07  646  	 */
+56df40c804fa40 Sui Jingfeng        2023-10-02  647  	first_node = etnaviv_of_first_available_node();
+56df40c804fa40 Sui Jingfeng        2023-10-02  648  	if (first_node) {
+0ea057a9cb2be4 Michael Walle       2021-09-07  649  		of_dma_configure(&pdev->dev, first_node, true);
+56df40c804fa40 Sui Jingfeng        2023-10-02  650  		of_node_put(first_node);
+56df40c804fa40 Sui Jingfeng        2023-10-02  651  	}
+0ea057a9cb2be4 Michael Walle       2021-09-07  652  
+a8c21a5451d831 The etnaviv authors 2015-12-03  653  	return component_master_add_with_match(dev, &etnaviv_master_ops, match);
+a8c21a5451d831 The etnaviv authors 2015-12-03  654  }
+a8c21a5451d831 The etnaviv authors 2015-12-03  655  
 
 -- 
 0-DAY CI Kernel Test Service
