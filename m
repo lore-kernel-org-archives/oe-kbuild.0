@@ -1,67 +1,56 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06505FBEA
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Jan 2024 06:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214ECC8FD
+	for <oe-kbuild@lists.linux.dev>; Mon, 22 Jan 2024 06:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705905884; cv=none; b=OQKzGIDjHr4Qw3dRUbRWS3DiJesUUIrNjPbDgiqroFvHxAwkSjjgV1vNkbFhxTYU1a/Tzp/SpcqFOAj22YUStqIv7V8xueoOSJoLCaLQepUOdYScFESV86s54z+mU2BL51LVWF30lBlhCiD1w7/p2JseXt8SsJe7SVf+8uy5V9M=
+	t=1705906245; cv=none; b=pG46wIgD7xd7XPkL32fv72c8hJoSb8RmNtgnCGCOa5LygZos2gSktUjO9QLSJKx/6bRToeuAQXNHrWIZK7V/c7hKppFZBfiN1/PsG9OQeuHJCGjQGxWpEqKcZ8MSB0QJ6LzUUnCbjpewDV9q9Nw6vkiy1fbO+wF93vMzp0K7EMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705905884; c=relaxed/simple;
-	bh=rqfbJaTavukHqNcWA/aI44nUtPbzn4mQR4BhbHCOIpY=;
+	s=arc-20240116; t=1705906245; c=relaxed/simple;
+	bh=OPNKS2oIE4L8KR4WT707Ci/fL5vH9yLj5Y7t3G4GWog=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=SxHhm7MR4omD2ooXE98vbnCdk1T1CM+pKJ4MJjAH4rGfiiEgA9p7N4oBYKY+8JmX5R0ofd2YQlYgnyA55W/I9o3amsRepa+gRgu+2TokHLHXu4AFm/frPS+SMOn3tBifT8HmOUg0SwLI+pY8fBtedevhTK6pvPv1fe8vOpgDBrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hYqS3nLX; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=okq+xD0uI+rfppUIX9R79FbQdl8u8BCwNOpDwiSQlH41FXBJ3H9TadACrcgd5T7bEtsAATvC2LOol2C8UK7Eu2LUkPgZMQHh2YxHzH9UQP9MeQQyzoV2u80kaREute9xjUodd1x3e8SbsG7uG5Guegi7GzopTbmBCizeEL59DDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kWKkqnjR; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hYqS3nLX"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-337b8da1f49so2575565f8f.0
-        for <oe-kbuild@lists.linux.dev>; Sun, 21 Jan 2024 22:44:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705905881; x=1706510681; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=G5xHkIHav/DyHDr3s4AUIxAaw4nqa+rIE0HQuqV2AoY=;
-        b=hYqS3nLX6zsfvTmuMRe1X0n/flxpcbMa2JG2kJ0EZi1ogWFx6xGBrvB/4hrAGfG8sp
-         tj3S9IGjql7p5Vjh18SxFK6qrQcd5RvALGBsraatLVEQPLdYMgaZu68doho6irBx0pJC
-         nUpHEx+UfaOGgKyYhvJ0CzEtZUn4O7K1laxcwyi+g+ZftemA2AOpRwSSaCKe59iEx/aq
-         kPW3zIsBl3BeQzpFsp+cr/ltHZ1R29K/MmIzwk59NUyG+bTp6TC4weGdk4oAncOXHvqQ
-         Fzs4gchi9wi14wEz/VYMBajU6vnPhktMLQV6RspXbCabqEBl4JRtyDVERaP7l6GwV3sm
-         nLnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705905881; x=1706510681;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G5xHkIHav/DyHDr3s4AUIxAaw4nqa+rIE0HQuqV2AoY=;
-        b=ZuXzO9rW+9PKjluswIMBuaUoVxpzOF9oB2KpAkYetSD5ySzzL1qJAmy0njFWDDVrLy
-         B056YnpisE7X9mIQvNvMo+f045whTMR5R44RoYuKD1/5XZ8ZU/oSKs7+qqae8GsLkFwd
-         Ur4DpYjMAzpWXuG61RD7witm9CzKqoyen1h4c0GCAD3iNCh0C4yOcqRcm+6dShZ6Mhz9
-         l42njzu2hgBY8gXUC6DFoYu5BiEwjA9g+MPLSVvuNdhhtObH2xVbHwq6AnebMmK0xRqO
-         HxS18ononxFL+FtmM+7C7+xJtMi1vCGfQFPeOuA8ep4ANQRVTA8Xkf/3F1+lNmzf01pc
-         +Qhw==
-X-Gm-Message-State: AOJu0YxfOBOKAZ3uQsOuoka5EvMruEhsBmme/aBltnuAQyuEYyqTje0f
-	mHHGZ/LKzPr9nxWiVUp8jJMjqeonNFDOHwrf3ENtOXB8iXJVdu2hTYy4it1NcVOCCEgHMCkmX/g
-	MdVw=
-X-Google-Smtp-Source: AGHT+IG67cw43mThfXEsC9o9+iXpXAmakGy90SkFFf1P6ebKwfwMmhLzILumIpwFFYr7EL1DHjc5bA==
-X-Received: by 2002:a05:6000:18a2:b0:339:3814:c7ce with SMTP id b2-20020a05600018a200b003393814c7cemr334880wri.178.1705905880957;
-        Sun, 21 Jan 2024 22:44:40 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id p17-20020adfcc91000000b003377680c55bsm8302984wrj.16.2024.01.21.22.44.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jan 2024 22:44:40 -0800 (PST)
-Date: Mon, 22 Jan 2024 09:44:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Wenjie Qi <qwjhust@gmail.com>,
-	jaegeuk@kernel.org, chao@kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, hustqwj@hust.edu.cn,
-	Wenjie Qi <qwjhust@gmail.com>
-Subject: Re: [PATCH v2] f2fs: fix zoned block device information
- initialization
-Message-ID: <397e7ad5-5c49-474a-b32e-ac1d24289862@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kWKkqnjR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705906243; x=1737442243;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OPNKS2oIE4L8KR4WT707Ci/fL5vH9yLj5Y7t3G4GWog=;
+  b=kWKkqnjRrcOPIlhPk0gdcLxApUUX6yDxbnXGMBBqW233MUL5BEW9qqdk
+   zTCTlbgNVpIcqa8juHg4rg8Oe6a2k2EzUU+gMaTa5/Qi5rw0ZTndiibAI
+   dD3oUrwzhjTEQisHPylMBUlBlCSC+EVKz53O1y4YSZHO+ztwsWoKx8BCO
+   8IKf0vguTXsNqsbSB4qpIc30NhT/YO1ZatxffTrjN8r+nrm5SMiGdiDDT
+   ch/WoHElBA5n/e8Nz0y1quJHrfGaLQQ4uogXQtlTy8j7fimAKXIFFKLaX
+   zvNPbnHVvzEyWjpeih80xgHy5eUWu0DiHExsImkWCYfsueEeovJu+hgF4
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="1007458"
+X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
+   d="scan'208";a="1007458"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2024 22:50:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="904748167"
+X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
+   d="scan'208";a="904748167"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 21 Jan 2024 22:50:41 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rRo8k-0006Sq-2T;
+	Mon, 22 Jan 2024 06:50:38 +0000
+Date: Mon, 22 Jan 2024 14:50:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:520
+ mt7996_mcu_rx_thermal_notify() warn: potential spectre issue
+ 'dev->mt76.phys' [r] (local cap)
+Message-ID: <202401221402.HTdN0wtQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,81 +59,76 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240116140513.1222-1-qwjhust@gmail.com>
 
-Hi Wenjie,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Howard Hsu <howard-yh.hsu@mediatek.com>
+CC: Felix Fietkau <nbd@nbd.name>
+CC: Shayne Chen <shayne.chen@mediatek.com>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wenjie-Qi/f2fs-fix-zoned-block-device-information-initialization/20240116-220824
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
-patch link:    https://lore.kernel.org/r/20240116140513.1222-1-qwjhust%40gmail.com
-patch subject: [PATCH v2] f2fs: fix zoned block device information initialization
-config: x86_64-randconfig-161-20240119 (https://download.01.org/0day-ci/archive/20240120/202401201237.ovVyEKvs-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6613476e225e090cc9aad49be7fa504e290dd33d
+commit: 21f290884bc1c911aa9a0875c1d9a1e6fb9e0308 wifi: mt76: connac: add thermal protection support for mt7996
+date:   7 weeks ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 7 weeks ago
+config: x86_64-randconfig-161-20240120 (https://download.01.org/0day-ci/archive/20240122/202401221402.HTdN0wtQ-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202401201237.ovVyEKvs-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202401221402.HTdN0wtQ-lkp@intel.com/
 
 New smatch warnings:
-fs/f2fs/super.c:2393 f2fs_remount() warn: missing error code 'err'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:520 mt7996_mcu_rx_thermal_notify() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:521 mt7996_mcu_rx_thermal_notify() warn: possible spectre second half.  'mphy'
 
 Old smatch warnings:
-fs/f2fs/super.c:4040 read_raw_super_block() warn: possible memory leak of 'super'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:347 mt7996_mcu_rx_radar_detected() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:349 mt7996_mcu_rx_radar_detected() warn: possible spectre second half.  'mphy'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:429 mt7996_mcu_ie_countdown() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:436 mt7996_mcu_ie_countdown() warn: possible spectre second half.  'mphy'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:441 mt7996_mcu_ie_countdown() warn: possible spectre second half.  'mphy'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:584 mt7996_mcu_wed_rro_event() warn: potential spectre issue 'dev->mt76.wcid' [w] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:591 mt7996_mcu_wed_rro_event() warn: potential spectre issue 'wcid->aggr' [w] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2331 mt7996_mcu_beacon_mbss() warn: potential spectre issue 'sub_elem->data' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2323 mt7996_mcu_beacon_mbss() warn: potential spectre issue 'elem->data' [r] (local cap)
 
-vim +/err +2393 fs/f2fs/super.c
+vim +520 drivers/net/wireless/mediatek/mt76/mt7996/mcu.c
 
-4b2414d04e9912 Chao Yu        2017-08-08  2371  
-df728b0f6954c3 Jaegeuk Kim    2016-03-23  2372  	/* recover superblocks we couldn't write due to previous RO mount */
-1751e8a6cb935e Linus Torvalds 2017-11-27  2373  	if (!(*flags & SB_RDONLY) && is_sbi_flag_set(sbi, SBI_NEED_SB_WRITE)) {
-df728b0f6954c3 Jaegeuk Kim    2016-03-23  2374  		err = f2fs_commit_super(sbi, false);
-dcbb4c10e6d969 Joe Perches    2019-06-18  2375  		f2fs_info(sbi, "Try to recover all the superblocks, ret: %d",
-dcbb4c10e6d969 Joe Perches    2019-06-18  2376  			  err);
-df728b0f6954c3 Jaegeuk Kim    2016-03-23  2377  		if (!err)
-df728b0f6954c3 Jaegeuk Kim    2016-03-23  2378  			clear_sbi_flag(sbi, SBI_NEED_SB_WRITE);
-df728b0f6954c3 Jaegeuk Kim    2016-03-23  2379  	}
-df728b0f6954c3 Jaegeuk Kim    2016-03-23  2380  
-458c15dfbce62c Chao Yu        2023-05-23  2381  	default_options(sbi, true);
-26666c8a4366de Chao Yu        2014-09-15  2382  
-696c018c7718f5 Namjae Jeon    2013-06-16  2383  	/* parse mount options */
-ed318a6cc0b620 Eric Biggers   2020-05-12  2384  	err = parse_options(sb, data, true);
-696c018c7718f5 Namjae Jeon    2013-06-16  2385  	if (err)
-696c018c7718f5 Namjae Jeon    2013-06-16  2386  		goto restore_opts;
-696c018c7718f5 Namjae Jeon    2013-06-16  2387  
-ed7a1efe8afd55 Wenjie Qi      2024-01-16  2388  #ifdef CONFIG_BLK_DEV_ZONED
-ed7a1efe8afd55 Wenjie Qi      2024-01-16  2389  	if (sbi->max_active_zones && sbi->max_active_zones < F2FS_OPTION(sbi).active_logs) {
-ed7a1efe8afd55 Wenjie Qi      2024-01-16  2390  		f2fs_err(sbi,
-ed7a1efe8afd55 Wenjie Qi      2024-01-16  2391  			"zoned: max active zones %u is too small, need at least %u active zones",
-ed7a1efe8afd55 Wenjie Qi      2024-01-16  2392  				 sbi->max_active_zones, F2FS_OPTION(sbi).active_logs);
-ed7a1efe8afd55 Wenjie Qi      2024-01-16 @2393  		goto restore_opts;
-
-err = -EINVAL?
-
-ed7a1efe8afd55 Wenjie Qi      2024-01-16  2394  	}
-ed7a1efe8afd55 Wenjie Qi      2024-01-16  2395  #endif
-ed7a1efe8afd55 Wenjie Qi      2024-01-16  2396  
-b62e71be2110d8 Chao Yu        2023-04-23  2397  	/* flush outstanding errors before changing fs state */
-b62e71be2110d8 Chao Yu        2023-04-23  2398  	flush_work(&sbi->s_error_work);
-b62e71be2110d8 Chao Yu        2023-04-23  2399  
-696c018c7718f5 Namjae Jeon    2013-06-16  2400  	/*
-696c018c7718f5 Namjae Jeon    2013-06-16  2401  	 * Previous and new state of filesystem is RO,
-876dc59eb1f013 Gu Zheng       2014-04-11  2402  	 * so skip checking GC and FLUSH_MERGE conditions.
-696c018c7718f5 Namjae Jeon    2013-06-16  2403  	 */
-1751e8a6cb935e Linus Torvalds 2017-11-27  2404  	if (f2fs_readonly(sb) && (*flags & SB_RDONLY))
-696c018c7718f5 Namjae Jeon    2013-06-16  2405  		goto skip;
-696c018c7718f5 Namjae Jeon    2013-06-16  2406  
-d78dfefcde9d31 Chao Yu        2023-04-04  2407  	if (f2fs_dev_is_readonly(sbi) && !(*flags & SB_RDONLY)) {
-a7d9fe3c338870 Jaegeuk Kim    2021-05-21  2408  		err = -EROFS;
-a7d9fe3c338870 Jaegeuk Kim    2021-05-21  2409  		goto restore_opts;
-a7d9fe3c338870 Jaegeuk Kim    2021-05-21  2410  	}
-a7d9fe3c338870 Jaegeuk Kim    2021-05-21  2411  
+adde3eed4a75fe Yi-Chia Hsieh 2023-09-21  499  
+21f290884bc1c9 Howard Hsu    2023-10-23  500  static void
+21f290884bc1c9 Howard Hsu    2023-10-23  501  mt7996_mcu_rx_thermal_notify(struct mt7996_dev *dev, struct sk_buff *skb)
+21f290884bc1c9 Howard Hsu    2023-10-23  502  {
+21f290884bc1c9 Howard Hsu    2023-10-23  503  #define THERMAL_NOTIFY_TAG 0x4
+21f290884bc1c9 Howard Hsu    2023-10-23  504  #define THERMAL_NOTIFY 0x2
+21f290884bc1c9 Howard Hsu    2023-10-23  505  	struct mt76_phy *mphy = &dev->mt76.phy;
+21f290884bc1c9 Howard Hsu    2023-10-23  506  	struct mt7996_mcu_thermal_notify *n;
+21f290884bc1c9 Howard Hsu    2023-10-23  507  	struct mt7996_phy *phy;
+21f290884bc1c9 Howard Hsu    2023-10-23  508  
+21f290884bc1c9 Howard Hsu    2023-10-23  509  	n = (struct mt7996_mcu_thermal_notify *)skb->data;
+21f290884bc1c9 Howard Hsu    2023-10-23  510  
+21f290884bc1c9 Howard Hsu    2023-10-23  511  	if (le16_to_cpu(n->tag) != THERMAL_NOTIFY_TAG)
+21f290884bc1c9 Howard Hsu    2023-10-23  512  		return;
+21f290884bc1c9 Howard Hsu    2023-10-23  513  
+21f290884bc1c9 Howard Hsu    2023-10-23  514  	if (n->event_id != THERMAL_NOTIFY)
+21f290884bc1c9 Howard Hsu    2023-10-23  515  		return;
+21f290884bc1c9 Howard Hsu    2023-10-23  516  
+21f290884bc1c9 Howard Hsu    2023-10-23  517  	if (n->band_idx > MT_BAND2)
+21f290884bc1c9 Howard Hsu    2023-10-23  518  		return;
+21f290884bc1c9 Howard Hsu    2023-10-23  519  
+21f290884bc1c9 Howard Hsu    2023-10-23 @520  	mphy = dev->mt76.phys[n->band_idx];
+21f290884bc1c9 Howard Hsu    2023-10-23 @521  	if (!mphy)
+21f290884bc1c9 Howard Hsu    2023-10-23  522  		return;
+21f290884bc1c9 Howard Hsu    2023-10-23  523  
+21f290884bc1c9 Howard Hsu    2023-10-23  524  	phy = (struct mt7996_phy *)mphy->priv;
+21f290884bc1c9 Howard Hsu    2023-10-23  525  	phy->throttle_state = n->duty_percent;
+21f290884bc1c9 Howard Hsu    2023-10-23  526  }
+21f290884bc1c9 Howard Hsu    2023-10-23  527  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
