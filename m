@@ -1,125 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4A9EBB
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Jan 2024 14:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F581FA5
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Jan 2024 04:41:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705934342; cv=none; b=aColZTUqGXTB3CPewZTen5JsowupcxMQiv1zqvY2szWPXOY4EfnX3oQekrG1bMnCWzq+PiBjmpc1q8brNOnwdFep18HyIlnSbS4+4KD4SKN5H+mT1gbYkbavcBPvO89feou9tz04No+99P9w6+EJON6RO+U7eCeKCjXQxTONgu8=
+	t=1705984886; cv=none; b=QdyCm1vFkJdrI1oFWe6Bxuy0lAQDbhN0xlIILwMTs672mjWpiJwKsF+2z75S5u9hpRRlyZMxo+sT0iF+CuSTlZcNxdQD/g2OzKu8yUxnTmvF5q7vji8oaM0+3UhUiPTevdn1MRzSq5CQRz99p3ib2v3xR1o00AOEmQDoqqGlRuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705934342; c=relaxed/simple;
-	bh=syDylwp5KIIM7ACCTDZQJL1yTU6QalIy+g2rE60bLF4=;
+	s=arc-20240116; t=1705984886; c=relaxed/simple;
+	bh=0MhleQCwtZblfY65auc2kbjxUwtlch6YEyLywZLazbg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DmcbGvf1XGJDMCz6oiv0aLJtBxWH+AFt4gTHjK1+I2Zn4+GvVfDeFJC1jiycKPSMxTq/eki9sQ+vhw6dOY93+YxKXlU+LnSen8NZt1QYVxsXYusD8lRDrM9lHicTzijozSdQOiPf6EuaY3ooav3275TMn32pPF/JxdSeIr1DboI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gdDd9M8r; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=MHgLypxFQ++N1PDGpwEurDBO0fncmaTk6Wyga0/aVCH0adxT03SlAagXI+8kfnKKR7J9ng/K6POAtCgeJNbK0/RGqWJuKcnpJPpB743Q3SyXigKIjR+6EWgUY0NS3GUN5kLSrGrsKp9YGoVhi8e1cTY+erAwCcidpPjkVS0u5CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ElK8snM3; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gdDd9M8r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ElK8snM3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705934339; x=1737470339;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=syDylwp5KIIM7ACCTDZQJL1yTU6QalIy+g2rE60bLF4=;
-  b=gdDd9M8rkid5hCgb1xOyg+MtrTtWBlh+ksGuPM4v7zYMA7CTnUCyo1Qc
-   eVnmo2TcD8JPZx48toeXFUg32M/hXCF/j+NMPLZ3BlOBON3CrmClUhTSN
-   2+Hpcc8dQadU5jfg1lDZFfx93coBM/RX/hpz4yGKnS7byHsOGYwEEOhwF
-   8Mk5YnpfuIxOvByCF8b2VKOa6QffgD0oyAu8QSQ59SK152tqk6BK5fekj
-   9eQINjOYfdQU8PBO/HsPI13Rf9RMv+6gTB9Jr10LRN+cLgo2Aycc+FlIy
-   UeSx+4KH+v8+AGDVZVdTaCIFkBouRPpXWghHVDnFSkzibwo6m/BKTEq4A
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="1111464"
-X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="1111464"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 06:38:57 -0800
+  t=1705984883; x=1737520883;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=0MhleQCwtZblfY65auc2kbjxUwtlch6YEyLywZLazbg=;
+  b=ElK8snM32QKK4W4Sufpig6oxzZ5cxU+SfKzk1OB4Ji2tKHCUD/9fZkBi
+   AyhiA3ZwGDuA1hipeUwpnsyDCRFI5gwvoydS3e+e7IXKxNUKDzy4aBEz3
+   XbYVpiFELiaUdhRNxflM9NGdSDayXT02iDUJcaPVLJK+mURD6n5W9QS4x
+   kD8IEunqPgSI945TqKSXTRqoaCDQQzyiiD/GI7V3mEPAAw9z2VxdYFpmi
+   zZb1pRxiuIy3hgcWV0Gus3/RtyfPLpgbfIJ3XiAb33mF7WkCPxrQbdNkK
+   zXspPxyf8zlm6RvIM3nltblgIeTpPr3bhXkgSUUI4JwLefidfBYF1ixv2
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="19981493"
+X-IronPort-AV: E=Sophos;i="6.05,213,1701158400"; 
+   d="scan'208";a="19981493"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 20:41:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="904871677"
-X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="904871677"
+X-IronPort-AV: E=Sophos;i="6.05,213,1701158400"; 
+   d="scan'208";a="1461397"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 22 Jan 2024 06:38:57 -0800
+  by orviesa003.jf.intel.com with ESMTP; 22 Jan 2024 20:41:22 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rRvRv-0006gc-0A;
-	Mon, 22 Jan 2024 14:38:55 +0000
-Date: Mon, 22 Jan 2024 22:38:38 +0800
+	id 1rS8b9-0007B6-0w;
+	Tue, 23 Jan 2024 04:41:19 +0000
+Date: Tue, 23 Jan 2024 12:40:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/dma/dw-edma/dw-hdma-v0-core.c:244:8-33: duplicated argument
- to & or |
-Message-ID: <202401222216.43KOoXst-lkp@intel.com>
+Subject: sound/soc/sof/ipc4-pcm.c:163:17-22: ERROR: invalid reference to the
+ index variable of the iterator on line 153
+Message-ID: <202401231256.x5EgXyKg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Cai Huoqing <cai.huoqing@linux.dev>
-CC: Vinod Koul <vkoul@kernel.org>
-CC: Serge Semin <fancer.lancer@gmail.com>
-CC: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+TO: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Rander Wang <rander.wang@linux.intel.com>
+CC: Bard Liao <yung-chuan.liao@linux.intel.com>
+CC: "Péter Ujfalusi" <peter.ujfalusi@linux.intel.com>
+CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
+CC: Yaochun Hung <yc.hung@mediatek.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6613476e225e090cc9aad49be7fa504e290dd33d
-commit: e74c39573d35e9ac441090ff8183aa3dc2540649 dmaengine: dw-edma: Add support for native HDMA
-date:   8 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 8 months ago
-config: arm-randconfig-r062-20240117 (https://download.01.org/0day-ci/archive/20240122/202401222216.43KOoXst-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
+head:   7ed2632ec7d72e926b9e8bcc9ad1bb0cd37274bf
+commit: e75e5db8f8ac5b9d4e8968060822bed4671f22ec ASoC: SOF: IPC4: Add pcm ops
+date:   1 year, 7 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 1 year, 7 months ago
+config: x86_64-randconfig-103-20240123 (https://download.01.org/0day-ci/archive/20240123/202401231256.x5EgXyKg-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401222216.43KOoXst-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401231256.x5EgXyKg-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/dma/dw-edma/dw-hdma-v0-core.c:244:8-33: duplicated argument to & or |
+>> sound/soc/sof/ipc4-pcm.c:163:17-22: ERROR: invalid reference to the index variable of the iterator on line 153
 
-vim +244 drivers/dma/dw-edma/dw-hdma-v0-core.c
+vim +163 sound/soc/sof/ipc4-pcm.c
 
-e74c39573d35e9 Cai Huoqing 2023-05-20  229  
-e74c39573d35e9 Cai Huoqing 2023-05-20  230  static void dw_hdma_v0_core_start(struct dw_edma_chunk *chunk, bool first)
-e74c39573d35e9 Cai Huoqing 2023-05-20  231  {
-e74c39573d35e9 Cai Huoqing 2023-05-20  232  	struct dw_edma_chan *chan = chunk->chan;
-e74c39573d35e9 Cai Huoqing 2023-05-20  233  	struct dw_edma *dw = chan->dw;
-e74c39573d35e9 Cai Huoqing 2023-05-20  234  	u32 tmp;
-e74c39573d35e9 Cai Huoqing 2023-05-20  235  
-e74c39573d35e9 Cai Huoqing 2023-05-20  236  	dw_hdma_v0_core_write_chunk(chunk);
-e74c39573d35e9 Cai Huoqing 2023-05-20  237  
-e74c39573d35e9 Cai Huoqing 2023-05-20  238  	if (first) {
-e74c39573d35e9 Cai Huoqing 2023-05-20  239  		/* Enable engine */
-e74c39573d35e9 Cai Huoqing 2023-05-20  240  		SET_CH_32(dw, chan->dir, chan->id, ch_en, BIT(0));
-e74c39573d35e9 Cai Huoqing 2023-05-20  241  		/* Interrupt enable&unmask - done, abort */
-e74c39573d35e9 Cai Huoqing 2023-05-20  242  		tmp = GET_CH_32(dw, chan->dir, chan->id, int_setup) |
-e74c39573d35e9 Cai Huoqing 2023-05-20  243  		      HDMA_V0_STOP_INT_MASK | HDMA_V0_ABORT_INT_MASK |
-e74c39573d35e9 Cai Huoqing 2023-05-20 @244  		      HDMA_V0_LOCAL_STOP_INT_EN | HDMA_V0_LOCAL_STOP_INT_EN;
-e74c39573d35e9 Cai Huoqing 2023-05-20  245  		SET_CH_32(dw, chan->dir, chan->id, int_setup, tmp);
-e74c39573d35e9 Cai Huoqing 2023-05-20  246  		/* Channel control */
-e74c39573d35e9 Cai Huoqing 2023-05-20  247  		SET_CH_32(dw, chan->dir, chan->id, control1, HDMA_V0_LINKLIST_EN);
-e74c39573d35e9 Cai Huoqing 2023-05-20  248  		/* Linked list */
-e74c39573d35e9 Cai Huoqing 2023-05-20  249  		/* llp is not aligned on 64bit -> keep 32bit accesses */
-e74c39573d35e9 Cai Huoqing 2023-05-20  250  		SET_CH_32(dw, chan->dir, chan->id, llp.lsb,
-e74c39573d35e9 Cai Huoqing 2023-05-20  251  			  lower_32_bits(chunk->ll_region.paddr));
-e74c39573d35e9 Cai Huoqing 2023-05-20  252  		SET_CH_32(dw, chan->dir, chan->id, llp.msb,
-e74c39573d35e9 Cai Huoqing 2023-05-20  253  			  upper_32_bits(chunk->ll_region.paddr));
-e74c39573d35e9 Cai Huoqing 2023-05-20  254  	}
-e74c39573d35e9 Cai Huoqing 2023-05-20  255  	/* Set consumer cycle */
-e74c39573d35e9 Cai Huoqing 2023-05-20  256  	SET_CH_32(dw, chan->dir, chan->id, cycle_sync,
-e74c39573d35e9 Cai Huoqing 2023-05-20  257  		  HDMA_V0_CONSUMER_CYCLE_STAT | HDMA_V0_CONSUMER_CYCLE_BIT);
-e74c39573d35e9 Cai Huoqing 2023-05-20  258  	/* Doorbell */
-e74c39573d35e9 Cai Huoqing 2023-05-20  259  	SET_CH_32(dw, chan->dir, chan->id, doorbell, HDMA_V0_DOORBELL_START);
-e74c39573d35e9 Cai Huoqing 2023-05-20  260  }
-e74c39573d35e9 Cai Huoqing 2023-05-20  261  
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  144  
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  145  static void ipc4_ssp_dai_config_pcm_params_match(struct snd_sof_dev *sdev, const char *link_name,
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  146  						 struct snd_pcm_hw_params *params)
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  147  {
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  148  	struct snd_sof_dai_link *slink;
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  149  	struct snd_sof_dai *dai;
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  150  	bool dai_link_found = false;
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  151  	int i;
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  152  
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08 @153  	list_for_each_entry(slink, &sdev->dai_link_list, list) {
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  154  		if (!strcmp(slink->link->name, link_name)) {
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  155  			dai_link_found = true;
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  156  			break;
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  157  		}
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  158  	}
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  159  
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  160  	if (!dai_link_found)
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  161  		return;
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  162  
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08 @163  	for (i = 0; i < slink->num_hw_configs; i++) {
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  164  		struct snd_soc_tplg_hw_config *hw_config = &slink->hw_configs[i];
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  165  
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  166  		if (params_rate(params) == le32_to_cpu(hw_config->fsync_rate)) {
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  167  			/* set current config for all DAI's with matching name */
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  168  			list_for_each_entry(dai, &sdev->dai_list, list)
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  169  				if (!strcmp(slink->link->name, dai->name))
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  170  					dai->current_config = le32_to_cpu(hw_config->id);
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  171  			break;
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  172  		}
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  173  	}
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  174  }
+e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  175  
 
 -- 
 0-DAY CI Kernel Test Service
