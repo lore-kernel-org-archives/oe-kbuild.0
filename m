@@ -1,128 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F581FA5
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Jan 2024 04:41:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36A15A0E6
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Jan 2024 09:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705984886; cv=none; b=QdyCm1vFkJdrI1oFWe6Bxuy0lAQDbhN0xlIILwMTs672mjWpiJwKsF+2z75S5u9hpRRlyZMxo+sT0iF+CuSTlZcNxdQD/g2OzKu8yUxnTmvF5q7vji8oaM0+3UhUiPTevdn1MRzSq5CQRz99p3ib2v3xR1o00AOEmQDoqqGlRuE=
+	t=1706003836; cv=none; b=FRirAsCMtMFXfNkkrBtEwXPRddBNFRXtHCLDXStVENaYinicfuLHv2dleN0KXfXO13ovoIKD5ZfLIU8GgIC8C6ge/AklZ4Q9mag3rT/WRmEY2EBP8bfMiX52tF4QQj+O6lTeowrir6ME//tMSvTzI0FQaI7NmcNB+zhwAWZgoCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705984886; c=relaxed/simple;
-	bh=0MhleQCwtZblfY65auc2kbjxUwtlch6YEyLywZLazbg=;
+	s=arc-20240116; t=1706003836; c=relaxed/simple;
+	bh=HgBCGMcHg9vkZ7yKq14ePlQLHjTmBIwXUQ5W6evgpHk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MHgLypxFQ++N1PDGpwEurDBO0fncmaTk6Wyga0/aVCH0adxT03SlAagXI+8kfnKKR7J9ng/K6POAtCgeJNbK0/RGqWJuKcnpJPpB743Q3SyXigKIjR+6EWgUY0NS3GUN5kLSrGrsKp9YGoVhi8e1cTY+erAwCcidpPjkVS0u5CU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ElK8snM3; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=uIykmlvHCX3AWrWCFewfhbWJH6i54T7s3MTku6ME1KH6PJyPm7EUU0u0aLp+eS8iEZLZKkLF2GvW0sF8J86jen3JNenjGfzNFUfxmoHAJ6eYSpdY6hS+uVG8/++BafRNpNm9dVCesVORxdUXloqxNFgZOUVzmXFU6bq450UhmSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=freBYhOz; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ElK8snM3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="freBYhOz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705984883; x=1737520883;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=0MhleQCwtZblfY65auc2kbjxUwtlch6YEyLywZLazbg=;
-  b=ElK8snM32QKK4W4Sufpig6oxzZ5cxU+SfKzk1OB4Ji2tKHCUD/9fZkBi
-   AyhiA3ZwGDuA1hipeUwpnsyDCRFI5gwvoydS3e+e7IXKxNUKDzy4aBEz3
-   XbYVpiFELiaUdhRNxflM9NGdSDayXT02iDUJcaPVLJK+mURD6n5W9QS4x
-   kD8IEunqPgSI945TqKSXTRqoaCDQQzyiiD/GI7V3mEPAAw9z2VxdYFpmi
-   zZb1pRxiuIy3hgcWV0Gus3/RtyfPLpgbfIJ3XiAb33mF7WkCPxrQbdNkK
-   zXspPxyf8zlm6RvIM3nltblgIeTpPr3bhXkgSUUI4JwLefidfBYF1ixv2
+  t=1706003834; x=1737539834;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HgBCGMcHg9vkZ7yKq14ePlQLHjTmBIwXUQ5W6evgpHk=;
+  b=freBYhOzyAtoM49kYj14xZjpSwURoj7IuaYS29kAnSZIkMG+b7AK8lyy
+   w+nwIu2Ya0vbyEQdADbxT11x0NNF96M/JhPSo9qEFVJUFr5F5+UI8UmUJ
+   mG9qb+VIkmxSHRr+YCorMS1x4LRVizJ7VlusD89XXkVD0hPABhiEn7QGZ
+   /n4qgOwxGhUBaE2skjLMo9zjCri06kQV3qoNfGgyMDrPMSyry3UcT5Z4L
+   vGr5i5/rjGAQ/2rR5EnLJEtm+nc9s+Ry+wtY5siD3EfXXs0klmfYAPtz9
+   IQdkJV6H+8YzjngKCHJwg2O/qAGsUC962rDmMOsRCugARV4fhL6yxxWOI
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="19981493"
-X-IronPort-AV: E=Sophos;i="6.05,213,1701158400"; 
-   d="scan'208";a="19981493"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 20:41:23 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="8584417"
+X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
+   d="scan'208";a="8584417"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 01:57:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,213,1701158400"; 
-   d="scan'208";a="1461397"
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="929288437"
+X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
+   d="scan'208";a="929288437"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 22 Jan 2024 20:41:22 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 23 Jan 2024 01:57:11 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rS8b9-0007B6-0w;
-	Tue, 23 Jan 2024 04:41:19 +0000
-Date: Tue, 23 Jan 2024 12:40:40 +0800
+	id 1rSDWn-0007KR-0n;
+	Tue, 23 Jan 2024 09:57:09 +0000
+Date: Tue, 23 Jan 2024 17:56:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: sound/soc/sof/ipc4-pcm.c:163:17-22: ERROR: invalid reference to the
- index variable of the iterator on line 153
-Message-ID: <202401231256.x5EgXyKg-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [ti:ti-rt-linux-6.1.y-cicd 55/79] drivers/rtc/rtc-tps6594.c:442:2-9:
+ line 442 is redundant because platform_get_irq() already prints an error
+Message-ID: <202401231704.rxvH4G5u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Rander Wang <rander.wang@linux.intel.com>
-CC: Bard Liao <yung-chuan.liao@linux.intel.com>
-CC: "Péter Ujfalusi" <peter.ujfalusi@linux.intel.com>
-CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
-CC: Yaochun Hung <yc.hung@mediatek.com>
+CC: vigneshr@ti.com
+CC: nm@ti.com
+CC: Vignesh Raghavendra <vigneshr@ti.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7ed2632ec7d72e926b9e8bcc9ad1bb0cd37274bf
-commit: e75e5db8f8ac5b9d4e8968060822bed4671f22ec ASoC: SOF: IPC4: Add pcm ops
-date:   1 year, 7 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 1 year, 7 months ago
-config: x86_64-randconfig-103-20240123 (https://download.01.org/0day-ci/archive/20240123/202401231256.x5EgXyKg-lkp@intel.com/config)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   95b5a09669edc6d3a5216ab8155a621ac28dd6ca
+commit: 2b13d2f1be636addc928fef814e6fdad9cd2c21f [55/79] rtc: tps6594: add driver for TPS6594 PMIC RTC
+:::::: branch date: 13 days ago
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-103-20240123 (https://download.01.org/0day-ci/archive/20240123/202401231704.rxvH4G5u-lkp@intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401231256.x5EgXyKg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401231704.rxvH4G5u-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> sound/soc/sof/ipc4-pcm.c:163:17-22: ERROR: invalid reference to the index variable of the iterator on line 153
+>> drivers/rtc/rtc-tps6594.c:442:2-9: line 442 is redundant because platform_get_irq() already prints an error
 
-vim +163 sound/soc/sof/ipc4-pcm.c
+vim +442 drivers/rtc/rtc-tps6594.c
 
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  144  
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  145  static void ipc4_ssp_dai_config_pcm_params_match(struct snd_sof_dev *sdev, const char *link_name,
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  146  						 struct snd_pcm_hw_params *params)
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  147  {
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  148  	struct snd_sof_dai_link *slink;
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  149  	struct snd_sof_dai *dai;
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  150  	bool dai_link_found = false;
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  151  	int i;
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  152  
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08 @153  	list_for_each_entry(slink, &sdev->dai_link_list, list) {
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  154  		if (!strcmp(slink->link->name, link_name)) {
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  155  			dai_link_found = true;
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  156  			break;
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  157  		}
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  158  	}
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  159  
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  160  	if (!dai_link_found)
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  161  		return;
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  162  
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08 @163  	for (i = 0; i < slink->num_hw_configs; i++) {
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  164  		struct snd_soc_tplg_hw_config *hw_config = &slink->hw_configs[i];
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  165  
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  166  		if (params_rate(params) == le32_to_cpu(hw_config->fsync_rate)) {
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  167  			/* set current config for all DAI's with matching name */
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  168  			list_for_each_entry(dai, &sdev->dai_list, list)
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  169  				if (!strcmp(slink->link->name, dai->name))
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  170  					dai->current_config = le32_to_cpu(hw_config->id);
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  171  			break;
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  172  		}
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  173  	}
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  174  }
-e75e5db8f8ac5b Ranjani Sridharan 2022-06-08  175  
+2b13d2f1be636a Esteban Blanc 2023-04-17  382  
+2b13d2f1be636a Esteban Blanc 2023-04-17  383  static int tps6594_rtc_probe(struct platform_device *pdev)
+2b13d2f1be636a Esteban Blanc 2023-04-17  384  {
+2b13d2f1be636a Esteban Blanc 2023-04-17  385  	struct tps6594 *tps;
+2b13d2f1be636a Esteban Blanc 2023-04-17  386  	struct rtc_device *rtc;
+2b13d2f1be636a Esteban Blanc 2023-04-17  387  	int irq;
+2b13d2f1be636a Esteban Blanc 2023-04-17  388  	int ret;
+2b13d2f1be636a Esteban Blanc 2023-04-17  389  
+2b13d2f1be636a Esteban Blanc 2023-04-17  390  	tps = dev_get_drvdata(pdev->dev.parent);
+2b13d2f1be636a Esteban Blanc 2023-04-17  391  
+2b13d2f1be636a Esteban Blanc 2023-04-17  392  	rtc = devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
+2b13d2f1be636a Esteban Blanc 2023-04-17  393  	if (!rtc)
+2b13d2f1be636a Esteban Blanc 2023-04-17  394  		return -ENOMEM;
+2b13d2f1be636a Esteban Blanc 2023-04-17  395  
+2b13d2f1be636a Esteban Blanc 2023-04-17  396  	rtc = devm_rtc_allocate_device(&pdev->dev);
+2b13d2f1be636a Esteban Blanc 2023-04-17  397  	if (IS_ERR(rtc))
+2b13d2f1be636a Esteban Blanc 2023-04-17  398  		return PTR_ERR(rtc);
+2b13d2f1be636a Esteban Blanc 2023-04-17  399  
+2b13d2f1be636a Esteban Blanc 2023-04-17  400  	/* Enable crystal oscillator */
+2b13d2f1be636a Esteban Blanc 2023-04-17  401  	ret = regmap_set_bits(tps->regmap, TPS6594_REG_RTC_CTRL_2,
+2b13d2f1be636a Esteban Blanc 2023-04-17  402  			      TPS6594_BIT_XTAL_EN);
+2b13d2f1be636a Esteban Blanc 2023-04-17  403  	if (ret < 0)
+2b13d2f1be636a Esteban Blanc 2023-04-17  404  		return ret;
+2b13d2f1be636a Esteban Blanc 2023-04-17  405  
+2b13d2f1be636a Esteban Blanc 2023-04-17  406  	ret = regmap_test_bits(tps->regmap, TPS6594_REG_RTC_STATUS,
+2b13d2f1be636a Esteban Blanc 2023-04-17  407  			       TPS6594_BIT_RUN);
+2b13d2f1be636a Esteban Blanc 2023-04-17  408  	if (ret < 0)
+2b13d2f1be636a Esteban Blanc 2023-04-17  409  		return ret;
+2b13d2f1be636a Esteban Blanc 2023-04-17  410  	/* RTC not running */
+2b13d2f1be636a Esteban Blanc 2023-04-17  411  	if (ret == 0) {
+2b13d2f1be636a Esteban Blanc 2023-04-17  412  		/* Start rtc */
+2b13d2f1be636a Esteban Blanc 2023-04-17  413  		ret = regmap_set_bits(tps->regmap, TPS6594_REG_RTC_CTRL_1,
+2b13d2f1be636a Esteban Blanc 2023-04-17  414  				      TPS6594_BIT_STOP_RTC);
+2b13d2f1be636a Esteban Blanc 2023-04-17  415  		if (ret < 0)
+2b13d2f1be636a Esteban Blanc 2023-04-17  416  			return ret;
+2b13d2f1be636a Esteban Blanc 2023-04-17  417  
+2b13d2f1be636a Esteban Blanc 2023-04-17  418  		mdelay(100);
+2b13d2f1be636a Esteban Blanc 2023-04-17  419  
+2b13d2f1be636a Esteban Blanc 2023-04-17  420  		/*
+2b13d2f1be636a Esteban Blanc 2023-04-17  421  		 * RTC should be running now. Check if this is the case.
+2b13d2f1be636a Esteban Blanc 2023-04-17  422  		 * If not it might be a missing oscillator.
+2b13d2f1be636a Esteban Blanc 2023-04-17  423  		 */
+2b13d2f1be636a Esteban Blanc 2023-04-17  424  		ret = regmap_test_bits(tps->regmap, TPS6594_REG_RTC_STATUS,
+2b13d2f1be636a Esteban Blanc 2023-04-17  425  				       TPS6594_BIT_RUN);
+2b13d2f1be636a Esteban Blanc 2023-04-17  426  		if (ret < 0)
+2b13d2f1be636a Esteban Blanc 2023-04-17  427  			return ret;
+2b13d2f1be636a Esteban Blanc 2023-04-17  428  		if (ret == 0)
+2b13d2f1be636a Esteban Blanc 2023-04-17  429  			return -ENODEV;
+2b13d2f1be636a Esteban Blanc 2023-04-17  430  
+2b13d2f1be636a Esteban Blanc 2023-04-17  431  		/* Stop RTC until first call to `tps6594_rtc_set_time */
+2b13d2f1be636a Esteban Blanc 2023-04-17  432  		ret = regmap_clear_bits(tps->regmap, TPS6594_REG_RTC_CTRL_1,
+2b13d2f1be636a Esteban Blanc 2023-04-17  433  					TPS6594_BIT_STOP_RTC);
+2b13d2f1be636a Esteban Blanc 2023-04-17  434  		if (ret < 0)
+2b13d2f1be636a Esteban Blanc 2023-04-17  435  			return ret;
+2b13d2f1be636a Esteban Blanc 2023-04-17  436  	}
+2b13d2f1be636a Esteban Blanc 2023-04-17  437  
+2b13d2f1be636a Esteban Blanc 2023-04-17  438  	platform_set_drvdata(pdev, rtc);
+2b13d2f1be636a Esteban Blanc 2023-04-17  439  
+2b13d2f1be636a Esteban Blanc 2023-04-17  440  	irq = platform_get_irq_byname(pdev, TPS6594_IRQ_NAME_ALARM);
+2b13d2f1be636a Esteban Blanc 2023-04-17  441  	if (irq < 0) {
+2b13d2f1be636a Esteban Blanc 2023-04-17 @442  		dev_err(&pdev->dev, "Failed to get irq\n");
+2b13d2f1be636a Esteban Blanc 2023-04-17  443  		return irq;
+2b13d2f1be636a Esteban Blanc 2023-04-17  444  	}
+2b13d2f1be636a Esteban Blanc 2023-04-17  445  
+2b13d2f1be636a Esteban Blanc 2023-04-17  446  	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+2b13d2f1be636a Esteban Blanc 2023-04-17  447  					tps6594_rtc_interrupt, IRQF_ONESHOT,
+2b13d2f1be636a Esteban Blanc 2023-04-17  448  					TPS6594_IRQ_NAME_ALARM, &pdev->dev);
+2b13d2f1be636a Esteban Blanc 2023-04-17  449  	if (ret < 0) {
+2b13d2f1be636a Esteban Blanc 2023-04-17  450  		dev_err(&pdev->dev, "Failed to request_threaded_irq\n");
+2b13d2f1be636a Esteban Blanc 2023-04-17  451  		return ret;
+2b13d2f1be636a Esteban Blanc 2023-04-17  452  	}
+2b13d2f1be636a Esteban Blanc 2023-04-17  453  
+2b13d2f1be636a Esteban Blanc 2023-04-17  454  	rtc->ops = &tps6594_rtc_ops;
+2b13d2f1be636a Esteban Blanc 2023-04-17  455  	rtc->range_min = RTC_TIMESTAMP_BEGIN_2000;
+2b13d2f1be636a Esteban Blanc 2023-04-17  456  	rtc->range_max = RTC_TIMESTAMP_END_2099;
+2b13d2f1be636a Esteban Blanc 2023-04-17  457  
+2b13d2f1be636a Esteban Blanc 2023-04-17  458  	return devm_rtc_register_device(rtc);
+2b13d2f1be636a Esteban Blanc 2023-04-17  459  }
+2b13d2f1be636a Esteban Blanc 2023-04-17  460  
 
 -- 
 0-DAY CI Kernel Test Service
