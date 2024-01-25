@@ -1,54 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E70C31F60A
-	for <oe-kbuild@lists.linux.dev>; Thu, 25 Jan 2024 19:13:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510A113AA25
+	for <oe-kbuild@lists.linux.dev>; Thu, 25 Jan 2024 21:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706210004; cv=none; b=VWdbxoYaYXWLu0kAfnDpJe2kVqcV1tzO1NMKduynoFWh6N9gghG6qwolzFIs3yO0N+SQQHWppNwGCRe6rtdHjGsgvesAeG4c2+Cwjij1rqraOFhey5vzx3QnkzJvUHwSV+jWJ7a1EC/l/eUYjIuYr/MOdSJLYIqZw59DI7I4IDQ=
+	t=1706219304; cv=none; b=tP9y6BSedgbJNcsuKBODogXTUzhDulwfJ3Uc4jWbMZyU8lTz2P3VHZTZWmTBkBepP31Ht5gj2Z1AEvhlUY4vKiUiqU+vTxDdu+fe4W99JEO6PGObL5gdHkE8QWY1q4j55WHxuROx+0HSrdVEwGsH1upGkL7f5exWkSoAtdxPftE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706210004; c=relaxed/simple;
-	bh=kvOWEpwv//J8cCMTr3g2TGm5HTDsBp2zmdUsfig6Xy4=;
+	s=arc-20240116; t=1706219304; c=relaxed/simple;
+	bh=tP7AMlt9z0N3PEq8Q3YtiufcLlmCSDN+roDQySigJM8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=K9YTJofwrB+/DI03Snze+Wr7hYgF06/mJf/LKh2HAMVE7bmdHlPvA2KdH2txBR2R1b+ZMVui3mp0gNNYJf8MjNn8iD42ieoUJXUUxUBrZwFviT7ALkqf/7Zqk4f9N0TMXIOYN6ZY3FdzchLbR8O2MEugXaS31aVaKLqQqLi2nJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N9kKjBTQ; arc=none smtp.client-ip=134.134.136.31
+	 Content-Disposition; b=jylJFYILVa/W3vFGUQbHFIBmqTOCw5rlLXqS78PGJPtriQrFkiwS9j96X/+WQPonPD5/fJQHYWlK/d0t8OV4lyjsTQcOanCUCxlne4BF5G/u9MEGsY2Y0OojLRAcQP3t6AmomqjjEDrGk8oLb5JFuE6EwRbohJ4k/c1Kv1Lsy3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AUtFC/yM; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N9kKjBTQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AUtFC/yM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706210001; x=1737746001;
+  t=1706219302; x=1737755302;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kvOWEpwv//J8cCMTr3g2TGm5HTDsBp2zmdUsfig6Xy4=;
-  b=N9kKjBTQBGNEQcZy/YCyYM/YQ+3mhyImj6G4BEBr7foXl8b4twfaqCml
-   7PH58h/yrU30Y+t8H1yh5X98FR/xp/1S0hEvd2fyneadOIs3ThA81JF1O
-   zxVmusA9UqQQc6BfYZcmkb1XoEwXxcG92pVk69Ag4sYspsClbH2u5yYVX
-   pKPPGe5/R78bxzgj+nHkhl7lf+UEPL2LOPFp3ufmPTczhoXiyqOun6AsZ
-   dFgqUcIdz/wdnD76a3QA42h/rDyVKoyRIAtqayr3rLrT5WKXgfmUrN4cy
-   rmAjkExPyx8/+FzGqkhI9Vtud4l1fJ1Si9oYN24dmxCpy6oCZZA1IasVq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="466547588"
+  bh=tP7AMlt9z0N3PEq8Q3YtiufcLlmCSDN+roDQySigJM8=;
+  b=AUtFC/yM/6N6N13PiC6vJyEWjrUu6mJJoCdYy/fnXGJkeLFcSDlRQajS
+   tKOxD9/CA/ZdqXPAPeOmm0y7lIIXe6DLoN906Rwwu3ef9wBSLVNRDmJhP
+   qrXWspgKtuy439wDHwxCfVikvNxRFwKm5FKFDvRmYFWX/Zq3X2R7woBIi
+   hGOOTf24RU4jrHUVPNUnhf1le557BpoDXm0QG2Vvrk1WC5LfOrvimvNBt
+   ZntTurjV/rir7uqI4SvxF+7mYx3Hf4nNOsgrs1CTiJVI6gHKuaDnNeahB
+   1r8Jf2atWvxTPaClZdjsEO2T0IpHNWMxjFqu822gCgAGOsCK4J8KcjzIy
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="8960847"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="466547588"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 11:13:19 -0800
+   d="scan'208";a="8960847"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 13:48:22 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2506310"
+   d="scan'208";a="2567828"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Jan 2024 11:13:18 -0800
+  by orviesa004.jf.intel.com with ESMTP; 25 Jan 2024 13:48:21 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rT5A3-0000M4-32;
-	Thu, 25 Jan 2024 19:13:15 +0000
-Date: Fri, 26 Jan 2024 03:13:12 +0800
+	id 1rT7a6-0000Qa-0y;
+	Thu, 25 Jan 2024 21:48:18 +0000
+Date: Fri, 26 Jan 2024 05:47:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/orangefs/super.c:583:18-25: ERROR: ORANGEFS_SB ( sb ) is NULL but
- dereferenced.
-Message-ID: <202401260328.WPmVVmk3-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: kernel/cgroup/sli.c: linux/cgroup.h is included more than once.
+Message-ID: <202401260540.7P5Emiq3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,166 +57,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Chenyuan Mi <cymi20@fudan.edu.cn>
-CC: Mike Marshall <hubcap@omnibond.com>
-CC: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-CC: Xin Tan <tanxin.ctf@gmail.com>
+TO: jasperwang@tencent.com
+TO: kaixuxia@tencent.com
+TO: frankjpliu@tencent.com
+TO: kasong@tencent.com
+TO: sagazchen@tencent.com
+TO: kernelxing@tencent.com
+TO: aurelianliu@tencent.com
+TO: jason.zeng@intel.com
+TO: wu.zheng@intel.com
+TO: yingbao.jia@intel.com
+TO: pei.p.jia@intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6098d87eaf31f48153c984e2adadf14762520a87
-commit: ac2c63757f4f413980d6c676dbe1ae2941b94afa orangefs: Fix sb refcount leak when allocate sb info failed.
-date:   2 years, 3 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 2 years, 3 months ago
-config: arm-randconfig-r062-20240117 (https://download.01.org/0day-ci/archive/20240126/202401260328.WPmVVmk3-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git master
+head:   5aef72f74942091b6d408fce235629dc0620e74e
+commit: 2690abc40b3ff5bce2553981394ee072eb1f5f66 sli: add sli event monitoring for cgroup
+date:   1 year, 9 months ago
+:::::: branch date: 34 hours ago
+:::::: commit date: 1 year, 9 months ago
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401260328.WPmVVmk3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401260540.7P5Emiq3-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/orangefs/super.c:583:18-25: ERROR: ORANGEFS_SB ( sb ) is NULL but dereferenced.
+includecheck warnings: (new ones prefixed by >>)
+>> kernel/cgroup/sli.c: linux/cgroup.h is included more than once.
 
-vim +583 fs/orangefs/super.c
+vim +3 kernel/cgroup/sli.c
 
-1182fca3bc0044 Mike Marshall      2015-07-17  472  
-8bb8aefd5afb54 Yi Liu             2015-11-24  473  struct dentry *orangefs_mount(struct file_system_type *fst,
-1182fca3bc0044 Mike Marshall      2015-07-17  474  			   int flags,
-1182fca3bc0044 Mike Marshall      2015-07-17  475  			   const char *devname,
-1182fca3bc0044 Mike Marshall      2015-07-17  476  			   void *data)
-1182fca3bc0044 Mike Marshall      2015-07-17  477  {
-507874c08f633e Colin Ian King     2021-09-10  478  	int ret;
-1182fca3bc0044 Mike Marshall      2015-07-17  479  	struct super_block *sb = ERR_PTR(-EINVAL);
-8bb8aefd5afb54 Yi Liu             2015-11-24  480  	struct orangefs_kernel_op_s *new_op;
-1be21f865aa5a9 Mike Marshall      2015-09-29  481  	struct dentry *d = ERR_PTR(-EINVAL);
-1182fca3bc0044 Mike Marshall      2015-07-17  482  
-1182fca3bc0044 Mike Marshall      2015-07-17  483  	gossip_debug(GOSSIP_SUPER_DEBUG,
-8bb8aefd5afb54 Yi Liu             2015-11-24  484  		     "orangefs_mount: called with devname %s\n",
-1182fca3bc0044 Mike Marshall      2015-07-17  485  		     devname);
-1182fca3bc0044 Mike Marshall      2015-07-17  486  
-1182fca3bc0044 Mike Marshall      2015-07-17  487  	if (!devname) {
-1182fca3bc0044 Mike Marshall      2015-07-17  488  		gossip_err("ERROR: device name not specified.\n");
-1182fca3bc0044 Mike Marshall      2015-07-17  489  		return ERR_PTR(-EINVAL);
-1182fca3bc0044 Mike Marshall      2015-07-17  490  	}
-1182fca3bc0044 Mike Marshall      2015-07-17  491  
-8bb8aefd5afb54 Yi Liu             2015-11-24  492  	new_op = op_alloc(ORANGEFS_VFS_OP_FS_MOUNT);
-1182fca3bc0044 Mike Marshall      2015-07-17  493  	if (!new_op)
-1182fca3bc0044 Mike Marshall      2015-07-17  494  		return ERR_PTR(-ENOMEM);
-1182fca3bc0044 Mike Marshall      2015-07-17  495  
-8bb8aefd5afb54 Yi Liu             2015-11-24  496  	strncpy(new_op->upcall.req.fs_mount.orangefs_config_server,
-1182fca3bc0044 Mike Marshall      2015-07-17  497  		devname,
-6bdfb48dae8e1b Xiongfeng Wang     2018-01-08  498  		ORANGEFS_MAX_SERVER_ADDR_LEN - 1);
-1182fca3bc0044 Mike Marshall      2015-07-17  499  
-1182fca3bc0044 Mike Marshall      2015-07-17  500  	gossip_debug(GOSSIP_SUPER_DEBUG,
-8bb8aefd5afb54 Yi Liu             2015-11-24  501  		     "Attempting ORANGEFS Mount via host %s\n",
-8bb8aefd5afb54 Yi Liu             2015-11-24  502  		     new_op->upcall.req.fs_mount.orangefs_config_server);
-1182fca3bc0044 Mike Marshall      2015-07-17  503  
-8bb8aefd5afb54 Yi Liu             2015-11-24  504  	ret = service_operation(new_op, "orangefs_mount", 0);
-1182fca3bc0044 Mike Marshall      2015-07-17  505  	gossip_debug(GOSSIP_SUPER_DEBUG,
-8bb8aefd5afb54 Yi Liu             2015-11-24  506  		     "orangefs_mount: mount got return value of %d\n", ret);
-1182fca3bc0044 Mike Marshall      2015-07-17  507  	if (ret)
-1182fca3bc0044 Mike Marshall      2015-07-17  508  		goto free_op;
-1182fca3bc0044 Mike Marshall      2015-07-17  509  
-8bb8aefd5afb54 Yi Liu             2015-11-24  510  	if (new_op->downcall.resp.fs_mount.fs_id == ORANGEFS_FS_ID_NULL) {
-1182fca3bc0044 Mike Marshall      2015-07-17  511  		gossip_err("ERROR: Retrieved null fs_id\n");
-1182fca3bc0044 Mike Marshall      2015-07-17  512  		ret = -EINVAL;
-1182fca3bc0044 Mike Marshall      2015-07-17  513  		goto free_op;
-1182fca3bc0044 Mike Marshall      2015-07-17  514  	}
-1182fca3bc0044 Mike Marshall      2015-07-17  515  
-1be21f865aa5a9 Mike Marshall      2015-09-29  516  	sb = sget(fst, NULL, set_anon_super, flags, NULL);
-1be21f865aa5a9 Mike Marshall      2015-09-29  517  
-1be21f865aa5a9 Mike Marshall      2015-09-29  518  	if (IS_ERR(sb)) {
-1be21f865aa5a9 Mike Marshall      2015-09-29  519  		d = ERR_CAST(sb);
-9d286b0d8207a7 Martin Brandenburg 2017-04-25  520  		orangefs_unmount(new_op->downcall.resp.fs_mount.id,
-9d286b0d8207a7 Martin Brandenburg 2017-04-25  521  		    new_op->downcall.resp.fs_mount.fs_id, devname);
-1182fca3bc0044 Mike Marshall      2015-07-17  522  		goto free_op;
-1182fca3bc0044 Mike Marshall      2015-07-17  523  	}
-1182fca3bc0044 Mike Marshall      2015-07-17  524  
-f2d34c738cbf21 Martin Brandenburg 2018-02-12  525  	/* alloc and init our private orangefs sb info */
-f2d34c738cbf21 Martin Brandenburg 2018-02-12  526  	sb->s_fs_info = kzalloc(sizeof(struct orangefs_sb_info_s), GFP_KERNEL);
-f2d34c738cbf21 Martin Brandenburg 2018-02-12  527  	if (!ORANGEFS_SB(sb)) {
-f2d34c738cbf21 Martin Brandenburg 2018-02-12  528  		d = ERR_PTR(-ENOMEM);
-ac2c63757f4f41 Chenyuan Mi        2021-09-07  529  		goto free_sb_and_op;
-f2d34c738cbf21 Martin Brandenburg 2018-02-12  530  	}
-f2d34c738cbf21 Martin Brandenburg 2018-02-12  531  
-8bb8aefd5afb54 Yi Liu             2015-11-24  532  	ret = orangefs_fill_sb(sb,
-5c0dbbc64b25fd Al Viro            2015-10-08  533  	      &new_op->downcall.resp.fs_mount, data,
-1751e8a6cb935e Linus Torvalds     2017-11-27  534  	      flags & SB_SILENT ? 1 : 0);
-1be21f865aa5a9 Mike Marshall      2015-09-29  535  
-1be21f865aa5a9 Mike Marshall      2015-09-29  536  	if (ret) {
-1be21f865aa5a9 Mike Marshall      2015-09-29  537  		d = ERR_PTR(ret);
-1ec1688c5360e1 Martin Brandenburg 2017-04-14  538  		goto free_sb_and_op;
-1be21f865aa5a9 Mike Marshall      2015-09-29  539  	}
-1182fca3bc0044 Mike Marshall      2015-07-17  540  
-1182fca3bc0044 Mike Marshall      2015-07-17  541  	/*
-1182fca3bc0044 Mike Marshall      2015-07-17  542  	 * on successful mount, store the devname and data
-1182fca3bc0044 Mike Marshall      2015-07-17  543  	 * used
-1182fca3bc0044 Mike Marshall      2015-07-17  544  	 */
-8bb8aefd5afb54 Yi Liu             2015-11-24  545  	strncpy(ORANGEFS_SB(sb)->devname,
-1182fca3bc0044 Mike Marshall      2015-07-17  546  		devname,
-6bdfb48dae8e1b Xiongfeng Wang     2018-01-08  547  		ORANGEFS_MAX_SERVER_ADDR_LEN - 1);
-1182fca3bc0044 Mike Marshall      2015-07-17  548  
-1182fca3bc0044 Mike Marshall      2015-07-17  549  	/* mount_pending must be cleared */
-8bb8aefd5afb54 Yi Liu             2015-11-24  550  	ORANGEFS_SB(sb)->mount_pending = 0;
-1182fca3bc0044 Mike Marshall      2015-07-17  551  
-1182fca3bc0044 Mike Marshall      2015-07-17  552  	/*
-8bb8aefd5afb54 Yi Liu             2015-11-24  553  	 * finally, add this sb to our list of known orangefs
-1182fca3bc0044 Mike Marshall      2015-07-17  554  	 * sb's
-1182fca3bc0044 Mike Marshall      2015-07-17  555  	 */
-45996492e5c85a Al Viro            2016-03-25  556  	gossip_debug(GOSSIP_SUPER_DEBUG,
-45996492e5c85a Al Viro            2016-03-25  557  		     "Adding SB %p to orangefs superblocks\n",
-45996492e5c85a Al Viro            2016-03-25  558  		     ORANGEFS_SB(sb));
-45996492e5c85a Al Viro            2016-03-25  559  	spin_lock(&orangefs_superblocks_lock);
-45996492e5c85a Al Viro            2016-03-25  560  	list_add_tail(&ORANGEFS_SB(sb)->list, &orangefs_superblocks);
-45996492e5c85a Al Viro            2016-03-25  561  	spin_unlock(&orangefs_superblocks_lock);
-1182fca3bc0044 Mike Marshall      2015-07-17  562  	op_release(new_op);
-482664ddba81b3 Martin Brandenburg 2016-08-12  563  
-1ec1688c5360e1 Martin Brandenburg 2017-04-14  564  	/* Must be removed from the list now. */
-1ec1688c5360e1 Martin Brandenburg 2017-04-14  565  	ORANGEFS_SB(sb)->no_list = 0;
-1ec1688c5360e1 Martin Brandenburg 2017-04-14  566  
-f60fbdbf41c802 Mike Marshall      2016-10-03  567  	if (orangefs_userspace_version >= 20906) {
-482664ddba81b3 Martin Brandenburg 2016-08-12  568  		new_op = op_alloc(ORANGEFS_VFS_OP_FEATURES);
-482664ddba81b3 Martin Brandenburg 2016-08-12  569  		if (!new_op)
-482664ddba81b3 Martin Brandenburg 2016-08-12  570  			return ERR_PTR(-ENOMEM);
-482664ddba81b3 Martin Brandenburg 2016-08-12  571  		new_op->upcall.req.features.features = 0;
-482664ddba81b3 Martin Brandenburg 2016-08-12  572  		ret = service_operation(new_op, "orangefs_features", 0);
-482664ddba81b3 Martin Brandenburg 2016-08-12  573  		orangefs_features = new_op->downcall.resp.features.features;
-482664ddba81b3 Martin Brandenburg 2016-08-12  574  		op_release(new_op);
-482664ddba81b3 Martin Brandenburg 2016-08-12  575  	} else {
-482664ddba81b3 Martin Brandenburg 2016-08-12  576  		orangefs_features = 0;
-482664ddba81b3 Martin Brandenburg 2016-08-12  577  	}
-482664ddba81b3 Martin Brandenburg 2016-08-12  578  
-1be21f865aa5a9 Mike Marshall      2015-09-29  579  	return dget(sb->s_root);
-1182fca3bc0044 Mike Marshall      2015-07-17  580  
-1ec1688c5360e1 Martin Brandenburg 2017-04-14  581  free_sb_and_op:
-1ec1688c5360e1 Martin Brandenburg 2017-04-14  582  	/* Will call orangefs_kill_sb with sb not in list. */
-1ec1688c5360e1 Martin Brandenburg 2017-04-14 @583  	ORANGEFS_SB(sb)->no_list = 1;
-9d286b0d8207a7 Martin Brandenburg 2017-04-25  584  	/* ORANGEFS_VFS_OP_FS_UMOUNT is done by orangefs_kill_sb. */
-1ec1688c5360e1 Martin Brandenburg 2017-04-14  585  	deactivate_locked_super(sb);
-1182fca3bc0044 Mike Marshall      2015-07-17  586  free_op:
-8bb8aefd5afb54 Yi Liu             2015-11-24  587  	gossip_err("orangefs_mount: mount request failed with %d\n", ret);
-1182fca3bc0044 Mike Marshall      2015-07-17  588  	if (ret == -EINVAL) {
-8bb8aefd5afb54 Yi Liu             2015-11-24  589  		gossip_err("Ensure that all orangefs-servers have the same FS configuration files\n");
-1182fca3bc0044 Mike Marshall      2015-07-17  590  		gossip_err("Look at pvfs2-client-core log file (typically /tmp/pvfs2-client.log) for more details\n");
-1182fca3bc0044 Mike Marshall      2015-07-17  591  	}
-1182fca3bc0044 Mike Marshall      2015-07-17  592  
-1182fca3bc0044 Mike Marshall      2015-07-17  593  	op_release(new_op);
-1182fca3bc0044 Mike Marshall      2015-07-17  594  
-1be21f865aa5a9 Mike Marshall      2015-09-29  595  	return d;
-1182fca3bc0044 Mike Marshall      2015-07-17  596  }
-1182fca3bc0044 Mike Marshall      2015-07-17  597  
-
-:::::: The code at line 583 was first introduced by commit
-:::::: 1ec1688c5360e14dde4094d6acbf7516bf6db37e orangefs: free superblock when mount fails
-
-:::::: TO: Martin Brandenburg <martin@omnibond.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   > 3	#include <linux/cgroup.h>
+     4	#include <linux/module.h>
+     5	#include <linux/psi.h>
+     6	#include <linux/memcontrol.h>
+     7	#include <linux/sched.h>
+     8	#include <linux/sched/task_stack.h>
+     9	#include <linux/sched/sysctl.h>
+    10	#include <linux/stacktrace.h>
+    11	#include <asm/irq_regs.h>
+    12	#include "../sched/sched.h"
+  > 13	#include <linux/cgroup.h>
+    14	#include <linux/sli.h>
+    15	#include <linux/rculist.h>
+    16	
 
 -- 
 0-DAY CI Kernel Test Service
