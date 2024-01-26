@@ -1,55 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1323F1DFD2
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Jan 2024 16:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F413F22616
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 Jan 2024 20:05:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706286770; cv=none; b=P52Av2hgqOzgr0rb9/GGbTBW9Sxr5S8XGV3kt2z7WNXb9ZXPhXUz/g3ZC3CTu3JEBAk3kCjvkXkV2JawFBOSYDb+23AbQ/uqrBvrFMmVt/gmUxNrb92/0lWEKXeXfSqAma3CI2w6UfIPYB+KFv6BRVX6OTqMMr9dMWpqa/PVf2o=
+	t=1706299523; cv=none; b=joA6jsZNQtTBHv40Kyw3E7QfxntXmgn7CBg6LHUe72MZx8SeiHrI1YSlhGUz2w/J5Oteme8rbCOFXOXA+KKiapPhEKXPxhDjmo/eKjGKV0qv1k39LuzRHoYvdL5nKJrHFnobFE6oq0n6XicE1y7B2Bud2i1hHRGnsgBCQB61hgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706286770; c=relaxed/simple;
-	bh=bipR1afYY25kVWoK+2hm2ohLJBIvfUml5fRe/sLSoPQ=;
+	s=arc-20240116; t=1706299523; c=relaxed/simple;
+	bh=ALEJ/C3IxX00YOaDNnzGxbvw21h/hPL9SSfuDV452tk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y64jPV1XDWjgYTIbWBzly4E/EG/+7lTaMDvPtlQOcw+KMkz7BpaO0FZGyBuW5pt4jLtRq7OkYI4H8+r5R2ahgdw1IGWimZ8xRPlz6L0cIeeZusKTd+M6tlUgzLWU2jRuHililI8nPR6nOXP/dGanp2cmazSJNLRWEr8KJYKeJm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YHLWNJyQ; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=r+1g7KmO1L/M6Pu1Fbfti7yO5yGqybHkOy0+KTQ+EXRw/Vu55LfV0p1C8chP+gGq0J+AHiHLiN100Az5h3Hfaii3wBfR5Szn+ztg//ngCOnAP0fCIB3wR3ksGh3Y89b1W+LN8T9P3yLeGFO6ENwyHAH73jeW8jv6qTrataso6Lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QCgdFTOg; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YHLWNJyQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCgdFTOg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706286768; x=1737822768;
+  t=1706299521; x=1737835521;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bipR1afYY25kVWoK+2hm2ohLJBIvfUml5fRe/sLSoPQ=;
-  b=YHLWNJyQkhNH1yI8ITbLzyqfeoCqY92aqgzMDEmrKmjjkhhdDjq4HOpU
-   xnJi1JMNTD7A3cEtrQ3LUrAPF1oD2T70sY+uzxWcBjgkJgfOcqzuzhVsR
-   xwX0lyt+vqv02uui9lKSx9Rpo2gQRYLhNqyj66xNe25opgUvsLjqpbkxo
-   8uD5Izx5Dd/2DU6E3CITV3MWQxEQmDfP7cXyMr5zuA3mnHJgGf3nSVHgX
-   /DDcRPTHxXPUHndzuG7bULF9696D7qtJTOzkOQA+LKwiG2SQzE+AZe4/1
-   Qy/O+Ep91diFWp5QDY0lFSO5oazlY9UDg/FVv+0j5E2FkRm26+6x6jn2l
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="2382199"
+  bh=ALEJ/C3IxX00YOaDNnzGxbvw21h/hPL9SSfuDV452tk=;
+  b=QCgdFTOgFmJLl/HB8BKSgEyqhOiJTeqjBgbAd0t/pnVwHQwrc0tzhObh
+   DuutuCb1ZJvzJXxz/EvWBmk1S2actf+YKdziFK5VJKkHGTXHFBSNwfr/H
+   JRoNwoHfg0qTsk4os+Mc5XUakdudKKqSpHKszz+ygQSVkoha5aHrrRY1B
+   Hn/zjS61bS0mX6sy0/1mMPNsWZ3REuMck4nHcuLJy7e3MEVlcqmll1us7
+   1hReQ3l53Z4x9Es8SavPwVX/Xj7CR9BJ2de92bBVZn7w55c+YowCnVpza
+   dGrmFycz0IC+QlaKzjFowjxMKlgy5tWAeE+pI0qxpuJaG/lDeG9iH5BHB
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="1488737"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2382199"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 08:32:47 -0800
+   d="scan'208";a="1488737"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 12:05:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="787157072"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="787157072"
+   d="scan'208";a="2765042"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 26 Jan 2024 08:32:45 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 26 Jan 2024 12:05:19 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTP8F-0001Be-0Y;
-	Fri, 26 Jan 2024 16:32:43 +0000
-Date: Sat, 27 Jan 2024 00:32:03 +0800
+	id 1rTSRw-0001JO-2A;
+	Fri, 26 Jan 2024 20:05:16 +0000
+Date: Sat, 27 Jan 2024 04:04:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm/kernel/process.c:96:14: warning: variable 'buf' set but not
- used
-Message-ID: <202401270045.2KZgrr5M-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: net/mac80211/tdls.c:871:19-21: WARNING opportunity for max()
+Message-ID: <202401270423.ICTURuWU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,152 +57,117 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only Makefile file changed"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
+TO: Mukesh Sisodiya <mukesh.sisodiya@intel.com>
+CC: Johannes Berg <johannes.berg@intel.com>
+CC: Gregory Greenman <gregory.greenman@intel.com>
+CC: Benjamin Berg <benjamin.berg@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ecb1b8288dc7ccbdcb3b9df005fa1c0e0c0388a7
-commit: b1fbfcb4a20949df08dd995927cdc5ad220c128d kbuild: make single target builds even faster
-date:   4 years, 2 months ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 4 years, 2 months ago
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240127/202401270045.2KZgrr5M-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401270045.2KZgrr5M-lkp@intel.com/reproduce)
+commit: 78a7ea370d5f0eb6f3e774e7f6afece1c3a6860f wifi: mac80211: handle TDLS negotiation with MLO
+date:   7 months ago
+:::::: branch date: 25 hours ago
+:::::: commit date: 7 months ago
+config: x86_64-randconfig-101-20240126 (https://download.01.org/0day-ci/archive/20240127/202401270423.ICTURuWU-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202401270045.2KZgrr5M-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202401270423.ICTURuWU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> net/mac80211/tdls.c:871:19-21: WARNING opportunity for max()
 
-   arch/arm/kernel/process.c: In function '__show_regs':
->> arch/arm/kernel/process.c:96:14: warning: variable 'buf' set but not used [-Wunused-but-set-variable]
-      96 |         char buf[64];
-         |              ^~~
---
-   arch/arm/kernel/setup.c: In function 'early_print':
-   arch/arm/kernel/setup.c:370:9: warning: function 'early_print' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     370 |         vsnprintf(buf, sizeof(buf), str, ap);
-         |         ^~~~~~~~~
-   In file included from arch/arm/include/asm/efi.h:12,
-                    from arch/arm/kernel/setup.c:36:
-   arch/arm/include/asm/fixmap.h: At top level:
->> arch/arm/include/asm/fixmap.h:39:35: warning: '__end_of_fixed_addresses' defined but not used [-Wunused-const-variable=]
-      39 | static const enum fixed_addresses __end_of_fixed_addresses =
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/arm/include/asm/page.h:160,
-                    from arch/arm/include/asm/thread_info.h:14,
-                    from include/linux/thread_info.h:38,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arm/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/seqlock.h:36,
-                    from include/linux/time.h:6,
-                    from include/linux/efi.h:17,
-                    from arch/arm/kernel/setup.c:7:
-   arch/arm/kernel/setup.c: In function 'request_standard_resources':
-   arch/arm/include/asm/memory.h:279:22: warning: array subscript -1 is outside array bounds of 'char[2147483647]' [-Warray-bounds=]
-     279 | #define virt_to_phys virt_to_phys
-   arch/arm/kernel/setup.c:850:31: note: in expansion of macro 'virt_to_phys'
-     850 |         kernel_code.end     = virt_to_phys(__init_begin - 1);
-         |                               ^~~~~~~~~~~~
-   In file included from include/linux/pid_namespace.h:7,
-                    from include/linux/ptrace.h:10,
-                    from include/uapi/linux/elfcore.h:8,
-                    from include/linux/elfcore.h:10,
-                    from include/linux/crash_core.h:6,
-                    from include/linux/kexec.h:18,
-                    from arch/arm/kernel/setup.c:20:
-   include/linux/mm.h:2117:21: note: at offset -1 into object '__init_begin' of size [0, 2147483647]
-    2117 |         extern char __init_begin[], __init_end[];
-         |                     ^~~~~~~~~~~~
-   arch/arm/include/asm/memory.h:279:22: warning: array subscript -1 is outside array bounds of 'char[2147483647]' [-Warray-bounds=]
-     279 | #define virt_to_phys virt_to_phys
-   arch/arm/kernel/setup.c:852:31: note: in expansion of macro 'virt_to_phys'
-     852 |         kernel_data.end     = virt_to_phys(_end - 1);
-         |                               ^~~~~~~~~~~~
-   In file included from arch/arm/include/asm/sections.h:5,
-                    from include/linux/interrupt.h:20,
-                    from include/linux/rtc.h:17,
-                    from include/linux/efi.h:20:
-   include/asm-generic/sections.h:41:13: note: at offset -1 into object '_end' of size [0, 2147483647]
-      41 | extern char _end[];
-         |             ^~~~
---
-   In file included from mm/early_ioremap.c:18:
->> arch/arm/include/asm/fixmap.h:39:35: warning: '__end_of_fixed_addresses' defined but not used [-Wunused-const-variable=]
-      39 | static const enum fixed_addresses __end_of_fixed_addresses =
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+vim +871 net/mac80211/tdls.c
 
-
-vim +/buf +96 arch/arm/kernel/process.c
-
-f7b861b7a6d9d1 Thomas Gleixner    2013-03-21   92  
-652a12ef98d16c Russell King       2005-04-17   93  void __show_regs(struct pt_regs *regs)
-^1da177e4c3f41 Linus Torvalds     2005-04-16   94  {
-154c772ebfb12e Russell King       2007-06-18   95  	unsigned long flags;
-154c772ebfb12e Russell King       2007-06-18  @96  	char buf[64];
-77f1b959b0b6db Russell King       2015-12-03   97  #ifndef CONFIG_CPU_V7M
-e6978e4bf181fb Russell King       2016-05-13   98  	unsigned int domain, fs;
-77f1b959b0b6db Russell King       2015-12-03   99  #ifdef CONFIG_CPU_SW_DOMAIN_PAN
-77f1b959b0b6db Russell King       2015-12-03  100  	/*
-77f1b959b0b6db Russell King       2015-12-03  101  	 * Get the domain register for the parent context. In user
-77f1b959b0b6db Russell King       2015-12-03  102  	 * mode, we don't save the DACR, so lets use what it should
-77f1b959b0b6db Russell King       2015-12-03  103  	 * be. For other modes, we place it after the pt_regs struct.
-77f1b959b0b6db Russell King       2015-12-03  104  	 */
-e6978e4bf181fb Russell King       2016-05-13  105  	if (user_mode(regs)) {
-77f1b959b0b6db Russell King       2015-12-03  106  		domain = DACR_UACCESS_ENABLE;
-e6978e4bf181fb Russell King       2016-05-13  107  		fs = get_fs();
-e6978e4bf181fb Russell King       2016-05-13  108  	} else {
-5fa9da5043a81b Russell King       2016-05-13  109  		domain = to_svc_pt_regs(regs)->dacr;
-e6978e4bf181fb Russell King       2016-05-13  110  		fs = to_svc_pt_regs(regs)->addr_limit;
-e6978e4bf181fb Russell King       2016-05-13  111  	}
-77f1b959b0b6db Russell King       2015-12-03  112  #else
-77f1b959b0b6db Russell King       2015-12-03  113  	domain = get_domain();
-e6978e4bf181fb Russell King       2016-05-13  114  	fs = get_fs();
-77f1b959b0b6db Russell King       2015-12-03  115  #endif
-77f1b959b0b6db Russell King       2015-12-03  116  #endif
-^1da177e4c3f41 Linus Torvalds     2005-04-16  117  
-a43cb95d547a06 Tejun Heo          2013-04-30  118  	show_regs_print_info(KERN_DEFAULT);
-a43cb95d547a06 Tejun Heo          2013-04-30  119  
-3ea70d7ddbddef Sergey Senozhatsky 2017-12-11  120  	printk("PC is at %pS\n", (void *)instruction_pointer(regs));
-3ea70d7ddbddef Sergey Senozhatsky 2017-12-11  121  	printk("LR is at %pS\n", (void *)regs->ARM_lr);
-801f19b9515fb6 Joe Perches        2017-05-04  122  	printk("pc : [<%08lx>]    lr : [<%08lx>]    psr: %08lx\n",
-801f19b9515fb6 Joe Perches        2017-05-04  123  	       regs->ARM_pc, regs->ARM_lr, regs->ARM_cpsr);
-801f19b9515fb6 Joe Perches        2017-05-04  124  	printk("sp : %08lx  ip : %08lx  fp : %08lx\n",
-154c772ebfb12e Russell King       2007-06-18  125  	       regs->ARM_sp, regs->ARM_ip, regs->ARM_fp);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  126  	printk("r10: %08lx  r9 : %08lx  r8 : %08lx\n",
-^1da177e4c3f41 Linus Torvalds     2005-04-16  127  		regs->ARM_r10, regs->ARM_r9,
-^1da177e4c3f41 Linus Torvalds     2005-04-16  128  		regs->ARM_r8);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  129  	printk("r7 : %08lx  r6 : %08lx  r5 : %08lx  r4 : %08lx\n",
-^1da177e4c3f41 Linus Torvalds     2005-04-16  130  		regs->ARM_r7, regs->ARM_r6,
-^1da177e4c3f41 Linus Torvalds     2005-04-16  131  		regs->ARM_r5, regs->ARM_r4);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  132  	printk("r3 : %08lx  r2 : %08lx  r1 : %08lx  r0 : %08lx\n",
-^1da177e4c3f41 Linus Torvalds     2005-04-16  133  		regs->ARM_r3, regs->ARM_r2,
-^1da177e4c3f41 Linus Torvalds     2005-04-16  134  		regs->ARM_r1, regs->ARM_r0);
-154c772ebfb12e Russell King       2007-06-18  135  
-154c772ebfb12e Russell King       2007-06-18  136  	flags = regs->ARM_cpsr;
-154c772ebfb12e Russell King       2007-06-18  137  	buf[0] = flags & PSR_N_BIT ? 'N' : 'n';
-154c772ebfb12e Russell King       2007-06-18  138  	buf[1] = flags & PSR_Z_BIT ? 'Z' : 'z';
-154c772ebfb12e Russell King       2007-06-18  139  	buf[2] = flags & PSR_C_BIT ? 'C' : 'c';
-154c772ebfb12e Russell King       2007-06-18  140  	buf[3] = flags & PSR_V_BIT ? 'V' : 'v';
-154c772ebfb12e Russell King       2007-06-18  141  	buf[4] = '\0';
-154c772ebfb12e Russell King       2007-06-18  142  
-
-:::::: The code at line 96 was first introduced by commit
-:::::: 154c772ebfb12ef66855510e6be2b12c85110b0c [ARM] Update show_regs/oops register format
-
-:::::: TO: Russell King <rmk@dyn-67.arm.linux.org.uk>
-:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
+95224fe83e5e78 Arik Nemtsov    2014-05-01  856  
+c2733905692589 Arik Nemtsov    2014-11-09  857  static struct sk_buff *
+c2733905692589 Arik Nemtsov    2014-11-09  858  ieee80211_tdls_build_mgmt_packet_data(struct ieee80211_sub_if_data *sdata,
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  859  				      const u8 *peer, int link_id,
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  860  				      u8 action_code, u8 dialog_token,
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  861  				      u16 status_code, bool initiator,
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  862  				      const u8 *extra_ies, size_t extra_ies_len,
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  863  				      u8 oper_class,
+c2733905692589 Arik Nemtsov    2014-11-09  864  				      struct cfg80211_chan_def *chandef)
+95224fe83e5e78 Arik Nemtsov    2014-05-01  865  {
+95224fe83e5e78 Arik Nemtsov    2014-05-01  866  	struct ieee80211_local *local = sdata->local;
+c2733905692589 Arik Nemtsov    2014-11-09  867  	struct sk_buff *skb;
+95224fe83e5e78 Arik Nemtsov    2014-05-01  868  	int ret;
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  869  	struct ieee80211_link_data *link;
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  870  
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16 @871  	link_id = link_id >= 0 ? link_id : 0;
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  872  	rcu_read_lock();
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  873  	link = rcu_dereference(sdata->link[link_id]);
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  874  	if (WARN_ON(!link))
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  875  		goto unlock;
+95224fe83e5e78 Arik Nemtsov    2014-05-01  876  
+c2733905692589 Arik Nemtsov    2014-11-09  877  	skb = netdev_alloc_skb(sdata->dev,
+1277b4a9f531e8 Liad Kaufman    2014-11-09  878  			       local->hw.extra_tx_headroom +
+95224fe83e5e78 Arik Nemtsov    2014-05-01  879  			       max(sizeof(struct ieee80211_mgmt),
+95224fe83e5e78 Arik Nemtsov    2014-05-01  880  				   sizeof(struct ieee80211_tdls_data)) +
+95224fe83e5e78 Arik Nemtsov    2014-05-01  881  			       50 + /* supported rates */
+b98fb44ffceeac Arik Nemtsov    2015-06-10  882  			       10 + /* ext capab */
+40b861a0eeb06b Arik Nemtsov    2014-07-17  883  			       26 + /* max(WMM-info, WMM-param) */
+13cc8a4a1d24ff Arik Nemtsov    2014-07-17  884  			       2 + max(sizeof(struct ieee80211_ht_cap),
+13cc8a4a1d24ff Arik Nemtsov    2014-07-17  885  				       sizeof(struct ieee80211_ht_operation)) +
+fb28ec0ce4acd5 Arik Nemtsov    2015-03-01  886  			       2 + max(sizeof(struct ieee80211_vht_cap),
+fb28ec0ce4acd5 Arik Nemtsov    2015-03-01  887  				       sizeof(struct ieee80211_vht_operation)) +
+f0d29cb979567f Arik Nemtsov    2014-11-09  888  			       50 + /* supported channels */
+2cedd87960a809 Arik Nemtsov    2014-11-09  889  			       3 + /* 40/20 BSS coex */
+fb28ec0ce4acd5 Arik Nemtsov    2015-03-01  890  			       4 + /* AID */
+a38700dd486f3d Arik Nemtsov    2015-03-18  891  			       4 + /* oper classes */
+95224fe83e5e78 Arik Nemtsov    2014-05-01  892  			       extra_ies_len +
+95224fe83e5e78 Arik Nemtsov    2014-05-01  893  			       sizeof(struct ieee80211_tdls_lnkie));
+95224fe83e5e78 Arik Nemtsov    2014-05-01  894  	if (!skb)
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  895  		goto unlock;
+95224fe83e5e78 Arik Nemtsov    2014-05-01  896  
+95224fe83e5e78 Arik Nemtsov    2014-05-01  897  	skb_reserve(skb, local->hw.extra_tx_headroom);
+95224fe83e5e78 Arik Nemtsov    2014-05-01  898  
+95224fe83e5e78 Arik Nemtsov    2014-05-01  899  	switch (action_code) {
+95224fe83e5e78 Arik Nemtsov    2014-05-01  900  	case WLAN_TDLS_SETUP_REQUEST:
+95224fe83e5e78 Arik Nemtsov    2014-05-01  901  	case WLAN_TDLS_SETUP_RESPONSE:
+95224fe83e5e78 Arik Nemtsov    2014-05-01  902  	case WLAN_TDLS_SETUP_CONFIRM:
+95224fe83e5e78 Arik Nemtsov    2014-05-01  903  	case WLAN_TDLS_TEARDOWN:
+95224fe83e5e78 Arik Nemtsov    2014-05-01  904  	case WLAN_TDLS_DISCOVERY_REQUEST:
+a7a6bdd0670feb Arik Nemtsov    2014-11-09  905  	case WLAN_TDLS_CHANNEL_SWITCH_REQUEST:
+8a4d32f30d11d6 Arik Nemtsov    2014-11-09  906  	case WLAN_TDLS_CHANNEL_SWITCH_RESPONSE:
+c2733905692589 Arik Nemtsov    2014-11-09  907  		ret = ieee80211_prep_tdls_encap_data(local->hw.wiphy,
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  908  						     sdata->dev, link, peer,
+95224fe83e5e78 Arik Nemtsov    2014-05-01  909  						     action_code, dialog_token,
+95224fe83e5e78 Arik Nemtsov    2014-05-01  910  						     status_code, skb);
+95224fe83e5e78 Arik Nemtsov    2014-05-01  911  		break;
+95224fe83e5e78 Arik Nemtsov    2014-05-01  912  	case WLAN_PUB_ACTION_TDLS_DISCOVER_RES:
+c2733905692589 Arik Nemtsov    2014-11-09  913  		ret = ieee80211_prep_tdls_direct(local->hw.wiphy, sdata->dev,
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  914  						 peer, link, action_code,
+95224fe83e5e78 Arik Nemtsov    2014-05-01  915  						 dialog_token, status_code,
+95224fe83e5e78 Arik Nemtsov    2014-05-01  916  						 skb);
+95224fe83e5e78 Arik Nemtsov    2014-05-01  917  		break;
+95224fe83e5e78 Arik Nemtsov    2014-05-01  918  	default:
+95224fe83e5e78 Arik Nemtsov    2014-05-01  919  		ret = -ENOTSUPP;
+95224fe83e5e78 Arik Nemtsov    2014-05-01  920  		break;
+95224fe83e5e78 Arik Nemtsov    2014-05-01  921  	}
+95224fe83e5e78 Arik Nemtsov    2014-05-01  922  
+95224fe83e5e78 Arik Nemtsov    2014-05-01  923  	if (ret < 0)
+95224fe83e5e78 Arik Nemtsov    2014-05-01  924  		goto fail;
+95224fe83e5e78 Arik Nemtsov    2014-05-01  925  
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  926  	ieee80211_tdls_add_ies(link, skb, peer, action_code, status_code,
+c2733905692589 Arik Nemtsov    2014-11-09  927  			       initiator, extra_ies, extra_ies_len, oper_class,
+c2733905692589 Arik Nemtsov    2014-11-09  928  			       chandef);
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  929  	rcu_read_unlock();
+c2733905692589 Arik Nemtsov    2014-11-09  930  	return skb;
+c2733905692589 Arik Nemtsov    2014-11-09  931  
+c2733905692589 Arik Nemtsov    2014-11-09  932  fail:
+c2733905692589 Arik Nemtsov    2014-11-09  933  	dev_kfree_skb(skb);
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  934  unlock:
+78a7ea370d5f0e Mukesh Sisodiya 2023-06-16  935  	rcu_read_unlock();
+c2733905692589 Arik Nemtsov    2014-11-09  936  	return NULL;
+c2733905692589 Arik Nemtsov    2014-11-09  937  }
+c2733905692589 Arik Nemtsov    2014-11-09  938  
 
 -- 
 0-DAY CI Kernel Test Service
