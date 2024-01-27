@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982BD8F40
-	for <oe-kbuild@lists.linux.dev>; Sat, 27 Jan 2024 01:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8853B210E5
+	for <oe-kbuild@lists.linux.dev>; Sat, 27 Jan 2024 11:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706319120; cv=none; b=Y28rPqQCk/Hgj/7x+TDTq3Ake2NdBElWzOyy/MUF0ZPbYU4Bt6wr8D3TGjwNqavMJvGghAJ2xXNGspt99LvHBn86L8VdONqAZRdFWgQmN8wmhzN/ZlLvTikup+2RotKuKd57zBCm8Qq7wSAX5Fgz7JGtyVaEClSRtUPusuwWdIU=
+	t=1706356316; cv=none; b=XgNFBPxUIMm+I3W4vUYc867P+dPzd02kc8zX+hK4JShRohZWgsrPcHW6rieliDbkxAuUHu6tIo7kdxIw4227nkKaE18bz7GWwbMFS+yQy+n9uFD1I/QA2XA1ikLidIw4kExrp/AZu4IqdgkNF0dBuaR2ZEObdI0HBHhXNZVDVbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706319120; c=relaxed/simple;
-	bh=TMZxuHeOzlOaMec7u/cewAHYIlN4/ZNRiTGbB+1qQYU=;
+	s=arc-20240116; t=1706356316; c=relaxed/simple;
+	bh=jDRCKEEquLUYbz10eVxvkivI2fKzj6FeydXCuKXX2kU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hXcck1p/ukbH3+lW/CfQQR91yZMJqeD2Y2X+LGyR5d9N5dXkpAndLQq9xhdo+FjEIGWYKMLbMpsP0ZDWIYorp3jbku42yxjWgYF2ySbwmgQdqSDDKsHyTrwKSy24vNecCJyldwBAdavKBUdb+ZUrUVZAoVglAT+VpoxU/8QMW0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=STQjKM7n; arc=none smtp.client-ip=192.55.52.88
+	 Content-Disposition; b=YspvJM14l/aIBV+CTyTUkXliut91u8orDONYeHXBIL+pHnAInaYJQenGCFM05e1r0mLgCKD7ytChxVdBqM+Mbw/GNICrHlgjzGz4iwbenSeg+g3lFhlhGLhIgqw6POItm5XNbk1yJtqGD8rNqWm88Pm3BD9x+wBN+9S4zZ1v8rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fkgBiv3S; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="STQjKM7n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fkgBiv3S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706319118; x=1737855118;
+  t=1706356314; x=1737892314;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TMZxuHeOzlOaMec7u/cewAHYIlN4/ZNRiTGbB+1qQYU=;
-  b=STQjKM7nDhJjnif4stppExgpL9RgZT5K9wjrD/Z1kVmofQ0ZUtrVmeuj
-   8THnfia6MvX7EhJzyQMYBjUbpyLRdMafMuh5kYhe80w2ti+kEq7l7rmOC
-   yITjZ7ImCvVSQIyj7ISPKccIzw2ip+oPGGI3pYOL8sdp8KDDQJ0nRgipi
-   BpQOx5M5ssjCs9tEBA8H4+LxeBkAxNcKzSrTaIOEFaxoTA5FwK0x9qn7R
-   /PatE0/At5Nu1TE4bzlJJZflMnawdDY7+LpnEm1DlE57mhBuULio7s5mP
-   hIhJ0prh9B6Bnf9sCjzbw6X1unSffzDRUrgT1H9FJwCouUKKl4rp5yXdg
+  bh=jDRCKEEquLUYbz10eVxvkivI2fKzj6FeydXCuKXX2kU=;
+  b=fkgBiv3SRwvv7FPGokoRDy0ryPUFNhXB4fPybbG1503XHycZtq57O3TH
+   4aglbplH9gVcVQN68Enih5pFQjhGrHpBq/1ciTegruVjDNIvwFZqaRzql
+   eEal48kvlh8gRbAyazd7S3cHJeJW/k71F+OBGoABVSYQ570PAMfIOErmr
+   ZMvyWBMxjDXkBBF8Gp+kANXvyaVaVC+WMAUWGv9+vG1JKUHLWOLUPqpTD
+   rhKQy8hr2/XwQsfyGTfYnM8epfS4N2CFsnOToE+et9b8I9HlPD39qvjWH
+   jV0O1Xt7GsEzq19wEK4ZOaY7ncFR/2HeeDcn2jIyjhyCtQiuoDK938TCT
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="433778882"
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9788313"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="433778882"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 17:31:57 -0800
+   d="scan'208";a="9788313"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 03:51:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="906480439"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="906480439"
+   d="scan'208";a="21626174"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 26 Jan 2024 17:31:56 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 27 Jan 2024 03:51:49 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTXY2-0001Wo-2m;
-	Sat, 27 Jan 2024 01:31:54 +0000
-Date: Sat, 27 Jan 2024 09:31:03 +0800
+	id 1rThDx-0002HO-0l;
+	Sat, 27 Jan 2024 11:51:49 +0000
+Date: Sat, 27 Jan 2024 19:51:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/watchdog/at91rm9200_wdt.c:221:27: sparse: sparse: incorrect
- type in initializer (incompatible argument 2 (different address spaces))
-Message-ID: <202401270907.itiKvpMj-lkp@intel.com>
+Subject: Re: [PATCH linux-next v3 08/14] ppc, crash: enforce KEXEC and
+ KEXEC_FILE to select CRASH_DUMP
+Message-ID: <202401271906.ORpeFe0T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,193 +64,268 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20240124051254.67105-9-bhe@redhat.com>
+References: <20240124051254.67105-9-bhe@redhat.com>
+TO: Baoquan He <bhe@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3a5879d495b226d0404098e3564462d5f1daa33b
-commit: da2a68b3eb47b9fb071def3f374258b2ce454096 watchdog: Enable COMPILE_TEST where possible
-date:   7 years ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 7 years ago
-config: openrisc-randconfig-s041-20230115 (https://download.01.org/0day-ci/archive/20240127/202401270907.itiKvpMj-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20240127/202401270907.itiKvpMj-lkp@intel.com/reproduce)
+Hi Baoquan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20240123]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/kexec-split-crashkernel-reservation-code-out-from-crash_core-c/20240124-131952
+base:   next-20240123
+patch link:    https://lore.kernel.org/r/20240124051254.67105-9-bhe%40redhat.com
+patch subject: [PATCH linux-next v3 08/14] ppc, crash: enforce KEXEC and KEXEC_FILE to select CRASH_DUMP
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20240127/202401271906.ORpeFe0T-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401271906.ORpeFe0T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202401270907.itiKvpMj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401271906.ORpeFe0T-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/watchdog/at91rm9200_wdt.c:171:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *to @@     got void [noderef] <asn:1> *argp @@
-   drivers/watchdog/at91rm9200_wdt.c:171:37: sparse:     expected void *to
-   drivers/watchdog/at91rm9200_wdt.c:171:37: sparse:     got void [noderef] <asn:1> *argp
-   drivers/watchdog/at91rm9200_wdt.c:175:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected int *__pu_addr @@     got int [noderef] <asn:1> *p @@
-   drivers/watchdog/at91rm9200_wdt.c:175:24: sparse:     expected int *__pu_addr
-   drivers/watchdog/at91rm9200_wdt.c:175:24: sparse:     got int [noderef] <asn:1> *p
-   drivers/watchdog/at91rm9200_wdt.c:177:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected int const *__gu_addr @@     got int [noderef] <asn:1> *p @@
-   drivers/watchdog/at91rm9200_wdt.c:177:21: sparse:     expected int const *__gu_addr
-   drivers/watchdog/at91rm9200_wdt.c:177:21: sparse:     got int [noderef] <asn:1> *p
-   drivers/watchdog/at91rm9200_wdt.c:188:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected int const *__gu_addr @@     got int [noderef] <asn:1> *p @@
-   drivers/watchdog/at91rm9200_wdt.c:188:21: sparse:     expected int const *__gu_addr
-   drivers/watchdog/at91rm9200_wdt.c:188:21: sparse:     got int [noderef] <asn:1> *p
-   drivers/watchdog/at91rm9200_wdt.c:195:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected int *__pu_addr @@     got int [noderef] <asn:1> *p @@
-   drivers/watchdog/at91rm9200_wdt.c:195:24: sparse:     expected int *__pu_addr
-   drivers/watchdog/at91rm9200_wdt.c:195:24: sparse:     got int [noderef] <asn:1> *p
-   drivers/watchdog/at91rm9200_wdt.c:197:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected int *__pu_addr @@     got int [noderef] <asn:1> *p @@
-   drivers/watchdog/at91rm9200_wdt.c:197:24: sparse:     expected int *__pu_addr
-   drivers/watchdog/at91rm9200_wdt.c:197:24: sparse:     got int [noderef] <asn:1> *p
->> drivers/watchdog/at91rm9200_wdt.c:221:27: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *write )( ... ) @@     got int ( * )( ... ) @@
-   drivers/watchdog/at91rm9200_wdt.c:221:27: sparse:     expected int ( *write )( ... )
-   drivers/watchdog/at91rm9200_wdt.c:221:27: sparse:     got int ( * )( ... )
-   In file included from include/linux/kernel.h:11,
-                    from include/linux/delay.h:10,
-                    from drivers/watchdog/at91rm9200_wdt.c:15:
-   include/linux/log2.h:22:1: warning: ignoring attribute 'noreturn' because it conflicts with attribute 'const' [-Wattributes]
-      22 | int ____ilog2_NaN(void);
-         | ^~~
-   In file included from drivers/watchdog/at91rm9200_wdt.c:24:
-   include/linux/module.h:138:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'at91_wdt_exit': 'cold' [-Wmissing-attributes]
-     138 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
-         |              ^~~~~~~~~~~~~~
-   drivers/watchdog/at91rm9200_wdt.c:340:1: note: in expansion of macro 'module_exit'
-     340 | module_exit(at91_wdt_exit);
-         | ^~~~~~~~~~~
-   drivers/watchdog/at91rm9200_wdt.c:334:20: note: 'cleanup_module' target declared here
-     334 | static void __exit at91_wdt_exit(void)
+All error/warnings (new ones prefixed by >>):
+
+   kernel/crash_core.c: In function 'kimage_crash_copy_vmcoreinfo':
+>> kernel/crash_core.c:43:18: error: invalid use of undefined type 'struct kimage'
+      43 |         if (image->type != KEXEC_TYPE_CRASH)
+         |                  ^~
+>> kernel/crash_core.c:43:28: error: 'KEXEC_TYPE_CRASH' undeclared (first use in this function); did you mean 'KEXEC_ON_CRASH'?
+      43 |         if (image->type != KEXEC_TYPE_CRASH)
+         |                            ^~~~~~~~~~~~~~~~
+         |                            KEXEC_ON_CRASH
+   kernel/crash_core.c:43:28: note: each undeclared identifier is reported only once for each function it appears in
+>> kernel/crash_core.c:55:27: error: implicit declaration of function 'kimage_alloc_control_pages' [-Werror=implicit-function-declaration]
+      55 |         vmcoreinfo_page = kimage_alloc_control_pages(image, 0);
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/crash_core.c:55:25: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      55 |         vmcoreinfo_page = kimage_alloc_control_pages(image, 0);
+         |                         ^
+   kernel/crash_core.c:66:14: error: invalid use of undefined type 'struct kimage'
+      66 |         image->vmcoreinfo_data_copy = safecopy;
+         |              ^~
+   kernel/crash_core.c: At top level:
+>> kernel/crash_core.c:74:5: error: redefinition of 'kexec_should_crash'
+      74 | int kexec_should_crash(struct task_struct *p)
+         |     ^~~~~~~~~~~~~~~~~~
+   In file included from kernel/crash_core.c:12:
+   include/linux/kexec.h:474:19: note: previous definition of 'kexec_should_crash' with type 'int(struct task_struct *)'
+     474 | static inline int kexec_should_crash(struct task_struct *p) { return 0; }
+         |                   ^~~~~~~~~~~~~~~~~~
+>> kernel/crash_core.c:92:5: error: redefinition of 'kexec_crash_loaded'
+      92 | int kexec_crash_loaded(void)
+         |     ^~~~~~~~~~~~~~~~~~
+   include/linux/kexec.h:475:19: note: previous definition of 'kexec_crash_loaded' with type 'int(void)'
+     475 | static inline int kexec_crash_loaded(void) { return 0; }
+         |                   ^~~~~~~~~~~~~~~~~~
+   kernel/crash_core.c: In function 'kexec_crash_loaded':
+>> kernel/crash_core.c:94:18: error: 'kexec_crash_image' undeclared (first use in this function); did you mean 'kexec_crash_loaded'?
+      94 |         return !!kexec_crash_image;
+         |                  ^~~~~~~~~~~~~~~~~
+         |                  kexec_crash_loaded
+   kernel/crash_core.c: At top level:
+>> kernel/crash_core.c:103:16: error: redefinition of '__crash_kexec'
+     103 | void __noclone __crash_kexec(struct pt_regs *regs)
+         |                ^~~~~~~~~~~~~
+   include/linux/kexec.h:472:20: note: previous definition of '__crash_kexec' with type 'void(struct pt_regs *)'
+     472 | static inline void __crash_kexec(struct pt_regs *regs) { }
          |                    ^~~~~~~~~~~~~
-   include/linux/module.h:132:13: warning: 'init_module' specifies less restrictive attribute than its target 'at91_wdt_init': 'cold' [-Wmissing-attributes]
-     132 |         int init_module(void) __attribute__((alias(#initfn)));
-         |             ^~~~~~~~~~~
-   drivers/watchdog/at91rm9200_wdt.c:339:1: note: in expansion of macro 'module_init'
-     339 | module_init(at91_wdt_init);
-         | ^~~~~~~~~~~
-   drivers/watchdog/at91rm9200_wdt.c:321:19: note: 'init_module' target declared here
-     321 | static int __init at91_wdt_init(void)
-         |                   ^~~~~~~~~~~~~
-   In file included from include/linux/uaccess.h:5,
-                    from drivers/watchdog/at91rm9200_wdt.c:31:
-   drivers/watchdog/at91rm9200_wdt.c: In function 'at91_wdt_ioctl':
-   arch/openrisc/include/asm/uaccess.h:237:9: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     237 |         __asm__ __volatile__(                           52-      |         ^~~~~~~
-   arch/openrisc/include/asm/uaccess.h:214:17: note: in expansion of macro '__get_user_asm2'
-     214 |         case 8: __get_user_asm2(x, ptr, retval);                        55-      |                 ^~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/uaccess.h:200:17: note: in expansion of macro '__get_user_size'
-     200 |                 __get_user_size(__gu_val, __gu_addr, (size), __gu_err); 58-      |                 ^~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/uaccess.h:104:9: note: in expansion of macro '__get_user_check'
-     104 |         __get_user_check((x), (ptr), sizeof(*(ptr)))
-         |         ^~~~~~~~~~~~~~~~
-   drivers/watchdog/at91rm9200_wdt.c:177:21: note: in expansion of macro 'get_user'
-     177 |                 if (get_user(new_value, p))
-         |                     ^~~~~~~~
-   arch/openrisc/include/asm/uaccess.h:215:9: note: here
-     215 |         default: (x) = __get_user_bad();                                67-      |         ^~~~~~~
-   arch/openrisc/include/asm/uaccess.h:200:17: note: in expansion of macro '__get_user_size'
-     200 |                 __get_user_size(__gu_val, __gu_addr, (size), __gu_err); 70-      |                 ^~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/uaccess.h:104:9: note: in expansion of macro '__get_user_check'
-     104 |         __get_user_check((x), (ptr), sizeof(*(ptr)))
-         |         ^~~~~~~~~~~~~~~~
-   drivers/watchdog/at91rm9200_wdt.c:177:21: note: in expansion of macro 'get_user'
-     177 |                 if (get_user(new_value, p))
-         |                     ^~~~~~~~
-   arch/openrisc/include/asm/uaccess.h:237:9: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     237 |         __asm__ __volatile__(                           79-      |         ^~~~~~~
-   arch/openrisc/include/asm/uaccess.h:214:17: note: in expansion of macro '__get_user_asm2'
-     214 |         case 8: __get_user_asm2(x, ptr, retval);                        82-      |                 ^~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/uaccess.h:200:17: note: in expansion of macro '__get_user_size'
-     200 |                 __get_user_size(__gu_val, __gu_addr, (size), __gu_err); 85-      |                 ^~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/uaccess.h:104:9: note: in expansion of macro '__get_user_check'
-     104 |         __get_user_check((x), (ptr), sizeof(*(ptr)))
-         |         ^~~~~~~~~~~~~~~~
-   drivers/watchdog/at91rm9200_wdt.c:188:21: note: in expansion of macro 'get_user'
-     188 |                 if (get_user(new_value, p))
-         |                     ^~~~~~~~
-   arch/openrisc/include/asm/uaccess.h:215:9: note: here
-     215 |         default: (x) = __get_user_bad();                                94-      |         ^~~~~~~
-   arch/openrisc/include/asm/uaccess.h:200:17: note: in expansion of macro '__get_user_size'
-     200 |                 __get_user_size(__gu_val, __gu_addr, (size), __gu_err); 97-      |                 ^~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/uaccess.h:104:9: note: in expansion of macro '__get_user_check'
-     104 |         __get_user_check((x), (ptr), sizeof(*(ptr)))
-         |         ^~~~~~~~~~~~~~~~
-   drivers/watchdog/at91rm9200_wdt.c:188:21: note: in expansion of macro 'get_user'
-     188 |                 if (get_user(new_value, p))
-         |                     ^~~~~~~~
+   kernel/crash_core.c: In function '__crash_kexec':
+   kernel/crash_core.c:114:21: error: 'kexec_crash_image' undeclared (first use in this function); did you mean 'kexec_crash_loaded'?
+     114 |                 if (kexec_crash_image) {
+         |                     ^~~~~~~~~~~~~~~~~
+         |                     kexec_crash_loaded
+>> kernel/crash_core.c:117:25: error: implicit declaration of function 'crash_setup_regs' [-Werror=implicit-function-declaration]
+     117 |                         crash_setup_regs(&fixed_regs, regs);
+         |                         ^~~~~~~~~~~~~~~~
+>> kernel/crash_core.c:120:25: error: implicit declaration of function 'machine_kexec' [-Werror=implicit-function-declaration]
+     120 |                         machine_kexec(kexec_crash_image);
+         |                         ^~~~~~~~~~~~~
+   kernel/crash_core.c: At top level:
+>> kernel/crash_core.c:128:1: warning: ignoring attribute 'noinline' because it conflicts with attribute 'gnu_inline' [-Wattributes]
+     128 | {
+         | ^
+   include/linux/kexec.h:473:20: note: previous declaration here
+     473 | static inline void crash_kexec(struct pt_regs *regs) { }
+         |                    ^~~~~~~~~~~
+>> kernel/crash_core.c:127:18: error: redefinition of 'crash_kexec'
+     127 | __bpf_kfunc void crash_kexec(struct pt_regs *regs)
+         |                  ^~~~~~~~~~~
+   include/linux/kexec.h:473:20: note: previous definition of 'crash_kexec' with type 'void(struct pt_regs *)'
+     473 | static inline void crash_kexec(struct pt_regs *regs) { }
+         |                    ^~~~~~~~~~~
+   kernel/crash_core.c: In function '__crash_shrink_memory':
+>> kernel/crash_core.c:356:9: error: implicit declaration of function 'crash_free_reserved_phys_range' [-Werror=implicit-function-declaration]
+     356 |         crash_free_reserved_phys_range(ram_res->start, ram_res->end);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/crash_core.c: In function 'crash_shrink_memory':
+   kernel/crash_core.c:370:13: error: 'kexec_crash_image' undeclared (first use in this function); did you mean 'kexec_crash_loaded'?
+     370 |         if (kexec_crash_image) {
+         |             ^~~~~~~~~~~~~~~~~
+         |             kexec_crash_loaded
+   In file included from include/linux/kernel.h:27,
+                    from arch/powerpc/include/asm/page.h:11,
+                    from arch/powerpc/include/asm/thread_info.h:13,
+                    from include/linux/thread_info.h:60,
+                    from arch/powerpc/include/asm/processor.h:41,
+                    from include/linux/sched.h:13,
+                    from include/linux/utsname.h:6,
+                    from kernel/crash_core.c:9:
+>> kernel/crash_core.c:377:38: error: 'KEXEC_CRASH_MEM_ALIGN' undeclared (first use in this function)
+     377 |         new_size = roundup(new_size, KEXEC_CRASH_MEM_ALIGN);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/math.h:61:16: note: in definition of macro 'roundup'
+      61 |         typeof(y) __y = y;                              \
+         |                ^
+   kernel/crash_core.c: In function 'crash_save_cpu':
+>> kernel/crash_core.c:437:36: error: 'KEXEC_CORE_NOTE_NAME' undeclared (first use in this function); did you mean 'CRASH_CORE_NOTE_NAME'?
+     437 |         buf = append_elf_note(buf, KEXEC_CORE_NOTE_NAME, NT_PRSTATUS,
+         |                                    ^~~~~~~~~~~~~~~~~~~~
+         |                                    CRASH_CORE_NOTE_NAME
+   kernel/crash_core.c: In function 'kexec_crash_loaded':
+>> kernel/crash_core.c:95:1: warning: control reaches end of non-void function [-Wreturn-type]
+      95 | }
+         | ^
+   cc1: some warnings being treated as errors
+--
+>> arch/powerpc/kernel/crash_dump.c:101:6: error: redefinition of 'is_kdump_kernel'
+     101 | bool is_kdump_kernel(void)
+         |      ^~~~~~~~~~~~~~~
+   In file included from arch/powerpc/kernel/crash_dump.c:12:
+   include/linux/crash_dump.h:64:20: note: previous definition of 'is_kdump_kernel' with type 'bool(void)' {aka '_Bool(void)'}
+      64 | static inline bool is_kdump_kernel(void)
+         |                    ^~~~~~~~~~~~~~~
 
-vim +221 drivers/watchdog/at91rm9200_wdt.c
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CRASH_DUMP
+   Depends on [n]: ARCH_SUPPORTS_CRASH_DUMP [=y] && KEXEC_CORE [=n]
+   Selected by [y]:
+   - ARCH_SELECTS_KEXEC [=y]
 
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  158  
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  159  /*
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  160   * Handle commands from user-space.
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  161   */
-3c4fafd65055d1 drivers/watchdog/at91rm9200_wdt.c Adrian Bunk      2008-08-08  162  static long at91_wdt_ioctl(struct file *file,
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  163  					unsigned int cmd, unsigned long arg)
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  164  {
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  165  	void __user *argp = (void __user *)arg;
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  166  	int __user *p = argp;
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  167  	int new_value;
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  168  
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  169  	switch (cmd) {
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  170  	case WDIOC_GETSUPPORT:
-2760600da2a13d drivers/watchdog/at91rm9200_wdt.c Alan Cox         2008-05-19  171  		return copy_to_user(argp, &at91_wdt_info,
-2760600da2a13d drivers/watchdog/at91rm9200_wdt.c Alan Cox         2008-05-19  172  				sizeof(at91_wdt_info)) ? -EFAULT : 0;
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  173  	case WDIOC_GETSTATUS:
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  174  	case WDIOC_GETBOOTSTATUS:
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  175  		return put_user(0, p);
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  176  	case WDIOC_SETOPTIONS:
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  177  		if (get_user(new_value, p))
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  178  			return -EFAULT;
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  179  		if (new_value & WDIOS_DISABLECARD)
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  180  			at91_wdt_stop();
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  181  		if (new_value & WDIOS_ENABLECARD)
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  182  			at91_wdt_start();
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  183  		return 0;
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  184  	case WDIOC_KEEPALIVE:
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  185  		at91_wdt_reload();	/* pat the watchdog */
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  186  		return 0;
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  187  	case WDIOC_SETTIMEOUT:
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14 @188  		if (get_user(new_value, p))
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  189  			return -EFAULT;
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  190  		if (at91_wdt_settimeout(new_value))
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  191  			return -EINVAL;
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  192  		/* Enable new time value */
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  193  		at91_wdt_start();
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  194  		/* Return current value */
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  195  		return put_user(wdt_time, p);
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  196  	case WDIOC_GETTIMEOUT:
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  197  		return put_user(wdt_time, p);
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  198  	default:
-795b89d207d8ff drivers/char/watchdog/at91_wdt.c  Samuel Tardieu   2006-09-09  199  		return -ENOTTY;
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  200  	}
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  201  }
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  202  
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  203  /*
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  204   * Pat the watchdog whenever device is written to.
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  205   */
-2760600da2a13d drivers/watchdog/at91rm9200_wdt.c Alan Cox         2008-05-19  206  static ssize_t at91_wdt_write(struct file *file, const char *data,
-2760600da2a13d drivers/watchdog/at91rm9200_wdt.c Alan Cox         2008-05-19  207  						size_t len, loff_t *ppos)
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  208  {
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  209  	at91_wdt_reload();		/* pat the watchdog */
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  210  	return len;
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  211  }
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  212  
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  213  /* ......................................................................... */
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  214  
-62322d2554d2f9 drivers/char/watchdog/at91_wdt.c  Arjan van de Ven 2006-07-03  215  static const struct file_operations at91wdt_fops = {
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  216  	.owner		= THIS_MODULE,
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  217  	.llseek		= no_llseek,
-2760600da2a13d drivers/watchdog/at91rm9200_wdt.c Alan Cox         2008-05-19  218  	.unlocked_ioctl	= at91_wdt_ioctl,
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  219  	.open		= at91_wdt_open,
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  220  	.release	= at91_wdt_close,
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14 @221  	.write		= at91_wdt_write,
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  222  };
-853807fb500a94 drivers/char/watchdog/at91_wdt.c  Andrew Victor    2006-03-14  223  
 
-:::::: The code at line 221 was first introduced by commit
-:::::: 853807fb500a9442d88646b7be92bfa51334f8e8 [WATCHDOG] at91_wdt.c - Atmel AT91RM9200 watchdog driver
+vim +43 kernel/crash_core.c
 
-:::::: TO: Andrew Victor <andrew@sanpeople.com>
-:::::: CC: Wim Van Sebroeck <wim@iguana.be>
+636be0013152f6 Baoquan He 2024-01-24   35  
+636be0013152f6 Baoquan He 2024-01-24   36  int kimage_crash_copy_vmcoreinfo(struct kimage *image)
+636be0013152f6 Baoquan He 2024-01-24   37  {
+636be0013152f6 Baoquan He 2024-01-24   38  	struct page *vmcoreinfo_page;
+636be0013152f6 Baoquan He 2024-01-24   39  	void *safecopy;
+636be0013152f6 Baoquan He 2024-01-24   40  
+636be0013152f6 Baoquan He 2024-01-24   41  	if (!IS_ENABLED(CONFIG_CRASH_DUMP))
+636be0013152f6 Baoquan He 2024-01-24   42  		return 0;
+636be0013152f6 Baoquan He 2024-01-24  @43  	if (image->type != KEXEC_TYPE_CRASH)
+636be0013152f6 Baoquan He 2024-01-24   44  		return 0;
+636be0013152f6 Baoquan He 2024-01-24   45  
+636be0013152f6 Baoquan He 2024-01-24   46  	/*
+636be0013152f6 Baoquan He 2024-01-24   47  	 * For kdump, allocate one vmcoreinfo safe copy from the
+636be0013152f6 Baoquan He 2024-01-24   48  	 * crash memory. as we have arch_kexec_protect_crashkres()
+636be0013152f6 Baoquan He 2024-01-24   49  	 * after kexec syscall, we naturally protect it from write
+636be0013152f6 Baoquan He 2024-01-24   50  	 * (even read) access under kernel direct mapping. But on
+636be0013152f6 Baoquan He 2024-01-24   51  	 * the other hand, we still need to operate it when crash
+636be0013152f6 Baoquan He 2024-01-24   52  	 * happens to generate vmcoreinfo note, hereby we rely on
+636be0013152f6 Baoquan He 2024-01-24   53  	 * vmap for this purpose.
+636be0013152f6 Baoquan He 2024-01-24   54  	 */
+636be0013152f6 Baoquan He 2024-01-24  @55  	vmcoreinfo_page = kimage_alloc_control_pages(image, 0);
+636be0013152f6 Baoquan He 2024-01-24   56  	if (!vmcoreinfo_page) {
+636be0013152f6 Baoquan He 2024-01-24   57  		pr_warn("Could not allocate vmcoreinfo buffer\n");
+636be0013152f6 Baoquan He 2024-01-24   58  		return -ENOMEM;
+636be0013152f6 Baoquan He 2024-01-24   59  	}
+636be0013152f6 Baoquan He 2024-01-24   60  	safecopy = vmap(&vmcoreinfo_page, 1, VM_MAP, PAGE_KERNEL);
+636be0013152f6 Baoquan He 2024-01-24   61  	if (!safecopy) {
+636be0013152f6 Baoquan He 2024-01-24   62  		pr_warn("Could not vmap vmcoreinfo buffer\n");
+636be0013152f6 Baoquan He 2024-01-24   63  		return -ENOMEM;
+636be0013152f6 Baoquan He 2024-01-24   64  	}
+636be0013152f6 Baoquan He 2024-01-24   65  
+636be0013152f6 Baoquan He 2024-01-24   66  	image->vmcoreinfo_data_copy = safecopy;
+636be0013152f6 Baoquan He 2024-01-24   67  	crash_update_vmcoreinfo_safecopy(safecopy);
+636be0013152f6 Baoquan He 2024-01-24   68  
+636be0013152f6 Baoquan He 2024-01-24   69  	return 0;
+636be0013152f6 Baoquan He 2024-01-24   70  }
+636be0013152f6 Baoquan He 2024-01-24   71  
+636be0013152f6 Baoquan He 2024-01-24   72  
+636be0013152f6 Baoquan He 2024-01-24   73  
+636be0013152f6 Baoquan He 2024-01-24  @74  int kexec_should_crash(struct task_struct *p)
+636be0013152f6 Baoquan He 2024-01-24   75  {
+636be0013152f6 Baoquan He 2024-01-24   76  	/*
+636be0013152f6 Baoquan He 2024-01-24   77  	 * If crash_kexec_post_notifiers is enabled, don't run
+636be0013152f6 Baoquan He 2024-01-24   78  	 * crash_kexec() here yet, which must be run after panic
+636be0013152f6 Baoquan He 2024-01-24   79  	 * notifiers in panic().
+636be0013152f6 Baoquan He 2024-01-24   80  	 */
+636be0013152f6 Baoquan He 2024-01-24   81  	if (crash_kexec_post_notifiers)
+636be0013152f6 Baoquan He 2024-01-24   82  		return 0;
+636be0013152f6 Baoquan He 2024-01-24   83  	/*
+636be0013152f6 Baoquan He 2024-01-24   84  	 * There are 4 panic() calls in make_task_dead() path, each of which
+636be0013152f6 Baoquan He 2024-01-24   85  	 * corresponds to each of these 4 conditions.
+636be0013152f6 Baoquan He 2024-01-24   86  	 */
+636be0013152f6 Baoquan He 2024-01-24   87  	if (in_interrupt() || !p->pid || is_global_init(p) || panic_on_oops)
+636be0013152f6 Baoquan He 2024-01-24   88  		return 1;
+636be0013152f6 Baoquan He 2024-01-24   89  	return 0;
+636be0013152f6 Baoquan He 2024-01-24   90  }
+636be0013152f6 Baoquan He 2024-01-24   91  
+636be0013152f6 Baoquan He 2024-01-24  @92  int kexec_crash_loaded(void)
+636be0013152f6 Baoquan He 2024-01-24   93  {
+636be0013152f6 Baoquan He 2024-01-24  @94  	return !!kexec_crash_image;
+636be0013152f6 Baoquan He 2024-01-24  @95  }
+636be0013152f6 Baoquan He 2024-01-24   96  EXPORT_SYMBOL_GPL(kexec_crash_loaded);
+636be0013152f6 Baoquan He 2024-01-24   97  
+636be0013152f6 Baoquan He 2024-01-24   98  /*
+636be0013152f6 Baoquan He 2024-01-24   99   * No panic_cpu check version of crash_kexec().  This function is called
+636be0013152f6 Baoquan He 2024-01-24  100   * only when panic_cpu holds the current CPU number; this is the only CPU
+636be0013152f6 Baoquan He 2024-01-24  101   * which processes crash_kexec routines.
+636be0013152f6 Baoquan He 2024-01-24  102   */
+636be0013152f6 Baoquan He 2024-01-24 @103  void __noclone __crash_kexec(struct pt_regs *regs)
+636be0013152f6 Baoquan He 2024-01-24  104  {
+636be0013152f6 Baoquan He 2024-01-24  105  	/* Take the kexec_lock here to prevent sys_kexec_load
+636be0013152f6 Baoquan He 2024-01-24  106  	 * running on one cpu from replacing the crash kernel
+636be0013152f6 Baoquan He 2024-01-24  107  	 * we are using after a panic on a different cpu.
+636be0013152f6 Baoquan He 2024-01-24  108  	 *
+636be0013152f6 Baoquan He 2024-01-24  109  	 * If the crash kernel was not located in a fixed area
+636be0013152f6 Baoquan He 2024-01-24  110  	 * of memory the xchg(&kexec_crash_image) would be
+636be0013152f6 Baoquan He 2024-01-24  111  	 * sufficient.  But since I reuse the memory...
+636be0013152f6 Baoquan He 2024-01-24  112  	 */
+636be0013152f6 Baoquan He 2024-01-24  113  	if (kexec_trylock()) {
+636be0013152f6 Baoquan He 2024-01-24  114  		if (kexec_crash_image) {
+636be0013152f6 Baoquan He 2024-01-24  115  			struct pt_regs fixed_regs;
+636be0013152f6 Baoquan He 2024-01-24  116  
+636be0013152f6 Baoquan He 2024-01-24 @117  			crash_setup_regs(&fixed_regs, regs);
+636be0013152f6 Baoquan He 2024-01-24  118  			crash_save_vmcoreinfo();
+636be0013152f6 Baoquan He 2024-01-24  119  			machine_crash_shutdown(&fixed_regs);
+636be0013152f6 Baoquan He 2024-01-24 @120  			machine_kexec(kexec_crash_image);
+636be0013152f6 Baoquan He 2024-01-24  121  		}
+636be0013152f6 Baoquan He 2024-01-24  122  		kexec_unlock();
+636be0013152f6 Baoquan He 2024-01-24  123  	}
+636be0013152f6 Baoquan He 2024-01-24  124  }
+636be0013152f6 Baoquan He 2024-01-24  125  STACK_FRAME_NON_STANDARD(__crash_kexec);
+636be0013152f6 Baoquan He 2024-01-24  126  
+636be0013152f6 Baoquan He 2024-01-24 @127  __bpf_kfunc void crash_kexec(struct pt_regs *regs)
+636be0013152f6 Baoquan He 2024-01-24 @128  {
+636be0013152f6 Baoquan He 2024-01-24  129  	int old_cpu, this_cpu;
+636be0013152f6 Baoquan He 2024-01-24  130  
+636be0013152f6 Baoquan He 2024-01-24  131  	/*
+636be0013152f6 Baoquan He 2024-01-24  132  	 * Only one CPU is allowed to execute the crash_kexec() code as with
+636be0013152f6 Baoquan He 2024-01-24  133  	 * panic().  Otherwise parallel calls of panic() and crash_kexec()
+636be0013152f6 Baoquan He 2024-01-24  134  	 * may stop each other.  To exclude them, we use panic_cpu here too.
+636be0013152f6 Baoquan He 2024-01-24  135  	 */
+636be0013152f6 Baoquan He 2024-01-24  136  	old_cpu = PANIC_CPU_INVALID;
+636be0013152f6 Baoquan He 2024-01-24  137  	this_cpu = raw_smp_processor_id();
+636be0013152f6 Baoquan He 2024-01-24  138  
+636be0013152f6 Baoquan He 2024-01-24  139  	if (atomic_try_cmpxchg(&panic_cpu, &old_cpu, this_cpu)) {
+636be0013152f6 Baoquan He 2024-01-24  140  		/* This is the 1st CPU which comes here, so go ahead. */
+636be0013152f6 Baoquan He 2024-01-24  141  		__crash_kexec(regs);
+636be0013152f6 Baoquan He 2024-01-24  142  
+636be0013152f6 Baoquan He 2024-01-24  143  		/*
+636be0013152f6 Baoquan He 2024-01-24  144  		 * Reset panic_cpu to allow another panic()/crash_kexec()
+636be0013152f6 Baoquan He 2024-01-24  145  		 * call.
+636be0013152f6 Baoquan He 2024-01-24  146  		 */
+636be0013152f6 Baoquan He 2024-01-24  147  		atomic_set(&panic_cpu, PANIC_CPU_INVALID);
+636be0013152f6 Baoquan He 2024-01-24  148  	}
+636be0013152f6 Baoquan He 2024-01-24  149  }
+636be0013152f6 Baoquan He 2024-01-24  150  
 
 -- 
 0-DAY CI Kernel Test Service
