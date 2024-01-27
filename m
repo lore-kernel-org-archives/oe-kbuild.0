@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C23224CF
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Jan 2024 23:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF2E28EC
+	for <oe-kbuild@lists.linux.dev>; Sat, 27 Jan 2024 00:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706313228; cv=none; b=WJm9d4B8h23WwRLzrv/mCL0ksiEAaPd6Tixbnr/eJkWRNwsMT/iHIVkkc+flKhzDMrOl57hz1IlQEMIPbpewhXArRwrrWUhOyLdsK4IaLAMpLQXx/o1OO5bq3l5JuscFTKL48Gvh6EF4tCv/D0r4WSAV0AbnJJkMn0t8OOcfnuY=
+	t=1706315213; cv=none; b=FBx2xuEMy91SowZjPPUAYb3mI+9w22PvCC8sBFLi1j3bRKbaFKgVqbsI4vhlJhr/MAl8P7w6n3W+o1eeVS+E5FCdKnHGL6pfOA/pAEhpnnkFLY50j5iCcx8rpfeOH8Tyj/fvlpXkfZ8ZF7kSFNQiBrVxPPyBL4a2hqZdTM/F3Jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706313228; c=relaxed/simple;
-	bh=fnXF7QrJh95QuyKySRd24Pt5nzpCkH4Gjg02b/C+A8s=;
+	s=arc-20240116; t=1706315213; c=relaxed/simple;
+	bh=LiH3PiUgYmVaAzNbyADmpCCz2LvhlSZW6npjkbedC04=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dHJa0cjdlBSvhzbqX+vg4wAa4pBOBiFZRHj9yxM5+O/zb/mYxFmgAePUQYlgQNz/XXGswAoFKVkSNedpXXuH6kV/E+TpE7F9+yqsSkoBA77OL45N8lRJ76bsRV1AXLVFevyp05leFaPcgn03/BBWtbc+zju5yq36AjiNCI7CaVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mzTlnhO8; arc=none smtp.client-ip=192.55.52.93
+	 Content-Disposition; b=i01dn2D2Uw02bdvPQ4upv9S6QTrlkTsIOBI/z3e5mx2+pWt8IdR2WcV+1O9c4Rw9lfHlQ/RMopPp7v+BOJWYKb2V2HVsFBOEphrA3CqedzfwKbfKLZsUoXoVkaNRp9Aaakp9LLPcjTrwE67rlhE+m1SsTlrwHMiYxZlNUn/1zG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YO2ldrG9; arc=none smtp.client-ip=192.55.52.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mzTlnhO8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YO2ldrG9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706313225; x=1737849225;
+  t=1706315211; x=1737851211;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fnXF7QrJh95QuyKySRd24Pt5nzpCkH4Gjg02b/C+A8s=;
-  b=mzTlnhO8gWMpJwbJgaeKA6d6idZFeSGuWOwNNDtBubSRZcedo58Qd8f3
-   81359uXN8jxXMUEUZsAxub8cfaeZxIDEDnRR5+7tLdKCS6yFI4pnN0iNg
-   pJIvc58vaJf6INFqvCW+Oi1feT1Mwk41KlIAHNByfwvcWkcUAq8gHB7W3
-   SbMUfFGCSeKRQ758gJBU0HtnsiR82Ut5ybUnoaYvK2xvwFIujHWpZAA0L
-   6Mo8WLS9K5OpUY7kiw4hOIwmi3hLxc8XYbY3O0met+38luN7cuZU8pOeT
-   /PjfRZHM+nAaJ3GbgkGp40KrdoVy3QMo23WoBJVh6jiLbVygR3m4uaC5a
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="399768838"
+  bh=LiH3PiUgYmVaAzNbyADmpCCz2LvhlSZW6npjkbedC04=;
+  b=YO2ldrG9J/GVjawR03M7Ge1kKnxWKhPKKCTIK9RVYIZBsudw/qVwV+uW
+   wUDQbhFAtshl40nG2lMbRXXOra7alAuhI/Y89CcNlN9IEh6RGmJ5FeKzm
+   0qqW+PGAt6tNyQLUSt24SiSKccnFDX5GxRVSmplAASTUtbPK/YHYScM3m
+   jA00Em+Zq1EgHBx+cSnRdzpnaEh3P28FwRXXERn/fUf8LczQFyhb4BtYM
+   926fyDBGULJk+SDpmQ5TjyD67HNBcaO5dOFYIe7uGXt0VZZz/EdmgKiJo
+   t+9xbPkb0qU7bkAlZdmZP3fdDEjIwuZ4tJYLzepWUGBRuPZi7dTcE6ouI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="402265065"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="399768838"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 15:53:44 -0800
+   d="scan'208";a="402265065"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 16:26:51 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="857546762"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="21522319"
+   d="scan'208";a="857546762"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Jan 2024 15:53:42 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 26 Jan 2024 16:26:50 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTW0z-0001Sk-2q;
-	Fri, 26 Jan 2024 23:53:41 +0000
-Date: Sat, 27 Jan 2024 07:53:01 +0800
+	id 1rTWX1-0001UA-2n;
+	Sat, 27 Jan 2024 00:26:47 +0000
+Date: Sat, 27 Jan 2024 08:25:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:OLK-5.10 27108/30000]
- arch/x86/events/zhaoxin/uncore.c:1608 uncore_pci_probe() warn: possible
- memory leak of 'boxes'
-Message-ID: <202401270704.T1EAEEJC-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/scsi/esp_scsi.c:(.text.esp_setsync+0x198): undefined
+ reference to `spi_display_xfer_agreement'
+Message-ID: <202401270850.gRZMH8Kj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,115 +59,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "only scripts/Makefile.* file changed"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
+CC: linux-kernel@vger.kernel.org
+TO: Nick Desaulniers <ndesaulniers@google.com>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+CC: Nathan Chancellor <nathan@kernel.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   bb2503a5fcdf7f51d403ab34440c497acef3b4e7
-commit: 2bb7fd043b4123c569fbbde1f18e98d7565a4997 [27108/30000] x86/perf: Update PMU support for more Zhaoxin CPU
-:::::: branch date: 17 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-161-20240124 (https://download.01.org/0day-ci/archive/20240127/202401270704.T1EAEEJC-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ecb1b8288dc7ccbdcb3b9df005fa1c0e0c0388a7
+commit: 61f2b7c7497ba96cdde5bbaeb9e07f4c48f41f97 Makefile.debug: set -g unconditional on CONFIG_DEBUG_INFO_SPLIT
+date:   1 year, 4 months ago
+:::::: branch date: 29 hours ago
+:::::: commit date: 1 year, 4 months ago
+config: mips-randconfig-r005-20220616 (https://download.01.org/0day-ci/archive/20240127/202401270850.gRZMH8Kj-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401270850.gRZMH8Kj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202401270704.T1EAEEJC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401270850.gRZMH8Kj-lkp@intel.com/
 
-New smatch warnings:
-arch/x86/events/zhaoxin/uncore.c:1608 uncore_pci_probe() warn: possible memory leak of 'boxes'
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-arch/x86/events/zhaoxin/uncore.c:1340 uncore_pmu_enable() warn: can 'uncore_pmu' even be NULL?
-arch/x86/events/zhaoxin/uncore.c:1357 uncore_pmu_disable() warn: can 'uncore_pmu' even be NULL?
-arch/x86/events/zhaoxin/uncore.c:1611 uncore_pci_probe() warn: possible memory leak of 'boxes'
-arch/x86/events/zhaoxin/uncore.c:1644 uncore_pci_probe() warn: possible memory leak of 'boxes'
-
-vim +/boxes +1608 arch/x86/events/zhaoxin/uncore.c
-
-2bb7fd043b4123 leoliu-oc 2023-10-26  1567  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1568  /*
-2bb7fd043b4123 leoliu-oc 2023-10-26  1569   * add a pci uncore device
-2bb7fd043b4123 leoliu-oc 2023-10-26  1570   */
-2bb7fd043b4123 leoliu-oc 2023-10-26  1571  static int uncore_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-2bb7fd043b4123 leoliu-oc 2023-10-26  1572  {
-2bb7fd043b4123 leoliu-oc 2023-10-26  1573  	struct zhaoxin_uncore_type *type;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1574  	struct zhaoxin_uncore_pmu *pmu;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1575  	struct zhaoxin_uncore_box *box;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1576  	struct zhaoxin_uncore_box **boxes;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1577  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1578  	int loop, i, j = 0;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1579  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1580  	int subnode_id, ret = 0;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1581  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1582  	subnode_id = uncore_pcibus_to_subnodeid(pdev->bus);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1583  	if (subnode_id < 0)
-2bb7fd043b4123 leoliu-oc 2023-10-26  1584  		return -EINVAL;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1585  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1586  	type = uncore_pci_uncores[UNCORE_PCI_DEV_TYPE(id->driver_data)];
-2bb7fd043b4123 leoliu-oc 2023-10-26  1587  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1588  	if (!strcmp(type->name, "mc0"))
-2bb7fd043b4123 leoliu-oc 2023-10-26  1589  		loop = 2;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1590  	else
-2bb7fd043b4123 leoliu-oc 2023-10-26  1591  		loop = 1;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1592  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1593  	boxes = kzalloc(loop * sizeof(struct zhaoxin_uncore_box *), GFP_KERNEL);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1594  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1595  	for (i = 0; i < loop; i++) {
-2bb7fd043b4123 leoliu-oc 2023-10-26  1596  		type = uncore_pci_uncores[UNCORE_PCI_DEV_TYPE(id->driver_data) + j];
-2bb7fd043b4123 leoliu-oc 2023-10-26  1597  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1598  		if (!type)
-2bb7fd043b4123 leoliu-oc 2023-10-26  1599  			continue;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1600  		/*
-2bb7fd043b4123 leoliu-oc 2023-10-26  1601  		 * for performance monitoring unit with multiple boxes,
-2bb7fd043b4123 leoliu-oc 2023-10-26  1602  		 * each box has a different function id.
-2bb7fd043b4123 leoliu-oc 2023-10-26  1603  		 */
-2bb7fd043b4123 leoliu-oc 2023-10-26  1604  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1605  		pmu = &type->pmus[UNCORE_PCI_DEV_IDX(id->driver_data)];
-2bb7fd043b4123 leoliu-oc 2023-10-26  1606  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1607  		if (WARN_ON_ONCE(pmu->boxes[subnode_id] != NULL))
-2bb7fd043b4123 leoliu-oc 2023-10-26 @1608  			return -EINVAL;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1609  		box = uncore_alloc_box(type, NUMA_NO_NODE);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1610  		if (!box)
-2bb7fd043b4123 leoliu-oc 2023-10-26  1611  			return -ENOMEM;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1612  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1613  		if (pmu->func_id < 0)
-2bb7fd043b4123 leoliu-oc 2023-10-26  1614  			pmu->func_id = pdev->devfn;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1615  		else
-2bb7fd043b4123 leoliu-oc 2023-10-26  1616  			WARN_ON_ONCE(pmu->func_id != pdev->devfn);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1617  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1618  		atomic_inc(&box->refcnt);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1619  		box->subnode_id = subnode_id;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1620  		box->pci_dev = pdev;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1621  		box->pmu = pmu;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1622  		uncore_box_init(box);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1623  		boxes[i] = box;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1624  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1625  		pci_set_drvdata(pdev, boxes);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1626  		pmu->boxes[subnode_id] = box;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1627  		if (atomic_inc_return(&pmu->activeboxes) > 1) {
-2bb7fd043b4123 leoliu-oc 2023-10-26  1628  			if (!strcmp(type->name, "mc0"))
-2bb7fd043b4123 leoliu-oc 2023-10-26  1629  				goto next_loop;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1630  			else
-2bb7fd043b4123 leoliu-oc 2023-10-26  1631  				return 0;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1632  		}
-2bb7fd043b4123 leoliu-oc 2023-10-26  1633  		/* First active box registers the pmu */
-2bb7fd043b4123 leoliu-oc 2023-10-26  1634  		ret = uncore_pmu_register(pmu);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1635  		if (ret) {
-2bb7fd043b4123 leoliu-oc 2023-10-26  1636  			pci_set_drvdata(pdev, NULL);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1637  			pmu->boxes[subnode_id] = NULL;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1638  			uncore_box_exit(box);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1639  			kfree(box);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1640  		}
-2bb7fd043b4123 leoliu-oc 2023-10-26  1641  next_loop:
-2bb7fd043b4123 leoliu-oc 2023-10-26  1642  		j++;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1643  	}
-2bb7fd043b4123 leoliu-oc 2023-10-26  1644  	return ret;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1645  }
-2bb7fd043b4123 leoliu-oc 2023-10-26  1646  
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_setsync':
+>> drivers/scsi/esp_scsi.c:(.text.esp_setsync+0x198): undefined reference to `spi_display_xfer_agreement'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_msgin_extended':
+>> drivers/scsi/esp_scsi.c:(.text.esp_msgin_extended+0x120): undefined reference to `spi_populate_sync_msg'
+>> mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_msgin_extended+0x2f4): undefined reference to `spi_populate_sync_msg'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `scsi_esp_register':
+>> drivers/scsi/esp_scsi.c:(.text.scsi_esp_register+0x2ac): undefined reference to `scsi_add_host_with_dma'
+>> mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.scsi_esp_register+0x2d0): undefined reference to `scsi_scan_host'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `scsi_esp_unregister':
+>> drivers/scsi/esp_scsi.c:(.text.scsi_esp_unregister+0x2c): undefined reference to `scsi_remove_host'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `dev_to_shost':
+>> drivers/scsi/esp_scsi.c:(.text.dev_to_shost+0x18): undefined reference to `scsi_is_host_device'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_slave_configure':
+>> drivers/scsi/esp_scsi.c:(.text.esp_slave_configure+0x4c): undefined reference to `scsi_change_queue_depth'
+>> mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_slave_configure+0x90): undefined reference to `spi_dv_device'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_init':
+>> drivers/scsi/esp_scsi.c:(.init.text+0x24): undefined reference to `spi_attach_transport'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_data_bytes_sent':
+>> drivers/scsi/esp_scsi.c:(.text.esp_data_bytes_sent+0x284): undefined reference to `scsi_kmap_atomic_sg'
+>> mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_data_bytes_sent+0x2a8): undefined reference to `scsi_kunmap_atomic_sg'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_unmap_dma.isra.0':
+>> drivers/scsi/esp_scsi.c:(.text.esp_unmap_dma.isra.0+0x3c): undefined reference to `scsi_dma_unmap'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_reset_cleanup':
+>> drivers/scsi/esp_scsi.c:(.text.esp_reset_cleanup+0xe8): undefined reference to `__starget_for_each_device'
+>> mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_reset_cleanup+0x158): undefined reference to `scsi_done'
+   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_reset_cleanup+0x1ec): undefined reference to `scsi_done'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_eh_abort_handler':
+>> drivers/scsi/esp_scsi.c:(.text.esp_eh_abort_handler+0x190): undefined reference to `scsi_done'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_reconnect':
+>> drivers/scsi/esp_scsi.c:(.text.esp_reconnect+0xe4): undefined reference to `__scsi_device_lookup_by_target'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_msgin_process':
+>> drivers/scsi/esp_scsi.c:(.text.esp_msgin_process+0x290): undefined reference to `spi_populate_sync_msg'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_maybe_execute_command.part.0':
+>> drivers/scsi/esp_scsi.c:(.text.esp_maybe_execute_command.part.0+0xd4): undefined reference to `spi_populate_tag_msg'
+>> mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_maybe_execute_command.part.0+0x638): undefined reference to `scsi_dma_map'
+   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_maybe_execute_command.part.0+0x6c4): undefined reference to `spi_populate_width_msg'
+   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_maybe_execute_command.part.0+0x728): undefined reference to `spi_populate_sync_msg'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_cmd_is_done':
+   drivers/scsi/esp_scsi.c:(.text.esp_cmd_is_done+0x178): undefined reference to `scsi_done'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_process_event':
+   drivers/scsi/esp_scsi.c:(.text.esp_process_event+0x884): undefined reference to `scsi_track_queue_full'
+   mips64-linux-ld: drivers/scsi/jazz_esp.o: in function `esp_jazz_probe':
+   drivers/scsi/jazz_esp.c:(.text.esp_jazz_probe+0x34): undefined reference to `scsi_host_alloc'
+   mips64-linux-ld: drivers/scsi/jazz_esp.c:(.text.esp_jazz_probe+0x94): undefined reference to `scsi_host_put'
+   mips64-linux-ld: drivers/scsi/jazz_esp.o: in function `esp_jazz_remove':
+   drivers/scsi/jazz_esp.c:(.text.esp_jazz_remove+0x5c): undefined reference to `scsi_host_put'
 
 -- 
 0-DAY CI Kernel Test Service
