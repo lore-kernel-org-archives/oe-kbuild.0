@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B40208C6
-	for <oe-kbuild@lists.linux.dev>; Sun, 28 Jan 2024 12:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6106223773
+	for <oe-kbuild@lists.linux.dev>; Sun, 28 Jan 2024 14:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706444911; cv=none; b=EW6Y6HyO01PPjqFLJ4P8rM9YDVHEfPKA0+0KkzM6TG8u1OKgZF1g06P8c013azHZaVywq+jAIY5V0ID1Kpz5VYNE3i9HnmTv9HppD6Tkc/u9JfMIQzVFYcybltwoIJk7TtoRic90uUlboR3y80Bd3QDwm5IA38ykTnysAkalWXM=
+	t=1706451213; cv=none; b=BPxtEBPZC9XjEW4z98G4zFMV2RZWe0FlVLV/zIGZWKxi32848Y6yGtYUUyZm/AjY+yuDEa5Z+BIakpyifgsYJxfUUrUCdL1BFeB3fB4KAYeM+I6Opqc1DGTCg5QAhgXWWNvWEH9G0snuKgI4zCUMEGpwJ9QYTNJTEwbGv/a3tQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706444911; c=relaxed/simple;
-	bh=u1CqUSX4yXCcZ8TvBniluIpN6p4b0/wsjjSrRlxOii4=;
+	s=arc-20240116; t=1706451213; c=relaxed/simple;
+	bh=NToU8ihXwC9Hhu2d6d1RKFiJicqyQUVCy69m3wZV9xg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bQmJNY7FKVzfyRbWfnedUiM7xwFHcTdtoGtrbQLnOAL33cpbNB/GR2CbCWJRuk71oorphWTDMudCV2RDNnw6dZXj8Uox983CnkeHFaMJVj7/CUIBSQf/R44nGJD5tFazi4x+ciNqFSLMSxYfbFKub7Doa76k9PFwORxO/ZpO1Fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bqU3qfmk; arc=none smtp.client-ip=192.55.52.88
+	 Content-Disposition; b=tK/viaGDW7P2AOIFwJehwdI27sFvIJA9Z/JFEV9bTQA0JqHhuNv5vAb34TR+CLhfOWZkJpzsxgIZvGg0vOhe6uWpKd0QEK5y1sbJTDQJoTRumYOu0t6IRAZc4KbcGU4UclTdyWF9KWU8Vfy9DAU+7Ft8hLHB0rSUU4gSjvSlQgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kHJxIrzf; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bqU3qfmk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kHJxIrzf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706444908; x=1737980908;
+  t=1706451211; x=1737987211;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u1CqUSX4yXCcZ8TvBniluIpN6p4b0/wsjjSrRlxOii4=;
-  b=bqU3qfmkG9katQC/RcgbFpnV9cpg+FEzmtUvN4tYEWn/KLbfxQQwDul0
-   wvj+mGjTF4m8tfO3QdDgIZi7D8FSVdTfDUJUuf9P+5AJeEG9EMzTRxRFx
-   Au38dYyBNGQbtFB5rHpgC+RIL4nw0Eya/RiXCCcUc5ZQ8D3Hsi4miatH5
-   xjAfZcqQCITWd5piVK+M8rZHEDp5tWSxoKRMsI/VbTREwivNSClh6scHB
-   DS+nHe202W/Y2duKuiAxZs6OJPCZfRosVFW3ON3dkdhe15IcsQMWMi8JW
-   i48/7AEMVZ0N2OCqkGrIrys1uDbs1ZysoeifVayusWNtehKUZ+xLlV/hH
+  bh=NToU8ihXwC9Hhu2d6d1RKFiJicqyQUVCy69m3wZV9xg=;
+  b=kHJxIrzfxndDaWiRs/UrikzLZf0D4um2Pj+MpRaYZ281wV1d3UKgJmvp
+   vlVagkuNw51zGSf7n6jhhQD8z9VYfOXBFRhR1bn6mHL5VHpr/PoY50CYm
+   sE+cj5nv6Ns3LmTkPJcSCkFX62MEt+YklpzdjMkE1qmBPSvyrCfcjB1YG
+   0cPnvZ3T8H4/SL7+Xktxl+JGx55xA54/+5Mg0uhavwDhRmDkm7AU7k38W
+   GcYqXMwvU9jbIkEYYGMj/+YSIjZNytGMK7CUWCYPqgxYJpd/2OJvMPlQ/
+   7Va7mQR3TbURLCWAUYHE72wSkPZZwSWlVJSOzGxUltupe6NgxCTYsFG8/
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="433930501"
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="2605359"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="433930501"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 04:28:28 -0800
+   d="scan'208";a="2605359"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 06:13:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="877807389"
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="857854988"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="877807389"
+   d="scan'208";a="857854988"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 28 Jan 2024 04:28:26 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 28 Jan 2024 06:13:29 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rU4Gu-0003OJ-2V;
-	Sun, 28 Jan 2024 12:28:24 +0000
-Date: Sun, 28 Jan 2024 20:27:55 +0800
+	id 1rU5uZ-0003SD-04;
+	Sun, 28 Jan 2024 14:13:27 +0000
+Date: Sun, 28 Jan 2024 22:12:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [RFC v2 4/4] fs: Optimize credentials reference count for
- backing file ops
-Message-ID: <202401282026.OY6K7pyk-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm/kernel/process.c:96:14: warning: variable 'buf' set but not
+ used
+Message-ID: <202401282225.6QDkMNhg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,231 +59,249 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "only Makefile file changed"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240125235723.39507-5-vinicius.gomes@intel.com>
-References: <20240125235723.39507-5-vinicius.gomes@intel.com>
-TO: Vinicius Costa Gomes <vinicius.gomes@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Masahiro Yamada <masahiroy@kernel.org>
 
-Hi Vinicius,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.8-rc1 next-20240125]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vinicius-Costa-Gomes/cleanup-Fix-discarded-const-warning-when-defining-guards/20240126-080128
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20240125235723.39507-5-vinicius.gomes%40intel.com
-patch subject: [RFC v2 4/4] fs: Optimize credentials reference count for backing file ops
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-141-20240128 (https://download.01.org/0day-ci/archive/20240128/202401282026.OY6K7pyk-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8a696a29c6905594e4abf78eaafcb62165ac61f1
+commit: b1fbfcb4a20949df08dd995927cdc5ad220c128d kbuild: make single target builds even faster
+date:   4 years, 2 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 4 years, 2 months ago
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240128/202401282225.6QDkMNhg-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401282225.6QDkMNhg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202401282026.OY6K7pyk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401282225.6QDkMNhg-lkp@intel.com/
 
-smatch warnings:
-fs/backing-file.c:181 backing_file_read_iter() error: uninitialized symbol 'ret'.
-fs/backing-file.c:265 backing_file_splice_read() error: uninitialized symbol 'ret'.
-fs/backing-file.c:318 backing_file_mmap() error: uninitialized symbol 'ret'.
+All warnings (new ones prefixed by >>):
 
-vim +/ret +181 fs/backing-file.c
+   arch/arm/kernel/process.c: In function '__show_regs':
+>> arch/arm/kernel/process.c:96:14: warning: variable 'buf' set but not used [-Wunused-but-set-variable]
+      96 |         char buf[64];
+         |              ^~~
+--
+   arch/arm/kernel/setup.c: In function 'early_print':
+   arch/arm/kernel/setup.c:370:9: warning: function 'early_print' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     370 |         vsnprintf(buf, sizeof(buf), str, ap);
+         |         ^~~~~~~~~
+   In file included from arch/arm/include/asm/efi.h:12,
+                    from arch/arm/kernel/setup.c:36:
+   arch/arm/include/asm/fixmap.h: At top level:
+>> arch/arm/include/asm/fixmap.h:39:35: warning: '__end_of_fixed_addresses' defined but not used [-Wunused-const-variable=]
+      39 | static const enum fixed_addresses __end_of_fixed_addresses =
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm/include/asm/page.h:160,
+                    from arch/arm/include/asm/thread_info.h:14,
+                    from include/linux/thread_info.h:38,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arm/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:51,
+                    from include/linux/seqlock.h:36,
+                    from include/linux/time.h:6,
+                    from include/linux/efi.h:17,
+                    from arch/arm/kernel/setup.c:7:
+   arch/arm/kernel/setup.c: In function 'request_standard_resources':
+   arch/arm/include/asm/memory.h:279:22: warning: array subscript -1 is outside array bounds of 'char[2147483647]' [-Warray-bounds=]
+     279 | #define virt_to_phys virt_to_phys
+   arch/arm/kernel/setup.c:850:31: note: in expansion of macro 'virt_to_phys'
+     850 |         kernel_code.end     = virt_to_phys(__init_begin - 1);
+         |                               ^~~~~~~~~~~~
+   In file included from include/linux/pid_namespace.h:7,
+                    from include/linux/ptrace.h:10,
+                    from include/uapi/linux/elfcore.h:8,
+                    from include/linux/elfcore.h:10,
+                    from include/linux/crash_core.h:6,
+                    from include/linux/kexec.h:18,
+                    from arch/arm/kernel/setup.c:20:
+   include/linux/mm.h:2117:21: note: at offset -1 into object '__init_begin' of size [0, 2147483647]
+    2117 |         extern char __init_begin[], __init_end[];
+         |                     ^~~~~~~~~~~~
+   arch/arm/include/asm/memory.h:279:22: warning: array subscript -1 is outside array bounds of 'char[2147483647]' [-Warray-bounds=]
+     279 | #define virt_to_phys virt_to_phys
+   arch/arm/kernel/setup.c:852:31: note: in expansion of macro 'virt_to_phys'
+     852 |         kernel_data.end     = virt_to_phys(_end - 1);
+         |                               ^~~~~~~~~~~~
+   In file included from arch/arm/include/asm/sections.h:5,
+                    from include/linux/interrupt.h:20,
+                    from include/linux/rtc.h:17,
+                    from include/linux/efi.h:20:
+   include/asm-generic/sections.h:41:13: note: at offset -1 into object '_end' of size [0, 2147483647]
+      41 | extern char _end[];
+         |             ^~~~
+--
+   arch/arm/kernel/signal.c: In function 'restore_sigframe':
+>> arch/arm/kernel/signal.c:176:22: warning: variable 'aux' set but not used [-Wunused-but-set-variable]
+     176 |         char __user *aux;
+         |                      ^~~
+   arch/arm/kernel/signal.c: At top level:
+   arch/arm/kernel/signal.c:224:16: warning: no previous prototype for 'sys_sigreturn' [-Wmissing-prototypes]
+     224 | asmlinkage int sys_sigreturn(struct pt_regs *regs)
+         |                ^~~~~~~~~~~~~
+   arch/arm/kernel/signal.c:254:16: warning: no previous prototype for 'sys_rt_sigreturn' [-Wmissing-prototypes]
+     254 | asmlinkage int sys_rt_sigreturn(struct pt_regs *regs)
+         |                ^~~~~~~~~~~~~~~~
+   arch/arm/kernel/signal.c:643:1: warning: no previous prototype for 'do_work_pending' [-Wmissing-prototypes]
+     643 | do_work_pending(struct pt_regs *regs, unsigned int thread_flags, int syscall)
+         | ^~~~~~~~~~~~~~~
+   arch/arm/kernel/signal.c:683:14: warning: no previous prototype for 'get_signal_page' [-Wmissing-prototypes]
+     683 | struct page *get_signal_page(void)
+         |              ^~~~~~~~~~~~~~~
+   arch/arm/kernel/signal.c:714:17: warning: no previous prototype for 'addr_limit_check_failed' [-Wmissing-prototypes]
+     714 | asmlinkage void addr_limit_check_failed(void)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+--
+>> arch/arm/kernel/time.c:101:13: warning: no previous prototype for 'time_init' [-Wmissing-prototypes]
+     101 | void __init time_init(void)
+         |             ^~~~~~~~~
+--
+>> arch/arm/kernel/traps.c:77:6: warning: no previous prototype for 'dump_backtrace_stm' [-Wmissing-prototypes]
+      77 | void dump_backtrace_stm(u32 *stack, u32 instruction)
+         |      ^~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/traps.c:436:17: warning: no previous prototype for 'do_undefinstr' [-Wmissing-prototypes]
+     436 | asmlinkage void do_undefinstr(struct pt_regs *regs)
+         |                 ^~~~~~~~~~~~~
+   arch/arm/kernel/traps.c:501:39: warning: no previous prototype for 'handle_fiq_as_nmi' [-Wmissing-prototypes]
+     501 | asmlinkage void __exception_irq_entry handle_fiq_as_nmi(struct pt_regs *regs)
+         |                                       ^~~~~~~~~~~~~~~~~
+   arch/arm/kernel/traps.c:520:17: warning: no previous prototype for 'bad_mode' [-Wmissing-prototypes]
+     520 | asmlinkage void bad_mode(struct pt_regs *regs, int reason)
+         |                 ^~~~~~~~
+   arch/arm/kernel/traps.c:593:16: warning: no previous prototype for 'arm_syscall' [-Wmissing-prototypes]
+     593 | asmlinkage int arm_syscall(int no, struct pt_regs *regs)
+         |                ^~~~~~~~~~~
+   arch/arm/kernel/traps.c:719:1: warning: no previous prototype for 'baddataabort' [-Wmissing-prototypes]
+     719 | baddataabort(int code, unsigned long instr, struct pt_regs *regs)
+         | ^~~~~~~~~~~~
+>> arch/arm/kernel/traps.c:744:6: warning: no previous prototype for '__pte_error' [-Wmissing-prototypes]
+     744 | void __pte_error(const char *file, int line, pte_t pte)
+         |      ^~~~~~~~~~~
+>> arch/arm/kernel/traps.c:749:6: warning: no previous prototype for '__pmd_error' [-Wmissing-prototypes]
+     749 | void __pmd_error(const char *file, int line, pmd_t pmd)
+         |      ^~~~~~~~~~~
+>> arch/arm/kernel/traps.c:754:6: warning: no previous prototype for '__pgd_error' [-Wmissing-prototypes]
+     754 | void __pgd_error(const char *file, int line, pgd_t pgd)
+         |      ^~~~~~~~~~~
+   arch/arm/kernel/traps.c:759:17: warning: no previous prototype for '__div0' [-Wmissing-prototypes]
+     759 | asmlinkage void __div0(void)
+         |                 ^~~~~~
+>> arch/arm/kernel/traps.c:766:6: warning: no previous prototype for 'abort' [-Wmissing-prototypes]
+     766 | void abort(void)
+         |      ^~~~~
+   arch/arm/kernel/traps.c:774:13: warning: no previous prototype for 'trap_init' [-Wmissing-prototypes]
+     774 | void __init trap_init(void)
+         |             ^~~~~~~~~
+--
+>> arch/arm/kernel/unwind.c:40:6: warning: no previous prototype for '__aeabi_unwind_cpp_pr0' [-Wmissing-prototypes]
+      40 | void __aeabi_unwind_cpp_pr0(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm/kernel/unwind.c:45:6: warning: no previous prototype for '__aeabi_unwind_cpp_pr1' [-Wmissing-prototypes]
+      45 | void __aeabi_unwind_cpp_pr1(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm/kernel/unwind.c:50:6: warning: no previous prototype for '__aeabi_unwind_cpp_pr2' [-Wmissing-prototypes]
+      50 | void __aeabi_unwind_cpp_pr2(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+--
+>> arch/arm/mm/init.c:108:13: warning: no previous prototype for 'setup_dma_zone' [-Wmissing-prototypes]
+     108 | void __init setup_dma_zone(const struct machine_desc *mdesc)
+         |             ^~~~~~~~~~~~~~
+   In file included from arch/arm/mm/init.c:35:
+>> arch/arm/include/asm/fixmap.h:39:35: warning: '__end_of_fixed_addresses' defined but not used [-Wunused-const-variable=]
+      39 | static const enum fixed_addresses __end_of_fixed_addresses =
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> arch/arm/mm/nommu.c:136:13: warning: no previous prototype for 'adjust_lowmem_bounds' [-Wmissing-prototypes]
+     136 | void __init adjust_lowmem_bounds(void)
+         |             ^~~~~~~~~~~~~~~~~~~~
+>> arch/arm/mm/nommu.c:149:13: warning: no previous prototype for 'paging_init' [-Wmissing-prototypes]
+     149 | void __init paging_init(const struct machine_desc *mdesc)
+         |             ^~~~~~~~~~~
+>> arch/arm/mm/nommu.c:159:6: warning: no previous prototype for 'setup_mm_for_reboot' [-Wmissing-prototypes]
+     159 | void setup_mm_for_reboot(void)
+         |      ^~~~~~~~~~~~~~~~~~~
+--
+>> arch/arm/mm/init.c:624: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * update_sections_early intended to be called only through stop_machine
+--
+   In file included from mm/early_ioremap.c:18:
+>> arch/arm/include/asm/fixmap.h:39:35: warning: '__end_of_fixed_addresses' defined but not used [-Wunused-const-variable=]
+      39 | static const enum fixed_addresses __end_of_fixed_addresses =
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> arch/arm/lib/delay.c:96:15: warning: no previous prototype for 'calibrate_delay_is_known' [-Wmissing-prototypes]
+      96 | unsigned long calibrate_delay_is_known(void)
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~
 
-a6293b3e285cd0 Amir Goldstein       2023-11-22  136  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  137  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  138  ssize_t backing_file_read_iter(struct file *file, struct iov_iter *iter,
-a6293b3e285cd0 Amir Goldstein       2023-11-22  139  			       struct kiocb *iocb, int flags,
-a6293b3e285cd0 Amir Goldstein       2023-11-22  140  			       struct backing_file_ctx *ctx)
-a6293b3e285cd0 Amir Goldstein       2023-11-22  141  {
-a6293b3e285cd0 Amir Goldstein       2023-11-22  142  	struct backing_aio *aio = NULL;
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  143  	const struct cred *old_cred = ctx->cred;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  144  	ssize_t ret;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  145  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  146  	if (WARN_ON_ONCE(!(file->f_mode & FMODE_BACKING)))
-a6293b3e285cd0 Amir Goldstein       2023-11-22  147  		return -EIO;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  148  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  149  	if (!iov_iter_count(iter))
-a6293b3e285cd0 Amir Goldstein       2023-11-22  150  		return 0;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  151  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  152  	if (iocb->ki_flags & IOCB_DIRECT &&
-a6293b3e285cd0 Amir Goldstein       2023-11-22  153  	    !(file->f_mode & FMODE_CAN_ODIRECT))
-a6293b3e285cd0 Amir Goldstein       2023-11-22  154  		return -EINVAL;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  155  
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  156  	scoped_guard(cred, old_cred) {
-a6293b3e285cd0 Amir Goldstein       2023-11-22  157  		if (is_sync_kiocb(iocb)) {
-a6293b3e285cd0 Amir Goldstein       2023-11-22  158  			rwf_t rwf = iocb_to_rw_flags(flags);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  159  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  160  			ret = vfs_iter_read(file, iter, &iocb->ki_pos, rwf);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  161  		} else {
-a6293b3e285cd0 Amir Goldstein       2023-11-22  162  			ret = -ENOMEM;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  163  			aio = kmem_cache_zalloc(backing_aio_cachep, GFP_KERNEL);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  164  			if (!aio)
-a6293b3e285cd0 Amir Goldstein       2023-11-22  165  				goto out;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  166  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  167  			aio->orig_iocb = iocb;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  168  			kiocb_clone(&aio->iocb, iocb, get_file(file));
-a6293b3e285cd0 Amir Goldstein       2023-11-22  169  			aio->iocb.ki_complete = backing_aio_rw_complete;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  170  			refcount_set(&aio->ref, 2);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  171  			ret = vfs_iocb_iter_read(file, &aio->iocb, iter);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  172  			backing_aio_put(aio);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  173  			if (ret != -EIOCBQUEUED)
-a6293b3e285cd0 Amir Goldstein       2023-11-22  174  				backing_aio_cleanup(aio, ret);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  175  		}
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  176  	}
-a6293b3e285cd0 Amir Goldstein       2023-11-22  177  out:
-a6293b3e285cd0 Amir Goldstein       2023-11-22  178  	if (ctx->accessed)
-a6293b3e285cd0 Amir Goldstein       2023-11-22  179  		ctx->accessed(ctx->user_file);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  180  
-a6293b3e285cd0 Amir Goldstein       2023-11-22 @181  	return ret;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  182  }
-a6293b3e285cd0 Amir Goldstein       2023-11-22  183  EXPORT_SYMBOL_GPL(backing_file_read_iter);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  184  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  185  ssize_t backing_file_write_iter(struct file *file, struct iov_iter *iter,
-a6293b3e285cd0 Amir Goldstein       2023-11-22  186  				struct kiocb *iocb, int flags,
-a6293b3e285cd0 Amir Goldstein       2023-11-22  187  				struct backing_file_ctx *ctx)
-a6293b3e285cd0 Amir Goldstein       2023-11-22  188  {
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  189  	const struct cred *old_cred = ctx->cred;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  190  	ssize_t ret;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  191  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  192  	if (WARN_ON_ONCE(!(file->f_mode & FMODE_BACKING)))
-a6293b3e285cd0 Amir Goldstein       2023-11-22  193  		return -EIO;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  194  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  195  	if (!iov_iter_count(iter))
-a6293b3e285cd0 Amir Goldstein       2023-11-22  196  		return 0;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  197  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  198  	ret = file_remove_privs(ctx->user_file);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  199  	if (ret)
-a6293b3e285cd0 Amir Goldstein       2023-11-22  200  		return ret;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  201  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  202  	if (iocb->ki_flags & IOCB_DIRECT &&
-a6293b3e285cd0 Amir Goldstein       2023-11-22  203  	    !(file->f_mode & FMODE_CAN_ODIRECT))
-a6293b3e285cd0 Amir Goldstein       2023-11-22  204  		return -EINVAL;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  205  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  206  	/*
-a6293b3e285cd0 Amir Goldstein       2023-11-22  207  	 * Stacked filesystems don't support deferred completions, don't copy
-a6293b3e285cd0 Amir Goldstein       2023-11-22  208  	 * this property in case it is set by the issuer.
-a6293b3e285cd0 Amir Goldstein       2023-11-22  209  	 */
-a6293b3e285cd0 Amir Goldstein       2023-11-22  210  	flags &= ~IOCB_DIO_CALLER_COMP;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  211  
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  212  	scoped_guard(cred, old_cred) {
-a6293b3e285cd0 Amir Goldstein       2023-11-22  213  		if (is_sync_kiocb(iocb)) {
-a6293b3e285cd0 Amir Goldstein       2023-11-22  214  			rwf_t rwf = iocb_to_rw_flags(flags);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  215  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  216  			ret = vfs_iter_write(file, iter, &iocb->ki_pos, rwf);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  217  			if (ctx->end_write)
-a6293b3e285cd0 Amir Goldstein       2023-11-22  218  				ctx->end_write(ctx->user_file);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  219  		} else {
-a6293b3e285cd0 Amir Goldstein       2023-11-22  220  			struct backing_aio *aio;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  221  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  222  			ret = backing_aio_init_wq(iocb);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  223  			if (ret)
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  224  				return ret;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  225  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  226  			ret = -ENOMEM;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  227  			aio = kmem_cache_zalloc(backing_aio_cachep, GFP_KERNEL);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  228  			if (!aio)
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  229  				return ret;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  230  
-a6293b3e285cd0 Amir Goldstein       2023-11-22  231  			aio->orig_iocb = iocb;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  232  			aio->end_write = ctx->end_write;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  233  			kiocb_clone(&aio->iocb, iocb, get_file(file));
-a6293b3e285cd0 Amir Goldstein       2023-11-22  234  			aio->iocb.ki_flags = flags;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  235  			aio->iocb.ki_complete = backing_aio_queue_completion;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  236  			refcount_set(&aio->ref, 2);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  237  			ret = vfs_iocb_iter_write(file, &aio->iocb, iter);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  238  			backing_aio_put(aio);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  239  			if (ret != -EIOCBQUEUED)
-a6293b3e285cd0 Amir Goldstein       2023-11-22  240  				backing_aio_cleanup(aio, ret);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  241  		}
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  242  	}
-a6293b3e285cd0 Amir Goldstein       2023-11-22  243  	return ret;
-a6293b3e285cd0 Amir Goldstein       2023-11-22  244  }
-a6293b3e285cd0 Amir Goldstein       2023-11-22  245  EXPORT_SYMBOL_GPL(backing_file_write_iter);
-a6293b3e285cd0 Amir Goldstein       2023-11-22  246  
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  247  ssize_t backing_file_splice_read(struct file *in, loff_t *ppos,
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  248  				 struct pipe_inode_info *pipe, size_t len,
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  249  				 unsigned int flags,
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  250  				 struct backing_file_ctx *ctx)
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  251  {
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  252  	const struct cred *old_cred = ctx->cred;
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  253  	ssize_t ret;
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  254  
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  255  	if (WARN_ON_ONCE(!(in->f_mode & FMODE_BACKING)))
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  256  		return -EIO;
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  257  
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  258  	scoped_guard(cred, old_cred) {
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  259  		ret = vfs_splice_read(in, ppos, pipe, len, flags);
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  260  	}
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  261  
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  262  	if (ctx->accessed)
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  263  		ctx->accessed(ctx->user_file);
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  264  
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13 @265  	return ret;
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  266  }
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  267  EXPORT_SYMBOL_GPL(backing_file_splice_read);
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  268  
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  269  ssize_t backing_file_splice_write(struct pipe_inode_info *pipe,
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  270  				  struct file *out, loff_t *ppos, size_t len,
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  271  				  unsigned int flags,
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  272  				  struct backing_file_ctx *ctx)
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  273  {
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  274  	const struct cred *old_cred = ctx->cred;
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  275  	ssize_t ret;
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  276  
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  277  	if (WARN_ON_ONCE(!(out->f_mode & FMODE_BACKING)))
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  278  		return -EIO;
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  279  
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  280  	ret = file_remove_privs(ctx->user_file);
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  281  	if (ret)
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  282  		return ret;
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  283  
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  284  	scoped_guard(cred, old_cred) {
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  285  		file_start_write(out);
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  286  		ret = iter_file_splice_write(pipe, out, ppos, len, flags);
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  287  		file_end_write(out);
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  288  	}
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  289  	if (ctx->end_write)
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  290  		ctx->end_write(ctx->user_file);
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  291  
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  292  	return ret;
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  293  }
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  294  EXPORT_SYMBOL_GPL(backing_file_splice_write);
-9b7e9e2f5d5c3d Amir Goldstein       2023-10-13  295  
-f567377e406c03 Amir Goldstein       2023-10-13  296  int backing_file_mmap(struct file *file, struct vm_area_struct *vma,
-f567377e406c03 Amir Goldstein       2023-10-13  297  		      struct backing_file_ctx *ctx)
-f567377e406c03 Amir Goldstein       2023-10-13  298  {
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  299  	const struct cred *old_cred = ctx->cred;
-f567377e406c03 Amir Goldstein       2023-10-13  300  	int ret;
-f567377e406c03 Amir Goldstein       2023-10-13  301  
-f567377e406c03 Amir Goldstein       2023-10-13  302  	if (WARN_ON_ONCE(!(file->f_mode & FMODE_BACKING)) ||
-f567377e406c03 Amir Goldstein       2023-10-13  303  	    WARN_ON_ONCE(ctx->user_file != vma->vm_file))
-f567377e406c03 Amir Goldstein       2023-10-13  304  		return -EIO;
-f567377e406c03 Amir Goldstein       2023-10-13  305  
-f567377e406c03 Amir Goldstein       2023-10-13  306  	if (!file->f_op->mmap)
-f567377e406c03 Amir Goldstein       2023-10-13  307  		return -ENODEV;
-f567377e406c03 Amir Goldstein       2023-10-13  308  
-f567377e406c03 Amir Goldstein       2023-10-13  309  	vma_set_file(vma, file);
-f567377e406c03 Amir Goldstein       2023-10-13  310  
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  311  	scoped_guard(cred, old_cred) {
-f567377e406c03 Amir Goldstein       2023-10-13  312  		ret = call_mmap(vma->vm_file, vma);
-3da9951cd3bbfa Vinicius Costa Gomes 2024-01-25  313  	}
-f567377e406c03 Amir Goldstein       2023-10-13  314  
-f567377e406c03 Amir Goldstein       2023-10-13  315  	if (ctx->accessed)
-f567377e406c03 Amir Goldstein       2023-10-13  316  		ctx->accessed(ctx->user_file);
-f567377e406c03 Amir Goldstein       2023-10-13  317  
-f567377e406c03 Amir Goldstein       2023-10-13 @318  	return ret;
-f567377e406c03 Amir Goldstein       2023-10-13  319  }
-f567377e406c03 Amir Goldstein       2023-10-13  320  EXPORT_SYMBOL_GPL(backing_file_mmap);
-f567377e406c03 Amir Goldstein       2023-10-13  321  
+
+vim +/buf +96 arch/arm/kernel/process.c
+
+f7b861b7a6d9d1 Thomas Gleixner    2013-03-21   92  
+652a12ef98d16c Russell King       2005-04-17   93  void __show_regs(struct pt_regs *regs)
+^1da177e4c3f41 Linus Torvalds     2005-04-16   94  {
+154c772ebfb12e Russell King       2007-06-18   95  	unsigned long flags;
+154c772ebfb12e Russell King       2007-06-18  @96  	char buf[64];
+77f1b959b0b6db Russell King       2015-12-03   97  #ifndef CONFIG_CPU_V7M
+e6978e4bf181fb Russell King       2016-05-13   98  	unsigned int domain, fs;
+77f1b959b0b6db Russell King       2015-12-03   99  #ifdef CONFIG_CPU_SW_DOMAIN_PAN
+77f1b959b0b6db Russell King       2015-12-03  100  	/*
+77f1b959b0b6db Russell King       2015-12-03  101  	 * Get the domain register for the parent context. In user
+77f1b959b0b6db Russell King       2015-12-03  102  	 * mode, we don't save the DACR, so lets use what it should
+77f1b959b0b6db Russell King       2015-12-03  103  	 * be. For other modes, we place it after the pt_regs struct.
+77f1b959b0b6db Russell King       2015-12-03  104  	 */
+e6978e4bf181fb Russell King       2016-05-13  105  	if (user_mode(regs)) {
+77f1b959b0b6db Russell King       2015-12-03  106  		domain = DACR_UACCESS_ENABLE;
+e6978e4bf181fb Russell King       2016-05-13  107  		fs = get_fs();
+e6978e4bf181fb Russell King       2016-05-13  108  	} else {
+5fa9da5043a81b Russell King       2016-05-13  109  		domain = to_svc_pt_regs(regs)->dacr;
+e6978e4bf181fb Russell King       2016-05-13  110  		fs = to_svc_pt_regs(regs)->addr_limit;
+e6978e4bf181fb Russell King       2016-05-13  111  	}
+77f1b959b0b6db Russell King       2015-12-03  112  #else
+77f1b959b0b6db Russell King       2015-12-03  113  	domain = get_domain();
+e6978e4bf181fb Russell King       2016-05-13  114  	fs = get_fs();
+77f1b959b0b6db Russell King       2015-12-03  115  #endif
+77f1b959b0b6db Russell King       2015-12-03  116  #endif
+^1da177e4c3f41 Linus Torvalds     2005-04-16  117  
+a43cb95d547a06 Tejun Heo          2013-04-30  118  	show_regs_print_info(KERN_DEFAULT);
+a43cb95d547a06 Tejun Heo          2013-04-30  119  
+3ea70d7ddbddef Sergey Senozhatsky 2017-12-11  120  	printk("PC is at %pS\n", (void *)instruction_pointer(regs));
+3ea70d7ddbddef Sergey Senozhatsky 2017-12-11  121  	printk("LR is at %pS\n", (void *)regs->ARM_lr);
+801f19b9515fb6 Joe Perches        2017-05-04  122  	printk("pc : [<%08lx>]    lr : [<%08lx>]    psr: %08lx\n",
+801f19b9515fb6 Joe Perches        2017-05-04  123  	       regs->ARM_pc, regs->ARM_lr, regs->ARM_cpsr);
+801f19b9515fb6 Joe Perches        2017-05-04  124  	printk("sp : %08lx  ip : %08lx  fp : %08lx\n",
+154c772ebfb12e Russell King       2007-06-18  125  	       regs->ARM_sp, regs->ARM_ip, regs->ARM_fp);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  126  	printk("r10: %08lx  r9 : %08lx  r8 : %08lx\n",
+^1da177e4c3f41 Linus Torvalds     2005-04-16  127  		regs->ARM_r10, regs->ARM_r9,
+^1da177e4c3f41 Linus Torvalds     2005-04-16  128  		regs->ARM_r8);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  129  	printk("r7 : %08lx  r6 : %08lx  r5 : %08lx  r4 : %08lx\n",
+^1da177e4c3f41 Linus Torvalds     2005-04-16  130  		regs->ARM_r7, regs->ARM_r6,
+^1da177e4c3f41 Linus Torvalds     2005-04-16  131  		regs->ARM_r5, regs->ARM_r4);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  132  	printk("r3 : %08lx  r2 : %08lx  r1 : %08lx  r0 : %08lx\n",
+^1da177e4c3f41 Linus Torvalds     2005-04-16  133  		regs->ARM_r3, regs->ARM_r2,
+^1da177e4c3f41 Linus Torvalds     2005-04-16  134  		regs->ARM_r1, regs->ARM_r0);
+154c772ebfb12e Russell King       2007-06-18  135  
+154c772ebfb12e Russell King       2007-06-18  136  	flags = regs->ARM_cpsr;
+154c772ebfb12e Russell King       2007-06-18  137  	buf[0] = flags & PSR_N_BIT ? 'N' : 'n';
+154c772ebfb12e Russell King       2007-06-18  138  	buf[1] = flags & PSR_Z_BIT ? 'Z' : 'z';
+154c772ebfb12e Russell King       2007-06-18  139  	buf[2] = flags & PSR_C_BIT ? 'C' : 'c';
+154c772ebfb12e Russell King       2007-06-18  140  	buf[3] = flags & PSR_V_BIT ? 'V' : 'v';
+154c772ebfb12e Russell King       2007-06-18  141  	buf[4] = '\0';
+154c772ebfb12e Russell King       2007-06-18  142  
+
+:::::: The code at line 96 was first introduced by commit
+:::::: 154c772ebfb12ef66855510e6be2b12c85110b0c [ARM] Update show_regs/oops register format
+
+:::::: TO: Russell King <rmk@dyn-67.arm.linux.org.uk>
+:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
