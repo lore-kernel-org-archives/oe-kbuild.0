@@ -1,67 +1,41 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFAA524D5
-	for <oe-kbuild@lists.linux.dev>; Mon, 29 Jan 2024 08:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B23C55E42;
+	Mon, 29 Jan 2024 09:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706517926; cv=none; b=N5wrCTa/AeOTpSlgS+RRbfiigWqAbCpb/L9aLeATsanB6VDbZ4PCBODodlKuSV7dB2fwBuwQpECAn2cZOCmRt5N9Cr8zbiudxGyE+WXYrcTdTfk+anq9BiwTIKNNc4CdcA8GVQNIBNfl0IvAeuqmu3ovgo5uO+3MF+/tjftdyvw=
+	t=1706519267; cv=none; b=rB6aXhnc92lMNG+l/mzIyaDSmxCfBfV9KIBwtS2uLU6H8vtinl8WFimHztF32bI3kIGm+G8Y6C0bsPKi9c+ciTPkBiF1QwBVQKkYj3B25npsNJDNNJtJC+nUJTdxaxnsrxHQ3EGN0+QQRTgmpF6K9MzADpeDMc0iNYdjBuBErKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706517926; c=relaxed/simple;
-	bh=E5wVvdy2Nw7n7I2vURdoJilLY62WSJUV7Vw2Mm8mIs8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rvcTho7Grg2OCUSmkSjCPyVVFd0LVHQKYvOv+jwjprkkeoMRz5Ua6mWoTXHag9PwGz0ooYn1m6++qZyfthC9p39GEJ8kFFg5qAgwgcGzlgsIvZvY546M5jLoAH2JQ71HbNcVXtFFdav4Pm/CiUcgffP2UJLHKlUQv9bzcrtORUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ILNk+70R; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1706519267; c=relaxed/simple;
+	bh=yXQJFAfFBJgQLodANwDCmt/yUv2fbA0o7Gqgyr3L6kI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WXXtOJRCfD1ZgGJ6YPsfLiicu9+WJAX70XG3m3m8zzpf/COcCq65OTVBGC6gvACncsRS0q2MkEE9/2gAqr8ehClwlbxMKi94ck2rKBjS3CEIBxLhX/ZV0Sehh4OyGB02qBl3b2ra7BfaoSJHt9pD4oUyuiva7NguuzPQxrp+aqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DZRWBCs7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ILNk+70R"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-51114557c77so400222e87.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 29 Jan 2024 00:45:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706517922; x=1707122722; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4F+xlgUGWJsyne8MrXcNfremPz7A1AclLvUOYf/t/Zo=;
-        b=ILNk+70RIkMfFzrIz8KrlspBKDxhdQK/T3IBzkr+eLphf0s41dyp3lMYMap9D0cEKn
-         OczuMwSZxUb+X14pC/gW8xSrQhgm3I90KkdsBocmyUeoKjxH5BzCrrSLfqrF48KuQmaa
-         OUHBvDpshYAlkd5TS7NjzTyspTewCfnLGueCQ5x/Fvb4kJpL6tJ10gAze0l+JPODZqS5
-         QxAOnzKp8H6gP5KRQZwkK6NWAgutDu6vcMwPxPCob1m6CdmL4iGjmbxBfJsMoWfyk8JH
-         Vd2geSV6LnmzVaeI7LFdp1hwYNocVrQrb9r7PcwjZhtl0vuylUnc8E8OmsLY+es++wOK
-         L12w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706517922; x=1707122722;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4F+xlgUGWJsyne8MrXcNfremPz7A1AclLvUOYf/t/Zo=;
-        b=UlfiWSeX8DIt8IrX2ftWt/91fQ3a/XspFSfVUIeuUsjZW73P11gEvHPNN7uLd84sXv
-         IMVAy3cUVMrZ/NN4syQ+jYNa88zKEk78P9DG7VEs3YZLk8ineo/O+0yEp+ScgyLVVIcK
-         MJqgtPpFmrecLcEPAgBFLgxJzIHMw39CeRR0YlJ1yC5c3ZoUaBz9F68UcQQqjeG0HKmM
-         lgNMk8r0OMO+1s95B090hRQaWDEyMvJmA3Ua/Jf7TgoNIruYfnuVY34j+53hbLcDG/8M
-         cgtBBMXuznNVNdayBj3VDH3eDp4po63vVcoV+ZeNiOG/rcf2B00C5WY2MkJ1Gz1Nahoe
-         PlGw==
-X-Gm-Message-State: AOJu0YxiA5LdCZCArimkOEC/JCsROZfNea4p5IuvZOmjVe7CefN7HsP/
-	+E7AaLK0Tbjo3rCnGl79jlz5m+F7gRvKDPXgo0dNdc1ul3q0j14qYmYMlnh8+uX9ZUG2z9RsDBD
-	4m5/SfA==
-X-Google-Smtp-Source: AGHT+IGCct6200jY/NB+MWQ/+A0vI5pEWaJg5H/oTWwB1XeByQYAHUDMZjxVzfSBIA7MSGYKTrZMBA==
-X-Received: by 2002:a19:2d59:0:b0:510:78f:1a65 with SMTP id t25-20020a192d59000000b00510078f1a65mr2996191lft.49.1706517921583;
-        Mon, 29 Jan 2024 00:45:21 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id l5-20020a05600c4f0500b0040e5951f199sm9483421wmq.34.2024.01.29.00.45.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jan 2024 00:45:21 -0800 (PST)
-Date: Mon, 29 Jan 2024 11:45:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Suma Hegde <suma.hegde@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Naveen Krishna Chatradhi <nchatrad@amd.com>
-Subject: [pdx86-platform-drivers-x86:review-ilpo 11/17]
- drivers/platform/x86/amd/hsmp.c:367 hsmp_metric_tbl_read() error: we
- previously assumed 'sock' could be null (see line 366)
-Message-ID: <6e6cde7e-402e-4070-9854-85c6f7405e36@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DZRWBCs7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2923EC433F1;
+	Mon, 29 Jan 2024 09:07:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706519266;
+	bh=yXQJFAfFBJgQLodANwDCmt/yUv2fbA0o7Gqgyr3L6kI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DZRWBCs7bA6tjctAtoilnrOakdMWkBDbJMFWcftyDUPG8or/oo/hp/sWhkXwFrqo8
+	 0mMseT7AbRFWjdxWiDVVv9bQiK6WyoyJy89tuXwrv+6GZnlSDJyHRNfQRAkTl4wAQr
+	 NKKcaIRz8PYcjmny4VSYLc4cWaIpv0mYfphM/cmrysgp2pbtPP0/+6OoYJg1SQx/NN
+	 Qi+x2EX9U5cTYw2aq4ifGw3cAlgckf5F8X+6XP1TEKy9L4lhehcLgUCq7fLOB82bBl
+	 r3sm+4JFLaumWD87qpqBBFKLz8vZAzfQ0vWkqjjmeAkVwbq7kJYjFmTgz+gnH9ydq3
+	 ogBoodBnLrRhA==
+Date: Mon, 29 Jan 2024 11:07:42 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Patrisious Haddad <phaddad@nvidia.com>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Mark Bloch <mbloch@nvidia.com>
+Subject: Re: drivers/net/ethernet/mellanox/mlx5/core/lib/ipsec_fs_roce.c:170
+ ipsec_fs_roce_rx_rule_setup() warn: missing error code 'err'
+Message-ID: <20240129090742.GB8285@unreal>
+References: <57817f40-9979-44d7-9f76-d1bf1e06cf39@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,64 +44,112 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <57817f40-9979-44d7-9f76-d1bf1e06cf39@moroto.mountain>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo
-head:   d04e52b47ab62cf36fddaa0feb1c5508e420e48d
-commit: 7a5a66d63b8fb8ac60ef8e2ad989310c270a4fac [11/17] platform/x86/amd/hsmp: Move dev from platdev to hsmp_socket
-config: x86_64-randconfig-161-20240128 (https://download.01.org/0day-ci/archive/20240129/202401291311.gzMCj6SP-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+On Mon, Jan 22, 2024 at 10:17:26AM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   80fc600fafee8ba981da6ed41a572800c8e11de6
+> commit: f2f0231cfe8905af217e5bf1a08bfb8e4d3b74fb net/mlx5: Configure IPsec steering for ingress RoCEv2 MPV traffic
+> config: x86_64-randconfig-161-20240120 (https://download.01.org/0day-ci/archive/20240121/202401210739.xiykyqPN-lkp@intel.com/config)
+> compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202401210739.xiykyqPN-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/net/ethernet/mellanox/mlx5/core/lib/ipsec_fs_roce.c:170 ipsec_fs_roce_rx_rule_setup() warn: missing error code 'err'
+> 
+> vim +/err +170 drivers/net/ethernet/mellanox/mlx5/core/lib/ipsec_fs_roce.c
+> 
+> 899577600b25b3 Mark Zhang        2023-01-04  122  static int
+> 899577600b25b3 Mark Zhang        2023-01-04  123  ipsec_fs_roce_rx_rule_setup(struct mlx5_core_dev *mdev,
+> 899577600b25b3 Mark Zhang        2023-01-04  124  			    struct mlx5_flow_destination *default_dst,
+> 899577600b25b3 Mark Zhang        2023-01-04  125  			    struct mlx5_ipsec_rx_roce *roce)
+> 899577600b25b3 Mark Zhang        2023-01-04  126  {
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  127  	bool is_mpv_slave = mlx5_core_is_mp_slave(mdev);
+> 899577600b25b3 Mark Zhang        2023-01-04  128  	struct mlx5_flow_destination dst = {};
+> 899577600b25b3 Mark Zhang        2023-01-04  129  	MLX5_DECLARE_FLOW_ACT(flow_act);
+> 899577600b25b3 Mark Zhang        2023-01-04  130  	struct mlx5_flow_handle *rule;
+> 899577600b25b3 Mark Zhang        2023-01-04  131  	struct mlx5_flow_spec *spec;
+> 899577600b25b3 Mark Zhang        2023-01-04  132  	int err = 0;
+> 899577600b25b3 Mark Zhang        2023-01-04  133  
+> 899577600b25b3 Mark Zhang        2023-01-04  134  	spec = kvzalloc(sizeof(*spec), GFP_KERNEL);
+> 899577600b25b3 Mark Zhang        2023-01-04  135  	if (!spec)
+> 899577600b25b3 Mark Zhang        2023-01-04  136  		return -ENOMEM;
+> 899577600b25b3 Mark Zhang        2023-01-04  137  
+> 899577600b25b3 Mark Zhang        2023-01-04  138  	ipsec_fs_roce_setup_udp_dport(spec, ROCE_V2_UDP_DPORT);
+> 899577600b25b3 Mark Zhang        2023-01-04  139  
+> 899577600b25b3 Mark Zhang        2023-01-04  140  	flow_act.action = MLX5_FLOW_CONTEXT_ACTION_FWD_DEST;
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  141  	if (is_mpv_slave) {
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  142  		dst.type = MLX5_FLOW_DESTINATION_TYPE_FLOW_TABLE;
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  143  		dst.ft = roce->goto_alias_ft;
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  144  	} else {
+> 899577600b25b3 Mark Zhang        2023-01-04  145  		dst.type = MLX5_FLOW_DESTINATION_TYPE_TABLE_TYPE;
+> 899577600b25b3 Mark Zhang        2023-01-04  146  		dst.ft = roce->ft_rdma;
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  147  	}
+> 899577600b25b3 Mark Zhang        2023-01-04  148  	rule = mlx5_add_flow_rules(roce->ft, spec, &flow_act, &dst, 1);
+> 899577600b25b3 Mark Zhang        2023-01-04  149  	if (IS_ERR(rule)) {
+> 899577600b25b3 Mark Zhang        2023-01-04  150  		err = PTR_ERR(rule);
+> 899577600b25b3 Mark Zhang        2023-01-04  151  		mlx5_core_err(mdev, "Fail to add RX RoCE IPsec rule err=%d\n",
+> 899577600b25b3 Mark Zhang        2023-01-04  152  			      err);
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  153  		goto out;
+> 899577600b25b3 Mark Zhang        2023-01-04  154  	}
+> 899577600b25b3 Mark Zhang        2023-01-04  155  
+> 899577600b25b3 Mark Zhang        2023-01-04  156  	roce->rule = rule;
+> 899577600b25b3 Mark Zhang        2023-01-04  157  
+> 899577600b25b3 Mark Zhang        2023-01-04  158  	memset(spec, 0, sizeof(*spec));
+> 899577600b25b3 Mark Zhang        2023-01-04  159  	rule = mlx5_add_flow_rules(roce->ft, spec, &flow_act, default_dst, 1);
+> 899577600b25b3 Mark Zhang        2023-01-04  160  	if (IS_ERR(rule)) {
+> 899577600b25b3 Mark Zhang        2023-01-04  161  		err = PTR_ERR(rule);
+> 899577600b25b3 Mark Zhang        2023-01-04  162  		mlx5_core_err(mdev, "Fail to add RX RoCE IPsec miss rule err=%d\n",
+> 899577600b25b3 Mark Zhang        2023-01-04  163  			      err);
+> 899577600b25b3 Mark Zhang        2023-01-04  164  		goto fail_add_default_rule;
+> 899577600b25b3 Mark Zhang        2023-01-04  165  	}
+> 899577600b25b3 Mark Zhang        2023-01-04  166  
+> 899577600b25b3 Mark Zhang        2023-01-04  167  	roce->roce_miss.rule = rule;
+> 899577600b25b3 Mark Zhang        2023-01-04  168  
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  169  	if (!is_mpv_slave)
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21 @170  		goto out;
+> 
+> error code here?  Or perhaps if not an error code, then a comment?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202401291311.gzMCj6SP-lkp@intel.com/
+It is not an error and right behavior. MPV is special device which is
+combination of two devices: master and slave. So is_mpv_slave is the
+best comment for everyone who touches flow steering logic :).
 
-smatch warnings:
-drivers/platform/x86/amd/hsmp.c:367 hsmp_metric_tbl_read() error: we previously assumed 'sock' could be null (see line 366)
+Thanks
 
-vim +/sock +367 drivers/platform/x86/amd/hsmp.c
-
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  352  static ssize_t hsmp_metric_tbl_read(struct file *filp, struct kobject *kobj,
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  353  				    struct bin_attribute *bin_attr, char *buf,
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  354  				    loff_t off, size_t count)
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  355  {
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  356  	struct hsmp_socket *sock = bin_attr->private;
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  357  	struct hsmp_message msg = { 0 };
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  358  	int ret;
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  359  
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  360  	/* Do not support lseek(), reads entire metric table */
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  361  	if (count < bin_attr->size) {
-7a5a66d63b8fb8 drivers/platform/x86/amd/hsmp.c Suma Hegde 2024-01-06  362  		dev_err(sock->dev, "Wrong buffer size\n");
-                                                                                                ^^^^^^^^^
-Can sock be NULL?  Unchecked dereference
-
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  363  		return -EINVAL;
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  364  	}
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  365  
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10 @366  	if (!sock) {
-                                                                                    ^^^^^
-Checked for NULL
-
-7a5a66d63b8fb8 drivers/platform/x86/amd/hsmp.c Suma Hegde 2024-01-06 @367  		dev_err(sock->dev, "Failed to read attribute private data\n");
-                                                                                                ^^^^^^^^^
-NULL dereference in error message
-
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  368  		return -EINVAL;
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  369  	}
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  370  
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  371  	msg.msg_id	= HSMP_GET_METRIC_TABLE;
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  372  	msg.sock_ind	= sock->sock_ind;
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  373  
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  374  	ret = hsmp_send_message(&msg);
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  375  	if (ret)
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  376  		return ret;
-02a258ac3ebf8a drivers/platform/x86/amd/hsmp.c Armin Wolf 2023-10-19  377  	memcpy_fromio(buf, sock->metric_tbl_addr, bin_attr->size);
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  378  
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  379  	return bin_attr->size;
-5150542b8ec5fb drivers/platform/x86/amd/hsmp.c Suma Hegde 2023-10-10  380  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+> 
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  171  
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  172  	flow_act.action = MLX5_FLOW_CONTEXT_ACTION_FWD_DEST;
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  173  	dst.type = MLX5_FLOW_DESTINATION_TYPE_TABLE_TYPE;
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  174  	dst.ft = roce->ft_rdma;
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  175  	rule = mlx5_add_flow_rules(roce->nic_master_ft, NULL, &flow_act, &dst,
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  176  				   1);
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  177  	if (IS_ERR(rule)) {
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  178  		err = PTR_ERR(rule);
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  179  		mlx5_core_err(mdev, "Fail to add RX RoCE IPsec rule for alias err=%d\n",
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  180  			      err);
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  181  		goto fail_add_nic_master_rule;
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  182  	}
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  183  	roce->nic_master_rule = rule;
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  184  
+> 899577600b25b3 Mark Zhang        2023-01-04  185  	kvfree(spec);
+> 899577600b25b3 Mark Zhang        2023-01-04  186  	return 0;
+> 899577600b25b3 Mark Zhang        2023-01-04  187  
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  188  fail_add_nic_master_rule:
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  189  	mlx5_del_flow_rules(roce->roce_miss.rule);
+> 899577600b25b3 Mark Zhang        2023-01-04  190  fail_add_default_rule:
+> 899577600b25b3 Mark Zhang        2023-01-04  191  	mlx5_del_flow_rules(roce->rule);
+> f2f0231cfe8905 Patrisious Haddad 2023-09-21  192  out:
+> 899577600b25b3 Mark Zhang        2023-01-04  193  	kvfree(spec);
+> 899577600b25b3 Mark Zhang        2023-01-04  194  	return err;
+> 899577600b25b3 Mark Zhang        2023-01-04  195  }
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
