@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828A16A32E
-	for <oe-kbuild@lists.linux.dev>; Tue, 30 Jan 2024 13:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A939760ED9
+	for <oe-kbuild@lists.linux.dev>; Tue, 30 Jan 2024 15:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706622441; cv=none; b=k8JhUueuubf38p7YdHXbjaPobm0v6egP1GARmFhXqo2vWIJmfJcLrXMynQksw7S9ZjfFduu9Sp5qFYg5HO4kPm5kj1AvYXMu6KoWjWopE9lzElGVP3zBmbRvJsu/rcH+hsNWG/sIR8hgDyIWXMHg24ShrVFGgxOVFtk3t5JCRww=
+	t=1706627486; cv=none; b=XcDRSBcMBztkYjEbzqtypqo+h86LbXpolWuxzEPFGyWQuwLDbUZF3tPDWuLeHy4bD9ZHPimU0A3lqqRv//TaGXugoOfUgQAKgm91nGplr1Kh4fFLFpcMUbuU0AwDAMv7BY1f0+i/TevJ6fjUV434QHh74ddxlIGTLi49q/hHHQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706622441; c=relaxed/simple;
-	bh=1IOLmHYEH9YhbYJN464QenxRs1JaCDXGaKFh7sl2OS8=;
+	s=arc-20240116; t=1706627486; c=relaxed/simple;
+	bh=2nyv1JatogQhaU34Zb/xBKrtg6HZSV8Mexn9XcTlja0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oP4yh81C76kcQ1oqd6OnF0suGbgZZ5oHx5/SZ3FEUJX+/A0gaKIwhUiBzdOiJy5vvTE78Ck5M3yOXrimDIgzeqeitMEDq/CEaJvQYS6cBsxTyqNuUjLNHTNGewSRuOESmwUblZ4aFQNtVRTF2xYC3E6g53RhDPwUYBazM6au8J0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WIZAka2z; arc=none smtp.client-ip=134.134.136.65
+	 Content-Disposition; b=ByHB1MhXzcSC1JE8nkQ0sb6Y0CatAqU31SHm1q/3TRMWDCV9vgbGcFgDGKyW2UwzizK67Eui1gDwmQS5QnvYalrVh4RTWDNRn7Ir8qtvFY4c+82jgMbRVlC/AyoHL6ax8gdKSoBC/uJOVe9C+Y6KuwaVyJwTXLN3I1YC6M1D/TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CLFfilvC; arc=none smtp.client-ip=134.134.136.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WIZAka2z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CLFfilvC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706622439; x=1738158439;
+  t=1706627483; x=1738163483;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1IOLmHYEH9YhbYJN464QenxRs1JaCDXGaKFh7sl2OS8=;
-  b=WIZAka2zroMbYQgnOHk+WPWizOklWNfgELk8A6J4cPe6pzlz7qMUp+sI
-   SfSnOnkZzsyUFwglx7GDPdemvF5Awc+eMYEHCu4baLd4QDU3m5wlKUPDp
-   g3qUTg5N5Kabt0ealL2Cr/LuPeRLOKHLM8Vg/8lMXA0D4gUiJMgjsxxzD
-   TgZzdtBfpxF0dZtKKjYi6/bZODbk+xNs4rguzmzMJJrCoUnwYXmWS4bbI
-   fKfIJvxGVucYdXY6rOFJW/TQHpB3t0dhnI66S2Kq/ek4pUGD9XFEEZv2I
-   JLK0MAL+ghCTn7aCBuVHLktSRB/tFxcmCaxMv0NrmpvftF2J8C/tJRLYF
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="407001563"
+  bh=2nyv1JatogQhaU34Zb/xBKrtg6HZSV8Mexn9XcTlja0=;
+  b=CLFfilvCJp+vCguDOHbK4G5LoBoGbAq1q3MLbCwHGRIYlaHMs7S6X+iI
+   Mmc851pXGEshzpxxBgeDPMzpRxsQB+OLBtJH8W0qFrf3vjJK/ordg+Y8E
+   33HF41LF9Zid1TA1pVsqdJvCK1u+YXodC4/MIi0wdAQxdlGmlJrzb6GIr
+   vGtwlERZukWKk3kEVm/bTudhScW9b94KSh2Eg4PRDQPSFmz3vOVI+ZM8K
+   F8OCkEUuavsAay9kPR/fK5v6SxBVVeUSePiLPIL7aZ6dyHMnuuLz2z/tV
+   hm2s/b3ECLYioG9w4gGGx8fUywZ2+K185ySMSIeSOOKCJpJi8oMmEPSgX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="393738615"
 X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="407001563"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 05:47:18 -0800
+   d="scan'208";a="393738615"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 07:05:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="822205180"
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="961308837"
 X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="822205180"
+   d="scan'208";a="961308837"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 30 Jan 2024 05:47:17 -0800
+  by orsmga005.jf.intel.com with ESMTP; 30 Jan 2024 07:05:35 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUoSI-0000LS-2T;
-	Tue, 30 Jan 2024 13:47:14 +0000
-Date: Tue, 30 Jan 2024 21:46:43 +0800
+	id 1rUpeP-0000QA-0D;
+	Tue, 30 Jan 2024 15:04:42 +0000
+Date: Tue, 30 Jan 2024 23:00:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/xe/tests/xe_migrate.c:224 xe_migrate_sanity_test()
- warn: passing zero to 'PTR_ERR'
-Message-ID: <202401302106.gPIPs6Ge-lkp@intel.com>
+Subject: Re: [PATCH net-next 3/3] net: stmmac: Report taprio offload status
+Message-ID: <202401302206.gC7tl5EJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,180 +60,243 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240127040443.24835-4-rohan.g.thomas@intel.com>
+References: <20240127040443.24835-4-rohan.g.thomas@intel.com>
+TO: Rohan G Thomas <rohan.g.thomas@intel.com>
+TO: "David S . Miller" <davem@davemloft.net>
+TO: Alexandre Torgue <alexandre.torgue@foss.st.com>
+TO: Jose Abreu <joabreu@synopsys.com>
+TO: Eric Dumazet <edumazet@google.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+TO: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+TO: Giuseppe Cavallaro <peppe.cavallaro@st.com>
+TO: Richard Cochran <richardcochran@gmail.com>
+TO: Russell King <linux@armlinux.org.uk>
+TO: Alexei Starovoitov <ast@kernel.org>
+TO: Daniel Borkmann <daniel@iogearbox.net>
+TO: Jesper Dangaard Brouer <hawk@kernel.org>
+TO: John Fastabend <john.fastabend@gmail.com>
+TO: Serge Semin <fancer.lancer@gmail.com>
+CC: netdev@vger.kernel.org
+CC: linux-stm32@st-md-mailman.stormreply.com
+CC: linux-arm-kernel@lists.infradead.org
 CC: linux-kernel@vger.kernel.org
-TO: Matthew Brost <matthew.brost@intel.com>
-CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+CC: bpf@vger.kernel.org
+CC: Rohan G Thomas <rohan.g.thomas@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   861c0981648f5b64c86fd028ee622096eb7af05a
-commit: dd08ebf6c3525a7ea2186e636df064ea47281987 drm/xe: Introduce a new DRM driver for Intel GPUs
-date:   7 weeks ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 7 weeks ago
-config: sparc-randconfig-r081-20240128 (https://download.01.org/0day-ci/archive/20240130/202401302106.gPIPs6Ge-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
+Hi Rohan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rohan-G-Thomas/net-stmmac-Offload-queueMaxSDU-from-tc-taprio/20240127-121335
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240127040443.24835-4-rohan.g.thomas%40intel.com
+patch subject: [PATCH net-next 3/3] net: stmmac: Report taprio offload status
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-141-20240129 (https://download.01.org/0day-ci/archive/20240130/202401302206.gC7tl5EJ-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202401302106.gPIPs6Ge-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401302206.gC7tl5EJ-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/xe/tests/xe_migrate.c:224 xe_migrate_sanity_test() warn: passing zero to 'PTR_ERR'
+smatch warnings:
+drivers/net/ethernet/stmicro/stmmac/stmmac_tc.c:992 tc_taprio_configure() warn: missing error code 'ret'
 
-Old smatch warnings:
-drivers/gpu/drm/xe/xe_migrate.c:646 xe_migrate_copy() error: uninitialized symbol 'ccs_ofs'.
-drivers/gpu/drm/xe/tests/xe_migrate.c:254 xe_migrate_sanity_test() warn: passing zero to 'PTR_ERR'
+vim +/ret +992 drivers/net/ethernet/stmicro/stmmac/stmmac_tc.c
 
-vim +/PTR_ERR +224 drivers/gpu/drm/xe/tests/xe_migrate.c
-
-dd08ebf6c3525a Matthew Brost 2023-03-30  209  
-dd08ebf6c3525a Matthew Brost 2023-03-30  210  static void xe_migrate_sanity_test(struct xe_migrate *m, struct kunit *test)
-dd08ebf6c3525a Matthew Brost 2023-03-30  211  {
-dd08ebf6c3525a Matthew Brost 2023-03-30  212  	struct xe_gt *gt = m->gt;
-dd08ebf6c3525a Matthew Brost 2023-03-30  213  	struct xe_device *xe = gt_to_xe(gt);
-dd08ebf6c3525a Matthew Brost 2023-03-30  214  	struct xe_bo *pt, *bo = m->pt_bo, *big, *tiny;
-dd08ebf6c3525a Matthew Brost 2023-03-30  215  	struct xe_res_cursor src_it;
-dd08ebf6c3525a Matthew Brost 2023-03-30  216  	struct dma_fence *fence;
-dd08ebf6c3525a Matthew Brost 2023-03-30  217  	u64 retval, expected;
-dd08ebf6c3525a Matthew Brost 2023-03-30  218  	struct xe_bb *bb;
-dd08ebf6c3525a Matthew Brost 2023-03-30  219  	int err;
-dd08ebf6c3525a Matthew Brost 2023-03-30  220  	u8 id = gt->info.id;
-dd08ebf6c3525a Matthew Brost 2023-03-30  221  
-dd08ebf6c3525a Matthew Brost 2023-03-30  222  	err = xe_bo_vmap(bo);
-dd08ebf6c3525a Matthew Brost 2023-03-30  223  	if (err) {
-dd08ebf6c3525a Matthew Brost 2023-03-30 @224  		KUNIT_FAIL(test, "Failed to vmap our pagetables: %li\n",
-dd08ebf6c3525a Matthew Brost 2023-03-30  225  			   PTR_ERR(bo));
-dd08ebf6c3525a Matthew Brost 2023-03-30  226  		return;
-dd08ebf6c3525a Matthew Brost 2023-03-30  227  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  228  
-dd08ebf6c3525a Matthew Brost 2023-03-30  229  	big = xe_bo_create_pin_map(xe, m->gt, m->eng->vm, SZ_4M,
-dd08ebf6c3525a Matthew Brost 2023-03-30  230  				   ttm_bo_type_kernel,
-dd08ebf6c3525a Matthew Brost 2023-03-30  231  				   XE_BO_CREATE_VRAM_IF_DGFX(m->gt) |
-dd08ebf6c3525a Matthew Brost 2023-03-30  232  				   XE_BO_CREATE_PINNED_BIT);
-dd08ebf6c3525a Matthew Brost 2023-03-30  233  	if (IS_ERR(big)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  234  		KUNIT_FAIL(test, "Failed to allocate bo: %li\n", PTR_ERR(big));
-dd08ebf6c3525a Matthew Brost 2023-03-30  235  		goto vunmap;
-dd08ebf6c3525a Matthew Brost 2023-03-30  236  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  237  
-dd08ebf6c3525a Matthew Brost 2023-03-30  238  	pt = xe_bo_create_pin_map(xe, m->gt, m->eng->vm, GEN8_PAGE_SIZE,
-dd08ebf6c3525a Matthew Brost 2023-03-30  239  				  ttm_bo_type_kernel,
-dd08ebf6c3525a Matthew Brost 2023-03-30  240  				  XE_BO_CREATE_VRAM_IF_DGFX(m->gt) |
-dd08ebf6c3525a Matthew Brost 2023-03-30  241  				  XE_BO_CREATE_PINNED_BIT);
-dd08ebf6c3525a Matthew Brost 2023-03-30  242  	if (IS_ERR(pt)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  243  		KUNIT_FAIL(test, "Failed to allocate fake pt: %li\n",
-dd08ebf6c3525a Matthew Brost 2023-03-30  244  			   PTR_ERR(pt));
-dd08ebf6c3525a Matthew Brost 2023-03-30  245  		goto free_big;
-dd08ebf6c3525a Matthew Brost 2023-03-30  246  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  247  
-dd08ebf6c3525a Matthew Brost 2023-03-30  248  	tiny = xe_bo_create_pin_map(xe, m->gt, m->eng->vm,
-dd08ebf6c3525a Matthew Brost 2023-03-30  249  				    2 * SZ_4K,
-dd08ebf6c3525a Matthew Brost 2023-03-30  250  				    ttm_bo_type_kernel,
-dd08ebf6c3525a Matthew Brost 2023-03-30  251  				    XE_BO_CREATE_VRAM_IF_DGFX(m->gt) |
-dd08ebf6c3525a Matthew Brost 2023-03-30  252  				    XE_BO_CREATE_PINNED_BIT);
-dd08ebf6c3525a Matthew Brost 2023-03-30  253  	if (IS_ERR(tiny)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  254  		KUNIT_FAIL(test, "Failed to allocate fake pt: %li\n",
-dd08ebf6c3525a Matthew Brost 2023-03-30  255  			   PTR_ERR(pt));
-dd08ebf6c3525a Matthew Brost 2023-03-30  256  		goto free_pt;
-dd08ebf6c3525a Matthew Brost 2023-03-30  257  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  258  
-dd08ebf6c3525a Matthew Brost 2023-03-30  259  	bb = xe_bb_new(m->gt, 32, xe->info.supports_usm);
-dd08ebf6c3525a Matthew Brost 2023-03-30  260  	if (IS_ERR(bb)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  261  		KUNIT_FAIL(test, "Failed to create batchbuffer: %li\n",
-dd08ebf6c3525a Matthew Brost 2023-03-30  262  			   PTR_ERR(bb));
-dd08ebf6c3525a Matthew Brost 2023-03-30  263  		goto free_tiny;
-dd08ebf6c3525a Matthew Brost 2023-03-30  264  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  265  
-dd08ebf6c3525a Matthew Brost 2023-03-30  266  	kunit_info(test, "Starting tests, top level PT addr: %llx, special pagetable base addr: %llx\n",
-dd08ebf6c3525a Matthew Brost 2023-03-30  267  		   xe_bo_main_addr(m->eng->vm->pt_root[id]->bo, GEN8_PAGE_SIZE),
-dd08ebf6c3525a Matthew Brost 2023-03-30  268  		   xe_bo_main_addr(m->pt_bo, GEN8_PAGE_SIZE));
-dd08ebf6c3525a Matthew Brost 2023-03-30  269  
-dd08ebf6c3525a Matthew Brost 2023-03-30  270  	/* First part of the test, are we updating our pagetable bo with a new entry? */
-dd08ebf6c3525a Matthew Brost 2023-03-30  271  	xe_map_wr(xe, &bo->vmap, GEN8_PAGE_SIZE * (NUM_KERNEL_PDE - 1), u64, 0xdeaddeadbeefbeef);
-dd08ebf6c3525a Matthew Brost 2023-03-30  272  	expected = gen8_pte_encode(NULL, pt, 0, XE_CACHE_WB, 0, 0);
-dd08ebf6c3525a Matthew Brost 2023-03-30  273  	if (m->eng->vm->flags & XE_VM_FLAGS_64K)
-dd08ebf6c3525a Matthew Brost 2023-03-30  274  		expected |= GEN12_PTE_PS64;
-dd08ebf6c3525a Matthew Brost 2023-03-30  275  	xe_res_first(pt->ttm.resource, 0, pt->size, &src_it);
-dd08ebf6c3525a Matthew Brost 2023-03-30  276  	emit_pte(m, bb, NUM_KERNEL_PDE - 1, xe_bo_is_vram(pt),
-dd08ebf6c3525a Matthew Brost 2023-03-30  277  		 &src_it, GEN8_PAGE_SIZE, pt);
-dd08ebf6c3525a Matthew Brost 2023-03-30  278  	run_sanity_job(m, xe, bb, bb->len, "Writing PTE for our fake PT", test);
-dd08ebf6c3525a Matthew Brost 2023-03-30  279  
-dd08ebf6c3525a Matthew Brost 2023-03-30  280  	retval = xe_map_rd(xe, &bo->vmap, GEN8_PAGE_SIZE * (NUM_KERNEL_PDE - 1),
-dd08ebf6c3525a Matthew Brost 2023-03-30  281  			   u64);
-dd08ebf6c3525a Matthew Brost 2023-03-30  282  	check(retval, expected, "PTE entry write", test);
-dd08ebf6c3525a Matthew Brost 2023-03-30  283  
-dd08ebf6c3525a Matthew Brost 2023-03-30  284  	/* Now try to write data to our newly mapped 'pagetable', see if it succeeds */
-dd08ebf6c3525a Matthew Brost 2023-03-30  285  	bb->len = 0;
-dd08ebf6c3525a Matthew Brost 2023-03-30  286  	bb->cs[bb->len++] = MI_BATCH_BUFFER_END;
-dd08ebf6c3525a Matthew Brost 2023-03-30  287  	xe_map_wr(xe, &pt->vmap, 0, u32, 0xdeaddead);
-dd08ebf6c3525a Matthew Brost 2023-03-30  288  	expected = 0x12345678U;
-dd08ebf6c3525a Matthew Brost 2023-03-30  289  
-dd08ebf6c3525a Matthew Brost 2023-03-30  290  	emit_clear(m->gt, bb, xe_migrate_vm_addr(NUM_KERNEL_PDE - 1, 0), 4, 4,
-dd08ebf6c3525a Matthew Brost 2023-03-30  291  		   expected, IS_DGFX(xe));
-dd08ebf6c3525a Matthew Brost 2023-03-30  292  	run_sanity_job(m, xe, bb, 1, "Writing to our newly mapped pagetable",
-dd08ebf6c3525a Matthew Brost 2023-03-30  293  		       test);
-dd08ebf6c3525a Matthew Brost 2023-03-30  294  
-dd08ebf6c3525a Matthew Brost 2023-03-30  295  	retval = xe_map_rd(xe, &pt->vmap, 0, u32);
-dd08ebf6c3525a Matthew Brost 2023-03-30  296  	check(retval, expected, "Write to PT after adding PTE", test);
-dd08ebf6c3525a Matthew Brost 2023-03-30  297  
-dd08ebf6c3525a Matthew Brost 2023-03-30  298  	/* Sanity checks passed, try the full ones! */
-dd08ebf6c3525a Matthew Brost 2023-03-30  299  
-dd08ebf6c3525a Matthew Brost 2023-03-30  300  	/* Clear a small bo */
-dd08ebf6c3525a Matthew Brost 2023-03-30  301  	kunit_info(test, "Clearing small buffer object\n");
-dd08ebf6c3525a Matthew Brost 2023-03-30  302  	xe_map_memset(xe, &tiny->vmap, 0, 0x22, tiny->size);
-dd08ebf6c3525a Matthew Brost 2023-03-30  303  	expected = 0x224488ff;
-dd08ebf6c3525a Matthew Brost 2023-03-30  304  	fence = xe_migrate_clear(m, tiny, tiny->ttm.resource, expected);
-dd08ebf6c3525a Matthew Brost 2023-03-30  305  	if (sanity_fence_failed(xe, fence, "Clearing small bo", test))
-dd08ebf6c3525a Matthew Brost 2023-03-30  306  		goto out;
-dd08ebf6c3525a Matthew Brost 2023-03-30  307  
-dd08ebf6c3525a Matthew Brost 2023-03-30  308  	dma_fence_put(fence);
-dd08ebf6c3525a Matthew Brost 2023-03-30  309  	retval = xe_map_rd(xe, &tiny->vmap, 0, u32);
-dd08ebf6c3525a Matthew Brost 2023-03-30  310  	check(retval, expected, "Command clear small first value", test);
-dd08ebf6c3525a Matthew Brost 2023-03-30  311  	retval = xe_map_rd(xe, &tiny->vmap, tiny->size - 4, u32);
-dd08ebf6c3525a Matthew Brost 2023-03-30  312  	check(retval, expected, "Command clear small last value", test);
-dd08ebf6c3525a Matthew Brost 2023-03-30  313  
-dd08ebf6c3525a Matthew Brost 2023-03-30  314  	if (IS_DGFX(xe)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  315  		kunit_info(test, "Copying small buffer object to system\n");
-dd08ebf6c3525a Matthew Brost 2023-03-30  316  		test_copy(m, tiny, test);
-dd08ebf6c3525a Matthew Brost 2023-03-30  317  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  318  
-dd08ebf6c3525a Matthew Brost 2023-03-30  319  	/* Clear a big bo with a fixed value */
-dd08ebf6c3525a Matthew Brost 2023-03-30  320  	kunit_info(test, "Clearing big buffer object\n");
-dd08ebf6c3525a Matthew Brost 2023-03-30  321  	xe_map_memset(xe, &big->vmap, 0, 0x11, big->size);
-dd08ebf6c3525a Matthew Brost 2023-03-30  322  	expected = 0x11223344U;
-dd08ebf6c3525a Matthew Brost 2023-03-30  323  	fence = xe_migrate_clear(m, big, big->ttm.resource, expected);
-dd08ebf6c3525a Matthew Brost 2023-03-30  324  	if (sanity_fence_failed(xe, fence, "Clearing big bo", test))
-dd08ebf6c3525a Matthew Brost 2023-03-30  325  		goto out;
-dd08ebf6c3525a Matthew Brost 2023-03-30  326  
-dd08ebf6c3525a Matthew Brost 2023-03-30  327  	dma_fence_put(fence);
-dd08ebf6c3525a Matthew Brost 2023-03-30  328  	retval = xe_map_rd(xe, &big->vmap, 0, u32);
-dd08ebf6c3525a Matthew Brost 2023-03-30  329  	check(retval, expected, "Command clear big first value", test);
-dd08ebf6c3525a Matthew Brost 2023-03-30  330  	retval = xe_map_rd(xe, &big->vmap, big->size - 4, u32);
-dd08ebf6c3525a Matthew Brost 2023-03-30  331  	check(retval, expected, "Command clear big last value", test);
-dd08ebf6c3525a Matthew Brost 2023-03-30  332  
-dd08ebf6c3525a Matthew Brost 2023-03-30  333  	if (IS_DGFX(xe)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  334  		kunit_info(test, "Copying big buffer object to system\n");
-dd08ebf6c3525a Matthew Brost 2023-03-30  335  		test_copy(m, big, test);
-dd08ebf6c3525a Matthew Brost 2023-03-30  336  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  337  
-dd08ebf6c3525a Matthew Brost 2023-03-30  338  	test_pt_update(m, pt, test);
-dd08ebf6c3525a Matthew Brost 2023-03-30  339  
-dd08ebf6c3525a Matthew Brost 2023-03-30  340  out:
-dd08ebf6c3525a Matthew Brost 2023-03-30  341  	xe_bb_free(bb, NULL);
-dd08ebf6c3525a Matthew Brost 2023-03-30  342  free_tiny:
-dd08ebf6c3525a Matthew Brost 2023-03-30  343  	xe_bo_unpin(tiny);
-dd08ebf6c3525a Matthew Brost 2023-03-30  344  	xe_bo_put(tiny);
-dd08ebf6c3525a Matthew Brost 2023-03-30  345  free_pt:
-dd08ebf6c3525a Matthew Brost 2023-03-30  346  	xe_bo_unpin(pt);
-dd08ebf6c3525a Matthew Brost 2023-03-30  347  	xe_bo_put(pt);
-dd08ebf6c3525a Matthew Brost 2023-03-30  348  free_big:
-dd08ebf6c3525a Matthew Brost 2023-03-30  349  	xe_bo_unpin(big);
-dd08ebf6c3525a Matthew Brost 2023-03-30  350  	xe_bo_put(big);
-dd08ebf6c3525a Matthew Brost 2023-03-30  351  vunmap:
-dd08ebf6c3525a Matthew Brost 2023-03-30  352  	xe_bo_vunmap(m->pt_bo);
-dd08ebf6c3525a Matthew Brost 2023-03-30  353  }
-dd08ebf6c3525a Matthew Brost 2023-03-30  354  
+0abb4337860498 Rohan G Thomas       2024-01-27   939  
+288189aa7250b4 Rohan G Thomas       2024-01-27   940  static int tc_taprio_configure(struct stmmac_priv *priv,
+b60189e0392fa0 Jose Abreu           2019-12-18   941  			       struct tc_taprio_qopt_offload *qopt)
+b60189e0392fa0 Jose Abreu           2019-12-18   942  {
+b60189e0392fa0 Jose Abreu           2019-12-18   943  	u32 size, wid = priv->dma_cap.estwid, dep = priv->dma_cap.estdep;
+b60189e0392fa0 Jose Abreu           2019-12-18   944  	struct plat_stmmacenet_data *plat = priv->plat;
+e9e3720002f61c Xiaoliang Yang       2021-07-05   945  	struct timespec64 time, current_time, qopt_time;
+fe28c53ed71d46 Yannick Vignon       2021-01-13   946  	ktime_t current_time_ns;
+1ac14241543c01 Jose Abreu           2019-12-18   947  	bool fpe = false;
+b60189e0392fa0 Jose Abreu           2019-12-18   948  	int i, ret = 0;
+a1ec57c020201b Jose Abreu           2019-12-18   949  	u64 ctr;
+b60189e0392fa0 Jose Abreu           2019-12-18   950  
+6d534ee057b62c Michael Sit Wei Hong 2022-12-08   951  	if (qopt->base_time < 0)
+6d534ee057b62c Michael Sit Wei Hong 2022-12-08   952  		return -ERANGE;
+6d534ee057b62c Michael Sit Wei Hong 2022-12-08   953  
+b60189e0392fa0 Jose Abreu           2019-12-18   954  	if (!priv->dma_cap.estsel)
+b60189e0392fa0 Jose Abreu           2019-12-18   955  		return -EOPNOTSUPP;
+b60189e0392fa0 Jose Abreu           2019-12-18   956  
+b60189e0392fa0 Jose Abreu           2019-12-18   957  	switch (wid) {
+b60189e0392fa0 Jose Abreu           2019-12-18   958  	case 0x1:
+b60189e0392fa0 Jose Abreu           2019-12-18   959  		wid = 16;
+b60189e0392fa0 Jose Abreu           2019-12-18   960  		break;
+b60189e0392fa0 Jose Abreu           2019-12-18   961  	case 0x2:
+b60189e0392fa0 Jose Abreu           2019-12-18   962  		wid = 20;
+b60189e0392fa0 Jose Abreu           2019-12-18   963  		break;
+b60189e0392fa0 Jose Abreu           2019-12-18   964  	case 0x3:
+b60189e0392fa0 Jose Abreu           2019-12-18   965  		wid = 24;
+b60189e0392fa0 Jose Abreu           2019-12-18   966  		break;
+b60189e0392fa0 Jose Abreu           2019-12-18   967  	default:
+b60189e0392fa0 Jose Abreu           2019-12-18   968  		return -EOPNOTSUPP;
+b60189e0392fa0 Jose Abreu           2019-12-18   969  	}
+b60189e0392fa0 Jose Abreu           2019-12-18   970  
+b60189e0392fa0 Jose Abreu           2019-12-18   971  	switch (dep) {
+b60189e0392fa0 Jose Abreu           2019-12-18   972  	case 0x1:
+b60189e0392fa0 Jose Abreu           2019-12-18   973  		dep = 64;
+b60189e0392fa0 Jose Abreu           2019-12-18   974  		break;
+b60189e0392fa0 Jose Abreu           2019-12-18   975  	case 0x2:
+b60189e0392fa0 Jose Abreu           2019-12-18   976  		dep = 128;
+b60189e0392fa0 Jose Abreu           2019-12-18   977  		break;
+b60189e0392fa0 Jose Abreu           2019-12-18   978  	case 0x3:
+b60189e0392fa0 Jose Abreu           2019-12-18   979  		dep = 256;
+b60189e0392fa0 Jose Abreu           2019-12-18   980  		break;
+b60189e0392fa0 Jose Abreu           2019-12-18   981  	case 0x4:
+b60189e0392fa0 Jose Abreu           2019-12-18   982  		dep = 512;
+b60189e0392fa0 Jose Abreu           2019-12-18   983  		break;
+b60189e0392fa0 Jose Abreu           2019-12-18   984  	case 0x5:
+b60189e0392fa0 Jose Abreu           2019-12-18   985  		dep = 1024;
+b60189e0392fa0 Jose Abreu           2019-12-18   986  		break;
+b60189e0392fa0 Jose Abreu           2019-12-18   987  	default:
+b60189e0392fa0 Jose Abreu           2019-12-18   988  		return -EOPNOTSUPP;
+b60189e0392fa0 Jose Abreu           2019-12-18   989  	}
+b60189e0392fa0 Jose Abreu           2019-12-18   990  
+2d800bc500fb3f Vladimir Oltean      2023-05-30   991  	if (qopt->cmd == TAPRIO_CMD_DESTROY)
+b60189e0392fa0 Jose Abreu           2019-12-18  @992  		goto disable;
+2d800bc500fb3f Vladimir Oltean      2023-05-30   993  
+b60189e0392fa0 Jose Abreu           2019-12-18   994  	if (qopt->num_entries >= dep)
+b60189e0392fa0 Jose Abreu           2019-12-18   995  		return -EINVAL;
+b60189e0392fa0 Jose Abreu           2019-12-18   996  	if (!qopt->cycle_time)
+b60189e0392fa0 Jose Abreu           2019-12-18   997  		return -ERANGE;
+9e95505fecb6b5 Rohan G Thomas       2023-12-01   998  	if (qopt->cycle_time_extension >= BIT(wid + 7))
+9e95505fecb6b5 Rohan G Thomas       2023-12-01   999  		return -ERANGE;
+b60189e0392fa0 Jose Abreu           2019-12-18  1000  
+b60189e0392fa0 Jose Abreu           2019-12-18  1001  	if (!plat->est) {
+b60189e0392fa0 Jose Abreu           2019-12-18  1002  		plat->est = devm_kzalloc(priv->device, sizeof(*plat->est),
+b60189e0392fa0 Jose Abreu           2019-12-18  1003  					 GFP_KERNEL);
+b60189e0392fa0 Jose Abreu           2019-12-18  1004  		if (!plat->est)
+b60189e0392fa0 Jose Abreu           2019-12-18  1005  			return -ENOMEM;
+b2aae654a4794e Xiaoliang Yang       2021-07-05  1006  
+b2aae654a4794e Xiaoliang Yang       2021-07-05  1007  		mutex_init(&priv->plat->est->lock);
+b60189e0392fa0 Jose Abreu           2019-12-18  1008  	} else {
+b60189e0392fa0 Jose Abreu           2019-12-18  1009  		memset(plat->est, 0, sizeof(*plat->est));
+b60189e0392fa0 Jose Abreu           2019-12-18  1010  	}
+b60189e0392fa0 Jose Abreu           2019-12-18  1011  
+b60189e0392fa0 Jose Abreu           2019-12-18  1012  	size = qopt->num_entries;
+b60189e0392fa0 Jose Abreu           2019-12-18  1013  
+b2aae654a4794e Xiaoliang Yang       2021-07-05  1014  	mutex_lock(&priv->plat->est->lock);
+b60189e0392fa0 Jose Abreu           2019-12-18  1015  	priv->plat->est->gcl_size = size;
+2d800bc500fb3f Vladimir Oltean      2023-05-30  1016  	priv->plat->est->enable = qopt->cmd == TAPRIO_CMD_REPLACE;
+b2aae654a4794e Xiaoliang Yang       2021-07-05  1017  	mutex_unlock(&priv->plat->est->lock);
+b60189e0392fa0 Jose Abreu           2019-12-18  1018  
+b60189e0392fa0 Jose Abreu           2019-12-18  1019  	for (i = 0; i < size; i++) {
+b60189e0392fa0 Jose Abreu           2019-12-18  1020  		s64 delta_ns = qopt->entries[i].interval;
+b60189e0392fa0 Jose Abreu           2019-12-18  1021  		u32 gates = qopt->entries[i].gate_mask;
+b60189e0392fa0 Jose Abreu           2019-12-18  1022  
+b60189e0392fa0 Jose Abreu           2019-12-18  1023  		if (delta_ns > GENMASK(wid, 0))
+b60189e0392fa0 Jose Abreu           2019-12-18  1024  			return -ERANGE;
+b60189e0392fa0 Jose Abreu           2019-12-18  1025  		if (gates > GENMASK(31 - wid, 0))
+b60189e0392fa0 Jose Abreu           2019-12-18  1026  			return -ERANGE;
+1ac14241543c01 Jose Abreu           2019-12-18  1027  
+1ac14241543c01 Jose Abreu           2019-12-18  1028  		switch (qopt->entries[i].command) {
+1ac14241543c01 Jose Abreu           2019-12-18  1029  		case TC_TAPRIO_CMD_SET_GATES:
+1ac14241543c01 Jose Abreu           2019-12-18  1030  			if (fpe)
+1ac14241543c01 Jose Abreu           2019-12-18  1031  				return -EINVAL;
+1ac14241543c01 Jose Abreu           2019-12-18  1032  			break;
+1ac14241543c01 Jose Abreu           2019-12-18  1033  		case TC_TAPRIO_CMD_SET_AND_HOLD:
+1ac14241543c01 Jose Abreu           2019-12-18  1034  			gates |= BIT(0);
+1ac14241543c01 Jose Abreu           2019-12-18  1035  			fpe = true;
+1ac14241543c01 Jose Abreu           2019-12-18  1036  			break;
+1ac14241543c01 Jose Abreu           2019-12-18  1037  		case TC_TAPRIO_CMD_SET_AND_RELEASE:
+1ac14241543c01 Jose Abreu           2019-12-18  1038  			gates &= ~BIT(0);
+1ac14241543c01 Jose Abreu           2019-12-18  1039  			fpe = true;
+1ac14241543c01 Jose Abreu           2019-12-18  1040  			break;
+1ac14241543c01 Jose Abreu           2019-12-18  1041  		default:
+b60189e0392fa0 Jose Abreu           2019-12-18  1042  			return -EOPNOTSUPP;
+1ac14241543c01 Jose Abreu           2019-12-18  1043  		}
+b60189e0392fa0 Jose Abreu           2019-12-18  1044  
+b60189e0392fa0 Jose Abreu           2019-12-18  1045  		priv->plat->est->gcl[i] = delta_ns | (gates << wid);
+b60189e0392fa0 Jose Abreu           2019-12-18  1046  	}
+b60189e0392fa0 Jose Abreu           2019-12-18  1047  
+b2aae654a4794e Xiaoliang Yang       2021-07-05  1048  	mutex_lock(&priv->plat->est->lock);
+b60189e0392fa0 Jose Abreu           2019-12-18  1049  	/* Adjust for real system time */
+fe28c53ed71d46 Yannick Vignon       2021-01-13  1050  	priv->ptp_clock_ops.gettime64(&priv->ptp_clock_ops, &current_time);
+fe28c53ed71d46 Yannick Vignon       2021-01-13  1051  	current_time_ns = timespec64_to_ktime(current_time);
+81c52c42afd92b Xiaoliang Yang       2021-07-05  1052  	time = stmmac_calc_tas_basetime(qopt->base_time, current_time_ns,
+fe28c53ed71d46 Yannick Vignon       2021-01-13  1053  					qopt->cycle_time);
+fe28c53ed71d46 Yannick Vignon       2021-01-13  1054  
+b60189e0392fa0 Jose Abreu           2019-12-18  1055  	priv->plat->est->btr[0] = (u32)time.tv_nsec;
+b60189e0392fa0 Jose Abreu           2019-12-18  1056  	priv->plat->est->btr[1] = (u32)time.tv_sec;
+b60189e0392fa0 Jose Abreu           2019-12-18  1057  
+e9e3720002f61c Xiaoliang Yang       2021-07-05  1058  	qopt_time = ktime_to_timespec64(qopt->base_time);
+e9e3720002f61c Xiaoliang Yang       2021-07-05  1059  	priv->plat->est->btr_reserve[0] = (u32)qopt_time.tv_nsec;
+e9e3720002f61c Xiaoliang Yang       2021-07-05  1060  	priv->plat->est->btr_reserve[1] = (u32)qopt_time.tv_sec;
+e9e3720002f61c Xiaoliang Yang       2021-07-05  1061  
+a1ec57c020201b Jose Abreu           2019-12-18  1062  	ctr = qopt->cycle_time;
+a1ec57c020201b Jose Abreu           2019-12-18  1063  	priv->plat->est->ctr[0] = do_div(ctr, NSEC_PER_SEC);
+a1ec57c020201b Jose Abreu           2019-12-18  1064  	priv->plat->est->ctr[1] = (u32)ctr;
+b60189e0392fa0 Jose Abreu           2019-12-18  1065  
+9e95505fecb6b5 Rohan G Thomas       2023-12-01  1066  	priv->plat->est->ter = qopt->cycle_time_extension;
+9e95505fecb6b5 Rohan G Thomas       2023-12-01  1067  
+0abb4337860498 Rohan G Thomas       2024-01-27  1068  	tc_taprio_map_maxsdu_txq(priv, qopt);
+0abb4337860498 Rohan G Thomas       2024-01-27  1069  
+b2aae654a4794e Xiaoliang Yang       2021-07-05  1070  	if (fpe && !priv->dma_cap.fpesel) {
+b2aae654a4794e Xiaoliang Yang       2021-07-05  1071  		mutex_unlock(&priv->plat->est->lock);
+1ac14241543c01 Jose Abreu           2019-12-18  1072  		return -EOPNOTSUPP;
+b2aae654a4794e Xiaoliang Yang       2021-07-05  1073  	}
+1ac14241543c01 Jose Abreu           2019-12-18  1074  
+5a5586112b9295 Ong Boon Leong       2021-03-24  1075  	/* Actual FPE register configuration will be done after FPE handshake
+5a5586112b9295 Ong Boon Leong       2021-03-24  1076  	 * is success.
+5a5586112b9295 Ong Boon Leong       2021-03-24  1077  	 */
+5a5586112b9295 Ong Boon Leong       2021-03-24  1078  	priv->plat->fpe_cfg->enable = fpe;
+1ac14241543c01 Jose Abreu           2019-12-18  1079  
+c3f3b97238f6fd Rohan G Thomas       2023-12-01  1080  	ret = stmmac_est_configure(priv, priv, priv->plat->est,
+b60189e0392fa0 Jose Abreu           2019-12-18  1081  				   priv->plat->clk_ptp_rate);
+b2aae654a4794e Xiaoliang Yang       2021-07-05  1082  	mutex_unlock(&priv->plat->est->lock);
+b60189e0392fa0 Jose Abreu           2019-12-18  1083  	if (ret) {
+b60189e0392fa0 Jose Abreu           2019-12-18  1084  		netdev_err(priv->dev, "failed to configure EST\n");
+b60189e0392fa0 Jose Abreu           2019-12-18  1085  		goto disable;
+b60189e0392fa0 Jose Abreu           2019-12-18  1086  	}
+b60189e0392fa0 Jose Abreu           2019-12-18  1087  
+b60189e0392fa0 Jose Abreu           2019-12-18  1088  	netdev_info(priv->dev, "configured EST\n");
+5a5586112b9295 Ong Boon Leong       2021-03-24  1089  
+5a5586112b9295 Ong Boon Leong       2021-03-24  1090  	if (fpe) {
+5a5586112b9295 Ong Boon Leong       2021-03-24  1091  		stmmac_fpe_handshake(priv, true);
+5a5586112b9295 Ong Boon Leong       2021-03-24  1092  		netdev_info(priv->dev, "start FPE handshake\n");
+5a5586112b9295 Ong Boon Leong       2021-03-24  1093  	}
+5a5586112b9295 Ong Boon Leong       2021-03-24  1094  
+b60189e0392fa0 Jose Abreu           2019-12-18  1095  	return 0;
+b60189e0392fa0 Jose Abreu           2019-12-18  1096  
+b60189e0392fa0 Jose Abreu           2019-12-18  1097  disable:
+82a44ae113b7b3 Wong Vee Khee        2021-08-20  1098  	if (priv->plat->est) {
+b2aae654a4794e Xiaoliang Yang       2021-07-05  1099  		mutex_lock(&priv->plat->est->lock);
+b60189e0392fa0 Jose Abreu           2019-12-18  1100  		priv->plat->est->enable = false;
+c3f3b97238f6fd Rohan G Thomas       2023-12-01  1101  		stmmac_est_configure(priv, priv, priv->plat->est,
+b60189e0392fa0 Jose Abreu           2019-12-18  1102  				     priv->plat->clk_ptp_rate);
+288189aa7250b4 Rohan G Thomas       2024-01-27  1103  		/* Reset taprio status */
+288189aa7250b4 Rohan G Thomas       2024-01-27  1104  		for (i = 0; i < priv->plat->tx_queues_to_use; i++) {
+288189aa7250b4 Rohan G Thomas       2024-01-27  1105  			priv->xstats.max_sdu_txq_drop[i] = 0;
+288189aa7250b4 Rohan G Thomas       2024-01-27  1106  			priv->xstats.mtl_est_txq_hlbf[i] = 0;
+288189aa7250b4 Rohan G Thomas       2024-01-27  1107  		}
+b2aae654a4794e Xiaoliang Yang       2021-07-05  1108  		mutex_unlock(&priv->plat->est->lock);
+82a44ae113b7b3 Wong Vee Khee        2021-08-20  1109  	}
+5a5586112b9295 Ong Boon Leong       2021-03-24  1110  
+5a5586112b9295 Ong Boon Leong       2021-03-24  1111  	priv->plat->fpe_cfg->enable = false;
+5a5586112b9295 Ong Boon Leong       2021-03-24  1112  	stmmac_fpe_configure(priv, priv->ioaddr,
+37e4b8df27bc68 Jianheng Zhang       2023-12-01  1113  			     priv->plat->fpe_cfg,
+5a5586112b9295 Ong Boon Leong       2021-03-24  1114  			     priv->plat->tx_queues_to_use,
+5a5586112b9295 Ong Boon Leong       2021-03-24  1115  			     priv->plat->rx_queues_to_use,
+5a5586112b9295 Ong Boon Leong       2021-03-24  1116  			     false);
+5a5586112b9295 Ong Boon Leong       2021-03-24  1117  	netdev_info(priv->dev, "disabled FPE\n");
+5a5586112b9295 Ong Boon Leong       2021-03-24  1118  
+5a5586112b9295 Ong Boon Leong       2021-03-24  1119  	stmmac_fpe_handshake(priv, false);
+5a5586112b9295 Ong Boon Leong       2021-03-24  1120  	netdev_info(priv->dev, "stop FPE handshake\n");
+5a5586112b9295 Ong Boon Leong       2021-03-24  1121  
+b60189e0392fa0 Jose Abreu           2019-12-18  1122  	return ret;
+b60189e0392fa0 Jose Abreu           2019-12-18  1123  }
+b60189e0392fa0 Jose Abreu           2019-12-18  1124  
 
 -- 
 0-DAY CI Kernel Test Service
