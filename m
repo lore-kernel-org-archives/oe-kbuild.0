@@ -1,55 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF37253E0A
-	for <oe-kbuild@lists.linux.dev>; Tue, 30 Jan 2024 00:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5093737702
+	for <oe-kbuild@lists.linux.dev>; Tue, 30 Jan 2024 05:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706572823; cv=none; b=QwGWo9HCuqQJgimMnSuym6ofKH9tRWNLpLLOh5fEMhy0dipzBf/mUPUnXrnaeUkW4nEjBuLRTotgoyjVz+CWJqtHCUliud5ZZP17EluwgdaAfzyAXWfobzGkH8v/6SDfbEPrEFvQJO7RMWG6BULppXHs9gDT3mh2Q2AFFHkZMv0=
+	t=1706591527; cv=none; b=PSspC+cMfUZghH0L+JPjuSW0y6Sei3j/n/+KwUldt/SiRgpEmBjFD7LcepyZnhOgyPUKg6VUbBnveOd4x+UbELNH95zLzd4viVR10xiPo4JedXRLwQny+Nvow8nP1GB4PiashuLLVi5yemzJa5672U4O+7TdZZLM0s0CrvSxQ94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706572823; c=relaxed/simple;
-	bh=KXzv4EzqJbgEJ+LccbaFhD3LOuj5AT+500YE5pmxzDY=;
+	s=arc-20240116; t=1706591527; c=relaxed/simple;
+	bh=gRa6zDODoyhQ3+n0FAjSpIYjIVhjcGxZbfcryB4c7Fo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p2E8oi/T4deyHhaKxUw93v2UWqIFwJHPHyuV7wRXzIsr7gkzifEggmvDtUDxgZYuV+I8UzzzUXxpRdZYfjFr8KORpj8ZfeSO0esseBWlyErOiKlrmCdYxzxX7BtEKU+aqJ/CDdtr63Kc7EOTnmEo2PMju8yApn3k74NpyglRl7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=baq6Df06; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=tjWbjzP6zy7wQX7lMepACTH3nfHcWJa+2wIcnj2xqaLi+9f2RSyyUXVWxUv/cW/dTeOC5atTDIePIo6lVj8grK2CAICAkIicqOOk5jpVZBn+e9tgrwNZ/fFhTRHasj68qdLJa0dO97X6zG0bTyK8F6AM9Tpbpvnng7keXt3Dg/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vLnbZQDF; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="baq6Df06"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706572822; x=1738108822;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KXzv4EzqJbgEJ+LccbaFhD3LOuj5AT+500YE5pmxzDY=;
-  b=baq6Df06nmucNtY3M7QXNL89tjYfqXntlIY++2SXB2WmNYXoKTNcESWI
-   q9TB/lpXVkqdOej6EP4W+44VQaeZP3F7N8KXer7Aqk7HMRcdG2YwCBtfI
-   DBKHMJHAzY6EpKJmzBjTKa14yTgQYxCyFjYDyBZctBgcyRvnAa8B6Uy5V
-   Er8cojSZh46rckSe+V4nvlwko2xAGwZaNr2OEzQkPWSULhjnsSr+5R/Wy
-   ogM8KV5Qjvuw2mjDmjela21z2hoOa4f21XZ2W67JNtGXlwcJbvVbIuG4Y
-   k55EJ8us5i1ff7KirZ/8DGcsBJIw7Tczw80Y2RlP4e9d18HHhWYBgZoCI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="21640427"
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="21640427"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 16:00:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="3625393"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 29 Jan 2024 16:00:18 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rUbY0-0004jK-1T;
-	Tue, 30 Jan 2024 00:00:16 +0000
-Date: Tue, 30 Jan 2024 07:59:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [ardb:x86-pie-for-sev-v2 10/15] WARNING: modpost: vmlinux: section
- mismatch in reference: __startup_64+0x3b4 (section: .pi.text) ->
- __ubsan_handle_out_of_bounds (section: .text)
-Message-ID: <202401300704.MRTBKBOg-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vLnbZQDF"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33aeb088324so1330491f8f.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 29 Jan 2024 21:12:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706591523; x=1707196323; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yFkJ8YEcx1vJ5tSiLYWZOmA0x6d7CoNNJ6/W8VFHiks=;
+        b=vLnbZQDFQiSahgdFIqqJ/zndimi5U85eArGXvYL/twq6T3tQnC6OyQw6jj7StpDRyy
+         BCWJTQXtWmkR9juMZFubBSf2Ee1Ty+wbzhiNCiGgDrG4dN2dlnccnhTezkHKBk5jynPE
+         J3BxhjxTeax7lW7pAc6WUWvasxUBD2nQnhSwHX0+rZnzrOxbjZPpTHLByVPMwpe2/HQt
+         puwU45QRxi/BZeCj/mpewuPxr2xVyqmcxsCPhF5CUOlrdLR+kIUAXylNy3B7CtwGO9wm
+         4vkdq3ESeK+TSvL9erRMeQrnu1JlgCmFp+cbczw6926MpowLdcd0gVvGuk4OJNw2UpHF
+         VntQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706591523; x=1707196323;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yFkJ8YEcx1vJ5tSiLYWZOmA0x6d7CoNNJ6/W8VFHiks=;
+        b=uqkEPThrqmBY+FyUFfii7Jg6tkhZKbAlrqXx9Od/LxD1xjNRP7xGxBqH5mTZxqFbQd
+         DYhOOUtKBn+6TVaIEV2RhVQMVbgp8hht41MHFn4YzEw1qPi70sxC+r9tNwIVqZUw0xwy
+         WmNa9Xol6jQVCTmUoKwQWmqhOSchRNR9hBvyk2cl+KVpHQ1049xakMNlq3xpcYcAtMFo
+         2AK6+gUOZaBhl9yt8uyEB01ryXsMk7NND4BwBuKm6QleWwjVCSPmt9YWheMMzBAqFP4U
+         HiYsyXryXe3iP3NzU8+yGkNho0lkfVCPyzqCA7j1mybf7K5F9pKJjmzwgpAdI/xdr7Kv
+         Mctw==
+X-Gm-Message-State: AOJu0YyOT0G7wqeA+HWxspTfhff/YMsChP98gsP13g/xBY5kcYC3IW2c
+	wppLOKg6r4IQN6fdQFAUp5vaL02vBbP5m5LORU8o3evBfgVj+PTKThKUz0PuOD/LwIb9rq+5P9O
+	gHzM=
+X-Google-Smtp-Source: AGHT+IGKV6vXZKlzQvf+WVjlAtnlCBfj/HLfKNq4VXtrhVgXZCLSnPizN49taJaeWoeDjenPtNcpPg==
+X-Received: by 2002:adf:e2cc:0:b0:339:58fc:4934 with SMTP id d12-20020adfe2cc000000b0033958fc4934mr5190229wrj.2.1706591522842;
+        Mon, 29 Jan 2024 21:12:02 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id e10-20020adfe38a000000b0033afcc069c3sm148033wrm.84.2024.01.29.21.12.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jan 2024 21:12:02 -0800 (PST)
+Date: Tue, 30 Jan 2024 08:11:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Matthew Brost <matthew.brost@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: drivers/gpu/drm/xe/tests/xe_migrate.c:224 xe_migrate_sanity_test()
+ warn: passing zero to 'PTR_ERR'
+Message-ID: <d06df232-e96e-45aa-b749-21ef729a9463@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,95 +67,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only scripts/mod/modpost.c file changed"
-:::::: 
-
-BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
-CC: oe-kbuild-all@lists.linux.dev
-TO: Ard Biesheuvel <ardb@kernel.org>
-
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-for-sev-v2
-head:   b8b16573b6d0090db2f530fb9c5f049650806e61
-commit: f28f64d657caaee5b5a87e69c0772c47e34a380c [10/15] modpost: Warn about calls from __pitext into other text sections
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240130/202401300704.MRTBKBOg-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240130/202401300704.MRTBKBOg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   41bccc98fb7931d63d03f326a746ac4d429c1dd3
+commit: dd08ebf6c3525a7ea2186e636df064ea47281987 drm/xe: Introduce a new DRM driver for Intel GPUs
+config: sparc-randconfig-r081-20240128 (https://download.01.org/0day-ci/archive/20240129/202401292346.V7E6rEzz-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202401300704.MRTBKBOg-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202401292346.V7E6rEzz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+New smatch warnings:
+drivers/gpu/drm/xe/tests/xe_migrate.c:224 xe_migrate_sanity_test() warn: passing zero to 'PTR_ERR'
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: vmlinux: section mismatch in reference: primary_startup_64+0x33 (section: .pi.text) -> sme_enable (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: vc_no_ghcb+0x46 (section: .pi.text) -> do_vc_no_ghcb (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x16 (section: .pi.text) -> native_read_cr4 (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x1e (section: .pi.text) -> native_read_cr4 (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x79 (section: .pi.text) -> sme_get_me_mask (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x84 (section: .pi.text) -> native_read_cr4 (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0xa8 (section: .pi.text) -> sme_get_me_mask (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x12b (section: .pi.text) -> sme_get_me_mask (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x13f (section: .pi.text) -> native_read_cr4 (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x195 (section: .pi.text) -> native_read_cr4 (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x1eb (section: .pi.text) -> native_read_cr4 (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x20c (section: .pi.text) -> native_read_cr4 (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x28d (section: .pi.text) -> sme_get_me_mask (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x2ea (section: .pi.text) -> pmd_index (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x318 (section: .pi.text) -> pmd_index (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x355 (section: .pi.text) -> sme_get_me_mask (section: .text)
->> WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x3b4 (section: .pi.text) -> __ubsan_handle_out_of_bounds (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x3ce (section: .pi.text) -> __ubsan_handle_out_of_bounds (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: __startup_64+0x3e2 (section: .pi.text) -> __ubsan_handle_out_of_bounds (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: sme_postprocess_startup+0x8 (section: .pi.text) -> sme_encrypt_kernel (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sme_postprocess_startup+0xd (section: .pi.text) -> sme_get_me_mask (section: .text)
->> WARNING: modpost: vmlinux: section mismatch in reference: sme_postprocess_startup+0x34 (section: .pi.text) -> __phys_addr (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: sme_postprocess_startup+0x3f (section: .pi.text) -> __phys_addr (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: sme_postprocess_startup+0x4f (section: .pi.text) -> early_snp_set_memory_shared (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sme_postprocess_startup+0x57 (section: .pi.text) -> pmd_index (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: sme_postprocess_startup+0x5f (section: .pi.text) -> sme_get_me_mask (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: sme_postprocess_startup+0x83 (section: .pi.text) -> sme_get_me_mask (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: early_load_idt+0x33 (section: .pi.text) -> init_idt_data (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: early_load_idt+0x43 (section: .pi.text) -> idt_init_desc (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: early_load_idt+0x4b (section: .pi.text) -> native_write_idt_entry (section: .text)
-WARNING: modpost: vmlinux: section mismatch in reference: startup_64_setup_env+0x21 (section: .pi.text) -> native_load_gdt (section: .text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/mm/testmmiotrace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/trace/preemptirq_delay_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ubsan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kmod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/../../tools/testing/nvdimm/test/iomap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_ccmp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_tkip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_wep.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kretprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/livepatch/livepatch-sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/livepatch/livepatch-shadow-fix1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/livepatch/livepatch-shadow-fix2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/livepatch/livepatch-callbacks-demo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/livepatch/livepatch-callbacks-mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/livepatch/livepatch-callbacks-busymod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/fprobe/fprobe_example.o
+Old smatch warnings:
+drivers/gpu/drm/xe/tests/xe_migrate.c:254 xe_migrate_sanity_test() warn: passing zero to 'PTR_ERR'
+
+vim +/PTR_ERR +224 drivers/gpu/drm/xe/tests/xe_migrate.c
+
+dd08ebf6c3525a Matthew Brost 2023-03-30  210  static void xe_migrate_sanity_test(struct xe_migrate *m, struct kunit *test)
+dd08ebf6c3525a Matthew Brost 2023-03-30  211  {
+dd08ebf6c3525a Matthew Brost 2023-03-30  212  	struct xe_gt *gt = m->gt;
+dd08ebf6c3525a Matthew Brost 2023-03-30  213  	struct xe_device *xe = gt_to_xe(gt);
+dd08ebf6c3525a Matthew Brost 2023-03-30  214  	struct xe_bo *pt, *bo = m->pt_bo, *big, *tiny;
+dd08ebf6c3525a Matthew Brost 2023-03-30  215  	struct xe_res_cursor src_it;
+dd08ebf6c3525a Matthew Brost 2023-03-30  216  	struct dma_fence *fence;
+dd08ebf6c3525a Matthew Brost 2023-03-30  217  	u64 retval, expected;
+dd08ebf6c3525a Matthew Brost 2023-03-30  218  	struct xe_bb *bb;
+dd08ebf6c3525a Matthew Brost 2023-03-30  219  	int err;
+dd08ebf6c3525a Matthew Brost 2023-03-30  220  	u8 id = gt->info.id;
+dd08ebf6c3525a Matthew Brost 2023-03-30  221  
+dd08ebf6c3525a Matthew Brost 2023-03-30  222  	err = xe_bo_vmap(bo);
+dd08ebf6c3525a Matthew Brost 2023-03-30  223  	if (err) {
+dd08ebf6c3525a Matthew Brost 2023-03-30 @224  		KUNIT_FAIL(test, "Failed to vmap our pagetables: %li\n",
+dd08ebf6c3525a Matthew Brost 2023-03-30  225  			   PTR_ERR(bo));
+                                                                   ^^^^^^^^^^^
+This should be "err".
+
+dd08ebf6c3525a Matthew Brost 2023-03-30  226  		return;
+dd08ebf6c3525a Matthew Brost 2023-03-30  227  	}
+dd08ebf6c3525a Matthew Brost 2023-03-30  228  
+dd08ebf6c3525a Matthew Brost 2023-03-30  229  	big = xe_bo_create_pin_map(xe, m->gt, m->eng->vm, SZ_4M,
+dd08ebf6c3525a Matthew Brost 2023-03-30  230  				   ttm_bo_type_kernel,
+dd08ebf6c3525a Matthew Brost 2023-03-30  231  				   XE_BO_CREATE_VRAM_IF_DGFX(m->gt) |
+dd08ebf6c3525a Matthew Brost 2023-03-30  232  				   XE_BO_CREATE_PINNED_BIT);
+dd08ebf6c3525a Matthew Brost 2023-03-30  233  	if (IS_ERR(big)) {
+dd08ebf6c3525a Matthew Brost 2023-03-30  234  		KUNIT_FAIL(test, "Failed to allocate bo: %li\n", PTR_ERR(big));
+dd08ebf6c3525a Matthew Brost 2023-03-30  235  		goto vunmap;
+dd08ebf6c3525a Matthew Brost 2023-03-30  236  	}
+dd08ebf6c3525a Matthew Brost 2023-03-30  237  
+dd08ebf6c3525a Matthew Brost 2023-03-30  238  	pt = xe_bo_create_pin_map(xe, m->gt, m->eng->vm, GEN8_PAGE_SIZE,
+dd08ebf6c3525a Matthew Brost 2023-03-30  239  				  ttm_bo_type_kernel,
+dd08ebf6c3525a Matthew Brost 2023-03-30  240  				  XE_BO_CREATE_VRAM_IF_DGFX(m->gt) |
+dd08ebf6c3525a Matthew Brost 2023-03-30  241  				  XE_BO_CREATE_PINNED_BIT);
+dd08ebf6c3525a Matthew Brost 2023-03-30  242  	if (IS_ERR(pt)) {
+dd08ebf6c3525a Matthew Brost 2023-03-30  243  		KUNIT_FAIL(test, "Failed to allocate fake pt: %li\n",
+dd08ebf6c3525a Matthew Brost 2023-03-30  244  			   PTR_ERR(pt));
+dd08ebf6c3525a Matthew Brost 2023-03-30  245  		goto free_big;
+dd08ebf6c3525a Matthew Brost 2023-03-30  246  	}
+dd08ebf6c3525a Matthew Brost 2023-03-30  247  
+dd08ebf6c3525a Matthew Brost 2023-03-30  248  	tiny = xe_bo_create_pin_map(xe, m->gt, m->eng->vm,
+dd08ebf6c3525a Matthew Brost 2023-03-30  249  				    2 * SZ_4K,
+dd08ebf6c3525a Matthew Brost 2023-03-30  250  				    ttm_bo_type_kernel,
+dd08ebf6c3525a Matthew Brost 2023-03-30  251  				    XE_BO_CREATE_VRAM_IF_DGFX(m->gt) |
+dd08ebf6c3525a Matthew Brost 2023-03-30  252  				    XE_BO_CREATE_PINNED_BIT);
+dd08ebf6c3525a Matthew Brost 2023-03-30  253  	if (IS_ERR(tiny)) {
+dd08ebf6c3525a Matthew Brost 2023-03-30  254  		KUNIT_FAIL(test, "Failed to allocate fake pt: %li\n",
+dd08ebf6c3525a Matthew Brost 2023-03-30  255  			   PTR_ERR(pt));
+                                                                   ^^^^^^^^^^^
+s/pt/tiny/
+
+dd08ebf6c3525a Matthew Brost 2023-03-30  256  		goto free_pt;
+dd08ebf6c3525a Matthew Brost 2023-03-30  257  	}
+dd08ebf6c3525a Matthew Brost 2023-03-30  258  
+dd08ebf6c3525a Matthew Brost 2023-03-30  259  	bb = xe_bb_new(m->gt, 32, xe->info.supports_usm);
+dd08ebf6c3525a Matthew Brost 2023-03-30  260  	if (IS_ERR(bb)) {
+dd08ebf6c3525a Matthew Brost 2023-03-30  261  		KUNIT_FAIL(test, "Failed to create batchbuffer: %li\n",
+dd08ebf6c3525a Matthew Brost 2023-03-30  262  			   PTR_ERR(bb));
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
