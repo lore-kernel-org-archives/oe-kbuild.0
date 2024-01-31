@@ -1,54 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A0433CFD
-	for <oe-kbuild@lists.linux.dev>; Wed, 31 Jan 2024 18:56:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF802134F
+	for <oe-kbuild@lists.linux.dev>; Wed, 31 Jan 2024 19:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706727411; cv=none; b=OOd7Zrnid717mQfjaEEqCmTf8SWH+EcEA1O+rU5NChdNqKrN/M1AuRCxBaPHhNXpvNjQieXClLkpXlzs8NYR09q6TUnwXEPNlh02aZO1X5xXikYXQapPvOWFuJnrmi+6sme1qx0Zvv3/qhy1AVfnw4Tq1ydg2xy89LLtifp/B/k=
+	t=1706728071; cv=none; b=NLLINjop0bHE6xeV2wK2Go9TOxLblxhVb/gvFbL2/e2xwaF5YdbCSCjFejpc0qHrK+PgFl/yK0ziB0t+Eqj4n/spRh+s4S8wiljLj0r/f2pyDaytuuo35I/Y6FV3C6RNyLCMi0jwxcHM1nVtqdDJURIKJikAB23PJ66ZpTIZWd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706727411; c=relaxed/simple;
-	bh=2KGU2nSz1VjkEw7mFJorUz1EX0aujCxBloax1jvxIig=;
+	s=arc-20240116; t=1706728071; c=relaxed/simple;
+	bh=Izf6KSyYfKC7lL/FPo5Hrjm8OKPVls5juolPQt/jcVM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OA7wmA7S9oFtYUgLF6Hi/MPdH5nPX+5TcuXUhkywvPzVHfrYODNEXacUsp/LVtMeb3LJhwn094CvZyTdsEjC+ym56Q8g2jbkkHDa8VeZnK8bG/mvA8HSaO/Z+mBiVimI55pxO3xapAKNyzGrFg/gcbsoj9A1w4UdGVeIypemDNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JC7kBKnO; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=gm1JdbqA3Tem4NiZaYSpA7CkhKrSrbDJYs7eQfSWHapoSRXwkTmvXE4+YP0ZnpDPnEjfJweUUZ/OvCkWXoM+0ESPOhGtivHCGmL4ff1tq02rhsvXn+VscW3lkd4Dc+UVV24hYwuL4/STw6p+sGjUAx5UlBT/vAJUejLzGrsQmn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHKMbX7c; arc=none smtp.client-ip=192.55.52.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JC7kBKnO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHKMbX7c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706727410; x=1738263410;
+  t=1706728069; x=1738264069;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2KGU2nSz1VjkEw7mFJorUz1EX0aujCxBloax1jvxIig=;
-  b=JC7kBKnO9/CCRMKfFoCCmkqxyzLMvmaXs0CkXtyg173E18xfnphHuRdt
-   UWG5JDIQuyPUAF8KdElHITsNyQLRhIu6bqDQYhp/a2bNo/wIrj/Y8QveE
-   QqHII6c8ktyQkIx0h1aPEhVNxufMsdFlhUmkK13pDcIm8W34nRMWhewho
-   097XbaSNpZSLTiwwtS83Vjen9ujDGvniSulc2ktKXg7VPSeN/37J9ifHc
-   3Kml6nw9/cUjUbcetJFcluoBt/hAbacXVllZhEMTyKNuUQccxMcGo+emV
-   r/To2spzBknEJpjyGFBCWx6lroCW0cbdTNrlSUXnHt7OQcsaVfuI99P1Z
+  bh=Izf6KSyYfKC7lL/FPo5Hrjm8OKPVls5juolPQt/jcVM=;
+  b=QHKMbX7ccMWc81WC1++qIDkSy/bUvhk2Ch+r8cByDTcO6qEtV43xuSq1
+   4AbqIugrcQ0Ucp3PgqLcwFDaMM9JC/wU+FjwmA81Xav4yC2Y1K1OIz2Ww
+   A8PZRVSf7jHciW0xUWuclpeFj3afEwy5Z3A6iXHKnRSCNLjMlNpNrQei1
+   UoMdZxfMcT9LIkqsnnFOH9yFiPWgvVBnI/DV1fLeHuMY7/aZ+Qy6rE+wr
+   jyt+4zHIxgMXCf0t1WvgpE1EKBLKhWcVtWDzsfJWyun5bvo4ELgr+OWsQ
+   o2dZjjNy8q4M96cZh0txL8zFhDrIAxxxOVtXC0DRphLdaIV9RjGW+2/72
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="3558787"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="3558787"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 10:56:49 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="434868322"
+X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
+   d="scan'208";a="434868322"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 11:07:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="822675689"
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="1119707807"
 X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="822675689"
+   d="scan'208";a="1119707807"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 31 Jan 2024 10:56:47 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 31 Jan 2024 11:07:47 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVFlN-0001uQ-0r;
-	Wed, 31 Jan 2024 18:56:45 +0000
-Date: Thu, 1 Feb 2024 02:56:38 +0800
+	id 1rVFw1-0001vA-2r;
+	Wed, 31 Jan 2024 19:07:45 +0000
+Date: Thu, 1 Feb 2024 03:06:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH 02/15] wifi: mac80211: clean up connection process
-Message-ID: <202402010203.oFGFYBYQ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [frank-w-bpi-r2-4.14:5.4-main 1511/26476]
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/component.h is included more
+ than once.
+Message-ID: <202402010357.AzCriYCk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,59 +60,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240129194108.9451722c0110.I3e61f4cfe9da89008e1854160093c76a1e69dc2a@changeid>
-References: <20240129194108.9451722c0110.I3e61f4cfe9da89008e1854160093c76a1e69dc2a@changeid>
-TO: Johannes Berg <johannes@sipsolutions.net>
-TO: linux-wireless@vger.kernel.org
-CC: Johannes Berg <johannes.berg@intel.com>
-CC: Ilan Peer <ilan.peer@intel.com>
-CC: Miriam Rachel Korenblit <miriam.rachel.korenblit@intel.com>
+TO: Frank Wunderlich <frank-w@public-files.de>
 
-Hi Johannes,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[cannot apply to wireless/main staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.8-rc2 next-20240131]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/wifi-mac80211-clean-up-band-switch-in-duration/20240130-025313
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20240129194108.9451722c0110.I3e61f4cfe9da89008e1854160093c76a1e69dc2a%40changeid
-patch subject: [PATCH 02/15] wifi: mac80211: clean up connection process
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-101-20240131 (https://download.01.org/0day-ci/archive/20240201/202402010203.oFGFYBYQ-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://github.com/frank-w/BPI-R2-4.14 5.4-main
+head:   645dca86a686ddae272b209432af075ecc0185c5
+commit: 6e3f7375acdcf714d1fcbae1238cd39cc9391560 [1511/26476] drm/mediatek: config component output by device node port
+:::::: branch date: 5 days ago
+:::::: commit date: 4 years, 1 month ago
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202402010203.oFGFYBYQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402010357.AzCriYCk-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> net/mac80211/mlme.c:5106:19-20: WARNING opportunity for max()
+includecheck warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/mediatek/mtk_drm_drv.c: mtk_drm_ddp.h is included more than once.
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/component.h is included more than once.
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/of_platform.h is included more than once.
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/of_address.h is included more than once.
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/pm_runtime.h is included more than once.
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/iommu.h is included more than once.
 
-vim +5106 net/mac80211/mlme.c
+vim +7 drivers/gpu/drm/mediatek/mtk_drm_drv.c
 
-bee7f58699a406 net/mac80211/mlme.c          Johannes Berg 2013-02-07  5097  
-398baf0587bf42 net/mac80211/mlme.c          Johannes Berg 2024-01-29  5098  static void
-398baf0587bf42 net/mac80211/mlme.c          Johannes Berg 2024-01-29  5099  ieee80211_determine_our_sta_mode_auth(struct ieee80211_sub_if_data *sdata,
-398baf0587bf42 net/mac80211/mlme.c          Johannes Berg 2024-01-29  5100  				      struct ieee80211_supported_band *sband,
-398baf0587bf42 net/mac80211/mlme.c          Johannes Berg 2024-01-29  5101  				      struct cfg80211_auth_request *req,
-398baf0587bf42 net/mac80211/mlme.c          Johannes Berg 2024-01-29  5102  				      bool wmm_used,
-398baf0587bf42 net/mac80211/mlme.c          Johannes Berg 2024-01-29  5103  				      struct ieee80211_conn_settings *conn)
-398baf0587bf42 net/mac80211/mlme.c          Johannes Berg 2024-01-29  5104  {
-398baf0587bf42 net/mac80211/mlme.c          Johannes Berg 2024-01-29  5105  	ieee80211_determine_our_sta_mode(sdata, sband, NULL, wmm_used,
-398baf0587bf42 net/mac80211/mlme.c          Johannes Berg 2024-01-29 @5106  					 req->link_id > 0 ? req->link_id : 0,
-398baf0587bf42 net/mac80211/mlme.c          Johannes Berg 2024-01-29  5107  					 conn);
-398baf0587bf42 net/mac80211/mlme.c          Johannes Berg 2024-01-29  5108  }
-f0706e828e96d0 net/mac80211/ieee80211_sta.c Jiri Benc     2007-05-05  5109  
+   > 7	#include <linux/component.h>
+     8	#include <linux/iommu.h>
+     9	#include <linux/module.h>
+    10	#include <linux/of_address.h>
+    11	#include <linux/of_platform.h>
+    12	#include <linux/pm_runtime.h>
+    13	#include <linux/dma-mapping.h>
+    14	
+    15	#include <drm/drm_atomic.h>
+    16	#include <drm/drm_atomic_helper.h>
+    17	#include <drm/drm_drv.h>
+    18	#include <drm/drm_fb_helper.h>
+    19	#include <drm/drm_gem.h>
+    20	#include <drm/drm_gem_cma_helper.h>
+    21	#include <drm/drm_of.h>
+    22	#include <drm/drm_probe_helper.h>
+    23	#include <drm/drm_vblank.h>
+  > 24	#include <linux/component.h>
+    25	#include <linux/iommu.h>
+    26	#include <linux/of.h>
+    27	#include <linux/of_address.h>
+    28	#include <linux/of_graph.h>
+    29	#include <linux/of_platform.h>
+    30	#include <linux/pm_runtime.h>
+    31	
 
 -- 
 0-DAY CI Kernel Test Service
