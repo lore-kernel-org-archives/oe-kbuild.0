@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2311917BC8
-	for <oe-kbuild@lists.linux.dev>; Wed, 31 Jan 2024 04:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7733E478
+	for <oe-kbuild@lists.linux.dev>; Wed, 31 Jan 2024 07:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706676019; cv=none; b=OygLAonzxaOMzsXmm3ulO3Cf9L4H5+Y58w1TdHOAw0vOxXIL95Vj7nWySdsdxCr25LmfXrWgebpAp6NHu1T/aw1bZ8quYVNqW3UJgN06Ym1Ncsor/dvp7isW8CFcjM2JqskpjPSB6nthbznK1+m7lmcypfIBEsbo9+KYw3BtmuM=
+	t=1706687681; cv=none; b=WJqBNtYl5/XejCKdFKBBagYC0PVrSMoZZcA3/5h6vHdt3U7jRlTMpkUtn0SdG8LAXslLJolXJ+fX6y3bbk3tGbpp/RG0/qIFSLaBl+VbSfvl1YefRoGOzwFnfxTXTG2nC3oy/pqgg+p15FN4Tz/K3yY26/RqhiOuvpL8aphEBmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706676019; c=relaxed/simple;
-	bh=+gLYYn2J9GSqHbIF+crmHKSyl1weQC5hHvnMVy4ex/s=;
+	s=arc-20240116; t=1706687681; c=relaxed/simple;
+	bh=AnD0Zzt77rcDgBvpFIFLK2yoopocSDiP2u6pKJR7STI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZARxOyENUhC1ASOekvD7aU1YiS/X2xbMvOLR6pSjnkr+d1qytqSwQ/ND3KLX0tavzVBX/8LV1DcHHE/qN+Z+LKo4Qxluyg2eMCqNbKEGadp8tb25h35xdQygy+FEhSMII81JsFq5w9/MukLDiu6eILFo3ecmAO0svcTrroSyDLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BrVjEKvC; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=ay7+/7XOepMHzMaWKVZOOBpdw6iWqFWjPkNZDzavqaGkatwNOlVcTsMBsdCEkRY4B281Jlt7Zv8/uJgQYKPOANv35YBphgKab3x98LXoHufNzbaCOIgNbmE2lQnY94eC/c3wlbrttKcrCgGchLEBjd52EsKvdRkHPuRdJtZvrGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SAFUJlw5; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BrVjEKvC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SAFUJlw5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706676016; x=1738212016;
+  t=1706687679; x=1738223679;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+gLYYn2J9GSqHbIF+crmHKSyl1weQC5hHvnMVy4ex/s=;
-  b=BrVjEKvCM2JbUr9SIOD8svhgXPwY+phhOdIS3RU4uvFeMsITj0pCwq6h
-   ZVvb4B2WeV/K5a8yi4m0eFybOTkL/uQqeRCxRmAOb8T8Kn4uR8qK5VBB+
-   2oXUftkJj5OW4+YKT5vQn0pMW86363AJ8SxftoZGfHwFr7uIBfy57x3Eq
-   iXmm4VfvIfV7r71nrYNsfJUmaHPhEulbBSAmsE961K1g14WXhGTkMjoE+
-   JhjbYgv7VDGRGH3ZGUKipMO6ZbSruWqofPLCfDNRE8KrHAVnNIvlpk7Rn
-   uw24AmLyeAifTOaiPzOyhBfJOWUX3RVypaNGwAvE9f9rhY6M8kWZmT8SH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="16869410"
+  bh=AnD0Zzt77rcDgBvpFIFLK2yoopocSDiP2u6pKJR7STI=;
+  b=SAFUJlw51avrPQMgkbiAqg33zoKdJx5OSUHxQdH9l0yOtD1XJqCNgSSU
+   co235hBQFUDwxIcChWVNUOEoDvmDqCIVbR/DYUE7z+Q2mYMjHN7I2lf/9
+   AemEDwWEI73jvm8ud18wTsp+gEPSz1YxpUjxEQdqP3YU4ut9CMt8RAONn
+   6WzLsTLnE7Yl9qSv4vFGuAp+7OGCWYriIfeYbugO3mC2ELyvTrqOd/teK
+   rqHIV3myEoyuuKUmGbp+Swceu9GphM9aHyz7X8Gk2lMmti4g2LTwYh3Y7
+   Ik6gnfq5yj7G4MIf1wXeP8QOpQnSzaHWofXw3Cc2sFicTGN+NHTMJxvbX
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="3376869"
 X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="16869410"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 20:40:15 -0800
+   d="scan'208";a="3376869"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 23:54:38 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="4029778"
+   d="scan'208";a="3998253"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 30 Jan 2024 20:40:15 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 30 Jan 2024 23:54:34 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rV2ON-00018u-2T;
-	Wed, 31 Jan 2024 04:40:11 +0000
-Date: Wed, 31 Jan 2024 12:39:07 +0800
+	id 1rV5Q9-0001Is-0c;
+	Wed, 31 Jan 2024 07:54:17 +0000
+Date: Wed, 31 Jan 2024 15:53:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:OLK-5.10 22911/30000] drivers/misc/uacce/uacce.c:176
- uacce_get_ss_dma() warn: potential spectre issue 'slice' [r] (local cap)
-Message-ID: <202401311235.Z1jKXdrf-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [sudeep-holla:android13-5.10/ffa 9245/9999]
+ include/linux/kasan.h:17:10: fatal error: 'asm/kasan.h' file not found
+Message-ID: <202401311544.SuKbKPH4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,88 +58,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: JiangShui <1175135535@qq.com>
+:::::: 
+:::::: Manual check reason: "only scripts/Makefile.* file changed"
+:::::: 
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   260c7a5874066269671cc826d6c9ccd70dd001e5
-commit: 92e58150845a101fcbd0b563af66c10dbab742fb [22911/30000] uacce: add UACCE_MODE_NOIOMMU for warpdrive
-:::::: branch date: 3 hours ago
-:::::: commit date: 8 months ago
-config: x86_64-randconfig-161-20240129 (https://download.01.org/0day-ci/archive/20240131/202401311235.Z1jKXdrf-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+TO: Nick Desaulniers <ndesaulniers@google.com>
+CC: Nathan Chancellor <nathan@kernel.org>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.10/ffa
+head:   9e12ac4f9c69befe08119567c073adc938aafc4d
+commit: 377062e9833e131b9808a04f71be39161a1f04a6 [9245/9999] UPSTREAM: Makefile: infer --target from ARCH for CC=clang
+:::::: branch date: 2 years ago
+:::::: commit date: 2 years ago
+config: arm-randconfig-003-20240131 (https://download.01.org/0day-ci/archive/20240131/202401311544.SuKbKPH4-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401311544.SuKbKPH4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202401311235.Z1jKXdrf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401311544.SuKbKPH4-lkp@intel.com/
 
-smatch warnings:
-drivers/misc/uacce/uacce.c:176 uacce_get_ss_dma() warn: potential spectre issue 'slice' [r] (local cap)
+All errors (new ones prefixed by >>):
 
-vim +/slice +176 drivers/misc/uacce/uacce.c
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+   In file included from include/linux/mm.h:34:
+>> include/linux/kasan.h:17:10: fatal error: 'asm/kasan.h' file not found
+   #include <asm/kasan.h>
+            ^~~~~~~~~~~~~
+   1 error generated.
+   make[2]: *** [scripts/Makefile.build:122: arch/arm/kernel/asm-offsets.s] Error 1 shuffle=1363640600
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:1300: prepare0] Error 2 shuffle=1363640600
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:185: __sub-make] Error 2 shuffle=1363640600
+   make: Target 'prepare' not remade because of errors.
 
-92e58150845a10 Kai Ye 2023-05-22  141  
-92e58150845a10 Kai Ye 2023-05-22  142  static long uacce_get_ss_dma(struct uacce_queue *q, void __user *arg)
-92e58150845a10 Kai Ye 2023-05-22  143  {
-92e58150845a10 Kai Ye 2023-05-22  144  	struct uacce_device *uacce = q->uacce;
-92e58150845a10 Kai Ye 2023-05-22  145  	struct uacce_dma_slice *slice;
-92e58150845a10 Kai Ye 2023-05-22  146  	unsigned long slice_idx = 0;
-92e58150845a10 Kai Ye 2023-05-22  147  	unsigned long dma, size;
-92e58150845a10 Kai Ye 2023-05-22  148  	unsigned int max_idx;
-92e58150845a10 Kai Ye 2023-05-22  149  	long ret = -EFAULT;
-92e58150845a10 Kai Ye 2023-05-22  150  
-92e58150845a10 Kai Ye 2023-05-22  151  	if (q->state == UACCE_Q_ZOMBIE) {
-92e58150845a10 Kai Ye 2023-05-22  152  		dev_err(&uacce->dev, "queue is zombie!\n");
-92e58150845a10 Kai Ye 2023-05-22  153  		ret = -EINVAL;
-92e58150845a10 Kai Ye 2023-05-22  154  		goto param_check;
-92e58150845a10 Kai Ye 2023-05-22  155  	}
-92e58150845a10 Kai Ye 2023-05-22  156  
-92e58150845a10 Kai Ye 2023-05-22  157  	if (!q->qfrs[UACCE_QFRT_SS]) {
-92e58150845a10 Kai Ye 2023-05-22  158  		dev_err(&uacce->dev, "no ss dma region!\n");
-92e58150845a10 Kai Ye 2023-05-22  159  		ret = -EINVAL;
-92e58150845a10 Kai Ye 2023-05-22  160  		goto param_check;
-92e58150845a10 Kai Ye 2023-05-22  161  	}
-92e58150845a10 Kai Ye 2023-05-22  162  
-92e58150845a10 Kai Ye 2023-05-22  163  	slice = q->qfrs[UACCE_QFRT_SS]->dma_list;
-92e58150845a10 Kai Ye 2023-05-22  164  	if (copy_from_user(&slice_idx, arg, sizeof(unsigned long))) {
-92e58150845a10 Kai Ye 2023-05-22  165  		dev_err(&uacce->dev, "copy_from_user fail!\n");
-92e58150845a10 Kai Ye 2023-05-22  166  		goto param_check;
-92e58150845a10 Kai Ye 2023-05-22  167  	}
-92e58150845a10 Kai Ye 2023-05-22  168  
-92e58150845a10 Kai Ye 2023-05-22  169  	if (slice[0].total_num - 1 < slice_idx) {
-92e58150845a10 Kai Ye 2023-05-22  170  		dev_err(&uacce->dev, "no ss slice idx %lu err, total %u!\n",
-92e58150845a10 Kai Ye 2023-05-22  171  			slice_idx, slice[0].total_num);
-92e58150845a10 Kai Ye 2023-05-22  172  		ret = -EINVAL;
-92e58150845a10 Kai Ye 2023-05-22  173  		goto param_check;
-92e58150845a10 Kai Ye 2023-05-22  174  	}
-92e58150845a10 Kai Ye 2023-05-22  175  
-92e58150845a10 Kai Ye 2023-05-22 @176  	dma = slice[slice_idx].dma;
-92e58150845a10 Kai Ye 2023-05-22  177  	size = slice[slice_idx].size;
-92e58150845a10 Kai Ye 2023-05-22  178  	if (!size) {
-92e58150845a10 Kai Ye 2023-05-22  179  		max_idx = slice[0].total_num - 1;
-92e58150845a10 Kai Ye 2023-05-22  180  		dev_err(&uacce->dev, "%luth ss region[0x%lx, %lu] no exist, range[[0](0x%llx, %llu) -> [%u](0x%llx, %llu)]\n",
-92e58150845a10 Kai Ye 2023-05-22  181  			slice_idx, dma, size,
-92e58150845a10 Kai Ye 2023-05-22  182  			slice[0].dma, slice[0].size, max_idx,
-92e58150845a10 Kai Ye 2023-05-22  183  			slice[max_idx].dma, slice[max_idx].size);
-92e58150845a10 Kai Ye 2023-05-22  184  		ret = -ENODEV;
-92e58150845a10 Kai Ye 2023-05-22  185  		goto param_check;
-92e58150845a10 Kai Ye 2023-05-22  186  	}
-92e58150845a10 Kai Ye 2023-05-22  187  	dma = dma | ((size >> UACCE_GRAN_SHIFT) & UACCE_GRAN_NUM_MASK);
-92e58150845a10 Kai Ye 2023-05-22  188  	if (copy_to_user(arg, &dma, sizeof(unsigned long))) {
-92e58150845a10 Kai Ye 2023-05-22  189  		dev_err(&uacce->dev, "copy_to_user fail!\n");
-92e58150845a10 Kai Ye 2023-05-22  190  		goto param_check;
-92e58150845a10 Kai Ye 2023-05-22  191  	}
-92e58150845a10 Kai Ye 2023-05-22  192  
-92e58150845a10 Kai Ye 2023-05-22  193  	ret = (long)(slice[0].total_num - 1 - slice_idx);
-92e58150845a10 Kai Ye 2023-05-22  194  
-92e58150845a10 Kai Ye 2023-05-22  195  param_check:
-92e58150845a10 Kai Ye 2023-05-22  196  	return ret;
-92e58150845a10 Kai Ye 2023-05-22  197  }
-92e58150845a10 Kai Ye 2023-05-22  198  
+
+vim +17 include/linux/kasan.h
+
+0b24becc810dc3b Andrey Ryabinin  2015-02-13  15  
+f4fb11566b5eb19 Andrey Konovalov 2020-12-22  16  #include <linux/linkage.h>
+65fddcfca8ad147 Mike Rapoport    2020-06-08 @17  #include <asm/kasan.h>
+0b24becc810dc3b Andrey Ryabinin  2015-02-13  18  
+
+:::::: The code at line 17 was first introduced by commit
+:::::: 65fddcfca8ad14778f71a57672fd01e8112d30fa mm: reorder includes after introduction of linux/pgtable.h
+
+:::::: TO: Mike Rapoport <rppt@linux.ibm.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
