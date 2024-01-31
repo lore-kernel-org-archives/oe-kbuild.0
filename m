@@ -1,56 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF802134F
-	for <oe-kbuild@lists.linux.dev>; Wed, 31 Jan 2024 19:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170A23EA78
+	for <oe-kbuild@lists.linux.dev>; Wed, 31 Jan 2024 19:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706728071; cv=none; b=NLLINjop0bHE6xeV2wK2Go9TOxLblxhVb/gvFbL2/e2xwaF5YdbCSCjFejpc0qHrK+PgFl/yK0ziB0t+Eqj4n/spRh+s4S8wiljLj0r/f2pyDaytuuo35I/Y6FV3C6RNyLCMi0jwxcHM1nVtqdDJURIKJikAB23PJ66ZpTIZWd8=
+	t=1706728733; cv=none; b=FIPln4NPyXEgkz7COLRzSL9l+Ry5H4AYp5SD4lhEFIfAr1dxtjzfJWn235zSOP01KzGXMTuCpppecSc3mFNewMSHt5+34q6fGt+g/GuQ87hqKQGgdoNx5Sa80tCBUZdLr/iH2MMHF3ZhbFv0Ei6UG5A+//1sDSKBb0n0fwMInc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706728071; c=relaxed/simple;
-	bh=Izf6KSyYfKC7lL/FPo5Hrjm8OKPVls5juolPQt/jcVM=;
+	s=arc-20240116; t=1706728733; c=relaxed/simple;
+	bh=cRWWAp1w3Q9m0lrOfgrd6GaiWoMXkLTan+rDptZeyGc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gm1JdbqA3Tem4NiZaYSpA7CkhKrSrbDJYs7eQfSWHapoSRXwkTmvXE4+YP0ZnpDPnEjfJweUUZ/OvCkWXoM+0ESPOhGtivHCGmL4ff1tq02rhsvXn+VscW3lkd4Dc+UVV24hYwuL4/STw6p+sGjUAx5UlBT/vAJUejLzGrsQmn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHKMbX7c; arc=none smtp.client-ip=192.55.52.88
+	 Content-Disposition; b=U+EU7VTEJ5NPTc3jlPuLSvdQFVYIoGTEA76Kd29kOsVjjQi7mGMR5UkLuWX+GYPJny4ix+qeWNWnI5a9VFPQDRPKaKkmjab4+QKIJGInLCFysSvjl4HE090RzC2BqQBpmxNcwOJ2z+SeKS8MEGcVhTR3LxbgctlCggGiTWAt6pU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iA2BxMnS; arc=none smtp.client-ip=192.55.52.93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHKMbX7c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iA2BxMnS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706728069; x=1738264069;
+  t=1706728730; x=1738264730;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Izf6KSyYfKC7lL/FPo5Hrjm8OKPVls5juolPQt/jcVM=;
-  b=QHKMbX7ccMWc81WC1++qIDkSy/bUvhk2Ch+r8cByDTcO6qEtV43xuSq1
-   4AbqIugrcQ0Ucp3PgqLcwFDaMM9JC/wU+FjwmA81Xav4yC2Y1K1OIz2Ww
-   A8PZRVSf7jHciW0xUWuclpeFj3afEwy5Z3A6iXHKnRSCNLjMlNpNrQei1
-   UoMdZxfMcT9LIkqsnnFOH9yFiPWgvVBnI/DV1fLeHuMY7/aZ+Qy6rE+wr
-   jyt+4zHIxgMXCf0t1WvgpE1EKBLKhWcVtWDzsfJWyun5bvo4ELgr+OWsQ
-   o2dZjjNy8q4M96cZh0txL8zFhDrIAxxxOVtXC0DRphLdaIV9RjGW+2/72
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="434868322"
+  bh=cRWWAp1w3Q9m0lrOfgrd6GaiWoMXkLTan+rDptZeyGc=;
+  b=iA2BxMnS0WK87I+9D2gjlG4ObJ5mGXOyHS/juy3oSiolwoAI56GN6nG7
+   Q6UTxQ4vnOg9ldpHqrK5D4WcLttsO2zP1PQbGPAIpdwDgzFVMomt+Hp9F
+   xgQFYHr7lgnfe18oHeiB+M30zrNF2iJoRceaoWjXP49McdwOqTaj7EmJp
+   AbjwkC7XtVvGQfEQzaMizWcY9o+ybKJ7bQKwb8bS5ReXMUfUAIauuJt+6
+   atQhNiiH/AW/trEqG9wjezZgrl5Tw0U3/hUQSDFVrwHVPcI2MTtz9iskC
+   kb6OSjeiTV8QkPTGBWehkvAvxkMODiuH3qEX2+ts3p9tO/m2c4xDfMkFa
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="400833295"
 X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
-   d="scan'208";a="434868322"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 11:07:48 -0800
+   d="scan'208";a="400833295"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 11:18:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="1119707807"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="1119707807"
+X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
+   d="scan'208";a="22879846"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 31 Jan 2024 11:07:47 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 31 Jan 2024 11:18:48 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVFw1-0001vA-2r;
-	Wed, 31 Jan 2024 19:07:45 +0000
-Date: Thu, 1 Feb 2024 03:06:55 +0800
+	id 1rVG6g-0001vo-0w;
+	Wed, 31 Jan 2024 19:18:46 +0000
+Date: Thu, 1 Feb 2024 03:18:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [frank-w-bpi-r2-4.14:5.4-main 1511/26476]
- drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/component.h is included more
- than once.
-Message-ID: <202402010357.AzCriYCk-lkp@intel.com>
+Subject: [horms-ipvs-next:main 7/9] ld.lld: error: undefined symbol: xt_recseq
+Message-ID: <202402010345.MEUDOOiB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,60 +58,95 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "only kconfig file changed"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Frank Wunderlich <frank-w@public-files.de>
+CC: netdev@vger.kernel.org
+CC: lvs-devel@vger.kernel.org
+TO: Florian Westphal <fw@strlen.de>
+CC: Phil Sutter <phil@nwl.cc>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 5.4-main
-head:   645dca86a686ddae272b209432af075ecc0185c5
-commit: 6e3f7375acdcf714d1fcbae1238cd39cc9391560 [1511/26476] drm/mediatek: config component output by device node port
-:::::: branch date: 5 days ago
-:::::: commit date: 4 years, 1 month ago
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs-next.git main
+head:   7ad269787b6615ca56bb161063331991fce51abf
+commit: 4654467dc7e111e84f43ed1b70322873ae77e7be [7/9] netfilter: arptables: allow xtables-nft only builds
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-076-20240131 (https://download.01.org/0day-ci/archive/20240201/202402010345.MEUDOOiB-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402010345.MEUDOOiB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202402010357.AzCriYCk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402010345.MEUDOOiB-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/mediatek/mtk_drm_drv.c: mtk_drm_ddp.h is included more than once.
->> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/component.h is included more than once.
->> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/of_platform.h is included more than once.
->> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/of_address.h is included more than once.
->> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/pm_runtime.h is included more than once.
->> drivers/gpu/drm/mediatek/mtk_drm_drv.c: linux/iommu.h is included more than once.
+All errors (new ones prefixed by >>):
 
-vim +7 drivers/gpu/drm/mediatek/mtk_drm_drv.c
-
-   > 7	#include <linux/component.h>
-     8	#include <linux/iommu.h>
-     9	#include <linux/module.h>
-    10	#include <linux/of_address.h>
-    11	#include <linux/of_platform.h>
-    12	#include <linux/pm_runtime.h>
-    13	#include <linux/dma-mapping.h>
-    14	
-    15	#include <drm/drm_atomic.h>
-    16	#include <drm/drm_atomic_helper.h>
-    17	#include <drm/drm_drv.h>
-    18	#include <drm/drm_fb_helper.h>
-    19	#include <drm/drm_gem.h>
-    20	#include <drm/drm_gem_cma_helper.h>
-    21	#include <drm/drm_of.h>
-    22	#include <drm/drm_probe_helper.h>
-    23	#include <drm/drm_vblank.h>
-  > 24	#include <linux/component.h>
-    25	#include <linux/iommu.h>
-    26	#include <linux/of.h>
-    27	#include <linux/of_address.h>
-    28	#include <linux/of_graph.h>
-    29	#include <linux/of_platform.h>
-    30	#include <linux/pm_runtime.h>
-    31	
+>> ld.lld: error: undefined symbol: xt_recseq
+   >>> referenced by x_tables.h:372 (include/linux/netfilter/x_tables.h:372)
+   >>>               vmlinux.o:(arpt_do_table)
+   >>> referenced by x_tables.h:379 (include/linux/netfilter/x_tables.h:379)
+   >>>               vmlinux.o:(arpt_do_table)
+   >>> referenced by x_tables.h:397 (include/linux/netfilter/x_tables.h:397)
+   >>>               vmlinux.o:(arpt_do_table)
+   >>> referenced 4 more times
+--
+>> ld.lld: error: undefined symbol: xt_alloc_table_info
+   >>> referenced by arp_tables.c:1513 (net/ipv4/netfilter/arp_tables.c:1513)
+   >>>               vmlinux.o:(arpt_register_table)
+   >>> referenced by arp_tables.c:970 (net/ipv4/netfilter/arp_tables.c:970)
+   >>>               vmlinux.o:(do_arpt_set_ctl)
+--
+>> ld.lld: error: undefined symbol: xt_request_find_target
+   >>> referenced by arp_tables.c:417 (net/ipv4/netfilter/arp_tables.c:417)
+   >>>               vmlinux.o:(translate_table)
+--
+>> ld.lld: error: undefined symbol: xt_check_target
+   >>> referenced by arp_tables.c:401 (net/ipv4/netfilter/arp_tables.c:401)
+   >>>               vmlinux.o:(translate_table)
+--
+>> ld.lld: error: undefined symbol: xt_unregister_table
+   >>> referenced by arp_tables.c:1489 (net/ipv4/netfilter/arp_tables.c:1489)
+   >>>               vmlinux.o:(__arpt_unregister_table)
+--
+>> ld.lld: error: undefined symbol: xt_find_table
+   >>> referenced by arp_tables.c:1566 (net/ipv4/netfilter/arp_tables.c:1566)
+   >>>               vmlinux.o:(arpt_unregister_table_pre_exit)
+   >>> referenced by arp_tables.c:1575 (net/ipv4/netfilter/arp_tables.c:1575)
+   >>>               vmlinux.o:(arpt_unregister_table)
+--
+>> ld.lld: error: undefined symbol: xt_copy_counters
+   >>> referenced by arp_tables.c:1010 (net/ipv4/netfilter/arp_tables.c:1010)
+   >>>               vmlinux.o:(do_arpt_set_ctl)
+--
+>> ld.lld: error: undefined symbol: xt_find_table_lock
+   >>> referenced by arp_tables.c:1014 (net/ipv4/netfilter/arp_tables.c:1014)
+   >>>               vmlinux.o:(do_arpt_set_ctl)
+   >>> referenced by arp_tables.c:862 (net/ipv4/netfilter/arp_tables.c:862)
+   >>>               vmlinux.o:(do_arpt_get_ctl)
+--
+>> ld.lld: error: undefined symbol: xt_table_unlock
+   >>> referenced by arp_tables.c:1040 (net/ipv4/netfilter/arp_tables.c:1040)
+   >>>               vmlinux.o:(do_arpt_set_ctl)
+   >>> referenced by arp_tables.c:944 (net/ipv4/netfilter/arp_tables.c:944)
+   >>>               vmlinux.o:(do_arpt_set_ctl)
+   >>> referenced by arp_tables.c:924 (net/ipv4/netfilter/arp_tables.c:924)
+   >>>               vmlinux.o:(do_arpt_set_ctl)
+   >>> referenced 2 more times
+--
+>> ld.lld: error: undefined symbol: xt_counters_alloc
+   >>> referenced by arp_tables.c:894 (net/ipv4/netfilter/arp_tables.c:894)
+   >>>               vmlinux.o:(do_arpt_set_ctl)
+--
+>> ld.lld: error: undefined symbol: xt_request_find_table_lock
+   >>> referenced by arp_tables.c:900 (net/ipv4/netfilter/arp_tables.c:900)
+   >>>               vmlinux.o:(do_arpt_set_ctl)
+   >>> referenced by arp_tables.c:808 (net/ipv4/netfilter/arp_tables.c:808)
+   >>>               vmlinux.o:(do_arpt_get_ctl)
+..
 
 -- 
 0-DAY CI Kernel Test Service
