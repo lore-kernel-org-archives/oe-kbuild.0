@@ -1,53 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170A23EA78
-	for <oe-kbuild@lists.linux.dev>; Wed, 31 Jan 2024 19:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C08439FEB
+	for <oe-kbuild@lists.linux.dev>; Wed, 31 Jan 2024 22:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706728733; cv=none; b=FIPln4NPyXEgkz7COLRzSL9l+Ry5H4AYp5SD4lhEFIfAr1dxtjzfJWn235zSOP01KzGXMTuCpppecSc3mFNewMSHt5+34q6fGt+g/GuQ87hqKQGgdoNx5Sa80tCBUZdLr/iH2MMHF3ZhbFv0Ei6UG5A+//1sDSKBb0n0fwMInc8=
+	t=1706740716; cv=none; b=QwqJ+J2XKZQzCdBdyNFJ7Y6H6N/9/amBpp5/j3wp2MWzngByhGmqVaA1KnzS4RN6AxuWDlTz+pSikp/07DqSDxOvIy9f53S8dalO+xyduZayf6GbLI7HT0h8qzu1I+UM8rx0X9ePVBE4nrF8b+OOAYh5hw3ZYyyuB+A4YuQ5pi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706728733; c=relaxed/simple;
-	bh=cRWWAp1w3Q9m0lrOfgrd6GaiWoMXkLTan+rDptZeyGc=;
+	s=arc-20240116; t=1706740716; c=relaxed/simple;
+	bh=EyjoucuFmcZH0s2HD38LJgHeWktVtNq7hFqAR6xysKY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U+EU7VTEJ5NPTc3jlPuLSvdQFVYIoGTEA76Kd29kOsVjjQi7mGMR5UkLuWX+GYPJny4ix+qeWNWnI5a9VFPQDRPKaKkmjab4+QKIJGInLCFysSvjl4HE090RzC2BqQBpmxNcwOJ2z+SeKS8MEGcVhTR3LxbgctlCggGiTWAt6pU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iA2BxMnS; arc=none smtp.client-ip=192.55.52.93
+	 Content-Disposition; b=jmHq3Cop8X9GBWbUpPo6WjoMYaSsLpvuij9+xTzM55CseGtSGi6GPm10xT9u5Q2BcaggEi6l4RthPhkkg2LMyFalTkXXwHEecjB/9j00tSZwNCAYykh9gklObAo1lMwkW8IgE1OXSwG2EQXa/hbBnlFGZaaThWqVoc2iIcf4Xyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XuSDjD6D; arc=none smtp.client-ip=134.134.136.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iA2BxMnS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XuSDjD6D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706728730; x=1738264730;
+  t=1706740714; x=1738276714;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cRWWAp1w3Q9m0lrOfgrd6GaiWoMXkLTan+rDptZeyGc=;
-  b=iA2BxMnS0WK87I+9D2gjlG4ObJ5mGXOyHS/juy3oSiolwoAI56GN6nG7
-   Q6UTxQ4vnOg9ldpHqrK5D4WcLttsO2zP1PQbGPAIpdwDgzFVMomt+Hp9F
-   xgQFYHr7lgnfe18oHeiB+M30zrNF2iJoRceaoWjXP49McdwOqTaj7EmJp
-   AbjwkC7XtVvGQfEQzaMizWcY9o+ybKJ7bQKwb8bS5ReXMUfUAIauuJt+6
-   atQhNiiH/AW/trEqG9wjezZgrl5Tw0U3/hUQSDFVrwHVPcI2MTtz9iskC
-   kb6OSjeiTV8QkPTGBWehkvAvxkMODiuH3qEX2+ts3p9tO/m2c4xDfMkFa
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="400833295"
+  bh=EyjoucuFmcZH0s2HD38LJgHeWktVtNq7hFqAR6xysKY=;
+  b=XuSDjD6DaaPQPv2QsJlKXIJiX+/kSIhE1FoQAIMQ7kiF8pRFm2Wjq4iU
+   EAun/82thyNG+VgnEsicX/js2nVpyzAa1jY0W1QYoXv4+/cNkXsqJ510x
+   eKT5yFiXoVCvg5FQeOs2OEpLllDd8uksivgMldiGNu1NhT44lQDhXe9z/
+   9LFXwGvSLryDTWnOv1ZW/L9MXLZklbw2T/7chXUY1VLzPJZ2FBtTVEIxq
+   7y/5cPmiHNfivccn+ztZjPPuMhyzdMQjMgR5Px/h0QDFsvHT//zEdRORM
+   k4U7LTBJlg44fadkwms6/xgNPOfFQTl/u53n1NNjFrq9cFVTiE/WqCnSw
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="407462356"
 X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
-   d="scan'208";a="400833295"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 11:18:49 -0800
+   d="scan'208";a="407462356"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 14:38:33 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
-   d="scan'208";a="22879846"
+   d="scan'208";a="4229968"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 31 Jan 2024 11:18:48 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 31 Jan 2024 14:38:32 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVG6g-0001vo-0w;
-	Wed, 31 Jan 2024 19:18:46 +0000
-Date: Thu, 1 Feb 2024 03:18:40 +0800
+	id 1rVJDy-00026W-0a;
+	Wed, 31 Jan 2024 22:38:30 +0000
+Date: Thu, 1 Feb 2024 06:37:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [horms-ipvs-next:main 7/9] ld.lld: error: undefined symbol: xt_recseq
-Message-ID: <202402010345.MEUDOOiB-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2868/2894] kernel/cgroup/misc.c:328:4: warning:
+ array subscript 0 is above array bounds of 'const char * const[0]'
+Message-ID: <202402010637.VBx6C2kx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,95 +59,146 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only kconfig file changed"
+:::::: Manual check reason: "low confidence static check first_new_problem: kernel/cgroup/misc.c:328:4: warning: array subscript 0 is above array bounds of 'const char * const[0]' [-Warray-bounds]"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: netdev@vger.kernel.org
-CC: lvs-devel@vger.kernel.org
-TO: Florian Westphal <fw@strlen.de>
-CC: Phil Sutter <phil@nwl.cc>
+TO: kernel@openeuler.org
+TO: yanhaitao <yanhaitao2@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs-next.git main
-head:   7ad269787b6615ca56bb161063331991fce51abf
-commit: 4654467dc7e111e84f43ed1b70322873ae77e7be [7/9] netfilter: arptables: allow xtables-nft only builds
-:::::: branch date: 2 days ago
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   f6f9abf1a5ef2fc559630c77b3570346dcd19d40
+commit: c9c3c6a65afb88bd6c5b15722c4683711b1f0291 [2868/2894] cgroup/misc: reserve kabi for future misc development
+:::::: branch date: 13 hours ago
 :::::: commit date: 2 days ago
-config: x86_64-randconfig-076-20240131 (https://download.01.org/0day-ci/archive/20240201/202402010345.MEUDOOiB-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402010345.MEUDOOiB-lkp@intel.com/reproduce)
+config: x86_64-randconfig-121-20240131 (https://download.01.org/0day-ci/archive/20240201/202402010637.VBx6C2kx-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402010637.VBx6C2kx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202402010345.MEUDOOiB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402010637.VBx6C2kx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: xt_recseq
-   >>> referenced by x_tables.h:372 (include/linux/netfilter/x_tables.h:372)
-   >>>               vmlinux.o:(arpt_do_table)
-   >>> referenced by x_tables.h:379 (include/linux/netfilter/x_tables.h:379)
-   >>>               vmlinux.o:(arpt_do_table)
-   >>> referenced by x_tables.h:397 (include/linux/netfilter/x_tables.h:397)
-   >>>               vmlinux.o:(arpt_do_table)
-   >>> referenced 4 more times
---
->> ld.lld: error: undefined symbol: xt_alloc_table_info
-   >>> referenced by arp_tables.c:1513 (net/ipv4/netfilter/arp_tables.c:1513)
-   >>>               vmlinux.o:(arpt_register_table)
-   >>> referenced by arp_tables.c:970 (net/ipv4/netfilter/arp_tables.c:970)
-   >>>               vmlinux.o:(do_arpt_set_ctl)
---
->> ld.lld: error: undefined symbol: xt_request_find_target
-   >>> referenced by arp_tables.c:417 (net/ipv4/netfilter/arp_tables.c:417)
-   >>>               vmlinux.o:(translate_table)
---
->> ld.lld: error: undefined symbol: xt_check_target
-   >>> referenced by arp_tables.c:401 (net/ipv4/netfilter/arp_tables.c:401)
-   >>>               vmlinux.o:(translate_table)
---
->> ld.lld: error: undefined symbol: xt_unregister_table
-   >>> referenced by arp_tables.c:1489 (net/ipv4/netfilter/arp_tables.c:1489)
-   >>>               vmlinux.o:(__arpt_unregister_table)
---
->> ld.lld: error: undefined symbol: xt_find_table
-   >>> referenced by arp_tables.c:1566 (net/ipv4/netfilter/arp_tables.c:1566)
-   >>>               vmlinux.o:(arpt_unregister_table_pre_exit)
-   >>> referenced by arp_tables.c:1575 (net/ipv4/netfilter/arp_tables.c:1575)
-   >>>               vmlinux.o:(arpt_unregister_table)
---
->> ld.lld: error: undefined symbol: xt_copy_counters
-   >>> referenced by arp_tables.c:1010 (net/ipv4/netfilter/arp_tables.c:1010)
-   >>>               vmlinux.o:(do_arpt_set_ctl)
---
->> ld.lld: error: undefined symbol: xt_find_table_lock
-   >>> referenced by arp_tables.c:1014 (net/ipv4/netfilter/arp_tables.c:1014)
-   >>>               vmlinux.o:(do_arpt_set_ctl)
-   >>> referenced by arp_tables.c:862 (net/ipv4/netfilter/arp_tables.c:862)
-   >>>               vmlinux.o:(do_arpt_get_ctl)
---
->> ld.lld: error: undefined symbol: xt_table_unlock
-   >>> referenced by arp_tables.c:1040 (net/ipv4/netfilter/arp_tables.c:1040)
-   >>>               vmlinux.o:(do_arpt_set_ctl)
-   >>> referenced by arp_tables.c:944 (net/ipv4/netfilter/arp_tables.c:944)
-   >>>               vmlinux.o:(do_arpt_set_ctl)
-   >>> referenced by arp_tables.c:924 (net/ipv4/netfilter/arp_tables.c:924)
-   >>>               vmlinux.o:(do_arpt_set_ctl)
-   >>> referenced 2 more times
---
->> ld.lld: error: undefined symbol: xt_counters_alloc
-   >>> referenced by arp_tables.c:894 (net/ipv4/netfilter/arp_tables.c:894)
-   >>>               vmlinux.o:(do_arpt_set_ctl)
---
->> ld.lld: error: undefined symbol: xt_request_find_table_lock
-   >>> referenced by arp_tables.c:900 (net/ipv4/netfilter/arp_tables.c:900)
-   >>>               vmlinux.o:(do_arpt_set_ctl)
-   >>> referenced by arp_tables.c:808 (net/ipv4/netfilter/arp_tables.c:808)
-   >>>               vmlinux.o:(do_arpt_get_ctl)
-..
+   kernel/cgroup/misc.c: In function 'misc_cg_capacity_show':
+>> kernel/cgroup/misc.c:328:4: warning: array subscript 0 is above array bounds of 'const char * const[0]' [-Warray-bounds]
+     328 |    seq_printf(sf, "%s %llu\n", misc_res_name[i], cap);
+         |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/cgroup/misc.c:328:4: warning: array subscript 0 is above array bounds of 'const char * const[0]' [-Warray-bounds]
+   kernel/cgroup/misc.c:20:26: note: while referencing 'misc_res_name'
+      20 | static const char *const misc_res_name[] = {
+         |                          ^~~~~~~~~~~~~
+   kernel/cgroup/misc.c: In function 'misc_events_show':
+   kernel/cgroup/misc.c:343:4: warning: array subscript 0 is above array bounds of 'const char * const[0]' [-Warray-bounds]
+     343 |    seq_printf(sf, "%s.max %llu\n", misc_res_name[i], events);
+         |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/cgroup/misc.c:343:4: warning: array subscript 0 is above array bounds of 'const char * const[0]' [-Warray-bounds]
+   kernel/cgroup/misc.c:20:26: note: while referencing 'misc_res_name'
+      20 | static const char *const misc_res_name[] = {
+         |                          ^~~~~~~~~~~~~
+   kernel/cgroup/misc.c: In function 'misc_cg_current_show':
+   kernel/cgroup/misc.c:304:4: warning: array subscript 0 is above array bounds of 'const char * const[0]' [-Warray-bounds]
+     304 |    seq_printf(sf, "%s %llu\n", misc_res_name[i], usage);
+         |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/cgroup/misc.c:304:4: warning: array subscript 0 is above array bounds of 'const char * const[0]' [-Warray-bounds]
+   kernel/cgroup/misc.c:20:26: note: while referencing 'misc_res_name'
+      20 | static const char *const misc_res_name[] = {
+         |                          ^~~~~~~~~~~~~
+   kernel/cgroup/misc.c: In function 'misc_cg_max_show':
+   kernel/cgroup/misc.c:218:5: warning: array subscript 0 is above array bounds of 'const char * const[0]' [-Warray-bounds]
+     218 |     seq_printf(sf, "%s %llu\n", misc_res_name[i],
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     219 |         max);
+         |         ~~~~
+   kernel/cgroup/misc.c:218:5: warning: array subscript 0 is above array bounds of 'const char * const[0]' [-Warray-bounds]
+   kernel/cgroup/misc.c:20:26: note: while referencing 'misc_res_name'
+      20 | static const char *const misc_res_name[] = {
+         |                          ^~~~~~~~~~~~~
+   kernel/cgroup/misc.c:216:5: warning: array subscript 0 is above array bounds of 'const char * const[0]' [-Warray-bounds]
+     216 |     seq_printf(sf, "%s max\n", misc_res_name[i]);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/cgroup/misc.c:216:5: warning: array subscript 0 is above array bounds of 'const char * const[0]' [-Warray-bounds]
+   kernel/cgroup/misc.c:20:26: note: while referencing 'misc_res_name'
+      20 | static const char *const misc_res_name[] = {
+         |                          ^~~~~~~~~~~~~
+   kernel/cgroup/misc.c: In function 'misc_cg_max_write':
+   kernel/cgroup/misc.c:260:8: warning: array subscript 0 is above array bounds of 'const char * const[0]' [-Warray-bounds]
+     260 |   if (!strcmp(misc_res_name[i], token)) {
+         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/cgroup/misc.c:260:8: warning: array subscript 0 is above array bounds of 'const char * const[0]' [-Warray-bounds]
+   kernel/cgroup/misc.c:20:26: note: while referencing 'misc_res_name'
+      20 | static const char *const misc_res_name[] = {
+         |                          ^~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/bug.h:87,
+                    from include/linux/bug.h:5,
+                    from include/linux/jump_label.h:259,
+                    from include/linux/static_key.h:1,
+                    from arch/x86/include/asm/nospec-branch.h:6,
+                    from arch/x86/include/asm/irqflags.h:9,
+                    from include/linux/irqflags.h:17,
+                    from include/linux/rcupdate.h:26,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/cgroup.h:12,
+                    from kernel/cgroup/misc.c:10:
+   kernel/cgroup/misc.c: In function 'misc_cg_cancel_charge':
+>> include/asm-generic/bug.h:106:3: warning: array subscript 0 is above array bounds of 'const char * const[0]' [-Warray-bounds]
+     106 |   __warn_printk(arg);     \
+         |   ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:134:3: note: in expansion of macro '__WARN_printf'
+     134 |   __WARN_printf(TAINT_WARN, format);   \
+         |   ^~~~~~~~~~~~~
+   include/linux/once_lite.h:31:4: note: in expansion of macro 'WARN'
+      31 |    func(__VA_ARGS__);    \
+         |    ^~~~
+   include/asm-generic/bug.h:152:2: note: in expansion of macro 'DO_ONCE_LITE_IF'
+     152 |  DO_ONCE_LITE_IF(condition, WARN, 1, format)
+         |  ^~~~~~~~~~~~~~~
+   kernel/cgroup/misc.c:119:2: note: in expansion of macro 'WARN_ONCE'
+     119 |  WARN_ONCE(atomic64_add_negative(-amount, &cg->res[type].usage),
+         |  ^~~~~~~~~
+   kernel/cgroup/misc.c:20:26: note: while referencing 'misc_res_name'
+      20 | static const char *const misc_res_name[] = {
+         |                          ^~~~~~~~~~~~~
+
+
+vim +328 kernel/cgroup/misc.c
+
+a72232eabdfcfe Vipin Sharma 2021-03-29  309  
+a72232eabdfcfe Vipin Sharma 2021-03-29  310  /**
+a72232eabdfcfe Vipin Sharma 2021-03-29  311   * misc_cg_capacity_show() - Show the total capacity of misc res on the host.
+a72232eabdfcfe Vipin Sharma 2021-03-29  312   * @sf: Interface file
+a72232eabdfcfe Vipin Sharma 2021-03-29  313   * @v: Arguments passed
+a72232eabdfcfe Vipin Sharma 2021-03-29  314   *
+a72232eabdfcfe Vipin Sharma 2021-03-29  315   * Only present in the root cgroup directory.
+a72232eabdfcfe Vipin Sharma 2021-03-29  316   *
+a72232eabdfcfe Vipin Sharma 2021-03-29  317   * Context: Any context.
+a72232eabdfcfe Vipin Sharma 2021-03-29  318   * Return: 0 to denote successful print.
+a72232eabdfcfe Vipin Sharma 2021-03-29  319   */
+a72232eabdfcfe Vipin Sharma 2021-03-29  320  static int misc_cg_capacity_show(struct seq_file *sf, void *v)
+a72232eabdfcfe Vipin Sharma 2021-03-29  321  {
+a72232eabdfcfe Vipin Sharma 2021-03-29  322  	int i;
+32bf85c60ca358 Haitao Huang 2023-07-17  323  	u64 cap;
+a72232eabdfcfe Vipin Sharma 2021-03-29  324  
+a72232eabdfcfe Vipin Sharma 2021-03-29  325  	for (i = 0; i < MISC_CG_RES_TYPES; i++) {
+a72232eabdfcfe Vipin Sharma 2021-03-29  326  		cap = READ_ONCE(misc_res_capacity[i]);
+a72232eabdfcfe Vipin Sharma 2021-03-29  327  		if (cap)
+32bf85c60ca358 Haitao Huang 2023-07-17 @328  			seq_printf(sf, "%s %llu\n", misc_res_name[i], cap);
+a72232eabdfcfe Vipin Sharma 2021-03-29  329  	}
+a72232eabdfcfe Vipin Sharma 2021-03-29  330  
+a72232eabdfcfe Vipin Sharma 2021-03-29  331  	return 0;
+a72232eabdfcfe Vipin Sharma 2021-03-29  332  }
+a72232eabdfcfe Vipin Sharma 2021-03-29  333  
+
+:::::: The code at line 328 was first introduced by commit
+:::::: 32bf85c60ca3584a7ba3bef19da2779b73b2e7d6 cgroup/misc: Change counters to be explicit 64bit types
+
+:::::: TO: Haitao Huang <haitao.huang@linux.intel.com>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
