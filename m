@@ -1,189 +1,355 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB0F664C8
-	for <oe-kbuild@lists.linux.dev>; Wed, 31 Jan 2024 09:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC4667A0E
+	for <oe-kbuild@lists.linux.dev>; Wed, 31 Jan 2024 09:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706692257; cv=none; b=nNe1TE74hwCCJ/b/vex/fymVEliamPdHPkC3+1HPd0Yj+848hvkPljCRY9ukCxKso3ZZqpgC+Fwa92kdQozpu4i4F+AnghmJFuPcfD2wErP7qCHuoDM/2gT3hT15u2NqU32H0SOUry0PvZAbQCbUlcPL9984LB6QW1ozHLhnLFg=
+	t=1706693833; cv=none; b=cbD0G3vV1prhfMg3LLsDR8f1qxIUf1+zsK0fgHJFNyRIl+VflIAy7EsUcNbe3CpaM95z7PqaJdIW8Pfy/ARgCsDGleGfsfzGkW5/i7zmAx4XnfK+CizaayrNp7J3V1lb9Qid2NGT2AsTEm3CM/BpAiNHBkRxD8Gn4RS25jWVp20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706692257; c=relaxed/simple;
-	bh=LX+IIDw7LAWxvzbdHRWfw0B+C+XVU5E1Yjznbf7sIWI=;
+	s=arc-20240116; t=1706693833; c=relaxed/simple;
+	bh=ueNqadQcBer5/2rrOzMNvBxAaunOounXFb62DBhL1tQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ROvf8JG7bqy42YdY6WE/iV17fCT6HS9VwJFpk6uJ+vOkMn6bwTV9FEUC5soUiLB2KpnsM09AC/rYwtnCm2i6J8sn1TjqRufYbP3etBK89INrp9NQfItOUaZs0Z8GieQEl9z0wMRZCbbf0TyO48ZbQYNSz6GoRuyp3pPoHpeLB2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FSzG71qI; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=HRLktMTdg6XnnIbpSuARc8YJxjALLpRMHqu9N7YMFRHcxJJU5rKt2GxVvmMi7RiGDgvnWByYA8SEEfv8OsH8auU+mV8PyRIvVRnHfm4ven8l2fGWTFH9Y+Oy3OcSsDNnxWFH1eRr+0DBIH77cViILEw5tmqkStcj/beXezQ6PIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MnfjXUvQ; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FSzG71qI"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d0600551e8so16400791fa.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 31 Jan 2024 01:10:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706692253; x=1707297053; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=cgExCvRH14FXNOEX2q+ieKqRx3LRFYlOhTkoQIbaOMI=;
-        b=FSzG71qIxigkeD7NoDZIhVjuUi4uyebK41YCl8I9IppUlBUyTNESaMjAs9d8OzZxiU
-         1cZxjmoRO4CDPl9RNzb8aNfF5X8dTvgI9SEvWg0In+ChNPtOd17Mow1JasrHXbvBQXRc
-         d1+ZPsLRRDyrbDI350lNCjIm0Im9cEBARCO4UgJNm5W8l3q3FGNcPH3p8TsjcAY9d0Qe
-         INuFLjqj/SGVgx4jlILnJJKjOFKy/J7QWRyFGFn7+EVrLy+RLEXfTcopjPLCsqWbWpIj
-         fEfsxrKvL72cxV25Q/6U/zK3hCbA2vMJbxCI2nM3Lsf8Qe/oY+SZbgRpBJ5uNUEc0Mj/
-         OudA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706692253; x=1707297053;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cgExCvRH14FXNOEX2q+ieKqRx3LRFYlOhTkoQIbaOMI=;
-        b=LL403v0mgmgmFhUT1MVwKgHAJTP/OZX3iLAGRHfEBZ2Jxl5bZ4btMVJp7/2/nhRYWN
-         O9I0SjuScgWuOA2PQX5AtsxesyTbo0gskI40fgK+VfhfU9PiYYq6sH9ZCs9IqF8cmxDb
-         L0WtIsn74UONl3V/PUlpT9He9aO4HxqTNcILcWYbOtMkxlzwDlePx3g0SockhdY1JSo9
-         6r8cyR55fEXoknzveXGAfdtlN9wef5nzsCTZRfATIzbO0Ct2hc6UR0rQIWrXC57Y1Z6g
-         O4Oy0mabpxnRxTNMnnxzMRipRe42592Q9Ag4Q12QAmjmO4IW4DFRVueH0Fu+PQX9XIQ1
-         zAPg==
-X-Gm-Message-State: AOJu0Yxt3vVRV2L8zJqtg2YZY9aKRAyTw8omRd5D7bI54FmulqEmAreq
-	banjX3W8Sxo0v3/XwgoHixa0lez8EIBbu27xCQeZe3VC8GAQlyaB59T4RuOLcBA2GOWfiL5pUro
-	g
-X-Google-Smtp-Source: AGHT+IEKxu+DvVmX2V+Ho9agy9CO6Vfuk9+x4uHjd6xbnu8GyTrj4nTMdMO7EM1EZ0B6gV7SKSOWQg==
-X-Received: by 2002:a05:651c:b1e:b0:2d0:6c48:95af with SMTP id b30-20020a05651c0b1e00b002d06c4895afmr401928ljr.50.1706692252705;
-        Wed, 31 Jan 2024 01:10:52 -0800 (PST)
-Received: from localhost ([102.140.226.10])
-        by smtp.gmail.com with ESMTPSA id s9-20020a05600c45c900b0040ef718cf81sm978022wmo.28.2024.01.31.01.10.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jan 2024 01:10:52 -0800 (PST)
-Date: Wed, 31 Jan 2024 12:10:48 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
-	intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 3/5] drm/xe: store bind time pat index to xe_bo
-Message-ID: <7ae75ca8-cc58-4baa-abf3-0caaa4513f34@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MnfjXUvQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706693831; x=1738229831;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ueNqadQcBer5/2rrOzMNvBxAaunOounXFb62DBhL1tQ=;
+  b=MnfjXUvQKucVTdy529JDFAvMOXemG6WW6h5VXIE3D1zTrUW7p6FTc6QS
+   kTs0Kz/bdtN3//qalSlyevrl6H0U0h9x6nyQIMr++/m582rmx3UHifr0d
+   j1zkXAytqPcqQr9lcMWOLbC5dusW80sK71mV5ai+ZTzvqKx/8XlBepptc
+   28SSjtf+tNGznJC0GFozECqAMr45UO9NRVSsY55QenKg6oxvMNEAgsyr+
+   MHtoFY8oPjKONmBxHStGx82pGnO0TXV813dow4/g3o3Emz2V7kjJ+OtjD
+   RxKl3KuEvZnrXK3+Fph0rgvXzG/28PR3vCofLFazkVEYLDMRYxbgFrXC6
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="2488786"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="2488786"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 01:37:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="36805476"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 31 Jan 2024 01:37:08 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rV71i-0001Ob-38;
+	Wed, 31 Jan 2024 09:37:03 +0000
+Date: Wed, 31 Jan 2024 17:34:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: fs/smb/client/smb2ops.c:1612:23-29: ERROR: reference preceded by
+ free on line 1732
+Message-ID: <202401311755.WFmed0Aw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240126210807.320671-4-juhapekka.heikkila@gmail.com>
 
-Hi Juha-Pekka,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Shyam Prasad N <sprasad@microsoft.com>
+CC: Steve French <stfrench@microsoft.com>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Juha-Pekka-Heikkila/drm-xe-pat-annotate-pat-index-table-with-compression-information/20240127-091231
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20240126210807.320671-4-juhapekka.heikkila%40gmail.com
-patch subject: [PATCH 3/5] drm/xe: store bind time pat index to xe_bo
-config: sparc-randconfig-r081-20240128 (https://download.01.org/0day-ci/archive/20240131/202401311604.1pLlAxeK-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2a6526c4f389bb741e511be11721b3d1cbf1034a
+commit: 4f1fffa2376922f3d1d506e49c0fd445b023a28e cifs: commands that are retried should have replay flag set
+date:   7 days ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 7 days ago
+config: x86_64-randconfig-104-20240131 (https://download.01.org/0day-ci/archive/20240131/202401311755.WFmed0Aw-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202401311604.1pLlAxeK-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202401311755.WFmed0Aw-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/xe/xe_pt.c:1265 __xe_pt_bind_vma() warn: possible memory leak of 'ifence'
-drivers/gpu/drm/xe/xe_pt.c:1265 __xe_pt_bind_vma() warn: possible memory leak of 'rfence'
+cocci warnings: (new ones prefixed by >>)
+>> fs/smb/client/smb2ops.c:1612:23-29: ERROR: reference preceded by free on line 1732
+   fs/smb/client/smb2ops.c:1631:12-18: ERROR: reference preceded by free on line 1732
+   fs/smb/client/smb2ops.c:1646:31-37: ERROR: reference preceded by free on line 1732
+   fs/smb/client/smb2ops.c:1732:7-13: ERROR: reference preceded by free on line 1732
+   fs/smb/client/smb2ops.c:1266:7-9: ERROR: reference preceded by free on line 1266
+--
+>> fs/smb/client/smb2pdu.c:2902:8-14: ERROR: reference preceded by free on line 2902
+   fs/smb/client/smb2pdu.c:2915:7-13: ERROR: reference preceded by free on line 2902
+   fs/smb/client/smb2pdu.c:2902:8-14: ERROR: reference preceded by free on line 2915
+   fs/smb/client/smb2pdu.c:2915:7-13: ERROR: reference preceded by free on line 2915
 
-vim +/ifence +1265 drivers/gpu/drm/xe/xe_pt.c
+vim +1612 fs/smb/client/smb2ops.c
 
-dd08ebf6c3525a Matthew Brost       2023-03-30  1192  struct dma_fence *
-9b9529ce379a08 Francois Dugast     2023-07-31  1193  __xe_pt_bind_vma(struct xe_tile *tile, struct xe_vma *vma, struct xe_exec_queue *q,
-dd08ebf6c3525a Matthew Brost       2023-03-30  1194  		 struct xe_sync_entry *syncs, u32 num_syncs,
-dd08ebf6c3525a Matthew Brost       2023-03-30  1195  		 bool rebind)
-dd08ebf6c3525a Matthew Brost       2023-03-30  1196  {
-dd08ebf6c3525a Matthew Brost       2023-03-30  1197  	struct xe_vm_pgtable_update entries[XE_VM_MAX_LEVEL * 2 + 1];
-dd08ebf6c3525a Matthew Brost       2023-03-30  1198  	struct xe_pt_migrate_pt_update bind_pt_update = {
-dd08ebf6c3525a Matthew Brost       2023-03-30  1199  		.base = {
-dd08ebf6c3525a Matthew Brost       2023-03-30  1200  			.ops = xe_vma_is_userptr(vma) ? &userptr_bind_ops : &bind_ops,
-dd08ebf6c3525a Matthew Brost       2023-03-30  1201  			.vma = vma,
-fd84041d094ce8 Matthew Brost       2023-07-19  1202  			.tile_id = tile->id,
-dd08ebf6c3525a Matthew Brost       2023-03-30  1203  		},
-dd08ebf6c3525a Matthew Brost       2023-03-30  1204  		.bind = true,
-dd08ebf6c3525a Matthew Brost       2023-03-30  1205  	};
-21ed3327e388c2 Matthew Brost       2023-06-22  1206  	struct xe_vm *vm = xe_vma_vm(vma);
-dd08ebf6c3525a Matthew Brost       2023-03-30  1207  	u32 num_entries;
-dd08ebf6c3525a Matthew Brost       2023-03-30  1208  	struct dma_fence *fence;
-5387e865d90e92 Matthew Brost       2023-01-27  1209  	struct invalidation_fence *ifence = NULL;
-fd84041d094ce8 Matthew Brost       2023-07-19  1210  	struct xe_range_fence *rfence;
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1211  	struct xe_bo *bo = xe_vma_bo(vma);
-dd08ebf6c3525a Matthew Brost       2023-03-30  1212  	int err;
-dd08ebf6c3525a Matthew Brost       2023-03-30  1213  
-dd08ebf6c3525a Matthew Brost       2023-03-30  1214  	bind_pt_update.locked = false;
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1215  	xe_bo_assert_held(bo);
-dd08ebf6c3525a Matthew Brost       2023-03-30  1216  	xe_vm_assert_held(vm);
-dd08ebf6c3525a Matthew Brost       2023-03-30  1217  
-21ed3327e388c2 Matthew Brost       2023-06-22  1218  	vm_dbg(&xe_vma_vm(vma)->xe->drm,
-dd08ebf6c3525a Matthew Brost       2023-03-30  1219  	       "Preparing bind, with range [%llx...%llx) engine %p.\n",
-0e1a234618a86c Paulo Zanoni        2023-09-29  1220  	       xe_vma_start(vma), xe_vma_end(vma), q);
-dd08ebf6c3525a Matthew Brost       2023-03-30  1221  
-876611c2b75689 Matt Roper          2023-06-01  1222  	err = xe_pt_prepare_bind(tile, vma, entries, &num_entries, rebind);
-dd08ebf6c3525a Matthew Brost       2023-03-30  1223  	if (err)
-dd08ebf6c3525a Matthew Brost       2023-03-30  1224  		goto err;
-c73acc1eeba5e3 Francois Dugast     2023-09-12  1225  	xe_tile_assert(tile, num_entries <= ARRAY_SIZE(entries));
-dd08ebf6c3525a Matthew Brost       2023-03-30  1226  
-876611c2b75689 Matt Roper          2023-06-01  1227  	xe_vm_dbg_print_entries(tile_to_xe(tile), entries, num_entries);
-fd84041d094ce8 Matthew Brost       2023-07-19  1228  	xe_pt_calc_rfence_interval(vma, &bind_pt_update, entries,
-fd84041d094ce8 Matthew Brost       2023-07-19  1229  				   num_entries);
-dd08ebf6c3525a Matthew Brost       2023-03-30  1230  
-85dbfe47d07cdd Thomas Hellström    2023-06-05  1231  	/*
-85dbfe47d07cdd Thomas Hellström    2023-06-05  1232  	 * If rebind, we have to invalidate TLB on !LR vms to invalidate
-85dbfe47d07cdd Thomas Hellström    2023-06-05  1233  	 * cached PTEs point to freed memory. on LR vms this is done
-85dbfe47d07cdd Thomas Hellström    2023-06-05  1234  	 * automatically when the context is re-enabled by the rebind worker,
-85dbfe47d07cdd Thomas Hellström    2023-06-05  1235  	 * or in fault mode it was invalidated on PTE zapping.
-85dbfe47d07cdd Thomas Hellström    2023-06-05  1236  	 *
-85dbfe47d07cdd Thomas Hellström    2023-06-05  1237  	 * If !rebind, and scratch enabled VMs, there is a chance the scratch
-85dbfe47d07cdd Thomas Hellström    2023-06-05  1238  	 * PTE is already cached in the TLB so it needs to be invalidated.
-85dbfe47d07cdd Thomas Hellström    2023-06-05  1239  	 * on !LR VMs this is done in the ring ops preceding a batch, but on
-85dbfe47d07cdd Thomas Hellström    2023-06-05  1240  	 * non-faulting LR, in particular on user-space batch buffer chaining,
-85dbfe47d07cdd Thomas Hellström    2023-06-05  1241  	 * it needs to be done here.
-85dbfe47d07cdd Thomas Hellström    2023-06-05  1242  	 */
-fdb6a05383fab3 Thomas Hellström    2023-11-27  1243  	if ((rebind && !xe_vm_in_lr_mode(vm) && !vm->batch_invalidate_tlb) ||
-06951c2ee72df2 Thomas Hellström    2023-12-09  1244  	    (!rebind && xe_vm_has_scratch(vm) && xe_vm_in_preempt_fence_mode(vm))) {
-5387e865d90e92 Matthew Brost       2023-01-27  1245  		ifence = kzalloc(sizeof(*ifence), GFP_KERNEL);
-5387e865d90e92 Matthew Brost       2023-01-27  1246  		if (!ifence)
-5387e865d90e92 Matthew Brost       2023-01-27  1247  			return ERR_PTR(-ENOMEM);
-5387e865d90e92 Matthew Brost       2023-01-27  1248  	}
-5387e865d90e92 Matthew Brost       2023-01-27  1249  
-fd84041d094ce8 Matthew Brost       2023-07-19  1250  	rfence = kzalloc(sizeof(*rfence), GFP_KERNEL);
-fd84041d094ce8 Matthew Brost       2023-07-19  1251  	if (!rfence) {
-fd84041d094ce8 Matthew Brost       2023-07-19  1252  		kfree(ifence);
-fd84041d094ce8 Matthew Brost       2023-07-19  1253  		return ERR_PTR(-ENOMEM);
-fd84041d094ce8 Matthew Brost       2023-07-19  1254  	}
-fd84041d094ce8 Matthew Brost       2023-07-19  1255  
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1256  	/*
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1257  	 * BO which has XE_BO_SCANOUT_BIT set and was pinned as framebuffer
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1258  	 * before with different PAT index cannot be bound with different PAT
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1259  	 * index. This is to prevent switching CCS on/off from framebuffers
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1260  	 * on the fly.
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1261  	 */
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26 @1262  	if (bo) {
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1263  		if (bo->flags & XE_BO_SCANOUT_BIT && bo->pat_index_scanout &&
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1264  		    bo->pat_index_scanout != vma->pat_index)
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26 @1265  			return ERR_PTR(-EINVAL);
+41c1358e9181ab1 fs/cifs/smb2ops.c       Steve French    2013-11-14  1493  
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1494  static int
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1495  smb2_ioctl_query_info(const unsigned int xid,
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1496  		      struct cifs_tcon *tcon,
+0f060936e490c62 fs/cifs/smb2ops.c       Amir Goldstein  2020-02-03  1497  		      struct cifs_sb_info *cifs_sb,
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1498  		      __le16 *path, int is_dir,
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1499  		      unsigned long p)
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1500  {
+f4e5ceb6c1a64f9 fs/smb/client/smb2ops.c Paulo Alcantara 2023-08-17  1501  	struct smb2_compound_vars *vars;
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1502  	struct smb_rqst *rqst;
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1503  	struct kvec *rsp_iov;
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1504  	struct cifs_ses *ses = tcon->ses;
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1505  	struct TCP_Server_Info *server;
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1506  	char __user *arg = (char __user *)p;
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1507  	struct smb_query_info qi;
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1508  	struct smb_query_info __user *pqi;
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1509  	int rc = 0;
+04ad69c342fc4de fs/cifs/smb2ops.c       Paulo Alcantara 2021-03-08  1510  	int flags = CIFS_CP_CREATE_CLOSE_OP;
+f5778c398713692 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-03-15  1511  	struct smb2_query_info_rsp *qi_rsp = NULL;
+f5778c398713692 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-03-15  1512  	struct smb2_ioctl_rsp *io_rsp = NULL;
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1513  	void *buffer = NULL;
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1514  	int resp_buftype[3];
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1515  	struct cifs_open_parms oparms;
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1516  	u8 oplock = SMB2_OPLOCK_LEVEL_NONE;
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1517  	struct cifs_fid fid;
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1518  	unsigned int size[2];
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1519  	void *data[2];
+0f060936e490c62 fs/cifs/smb2ops.c       Amir Goldstein  2020-02-03  1520  	int create_options = is_dir ? CREATE_NOT_FILE : CREATE_NOT_DIR;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1521  	void (*free_req1_func)(struct smb_rqst *r);
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1522  	int retries = 0, cur_sleep = 1;
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1523  
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1524  replay_again:
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1525  	/* reinitialize for possible replay */
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1526  	flags = CIFS_CP_CREATE_CLOSE_OP;
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1527  	oplock = SMB2_OPLOCK_LEVEL_NONE;
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1528  	server = cifs_pick_channel(ses);
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1529  
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1530  	vars = kzalloc(sizeof(*vars), GFP_ATOMIC);
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1531  	if (vars == NULL)
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1532  		return -ENOMEM;
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1533  	rqst = &vars->rqst[0];
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1534  	rsp_iov = &vars->rsp_iov[0];
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1535  
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1536  	resp_buftype[0] = resp_buftype[1] = resp_buftype[2] = CIFS_NO_BUFFER;
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1537  
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1538  	if (copy_from_user(&qi, arg, sizeof(struct smb_query_info))) {
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1539  		rc = -EFAULT;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1540  		goto free_vars;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1541  	}
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1542  	if (qi.output_buffer_length > 1024) {
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1543  		rc = -EINVAL;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1544  		goto free_vars;
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1545  	}
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1546  
+352d96f3acc6e02 fs/cifs/smb2ops.c       Aurelien Aptel  2020-05-31  1547  	if (!ses || !server) {
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1548  		rc = -EIO;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1549  		goto free_vars;
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1550  	}
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1551  
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1552  	if (smb3_encryption_required(tcon))
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1553  		flags |= CIFS_TRANSFORM_REQ;
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1554  
+b92e358757b91c2 fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1555  	if (qi.output_buffer_length) {
+b92e358757b91c2 fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1556  		buffer = memdup_user(arg + sizeof(struct smb_query_info), qi.output_buffer_length);
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1557  		if (IS_ERR(buffer)) {
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1558  			rc = PTR_ERR(buffer);
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1559  			goto free_vars;
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1560  		}
+b92e358757b91c2 fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1561  	}
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1562  
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1563  	/* Open */
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1564  	rqst[0].rq_iov = &vars->open_iov[0];
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1565  	rqst[0].rq_nvec = SMB2_CREATE_IOV_SIZE;
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1566  
+de036dcaca65cf9 fs/cifs/smb2ops.c       Volker Lendecke 2023-01-11  1567  	oparms = (struct cifs_open_parms) {
+de036dcaca65cf9 fs/cifs/smb2ops.c       Volker Lendecke 2023-01-11  1568  		.tcon = tcon,
+de036dcaca65cf9 fs/cifs/smb2ops.c       Volker Lendecke 2023-01-11  1569  		.disposition = FILE_OPEN,
+de036dcaca65cf9 fs/cifs/smb2ops.c       Volker Lendecke 2023-01-11  1570  		.create_options = cifs_create_options(cifs_sb, create_options),
+de036dcaca65cf9 fs/cifs/smb2ops.c       Volker Lendecke 2023-01-11  1571  		.fid = &fid,
+de036dcaca65cf9 fs/cifs/smb2ops.c       Volker Lendecke 2023-01-11  1572  	};
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1573  
+efac779b1c69670 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-04-11  1574  	if (qi.flags & PASSTHRU_FSCTL) {
+efac779b1c69670 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-04-11  1575  		switch (qi.info_type & FSCTL_DEVICE_ACCESS_MASK) {
+efac779b1c69670 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-04-11  1576  		case FSCTL_DEVICE_ACCESS_FILE_READ_WRITE_ACCESS:
+efac779b1c69670 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-04-11  1577  			oparms.desired_access = FILE_READ_DATA | FILE_WRITE_DATA | FILE_READ_ATTRIBUTES | SYNCHRONIZE;
+46e6661963fb5d5 fs/cifs/smb2ops.c       Steve French    2019-04-11  1578  			break;
+46e6661963fb5d5 fs/cifs/smb2ops.c       Steve French    2019-04-11  1579  		case FSCTL_DEVICE_ACCESS_FILE_ANY_ACCESS:
+46e6661963fb5d5 fs/cifs/smb2ops.c       Steve French    2019-04-11  1580  			oparms.desired_access = GENERIC_ALL;
+46e6661963fb5d5 fs/cifs/smb2ops.c       Steve French    2019-04-11  1581  			break;
+46e6661963fb5d5 fs/cifs/smb2ops.c       Steve French    2019-04-11  1582  		case FSCTL_DEVICE_ACCESS_FILE_READ_ACCESS:
+46e6661963fb5d5 fs/cifs/smb2ops.c       Steve French    2019-04-11  1583  			oparms.desired_access = GENERIC_READ;
+46e6661963fb5d5 fs/cifs/smb2ops.c       Steve French    2019-04-11  1584  			break;
+46e6661963fb5d5 fs/cifs/smb2ops.c       Steve French    2019-04-11  1585  		case FSCTL_DEVICE_ACCESS_FILE_WRITE_ACCESS:
+46e6661963fb5d5 fs/cifs/smb2ops.c       Steve French    2019-04-11  1586  			oparms.desired_access = GENERIC_WRITE;
+efac779b1c69670 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-04-11  1587  			break;
+efac779b1c69670 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-04-11  1588  		}
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1589  	} else if (qi.flags & PASSTHRU_SET_INFO) {
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1590  		oparms.desired_access = GENERIC_WRITE;
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1591  	} else {
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1592  		oparms.desired_access = FILE_READ_ATTRIBUTES | READ_CONTROL;
+efac779b1c69670 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-04-11  1593  	}
+efac779b1c69670 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-04-11  1594  
+352d96f3acc6e02 fs/cifs/smb2ops.c       Aurelien Aptel  2020-05-31  1595  	rc = SMB2_open_init(tcon, server,
+352d96f3acc6e02 fs/cifs/smb2ops.c       Aurelien Aptel  2020-05-31  1596  			    &rqst[0], &oplock, &oparms, path);
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1597  	if (rc)
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1598  		goto free_output_buffer;
+e77fe73c7e38c36 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-12-31  1599  	smb2_set_next_command(tcon, &rqst[0]);
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1600  
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1601  	/* Query */
+31ba4331d571f50 fs/cifs/smb2ops.c       Steve French    2019-03-13  1602  	if (qi.flags & PASSTHRU_FSCTL) {
+31ba4331d571f50 fs/cifs/smb2ops.c       Steve French    2019-03-13  1603  		/* Can eventually relax perm check since server enforces too */
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1604  		if (!capable(CAP_SYS_ADMIN)) {
+31ba4331d571f50 fs/cifs/smb2ops.c       Steve French    2019-03-13  1605  			rc = -EPERM;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1606  			goto free_open_req;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1607  		}
+b2ca6c2c9eddc41 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-05-21  1608  		rqst[1].rq_iov = &vars->io_iov[0];
+f5778c398713692 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-03-15  1609  		rqst[1].rq_nvec = SMB2_IOCTL_IOV_SIZE;
+f5778c398713692 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-03-15  1610  
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1611  		rc = SMB2_ioctl_init(tcon, server, &rqst[1], COMPOUND_FID, COMPOUND_FID,
+400d0ad63b19089 fs/cifs/smb2ops.c       Enzo Matsumiya  2022-08-17 @1612  				     qi.info_type, buffer, qi.output_buffer_length,
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1613  				     CIFSMaxBufSize - MAX_SMB2_CREATE_RESPONSE_SIZE -
+731b82bb1750a90 fs/cifs/smb2ops.c       Ronnie Sahlberg 2020-01-08  1614  				     MAX_SMB2_CLOSE_RESPONSE_SIZE);
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1615  		free_req1_func = SMB2_ioctl_free;
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1616  	} else if (qi.flags == PASSTHRU_SET_INFO) {
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1617  		/* Can eventually relax perm check since server enforces too */
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1618  		if (!capable(CAP_SYS_ADMIN)) {
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1619  			rc = -EPERM;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1620  			goto free_open_req;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1621  		}
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1622  		if (qi.output_buffer_length < 8) {
+b92e358757b91c2 fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1623  			rc = -EINVAL;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1624  			goto free_open_req;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1625  		}
+f4e5ceb6c1a64f9 fs/smb/client/smb2ops.c Paulo Alcantara 2023-08-17  1626  		rqst[1].rq_iov = vars->si_iov;
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1627  		rqst[1].rq_nvec = 1;
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1628  
+b92e358757b91c2 fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1629  		/* MS-FSCC 2.4.13 FileEndOfFileInformation */
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1630  		size[0] = 8;
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1631  		data[0] = buffer;
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1632  
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1633  		rc = SMB2_set_info_init(tcon, server, &rqst[1], COMPOUND_FID, COMPOUND_FID,
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1634  					current->tgid, FILE_END_OF_FILE_INFORMATION,
+0e90696dc2b33a2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-07-25  1635  					SMB2_O_INFO_FILE, 0, data, size);
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1636  		free_req1_func = SMB2_set_info_free;
+31ba4331d571f50 fs/cifs/smb2ops.c       Steve French    2019-03-13  1637  	} else if (qi.flags == PASSTHRU_QUERY_INFO) {
+f4e5ceb6c1a64f9 fs/smb/client/smb2ops.c Paulo Alcantara 2023-08-17  1638  		rqst[1].rq_iov = &vars->qi_iov;
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1639  		rqst[1].rq_nvec = 1;
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1640  
+352d96f3acc6e02 fs/cifs/smb2ops.c       Aurelien Aptel  2020-05-31  1641  		rc = SMB2_query_info_init(tcon, server,
+352d96f3acc6e02 fs/cifs/smb2ops.c       Aurelien Aptel  2020-05-31  1642  				  &rqst[1], COMPOUND_FID,
+31ba4331d571f50 fs/cifs/smb2ops.c       Steve French    2019-03-13  1643  				  COMPOUND_FID, qi.file_info_class,
+31ba4331d571f50 fs/cifs/smb2ops.c       Steve French    2019-03-13  1644  				  qi.info_type, qi.additional_information,
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1645  				  qi.input_buffer_length,
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1646  				  qi.output_buffer_length, buffer);
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1647  		free_req1_func = SMB2_query_info_free;
+31ba4331d571f50 fs/cifs/smb2ops.c       Steve French    2019-03-13  1648  	} else { /* unknown flags */
+a0a3036b81f1f66 fs/cifs/smb2ops.c       Joe Perches     2020-04-14  1649  		cifs_tcon_dbg(VFS, "Invalid passthru query flags: 0x%x\n",
+a0a3036b81f1f66 fs/cifs/smb2ops.c       Joe Perches     2020-04-14  1650  			      qi.flags);
+31ba4331d571f50 fs/cifs/smb2ops.c       Steve French    2019-03-13  1651  		rc = -EINVAL;
+31ba4331d571f50 fs/cifs/smb2ops.c       Steve French    2019-03-13  1652  	}
+31ba4331d571f50 fs/cifs/smb2ops.c       Steve French    2019-03-13  1653  
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1654  	if (rc)
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1655  		goto free_open_req;
+e77fe73c7e38c36 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-12-31  1656  	smb2_set_next_command(tcon, &rqst[1]);
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1657  	smb2_set_related(&rqst[1]);
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1658  
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1659  	/* Close */
+f4e5ceb6c1a64f9 fs/smb/client/smb2ops.c Paulo Alcantara 2023-08-17  1660  	rqst[2].rq_iov = &vars->close_iov;
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1661  	rqst[2].rq_nvec = 1;
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1662  
+352d96f3acc6e02 fs/cifs/smb2ops.c       Aurelien Aptel  2020-05-31  1663  	rc = SMB2_close_init(tcon, server,
+352d96f3acc6e02 fs/cifs/smb2ops.c       Aurelien Aptel  2020-05-31  1664  			     &rqst[2], COMPOUND_FID, COMPOUND_FID, false);
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1665  	if (rc)
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1666  		goto free_req_1;
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1667  	smb2_set_related(&rqst[2]);
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1668  
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1669  	if (retries) {
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1670  		smb2_set_replay(server, &rqst[0]);
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1671  		smb2_set_replay(server, &rqst[1]);
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1672  		smb2_set_replay(server, &rqst[2]);
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1673  	}
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1674  
+352d96f3acc6e02 fs/cifs/smb2ops.c       Aurelien Aptel  2020-05-31  1675  	rc = compound_send_recv(xid, ses, server,
+352d96f3acc6e02 fs/cifs/smb2ops.c       Aurelien Aptel  2020-05-31  1676  				flags, 3, rqst,
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1677  				resp_buftype, rsp_iov);
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1678  	if (rc)
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1679  		goto out;
+d2f15428d6a0ebf fs/cifs/smb2ops.c       Steve French    2019-09-22  1680  
+d2f15428d6a0ebf fs/cifs/smb2ops.c       Steve French    2019-09-22  1681  	/* No need to bump num_remote_opens since handle immediately closed */
+f5778c398713692 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-03-15  1682  	if (qi.flags & PASSTHRU_FSCTL) {
+f5778c398713692 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-03-15  1683  		pqi = (struct smb_query_info __user *)arg;
+f5778c398713692 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-03-15  1684  		io_rsp = (struct smb2_ioctl_rsp *)rsp_iov[1].iov_base;
+f5778c398713692 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-03-15  1685  		if (le32_to_cpu(io_rsp->OutputCount) < qi.input_buffer_length)
+f5778c398713692 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-03-15  1686  			qi.input_buffer_length = le32_to_cpu(io_rsp->OutputCount);
+5242fcb706cb47d fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-04-15  1687  		if (qi.input_buffer_length > 0 &&
+2b1116bbe898aef fs/cifs/smb2ops.c       Markus Elfring  2019-11-05  1688  		    le32_to_cpu(io_rsp->OutputOffset) + qi.input_buffer_length
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1689  		    > rsp_iov[1].iov_len) {
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1690  			rc = -EFAULT;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1691  			goto out;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1692  		}
+2b1116bbe898aef fs/cifs/smb2ops.c       Markus Elfring  2019-11-05  1693  
+2b1116bbe898aef fs/cifs/smb2ops.c       Markus Elfring  2019-11-05  1694  		if (copy_to_user(&pqi->input_buffer_length,
+2b1116bbe898aef fs/cifs/smb2ops.c       Markus Elfring  2019-11-05  1695  				 &qi.input_buffer_length,
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1696  				 sizeof(qi.input_buffer_length))) {
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1697  			rc = -EFAULT;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1698  			goto out;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1699  		}
+2b1116bbe898aef fs/cifs/smb2ops.c       Markus Elfring  2019-11-05  1700  
+5242fcb706cb47d fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-04-15  1701  		if (copy_to_user((void __user *)pqi + sizeof(struct smb_query_info),
+5242fcb706cb47d fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-04-15  1702  				 (const void *)io_rsp + le32_to_cpu(io_rsp->OutputOffset),
+2b1116bbe898aef fs/cifs/smb2ops.c       Markus Elfring  2019-11-05  1703  				 qi.input_buffer_length))
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1704  			rc = -EFAULT;
+f5778c398713692 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-03-15  1705  	} else {
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1706  		pqi = (struct smb_query_info __user *)arg;
+f5778c398713692 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-03-15  1707  		qi_rsp = (struct smb2_query_info_rsp *)rsp_iov[1].iov_base;
+f5778c398713692 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-03-15  1708  		if (le32_to_cpu(qi_rsp->OutputBufferLength) < qi.input_buffer_length)
+f5778c398713692 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-03-15  1709  			qi.input_buffer_length = le32_to_cpu(qi_rsp->OutputBufferLength);
+2b1116bbe898aef fs/cifs/smb2ops.c       Markus Elfring  2019-11-05  1710  		if (copy_to_user(&pqi->input_buffer_length,
+2b1116bbe898aef fs/cifs/smb2ops.c       Markus Elfring  2019-11-05  1711  				 &qi.input_buffer_length,
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1712  				 sizeof(qi.input_buffer_length))) {
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1713  			rc = -EFAULT;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1714  			goto out;
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1715  		}
+2b1116bbe898aef fs/cifs/smb2ops.c       Markus Elfring  2019-11-05  1716  
+2b1116bbe898aef fs/cifs/smb2ops.c       Markus Elfring  2019-11-05  1717  		if (copy_to_user(pqi + 1, qi_rsp->Buffer,
+2b1116bbe898aef fs/cifs/smb2ops.c       Markus Elfring  2019-11-05  1718  				 qi.input_buffer_length))
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1719  			rc = -EFAULT;
+f5778c398713692 fs/cifs/smb2ops.c       Ronnie Sahlberg 2019-03-15  1720  	}
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1721  
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1722  out:
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1723  	free_rsp_buf(resp_buftype[0], rsp_iov[0].iov_base);
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1724  	free_rsp_buf(resp_buftype[1], rsp_iov[1].iov_base);
+8d8b26e58432cb2 fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-17  1725  	free_rsp_buf(resp_buftype[2], rsp_iov[2].iov_base);
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1726  	SMB2_close_free(&rqst[2]);
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1727  free_req_1:
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1728  	free_req1_func(&rqst[1]);
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1729  free_open_req:
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1730  	SMB2_open_free(&rqst[0]);
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1731  free_output_buffer:
+ccd48ec3d4a6cc5 fs/cifs/smb2ops.c       Aurelien Aptel  2021-04-09 @1732  	kfree(buffer);
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1733  free_vars:
+d6f5e358452479f fs/cifs/smb2ops.c       Paulo Alcantara 2022-03-29  1734  	kfree(vars);
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1735  
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1736  	if (is_replayable_error(rc) &&
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1737  	    smb2_should_replay(tcon, &retries, &cur_sleep))
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1738  		goto replay_again;
+4f1fffa2376922f fs/smb/client/smb2ops.c Shyam Prasad N  2024-01-21  1739  
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1740  	return rc;
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1741  }
+f5b05d622a3e99e fs/cifs/smb2ops.c       Ronnie Sahlberg 2018-10-07  1742  
 
-Smatch wants a kfree(ifence) and kfree(rfence) before the return.
+:::::: The code at line 1612 was first introduced by commit
+:::::: 400d0ad63b190895e29f43bc75b1260111d3fd34 cifs: remove useless parameter 'is_fsctl' from SMB2_ioctl()
 
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1266  
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1267  		bo->pat_index = vma->pat_index;
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1268  	}
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1269  
-08dea7674533cf Matt Roper          2023-06-01  1270  	fence = xe_migrate_update_pgtables(tile->migrate,
-6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1271  					   vm, bo, q,
-dd08ebf6c3525a Matthew Brost       2023-03-30  1272  					   entries, num_entries,
-dd08ebf6c3525a Matthew Brost       2023-03-30  1273  					   syncs, num_syncs,
-dd08ebf6c3525a Matthew Brost       2023-03-30  1274  					   &bind_pt_update.base);
+:::::: TO: Enzo Matsumiya <ematsumiya@suse.de>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
