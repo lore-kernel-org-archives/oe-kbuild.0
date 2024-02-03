@@ -1,56 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18711842
-	for <oe-kbuild@lists.linux.dev>; Sat,  3 Feb 2024 10:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9108A5FB93
+	for <oe-kbuild@lists.linux.dev>; Sat,  3 Feb 2024 17:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706957815; cv=none; b=tOAV2IXCNHh5+iDLBYc237xQd+RPd2GrxfRK0sWub07TtjNY3yrEphqVCuYKBy2uypwZz2YnUMX5qNSkr7yJWD1fDsdr/BRR7HdBEFE8v9HMwv51hDLTEiDjrp/bYyjJL/vJrgWuQ8YWFqDHAXYJh1lIiAaqb25sXrVeZEWuvYI=
+	t=1706982490; cv=none; b=d6Q1mPTUWmGQCycT1+byb9pRRYeLsbJLJ5yd7PGJgliI8mDcE0RX8R6aRwPlaGzREVUPWaocz6dIJyRj8mLxXayAewI2jnIKRGTZSHLTT8Lvnj9cfztq9B2B/xGMIzP257j7/M8OGGaVlKUrLfQSvki0UgBwpfjFc9/gZySeuHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706957815; c=relaxed/simple;
-	bh=PooVIpl3i4ewjNhRyzebt91q/c3leHh8kRxIM4j5b3k=;
+	s=arc-20240116; t=1706982490; c=relaxed/simple;
+	bh=58RwoZxGk8b+0v/yRjeePZyKgnZjCe9WyaliuLuPWgc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i8oK4gG0u8mscl5ntHQXhmUp5e7T205NbGogMPedO0Ri3ZS08UmWTaqsuhq6if5pz1R2BYFtrSoeuZ2kiPMzZB6QPjBymDDwPEXfHbExbFd+2wsHBXuZwgo9qHoTehaASY0yfRFL6csT2zdf7n9semmkaTixXwTgekPRnOsZvsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QCUl7M9q; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=Q3zk7EHC2F7zLQu9faZ2QePm+AQolfqU3OlSlWkMWdoevO7r9W06zK/eb2Z45MCXf2Xb8vWJ6Ueg5AfeOgNvae1jSadE1UqRDBPQMbLg4HEhY/+k24fAn8RDvJFiZfqy9ZShUZbBisbhkQiMeh8+0igIXOMFuc+ABaZXnn7U79c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F7nAJFZi; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCUl7M9q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F7nAJFZi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706957814; x=1738493814;
+  t=1706982488; x=1738518488;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PooVIpl3i4ewjNhRyzebt91q/c3leHh8kRxIM4j5b3k=;
-  b=QCUl7M9qR8gf+cFHx1ssoSdq9/jQB0+hIZB8jXGYTUV3jvCdlyLO5bcz
-   0bNpqLNJVM1eFxzUrhknp7PfZ/PfgW721kIVwTthdFdR4zannYdw5w3e+
-   gtbzduKF8lrZBJoiegFVqjmNPJFQmcBTxZv4DE7bXlnWHV4qq7xbAnJYP
-   dCkgGafr5juMxNt4o4oJr3xtPEsbXUbmvPDGgUvUK1euNSZ4ZcI/wDZW+
-   H1ur/DoZuvpUNszAL+zXsVEb8n8AvMFpjwnRtKm58pSbEZfafeTlPznPB
-   QdS8eFYZmkshFjnJ2inoNl+DekIUD5lufwQVPZlX/RrkvZcPMmSfwClQ0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="4136564"
+  bh=58RwoZxGk8b+0v/yRjeePZyKgnZjCe9WyaliuLuPWgc=;
+  b=F7nAJFZi/pevPxqdnHj/OqYjZl5bFTynq3dLohZdRENwWrQVvABAy1kP
+   8WNqJlrhlZQj+KL3As6u1YVUlGnegmLWaIksCHhXaEfYtYu0HyfST2MoJ
+   sx01/HSS40Cp2Tie4FA5bVm5F9cIn6qfOxs+R01yrGjmcweWKPbnbjC88
+   RMX9vtQu9ratGVtTWu0ujDXQMG9pK/2HZiolGOo4GTrqI+PavqsIAoe3b
+   RTUjxpbUCOpmMq3e5cbYBbRq7r+iZsMG6SCUcFxHntz5v55pwdR96Gu33
+   6jKhTrC53841och2ikAIe/4FCEWcm6shaVlkLPQcC4uU9UT7BJRZr9G3U
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="564552"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="4136564"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 02:56:53 -0800
+   d="scan'208";a="564552"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 09:48:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="823440020"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="823440020"
+   d="scan'208";a="408995"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 03 Feb 2024 02:56:52 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 03 Feb 2024 09:48:07 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWDhZ-0004wM-2Y;
-	Sat, 03 Feb 2024 10:56:49 +0000
-Date: Sat, 3 Feb 2024 18:56:00 +0800
+	id 1rWK7Y-0005Pb-0u;
+	Sat, 03 Feb 2024 17:48:04 +0000
+Date: Sun, 4 Feb 2024 01:47:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [frank-w-bpi-r2-4.14:5.4-main 2083/26476]
- utils/cryptodev/cryptodev-linux/lib/benchmark.h: sys/time.h is included more
- than once.
-Message-ID: <202402031827.xqMghzoI-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/ufs/host/ufs-qcom.c:1467 ufs_qcom_mcq_config_resource()
+ error: potentially dereferencing uninitialized 'res_mem'.
+Message-ID: <202402040134.DD53woTu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,36 +58,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Frank Wunderlich <frank-w@public-files.de>
+CC: linux-kernel@vger.kernel.org
+TO: Asutosh Das <quic_asutoshd@quicinc.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Can Guo <quic_cang@quicinc.com>
+CC: Manivannan Sadhasivam <mani@kernel.org>
+CC: Bart Van Assche <bvanassche@acm.org>
+CC: Stanley Chu <stanley.chu@mediatek.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 5.4-main
-head:   645dca86a686ddae272b209432af075ecc0185c5
-commit: c3b89e4625bb76475e992292ee89d37d48a0e748 [2083/26476] utils: add cryptodev 1.10
-:::::: branch date: 8 days ago
-:::::: commit date: 4 years ago
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b555d191561a7f89b8d2108dff687d9bc4284e48
+commit: c263b4ef737e622e2a908c58ca4bb68a89376387 scsi: ufs: core: mcq: Configure resource regions
+date:   1 year, 1 month ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: arm64-randconfig-r081-20240129 (https://download.01.org/0day-ci/archive/20240204/202402040134.DD53woTu-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4a39d08908942b2d415db405844cbe4af73e75d4)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202402031827.xqMghzoI-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202402040134.DD53woTu-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> utils/cryptodev/cryptodev-linux/lib/benchmark.h: sys/time.h is included more than once.
+New smatch warnings:
+drivers/ufs/host/ufs-qcom.c:1467 ufs_qcom_mcq_config_resource() error: potentially dereferencing uninitialized 'res_mem'.
 
-vim +1 utils/cryptodev/cryptodev-linux/lib/benchmark.h
+Old smatch warnings:
+drivers/ufs/host/ufs-qcom.c:1451 ufs_qcom_mcq_config_resource() warn: passing zero to 'PTR_ERR'
 
-   > 1	#include <sys/time.h>
-     2	#include <time.h>
-   > 3	#include <sys/time.h>
-     4	#include <signal.h>
-     5	
+vim +/res_mem +1467 drivers/ufs/host/ufs-qcom.c
+
+c263b4ef737e62 Asutosh Das 2023-01-13  1420  
+c263b4ef737e62 Asutosh Das 2023-01-13  1421  static int ufs_qcom_mcq_config_resource(struct ufs_hba *hba)
+c263b4ef737e62 Asutosh Das 2023-01-13  1422  {
+c263b4ef737e62 Asutosh Das 2023-01-13  1423  	struct platform_device *pdev = to_platform_device(hba->dev);
+c263b4ef737e62 Asutosh Das 2023-01-13  1424  	struct ufshcd_res_info *res;
+c263b4ef737e62 Asutosh Das 2023-01-13  1425  	struct resource *res_mem, *res_mcq;
+c263b4ef737e62 Asutosh Das 2023-01-13  1426  	int i, ret = 0;
+c263b4ef737e62 Asutosh Das 2023-01-13  1427  
+c263b4ef737e62 Asutosh Das 2023-01-13  1428  	memcpy(hba->res, ufs_res_info, sizeof(ufs_res_info));
+c263b4ef737e62 Asutosh Das 2023-01-13  1429  
+c263b4ef737e62 Asutosh Das 2023-01-13  1430  	for (i = 0; i < RES_MAX; i++) {
+c263b4ef737e62 Asutosh Das 2023-01-13  1431  		res = &hba->res[i];
+c263b4ef737e62 Asutosh Das 2023-01-13  1432  		res->resource = platform_get_resource_byname(pdev,
+c263b4ef737e62 Asutosh Das 2023-01-13  1433  							     IORESOURCE_MEM,
+c263b4ef737e62 Asutosh Das 2023-01-13  1434  							     res->name);
+c263b4ef737e62 Asutosh Das 2023-01-13  1435  		if (!res->resource) {
+c263b4ef737e62 Asutosh Das 2023-01-13  1436  			dev_info(hba->dev, "Resource %s not provided\n", res->name);
+c263b4ef737e62 Asutosh Das 2023-01-13  1437  			if (i == RES_UFS)
+c263b4ef737e62 Asutosh Das 2023-01-13  1438  				return -ENOMEM;
+c263b4ef737e62 Asutosh Das 2023-01-13  1439  			continue;
+c263b4ef737e62 Asutosh Das 2023-01-13  1440  		} else if (i == RES_UFS) {
+c263b4ef737e62 Asutosh Das 2023-01-13  1441  			res_mem = res->resource;
+c263b4ef737e62 Asutosh Das 2023-01-13  1442  			res->base = hba->mmio_base;
+c263b4ef737e62 Asutosh Das 2023-01-13  1443  			continue;
+c263b4ef737e62 Asutosh Das 2023-01-13  1444  		}
+c263b4ef737e62 Asutosh Das 2023-01-13  1445  
+c263b4ef737e62 Asutosh Das 2023-01-13  1446  		res->base = devm_ioremap_resource(hba->dev, res->resource);
+c263b4ef737e62 Asutosh Das 2023-01-13  1447  		if (IS_ERR(res->base)) {
+c263b4ef737e62 Asutosh Das 2023-01-13  1448  			dev_err(hba->dev, "Failed to map res %s, err=%d\n",
+c263b4ef737e62 Asutosh Das 2023-01-13  1449  					 res->name, (int)PTR_ERR(res->base));
+c263b4ef737e62 Asutosh Das 2023-01-13  1450  			res->base = NULL;
+c263b4ef737e62 Asutosh Das 2023-01-13  1451  			ret = PTR_ERR(res->base);
+c263b4ef737e62 Asutosh Das 2023-01-13  1452  			return ret;
+c263b4ef737e62 Asutosh Das 2023-01-13  1453  		}
+c263b4ef737e62 Asutosh Das 2023-01-13  1454  	}
+c263b4ef737e62 Asutosh Das 2023-01-13  1455  
+c263b4ef737e62 Asutosh Das 2023-01-13  1456  	/* MCQ resource provided in DT */
+c263b4ef737e62 Asutosh Das 2023-01-13  1457  	res = &hba->res[RES_MCQ];
+c263b4ef737e62 Asutosh Das 2023-01-13  1458  	/* Bail if MCQ resource is provided */
+c263b4ef737e62 Asutosh Das 2023-01-13  1459  	if (res->base)
+c263b4ef737e62 Asutosh Das 2023-01-13  1460  		goto out;
+c263b4ef737e62 Asutosh Das 2023-01-13  1461  
+c263b4ef737e62 Asutosh Das 2023-01-13  1462  	/* Explicitly allocate MCQ resource from ufs_mem */
+c263b4ef737e62 Asutosh Das 2023-01-13  1463  	res_mcq = devm_kzalloc(hba->dev, sizeof(*res_mcq), GFP_KERNEL);
+c263b4ef737e62 Asutosh Das 2023-01-13  1464  	if (!res_mcq)
+c263b4ef737e62 Asutosh Das 2023-01-13  1465  		return ret;
+c263b4ef737e62 Asutosh Das 2023-01-13  1466  
+c263b4ef737e62 Asutosh Das 2023-01-13 @1467  	res_mcq->start = res_mem->start +
+c263b4ef737e62 Asutosh Das 2023-01-13  1468  			 MCQ_SQATTR_OFFSET(hba->mcq_capabilities);
+c263b4ef737e62 Asutosh Das 2023-01-13  1469  	res_mcq->end = res_mcq->start + hba->nr_hw_queues * MCQ_QCFG_SIZE - 1;
+c263b4ef737e62 Asutosh Das 2023-01-13  1470  	res_mcq->flags = res_mem->flags;
+c263b4ef737e62 Asutosh Das 2023-01-13  1471  	res_mcq->name = "mcq";
+c263b4ef737e62 Asutosh Das 2023-01-13  1472  
+c263b4ef737e62 Asutosh Das 2023-01-13  1473  	ret = insert_resource(&iomem_resource, res_mcq);
+c263b4ef737e62 Asutosh Das 2023-01-13  1474  	if (ret) {
+c263b4ef737e62 Asutosh Das 2023-01-13  1475  		dev_err(hba->dev, "Failed to insert MCQ resource, err=%d\n",
+c263b4ef737e62 Asutosh Das 2023-01-13  1476  			ret);
+c263b4ef737e62 Asutosh Das 2023-01-13  1477  		goto insert_res_err;
+c263b4ef737e62 Asutosh Das 2023-01-13  1478  	}
+c263b4ef737e62 Asutosh Das 2023-01-13  1479  
+c263b4ef737e62 Asutosh Das 2023-01-13  1480  	res->base = devm_ioremap_resource(hba->dev, res_mcq);
+c263b4ef737e62 Asutosh Das 2023-01-13  1481  	if (IS_ERR(res->base)) {
+c263b4ef737e62 Asutosh Das 2023-01-13  1482  		dev_err(hba->dev, "MCQ registers mapping failed, err=%d\n",
+c263b4ef737e62 Asutosh Das 2023-01-13  1483  			(int)PTR_ERR(res->base));
+c263b4ef737e62 Asutosh Das 2023-01-13  1484  		ret = PTR_ERR(res->base);
+c263b4ef737e62 Asutosh Das 2023-01-13  1485  		goto ioremap_err;
+c263b4ef737e62 Asutosh Das 2023-01-13  1486  	}
+c263b4ef737e62 Asutosh Das 2023-01-13  1487  
+c263b4ef737e62 Asutosh Das 2023-01-13  1488  out:
+c263b4ef737e62 Asutosh Das 2023-01-13  1489  	hba->mcq_base = res->base;
+c263b4ef737e62 Asutosh Das 2023-01-13  1490  	return 0;
+c263b4ef737e62 Asutosh Das 2023-01-13  1491  ioremap_err:
+c263b4ef737e62 Asutosh Das 2023-01-13  1492  	res->base = NULL;
+c263b4ef737e62 Asutosh Das 2023-01-13  1493  	remove_resource(res_mcq);
+c263b4ef737e62 Asutosh Das 2023-01-13  1494  insert_res_err:
+c263b4ef737e62 Asutosh Das 2023-01-13  1495  	devm_kfree(hba->dev, res_mcq);
+c263b4ef737e62 Asutosh Das 2023-01-13  1496  	return ret;
+c263b4ef737e62 Asutosh Das 2023-01-13  1497  }
+c263b4ef737e62 Asutosh Das 2023-01-13  1498  
 
 -- 
 0-DAY CI Kernel Test Service
