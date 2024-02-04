@@ -1,54 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3DB8813
-	for <oe-kbuild@lists.linux.dev>; Sun,  4 Feb 2024 08:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF6F21A0A
+	for <oe-kbuild@lists.linux.dev>; Sun,  4 Feb 2024 11:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707033628; cv=none; b=P3DIOpnSvPbvJsyNpUJatI3c2Ndo6QL10ICGQzzKTP+eXtNrFBl9qAjnVRgqnCwHzPcL7U4jGnmFjvZcWhYzaJT9+aSF+6LcYhsse4WkGMKk6XwF+ZLjQP7OJ64GOceRJu1KmivrfUx7uBrW1OEyjHjLPO8+aJexbSs/Roe5dR8=
+	t=1707045029; cv=none; b=J27BBzsmqk7tXRJda3pmn4B55CkCNgOvnivzboY4dAgoGdkWK6lGEyRnUcnlN2a/5c5AY5Cotfos8C8rcPtl4ABG7tqk94iGE5Fv8wNze8JV4OCbT2Cf4gvkVrgDBUrChBgHZnDoUrtt+W0M/102y8Zulti+b1Of/QEpG0xgY1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707033628; c=relaxed/simple;
-	bh=vdnV6JrcoUiUwitpzlCYL3MrcT98WrtsBJZTc0x5/r0=;
+	s=arc-20240116; t=1707045029; c=relaxed/simple;
+	bh=egcGDqU+IU5RHgHilOfmONqVbCel3ZdKSFnVtgEZbSE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QJdrPZ5D8JEwE6XHjhxYs9mEp3RYnoXwaskPk9jr97XRFzu6jXa9UTXjvdO6B1Z3Cf6R68uH5dLyAqlnIyMCVxinVpwJYrkO5OFYMgrCQ3HXviNmQEfILuPmtZsoB6pHO0ZMmNOoYdvN49XKCMCibi8M8OE25gOJOpXnakeNdlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j6MRQKWA; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=lnTlUEEkoVxIPD3OBg8V5BeAdk0soX0BhfzllO2ITG6Gh2TwXXyScy9cD+AYEDYtMNwKfHsguGLvScMh7U3DiQgnp9EWEUkD+W4Dn6sj8yY01BA2LPUJmtkOhdIs3UF3KJtt8FEm6GRjN/xdhVVTuoNXLmUmx89+XVe9f3uJLME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BpMaMbjX; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j6MRQKWA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BpMaMbjX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707033625; x=1738569625;
+  t=1707045027; x=1738581027;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vdnV6JrcoUiUwitpzlCYL3MrcT98WrtsBJZTc0x5/r0=;
-  b=j6MRQKWAvvec42ZWIbbvKXo74jYuaDbyuxhflCGAvqjYoXue5Fxha0vB
-   LpHfLc98Ko2kuBMmFVp0lHqJzLNzMJG63+AMkhpbo7WKjJKF1Y/r4K0tK
-   2fe+dyAWluVufcSvs5JiE10pP6nN0PSlS4/cZ8Qa/hIUUYHmintKtckWy
-   KxZWJ2FqY7bmJsp2DaSG6Z93snOudcOMzjqDXW2cqgg+LNJdhAo7SOC5n
-   DXVvqamXjxtacAdqJiWzTpLtgPg5UDmltf02lFfkTHfq0Z0T2JQ0sKI0H
-   MId0rKA1hmBlM2wL+OHwy9KDDhodfKTkmNPfM4sYiZRW6E5fclkBROvpQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="532176"
+  bh=egcGDqU+IU5RHgHilOfmONqVbCel3ZdKSFnVtgEZbSE=;
+  b=BpMaMbjXE9mZUQ2sOM1nYbszVj/cAUs3rbzrawEG8EkCAhptWHRv2o0n
+   Jdxs3U+FOBsm+F5TlxcEzGzyCL7izfof0ec5/C/wsBpBsO/fzhVLXy8cH
+   Jxh2X3NxRN8U1n2XwZ77Wt3SR3cnZSZfo4bm4lRUwaAYZoS/yi6ZhsWrk
+   rCM22RY0KnZFDzT/8Fv8VW87ysSQs6MTEeRazYubEKNmyj+UbmAN6dmfN
+   HPHypdnGr7998lV8Aad4RQ0+rO/NAFGFAG1pMg5ZkKYibyoMqaK+d70rp
+   jPRNqW3kf1zu97C/QZaYbmjb5Kgai8DAgo7jFI53JsgcTMe7Al7gcQTiI
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="551612"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="532176"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 00:00:24 -0800
+   d="scan'208";a="551612"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 03:10:26 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="5067625"
+   d="scan'208";a="5239649"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Feb 2024 00:00:23 -0800
+  by orviesa004.jf.intel.com with ESMTP; 04 Feb 2024 03:10:25 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWXQK-00068q-2k;
-	Sun, 04 Feb 2024 08:00:20 +0000
-Date: Sun, 4 Feb 2024 15:59:54 +0800
+	id 1rWaOE-0006HM-1X;
+	Sun, 04 Feb 2024 11:10:22 +0000
+Date: Sun, 4 Feb 2024 19:09:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [plbossart-sound:fix/sdw-jd 6/12] drivers/soundwire/intel.c:448
- intel_link_power_up() warn: inconsistent returns 'sdw->link_res->shim_lock'.
-Message-ID: <202402041508.xKhlqGcY-lkp@intel.com>
+Subject: [nbd168-wireless:mt76 33/45]
+ drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c:286
+ __mt76_connac_mcu_alloc_sta_req() error: we previously assumed 'wcid' could
+ be null (see line 281)
+Message-ID: <202402041909.mUA4dToD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,147 +62,55 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
+TO: Shayne Chen <shayne.chen@mediatek.com>
+CC: Felix Fietkau <nbd@nbd.name>
 
-tree:   https://github.com/plbossart/sound fix/sdw-jd
-head:   3e0ec7682118696556df190024c476ad3ce3909f
-commit: bb96c1f7a330eab199937c37611f14ff579cd2f5 [6/12] soundwire: intel: add support for MeteorLake additional clocks
-:::::: branch date: 11 days ago
-:::::: commit date: 5 weeks ago
-config: i386-randconfig-141-20240204 (https://download.01.org/0day-ci/archive/20240204/202402041508.xKhlqGcY-lkp@intel.com/config)
+tree:   https://github.com/nbd168/wireless mt76
+head:   9f806d96c7054c92c1e0c0005a16d80e124964b7
+commit: cbc8d409f650e3e275059888f766af70a0a0ba51 [33/45] wifi: mt76: connac: set correct muar_idx for mt799x chipsets
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: i386-randconfig-141-20240204 (https://download.01.org/0day-ci/archive/20240204/202402041909.mUA4dToD-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202402041508.xKhlqGcY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402041909.mUA4dToD-lkp@intel.com/
 
 smatch warnings:
-drivers/soundwire/intel.c:448 intel_link_power_up() warn: inconsistent returns 'sdw->link_res->shim_lock'.
+drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c:286 __mt76_connac_mcu_alloc_sta_req() error: we previously assumed 'wcid' could be null (see line 281)
 
-vim +448 drivers/soundwire/intel.c
+vim +/wcid +286 drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c
 
-1e76de2e5dfeff Pierre-Louis Bossart 2023-03-14  337  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  338  static int intel_link_power_up(struct sdw_intel *sdw)
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  339  {
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  340  	unsigned int link_id = sdw->instance;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  341  	void __iomem *shim = sdw->link_res->shim;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  342  	u32 *shim_mask = sdw->link_res->shim_mask;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  343  	struct sdw_bus *bus = &sdw->cdns.bus;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  344  	struct sdw_master_prop *prop = &bus->prop;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  345  	u32 spa_mask, cpa_mask;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  346  	u32 link_control;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  347  	int ret = 0;
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  348  	u32 clock_source;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  349  	u32 syncprd;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  350  	u32 sync_reg;
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  351  	bool lcap_mlcs;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  352  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  353  	mutex_lock(sdw->link_res->shim_lock);
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  354  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  355  	/*
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  356  	 * The hardware relies on an internal counter, typically 4kHz,
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  357  	 * to generate the SoundWire SSP - which defines a 'safe'
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  358  	 * synchronization point between commands and audio transport
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  359  	 * and allows for multi link synchronization. The SYNCPRD value
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  360  	 * is only dependent on the oscillator clock provided to
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  361  	 * the IP, so adjust based on _DSD properties reported in DSDT
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  362  	 * tables. The values reported are based on either 24MHz
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  363  	 * (CNL/CML) or 38.4 MHz (ICL/TGL+). On MeteorLake additional
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  364  	 * frequencies are available with the MLCS clock source selection.
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  365  	 */
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  366  	lcap_mlcs = intel_readl(shim, SDW_SHIM_LCAP) & SDW_SHIM_LCAP_MLCS_MASK;
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  367  
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  368  	if (prop->mclk_freq % 6000000) {
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  369  		if (prop->mclk_freq % 2400000) {
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  370  			if (lcap_mlcs) {
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  371  				syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_24_576;
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  372  				clock_source = SDW_SHIM_MLCS_CARDINAL_CLK;
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  373  			} else {
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  374  				dev_err(sdw->cdns.dev, "%s: invalid clock configuration, mclk %d lcap_mlcs %d\n",
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  375  					__func__, prop->mclk_freq, lcap_mlcs);
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  376  				return -EINVAL;
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  377  			}
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  378  		} else {
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  379  			syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_38_4;
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  380  			clock_source = SDW_SHIM_MLCS_XTAL_CLK;
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  381  		}
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  382  	} else {
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  383  		if (lcap_mlcs) {
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  384  			syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_96;
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  385  			clock_source = SDW_SHIM_MLCS_AUDIO_PLL_CLK;
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  386  		} else {
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  387  			syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_24;
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  388  			clock_source = SDW_SHIM_MLCS_XTAL_CLK;
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  389  		}
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  390  	}
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  391  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  392  	if (!*shim_mask) {
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  393  		dev_dbg(sdw->cdns.dev, "powering up all links\n");
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  394  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  395  		/* we first need to program the SyncPRD/CPU registers */
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  396  		dev_dbg(sdw->cdns.dev,
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  397  			"first link up, programming SYNCPRD\n");
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  398  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  399  		/* set SyncPRD period */
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  400  		sync_reg = intel_readl(shim, SDW_SHIM_SYNC);
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  401  		u32p_replace_bits(&sync_reg, syncprd, SDW_SHIM_SYNC_SYNCPRD);
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  402  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  403  		/* Set SyncCPU bit */
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  404  		sync_reg |= SDW_SHIM_SYNC_SYNCCPU;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  405  		intel_writel(shim, SDW_SHIM_SYNC, sync_reg);
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  406  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  407  		/* Link power up sequence */
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  408  		link_control = intel_readl(shim, SDW_SHIM_LCTL);
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  409  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  410  		/* only power-up enabled links */
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  411  		spa_mask = FIELD_PREP(SDW_SHIM_LCTL_SPA_MASK, sdw->link_res->link_mask);
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  412  		cpa_mask = FIELD_PREP(SDW_SHIM_LCTL_CPA_MASK, sdw->link_res->link_mask);
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  413  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  414  		link_control |=  spa_mask;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  415  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  416  		ret = intel_set_bit(shim, SDW_SHIM_LCTL, link_control, cpa_mask);
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  417  		if (ret < 0) {
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  418  			dev_err(sdw->cdns.dev, "Failed to power up link: %d\n", ret);
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  419  			goto out;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  420  		}
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  421  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  422  		/* SyncCPU will change once link is active */
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  423  		ret = intel_wait_bit(shim, SDW_SHIM_SYNC,
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  424  				     SDW_SHIM_SYNC_SYNCCPU, 0);
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  425  		if (ret < 0) {
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  426  			dev_err(sdw->cdns.dev,
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  427  				"Failed to set SHIM_SYNC: %d\n", ret);
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  428  			goto out;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  429  		}
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  430  
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  431  		/* update link clock if needed */
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  432  		if (lcap_mlcs) {
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  433  			link_control = intel_readl(shim, SDW_SHIM_LCTL);
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  434  			u32p_replace_bits(&link_control, clock_source, SDW_SHIM_LCTL_MLCS_MASK);
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  435  			intel_writel(shim, SDW_SHIM_LCTL, link_control);
-bb96c1f7a330ea Pierre-Louis Bossart 2023-09-19  436  		}
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  437  	}
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  438  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  439  	*shim_mask |= BIT(link_id);
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  440  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  441  	sdw->cdns.link_up = true;
-b81bcdb424d05a Pierre-Louis Bossart 2022-09-20  442  
-b81bcdb424d05a Pierre-Louis Bossart 2022-09-20  443  	intel_shim_init(sdw);
-b81bcdb424d05a Pierre-Louis Bossart 2022-09-20  444  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  445  out:
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  446  	mutex_unlock(sdw->link_res->shim_lock);
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  447  
-bc8729476a537f Pierre-Louis Bossart 2022-09-20 @448  	return ret;
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  449  }
-bc8729476a537f Pierre-Louis Bossart 2022-09-20  450  
-
-:::::: The code at line 448 was first introduced by commit
-:::::: bc8729476a537ff372c33588189c6ef5b39ce081 soundwire: intel: move shim initialization before power up/down
-
-:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-:::::: CC: Vinod Koul <vkoul@kernel.org>
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  274  
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  275  struct sk_buff *
+e2c93b68cb5444 Lorenzo Bianconi 2021-12-19  276  __mt76_connac_mcu_alloc_sta_req(struct mt76_dev *dev, struct mt76_vif *mvif,
+e2c93b68cb5444 Lorenzo Bianconi 2021-12-19  277  				struct mt76_wcid *wcid, int len)
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  278  {
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  279  	struct sta_req_hdr hdr = {
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  280  		.bss_idx = mvif->idx,
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26 @281  		.muar_idx = wcid ? mvif->omac_idx : 0,
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  282  		.is_tlv_append = 1,
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  283  	};
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  284  	struct sk_buff *skb;
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  285  
+cbc8d409f650e3 Shayne Chen      2024-01-26 @286  	if (is_mt799x(dev) && !wcid->sta)
+cbc8d409f650e3 Shayne Chen      2024-01-26  287  		hdr.muar_idx = 0xe;
+cbc8d409f650e3 Shayne Chen      2024-01-26  288  
+67aa27431c7f87 Lorenzo Bianconi 2021-01-28  289  	mt76_connac_mcu_get_wlan_idx(dev, wcid, &hdr.wlan_idx_lo,
+67aa27431c7f87 Lorenzo Bianconi 2021-01-28  290  				     &hdr.wlan_idx_hi);
+e2c93b68cb5444 Lorenzo Bianconi 2021-12-19  291  	skb = mt76_mcu_msg_alloc(dev, NULL, len);
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  292  	if (!skb)
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  293  		return ERR_PTR(-ENOMEM);
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  294  
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  295  	skb_put_data(skb, &hdr, sizeof(hdr));
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  296  
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  297  	return skb;
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  298  }
+e2c93b68cb5444 Lorenzo Bianconi 2021-12-19  299  EXPORT_SYMBOL_GPL(__mt76_connac_mcu_alloc_sta_req);
+d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  300  
 
 -- 
 0-DAY CI Kernel Test Service
