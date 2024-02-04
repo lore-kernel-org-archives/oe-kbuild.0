@@ -1,163 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3635D10E9
-	for <oe-kbuild@lists.linux.dev>; Sun,  4 Feb 2024 00:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD51D10FF
+	for <oe-kbuild@lists.linux.dev>; Sun,  4 Feb 2024 03:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707008239; cv=none; b=sZAX18fT2Ja/glsJK9j2Ecy4kqvBSue7VjX4gQHB/nrkBm1WfpZInz/8F7T7DTdRy8qOsrFwuc7W6T2AgBD9Yuq49bxrovvlo+MYT7gDtyr4gh5SEXQkduSkEfUabEENP2WJhWG3cL1jrEQfxF7Blp4fGSsoOhLAsLVpHTKIhQs=
+	t=1707016125; cv=none; b=WljPk/Ep3Ym6NQVMNydDt8xjIhlgR6S6Nl+zGmGbWXZmRsQsB8uv9kas/Ah38fdSvWPl9BD+8uL4aWNT7P5rQ4sXG6xcULmtBSK3U3dNpA16LWAE1v1c/mxYddIWafU/hit7qNv6zcuxIfNO8u/+M4MvzS13QlJN6qVPZORcEe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707008239; c=relaxed/simple;
-	bh=3NGCVVcAL9Zz1LbgpXYKMrsXmXnLaRBAq1/wFNkZXho=;
+	s=arc-20240116; t=1707016125; c=relaxed/simple;
+	bh=LGvFIT8B4bNdemFKY16q9TSKdOosWDqlUXpOC20KZgo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H7YsW5YRHDtwnAaSnN1Lt4vwSNA94tWQcNDewljDYoYgHBkqV1ihPCL378kgzyEPiBtDmi90h2Mtk9tAc5r8YMB1yqiUwKAN8r/fz1BO81Lyu7iQpE6NWrynfm452dKQJQYejeOy7b1ncbrVbPGyE3G11AoXLdacD+hWMD7dgIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bjlWh+g/; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=ItsnV25qfBVfQEsrgzIoTKRZICwFeRhFKRA9BdT7b6cB8Q06w3elKK3Zl9K8VHuV26K0OnmXM4PFWv78ZPoT/HoiMo8rnf0dNt1VvLcPPBPabIERibpz+36+TySAOCHv3X70Ev8CS3ceZPFGjzuBXgqJ0bAhkWvQ+wOSdpeRzvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YAifE3qB; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bjlWh+g/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YAifE3qB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707008236; x=1738544236;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3NGCVVcAL9Zz1LbgpXYKMrsXmXnLaRBAq1/wFNkZXho=;
-  b=bjlWh+g/ShjKGsGYRSx+ZbcUNGs0WvVpIQ3/vO8oWEVYz1KtwY5JYksc
-   wv6lFx3OWth0bU6uwosL5RRodFSsO7zEgqVhA+xXBNiHiY1ysaAISiUoe
-   vqRjemo2mYxjmPOotx2a1GFRiQTASD9SOUBYWJWO4fEOZfWWLClRGslm+
-   pJcTBWWHVK4233QSuE7JbbKRqxq5t8mgwOAwEqlsBhUj7V5jW+osELmbe
-   h1dq2ZJUFKiCRCP0AN/znTR7TFsHbmQd6VnM80Z1f1nKIz3Y1rVNCg/WG
-   YxbCkI4MHGaSFnsuKcNStpQyBqU2MhdDTB8vpgNZYE27M/5mnMbBnaDOc
+  t=1707016123; x=1738552123;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LGvFIT8B4bNdemFKY16q9TSKdOosWDqlUXpOC20KZgo=;
+  b=YAifE3qB1CfP43GyFEReiHSRW1mr8atBpMVbnMMLDlS3kqHnMfdYlrjy
+   /Sk+AVlMMAL7x/zZuK+mQffQBRDkgGAMQvACq6W4GwavGd6XjGeDe/35j
+   Q5GASOzdl6kNAgHkeGu4qMDuZ6JAXu3hhXZ6+m4N/Qt8dgL2yLwuB9Hi3
+   3BeVntGbJFvNxA30QJDVnUimwOxXzXHk91vj/6W+E5zwGdnxPJuJIZS5a
+   uZMgJIZzvdpOfmisYNnAdMTDQslZSVDNLIKMzCQdbO2G/6khyMV7eVGKV
+   WovnbqHyyMC75OUZOBpZV83WF4sQLs+g8bKAO4XwvToJt2MVBc54FNPoi
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="4245023"
-X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="4245023"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 16:57:16 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="518485"
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="518485"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 19:08:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="823540503"
-X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="823540503"
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="23679479"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 03 Feb 2024 16:57:14 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 03 Feb 2024 19:08:39 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWQop-0005ny-2N;
-	Sun, 04 Feb 2024 00:57:11 +0000
-Date: Sun, 4 Feb 2024 08:57:10 +0800
+	id 1rWSs1-0005wK-09;
+	Sun, 04 Feb 2024 03:08:37 +0000
+Date: Sun, 4 Feb 2024 11:08:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH vhost v1 19/19] virtio_net: sq support premapped mode
-Message-ID: <202402040825.QvtV1KLW-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v1 net-next 07/16] af_unix: Detect Strongly Connected
+ Components.
+Message-ID: <202402041057.5d2Ok6Ck-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: net/unix/garbage.c:257:9: sparse: sparse: statement expected after label"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240202093951.120283-20-xuanzhuo@linux.alibaba.com>
-References: <20240202093951.120283-20-xuanzhuo@linux.alibaba.com>
-TO: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-TO: virtualization@lists.linux.dev
-CC: Richard Weinberger <richard@nod.at>
-CC: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-CC: Johannes Berg <johannes@sipsolutions.net>
-CC: "Michael S. Tsirkin" <mst@redhat.com>
-CC: Jason Wang <jasowang@redhat.com>
-CC: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-CC: Eric Dumazet <edumazet@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Hans de Goede <hdegoede@redhat.com>
-CC: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
-CC: Vadim Pasternak <vadimp@nvidia.com>
-CC: Bjorn Andersson <andersson@kernel.org>
-CC: Mathieu Poirier <mathieu.poirier@linaro.org>
-CC: Cornelia Huck <cohuck@redhat.com>
-CC: Halil Pasic <pasic@linux.ibm.com>
-CC: Eric Farman <farman@linux.ibm.com>
-CC: Heiko Carstens <hca@linux.ibm.com>
-CC: Vasily Gorbik <gor@linux.ibm.com>
-CC: Alexander Gordeev <agordeev@linux.ibm.com>
-CC: Christian Borntraeger <borntraeger@linux.ibm.com>
-CC: Sven Schnelle <svens@linux.ibm.com>
-CC: Alexei Starovoitov <ast@kernel.org>
-CC: Daniel Borkmann <daniel@iogearbox.net>
-CC: Jesper Dangaard Brouer <hawk@kernel.org>
-CC: John Fastabend <john.fastabend@gmail.com>
-CC: Benjamin Berg <benjamin.berg@intel.com>
-CC: linux-um@lists.infradead.org
+In-Reply-To: <20240203030058.60750-8-kuniyu@amazon.com>
+References: <20240203030058.60750-8-kuniyu@amazon.com>
+TO: Kuniyuki Iwashima <kuniyu@amazon.com>
+TO: "David S. Miller" <davem@davemloft.net>
 CC: netdev@vger.kernel.org
+TO: Eric Dumazet <edumazet@google.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+CC: Kuniyuki Iwashima <kuniyu@amazon.com>
 
-Hi Xuan,
+Hi Kuniyuki,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on v6.7]
-[cannot apply to uml/next remoteproc/rproc-next s390/features linus/master uml/fixes v6.8-rc2 v6.8-rc1 next-20240202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_ring-introduce-vring_need_unmap_buffer/20240202-174906
-base:   v6.7
-patch link:    https://lore.kernel.org/r/20240202093951.120283-20-xuanzhuo%40linux.alibaba.com
-patch subject: [PATCH vhost v1 19/19] virtio_net: sq support premapped mode
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20240204 (https://download.01.org/0day-ci/archive/20240204/202402040825.QvtV1KLW-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/af_unix-Add-struct-unix_vertex-in-struct-unix_sock/20240203-110847
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240203030058.60750-8-kuniyu%40amazon.com
+patch subject: [PATCH v1 net-next 07/16] af_unix: Detect Strongly Connected Components.
+:::::: branch date: 24 hours ago
+:::::: commit date: 24 hours ago
+config: x86_64-randconfig-121-20240203 (https://download.01.org/0day-ci/archive/20240204/202402041057.5d2Ok6Ck-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402041057.5d2Ok6Ck-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202402040825.QvtV1KLW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402041057.5d2Ok6Ck-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/virtio_net.c:482 virtnet_sq_init_dma_mate() error: potentially dereferencing uninitialized 'd'.
+sparse warnings: (new ones prefixed by >>)
+>> net/unix/garbage.c:257:9: sparse: sparse: statement expected after label
+   net/unix/garbage.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-Old smatch warnings:
-drivers/net/virtio_net.c:1497 build_skb_from_xdp_buff() error: uninitialized symbol 'nr_frags'.
-drivers/net/virtio_net.c:1579 virtnet_build_xdp_buff_mrg() error: uninitialized symbol 'shinfo'.
-drivers/net/virtio_net.c:3638 virtnet_update_settings() error: uninitialized symbol 'virtio_cread_v'.
-drivers/net/virtio_net.c:4060 virtnet_config_changed_work() error: uninitialized symbol 'virtio_cread_v'.
-drivers/net/virtio_net.c:4064 virtnet_config_changed_work() error: uninitialized symbol 'v'.
+vim +257 net/unix/garbage.c
 
-vim +/d +482 drivers/net/virtio_net.c
-
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  462  
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  463  static int virtnet_sq_init_dma_mate(struct send_queue *sq)
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  464  {
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  465  	struct virtnet_sq_dma *d;
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  466  	int num, i;
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  467  
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  468  	num = (virtqueue_get_vring_size(sq->vq) + 1) * ARRAY_SIZE(sq->sg);
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  469  
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  470  	sq->dmainfo.free = kcalloc(num, sizeof(*sq->dmainfo.free), GFP_KERNEL);
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  471  	if (!sq->dmainfo.free)
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  472  		return -ENOMEM;
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  473  
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  474  	sq->dmainfo.p = sq->dmainfo.free;
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  475  
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  476  	for (i = 0; i < num; ++i) {
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  477  		d = &sq->dmainfo.free[i];
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  478  		d->is_tail = false;
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  479  		d->next = d + 1;
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  480  	}
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  481  
-0d02beb81c70b9 Xuan Zhuo 2024-02-02 @482  	d->next = NULL;
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  483  
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  484  	return 0;
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  485  }
-0d02beb81c70b9 Xuan Zhuo 2024-02-02  486  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  227  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  228  static void __unix_walk_scc(struct unix_vertex *vertex)
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  229  {
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  230  	unsigned long index = UNIX_VERTEX_INDEX_START;
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  231  	LIST_HEAD(vertex_stack);
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  232  	struct unix_edge *edge;
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  233  	LIST_HEAD(edge_stack);
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  234  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  235  next_vertex:
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  236  	vertex->index = index;
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  237  	vertex->lowlink = index;
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  238  	index++;
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  239  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  240  	vertex->on_stack = true;
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  241  	list_move(&vertex->scc_entry, &vertex_stack);
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  242  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  243  	list_for_each_entry(edge, &vertex->edges, entry) {
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  244  		if (!edge->successor->out_degree)
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  245  			continue;
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  246  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  247  		if (edge->successor->index == UNIX_VERTEX_INDEX_UNVISITED) {
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  248  			list_add(&edge->stack_entry, &edge_stack);
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  249  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  250  			vertex = edge->successor;
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  251  			goto next_vertex;
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  252  		}
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  253  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  254  		if (edge->successor->on_stack)
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  255  			vertex->lowlink = min(vertex->lowlink, edge->successor->index);
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  256  next_edge:
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02 @257  	}
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  258  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  259  	if (vertex->index == vertex->lowlink) {
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  260  		LIST_HEAD(scc);
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  261  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  262  		list_cut_position(&scc, &vertex_stack, &vertex->scc_entry);
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  263  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  264  		list_for_each_entry_reverse(vertex, &scc, scc_entry) {
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  265  			list_move_tail(&vertex->entry, &unix_visited_vertices);
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  266  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  267  			vertex->on_stack = false;
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  268  		}
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  269  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  270  		list_del(&scc);
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  271  	}
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  272  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  273  	if (!list_empty(&edge_stack)) {
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  274  		edge = list_first_entry(&edge_stack, typeof(*edge), stack_entry);
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  275  		list_del_init(&edge->stack_entry);
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  276  
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  277  		vertex = edge->predecessor;
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  278  		vertex->lowlink = min(vertex->lowlink, edge->successor->lowlink);
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  279  		goto next_edge;
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  280  	}
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  281  }
+9606332e33dd2a Kuniyuki Iwashima 2024-02-02  282  
 
 -- 
 0-DAY CI Kernel Test Service
