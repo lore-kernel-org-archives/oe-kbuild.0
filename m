@@ -1,65 +1,54 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B16B10A11
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Feb 2024 06:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB0518638
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 Feb 2024 10:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707115688; cv=none; b=RRIwFgXbagKhT7+9RN3zqPVJVRrYtJaSoTzdIFBb27Z6j+hU7BmGZ87a9evYwx47qJE/k1pFzRrjfr/zrAiOVZ/lol8ZopnReqHEznSCnWe1DZhe3k+HpSuDm9VSifWhwxdKhuatHAWVZeSfnWctse2ERCIWD0/uokrpd56bPiE=
+	t=1707128064; cv=none; b=ps1fX8bu2oY2eZEWTPQR7pVEYlcJ6d50KP0YNU2Qwnq1RF2viU9ucN+AvDSYJo8Pq2IQxfDfSMJ0W86Tj2Dzm7UwGM4c8j5fDmNixEvNPb4hYdqWxBTSovhPFpbaHIkjseQfumyLjXGJLzxbTZPiuUI+zy9908M8Nd5YnJGHcmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707115688; c=relaxed/simple;
-	bh=aTU2tjJCNPW6loc4Pxg7Kq1ri1tznc73vBdmoBGcjuE=;
+	s=arc-20240116; t=1707128064; c=relaxed/simple;
+	bh=FpIpnBLzKI7vtwYirzkwPRvtLdD+dQ02+Zca8nIR50E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JWvmQccyIfYX+HIWzpXFlu527Bbvdsc+XyulL7ik8B5i09RkvQ9EYpOIcvUMZtusVue6GBawaAyt9aYaVebtjP0AzNemoxaaD6VdqesXtSeDHiG3CGwr+rjWflMJQ0r5jyRGZ5TNwDCGEXBlG+BgU9GOXn2iIvpWkEeGhkBZNk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rU12BHwZ; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=h/Cq8gWcsKGLIkGEoqGqxuT87XOkHyioV8Lr8vkPstU6dKTIo4yLUqiRLJpVBPt5jBIvHR3Eq2lXLBT+e2N1sBQLrr2sBGdpCmWd+VlALgGVijaWjajpdb+nW3wZZeSWibyBJiim1dLuHOkGvHsJhcC7iW6HKvp16BKvkyDClPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ckKP0LTU; arc=none smtp.client-ip=134.134.136.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rU12BHwZ"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-511206d1c89so5505861e87.1
-        for <oe-kbuild@lists.linux.dev>; Sun, 04 Feb 2024 22:48:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707115683; x=1707720483; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=g4+4NEgRQmY7sbhuyc0r1b7GxmmtaYAy/MdmnitJ6MU=;
-        b=rU12BHwZI8te51KMLrSH3bvW1Cr6hiFLbckWMnoLiSgWWV68L0WQTjGAmui0xN4Ikp
-         kPNRHf+AabznIJup4WqGPSxfkm0Bv7Q3cpl758jzMFhIRwfHJg83A34vsR6z6JH8W1Gk
-         n8n1Abd2Y87XwTMteb390FPy98xDbrncW0AjaXrfkagZy3iSxU/fbo5xnkhisS3NRWUT
-         vHfrAT18lsC7v68jQewOzIrffuQiSoFK5g2GQt6AWnhQL4+eSNTE5yl/gz+nJijW5zgx
-         jWV0lIZQlgjeoeUdWwr/+j4NV01qdZ6KkhudulrCtLzDYo69VCakwzlmCKK3+ShGNizV
-         U56w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707115683; x=1707720483;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g4+4NEgRQmY7sbhuyc0r1b7GxmmtaYAy/MdmnitJ6MU=;
-        b=f8SM2rlA2mrbPFZwpbOBba7oXvbkWKcpgRyCJb8g+dOs04uyUApXVBYuAISCL05dwo
-         4M+6Zsv+UVvlYM9xo0q471NK6/EXrvxz9UyUG70Psr2p2Ijrp9UO9gaFajHJAD5pIsYn
-         n7rj4ePY1Hp1DRHx2+HZ4L8ImDRqUiH9g+8Vy0rMzfmbvzWGbyqdwuMblpxm9yccH0QG
-         DOQcRwkovRiATYh6GfTMdzo2IaouJ33R8E4wtPy+8M/Nh1bI0oid/eTH8FVV51QuKjsG
-         ao6U08J61XOllUCYr93SN+YwqbwfQmbWzE4qt9mr2/FKTuwTiVQ0A+GPPJVMlRAcjjCS
-         IBRg==
-X-Gm-Message-State: AOJu0YwSXmSNIwP2C76DmZTjVv3fALjzMFqjMm1djyAGb6sgIb1RJpB5
-	NTBOMuIWY/JXsLBRw6vfexMfPhHNyIvVbGanC1FkJBVqopK7e3v+LNzZ7Dq9xT0Og3AYzed8K8S
-	6
-X-Google-Smtp-Source: AGHT+IFMTO7MpzVSlVseVaDDGbsH/RBrBDdMDehTSiOhfnPVgmXBF5TrkbKrK8wAsjwH5oOYQ7VlYA==
-X-Received: by 2002:a05:6512:312d:b0:511:3a93:5b7a with SMTP id p13-20020a056512312d00b005113a935b7amr4307919lfd.21.1707115683415;
-        Sun, 04 Feb 2024 22:48:03 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWxQOGIbDCRuUTqO2KweJMY7QXIYvG+Biu38f4sz5vNiEgpisATi8Te2+i/mOMMaayRAiWmdAuXl8DQMdSv0gjWcilG1E9cXKMhwFwhqEaBPmA36w3NQK6r1nTyp02as0segaGtoBo6jC4YIGGsXkL5a/EV+4I=
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id i15-20020a1709063c4f00b00a376329d829sm2302424ejg.172.2024.02.04.22.48.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Feb 2024 22:48:03 -0800 (PST)
-Date: Mon, 5 Feb 2024 09:47:59 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ckKP0LTU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707128062; x=1738664062;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FpIpnBLzKI7vtwYirzkwPRvtLdD+dQ02+Zca8nIR50E=;
+  b=ckKP0LTUIker5OwEcHlR6+9PtR8XFdlp2X3qBt7m0Nsv0pEZq43tHakz
+   Uj0eFc4H1r23xctW7nfJjj8YTLzT7qfbIPHecxM/2j0T87OE5gEZzGNQT
+   QU69NBsxT0nZzYpdnyqGQGyOottDr9M8aALtQJUZFwRcpkNu2b1E3DgyR
+   +QG0ST6qrnuzhpL48xzu2oWXupCwzVpp0nMXPRvatRWVEj/1Hbhq0n2yk
+   HAFewiIABPY/Xqexbl7xjWWI0rxe1bBaFaWeJCVKmZ8eAsJdxcnDx5p8J
+   YhybsPmVjvddxeSWpYFWxjfw4Ed9GTicEys1Aas9fb80LodJpHvA8FD0W
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="394914868"
+X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
+   d="scan'208";a="394914868"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 02:14:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
+   d="scan'208";a="1002457"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 05 Feb 2024 02:14:20 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rWvzW-0000M4-1A;
+	Mon, 05 Feb 2024 10:14:18 +0000
+Date: Mon, 5 Feb 2024 18:13:42 +0800
+From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Pavel Machek <pavel@ucw.cz>
-Subject: [cip:linux-6.1.y-cip-rt-rebase 30/208]
- drivers/usb/host/xhci-plat.c:378 xhci_generic_plat_probe() error: we
- previously assumed 'sysdev' could be null (see line 368)
-Message-ID: <ea664101-3d43-4545-b9e6-894e778e042e@moroto.mountain>
+Cc: lkp@intel.com
+Subject: [frank-w-bpi-r2-4.14:5.4-spi 10/41] net/wireguard/compat/compat.h:
+ linux/ip.h is included more than once.
+Message-ID: <202402051806.Z3KZ7cWt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,79 +58,191 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-[ This is a Long Term Support tree.  The warning was fixed upstream.
-  I removed Arnd and Greg from the CC list because I don't think they
-  want to track the CIP kernel.
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
-  I feel like if you're backporting patches, then you should look for
-  Fixes tags which mention those patches.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Frank Wunderlich <frank-w@public-files.de>
 
-  Fixes: 77191db5ba7b ("xhci: host: potential NULL dereference in xhci_generic_plat_probe()")
-
-  - dan ]
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-6.1.y-cip-rt-rebase
-head:   c3f80d7eeb70a51f6e05a5ca8424af3780072f29
-commit: e60d31e628503adf7418431d64d198d700748550 [30/208] xhci: split out rcar/rz support from xhci-plat.c
-config: x86_64-randconfig-161-20240205 (https://download.01.org/0day-ci/archive/20240205/202402051022.79SV50bg-lkp@intel.com/config)
+tree:   https://github.com/frank-w/BPI-R2-4.14 5.4-spi
+head:   f18d6b8720893df4172d217fd074ba23ac53a7a7
+commit: eb31f9fb1fa2612c9024fcd18b95e511df50a1e5 [10/41] net: wireguard: update wireguard compat
+:::::: branch date: 2 years, 7 months ago
+:::::: commit date: 2 years, 11 months ago
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202402051022.79SV50bg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402051806.Z3KZ7cWt-lkp@intel.com/
 
-New smatch warnings:
-drivers/usb/host/xhci-plat.c:378 xhci_generic_plat_probe() error: we previously assumed 'sysdev' could be null (see line 368)
+includecheck warnings: (new ones prefixed by >>)
+   net/wireguard/compat/compat.h: linux/mm.h is included more than once.
+   net/wireguard/compat/compat.h: net/netlink.h is included more than once.
+   net/wireguard/compat/compat.h: linux/rcupdate.h is included more than once.
+>> net/wireguard/compat/compat.h: linux/ip.h is included more than once.
+   net/wireguard/compat/compat.h: linux/random.h is included more than once.
+   net/wireguard/compat/compat.h: linux/siphash.h is included more than once.
+   net/wireguard/compat/compat.h: net/genetlink.h is included more than once.
+   net/wireguard/compat/compat.h: linux/skbuff.h is included more than once.
+   net/wireguard/compat/compat.h: linux/slab.h is included more than once.
+   net/wireguard/compat/compat.h: linux/cache.h is included more than once.
+   net/wireguard/compat/compat.h: linux/vmalloc.h is included more than once.
+   net/wireguard/compat/compat.h: linux/atomic.h is included more than once.
+>> net/wireguard/compat/compat.h: linux/kernel.h is included more than once.
+   net/wireguard/compat/compat.h: net/ipv6.h is included more than once.
+   net/wireguard/compat/compat.h: linux/netdevice.h is included more than once.
 
-vim +/sysdev +378 drivers/usb/host/xhci-plat.c
+vim +939 net/wireguard/compat/compat.h
 
-e60d31e628503a Arnd Bergmann             2023-01-31  355  static int xhci_generic_plat_probe(struct platform_device *pdev)
-e60d31e628503a Arnd Bergmann             2023-01-31  356  {
-e60d31e628503a Arnd Bergmann             2023-01-31  357  	const struct xhci_plat_priv *priv_match;
-e60d31e628503a Arnd Bergmann             2023-01-31  358  	struct device *sysdev;
-e60d31e628503a Arnd Bergmann             2023-01-31  359  	int ret;
-e60d31e628503a Arnd Bergmann             2023-01-31  360  
-e60d31e628503a Arnd Bergmann             2023-01-31  361  	/*
-e60d31e628503a Arnd Bergmann             2023-01-31  362  	 * sysdev must point to a device that is known to the system firmware
-e60d31e628503a Arnd Bergmann             2023-01-31  363  	 * or PCI hardware. We handle these three cases here:
-e60d31e628503a Arnd Bergmann             2023-01-31  364  	 * 1. xhci_plat comes from firmware
-e60d31e628503a Arnd Bergmann             2023-01-31  365  	 * 2. xhci_plat is child of a device from firmware (dwc3-plat)
-e60d31e628503a Arnd Bergmann             2023-01-31  366  	 * 3. xhci_plat is grandchild of a pci device (dwc3-pci)
-e60d31e628503a Arnd Bergmann             2023-01-31  367  	 */
-e60d31e628503a Arnd Bergmann             2023-01-31 @368  	for (sysdev = &pdev->dev; sysdev; sysdev = sysdev->parent) {
-                                                                                          ^^^^^^
-
-
-e60d31e628503a Arnd Bergmann             2023-01-31  369  		if (is_of_node(sysdev->fwnode) ||
-e60d31e628503a Arnd Bergmann             2023-01-31  370  			is_acpi_device_node(sysdev->fwnode))
-e60d31e628503a Arnd Bergmann             2023-01-31  371  			break;
-e60d31e628503a Arnd Bergmann             2023-01-31  372  #ifdef CONFIG_PCI
-e60d31e628503a Arnd Bergmann             2023-01-31  373  		else if (sysdev->bus == &pci_bus_type)
-e60d31e628503a Arnd Bergmann             2023-01-31  374  			break;
-e60d31e628503a Arnd Bergmann             2023-01-31  375  #endif
-e60d31e628503a Arnd Bergmann             2023-01-31  376  	}
-e60d31e628503a Arnd Bergmann             2023-01-31  377  
-e60d31e628503a Arnd Bergmann             2023-01-31 @378  	if (WARN_ON(!sysdev->dma_mask)) {
-                                                                             ^^^^^^
-Unchecked dereference
-
-e60d31e628503a Arnd Bergmann             2023-01-31  379  		/* Platform did not initialize dma_mask */
-e60d31e628503a Arnd Bergmann             2023-01-31  380  		ret = dma_coerce_mask_and_coherent(sysdev, DMA_BIT_MASK(64));
-e60d31e628503a Arnd Bergmann             2023-01-31  381  		if (ret)
-e60d31e628503a Arnd Bergmann             2023-01-31  382  			return ret;
-e60d31e628503a Arnd Bergmann             2023-01-31  383  	}
-e60d31e628503a Arnd Bergmann             2023-01-31  384  
-e60d31e628503a Arnd Bergmann             2023-01-31  385  	if (pdev->dev.of_node)
-e60d31e628503a Arnd Bergmann             2023-01-31  386  		priv_match = of_device_get_match_data(&pdev->dev);
-e60d31e628503a Arnd Bergmann             2023-01-31  387  	else
-e60d31e628503a Arnd Bergmann             2023-01-31  388  		priv_match = dev_get_platdata(&pdev->dev);
-e60d31e628503a Arnd Bergmann             2023-01-31  389  
-e60d31e628503a Arnd Bergmann             2023-01-31  390  	return xhci_plat_probe(pdev, sysdev, priv_match);
-e60d31e628503a Arnd Bergmann             2023-01-31  391  }
+   934	
+   935	#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 6, 0) && LINUX_VERSION_CODE >= KERNEL_VERSION(5, 5, 0)) || (LINUX_VERSION_CODE < KERNEL_VERSION(5, 4, 102) && LINUX_VERSION_CODE >= KERNEL_VERSION(4, 20, 0)) || (LINUX_VERSION_CODE < KERNEL_VERSION(4, 19, 178) && LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0)) || (LINUX_VERSION_CODE < KERNEL_VERSION(4, 14, 223) && LINUX_VERSION_CODE > KERNEL_VERSION(4, 10, 0)) || LINUX_VERSION_CODE < KERNEL_VERSION(4, 9, 259) || defined(ISRHEL8) || defined(ISUBUNTU1804)
+   936	#include <linux/icmpv6.h>
+   937	#include <net/icmp.h>
+   938	#if IS_ENABLED(CONFIG_NF_NAT)
+ > 939	#include <linux/ip.h>
+   940	#include <net/ipv6.h>
+   941	#include <net/netfilter/nf_conntrack.h>
+   942	#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 1, 0) && !defined(ISRHEL8)
+   943	#include <net/netfilter/nf_nat_core.h>
+   944	#endif
+   945	static inline void __compat_icmp_ndo_send(struct sk_buff *skb_in, int type, int code, __be32 info)
+   946	{
+   947		struct sk_buff *cloned_skb = NULL;
+   948		enum ip_conntrack_info ctinfo;
+   949		struct nf_conn *ct;
+   950		__be32 orig_ip;
+   951	
+   952		ct = nf_ct_get(skb_in, &ctinfo);
+   953		if (!ct || !(ct->status & IPS_SRC_NAT)) {
+   954			memset(skb_in->cb, 0, sizeof(skb_in->cb));
+   955			icmp_send(skb_in, type, code, info);
+   956			return;
+   957		}
+   958	
+   959		if (skb_shared(skb_in))
+   960			skb_in = cloned_skb = skb_clone(skb_in, GFP_ATOMIC);
+   961	
+   962		if (unlikely(!skb_in || skb_network_header(skb_in) < skb_in->head ||
+   963		    (skb_network_header(skb_in) + sizeof(struct iphdr)) >
+   964		    skb_tail_pointer(skb_in) || skb_ensure_writable(skb_in,
+   965		    skb_network_offset(skb_in) + sizeof(struct iphdr))))
+   966			goto out;
+   967	
+   968		orig_ip = ip_hdr(skb_in)->saddr;
+   969		ip_hdr(skb_in)->saddr = ct->tuplehash[0].tuple.src.u3.ip;
+   970		memset(skb_in->cb, 0, sizeof(skb_in->cb));
+   971		icmp_send(skb_in, type, code, info);
+   972		ip_hdr(skb_in)->saddr = orig_ip;
+   973	out:
+   974		consume_skb(cloned_skb);
+   975	}
+   976	static inline void __compat_icmpv6_ndo_send(struct sk_buff *skb_in, u8 type, u8 code, __u32 info)
+   977	{
+   978		struct sk_buff *cloned_skb = NULL;
+   979		enum ip_conntrack_info ctinfo;
+   980		struct in6_addr orig_ip;
+   981		struct nf_conn *ct;
+   982	
+   983		ct = nf_ct_get(skb_in, &ctinfo);
+   984		if (!ct || !(ct->status & IPS_SRC_NAT)) {
+   985			memset(skb_in->cb, 0, sizeof(skb_in->cb));
+   986			icmpv6_send(skb_in, type, code, info);
+   987			return;
+   988		}
+   989	
+   990		if (skb_shared(skb_in))
+   991			skb_in = cloned_skb = skb_clone(skb_in, GFP_ATOMIC);
+   992	
+   993		if (unlikely(!skb_in || skb_network_header(skb_in) < skb_in->head ||
+   994		    (skb_network_header(skb_in) + sizeof(struct ipv6hdr)) >
+   995		    skb_tail_pointer(skb_in) || skb_ensure_writable(skb_in,
+   996		    skb_network_offset(skb_in) + sizeof(struct ipv6hdr))))
+   997			goto out;
+   998	
+   999		orig_ip = ipv6_hdr(skb_in)->saddr;
+  1000		ipv6_hdr(skb_in)->saddr = ct->tuplehash[0].tuple.src.u3.in6;
+  1001		memset(skb_in->cb, 0, sizeof(skb_in->cb));
+  1002		icmpv6_send(skb_in, type, code, info);
+  1003		ipv6_hdr(skb_in)->saddr = orig_ip;
+  1004	out:
+  1005		consume_skb(cloned_skb);
+  1006	}
+  1007	#else
+  1008	static inline void __compat_icmp_ndo_send(struct sk_buff *skb_in, int type, int code, __be32 info)
+  1009	{
+  1010		memset(skb_in->cb, 0, sizeof(skb_in->cb));
+  1011		icmp_send(skb_in, type, code, info);
+  1012	}
+  1013	static inline void __compat_icmpv6_ndo_send(struct sk_buff *skb_in, u8 type, u8 code, __u32 info)
+  1014	{
+  1015		memset(skb_in->cb, 0, sizeof(skb_in->cb));
+  1016		icmpv6_send(skb_in, type, code, info);
+  1017	}
+  1018	#endif
+  1019	#define icmp_ndo_send __compat_icmp_ndo_send
+  1020	#define icmpv6_ndo_send __compat_icmpv6_ndo_send
+  1021	#endif
+  1022	
+  1023	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0)
+  1024	#define COMPAT_CANNOT_USE_MAX_MTU
+  1025	#endif
+  1026	
+  1027	#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 5, 14) && LINUX_VERSION_CODE >= KERNEL_VERSION(5, 5, 0)) || (LINUX_VERSION_CODE < KERNEL_VERSION(5, 4, 29) && !defined(ISUBUNTU1910) && !defined(ISUBUNTU1904) && !defined(ISRHEL8))
+  1028	#include <linux/skbuff.h>
+  1029	#include <net/sch_generic.h>
+  1030	static inline void skb_reset_redirect(struct sk_buff *skb)
+  1031	{
+  1032	#ifdef CONFIG_NET_SCHED
+  1033		skb_reset_tc(skb);
+  1034	#endif
+  1035	}
+  1036	#endif
+  1037	
+  1038	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 14, 0) && !defined(ISRHEL7)
+  1039	#define skb_get_hash skb_get_rxhash
+  1040	#endif
+  1041	
+  1042	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 15, 0) && !defined(ISRHEL7)
+  1043	#define hash rxhash
+  1044	#define l4_hash l4_rxhash
+  1045	#endif
+  1046	
+  1047	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 17, 0) && !defined(ISRHEL7)
+  1048	#define sw_hash ignore_df = 0; skb->nf_trace = skb->ooo_okay
+  1049	#endif
+  1050	
+  1051	#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 3, 0)
+  1052	#define pre_exit exit
+  1053	#endif
+  1054	
+  1055	#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 8, 0)
+  1056	#include <linux/skbuff.h>
+> 1057	#include <linux/ip.h>
+  1058	#include <linux/ipv6.h>
+  1059	static inline __be16 ip_tunnel_parse_protocol(const struct sk_buff *skb)
+  1060	{
+  1061		if (skb_network_header(skb) >= skb->head &&
+  1062		    (skb_network_header(skb) + sizeof(struct iphdr)) <= skb_tail_pointer(skb) &&
+  1063		    ip_hdr(skb)->version == 4)
+  1064			return htons(ETH_P_IP);
+  1065		if (skb_network_header(skb) >= skb->head &&
+  1066		    (skb_network_header(skb) + sizeof(struct ipv6hdr)) <= skb_tail_pointer(skb) &&
+  1067		    ipv6_hdr(skb)->version == 6)
+  1068			return htons(ETH_P_IPV6);
+  1069		return 0;
+  1070	}
+  1071	#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 1, 0) || defined(ISRHEL8)
+  1072	static const struct header_ops ip_tunnel_header_ops = { .parse_protocol = ip_tunnel_parse_protocol };
+  1073	#else
+  1074	#define header_ops hard_header_len
+  1075	#define ip_tunnel_header_ops *(char *)0 - (char *)0
+  1076	#endif
+  1077	#endif
+  1078	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
