@@ -1,86 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9B5AD21
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Feb 2024 01:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC147F
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 Feb 2024 01:33:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707096489; cv=fail; b=P03Qmts9dmVB3OZhdvD9FsrILXelZwjScree9+ZRm/zQ8xqrXXYUPiqsWQ0BRk+94ITjWtB7w2IZJ5JLeaLnwo0LHaaj+qsiOJ9wALIbDr/fPVPYgk3ScOKzWuErrx38m8KrUChqNkzboWE3rlnjwuEVjDs/0d2xl60M3eCw+Io=
+	t=1707096830; cv=fail; b=mQ8tnOc3y4Zjo+eACnWKRsHBQ5XxLharP5VoDzInwqHZIdqr4nSMIWteP7TnAaUPGq+n8COOMwxH3HI9DJjXL/YMi7Ed8RLhvxVlI7AaB9y450XWUFLDHD324MYa7wXVdVbeyt34T3IakxPQTecpILI885PMDNXux5hfe166sPU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707096489; c=relaxed/simple;
-	bh=n0CAV7h6yZw66q2+aNBUdKjVSkApoVwQSbsLmx98dIs=;
+	s=arc-20240116; t=1707096830; c=relaxed/simple;
+	bh=nzBOx10szaLJ5GIbmskL3/AXOw6v76ybAULCaTERvus=;
 	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=f5nuQmshjvcRQzGgbxybT4dKTAYJoEsKZPeml43rHG3O8dKIVur18jvjTGQQU3PEZtGzkWjz8K3dc6aR0YOsmsqGA6y5xoKnFx8uLpZwJGmyEZ4nyZOxnQvdbINc35Adg6rkDNOHV79lJPfpBjOS7SVKvrqxdpUM4JdhEMWKYW8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZeMuGjY; arc=fail smtp.client-ip=198.175.65.13
+	 Content-Type:MIME-Version; b=M6MxsVIOuxeBPZwXXjnnRtX/MHW+t0weLXxePrMzv3ELzr1wuu6bXL32GGfXVdOrPjGwUlV6tRaKgzcNUyDK4K8Bms0ZbrSuWe1gblmaopPAT0gHOHgJE19C8g7hwvMKIc54bqz+vsRhen4SYDcpz8GBFXx87SseEZAWmqqs9xI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E+Akrwrb; arc=fail smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZeMuGjY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E+Akrwrb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707096486; x=1738632486;
+  t=1707096828; x=1738632828;
   h=from:to:subject:date:message-id:references:in-reply-to:
    content-transfer-encoding:mime-version;
-  bh=n0CAV7h6yZw66q2+aNBUdKjVSkApoVwQSbsLmx98dIs=;
-  b=nZeMuGjYfxCIhhbqrWye+Kb1eqlvRV+H4GTksBwJMiz8Nokgdpz8o9o+
-   5DNdKDz4N47KbmChRfdhTouhCtEF1O9rQJ4Hv9KkqP3RL5PeiD/wvYKBn
-   bdP9meqlFRR5hOvnweY5WWHKYN4TYivaTUSGGLvQUSOIvGas3HC8bJWDi
-   5DtFQZZ1AfzaWz8PpYQmNHV7C80GOiL51Zj4GXsfHueCjvYmgwlB4YQvu
-   KorsnmJZWVxNU8bBzBrp2LMjmjxOXnQ5iZ6liNqjZjFXhK+ZMNuhu1K8U
-   n/3lx9zJBfCRPWs5diS7yKoRc2Z8tiYDkXTCUEVqXi+lES7318SXt8X+X
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="11526121"
+  bh=nzBOx10szaLJ5GIbmskL3/AXOw6v76ybAULCaTERvus=;
+  b=E+AkrwrbhK+12aXRe4XqHj0y4YcdE5RCGD7AR/flbvTmU3GeYSmzz3ka
+   uK4cmNVV7ipojyoj7D7vo8Xdl60KCXfa7hNhk/a1XBw+S4/Hn1RYxzLMu
+   Un1vO6tRDc5Gd1vZxh8d9OTOY79FYN+ziItHoL/TiZUtvQI3Q7jG7TG6I
+   PrJtALjlZzg/vXstR3y3MoBlxMQq16fpHfZ1D9M3q846hDDsI/2sLPHXc
+   BGKQvSWs+OG+pvNDWCZHcpXLx7nLhGpEsOSFpgg65v5yKZV3Fh/ZTc5Be
+   pLTJ9Cg6HpOc0POOGcqViSOcEPdd0iU883FSImlPT/EGXNmR1obFxe2P5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="323734"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="11526121"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 17:28:04 -0800
+   d="scan'208";a="323734"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 17:33:46 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="23842566"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Feb 2024 17:28:04 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+   d="scan'208";a="638454"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Feb 2024 17:33:46 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 4 Feb 2024 17:28:03 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.35; Sun, 4 Feb 2024 17:33:45 -0800
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Sun, 4 Feb 2024 17:28:03 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2507.35; Sun, 4 Feb 2024 17:33:44 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Sun, 4 Feb 2024 17:33:44 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Sun, 4 Feb 2024 17:28:03 -0800
+ 15.1.2507.35; Sun, 4 Feb 2024 17:33:43 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Uy6fZVU19Y+Fs5DjZGYkCesllc6WIgDXGD3ZWzxVpQvRRDSPRXWDY5OPIcYAmLEsIQ/e8t3PK0+5FEg/d7OivDS4sARGb8KccqF0mZV3wNTh/h0rUM1lagzkJXOzZ3JTAx9C3NWr+G+56SfwF7K0NLDLXevhpwb8XvvydWoUZODP02edAydOV6xNYC0vIyka6vsajH9nzhtj28NiH3Wwc9zFMXUb7CUHhsRl1PWgJynZtDQ4YR6S5Bbs29WtJQRx9d1s/1vRQ6b++rEkVirnwCR+dM4+jci/lXf7TzXt8x8hAeBZh58vm9Q+Mk2m7ZETReMmsaCnokNsNFSj0Yz+mA==
+ b=L6WfEb9UeOKS/vT7pTSxL2OHFV0W7NKG2zeRqdh0ohTJYTc248GMjZr/J8n0ze6nYwpno0RWw1G5JYvN5p5gSn87J5PtOfHDdkBH5xAie69UnD+HVFHKe+hDOqvHYcoRzNj9BJUwukvDXH4mWUfd7nR8srMss71wOUOJJSPyA+AjLq6uLO8hoajuYaQQyYll9/qd6iKSnBMnQc/6v5Jh9BYsnUo5g8f69FN/NHV1OfS1P9pIS/ziyol2Ee8GkNC+asXKyhBviYsNXwOug/SRl9aS5Avo6cpQ2xUd+CIWdMUvglYOJuWiqUdm1No6Gu9tKmGiwhkuVdlAz7DlHUTHKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tn8pe/genme9kaEQWeBDyIyrLVcnZrxrynUdrGsHSLs=;
- b=CCzjJOW6XGhH5XcXBdZ9rK5GFa3DUKhBpwFTCJB/ZbPENSCOq+dnGcTckB29TPbH9wAQ626OEPD/nh67b80QSGmf8l9zcTVJE04V0G+ebmKNXT7ne13p8zYI86JKfBb5eFozAS3melsezlBPNF7wBD2sxzVzfmf7uG7Q5+/oR9IkAXgil6SmPyzqlkKzF1GIivj5aKXcIyV4wBDRb0MaB47pHmWjkT4wl3z92SOqinTHr4wMPUleQYjlUgb0pOPGEZHfPcNqQjHhUoKy0M1abEHfx3wqMiFFLhJN/5YBSlvJs2RJmlQfiMWt42MD9P/O9fqJT6uSWJHeV0wpIuaNrw==
+ bh=iHceX4ESKPOlmFZdf0KuZLEgCM+XzUQzdBGdz56m6hg=;
+ b=lQZUTpijLtIinpYAumuYfDxbvD1NvIaWDPzu1Z3z4Z5CMBizEv6eqEPzx0FlENM0ddefRpBIFTerw2lfzktJ02HcwY7MvRJXaHCn6bXJfplOu3UYy5RHXea5bm63JKG3v/nIeMjHvjQM5vZULTiy4hoghnQ3IZBjHJRXEIcNfR3+8ocj8vTknqCTFo52mmCH2XAa43p3E2rF7C06gHpQzeMxwA08GDUKjFEJMTanzcAwJBU40Cibav7psgVXOyh9VL7F8l2KM8I9NjBZL3gRsC9PE3D7VzFg2QcDI7kx3pFTeOT2iIISUsuO77XKpq9eE1k1GmuAUgb1YB0KHHxoSg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by DM4PR11MB6549.namprd11.prod.outlook.com (2603:10b6:8:8e::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7249.34; Mon, 5 Feb 2024 01:28:00 +0000
+ by DS0PR11MB7261.namprd11.prod.outlook.com (2603:10b6:8:13d::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.34; Mon, 5 Feb
+ 2024 01:33:41 +0000
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::b99c:f603:f176:aca]) by CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::b99c:f603:f176:aca%5]) with mapi id 15.20.7249.032; Mon, 5 Feb 2024
- 01:28:00 +0000
+ 01:33:41 +0000
 From: "Liu, Yujie" <yujie.liu@intel.com>
 To: lkp <lkp@intel.com>, "oe-kbuild@lists.linux.dev"
 	<oe-kbuild@lists.linux.dev>
-Subject: RE: [frank-w-bpi-r2-4.14:5.4-main 3542/26476]
- net/wireguard/compat/compat.h: linux/netdevice.h is included more than once.
-Thread-Topic: [frank-w-bpi-r2-4.14:5.4-main 3542/26476]
- net/wireguard/compat/compat.h: linux/netdevice.h is included more than once.
-Thread-Index: AQHaV5jyq6HJAAe1WE+0szDcja3TV7D69ceg
-Date: Mon, 5 Feb 2024 01:28:00 +0000
-Message-ID: <CY5PR11MB6392DE6CB8E9ADF4F825FE2BFB472@CY5PR11MB6392.namprd11.prod.outlook.com>
-References: <202402050201.FPxT7yTm-lkp@intel.com>
-In-Reply-To: <202402050201.FPxT7yTm-lkp@intel.com>
+Subject: RE: [frank-w-bpi-r2-4.14:5.4-main 1518/26476]
+ drivers/misc/mediatek/connectivity/wlan/gen2/include/precomp.h: que_mgt.h is
+ included more than once.
+Thread-Topic: [frank-w-bpi-r2-4.14:5.4-main 1518/26476]
+ drivers/misc/mediatek/connectivity/wlan/gen2/include/precomp.h: que_mgt.h is
+ included more than once.
+Thread-Index: AQHaVjPsxJJ3bD9nI0Oj4JyzsSE9B7D6+jKA
+Date: Mon, 5 Feb 2024 01:33:41 +0000
+Message-ID: <CY5PR11MB63921481A2643CE3AA8A4B04FB472@CY5PR11MB6392.namprd11.prod.outlook.com>
+References: <202402030744.qWfGo6g9-lkp@intel.com>
+In-Reply-To: <202402030744.qWfGo6g9-lkp@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -88,41 +95,41 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY5PR11MB6392:EE_|DM4PR11MB6549:EE_
-x-ms-office365-filtering-correlation-id: f9a74e18-b1f4-44bf-898c-08dc25e9b102
+x-ms-traffictypediagnostic: CY5PR11MB6392:EE_|DS0PR11MB7261:EE_
+x-ms-office365-filtering-correlation-id: d458d7f3-bc86-49e0-c38b-08dc25ea7c1b
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7zutJiwTm2exO3NcZbaWAZKPVd8cfJl6jz1YS0lcqXcns5A6SyiEZ6P/SVt+7GADGhTLd64xI8GLGQ7K30fyEPcqIoRLRffxv3gsonEiDxJhX11rCXeckTLV018XeD17lmbcGguG1+rwgQiEiyAm2dVwRc5/ZDMWfGZ4sLxzufJ4wJP6OHlBsAi/J/xVp26G4TWdPoXzAzhTB3hNUU6M1EWh/Ois+r6w7re6AT+EPkyDeM3bHsDFqV8G6BPyuzMtby24UmFyGNMgXTkx6RXRnWfqHpigsbs3nHpJwedMOnTrNiK4hSQD+FnRuJRyfcdjaig3gnly86Kier3lRCz4nJA1L4goGY9aJPEkirg1Ezlh6bZuNGY56DC3oaoQnXbDmlVA1qWdPrBWsdlE6kqx0nAgZ8WIvxA60LOBiLng2Kwx82LmUFp01aetH1MO7ain6zneH7ckWhtIghf9F82j17WAS/yFvweMDIMI2CukQLSUSz3H6wmpHuciMucyqMFnwFsCCIOe7+SWgvDXEQBtLNoq565o4i0p4OdYAltmB32svK4X0NMCjvLY5GJwOnyXLhM0FFA6Zw4X2XHnwA4pQ6YKFDlr5j1UUF89BlvLCeVGSqkySc2G08Sw6UDBsd2YuZLEm/FeXhGBbPzR9a8LtQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(366004)(136003)(396003)(376002)(230273577357003)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(41300700001)(38070700009)(66556008)(64756008)(66446008)(66476007)(66946007)(110136005)(76116006)(316002)(5660300002)(30864003)(2906002)(52536014)(8936002)(8676002)(83380400001)(38100700002)(122000001)(82960400001)(55016003)(33656002)(7696005)(6506007)(71200400001)(9686003)(53546011)(478600001)(966005)(26005)(86362001)(579004)(559001);DIR:OUT;SFP:1101;
+x-microsoft-antispam-message-info: OR92fUz0VjOScIC7I8wiHPKCLRwugnaERoUNjWuW3OJuAhA3ivV42yg/McUR7X2vGRcrJjlPQ2LBJA/BTb9J7pKIs/dBT+F3RQf2H332BV2vZ6lmerwM1u3OhOdTuiD2iDHBqG4JDp/SLFkgfuWYliIlv6yqlxu2t3tGbo+uhP4IhKSzpWuhFHSDXyHQ5oNtdgYN9xbQnzu0r8sDKhaGD0eIY4HdF6ADDA9a0myTcn+qsMb5fYxqyerDjGNKmhkTnXv2dbNmzJom+h7xKGFeHyY3CGOxdhKcdS3UAFFO0GgwhCzoYwOSqP0pJMUGqQvNVQv8SuZgTbPxfZkZ0CQoEZbp/Q5IAh/EYTgMgqJhElYbI6ize6GEL1iMV2Ytz55VdMvaXi+MThVAVfApTL7XqyO/P7nRqWZUxvxjazFnFvnPXPgJq92gbQqz4xh6Gv1zMtZOkjSpgpfV38ML77aYxtNaDVwPJ0QiQ9SNytBZQh765wxlgVRao6IfX5Sg+AtPTeosGwTGQFouZ955g46u4VqzECw0xjz0rzBIkm3cC5IT2Zp08wD0r2VwlUJgV9eKAGUxEkyUU+k2YXIt4iz5c/0APE9loIxZKIwOadhSAmaHL9o9HblkR7HHPiZipUiN3DPdeC9cyX/TeCNkxKu0Ag==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(346002)(376002)(39860400002)(136003)(230273577357003)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(41300700001)(38070700009)(66556008)(64756008)(66446008)(66476007)(66946007)(110136005)(76116006)(66899024)(316002)(5660300002)(30864003)(2906002)(52536014)(8676002)(8936002)(83380400001)(38100700002)(122000001)(82960400001)(55016003)(33656002)(6506007)(7696005)(71200400001)(9686003)(53546011)(478600001)(966005)(26005)(86362001);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?/mNNqUyX0zpn/osHfzjevCGYKUlU91daPW7OKNqIa4tpom9j83DL1RJmXEYQ?=
- =?us-ascii?Q?/SZIRMWkAaL4nPNlLxUbylbvH+pbGiyN3hyMXmx/9g/BSvP2IEJBIYCeOonW?=
- =?us-ascii?Q?5pq+R71CVA9mX/d6XeguPPmJpSrusSXZY8aUiLZDKsxjpi75Ogc9UpjtjMAD?=
- =?us-ascii?Q?8+W9bctO/MnH3kCB9CW2N7kE8G2gm3POfdZXRxCsBSewxZT4lxInmzigb6Ra?=
- =?us-ascii?Q?z/S47mpVZGoLFgEEPYx0yCA/DemA/9E8Rl1qK518bU0w47wVrDCS11jqy36Q?=
- =?us-ascii?Q?i6FON7y9CPr+1Bm+uk2jAPgPAXG91hNTCcMmQgBZKjE/zrfcPjRp+CaNBxSK?=
- =?us-ascii?Q?YoNZwKVH0UaDw/UmgjMr3VPtOOra9dcL0fVpdbrrw+zsEScYBky8Wd1OyhaD?=
- =?us-ascii?Q?zdjj+vL97SzSQRhRLq1u8bdqWpkv9EtifR6NviMRIr/uhjbUbnSFrwG8NSu8?=
- =?us-ascii?Q?xHf0bl9Z97Yi75vU8x3oB8IH/GafA7vaQXD/SN9KNAdioCZfF1cZjymL2k+U?=
- =?us-ascii?Q?rjCRFIcGzTEV4OIYqAltCKXL0JbPTCfHHjsFlhKIJ2XayoBQPaAzjAQsJJDJ?=
- =?us-ascii?Q?nY4ZmIEbMhLqVSa3kFbWkLMbQmal65jUilHs1O6AlKlgzx5GRedaAU1jlVb3?=
- =?us-ascii?Q?fxO3DwxDUZm/rjjV/6pjTVnc3FT1hJ4ONtQnjgIn2bj9fz4EmjPw7TYkTrXR?=
- =?us-ascii?Q?mvvmk+UZsUpEu+spTApJOsaWfzG3IkBqq83/16+dH8Ntg/2JeWIGC9LdKQvQ?=
- =?us-ascii?Q?T8mKC/pv7x3QLxq03tJUWOUc0KoUT9VJBPiEcas4F+OSWZcvTZgxv4LtPEee?=
- =?us-ascii?Q?iza3WIq3qPBi2v2/e2Eg+hgZ5ERGH02KJrmndycwhEYXlID7U7ARKIqSdlyc?=
- =?us-ascii?Q?B7KkIzcfeBceaQFChrZu5OqkUb75+RQYF4RFRY23TanN8UoyFUhc/zyeNBMv?=
- =?us-ascii?Q?To8WhA6od4G33jdzm1vwGlBChAZuGkchYITCoV1cwu+OcAxa3ncFLmrWo85v?=
- =?us-ascii?Q?ersLapF75ZBAWHOXMECkDkvaCB3K4lI0RZr0GUtDY5T9PwLmqjyyobwc8Z7A?=
- =?us-ascii?Q?0zAyV0zJaqunfsVlxBsd/Sk4sMK4E/bbVxtIaWwHeEqgIZcAvbB7j/xF8GIR?=
- =?us-ascii?Q?edq551dd0rmr3zd4kXfv8xZE2BGSmhIQYqja+WZT5WEjoOXds+l1GPTBtOjx?=
- =?us-ascii?Q?t4hUtCZ/5x+tLQZQCOXPDRfVxzRlmh9E1a7STpmVpUoRCzVktdEr6/vHHzZf?=
- =?us-ascii?Q?lzh6S4d2YClkkeyIxOHSPhd5N7IajRI3H4up/RjoLuCo9tTic34Dwx/YtFP3?=
- =?us-ascii?Q?zGlav/AdRPWhGQVsxJSMPEDDJVVZy0fATa3YnGu2d/D9/K88jgRoKzIVPIyi?=
- =?us-ascii?Q?IGUnQ92dJ3V9GoYDcMlANsNxZYurrkTxoKOkHQX3owghDwpxJLMcVMKUsbTN?=
- =?us-ascii?Q?iQ1oH692Yz9ZYZd6xiKKgTHnUe/2yX2l5iqJ5Nk+1a9yqtJz1kfeFP7ynH/E?=
- =?us-ascii?Q?L+I/Bnupj+DSTAo5q7wvEXFBCNhHU1fndWwGRoKDvRB6kWBYY+vTv2dN1sD3?=
- =?us-ascii?Q?ALCg2GC1UMRGMVrsOoWWGp/ljec+TgnREkWXq3Oy?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?YWKKtLxFsZt/JH9fck4cMoQMg9VdcmyMqGje9i1/IO5sd6FPPTZY9c2MaJAR?=
+ =?us-ascii?Q?VyEakd4Uo+YlDTHqxT0ztPfuBICBK1mYrsUnLcJVvZd5X9U/Vyp6w884/c55?=
+ =?us-ascii?Q?+nj5Zc0FOx2WuMmkuJyj7P0tx0EwkwH4S3thieUTT1pJlMqcOEpwnsSRTeZn?=
+ =?us-ascii?Q?eHbIFeX6VOk1y54XlddZp+984SOQy4aDYVN9TmCvRcxw/7sx60Wou27sVs6d?=
+ =?us-ascii?Q?q6xc21HqBBKrt4VR5tWOKkVXbWUnJFlrq0azKS6wp10zUpJh+SQu4dEXlSkx?=
+ =?us-ascii?Q?5HxNxg07svB9QrHu01fLjwHw9eCCYA4GRgx5lwfV55+krnd/RYUGFdrrS9Qm?=
+ =?us-ascii?Q?pebpWLTtacxJ+xzTkhHoDSHs/k0G4ujEEfa9Ou1JLeGBhcOinmjh9upxEX0Y?=
+ =?us-ascii?Q?qzaDkIgwXbdzW2qqD6yD8pNMx56JjaeaA+VcKAHX8/F7J3j0mNlFYQv3coj8?=
+ =?us-ascii?Q?fWENV+kR1oqtWPlg8SSZJDn0RdJacKXOC37flGaXxxxGOg7dMbSnenUKFKSA?=
+ =?us-ascii?Q?GsfzGO4nxz+DXOG45dWD8AnVAqYCFAu1NNfg0YwFH6zaZoB+9dEKtddDESFN?=
+ =?us-ascii?Q?sfZ2YQtXpw0/mvnM93Iu1WCVyPZ7f3ilmOBVsywrJElws4Ke99S+RJwNIZIk?=
+ =?us-ascii?Q?1ZmOxDsykmC5n9eYstFMWwj9eVS39044tGUXPcaDH40ZyEKJfR9F9FqNRCD3?=
+ =?us-ascii?Q?51msfm7wkZwnCp1vf1zeyQf+sXB1uWmASIJh/yPRFaEpF/P784scaW0RlqEV?=
+ =?us-ascii?Q?qpO2uXG3zzw4yXbpgSmugOcoumxzJ6Cw8bOtE+B7iL7r5GOTQIAB9Zhq4Pl6?=
+ =?us-ascii?Q?RfIrQ3vbv1yEvrjHuaiSNanG3/yqkL2sbc3DGaENburPMs5qaDYcIeczyMMw?=
+ =?us-ascii?Q?YOU0ocPBxqu3x5jZ26qrdCoPGvhZaRhT0aF2BnQutwd07pcEIscegSCv6RKi?=
+ =?us-ascii?Q?z28tisBUHvnV2LsV9B33naxSpdkY2t62A/8Y5+TxMVidL43eKaKsSd77gk8I?=
+ =?us-ascii?Q?xPUBGiqKVKbfNCA08G7nvR4InhjBngRSrj9IlvylowOdlI8g4PR9JKig3gae?=
+ =?us-ascii?Q?T84dCfQ1AQ1NUDAE5AEilfakDxtO8hxkN7kb2Vo5Q5SZpzal8pIpZwiuwNHi?=
+ =?us-ascii?Q?6nl1Cgvo14LOaoV+Our3b/eW2KSfFPBBxcJukArA8lbNkajfCL/tHgRR2H5Q?=
+ =?us-ascii?Q?952YzXv9kc9LdTsodoXKZOr2LlvNiaob7fly8PKktv87TXG3VZv2sVPOXEwd?=
+ =?us-ascii?Q?6H49ZJ8QpFXc8VjYAAoH+IqgNkJBLqulI5Flq9AK9ja6mVyavgKNe928oH9S?=
+ =?us-ascii?Q?bugb7iRR83geP7K2VXggqvv5Yny/OKc1KFVt/ntNSQlunOuMi1UvLs/1ey4W?=
+ =?us-ascii?Q?kzlQHgqChQ3dGc5iM+M9VH26dODWKCiDlqtXodRerTvA8rc+w7G6mkKJjxM0?=
+ =?us-ascii?Q?ybBaVVHekAl41tdffXmAWXnElYUM23qiOEKWFw+jji6k+RmUxvOJ+6nABwkV?=
+ =?us-ascii?Q?kP5ractXZvaPki6qXKWHGtKlQY/GNH50dUcZ0iRW/PUmhLdwYKPX1MnkT1yb?=
+ =?us-ascii?Q?z7D/qMjoApYcx6Lnhg1kaYhZJisDzXpkrC7+kTyb?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -133,27 +140,28 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9a74e18-b1f4-44bf-898c-08dc25e9b102
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Feb 2024 01:28:00.6679
+X-MS-Exchange-CrossTenant-Network-Message-Id: d458d7f3-bc86-49e0-c38b-08dc25ea7c1b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Feb 2024 01:33:41.4315
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Ex8y8xhnYTAoUKIPZZqyHHJTGwAw/564hJCtRit4eoGsddfN+zaefDJulEVQ7R3lTQquYq3tdnNi0X96h0UF1A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6549
+X-MS-Exchange-CrossTenant-userprincipalname: jGB848FsDSNEacDqQWYbj90OasQCx4EkhS3UUVUoK2RsRVnRStnzHK98T2VD6EZxjkXiNId6hsxv8Yp9OpxS9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7261
 X-OriginatorOrg: intel.com
 
 not_report
 
-Guarded by different #ifdef macro
+Guarded by different #ifdef macros.
 
 -----Original Message-----
 From: lkp <lkp@intel.com>=20
-Sent: Monday, February 5, 2024 02:32
+Sent: Saturday, February 3, 2024 07:59
 To: oe-kbuild@lists.linux.dev
 Cc: lkp <lkp@intel.com>
-Subject: [frank-w-bpi-r2-4.14:5.4-main 3542/26476] net/wireguard/compat/com=
-pat.h: linux/netdevice.h is included more than once.
+Subject: [frank-w-bpi-r2-4.14:5.4-main 1518/26476] drivers/misc/mediatek/co=
+nnectivity/wlan/gen2/include/precomp.h: que_mgt.h is included more than onc=
+e.
 
 ::::::=20
 :::::: Manual check reason: "low confidence bisect report"
@@ -165,668 +173,379 @@ TO: Frank Wunderlich <frank-w@public-files.de>
 
 tree:   https://github.com/frank-w/BPI-R2-4.14 5.4-main
 head:   645dca86a686ddae272b209432af075ecc0185c5
-commit: dabd02495f84488ea48192d40aa013f3749c1bc1 [3542/26476] added wiregua=
-rd, tag:0.0.20191219
-:::::: branch date: 9 days ago
-:::::: commit date: 3 years, 11 months ago
+commit: 06d376a01ea074dd064fc447282fe587ea9ddbdb [1518/26476] mt6625l: add =
+driver-folder from 5.3
+:::::: branch date: 7 days ago
+:::::: commit date: 4 years, 1 month ago
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202402050201.FPxT7yTm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402030744.qWfGo6g9-lkp@intel.com/
 
 includecheck warnings: (new ones prefixed by >>)
->> net/wireguard/compat/compat.h: linux/netdevice.h is included more than o=
-nce.
->> net/wireguard/compat/compat.h: linux/slab.h is included more than once.
->> net/wireguard/compat/compat.h: linux/atomic.h is included more than once=
-.
->> net/wireguard/compat/compat.h: linux/rcupdate.h is included more than on=
-ce.
->> net/wireguard/compat/compat.h: linux/siphash.h is included more than onc=
-e.
->> net/wireguard/compat/compat.h: net/netlink.h is included more than once.
->> net/wireguard/compat/compat.h: linux/mm.h is included more than once.
->> net/wireguard/compat/compat.h: linux/random.h is included more than once=
-.
->> net/wireguard/compat/compat.h: net/ipv6.h is included more than once.
->> net/wireguard/compat/compat.h: linux/vmalloc.h is included more than onc=
-e.
->> net/wireguard/compat/compat.h: net/genetlink.h is included more than onc=
-e.
->> net/wireguard/compat/compat.h: linux/cache.h is included more than once.
->> net/wireguard/compat/compat.h: linux/skbuff.h is included more than once=
-.
+>> drivers/misc/mediatek/connectivity/wlan/gen2/include/precomp.h: que_mgt.=
+h is included more than once.
 --
->> net/wireguard/compat/udp_tunnel/udp_tunnel_partial_compat.h: linux/skbuf=
-f.h is included more than once.
->> net/wireguard/compat/udp_tunnel/udp_tunnel_partial_compat.h: linux/in6.h=
- is included more than once.
->> net/wireguard/compat/udp_tunnel/udp_tunnel_partial_compat.h: net/udp_tun=
-nel.h is included more than once.
->> net/wireguard/compat/udp_tunnel/udp_tunnel_partial_compat.h: linux/if.h =
-is included more than once.
->> net/wireguard/compat/udp_tunnel/udp_tunnel_partial_compat.h: linux/in.h =
-is included more than once.
+>> drivers/misc/mediatek/connectivity/wlan/gen2/os/linux/include/gl_os.h: l=
+inux/wireless.h is included more than once.
 --
->> net/wireguard/tests/qemu/init.c: sys/types.h is included more than once.
+>> drivers/misc/mediatek/connectivity/wlan/gen2/include/p2p_precomp.h: que_=
+mgt.h is included more than once.
 --
->> net/wireguard/compat/udp_tunnel/udp_tunnel.c: linux/udp.h is included mo=
-re than once.
->> net/wireguard/compat/udp_tunnel/udp_tunnel.c: linux/module.h is included=
- more than once.
->> net/wireguard/compat/udp_tunnel/udp_tunnel.c: net/net_namespace.h is inc=
-luded more than once.
->> net/wireguard/compat/udp_tunnel/udp_tunnel.c: linux/types.h is included =
-more than once.
->> net/wireguard/compat/udp_tunnel/udp_tunnel.c: net/udp_tunnel.h is includ=
-ed more than once.
->> net/wireguard/compat/udp_tunnel/udp_tunnel.c: net/udp.h is included more=
- than once.
->> net/wireguard/compat/udp_tunnel/udp_tunnel.c: linux/errno.h is included =
-more than once.
->> net/wireguard/compat/udp_tunnel/udp_tunnel.c: linux/kernel.h is included=
- more than once.
->> net/wireguard/compat/udp_tunnel/udp_tunnel.c: linux/socket.h is included=
- more than once.
+>> drivers/misc/mediatek/connectivity/common/conn_soc/linux/include/wmt_idc=
+.h: wmt_stp_exp.h is included more than once.
+--
+>> drivers/misc/mediatek/include/mt-plat/mt8127/include/mach/mtk_thermal.h:=
+ linux/types.h is included more than once.
 
-vim +161 net/wireguard/compat/compat.h
+vim +143 drivers/misc/mediatek/connectivity/wlan/gen2/include/precomp.h
 
-   159=09
-   160	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 14, 0) && !defined(ISRHEL=
-7)
- > 161	#include <linux/netdevice.h>
-   162	#ifndef netdev_alloc_pcpu_stats
-   163	#define pcpu_sw_netstats pcpu_tstats
-   164	#endif
-   165	#ifndef netdev_alloc_pcpu_stats
-   166	#define netdev_alloc_pcpu_stats alloc_percpu
-   167	#endif
-   168	#elif LINUX_VERSION_CODE < KERNEL_VERSION(3, 15, 0) && !defined(ISRH=
-EL7)
- > 169	#include <linux/netdevice.h>
-   170	#ifndef netdev_alloc_pcpu_stats
-   171	#define netdev_alloc_pcpu_stats(type)					\
-   172	({									\
-   173		typeof(type) __percpu *pcpu_stats =3D alloc_percpu(type);		\
-   174		if (pcpu_stats)	{						\
-   175			int __cpu;						\
-   176			for_each_possible_cpu(__cpu) {				\
-   177				typeof(type) *stat;				\
-   178				stat =3D per_cpu_ptr(pcpu_stats, __cpu);		\
-   179				u64_stats_init(&stat->syncp);			\
-   180			}							\
-   181		}								\
-   182		pcpu_stats;							\
-   183	})
-   184	#endif
-   185	#endif
-   186=09
-   187	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 14, 0) && !defined(ISRHEL=
-7)
-   188	#include "checksum/checksum_partial_compat.h"
-   189	static inline void *__compat_pskb_put(struct sk_buff *skb, struct sk=
-_buff *tail, int len)
-   190	{
-   191		if (tail !=3D skb) {
-   192			skb->data_len +=3D len;
-   193			skb->len +=3D len;
-   194		}
-   195		return skb_put(tail, len);
-   196	}
-   197	#define pskb_put __compat_pskb_put
-   198	#endif
-   199=09
-   200	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 11, 0) && !defined(ISRHEL=
-7)
-   201	#include <net/xfrm.h>
-   202	static inline void skb_scrub_packet(struct sk_buff *skb, bool xnet)
-   203	{
-   204	#ifdef CONFIG_CAVIUM_OCTEON_IPFWD_OFFLOAD
-   205		memset(&skb->cvm_info, 0, sizeof(skb->cvm_info));
-   206		skb->cvm_reserved =3D 0;
-   207	#endif
-   208		skb->tstamp.tv64 =3D 0;
-   209		skb->pkt_type =3D PACKET_HOST;
-   210		skb->skb_iif =3D 0;
-   211		skb_dst_drop(skb);
-   212		secpath_reset(skb);
-   213		nf_reset(skb);
-   214		nf_reset_trace(skb);
-   215		if (!xnet)
-   216			return;
-   217		skb_orphan(skb);
-   218		skb->mark =3D 0;
-   219	}
-   220	#endif
+    11=09
+    12	/*
+    13	** Log: precomp.h
+    14	 *
+    15	 * 07 17 2012 yuche.tsai
+    16	 * NULL
+    17	 * Compile no error before trial run.
+    18	 *
+    19	 * 01 05 2012 tsaiyuan.hsu
+    20	 * [WCXRP00001157] [MT6620 Wi-Fi][FW][DRV] add timing measurement su=
+pport for 802.11v
+    21	 * add timing measurement support for 802.11v.
+    22	 *
+    23	 * 08 15 2011 cp.wu
+    24	 * [WCXRP00000851] [MT6628 Wi-Fi][Driver] Add HIFSYS related definit=
+ion to driver source tree
+    25	 * add MT6628-specific definitions.
+    26	 *
+    27	 * 04 18 2011 terry.wu
+    28	 * [WCXRP00000660] [MT6620 Wi-Fi][Driver] Remove flag CFG_WIFI_DIREC=
+T_MOVED
+    29	 * Remove flag CFG_WIFI_DIRECT_MOVED.
+    30	 *
+    31	 * 03 15 2011 eddie.chen
+    32	 * [WCXRP00000554] [MT6620 Wi-Fi][DRV] Add sw control debug counter
+    33	 * Add sw debug counter for QM.
+    34	 *
+    35	 * 01 27 2011 tsaiyuan.hsu
+    36	 * [WCXRP00000392] [MT6620 Wi-Fi][Driver] Add Roaming Support
+    37	 * add roaming fsm
+    38	 * 1. not support 11r, only use strength of signal to determine roam=
+ing.
+    39	 * 2. not enable CFG_SUPPORT_ROAMING until completion of full test.
+    40	 * 3. in 6620, adopt work-around to avoid sign extension problem of =
+cck of hw
+    41	 * 4. assume that change of link quality in smooth way.
+    42	 *
+    43	 * 12 13 2010 cp.wu
+    44	 * [WCXRP00000260] [MT6620 Wi-Fi][Driver][Firmware] Create V1.1 bran=
+ch for both firmware and driver
+    45	 * create branch for Wi-Fi driver v1.1
+    46	 *
+    47	 * 10 07 2010 cp.wu
+    48	 * [WCXRP00000083] [MT5931][Driver][FW] Add necessary logic for MT59=
+31 first connection
+    49	 * add firmware download for MT5931.
+    50	 *
+    51	 * 10 05 2010 cp.wu
+    52	 * [WCXRP00000056] [MT6620 Wi-Fi][Driver] NVRAM implementation with =
+Version Check
+    53	 * 1) add NVRAM access API
+    54	 * 2) fake scanning result when NVRAM doesn't exist and/or version m=
+ismatch. (off by compiler option)
+    55	 * 3) add OID implementation for NVRAM read/write service
+    56	 *
+    57	 * 09 21 2010 kevin.huang
+    58	 * [WCXRP00000052] [MT6620 Wi-Fi][Driver] Eliminate Linux Compile Wa=
+rning
+    59	 * Isolate P2P related function for Hardware Software Bundle
+    60	 *
+    61	 * 09 14 2010 chinghwa.yu
+    62	 * NULL
+    63	 * Fix BOW_FSM_INFO_T dependence.
+    64	 *
+    65	 * 09 03 2010 kevin.huang
+    66	 * NULL
+    67	 * Refine #include sequence and solve recursive/nested #include issu=
+e
+    68	 *
+    69	 * 07 20 2010 wh.su
+    70	 *
+    71	 * adding the wapi code.
+    72	 *
+    73	 * 07 08 2010 cp.wu
+    74	 *
+    75	 * [WPD00003833] [MT6620 and MT5931] Driver migration - move to new =
+repository.
+    76	 *
+    77	 * 07 08 2010 cm.chang
+    78	 * [WPD00003841][LITE Driver] Migrate RLM/CNM to host driver
+    79	 * Check draft RLM code for HT cap
+    80	 *
+    81	 * 07 01 2010 cm.chang
+    82	 * [WPD00003841][LITE Driver] Migrate RLM/CNM to host driver
+    83	 * Modify CNM message handler for new flow
+    84	 *
+    85	 * 06 28 2010 cm.chang
+    86	 * [WPD00003841][LITE Driver] Migrate RLM/CNM to host driver
+    87	 * 1st draft code for RLM module
+    88	 *
+    89	 * 06 19 2010 wh.su
+    90	 * [WPD00003840][MT6620 5931] Security migration
+    91	 * consdier the concurrent network setting.
+    92	 *
+    93	 * 06 18 2010 wh.su
+    94	 * [WPD00003840][MT6620 5931] Security migration
+    95	 * migration the security related function from firmware.
+    96	 *
+    97	 * 06 18 2010 wh.su
+    98	 * [WPD00003840][MT6620 5931] Security migration
+    99	 * migration from MT6620 firmware.
+   100	 *
+   101	 * 06 08 2010 cp.wu
+   102	 * [WPD00003833][MT6620 and MT5931] Driver migration
+   103	 * add hem_mbox.c and cnm_mem.h (but disabled some feature) for furt=
+her migration
+   104	 *
+   105	 * 06 07 2010 cp.wu
+   106	 * [WPD00003833][MT6620 and MT5931] Driver migration
+   107	 * merge cnm_scan.h and hem_mbox.h
+   108	 *
+   109	 * 06 07 2010 cp.wu
+   110	 * [WPD00003833][MT6620 and MT5931] Driver migration
+   111	 * merge wifi_var.h, precomp.h, cnm_timer.h (data type only)
+   112	 *
+   113	 * 06 06 2010 kevin.huang
+   114	 * [WPD00003832][MT6620 5931] Create driver base
+   115	 * [MT6620 5931] Create driver base
+   116	 *
+   117	 * 05 17 2010 cp.wu
+   118	 * [WPD00003831][MT6620 Wi-Fi] Add framework for Wi-Fi Direct suppor=
+t
+   119	 * 1) add timeout handler mechanism for pending command packets
+   120	 * 2) add p2p add/removal key
+   121	 *
+   122	 * 04 13 2010 cp.wu
+   123	 * [WPD00003823][MT6620 Wi-Fi] Add Bluetooth-over-Wi-Fi support
+   124	 * add framework for BT-over-Wi-Fi support.
+   125	 *  *  *  *  *  *  *  *  *  *  * 1) prPendingCmdInfo is replaced by =
+queue for multiple handler capability
+   126	 *  *  *  *  *  *  *  *  *  *  * 2) command sequence number is now i=
+ncreased atomically
+   127	 *  *  *  *  *  *  *  *  *  *  * 3) private data could be hold and t=
+aken use for other purpose
+   128	 *
+   129	 * 03 16 2010 cp.wu
+   130	 * [WPD00003823][MT6620 Wi-Fi] Add Bluetooth-over-Wi-Fi support
+   131	 * build up basic data structure and definitions to support BT-over-=
+WiFi
+   132	 *
+   133	 * 02 08 2010 cp.wu
+   134	 * [WPD00001943]Create WiFi test driver framework on WinXP
+   135	 * prepare for implementing fw download logic
+   136	 *
+   137	 * 01 27 2010 wh.su
+   138	 * [WPD00003816][MT6620 Wi-Fi] Adding the security support
+   139	 * .
+   140	**  \main\maintrunk.MT6620WiFiDriver_Prj\9 2009-12-08 11:30:58 GMT m=
+tk02752
+   141	**  add rftest.h for implementing RF test mode in driver land
+   142	**  \main\maintrunk.MT6620WiFiDriver_Prj\8 2009-11-23 22:02:00 GMT m=
+tk02468
+ > 143	**  Added que_mgt.h
+   144	**  \main\maintrunk.MT6620WiFiDriver_Prj\7 2009-10-13 21:58:36 GMT m=
+tk01084
+   145	**  update for new macro define
+   146	**  \main\maintrunk.MT6620WiFiDriver_Prj\6 2009-04-21 09:40:11 GMT m=
+tk01461
+   147	**  Add nic_cmd_event.h
+   148	**  \main\maintrunk.MT6620WiFiDriver_Prj\5 2009-04-17 20:00:26 GMT m=
+tk01461
+   149	**  Add cmd_buf.h
+   150	**  \main\maintrunk.MT6620WiFiDriver_Prj\4 2009-03-19 18:32:44 GMT m=
+tk01084
+   151	**  update for basic power management functions
+   152	**  \main\maintrunk.MT6620WiFiDriver_Prj\3 2009-03-16 09:08:25 GMT m=
+tk01461
+   153	**  Update TX PATH API
+   154	**  \main\maintrunk.MT6620WiFiDriver_Prj\2 2009-03-10 20:11:38 GMT m=
+tk01426
+   155	**  Init for develop
+   156	**
+   157	*/
+   158=09
+   159	#ifndef _PRECOMP_H
+   160	#define _PRECOMP_H
+   161=09
+   162	/*******************************************************************=
+************
+   163	*                         C O M P I L E R   F L A G S
+   164	********************************************************************=
+************
+   165	*/
+   166=09
+   167	/*******************************************************************=
+************
+   168	*                    E X T E R N A L   R E F E R E N C E S
+   169	********************************************************************=
+************
+   170	*/
+   171	#include "gl_os.h"		/* Include "config.h" */
+   172=09
+   173	#if CFG_ENABLE_WIFI_DIRECT
+   174	#include "gl_p2p_os.h"
+   175	#endif
+   176=09
+   177	#include "debug.h"
+   178=09
+   179	#include "link.h"
+   180	#include "queue.h"
+   181=09
+   182	/*------------------------------------------------------------------=
+------------
+   183	 * .\include\mgmt
+   184	 *------------------------------------------------------------------=
+------------
+   185	 */
+   186	#include "wlan_typedef.h"
+   187=09
+   188	#include "mac.h"
+   189=09
+   190	/* Dependency:  mac.h (MAC_ADDR_LEN) */
+   191	#include "wlan_def.h"
+   192=09
+   193	#if CFG_SUPPORT_SWCR
+   194	#include "swcr.h"
+   195	#endif
+   196=09
+   197	/*------------------------------------------------------------------=
+------------
+   198	 * .\include\nic
+   199	 *------------------------------------------------------------------=
+------------
+   200	 */
+   201	/* Dependency:  wlan_def.h (ENUM_NETWORK_TYPE_T) */
+   202	#include "cmd_buf.h"
+   203=09
+   204	/* Dependency:  mac.h (MAC_ADDR_LEN) */
+   205	#include "nic_cmd_event.h"
+   206=09
+   207	/* Dependency:  nic_cmd_event.h (P_EVENT_CONNECTION_STATUS) */
+   208	#include "nic.h"
+   209=09
+   210	#include "nic_init_cmd_event.h"
+   211=09
+   212	#include "hif_rx.h"
+   213	#include "hif_tx.h"
+   214=09
+   215	#include "nic_tx.h"
+   216=09
+   217	/* Dependency:  hif_rx.h (P_HIF_RX_HEADER_T) */
+   218	#include "nic_rx.h"
+   219=09
+ > 220	#include "que_mgt.h"
    221=09
-   222	#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 12, 0) || defined(ISUBUN=
-TU1404)) && !defined(ISRHEL7)
-   223	#include <linux/random.h>
-   224	static inline u32 __compat_prandom_u32_max(u32 ep_ro)
-   225	{
-   226		return (u32)(((u64)prandom_u32() * ep_ro) >> 32);
-   227	}
-   228	#define prandom_u32_max __compat_prandom_u32_max
-   229	#endif
-   230=09
-   231	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 10, 75) && !defined(ISRHE=
-L7)
-   232	#ifndef U8_MAX
-   233	#define U8_MAX ((u8)~0U)
-   234	#endif
-   235	#ifndef S8_MAX
-   236	#define S8_MAX ((s8)(U8_MAX >> 1))
-   237	#endif
-   238	#ifndef S8_MIN
-   239	#define S8_MIN ((s8)(-S8_MAX - 1))
-   240	#endif
-   241	#ifndef U16_MAX
-   242	#define U16_MAX ((u16)~0U)
-   243	#endif
-   244	#ifndef S16_MAX
-   245	#define S16_MAX ((s16)(U16_MAX >> 1))
+   222	#if CFG_ENABLE_WIFI_DIRECT
+   223	#include "p2p_typedef.h"
+   224	#include "p2p_cmd_buf.h"
+   225	#include "p2p_nic_cmd_event.h"
+   226	#include "p2p_mac.h"
+   227	#include "p2p_nic.h"
+   228	#endif
+   229=09
+   230	/*------------------------------------------------------------------=
+------------
+   231	 * .\include\mgmt
+   232	 *------------------------------------------------------------------=
+------------
+   233	 */
+   234=09
+   235	#include "hem_mbox.h"
+   236=09
+   237	#include "scan.h"
+   238	#include "bss.h"
+   239=09
+   240	#include "wlan_lib.h"
+   241	#include "wlan_oid.h"
+   242	#include "wlan_bow.h"
+   243=09
+   244	#if CFG_ENABLE_WIFI_DIRECT
+   245	#include "wlan_p2p.h"
    246	#endif
-   247	#ifndef S16_MIN
-   248	#define S16_MIN ((s16)(-S16_MAX - 1))
-   249	#endif
-   250	#ifndef U32_MAX
-   251	#define U32_MAX ((u32)~0U)
-   252	#endif
-   253	#ifndef S32_MAX
-   254	#define S32_MAX ((s32)(U32_MAX >> 1))
+   247=09
+   248	#include "hal.h"
+   249=09
+   250	#if defined(MT6620)
+   251	#include "mt6620_reg.h"
+   252	#elif defined(MT6628)
+   253	/* #include "mt6628_reg.h" */
+   254	#include "mtreg.h"
    255	#endif
-   256	#ifndef S32_MIN
-   257	#define S32_MIN ((s32)(-S32_MAX - 1))
-   258	#endif
-   259	#ifndef U64_MAX
-   260	#define U64_MAX ((u64)~0ULL)
-   261	#endif
-   262	#ifndef S64_MAX
-   263	#define S64_MAX ((s64)(U64_MAX >> 1))
+   256=09
+   257	#include "rlm.h"
+   258	#include "rlm_domain.h"
+   259	#include "rlm_protection.h"
+   260	#include "rlm_obss.h"
+   261	#include "rate.h"
+   262	#if CFG_SUPPORT_802_11V
+   263	#include "wnm.h"
    264	#endif
-   265	#ifndef S64_MIN
-   266	#define S64_MIN ((s64)(-S64_MAX - 1))
-   267	#endif
-   268	#endif
+   265=09
+   266	#include "aa_fsm.h"
+   267=09
+   268	#include "cnm_timer.h"
    269=09
-   270	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 10, 60) && !defined(ISRHE=
-L7)
-   271	/* Making this static may very well invalidate its usefulness,
-   272	 * but so it goes with compat code. */
-   273	static inline void memzero_explicit(void *s, size_t count)
-   274	{
-   275		memset(s, 0, count);
-   276		barrier();
-   277	}
-   278	#endif
-   279=09
-   280	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 12, 0) && !defined(ISRHEL=
-7)
-   281	static const struct in6_addr __compat_in6addr_any =3D IN6ADDR_ANY_IN=
-IT;
-   282	#define in6addr_any __compat_in6addr_any
-   283	#endif
-   284=09
-   285	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 13, 0) && LINUX_VERSION_C=
-ODE >=3D KERNEL_VERSION(4, 2, 0) && !defined(ISOPENSUSE15)
-   286	#include <linux/completion.h>
-   287	#include <linux/random.h>
-   288	#include <linux/errno.h>
-   289	struct rng_initializer {
-   290		struct completion done;
-   291		struct random_ready_callback cb;
-   292	};
-   293	static inline void rng_initialized_callback(struct random_ready_call=
-back *cb)
-   294	{
-   295		complete(&container_of(cb, struct rng_initializer, cb)->done);
-   296	}
-   297	static inline int wait_for_random_bytes(void)
-   298	{
-   299		static bool rng_is_initialized =3D false;
-   300		int ret;
-   301		if (unlikely(!rng_is_initialized)) {
-   302			struct rng_initializer rng =3D {
-   303				.done =3D COMPLETION_INITIALIZER(rng.done),
-   304				.cb =3D { .owner =3D THIS_MODULE, .func =3D rng_initialized_callb=
-ack }
-   305			};
-   306			ret =3D add_random_ready_callback(&rng.cb);
-   307			if (!ret) {
-   308				ret =3D wait_for_completion_interruptible(&rng.done);
-   309				if (ret) {
-   310					del_random_ready_callback(&rng.cb);
-   311					return ret;
-   312				}
-   313			} else if (ret !=3D -EALREADY)
-   314				return ret;
-   315			rng_is_initialized =3D true;
-   316		}
-   317		return 0;
-   318	}
-   319	#elif LINUX_VERSION_CODE < KERNEL_VERSION(4, 2, 0)
-   320	/* This is a disaster. Without this API, we really have no way of
-   321	 * knowing if it's initialized. We just return that it has and hope
-   322	 * for the best... */
-   323	static inline int wait_for_random_bytes(void)
-   324	{
-   325		return 0;
-   326	}
-   327	#endif
-   328=09
-   329	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 19, 0) && LINUX_VERSION_C=
-ODE >=3D KERNEL_VERSION(4, 2, 0) && !defined(ISRHEL8)
-   330	#include <linux/random.h>
-   331	#include <linux/slab.h>
-   332	struct rng_is_initialized_callback {
-   333		struct random_ready_callback cb;
-   334		atomic_t *rng_state;
-   335	};
-   336	static inline void rng_is_initialized_callback(struct random_ready_c=
-allback *cb)
-   337	{
-   338		struct rng_is_initialized_callback *rdy =3D container_of(cb, struct=
- rng_is_initialized_callback, cb);
-   339		atomic_set(rdy->rng_state, 2);
-   340		kfree(rdy);
-   341	}
-   342	static inline bool rng_is_initialized(void)
-   343	{
-   344		static atomic_t rng_state =3D ATOMIC_INIT(0);
-   345=09
-   346		if (atomic_read(&rng_state) =3D=3D 2)
-   347			return true;
-   348=09
-   349		if (atomic_cmpxchg(&rng_state, 0, 1) =3D=3D 0) {
-   350			int ret;
-   351			struct rng_is_initialized_callback *rdy =3D kmalloc(sizeof(*rdy), =
-GFP_ATOMIC);
-   352			if (!rdy) {
-   353				atomic_set(&rng_state, 0);
-   354				return false;
-   355			}
-   356			rdy->cb.owner =3D THIS_MODULE;
-   357			rdy->cb.func =3D rng_is_initialized_callback;
-   358			rdy->rng_state =3D &rng_state;
-   359			ret =3D add_random_ready_callback(&rdy->cb);
-   360			if (ret)
-   361				kfree(rdy);
-   362			if (ret =3D=3D -EALREADY) {
-   363				atomic_set(&rng_state, 2);
-   364				return true;
-   365			} else if (ret)
-   366				atomic_set(&rng_state, 0);
-   367			return false;
-   368		}
-   369		return false;
-   370	}
-   371	#elif LINUX_VERSION_CODE < KERNEL_VERSION(4, 2, 0)
-   372	/* This is a disaster. Without this API, we really have no way of
-   373	 * knowing if it's initialized. We just return that it has and hope
-   374	 * for the best... */
-   375	static inline bool rng_is_initialized(void)
-   376	{
-   377		return true;
-   378	}
-   379	#endif
-   380=09
-   381	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 13, 0) && !defined(ISOPEN=
-SUSE15)
-   382	static inline int get_random_bytes_wait(void *buf, int nbytes)
-   383	{
-   384		int ret =3D wait_for_random_bytes();
-   385		if (unlikely(ret))
-   386			return ret;
-   387		get_random_bytes(buf, nbytes);
-   388		return 0;
-   389	}
-   390	#endif
-   391=09
-   392	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 11, 0) && !defined(ISRHEL=
-7)
-   393	#define system_power_efficient_wq system_unbound_wq
-   394	#endif
-   395=09
-   396	#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 3, 0)
-   397	#include <linux/ktime.h>
-   398	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 17, 0)
-   399	#include <linux/hrtimer.h>
-   400	#ifndef ktime_get_real_ts64
-   401	#define timespec64 timespec
-   402	#define ktime_get_real_ts64 ktime_get_real_ts
-   403	#endif
-   404	#else
-   405	#include <linux/timekeeping.h>
-   406	#endif
-   407	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 11, 0)
-   408	static inline u64 __compat_jiffies64_to_nsecs(u64 j)
-   409	{
-   410	#if !(NSEC_PER_SEC % HZ)
-   411		return (NSEC_PER_SEC / HZ) * j;
-   412	#else
-   413		return div_u64(j * HZ_TO_USEC_NUM, HZ_TO_USEC_DEN) * 1000;
-   414	#endif
-   415	}
-   416	#define jiffies64_to_nsecs __compat_jiffies64_to_nsecs
-   417	#endif
-   418	static inline u64 ktime_get_coarse_boottime_ns(void)
-   419	{
-   420	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 17, 0)
-   421		return ktime_to_ns(ktime_get_boottime());
-   422	#elif (LINUX_VERSION_CODE < KERNEL_VERSION(5, 1, 12) && LINUX_VERSIO=
-N_CODE >=3D KERNEL_VERSION(4, 20, 0)) || LINUX_VERSION_CODE < KERNEL_VERSIO=
-N(4, 19, 53)
-   423		return ktime_to_ns(ktime_mono_to_any(ns_to_ktime(jiffies64_to_nsecs=
-(get_jiffies_64())), TK_OFFS_BOOT));
-   424	#else
-   425		return ktime_to_ns(ktime_get_coarse_boottime());
-   426	#endif
-   427	}
-   428	#endif
-   429=09
-   430	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 14, 0)
-   431	#include <linux/inetdevice.h>
-   432	static inline __be32 __compat_confirm_addr_indev(struct in_device *i=
-n_dev, __be32 dst,  __be32 local, int scope)
-   433	{
-   434		int same =3D 0;
-   435		__be32 addr =3D 0;
-   436		for_ifa(in_dev) {
-   437			if (!addr && (local =3D=3D ifa->ifa_local || !local) && ifa->ifa_s=
-cope <=3D scope) {
-   438				addr =3D ifa->ifa_local;
-   439				if (same)
-   440					break;
-   441			}
-   442			if (!same) {
-   443				same =3D (!local || inet_ifa_match(local, ifa)) && (!dst || inet_=
-ifa_match(dst, ifa));
-   444				if (same && addr) {
-   445					if (local || !dst)
-   446						break;
-   447					if (inet_ifa_match(addr, ifa))
-   448						break;
-   449					if (ifa->ifa_scope <=3D scope) {
-   450						addr =3D ifa->ifa_local;
-   451						break;
-   452					}
-   453					same =3D 0;
-   454				}
-   455			}
-   456		} endfor_ifa(in_dev);
-   457		return same ? addr : 0;
-   458	}
-   459	static inline __be32 __compat_inet_confirm_addr(struct net *net, str=
-uct in_device *in_dev, __be32 dst, __be32 local, int scope)
-   460	{
-   461		__be32 addr =3D 0;
-   462		struct net_device *dev;
-   463		if (in_dev)
-   464			return __compat_confirm_addr_indev(in_dev, dst, local, scope);
-   465		rcu_read_lock();
-   466		for_each_netdev_rcu(net, dev) {
-   467			in_dev =3D __in_dev_get_rcu(dev);
-   468			if (in_dev) {
-   469				addr =3D __compat_confirm_addr_indev(in_dev, dst, local, scope);
-   470				if (addr)
-   471					break;
-   472			}
-   473		}
-   474		rcu_read_unlock();
-   475		return addr;
-   476	}
-   477	#define inet_confirm_addr __compat_inet_confirm_addr
-   478	#endif
-   479=09
-   480	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 12, 0)
-   481	#include <linux/vmalloc.h>
-   482	#include <linux/mm.h>
-   483	#include <linux/slab.h>
-   484	static inline void *__compat_kvmalloc(size_t size, gfp_t flags)
-   485	{
-   486		gfp_t kmalloc_flags =3D flags;
-   487		void *ret;
-   488		if (size > PAGE_SIZE) {
-   489			kmalloc_flags |=3D __GFP_NOWARN;
-   490			if (!(kmalloc_flags & __GFP_REPEAT) || (size <=3D PAGE_SIZE << PAG=
-E_ALLOC_COSTLY_ORDER))
-   491				kmalloc_flags |=3D __GFP_NORETRY;
-   492		}
-   493		ret =3D kmalloc(size, kmalloc_flags);
-   494		if (ret || size <=3D PAGE_SIZE)
-   495			return ret;
-   496		return __vmalloc(size, flags, PAGE_KERNEL);
-   497	}
-   498	static inline void *__compat_kvzalloc(size_t size, gfp_t flags)
-   499	{
-   500		return __compat_kvmalloc(size, flags | __GFP_ZERO);
-   501	}
-   502	#define kvmalloc __compat_kvmalloc
-   503	#define kvzalloc __compat_kvzalloc
-   504	#endif
-   505=09
-   506	#if ((LINUX_VERSION_CODE < KERNEL_VERSION(3, 15, 0) && LINUX_VERSION=
-_CODE >=3D KERNEL_VERSION(3, 13, 0)) || LINUX_VERSION_CODE < KERNEL_VERSION=
-(3, 12, 41)) && !defined(ISUBUNTU1404)
-   507	#include <linux/vmalloc.h>
-   508	#include <linux/mm.h>
-   509	static inline void __compat_kvfree(const void *addr)
-   510	{
-   511		if (is_vmalloc_addr(addr))
-   512			vfree(addr);
-   513		else
-   514			kfree(addr);
-   515	}
-   516	#define kvfree __compat_kvfree
-   517	#endif
-   518=09
-   519	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 11, 9)
- > 520	#include <linux/netdevice.h>
-   521	#define priv_destructor destructor
-   522	#endif
-   523=09
-   524	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 13, 0) && !defined(ISOPEN=
-SUSE15)
-   525	#define wg_newlink(a,b,c,d,e) wg_newlink(a,b,c,d)
-   526	#endif
-   527=09
-   528	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 12, 0)
-   529	#include <net/netlink.h>
-   530	#include <net/genetlink.h>
-   531	#define nlmsg_parse(a, b, c, d, e, f) nlmsg_parse(a, b, c, d, e)
-   532	#define nla_parse_nested(a, b, c, d, e) nla_parse_nested(a, b, c, d)
-   533	#endif
-   534=09
-   535	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0) && !defined(ISRHEL=
-7)
-   536	static inline struct nlattr **genl_family_attrbuf(const struct genl_=
-family *family)
-   537	{
-   538		return family->attrbuf;
-   539	}
-   540	#endif
-   541=09
-   542	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 12, 0)
-   543	#define PTR_ERR_OR_ZERO(p) PTR_RET(p)
-   544	#endif
-   545=09
-   546	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 7, 0)
-   547	#include <net/netlink.h>
-   548	#define nla_put_u64_64bit(a, b, c, d) nla_put_u64(a, b, c)
-   549	#endif
-   550=09
-   551	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 6, 0)
-   552	#include <net/genetlink.h>
-   553	#ifndef GENL_UNS_ADMIN_PERM
-   554	#define GENL_UNS_ADMIN_PERM GENL_ADMIN_PERM
-   555	#endif
-   556	#endif
-   557=09
-   558	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0) && !defined(ISRHEL=
-7)
-   559	#include <net/genetlink.h>
-   560	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 13, 0)
-   561	#define genl_register_family(a) genl_register_family_with_ops(a, gen=
-l_ops, ARRAY_SIZE(genl_ops))
-   562	#define COMPAT_CANNOT_USE_CONST_GENL_OPS
-   563	#else
-   564	#define genl_register_family(a) genl_register_family_with_ops(a, gen=
-l_ops)
-   565	#endif
-   566	#define COMPAT_CANNOT_USE_GENL_NOPS
-   567	#endif
-   568=09
-   569	#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 14, 2) && LINUX_VERSION_=
-CODE >=3D KERNEL_VERSION(4, 14, 0)) || (LINUX_VERSION_CODE < KERNEL_VERSION=
-(4, 13, 16) && LINUX_VERSION_CODE >=3D KERNEL_VERSION(4, 10, 0)) || (LINUX_=
-VERSION_CODE < KERNEL_VERSION(4, 9, 65) && LINUX_VERSION_CODE >=3D KERNEL_V=
-ERSION(4, 5, 0)) || (LINUX_VERSION_CODE < KERNEL_VERSION(4, 4, 101) && LINU=
-X_VERSION_CODE >=3D KERNEL_VERSION(3, 19, 0)) || LINUX_VERSION_CODE < KERNE=
-L_VERSION(3, 18, 84)
-   570	#define __COMPAT_NETLINK_DUMP_BLOCK { \
-   571		int ret; \
-   572		skb->end -=3D nlmsg_total_size(sizeof(int)); \
-   573		ret =3D wg_get_device_dump_real(skb, cb); \
-   574		skb->end +=3D nlmsg_total_size(sizeof(int)); \
-   575		return ret; \
-   576	}
-   577	#define __COMPAT_NETLINK_DUMP_OVERRIDE
-   578	#else
-   579	#define __COMPAT_NETLINK_DUMP_BLOCK return wg_get_device_dump_real(s=
-kb, cb);
-   580	#endif
-   581	#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 8) && LINUX_VERSION_=
-CODE >=3D KERNEL_VERSION(4, 15, 0)) || (LINUX_VERSION_CODE < KERNEL_VERSION=
-(4, 14, 25) && LINUX_VERSION_CODE >=3D KERNEL_VERSION(4, 10, 0)) || LINUX_V=
-ERSION_CODE < KERNEL_VERSION(4, 9, 87)
-   582	#define wg_get_device_dump(a, b) wg_get_device_dump_real(a, b); \
-   583	static int wg_get_device_dump(a, b) { \
-   584		struct wg_device *wg =3D (struct wg_device *)cb->args[0]; \
-   585		if (!wg) { \
-   586			int ret =3D wg_get_device_start(cb); \
-   587			if (ret) \
-   588				return ret; \
-   589		} \
-   590		__COMPAT_NETLINK_DUMP_BLOCK \
-   591	} \
-   592	static int wg_get_device_dump_real(a, b)
-   593	#define COMPAT_CANNOT_USE_NETLINK_START
-   594	#elif defined(__COMPAT_NETLINK_DUMP_OVERRIDE)
-   595	#define wg_get_device_dump(a, b) wg_get_device_dump_real(a, b); \
-   596	static int wg_get_device_dump(a, b) { \
-   597		__COMPAT_NETLINK_DUMP_BLOCK \
-   598	} \
-   599	static int wg_get_device_dump_real(a, b)
-   600	#endif
-   601=09
-   602	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 17, 0)
-   603	#define COMPAT_CANNOT_USE_IN6_DEV_GET
-   604	#endif
-   605=09
-   606	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 3, 0)
-   607	#define COMPAT_CANNOT_USE_IFF_NO_QUEUE
-   608	#endif
-   609=09
-   610	#if defined(CONFIG_X86_64) && LINUX_VERSION_CODE < KERNEL_VERSION(4,=
- 4, 0)
-   611	#include <asm/user.h>
-   612	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 2, 0)
-   613	#include <asm/xsave.h>
-   614	#include <asm/xcr.h>
-   615	static inline int cpu_has_xfeatures(u64 xfeatures_needed, const char=
- **feature_name)
-   616	{
-   617		return boot_cpu_has(X86_FEATURE_XSAVE) && xgetbv(XCR_XFEATURE_ENABL=
-ED_MASK) & xfeatures_needed;
-   618	}
-   619	#endif
-   620	#ifndef XFEATURE_MASK_YMM
-   621	#define XFEATURE_MASK_YMM XSTATE_YMM
-   622	#endif
-   623	#ifndef XFEATURE_MASK_SSE
-   624	#define XFEATURE_MASK_SSE XSTATE_SSE
-   625	#endif
-   626	#ifndef XSTATE_AVX512
-   627	#define XSTATE_AVX512 (XSTATE_OPMASK | XSTATE_ZMM_Hi256 | XSTATE_Hi1=
-6_ZMM)
-   628	#endif
-   629	#ifndef XFEATURE_MASK_AVX512
-   630	#define XFEATURE_MASK_AVX512 XSTATE_AVX512
-   631	#endif
-   632	#endif
-   633=09
-   634	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 6, 0) && defined(CONFIG_X=
-86_64)
-   635	/* This is incredibly dumb and reckless, but as it turns out, there'=
-s
-   636	 * not really hardware Linux runs properly on that supports F but no=
-t BW
-   637	 * and VL, so in practice this isn't so bad. Plus, this is compat la=
-yer,
-   638	 * so the bar remains fairly low.
-   639	 */
-   640	#include <asm/cpufeature.h>
-   641	#ifndef X86_FEATURE_AVX512BW
-   642	#define X86_FEATURE_AVX512BW X86_FEATURE_AVX512F
-   643	#endif
-   644	#ifndef X86_FEATURE_AVX512VL
-   645	#define X86_FEATURE_AVX512VL X86_FEATURE_AVX512F
-   646	#endif
-   647	#endif
-   648=09
-   649	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 11, 0)
-   650	struct __compat_dummy_container { char dev; };
-   651	#define netdev_notifier_info net_device *)data); __attribute((unused=
-)) char __compat_dummy_variable =3D ((struct __compat_dummy_container
-   652	#endif
-   653=09
-   654	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 14, 0)
-   655	#define timer_setup(a, b, c) setup_timer(a, ((void (*)(unsigned long=
-))b), ((unsigned long)a))
-   656	#define from_timer(var, callback_timer, timer_fieldname) container_o=
-f(callback_timer, typeof(*var), timer_fieldname)
-   657	#endif
-   658=09
-   659	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 14, 3)
-   660	#define COMPAT_CANNOT_USE_AVX512
-   661	#endif
-   662=09
-   663	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
-   664	#include <net/genetlink.h>
-   665	#define genl_dump_check_consistent(a, b) genl_dump_check_consistent(=
-a, b, &genl_family)
-   666	#endif
-   667=09
-   668	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 13, 0) && !defined(ISRHEL=
-7) && !defined(ISOPENSUSE15)
-   669	static inline void *skb_put_data(struct sk_buff *skb, const void *da=
-ta, unsigned int len)
-   670	{
-   671		void *tmp =3D skb_put(skb, len);
-   672		memcpy(tmp, data, len);
-   673		return tmp;
-   674	}
-   675	#endif
-   676=09
-   677	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 19, 0) && !defined(ISRHEL=
-7)
-   678	#define napi_complete_done(n, work_done) napi_complete(n)
-   679	#endif
-   680=09
-   681	#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 5, 0)
- > 682	#include <linux/netdevice.h>
-   683	/* NAPI_STATE_SCHED gets set by netif_napi_add anyway, so this is sa=
-fe.
-   684	 * Also, kernels without NAPI_STATE_NO_BUSY_POLL don't have a call t=
-o
-   685	 * napi_hash_add inside of netif_napi_add.
-   686	 */
-   687	#define NAPI_STATE_NO_BUSY_POLL NAPI_STATE_SCHED
-   688	#endif
-   689=09
+   270	#if CFG_ENABLE_BT_OVER_WIFI
+   271	#include "bow.h"
+   272	#include "bow_fsm.h"
+   273	#endif
+   274=09
+   275	#include "pwr_mgt.h"
+   276=09
+   277	#if (CFG_SUPPORT_STATISTICS =3D=3D 1)
+   278	#include "stats.h"
+   279	#endif /* CFG_SUPPORT_STATISTICS */
+   280=09
+   281	#include "cnm.h"
+   282	/* Dependency:  aa_fsm.h (ENUM_AA_STATE_T), p2p_fsm.h (WPS_ATTRI_MAX=
+_LEN_DEVICE_NAME) */
+   283	#include "cnm_mem.h"
+   284	#include "cnm_scan.h"
+   285=09
+   286	#if CFG_ENABLE_WIFI_DIRECT
+   287	#include "p2p_rlm_obss.h"
+   288	#include "p2p_bss.h"
+   289	#include "p2p.h"
+   290	#include "p2p_fsm.h"
+   291	#include "p2p_scan.h"
+   292	#include "p2p_state.h"
+   293	#include "p2p_func.h"
+   294	#include "p2p_rlm.h"
+   295	#include "p2p_assoc.h"
+   296	#include "p2p_ie.h"
+   297	#endif
+   298=09
+   299	#include "privacy.h"
+   300=09
+   301	#include "mib.h"
+   302=09
+   303	#include "auth.h"
+   304	#include "assoc.h"
+   305=09
+   306	#if CFG_SUPPORT_ROAMING
+   307	#include "roaming_fsm.h"
+   308	#endif /* CFG_SUPPORT_ROAMING */
+   309=09
+   310	#include "ais_fsm.h"
+   311=09
+   312	#include "adapter.h"
+   313=09
+ > 314	#include "que_mgt.h"
+   315	#include "rftest.h"
+   316=09
 
 --=20
 0-DAY CI Kernel Test Service
