@@ -1,164 +1,201 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41059BA39
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Feb 2024 06:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD1D10965
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 Feb 2024 06:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707112964; cv=none; b=sazyzViC4sawnj9w2KBC+efPFsO+h0JS9eZJJ8CNEIi3GKSisdm2z+jQsHeDipyCVnwIjbASolPlrdjWEceGy/J/HZhXx+7eVjVZVuEJTBoJa1xMi9fF1mSnkt/32SlUfX/gVZVjdR6IWy2IsK+j6klXPqGb5vCI3pQ1BdYOSXk=
+	t=1707113108; cv=none; b=LuRHqnQxz9XfvsDnIqkwo6lZKHrF/g6NIYvxxKXfMZ7oUS+NKQ9W1kizQEuHpFCRMZ1SJlbhopEKKwsxVReIPDoqKFeCu5X4/3iJGSYrhR3AvtDEMXLfUxHnrso3IO73gmhgPImzsn7Q5uXOKh/ERFXkzzXaIFP130DQPG6Xr24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707112964; c=relaxed/simple;
-	bh=u50aePyTMVslHQLzITmJuiuiC1ED0dOxSNecS8vn2lE=;
+	s=arc-20240116; t=1707113108; c=relaxed/simple;
+	bh=E6VThuS6J+4wlEDuGxjEHe+5OXrQEnop+Am9LxEWQ5A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OkR/sJUvmLv01Mn9xTztS6uMTy66oPgTnuv/71VU+07ZTykjeiCrgEJTMvPcevU+3S5cCiR7EB75ER6G4oOCLEdgsYJMH/KF7ia3yDosNiY1wqPUBNvApTVMAx0cRRteUZ2QwA8NqFtrry21V3h6tJL6TIhxpiPrnG52sBxJOg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yZIgRqCV; arc=none smtp.client-ip=209.85.218.45
+	 Content-Disposition:In-Reply-To; b=DBFVpkrj+hKypSxmxEnfxKgCmcQfxifGGfR2byyC1xodGMdmJM63t2NzN4pliqMuuGFTHirnHB5/8T0l3wLC27v+If3iinamfIDRHtacAz0Q7uG3vv/buG9pE6qGT3pAsYUOi3CgapoimWeMtFZgXRkQlSy6gzvIVTM3LOaacWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Dx2MF/IA; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yZIgRqCV"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a363961b96aso504612866b.3
-        for <oe-kbuild@lists.linux.dev>; Sun, 04 Feb 2024 22:02:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Dx2MF/IA"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a37721e42feso131182166b.2
+        for <oe-kbuild@lists.linux.dev>; Sun, 04 Feb 2024 22:05:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707112960; x=1707717760; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1O6c4RbNAzKl2D6PJxpSt/YZnEK4rkLiPUDqpsCBXKY=;
-        b=yZIgRqCV3ZDaHSTutu7KZMTK9ctcKDzyRsQ7ISkF4NWF6Vzp9n5PHlBJbGB0wy4Tq1
-         pnE0qdv2anVYqJYdI1GfBfLugahI8tMYBGkBopfiGEI9Y8mVfe4Xv79yVbGdXcFJicGR
-         ZT/Sak9q9GWT+ylCR6ZwStFofkPn5NdKfkUm+2a60uuE4rQzJjiDlxW7tGbq+mdVFdXS
-         3E9X3F86Kl6D0h9z/UvC3q33EEVIkjG6MyvITe+DAhKl5EPvxbyDhimVI3/nClY0dL14
-         hP9JuLFxEfCkLVB35trh4IUsdR+yMlkGgJvJfxT2IKQtwGGUXvYMtw0nu8LEoC6J2T0v
-         8xwA==
+        d=linaro.org; s=google; t=1707113105; x=1707717905; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rUXcEjTVz3Gf2NIAf1nzsfebyGEbAOBm45S3k0v9MtE=;
+        b=Dx2MF/IA3oGgXiuWi87DkRQyeY4qUdhrf485ZuFf1XPHDxDW+/pj9+2LdD280Xy8r5
+         yepaFfIQgX9OqT0YAxItnpfkMGnjX1ta4O6pmOuj+ewICfz6pEQPAr79kb0Nj4lrSmbC
+         5Y6mGMpn2ZE9u36a0CxxYORr13ZKEcJiOULA9xhZcblQxcPcm433OR6tDSGzGrH+WFIF
+         PvbNkJRCYAIsPICa9JcPPWCKe/YoLe38qxZoQbZFgpPZ0JilMu80/5zyDYkrznr2DWCI
+         RkeAYDNd53X9nWJFbnAguA1Cl9GfI/tnoqgdlm9QqnE9qyVXYw6n6dWi445GElf2y4UL
+         E6mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707112960; x=1707717760;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1O6c4RbNAzKl2D6PJxpSt/YZnEK4rkLiPUDqpsCBXKY=;
-        b=RWknMUeWCdMaDNgvi+/T+2SYC0BNUIPVFUuapVle27ezoC/yO2wTuTLRuoTKVHH4Vr
-         OdAWIRFYgIrSD2d9vZxSzNiiqWy4hpviq/Fe27ipCaOYlpzzIhzotFSZhQyxklpVyBn0
-         BgQIKz5UcXbw8mw8IWDErMsHVnQKUZylpIholnvH56urC+h2d9MYat7FhD+3nVYSAs+d
-         L7ceey3jCsiFKbrpMrMg606rS3l1gerSnZRy8G7zC+D8Oc16lsLj4poBnKjSEwO85mTf
-         JRM53rq/TVHCR4FCU/m2i9AgploN8Tj+bKXlTMGUPFHQaIDcRVk0W0xBk3DFdLOL6qmA
-         lCJw==
-X-Gm-Message-State: AOJu0YwBSI6wXRiwyt5zT24aCR0PBxwwNEqKflr1Igc85fBczSQB7V1Y
-	gdRURRkcnS6tzUf++YauucxplBsiukV9rFX7j2Nz+rU9LmBqFTm0UcjrNPEvlY6AyTHWwkWHsYr
-	3
-X-Google-Smtp-Source: AGHT+IGjGKK1LE0zg0BFOTorFfbmj/E/YU9z8kygavoTaSilE6tBhVCyh8+F+KeClEqb2UKJMWlAtg==
-X-Received: by 2002:a17:907:b9c4:b0:a37:e5fd:94ee with SMTP id xa4-20020a170907b9c400b00a37e5fd94eemr116470ejc.72.1707112960018;
-        Sun, 04 Feb 2024 22:02:40 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVRkACueswKhgq0eTksjOjicxJptZglx7HNSFDwPvDYZT34BgKe+WcR8GB5ygLP/DhbvRX3ZBolVFcdiQtG83Px1HTQm0S0VLx+DimxJGf2D4P8O4xpbJWiNB3TfG1KqhZIOlDynjPcRp2yEDC3qqCNPeWGrCxpkJm0HIY=
+        d=1e100.net; s=20230601; t=1707113105; x=1707717905;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rUXcEjTVz3Gf2NIAf1nzsfebyGEbAOBm45S3k0v9MtE=;
+        b=VLfeTEwXzm4SUspTS5n5pRN/MQOtlZT8YLCOyfCMAZc9/Oem4HEd2owXFuXTjDwGof
+         BzvlhFm4Ytkw4QmFG5g9MY0pt974pNAJX14fTMPdMTMpD1SKanFrkXziH6TLkpXDG4Pa
+         YvzSikDDVFgpGzAEeo+CQriFJ8oIqedOhpzd7fNeJ3QJwh1SiCOIKIsuAtj7j6CmPwTE
+         Q3huEMTuY+ZP0L91QzjWGa7R2+IPmGr+Ss9cSxHqV0E+VHvguKlLXUpNihyl4tdDqi3Z
+         W7w9yMVAYtKUxLSIDH0nVxI0oEBvrgCdCYeZe2MkRgIBkkYsrx/d1WIryifNcspAp6dB
+         2ZVQ==
+X-Gm-Message-State: AOJu0Yyi6URSuSFEgVRqmbVyh7oDztjve8uzOxJY9tX582iPYE4XHI4c
+	p9AiiZJ+3VQ9OPmW5si8/xwhziub/aKm3yALv/JgcTpvCdchwUVE7q5sZ/dUCTpUoPiAAiS1Egr
+	8
+X-Google-Smtp-Source: AGHT+IFssy5CqM/Vb883XVIq5x8aJyEs2QxpbCyIySIjv0SV1nfr8XHJmThxvy0aeOQuPNaZjqe8yQ==
+X-Received: by 2002:a17:906:1445:b0:a30:e4d8:2e46 with SMTP id q5-20020a170906144500b00a30e4d82e46mr6276594ejc.20.1707113104474;
+        Sun, 04 Feb 2024 22:05:04 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCX0flFMNydgt2mx5eZkyzjut6uqV1WnMHvISyxJQDUv0vo4E6xj5/Akl0Dc+n3DdN//LFKXWjIqWXTb+cGtAMi/5dL3AIWjmU8lthqQ5NdD3fDgOZ9rdctSSRGTimbInUVqQXQjtpRTLCqaRy7htR+k2QD9h2ObBKZi7Hinb6sR3LFaD4p6qoPLXcvgJ/7WjbhBM2yLDpvYmbGCZk0WfqCEEu2vEnQTSKK3JvOI1eZ5bGofaV42e6R/u1C5ZaHlrGQ+zEnK4APuUDvLpIj4mXBy/EHfrtZX1mt36LxO+xhXjfRxB2pdFdF4y9Hy+yNvW9RiPW3q/E2eGqPJ2DWSoEEzjdCvk63QjwiR8YwDLHn0XZMvaKuYEExB8AaIehqhCgnP9PeKAFpiwP4Nvg==
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id j20-20020a170906475400b00a353ca3d907sm3894839ejs.217.2024.02.04.22.02.39
+        by smtp.gmail.com with ESMTPSA id pw8-20020a17090720a800b00a349d05c837sm3890430ejb.154.2024.02.04.22.05.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Feb 2024 22:02:39 -0800 (PST)
-Date: Mon, 5 Feb 2024 09:02:36 +0300
+        Sun, 04 Feb 2024 22:05:03 -0800 (PST)
+Date: Mon, 5 Feb 2024 09:05:00 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [tobetter:odroid-6.6.y 21/51] drivers/net/phy/phy_device.c:1836
- phy_detach() error: we previously assumed 'dev' could be null (see line
- 1815)
-Message-ID: <63e0ce4c-5707-4663-87a7-3dff0cfeb44d@moroto.mountain>
+To: oe-kbuild@lists.linux.dev, Oliver Upton <oliver.upton@linux.dev>,
+	kvmarm@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	Marc Zyngier <maz@kernel.org>, James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Jing Zhang <jingzhangos@google.com>,
+	Oliver Upton <oliver.upton@linux.dev>
+Subject: Re: [PATCH 01/15] KVM: arm64: vgic: Store LPIs in an xarray
+Message-ID: <cd13d888-0d26-4dcc-b6a9-6a72e4e9d580@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240124204909.105952-2-oliver.upton@linux.dev>
 
-tree:   https://github.com/tobetter/linux odroid-6.6.y
-head:   0ea9759612aba09cc99b50301b281417f70e847c
-commit: 10a25be4b77c699179ad1d36f7c67491c812c34e [21/51] ODROID-COMMON: phy/realtek: add Wake-on-Lan to Realtek PHY
-config: i386-randconfig-141-20240203 (https://download.01.org/0day-ci/archive/20240204/202402040224.6ErXx7IE-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+Hi Oliver,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Upton/KVM-arm64-vgic-Store-LPIs-in-an-xarray/20240125-045255
+base:   6613476e225e090cc9aad49be7fa504e290dd33d
+patch link:    https://lore.kernel.org/r/20240124204909.105952-2-oliver.upton%40linux.dev
+patch subject: [PATCH 01/15] KVM: arm64: vgic: Store LPIs in an xarray
+config: arm64-randconfig-r081-20240129 (https://download.01.org/0day-ci/archive/20240204/202402041412.mZlOxFFw-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4a39d08908942b2d415db405844cbe4af73e75d4)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202402040224.6ErXx7IE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402041412.mZlOxFFw-lkp@intel.com/
 
-smatch warnings:
-drivers/net/phy/phy_device.c:1836 phy_detach() error: we previously assumed 'dev' could be null (see line 1815)
-drivers/net/phy/phy_device.c:1848 phy_detach() warn: variable dereferenced before check 'dev' (see line 1836)
+New smatch warnings:
+arch/arm64/kvm/vgic/vgic-its.c:128 vgic_add_lpi() warn: inconsistent returns '&dist->lpi_list_lock'.
+arch/arm64/kvm/vgic/vgic-its.c:128 vgic_add_lpi() warn: inconsistent returns 'flags'.
 
-vim +/dev +1836 drivers/net/phy/phy_device.c
+Old smatch warnings:
+arch/arm64/kvm/vgic/vgic-its.c:324 update_lpi_config() warn: inconsistent returns '&irq->irq_lock'.
+arch/arm64/kvm/vgic/vgic-its.c:324 update_lpi_config() warn: inconsistent returns 'flags'.
 
-e13934563db047 Andy Fleming       2005-08-24  1795  void phy_detach(struct phy_device *phydev)
-e13934563db047 Andy Fleming       2005-08-24  1796  {
-ec988ad78ed6d1 Florian Fainelli   2016-12-06  1797  	struct net_device *dev = phydev->attached_dev;
-2db2d9d1ac3722 Ioana Ciornei      2019-05-28  1798  	struct module *ndev_owner = NULL;
-3e3aaf64941698 Russell King       2015-09-24  1799  	struct mii_bus *bus;
-b3565f278a9bab Ezequiel Garcia    2014-07-23  1800  
-bc66fa87d4fda9 Xiaolei Wang       2022-11-30  1801  	if (phydev->devlink)
-bc66fa87d4fda9 Xiaolei Wang       2022-11-30  1802  		device_link_del(phydev->devlink);
-bc66fa87d4fda9 Xiaolei Wang       2022-11-30  1803  
-a3995460491d45 Florian Fainelli   2017-05-27  1804  	if (phydev->sysfs_links) {
-2db2d9d1ac3722 Ioana Ciornei      2019-05-28  1805  		if (dev)
-                                                                    ^^^
-Check for NULL
+vim +128 arch/arm64/kvm/vgic/vgic-its.c
 
-5568363f0cb358 Florian Fainelli   2017-05-25  1806  			sysfs_remove_link(&dev->dev.kobj, "phydev");
-5568363f0cb358 Florian Fainelli   2017-05-25  1807  		sysfs_remove_link(&phydev->mdio.dev.kobj, "attached_dev");
-a3995460491d45 Florian Fainelli   2017-05-27  1808  	}
-c920f745f45d46 Ioana Ciornei      2019-05-28  1809  
-c920f745f45d46 Ioana Ciornei      2019-05-28  1810  	if (!phydev->attached_dev)
-c920f745f45d46 Ioana Ciornei      2019-05-28  1811  		sysfs_remove_file(&phydev->mdio.dev.kobj,
-c920f745f45d46 Ioana Ciornei      2019-05-28  1812  				  &dev_attr_phy_standalone.attr);
-c920f745f45d46 Ioana Ciornei      2019-05-28  1813  
-93f41e67dc8ff0 Heiner Kallweit    2018-09-24  1814  	phy_suspend(phydev);
-2db2d9d1ac3722 Ioana Ciornei      2019-05-28 @1815  	if (dev) {
-                                                            ^^^
-Checked here again
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04   39  static struct vgic_irq *vgic_add_lpi(struct kvm *kvm, u32 intid,
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04   40  				     struct kvm_vcpu *vcpu)
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   41  {
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   42  	struct vgic_dist *dist = &kvm->arch.vgic;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   43  	struct vgic_irq *irq = vgic_get_irq(kvm, NULL, intid), *oldirq;
+388d4359680b56 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2018-05-11   44  	unsigned long flags;
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04   45  	int ret;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   46  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   47  	/* In this case there is no put, since we keep the reference. */
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   48  	if (irq)
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   49  		return irq;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   50  
+3ef231670b9e90 arch/arm64/kvm/vgic/vgic-its.c Jia He           2021-09-07   51  	irq = kzalloc(sizeof(struct vgic_irq), GFP_KERNEL_ACCOUNT);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   52  	if (!irq)
+99e5e886a0a59d virt/kvm/arm/vgic/vgic-its.c   Christoffer Dall 2016-08-01   53  		return ERR_PTR(-ENOMEM);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   54  
+3e55a25b7db23f arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-01-24   55  	ret = xa_reserve_irq(&dist->lpi_xa, intid, GFP_KERNEL_ACCOUNT);
+3e55a25b7db23f arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-01-24   56  	if (ret) {
+3e55a25b7db23f arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-01-24   57  		kfree(irq);
+3e55a25b7db23f arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-01-24   58  		return ERR_PTR(ret);
+3e55a25b7db23f arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-01-24   59  	}
+3e55a25b7db23f arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-01-24   60  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   61  	INIT_LIST_HEAD(&irq->lpi_list);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   62  	INIT_LIST_HEAD(&irq->ap_list);
+8fa3adb8c6beee virt/kvm/arm/vgic/vgic-its.c   Julien Thierry   2019-01-07   63  	raw_spin_lock_init(&irq->irq_lock);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   64  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   65  	irq->config = VGIC_CONFIG_EDGE;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   66  	kref_init(&irq->refcount);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   67  	irq->intid = intid;
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04   68  	irq->target_vcpu = vcpu;
+8df3c8f33f46ad virt/kvm/arm/vgic/vgic-its.c   Christoffer Dall 2018-07-16   69  	irq->group = 1;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   70  
+fc3bc475231e12 virt/kvm/arm/vgic/vgic-its.c   Julien Thierry   2019-01-07   71  	raw_spin_lock_irqsave(&dist->lpi_list_lock, flags);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   72  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   73  	/*
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   74  	 * There could be a race with another vgic_add_lpi(), so we need to
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   75  	 * check that we don't add a second list entry with the same LPI.
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   76  	 */
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   77  	list_for_each_entry(oldirq, &dist->lpi_list_head, lpi_list) {
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   78  		if (oldirq->intid != intid)
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   79  			continue;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   80  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   81  		/* Someone was faster with adding this LPI, lets use that. */
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   82  		kfree(irq);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   83  		irq = oldirq;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   84  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   85  		/*
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   86  		 * This increases the refcount, the caller is expected to
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   87  		 * call vgic_put_irq() on the returned pointer once it's
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   88  		 * finished with the IRQ.
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   89  		 */
+d97594e6bc1b4a virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier     2016-07-17   90  		vgic_get_irq_kref(irq);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   91  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   92  		goto out_unlock;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   93  	}
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   94  
+3e55a25b7db23f arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-01-24   95  	ret = xa_err(xa_store(&dist->lpi_xa, intid, irq, 0));
+3e55a25b7db23f arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-01-24   96  	if (ret) {
+3e55a25b7db23f arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-01-24   97  		xa_release(&dist->lpi_xa, intid);
+3e55a25b7db23f arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-01-24   98  		kfree(irq);
+3e55a25b7db23f arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-01-24   99  		return ERR_PTR(ret);
 
-c1f19b51d1d87f Richard Cochran    2010-07-17  1816  		phydev->attached_dev->phydev = NULL;
-e13934563db047 Andy Fleming       2005-08-24  1817  		phydev->attached_dev = NULL;
-2db2d9d1ac3722 Ioana Ciornei      2019-05-28  1818  	}
-9525ae83959b60 Russell King       2017-07-25  1819  	phydev->phylink = NULL;
-e13934563db047 Andy Fleming       2005-08-24  1820  
-d98ce1f083cca8 Daniel Golle       2023-12-12  1821  	if (!phydev->is_on_sfp_module)
-0075bd692dca03 Geert Uytterhoeven 2016-11-28  1822  		phy_led_triggers_unregister(phydev);
-0075bd692dca03 Geert Uytterhoeven 2016-11-28  1823  
-c2b727df7caa33 Florian Fainelli   2020-09-16  1824  	if (phydev->mdio.dev.driver)
-6d9f66ac7fec2a Florian Fainelli   2017-02-08  1825  		module_put(phydev->mdio.dev.driver->owner);
-6d9f66ac7fec2a Florian Fainelli   2017-02-08  1826  
-e13934563db047 Andy Fleming       2005-08-24  1827  	/* If the device had no specific driver before (i.e. - it
-e13934563db047 Andy Fleming       2005-08-24  1828  	 * was using the generic driver), we unbind the device
-e13934563db047 Andy Fleming       2005-08-24  1829  	 * from the generic driver so that there's a chance a
-2f53e9047e79b6 Sergei Shtylyov    2014-01-05  1830  	 * real driver could be loaded
-2f53e9047e79b6 Sergei Shtylyov    2014-01-05  1831  	 */
-5db5ea995fc2fa Florian Fainelli   2019-01-15  1832  	if (phy_driver_is_genphy(phydev) ||
-5db5ea995fc2fa Florian Fainelli   2019-01-15  1833  	    phy_driver_is_genphy_10g(phydev))
-e5a03bfd873c29 Andrew Lunn        2016-01-06  1834  		device_release_driver(&phydev->mdio.dev);
-3e3aaf64941698 Russell King       2015-09-24  1835  
-10a25be4b77c69 Dongjin Kim        2021-11-17 @1836  	if (!dev->wol_enabled) {
-                                                             ^^^^^
-Dereferenced without checking.
+should be goto out_unlock or something
 
-cbda1b16687580 Marek Behún        2022-01-19  1837  		/* Assert the reset signal */
-cbda1b16687580 Marek Behún        2022-01-19  1838  		phy_device_reset(phydev, 1);
-10a25be4b77c69 Dongjin Kim        2021-11-17  1839  	}
-cbda1b16687580 Marek Behún        2022-01-19  1840  
-7322967bc1bd97 Russell King       2015-09-24  1841  	/*
-7322967bc1bd97 Russell King       2015-09-24  1842  	 * The phydev might go away on the put_device() below, so avoid
-7322967bc1bd97 Russell King       2015-09-24  1843  	 * a use-after-free bug by reading the underlying bus first.
-7322967bc1bd97 Russell King       2015-09-24  1844  	 */
-e5a03bfd873c29 Andrew Lunn        2016-01-06  1845  	bus = phydev->mdio.bus;
-3e3aaf64941698 Russell King       2015-09-24  1846  
-e5a03bfd873c29 Andrew Lunn        2016-01-06  1847  	put_device(&phydev->mdio.dev);
-2db2d9d1ac3722 Ioana Ciornei      2019-05-28 @1848  	if (dev)
-                                                            ^^^
-Checked here
-
-2db2d9d1ac3722 Ioana Ciornei      2019-05-28  1849  		ndev_owner = dev->dev.parent->driver->owner;
-ec988ad78ed6d1 Florian Fainelli   2016-12-06  1850  	if (ndev_owner != bus->owner)
-3e3aaf64941698 Russell King       2015-09-24  1851  		module_put(bus->owner);
-e13934563db047 Andy Fleming       2005-08-24  1852  }
+3e55a25b7db23f arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-01-24  100  	}
+3e55a25b7db23f arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-01-24  101  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  102  	list_add_tail(&irq->lpi_list, &dist->lpi_list_head);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  103  	dist->lpi_list_count++;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  104  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  105  out_unlock:
+fc3bc475231e12 virt/kvm/arm/vgic/vgic-its.c   Julien Thierry   2019-01-07  106  	raw_spin_unlock_irqrestore(&dist->lpi_list_lock, flags);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  107  
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  108  	/*
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  109  	 * We "cache" the configuration table entries in our struct vgic_irq's.
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  110  	 * However we only have those structs for mapped IRQs, so we read in
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  111  	 * the respective config data from memory here upon mapping the LPI.
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  112  	 *
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  113  	 * Should any of these fail, behave as if we couldn't create the LPI
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  114  	 * by dropping the refcount and returning the error.
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  115  	 */
+6ce18e3a5f3308 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier     2017-10-27  116  	ret = update_lpi_config(kvm, irq, NULL, false);
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  117  	if (ret) {
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  118  		vgic_put_irq(kvm, irq);
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  119  		return ERR_PTR(ret);
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  120  	}
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  121  
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  122  	ret = vgic_v3_lpi_sync_pending_status(kvm, irq);
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  123  	if (ret) {
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  124  		vgic_put_irq(kvm, irq);
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  125  		return ERR_PTR(ret);
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  126  	}
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  127  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15 @128  	return irq;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  129  }
 
 -- 
 0-DAY CI Kernel Test Service
