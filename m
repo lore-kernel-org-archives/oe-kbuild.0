@@ -1,89 +1,56 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7FA2031C;
-	Wed,  7 Feb 2024 08:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5234776C70
+	for <oe-kbuild@lists.linux.dev>; Wed,  7 Feb 2024 13:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707295257; cv=none; b=Cw1tXhxdyxZ2uFzIpj/gPSys0gZZJVzhHnz5b+H5Emrp2Govani6fDHl3qhkR00Ce+N8AJ+2uyhIKOToMGknfNRUaFSSNZLV5fJfaDxRdU8WFYlSprXAXEpJC30RSsomcXVks3cJSyIrQLkX8anEf6bq0X9aA+kMEFVwRS31Vtg=
+	t=1707312781; cv=none; b=I5/lAoWx1okL0ug0IR/3fn413TMp+8ODIbUBB22wTdmLFSGtxrHin5hkeaUGuT0641Q14UoZu0XiHGYlHW2Hp3cDANLSx1rHZF2SYDBt+jpze1HipEZJUdrooTWlp2Vmj5Fb+0f7OKT8NKEYFO4l9NfrvP01bqPx58rEATr7X5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707295257; c=relaxed/simple;
-	bh=7mWCDilBtyn6a8R/MQs4iWeqLin9foUbZ3OlyKHlEtY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZvKYUbX8UkoXUFWL/V/ISV6zuVmPDadKXc8MJ3F2LNIzOP6+rJJSTwtM88HsS8wor298mBEsAlHzdVEpQwlGq+Xk+WtBblZ7GmHkU9cebOCV0/dHTNWG/+GkadlQN0ytixSjDOxSFQeO1Zht89rwwFUqY00WqIB/ZcjBSfiOAIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uo2iAS4V; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=g6lFN9sT; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uo2iAS4V; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=g6lFN9sT; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1707312781; c=relaxed/simple;
+	bh=zNsnzrTlF7iJrBsmJeV3Fe0li0/1dJ1uulTnUxhgQ9w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=P8exn1mCrE3+jEjBlKahz39VoXcIAcTquZDcZmzafPNns8tVg1kTRm2e3T8WcPPmmbDZq5TkuBlyMmR0CpRbOVmA2uP03dm6mW2iiFO+nMt1tdM/cRTcb/zWAvQwSMBlffKAUEPoxzBnr+8d4trOBSLxdz3W0sMDCXV+lHHAV4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Why8aK3H; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uo2iAS4V";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="g6lFN9sT";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uo2iAS4V";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="g6lFN9sT"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 50666221D1;
-	Wed,  7 Feb 2024 08:40:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1707295254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R7q8iY10uoxfBBuRXr+Ei/C8akP0H6jzk/X1fqaQvQY=;
-	b=uo2iAS4VHfmzbP8+sGhwxwBhz+ITGZl9aP7Eg4thsPHmTH4Q4BSFt0SmR80AT8NeCxoAE+
-	ClThyH205khyJ4lwUie453vYGg/E21jtlQASqbOVwRoQtX3TbeTjfrnt6dUx5+zPfzdoDE
-	xg/ZhFcksSLcX0jP2GVJUZBpq3i1oEg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1707295254;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R7q8iY10uoxfBBuRXr+Ei/C8akP0H6jzk/X1fqaQvQY=;
-	b=g6lFN9sTD/PIiY3ic7OCv2L/NLz6tjpsciHv8cGE0TTVGwwBl5WNTHRilGSwbuertuNxWz
-	/78FUB4U2yS1TMAw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1707295254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R7q8iY10uoxfBBuRXr+Ei/C8akP0H6jzk/X1fqaQvQY=;
-	b=uo2iAS4VHfmzbP8+sGhwxwBhz+ITGZl9aP7Eg4thsPHmTH4Q4BSFt0SmR80AT8NeCxoAE+
-	ClThyH205khyJ4lwUie453vYGg/E21jtlQASqbOVwRoQtX3TbeTjfrnt6dUx5+zPfzdoDE
-	xg/ZhFcksSLcX0jP2GVJUZBpq3i1oEg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1707295254;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R7q8iY10uoxfBBuRXr+Ei/C8akP0H6jzk/X1fqaQvQY=;
-	b=g6lFN9sTD/PIiY3ic7OCv2L/NLz6tjpsciHv8cGE0TTVGwwBl5WNTHRilGSwbuertuNxWz
-	/78FUB4U2yS1TMAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3EFF8139D8;
-	Wed,  7 Feb 2024 08:40:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pjggDxZCw2U6QwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 07 Feb 2024 08:40:54 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 9CC16A0809; Wed,  7 Feb 2024 09:40:53 +0100 (CET)
-Date: Wed, 7 Feb 2024 09:40:53 +0100
-From: Jan Kara <jack@suse.cz>
-To: syzbot <syzbot+9924e2a08d9ba0fd4ce2@syzkaller.appspotmail.com>
-Cc: axboe@kernel.dk, brauner@kernel.org, dan.carpenter@linaro.org,
-	dave.kleikamp@oracle.com, ghandatmanas@gmail.com, jack@suse.cz,
-	jfs-discussion@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org, lkp@intel.com, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev,
-	shaggy@kernel.org, syzkaller-bugs@googlegroups.com,
-	syzkaller@googlegroups.com
-Subject: Re: [syzbot] [jfs?] KASAN: slab-out-of-bounds Read in dtSearch
-Message-ID: <20240207084053.ydlu3fnyzzvjpdr3@quack3>
-References: <000000000000332a2505e981f474@google.com>
- <00000000000014c9ca0610b7aec6@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Why8aK3H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707312780; x=1738848780;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zNsnzrTlF7iJrBsmJeV3Fe0li0/1dJ1uulTnUxhgQ9w=;
+  b=Why8aK3HKc3VuSnR/8r7njE0Jj4k7/18+KHCNojYlTkpyZcWTcw2nkXX
+   zxx/bAWq6YCSdmat/YV3BHJNpWZxOfJDVirKtukIGAvltOUclIdeFPLYA
+   KcNGEEuBFbUB4qtbjE4ANEz7vpricXOI3cw/EAlK5e2sUpbd5aznLAWiy
+   RZeACE0EoCbAo4DM+kSEfxBew/+FBTfz+kWY7LEun2QC57tmLHn9D84R3
+   K1JBXsy6N2g/T17NTQJqE5Ox9fFtUrTrhQgvOa4pcFxL4i9tcimm///Wo
+   9yLiZCO7KGXR6g7o2HSxxSdb0WeB1e2qrbaYWI9s5y+D3ccCC0HFN46hV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="1135910"
+X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
+   d="scan'208";a="1135910"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 05:32:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="933774618"
+X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
+   d="scan'208";a="933774618"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 07 Feb 2024 05:32:56 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rXi2o-0002fu-1K;
+	Wed, 07 Feb 2024 13:32:54 +0000
+Date: Wed, 7 Feb 2024 21:32:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [openeuler:openEuler-1.0-LTS 21466/21625]
+ drivers/scsi/hisi_raid/hiraid_main.c:3497:8-16: WARNING: please use
+ sysfs_emit or sysfs_emit_at
+Message-ID: <202402072151.GeJWv2MH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -92,71 +59,59 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <00000000000014c9ca0610b7aec6@google.com>
-X-Spam-Level: *
-X-Spamd-Bar: +
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=uo2iAS4V;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=g6lFN9sT
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [1.49 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 TO_DN_SOME(0.00)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RLjmuxkameenh34oafz4d4fopd)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.cz:+];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-0.00)[33.64%];
-	 SUBJECT_HAS_QUESTION(0.00)[];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=b45dfd882e46ec91];
-	 TAGGED_RCPT(0.00)[9924e2a08d9ba0fd4ce2];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[18];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 FREEMAIL_CC(0.00)[kernel.dk,kernel.org,linaro.org,oracle.com,gmail.com,suse.cz,lists.sourceforge.net,vger.kernel.org,lists.linuxfoundation.org,intel.com,lists.linux.dev,googlegroups.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Score: 1.49
-X-Rspamd-Queue-Id: 50666221D1
-X-Spam-Flag: NO
 
-On Tue 06-02-24 06:49:05, syzbot wrote:
-> syzbot suspects this issue was fixed by commit:
-> 
-> commit 6f861765464f43a71462d52026fbddfc858239a5
-> Author: Jan Kara <jack@suse.cz>
-> Date:   Wed Nov 1 17:43:10 2023 +0000
-> 
->     fs: Block writes to mounted block devices
-> 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13767e8fe80000
-> start commit:   bee0e7762ad2 Merge tag 'for-linus-iommufd' of git://git.ke..
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=b45dfd882e46ec91
-> dashboard link: https://syzkaller.appspot.com/bug?extid=9924e2a08d9ba0fd4ce2
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=152bfc22e80000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1608f4a2e80000
-> 
-> If the result looks correct, please mark the issue as fixed by replying with:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: kernel@openeuler.org
+TO: zhanglei <zhanglei48@huawei.com>
 
-Makes sense.
- 
-#syz fix: fs: Block writes to mounted block devices
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   7efcac7603953bb58d80041f410b079378b5174c
+commit: f153a1e5e708c7cf9607ad375bf7145060ababd4 [21466/21625] SCSI: hisi_raid: support SPxxx serial RAID/HBA controllers
+:::::: branch date: 5 hours ago
+:::::: commit date: 8 weeks ago
+config: x86_64-randconfig-r053-20240206 (https://download.01.org/0day-ci/archive/20240207/202402072151.GeJWv2MH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-								Honza
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202402072151.GeJWv2MH-lkp@intel.com/
+
+cocci warnings: (new ones prefixed by >>)
+>> drivers/scsi/hisi_raid/hiraid_main.c:3497:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
+   drivers/scsi/hisi_raid/hiraid_main.c:3465:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
+   drivers/scsi/hisi_raid/hiraid_main.c:3510:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
+   drivers/scsi/hisi_raid/hiraid_main.c:3481:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
+   drivers/scsi/hisi_raid/hiraid_main.c:3773:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
+   drivers/scsi/hisi_raid/hiraid_main.c:3548:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
+   drivers/scsi/hisi_raid/hiraid_main.c:3519:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
+   drivers/scsi/hisi_raid/hiraid_main.c:3573:8-16: WARNING: please use sysfs_emit or sysfs_emit_at
+   drivers/scsi/hisi_raid/hiraid_main.c:3682:9-17: WARNING: please use sysfs_emit or sysfs_emit_at
+   drivers/scsi/hisi_raid/hiraid_main.c:3744:9-17: WARNING: please use sysfs_emit or sysfs_emit_at
+   drivers/scsi/hisi_raid/hiraid_main.c:3711:9-17: WARNING: please use sysfs_emit or sysfs_emit_at
+
+vim +3497 drivers/scsi/hisi_raid/hiraid_main.c
+
+f153a1e5e708c7 zhanglei 2023-12-15  3483  
+f153a1e5e708c7 zhanglei 2023-12-15  3484  static ssize_t csts_cfs_show(struct device *cdev,
+f153a1e5e708c7 zhanglei 2023-12-15  3485  				struct device_attribute *attr, char *buf)
+f153a1e5e708c7 zhanglei 2023-12-15  3486  {
+f153a1e5e708c7 zhanglei 2023-12-15  3487  	struct Scsi_Host *shost = class_to_shost(cdev);
+f153a1e5e708c7 zhanglei 2023-12-15  3488  	struct hiraid_dev *hdev = shost_priv(shost);
+f153a1e5e708c7 zhanglei 2023-12-15  3489  	int ret = -1;
+f153a1e5e708c7 zhanglei 2023-12-15  3490  
+f153a1e5e708c7 zhanglei 2023-12-15  3491  	if (pci_device_is_present(hdev->pdev)) {
+f153a1e5e708c7 zhanglei 2023-12-15  3492  		ret = (readl(hdev->bar + HIRAID_REG_CSTS) &
+f153a1e5e708c7 zhanglei 2023-12-15  3493  			HIRAID_CSTS_CFS_MASK);
+f153a1e5e708c7 zhanglei 2023-12-15  3494  		ret >>= HIRAID_CSTS_CFS_SHIFT;
+f153a1e5e708c7 zhanglei 2023-12-15  3495  	}
+f153a1e5e708c7 zhanglei 2023-12-15  3496  
+f153a1e5e708c7 zhanglei 2023-12-15 @3497  	return snprintf(buf, PAGE_SIZE, "%d\n", ret);
+f153a1e5e708c7 zhanglei 2023-12-15  3498  }
+f153a1e5e708c7 zhanglei 2023-12-15  3499  
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
