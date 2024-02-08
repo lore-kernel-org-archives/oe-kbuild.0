@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7A17D406
-	for <oe-kbuild@lists.linux.dev>; Thu,  8 Feb 2024 13:52:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7012520B00
+	for <oe-kbuild@lists.linux.dev>; Thu,  8 Feb 2024 19:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707400366; cv=none; b=GE5dbb4pk48QbQjc6NNev+4He0TdXKi9FOy3lhe/rjo4NzAswxDFo9u4etkEitWODWzQ7g6diXp3VLHI17t1ol+MsAwJotKB/K7R6M1QYyBGfqwD7OJWx787fY7K28y+4nq3JdQf1vLcoRnT0MkBAWvNwhBCE/6dnQPS4VPfk94=
+	t=1707419278; cv=none; b=rBYvWdUkNSE5GCCixHeUAY2+R8odz2O5FXoGirJKVkaSSAt3VSHHYy7g93diJyEEPGCCgRW1KNLPeKd5IP8cahZfVG29miIMUhymiZKVSsFo+cuU+dEAJjSAT1P9v+ixDY6albIvmeaPITpZlx58c2bQ3GBIoiD5xI/xUdFqg8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707400366; c=relaxed/simple;
-	bh=ehCilfrBFUyESfzcOW/TKlj4mYO/3w2Btsd5gAt4u1c=;
+	s=arc-20240116; t=1707419278; c=relaxed/simple;
+	bh=9MWyfJIvQctd3w5Y51XPG6tS1e+vI6k8crS9h8cr0Ic=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T7Zbb89hC3i0M20k93IJ0x5QLDsmTqc3I3qhO2rxy9cnLrubTb+OCQcqD+KKgPan7xtFC0hd4FH3rjj5jLd73m+KQP6ZKGhGeiFxjUFhSNmBCdEE1695XiJFtuvCTBfYBxU18h9nh0HFhi3BxBCPbAl56HJQQ6wqnHccAcL1q7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=djTB5Mwa; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=hiV8d4wP4dV7udMHsiFdpR3TZAuMq4eHhB6hkrdP7Cq5HSSTrOafgsAWq0TlbXBWvQbNgopPngoJdgaemD+tqiSAEVoSUNWMWe0ZNhzvlzNzVGntfNnw+hcEf4o+v3EsxGkIYJtkgXVdoGEcLzKeLFeNrr7L7CNWJvcF3VzyoBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i/DL15g2; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="djTB5Mwa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i/DL15g2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707400365; x=1738936365;
+  t=1707419277; x=1738955277;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ehCilfrBFUyESfzcOW/TKlj4mYO/3w2Btsd5gAt4u1c=;
-  b=djTB5Mwa6FYVHs28R7ZQR7O+gMRe37xJmZGN4hqCe613wlBo+5X1CiWG
-   Wro20J+3UsXeG9HlZmRTrdc3UbbFUiqaiBqyaOpxULRlNt9n4RNaNccaZ
-   pfkMaraZNx6n2EA/gEQmmAqIMSbRtwdZH2FhY6iBYYmvv/8+X+/iuvnJT
-   FzhSTzVmaKy2f1WDw22mRlMOR7tksax3wav1KpyDd4VQ/WVAVWcWYQtph
-   H4hhqeKHXkmhjQ6jI/hftEQz2xoovyeYe1Pe4uCB6fgMgz+wEZNSM6Wmo
-   Q7rwNQqTOAfKp2OjkTxHSnkMpza8Abq+WeJWeeoOMNKsHYXFwGSviCQg2
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="1106911"
+  bh=9MWyfJIvQctd3w5Y51XPG6tS1e+vI6k8crS9h8cr0Ic=;
+  b=i/DL15g2NlRjO/3vM5IfECSO33fyug5lPZEPTx307ZW7NU2zXsRFoq2H
+   tliaGV2T5f/9rUQGWRtWLFoPYC76j1GjFdmqxEMA6O14DDP9mzCUuBi17
+   RV5I8grfu76pBrbuKg210V74cBD54nMhkDsAnjbupStmvR7ORiD88zOEp
+   Ecv1HKnsZhqxzh0M3x+LtdAR6tlS+Zm3xatED1eiMr9t8/A+xxuN/is8y
+   07Ig/1XwfWpAxpoOrDULvadmHXqvo3eiGNKrAxDzVqvw97e52Jc2XJFKv
+   0X5xdV95M/COYjvQXelTrjq46bF5zGFNzSn37AOOtJt44IwWHmq/kdqL+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="23772945"
 X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="1106911"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 05:52:44 -0800
+   d="scan'208";a="23772945"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 11:07:56 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="6313803"
+   d="scan'208";a="6390198"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 08 Feb 2024 05:52:43 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 08 Feb 2024 11:07:54 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rY4pU-0003nC-0t;
-	Thu, 08 Feb 2024 13:52:40 +0000
-Date: Thu, 8 Feb 2024 21:52:28 +0800
+	id 1rY9kW-00042x-1L;
+	Thu, 08 Feb 2024 19:07:52 +0000
+Date: Fri, 9 Feb 2024 03:07:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 4175/5494] lib/test_ubsan.c:30:18: sparse:
- sparse: shift count is negative (-1)
-Message-ID: <202402082159.OIfX4oDm-lkp@intel.com>
+Subject: kernel/bpf/verifier.c:3284:46: sparse: sparse: subtraction of
+ functions? Share your drugs
+Message-ID: <202402090246.MFchhW1d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,54 +59,95 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: lib/test_ubsan.c:30:18: sparse: sparse: shift count is negative (-1)"
+:::::: Manual check reason: "low confidence static check warning: kernel/bpf/verifier.c:3284:46: sparse: sparse: subtraction of functions? Share your drugs"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Kees Cook <keescook@chromium.org>
-CC: Marco Elver <elver@google.com>
+CC: linux-kernel@vger.kernel.org
+TO: Alexei Starovoitov <ast@fb.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b1d3a0e70c3881d2f8cf6692ccf7c2a4fb2d030d
-commit: 30edbdf9b98ddc9087f5f8b9a9644fa5c05fa5b1 [4175/5494] ubsan: Silence W=1 warnings in self-test
-:::::: branch date: 10 hours ago
-:::::: commit date: 2 days ago
-config: powerpc64-randconfig-r113-20240208 (https://download.01.org/0day-ci/archive/20240208/202402082159.OIfX4oDm-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240208/202402082159.OIfX4oDm-lkp@intel.com/reproduce)
+Hi Alexei,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   047371968ffc470769f541d6933e262dc7085456
+commit: e245c5c6a5656e4d61aa7bb08e9694fd6e5b2b9d bpf: move fixup_bpf_calls() function
+date:   7 years ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 7 years ago
+config: openrisc-randconfig-s041-20230115 (https://download.01.org/0day-ci/archive/20240209/202402090246.MFchhW1d-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20240209/202402090246.MFchhW1d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202402082159.OIfX4oDm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402090246.MFchhW1d-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> lib/test_ubsan.c:30:18: sparse: sparse: shift count is negative (-1)
+>> kernel/bpf/verifier.c:3284:46: sparse: sparse: subtraction of functions? Share your drugs
+   kernel/bpf/verifier.c:3396:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *to @@     got char [noderef] <asn:1> *[assigned] log_ubuf @@
+   kernel/bpf/verifier.c:3396:39: sparse:     expected void *to
+   kernel/bpf/verifier.c:3396:39: sparse:     got char [noderef] <asn:1> *[assigned] log_ubuf
 
-vim +30 lib/test_ubsan.c
+vim +3284 kernel/bpf/verifier.c
 
-854686f4edf483 Jinbum Park 2018-04-10  22  
-854686f4edf483 Jinbum Park 2018-04-10  23  static void test_ubsan_shift_out_of_bounds(void)
-854686f4edf483 Jinbum Park 2018-04-10  24  {
-4a26f49b7b3dbe Kees Cook   2020-12-15  25  	volatile int neg = -1, wrap = 4;
-30edbdf9b98ddc Kees Cook   2024-01-30  26  	volatile int val1 = 10;
-30edbdf9b98ddc Kees Cook   2024-01-30  27  	volatile int val2 = INT_MAX;
-4a26f49b7b3dbe Kees Cook   2020-12-15  28  
-4a26f49b7b3dbe Kees Cook   2020-12-15  29  	UBSAN_TEST(CONFIG_UBSAN_SHIFT, "negative exponent");
-4a26f49b7b3dbe Kees Cook   2020-12-15 @30  	val1 <<= neg;
-854686f4edf483 Jinbum Park 2018-04-10  31  
-4a26f49b7b3dbe Kees Cook   2020-12-15  32  	UBSAN_TEST(CONFIG_UBSAN_SHIFT, "left overflow");
-4a26f49b7b3dbe Kees Cook   2020-12-15  33  	val2 <<= wrap;
-854686f4edf483 Jinbum Park 2018-04-10  34  }
-854686f4edf483 Jinbum Park 2018-04-10  35  
-
-:::::: The code at line 30 was first introduced by commit
-:::::: 4a26f49b7b3dbe998d9b2561f9f256a1c3fdb74a ubsan: expand tests and reporting
-
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+9bac3d6d548e5c Alexei Starovoitov 2015-03-13  3235  
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3236  /* fixup insn->imm field of bpf_call instructions:
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3237   * if (insn->imm == BPF_FUNC_map_lookup_elem)
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3238   *      insn->imm = bpf_map_lookup_elem - __bpf_call_base;
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3239   * else if (insn->imm == BPF_FUNC_map_update_elem)
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3240   *      insn->imm = bpf_map_update_elem - __bpf_call_base;
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3241   * else ...
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3242   *
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3243   * this function is called after eBPF program passed verification
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3244   */
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3245  static void fixup_bpf_calls(struct bpf_prog *prog)
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3246  {
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3247  	const struct bpf_func_proto *fn;
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3248  	int i;
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3249  
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3250  	for (i = 0; i < prog->len; i++) {
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3251  		struct bpf_insn *insn = &prog->insnsi[i];
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3252  
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3253  		if (insn->code == (BPF_JMP | BPF_CALL)) {
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3254  			/* we reach here when program has bpf_call instructions
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3255  			 * and it passed bpf_check(), means that
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3256  			 * ops->get_func_proto must have been supplied, check it
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3257  			 */
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3258  			BUG_ON(!prog->aux->ops->get_func_proto);
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3259  
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3260  			if (insn->imm == BPF_FUNC_get_route_realm)
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3261  				prog->dst_needed = 1;
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3262  			if (insn->imm == BPF_FUNC_get_prandom_u32)
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3263  				bpf_user_rnd_init_once();
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3264  			if (insn->imm == BPF_FUNC_xdp_adjust_head)
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3265  				prog->xdp_adjust_head = 1;
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3266  			if (insn->imm == BPF_FUNC_tail_call) {
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3267  				/* mark bpf_tail_call as different opcode
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3268  				 * to avoid conditional branch in
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3269  				 * interpeter for every normal call
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3270  				 * and to prevent accidental JITing by
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3271  				 * JIT compiler that doesn't support
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3272  				 * bpf_tail_call yet
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3273  				 */
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3274  				insn->imm = 0;
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3275  				insn->code |= BPF_X;
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3276  				continue;
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3277  			}
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3278  
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3279  			fn = prog->aux->ops->get_func_proto(insn->imm);
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3280  			/* all functions that have prototype and verifier allowed
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3281  			 * programs to call them, must be real in-kernel functions
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3282  			 */
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3283  			BUG_ON(!fn->func);
+e245c5c6a5656e Alexei Starovoitov 2017-03-15 @3284  			insn->imm = fn->func - __bpf_call_base;
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3285  		}
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3286  	}
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3287  }
+e245c5c6a5656e Alexei Starovoitov 2017-03-15  3288  
 
 -- 
 0-DAY CI Kernel Test Service
