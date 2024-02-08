@@ -1,54 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5F72C6B5
-	for <oe-kbuild@lists.linux.dev>; Thu,  8 Feb 2024 04:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE31692F1
+	for <oe-kbuild@lists.linux.dev>; Thu,  8 Feb 2024 07:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707365310; cv=none; b=mX1MhKuYX4H2L843UR6eD4ygVX2CS/6+tibKEmdBg4REd5C0D/DmlZdXQcgJOhTt3775xucNBsSolX9O/LE9cX3i7L3eRjlLrGeFecAIWLKsEsQZ204P1wMQemcMTcu0sbRxRNnxNttDssNXJbSLoyyyhtet0kg3xTpLV4B/IJA=
+	t=1707376514; cv=none; b=l6pu9zsiynAVOwo1P6X3X0M0tmRy52TbDV9lFQZwsFDTA8iWcu23dPeF1ERHWVWtR6LulYytiwK716+KKLprCidP6GjscuGP2MyPhkhcg8hKV8DUyVev01sW/wVpoNEGPeo1eBl1jW7zuSNIFtSq4Cj7U3Yx2HLwmUEIYhzZ7NQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707365310; c=relaxed/simple;
-	bh=htxpLOzS0CsWiNoPAxTdS/7utQsvn5CzwdpX2ummOv4=;
+	s=arc-20240116; t=1707376514; c=relaxed/simple;
+	bh=vK/5Gz1QSwmxYzRM+M3atdSA7U9sTy/frFNKMtYClAM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qnbVJ45dkupW7veHeV8qie9/MlltU0GHmcS4+FcFi5zg19hTjnEO0kzzr5/drWaELrha/SyL1OSv/imqOAdpsEmPth4/rLWxADoNhq1bKpILtzyriPph6Pkj0EA1kBB3qFF4YmsikLNGrcThffd/wyTSoMwt/xxI5QATkHZEHeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BsB5sAGs; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=YFWiQ0pTOT04pDZhJeyxMj+ox8gSpjDq6z8PfcrVHfrbOVzAie+jWH1Vtp3A+SOCT+Rj8oA67PSOgRQauZfiEMdgRF4Og4xiG3kQgvlQgohSO6c7OVr3IAIMZwlp6Ip4yvDgI/En0szaC6AHBDR1CiH6/esy4YkZE/PgBxk2ZzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yqGG4Jf0; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BsB5sAGs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707365309; x=1738901309;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=htxpLOzS0CsWiNoPAxTdS/7utQsvn5CzwdpX2ummOv4=;
-  b=BsB5sAGsQlSgElhxfB0nESi+VqAWKGCgucAuQNGVEcJe1taTDFWATaKT
-   7Er0ms2aHDtGmS41pazaJDcSxM6l4quBocijKI81t7/vkqaB4fcGfA1lX
-   pElv6KJDudxCheL6JIft8X55wAQpFZE6zA+YWc5thBpTur5fTuyTCFtEp
-   qI7P7kaiS+nLwVo4xBu7cTPGu92UFJgEEu5S9yJRTtruGS0PlBrLP2dVk
-   kRDX7C/M3DzUfooarbwnhppSuvP73wS0cRohRe0DgM8pL2lxd+mLeKQzF
-   kPYJFIumU5RHYVxycnlew+OLi1uuW+sopeewbQMD094r4ryRuFs0XNZ/F
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="11775893"
-X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
-   d="scan'208";a="11775893"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 20:08:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
-   d="scan'208";a="1531961"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 Feb 2024 20:08:24 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rXvi3-0003LI-2a;
-	Thu, 08 Feb 2024 04:08:23 +0000
-Date: Thu, 8 Feb 2024 12:07:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [esmil:d1-6.8.y 33/50] sound/soc/sunxi/sun20i-codec.c:427:14:
- sparse: sparse: duplicate const
-Message-ID: <202402081140.xOiQTo7j-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yqGG4Jf0"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-560c696ccffso1100465a12.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 07 Feb 2024 23:15:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707376510; x=1707981310; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y5RJhuVckeXbSoDSHqZK4xAbBIVthUC0MdjCe3vhbYQ=;
+        b=yqGG4Jf0gZIfNxjXtbkR+hEgsmNdCZ23q8/e0zNHiKQHu8/q3KJwtuTOIyzcQfIGrl
+         /ZYHeDRMyQYYGopa+L8TiX3zmQzFNy0yEfz+HrYmoAfIZ4b6dwnByOD1Cn3hRmytY58j
+         +DHsnZr8/lzs7YgjVmCXOPdlUCTiRYvxHGhNB3U1/x4/TBwOfcGbwNAWrkUmiRlfbn04
+         0eLnH67zYwISstZN6WnhPVM6OL5Q42m6gAyxYDRdqh365s7ITLAKayy6UymnN0cOl3VX
+         ecLkaEXQKpJ4O058cSwI5emw+qmynOPRGZgEqsY5dyLTGyDowb2xXK22K0p3fmWCqabF
+         63XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707376510; x=1707981310;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y5RJhuVckeXbSoDSHqZK4xAbBIVthUC0MdjCe3vhbYQ=;
+        b=WxkfLnJVGD0mMC9ICwcZB8G7EgNY5zen1chspSmpZvO/SqrHZ0XRAx4brrb8rb5LcK
+         SDsUu8VqxCGZ5q2dLYvsXB6RFaOLR/LdAMfQu8ogsNuLn8HIpjP2zaGd3maBmJCZ2ju6
+         Rx6sqagvMugNqI0g8Fj3RUolXyvc9/FMsODIJRJfGa84JDOg3ynLHyrWReHzfw9M/k9g
+         soz8/aLE0lASjSxNiN3KX6vE5BY64vX4YS1aeOPFRed7QYnwj8KQgtHT4gZnDbKBvsU6
+         WPYWM868jOWVe2rcnw4Mqs9SLSIxgSK2D27/Yu0qzUHylyWWneZo4Qgfijz1siJvetFQ
+         HMKA==
+X-Gm-Message-State: AOJu0YyBhgWsRUne5YZSSMdiThygUBhMvn64X5EZgu/Df0NO1odxSC69
+	JPd8IaNqy2cEePFobHZWcuckoYMw6xq10/jEchcmVSnbVpcgTeCvL63Fpe1djhIJHi0IUl6kQ5h
+	R
+X-Google-Smtp-Source: AGHT+IE4WyGx5+NrWJrNDbHiwts0XIOSGoJrDUDfeCg4GYwug22ZiFtQVShwh8Q0Vv/ctnQ5MLpqmQ==
+X-Received: by 2002:a05:6402:27c9:b0:561:123d:ed8c with SMTP id c9-20020a05640227c900b00561123ded8cmr431557ede.2.1707376509857;
+        Wed, 07 Feb 2024 23:15:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW/5RW8GSuoXDIAlEWg7ccUX02G0LTAdoI9PvgnWCVnJUhkL4NYhlR+A/nuYNj13NEpDSSDb0h3CZsyf8rDSG5W3cqDBYw5dpIu8gEavLXiLqdQIQczCtsFoFs//XPDItH5TdG1ZQtqK2JUo+oXwCPJOi7OlDG8HdW6CvtZq/dUaWhGrDRszxT1yy5LGJeXaoMwn/ILyW+aQCTKZUCJiF4o5J0i1noq+8zyLAbV6cN8+cOk9Z0GSJnklCB3uEb+mA+Te3oG3iJA6Ez1jMuc+t3O+rdgKxfEyZ4Q1MVfCkiiopbf6M3bItpV9PdABDoFXlrmqKwhVN20XW+kMWak7iwVxCKcz910CK4mAYSOTHbUFwi6xOrPYojHudMVFKbOE69ZBKdveTfeOYvNiJ9Wshy2/1HLuD0lXWaCjij2TcgthPF3FXgCbcqt63ajk4IQuCJXW2U9ngxJYFFUmpzfmKwrATNcpfXMlFUMeuY+TDBK5UjGCUeUoPsy8M9IpUs7UzA/eqZ8yfF2f2Y=
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id cs4-20020a0564020c4400b005609619be04sm529701edb.41.2024.02.07.23.15.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Feb 2024 23:15:09 -0800 (PST)
+Date: Thu, 8 Feb 2024 10:15:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Ethan Zhao <haifeng.zhao@linux.intel.com>,
+	baolu.lu@linux.intel.com, bhelgaas@google.com, robin.murphy@arm.com,
+	jgg@ziepe.ca
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kevin.tian@intel.com,
+	dwmw2@infradead.org, will@kernel.org, lukas@wunner.de,
+	yi.l.liu@intel.com, iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	Ethan Zhao <haifeng.zhao@linux.intel.com>
+Subject: Re: [PATCH v12 4/5] iommu/vt-d: pass pdev parameter for
+ qi_check_fault() and refactor callers
+Message-ID: <b0b45e40-7510-4107-92a0-27fafb5d7bf7@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,45 +73,53 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240129034924.817005-5-haifeng.zhao@linux.intel.com>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: sound/soc/sunxi/sun20i-codec.c:427:14: sparse: sparse: duplicate const"
-:::::: 
+Hi Ethan,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Samuel Holland <samuel@sholland.org>
-CC: Emil Renner Berthing <emil.renner.berthing@canonical.com>
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/esmil/linux d1-6.8.y
-head:   f3b6698ac10e7f6528408bda7d8d162065a44af1
-commit: 2bf2b3c3e381c76f1f04c3863bfbd5e03b35195f [33/50] ASoC: sun20i-codec: New driver for D1 internal codec
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arc-randconfig-r111-20240208 (https://download.01.org/0day-ci/archive/20240208/202402081140.xOiQTo7j-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240208/202402081140.xOiQTo7j-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Zhao/PCI-make-pci_dev_is_disconnected-helper-public-for-other-drivers/20240129-115259
+base:   41bccc98fb7931d63d03f326a746ac4d429c1dd3
+patch link:    https://lore.kernel.org/r/20240129034924.817005-5-haifeng.zhao%40linux.intel.com
+patch subject: [PATCH v12 4/5] iommu/vt-d: pass pdev parameter for qi_check_fault() and refactor callers
+config: x86_64-randconfig-161-20240207 (https://download.01.org/0day-ci/archive/20240208/202402080321.n77hu71Y-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202402081140.xOiQTo7j-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202402080321.n77hu71Y-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/sunxi/sun20i-codec.c:427:14: sparse: sparse: duplicate const
-   sound/soc/sunxi/sun20i-codec.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+smatch warnings:
+drivers/iommu/intel/dmar.c:1533 qi_flush_dev_iotlb() error: we previously assumed 'info->dev' could be null (see line 1533)
 
-vim +427 sound/soc/sunxi/sun20i-codec.c
+vim +1533 drivers/iommu/intel/dmar.c
 
-2bf2b3c3e381c7 Samuel Holland 2021-06-12  426  
-2bf2b3c3e381c7 Samuel Holland 2021-06-12 @427  static const SOC_ENUM_DOUBLE_DECL(sun20i_codec_line_out_mode_enum,
-2bf2b3c3e381c7 Samuel Holland 2021-06-12  428  				  SUN20I_CODEC_DAC,
-2bf2b3c3e381c7 Samuel Holland 2021-06-12  429  				  SUN20I_CODEC_DAC_LINEOUTL_DIFFEN,
-2bf2b3c3e381c7 Samuel Holland 2021-06-12  430  				  SUN20I_CODEC_DAC_LINEOUTR_DIFFEN,
-2bf2b3c3e381c7 Samuel Holland 2021-06-12  431  				  sun20i_codec_line_out_mode_enum_text);
-2bf2b3c3e381c7 Samuel Holland 2021-06-12  432  
+20da7293134024 drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28  1522  void qi_flush_dev_iotlb(struct intel_iommu *iommu,
+20da7293134024 drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28  1523  			struct device_domain_info *info, u64 addr,
+20da7293134024 drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28  1524  			unsigned int mask)
+6ba6c3a4cacfd6 drivers/pci/dmar.c         Yu Zhao      2009-05-18  1525  {
+c830e699e08a6c drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28  1526  	struct pci_dev *pdev = NULL;
+20da7293134024 drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28  1527  	u16 sid, qdep, pfsid;
+6ba6c3a4cacfd6 drivers/pci/dmar.c         Yu Zhao      2009-05-18  1528  	struct qi_desc desc;
+6ba6c3a4cacfd6 drivers/pci/dmar.c         Yu Zhao      2009-05-18  1529  
+20da7293134024 drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28  1530  	if (!info || !info->ats_enabled)
+20da7293134024 drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28  1531  		return;
+20da7293134024 drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28  1532  
+c830e699e08a6c drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28 @1533  	if (info->dev || !dev_is_pci(info->dev))
+
+Missing ! character.  if (!info->dev
+
+c830e699e08a6c drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28  1534  		return;
+c830e699e08a6c drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28  1535  
+c830e699e08a6c drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28  1536  	pdev = to_pci_dev(info->dev);
+20da7293134024 drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28  1537  	sid = info->bus << 8 | info->devfn;
+20da7293134024 drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28  1538  	qdep = info->ats_qdep;
+20da7293134024 drivers/iommu/intel/dmar.c Ethan Zhao   2024-01-28  1539  	pfsid = info->pfsid;
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
