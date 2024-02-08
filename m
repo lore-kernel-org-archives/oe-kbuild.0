@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7012520B00
-	for <oe-kbuild@lists.linux.dev>; Thu,  8 Feb 2024 19:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FB650250
+	for <oe-kbuild@lists.linux.dev>; Thu,  8 Feb 2024 22:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707419278; cv=none; b=rBYvWdUkNSE5GCCixHeUAY2+R8odz2O5FXoGirJKVkaSSAt3VSHHYy7g93diJyEEPGCCgRW1KNLPeKd5IP8cahZfVG29miIMUhymiZKVSsFo+cuU+dEAJjSAT1P9v+ixDY6albIvmeaPITpZlx58c2bQ3GBIoiD5xI/xUdFqg8k=
+	t=1707432371; cv=none; b=EsZns6xf2OQ7/8wO0VBMbcV0dhHa4c8ZRv1RdpG9L4/iDh/UYi0o+7N25+M64yBeSnFvu105Z01aFPKxqDPFeNgYdO7NkvJ8ffFSjmTBwPjrrpIpiUnl1VeWFno3sfVgZGLetSmI8AON3GYOv10n2o6rZEaH6mKurnH17Y6Y5Jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707419278; c=relaxed/simple;
-	bh=9MWyfJIvQctd3w5Y51XPG6tS1e+vI6k8crS9h8cr0Ic=;
+	s=arc-20240116; t=1707432371; c=relaxed/simple;
+	bh=Lrq/mi4B8BBoELnWUMlBhp6CFg1UvTwjrktdUbzn7do=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hiV8d4wP4dV7udMHsiFdpR3TZAuMq4eHhB6hkrdP7Cq5HSSTrOafgsAWq0TlbXBWvQbNgopPngoJdgaemD+tqiSAEVoSUNWMWe0ZNhzvlzNzVGntfNnw+hcEf4o+v3EsxGkIYJtkgXVdoGEcLzKeLFeNrr7L7CNWJvcF3VzyoBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i/DL15g2; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=K/taCToPgCkTx3U/VQDwqfJa8oXJhwHficiELcKFnfVmqYvM9ta1NWqlpa/rxG5LhCt39ocuzU6nAyhDs3TSe+7mOgvm5nhLAoLeqDNCtYdvD0avnhgU8IPYQtq3h2h++uocevaymd5sj3l/d3VkKH112MHGZIJvHaP/+eac57I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CyjdwMT5; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i/DL15g2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CyjdwMT5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707419277; x=1738955277;
+  t=1707432368; x=1738968368;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9MWyfJIvQctd3w5Y51XPG6tS1e+vI6k8crS9h8cr0Ic=;
-  b=i/DL15g2NlRjO/3vM5IfECSO33fyug5lPZEPTx307ZW7NU2zXsRFoq2H
-   tliaGV2T5f/9rUQGWRtWLFoPYC76j1GjFdmqxEMA6O14DDP9mzCUuBi17
-   RV5I8grfu76pBrbuKg210V74cBD54nMhkDsAnjbupStmvR7ORiD88zOEp
-   Ecv1HKnsZhqxzh0M3x+LtdAR6tlS+Zm3xatED1eiMr9t8/A+xxuN/is8y
-   07Ig/1XwfWpAxpoOrDULvadmHXqvo3eiGNKrAxDzVqvw97e52Jc2XJFKv
-   0X5xdV95M/COYjvQXelTrjq46bF5zGFNzSn37AOOtJt44IwWHmq/kdqL+
+  bh=Lrq/mi4B8BBoELnWUMlBhp6CFg1UvTwjrktdUbzn7do=;
+  b=CyjdwMT5KPDU71uFYFoCunhUqIWQLG38M6U8KEPxiHGj3sd98WezQPyo
+   nHeM56WgYVRJHc8GY2Yk5bunMGNmwFBuaKCnXIcscbz8/l4JvUBUbq3Kg
+   yVDQRM9NlDEcTvDXJCFpcvVqNE7kqmgGV8Tck95GfwAPaXiY0hIvQr5fn
+   D4T7qXUE2VJKAwS/C22PpSPi4gUwIyLC0LLRXMYqyBK+QpLWkUZCeOmTj
+   C64bk4cF4xGUPkOWSfsDCpBjzPx/9RsaBufvNFngxPaIY1ZZUHYDFgeYn
+   aBC0oxZ6o3FmLtKqTcOIXWVMKLIdeLjNa8t2XzvgJWYyEV64eDwgC1OJi
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="23772945"
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="23772945"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 11:07:56 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="1215414"
+X-IronPort-AV: E=Sophos;i="6.05,255,1701158400"; 
+   d="scan'208";a="1215414"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 14:46:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="6390198"
+X-IronPort-AV: E=Sophos;i="6.05,255,1701158400"; 
+   d="scan'208";a="6553953"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Feb 2024 11:07:54 -0800
+  by orviesa004.jf.intel.com with ESMTP; 08 Feb 2024 14:46:03 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rY9kW-00042x-1L;
-	Thu, 08 Feb 2024 19:07:52 +0000
-Date: Fri, 9 Feb 2024 03:07:27 +0800
+	id 1rYD9c-0004Au-1V;
+	Thu, 08 Feb 2024 22:46:00 +0000
+Date: Fri, 9 Feb 2024 06:45:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: kernel/bpf/verifier.c:3284:46: sparse: sparse: subtraction of
- functions? Share your drugs
-Message-ID: <202402090246.MFchhW1d-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_debug.c:59
+ kfd_dbg_trap_enable() warn: fd re-used after fget(): 'fd'
+Message-ID: <202402090633.JBKyd2Af-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,96 +58,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: kernel/bpf/verifier.c:3284:46: sparse: sparse: subtraction of functions? Share your drugs"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Alexei Starovoitov <ast@fb.com>
-
-Hi Alexei,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+TO: Jonathan Kim <jonathan.kim@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Felix Kuehling <felix.kuehling@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   047371968ffc470769f541d6933e262dc7085456
-commit: e245c5c6a5656e4d61aa7bb08e9694fd6e5b2b9d bpf: move fixup_bpf_calls() function
-date:   7 years ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 7 years ago
-config: openrisc-randconfig-s041-20230115 (https://download.01.org/0day-ci/archive/20240209/202402090246.MFchhW1d-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20240209/202402090246.MFchhW1d-lkp@intel.com/reproduce)
+commit: 0ab2d7532b05a3e7c06fd3b0c8bd6b46c1dfb508 drm/amdkfd: prepare per-process debug enable and disable
+date:   8 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 8 months ago
+config: arm64-randconfig-r071-20240207 (https://download.01.org/0day-ci/archive/20240209/202402090633.JBKyd2Af-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202402090246.MFchhW1d-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202402090633.JBKyd2Af-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/bpf/verifier.c:3284:46: sparse: sparse: subtraction of functions? Share your drugs
-   kernel/bpf/verifier.c:3396:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *to @@     got char [noderef] <asn:1> *[assigned] log_ubuf @@
-   kernel/bpf/verifier.c:3396:39: sparse:     expected void *to
-   kernel/bpf/verifier.c:3396:39: sparse:     got char [noderef] <asn:1> *[assigned] log_ubuf
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_debug.c:59 kfd_dbg_trap_enable() warn: fd re-used after fget(): 'fd'
 
-vim +3284 kernel/bpf/verifier.c
+vim +/fd +59 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_debug.c
 
-9bac3d6d548e5c Alexei Starovoitov 2015-03-13  3235  
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3236  /* fixup insn->imm field of bpf_call instructions:
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3237   * if (insn->imm == BPF_FUNC_map_lookup_elem)
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3238   *      insn->imm = bpf_map_lookup_elem - __bpf_call_base;
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3239   * else if (insn->imm == BPF_FUNC_map_update_elem)
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3240   *      insn->imm = bpf_map_update_elem - __bpf_call_base;
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3241   * else ...
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3242   *
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3243   * this function is called after eBPF program passed verification
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3244   */
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3245  static void fixup_bpf_calls(struct bpf_prog *prog)
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3246  {
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3247  	const struct bpf_func_proto *fn;
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3248  	int i;
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3249  
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3250  	for (i = 0; i < prog->len; i++) {
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3251  		struct bpf_insn *insn = &prog->insnsi[i];
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3252  
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3253  		if (insn->code == (BPF_JMP | BPF_CALL)) {
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3254  			/* we reach here when program has bpf_call instructions
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3255  			 * and it passed bpf_check(), means that
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3256  			 * ops->get_func_proto must have been supplied, check it
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3257  			 */
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3258  			BUG_ON(!prog->aux->ops->get_func_proto);
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3259  
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3260  			if (insn->imm == BPF_FUNC_get_route_realm)
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3261  				prog->dst_needed = 1;
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3262  			if (insn->imm == BPF_FUNC_get_prandom_u32)
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3263  				bpf_user_rnd_init_once();
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3264  			if (insn->imm == BPF_FUNC_xdp_adjust_head)
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3265  				prog->xdp_adjust_head = 1;
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3266  			if (insn->imm == BPF_FUNC_tail_call) {
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3267  				/* mark bpf_tail_call as different opcode
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3268  				 * to avoid conditional branch in
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3269  				 * interpeter for every normal call
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3270  				 * and to prevent accidental JITing by
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3271  				 * JIT compiler that doesn't support
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3272  				 * bpf_tail_call yet
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3273  				 */
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3274  				insn->imm = 0;
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3275  				insn->code |= BPF_X;
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3276  				continue;
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3277  			}
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3278  
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3279  			fn = prog->aux->ops->get_func_proto(insn->imm);
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3280  			/* all functions that have prototype and verifier allowed
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3281  			 * programs to call them, must be real in-kernel functions
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3282  			 */
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3283  			BUG_ON(!fn->func);
-e245c5c6a5656e Alexei Starovoitov 2017-03-15 @3284  			insn->imm = fn->func - __bpf_call_base;
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3285  		}
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3286  	}
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3287  }
-e245c5c6a5656e Alexei Starovoitov 2017-03-15  3288  
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  44  
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  45  int kfd_dbg_trap_enable(struct kfd_process *target, uint32_t fd,
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  46  			void __user *runtime_info, uint32_t *runtime_size)
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  47  {
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  48  	struct file *f;
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  49  	uint32_t copy_size;
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  50  	int r = 0;
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  51  
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  52  	if (target->debug_trap_enabled)
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  53  		return -EALREADY;
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  54  
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  55  	copy_size = min((size_t)(*runtime_size), sizeof(target->runtime_info));
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  56  
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  57  	f = fget(fd);
+0ab2d7532b05a3 Jonathan Kim 2022-03-25  58  	if (!f) {
+0ab2d7532b05a3 Jonathan Kim 2022-03-25 @59  		pr_err("Failed to get file for (%i)\n", fd);
 
 -- 
 0-DAY CI Kernel Test Service
