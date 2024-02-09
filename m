@@ -1,54 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E3812E4C
-	for <oe-kbuild@lists.linux.dev>; Fri,  9 Feb 2024 10:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E2320311
+	for <oe-kbuild@lists.linux.dev>; Fri,  9 Feb 2024 10:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707475225; cv=none; b=D7upGIwYYbtGmkT1kuXjGowJuacgEPeHbnpjqFH1LTgpoNM1Y68iaCT5VVWNYR879v1IZAU0shly+Fpzpq4fKyTuQPnbe3AaTTXn3ZqJRKSH+bVJNYQXNh61wbmrdgUPqzdY04B4gQwr/nfrwsj1lx0dUk0Fr1vpwdqzX8S5FW0=
+	t=1707475497; cv=none; b=pgAwB/klw9HPJdAd4WAeXhdTHoYqGro6OmLIIqRP0dcyAevy0TfhCWAIqiJsKqJ9zs7ngBpmN0UB6AfWjHh+dEOlfkyw2Uc7hcMEYzHw+xxYXlae/D7njlvmxBH76hNSpV92vTzwXxQsifl29SNPws2tocszhxQ/C7KieQ4dYdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707475225; c=relaxed/simple;
-	bh=lLCuRw4IMcYQDEiErJ57m+7Q53T4X8ZkJl6x9WGt6kc=;
+	s=arc-20240116; t=1707475497; c=relaxed/simple;
+	bh=0qyI/gAu4ZJlfLwIOWsskUoL5PfJkS1ylp4Ng0x+uIE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qItSviyzzW85LFV4bSMyVwyMWCVBSRYkrZFBh5yzutcpNCZ44gfVhQDI1DSy2YjA1/iPKfrainPj+I+52RhqvTAiAWEbI1n/lkGFWBA5Tv4zhJTpaAUMG1zfoD38uhEb2FHp5BVD+YhsJ9kFpkxbFqfmndO2JiAfc0EM40aTw/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wj6g9kR1; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=rwa5OyvNcBPiqJlsDOtVRHVOCNtqA+GLJebw8IBGIYLEsy+4k8iA7CgD7VWVHvT0D7T0V7CNTbScMO1H6g4jZEPMmuXTpyS4XtJD9DIiO3UJPNL/qYWlPYHTxFS+Iq3L0YzlWABiVpyQwwxvt39K5UUlK5zEOlBcWHZj7VMNcPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GcjbcvJF; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wj6g9kR1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707475223; x=1739011223;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lLCuRw4IMcYQDEiErJ57m+7Q53T4X8ZkJl6x9WGt6kc=;
-  b=Wj6g9kR1sclhUPTyWIRzEkbheiCcIG1QGx5y7L9RS1xL1rB6ktAQLWgp
-   8BedJAwAWhrFYXd2+SVVig9y0Q8KIp5xlWZrZ4/JjgQtJAkmuQEJmDVDu
-   AHwAZCpy88l1sIByv91PoYwpEQDArJsuBtXuZM3qX1vf+bqM/ynj1CwBb
-   QgyNAFKs8zxRROxr9fP3zvZ3gSR/UXPMtJal8AH7enHa9z2ZLikWaXcz1
-   Ri1KDYkv6Hz0vPoGP+V/JxsbzSBGUFJyyQJRJjdj8T0HSfOjNRo86idtr
-   DVABqFNibDjS1ilkAAXonJ+fcu11ysBmXeaAPeQnN8brMJ5pbs6cTXteq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="1559992"
-X-IronPort-AV: E=Sophos;i="6.05,256,1701158400"; 
-   d="scan'208";a="1559992"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 02:40:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,256,1701158400"; 
-   d="scan'208";a="1898027"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Feb 2024 02:40:21 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rYOIs-0004cw-37;
-	Fri, 09 Feb 2024 10:40:18 +0000
-Date: Fri, 9 Feb 2024 18:39:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GcjbcvJF"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a3bf9012637so40446366b.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 09 Feb 2024 02:44:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707475494; x=1708080294; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ufiK/AwoGBnph0IZzYo7gGHR9qgDp2zpSqPlnrqsLUg=;
+        b=GcjbcvJFY7ZdUW9z17FSh5g/zRJFf788GXxqeLRWPUTB74dvdbDg5lNGDLHZLBztyX
+         RZs8X/QQChZddUx1Q0u7YGqfP/jDPzToCqkyyi4Oc9f32RKp5LsozA/5G4YxFCwthprJ
+         J8j8SyVXQ2QHueaJGqKT8MWAdj/Yfop3gosWbZkeuj8NW0mYlLxmvYs8Af2AnhmPw2C3
+         jKnJvaSHVBoXBkK7OaVP+toV/Wd3DEYcm307MZvDWx/qidYCWAjaG8tGw2M3Ih5UEGUG
+         uc7rvm9fYUnEq3jJC66ZqlWKRTIm0I12/7q0wxOlsQqQw1E8Jd+21CxRxfD4Kii0ZJ0G
+         d9Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707475494; x=1708080294;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ufiK/AwoGBnph0IZzYo7gGHR9qgDp2zpSqPlnrqsLUg=;
+        b=TVWkLDOH8152sfy2dOnBR3IjJr9ZRifKZ66/lDa7Pf5JkxjdWhKNZgi8H8D37H5EeU
+         FkIS5Yg6ZIAPBHeG4Tu4fqWz5hE+WhysBOUoDo2b2ItDmdaFzyCQ682P42GjR74GMcyU
+         TNn+Qsg7asKFNimaE0ZsV58CmSlu42BVAXeCC+cArhX/eBfDbuuCsM7D9a9WipHZZiHd
+         k/r7KI4fBeBVa+QUYqLC0hsPxgnLFUUmXxU2H5wGE7nKPX57lA/BmI1EgDlZ04LdKvVM
+         AhIG6AYuXDLe9gRt1QmNUQC/1Y01dXNx/KUGXG9keLx7yVXBO5EYfYp6ppWNpjT1B/Mq
+         1j+Q==
+X-Gm-Message-State: AOJu0YxXVvaWciQbWQ86Y1aVZtn3KXYJCiPUCQZFErsANGKBGGeJ1u9F
+	T1zyR4heG41I1IIcB4XwvfwDi/a8JsUvuNE2LkHipwBG2uEx37x5bWqe2l0fF8mT8SYKGpLnPO2
+	K
+X-Google-Smtp-Source: AGHT+IHpwhLDqRapIlu66G2J3dMTMPNIHznYNeglqdg8ydW1switl8iLg14HH6Hb8NK/lWJs9J3NEw==
+X-Received: by 2002:a17:906:ce32:b0:a38:9ff:571c with SMTP id sd18-20020a170906ce3200b00a3809ff571cmr826572ejb.9.1707475493711;
+        Fri, 09 Feb 2024 02:44:53 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXxmx2xbvCtX9cdjQK7LWMARKC4KfxZaOTLJ1aOxw/b6X1nBR3D0/gcULbBz+tTFmUrigGigD57yCCNn8t1CB3Zo2TmGsUZp7iFsHHdnetrKztQCb6bVe4ZI4OE5KMmsJl7J7hXaqSx5lJlHQ5UJUJbSmo0ISFXrWjVJiAH6BKmOH0LAVC7j32IPan/0tlKpBJaiXQrrIT50QISg+8snRtDeNvo3pA8fSG09Lxp/tIb7K109IVl89ef0NZ0HBg2J5ZsmCi0nzWllNArK1NSMayVDmDmeFSIoErSKRjrDoOx3Kk5gtQlprjhtaScnRSYWJiw+ppsfEFZHLUwvf92hQAwNHF8RrmrHBzqUcOE+mRxM6aFEiSiONVg4ytuPhqaRfOP0g6YFuvbnwOMT4MxBkthE0sGZN+icCQb18k89kXNUOLCTxGJpf3WYG3ILO4sucvkKA9SCCI++4muNlMklW9oZSfd5+wc139jAy0qpa1MHhiBobBpx9zn/XeK7H83pfaHyW6JF3mguM6ZUjyiOOdUNfdxUNuYqMg1rtKoJsUpnTJANEX1bjI+Omu1vK/0cPkH+DgcC1qAIfN11K2Bq54pIIM6XY3Crcxs8SArFssDN9Bc8dvnfgFgNB4NqnWQP0ZKiNfJYfOuNdlG9M8w3L8=
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id gr1-20020a170906e2c100b00a311ab95fbdsm638306ejb.63.2024.02.09.02.44.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 02:44:53 -0800 (PST)
+Date: Fri, 9 Feb 2024 13:44:49 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jagadeesh Kona <quic_jkona@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Taniya Das <quic_tdas@quicinc.com>, linux-arm-msm@vger.kernel.org,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Imran Shaik <quic_imrashai@quicinc.com>,
+	Ajit Pandey <quic_ajipan@quicinc.com>,
+	Jagadeesh Kona <quic_jkona@quicinc.com>
 Subject: Re: [PATCH 2/5] clk: qcom: videocc-sm8550: Add support for SM8650
  videocc
-Message-ID: <202402091804.SdrSLt10-lkp@intel.com>
+Message-ID: <63a0302d-8f36-4675-b390-75f546261c6e@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,53 +80,25 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20240206113145.31096-3-quic_jkona@quicinc.com>
-References: <20240206113145.31096-3-quic_jkona@quicinc.com>
-TO: Jagadeesh Kona <quic_jkona@quicinc.com>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konrad.dybcio@linaro.org>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-CC: Taniya Das <quic_tdas@quicinc.com>
-CC: linux-arm-msm@vger.kernel.org
-CC: linux-clk@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Imran Shaik <quic_imrashai@quicinc.com>
-CC: Ajit Pandey <quic_ajipan@quicinc.com>
-CC: Jagadeesh Kona <quic_jkona@quicinc.com>
 
 Hi Jagadeesh,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on robh/for-next linus/master v6.8-rc3]
-[cannot apply to next-20240209]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Jagadeesh-Kona/dt-bindings-clock-qcom-Add-video-clock-bindings-for-SM8650/20240206-194148
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
 patch link:    https://lore.kernel.org/r/20240206113145.31096-3-quic_jkona%40quicinc.com
 patch subject: [PATCH 2/5] clk: qcom: videocc-sm8550: Add support for SM8650 videocc
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
 config: arm64-randconfig-r071-20240207 (https://download.01.org/0day-ci/archive/20240209/202402091804.SdrSLt10-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202402091804.SdrSLt10-lkp@intel.com/
 
 smatch warnings:
@@ -111,7 +106,6 @@ drivers/clk/qcom/videocc-sm8550.c:590 video_cc_sm8550_probe() error: uninitializ
 
 vim +/offset +590 drivers/clk/qcom/videocc-sm8550.c
 
-f53153a37969c1 Jagadeesh Kona   2023-05-24  542  
 f53153a37969c1 Jagadeesh Kona   2023-05-24  543  static int video_cc_sm8550_probe(struct platform_device *pdev)
 f53153a37969c1 Jagadeesh Kona   2023-05-24  544  {
 f53153a37969c1 Jagadeesh Kona   2023-05-24  545  	struct regmap *regmap;
@@ -148,6 +142,9 @@ f53153a37969c1 Jagadeesh Kona   2023-05-24  562
 5ab3df7257a04f Jagadeesh Kona   2024-02-06  576  		video_cc_mvs1_clk_src.freq_tbl = ftbl_video_cc_mvs1_clk_src_sm8650;
 5ab3df7257a04f Jagadeesh Kona   2024-02-06  577  		offset = 0x8150;
 5ab3df7257a04f Jagadeesh Kona   2024-02-06  578  	}
+
+no else statement.
+
 5ab3df7257a04f Jagadeesh Kona   2024-02-06  579  
 a2620539ae2529 Dmitry Baryshkov 2023-10-16  580  	clk_lucid_ole_pll_configure(&video_cc_pll0, regmap, &video_cc_pll0_config);
 a2620539ae2529 Dmitry Baryshkov 2023-10-16  581  	clk_lucid_ole_pll_configure(&video_cc_pll1, regmap, &video_cc_pll1_config);
@@ -168,8 +165,8 @@ f53153a37969c1 Jagadeesh Kona   2023-05-24  595  	pm_runtime_put(&pdev->dev);
 f53153a37969c1 Jagadeesh Kona   2023-05-24  596  
 f53153a37969c1 Jagadeesh Kona   2023-05-24  597  	return ret;
 f53153a37969c1 Jagadeesh Kona   2023-05-24  598  }
-f53153a37969c1 Jagadeesh Kona   2023-05-24  599  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
