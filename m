@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051E13D54E
-	for <oe-kbuild@lists.linux.dev>; Sat, 10 Feb 2024 12:27:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE07D5F56E
+	for <oe-kbuild@lists.linux.dev>; Sat, 10 Feb 2024 22:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707568045; cv=none; b=I4OZ79ct1e7AmA6T+3F5/4j1jQH5nq85GM1j8CI4ra0Rn5jaPMtBZ3BCKEZqa0X4tOCplYDB+OO2bKnm/VvRyatSdKmgl/aGBE4DLURu/wm3X8JDr8F/VGhH7JaLWWBQPB/Q4bIJ1OkpeeurIlIeb2Mg/UhVHT4PUOBfyrwWKeQ=
+	t=1707602623; cv=none; b=tjSdnxlRbcM6pN+r0HI7kJk59PboM9MqikQrcuCdcVXK09Zj19aQwbKcuIsIufXJ8jNjD8CAnt96/OivZKeQoevqpI6Bv91Bqjcw2sFAzoF6zhJxOXGVKuqbJRJEehhOkWCv1z8AIBuRgfTSaZSRydbJdB9+8LtDiMpL1ExjhKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707568045; c=relaxed/simple;
-	bh=8emuRDNtxJfW2DMKGmMasuMs/Z4VEGMyWO+iE2DT0H8=;
+	s=arc-20240116; t=1707602623; c=relaxed/simple;
+	bh=ScofTwsQH2KHg4qymHoC7nod+eyyFygC1w4+Flk2yiI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Zui6FT7ppEbtQyXAXfKsKL6Ue+vAtEXpkqI1PP2MamzG29d0P4zvZbAA/s4HqvketncWydCxWUidPNACjQq2wPmclKza4nbl2DTzIe4TYuvTyiPN5awu/43qke3fP6KjNnQVlBfgAOsv4sXfLPmB420iv+OVdZkDmx96qSUBy3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GimBkS6P; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=MiZm6BvkNXE7S0DaEItWwALC57exdKOW7mZ3eEaJn4S4sZBRYuSf9f+X2Ugeuua2RqvL7rQK3yTtTDO/ZQ8RurCRuyp/VaGW/gZLA4hHySg+Z2rueqqEhaZJDBUJTnuGs2rd0UvrpfyaDHv06lFJ+dfYzlEsK5NdMcVoBgQtoeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bo+mhizl; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GimBkS6P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bo+mhizl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707568043; x=1739104043;
+  t=1707602622; x=1739138622;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8emuRDNtxJfW2DMKGmMasuMs/Z4VEGMyWO+iE2DT0H8=;
-  b=GimBkS6PaGFZm2kGMt5TF2PhIFd8Im+W2DnNv22cr3klf9KSZo7nde91
-   H7zNYES9/cRSncX3hqrdRpy414Bq7vIw9yFpqIBb6dXBCgt/JlJCaY+0Q
-   OkqGm0V4g5MJlCGwvghwo0ix1bIQhfvIVzG17L7C/4j5eLgxWvDhRFf9Z
-   gdwrkEr9js8XNv8LGABbs43HR76Ih1d9PDniPPx3LR7uLWz509Vyo8WtS
-   vZtnqQixsxpQ/imGmsMTPhYBqUb27Had0LLy9pljBO01iUwuG9kZjzovt
-   SVZjbaNr7or2AfQPMzAAcd7tP7RvINjRgan5eyElmCHuJz1DOfO8St1jA
+  bh=ScofTwsQH2KHg4qymHoC7nod+eyyFygC1w4+Flk2yiI=;
+  b=Bo+mhizl1/Lf5NQRcyqpzCIoIBGpdNsoBhI1/2fO1KzpwpRQRUm6kAxo
+   rXDru6IVNwQ5BSzRxN2uWXKUpNwGxGI77vd/OTINK9aggp8ommKn5tJYd
+   Vy9EH7W+KMJFgLtV62LjwOqGilkR3926tuiHPqAfTb7wUxEZx4mcIujcr
+   eCoaT2ydJJsn4ni6dneZRfzsJTQtCcz0c4fH9EA9Ycrn5+muDknnQWTd0
+   479/IUlUAAwsHiNGP0R96mGle2DZeRfqwYHVDhHZ2/ge5O67zGHHibQjo
+   N/yTdmb4WRK+siMPMaIN4gqKkMPUilyV2+ipIU3fmJS7n69IDAPsu4miM
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="5348292"
+X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="12967031"
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="5348292"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 04:27:20 -0800
+   d="scan'208";a="12967031"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 14:03:41 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="2474326"
+   d="scan'208";a="6886374"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Feb 2024 04:27:18 -0800
+  by orviesa005.jf.intel.com with ESMTP; 10 Feb 2024 14:03:40 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYmRw-0005di-29;
-	Sat, 10 Feb 2024 12:27:16 +0000
-Date: Sat, 10 Feb 2024 20:26:26 +0800
+	id 1rYvRh-00067o-1b;
+	Sat, 10 Feb 2024 22:03:37 +0000
+Date: Sun, 11 Feb 2024 06:03:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [sailus-media-tree:ipu6 26/58] drivers/media/i2c/ccs/ccs-core.c:781
- ccs_set_ctrl() error: potentially dereferencing uninitialized 'pa_src'.
-Message-ID: <202402102020.nnaP6IrS-lkp@intel.com>
+Subject: fs/quota/quota_tree.c:673 find_tree_dqentry() error: uninitialized
+ symbol 'blk'.
+Message-ID: <202402110613.a3vlVmoj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,223 +60,82 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-media@vger.kernel.org
-TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+TO: Jan Kara <jack@suse.cz>
 
-tree:   git://linuxtv.org/sailus/media_tree.git ipu6
-head:   4afa3d33721be1affd5fb465b14d311fd0b4874b
-commit: 576ac23f92354ca9542ce39d5e5be6078daca803 [26/58] media: ccs: Rely on sub-device state locking
-:::::: branch date: 3 days ago
-:::::: commit date: 10 days ago
-config: powerpc-randconfig-r071-20240210 (https://download.01.org/0day-ci/archive/20240210/202402102020.nnaP6IrS-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git for_next
+head:   71b12545f603de39a967b52287c29ede3f85ff2f
+commit: 223bfb57631b10036e55579ecb5718123fa41c8c quota: Detect loops in quota tree
+date:   35 hours ago
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: i386-randconfig-141-20240210 (https://download.01.org/0day-ci/archive/20240211/202402110613.a3vlVmoj-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202402102020.nnaP6IrS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402110613.a3vlVmoj-lkp@intel.com/
 
 smatch warnings:
-drivers/media/i2c/ccs/ccs-core.c:781 ccs_set_ctrl() error: potentially dereferencing uninitialized 'pa_src'.
+fs/quota/quota_tree.c:673 find_tree_dqentry() error: uninitialized symbol 'blk'.
 
-vim +/pa_src +781 drivers/media/i2c/ccs/ccs-core.c
+vim +/blk +673 fs/quota/quota_tree.c
 
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  646  
-161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-02-11  647  static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  648  {
-161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-02-11  649  	struct ccs_sensor *sensor =
-161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-02-11  650  		container_of(ctrl->handler, struct ccs_subdev, ctrl_handler)
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  651  			->sensor;
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  652  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
-576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  653  	struct v4l2_subdev_state *state;
-576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  654  	struct v4l2_rect *pa_src;
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  655  	int pm_status;
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  656  	u32 orient = 0;
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  657  	unsigned int i;
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  658  	int exposure;
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  659  	int rval;
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  660  
-576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  661  	if (ctrl->id == V4L2_CID_VBLANK || ctrl->id == V4L2_CID_HBLANK) {
-576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  662  		state = v4l2_subdev_get_locked_active_state(&sensor->pixel_array->sd);
-576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  663  		pa_src = v4l2_subdev_state_get_crop(state, CCS_PA_PAD_SRC,
-576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  664  						    CCS_STREAM_PIXEL);
-576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  665  	}
-576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  666  
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  667  	switch (ctrl->id) {
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  668  	case V4L2_CID_HFLIP:
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  669  	case V4L2_CID_VFLIP:
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  670  		if (sensor->streaming)
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  671  			return -EBUSY;
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  672  
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  673  		if (sensor->hflip->val)
-42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  674  			orient |= CCS_IMAGE_ORIENTATION_HORIZONTAL_MIRROR;
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  675  
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  676  		if (sensor->vflip->val)
-42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  677  			orient |= CCS_IMAGE_ORIENTATION_VERTICAL_FLIP;
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  678  
-161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-02-11  679  		ccs_update_mbus_formats(sensor);
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  680  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  681  		break;
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  682  	case V4L2_CID_VBLANK:
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  683  		exposure = sensor->exposure->val;
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  684  
-576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  685  		__ccs_update_exposure_limits(sensor, pa_src);
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  686  
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  687  		if (exposure > sensor->exposure->maximum) {
-2aa8e838a303c7 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2016-09-08  688  			sensor->exposure->val =	sensor->exposure->maximum;
-161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-02-11  689  			rval = ccs_set_ctrl(sensor->exposure);
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  690  			if (rval < 0)
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  691  				return rval;
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  692  		}
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  693  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  694  		break;
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  695  	case V4L2_CID_LINK_FREQ:
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  696  		if (sensor->streaming)
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  697  			return -EBUSY;
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  698  
-161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-02-11  699  		rval = ccs_pll_update(sensor);
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  700  		if (rval)
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  701  			return rval;
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  702  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  703  		return 0;
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  704  	case V4L2_CID_TEST_PATTERN:
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  705  		for (i = 0; i < ARRAY_SIZE(sensor->test_data); i++)
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  706  			v4l2_ctrl_activate(
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  707  				sensor->test_data[i],
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  708  				ctrl->val ==
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  709  				V4L2_SMIAPP_TEST_PATTERN_MODE_SOLID_COLOUR);
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  710  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  711  		break;
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  712  	}
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  713  
-c1d7a2c8259c0a drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-10-16  714  	pm_status = pm_runtime_get_if_active(&client->dev, true);
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  715  	if (!pm_status)
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  716  		return 0;
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  717  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  718  	switch (ctrl->id) {
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  719  	case V4L2_CID_ANALOGUE_GAIN:
-42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  720  		rval = ccs_write(sensor, ANALOG_GAIN_CODE_GLOBAL, ctrl->val);
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  721  
-7eb5a7e1e7b6cf drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  722  		break;
-7eb5a7e1e7b6cf drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  723  
-57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  724  	case V4L2_CID_CCS_ANALOGUE_LINEAR_GAIN:
-57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  725  		rval = ccs_write(sensor, ANALOG_LINEAR_GAIN_GLOBAL, ctrl->val);
-57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  726  
-57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  727  		break;
-57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  728  
-57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  729  	case V4L2_CID_CCS_ANALOGUE_EXPONENTIAL_GAIN:
-57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  730  		rval = ccs_write(sensor, ANALOG_EXPONENTIAL_GAIN_GLOBAL,
-57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  731  				 ctrl->val);
-57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  732  
-57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  733  		break;
-57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  734  
-7eb5a7e1e7b6cf drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  735  	case V4L2_CID_DIGITAL_GAIN:
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  736  		if (CCS_LIM(sensor, DIGITAL_GAIN_CAPABILITY) ==
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  737  		    CCS_DIGITAL_GAIN_CAPABILITY_GLOBAL) {
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  738  			rval = ccs_write(sensor, DIGITAL_GAIN_GLOBAL,
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  739  					 ctrl->val);
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  740  			break;
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  741  		}
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  742  
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  743  		rval = ccs_write_addr(sensor,
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  744  				      SMIAPP_REG_U16_DIGITAL_GAIN_GREENR,
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  745  				      ctrl->val);
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  746  		if (rval)
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  747  			break;
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  748  
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  749  		rval = ccs_write_addr(sensor,
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  750  				      SMIAPP_REG_U16_DIGITAL_GAIN_RED,
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  751  				      ctrl->val);
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  752  		if (rval)
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  753  			break;
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  754  
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  755  		rval = ccs_write_addr(sensor,
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  756  				      SMIAPP_REG_U16_DIGITAL_GAIN_BLUE,
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  757  				      ctrl->val);
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  758  		if (rval)
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  759  			break;
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  760  
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  761  		rval = ccs_write_addr(sensor,
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  762  				      SMIAPP_REG_U16_DIGITAL_GAIN_GREENB,
-821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  763  				      ctrl->val);
-7eb5a7e1e7b6cf drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  764  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  765  		break;
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  766  	case V4L2_CID_EXPOSURE:
-42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  767  		rval = ccs_write(sensor, COARSE_INTEGRATION_TIME, ctrl->val);
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  768  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  769  		break;
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  770  	case V4L2_CID_HFLIP:
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  771  	case V4L2_CID_VFLIP:
-42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  772  		rval = ccs_write(sensor, IMAGE_ORIENTATION, orient);
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  773  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  774  		break;
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  775  	case V4L2_CID_VBLANK:
-42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  776  		rval = ccs_write(sensor, FRAME_LENGTH_LINES,
-576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  777  				 pa_src->height + ctrl->val);
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  778  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  779  		break;
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  780  	case V4L2_CID_HBLANK:
-42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11 @781  		rval = ccs_write(sensor, LINE_LENGTH_PCK,
-576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  782  				 pa_src->width + ctrl->val);
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  783  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  784  		break;
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  785  	case V4L2_CID_TEST_PATTERN:
-42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  786  		rval = ccs_write(sensor, TEST_PATTERN_MODE, ctrl->val);
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  787  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  788  		break;
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  789  	case V4L2_CID_TEST_PATTERN_RED:
-42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  790  		rval = ccs_write(sensor, TEST_DATA_RED, ctrl->val);
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  791  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  792  		break;
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  793  	case V4L2_CID_TEST_PATTERN_GREENR:
-42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  794  		rval = ccs_write(sensor, TEST_DATA_GREENR, ctrl->val);
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  795  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  796  		break;
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  797  	case V4L2_CID_TEST_PATTERN_BLUE:
-42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  798  		rval = ccs_write(sensor, TEST_DATA_BLUE, ctrl->val);
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  799  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  800  		break;
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  801  	case V4L2_CID_TEST_PATTERN_GREENB:
-42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  802  		rval = ccs_write(sensor, TEST_DATA_GREENB, ctrl->val);
-0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  803  
-33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  804  		break;
-33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  805  	case V4L2_CID_CCS_SHADING_CORRECTION:
-33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  806  		rval = ccs_write(sensor, SHADING_CORRECTION_EN,
-33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  807  				 ctrl->val ? CCS_SHADING_CORRECTION_EN_ENABLE :
-33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  808  				 0);
-33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  809  
-33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  810  		if (!rval && sensor->luminance_level)
-33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  811  			v4l2_ctrl_activate(sensor->luminance_level, ctrl->val);
-33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  812  
-33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  813  		break;
-33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  814  	case V4L2_CID_CCS_LUMINANCE_CORRECTION_LEVEL:
-33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  815  		rval = ccs_write(sensor, LUMINANCE_CORRECTION_LEVEL, ctrl->val);
-33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  816  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  817  		break;
-a328e7e3fd3030 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-06-11  818  	case V4L2_CID_PIXEL_RATE:
-a328e7e3fd3030 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-06-11  819  		/* For v4l2_ctrl_s_ctrl_int64() used internally. */
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  820  		rval = 0;
-a328e7e3fd3030 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-06-11  821  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  822  		break;
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  823  	default:
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  824  		rval = -EINVAL;
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  825  	}
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  826  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  827  	if (pm_status > 0) {
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  828  		pm_runtime_mark_last_busy(&client->dev);
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  829  		pm_runtime_put_autosuspend(&client->dev);
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  830  	}
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  831  
-96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  832  	return rval;
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  833  }
-ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  834  
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  658  
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  659  /* Find entry for given id in the tree */
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  660  static loff_t find_tree_dqentry(struct qtree_mem_dqinfo *info,
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  661  				struct dquot *dquot, uint *blks, int depth)
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  662  {
+a1e1b2becab7c0 fs/quota/quota_tree.c Jan Kara      2024-01-22  663  	char *buf = kmalloc(info->dqi_usable_bs, GFP_KERNEL);
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  664  	loff_t ret = 0;
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  665  	__le32 *ref = (__le32 *)buf;
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  666  	uint blk;
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  667  	int i;
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  668  
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  669  	if (!buf)
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  670  		return -ENOMEM;
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  671  	ret = read_blk(info, blks[depth], buf);
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  672  	if (ret < 0) {
+fb5ffb0e160c93 fs/quota/quota_tree.c Jiaying Zhang 2010-07-20 @673  		quota_error(dquot->dq_sb, "Can't read quota tree block %u",
+fb5ffb0e160c93 fs/quota/quota_tree.c Jiaying Zhang 2010-07-20  674  			    blk);
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  675  		goto out_buf;
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  676  	}
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  677  	ret = 0;
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  678  	blk = le32_to_cpu(ref[get_index(info, dquot->dq_id, depth)]);
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  679  	if (!blk)	/* No reference? */
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  680  		goto out_buf;
+3fc61e0e96a326 fs/quota/quota_tree.c Zhihao Cheng  2022-09-23  681  	ret = do_check_range(dquot->dq_sb, "block", blk, QT_TREEOFF,
+3fc61e0e96a326 fs/quota/quota_tree.c Zhihao Cheng  2022-09-23  682  			     info->dqi_blocks - 1);
+3fc61e0e96a326 fs/quota/quota_tree.c Zhihao Cheng  2022-09-23  683  	if (ret)
+9bf3d20331295b fs/quota/quota_tree.c Zhang Yi      2021-10-08  684  		goto out_buf;
+9bf3d20331295b fs/quota/quota_tree.c Zhang Yi      2021-10-08  685  
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  686  	/* Check for cycles in the tree */
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  687  	for (i = 0; i <= depth; i++)
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  688  		if (blk == blks[i]) {
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  689  			quota_error(dquot->dq_sb,
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  690  				"Cycle in quota tree detected: block %u index %u",
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  691  				blks[depth],
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  692  				get_index(info, dquot->dq_id, depth));
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  693  			ret = -EIO;
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  694  			goto out_buf;
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  695  		}
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  696  	blks[depth + 1] = blk;
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  697  	if (depth < info->dqi_qtree_depth - 1)
+223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  698  		ret = find_tree_dqentry(info, dquot, blks, depth + 1);
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  699  	else
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  700  		ret = find_block_dqentry(info, dquot, blk);
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  701  out_buf:
+d26ac1a8128f6e fs/quota/quota_tree.c Jan Kara      2009-01-26  702  	kfree(buf);
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  703  	return ret;
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  704  }
+1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  705  
 
-:::::: The code at line 781 was first introduced by commit
-:::::: 42aab58f456a28a5d4b175e7cf7d43276ed3d06b media: smiapp: Use CCS registers
+:::::: The code at line 673 was first introduced by commit
+:::::: fb5ffb0e160c93c3fe08ab83845eb9a2768af812 quota: Change quota error message to print out disk and function name
 
-:::::: TO: Sakari Ailus <sakari.ailus@linux.intel.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+:::::: TO: Jiaying Zhang <jiayingz@google.com>
+:::::: CC: Jan Kara <jack@suse.cz>
 
 -- 
 0-DAY CI Kernel Test Service
