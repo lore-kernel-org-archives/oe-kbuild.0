@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660023D0A0
-	for <oe-kbuild@lists.linux.dev>; Sat, 10 Feb 2024 11:44:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051E13D54E
+	for <oe-kbuild@lists.linux.dev>; Sat, 10 Feb 2024 12:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707565463; cv=none; b=c8ryaDSEzVhrbDlKw5X13vRFn1jA2uWhNzajQNS2WyBVpeRizuhU5DG30CBpSiBTDxfb8UqzJqaGmyRrNv98+j9K4OZS5xvx6cRUNrtL3tnd3JwXYjRFPzvZ1s/0mxAnChMLr1VcIEmIXyKuTgXx/11MVe9LXQeaUFwJJD63SCo=
+	t=1707568045; cv=none; b=I4OZ79ct1e7AmA6T+3F5/4j1jQH5nq85GM1j8CI4ra0Rn5jaPMtBZ3BCKEZqa0X4tOCplYDB+OO2bKnm/VvRyatSdKmgl/aGBE4DLURu/wm3X8JDr8F/VGhH7JaLWWBQPB/Q4bIJ1OkpeeurIlIeb2Mg/UhVHT4PUOBfyrwWKeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707565463; c=relaxed/simple;
-	bh=rnHPS0lAYnsh0LU+/xjzDLWg+n1gx/N/mwOFwD5oRIQ=;
+	s=arc-20240116; t=1707568045; c=relaxed/simple;
+	bh=8emuRDNtxJfW2DMKGmMasuMs/Z4VEGMyWO+iE2DT0H8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QGPqlG9uTwTl+cE1us+zD6G20DSoNGWst3NkSg/T+3tWH1oxmdn0jXG1jNYVd5vl1y8Ccg/rBGbCnz4BfwIQbTMSexOLWaYRq42FgqlKOYCyXfR/xoXC62IM5lN37mUiZnGxP1zwMm8nZPN/Vp8KukUgCELH9gPuu/kDxqQorGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aCip56oK; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=Zui6FT7ppEbtQyXAXfKsKL6Ue+vAtEXpkqI1PP2MamzG29d0P4zvZbAA/s4HqvketncWydCxWUidPNACjQq2wPmclKza4nbl2DTzIe4TYuvTyiPN5awu/43qke3fP6KjNnQVlBfgAOsv4sXfLPmB420iv+OVdZkDmx96qSUBy3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GimBkS6P; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCip56oK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GimBkS6P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707565459; x=1739101459;
+  t=1707568043; x=1739104043;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rnHPS0lAYnsh0LU+/xjzDLWg+n1gx/N/mwOFwD5oRIQ=;
-  b=aCip56oK2cB5uaaiU+rfyUxiBVc1efwyi+XLlUjBrQgtlf1NJIbdtQRz
-   z7OE/jBJP5kpFmvAYE1B7lBjBUaxe/ArlnbLkn+81P/0u6n7Jg4KZoNUM
-   jZdQ+ZF17S7AUtbx4JVITC9ZdGNK1QQm6/tX4Bc9TVJ1biDp+I22S7TVW
-   dIitjFdx8dxAiaf73vxJj+WWSuK1k4ZYEet3t1QnGAptLmEU1JFu7oaYP
-   lWjo1h1hbdPMF5mnZAdaeyY1suC/SY1RK+Y5xm7sfzQEnZYmrt0iwtuIL
-   tW06MriKMcSMPS/UwZfNL4yMUF/cQfitML1nSUEOdGCwUUbWWDh4r8qnY
+  bh=8emuRDNtxJfW2DMKGmMasuMs/Z4VEGMyWO+iE2DT0H8=;
+  b=GimBkS6PaGFZm2kGMt5TF2PhIFd8Im+W2DnNv22cr3klf9KSZo7nde91
+   H7zNYES9/cRSncX3hqrdRpy414Bq7vIw9yFpqIBb6dXBCgt/JlJCaY+0Q
+   OkqGm0V4g5MJlCGwvghwo0ix1bIQhfvIVzG17L7C/4j5eLgxWvDhRFf9Z
+   gdwrkEr9js8XNv8LGABbs43HR76Ih1d9PDniPPx3LR7uLWz509Vyo8WtS
+   vZtnqQixsxpQ/imGmsMTPhYBqUb27Had0LLy9pljBO01iUwuG9kZjzovt
+   SVZjbaNr7or2AfQPMzAAcd7tP7RvINjRgan5eyElmCHuJz1DOfO8St1jA
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1700373"
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="5348292"
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="1700373"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 03:44:18 -0800
+   d="scan'208";a="5348292"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 04:27:20 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="39600394"
+   d="scan'208";a="2474326"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Feb 2024 03:44:19 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 10 Feb 2024 04:27:18 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYlmJ-0005cI-2K;
-	Sat, 10 Feb 2024 11:44:15 +0000
-Date: Sat, 10 Feb 2024 19:43:25 +0800
+	id 1rYmRw-0005di-29;
+	Sat, 10 Feb 2024 12:27:16 +0000
+Date: Sat, 10 Feb 2024 20:26:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [akpm-mm:mm-nonmm-unstable 98/98] fs/locks.c:1191 posix_lock_inode()
- warn: iterator used outside loop: 'fl'
-Message-ID: <202402101903.iiZjUTlB-lkp@intel.com>
+Subject: [sailus-media-tree:ipu6 26/58] drivers/media/i2c/ccs/ccs-core.c:781
+ ccs_set_ctrl() error: potentially dereferencing uninitialized 'pa_src'.
+Message-ID: <202402102020.nnaP6IrS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,280 +60,223 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Wei Yang <richard.weiyang@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-media@vger.kernel.org
+TO: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   3ecfe35aea92fbe3fb5dbb680daa91365c87a7b2
-commit: 231ff099a7527929783cc949e07879ba55ea6cb5 [98/98] list: leverage list_is_head() for list_entry_is_head()
-:::::: branch date: 11 hours ago
-:::::: commit date: 2 days ago
-config: xtensa-randconfig-r081-20240209 (https://download.01.org/0day-ci/archive/20240210/202402101903.iiZjUTlB-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
+tree:   git://linuxtv.org/sailus/media_tree.git ipu6
+head:   4afa3d33721be1affd5fb465b14d311fd0b4874b
+commit: 576ac23f92354ca9542ce39d5e5be6078daca803 [26/58] media: ccs: Rely on sub-device state locking
+:::::: branch date: 3 days ago
+:::::: commit date: 10 days ago
+config: powerpc-randconfig-r071-20240210 (https://download.01.org/0day-ci/archive/20240210/202402102020.nnaP6IrS-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202402101903.iiZjUTlB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402102020.nnaP6IrS-lkp@intel.com/
 
-New smatch warnings:
-fs/locks.c:1191 posix_lock_inode() warn: iterator used outside loop: 'fl'
-drivers/media/v4l2-core/v4l2-ctrls-api.c:1091 v4l2_query_ext_ctrl() warn: iterator used outside loop: 'ref'
-kernel/power/snapshot.c:643 create_mem_extents() warn: iterator used outside loop: 'ext'
+smatch warnings:
+drivers/media/i2c/ccs/ccs-core.c:781 ccs_set_ctrl() error: potentially dereferencing uninitialized 'pa_src'.
 
-Old smatch warnings:
-arch/xtensa/include/asm/thread_info.h:97 current_thread_info() warn: inconsistent indenting
-arch/xtensa/include/asm/thread_info.h:97 current_thread_info() warn: inconsistent indenting
+vim +/pa_src +781 drivers/media/i2c/ccs/ccs-core.c
 
-vim +/fl +1191 fs/locks.c
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  646  
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-02-11  647  static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  648  {
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-02-11  649  	struct ccs_sensor *sensor =
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-02-11  650  		container_of(ctrl->handler, struct ccs_subdev, ctrl_handler)
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  651  			->sensor;
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  652  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  653  	struct v4l2_subdev_state *state;
+576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  654  	struct v4l2_rect *pa_src;
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  655  	int pm_status;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  656  	u32 orient = 0;
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  657  	unsigned int i;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  658  	int exposure;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  659  	int rval;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  660  
+576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  661  	if (ctrl->id == V4L2_CID_VBLANK || ctrl->id == V4L2_CID_HBLANK) {
+576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  662  		state = v4l2_subdev_get_locked_active_state(&sensor->pixel_array->sd);
+576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  663  		pa_src = v4l2_subdev_state_get_crop(state, CCS_PA_PAD_SRC,
+576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  664  						    CCS_STREAM_PIXEL);
+576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  665  	}
+576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  666  
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  667  	switch (ctrl->id) {
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  668  	case V4L2_CID_HFLIP:
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  669  	case V4L2_CID_VFLIP:
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  670  		if (sensor->streaming)
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  671  			return -EBUSY;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  672  
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  673  		if (sensor->hflip->val)
+42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  674  			orient |= CCS_IMAGE_ORIENTATION_HORIZONTAL_MIRROR;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  675  
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  676  		if (sensor->vflip->val)
+42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  677  			orient |= CCS_IMAGE_ORIENTATION_VERTICAL_FLIP;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  678  
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-02-11  679  		ccs_update_mbus_formats(sensor);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  680  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  681  		break;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  682  	case V4L2_CID_VBLANK:
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  683  		exposure = sensor->exposure->val;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  684  
+576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  685  		__ccs_update_exposure_limits(sensor, pa_src);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  686  
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  687  		if (exposure > sensor->exposure->maximum) {
+2aa8e838a303c7 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2016-09-08  688  			sensor->exposure->val =	sensor->exposure->maximum;
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-02-11  689  			rval = ccs_set_ctrl(sensor->exposure);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  690  			if (rval < 0)
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  691  				return rval;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  692  		}
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  693  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  694  		break;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  695  	case V4L2_CID_LINK_FREQ:
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  696  		if (sensor->streaming)
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  697  			return -EBUSY;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  698  
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-02-11  699  		rval = ccs_pll_update(sensor);
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  700  		if (rval)
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  701  			return rval;
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  702  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  703  		return 0;
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  704  	case V4L2_CID_TEST_PATTERN:
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  705  		for (i = 0; i < ARRAY_SIZE(sensor->test_data); i++)
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  706  			v4l2_ctrl_activate(
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  707  				sensor->test_data[i],
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  708  				ctrl->val ==
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  709  				V4L2_SMIAPP_TEST_PATTERN_MODE_SOLID_COLOUR);
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  710  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  711  		break;
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  712  	}
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  713  
+c1d7a2c8259c0a drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-10-16  714  	pm_status = pm_runtime_get_if_active(&client->dev, true);
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  715  	if (!pm_status)
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  716  		return 0;
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  717  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  718  	switch (ctrl->id) {
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  719  	case V4L2_CID_ANALOGUE_GAIN:
+42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  720  		rval = ccs_write(sensor, ANALOG_GAIN_CODE_GLOBAL, ctrl->val);
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  721  
+7eb5a7e1e7b6cf drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  722  		break;
+7eb5a7e1e7b6cf drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  723  
+57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  724  	case V4L2_CID_CCS_ANALOGUE_LINEAR_GAIN:
+57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  725  		rval = ccs_write(sensor, ANALOG_LINEAR_GAIN_GLOBAL, ctrl->val);
+57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  726  
+57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  727  		break;
+57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  728  
+57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  729  	case V4L2_CID_CCS_ANALOGUE_EXPONENTIAL_GAIN:
+57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  730  		rval = ccs_write(sensor, ANALOG_EXPONENTIAL_GAIN_GLOBAL,
+57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  731  				 ctrl->val);
+57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  732  
+57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  733  		break;
+57801b6aa72bee drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-24  734  
+7eb5a7e1e7b6cf drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  735  	case V4L2_CID_DIGITAL_GAIN:
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  736  		if (CCS_LIM(sensor, DIGITAL_GAIN_CAPABILITY) ==
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  737  		    CCS_DIGITAL_GAIN_CAPABILITY_GLOBAL) {
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  738  			rval = ccs_write(sensor, DIGITAL_GAIN_GLOBAL,
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  739  					 ctrl->val);
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  740  			break;
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  741  		}
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  742  
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  743  		rval = ccs_write_addr(sensor,
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  744  				      SMIAPP_REG_U16_DIGITAL_GAIN_GREENR,
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  745  				      ctrl->val);
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  746  		if (rval)
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  747  			break;
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  748  
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  749  		rval = ccs_write_addr(sensor,
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  750  				      SMIAPP_REG_U16_DIGITAL_GAIN_RED,
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  751  				      ctrl->val);
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  752  		if (rval)
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  753  			break;
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  754  
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  755  		rval = ccs_write_addr(sensor,
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  756  				      SMIAPP_REG_U16_DIGITAL_GAIN_BLUE,
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  757  				      ctrl->val);
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  758  		if (rval)
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  759  			break;
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  760  
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  761  		rval = ccs_write_addr(sensor,
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  762  				      SMIAPP_REG_U16_DIGITAL_GAIN_GREENB,
+821878578975ba drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  763  				      ctrl->val);
+7eb5a7e1e7b6cf drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-23  764  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  765  		break;
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  766  	case V4L2_CID_EXPOSURE:
+42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  767  		rval = ccs_write(sensor, COARSE_INTEGRATION_TIME, ctrl->val);
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  768  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  769  		break;
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  770  	case V4L2_CID_HFLIP:
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  771  	case V4L2_CID_VFLIP:
+42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  772  		rval = ccs_write(sensor, IMAGE_ORIENTATION, orient);
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  773  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  774  		break;
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  775  	case V4L2_CID_VBLANK:
+42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  776  		rval = ccs_write(sensor, FRAME_LENGTH_LINES,
+576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  777  				 pa_src->height + ctrl->val);
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  778  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  779  		break;
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  780  	case V4L2_CID_HBLANK:
+42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11 @781  		rval = ccs_write(sensor, LINE_LENGTH_PCK,
+576ac23f92354c drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2023-09-06  782  				 pa_src->width + ctrl->val);
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  783  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  784  		break;
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  785  	case V4L2_CID_TEST_PATTERN:
+42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  786  		rval = ccs_write(sensor, TEST_PATTERN_MODE, ctrl->val);
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  787  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  788  		break;
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  789  	case V4L2_CID_TEST_PATTERN_RED:
+42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  790  		rval = ccs_write(sensor, TEST_DATA_RED, ctrl->val);
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  791  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  792  		break;
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  793  	case V4L2_CID_TEST_PATTERN_GREENR:
+42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  794  		rval = ccs_write(sensor, TEST_DATA_GREENR, ctrl->val);
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  795  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  796  		break;
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  797  	case V4L2_CID_TEST_PATTERN_BLUE:
+42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  798  		rval = ccs_write(sensor, TEST_DATA_BLUE, ctrl->val);
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  799  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  800  		break;
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  801  	case V4L2_CID_TEST_PATTERN_GREENB:
+42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-02-11  802  		rval = ccs_write(sensor, TEST_DATA_GREENB, ctrl->val);
+0e2a6b7f2b9303 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-05-21  803  
+33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  804  		break;
+33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  805  	case V4L2_CID_CCS_SHADING_CORRECTION:
+33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  806  		rval = ccs_write(sensor, SHADING_CORRECTION_EN,
+33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  807  				 ctrl->val ? CCS_SHADING_CORRECTION_EN_ENABLE :
+33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  808  				 0);
+33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  809  
+33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  810  		if (!rval && sensor->luminance_level)
+33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  811  			v4l2_ctrl_activate(sensor->luminance_level, ctrl->val);
+33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  812  
+33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  813  		break;
+33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  814  	case V4L2_CID_CCS_LUMINANCE_CORRECTION_LEVEL:
+33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  815  		rval = ccs_write(sensor, LUMINANCE_CORRECTION_LEVEL, ctrl->val);
+33039a88807101 drivers/media/i2c/ccs/ccs-core.c         Sakari Ailus 2020-09-25  816  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  817  		break;
+a328e7e3fd3030 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-06-11  818  	case V4L2_CID_PIXEL_RATE:
+a328e7e3fd3030 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-06-11  819  		/* For v4l2_ctrl_s_ctrl_int64() used internally. */
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  820  		rval = 0;
+a328e7e3fd3030 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2014-06-11  821  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  822  		break;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  823  	default:
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  824  		rval = -EINVAL;
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  825  	}
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  826  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  827  	if (pm_status > 0) {
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  828  		pm_runtime_mark_last_busy(&client->dev);
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  829  		pm_runtime_put_autosuspend(&client->dev);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  830  	}
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  831  
+96e3a6b92f23a9 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2019-09-30  832  	return rval;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  833  }
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-03-03  834  
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1092  
-b4d629a39e104a Jeff Layton     2016-01-07  1093  static int posix_lock_inode(struct inode *inode, struct file_lock *request,
-b4d629a39e104a Jeff Layton     2016-01-07  1094  			    struct file_lock *conflock)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1095  {
-bd61e0a9c852de Jeff Layton     2015-01-16  1096  	struct file_lock *fl, *tmp;
-39005d022ad221 Miklos Szeredi  2006-06-23  1097  	struct file_lock *new_fl = NULL;
-39005d022ad221 Miklos Szeredi  2006-06-23  1098  	struct file_lock *new_fl2 = NULL;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1099  	struct file_lock *left = NULL;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1100  	struct file_lock *right = NULL;
-bd61e0a9c852de Jeff Layton     2015-01-16  1101  	struct file_lock_context *ctx;
-b9746ef80fa696 Jeff Layton     2013-06-21  1102  	int error;
-b9746ef80fa696 Jeff Layton     2013-06-21  1103  	bool added = false;
-ed9814d85810c2 Jeff Layton     2014-08-11  1104  	LIST_HEAD(dispose);
-2443da2259e976 Dai Ngo         2022-05-02  1105  	void *owner;
-2443da2259e976 Dai Ngo         2022-05-02  1106  	void (*func)(void);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1107  
-5c1c669a1b2435 Jeff Layton     2015-04-03  1108  	ctx = locks_get_lock_context(inode, request->fl_type);
-bd61e0a9c852de Jeff Layton     2015-01-16  1109  	if (!ctx)
-5c1c669a1b2435 Jeff Layton     2015-04-03  1110  		return (request->fl_type == F_UNLCK) ? 0 : -ENOMEM;
-bd61e0a9c852de Jeff Layton     2015-01-16  1111  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1112  	/*
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1113  	 * We may need two file_lock structures for this operation,
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1114  	 * so we get them in advance to avoid races.
-39005d022ad221 Miklos Szeredi  2006-06-23  1115  	 *
-39005d022ad221 Miklos Szeredi  2006-06-23  1116  	 * In some cases we can be sure, that no new locks will be needed
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1117  	 */
-39005d022ad221 Miklos Szeredi  2006-06-23  1118  	if (!(request->fl_flags & FL_ACCESS) &&
-39005d022ad221 Miklos Szeredi  2006-06-23  1119  	    (request->fl_type != F_UNLCK ||
-39005d022ad221 Miklos Szeredi  2006-06-23  1120  	     request->fl_start != 0 || request->fl_end != OFFSET_MAX)) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1121  		new_fl = locks_alloc_lock();
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1122  		new_fl2 = locks_alloc_lock();
-39005d022ad221 Miklos Szeredi  2006-06-23  1123  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1124  
-2443da2259e976 Dai Ngo         2022-05-02  1125  retry:
-02e525b2aff1d6 Peter Zijlstra  2019-02-21  1126  	percpu_down_read(&file_rwsem);
-6109c85037e534 Jeff Layton     2015-01-16  1127  	spin_lock(&ctx->flc_lock);
-1cb360125966cb Jeff Layton     2013-06-21  1128  	/*
-1cb360125966cb Jeff Layton     2013-06-21  1129  	 * New lock request. Walk all POSIX locks and look for conflicts. If
-1cb360125966cb Jeff Layton     2013-06-21  1130  	 * there are any, either return error or put the request on the
-48f74186546cd5 Jeff Layton     2013-06-21  1131  	 * blocker's list of waiters and the global blocked_hash.
-1cb360125966cb Jeff Layton     2013-06-21  1132  	 */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1133  	if (request->fl_type != F_UNLCK) {
-bd61e0a9c852de Jeff Layton     2015-01-16  1134  		list_for_each_entry(fl, &ctx->flc_posix, fl_list) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1135  			if (!posix_locks_conflict(request, fl))
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1136  				continue;
-2443da2259e976 Dai Ngo         2022-05-02  1137  			if (fl->fl_lmops && fl->fl_lmops->lm_lock_expirable
-2443da2259e976 Dai Ngo         2022-05-02  1138  				&& (*fl->fl_lmops->lm_lock_expirable)(fl)) {
-2443da2259e976 Dai Ngo         2022-05-02  1139  				owner = fl->fl_lmops->lm_mod_owner;
-2443da2259e976 Dai Ngo         2022-05-02  1140  				func = fl->fl_lmops->lm_expire_lock;
-2443da2259e976 Dai Ngo         2022-05-02  1141  				__module_get(owner);
-2443da2259e976 Dai Ngo         2022-05-02  1142  				spin_unlock(&ctx->flc_lock);
-2443da2259e976 Dai Ngo         2022-05-02  1143  				percpu_up_read(&file_rwsem);
-2443da2259e976 Dai Ngo         2022-05-02  1144  				(*func)();
-2443da2259e976 Dai Ngo         2022-05-02  1145  				module_put(owner);
-2443da2259e976 Dai Ngo         2022-05-02  1146  				goto retry;
-2443da2259e976 Dai Ngo         2022-05-02  1147  			}
-5842add2f3b519 Andy Adamson    2006-03-26  1148  			if (conflock)
-3fe0fff18fe87c Kinglong Mee    2014-08-22  1149  				locks_copy_conflock(conflock, fl);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1150  			error = -EAGAIN;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1151  			if (!(request->fl_flags & FL_SLEEP))
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1152  				goto out;
-1c8c601a8c0dc5 Jeff Layton     2013-06-21  1153  			/*
-1c8c601a8c0dc5 Jeff Layton     2013-06-21  1154  			 * Deadlock detection and insertion into the blocked
-1c8c601a8c0dc5 Jeff Layton     2013-06-21  1155  			 * locks list must be done while holding the same lock!
-1c8c601a8c0dc5 Jeff Layton     2013-06-21  1156  			 */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1157  			error = -EDEADLK;
-7b2296afb392bc Jeff Layton     2013-06-21  1158  			spin_lock(&blocked_lock_lock);
-945ab8f6de9443 Jeff Layton     2019-03-25  1159  			/*
-945ab8f6de9443 Jeff Layton     2019-03-25  1160  			 * Ensure that we don't find any locks blocked on this
-945ab8f6de9443 Jeff Layton     2019-03-25  1161  			 * request during deadlock detection.
-945ab8f6de9443 Jeff Layton     2019-03-25  1162  			 */
-945ab8f6de9443 Jeff Layton     2019-03-25  1163  			__locks_wake_up_blocks(request);
-1c8c601a8c0dc5 Jeff Layton     2013-06-21  1164  			if (likely(!posix_locks_deadlock(request, fl))) {
-bde74e4bc64415 Miklos Szeredi  2008-07-25  1165  				error = FILE_LOCK_DEFERRED;
-fd7732e033e30b NeilBrown       2018-11-30  1166  				__locks_insert_block(fl, request,
-fd7732e033e30b NeilBrown       2018-11-30  1167  						     posix_locks_conflict);
-1c8c601a8c0dc5 Jeff Layton     2013-06-21  1168  			}
-7b2296afb392bc Jeff Layton     2013-06-21  1169  			spin_unlock(&blocked_lock_lock);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1170  			goto out;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1171  		}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1172  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1173  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1174  	/* If we're just looking for a conflict, we're done. */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1175  	error = 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1176  	if (request->fl_flags & FL_ACCESS)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1177  		goto out;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1178  
-bd61e0a9c852de Jeff Layton     2015-01-16  1179  	/* Find the first old lock with the same owner as the new lock */
-bd61e0a9c852de Jeff Layton     2015-01-16  1180  	list_for_each_entry(fl, &ctx->flc_posix, fl_list) {
-bd61e0a9c852de Jeff Layton     2015-01-16  1181  		if (posix_same_owner(request, fl))
-bd61e0a9c852de Jeff Layton     2015-01-16  1182  			break;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1183  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1184  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1185  	/* Process locks with this owner. */
-bd61e0a9c852de Jeff Layton     2015-01-16  1186  	list_for_each_entry_safe_from(fl, tmp, &ctx->flc_posix, fl_list) {
-bd61e0a9c852de Jeff Layton     2015-01-16  1187  		if (!posix_same_owner(request, fl))
-bd61e0a9c852de Jeff Layton     2015-01-16  1188  			break;
-bd61e0a9c852de Jeff Layton     2015-01-16  1189  
-bd61e0a9c852de Jeff Layton     2015-01-16  1190  		/* Detect adjacent or overlapping regions (if same lock type) */
-^1da177e4c3f41 Linus Torvalds  2005-04-16 @1191  		if (request->fl_type == fl->fl_type) {
-449231d6ddf50c Olaf Kirch      2005-08-25  1192  			/* In all comparisons of start vs end, use
-449231d6ddf50c Olaf Kirch      2005-08-25  1193  			 * "start - 1" rather than "end + 1". If end
-449231d6ddf50c Olaf Kirch      2005-08-25  1194  			 * is OFFSET_MAX, end + 1 will become negative.
-449231d6ddf50c Olaf Kirch      2005-08-25  1195  			 */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1196  			if (fl->fl_end < request->fl_start - 1)
-bd61e0a9c852de Jeff Layton     2015-01-16  1197  				continue;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1198  			/* If the next lock in the list has entirely bigger
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1199  			 * addresses than the new one, insert the lock here.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1200  			 */
-449231d6ddf50c Olaf Kirch      2005-08-25  1201  			if (fl->fl_start - 1 > request->fl_end)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1202  				break;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1203  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1204  			/* If we come here, the new and old lock are of the
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1205  			 * same type and adjacent or overlapping. Make one
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1206  			 * lock yielding from the lower start address of both
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1207  			 * locks to the higher end address.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1208  			 */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1209  			if (fl->fl_start > request->fl_start)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1210  				fl->fl_start = request->fl_start;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1211  			else
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1212  				request->fl_start = fl->fl_start;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1213  			if (fl->fl_end < request->fl_end)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1214  				fl->fl_end = request->fl_end;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1215  			else
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1216  				request->fl_end = fl->fl_end;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1217  			if (added) {
-e084c1bd409269 Jeff Layton     2015-02-16  1218  				locks_delete_lock_ctx(fl, &dispose);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1219  				continue;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1220  			}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1221  			request = fl;
-b9746ef80fa696 Jeff Layton     2013-06-21  1222  			added = true;
-bd61e0a9c852de Jeff Layton     2015-01-16  1223  		} else {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1224  			/* Processing for different lock types is a bit
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1225  			 * more complex.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1226  			 */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1227  			if (fl->fl_end < request->fl_start)
-bd61e0a9c852de Jeff Layton     2015-01-16  1228  				continue;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1229  			if (fl->fl_start > request->fl_end)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1230  				break;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1231  			if (request->fl_type == F_UNLCK)
-b9746ef80fa696 Jeff Layton     2013-06-21  1232  				added = true;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1233  			if (fl->fl_start < request->fl_start)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1234  				left = fl;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1235  			/* If the next lock in the list has a higher end
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1236  			 * address than the new one, insert the new one here.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1237  			 */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1238  			if (fl->fl_end > request->fl_end) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1239  				right = fl;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1240  				break;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1241  			}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1242  			if (fl->fl_start >= request->fl_start) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1243  				/* The new lock completely replaces an old
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1244  				 * one (This may happen several times).
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1245  				 */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1246  				if (added) {
-e084c1bd409269 Jeff Layton     2015-02-16  1247  					locks_delete_lock_ctx(fl, &dispose);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1248  					continue;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1249  				}
-b84d49f9440b2b Jeff Layton     2014-08-12  1250  				/*
-b84d49f9440b2b Jeff Layton     2014-08-12  1251  				 * Replace the old lock with new_fl, and
-b84d49f9440b2b Jeff Layton     2014-08-12  1252  				 * remove the old one. It's safe to do the
-b84d49f9440b2b Jeff Layton     2014-08-12  1253  				 * insert here since we know that we won't be
-b84d49f9440b2b Jeff Layton     2014-08-12  1254  				 * using new_fl later, and that the lock is
-b84d49f9440b2b Jeff Layton     2014-08-12  1255  				 * just replacing an existing lock.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1256  				 */
-b84d49f9440b2b Jeff Layton     2014-08-12  1257  				error = -ENOLCK;
-b84d49f9440b2b Jeff Layton     2014-08-12  1258  				if (!new_fl)
-b84d49f9440b2b Jeff Layton     2014-08-12  1259  					goto out;
-b84d49f9440b2b Jeff Layton     2014-08-12  1260  				locks_copy_lock(new_fl, request);
-5ef15968130962 yangerkun       2020-06-01  1261  				locks_move_blocks(new_fl, request);
-b84d49f9440b2b Jeff Layton     2014-08-12  1262  				request = new_fl;
-b84d49f9440b2b Jeff Layton     2014-08-12  1263  				new_fl = NULL;
-e084c1bd409269 Jeff Layton     2015-02-16  1264  				locks_insert_lock_ctx(request, &fl->fl_list);
-e084c1bd409269 Jeff Layton     2015-02-16  1265  				locks_delete_lock_ctx(fl, &dispose);
-b9746ef80fa696 Jeff Layton     2013-06-21  1266  				added = true;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1267  			}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1268  		}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1269  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1270  
-0d9a490abe1f69 Miklos Szeredi  2006-06-23  1271  	/*
-1cb360125966cb Jeff Layton     2013-06-21  1272  	 * The above code only modifies existing locks in case of merging or
-1cb360125966cb Jeff Layton     2013-06-21  1273  	 * replacing. If new lock(s) need to be inserted all modifications are
-1cb360125966cb Jeff Layton     2013-06-21  1274  	 * done below this, so it's safe yet to bail out.
-0d9a490abe1f69 Miklos Szeredi  2006-06-23  1275  	 */
-0d9a490abe1f69 Miklos Szeredi  2006-06-23  1276  	error = -ENOLCK; /* "no luck" */
-0d9a490abe1f69 Miklos Szeredi  2006-06-23  1277  	if (right && left == right && !new_fl2)
-0d9a490abe1f69 Miklos Szeredi  2006-06-23  1278  		goto out;
-0d9a490abe1f69 Miklos Szeredi  2006-06-23  1279  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1280  	error = 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1281  	if (!added) {
-f475ae957db666 Trond Myklebust 2006-06-29  1282  		if (request->fl_type == F_UNLCK) {
-f475ae957db666 Trond Myklebust 2006-06-29  1283  			if (request->fl_flags & FL_EXISTS)
-f475ae957db666 Trond Myklebust 2006-06-29  1284  				error = -ENOENT;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1285  			goto out;
-f475ae957db666 Trond Myklebust 2006-06-29  1286  		}
-0d9a490abe1f69 Miklos Szeredi  2006-06-23  1287  
-0d9a490abe1f69 Miklos Szeredi  2006-06-23  1288  		if (!new_fl) {
-0d9a490abe1f69 Miklos Szeredi  2006-06-23  1289  			error = -ENOLCK;
-0d9a490abe1f69 Miklos Szeredi  2006-06-23  1290  			goto out;
-0d9a490abe1f69 Miklos Szeredi  2006-06-23  1291  		}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1292  		locks_copy_lock(new_fl, request);
-5946c4319ebb39 NeilBrown       2018-11-30  1293  		locks_move_blocks(new_fl, request);
-e084c1bd409269 Jeff Layton     2015-02-16  1294  		locks_insert_lock_ctx(new_fl, &fl->fl_list);
-2e2f756f81edd7 Jeff Layton     2015-02-17  1295  		fl = new_fl;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1296  		new_fl = NULL;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1297  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1298  	if (right) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1299  		if (left == right) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1300  			/* The new lock breaks the old one in two pieces,
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1301  			 * so we have to use the second new lock.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1302  			 */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1303  			left = new_fl2;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1304  			new_fl2 = NULL;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1305  			locks_copy_lock(left, right);
-e084c1bd409269 Jeff Layton     2015-02-16  1306  			locks_insert_lock_ctx(left, &fl->fl_list);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1307  		}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1308  		right->fl_start = request->fl_end + 1;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1309  		locks_wake_up_blocks(right);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1310  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1311  	if (left) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1312  		left->fl_end = request->fl_start - 1;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1313  		locks_wake_up_blocks(left);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1314  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1315   out:
-6109c85037e534 Jeff Layton     2015-01-16  1316  	spin_unlock(&ctx->flc_lock);
-02e525b2aff1d6 Peter Zijlstra  2019-02-21  1317  	percpu_up_read(&file_rwsem);
-74f6f5912693ce Will Shiu       2023-07-21  1318  	trace_posix_lock_inode(inode, request, error);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1319  	/*
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1320  	 * Free any unused locks.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1321  	 */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1322  	if (new_fl)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1323  		locks_free_lock(new_fl);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1324  	if (new_fl2)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1325  		locks_free_lock(new_fl2);
-ed9814d85810c2 Jeff Layton     2014-08-11  1326  	locks_dispose_list(&dispose);
-1890910fd06fef Jeff Layton     2016-01-06  1327  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1328  	return error;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1329  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1330  
+:::::: The code at line 781 was first introduced by commit
+:::::: 42aab58f456a28a5d4b175e7cf7d43276ed3d06b media: smiapp: Use CCS registers
 
-:::::: The code at line 1191 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
