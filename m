@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5846CFBF0
-	for <oe-kbuild@lists.linux.dev>; Sun, 11 Feb 2024 04:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2837E7472
+	for <oe-kbuild@lists.linux.dev>; Sun, 11 Feb 2024 05:32:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707627051; cv=none; b=CvO8etIiKHK3SBtrbYrRstdkNE6eJP30NR7CUQcvMT3PPS1VCxy9MFvugGipGZpz1FdptXpYz8AzWP6AhJ86cPa2sMHOXHoyoo0aB+bvFqu/Y/geBlKqQQYyxG7i6dTPh/t8dkP5mbaJIOQPlhBk+4KAnL1VxrdMg+wXqr16wbw=
+	t=1707629572; cv=none; b=rHLk4ikzSbwvjb6YUK0hu1DuK5kBdrSsu4O5r+wXPFaFUGiNWAU1Vjw0VBtunoGwdHGuGjkFZboi5rxrbXLiS8XdUAScpnE4MgSnscL7ZEzNcfIZWiWgec00Cc1bQyX/f/DF9W7Ap2G0wlHZkJfhhFdxNwBfNADc+3z//+3bZ10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707627051; c=relaxed/simple;
-	bh=IBP/9p05uKSJiujKIUqSsEeDOyh2GCDOMYTL7rEiUjw=;
+	s=arc-20240116; t=1707629572; c=relaxed/simple;
+	bh=MMsg7W7h1UaazMhVyXl6tyqSEo67VA0jjtFkOUkmyUs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AmdBKdxS2hqsx03ofKS9x8EH1VN7yafJVLCmXK1oOyEp3UFXfkEf5DNBqjAh9tVgA9JH3sbnn533YknI8vPEulFd7t59O+/CaNjvDVbkUoxSkfB7h75eCzxn9ToTrQDmmruKVlNDPDRGjgzXxaTrrnMFf6XqUo39cQ9jwBPzO08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DtS2NMGW; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=tyTdydbr8CwT1ZAW+jpNLZo346KwjxSBhNtR1nWnLSUaeB0ilVxpLXp8Lg3RBQIfV3hEWb9T/xaO2ZVnaz/4Oz9pA9EXydrm6aWGHVXMq9+lMEuQOaHxYhwbusg/AHuw81Wl3ZZ1V3TqopNmVQvntcwtkySHguy6RBdyILWDTG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CHRdVEdv; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DtS2NMGW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CHRdVEdv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707627049; x=1739163049;
+  t=1707629570; x=1739165570;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IBP/9p05uKSJiujKIUqSsEeDOyh2GCDOMYTL7rEiUjw=;
-  b=DtS2NMGWgVtUQUpzFXczqAGP3fqjP0Ba/jkHn4cT8TerCm5NskIyDzy2
-   luYIh2wkmDiu369KSbgkXl4xeozQaYlt7OpBS3cYUbvTq7rRoVcDUVS61
-   +s1ReUVsderZ/iBmIJai2qA9R/ZJgDPcFjHhNm2XF8Bd3gVW2dgpxq4dL
-   CSNzgSDbt8Ln6ijsbtmmdbdY3cSpGO5xUDbAY2K3il0LzVZXFym/0lOWb
-   Au34OGxvOcgWB0lfYxYGLh8dYGzhdPIoc5qunYXD1gNg03FzMBD0OZYNn
-   L60U8DiM3PPX2CvuXleL36F2ytKGJKKVA+7zLN2ft7l1DfNPovwun8t2y
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="12979776"
+  bh=MMsg7W7h1UaazMhVyXl6tyqSEo67VA0jjtFkOUkmyUs=;
+  b=CHRdVEdvazjP0UVG9IRn4ui7BvM0v0Ow05o7hajrOnOO0cop1GfqXdRc
+   EQN0Bi2O+IjY0pnbqtf5u5DKKbkrH+gL5yNx0Vj6MI/gN4wPscJ7PtnXD
+   WdiBcn4rrijvaX8FcXbd1BSqjpOSFY0zX+L/QshqzEak/aGMeOx7KdF15
+   +H2pAHATemafnnCZ9l0bMKC0NGNQx6xVBl7QeESrgG+jF/VgatkvlwLNs
+   Cw6DWNS9i/sVwdj0HpIoQrhfqx7XMLPi0gibN6MoKbl+v94Epj55CKGEv
+   O7WC6DrCC0ypIueUi357JMzZDs8FSFzo05DteM1kGmTRYsDPOIQI7FWL1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="1497757"
 X-IronPort-AV: E=Sophos;i="6.05,260,1701158400"; 
-   d="scan'208";a="12979776"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 20:50:49 -0800
+   d="scan'208";a="1497757"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 21:32:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="825510048"
 X-IronPort-AV: E=Sophos;i="6.05,260,1701158400"; 
-   d="scan'208";a="825510048"
+   d="scan'208";a="7060176"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 10 Feb 2024 20:50:46 -0800
+  by orviesa004.jf.intel.com with ESMTP; 10 Feb 2024 21:32:48 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZ1ng-0006KQ-24;
-	Sun, 11 Feb 2024 04:50:44 +0000
-Date: Sun, 11 Feb 2024 12:50:12 +0800
+	id 1rZ2SL-0006Ly-1L;
+	Sun, 11 Feb 2024 05:32:45 +0000
+Date: Sun, 11 Feb 2024 13:32:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [brauner-vfs:vfs.pidfd 15/15] kernel/signal.c:3963
- __do_sys_pidfd_send_signal() error: uninitialized symbol 'type'.
-Message-ID: <202402111212.MwpHqZHA-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 2259/5901] arp_tables.c:(.text+0x1c): relocation
+ truncated to fit: R_NIOS2_CALL26 against `xt_find_table'
+Message-ID: <202402111317.WPmbzZp3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,135 +58,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "only kconfig file changed"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Christian Brauner <christianvanbrauner@gmail.com>
-TO: Christian Brauner <brauner@kernel.org>
-CC: Oleg Nesterov <oleg@redhat.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Florian Westphal <fw@strlen.de>
+CC: Phil Sutter <phil@nwl.cc>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.pidfd
-head:   3f643cd2351099e6b859533b6f984463e5315e5f
-commit: 3f643cd2351099e6b859533b6f984463e5315e5f [15/15] pidfd: allow to override signal scope in pidfd_send_signal()
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: i386-randconfig-141-20240211 (https://download.01.org/0day-ci/archive/20240211/202402111212.MwpHqZHA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   445a555e0623387fa9b94e68e61681717e70200a
+commit: 4654467dc7e111e84f43ed1b70322873ae77e7be [2259/5901] netfilter: arptables: allow xtables-nft only builds
+:::::: branch date: 2 days ago
+:::::: commit date: 13 days ago
+config: nios2-randconfig-r052-20240210 (https://download.01.org/0day-ci/archive/20240211/202402111317.WPmbzZp3-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240211/202402111317.WPmbzZp3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202402111212.MwpHqZHA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402111317.WPmbzZp3-lkp@intel.com/
 
-smatch warnings:
-kernel/signal.c:3963 __do_sys_pidfd_send_signal() error: uninitialized symbol 'type'.
-kernel/signal.c:3963 __do_sys_pidfd_send_signal() error: uninitialized symbol 'type'.
+All errors (new ones prefixed by >>):
 
-vim +/type +3963 kernel/signal.c
-
-2151ad1b067275 Christian Brauner 2019-04-17  3878  
-3f643cd2351099 Christian Brauner 2024-02-09  3879  #define PIDFD_SEND_SIGNAL_FLAGS                            \
-3f643cd2351099 Christian Brauner 2024-02-09  3880  	(PIDFD_SIGNAL_THREAD | PIDFD_SIGNAL_THREAD_GROUP | \
-3f643cd2351099 Christian Brauner 2024-02-09  3881  	 PIDFD_SIGNAL_PROCESS_GROUP)
-3f643cd2351099 Christian Brauner 2024-02-09  3882  
-3eb39f47934f9d Christian Brauner 2018-11-19  3883  /**
-c732327f04a381 Christian Brauner 2019-06-04  3884   * sys_pidfd_send_signal - Signal a process through a pidfd
-c732327f04a381 Christian Brauner 2019-06-04  3885   * @pidfd:  file descriptor of the process
-c732327f04a381 Christian Brauner 2019-06-04  3886   * @sig:    signal to send
-c732327f04a381 Christian Brauner 2019-06-04  3887   * @info:   signal info
-c732327f04a381 Christian Brauner 2019-06-04  3888   * @flags:  future flags
-3eb39f47934f9d Christian Brauner 2018-11-19  3889   *
-81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3890   * Send the signal to the thread group or to the individual thread depending
-81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3891   * on PIDFD_THREAD.
-81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3892   * In the future extension to @flags may be used to override the default scope
-81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3893   * of @pidfd.
-3eb39f47934f9d Christian Brauner 2018-11-19  3894   *
-3eb39f47934f9d Christian Brauner 2018-11-19  3895   * Return: 0 on success, negative errno on failure
-3eb39f47934f9d Christian Brauner 2018-11-19  3896   */
-3eb39f47934f9d Christian Brauner 2018-11-19  3897  SYSCALL_DEFINE4(pidfd_send_signal, int, pidfd, int, sig,
-3eb39f47934f9d Christian Brauner 2018-11-19  3898  		siginfo_t __user *, info, unsigned int, flags)
-3eb39f47934f9d Christian Brauner 2018-11-19  3899  {
-3eb39f47934f9d Christian Brauner 2018-11-19  3900  	int ret;
-3eb39f47934f9d Christian Brauner 2018-11-19  3901  	struct fd f;
-3eb39f47934f9d Christian Brauner 2018-11-19  3902  	struct pid *pid;
-3eb39f47934f9d Christian Brauner 2018-11-19  3903  	kernel_siginfo_t kinfo;
-81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3904  	enum pid_type type;
-3eb39f47934f9d Christian Brauner 2018-11-19  3905  
-3eb39f47934f9d Christian Brauner 2018-11-19  3906  	/* Enforce flags be set to 0 until we add an extension. */
-3f643cd2351099 Christian Brauner 2024-02-09  3907  	if (flags & ~PIDFD_SEND_SIGNAL_FLAGS)
-3f643cd2351099 Christian Brauner 2024-02-09  3908  		return -EINVAL;
-3f643cd2351099 Christian Brauner 2024-02-09  3909  
-3f643cd2351099 Christian Brauner 2024-02-09  3910  	/* Ensure that only a single signal scope determining flag is set. */
-3f643cd2351099 Christian Brauner 2024-02-09  3911  	if (hweight32(flags & PIDFD_SEND_SIGNAL_FLAGS) > 1)
-3eb39f47934f9d Christian Brauner 2018-11-19  3912  		return -EINVAL;
-3eb39f47934f9d Christian Brauner 2018-11-19  3913  
-738a7832d21e3d Christian Brauner 2019-04-18  3914  	f = fdget(pidfd);
-3eb39f47934f9d Christian Brauner 2018-11-19  3915  	if (!f.file)
-3eb39f47934f9d Christian Brauner 2018-11-19  3916  		return -EBADF;
-3eb39f47934f9d Christian Brauner 2018-11-19  3917  
-3eb39f47934f9d Christian Brauner 2018-11-19  3918  	/* Is this a pidfd? */
-2151ad1b067275 Christian Brauner 2019-04-17  3919  	pid = pidfd_to_pid(f.file);
-3eb39f47934f9d Christian Brauner 2018-11-19  3920  	if (IS_ERR(pid)) {
-3eb39f47934f9d Christian Brauner 2018-11-19  3921  		ret = PTR_ERR(pid);
-3eb39f47934f9d Christian Brauner 2018-11-19  3922  		goto err;
-3eb39f47934f9d Christian Brauner 2018-11-19  3923  	}
-3eb39f47934f9d Christian Brauner 2018-11-19  3924  
-3eb39f47934f9d Christian Brauner 2018-11-19  3925  	ret = -EINVAL;
-3eb39f47934f9d Christian Brauner 2018-11-19  3926  	if (!access_pidfd_pidns(pid))
-3eb39f47934f9d Christian Brauner 2018-11-19  3927  		goto err;
-3eb39f47934f9d Christian Brauner 2018-11-19  3928  
-3f643cd2351099 Christian Brauner 2024-02-09  3929  	switch (flags) {
-3f643cd2351099 Christian Brauner 2024-02-09  3930  	case 0:
-3f643cd2351099 Christian Brauner 2024-02-09  3931  		/* Infer scope from the type of pidfd. */
-81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3932  		if (f.file->f_flags & PIDFD_THREAD)
-81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3933  			type = PIDTYPE_PID;
-81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3934  		else
-81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3935  			type = PIDTYPE_TGID;
-3f643cd2351099 Christian Brauner 2024-02-09  3936  		break;
-3f643cd2351099 Christian Brauner 2024-02-09  3937  	case PIDFD_SIGNAL_THREAD:
-3f643cd2351099 Christian Brauner 2024-02-09  3938  		type = PIDTYPE_PID;
-3f643cd2351099 Christian Brauner 2024-02-09  3939  		break;
-3f643cd2351099 Christian Brauner 2024-02-09  3940  	case PIDFD_SIGNAL_THREAD_GROUP:
-3f643cd2351099 Christian Brauner 2024-02-09  3941  		type = PIDTYPE_TGID;
-3f643cd2351099 Christian Brauner 2024-02-09  3942  		break;
-3f643cd2351099 Christian Brauner 2024-02-09  3943  	case PIDFD_SIGNAL_PROCESS_GROUP:
-3f643cd2351099 Christian Brauner 2024-02-09  3944  		type = PIDTYPE_PGID;
-3f643cd2351099 Christian Brauner 2024-02-09  3945  		break;
-3f643cd2351099 Christian Brauner 2024-02-09  3946  	}
-81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3947  
-3eb39f47934f9d Christian Brauner 2018-11-19  3948  	if (info) {
-3eb39f47934f9d Christian Brauner 2018-11-19  3949  		ret = copy_siginfo_from_user_any(&kinfo, info);
-3eb39f47934f9d Christian Brauner 2018-11-19  3950  		if (unlikely(ret))
-3eb39f47934f9d Christian Brauner 2018-11-19  3951  			goto err;
-3eb39f47934f9d Christian Brauner 2018-11-19  3952  
-3eb39f47934f9d Christian Brauner 2018-11-19  3953  		ret = -EINVAL;
-3eb39f47934f9d Christian Brauner 2018-11-19  3954  		if (unlikely(sig != kinfo.si_signo))
-3eb39f47934f9d Christian Brauner 2018-11-19  3955  			goto err;
-3eb39f47934f9d Christian Brauner 2018-11-19  3956  
-3eb39f47934f9d Christian Brauner 2018-11-19  3957  		/* Only allow sending arbitrary signals to yourself. */
-3eb39f47934f9d Christian Brauner 2018-11-19  3958  		ret = -EPERM;
-556a888a14afe2 Jann Horn         2019-03-30  3959  		if ((task_pid(current) != pid) &&
-556a888a14afe2 Jann Horn         2019-03-30  3960  		    (kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL))
-3eb39f47934f9d Christian Brauner 2018-11-19  3961  			goto err;
-3eb39f47934f9d Christian Brauner 2018-11-19  3962  	} else {
-81b9d8ac0640b2 Oleg Nesterov     2024-02-09 @3963  		prepare_kill_siginfo(sig, &kinfo, type);
-3eb39f47934f9d Christian Brauner 2018-11-19  3964  	}
-3eb39f47934f9d Christian Brauner 2018-11-19  3965  
-3f643cd2351099 Christian Brauner 2024-02-09  3966  	if (type == PIDTYPE_PGID)
-3f643cd2351099 Christian Brauner 2024-02-09  3967  		ret = kill_pgrp_info(sig, &kinfo, pid);
-3f643cd2351099 Christian Brauner 2024-02-09  3968  	else
-81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3969  		ret = kill_pid_info_type(sig, &kinfo, pid, type);
-3eb39f47934f9d Christian Brauner 2018-11-19  3970  err:
-3eb39f47934f9d Christian Brauner 2018-11-19  3971  	fdput(f);
-3eb39f47934f9d Christian Brauner 2018-11-19  3972  	return ret;
-3eb39f47934f9d Christian Brauner 2018-11-19  3973  }
-3eb39f47934f9d Christian Brauner 2018-11-19  3974  
-
-:::::: The code at line 3963 was first introduced by commit
-:::::: 81b9d8ac0640b285a3c369cd41a85f6c240d3a60 pidfd: change pidfd_send_signal() to respect PIDFD_THREAD
-
-:::::: TO: Oleg Nesterov <oleg@redhat.com>
-:::::: CC: Christian Brauner <brauner@kernel.org>
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `arpt_unregister_table_pre_exit':
+   arp_tables.c:(.text+0x1c): undefined reference to `xt_find_table'
+>> arp_tables.c:(.text+0x1c): relocation truncated to fit: R_NIOS2_CALL26 against `xt_find_table'
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `arp_tables_net_exit':
+   arp_tables.c:(.text+0x70): undefined reference to `xt_proto_fini'
+>> arp_tables.c:(.text+0x70): relocation truncated to fit: R_NIOS2_CALL26 against `xt_proto_fini'
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `arp_tables_net_init':
+   arp_tables.c:(.text+0x94): undefined reference to `xt_proto_init'
+>> arp_tables.c:(.text+0x94): relocation truncated to fit: R_NIOS2_CALL26 against `xt_proto_init'
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `mark_source_chains':
+   arp_tables.c:(.text+0x49c): undefined reference to `xt_find_jump_offset'
+>> arp_tables.c:(.text+0x49c): relocation truncated to fit: R_NIOS2_CALL26 against `xt_find_jump_offset'
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `translate_table':
+   arp_tables.c:(.text+0x51c): undefined reference to `xt_alloc_entry_offsets'
+>> arp_tables.c:(.text+0x51c): relocation truncated to fit: R_NIOS2_CALL26 against `xt_alloc_entry_offsets'
+>> nios2-linux-ld: arp_tables.c:(.text+0x59c): undefined reference to `xt_check_entry_offsets'
+>> arp_tables.c:(.text+0x59c): relocation truncated to fit: R_NIOS2_CALL26 against `xt_check_entry_offsets'
+>> nios2-linux-ld: arp_tables.c:(.text+0x75c): undefined reference to `xt_check_table_hooks'
+>> arp_tables.c:(.text+0x75c): relocation truncated to fit: R_NIOS2_CALL26 against `xt_check_table_hooks'
+>> nios2-linux-ld: arp_tables.c:(.text+0x7d4): undefined reference to `xt_percpu_counter_alloc'
+>> arp_tables.c:(.text+0x7d4): relocation truncated to fit: R_NIOS2_CALL26 against `xt_percpu_counter_alloc'
+>> nios2-linux-ld: arp_tables.c:(.text+0x7f4): undefined reference to `xt_request_find_target'
+>> arp_tables.c:(.text+0x7f4): relocation truncated to fit: R_NIOS2_CALL26 against `xt_request_find_target'
+>> nios2-linux-ld: arp_tables.c:(.text+0x850): undefined reference to `xt_check_target'
+>> arp_tables.c:(.text+0x850): relocation truncated to fit: R_NIOS2_CALL26 against `xt_check_target'
+>> nios2-linux-ld: arp_tables.c:(.text+0x864): undefined reference to `xt_percpu_counter_free'
+   arp_tables.c:(.text+0x864): additional relocation overflows omitted from the output
+   nios2-linux-ld: arp_tables.c:(.text+0x8d8): undefined reference to `xt_percpu_counter_free'
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `copy_entries_to_user.isra.0':
+   arp_tables.c:(.text+0x97c): undefined reference to `xt_recseq'
+>> nios2-linux-ld: arp_tables.c:(.text+0x980): undefined reference to `xt_recseq'
+   nios2-linux-ld: arp_tables.c:(.text+0x99c): undefined reference to `xt_recseq'
+   nios2-linux-ld: arp_tables.c:(.text+0x9a0): undefined reference to `xt_recseq'
+>> nios2-linux-ld: arp_tables.c:(.text+0xa80): undefined reference to `xt_target_to_user'
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `get_info':
+   arp_tables.c:(.text+0xb94): undefined reference to `xt_request_find_table_lock'
+>> nios2-linux-ld: arp_tables.c:(.text+0xc50): undefined reference to `xt_table_unlock'
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `arpt_do_table':
+   arp_tables.c:(.text+0x1018): undefined reference to `xt_recseq'
+   nios2-linux-ld: arp_tables.c:(.text+0x101c): undefined reference to `xt_recseq'
+   nios2-linux-ld: arp_tables.c:(.text+0x1030): undefined reference to `xt_recseq'
+   nios2-linux-ld: arp_tables.c:(.text+0x1034): undefined reference to `xt_recseq'
+   nios2-linux-ld: arp_tables.c:(.text+0x1158): undefined reference to `xt_recseq'
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o:arp_tables.c:(.text+0x115c): more undefined references to `xt_recseq' follow
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `arpt_unregister_table':
+   arp_tables.c:(.text+0x12e0): undefined reference to `xt_find_table'
+>> nios2-linux-ld: arp_tables.c:(.text+0x12ec): undefined reference to `xt_unregister_table'
+   nios2-linux-ld: arp_tables.c:(.text+0x134c): undefined reference to `xt_percpu_counter_free'
+   nios2-linux-ld: arp_tables.c:(.text+0x1368): undefined reference to `xt_free_table_info'
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `do_arpt_get_ctl':
+   arp_tables.c:(.text+0x14e8): undefined reference to `xt_find_table_lock'
+   nios2-linux-ld: arp_tables.c:(.text+0x1514): undefined reference to `xt_table_unlock'
+   nios2-linux-ld: arp_tables.c:(.text+0x157c): undefined reference to `xt_find_revision'
+   nios2-linux-ld: arp_tables.c:(.text+0x15f4): undefined reference to `xt_find_revision'
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `__do_replace':
+   arp_tables.c:(.text+0x1644): undefined reference to `xt_counters_alloc'
+   nios2-linux-ld: arp_tables.c:(.text+0x165c): undefined reference to `xt_request_find_table_lock'
+   nios2-linux-ld: arp_tables.c:(.text+0x167c): undefined reference to `xt_table_unlock'
+   nios2-linux-ld: arp_tables.c:(.text+0x16d4): undefined reference to `xt_replace_table'
+   nios2-linux-ld: arp_tables.c:(.text+0x16e4): undefined reference to `xt_table_unlock'
+   nios2-linux-ld: arp_tables.c:(.text+0x17c0): undefined reference to `xt_percpu_counter_free'
+   nios2-linux-ld: arp_tables.c:(.text+0x17dc): undefined reference to `xt_free_table_info'
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `do_replace.isra.0':
+   arp_tables.c:(.text+0x18d8): undefined reference to `xt_alloc_table_info'
+   nios2-linux-ld: arp_tables.c:(.text+0x1928): undefined reference to `xt_free_table_info'
+   nios2-linux-ld: arp_tables.c:(.text+0x1a44): undefined reference to `xt_percpu_counter_free'
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `do_arpt_set_ctl':
+   arp_tables.c:(.text+0x1b48): undefined reference to `xt_copy_counters'
+   nios2-linux-ld: arp_tables.c:(.text+0x1b64): undefined reference to `xt_find_table_lock'
+   nios2-linux-ld: arp_tables.c:(.text+0x1bac): undefined reference to `xt_table_unlock'
+   nios2-linux-ld: arp_tables.c:(.text+0x1c14): undefined reference to `xt_recseq'
+   nios2-linux-ld: arp_tables.c:(.text+0x1c18): undefined reference to `xt_recseq'
+   nios2-linux-ld: arp_tables.c:(.text+0x1c1c): undefined reference to `xt_recseq'
+   nios2-linux-ld: arp_tables.c:(.text+0x1c2c): undefined reference to `xt_recseq'
+   nios2-linux-ld: arp_tables.c:(.text+0x1cac): undefined reference to `xt_recseq'
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o:arp_tables.c:(.text+0x1cb0): more undefined references to `xt_recseq' follow
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `arpt_register_table':
+   arp_tables.c:(.text+0x1d2c): undefined reference to `xt_alloc_table_info'
+   nios2-linux-ld: arp_tables.c:(.text+0x1d78): undefined reference to `xt_register_table'
+   nios2-linux-ld: arp_tables.c:(.text+0x1da0): undefined reference to `xt_unregister_table'
+   nios2-linux-ld: arp_tables.c:(.text+0x1e08): undefined reference to `xt_percpu_counter_free'
+   nios2-linux-ld: arp_tables.c:(.text+0x1e24): undefined reference to `xt_free_table_info'
+   nios2-linux-ld: arp_tables.c:(.text+0x1ec4): undefined reference to `xt_free_table_info'
+   nios2-linux-ld: arp_tables.c:(.text+0x1f28): undefined reference to `xt_percpu_counter_free'
+   nios2-linux-ld: arp_tables.c:(.text+0x1f44): undefined reference to `xt_free_table_info'
+   nios2-linux-ld: net/ipv4/netfilter/arp_tables.o: in function `arp_tables_init':
+   arp_tables.c:(.init.text+0x2c): undefined reference to `xt_register_targets'
+   nios2-linux-ld: arp_tables.c:(.init.text+0x58): undefined reference to `xt_unregister_targets'
+   nios2-linux-ld: net/ipv4/netfilter/arptable_filter.o: in function `arptable_filter_init':
+   arptable_filter.c:(.init.text+0x1c): undefined reference to `xt_register_template'
+   nios2-linux-ld: arptable_filter.c:(.init.text+0x38): undefined reference to `xt_hook_ops_alloc'
+   nios2-linux-ld: arptable_filter.c:(.init.text+0x54): undefined reference to `xt_unregister_template'
+   nios2-linux-ld: arptable_filter.c:(.init.text+0x80): undefined reference to `xt_unregister_template'
 
 -- 
 0-DAY CI Kernel Test Service
