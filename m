@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE07D5F56E
-	for <oe-kbuild@lists.linux.dev>; Sat, 10 Feb 2024 22:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF78ED0
+	for <oe-kbuild@lists.linux.dev>; Sun, 11 Feb 2024 00:31:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707602623; cv=none; b=tjSdnxlRbcM6pN+r0HI7kJk59PboM9MqikQrcuCdcVXK09Zj19aQwbKcuIsIufXJ8jNjD8CAnt96/OivZKeQoevqpI6Bv91Bqjcw2sFAzoF6zhJxOXGVKuqbJRJEehhOkWCv1z8AIBuRgfTSaZSRydbJdB9+8LtDiMpL1ExjhKw=
+	t=1707611507; cv=none; b=kyaIaookE5XaNsUAxVwYDquCViF8utRjxt0Q8l4RNzsMJLzf4kLy67i3O8UOBOM0nLTE/FO+FXiwjj027HDgWkgjAE172b2MsoB0XrrE9UI7fyYJgEugo4nbsV2o7gtcVDN3RuAZiLQ9jc20Mx24SdRqUdnjQNwdhITKPt3XK5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707602623; c=relaxed/simple;
-	bh=ScofTwsQH2KHg4qymHoC7nod+eyyFygC1w4+Flk2yiI=;
+	s=arc-20240116; t=1707611507; c=relaxed/simple;
+	bh=YFrrWdCE7cB8ka1gYpMj+E5gqj++Jy5fujclkU/o3aA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MiZm6BvkNXE7S0DaEItWwALC57exdKOW7mZ3eEaJn4S4sZBRYuSf9f+X2Ugeuua2RqvL7rQK3yTtTDO/ZQ8RurCRuyp/VaGW/gZLA4hHySg+Z2rueqqEhaZJDBUJTnuGs2rd0UvrpfyaDHv06lFJ+dfYzlEsK5NdMcVoBgQtoeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bo+mhizl; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=QRla/jqnZlk4NdekmwAA77wrrxu/OX/h+/+p6JQZY9vWnxIXfdK7FzPcseJ3Zafur1C8zgoqNDkl945pFblsOSdnS+NyRmO0a0KXk6QUX4aCPBn9oLdbx74xq4mmoV5XJAqNyQLRYC9KyrUE5HAwpiNNIB4pbSM9tloOedw7w2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJRJ+Raz; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bo+mhizl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJRJ+Raz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707602622; x=1739138622;
+  t=1707611505; x=1739147505;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ScofTwsQH2KHg4qymHoC7nod+eyyFygC1w4+Flk2yiI=;
-  b=Bo+mhizl1/Lf5NQRcyqpzCIoIBGpdNsoBhI1/2fO1KzpwpRQRUm6kAxo
-   rXDru6IVNwQ5BSzRxN2uWXKUpNwGxGI77vd/OTINK9aggp8ommKn5tJYd
-   Vy9EH7W+KMJFgLtV62LjwOqGilkR3926tuiHPqAfTb7wUxEZx4mcIujcr
-   eCoaT2ydJJsn4ni6dneZRfzsJTQtCcz0c4fH9EA9Ycrn5+muDknnQWTd0
-   479/IUlUAAwsHiNGP0R96mGle2DZeRfqwYHVDhHZ2/ge5O67zGHHibQjo
-   N/yTdmb4WRK+siMPMaIN4gqKkMPUilyV2+ipIU3fmJS7n69IDAPsu4miM
+  bh=YFrrWdCE7cB8ka1gYpMj+E5gqj++Jy5fujclkU/o3aA=;
+  b=LJRJ+RazoFwhxKI83iHKvRbb6/Imirsm4qYhvrlbbOrwytKRTPbvUdfT
+   ON8KrYeW/EWkn9PjUEAdvNVtNX9BgUnjKHdSEpla3jbLHEdcnpttZZUkO
+   AXfo+eHl1OGijoASdlpoLX5JFeDTBvIDWt3n/lmc0inAvjH5GBa1+K+C4
+   7O9cJwRbAbn4AIAXcKhDMyCDTTlVHBEfr0JNig9KR3rmhE36gqnGr7Hpt
+   KKx8NR4DZbRY4Bc3SN1WKcP5gmws2Pae82vhOuOYsbpj20khuQSrnULI/
+   04KxZuqjWYDq78cH3Uwy3GM3OOL0fVAJe8zvCj6OXWyJfEFt7tlHdUbej
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="12967031"
-X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="12967031"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 14:03:41 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="1723467"
+X-IronPort-AV: E=Sophos;i="6.05,260,1701158400"; 
+   d="scan'208";a="1723467"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 16:31:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="6886374"
+X-IronPort-AV: E=Sophos;i="6.05,260,1701158400"; 
+   d="scan'208";a="6903519"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Feb 2024 14:03:40 -0800
+  by orviesa003.jf.intel.com with ESMTP; 10 Feb 2024 16:31:42 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYvRh-00067o-1b;
-	Sat, 10 Feb 2024 22:03:37 +0000
-Date: Sun, 11 Feb 2024 06:03:32 +0800
+	id 1rYxkx-0006Co-34;
+	Sun, 11 Feb 2024 00:31:39 +0000
+Date: Sun, 11 Feb 2024 08:30:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/quota/quota_tree.c:673 find_tree_dqentry() error: uninitialized
- symbol 'blk'.
-Message-ID: <202402110613.a3vlVmoj-lkp@intel.com>
+Subject: Re: [PATCH net-next 2/2] net: phy: air_en8811h: Add the Airoha
+ EN8811H PHY driver
+Message-ID: <202402110805.r1KRiKtL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,82 +60,120 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jan Kara <jack@suse.cz>
+In-Reply-To: <20240206194751.1901802-3-ericwouds@gmail.com>
+References: <20240206194751.1901802-3-ericwouds@gmail.com>
+TO: Eric Woudstra <ericwouds@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git for_next
-head:   71b12545f603de39a967b52287c29ede3f85ff2f
-commit: 223bfb57631b10036e55579ecb5718123fa41c8c quota: Detect loops in quota tree
-date:   35 hours ago
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
-config: i386-randconfig-141-20240210 (https://download.01.org/0day-ci/archive/20240211/202402110613.a3vlVmoj-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+Hi Eric,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Woudstra/dt-bindings-net-airoha-en8811h-Add-en8811h-serdes-polarity/20240207-035021
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240206194751.1901802-3-ericwouds%40gmail.com
+patch subject: [PATCH net-next 2/2] net: phy: air_en8811h: Add the Airoha EN8811H PHY driver
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: sh-randconfig-r081-20240211 (https://download.01.org/0day-ci/archive/20240211/202402110805.r1KRiKtL-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202402110613.a3vlVmoj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402110805.r1KRiKtL-lkp@intel.com/
 
 smatch warnings:
-fs/quota/quota_tree.c:673 find_tree_dqentry() error: uninitialized symbol 'blk'.
+drivers/net/phy/air_en8811h.c:560 air_led_hw_control_set() error: testing array offset 'index' after use.
 
-vim +/blk +673 fs/quota/quota_tree.c
+vim +/index +560 drivers/net/phy/air_en8811h.c
 
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  658  
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  659  /* Find entry for given id in the tree */
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  660  static loff_t find_tree_dqentry(struct qtree_mem_dqinfo *info,
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  661  				struct dquot *dquot, uint *blks, int depth)
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  662  {
-a1e1b2becab7c0 fs/quota/quota_tree.c Jan Kara      2024-01-22  663  	char *buf = kmalloc(info->dqi_usable_bs, GFP_KERNEL);
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  664  	loff_t ret = 0;
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  665  	__le32 *ref = (__le32 *)buf;
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  666  	uint blk;
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  667  	int i;
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  668  
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  669  	if (!buf)
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  670  		return -ENOMEM;
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  671  	ret = read_blk(info, blks[depth], buf);
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  672  	if (ret < 0) {
-fb5ffb0e160c93 fs/quota/quota_tree.c Jiaying Zhang 2010-07-20 @673  		quota_error(dquot->dq_sb, "Can't read quota tree block %u",
-fb5ffb0e160c93 fs/quota/quota_tree.c Jiaying Zhang 2010-07-20  674  			    blk);
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  675  		goto out_buf;
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  676  	}
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  677  	ret = 0;
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  678  	blk = le32_to_cpu(ref[get_index(info, dquot->dq_id, depth)]);
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  679  	if (!blk)	/* No reference? */
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  680  		goto out_buf;
-3fc61e0e96a326 fs/quota/quota_tree.c Zhihao Cheng  2022-09-23  681  	ret = do_check_range(dquot->dq_sb, "block", blk, QT_TREEOFF,
-3fc61e0e96a326 fs/quota/quota_tree.c Zhihao Cheng  2022-09-23  682  			     info->dqi_blocks - 1);
-3fc61e0e96a326 fs/quota/quota_tree.c Zhihao Cheng  2022-09-23  683  	if (ret)
-9bf3d20331295b fs/quota/quota_tree.c Zhang Yi      2021-10-08  684  		goto out_buf;
-9bf3d20331295b fs/quota/quota_tree.c Zhang Yi      2021-10-08  685  
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  686  	/* Check for cycles in the tree */
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  687  	for (i = 0; i <= depth; i++)
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  688  		if (blk == blks[i]) {
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  689  			quota_error(dquot->dq_sb,
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  690  				"Cycle in quota tree detected: block %u index %u",
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  691  				blks[depth],
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  692  				get_index(info, dquot->dq_id, depth));
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  693  			ret = -EIO;
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  694  			goto out_buf;
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  695  		}
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  696  	blks[depth + 1] = blk;
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  697  	if (depth < info->dqi_qtree_depth - 1)
-223bfb57631b10 fs/quota/quota_tree.c Jan Kara      2024-02-07  698  		ret = find_tree_dqentry(info, dquot, blks, depth + 1);
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  699  	else
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  700  		ret = find_block_dqentry(info, dquot, blk);
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  701  out_buf:
-d26ac1a8128f6e fs/quota/quota_tree.c Jan Kara      2009-01-26  702  	kfree(buf);
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  703  	return ret;
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  704  }
-1ccd14b9c271c1 fs/quota_tree.c       Jan Kara      2008-09-22  705  
-
-:::::: The code at line 673 was first introduced by commit
-:::::: fb5ffb0e160c93c3fe08ab83845eb9a2768af812 quota: Change quota error message to print out disk and function name
-
-:::::: TO: Jiaying Zhang <jiayingz@google.com>
-:::::: CC: Jan Kara <jack@suse.cz>
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  550  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  551  static int air_led_hw_control_set(struct phy_device *phydev, u8 index,
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  552  				  unsigned long rules)
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  553  {
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  554  	struct en8811h_priv *priv = phydev->priv;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  555  	u16 on = 0, blink = 0;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  556  	int ret;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  557  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  558  	priv->led[index].rules = rules;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  559  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06 @560  	if (index >= EN8811H_LED_COUNT)
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  561  		return -EINVAL;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  562  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  563  	if (rules & (BIT(TRIGGER_NETDEV_LINK_10)   | BIT(TRIGGER_NETDEV_LINK))) {
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  564  		on |= AIR_PHY_LED_ON_LINK10;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  565  		if (rules & BIT(TRIGGER_NETDEV_RX))
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  566  			blink |= AIR_PHY_LED_BLINK_10RX;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  567  		if (rules & BIT(TRIGGER_NETDEV_TX))
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  568  			blink |= AIR_PHY_LED_BLINK_10TX;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  569  	}
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  570  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  571  	if (rules & (BIT(TRIGGER_NETDEV_LINK_100)  | BIT(TRIGGER_NETDEV_LINK))) {
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  572  		on |= AIR_PHY_LED_ON_LINK100;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  573  		if (rules & BIT(TRIGGER_NETDEV_RX))
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  574  			blink |= AIR_PHY_LED_BLINK_100RX;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  575  		if (rules & BIT(TRIGGER_NETDEV_TX))
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  576  			blink |= AIR_PHY_LED_BLINK_100TX;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  577  	}
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  578  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  579  	if (rules & (BIT(TRIGGER_NETDEV_LINK_1000) | BIT(TRIGGER_NETDEV_LINK))) {
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  580  		on |= AIR_PHY_LED_ON_LINK1000;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  581  		if (rules & BIT(TRIGGER_NETDEV_RX))
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  582  			blink |= AIR_PHY_LED_BLINK_1000RX;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  583  		if (rules & BIT(TRIGGER_NETDEV_TX))
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  584  			blink |= AIR_PHY_LED_BLINK_1000TX;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  585  	}
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  586  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  587  	if (rules & (BIT(TRIGGER_NETDEV_LINK_2500) | BIT(TRIGGER_NETDEV_LINK))) {
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  588  		on |= AIR_PHY_LED_ON_LINK2500;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  589  		if (rules & BIT(TRIGGER_NETDEV_RX))
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  590  			blink |= AIR_PHY_LED_BLINK_2500RX;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  591  		if (rules & BIT(TRIGGER_NETDEV_TX))
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  592  			blink |= AIR_PHY_LED_BLINK_2500TX;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  593  	}
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  594  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  595  	if (on == 0) {
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  596  		if (rules & BIT(TRIGGER_NETDEV_RX)) {
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  597  			blink |= AIR_PHY_LED_BLINK_10RX   |
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  598  				 AIR_PHY_LED_BLINK_100RX  |
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  599  				 AIR_PHY_LED_BLINK_1000RX |
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  600  				 AIR_PHY_LED_BLINK_2500RX;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  601  		}
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  602  		if (rules & BIT(TRIGGER_NETDEV_TX)) {
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  603  			blink |= AIR_PHY_LED_BLINK_10TX   |
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  604  				 AIR_PHY_LED_BLINK_100TX  |
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  605  				 AIR_PHY_LED_BLINK_1000TX |
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  606  				 AIR_PHY_LED_BLINK_2500TX;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  607  		}
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  608  	}
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  609  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  610  	if (rules & BIT(TRIGGER_NETDEV_FULL_DUPLEX))
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  611  		on |= AIR_PHY_LED_ON_FDX;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  612  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  613  	if (rules & BIT(TRIGGER_NETDEV_HALF_DUPLEX))
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  614  		on |= AIR_PHY_LED_ON_HDX;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  615  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  616  	if (blink || on) {
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  617  		/* switch hw-control on, so led-on and led-blink are off */
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  618  		clear_bit(AIR_PHY_LED_STATE_FORCE_ON, &priv->led[index].state);
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  619  		clear_bit(AIR_PHY_LED_STATE_FORCE_BLINK, &priv->led[index].state);
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  620  	} else {
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  621  		priv->led[index].rules = 0;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  622  	}
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  623  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  624  	ret = phy_modify_mmd(phydev, MDIO_MMD_VEND2, AIR_PHY_LED_ON(index),
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  625  			     AIR_PHY_LED_ON_MASK, on);
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  626  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  627  	if (ret < 0)
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  628  		return ret;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  629  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  630  	return phy_write_mmd(phydev, MDIO_MMD_VEND2, AIR_PHY_LED_BLINK(index),
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  631  			     blink);
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  632  };
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  633  
 
 -- 
 0-DAY CI Kernel Test Service
