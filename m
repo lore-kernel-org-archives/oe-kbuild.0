@@ -1,54 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F445F50D
-	for <oe-kbuild@lists.linux.dev>; Sun, 11 Feb 2024 03:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5846CFBF0
+	for <oe-kbuild@lists.linux.dev>; Sun, 11 Feb 2024 04:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707621470; cv=none; b=jLU7a8G5Okf91K0uZdL9dNiEPO/QRI0f/xa3DrLULdsGH5SfHqmwPYbmPQiNkA5jrVkPkW6WCZITJZZcAfY17awh4+ticiENXxG6QYTvuq8c1WGgQljOI16ojK2lVYwzE/UAaqCkVdVUsPjcpV9vsyiW1Ueg7kj5T7UahWq9AO8=
+	t=1707627051; cv=none; b=CvO8etIiKHK3SBtrbYrRstdkNE6eJP30NR7CUQcvMT3PPS1VCxy9MFvugGipGZpz1FdptXpYz8AzWP6AhJ86cPa2sMHOXHoyoo0aB+bvFqu/Y/geBlKqQQYyxG7i6dTPh/t8dkP5mbaJIOQPlhBk+4KAnL1VxrdMg+wXqr16wbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707621470; c=relaxed/simple;
-	bh=9NzIGDDvLXDlKmhSa8+ggrIG7KkhfBc42DxKOcSFqBo=;
+	s=arc-20240116; t=1707627051; c=relaxed/simple;
+	bh=IBP/9p05uKSJiujKIUqSsEeDOyh2GCDOMYTL7rEiUjw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fbfg9JwIB5wMw1zAKdn8AyI8mEi2fLpPNyHN2hT5zVQZS/WzsDex/fn7vAytLKOq2m4xIlh0trrN4ASyUsM+lh+xtG7OHHobfP9JkdUJc63kvsVz02PFDNi+9j4Pg72r9az3ZQsJWG7fHQlk+ODkgVoDOAgvo7g+qr0BCSo9PhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kce8+dOX; arc=none smtp.client-ip=192.55.52.88
+	 Content-Disposition; b=AmdBKdxS2hqsx03ofKS9x8EH1VN7yafJVLCmXK1oOyEp3UFXfkEf5DNBqjAh9tVgA9JH3sbnn533YknI8vPEulFd7t59O+/CaNjvDVbkUoxSkfB7h75eCzxn9ToTrQDmmruKVlNDPDRGjgzXxaTrrnMFf6XqUo39cQ9jwBPzO08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DtS2NMGW; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kce8+dOX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DtS2NMGW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707621468; x=1739157468;
+  t=1707627049; x=1739163049;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9NzIGDDvLXDlKmhSa8+ggrIG7KkhfBc42DxKOcSFqBo=;
-  b=Kce8+dOX1nDWLc4kZEE/SK+0srfgLd9wyt+yDmeBBVSOq7Usvog+QRN7
-   V/lDAXOktxa4dZU3S89vXG88xQnMTIuhxXRZcQFm5lXzSCNURqxYXwoCO
-   OGKVO8A6HqqYnrxiN/qAlVOG0ZIoXVCmlmhiGsiBvbVLd8N9D7GLsa4NI
-   5BBswOqvvAl/viCmrSCA7C8UEO66ujsTcalBURhzIytmtt1fBxCLHweLD
-   zYmSoVMb3mVCfuhAZzZpbKSq9vcXhEMAP5B9SrPDEKsrfPP9Taphr7ydd
-   y/RySpWjiwMGd24rhlGzML53YHWKQtjeiZmXt4RzZ1PcWn6WmFcpqxBBX
+  bh=IBP/9p05uKSJiujKIUqSsEeDOyh2GCDOMYTL7rEiUjw=;
+  b=DtS2NMGWgVtUQUpzFXczqAGP3fqjP0Ba/jkHn4cT8TerCm5NskIyDzy2
+   luYIh2wkmDiu369KSbgkXl4xeozQaYlt7OpBS3cYUbvTq7rRoVcDUVS61
+   +s1ReUVsderZ/iBmIJai2qA9R/ZJgDPcFjHhNm2XF8Bd3gVW2dgpxq4dL
+   CSNzgSDbt8Ln6ijsbtmmdbdY3cSpGO5xUDbAY2K3il0LzVZXFym/0lOWb
+   Au34OGxvOcgWB0lfYxYGLh8dYGzhdPIoc5qunYXD1gNg03FzMBD0OZYNn
+   L60U8DiM3PPX2CvuXleL36F2ytKGJKKVA+7zLN2ft7l1DfNPovwun8t2y
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="436745416"
+X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="12979776"
 X-IronPort-AV: E=Sophos;i="6.05,260,1701158400"; 
-   d="scan'208";a="436745416"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 19:17:47 -0800
+   d="scan'208";a="12979776"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 20:50:49 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="825510048"
 X-IronPort-AV: E=Sophos;i="6.05,260,1701158400"; 
-   d="scan'208";a="2579705"
+   d="scan'208";a="825510048"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Feb 2024 19:17:46 -0800
+  by orsmga001.jf.intel.com with ESMTP; 10 Feb 2024 20:50:46 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZ0Lf-0006I2-0l;
-	Sun, 11 Feb 2024 03:17:43 +0000
-Date: Sun, 11 Feb 2024 11:16:52 +0800
+	id 1rZ1ng-0006KQ-24;
+	Sun, 11 Feb 2024 04:50:44 +0000
+Date: Sun, 11 Feb 2024 12:50:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [akpm-mm:mm-nonmm-unstable 99/100] drivers/gpu/drm/drm_mm.c:942
- drm_mm_scan_color_evict() error: uninitialized symbol 'hole_start'.
-Message-ID: <202402111103.6RjL8nG7-lkp@intel.com>
+Subject: [brauner-vfs:vfs.pidfd 15/15] kernel/signal.c:3963
+ __do_sys_pidfd_send_signal() error: uninitialized symbol 'type'.
+Message-ID: <202402111212.MwpHqZHA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,91 +61,133 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Wei Yang <richard.weiyang@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Christian Brauner <christianvanbrauner@gmail.com>
+TO: Christian Brauner <brauner@kernel.org>
+CC: Oleg Nesterov <oleg@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   3ecfe35aea92fbe3fb5dbb680daa91365c87a7b2
-commit: 7ecb9791d32eff651d63f21a0e3f460b5ab4ad5e [99/100] list: leverage list_is_head() for list_entry_is_head()
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: x86_64-randconfig-161-20240211 (https://download.01.org/0day-ci/archive/20240211/202402111103.6RjL8nG7-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.pidfd
+head:   3f643cd2351099e6b859533b6f984463e5315e5f
+commit: 3f643cd2351099e6b859533b6f984463e5315e5f [15/15] pidfd: allow to override signal scope in pidfd_send_signal()
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: i386-randconfig-141-20240211 (https://download.01.org/0day-ci/archive/20240211/202402111212.MwpHqZHA-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202402111103.6RjL8nG7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402111212.MwpHqZHA-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/drm_mm.c:942 drm_mm_scan_color_evict() error: uninitialized symbol 'hole_start'.
-drivers/gpu/drm/drm_mm.c:943 drm_mm_scan_color_evict() error: uninitialized symbol 'hole_end'.
+kernel/signal.c:3963 __do_sys_pidfd_send_signal() error: uninitialized symbol 'type'.
+kernel/signal.c:3963 __do_sys_pidfd_send_signal() error: uninitialized symbol 'type'.
 
-vim +/hole_start +942 drivers/gpu/drm/drm_mm.c
+vim +/type +3963 kernel/signal.c
 
-709ea97145c125 Daniel Vetter 2010-07-02  900  
-3fa489dabea9a1 Chris Wilson  2016-12-22  901  /**
-3fa489dabea9a1 Chris Wilson  2016-12-22  902   * drm_mm_scan_color_evict - evict overlapping nodes on either side of hole
-3fa489dabea9a1 Chris Wilson  2016-12-22  903   * @scan: drm_mm scan with target hole
-3fa489dabea9a1 Chris Wilson  2016-12-22  904   *
-3fa489dabea9a1 Chris Wilson  2016-12-22  905   * After completing an eviction scan and removing the selected nodes, we may
-3fa489dabea9a1 Chris Wilson  2016-12-22  906   * need to remove a few more nodes from either side of the target hole if
-3fa489dabea9a1 Chris Wilson  2016-12-22  907   * mm.color_adjust is being used.
-3fa489dabea9a1 Chris Wilson  2016-12-22  908   *
-3fa489dabea9a1 Chris Wilson  2016-12-22  909   * Returns:
-3fa489dabea9a1 Chris Wilson  2016-12-22  910   * A node to evict, or NULL if there are no overlapping nodes.
-3fa489dabea9a1 Chris Wilson  2016-12-22  911   */
-3fa489dabea9a1 Chris Wilson  2016-12-22  912  struct drm_mm_node *drm_mm_scan_color_evict(struct drm_mm_scan *scan)
-3fa489dabea9a1 Chris Wilson  2016-12-22  913  {
-3fa489dabea9a1 Chris Wilson  2016-12-22  914  	struct drm_mm *mm = scan->mm;
-3fa489dabea9a1 Chris Wilson  2016-12-22  915  	struct drm_mm_node *hole;
-3fa489dabea9a1 Chris Wilson  2016-12-22  916  	u64 hole_start, hole_end;
-3fa489dabea9a1 Chris Wilson  2016-12-22  917  
-3fa489dabea9a1 Chris Wilson  2016-12-22  918  	DRM_MM_BUG_ON(list_empty(&mm->hole_stack));
-3fa489dabea9a1 Chris Wilson  2016-12-22  919  
-3fa489dabea9a1 Chris Wilson  2016-12-22  920  	if (!mm->color_adjust)
-3fa489dabea9a1 Chris Wilson  2016-12-22  921  		return NULL;
-3fa489dabea9a1 Chris Wilson  2016-12-22  922  
-b8ff1802815913 Chris Wilson  2018-02-19  923  	/*
-b8ff1802815913 Chris Wilson  2018-02-19  924  	 * The hole found during scanning should ideally be the first element
-b8ff1802815913 Chris Wilson  2018-02-19  925  	 * in the hole_stack list, but due to side-effects in the driver it
-b8ff1802815913 Chris Wilson  2018-02-19  926  	 * may not be.
-b8ff1802815913 Chris Wilson  2018-02-19  927  	 */
-b8ff1802815913 Chris Wilson  2018-02-19  928  	list_for_each_entry(hole, &mm->hole_stack, hole_stack) {
-3fa489dabea9a1 Chris Wilson  2016-12-22  929  		hole_start = __drm_mm_hole_node_start(hole);
-4e64e5539d152e Chris Wilson  2017-02-02  930  		hole_end = hole_start + hole->hole_size;
-3fa489dabea9a1 Chris Wilson  2016-12-22  931  
-b8ff1802815913 Chris Wilson  2018-02-19  932  		if (hole_start <= scan->hit_start &&
-b8ff1802815913 Chris Wilson  2018-02-19  933  		    hole_end >= scan->hit_end)
-b8ff1802815913 Chris Wilson  2018-02-19  934  			break;
-b8ff1802815913 Chris Wilson  2018-02-19  935  	}
-b8ff1802815913 Chris Wilson  2018-02-19  936  
-b8ff1802815913 Chris Wilson  2018-02-19  937  	/* We should only be called after we found the hole previously */
-b8ff1802815913 Chris Wilson  2018-02-19  938  	DRM_MM_BUG_ON(&hole->hole_stack == &mm->hole_stack);
-b8ff1802815913 Chris Wilson  2018-02-19  939  	if (unlikely(&hole->hole_stack == &mm->hole_stack))
-b8ff1802815913 Chris Wilson  2018-02-19  940  		return NULL;
-b8ff1802815913 Chris Wilson  2018-02-19  941  
-3fa489dabea9a1 Chris Wilson  2016-12-22 @942  	DRM_MM_BUG_ON(hole_start > scan->hit_start);
-3fa489dabea9a1 Chris Wilson  2016-12-22 @943  	DRM_MM_BUG_ON(hole_end < scan->hit_end);
-3fa489dabea9a1 Chris Wilson  2016-12-22  944  
-3fa489dabea9a1 Chris Wilson  2016-12-22  945  	mm->color_adjust(hole, scan->color, &hole_start, &hole_end);
-3fa489dabea9a1 Chris Wilson  2016-12-22  946  	if (hole_start > scan->hit_start)
-3fa489dabea9a1 Chris Wilson  2016-12-22  947  		return hole;
-3fa489dabea9a1 Chris Wilson  2016-12-22  948  	if (hole_end < scan->hit_end)
-3fa489dabea9a1 Chris Wilson  2016-12-22  949  		return list_next_entry(hole, node_list);
-3fa489dabea9a1 Chris Wilson  2016-12-22  950  
-3fa489dabea9a1 Chris Wilson  2016-12-22  951  	return NULL;
-3fa489dabea9a1 Chris Wilson  2016-12-22  952  }
-3fa489dabea9a1 Chris Wilson  2016-12-22  953  EXPORT_SYMBOL(drm_mm_scan_color_evict);
-3fa489dabea9a1 Chris Wilson  2016-12-22  954  
+2151ad1b067275 Christian Brauner 2019-04-17  3878  
+3f643cd2351099 Christian Brauner 2024-02-09  3879  #define PIDFD_SEND_SIGNAL_FLAGS                            \
+3f643cd2351099 Christian Brauner 2024-02-09  3880  	(PIDFD_SIGNAL_THREAD | PIDFD_SIGNAL_THREAD_GROUP | \
+3f643cd2351099 Christian Brauner 2024-02-09  3881  	 PIDFD_SIGNAL_PROCESS_GROUP)
+3f643cd2351099 Christian Brauner 2024-02-09  3882  
+3eb39f47934f9d Christian Brauner 2018-11-19  3883  /**
+c732327f04a381 Christian Brauner 2019-06-04  3884   * sys_pidfd_send_signal - Signal a process through a pidfd
+c732327f04a381 Christian Brauner 2019-06-04  3885   * @pidfd:  file descriptor of the process
+c732327f04a381 Christian Brauner 2019-06-04  3886   * @sig:    signal to send
+c732327f04a381 Christian Brauner 2019-06-04  3887   * @info:   signal info
+c732327f04a381 Christian Brauner 2019-06-04  3888   * @flags:  future flags
+3eb39f47934f9d Christian Brauner 2018-11-19  3889   *
+81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3890   * Send the signal to the thread group or to the individual thread depending
+81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3891   * on PIDFD_THREAD.
+81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3892   * In the future extension to @flags may be used to override the default scope
+81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3893   * of @pidfd.
+3eb39f47934f9d Christian Brauner 2018-11-19  3894   *
+3eb39f47934f9d Christian Brauner 2018-11-19  3895   * Return: 0 on success, negative errno on failure
+3eb39f47934f9d Christian Brauner 2018-11-19  3896   */
+3eb39f47934f9d Christian Brauner 2018-11-19  3897  SYSCALL_DEFINE4(pidfd_send_signal, int, pidfd, int, sig,
+3eb39f47934f9d Christian Brauner 2018-11-19  3898  		siginfo_t __user *, info, unsigned int, flags)
+3eb39f47934f9d Christian Brauner 2018-11-19  3899  {
+3eb39f47934f9d Christian Brauner 2018-11-19  3900  	int ret;
+3eb39f47934f9d Christian Brauner 2018-11-19  3901  	struct fd f;
+3eb39f47934f9d Christian Brauner 2018-11-19  3902  	struct pid *pid;
+3eb39f47934f9d Christian Brauner 2018-11-19  3903  	kernel_siginfo_t kinfo;
+81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3904  	enum pid_type type;
+3eb39f47934f9d Christian Brauner 2018-11-19  3905  
+3eb39f47934f9d Christian Brauner 2018-11-19  3906  	/* Enforce flags be set to 0 until we add an extension. */
+3f643cd2351099 Christian Brauner 2024-02-09  3907  	if (flags & ~PIDFD_SEND_SIGNAL_FLAGS)
+3f643cd2351099 Christian Brauner 2024-02-09  3908  		return -EINVAL;
+3f643cd2351099 Christian Brauner 2024-02-09  3909  
+3f643cd2351099 Christian Brauner 2024-02-09  3910  	/* Ensure that only a single signal scope determining flag is set. */
+3f643cd2351099 Christian Brauner 2024-02-09  3911  	if (hweight32(flags & PIDFD_SEND_SIGNAL_FLAGS) > 1)
+3eb39f47934f9d Christian Brauner 2018-11-19  3912  		return -EINVAL;
+3eb39f47934f9d Christian Brauner 2018-11-19  3913  
+738a7832d21e3d Christian Brauner 2019-04-18  3914  	f = fdget(pidfd);
+3eb39f47934f9d Christian Brauner 2018-11-19  3915  	if (!f.file)
+3eb39f47934f9d Christian Brauner 2018-11-19  3916  		return -EBADF;
+3eb39f47934f9d Christian Brauner 2018-11-19  3917  
+3eb39f47934f9d Christian Brauner 2018-11-19  3918  	/* Is this a pidfd? */
+2151ad1b067275 Christian Brauner 2019-04-17  3919  	pid = pidfd_to_pid(f.file);
+3eb39f47934f9d Christian Brauner 2018-11-19  3920  	if (IS_ERR(pid)) {
+3eb39f47934f9d Christian Brauner 2018-11-19  3921  		ret = PTR_ERR(pid);
+3eb39f47934f9d Christian Brauner 2018-11-19  3922  		goto err;
+3eb39f47934f9d Christian Brauner 2018-11-19  3923  	}
+3eb39f47934f9d Christian Brauner 2018-11-19  3924  
+3eb39f47934f9d Christian Brauner 2018-11-19  3925  	ret = -EINVAL;
+3eb39f47934f9d Christian Brauner 2018-11-19  3926  	if (!access_pidfd_pidns(pid))
+3eb39f47934f9d Christian Brauner 2018-11-19  3927  		goto err;
+3eb39f47934f9d Christian Brauner 2018-11-19  3928  
+3f643cd2351099 Christian Brauner 2024-02-09  3929  	switch (flags) {
+3f643cd2351099 Christian Brauner 2024-02-09  3930  	case 0:
+3f643cd2351099 Christian Brauner 2024-02-09  3931  		/* Infer scope from the type of pidfd. */
+81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3932  		if (f.file->f_flags & PIDFD_THREAD)
+81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3933  			type = PIDTYPE_PID;
+81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3934  		else
+81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3935  			type = PIDTYPE_TGID;
+3f643cd2351099 Christian Brauner 2024-02-09  3936  		break;
+3f643cd2351099 Christian Brauner 2024-02-09  3937  	case PIDFD_SIGNAL_THREAD:
+3f643cd2351099 Christian Brauner 2024-02-09  3938  		type = PIDTYPE_PID;
+3f643cd2351099 Christian Brauner 2024-02-09  3939  		break;
+3f643cd2351099 Christian Brauner 2024-02-09  3940  	case PIDFD_SIGNAL_THREAD_GROUP:
+3f643cd2351099 Christian Brauner 2024-02-09  3941  		type = PIDTYPE_TGID;
+3f643cd2351099 Christian Brauner 2024-02-09  3942  		break;
+3f643cd2351099 Christian Brauner 2024-02-09  3943  	case PIDFD_SIGNAL_PROCESS_GROUP:
+3f643cd2351099 Christian Brauner 2024-02-09  3944  		type = PIDTYPE_PGID;
+3f643cd2351099 Christian Brauner 2024-02-09  3945  		break;
+3f643cd2351099 Christian Brauner 2024-02-09  3946  	}
+81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3947  
+3eb39f47934f9d Christian Brauner 2018-11-19  3948  	if (info) {
+3eb39f47934f9d Christian Brauner 2018-11-19  3949  		ret = copy_siginfo_from_user_any(&kinfo, info);
+3eb39f47934f9d Christian Brauner 2018-11-19  3950  		if (unlikely(ret))
+3eb39f47934f9d Christian Brauner 2018-11-19  3951  			goto err;
+3eb39f47934f9d Christian Brauner 2018-11-19  3952  
+3eb39f47934f9d Christian Brauner 2018-11-19  3953  		ret = -EINVAL;
+3eb39f47934f9d Christian Brauner 2018-11-19  3954  		if (unlikely(sig != kinfo.si_signo))
+3eb39f47934f9d Christian Brauner 2018-11-19  3955  			goto err;
+3eb39f47934f9d Christian Brauner 2018-11-19  3956  
+3eb39f47934f9d Christian Brauner 2018-11-19  3957  		/* Only allow sending arbitrary signals to yourself. */
+3eb39f47934f9d Christian Brauner 2018-11-19  3958  		ret = -EPERM;
+556a888a14afe2 Jann Horn         2019-03-30  3959  		if ((task_pid(current) != pid) &&
+556a888a14afe2 Jann Horn         2019-03-30  3960  		    (kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL))
+3eb39f47934f9d Christian Brauner 2018-11-19  3961  			goto err;
+3eb39f47934f9d Christian Brauner 2018-11-19  3962  	} else {
+81b9d8ac0640b2 Oleg Nesterov     2024-02-09 @3963  		prepare_kill_siginfo(sig, &kinfo, type);
+3eb39f47934f9d Christian Brauner 2018-11-19  3964  	}
+3eb39f47934f9d Christian Brauner 2018-11-19  3965  
+3f643cd2351099 Christian Brauner 2024-02-09  3966  	if (type == PIDTYPE_PGID)
+3f643cd2351099 Christian Brauner 2024-02-09  3967  		ret = kill_pgrp_info(sig, &kinfo, pid);
+3f643cd2351099 Christian Brauner 2024-02-09  3968  	else
+81b9d8ac0640b2 Oleg Nesterov     2024-02-09  3969  		ret = kill_pid_info_type(sig, &kinfo, pid, type);
+3eb39f47934f9d Christian Brauner 2018-11-19  3970  err:
+3eb39f47934f9d Christian Brauner 2018-11-19  3971  	fdput(f);
+3eb39f47934f9d Christian Brauner 2018-11-19  3972  	return ret;
+3eb39f47934f9d Christian Brauner 2018-11-19  3973  }
+3eb39f47934f9d Christian Brauner 2018-11-19  3974  
 
-:::::: The code at line 942 was first introduced by commit
-:::::: 3fa489dabea9a1cb0656e2da90354f7c4e53f890 drm: Apply tight eviction scanning to color_adjust
+:::::: The code at line 3963 was first introduced by commit
+:::::: 81b9d8ac0640b285a3c369cd41a85f6c240d3a60 pidfd: change pidfd_send_signal() to respect PIDFD_THREAD
 
-:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
-:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+:::::: TO: Oleg Nesterov <oleg@redhat.com>
+:::::: CC: Christian Brauner <brauner@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
