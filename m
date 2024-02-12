@@ -1,64 +1,55 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17E17483
-	for <oe-kbuild@lists.linux.dev>; Mon, 12 Feb 2024 08:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72318134C9
+	for <oe-kbuild@lists.linux.dev>; Mon, 12 Feb 2024 08:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707725870; cv=none; b=gacnSr2M2gS4rsT0SQOmRBAbaU9Y3cMV/mxTYRIVh3IEvb88bvKhOX/dwVM29dj14akFqwsb4u6w+unZsTbgOsmWaYhwC+sGkS2NzhuPE8uIxjegstkJPoGMG0HfOEshAAR+hVGHk0noAkasVLwp0HWg6+Vzh0r+qW3unI9Ol2w=
+	t=1707726883; cv=none; b=RxeS/jCF/oLGv/rdqGE/Iuohcx7iASnWI8yc11YAuRnN/WBLk7/CC66N0bqCiuvAuFhuh/VWOqA0B/2QyC0prAeJOgfGBK+4uk/ZZOl5LBwvsRQh/cYdIExDpRrTx/Da7MBMUEWIFPKmseoKDvfViGVqHlOdegrMbs0n9IMGYKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707725870; c=relaxed/simple;
-	bh=tOIPNw4dNbIPeVbG3nByvllBJfybEKyRu13UE5L0Cd4=;
+	s=arc-20240116; t=1707726883; c=relaxed/simple;
+	bh=FQeCHFw4F3QyY+3qTbYQV5SaJDfAiLz4KsHSgWGDjlM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=p6JDBQCRAd3sE+RN5ovQ/O+XGsNcPSGcpIuC+vHgwOBC/7tQrOm5fwuihry0IauatfeJ12MXHQNIgGwRe9/0IVPtLB9rdcUaLr9npiiqAoEGD6rQyjdyrFQ6jF+wPRbdSqihB/KmYM+G6fLBaziwZYW1hqwoE0BXxk88RXlWuQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aqFMaDc9; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=UQjZNqEHm1JE0T2IvrEbjmnd+LM9ElLaBzBlJPKYBVpYIcWBKdlLir+4OW+S3g15dKDe8KjiWfV4p24anOy793A2JzCo07oIkIGixWFqDisEt28zV9GVzQpjmG4z4Gfr7SWvDleRS4W/yTYjyFdMq8ZTqUunnqlCuQ1nNQz6n2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Olfw4p5c; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aqFMaDc9"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-55fe4534e9bso3675135a12.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 12 Feb 2024 00:17:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707725866; x=1708330666; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IgRlFVad8LwIhP5jpZKETMsb6daw55MtLMHfKSOgg7c=;
-        b=aqFMaDc9yqdp5kuXdc+shxVgI7z32vxE6hpaX9Ar8JH4ssqD3k8fMToWIudGEpNmuo
-         kzAcHCtw2l1ohu/u2rR7THjIZBqlACM0Qt562CUUHJjjl5hK/3lcRTy6jAUMP+oAoFL5
-         CnDu4ZWu759X9aAcVoxTQAxvG7NaLV48gvm0RLIZjO+lhlPKgp1SlCjVVZgbSWAainqZ
-         0FY/jPN6hH/SVLEnarA5Q4PupUbIZN16DwUbfdeyofuqZFLmyhGWkc1qJkKcBBXaDdNR
-         32VJ4hN8Gj0yemj5r3PJAtTcJ5Qq92GI4rs/nXNYDWiY1tVCprGwFs7x42UO/cFNXpL0
-         KJ7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707725866; x=1708330666;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IgRlFVad8LwIhP5jpZKETMsb6daw55MtLMHfKSOgg7c=;
-        b=NW1TEit0mKceJu8c9oG35YHrX1n1duY+PBcZTV5fP9NJ6nJ2PEncxeaeQh+W17gzfb
-         c/MCF6NvS5UU/z3h3aAK09Vzzm6ghfztwjwiJspUZXMut5rduBPCj4rpCqr4GXkIlHVr
-         lXnuuX0gyJHOYrRLSgY7z0GkWdYxp4dFpTHcNNCP6lvoVq1tlsR2DbjW44tMFuPodnDh
-         /dwyQGqgyK7yTynis7p7qupEAkCueTT86FppfwVezNd2oft2iMd7p9lmM9bIUcQzU+F5
-         3sBWvkDTkKqHi3a+berHr3SRcxcFnH5zrRI16PtCS6ocToOVWpe2/OxHLxJHdP9PEXf8
-         lm0g==
-X-Gm-Message-State: AOJu0Yw1D7uYJ9wOXz/85vlBRlbgkyi3k5tWzIi2ezW8Di2ta9eSQxwi
-	GC6UV7DQUp7RU0ubj7s7ZqcbPQQHkKzBS25oV/LBKZmqaAdr91fapVfj+tn0r4wjm7XUAMgUtQ6
-	m
-X-Google-Smtp-Source: AGHT+IFhzNR3hgdBD/mnCMKuG1BgHLbkCR5vTiQsXZ5H3Eb0NydIX8xbWHz53/LNTiM3sGYggui9Ew==
-X-Received: by 2002:aa7:c71a:0:b0:560:ea74:a679 with SMTP id i26-20020aa7c71a000000b00560ea74a679mr3582158edq.5.1707725866330;
-        Mon, 12 Feb 2024 00:17:46 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX+bdymo+XkURNN2y3EbZ/jsCpvOyKu/b7kSnFBkbqgd7diDwNr5qp9P5vNBX2LMK4ZJxeBPVMy6jadExOWHhSaEMNXh03eSHvJCDXk+sIfrWkaodtMXIVcNSnJ6JlqUUkbXSeb8pYt1PWjqBuK7OLWdjD76SiFm9cRxF2f
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id b6-20020aa7c906000000b00560ba66587csm2462955edt.13.2024.02.12.00.17.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Feb 2024 00:17:46 -0800 (PST)
-Date: Mon, 12 Feb 2024 11:17:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Eric Woudstra <ericwouds@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net-next 2/2] net: phy: air_en8811h: Add the Airoha
- EN8811H PHY driver
-Message-ID: <20977ba9-0cdd-4f5d-a203-64b01af2acfb@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Olfw4p5c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707726882; x=1739262882;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FQeCHFw4F3QyY+3qTbYQV5SaJDfAiLz4KsHSgWGDjlM=;
+  b=Olfw4p5cJKhgwm7sUxOXO2xOa89AxupRryLehWIZ3PeTAwCZbKVUfjJ9
+   NoeqeGp2JiV+ETMdkD0xFsAflyakS2qjyGa5opi6hWpkBGN8rlTxmDKV2
+   hQhytUGf1d5Hc41WKf1W0YpHINa9pQv3l8CIFjP7oHvIisIE/SimlmcM4
+   14z7GSPftH9FHsIEwrzrs4u2Vh2BtusqBENAtNDLQpELr3IITj/eyVA70
+   3Fxy5OYzS7XIk45+EEMLJwHBosR+f6tkKYaXvT4Jdc5CxhZ58O+f9Xs9F
+   cPFLXdeVIjvitFxPBq2lVG7BRKe4RsJ3m46xgLERkKWX7qE/i8HCl65NW
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="1846215"
+X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
+   d="scan'208";a="1846215"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2024 00:34:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
+   d="scan'208";a="2501831"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 12 Feb 2024 00:34:37 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rZRlr-00071S-0A;
+	Mon, 12 Feb 2024 08:34:35 +0000
+Date: Mon, 12 Feb 2024 16:34:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [broonie-misc:regmap-kunit-random-change 6/6]
+ drivers/base/regmap/regmap-kunit.c:1322:24: sparse: sparse: incorrect type
+ in assignment (different base types)
+Message-ID: <202402121635.CG6PEwhN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,55 +58,137 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240206194751.1901802-3-ericwouds@gmail.com>
 
-Hi Eric,
+:::::: 
+:::::: Manual check reason: "empty line found in static check configure file"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Mark Brown <broonie@kernel.org>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Woudstra/dt-bindings-net-airoha-en8811h-Add-en8811h-serdes-polarity/20240207-035021
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240206194751.1901802-3-ericwouds%40gmail.com
-patch subject: [PATCH net-next 2/2] net: phy: air_en8811h: Add the Airoha EN8811H PHY driver
-config: sh-randconfig-r081-20240211 (https://download.01.org/0day-ci/archive/20240211/202402110805.r1KRiKtL-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git regmap-kunit-random-change
+head:   3a0dac62f102669c43510607ddf5f630210bcc6a
+commit: 3a0dac62f102669c43510607ddf5f630210bcc6a [6/6] regmap: kunit: Ensure that changed bytes are actually different
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-061-20240212 (https://download.01.org/0day-ci/archive/20240212/202402121635.CG6PEwhN-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402121635.CG6PEwhN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202402110805.r1KRiKtL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402121635.CG6PEwhN-lkp@intel.com/
 
-smatch warnings:
-drivers/net/phy/air_en8811h.c:560 air_led_hw_control_set() error: testing array offset 'index' after use.
+sparse warnings: (new ones prefixed by >>)
+   drivers/base/regmap/regmap-kunit.c:1038:43: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:1041:43: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:1118:25: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:1118:25: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:1120:25: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:1120:25: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:1187:33: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:1187:33: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:1190:33: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:1190:33: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:1240:28: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:1241:28: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:1243:28: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:1244:28: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:1301:33: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:1301:33: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:1304:33: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:1304:33: sparse: sparse: cast to restricted __le16
+>> drivers/base/regmap/regmap-kunit.c:1322:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __be16 [usertype] @@
+   drivers/base/regmap/regmap-kunit.c:1322:24: sparse:     expected unsigned short
+   drivers/base/regmap/regmap-kunit.c:1322:24: sparse:     got restricted __be16 [usertype]
+>> drivers/base/regmap/regmap-kunit.c:1324:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __le16 [usertype] @@
+   drivers/base/regmap/regmap-kunit.c:1324:24: sparse:     expected unsigned short
+   drivers/base/regmap/regmap-kunit.c:1324:24: sparse:     got restricted __le16 [usertype]
 
-vim +/index +560 drivers/net/phy/air_en8811h.c
+vim +1322 drivers/base/regmap/regmap-kunit.c
 
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  551  static int air_led_hw_control_set(struct phy_device *phydev, u8 index,
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  552  				  unsigned long rules)
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  553  {
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  554  	struct en8811h_priv *priv = phydev->priv;
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  555  	u16 on = 0, blink = 0;
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  556  	int ret;
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  557  
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  558  	priv->led[index].rules = rules;
-                                                         ^^^^^^
-out of bounds
-
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  559  
-3fe47bc0b949e7 Eric Woudstra 2024-02-06 @560  	if (index >= EN8811H_LED_COUNT)
-                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Too late.  priv->led[] has EN8811H_LED_COUNT elements.
-
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  561  		return -EINVAL;
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  562  
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  563  	if (rules & (BIT(TRIGGER_NETDEV_LINK_10)   | BIT(TRIGGER_NETDEV_LINK))) {
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  564  		on |= AIR_PHY_LED_ON_LINK10;
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  565  		if (rules & BIT(TRIGGER_NETDEV_RX))
-3fe47bc0b949e7 Eric Woudstra 2024-02-06  566  			blink |= AIR_PHY_LED_BLINK_10RX;
+d958d97848a660 Ben Wolsieffer 2023-11-02  1264  
+155a6bd6375b58 Mark Brown     2023-06-11  1265  static void raw_sync(struct kunit *test)
+155a6bd6375b58 Mark Brown     2023-06-11  1266  {
+155a6bd6375b58 Mark Brown     2023-06-11  1267  	struct raw_test_types *t = (struct raw_test_types *)test->param_value;
+155a6bd6375b58 Mark Brown     2023-06-11  1268  	struct regmap *map;
+155a6bd6375b58 Mark Brown     2023-06-11  1269  	struct regmap_config config;
+155a6bd6375b58 Mark Brown     2023-06-11  1270  	struct regmap_ram_data *data;
+3a0dac62f10266 Mark Brown     2024-02-09  1271  	u16 val[3];
+155a6bd6375b58 Mark Brown     2023-06-11  1272  	u16 *hw_buf;
+155a6bd6375b58 Mark Brown     2023-06-11  1273  	unsigned int rval;
+155a6bd6375b58 Mark Brown     2023-06-11  1274  	int i;
+155a6bd6375b58 Mark Brown     2023-06-11  1275  
+155a6bd6375b58 Mark Brown     2023-06-11  1276  	config = raw_regmap_config;
+155a6bd6375b58 Mark Brown     2023-06-11  1277  
+155a6bd6375b58 Mark Brown     2023-06-11  1278  	map = gen_raw_regmap(&config, t, &data);
+155a6bd6375b58 Mark Brown     2023-06-11  1279  	KUNIT_ASSERT_FALSE(test, IS_ERR(map));
+155a6bd6375b58 Mark Brown     2023-06-11  1280  	if (IS_ERR(map))
+155a6bd6375b58 Mark Brown     2023-06-11  1281  		return;
+155a6bd6375b58 Mark Brown     2023-06-11  1282  
+155a6bd6375b58 Mark Brown     2023-06-11  1283  	hw_buf = (u16 *)data->vals;
+155a6bd6375b58 Mark Brown     2023-06-11  1284  
+3a0dac62f10266 Mark Brown     2024-02-09  1285  	get_changed_bytes(&hw_buf[2], &val[0], sizeof(val));
+155a6bd6375b58 Mark Brown     2023-06-11  1286  
+155a6bd6375b58 Mark Brown     2023-06-11  1287  	/* Do a regular write and a raw write in cache only mode */
+155a6bd6375b58 Mark Brown     2023-06-11  1288  	regcache_cache_only(map, true);
+3a0dac62f10266 Mark Brown     2024-02-09  1289  	KUNIT_EXPECT_EQ(test, 0, regmap_raw_write(map, 2, val,
+3a0dac62f10266 Mark Brown     2024-02-09  1290  						  sizeof(u16) * 2));
+3a0dac62f10266 Mark Brown     2024-02-09  1291  	KUNIT_EXPECT_EQ(test, 0, regmap_write(map, 4, val[2]));
+155a6bd6375b58 Mark Brown     2023-06-11  1292  
+155a6bd6375b58 Mark Brown     2023-06-11  1293  	/* We should read back the new values, and defaults for the rest */
+155a6bd6375b58 Mark Brown     2023-06-11  1294  	for (i = 0; i < config.max_register + 1; i++) {
+155a6bd6375b58 Mark Brown     2023-06-11  1295  		KUNIT_EXPECT_EQ(test, 0, regmap_read(map, i, &rval));
+155a6bd6375b58 Mark Brown     2023-06-11  1296  
+155a6bd6375b58 Mark Brown     2023-06-11  1297  		switch (i) {
+155a6bd6375b58 Mark Brown     2023-06-11  1298  		case 2:
+155a6bd6375b58 Mark Brown     2023-06-11  1299  		case 3:
+155a6bd6375b58 Mark Brown     2023-06-11  1300  			if (config.val_format_endian == REGMAP_ENDIAN_BIG) {
+155a6bd6375b58 Mark Brown     2023-06-11  1301  				KUNIT_EXPECT_EQ(test, rval,
+3a0dac62f10266 Mark Brown     2024-02-09  1302  						be16_to_cpu(val[i - 2]));
+155a6bd6375b58 Mark Brown     2023-06-11  1303  			} else {
+155a6bd6375b58 Mark Brown     2023-06-11  1304  				KUNIT_EXPECT_EQ(test, rval,
+3a0dac62f10266 Mark Brown     2024-02-09  1305  						le16_to_cpu(val[i - 2]));
+155a6bd6375b58 Mark Brown     2023-06-11  1306  			}
+155a6bd6375b58 Mark Brown     2023-06-11  1307  			break;
+3a0dac62f10266 Mark Brown     2024-02-09  1308  		case 4:
+3a0dac62f10266 Mark Brown     2024-02-09  1309  			KUNIT_EXPECT_EQ(test, rval, val[i - 2]);
+3a0dac62f10266 Mark Brown     2024-02-09  1310  			break;
+155a6bd6375b58 Mark Brown     2023-06-11  1311  		default:
+155a6bd6375b58 Mark Brown     2023-06-11  1312  			KUNIT_EXPECT_EQ(test, config.reg_defaults[i].def, rval);
+155a6bd6375b58 Mark Brown     2023-06-11  1313  			break;
+155a6bd6375b58 Mark Brown     2023-06-11  1314  		}
+155a6bd6375b58 Mark Brown     2023-06-11  1315  	}
+155a6bd6375b58 Mark Brown     2023-06-11  1316  
+3a0dac62f10266 Mark Brown     2024-02-09  1317  	/*
+3a0dac62f10266 Mark Brown     2024-02-09  1318  	 * The value written via _write() was translated by the core,
+3a0dac62f10266 Mark Brown     2024-02-09  1319  	 * translate the original copy for comparison purposes.
+3a0dac62f10266 Mark Brown     2024-02-09  1320  	 */
+3a0dac62f10266 Mark Brown     2024-02-09  1321  	if (config.val_format_endian == REGMAP_ENDIAN_BIG)
+3a0dac62f10266 Mark Brown     2024-02-09 @1322  		val[2] = cpu_to_be16(val[2]);
+3a0dac62f10266 Mark Brown     2024-02-09  1323  	else
+3a0dac62f10266 Mark Brown     2024-02-09 @1324  		val[2] = cpu_to_le16(val[2]);
+3a0dac62f10266 Mark Brown     2024-02-09  1325  	
+155a6bd6375b58 Mark Brown     2023-06-11  1326  	/* The values should not appear in the "hardware" */
+3a0dac62f10266 Mark Brown     2024-02-09  1327  	KUNIT_EXPECT_MEMNEQ(test, &hw_buf[2], &val[0], sizeof(val));
+155a6bd6375b58 Mark Brown     2023-06-11  1328  
+155a6bd6375b58 Mark Brown     2023-06-11  1329  	for (i = 0; i < config.max_register + 1; i++)
+155a6bd6375b58 Mark Brown     2023-06-11  1330  		data->written[i] = false;
+155a6bd6375b58 Mark Brown     2023-06-11  1331  
+155a6bd6375b58 Mark Brown     2023-06-11  1332  	/* Do the sync */
+155a6bd6375b58 Mark Brown     2023-06-11  1333  	regcache_cache_only(map, false);
+155a6bd6375b58 Mark Brown     2023-06-11  1334  	regcache_mark_dirty(map);
+155a6bd6375b58 Mark Brown     2023-06-11  1335  	KUNIT_EXPECT_EQ(test, 0, regcache_sync(map));
+155a6bd6375b58 Mark Brown     2023-06-11  1336  
+155a6bd6375b58 Mark Brown     2023-06-11  1337  	/* The values should now appear in the "hardware" */
+3a0dac62f10266 Mark Brown     2024-02-09  1338  	KUNIT_EXPECT_MEMEQ(test, &hw_buf[2], &val[0], sizeof(val));
+155a6bd6375b58 Mark Brown     2023-06-11  1339  
+155a6bd6375b58 Mark Brown     2023-06-11  1340  	regmap_exit(map);
+155a6bd6375b58 Mark Brown     2023-06-11  1341  }
+155a6bd6375b58 Mark Brown     2023-06-11  1342  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
