@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A5463CB
-	for <oe-kbuild@lists.linux.dev>; Mon, 12 Feb 2024 05:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FB96FAD
+	for <oe-kbuild@lists.linux.dev>; Mon, 12 Feb 2024 06:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707715773; cv=none; b=efO+2sqh2T+9y0rg6J7L5kZAP1TmZTYvaqs+Lcz+sl/66hr7Q3FmOqvp9TgHoB7BUfL3FcKaV61a53ZUncl/vIqAvjhtlRuwYtPwNqZoaDkTVhfr28ph3EJDuMP5Wat46xVYNzSf1MoGVOys6G1Sw3z2argqp6QoUXzDdw+3gSs=
+	t=1707718176; cv=none; b=T2tzuoK9nuvx0H/Egwr6PwDnW8YDUQiVHg6UbhaUZtEHE7NvcBk3SFxJpEy1yiYM8jnApkO+ujRpuyo7rvT1AICdZSvXp/gEHBMfyMQwZuzLInKItb4ifVBO2rDlnLSNs6eTPhUMndgh53cZUBNpRTYEQ8pSi3jULcJ4E8HSeuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707715773; c=relaxed/simple;
-	bh=2Dmg264w7LsApcVk/aaWGKf/+/+1EGUNBDcooAdVI/s=;
+	s=arc-20240116; t=1707718176; c=relaxed/simple;
+	bh=B2sWXXjXtq7nVQsl8QZOMmFmGY0fg/1cDyIkKZ4PCRk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l6ctrXeH47Mqu1m4josXM1zZvdUiQrgAQTIn6M2LvwDzl6AsqdSI7hzo0x/FiA0X6UgW2ivnG+uHm4wzY38ajCXehr9tqqE0ia4KHRjY1on3NnqB/F4E9BPXDJdEE5YSSU0VaGbMIhr+3ze7IFWOPNIIMUWtDA6xhN+BPLQov+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XUWDJDTB; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=syR0wO9OJS0CzdteIWoMkByPJo4LjaAh8RLYSGv4gOGT/JcKXnhKlUKVgZgOmuLr+lSE6azQtqT6i+7hgSifvUBjVf6nyGXWffNVXzROayjVjxiY7FbTyqFL+lnjxLKsyw5EzRN/g1AOyIsc3MxK8Z8zkSG2VwWdIFpnySYTPwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DwEf7vJi; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XUWDJDTB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DwEf7vJi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707715771; x=1739251771;
+  t=1707718174; x=1739254174;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2Dmg264w7LsApcVk/aaWGKf/+/+1EGUNBDcooAdVI/s=;
-  b=XUWDJDTB6+T67H6YV4yPREPg/EOL/h05DnLvzDR2vDiEzXfnvNwinci4
-   cBKQgfjIyPSGEnznJvIuTirQSjAK49st1GMLa8eIGqfHMe8m3jHTLqYD4
-   oF7v25fcispct2CvVlybe4PGi1kSbH3QgpwgK/zc3Y7+bn1tsixEl9qK1
-   Jf+qOOpOk7/Ha+R8fd01A60AE5RMoXyS6qFClU2sMQR4Wf/AasjKhA74C
-   52Fgr6JunWXSA33j6xLRjZlCNATFQzWQ4BZwUgAXEFdJhKMLpdT+J6AoN
-   iruX2OOEK3uzBi5qexYrDHeoaTcCn6iLXdqFAVO9TfNt7EoidtipUbhUu
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="2013874"
+  bh=B2sWXXjXtq7nVQsl8QZOMmFmGY0fg/1cDyIkKZ4PCRk=;
+  b=DwEf7vJiXVw7E1Tbs87GWCxB85IznGFTHHA6HA5PxMsDXt+40fTsxQH8
+   APtQ/7u/taj0qL6AlvbuiDD0Um8RSL8/LYFro5ow7eLtMekZW/Cc1mCoC
+   1WzyHCFbAJpzvCFc3cUtF2l5/0NJ/NcMJpz3KRDOErIEKz/3bip2W9iSN
+   0DlRgLSXEuF+A0iRpd6HLqFFAxTyq0y9bMXjLzzMcQcyuN58GXxgr5fwu
+   wEZE59fhrDf4REq96DYYACkhoEqI22qh/S5HPXu6cnORGiVSYvCkY6L/5
+   852DeWFNyQ1szOUmPnCXhAYSajjepiYsAZNqpW2epfpVntBXKY/VxX/UG
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="1536627"
 X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
-   d="scan'208";a="2013874"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 21:29:30 -0800
+   d="scan'208";a="1536627"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 22:09:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="934993773"
 X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
-   d="scan'208";a="934993773"
+   d="scan'208";a="7164750"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Feb 2024 21:29:30 -0800
+  by orviesa005.jf.intel.com with ESMTP; 11 Feb 2024 22:09:32 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZOsh-0006ws-0L;
-	Mon, 12 Feb 2024 05:29:27 +0000
-Date: Mon, 12 Feb 2024 13:28:29 +0800
+	id 1rZPVR-0006xo-28;
+	Mon, 12 Feb 2024 06:09:29 +0000
+Date: Mon, 12 Feb 2024 14:08:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v3 13/19] power: reset: msm-poweroff: Use
- devm_register_sys_off_handler(RESTART)
-Message-ID: <202402121342.7WgNqBu9-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [tnguy-next-queue:dev-queue 39/50]
+ drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1725:17-18: WARNING
+ opportunity for min()
+Message-ID: <202402121428.DCRg07VQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,99 +59,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "empty line found in static check configure file"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240208170410.67975-14-afd@ti.com>
-References: <20240208170410.67975-14-afd@ti.com>
-TO: Andrew Davis <afd@ti.com>
-TO: Sebastian Reichel <sre@kernel.org>
-TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-TO: Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-TO: Florian Fainelli <florian.fainelli@broadcom.com>
-TO: Ray Jui <rjui@broadcom.com>
-TO: Scott Branden <sbranden@broadcom.com>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konrad.dybcio@linaro.org>
-TO: Sean Wang <sean.wang@mediatek.com>
-TO: Matthias Brugger <matthias.bgg@gmail.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-CC: linux-pm@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-actions@lists.infradead.org
-CC: linux-arm-msm@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-mediatek@lists.infradead.org
-CC: Andrew Davis <afd@ti.com>
+CC: Intel Wired LAN <intel-wired-lan@lists.osuosl.org>
+TO: Alan Brady <alan.brady@intel.com>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+CC: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+CC: Igor Bagnucki <igor.bagnucki@intel.com>
+CC: Joshua Hay <joshua.a.hay@intel.com>
 
-Hi Andrew,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on sre-power-supply/for-next]
-[also build test WARNING on mani-mhi/mhi-next soc/for-next linus/master v6.8-rc4 next-20240209]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Davis/power-reset-atc260x-poweroff-Use-devm_register_sys_off_handler-RESTART/20240209-011655
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
-patch link:    https://lore.kernel.org/r/20240208170410.67975-14-afd%40ti.com
-patch subject: [PATCH v3 13/19] power: reset: msm-poweroff: Use devm_register_sys_off_handler(RESTART)
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm64-randconfig-r131-20240211 (https://download.01.org/0day-ci/archive/20240212/202402121342.7WgNqBu9-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240212/202402121342.7WgNqBu9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+head:   7c9b8de2aec60f9217e04a6b13f325b81aec00bd
+commit: 5575e30f70ae83f6fc6fcd060c729fae02c9db77 [39/50] idpf: refactor vport virtchnl messages
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: mips-randconfig-r064-20240212 (https://download.01.org/0day-ci/archive/20240212/202402121428.DCRg07VQ-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202402121342.7WgNqBu9-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202402121428.DCRg07VQ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/power/reset/msm-poweroff.c:18:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *msm_ps_hold @@     got void *cb_data @@
-   drivers/power/reset/msm-poweroff.c:18:41: sparse:     expected void [noderef] __iomem *msm_ps_hold
-   drivers/power/reset/msm-poweroff.c:18:41: sparse:     got void *cb_data
->> drivers/power/reset/msm-poweroff.c:33:61: sparse: sparse: incorrect type in argument 5 (different address spaces) @@     expected void *cb_data @@     got void [noderef] __iomem *msm_ps_hold @@
-   drivers/power/reset/msm-poweroff.c:33:61: sparse:     expected void *cb_data
-   drivers/power/reset/msm-poweroff.c:33:61: sparse:     got void [noderef] __iomem *msm_ps_hold
-   drivers/power/reset/msm-poweroff.c:37:39: sparse: sparse: incorrect type in argument 5 (different address spaces) @@     expected void *cb_data @@     got void [noderef] __iomem *msm_ps_hold @@
-   drivers/power/reset/msm-poweroff.c:37:39: sparse:     expected void *cb_data
-   drivers/power/reset/msm-poweroff.c:37:39: sparse:     got void [noderef] __iomem *msm_ps_hold
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1725:17-18: WARNING opportunity for min()
+   drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1773:17-18: WARNING opportunity for min()
+   drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1749:17-18: WARNING opportunity for min()
 
-vim +18 drivers/power/reset/msm-poweroff.c
+vim +1725 drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
 
-78be3176c4335b Abhimanyu Kapur 2013-07-30  15  
-bc460fab0b719d Andrew Davis    2024-02-08  16  static int do_msm_poweroff(struct sys_off_data *data)
-78be3176c4335b Abhimanyu Kapur 2013-07-30  17  {
-bc460fab0b719d Andrew Davis    2024-02-08 @18  	void __iomem *msm_ps_hold = data->cb_data;
-bc460fab0b719d Andrew Davis    2024-02-08  19  
-78be3176c4335b Abhimanyu Kapur 2013-07-30  20  	writel(0, msm_ps_hold);
-78be3176c4335b Abhimanyu Kapur 2013-07-30  21  	mdelay(10000);
-18a702e0de9879 Pramod Gurav    2014-09-25  22  
-18a702e0de9879 Pramod Gurav    2014-09-25  23  	return NOTIFY_DONE;
-78be3176c4335b Abhimanyu Kapur 2013-07-30  24  }
-78be3176c4335b Abhimanyu Kapur 2013-07-30  25  
-78be3176c4335b Abhimanyu Kapur 2013-07-30  26  static int msm_restart_probe(struct platform_device *pdev)
-78be3176c4335b Abhimanyu Kapur 2013-07-30  27  {
-bc460fab0b719d Andrew Davis    2024-02-08  28  	void __iomem *msm_ps_hold = devm_platform_ioremap_resource(pdev, 0);
-78be3176c4335b Abhimanyu Kapur 2013-07-30  29  	if (IS_ERR(msm_ps_hold))
-78be3176c4335b Abhimanyu Kapur 2013-07-30  30  		return PTR_ERR(msm_ps_hold);
-78be3176c4335b Abhimanyu Kapur 2013-07-30  31  
-bc460fab0b719d Andrew Davis    2024-02-08  32  	devm_register_sys_off_handler(&pdev->dev, SYS_OFF_MODE_RESTART,
-bc460fab0b719d Andrew Davis    2024-02-08 @33  				      128, do_msm_poweroff, msm_ps_hold);
-18a702e0de9879 Pramod Gurav    2014-09-25  34  
-521ef776c49589 Andrew Davis    2024-02-08  35  	devm_register_sys_off_handler(&pdev->dev, SYS_OFF_MODE_POWER_OFF,
-521ef776c49589 Andrew Davis    2024-02-08  36  				      SYS_OFF_PRIO_DEFAULT, do_msm_poweroff,
-521ef776c49589 Andrew Davis    2024-02-08  37  				      msm_ps_hold);
-18a702e0de9879 Pramod Gurav    2014-09-25  38  
-78be3176c4335b Abhimanyu Kapur 2013-07-30  39  	return 0;
-78be3176c4335b Abhimanyu Kapur 2013-07-30  40  }
-78be3176c4335b Abhimanyu Kapur 2013-07-30  41  
+ce1b75d0635ce6 Pavan Kumar Linga 2023-08-07  1703  
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1704  /**
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1705   * idpf_send_destroy_vport_msg - Send virtchnl destroy vport message
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1706   * @vport: virtual port data structure
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1707   *
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1708   * Send virtchnl destroy vport message.  Returns 0 on success, negative on
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1709   * failure.
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1710   */
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1711  int idpf_send_destroy_vport_msg(struct idpf_vport *vport)
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1712  {
+5575e30f70ae83 Alan Brady        2024-02-05  1713  	struct idpf_vc_xn_params xn_params = {};
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1714  	struct virtchnl2_vport v_id;
+5575e30f70ae83 Alan Brady        2024-02-05  1715  	ssize_t reply_sz;
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1716  
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1717  	v_id.vport_id = cpu_to_le32(vport->vport_id);
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1718  
+5575e30f70ae83 Alan Brady        2024-02-05  1719  	xn_params.vc_op = VIRTCHNL2_OP_DESTROY_VPORT;
+5575e30f70ae83 Alan Brady        2024-02-05  1720  	xn_params.send_buf.iov_base = &v_id;
+5575e30f70ae83 Alan Brady        2024-02-05  1721  	xn_params.send_buf.iov_len = sizeof(v_id);
+5575e30f70ae83 Alan Brady        2024-02-05  1722  	xn_params.timeout_ms = IDPF_VC_XN_MIN_TIMEOUT_MSEC;
+5575e30f70ae83 Alan Brady        2024-02-05  1723  	reply_sz = idpf_vc_xn_exec(vport->adapter, xn_params);
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1724  
+5575e30f70ae83 Alan Brady        2024-02-05 @1725  	return reply_sz < 0 ? reply_sz : 0;
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1726  }
+0fe45467a1041e Pavan Kumar Linga 2023-08-07  1727  
 
 -- 
 0-DAY CI Kernel Test Service
