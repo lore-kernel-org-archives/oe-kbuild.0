@@ -1,54 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A752B136985
-	for <oe-kbuild@lists.linux.dev>; Thu, 15 Feb 2024 20:37:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9DA13B299
+	for <oe-kbuild@lists.linux.dev>; Thu, 15 Feb 2024 22:55:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708029469; cv=none; b=lJ5aSG5w45po5tPK6kn0ZbvknkSOpYBzVgXLacfNgAGiMoyu14iJVMJUjMWQkmrRGOyEeLwSrUm7VJIfLrbRGJouh9vN4miDMktmhsBC2kpBBCy7b5m/HaTaJJW/lVp0qzaPJM0As6cW1saygkSsHmi58192G5/ZSvWM8L8Oq8M=
+	t=1708037729; cv=none; b=iS5nXQ0MlbaEyGkteHwFl7aRtMI/VG05luw2ewSBlONHzr3LmbkV0ovsnlLG8t4eH0UBnOgVBoqaGLcI3jEVhD+6zcDOsoCnGSApLwnJMEh7fcern0bNozgT+U9NCB0WOv5DJ5Da1kGMpUBp9xMvBTHLu5TYKG39YC0G70D+2uA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708029469; c=relaxed/simple;
-	bh=klwBNZSPu93A6XGdrVx8UgEHkCIo6QTP5IZJME9maoc=;
+	s=arc-20240116; t=1708037729; c=relaxed/simple;
+	bh=N8WlqbyTFc6WgR9qo3Hez1EhqtibD3NZusA7bcujCG8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p/5Oy9EpCfOpsu3OVz3cJxxAM/5PyqCUvzEa5kU0Olkd3czQ2g2dqfEgMBbPL13KDyquzzz5OysBprOI5xpl18PQgIE6icl/xmNf9FM0aNmkhKXXPmVpmN/YvYiJ/ZRBfAkv+LnsDhatAyi+gsVkyj9Qq3AX0qgUE3/RXHEVb7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AijiXXfU; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=BFf+qIsvxoHYxBsBWz7l7SUv3BS5hJUDppY/ovmm678G3b7JtYSWWVKGXGnXRXu9bvWQHd0y+5PYe/4+qfdHSMGB294pCZxLSFdDOhXZg3fe1fEbRDVUPG4fm5E0rQo44d+v7AHOgvwkfMzZ/7pZJ/1GthSgRjml+MBoeuz7A7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Us5iKJbu; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AijiXXfU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Us5iKJbu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708029468; x=1739565468;
+  t=1708037727; x=1739573727;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=klwBNZSPu93A6XGdrVx8UgEHkCIo6QTP5IZJME9maoc=;
-  b=AijiXXfU3e27OKPY/INCZ2CZ4ha1HX83deEYVXGaWsyx1XsO9i8aRwKL
-   A1w6TTHVVNZp9l1+K/JkM+SQkJrYvy7RGZzpPXlkoaaD5nOFVvtREZk2+
-   Td3S6Ua0mRnGC9Vg2WBABvv3PuBb0DEagurhylRFvPu6NPa54mc7Il1RA
-   h0q7ONmewuCkTo1rgAo/AKjqVI3Idsai/2/8NQQDK63TppLlVkl7ee5uK
-   W29IWMdDHSMNASDv0yb/mgub1ES4sSgiP9m7Z/ap/wICcLG2CYXQQtL/2
-   6vpRJTCGZruTQD0TKFIyJbeVEv6ynYZA2m/1n0VvZssK2t3R2GiQWovH5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="12861700"
+  bh=N8WlqbyTFc6WgR9qo3Hez1EhqtibD3NZusA7bcujCG8=;
+  b=Us5iKJbuFiqmKHauzKKqc6uV2GBCjHg3jxYckkXP5fzcNVaNXMvUx3Po
+   wvbwsUzT11h57UIm1D7d28aPPgAc4M1HgPce/hHKqBAQqiBKgcaccQHM1
+   u4V1RLpvOwQ6bBEqLNFqgawcJnC+6YxUr5O7POW+OqrE9hIcHk1eurCO2
+   ppHQaZVQQPaxk7G/SgqKMuBkO0MqcNasiAY+iagLkvtn8X6PV7ZmV+SFd
+   lkQd9iorQ3Es/NhqLnsfhIyOrQSksuFX7/785gQhlkMeyhbi8LtgRh7ZP
+   hDZVmyDNPafgYCMIP7XM62ihJFGBgtuPkY+kULvooKgPGoytaWrYTJMuE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2012826"
 X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; 
-   d="scan'208";a="12861700"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 12:37:46 -0800
+   d="scan'208";a="2012826"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 14:55:25 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; 
-   d="scan'208";a="3608746"
+   d="scan'208";a="34724595"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 15 Feb 2024 12:37:43 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 15 Feb 2024 14:55:23 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1raiUG-0000ku-3A;
-	Thu, 15 Feb 2024 20:37:40 +0000
-Date: Fri, 16 Feb 2024 04:37:09 +0800
+	id 1rakdV-0000pA-26;
+	Thu, 15 Feb 2024 22:55:21 +0000
+Date: Fri, 16 Feb 2024 06:54:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [cel:simple-offset-maple 5/7] lib/test_maple_tree.c:3612
- alloc_cyclic_testing() warn: sleeping in atomic context
-Message-ID: <202402160419.2pdB2GFG-lkp@intel.com>
+Subject: Re: [PATCH v3 17/35] mm: enable page allocation tagging
+Message-ID: <202402160659.khaz4wMj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,68 +59,170 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-CC: Chuck Lever <chuck.lever@oracle.com>
+In-Reply-To: <20240212213922.783301-18-surenb@google.com>
+References: <20240212213922.783301-18-surenb@google.com>
+TO: Suren Baghdasaryan <surenb@google.com>
+TO: akpm@linux-foundation.org
+CC: kent.overstreet@linux.dev
+CC: mhocko@suse.com
+CC: vbabka@suse.cz
+CC: hannes@cmpxchg.org
+CC: roman.gushchin@linux.dev
+CC: mgorman@suse.de
+CC: dave@stgolabs.net
+CC: willy@infradead.org
+CC: liam.howlett@oracle.com
+CC: corbet@lwn.net
+CC: void@manifault.com
+CC: peterz@infradead.org
+CC: juri.lelli@redhat.com
+CC: catalin.marinas@arm.com
+CC: will@kernel.org
+CC: arnd@arndb.de
+CC: tglx@linutronix.de
+CC: mingo@redhat.com
+CC: dave.hansen@linux.intel.com
+CC: x86@kernel.org
+CC: peterx@redhat.com
+CC: david@redhat.com
+CC: axboe@kernel.dk
+CC: mcgrof@kernel.org
+CC: masahiroy@kernel.org
+CC: nathan@kernel.org
+CC: dennis@kernel.org
+CC: tj@kernel.org
+CC: muchun.song@linux.dev
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux simple-offset-maple
-head:   380438ec8aea040862920a4abd295062125939fe
-commit: c9d26c93c59232dcd560b8275e9c2a7f058c9a39 [5/7] test_maple_tree: testing the cyclic allocation
-:::::: branch date: 4 hours ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20240214 (https://download.01.org/0day-ci/archive/20240216/202402160419.2pdB2GFG-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+Hi Suren,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
+[also build test WARNING on linus/master v6.8-rc4]
+[cannot apply to akpm-mm/mm-everything vbabka-slab/for-next next-20240215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan/lib-string_helpers-Add-flags-param-to-string_get_size/20240213-054335
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20240212213922.783301-18-surenb%40google.com
+patch subject: [PATCH v3 17/35] mm: enable page allocation tagging
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: s390-randconfig-r071-20240213 (https://download.01.org/0day-ci/archive/20240216/202402160659.khaz4wMj-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project c08b90c50bcac9f3f563c79491c8dbcbe7c3b574)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202402160419.2pdB2GFG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402160659.khaz4wMj-lkp@intel.com/
 
 smatch warnings:
-lib/test_maple_tree.c:3612 alloc_cyclic_testing() warn: sleeping in atomic context
+mm/page_alloc.c:4502 alloc_pages_bulk_noprof() error: we previously assumed 'page_array' could be null (see line 4481)
 
-vim +3612 lib/test_maple_tree.c
+vim +/page_array +4502 mm/page_alloc.c
 
-eb2e817f38cafb Liam R. Howlett 2023-05-18  3601  
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3602  static noinline void __init alloc_cyclic_testing(struct maple_tree *mt)
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3603  {
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3604  	unsigned long location;
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3605  	unsigned long next;
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3606  	int ret = 0;
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3607  	MA_STATE(mas, mt, 0, 0);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3608  
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3609  	next = 0;
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3610  	mtree_lock(mt);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3611  	for (int i = 0; i < 100; i++) {
-c9d26c93c59232 Liam R. Howlett 2024-02-13 @3612  		mas_alloc_cyclic(&mas, &location, mt, 2, ULONG_MAX, &next, GFP_KERNEL);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3613  		MAS_BUG_ON(&mas, i != location - 2);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3614  		MAS_BUG_ON(&mas, mas.index != location);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3615  		MAS_BUG_ON(&mas, mas.last != location);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3616  		MAS_BUG_ON(&mas, i != next - 3);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3617  	}
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3618  
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3619  	mtree_unlock(mt);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3620  	mtree_destroy(mt);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3621  	next = 0;
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3622  	mt_init_flags(mt, MT_FLAGS_ALLOC_RANGE);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3623  	for (int i = 0; i < 100; i++) {
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3624  		mtree_alloc_cyclic(mt, &location, mt, 2, ULONG_MAX, &next, GFP_KERNEL);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3625  		MT_BUG_ON(mt, i != location - 2);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3626  		MT_BUG_ON(mt, i != next - 3);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3627  		MT_BUG_ON(mt, mtree_load(mt, location) != mt);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3628  	}
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3629  
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3630  	mtree_destroy(mt);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3631  	/* Overflow test */
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3632  	next = ULONG_MAX - 1;
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3633  	ret = mtree_alloc_cyclic(mt, &location, mt, 2, ULONG_MAX, &next, GFP_KERNEL);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3634  	MT_BUG_ON(mt, ret != 0);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3635  	ret = mtree_alloc_cyclic(mt, &location, mt, 2, ULONG_MAX, &next, GFP_KERNEL);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3636  	MT_BUG_ON(mt, ret != 0);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3637  	ret = mtree_alloc_cyclic(mt, &location, mt, 2, ULONG_MAX, &next, GFP_KERNEL);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3638  	MT_BUG_ON(mt, ret != 1);
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3639  }
-c9d26c93c59232 Liam R. Howlett 2024-02-13  3640  
+187ad460b8413e Mel Gorman             2021-07-14  4433  
+387ba26fb1cb9b Mel Gorman             2021-04-29  4434  	/* May set ALLOC_NOFRAGMENT, fragmentation will return 1 page. */
+387ba26fb1cb9b Mel Gorman             2021-04-29  4435  	gfp &= gfp_allowed_mask;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4436  	alloc_gfp = gfp;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4437  	if (!prepare_alloc_pages(gfp, 0, preferred_nid, nodemask, &ac, &alloc_gfp, &alloc_flags))
+061478438d0477 Chuck Lever            2021-07-14  4438  		goto out;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4439  	gfp = alloc_gfp;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4440  
+387ba26fb1cb9b Mel Gorman             2021-04-29  4441  	/* Find an allowed local zone that meets the low watermark. */
+387ba26fb1cb9b Mel Gorman             2021-04-29  4442  	for_each_zone_zonelist_nodemask(zone, z, ac.zonelist, ac.highest_zoneidx, ac.nodemask) {
+387ba26fb1cb9b Mel Gorman             2021-04-29  4443  		unsigned long mark;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4444  
+387ba26fb1cb9b Mel Gorman             2021-04-29  4445  		if (cpusets_enabled() && (alloc_flags & ALLOC_CPUSET) &&
+387ba26fb1cb9b Mel Gorman             2021-04-29  4446  		    !__cpuset_zone_allowed(zone, gfp)) {
+387ba26fb1cb9b Mel Gorman             2021-04-29  4447  			continue;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4448  		}
+387ba26fb1cb9b Mel Gorman             2021-04-29  4449  
+387ba26fb1cb9b Mel Gorman             2021-04-29  4450  		if (nr_online_nodes > 1 && zone != ac.preferred_zoneref->zone &&
+387ba26fb1cb9b Mel Gorman             2021-04-29  4451  		    zone_to_nid(zone) != zone_to_nid(ac.preferred_zoneref->zone)) {
+387ba26fb1cb9b Mel Gorman             2021-04-29  4452  			goto failed;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4453  		}
+387ba26fb1cb9b Mel Gorman             2021-04-29  4454  
+387ba26fb1cb9b Mel Gorman             2021-04-29  4455  		mark = wmark_pages(zone, alloc_flags & ALLOC_WMARK_MASK) + nr_pages;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4456  		if (zone_watermark_fast(zone, 0,  mark,
+387ba26fb1cb9b Mel Gorman             2021-04-29  4457  				zonelist_zone_idx(ac.preferred_zoneref),
+387ba26fb1cb9b Mel Gorman             2021-04-29  4458  				alloc_flags, gfp)) {
+387ba26fb1cb9b Mel Gorman             2021-04-29  4459  			break;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4460  		}
+387ba26fb1cb9b Mel Gorman             2021-04-29  4461  	}
+387ba26fb1cb9b Mel Gorman             2021-04-29  4462  
+387ba26fb1cb9b Mel Gorman             2021-04-29  4463  	/*
+387ba26fb1cb9b Mel Gorman             2021-04-29  4464  	 * If there are no allowed local zones that meets the watermarks then
+387ba26fb1cb9b Mel Gorman             2021-04-29  4465  	 * try to allocate a single page and reclaim if necessary.
+387ba26fb1cb9b Mel Gorman             2021-04-29  4466  	 */
+ce76f9a1d9a21c Jesper Dangaard Brouer 2021-04-29  4467  	if (unlikely(!zone))
+387ba26fb1cb9b Mel Gorman             2021-04-29  4468  		goto failed;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4469  
+5749077415994e Mel Gorman             2022-11-18  4470  	/* spin_trylock may fail due to a parallel drain or IRQ reentrancy. */
+4b23a68f953628 Mel Gorman             2022-06-24  4471  	pcp_trylock_prepare(UP_flags);
+5749077415994e Mel Gorman             2022-11-18  4472  	pcp = pcp_spin_trylock(zone->per_cpu_pageset);
+01b44456a7aa7c Mel Gorman             2022-06-24  4473  	if (!pcp)
+4b23a68f953628 Mel Gorman             2022-06-24  4474  		goto failed_irq;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4475  
+387ba26fb1cb9b Mel Gorman             2021-04-29  4476  	/* Attempt the batch allocation */
+44042b4498728f Mel Gorman             2021-06-28  4477  	pcp_list = &pcp->lists[order_to_pindex(ac.migratetype, 0)];
+0f87d9d30f2139 Mel Gorman             2021-04-29  4478  	while (nr_populated < nr_pages) {
+0f87d9d30f2139 Mel Gorman             2021-04-29  4479  
+0f87d9d30f2139 Mel Gorman             2021-04-29  4480  		/* Skip existing pages */
+0f87d9d30f2139 Mel Gorman             2021-04-29 @4481  		if (page_array && page_array[nr_populated]) {
+0f87d9d30f2139 Mel Gorman             2021-04-29  4482  			nr_populated++;
+0f87d9d30f2139 Mel Gorman             2021-04-29  4483  			continue;
+0f87d9d30f2139 Mel Gorman             2021-04-29  4484  		}
+0f87d9d30f2139 Mel Gorman             2021-04-29  4485  
+44042b4498728f Mel Gorman             2021-06-28  4486  		page = __rmqueue_pcplist(zone, 0, ac.migratetype, alloc_flags,
+387ba26fb1cb9b Mel Gorman             2021-04-29  4487  								pcp, pcp_list);
+ce76f9a1d9a21c Jesper Dangaard Brouer 2021-04-29  4488  		if (unlikely(!page)) {
+c572e4888ad1be Mel Gorman             2022-05-26  4489  			/* Try and allocate at least one page */
+4b23a68f953628 Mel Gorman             2022-06-24  4490  			if (!nr_account) {
+5749077415994e Mel Gorman             2022-11-18  4491  				pcp_spin_unlock(pcp);
+387ba26fb1cb9b Mel Gorman             2021-04-29  4492  				goto failed_irq;
+4b23a68f953628 Mel Gorman             2022-06-24  4493  			}
+387ba26fb1cb9b Mel Gorman             2021-04-29  4494  			break;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4495  		}
+3e23060b2d0b7e Mel Gorman             2021-06-28  4496  		nr_account++;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4497  
+387ba26fb1cb9b Mel Gorman             2021-04-29  4498  		prep_new_page(page, 0, gfp, 0);
+0f87d9d30f2139 Mel Gorman             2021-04-29  4499  		if (page_list)
+387ba26fb1cb9b Mel Gorman             2021-04-29  4500  			list_add(&page->lru, page_list);
+0f87d9d30f2139 Mel Gorman             2021-04-29  4501  		else
+0f87d9d30f2139 Mel Gorman             2021-04-29 @4502  			page_array[nr_populated] = page;
+0f87d9d30f2139 Mel Gorman             2021-04-29  4503  		nr_populated++;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4504  	}
+387ba26fb1cb9b Mel Gorman             2021-04-29  4505  
+5749077415994e Mel Gorman             2022-11-18  4506  	pcp_spin_unlock(pcp);
+4b23a68f953628 Mel Gorman             2022-06-24  4507  	pcp_trylock_finish(UP_flags);
+43c95bcc51e4e7 Mel Gorman             2021-06-28  4508  
+3e23060b2d0b7e Mel Gorman             2021-06-28  4509  	__count_zid_vm_events(PGALLOC, zone_idx(zone), nr_account);
+3e23060b2d0b7e Mel Gorman             2021-06-28  4510  	zone_statistics(ac.preferred_zoneref->zone, zone, nr_account);
+387ba26fb1cb9b Mel Gorman             2021-04-29  4511  
+061478438d0477 Chuck Lever            2021-07-14  4512  out:
+0f87d9d30f2139 Mel Gorman             2021-04-29  4513  	return nr_populated;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4514  
+387ba26fb1cb9b Mel Gorman             2021-04-29  4515  failed_irq:
+4b23a68f953628 Mel Gorman             2022-06-24  4516  	pcp_trylock_finish(UP_flags);
+387ba26fb1cb9b Mel Gorman             2021-04-29  4517  
+387ba26fb1cb9b Mel Gorman             2021-04-29  4518  failed:
+32217ecdde79fa Suren Baghdasaryan     2024-02-12  4519  	page = __alloc_pages_noprof(gfp, 0, preferred_nid, nodemask);
+387ba26fb1cb9b Mel Gorman             2021-04-29  4520  	if (page) {
+0f87d9d30f2139 Mel Gorman             2021-04-29  4521  		if (page_list)
+387ba26fb1cb9b Mel Gorman             2021-04-29  4522  			list_add(&page->lru, page_list);
+0f87d9d30f2139 Mel Gorman             2021-04-29  4523  		else
+0f87d9d30f2139 Mel Gorman             2021-04-29  4524  			page_array[nr_populated] = page;
+0f87d9d30f2139 Mel Gorman             2021-04-29  4525  		nr_populated++;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4526  	}
+387ba26fb1cb9b Mel Gorman             2021-04-29  4527  
+061478438d0477 Chuck Lever            2021-07-14  4528  	goto out;
+387ba26fb1cb9b Mel Gorman             2021-04-29  4529  }
+32217ecdde79fa Suren Baghdasaryan     2024-02-12  4530  EXPORT_SYMBOL_GPL(alloc_pages_bulk_noprof);
+387ba26fb1cb9b Mel Gorman             2021-04-29  4531  
 
 -- 
 0-DAY CI Kernel Test Service
