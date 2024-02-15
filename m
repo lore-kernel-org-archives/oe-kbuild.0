@@ -1,57 +1,54 @@
-Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684DC8487;
-	Wed, 14 Feb 2024 09:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.50.62.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A752B136985
+	for <oe-kbuild@lists.linux.dev>; Thu, 15 Feb 2024 20:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707901454; cv=none; b=Vx6m8AMU92KSp/GwH3Ch1Bw8GGs7YO937vqYah/sHTKITxLnn+T/WjG6/YgzaVsvCsU9fQ8pE/0vnsQDlFAsOLg2e4NNIhVc9/OH4IE7nqQIeIb++ZAfCvKKfUM3hdpwaLPwip12STEPAPIC7zIud3m/hCs/Eukuq/ck6nY02RU=
+	t=1708029469; cv=none; b=lJ5aSG5w45po5tPK6kn0ZbvknkSOpYBzVgXLacfNgAGiMoyu14iJVMJUjMWQkmrRGOyEeLwSrUm7VJIfLrbRGJouh9vN4miDMktmhsBC2kpBBCy7b5m/HaTaJJW/lVp0qzaPJM0As6cW1saygkSsHmi58192G5/ZSvWM8L8Oq8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707901454; c=relaxed/simple;
-	bh=vuhdcyX9bdUXLdOFBo7MVnrhvcQRIzTGTAMuBGPXqzw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V2EgUMaH6y5x7YGitj+6p+0R1yNKu2DksbWZQGATCjNBvQm1+WnCB9IkaB+gWxChmdPTNtfoS2C4HLZYnmfE7Go0lYf04LLd5CR6kbQXwMcFQ0XHLy/Rr1xAv1FrEiWvEIOqU99Qu8JQqlkWI5qHFhfpg1Yl0CJ5tcPd5Y0QEuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomide.com; spf=fail smtp.mailfrom=atomide.com; dkim=pass (2048-bit key) header.d=atomide.com header.i=@atomide.com header.b=EtEA/X/K; arc=none smtp.client-ip=74.50.62.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomide.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=atomide.com
+	s=arc-20240116; t=1708029469; c=relaxed/simple;
+	bh=klwBNZSPu93A6XGdrVx8UgEHkCIo6QTP5IZJME9maoc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=p/5Oy9EpCfOpsu3OVz3cJxxAM/5PyqCUvzEa5kU0Olkd3czQ2g2dqfEgMBbPL13KDyquzzz5OysBprOI5xpl18PQgIE6icl/xmNf9FM0aNmkhKXXPmVpmN/YvYiJ/ZRBfAkv+LnsDhatAyi+gsVkyj9Qq3AX0qgUE3/RXHEVb7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AijiXXfU; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=atomide.com header.i=@atomide.com header.b="EtEA/X/K"
-Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
-	by mail5.25mail.st (Postfix) with ESMTPSA id 93C0960434;
-	Wed, 14 Feb 2024 09:03:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
-	s=25mailst; t=1707901451;
-	bh=vuhdcyX9bdUXLdOFBo7MVnrhvcQRIzTGTAMuBGPXqzw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EtEA/X/KaGOLt0Dcxqqk6BkYl7IAPJDT+yjncICRRWCMauQ5Vy6n3uxvw1TRyyNqp
-	 FVChJ5DY6p/gbhfImT/ARj2n81ay/15F/VOyKugtqlOLYjVM505iPpngN7Mawvi2Ij
-	 xw0SCEebj7xj3oXYKJcZCHLZvtT+4uJfJGxTIH7VQ2UIA796eb7y1Nic/18LbNQnQV
-	 oKoze+/XZWn1LIEuL5RJIcoJpnzaftwif21JobW8M0KxvODhq2zkUD/Y/K5glNlVRt
-	 cV+rPkSfazfB8djLJ4GUKp0uscWJ4Y8BzZ1Z4b1+OuKaUxLdmM7WHUYx6FJB+mYi3d
-	 kA6cbtkDKBaiQ==
-Date: Wed, 14 Feb 2024 11:03:30 +0200
-From: Tony Lindgren <tony@atomide.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	"David S . Miller" <davem@davemloft.net>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Dhruva Gole <d-gole@ti.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Vignesh Raghavendra <vigneshr@ti.com>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org
-Subject: Re: [PATCH v6 4/6] serial: core: Add support for DEVNAME:0.0 style
- naming for kernel console
-Message-ID: <20240214090330.GR52537@atomide.com>
-References: <20240213084545.40617-5-tony@atomide.com>
- <aa4b1b2e-50b8-419c-bf0d-526711f1aaea@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AijiXXfU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708029468; x=1739565468;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=klwBNZSPu93A6XGdrVx8UgEHkCIo6QTP5IZJME9maoc=;
+  b=AijiXXfU3e27OKPY/INCZ2CZ4ha1HX83deEYVXGaWsyx1XsO9i8aRwKL
+   A1w6TTHVVNZp9l1+K/JkM+SQkJrYvy7RGZzpPXlkoaaD5nOFVvtREZk2+
+   Td3S6Ua0mRnGC9Vg2WBABvv3PuBb0DEagurhylRFvPu6NPa54mc7Il1RA
+   h0q7ONmewuCkTo1rgAo/AKjqVI3Idsai/2/8NQQDK63TppLlVkl7ee5uK
+   W29IWMdDHSMNASDv0yb/mgub1ES4sSgiP9m7Z/ap/wICcLG2CYXQQtL/2
+   6vpRJTCGZruTQD0TKFIyJbeVEv6ynYZA2m/1n0VvZssK2t3R2GiQWovH5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="12861700"
+X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; 
+   d="scan'208";a="12861700"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 12:37:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; 
+   d="scan'208";a="3608746"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 15 Feb 2024 12:37:43 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1raiUG-0000ku-3A;
+	Thu, 15 Feb 2024 20:37:40 +0000
+Date: Fri, 16 Feb 2024 04:37:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [cel:simple-offset-maple 5/7] lib/test_maple_tree.c:3612
+ alloc_cyclic_testing() warn: sleeping in atomic context
+Message-ID: <202402160419.2pdB2GFG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,22 +57,72 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aa4b1b2e-50b8-419c-bf0d-526711f1aaea@moroto.mountain>
 
-* Dan Carpenter <dan.carpenter@linaro.org> [240214 09:00]:
-> a2020a9ccacd63 Tony Lindgren 2024-02-13  252  int serial_base_add_preferred_console(struct uart_driver *drv,
-> a2020a9ccacd63 Tony Lindgren 2024-02-13  253  				      struct uart_port *port)
-> a2020a9ccacd63 Tony Lindgren 2024-02-13  254  {
-> a2020a9ccacd63 Tony Lindgren 2024-02-13 @255  	const char *port_match __free(kfree);
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+CC: Chuck Lever <chuck.lever@oracle.com>
 
-Thanks also noted by Andy.
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux simple-offset-maple
+head:   380438ec8aea040862920a4abd295062125939fe
+commit: c9d26c93c59232dcd560b8275e9c2a7f058c9a39 [5/7] test_maple_tree: testing the cyclic allocation
+:::::: branch date: 4 hours ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20240214 (https://download.01.org/0day-ci/archive/20240216/202402160419.2pdB2GFG-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
-> Someone should add this to checkpatch.  These always need to be
-> initialized to NULL.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202402160419.2pdB2GFG-lkp@intel.com/
 
-Yes good idea. These are easy to miss especially if the code path changes
-for whatever reason.
+smatch warnings:
+lib/test_maple_tree.c:3612 alloc_cyclic_testing() warn: sleeping in atomic context
 
-Regards,
+vim +3612 lib/test_maple_tree.c
 
-Tony
+eb2e817f38cafb Liam R. Howlett 2023-05-18  3601  
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3602  static noinline void __init alloc_cyclic_testing(struct maple_tree *mt)
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3603  {
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3604  	unsigned long location;
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3605  	unsigned long next;
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3606  	int ret = 0;
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3607  	MA_STATE(mas, mt, 0, 0);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3608  
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3609  	next = 0;
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3610  	mtree_lock(mt);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3611  	for (int i = 0; i < 100; i++) {
+c9d26c93c59232 Liam R. Howlett 2024-02-13 @3612  		mas_alloc_cyclic(&mas, &location, mt, 2, ULONG_MAX, &next, GFP_KERNEL);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3613  		MAS_BUG_ON(&mas, i != location - 2);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3614  		MAS_BUG_ON(&mas, mas.index != location);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3615  		MAS_BUG_ON(&mas, mas.last != location);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3616  		MAS_BUG_ON(&mas, i != next - 3);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3617  	}
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3618  
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3619  	mtree_unlock(mt);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3620  	mtree_destroy(mt);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3621  	next = 0;
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3622  	mt_init_flags(mt, MT_FLAGS_ALLOC_RANGE);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3623  	for (int i = 0; i < 100; i++) {
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3624  		mtree_alloc_cyclic(mt, &location, mt, 2, ULONG_MAX, &next, GFP_KERNEL);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3625  		MT_BUG_ON(mt, i != location - 2);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3626  		MT_BUG_ON(mt, i != next - 3);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3627  		MT_BUG_ON(mt, mtree_load(mt, location) != mt);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3628  	}
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3629  
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3630  	mtree_destroy(mt);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3631  	/* Overflow test */
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3632  	next = ULONG_MAX - 1;
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3633  	ret = mtree_alloc_cyclic(mt, &location, mt, 2, ULONG_MAX, &next, GFP_KERNEL);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3634  	MT_BUG_ON(mt, ret != 0);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3635  	ret = mtree_alloc_cyclic(mt, &location, mt, 2, ULONG_MAX, &next, GFP_KERNEL);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3636  	MT_BUG_ON(mt, ret != 0);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3637  	ret = mtree_alloc_cyclic(mt, &location, mt, 2, ULONG_MAX, &next, GFP_KERNEL);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3638  	MT_BUG_ON(mt, ret != 1);
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3639  }
+c9d26c93c59232 Liam R. Howlett 2024-02-13  3640  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
