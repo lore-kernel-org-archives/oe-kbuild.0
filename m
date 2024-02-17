@@ -1,141 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B244D109
-	for <oe-kbuild@lists.linux.dev>; Sat, 17 Feb 2024 10:44:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC6279929
+	for <oe-kbuild@lists.linux.dev>; Sat, 17 Feb 2024 13:29:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708166689; cv=none; b=Am9hgG2cyhD8wIBC3olbv6DL8318fEoYQrfP/TxKiH0zP/9mXCA+c06ZG574PuvyaqMaxEbx2K/MWI7qXpVrVhAIIgcP1yFY3+kUwU6SijRm7d48b1NwppP9+A1+SuOzkJ4h0ltYnhbtFTCqWCoLOQjoqU38r5PTO+3JFA0rODc=
+	t=1708176557; cv=none; b=psKZlR2BfAaeM9s/B54iF04NpF7PDo8YBPxPgpW3oMESVCCKtxn7k3IVtepMYR3bW93QCdr+MbiwhcwKZAqPmQ0kb2g/qfYMblVchlALA3PDCXJD0pfjUryHP8DqAJa6cqHOoX9lBJYK5TlkaULRolqpAhdoQmv1u7BIBL9J2YQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708166689; c=relaxed/simple;
-	bh=zVryk5P/0CCWaX+ayWBxD2sjqA6pOSkOoYYe2CAQcBA=;
+	s=arc-20240116; t=1708176557; c=relaxed/simple;
+	bh=wlhy8mzx6SO5vqrsLw/k0x4tP1F10ukGfWZT1ju+Xuw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TDkXFEGyyQXZTv8VgHysrs+3qPCbcwHFI7Naif4h3Bjip1AUx1eH2L9S2Amt+QP6pCHP7mP+nnQfQmKJCNzh8Sayh5F/5vSLIE4TChad5ovdtPTT68QwoNoZMbAkJ2jCglWl15I/XsB5vm2DU0FP4PXywsC5byBBj5G/260lB5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mO+FAj1k; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Kayb/CvctoSO8YYjk8KoVuRFR349QjH4jJjtgisbOyWbL17rrxfnh0CkqKBsHYA4kEA2OEoAgtEz43AN+N+ww1UH1pBDzH7UqX1huwFOOGeh4wbQzMQy/1VwgzrLGRT8gFQ6k8opmUi8lK6mHTkjGjsEGUCAO9odSb0rxJebkW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YkiQtKnf; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mO+FAj1k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YkiQtKnf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708166688; x=1739702688;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=zVryk5P/0CCWaX+ayWBxD2sjqA6pOSkOoYYe2CAQcBA=;
-  b=mO+FAj1kCXCEnaO8qwevoQbhfnJe1zT4VF9uO53Zof8CTwyXBf2cuvgv
-   XGYnrVd/ziN1sIqr9kSmA4AZFVKGX1FDebMPXT0dNE071APwEJXT0SRtI
-   Tysm6E4GhLlBySYpQq90X2A3nGB317ubnxxqeiVbmXqucaoxLfNddO6su
-   jRhMIVgccxctNaviWc7JAT5DEHm0OHbV9/gcCqrnPUjEmpCN/IBRqlz8c
-   2c2ITtUvhz2V5z/o1tzm7vFEIdaRdQ2V3kDyZ+D11abRaJN5vz3jjO37p
-   6euJ+Fc8nEEMBvsL3324t0JsefktUVaPKyb41zkCVOjNPignj5epDzZ2d
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="2162505"
+  t=1708176556; x=1739712556;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wlhy8mzx6SO5vqrsLw/k0x4tP1F10ukGfWZT1ju+Xuw=;
+  b=YkiQtKnfjH2q6shL6gdCh1eEyiAUfS7GgLP7vca8ZoaxZhLHlVNcbiUI
+   pvbBlLNNOqBsKgunsbwKAQ+u6rOzd34Vv/d3Ja/6uiLsznoFQ8PQafO4+
+   +KPw/c9lIIf3FqoaS93INlBXYIgrnGtdkYIHV5l0jdMZMBa1Wjsl7Za/w
+   FKHW0B01ZwgSO+KfPXr6pUbNZy3IGnjhQ5pGTaBT8A5PBwWmClHegA6R3
+   PeWEalWGoKtgQttTU9AqLX7JzAYgvH0HIwO7BaFivk3/XfFScjqjA8SQ+
+   JwKWBMKtelafhoCyetBRf2NTsxB09i6yUjlw4wxuC2JBT/TffeUtad0Z/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="19824488"
 X-IronPort-AV: E=Sophos;i="6.06,166,1705392000"; 
-   d="scan'208";a="2162505"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 02:44:48 -0800
+   d="scan'208";a="19824488"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 05:29:15 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,166,1705392000"; 
-   d="scan'208";a="41548535"
+   d="scan'208";a="8744429"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 17 Feb 2024 02:44:46 -0800
+  by orviesa003.jf.intel.com with ESMTP; 17 Feb 2024 05:29:14 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbIBR-00023I-2w;
-	Sat, 17 Feb 2024 10:44:39 +0000
-Date: Sat, 17 Feb 2024 18:43:38 +0800
+	id 1rbKkh-00028O-0N;
+	Sat, 17 Feb 2024 13:29:11 +0000
+Date: Sat, 17 Feb 2024 21:27:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 4/6] drm/i915/psr: Silence period and lfps half cycle
-Message-ID: <202402171830.n4hwR2iD-lkp@intel.com>
+Subject: Re: [PATCH 28/33] i2c: fsi: Improve formatting
+Message-ID: <202402172147.pnwECcyo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240215104934.2395239-5-jouni.hogander@intel.com>
-References: <20240215104934.2395239-5-jouni.hogander@intel.com>
-TO: "Jouni Högander" <jouni.hogander@intel.com>
-TO: intel-gfx@lists.freedesktop.org
-CC: "Jouni Högander" <jouni.hogander@intel.com>
+In-Reply-To: <20240215220759.976998-29-eajames@linux.ibm.com>
+References: <20240215220759.976998-29-eajames@linux.ibm.com>
+TO: Eddie James <eajames@linux.ibm.com>
+TO: linux-fsi@lists.ozlabs.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-i2c@vger.kernel.org
+CC: linux-clk@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: andi.shyti@kernel.org
+CC: eajames@linux.ibm.com
+CC: alistair@popple.id.au
+CC: joel@jms.id.au
+CC: jk@ozlabs.org
+CC: sboyd@kernel.org
+CC: mturquette@baylibre.com
+CC: robh@kernel.org
+CC: krzysztof.kozlowski+dt@linaro.org
+CC: conor+dt@kernel.org
 
-Hi Jouni,
+Hi Eddie,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on drm-tip/drm-tip drm/drm-next next-20240216]
-[cannot apply to drm-intel/for-linux-next-fixes linus/master v6.8-rc4]
+[auto build test WARNING on andi-shyti/i2c/i2c-host]
+[also build test WARNING on robh/for-next clk/clk-next linus/master v6.8-rc4 next-20240216]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jouni-H-gander/drm-display-Add-missing-aux-less-alpm-wake-related-bits/20240215-185209
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240215104934.2395239-5-jouni.hogander%40intel.com
-patch subject: [PATCH 4/6] drm/i915/psr: Silence period and lfps half cycle
+url:    https://github.com/intel-lab-lkp/linux/commits/Eddie-James/dt-bindings-clock-ast2600-Add-FSI-clock/20240216-061934
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240215220759.976998-29-eajames%40linux.ibm.com
+patch subject: [PATCH 28/33] i2c: fsi: Improve formatting
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: i386-randconfig-141-20240217 (https://download.01.org/0day-ci/archive/20240217/202402171830.n4hwR2iD-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+config: nios2-randconfig-r081-20240217 (https://download.01.org/0day-ci/archive/20240217/202402172147.pnwECcyo-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202402171830.n4hwR2iD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402172147.pnwECcyo-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/i915/display/intel_psr.c:1253 _lnl_compute_aux_less_alpm_params() error: uninitialized symbol 'silence_period'.
+drivers/i2c/busses/i2c-fsi.c:337 fsi_i2c_get_scl() error: uninitialized symbol 'stat'.
+drivers/i2c/busses/i2c-fsi.c:358 fsi_i2c_get_sda() error: uninitialized symbol 'stat'.
 
-vim +/silence_period +1253 drivers/gpu/drm/i915/display/intel_psr.c
+vim +/stat +337 drivers/i2c/busses/i2c-fsi.c
 
-e31171d1611687 Jouni Högander 2024-02-15  1234  
-e4870a4a3cd051 Jouni Högander 2024-02-15  1235  static int _lnl_compute_aux_less_alpm_params(struct intel_dp *intel_dp,
-e4870a4a3cd051 Jouni Högander 2024-02-15  1236  					     struct intel_crtc_state *crtc_state)
-e4870a4a3cd051 Jouni Högander 2024-02-15  1237  {
-e4870a4a3cd051 Jouni Högander 2024-02-15  1238  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-410818227325ec Jouni Högander 2024-02-15  1239  	int aux_less_wake_time, aux_less_wake_lines, switch_to_active_lines,
-410818227325ec Jouni Högander 2024-02-15  1240  		silence_period, lfps_half_cycle;
-e4870a4a3cd051 Jouni Högander 2024-02-15  1241  
-e4870a4a3cd051 Jouni Högander 2024-02-15  1242  	aux_less_wake_time =
-e4870a4a3cd051 Jouni Högander 2024-02-15  1243  		_lnl_compute_aux_less_wake_time(crtc_state->port_clock / 1000);
-e4870a4a3cd051 Jouni Högander 2024-02-15  1244  	aux_less_wake_lines = intel_usecs_to_scanlines(&crtc_state->hw.adjusted_mode,
-e4870a4a3cd051 Jouni Högander 2024-02-15  1245  						       aux_less_wake_time);
-e4870a4a3cd051 Jouni Högander 2024-02-15  1246  
-e31171d1611687 Jouni Högander 2024-02-15  1247  	switch_to_active_lines =
-e31171d1611687 Jouni Högander 2024-02-15  1248  		intel_usecs_to_scanlines(
-e31171d1611687 Jouni Högander 2024-02-15  1249  			&crtc_state->hw.adjusted_mode,
-e31171d1611687 Jouni Högander 2024-02-15  1250  			_lnl_compute_switch_to_active_time(crtc_state->port_clock / 1000));
-e31171d1611687 Jouni Högander 2024-02-15  1251  
-410818227325ec Jouni Högander 2024-02-15  1252  	if (aux_less_wake_lines > 32 || switch_to_active_lines > 32 ||
-410818227325ec Jouni Högander 2024-02-15 @1253  	    silence_period > 256 || silence_period < 0 ||
-410818227325ec Jouni Högander 2024-02-15  1254  	    !_lnl_get_silence_period_and_lfps_half_cycle(intel_dp->link_rate,
-410818227325ec Jouni Högander 2024-02-15  1255  							 &silence_period,
-410818227325ec Jouni Högander 2024-02-15  1256  							 &lfps_half_cycle))
-e4870a4a3cd051 Jouni Högander 2024-02-15  1257  		return false;
-e4870a4a3cd051 Jouni Högander 2024-02-15  1258  
-e31171d1611687 Jouni Högander 2024-02-15  1259  	if (i915->display.params.psr_safest_params) {
-e4870a4a3cd051 Jouni Högander 2024-02-15  1260  		aux_less_wake_lines = 32;
-e31171d1611687 Jouni Högander 2024-02-15  1261  		switch_to_active_lines = 32;
-e31171d1611687 Jouni Högander 2024-02-15  1262  	}
-e4870a4a3cd051 Jouni Högander 2024-02-15  1263  
-e4870a4a3cd051 Jouni Högander 2024-02-15  1264  	intel_dp->psr.alpm_parameters.aux_less_wake_lines = aux_less_wake_lines;
-e31171d1611687 Jouni Högander 2024-02-15  1265  	intel_dp->psr.alpm_parameters.switch_to_active_lines = switch_to_active_lines;
-410818227325ec Jouni Högander 2024-02-15  1266  	intel_dp->psr.alpm_parameters.silence_period_sym_clocks = silence_period;
-410818227325ec Jouni Högander 2024-02-15  1267  	intel_dp->psr.alpm_parameters.lfps_half_cycle_num_of_syms = lfps_half_cycle;
-e4870a4a3cd051 Jouni Högander 2024-02-15  1268  
-e4870a4a3cd051 Jouni Högander 2024-02-15  1269  	return true;
-e4870a4a3cd051 Jouni Högander 2024-02-15  1270  }
-e4870a4a3cd051 Jouni Högander 2024-02-15  1271  
+504b82773c074e Eddie James 2018-07-17  329  
+720d5ce9309d55 Eddie James 2018-07-17  330  static int fsi_i2c_get_scl(struct i2c_adapter *adap)
+720d5ce9309d55 Eddie James 2018-07-17  331  {
+720d5ce9309d55 Eddie James 2018-07-17  332  	struct fsi_i2c_port *port = adap->algo_data;
+d2fec1f8a58643 Eddie James 2024-02-15  333  	u32 stat;
+720d5ce9309d55 Eddie James 2018-07-17  334  
+d2fec1f8a58643 Eddie James 2024-02-15  335  	fsi_i2c_read_reg(port->master->fsi, I2C_FSI_STAT, &stat);
+720d5ce9309d55 Eddie James 2018-07-17  336  
+720d5ce9309d55 Eddie James 2018-07-17 @337  	return !!(stat & I2C_STAT_SCL_IN);
+720d5ce9309d55 Eddie James 2018-07-17  338  }
+720d5ce9309d55 Eddie James 2018-07-17  339  
+720d5ce9309d55 Eddie James 2018-07-17  340  static void fsi_i2c_set_scl(struct i2c_adapter *adap, int val)
+720d5ce9309d55 Eddie James 2018-07-17  341  {
+720d5ce9309d55 Eddie James 2018-07-17  342  	struct fsi_i2c_port *port = adap->algo_data;
+d2fec1f8a58643 Eddie James 2024-02-15  343  	u32 dummy = 0;
+720d5ce9309d55 Eddie James 2018-07-17  344  
+720d5ce9309d55 Eddie James 2018-07-17  345  	if (val)
+d2fec1f8a58643 Eddie James 2024-02-15  346  		fsi_i2c_write_reg(port->master->fsi, I2C_FSI_SET_SCL, &dummy);
+720d5ce9309d55 Eddie James 2018-07-17  347  	else
+d2fec1f8a58643 Eddie James 2024-02-15  348  		fsi_i2c_write_reg(port->master->fsi, I2C_FSI_RESET_SCL, &dummy);
+720d5ce9309d55 Eddie James 2018-07-17  349  }
+720d5ce9309d55 Eddie James 2018-07-17  350  
+720d5ce9309d55 Eddie James 2018-07-17  351  static int fsi_i2c_get_sda(struct i2c_adapter *adap)
+720d5ce9309d55 Eddie James 2018-07-17  352  {
+720d5ce9309d55 Eddie James 2018-07-17  353  	struct fsi_i2c_port *port = adap->algo_data;
+d2fec1f8a58643 Eddie James 2024-02-15  354  	u32 stat;
+720d5ce9309d55 Eddie James 2018-07-17  355  
+d2fec1f8a58643 Eddie James 2024-02-15  356  	fsi_i2c_read_reg(port->master->fsi, I2C_FSI_STAT, &stat);
+720d5ce9309d55 Eddie James 2018-07-17  357  
+720d5ce9309d55 Eddie James 2018-07-17 @358  	return !!(stat & I2C_STAT_SDA_IN);
+720d5ce9309d55 Eddie James 2018-07-17  359  }
+720d5ce9309d55 Eddie James 2018-07-17  360  
 
 -- 
 0-DAY CI Kernel Test Service
