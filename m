@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E70702C6A4
-	for <oe-kbuild@lists.linux.dev>; Sat, 17 Feb 2024 13:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F361E4AE
+	for <oe-kbuild@lists.linux.dev>; Sat, 17 Feb 2024 18:42:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708177119; cv=none; b=fIh0TS7bgrEqdQeUifJQC8zfP0azz9Asuo8rvSYjzwkp5ZAQMrpa8n/u/HBFaQagpwxBCC9fpBPn2MN/MXE7l40U8yNADdMkxcCLdJ0BxVo7WdVfEHFD8zBiONydCza+3BIHoNdKG68LYJGUUTerDJ/rwSQK65XchfX9fOnnXLI=
+	t=1708195323; cv=none; b=mlaO8FesllWx/8D8Qq8zm5GrJN/mqcdDb+Z5/s07hUZDhZOoJtdxNpPoZTdQInUbkZh2pitPMzEkEHC3eHT4pjfGV3YkWPuH5EmvCHLAqio/fpI1iwa19hA+sozFaMWdm4t2hf9N8VF6sOznsDWOzDy4QGCBesFZ54exQMg1un0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708177119; c=relaxed/simple;
-	bh=uGtkMWLUknDAj3/ADyWWgrPeQwHwpacHfuT0ByAj26I=;
+	s=arc-20240116; t=1708195323; c=relaxed/simple;
+	bh=fyGTzYUQ8DgTnvG0nsrN1tWEToqv4ZPT7LNV5+vUxfs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sVQTtX5KsTs1+gm5gcuVjY6SBkx/27Pl/MApYjpITxTiSjQyWaQjehXHCMFLHWFNUqv1/vcSloMCO8KZ1JFD+4pVw9GhXAnuKnQcl/JLvN7D+JkxTHh5jL4BBMY7AyNCf2zCLUNP5jYfR1lDhiSkLPrSKRrxJQ/ZoygPx7lzuao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ww1YSAJ3; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=GC5wkmQ2FycH/HnSjK+a8o2W5cW9gvcqSW4w4aLyCKA/XhxM3NagZApkAiXxs99ApvwffdWAE7Sas2fR2CNDc/scPYqxPhrEWK3xTsfGrKMV9a9f10XLqRJ1CfWIZrvKhGNjafTYz1MrtfHY9Z+AIeA3+46hJ4OQOu2nTQffev4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YdxtLVct; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ww1YSAJ3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YdxtLVct"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708177118; x=1739713118;
+  t=1708195321; x=1739731321;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uGtkMWLUknDAj3/ADyWWgrPeQwHwpacHfuT0ByAj26I=;
-  b=Ww1YSAJ3DUVB7XEAT3eZL5DCRs5IXZaOcsPrQEH8/0FB9TVSgUXoBwkn
-   kBFiQZ9wclfXHYxMJ3KhXM2K6MyeumsUgLseLxcjVIs+sG826ptnM+QI6
-   QZDA7koo1IASgugNjOzL2HxFuYjcU1U4yYeWphFJ8AOdd0o37eT8rmPt/
-   CO8Pwtait8CMNMBneFK/qXWIolL1DrzcZieOUqt9HnvbzsgzuZgQ0Kj2P
-   I10Hb+TtbVtFOxyBaQGihw1wCcxlh4NVEO7AB9v1pRLlhlmy0RTB6JmXA
-   XWBbLSWs/ps7CWMlgkrtwQUTu+zaIzlir+DPL/K41Y3nqPwYDggUrrnLl
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="13011008"
-X-IronPort-AV: E=Sophos;i="6.06,166,1705392000"; 
-   d="scan'208";a="13011008"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 05:38:37 -0800
+  bh=fyGTzYUQ8DgTnvG0nsrN1tWEToqv4ZPT7LNV5+vUxfs=;
+  b=YdxtLVct7OZ+/LYonTHOi12drs6q2ovquIpWQABo223nzydGpD8ZjG92
+   EQG9fNoRYmUFk3n3zCkX4k9ea9Y1VHtAK8zwCcC4d3w3UDTilY/z7lXb+
+   j5BHkce6dwubgVTTBHnLDeEKP8Cuh9RWmlkvZogfOe13LWgaUc+cwhZmL
+   hbwA/kKFpTX4yERR4BzSYU4sgvBDMIzfv1z21R0pscTSK/sa3Rlu+Gf7Q
+   cnakyYgsTgcEctblrbddH9hrGDsIXpPpIX850Uu4BNzsZERw0mb/V6WWs
+   Y5W+qXxJFM0909thX+HICGXN8hIh9QOAI6dt9KkGl4EhCkuJYIhYEi+uK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="2439604"
+X-IronPort-AV: E=Sophos;i="6.06,167,1705392000"; 
+   d="scan'208";a="2439604"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 10:42:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,166,1705392000"; 
-   d="scan'208";a="4108760"
+X-IronPort-AV: E=Sophos;i="6.06,167,1705392000"; 
+   d="scan'208";a="4475785"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 17 Feb 2024 05:38:36 -0800
+  by orviesa006.jf.intel.com with ESMTP; 17 Feb 2024 10:41:59 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbKtN-00029I-1g;
-	Sat, 17 Feb 2024 13:38:19 +0000
-Date: Sat, 17 Feb 2024 21:37:39 +0800
+	id 1rbPdM-0002Ou-1Y;
+	Sat, 17 Feb 2024 18:41:56 +0000
+Date: Sun, 18 Feb 2024 02:41:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [sailus-media-tree:ipu6 59/63]
- drivers/media/pci/intel/ipu6/ipu6-bus.c:109:13: error: 'struct device' has
- no member named 'dma_ops'
-Message-ID: <202402172115.mTvvIxnQ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android12-5.10 11/13]
+ sound/soc/codecs/hdmi-codec.c:504 hdmi_codec_hw_params() error:
+ __builtin_memcpy() 'hcp->iec_status' too small (5 vs 24)
+Message-ID: <202402180247.OJ2TZSS7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,101 +59,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/media/pci/intel/ipu6/ipu6-bus.c:109:13: error: 'struct device' has no member named 'dma_ops'"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-media@vger.kernel.org
-TO: Bingbu Cao <bingbu.cao@intel.com>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: Andreas Helbech Kleist <andreaskleist@gmail.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   git://linuxtv.org/sailus/media_tree.git ipu6
-head:   31343acd3c3ab852367e3f986d12b5e743d5c5c5
-commit: 736ca9b346fc52b187fc620f36b20ec7dc9870d1 [59/63] media: add Kconfig and Makefile for IPU6
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-123-20240217 (https://download.01.org/0day-ci/archive/20240217/202402172115.mTvvIxnQ-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240217/202402172115.mTvvIxnQ-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   44817294cfe4afa710fc37d3fe6953877a4232e0
+commit: 4ad97b395f94bc0f546f27bbe9b8a62321f49ad3 [11/13] UPSTREAM: ASoC: hdmi-codec: Add iec958 controls
+:::::: branch date: 2 days ago
+:::::: commit date: 1 year, 6 months ago
+config: i386-randconfig-141-20240214 (https://download.01.org/0day-ci/archive/20240218/202402180247.OJ2TZSS7-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202402172115.mTvvIxnQ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202402180247.OJ2TZSS7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+sound/soc/codecs/hdmi-codec.c:504 hdmi_codec_hw_params() error: __builtin_memcpy() 'hcp->iec_status' too small (5 vs 24)
 
-   drivers/media/pci/intel/ipu6/ipu6-bus.c: In function 'ipu6_bus_initialize_device':
->> drivers/media/pci/intel/ipu6/ipu6-bus.c:109:13: error: 'struct device' has no member named 'dma_ops'
-     109 |  auxdev->dev.dma_ops = &ipu6_dma_ops;
-         |             ^
+vim +504 sound/soc/codecs/hdmi-codec.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
-   Selected by [y]:
-   - VIDEO_INTEL_IPU6 [=y] && PCI [=y] && (ACPI [=y] || COMPILE_TEST [=n]) && MEDIA_SUPPORT [=y] && MEDIA_PCI_SUPPORT [=y] && X86 [=y] && X86_64 [=y]
-
-
-vim +109 drivers/media/pci/intel/ipu6/ipu6-bus.c
-
-eaad32dd9543c6 Bingbu Cao 2024-01-31   82  
-eaad32dd9543c6 Bingbu Cao 2024-01-31   83  struct ipu6_bus_device *
-eaad32dd9543c6 Bingbu Cao 2024-01-31   84  ipu6_bus_initialize_device(struct pci_dev *pdev, struct device *parent,
-eaad32dd9543c6 Bingbu Cao 2024-01-31   85  			   void *pdata, struct ipu6_buttress_ctrl *ctrl,
-eaad32dd9543c6 Bingbu Cao 2024-01-31   86  			   char *name)
-eaad32dd9543c6 Bingbu Cao 2024-01-31   87  {
-eaad32dd9543c6 Bingbu Cao 2024-01-31   88  	struct auxiliary_device *auxdev;
-eaad32dd9543c6 Bingbu Cao 2024-01-31   89  	struct ipu6_bus_device *adev;
-eaad32dd9543c6 Bingbu Cao 2024-01-31   90  	struct ipu6_device *isp = pci_get_drvdata(pdev);
-eaad32dd9543c6 Bingbu Cao 2024-01-31   91  	int ret;
-eaad32dd9543c6 Bingbu Cao 2024-01-31   92  
-eaad32dd9543c6 Bingbu Cao 2024-01-31   93  	adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-eaad32dd9543c6 Bingbu Cao 2024-01-31   94  	if (!adev)
-eaad32dd9543c6 Bingbu Cao 2024-01-31   95  		return ERR_PTR(-ENOMEM);
-eaad32dd9543c6 Bingbu Cao 2024-01-31   96  
-eaad32dd9543c6 Bingbu Cao 2024-01-31   97  	adev->dma_mask = DMA_BIT_MASK(isp->secure_mode ? IPU6_MMU_ADDR_BITS :
-eaad32dd9543c6 Bingbu Cao 2024-01-31   98  				      IPU6_MMU_ADDR_BITS_NON_SECURE);
-eaad32dd9543c6 Bingbu Cao 2024-01-31   99  	adev->isp = isp;
-eaad32dd9543c6 Bingbu Cao 2024-01-31  100  	adev->ctrl = ctrl;
-eaad32dd9543c6 Bingbu Cao 2024-01-31  101  	adev->pdata = pdata;
-eaad32dd9543c6 Bingbu Cao 2024-01-31  102  	auxdev = &adev->auxdev;
-eaad32dd9543c6 Bingbu Cao 2024-01-31  103  	auxdev->name = name;
-eaad32dd9543c6 Bingbu Cao 2024-01-31  104  	auxdev->id = (pci_domain_nr(pdev->bus) << 16) |
-eaad32dd9543c6 Bingbu Cao 2024-01-31  105  		      PCI_DEVID(pdev->bus->number, pdev->devfn);
-eaad32dd9543c6 Bingbu Cao 2024-01-31  106  
-eaad32dd9543c6 Bingbu Cao 2024-01-31  107  	auxdev->dev.parent = parent;
-eaad32dd9543c6 Bingbu Cao 2024-01-31  108  	auxdev->dev.release = ipu6_bus_release;
-eaad32dd9543c6 Bingbu Cao 2024-01-31 @109  	auxdev->dev.dma_ops = &ipu6_dma_ops;
-eaad32dd9543c6 Bingbu Cao 2024-01-31  110  	auxdev->dev.dma_mask = &adev->dma_mask;
-eaad32dd9543c6 Bingbu Cao 2024-01-31  111  	auxdev->dev.dma_parms = pdev->dev.dma_parms;
-eaad32dd9543c6 Bingbu Cao 2024-01-31  112  	auxdev->dev.coherent_dma_mask = adev->dma_mask;
-eaad32dd9543c6 Bingbu Cao 2024-01-31  113  
-eaad32dd9543c6 Bingbu Cao 2024-01-31  114  	ret = auxiliary_device_init(auxdev);
-eaad32dd9543c6 Bingbu Cao 2024-01-31  115  	if (ret < 0) {
-eaad32dd9543c6 Bingbu Cao 2024-01-31  116  		dev_err(&isp->pdev->dev, "auxiliary device init failed (%d)\n",
-eaad32dd9543c6 Bingbu Cao 2024-01-31  117  			ret);
-eaad32dd9543c6 Bingbu Cao 2024-01-31  118  		kfree(adev);
-eaad32dd9543c6 Bingbu Cao 2024-01-31  119  		return ERR_PTR(ret);
-eaad32dd9543c6 Bingbu Cao 2024-01-31  120  	}
-eaad32dd9543c6 Bingbu Cao 2024-01-31  121  
-eaad32dd9543c6 Bingbu Cao 2024-01-31  122  	dev_pm_domain_set(&auxdev->dev, &ipu6_bus_pm_domain);
-eaad32dd9543c6 Bingbu Cao 2024-01-31  123  
-eaad32dd9543c6 Bingbu Cao 2024-01-31  124  	pm_runtime_forbid(&adev->auxdev.dev);
-eaad32dd9543c6 Bingbu Cao 2024-01-31  125  	pm_runtime_enable(&adev->auxdev.dev);
-eaad32dd9543c6 Bingbu Cao 2024-01-31  126  
-eaad32dd9543c6 Bingbu Cao 2024-01-31  127  	return adev;
-eaad32dd9543c6 Bingbu Cao 2024-01-31  128  }
-eaad32dd9543c6 Bingbu Cao 2024-01-31  129  
-
-:::::: The code at line 109 was first introduced by commit
-:::::: eaad32dd9543c687d6ebe0f3c027461984965245 media: intel/ipu6: add IPU auxiliary devices
-
-:::::: TO: Bingbu Cao <bingbu.cao@intel.com>
-:::::: CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+09184118a8abae Jyri Sarha        2016-03-31  483  
+09184118a8abae Jyri Sarha        2016-03-31  484  static int hdmi_codec_hw_params(struct snd_pcm_substream *substream,
+09184118a8abae Jyri Sarha        2016-03-31  485  				struct snd_pcm_hw_params *params,
+09184118a8abae Jyri Sarha        2016-03-31  486  				struct snd_soc_dai *dai)
+09184118a8abae Jyri Sarha        2016-03-31  487  {
+09184118a8abae Jyri Sarha        2016-03-31  488  	struct hdmi_codec_priv *hcp = snd_soc_dai_get_drvdata(dai);
+0cf4610b9f297e Jerome Brunet     2019-05-06  489  	struct hdmi_codec_daifmt *cf = dai->playback_dma_data;
+09184118a8abae Jyri Sarha        2016-03-31  490  	struct hdmi_codec_params hp = {
+09184118a8abae Jyri Sarha        2016-03-31  491  		.iec = {
+09184118a8abae Jyri Sarha        2016-03-31  492  			.status = { 0 },
+09184118a8abae Jyri Sarha        2016-03-31  493  			.subcode = { 0 },
+09184118a8abae Jyri Sarha        2016-03-31  494  			.pad = 0,
+09184118a8abae Jyri Sarha        2016-03-31  495  			.dig_subframe = { 0 },
+09184118a8abae Jyri Sarha        2016-03-31  496  		}
+09184118a8abae Jyri Sarha        2016-03-31  497  	};
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  498  	int ret, idx;
+09184118a8abae Jyri Sarha        2016-03-31  499  
+09184118a8abae Jyri Sarha        2016-03-31  500  	dev_dbg(dai->dev, "%s() width %d rate %d channels %d\n", __func__,
+09184118a8abae Jyri Sarha        2016-03-31  501  		params_width(params), params_rate(params),
+09184118a8abae Jyri Sarha        2016-03-31  502  		params_channels(params));
+09184118a8abae Jyri Sarha        2016-03-31  503  
+4ad97b395f94bc Maxime Ripard     2021-05-25 @504  	memcpy(hp.iec.status, hcp->iec_status, sizeof(hp.iec.status));
+4ad97b395f94bc Maxime Ripard     2021-05-25  505  	ret = snd_pcm_fill_iec958_consumer_hw_params(params, hp.iec.status,
+09184118a8abae Jyri Sarha        2016-03-31  506  						     sizeof(hp.iec.status));
+09184118a8abae Jyri Sarha        2016-03-31  507  	if (ret < 0) {
+09184118a8abae Jyri Sarha        2016-03-31  508  		dev_err(dai->dev, "Creating IEC958 channel status failed %d\n",
+09184118a8abae Jyri Sarha        2016-03-31  509  			ret);
+09184118a8abae Jyri Sarha        2016-03-31  510  		return ret;
+09184118a8abae Jyri Sarha        2016-03-31  511  	}
+09184118a8abae Jyri Sarha        2016-03-31  512  
+09184118a8abae Jyri Sarha        2016-03-31  513  	hdmi_audio_infoframe_init(&hp.cea);
+09184118a8abae Jyri Sarha        2016-03-31  514  	hp.cea.channels = params_channels(params);
+09184118a8abae Jyri Sarha        2016-03-31  515  	hp.cea.coding_type = HDMI_AUDIO_CODING_TYPE_STREAM;
+09184118a8abae Jyri Sarha        2016-03-31  516  	hp.cea.sample_size = HDMI_AUDIO_SAMPLE_SIZE_STREAM;
+09184118a8abae Jyri Sarha        2016-03-31  517  	hp.cea.sample_frequency = HDMI_AUDIO_SAMPLE_FREQUENCY_STREAM;
+09184118a8abae Jyri Sarha        2016-03-31  518  
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  519  	/* Select a channel allocation that matches with ELD and pcm channels */
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  520  	idx = hdmi_codec_get_ch_alloc_table_idx(hcp, hp.cea.channels);
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  521  	if (idx < 0) {
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  522  		dev_err(dai->dev, "Not able to map channels to speakers (%d)\n",
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  523  			idx);
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  524  		hcp->chmap_idx = HDMI_CODEC_CHMAP_IDX_UNKNOWN;
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  525  		return idx;
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  526  	}
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  527  	hp.cea.channel_allocation = hdmi_codec_channel_alloc[idx].ca_id;
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  528  	hcp->chmap_idx = hdmi_codec_channel_alloc[idx].ca_id;
+cd6111b26280a2 Arnaud Pouliquen  2017-01-03  529  
+09184118a8abae Jyri Sarha        2016-03-31  530  	hp.sample_width = params_width(params);
+09184118a8abae Jyri Sarha        2016-03-31  531  	hp.sample_rate = params_rate(params);
+09184118a8abae Jyri Sarha        2016-03-31  532  	hp.channels = params_channels(params);
+09184118a8abae Jyri Sarha        2016-03-31  533  
+49e502f0c0483e Sia Jee Heng      2021-02-04  534  	cf->bit_fmt = params_format(params);
+efc9194bcff846 Kuninori Morimoto 2016-06-24  535  	return hcp->hcd.ops->hw_params(dai->dev->parent, hcp->hcd.data,
+0cf4610b9f297e Jerome Brunet     2019-05-06  536  				       cf, &hp);
+09184118a8abae Jyri Sarha        2016-03-31  537  }
+09184118a8abae Jyri Sarha        2016-03-31  538  
 
 -- 
 0-DAY CI Kernel Test Service
