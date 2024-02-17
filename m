@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F361E4AE
-	for <oe-kbuild@lists.linux.dev>; Sat, 17 Feb 2024 18:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296AA1C282
+	for <oe-kbuild@lists.linux.dev>; Sat, 17 Feb 2024 19:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708195323; cv=none; b=mlaO8FesllWx/8D8Qq8zm5GrJN/mqcdDb+Z5/s07hUZDhZOoJtdxNpPoZTdQInUbkZh2pitPMzEkEHC3eHT4pjfGV3YkWPuH5EmvCHLAqio/fpI1iwa19hA+sozFaMWdm4t2hf9N8VF6sOznsDWOzDy4QGCBesFZ54exQMg1un0=
+	t=1708199831; cv=none; b=nyixr/eW5m6mo/Qfi3hfuIg/pCV7NYfoNqXlJcfBfUnI3DdAtuD22KD6tAFt1EQ8QjnUvexSRvnGyQF3iZhEbtSSPKoCfqowzOeYA1WY1g8dwzC1CR5Yo76TRMT71G8ePfxKTMduTLisZg5+YXqSMBwKAv2cmF1H6/moO52NG9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708195323; c=relaxed/simple;
-	bh=fyGTzYUQ8DgTnvG0nsrN1tWEToqv4ZPT7LNV5+vUxfs=;
+	s=arc-20240116; t=1708199831; c=relaxed/simple;
+	bh=iIWVGvmf5uEAZlHYejt21hHLa46uD+NLFkTdhtjRtKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GC5wkmQ2FycH/HnSjK+a8o2W5cW9gvcqSW4w4aLyCKA/XhxM3NagZApkAiXxs99ApvwffdWAE7Sas2fR2CNDc/scPYqxPhrEWK3xTsfGrKMV9a9f10XLqRJ1CfWIZrvKhGNjafTYz1MrtfHY9Z+AIeA3+46hJ4OQOu2nTQffev4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YdxtLVct; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=XhOLCJkuAglvqjxiQDrytAZI+fvc/1lRxpZ7be+GTPGUQ5jnD0y9drpm8yik/OUvCiRfTUYgG6PpT/1GljonJAu6Z1WHCNY4UL2SnZ3Qhlx6b4YZr0EwMSvJ7SnOq1AmNNNQgecTWhVZY561aMhUOvOl6xxx1c9Kap/1BvniH6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fQAYb4ts; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YdxtLVct"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fQAYb4ts"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708195321; x=1739731321;
+  t=1708199828; x=1739735828;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fyGTzYUQ8DgTnvG0nsrN1tWEToqv4ZPT7LNV5+vUxfs=;
-  b=YdxtLVct7OZ+/LYonTHOi12drs6q2ovquIpWQABo223nzydGpD8ZjG92
-   EQG9fNoRYmUFk3n3zCkX4k9ea9Y1VHtAK8zwCcC4d3w3UDTilY/z7lXb+
-   j5BHkce6dwubgVTTBHnLDeEKP8Cuh9RWmlkvZogfOe13LWgaUc+cwhZmL
-   hbwA/kKFpTX4yERR4BzSYU4sgvBDMIzfv1z21R0pscTSK/sa3Rlu+Gf7Q
-   cnakyYgsTgcEctblrbddH9hrGDsIXpPpIX850Uu4BNzsZERw0mb/V6WWs
-   Y5W+qXxJFM0909thX+HICGXN8hIh9QOAI6dt9KkGl4EhCkuJYIhYEi+uK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="2439604"
+  bh=iIWVGvmf5uEAZlHYejt21hHLa46uD+NLFkTdhtjRtKs=;
+  b=fQAYb4ts/tGD/B+KShmfUt+/9y1krczH1DbbQE2QgTbr0H6uzI72Yrzj
+   qtc7ATWuOvU6tQGAnR8ov89AH2pHxu3TO7CtNb0raAN23eRwN/DAaqRQj
+   2X4+b4B+RL0sRL8OKPJm3aAOK8wYK2Epr0pYvkUASpe0SDyr1M0XdtTl6
+   yuBNj00gHjP4hmp984lC7KLhSHt4bmXgUBhoroCkHQXM3c2+iSbVZOujg
+   vfKI1IQTGWutQIdy9YrZ/noIBErQ0I16ItZbR8PNWATvPe13GUnxKW09S
+   roc7lDWiGRx0Nus6MnwLWWf4XenCNEkW6UfZCR6gxVJjJukBdxugyzbEF
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="13717655"
 X-IronPort-AV: E=Sophos;i="6.06,167,1705392000"; 
-   d="scan'208";a="2439604"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 10:42:01 -0800
+   d="scan'208";a="13717655"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 11:57:08 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,167,1705392000"; 
-   d="scan'208";a="4475785"
+   d="scan'208";a="41618111"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 17 Feb 2024 10:41:59 -0800
+  by orviesa001.jf.intel.com with ESMTP; 17 Feb 2024 11:57:06 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbPdM-0002Ou-1Y;
-	Sat, 17 Feb 2024 18:41:56 +0000
-Date: Sun, 18 Feb 2024 02:41:43 +0800
+	id 1rbQo3-0002Si-2h;
+	Sat, 17 Feb 2024 19:57:03 +0000
+Date: Sun, 18 Feb 2024 03:56:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android12-5.10 11/13]
- sound/soc/codecs/hdmi-codec.c:504 hdmi_codec_hw_params() error:
- __builtin_memcpy() 'hcp->iec_status' too small (5 vs 24)
-Message-ID: <202402180247.OJ2TZSS7-lkp@intel.com>
+Subject: Re: [PATCH 16/28] drm/i915/color: Create a transfer function color
+ pipeline
+Message-ID: <202402180310.gMdIXaJx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,83 +60,114 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20240213064835.139464-17-uma.shankar@intel.com>
+References: <20240213064835.139464-17-uma.shankar@intel.com>
+TO: Uma Shankar <uma.shankar@intel.com>
+TO: intel-gfx@lists.freedesktop.org
+TO: dri-devel@lists.freedesktop.org
+CC: ville.syrjala@linux.intel.com
+CC: pekka.paalanen@collabora.com
+CC: contact@emersion.fr
+CC: harry.wentland@amd.com
+CC: mwen@igalia.com
+CC: jadahl@redhat.com
+CC: sebastian.wick@redhat.com
+CC: shashank.sharma@amd.com
+CC: agoins@nvidia.com
+CC: joshua@froggi.es
+CC: mdaenzer@redhat.com
+CC: aleixpol@kde.org
+CC: xaver.hugl@gmail.com
+CC: victoria@system76.com
+CC: daniel@ffwll.ch
+CC: quic_naseer@quicinc.com
+CC: quic_cbraga@quicinc.com
+CC: quic_abhinavk@quicinc.com
+CC: arthurgrillo@riseup.net
+CC: marcan@marcan.st
+CC: Liviu.Dudau@arm.com
+CC: sashamcintosh@google.com
+CC: sean@poorly.run
+CC: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+CC: Uma Shankar <uma.shankar@intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   44817294cfe4afa710fc37d3fe6953877a4232e0
-commit: 4ad97b395f94bc0f546f27bbe9b8a62321f49ad3 [11/13] UPSTREAM: ASoC: hdmi-codec: Add iec958 controls
-:::::: branch date: 2 days ago
-:::::: commit date: 1 year, 6 months ago
-config: i386-randconfig-141-20240214 (https://download.01.org/0day-ci/archive/20240218/202402180247.OJ2TZSS7-lkp@intel.com/config)
+Hi Uma,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next next-20240216]
+[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.8-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-color-pipeline-base-work/20240213-144544
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240213064835.139464-17-uma.shankar%40intel.com
+patch subject: [PATCH 16/28] drm/i915/color: Create a transfer function color pipeline
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-141-20240217 (https://download.01.org/0day-ci/archive/20240218/202402180310.gMdIXaJx-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202402180247.OJ2TZSS7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402180310.gMdIXaJx-lkp@intel.com/
 
-smatch warnings:
-sound/soc/codecs/hdmi-codec.c:504 hdmi_codec_hw_params() error: __builtin_memcpy() 'hcp->iec_status' too small (5 vs 24)
+New smatch warnings:
+drivers/gpu/drm/i915/display/intel_color.c:3867 intel_plane_tf_pipeline_init() error: 'colorop' dereferencing possible ERR_PTR()
 
-vim +504 sound/soc/codecs/hdmi-codec.c
+Old smatch warnings:
+drivers/gpu/drm/i915/display/intel_color.c:3185 i9xx_read_lut_10() error: uninitialized symbol 'ldw'.
+drivers/gpu/drm/i915/display/intel_color.c:3185 i9xx_read_lut_10() error: uninitialized symbol 'udw'.
 
-09184118a8abae Jyri Sarha        2016-03-31  483  
-09184118a8abae Jyri Sarha        2016-03-31  484  static int hdmi_codec_hw_params(struct snd_pcm_substream *substream,
-09184118a8abae Jyri Sarha        2016-03-31  485  				struct snd_pcm_hw_params *params,
-09184118a8abae Jyri Sarha        2016-03-31  486  				struct snd_soc_dai *dai)
-09184118a8abae Jyri Sarha        2016-03-31  487  {
-09184118a8abae Jyri Sarha        2016-03-31  488  	struct hdmi_codec_priv *hcp = snd_soc_dai_get_drvdata(dai);
-0cf4610b9f297e Jerome Brunet     2019-05-06  489  	struct hdmi_codec_daifmt *cf = dai->playback_dma_data;
-09184118a8abae Jyri Sarha        2016-03-31  490  	struct hdmi_codec_params hp = {
-09184118a8abae Jyri Sarha        2016-03-31  491  		.iec = {
-09184118a8abae Jyri Sarha        2016-03-31  492  			.status = { 0 },
-09184118a8abae Jyri Sarha        2016-03-31  493  			.subcode = { 0 },
-09184118a8abae Jyri Sarha        2016-03-31  494  			.pad = 0,
-09184118a8abae Jyri Sarha        2016-03-31  495  			.dig_subframe = { 0 },
-09184118a8abae Jyri Sarha        2016-03-31  496  		}
-09184118a8abae Jyri Sarha        2016-03-31  497  	};
-cd6111b26280a2 Arnaud Pouliquen  2017-01-03  498  	int ret, idx;
-09184118a8abae Jyri Sarha        2016-03-31  499  
-09184118a8abae Jyri Sarha        2016-03-31  500  	dev_dbg(dai->dev, "%s() width %d rate %d channels %d\n", __func__,
-09184118a8abae Jyri Sarha        2016-03-31  501  		params_width(params), params_rate(params),
-09184118a8abae Jyri Sarha        2016-03-31  502  		params_channels(params));
-09184118a8abae Jyri Sarha        2016-03-31  503  
-4ad97b395f94bc Maxime Ripard     2021-05-25 @504  	memcpy(hp.iec.status, hcp->iec_status, sizeof(hp.iec.status));
-4ad97b395f94bc Maxime Ripard     2021-05-25  505  	ret = snd_pcm_fill_iec958_consumer_hw_params(params, hp.iec.status,
-09184118a8abae Jyri Sarha        2016-03-31  506  						     sizeof(hp.iec.status));
-09184118a8abae Jyri Sarha        2016-03-31  507  	if (ret < 0) {
-09184118a8abae Jyri Sarha        2016-03-31  508  		dev_err(dai->dev, "Creating IEC958 channel status failed %d\n",
-09184118a8abae Jyri Sarha        2016-03-31  509  			ret);
-09184118a8abae Jyri Sarha        2016-03-31  510  		return ret;
-09184118a8abae Jyri Sarha        2016-03-31  511  	}
-09184118a8abae Jyri Sarha        2016-03-31  512  
-09184118a8abae Jyri Sarha        2016-03-31  513  	hdmi_audio_infoframe_init(&hp.cea);
-09184118a8abae Jyri Sarha        2016-03-31  514  	hp.cea.channels = params_channels(params);
-09184118a8abae Jyri Sarha        2016-03-31  515  	hp.cea.coding_type = HDMI_AUDIO_CODING_TYPE_STREAM;
-09184118a8abae Jyri Sarha        2016-03-31  516  	hp.cea.sample_size = HDMI_AUDIO_SAMPLE_SIZE_STREAM;
-09184118a8abae Jyri Sarha        2016-03-31  517  	hp.cea.sample_frequency = HDMI_AUDIO_SAMPLE_FREQUENCY_STREAM;
-09184118a8abae Jyri Sarha        2016-03-31  518  
-cd6111b26280a2 Arnaud Pouliquen  2017-01-03  519  	/* Select a channel allocation that matches with ELD and pcm channels */
-cd6111b26280a2 Arnaud Pouliquen  2017-01-03  520  	idx = hdmi_codec_get_ch_alloc_table_idx(hcp, hp.cea.channels);
-cd6111b26280a2 Arnaud Pouliquen  2017-01-03  521  	if (idx < 0) {
-cd6111b26280a2 Arnaud Pouliquen  2017-01-03  522  		dev_err(dai->dev, "Not able to map channels to speakers (%d)\n",
-cd6111b26280a2 Arnaud Pouliquen  2017-01-03  523  			idx);
-cd6111b26280a2 Arnaud Pouliquen  2017-01-03  524  		hcp->chmap_idx = HDMI_CODEC_CHMAP_IDX_UNKNOWN;
-cd6111b26280a2 Arnaud Pouliquen  2017-01-03  525  		return idx;
-cd6111b26280a2 Arnaud Pouliquen  2017-01-03  526  	}
-cd6111b26280a2 Arnaud Pouliquen  2017-01-03  527  	hp.cea.channel_allocation = hdmi_codec_channel_alloc[idx].ca_id;
-cd6111b26280a2 Arnaud Pouliquen  2017-01-03  528  	hcp->chmap_idx = hdmi_codec_channel_alloc[idx].ca_id;
-cd6111b26280a2 Arnaud Pouliquen  2017-01-03  529  
-09184118a8abae Jyri Sarha        2016-03-31  530  	hp.sample_width = params_width(params);
-09184118a8abae Jyri Sarha        2016-03-31  531  	hp.sample_rate = params_rate(params);
-09184118a8abae Jyri Sarha        2016-03-31  532  	hp.channels = params_channels(params);
-09184118a8abae Jyri Sarha        2016-03-31  533  
-49e502f0c0483e Sia Jee Heng      2021-02-04  534  	cf->bit_fmt = params_format(params);
-efc9194bcff846 Kuninori Morimoto 2016-06-24  535  	return hcp->hcd.ops->hw_params(dai->dev->parent, hcp->hcd.data,
-0cf4610b9f297e Jerome Brunet     2019-05-06  536  				       cf, &hp);
-09184118a8abae Jyri Sarha        2016-03-31  537  }
-09184118a8abae Jyri Sarha        2016-03-31  538  
+vim +/colorop +3867 drivers/gpu/drm/i915/display/intel_color.c
+
+6c851db2c55bf8 Chaitanya Kumar Borah 2024-02-13  3851  
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3852  int intel_plane_tf_pipeline_init(struct drm_plane *plane, struct drm_prop_enum_list *list)
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3853  {
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3854  	struct intel_plane *intel_plane = to_intel_plane(plane);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3855  	struct intel_plane_colorop *colorop;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3856  	struct drm_device *dev = plane->dev;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3857  	struct drm_i915_private *i915 = to_i915(dev);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3858  	int ret;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3859  	struct drm_colorop *prev_op;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3860  
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3861  	colorop = intel_plane_colorop_create(CB_PLANE_PRE_CSC_LUT);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3862  
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3863  	ret = drm_colorop_init(dev, &colorop->base, plane, DRM_COLOROP_1D_LUT);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3864  	if (ret)
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3865  		return ret;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3866  
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13 @3867  	list->type = colorop->base.base.id;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3868  	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", colorop->base.base.id);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3869  
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3870  	/* TODO: handle failures and clean up*/
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3871  	prev_op = &colorop->base;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3872  
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3873  	if (icl_is_hdr_plane(i915, intel_plane->id)) {
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3874  		colorop = intel_plane_colorop_create(CB_PLANE_CSC);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3875  		ret = drm_colorop_init(dev, &colorop->base, plane, DRM_COLOROP_CTM_3X3);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3876  		if (ret)
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3877  			return ret;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3878  
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3879  		drm_colorop_set_next_property(prev_op, &colorop->base);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3880  		prev_op = &colorop->base;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3881  	}
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3882  
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3883  	colorop = intel_plane_colorop_create(CB_PLANE_POST_CSC_LUT);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3884  	ret = drm_colorop_init(dev, &colorop->base, plane, DRM_COLOROP_1D_LUT);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3885  	if (ret)
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3886  		return ret;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3887  
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3888  	drm_colorop_set_next_property(prev_op, &colorop->base);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3889  
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3890  	return 0;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3891  }
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3892  
 
 -- 
 0-DAY CI Kernel Test Service
