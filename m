@@ -1,54 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437DFD52D
-	for <oe-kbuild@lists.linux.dev>; Sun, 18 Feb 2024 09:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A781DFF2
+	for <oe-kbuild@lists.linux.dev>; Sun, 18 Feb 2024 20:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708247967; cv=none; b=Vu//+z1veOmd8wSuaGw9EwNyjEU4HHdb9pHqOH8QKls/i+0QGRlCZe09zhkIRsYhgiza9HFaH351rWgDg6mZSLskJGME6L1SwC1qeGun82kStiZg4j1BRzDVjX8x/XLIi/GUsje887LgbGUG64PnZM7wN1P4FLL30Yi3uNkL9AU=
+	t=1708289352; cv=none; b=rz0J4J70hwYJYJIA2SV0VcQgZ/AZv9IgAZ2UKBwEv5iA3BEUkcL2mFEX1P1pw+HsSxfaOKgBwPnOo3n9g0IgSHK4/T/KAw9RPew9MRzY+i3j5cfGYNxsboDDGcljj9cXRcsPyHzj0il/iIULrBSw042+o05+CTjf7h3A3hAqKg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708247967; c=relaxed/simple;
-	bh=8NZJa0xFqWfBHve0XsVD0WFT8qqBucNsXa6CQ+fGhsg=;
+	s=arc-20240116; t=1708289352; c=relaxed/simple;
+	bh=79ajAEPhE0M6dBXWoSum5/dwqEaVcL4Vsu41sxfofEc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=djIvc1cvkzWp2ETkLY6bR+0GApjzZK3c9nzrx5pEHChUNdYmFwKAury4LO96RbAI5RCv1EFuNLsv8FKdowr21Kwo0R8Y6p9xgYHpco5I3cuTh3QBxTe1yK349MRebq7eZQr/6LGhccLvVxCiyDm/4YNtdgopCQ+83v8bgY3RS1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SKE/hZ7b; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=tt9FENBTLLtv/2xqElpOiSEjvtT0g7aAQQD8qHp6GHLV6LaZf9nZzkkuWFHGfPRwruXUCM+fq4bCWiEwMFECNjNO8c6ao2kwOCY0YW/EimcbDt96gRgejC/64hc+8SX+oc0x0yLm0RosWGFTlfaUW0xweoAj3Q+9Lq05jqAPeWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DE+bFwMq; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SKE/hZ7b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DE+bFwMq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708247965; x=1739783965;
+  t=1708289350; x=1739825350;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8NZJa0xFqWfBHve0XsVD0WFT8qqBucNsXa6CQ+fGhsg=;
-  b=SKE/hZ7be5FgFIMuKEinqsq5X6VsVTIkcVb5t2FEmcus2+L/vqeK9UdB
-   KmSfcCd4KDxbQAoxFqp2Hutvv0HXAZeCmIrPfqfD7Vl+MmQ8e052bQELo
-   /uLNAPnpTDX5gbYhFTmBbTUYrDTPBqWnSwboZHMAC/9vX/1RYgB/gJz0t
-   xfpxJvkdBY/aXl48YjCjkeFoyeod2C0NacatYr6Cpd/RKA+2k7TZtUiEW
-   /6825UXX6TzalxMiAb4jk5DM0PkKPQ//squ2R/Y8VfFlMqdWqWo3uRpxS
-   I6j9JnCQWou3Dg/arQfE4ru3pkQQ8UQlSIV2q9bVkj2Zm14jIv7Zw6Il2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="2199716"
-X-IronPort-AV: E=Sophos;i="6.06,168,1705392000"; 
-   d="scan'208";a="2199716"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 01:19:24 -0800
+  bh=79ajAEPhE0M6dBXWoSum5/dwqEaVcL4Vsu41sxfofEc=;
+  b=DE+bFwMq8kCQ8xqtktdZDSo5nasi2iLv5/abvAfVhPrcLW7VFpyYievd
+   Vsj3STeV0AjNc9uhSb3oy/5E86RkCp5wxSsr5uwDdUwmrwchO4zAPAsTe
+   T4GOdaYNI+ioDa5HbvRUlxkKDyckPwBfRHuoZ1LduUhOgSn9ZmqVuExJ7
+   hHJ95AlgFPo5Mp931z0I0ZEs+kS5sLSCfj5L+sHAQxGjVAQMADmirGkIz
+   SH3gNULWEpJzDbwVcFkHb+2Y9VwiLXq6H8htJa9nlQr7LkzxfWw54jfED
+   NBuE81jkmmpoXU0+kq/sGZhdlQGSQCkkIJTvaxBSCq+/ZXH1uyWUm+rY0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="2794695"
+X-IronPort-AV: E=Sophos;i="6.06,169,1705392000"; 
+   d="scan'208";a="2794695"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 12:49:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,168,1705392000"; 
-   d="scan'208";a="4588805"
+X-IronPort-AV: E=Sophos;i="6.06,169,1705392000"; 
+   d="scan'208";a="9002058"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 18 Feb 2024 01:19:23 -0800
+  by orviesa004.jf.intel.com with ESMTP; 18 Feb 2024 12:49:08 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbdKS-0002vQ-1q;
-	Sun, 18 Feb 2024 09:19:20 +0000
-Date: Sun, 18 Feb 2024 17:18:34 +0800
+	id 1rbo53-0003IY-0x;
+	Sun, 18 Feb 2024 20:48:20 +0000
+Date: Mon, 19 Feb 2024 04:47:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH net-next 06/11] net: mctp: provide a more specific tag
- allocation ioctl
-Message-ID: <202402181713.OQAPBmZC-lkp@intel.com>
+Subject: [lumag-msm:msm-next-lumag-test 31/49]
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c:746
+ dpu_encoder_phys_cmd_init() warn: variable dereferenced before check
+ 'phys_enc->hw_intf' (see line 742)
+Message-ID: <202402190439.kNeGrO9l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,90 +62,62 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <424009ba3e320ae93eb6bd44ef5e474aa5c9221f.1708071380.git.jk@codeconstruct.com.au>
-References: <424009ba3e320ae93eb6bd44ef5e474aa5c9221f.1708071380.git.jk@codeconstruct.com.au>
-TO: Jeremy Kerr <jk@codeconstruct.com.au>
-TO: netdev@vger.kernel.org
-CC: Matt Johnston <matt@codeconstruct.com.au>
-CC: Eric Dumazet <edumazet@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Simon Horman <horms@kernel.org>
-CC: David Howells <dhowells@redhat.com>
-CC: Alexander Lobakin <aleksander.lobakin@intel.com>
-CC: Liang Chen <liangchen.linux@gmail.com>
-CC: Johannes Berg <johannes.berg@intel.com>
+TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Hi Jeremy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-mctp-avoid-confusion-over-local-peer-dest-source-addresses/20240216-163203
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/424009ba3e320ae93eb6bd44ef5e474aa5c9221f.1708071380.git.jk%40codeconstruct.com.au
-patch subject: [PATCH net-next 06/11] net: mctp: provide a more specific tag allocation ioctl
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: parisc-randconfig-r081-20240218 (https://download.01.org/0day-ci/archive/20240218/202402181713.OQAPBmZC-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
+tree:   https://gitlab.freedesktop.org/lumag/msm msm-next-lumag-test
+head:   32d80494be094a2b7a0464460c61059ebc032494
+commit: d13f638c9b88e9921d39d133a797e80aa1c235f0 [31/49] drm/msm/dpu: drop dpu_encoder_phys_ops.atomic_mode_set
+:::::: branch date: 8 hours ago
+:::::: commit date: 7 days ago
+config: powerpc64-randconfig-r071-20240218 (https://download.01.org/0day-ci/archive/20240219/202402190439.kNeGrO9l-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202402181713.OQAPBmZC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402190439.kNeGrO9l-lkp@intel.com/
 
 smatch warnings:
-net/mctp/af_mctp.c:389 mctp_ioctl_tag_copy_from_user() warn: was && intended here instead of ||?
+drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c:746 dpu_encoder_phys_cmd_init() warn: variable dereferenced before check 'phys_enc->hw_intf' (see line 742)
 
-vim +389 net/mctp/af_mctp.c
+vim +746 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
 
-8f601a1e4f8c84 Jeremy Kerr 2021-07-29  352  
-28828bad95a357 Jeremy Kerr 2024-02-16  353  /* helpers for reading/writing the tag ioc, handling compatibility across the
-28828bad95a357 Jeremy Kerr 2024-02-16  354   * two versions, and some basic API error checking
-28828bad95a357 Jeremy Kerr 2024-02-16  355   */
-28828bad95a357 Jeremy Kerr 2024-02-16  356  static int mctp_ioctl_tag_copy_from_user(unsigned long arg,
-28828bad95a357 Jeremy Kerr 2024-02-16  357  					 struct mctp_ioc_tag_ctl2 *ctl,
-28828bad95a357 Jeremy Kerr 2024-02-16  358  					 bool tagv2)
-28828bad95a357 Jeremy Kerr 2024-02-16  359  {
-28828bad95a357 Jeremy Kerr 2024-02-16  360  	struct mctp_ioc_tag_ctl ctl_compat;
-28828bad95a357 Jeremy Kerr 2024-02-16  361  	unsigned long size;
-28828bad95a357 Jeremy Kerr 2024-02-16  362  	void *ptr;
-28828bad95a357 Jeremy Kerr 2024-02-16  363  	int rc;
-28828bad95a357 Jeremy Kerr 2024-02-16  364  
-28828bad95a357 Jeremy Kerr 2024-02-16  365  	if (tagv2) {
-28828bad95a357 Jeremy Kerr 2024-02-16  366  		size = sizeof(*ctl);
-28828bad95a357 Jeremy Kerr 2024-02-16  367  		ptr = ctl;
-28828bad95a357 Jeremy Kerr 2024-02-16  368  	} else {
-28828bad95a357 Jeremy Kerr 2024-02-16  369  		size = sizeof(ctl_compat);
-28828bad95a357 Jeremy Kerr 2024-02-16  370  		ptr = &ctl_compat;
-28828bad95a357 Jeremy Kerr 2024-02-16  371  	}
-28828bad95a357 Jeremy Kerr 2024-02-16  372  
-28828bad95a357 Jeremy Kerr 2024-02-16  373  	rc = copy_from_user(ptr, (void __user *)arg, size);
-28828bad95a357 Jeremy Kerr 2024-02-16  374  	if (rc)
-28828bad95a357 Jeremy Kerr 2024-02-16  375  		return -EFAULT;
-28828bad95a357 Jeremy Kerr 2024-02-16  376  
-28828bad95a357 Jeremy Kerr 2024-02-16  377  	if (!tagv2) {
-28828bad95a357 Jeremy Kerr 2024-02-16  378  		/* compat, using defaults for new fields */
-28828bad95a357 Jeremy Kerr 2024-02-16  379  		ctl->net = MCTP_INITIAL_DEFAULT_NET;
-28828bad95a357 Jeremy Kerr 2024-02-16  380  		ctl->peer_addr = ctl_compat.peer_addr;
-28828bad95a357 Jeremy Kerr 2024-02-16  381  		ctl->local_addr = MCTP_ADDR_ANY;
-28828bad95a357 Jeremy Kerr 2024-02-16  382  		ctl->flags = ctl_compat.flags;
-28828bad95a357 Jeremy Kerr 2024-02-16  383  		ctl->tag = ctl_compat.tag;
-28828bad95a357 Jeremy Kerr 2024-02-16  384  	}
-28828bad95a357 Jeremy Kerr 2024-02-16  385  
-28828bad95a357 Jeremy Kerr 2024-02-16  386  	if (ctl->flags)
-28828bad95a357 Jeremy Kerr 2024-02-16  387  		return -EINVAL;
-28828bad95a357 Jeremy Kerr 2024-02-16  388  
-28828bad95a357 Jeremy Kerr 2024-02-16 @389  	if (!(ctl->local_addr != MCTP_ADDR_ANY ||
-28828bad95a357 Jeremy Kerr 2024-02-16  390  	      ctl->local_addr != MCTP_ADDR_NULL))
-28828bad95a357 Jeremy Kerr 2024-02-16  391  		return -EINVAL;
-28828bad95a357 Jeremy Kerr 2024-02-16  392  
-28828bad95a357 Jeremy Kerr 2024-02-16  393  	return 0;
-28828bad95a357 Jeremy Kerr 2024-02-16  394  }
-28828bad95a357 Jeremy Kerr 2024-02-16  395  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  719  
+73169b45e1ed29 Dmitry Baryshkov  2023-12-02  720  struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(struct drm_device *dev,
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  721  		struct dpu_enc_phys_init_params *p)
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  722  {
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  723  	struct dpu_encoder_phys *phys_enc = NULL;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  724  	struct dpu_encoder_phys_cmd *cmd_enc = NULL;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  725  
+8ea432b8428e9b Dmitry Baryshkov  2023-06-01  726  	DPU_DEBUG("intf\n");
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  727  
+73169b45e1ed29 Dmitry Baryshkov  2023-12-02  728  	cmd_enc = drmm_kzalloc(dev, sizeof(*cmd_enc), GFP_KERNEL);
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  729  	if (!cmd_enc) {
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  730  		DPU_ERROR("failed to allocate\n");
+ed02d3dd18dc35 Dmitry Baryshkov  2023-06-01  731  		return ERR_PTR(-ENOMEM);
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  732  	}
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  733  	phys_enc = &cmd_enc->base;
+7731ee3b06c12b Dmitry Baryshkov  2023-06-01  734  
+7731ee3b06c12b Dmitry Baryshkov  2023-06-01  735  	dpu_encoder_phys_init(phys_enc, p);
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  736  
+45284ff733e4ca Paloma Arellano   2023-12-12  737  	mutex_init(&phys_enc->vblank_ctl_lock);
+45284ff733e4ca Paloma Arellano   2023-12-12  738  	phys_enc->vblank_refcount = 0;
+45284ff733e4ca Paloma Arellano   2023-12-12  739  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  740  	dpu_encoder_phys_cmd_init_ops(&phys_enc->ops);
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  741  	phys_enc->intf_mode = INTF_MODE_CMD;
+d13f638c9b88e9 Dmitry Baryshkov  2024-02-08 @742  	phys_enc->irq[INTR_IDX_UNDERRUN] = phys_enc->hw_intf->cap->intr_underrun;
+d13f638c9b88e9 Dmitry Baryshkov  2024-02-08  743  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  744  	cmd_enc->stream_sel = 0;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  745  
+edc8230af66611 Dmitry Baryshkov  2023-09-04 @746  	if (!phys_enc->hw_intf) {
+
+:::::: The code at line 746 was first introduced by commit
+:::::: edc8230af6661189b1f40dccf0a75d9e6062569b drm/msm/dpu: move INTF tearing checks to dpu_encoder_phys_cmd_init
+
+:::::: TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+:::::: CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
