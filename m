@@ -1,63 +1,72 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3829E20B00
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Feb 2024 08:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AFAE210FA
+	for <oe-kbuild@lists.linux.dev>; Mon, 19 Feb 2024 08:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708330789; cv=none; b=SHwl2EX0wBSnGMdZ4iDF9ZUiQQhzePgW2e9C3QKfehbTF72sgE1ehX5tj1ReIwgGd72QPTWC5XOEtgV3JWuetbWOLiJmM3O0GLIOD0qGQRlMg9ayPoHcWS/6kFBfQ+2T+iuZ3Q45vDKjeBwJhcY48Px4FW2WKAwyKeaAkTPpBEc=
+	t=1708330940; cv=none; b=VLg9+LN63AHX4S/zzlaE28Iged1McpUpuWgxVbUwOo4PtiDHMiazvnOtTQvrbW1y9z6WNCcnxAZwhHDP6+8s9E4SIUScf/bNIB8+vwWGMH6G27VgQUgNvplNWzHOJKzFJ47WGanLcbm9Orkt/M4ONjnO0NtoAVZw/0PyDJixl5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708330789; c=relaxed/simple;
-	bh=mbgrIVbU9cYL+0SQeXf9vbE/uadA5/T0JmGS45eHdqY=;
+	s=arc-20240116; t=1708330940; c=relaxed/simple;
+	bh=nGitsSxjPk+gBIGLQ3qxvow1rCE7hQe9MOGZfZ0PH3w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dbaj7r9m76tQl+HqwueqDLNauHI5Vje9HSNNK5OavOjPPU8F7ZhshiNgxnijqyIrKEz+TgFFSb34VBspsqBQJvqcbRPkq7ji51Wlu2zm0p5jzfDe2kt7CdLTEREPNfvmS665kEtdQCFRrq0k6YP+6qZhP37+WV9zKXgtSt+VkM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OZaIu3oh; arc=none smtp.client-ip=209.85.218.42
+	 Content-Disposition:In-Reply-To; b=P0XatHxSHvVHJ4dg71SP1KxD93/EyvzjjBK8MtpafiB1+J9KMJfl7B9/AjuF0CQ/OjlwAB5puVwl1GDLdZ7JQgQCcXDE1TU0XCwbqxp+7p0HK64QK5GQN2F8llQG6gT1cLOevcoC+u8RhGPmAKEPD146JpMT6LiYQ4ebwALf7TQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TovorWg8; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OZaIu3oh"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a36126ee41eso521039766b.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 19 Feb 2024 00:19:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TovorWg8"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a3e3a09cd79so113525966b.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 19 Feb 2024 00:22:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708330784; x=1708935584; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3lLuOmFKlDCg89YKjH51cyqmyjyjZ4BGO6vbbxm00PY=;
-        b=OZaIu3oh3crAVtCxX2CeLxIhiE5sPx+skI/9dpbCockZ6jQpizygqeONHXX4zazb34
-         POFJE4qBgxVrmiinxVCRky75YidWxo+zwh2IDZJfWORfXGqvmhFZiVUgA8nrAZ9yd1Ex
-         0eYPktr3eVK0CzvGCemgTkBFFUuigdepOqZk+vCkOECwYxgWNll4YvHzjdakEDHlB41m
-         XW6YR4wwtCGqXjCqurh9k8NcgLwHDcPHJMy0TV/eRznHw5UDwuFvUMgJQQf64gRscpJN
-         EOTb8Ul1Rgl06C3rfdA/Fs2goOSvJXncyUfYrPoIFS/7tGG1+gd7NBgeVI8OODS8/dqA
-         NcSw==
+        d=linaro.org; s=google; t=1708330936; x=1708935736; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aJawKhMKgZfK3H+o45cb6KDvj97UBnzXFXRTiTe4vLc=;
+        b=TovorWg8er2FldWvG5yeA+uVKat09JLqamMWedhwWaLWPbepP4t21CtEnniFSP+zUc
+         2NUNM40RQXtX7ws5wzlN1bfO4UrUF/mAYcXTYJLtFNWREnArfIqSn2sooPjnvx/FWWBN
+         uWKXTM7l0ZNMhD1EyRC/8lQGZ1ASVGajq2o6rU+bCS9fowhV1n52w/g95y2UEYkV5Zhq
+         DKono4T6HNRroRV6zgRRWrobdOS5cp41EvV23mEiPtRb5dJvBkgdZS9yzkSYxry8zIUl
+         L0nGGxR47wO1tKvzJ9JUpACJSsskhjjNFfm5eLsJywkFRE7eKTaehJHxmpBvAfUfZifT
+         RB1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708330784; x=1708935584;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3lLuOmFKlDCg89YKjH51cyqmyjyjZ4BGO6vbbxm00PY=;
-        b=TWSy3iGf/NOLPYLbR4N2Pqph8FHKkfd8MiXPa16kncfM3DYkpcqU1Kc0XILmAI7mrG
-         YgDs54TsiDKViEiX/LBq3JvzRAA5eQxGEkRuSVARh2h7pwOrdpio33NUMfPLWzgnXAPp
-         Xp1IB46LGifd2kZ/juBGZsr3Nal2ZkxrQhtf9J4PWG1KzFztdVcj7KorIGmVY1joR7q+
-         v4prqSuR8QHCT3+TL/5skdhf6BGp1Z3smSDmwpr+NBR5G7cM1IJYCIpy7trsV6Vbf3ub
-         9RZTjWafaDB3FTdlyzs3ZUOfGWnbivzBjVbXkjOXtwWphOjcd9iTPcEEJAmdRN8jw/h4
-         Sr8g==
-X-Gm-Message-State: AOJu0Yzab8Fc0YzB8LAODHJtGdWag6KXkvuoF+X8Rj8rosizaP83uLzr
-	b2PMOiIXZs4Rr9Cwjieqvv90pPYl7CWx/eqKQh7piNMFSwFsBr6rFRbYZczfOuOVozETjaOJWiU
-	T
-X-Google-Smtp-Source: AGHT+IFUWx7NVkVmlYv7Nx0vCgrVNZu9K0f6UDjeR093vn4GQEQ+0sEojGrmCJ1IFg1YwGbNuVdurw==
-X-Received: by 2002:a17:906:6886:b0:a3e:a010:3e6e with SMTP id n6-20020a170906688600b00a3ea0103e6emr997273ejr.71.1708330784435;
-        Mon, 19 Feb 2024 00:19:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708330936; x=1708935736;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aJawKhMKgZfK3H+o45cb6KDvj97UBnzXFXRTiTe4vLc=;
+        b=bidRWRrR1EaAOjvLhpMCbswJ+26WJjpHUKzVu7F2qlljPwo1LXActXkDTncPkkIbF9
+         EaGJJJnBwoHZ5ZvZ5zDVLQVkT8SIdvhNMFpSCPiMyHZSLVOS8CT4GPcaODHKMnn/EUeK
+         W96C7C+dDqScpTLDbkXr9hCnpxFOuNtIzlFxmPnJgQttRhKbPYLYTWjqhtV5lZSVBXGo
+         I3KxxODrnagujHhc3LmO2qmXOHljN1dlBkN1gxtrut85jTolFOAJNlVHx85AAfeA7y3J
+         ce1lIq4jMKe51s/bAv8vgIEOcW9FrIBiL1NMw6qXWCRBjJjcpua0vRvVdx+e7LcURvS0
+         1JTg==
+X-Gm-Message-State: AOJu0YwBUHACFp96Mz7RUvc5QKJmrpcqq1CrYG8Yq1ogi+I3u7ZhhPYF
+	+Fmmxc+0AQWcBxoHVWiMkcW4eskz+5+W6ijHP86aKE3O3ZBQSezKNaECRB9KCkawOCUcKT1bcpn
+	K
+X-Google-Smtp-Source: AGHT+IGl/ITfmjq0RpjNkokRRLvKEhrU7NvfHwqSMU7MFfOC3zR13Xzxi+jsjB0P34SMxHIUAdW/cQ==
+X-Received: by 2002:a17:906:1388:b0:a3e:79f7:d218 with SMTP id f8-20020a170906138800b00a3e79f7d218mr2415837ejc.43.1708330936473;
+        Mon, 19 Feb 2024 00:22:16 -0800 (PST)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a11-20020a170906244b00b00a3e6dc386d8sm1325258ejb.106.2024.02.19.00.19.43
+        by smtp.gmail.com with ESMTPSA id y2-20020a170906470200b00a3d0dd84276sm2685297ejq.184.2024.02.19.00.22.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Feb 2024 00:19:44 -0800 (PST)
-Date: Mon, 19 Feb 2024 11:19:40 +0300
+        Mon, 19 Feb 2024 00:22:16 -0800 (PST)
+Date: Mon, 19 Feb 2024 11:22:12 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 11/13]
- sound/soc/codecs/hdmi-codec.c:504 hdmi_codec_hw_params() error:
- __builtin_memcpy() 'hcp->iec_status' too small (5 vs 24)
-Message-ID: <3fb4e941-7d4d-4f2b-8e17-ec5fa7f4dad9@moroto.mountain>
+To: oe-kbuild@lists.linux.dev, Jeremy Kerr <jk@codeconstruct.com.au>,
+	netdev@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Matt Johnston <matt@codeconstruct.com.au>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Liang Chen <liangchen.linux@gmail.com>,
+	Johannes Berg <johannes.berg@intel.com>
+Subject: Re: [PATCH net-next 06/11] net: mctp: provide a more specific tag
+ allocation ioctl
+Message-ID: <95174361-e247-4792-866b-d77152659fd6@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,51 +75,74 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <424009ba3e320ae93eb6bd44ef5e474aa5c9221f.1708071380.git.jk@codeconstruct.com.au>
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   44817294cfe4afa710fc37d3fe6953877a4232e0
-commit: 4ad97b395f94bc0f546f27bbe9b8a62321f49ad3 [11/13] UPSTREAM: ASoC: hdmi-codec: Add iec958 controls
-config: i386-randconfig-141-20240214 (https://download.01.org/0day-ci/archive/20240218/202402180247.OJ2TZSS7-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+Hi Jeremy,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-mctp-avoid-confusion-over-local-peer-dest-source-addresses/20240216-163203
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/424009ba3e320ae93eb6bd44ef5e474aa5c9221f.1708071380.git.jk%40codeconstruct.com.au
+patch subject: [PATCH net-next 06/11] net: mctp: provide a more specific tag allocation ioctl
+config: parisc-randconfig-r081-20240218 (https://download.01.org/0day-ci/archive/20240218/202402181713.OQAPBmZC-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202402180247.OJ2TZSS7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402181713.OQAPBmZC-lkp@intel.com/
 
 smatch warnings:
-sound/soc/codecs/hdmi-codec.c:504 hdmi_codec_hw_params() error: __builtin_memcpy() 'hcp->iec_status' too small (5 vs 24)
+net/mctp/af_mctp.c:389 mctp_ioctl_tag_copy_from_user() warn: was && intended here instead of ||?
 
-vim +504 sound/soc/codecs/hdmi-codec.c
+vim +389 net/mctp/af_mctp.c
 
-09184118a8abae Jyri Sarha        2016-03-31  484  static int hdmi_codec_hw_params(struct snd_pcm_substream *substream,
-09184118a8abae Jyri Sarha        2016-03-31  485  				struct snd_pcm_hw_params *params,
-09184118a8abae Jyri Sarha        2016-03-31  486  				struct snd_soc_dai *dai)
-09184118a8abae Jyri Sarha        2016-03-31  487  {
-09184118a8abae Jyri Sarha        2016-03-31  488  	struct hdmi_codec_priv *hcp = snd_soc_dai_get_drvdata(dai);
-0cf4610b9f297e Jerome Brunet     2019-05-06  489  	struct hdmi_codec_daifmt *cf = dai->playback_dma_data;
-09184118a8abae Jyri Sarha        2016-03-31  490  	struct hdmi_codec_params hp = {
-09184118a8abae Jyri Sarha        2016-03-31  491  		.iec = {
-09184118a8abae Jyri Sarha        2016-03-31  492  			.status = { 0 },
-09184118a8abae Jyri Sarha        2016-03-31  493  			.subcode = { 0 },
-09184118a8abae Jyri Sarha        2016-03-31  494  			.pad = 0,
-09184118a8abae Jyri Sarha        2016-03-31  495  			.dig_subframe = { 0 },
-09184118a8abae Jyri Sarha        2016-03-31  496  		}
-09184118a8abae Jyri Sarha        2016-03-31  497  	};
-cd6111b26280a2 Arnaud Pouliquen  2017-01-03  498  	int ret, idx;
-09184118a8abae Jyri Sarha        2016-03-31  499  
-09184118a8abae Jyri Sarha        2016-03-31  500  	dev_dbg(dai->dev, "%s() width %d rate %d channels %d\n", __func__,
-09184118a8abae Jyri Sarha        2016-03-31  501  		params_width(params), params_rate(params),
-09184118a8abae Jyri Sarha        2016-03-31  502  		params_channels(params));
-09184118a8abae Jyri Sarha        2016-03-31  503  
-4ad97b395f94bc Maxime Ripard     2021-05-25 @504  	memcpy(hp.iec.status, hcp->iec_status, sizeof(hp.iec.status));
+28828bad95a357 Jeremy Kerr 2024-02-16  356  static int mctp_ioctl_tag_copy_from_user(unsigned long arg,
+28828bad95a357 Jeremy Kerr 2024-02-16  357  					 struct mctp_ioc_tag_ctl2 *ctl,
+28828bad95a357 Jeremy Kerr 2024-02-16  358  					 bool tagv2)
+28828bad95a357 Jeremy Kerr 2024-02-16  359  {
+28828bad95a357 Jeremy Kerr 2024-02-16  360  	struct mctp_ioc_tag_ctl ctl_compat;
+28828bad95a357 Jeremy Kerr 2024-02-16  361  	unsigned long size;
+28828bad95a357 Jeremy Kerr 2024-02-16  362  	void *ptr;
+28828bad95a357 Jeremy Kerr 2024-02-16  363  	int rc;
+28828bad95a357 Jeremy Kerr 2024-02-16  364  
+28828bad95a357 Jeremy Kerr 2024-02-16  365  	if (tagv2) {
+28828bad95a357 Jeremy Kerr 2024-02-16  366  		size = sizeof(*ctl);
+28828bad95a357 Jeremy Kerr 2024-02-16  367  		ptr = ctl;
+28828bad95a357 Jeremy Kerr 2024-02-16  368  	} else {
+28828bad95a357 Jeremy Kerr 2024-02-16  369  		size = sizeof(ctl_compat);
+28828bad95a357 Jeremy Kerr 2024-02-16  370  		ptr = &ctl_compat;
+28828bad95a357 Jeremy Kerr 2024-02-16  371  	}
+28828bad95a357 Jeremy Kerr 2024-02-16  372  
+28828bad95a357 Jeremy Kerr 2024-02-16  373  	rc = copy_from_user(ptr, (void __user *)arg, size);
+28828bad95a357 Jeremy Kerr 2024-02-16  374  	if (rc)
+28828bad95a357 Jeremy Kerr 2024-02-16  375  		return -EFAULT;
+28828bad95a357 Jeremy Kerr 2024-02-16  376  
+28828bad95a357 Jeremy Kerr 2024-02-16  377  	if (!tagv2) {
+28828bad95a357 Jeremy Kerr 2024-02-16  378  		/* compat, using defaults for new fields */
+28828bad95a357 Jeremy Kerr 2024-02-16  379  		ctl->net = MCTP_INITIAL_DEFAULT_NET;
+28828bad95a357 Jeremy Kerr 2024-02-16  380  		ctl->peer_addr = ctl_compat.peer_addr;
+28828bad95a357 Jeremy Kerr 2024-02-16  381  		ctl->local_addr = MCTP_ADDR_ANY;
+28828bad95a357 Jeremy Kerr 2024-02-16  382  		ctl->flags = ctl_compat.flags;
+28828bad95a357 Jeremy Kerr 2024-02-16  383  		ctl->tag = ctl_compat.tag;
+28828bad95a357 Jeremy Kerr 2024-02-16  384  	}
+28828bad95a357 Jeremy Kerr 2024-02-16  385  
+28828bad95a357 Jeremy Kerr 2024-02-16  386  	if (ctl->flags)
+28828bad95a357 Jeremy Kerr 2024-02-16  387  		return -EINVAL;
+28828bad95a357 Jeremy Kerr 2024-02-16  388  
+28828bad95a357 Jeremy Kerr 2024-02-16 @389  	if (!(ctl->local_addr != MCTP_ADDR_ANY ||
+28828bad95a357 Jeremy Kerr 2024-02-16  390  	      ctl->local_addr != MCTP_ADDR_NULL))
+28828bad95a357 Jeremy Kerr 2024-02-16  391  		return -EINVAL;
 
+Should be &&.  This function will always return -EINVAL.  I haven't
+looked at the context outside of this automatically generated email but
+it suggests a failure in our test process.
 
-hp.iec.status is 24 bytes and hcp->iec_status is 5 bytes so it reads
-beyond the end of the hcp struct.
-
-4ad97b395f94bc Maxime Ripard     2021-05-25  505  	ret = snd_pcm_fill_iec958_consumer_hw_params(params, hp.iec.status,
+28828bad95a357 Jeremy Kerr 2024-02-16  392  
+28828bad95a357 Jeremy Kerr 2024-02-16  393  	return 0;
+28828bad95a357 Jeremy Kerr 2024-02-16  394  }
 
 -- 
 0-DAY CI Kernel Test Service
