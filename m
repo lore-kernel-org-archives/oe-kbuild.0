@@ -1,55 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE2E38DEA
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Feb 2024 15:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4746C3CF4B
+	for <oe-kbuild@lists.linux.dev>; Mon, 19 Feb 2024 16:03:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708357586; cv=none; b=Pg2cI2T+CSQwsUmBTdf2F0He5MdtVttGK/MvRoPrCXrHqVkOP8qmsys8jvg1IwRDi1/Pp87RscQ6mmiEls2/agaPvlChcXlAcwS6MqmNGyOzO/yvIMBnBFcufFrJtt4jnRgg2M/Yd4VYVIeg5bMpN5LqfXjzu9joDcDR3Wi3LGQ=
+	t=1708358582; cv=none; b=tHVPAjMFvY1ns3kChg+qmiT58f2NKanbrmF+hS3/AZMa8lCDyLcG4J02C0be5i7AYmLaKVPMc3H0fbT/u/oJYE10CRILnuBzs4NCVJPXwSj2xHmDCVMEX6BGGeqrYN2ioUwz2XhcNqrCn0f4FDNtbQF8UbEYQshc/zXh0KLeb/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708357586; c=relaxed/simple;
-	bh=9VNWoL+YDu2xUz3ukqVRJGDWcrzt+9abQAt0CRaCLA0=;
+	s=arc-20240116; t=1708358582; c=relaxed/simple;
+	bh=H7a7oxGIhcPoePflp6S4fyhD8pvwns8xgugWsQFM2lo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qVINWyKL2+cJWv79Z6KMOKzF1ajdcQF2sjluUNluzTkPhA/hjiiYUKLGmI2WP1cFEvWA9iZ3epqYd++TrCtbq38TW4dA5nTHgpObK6aVHtdBtv6GXXAZWdNOuPa8fUJHpfOTnMTaofs1cgV9J4axGtts0EV+SZ7V9mHuAMaKpDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aaSY4fWC; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=cZxYfPMDMZ8VuLcjU+GjZfyUAkCy2vGZKyLE54sqUUZejCwEe2VWiv/EM825Y7PaC5CMcG0MYgOx1UOhkkmcQet36L9yTlxDqk3eiKo9r8pot2MThflPbl+ycpUr9A4y8snoR+Gq1i0RMto8fpzXVrsxkIwBT9jjYtR1UXR4Hrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lRL3/ISR; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aaSY4fWC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708357584; x=1739893584;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9VNWoL+YDu2xUz3ukqVRJGDWcrzt+9abQAt0CRaCLA0=;
-  b=aaSY4fWCG5cLXeUoLqayu0jcshVySNBr543u9B6ft4h2j9RNG+a89IxQ
-   jZLAMzRuBWS18fl8nPDjWyafTbtgiupOcrFNqMuN4TRkx/KjZM1Oz+v3C
-   g/dKK1QlWpEklLmgNUYa7fAxhMp007oA574MV4yXSlHwBfsjHtWE0nyV8
-   9CkcnJ8Ih4foMSmZTrLu2cukkQWUkhgV69aYrbIS+HqN/aMHMeY6U5CTY
-   Kyn18VpDAkSh1SpR1Ph88GwJcN0XDygkRLBh4zZxpoT1ho1bDX+7w6ps2
-   5xqsISQKDlAHFfESKOFmdDjqZKyzyrSGOJgPXJWWcOWiKxONMtLMPnLdH
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="5403048"
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="5403048"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 07:46:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="4882621"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 19 Feb 2024 07:46:22 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rc5qV-0003t8-23;
-	Mon, 19 Feb 2024 15:46:19 +0000
-Date: Mon, 19 Feb 2024 23:45:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lRL3/ISR"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a26ed1e05c7so617267566b.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 19 Feb 2024 08:03:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708358578; x=1708963378; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=flIDH9HO3xRQn7HXwVHxFPU5p6Nmkq+1BWuk0uOwwP4=;
+        b=lRL3/ISRG2cqPO64F6zgJRhwKn2mBqJ3LxaKv5BhTmXcVoY+0phUWRY+ZgK/DcodbG
+         wBE3g8FuoE9rnZZDTqj941dJ/WHDkfe6lLSPamiIduP94wiPUs7pa9Krck1UKgEtaUvi
+         lzbORKFKlQVBYWN1b3bswvjRH1lcescEol/hVNTQDuKA35QUutIYZiFMciA2yWHj1yZr
+         DvcBtO50HZJVbIO0FWmTo1GzQf+YNwPOOzQo1+o9kkHkoem2bo2HjFMZgR6Ufu7reh8k
+         rcFa5ZQxzQ+tIJzp+5BWrRwIoH67x97T2JTdDFJk846OMdeiv48h0NOphtHGoDHvud4u
+         13lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708358578; x=1708963378;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=flIDH9HO3xRQn7HXwVHxFPU5p6Nmkq+1BWuk0uOwwP4=;
+        b=NLuejePfe2CuDTNQJnf9hWUUX4KoEvdE4gA8e9GyMTfYo3COhyhWyq76Rs8IYNl4dB
+         xpK7tvGi9L0+kQ7VMpI1H3Gg1tDvD8J5QJxn1eoc4eLkplLsp1vRJDlLO1B2vF4bEVO/
+         LjRzz+grNpFsNzVVxLOxM8bjhaKAYuzrifq9uGwkjsguWcElv4N+p0G4h62pzLX8i3Jm
+         2W3RseCf36vnkS8S7OZubtJodvK9GepqT5Ssx3350ri2cuSbdMVD/4cWRErItFe8IJKI
+         X+LHyb8TEfcEJlU7hgie14JiT/AwvuaaPofxvVOW6Ar2qmCi2z5JexKEgRDnEB1PtuEW
+         Oosw==
+X-Gm-Message-State: AOJu0YzusGmYwVnq28d5x+IQeQ7ftY7CbhwHULK3ih5BkEDLJkrCnKwn
+	Qzv2pMszPtv5bDs4qnguhghQ55XOA4TD7/qRIfwzW9l6xuE5DR5tyP81fq57ya9dnTD/XQMzHHM
+	p
+X-Google-Smtp-Source: AGHT+IE+YaDuZFmXjPwyrRtGnEplalyw3dM+flqDJX0KkpO+iwdZ4pAD3NzGtUm3A059UMZMqNelCA==
+X-Received: by 2002:a17:906:2b50:b0:a3e:9d49:6c8c with SMTP id b16-20020a1709062b5000b00a3e9d496c8cmr1654211ejg.36.1708358578349;
+        Mon, 19 Feb 2024 08:02:58 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id un8-20020a170907cb8800b00a3df7003552sm3075785ejc.32.2024.02.19.08.02.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Feb 2024 08:02:58 -0800 (PST)
+Date: Mon, 19 Feb 2024 19:02:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Dorcas Anono Litunya <anonolitunya@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Hans Verkuil <hverkuil@xs4all.nl>
 Subject: [hverkuil-media-tree:outreachy-vivid-v6.7 12/12]
  drivers/media/test-drivers/vivid/vivid-core.c:2200 vivid_init() error:
  uninitialized symbol 'ret'.
-Message-ID: <202402192316.fyBF9GDv-lkp@intel.com>
+Message-ID: <2e9c4286-653a-4520-a90d-39bd6636990c@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,34 +69,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Dorcas Anono Litunya <anonolitunya@gmail.com>
-CC: Hans Verkuil <hverkuil@xs4all.nl>
-
 tree:   git://linuxtv.org/hverkuil/media_tree.git outreachy-vivid-v6.7
 head:   4bc7849217d6c105cb59d78e9995b8e129f0deaf
 commit: 4bc7849217d6c105cb59d78e9995b8e129f0deaf [12/12] media: vivid: Update menu controls for HDMI in multiple instance
-:::::: branch date: 12 days ago
-:::::: commit date: 12 days ago
 config: nios2-randconfig-r071-20240219 (https://download.01.org/0day-ci/archive/20240219/202402192316.fyBF9GDv-lkp@intel.com/config)
 compiler: nios2-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202402192316.fyBF9GDv-lkp@intel.com/
 
 New smatch warnings:
 drivers/media/test-drivers/vivid/vivid-core.c:2200 vivid_init() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
-
 vim +/ret +2200 drivers/media/test-drivers/vivid/vivid-core.c
 
-f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2158  
 f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2159  static int __init vivid_init(void)
 f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2160  {
 4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2161  	int count = FIXED_MENU_ITEMS;
@@ -103,6 +102,9 @@ f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil       
 4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2172  				kmalloc(MAX_STRING_LENGTH, GFP_KERNEL);
 4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2173  			if (!vivid_ctrl_hdmi_to_output_strings[count])
 4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2174  				goto cleanup;
+
+"ret" is uninitialized
+
 4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2175  			if (n_devs == 1) {
 4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2176  				snprintf(vivid_ctrl_hdmi_to_output_strings[count],
 4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2177  					 MAX_STRING_LENGTH, "HDMI %d", k);
@@ -130,14 +132,8 @@ f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil       
 f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2199  
 f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13 @2200  	return ret;
 f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2201  }
-f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2202  
-
-:::::: The code at line 2200 was first introduced by commit
-:::::: f46d740fb0258982f00ffdbddc6486e674edafb5 [media] vivid: turn this into a platform_device
-
-:::::: TO: Hans Verkuil <hans.verkuil@cisco.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
