@@ -1,271 +1,241 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F97C1FBF
-	for <oe-kbuild@lists.linux.dev>; Wed, 21 Feb 2024 01:03:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0317F39AF4
+	for <oe-kbuild@lists.linux.dev>; Wed, 21 Feb 2024 05:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708477383; cv=none; b=OPHNEHnwgAhx4KGxUnSf59gJ1RKXbFqHYAnngivx6hg/mfQslhsQSPY8Y8y47I9hwFT2QQMs/ZX52vCaeMpZvJKz7Is7DeIxO2oz0PmXI8HUZEGPaYBNd8Bivh0hwi8LzkyPR5Gp1WYKukBBMo3DN9OarTQlxp4Mc+Q26r3wAFA=
+	t=1708493477; cv=none; b=Yh8KazN3LwmvkvsrDfvas+SbmGx7sIdgHl4x7ro1RVMGbMn/hmO3AetzKmqF74/ZxeJFvKmNft6iMo0TPT1En0Wk7I2gDHteqMuNfLRR3Wu5hxKLq/WHaQ3zUXVtZSqXAdOyAnZucih4/qk+alQDBQEIWEpttH62SdyVldTPd1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708477383; c=relaxed/simple;
-	bh=+9fF/hA0muC1pSebMJ/9YSpKubQI5JwiQhZEs8MNWqQ=;
+	s=arc-20240116; t=1708493477; c=relaxed/simple;
+	bh=4kNUkPSsZ6NwsVXrjkUeOW8afEalspPvKs5WE0LwN4c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kl3R07+78lCbzD1Ulicl7ayiLF6sWGCenjfWX19l+Xmxs/5znUQ+a/+w69wD5+jeOczJ6AxAOCNSd5O5un18Q9DwMZKK2hyd57LiDvMq7s+47nFLb5yk7SreBei6HPklHFvuWfogipB77Pl1FplM2kC3X+9sn+0Aelwv2idY/7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XmXvYc6m; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=DG6pYDGJqV5g/8ZM3ply9EZeHysry+PBHawAPp/jgxPpfO2zba1TkRi3f7tQ+yaTF9eVPCIvUNT1LneiXP4BGBNpe1PASQYnjm68RI7hW6NvCdXcjk7xqe7j0HuDZS9LrhYOj2oXUbBGmVT8GdDkpOF5fee5apXI0FwQ08ohOB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dfGoshA8; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XmXvYc6m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708477382; x=1740013382;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+9fF/hA0muC1pSebMJ/9YSpKubQI5JwiQhZEs8MNWqQ=;
-  b=XmXvYc6m6PHvnfuzPJ5CyfPxPghsYhRrpZXxuiyCaVUR+1t9DZ6fwqli
-   skCZAP0NbhmeHxVph6tWlneOJHkSjo+DHnSFzAqMC52JV9NSqp57AuvLB
-   aRXbLn7SHwoPCYaBjGZBD9jkA34pkpXp2+EyfU6XbpfkhDZYUlrOlyInV
-   7/cYRjA1Jg0xGoi1nHPMqEeFUJ+CLI088RqUBBqJaUvSvlPG++mzoaofh
-   IVg+taU2TvkiVtcspaDceKTGC5v9l9sKUcZ9DP2fzYPp5WLg5kSYEDrQN
-   kFpaTeCOhHc6R/5USxuPqbmBCM8/KNl+PYURDKK2X0wqmYaxRPPvyclDl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="25078280"
-X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="25078280"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 17:03:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="4854734"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Feb 2024 17:02:59 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rcb0h-0004ua-2l;
-	Wed, 21 Feb 2024 01:02:56 +0000
-Date: Wed, 21 Feb 2024 09:02:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 6780/8260] mm/userfaultfd.c:740 mfill_atomic()
- warn: inconsistent returns '&ctx->map_changing_lock'.
-Message-ID: <202402210841.xeePYHbo-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dfGoshA8"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a3122b70439so767276366b.3
+        for <oe-kbuild@lists.linux.dev>; Tue, 20 Feb 2024 21:31:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708493473; x=1709098273; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ee8UGbAfInlRw0mmY32iabqom41XT4N0g5e35WXpWiI=;
+        b=dfGoshA82bpyJrQkx2/KUf5Ns5/nDrjl+ef0xnm1RWBdTesjaFkOms/mUSxKBrVnav
+         zs2icsa2oB7bYODdBpSUUFnEkg33NEGOlUzAQgiwFutSRFgy5eImjQpDyjZ12MGqb1vX
+         WBl5igrentqm2NQw+uxMC1LvRf/ZP8Po1CgT01zXxIASeUUIxuUi7LuuXE93SALOHrd0
+         2/SJQmA9nGIfW/x2ovnKXTYJngietosPfeFudAs6qh8/FrRFgCngFK2xSvAU2XJyMTrx
+         Fakz/M1cFSPucvjJCFcDNXiHgvCq4H6+xYd/UDwU0NpmBsQEi68LixzpJty7xXWLeAgW
+         2vDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708493473; x=1709098273;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ee8UGbAfInlRw0mmY32iabqom41XT4N0g5e35WXpWiI=;
+        b=YtKGIGfYvZp+DL9UxDRPyclL8wUgT2j2IHuJnIlKKoCEE2fJHuqvGoDI4rWs8v83r/
+         ZYJgrgRa3fvlA360WjhxWj9vKqeAUrLw63zmS8JsS3iF6Ku3liSjnAT1zyC06rfEu+eh
+         dR1zWM1j1RuUvfz4h/+3e1TtzvE4zDsj3Wtd0nIIpSWpraBzxhRGHL9V7j/9bWo6AdXP
+         v4IC+ZZoQvLL49cr+mWSksE/8OXls7VJU2LWnupmlNUzjZ7pSo1qLvGNg5TK5/IF+S0+
+         ynYls8fZKd+WVLBiR3FzP76HjtNYBGPcSuKC+TsO8tnQTxkaz5EeTAvdHFYvc32NAl9y
+         cZ5A==
+X-Gm-Message-State: AOJu0YzhNxOMCiz6diqQPBEuVZ0VYqDKfSay/t8a77OHfcDounlIPhws
+	04VBp+gyMZnK1/VD1J6NM1o2FQhiaWECg9oewp2RqE4tfEg9GoS9Wh1fasvOGvxvDWJkZdyOzV7
+	5
+X-Google-Smtp-Source: AGHT+IEq1eFtTNdd/bmaa3GnlDQllZezHXuoSDlWDXRfmFI1MDpUwA5PpLIhedjCVEADYrw9jNbQjg==
+X-Received: by 2002:a17:906:b18e:b0:a3e:8972:4404 with SMTP id w14-20020a170906b18e00b00a3e89724404mr4985261ejy.9.1708493473094;
+        Tue, 20 Feb 2024 21:31:13 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id ov28-20020a170906fc1c00b00a3cf9b832eesm4587301ejb.40.2024.02.20.21.31.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Feb 2024 21:31:12 -0800 (PST)
+Date: Wed, 21 Feb 2024 08:31:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Menglong Dong <dongmenglong.8@bytedance.com>,
+	andrii@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ast@kernel.org,
+	daniel@iogearbox.net, martin.lau@linux.dev, eddyz87@gmail.com,
+	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
+	kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
+	jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org,
+	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+	thinker.li@gmail.com, dongmenglong.8@bytedance.com,
+	zhoufeng.zf@bytedance.com, davemarchevsky@fb.com, dxu@dxuuu.xyz,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH bpf-next 2/5] bpf: tracing: support to attach program to
+ multi hooks
+Message-ID: <d0607bff-b589-4548-98e1-a94d227b4e93@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240220035105.34626-3-dongmenglong.8@bytedance.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Lokesh Gidra <lokeshgidra@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: "Mike Rapoport (IBM)" <rppt@kernel.org>
-CC: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Hi Menglong,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2d5c7b7eb345249cb34d42cbc2b97b4c57ea944e
-commit: 973edec7cc120e3bf429b8183b62c2292b728bde [6780/8260] userfaultfd: protect mmap_changing with rw_sem in userfaulfd_ctx
-:::::: branch date: 20 hours ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-r081-20240216 (https://download.01.org/0day-ci/archive/20240221/202402210841.xeePYHbo-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/bpf-tracing-add-support-to-record-and-check-the-accessed-args/20240220-115317
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20240220035105.34626-3-dongmenglong.8%40bytedance.com
+patch subject: [PATCH bpf-next 2/5] bpf: tracing: support to attach program to multi hooks
+config: m68k-randconfig-r071-20240220 (https://download.01.org/0day-ci/archive/20240221/202402210534.siGKEfus-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202402210841.xeePYHbo-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202402210534.siGKEfus-lkp@intel.com/
 
 smatch warnings:
-mm/userfaultfd.c:740 mfill_atomic() warn: inconsistent returns '&ctx->map_changing_lock'.
+kernel/bpf/syscall.c:3325 bpf_tracing_prog_attach() warn: passing zero to 'PTR_ERR'
+kernel/bpf/syscall.c:3485 bpf_tracing_prog_attach() error: uninitialized symbol 'link'.
 
-vim +740 mm/userfaultfd.c
+vim +/PTR_ERR +3325 kernel/bpf/syscall.c
 
-3217d3c79b5d7a Mike Rapoport           2017-09-06  570  
-973edec7cc120e Lokesh Gidra            2024-02-15  571  static __always_inline ssize_t mfill_atomic(struct userfaultfd_ctx *ctx,
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  572  					    unsigned long dst_start,
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  573  					    unsigned long src_start,
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  574  					    unsigned long len,
-d9712937037e0c Axel Rasmussen          2023-03-14  575  					    uffd_flags_t flags)
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  576  {
-973edec7cc120e Lokesh Gidra            2024-02-15  577  	struct mm_struct *dst_mm = ctx->mm;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  578  	struct vm_area_struct *dst_vma;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  579  	ssize_t err;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  580  	pmd_t *dst_pmd;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  581  	unsigned long src_addr, dst_addr;
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  582  	long copied;
-d7be6d7eee1bbf ZhangPeng               2023-04-10  583  	struct folio *folio;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  584  
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  585  	/*
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  586  	 * Sanitize the command parameters:
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  587  	 */
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  588  	BUG_ON(dst_start & ~PAGE_MASK);
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  589  	BUG_ON(len & ~PAGE_MASK);
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  590  
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  591  	/* Does the address range wrap, or is the span zero-sized? */
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  592  	BUG_ON(src_start + len <= src_start);
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  593  	BUG_ON(dst_start + len <= dst_start);
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  594  
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  595  	src_addr = src_start;
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  596  	dst_addr = dst_start;
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  597  	copied = 0;
-d7be6d7eee1bbf ZhangPeng               2023-04-10  598  	folio = NULL;
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  599  retry:
-d8ed45c5dcd455 Michel Lespinasse       2020-06-08  600  	mmap_read_lock(dst_mm);
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  601  
-df2cc96e77011c Mike Rapoport           2018-06-07  602  	/*
-df2cc96e77011c Mike Rapoport           2018-06-07  603  	 * If memory mappings are changing because of non-cooperative
-df2cc96e77011c Mike Rapoport           2018-06-07  604  	 * operation (e.g. mremap) running in parallel, bail out and
-df2cc96e77011c Mike Rapoport           2018-06-07  605  	 * request the user to retry later
-df2cc96e77011c Mike Rapoport           2018-06-07  606  	 */
-973edec7cc120e Lokesh Gidra            2024-02-15  607  	down_read(&ctx->map_changing_lock);
-df2cc96e77011c Mike Rapoport           2018-06-07  608  	err = -EAGAIN;
-973edec7cc120e Lokesh Gidra            2024-02-15  609  	if (atomic_read(&ctx->mmap_changing))
-df2cc96e77011c Mike Rapoport           2018-06-07  610  		goto out_unlock;
-df2cc96e77011c Mike Rapoport           2018-06-07  611  
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  612  	/*
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  613  	 * Make sure the vma is not shared, that the dst range is
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  614  	 * both valid and fully within a single existing vma.
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  615  	 */
-27d02568f529e9 Mike Rapoport           2017-02-24  616  	err = -ENOENT;
-643aa36eadebdc Wei Yang                2019-11-30  617  	dst_vma = find_dst_vma(dst_mm, dst_start, len);
-26071cedc519b8 Mike Rapoport           2017-02-22  618  	if (!dst_vma)
-26071cedc519b8 Mike Rapoport           2017-02-22  619  		goto out_unlock;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  620  
-27d02568f529e9 Mike Rapoport           2017-02-24  621  	err = -EINVAL;
-27d02568f529e9 Mike Rapoport           2017-02-24  622  	/*
-27d02568f529e9 Mike Rapoport           2017-02-24  623  	 * shmem_zero_setup is invoked in mmap for MAP_ANONYMOUS|MAP_SHARED but
-27d02568f529e9 Mike Rapoport           2017-02-24  624  	 * it will overwrite vm_ops, so vma_is_anonymous must return false.
-27d02568f529e9 Mike Rapoport           2017-02-24  625  	 */
-27d02568f529e9 Mike Rapoport           2017-02-24  626  	if (WARN_ON_ONCE(vma_is_anonymous(dst_vma) &&
-27d02568f529e9 Mike Rapoport           2017-02-24  627  	    dst_vma->vm_flags & VM_SHARED))
-27d02568f529e9 Mike Rapoport           2017-02-24  628  		goto out_unlock;
-27d02568f529e9 Mike Rapoport           2017-02-24  629  
-72981e0e7b609c Andrea Arcangeli        2020-04-06  630  	/*
-72981e0e7b609c Andrea Arcangeli        2020-04-06  631  	 * validate 'mode' now that we know the dst_vma: don't allow
-72981e0e7b609c Andrea Arcangeli        2020-04-06  632  	 * a wrprotect copy if the userfaultfd didn't register as WP.
-72981e0e7b609c Andrea Arcangeli        2020-04-06  633  	 */
-d9712937037e0c Axel Rasmussen          2023-03-14  634  	if ((flags & MFILL_ATOMIC_WP) && !(dst_vma->vm_flags & VM_UFFD_WP))
-72981e0e7b609c Andrea Arcangeli        2020-04-06  635  		goto out_unlock;
-72981e0e7b609c Andrea Arcangeli        2020-04-06  636  
-60d4d2d2b40e44 Mike Kravetz            2017-02-22  637  	/*
-60d4d2d2b40e44 Mike Kravetz            2017-02-22  638  	 * If this is a HUGETLB vma, pass off to appropriate routine
-60d4d2d2b40e44 Mike Kravetz            2017-02-22  639  	 */
-60d4d2d2b40e44 Mike Kravetz            2017-02-22  640  	if (is_vm_hugetlb_page(dst_vma))
-973edec7cc120e Lokesh Gidra            2024-02-15  641  		return  mfill_atomic_hugetlb(ctx, dst_vma, dst_start,
-973edec7cc120e Lokesh Gidra            2024-02-15  642  					     src_start, len, flags);
-60d4d2d2b40e44 Mike Kravetz            2017-02-22  643  
-26071cedc519b8 Mike Rapoport           2017-02-22  644  	if (!vma_is_anonymous(dst_vma) && !vma_is_shmem(dst_vma))
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  645  		goto out_unlock;
-d9712937037e0c Axel Rasmussen          2023-03-14  646  	if (!vma_is_shmem(dst_vma) &&
-d9712937037e0c Axel Rasmussen          2023-03-14  647  	    uffd_flags_mode_is(flags, MFILL_ATOMIC_CONTINUE))
-f619147104c8ea Axel Rasmussen          2021-05-04  648  		goto out_unlock;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  649  
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  650  	/*
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  651  	 * Ensure the dst_vma has a anon_vma or this page
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  652  	 * would get a NULL anon_vma when moved in the
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  653  	 * dst_vma.
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  654  	 */
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  655  	err = -ENOMEM;
-5b51072e97d587 Andrea Arcangeli        2018-11-30  656  	if (!(dst_vma->vm_flags & VM_SHARED) &&
-5b51072e97d587 Andrea Arcangeli        2018-11-30  657  	    unlikely(anon_vma_prepare(dst_vma)))
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  658  		goto out_unlock;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  659  
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  660  	while (src_addr < src_start + len) {
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  661  		pmd_t dst_pmdval;
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  662  
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  663  		BUG_ON(dst_addr >= dst_start + len);
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  664  
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  665  		dst_pmd = mm_alloc_pmd(dst_mm, dst_addr);
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  666  		if (unlikely(!dst_pmd)) {
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  667  			err = -ENOMEM;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  668  			break;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  669  		}
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  670  
-dab6e717429e5e Peter Zijlstra          2020-11-26  671  		dst_pmdval = pmdp_get_lockless(dst_pmd);
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  672  		/*
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  673  		 * If the dst_pmd is mapped as THP don't
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  674  		 * override it and just be strict.
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  675  		 */
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  676  		if (unlikely(pmd_trans_huge(dst_pmdval))) {
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  677  			err = -EEXIST;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  678  			break;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  679  		}
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  680  		if (unlikely(pmd_none(dst_pmdval)) &&
-4cf58924951ef8 Joel Fernandes (Google  2019-01-03  681) 		    unlikely(__pte_alloc(dst_mm, dst_pmd))) {
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  682  			err = -ENOMEM;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  683  			break;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  684  		}
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  685  		/* If an huge pmd materialized from under us fail */
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  686  		if (unlikely(pmd_trans_huge(*dst_pmd))) {
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  687  			err = -EFAULT;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  688  			break;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  689  		}
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  690  
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  691  		BUG_ON(pmd_none(*dst_pmd));
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  692  		BUG_ON(pmd_trans_huge(*dst_pmd));
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  693  
-61c5004022f56c Axel Rasmussen          2023-03-14  694  		err = mfill_atomic_pte(dst_pmd, dst_vma, dst_addr,
-d7be6d7eee1bbf ZhangPeng               2023-04-10  695  				       src_addr, flags, &folio);
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  696  		cond_resched();
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  697  
-9e368259ad9883 Andrea Arcangeli        2018-11-30  698  		if (unlikely(err == -ENOENT)) {
-d7be6d7eee1bbf ZhangPeng               2023-04-10  699  			void *kaddr;
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  700  
-973edec7cc120e Lokesh Gidra            2024-02-15  701  			up_read(&ctx->map_changing_lock);
-d8ed45c5dcd455 Michel Lespinasse       2020-06-08  702  			mmap_read_unlock(dst_mm);
-d7be6d7eee1bbf ZhangPeng               2023-04-10  703  			BUG_ON(!folio);
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  704  
-d7be6d7eee1bbf ZhangPeng               2023-04-10  705  			kaddr = kmap_local_folio(folio, 0);
-d7be6d7eee1bbf ZhangPeng               2023-04-10  706  			err = copy_from_user(kaddr,
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  707  					     (const void __user *) src_addr,
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  708  					     PAGE_SIZE);
-d7be6d7eee1bbf ZhangPeng               2023-04-10  709  			kunmap_local(kaddr);
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  710  			if (unlikely(err)) {
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  711  				err = -EFAULT;
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  712  				goto out;
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  713  			}
-d7be6d7eee1bbf ZhangPeng               2023-04-10  714  			flush_dcache_folio(folio);
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  715  			goto retry;
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  716  		} else
-d7be6d7eee1bbf ZhangPeng               2023-04-10  717  			BUG_ON(folio);
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  718  
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  719  		if (!err) {
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  720  			dst_addr += PAGE_SIZE;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  721  			src_addr += PAGE_SIZE;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  722  			copied += PAGE_SIZE;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  723  
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  724  			if (fatal_signal_pending(current))
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  725  				err = -EINTR;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  726  		}
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  727  		if (err)
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  728  			break;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  729  	}
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  730  
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  731  out_unlock:
-973edec7cc120e Lokesh Gidra            2024-02-15  732  	up_read(&ctx->map_changing_lock);
-d8ed45c5dcd455 Michel Lespinasse       2020-06-08  733  	mmap_read_unlock(dst_mm);
-b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  734  out:
-d7be6d7eee1bbf ZhangPeng               2023-04-10  735  	if (folio)
-d7be6d7eee1bbf ZhangPeng               2023-04-10  736  		folio_put(folio);
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  737  	BUG_ON(copied < 0);
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  738  	BUG_ON(err > 0);
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  739  	BUG_ON(!copied && !err);
-c1a4de99fada21 Andrea Arcangeli        2015-09-04 @740  	return copied ? copied : err;
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  741  }
-c1a4de99fada21 Andrea Arcangeli        2015-09-04  742  
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3255  static int bpf_tracing_prog_attach(struct bpf_prog *prog,
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3256  				   int tgt_prog_fd,
+2fcc82411e74e5 Kui-Feng Lee           2022-05-10  3257  				   u32 btf_id,
+2fcc82411e74e5 Kui-Feng Lee           2022-05-10  3258  				   u64 bpf_cookie)
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3259  {
+a3b80e1078943d Andrii Nakryiko        2020-04-28  3260  	struct bpf_link_primer link_primer;
+3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3261  	struct bpf_prog *tgt_prog = NULL;
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3262  	struct bpf_trampoline *tr = NULL;
+5f80eb32851d7a Menglong Dong          2024-02-20  3263  	struct btf *attach_btf = NULL;
+70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3264  	struct bpf_tracing_link *link;
+5f80eb32851d7a Menglong Dong          2024-02-20  3265  	struct module *mod = NULL;
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3266  	u64 key = 0;
+a3b80e1078943d Andrii Nakryiko        2020-04-28  3267  	int err;
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3268  
+9e4e01dfd3254c KP Singh               2020-03-29  3269  	switch (prog->type) {
+9e4e01dfd3254c KP Singh               2020-03-29  3270  	case BPF_PROG_TYPE_TRACING:
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3271  		if (prog->expected_attach_type != BPF_TRACE_FENTRY &&
+be8704ff07d237 Alexei Starovoitov     2020-01-20  3272  		    prog->expected_attach_type != BPF_TRACE_FEXIT &&
+9e4e01dfd3254c KP Singh               2020-03-29  3273  		    prog->expected_attach_type != BPF_MODIFY_RETURN) {
+9e4e01dfd3254c KP Singh               2020-03-29  3274  			err = -EINVAL;
+9e4e01dfd3254c KP Singh               2020-03-29  3275  			goto out_put_prog;
+9e4e01dfd3254c KP Singh               2020-03-29  3276  		}
+9e4e01dfd3254c KP Singh               2020-03-29  3277  		break;
+9e4e01dfd3254c KP Singh               2020-03-29  3278  	case BPF_PROG_TYPE_EXT:
+9e4e01dfd3254c KP Singh               2020-03-29  3279  		if (prog->expected_attach_type != 0) {
+9e4e01dfd3254c KP Singh               2020-03-29  3280  			err = -EINVAL;
+9e4e01dfd3254c KP Singh               2020-03-29  3281  			goto out_put_prog;
+9e4e01dfd3254c KP Singh               2020-03-29  3282  		}
+9e4e01dfd3254c KP Singh               2020-03-29  3283  		break;
+9e4e01dfd3254c KP Singh               2020-03-29  3284  	case BPF_PROG_TYPE_LSM:
+9e4e01dfd3254c KP Singh               2020-03-29  3285  		if (prog->expected_attach_type != BPF_LSM_MAC) {
+9e4e01dfd3254c KP Singh               2020-03-29  3286  			err = -EINVAL;
+9e4e01dfd3254c KP Singh               2020-03-29  3287  			goto out_put_prog;
+9e4e01dfd3254c KP Singh               2020-03-29  3288  		}
+9e4e01dfd3254c KP Singh               2020-03-29  3289  		break;
+9e4e01dfd3254c KP Singh               2020-03-29  3290  	default:
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3291  		err = -EINVAL;
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3292  		goto out_put_prog;
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3293  	}
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3294  
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3295  	if (tgt_prog_fd) {
+5f80eb32851d7a Menglong Dong          2024-02-20  3296  		if (!btf_id) {
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3297  			err = -EINVAL;
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3298  			goto out_put_prog;
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3299  		}
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3300  		tgt_prog = bpf_prog_get(tgt_prog_fd);
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3301  		if (IS_ERR(tgt_prog)) {
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3302  			tgt_prog = NULL;
+5f80eb32851d7a Menglong Dong          2024-02-20  3303  			/* tgt_prog_fd is the fd of the kernel module BTF */
+5f80eb32851d7a Menglong Dong          2024-02-20  3304  			attach_btf = btf_get_by_fd(tgt_prog_fd);
+5f80eb32851d7a Menglong Dong          2024-02-20  3305  			if (IS_ERR(attach_btf)) {
+5f80eb32851d7a Menglong Dong          2024-02-20  3306  				attach_btf = NULL;
+5f80eb32851d7a Menglong Dong          2024-02-20  3307  				err = -EINVAL;
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3308  				goto out_put_prog;
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3309  			}
+5f80eb32851d7a Menglong Dong          2024-02-20  3310  			if (!btf_is_kernel(attach_btf)) {
+5f80eb32851d7a Menglong Dong          2024-02-20  3311  				btf_put(attach_btf);
+5f80eb32851d7a Menglong Dong          2024-02-20  3312  				err = -EOPNOTSUPP;
+5f80eb32851d7a Menglong Dong          2024-02-20  3313  				goto out_put_prog;
+5f80eb32851d7a Menglong Dong          2024-02-20  3314  			}
+5f80eb32851d7a Menglong Dong          2024-02-20  3315  		} else if (prog->type == BPF_PROG_TYPE_TRACING &&
+5f80eb32851d7a Menglong Dong          2024-02-20  3316  			   tgt_prog->type == BPF_PROG_TYPE_TRACING) {
+5f80eb32851d7a Menglong Dong          2024-02-20  3317  			prog->aux->attach_tracing_prog = true;
+5f80eb32851d7a Menglong Dong          2024-02-20  3318  		}
+5f80eb32851d7a Menglong Dong          2024-02-20  3319  		key = bpf_trampoline_compute_key(tgt_prog, attach_btf,
+5f80eb32851d7a Menglong Dong          2024-02-20  3320  						 btf_id);
+5f80eb32851d7a Menglong Dong          2024-02-20  3321  	} else if (btf_id) {
+5f80eb32851d7a Menglong Dong          2024-02-20  3322  		attach_btf = bpf_get_btf_vmlinux();
+5f80eb32851d7a Menglong Dong          2024-02-20  3323  		if (IS_ERR(attach_btf)) {
+5f80eb32851d7a Menglong Dong          2024-02-20  3324  			attach_btf = NULL;
+                                                                                ^^^^^^^^^^^^^^^^^^
+This needs to be done after the "err = " assignment on the next line.
 
-:::::: The code at line 740 was first introduced by commit
-:::::: c1a4de99fada21e2e9251e52cbb51eff5aadc757 userfaultfd: mcopy_atomic|mfill_zeropage: UFFDIO_COPY|UFFDIO_ZEROPAGE preparation
+5f80eb32851d7a Menglong Dong          2024-02-20 @3325  			err = PTR_ERR(attach_btf);
+                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Here.
 
-:::::: TO: Andrea Arcangeli <aarcange@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+5f80eb32851d7a Menglong Dong          2024-02-20  3326  			goto out_unlock;
+5f80eb32851d7a Menglong Dong          2024-02-20  3327  		}
+5f80eb32851d7a Menglong Dong          2024-02-20  3328  		if (!attach_btf) {
+5f80eb32851d7a Menglong Dong          2024-02-20  3329  			err = -EINVAL;
+5f80eb32851d7a Menglong Dong          2024-02-20  3330  			goto out_unlock;
+
+"link" is not initialized on this goto path so it leads to an
+uninitialized variable warning.
+
+5f80eb32851d7a Menglong Dong          2024-02-20  3331  		}
+5f80eb32851d7a Menglong Dong          2024-02-20  3332  		btf_get(attach_btf);
+5f80eb32851d7a Menglong Dong          2024-02-20  3333  		key = bpf_trampoline_compute_key(NULL, attach_btf, btf_id);
+5f80eb32851d7a Menglong Dong          2024-02-20  3334  	} else {
+5f80eb32851d7a Menglong Dong          2024-02-20  3335  		attach_btf = prog->aux->attach_btf;
+5f80eb32851d7a Menglong Dong          2024-02-20  3336  		/* get the reference of the btf for bpf link */
+5f80eb32851d7a Menglong Dong          2024-02-20  3337  		if (attach_btf)
+5f80eb32851d7a Menglong Dong          2024-02-20  3338  			btf_get(attach_btf);
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3339  	}
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3340  
+70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3341  	link = kzalloc(sizeof(*link), GFP_USER);
+70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3342  	if (!link) {
+70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3343  		err = -ENOMEM;
+70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3344  		goto out_put_prog;
+70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3345  	}
+f7e0beaf39d386 Kui-Feng Lee           2022-05-10  3346  	bpf_link_init(&link->link.link, BPF_LINK_TYPE_TRACING,
+f2e10bff16a0fd Andrii Nakryiko        2020-04-28  3347  		      &bpf_tracing_link_lops, prog);
+f2e10bff16a0fd Andrii Nakryiko        2020-04-28  3348  	link->attach_type = prog->expected_attach_type;
+2fcc82411e74e5 Kui-Feng Lee           2022-05-10  3349  	link->link.cookie = bpf_cookie;
+70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3350  
+
+[ snip ]
+
+3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3474  	prog->aux->dst_trampoline = NULL;
+5f80eb32851d7a Menglong Dong          2024-02-20  3475  	prog->aux->mod = NULL;
+3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3476  	mutex_unlock(&prog->aux->dst_mutex);
+3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3477  
+a3b80e1078943d Andrii Nakryiko        2020-04-28  3478  	return bpf_link_settle(&link_primer);
+3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3479  out_unlock:
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3480  	if (tr && tr != prog->aux->dst_trampoline)
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3481  		bpf_trampoline_put(tr);
+5f80eb32851d7a Menglong Dong          2024-02-20  3482  	if (mod && mod != prog->aux->mod)
+5f80eb32851d7a Menglong Dong          2024-02-20  3483  		module_put(mod);
+3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3484  	mutex_unlock(&prog->aux->dst_mutex);
+3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29 @3485  	kfree(link);
+                                                                      ^^^^
+
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3486  out_put_prog:
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3487  	if (tgt_prog_fd && tgt_prog)
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3488  		bpf_prog_put(tgt_prog);
+5f80eb32851d7a Menglong Dong          2024-02-20  3489  	btf_put(attach_btf);
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3490  	return err;
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3491  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
