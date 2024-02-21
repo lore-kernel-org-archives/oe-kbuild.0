@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB44A1552F9
-	for <oe-kbuild@lists.linux.dev>; Tue, 20 Feb 2024 23:49:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F97C1FBF
+	for <oe-kbuild@lists.linux.dev>; Wed, 21 Feb 2024 01:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708472982; cv=none; b=m07d3Vqn6/SbzfJUwRrXsJkppE+fkZv7gMSqY2v//DrjzGwN5hDwOrkFJoNOOQqKeYj+PRMArQZsJxDrhfr1Vxgn/k1oO2NfuwzP/CZsmXvg1FSSEAcQatPxYvobJ8c4l+QtfgU9HO0FkCEzoxYwjkx4fn7WSsHbnHvsQDXVTGc=
+	t=1708477383; cv=none; b=OPHNEHnwgAhx4KGxUnSf59gJ1RKXbFqHYAnngivx6hg/mfQslhsQSPY8Y8y47I9hwFT2QQMs/ZX52vCaeMpZvJKz7Is7DeIxO2oz0PmXI8HUZEGPaYBNd8Bivh0hwi8LzkyPR5Gp1WYKukBBMo3DN9OarTQlxp4Mc+Q26r3wAFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708472982; c=relaxed/simple;
-	bh=8r7t5kxLXDY+39lI7W0yVbNFUn9eK+tOeb+7jm93Uag=;
+	s=arc-20240116; t=1708477383; c=relaxed/simple;
+	bh=+9fF/hA0muC1pSebMJ/9YSpKubQI5JwiQhZEs8MNWqQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lrB8LaHWt6TME3CaxaiG9A+c7iFk3YTWw/lkTiggfH9xLIdCm88kcHyOr7I3CJDWuGHPDtcrBUpqFpGVaKmfP7+JkSWt26cZKk2qsyUPeS27lGJyLovd9h1UScg+BYTJGKD1okA+m+Y0x9inrmk9r9MUt3FU3gULHoAhnM3U0Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W3zJLbmd; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=kl3R07+78lCbzD1Ulicl7ayiLF6sWGCenjfWX19l+Xmxs/5znUQ+a/+w69wD5+jeOczJ6AxAOCNSd5O5un18Q9DwMZKK2hyd57LiDvMq7s+47nFLb5yk7SreBei6HPklHFvuWfogipB77Pl1FplM2kC3X+9sn+0Aelwv2idY/7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XmXvYc6m; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W3zJLbmd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XmXvYc6m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708472981; x=1740008981;
+  t=1708477382; x=1740013382;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8r7t5kxLXDY+39lI7W0yVbNFUn9eK+tOeb+7jm93Uag=;
-  b=W3zJLbmdBec/XWG3VZgvxt0L0sx7C1JywzQQkPeGNaWOycTnbXxx3gAI
-   0FdSjXhPwdRS1YMyhx54QZjVAl3m0Z/sd0j9HLIxbD+8U3r2cVZNg0B7C
-   ea6Sw96HEyyHDDtIdEfLDNxRxLeTe4wIJ5fTtd6blEAJNPXidSTayuoj8
-   zzoK2PYZOe/XlrMq+l4HXxHedgcoyWEA9XdRWZFEKAtxSpTKaiuf0UjUg
-   06RyEabPWKF4b7FgdnkAjxaIThsbGIkiD7uMOviEzzsXjPq7MKST2vY+j
-   XqABL3EcEgpCk5U+XaZ1o+L5MBKgm0oYTui5e/H2PpEshlzCeAOA/YQUp
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2475009"
+  bh=+9fF/hA0muC1pSebMJ/9YSpKubQI5JwiQhZEs8MNWqQ=;
+  b=XmXvYc6m6PHvnfuzPJ5CyfPxPghsYhRrpZXxuiyCaVUR+1t9DZ6fwqli
+   skCZAP0NbhmeHxVph6tWlneOJHkSjo+DHnSFzAqMC52JV9NSqp57AuvLB
+   aRXbLn7SHwoPCYaBjGZBD9jkA34pkpXp2+EyfU6XbpfkhDZYUlrOlyInV
+   7/cYRjA1Jg0xGoi1nHPMqEeFUJ+CLI088RqUBBqJaUvSvlPG++mzoaofh
+   IVg+taU2TvkiVtcspaDceKTGC5v9l9sKUcZ9DP2fzYPp5WLg5kSYEDrQN
+   kFpaTeCOhHc6R/5USxuPqbmBCM8/KNl+PYURDKK2X0wqmYaxRPPvyclDl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="25078280"
 X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="2475009"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 15:49:40 -0800
+   d="scan'208";a="25078280"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 17:03:01 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="28103285"
+   d="scan'208";a="4854734"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Feb 2024 15:49:38 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 20 Feb 2024 17:02:59 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rcZqt-0004t2-1s;
-	Tue, 20 Feb 2024 23:48:58 +0000
-Date: Wed, 21 Feb 2024 07:48:31 +0800
+	id 1rcb0h-0004ua-2l;
+	Wed, 21 Feb 2024 01:02:56 +0000
+Date: Wed, 21 Feb 2024 09:02:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [ardb:x86-pie-for-sev-v5 16/16] mm/zsmalloc.c:223:32: warning:
- variable length array used
-Message-ID: <202402210746.N0NANSKS-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 6780/8260] mm/userfaultfd.c:740 mfill_atomic()
+ warn: inconsistent returns '&ctx->map_changing_lock'.
+Message-ID: <202402210841.xeePYHbo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,82 +58,212 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: mm/zsmalloc.c:223:32: warning: variable length array used [-Wvla]"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Ard Biesheuvel <ardb@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Lokesh Gidra <lokeshgidra@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: "Mike Rapoport (IBM)" <rppt@kernel.org>
+CC: "Liam R. Howlett" <Liam.Howlett@oracle.com>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-for-sev-v5
-head:   0cc3d2ea8faa59cc6406f95460e42ae5987ee35b
-commit: 0cc3d2ea8faa59cc6406f95460e42ae5987ee35b [16/16] x86/startup_64: Drop global variables keeping track of LA57 state
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: x86_64-randconfig-121-20240220 (https://download.01.org/0day-ci/archive/20240221/202402210746.N0NANSKS-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240221/202402210746.N0NANSKS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2d5c7b7eb345249cb34d42cbc2b97b4c57ea944e
+commit: 973edec7cc120e3bf429b8183b62c2292b728bde [6780/8260] userfaultfd: protect mmap_changing with rw_sem in userfaulfd_ctx
+:::::: branch date: 20 hours ago
+:::::: commit date: 5 days ago
+config: arm64-randconfig-r081-20240216 (https://download.01.org/0day-ci/archive/20240221/202402210841.xeePYHbo-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202402210746.N0NANSKS-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202402210841.xeePYHbo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+mm/userfaultfd.c:740 mfill_atomic() warn: inconsistent returns '&ctx->map_changing_lock'.
 
->> mm/zsmalloc.c:223:32: warning: variable length array used [-Wvla]
-     223 |         struct size_class *size_class[ZS_SIZE_CLASSES];
-         |                                       ^~~~~~~~~~~~~~~
-   mm/zsmalloc.c:146:59: note: expanded from macro 'ZS_SIZE_CLASSES'
-     146 | #define ZS_SIZE_CLASSES (DIV_ROUND_UP(ZS_MAX_ALLOC_SIZE - ZS_MIN_ALLOC_SIZE, \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
-     147 |                                       ZS_SIZE_CLASS_DELTA) + 1)
-         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zsmalloc.c:128:52: note: expanded from macro 'ZS_MIN_ALLOC_SIZE'
-     128 |         MAX(32, (ZS_MAX_PAGES_PER_ZSPAGE << PAGE_SHIFT >> OBJ_INDEX_BITS))
-         |                                                           ^
-   mm/zsmalloc.c:113:41: note: expanded from macro 'OBJ_INDEX_BITS'
-     113 | #define OBJ_INDEX_BITS  (BITS_PER_LONG - _PFN_BITS - OBJ_TAG_BITS)
-         |                                          ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/x86/include/asm/sparsemem.h:29:28: note: expanded from macro 'MAX_PHYSMEM_BITS'
-      29 | # define MAX_PHYSMEM_BITS       (pgtable_l5_enabled() ? 52 : 46)
-         |                                  ^
-   mm/zsmalloc.c:122:28: note: expanded from macro 'MAX'
-     122 | #define MAX(a, b) ((a) >= (b) ? (a) : (b))
-         |                            ^
-   include/uapi/linux/const.h:34:40: note: expanded from macro '__KERNEL_DIV_ROUND_UP'
-      34 | #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-         |                                        ^
-   mm/zsmalloc.c:223:21: error: fields must have a constant size: 'variable length array in structure' extension will never be supported
-     223 |         struct size_class *size_class[ZS_SIZE_CLASSES];
-         |                            ^
-   1 warning and 1 error generated.
+vim +740 mm/userfaultfd.c
 
+3217d3c79b5d7a Mike Rapoport           2017-09-06  570  
+973edec7cc120e Lokesh Gidra            2024-02-15  571  static __always_inline ssize_t mfill_atomic(struct userfaultfd_ctx *ctx,
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  572  					    unsigned long dst_start,
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  573  					    unsigned long src_start,
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  574  					    unsigned long len,
+d9712937037e0c Axel Rasmussen          2023-03-14  575  					    uffd_flags_t flags)
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  576  {
+973edec7cc120e Lokesh Gidra            2024-02-15  577  	struct mm_struct *dst_mm = ctx->mm;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  578  	struct vm_area_struct *dst_vma;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  579  	ssize_t err;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  580  	pmd_t *dst_pmd;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  581  	unsigned long src_addr, dst_addr;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  582  	long copied;
+d7be6d7eee1bbf ZhangPeng               2023-04-10  583  	struct folio *folio;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  584  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  585  	/*
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  586  	 * Sanitize the command parameters:
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  587  	 */
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  588  	BUG_ON(dst_start & ~PAGE_MASK);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  589  	BUG_ON(len & ~PAGE_MASK);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  590  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  591  	/* Does the address range wrap, or is the span zero-sized? */
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  592  	BUG_ON(src_start + len <= src_start);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  593  	BUG_ON(dst_start + len <= dst_start);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  594  
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  595  	src_addr = src_start;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  596  	dst_addr = dst_start;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  597  	copied = 0;
+d7be6d7eee1bbf ZhangPeng               2023-04-10  598  	folio = NULL;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  599  retry:
+d8ed45c5dcd455 Michel Lespinasse       2020-06-08  600  	mmap_read_lock(dst_mm);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  601  
+df2cc96e77011c Mike Rapoport           2018-06-07  602  	/*
+df2cc96e77011c Mike Rapoport           2018-06-07  603  	 * If memory mappings are changing because of non-cooperative
+df2cc96e77011c Mike Rapoport           2018-06-07  604  	 * operation (e.g. mremap) running in parallel, bail out and
+df2cc96e77011c Mike Rapoport           2018-06-07  605  	 * request the user to retry later
+df2cc96e77011c Mike Rapoport           2018-06-07  606  	 */
+973edec7cc120e Lokesh Gidra            2024-02-15  607  	down_read(&ctx->map_changing_lock);
+df2cc96e77011c Mike Rapoport           2018-06-07  608  	err = -EAGAIN;
+973edec7cc120e Lokesh Gidra            2024-02-15  609  	if (atomic_read(&ctx->mmap_changing))
+df2cc96e77011c Mike Rapoport           2018-06-07  610  		goto out_unlock;
+df2cc96e77011c Mike Rapoport           2018-06-07  611  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  612  	/*
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  613  	 * Make sure the vma is not shared, that the dst range is
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  614  	 * both valid and fully within a single existing vma.
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  615  	 */
+27d02568f529e9 Mike Rapoport           2017-02-24  616  	err = -ENOENT;
+643aa36eadebdc Wei Yang                2019-11-30  617  	dst_vma = find_dst_vma(dst_mm, dst_start, len);
+26071cedc519b8 Mike Rapoport           2017-02-22  618  	if (!dst_vma)
+26071cedc519b8 Mike Rapoport           2017-02-22  619  		goto out_unlock;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  620  
+27d02568f529e9 Mike Rapoport           2017-02-24  621  	err = -EINVAL;
+27d02568f529e9 Mike Rapoport           2017-02-24  622  	/*
+27d02568f529e9 Mike Rapoport           2017-02-24  623  	 * shmem_zero_setup is invoked in mmap for MAP_ANONYMOUS|MAP_SHARED but
+27d02568f529e9 Mike Rapoport           2017-02-24  624  	 * it will overwrite vm_ops, so vma_is_anonymous must return false.
+27d02568f529e9 Mike Rapoport           2017-02-24  625  	 */
+27d02568f529e9 Mike Rapoport           2017-02-24  626  	if (WARN_ON_ONCE(vma_is_anonymous(dst_vma) &&
+27d02568f529e9 Mike Rapoport           2017-02-24  627  	    dst_vma->vm_flags & VM_SHARED))
+27d02568f529e9 Mike Rapoport           2017-02-24  628  		goto out_unlock;
+27d02568f529e9 Mike Rapoport           2017-02-24  629  
+72981e0e7b609c Andrea Arcangeli        2020-04-06  630  	/*
+72981e0e7b609c Andrea Arcangeli        2020-04-06  631  	 * validate 'mode' now that we know the dst_vma: don't allow
+72981e0e7b609c Andrea Arcangeli        2020-04-06  632  	 * a wrprotect copy if the userfaultfd didn't register as WP.
+72981e0e7b609c Andrea Arcangeli        2020-04-06  633  	 */
+d9712937037e0c Axel Rasmussen          2023-03-14  634  	if ((flags & MFILL_ATOMIC_WP) && !(dst_vma->vm_flags & VM_UFFD_WP))
+72981e0e7b609c Andrea Arcangeli        2020-04-06  635  		goto out_unlock;
+72981e0e7b609c Andrea Arcangeli        2020-04-06  636  
+60d4d2d2b40e44 Mike Kravetz            2017-02-22  637  	/*
+60d4d2d2b40e44 Mike Kravetz            2017-02-22  638  	 * If this is a HUGETLB vma, pass off to appropriate routine
+60d4d2d2b40e44 Mike Kravetz            2017-02-22  639  	 */
+60d4d2d2b40e44 Mike Kravetz            2017-02-22  640  	if (is_vm_hugetlb_page(dst_vma))
+973edec7cc120e Lokesh Gidra            2024-02-15  641  		return  mfill_atomic_hugetlb(ctx, dst_vma, dst_start,
+973edec7cc120e Lokesh Gidra            2024-02-15  642  					     src_start, len, flags);
+60d4d2d2b40e44 Mike Kravetz            2017-02-22  643  
+26071cedc519b8 Mike Rapoport           2017-02-22  644  	if (!vma_is_anonymous(dst_vma) && !vma_is_shmem(dst_vma))
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  645  		goto out_unlock;
+d9712937037e0c Axel Rasmussen          2023-03-14  646  	if (!vma_is_shmem(dst_vma) &&
+d9712937037e0c Axel Rasmussen          2023-03-14  647  	    uffd_flags_mode_is(flags, MFILL_ATOMIC_CONTINUE))
+f619147104c8ea Axel Rasmussen          2021-05-04  648  		goto out_unlock;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  649  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  650  	/*
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  651  	 * Ensure the dst_vma has a anon_vma or this page
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  652  	 * would get a NULL anon_vma when moved in the
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  653  	 * dst_vma.
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  654  	 */
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  655  	err = -ENOMEM;
+5b51072e97d587 Andrea Arcangeli        2018-11-30  656  	if (!(dst_vma->vm_flags & VM_SHARED) &&
+5b51072e97d587 Andrea Arcangeli        2018-11-30  657  	    unlikely(anon_vma_prepare(dst_vma)))
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  658  		goto out_unlock;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  659  
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  660  	while (src_addr < src_start + len) {
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  661  		pmd_t dst_pmdval;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  662  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  663  		BUG_ON(dst_addr >= dst_start + len);
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  664  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  665  		dst_pmd = mm_alloc_pmd(dst_mm, dst_addr);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  666  		if (unlikely(!dst_pmd)) {
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  667  			err = -ENOMEM;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  668  			break;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  669  		}
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  670  
+dab6e717429e5e Peter Zijlstra          2020-11-26  671  		dst_pmdval = pmdp_get_lockless(dst_pmd);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  672  		/*
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  673  		 * If the dst_pmd is mapped as THP don't
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  674  		 * override it and just be strict.
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  675  		 */
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  676  		if (unlikely(pmd_trans_huge(dst_pmdval))) {
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  677  			err = -EEXIST;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  678  			break;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  679  		}
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  680  		if (unlikely(pmd_none(dst_pmdval)) &&
+4cf58924951ef8 Joel Fernandes (Google  2019-01-03  681) 		    unlikely(__pte_alloc(dst_mm, dst_pmd))) {
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  682  			err = -ENOMEM;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  683  			break;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  684  		}
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  685  		/* If an huge pmd materialized from under us fail */
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  686  		if (unlikely(pmd_trans_huge(*dst_pmd))) {
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  687  			err = -EFAULT;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  688  			break;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  689  		}
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  690  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  691  		BUG_ON(pmd_none(*dst_pmd));
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  692  		BUG_ON(pmd_trans_huge(*dst_pmd));
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  693  
+61c5004022f56c Axel Rasmussen          2023-03-14  694  		err = mfill_atomic_pte(dst_pmd, dst_vma, dst_addr,
+d7be6d7eee1bbf ZhangPeng               2023-04-10  695  				       src_addr, flags, &folio);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  696  		cond_resched();
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  697  
+9e368259ad9883 Andrea Arcangeli        2018-11-30  698  		if (unlikely(err == -ENOENT)) {
+d7be6d7eee1bbf ZhangPeng               2023-04-10  699  			void *kaddr;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  700  
+973edec7cc120e Lokesh Gidra            2024-02-15  701  			up_read(&ctx->map_changing_lock);
+d8ed45c5dcd455 Michel Lespinasse       2020-06-08  702  			mmap_read_unlock(dst_mm);
+d7be6d7eee1bbf ZhangPeng               2023-04-10  703  			BUG_ON(!folio);
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  704  
+d7be6d7eee1bbf ZhangPeng               2023-04-10  705  			kaddr = kmap_local_folio(folio, 0);
+d7be6d7eee1bbf ZhangPeng               2023-04-10  706  			err = copy_from_user(kaddr,
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  707  					     (const void __user *) src_addr,
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  708  					     PAGE_SIZE);
+d7be6d7eee1bbf ZhangPeng               2023-04-10  709  			kunmap_local(kaddr);
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  710  			if (unlikely(err)) {
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  711  				err = -EFAULT;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  712  				goto out;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  713  			}
+d7be6d7eee1bbf ZhangPeng               2023-04-10  714  			flush_dcache_folio(folio);
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  715  			goto retry;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  716  		} else
+d7be6d7eee1bbf ZhangPeng               2023-04-10  717  			BUG_ON(folio);
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  718  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  719  		if (!err) {
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  720  			dst_addr += PAGE_SIZE;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  721  			src_addr += PAGE_SIZE;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  722  			copied += PAGE_SIZE;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  723  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  724  			if (fatal_signal_pending(current))
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  725  				err = -EINTR;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  726  		}
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  727  		if (err)
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  728  			break;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  729  	}
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  730  
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  731  out_unlock:
+973edec7cc120e Lokesh Gidra            2024-02-15  732  	up_read(&ctx->map_changing_lock);
+d8ed45c5dcd455 Michel Lespinasse       2020-06-08  733  	mmap_read_unlock(dst_mm);
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  734  out:
+d7be6d7eee1bbf ZhangPeng               2023-04-10  735  	if (folio)
+d7be6d7eee1bbf ZhangPeng               2023-04-10  736  		folio_put(folio);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  737  	BUG_ON(copied < 0);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  738  	BUG_ON(err > 0);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  739  	BUG_ON(!copied && !err);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04 @740  	return copied ? copied : err;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  741  }
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  742  
 
-vim +223 mm/zsmalloc.c
+:::::: The code at line 740 was first introduced by commit
+:::::: c1a4de99fada21e2e9251e52cbb51eff5aadc757 userfaultfd: mcopy_atomic|mfill_zeropage: UFFDIO_COPY|UFFDIO_ZEROPAGE preparation
 
-0959c63f11c3bb drivers/staging/zsmalloc/zsmalloc-main.c Seth Jennings      2012-08-08  219  
-0959c63f11c3bb drivers/staging/zsmalloc/zsmalloc-main.c Seth Jennings      2012-08-08  220  struct zs_pool {
-6f3526d6db7cbe mm/zsmalloc.c                            Sergey SENOZHATSKY 2015-11-06  221  	const char *name;
-0f050d997e275c mm/zsmalloc.c                            Ganesh Mahendran   2015-02-12  222  
-cf8e0fedf0784e mm/zsmalloc.c                            Jerome Marchand    2017-07-10 @223  	struct size_class *size_class[ZS_SIZE_CLASSES];
-2e40e163a25af3 mm/zsmalloc.c                            Minchan Kim        2015-04-15  224  	struct kmem_cache *handle_cachep;
-3783689a1aa82e mm/zsmalloc.c                            Minchan Kim        2016-07-26  225  	struct kmem_cache *zspage_cachep;
-0959c63f11c3bb drivers/staging/zsmalloc/zsmalloc-main.c Seth Jennings      2012-08-08  226  
-13de8933c96b45 mm/zsmalloc.c                            Minchan Kim        2014-10-09  227  	atomic_long_t pages_allocated;
-0f050d997e275c mm/zsmalloc.c                            Ganesh Mahendran   2015-02-12  228  
-7d3f3938236b4b mm/zsmalloc.c                            Sergey Senozhatsky 2015-09-08  229  	struct zs_pool_stats stats;
-ab9d306d9c3bf6 mm/zsmalloc.c                            Sergey Senozhatsky 2015-09-08  230  
-ab9d306d9c3bf6 mm/zsmalloc.c                            Sergey Senozhatsky 2015-09-08  231  	/* Compact classes */
-c19b548b493455 mm/zsmalloc.c                            Qi Zheng           2023-09-11  232  	struct shrinker *shrinker;
-93144ca35041b0 mm/zsmalloc.c                            Aliaksei Karaliou  2018-01-31  233  
-
-:::::: The code at line 223 was first introduced by commit
-:::::: cf8e0fedf0784ef4bc1889380b09eda295e3d109 mm/zsmalloc: simplify zs_max_alloc_size handling
-
-:::::: TO: Jerome Marchand <jmarchan@redhat.com>
+:::::: TO: Andrea Arcangeli <aarcange@redhat.com>
 :::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
