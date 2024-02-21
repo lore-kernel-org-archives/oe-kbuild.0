@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7F069D05
-	for <oe-kbuild@lists.linux.dev>; Wed, 21 Feb 2024 15:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3C780614
+	for <oe-kbuild@lists.linux.dev>; Wed, 21 Feb 2024 15:23:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708527714; cv=none; b=Y3FJyl2E6J/DRUp4BYEX6xoGvHg9YsvEDj9j+N1E5HNhofGf0UGgd5X55bL25yWmGQHi7wcIzdYMn717V8w54l/sI+kkuU/7xkmzEDU3riL3vH4eeUPazlAZc6rx3yGCQ3JqsKky+No4sJpwKSTNaman7fLzXB/v+Vr4JXiFMfM=
+	t=1708529039; cv=none; b=En7X6mEge+lZkru6VWrVowLIgI/HHTbOuFrzvYTZ7y5znUdM9Ozev8XdsbkmLkT5RDXup1S3yD49CBiM4oYLSQ6sohJ6e+uTjrOAaP9An9mTQ8svn3geaKY5JBtgE+JdByvOGxpIY3qLHmRTkp2GgSM4q59w8MOJWl4h1wEQcuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708527714; c=relaxed/simple;
-	bh=EgAKhdjPeOPP+TaE13vtGSS9EkVUb/yWDddbPwWxhBE=;
+	s=arc-20240116; t=1708529039; c=relaxed/simple;
+	bh=G7NFti5JeOgYUhTqQis8FP7TkCloMplXzef4vbTSIZA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PAnzHOppIjiTLHxsdlXHaUPiZ0Ux2G9HveExIOmSr3trDX4Up7Z6Tdkm+ZMf1+pmZBjhXu5WCjV2mMcXfUacSN2Lek2LziMNaJCtOeeMMWxqEGmcsdG/VyXTwhNEyG0GBWLT1exvEu2j6lZF0pFAW9FZpoWcPxryipYWGInSEKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j2f5/3AR; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=FgkOjRr8HTGTXMAqmXI4IJlXg6x3WUVbVX4x/QcxMQ2pXOHrjNc7X3Fn6f7+ga2LJpvM0zkyoIrZMrxoRNraRP9bn9UdDtFJtf+ivuTTR0JjT3/PNPZ4M4HpQaE/D/Trel13jkoRV86W6VP94cLdJG1ukXIwV30c7fT3f4qhFeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bLmxYC6W; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j2f5/3AR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bLmxYC6W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708527713; x=1740063713;
+  t=1708529037; x=1740065037;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EgAKhdjPeOPP+TaE13vtGSS9EkVUb/yWDddbPwWxhBE=;
-  b=j2f5/3AR31+dICSK1i6KlDNni3tMwD7NTL1LNROY4vkDL16SW4LOlfTm
-   A0iHh5hJ2X1tDqITwKzbqeiwi8lNbNX5rwkbyiYhIs1tFx/NsKJ/BD15P
-   5uCgYaWnrvNPHQvJHqynZZbTvZpdaS57plWRiQfDiqtwAqPNOCXWdENjF
-   bUOOWBF44AjYvnAhg8jA3zu44DKYDZSVOiPTII7a0OJAXhhn84aZbNquw
-   dlY2BSTkYftPrulwol9m/LCEQbvVcdomTtwK2JfxrHUVwAgvP82QX018y
-   nog2RJew4ISeTZp9mkHdPJ2zs9CJBMPfVma9JrKKDvAoLC1L/4MmVoW80
+  bh=G7NFti5JeOgYUhTqQis8FP7TkCloMplXzef4vbTSIZA=;
+  b=bLmxYC6Wo5QGFTZ087944lKbmLW+dBC1ajkyVk1fuSW8HNrC7NG13h3U
+   kYqB4o4/WPPJJTY9erc7p+b1P6va+WSpMLxEeIQm6CoPc3agYGnZW23fm
+   trkkBvuT9avVulUvD/HcD08PGbZJrvvSHs6RTzFKZAb2Qja+O60W5BzSK
+   lIJWdMosQAB3J2QnMFErA5bIw3kmr85FsfOBI+Pf1Td5P/P5FS9h/tv1/
+   xINIJlPfCZkOKeCV8POIck8mfLh9oxfFXUHnbW2B3N1pVp3dbeXKVBwzs
+   r8Tm2JyAjm2NTZwzaYqymNScN3Tz9jzBAZo71uFCGgmKtrhr5Ayohjoxx
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2828592"
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="2563530"
 X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
-   d="scan'208";a="2828592"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 07:01:52 -0800
+   d="scan'208";a="2563530"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 07:23:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="936656524"
 X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
-   d="scan'208";a="936656524"
+   d="scan'208";a="5142034"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Feb 2024 07:01:51 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 21 Feb 2024 07:23:55 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rco6W-0005QW-32;
-	Wed, 21 Feb 2024 15:01:48 +0000
-Date: Wed, 21 Feb 2024 23:01:13 +0800
+	id 1rcoRr-0005Qu-1u;
+	Wed, 21 Feb 2024 15:23:52 +0000
+Date: Wed, 21 Feb 2024 23:23:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [surenbaghdasaryan:memalloc_prof_v4 14/36] lib/codetag.c:230:6:
- error: redefinition of 'codetag_load_module'
-Message-ID: <202402212245.S2F7Wcl7-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 7538/8619] fs/pidfs.c:98 pidfd_show_fdinfo()
+ error: 'pid' dereferencing possible ERR_PTR()
+Message-ID: <202402212332.M66RPJyA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,70 +58,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: lib/codetag.c:230:6: error: redefinition of 'codetag_load_module'"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Suren Baghdasaryan <surenb@google.com>
-TO: Suren Baghdasaryan <surenb@google.com>
-CC: Kent Overstreet <kent.overstreet@linux.dev>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Christian Brauner <brauner@kernel.org>
 
-tree:   https://github.com/surenbaghdasaryan/linux.git memalloc_prof_v4
-head:   62d6d360c9fd4bbfabe5aaacba64c4c02e8e6ba2
-commit: a955c0c54931160e15915f315d43c9cb8acbb505 [14/36] lib: add allocation tagging support for memory allocation profiling
-:::::: branch date: 12 hours ago
-:::::: commit date: 3 days ago
-config: arm-randconfig-r123-20240221 (https://download.01.org/0day-ci/archive/20240221/202402212245.S2F7Wcl7-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240221/202402212245.S2F7Wcl7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4893c639cc3659cefaa675bf1e59f4e7571afb5c
+commit: 193d98b1d3aa72761cf7a9cae5f8ac9933ef4d0a [7538/8619] pidfd: add pidfs
+:::::: branch date: 10 hours ago
+:::::: commit date: 31 hours ago
+config: x86_64-randconfig-161-20240221 (https://download.01.org/0day-ci/archive/20240221/202402212332.M66RPJyA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202402212245.S2F7Wcl7-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202402212332.M66RPJyA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/pidfs.c:98 pidfd_show_fdinfo() error: 'pid' dereferencing possible ERR_PTR()
 
->> lib/codetag.c:230:6: error: redefinition of 'codetag_load_module'
-     230 | void codetag_load_module(struct module *mod)
-         |      ^~~~~~~~~~~~~~~~~~~
-   In file included from lib/codetag.c:2:
-   include/linux/codetag.h:76:20: note: previous definition of 'codetag_load_module' with type 'void(struct module *)'
-      76 | static inline void codetag_load_module(struct module *mod) {}
-         |                    ^~~~~~~~~~~~~~~~~~~
->> lib/codetag.c:243:6: error: redefinition of 'codetag_unload_module'
-     243 | bool codetag_unload_module(struct module *mod)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/codetag.h:77:20: note: previous definition of 'codetag_unload_module' with type 'bool(struct module *)' {aka '_Bool(struct module *)'}
-      77 | static inline bool codetag_unload_module(struct module *mod) { return true; }
-         |                    ^~~~~~~~~~~~~~~~~~~~~
+vim +/pid +98 fs/pidfs.c
 
+bb8576deed306e Christian Brauner 2024-02-12   38  
+bb8576deed306e Christian Brauner 2024-02-12   39  #ifdef CONFIG_PROC_FS
+bb8576deed306e Christian Brauner 2024-02-12   40  /**
+bb8576deed306e Christian Brauner 2024-02-12   41   * pidfd_show_fdinfo - print information about a pidfd
+bb8576deed306e Christian Brauner 2024-02-12   42   * @m: proc fdinfo file
+bb8576deed306e Christian Brauner 2024-02-12   43   * @f: file referencing a pidfd
+bb8576deed306e Christian Brauner 2024-02-12   44   *
+bb8576deed306e Christian Brauner 2024-02-12   45   * Pid:
+bb8576deed306e Christian Brauner 2024-02-12   46   * This function will print the pid that a given pidfd refers to in the
+bb8576deed306e Christian Brauner 2024-02-12   47   * pid namespace of the procfs instance.
+bb8576deed306e Christian Brauner 2024-02-12   48   * If the pid namespace of the process is not a descendant of the pid
+bb8576deed306e Christian Brauner 2024-02-12   49   * namespace of the procfs instance 0 will be shown as its pid. This is
+bb8576deed306e Christian Brauner 2024-02-12   50   * similar to calling getppid() on a process whose parent is outside of
+bb8576deed306e Christian Brauner 2024-02-12   51   * its pid namespace.
+bb8576deed306e Christian Brauner 2024-02-12   52   *
+bb8576deed306e Christian Brauner 2024-02-12   53   * NSpid:
+bb8576deed306e Christian Brauner 2024-02-12   54   * If pid namespaces are supported then this function will also print
+bb8576deed306e Christian Brauner 2024-02-12   55   * the pid of a given pidfd refers to for all descendant pid namespaces
+bb8576deed306e Christian Brauner 2024-02-12   56   * starting from the current pid namespace of the instance, i.e. the
+bb8576deed306e Christian Brauner 2024-02-12   57   * Pid field and the first entry in the NSpid field will be identical.
+bb8576deed306e Christian Brauner 2024-02-12   58   * If the pid namespace of the process is not a descendant of the pid
+bb8576deed306e Christian Brauner 2024-02-12   59   * namespace of the procfs instance 0 will be shown as its first NSpid
+bb8576deed306e Christian Brauner 2024-02-12   60   * entry and no others will be shown.
+bb8576deed306e Christian Brauner 2024-02-12   61   * Note that this differs from the Pid and NSpid fields in
+bb8576deed306e Christian Brauner 2024-02-12   62   * /proc/<pid>/status where Pid and NSpid are always shown relative to
+bb8576deed306e Christian Brauner 2024-02-12   63   * the  pid namespace of the procfs instance. The difference becomes
+bb8576deed306e Christian Brauner 2024-02-12   64   * obvious when sending around a pidfd between pid namespaces from a
+bb8576deed306e Christian Brauner 2024-02-12   65   * different branch of the tree, i.e. where no ancestral relation is
+bb8576deed306e Christian Brauner 2024-02-12   66   * present between the pid namespaces:
+bb8576deed306e Christian Brauner 2024-02-12   67   * - create two new pid namespaces ns1 and ns2 in the initial pid
+bb8576deed306e Christian Brauner 2024-02-12   68   *   namespace (also take care to create new mount namespaces in the
+bb8576deed306e Christian Brauner 2024-02-12   69   *   new pid namespace and mount procfs)
+bb8576deed306e Christian Brauner 2024-02-12   70   * - create a process with a pidfd in ns1
+bb8576deed306e Christian Brauner 2024-02-12   71   * - send pidfd from ns1 to ns2
+bb8576deed306e Christian Brauner 2024-02-12   72   * - read /proc/self/fdinfo/<pidfd> and observe that both Pid and NSpid
+bb8576deed306e Christian Brauner 2024-02-12   73   *   have exactly one entry, which is 0
+bb8576deed306e Christian Brauner 2024-02-12   74   */
+bb8576deed306e Christian Brauner 2024-02-12   75  static void pidfd_show_fdinfo(struct seq_file *m, struct file *f)
+bb8576deed306e Christian Brauner 2024-02-12   76  {
+193d98b1d3aa72 Christian Brauner 2024-02-12   77  	struct pid *pid = pidfd_pid(f);
+bb8576deed306e Christian Brauner 2024-02-12   78  	struct pid_namespace *ns;
+bb8576deed306e Christian Brauner 2024-02-12   79  	pid_t nr = -1;
+bb8576deed306e Christian Brauner 2024-02-12   80  
+bb8576deed306e Christian Brauner 2024-02-12   81  	if (likely(pid_has_task(pid, PIDTYPE_PID))) {
+bb8576deed306e Christian Brauner 2024-02-12   82  		ns = proc_pid_ns(file_inode(m->file)->i_sb);
+bb8576deed306e Christian Brauner 2024-02-12   83  		nr = pid_nr_ns(pid, ns);
+bb8576deed306e Christian Brauner 2024-02-12   84  	}
+bb8576deed306e Christian Brauner 2024-02-12   85  
+bb8576deed306e Christian Brauner 2024-02-12   86  	seq_put_decimal_ll(m, "Pid:\t", nr);
+bb8576deed306e Christian Brauner 2024-02-12   87  
+bb8576deed306e Christian Brauner 2024-02-12   88  #ifdef CONFIG_PID_NS
+bb8576deed306e Christian Brauner 2024-02-12   89  	seq_put_decimal_ll(m, "\nNSpid:\t", nr);
+bb8576deed306e Christian Brauner 2024-02-12   90  	if (nr > 0) {
+bb8576deed306e Christian Brauner 2024-02-12   91  		int i;
+bb8576deed306e Christian Brauner 2024-02-12   92  
+bb8576deed306e Christian Brauner 2024-02-12   93  		/* If nr is non-zero it means that 'pid' is valid and that
+bb8576deed306e Christian Brauner 2024-02-12   94  		 * ns, i.e. the pid namespace associated with the procfs
+bb8576deed306e Christian Brauner 2024-02-12   95  		 * instance, is in the pid namespace hierarchy of pid.
+bb8576deed306e Christian Brauner 2024-02-12   96  		 * Start at one below the already printed level.
+bb8576deed306e Christian Brauner 2024-02-12   97  		 */
+bb8576deed306e Christian Brauner 2024-02-12  @98  		for (i = ns->level + 1; i <= pid->level; i++)
+bb8576deed306e Christian Brauner 2024-02-12   99  			seq_put_decimal_ll(m, "\t", pid->numbers[i].nr);
+bb8576deed306e Christian Brauner 2024-02-12  100  	}
+bb8576deed306e Christian Brauner 2024-02-12  101  #endif
+bb8576deed306e Christian Brauner 2024-02-12  102  	seq_putc(m, '\n');
+bb8576deed306e Christian Brauner 2024-02-12  103  }
+bb8576deed306e Christian Brauner 2024-02-12  104  #endif
+bb8576deed306e Christian Brauner 2024-02-12  105  
 
-vim +/codetag_load_module +230 lib/codetag.c
+:::::: The code at line 98 was first introduced by commit
+:::::: bb8576deed306ec1ccebdccc4aa9664ed2db5514 pidfd: move struct pidfd_fops
 
-d40a98f6656f63 Suren Baghdasaryan 2022-08-07  229  
-d40a98f6656f63 Suren Baghdasaryan 2022-08-07 @230  void codetag_load_module(struct module *mod)
-d40a98f6656f63 Suren Baghdasaryan 2022-08-07  231  {
-d40a98f6656f63 Suren Baghdasaryan 2022-08-07  232  	struct codetag_type *cttype;
-d40a98f6656f63 Suren Baghdasaryan 2022-08-07  233  
-d40a98f6656f63 Suren Baghdasaryan 2022-08-07  234  	if (!mod)
-d40a98f6656f63 Suren Baghdasaryan 2022-08-07  235  		return;
-d40a98f6656f63 Suren Baghdasaryan 2022-08-07  236  
-d40a98f6656f63 Suren Baghdasaryan 2022-08-07  237  	mutex_lock(&codetag_lock);
-d40a98f6656f63 Suren Baghdasaryan 2022-08-07  238  	list_for_each_entry(cttype, &codetag_types, link)
-d40a98f6656f63 Suren Baghdasaryan 2022-08-07  239  		codetag_module_init(cttype, mod);
-d40a98f6656f63 Suren Baghdasaryan 2022-08-07  240  	mutex_unlock(&codetag_lock);
-d40a98f6656f63 Suren Baghdasaryan 2022-08-07  241  }
-d40a98f6656f63 Suren Baghdasaryan 2022-08-07  242  
-e1dcad488eb077 Suren Baghdasaryan 2023-03-22 @243  bool codetag_unload_module(struct module *mod)
-
-:::::: The code at line 230 was first introduced by commit
-:::::: d40a98f6656f63999ce093dd2349dcdc90efec06 lib: code tagging module support
-
-:::::: TO: Suren Baghdasaryan <surenb@google.com>
-:::::: CC: Suren Baghdasaryan <surenb@google.com>
+:::::: TO: Christian Brauner <brauner@kernel.org>
+:::::: CC: Christian Brauner <brauner@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
