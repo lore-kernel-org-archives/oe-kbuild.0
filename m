@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952E985275
-	for <oe-kbuild@lists.linux.dev>; Wed, 21 Feb 2024 18:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8B51428E
+	for <oe-kbuild@lists.linux.dev>; Thu, 22 Feb 2024 02:27:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708540601; cv=none; b=hgYL/JLjxoy1/c5m/yoNibdM3BNXPSq//jn2Vb3ARo/Fo8gheyMIo0dRpsatl/BoBP975SCReoJ94uBYaKNSKSJlx2MJY/cPRsu1Mxe84Ov7gwEjAEsCEhsqptzN45ofc8Lui8IYOxPIvwBpFTDS3HmNmUv0YGXOLRMi2NyqFcQ=
+	t=1708568854; cv=none; b=eYG52dcu7eH3Q6WnTzsaRY0Jy1HfWC8hErUHmXsfgj/Ibqt7oelMRaBL1PMj5Zl/t+Tag8RPs/GYh+H7/TgopR4jrvLUTzHl8RdtEagLO1eLHuEOVkx7pgyfWFfIwCsVBNZ+tTFPKW0MrlCYcDSKq1rH4VWXzRFMx/IhDC1pnAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708540601; c=relaxed/simple;
-	bh=7Heg5D9hxy8S55qlNHvj5J7L80Tqt5GL/TYnHumh6A4=;
+	s=arc-20240116; t=1708568854; c=relaxed/simple;
+	bh=S0yXyrrJ2vXbMEnR9liCsuUPpi8J0T3f64g5Wzmcy1k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qVPgz15Hmk+b8PNUvJw0t/mA71qeJj04JDjwbLqZ+jfXczEOvQq2iGO+qi2uGomNnP4ET1UMDnY8FMtH4NL7G46XVpnsnJGOuWI9TTFQwXAIFhceOMnp+RKt3Z0QFNU3+fdmKXjGUQrBFLQ33zjmxuIupe03F5J9KDf00yK4hmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b8MK1as0; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=N6IVF4lNa3XgOCc8ElF8bMb2tFhtxaOVLTWIlN9OB/mGnkPhdTinWoGM/WPnUNZ/AbxkXeRio33PsSSc0vHxab/wWkEcyFRyutuR93Uknvje0e6ktuBWRfHCG5qC9e2TiKEKdMK4ALcWSf2hM1PcoWOi4luO442c6ODgbFYg0Ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hf7k8G2i; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b8MK1as0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hf7k8G2i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708540599; x=1740076599;
+  t=1708568853; x=1740104853;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7Heg5D9hxy8S55qlNHvj5J7L80Tqt5GL/TYnHumh6A4=;
-  b=b8MK1as0w6GDyqZ40LnN+xxSX/gzR4NwcAQUcuEsGiRU6FUukHDXnX3+
-   6X8+cF9BOUp6mU+1dJerJrffcQU31V99RC+R7QrOyKA3zNcpSfZaETeMi
-   GrCBpezE4gRSYEL/PiSHwUtUQi7Ixn2NHW/jq5FF1HPlf9BJ3UecvbO4H
-   4IZjDGbSY2BEfKjuxqlpNWNt0P5T8y5C+sYvMkNFQcujuqXaRvZQBZ/eI
-   tzfRNdiM+3xvrZiHnlhZjfPkqULlnFoiXTkJii53CNbr3LXO85sYQiycD
-   7ZXd5xLJMCWZOQTonZGhAIKNofSxyxeUzlCORpoom3QXgJ2bVqnP+r4GW
+  bh=S0yXyrrJ2vXbMEnR9liCsuUPpi8J0T3f64g5Wzmcy1k=;
+  b=hf7k8G2iz5Z82RR8lduD/C72vlC9RvEcO8d1OcjYwW83lpWTZbJewFrN
+   DDwWp0bKNOm6t3bOT6VRADf6T+4MIeAq1wp2bL/4Iu7M2492xWWvHND/P
+   i2Q/lkHuo/kGnRo62l7kDwmbnFb/N86C8gQOA8YT09RSTssqTC3q8WqGS
+   YWuN3D0UERsBtriiNLxubeIuE4jX+1EL0Ql0wTU5HuzJH7yLmg/WP7LBu
+   /PChKN4GKgFcU8tcb57s2mUHj+oWwuVYwfi1HfpKND7cU8ng1qt59N/hU
+   2svH9uILd1aSoQm8u+syryn2kux53gMxy7DvyriY10hjH60H8xFnED6DQ
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="2869342"
-X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
-   d="scan'208";a="2869342"
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="13391423"
+X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
+   d="scan'208";a="13391423"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 10:36:38 -0800
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 18:27:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
-   d="scan'208";a="36013318"
+X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
+   d="scan'208";a="36142275"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 21 Feb 2024 10:36:36 -0800
+  by orviesa002.jf.intel.com with ESMTP; 21 Feb 2024 18:27:31 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rcrS9-0005bH-1O;
-	Wed, 21 Feb 2024 18:36:23 +0000
-Date: Thu, 22 Feb 2024 02:35:48 +0800
+	id 1rcyo2-0005ts-20;
+	Thu, 22 Feb 2024 02:27:27 +0000
+Date: Thu, 22 Feb 2024 10:26:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/acpi/property.c:985 acpi_data_prop_read_single() error:
- uninitialized symbol 'obj'.
-Message-ID: <202402220250.W1ggembF-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [s390:features 91/98] arch/s390/pci/pci_event.c:301:0-1: preceding
+ lock on line 270
+Message-ID: <202402221004.f8BQSQ8i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,96 +60,82 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: linux-s390@vger.kernel.org
+TO: Gerd Bayer <gbayer@linux.ibm.com>
+CC: Heiko Carstens <hca@linux.ibm.com>
+CC: Niklas Schnelle <schnelle@linux.ibm.com>
 
-Hi Andy,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9fc1ccccfd8d53dc7936fe6d633f2373fc9f62e8
-commit: 1fbd9029c8d5ccd3de49cb0f5382cffc7444a32b ACPI: property: Refactor acpi_data_prop_read_single()
-date:   11 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 11 months ago
-config: i386-randconfig-141-20240221 (https://download.01.org/0day-ci/archive/20240222/202402220250.W1ggembF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
+head:   4a5993287467d2d0401503256dc9d2690c7f2020
+commit: bcb5d6c769039c8358a2359e7c3ea5d97ce93108 [91/98] s390/pci: introduce lock to synchronize state of zpci_dev's
+:::::: branch date: 12 hours ago
+:::::: commit date: 2 days ago
+config: s390-randconfig-r064-20240221 (https://download.01.org/0day-ci/archive/20240222/202402221004.f8BQSQ8i-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202402220250.W1ggembF-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202402221004.f8BQSQ8i-lkp@intel.com/
 
-New smatch warnings:
-drivers/acpi/property.c:985 acpi_data_prop_read_single() error: uninitialized symbol 'obj'.
+cocci warnings: (new ones prefixed by >>)
+>> arch/s390/pci/pci_event.c:301:0-1: preceding lock on line 270
 
-Old smatch warnings:
-drivers/acpi/property.c:991 acpi_data_prop_read_single() error: uninitialized symbol 'obj'.
-drivers/acpi/property.c:997 acpi_data_prop_read_single() error: uninitialized symbol 'obj'.
-drivers/acpi/property.c:1004 acpi_data_prop_read_single() error: uninitialized symbol 'obj'.
+vim +301 arch/s390/pci/pci_event.c
 
-vim +/obj +985 drivers/acpi/property.c
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  257  
+aa3b7c296732b4 Sebastian Ott   2013-12-12  258  static void __zpci_event_error(struct zpci_ccdf_err *ccdf)
+d795ddad36cbc8 Sebastian Ott   2013-11-15  259  {
+d795ddad36cbc8 Sebastian Ott   2013-11-15  260  	struct zpci_dev *zdev = get_zdev_by_fid(ccdf->fid);
+9a99649f2a89fd Sebastian Ott   2016-01-29  261  	struct pci_dev *pdev = NULL;
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  262  	pci_ers_result_t ers_res;
+d795ddad36cbc8 Sebastian Ott   2013-11-15  263  
+6526a597a2e856 Niklas Schnelle 2021-09-15  264  	zpci_dbg(3, "err fid:%x, fh:%x, pec:%x\n",
+6526a597a2e856 Niklas Schnelle 2021-09-15  265  		 ccdf->fid, ccdf->fh, ccdf->pec);
+d795ddad36cbc8 Sebastian Ott   2013-11-15  266  	zpci_err("error CCDF:\n");
+d795ddad36cbc8 Sebastian Ott   2013-11-15  267  	zpci_err_hex(ccdf, sizeof(*ccdf));
+d795ddad36cbc8 Sebastian Ott   2013-11-15  268  
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  269  	if (zdev) {
+bcb5d6c769039c Gerd Bayer      2023-11-10 @270  		mutex_lock(&zdev->state_lock);
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  271  		zpci_update_fh(zdev, ccdf->fh);
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  272  		if (zdev->zbus->bus)
+44510d6fa0c00a Pierre Morel    2020-04-22  273  			pdev = pci_get_slot(zdev->zbus->bus, zdev->devfn);
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  274  	}
+9a99649f2a89fd Sebastian Ott   2016-01-29  275  
+d795ddad36cbc8 Sebastian Ott   2013-11-15  276  	pr_err("%s: Event 0x%x reports an error for PCI function 0x%x\n",
+515f022e8b59ce Sebastian Ott   2015-07-28  277  	       pdev ? pci_name(pdev) : "n/a", ccdf->pec, ccdf->fid);
+8ead7efb637935 Sebastian Ott   2016-01-22  278  
+8ead7efb637935 Sebastian Ott   2016-01-22  279  	if (!pdev)
+c122383d221dfa Niklas Schnelle 2021-09-20  280  		goto no_pdev;
+8ead7efb637935 Sebastian Ott   2016-01-22  281  
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  282  	switch (ccdf->pec) {
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  283  	case 0x003a: /* Service Action or Error Recovery Successful */
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  284  		ers_res = zpci_event_attempt_error_recovery(pdev);
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  285  		if (ers_res != PCI_ERS_RESULT_RECOVERED)
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  286  			zpci_event_io_failure(pdev, pci_channel_io_perm_failure);
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  287  		break;
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  288  	default:
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  289  		/*
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  290  		 * Mark as frozen not permanently failed because the device
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  291  		 * could be subsequently recovered by the platform.
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  292  		 */
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  293  		zpci_event_io_failure(pdev, pci_channel_io_frozen);
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  294  		break;
+4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  295  	}
+9a99649f2a89fd Sebastian Ott   2016-01-29  296  	pci_dev_put(pdev);
+c122383d221dfa Niklas Schnelle 2021-09-20  297  no_pdev:
+bcb5d6c769039c Gerd Bayer      2023-11-10  298  	if (zdev)
+bcb5d6c769039c Gerd Bayer      2023-11-10  299  		mutex_unlock(&zdev->state_lock);
+c122383d221dfa Niklas Schnelle 2021-09-20  300  	zpci_zdev_put(zdev);
+d795ddad36cbc8 Sebastian Ott   2013-11-15 @301  }
+d795ddad36cbc8 Sebastian Ott   2013-11-15  302  
 
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   968  
-99a85464693faa Sakari Ailus      2017-07-21   969  static int acpi_data_prop_read_single(const struct acpi_device_data *data,
-3a7a2ab839ad18 Rafael J. Wysocki 2015-08-27   970  				      const char *propname,
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   971  				      enum dev_prop_type proptype, void *val)
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   972  {
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   973  	const union acpi_object *obj;
-1fbd9029c8d5cc Andy Shevchenko   2023-03-24   974  	int ret = 0;
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   975  
-1fbd9029c8d5cc Andy Shevchenko   2023-03-24   976  	if (proptype >= DEV_PROP_U8 && proptype <= DEV_PROP_U64)
-3a7a2ab839ad18 Rafael J. Wysocki 2015-08-27   977  		ret = acpi_data_get_property(data, propname, ACPI_TYPE_INTEGER, &obj);
-1fbd9029c8d5cc Andy Shevchenko   2023-03-24   978  	else if (proptype == DEV_PROP_STRING)
-1fbd9029c8d5cc Andy Shevchenko   2023-03-24   979  		ret = acpi_data_get_property(data, propname, ACPI_TYPE_STRING, &obj);
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   980  	if (ret)
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   981  		return ret;
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   982  
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   983  	switch (proptype) {
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   984  	case DEV_PROP_U8:
-b31384fa5de37a Rafael J. Wysocki 2014-11-04  @985  		if (obj->integer.value > U8_MAX)
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   986  			return -EOVERFLOW;
-e1e6bd2995ac0e Rafael J. Wysocki 2021-02-11   987  		if (val)
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   988  			*(u8 *)val = obj->integer.value;
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   989  		break;
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   990  	case DEV_PROP_U16:
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   991  		if (obj->integer.value > U16_MAX)
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   992  			return -EOVERFLOW;
-e1e6bd2995ac0e Rafael J. Wysocki 2021-02-11   993  		if (val)
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   994  			*(u16 *)val = obj->integer.value;
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   995  		break;
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   996  	case DEV_PROP_U32:
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   997  		if (obj->integer.value > U32_MAX)
-b31384fa5de37a Rafael J. Wysocki 2014-11-04   998  			return -EOVERFLOW;
-e1e6bd2995ac0e Rafael J. Wysocki 2021-02-11   999  		if (val)
-b31384fa5de37a Rafael J. Wysocki 2014-11-04  1000  			*(u32 *)val = obj->integer.value;
-b31384fa5de37a Rafael J. Wysocki 2014-11-04  1001  		break;
-1fbd9029c8d5cc Andy Shevchenko   2023-03-24  1002  	case DEV_PROP_U64:
-e1e6bd2995ac0e Rafael J. Wysocki 2021-02-11  1003  		if (val)
-b31384fa5de37a Rafael J. Wysocki 2014-11-04  1004  			*(u64 *)val = obj->integer.value;
-b31384fa5de37a Rafael J. Wysocki 2014-11-04  1005  		break;
-1fbd9029c8d5cc Andy Shevchenko   2023-03-24  1006  	case DEV_PROP_STRING:
-e1e6bd2995ac0e Rafael J. Wysocki 2021-02-11  1007  		if (val)
-b31384fa5de37a Rafael J. Wysocki 2014-11-04  1008  			*(char **)val = obj->string.pointer;
-b0b027cee090a1 Sakari Ailus      2017-03-28  1009  		return 1;
-1fbd9029c8d5cc Andy Shevchenko   2023-03-24  1010  	default:
-1fbd9029c8d5cc Andy Shevchenko   2023-03-24  1011  		return -EINVAL;
-b31384fa5de37a Rafael J. Wysocki 2014-11-04  1012  	}
-1fbd9029c8d5cc Andy Shevchenko   2023-03-24  1013  
-1fbd9029c8d5cc Andy Shevchenko   2023-03-24  1014  	/* When no storage provided return number of available values */
-1fbd9029c8d5cc Andy Shevchenko   2023-03-24  1015  	return val ? 0 : 1;
-b31384fa5de37a Rafael J. Wysocki 2014-11-04  1016  }
-b31384fa5de37a Rafael J. Wysocki 2014-11-04  1017  
+:::::: The code at line 301 was first introduced by commit
+:::::: d795ddad36cbc828176c898a5084549030539162 s390/pci: implement hotplug notifications
 
-:::::: The code at line 985 was first introduced by commit
-:::::: b31384fa5de37a100507751dfb5c0a49d06cee67 Driver core: Unified device properties interface for platform firmware
-
-:::::: TO: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+:::::: TO: Sebastian Ott <sebott@linux.vnet.ibm.com>
+:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
