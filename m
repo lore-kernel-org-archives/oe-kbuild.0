@@ -1,54 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8B51428E
-	for <oe-kbuild@lists.linux.dev>; Thu, 22 Feb 2024 02:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9210B10E6
+	for <oe-kbuild@lists.linux.dev>; Thu, 22 Feb 2024 04:44:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708568854; cv=none; b=eYG52dcu7eH3Q6WnTzsaRY0Jy1HfWC8hErUHmXsfgj/Ibqt7oelMRaBL1PMj5Zl/t+Tag8RPs/GYh+H7/TgopR4jrvLUTzHl8RdtEagLO1eLHuEOVkx7pgyfWFfIwCsVBNZ+tTFPKW0MrlCYcDSKq1rH4VWXzRFMx/IhDC1pnAE=
+	t=1708577079; cv=none; b=r/itaeYdmWf3ogzdfFrUZphwjHUODPasFikPpKpPfry7QHHwmP8eob6Ux1KXBwBiK38Ka9zt2Xx2hM/bsgznw4wIow+n3Jc2Zl/UFEPQhLDCYJni3BUVyp1nX9XqgAVtgmbSjDtMi18B4vhpKW+w3gwnLzMLcCbvO2FGCkij8DY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708568854; c=relaxed/simple;
-	bh=S0yXyrrJ2vXbMEnR9liCsuUPpi8J0T3f64g5Wzmcy1k=;
+	s=arc-20240116; t=1708577079; c=relaxed/simple;
+	bh=Wlfq7Dyk+ejLfHwa+MTVjUs9ocTd3Fz6vHo+OQS3Ngc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N6IVF4lNa3XgOCc8ElF8bMb2tFhtxaOVLTWIlN9OB/mGnkPhdTinWoGM/WPnUNZ/AbxkXeRio33PsSSc0vHxab/wWkEcyFRyutuR93Uknvje0e6ktuBWRfHCG5qC9e2TiKEKdMK4ALcWSf2hM1PcoWOi4luO442c6ODgbFYg0Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hf7k8G2i; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=KszORZrrTd71uSCRo/V2c/peVBRvv0PUM9Cg2wIXyjRD0L9LMXB858BhqdC1XJ+Y7JrxD9qkpYol7mCYso3Krgar7XPR4zaCAOQlQsCxHAYXTJT+B86H4oB2pjrotGR2vLv/Z8N0I9EhIELbO9RlCdQA+B9WbxskflBeWUAM3S0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mKBN6pop; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hf7k8G2i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mKBN6pop"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708568853; x=1740104853;
+  t=1708577078; x=1740113078;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S0yXyrrJ2vXbMEnR9liCsuUPpi8J0T3f64g5Wzmcy1k=;
-  b=hf7k8G2iz5Z82RR8lduD/C72vlC9RvEcO8d1OcjYwW83lpWTZbJewFrN
-   DDwWp0bKNOm6t3bOT6VRADf6T+4MIeAq1wp2bL/4Iu7M2492xWWvHND/P
-   i2Q/lkHuo/kGnRo62l7kDwmbnFb/N86C8gQOA8YT09RSTssqTC3q8WqGS
-   YWuN3D0UERsBtriiNLxubeIuE4jX+1EL0Ql0wTU5HuzJH7yLmg/WP7LBu
-   /PChKN4GKgFcU8tcb57s2mUHj+oWwuVYwfi1HfpKND7cU8ng1qt59N/hU
-   2svH9uILd1aSoQm8u+syryn2kux53gMxy7DvyriY10hjH60H8xFnED6DQ
+  bh=Wlfq7Dyk+ejLfHwa+MTVjUs9ocTd3Fz6vHo+OQS3Ngc=;
+  b=mKBN6popSU/go3O1IiQQy/CgLLWfH7MdFyfXiTs7BlZ3Wwf1G+2ijQ8L
+   ftyMe5z5dvE58Ho90nFZLiud1579dTMQGbC4fRTKdaAfwdwgF1ZaZ0iMv
+   GDAtbnGDkFnpgSEnce4W+9Ma2REyj5mHjzHynZgNfJYY96AsR2wK71g1J
+   txTmkJfdry1Z3NFJfJYq9/Hyp9U4rU+JR1owgCCpoNAmJpisvOyRvmwyq
+   ltAQNKrbHfZv3/w321DtHLpDj9aEdRihnMZ7mF5NgW1+jAj6t3wnoeMx8
+   rpNs2g2GQzRy/M+ELlofGv0lXKYdMVWQ2YXQWsG0iIWvq2hsZ8XjfuVUR
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="13391423"
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="13340467"
 X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
-   d="scan'208";a="13391423"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 18:27:32 -0800
+   d="scan'208";a="13340467"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 20:44:37 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
-   d="scan'208";a="36142275"
+   d="scan'208";a="10052726"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 21 Feb 2024 18:27:31 -0800
+  by orviesa003.jf.intel.com with ESMTP; 21 Feb 2024 20:44:36 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rcyo2-0005ts-20;
-	Thu, 22 Feb 2024 02:27:27 +0000
-Date: Thu, 22 Feb 2024 10:26:56 +0800
+	id 1rd0wL-0005zk-2K;
+	Thu, 22 Feb 2024 04:44:24 +0000
+Date: Thu, 22 Feb 2024 12:43:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [s390:features 91/98] arch/s390/pci/pci_event.c:301:0-1: preceding
- lock on line 270
-Message-ID: <202402221004.f8BQSQ8i-lkp@intel.com>
+Subject: [intel-lts:6.6/linux 19/34]
+ drivers/gpio/gpio-ehl-pse-plat.c:380:5-8: WARNING: Unsigned expression
+ compared with zero: irq < 0
+Message-ID: <202402221258.5WPAWKAH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,82 +61,110 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-s390@vger.kernel.org
-TO: Gerd Bayer <gbayer@linux.ibm.com>
-CC: Heiko Carstens <hca@linux.ibm.com>
-CC: Niklas Schnelle <schnelle@linux.ibm.com>
+TO: Hao Li <hao3.li@intel.com>
+CC: "sys_oak" <sys_oak@intel.com>
+CC: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-head:   4a5993287467d2d0401503256dc9d2690c7f2020
-commit: bcb5d6c769039c8358a2359e7c3ea5d97ce93108 [91/98] s390/pci: introduce lock to synchronize state of zpci_dev's
-:::::: branch date: 12 hours ago
-:::::: commit date: 2 days ago
-config: s390-randconfig-r064-20240221 (https://download.01.org/0day-ci/archive/20240222/202402221004.f8BQSQ8i-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
+Hi Hao,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/intel/linux-intel-lts.git 6.6/linux
+head:   1a83b00b8d0643b2e6dfe0e5879ad1a92f241de9
+commit: c40bf6203170ce95be3243561ea8e0c434334654 [19/34] tgpio: Fix compilation errors for PSE TGPIO
+:::::: branch date: 13 days ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-r062-20240222 (https://download.01.org/0day-ci/archive/20240222/202402221258.5WPAWKAH-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202402221004.f8BQSQ8i-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402221258.5WPAWKAH-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> arch/s390/pci/pci_event.c:301:0-1: preceding lock on line 270
+>> drivers/gpio/gpio-ehl-pse-plat.c:380:5-8: WARNING: Unsigned expression compared with zero: irq < 0
 
-vim +301 arch/s390/pci/pci_event.c
+vim +380 drivers/gpio/gpio-ehl-pse-plat.c
 
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  257  
-aa3b7c296732b4 Sebastian Ott   2013-12-12  258  static void __zpci_event_error(struct zpci_ccdf_err *ccdf)
-d795ddad36cbc8 Sebastian Ott   2013-11-15  259  {
-d795ddad36cbc8 Sebastian Ott   2013-11-15  260  	struct zpci_dev *zdev = get_zdev_by_fid(ccdf->fid);
-9a99649f2a89fd Sebastian Ott   2016-01-29  261  	struct pci_dev *pdev = NULL;
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  262  	pci_ers_result_t ers_res;
-d795ddad36cbc8 Sebastian Ott   2013-11-15  263  
-6526a597a2e856 Niklas Schnelle 2021-09-15  264  	zpci_dbg(3, "err fid:%x, fh:%x, pec:%x\n",
-6526a597a2e856 Niklas Schnelle 2021-09-15  265  		 ccdf->fid, ccdf->fh, ccdf->pec);
-d795ddad36cbc8 Sebastian Ott   2013-11-15  266  	zpci_err("error CCDF:\n");
-d795ddad36cbc8 Sebastian Ott   2013-11-15  267  	zpci_err_hex(ccdf, sizeof(*ccdf));
-d795ddad36cbc8 Sebastian Ott   2013-11-15  268  
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  269  	if (zdev) {
-bcb5d6c769039c Gerd Bayer      2023-11-10 @270  		mutex_lock(&zdev->state_lock);
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  271  		zpci_update_fh(zdev, ccdf->fh);
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  272  		if (zdev->zbus->bus)
-44510d6fa0c00a Pierre Morel    2020-04-22  273  			pdev = pci_get_slot(zdev->zbus->bus, zdev->devfn);
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  274  	}
-9a99649f2a89fd Sebastian Ott   2016-01-29  275  
-d795ddad36cbc8 Sebastian Ott   2013-11-15  276  	pr_err("%s: Event 0x%x reports an error for PCI function 0x%x\n",
-515f022e8b59ce Sebastian Ott   2015-07-28  277  	       pdev ? pci_name(pdev) : "n/a", ccdf->pec, ccdf->fid);
-8ead7efb637935 Sebastian Ott   2016-01-22  278  
-8ead7efb637935 Sebastian Ott   2016-01-22  279  	if (!pdev)
-c122383d221dfa Niklas Schnelle 2021-09-20  280  		goto no_pdev;
-8ead7efb637935 Sebastian Ott   2016-01-22  281  
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  282  	switch (ccdf->pec) {
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  283  	case 0x003a: /* Service Action or Error Recovery Successful */
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  284  		ers_res = zpci_event_attempt_error_recovery(pdev);
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  285  		if (ers_res != PCI_ERS_RESULT_RECOVERED)
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  286  			zpci_event_io_failure(pdev, pci_channel_io_perm_failure);
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  287  		break;
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  288  	default:
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  289  		/*
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  290  		 * Mark as frozen not permanently failed because the device
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  291  		 * could be subsequently recovered by the platform.
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  292  		 */
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  293  		zpci_event_io_failure(pdev, pci_channel_io_frozen);
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  294  		break;
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  295  	}
-9a99649f2a89fd Sebastian Ott   2016-01-29  296  	pci_dev_put(pdev);
-c122383d221dfa Niklas Schnelle 2021-09-20  297  no_pdev:
-bcb5d6c769039c Gerd Bayer      2023-11-10  298  	if (zdev)
-bcb5d6c769039c Gerd Bayer      2023-11-10  299  		mutex_unlock(&zdev->state_lock);
-c122383d221dfa Niklas Schnelle 2021-09-20  300  	zpci_zdev_put(zdev);
-d795ddad36cbc8 Sebastian Ott   2013-11-15 @301  }
-d795ddad36cbc8 Sebastian Ott   2013-11-15  302  
+98f388dc83f17d Raymond Tan 2020-04-27  358  
+98f388dc83f17d Raymond Tan 2020-04-27  359  static int ehl_pse_gpio_probe(struct platform_device *pdev)
+98f388dc83f17d Raymond Tan 2020-04-27  360  {
+98f388dc83f17d Raymond Tan 2020-04-27  361  	struct gpio_irq_chip *girq;
+98f388dc83f17d Raymond Tan 2020-04-27  362  	struct ehl_pse_gpio *priv;
+98f388dc83f17d Raymond Tan 2020-04-27  363  	struct resource *res;
+98f388dc83f17d Raymond Tan 2020-04-27  364  	u32 irq;
+98f388dc83f17d Raymond Tan 2020-04-27  365  	int ret;
+98f388dc83f17d Raymond Tan 2020-04-27  366  
+98f388dc83f17d Raymond Tan 2020-04-27  367  	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+98f388dc83f17d Raymond Tan 2020-04-27  368  	if (!priv)
+98f388dc83f17d Raymond Tan 2020-04-27  369  		return -ENOMEM;
+98f388dc83f17d Raymond Tan 2020-04-27  370  
+98f388dc83f17d Raymond Tan 2020-04-27  371  	priv->ctx = devm_kzalloc(&pdev->dev, sizeof(*priv->ctx), GFP_KERNEL);
+98f388dc83f17d Raymond Tan 2020-04-27  372  	if (!priv->ctx)
+98f388dc83f17d Raymond Tan 2020-04-27  373  		return -ENOMEM;
+98f388dc83f17d Raymond Tan 2020-04-27  374  
+98f388dc83f17d Raymond Tan 2020-04-27  375  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+98f388dc83f17d Raymond Tan 2020-04-27  376  	if (!res)
+c40bf6203170ce Hao Li      2021-09-26  377  		return -EINVAL;
+98f388dc83f17d Raymond Tan 2020-04-27  378  
+98f388dc83f17d Raymond Tan 2020-04-27  379  	irq = platform_get_irq(pdev, 0);
+98f388dc83f17d Raymond Tan 2020-04-27 @380  	if (irq < 0)
+c40bf6203170ce Hao Li      2021-09-26  381  		return irq ? irq : -EINVAL;
+98f388dc83f17d Raymond Tan 2020-04-27  382  
+98f388dc83f17d Raymond Tan 2020-04-27  383  	priv->dev = &pdev->dev;
+98f388dc83f17d Raymond Tan 2020-04-27  384  	priv->reg_base = devm_ioremap_resource(&pdev->dev, res);
+98f388dc83f17d Raymond Tan 2020-04-27  385  
+98f388dc83f17d Raymond Tan 2020-04-27  386  	priv->chip.label = dev_name(&pdev->dev);
+98f388dc83f17d Raymond Tan 2020-04-27  387  	priv->chip.parent = &pdev->dev;
+98f388dc83f17d Raymond Tan 2020-04-27  388  	priv->chip.request = ehl_pse_gpio_request;
+98f388dc83f17d Raymond Tan 2020-04-27  389  	priv->chip.free = ehl_pse_gpio_free;
+98f388dc83f17d Raymond Tan 2020-04-27  390  	priv->chip.direction_input = ehl_pse_gpio_direction_input;
+98f388dc83f17d Raymond Tan 2020-04-27  391  	priv->chip.direction_output = ehl_pse_gpio_direction_output;
+98f388dc83f17d Raymond Tan 2020-04-27  392  	priv->chip.get = ehl_pse_gpio_get;
+98f388dc83f17d Raymond Tan 2020-04-27  393  	priv->chip.set = ehl_pse_gpio_set;
+98f388dc83f17d Raymond Tan 2020-04-27  394  	priv->chip.get_direction = ehl_pse_gpio_get_direction;
+98f388dc83f17d Raymond Tan 2020-04-27  395  	priv->chip.base = -1;
+98f388dc83f17d Raymond Tan 2020-04-27  396  	/* 30 pins only per instance according to spec */
+98f388dc83f17d Raymond Tan 2020-04-27  397  	priv->chip.ngpio = EHL_PSE_NGPIO;
+98f388dc83f17d Raymond Tan 2020-04-27  398  	priv->chip.can_sleep = false;
+98f388dc83f17d Raymond Tan 2020-04-27  399  	priv->chip.add_pin_ranges = NULL;
+98f388dc83f17d Raymond Tan 2020-04-27  400  
+98f388dc83f17d Raymond Tan 2020-04-27  401  	raw_spin_lock_init(&priv->lock);
+98f388dc83f17d Raymond Tan 2020-04-27  402  
+98f388dc83f17d Raymond Tan 2020-04-27  403  	girq = &priv->chip.irq;
+98f388dc83f17d Raymond Tan 2020-04-27  404  	girq->chip = &ehl_pse_irqchip;
+98f388dc83f17d Raymond Tan 2020-04-27  405  	girq->init_hw = ehl_pse_irq_init_hw;
+98f388dc83f17d Raymond Tan 2020-04-27  406  	girq->parent_handler = ehl_pse_irq_handler;
+98f388dc83f17d Raymond Tan 2020-04-27  407  	girq->num_parents = 1;
+98f388dc83f17d Raymond Tan 2020-04-27  408  	girq->parents = devm_kcalloc(&pdev->dev, girq->num_parents,
+98f388dc83f17d Raymond Tan 2020-04-27  409  				sizeof(*girq->parents), GFP_KERNEL);
+98f388dc83f17d Raymond Tan 2020-04-27  410  	if (!girq->parents)
+98f388dc83f17d Raymond Tan 2020-04-27  411  		return -ENOMEM;
+98f388dc83f17d Raymond Tan 2020-04-27  412  
+98f388dc83f17d Raymond Tan 2020-04-27  413  	girq->parents[0] = irq;
+98f388dc83f17d Raymond Tan 2020-04-27  414  	girq->first = 0;
+98f388dc83f17d Raymond Tan 2020-04-27  415  	girq->default_type = IRQ_TYPE_NONE;
+98f388dc83f17d Raymond Tan 2020-04-27  416  	girq->handler = handle_bad_irq;
+98f388dc83f17d Raymond Tan 2020-04-27  417  
+98f388dc83f17d Raymond Tan 2020-04-27  418  	platform_set_drvdata(pdev, priv);
+98f388dc83f17d Raymond Tan 2020-04-27  419  
+98f388dc83f17d Raymond Tan 2020-04-27  420  	ret = devm_gpiochip_add_data(&pdev->dev, &priv->chip, priv);
+98f388dc83f17d Raymond Tan 2020-04-27  421  	if (ret) {
+98f388dc83f17d Raymond Tan 2020-04-27  422  		dev_err(&pdev->dev, "gpiochip_add error %d\n", ret);
+98f388dc83f17d Raymond Tan 2020-04-27  423  		return ret;
+98f388dc83f17d Raymond Tan 2020-04-27  424  	}
+98f388dc83f17d Raymond Tan 2020-04-27  425  
+98f388dc83f17d Raymond Tan 2020-04-27  426  	return 0;
+98f388dc83f17d Raymond Tan 2020-04-27  427  }
+98f388dc83f17d Raymond Tan 2020-04-27  428  
 
-:::::: The code at line 301 was first introduced by commit
-:::::: d795ddad36cbc828176c898a5084549030539162 s390/pci: implement hotplug notifications
+:::::: The code at line 380 was first introduced by commit
+:::::: 98f388dc83f17d579f5684c021040f02269a7ebe mfd: intel-ehl-gpio: Introduce MFD framework to PSE GPIO/TGPIO
 
-:::::: TO: Sebastian Ott <sebott@linux.vnet.ibm.com>
-:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
+:::::: TO: Raymond Tan <raymond.tan@intel.com>
+:::::: CC: sys_oak <sys_oak@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
