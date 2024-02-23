@@ -1,54 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AACD29B
-	for <oe-kbuild@lists.linux.dev>; Fri, 23 Feb 2024 10:48:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16B4664B4
+	for <oe-kbuild@lists.linux.dev>; Fri, 23 Feb 2024 11:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708685308; cv=none; b=jf5XP77JUgTMK5LTdG4+qyXkiZk2D4/42r6lE1WFwGwxNieTIEDXsmhSLq6VsTLM3JK1nLMdPbO8pZedvM9gozejHFti2ySwcFLgovryJMLgqSAGS+XfvD/slg+lPNCvEeArvfwNrwohU606XpHWJk50GOjmInEqNMQ8YftapEM=
+	t=1708687298; cv=none; b=EfihmRUrUPvLZJkRSt/bOnwJdHXECjYPrjRHlRiVXPsBF4IxyNrV9sFY/SSRQjJbVg2OdlLggXpHcDrVxOqUhdzVAZSs9R5e0swZb6sm3FRZIWWfmYOWCFsnEX2/xhGHuSX71yD4b6l1zbhQBU0zuuOzJDvz6urMn8i2r98kYhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708685308; c=relaxed/simple;
-	bh=e8pNYq32LqfQWupsKcvL2dlyEWELvAUr0NPs+9HCB3Y=;
+	s=arc-20240116; t=1708687298; c=relaxed/simple;
+	bh=MGjiNoY5/PZus3tHurBrNW463HaZZAyrMoHg2GAQPfI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Two5rAfkLCRYL+qASgZHTvCsMZiYp90j6xaNrtUAJ8r1JYFbpoo7IB03qj2zqvKKkWwjmmgadaUAUWDTxrjZJHkag65Ryad0pbxg7gDeR0SwU4Ob7BC3uaTjaqRVeSCRbgKQ1Me0h6q8n3OF6X0hzFO6M9Z0QyVSKbegiA4oxL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g7u+mYWi; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=fImKH4Maz86+ito3f/Fj4v0WCYJNkYygdKH5rANW4uMkS7YUAb6+gcWPOPmGTkc2tSJkjkhcijtlC0r+o9rt/HAu5QZgB8+MARw/up3JpY0SS9NQ2uv4zFVMWqf6AU/McQyOWzNfJqNsa5bHUVYBaTujwEMWixZP77mgxFWacyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=elDSJsXp; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g7u+mYWi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708685306; x=1740221306;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e8pNYq32LqfQWupsKcvL2dlyEWELvAUr0NPs+9HCB3Y=;
-  b=g7u+mYWirsu66eBWLlRpiva0waKK61+JGIPiQkCK/te3VO0SEYhQrxWW
-   TCNEk14M6kuDGInNCGtnykAk/lMPBc3MwQbYidF5goFfro4EDlLwlWs6P
-   dj8QgF82478bL3mTtjU91cvdiCgPNIf8/Q+1BO72jwmVJKRhrJVne5SCn
-   Q/8BpdvRvj2aqn8LMNjn3vGmcG77PCBoTtjxdD5FZIw2aTtF+TgmbVyIE
-   f1IItTsxfziQj4QFjtbdVqOdp1qf1BBTX9xvqH/m24rZDXl2OCa0sVC5D
-   XY6wWlY21J5e1Eiks3dYyvH0QzMawjbdjDP4rBH82N/HadRvlTN6Fl1nX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="3122541"
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="3122541"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 02:48:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="29033267"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Feb 2024 02:48:24 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rdT6L-0007QW-1m;
-	Fri, 23 Feb 2024 10:48:21 +0000
-Date: Fri, 23 Feb 2024 18:47:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="elDSJsXp"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-412698ac6f9so1579185e9.0
+        for <oe-kbuild@lists.linux.dev>; Fri, 23 Feb 2024 03:21:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708687295; x=1709292095; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PIi3EjXiGTvmOHi052KsOnRzwJ+f4mQvPVKEwEMfxSE=;
+        b=elDSJsXpkqhJnO7L5Ol1w3Vumtc2XCeVUrxzBNj/f+wm9wag7JLA+D5wn1lYq06EGm
+         /V/pNmrBOV9MCcZUM/gtO+qxwOxPkr0ZdZwhTHZg5nOaT/0L9QbX38Ua6/JC7Lv/VM82
+         5C1VCI/C9lZp7EyLtpO15IYvVr6pPShJDDhbq6/OQ6pfMCTQ2PMl+VeXJxD3K3EtApP7
+         yGpFqn01CEhuI1yV2ewkX4bI1LrHDiR68NyVID1gID4bUke/dKHLw9mVNhBUB30HsRh2
+         7llvzjPnb8CpSYcmMdOIUtb6wB3eEG+fcRL8SKHV99XrW0YpdFWa/rgefHPJ8vLerLl/
+         1VZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708687295; x=1709292095;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PIi3EjXiGTvmOHi052KsOnRzwJ+f4mQvPVKEwEMfxSE=;
+        b=S9YA0WiuY5xQdxdkLJJp1zkCTfIOuyhrmrJib2lLcpQbTbGy9UJ4706LQTJL8uTERM
+         gS/moz7W8t/ITh4cYlN71N6GDvN6UvB/5eEnfhbnahkgVdYPMUC8x8D8/PjAgmbXl5uc
+         tGR8Swi1XWcIzrWk+Gxv5DLQydcdWnJqKG9nQBkzMP+/vFBoopsdMi/6uYx70qkhD4jX
+         DtMXqAqkurfKhqKBd0fbMDvL/LqkTqxGhbJ4DnJiz0NOVwm2roteRf5K/1dzAQkI4hYo
+         rnDTN/Qrarku1O3jaE0OAE9tPdyOc0pUP+h9Uc9gsTQscOmeKt9J2vM4zx2ZhKkkpJrF
+         VXGA==
+X-Gm-Message-State: AOJu0YzHFNkYVG0QzOjG1FvGKPplRWWTQ0ymMowR3tNiX9eZlJUCoCSx
+	MRsnz3DAN15yyt4ZKRQRy4ozROOO3illwe+Bn/8YxMjIUvX+LUGCJ+QpZENqbbM5wHhFUmeBXwa
+	0
+X-Google-Smtp-Source: AGHT+IG4bZr5EDo019kifBFU9QxI2IvQOaqdQNrKdAU6Y2UFtTCbZamMDyhboFxCGoxcWL3sjymYGw==
+X-Received: by 2002:adf:da41:0:b0:33d:7e9:9543 with SMTP id r1-20020adfda41000000b0033d07e99543mr1358279wrl.32.1708687294766;
+        Fri, 23 Feb 2024 03:21:34 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id b8-20020a5d4b88000000b0033cfc035940sm2426016wrt.34.2024.02.23.03.21.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Feb 2024 03:21:34 -0800 (PST)
+Date: Fri, 23 Feb 2024 14:21:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Joe Damato <jdamato@fastly.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Joe Damato <jdamato@fastly.com>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Stanislav Fomichev <sdf@google.com>,
+	Amritha Nambiar <amritha.nambiar@intel.com>,
+	Larysa Zaremba <larysa.zaremba@intel.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>
 Subject: Re: [PATCH net-next 1/2] netdev-genl: Add ifname for queue and NAPI
  APIs
-Message-ID: <202402231851.2NeORqwi-lkp@intel.com>
+Message-ID: <5f3777e9-c056-4765-9d43-9338a11c1703@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,58 +78,30 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <1708531057-67392-2-git-send-email-jdamato@fastly.com>
-References: <1708531057-67392-2-git-send-email-jdamato@fastly.com>
-TO: Joe Damato <jdamato@fastly.com>
-TO: netdev@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-CC: Joe Damato <jdamato@fastly.com>
-CC: Eric Dumazet <edumazet@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Jesper Dangaard Brouer <hawk@kernel.org>
-CC: Stanislav Fomichev <sdf@google.com>
-CC: Amritha Nambiar <amritha.nambiar@intel.com>
-CC: Larysa Zaremba <larysa.zaremba@intel.com>
-CC: Lorenzo Bianconi <lorenzo@kernel.org>
-CC: Tariq Toukan <tariqt@nvidia.com>
-CC: Sridhar Samudrala <sridhar.samudrala@intel.com>
-CC: Alexei Starovoitov <ast@kernel.org>
-CC: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
 
 Hi Joe,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
-
 url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Damato/netdev-genl-Add-ifname-for-queue-and-NAPI-APIs/20240222-000134
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/1708531057-67392-2-git-send-email-jdamato%40fastly.com
 patch subject: [PATCH net-next 1/2] netdev-genl: Add ifname for queue and NAPI APIs
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
 config: i386-randconfig-141-20240222 (https://download.01.org/0day-ci/archive/20240223/202402231851.2NeORqwi-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202402231851.2NeORqwi-lkp@intel.com/
 
 New smatch warnings:
 net/core/netdev-genl.c:388 netdev_nl_queue_get_doit() error: uninitialized symbol 'ifname'.
 
-Old smatch warnings:
-net/core/netdev-genl.c:45 netdev_nl_dev_fill() warn: inconsistent indenting
-
 vim +/ifname +388 net/core/netdev-genl.c
 
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  370  
 bc877956272f05 Amritha Nambiar 2023-12-01  371  int netdev_nl_queue_get_doit(struct sk_buff *skb, struct genl_info *info)
 bc877956272f05 Amritha Nambiar 2023-12-01  372  {
 6b6171db7fc8f7 Amritha Nambiar 2023-12-01  373  	u32 q_id, q_type, ifindex;
@@ -127,6 +120,9 @@ f340b224321fa6 Joe Damato      2024-02-21  382  	    GENL_REQ_ATTR_CHECK(info, N
 6b6171db7fc8f7 Amritha Nambiar 2023-12-01  386  	q_type = nla_get_u32(info->attrs[NETDEV_A_QUEUE_TYPE]);
 6b6171db7fc8f7 Amritha Nambiar 2023-12-01  387  	ifindex = nla_get_u32(info->attrs[NETDEV_A_QUEUE_IFINDEX]);
 f340b224321fa6 Joe Damato      2024-02-21 @388  	nla_strscpy(ifname, info->attrs[NETDEV_A_QUEUE_IFNAME], IFNAMSIZ);
+                                                                    ^^^^^^
+missing initialization
+
 6b6171db7fc8f7 Amritha Nambiar 2023-12-01  389  
 6b6171db7fc8f7 Amritha Nambiar 2023-12-01  390  	rsp = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
 6b6171db7fc8f7 Amritha Nambiar 2023-12-01  391  	if (!rsp)
@@ -156,8 +152,8 @@ f340b224321fa6 Joe Damato      2024-02-21  405  	}
 6b6171db7fc8f7 Amritha Nambiar 2023-12-01  415  	nlmsg_free(rsp);
 6b6171db7fc8f7 Amritha Nambiar 2023-12-01  416  	return err;
 6b6171db7fc8f7 Amritha Nambiar 2023-12-01  417  }
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  418  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
