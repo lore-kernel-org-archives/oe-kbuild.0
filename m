@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AB6749A
-	for <oe-kbuild@lists.linux.dev>; Sat, 24 Feb 2024 07:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7755B17581
+	for <oe-kbuild@lists.linux.dev>; Sat, 24 Feb 2024 09:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708759405; cv=none; b=Tf3mer+oXuX0VP0u3ny8MC8NNtQFUYNGEt890VUpt3aoelXW8ZfOkKIclc4mDUqYV2LNPMaZScliKdIUriOMNfddCDcaBjjA+EnLMekhLJC/XwijOEwdey93GEYNs+rnS9d2YkCPf4nf9PhJfxeU6iFjtd3t+h6Xdv+f5ejCbEo=
+	t=1708767277; cv=none; b=aGm7YQ/U0LdZP7OsJPFR7tOnLTM92WTMOHxvr6z7iizvnyRAedfj9pjNbenOPYtduMLZCHCXDdTib+rCYKHDNZo0+YVTH8Qh8BUR/fOp8JcJISN4iC3uzk8stumWkVs1tjGvwd0u73m66sSl2VUexo4G3El/t23CFnLpAstnPkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708759405; c=relaxed/simple;
-	bh=qmIdeKmYsa5JcrdxqjHhLh87sMoRCEIeYvLPv5ruqS8=;
+	s=arc-20240116; t=1708767277; c=relaxed/simple;
+	bh=EgECPGniSzHXah34S+MaROrKZzo8IpQs8ftfTx8EYaY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TqwDV/tqLM5POeMJpkjcHGdCotprnSjtePeWkRexL4X5iXfXfI0WNBcb5X/uwVNM3jisoQS2r5ppdpGFboqNnptoxOx2PsdKLlAxSh4YgISs2SaC4RKWf+jWeQGGgBbhcVrI3sUS0FHMckle272ri16cU0tpOLx6eoAbmOwMxVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JndDhmnC; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=QqvLB0kz36AVuzt5cpjnE95DOl/K/HHfGr+x4fKDhMVYSjrtLnJFIhIamryiexTeX+vnnIVPRtiYDqzkj1WTrcl5m6KXbjRU6xb75hqQ92YKrkBmNhWxCX6U80mDjBc0iqjiF4HA4iLQ8wRnBGGDTN7l/my5HgUfKRzx2n9Zt8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZiatPXC4; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JndDhmnC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZiatPXC4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708759403; x=1740295403;
+  t=1708767274; x=1740303274;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qmIdeKmYsa5JcrdxqjHhLh87sMoRCEIeYvLPv5ruqS8=;
-  b=JndDhmnCwpzbheihK/MGgOf463yssqUh1t28RVVig8pmyBunGVJAQdzo
-   xxJ0ew8ef2B4aFb4+3HyDIU9mRCoJ/fvjmhfOk63sSPAazb89G16bvjnH
-   tmZbHPsVeDH3+blTVaUCnZdjhNErUlHkJCDSX+ABG4OjWBet0jTn6hvhn
-   5LeHrWnYqVOp3WwqZG0I5cOZO/LuwLfYs9ovyC5jonYidiOs7o0OPKFOL
-   BSzSfbMv4bHwNtSjGMfRJD3Q6cnkOVwdtNCpdvgjvpwCiJ9VHHQD2rbUq
-   4hEXTwJgb7jUI83uJteiZLIsLjrH8/dyD1c2/bNPYdyyIJjvKr6oaXa5i
+  bh=EgECPGniSzHXah34S+MaROrKZzo8IpQs8ftfTx8EYaY=;
+  b=ZiatPXC4J3mYYhDHrichNKFjKhP51FtFyw9AWDSK+GCmGnlXdkiR5Uky
+   p7VOto5Nbl8Wtrw7NTD1icS1OHMUbzurHPLFQq9p8ihU63CrwwTmFkg6E
+   K1vS1cg7aFffx8SNmuw89CFhqoR7MwnjFvoCuCsjFE4fGHRiTxw2Vl/iO
+   AWqQcCRZjjKOSLGrzGxJX4z/ameGKLQGaAtuwl6yK9e+mboB4kTiS52p0
+   1lh5x+u8Qs6LdrKYxe+6hhaqirwZVoIpyYPwxXdsFZxFCug0lkWCgqphJ
+   bvtvHLqbYVLC6mIM6psDi4UCWaU2BfWhESe3wWYHOL20VoAu3OYKrhcsi
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="2978367"
+X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="6886053"
 X-IronPort-AV: E=Sophos;i="6.06,181,1705392000"; 
-   d="scan'208";a="2978367"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 23:23:23 -0800
+   d="scan'208";a="6886053"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2024 01:34:34 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,181,1705392000"; 
-   d="scan'208";a="29324519"
+   d="scan'208";a="6082062"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Feb 2024 23:23:21 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 24 Feb 2024 01:34:32 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rdmNS-0008Ka-1c;
-	Sat, 24 Feb 2024 07:23:18 +0000
-Date: Sat, 24 Feb 2024 15:23:05 +0800
+	id 1rdoQQ-0008QC-0g;
+	Sat, 24 Feb 2024 09:34:30 +0000
+Date: Sat, 24 Feb 2024 17:33:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 6594/9575]
- drivers/net/ethernet/intel/i40e/i40e_main.c:14729 i40e_veb_release() error:
- uninitialized symbol 'vsi'.
-Message-ID: <202402241530.mM9AG4Pq-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [djwong-xfs:vectorized-scrub 169/290]
+ fs/xfs/xfs_exchrange.c:554:11-12: WARNING opportunity for max()
+Message-ID: <202402241758.of2kcBiC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,82 +60,110 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Ivan Vecera <ivecera@redhat.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: Wojciech Drewek <wojciech.drewek@intel.com>
-CC: Simon Horman <horms@kernel.org>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   33e1d31873f87d119e5120b88cd350efa68ef276
-commit: 08cdde310e2252ea9381a37c3faa2125a5a663a3 [6594/9575] i40e: Fix broken support for floating VEBs
-:::::: branch date: 27 hours ago
-:::::: commit date: 8 days ago
-config: arm-randconfig-r081-20240223 (https://download.01.org/0day-ci/archive/20240224/202402241530.mM9AG4Pq-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project edd4aee4dd9b5b98b2576a6f783e4086173d902a)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git vectorized-scrub
+head:   99aa1a17c8c616e4c031f7b1b136867f3fcca633
+commit: e7f0dcdd13caeaf3e4a002169d3c1080d949090b [169/290] xfs: bind together the front and back ends of the file range exchange code
+:::::: branch date: 9 hours ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-101-20240224 (https://download.01.org/0day-ci/archive/20240224/202402241758.of2kcBiC-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202402241530.mM9AG4Pq-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202402241758.of2kcBiC-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/ethernet/intel/i40e/i40e_main.c:14729 i40e_veb_release() error: uninitialized symbol 'vsi'.
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/xfs_exchrange.c:554:11-12: WARNING opportunity for max()
+   fs/xfs/xfs_exchrange.c:555:11-12: WARNING opportunity for max()
 
-Old smatch warnings:
-drivers/net/ethernet/intel/i40e/i40e_main.c:5970 i40e_set_bw_limit() warn: error code type promoted to positive: 'speed'
-drivers/net/ethernet/intel/i40e/i40e_main.c:13462 i40e_queue_pair_toggle_rings() warn: missing error code? 'ret'
-drivers/net/ethernet/intel/i40e/i40e_main.c:14258 i40e_vsi_setup_vectors() warn: missing error code? 'ret'
-drivers/net/ethernet/intel/i40e/i40e_main.c:15551 i40e_init_recovery_mode() warn: 'vsi->netdev' from register_netdev() not released on lines: 15551.
+vim +554 fs/xfs/xfs_exchrange.c
 
-vim +/vsi +14729 drivers/net/ethernet/intel/i40e/i40e_main.c
-
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14696  
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14697  /**
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14698   * i40e_veb_release - Delete a VEB and free its resources
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14699   * @veb: the VEB being removed
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14700   **/
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14701  void i40e_veb_release(struct i40e_veb *veb)
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14702  {
-b1f1b46f466a08 Ivan Vecera      2023-11-24  14703  	struct i40e_vsi *vsi, *vsi_it;
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14704  	struct i40e_pf *pf;
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14705  	int i, n = 0;
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14706  
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14707  	pf = veb->pf;
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14708  
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14709  	/* find the remaining VSI and check for extras */
-b1f1b46f466a08 Ivan Vecera      2023-11-24  14710  	i40e_pf_for_each_vsi(pf, i, vsi_it)
-b1f1b46f466a08 Ivan Vecera      2023-11-24  14711  		if (vsi_it->uplink_seid == veb->seid) {
-08cdde310e2252 Ivan Vecera      2023-11-24  14712  			if (vsi_it->flags & I40E_VSI_FLAG_VEB_OWNER)
-b1f1b46f466a08 Ivan Vecera      2023-11-24  14713  				vsi = vsi_it;
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14714  			n++;
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14715  		}
-b1f1b46f466a08 Ivan Vecera      2023-11-24  14716  
-08cdde310e2252 Ivan Vecera      2023-11-24  14717  	/* Floating VEB has to be empty and regular one must have
-08cdde310e2252 Ivan Vecera      2023-11-24  14718  	 * single owner VSI.
-08cdde310e2252 Ivan Vecera      2023-11-24  14719  	 */
-08cdde310e2252 Ivan Vecera      2023-11-24  14720  	if ((veb->uplink_seid && n != 1) || (!veb->uplink_seid && n != 0)) {
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14721  		dev_info(&pf->pdev->dev,
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14722  			 "can't remove VEB %d with %d VSIs left\n",
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14723  			 veb->seid, n);
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14724  		return;
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14725  	}
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14726  
-08cdde310e2252 Ivan Vecera      2023-11-24  14727  	/* For regular VEB move the owner VSI to uplink VEB */
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14728  	if (veb->uplink_seid) {
-08cdde310e2252 Ivan Vecera      2023-11-24 @14729  		vsi->flags &= ~I40E_VSI_FLAG_VEB_OWNER;
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14730  		vsi->uplink_seid = veb->uplink_seid;
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14731  		if (veb->uplink_seid == pf->mac_seid)
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14732  			vsi->veb_idx = I40E_NO_VEB;
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14733  		else
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14734  			vsi->veb_idx = veb->veb_idx;
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14735  	}
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14736  
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14737  	i40e_aq_delete_element(&pf->hw, veb->seid, NULL);
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14738  	i40e_veb_clear(veb);
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14739  }
-41c445ff0f482b Jesse Brandeburg 2013-09-11  14740  
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  516  
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  517  /*
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  518   * Obtain a quota reservation to make sure we don't hit EDQUOT.  We can skip
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  519   * this if quota enforcement is disabled or if both inodes' dquots are the
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  520   * same.  The qretry structure must be initialized to zeroes before the first
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  521   * call to this function.
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  522   */
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  523  STATIC int
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  524  xfs_exchrange_reserve_quota(
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  525  	struct xfs_trans		*tp,
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  526  	const struct xfs_exchmaps_req	*req,
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  527  	unsigned int			*qretry)
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  528  {
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  529  	int64_t				ddelta, rdelta;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  530  	int				ip1_error = 0;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  531  	int				error;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  532  
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  533  	/*
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  534  	 * Don't bother with a quota reservation if we're not enforcing them
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  535  	 * or the two inodes have the same dquots.
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  536  	 */
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  537  	if (!XFS_IS_QUOTA_ON(tp->t_mountp) || req->ip1 == req->ip2 ||
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  538  	    (req->ip1->i_udquot == req->ip2->i_udquot &&
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  539  	     req->ip1->i_gdquot == req->ip2->i_gdquot &&
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  540  	     req->ip1->i_pdquot == req->ip2->i_pdquot))
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  541  		return 0;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  542  
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  543  	*qretry = 0;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  544  
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  545  	/*
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  546  	 * For each file, compute the net gain in the number of regular blocks
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  547  	 * that will be mapped into that file and reserve that much quota.  The
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  548  	 * quota counts must be able to absorb at least that much space.
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  549  	 */
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  550  	ddelta = req->ip2_bcount - req->ip1_bcount;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  551  	rdelta = req->ip2_rtbcount - req->ip1_rtbcount;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  552  	if (ddelta > 0 || rdelta > 0) {
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  553  		error = xfs_trans_reserve_quota_nblks(tp, req->ip1,
+e7f0dcdd13caea Darrick J. Wong 2024-01-09 @554  				ddelta > 0 ? ddelta : 0,
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  555  				rdelta > 0 ? rdelta : 0,
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  556  				false);
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  557  		if (error == -EDQUOT || error == -ENOSPC) {
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  558  			/*
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  559  			 * Save this error and see what happens if we try to
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  560  			 * reserve quota for ip2.  Then report both.
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  561  			 */
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  562  			*qretry |= QRETRY_IP1;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  563  			ip1_error = error;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  564  			error = 0;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  565  		}
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  566  		if (error)
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  567  			return error;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  568  	}
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  569  	if (ddelta < 0 || rdelta < 0) {
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  570  		error = xfs_trans_reserve_quota_nblks(tp, req->ip2,
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  571  				ddelta < 0 ? -ddelta : 0,
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  572  				rdelta < 0 ? -rdelta : 0,
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  573  				false);
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  574  		if (error == -EDQUOT || error == -ENOSPC)
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  575  			*qretry |= QRETRY_IP2;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  576  		if (error)
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  577  			return error;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  578  	}
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  579  	if (ip1_error)
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  580  		return ip1_error;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  581  
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  582  	/*
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  583  	 * For each file, forcibly reserve the gross gain in mapped blocks so
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  584  	 * that we don't trip over any quota block reservation assertions.
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  585  	 * We must reserve the gross gain because the quota code subtracts from
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  586  	 * bcount the number of blocks that we unmap; it does not add that
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  587  	 * quantity back to the quota block reservation.
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  588  	 */
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  589  	error = xfs_trans_reserve_quota_nblks(tp, req->ip1, req->ip1_bcount,
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  590  			req->ip1_rtbcount, true);
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  591  	if (error)
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  592  		return error;
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  593  
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  594  	return xfs_trans_reserve_quota_nblks(tp, req->ip2, req->ip2_bcount,
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  595  			req->ip2_rtbcount, true);
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  596  }
+e7f0dcdd13caea Darrick J. Wong 2024-01-09  597  
 
 -- 
 0-DAY CI Kernel Test Service
