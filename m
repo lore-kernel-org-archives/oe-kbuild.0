@@ -1,63 +1,55 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C4B12D761
-	for <oe-kbuild@lists.linux.dev>; Mon, 26 Feb 2024 17:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB921DFCD
+	for <oe-kbuild@lists.linux.dev>; Mon, 26 Feb 2024 22:18:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708968608; cv=none; b=P6d5LIvxIUNN7XFbKC3M5E8UsGzouSudvBc2/jf8LaKPvDp9JM/YN9dS7XMZRLdteiWbxmYKns3SOdyK0nVaigkyQIL4NQWmBi0elGlK3sVkL/2cq2eNezXnpwey8OZpbmXSCBUA8Of7v8YnCy8t1fjlHuwaHPnoeckLLiGViO8=
+	t=1708985906; cv=none; b=owW9Po3qrBi9fLkW5yZopII3oZkqOKhrvx/8gnyDrKdQxpu1P+stZALnc3lfOLrrOXjum7RS5Pg2qjdP2v8xa17xemZX0lzNl3ZqRaBQcVAg7Q5XAvqzg96gBtE11P4PhBI9M0XG+l9cdUoAdNxIkB4WWd0M0o4FUpwr0OvdOZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708968608; c=relaxed/simple;
-	bh=2ldtw3nM5Wx+rEdwAgIyCzQkWXkNhhY9E8UbdZP4Rsk=;
+	s=arc-20240116; t=1708985906; c=relaxed/simple;
+	bh=r6pPCHKrFOyqY4fymojtknLaODcILdOh6vkaY0MeTwk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fjG4qWGqQW5EHBe4WMjJ4UeH+WR9o/F54U/8SxT9qp957/brY8P12SoWFW1ZOapIw2ec+kdpNbk0//r4ukWpQfcGp+GIBRKTBrqcjvj6mcuokCdTSuOaRNL+gnLOd4HQBvGYPEnecxO9sO/jReeR3uq9McLkiNUfkQ7rRuRXPHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=avrDN+Oy; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=NgYKIa4Q3LH6k4YVETjJpdyJhEyZZsnqdD08N9I2jgHh1u3UjOv1m2zFiJQ9EaiP1sNDMhIn7cLk/MJeEJwM6d/PbACjBT3qc18ybkBhF3Mj49auq6Ujt0h5EafEZgnePQJtLjuUZ3eAuQuoTJItQ6abJcbbHU2Orr+1wGZHOVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZkTCVZJK; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="avrDN+Oy"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-33dcd8dec88so997818f8f.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 26 Feb 2024 09:30:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708968603; x=1709573403; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JkHCbQX2NHMUc3rD1Q3h414tBx5JzmR4+IKkEbKCGYI=;
-        b=avrDN+Oyq4S/Xdn2hQJGpbiEPRXz6qSmBXHu5rrCXj70eMF16DV2X++EcPCNbJkTe+
-         GHV6k2O9BJzAotNuAqnEzATHO3MgtLRKO5tQIDLkPAYJzD/xMkE/7Nq4lztGHkG5ZwPC
-         vaCQzvXkB8xzYidjXU4sQ24FmtjylNSUUJXlOEH1QAdtPCXSSZAGmpJZg0WkefD1jkIQ
-         pxWCm6ro7npSbob1c7OOmsOJfmTRzwWMslnw5Ny2j++QvQOwS2KNU+JiZOlnVJL5GuMT
-         fMc8gQ7OzBVrJM0XBomBzfA3M5RM/nsFUdlYjkSYE0Oja/bTJEw0BaOhnm2HR5qAPtaB
-         cu7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708968603; x=1709573403;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JkHCbQX2NHMUc3rD1Q3h414tBx5JzmR4+IKkEbKCGYI=;
-        b=vpnkK17ZJ7gzAJ4rzmPbLVWVgaCUzRq8GWCrqVJQxcKzq84/BsTYx5qaLvmWuiKzk+
-         i1o0E3kOgIpxF12eEE6F2T2EVj59GgEleLAd0ht0YvgkmczhfuAzlFurs09DkJDqVWAW
-         E92HckXQdVN1jQ2wy/JmUM36Ms8HDd1In6aCy321kKEsiW8InqL5LIWCgYOqfOCw6PoM
-         G192DWgLfA4V0cH9QhM7Gk5o3r+YXZXVbcpeDyJiZYYzbnJHLWNZJjrjX7IlEjttHDhU
-         ekbTEKHPEYAWsLqvSmDKqLiHCNlg0LkyDO1D7a+Y1QdYbTWw6AReqVc34tERUzFuVTYy
-         9jIQ==
-X-Gm-Message-State: AOJu0Yxli0paFdWvD8GOgQ4y3QvOYKjiIHl1bhi64JWQxfDTob0ybzxw
-	kAMpLzwdQkc9K0YG+drS78+1/k0PugvvT3BiGlC0b59K8Flx2lqtpryZ4z9egBBKrpslbngGIlw
-	p
-X-Google-Smtp-Source: AGHT+IHAALvMyWZzdr/SgTOtpFEO31Zo77+zLzwZbcoEv6gT460EvrnqD/tjFL4sIOOUrRjUvXlKYQ==
-X-Received: by 2002:a05:6000:1144:b0:33d:497c:14d2 with SMTP id d4-20020a056000114400b0033d497c14d2mr5692252wrx.30.1708968602650;
-        Mon, 26 Feb 2024 09:30:02 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id cg12-20020a5d5ccc000000b0033b1c321070sm8746146wrb.31.2024.02.26.09.30.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 09:30:02 -0800 (PST)
-Date: Mon, 26 Feb 2024 20:29:56 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [broonie-ci:regmap-test-format 3/3]
- drivers/base/regmap/regmap.c:1149 __regmap_init() error: we previously
- assumed 'bus' could be null (see line 814)
-Message-ID: <7c815a0a-5a69-48cf-9db7-b76557d4a36c@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZkTCVZJK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708985904; x=1740521904;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=r6pPCHKrFOyqY4fymojtknLaODcILdOh6vkaY0MeTwk=;
+  b=ZkTCVZJKA9IjCSiLXLhLyUJQ5eYq8DvdFdnTOhrvOV2GFrlpRHwINOKX
+   OUnOla3daQOkRvfipyDww/ASyULW5qwAnCveH58KyyBc6FF03cyJQBriE
+   mUmqM7ldvL64itYXUtGJmx2ptbpT5VL9yPU68g3hJyh/t4tWI9NDuE18B
+   BX3Gq0D7yCt5oxPllZd9LFnFKaTJJJ9cw2yLh6ZP6TAVm9GS3OR1anhmE
+   Cm+wG28L59NUP9WrxvbSCKf6KGzWPVMIlPcUYInObQzec2Zr9VDVDVQxF
+   RzqmZIxilsxWWnJJkTP1SXgZmF2inAapoO4oziFNMXFNciIZXTl96GHUr
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="28745670"
+X-IronPort-AV: E=Sophos;i="6.06,186,1705392000"; 
+   d="scan'208";a="28745670"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 14:18:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,186,1705392000"; 
+   d="scan'208";a="6793821"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 26 Feb 2024 14:18:22 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rejIh-000AiJ-2L;
+	Mon, 26 Feb 2024 22:18:19 +0000
+Date: Tue, 27 Feb 2024 06:18:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 9353/10236]
+ arch/arm64/kvm/vgic/vgic-its.c:119:30-33: ERROR: reference preceded by free
+ on line 98
+Message-ID: <202402270651.XsqLZoIN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,549 +59,147 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git regmap-test-format
-head:   af560701e366502504aebae54af374710e35b55b
-commit: af560701e366502504aebae54af374710e35b55b [3/3] regmap: Provide a callback for bus specific initialisation
-config: i386-randconfig-141-20240226 (https://download.01.org/0day-ci/archive/20240226/202402262352.fY2inNs2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Oliver Upton <oliver.upton@linux.dev>
+CC: Marc Zyngier <maz@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8552c902efe7ef670b6961fb8885b67961aeb629
+commit: 1d6f83f60f79ff0118823d904dc1f04ba89f9428 [9353/10236] KVM: arm64: vgic: Store LPIs in an xarray
+:::::: branch date: 15 hours ago
+:::::: commit date: 3 days ago
+config: arm64-randconfig-r054-20240226 (https://download.01.org/0day-ci/archive/20240227/202402270651.XsqLZoIN-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project edd4aee4dd9b5b98b2576a6f783e4086173d902a)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202402262352.fY2inNs2-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202402270651.XsqLZoIN-lkp@intel.com/
 
-New smatch warnings:
-drivers/base/regmap/regmap.c:1149 __regmap_init() error: we previously assumed 'bus' could be null (see line 814)
+cocci warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/vgic/vgic-its.c:119:30-33: ERROR: reference preceded by free on line 98
 
-vim +/bus +1149 drivers/base/regmap/regmap.c
+vim +119 arch/arm64/kvm/vgic/vgic-its.c
 
-3cfe7a74d42b7e Nicolas Boichat           2015-07-08   664  struct regmap *__regmap_init(struct device *dev,
-b83a313bf25201 Mark Brown                2011-05-11   665  			     const struct regmap_bus *bus,
-0135bbcc7a0cc0 Stephen Warren            2012-04-04   666  			     void *bus_context,
-3cfe7a74d42b7e Nicolas Boichat           2015-07-08   667  			     const struct regmap_config *config,
-3cfe7a74d42b7e Nicolas Boichat           2015-07-08   668  			     struct lock_class_key *lock_key,
-3cfe7a74d42b7e Nicolas Boichat           2015-07-08   669  			     const char *lock_name)
-b83a313bf25201 Mark Brown                2011-05-11   670  {
-6cfec04bcc05a8 Michal Simek              2014-02-10   671  	struct regmap *map;
-d36cb0205f034e Charles Keepax            2020-09-18   672  	int ret = -EINVAL;
-141eba2e006dd8 Stephen Warren            2012-05-24   673  	enum regmap_endian reg_endian, val_endian;
-6863ca6227598d Krystian Garbaciak        2012-06-15   674  	int i, j;
-b83a313bf25201 Mark Brown                2011-05-11   675  
-d2a5884a64161b Andrey Smirnov            2013-01-27   676  	if (!config)
-abbb18fb4ad747 Lars-Peter Clausen        2011-11-14   677  		goto err;
-b83a313bf25201 Mark Brown                2011-05-11   678  
-b83a313bf25201 Mark Brown                2011-05-11   679  	map = kzalloc(sizeof(*map), GFP_KERNEL);
-b83a313bf25201 Mark Brown                2011-05-11   680  	if (map == NULL) {
-b83a313bf25201 Mark Brown                2011-05-11   681  		ret = -ENOMEM;
-b83a313bf25201 Mark Brown                2011-05-11   682  		goto err;
-b83a313bf25201 Mark Brown                2011-05-11   683  	}
-b83a313bf25201 Mark Brown                2011-05-11   684  
-94cc89eb8fa503 Charles Keepax            2020-09-17   685  	ret = regmap_set_name(map, config);
-94cc89eb8fa503 Charles Keepax            2020-09-17   686  	if (ret)
-8253bb3f82554c Bartosz Golaszewski       2017-12-13   687  		goto err_map;
-8253bb3f82554c Bartosz Golaszewski       2017-12-13   688  
-1d512ee861b80d Charles Keepax            2020-09-18   689  	ret = -EINVAL; /* Later error paths rely on this */
-1d512ee861b80d Charles Keepax            2020-09-18   690  
-c9b41fcf272b49 Bartosz Golaszewski       2017-12-06   691  	if (config->disable_locking) {
-81e30b189f593a Bartosz Golaszewski       2017-12-13   692  		map->lock = map->unlock = regmap_lock_unlock_none;
-21f8e4828c44da Dmitry Osipenko           2020-09-02   693  		map->can_sleep = config->can_sleep;
-72465736adf2aa Mark Brown                2017-12-12   694  		regmap_debugfs_disable(map);
-c9b41fcf272b49 Bartosz Golaszewski       2017-12-06   695  	} else if (config->lock && config->unlock) {
-0d4529c534c1c6 Davide Ciminaghi          2012-10-16   696  		map->lock = config->lock;
-0d4529c534c1c6 Davide Ciminaghi          2012-10-16   697  		map->unlock = config->unlock;
-0d4529c534c1c6 Davide Ciminaghi          2012-10-16   698  		map->lock_arg = config->lock_arg;
-21f8e4828c44da Dmitry Osipenko           2020-09-02   699  		map->can_sleep = config->can_sleep;
-a4887813c3a948 Baolin Wang               2017-12-25   700  	} else if (config->use_hwlock) {
-8698b9364710e7 Baolin Wang               2017-11-01   701  		map->hwlock = hwspin_lock_request_specific(config->hwlock_id);
-8698b9364710e7 Baolin Wang               2017-11-01   702  		if (!map->hwlock) {
-8698b9364710e7 Baolin Wang               2017-11-01   703  			ret = -ENXIO;
-8253bb3f82554c Bartosz Golaszewski       2017-12-13   704  			goto err_name;
-8698b9364710e7 Baolin Wang               2017-11-01   705  		}
-8698b9364710e7 Baolin Wang               2017-11-01   706  
-8698b9364710e7 Baolin Wang               2017-11-01   707  		switch (config->hwlock_mode) {
-8698b9364710e7 Baolin Wang               2017-11-01   708  		case HWLOCK_IRQSTATE:
-8698b9364710e7 Baolin Wang               2017-11-01   709  			map->lock = regmap_lock_hwlock_irqsave;
-8698b9364710e7 Baolin Wang               2017-11-01   710  			map->unlock = regmap_unlock_hwlock_irqrestore;
-8698b9364710e7 Baolin Wang               2017-11-01   711  			break;
-8698b9364710e7 Baolin Wang               2017-11-01   712  		case HWLOCK_IRQ:
-8698b9364710e7 Baolin Wang               2017-11-01   713  			map->lock = regmap_lock_hwlock_irq;
-8698b9364710e7 Baolin Wang               2017-11-01   714  			map->unlock = regmap_unlock_hwlock_irq;
-8698b9364710e7 Baolin Wang               2017-11-01   715  			break;
-8698b9364710e7 Baolin Wang               2017-11-01   716  		default:
-8698b9364710e7 Baolin Wang               2017-11-01   717  			map->lock = regmap_lock_hwlock;
-8698b9364710e7 Baolin Wang               2017-11-01   718  			map->unlock = regmap_unlock_hwlock;
-8698b9364710e7 Baolin Wang               2017-11-01   719  			break;
-8698b9364710e7 Baolin Wang               2017-11-01   720  		}
-8698b9364710e7 Baolin Wang               2017-11-01   721  
-8698b9364710e7 Baolin Wang               2017-11-01   722  		map->lock_arg = map;
-0d4529c534c1c6 Davide Ciminaghi          2012-10-16   723  	} else {
-d2a5884a64161b Andrey Smirnov            2013-01-27   724  		if ((bus && bus->fast_io) ||
-                                                                             ^^^
-This code assumes bus can be NULL
+59c5ab40989afa virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   25  
+71afe470e20db1 virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-04-13   26  static int vgic_its_save_tables_v0(struct vgic_its *its);
+71afe470e20db1 virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-04-13   27  static int vgic_its_restore_tables_v0(struct vgic_its *its);
+71afe470e20db1 virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-04-13   28  static int vgic_its_commit_v0(struct vgic_its *its);
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04   29  static int update_lpi_config(struct kvm *kvm, struct vgic_irq *irq,
+6ce18e3a5f3308 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier     2017-10-27   30  			     struct kvm_vcpu *filter_vcpu, bool needs_inv);
+71afe470e20db1 virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-04-13   31  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   32  /*
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   33   * Creates a new (reference to a) struct vgic_irq for a given LPI.
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   34   * If this LPI is already mapped on another ITS, we increase its refcount
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   35   * and return a pointer to the existing structure.
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   36   * If this is a "new" LPI, we allocate and initialize a new struct vgic_irq.
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   37   * This function returns a pointer to the _unlocked_ structure.
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   38   */
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04   39  static struct vgic_irq *vgic_add_lpi(struct kvm *kvm, u32 intid,
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04   40  				     struct kvm_vcpu *vcpu)
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   41  {
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   42  	struct vgic_dist *dist = &kvm->arch.vgic;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   43  	struct vgic_irq *irq = vgic_get_irq(kvm, NULL, intid), *oldirq;
+388d4359680b56 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2018-05-11   44  	unsigned long flags;
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04   45  	int ret;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   46  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   47  	/* In this case there is no put, since we keep the reference. */
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   48  	if (irq)
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   49  		return irq;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   50  
+3ef231670b9e90 arch/arm64/kvm/vgic/vgic-its.c Jia He           2021-09-07   51  	irq = kzalloc(sizeof(struct vgic_irq), GFP_KERNEL_ACCOUNT);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   52  	if (!irq)
+99e5e886a0a59d virt/kvm/arm/vgic/vgic-its.c   Christoffer Dall 2016-08-01   53  		return ERR_PTR(-ENOMEM);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   54  
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   55  	ret = xa_reserve_irq(&dist->lpi_xa, intid, GFP_KERNEL_ACCOUNT);
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   56  	if (ret) {
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   57  		kfree(irq);
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   58  		return ERR_PTR(ret);
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   59  	}
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   60  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   61  	INIT_LIST_HEAD(&irq->lpi_list);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   62  	INIT_LIST_HEAD(&irq->ap_list);
+8fa3adb8c6beee virt/kvm/arm/vgic/vgic-its.c   Julien Thierry   2019-01-07   63  	raw_spin_lock_init(&irq->irq_lock);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   64  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   65  	irq->config = VGIC_CONFIG_EDGE;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   66  	kref_init(&irq->refcount);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   67  	irq->intid = intid;
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04   68  	irq->target_vcpu = vcpu;
+8df3c8f33f46ad virt/kvm/arm/vgic/vgic-its.c   Christoffer Dall 2018-07-16   69  	irq->group = 1;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   70  
+fc3bc475231e12 virt/kvm/arm/vgic/vgic-its.c   Julien Thierry   2019-01-07   71  	raw_spin_lock_irqsave(&dist->lpi_list_lock, flags);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   72  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   73  	/*
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   74  	 * There could be a race with another vgic_add_lpi(), so we need to
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   75  	 * check that we don't add a second list entry with the same LPI.
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   76  	 */
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   77  	list_for_each_entry(oldirq, &dist->lpi_list_head, lpi_list) {
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   78  		if (oldirq->intid != intid)
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   79  			continue;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   80  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   81  		/* Someone was faster with adding this LPI, lets use that. */
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   82  		kfree(irq);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   83  		irq = oldirq;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   84  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   85  		/*
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   86  		 * This increases the refcount, the caller is expected to
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   87  		 * call vgic_put_irq() on the returned pointer once it's
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   88  		 * finished with the IRQ.
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   89  		 */
+d97594e6bc1b4a virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier     2016-07-17   90  		vgic_get_irq_kref(irq);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   91  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   92  		goto out_unlock;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   93  	}
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   94  
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   95  	ret = xa_err(xa_store(&dist->lpi_xa, intid, irq, 0));
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   96  	if (ret) {
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   97  		xa_release(&dist->lpi_xa, intid);
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21  @98  		kfree(irq);
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   99  		goto out_unlock;
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21  100  	}
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21  101  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  102  	list_add_tail(&irq->lpi_list, &dist->lpi_list_head);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  103  	dist->lpi_list_count++;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  104  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  105  out_unlock:
+fc3bc475231e12 virt/kvm/arm/vgic/vgic-its.c   Julien Thierry   2019-01-07  106  	raw_spin_unlock_irqrestore(&dist->lpi_list_lock, flags);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  107  
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21  108  	if (ret)
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21  109  		return ERR_PTR(ret);
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21  110  
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  111  	/*
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  112  	 * We "cache" the configuration table entries in our struct vgic_irq's.
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  113  	 * However we only have those structs for mapped IRQs, so we read in
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  114  	 * the respective config data from memory here upon mapping the LPI.
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  115  	 *
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  116  	 * Should any of these fail, behave as if we couldn't create the LPI
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  117  	 * by dropping the refcount and returning the error.
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  118  	 */
+6ce18e3a5f3308 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier     2017-10-27 @119  	ret = update_lpi_config(kvm, irq, NULL, false);
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  120  	if (ret) {
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  121  		vgic_put_irq(kvm, irq);
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  122  		return ERR_PTR(ret);
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  123  	}
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  124  
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  125  	ret = vgic_v3_lpi_sync_pending_status(kvm, irq);
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  126  	if (ret) {
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  127  		vgic_put_irq(kvm, irq);
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  128  		return ERR_PTR(ret);
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  129  	}
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  130  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  131  	return irq;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  132  }
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  133  
 
-d2a5884a64161b Andrey Smirnov            2013-01-27   725  		    config->fast_io) {
-67021f25d95292 Vladimir Oltean           2021-08-25   726  			if (config->use_raw_spinlock) {
-67021f25d95292 Vladimir Oltean           2021-08-25   727  				raw_spin_lock_init(&map->raw_spinlock);
-67021f25d95292 Vladimir Oltean           2021-08-25   728  				map->lock = regmap_lock_raw_spinlock;
-67021f25d95292 Vladimir Oltean           2021-08-25   729  				map->unlock = regmap_unlock_raw_spinlock;
-67021f25d95292 Vladimir Oltean           2021-08-25   730  				lockdep_set_class_and_name(&map->raw_spinlock,
-67021f25d95292 Vladimir Oltean           2021-08-25   731  							   lock_key, lock_name);
-67021f25d95292 Vladimir Oltean           2021-08-25   732  			} else {
-bacdbe077342ec Stephen Warren            2012-04-04   733  				spin_lock_init(&map->spinlock);
-bacdbe077342ec Stephen Warren            2012-04-04   734  				map->lock = regmap_lock_spinlock;
-bacdbe077342ec Stephen Warren            2012-04-04   735  				map->unlock = regmap_unlock_spinlock;
-3cfe7a74d42b7e Nicolas Boichat           2015-07-08   736  				lockdep_set_class_and_name(&map->spinlock,
-3cfe7a74d42b7e Nicolas Boichat           2015-07-08   737  							   lock_key, lock_name);
-67021f25d95292 Vladimir Oltean           2021-08-25   738  			}
-bacdbe077342ec Stephen Warren            2012-04-04   739  		} else {
-bacdbe077342ec Stephen Warren            2012-04-04   740  			mutex_init(&map->mutex);
-bacdbe077342ec Stephen Warren            2012-04-04   741  			map->lock = regmap_lock_mutex;
-bacdbe077342ec Stephen Warren            2012-04-04   742  			map->unlock = regmap_unlock_mutex;
-21f8e4828c44da Dmitry Osipenko           2020-09-02   743  			map->can_sleep = true;
-3cfe7a74d42b7e Nicolas Boichat           2015-07-08   744  			lockdep_set_class_and_name(&map->mutex,
-3cfe7a74d42b7e Nicolas Boichat           2015-07-08   745  						   lock_key, lock_name);
-bacdbe077342ec Stephen Warren            2012-04-04   746  		}
-0d4529c534c1c6 Davide Ciminaghi          2012-10-16   747  		map->lock_arg = map;
-0d4529c534c1c6 Davide Ciminaghi          2012-10-16   748  	}
-b4a21fc275e99f Stephen Boyd              2015-09-11   749  
-b4a21fc275e99f Stephen Boyd              2015-09-11   750  	/*
-b4a21fc275e99f Stephen Boyd              2015-09-11   751  	 * When we write in fast-paths with regmap_bulk_write() don't allocate
-b4a21fc275e99f Stephen Boyd              2015-09-11   752  	 * scratch buffers with sleeping allocations.
-b4a21fc275e99f Stephen Boyd              2015-09-11   753  	 */
-b4a21fc275e99f Stephen Boyd              2015-09-11   754  	if ((bus && bus->fast_io) || config->fast_io)
-                                                                     ^^^
+:::::: The code at line 119 was first introduced by commit
+:::::: 6ce18e3a5f3308670b49093b1c350d2834428358 KVM: arm/arm64: GICv4: Handle INVALL applied to a vPE
 
-b4a21fc275e99f Stephen Boyd              2015-09-11   755  		map->alloc_flags = GFP_ATOMIC;
-b4a21fc275e99f Stephen Boyd              2015-09-11   756  	else
-b4a21fc275e99f Stephen Boyd              2015-09-11   757  		map->alloc_flags = GFP_KERNEL;
-b4a21fc275e99f Stephen Boyd              2015-09-11   758  
-0074f3f2b1e43d Colin Foster              2022-03-13   759  	map->reg_base = config->reg_base;
-0074f3f2b1e43d Colin Foster              2022-03-13   760  
-c212acccc368a0 Wolfram Sang              2012-01-28   761  	map->format.reg_bytes = DIV_ROUND_UP(config->reg_bits, 8);
-82159ba8e6ef8c Mark Brown                2012-01-18   762  	map->format.pad_bytes = config->pad_bits / 8;
-4a670ac3e75e51 Maxime Chevallier         2023-04-07   763  	map->format.reg_shift = config->reg_shift;
-c212acccc368a0 Wolfram Sang              2012-01-28   764  	map->format.val_bytes = DIV_ROUND_UP(config->val_bits, 8);
-5494a98f451d59 Fabio Estevam             2012-05-31   765  	map->format.buf_size = DIV_ROUND_UP(config->reg_bits +
-5494a98f451d59 Fabio Estevam             2012-05-31   766  			config->val_bits + config->pad_bits, 8);
-d939fb9a78b474 Marc Reilly               2012-03-16   767  	map->reg_shift = config->pad_bits % 8;
-f01ee60fffa4dc Stephen Warren            2012-04-09   768  	if (config->reg_stride)
-f01ee60fffa4dc Stephen Warren            2012-04-09   769  		map->reg_stride = config->reg_stride;
-f01ee60fffa4dc Stephen Warren            2012-04-09   770  	else
-f01ee60fffa4dc Stephen Warren            2012-04-09   771  		map->reg_stride = 1;
-ca747be22fa57b Xiubo Li                  2016-01-04   772  	if (is_power_of_2(map->reg_stride))
-ca747be22fa57b Xiubo Li                  2016-01-04   773  		map->reg_stride_order = ilog2(map->reg_stride);
-ca747be22fa57b Xiubo Li                  2016-01-04   774  	else
-ca747be22fa57b Xiubo Li                  2016-01-04   775  		map->reg_stride_order = -1;
-d77e745613680c Marek Vasut               2022-04-30   776  	map->use_single_read = config->use_single_read || !(config->read || (bus && bus->read));
-d77e745613680c Marek Vasut               2022-04-30   777  	map->use_single_write = config->use_single_write || !(config->write || (bus && bus->write));
-d77e745613680c Marek Vasut               2022-04-30   778  	map->can_multi_write = config->can_multi_write && (config->write || (bus && bus->write));
-                                                                                                                                     ^^^
-
-17649c90ff4c52 Sergey SENOZHATSKY        2015-08-31   779  	if (bus) {
-                                                                    ^^^
-
-adaac459759db4 Markus Schneider-Pargmann 2015-08-30   780  		map->max_raw_read = bus->max_raw_read;
-adaac459759db4 Markus Schneider-Pargmann 2015-08-30   781  		map->max_raw_write = bus->max_raw_write;
-d77e745613680c Marek Vasut               2022-04-30   782  	} else if (config->max_raw_read && config->max_raw_write) {
-d77e745613680c Marek Vasut               2022-04-30   783  		map->max_raw_read = config->max_raw_read;
-d77e745613680c Marek Vasut               2022-04-30   784  		map->max_raw_write = config->max_raw_write;
-17649c90ff4c52 Sergey SENOZHATSKY        2015-08-31   785  	}
-b83a313bf25201 Mark Brown                2011-05-11   786  	map->dev = dev;
-b83a313bf25201 Mark Brown                2011-05-11   787  	map->bus = bus;
-0135bbcc7a0cc0 Stephen Warren            2012-04-04   788  	map->bus_context = bus_context;
-2e2ae66df37a14 Mark Brown                2011-07-20   789  	map->max_register = config->max_register;
-76aad392f75e6c Davide Ciminaghi          2012-11-20   790  	map->wr_table = config->wr_table;
-76aad392f75e6c Davide Ciminaghi          2012-11-20   791  	map->rd_table = config->rd_table;
-76aad392f75e6c Davide Ciminaghi          2012-11-20   792  	map->volatile_table = config->volatile_table;
-76aad392f75e6c Davide Ciminaghi          2012-11-20   793  	map->precious_table = config->precious_table;
-cdf6b11daa77d4 Ben Whitten               2018-10-19   794  	map->wr_noinc_table = config->wr_noinc_table;
-74fe7b551f3385 Crestez Dan Leonard       2018-08-07   795  	map->rd_noinc_table = config->rd_noinc_table;
-2e2ae66df37a14 Mark Brown                2011-07-20   796  	map->writeable_reg = config->writeable_reg;
-2e2ae66df37a14 Mark Brown                2011-07-20   797  	map->readable_reg = config->readable_reg;
-2e2ae66df37a14 Mark Brown                2011-07-20   798  	map->volatile_reg = config->volatile_reg;
-2efe1642b73e74 Mark Brown                2011-08-08   799  	map->precious_reg = config->precious_reg;
-cdf6b11daa77d4 Ben Whitten               2018-10-19   800  	map->writeable_noinc_reg = config->writeable_noinc_reg;
-74fe7b551f3385 Crestez Dan Leonard       2018-08-07   801  	map->readable_noinc_reg = config->readable_noinc_reg;
-5d1729e7f02f05 Dimitris Papastamos       2011-09-19   802  	map->cache_type = config->cache_type;
-b83a313bf25201 Mark Brown                2011-05-11   803  
-0d509f2b112b21 Mark Brown                2013-01-27   804  	spin_lock_init(&map->async_lock);
-0d509f2b112b21 Mark Brown                2013-01-27   805  	INIT_LIST_HEAD(&map->async_list);
-7e09a979404ed0 Mark Brown                2013-10-07   806  	INIT_LIST_HEAD(&map->async_free);
-0d509f2b112b21 Mark Brown                2013-01-27   807  	init_waitqueue_head(&map->async_waitq);
-0d509f2b112b21 Mark Brown                2013-01-27   808  
-9bf485c955bcb7 Andrew F. Davis           2018-01-07   809  	if (config->read_flag_mask ||
-9bf485c955bcb7 Andrew F. Davis           2018-01-07   810  	    config->write_flag_mask ||
-9bf485c955bcb7 Andrew F. Davis           2018-01-07   811  	    config->zero_flag_mask) {
-6f306441e97f8f Lars-Peter Clausen        2011-09-05   812  		map->read_flag_mask = config->read_flag_mask;
-6f306441e97f8f Lars-Peter Clausen        2011-09-05   813  		map->write_flag_mask = config->write_flag_mask;
-d2a5884a64161b Andrey Smirnov            2013-01-27   814  	} else if (bus) {
-                                                                           ^^^
-
-6f306441e97f8f Lars-Peter Clausen        2011-09-05   815  		map->read_flag_mask = bus->read_flag_mask;
-6f306441e97f8f Lars-Peter Clausen        2011-09-05   816  	}
-6f306441e97f8f Lars-Peter Clausen        2011-09-05   817  
-d77e745613680c Marek Vasut               2022-04-30   818  	if (config && config->read && config->write) {
-d77e745613680c Marek Vasut               2022-04-30   819  		map->reg_read  = _regmap_bus_read;
-739f872e48d47c Christian Marangi         2022-07-15   820  		if (config->reg_update_bits)
-739f872e48d47c Christian Marangi         2022-07-15   821  			map->reg_update_bits = config->reg_update_bits;
-d77e745613680c Marek Vasut               2022-04-30   822  
-d77e745613680c Marek Vasut               2022-04-30   823  		/* Bulk read/write */
-d77e745613680c Marek Vasut               2022-04-30   824  		map->read = config->read;
-d77e745613680c Marek Vasut               2022-04-30   825  		map->write = config->write;
-d77e745613680c Marek Vasut               2022-04-30   826  
-d77e745613680c Marek Vasut               2022-04-30   827  		reg_endian = REGMAP_ENDIAN_NATIVE;
-d77e745613680c Marek Vasut               2022-04-30   828  		val_endian = REGMAP_ENDIAN_NATIVE;
-d77e745613680c Marek Vasut               2022-04-30   829  	} else if (!bus) {
-                                                                           ^^^^
-
-d2a5884a64161b Andrey Smirnov            2013-01-27   830  		map->reg_read  = config->reg_read;
-d2a5884a64161b Andrey Smirnov            2013-01-27   831  		map->reg_write = config->reg_write;
-02d6fdecb9c38d Christian Marangi         2021-11-04   832  		map->reg_update_bits = config->reg_update_bits;
-d2a5884a64161b Andrey Smirnov            2013-01-27   833  
-3ac170376f2c51 Boris Brezillon           2014-04-17   834  		map->defer_caching = false;
-3ac170376f2c51 Boris Brezillon           2014-04-17   835  		goto skip_format_initialization;
-3ac170376f2c51 Boris Brezillon           2014-04-17   836  	} else if (!bus->read || !bus->write) {
-3ac170376f2c51 Boris Brezillon           2014-04-17   837  		map->reg_read = _regmap_bus_reg_read;
-3ac170376f2c51 Boris Brezillon           2014-04-17   838  		map->reg_write = _regmap_bus_reg_write;
-80215f133d5931 Baolin Wang               2020-04-13   839  		map->reg_update_bits = bus->reg_update_bits;
-3ac170376f2c51 Boris Brezillon           2014-04-17   840  
-d2a5884a64161b Andrey Smirnov            2013-01-27   841  		map->defer_caching = false;
-d2a5884a64161b Andrey Smirnov            2013-01-27   842  		goto skip_format_initialization;
-d2a5884a64161b Andrey Smirnov            2013-01-27   843  	} else {
-ad278406b3b8b8 Andrey Smirnov            2013-01-12   844  		map->reg_read  = _regmap_bus_read;
-77792b11409c92 Jon Ringle                2015-10-01   845  		map->reg_update_bits = bus->reg_update_bits;
-d77e745613680c Marek Vasut               2022-04-30   846  		/* Bulk read/write */
-d77e745613680c Marek Vasut               2022-04-30   847  		map->read = bus->read;
-d77e745613680c Marek Vasut               2022-04-30   848  		map->write = bus->write;
-ad278406b3b8b8 Andrey Smirnov            2013-01-12   849  
-cf673fbc6342b1 Geert Uytterhoeven        2014-08-27   850  		reg_endian = regmap_get_reg_endian(bus, config);
-cf673fbc6342b1 Geert Uytterhoeven        2014-08-27   851  		val_endian = regmap_get_val_endian(dev, bus, config);
-d77e745613680c Marek Vasut               2022-04-30   852  	}
-141eba2e006dd8 Stephen Warren            2012-05-24   853  
-d939fb9a78b474 Marc Reilly               2012-03-16   854  	switch (config->reg_bits + map->reg_shift) {
-9aa507505cdcd1 Wolfram Sang              2012-01-27   855  	case 2:
-9aa507505cdcd1 Wolfram Sang              2012-01-27   856  		switch (config->val_bits) {
-9aa507505cdcd1 Wolfram Sang              2012-01-27   857  		case 6:
-9aa507505cdcd1 Wolfram Sang              2012-01-27   858  			map->format.format_write = regmap_format_2_6_write;
-9aa507505cdcd1 Wolfram Sang              2012-01-27   859  			break;
-9aa507505cdcd1 Wolfram Sang              2012-01-27   860  		default:
-8698b9364710e7 Baolin Wang               2017-11-01   861  			goto err_hwlock;
-9aa507505cdcd1 Wolfram Sang              2012-01-27   862  		}
-9aa507505cdcd1 Wolfram Sang              2012-01-27   863  		break;
-9aa507505cdcd1 Wolfram Sang              2012-01-27   864  
-b83a313bf25201 Mark Brown                2011-05-11   865  	case 4:
-b83a313bf25201 Mark Brown                2011-05-11   866  		switch (config->val_bits) {
-b83a313bf25201 Mark Brown                2011-05-11   867  		case 12:
-b83a313bf25201 Mark Brown                2011-05-11   868  			map->format.format_write = regmap_format_4_12_write;
-b83a313bf25201 Mark Brown                2011-05-11   869  			break;
-b83a313bf25201 Mark Brown                2011-05-11   870  		default:
-8698b9364710e7 Baolin Wang               2017-11-01   871  			goto err_hwlock;
-b83a313bf25201 Mark Brown                2011-05-11   872  		}
-b83a313bf25201 Mark Brown                2011-05-11   873  		break;
-b83a313bf25201 Mark Brown                2011-05-11   874  
-b83a313bf25201 Mark Brown                2011-05-11   875  	case 7:
-b83a313bf25201 Mark Brown                2011-05-11   876  		switch (config->val_bits) {
-b83a313bf25201 Mark Brown                2011-05-11   877  		case 9:
-b83a313bf25201 Mark Brown                2011-05-11   878  			map->format.format_write = regmap_format_7_9_write;
-b83a313bf25201 Mark Brown                2011-05-11   879  			break;
-b24412aff37c58 Antoniu Miclaus           2021-05-26   880  		case 17:
-b24412aff37c58 Antoniu Miclaus           2021-05-26   881  			map->format.format_write = regmap_format_7_17_write;
-b24412aff37c58 Antoniu Miclaus           2021-05-26   882  			break;
-b83a313bf25201 Mark Brown                2011-05-11   883  		default:
-8698b9364710e7 Baolin Wang               2017-11-01   884  			goto err_hwlock;
-b83a313bf25201 Mark Brown                2011-05-11   885  		}
-b83a313bf25201 Mark Brown                2011-05-11   886  		break;
-b83a313bf25201 Mark Brown                2011-05-11   887  
-7e5ec63ef57477 Lars-Peter Clausen        2011-11-16   888  	case 10:
-7e5ec63ef57477 Lars-Peter Clausen        2011-11-16   889  		switch (config->val_bits) {
-7e5ec63ef57477 Lars-Peter Clausen        2011-11-16   890  		case 14:
-7e5ec63ef57477 Lars-Peter Clausen        2011-11-16   891  			map->format.format_write = regmap_format_10_14_write;
-7e5ec63ef57477 Lars-Peter Clausen        2011-11-16   892  			break;
-7e5ec63ef57477 Lars-Peter Clausen        2011-11-16   893  		default:
-8698b9364710e7 Baolin Wang               2017-11-01   894  			goto err_hwlock;
-7e5ec63ef57477 Lars-Peter Clausen        2011-11-16   895  		}
-7e5ec63ef57477 Lars-Peter Clausen        2011-11-16   896  		break;
-7e5ec63ef57477 Lars-Peter Clausen        2011-11-16   897  
-0c2191c3da345e Ricardo Ribalda           2020-09-17   898  	case 12:
-0c2191c3da345e Ricardo Ribalda           2020-09-17   899  		switch (config->val_bits) {
-0c2191c3da345e Ricardo Ribalda           2020-09-17   900  		case 20:
-0c2191c3da345e Ricardo Ribalda           2020-09-17   901  			map->format.format_write = regmap_format_12_20_write;
-0c2191c3da345e Ricardo Ribalda           2020-09-17   902  			break;
-0c2191c3da345e Ricardo Ribalda           2020-09-17   903  		default:
-0c2191c3da345e Ricardo Ribalda           2020-09-17   904  			goto err_hwlock;
-0c2191c3da345e Ricardo Ribalda           2020-09-17   905  		}
-0c2191c3da345e Ricardo Ribalda           2020-09-17   906  		break;
-0c2191c3da345e Ricardo Ribalda           2020-09-17   907  
-b83a313bf25201 Mark Brown                2011-05-11   908  	case 8:
-b83a313bf25201 Mark Brown                2011-05-11   909  		map->format.format_reg = regmap_format_8;
-b83a313bf25201 Mark Brown                2011-05-11   910  		break;
-b83a313bf25201 Mark Brown                2011-05-11   911  
-b83a313bf25201 Mark Brown                2011-05-11   912  	case 16:
-141eba2e006dd8 Stephen Warren            2012-05-24   913  		switch (reg_endian) {
-141eba2e006dd8 Stephen Warren            2012-05-24   914  		case REGMAP_ENDIAN_BIG:
-141eba2e006dd8 Stephen Warren            2012-05-24   915  			map->format.format_reg = regmap_format_16_be;
-141eba2e006dd8 Stephen Warren            2012-05-24   916  			break;
-55562449032c43 Tony Lindgren             2016-09-15   917  		case REGMAP_ENDIAN_LITTLE:
-55562449032c43 Tony Lindgren             2016-09-15   918  			map->format.format_reg = regmap_format_16_le;
-55562449032c43 Tony Lindgren             2016-09-15   919  			break;
-141eba2e006dd8 Stephen Warren            2012-05-24   920  		case REGMAP_ENDIAN_NATIVE:
-141eba2e006dd8 Stephen Warren            2012-05-24   921  			map->format.format_reg = regmap_format_16_native;
-141eba2e006dd8 Stephen Warren            2012-05-24   922  			break;
-141eba2e006dd8 Stephen Warren            2012-05-24   923  		default:
-8698b9364710e7 Baolin Wang               2017-11-01   924  			goto err_hwlock;
-141eba2e006dd8 Stephen Warren            2012-05-24   925  		}
-b83a313bf25201 Mark Brown                2011-05-11   926  		break;
-b83a313bf25201 Mark Brown                2011-05-11   927  
-237019e7e356ab Lars-Peter Clausen        2013-01-10   928  	case 24:
-060004431df495 Andy Shevchenko           2022-07-26   929  		switch (reg_endian) {
-060004431df495 Andy Shevchenko           2022-07-26   930  		case REGMAP_ENDIAN_BIG:
-060004431df495 Andy Shevchenko           2022-07-26   931  			map->format.format_reg = regmap_format_24_be;
-060004431df495 Andy Shevchenko           2022-07-26   932  			break;
-060004431df495 Andy Shevchenko           2022-07-26   933  		default:
-8698b9364710e7 Baolin Wang               2017-11-01   934  			goto err_hwlock;
-060004431df495 Andy Shevchenko           2022-07-26   935  		}
-237019e7e356ab Lars-Peter Clausen        2013-01-10   936  		break;
-237019e7e356ab Lars-Peter Clausen        2013-01-10   937  
-7d5e525b9ceda0 Mark Brown                2012-02-17   938  	case 32:
-141eba2e006dd8 Stephen Warren            2012-05-24   939  		switch (reg_endian) {
-141eba2e006dd8 Stephen Warren            2012-05-24   940  		case REGMAP_ENDIAN_BIG:
-141eba2e006dd8 Stephen Warren            2012-05-24   941  			map->format.format_reg = regmap_format_32_be;
-141eba2e006dd8 Stephen Warren            2012-05-24   942  			break;
-55562449032c43 Tony Lindgren             2016-09-15   943  		case REGMAP_ENDIAN_LITTLE:
-55562449032c43 Tony Lindgren             2016-09-15   944  			map->format.format_reg = regmap_format_32_le;
-55562449032c43 Tony Lindgren             2016-09-15   945  			break;
-141eba2e006dd8 Stephen Warren            2012-05-24   946  		case REGMAP_ENDIAN_NATIVE:
-141eba2e006dd8 Stephen Warren            2012-05-24   947  			map->format.format_reg = regmap_format_32_native;
-141eba2e006dd8 Stephen Warren            2012-05-24   948  			break;
-141eba2e006dd8 Stephen Warren            2012-05-24   949  		default:
-8698b9364710e7 Baolin Wang               2017-11-01   950  			goto err_hwlock;
-141eba2e006dd8 Stephen Warren            2012-05-24   951  		}
-7d5e525b9ceda0 Mark Brown                2012-02-17   952  		break;
-7d5e525b9ceda0 Mark Brown                2012-02-17   953  
-b83a313bf25201 Mark Brown                2011-05-11   954  	default:
-8698b9364710e7 Baolin Wang               2017-11-01   955  		goto err_hwlock;
-b83a313bf25201 Mark Brown                2011-05-11   956  	}
-b83a313bf25201 Mark Brown                2011-05-11   957  
-8a819ff8abac9a Mark Brown                2013-03-04   958  	if (val_endian == REGMAP_ENDIAN_NATIVE)
-8a819ff8abac9a Mark Brown                2013-03-04   959  		map->format.parse_inplace = regmap_parse_inplace_noop;
-8a819ff8abac9a Mark Brown                2013-03-04   960  
-b83a313bf25201 Mark Brown                2011-05-11   961  	switch (config->val_bits) {
-b83a313bf25201 Mark Brown                2011-05-11   962  	case 8:
-b83a313bf25201 Mark Brown                2011-05-11   963  		map->format.format_val = regmap_format_8;
-b83a313bf25201 Mark Brown                2011-05-11   964  		map->format.parse_val = regmap_parse_8;
-8a819ff8abac9a Mark Brown                2013-03-04   965  		map->format.parse_inplace = regmap_parse_inplace_noop;
-b83a313bf25201 Mark Brown                2011-05-11   966  		break;
-b83a313bf25201 Mark Brown                2011-05-11   967  	case 16:
-141eba2e006dd8 Stephen Warren            2012-05-24   968  		switch (val_endian) {
-141eba2e006dd8 Stephen Warren            2012-05-24   969  		case REGMAP_ENDIAN_BIG:
-141eba2e006dd8 Stephen Warren            2012-05-24   970  			map->format.format_val = regmap_format_16_be;
-141eba2e006dd8 Stephen Warren            2012-05-24   971  			map->format.parse_val = regmap_parse_16_be;
-8a819ff8abac9a Mark Brown                2013-03-04   972  			map->format.parse_inplace = regmap_parse_16_be_inplace;
-141eba2e006dd8 Stephen Warren            2012-05-24   973  			break;
-4aa8c0694c731e Xiubo Li                  2014-04-02   974  		case REGMAP_ENDIAN_LITTLE:
-4aa8c0694c731e Xiubo Li                  2014-04-02   975  			map->format.format_val = regmap_format_16_le;
-4aa8c0694c731e Xiubo Li                  2014-04-02   976  			map->format.parse_val = regmap_parse_16_le;
-4aa8c0694c731e Xiubo Li                  2014-04-02   977  			map->format.parse_inplace = regmap_parse_16_le_inplace;
-4aa8c0694c731e Xiubo Li                  2014-04-02   978  			break;
-141eba2e006dd8 Stephen Warren            2012-05-24   979  		case REGMAP_ENDIAN_NATIVE:
-141eba2e006dd8 Stephen Warren            2012-05-24   980  			map->format.format_val = regmap_format_16_native;
-141eba2e006dd8 Stephen Warren            2012-05-24   981  			map->format.parse_val = regmap_parse_16_native;
-141eba2e006dd8 Stephen Warren            2012-05-24   982  			break;
-141eba2e006dd8 Stephen Warren            2012-05-24   983  		default:
-8698b9364710e7 Baolin Wang               2017-11-01   984  			goto err_hwlock;
-141eba2e006dd8 Stephen Warren            2012-05-24   985  		}
-b83a313bf25201 Mark Brown                2011-05-11   986  		break;
-ea279fc5619e25 Marc Reilly               2012-03-16   987  	case 24:
-060004431df495 Andy Shevchenko           2022-07-26   988  		switch (val_endian) {
-060004431df495 Andy Shevchenko           2022-07-26   989  		case REGMAP_ENDIAN_BIG:
-060004431df495 Andy Shevchenko           2022-07-26   990  			map->format.format_val = regmap_format_24_be;
-060004431df495 Andy Shevchenko           2022-07-26   991  			map->format.parse_val = regmap_parse_24_be;
-060004431df495 Andy Shevchenko           2022-07-26   992  			break;
-060004431df495 Andy Shevchenko           2022-07-26   993  		default:
-8698b9364710e7 Baolin Wang               2017-11-01   994  			goto err_hwlock;
-060004431df495 Andy Shevchenko           2022-07-26   995  		}
-ea279fc5619e25 Marc Reilly               2012-03-16   996  		break;
-7d5e525b9ceda0 Mark Brown                2012-02-17   997  	case 32:
-141eba2e006dd8 Stephen Warren            2012-05-24   998  		switch (val_endian) {
-141eba2e006dd8 Stephen Warren            2012-05-24   999  		case REGMAP_ENDIAN_BIG:
-141eba2e006dd8 Stephen Warren            2012-05-24  1000  			map->format.format_val = regmap_format_32_be;
-141eba2e006dd8 Stephen Warren            2012-05-24  1001  			map->format.parse_val = regmap_parse_32_be;
-8a819ff8abac9a Mark Brown                2013-03-04  1002  			map->format.parse_inplace = regmap_parse_32_be_inplace;
-141eba2e006dd8 Stephen Warren            2012-05-24  1003  			break;
-4aa8c0694c731e Xiubo Li                  2014-04-02  1004  		case REGMAP_ENDIAN_LITTLE:
-4aa8c0694c731e Xiubo Li                  2014-04-02  1005  			map->format.format_val = regmap_format_32_le;
-4aa8c0694c731e Xiubo Li                  2014-04-02  1006  			map->format.parse_val = regmap_parse_32_le;
-4aa8c0694c731e Xiubo Li                  2014-04-02  1007  			map->format.parse_inplace = regmap_parse_32_le_inplace;
-4aa8c0694c731e Xiubo Li                  2014-04-02  1008  			break;
-141eba2e006dd8 Stephen Warren            2012-05-24  1009  		case REGMAP_ENDIAN_NATIVE:
-141eba2e006dd8 Stephen Warren            2012-05-24  1010  			map->format.format_val = regmap_format_32_native;
-141eba2e006dd8 Stephen Warren            2012-05-24  1011  			map->format.parse_val = regmap_parse_32_native;
-141eba2e006dd8 Stephen Warren            2012-05-24  1012  			break;
-141eba2e006dd8 Stephen Warren            2012-05-24  1013  		default:
-8698b9364710e7 Baolin Wang               2017-11-01  1014  			goto err_hwlock;
-141eba2e006dd8 Stephen Warren            2012-05-24  1015  		}
-7d5e525b9ceda0 Mark Brown                2012-02-17  1016  		break;
-b83a313bf25201 Mark Brown                2011-05-11  1017  	}
-b83a313bf25201 Mark Brown                2011-05-11  1018  
-141eba2e006dd8 Stephen Warren            2012-05-24  1019  	if (map->format.format_write) {
-141eba2e006dd8 Stephen Warren            2012-05-24  1020  		if ((reg_endian != REGMAP_ENDIAN_BIG) ||
-141eba2e006dd8 Stephen Warren            2012-05-24  1021  		    (val_endian != REGMAP_ENDIAN_BIG))
-8698b9364710e7 Baolin Wang               2017-11-01  1022  			goto err_hwlock;
-67921a1a6660d3 Markus Schneider-Pargmann 2015-08-21  1023  		map->use_single_write = true;
-141eba2e006dd8 Stephen Warren            2012-05-24  1024  	}
-7a6476143270d9 Mark Brown                2012-04-30  1025  
-b83a313bf25201 Mark Brown                2011-05-11  1026  	if (!map->format.format_write &&
-b83a313bf25201 Mark Brown                2011-05-11  1027  	    !(map->format.format_reg && map->format.format_val))
-8698b9364710e7 Baolin Wang               2017-11-01  1028  		goto err_hwlock;
-b83a313bf25201 Mark Brown                2011-05-11  1029  
-82159ba8e6ef8c Mark Brown                2012-01-18  1030  	map->work_buf = kzalloc(map->format.buf_size, GFP_KERNEL);
-b83a313bf25201 Mark Brown                2011-05-11  1031  	if (map->work_buf == NULL) {
-b83a313bf25201 Mark Brown                2011-05-11  1032  		ret = -ENOMEM;
-8698b9364710e7 Baolin Wang               2017-11-01  1033  		goto err_hwlock;
-b83a313bf25201 Mark Brown                2011-05-11  1034  	}
-b83a313bf25201 Mark Brown                2011-05-11  1035  
-d2a5884a64161b Andrey Smirnov            2013-01-27  1036  	if (map->format.format_write) {
-d2a5884a64161b Andrey Smirnov            2013-01-27  1037  		map->defer_caching = false;
-07c320dc31d757 Andrey Smirnov            2013-01-12  1038  		map->reg_write = _regmap_bus_formatted_write;
-d2a5884a64161b Andrey Smirnov            2013-01-27  1039  	} else if (map->format.format_val) {
-d2a5884a64161b Andrey Smirnov            2013-01-27  1040  		map->defer_caching = true;
-07c320dc31d757 Andrey Smirnov            2013-01-12  1041  		map->reg_write = _regmap_bus_raw_write;
-d2a5884a64161b Andrey Smirnov            2013-01-27  1042  	}
-d2a5884a64161b Andrey Smirnov            2013-01-27  1043  
-d2a5884a64161b Andrey Smirnov            2013-01-27  1044  skip_format_initialization:
-07c320dc31d757 Andrey Smirnov            2013-01-12  1045  
-6863ca6227598d Krystian Garbaciak        2012-06-15  1046  	map->range_tree = RB_ROOT;
-e3549cd01347ef Mark Brown                2012-10-02  1047  	for (i = 0; i < config->num_ranges; i++) {
-6863ca6227598d Krystian Garbaciak        2012-06-15  1048  		const struct regmap_range_cfg *range_cfg = &config->ranges[i];
-6863ca6227598d Krystian Garbaciak        2012-06-15  1049  		struct regmap_range_node *new;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1050  
-6863ca6227598d Krystian Garbaciak        2012-06-15  1051  		/* Sanity check */
-061adc064adbbd Mark Brown                2012-10-03  1052  		if (range_cfg->range_max < range_cfg->range_min) {
-061adc064adbbd Mark Brown                2012-10-03  1053  			dev_err(map->dev, "Invalid range %d: %d < %d\n", i,
-061adc064adbbd Mark Brown                2012-10-03  1054  				range_cfg->range_max, range_cfg->range_min);
-6863ca6227598d Krystian Garbaciak        2012-06-15  1055  			goto err_range;
-061adc064adbbd Mark Brown                2012-10-03  1056  		}
-061adc064adbbd Mark Brown                2012-10-03  1057  
-061adc064adbbd Mark Brown                2012-10-03  1058  		if (range_cfg->range_max > map->max_register) {
-061adc064adbbd Mark Brown                2012-10-03  1059  			dev_err(map->dev, "Invalid range %d: %d > %d\n", i,
-061adc064adbbd Mark Brown                2012-10-03  1060  				range_cfg->range_max, map->max_register);
-061adc064adbbd Mark Brown                2012-10-03  1061  			goto err_range;
-061adc064adbbd Mark Brown                2012-10-03  1062  		}
-061adc064adbbd Mark Brown                2012-10-03  1063  
-061adc064adbbd Mark Brown                2012-10-03  1064  		if (range_cfg->selector_reg > map->max_register) {
-061adc064adbbd Mark Brown                2012-10-03  1065  			dev_err(map->dev,
-061adc064adbbd Mark Brown                2012-10-03  1066  				"Invalid range %d: selector out of map\n", i);
-061adc064adbbd Mark Brown                2012-10-03  1067  			goto err_range;
-061adc064adbbd Mark Brown                2012-10-03  1068  		}
-061adc064adbbd Mark Brown                2012-10-03  1069  
-061adc064adbbd Mark Brown                2012-10-03  1070  		if (range_cfg->window_len == 0) {
-061adc064adbbd Mark Brown                2012-10-03  1071  			dev_err(map->dev, "Invalid range %d: window_len 0\n",
-061adc064adbbd Mark Brown                2012-10-03  1072  				i);
-061adc064adbbd Mark Brown                2012-10-03  1073  			goto err_range;
-061adc064adbbd Mark Brown                2012-10-03  1074  		}
-6863ca6227598d Krystian Garbaciak        2012-06-15  1075  
-6863ca6227598d Krystian Garbaciak        2012-06-15  1076  		/* Make sure, that this register range has no selector
-6863ca6227598d Krystian Garbaciak        2012-06-15  1077  		   or data window within its boundary */
-e3549cd01347ef Mark Brown                2012-10-02  1078  		for (j = 0; j < config->num_ranges; j++) {
-d63aa09f7c53bd Jinchao Wang              2021-06-29  1079  			unsigned int sel_reg = config->ranges[j].selector_reg;
-d63aa09f7c53bd Jinchao Wang              2021-06-29  1080  			unsigned int win_min = config->ranges[j].window_start;
-d63aa09f7c53bd Jinchao Wang              2021-06-29  1081  			unsigned int win_max = win_min +
-6863ca6227598d Krystian Garbaciak        2012-06-15  1082  					       config->ranges[j].window_len - 1;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1083  
-f161d22081e9b8 Philipp Zabel             2013-07-23  1084  			/* Allow data window inside its own virtual range */
-f161d22081e9b8 Philipp Zabel             2013-07-23  1085  			if (j == i)
-f161d22081e9b8 Philipp Zabel             2013-07-23  1086  				continue;
-f161d22081e9b8 Philipp Zabel             2013-07-23  1087  
-6863ca6227598d Krystian Garbaciak        2012-06-15  1088  			if (range_cfg->range_min <= sel_reg &&
-6863ca6227598d Krystian Garbaciak        2012-06-15  1089  			    sel_reg <= range_cfg->range_max) {
-061adc064adbbd Mark Brown                2012-10-03  1090  				dev_err(map->dev,
-061adc064adbbd Mark Brown                2012-10-03  1091  					"Range %d: selector for %d in window\n",
-061adc064adbbd Mark Brown                2012-10-03  1092  					i, j);
-6863ca6227598d Krystian Garbaciak        2012-06-15  1093  				goto err_range;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1094  			}
-6863ca6227598d Krystian Garbaciak        2012-06-15  1095  
-6863ca6227598d Krystian Garbaciak        2012-06-15  1096  			if (!(win_max < range_cfg->range_min ||
-6863ca6227598d Krystian Garbaciak        2012-06-15  1097  			      win_min > range_cfg->range_max)) {
-061adc064adbbd Mark Brown                2012-10-03  1098  				dev_err(map->dev,
-061adc064adbbd Mark Brown                2012-10-03  1099  					"Range %d: window for %d in window\n",
-061adc064adbbd Mark Brown                2012-10-03  1100  					i, j);
-6863ca6227598d Krystian Garbaciak        2012-06-15  1101  				goto err_range;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1102  			}
-6863ca6227598d Krystian Garbaciak        2012-06-15  1103  		}
-6863ca6227598d Krystian Garbaciak        2012-06-15  1104  
-6863ca6227598d Krystian Garbaciak        2012-06-15  1105  		new = kzalloc(sizeof(*new), GFP_KERNEL);
-6863ca6227598d Krystian Garbaciak        2012-06-15  1106  		if (new == NULL) {
-6863ca6227598d Krystian Garbaciak        2012-06-15  1107  			ret = -ENOMEM;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1108  			goto err_range;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1109  		}
-6863ca6227598d Krystian Garbaciak        2012-06-15  1110  
-4b020b3f9ba2af Mark Brown                2012-10-03  1111  		new->map = map;
-d058bb49618482 Mark Brown                2012-10-03  1112  		new->name = range_cfg->name;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1113  		new->range_min = range_cfg->range_min;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1114  		new->range_max = range_cfg->range_max;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1115  		new->selector_reg = range_cfg->selector_reg;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1116  		new->selector_mask = range_cfg->selector_mask;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1117  		new->selector_shift = range_cfg->selector_shift;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1118  		new->window_start = range_cfg->window_start;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1119  		new->window_len = range_cfg->window_len;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1120  
-53e87f88b14c01 Nenghua Cao               2014-02-21  1121  		if (!_regmap_range_add(map, new)) {
-061adc064adbbd Mark Brown                2012-10-03  1122  			dev_err(map->dev, "Failed to add range %d\n", i);
-6863ca6227598d Krystian Garbaciak        2012-06-15  1123  			kfree(new);
-6863ca6227598d Krystian Garbaciak        2012-06-15  1124  			goto err_range;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1125  		}
-6863ca6227598d Krystian Garbaciak        2012-06-15  1126  
-6863ca6227598d Krystian Garbaciak        2012-06-15  1127  		if (map->selector_work_buf == NULL) {
-6863ca6227598d Krystian Garbaciak        2012-06-15  1128  			map->selector_work_buf =
-6863ca6227598d Krystian Garbaciak        2012-06-15  1129  				kzalloc(map->format.buf_size, GFP_KERNEL);
-6863ca6227598d Krystian Garbaciak        2012-06-15  1130  			if (map->selector_work_buf == NULL) {
-6863ca6227598d Krystian Garbaciak        2012-06-15  1131  				ret = -ENOMEM;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1132  				goto err_range;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1133  			}
-6863ca6227598d Krystian Garbaciak        2012-06-15  1134  		}
-6863ca6227598d Krystian Garbaciak        2012-06-15  1135  	}
-052d2cd123e7e3 Mark Brown                2011-11-21  1136  
-e5e3b8abeda1cf Lars-Peter Clausen        2011-11-16  1137  	ret = regcache_init(map, config);
-0ff3e62ff119f2 Mark Brown                2012-10-04  1138  	if (ret != 0)
-6863ca6227598d Krystian Garbaciak        2012-06-15  1139  		goto err_range;
-6863ca6227598d Krystian Garbaciak        2012-06-15  1140  
-a7a037c837cb0f Daeseok Youn              2014-04-01  1141  	if (dev) {
-6cfec04bcc05a8 Michal Simek              2014-02-10  1142  		ret = regmap_attach_dev(dev, map, config);
-6cfec04bcc05a8 Michal Simek              2014-02-10  1143  		if (ret != 0)
-6cfec04bcc05a8 Michal Simek              2014-02-10  1144  			goto err_regcache;
-9b947a13e7f601 David Lechner             2018-02-19  1145  	} else {
-94cc89eb8fa503 Charles Keepax            2020-09-17  1146  		regmap_debugfs_init(map);
-a7a037c837cb0f Daeseok Youn              2014-04-01  1147  	}
-72b39f6f2b5a6b Mark Brown                2012-05-08  1148  
-af560701e36650 Mark Brown                2024-02-23 @1149  	if (bus->init) {
-                                                                    ^^^^^^^^^
-Unchecked dereference
-
-af560701e36650 Mark Brown                2024-02-23  1150  		ret = bus->init(map);
-af560701e36650 Mark Brown                2024-02-23  1151  		if (ret != 0)
-af560701e36650 Mark Brown                2024-02-23  1152  			goto err_regcache;
-af560701e36650 Mark Brown                2024-02-23  1153  	}
-af560701e36650 Mark Brown                2024-02-23  1154  
-b83a313bf25201 Mark Brown                2011-05-11  1155  	return map;
-b83a313bf25201 Mark Brown                2011-05-11  1156  
-6cfec04bcc05a8 Michal Simek              2014-02-10  1157  err_regcache:
-72b39f6f2b5a6b Mark Brown                2012-05-08  1158  	regcache_exit(map);
-6863ca6227598d Krystian Garbaciak        2012-06-15  1159  err_range:
-6863ca6227598d Krystian Garbaciak        2012-06-15  1160  	regmap_range_exit(map);
-58072cbfc522c2 Lars-Peter Clausen        2011-11-10  1161  	kfree(map->work_buf);
-8698b9364710e7 Baolin Wang               2017-11-01  1162  err_hwlock:
-a1a68fcaf165a6 Baolin Wang               2017-11-20  1163  	if (map->hwlock)
-8698b9364710e7 Baolin Wang               2017-11-01  1164  		hwspin_lock_free(map->hwlock);
-8253bb3f82554c Bartosz Golaszewski       2017-12-13  1165  err_name:
-8253bb3f82554c Bartosz Golaszewski       2017-12-13  1166  	kfree_const(map->name);
-b83a313bf25201 Mark Brown                2011-05-11  1167  err_map:
-b83a313bf25201 Mark Brown                2011-05-11  1168  	kfree(map);
-b83a313bf25201 Mark Brown                2011-05-11  1169  err:
-b83a313bf25201 Mark Brown                2011-05-11  1170  	return ERR_PTR(ret);
-b83a313bf25201 Mark Brown                2011-05-11  1171  }
+:::::: TO: Marc Zyngier <marc.zyngier@arm.com>
+:::::: CC: Christoffer Dall <christoffer.dall@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
