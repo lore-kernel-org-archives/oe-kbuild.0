@@ -1,55 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88A112BE93
-	for <oe-kbuild@lists.linux.dev>; Mon, 26 Feb 2024 15:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C4B12D761
+	for <oe-kbuild@lists.linux.dev>; Mon, 26 Feb 2024 17:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708961313; cv=none; b=WC5x88EhqDsJ07nTSoVeEtEYfdEmjdVEJ+wf1N5W2WED1doFUxzN30yaDYMJQYunOOZ/hngGJpniVQgiH+oV2LUbl8Mhjm09FUd8I5jV09oopWPoplpGcpo+GunN91xE6Ca0/peoNpj4bz3v/Ea9OtEfRqqhi/e+o0YPcC2GcFI=
+	t=1708968608; cv=none; b=P6d5LIvxIUNN7XFbKC3M5E8UsGzouSudvBc2/jf8LaKPvDp9JM/YN9dS7XMZRLdteiWbxmYKns3SOdyK0nVaigkyQIL4NQWmBi0elGlK3sVkL/2cq2eNezXnpwey8OZpbmXSCBUA8Of7v8YnCy8t1fjlHuwaHPnoeckLLiGViO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708961313; c=relaxed/simple;
-	bh=fWiFgT9+hJc33jA6GMmlatRzkRS5KMTSVtLbvzTd4YA=;
+	s=arc-20240116; t=1708968608; c=relaxed/simple;
+	bh=2ldtw3nM5Wx+rEdwAgIyCzQkWXkNhhY9E8UbdZP4Rsk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E/4B71hUBXP1EIK5rCYVTrHvuy35x2qYrSdXvpcPBjcc+Dz2vThOwYF3I81qqH11MNbp3YaCAIGmokvdmn2ubXxqn3v/28VTTM5dn86XJw6jyE3ZANro0BG8C8AoCmZGRPMhoWO6ns4J6K9I3mY1/gc8ZSjo98MJUrg85cdNwPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XR/Ckask; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=fjG4qWGqQW5EHBe4WMjJ4UeH+WR9o/F54U/8SxT9qp957/brY8P12SoWFW1ZOapIw2ec+kdpNbk0//r4ukWpQfcGp+GIBRKTBrqcjvj6mcuokCdTSuOaRNL+gnLOd4HQBvGYPEnecxO9sO/jReeR3uq9McLkiNUfkQ7rRuRXPHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=avrDN+Oy; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XR/Ckask"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708961310; x=1740497310;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fWiFgT9+hJc33jA6GMmlatRzkRS5KMTSVtLbvzTd4YA=;
-  b=XR/CkaskvbD1PrCYOKCk8lktsEarOOKA3mGlfM8oMavjMHRKfr5qEhiC
-   thBzvZ+rn7E2jsv3FkJL73w/51J0M+hu/pDCvB3rpuOVRCR6gvIqNgwyV
-   bbmStd32SH/RKM9GwW4P9Z/IDkshO6JNVEZCJwsLyyuSe6ncxPRPjC0es
-   BdfaqDw3rmS22TSg+s5xqZS7uw6gqxAUVHC577I7GFry743Ra1zLNmKR0
-   cQ7TzQv9bA8v4PklJNeh1bLzn/fnZ2hNGtvhaU+1ubgKV+PRGU4+uMo+i
-   aBuXnvR82rwm/EGWyqRjBFBBT5zeM/tWkOvshmapfad/dX2RNs0c1O9Fi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="13894356"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="13894356"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 07:28:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="11294825"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Feb 2024 07:28:27 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1recu0-000APq-1A;
-	Mon, 26 Feb 2024 15:28:24 +0000
-Date: Mon, 26 Feb 2024 23:27:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="avrDN+Oy"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-33dcd8dec88so997818f8f.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 26 Feb 2024 09:30:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708968603; x=1709573403; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JkHCbQX2NHMUc3rD1Q3h414tBx5JzmR4+IKkEbKCGYI=;
+        b=avrDN+Oyq4S/Xdn2hQJGpbiEPRXz6qSmBXHu5rrCXj70eMF16DV2X++EcPCNbJkTe+
+         GHV6k2O9BJzAotNuAqnEzATHO3MgtLRKO5tQIDLkPAYJzD/xMkE/7Nq4lztGHkG5ZwPC
+         vaCQzvXkB8xzYidjXU4sQ24FmtjylNSUUJXlOEH1QAdtPCXSSZAGmpJZg0WkefD1jkIQ
+         pxWCm6ro7npSbob1c7OOmsOJfmTRzwWMslnw5Ny2j++QvQOwS2KNU+JiZOlnVJL5GuMT
+         fMc8gQ7OzBVrJM0XBomBzfA3M5RM/nsFUdlYjkSYE0Oja/bTJEw0BaOhnm2HR5qAPtaB
+         cu7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708968603; x=1709573403;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JkHCbQX2NHMUc3rD1Q3h414tBx5JzmR4+IKkEbKCGYI=;
+        b=vpnkK17ZJ7gzAJ4rzmPbLVWVgaCUzRq8GWCrqVJQxcKzq84/BsTYx5qaLvmWuiKzk+
+         i1o0E3kOgIpxF12eEE6F2T2EVj59GgEleLAd0ht0YvgkmczhfuAzlFurs09DkJDqVWAW
+         E92HckXQdVN1jQ2wy/JmUM36Ms8HDd1In6aCy321kKEsiW8InqL5LIWCgYOqfOCw6PoM
+         G192DWgLfA4V0cH9QhM7Gk5o3r+YXZXVbcpeDyJiZYYzbnJHLWNZJjrjX7IlEjttHDhU
+         ekbTEKHPEYAWsLqvSmDKqLiHCNlg0LkyDO1D7a+Y1QdYbTWw6AReqVc34tERUzFuVTYy
+         9jIQ==
+X-Gm-Message-State: AOJu0Yxli0paFdWvD8GOgQ4y3QvOYKjiIHl1bhi64JWQxfDTob0ybzxw
+	kAMpLzwdQkc9K0YG+drS78+1/k0PugvvT3BiGlC0b59K8Flx2lqtpryZ4z9egBBKrpslbngGIlw
+	p
+X-Google-Smtp-Source: AGHT+IHAALvMyWZzdr/SgTOtpFEO31Zo77+zLzwZbcoEv6gT460EvrnqD/tjFL4sIOOUrRjUvXlKYQ==
+X-Received: by 2002:a05:6000:1144:b0:33d:497c:14d2 with SMTP id d4-20020a056000114400b0033d497c14d2mr5692252wrx.30.1708968602650;
+        Mon, 26 Feb 2024 09:30:02 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id cg12-20020a5d5ccc000000b0033b1c321070sm8746146wrb.31.2024.02.26.09.30.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 09:30:02 -0800 (PST)
+Date: Mon, 26 Feb 2024 20:29:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [broonie-ci:regmap-test-format 3/3]
  drivers/base/regmap/regmap.c:1149 __regmap_init() error: we previously
  assumed 'bus' could be null (see line 814)
-Message-ID: <202402262352.fY2inNs2-lkp@intel.com>
+Message-ID: <7c815a0a-5a69-48cf-9db7-b76557d4a36c@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,34 +67,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Mark Brown <broonie@kernel.org>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git regmap-test-format
 head:   af560701e366502504aebae54af374710e35b55b
 commit: af560701e366502504aebae54af374710e35b55b [3/3] regmap: Provide a callback for bus specific initialisation
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
 config: i386-randconfig-141-20240226 (https://download.01.org/0day-ci/archive/20240226/202402262352.fY2inNs2-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202402262352.fY2inNs2-lkp@intel.com/
 
 New smatch warnings:
 drivers/base/regmap/regmap.c:1149 __regmap_init() error: we previously assumed 'bus' could be null (see line 814)
 
-Old smatch warnings:
-drivers/base/regmap/regmap.c:2027 _regmap_raw_write() error: uninitialized symbol 'ret'.
-drivers/base/regmap/regmap.c:2930 regmap_raw_read() error: uninitialized symbol 'ret'.
-
 vim +/bus +1149 drivers/base/regmap/regmap.c
 
-d647c199510c2c Xiubo Li                  2014-07-15   663  
 3cfe7a74d42b7e Nicolas Boichat           2015-07-08   664  struct regmap *__regmap_init(struct device *dev,
 b83a313bf25201 Mark Brown                2011-05-11   665  			     const struct regmap_bus *bus,
 0135bbcc7a0cc0 Stephen Warren            2012-04-04   666  			     void *bus_context,
@@ -148,6 +145,9 @@ a4887813c3a948 Baolin Wang               2017-12-25   700  	} else if (config->u
 8698b9364710e7 Baolin Wang               2017-11-01   722  		map->lock_arg = map;
 0d4529c534c1c6 Davide Ciminaghi          2012-10-16   723  	} else {
 d2a5884a64161b Andrey Smirnov            2013-01-27   724  		if ((bus && bus->fast_io) ||
+                                                                             ^^^
+This code assumes bus can be NULL
+
 d2a5884a64161b Andrey Smirnov            2013-01-27   725  		    config->fast_io) {
 67021f25d95292 Vladimir Oltean           2021-08-25   726  			if (config->use_raw_spinlock) {
 67021f25d95292 Vladimir Oltean           2021-08-25   727  				raw_spin_lock_init(&map->raw_spinlock);
@@ -178,6 +178,8 @@ b4a21fc275e99f Stephen Boyd              2015-09-11   751  	 * When we write in 
 b4a21fc275e99f Stephen Boyd              2015-09-11   752  	 * scratch buffers with sleeping allocations.
 b4a21fc275e99f Stephen Boyd              2015-09-11   753  	 */
 b4a21fc275e99f Stephen Boyd              2015-09-11   754  	if ((bus && bus->fast_io) || config->fast_io)
+                                                                     ^^^
+
 b4a21fc275e99f Stephen Boyd              2015-09-11   755  		map->alloc_flags = GFP_ATOMIC;
 b4a21fc275e99f Stephen Boyd              2015-09-11   756  	else
 b4a21fc275e99f Stephen Boyd              2015-09-11   757  		map->alloc_flags = GFP_KERNEL;
@@ -202,7 +204,11 @@ ca747be22fa57b Xiubo Li                  2016-01-04   775  		map->reg_stride_ord
 d77e745613680c Marek Vasut               2022-04-30   776  	map->use_single_read = config->use_single_read || !(config->read || (bus && bus->read));
 d77e745613680c Marek Vasut               2022-04-30   777  	map->use_single_write = config->use_single_write || !(config->write || (bus && bus->write));
 d77e745613680c Marek Vasut               2022-04-30   778  	map->can_multi_write = config->can_multi_write && (config->write || (bus && bus->write));
+                                                                                                                                     ^^^
+
 17649c90ff4c52 Sergey SENOZHATSKY        2015-08-31   779  	if (bus) {
+                                                                    ^^^
+
 adaac459759db4 Markus Schneider-Pargmann 2015-08-30   780  		map->max_raw_read = bus->max_raw_read;
 adaac459759db4 Markus Schneider-Pargmann 2015-08-30   781  		map->max_raw_write = bus->max_raw_write;
 d77e745613680c Marek Vasut               2022-04-30   782  	} else if (config->max_raw_read && config->max_raw_write) {
@@ -238,6 +244,8 @@ b83a313bf25201 Mark Brown                2011-05-11   803
 6f306441e97f8f Lars-Peter Clausen        2011-09-05   812  		map->read_flag_mask = config->read_flag_mask;
 6f306441e97f8f Lars-Peter Clausen        2011-09-05   813  		map->write_flag_mask = config->write_flag_mask;
 d2a5884a64161b Andrey Smirnov            2013-01-27   814  	} else if (bus) {
+                                                                           ^^^
+
 6f306441e97f8f Lars-Peter Clausen        2011-09-05   815  		map->read_flag_mask = bus->read_flag_mask;
 6f306441e97f8f Lars-Peter Clausen        2011-09-05   816  	}
 6f306441e97f8f Lars-Peter Clausen        2011-09-05   817  
@@ -253,6 +261,8 @@ d77e745613680c Marek Vasut               2022-04-30   826
 d77e745613680c Marek Vasut               2022-04-30   827  		reg_endian = REGMAP_ENDIAN_NATIVE;
 d77e745613680c Marek Vasut               2022-04-30   828  		val_endian = REGMAP_ENDIAN_NATIVE;
 d77e745613680c Marek Vasut               2022-04-30   829  	} else if (!bus) {
+                                                                           ^^^^
+
 d2a5884a64161b Andrey Smirnov            2013-01-27   830  		map->reg_read  = config->reg_read;
 d2a5884a64161b Andrey Smirnov            2013-01-27   831  		map->reg_write = config->reg_write;
 02d6fdecb9c38d Christian Marangi         2021-11-04   832  		map->reg_update_bits = config->reg_update_bits;
@@ -573,6 +583,9 @@ a7a037c837cb0f Daeseok Youn              2014-04-01  1141  	if (dev) {
 a7a037c837cb0f Daeseok Youn              2014-04-01  1147  	}
 72b39f6f2b5a6b Mark Brown                2012-05-08  1148  
 af560701e36650 Mark Brown                2024-02-23 @1149  	if (bus->init) {
+                                                                    ^^^^^^^^^
+Unchecked dereference
+
 af560701e36650 Mark Brown                2024-02-23  1150  		ret = bus->init(map);
 af560701e36650 Mark Brown                2024-02-23  1151  		if (ret != 0)
 af560701e36650 Mark Brown                2024-02-23  1152  			goto err_regcache;
@@ -595,9 +608,8 @@ b83a313bf25201 Mark Brown                2011-05-11  1168  	kfree(map);
 b83a313bf25201 Mark Brown                2011-05-11  1169  err:
 b83a313bf25201 Mark Brown                2011-05-11  1170  	return ERR_PTR(ret);
 b83a313bf25201 Mark Brown                2011-05-11  1171  }
-3cfe7a74d42b7e Nicolas Boichat           2015-07-08  1172  EXPORT_SYMBOL_GPL(__regmap_init);
-b83a313bf25201 Mark Brown                2011-05-11  1173  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
