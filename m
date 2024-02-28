@@ -1,54 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F4A40875
-	for <oe-kbuild@lists.linux.dev>; Wed, 28 Feb 2024 18:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF35471EAE
+	for <oe-kbuild@lists.linux.dev>; Wed, 28 Feb 2024 18:44:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709145532; cv=none; b=hWI6FrzpJN7wYWoJ9daQM9Ay5AQiwbmlJ6AqgBw9NZnLWysQY34BClWvRucpJ0Qwj6OvwvrDkCeTt6jkN4ytd5wHD20d2z+juoTwbrpuYf3+h4tHVC1btLd4BQeVp4NKxLUV9JhcWsHnF/6oif3ThqPTSqIykzfLWK6ZVDNelfc=
+	t=1709145852; cv=none; b=er2qOGeYtaif3YXTwt8am1cZVxL4x/7N8N459QUFsQvqTtGEzBDwWuRrgTqnHT72jFsec54tpq57tnlGVltrNDJdQ58nkCD1RqVwRQlFzIa2iGxAxZOUyGpbu1cGgWLV/+r+A48zVKBxJe1coNhQE4w8Np047KC+1j3zkv37TeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709145532; c=relaxed/simple;
-	bh=Lz0+xmYZpm2m8w6OrFUsHIJiHn6F744LrLn3DM+VQOk=;
+	s=arc-20240116; t=1709145852; c=relaxed/simple;
+	bh=7XkIQYFR5NbWf+vIls0ZTPvsim8r85fchGB2LFsWYp8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=InpcKar8tBq5z10C4Kok2GjfnRCiGAq6zv/fj+N9dcOY7dD6oGgnqVZlBjUlzQjPjpYPeuW11ar+I5xZeSOrIttopGITKzAutSqwH/rtEpajduR+ZrX0CmykSlylJtxO4pQePAIq0+/NaKOlHKeawWnEcyh5sHHi6ZUh3RQfto8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kv8TBdlt; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=mwHL1rt8NCMjg5wK0OfoKEWFV0Y4Myqp0txJ+oXGXf1bnhEHlknwUt1j9H7eTluHf0h5ScnLKb4MBk5EEUiu//fq3We/ABlthD2kqBoNmXrKQubJs1h6V/NFKvYY0xf4epHxJHgFMzKwX+AQS6x4ATmalOt9BdlJ72C1+HYd4H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TveVwcOh; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kv8TBdlt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709145530; x=1740681530;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Lz0+xmYZpm2m8w6OrFUsHIJiHn6F744LrLn3DM+VQOk=;
-  b=Kv8TBdltgwOej7Dg5FnwBgztpOOfj1HGHBIsLMxFGzRKcHzEP4iDX4lG
-   wTW8y05QKr0l6JpsHIiqHqRKP7aa1dRHPV/yZcHujmvGJDj5N9RbN0RRo
-   JaGNsApU6zIXfAYpmgGmx1QZ0U8hJQhUZqF3UaJBQRWQtIAUwGjbkFkLE
-   MPefAV6zhl5qm8CTvpbxwJx3yStib7R25x45+arwg8v9CZOb6ks7Y5gXS
-   GnQFdwoaqvf8WxtUtzqMj9kj8KeE8LGVJopP4TCpKtnxTGEtICMufex0U
-   bfhkR13ub525JDfXOP8oSQbIfWlIH5rd/dOIC8fo3gy3WoTMHQNQqWVwu
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="14121296"
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; 
-   d="scan'208";a="14121296"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 10:38:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; 
-   d="scan'208";a="12148544"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Feb 2024 10:38:48 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rfOpK-000CJN-0h;
-	Wed, 28 Feb 2024 18:38:46 +0000
-Date: Thu, 29 Feb 2024 02:38:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TveVwcOh"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-412a3ebad2aso486535e9.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 28 Feb 2024 10:44:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709145849; x=1709750649; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RlL8J08fHvkzwmFzz95rsENMRtFT+pAtVTboOdHsxsk=;
+        b=TveVwcOhXl7Wu8UyB/UqwuKNvq4vMrqUp8KF5bTkPbIq7SWP3xA4LaCz+LFvMpZcM2
+         pLmARIowerxoinSRJXI5Z7t9kDTXO3loOovH/D1y8F54HTj3zS7MtgDadHnBZ4uK5Yoe
+         pYccJi/5TbhvLPXnYkVXYFR42Y3cPZ3wNCwWphLu+clM+fyf+QXzOkjaR9v1k7ZXGjSs
+         ubIdIs4NTUlx+dA1BFO5+9vk5DdY2ahhhL1H4FpAoaBkraxZOgywlx7iTPDEXEfsSRDW
+         WC9RHrWDdQFFbTkFcCY5QHNOfZBzIal5u+6T5qDCF24990jHhCGV4Pn2uxX0IbxA2+mc
+         2jnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709145849; x=1709750649;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RlL8J08fHvkzwmFzz95rsENMRtFT+pAtVTboOdHsxsk=;
+        b=vOEBLBIkfDmf3DoeeWvXtlt0gkPNqVAVhVsywTBDWlLfoLVc6/JCLfKr4TViIJoZSf
+         8cuGjdowpz5ZBvqkfLMtG3v2iPziBwMWr7gqhkJQoj1GLBrYCsHGnGb4RAz1Ql78bB3u
+         e9DWReTEb4aQE+262ewgROqYjmSpa3YoJwyB4Qcpd8as04k2dFEQ1/ytEfozrrddeRT0
+         20z7tNrvvONjkQMvGngF7eX128d0FLShonF98IN5+HFSKx9a7+hGEsBRLxMmKr7dlz3G
+         0Ju0aZkiGGZMxfb8SZayhiuxpGDCZoT9rpVsTsTEq+pt8CWtBuba/6eSIRB45b6m04do
+         icwg==
+X-Gm-Message-State: AOJu0YyVyZr7PjHBEpwyvQdpFQi3kaj5617FuDUItR18VtB4Hhrhr1AF
+	23K78eOxSZFGJjBnC5iM5kMRS6dxCl5ANXEMxWazOxmuO8Xyw0kzjg1yV9UTOHkM+CO1evBfp/I
+	k
+X-Google-Smtp-Source: AGHT+IEyjljEBQC9LqtwXuT1ZB5f2IOzrnDQ/4mGlz3bMEJc/uqPxYdUgAhInRbv1pmRB9y9CFP34A==
+X-Received: by 2002:a05:600c:3486:b0:412:afed:5d06 with SMTP id a6-20020a05600c348600b00412afed5d06mr76626wmq.23.1709145848753;
+        Wed, 28 Feb 2024 10:44:08 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id jj18-20020a05600c6a1200b004129e8af6absm2827632wmb.33.2024.02.28.10.44.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Feb 2024 10:44:08 -0800 (PST)
+Date: Wed, 28 Feb 2024 21:44:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [esmil:th1520 3/29] drivers/pinctrl/pinctrl-th1520.c:499
  th1520_pinctrl_dt_node_to_map() warn: missing error code 'ret'
-Message-ID: <202402290235.AqLIV39I-lkp@intel.com>
+Message-ID: <ac149c89-2ce3-4241-9754-6aa73377279b@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,22 +67,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Emil Renner Berthing <emil.renner.berthing@canonical.com>
-
 tree:   https://github.com/esmil/linux th1520
 head:   7f2988d92a4ae84f21fa512b2c15c4e007b7a9be
 commit: 49128de47348770cd4f872628ce727613204a539 [3/29] pinctrl: Add driver for the T-Head TH1520 SoC
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
 config: powerpc-randconfig-r071-20240227 (https://download.01.org/0day-ci/archive/20240229/202402290235.AqLIV39I-lkp@intel.com/config)
 compiler: powerpc-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202402290235.AqLIV39I-lkp@intel.com/
 
 smatch warnings:
@@ -81,7 +84,6 @@ drivers/pinctrl/pinctrl-th1520.c:499 th1520_pinctrl_dt_node_to_map() warn: missi
 
 vim +/ret +499 drivers/pinctrl/pinctrl-th1520.c
 
-49128de4734877 Emil Renner Berthing 2023-12-05  410  
 49128de4734877 Emil Renner Berthing 2023-12-05  411  static int th1520_pinctrl_dt_node_to_map(struct pinctrl_dev *pctldev,
 49128de4734877 Emil Renner Berthing 2023-12-05  412  					 struct device_node *np,
 49128de4734877 Emil Renner Berthing 2023-12-05  413  					 struct pinctrl_map **maps,
@@ -171,6 +173,9 @@ vim +/ret +499 drivers/pinctrl/pinctrl-th1520.c
 49128de4734877 Emil Renner Berthing 2023-12-05  497  				dev_err(thp->pctl->dev, "%pOFn.%pOFn: unknown pin '%s'\n",
 49128de4734877 Emil Renner Berthing 2023-12-05  498  					np, child, pinname);
 49128de4734877 Emil Renner Berthing 2023-12-05 @499  				goto free_configs;
+
+ret = -EINVAL;
+
 49128de4734877 Emil Renner Berthing 2023-12-05  500  			}
 49128de4734877 Emil Renner Berthing 2023-12-05  501  
 49128de4734877 Emil Renner Berthing 2023-12-05  502  			if (nconfigs) {
@@ -212,8 +217,8 @@ vim +/ret +499 drivers/pinctrl/pinctrl-th1520.c
 49128de4734877 Emil Renner Berthing 2023-12-05  538  	mutex_unlock(&thp->mutex);
 49128de4734877 Emil Renner Berthing 2023-12-05  539  	return ret;
 49128de4734877 Emil Renner Berthing 2023-12-05  540  }
-49128de4734877 Emil Renner Berthing 2023-12-05  541  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
