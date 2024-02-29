@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0830D446C9
-	for <oe-kbuild@lists.linux.dev>; Thu, 29 Feb 2024 23:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2366D52F
+	for <oe-kbuild@lists.linux.dev>; Thu, 29 Feb 2024 23:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709248869; cv=none; b=SWX8eH5Wh798EODeUIn2/qU39VBxzujTgP3LZ1mVtZ+ykhOZKzBFHV7iCCS2j7y15mE5l92UK9oV1I/FxyK+uG+GKHodrUOJKaBbVAqdHuIE2kABbrzFn2JmX8rWjOXMlrYj/uTi3Jg6eINzQ6k4az4G9jAiDz7qU7zqMlNoFt0=
+	t=1709249399; cv=none; b=e8MAvXMOAg3jJTtoXG2HhdErJzkwEq0fY1Y4ui6LTZ10H7UXO4BRi8XkwriYN2sNxnEChpZ8hpHRHl05g6m8YmV5ItiOJNiylmU0zbCT/A1RaxelfLKJJXhwtrX7/vrLy6R4/s/Uz5UIvgvM01lsptsAT9+V7VGHHJgsFLPVaDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709248869; c=relaxed/simple;
-	bh=/UIu2oNqdVr9EMyuUk3xyXK287IizmHM8GJ1Y5lcMcg=;
+	s=arc-20240116; t=1709249399; c=relaxed/simple;
+	bh=hSDbfiIJdU78XgRG/dtft+LMgy7SztK3AleHNv/0epo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Xu0P82kVm7St6gjLIzYd6KYjaJVAvY0ajgSzI2ZVMxNYLr2nXoPted9PRI0PuJVpejC9uGX60DlDWzxpjqAJGHNkaUHoHD27vJ8vPDLvytaRUmR03+zPt/6eWk1EMQDpSz2kdx8mdGzJz9b8YA8BN0nypIwy94Ke4EBXa8ED17Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hyp+FkQW; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=fucVeGPoPthXtmVAQfFztqLCgDG/iym5P1e6jGpZG71Q8JJEeHJ40HxTM2YqRpU0siXnD2PpSMHTOgWJnZ3CDAC0ZrnfZII3dFcKtM9tQ/hsFFGsw/C5PIO1M3K7WocHMaOgeFOk85B48p50zzMf/Xv9DyqcyTU6OrqirX4ioxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TFOUDBw5; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hyp+FkQW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TFOUDBw5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709248867; x=1740784867;
+  t=1709249398; x=1740785398;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/UIu2oNqdVr9EMyuUk3xyXK287IizmHM8GJ1Y5lcMcg=;
-  b=Hyp+FkQWsXVISTtLHfwaHxc2L9mrzgGcYC5OaASCdEc2Gc5IWK23mYNp
-   ts/e0G/T8pwTfv2U1GdP6qLGqPl1sEiyYzun/GGWbivEAYI98Ld+w7Cqr
-   hRFYoNsMSojLgJTKe6AwVaY/PJwv/cJtNpcTXIVA8giQVrJ46nFaq5/6x
-   +RF5Ej8TkHEmHIWycZu1x1SI7edYjJKNX7aTvE7BsJJ7WKKa/q9uNKEF1
-   8URpJj+03uuPzSjBnra32unEPFZCYfIVxsGqjtzCX6TdI/F8vsnLYOS2v
-   R+3KLTBRhJH5FUghOPUXqXScUlIwupRmFR+9zYO5dcrdBn0cNdbsjwTNk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="14468405"
+  bh=hSDbfiIJdU78XgRG/dtft+LMgy7SztK3AleHNv/0epo=;
+  b=TFOUDBw5SqrxIS20qYwRejBN2U0PKRwHz454ITS2rtpl+DSOpbVmm/M7
+   lUQZvSHaQwAfSGYhBBo5ytNMXJQWQ6DzDYVO4bvBEuDhKlQMCBawmZ9hI
+   OPPKUdaHhbZ4E7sXusNtBRfsbXp4qnJO6PLnlSAw/8vzw96upMRaTXFIe
+   ZvdkfqJpTr1WO1uRnCly3pIbAz/C94IaVMO/qInDwA+JOjwsO/4UXOhKa
+   /7d1V9qFjrZVmSfNYbEnqqF4sp0NysKj7ATBMgfpiQX8AKaqR+PDuYu60
+   8oP6eQtqrnT+yHui5AmoWi2+Xc9VTozMl0ys5uiGqpc8zPzpo/0EfI2gM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3620392"
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="14468405"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 15:20:51 -0800
+   d="scan'208";a="3620392"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 15:29:57 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="12687284"
+   d="scan'208";a="7947578"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 29 Feb 2024 15:20:50 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 29 Feb 2024 15:29:53 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rfpg8-000DLr-0s;
-	Thu, 29 Feb 2024 23:19:19 +0000
-Date: Fri, 1 Mar 2024 07:17:11 +0800
+	id 1rfpq8-000DMB-00;
+	Thu, 29 Feb 2024 23:29:36 +0000
+Date: Fri, 1 Mar 2024 07:28:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [morimoto:card2-trigger-order-2023-02-28 33/33] dtbs_check:
- Documentation/devicetree/bindings/sound/audio-graph-port.yaml:30:10:
- [warning] too many spaces before colon (colons)
-Message-ID: <202403010750.AulDCY96-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 10500/10830] net/ipv4/tcp_metrics.c:1026
+ tcp_metrics_hash_alloc() error: kvzalloc() does not make sense for no sleep
+ code
+Message-ID: <202403010710.uun8a16d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,236 +59,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: Documentation/devicetree/bindings/sound/audio-graph-port.yaml:30:10: [warning] too many spaces before colon (colons)"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-CC: linux-doc@vger.kernel.org
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Suren Baghdasaryan <surenb@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Kees Cook <keescook@chromium.org>
+CC: Pasha Tatashin <pasha.tatashin@soleen.com>
 
-tree:   https://github.com/morimoto/linux card2-trigger-order-2023-02-28
-head:   7954e5e1bfde7e92159d3cc1922b94fbd5957915
-commit: 7954e5e1bfde7e92159d3cc1922b94fbd5957915 [33/33] ASoC: audio-graph-port: add link-trigger-order
-:::::: branch date: 2 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f303a3e2bcfba900efb5aee55236d17030e9f882
+commit: 211ec89ce404de50f19bccf444644d6b4c7d592c [10500/10830] mm: enumerate all gfp flags
+:::::: branch date: 18 hours ago
 :::::: commit date: 2 days ago
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240301/202403010750.AulDCY96-lkp@intel.com/reproduce)
+config: x86_64-randconfig-161-20240228 (https://download.01.org/0day-ci/archive/20240301/202403010710.uun8a16d-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202403010750.AulDCY96-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202403010710.uun8a16d-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/sound/audio-graph-port.yaml:30:10: [warning] too many spaces before colon (colons)
-   Documentation/devicetree/bindings/sound/audio-graph-port.yaml:31:10: [warning] too many spaces before colon (colons)
->> Documentation/devicetree/bindings/sound/audio-graph-port.yaml:34:9: [error] syntax error: could not find expected ':' (syntax)
---
->> Documentation/devicetree/bindings/sound/audio-graph-port.yaml:34:9: could not find expected ':'
->> Documentation/devicetree/bindings/sound/cirrus,cs42l51.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
->> Documentation/devicetree/bindings/sound/sgtl5000.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
->> Documentation/devicetree/bindings/sound/ak4613.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
->> Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
->> Documentation/devicetree/bindings/sound/st,stm32-sai.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
->> Documentation/devicetree/bindings/sound/ti,pcm3168a.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
->> Documentation/devicetree/bindings/sound/ti,tlv320aic3x.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
->> Documentation/devicetree/bindings/sound/rockchip-i2s.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
->> Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
->> Documentation/devicetree/bindings/sound/socionext,uniphier-aio.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
->> Documentation/devicetree/bindings/sound/wlf,wm8962.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
->> Documentation/devicetree/bindings/sound/renesas,rsnd.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
->> Documentation/devicetree/bindings/sound/everest,es8316.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
->> Documentation/devicetree/bindings/sound/socionext,uniphier-evea.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
->> Documentation/devicetree/bindings/sound/marvell,mmp-sspa.yaml:
-   while scanning a simple key
-     in "<unicode string>", line 33, column 9
-   could not find expected ':'
-     in "<unicode string>", line 34, column 9
---
->> Documentation/devicetree/bindings/sound/audio-graph-port.yaml: ignoring, error parsing file
+New smatch warnings:
+net/ipv4/tcp_metrics.c:1026 tcp_metrics_hash_alloc() error: kvzalloc() does not make sense for no sleep code
+drivers/gpu/drm/ttm/ttm_tt.c:100 ttm_tt_alloc_page_directory() error: kvcalloc() does not make sense for no sleep code
+drivers/gpu/drm/ttm/ttm_tt.c:109 ttm_dma_tt_alloc_page_directory() error: kvcalloc() does not make sense for no sleep code
+drivers/gpu/drm/ttm/ttm_tt.c:120 ttm_sg_tt_alloc_page_directory() error: kvcalloc() does not make sense for no sleep code
+fs/pstore/ram.c:272 ramoops_pstore_read() error: kvzalloc() does not make sense for no sleep code
+fs/pstore/ram.c:838 ramoops_probe() error: kvzalloc() does not make sense for no sleep code
+fs/bcachefs/snapshot.c:155 __snapshot_t_mut() error: kvzalloc() does not make sense for no sleep code
+drivers/scsi/sd_zbc.c:868 sd_zbc_revalidate_zones() error: kvcalloc() does not make sense for no sleep code
+net/ipv4/fib_semantics.c:1447 fib_create_info() error: kvzalloc() does not make sense for no sleep code
+fs/proc/proc_sysctl.c:578 proc_sys_call_handler() error: kvzalloc() does not make sense for no sleep code
+drivers/md/dm-snap-persistent.c:629 persistent_read_metadata() error: kvcalloc() does not make sense for no sleep code
+sound/core/info.c:330 snd_info_text_entry_write() error: kvzalloc() does not make sense for no sleep code
+sound/soc/intel/atom/sst/sst.c:469 intel_sst_suspend() error: kvzalloc() does not make sense for no sleep code
+drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c:243 vmw_bo_dirty_add() error: kvzalloc() does not make sense for no sleep code
+io_uring/filetable.c:41 io_alloc_file_tables() error: kvcalloc() does not make sense for no sleep code
+lib/stackdepot.c:224 stack_depot_init() error: kvcalloc() does not make sense for no sleep code
+kernel/resource.c:449 walk_system_ram_res_rev() error: kvcalloc() does not make sense for no sleep code
+sound/core/memalloc.c:775 snd_dma_sg_fallback_alloc() error: kvcalloc() does not make sense for no sleep code
+drivers/video/fbdev/core/fb_defio.c:284 fb_deferred_io_init() error: kvcalloc() does not make sense for no sleep code
+net/ethtool/common.c:553 ethtool_get_max_rxnfc_channel() error: kvzalloc() does not make sense for no sleep code
+drivers/acpi/property.c:413 acpi_data_add_buffer_props() error: kvzalloc() does not make sense for no sleep code
+drivers/md/dm-zone.c:203 dm_zone_revalidate_cb() error: kvcalloc() does not make sense for no sleep code
+fs/exfat/nls.c:662 exfat_load_upcase_table() error: kvcalloc() does not make sense for no sleep code
+fs/exfat/nls.c:718 exfat_load_default_upcase_table() error: kvcalloc() does not make sense for no sleep code
+drivers/gpu/drm/drm_property.c:565 drm_property_create_blob() error: kvzalloc() does not make sense for no sleep code
 
-vim +30 Documentation/devicetree/bindings/sound/audio-graph-port.yaml
+Old smatch warnings:
+net/ipv4/fib_semantics.c:1448 fib_create_info() error: kvzalloc() does not make sense for no sleep code
+fs/proc/proc_sysctl.c:586 proc_sys_call_handler() warn: potential spectre issue 'kbuf' [w]
+sound/soc/intel/atom/sst/sst.c:474 intel_sst_suspend() error: kvzalloc() does not make sense for no sleep code
+sound/soc/intel/atom/sst/sst.c:479 intel_sst_suspend() error: kvzalloc() does not make sense for no sleep code
+sound/soc/intel/atom/sst/sst.c:485 intel_sst_suspend() error: kvzalloc() does not make sense for no sleep code
+sound/core/memalloc.c:776 snd_dma_sg_fallback_alloc() error: kvcalloc() does not make sense for no sleep code
+drivers/acpi/property.c:1052 acpi_data_prop_read_single() error: uninitialized symbol 'obj'.
+drivers/acpi/property.c:1058 acpi_data_prop_read_single() error: uninitialized symbol 'obj'.
+drivers/acpi/property.c:1064 acpi_data_prop_read_single() error: uninitialized symbol 'obj'.
+drivers/acpi/property.c:1071 acpi_data_prop_read_single() error: uninitialized symbol 'obj'.
 
-e52f3f29115204 Sameer Pujar       2020-11-16   13  
-bbda859e02a4df Kuninori Morimoto  2023-01-23   14  definitions:
-bbda859e02a4df Kuninori Morimoto  2023-01-23   15    port-base:
-967dad97757057 Rob Herring        2023-09-28   16      allOf:
-967dad97757057 Rob Herring        2023-09-28   17        - $ref: /schemas/graph.yaml#/$defs/port-base
-967dad97757057 Rob Herring        2023-09-28   18        - $ref: /schemas/sound/dai-params.yaml#
-e52f3f29115204 Sameer Pujar       2020-11-16   19      properties:
-a2fabeaaf5e29d Kuninori Morimoto  2023-01-23   20        mclk-fs:
-d9e909e219a843 Rob Herring        2023-03-17   21          $ref: simple-card.yaml#/definitions/mclk-fs
-af29e51bee8223 Daniel Baluta      2023-11-28   22        playback-only:
-af29e51bee8223 Daniel Baluta      2023-11-28   23          description: port connection used only for playback
-af29e51bee8223 Daniel Baluta      2023-11-28   24          $ref: /schemas/types.yaml#/definitions/flag
-af29e51bee8223 Daniel Baluta      2023-11-28   25        capture-only:
-af29e51bee8223 Daniel Baluta      2023-11-28   26          description: port connection used only for capture
-af29e51bee8223 Daniel Baluta      2023-11-28   27          $ref: /schemas/types.yaml#/definitions/flag
-7954e5e1bfde7e Kuninori Morimoto  2024-02-28   28        link-trigger-order:
-7954e5e1bfde7e Kuninori Morimoto  2024-02-28   29          description: indicates trigger order for both start/stop
-7954e5e1bfde7e Kuninori Morimoto  2024-02-28  @30          0 : LINK
-7954e5e1bfde7e Kuninori Morimoto  2024-02-28   31          1 : COMPONENT
-7954e5e1bfde7e Kuninori Morimoto  2024-02-28   32          2 : DAI
-7954e5e1bfde7e Kuninori Morimoto  2024-02-28   33          for example <0 1 2> means LINK -> COMPONENT -> DAI
-7954e5e1bfde7e Kuninori Morimoto  2024-02-28  @34          $ref: /schemas/types.yaml#/definitions/uint32-array
-7954e5e1bfde7e Kuninori Morimoto  2024-02-28   35        link-trigger-order-start:
-7954e5e1bfde7e Kuninori Morimoto  2024-02-28   36          description: indicates trigger order for start
-7954e5e1bfde7e Kuninori Morimoto  2024-02-28   37          $ref: /schemas/types.yaml#/definitions/uint32-array
-7954e5e1bfde7e Kuninori Morimoto  2024-02-28   38        link-trigger-order-stop:
-7954e5e1bfde7e Kuninori Morimoto  2024-02-28   39          description: indicates trigger order for stop
-7954e5e1bfde7e Kuninori Morimoto  2024-02-28   40          $ref: /schemas/types.yaml#/definitions/uint32-array
-b79b6220a75399 Sameer Pujar       2022-08-08   41  
-bbda859e02a4df Kuninori Morimoto  2023-01-23   42    endpoint-base:
-967dad97757057 Rob Herring        2023-09-28   43      allOf:
-967dad97757057 Rob Herring        2023-09-28   44        - $ref: /schemas/graph.yaml#/$defs/endpoint-base
-967dad97757057 Rob Herring        2023-09-28   45        - $ref: /schemas/sound/dai-params.yaml#
-e52f3f29115204 Sameer Pujar       2020-11-16   46      properties:
-e52f3f29115204 Sameer Pujar       2020-11-16   47        mclk-fs:
-d9e909e219a843 Rob Herring        2023-03-17   48          $ref: simple-card.yaml#/definitions/mclk-fs
-e52f3f29115204 Sameer Pujar       2020-11-16   49        frame-inversion:
-e52f3f29115204 Sameer Pujar       2020-11-16   50          description: dai-link uses frame clock inversion
-e52f3f29115204 Sameer Pujar       2020-11-16   51          $ref: /schemas/types.yaml#/definitions/flag
-e52f3f29115204 Sameer Pujar       2020-11-16   52        bitclock-inversion:
-e52f3f29115204 Sameer Pujar       2020-11-16   53          description: dai-link uses bit clock inversion
-e52f3f29115204 Sameer Pujar       2020-11-16   54          $ref: /schemas/types.yaml#/definitions/flag
-e52f3f29115204 Sameer Pujar       2020-11-16   55        frame-master:
-e52f3f29115204 Sameer Pujar       2020-11-16   56          description: Indicates dai-link frame master.
-9b3c847b5fa036 Kuninori Morimoto  2021-12-16   57          oneOf:
-9b3c847b5fa036 Kuninori Morimoto  2021-12-16   58            - $ref: /schemas/types.yaml#/definitions/flag
-9b3c847b5fa036 Kuninori Morimoto  2021-12-16   59            - $ref: /schemas/types.yaml#/definitions/phandle
-e52f3f29115204 Sameer Pujar       2020-11-16   60        bitclock-master:
-e52f3f29115204 Sameer Pujar       2020-11-16   61          description: Indicates dai-link bit clock master
-9b3c847b5fa036 Kuninori Morimoto  2021-12-16   62          oneOf:
-9b3c847b5fa036 Kuninori Morimoto  2021-12-16   63            - $ref: /schemas/types.yaml#/definitions/flag
-9b3c847b5fa036 Kuninori Morimoto  2021-12-16   64            - $ref: /schemas/types.yaml#/definitions/phandle
-2f0be75c9ff935 Kuninori Morimoto  2023-01-23   65        clocks:
-2f0be75c9ff935 Kuninori Morimoto  2023-01-23   66          description: Indicates system clock
-2f0be75c9ff935 Kuninori Morimoto  2023-01-23   67          $ref: /schemas/types.yaml#/definitions/phandle
-2f0be75c9ff935 Kuninori Morimoto  2023-01-23   68        system-clock-frequency:
-d9e909e219a843 Rob Herring        2023-03-17   69          $ref: simple-card.yaml#/definitions/system-clock-frequency
-2f0be75c9ff935 Kuninori Morimoto  2023-01-23   70        system-clock-direction-out:
-d9e909e219a843 Rob Herring        2023-03-17   71          $ref: simple-card.yaml#/definitions/system-clock-direction-out
-2f0be75c9ff935 Kuninori Morimoto  2023-01-23   72        system-clock-fixed:
-d9e909e219a843 Rob Herring        2023-03-17   73          $ref: simple-card.yaml#/definitions/system-clock-fixed
-9b3c847b5fa036 Kuninori Morimoto  2021-12-16   74  
-e52f3f29115204 Sameer Pujar       2020-11-16   75        dai-format:
-e52f3f29115204 Sameer Pujar       2020-11-16   76          description: audio format.
-e52f3f29115204 Sameer Pujar       2020-11-16   77          items:
-e52f3f29115204 Sameer Pujar       2020-11-16   78            enum:
-e52f3f29115204 Sameer Pujar       2020-11-16   79              - i2s
-e52f3f29115204 Sameer Pujar       2020-11-16   80              - right_j
-e52f3f29115204 Sameer Pujar       2020-11-16   81              - left_j
-e52f3f29115204 Sameer Pujar       2020-11-16   82              - dsp_a
-e52f3f29115204 Sameer Pujar       2020-11-16   83              - dsp_b
-e52f3f29115204 Sameer Pujar       2020-11-16   84              - ac97
-e52f3f29115204 Sameer Pujar       2020-11-16   85              - pdm
-e52f3f29115204 Sameer Pujar       2020-11-16   86              - msb
-e52f3f29115204 Sameer Pujar       2020-11-16   87              - lsb
-e52f3f29115204 Sameer Pujar       2020-11-16   88  
-853110992cfefe Marek Vasut        2022-09-27   89        dai-tdm-slot-num:
-853110992cfefe Marek Vasut        2022-09-27   90          description: Number of slots in use.
-853110992cfefe Marek Vasut        2022-09-27   91          $ref: /schemas/types.yaml#/definitions/uint32
-853110992cfefe Marek Vasut        2022-09-27   92        dai-tdm-slot-width:
-853110992cfefe Marek Vasut        2022-09-27   93          description: Width in bits for each slot.
-853110992cfefe Marek Vasut        2022-09-27   94          $ref: /schemas/types.yaml#/definitions/uint32
-26e5366dd30569 Richard Fitzgerald 2022-02-28   95        dai-tdm-slot-width-map:
-26e5366dd30569 Richard Fitzgerald 2022-02-28   96          description: Mapping of sample widths to slot widths. For hardware
-26e5366dd30569 Richard Fitzgerald 2022-02-28   97            that cannot support a fixed slot width or a slot width always
-26e5366dd30569 Richard Fitzgerald 2022-02-28   98            equal to sample width. A matrix of one or more 3-tuples.
-26e5366dd30569 Richard Fitzgerald 2022-02-28   99          $ref: /schemas/types.yaml#/definitions/uint32-matrix
-26e5366dd30569 Richard Fitzgerald 2022-02-28  100          items:
-26e5366dd30569 Richard Fitzgerald 2022-02-28  101            items:
-26e5366dd30569 Richard Fitzgerald 2022-02-28  102              -
-26e5366dd30569 Richard Fitzgerald 2022-02-28  103                description: Sample width in bits
-26e5366dd30569 Richard Fitzgerald 2022-02-28  104                minimum: 8
-26e5366dd30569 Richard Fitzgerald 2022-02-28  105                maximum: 64
-26e5366dd30569 Richard Fitzgerald 2022-02-28  106              -
-26e5366dd30569 Richard Fitzgerald 2022-02-28  107                description: Slot width in bits
-26e5366dd30569 Richard Fitzgerald 2022-02-28  108                minimum: 8
-26e5366dd30569 Richard Fitzgerald 2022-02-28  109                maximum: 256
-26e5366dd30569 Richard Fitzgerald 2022-02-28  110              -
-26e5366dd30569 Richard Fitzgerald 2022-02-28  111                description: Slot count
-26e5366dd30569 Richard Fitzgerald 2022-02-28  112                minimum: 1
-26e5366dd30569 Richard Fitzgerald 2022-02-28  113                maximum: 64
-26e5366dd30569 Richard Fitzgerald 2022-02-28  114  
-6a7216db63c884 Kuninori Morimoto  2023-01-23  115    ports:
-6a7216db63c884 Kuninori Morimoto  2023-01-23  116      $ref: "#/definitions/port-base"
-6a7216db63c884 Kuninori Morimoto  2023-01-23  117      unevaluatedProperties: false
-6a7216db63c884 Kuninori Morimoto  2023-01-23  118      patternProperties:
-6a7216db63c884 Kuninori Morimoto  2023-01-23  119        "^port(@[0-9a-f]+)?$":
-6a7216db63c884 Kuninori Morimoto  2023-01-23  120          $ref: "#/definitions/port-base"
-6a7216db63c884 Kuninori Morimoto  2023-01-23  121          unevaluatedProperties: false
-6a7216db63c884 Kuninori Morimoto  2023-01-23  122          patternProperties:
-6a7216db63c884 Kuninori Morimoto  2023-01-23  123            "^endpoint(@[0-9a-f]+)?":
-6a7216db63c884 Kuninori Morimoto  2023-01-23  124              $ref: "#/definitions/endpoint-base"
-6a7216db63c884 Kuninori Morimoto  2023-01-23  125              unevaluatedProperties: false
-6a7216db63c884 Kuninori Morimoto  2023-01-23  126  
-bbda859e02a4df Kuninori Morimoto  2023-01-23  127  allOf:
-bbda859e02a4df Kuninori Morimoto  2023-01-23  128    - $ref: "#/definitions/port-base"
-bbda859e02a4df Kuninori Morimoto  2023-01-23  129  
-bbda859e02a4df Kuninori Morimoto  2023-01-23  130  patternProperties:
-bbda859e02a4df Kuninori Morimoto  2023-01-23  131    "^endpoint(@[0-9a-f]+)?":
-bbda859e02a4df Kuninori Morimoto  2023-01-23  132      $ref: "#/definitions/endpoint-base"
-bbda859e02a4df Kuninori Morimoto  2023-01-23  133      unevaluatedProperties: false
-bbda859e02a4df Kuninori Morimoto  2023-01-23  134  
+vim +1026 net/ipv4/tcp_metrics.c
+
+51c5d0c4b169bf David S. Miller   2012-07-10  1010  
+c4a6b2da4b59d4 Eric Dumazet      2023-08-03  1011  static void __init tcp_metrics_hash_alloc(void)
+51c5d0c4b169bf David S. Miller   2012-07-10  1012  {
+c4a6b2da4b59d4 Eric Dumazet      2023-08-03  1013  	unsigned int slots = tcpmhash_entries;
+5815d5e7aae3cc Eric Dumazet      2012-07-19  1014  	size_t size;
+51c5d0c4b169bf David S. Miller   2012-07-10  1015  
+51c5d0c4b169bf David S. Miller   2012-07-10  1016  	if (!slots) {
+ca79b0c211af63 Arun KS           2018-12-28  1017  		if (totalram_pages() >= 128 * 1024)
+51c5d0c4b169bf David S. Miller   2012-07-10  1018  			slots = 16 * 1024;
+51c5d0c4b169bf David S. Miller   2012-07-10  1019  		else
+51c5d0c4b169bf David S. Miller   2012-07-10  1020  			slots = 8 * 1024;
+51c5d0c4b169bf David S. Miller   2012-07-10  1021  	}
+51c5d0c4b169bf David S. Miller   2012-07-10  1022  
+098a697b497e31 Eric W. Biederman 2015-03-13  1023  	tcp_metrics_hash_log = order_base_2(slots);
+098a697b497e31 Eric W. Biederman 2015-03-13  1024  	size = sizeof(struct tcpm_hash_bucket) << tcp_metrics_hash_log;
+51c5d0c4b169bf David S. Miller   2012-07-10  1025  
+752ade68cbd81d Michal Hocko      2017-05-08 @1026  	tcp_metrics_hash = kvzalloc(size, GFP_KERNEL);
+098a697b497e31 Eric W. Biederman 2015-03-13  1027  	if (!tcp_metrics_hash)
+c4a6b2da4b59d4 Eric Dumazet      2023-08-03  1028  		panic("Could not allocate the tcp_metrics hash table\n");
+51c5d0c4b169bf David S. Miller   2012-07-10  1029  }
+51c5d0c4b169bf David S. Miller   2012-07-10  1030  
+
+:::::: The code at line 1026 was first introduced by commit
+:::::: 752ade68cbd81d0321dfecc188f655a945551b25 treewide: use kv[mz]alloc* rather than opencoded variants
+
+:::::: TO: Michal Hocko <mhocko@suse.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
