@@ -1,238 +1,294 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43F6200CD
-	for <oe-kbuild@lists.linux.dev>; Thu, 29 Feb 2024 22:57:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0830D446C9
+	for <oe-kbuild@lists.linux.dev>; Thu, 29 Feb 2024 23:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709247454; cv=none; b=G4RaYVK0Mp+2eBR/KGdn2o4zLa1ItPE2H4PygCHOljZRSeXgvnef0Jf2Ir6l78DLWX7/oNA3I92U9M4PZE/KJm/bSalQqJa91XNzqpIvB2eBm/A/j1TJAUm/3XgbJefEQFSKr495zN4CdzBMB2GaAQhkHt2eBnHCEUuiaEvrx9Y=
+	t=1709248869; cv=none; b=SWX8eH5Wh798EODeUIn2/qU39VBxzujTgP3LZ1mVtZ+ykhOZKzBFHV7iCCS2j7y15mE5l92UK9oV1I/FxyK+uG+GKHodrUOJKaBbVAqdHuIE2kABbrzFn2JmX8rWjOXMlrYj/uTi3Jg6eINzQ6k4az4G9jAiDz7qU7zqMlNoFt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709247454; c=relaxed/simple;
-	bh=b1y3Id/1xT7YwvOLey2Yolz36zWUvtukwQsWd9STHhQ=;
+	s=arc-20240116; t=1709248869; c=relaxed/simple;
+	bh=/UIu2oNqdVr9EMyuUk3xyXK287IizmHM8GJ1Y5lcMcg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YK3bTcoGxzUxmJ4ZkO3ANQ6veP6Pmz+LWTVZcNG/tl+1dMkfZI7NmIvUZT+WILlaRUaev4Kii6DB6/5Ueg/aAzwHXck8bqjLGQWxUbsLLJf8D3BUoQhXwe9bmyX4nX1Z/rL94zBsK9V3Puc+zcPs1OelvXz3U2ledTAY9B/jcEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XCdQ+Mex; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=Xu0P82kVm7St6gjLIzYd6KYjaJVAvY0ajgSzI2ZVMxNYLr2nXoPted9PRI0PuJVpejC9uGX60DlDWzxpjqAJGHNkaUHoHD27vJ8vPDLvytaRUmR03+zPt/6eWk1EMQDpSz2kdx8mdGzJz9b8YA8BN0nypIwy94Ke4EBXa8ED17Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hyp+FkQW; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XCdQ+Mex"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hyp+FkQW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709247451; x=1740783451;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=b1y3Id/1xT7YwvOLey2Yolz36zWUvtukwQsWd9STHhQ=;
-  b=XCdQ+MexxyScP+eyb/xCj9PXn18pwHRPLJMb4nelzIeZre3eZSgG8yEu
-   92P7g8IPGc09qD5TcwgeejLJ0at/K+8mPgMXh38upSB7jtFaHcdfYK86f
-   KNIsCfJOI5gviR/mpIKJ28jraOHLk6WZPu43YGYfGfJ0aypN8Em/UuzRn
-   dU6xFhWUpIpXj6933jY8feYS/7La1ejFIvV8gSGTyP76oVM6fGdpRX8nI
-   Oizr6KCI4zAZbu/ayll9xvAL+rgbBJw0nNP/LUoYUHvHE3L4pX5Zix3U+
-   ys6l6W9s9fykJb54Squ95VrEnMeZWF/595ciQ6KYPty1S9c8LoYdiagHi
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3609889"
+  t=1709248867; x=1740784867;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/UIu2oNqdVr9EMyuUk3xyXK287IizmHM8GJ1Y5lcMcg=;
+  b=Hyp+FkQWsXVISTtLHfwaHxc2L9mrzgGcYC5OaASCdEc2Gc5IWK23mYNp
+   ts/e0G/T8pwTfv2U1GdP6qLGqPl1sEiyYzun/GGWbivEAYI98Ld+w7Cqr
+   hRFYoNsMSojLgJTKe6AwVaY/PJwv/cJtNpcTXIVA8giQVrJ46nFaq5/6x
+   +RF5Ej8TkHEmHIWycZu1x1SI7edYjJKNX7aTvE7BsJJ7WKKa/q9uNKEF1
+   8URpJj+03uuPzSjBnra32unEPFZCYfIVxsGqjtzCX6TdI/F8vsnLYOS2v
+   R+3KLTBRhJH5FUghOPUXqXScUlIwupRmFR+9zYO5dcrdBn0cNdbsjwTNk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="14468405"
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="3609889"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 14:57:31 -0800
+   d="scan'208";a="14468405"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 15:20:51 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="7936772"
+   d="scan'208";a="12687284"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Feb 2024 14:57:30 -0800
+  by orviesa003.jf.intel.com with ESMTP; 29 Feb 2024 15:20:50 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rfpKk-000DLL-1X;
-	Thu, 29 Feb 2024 22:57:08 +0000
-Date: Fri, 1 Mar 2024 06:56:40 +0800
+	id 1rfpg8-000DLr-0s;
+	Thu, 29 Feb 2024 23:19:19 +0000
+Date: Fri, 1 Mar 2024 07:17:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 10500/10830]
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:576 amdgpu_bo_create() error:
- kvzalloc() does not make sense for no sleep code
-Message-ID: <202403010601.8TU0rJUr-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [morimoto:card2-trigger-order-2023-02-28 33/33] dtbs_check:
+ Documentation/devicetree/bindings/sound/audio-graph-port.yaml:30:10:
+ [warning] too many spaces before colon (colons)
+Message-ID: <202403010750.AulDCY96-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: Documentation/devicetree/bindings/sound/audio-graph-port.yaml:30:10: [warning] too many spaces before colon (colons)"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Suren Baghdasaryan <surenb@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Kees Cook <keescook@chromium.org>
-CC: Pasha Tatashin <pasha.tatashin@soleen.com>
+TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f303a3e2bcfba900efb5aee55236d17030e9f882
-commit: 211ec89ce404de50f19bccf444644d6b4c7d592c [10500/10830] mm: enumerate all gfp flags
-:::::: branch date: 17 hours ago
+tree:   https://github.com/morimoto/linux card2-trigger-order-2023-02-28
+head:   7954e5e1bfde7e92159d3cc1922b94fbd5957915
+commit: 7954e5e1bfde7e92159d3cc1922b94fbd5957915 [33/33] ASoC: audio-graph-port: add link-trigger-order
+:::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: powerpc-randconfig-r071-20240228 (https://download.01.org/0day-ci/archive/20240301/202403010601.8TU0rJUr-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240301/202403010750.AulDCY96-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202403010601.8TU0rJUr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403010750.AulDCY96-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:576 amdgpu_bo_create() error: kvzalloc() does not make sense for no sleep code
-drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c:128 amdgpu_reset_create_reset_domain() error: kvzalloc() does not make sense for no sleep code
-drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c:62 nvkm_vmm_pt_new() error: kvcalloc() does not make sense for no sleep code
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/chid.c:100 nvkm_chid_new() error: kvzalloc() does not make sense for no sleep code
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/sound/audio-graph-port.yaml:30:10: [warning] too many spaces before colon (colons)
+   Documentation/devicetree/bindings/sound/audio-graph-port.yaml:31:10: [warning] too many spaces before colon (colons)
+>> Documentation/devicetree/bindings/sound/audio-graph-port.yaml:34:9: [error] syntax error: could not find expected ':' (syntax)
+--
+>> Documentation/devicetree/bindings/sound/audio-graph-port.yaml:34:9: could not find expected ':'
+>> Documentation/devicetree/bindings/sound/cirrus,cs42l51.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+>> Documentation/devicetree/bindings/sound/sgtl5000.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+>> Documentation/devicetree/bindings/sound/ak4613.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+>> Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+>> Documentation/devicetree/bindings/sound/st,stm32-sai.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+>> Documentation/devicetree/bindings/sound/ti,pcm3168a.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+>> Documentation/devicetree/bindings/sound/ti,tlv320aic3x.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+>> Documentation/devicetree/bindings/sound/rockchip-i2s.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+>> Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+>> Documentation/devicetree/bindings/sound/socionext,uniphier-aio.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+>> Documentation/devicetree/bindings/sound/wlf,wm8962.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+>> Documentation/devicetree/bindings/sound/renesas,rsnd.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+>> Documentation/devicetree/bindings/sound/everest,es8316.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+>> Documentation/devicetree/bindings/sound/socionext,uniphier-evea.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+>> Documentation/devicetree/bindings/sound/marvell,mmp-sspa.yaml:
+   while scanning a simple key
+     in "<unicode string>", line 33, column 9
+   could not find expected ':'
+     in "<unicode string>", line 34, column 9
+--
+>> Documentation/devicetree/bindings/sound/audio-graph-port.yaml: ignoring, error parsing file
 
-vim +576 drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+vim +30 Documentation/devicetree/bindings/sound/audio-graph-port.yaml
 
-3d1b8ec76b8f4f Andrey Grodzovsky     2019-07-24  526  
-cd2454d6cd970d Nirmoy Das            2021-04-21  527  /**
-cd2454d6cd970d Nirmoy Das            2021-04-21  528   * amdgpu_bo_create - create an &amdgpu_bo buffer object
-cd2454d6cd970d Nirmoy Das            2021-04-21  529   * @adev: amdgpu device object
-cd2454d6cd970d Nirmoy Das            2021-04-21  530   * @bp: parameters to be used for the buffer object
-cd2454d6cd970d Nirmoy Das            2021-04-21  531   * @bo_ptr: pointer to the buffer object pointer
-cd2454d6cd970d Nirmoy Das            2021-04-21  532   *
-cd2454d6cd970d Nirmoy Das            2021-04-21  533   * Creates an &amdgpu_bo buffer object.
-cd2454d6cd970d Nirmoy Das            2021-04-21  534   *
-cd2454d6cd970d Nirmoy Das            2021-04-21  535   * Returns:
-cd2454d6cd970d Nirmoy Das            2021-04-21  536   * 0 for success or a negative error code on failure.
-cd2454d6cd970d Nirmoy Das            2021-04-21  537   */
-cd2454d6cd970d Nirmoy Das            2021-04-21  538  int amdgpu_bo_create(struct amdgpu_device *adev,
-a906dbb1e20f57 Chunming Zhou         2018-04-16  539  			       struct amdgpu_bo_param *bp,
-7e5a547f64af66 Chunming Zhou         2015-04-24  540  			       struct amdgpu_bo **bo_ptr)
-d38ceaf99ed015 Alex Deucher          2015-04-20  541  {
-9251859a9adb8e Roger He              2017-12-08  542  	struct ttm_operation_ctx ctx = {
-a906dbb1e20f57 Chunming Zhou         2018-04-16  543  		.interruptible = (bp->type != ttm_bo_type_kernel),
-061468c405fdf3 Christian König       2019-09-16  544  		.no_wait_gpu = bp->no_wait_gpu,
-586052b0a6062e Christian König       2020-11-02  545  		/* We opt to avoid OOM on system pages allocations */
-586052b0a6062e Christian König       2020-11-02  546  		.gfp_retry_mayfail = true,
-c44dfe4de05391 Christian König       2020-11-02  547  		.allow_res_evict = bp->type != ttm_bo_type_kernel,
-c44dfe4de05391 Christian König       2020-11-02  548  		.resv = bp->resv
-9251859a9adb8e Roger He              2017-12-08  549  	};
-d38ceaf99ed015 Alex Deucher          2015-04-20  550  	struct amdgpu_bo *bo;
-a906dbb1e20f57 Chunming Zhou         2018-04-16  551  	unsigned long page_align, size = bp->size;
-d38ceaf99ed015 Alex Deucher          2015-04-20  552  	int r;
-d38ceaf99ed015 Alex Deucher          2015-04-20  553  
-fe57085a36de58 Marek Olšák           2019-01-22  554  	/* Note that GDS/GWS/OA allocates 1 page per byte/resource. */
-fe57085a36de58 Marek Olšák           2019-01-22  555  	if (bp->domain & (AMDGPU_GEM_DOMAIN_GWS | AMDGPU_GEM_DOMAIN_OA)) {
-fe57085a36de58 Marek Olšák           2019-01-22  556  		/* GWS and OA don't need any alignment. */
-fe57085a36de58 Marek Olšák           2019-01-22  557  		page_align = bp->byte_align;
-77a2faa55c1a49 Christian König       2018-09-14  558  		size <<= PAGE_SHIFT;
-e3c92eb4a84fb0 Somalapuram Amaranath 2022-10-27  559  
-fe57085a36de58 Marek Olšák           2019-01-22  560  	} else if (bp->domain & AMDGPU_GEM_DOMAIN_GDS) {
-fe57085a36de58 Marek Olšák           2019-01-22  561  		/* Both size and alignment must be a multiple of 4. */
-fe57085a36de58 Marek Olšák           2019-01-22  562  		page_align = ALIGN(bp->byte_align, 4);
-fe57085a36de58 Marek Olšák           2019-01-22  563  		size = ALIGN(size, 4) << PAGE_SHIFT;
-fe57085a36de58 Marek Olšák           2019-01-22  564  	} else {
-fe57085a36de58 Marek Olšák           2019-01-22  565  		/* Memory should be aligned at least to a page size. */
-fe57085a36de58 Marek Olšák           2019-01-22  566  		page_align = ALIGN(bp->byte_align, PAGE_SIZE) >> PAGE_SHIFT;
-d38ceaf99ed015 Alex Deucher          2015-04-20  567  		size = ALIGN(size, PAGE_SIZE);
-fe57085a36de58 Marek Olšák           2019-01-22  568  	}
-d38ceaf99ed015 Alex Deucher          2015-04-20  569  
-a906dbb1e20f57 Chunming Zhou         2018-04-16  570  	if (!amdgpu_bo_validate_size(adev, size, bp->domain))
-79c631239a83ae Andrey Grodzovsky     2017-11-10  571  		return -ENOMEM;
-79c631239a83ae Andrey Grodzovsky     2017-11-10  572  
-9fd5543e9552ac Nirmoy Das            2021-03-08  573  	BUG_ON(bp->bo_ptr_size < sizeof(struct amdgpu_bo));
-d38ceaf99ed015 Alex Deucher          2015-04-20  574  
-9fd5543e9552ac Nirmoy Das            2021-03-08  575  	*bo_ptr = NULL;
-31c759bbe38351 Changfeng             2021-06-02 @576  	bo = kvzalloc(bp->bo_ptr_size, GFP_KERNEL);
-5a8c102ac471c5 Chunming Zhou         2018-03-16  577  	if (bo == NULL)
-5a8c102ac471c5 Chunming Zhou         2018-03-16  578  		return -ENOMEM;
-4a580877bdcb83 Luben Tuikov          2020-08-24  579  	drm_gem_private_object_init(adev_to_drm(adev), &bo->tbo.base, size);
-646b90259842fa Christian König       2018-09-10  580  	bo->vm_bo = NULL;
-3f188453faf7ba Chunming Zhou         2018-04-17  581  	bo->preferred_domains = bp->preferred_domain ? bp->preferred_domain :
-aa2b2e2822831d Chunming Zhou         2018-04-17  582  		bp->domain;
-0808210478c766 Christian König       2018-04-10  583  	bo->allowed_domains = bo->preferred_domains;
-a906dbb1e20f57 Chunming Zhou         2018-04-16  584  	if (bp->type != ttm_bo_type_kernel &&
-fab2cc83358398 Christian König       2022-05-06  585  	    !(bp->flags & AMDGPU_GEM_CREATE_DISCARDABLE) &&
-0808210478c766 Christian König       2018-04-10  586  	    bo->allowed_domains == AMDGPU_GEM_DOMAIN_VRAM)
-0808210478c766 Christian König       2018-04-10  587  		bo->allowed_domains |= AMDGPU_GEM_DOMAIN_GTT;
-d38ceaf99ed015 Alex Deucher          2015-04-20  588  
-a906dbb1e20f57 Chunming Zhou         2018-04-16  589  	bo->flags = bp->flags;
-a187f17f0e15a0 Oded Gabbay           2016-01-30  590  
-3ebfd221c1a83e Philip Yang           2023-03-08  591  	if (adev->gmc.mem_partitions)
-3ebfd221c1a83e Philip Yang           2023-03-08  592  		/* For GPUs with spatial partitioning, bo->xcp_id=-1 means any partition */
-3ebfd221c1a83e Philip Yang           2023-03-08  593  		bo->xcp_id = bp->xcp_id_plus1 - 1;
-3ebfd221c1a83e Philip Yang           2023-03-08  594  	else
-3ebfd221c1a83e Philip Yang           2023-03-08  595  		/* For GPUs without spatial partitioning */
-3ebfd221c1a83e Philip Yang           2023-03-08  596  		bo->xcp_id = 0;
-f24e924b7e8aba Philip Yang           2023-01-26  597  
-3d1b8ec76b8f4f Andrey Grodzovsky     2019-07-24  598  	if (!amdgpu_bo_support_uswc(bo->flags))
-a187f17f0e15a0 Oded Gabbay           2016-01-30  599  		bo->flags &= ~AMDGPU_GEM_CREATE_CPU_GTT_USWC;
-a187f17f0e15a0 Oded Gabbay           2016-01-30  600  
-fc6ea4bee13071 Felix Kuehling        2022-01-25  601  	if (adev->ras_enabled)
-fc6ea4bee13071 Felix Kuehling        2022-01-25  602  		bo->flags |= AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE;
-fc6ea4bee13071 Felix Kuehling        2022-01-25  603  
-c09312a6532a9a Christian König       2017-09-12  604  	bo->tbo.bdev = &adev->mman.bdev;
-47722220660cfb Christian König       2022-12-12  605  	if (bp->domain & (AMDGPU_GEM_DOMAIN_GWS | AMDGPU_GEM_DOMAIN_OA |
-47722220660cfb Christian König       2022-12-12  606  			  AMDGPU_GEM_DOMAIN_GDS))
-47722220660cfb Christian König       2022-12-12  607  		amdgpu_bo_placement_from_domain(bo, AMDGPU_GEM_DOMAIN_CPU);
-47722220660cfb Christian König       2022-12-12  608  	else
-c704ab18e0a26a Christian König       2018-07-16  609  		amdgpu_bo_placement_from_domain(bo, bp->domain);
-a50cb94819f81b Junwei Zhang          2018-05-11  610  	if (bp->type == ttm_bo_type_kernel)
-a50cb94819f81b Junwei Zhang          2018-05-11  611  		bo->tbo.priority = 1;
-0808210478c766 Christian König       2018-04-10  612  
-23e24fbb7695d4 Nirmoy Das            2021-06-14  613  	if (!bp->destroy)
-23e24fbb7695d4 Nirmoy Das            2021-06-14  614  		bp->destroy = &amdgpu_bo_destroy;
-23e24fbb7695d4 Nirmoy Das            2021-06-14  615  
-347987a2cf0d14 Christian König       2022-02-18  616  	r = ttm_bo_init_reserved(&adev->mman.bdev, &bo->tbo, bp->type,
-f07069da6b4c5f Christian König       2020-11-17  617  				 &bo->placement, page_align, &ctx,  NULL,
-23e24fbb7695d4 Nirmoy Das            2021-06-14  618  				 bp->resv, bp->destroy);
-0808210478c766 Christian König       2018-04-10  619  	if (unlikely(r != 0))
-a695e43712242c Christian König       2017-10-31  620  		return r;
-a695e43712242c Christian König       2017-10-31  621  
-c8c5e569c5b0c9 Andrey Grodzovsky     2018-06-12  622  	if (!amdgpu_gmc_vram_full_visible(&adev->gmc) &&
-d3116756a710e3 Christian König       2021-04-12  623  	    bo->tbo.resource->mem_type == TTM_PL_VRAM &&
-aed01a68047bd9 Somalapuram Amaranath 2023-02-08  624  	    amdgpu_bo_in_cpu_visible_vram(bo))
-6af046d26f3427 Christian König       2017-04-27  625  		amdgpu_cs_report_moved_bytes(adev, ctx.bytes_moved,
-6af046d26f3427 Christian König       2017-04-27  626  					     ctx.bytes_moved);
-00f06b246a3056 John Brooks           2017-06-27  627  	else
-6af046d26f3427 Christian König       2017-04-27  628  		amdgpu_cs_report_moved_bytes(adev, ctx.bytes_moved, 0);
-fad061270ac43f Samuel Pitoiset       2017-02-09  629  
-a906dbb1e20f57 Chunming Zhou         2018-04-16  630  	if (bp->flags & AMDGPU_GEM_CREATE_VRAM_CLEARED &&
-d3116756a710e3 Christian König       2021-04-12  631  	    bo->tbo.resource->mem_type == TTM_PL_VRAM) {
-f54d1867005c33 Chris Wilson          2016-10-25  632  		struct dma_fence *fence;
-4fea83ff0f6167 Flora Cui             2016-07-20  633  
-c3aaca43fb07ce Mukul Joshi           2023-05-17  634  		r = amdgpu_fill_buffer(bo, 0, bo->tbo.base.resv, &fence, true);
-c3af1258a7c784 Christian König       2016-11-17  635  		if (unlikely(r))
-c3af1258a7c784 Christian König       2016-11-17  636  			goto fail_unreserve;
-c3af1258a7c784 Christian König       2016-11-17  637  
-8bb31587820a6e Christian König       2021-11-23  638  		dma_resv_add_fence(bo->tbo.base.resv, fence,
-8bb31587820a6e Christian König       2021-11-23  639  				   DMA_RESV_USAGE_KERNEL);
-f54d1867005c33 Chris Wilson          2016-10-25  640  		dma_fence_put(fence);
-4fea83ff0f6167 Flora Cui             2016-07-20  641  	}
-a906dbb1e20f57 Chunming Zhou         2018-04-16  642  	if (!bp->resv)
-59c66c911fa245 Nicolai Hähnle        2017-02-16  643  		amdgpu_bo_unreserve(bo);
-d38ceaf99ed015 Alex Deucher          2015-04-20  644  	*bo_ptr = bo;
-d38ceaf99ed015 Alex Deucher          2015-04-20  645  
-d38ceaf99ed015 Alex Deucher          2015-04-20  646  	trace_amdgpu_bo_create(bo);
-d38ceaf99ed015 Alex Deucher          2015-04-20  647  
-96cf8271df546d John Brooks           2017-06-30  648  	/* Treat CPU_ACCESS_REQUIRED only as a hint if given by UMD */
-a906dbb1e20f57 Chunming Zhou         2018-04-16  649  	if (bp->type == ttm_bo_type_device)
-96cf8271df546d John Brooks           2017-06-30  650  		bo->flags &= ~AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED;
-96cf8271df546d John Brooks           2017-06-30  651  
-d38ceaf99ed015 Alex Deucher          2015-04-20  652  	return 0;
-4fea83ff0f6167 Flora Cui             2016-07-20  653  
-4fea83ff0f6167 Flora Cui             2016-07-20  654  fail_unreserve:
-a906dbb1e20f57 Chunming Zhou         2018-04-16  655  	if (!bp->resv)
-52791eeec1d9f4 Christian König       2019-08-11  656  		dma_resv_unlock(bo->tbo.base.resv);
-4fea83ff0f6167 Flora Cui             2016-07-20  657  	amdgpu_bo_unref(&bo);
-4fea83ff0f6167 Flora Cui             2016-07-20  658  	return r;
-d38ceaf99ed015 Alex Deucher          2015-04-20  659  }
-d38ceaf99ed015 Alex Deucher          2015-04-20  660  
-
-:::::: The code at line 576 was first introduced by commit
-:::::: 31c759bbe38351cb46535c48293efe8860e080b4 drm/amdgpu: switch kzalloc to kvzalloc in amdgpu_bo_create
-
-:::::: TO: Changfeng <Changfeng.Zhu@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+e52f3f29115204 Sameer Pujar       2020-11-16   13  
+bbda859e02a4df Kuninori Morimoto  2023-01-23   14  definitions:
+bbda859e02a4df Kuninori Morimoto  2023-01-23   15    port-base:
+967dad97757057 Rob Herring        2023-09-28   16      allOf:
+967dad97757057 Rob Herring        2023-09-28   17        - $ref: /schemas/graph.yaml#/$defs/port-base
+967dad97757057 Rob Herring        2023-09-28   18        - $ref: /schemas/sound/dai-params.yaml#
+e52f3f29115204 Sameer Pujar       2020-11-16   19      properties:
+a2fabeaaf5e29d Kuninori Morimoto  2023-01-23   20        mclk-fs:
+d9e909e219a843 Rob Herring        2023-03-17   21          $ref: simple-card.yaml#/definitions/mclk-fs
+af29e51bee8223 Daniel Baluta      2023-11-28   22        playback-only:
+af29e51bee8223 Daniel Baluta      2023-11-28   23          description: port connection used only for playback
+af29e51bee8223 Daniel Baluta      2023-11-28   24          $ref: /schemas/types.yaml#/definitions/flag
+af29e51bee8223 Daniel Baluta      2023-11-28   25        capture-only:
+af29e51bee8223 Daniel Baluta      2023-11-28   26          description: port connection used only for capture
+af29e51bee8223 Daniel Baluta      2023-11-28   27          $ref: /schemas/types.yaml#/definitions/flag
+7954e5e1bfde7e Kuninori Morimoto  2024-02-28   28        link-trigger-order:
+7954e5e1bfde7e Kuninori Morimoto  2024-02-28   29          description: indicates trigger order for both start/stop
+7954e5e1bfde7e Kuninori Morimoto  2024-02-28  @30          0 : LINK
+7954e5e1bfde7e Kuninori Morimoto  2024-02-28   31          1 : COMPONENT
+7954e5e1bfde7e Kuninori Morimoto  2024-02-28   32          2 : DAI
+7954e5e1bfde7e Kuninori Morimoto  2024-02-28   33          for example <0 1 2> means LINK -> COMPONENT -> DAI
+7954e5e1bfde7e Kuninori Morimoto  2024-02-28  @34          $ref: /schemas/types.yaml#/definitions/uint32-array
+7954e5e1bfde7e Kuninori Morimoto  2024-02-28   35        link-trigger-order-start:
+7954e5e1bfde7e Kuninori Morimoto  2024-02-28   36          description: indicates trigger order for start
+7954e5e1bfde7e Kuninori Morimoto  2024-02-28   37          $ref: /schemas/types.yaml#/definitions/uint32-array
+7954e5e1bfde7e Kuninori Morimoto  2024-02-28   38        link-trigger-order-stop:
+7954e5e1bfde7e Kuninori Morimoto  2024-02-28   39          description: indicates trigger order for stop
+7954e5e1bfde7e Kuninori Morimoto  2024-02-28   40          $ref: /schemas/types.yaml#/definitions/uint32-array
+b79b6220a75399 Sameer Pujar       2022-08-08   41  
+bbda859e02a4df Kuninori Morimoto  2023-01-23   42    endpoint-base:
+967dad97757057 Rob Herring        2023-09-28   43      allOf:
+967dad97757057 Rob Herring        2023-09-28   44        - $ref: /schemas/graph.yaml#/$defs/endpoint-base
+967dad97757057 Rob Herring        2023-09-28   45        - $ref: /schemas/sound/dai-params.yaml#
+e52f3f29115204 Sameer Pujar       2020-11-16   46      properties:
+e52f3f29115204 Sameer Pujar       2020-11-16   47        mclk-fs:
+d9e909e219a843 Rob Herring        2023-03-17   48          $ref: simple-card.yaml#/definitions/mclk-fs
+e52f3f29115204 Sameer Pujar       2020-11-16   49        frame-inversion:
+e52f3f29115204 Sameer Pujar       2020-11-16   50          description: dai-link uses frame clock inversion
+e52f3f29115204 Sameer Pujar       2020-11-16   51          $ref: /schemas/types.yaml#/definitions/flag
+e52f3f29115204 Sameer Pujar       2020-11-16   52        bitclock-inversion:
+e52f3f29115204 Sameer Pujar       2020-11-16   53          description: dai-link uses bit clock inversion
+e52f3f29115204 Sameer Pujar       2020-11-16   54          $ref: /schemas/types.yaml#/definitions/flag
+e52f3f29115204 Sameer Pujar       2020-11-16   55        frame-master:
+e52f3f29115204 Sameer Pujar       2020-11-16   56          description: Indicates dai-link frame master.
+9b3c847b5fa036 Kuninori Morimoto  2021-12-16   57          oneOf:
+9b3c847b5fa036 Kuninori Morimoto  2021-12-16   58            - $ref: /schemas/types.yaml#/definitions/flag
+9b3c847b5fa036 Kuninori Morimoto  2021-12-16   59            - $ref: /schemas/types.yaml#/definitions/phandle
+e52f3f29115204 Sameer Pujar       2020-11-16   60        bitclock-master:
+e52f3f29115204 Sameer Pujar       2020-11-16   61          description: Indicates dai-link bit clock master
+9b3c847b5fa036 Kuninori Morimoto  2021-12-16   62          oneOf:
+9b3c847b5fa036 Kuninori Morimoto  2021-12-16   63            - $ref: /schemas/types.yaml#/definitions/flag
+9b3c847b5fa036 Kuninori Morimoto  2021-12-16   64            - $ref: /schemas/types.yaml#/definitions/phandle
+2f0be75c9ff935 Kuninori Morimoto  2023-01-23   65        clocks:
+2f0be75c9ff935 Kuninori Morimoto  2023-01-23   66          description: Indicates system clock
+2f0be75c9ff935 Kuninori Morimoto  2023-01-23   67          $ref: /schemas/types.yaml#/definitions/phandle
+2f0be75c9ff935 Kuninori Morimoto  2023-01-23   68        system-clock-frequency:
+d9e909e219a843 Rob Herring        2023-03-17   69          $ref: simple-card.yaml#/definitions/system-clock-frequency
+2f0be75c9ff935 Kuninori Morimoto  2023-01-23   70        system-clock-direction-out:
+d9e909e219a843 Rob Herring        2023-03-17   71          $ref: simple-card.yaml#/definitions/system-clock-direction-out
+2f0be75c9ff935 Kuninori Morimoto  2023-01-23   72        system-clock-fixed:
+d9e909e219a843 Rob Herring        2023-03-17   73          $ref: simple-card.yaml#/definitions/system-clock-fixed
+9b3c847b5fa036 Kuninori Morimoto  2021-12-16   74  
+e52f3f29115204 Sameer Pujar       2020-11-16   75        dai-format:
+e52f3f29115204 Sameer Pujar       2020-11-16   76          description: audio format.
+e52f3f29115204 Sameer Pujar       2020-11-16   77          items:
+e52f3f29115204 Sameer Pujar       2020-11-16   78            enum:
+e52f3f29115204 Sameer Pujar       2020-11-16   79              - i2s
+e52f3f29115204 Sameer Pujar       2020-11-16   80              - right_j
+e52f3f29115204 Sameer Pujar       2020-11-16   81              - left_j
+e52f3f29115204 Sameer Pujar       2020-11-16   82              - dsp_a
+e52f3f29115204 Sameer Pujar       2020-11-16   83              - dsp_b
+e52f3f29115204 Sameer Pujar       2020-11-16   84              - ac97
+e52f3f29115204 Sameer Pujar       2020-11-16   85              - pdm
+e52f3f29115204 Sameer Pujar       2020-11-16   86              - msb
+e52f3f29115204 Sameer Pujar       2020-11-16   87              - lsb
+e52f3f29115204 Sameer Pujar       2020-11-16   88  
+853110992cfefe Marek Vasut        2022-09-27   89        dai-tdm-slot-num:
+853110992cfefe Marek Vasut        2022-09-27   90          description: Number of slots in use.
+853110992cfefe Marek Vasut        2022-09-27   91          $ref: /schemas/types.yaml#/definitions/uint32
+853110992cfefe Marek Vasut        2022-09-27   92        dai-tdm-slot-width:
+853110992cfefe Marek Vasut        2022-09-27   93          description: Width in bits for each slot.
+853110992cfefe Marek Vasut        2022-09-27   94          $ref: /schemas/types.yaml#/definitions/uint32
+26e5366dd30569 Richard Fitzgerald 2022-02-28   95        dai-tdm-slot-width-map:
+26e5366dd30569 Richard Fitzgerald 2022-02-28   96          description: Mapping of sample widths to slot widths. For hardware
+26e5366dd30569 Richard Fitzgerald 2022-02-28   97            that cannot support a fixed slot width or a slot width always
+26e5366dd30569 Richard Fitzgerald 2022-02-28   98            equal to sample width. A matrix of one or more 3-tuples.
+26e5366dd30569 Richard Fitzgerald 2022-02-28   99          $ref: /schemas/types.yaml#/definitions/uint32-matrix
+26e5366dd30569 Richard Fitzgerald 2022-02-28  100          items:
+26e5366dd30569 Richard Fitzgerald 2022-02-28  101            items:
+26e5366dd30569 Richard Fitzgerald 2022-02-28  102              -
+26e5366dd30569 Richard Fitzgerald 2022-02-28  103                description: Sample width in bits
+26e5366dd30569 Richard Fitzgerald 2022-02-28  104                minimum: 8
+26e5366dd30569 Richard Fitzgerald 2022-02-28  105                maximum: 64
+26e5366dd30569 Richard Fitzgerald 2022-02-28  106              -
+26e5366dd30569 Richard Fitzgerald 2022-02-28  107                description: Slot width in bits
+26e5366dd30569 Richard Fitzgerald 2022-02-28  108                minimum: 8
+26e5366dd30569 Richard Fitzgerald 2022-02-28  109                maximum: 256
+26e5366dd30569 Richard Fitzgerald 2022-02-28  110              -
+26e5366dd30569 Richard Fitzgerald 2022-02-28  111                description: Slot count
+26e5366dd30569 Richard Fitzgerald 2022-02-28  112                minimum: 1
+26e5366dd30569 Richard Fitzgerald 2022-02-28  113                maximum: 64
+26e5366dd30569 Richard Fitzgerald 2022-02-28  114  
+6a7216db63c884 Kuninori Morimoto  2023-01-23  115    ports:
+6a7216db63c884 Kuninori Morimoto  2023-01-23  116      $ref: "#/definitions/port-base"
+6a7216db63c884 Kuninori Morimoto  2023-01-23  117      unevaluatedProperties: false
+6a7216db63c884 Kuninori Morimoto  2023-01-23  118      patternProperties:
+6a7216db63c884 Kuninori Morimoto  2023-01-23  119        "^port(@[0-9a-f]+)?$":
+6a7216db63c884 Kuninori Morimoto  2023-01-23  120          $ref: "#/definitions/port-base"
+6a7216db63c884 Kuninori Morimoto  2023-01-23  121          unevaluatedProperties: false
+6a7216db63c884 Kuninori Morimoto  2023-01-23  122          patternProperties:
+6a7216db63c884 Kuninori Morimoto  2023-01-23  123            "^endpoint(@[0-9a-f]+)?":
+6a7216db63c884 Kuninori Morimoto  2023-01-23  124              $ref: "#/definitions/endpoint-base"
+6a7216db63c884 Kuninori Morimoto  2023-01-23  125              unevaluatedProperties: false
+6a7216db63c884 Kuninori Morimoto  2023-01-23  126  
+bbda859e02a4df Kuninori Morimoto  2023-01-23  127  allOf:
+bbda859e02a4df Kuninori Morimoto  2023-01-23  128    - $ref: "#/definitions/port-base"
+bbda859e02a4df Kuninori Morimoto  2023-01-23  129  
+bbda859e02a4df Kuninori Morimoto  2023-01-23  130  patternProperties:
+bbda859e02a4df Kuninori Morimoto  2023-01-23  131    "^endpoint(@[0-9a-f]+)?":
+bbda859e02a4df Kuninori Morimoto  2023-01-23  132      $ref: "#/definitions/endpoint-base"
+bbda859e02a4df Kuninori Morimoto  2023-01-23  133      unevaluatedProperties: false
+bbda859e02a4df Kuninori Morimoto  2023-01-23  134  
 
 -- 
 0-DAY CI Kernel Test Service
