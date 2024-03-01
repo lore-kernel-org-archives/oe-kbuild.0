@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2366D52F
-	for <oe-kbuild@lists.linux.dev>; Thu, 29 Feb 2024 23:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BB16A035
+	for <oe-kbuild@lists.linux.dev>; Fri,  1 Mar 2024 08:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709249399; cv=none; b=e8MAvXMOAg3jJTtoXG2HhdErJzkwEq0fY1Y4ui6LTZ10H7UXO4BRi8XkwriYN2sNxnEChpZ8hpHRHl05g6m8YmV5ItiOJNiylmU0zbCT/A1RaxelfLKJJXhwtrX7/vrLy6R4/s/Uz5UIvgvM01lsptsAT9+V7VGHHJgsFLPVaDk=
+	t=1709282699; cv=none; b=HYYp5aKib/7NLs4G6aSDKGzReT2optgOPbXc67uDhcqpeb8D0JuoROFxnyvoM2eXLl2NKN+o4hRVKVXupx+gPDlRPIGR/t7WGxeAC0p/bhTDAKrOPumrBc/NsilzkFfO317YeGXU5es5JXcvYeBycxIzpVCwXoftAX0IKMcpXjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709249399; c=relaxed/simple;
-	bh=hSDbfiIJdU78XgRG/dtft+LMgy7SztK3AleHNv/0epo=;
+	s=arc-20240116; t=1709282699; c=relaxed/simple;
+	bh=4pkXvVGBcv2gi+j00bizFGgoiuXMDzO+A85NQPj8PMk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fucVeGPoPthXtmVAQfFztqLCgDG/iym5P1e6jGpZG71Q8JJEeHJ40HxTM2YqRpU0siXnD2PpSMHTOgWJnZ3CDAC0ZrnfZII3dFcKtM9tQ/hsFFGsw/C5PIO1M3K7WocHMaOgeFOk85B48p50zzMf/Xv9DyqcyTU6OrqirX4ioxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TFOUDBw5; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=bPm4ncxxz57RrsKnR2V6z1vP4e1hHA4wOmgSk4bPxo2PQwN4OLEOOISpoRSn3jTfLYgiov0yPP7mFqeXdfH3ciSNOTT6KVhvUGnrCio+q70w6cuSx/peCxF68/f3hdcQx799S8cCqivzJwcfmxEryFGzCknI+CCJGQKlsTnV+3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oAoBatu+; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TFOUDBw5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oAoBatu+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709249398; x=1740785398;
+  t=1709282697; x=1740818697;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hSDbfiIJdU78XgRG/dtft+LMgy7SztK3AleHNv/0epo=;
-  b=TFOUDBw5SqrxIS20qYwRejBN2U0PKRwHz454ITS2rtpl+DSOpbVmm/M7
-   lUQZvSHaQwAfSGYhBBo5ytNMXJQWQ6DzDYVO4bvBEuDhKlQMCBawmZ9hI
-   OPPKUdaHhbZ4E7sXusNtBRfsbXp4qnJO6PLnlSAw/8vzw96upMRaTXFIe
-   ZvdkfqJpTr1WO1uRnCly3pIbAz/C94IaVMO/qInDwA+JOjwsO/4UXOhKa
-   /7d1V9qFjrZVmSfNYbEnqqF4sp0NysKj7ATBMgfpiQX8AKaqR+PDuYu60
-   8oP6eQtqrnT+yHui5AmoWi2+Xc9VTozMl0ys5uiGqpc8zPzpo/0EfI2gM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3620392"
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="3620392"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 15:29:57 -0800
+  bh=4pkXvVGBcv2gi+j00bizFGgoiuXMDzO+A85NQPj8PMk=;
+  b=oAoBatu+sB/YlAKRu/0+nXBIXnhGsz9Ak/xVHtzvezavi+Y5EYx3GKyK
+   8H+zWZf16rnBFPubLR9YlBq1e13xFyD4fyfMKmSuNYFsb3y+JOx/svzv1
+   3SCLbkXytwHsFWzfNI35k3zNZ4ta29ICR5qHleh0dkwMghgHEeEKpzVOD
+   PIWGfpfLen679fqcD/5TdI3XuDr1q7wZ6Qq8W4J6nQduY4+LlAEFTsu9V
+   ktjG8hFULrwm+7+zIL6vNnGQnEberFAUwUU7iih71DTycIbP0aGvEospN
+   TbIRdh4CVyIUyOqjErOiTYGHcbCq7SSC7lTVFrys7bJljThqBfaXPWrfu
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="14449581"
+X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; 
+   d="scan'208";a="14449581"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 00:44:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="7947578"
+X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; 
+   d="scan'208";a="8024899"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Feb 2024 15:29:53 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 01 Mar 2024 00:44:56 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rfpq8-000DMB-00;
-	Thu, 29 Feb 2024 23:29:36 +0000
-Date: Fri, 1 Mar 2024 07:28:40 +0800
+	id 1rfyVh-000Dfz-23;
+	Fri, 01 Mar 2024 08:44:53 +0000
+Date: Fri, 1 Mar 2024 16:44:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 10500/10830] net/ipv4/tcp_metrics.c:1026
- tcp_metrics_hash_alloc() error: kvzalloc() does not make sense for no sleep
- code
-Message-ID: <202403010710.uun8a16d-lkp@intel.com>
+Subject: arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1670
+ kvm_commit_memory_region() error: we previously assumed 'old' could be null
+ (see line 1663)
+Message-ID: <202403011612.ha92fMO8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,95 +61,96 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Suren Baghdasaryan <surenb@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Kees Cook <keescook@chromium.org>
-CC: Pasha Tatashin <pasha.tatashin@soleen.com>
+CC: linux-kernel@vger.kernel.org
+TO: Tianrui Zhao <zhaotianrui@loongson.cn>
+CC: Huacai Chen <chenhuacai@kernel.org>
+CC: Bibo Mao <maobibo@loongson.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f303a3e2bcfba900efb5aee55236d17030e9f882
-commit: 211ec89ce404de50f19bccf444644d6b4c7d592c [10500/10830] mm: enumerate all gfp flags
-:::::: branch date: 18 hours ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20240228 (https://download.01.org/0day-ci/archive/20240301/202403010710.uun8a16d-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   87adedeba51a822533649b143232418b9e26d08b
+commit: c1fc48aad14dbe7654f5986afb906332b528d54b LoongArch: KVM: Enable kvm config and add the makefile
+date:   5 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 5 months ago
+config: loongarch-randconfig-r081-20240225 (https://download.01.org/0day-ci/archive/20240301/202403011612.ha92fMO8-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202403010710.uun8a16d-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403011612.ha92fMO8-lkp@intel.com/
 
 New smatch warnings:
-net/ipv4/tcp_metrics.c:1026 tcp_metrics_hash_alloc() error: kvzalloc() does not make sense for no sleep code
-drivers/gpu/drm/ttm/ttm_tt.c:100 ttm_tt_alloc_page_directory() error: kvcalloc() does not make sense for no sleep code
-drivers/gpu/drm/ttm/ttm_tt.c:109 ttm_dma_tt_alloc_page_directory() error: kvcalloc() does not make sense for no sleep code
-drivers/gpu/drm/ttm/ttm_tt.c:120 ttm_sg_tt_alloc_page_directory() error: kvcalloc() does not make sense for no sleep code
-fs/pstore/ram.c:272 ramoops_pstore_read() error: kvzalloc() does not make sense for no sleep code
-fs/pstore/ram.c:838 ramoops_probe() error: kvzalloc() does not make sense for no sleep code
-fs/bcachefs/snapshot.c:155 __snapshot_t_mut() error: kvzalloc() does not make sense for no sleep code
-drivers/scsi/sd_zbc.c:868 sd_zbc_revalidate_zones() error: kvcalloc() does not make sense for no sleep code
-net/ipv4/fib_semantics.c:1447 fib_create_info() error: kvzalloc() does not make sense for no sleep code
-fs/proc/proc_sysctl.c:578 proc_sys_call_handler() error: kvzalloc() does not make sense for no sleep code
-drivers/md/dm-snap-persistent.c:629 persistent_read_metadata() error: kvcalloc() does not make sense for no sleep code
-sound/core/info.c:330 snd_info_text_entry_write() error: kvzalloc() does not make sense for no sleep code
-sound/soc/intel/atom/sst/sst.c:469 intel_sst_suspend() error: kvzalloc() does not make sense for no sleep code
-drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c:243 vmw_bo_dirty_add() error: kvzalloc() does not make sense for no sleep code
-io_uring/filetable.c:41 io_alloc_file_tables() error: kvcalloc() does not make sense for no sleep code
-lib/stackdepot.c:224 stack_depot_init() error: kvcalloc() does not make sense for no sleep code
-kernel/resource.c:449 walk_system_ram_res_rev() error: kvcalloc() does not make sense for no sleep code
-sound/core/memalloc.c:775 snd_dma_sg_fallback_alloc() error: kvcalloc() does not make sense for no sleep code
-drivers/video/fbdev/core/fb_defio.c:284 fb_deferred_io_init() error: kvcalloc() does not make sense for no sleep code
-net/ethtool/common.c:553 ethtool_get_max_rxnfc_channel() error: kvzalloc() does not make sense for no sleep code
-drivers/acpi/property.c:413 acpi_data_add_buffer_props() error: kvzalloc() does not make sense for no sleep code
-drivers/md/dm-zone.c:203 dm_zone_revalidate_cb() error: kvcalloc() does not make sense for no sleep code
-fs/exfat/nls.c:662 exfat_load_upcase_table() error: kvcalloc() does not make sense for no sleep code
-fs/exfat/nls.c:718 exfat_load_default_upcase_table() error: kvcalloc() does not make sense for no sleep code
-drivers/gpu/drm/drm_property.c:565 drm_property_create_blob() error: kvzalloc() does not make sense for no sleep code
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1670 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1663)
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1672 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1664)
+arch/loongarch/kvm/mmu.c:867 kvm_map_page() warn: if statement not indented
 
 Old smatch warnings:
-net/ipv4/fib_semantics.c:1448 fib_create_info() error: kvzalloc() does not make sense for no sleep code
-fs/proc/proc_sysctl.c:586 proc_sys_call_handler() warn: potential spectre issue 'kbuf' [w]
-sound/soc/intel/atom/sst/sst.c:474 intel_sst_suspend() error: kvzalloc() does not make sense for no sleep code
-sound/soc/intel/atom/sst/sst.c:479 intel_sst_suspend() error: kvzalloc() does not make sense for no sleep code
-sound/soc/intel/atom/sst/sst.c:485 intel_sst_suspend() error: kvzalloc() does not make sense for no sleep code
-sound/core/memalloc.c:776 snd_dma_sg_fallback_alloc() error: kvcalloc() does not make sense for no sleep code
-drivers/acpi/property.c:1052 acpi_data_prop_read_single() error: uninitialized symbol 'obj'.
-drivers/acpi/property.c:1058 acpi_data_prop_read_single() error: uninitialized symbol 'obj'.
-drivers/acpi/property.c:1064 acpi_data_prop_read_single() error: uninitialized symbol 'obj'.
-drivers/acpi/property.c:1071 acpi_data_prop_read_single() error: uninitialized symbol 'obj'.
+arch/loongarch/include/asm/atomic.h:109 arch_atomic_fetch_add_unless() warn: inconsistent indenting
 
-vim +1026 net/ipv4/tcp_metrics.c
+vim +/old +1670 arch/loongarch/kvm/../../../virt/kvm/kvm_main.c
 
-51c5d0c4b169bf David S. Miller   2012-07-10  1010  
-c4a6b2da4b59d4 Eric Dumazet      2023-08-03  1011  static void __init tcp_metrics_hash_alloc(void)
-51c5d0c4b169bf David S. Miller   2012-07-10  1012  {
-c4a6b2da4b59d4 Eric Dumazet      2023-08-03  1013  	unsigned int slots = tcpmhash_entries;
-5815d5e7aae3cc Eric Dumazet      2012-07-19  1014  	size_t size;
-51c5d0c4b169bf David S. Miller   2012-07-10  1015  
-51c5d0c4b169bf David S. Miller   2012-07-10  1016  	if (!slots) {
-ca79b0c211af63 Arun KS           2018-12-28  1017  		if (totalram_pages() >= 128 * 1024)
-51c5d0c4b169bf David S. Miller   2012-07-10  1018  			slots = 16 * 1024;
-51c5d0c4b169bf David S. Miller   2012-07-10  1019  		else
-51c5d0c4b169bf David S. Miller   2012-07-10  1020  			slots = 8 * 1024;
-51c5d0c4b169bf David S. Miller   2012-07-10  1021  	}
-51c5d0c4b169bf David S. Miller   2012-07-10  1022  
-098a697b497e31 Eric W. Biederman 2015-03-13  1023  	tcp_metrics_hash_log = order_base_2(slots);
-098a697b497e31 Eric W. Biederman 2015-03-13  1024  	size = sizeof(struct tcpm_hash_bucket) << tcp_metrics_hash_log;
-51c5d0c4b169bf David S. Miller   2012-07-10  1025  
-752ade68cbd81d Michal Hocko      2017-05-08 @1026  	tcp_metrics_hash = kvzalloc(size, GFP_KERNEL);
-098a697b497e31 Eric W. Biederman 2015-03-13  1027  	if (!tcp_metrics_hash)
-c4a6b2da4b59d4 Eric Dumazet      2023-08-03  1028  		panic("Could not allocate the tcp_metrics hash table\n");
-51c5d0c4b169bf David S. Miller   2012-07-10  1029  }
-51c5d0c4b169bf David S. Miller   2012-07-10  1030  
+36947254e5f981 Sean Christopherson 2020-02-18  1657  
+07921665a65191 Sean Christopherson 2021-12-06  1658  static void kvm_commit_memory_region(struct kvm *kvm,
+07921665a65191 Sean Christopherson 2021-12-06  1659  				     struct kvm_memory_slot *old,
+07921665a65191 Sean Christopherson 2021-12-06  1660  				     const struct kvm_memory_slot *new,
+cf47f50b5c2e24 Sean Christopherson 2020-02-18  1661  				     enum kvm_mr_change change)
+cf47f50b5c2e24 Sean Christopherson 2020-02-18  1662  {
+6c7b2202e4d115 Paolo Bonzini       2022-11-17 @1663  	int old_flags = old ? old->flags : 0;
+6c7b2202e4d115 Paolo Bonzini       2022-11-17 @1664  	int new_flags = new ? new->flags : 0;
+07921665a65191 Sean Christopherson 2021-12-06  1665  	/*
+07921665a65191 Sean Christopherson 2021-12-06  1666  	 * Update the total number of memslot pages before calling the arch
+07921665a65191 Sean Christopherson 2021-12-06  1667  	 * hook so that architectures can consume the result directly.
+07921665a65191 Sean Christopherson 2021-12-06  1668  	 */
+07921665a65191 Sean Christopherson 2021-12-06  1669  	if (change == KVM_MR_DELETE)
+07921665a65191 Sean Christopherson 2021-12-06 @1670  		kvm->nr_memslot_pages -= old->npages;
+07921665a65191 Sean Christopherson 2021-12-06  1671  	else if (change == KVM_MR_CREATE)
+07921665a65191 Sean Christopherson 2021-12-06 @1672  		kvm->nr_memslot_pages += new->npages;
+cf47f50b5c2e24 Sean Christopherson 2020-02-18  1673  
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1674  	if ((old_flags ^ new_flags) & KVM_MEM_LOG_DIRTY_PAGES) {
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1675  		int change = (new_flags & KVM_MEM_LOG_DIRTY_PAGES) ? 1 : -1;
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1676  		atomic_set(&kvm->nr_memslots_dirty_logging,
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1677  			   atomic_read(&kvm->nr_memslots_dirty_logging) + change);
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1678  	}
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1679  
+07921665a65191 Sean Christopherson 2021-12-06  1680  	kvm_arch_commit_memory_region(kvm, old, new, change);
+07921665a65191 Sean Christopherson 2021-12-06  1681  
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1682  	switch (change) {
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1683  	case KVM_MR_CREATE:
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1684  		/* Nothing more to do. */
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1685  		break;
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1686  	case KVM_MR_DELETE:
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1687  		/* Free the old memslot and all its metadata. */
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1688  		kvm_free_memslot(kvm, old);
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1689  		break;
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1690  	case KVM_MR_MOVE:
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1691  	case KVM_MR_FLAGS_ONLY:
+b10a038e84d188 Ben Gardon          2021-05-18  1692  		/*
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1693  		 * Free the dirty bitmap as needed; the below check encompasses
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1694  		 * both the flags and whether a ring buffer is being used)
+07921665a65191 Sean Christopherson 2021-12-06  1695  		 */
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1696  		if (old->dirty_bitmap && !new->dirty_bitmap)
+07921665a65191 Sean Christopherson 2021-12-06  1697  			kvm_destroy_dirty_bitmap(old);
+07921665a65191 Sean Christopherson 2021-12-06  1698  
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1699  		/*
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1700  		 * The final quirk.  Free the detached, old slot, but only its
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1701  		 * memory, not any metadata.  Metadata, including arch specific
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1702  		 * data, may be reused by @new.
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1703  		 */
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1704  		kfree(old);
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1705  		break;
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1706  	default:
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1707  		BUG();
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1708  	}
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1709  }
+cf47f50b5c2e24 Sean Christopherson 2020-02-18  1710  
 
-:::::: The code at line 1026 was first introduced by commit
-:::::: 752ade68cbd81d0321dfecc188f655a945551b25 treewide: use kv[mz]alloc* rather than opencoded variants
+:::::: The code at line 1670 was first introduced by commit
+:::::: 07921665a651918350bc6653d4ca8a516a867b4b KVM: Use prepare/commit hooks to handle generic memslot metadata updates
 
-:::::: TO: Michal Hocko <mhocko@suse.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Sean Christopherson <seanjc@google.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
