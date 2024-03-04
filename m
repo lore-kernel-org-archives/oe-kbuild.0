@@ -1,62 +1,64 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D23A16429
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 Mar 2024 07:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B7615AE0
+	for <oe-kbuild@lists.linux.dev>; Mon,  4 Mar 2024 08:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709538674; cv=none; b=Cm1Dpg1Efz+Tyiwi6hfxFthbSiRSWQ8FSbvfEltv39/DESLpb3GyuFRIomcZ3DZpabQxwM7IAScX8MaGIzOiuLEykr0ZzTmQauXONcRuqJY8G9ltb/+ayCOpMCPPgSYNaW+31QgEs+uBCShlF0uk+j3s6SjwAGS4Jr/mXE4NXXo=
+	t=1709539620; cv=none; b=rHY4Ewnfl7lj6c3PUL7mQl1xb/KfiuI2TPLjUmwMIX+lx5a8uz/66C1tYP87xm5ayJZBY4T4DkRJs/7Dg2qCrBFU4cTsL77n2pAKQvAv+oardH1RtfXJsUiuQq749NYXibZShNSYAHcu8WxeF/lAKvmOZbI46/6miVk2AmkWRQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709538674; c=relaxed/simple;
-	bh=uw1q0O4ij0ebW2aI7lUSh8p82KXkHjRWzTDx+8F66/A=;
+	s=arc-20240116; t=1709539620; c=relaxed/simple;
+	bh=G+DDMYDqD/ylFNBdieJOVMLXW4iwR9B72Wx9rNP8mUM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bz1Lox7JIWLGVSqGb9Ypcb4wACdRdzTZd23FmYhJ2BJYIc6FLCBR5YMNWalBPuQPUhuKH3n7TpemZE47EssXdB8pfh20e/TGdGUjH6odliijaYuuC30h46iUS0Rax+GeDT4q+xUZvZ3LNxOYNU48kYZk9bxR1WUsf49t98ewER4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KVHtCC3j; arc=none smtp.client-ip=209.85.208.181
+	 Content-Disposition; b=gjJRx3UNoLjnuf2vGrfckvDNeH62Jjj4nhf44vsrvB9kYi7Kt8bbB/d7ngUXrqc/QA9AeQHRmeRJWIVRbqG8EfxzG1GYofJ+t5+v9cUtz5FotK2AXZfve3eUxpQitJ9scrp6VnOkQKw7MKbKG1IXST0xcoOJzX+mgxUoP5M/nSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SEC9AXv2; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KVHtCC3j"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d3b93e992aso7936911fa.1
-        for <oe-kbuild@lists.linux.dev>; Sun, 03 Mar 2024 23:51:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SEC9AXv2"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33d36736d4eso2559092f8f.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 04 Mar 2024 00:06:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709538670; x=1710143470; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1709539615; x=1710144415; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=VFF31QEJQVefZlwhMt2v8a60jwFrpTVhlfxydXT0BdM=;
-        b=KVHtCC3jj4LLdQhWZWXuc3o/3w9nIczTH4ya2/2T7TBmfJGT9KQzNvkxgl2y/QbgGT
-         APk42wVGLxvIzj9bbcJ8WfrVFBT3Vqo4qsa3EnpdUAMUounAppsLelS8EytyzT5bf8L+
-         ye2I2GnTqIpcsTg0+Ypatffc9BMn+fqzN0OwZvzDD6ZLubZ31ATGz0AomXNPcqZLSVyn
-         aypZb/vtXzoQNHiFQopmHc1Ocz/8AbE7+1fSTkELR7EA6O0V3bqOoWUtfqXq6DL6dq5L
-         xWfJOnN98Ltor71OiDns/92QZY7g9p5h8kEmxGWOoos46OryLkJXC8F4m2VWCe6TYBjM
-         n+Ww==
+        bh=VxQxxbHBIBwqHFputJh+BUkhbBlBnCVQDh3dlikacP0=;
+        b=SEC9AXv2LPX3Nz+526FrKX8CVubUJP4iMZ5PoZXFM8rZjvB/0C6ReicY37rqnxTezl
+         Mgk6FGi0E956cNdAgSm/vhLkZqa+65Pe84PZcr/iqpfsQ7UvzKm48/6w6oEEKhNSGmwC
+         RZeLBFxZFcoI4Unh1hqBIYZ0iacUGy6tLqoHZWT6uvrpcAm+rddDdGAPD0cLJKAxFlmQ
+         A9dkoKOMK32FapLWSesnV/f8swdLB869n5LGALWB0pjepgGT0KHDGDCA35omVM+/UhC/
+         jhBNCdpStxaQXhgTAKjv3vyzJ0YJqtS44PVI4kPVetKFBcPRKEAQQWie1UoCz5lsVwbb
+         xbaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709538670; x=1710143470;
+        d=1e100.net; s=20230601; t=1709539615; x=1710144415;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VFF31QEJQVefZlwhMt2v8a60jwFrpTVhlfxydXT0BdM=;
-        b=jSUVQodrE/znFjf4ZSrVd1dlYbB6/8JhVWwxceC2RqpvQoJCXU01g68zvKf7AEKuH0
-         BCXU6cvw0c9IgHxbgquCQHz3j66NvGGIA8Mvzbw6G2Dh/eR87JKFKiWUTvrqMUww1qh1
-         hSCXB+5SqsZY7rcGqTx8PjBYLQeQKiTR8gwj7uJMQxcrUQBAzK/9GCSkCJd5sBGOp4oT
-         /+QX4+jnAX2aiRTW9/emlgwfK83ONVHXPchkkXAseCBS6i7ZJLj8lrhJd2Q8mf20gjqr
-         T0RP7QfSdCrFzsRwmRf1EkopVP2hE+9qAPcf89zc8VmBY9z3wRdYuH8i9euzO3yy949f
-         r0QA==
-X-Gm-Message-State: AOJu0Yz2b6+/2b3FMWL19t0iLPXuxacfTzFRWr8vifm2tW/HL3CQJqQY
-	kF/428lJz7zC7T+4s9rvC7uiXklIsTwpisjiBIuIgJXrrKz86TsdGJlAt6lPM1pDaU2RIz/iwFb
-	n
-X-Google-Smtp-Source: AGHT+IG9gZsD3B4A2GfDF1yhHdfrrnmg8EyLhP/C3Kkv422s4/1f72vccwCP6hmnbvqRbO2sjfU+nA==
-X-Received: by 2002:a2e:3207:0:b0:2d3:4b73:7b40 with SMTP id y7-20020a2e3207000000b002d34b737b40mr4835583ljy.17.1709538670591;
-        Sun, 03 Mar 2024 23:51:10 -0800 (PST)
+        bh=VxQxxbHBIBwqHFputJh+BUkhbBlBnCVQDh3dlikacP0=;
+        b=WWFPfv6Sn6Ouk49LUKT23AVuMjV2EWeueuUGMHg91SDppZOzeS4K+fx0OAhz2uESUl
+         ytmwS7EbImEPVHhJWhswxmMXu8QuaXTmTll1h1BySNsFqwiOY+HyJBI+Uq/AEuzibMnu
+         JnQYBDJjpKmmfUbh2xgoYE4sniqIq3I39VriaJ4pRckyYFO1bynbiv8zkKGa9r090yo8
+         jsBcZGI+ynZzbpnknh7jguAqXVrdnmgrt429/7rPKIQUUDYIdThMyAKO2aMXR7bNiibt
+         bmbS2DvCeIuIyz58gPM1VUfBKwPuOwBSaemZ8TAc01nSZcLVsOnLfyF63zxZOEWIYpTc
+         Nl3Q==
+X-Gm-Message-State: AOJu0YwHksiZ2ZNU/lJecpLABO2bG1zOosWnnKH2sbxbyqm256Ih+Ydl
+	xxCOnxKTwq52CFGOKxrtQVYoVhM68pWqA2Ehp9iBeTgvg6ZHXub5Qs3T41drHMRtetPowe3+bnS
+	E
+X-Google-Smtp-Source: AGHT+IF2IIoUiD8eKPlLBFeDloz09l/vFASyvUiAi0VQjxLU4GsmrROnufev0rUurMs9vPtKs5cK/g==
+X-Received: by 2002:a5d:58e8:0:b0:33d:6ede:249a with SMTP id f8-20020a5d58e8000000b0033d6ede249amr5869447wrd.69.1709539615503;
+        Mon, 04 Mar 2024 00:06:55 -0800 (PST)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id p6-20020adf9d86000000b0033e0dd83be1sm11473868wre.91.2024.03.03.23.51.09
+        by smtp.gmail.com with ESMTPSA id j12-20020adfea4c000000b0033e11bd9febsm11022855wrn.90.2024.03.04.00.06.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Mar 2024 23:51:10 -0800 (PST)
-Date: Mon, 4 Mar 2024 10:51:06 +0300
+        Mon, 04 Mar 2024 00:06:55 -0800 (PST)
+Date: Mon, 4 Mar 2024 11:06:51 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [hch-block:drbd-blk-limits 5/16] drivers/md/raid0.c:396 raid0_run()
- error: uninitialized symbol 'conf'.
-Message-ID: <f1af61df-618b-44c9-937d-3e6f25445d9f@moroto.mountain>
+To: oe-kbuild@lists.linux.dev, Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Matt Roper <matthew.d.roper@intel.com>
+Subject: [linux-next:master 7199/11394] drivers/gpu/drm/xe/xe_mmio.c:109
+ xe_resize_vram_bar() warn: impossible condition '(root_res->start >
+ 4294967296) => (0-u32max > 4294967296)'
+Message-ID: <00421b32-9d4c-4496-93bf-baa3b75e54cc@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,74 +68,119 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/block.git drbd-blk-limits
-head:   952f67c787298e616a8aa5acc3f881d267e6c7b5
-commit: c3361ed114ad32d50e622fdf1e3f27d4a1dde8fb [5/16] md/raid0: use the atomic queue limit update APIs
-config: x86_64-randconfig-161-20240301 (https://download.01.org/0day-ci/archive/20240303/202403032344.AfnsKzTf-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   1870cdc0e8dee32e3c221704a2977898ba4c10e8
+commit: 237412e45390805e14a6936fb998d756c4eac9d8 [7199/11394] drm/xe: Enable 32bits build
+config: powerpc-randconfig-r071-20240228 (https://download.01.org/0day-ci/archive/20240304/202403040611.dybt4YMT-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403032344.AfnsKzTf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403040611.dybt4YMT-lkp@intel.com/
 
-smatch warnings:
-drivers/md/raid0.c:396 raid0_run() error: uninitialized symbol 'conf'.
+New smatch warnings:
+drivers/gpu/drm/xe/xe_mmio.c:284 xe_mmio_probe_vram() error: '%pa' expects argument of type 'phys_addr_t*', argument 3 has type 'ullong*'
 
-vim +/conf +396 drivers/md/raid0.c
+Old smatch warnings:
+drivers/gpu/drm/xe/xe_mmio.c:295 xe_mmio_probe_vram() error: '%pa' expects argument of type 'phys_addr_t*', argument 4 has type 'ullong*'
 
-fd01b88c75a7180 NeilBrown         2011-10-11  382  static int raid0_run(struct mddev *mddev)
-^1da177e4c3f415 Linus Torvalds    2005-04-16  383  {
-c3361ed114ad32d Christoph Hellwig 2024-02-22  384  	struct queue_limits lim;
-e373ab109172abc NeilBrown         2011-10-11  385  	struct r0conf *conf;
-5568a6035d9fca2 Andre Noll        2009-06-16  386  	int ret;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  387  
-9d8f0363623b3da Andre Noll        2009-06-18  388  	if (mddev->chunk_sectors == 0) {
-766038846e87574 NeilBrown         2016-11-02  389  		pr_warn("md/raid0:%s: chunk size must be set.\n", mdname(mddev));
-2604b703b6b3db8 NeilBrown         2006-01-06  390  		return -EINVAL;
-2604b703b6b3db8 NeilBrown         2006-01-06  391  	}
-0894cc3066aaa3e Andre Noll        2009-06-18  392  	if (md_check_no_bitmap(mddev))
-0894cc3066aaa3e Andre Noll        2009-06-18  393  		return -EINVAL;
-753f2856cda2a13 Heinz Mauelshagen 2015-02-13  394  
-c3361ed114ad32d Christoph Hellwig 2024-02-22  395  	/* if conf is not null, we are here after takeover */
-c3361ed114ad32d Christoph Hellwig 2024-02-22 @396  	if (!conf) {
-                                                            ^^^^^
-conf is uninitialized.
+vim +109 drivers/gpu/drm/xe/xe_mmio.c
 
-9af204cf720cedf Trela, Maciej     2010-03-08  397  		ret = create_strip_zones(mddev, &conf);
-5568a6035d9fca2 Andre Noll        2009-06-16  398  		if (ret < 0)
-c567c86b90d4715 Yu Kuai           2023-06-22  399  			return ret;
-9af204cf720cedf Trela, Maciej     2010-03-08  400  		mddev->private = conf;
-9af204cf720cedf Trela, Maciej     2010-03-08  401  	}
-199dc6ed5179251 NeilBrown         2015-08-03  402  
-c3361ed114ad32d Christoph Hellwig 2024-02-22  403  	blk_set_stacking_limits(&lim);
-c3361ed114ad32d Christoph Hellwig 2024-02-22  404  	lim.max_hw_sectors = mddev->chunk_sectors;
-c3361ed114ad32d Christoph Hellwig 2024-02-22  405  	lim.max_write_zeroes_sectors = mddev->chunk_sectors;
-c3361ed114ad32d Christoph Hellwig 2024-02-22  406  	lim.io_min = mddev->chunk_sectors << 9;
-c3361ed114ad32d Christoph Hellwig 2024-02-22  407  	lim.io_opt = lim.io_min * mddev->raid_disks;
-c3361ed114ad32d Christoph Hellwig 2024-02-22  408  	mddev_stack_rdev_limits(mddev, &lim);
-c3361ed114ad32d Christoph Hellwig 2024-02-22  409  	ret = queue_limits_set(mddev->queue, &lim);
-c3361ed114ad32d Christoph Hellwig 2024-02-22  410  	if (ret)
-c3361ed114ad32d Christoph Hellwig 2024-02-22  411  		goto out_free_conf;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  412  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  413  	/* calculate array device size */
-1f403624bde3c67 Dan Williams      2009-03-31  414  	md_set_array_sectors(mddev, raid0_size(mddev, 0, 0));
-^1da177e4c3f415 Linus Torvalds    2005-04-16  415  
-766038846e87574 NeilBrown         2016-11-02  416  	pr_debug("md/raid0:%s: md_size is %llu sectors.\n",
-b5a20961f3479dd NeilBrown         2010-05-03  417  		 mdname(mddev),
-ccacc7d2cf03114 Andre Noll        2009-01-09  418  		 (unsigned long long)mddev->array_sectors);
-753f2856cda2a13 Heinz Mauelshagen 2015-02-13  419  
-46994191ae8fdf1 raz ben yehuda    2009-06-16  420  	dump_zones(mddev);
-0366ef847581d69 majianpeng        2012-04-02  421  
-0366ef847581d69 majianpeng        2012-04-02  422  	ret = md_integrity_register(mddev);
-0c031fd37f69deb Xiao Ni           2021-12-10  423  	if (ret)
-c3361ed114ad32d Christoph Hellwig 2024-02-22  424  		goto out_free_conf;
-c3361ed114ad32d Christoph Hellwig 2024-02-22  425  	return 0;
-c3361ed114ad32d Christoph Hellwig 2024-02-22  426  out_free_conf:
-0c031fd37f69deb Xiao Ni           2021-12-10  427  	free_conf(mddev, conf);
-0c031fd37f69deb Xiao Ni           2021-12-10  428  	return ret;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  429  }
+dd08ebf6c3525a Matthew Brost              2023-03-30  222  int xe_mmio_probe_vram(struct xe_device *xe)
+dd08ebf6c3525a Matthew Brost              2023-03-30  223  {
+ebd288cba7db70 Matt Roper                 2023-06-01  224  	struct xe_tile *tile;
+2d830096e41403 Michael J. Ruhl            2023-05-25  225  	resource_size_t io_size;
+2d830096e41403 Michael J. Ruhl            2023-05-25  226  	u64 available_size = 0;
+2d830096e41403 Michael J. Ruhl            2023-05-25  227  	u64 total_size = 0;
+61f288a8972253 Michael J. Ruhl            2023-05-25  228  	u64 tile_offset;
+61f288a8972253 Michael J. Ruhl            2023-05-25  229  	u64 tile_size;
+61f288a8972253 Michael J. Ruhl            2023-05-25  230  	u64 vram_size;
+96cb46df567e04 Balasubramani Vivekanandan 2023-04-25  231  	int err;
+61f288a8972253 Michael J. Ruhl            2023-05-25  232  	u8 id;
+dd08ebf6c3525a Matthew Brost              2023-03-30  233  
+7f075300a31829 Michael J. Ruhl            2023-05-25  234  	if (!IS_DGFX(xe))
+dd08ebf6c3525a Matthew Brost              2023-03-30  235  		return 0;
+dd08ebf6c3525a Matthew Brost              2023-03-30  236  
+ebd288cba7db70 Matt Roper                 2023-06-01  237  	/* Get the size of the root tile's vram for later accessibility comparison */
+ebd288cba7db70 Matt Roper                 2023-06-01  238  	tile = xe_device_get_root_tile(xe);
+ebd288cba7db70 Matt Roper                 2023-06-01  239  	err = xe_mmio_tile_vram_size(tile, &vram_size, &tile_size, &tile_offset);
+dd08ebf6c3525a Matthew Brost              2023-03-30  240  	if (err)
+dd08ebf6c3525a Matthew Brost              2023-03-30  241  		return err;
+dd08ebf6c3525a Matthew Brost              2023-03-30  242  
+7f075300a31829 Michael J. Ruhl            2023-05-25  243  	err = xe_determine_lmem_bar_size(xe);
+7f075300a31829 Michael J. Ruhl            2023-05-25  244  	if (err)
+7f075300a31829 Michael J. Ruhl            2023-05-25  245  		return err;
+dd08ebf6c3525a Matthew Brost              2023-03-30  246  
+7f075300a31829 Michael J. Ruhl            2023-05-25  247  	drm_info(&xe->drm, "VISIBLE VRAM: %pa, %pa\n", &xe->mem.vram.io_start,
+7f075300a31829 Michael J. Ruhl            2023-05-25  248  		 &xe->mem.vram.io_size);
+dd08ebf6c3525a Matthew Brost              2023-03-30  249  
+2492f4544e6f81 Matthew Auld               2023-03-14  250  	io_size = xe->mem.vram.io_size;
+dd08ebf6c3525a Matthew Brost              2023-03-30  251  
+ebd288cba7db70 Matt Roper                 2023-06-01  252  	/* tile specific ranges */
+ebd288cba7db70 Matt Roper                 2023-06-01  253  	for_each_tile(tile, xe, id) {
+ebd288cba7db70 Matt Roper                 2023-06-01  254  		err = xe_mmio_tile_vram_size(tile, &vram_size, &tile_size, &tile_offset);
+2d830096e41403 Michael J. Ruhl            2023-05-25  255  		if (err)
+2d830096e41403 Michael J. Ruhl            2023-05-25  256  			return err;
+2492f4544e6f81 Matthew Auld               2023-03-14  257  
+9641df81977266 Tejas Upadhyay             2023-06-28  258  		tile->mem.vram.actual_physical_size = tile_size;
+ebd288cba7db70 Matt Roper                 2023-06-01  259  		tile->mem.vram.io_start = xe->mem.vram.io_start + tile_offset;
+ebd288cba7db70 Matt Roper                 2023-06-01  260  		tile->mem.vram.io_size = min_t(u64, vram_size, io_size);
+2492f4544e6f81 Matthew Auld               2023-03-14  261  
+ebd288cba7db70 Matt Roper                 2023-06-01  262  		if (!tile->mem.vram.io_size) {
+2492f4544e6f81 Matthew Auld               2023-03-14  263  			drm_err(&xe->drm, "Tile without any CPU visible VRAM. Aborting.\n");
+2492f4544e6f81 Matthew Auld               2023-03-14  264  			return -ENODEV;
+2492f4544e6f81 Matthew Auld               2023-03-14  265  		}
+dd08ebf6c3525a Matthew Brost              2023-03-30  266  
+0887a2e7ab6205 Oak Zeng                   2023-07-11  267  		tile->mem.vram.dpa_base = xe->mem.vram.dpa_base + tile_offset;
+c00ce7f2231700 Matthew Auld               2023-03-31  268  		tile->mem.vram.usable_size = vram_size;
+ebd288cba7db70 Matt Roper                 2023-06-01  269  		tile->mem.vram.mapping = xe->mem.vram.mapping + tile_offset;
+2d830096e41403 Michael J. Ruhl            2023-05-25  270  
+e4b2893c17048a Tejas Upadhyay             2023-06-28  271  		if (tile->mem.vram.io_size < tile->mem.vram.usable_size)
+286089ce692907 Oak Zeng                   2023-07-14  272  			drm_info(&xe->drm, "Small BAR device\n");
+286089ce692907 Oak Zeng                   2023-07-14  273  		drm_info(&xe->drm, "VRAM[%u, %u]: Actual physical size %pa, usable size exclude stolen %pa, CPU accessible size %pa\n", id,
+286089ce692907 Oak Zeng                   2023-07-14  274  			 tile->id, &tile->mem.vram.actual_physical_size, &tile->mem.vram.usable_size, &tile->mem.vram.io_size);
+286089ce692907 Oak Zeng                   2023-07-14  275  		drm_info(&xe->drm, "VRAM[%u, %u]: DPA range: [%pa-%llx], io range: [%pa-%llx]\n", id, tile->id,
+6d8d038364d8ec Lucas De Marchi            2024-01-18  276  			 &tile->mem.vram.dpa_base, tile->mem.vram.dpa_base + (u64)tile->mem.vram.actual_physical_size,
+6d8d038364d8ec Lucas De Marchi            2024-01-18  277  			 &tile->mem.vram.io_start, tile->mem.vram.io_start + (u64)tile->mem.vram.io_size);
+2d830096e41403 Michael J. Ruhl            2023-05-25  278  
+2d830096e41403 Michael J. Ruhl            2023-05-25  279  		/* calculate total size using tile size to get the correct HW sizing */
+2d830096e41403 Michael J. Ruhl            2023-05-25  280  		total_size += tile_size;
+2d830096e41403 Michael J. Ruhl            2023-05-25  281  		available_size += vram_size;
+2d830096e41403 Michael J. Ruhl            2023-05-25  282  
+2d830096e41403 Michael J. Ruhl            2023-05-25  283  		if (total_size > xe->mem.vram.io_size) {
+c00ce7f2231700 Matthew Auld               2023-03-31 @284  			drm_info(&xe->drm, "VRAM: %pa is larger than resource %pa\n",
+2d830096e41403 Michael J. Ruhl            2023-05-25  285  				 &total_size, &xe->mem.vram.io_size);
+
+This is a u32 build.  I think this code works on little endian systems.
+We can treat pointer to u64 as holding a u32 and it still works.  But
+this is going to print hex which is less readable to most people than
+decimal sizes.
+
+Better to just do:
+	drm_info(&xe->drm, "VRAM: %llu is larger than resource %llu\n",
+		 (u64)total_size, (u64)xe->mem.vram.io_size);
+
+Or we could print 0xllx if we really want hex.
+
+dd08ebf6c3525a Matthew Brost              2023-03-30  286  		}
+dd08ebf6c3525a Matthew Brost              2023-03-30  287  
+2d830096e41403 Michael J. Ruhl            2023-05-25  288  		io_size -= min_t(u64, tile_size, io_size);
+dd08ebf6c3525a Matthew Brost              2023-03-30  289  	}
+2d830096e41403 Michael J. Ruhl            2023-05-25  290  
+0887a2e7ab6205 Oak Zeng                   2023-07-11  291  	xe->mem.vram.actual_physical_size = total_size;
+2d830096e41403 Michael J. Ruhl            2023-05-25  292  
+2d830096e41403 Michael J. Ruhl            2023-05-25  293  	drm_info(&xe->drm, "Total VRAM: %pa, %pa\n", &xe->mem.vram.io_start,
+0887a2e7ab6205 Oak Zeng                   2023-07-11  294  		 &xe->mem.vram.actual_physical_size);
+2d830096e41403 Michael J. Ruhl            2023-05-25  295  	drm_info(&xe->drm, "Available VRAM: %pa, %pa\n", &xe->mem.vram.io_start,
+2d830096e41403 Michael J. Ruhl            2023-05-25  296  		 &available_size);
+
+Same for these prints.
+
+2d830096e41403 Michael J. Ruhl            2023-05-25  297  
+dd08ebf6c3525a Matthew Brost              2023-03-30  298  	return 0;
+dd08ebf6c3525a Matthew Brost              2023-03-30  299  }
 
 -- 
 0-DAY CI Kernel Test Service
