@@ -1,64 +1,62 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B7615AE0
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 Mar 2024 08:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5480A175B4
+	for <oe-kbuild@lists.linux.dev>; Mon,  4 Mar 2024 08:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709539620; cv=none; b=rHY4Ewnfl7lj6c3PUL7mQl1xb/KfiuI2TPLjUmwMIX+lx5a8uz/66C1tYP87xm5ayJZBY4T4DkRJs/7Dg2qCrBFU4cTsL77n2pAKQvAv+oardH1RtfXJsUiuQq749NYXibZShNSYAHcu8WxeF/lAKvmOZbI46/6miVk2AmkWRQo=
+	t=1709539808; cv=none; b=RUE8L8leRFwTumej45XPY5XdygF6WrZ01gXR+43m28Nlm6ERL5Ya5uyjbaItQNyRnk3VmzKHiZ1vqxZVWgns6hupeI7gURsCDtnP6oM1jFnhvgL55xdEGssI482eFsGo1++C96x362Wa5b0372xBJBuSSkxyRl6+aiHe8GR3F+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709539620; c=relaxed/simple;
-	bh=G+DDMYDqD/ylFNBdieJOVMLXW4iwR9B72Wx9rNP8mUM=;
+	s=arc-20240116; t=1709539808; c=relaxed/simple;
+	bh=IXyENQhHzNOITXQ70Xx5riCOVihg+OXDk955vFsx2zw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gjJRx3UNoLjnuf2vGrfckvDNeH62Jjj4nhf44vsrvB9kYi7Kt8bbB/d7ngUXrqc/QA9AeQHRmeRJWIVRbqG8EfxzG1GYofJ+t5+v9cUtz5FotK2AXZfve3eUxpQitJ9scrp6VnOkQKw7MKbKG1IXST0xcoOJzX+mgxUoP5M/nSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SEC9AXv2; arc=none smtp.client-ip=209.85.221.50
+	 Content-Disposition; b=ItB1uu9v4RsMQ1y+MDomihqSkJr+sCRN4t/Q3c+BLKlQBJSRI9pdeyiJeTTeai1Q3X6vu6VhHcxU4nc2+2SS46JkQDY3qgkVvLBcIw9vdk3n5/ZnPcjkqF188ACbYX5s4d6g8+3NZ9q1A4nTCDOOG9dU8H3XF7KUg6L2fcj+X3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CG2M8ric; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SEC9AXv2"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33d36736d4eso2559092f8f.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 04 Mar 2024 00:06:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CG2M8ric"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-412e2dfa58eso3539065e9.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 04 Mar 2024 00:10:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709539615; x=1710144415; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1709539804; x=1710144604; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=VxQxxbHBIBwqHFputJh+BUkhbBlBnCVQDh3dlikacP0=;
-        b=SEC9AXv2LPX3Nz+526FrKX8CVubUJP4iMZ5PoZXFM8rZjvB/0C6ReicY37rqnxTezl
-         Mgk6FGi0E956cNdAgSm/vhLkZqa+65Pe84PZcr/iqpfsQ7UvzKm48/6w6oEEKhNSGmwC
-         RZeLBFxZFcoI4Unh1hqBIYZ0iacUGy6tLqoHZWT6uvrpcAm+rddDdGAPD0cLJKAxFlmQ
-         A9dkoKOMK32FapLWSesnV/f8swdLB869n5LGALWB0pjepgGT0KHDGDCA35omVM+/UhC/
-         jhBNCdpStxaQXhgTAKjv3vyzJ0YJqtS44PVI4kPVetKFBcPRKEAQQWie1UoCz5lsVwbb
-         xbaw==
+        bh=rquuXUIECBJHT4g1j4aO+pkotZYsym6eWVJpGeY686A=;
+        b=CG2M8ric8bR6Txff8lLIWzrtl4LvpArxzKQtMLlOkty553pUECqoIVCSgpooz2Evr/
+         4Tq9O8XYQRs2ZqlRbvwxIqmmxeo+ajolPWsK4XEGETocyNnlaP3WD2qfwESksMmMHLmi
+         nckFv7qfBf0vye8YxJlaa/pBs68iuGPzLXx/qr+9389GuihAqFRzzbzaN6ZOn8jM1aUV
+         0D/o4MownwRBRhmGSq52TcbyKwaiw94EdU71PPSpEKOJStxcX3bK5ghaJTgPnEFdbs4p
+         LHvXBWEL2ROoOlNrhcGOp6ajKBqJ3mW7q4te33c/DBD4XJsArKAZMLvod5ELVD2RMUrp
+         xEGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709539615; x=1710144415;
+        d=1e100.net; s=20230601; t=1709539804; x=1710144604;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VxQxxbHBIBwqHFputJh+BUkhbBlBnCVQDh3dlikacP0=;
-        b=WWFPfv6Sn6Ouk49LUKT23AVuMjV2EWeueuUGMHg91SDppZOzeS4K+fx0OAhz2uESUl
-         ytmwS7EbImEPVHhJWhswxmMXu8QuaXTmTll1h1BySNsFqwiOY+HyJBI+Uq/AEuzibMnu
-         JnQYBDJjpKmmfUbh2xgoYE4sniqIq3I39VriaJ4pRckyYFO1bynbiv8zkKGa9r090yo8
-         jsBcZGI+ynZzbpnknh7jguAqXVrdnmgrt429/7rPKIQUUDYIdThMyAKO2aMXR7bNiibt
-         bmbS2DvCeIuIyz58gPM1VUfBKwPuOwBSaemZ8TAc01nSZcLVsOnLfyF63zxZOEWIYpTc
-         Nl3Q==
-X-Gm-Message-State: AOJu0YwHksiZ2ZNU/lJecpLABO2bG1zOosWnnKH2sbxbyqm256Ih+Ydl
-	xxCOnxKTwq52CFGOKxrtQVYoVhM68pWqA2Ehp9iBeTgvg6ZHXub5Qs3T41drHMRtetPowe3+bnS
-	E
-X-Google-Smtp-Source: AGHT+IF2IIoUiD8eKPlLBFeDloz09l/vFASyvUiAi0VQjxLU4GsmrROnufev0rUurMs9vPtKs5cK/g==
-X-Received: by 2002:a5d:58e8:0:b0:33d:6ede:249a with SMTP id f8-20020a5d58e8000000b0033d6ede249amr5869447wrd.69.1709539615503;
-        Mon, 04 Mar 2024 00:06:55 -0800 (PST)
+        bh=rquuXUIECBJHT4g1j4aO+pkotZYsym6eWVJpGeY686A=;
+        b=fk33y9pPKu300/wOb4DOsP+EvgzJ5DLVi0aksLwO1klhE//8tWR9uwQyIp+16idtBu
+         usW21k4GwGYTOxJaJLcy0Io4MbnE0B6fRsi7ZtnT/HK2AHWEt6ConETQA4w9hG45PumH
+         B8fUjKqKfeNhb16gpKxRk58PzUKC0VTa7URPsIXdgAA3QibOsKpCyQ4ogpPPKvUJWs5o
+         +WZg2mjYEUUmyxCE6IXSqYvqc7RRFo+UdCspvEQD9CP3g61asizITYF7pxqTL3VQsk4k
+         Psq7d0JhGoH5avixnLvOHGu5wKcN8ajdhC/O4v46QV1MMOLnBN2Rc89upjjXZR/QfsjR
+         Wxvw==
+X-Gm-Message-State: AOJu0YyXDBFGsCjd45W+fqderJJVBGimaEBJXtx9X4XtcUw70Hq0U+C9
+	76j34buZXtui/iFfqUhFOMLgAlLyWYasgm/5mJysvJCagCx1j59mCXCJGIVVVYyziKYk5KyF7v/
+	K
+X-Google-Smtp-Source: AGHT+IGG5Z1sBDFDT5+ePdqIOmX/rNG/1x2uCO6IBj4hhibwJ54SqX/qHiLvVh8MUJ9lKc4hsBEKyQ==
+X-Received: by 2002:a05:600c:1c20:b0:412:dda8:fbc2 with SMTP id j32-20020a05600c1c2000b00412dda8fbc2mr2547862wms.16.1709539804433;
+        Mon, 04 Mar 2024 00:10:04 -0800 (PST)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id j12-20020adfea4c000000b0033e11bd9febsm11022855wrn.90.2024.03.04.00.06.54
+        by smtp.gmail.com with ESMTPSA id n37-20020a05600c3ba500b00412e58be350sm1189290wms.1.2024.03.04.00.10.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 00:06:55 -0800 (PST)
-Date: Mon, 4 Mar 2024 11:06:51 +0300
+        Mon, 04 Mar 2024 00:10:04 -0800 (PST)
+Date: Mon, 4 Mar 2024 11:10:00 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Matt Roper <matthew.d.roper@intel.com>
-Subject: [linux-next:master 7199/11394] drivers/gpu/drm/xe/xe_mmio.c:109
- xe_resize_vram_bar() warn: impossible condition '(root_res->start >
- 4294967296) => (0-u32max > 4294967296)'
-Message-ID: <00421b32-9d4c-4496-93bf-baa3b75e54cc@moroto.mountain>
+To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [hch-block:drbd-blk-limits 7/16] drivers/md/raid10.c:4093
+ raid10_run() warn: missing error code 'ret'
+Message-ID: <fed91704-5f89-43ce-86ba-d9f9657fa437@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,119 +66,221 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1870cdc0e8dee32e3c221704a2977898ba4c10e8
-commit: 237412e45390805e14a6936fb998d756c4eac9d8 [7199/11394] drm/xe: Enable 32bits build
-config: powerpc-randconfig-r071-20240228 (https://download.01.org/0day-ci/archive/20240304/202403040611.dybt4YMT-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
+tree:   git://git.infradead.org/users/hch/block.git drbd-blk-limits
+head:   952f67c787298e616a8aa5acc3f881d267e6c7b5
+commit: 313650e376b1a47160c38cf100308664af4fb7fa [7/16] md/raid10: use the atomic queue limit update APIs
+config: x86_64-randconfig-161-20240301 (https://download.01.org/0day-ci/archive/20240304/202403040910.goLgb8oF-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403040611.dybt4YMT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403040910.goLgb8oF-lkp@intel.com/
 
 New smatch warnings:
-drivers/gpu/drm/xe/xe_mmio.c:284 xe_mmio_probe_vram() error: '%pa' expects argument of type 'phys_addr_t*', argument 3 has type 'ullong*'
+drivers/md/raid10.c:4093 raid10_run() warn: missing error code 'ret'
 
-Old smatch warnings:
-drivers/gpu/drm/xe/xe_mmio.c:295 xe_mmio_probe_vram() error: '%pa' expects argument of type 'phys_addr_t*', argument 4 has type 'ullong*'
+vim +/ret +4093 drivers/md/raid10.c
 
-vim +109 drivers/gpu/drm/xe/xe_mmio.c
+849674e4fb175e Shaohua Li         2016-01-20  4011  static int raid10_run(struct mddev *mddev)
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4012  {
+313650e376b1a4 Christoph Hellwig  2024-02-23  4013  	struct queue_limits lim;
+e879a8793f915a NeilBrown          2011-10-11  4014  	struct r10conf *conf;
+16ef510139315a Christoph Hellwig  2020-09-24  4015  	int i, disk_idx;
+dc280d987f039e Jonathan Brassow   2012-07-31  4016  	struct raid10_info *disk;
+3cb03002000f13 NeilBrown          2011-10-11  4017  	struct md_rdev *rdev;
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4018  	sector_t size;
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4019  	sector_t min_offset_diff = 0;
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4020  	int first = 1;
+313650e376b1a4 Christoph Hellwig  2024-02-23  4021  	int ret = -EIO;
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4022  
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4023  	if (mddev->private == NULL) {
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4024  		conf = setup_conf(mddev);
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4025  		if (IS_ERR(conf))
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4026  			return PTR_ERR(conf);
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4027  		mddev->private = conf;
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4028  	}
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4029  	conf = mddev->private;
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4030  	if (!conf)
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4031  		goto out;
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4032  
+44693154398272 Yu Kuai            2023-05-23  4033  	rcu_assign_pointer(mddev->thread, conf->thread);
+44693154398272 Yu Kuai            2023-05-23  4034  	rcu_assign_pointer(conf->thread, NULL);
+f0ddb83da3cbbf Yu Kuai            2023-03-10  4035  
+8db87912c9a877 Guoqing Jiang      2017-10-24  4036  	if (mddev_is_clustered(conf->mddev)) {
+8db87912c9a877 Guoqing Jiang      2017-10-24  4037  		int fc, fo;
+8db87912c9a877 Guoqing Jiang      2017-10-24  4038  
+8db87912c9a877 Guoqing Jiang      2017-10-24  4039  		fc = (mddev->layout >> 8) & 255;
+8db87912c9a877 Guoqing Jiang      2017-10-24  4040  		fo = mddev->layout & (1<<16);
+8db87912c9a877 Guoqing Jiang      2017-10-24  4041  		if (fc > 1 || fo > 0) {
+8db87912c9a877 Guoqing Jiang      2017-10-24  4042  			pr_err("only near layout is supported by clustered"
+8db87912c9a877 Guoqing Jiang      2017-10-24  4043  				" raid10\n");
+43a521238aca0e Lidong Zhong       2018-01-23  4044  			goto out_free_conf;
+8db87912c9a877 Guoqing Jiang      2017-10-24  4045  		}
+8db87912c9a877 Guoqing Jiang      2017-10-24  4046  	}
+8db87912c9a877 Guoqing Jiang      2017-10-24  4047  
+dafb20fa34320a NeilBrown          2012-03-19  4048  	rdev_for_each(rdev, mddev) {
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4049  		long long diff;
+34b343cff4354a NeilBrown          2011-07-28  4050  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4051  		disk_idx = rdev->raid_disk;
+f8c9e74ff0832f NeilBrown          2012-05-21  4052  		if (disk_idx < 0)
+f8c9e74ff0832f NeilBrown          2012-05-21  4053  			continue;
+f8c9e74ff0832f NeilBrown          2012-05-21  4054  		if (disk_idx >= conf->geo.raid_disks &&
+f8c9e74ff0832f NeilBrown          2012-05-21  4055  		    disk_idx >= conf->prev.raid_disks)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4056  			continue;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4057  		disk = conf->mirrors + disk_idx;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4058  
+56a2559bb654ae NeilBrown          2011-12-23  4059  		if (test_bit(Replacement, &rdev->flags)) {
+56a2559bb654ae NeilBrown          2011-12-23  4060  			if (disk->replacement)
+56a2559bb654ae NeilBrown          2011-12-23  4061  				goto out_free_conf;
+56a2559bb654ae NeilBrown          2011-12-23  4062  			disk->replacement = rdev;
+56a2559bb654ae NeilBrown          2011-12-23  4063  		} else {
+56a2559bb654ae NeilBrown          2011-12-23  4064  			if (disk->rdev)
+56a2559bb654ae NeilBrown          2011-12-23  4065  				goto out_free_conf;
+56a2559bb654ae NeilBrown          2011-12-23  4066  			disk->rdev = rdev;
+56a2559bb654ae NeilBrown          2011-12-23  4067  		}
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4068  		diff = (rdev->new_data_offset - rdev->data_offset);
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4069  		if (!mddev->reshape_backwards)
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4070  			diff = -diff;
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4071  		if (diff < 0)
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4072  			diff = 0;
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4073  		if (first || diff < min_offset_diff)
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4074  			min_offset_diff = diff;
+56a2559bb654ae NeilBrown          2011-12-23  4075  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4076  		disk->head_position = 0;
+6f287ca6046edd Guoqing Jiang      2017-04-06  4077  		first = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4078  	}
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4079  
+313650e376b1a4 Christoph Hellwig  2024-02-23  4080  	blk_set_stacking_limits(&lim);
+313650e376b1a4 Christoph Hellwig  2024-02-23  4081  	lim.max_write_zeroes_sectors = 0;
+313650e376b1a4 Christoph Hellwig  2024-02-23  4082  	lim.io_min = mddev->chunk_sectors << 9;
+313650e376b1a4 Christoph Hellwig  2024-02-23  4083  	lim.io_opt = lim.io_min * raid10_nr_stripes(conf);
+313650e376b1a4 Christoph Hellwig  2024-02-23  4084  	mddev_stack_rdev_limits(mddev, &lim);
+313650e376b1a4 Christoph Hellwig  2024-02-23  4085  	ret = queue_limits_set(mddev->queue, &lim);
+313650e376b1a4 Christoph Hellwig  2024-02-23  4086  	if (ret)
+313650e376b1a4 Christoph Hellwig  2024-02-23  4087  		goto out_free_conf;
+313650e376b1a4 Christoph Hellwig  2024-02-23  4088  
+6d508242b231cb NeilBrown          2005-09-09  4089  	/* need to check that every block has at least one working mirror */
+700c72138938cf NeilBrown          2011-07-27  4090  	if (!enough(conf, -1)) {
+08464e0926402a NeilBrown          2016-11-02  4091  		pr_err("md/raid10:%s: not enough operational mirrors.\n",
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4092  		       mdname(mddev));
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @4093  		goto out_free_conf;
 
-dd08ebf6c3525a Matthew Brost              2023-03-30  222  int xe_mmio_probe_vram(struct xe_device *xe)
-dd08ebf6c3525a Matthew Brost              2023-03-30  223  {
-ebd288cba7db70 Matt Roper                 2023-06-01  224  	struct xe_tile *tile;
-2d830096e41403 Michael J. Ruhl            2023-05-25  225  	resource_size_t io_size;
-2d830096e41403 Michael J. Ruhl            2023-05-25  226  	u64 available_size = 0;
-2d830096e41403 Michael J. Ruhl            2023-05-25  227  	u64 total_size = 0;
-61f288a8972253 Michael J. Ruhl            2023-05-25  228  	u64 tile_offset;
-61f288a8972253 Michael J. Ruhl            2023-05-25  229  	u64 tile_size;
-61f288a8972253 Michael J. Ruhl            2023-05-25  230  	u64 vram_size;
-96cb46df567e04 Balasubramani Vivekanandan 2023-04-25  231  	int err;
-61f288a8972253 Michael J. Ruhl            2023-05-25  232  	u8 id;
-dd08ebf6c3525a Matthew Brost              2023-03-30  233  
-7f075300a31829 Michael J. Ruhl            2023-05-25  234  	if (!IS_DGFX(xe))
-dd08ebf6c3525a Matthew Brost              2023-03-30  235  		return 0;
-dd08ebf6c3525a Matthew Brost              2023-03-30  236  
-ebd288cba7db70 Matt Roper                 2023-06-01  237  	/* Get the size of the root tile's vram for later accessibility comparison */
-ebd288cba7db70 Matt Roper                 2023-06-01  238  	tile = xe_device_get_root_tile(xe);
-ebd288cba7db70 Matt Roper                 2023-06-01  239  	err = xe_mmio_tile_vram_size(tile, &vram_size, &tile_size, &tile_offset);
-dd08ebf6c3525a Matthew Brost              2023-03-30  240  	if (err)
-dd08ebf6c3525a Matthew Brost              2023-03-30  241  		return err;
-dd08ebf6c3525a Matthew Brost              2023-03-30  242  
-7f075300a31829 Michael J. Ruhl            2023-05-25  243  	err = xe_determine_lmem_bar_size(xe);
-7f075300a31829 Michael J. Ruhl            2023-05-25  244  	if (err)
-7f075300a31829 Michael J. Ruhl            2023-05-25  245  		return err;
-dd08ebf6c3525a Matthew Brost              2023-03-30  246  
-7f075300a31829 Michael J. Ruhl            2023-05-25  247  	drm_info(&xe->drm, "VISIBLE VRAM: %pa, %pa\n", &xe->mem.vram.io_start,
-7f075300a31829 Michael J. Ruhl            2023-05-25  248  		 &xe->mem.vram.io_size);
-dd08ebf6c3525a Matthew Brost              2023-03-30  249  
-2492f4544e6f81 Matthew Auld               2023-03-14  250  	io_size = xe->mem.vram.io_size;
-dd08ebf6c3525a Matthew Brost              2023-03-30  251  
-ebd288cba7db70 Matt Roper                 2023-06-01  252  	/* tile specific ranges */
-ebd288cba7db70 Matt Roper                 2023-06-01  253  	for_each_tile(tile, xe, id) {
-ebd288cba7db70 Matt Roper                 2023-06-01  254  		err = xe_mmio_tile_vram_size(tile, &vram_size, &tile_size, &tile_offset);
-2d830096e41403 Michael J. Ruhl            2023-05-25  255  		if (err)
-2d830096e41403 Michael J. Ruhl            2023-05-25  256  			return err;
-2492f4544e6f81 Matthew Auld               2023-03-14  257  
-9641df81977266 Tejas Upadhyay             2023-06-28  258  		tile->mem.vram.actual_physical_size = tile_size;
-ebd288cba7db70 Matt Roper                 2023-06-01  259  		tile->mem.vram.io_start = xe->mem.vram.io_start + tile_offset;
-ebd288cba7db70 Matt Roper                 2023-06-01  260  		tile->mem.vram.io_size = min_t(u64, vram_size, io_size);
-2492f4544e6f81 Matthew Auld               2023-03-14  261  
-ebd288cba7db70 Matt Roper                 2023-06-01  262  		if (!tile->mem.vram.io_size) {
-2492f4544e6f81 Matthew Auld               2023-03-14  263  			drm_err(&xe->drm, "Tile without any CPU visible VRAM. Aborting.\n");
-2492f4544e6f81 Matthew Auld               2023-03-14  264  			return -ENODEV;
-2492f4544e6f81 Matthew Auld               2023-03-14  265  		}
-dd08ebf6c3525a Matthew Brost              2023-03-30  266  
-0887a2e7ab6205 Oak Zeng                   2023-07-11  267  		tile->mem.vram.dpa_base = xe->mem.vram.dpa_base + tile_offset;
-c00ce7f2231700 Matthew Auld               2023-03-31  268  		tile->mem.vram.usable_size = vram_size;
-ebd288cba7db70 Matt Roper                 2023-06-01  269  		tile->mem.vram.mapping = xe->mem.vram.mapping + tile_offset;
-2d830096e41403 Michael J. Ruhl            2023-05-25  270  
-e4b2893c17048a Tejas Upadhyay             2023-06-28  271  		if (tile->mem.vram.io_size < tile->mem.vram.usable_size)
-286089ce692907 Oak Zeng                   2023-07-14  272  			drm_info(&xe->drm, "Small BAR device\n");
-286089ce692907 Oak Zeng                   2023-07-14  273  		drm_info(&xe->drm, "VRAM[%u, %u]: Actual physical size %pa, usable size exclude stolen %pa, CPU accessible size %pa\n", id,
-286089ce692907 Oak Zeng                   2023-07-14  274  			 tile->id, &tile->mem.vram.actual_physical_size, &tile->mem.vram.usable_size, &tile->mem.vram.io_size);
-286089ce692907 Oak Zeng                   2023-07-14  275  		drm_info(&xe->drm, "VRAM[%u, %u]: DPA range: [%pa-%llx], io range: [%pa-%llx]\n", id, tile->id,
-6d8d038364d8ec Lucas De Marchi            2024-01-18  276  			 &tile->mem.vram.dpa_base, tile->mem.vram.dpa_base + (u64)tile->mem.vram.actual_physical_size,
-6d8d038364d8ec Lucas De Marchi            2024-01-18  277  			 &tile->mem.vram.io_start, tile->mem.vram.io_start + (u64)tile->mem.vram.io_size);
-2d830096e41403 Michael J. Ruhl            2023-05-25  278  
-2d830096e41403 Michael J. Ruhl            2023-05-25  279  		/* calculate total size using tile size to get the correct HW sizing */
-2d830096e41403 Michael J. Ruhl            2023-05-25  280  		total_size += tile_size;
-2d830096e41403 Michael J. Ruhl            2023-05-25  281  		available_size += vram_size;
-2d830096e41403 Michael J. Ruhl            2023-05-25  282  
-2d830096e41403 Michael J. Ruhl            2023-05-25  283  		if (total_size > xe->mem.vram.io_size) {
-c00ce7f2231700 Matthew Auld               2023-03-31 @284  			drm_info(&xe->drm, "VRAM: %pa is larger than resource %pa\n",
-2d830096e41403 Michael J. Ruhl            2023-05-25  285  				 &total_size, &xe->mem.vram.io_size);
+Originally this error path returned -EIO.
 
-This is a u32 build.  I think this code works on little endian systems.
-We can treat pointer to u64 as holding a u32 and it still works.  But
-this is going to print hex which is less readable to most people than
-decimal sizes.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4094  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4095  
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4096  	if (conf->reshape_progress != MaxSector) {
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4097  		/* must ensure that shape change is supported */
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4098  		if (conf->geo.far_copies != 1 &&
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4099  		    conf->geo.far_offset == 0)
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4100  			goto out_free_conf;
 
-Better to just do:
-	drm_info(&xe->drm, "VRAM: %llu is larger than resource %llu\n",
-		 (u64)total_size, (u64)xe->mem.vram.io_size);
+Same
 
-Or we could print 0xllx if we really want hex.
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4101  		if (conf->prev.far_copies != 1 &&
+78eaa0d4cbcdb3 NeilBrown          2013-07-02  4102  		    conf->prev.far_offset == 0)
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4103  			goto out_free_conf;
 
-dd08ebf6c3525a Matthew Brost              2023-03-30  286  		}
-dd08ebf6c3525a Matthew Brost              2023-03-30  287  
-2d830096e41403 Michael J. Ruhl            2023-05-25  288  		io_size -= min_t(u64, tile_size, io_size);
-dd08ebf6c3525a Matthew Brost              2023-03-30  289  	}
-2d830096e41403 Michael J. Ruhl            2023-05-25  290  
-0887a2e7ab6205 Oak Zeng                   2023-07-11  291  	xe->mem.vram.actual_physical_size = total_size;
-2d830096e41403 Michael J. Ruhl            2023-05-25  292  
-2d830096e41403 Michael J. Ruhl            2023-05-25  293  	drm_info(&xe->drm, "Total VRAM: %pa, %pa\n", &xe->mem.vram.io_start,
-0887a2e7ab6205 Oak Zeng                   2023-07-11  294  		 &xe->mem.vram.actual_physical_size);
-2d830096e41403 Michael J. Ruhl            2023-05-25  295  	drm_info(&xe->drm, "Available VRAM: %pa, %pa\n", &xe->mem.vram.io_start,
-2d830096e41403 Michael J. Ruhl            2023-05-25  296  		 &available_size);
+Same
 
-Same for these prints.
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4104  	}
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4105  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4106  	mddev->degraded = 0;
+f8c9e74ff0832f NeilBrown          2012-05-21  4107  	for (i = 0;
+f8c9e74ff0832f NeilBrown          2012-05-21  4108  	     i < conf->geo.raid_disks
+f8c9e74ff0832f NeilBrown          2012-05-21  4109  		     || i < conf->prev.raid_disks;
+f8c9e74ff0832f NeilBrown          2012-05-21  4110  	     i++) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4111  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4112  		disk = conf->mirrors + i;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4113  
+56a2559bb654ae NeilBrown          2011-12-23  4114  		if (!disk->rdev && disk->replacement) {
+56a2559bb654ae NeilBrown          2011-12-23  4115  			/* The replacement is all we have - use it */
+56a2559bb654ae NeilBrown          2011-12-23  4116  			disk->rdev = disk->replacement;
+56a2559bb654ae NeilBrown          2011-12-23  4117  			disk->replacement = NULL;
+56a2559bb654ae NeilBrown          2011-12-23  4118  			clear_bit(Replacement, &disk->rdev->flags);
+56a2559bb654ae NeilBrown          2011-12-23  4119  		}
+56a2559bb654ae NeilBrown          2011-12-23  4120  
+5fd6c1dce06ec2 NeilBrown          2006-06-26  4121  		if (!disk->rdev ||
+2e333e89860431 NeilBrown          2006-10-21  4122  		    !test_bit(In_sync, &disk->rdev->flags)) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4123  			disk->head_position = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4124  			mddev->degraded++;
+0b59bb6422e43a NeilBrown          2014-01-14  4125  			if (disk->rdev &&
+0b59bb6422e43a NeilBrown          2014-01-14  4126  			    disk->rdev->saved_raid_disk < 0)
+8c2e870a625bd3 Neil Brown         2008-06-28  4127  				conf->fullsync = 1;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4128  		}
+bda3153998f3eb BingJing Chang     2018-06-28  4129  
+bda3153998f3eb BingJing Chang     2018-06-28  4130  		if (disk->replacement &&
+bda3153998f3eb BingJing Chang     2018-06-28  4131  		    !test_bit(In_sync, &disk->replacement->flags) &&
+bda3153998f3eb BingJing Chang     2018-06-28  4132  		    disk->replacement->saved_raid_disk < 0) {
+bda3153998f3eb BingJing Chang     2018-06-28  4133  			conf->fullsync = 1;
+bda3153998f3eb BingJing Chang     2018-06-28  4134  		}
+bda3153998f3eb BingJing Chang     2018-06-28  4135  
+d890fa2b0586b6 NeilBrown          2011-10-26  4136  		disk->recovery_disabled = mddev->recovery_disabled - 1;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4137  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4138  
+8c6ac868b107ed Andre Noll         2009-06-18  4139  	if (mddev->recovery_cp != MaxSector)
+08464e0926402a NeilBrown          2016-11-02  4140  		pr_notice("md/raid10:%s: not clean -- starting background reconstruction\n",
+8c6ac868b107ed Andre Noll         2009-06-18  4141  			  mdname(mddev));
+08464e0926402a NeilBrown          2016-11-02  4142  	pr_info("md/raid10:%s: active with %d out of %d devices\n",
+5cf00fcd3c98d2 NeilBrown          2012-05-21  4143  		mdname(mddev), conf->geo.raid_disks - mddev->degraded,
+5cf00fcd3c98d2 NeilBrown          2012-05-21  4144  		conf->geo.raid_disks);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4145  	/*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4146  	 * Ok, everything is just fine now
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4147  	 */
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4148  	mddev->dev_sectors = conf->dev_sectors;
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4149  	size = raid10_size(mddev, 0, 0);
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4150  	md_set_array_sectors(mddev, size);
+dab8b29248b3f1 Trela, Maciej      2010-03-08  4151  	mddev->resync_max_sectors = size;
+46533ff7fefb7e NeilBrown          2016-11-18  4152  	set_bit(MD_FAILFAST_SUPPORTED, &mddev->flags);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4153  
+a91a2785b20086 Martin K. Petersen 2011-03-17  4154  	if (md_integrity_register(mddev))
+a91a2785b20086 Martin K. Petersen 2011-03-17  4155  		goto out_free_conf;
 
-2d830096e41403 Michael J. Ruhl            2023-05-25  297  
-dd08ebf6c3525a Matthew Brost              2023-03-30  298  	return 0;
-dd08ebf6c3525a Matthew Brost              2023-03-30  299  }
+Same
+
+a91a2785b20086 Martin K. Petersen 2011-03-17  4156  
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4157  	if (conf->reshape_progress != MaxSector) {
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4158  		unsigned long before_length, after_length;
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4159  
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4160  		before_length = ((1 << conf->prev.chunk_shift) *
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4161  				 conf->prev.far_copies);
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4162  		after_length = ((1 << conf->geo.chunk_shift) *
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4163  				conf->geo.far_copies);
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4164  
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4165  		if (max(before_length, after_length) > min_offset_diff) {
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4166  			/* This cannot work */
+08464e0926402a NeilBrown          2016-11-02  4167  			pr_warn("md/raid10: offset difference not enough to continue reshape\n");
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4168  			goto out_free_conf;
+
+Same
+
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4169  		}
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4170  		conf->offset_diff = min_offset_diff;
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4171  
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4172  		clear_bit(MD_RECOVERY_SYNC, &mddev->recovery);
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4173  		clear_bit(MD_RECOVERY_CHECK, &mddev->recovery);
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4174  		set_bit(MD_RECOVERY_RESHAPE, &mddev->recovery);
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4175  		set_bit(MD_RECOVERY_RUNNING, &mddev->recovery);
+44693154398272 Yu Kuai            2023-05-23  4176  		rcu_assign_pointer(mddev->sync_thread,
+44693154398272 Yu Kuai            2023-05-23  4177  			md_register_thread(md_do_sync, mddev, "reshape"));
+e406f12dde1a83 Aditya Pakki       2019-03-04  4178  		if (!mddev->sync_thread)
+e406f12dde1a83 Aditya Pakki       2019-03-04  4179  			goto out_free_conf;
+
+Same
+
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4180  	}
+3ea7daa5d7fde4 NeilBrown          2012-05-22  4181  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4182  	return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4183  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4184  out_free_conf:
+7eb8ff02c1df27 Li Lingfeng        2023-08-03  4185  	md_unregister_thread(mddev, &mddev->thread);
+c9ac2acde53f53 Yu Kuai            2023-03-10  4186  	raid10_free_conf(conf);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4187  	mddev->private = NULL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4188  out:
+313650e376b1a4 Christoph Hellwig  2024-02-23  4189  	return ret;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  4190  }
 
 -- 
 0-DAY CI Kernel Test Service
