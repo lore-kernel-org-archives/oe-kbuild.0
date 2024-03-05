@@ -1,54 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7DFF18627
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Mar 2024 02:21:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B5E5A4DC
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Mar 2024 12:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709605292; cv=none; b=sKg1juudCxGbRGlSmUbTzH8R8E4O3S+eX/U5JxgqTLV6MMYTkYqGuncj8mDdH8p9xcVK4PRKixeil6N32OMVSLusXFe/3ooJl/dJCxH+EB7KezC7lzXUNekpO3H4cbpQ2r+L3XaIocTiE64hlqJvhI+qWkZFWy29McPoaqzcZk8=
+	t=1709640227; cv=none; b=cbZJYB3n5md8hRtS5rWhvdcK/m0rzKhbTE8scT0rLxs1QJvpfUA/XIquwbKUdVKqu8LmtCj01U15ILCeqargqsCEvuAcKdExqKG9yW2BPim2UKRa2w+j0jHs3qjKTHmqKlmA8bWH+rW+w7du7eG/IBxjgRgDVd+HYltiq8lHbj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709605292; c=relaxed/simple;
-	bh=Sms/NPQ4fpMGNM/S1i33HuVomedm1H0eYYtTHpTl7Rc=;
+	s=arc-20240116; t=1709640227; c=relaxed/simple;
+	bh=9xIm+yZdIkKsrBk4T07GV2UJvCiNFp7l2Vi3kiGHgT8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Sj0ILoMtFrz/4eREJYCWnswJmOfdNqA02OdhjN3OFw0mzMZG0jK9dlQUbFIu+g70ftxL23wXE04HwLXB4v/aHIV0wT1lsfrHsmeRg3TU9m66aCtbO+q7579JBiw1Q64HaRWvjBmTX0naqhv3eAQPcQs8EA8TWEa4I3S0LhGEfFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E2d8uLhn; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=hZMnE+GPT1f6cuwzHP7t3DYSN0vXWawybJDB2s7RffKD6s9zdUxxGJeYUnOLPyvkFNOjHwG+avprQI+JGiguWdcaYfvsPXu/FaJcgbAzAZpTNTInVsU8zGLE5upbZ68mM95Y04Yg9Q7BZ6N78EqOYmagEpDoqtujyo1AgVrRN6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JuKz7fJ8; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E2d8uLhn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JuKz7fJ8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709605290; x=1741141290;
+  t=1709640225; x=1741176225;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Sms/NPQ4fpMGNM/S1i33HuVomedm1H0eYYtTHpTl7Rc=;
-  b=E2d8uLhnF78jqfFz0Ui1mtVEkurwf1JUPeDm2ffSWGAPYt2OmmsZepeG
-   R48uWHDPlHNfzozJ8DoZGZyMBD/85kAw/FYp2A4+B0N7VZf8uAIbif1oF
-   OqjM+9ID3pMhuPcwatlwUUe9DXJUqaoP/f4MRAomiQ1qWIYq0E8D9DXf2
-   WldTi1vKKziax9RMGotyP63X4NCFaS4Kg9N0hjV1LbGImaxDKs8k4Gyol
-   MC2ybSJPEYbXfX1piJU+85DgWOm1iqPJu7XyXKIm4vmN7z8F6bVULyozb
-   yDIXI1x1uhSbf2pXm1ntuHuU5oQ/d+luNvZEMl5yJm9dkahp6subT+NOQ
+  bh=9xIm+yZdIkKsrBk4T07GV2UJvCiNFp7l2Vi3kiGHgT8=;
+  b=JuKz7fJ85pUz28trrGvoX9TVB5pZ0CCOzrUrLtTfnmxNEdlhlkmGscMP
+   d3SgZsd0nVZUfSvALn/yd/YhMeVCSPjYbrMmEeBqcsR2BvwtztDlC0Bv7
+   j2HPSzPjAxMQfNf2zrZyTWXRdr7vA5c+vJUAW7K2b9ppe9CBzFHO7BbKZ
+   LDYcYNrtKFUMJKf35qinE8KbKdaIX1LKKqMf+CZYkyThy2esDEeowgA5r
+   RsF2fVZ/nHKa/qOuHvOnijrpVF65Ut+PTGYceVhRyctSl8pBrgBLgZYaX
+   MuJ6wzy6dGUhsE+78FqA5XjhbazIm+RDllHEwe9vjCAZjpQcXb2YmcVhu
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="21662879"
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="7131873"
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="21662879"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 18:21:29 -0800
+   d="scan'208";a="7131873"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 04:03:44 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="9155185"
+   d="scan'208";a="9417488"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 04 Mar 2024 18:21:27 -0800
+  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2024 04:03:43 -0800
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rhKQn-0002v7-0X;
-	Tue, 05 Mar 2024 02:21:25 +0000
-Date: Tue, 5 Mar 2024 10:20:31 +0800
+	id 1rhTWG-0003HV-0i;
+	Tue, 05 Mar 2024 12:03:40 +0000
+Date: Tue, 5 Mar 2024 20:03:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/scsi/mpt3sas/mpt3sas_base.c:7618 base_alloc_rdpq_dma_pool()
- warn: KERN_* level not at start of string
-Message-ID: <202403051018.xIL8XsUZ-lkp@intel.com>
+Subject: arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1670
+ kvm_commit_memory_region() error: we previously assumed 'old' could be null
+ (see line 1663)
+Message-ID: <202403051900.zARrmffQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,277 +61,96 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: jasperwang@tencent.com
-TO: kaixuxia@tencent.com
-TO: frankjpliu@tencent.com
-TO: kasong@tencent.com
-TO: sagazchen@tencent.com
-TO: kernelxing@tencent.com
-TO: aurelianliu@tencent.com
-TO: jason.zeng@intel.com
-TO: wu.zheng@intel.com
-TO: yingbao.jia@intel.com
-TO: pei.p.jia@intel.com
+CC: linux-kernel@vger.kernel.org
+TO: Tianrui Zhao <zhaotianrui@loongson.cn>
+CC: Huacai Chen <chenhuacai@kernel.org>
+CC: Bibo Mao <maobibo@loongson.cn>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
-head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
-commit: 1549c764245c433658fc299210efea4c91365b89 driver: update mpt3sas from 32.00.00.00 to 37.00.00.00
-date:   2 years, 10 months ago
-:::::: branch date: 5 months ago
-:::::: commit date: 2 years, 10 months ago
-config: x86_64-randconfig-161-20240305 (https://download.01.org/0day-ci/archive/20240305/202403051018.xIL8XsUZ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   90d35da658da8cff0d4ecbb5113f5fac9d00eb72
+commit: c1fc48aad14dbe7654f5986afb906332b528d54b LoongArch: KVM: Enable kvm config and add the makefile
+date:   5 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 5 months ago
+config: loongarch-randconfig-r081-20240225 (https://download.01.org/0day-ci/archive/20240305/202403051900.zARrmffQ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202403051018.xIL8XsUZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403051900.zARrmffQ-lkp@intel.com/
 
 New smatch warnings:
-drivers/scsi/mpt3sas/mpt3sas_base.c:7618 base_alloc_rdpq_dma_pool() warn: KERN_* level not at start of string
-drivers/scsi/mpt3sas/mpt3sas_base.c:7770 _base_allocate_chain_dma_pool() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_base.c:8322 _base_allocate_memory_pools() error: uninitialized symbol 'ct'.
-drivers/scsi/mpt3sas/mpt3sas_base.c:8378 _base_allocate_memory_pools() warn: if statement not indented
-drivers/scsi/mpt3sas/mpt3sas_base.c:8425 _base_allocate_memory_pools() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_base.c:8894 _base_send_ioc_init() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:7917 _scsih_update_vphys_after_reset() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_transport.c:1079 mpt3sas_transport_port_remove() error: dereferencing freed memory 'port'
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1670 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1663)
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1672 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1664)
+arch/loongarch/kvm/mmu.c:867 kvm_map_page() warn: if statement not indented
 
 Old smatch warnings:
-drivers/scsi/mpt3sas/mpt3sas_base.c:1030 mpt3sas_base_start_watchdog() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_base.c:1092 mpt3sas_base_start_hba_unplug_watchdog() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_base.c:1152 mpt3sas_base_start_smart_polling() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_base.c:2987 base_mod64() warn: KERN_* level not at start of string
-drivers/scsi/mpt3sas/mpt3sas_base.c:3655 _base_build_sg_scmd_ieee() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_base.c:4969 _base_diag_reset() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_base.c:4988 _base_diag_reset() warn: curly braces intended?
-drivers/scsi/mpt3sas/mpt3sas_base.c:5470 mpt3sas_base_map_resources() warn: 'ioc->chip' from ioremap() not released on lines: 5470.
-drivers/scsi/mpt3sas/mpt3sas_base.c:7628 base_alloc_rdpq_dma_pool() warn: KERN_* level not at start of string
-drivers/scsi/mpt3sas/mpt3sas_base.c:7771 _base_allocate_chain_dma_pool() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_base.c:8329 _base_allocate_memory_pools() error: uninitialized symbol 'ct'.
-drivers/scsi/mpt3sas/mpt3sas_base.c:8331 _base_allocate_memory_pools() warn: missing unwind goto?
-drivers/scsi/mpt3sas/mpt3sas_base.c:8331 _base_allocate_memory_pools() warn: missing unwind goto?
-drivers/scsi/mpt3sas/mpt3sas_base.c:9505 _base_make_ioc_operational() warn: missing error code? 'r'
-drivers/scsi/mpt3sas/mpt3sas_base.c:9748 mpt3sas_base_attach() warn: missing error code 'r'
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:2916 _scsih_enable_tlr() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:3054 _scsih_slave_configure() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:5912 _scsih_check_pcie_topo_remove_events() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:6375 _scsih_setup_eedp() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:8827 _scsih_expander_add() warn: returning -1 instead of -ENOMEM is sloppy
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:8902 _scsih_expander_add() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:8848 _scsih_expander_add() warn: missing error code 'rc'
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:11979 _scsih_sas_broadcast_primitive_event() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:12128 _scsih_sas_discovery_event() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:12202 _scsih_pcie_enumeration_event() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:13970 _scsih_scan_for_devices_after_reset() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:14906 _scsih_probe_boot_devices() warn: inconsistent indenting
-drivers/scsi/mpt3sas/mpt3sas_transport.c:708 mpt3sas_transport_add_phy_to_an_existing_port() warn: inconsistent indenting
+arch/loongarch/include/asm/atomic.h:109 arch_atomic_fetch_add_unless() warn: inconsistent indenting
 
-vim +7618 drivers/scsi/mpt3sas/mpt3sas_base.c
+vim +/old +1670 arch/loongarch/kvm/../../../virt/kvm/kvm_main.c
 
-1549c764245c43 Fuhai Wang 2021-04-25  7581  
-1549c764245c43 Fuhai Wang 2021-04-25  7582  /**
-1549c764245c43 Fuhai Wang 2021-04-25  7583   * base_alloc_rdpq_dma_pool - Allocating DMA'able memory
-1549c764245c43 Fuhai Wang 2021-04-25  7584   *			for reply queues.
-1549c764245c43 Fuhai Wang 2021-04-25  7585   * @ioc: Adapter object
-1549c764245c43 Fuhai Wang 2021-04-25  7586   * @sz: DMA Pool size
-1549c764245c43 Fuhai Wang 2021-04-25  7587   * Return: 0 for success, non-zero for failure.
-1549c764245c43 Fuhai Wang 2021-04-25  7588   */
-1549c764245c43 Fuhai Wang 2021-04-25  7589  static int
-1549c764245c43 Fuhai Wang 2021-04-25  7590  base_alloc_rdpq_dma_pool(struct MPT3SAS_ADAPTER *ioc, int sz)
-1549c764245c43 Fuhai Wang 2021-04-25  7591  {
-1549c764245c43 Fuhai Wang 2021-04-25  7592  	int i = 0;
-1549c764245c43 Fuhai Wang 2021-04-25  7593  	u32 dma_alloc_count = 0;
-1549c764245c43 Fuhai Wang 2021-04-25  7594  	int reply_post_free_sz = ioc->reply_post_queue_depth *
-1549c764245c43 Fuhai Wang 2021-04-25  7595  		sizeof(Mpi2DefaultReplyDescriptor_t);
-1549c764245c43 Fuhai Wang 2021-04-25  7596  	int count = ioc->rdpq_array_enable ? ioc->reply_queue_count : 1;
-1549c764245c43 Fuhai Wang 2021-04-25  7597  	ioc->reply_post = kcalloc(count, sizeof(struct reply_post_struct), GFP_KERNEL);
-1549c764245c43 Fuhai Wang 2021-04-25  7598  	if (!ioc->reply_post) {
-1549c764245c43 Fuhai Wang 2021-04-25  7599  		printk(MPT3SAS_ERR_FMT
-1549c764245c43 Fuhai Wang 2021-04-25  7600  		    "reply_post_free pool: kcalloc failed\n", ioc->name);
-1549c764245c43 Fuhai Wang 2021-04-25  7601  		return -ENOMEM;
-1549c764245c43 Fuhai Wang 2021-04-25  7602  	}
-1549c764245c43 Fuhai Wang 2021-04-25  7603  	/*
-1549c764245c43 Fuhai Wang 2021-04-25  7604  	 *  For INVADER_SERIES each set of 8 reply queues(0-7, 8-15, ..) and
-1549c764245c43 Fuhai Wang 2021-04-25  7605  	 *  VENTURA_SERIES each set of 16 reply queues(0-15, 16-31, ..) should
-1549c764245c43 Fuhai Wang 2021-04-25  7606  	 *  be within 4GB boundary and also reply queues in a set must have same
-1549c764245c43 Fuhai Wang 2021-04-25  7607  	 *  upper 32-bits in their memory address. so here driver is allocating
-1549c764245c43 Fuhai Wang 2021-04-25  7608  	 *  the DMA'able memory for reply queues according.
-1549c764245c43 Fuhai Wang 2021-04-25  7609  	 *  Driver uses limitation of
-1549c764245c43 Fuhai Wang 2021-04-25  7610  	 *  VENTURA_SERIES to manage INVADER_SERIES as well.
-1549c764245c43 Fuhai Wang 2021-04-25  7611  	 */
-1549c764245c43 Fuhai Wang 2021-04-25  7612  	dma_alloc_count = DIV_ROUND_UP(count,
-1549c764245c43 Fuhai Wang 2021-04-25  7613  				RDPQ_MAX_INDEX_IN_ONE_CHUNK);
-1549c764245c43 Fuhai Wang 2021-04-25  7614  	ioc->reply_post_free_dma_pool =
-1549c764245c43 Fuhai Wang 2021-04-25  7615  		dma_pool_create("reply_post_free pool",
-1549c764245c43 Fuhai Wang 2021-04-25  7616  		    &ioc->pdev->dev, sz, 16, 0);
-1549c764245c43 Fuhai Wang 2021-04-25  7617  	if (!ioc->reply_post_free_dma_pool) {
-1549c764245c43 Fuhai Wang 2021-04-25 @7618  		pr_err(KERN_ERR "reply_post_free pool: dma_pool_create failed\n");
-1549c764245c43 Fuhai Wang 2021-04-25  7619  		return -ENOMEM;
-1549c764245c43 Fuhai Wang 2021-04-25  7620  	}
-1549c764245c43 Fuhai Wang 2021-04-25  7621  	for (i = 0; i < count; i++) {
-1549c764245c43 Fuhai Wang 2021-04-25  7622  		if ((i % RDPQ_MAX_INDEX_IN_ONE_CHUNK == 0) && dma_alloc_count) {
-1549c764245c43 Fuhai Wang 2021-04-25  7623  			ioc->reply_post[i].reply_post_free =
-1549c764245c43 Fuhai Wang 2021-04-25  7624  				dma_pool_zalloc(ioc->reply_post_free_dma_pool,
-1549c764245c43 Fuhai Wang 2021-04-25  7625  				    GFP_KERNEL,
-1549c764245c43 Fuhai Wang 2021-04-25  7626  				    &ioc->reply_post[i].reply_post_free_dma);
-1549c764245c43 Fuhai Wang 2021-04-25  7627  			if (!ioc->reply_post[i].reply_post_free) {
-1549c764245c43 Fuhai Wang 2021-04-25  7628  				pr_err(KERN_ERR "reply_post_free pool: "
-1549c764245c43 Fuhai Wang 2021-04-25  7629  				    "dma_pool_alloc failed\n");
-1549c764245c43 Fuhai Wang 2021-04-25  7630  				return -EAGAIN; 
-1549c764245c43 Fuhai Wang 2021-04-25  7631  			}
-1549c764245c43 Fuhai Wang 2021-04-25  7632  		/* reply desc pool requires to be in same 4 gb region.
-1549c764245c43 Fuhai Wang 2021-04-25  7633  		 * Below function will check this.
-1549c764245c43 Fuhai Wang 2021-04-25  7634  		 * In case of failure, new pci pool will be created with updated
-1549c764245c43 Fuhai Wang 2021-04-25  7635  		 * alignment.
-1549c764245c43 Fuhai Wang 2021-04-25  7636  		 * For RDPQ buffers, driver allocates two separate pci pool.
-1549c764245c43 Fuhai Wang 2021-04-25  7637  		 * Alignment will be used such a way that next allocation if
-1549c764245c43 Fuhai Wang 2021-04-25  7638  		 * success, will always meet same 4gb region requirement.
-1549c764245c43 Fuhai Wang 2021-04-25  7639  		 * Flag dma_pool keeps track of each buffers pool,
-1549c764245c43 Fuhai Wang 2021-04-25  7640  		 * It will help driver while freeing the resources.
-1549c764245c43 Fuhai Wang 2021-04-25  7641  		 */
-1549c764245c43 Fuhai Wang 2021-04-25  7642  			if (!mpt3sas_check_same_4gb_region(
-1549c764245c43 Fuhai Wang 2021-04-25  7643  				(long)ioc->reply_post[i].reply_post_free, sz)) {
-1549c764245c43 Fuhai Wang 2021-04-25  7644  				dinitprintk(ioc,
-1549c764245c43 Fuhai Wang 2021-04-25  7645  				    printk(MPT3SAS_ERR_FMT "bad Replypost free pool(0x%p)"
-1549c764245c43 Fuhai Wang 2021-04-25  7646  				    "reply_post_free_dma = (0x%llx)\n", ioc->name,
-1549c764245c43 Fuhai Wang 2021-04-25  7647  				    ioc->reply_post[i].reply_post_free,
-1549c764245c43 Fuhai Wang 2021-04-25  7648  				    (unsigned long long)
-1549c764245c43 Fuhai Wang 2021-04-25  7649  				    ioc->reply_post[i].reply_post_free_dma));
-1549c764245c43 Fuhai Wang 2021-04-25  7650  				ioc->use_32bit_dma = 1;
-1549c764245c43 Fuhai Wang 2021-04-25  7651  				return -EAGAIN;
-1549c764245c43 Fuhai Wang 2021-04-25  7652  			}
-1549c764245c43 Fuhai Wang 2021-04-25  7653  			dma_alloc_count--;
-1549c764245c43 Fuhai Wang 2021-04-25  7654  		} else {
-1549c764245c43 Fuhai Wang 2021-04-25  7655  			ioc->reply_post[i].reply_post_free =
-1549c764245c43 Fuhai Wang 2021-04-25  7656  			    (Mpi2ReplyDescriptorsUnion_t *)
-1549c764245c43 Fuhai Wang 2021-04-25  7657  			    ((long)ioc->reply_post[i-1].reply_post_free
-1549c764245c43 Fuhai Wang 2021-04-25  7658  			    + reply_post_free_sz);
-1549c764245c43 Fuhai Wang 2021-04-25  7659  			ioc->reply_post[i].reply_post_free_dma =
-1549c764245c43 Fuhai Wang 2021-04-25  7660  			    (dma_addr_t)
-1549c764245c43 Fuhai Wang 2021-04-25  7661  			    (ioc->reply_post[i-1].reply_post_free_dma +
-1549c764245c43 Fuhai Wang 2021-04-25  7662  			    reply_post_free_sz);
-1549c764245c43 Fuhai Wang 2021-04-25  7663  		}
-1549c764245c43 Fuhai Wang 2021-04-25  7664  	}
-1549c764245c43 Fuhai Wang 2021-04-25  7665  	return 0;
-1549c764245c43 Fuhai Wang 2021-04-25  7666  }
-1549c764245c43 Fuhai Wang 2021-04-25  7667  
-1549c764245c43 Fuhai Wang 2021-04-25  7668  /**
-1549c764245c43 Fuhai Wang 2021-04-25  7669   * _base_allocate_pcie_sgl_pool - Allocating DMA'able memory
-1549c764245c43 Fuhai Wang 2021-04-25  7670   *			for pcie sgl pools.
-1549c764245c43 Fuhai Wang 2021-04-25  7671   * @ioc: Adapter object
-1549c764245c43 Fuhai Wang 2021-04-25  7672   * @sz: DMA Pool size
-1549c764245c43 Fuhai Wang 2021-04-25  7673   * @ct: Chain tracker
-1549c764245c43 Fuhai Wang 2021-04-25  7674   * Return: 0 for success, non-zero for failure.
-1549c764245c43 Fuhai Wang 2021-04-25  7675   */
-1549c764245c43 Fuhai Wang 2021-04-25  7676  
-1549c764245c43 Fuhai Wang 2021-04-25  7677  static int
-1549c764245c43 Fuhai Wang 2021-04-25  7678  _base_allocate_pcie_sgl_pool(struct MPT3SAS_ADAPTER *ioc, int sz,
-1549c764245c43 Fuhai Wang 2021-04-25  7679  	struct chain_tracker *ct)
-1549c764245c43 Fuhai Wang 2021-04-25  7680  {
-1549c764245c43 Fuhai Wang 2021-04-25  7681  	int i = 0, j = 0;
-1549c764245c43 Fuhai Wang 2021-04-25  7682  
-1549c764245c43 Fuhai Wang 2021-04-25  7683  	ioc->pcie_sgl_dma_pool = dma_pool_create("PCIe SGL pool", &ioc->pdev->dev, sz,
-1549c764245c43 Fuhai Wang 2021-04-25  7684  			ioc->page_size, 0);
-1549c764245c43 Fuhai Wang 2021-04-25  7685  	if (!ioc->pcie_sgl_dma_pool) {
-1549c764245c43 Fuhai Wang 2021-04-25  7686  		printk(MPT3SAS_ERR_FMT "PCIe SGL pool: dma_pool_create failed\n",
-1549c764245c43 Fuhai Wang 2021-04-25  7687  				ioc->name);
-1549c764245c43 Fuhai Wang 2021-04-25  7688  		return -ENOMEM;
-1549c764245c43 Fuhai Wang 2021-04-25  7689  	}
-1549c764245c43 Fuhai Wang 2021-04-25  7690  
-1549c764245c43 Fuhai Wang 2021-04-25  7691  	ioc->chains_per_prp_buffer = sz/ioc->chain_segment_sz;
-1549c764245c43 Fuhai Wang 2021-04-25  7692  	ioc->chains_per_prp_buffer =
-1549c764245c43 Fuhai Wang 2021-04-25  7693  	    min(ioc->chains_per_prp_buffer, ioc->chains_needed_per_io);
-1549c764245c43 Fuhai Wang 2021-04-25  7694  	for (i = 0; i < ioc->scsiio_depth; i++) {
-1549c764245c43 Fuhai Wang 2021-04-25  7695  		ioc->pcie_sg_lookup[i].pcie_sgl =
-1549c764245c43 Fuhai Wang 2021-04-25  7696  		    dma_pool_alloc(ioc->pcie_sgl_dma_pool, GFP_KERNEL,
-1549c764245c43 Fuhai Wang 2021-04-25  7697  		    &ioc->pcie_sg_lookup[i].pcie_sgl_dma);
-1549c764245c43 Fuhai Wang 2021-04-25  7698  		if (!ioc->pcie_sg_lookup[i].pcie_sgl) {
-1549c764245c43 Fuhai Wang 2021-04-25  7699  			printk(MPT3SAS_ERR_FMT
-1549c764245c43 Fuhai Wang 2021-04-25  7700  			    "PCIe SGL pool: dma_pool_alloc failed\n", ioc->name);
-1549c764245c43 Fuhai Wang 2021-04-25  7701  			return -EAGAIN; 
-1549c764245c43 Fuhai Wang 2021-04-25  7702  		}
-1549c764245c43 Fuhai Wang 2021-04-25  7703  
-1549c764245c43 Fuhai Wang 2021-04-25  7704  		if (!mpt3sas_check_same_4gb_region(
-1549c764245c43 Fuhai Wang 2021-04-25  7705  		    (long)ioc->pcie_sg_lookup[i].pcie_sgl, sz)) {
-1549c764245c43 Fuhai Wang 2021-04-25  7706  			printk(MPT3SAS_ERR_FMT "PCIE SGLs are not in same 4G !!"
-1549c764245c43 Fuhai Wang 2021-04-25  7707  			    " pcie sgl (0x%p) dma = (0x%llx)\n",
-1549c764245c43 Fuhai Wang 2021-04-25  7708  			    ioc->name, ioc->pcie_sg_lookup[i].pcie_sgl,
-1549c764245c43 Fuhai Wang 2021-04-25  7709  			    (unsigned long long)
-1549c764245c43 Fuhai Wang 2021-04-25  7710  			    ioc->pcie_sg_lookup[i].pcie_sgl_dma);
-1549c764245c43 Fuhai Wang 2021-04-25  7711  			ioc->use_32bit_dma = 1;
-1549c764245c43 Fuhai Wang 2021-04-25  7712  			return -EAGAIN;
-1549c764245c43 Fuhai Wang 2021-04-25  7713  		}
-1549c764245c43 Fuhai Wang 2021-04-25  7714  
-1549c764245c43 Fuhai Wang 2021-04-25  7715  		for (j = 0; j < ioc->chains_per_prp_buffer; j++) {
-1549c764245c43 Fuhai Wang 2021-04-25  7716  			ct = &ioc->chain_lookup[i].chains_per_smid[j];
-1549c764245c43 Fuhai Wang 2021-04-25  7717  			ct->chain_buffer =
-1549c764245c43 Fuhai Wang 2021-04-25  7718  			    ioc->pcie_sg_lookup[i].pcie_sgl +
-1549c764245c43 Fuhai Wang 2021-04-25  7719  			    (j * ioc->chain_segment_sz);
-1549c764245c43 Fuhai Wang 2021-04-25  7720  			ct->chain_buffer_dma =
-1549c764245c43 Fuhai Wang 2021-04-25  7721  			    ioc->pcie_sg_lookup[i].pcie_sgl_dma +
-1549c764245c43 Fuhai Wang 2021-04-25  7722  			    (j * ioc->chain_segment_sz);
-1549c764245c43 Fuhai Wang 2021-04-25  7723  		}
-1549c764245c43 Fuhai Wang 2021-04-25  7724  	}
-1549c764245c43 Fuhai Wang 2021-04-25  7725  	dinitprintk(ioc, printk(MPT3SAS_INFO_FMT "PCIe sgl pool depth(%d), "
-1549c764245c43 Fuhai Wang 2021-04-25  7726  	    "element_size(%d), pool_size(%d kB)\n",
-1549c764245c43 Fuhai Wang 2021-04-25  7727  	     ioc->name, ioc->scsiio_depth, sz, (sz * ioc->scsiio_depth)/1024));
-1549c764245c43 Fuhai Wang 2021-04-25  7728  	dinitprintk(ioc, printk(MPT3SAS_INFO_FMT "Number of chains can "
-1549c764245c43 Fuhai Wang 2021-04-25  7729  	    "fit in a PRP page(%d)\n", ioc->name, ioc->chains_per_prp_buffer));
-1549c764245c43 Fuhai Wang 2021-04-25  7730  	return 0;
-1549c764245c43 Fuhai Wang 2021-04-25  7731  }
-1549c764245c43 Fuhai Wang 2021-04-25  7732  
-1549c764245c43 Fuhai Wang 2021-04-25  7733  /**
-1549c764245c43 Fuhai Wang 2021-04-25  7734   * _base_allocate_chain_dma_pool - Allocating DMA'able memory
-1549c764245c43 Fuhai Wang 2021-04-25  7735   *			for chain dma pool.
-1549c764245c43 Fuhai Wang 2021-04-25  7736   * @ioc: Adapter object
-1549c764245c43 Fuhai Wang 2021-04-25  7737   * @sz: DMA Pool size
-1549c764245c43 Fuhai Wang 2021-04-25  7738   * @ct: Chain tracker
-1549c764245c43 Fuhai Wang 2021-04-25  7739   * Return: 0 for success, non-zero for failure.
-1549c764245c43 Fuhai Wang 2021-04-25  7740   */
-1549c764245c43 Fuhai Wang 2021-04-25  7741  static int
-1549c764245c43 Fuhai Wang 2021-04-25  7742  _base_allocate_chain_dma_pool(struct MPT3SAS_ADAPTER *ioc, int sz,
-1549c764245c43 Fuhai Wang 2021-04-25  7743  	struct chain_tracker *ctr)
-1549c764245c43 Fuhai Wang 2021-04-25  7744  {
-1549c764245c43 Fuhai Wang 2021-04-25  7745  	int i = 0, j = 0;
-1549c764245c43 Fuhai Wang 2021-04-25  7746  
-1549c764245c43 Fuhai Wang 2021-04-25  7747  	ioc->chain_dma_pool = dma_pool_create("chain pool", &ioc->pdev->dev,
-1549c764245c43 Fuhai Wang 2021-04-25  7748  			ioc->chain_segment_sz, 16, 0);
-1549c764245c43 Fuhai Wang 2021-04-25  7749  	if (!ioc->chain_dma_pool) {
-1549c764245c43 Fuhai Wang 2021-04-25  7750  		printk(MPT3SAS_ERR_FMT "chain_dma_pool: dma_pool_create "
-1549c764245c43 Fuhai Wang 2021-04-25  7751  				"failed\n", ioc->name);
-1549c764245c43 Fuhai Wang 2021-04-25  7752  		return -ENOMEM;
-1549c764245c43 Fuhai Wang 2021-04-25  7753  	}
-1549c764245c43 Fuhai Wang 2021-04-25  7754  
-1549c764245c43 Fuhai Wang 2021-04-25  7755  	for (i = 0; i < ioc->scsiio_depth; i++) {
-1549c764245c43 Fuhai Wang 2021-04-25  7756  		for (j = ioc->chains_per_prp_buffer;
-1549c764245c43 Fuhai Wang 2021-04-25  7757  		    j < ioc->chains_needed_per_io; j++) {
-1549c764245c43 Fuhai Wang 2021-04-25  7758  			ctr = &ioc->chain_lookup[i].chains_per_smid[j];
-1549c764245c43 Fuhai Wang 2021-04-25  7759  			ctr->chain_buffer = dma_pool_alloc(ioc->chain_dma_pool,
-1549c764245c43 Fuhai Wang 2021-04-25  7760  			    GFP_KERNEL, &ctr->chain_buffer_dma);
-1549c764245c43 Fuhai Wang 2021-04-25  7761  			if (!ctr->chain_buffer)
-1549c764245c43 Fuhai Wang 2021-04-25  7762  				return -EAGAIN;
-1549c764245c43 Fuhai Wang 2021-04-25  7763  			if (!mpt3sas_check_same_4gb_region(
-1549c764245c43 Fuhai Wang 2021-04-25  7764  				(long)ctr->chain_buffer, ioc->chain_segment_sz)) {
-1549c764245c43 Fuhai Wang 2021-04-25  7765  				printk(MPT3SAS_ERR_FMT
-1549c764245c43 Fuhai Wang 2021-04-25  7766  				    "Chain buffers are not in same 4G !!!"
-1549c764245c43 Fuhai Wang 2021-04-25  7767  				    "Chain buff (0x%p) dma = (0x%llx)\n",
-1549c764245c43 Fuhai Wang 2021-04-25  7768  				    ioc->name, ctr->chain_buffer,
-1549c764245c43 Fuhai Wang 2021-04-25  7769  				    (unsigned long long)ctr->chain_buffer_dma);
-1549c764245c43 Fuhai Wang 2021-04-25 @7770  				    ioc->use_32bit_dma = 1;
-1549c764245c43 Fuhai Wang 2021-04-25  7771  					return -EAGAIN;
-1549c764245c43 Fuhai Wang 2021-04-25  7772  			}
-1549c764245c43 Fuhai Wang 2021-04-25  7773  		}
-1549c764245c43 Fuhai Wang 2021-04-25  7774  	}
-1549c764245c43 Fuhai Wang 2021-04-25  7775  	dinitprintk(ioc, printk(MPT3SAS_INFO_FMT "chain_lookup depth"
-1549c764245c43 Fuhai Wang 2021-04-25  7776  	    "(%d), frame_size(%d), pool_size(%d kB)\n", ioc->name,
-1549c764245c43 Fuhai Wang 2021-04-25  7777  	    ioc->scsiio_depth, ioc->chain_segment_sz, ((ioc->scsiio_depth *
-1549c764245c43 Fuhai Wang 2021-04-25  7778  	    (ioc->chains_needed_per_io - ioc->chains_per_prp_buffer) *
-1549c764245c43 Fuhai Wang 2021-04-25  7779  	    ioc->chain_segment_sz))/1024));
-1549c764245c43 Fuhai Wang 2021-04-25  7780  	return 0;
-1549c764245c43 Fuhai Wang 2021-04-25  7781  }
-1549c764245c43 Fuhai Wang 2021-04-25  7782  
+36947254e5f981 Sean Christopherson 2020-02-18  1657  
+07921665a65191 Sean Christopherson 2021-12-06  1658  static void kvm_commit_memory_region(struct kvm *kvm,
+07921665a65191 Sean Christopherson 2021-12-06  1659  				     struct kvm_memory_slot *old,
+07921665a65191 Sean Christopherson 2021-12-06  1660  				     const struct kvm_memory_slot *new,
+cf47f50b5c2e24 Sean Christopherson 2020-02-18  1661  				     enum kvm_mr_change change)
+cf47f50b5c2e24 Sean Christopherson 2020-02-18  1662  {
+6c7b2202e4d115 Paolo Bonzini       2022-11-17 @1663  	int old_flags = old ? old->flags : 0;
+6c7b2202e4d115 Paolo Bonzini       2022-11-17 @1664  	int new_flags = new ? new->flags : 0;
+07921665a65191 Sean Christopherson 2021-12-06  1665  	/*
+07921665a65191 Sean Christopherson 2021-12-06  1666  	 * Update the total number of memslot pages before calling the arch
+07921665a65191 Sean Christopherson 2021-12-06  1667  	 * hook so that architectures can consume the result directly.
+07921665a65191 Sean Christopherson 2021-12-06  1668  	 */
+07921665a65191 Sean Christopherson 2021-12-06  1669  	if (change == KVM_MR_DELETE)
+07921665a65191 Sean Christopherson 2021-12-06 @1670  		kvm->nr_memslot_pages -= old->npages;
+07921665a65191 Sean Christopherson 2021-12-06  1671  	else if (change == KVM_MR_CREATE)
+07921665a65191 Sean Christopherson 2021-12-06 @1672  		kvm->nr_memslot_pages += new->npages;
+cf47f50b5c2e24 Sean Christopherson 2020-02-18  1673  
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1674  	if ((old_flags ^ new_flags) & KVM_MEM_LOG_DIRTY_PAGES) {
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1675  		int change = (new_flags & KVM_MEM_LOG_DIRTY_PAGES) ? 1 : -1;
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1676  		atomic_set(&kvm->nr_memslots_dirty_logging,
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1677  			   atomic_read(&kvm->nr_memslots_dirty_logging) + change);
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1678  	}
+6c7b2202e4d115 Paolo Bonzini       2022-11-17  1679  
+07921665a65191 Sean Christopherson 2021-12-06  1680  	kvm_arch_commit_memory_region(kvm, old, new, change);
+07921665a65191 Sean Christopherson 2021-12-06  1681  
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1682  	switch (change) {
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1683  	case KVM_MR_CREATE:
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1684  		/* Nothing more to do. */
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1685  		break;
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1686  	case KVM_MR_DELETE:
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1687  		/* Free the old memslot and all its metadata. */
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1688  		kvm_free_memslot(kvm, old);
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1689  		break;
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1690  	case KVM_MR_MOVE:
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1691  	case KVM_MR_FLAGS_ONLY:
+b10a038e84d188 Ben Gardon          2021-05-18  1692  		/*
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1693  		 * Free the dirty bitmap as needed; the below check encompasses
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1694  		 * both the flags and whether a ring buffer is being used)
+07921665a65191 Sean Christopherson 2021-12-06  1695  		 */
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1696  		if (old->dirty_bitmap && !new->dirty_bitmap)
+07921665a65191 Sean Christopherson 2021-12-06  1697  			kvm_destroy_dirty_bitmap(old);
+07921665a65191 Sean Christopherson 2021-12-06  1698  
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1699  		/*
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1700  		 * The final quirk.  Free the detached, old slot, but only its
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1701  		 * memory, not any metadata.  Metadata, including arch specific
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1702  		 * data, may be reused by @new.
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1703  		 */
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1704  		kfree(old);
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1705  		break;
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1706  	default:
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1707  		BUG();
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1708  	}
+a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1709  }
+cf47f50b5c2e24 Sean Christopherson 2020-02-18  1710  
+
+:::::: The code at line 1670 was first introduced by commit
+:::::: 07921665a651918350bc6653d4ca8a516a867b4b KVM: Use prepare/commit hooks to handle generic memslot metadata updates
+
+:::::: TO: Sean Christopherson <seanjc@google.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
