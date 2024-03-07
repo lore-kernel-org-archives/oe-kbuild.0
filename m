@@ -1,54 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F60B1D699
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Mar 2024 14:18:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C7A12E1F1
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Mar 2024 14:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709821083; cv=none; b=JT9siwwyocrE4R43M/5ltLN2zL1Lz7wOdNMMMRxmXDEMFZe8jKhtoXmui440V0ScKcJNuoehdng9iskyEShp47f3T/t1N+KXZ8V0b/q8n8pz5LtBF7shgcpmBwh9rxQ/KJlzlSq0Hx9uVS5VBrODMYURgNcl5xXhX+lcnU515Ik=
+	t=1709821474; cv=none; b=T5hD+p9SeIPlzbpnSGouSab9Jt1SXNEFMKMKy/ipUfM6dmW7jswurm+xFGIIrw7Grx/ak0cnXRUc5oM3pVUl1vFMgz0n/AvDf93jM63cwyLM3sUls7kleh52c2t/8RXgd3PJc72G+PyUjuMu1mTIsIi404qn9zy+cNl51yTYuhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709821083; c=relaxed/simple;
-	bh=b5d5nrXIIjH+qRVb2mP8wQHwAJQsvzifISxkF8GXUcU=;
+	s=arc-20240116; t=1709821474; c=relaxed/simple;
+	bh=XfdgPqsryEimkaX+ec7UD2N0XK3t6eWPFGrc88DKSis=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AUsoezjuaSO1A8wgx4GSq0wwjxEKKCo6EcpvTHAf8i+clDu2nK29gtA9Mu4K+G0Hl6ItFoCrXkdGmshdJsXMq978RO7dzmE7cTio4cIhWGoHN6Ke1yC6njE+CmO1SWgspoF76wNGe35QzRWUNSM7kIJw9yisQw/sD32BU5RN6yA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fqGYDZi7; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=OFalocsW1yPoo7WioJ6xFbmraysGbzAAeQrIRfLNKN1JprvA5lCpNnhzUKwQ1l5toyJCvfYYADKZShR+vGYTzOOyhFzdlMt8SmwnPYjZcheuvpmDNHa7vfhUl170DkekkqXjZKdhGwh9UFV7zqIq/SRlj9aZ9Ysczi5WmpTQgaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IOj8bYRX; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fqGYDZi7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709821081; x=1741357081;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b5d5nrXIIjH+qRVb2mP8wQHwAJQsvzifISxkF8GXUcU=;
-  b=fqGYDZi7HE0JFeuZQVStqliFPhF4NbDturE7lR5iGvogMFEDcmjJN+b3
-   Ck9Xol+/2BALAYepXXy698elJ7NA3uc+qi4w63oYjjnf93J3GambBvaNV
-   Lp2EKo9dxWiaAF3YN7SEklp+0baKDE/ldJ2q7QruyYT44D36jlYGT0rj/
-   juFuF6slxLMnVFn2b7ppzrDIh9vyRj/OxAcSc/kWrpr3elzJaEmtI/CSB
-   cd6wETnT3rsFEWhEBbBKGvY9jg4dtVtiPPY+dIu7puIiOzOzYPZFYT8W5
-   2kkHUl5VOWtgasCHHt5w6TWg1fGfCQwxduLpOda9tmJ0NFVr2Gms2A8ka
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="22013979"
-X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="22013979"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 06:18:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="10024163"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Mar 2024 06:17:59 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1riEZJ-0005Eb-0W;
-	Thu, 07 Mar 2024 14:17:57 +0000
-Date: Thu, 7 Mar 2024 22:17:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IOj8bYRX"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-412f1ccf8d8so9073785e9.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 07 Mar 2024 06:24:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709821471; x=1710426271; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KLkEU65YERPzZDXp5EuRPV0oeNk1pD4FHKA6c0/zoZU=;
+        b=IOj8bYRXqr/NyR/UL5PeSGLfyTWLArHwlx+QdqKgnD3nKl7sxsYOKYuoUVVOJ9Tiyw
+         C3lvIx0OkKo1M6C/B0eQxhTXnz6V6maS8mhM6zax7LMAiT0Hfaj4lQ8Vqxpme3fs41ma
+         JUgPQ785UncwsrLd1io30TcuFatUDSWttxOPmJnJGvFzF7JDhCYyTeo+Ew1jmk7DJZcK
+         E3XsTUk9NATXyjUDGHUQ8takuDm4+taDLdiJA6Rf4hcfoEB5wgJwnNM9KZvnscKfjCLQ
+         IJyn7GjcSs7/eg5vu1soxqlNytZC1iQbeI/Y6iu0++++CsHetZyE2gwIzP78Weon4BK9
+         Nhpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709821471; x=1710426271;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KLkEU65YERPzZDXp5EuRPV0oeNk1pD4FHKA6c0/zoZU=;
+        b=wvBrVeVf9nJ4spLgRXE3IeRSotrhXoDYYb1rAq9XMMgQzslNtpQt/0p0Ql3UcsGm1q
+         r3VYxVYgw24No9Axp6qKgkpL2h6q4WdvdwrkRq5Ki5ipJG0odxT9GPLq3eRtv0zOCrBg
+         ju4gv80gA6c4naNghCzfUCmAGbjbUrrMf0+LcOod+BhaeiiK7B3R0gEHb3goCEDZGn3c
+         vmCG2nGyc29Sx6dbWPMx2gdgA4UuLPKhR2ofmWVeyCpVp45TKTI5JwqjP2fv7mszl+z4
+         BLQa8n0K+Q+vBMUfF0EGdpxMtArvcbrTI7i2dECvcol6NGfljD6YkWcN+F6laB+RIVmf
+         W9Qw==
+X-Gm-Message-State: AOJu0YywyzcCWYsw7TVp7xZxuyuIts5lNBfVM/cKnTHfbti1c7RpVPdl
+	HnGg+EGWnbj8rVKiwcNO5vMvobM6UgxduuMeZGi8o+1HbQB+n2wfbbUgD8kJIbC/AZQVrB5DzLf
+	j
+X-Google-Smtp-Source: AGHT+IFkS3QjWn6zABoMsQq7lMuBHhk7E02ZrOa2EckIwNumg7/2o3gzTOlzWBFXp44p7lqgjQ21Kw==
+X-Received: by 2002:a05:600c:474a:b0:412:bf52:9ac2 with SMTP id w10-20020a05600c474a00b00412bf529ac2mr14481024wmo.14.1709821470461;
+        Thu, 07 Mar 2024 06:24:30 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id bq27-20020a5d5a1b000000b0033e6879817esm1363499wrb.58.2024.03.07.06.24.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Mar 2024 06:24:30 -0800 (PST)
+Date: Thu, 7 Mar 2024 17:24:26 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>,
+	herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Ruud.Derwig@synopsys.com,
+	manjunath.hadli@vayavyalabs.com,
+	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
 Subject: Re: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and
  Makefile file
-Message-ID: <202403072256.em3Fk3At-lkp@intel.com>
+Message-ID: <c9d89052-74c8-4746-a54c-c199786743fb@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,42 +70,25 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20240305112831.3380896-5-pavitrakumarm@vayavyalabs.com>
-References: <20240305112831.3380896-5-pavitrakumarm@vayavyalabs.com>
-TO: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
-TO: herbert@gondor.apana.org.au
-TO: linux-crypto@vger.kernel.org
-CC: Ruud.Derwig@synopsys.com
-CC: manjunath.hadli@vayavyalabs.com
-CC: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
 
 Hi Pavitrakumar,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master linus/master v6.8-rc7 next-20240307]
-[cannot apply to xilinx-xlnx/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-M/Add-SPAcc-driver-to-Linux-kernel/20240305-193337
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
 patch link:    https://lore.kernel.org/r/20240305112831.3380896-5-pavitrakumarm%40vayavyalabs.com
 patch subject: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and Makefile file
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
 config: m68k-randconfig-r081-20240307 (https://download.01.org/0day-ci/archive/20240307/202403072256.em3Fk3At-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202403072256.em3Fk3At-lkp@intel.com/
 
 New smatch warnings:
@@ -128,6 +124,9 @@ vim +/total_len +1057 drivers/crypto/dwc-spacc/spacc_ahash.c
 6ad822cec22644 Pavitrakumar M 2024-03-05  1003  	if (tctx->handle < 0 || !tctx->ctx_valid ||
 6ad822cec22644 Pavitrakumar M 2024-03-05  1004  	    req->nbytes > priv->max_msg_len)
 6ad822cec22644 Pavitrakumar M 2024-03-05  1005  		goto fallback;
+
+"total_len" not intialized for these gotos
+
 6ad822cec22644 Pavitrakumar M 2024-03-05  1006  
 6ad822cec22644 Pavitrakumar M 2024-03-05  1007  	rc = spacc_hash_init_dma(tctx->dev, req, final);
 6ad822cec22644 Pavitrakumar M 2024-03-05  1008  	if (rc < 0)
@@ -180,13 +179,15 @@ vim +/total_len +1057 drivers/crypto/dwc-spacc/spacc_ahash.c
 6ad822cec22644 Pavitrakumar M 2024-03-05  1055  	ahash_request_set_tfm(&ctx->fb.hash_req, tctx->fb.hash);
 6ad822cec22644 Pavitrakumar M 2024-03-05  1056  
 6ad822cec22644 Pavitrakumar M 2024-03-05 @1057  	ctx->fb.hash_req.nbytes = total_len;
+                                                                                  ^^^^^^^^^
+
 6ad822cec22644 Pavitrakumar M 2024-03-05  1058  	ctx->fb.hash_req.src = req->src;
 6ad822cec22644 Pavitrakumar M 2024-03-05  1059  	ctx->fb.hash_req.result = req->result;
 6ad822cec22644 Pavitrakumar M 2024-03-05  1060  
 6ad822cec22644 Pavitrakumar M 2024-03-05  1061  	return crypto_ahash_digest(&ctx->fb.hash_req);
 6ad822cec22644 Pavitrakumar M 2024-03-05  1062  }
-6ad822cec22644 Pavitrakumar M 2024-03-05  1063  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
