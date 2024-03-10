@@ -1,54 +1,54 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170C5111A1
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Mar 2024 10:05:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F6136AE7
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Mar 2024 14:17:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710065110; cv=none; b=Er48f9UgfgK/ezYrdTnD9OlLtc3KDPrTqH3idd2MyoiHPMGSzQJyhuk4HQ9pUoXvUl7NEMjnW6gVER4iPWPNzhWZsCcRrrREWlvzL23LrB7GdUev0hYU/7lgoZGvUnRH/uGBWW2quiYaiOPMJOVTclAuCm6dKiKzi7ctX3fVrXQ=
+	t=1710080235; cv=none; b=abkKdJOoLm8yklaJNLtPhLsk2yTv1mjB9iVtZu7HFhb/aniA/ZHvtdnvquensr1ZmWYH+RtP7XA4ZN6xQkNVPnTnYEjZy7nKUW5Hr6RaO9bAwxhgK7anpLsKElkqLS1tG8GCDqf9DgqCu77Su8xjo97aSeij3vVFXAmOv97Pdeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710065110; c=relaxed/simple;
-	bh=PJFoXEufT80uZmnrskhFdxSimpOPiCgv5pW/lI3M0VM=;
+	s=arc-20240116; t=1710080235; c=relaxed/simple;
+	bh=UjTqCqfP+6hhAAhUEOuNQtvYMhbEPeXR0nUu9ZUmCOE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B7EDGvRBMkrky/x4IEi++ffaC7PzQmak/0DJh4ShY+XSa6yyfxPdz49Hz6QMSXQMkUliX34yPOHpPefcTJHwUlKa4yxaaDy7YIkTI+aXcdDCZLGWIE+gCUm88FtiPlCBG9FI4SJNnATJyj9yRl28cxRxUW2asOQeeoqhDw1lB7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=atkNDJS1; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=ZMc+t50G05VNSkKGt92BRc7LdrbA8PaHcGqATma0alw/g3DDbbytX4RBPZtVfpEQp9CqnPhO9KiKPH+DDgihR7EVZ5djxnqesdk93knZcoSYXh+Yw47Aea7/YCmz9qSiHMic8yto8Oza2YEIDskHjteSqCJ6Zhcv+l+qn7fR8/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ObJNufoM; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="atkNDJS1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ObJNufoM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710065107; x=1741601107;
+  t=1710080233; x=1741616233;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PJFoXEufT80uZmnrskhFdxSimpOPiCgv5pW/lI3M0VM=;
-  b=atkNDJS1uGupDGThd3RAxjASGJPTSrW3hQuFO7gREgAsv0OJ9LvAMGkK
-   LcvTEdyGoWiKwRT1DOS3X5fBHfmXHdJ6iWs+uch0tRvYmYfrXr+dd1ggu
-   5s1wEhDK6Kus/x8kImOHQYFBAXD1/KKjOFAZw/9D3cr4RAtORjqwPdcv6
-   Z0z65RNA1co/zWmd4nB5sYZeOYFklh1IiRhCsf0bMC8QcS256pq85KHdy
-   qLmGXdRGAHcaCMvQ1fyMLs4D0lgGwljpAOxHWPOmwVug3YBGc+/GyXwVn
-   C6OWqSzHr0CSD13G+h+FepGlv2PJCGfdj1jGSdryIzKsi5USI1u6WNqjT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="22196142"
+  bh=UjTqCqfP+6hhAAhUEOuNQtvYMhbEPeXR0nUu9ZUmCOE=;
+  b=ObJNufoMT3N2Vvr5yhGOzzHXQjMNduVu8e01GRWUdfWUo/k2bZqOf8Dh
+   fJc6rC2/DLrV/1png34Rdrz6B8VTJdFc2fB8XGFeNQ7sg7qBONzfJq3Hf
+   2aHzFeNXx7iscMdyl8xRPevNqOMzFrctLzJAvH5XNZZoUV4c/FGGrexAf
+   rIhHo3ap9s+JkU2eU6/dvxBk8tUd8MWilSNJD6EjL+N5ahHfelKw2/9Oq
+   3OxVAouNg3+vjdW2jQSCOPyG1FQSozDW7/C6nKi/+IqIihiXTyLKi+QNT
+   Dn81NVB0le/5E+juMTAs6Ym04xrP0b26d6f61ktATCEDnF+h0+9B4YLSP
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="22204551"
 X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
-   d="scan'208";a="22196142"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 03:05:07 -0700
+   d="scan'208";a="22204551"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 07:17:12 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
-   d="scan'208";a="15454106"
+   d="scan'208";a="41907490"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Mar 2024 03:05:05 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 10 Mar 2024 07:17:09 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rjG3C-00089z-2Q;
-	Sun, 10 Mar 2024 10:05:02 +0000
-Date: Sun, 10 Mar 2024 18:04:32 +0800
+	id 1rjJz9-0008Ip-19;
+	Sun, 10 Mar 2024 14:17:07 +0000
+Date: Sun, 10 Mar 2024 22:16:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [RFC PATCH 2/3] x86/mm: make sure LAM is up-to-date during
- context switching
-Message-ID: <202403101713.eM4pyFpc-lkp@intel.com>
+Subject: [linux-next:master 11516/12944] drivers/net/ethernet/amd/lance.c:559
+ lance_probe1() warn: Please consider using kcalloc instead of kmalloc_array
+Message-ID: <202403102251.yzUvcvjn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,220 +60,323 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240307133916.3782068-3-yosryahmed@google.com>
-References: <20240307133916.3782068-3-yosryahmed@google.com>
-TO: Yosry Ahmed <yosryahmed@google.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Suren Baghdasaryan <surenb@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Kees Cook <keescook@chromium.org>
+CC: Pasha Tatashin <pasha.tatashin@soleen.com>
 
-Hi Yosry,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on tip/master linus/master tip/auto-latest v6.8-rc7 next-20240308]
-[cannot apply to tip/x86/core tip/x86/mm]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/x86-mm-fix-LAM-cr3-mask-inconsistency-during-context-switch/20240307-214052
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240307133916.3782068-3-yosryahmed%40google.com
-patch subject: [RFC PATCH 2/3] x86/mm: make sure LAM is up-to-date during context switching
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-161-20240310 (https://download.01.org/0day-ci/archive/20240310/202403101713.eM4pyFpc-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8ffc8b1bbd505e27e2c8439d326b6059c906c9dd
+commit: 772dd0342727cc3c3b676b5d97c99708e75730a2 [11516/12944] mm: enumerate all gfp flags
+:::::: branch date: 2 days ago
+:::::: commit date: 6 days ago
+config: i386-randconfig-141-20240308 (https://download.01.org/0day-ci/archive/20240310/202403102251.yzUvcvjn-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202403101713.eM4pyFpc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403102251.yzUvcvjn-lkp@intel.com/
 
-smatch warnings:
-arch/x86/mm/tlb.c:655 switch_mm_irqs_off() error: uninitialized symbol 'new_asid'.
+New smatch warnings:
+drivers/net/ethernet/amd/lance.c:559 lance_probe1() warn: Please consider using kcalloc instead of kmalloc_array
 
-vim +/new_asid +655 arch/x86/mm/tlb.c
+Old smatch warnings:
+drivers/net/ethernet/amd/lance.c:564 lance_probe1() warn: Please consider using kcalloc instead of kmalloc_array
 
-cb2a02355b042e Thomas Gleixner    2020-04-21  494  
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  495  /*
-cd87d9f58439a1 Yosry Ahmed        2024-02-22  496   * This optimizes when not actually switching mm's.  Some architectures use the
-cd87d9f58439a1 Yosry Ahmed        2024-02-22  497   * 'unused' argument for this optimization, but x86 must use
-cd87d9f58439a1 Yosry Ahmed        2024-02-22  498   * 'cpu_tlbstate.loaded_mm' instead because it does not always keep
-cd87d9f58439a1 Yosry Ahmed        2024-02-22  499   * 'current->active_mm' up to date.
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  500   */
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  501  void switch_mm_irqs_off(struct mm_struct *unused, struct mm_struct *next,
-078194f8e9fe3c Andy Lutomirski    2016-04-26  502  			struct task_struct *tsk)
-69c0319aabba45 Andy Lutomirski    2016-04-26  503  {
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  504  	struct mm_struct *prev = this_cpu_read(cpu_tlbstate.loaded_mm);
-10af6235e0d327 Andy Lutomirski    2017-07-24  505  	u16 prev_asid = this_cpu_read(cpu_tlbstate.loaded_mm_asid);
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  506  	u64 cpu_tlb_gen = this_cpu_read(cpu_tlbstate.ctxs[prev_asid].tlb_gen);
-2f4305b19fe6a2 Nadav Amit         2021-02-20  507  	bool was_lazy = this_cpu_read(cpu_tlbstate_shared.is_lazy);
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  508  	bool need_flush = false, need_lam_update = false;
-94b1b03b519b81 Andy Lutomirski    2017-06-29  509  	unsigned cpu = smp_processor_id();
-897738e46e29e1 Yosry Ahmed        2024-03-07  510  	unsigned long new_lam;
-94b1b03b519b81 Andy Lutomirski    2017-06-29  511  	u64 next_tlb_gen;
-12c4d978fd170c Rik van Riel       2018-09-25  512  	u16 new_asid;
-3d28ebceaffab4 Andy Lutomirski    2017-05-28  513  
-4c1ba3923e6c8a Nadav Amit         2021-02-20  514  	/* We don't want flush_tlb_func() to run concurrently with us. */
-94b1b03b519b81 Andy Lutomirski    2017-06-29  515  	if (IS_ENABLED(CONFIG_PROVE_LOCKING))
-94b1b03b519b81 Andy Lutomirski    2017-06-29  516  		WARN_ON_ONCE(!irqs_disabled());
-94b1b03b519b81 Andy Lutomirski    2017-06-29  517  
-94b1b03b519b81 Andy Lutomirski    2017-06-29  518  	/*
-94b1b03b519b81 Andy Lutomirski    2017-06-29  519  	 * Verify that CR3 is what we think it is.  This will catch
-94b1b03b519b81 Andy Lutomirski    2017-06-29  520  	 * hypothetical buggy code that directly switches to swapper_pg_dir
-10af6235e0d327 Andy Lutomirski    2017-07-24  521  	 * without going through leave_mm() / switch_mm_irqs_off() or that
-10af6235e0d327 Andy Lutomirski    2017-07-24  522  	 * does something like write_cr3(read_cr3_pa()).
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  523  	 *
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  524  	 * Only do this check if CONFIG_DEBUG_VM=y because __read_cr3()
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  525  	 * isn't free.
-94b1b03b519b81 Andy Lutomirski    2017-06-29  526  	 */
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  527  #ifdef CONFIG_DEBUG_VM
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  528  	if (WARN_ON_ONCE(__read_cr3() != build_cr3(prev->pgd, prev_asid,
-82721d8b25d76c Kirill A. Shutemov 2023-03-12  529  						   tlbstate_lam_cr3_mask()))) {
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  530  		/*
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  531  		 * If we were to BUG here, we'd be very likely to kill
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  532  		 * the system so hard that we don't see the call trace.
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  533  		 * Try to recover instead by ignoring the error and doing
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  534  		 * a global flush to minimize the chance of corruption.
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  535  		 *
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  536  		 * (This is far from being a fully correct recovery.
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  537  		 *  Architecturally, the CPU could prefetch something
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  538  		 *  back into an incorrect ASID slot and leave it there
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  539  		 *  to cause trouble down the road.  It's better than
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  540  		 *  nothing, though.)
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  541  		 */
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  542  		__flush_tlb_all();
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  543  	}
-a376e7f99be7c1 Andy Lutomirski    2017-09-07  544  #endif
-09c5272e48614a Nadav Amit         2021-02-20  545  	if (was_lazy)
-2f4305b19fe6a2 Nadav Amit         2021-02-20  546  		this_cpu_write(cpu_tlbstate_shared.is_lazy, false);
-3d28ebceaffab4 Andy Lutomirski    2017-05-28  547  
-306e060435d7a3 Mathieu Desnoyers  2018-01-29  548  	/*
-10bcc80e9dbced Mathieu Desnoyers  2018-01-29  549  	 * The membarrier system call requires a full memory barrier and
-10bcc80e9dbced Mathieu Desnoyers  2018-01-29  550  	 * core serialization before returning to user-space, after
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  551  	 * storing to rq->curr, when changing mm.  This is because
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  552  	 * membarrier() sends IPIs to all CPUs that are in the target mm
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  553  	 * to make them issue memory barriers.  However, if another CPU
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  554  	 * switches to/from the target mm concurrently with
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  555  	 * membarrier(), it can cause that CPU not to receive an IPI
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  556  	 * when it really should issue a memory barrier.  Writing to CR3
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  557  	 * provides that full memory barrier and core serializing
-a493d1ca1a03b5 Andy Lutomirski    2020-12-03  558  	 * instruction.
-306e060435d7a3 Mathieu Desnoyers  2018-01-29  559  	 */
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  560  	if (prev == next) {
-82721d8b25d76c Kirill A. Shutemov 2023-03-12  561  		/* Not actually switching mm's */
-e8b9b0cc8269c8 Andy Lutomirski    2017-10-14  562  		VM_WARN_ON(this_cpu_read(cpu_tlbstate.ctxs[prev_asid].ctx_id) !=
-94b1b03b519b81 Andy Lutomirski    2017-06-29  563  			   next->context.ctx_id);
-94b1b03b519b81 Andy Lutomirski    2017-06-29  564  
-3d28ebceaffab4 Andy Lutomirski    2017-05-28  565  		/*
-145f573b89a62b Rik van Riel       2018-09-25  566  		 * Even in lazy TLB mode, the CPU should stay set in the
-145f573b89a62b Rik van Riel       2018-09-25  567  		 * mm_cpumask. The TLB shootdown code can figure out from
-2f4305b19fe6a2 Nadav Amit         2021-02-20  568  		 * cpu_tlbstate_shared.is_lazy whether or not to send an IPI.
-3d28ebceaffab4 Andy Lutomirski    2017-05-28  569  		 */
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  570  		if (WARN_ON_ONCE(prev != &init_mm &&
-b956575bed91ec Andy Lutomirski    2017-10-09  571  				 !cpumask_test_cpu(cpu, mm_cpumask(next))))
-94b1b03b519b81 Andy Lutomirski    2017-06-29  572  			cpumask_set_cpu(cpu, mm_cpumask(next));
-94b1b03b519b81 Andy Lutomirski    2017-06-29  573  
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  574  		/*
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  575  		 * tlbstate_lam_cr3_mask() may be outdated if a different thread
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  576  		 * has enabled LAM while we were borrowing its mm on this CPU.
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  577  		 * Make sure we update CR3 in case we are switching to another
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  578  		 * thread in that process.
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  579  		 */
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  580  		if (tlbstate_lam_cr3_mask() != mm_lam_cr3_mask(next))
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  581  			need_lam_update = true;
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  582  
-145f573b89a62b Rik van Riel       2018-09-25  583  		/*
-145f573b89a62b Rik van Riel       2018-09-25  584  		 * If the CPU is not in lazy TLB mode, we are just switching
-145f573b89a62b Rik van Riel       2018-09-25  585  		 * from one thread in a process to another thread in the same
-145f573b89a62b Rik van Riel       2018-09-25  586  		 * process. No TLB flush required.
-145f573b89a62b Rik van Riel       2018-09-25  587  		 */
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  588  		if (was_lazy) {
-145f573b89a62b Rik van Riel       2018-09-25  589  			/*
-145f573b89a62b Rik van Riel       2018-09-25  590  			 * Read the tlb_gen to check whether a flush is needed.
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  591  			 * If the TLB is up to date, just use it.  The barrier
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  592  			 * synchronizes with the tlb_gen increment in the TLB
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  593  			 * shootdown code.
-145f573b89a62b Rik van Riel       2018-09-25  594  			 */
-145f573b89a62b Rik van Riel       2018-09-25  595  			smp_mb();
-145f573b89a62b Rik van Riel       2018-09-25  596  			next_tlb_gen = atomic64_read(&next->context.tlb_gen);
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  597  			if (cpu_tlb_gen < next_tlb_gen) {
-145f573b89a62b Rik van Riel       2018-09-25  598  				/*
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  599  				 * TLB contents went out of date while we were
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  600  				 * in lazy mode.
-145f573b89a62b Rik van Riel       2018-09-25  601  				 */
-145f573b89a62b Rik van Riel       2018-09-25  602  				new_asid = prev_asid;
-145f573b89a62b Rik van Riel       2018-09-25  603  				need_flush = true;
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  604  			}
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  605  		}
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  606  
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  607  		if (!need_flush && !need_lam_update)
-c2bc96a91dc26e Yosry Ahmed        2024-03-07  608  			return;
-94b1b03b519b81 Andy Lutomirski    2017-06-29  609  	} else {
-18bf3c3ea8ece8 Tim Chen           2018-01-29  610  		/*
-371b09c6fdc436 Balbir Singh       2021-01-08  611  		 * Apply process to process speculation vulnerability
-371b09c6fdc436 Balbir Singh       2021-01-08  612  		 * mitigations if applicable.
-18bf3c3ea8ece8 Tim Chen           2018-01-29  613  		 */
-371b09c6fdc436 Balbir Singh       2021-01-08  614  		cond_mitigation(tsk);
-94b1b03b519b81 Andy Lutomirski    2017-06-29  615  
-e9d8c61557687b Rik van Riel       2018-07-16  616  		/*
-e9d8c61557687b Rik van Riel       2018-07-16  617  		 * Stop remote flushes for the previous mm.
-e9d8c61557687b Rik van Riel       2018-07-16  618  		 * Skip kernel threads; we never send init_mm TLB flushing IPIs,
-e9d8c61557687b Rik van Riel       2018-07-16  619  		 * but the bitmap manipulation can cause cache line contention.
-e9d8c61557687b Rik van Riel       2018-07-16  620  		 */
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  621  		if (prev != &init_mm) {
-e9d8c61557687b Rik van Riel       2018-07-16  622  			VM_WARN_ON_ONCE(!cpumask_test_cpu(cpu,
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  623  						mm_cpumask(prev)));
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  624  			cpumask_clear_cpu(cpu, mm_cpumask(prev));
-e9d8c61557687b Rik van Riel       2018-07-16  625  		}
-e37e43a497d5a8 Andy Lutomirski    2016-08-11  626  
-69c0319aabba45 Andy Lutomirski    2016-04-26  627  		/*
-94b1b03b519b81 Andy Lutomirski    2017-06-29  628  		 * Start remote flushes and then read tlb_gen.
-69c0319aabba45 Andy Lutomirski    2016-04-26  629  		 */
-e9d8c61557687b Rik van Riel       2018-07-16  630  		if (next != &init_mm)
-94b1b03b519b81 Andy Lutomirski    2017-06-29  631  			cpumask_set_cpu(cpu, mm_cpumask(next));
-94b1b03b519b81 Andy Lutomirski    2017-06-29  632  		next_tlb_gen = atomic64_read(&next->context.tlb_gen);
-94b1b03b519b81 Andy Lutomirski    2017-06-29  633  
-10af6235e0d327 Andy Lutomirski    2017-07-24  634  		choose_new_asid(next, next_tlb_gen, &new_asid, &need_flush);
-69c0319aabba45 Andy Lutomirski    2016-04-26  635  
-4012e77a903d11 Andy Lutomirski    2018-08-29  636  		/* Let nmi_uaccess_okay() know that we're changing CR3. */
-4012e77a903d11 Andy Lutomirski    2018-08-29  637  		this_cpu_write(cpu_tlbstate.loaded_mm, LOADED_MM_SWITCHING);
-4012e77a903d11 Andy Lutomirski    2018-08-29  638  		barrier();
-12c4d978fd170c Rik van Riel       2018-09-25  639  	}
-4012e77a903d11 Andy Lutomirski    2018-08-29  640  
-897738e46e29e1 Yosry Ahmed        2024-03-07  641  	/*
-897738e46e29e1 Yosry Ahmed        2024-03-07  642  	 * Even if we are not actually switching mm's, another thread could have
-897738e46e29e1 Yosry Ahmed        2024-03-07  643  	 * updated mm->context.lam_cr3_mask. Make sure tlbstate_lam_cr3_mask()
-897738e46e29e1 Yosry Ahmed        2024-03-07  644  	 * and the loaded CR3 use the up-to-date mask.
-897738e46e29e1 Yosry Ahmed        2024-03-07  645  	 */
-897738e46e29e1 Yosry Ahmed        2024-03-07  646  	new_lam = set_tlbstate_lam_mode(next);
-10af6235e0d327 Andy Lutomirski    2017-07-24  647  	if (need_flush) {
-10af6235e0d327 Andy Lutomirski    2017-07-24  648  		this_cpu_write(cpu_tlbstate.ctxs[new_asid].ctx_id, next->context.ctx_id);
-10af6235e0d327 Andy Lutomirski    2017-07-24  649  		this_cpu_write(cpu_tlbstate.ctxs[new_asid].tlb_gen, next_tlb_gen);
-82721d8b25d76c Kirill A. Shutemov 2023-03-12  650  		load_new_mm_cr3(next->pgd, new_asid, new_lam, true);
-675357362aeba1 Andy Lutomirski    2017-11-04  651  
-bf9282dc26e7fe Peter Zijlstra     2020-08-12  652  		trace_tlb_flush(TLB_FLUSH_ON_TASK_SWITCH, TLB_FLUSH_ALL);
-10af6235e0d327 Andy Lutomirski    2017-07-24  653  	} else {
-10af6235e0d327 Andy Lutomirski    2017-07-24  654  		/* The new ASID is already up to date. */
-82721d8b25d76c Kirill A. Shutemov 2023-03-12 @655  		load_new_mm_cr3(next->pgd, new_asid, new_lam, false);
-675357362aeba1 Andy Lutomirski    2017-11-04  656  
-bf9282dc26e7fe Peter Zijlstra     2020-08-12  657  		trace_tlb_flush(TLB_FLUSH_ON_TASK_SWITCH, 0);
-10af6235e0d327 Andy Lutomirski    2017-07-24  658  	}
-10af6235e0d327 Andy Lutomirski    2017-07-24  659  
-4012e77a903d11 Andy Lutomirski    2018-08-29  660  	/* Make sure we write CR3 before loaded_mm. */
-4012e77a903d11 Andy Lutomirski    2018-08-29  661  	barrier();
-4012e77a903d11 Andy Lutomirski    2018-08-29  662  
-10af6235e0d327 Andy Lutomirski    2017-07-24  663  	this_cpu_write(cpu_tlbstate.loaded_mm, next);
-10af6235e0d327 Andy Lutomirski    2017-07-24  664  	this_cpu_write(cpu_tlbstate.loaded_mm_asid, new_asid);
-69c0319aabba45 Andy Lutomirski    2016-04-26  665  
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  666  	if (next != prev) {
-cb2a02355b042e Thomas Gleixner    2020-04-21  667  		cr4_update_pce_mm(next);
-3cfd6625a6cf83 Yosry Ahmed        2024-01-26  668  		switch_ldt(prev, next);
-69c0319aabba45 Andy Lutomirski    2016-04-26  669  	}
-145f573b89a62b Rik van Riel       2018-09-25  670  }
-69c0319aabba45 Andy Lutomirski    2016-04-26  671  
+vim +559 drivers/net/ethernet/amd/lance.c
+
+462540bdb2f08d drivers/net/lance.c              Stephen Hemminger  2009-03-26  470  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  471  static int __init lance_probe1(struct net_device *dev, int ioaddr, int irq, int options)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  472  {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  473  	struct lance_private *lp;
+00137dad17707f drivers/net/lance.c              Hannes Eder        2009-02-14  474  	unsigned long dma_channels;	/* Mark spuriously-busy DMA channels */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  475  	int i, reset_val, lance_version;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  476  	const char *chipname;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  477  	/* Flags for specific chips or boards. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  478  	unsigned char hpJ2405A = 0;	/* HP ISA adaptor */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  479  	int hp_builtin = 0;		/* HP on-board ethernet. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  480  	static int did_version;		/* Already printed version info. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  481  	unsigned long flags;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  482  	int err = -ENOMEM;
+c44fec118b62ba drivers/net/lance.c              Al Viro            2006-03-24  483  	void __iomem *bios;
+0222ee53c483df drivers/net/ethernet/amd/lance.c Jakub Kicinski     2021-11-18  484  	u8 addr[ETH_ALEN];
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  485  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  486  	/* First we look for special cases.
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  487  	   Check for HP's on-board ethernet by looking for 'HP' in the BIOS.
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  488  	   There are two HP versions, check the BIOS for the configuration port.
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  489  	   This method provided by L. Julliard, Laurent_Julliard@grenoble.hp.com.
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  490  	   */
+c44fec118b62ba drivers/net/lance.c              Al Viro            2006-03-24  491  	bios = ioremap(0xf00f0, 0x14);
+c44fec118b62ba drivers/net/lance.c              Al Viro            2006-03-24  492  	if (!bios)
+c44fec118b62ba drivers/net/lance.c              Al Viro            2006-03-24  493  		return -ENOMEM;
+c44fec118b62ba drivers/net/lance.c              Al Viro            2006-03-24  494  	if (readw(bios + 0x12) == 0x5048)  {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  495  		static const short ioaddr_table[] = { 0x300, 0x320, 0x340, 0x360};
+c44fec118b62ba drivers/net/lance.c              Al Viro            2006-03-24  496  		int hp_port = (readl(bios + 1) & 1)  ? 0x499 : 0x99;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  497  		/* We can have boards other than the built-in!  Verify this is on-board. */
+8e95a2026f3b43 drivers/net/lance.c              Joe Perches        2009-12-03  498  		if ((inb(hp_port) & 0xc0) == 0x80 &&
+8e95a2026f3b43 drivers/net/lance.c              Joe Perches        2009-12-03  499  		    ioaddr_table[inb(hp_port) & 3] == ioaddr)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  500  			hp_builtin = hp_port;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  501  	}
+c44fec118b62ba drivers/net/lance.c              Al Viro            2006-03-24  502  	iounmap(bios);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  503  	/* We also recognize the HP Vectra on-board here, but check below. */
+8e95a2026f3b43 drivers/net/lance.c              Joe Perches        2009-12-03  504  	hpJ2405A = (inb(ioaddr) == 0x08 && inb(ioaddr+1) == 0x00 &&
+8e95a2026f3b43 drivers/net/lance.c              Joe Perches        2009-12-03  505  		    inb(ioaddr+2) == 0x09);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  506  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  507  	/* Reset the LANCE.	 */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  508  	reset_val = inw(ioaddr+LANCE_RESET); /* Reset the LANCE */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  509  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  510  	/* The Un-Reset needed is only needed for the real NE2100, and will
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  511  	   confuse the HP board. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  512  	if (!hpJ2405A)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  513  		outw(reset_val, ioaddr+LANCE_RESET);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  514  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  515  	outw(0x0000, ioaddr+LANCE_ADDR); /* Switch to window 0 */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  516  	if (inw(ioaddr+LANCE_DATA) != 0x0004)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  517  		return -ENODEV;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  518  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  519  	/* Get the version of the chip. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  520  	outw(88, ioaddr+LANCE_ADDR);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  521  	if (inw(ioaddr+LANCE_ADDR) != 88) {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  522  		lance_version = 0;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  523  	} else {			/* Good, it's a newer chip. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  524  		int chip_version = inw(ioaddr+LANCE_DATA);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  525  		outw(89, ioaddr+LANCE_ADDR);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  526  		chip_version |= inw(ioaddr+LANCE_DATA) << 16;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  527  		if (lance_debug > 2)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  528  			printk("  LANCE chip version is %#x.\n", chip_version);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  529  		if ((chip_version & 0xfff) != 0x003)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  530  			return -ENODEV;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  531  		chip_version = (chip_version >> 12) & 0xffff;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  532  		for (lance_version = 1; chip_table[lance_version].id_number; lance_version++) {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  533  			if (chip_table[lance_version].id_number == chip_version)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  534  				break;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  535  		}
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  536  	}
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  537  
+b74ca3a896b9ab drivers/net/lance.c              Wang Chen          2008-12-08  538  	/* We can't allocate private data from alloc_etherdev() because it must
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  539  	   a ISA DMA-able region. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  540  	chipname = chip_table[lance_version].name;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  541  	printk("%s: %s at %#3x, ", dev->name, chipname, ioaddr);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  542  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  543  	/* There is a 16 byte station address PROM at the base address.
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  544  	   The first six bytes are the station address. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  545  	for (i = 0; i < 6; i++)
+0222ee53c483df drivers/net/ethernet/amd/lance.c Jakub Kicinski     2021-11-18  546  		addr[i] = inb(ioaddr + i);
+0222ee53c483df drivers/net/ethernet/amd/lance.c Jakub Kicinski     2021-11-18  547  	eth_hw_addr_set(dev, addr);
+e174961ca1a0b2 drivers/net/lance.c              Johannes Berg      2008-10-27  548  	printk("%pM", dev->dev_addr);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  549  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  550  	dev->base_addr = ioaddr;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  551  	/* Make certain the data structures used by the LANCE are aligned and DMAble. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  552  
+dd00cc486ab1c1 drivers/net/lance.c              Yoann Padioleau    2007-07-19  553  	lp = kzalloc(sizeof(*lp), GFP_DMA | GFP_KERNEL);
+a09f4af177d2a5 drivers/net/ethernet/amd/lance.c Amitoj Kaur Chawla 2016-02-17  554  	if (!lp)
+a09f4af177d2a5 drivers/net/ethernet/amd/lance.c Amitoj Kaur Chawla 2016-02-17  555  		return -ENOMEM;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  556  	if (lance_debug > 6) printk(" (#0x%05lx)", (unsigned long)lp);
+c0103606b7e3db drivers/net/lance.c              Wang Chen          2008-11-20  557  	dev->ml_priv = lp;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  558  	lp->name = chipname;
+6da2ec56059c3c drivers/net/ethernet/amd/lance.c Kees Cook          2018-06-12 @559  	lp->rx_buffs = (unsigned long)kmalloc_array(RX_RING_SIZE, PKT_BUF_SZ,
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  560  						    GFP_DMA | GFP_KERNEL);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  561  	if (!lp->rx_buffs)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  562  		goto out_lp;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  563  	if (lance_need_isa_bounce_buffers) {
+6da2ec56059c3c drivers/net/ethernet/amd/lance.c Kees Cook          2018-06-12  564  		lp->tx_bounce_buffs = kmalloc_array(TX_RING_SIZE, PKT_BUF_SZ,
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  565  						    GFP_DMA | GFP_KERNEL);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  566  		if (!lp->tx_bounce_buffs)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  567  			goto out_rx;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  568  	} else
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  569  		lp->tx_bounce_buffs = NULL;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  570  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  571  	lp->chip_version = lance_version;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  572  	spin_lock_init(&lp->devlock);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  573  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  574  	lp->init_block.mode = 0x0003;		/* Disable Rx and Tx. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  575  	for (i = 0; i < 6; i++)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  576  		lp->init_block.phys_addr[i] = dev->dev_addr[i];
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  577  	lp->init_block.filter[0] = 0x00000000;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  578  	lp->init_block.filter[1] = 0x00000000;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  579  	lp->init_block.rx_ring = ((u32)isa_virt_to_bus(lp->rx_ring) & 0xffffff) | RX_RING_LEN_BITS;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  580  	lp->init_block.tx_ring = ((u32)isa_virt_to_bus(lp->tx_ring) & 0xffffff) | TX_RING_LEN_BITS;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  581  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  582  	outw(0x0001, ioaddr+LANCE_ADDR);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  583  	inw(ioaddr+LANCE_ADDR);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  584  	outw((short) (u32) isa_virt_to_bus(&lp->init_block), ioaddr+LANCE_DATA);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  585  	outw(0x0002, ioaddr+LANCE_ADDR);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  586  	inw(ioaddr+LANCE_ADDR);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  587  	outw(((u32)isa_virt_to_bus(&lp->init_block)) >> 16, ioaddr+LANCE_DATA);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  588  	outw(0x0000, ioaddr+LANCE_ADDR);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  589  	inw(ioaddr+LANCE_ADDR);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  590  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  591  	if (irq) {					/* Set iff PCI card. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  592  		dev->dma = 4;			/* Native bus-master, no DMA channel needed. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  593  		dev->irq = irq;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  594  	} else if (hp_builtin) {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  595  		static const char dma_tbl[4] = {3, 5, 6, 0};
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  596  		static const char irq_tbl[4] = {3, 4, 5, 9};
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  597  		unsigned char port_val = inb(hp_builtin);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  598  		dev->dma = dma_tbl[(port_val >> 4) & 3];
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  599  		dev->irq = irq_tbl[(port_val >> 2) & 3];
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  600  		printk(" HP Vectra IRQ %d DMA %d.\n", dev->irq, dev->dma);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  601  	} else if (hpJ2405A) {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  602  		static const char dma_tbl[4] = {3, 5, 6, 7};
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  603  		static const char irq_tbl[8] = {3, 4, 5, 9, 10, 11, 12, 15};
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  604  		short reset_val = inw(ioaddr+LANCE_RESET);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  605  		dev->dma = dma_tbl[(reset_val >> 2) & 3];
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  606  		dev->irq = irq_tbl[(reset_val >> 4) & 7];
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  607  		printk(" HP J2405A IRQ %d DMA %d.\n", dev->irq, dev->dma);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  608  	} else if (lance_version == PCNET_ISAP) {		/* The plug-n-play version. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  609  		short bus_info;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  610  		outw(8, ioaddr+LANCE_ADDR);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  611  		bus_info = inw(ioaddr+LANCE_BUS_IF);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  612  		dev->dma = bus_info & 0x07;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  613  		dev->irq = (bus_info >> 4) & 0x0F;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  614  	} else {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  615  		/* The DMA channel may be passed in PARAM1. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  616  		if (dev->mem_start & 0x07)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  617  			dev->dma = dev->mem_start & 0x07;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  618  	}
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  619  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  620  	if (dev->dma == 0) {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  621  		/* Read the DMA channel status register, so that we can avoid
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  622  		   stuck DMA channels in the DMA detection below. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  623  		dma_channels = ((inb(DMA1_STAT_REG) >> 4) & 0x0f) |
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  624  			(inb(DMA2_STAT_REG) & 0xf0);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  625  	}
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  626  	err = -ENODEV;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  627  	if (dev->irq >= 2)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  628  		printk(" assigned IRQ %d", dev->irq);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  629  	else if (lance_version != 0)  {	/* 7990 boards need DMA detection first. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  630  		unsigned long irq_mask;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  631  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  632  		/* To auto-IRQ we enable the initialization-done and DMA error
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  633  		   interrupts. For ISA boards we get a DMA error, but VLB and PCI
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  634  		   boards will work. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  635  		irq_mask = probe_irq_on();
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  636  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  637  		/* Trigger an initialization just for the interrupt. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  638  		outw(0x0041, ioaddr+LANCE_DATA);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  639  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  640  		mdelay(20);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  641  		dev->irq = probe_irq_off(irq_mask);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  642  		if (dev->irq)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  643  			printk(", probed IRQ %d", dev->irq);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  644  		else {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  645  			printk(", failed to detect IRQ line.\n");
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  646  			goto out_tx;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  647  		}
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  648  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  649  		/* Check for the initialization done bit, 0x0100, which means
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  650  		   that we don't need a DMA channel. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  651  		if (inw(ioaddr+LANCE_DATA) & 0x0100)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  652  			dev->dma = 4;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  653  	}
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  654  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  655  	if (dev->dma == 4) {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  656  		printk(", no DMA needed.\n");
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  657  	} else if (dev->dma) {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  658  		if (request_dma(dev->dma, chipname)) {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  659  			printk("DMA %d allocation failed.\n", dev->dma);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  660  			goto out_tx;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  661  		} else
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  662  			printk(", assigned DMA %d.\n", dev->dma);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  663  	} else {			/* OK, we have to auto-DMA. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  664  		for (i = 0; i < 4; i++) {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  665  			static const char dmas[] = { 5, 6, 7, 3 };
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  666  			int dma = dmas[i];
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  667  			int boguscnt;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  668  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  669  			/* Don't enable a permanently busy DMA channel, or the machine
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  670  			   will hang. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  671  			if (test_bit(dma, &dma_channels))
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  672  				continue;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  673  			outw(0x7f04, ioaddr+LANCE_DATA); /* Clear the memory error bits. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  674  			if (request_dma(dma, chipname))
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  675  				continue;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  676  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  677  			flags=claim_dma_lock();
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  678  			set_dma_mode(dma, DMA_MODE_CASCADE);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  679  			enable_dma(dma);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  680  			release_dma_lock(flags);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  681  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  682  			/* Trigger an initialization. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  683  			outw(0x0001, ioaddr+LANCE_DATA);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  684  			for (boguscnt = 100; boguscnt > 0; --boguscnt)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  685  				if (inw(ioaddr+LANCE_DATA) & 0x0900)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  686  					break;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  687  			if (inw(ioaddr+LANCE_DATA) & 0x0100) {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  688  				dev->dma = dma;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  689  				printk(", DMA %d.\n", dev->dma);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  690  				break;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  691  			} else {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  692  				flags=claim_dma_lock();
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  693  				disable_dma(dma);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  694  				release_dma_lock(flags);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  695  				free_dma(dma);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  696  			}
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  697  		}
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  698  		if (i == 4) {			/* Failure: bail. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  699  			printk("DMA detection failed.\n");
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  700  			goto out_tx;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  701  		}
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  702  	}
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  703  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  704  	if (lance_version == 0 && dev->irq == 0) {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  705  		/* We may auto-IRQ now that we have a DMA channel. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  706  		/* Trigger an initialization just for the interrupt. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  707  		unsigned long irq_mask;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  708  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  709  		irq_mask = probe_irq_on();
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  710  		outw(0x0041, ioaddr+LANCE_DATA);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  711  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  712  		mdelay(40);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  713  		dev->irq = probe_irq_off(irq_mask);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  714  		if (dev->irq == 0) {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  715  			printk("  Failed to detect the 7990 IRQ line.\n");
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  716  			goto out_dma;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  717  		}
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  718  		printk("  Auto-IRQ detected IRQ%d.\n", dev->irq);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  719  	}
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  720  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  721  	if (chip_table[lp->chip_version].flags & LANCE_ENABLE_AUTOSELECT) {
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  722  		/* Turn on auto-select of media (10baseT or BNC) so that the user
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  723  		   can watch the LEDs even if the board isn't opened. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  724  		outw(0x0002, ioaddr+LANCE_ADDR);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  725  		/* Don't touch 10base2 power bit. */
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  726  		outw(inw(ioaddr+LANCE_BUS_IF) | 0x0002, ioaddr+LANCE_BUS_IF);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  727  	}
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  728  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  729  	if (lance_debug > 0  &&  did_version++ == 0)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  730  		printk(version);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  731  
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  732  	/* The LANCE-specific entries in the device structure. */
+462540bdb2f08d drivers/net/lance.c              Stephen Hemminger  2009-03-26  733  	dev->netdev_ops = &lance_netdev_ops;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  734  	dev->watchdog_timeo = TX_TIMEOUT;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  735  
+b1fc5505e0dbcc drivers/net/lance.c              Herbert Xu         2005-05-12  736  	err = register_netdev(dev);
+b1fc5505e0dbcc drivers/net/lance.c              Herbert Xu         2005-05-12  737  	if (err)
+b1fc5505e0dbcc drivers/net/lance.c              Herbert Xu         2005-05-12  738  		goto out_dma;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  739  	return 0;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  740  out_dma:
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  741  	if (dev->dma != 4)
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  742  		free_dma(dev->dma);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  743  out_tx:
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  744  	kfree(lp->tx_bounce_buffs);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  745  out_rx:
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  746  	kfree((void*)lp->rx_buffs);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  747  out_lp:
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  748  	kfree(lp);
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  749  	return err;
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  750  }
+^1da177e4c3f41 drivers/net/lance.c              Linus Torvalds     2005-04-16  751  
+
+:::::: The code at line 559 was first introduced by commit
+:::::: 6da2ec56059c3c7a7e5f729e6349e74ace1e5c57 treewide: kmalloc() -> kmalloc_array()
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
