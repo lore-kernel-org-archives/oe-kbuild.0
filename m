@@ -1,54 +1,54 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24EFE11187
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Mar 2024 08:01:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170C5111A1
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Mar 2024 10:05:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710057666; cv=none; b=EJFUKJbg2eoz+cXTmCkAOK4fx9hYxz12WPNZfc3QNb2D8FsF/9EQnPRuddqZoB9SN+XRJKTO9qE/4qJXyrUakpjLtZZQ68u4tXM83Yh2BIiX1kxhNApIh4dTikk37HoniP35tnYM4kTXQuitC73no+LErgx/HRAaSLAAEHN50Mc=
+	t=1710065110; cv=none; b=Er48f9UgfgK/ezYrdTnD9OlLtc3KDPrTqH3idd2MyoiHPMGSzQJyhuk4HQ9pUoXvUl7NEMjnW6gVER4iPWPNzhWZsCcRrrREWlvzL23LrB7GdUev0hYU/7lgoZGvUnRH/uGBWW2quiYaiOPMJOVTclAuCm6dKiKzi7ctX3fVrXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710057666; c=relaxed/simple;
-	bh=AnnTQjENULMD62EafesjbI6BNfjOIOSpVs8p4i2VVyY=;
+	s=arc-20240116; t=1710065110; c=relaxed/simple;
+	bh=PJFoXEufT80uZmnrskhFdxSimpOPiCgv5pW/lI3M0VM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=htNr/hRx8VDf4+drUJLeWC49ShRGOUBl9EpHIQVLjQViqyrjwUN1kW3iYlezmueruS/z9WllhDXyWotJlBQXjSGh4ScSdR79kVDvn9E7VSRP30/u7lralhMmHnq0O4zf4nl0zSAtCU6WElhIyZa6LteSYwGM/1huVuwQLFK+o04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BxxrO+nq; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=B7EDGvRBMkrky/x4IEi++ffaC7PzQmak/0DJh4ShY+XSa6yyfxPdz49Hz6QMSXQMkUliX34yPOHpPefcTJHwUlKa4yxaaDy7YIkTI+aXcdDCZLGWIE+gCUm88FtiPlCBG9FI4SJNnATJyj9yRl28cxRxUW2asOQeeoqhDw1lB7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=atkNDJS1; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BxxrO+nq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="atkNDJS1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710057662; x=1741593662;
+  t=1710065107; x=1741601107;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AnnTQjENULMD62EafesjbI6BNfjOIOSpVs8p4i2VVyY=;
-  b=BxxrO+nqvjxE3Xa5G7bDXXxz6Y7zaBkWmQOhpV0V6dOSGx5KTiIGXe0E
-   xKpjReN9wi6ER7I54Qif/yxDV3wOf+u6KAKbp7CY3EE6P77O2DfpIrfUY
-   4X4ytrkC8Vo3xnhiu3d7X4xR3RUhMqSoPTcv1Cx19lyKZjcI4KxeYCMIu
-   SyQuYCAobFT6jjg3xWA8UuJACm/FwWOkxdfVxQ7E9cBtJmKYlEhkXeDTy
-   /2x9d6I7a2wC4iaUu7iUIyoeA/HP0L3NP2cZLY3nLTznOzyjQZAE16XDW
-   Eq3XM6C8B1YeA6lNI5axJuXXsFHRiYTpO5j0wSzb/15vr/XPvTcPSOqru
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="22192072"
+  bh=PJFoXEufT80uZmnrskhFdxSimpOPiCgv5pW/lI3M0VM=;
+  b=atkNDJS1uGupDGThd3RAxjASGJPTSrW3hQuFO7gREgAsv0OJ9LvAMGkK
+   LcvTEdyGoWiKwRT1DOS3X5fBHfmXHdJ6iWs+uch0tRvYmYfrXr+dd1ggu
+   5s1wEhDK6Kus/x8kImOHQYFBAXD1/KKjOFAZw/9D3cr4RAtORjqwPdcv6
+   Z0z65RNA1co/zWmd4nB5sYZeOYFklh1IiRhCsf0bMC8QcS256pq85KHdy
+   qLmGXdRGAHcaCMvQ1fyMLs4D0lgGwljpAOxHWPOmwVug3YBGc+/GyXwVn
+   C6OWqSzHr0CSD13G+h+FepGlv2PJCGfdj1jGSdryIzKsi5USI1u6WNqjT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="22196142"
 X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
-   d="scan'208";a="22192072"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 00:01:02 -0800
+   d="scan'208";a="22196142"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 03:05:07 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
-   d="scan'208";a="11267841"
+   d="scan'208";a="15454106"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 10 Mar 2024 00:01:00 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 10 Mar 2024 03:05:05 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rjE77-00085P-1w;
-	Sun, 10 Mar 2024 08:00:57 +0000
-Date: Sun, 10 Mar 2024 16:00:24 +0800
+	id 1rjG3C-00089z-2Q;
+	Sun, 10 Mar 2024 10:05:02 +0000
+Date: Sun, 10 Mar 2024 18:04:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [djwong-xfs:fsverity-cleanups-6.9 7/37] fs/verity/verify.c:208
- verify_data_block() error: uninitialized symbol 'err'.
-Message-ID: <202403101516.ySR7iu7Z-lkp@intel.com>
+Subject: Re: [RFC PATCH 2/3] x86/mm: make sure LAM is up-to-date during
+ context switching
+Message-ID: <202403101713.eM4pyFpc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,211 +60,220 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+In-Reply-To: <20240307133916.3782068-3-yosryahmed@google.com>
+References: <20240307133916.3782068-3-yosryahmed@google.com>
+TO: Yosry Ahmed <yosryahmed@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fsverity-cleanups-6.9
-head:   16654e84b3e67ad84f5461574994b653c849406d
-commit: aeaffdfa6a9871c1ad1ecd755664ecfe5d8a51dc [7/37] fsverity: support block-based Merkle tree caching
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: i386-randconfig-141-20240310 (https://download.01.org/0day-ci/archive/20240310/202403101516.ySR7iu7Z-lkp@intel.com/config)
+Hi Yosry,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on tip/master linus/master tip/auto-latest v6.8-rc7 next-20240308]
+[cannot apply to tip/x86/core tip/x86/mm]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/x86-mm-fix-LAM-cr3-mask-inconsistency-during-context-switch/20240307-214052
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240307133916.3782068-3-yosryahmed%40google.com
+patch subject: [RFC PATCH 2/3] x86/mm: make sure LAM is up-to-date during context switching
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-161-20240310 (https://download.01.org/0day-ci/archive/20240310/202403101713.eM4pyFpc-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202403101516.ySR7iu7Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403101713.eM4pyFpc-lkp@intel.com/
 
 smatch warnings:
-fs/verity/verify.c:208 verify_data_block() error: uninitialized symbol 'err'.
+arch/x86/mm/tlb.c:655 switch_mm_irqs_off() error: uninitialized symbol 'new_asid'.
 
-vim +/err +208 fs/verity/verify.c
+vim +/new_asid +655 arch/x86/mm/tlb.c
 
-5306892a50bf4c Eric Biggers       2022-12-23   89  
-5306892a50bf4c Eric Biggers       2022-12-23   90  /*
-5306892a50bf4c Eric Biggers       2022-12-23   91   * Verify a single data block against the file's Merkle tree.
-8a1d0f9cacc997 Eric Biggers       2019-07-22   92   *
-5306892a50bf4c Eric Biggers       2022-12-23   93   * In principle, we need to verify the entire path to the root node.  However,
-5306892a50bf4c Eric Biggers       2022-12-23   94   * for efficiency the filesystem may cache the hash blocks.  Therefore we need
-5306892a50bf4c Eric Biggers       2022-12-23   95   * only ascend the tree until an already-verified hash block is seen, and then
-5306892a50bf4c Eric Biggers       2022-12-23   96   * verify the path to that block.
-8a1d0f9cacc997 Eric Biggers       2019-07-22   97   *
-5306892a50bf4c Eric Biggers       2022-12-23   98   * Return: %true if the data block is valid, else %false.
-8a1d0f9cacc997 Eric Biggers       2019-07-22   99   */
-5306892a50bf4c Eric Biggers       2022-12-23  100  static bool
-5306892a50bf4c Eric Biggers       2022-12-23  101  verify_data_block(struct inode *inode, struct fsverity_info *vi,
-8fcd94add6c5c9 Eric Biggers       2023-05-15  102  		  const void *data, u64 data_pos, unsigned long max_ra_pages)
-8a1d0f9cacc997 Eric Biggers       2019-07-22  103  {
-8a1d0f9cacc997 Eric Biggers       2019-07-22  104  	const struct merkle_tree_params *params = &vi->tree_params;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  105  	const unsigned int hsize = params->digest_size;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  106  	int level;
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  107  	int err;
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  108  	int num_ra_pages;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  109  	u8 _want_hash[FS_VERITY_MAX_DIGEST_SIZE];
-8a1d0f9cacc997 Eric Biggers       2019-07-22  110  	const u8 *want_hash;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  111  	u8 real_hash[FS_VERITY_MAX_DIGEST_SIZE];
-5306892a50bf4c Eric Biggers       2022-12-23  112  	/* The hash blocks that are traversed, indexed by level */
-5306892a50bf4c Eric Biggers       2022-12-23  113  	struct {
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  114  		/* Buffer containing the hash block */
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  115  		struct fsverity_blockbuf block;
-5306892a50bf4c Eric Biggers       2022-12-23  116  		/* Index of the hash block in the tree overall */
-5306892a50bf4c Eric Biggers       2022-12-23  117  		unsigned long index;
-8fcd94add6c5c9 Eric Biggers       2023-05-15  118  		/* Byte offset of the wanted hash relative to @addr */
-5306892a50bf4c Eric Biggers       2022-12-23  119  		unsigned int hoffset;
-5306892a50bf4c Eric Biggers       2022-12-23  120  	} hblocks[FS_VERITY_MAX_LEVELS];
-5306892a50bf4c Eric Biggers       2022-12-23  121  	/*
-5306892a50bf4c Eric Biggers       2022-12-23  122  	 * The index of the previous level's block within that level; also the
-5306892a50bf4c Eric Biggers       2022-12-23  123  	 * index of that block's hash within the current level.
-5306892a50bf4c Eric Biggers       2022-12-23  124  	 */
-5306892a50bf4c Eric Biggers       2022-12-23  125  	u64 hidx = data_pos >> params->log_blocksize;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  126  
-8fcd94add6c5c9 Eric Biggers       2023-05-15  127  	/* Up to 1 + FS_VERITY_MAX_LEVELS pages may be mapped at once */
-8fcd94add6c5c9 Eric Biggers       2023-05-15  128  	BUILD_BUG_ON(1 + FS_VERITY_MAX_LEVELS > KM_MAX_IDX);
-8fcd94add6c5c9 Eric Biggers       2023-05-15  129  
-5306892a50bf4c Eric Biggers       2022-12-23  130  	if (unlikely(data_pos >= inode->i_size)) {
-5306892a50bf4c Eric Biggers       2022-12-23  131  		/*
-5306892a50bf4c Eric Biggers       2022-12-23  132  		 * This can happen in the data page spanning EOF when the Merkle
-5306892a50bf4c Eric Biggers       2022-12-23  133  		 * tree block size is less than the page size.  The Merkle tree
-5306892a50bf4c Eric Biggers       2022-12-23  134  		 * doesn't cover data blocks fully past EOF.  But the entire
-5306892a50bf4c Eric Biggers       2022-12-23  135  		 * page spanning EOF can be visible to userspace via a mmap, and
-5306892a50bf4c Eric Biggers       2022-12-23  136  		 * any part past EOF should be all zeroes.  Therefore, we need
-5306892a50bf4c Eric Biggers       2022-12-23  137  		 * to verify that any data blocks fully past EOF are all zeroes.
-5306892a50bf4c Eric Biggers       2022-12-23  138  		 */
-8fcd94add6c5c9 Eric Biggers       2023-05-15  139  		if (memchr_inv(data, 0, params->block_size)) {
-8fcd94add6c5c9 Eric Biggers       2023-05-15  140  			fsverity_err(inode,
-8fcd94add6c5c9 Eric Biggers       2023-05-15  141  				     "FILE CORRUPTED!  Data past EOF is not zeroed");
-8fcd94add6c5c9 Eric Biggers       2023-05-15  142  			return false;
-8fcd94add6c5c9 Eric Biggers       2023-05-15  143  		}
-8fcd94add6c5c9 Eric Biggers       2023-05-15  144  		return true;
-5306892a50bf4c Eric Biggers       2022-12-23  145  	}
-8a1d0f9cacc997 Eric Biggers       2019-07-22  146  
-8a1d0f9cacc997 Eric Biggers       2019-07-22  147  	/*
-5306892a50bf4c Eric Biggers       2022-12-23  148  	 * Starting at the leaf level, ascend the tree saving hash blocks along
-5306892a50bf4c Eric Biggers       2022-12-23  149  	 * the way until we find a hash block that has already been verified, or
-5306892a50bf4c Eric Biggers       2022-12-23  150  	 * until we reach the root.
-8a1d0f9cacc997 Eric Biggers       2019-07-22  151  	 */
-8a1d0f9cacc997 Eric Biggers       2019-07-22  152  	for (level = 0; level < params->num_levels; level++) {
-5306892a50bf4c Eric Biggers       2022-12-23  153  		unsigned long next_hidx;
-5306892a50bf4c Eric Biggers       2022-12-23  154  		unsigned long hblock_idx;
-5306892a50bf4c Eric Biggers       2022-12-23  155  		pgoff_t hpage_idx;
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  156  		u64 hblock_pos;
-5306892a50bf4c Eric Biggers       2022-12-23  157  		unsigned int hblock_offset_in_page;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  158  		unsigned int hoffset;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  159  		struct page *hpage;
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  160  		struct fsverity_blockbuf *block = &hblocks[level].block;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  161  
-5306892a50bf4c Eric Biggers       2022-12-23  162  		/*
-5306892a50bf4c Eric Biggers       2022-12-23  163  		 * The index of the block in the current level; also the index
-5306892a50bf4c Eric Biggers       2022-12-23  164  		 * of that block's hash within the next level.
-5306892a50bf4c Eric Biggers       2022-12-23  165  		 */
-5306892a50bf4c Eric Biggers       2022-12-23  166  		next_hidx = hidx >> params->log_arity;
-5306892a50bf4c Eric Biggers       2022-12-23  167  
-5306892a50bf4c Eric Biggers       2022-12-23  168  		/* Index of the hash block in the tree overall */
-5306892a50bf4c Eric Biggers       2022-12-23  169  		hblock_idx = params->level_start[level] + next_hidx;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  170  
-5306892a50bf4c Eric Biggers       2022-12-23  171  		/* Index of the hash page in the tree overall */
-5306892a50bf4c Eric Biggers       2022-12-23  172  		hpage_idx = hblock_idx >> params->log_blocks_per_page;
-5306892a50bf4c Eric Biggers       2022-12-23  173  
-5306892a50bf4c Eric Biggers       2022-12-23  174  		/* Byte offset of the hash block within the page */
-5306892a50bf4c Eric Biggers       2022-12-23  175  		hblock_offset_in_page =
-5306892a50bf4c Eric Biggers       2022-12-23  176  			(hblock_idx << params->log_blocksize) & ~PAGE_MASK;
-5306892a50bf4c Eric Biggers       2022-12-23  177  
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  178  		/* Offset of the Merkle tree block into the tree */
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  179  		hblock_pos = hblock_idx << params->log_blocksize;
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  180  
-8fcd94add6c5c9 Eric Biggers       2023-05-15  181  		/* Byte offset of the hash within the block */
-8fcd94add6c5c9 Eric Biggers       2023-05-15  182  		hoffset = (hidx << params->log_digestsize) &
-8fcd94add6c5c9 Eric Biggers       2023-05-15  183  			  (params->block_size - 1);
-5306892a50bf4c Eric Biggers       2022-12-23  184  
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  185  		num_ra_pages = level == 0 ?
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  186  			min(max_ra_pages, params->tree_pages - hpage_idx) : 0;
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  187  
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  188  		if (inode->i_sb->s_vop->read_merkle_tree_block) {
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  189  			err = inode->i_sb->s_vop->read_merkle_tree_block(
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  190  				inode, hblock_pos, block, params->log_blocksize,
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  191  				num_ra_pages);
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  192  		} else {
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  193  			unsigned int blocks_per_page =
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  194  				vi->tree_params.blocks_per_page;
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  195  			hblock_idx = round_down(hblock_idx, blocks_per_page);
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  196  			hpage = inode->i_sb->s_vop->read_merkle_tree_page(
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  197  				inode, hpage_idx, (num_ra_pages << PAGE_SHIFT));
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  198  
-8a1d0f9cacc997 Eric Biggers       2019-07-22  199  			if (IS_ERR(hpage)) {
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  200  				err = PTR_ERR(hpage);
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  201  			} else {
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  202  				block->kaddr = kmap_local_page(hpage) +
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  203  					hblock_offset_in_page;
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  204  				block->context = hpage;
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  205  			}
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  206  		}
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  207  
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28 @208  		if (err) {
-8a1d0f9cacc997 Eric Biggers       2019-07-22  209  			fsverity_err(inode,
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  210  				     "Error %d reading Merkle tree block %lu",
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  211  				     err, hblock_idx);
-13e2408d02dd12 Eric Biggers       2023-06-03  212  			goto error;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  213  		}
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  214  
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  215  		if (is_hash_block_verified(inode, block, hblock_idx)) {
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  216  			memcpy(_want_hash, block->kaddr + hoffset, hsize);
-8a1d0f9cacc997 Eric Biggers       2019-07-22  217  			want_hash = _want_hash;
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  218  			fsverity_drop_block(inode, block);
-8a1d0f9cacc997 Eric Biggers       2019-07-22  219  			goto descend;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  220  		}
-5306892a50bf4c Eric Biggers       2022-12-23  221  		hblocks[level].index = hblock_idx;
-5306892a50bf4c Eric Biggers       2022-12-23  222  		hblocks[level].hoffset = hoffset;
-5306892a50bf4c Eric Biggers       2022-12-23  223  		hidx = next_hidx;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  224  	}
-8a1d0f9cacc997 Eric Biggers       2019-07-22  225  
-8a1d0f9cacc997 Eric Biggers       2019-07-22  226  	want_hash = vi->root_hash;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  227  descend:
-f45555bf23cfc6 Eric Biggers       2022-12-23  228  	/* Descend the tree verifying hash blocks. */
-8a1d0f9cacc997 Eric Biggers       2019-07-22  229  	for (; level > 0; level--) {
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  230  		struct fsverity_blockbuf *block = &hblocks[level - 1].block;
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  231  		const void *haddr = block->kaddr;
-5306892a50bf4c Eric Biggers       2022-12-23  232  		unsigned long hblock_idx = hblocks[level - 1].index;
-5306892a50bf4c Eric Biggers       2022-12-23  233  		unsigned int hoffset = hblocks[level - 1].hoffset;
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  234  		struct page *hpage = (struct page *)block->context;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  235  
-13e2408d02dd12 Eric Biggers       2023-06-03  236  		if (fsverity_hash_block(params, inode, haddr, real_hash) != 0)
-13e2408d02dd12 Eric Biggers       2023-06-03  237  			goto error;
-13e2408d02dd12 Eric Biggers       2023-06-03  238  		if (memcmp(want_hash, real_hash, hsize) != 0)
-13e2408d02dd12 Eric Biggers       2023-06-03  239  			goto corrupted;
-5306892a50bf4c Eric Biggers       2022-12-23  240  		/*
-5306892a50bf4c Eric Biggers       2022-12-23  241  		 * Mark the hash block as verified.  This must be atomic and
-5306892a50bf4c Eric Biggers       2022-12-23  242  		 * idempotent, as the same hash block might be verified by
-5306892a50bf4c Eric Biggers       2022-12-23  243  		 * multiple threads concurrently.
-5306892a50bf4c Eric Biggers       2022-12-23  244  		 */
-5306892a50bf4c Eric Biggers       2022-12-23  245  		if (vi->hash_block_verified)
-5306892a50bf4c Eric Biggers       2022-12-23  246  			set_bit(hblock_idx, vi->hash_block_verified);
-5306892a50bf4c Eric Biggers       2022-12-23  247  		else
-8a1d0f9cacc997 Eric Biggers       2019-07-22  248  			SetPageChecked(hpage);
-8fcd94add6c5c9 Eric Biggers       2023-05-15  249  		memcpy(_want_hash, haddr + hoffset, hsize);
-8a1d0f9cacc997 Eric Biggers       2019-07-22  250  		want_hash = _want_hash;
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  251  		fsverity_drop_block(inode, block);
-8a1d0f9cacc997 Eric Biggers       2019-07-22  252  	}
-8a1d0f9cacc997 Eric Biggers       2019-07-22  253  
-f45555bf23cfc6 Eric Biggers       2022-12-23  254  	/* Finally, verify the data block. */
-13e2408d02dd12 Eric Biggers       2023-06-03  255  	if (fsverity_hash_block(params, inode, data, real_hash) != 0)
-13e2408d02dd12 Eric Biggers       2023-06-03  256  		goto error;
-13e2408d02dd12 Eric Biggers       2023-06-03  257  	if (memcmp(want_hash, real_hash, hsize) != 0)
-13e2408d02dd12 Eric Biggers       2023-06-03  258  		goto corrupted;
-13e2408d02dd12 Eric Biggers       2023-06-03  259  	return true;
-13e2408d02dd12 Eric Biggers       2023-06-03  260  
-13e2408d02dd12 Eric Biggers       2023-06-03  261  corrupted:
-13e2408d02dd12 Eric Biggers       2023-06-03  262  	fsverity_err(inode,
-13e2408d02dd12 Eric Biggers       2023-06-03  263  		     "FILE CORRUPTED! pos=%llu, level=%d, want_hash=%s:%*phN, real_hash=%s:%*phN",
-13e2408d02dd12 Eric Biggers       2023-06-03  264  		     data_pos, level - 1,
-13e2408d02dd12 Eric Biggers       2023-06-03  265  		     params->hash_alg->name, hsize, want_hash,
-13e2408d02dd12 Eric Biggers       2023-06-03  266  		     params->hash_alg->name, hsize, real_hash);
-13e2408d02dd12 Eric Biggers       2023-06-03  267  error:
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  268  	for (; level > 0; level--)
-aeaffdfa6a9871 Andrey Albershteyn 2024-02-28  269  		fsverity_drop_block(inode, &hblocks[level - 1].block);
-13e2408d02dd12 Eric Biggers       2023-06-03  270  	return false;
-8a1d0f9cacc997 Eric Biggers       2019-07-22  271  }
-8a1d0f9cacc997 Eric Biggers       2019-07-22  272  
+cb2a02355b042e Thomas Gleixner    2020-04-21  494  
+3cfd6625a6cf83 Yosry Ahmed        2024-01-26  495  /*
+cd87d9f58439a1 Yosry Ahmed        2024-02-22  496   * This optimizes when not actually switching mm's.  Some architectures use the
+cd87d9f58439a1 Yosry Ahmed        2024-02-22  497   * 'unused' argument for this optimization, but x86 must use
+cd87d9f58439a1 Yosry Ahmed        2024-02-22  498   * 'cpu_tlbstate.loaded_mm' instead because it does not always keep
+cd87d9f58439a1 Yosry Ahmed        2024-02-22  499   * 'current->active_mm' up to date.
+3cfd6625a6cf83 Yosry Ahmed        2024-01-26  500   */
+3cfd6625a6cf83 Yosry Ahmed        2024-01-26  501  void switch_mm_irqs_off(struct mm_struct *unused, struct mm_struct *next,
+078194f8e9fe3c Andy Lutomirski    2016-04-26  502  			struct task_struct *tsk)
+69c0319aabba45 Andy Lutomirski    2016-04-26  503  {
+3cfd6625a6cf83 Yosry Ahmed        2024-01-26  504  	struct mm_struct *prev = this_cpu_read(cpu_tlbstate.loaded_mm);
+10af6235e0d327 Andy Lutomirski    2017-07-24  505  	u16 prev_asid = this_cpu_read(cpu_tlbstate.loaded_mm_asid);
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  506  	u64 cpu_tlb_gen = this_cpu_read(cpu_tlbstate.ctxs[prev_asid].tlb_gen);
+2f4305b19fe6a2 Nadav Amit         2021-02-20  507  	bool was_lazy = this_cpu_read(cpu_tlbstate_shared.is_lazy);
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  508  	bool need_flush = false, need_lam_update = false;
+94b1b03b519b81 Andy Lutomirski    2017-06-29  509  	unsigned cpu = smp_processor_id();
+897738e46e29e1 Yosry Ahmed        2024-03-07  510  	unsigned long new_lam;
+94b1b03b519b81 Andy Lutomirski    2017-06-29  511  	u64 next_tlb_gen;
+12c4d978fd170c Rik van Riel       2018-09-25  512  	u16 new_asid;
+3d28ebceaffab4 Andy Lutomirski    2017-05-28  513  
+4c1ba3923e6c8a Nadav Amit         2021-02-20  514  	/* We don't want flush_tlb_func() to run concurrently with us. */
+94b1b03b519b81 Andy Lutomirski    2017-06-29  515  	if (IS_ENABLED(CONFIG_PROVE_LOCKING))
+94b1b03b519b81 Andy Lutomirski    2017-06-29  516  		WARN_ON_ONCE(!irqs_disabled());
+94b1b03b519b81 Andy Lutomirski    2017-06-29  517  
+94b1b03b519b81 Andy Lutomirski    2017-06-29  518  	/*
+94b1b03b519b81 Andy Lutomirski    2017-06-29  519  	 * Verify that CR3 is what we think it is.  This will catch
+94b1b03b519b81 Andy Lutomirski    2017-06-29  520  	 * hypothetical buggy code that directly switches to swapper_pg_dir
+10af6235e0d327 Andy Lutomirski    2017-07-24  521  	 * without going through leave_mm() / switch_mm_irqs_off() or that
+10af6235e0d327 Andy Lutomirski    2017-07-24  522  	 * does something like write_cr3(read_cr3_pa()).
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  523  	 *
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  524  	 * Only do this check if CONFIG_DEBUG_VM=y because __read_cr3()
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  525  	 * isn't free.
+94b1b03b519b81 Andy Lutomirski    2017-06-29  526  	 */
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  527  #ifdef CONFIG_DEBUG_VM
+3cfd6625a6cf83 Yosry Ahmed        2024-01-26  528  	if (WARN_ON_ONCE(__read_cr3() != build_cr3(prev->pgd, prev_asid,
+82721d8b25d76c Kirill A. Shutemov 2023-03-12  529  						   tlbstate_lam_cr3_mask()))) {
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  530  		/*
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  531  		 * If we were to BUG here, we'd be very likely to kill
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  532  		 * the system so hard that we don't see the call trace.
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  533  		 * Try to recover instead by ignoring the error and doing
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  534  		 * a global flush to minimize the chance of corruption.
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  535  		 *
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  536  		 * (This is far from being a fully correct recovery.
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  537  		 *  Architecturally, the CPU could prefetch something
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  538  		 *  back into an incorrect ASID slot and leave it there
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  539  		 *  to cause trouble down the road.  It's better than
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  540  		 *  nothing, though.)
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  541  		 */
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  542  		__flush_tlb_all();
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  543  	}
+a376e7f99be7c1 Andy Lutomirski    2017-09-07  544  #endif
+09c5272e48614a Nadav Amit         2021-02-20  545  	if (was_lazy)
+2f4305b19fe6a2 Nadav Amit         2021-02-20  546  		this_cpu_write(cpu_tlbstate_shared.is_lazy, false);
+3d28ebceaffab4 Andy Lutomirski    2017-05-28  547  
+306e060435d7a3 Mathieu Desnoyers  2018-01-29  548  	/*
+10bcc80e9dbced Mathieu Desnoyers  2018-01-29  549  	 * The membarrier system call requires a full memory barrier and
+10bcc80e9dbced Mathieu Desnoyers  2018-01-29  550  	 * core serialization before returning to user-space, after
+a493d1ca1a03b5 Andy Lutomirski    2020-12-03  551  	 * storing to rq->curr, when changing mm.  This is because
+a493d1ca1a03b5 Andy Lutomirski    2020-12-03  552  	 * membarrier() sends IPIs to all CPUs that are in the target mm
+a493d1ca1a03b5 Andy Lutomirski    2020-12-03  553  	 * to make them issue memory barriers.  However, if another CPU
+a493d1ca1a03b5 Andy Lutomirski    2020-12-03  554  	 * switches to/from the target mm concurrently with
+a493d1ca1a03b5 Andy Lutomirski    2020-12-03  555  	 * membarrier(), it can cause that CPU not to receive an IPI
+a493d1ca1a03b5 Andy Lutomirski    2020-12-03  556  	 * when it really should issue a memory barrier.  Writing to CR3
+a493d1ca1a03b5 Andy Lutomirski    2020-12-03  557  	 * provides that full memory barrier and core serializing
+a493d1ca1a03b5 Andy Lutomirski    2020-12-03  558  	 * instruction.
+306e060435d7a3 Mathieu Desnoyers  2018-01-29  559  	 */
+3cfd6625a6cf83 Yosry Ahmed        2024-01-26  560  	if (prev == next) {
+82721d8b25d76c Kirill A. Shutemov 2023-03-12  561  		/* Not actually switching mm's */
+e8b9b0cc8269c8 Andy Lutomirski    2017-10-14  562  		VM_WARN_ON(this_cpu_read(cpu_tlbstate.ctxs[prev_asid].ctx_id) !=
+94b1b03b519b81 Andy Lutomirski    2017-06-29  563  			   next->context.ctx_id);
+94b1b03b519b81 Andy Lutomirski    2017-06-29  564  
+3d28ebceaffab4 Andy Lutomirski    2017-05-28  565  		/*
+145f573b89a62b Rik van Riel       2018-09-25  566  		 * Even in lazy TLB mode, the CPU should stay set in the
+145f573b89a62b Rik van Riel       2018-09-25  567  		 * mm_cpumask. The TLB shootdown code can figure out from
+2f4305b19fe6a2 Nadav Amit         2021-02-20  568  		 * cpu_tlbstate_shared.is_lazy whether or not to send an IPI.
+3d28ebceaffab4 Andy Lutomirski    2017-05-28  569  		 */
+3cfd6625a6cf83 Yosry Ahmed        2024-01-26  570  		if (WARN_ON_ONCE(prev != &init_mm &&
+b956575bed91ec Andy Lutomirski    2017-10-09  571  				 !cpumask_test_cpu(cpu, mm_cpumask(next))))
+94b1b03b519b81 Andy Lutomirski    2017-06-29  572  			cpumask_set_cpu(cpu, mm_cpumask(next));
+94b1b03b519b81 Andy Lutomirski    2017-06-29  573  
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  574  		/*
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  575  		 * tlbstate_lam_cr3_mask() may be outdated if a different thread
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  576  		 * has enabled LAM while we were borrowing its mm on this CPU.
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  577  		 * Make sure we update CR3 in case we are switching to another
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  578  		 * thread in that process.
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  579  		 */
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  580  		if (tlbstate_lam_cr3_mask() != mm_lam_cr3_mask(next))
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  581  			need_lam_update = true;
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  582  
+145f573b89a62b Rik van Riel       2018-09-25  583  		/*
+145f573b89a62b Rik van Riel       2018-09-25  584  		 * If the CPU is not in lazy TLB mode, we are just switching
+145f573b89a62b Rik van Riel       2018-09-25  585  		 * from one thread in a process to another thread in the same
+145f573b89a62b Rik van Riel       2018-09-25  586  		 * process. No TLB flush required.
+145f573b89a62b Rik van Riel       2018-09-25  587  		 */
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  588  		if (was_lazy) {
+145f573b89a62b Rik van Riel       2018-09-25  589  			/*
+145f573b89a62b Rik van Riel       2018-09-25  590  			 * Read the tlb_gen to check whether a flush is needed.
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  591  			 * If the TLB is up to date, just use it.  The barrier
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  592  			 * synchronizes with the tlb_gen increment in the TLB
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  593  			 * shootdown code.
+145f573b89a62b Rik van Riel       2018-09-25  594  			 */
+145f573b89a62b Rik van Riel       2018-09-25  595  			smp_mb();
+145f573b89a62b Rik van Riel       2018-09-25  596  			next_tlb_gen = atomic64_read(&next->context.tlb_gen);
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  597  			if (cpu_tlb_gen < next_tlb_gen) {
+145f573b89a62b Rik van Riel       2018-09-25  598  				/*
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  599  				 * TLB contents went out of date while we were
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  600  				 * in lazy mode.
+145f573b89a62b Rik van Riel       2018-09-25  601  				 */
+145f573b89a62b Rik van Riel       2018-09-25  602  				new_asid = prev_asid;
+145f573b89a62b Rik van Riel       2018-09-25  603  				need_flush = true;
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  604  			}
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  605  		}
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  606  
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  607  		if (!need_flush && !need_lam_update)
+c2bc96a91dc26e Yosry Ahmed        2024-03-07  608  			return;
+94b1b03b519b81 Andy Lutomirski    2017-06-29  609  	} else {
+18bf3c3ea8ece8 Tim Chen           2018-01-29  610  		/*
+371b09c6fdc436 Balbir Singh       2021-01-08  611  		 * Apply process to process speculation vulnerability
+371b09c6fdc436 Balbir Singh       2021-01-08  612  		 * mitigations if applicable.
+18bf3c3ea8ece8 Tim Chen           2018-01-29  613  		 */
+371b09c6fdc436 Balbir Singh       2021-01-08  614  		cond_mitigation(tsk);
+94b1b03b519b81 Andy Lutomirski    2017-06-29  615  
+e9d8c61557687b Rik van Riel       2018-07-16  616  		/*
+e9d8c61557687b Rik van Riel       2018-07-16  617  		 * Stop remote flushes for the previous mm.
+e9d8c61557687b Rik van Riel       2018-07-16  618  		 * Skip kernel threads; we never send init_mm TLB flushing IPIs,
+e9d8c61557687b Rik van Riel       2018-07-16  619  		 * but the bitmap manipulation can cause cache line contention.
+e9d8c61557687b Rik van Riel       2018-07-16  620  		 */
+3cfd6625a6cf83 Yosry Ahmed        2024-01-26  621  		if (prev != &init_mm) {
+e9d8c61557687b Rik van Riel       2018-07-16  622  			VM_WARN_ON_ONCE(!cpumask_test_cpu(cpu,
+3cfd6625a6cf83 Yosry Ahmed        2024-01-26  623  						mm_cpumask(prev)));
+3cfd6625a6cf83 Yosry Ahmed        2024-01-26  624  			cpumask_clear_cpu(cpu, mm_cpumask(prev));
+e9d8c61557687b Rik van Riel       2018-07-16  625  		}
+e37e43a497d5a8 Andy Lutomirski    2016-08-11  626  
+69c0319aabba45 Andy Lutomirski    2016-04-26  627  		/*
+94b1b03b519b81 Andy Lutomirski    2017-06-29  628  		 * Start remote flushes and then read tlb_gen.
+69c0319aabba45 Andy Lutomirski    2016-04-26  629  		 */
+e9d8c61557687b Rik van Riel       2018-07-16  630  		if (next != &init_mm)
+94b1b03b519b81 Andy Lutomirski    2017-06-29  631  			cpumask_set_cpu(cpu, mm_cpumask(next));
+94b1b03b519b81 Andy Lutomirski    2017-06-29  632  		next_tlb_gen = atomic64_read(&next->context.tlb_gen);
+94b1b03b519b81 Andy Lutomirski    2017-06-29  633  
+10af6235e0d327 Andy Lutomirski    2017-07-24  634  		choose_new_asid(next, next_tlb_gen, &new_asid, &need_flush);
+69c0319aabba45 Andy Lutomirski    2016-04-26  635  
+4012e77a903d11 Andy Lutomirski    2018-08-29  636  		/* Let nmi_uaccess_okay() know that we're changing CR3. */
+4012e77a903d11 Andy Lutomirski    2018-08-29  637  		this_cpu_write(cpu_tlbstate.loaded_mm, LOADED_MM_SWITCHING);
+4012e77a903d11 Andy Lutomirski    2018-08-29  638  		barrier();
+12c4d978fd170c Rik van Riel       2018-09-25  639  	}
+4012e77a903d11 Andy Lutomirski    2018-08-29  640  
+897738e46e29e1 Yosry Ahmed        2024-03-07  641  	/*
+897738e46e29e1 Yosry Ahmed        2024-03-07  642  	 * Even if we are not actually switching mm's, another thread could have
+897738e46e29e1 Yosry Ahmed        2024-03-07  643  	 * updated mm->context.lam_cr3_mask. Make sure tlbstate_lam_cr3_mask()
+897738e46e29e1 Yosry Ahmed        2024-03-07  644  	 * and the loaded CR3 use the up-to-date mask.
+897738e46e29e1 Yosry Ahmed        2024-03-07  645  	 */
+897738e46e29e1 Yosry Ahmed        2024-03-07  646  	new_lam = set_tlbstate_lam_mode(next);
+10af6235e0d327 Andy Lutomirski    2017-07-24  647  	if (need_flush) {
+10af6235e0d327 Andy Lutomirski    2017-07-24  648  		this_cpu_write(cpu_tlbstate.ctxs[new_asid].ctx_id, next->context.ctx_id);
+10af6235e0d327 Andy Lutomirski    2017-07-24  649  		this_cpu_write(cpu_tlbstate.ctxs[new_asid].tlb_gen, next_tlb_gen);
+82721d8b25d76c Kirill A. Shutemov 2023-03-12  650  		load_new_mm_cr3(next->pgd, new_asid, new_lam, true);
+675357362aeba1 Andy Lutomirski    2017-11-04  651  
+bf9282dc26e7fe Peter Zijlstra     2020-08-12  652  		trace_tlb_flush(TLB_FLUSH_ON_TASK_SWITCH, TLB_FLUSH_ALL);
+10af6235e0d327 Andy Lutomirski    2017-07-24  653  	} else {
+10af6235e0d327 Andy Lutomirski    2017-07-24  654  		/* The new ASID is already up to date. */
+82721d8b25d76c Kirill A. Shutemov 2023-03-12 @655  		load_new_mm_cr3(next->pgd, new_asid, new_lam, false);
+675357362aeba1 Andy Lutomirski    2017-11-04  656  
+bf9282dc26e7fe Peter Zijlstra     2020-08-12  657  		trace_tlb_flush(TLB_FLUSH_ON_TASK_SWITCH, 0);
+10af6235e0d327 Andy Lutomirski    2017-07-24  658  	}
+10af6235e0d327 Andy Lutomirski    2017-07-24  659  
+4012e77a903d11 Andy Lutomirski    2018-08-29  660  	/* Make sure we write CR3 before loaded_mm. */
+4012e77a903d11 Andy Lutomirski    2018-08-29  661  	barrier();
+4012e77a903d11 Andy Lutomirski    2018-08-29  662  
+10af6235e0d327 Andy Lutomirski    2017-07-24  663  	this_cpu_write(cpu_tlbstate.loaded_mm, next);
+10af6235e0d327 Andy Lutomirski    2017-07-24  664  	this_cpu_write(cpu_tlbstate.loaded_mm_asid, new_asid);
+69c0319aabba45 Andy Lutomirski    2016-04-26  665  
+3cfd6625a6cf83 Yosry Ahmed        2024-01-26  666  	if (next != prev) {
+cb2a02355b042e Thomas Gleixner    2020-04-21  667  		cr4_update_pce_mm(next);
+3cfd6625a6cf83 Yosry Ahmed        2024-01-26  668  		switch_ldt(prev, next);
+69c0319aabba45 Andy Lutomirski    2016-04-26  669  	}
+145f573b89a62b Rik van Riel       2018-09-25  670  }
+69c0319aabba45 Andy Lutomirski    2016-04-26  671  
 
 -- 
 0-DAY CI Kernel Test Service
