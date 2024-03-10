@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45AB38F94
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Mar 2024 15:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48841EA71
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Mar 2024 15:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710084015; cv=none; b=dP15I0GsAv0fIcH6E1dSYQOvNnGbFR6lRrGfhS54d12c89bQiByprPe09+hrX8zSiHv4nNHpw3SZPE+TlbJqN0KsccRqBAHPZMDaFI0jMD62hYKSqcBvgVY7cWpRD3dtxWCpJeEPz4KJthwxiknPiLo4ECv2VSOgEN+hMNKX/4Y=
+	t=1710085276; cv=none; b=BKIsHlth/2967J6+Cn5i67VQRQmo7RVOxQGgHE1ym+NrrbpKA5xnJ08WP5ut+N+NCesQH3M1M8sEyhKeV4AsYrvmUs/dvGJcg5vz/aZQiCLP6xA22+IPd9Ragg1tY8i/VLEnb93rYFrchUoE5YF7Y4UYDGPuQLxRP8BYOET7wog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710084015; c=relaxed/simple;
-	bh=ZY55zd1wTp0y03O7a3ZxkbKOg+YYix4j818CMwdJpas=;
+	s=arc-20240116; t=1710085276; c=relaxed/simple;
+	bh=mQ3nMrDfdZy1TnuqFmSGBaHI0vfvlEr6v6qwhzbliA8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kUcMnZxkP/yNOc3yWPL9uQymCv2AlLKzoY6Ury4ggUPeZiKC6SU/T90NbEtBwljlro8gAjX82aqQ4gIfirKuXoPal18xM4Wn+8yewzbwdCgvilJFF4gKJ3AiYPodO95mNj6jaEZPj9WKXcycfmBIdgWLnNxwUdasyRonmtKzrEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/IDeWdY; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=nf+R0sAOW9ainUh9V6WcpwHNQOW4seyigIrWmNZFmrUxm19NADhmVMS0EvsjXNzLLVMVAJ/ldjSF+Dzp7Ze9AG2VhBAOHgO0/2yDaGemQ1Bh2yx10yHNUlFhbXaQQtbXlK6F+Nt6hxHePJaJPAEGKOyPtiEvDhggF8IMFQV2sN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EPCnQH6F; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/IDeWdY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EPCnQH6F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710084013; x=1741620013;
+  t=1710085273; x=1741621273;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZY55zd1wTp0y03O7a3ZxkbKOg+YYix4j818CMwdJpas=;
-  b=K/IDeWdYaJE1HW7aNJ5jrV/iCGi8TInE3MeBQBannkfJ1n6AxDhQfNc/
-   2K2nbvXkRkPSc5ODuJOE/x0EslmbUR6BGF9PoMn0PW6j7gHjz/GOqfS08
-   WhpHCn5GmXUPi429prgYpVX72ovceOrPuGWbEe5v+OPOGOrSAPVcxKJmQ
-   gfcCIAmjRpjwPQjkztc5qWoMuayEI0IewS8vNI057eHofvYfwlEMGdLws
-   c8H/TzjQ2O5W7A+xY1ZGfc0gxGEBiy6GnG+lMhwG2SmXi3giGhrajau+m
-   e+VuAmDBvNIF6TtBCipT9pxdxop+7qckjTjAZRotEhtLIFL0trdHYVs73
+  bh=mQ3nMrDfdZy1TnuqFmSGBaHI0vfvlEr6v6qwhzbliA8=;
+  b=EPCnQH6F4DIk0RD1EAxLt/dK+MGKWfx2hTaxi9L22zO0WrAEUZTfrN44
+   vWNoPBzhxzIB7VKd3TNkXHKVYus1mnyf7SPJ+GFR6DEyb7PvjWvbnX+bd
+   PNl3p6EcSYyWSZHpS0iC5E4063zd8+kEYRogN42rNjrktSNXTuRaGkTDA
+   C4KtQs/+BOL3z5tvMaYNfyKSGU2rRS2PMFs/DdQZoAducgwSJ7ldOOF8g
+   hjarknyqmSabfidGC7fRcVC4ke/agKOV6BxlWwWD0Ctnumuhmn1XGFWKO
+   46Fk1eynpSmdbF7qoisEukfNQ7YCZWCAwKyrE5a7RUIOaTPj8wO/PkYAM
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="30193976"
+X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="5345126"
 X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
-   d="scan'208";a="30193976"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 08:20:12 -0700
+   d="scan'208";a="5345126"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 08:41:13 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
-   d="scan'208";a="15635873"
+   d="scan'208";a="15585132"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Mar 2024 08:20:11 -0700
+  by orviesa003.jf.intel.com with ESMTP; 10 Mar 2024 08:41:12 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rjKy8-0008KV-1Q;
-	Sun, 10 Mar 2024 15:20:08 +0000
-Date: Sun, 10 Mar 2024 23:19:21 +0800
+	id 1rjLIT-0008Lv-0F;
+	Sun, 10 Mar 2024 15:41:09 +0000
+Date: Sun, 10 Mar 2024 23:40:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v3 1/3] scsi: libsas: Allow smp_execute_task() arguments
- to be on the stack
-Message-ID: <202403102353.jUPi6fOP-lkp@intel.com>
+Subject: Re: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and
+ Makefile file
+Message-ID: <202403102334.sx5j7Rch-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,78 +60,89 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240307093733.41222-2-yangxingui@huawei.com>
-References: <20240307093733.41222-2-yangxingui@huawei.com>
-TO: Xingui Yang <yangxingui@huawei.com>
-TO: john.g.garry@oracle.com
-TO: yanaijie@huawei.com
-TO: jejb@linux.ibm.com
-TO: martin.petersen@oracle.com
-TO: damien.lemoal@opensource.wdc.com
-CC: linux-scsi@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linuxarm@huawei.com
-CC: prime.zeng@hisilicon.com
-CC: chenxiang66@hisilicon.com
-CC: kangfenglong@huawei.com
+In-Reply-To: <20240305112831.3380896-5-pavitrakumarm@vayavyalabs.com>
+References: <20240305112831.3380896-5-pavitrakumarm@vayavyalabs.com>
+TO: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
+TO: herbert@gondor.apana.org.au
+TO: linux-crypto@vger.kernel.org
+CC: Ruud.Derwig@synopsys.com
+CC: manjunath.hadli@vayavyalabs.com
+CC: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
 
-Hi Xingui,
+Hi Pavitrakumar,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on jejb-scsi/for-next linus/master v6.8-rc7 next-20240308]
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master linus/master v6.8-rc7 next-20240308]
+[cannot apply to xilinx-xlnx/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xingui-Yang/scsi-libsas-Allow-smp_execute_task-arguments-to-be-on-the-stack/20240307-174215
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20240307093733.41222-2-yangxingui%40huawei.com
-patch subject: [PATCH v3 1/3] scsi: libsas: Allow smp_execute_task() arguments to be on the stack
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-141-20240308 (https://download.01.org/0day-ci/archive/20240310/202403102353.jUPi6fOP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-M/Add-SPAcc-driver-to-Linux-kernel/20240305-193337
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20240305112831.3380896-5-pavitrakumarm%40vayavyalabs.com
+patch subject: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and Makefile file
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: powerpc-randconfig-r071-20240308 (https://download.01.org/0day-ci/archive/20240310/202403102334.sx5j7Rch-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202403102353.jUPi6fOP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403102334.sx5j7Rch-lkp@intel.com/
 
-New smatch warnings:
-drivers/scsi/libsas/sas_expander.c:148 smp_execute_task() warn: possible memory leak of '_req'
+smatch warnings:
+drivers/crypto/dwc-spacc/spacc_hal.c:320 pdu_ddt_init() warn: curly braces intended?
 
-Old smatch warnings:
-drivers/scsi/libsas/sas_expander.c:1020 sas_ex_discover_dev() warn: missing error code? 'res'
-drivers/scsi/libsas/sas_expander.c:1036 sas_ex_discover_dev() warn: missing error code? 'res'
-drivers/scsi/libsas/sas_expander.c:2002 sas_rediscover_dev() warn: missing error code? 'res'
+vim +320 drivers/crypto/dwc-spacc/spacc_hal.c
 
-vim +/_req +148 drivers/scsi/libsas/sas_expander.c
-
-2908d778ab3e244 James Bottomley 2006-08-29  137  
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  138  static int smp_execute_task(struct domain_device *dev, void *req, int req_size,
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  139  			    void *resp, int resp_size)
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  140  {
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  141  	struct scatterlist req_sg;
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  142  	struct scatterlist resp_sg;
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  143  	void *_req = kmemdup(req, req_size, GFP_KERNEL);
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  144  	void *_resp = alloc_smp_resp(resp_size);
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  145  	int ret;
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  146  
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  147  	if (!_req || !resp)
-adfd2325dfc5cf6 Xingui Yang     2024-03-07 @148  		return -ENOMEM;
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  149  
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  150  	sg_init_one(&req_sg, _req, req_size);
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  151  	sg_init_one(&resp_sg, _resp, resp_size);
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  152  	ret = smp_execute_task_sg(dev, &req_sg, &resp_sg);
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  153  	memcpy(resp, _resp, resp_size);
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  154  	kfree(_req);
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  155  	kfree(_resp);
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  156  	return ret;
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  157  }
-adfd2325dfc5cf6 Xingui Yang     2024-03-07  158  
+6ad822cec22644 Pavitrakumar M 2024-03-05  284  
+6ad822cec22644 Pavitrakumar M 2024-03-05  285  int pdu_ddt_init(struct pdu_ddt *ddt, unsigned long limit)
+6ad822cec22644 Pavitrakumar M 2024-03-05  286  {
+6ad822cec22644 Pavitrakumar M 2024-03-05  287  	/* set the MSB if we want to use an ATOMIC
+6ad822cec22644 Pavitrakumar M 2024-03-05  288  	 * allocation required for top half processing
+6ad822cec22644 Pavitrakumar M 2024-03-05  289  	 */
+6ad822cec22644 Pavitrakumar M 2024-03-05  290  	int flag = (limit & 0x80000000);
+6ad822cec22644 Pavitrakumar M 2024-03-05  291  
+6ad822cec22644 Pavitrakumar M 2024-03-05  292  	limit &= 0x7FFFFFFF;
+6ad822cec22644 Pavitrakumar M 2024-03-05  293  
+6ad822cec22644 Pavitrakumar M 2024-03-05  294  	if (limit + 1 >= SIZE_MAX / 8) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  295  		/* Too big to even compute DDT size */
+6ad822cec22644 Pavitrakumar M 2024-03-05  296  		return -1;
+6ad822cec22644 Pavitrakumar M 2024-03-05  297  	} else if (limit > PDU_MAX_DDT) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  298  		size_t len = 8 * ((size_t)limit + 1);
+6ad822cec22644 Pavitrakumar M 2024-03-05  299  
+6ad822cec22644 Pavitrakumar M 2024-03-05  300  		ddt->virt = dma_alloc_coherent(ddt_device, len, &ddt->phys,
+6ad822cec22644 Pavitrakumar M 2024-03-05  301  					       flag ? GFP_ATOMIC : GFP_KERNEL);
+6ad822cec22644 Pavitrakumar M 2024-03-05  302  	} else if (limit > 16) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  303  		ddt->virt = dma_pool_alloc(ddt_pool, flag ? GFP_ATOMIC :
+6ad822cec22644 Pavitrakumar M 2024-03-05  304  				GFP_KERNEL, &ddt->phys);
+6ad822cec22644 Pavitrakumar M 2024-03-05  305  	} else if (limit > 4) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  306  		ddt->virt = dma_pool_alloc(ddt16_pool, flag ? GFP_ATOMIC :
+6ad822cec22644 Pavitrakumar M 2024-03-05  307  				GFP_KERNEL, &ddt->phys);
+6ad822cec22644 Pavitrakumar M 2024-03-05  308  	} else {
+6ad822cec22644 Pavitrakumar M 2024-03-05  309  		ddt->virt = dma_pool_alloc(ddt4_pool, flag ? GFP_ATOMIC :
+6ad822cec22644 Pavitrakumar M 2024-03-05  310  				GFP_KERNEL, &ddt->phys);
+6ad822cec22644 Pavitrakumar M 2024-03-05  311  	}
+6ad822cec22644 Pavitrakumar M 2024-03-05  312  	ddt->idx = 0;
+6ad822cec22644 Pavitrakumar M 2024-03-05  313  	ddt->len = 0;
+6ad822cec22644 Pavitrakumar M 2024-03-05  314  	ddt->limit = limit;
+6ad822cec22644 Pavitrakumar M 2024-03-05  315  
+6ad822cec22644 Pavitrakumar M 2024-03-05  316  	if (!ddt->virt)
+6ad822cec22644 Pavitrakumar M 2024-03-05  317  		return -1;
+6ad822cec22644 Pavitrakumar M 2024-03-05  318  
+6ad822cec22644 Pavitrakumar M 2024-03-05  319  #ifdef CONFIG_CRYPTO_DEV_SPACC_DEBUG_TRACE_DDT
+6ad822cec22644 Pavitrakumar M 2024-03-05 @320  		pr_debug("   DDT[%.8lx]: allocated %lu fragments\n",
+6ad822cec22644 Pavitrakumar M 2024-03-05  321  			 (unsigned long)ddt->phys, limit);
+6ad822cec22644 Pavitrakumar M 2024-03-05  322  #endif
+6ad822cec22644 Pavitrakumar M 2024-03-05  323  
+6ad822cec22644 Pavitrakumar M 2024-03-05  324  	return 0;
+6ad822cec22644 Pavitrakumar M 2024-03-05  325  }
+6ad822cec22644 Pavitrakumar M 2024-03-05  326  
 
 -- 
 0-DAY CI Kernel Test Service
