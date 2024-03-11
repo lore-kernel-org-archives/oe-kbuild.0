@@ -1,62 +1,65 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558E2747F
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 Mar 2024 05:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C468BFD
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 Mar 2024 05:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710134216; cv=none; b=CQ3JqJnZKGxji8J1Ks0cBco2TGTeVdv0mPj6c41Lt7ZIsVwJBa0KUe5ZnarEDlx6nHOmf1hUZ0EI5sAtoOlCxKhv3cEb48F9wwIh/801rzP0is+ATZdcuOfsSUFPtyAuxixOiaxjvaRwV+biiSmBBy2d7M1PkZ5dOec7Igxg0Y0=
+	t=1710134774; cv=none; b=AWHUM3qV122hmxikm/NgdgubivcGSsYqXuAQBhyjyJUCc4Fbby269hYS9JneZ/74jHrRUKwgXkaByPq69PP5k3jXwAxZjKoile7OJ9ZZaJHNQWQboxIQV4jbZVLjjRpyfJLQ0Dg1h/Jw3B0pdfCjzf5koQA8grX0ohERinPw3cU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710134216; c=relaxed/simple;
-	bh=60qHtYrS0Ksa6aSDj/S4jjrR/MC1NOdT9HznGlMvLes=;
+	s=arc-20240116; t=1710134774; c=relaxed/simple;
+	bh=yUDW/fwoJIeQpIZIGKNfqge21MDz3OIIs6ywtRDXdZk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oxqnm1pTxJg0l+fO38yQ5MZ3RYMsgjy5bAojSJfmkKQwCtedt9AG3jRk+fS3uC/SAgGm1YmEgb/HFQoIqurRARA4bFXZc5pEzOWmj3CHxiLBfvf8F7SQfnPWnGFU/UD5rvyqM99CCL4FKJnULAdBK2Ube1DpkB+ywB6LEXehPcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AHxTjlJi; arc=none smtp.client-ip=209.85.221.44
+	 Content-Disposition; b=JwgydboLYp0wjN0slS2ztzPzVVW6dAOVmj3yaE3TtU79YOMQLa/aei8sTewiI+jWDb61e9c36iZvzVbJGjqSykTpEw2pk6HOfpSVXDQyBCoEuQHqSNAC/lGgurmzYW8eEMKNgQpdxii7ab0+rs/3XCFIBkKUcuqrM+K7e8z9tIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OtHApKpQ; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AHxTjlJi"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-33e94c12f33so836600f8f.3
-        for <oe-kbuild@lists.linux.dev>; Sun, 10 Mar 2024 22:16:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OtHApKpQ"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-413286f8985so3968305e9.2
+        for <oe-kbuild@lists.linux.dev>; Sun, 10 Mar 2024 22:26:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710134212; x=1710739012; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1710134770; x=1710739570; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ek1Zi+hihLEVWBhehYF03ZpyvGMuyoS9rgUx9gnNTuQ=;
-        b=AHxTjlJiO6VR2S0Xh7kRE8ERYDULVmXQYTEZzHXUOaFPChr8V0K/KFTPR/tv/SimZ+
-         wiq6iD4QolN/b9JCQeb18c0QtB8gVmIfk9UzrYiCFxYnK3Ahsc7KjG6njj5o1Lf/Rj43
-         wndV5lZ4mofsxZtO3gUlic6C3qCnmxe9HjCKEkEw49tmi/o5ijmdBL1qnOMnyL29WhS2
-         SvfVkQs+5iEsJ6FfqOLXsj5zg6sTbXB64N19XD6I9XfcA5LMO1Ahfz5RIxQGiGKUYdAT
-         Wmfc03rebnAR3XhqQtswqoSGNRGG4JQYh3vgVneKHKbUu2f+hdLyV/jiKbb+AcH1rg+g
-         kb1w==
+        bh=vOlTd1XnDPAY74dQ3xemh8A6pnHKhsrOLL88PokMnLc=;
+        b=OtHApKpQd0L0jiupsxFAe1Zu5J+L6ysKRpDp4hd1PurFiEhTjUD7fNra1CyLDbnHtg
+         vuKR+qJIMUCrFdxU9RxWe0vyxzO+pOt/6QCO1pTA7WZSjj6KEGTatZ6gq3oye07HPK5b
+         9/k39vRU2uFHQn+hDFlj0EDPWMmMoT73p41aqXB6pdU+bVTkbf8zIuCAGiwZ29pw3jgO
+         aNQRbyNnbESoQ6dK4WXnDhp7Tq7EKsPBe10vl9s4guNSUdRs2zHjCEixEMP8KhOenpJv
+         3CzII0GrQu+q1A0+iBW7vzbjNiDsNfqfjY7aa90AnzKocAQQxGuYY8Zplw8kJkdzM6WC
+         /xWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710134212; x=1710739012;
+        d=1e100.net; s=20230601; t=1710134770; x=1710739570;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ek1Zi+hihLEVWBhehYF03ZpyvGMuyoS9rgUx9gnNTuQ=;
-        b=NYIksLJ3nLkRGdKnpjAC6bSnOBF2sTNXqPKoN6syMZrQntkvQ07n7Sur7+F71r+FRz
-         xJQ9ill9hVxFghcOzouaHpFg4HDiLhFzXZaDIxEuzCvRVotx/rQneVQEe01lka5ZZPqu
-         IBj9swIRSO5on2I0gynhFKPq1ZEPKdA6iYNIEhD7Zws7uH8J14CSehDyw2ws8UGzhCaG
-         XKVrK5/iwWyRfYMT+gsVVxaqt2wlr0++Ultpejj0HYaPJpUg/b53Tgbbv/phGO/gyCgf
-         1iLXO1WDTI00c5psIWucehO/pHmBKwk/a3em2tYRBiJjA6rPPWSBp+Mn9D5u/Gg0eWjK
-         qmQA==
-X-Gm-Message-State: AOJu0YygAM6U4kFIik3fNYK6MM4Adqjjt38PmRV+OoGxeZi+U0u9Z/5u
-	0pbAl+NPwuiQMOCPQrzPRDUq38OkoyhnWRAnTY+Q6Vs9GFLB2zo614bchL6dqbak6lwU0mXM0kZ
-	m
-X-Google-Smtp-Source: AGHT+IGndmYAMqw7Y/83wk/khGxdRLkfIE044XfuVd6vNKX1ZvOzw5DnQk6+X8rwuwzcM5sxA/vffg==
-X-Received: by 2002:a05:6000:230:b0:33e:96ba:2d48 with SMTP id l16-20020a056000023000b0033e96ba2d48mr808089wrz.57.1710134211588;
-        Sun, 10 Mar 2024 22:16:51 -0700 (PDT)
+        bh=vOlTd1XnDPAY74dQ3xemh8A6pnHKhsrOLL88PokMnLc=;
+        b=YQEGq1umuLDbhscmY4vq9UxuAcmdci+ob3ztnINWty0pnxJN/WjTzgMeAw/QdM5zZq
+         hdh6LtoRoIpFJ20hWigLPG93wSqZIK9O/d6jMBY2ffjTYYz5a89hNrInKe3OkriKxntH
+         dvX0sXbDTjSU/B2TzWGTSo2j1IMh63cDB86Bf2FiAqfojc9DzAIyY6IxCycbp8EABk2/
+         nvV7RrnQ0NfdRerMd2dQg53jjJU/6oq6wBhhYukXdGNNIfUKJpexV58ylZK/i2ZzCYPF
+         b5WP8vjpRdvdDpBFS5c2OXZ0rFda5nxOb8D/ujOVPlTvo8tH7JRMVQx+vn+E+3OLBboc
+         M5wg==
+X-Gm-Message-State: AOJu0Yz6eTbsf1XWNEqUk0j8Xue6Wuuh+uW1RP95Ft9rxoWj89LdeNl5
+	r94II5j/0cjZjQbOkKaAXB8jmbHMhEVWNyO8bpaSfq8WlwS7TSNUcJ5xvSyi3L6IHlnC+7gLhrl
+	g
+X-Google-Smtp-Source: AGHT+IGaKiwrsxbFVObyt068tmh4cH4q7wAdph2jbY6/DLgmPo93xky/ezXahhnz+gYQmYhQXHUBjg==
+X-Received: by 2002:a05:600c:154f:b0:413:1346:913a with SMTP id f15-20020a05600c154f00b004131346913amr4276392wmg.26.1710134769911;
+        Sun, 10 Mar 2024 22:26:09 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id f13-20020adfb60d000000b0033e43756d11sm5376311wre.85.2024.03.10.22.16.50
+        by smtp.gmail.com with ESMTPSA id a17-20020adffad1000000b0033dc7e50488sm5363181wrs.96.2024.03.10.22.26.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Mar 2024 22:16:51 -0700 (PDT)
-Date: Mon, 11 Mar 2024 08:16:47 +0300
+        Sun, 10 Mar 2024 22:26:09 -0700 (PDT)
+Date: Mon, 11 Mar 2024 08:26:05 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Namjae Jeon <linkinjeon@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [samba-ksmbd:ksmbd-for-next-next 4/4] fs/smb/server/smb2pdu.c:2654
- parse_durable_handle_context() warn: passing zero to 'PTR_ERR'
-Message-ID: <cd61edb3-b938-42e9-b9c3-d5c05827b4e1@moroto.mountain>
+To: oe-kbuild@lists.linux.dev, Pierre Gondois <pierre.gondois@arm.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [linux-next:master 12015/12944]
+ drivers/firmware/arm_scmi/powercap.c:723 scmi_powercap_domain_init_fc()
+ error: buffer overflow 'fc' 2 <= 6
+Message-ID: <30deb572-af44-46af-acbb-ead586812351@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,180 +69,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
-head:   f4ab0ca366e96a297b511d020a7fcd212f0268c9
-commit: f4ab0ca366e96a297b511d020a7fcd212f0268c9 [4/4] ksmbd: add support for durable handles v1/v2
-config: i386-randconfig-141-20240310 (https://download.01.org/0day-ci/archive/20240311/202403110538.jBX2iDwP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8ffc8b1bbd505e27e2c8439d326b6059c906c9dd
+commit: 2441caa84aac8abf1be9e20db3e6bb921e74c8a2 [12015/12944] firmware: arm_scmi: Populate fast channel rate_limit
+config: nios2-randconfig-r071-20240309 (https://download.01.org/0day-ci/archive/20240310/202403100744.7Op3PI8L-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403110538.jBX2iDwP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403100744.7Op3PI8L-lkp@intel.com/
 
 smatch warnings:
-fs/smb/server/smb2pdu.c:2654 parse_durable_handle_context() warn: passing zero to 'PTR_ERR'
+drivers/firmware/arm_scmi/powercap.c:723 scmi_powercap_domain_init_fc() error: buffer overflow 'fc' 2 <= 6
 
-vim +/PTR_ERR +2654 fs/smb/server/smb2pdu.c
+vim +/fc +723 drivers/firmware/arm_scmi/powercap.c
 
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2637  static int parse_durable_handle_context(struct ksmbd_work *work,
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2638  					struct smb2_create_req *req,
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2639  					struct lease_ctx_info *lc,
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2640  					struct durable_info *dh_info)
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2641  {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2642  	struct ksmbd_conn *conn = work->conn;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2643  	struct create_context *context;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2644  	int dh_idx, err = 0;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2645  	u64 persistent_id = 0;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2646  	int req_op_level;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2647  	static const char * const durable_arr[] = {"DH2C", "DHnC", "DH2Q", "DHnQ"};
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2648  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2649  	req_op_level = req->RequestedOplockLevel;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2650  	for (dh_idx = DURABLE_RECONN_V2; dh_idx <= ARRAY_SIZE(durable_arr);
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2651  	     dh_idx++) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2652  		context = smb2_find_context_vals(req, durable_arr[dh_idx - 1], 4);
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2653  		if (IS_ERR_OR_NULL(context)) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10 @2654  			err = PTR_ERR(context);
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2655  			if (err == -EINVAL)
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2656  				goto out;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2657  			err = 0;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2658  			continue;
+855aa26e5f56d4 Cristian Marussi 2022-07-04  694  static void scmi_powercap_domain_init_fc(const struct scmi_protocol_handle *ph,
+855aa26e5f56d4 Cristian Marussi 2022-07-04  695  					 u32 domain, struct scmi_fc_info **p_fc)
+855aa26e5f56d4 Cristian Marussi 2022-07-04  696  {
+855aa26e5f56d4 Cristian Marussi 2022-07-04  697  	struct scmi_fc_info *fc;
+855aa26e5f56d4 Cristian Marussi 2022-07-04  698  
+855aa26e5f56d4 Cristian Marussi 2022-07-04  699  	fc = devm_kcalloc(ph->dev, POWERCAP_FC_MAX, sizeof(*fc), GFP_KERNEL);
+                                                                                   ^^^^^^^^^^^^^^^
+Need to bump this value.  Currently it's 2.
 
-The smb2_find_context_vals() return ERR_PTR(-EINVAL) on error or NULL on
-not found.  But you're not doing yourself a favor to write it this way...
-It's confusing to the reader and what about if we add new error codes?
-Better to write it like:
+855aa26e5f56d4 Cristian Marussi 2022-07-04  700  	if (!fc)
+855aa26e5f56d4 Cristian Marussi 2022-07-04  701  		return;
+855aa26e5f56d4 Cristian Marussi 2022-07-04  702  
+855aa26e5f56d4 Cristian Marussi 2022-07-04  703  	ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+855aa26e5f56d4 Cristian Marussi 2022-07-04  704  				   POWERCAP_CAP_SET, 4, domain,
+855aa26e5f56d4 Cristian Marussi 2022-07-04  705  				   &fc[POWERCAP_FC_CAP].set_addr,
+2441caa84aac8a Pierre Gondois   2024-02-22  706  				   &fc[POWERCAP_FC_CAP].set_db,
+2441caa84aac8a Pierre Gondois   2024-02-22  707  				   &fc[POWERCAP_FC_CAP].rate_limit);
+855aa26e5f56d4 Cristian Marussi 2022-07-04  708  
+855aa26e5f56d4 Cristian Marussi 2022-07-04  709  	ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+855aa26e5f56d4 Cristian Marussi 2022-07-04  710  				   POWERCAP_CAP_GET, 4, domain,
+2441caa84aac8a Pierre Gondois   2024-02-22  711  				   &fc[POWERCAP_FC_CAP].get_addr, NULL,
+2441caa84aac8a Pierre Gondois   2024-02-22  712  				   &fc[POWERCAP_FC_CAP].rate_limit);
+855aa26e5f56d4 Cristian Marussi 2022-07-04  713  
+855aa26e5f56d4 Cristian Marussi 2022-07-04  714  	ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+855aa26e5f56d4 Cristian Marussi 2022-07-04  715  				   POWERCAP_PAI_SET, 4, domain,
+855aa26e5f56d4 Cristian Marussi 2022-07-04  716  				   &fc[POWERCAP_FC_PAI].set_addr,
+2441caa84aac8a Pierre Gondois   2024-02-22  717  				   &fc[POWERCAP_FC_PAI].set_db,
+2441caa84aac8a Pierre Gondois   2024-02-22  718  				   &fc[POWERCAP_FC_PAI].rate_limit);
+855aa26e5f56d4 Cristian Marussi 2022-07-04  719  
+855aa26e5f56d4 Cristian Marussi 2022-07-04  720  	ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+855aa26e5f56d4 Cristian Marussi 2022-07-04  721  				   POWERCAP_PAI_GET, 4, domain,
+2441caa84aac8a Pierre Gondois   2024-02-22  722  				   &fc[POWERCAP_FC_PAI].get_addr, NULL,
+2441caa84aac8a Pierre Gondois   2024-02-22 @723  				   &fc[POWERCAP_PAI_GET].rate_limit);
+                                                                                       ^^^^^^^^^^^^^^^^
+And this is 6.
 
-		context = smb2_find_context_vals(req, durable_arr[dh_idx - 1], 4);
-		if (IS_ERR(context)) {
-			err = PTR_ERR(context);
-			goto out;
-		}
-		if (!context)
-			continue;
-
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2659  		}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2660  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2661  		switch (dh_idx) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2662  		case DURABLE_RECONN_V2:
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2663  		{
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2664  			struct create_durable_reconn_v2_req *recon_v2;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2665  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2666  			if (dh_info->type == DURABLE_RECONN ||
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2667  			    dh_info->type == DURABLE_REQ_V2) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2668  				err = -EINVAL;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2669  				goto out;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2670  			}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2671  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2672  			recon_v2 = (struct create_durable_reconn_v2_req *)context;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2673  			persistent_id = le64_to_cpu(recon_v2->Fid.PersistentFileId);
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2674  			dh_info->fp = ksmbd_lookup_durable_fd(persistent_id);
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2675  			if (!dh_info->fp) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2676  				ksmbd_debug(SMB, "Failed to get durable handle state\n");
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2677  				err = -EBADF;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2678  				goto out;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2679  			}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2680  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2681  			if (memcmp(dh_info->fp->create_guid, recon_v2->CreateGuid,
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2682  				   SMB2_CREATE_GUID_SIZE)) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2683  				err = -EBADF;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2684  				ksmbd_put_durable_fd(dh_info->fp);
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2685  				goto out;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2686  			}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2687  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2688  			dh_info->type = dh_idx;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2689  			dh_info->reconnected = true;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2690  			ksmbd_debug(SMB,
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2691  				"reconnect v2 Persistent-id from reconnect = %llu\n",
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2692  					persistent_id);
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2693  			break;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2694  		}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2695  		case DURABLE_RECONN:
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2696  		{
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2697  			struct create_durable_reconn_req *recon;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2698  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2699  			if (dh_info->type == DURABLE_RECONN_V2 ||
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2700  			    dh_info->type == DURABLE_REQ_V2) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2701  				err = -EINVAL;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2702  				goto out;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2703  			}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2704  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2705  			recon = (struct create_durable_reconn_req *)context;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2706  			persistent_id = le64_to_cpu(recon->Data.Fid.PersistentFileId);
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2707  			dh_info->fp = ksmbd_lookup_durable_fd(persistent_id);
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2708  			if (!dh_info->fp) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2709  				ksmbd_debug(SMB, "Failed to get durable handle state\n");
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2710  				err = -EBADF;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2711  				goto out;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2712  			}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2713  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2714  			dh_info->type = dh_idx;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2715  			dh_info->reconnected = true;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2716  			ksmbd_debug(SMB, "reconnect Persistent-id from reconnect = %llu\n",
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2717  				    persistent_id);
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2718  			break;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2719  		}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2720  		case DURABLE_REQ_V2:
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2721  		{
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2722  			struct create_durable_req_v2 *durable_v2_blob;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2723  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2724  			if (dh_info->type == DURABLE_RECONN ||
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2725  			    dh_info->type == DURABLE_RECONN_V2) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2726  				err = -EINVAL;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2727  				goto out;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2728  			}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2729  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2730  			durable_v2_blob =
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2731  				(struct create_durable_req_v2 *)context;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2732  			ksmbd_debug(SMB, "Request for durable v2 open\n");
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2733  			dh_info->fp = ksmbd_lookup_fd_cguid(durable_v2_blob->CreateGuid);
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2734  			if (dh_info->fp) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2735  				if (!memcmp(conn->ClientGUID, dh_info->fp->client_guid,
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2736  					    SMB2_CLIENT_GUID_SIZE)) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2737  					if (!(req->hdr.Flags & SMB2_FLAGS_REPLAY_OPERATION)) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2738  						err = -ENOEXEC;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2739  						goto out;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2740  					}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2741  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2742  					dh_info->fp->conn = conn;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2743  					dh_info->reconnected = true;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2744  					goto out;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2745  				}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2746  			}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2747  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2748  			if (((lc && (lc->req_state & SMB2_LEASE_HANDLE_CACHING_LE)) ||
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2749  			     req_op_level == SMB2_OPLOCK_LEVEL_BATCH)) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2750  				dh_info->CreateGuid =
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2751  					durable_v2_blob->CreateGuid;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2752  				dh_info->persistent =
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2753  					le32_to_cpu(durable_v2_blob->Flags);
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2754  				dh_info->timeout =
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2755  					le32_to_cpu(durable_v2_blob->Timeout);
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2756  				dh_info->type = dh_idx;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2757  			}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2758  			break;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2759  		}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2760  		case DURABLE_REQ:
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2761  			if (dh_info->type == DURABLE_RECONN)
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2762  				goto out;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2763  			if (dh_info->type == DURABLE_RECONN_V2 ||
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2764  			    dh_info->type == DURABLE_REQ_V2) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2765  				err = -EINVAL;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2766  				goto out;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2767  			}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2768  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2769  			if (((lc && (lc->req_state & SMB2_LEASE_HANDLE_CACHING_LE)) ||
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2770  			     req_op_level == SMB2_OPLOCK_LEVEL_BATCH)) {
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2771  				ksmbd_debug(SMB, "Request for durable open\n");
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2772  				dh_info->type = dh_idx;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2773  			}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2774  		}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2775  	}
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2776  
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2777  out:
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2778  	return err;
-f4ab0ca366e96a Namjae Jeon 2024-03-10  2779  }
+855aa26e5f56d4 Cristian Marussi 2022-07-04  724  
+855aa26e5f56d4 Cristian Marussi 2022-07-04  725  	*p_fc = fc;
+855aa26e5f56d4 Cristian Marussi 2022-07-04  726  }
 
 -- 
 0-DAY CI Kernel Test Service
