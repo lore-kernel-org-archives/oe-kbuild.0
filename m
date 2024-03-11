@@ -1,172 +1,93 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B2110782
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 Mar 2024 07:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282EE57300
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 Mar 2024 21:28:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710142849; cv=none; b=BgEx1ssYoPZC1KrykgI81r0g1Rm/8ENuxxMDVFXbX9X0OTB+q8OoYLhRfj6VtnhQ/QaNEhrKt8UbzDmqAPgjeOI4iczp2u0UfpOKLgllECEU71ncbxie6Fjxleiv+yezaSXo9Cguvh+1+HaVMiFf4PrfkEn2soNWLJlGwBdiPxA=
+	t=1710192493; cv=none; b=bF0Pq78fhKlmN73CBtol+ggmpjBXhD8oBKUJ5HWn9/cPkKihf7/HTMjWfGFMJtL5D6W5VXKPojmcy/DvjV9uPq8h5pgpD5IJdAagfyQTkvNjZwgbcNKw+B2LNfwIaL0gQ/vY+UIRljkJsGO0cylUn5B90fMbGxihWN/Nq2AqDJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710142849; c=relaxed/simple;
-	bh=xQOsuiwh4tTpYKJAUKw8q/WwBDBZDhpNlMtr5qqHVSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=DiZDtAdqLxi593TVN95oU1KMMYL5GCLtaEfRXoTa06VcITrniKrQf1amZB+4iYoEV5xjVwBEi8SLlt15yzw8PYvPsJGHRBiZpqdDKjiiPDZGZFxXlqPGQcHZtar5wcFBX3DeNzo7llbGn8+f9vggLyC7zLzQIGl5JqU3K6sdTp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k7QB86Hj; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1710192493; c=relaxed/simple;
+	bh=YhTqbQHp4J2rfG2MsgMnQIDo3XPvemTa7YocXD5fcLI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=cNaRo+E70xXql7He7xpkb/Astq3DF188XntWoMFKIuLin1DQcKaQ74AyaerKp5Mn+m5bEqv0nfFyhytlUQ5miFVIzU71XXQieVIsqVQxuXZa0HgRX4aqo/kklnURrEIkdOsXkh68BT3zWkavw+FSIKcqS7sLHVyP0LRzYBxugkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--yosryahmed.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JfFTX8n/; arc=none smtp.client-ip=209.85.128.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--yosryahmed.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k7QB86Hj"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33e8f906f3dso1148481f8f.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 11 Mar 2024 00:40:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JfFTX8n/"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-60a3bb05c9bso22473007b3.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 11 Mar 2024 14:28:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710142845; x=1710747645; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eVclaOUNNQHaiMY4OSjqHr11jriWi56sAbG66uxHGtw=;
-        b=k7QB86HjUj+4fjSQI9RkwWknJGFhahtFEyf7urlmbM5CrBfrA7+a82QYfANxHNnZpy
-         zjT8QJQx0VujVFOBx4qBAP4ySc74cJacjToA1DGaWLygrO+s9Mq/keIPth1h2AveNHni
-         qDgcWoCPW3VNI9MY8PfGFJyM6TR+fL5YPXuok1Cbjyag1uktdHjvmREEd0AZ2cbrLi6Z
-         VgPebbEe0HZv25JtNKfDfzDpmeW53MojGcKYBTWyg9l3+HPExRBZBkYKO/Q0W+gjoxNB
-         R1HLfDjLgOG1B1fTM37L02TFXhyAR7o5mNU8h3xSgqZH2vtOJ501lb9v7Bf9ovK5g1hO
-         BWgQ==
+        d=google.com; s=20230601; t=1710192491; x=1710797291; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DvaKML3eKYTL2VtPZKWQXi4KZpd8PTk6YavEF0j6JPo=;
+        b=JfFTX8n/Teot7RTKqCjkehym9nDCcTquqO/8kf+ZoV/a2nuLQ/h8beXQJGu8pPUcuh
+         ho66i65c8dl9c3cls3uwYn2zTl4pbSYOgjqYU6uGb267KsE8BCZSiftD0br6+y8Gx9EH
+         3ofgssCJe6DESajRK7iB1o9Q1x7y8CPtxv1zIFW77CNOkt58A6LAmFjn/WJklHrUwI61
+         M4gJ+xSBmNHyJhZuuBQaZrIe+/4ar+RaJwYPxS+4b9pbTyqP5xYpqGDmOXxiBRlMtV5N
+         Q2/kHdsX5okx4kFJWDMxN50t/+0hZ7rHruu+d0K1R5GU6DrhmAW5MJL9ygmM+JWc2Ho9
+         bXiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710142845; x=1710747645;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eVclaOUNNQHaiMY4OSjqHr11jriWi56sAbG66uxHGtw=;
-        b=OrzsvRqahBpyETMKamV/nJ5lCgAnC9mCZfoqF86vTkf53PBZqVXhnXQDlTpx3AlNgp
-         vaYm61eaVi1SrMqjUXerzuHv0SlK0FFd8lzMrwHtIf1rEMCZGH9qfg4Ytbrj2kxV8gwl
-         VeVXymHBYW1y05Hs1UamODO0Bjm+oVvhGNAFUbi/G6vZinWaalsaSqO0at+0sdoye6D+
-         hC1ffz/Ru1FKmyWojVqCqnUeEu7pC5uBYjzUmRv1E7iYkLt3YR9l19f9dxW/TCu0YLu6
-         8jeyn9IamPT7m//2COtGWeurK1+mxnmOSf21WPfpNcjGiy9g5QQWnx0THkE7gLrUj9oS
-         JD0g==
-X-Gm-Message-State: AOJu0YzSfmBjj/iRHsWjqZXVNutASazVAazcvYpqNCkPqwuMcZqhKFz1
-	YeEPDsvPXPynpuKdhOg1TVd1MVmS4o08tke1JEAWMZZN8jCQ2MU2JFRwKlh+cKizCljICme2EVj
-	3
-X-Google-Smtp-Source: AGHT+IFG3p9i/GwaORQw7AYMiRkBM4TiCq3dT5JLYVfKV1sF2G2FrxnJTk2xGSHyD4QUmmll6vYqGg==
-X-Received: by 2002:adf:ef43:0:b0:33d:71e5:f556 with SMTP id c3-20020adfef43000000b0033d71e5f556mr4606485wrp.27.1710142844925;
-        Mon, 11 Mar 2024 00:40:44 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id z2-20020a5d6402000000b0033dedd63382sm5649639wru.101.2024.03.11.00.40.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Mar 2024 00:40:44 -0700 (PDT)
-Date: Mon, 11 Mar 2024 10:40:40 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>,
-	herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Ruud.Derwig@synopsys.com,
-	manjunath.hadli@vayavyalabs.com,
-	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
-Subject: Re: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and
- Makefile file
-Message-ID: <1f00d2ad-185e-4f02-a20f-0e9b101add50@moroto.mountain>
+        d=1e100.net; s=20230601; t=1710192491; x=1710797291;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DvaKML3eKYTL2VtPZKWQXi4KZpd8PTk6YavEF0j6JPo=;
+        b=IVcu9DW7YAWF5ea5yTWNFMJrpAGyqa06prfj5yFX5MHa7pQgaxZYlprq0RhISRfZSa
+         VMs82YF/wgMzA7Tr0cfuQRkdeg9qMDXRvQhjzU8HTcGkYNnvat4/1QEGLBV9LzR+hCWS
+         IxAmBaER1JIwzjNIQc9M6oruSfVcRIVq0v7jskVAeCJTHX3d0x7YJeIOH1qrOdALB3Uj
+         eawThDhZS/I6Z2+KOzDDv4prWMRoPGrkZSJmMV3HDOGyQX4nBCaGqY4tnHKWcXxD/Hyp
+         2inkoAbRZYL4MPsMrnTeEweP1ZCyAtrzSrtbDogLkXa9rMko2Zgv1I8sMW3v9N0+zL/U
+         4oNA==
+X-Gm-Message-State: AOJu0Yx3afiWAci22hhnGDB8OAYq8uPh5u6U0ks2H0vjOH2CVYV7x+Lf
+	1lG+TdhJYT+VHk/AckVvTgOPFIOhtlJVbZvSAivZy+JSUr9TwNXHOAxMV1MXbE9uAjOLqKD9Yh1
+	wlaf9UgIIyw1cvGga+A==
+X-Google-Smtp-Source: AGHT+IG+MYQdwxER9uG4I9tq0d0L0sAlQzwDd3bVXqriVvbzm1SJYFoK/UCp/bqI8Dgo+pwcXu15RWMRES2+yfW8
+X-Received: from yosry.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:29b4])
+ (user=yosryahmed job=sendgmr) by 2002:a81:844b:0:b0:5e6:1e40:e2e3 with SMTP
+ id u72-20020a81844b000000b005e61e40e2e3mr309909ywf.5.1710192491241; Mon, 11
+ Mar 2024 14:28:11 -0700 (PDT)
+Date: Mon, 11 Mar 2024 21:28:09 +0000
+In-Reply-To: <a04f0dc9-9f57-47fe-a417-432d5545140b@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240305112831.3380896-5-pavitrakumarm@vayavyalabs.com>
+Mime-Version: 1.0
+References: <20240307133916.3782068-3-yosryahmed@google.com> <a04f0dc9-9f57-47fe-a417-432d5545140b@moroto.mountain>
+Message-ID: <Ze93aZrA2t4sfaBD@google.com>
+Subject: Re: [RFC PATCH 2/3] x86/mm: make sure LAM is up-to-date during
+ context switching
+From: Yosry Ahmed <yosryahmed@google.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Pavitrakumar,
+On Mon, Mar 11, 2024 at 09:09:34AM +0300, Dan Carpenter wrote:
+> Hi Yosry,
+> 
+> [This is a private test report for your RFC patch.]
+> kernel test robot noticed the following build warnings:
+> 
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/x86-mm-fix-LAM-cr3-mask-inconsistency-during-context-switch/20240307-214052
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20240307133916.3782068-3-yosryahmed%40google.com
+> patch subject: [RFC PATCH 2/3] x86/mm: make sure LAM is up-to-date during context switching
+> config: x86_64-randconfig-161-20240310 (https://download.01.org/0day-ci/archive/20240310/202403101713.eM4pyFpc-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202403101713.eM4pyFpc-lkp@intel.com/
+> 
+> smatch warnings:
+> arch/x86/mm/tlb.c:655 switch_mm_irqs_off() error: uninitialized symbol 'new_asid'.
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-M/Add-SPAcc-driver-to-Linux-kernel/20240305-193337
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20240305112831.3380896-5-pavitrakumarm%40vayavyalabs.com
-patch subject: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and Makefile file
-config: i386-randconfig-141-20240308 (https://download.01.org/0day-ci/archive/20240311/202403111044.eqxBgcDl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403111044.eqxBgcDl-lkp@intel.com/
-
-New smatch warnings:
-drivers/crypto/dwc-spacc/spacc_skcipher.c:176 spacc_cipher_cb() warn: was && intended here instead of ||?
-drivers/crypto/dwc-spacc/spacc_aead.c:1131 spacc_aead_process() error: uninitialized symbol 'ptaadsize'.
-
-vim +176 drivers/crypto/dwc-spacc/spacc_skcipher.c
-
-6ad822cec22644 Pavitrakumar M 2024-03-05  146  static void spacc_cipher_cb(void *spacc, void *tfm)
-6ad822cec22644 Pavitrakumar M 2024-03-05  147  {
-6ad822cec22644 Pavitrakumar M 2024-03-05  148  	struct cipher_cb_data *cb = tfm;
-6ad822cec22644 Pavitrakumar M 2024-03-05  149  	int err = -1, rc;
-6ad822cec22644 Pavitrakumar M 2024-03-05  150  	int total_len;
-6ad822cec22644 Pavitrakumar M 2024-03-05  151  	struct spacc_crypto_reqctx *ctx = skcipher_request_ctx(cb->req);
-6ad822cec22644 Pavitrakumar M 2024-03-05  152  
-6ad822cec22644 Pavitrakumar M 2024-03-05  153  	u32 status_reg = readl(cb->spacc->regmap + SPACC_REG_STATUS);
-6ad822cec22644 Pavitrakumar M 2024-03-05  154  	u32 status_ret = (status_reg >> 24) & 0x03;
-6ad822cec22644 Pavitrakumar M 2024-03-05  155  
-6ad822cec22644 Pavitrakumar M 2024-03-05  156  	if (ctx->mode == CRYPTO_MODE_DES_CBC ||
-6ad822cec22644 Pavitrakumar M 2024-03-05  157  	    ctx->mode == CRYPTO_MODE_3DES_CBC) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  158  		rc = spacc_read_context(cb->spacc, cb->tctx->handle,
-6ad822cec22644 Pavitrakumar M 2024-03-05  159  					SPACC_CRYPTO_OPERATION, NULL, 0,
-6ad822cec22644 Pavitrakumar M 2024-03-05  160  					cb->req->iv, 8);
-6ad822cec22644 Pavitrakumar M 2024-03-05  161  	} else if (ctx->mode != CRYPTO_MODE_DES_ECB  &&
-6ad822cec22644 Pavitrakumar M 2024-03-05  162  		   ctx->mode != CRYPTO_MODE_3DES_ECB &&
-6ad822cec22644 Pavitrakumar M 2024-03-05  163  		   ctx->mode != CRYPTO_MODE_SM4_ECB  &&
-6ad822cec22644 Pavitrakumar M 2024-03-05  164  		   ctx->mode != CRYPTO_MODE_AES_ECB  &&
-6ad822cec22644 Pavitrakumar M 2024-03-05  165  		   ctx->mode != CRYPTO_MODE_SM4_XTS  &&
-6ad822cec22644 Pavitrakumar M 2024-03-05  166  		   ctx->mode != CRYPTO_MODE_KASUMI_ECB) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  167  		if (status_ret == 0x3) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  168  			err = -EINVAL;
-6ad822cec22644 Pavitrakumar M 2024-03-05  169  			goto REQ_DST_CP_SKIP;
-6ad822cec22644 Pavitrakumar M 2024-03-05  170  		}
-6ad822cec22644 Pavitrakumar M 2024-03-05  171  		rc = spacc_read_context(cb->spacc, cb->tctx->handle,
-6ad822cec22644 Pavitrakumar M 2024-03-05  172  					SPACC_CRYPTO_OPERATION, NULL, 0,
-6ad822cec22644 Pavitrakumar M 2024-03-05  173  					cb->req->iv, 16);
-6ad822cec22644 Pavitrakumar M 2024-03-05  174  	}
-6ad822cec22644 Pavitrakumar M 2024-03-05  175  
-6ad822cec22644 Pavitrakumar M 2024-03-05 @176  	if (ctx->mode != CRYPTO_MODE_DES_ECB  ||
-6ad822cec22644 Pavitrakumar M 2024-03-05  177  	    ctx->mode != CRYPTO_MODE_DES_CBC  ||
-6ad822cec22644 Pavitrakumar M 2024-03-05  178  	    ctx->mode != CRYPTO_MODE_3DES_ECB ||
-6ad822cec22644 Pavitrakumar M 2024-03-05  179  	    ctx->mode != CRYPTO_MODE_3DES_CBC) {
-
-ctx->mode can't possibly be equal to multiple values at the same time
-so this condition is always true.  && was intended.
-
-6ad822cec22644 Pavitrakumar M 2024-03-05  180  		if (status_ret == 0x03) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  181  			err = -EINVAL;
-6ad822cec22644 Pavitrakumar M 2024-03-05  182  			goto REQ_DST_CP_SKIP;
-6ad822cec22644 Pavitrakumar M 2024-03-05  183  		}
-6ad822cec22644 Pavitrakumar M 2024-03-05  184  	}
-6ad822cec22644 Pavitrakumar M 2024-03-05  185  
-6ad822cec22644 Pavitrakumar M 2024-03-05  186  	if (ctx->mode == CRYPTO_MODE_SM4_ECB && status_ret == 0x03) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  187  		err = -EINVAL;
-6ad822cec22644 Pavitrakumar M 2024-03-05  188  		goto REQ_DST_CP_SKIP;
-6ad822cec22644 Pavitrakumar M 2024-03-05  189  	}
-6ad822cec22644 Pavitrakumar M 2024-03-05  190  
-6ad822cec22644 Pavitrakumar M 2024-03-05  191  	total_len = cb->req->cryptlen;
-6ad822cec22644 Pavitrakumar M 2024-03-05  192  	if (ctx->mode == CRYPTO_MODE_SM4_XTS && total_len != 16) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  193  		if (status_ret == 0x03) {
-6ad822cec22644 Pavitrakumar M 2024-03-05  194  			err = -EINVAL;
-6ad822cec22644 Pavitrakumar M 2024-03-05  195  			goto REQ_DST_CP_SKIP;
-6ad822cec22644 Pavitrakumar M 2024-03-05  196  		}
-6ad822cec22644 Pavitrakumar M 2024-03-05  197  	}
-6ad822cec22644 Pavitrakumar M 2024-03-05  198  
-6ad822cec22644 Pavitrakumar M 2024-03-05  199  	dma_sync_sg_for_cpu(cb->tctx->dev, cb->req->dst, ctx->dst_nents,
-6ad822cec22644 Pavitrakumar M 2024-03-05  200  				DMA_FROM_DEVICE);
-6ad822cec22644 Pavitrakumar M 2024-03-05  201  
-6ad822cec22644 Pavitrakumar M 2024-03-05  202  	err = cb->spacc->job[cb->new_handle].job_err;
-6ad822cec22644 Pavitrakumar M 2024-03-05  203  REQ_DST_CP_SKIP:
-6ad822cec22644 Pavitrakumar M 2024-03-05  204  	spacc_cipher_cleanup_dma(cb->tctx->dev, cb->req);
-6ad822cec22644 Pavitrakumar M 2024-03-05  205  	spacc_close(cb->spacc, cb->new_handle);
-6ad822cec22644 Pavitrakumar M 2024-03-05  206  
-6ad822cec22644 Pavitrakumar M 2024-03-05  207  	/* call complete */
-6ad822cec22644 Pavitrakumar M 2024-03-05  208  	skcipher_request_complete(cb->req, err);
-6ad822cec22644 Pavitrakumar M 2024-03-05  209  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Thanks for reporting this. I think it may be a false positive, but this
+code chunk will be dropped in the next version anyway.
