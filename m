@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382318BE0
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 Mar 2024 02:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356EE10A3E
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 Mar 2024 04:47:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710297217; cv=none; b=KkI9enLeFxdN1gV54nR2YBv3/EgjKz2BJ1MHw7iRCVDFph8yiKTCVGKMnIh1ZmMFtlY5mwRpB+V1UcjgdiH7xpTvzWy8gdyrJG/0fIxUmlTV9qikwLA0e/fPmDFMt8C1UdpKBfCVBSswiG/7+Z3njNVGAcbjvydsIlXaN2mk6EY=
+	t=1710305258; cv=none; b=EKNCUCvIt52MpIAWKbeHjVbptrNTDgoHqDywqJiKaPZyEBtdboSZ7RclzxDNL6UHeXAg57hIC9EjHEolO9kyQoBwASOeUV69G8EmWxdBzjpnH0I2r01pacGGxatz7u/MP5o8W6ZLP56AuvgpMEx7bDEenI8dEEY+pD6OZtMnaBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710297217; c=relaxed/simple;
-	bh=jJFVzDEnQ05RIqRnYdxiR8HWS93QYVESqufL+UvIDRs=;
+	s=arc-20240116; t=1710305258; c=relaxed/simple;
+	bh=T+PZuoxEjjkfWvaa4QVrhZDVXmyIxhUP7X47Tk/0DiU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dUzek6/VvbqV9TUKdOoc9mu4QS9mD53Ly1Z3xWgBcgImsDUE1MTU99kvdCDoFHOJ8/xY07QDFY9lcyv//mrz0y9doixVm4ON///JtFU1iaWdVvR4Q7PDsNZlbVZkSEsYg3oSRByH520gYinri3kXHe+0M3Mi4UWkZlLEsEIY178=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RrNF6yF8; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=O82fvB2IwJZ7w+R+M0yjNki2wzJ3kRw+Fmot7YcA7lw+vZ6jWjXx6gh5JvKi4txCCw6a3IzoRDN3+RM9RjeovfVlVuDQS2cr+DFw/E2NVMBVEtLsfYNC7A609X0V9BmA+ndeJjRld4W+UsmEtYRqtl91CjHSUgAnWW3pfFMnPiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ba5Rt3di; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RrNF6yF8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ba5Rt3di"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710297216; x=1741833216;
+  t=1710305256; x=1741841256;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jJFVzDEnQ05RIqRnYdxiR8HWS93QYVESqufL+UvIDRs=;
-  b=RrNF6yF8Ht6whR+r0RP30xZ5jZMu+Wm/ju161W0gk+SuhWOvs0ql4js5
-   0tg/scvfyLUVvgvGKH3SwqRxmnl3IQgPXQZXRGbacmiQG0xdUPf447ynC
-   t87srn68jUBjT7T87/nfbYOyyZDdKyeFyTihXVEf+ZOoZfUOrTjxrkAX1
-   +Gx7tlXkgeFAnPwDWPn/V64mBw4G2u4io8wF6+jLKSVEg3qZe7H5K5MzG
-   g5+/GSXQkGMeeVwiT7QydM6+PYRLz+111VqWqIukrzE/7ociML9+e8txn
-   bfH8BW8NKvtQIfTFVaIkpwe9HMw2/i7if30Q3JL0tmMpsbiYbRHHgQWeA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4969824"
+  bh=T+PZuoxEjjkfWvaa4QVrhZDVXmyIxhUP7X47Tk/0DiU=;
+  b=Ba5Rt3diiJdwhPmgJVpWLW+AEcTEry5U/s60UkcN58MdEZXJK0k+oJXq
+   9kg8u3DIKBKBBKTyBJfzH5UqMf6CPEg79IdTbUYl/bStClYdIHhpKd7OW
+   USq+lGS+jETyX8w52Z3RWg+k+pQptvvia9xeFxqfSp/1Q3DPjE0+Wgk3d
+   rzuGlcDW6uZ1dEftWKzuSaS2TNz59STQpy+N1iSJXUj0nzgtICv6JzL8I
+   yaHzDOhuYgASUjAUqR7QaH2HT4he5nZHWq+JHahvOAPNyGS6fH88u0OI6
+   yavXRSnXG5b9JjVfJQKA+6if1JtDZG14bN8mMQb+VR6XGoVUxAPyCBrsF
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4905567"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="4969824"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 19:33:32 -0700
+   d="scan'208";a="4905567"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 21:47:35 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="34895394"
+   d="scan'208";a="16264822"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 12 Mar 2024 19:33:30 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 12 Mar 2024 21:47:34 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkEQp-000Bv5-2y;
-	Wed, 13 Mar 2024 02:33:27 +0000
-Date: Wed, 13 Mar 2024 10:32:46 +0800
+	id 1rkGWa-000C1h-0D;
+	Wed, 13 Mar 2024 04:47:32 +0000
+Date: Wed, 13 Mar 2024 12:47:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [avpatel:riscv_acpi_b2_v4 54/92]
- drivers/irqchip/irq-riscv-imsic-state.c:135:7-8: ERROR: iterator variable
- bound on line 134 cannot be NULL
-Message-ID: <202403131035.Qg6Opbir-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 8114/13337]
+ drivers/vfio/pci/nvgrace-gpu/main.c:718 nvgrace_gpu_fetch_memory_property()
+ warn: impossible condition '(*pmemphys > ((((1 << (8 * 8 - 1 - (((-1)) <
+ 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1)))))) => (0-u64max > u64max)'
+Message-ID: <202403131244.nouxrenP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,75 +62,71 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Anup Patel <apatel@ventanamicro.com>
-CC: Conor Dooley <conor.dooley@microchip.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Ankit Agrawal <ankita@nvidia.com>
+CC: Alex Williamson <alex.williamson@redhat.com>
+CC: Kevin Tian <kevin.tian@intel.com>
+CC: Yishai Hadas <yishaih@nvidia.com>
+CC: Zhi Wang <zhi.wang.linux@gmail.com>
+CC: Aniket Agashe <aniketa@nvidia.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_acpi_b2_v4
-head:   9fcc7e2c57babd40cba3ba3a489982ff1b0f91bc
-commit: f1b82f19f69fa78eaac6b2a9a7c7ea13c55a84ee [54/92] RISC-V: Select APLIC and IMSIC drivers
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-config: riscv-randconfig-r053-20240313 (https://download.01.org/0day-ci/archive/20240313/202403131035.Qg6Opbir-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a1184cae56bcb96b86df3ee0377cec507a3f56e0
+commit: 701ab935859fcfd4a8c8a97f3ee4fb5294a9d481 [8114/13337] vfio/nvgrace-gpu: Add vfio pci variant module for grace hopper
+:::::: branch date: 24 hours ago
+:::::: commit date: 3 weeks ago
+config: loongarch-randconfig-r081-20240312 (https://download.01.org/0day-ci/archive/20240313/202403131244.nouxrenP-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202403131035.Qg6Opbir-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202403131244.nouxrenP-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/irqchip/irq-riscv-imsic-state.c:135:7-8: ERROR: iterator variable bound on line 134 cannot be NULL
+smatch warnings:
+drivers/vfio/pci/nvgrace-gpu/main.c:718 nvgrace_gpu_fetch_memory_property() warn: impossible condition '(*pmemphys > ((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1)))))) => (0-u64max > u64max)'
+drivers/vfio/pci/nvgrace-gpu/main.c:726 nvgrace_gpu_fetch_memory_property() warn: impossible condition '(*pmemlength > ((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1)))))) => (0-u64max > u64max)'
 
-vim +135 drivers/irqchip/irq-riscv-imsic-state.c
+vim +718 drivers/vfio/pci/nvgrace-gpu/main.c
 
-9208d3747a0eba Anup Patel 2023-08-02  125  
-9208d3747a0eba Anup Patel 2023-08-02  126  static void __imsic_local_sync(struct imsic_local_priv *lpriv)
-9208d3747a0eba Anup Patel 2023-08-02  127  {
-9208d3747a0eba Anup Patel 2023-08-02  128  	struct imsic_local_config *mlocal;
-9208d3747a0eba Anup Patel 2023-08-02  129  	struct imsic_vector *vec, *mvec;
-9208d3747a0eba Anup Patel 2023-08-02  130  	int i;
-9208d3747a0eba Anup Patel 2023-08-02  131  
-9208d3747a0eba Anup Patel 2023-08-02  132  	lockdep_assert_held(&lpriv->lock);
-9208d3747a0eba Anup Patel 2023-08-02  133  
-9208d3747a0eba Anup Patel 2023-08-02 @134  	for_each_set_bit(i, lpriv->dirty_bitmap, imsic->global.nr_ids + 1) {
-9208d3747a0eba Anup Patel 2023-08-02 @135  		if (!i || i == IMSIC_IPI_ID)
-9208d3747a0eba Anup Patel 2023-08-02  136  			goto skip;
-9208d3747a0eba Anup Patel 2023-08-02  137  		vec = &lpriv->vectors[i];
-9208d3747a0eba Anup Patel 2023-08-02  138  
-9208d3747a0eba Anup Patel 2023-08-02  139  		if (READ_ONCE(vec->enable))
-9208d3747a0eba Anup Patel 2023-08-02  140  			__imsic_id_set_enable(i);
-9208d3747a0eba Anup Patel 2023-08-02  141  		else
-9208d3747a0eba Anup Patel 2023-08-02  142  			__imsic_id_clear_enable(i);
-9208d3747a0eba Anup Patel 2023-08-02  143  
-9208d3747a0eba Anup Patel 2023-08-02  144  		/*
-9208d3747a0eba Anup Patel 2023-08-02  145  		 * If the ID was being moved to a new ID on some other CPU
-9208d3747a0eba Anup Patel 2023-08-02  146  		 * then we can get a MSI during the movement so check the
-9208d3747a0eba Anup Patel 2023-08-02  147  		 * ID pending bit and re-trigger the new ID on other CPU
-9208d3747a0eba Anup Patel 2023-08-02  148  		 * using MMIO write.
-9208d3747a0eba Anup Patel 2023-08-02  149  		 */
-9208d3747a0eba Anup Patel 2023-08-02  150  		mvec = READ_ONCE(vec->move);
-9208d3747a0eba Anup Patel 2023-08-02  151  		WRITE_ONCE(vec->move, NULL);
-9208d3747a0eba Anup Patel 2023-08-02  152  		if (mvec && mvec != vec) {
-9208d3747a0eba Anup Patel 2023-08-02  153  			if (__imsic_id_read_clear_pending(i)) {
-9208d3747a0eba Anup Patel 2023-08-02  154  				mlocal = per_cpu_ptr(imsic->global.local, mvec->cpu);
-9208d3747a0eba Anup Patel 2023-08-02  155  				writel_relaxed(mvec->local_id, mlocal->msi_va);
-9208d3747a0eba Anup Patel 2023-08-02  156  			}
-9208d3747a0eba Anup Patel 2023-08-02  157  
-9208d3747a0eba Anup Patel 2023-08-02  158  			imsic_vector_free(&lpriv->vectors[i]);
-9208d3747a0eba Anup Patel 2023-08-02  159  		}
-9208d3747a0eba Anup Patel 2023-08-02  160  
-9208d3747a0eba Anup Patel 2023-08-02  161  skip:
-9208d3747a0eba Anup Patel 2023-08-02  162  		bitmap_clear(lpriv->dirty_bitmap, i, 1);
-9208d3747a0eba Anup Patel 2023-08-02  163  	}
-9208d3747a0eba Anup Patel 2023-08-02  164  }
-9208d3747a0eba Anup Patel 2023-08-02  165  
-
-:::::: The code at line 135 was first introduced by commit
-:::::: 9208d3747a0eba5d05cd3dec979e9f1519e62852 irqchip: Add RISC-V incoming MSI controller early driver
-
-:::::: TO: Anup Patel <apatel@ventanamicro.com>
-:::::: CC: Anup Patel <anup@brainfault.org>
+701ab935859fcf Ankit Agrawal 2024-02-20  702  
+701ab935859fcf Ankit Agrawal 2024-02-20  703  static int
+701ab935859fcf Ankit Agrawal 2024-02-20  704  nvgrace_gpu_fetch_memory_property(struct pci_dev *pdev,
+701ab935859fcf Ankit Agrawal 2024-02-20  705  				  u64 *pmemphys, u64 *pmemlength)
+701ab935859fcf Ankit Agrawal 2024-02-20  706  {
+701ab935859fcf Ankit Agrawal 2024-02-20  707  	int ret;
+701ab935859fcf Ankit Agrawal 2024-02-20  708  
+701ab935859fcf Ankit Agrawal 2024-02-20  709  	/*
+701ab935859fcf Ankit Agrawal 2024-02-20  710  	 * The memory information is present in the system ACPI tables as DSD
+701ab935859fcf Ankit Agrawal 2024-02-20  711  	 * properties nvidia,gpu-mem-base-pa and nvidia,gpu-mem-size.
+701ab935859fcf Ankit Agrawal 2024-02-20  712  	 */
+701ab935859fcf Ankit Agrawal 2024-02-20  713  	ret = device_property_read_u64(&pdev->dev, "nvidia,gpu-mem-base-pa",
+701ab935859fcf Ankit Agrawal 2024-02-20  714  				       pmemphys);
+701ab935859fcf Ankit Agrawal 2024-02-20  715  	if (ret)
+701ab935859fcf Ankit Agrawal 2024-02-20  716  		return ret;
+701ab935859fcf Ankit Agrawal 2024-02-20  717  
+701ab935859fcf Ankit Agrawal 2024-02-20 @718  	if (*pmemphys > type_max(phys_addr_t))
+701ab935859fcf Ankit Agrawal 2024-02-20  719  		return -EOVERFLOW;
+701ab935859fcf Ankit Agrawal 2024-02-20  720  
+701ab935859fcf Ankit Agrawal 2024-02-20  721  	ret = device_property_read_u64(&pdev->dev, "nvidia,gpu-mem-size",
+701ab935859fcf Ankit Agrawal 2024-02-20  722  				       pmemlength);
+701ab935859fcf Ankit Agrawal 2024-02-20  723  	if (ret)
+701ab935859fcf Ankit Agrawal 2024-02-20  724  		return ret;
+701ab935859fcf Ankit Agrawal 2024-02-20  725  
+701ab935859fcf Ankit Agrawal 2024-02-20 @726  	if (*pmemlength > type_max(size_t))
+701ab935859fcf Ankit Agrawal 2024-02-20  727  		return -EOVERFLOW;
+701ab935859fcf Ankit Agrawal 2024-02-20  728  
+701ab935859fcf Ankit Agrawal 2024-02-20  729  	/*
+701ab935859fcf Ankit Agrawal 2024-02-20  730  	 * If the C2C link is not up due to an error, the coherent device
+701ab935859fcf Ankit Agrawal 2024-02-20  731  	 * memory size is returned as 0. Fail in such case.
+701ab935859fcf Ankit Agrawal 2024-02-20  732  	 */
+701ab935859fcf Ankit Agrawal 2024-02-20  733  	if (*pmemlength == 0)
+701ab935859fcf Ankit Agrawal 2024-02-20  734  		return -ENOMEM;
+701ab935859fcf Ankit Agrawal 2024-02-20  735  
+701ab935859fcf Ankit Agrawal 2024-02-20  736  	return ret;
+701ab935859fcf Ankit Agrawal 2024-02-20  737  }
+701ab935859fcf Ankit Agrawal 2024-02-20  738  
 
 -- 
 0-DAY CI Kernel Test Service
