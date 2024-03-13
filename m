@@ -1,56 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356EE10A3E
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 Mar 2024 04:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A179E11193
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 Mar 2024 05:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710305258; cv=none; b=EKNCUCvIt52MpIAWKbeHjVbptrNTDgoHqDywqJiKaPZyEBtdboSZ7RclzxDNL6UHeXAg57hIC9EjHEolO9kyQoBwASOeUV69G8EmWxdBzjpnH0I2r01pacGGxatz7u/MP5o8W6ZLP56AuvgpMEx7bDEenI8dEEY+pD6OZtMnaBw=
+	t=1710306579; cv=none; b=AHcx2a/tkXV8KSvs3kvG1depeI+AupeKe9ICfJt4ues0VMiVs1wAi1ZUDlF7fjgL88uZTZ6d4P3TEQB3drHlG49sG15FDfNATl4dk98WcZ5ldbJmzfSyKr3aJKQuDLHBGfjTtAweY0fZ8IRrHHsyT0bI1HsHYwp2j7p8+gtMZ5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710305258; c=relaxed/simple;
-	bh=T+PZuoxEjjkfWvaa4QVrhZDVXmyIxhUP7X47Tk/0DiU=;
+	s=arc-20240116; t=1710306579; c=relaxed/simple;
+	bh=A88gAxFxy1NUF29zjZ7lWD8UffYXCrp33HJS8HpPZNE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O82fvB2IwJZ7w+R+M0yjNki2wzJ3kRw+Fmot7YcA7lw+vZ6jWjXx6gh5JvKi4txCCw6a3IzoRDN3+RM9RjeovfVlVuDQS2cr+DFw/E2NVMBVEtLsfYNC7A609X0V9BmA+ndeJjRld4W+UsmEtYRqtl91CjHSUgAnWW3pfFMnPiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ba5Rt3di; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=gj4/GRhIpSB1gk5uoPE9R2GycpDBOR2oSSdqhrMD6+niqL5/tC1Ee9VtO4JLpN4fTN+v8Au9l+rP/TFGp0BeQzAv9BFIN0mYNsYNB/8shW7kTZMYH9hBFzw5dl7YdUSm9iQx8LJHkQuduIHQ5p6m/eZTLK6wRWdInmG09+VcStc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jffLUcFC; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ba5Rt3di"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jffLUcFC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710305256; x=1741841256;
+  t=1710306577; x=1741842577;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T+PZuoxEjjkfWvaa4QVrhZDVXmyIxhUP7X47Tk/0DiU=;
-  b=Ba5Rt3diiJdwhPmgJVpWLW+AEcTEry5U/s60UkcN58MdEZXJK0k+oJXq
-   9kg8u3DIKBKBBKTyBJfzH5UqMf6CPEg79IdTbUYl/bStClYdIHhpKd7OW
-   USq+lGS+jETyX8w52Z3RWg+k+pQptvvia9xeFxqfSp/1Q3DPjE0+Wgk3d
-   rzuGlcDW6uZ1dEftWKzuSaS2TNz59STQpy+N1iSJXUj0nzgtICv6JzL8I
-   yaHzDOhuYgASUjAUqR7QaH2HT4he5nZHWq+JHahvOAPNyGS6fH88u0OI6
-   yavXRSnXG5b9JjVfJQKA+6if1JtDZG14bN8mMQb+VR6XGoVUxAPyCBrsF
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4905567"
+  bh=A88gAxFxy1NUF29zjZ7lWD8UffYXCrp33HJS8HpPZNE=;
+  b=jffLUcFCgMa6Iqr6qMh1wMAxrkx/zLqJxGuTNHGYzaXas4YZQz233Tm2
+   uErN5zSIjvCokdOFl+CdQ2IgYThQ29RvFzdvEbzVwl/A5xBmO59LA5U0R
+   N1632BBMAsxXGMuag6r39E8MvRhdRQEbflsLrj1PRdNtmQ709Yf4laSed
+   4JTxYzxAy6c94uKvBVLmNeqarzw+ZMJWz6iXxnLGpfXvl/dC3loE41ra4
+   vR7kuLCDDcuSMHhN0sHlN50emPg/SApUswG2/6rxcdU2GN7OdEmvfr6S0
+   O+NeZDth4fxtfEHHIbBmY8LFwdbkLm7uzbYW40tXzg065M8EG7AUWpyen
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="4915524"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="4905567"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 21:47:35 -0700
+   d="scan'208";a="4915524"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 22:09:36 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="16264822"
+   d="scan'208";a="11681022"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 12 Mar 2024 21:47:34 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 12 Mar 2024 22:09:34 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkGWa-000C1h-0D;
-	Wed, 13 Mar 2024 04:47:32 +0000
-Date: Wed, 13 Mar 2024 12:47:11 +0800
+	id 1rkGrs-000C2Z-1Z;
+	Wed, 13 Mar 2024 05:09:32 +0000
+Date: Wed, 13 Mar 2024 13:08:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 8114/13337]
- drivers/vfio/pci/nvgrace-gpu/main.c:718 nvgrace_gpu_fetch_memory_property()
- warn: impossible condition '(*pmemphys > ((((1 << (8 * 8 - 1 - (((-1)) <
- 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1)))))) => (0-u64max > u64max)'
-Message-ID: <202403131244.nouxrenP-lkp@intel.com>
+Subject: Re: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and
+ Makefile file
+Message-ID: <202403131251.C47BWrJQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,71 +60,119 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Ankit Agrawal <ankita@nvidia.com>
-CC: Alex Williamson <alex.williamson@redhat.com>
-CC: Kevin Tian <kevin.tian@intel.com>
-CC: Yishai Hadas <yishaih@nvidia.com>
-CC: Zhi Wang <zhi.wang.linux@gmail.com>
-CC: Aniket Agashe <aniketa@nvidia.com>
+In-Reply-To: <20240305112831.3380896-5-pavitrakumarm@vayavyalabs.com>
+References: <20240305112831.3380896-5-pavitrakumarm@vayavyalabs.com>
+TO: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
+TO: herbert@gondor.apana.org.au
+TO: linux-crypto@vger.kernel.org
+CC: Ruud.Derwig@synopsys.com
+CC: manjunath.hadli@vayavyalabs.com
+CC: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a1184cae56bcb96b86df3ee0377cec507a3f56e0
-commit: 701ab935859fcfd4a8c8a97f3ee4fb5294a9d481 [8114/13337] vfio/nvgrace-gpu: Add vfio pci variant module for grace hopper
-:::::: branch date: 24 hours ago
-:::::: commit date: 3 weeks ago
-config: loongarch-randconfig-r081-20240312 (https://download.01.org/0day-ci/archive/20240313/202403131244.nouxrenP-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
+Hi Pavitrakumar,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master linus/master v6.8 next-20240312]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-M/Add-SPAcc-driver-to-Linux-kernel/20240305-193337
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20240305112831.3380896-5-pavitrakumarm%40vayavyalabs.com
+patch subject: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and Makefile file
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: i386-randconfig-141-20240308 (https://download.01.org/0day-ci/archive/20240313/202403131251.C47BWrJQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202403131244.nouxrenP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403131251.C47BWrJQ-lkp@intel.com/
 
-smatch warnings:
-drivers/vfio/pci/nvgrace-gpu/main.c:718 nvgrace_gpu_fetch_memory_property() warn: impossible condition '(*pmemphys > ((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1)))))) => (0-u64max > u64max)'
-drivers/vfio/pci/nvgrace-gpu/main.c:726 nvgrace_gpu_fetch_memory_property() warn: impossible condition '(*pmemlength > ((((1 << (8 * 8 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 8 - 1 - (((-1)) < 1)))))) => (0-u64max > u64max)'
+New smatch warnings:
+drivers/crypto/dwc-spacc/spacc_skcipher.c:176 spacc_cipher_cb() warn: was && intended here instead of ||?
+drivers/crypto/dwc-spacc/spacc_aead.c:1131 spacc_aead_process() error: uninitialized symbol 'ptaadsize'.
 
-vim +718 drivers/vfio/pci/nvgrace-gpu/main.c
+Old smatch warnings:
+drivers/crypto/dwc-spacc/spacc_skcipher.c:528 spacc_cipher_process() warn: bitwise AND condition is false here
+drivers/crypto/dwc-spacc/spacc_skcipher.c:751 probe_ciphers() warn: inconsistent indenting
+drivers/crypto/dwc-spacc/spacc_skcipher.c:762 probe_ciphers() warn: possible memory leak of 'salg'
+drivers/crypto/dwc-spacc/spacc_aead.c:1165 spacc_aead_process() error: uninitialized symbol 'ptaadsize'.
 
-701ab935859fcf Ankit Agrawal 2024-02-20  702  
-701ab935859fcf Ankit Agrawal 2024-02-20  703  static int
-701ab935859fcf Ankit Agrawal 2024-02-20  704  nvgrace_gpu_fetch_memory_property(struct pci_dev *pdev,
-701ab935859fcf Ankit Agrawal 2024-02-20  705  				  u64 *pmemphys, u64 *pmemlength)
-701ab935859fcf Ankit Agrawal 2024-02-20  706  {
-701ab935859fcf Ankit Agrawal 2024-02-20  707  	int ret;
-701ab935859fcf Ankit Agrawal 2024-02-20  708  
-701ab935859fcf Ankit Agrawal 2024-02-20  709  	/*
-701ab935859fcf Ankit Agrawal 2024-02-20  710  	 * The memory information is present in the system ACPI tables as DSD
-701ab935859fcf Ankit Agrawal 2024-02-20  711  	 * properties nvidia,gpu-mem-base-pa and nvidia,gpu-mem-size.
-701ab935859fcf Ankit Agrawal 2024-02-20  712  	 */
-701ab935859fcf Ankit Agrawal 2024-02-20  713  	ret = device_property_read_u64(&pdev->dev, "nvidia,gpu-mem-base-pa",
-701ab935859fcf Ankit Agrawal 2024-02-20  714  				       pmemphys);
-701ab935859fcf Ankit Agrawal 2024-02-20  715  	if (ret)
-701ab935859fcf Ankit Agrawal 2024-02-20  716  		return ret;
-701ab935859fcf Ankit Agrawal 2024-02-20  717  
-701ab935859fcf Ankit Agrawal 2024-02-20 @718  	if (*pmemphys > type_max(phys_addr_t))
-701ab935859fcf Ankit Agrawal 2024-02-20  719  		return -EOVERFLOW;
-701ab935859fcf Ankit Agrawal 2024-02-20  720  
-701ab935859fcf Ankit Agrawal 2024-02-20  721  	ret = device_property_read_u64(&pdev->dev, "nvidia,gpu-mem-size",
-701ab935859fcf Ankit Agrawal 2024-02-20  722  				       pmemlength);
-701ab935859fcf Ankit Agrawal 2024-02-20  723  	if (ret)
-701ab935859fcf Ankit Agrawal 2024-02-20  724  		return ret;
-701ab935859fcf Ankit Agrawal 2024-02-20  725  
-701ab935859fcf Ankit Agrawal 2024-02-20 @726  	if (*pmemlength > type_max(size_t))
-701ab935859fcf Ankit Agrawal 2024-02-20  727  		return -EOVERFLOW;
-701ab935859fcf Ankit Agrawal 2024-02-20  728  
-701ab935859fcf Ankit Agrawal 2024-02-20  729  	/*
-701ab935859fcf Ankit Agrawal 2024-02-20  730  	 * If the C2C link is not up due to an error, the coherent device
-701ab935859fcf Ankit Agrawal 2024-02-20  731  	 * memory size is returned as 0. Fail in such case.
-701ab935859fcf Ankit Agrawal 2024-02-20  732  	 */
-701ab935859fcf Ankit Agrawal 2024-02-20  733  	if (*pmemlength == 0)
-701ab935859fcf Ankit Agrawal 2024-02-20  734  		return -ENOMEM;
-701ab935859fcf Ankit Agrawal 2024-02-20  735  
-701ab935859fcf Ankit Agrawal 2024-02-20  736  	return ret;
-701ab935859fcf Ankit Agrawal 2024-02-20  737  }
-701ab935859fcf Ankit Agrawal 2024-02-20  738  
+vim +176 drivers/crypto/dwc-spacc/spacc_skcipher.c
+
+6ad822cec22644 Pavitrakumar M 2024-03-05  145  
+6ad822cec22644 Pavitrakumar M 2024-03-05  146  static void spacc_cipher_cb(void *spacc, void *tfm)
+6ad822cec22644 Pavitrakumar M 2024-03-05  147  {
+6ad822cec22644 Pavitrakumar M 2024-03-05  148  	struct cipher_cb_data *cb = tfm;
+6ad822cec22644 Pavitrakumar M 2024-03-05  149  	int err = -1, rc;
+6ad822cec22644 Pavitrakumar M 2024-03-05  150  	int total_len;
+6ad822cec22644 Pavitrakumar M 2024-03-05  151  	struct spacc_crypto_reqctx *ctx = skcipher_request_ctx(cb->req);
+6ad822cec22644 Pavitrakumar M 2024-03-05  152  
+6ad822cec22644 Pavitrakumar M 2024-03-05  153  	u32 status_reg = readl(cb->spacc->regmap + SPACC_REG_STATUS);
+6ad822cec22644 Pavitrakumar M 2024-03-05  154  	u32 status_ret = (status_reg >> 24) & 0x03;
+6ad822cec22644 Pavitrakumar M 2024-03-05  155  
+6ad822cec22644 Pavitrakumar M 2024-03-05  156  	if (ctx->mode == CRYPTO_MODE_DES_CBC ||
+6ad822cec22644 Pavitrakumar M 2024-03-05  157  	    ctx->mode == CRYPTO_MODE_3DES_CBC) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  158  		rc = spacc_read_context(cb->spacc, cb->tctx->handle,
+6ad822cec22644 Pavitrakumar M 2024-03-05  159  					SPACC_CRYPTO_OPERATION, NULL, 0,
+6ad822cec22644 Pavitrakumar M 2024-03-05  160  					cb->req->iv, 8);
+6ad822cec22644 Pavitrakumar M 2024-03-05  161  	} else if (ctx->mode != CRYPTO_MODE_DES_ECB  &&
+6ad822cec22644 Pavitrakumar M 2024-03-05  162  		   ctx->mode != CRYPTO_MODE_3DES_ECB &&
+6ad822cec22644 Pavitrakumar M 2024-03-05  163  		   ctx->mode != CRYPTO_MODE_SM4_ECB  &&
+6ad822cec22644 Pavitrakumar M 2024-03-05  164  		   ctx->mode != CRYPTO_MODE_AES_ECB  &&
+6ad822cec22644 Pavitrakumar M 2024-03-05  165  		   ctx->mode != CRYPTO_MODE_SM4_XTS  &&
+6ad822cec22644 Pavitrakumar M 2024-03-05  166  		   ctx->mode != CRYPTO_MODE_KASUMI_ECB) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  167  		if (status_ret == 0x3) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  168  			err = -EINVAL;
+6ad822cec22644 Pavitrakumar M 2024-03-05  169  			goto REQ_DST_CP_SKIP;
+6ad822cec22644 Pavitrakumar M 2024-03-05  170  		}
+6ad822cec22644 Pavitrakumar M 2024-03-05  171  		rc = spacc_read_context(cb->spacc, cb->tctx->handle,
+6ad822cec22644 Pavitrakumar M 2024-03-05  172  					SPACC_CRYPTO_OPERATION, NULL, 0,
+6ad822cec22644 Pavitrakumar M 2024-03-05  173  					cb->req->iv, 16);
+6ad822cec22644 Pavitrakumar M 2024-03-05  174  	}
+6ad822cec22644 Pavitrakumar M 2024-03-05  175  
+6ad822cec22644 Pavitrakumar M 2024-03-05 @176  	if (ctx->mode != CRYPTO_MODE_DES_ECB  ||
+6ad822cec22644 Pavitrakumar M 2024-03-05  177  	    ctx->mode != CRYPTO_MODE_DES_CBC  ||
+6ad822cec22644 Pavitrakumar M 2024-03-05  178  	    ctx->mode != CRYPTO_MODE_3DES_ECB ||
+6ad822cec22644 Pavitrakumar M 2024-03-05  179  	    ctx->mode != CRYPTO_MODE_3DES_CBC) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  180  		if (status_ret == 0x03) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  181  			err = -EINVAL;
+6ad822cec22644 Pavitrakumar M 2024-03-05  182  			goto REQ_DST_CP_SKIP;
+6ad822cec22644 Pavitrakumar M 2024-03-05  183  		}
+6ad822cec22644 Pavitrakumar M 2024-03-05  184  	}
+6ad822cec22644 Pavitrakumar M 2024-03-05  185  
+6ad822cec22644 Pavitrakumar M 2024-03-05  186  	if (ctx->mode == CRYPTO_MODE_SM4_ECB && status_ret == 0x03) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  187  		err = -EINVAL;
+6ad822cec22644 Pavitrakumar M 2024-03-05  188  		goto REQ_DST_CP_SKIP;
+6ad822cec22644 Pavitrakumar M 2024-03-05  189  	}
+6ad822cec22644 Pavitrakumar M 2024-03-05  190  
+6ad822cec22644 Pavitrakumar M 2024-03-05  191  	total_len = cb->req->cryptlen;
+6ad822cec22644 Pavitrakumar M 2024-03-05  192  	if (ctx->mode == CRYPTO_MODE_SM4_XTS && total_len != 16) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  193  		if (status_ret == 0x03) {
+6ad822cec22644 Pavitrakumar M 2024-03-05  194  			err = -EINVAL;
+6ad822cec22644 Pavitrakumar M 2024-03-05  195  			goto REQ_DST_CP_SKIP;
+6ad822cec22644 Pavitrakumar M 2024-03-05  196  		}
+6ad822cec22644 Pavitrakumar M 2024-03-05  197  	}
+6ad822cec22644 Pavitrakumar M 2024-03-05  198  
+6ad822cec22644 Pavitrakumar M 2024-03-05  199  	dma_sync_sg_for_cpu(cb->tctx->dev, cb->req->dst, ctx->dst_nents,
+6ad822cec22644 Pavitrakumar M 2024-03-05  200  				DMA_FROM_DEVICE);
+6ad822cec22644 Pavitrakumar M 2024-03-05  201  
+6ad822cec22644 Pavitrakumar M 2024-03-05  202  	err = cb->spacc->job[cb->new_handle].job_err;
+6ad822cec22644 Pavitrakumar M 2024-03-05  203  REQ_DST_CP_SKIP:
+6ad822cec22644 Pavitrakumar M 2024-03-05  204  	spacc_cipher_cleanup_dma(cb->tctx->dev, cb->req);
+6ad822cec22644 Pavitrakumar M 2024-03-05  205  	spacc_close(cb->spacc, cb->new_handle);
+6ad822cec22644 Pavitrakumar M 2024-03-05  206  
+6ad822cec22644 Pavitrakumar M 2024-03-05  207  	/* call complete */
+6ad822cec22644 Pavitrakumar M 2024-03-05  208  	skcipher_request_complete(cb->req, err);
+6ad822cec22644 Pavitrakumar M 2024-03-05  209  }
+6ad822cec22644 Pavitrakumar M 2024-03-05  210  
 
 -- 
 0-DAY CI Kernel Test Service
