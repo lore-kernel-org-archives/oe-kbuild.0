@@ -1,346 +1,341 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA5314ABC
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 Mar 2024 07:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C82D18F36D
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 Mar 2024 16:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710313936; cv=none; b=DcJSEa9kuD6yfkuTWYDUrmPEPVjyFuK1M0iJ5EcK2dxfqFG7o1iiTlwdCQiZfRcYiNpdQD4PyrdtRmlZy2Dw6W1kpS6cFc9qpwAmFM9/vhEU5wkVKO+hWJzk0tQHyLOa5lN64EoCfTqe3ut2NxLEYiFBLXjbBXkBSzatHisQiDs=
+	t=1710348658; cv=none; b=qWAvQdUcvbl/XhQFrXr9D9zHHvES7zTCTWJJ9v0GyN16GvCI5uXYKvfLP6FPKd3ra5NQmqx2gWo8RvMULnMTdMhtWiS27jpRbilgQKoMGMO7tuMvlxaeS+fQyrBLD4nT3gUnH5SFVlcwm3q5Dm6F9+cg8l78nx13HNB7Mv8ikKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710313936; c=relaxed/simple;
-	bh=ISnVFZ/Q1UsEFptZeULr7aFUw+NEIEUAkyZmi5bMaaw=;
+	s=arc-20240116; t=1710348658; c=relaxed/simple;
+	bh=9OEMPF+hpwq+lIdO66kZo0d/YcVpwaPEXNkDE73INhk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=tnfcnnnZ4lSRSimw3luNp3kHgHDeiiYPYmqBygZdpLSVr302oEdG/Ooi07p9k1sqjKIYO2xczyk38e70Y8fX4XmO7Lhuj7kVUdJMTx+GseL/nylYNGxES+kLznYkgVHRcAzOCvSGOr/vLLPT2jY98M4tt0A4YFuKO1yE11ADvVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dD+CzlNv; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=HCUxcJmrjQLs8hOn0VV9UdIRq8IC8KWiLSOkqIOdhUgtkoKofog17tRMUIuEkTwIjcO8qArErWr8eukh3B+h8VzXO4eLU3NPR9ni49c+D+ttuUZi/bx0TCN4oUA7sNDWDWZl/Un0Pa4EiK7shpfx01ctTIsLa1HPc0geG5tYmEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aDyQvrFK; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dD+CzlNv"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5687e7662a5so1125519a12.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 13 Mar 2024 00:12:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710313932; x=1710918732; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=GUeEEmvrXVjz8nX0zE+loC+ERznBjekZC7DXMyKlw94=;
-        b=dD+CzlNvwinurYs/UbCuwjsSppkpHSc9FeB0QOwPWi4ssG6wgD1Tau7bIrDIMVZDtd
-         gpu/wPOFsVWz6GSqfVbkjHdkw5tkCp5NKa4dnUj5yPcLhGfUM/mu8YAXVg26yR8AWwmm
-         8JwpZzy+G268Q5M+E1oydtbkLy8vl7e+K02riq28df6Z2t/Zhe4BR9KfjbTdPDWcFiv4
-         6/ql7HCqozmh4NHBnjKLiXO2wpbWfHTknNyTRWztMpNpNVAfnkusEMBQyK65lZObKsr9
-         RP/dRi6lP/IiQOg3fu6LSTRDkak+zKYA7S1boZL3SCefAm9H7lP7lxe34D++G4CcweWE
-         Tysg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710313932; x=1710918732;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GUeEEmvrXVjz8nX0zE+loC+ERznBjekZC7DXMyKlw94=;
-        b=XQthamDmTxgtFJeyFkvTpr3C+VD0K+UE7TwAl1YGUdOfqLEIwbrt7qVQjnM3EAjb6d
-         ShG6UDr5C9sJQvYbYzLocQNH/i5fupujuKCf1Sch/QMBm8uSqz/QJovlFM40NNJZpi8g
-         tKfq2zRtXQe7BOPHb5Mzyk90CWK4qdTF0r+ZFWe+gWLIs9zNCsZLtPo3KSxcqXlppX5F
-         HtoL0LcvcmD5YID1GmBRr05c0zpBXNeWmJ+s7vYml0/Hk7fl8qbdOSloDf6jF55cOMrf
-         zQZVDMO6eS2FYNB+Vegu+zCoRdlPREL+8xVViP+bLf6CvS/kCckeVwQvh7wBxxVzL8hH
-         kWmg==
-X-Gm-Message-State: AOJu0YzzQxJ/bVmlzsN/nhVxf4FsNrb8XOWl2qWAIJqueGISq2ZNNbXd
-	DQupnL1GUXNyeAKTswm5KE6l6d+lHOx9jF2Eu2pIDot4YzXFYSx435ZSuf9QnheBBYJD59MMP5Q
-	D
-X-Google-Smtp-Source: AGHT+IGAhXlOyTIasCZ1oXofKqW7fLjUn5QUwNAqvfrreaVvI2dD2vwqllW1t90TkcK+5NO/1oTsnA==
-X-Received: by 2002:a17:907:7846:b0:a46:3f47:ea4b with SMTP id lb6-20020a170907784600b00a463f47ea4bmr2617362ejc.65.1710313931359;
-        Wed, 13 Mar 2024 00:12:11 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id l8-20020a170906230800b00a4131367204sm4567232eja.80.2024.03.13.00.12.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 00:12:11 -0700 (PDT)
-Date: Wed, 13 Mar 2024 10:12:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Howard Yen <howardyen@google.com>,
-	gregkh@linuxfoundation.org, rafael@kernel.org,
-	mathias.nyman@intel.com, hch@lst.de, m.szyprowski@samsung.com,
-	robin.murphy@arm.com, andriy.shevchenko@linux.intel.com,
-	petr.tesarik.ext@huawei.com, broonie@kernel.org, james@equiv.tech,
-	james.clark@arm.com, masahiroy@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	iommu@lists.linux.dev, Howard Yen <howardyen@google.com>
-Subject: Re: [PATCH v5 2/2] usb: host: xhci-plat: add support for multi
- memory regions
-Message-ID: <18aa0f43-df7b-4a21-9359-02defa1b04a2@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aDyQvrFK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710348655; x=1741884655;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9OEMPF+hpwq+lIdO66kZo0d/YcVpwaPEXNkDE73INhk=;
+  b=aDyQvrFKfcy8yR4RUIrmTmAgs1DNbDDJvNB0KUqGI7uKl9qHFng9IC+a
+   dUK0xEDSkzpz6gnLB8CUtQgCN4N8guKhrD9aFajFtkb1hFBpTnxjRmhz6
+   yyE53I6VniL3b1t5YERJcTlJjVcsqi33n5c2SBNJAkImc8ntjNMgDZ4T3
+   f9hsSXnBYluuMRAGTPSbh3Q42VOgSpH1pdL/PspR5BEpURzBhvVv+Lj3C
+   I9A1/F2XcytQgdARtL3gA9Ih1UFsVeJnqmCLbbG+RTc6qD0y7i88AEstb
+   qO1B7qIWqH7pUXznhaoBVZh1z1PklQrRAKt4pu7IHM9W3PVW0T//wBm8T
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="8903939"
+X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
+   d="scan'208";a="8903939"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 09:49:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
+   d="scan'208";a="35117391"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 13 Mar 2024 09:49:55 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rkRnd-000CZX-1p;
+	Wed, 13 Mar 2024 16:49:53 +0000
+Date: Thu, 14 Mar 2024 00:48:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [amir73il:fsnotify-perf 6/13]
+ fs/notify/fanotify/fanotify_user.c:1922 do_fanotify_mark() error: we
+ previously assumed 'inode' could be null (see line 1917)
+Message-ID: <202403140017.KgX2XSDr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240311094947.3738200-3-howardyen@google.com>
 
-Hi Howard,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Amir Goldstein <amir73il@gmail.com>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Howard-Yen/dma-coherent-add-support-for-multi-coherent-rmems-per-dev/20240311-175308
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240311094947.3738200-3-howardyen%40google.com
-patch subject: [PATCH v5 2/2] usb: host: xhci-plat: add support for multi memory regions
-config: riscv-randconfig-r081-20240311 (https://download.01.org/0day-ci/archive/20240313/202403131441.SrhLAZvp-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
+tree:   https://github.com/amir73il/linux fsnotify-perf
+head:   832f0a8faac8a7e80f703b67ad35d213b8397f5b
+commit: e24a533738bdfe4e00f6803baf639a22cd548249 [6/13] fanotify: merge two checks regarding add of ignore mark
+:::::: branch date: 2 days ago
+:::::: commit date: 7 days ago
+config: i386-randconfig-141-20240308 (https://download.01.org/0day-ci/archive/20240314/202403140017.KgX2XSDr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403131441.SrhLAZvp-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202403140017.KgX2XSDr-lkp@intel.com/
 
 New smatch warnings:
-drivers/usb/host/xhci-plat.c:207 xhci_plat_probe() warn: missing unwind goto?
+fs/notify/fanotify/fanotify_user.c:1922 do_fanotify_mark() error: we previously assumed 'inode' could be null (see line 1917)
 
-vim +207 drivers/usb/host/xhci-plat.c
+Old smatch warnings:
+fs/notify/fanotify/fanotify_user.c:461 copy_fid_info_to_user() error: we previously assumed 'fh' could be null (see line 420)
+fs/notify/fanotify/fanotify_user.c:1941 do_fanotify_mark() error: we previously assumed 'mnt' could be null (see line 1922)
 
-ec5499d338ece9 Arnd Bergmann             2023-01-31  146  int xhci_plat_probe(struct platform_device *pdev, struct device *sysdev, const struct xhci_plat_priv *priv_match)
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  147  {
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  148  	const struct hc_driver	*driver;
-ec5499d338ece9 Arnd Bergmann             2023-01-31  149  	struct device		*tmpdev;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  150  	struct xhci_hcd		*xhci;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  151  	struct resource         *res;
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  152  	struct usb_hcd		*hcd, *usb3_hcd;
-fe4daa605d0cae Howard Yen                2024-03-11  153  	int			i, count, ret;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  154  	int			irq;
-f768e718911e03 Peter Chen                2020-09-18  155  	struct xhci_plat_priv	*priv = NULL;
-16b7e0cccb2430 Johan Hovold              2023-11-03  156  	bool			of_match;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  157  
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  158  	if (usb_disabled())
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  159  		return -ENODEV;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  160  
-1885d9a33753b7 Andrew Bresticker         2014-10-03  161  	driver = &xhci_plat_hc_driver;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  162  
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  163  	irq = platform_get_irq(pdev, 0);
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  164  	if (irq < 0)
-4b148d5144d64e Thomas Petazzoni          2017-05-17  165  		return irq;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  166  
-c6b8e79306f515 Adam Wallis               2017-09-18  167  	if (!sysdev)
-c6b8e79306f515 Adam Wallis               2017-09-18  168  		sysdev = &pdev->dev;
-4c39d4b949d36f Arnd Bergmann             2017-03-13  169  
-4c39d4b949d36f Arnd Bergmann             2017-03-13  170  	ret = dma_set_mask_and_coherent(sysdev, DMA_BIT_MASK(64));
-c10cf1189d7659 Xenia Ragiadakou          2013-08-14  171  	if (ret)
-c10cf1189d7659 Xenia Ragiadakou          2013-08-14  172  		return ret;
-c10cf1189d7659 Xenia Ragiadakou          2013-08-14  173  
-b0c69b4bace370 Baolin Wang               2017-04-19  174  	pm_runtime_set_active(&pdev->dev);
-b0c69b4bace370 Baolin Wang               2017-04-19  175  	pm_runtime_enable(&pdev->dev);
-b0c69b4bace370 Baolin Wang               2017-04-19  176  	pm_runtime_get_noresume(&pdev->dev);
-b0c69b4bace370 Baolin Wang               2017-04-19  177  
-4c39d4b949d36f Arnd Bergmann             2017-03-13  178  	hcd = __usb_create_hcd(driver, sysdev, &pdev->dev,
-4c39d4b949d36f Arnd Bergmann             2017-03-13  179  			       dev_name(&pdev->dev), NULL);
-b0c69b4bace370 Baolin Wang               2017-04-19  180  	if (!hcd) {
-b0c69b4bace370 Baolin Wang               2017-04-19  181  		ret = -ENOMEM;
-b0c69b4bace370 Baolin Wang               2017-04-19  182  		goto disable_runtime;
-b0c69b4bace370 Baolin Wang               2017-04-19  183  	}
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  184  
-fb222273a2159a Dejin Zheng               2020-03-24  185  	hcd->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-fd666348c51f6a Himangi Saraogi           2014-06-20  186  	if (IS_ERR(hcd->regs)) {
-fd666348c51f6a Himangi Saraogi           2014-06-20  187  		ret = PTR_ERR(hcd->regs);
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  188  		goto put_hcd;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  189  	}
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  190  
-e7020f193a3d13 Varka Bhadram             2014-11-04  191  	hcd->rsrc_start = res->start;
-e7020f193a3d13 Varka Bhadram             2014-11-04  192  	hcd->rsrc_len = resource_size(res);
-e7020f193a3d13 Varka Bhadram             2014-11-04  193  
-08048c04cc6f75 Chunfeng Yun              2019-04-17  194  	xhci = hcd_to_xhci(hcd);
-08048c04cc6f75 Chunfeng Yun              2019-04-17  195  
-4736ebd7fcaff1 Heiner Kallweit           2022-05-12  196  	xhci->allow_single_roothub = 1;
-4736ebd7fcaff1 Heiner Kallweit           2022-05-12  197  
-fe4daa605d0cae Howard Yen                2024-03-11  198  	count = of_property_count_u32_elems(sysdev->of_node, "memory-region");
-fe4daa605d0cae Howard Yen                2024-03-11  199  
-fe4daa605d0cae Howard Yen                2024-03-11  200  	for (i = 0; i < count; i++) {
-fe4daa605d0cae Howard Yen                2024-03-11  201  		ret = of_reserved_mem_device_init_by_idx(sysdev, sysdev->of_node, i);
-fe4daa605d0cae Howard Yen                2024-03-11  202  		if (ret) {
-fe4daa605d0cae Howard Yen                2024-03-11  203  			dev_err(sysdev, "Could not get reserved memory\n");
-fe4daa605d0cae Howard Yen                2024-03-11  204  			if (i > 0)
-fe4daa605d0cae Howard Yen                2024-03-11  205  				of_reserved_mem_device_release(sysdev);
-fe4daa605d0cae Howard Yen                2024-03-11  206  
-fe4daa605d0cae Howard Yen                2024-03-11 @207  			return ret;
+vim +/inode +1922 fs/notify/fanotify/fanotify_user.c
 
-Needs to clean up before returning.
+0b3b094ac9a7bb Jan Kara                2019-05-15  1726  
+183caa3c8668e9 Dominik Brodowski       2018-03-17  1727  static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
+183caa3c8668e9 Dominik Brodowski       2018-03-17  1728  			    int dfd, const char  __user *pathname)
+bbaa4168b2d2d8 Eric Paris              2009-12-17  1729  {
+0ff21db9fcc390 Eric Paris              2009-12-17  1730  	struct inode *inode = NULL;
+0ff21db9fcc390 Eric Paris              2009-12-17  1731  	struct vfsmount *mnt = NULL;
+2a3edf86040a7e Eric Paris              2009-12-17  1732  	struct fsnotify_group *group;
+2903ff019b346a Al Viro                 2012-08-28  1733  	struct fd f;
+2a3edf86040a7e Eric Paris              2009-12-17  1734  	struct path path;
+30ad1938326bf9 Amir Goldstein          2023-11-30  1735  	struct fan_fsid __fsid, *fsid = NULL;
+bdd5a46fe30653 Amir Goldstein          2018-10-04  1736  	u32 valid_mask = FANOTIFY_EVENTS | FANOTIFY_EVENT_FLAGS;
+23c9deeb3285d3 Amir Goldstein          2018-10-04  1737  	unsigned int mark_type = flags & FANOTIFY_MARK_TYPE_BITS;
+8afd7215aa97f8 Amir Goldstein          2022-06-29  1738  	unsigned int mark_cmd = flags & FANOTIFY_MARK_CMD_BITS;
+e252f2ed1c8c6c Amir Goldstein          2022-06-29  1739  	unsigned int ignore = flags & FANOTIFY_MARK_IGNORE_BITS;
+d809daf1b6add5 Amir Goldstein          2020-07-16  1740  	unsigned int obj_type, fid_mode;
+85af5d9258cc58 Amir Goldstein          2020-07-16  1741  	u32 umask = 0;
+2903ff019b346a Al Viro                 2012-08-28  1742  	int ret;
+2a3edf86040a7e Eric Paris              2009-12-17  1743  
+2a3edf86040a7e Eric Paris              2009-12-17  1744  	pr_debug("%s: fanotify_fd=%d flags=%x dfd=%d pathname=%p mask=%llx\n",
+2a3edf86040a7e Eric Paris              2009-12-17  1745  		 __func__, fanotify_fd, flags, dfd, pathname, mask);
+2a3edf86040a7e Eric Paris              2009-12-17  1746  
+2a3edf86040a7e Eric Paris              2009-12-17  1747  	/* we only use the lower 32 bits as of right now. */
+22d483b9986320 Christian Brauner       2021-03-25  1748  	if (upper_32_bits(mask))
+2a3edf86040a7e Eric Paris              2009-12-17  1749  		return -EINVAL;
+2a3edf86040a7e Eric Paris              2009-12-17  1750  
+23c9deeb3285d3 Amir Goldstein          2018-10-04  1751  	if (flags & ~FANOTIFY_MARK_FLAGS)
+88380fe66e0ac2 Andreas Gruenbacher     2009-12-17  1752  		return -EINVAL;
+d54f4fba889b20 Amir Goldstein          2018-09-01  1753  
+d54f4fba889b20 Amir Goldstein          2018-09-01  1754  	switch (mark_type) {
+d54f4fba889b20 Amir Goldstein          2018-09-01  1755  	case FAN_MARK_INODE:
+ac5656d8a4cdd9 Aaron Goidel            2019-08-12  1756  		obj_type = FSNOTIFY_OBJ_TYPE_INODE;
+ac5656d8a4cdd9 Aaron Goidel            2019-08-12  1757  		break;
+d54f4fba889b20 Amir Goldstein          2018-09-01  1758  	case FAN_MARK_MOUNT:
+ac5656d8a4cdd9 Aaron Goidel            2019-08-12  1759  		obj_type = FSNOTIFY_OBJ_TYPE_VFSMOUNT;
+ac5656d8a4cdd9 Aaron Goidel            2019-08-12  1760  		break;
+d54f4fba889b20 Amir Goldstein          2018-09-01  1761  	case FAN_MARK_FILESYSTEM:
+ac5656d8a4cdd9 Aaron Goidel            2019-08-12  1762  		obj_type = FSNOTIFY_OBJ_TYPE_SB;
+d54f4fba889b20 Amir Goldstein          2018-09-01  1763  		break;
+d54f4fba889b20 Amir Goldstein          2018-09-01  1764  	default:
+d54f4fba889b20 Amir Goldstein          2018-09-01  1765  		return -EINVAL;
+d54f4fba889b20 Amir Goldstein          2018-09-01  1766  	}
+d54f4fba889b20 Amir Goldstein          2018-09-01  1767  
+8afd7215aa97f8 Amir Goldstein          2022-06-29  1768  	switch (mark_cmd) {
+df561f6688fef7 Gustavo A. R. Silva     2020-08-23  1769  	case FAN_MARK_ADD:
+88380fe66e0ac2 Andreas Gruenbacher     2009-12-17  1770  	case FAN_MARK_REMOVE:
+1734dee4e3a296 Lino Sanfilippo         2010-11-22  1771  		if (!mask)
+1734dee4e3a296 Lino Sanfilippo         2010-11-22  1772  			return -EINVAL;
+cc299a98eb13a9 Heinrich Schuchardt     2014-06-04  1773  		break;
+4d92604cc90aa1 Eric Paris              2009-12-17  1774  	case FAN_MARK_FLUSH:
+23c9deeb3285d3 Amir Goldstein          2018-10-04  1775  		if (flags & ~(FANOTIFY_MARK_TYPE_BITS | FAN_MARK_FLUSH))
+cc299a98eb13a9 Heinrich Schuchardt     2014-06-04  1776  			return -EINVAL;
+88380fe66e0ac2 Andreas Gruenbacher     2009-12-17  1777  		break;
+88380fe66e0ac2 Andreas Gruenbacher     2009-12-17  1778  	default:
+88380fe66e0ac2 Andreas Gruenbacher     2009-12-17  1779  		return -EINVAL;
+88380fe66e0ac2 Andreas Gruenbacher     2009-12-17  1780  	}
+8fcd65280abc46 Eric Paris              2010-10-28  1781  
+6685df31255493 Miklos Szeredi          2017-10-30  1782  	if (IS_ENABLED(CONFIG_FANOTIFY_ACCESS_PERMISSIONS))
+23c9deeb3285d3 Amir Goldstein          2018-10-04  1783  		valid_mask |= FANOTIFY_PERM_EVENTS;
+6685df31255493 Miklos Szeredi          2017-10-30  1784  
+6685df31255493 Miklos Szeredi          2017-10-30  1785  	if (mask & ~valid_mask)
+2a3edf86040a7e Eric Paris              2009-12-17  1786  		return -EINVAL;
+2a3edf86040a7e Eric Paris              2009-12-17  1787  
+e252f2ed1c8c6c Amir Goldstein          2022-06-29  1788  
+e252f2ed1c8c6c Amir Goldstein          2022-06-29  1789  	/* We don't allow FAN_MARK_IGNORE & FAN_MARK_IGNORED_MASK together */
+e252f2ed1c8c6c Amir Goldstein          2022-06-29  1790  	if (ignore == (FAN_MARK_IGNORE | FAN_MARK_IGNORED_MASK))
+e252f2ed1c8c6c Amir Goldstein          2022-06-29  1791  		return -EINVAL;
+e252f2ed1c8c6c Amir Goldstein          2022-06-29  1792  
+31a371e419c885 Amir Goldstein          2022-06-29  1793  	/*
+31a371e419c885 Amir Goldstein          2022-06-29  1794  	 * Event flags (FAN_ONDIR, FAN_EVENT_ON_CHILD) have no effect with
+31a371e419c885 Amir Goldstein          2022-06-29  1795  	 * FAN_MARK_IGNORED_MASK.
+31a371e419c885 Amir Goldstein          2022-06-29  1796  	 */
+e252f2ed1c8c6c Amir Goldstein          2022-06-29  1797  	if (ignore == FAN_MARK_IGNORED_MASK) {
+3ef866536645ce Amir Goldstein          2020-07-16  1798  		mask &= ~FANOTIFY_EVENT_FLAGS;
+e252f2ed1c8c6c Amir Goldstein          2022-06-29  1799  		umask = FANOTIFY_EVENT_FLAGS;
+e252f2ed1c8c6c Amir Goldstein          2022-06-29  1800  	}
+3ef866536645ce Amir Goldstein          2020-07-16  1801  
+2903ff019b346a Al Viro                 2012-08-28  1802  	f = fdget(fanotify_fd);
+2903ff019b346a Al Viro                 2012-08-28  1803  	if (unlikely(!f.file))
+2a3edf86040a7e Eric Paris              2009-12-17  1804  		return -EBADF;
+2a3edf86040a7e Eric Paris              2009-12-17  1805  
+2a3edf86040a7e Eric Paris              2009-12-17  1806  	/* verify that this is indeed an fanotify instance */
+2a3edf86040a7e Eric Paris              2009-12-17  1807  	ret = -EINVAL;
+2903ff019b346a Al Viro                 2012-08-28  1808  	if (unlikely(f.file->f_op != &fanotify_fops))
+2a3edf86040a7e Eric Paris              2009-12-17  1809  		goto fput_and_out;
+2903ff019b346a Al Viro                 2012-08-28  1810  	group = f.file->private_data;
+4231a23530a30e Eric Paris              2010-10-28  1811  
+7cea2a3c505e87 Amir Goldstein          2021-03-04  1812  	/*
+a8b98c808eab3e Amir Goldstein          2021-05-24  1813  	 * An unprivileged user is not allowed to setup mount nor filesystem
+a8b98c808eab3e Amir Goldstein          2021-05-24  1814  	 * marks.  This also includes setting up such marks by a group that
+a8b98c808eab3e Amir Goldstein          2021-05-24  1815  	 * was initialized by an unprivileged user.
+7cea2a3c505e87 Amir Goldstein          2021-03-04  1816  	 */
+7cea2a3c505e87 Amir Goldstein          2021-03-04  1817  	ret = -EPERM;
+a8b98c808eab3e Amir Goldstein          2021-05-24  1818  	if ((!capable(CAP_SYS_ADMIN) ||
+a8b98c808eab3e Amir Goldstein          2021-05-24  1819  	     FAN_GROUP_FLAG(group, FANOTIFY_UNPRIV)) &&
+7cea2a3c505e87 Amir Goldstein          2021-03-04  1820  	    mark_type != FAN_MARK_INODE)
+7cea2a3c505e87 Amir Goldstein          2021-03-04  1821  		goto fput_and_out;
+7cea2a3c505e87 Amir Goldstein          2021-03-04  1822  
+4231a23530a30e Eric Paris              2010-10-28  1823  	/*
+4231a23530a30e Eric Paris              2010-10-28  1824  	 * group->priority == FS_PRIO_0 == FAN_CLASS_NOTIF.  These are not
+4231a23530a30e Eric Paris              2010-10-28  1825  	 * allowed to set permissions events.
+4231a23530a30e Eric Paris              2010-10-28  1826  	 */
+4231a23530a30e Eric Paris              2010-10-28  1827  	ret = -EINVAL;
+23c9deeb3285d3 Amir Goldstein          2018-10-04  1828  	if (mask & FANOTIFY_PERM_EVENTS &&
+4231a23530a30e Eric Paris              2010-10-28  1829  	    group->priority == FS_PRIO_0)
+4231a23530a30e Eric Paris              2010-10-28  1830  		goto fput_and_out;
+2a3edf86040a7e Eric Paris              2009-12-17  1831  
+9709bd548f11a0 Gabriel Krisman Bertazi 2021-10-25  1832  	if (mask & FAN_FS_ERROR &&
+9709bd548f11a0 Gabriel Krisman Bertazi 2021-10-25  1833  	    mark_type != FAN_MARK_FILESYSTEM)
+9709bd548f11a0 Gabriel Krisman Bertazi 2021-10-25  1834  		goto fput_and_out;
+9709bd548f11a0 Gabriel Krisman Bertazi 2021-10-25  1835  
+7d5e005d982527 Amir Goldstein          2022-04-22  1836  	/*
+7d5e005d982527 Amir Goldstein          2022-04-22  1837  	 * Evictable is only relevant for inode marks, because only inode object
+7d5e005d982527 Amir Goldstein          2022-04-22  1838  	 * can be evicted on memory pressure.
+7d5e005d982527 Amir Goldstein          2022-04-22  1839  	 */
+7d5e005d982527 Amir Goldstein          2022-04-22  1840  	if (flags & FAN_MARK_EVICTABLE &&
+7d5e005d982527 Amir Goldstein          2022-04-22  1841  	     mark_type != FAN_MARK_INODE)
+7d5e005d982527 Amir Goldstein          2022-04-22  1842  		goto fput_and_out;
+7d5e005d982527 Amir Goldstein          2022-04-22  1843  
+235328d1fa4251 Amir Goldstein          2019-01-10  1844  	/*
+4fe595cf1c80e7 Gabriel Krisman Bertazi 2021-10-25  1845  	 * Events that do not carry enough information to report
+4fe595cf1c80e7 Gabriel Krisman Bertazi 2021-10-25  1846  	 * event->fd require a group that supports reporting fid.  Those
+4fe595cf1c80e7 Gabriel Krisman Bertazi 2021-10-25  1847  	 * events are not supported on a mount mark, because they do not
+4fe595cf1c80e7 Gabriel Krisman Bertazi 2021-10-25  1848  	 * carry enough information (i.e. path) to be filtered by mount
+4fe595cf1c80e7 Gabriel Krisman Bertazi 2021-10-25  1849  	 * point.
+235328d1fa4251 Amir Goldstein          2019-01-10  1850  	 */
+d809daf1b6add5 Amir Goldstein          2020-07-16  1851  	fid_mode = FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS);
+4fe595cf1c80e7 Gabriel Krisman Bertazi 2021-10-25  1852  	if (mask & ~(FANOTIFY_FD_EVENTS|FANOTIFY_EVENT_FLAGS) &&
+d809daf1b6add5 Amir Goldstein          2020-07-16  1853  	    (!fid_mode || mark_type == FAN_MARK_MOUNT))
+235328d1fa4251 Amir Goldstein          2019-01-10  1854  		goto fput_and_out;
+235328d1fa4251 Amir Goldstein          2019-01-10  1855  
+8cc3b1ccd930fe Amir Goldstein          2021-11-29  1856  	/*
+8cc3b1ccd930fe Amir Goldstein          2021-11-29  1857  	 * FAN_RENAME uses special info type records to report the old and
+8cc3b1ccd930fe Amir Goldstein          2021-11-29  1858  	 * new parent+name.  Reporting only old and new parent id is less
+8cc3b1ccd930fe Amir Goldstein          2021-11-29  1859  	 * useful and was not implemented.
+8cc3b1ccd930fe Amir Goldstein          2021-11-29  1860  	 */
+8cc3b1ccd930fe Amir Goldstein          2021-11-29  1861  	if (mask & FAN_RENAME && !(fid_mode & FAN_REPORT_NAME))
+8cc3b1ccd930fe Amir Goldstein          2021-11-29  1862  		goto fput_and_out;
+8cc3b1ccd930fe Amir Goldstein          2021-11-29  1863  
+8afd7215aa97f8 Amir Goldstein          2022-06-29  1864  	if (mark_cmd == FAN_MARK_FLUSH) {
+0a8dd2db579f7a Heinrich Schuchardt     2014-06-04  1865  		ret = 0;
+d54f4fba889b20 Amir Goldstein          2018-09-01  1866  		if (mark_type == FAN_MARK_MOUNT)
+0a8dd2db579f7a Heinrich Schuchardt     2014-06-04  1867  			fsnotify_clear_vfsmount_marks_by_group(group);
+d54f4fba889b20 Amir Goldstein          2018-09-01  1868  		else if (mark_type == FAN_MARK_FILESYSTEM)
+d54f4fba889b20 Amir Goldstein          2018-09-01  1869  			fsnotify_clear_sb_marks_by_group(group);
+0a8dd2db579f7a Heinrich Schuchardt     2014-06-04  1870  		else
+0a8dd2db579f7a Heinrich Schuchardt     2014-06-04  1871  			fsnotify_clear_inode_marks_by_group(group);
+0a8dd2db579f7a Heinrich Schuchardt     2014-06-04  1872  		goto fput_and_out;
+0a8dd2db579f7a Heinrich Schuchardt     2014-06-04  1873  	}
+0a8dd2db579f7a Heinrich Schuchardt     2014-06-04  1874  
+ac5656d8a4cdd9 Aaron Goidel            2019-08-12  1875  	ret = fanotify_find_path(dfd, pathname, &path, flags,
+ac5656d8a4cdd9 Aaron Goidel            2019-08-12  1876  			(mask & ALL_FSNOTIFY_EVENTS), obj_type);
+2a3edf86040a7e Eric Paris              2009-12-17  1877  	if (ret)
+2a3edf86040a7e Eric Paris              2009-12-17  1878  		goto fput_and_out;
+2a3edf86040a7e Eric Paris              2009-12-17  1879  
+8afd7215aa97f8 Amir Goldstein          2022-06-29  1880  	if (mark_cmd == FAN_MARK_ADD) {
+8698e3bab4dd79 Amir Goldstein          2022-06-27  1881  		ret = fanotify_events_supported(group, &path, mask, flags);
+0b3b094ac9a7bb Jan Kara                2019-05-15  1882  		if (ret)
+0b3b094ac9a7bb Jan Kara                2019-05-15  1883  			goto path_put_and_out;
+0b3b094ac9a7bb Jan Kara                2019-05-15  1884  	}
+0b3b094ac9a7bb Jan Kara                2019-05-15  1885  
+d809daf1b6add5 Amir Goldstein          2020-07-16  1886  	if (fid_mode) {
+30ad1938326bf9 Amir Goldstein          2023-11-30  1887  		ret = fanotify_test_fsid(path.dentry, flags, &__fsid);
+8299212cbdb01a Gabriel Krisman Bertazi 2021-10-25  1888  		if (ret)
+8299212cbdb01a Gabriel Krisman Bertazi 2021-10-25  1889  			goto path_put_and_out;
+8299212cbdb01a Gabriel Krisman Bertazi 2021-10-25  1890  
+97ac489775f26a Amir Goldstein          2023-10-18  1891  		ret = fanotify_test_fid(path.dentry, flags);
+a8b13aa20afb69 Amir Goldstein          2019-01-10  1892  		if (ret)
+a8b13aa20afb69 Amir Goldstein          2019-01-10  1893  			goto path_put_and_out;
+77115225acc67d Amir Goldstein          2019-01-10  1894  
+73072283a249c7 Amir Goldstein          2019-01-10  1895  		fsid = &__fsid;
+a8b13aa20afb69 Amir Goldstein          2019-01-10  1896  	}
+a8b13aa20afb69 Amir Goldstein          2019-01-10  1897  
+2a3edf86040a7e Eric Paris              2009-12-17  1898  	/* inode held in place by reference to path; group by fget on fd */
+d54f4fba889b20 Amir Goldstein          2018-09-01  1899  	if (mark_type == FAN_MARK_INODE)
+2a3edf86040a7e Eric Paris              2009-12-17  1900  		inode = path.dentry->d_inode;
+0ff21db9fcc390 Eric Paris              2009-12-17  1901  	else
+0ff21db9fcc390 Eric Paris              2009-12-17  1902  		mnt = path.mnt;
+2a3edf86040a7e Eric Paris              2009-12-17  1903  
+e24a533738bdfe Amir Goldstein          2024-03-06  1904  	/*
+e24a533738bdfe Amir Goldstein          2024-03-06  1905  	 * If some other task has this inode open for write we should not add
+e24a533738bdfe Amir Goldstein          2024-03-06  1906  	 * an ignore mask, unless that ignore mask is supposed to survive
+e24a533738bdfe Amir Goldstein          2024-03-06  1907  	 * modification changes anyway.
+e24a533738bdfe Amir Goldstein          2024-03-06  1908  	 */
+e24a533738bdfe Amir Goldstein          2024-03-06  1909  	if (mark_cmd == FAN_MARK_ADD && (flags & FANOTIFY_MARK_IGNORE_BITS) &&
+e24a533738bdfe Amir Goldstein          2024-03-06  1910  	    !(flags & FAN_MARK_IGNORED_SURV_MODIFY)) {
+e252f2ed1c8c6c Amir Goldstein          2022-06-29  1911  		ret = mnt ? -EINVAL : -EISDIR;
+e252f2ed1c8c6c Amir Goldstein          2022-06-29  1912  		/* FAN_MARK_IGNORE requires SURV_MODIFY for sb/mount/dir marks */
+e24a533738bdfe Amir Goldstein          2024-03-06  1913  		if (ignore == FAN_MARK_IGNORE &&
+e24a533738bdfe Amir Goldstein          2024-03-06  1914  		    (mnt || S_ISDIR(inode->i_mode)))
+e252f2ed1c8c6c Amir Goldstein          2022-06-29  1915  			goto path_put_and_out;
+e252f2ed1c8c6c Amir Goldstein          2022-06-29  1916  
+e24a533738bdfe Amir Goldstein          2024-03-06 @1917  		if (inode && inode_is_open_for_write(inode))
+e24a533738bdfe Amir Goldstein          2024-03-06  1918  			return 0;
+e24a533738bdfe Amir Goldstein          2024-03-06  1919  	}
+e24a533738bdfe Amir Goldstein          2024-03-06  1920  
+85af5d9258cc58 Amir Goldstein          2020-07-16  1921  	/* Mask out FAN_EVENT_ON_CHILD flag for sb/mount/non-dir marks */
+85af5d9258cc58 Amir Goldstein          2020-07-16 @1922  	if (mnt || !S_ISDIR(inode->i_mode)) {
+85af5d9258cc58 Amir Goldstein          2020-07-16  1923  		mask &= ~FAN_EVENT_ON_CHILD;
+85af5d9258cc58 Amir Goldstein          2020-07-16  1924  		umask = FAN_EVENT_ON_CHILD;
+5128063739d293 Amir Goldstein          2020-07-16  1925  		/*
+5128063739d293 Amir Goldstein          2020-07-16  1926  		 * If group needs to report parent fid, register for getting
+5128063739d293 Amir Goldstein          2020-07-16  1927  		 * events with parent/name info for non-directory.
+5128063739d293 Amir Goldstein          2020-07-16  1928  		 */
+5128063739d293 Amir Goldstein          2020-07-16  1929  		if ((fid_mode & FAN_REPORT_DIR_FID) &&
+31a371e419c885 Amir Goldstein          2022-06-29  1930  		    (flags & FAN_MARK_ADD) && !ignore)
+5128063739d293 Amir Goldstein          2020-07-16  1931  			mask |= FAN_EVENT_ON_CHILD;
+85af5d9258cc58 Amir Goldstein          2020-07-16  1932  	}
+85af5d9258cc58 Amir Goldstein          2020-07-16  1933  
+2a3edf86040a7e Eric Paris              2009-12-17  1934  	/* create/update an inode mark */
+8afd7215aa97f8 Amir Goldstein          2022-06-29  1935  	switch (mark_cmd) {
+c6223f464927ca Andreas Gruenbacher     2009-12-17  1936  	case FAN_MARK_ADD:
+d54f4fba889b20 Amir Goldstein          2018-09-01  1937  		if (mark_type == FAN_MARK_MOUNT)
+77115225acc67d Amir Goldstein          2019-01-10  1938  			ret = fanotify_add_vfsmount_mark(group, mnt, mask,
+77115225acc67d Amir Goldstein          2019-01-10  1939  							 flags, fsid);
+d54f4fba889b20 Amir Goldstein          2018-09-01  1940  		else if (mark_type == FAN_MARK_FILESYSTEM)
+77115225acc67d Amir Goldstein          2019-01-10  1941  			ret = fanotify_add_sb_mark(group, mnt->mnt_sb, mask,
+77115225acc67d Amir Goldstein          2019-01-10  1942  						   flags, fsid);
+0ff21db9fcc390 Eric Paris              2009-12-17  1943  		else
+77115225acc67d Amir Goldstein          2019-01-10  1944  			ret = fanotify_add_inode_mark(group, inode, mask,
+77115225acc67d Amir Goldstein          2019-01-10  1945  						      flags, fsid);
+c6223f464927ca Andreas Gruenbacher     2009-12-17  1946  		break;
+c6223f464927ca Andreas Gruenbacher     2009-12-17  1947  	case FAN_MARK_REMOVE:
+d54f4fba889b20 Amir Goldstein          2018-09-01  1948  		if (mark_type == FAN_MARK_MOUNT)
+77115225acc67d Amir Goldstein          2019-01-10  1949  			ret = fanotify_remove_vfsmount_mark(group, mnt, mask,
+85af5d9258cc58 Amir Goldstein          2020-07-16  1950  							    flags, umask);
+d54f4fba889b20 Amir Goldstein          2018-09-01  1951  		else if (mark_type == FAN_MARK_FILESYSTEM)
+77115225acc67d Amir Goldstein          2019-01-10  1952  			ret = fanotify_remove_sb_mark(group, mnt->mnt_sb, mask,
+85af5d9258cc58 Amir Goldstein          2020-07-16  1953  						      flags, umask);
+f3640192c0a177 Andreas Gruenbacher     2009-12-17  1954  		else
+77115225acc67d Amir Goldstein          2019-01-10  1955  			ret = fanotify_remove_inode_mark(group, inode, mask,
+85af5d9258cc58 Amir Goldstein          2020-07-16  1956  							 flags, umask);
+c6223f464927ca Andreas Gruenbacher     2009-12-17  1957  		break;
+c6223f464927ca Andreas Gruenbacher     2009-12-17  1958  	default:
+c6223f464927ca Andreas Gruenbacher     2009-12-17  1959  		ret = -EINVAL;
+c6223f464927ca Andreas Gruenbacher     2009-12-17  1960  	}
+2a3edf86040a7e Eric Paris              2009-12-17  1961  
+a8b13aa20afb69 Amir Goldstein          2019-01-10  1962  path_put_and_out:
+2a3edf86040a7e Eric Paris              2009-12-17  1963  	path_put(&path);
+2a3edf86040a7e Eric Paris              2009-12-17  1964  fput_and_out:
+2903ff019b346a Al Viro                 2012-08-28  1965  	fdput(f);
+2a3edf86040a7e Eric Paris              2009-12-17  1966  	return ret;
+2a3edf86040a7e Eric Paris              2009-12-17  1967  }
+2a3edf86040a7e Eric Paris              2009-12-17  1968  
 
-fe4daa605d0cae Howard Yen                2024-03-11  208  		}
-fe4daa605d0cae Howard Yen                2024-03-11  209  	}
-fe4daa605d0cae Howard Yen                2024-03-11  210  
-4718c177405112 Gregory CLEMENT           2014-05-15  211  	/*
-3ae2da7b28b393 Gregory CLEMENT           2018-04-20  212  	 * Not all platforms have clks so it is not an error if the
-3ae2da7b28b393 Gregory CLEMENT           2018-04-20  213  	 * clock do not exist.
-4718c177405112 Gregory CLEMENT           2014-05-15  214  	 */
-08048c04cc6f75 Chunfeng Yun              2019-04-17  215  	xhci->reg_clk = devm_clk_get_optional(&pdev->dev, "reg");
-08048c04cc6f75 Chunfeng Yun              2019-04-17  216  	if (IS_ERR(xhci->reg_clk)) {
-08048c04cc6f75 Chunfeng Yun              2019-04-17  217  		ret = PTR_ERR(xhci->reg_clk);
-3ae2da7b28b393 Gregory CLEMENT           2018-04-20  218  		goto put_hcd;
-3ae2da7b28b393 Gregory CLEMENT           2018-04-20  219  	}
-3ae2da7b28b393 Gregory CLEMENT           2018-04-20  220  
-08048c04cc6f75 Chunfeng Yun              2019-04-17  221  	xhci->clk = devm_clk_get_optional(&pdev->dev, NULL);
-08048c04cc6f75 Chunfeng Yun              2019-04-17  222  	if (IS_ERR(xhci->clk)) {
-08048c04cc6f75 Chunfeng Yun              2019-04-17  223  		ret = PTR_ERR(xhci->clk);
-8c6e8b09617915 Biju Das                  2023-01-21  224  		goto put_hcd;
-4718c177405112 Gregory CLEMENT           2014-05-15  225  	}
-4718c177405112 Gregory CLEMENT           2014-05-15  226  
-224eb5311d6a8c Biju Das                  2023-01-21  227  	xhci->reset = devm_reset_control_array_get_optional_shared(&pdev->dev);
-224eb5311d6a8c Biju Das                  2023-01-21  228  	if (IS_ERR(xhci->reset)) {
-224eb5311d6a8c Biju Das                  2023-01-21  229  		ret = PTR_ERR(xhci->reset);
-224eb5311d6a8c Biju Das                  2023-01-21  230  		goto put_hcd;
-224eb5311d6a8c Biju Das                  2023-01-21  231  	}
-224eb5311d6a8c Biju Das                  2023-01-21  232  
-224eb5311d6a8c Biju Das                  2023-01-21  233  	ret = reset_control_deassert(xhci->reset);
-8c6e8b09617915 Biju Das                  2023-01-21  234  	if (ret)
-8c6e8b09617915 Biju Das                  2023-01-21  235  		goto put_hcd;
-8c6e8b09617915 Biju Das                  2023-01-21  236  
-224eb5311d6a8c Biju Das                  2023-01-21  237  	ret = clk_prepare_enable(xhci->reg_clk);
-224eb5311d6a8c Biju Das                  2023-01-21  238  	if (ret)
-224eb5311d6a8c Biju Das                  2023-01-21  239  		goto err_reset;
-224eb5311d6a8c Biju Das                  2023-01-21  240  
-08048c04cc6f75 Chunfeng Yun              2019-04-17  241  	ret = clk_prepare_enable(xhci->clk);
-08048c04cc6f75 Chunfeng Yun              2019-04-17  242  	if (ret)
-08048c04cc6f75 Chunfeng Yun              2019-04-17  243  		goto disable_reg_clk;
-08048c04cc6f75 Chunfeng Yun              2019-04-17  244  
-2847d242a1e48c Geert Uytterhoeven        2017-10-05  245  	if (priv_match) {
-f768e718911e03 Peter Chen                2020-09-18  246  		priv = hcd_to_xhci_priv(hcd);
-4efb2f69411456 Yoshihiro Shimoda         2015-11-24  247  		/* Just copy data for now */
-4efb2f69411456 Yoshihiro Shimoda         2015-11-24  248  		*priv = *priv_match;
-4efb2f69411456 Yoshihiro Shimoda         2015-11-24  249  	}
-4efb2f69411456 Yoshihiro Shimoda         2015-11-24  250  
-4bb4fc0dbfa23a Peter Chen                2020-09-18  251  	device_set_wakeup_capable(&pdev->dev, true);
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  252  
-9fa733f24bb54d Roger Quadros             2015-05-29  253  	xhci->main_hcd = hcd;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  254  
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  255  	/* imod_interval is the interrupt moderation value in nanoseconds. */
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  256  	xhci->imod_interval = 40000;
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  257  
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  258  	/* Iterate over all parent nodes for finding quirks */
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  259  	for (tmpdev = &pdev->dev; tmpdev; tmpdev = tmpdev->parent) {
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  260  
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  261  		if (device_property_read_bool(tmpdev, "usb2-lpm-disable"))
-4750bc78efdb12 Thang Q. Nguyen           2017-10-05  262  			xhci->quirks |= XHCI_HW_LPM_DISABLE;
-4750bc78efdb12 Thang Q. Nguyen           2017-10-05  263  
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  264  		if (device_property_read_bool(tmpdev, "usb3-lpm-capable"))
-20f6fdd01c2c0d Pratyush Anand            2014-07-04  265  			xhci->quirks |= XHCI_LPM_SUPPORT;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  266  
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  267  		if (device_property_read_bool(tmpdev, "quirk-broken-port-ped"))
-21939f003ad093 Felipe Balbi              2017-01-23  268  			xhci->quirks |= XHCI_BROKEN_PORT_PED;
-21939f003ad093 Felipe Balbi              2017-01-23  269  
-520b391e3e813c Prashanth K               2024-01-16  270  		if (device_property_read_bool(tmpdev, "xhci-sg-trb-cache-size-quirk"))
-520b391e3e813c Prashanth K               2024-01-16  271  			xhci->quirks |= XHCI_SG_TRB_CACHE_SIZE_QUIRK;
-520b391e3e813c Prashanth K               2024-01-16  272  
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  273  		device_property_read_u32(tmpdev, "imod-interval-ns",
-ab725cbec3e83d Adam Wallis               2017-12-08  274  					 &xhci->imod_interval);
-222471f7640d97 Anurag Kumar Vulisha      2018-08-31  275  	}
-ab725cbec3e83d Adam Wallis               2017-12-08  276  
-16b7e0cccb2430 Johan Hovold              2023-11-03  277  	/*
-16b7e0cccb2430 Johan Hovold              2023-11-03  278  	 * Drivers such as dwc3 manages PHYs themself (and rely on driver name
-16b7e0cccb2430 Johan Hovold              2023-11-03  279  	 * matching for the xhci platform device).
-16b7e0cccb2430 Johan Hovold              2023-11-03  280  	 */
-16b7e0cccb2430 Johan Hovold              2023-11-03  281  	of_match = of_match_device(pdev->dev.driver->of_match_table, &pdev->dev);
-16b7e0cccb2430 Johan Hovold              2023-11-03  282  	if (of_match) {
-4c39d4b949d36f Arnd Bergmann             2017-03-13  283  		hcd->usb_phy = devm_usb_get_phy_by_phandle(sysdev, "usb-phy", 0);
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  284  		if (IS_ERR(hcd->usb_phy)) {
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  285  			ret = PTR_ERR(hcd->usb_phy);
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  286  			if (ret == -EPROBE_DEFER)
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  287  				goto disable_clk;
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  288  			hcd->usb_phy = NULL;
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  289  		} else {
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  290  			ret = usb_phy_init(hcd->usb_phy);
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  291  			if (ret)
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  292  				goto disable_clk;
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  293  		}
-16b7e0cccb2430 Johan Hovold              2023-11-03  294  	}
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  295  
-c94d41e9dd1ba3 Peter Chen                2018-09-20  296  	hcd->tpl_support = of_usb_host_tpl_support(sysdev->of_node);
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  297  
-8e10548f7f4814 Pali Rohár                2022-02-03  298  	if (priv && (priv->quirks & XHCI_SKIP_PHY_INIT))
-f768e718911e03 Peter Chen                2020-09-18  299  		hcd->skip_phy_initialization = 1;
-f768e718911e03 Peter Chen                2020-09-18  300  
-bac1ec55143469 Tejas Joglekar            2020-12-08  301  	if (priv && (priv->quirks & XHCI_SG_TRB_CACHE_SIZE_QUIRK))
-bac1ec55143469 Tejas Joglekar            2020-12-08  302  		xhci->quirks |= XHCI_SG_TRB_CACHE_SIZE_QUIRK;
-bac1ec55143469 Tejas Joglekar            2020-12-08  303  
-4ac53087d6d48e Roger Quadros             2015-05-29  304  	ret = usb_add_hcd(hcd, irq, IRQF_SHARED);
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  305  	if (ret)
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  306  		goto disable_usb_phy;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  307  
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  308  	if (!xhci_has_one_roothub(xhci)) {
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  309  		xhci->shared_hcd = __usb_create_hcd(driver, sysdev, &pdev->dev,
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  310  						    dev_name(&pdev->dev), hcd);
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  311  		if (!xhci->shared_hcd) {
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  312  			ret = -ENOMEM;
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  313  			goto dealloc_usb2_hcd;
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  314  		}
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  315  
-16b7e0cccb2430 Johan Hovold              2023-11-03  316  		if (of_match) {
-9134c1fd05034d Stanley Chang             2023-04-07  317  			xhci->shared_hcd->usb_phy = devm_usb_get_phy_by_phandle(sysdev,
-9134c1fd05034d Stanley Chang             2023-04-07  318  										"usb-phy", 1);
-9134c1fd05034d Stanley Chang             2023-04-07  319  			if (IS_ERR(xhci->shared_hcd->usb_phy)) {
-9134c1fd05034d Stanley Chang             2023-04-07  320  				xhci->shared_hcd->usb_phy = NULL;
-9134c1fd05034d Stanley Chang             2023-04-07  321  			} else {
-9134c1fd05034d Stanley Chang             2023-04-07  322  				ret = usb_phy_init(xhci->shared_hcd->usb_phy);
-9134c1fd05034d Stanley Chang             2023-04-07  323  				if (ret)
-9134c1fd05034d Stanley Chang             2023-04-07  324  					dev_err(sysdev, "%s init usb3phy fail (ret=%d)\n",
-9134c1fd05034d Stanley Chang             2023-04-07  325  						__func__, ret);
-9134c1fd05034d Stanley Chang             2023-04-07  326  			}
-16b7e0cccb2430 Johan Hovold              2023-11-03  327  		}
-9134c1fd05034d Stanley Chang             2023-04-07  328  
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  329  		xhci->shared_hcd->tpl_support = hcd->tpl_support;
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  330  	}
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  331  
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  332  	usb3_hcd = xhci_get_usb3_hcd(xhci);
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  333  	if (usb3_hcd && HCC_MAX_PSA(xhci->hcc_params) >= 4)
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  334  		usb3_hcd->can_do_streams = 1;
-5de4e1ea9a731c William wu                2017-01-17  335  
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  336  	if (xhci->shared_hcd) {
-4ac53087d6d48e Roger Quadros             2015-05-29  337  		ret = usb_add_hcd(xhci->shared_hcd, irq, IRQF_SHARED);
-4ac53087d6d48e Roger Quadros             2015-05-29  338  		if (ret)
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  339  			goto put_usb3_hcd;
-e0fe986972f5b6 Heiner Kallweit           2022-05-12  340  	}
-4ac53087d6d48e Roger Quadros             2015-05-29  341  
-c70a1529b29cb1 Andrew Bresticker         2017-04-07  342  	device_enable_async_suspend(&pdev->dev);
-b0c69b4bace370 Baolin Wang               2017-04-19  343  	pm_runtime_put_noidle(&pdev->dev);
-b0c69b4bace370 Baolin Wang               2017-04-19  344  
-b0c69b4bace370 Baolin Wang               2017-04-19  345  	/*
-b0c69b4bace370 Baolin Wang               2017-04-19  346  	 * Prevent runtime pm from being on as default, users should enable
-b0c69b4bace370 Baolin Wang               2017-04-19  347  	 * runtime pm using power/control in sysfs.
-b0c69b4bace370 Baolin Wang               2017-04-19  348  	 */
-b0c69b4bace370 Baolin Wang               2017-04-19  349  	pm_runtime_forbid(&pdev->dev);
-c70a1529b29cb1 Andrew Bresticker         2017-04-07  350  
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  351  	return 0;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  352  
-4ac53087d6d48e Roger Quadros             2015-05-29  353  
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  354  put_usb3_hcd:
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  355  	usb_put_hcd(xhci->shared_hcd);
-0cf1ea040a7e2c Heiner Kallweit           2022-05-12  356  
-4ac53087d6d48e Roger Quadros             2015-05-29  357  dealloc_usb2_hcd:
-4ac53087d6d48e Roger Quadros             2015-05-29  358  	usb_remove_hcd(hcd);
-4ac53087d6d48e Roger Quadros             2015-05-29  359  
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  360  disable_usb_phy:
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  361  	usb_phy_shutdown(hcd->usb_phy);
-7b8ef22ea547b8 Maxime Ripard             2015-03-17  362  
-4718c177405112 Gregory CLEMENT           2014-05-15  363  disable_clk:
-08048c04cc6f75 Chunfeng Yun              2019-04-17  364  	clk_disable_unprepare(xhci->clk);
-4718c177405112 Gregory CLEMENT           2014-05-15  365  
-3ae2da7b28b393 Gregory CLEMENT           2018-04-20  366  disable_reg_clk:
-08048c04cc6f75 Chunfeng Yun              2019-04-17  367  	clk_disable_unprepare(xhci->reg_clk);
-3ae2da7b28b393 Gregory CLEMENT           2018-04-20  368  
-224eb5311d6a8c Biju Das                  2023-01-21  369  err_reset:
-224eb5311d6a8c Biju Das                  2023-01-21  370  	reset_control_assert(xhci->reset);
-224eb5311d6a8c Biju Das                  2023-01-21  371  
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  372  put_hcd:
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  373  	usb_put_hcd(hcd);
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  374  
-b0c69b4bace370 Baolin Wang               2017-04-19  375  disable_runtime:
-b0c69b4bace370 Baolin Wang               2017-04-19  376  	pm_runtime_put_noidle(&pdev->dev);
-b0c69b4bace370 Baolin Wang               2017-04-19  377  	pm_runtime_disable(&pdev->dev);
-b0c69b4bace370 Baolin Wang               2017-04-19  378  
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  379  	return ret;
-3429e91a661e1f Sebastian Andrzej Siewior 2012-03-13  380  }
+:::::: The code at line 1922 was first introduced by commit
+:::::: 85af5d9258cc5862167c578c63c65ac700a3fa19 fanotify: use FAN_EVENT_ON_CHILD as implicit flag on sb/mount/non-dir marks
+
+:::::: TO: Amir Goldstein <amir73il@gmail.com>
+:::::: CC: Jan Kara <jack@suse.cz>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
