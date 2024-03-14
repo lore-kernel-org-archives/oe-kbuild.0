@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57AFD18E20
-	for <oe-kbuild@lists.linux.dev>; Thu, 14 Mar 2024 12:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5538FDDD9
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 Mar 2024 15:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710420871; cv=none; b=jziA0NxagrFFh/Ot7jUh9l3KhdMSHa4IJ+RElfhWAzpzvf3wbjG7n8QuPBBdoQZpTzgLTxrn3yvHHLvdkty4zFi2yQQp0kCNHkS2hBNDXcLSE1IP/URFwFKaTvksk2BVzQwXTOPePR7QlxRFiudlGTBn2aMWyHacr0nWWLybMwo=
+	t=1710429096; cv=none; b=sWv4Uz6Wxs15Cf6pOW/AxbikNVHG/YyfJ9LUqH9kYVX+nqht5w9+n7nAslTLrXWH095/SZitrah7h7T9iJTO3Bago1S0uwqYSdQRG6pOtCvEsNTdBoUChfoftcrSwMmQpsUAa/FE85Cy6/iiH++In2iGx/DchmVauar/ABUQFCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710420871; c=relaxed/simple;
-	bh=WKfboF8odjzS5NLpRm3nleG9W1oVtrr36yhbYeQrAWQ=;
+	s=arc-20240116; t=1710429096; c=relaxed/simple;
+	bh=oEkM5W5mR45J0AEqy1bjqBfxDFQUCX1YtC7V/xrecAs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NXVjtX6hhj3l9PFNTSE2VZ9lTtV29CEBOQJP6hFFcLqSTiogRaj8bKFZabHkV2+HwrNIhr3TEBq4MHgMtHnYQ+uEe2L8LWIsLDa6pB7ZE+vHmAwmf5FFnjl9tISYsXpwcCHrxqoJplOD/lfBn3bzwfJrR7XBgXLQZqPu9Nawnoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NMQ0AlMg; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=Sxb+rP7+VucXjND62YK/y2jU+h8AQffpDjf+vglCOK0GbglttsV3blL+2+34eOQqxs2AiEEhXgudkFrlx/X+WePzu60cGyDGHgtkLmZJaePqr9uWSU3Nz4GuMv+rSoo0p2c0PqaH11z9CqTmTgx3eg4Vh4E6Eo1T5P3l6pNpO4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S1430Xbp; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NMQ0AlMg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S1430Xbp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710420869; x=1741956869;
+  t=1710429094; x=1741965094;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WKfboF8odjzS5NLpRm3nleG9W1oVtrr36yhbYeQrAWQ=;
-  b=NMQ0AlMgiqCRo3/40nJBKC+8GDm8XnexF+CLO19IwxEV8FgiNBbHM81h
-   woa2tPXhDmmRH8BErfJCNGy5W9PSU5Z5DWllhDERBUeGZmz32jX/EcFuh
-   09dEYlhK53h/okcjeCeWLyQh+4VVQbdtlG5/JDZy+m4m8mB8I7Vw9v2xJ
-   011Yooi24V+ZJYOfLJDTPC64w3swz65vPyyiKco7mmBKuyZ/tgyETTnie
-   Z7HVoy6ufk2arAmTQvGu1s7qxQ/2LKnQq39GJcxmac/PJCWPjgVKKPxML
-   jeA1DWw9pghEGemi9asCf+T1UftKZ8DLp0wz9nr1uXrdFXHMe2vgQFPfC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="9058198"
+  bh=oEkM5W5mR45J0AEqy1bjqBfxDFQUCX1YtC7V/xrecAs=;
+  b=S1430Xbp5xN8BJjmqvzgF9CWZj7QwytWQdYPa0hdKRFH6JgwLzrgNqVl
+   xz/6ybchw7JJJN4BwX1b4j+NmegIdPOtJRMxNRw6oe7MTOIOD9PDzUxgG
+   XJ6Z/pxn0vna8Vy/qwptejrafNnE8nKgQ23YQ57bhChE+yhpg7Egb5w4b
+   BVuXqeyFcq5/2AHBXkOCwVh3J1oxvMgqIulWVs2IvHvrOGcakELp/8+Ds
+   DepHiQUqDlWwfmGZQO+rIih3bLEFsBfNZP8HIYDqUV2xGTNwm48Iyh6z+
+   pB/EN3l2qaZ9brR4NIbMBRitGegECSneXqQFICihJTkRfL+Dcru8kImWE
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="5377750"
 X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="9058198"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 05:54:29 -0700
+   d="scan'208";a="5377750"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 08:11:34 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="16930069"
+   d="scan'208";a="17046599"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 14 Mar 2024 05:54:28 -0700
+  by orviesa005.jf.intel.com with ESMTP; 14 Mar 2024 08:11:32 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkkbI-000DPZ-36;
-	Thu, 14 Mar 2024 12:54:24 +0000
-Date: Thu, 14 Mar 2024 20:53:57 +0800
+	id 1rkmjy-000DX1-0s;
+	Thu, 14 Mar 2024 15:11:30 +0000
+Date: Thu, 14 Mar 2024 23:10:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [plbossart-sound:sdw/disco-2.1 2/9] sound/hda/intel-sdw-acpi.c:93
- sdw_intel_scan_controller() warn: right shifting more than type allows 64 vs
- 64
-Message-ID: <202403142058.uafdseer-lkp@intel.com>
+Subject: [drm-misc:drm-misc-next 12/14]
+ drivers/gpu/drm/panthor/panthor_drv.c:715 panthor_submit_ctx_init() warn:
+ Please consider using kvcalloc instead of kvmalloc_array
+Message-ID: <202403142347.ImmlxcHs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,108 +61,72 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
+CC: dri-devel@lists.freedesktop.org
+TO: Boris Brezillon <bbrezillon@kernel.org>
+CC: Steven Price <steven.price@arm.com>
 
-tree:   https://github.com/plbossart/sound sdw/disco-2.1
-head:   15df3d8519e6b97c51edaa5a60f43df4b19f44c6
-commit: a3edd2e5dde37524d4f5f103b7c1a6974c7eba02 [2/9] ALSA/hda: intel-sdw-acpi: add support for sdw-manager-list property read
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20240314 (https://download.01.org/0day-ci/archive/20240314/202403142058.uafdseer-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Boris,
+
+First bad commit (maybe != root cause):
+
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   751b58418250a56329d35de29329f547c43e7c7f
+commit: d72f049087d4f973f6332b599c92177e718107de [12/14] drm/panthor: Allow driver compilation
+:::::: branch date: 22 hours ago
+:::::: commit date: 13 days ago
+config: loongarch-randconfig-r071-20240312 (https://download.01.org/0day-ci/archive/20240314/202403142347.ImmlxcHs-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202403142058.uafdseer-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403142347.ImmlxcHs-lkp@intel.com/
 
-smatch warnings:
-sound/hda/intel-sdw-acpi.c:93 sdw_intel_scan_controller() warn: right shifting more than type allows 64 vs 64
+New smatch warnings:
+drivers/gpu/drm/panthor/panthor_drv.c:715 panthor_submit_ctx_init() warn: Please consider using kvcalloc instead of kvmalloc_array
+drivers/gpu/drm/panthor/panthor_gpu.c:215 panthor_gpu_init() warn: missing error code? 'ret'
+drivers/gpu/drm/panthor/panthor_mmu.c:1268 panthor_vm_prepare_map_op_ctx() warn: missing error code 'ret'
+drivers/gpu/drm/panthor/panthor_mmu.c:1322 panthor_vm_prepare_unmap_op_ctx() warn: missing error code 'ret'
+drivers/gpu/drm/panthor/panthor_sched.c:1153 csg_slot_sync_state_locked() error: uninitialized symbol 'new_state'.
 
-vim +93 sound/hda/intel-sdw-acpi.c
+Old smatch warnings:
+arch/loongarch/include/asm/atomic.h:133 arch_atomic_fetch_add_unless() warn: inconsistent indenting
 
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   53  
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   54  static int
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   55  sdw_intel_scan_controller(struct sdw_intel_acpi_info *info)
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   56  {
-ff4865b3c8cd74 Rafael J. Wysocki    2022-01-26   57  	struct acpi_device *adev = acpi_fetch_acpi_dev(info->handle);
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   58  	unsigned long list_ul;
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   59  	u32 list;
-8d44869d3c0769 Pierre-Louis Bossart 2024-03-12   60  	u32 count;
-485ddd519fbd89 Peter Ujfalusi       2023-09-12   61  	int ret;
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   62  	int i;
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   63  
-ff4865b3c8cd74 Rafael J. Wysocki    2022-01-26   64  	if (!adev)
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   65  		return -EINVAL;
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   66  
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   67  	/*
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   68  	 * Found controller, find links supported
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   69  	 *
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   70  	 * In theory we could check the number of links supported in
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   71  	 * hardware, but in that step we cannot assume SoundWire IP is
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   72  	 * powered.
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   73  	 *
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   74  	 * In addition, if the BIOS doesn't even provide this
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   75  	 * 'master-count' property then all the inits based on link
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   76  	 * masks will fail as well.
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   77  	 *
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   78  	 * We will check the hardware capabilities in the startup() step
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   79  	 */
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   80  
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   81  	count = 0;
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   82  	ret = fwnode_property_read_u32(acpi_fwnode_handle(adev),
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   83  				       "mipi-sdw-manager-list", &list);
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   84  	if (ret < 0) {
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   85  		ret = fwnode_property_read_u32(acpi_fwnode_handle(adev),
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   86  					       "mipi-sdw-master-count", &count);
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   87  		if (ret) {
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   88  			dev_err(&adev->dev,
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   89  				"Failed to read mipi-sdw-manager-list or mipi-sdw-master-count: %d\n", ret);
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   90  			return -EINVAL;
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   91  		}
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   92  
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12  @93  		list = GENMASK(count - 1, 0);
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   94  	} else {
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   95  		count = hweight32(list);
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   96  	}
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12   97  
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   98  	/* Check count is within bounds */
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01   99  	if (count > SDW_MAX_LINKS) {
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  100  		dev_err(&adev->dev, "Link count %d exceeds max %d\n",
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  101  			count, SDW_MAX_LINKS);
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  102  		return -EINVAL;
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  103  	}
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  104  
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  105  	if (!count) {
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  106  		dev_warn(&adev->dev, "No SoundWire links detected\n");
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  107  		return -EINVAL;
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  108  	}
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  109  	dev_dbg(&adev->dev, "ACPI reports %d SDW Link devices\n", count);
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  110  
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  111  	info->count = count;
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  112  	info->link_mask = 0;
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12  113  	list_ul = list;
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  114  
-a3edd2e5dde375 Pierre-Louis Bossart 2024-03-12  115  	for_each_set_bit(i, &list_ul, SDW_MAX_LINKS) {
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  116  		if (ctrl_link_mask && !(ctrl_link_mask & BIT(i))) {
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  117  			dev_dbg(&adev->dev,
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  118  				"Link %d masked, will not be enabled\n", i);
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  119  			continue;
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  120  		}
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  121  
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  122  		if (!is_link_enabled(acpi_fwnode_handle(adev), i)) {
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  123  			dev_dbg(&adev->dev,
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  124  				"Link %d not selected in firmware\n", i);
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  125  			continue;
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  126  		}
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  127  
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  128  		info->link_mask |= BIT(i);
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  129  	}
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  130  
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  131  	return 0;
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  132  }
-08c2a4bc9f2aca Pierre-Louis Bossart 2021-03-01  133  
+vim +715 drivers/gpu/drm/panthor/panthor_drv.c
+
+4bdca11507928a Boris Brezillon 2024-02-29  703  
+4bdca11507928a Boris Brezillon 2024-02-29  704  /**
+4bdca11507928a Boris Brezillon 2024-02-29  705   * panthor_submit_ctx_init() - Initializes a submission context
+4bdca11507928a Boris Brezillon 2024-02-29  706   * @ctx: Submit context to initialize.
+4bdca11507928a Boris Brezillon 2024-02-29  707   * @file: drm_file this submission happens on.
+4bdca11507928a Boris Brezillon 2024-02-29  708   * @job_count: Number of jobs that will be submitted.
+4bdca11507928a Boris Brezillon 2024-02-29  709   *
+4bdca11507928a Boris Brezillon 2024-02-29  710   * Return: 0 on success, a negative error code otherwise.
+4bdca11507928a Boris Brezillon 2024-02-29  711   */
+4bdca11507928a Boris Brezillon 2024-02-29  712  static int panthor_submit_ctx_init(struct panthor_submit_ctx *ctx,
+4bdca11507928a Boris Brezillon 2024-02-29  713  				   struct drm_file *file, u32 job_count)
+4bdca11507928a Boris Brezillon 2024-02-29  714  {
+4bdca11507928a Boris Brezillon 2024-02-29 @715  	ctx->jobs = kvmalloc_array(job_count, sizeof(*ctx->jobs),
+4bdca11507928a Boris Brezillon 2024-02-29  716  				   GFP_KERNEL | __GFP_ZERO);
+4bdca11507928a Boris Brezillon 2024-02-29  717  	if (!ctx->jobs)
+4bdca11507928a Boris Brezillon 2024-02-29  718  		return -ENOMEM;
+4bdca11507928a Boris Brezillon 2024-02-29  719  
+4bdca11507928a Boris Brezillon 2024-02-29  720  	ctx->file = file;
+4bdca11507928a Boris Brezillon 2024-02-29  721  	ctx->job_count = job_count;
+4bdca11507928a Boris Brezillon 2024-02-29  722  	INIT_LIST_HEAD(&ctx->signals);
+4bdca11507928a Boris Brezillon 2024-02-29  723  	drm_exec_init(&ctx->exec,
+4bdca11507928a Boris Brezillon 2024-02-29  724  		      DRM_EXEC_INTERRUPTIBLE_WAIT | DRM_EXEC_IGNORE_DUPLICATES,
+4bdca11507928a Boris Brezillon 2024-02-29  725  		      0);
+4bdca11507928a Boris Brezillon 2024-02-29  726  	return 0;
+4bdca11507928a Boris Brezillon 2024-02-29  727  }
+4bdca11507928a Boris Brezillon 2024-02-29  728  
+
+:::::: The code at line 715 was first introduced by commit
+:::::: 4bdca11507928a4c9174e9b7240e9d058c12a71d drm/panthor: Add the driver frontend block
+
+:::::: TO: Boris Brezillon <boris.brezillon@collabora.com>
+:::::: CC: Boris Brezillon <boris.brezillon@collabora.com>
 
 -- 
 0-DAY CI Kernel Test Service
